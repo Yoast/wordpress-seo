@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
 
 /**
  * The assessment that checks the url length

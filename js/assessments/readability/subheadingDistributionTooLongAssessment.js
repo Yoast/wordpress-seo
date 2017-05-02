@@ -1,11 +1,11 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isTextTooLong = require( "../helpers/isValueTooLong" );
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var isTextTooLong = require( "../../helpers/isValueTooLong" );
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
 
-var Mark = require( "../values/Mark.js" );
-var marker = require( "../markers/addMark.js" );
-var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
+var Mark = require( "../../values/Mark.js" );
+var marker = require( "../../markers/addMark.js" );
+var inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
 
 // The maximum recommended value of the subheading text.
 var recommendedValue = 300;

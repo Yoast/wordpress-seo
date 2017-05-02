@@ -1,13 +1,13 @@
 var Assessor = require( "./assessor.js" );
 
-var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
-var paragraphTooLong = require( "./assessments/paragraphTooLongAssessment.js" );
-var sentenceLengthInText = require( "./assessments/sentenceLengthInTextAssessment.js" );
-var subheadingDistributionTooLong = require( "./assessments/subheadingDistributionTooLongAssessment.js" );
-var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
-var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
-var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
-var textPresence = require( "./assessments/textPresenceAssessment.js" );
+var fleschReadingEase = require( "./assessments/readability/fleschReadingEaseAssessment.js" );
+var paragraphTooLong = require( "./assessments/readability/paragraphTooLongAssessment.js" );
+var sentenceLengthInText = require( "./assessments/readability/sentenceLengthInTextAssessment.js" );
+var subheadingDistributionTooLong = require( "./assessments/readability/subheadingDistributionTooLongAssessment.js" );
+var transitionWords = require( "./assessments/readability/transitionWordsAssessment.js" );
+var passiveVoice = require( "./assessments/readability/passiveVoiceAssessment.js" );
+var sentenceBeginnings = require( "./assessments/readability/sentenceBeginningsAssessment.js" );
+var textPresence = require( "./assessments/readability/textPresenceAssessment.js" );
 /*
 	Temporarily disabled:
 

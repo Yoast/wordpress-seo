@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
 
 /**
  * Assesses the keyphrase presence and length

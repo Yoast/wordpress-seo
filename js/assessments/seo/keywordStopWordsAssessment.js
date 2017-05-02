@@ -1,6 +1,6 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
 
-var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
+var getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 
 var availableLanguages = [ "en" ];
 

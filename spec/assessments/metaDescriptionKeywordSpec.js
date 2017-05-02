@@ -1,4 +1,4 @@
-var metaDescriptionKeyword = require( "../../js/assessments/metaDescriptionKeywordAssessment.js" );
+var metaDescriptionKeyword = require( "../../js/assessments/seo/metaDescriptionKeywordAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );

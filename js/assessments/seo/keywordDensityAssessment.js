@@ -1,8 +1,8 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-var countWords = require( "../stringProcessing/countWords.js" );
-var formatNumber = require( "../helpers/formatNumber.js" );
-var inRange = require( "../helpers/inRange.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var matchWords = require( "../../stringProcessing/matchTextWithWord.js" );
+var countWords = require( "../../stringProcessing/countWords.js" );
+var formatNumber = require( "../../helpers/formatNumber.js" );
+var inRange = require( "../../helpers/inRange.js" );
 
 var inRangeEndInclusive = inRange.inRangeEndInclusive;
 var inRangeStartInclusive = inRange.inRangeStartInclusive;

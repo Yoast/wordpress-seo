@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
 var isEmpty = require( "lodash/isEmpty" );
 
 /**
@@ -9,39 +9,39 @@ var isEmpty = require( "lodash/isEmpty" );
  * @returns {object} resultObject with score and text
  */
 var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
-	if ( linkStatistics.externalTotal === 0 ) {
+	if ( linkStatistics.internalTotal === 0 ) {
 		return {
-			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." ),
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "No internal links appear in this page, consider adding some as appropriate." ),
 		};
 	}
 
-	if ( linkStatistics.externalNofollow === linkStatistics.total ) {
+	if ( linkStatistics.internalNofollow === linkStatistics.total ) {
 		return {
 			score: 7,
-			/* Translators: %1$s expands the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
-				linkStatistics.externalNofollow ),
+			/* Translators: %1$s expands the number of internal links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s internal link(s), all nofollowed." ),
+				linkStatistics.internalNofollow ),
 		};
 	}
 
-	if ( linkStatistics.externalNofollow < linkStatistics.externalTotal ) {
+	if ( linkStatistics.internalNofollow < linkStatistics.internalTotal ) {
 		return {
 			score: 8,
-			/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
+			/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of internal links */
 			text: i18n.sprintf( i18n.dgettext(
 				"js-text-analysis",
-				"This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s)."
+				"This page has %1$s nofollowed internal link(s) and %2$s normal internal link(s)."
 				),
-				linkStatistics.externalNofollow, linkStatistics.externalDofollow ),
+				linkStatistics.internalNofollow, linkStatistics.internalDofollow ),
 		};
 	}
 
-	if ( linkStatistics.externalDofollow === linkStatistics.total ) {
+	if ( linkStatistics.internalDofollow === linkStatistics.total ) {
 		return {
 			score: 9,
-			/* Translators: %1$s expands to the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal ),
+			/* Translators: %1$s expands to the number of internal links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s internal link(s)." ), linkStatistics.internalTotal ),
 		};
 	}
 
@@ -56,7 +56,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var textHasOutboundLinksAssessment = function( paper, researcher, i18n ) {
+var textHasInternalLinksAssessment = function( paper, researcher, i18n ) {
 	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
 	var assessmentResult = new AssessmentResult();
 	if ( ! isEmpty( linkStatistics ) ) {
@@ -68,8 +68,8 @@ var textHasOutboundLinksAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	identifier: "externalLinks",
-	getResult: textHasOutboundLinksAssessment,
+	identifier: "internalLinks",
+	getResult: textHasInternalLinksAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
 	},

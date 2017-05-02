@@ -1,7 +1,7 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
-var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
+var getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 
 var availableLanguages = [ "en", "nl", "de" ];
 

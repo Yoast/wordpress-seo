@@ -1,4 +1,4 @@
-var linkStatisticAssessment = require( "../../js/assessments/outboundLinksAssessment.js" );
+var linkStatisticAssessment = require( "../../js/assessments/seo/outboundLinksAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );

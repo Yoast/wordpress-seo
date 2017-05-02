@@ -1,4 +1,4 @@
-var keyphraseLengthAssessment = require( "../../js/assessments/keyphraseLengthAssessment.js" );
+var keyphraseLengthAssessment = require( "../../js/assessments/seo/keyphraseLengthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );
@@ -8,7 +8,7 @@ describe( "the keyphrase length assessment", function() {
 	it( "should assess a paper without a keyword as extremely bad", function() {
 		var paper = new Paper();
 		var researcher = factory.buildMockResearcher( 0 );
-		
+
 		var result = keyphraseLengthAssessment.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( -999 );

@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
 
 /**
  * Calculate the score based on whether or not there's a keyword in the url.

@@ -1,4 +1,4 @@
-var sentenceBeginningsAssessment = require( "../../js/assessments/sentenceBeginningsAssessment.js" );
+var sentenceBeginningsAssessment = require( "../../js/assessments/readability/sentenceBeginningsAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();

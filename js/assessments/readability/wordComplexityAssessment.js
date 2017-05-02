@@ -1,8 +1,8 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var removeSentenceTerminators = require( "../stringProcessing/removeSentenceTerminators" );
-var formatNumber = require( "../helpers/formatNumber.js" );
-var Mark = require( "../values/Mark.js" );
-var addMark = require( "../markers/addMark.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var removeSentenceTerminators = require( "../../stringProcessing/removeSentenceTerminators" );
+var formatNumber = require( "../../helpers/formatNumber.js" );
+var Mark = require( "../../values/Mark.js" );
+var addMark = require( "../../markers/addMark.js" );
 
 var filter = require( "lodash/filter" );
 var flatMap = require( "lodash/flatMap" );

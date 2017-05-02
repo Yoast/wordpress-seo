@@ -1,4 +1,4 @@
-var pageTitleLengthAssessment = require( "../../js/assessments/pageTitleWidthAssessment.js" );
+var pageTitleLengthAssessment = require( "../../js/assessments/seo/pageTitleWidthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );

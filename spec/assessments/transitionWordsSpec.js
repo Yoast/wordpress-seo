@@ -1,4 +1,4 @@
-import transitionWordsAssessment from "../../js/assessments/transitionWordsAssessment.js";
+import transitionWordsAssessment from "../../js/assessments/readability/transitionWordsAssessment.js";
 import Paper from "../../js/values/Paper.js";
 import Factory from "../helpers/factory.js";
 import Mark from "../../js/values/Mark.js";

@@ -1,4 +1,4 @@
-var urlLengthAssessment = require( "../../js/assessments/urlLengthAssessment.js" );
+var urlLengthAssessment = require( "../../js/assessments/seo/urlLengthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );

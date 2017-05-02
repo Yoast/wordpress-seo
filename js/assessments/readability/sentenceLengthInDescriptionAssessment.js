@@ -1,7 +1,7 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var formatNumber = require( "../helpers/formatNumber.js" );
-var countTooLongSentences = require( "./../assessmentHelpers/checkForTooLongSentences.js" );
-var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var formatNumber = require( "../../helpers/formatNumber.js" );
+var countTooLongSentences = require( "./../../assessmentHelpers/checkForTooLongSentences.js" );
+var inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
 
 /**
  * Calculates sentence length score

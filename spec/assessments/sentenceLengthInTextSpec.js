@@ -1,4 +1,4 @@
-import sentenceLengthInTextAssessment from "../../js/assessments/sentenceLengthInTextAssessment";
+import sentenceLengthInTextAssessment from "../../js/assessments/readability/sentenceLengthInTextAssessment";
 import Paper from "../../js/values/Paper.js";
 import Factory from "../helpers/factory.js";
 import Mark from "../../js/values/Mark.js";

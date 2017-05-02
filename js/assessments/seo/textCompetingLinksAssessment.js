@@ -1,7 +1,7 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
 
-var Mark = require( "../values/Mark.js" );
-var addMark = require( "../markers/addMark.js" );
+var Mark = require( "../../values/Mark.js" );
+var addMark = require( "../../markers/addMark.js" );
 
 var map = require( "lodash/map" );
 

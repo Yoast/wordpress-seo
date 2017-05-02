@@ -1,13 +1,13 @@
-let AssessmentResult = require( "../values/AssessmentResult.js" );
-let formatNumber = require( "../helpers/formatNumber.js" );
+let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let formatNumber = require( "../../helpers/formatNumber.js" );
 let map = require( "lodash/map" );
-let inRange = require( "../helpers/inRange.js" ).inRangeStartInclusive;
-let stripTags = require( "../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
+let inRange = require( "../../helpers/inRange.js" ).inRangeStartInclusive;
+let stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
-let Mark = require( "../values/Mark.js" );
-let marker = require( "../markers/addMark.js" );
+let Mark = require( "../../values/Mark.js" );
+let marker = require( "../../markers/addMark.js" );
 
-let getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
+let getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 let availableLanguages = [ "en", "de", "es", "fr", "nl", "it" ];
 
 /**

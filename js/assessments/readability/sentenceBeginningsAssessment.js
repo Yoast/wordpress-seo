@@ -1,5 +1,5 @@
-let AssessmentResult = require( "../values/AssessmentResult.js" );
-let stripTags = require( "../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
+let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
 let partition = require( "lodash/partition" );
 let sortBy = require( "lodash/sortBy" );
@@ -7,12 +7,12 @@ let map = require( "lodash/map" );
 let filter = require( "lodash/filter" );
 let flatten = require( "lodash/flatten" );
 
-let Mark = require( "../values/Mark.js" );
-let marker = require( "../markers/addMark.js" );
+let Mark = require( "../../values/Mark.js" );
+let marker = require( "../../markers/addMark.js" );
 
 let maximumConsecutiveDuplicates = 2;
 
-let getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
+let getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 let availableLanguages = [ "en", "de", "es", "fr", "nl", "it" ];
 
 /**

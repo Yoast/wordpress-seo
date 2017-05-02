@@ -1,14 +1,14 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var formatNumber = require( "../helpers/formatNumber.js" );
-var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
-var stripTags = require( "../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var formatNumber = require( "../../helpers/formatNumber.js" );
+var inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
+var stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
-var Mark = require( "../values/Mark.js" );
-var marker = require( "../markers/addMark.js" );
+var Mark = require( "../../values/Mark.js" );
+var marker = require( "../../markers/addMark.js" );
 
 var map = require( "lodash/map" );
 
-var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
+var getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 var availableLanguages = [ "en", "de" ];
 
 /**

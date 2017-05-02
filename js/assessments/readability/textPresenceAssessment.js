@@ -1,5 +1,5 @@
-var stripHTMLTags = require( "../stringProcessing/stripHTMLTags" ).stripFullTags;
-var AssessmentResult = require( "../values/AssessmentResult" );
+var stripHTMLTags = require( "../../stringProcessing/stripHTMLTags" ).stripFullTags;
+var AssessmentResult = require( "../../values/AssessmentResult" );
 
 /**
  * Assesses that the paper has at least a little bit of content.

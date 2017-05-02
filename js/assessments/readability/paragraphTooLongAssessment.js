@@ -1,9 +1,9 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var stripHTMLTags = require( "../stringProcessing/stripHTMLTags" ).stripBlockTagsAtStartEnd;
-var isParagraphTooLong = require( "../helpers/isValueTooLong" );
-var Mark = require( "../values/Mark.js" );
-var marker = require( "../markers/addMark.js" );
-var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
+var AssessmentResult = require( "../../values/AssessmentResult.js" );
+var stripHTMLTags = require( "../../stringProcessing/stripHTMLTags" ).stripBlockTagsAtStartEnd;
+var isParagraphTooLong = require( "../../helpers/isValueTooLong" );
+var Mark = require( "../../values/Mark.js" );
+var marker = require( "../../markers/addMark.js" );
+var inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );

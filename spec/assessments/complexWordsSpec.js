@@ -1,4 +1,4 @@
-var wordComplexityAssessment = require( "../../js/assessments/wordComplexityAssessment.js" );
+var wordComplexityAssessment = require( "../../js/assessments/readability/wordComplexityAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();
