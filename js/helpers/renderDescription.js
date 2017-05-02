@@ -1,13 +1,14 @@
 var isEmpty = require( "lodash/lang/isEmpty" );
-
 var addClass = require( "./addClass" );
 var removeClass = require( "./removeClass" );
 
 /**
  * Makes the rendered description gray if no description has been set by the user.
  *
- * @param {string} descriptionElement Target description element
- * @param {string} description Current description
+ * @param {string} descriptionElement Target description element.
+ * @param {string} description        Current description.
+ *
+ * @returns {void}
  */
 function renderDescription( descriptionElement, description ) {
 	if ( isEmpty( description ) ) {

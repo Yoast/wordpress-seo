@@ -1,12 +1,11 @@
 var forEach = require( "lodash/collection/forEach" );
-
 var addClass = require( "../helpers/addClass.js" );
 var removeClass = require( "../helpers/removeClass.js" );
 
 /**
  *
- * @param {Object} bindings The fields to bind.
- * @param {Object} element The element to bind the events to.
+ * @param {Object}  bindings   The fields to bind.
+ * @param {Object}  element    The element to bind the events to.
  * @param {boolean} alwaysOpen Whether the input form should always be open.
  * @constructor
  */
@@ -19,11 +18,13 @@ function PreviewEvents( bindings, element, alwaysOpen ) {
 /**
  * Bind the events.
  *
- * @param {Object} editToggle - The edit toggle element
- * @param {Object} closeEditor - The button to close the editor
+ * @param {Object} editToggle  The edit toggle element.
+ * @param {Object} closeEditor The button to close the editor.
+ *
+ * @returns {void}
  */
 PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
-	if ( !this._alwaysOpen ) {
+	if ( ! this._alwaysOpen ) {
 		editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 		closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 	}
@@ -33,12 +34,14 @@ PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
 };
 
 /**
- * Binds the event for the input
+ * Binds the event for the input.
  *
  * @param {Object} binding The field to bind.
+ *
+ * @returns {void}
  */
 PreviewEvents.prototype.bindInputEvent = function( binding ) {
-	var previewElement = document.getElementsByClassName( binding.preview )[0];
+	var previewElement = document.getElementsByClassName( binding.preview )[ 0 ];
 	var inputElement = this.element.input[ binding.inputField ];
 
 	// Make the preview element click open the editor and focus the correct input.
@@ -80,7 +83,6 @@ PreviewEvents.prototype.bindInputEvent = function( binding ) {
  * @returns {void}
  */
 PreviewEvents.prototype.openEditor = function() {
-
 	if ( this._alwaysOpen ) {
 		return;
 	}
@@ -101,7 +103,6 @@ PreviewEvents.prototype.openEditor = function() {
  * @returns {void}
  */
 PreviewEvents.prototype.closeEditor = function() {
-
 	if ( this._alwaysOpen ) {
 		return;
 	}

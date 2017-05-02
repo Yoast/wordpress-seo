@@ -7,7 +7,7 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var Jed = require( "jed" );
 
 var renderDescription = require( "./helpers/renderDescription" );
-var imagePlaceholder  = require( "./element/imagePlaceholder" );
+var imagePlaceholder = require( "./element/imagePlaceholder" );
 var bemAddModifier = require( "./helpers/bem/addModifier" );
 var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
 
@@ -23,12 +23,12 @@ var twitterDefaults = {
 	data: {
 		title: "",
 		description: "",
-		imageUrl: ""
+		imageUrl: "",
 	},
 	defaultValue: {
 		title: "",
 		description: "",
-		imageUrl: ""
+		imageUrl: "",
 	},
 	baseURL: "example.com",
 	callbacks: {
@@ -41,23 +41,23 @@ var twitterDefaults = {
 		},
 		modifyImageUrl: function( imageUrl ) {
 			return imageUrl;
-		}
-	}
+		},
+	},
 };
 
 var inputTwitterPreviewBindings = [
 	{
-		"preview": "editable-preview__title--twitter",
-		"inputField": "title"
+		preview: "editable-preview__title--twitter",
+		inputField: "title",
 	},
 	{
-		"preview": "editable-preview__image--twitter",
-		"inputField": "imageUrl"
+		preview: "editable-preview__image--twitter",
+		inputField: "imageUrl",
 	},
 	{
-		"preview": "editable-preview__description--twitter",
-		"inputField": "description"
-	}
+		preview: "editable-preview__description--twitter",
+		inputField: "description",
+	},
 ];
 
 var WIDTH_TWITTER_IMAGE_SMALL = 120;
@@ -70,55 +70,55 @@ var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
  */
 
 /**
- * Defines the config and outputTarget for the SnippetPreview
+ * Defines the config and outputTarget for the SnippetPreview.
  *
- * @param {Object}         opts                           - Snippet preview options.
- * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
- * actual placeholders in the inputs and as a fallback for the preview.
- * @param {string}         opts.placeholder.title         - Placeholder for the title field.
- * @param {string}         opts.placeholder.description   - Placeholder for the description field.
- * @param {string}         opts.placeholder.imageUrl      - Placeholder for the image url field.
+ * @param {Object}         opts                               - Snippet preview options.
+ * @param {Object}         opts.placeholder                   - The placeholder values for the fields, will be shown as
+ *                                                              actual placeholders in the inputs and as a fallback for the preview.
+ * @param {string}         opts.placeholder.title             - Placeholder for the title field.
+ * @param {string}         opts.placeholder.description       - Placeholder for the description field.
+ * @param {string}         opts.placeholder.imageUrl          - Placeholder for the image url field.
  *
- * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
- * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.defaultValue.title        - Default title.
- * @param {string}         opts.defaultValue.description  - Default description.
- * @param {string}         opts.defaultValue.imageUrl     - Default image url.
- * it.
+ * @param {Object}         opts.defaultValue                  - The default value for the fields, if the user has not
+ *                                                              changed a field, this value will be used for the analyzer,
+ *                                                              preview and the progress bars.
+ * @param {string}         opts.defaultValue.title            - Default title.
+ * @param {string}         opts.defaultValue.description      - Default description.
+ * @param {string}         opts.defaultValue.imageUrl         - Default image url.
  *
- * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in twitter.
- * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
+ * @param {string}         opts.baseURL                       - The basic URL as it will be displayed in twitter.
+ * @param {HTMLElement}    opts.targetElement                 - The target element that contains this snippet editor.
  *
- * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
+ * @param {Object}         opts.callbacks                     - Functions that are called on specific instances.
  * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
  *
- * @param {Object}         i18n                           - The i18n object.
+ * @param {Object}         i18n                               - The i18n object.
  *
- * @property {Object}      i18n                           - The translation object.
+ * @property {Object}      i18n                               - The translation object.
  *
- * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
+ * @property {HTMLElement} targetElement                      - The target element that contains this snippet editor.
  *
- * @property {Object}      element                        - The elements for this snippet editor.
- * @property {Object}      element.rendered               - The rendered elements.
- * @property {HTMLElement} element.rendered.title         - The rendered title element.
- * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
- * @property {HTMLElement} element.rendered.description   - The rendered twitter description element.
+ * @property {Object}      element                            - The elements for this snippet editor.
+ * @property {Object}      element.rendered                   - The rendered elements.
+ * @property {HTMLElement} element.rendered.title             - The rendered title element.
+ * @property {HTMLElement} element.rendered.imageUrl          - The rendered url path element.
+ * @property {HTMLElement} element.rendered.description       - The rendered twitter description element.
  *
- * @property {Object}      element.input                  - The input elements.
- * @property {HTMLElement} element.input.title            - The title input element.
- * @property {HTMLElement} element.input.imageUrl         - The url path input element.
- * @property {HTMLElement} element.input.description      - The meta description input element.
+ * @property {Object}      element.input                      - The input elements.
+ * @property {HTMLElement} element.input.title                - The title input element.
+ * @property {HTMLElement} element.input.imageUrl             - The url path input element.
+ * @property {HTMLElement} element.input.description          - The meta description input element.
  *
- * @property {HTMLElement} element.container              - The main container element.
- * @property {HTMLElement} element.formContainer          - The form container element.
- * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
+ * @property {HTMLElement} element.container                  - The main container element.
+ * @property {HTMLElement} element.formContainer              - The form container element.
+ * @property {HTMLElement} element.editToggle                 - The button that toggles the editor form.
  *
- * @property {Object}      data                           - The data for this snippet editor.
- * @property {string}      data.title                     - The title.
- * @property {string}      data.imageUrl                  - The url path.
- * @property {string}      data.description               - The meta description.
+ * @property {Object}      data                               - The data for this snippet editor.
+ * @property {string}      data.title                         - The title.
+ * @property {string}      data.imageUrl                      - The url path.
+ * @property {string}      data.description                   - The meta description.
  *
- * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
+ * @property {string}      baseURL                            - The basic URL as it will be displayed in google.
  *
  * @constructor
  */
@@ -132,12 +132,12 @@ var TwitterPreview = function( opts, i18n ) {
 			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
 			"Twitter"
 		),
-		imageUrl: ""
+		imageUrl: "",
 	};
 
 	defaultsDeep( opts, twitterDefaults );
 
-	if ( !isElement( opts.targetElement ) ) {
+	if ( ! isElement( opts.targetElement ) ) {
 		throw new Error( "The Twitter preview requires a valid target element" );
 	}
 
@@ -150,7 +150,7 @@ var TwitterPreview = function( opts, i18n ) {
 };
 
 /**
- * Initializes i18n object based on passed configuration
+ * Initializes i18n object based on passed configuration.
  *
  * @param {Object} translations - The values to translate.
  *
@@ -158,12 +158,14 @@ var TwitterPreview = function( opts, i18n ) {
  */
 TwitterPreview.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
-		"domain": "yoast-social-previews",
-		"locale_data": {
+		domain: "yoast-social-previews",
+		/* eslint-disable camelcase */
+		locale_data: {
+		/* eslint-enable camelcase */
 			"yoast-social-previews": {
-				"": {}
-			}
-		}
+				"": {},
+			},
+		},
 	};
 
 	translations = translations || {};
@@ -197,7 +199,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 			title: "",
 			description: "",
 			imageUrl: "",
-			baseUrl: this.opts.baseURL
+			baseUrl: this.opts.baseURL,
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
@@ -206,49 +208,48 @@ TwitterPreview.prototype.renderTemplate = function() {
 			/** translators: %1$s expands to Twitter */
 			snippetPreview: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s preview" ), "Twitter" ),
 			/** translators: %1$s expands to Twitter */
-			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "Twitter" )
-		}
+			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "Twitter" ),
+		},
 	} );
 
 	this.element = {
 		rendered: {
-			title: targetElement.getElementsByClassName( "editable-preview__value--twitter-title" )[0],
-			description: targetElement.getElementsByClassName( "editable-preview__value--twitter-description" )[0]
+			title: targetElement.getElementsByClassName( "editable-preview__value--twitter-title" )[ 0 ],
+			description: targetElement.getElementsByClassName( "editable-preview__value--twitter-description" )[ 0 ],
 		},
 		fields: this.getFields(),
-		container: targetElement.getElementsByClassName( "editable-preview--twitter" )[0],
-		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
-		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
-		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
+		container: targetElement.getElementsByClassName( "editable-preview--twitter" )[ 0 ],
+		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[ 0 ],
+		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[ 0 ],
+		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[ 0 ],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
-		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[ 0 ],
 	};
 
-	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
-		+ this.element.fields.title.render()
-		+ this.element.fields.description.render();
+	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render() +
+		this.element.fields.title.render() +
+		this.element.fields.description.render();
 
 	this.element.input = {
-		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
-		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[ 0 ],
+		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[ 0 ],
+		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[ 0 ],
 	};
 
 	this.element.fieldElements = this.getFieldElements();
-	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
+	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[ 0 ];
 
 	this.element.caretHooks = {
 		title: this.element.input.title.previousSibling,
 		imageUrl: this.element.input.imageUrl.previousSibling,
-		description: this.element.input.description.previousSibling
+		description: this.element.input.description.previousSibling,
 	};
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
-		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--twitter" )[0],
-		description: this.element.rendered.description.parentNode
+		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--twitter" )[ 0 ],
+		description: this.element.rendered.description.parentNode,
 	};
-
 };
 
 /**
@@ -268,7 +269,7 @@ TwitterPreview.prototype.getFields = function() {
 				this.i18n.dgettext( "yoast-social-previews", "%1$s title" ),
 				"Twitter"
 			),
-			labelClassName: "snippet-editor__label"
+			labelClassName: "snippet-editor__label",
 		} ),
 		description: new TextArea( {
 			className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
@@ -280,7 +281,7 @@ TwitterPreview.prototype.getFields = function() {
 				this.i18n.dgettext( "yoast-social-previews", "%1$s description" ),
 				"Twitter"
 			),
-			labelClassName: "snippet-editor__label"
+			labelClassName: "snippet-editor__label",
 		} ),
 		imageUrl: new TextField( {
 			className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
@@ -292,8 +293,8 @@ TwitterPreview.prototype.getFields = function() {
 				this.i18n.dgettext( "yoast-social-previews", "%1$s image" ),
 				"Twitter"
 			),
-			labelClassName: "snippet-editor__label"
-		} )
+			labelClassName: "snippet-editor__label",
+		} ),
 	};
 };
 
@@ -307,7 +308,7 @@ TwitterPreview.prototype.getFieldElements = function() {
 
 	return {
 		title: new InputElement(
-			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			targetElement.getElementsByClassName( "js-snippet-editor-title" )[ 0 ],
 			{
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
@@ -316,39 +317,41 @@ TwitterPreview.prototype.getFieldElements = function() {
 					/** translators: %1$s expands to Twitter */
 					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ),
 					"Twitter"
-				)
+				),
 			},
 			this.updatePreview.bind( this )
 		),
 		 description: new InputElement(
-			 targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
+			 targetElement.getElementsByClassName( "js-snippet-editor-description" )[ 0 ],
 			 {
 				 currentValue: this.data.description,
 				 defaultValue: this.opts.defaultValue.description,
 				 placeholder: this.opts.placeholder.description,
 				 fallback: this.i18n.sprintf(
-				    /** translators: %1$s expands to Twitter */
+					 /** translators: %1$s expands to Twitter */
 					 this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ),
 					 "Twitter"
-				 )
+				 ),
 			 },
 			 this.updatePreview.bind( this )
 		 ),
 		imageUrl: new InputElement(
-			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[ 0 ],
 			{
 				currentValue: this.data.imageUrl,
 				defaultValue: this.opts.defaultValue.imageUrl,
 				placeholder: this.opts.placeholder.imageUrl,
-				fallback: ""
+				fallback: "",
 			},
 			this.updatePreview.bind( this )
-		)
+		),
 	};
 };
 
 /**
  * Updates the twitter preview.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.updatePreview = function() {
 // Update the data.
@@ -373,6 +376,8 @@ TwitterPreview.prototype.updatePreview = function() {
  * Sets the preview title.
  *
  * @param {string} title The new title.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.setTitle = function( title ) {
 	title = this.opts.callbacks.modifyTitle( title );
@@ -384,6 +389,8 @@ TwitterPreview.prototype.setTitle = function( title ) {
  * Set the preview description.
  *
  * @param {string} description The description to set.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.setDescription = function( description ) {
 	description = this.opts.callbacks.modifyDescription( description );
@@ -394,6 +401,7 @@ TwitterPreview.prototype.setDescription = function( description ) {
 
 /**
  * Gets the image container.
+ *
  * @returns {string} The container that will hold the image.
  */
 TwitterPreview.prototype.getImageContainer = function() {
@@ -404,6 +412,8 @@ TwitterPreview.prototype.getImageContainer = function() {
  * Updates the image object with the new URL.
  *
  * @param {string} imageUrl The image path.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.setImage = function( imageUrl ) {
 	imageUrl = this.opts.callbacks.modifyImageUrl( imageUrl );
@@ -443,7 +453,10 @@ TwitterPreview.prototype.setImage = function( imageUrl ) {
 
 /**
  * Sets the image of the image container.
+ *
  * @param {string} image The image to use.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.addImageToContainer = function( image ) {
 	var container = this.getImageContainer();
@@ -454,6 +467,8 @@ TwitterPreview.prototype.addImageToContainer = function( image ) {
 
 /**
  * Removes the image from the container.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.removeImageFromContainer = function() {
 	var container = this.getImageContainer();
@@ -463,6 +478,7 @@ TwitterPreview.prototype.removeImageFromContainer = function() {
 
 /**
  * Sets the proper CSS class for the current image.
+ *
  * @param {Image} img The image to base the sizing class on.
  *
  * @returns {void}
@@ -482,9 +498,10 @@ TwitterPreview.prototype.setSizingClass = function( img ) {
 };
 
 /**
- * Returns the max image width
+ * Returns the max image width.
  *
  * @param {Image} img The image object to use.
+ *
  * @returns {int} The calculated max width.
  */
 TwitterPreview.prototype.getMaxImageWidth = function( img ) {
@@ -494,8 +511,11 @@ TwitterPreview.prototype.getMaxImageWidth = function( img ) {
 
 	return WIDTH_TWITTER_IMAGE_LARGE;
 };
+
 /**
- * Sets the default twitter placeholder
+ * Sets the default twitter placeholder.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.setPlaceHolder = function() {
 	this.setSmallImageClasses();
@@ -506,11 +526,10 @@ TwitterPreview.prototype.setPlaceHolder = function() {
 		false,
 		"twitter"
 	);
-
 };
 
 /**
- * Detects if the twitter preview should switch to small image mode
+ * Detects if the twitter preview should switch to small image mode.
  *
  * @param {HTMLImageElement} image The image in question.
  *
@@ -524,7 +543,7 @@ TwitterPreview.prototype.isSmallImage = function( image ) {
 };
 
 /**
- * Detects if the twitter preview image is too small
+ * Detects if the twitter preview image is too small.
  *
  * @param {HTMLImageElement} image The image in question.
  *
@@ -538,7 +557,9 @@ TwitterPreview.prototype.isTooSmallImage = function( image ) {
 };
 
 /**
- * Sets the classes on the facebook preview so that it will display a small facebook image preview
+ * Sets the classes on the facebook preview so that it will display a small facebook image preview.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.setSmallImageClasses = function() {
 	var targetElement = this.opts.targetElement;
@@ -557,7 +578,9 @@ TwitterPreview.prototype.removeSmallImageClasses = function() {
 };
 
 /**
- * Sets the classes on the facebook preview so that it will display a large facebook image preview
+ * Sets the classes on the facebook preview so that it will display a large facebook image preview.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.setLargeImageClasses = function() {
 	var targetElement = this.opts.targetElement;
@@ -577,6 +600,8 @@ TwitterPreview.prototype.removeLargeImageClasses = function() {
 
 /**
  * Removes all image classes.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.removeImageClasses = function() {
 	this.removeSmallImageClasses();
@@ -585,6 +610,8 @@ TwitterPreview.prototype.removeImageClasses = function() {
 
 /**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.bindEvents = function() {
 	var previewEvents = new PreviewEvents( inputTwitterPreviewBindings, this.element, true );

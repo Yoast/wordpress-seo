@@ -1,8 +1,10 @@
 /**
- * Adds a class to an element
+ * Adds a class to an element.
  *
- * @param {HTMLElement} element The element to add the class to.
- * @param {string} className The class to add.
+ * @param {HTMLElement} element   The element to add the class to.
+ * @param {string}      className The class to add.
+ *
+ * @returns {void}
  */
 module.exports = function( element, className ) {
 	var classes = element.className.split( " " );

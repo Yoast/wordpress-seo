@@ -1,7 +1,5 @@
 // https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
-	"use strict";
-
 	return {
 		makepot: {
 			potFile: "languages/yoast-seo.pot",
@@ -20,7 +18,7 @@ module.exports = function( grunt ) {
 					" --from-code=UTF-8" +
 					" --add-comments=\"translators: \"" +
 					" " + files.join( " " );
-			}
-		}
+			},
+		},
 	};
 };
