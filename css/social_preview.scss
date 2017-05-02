@@ -299,7 +299,7 @@ $border_radius_twitter: .42857em;
 			border-bottom: 1px solid #E1E8ED;
 
 			&, img {
-				max-width:  ≠$width_twitter - 2;
+				max-width: $width_twitter - 2;
 			}
 
 			img {
