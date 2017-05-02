@@ -23,7 +23,7 @@ describe( "A Progressbar component", () => {
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Required prop `value` was not specified" );
+			.toContain( "Warning: Failed prop type" );
 	} );
 
 	it( "generates a warning when a faulty value is passed", () => {

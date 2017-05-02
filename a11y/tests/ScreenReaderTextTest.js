@@ -34,6 +34,6 @@ describe( "ScreenReaderText", () => {
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Required prop `children` was not specified in `ScreenReaderText`." );
+			.toContain( "Warning: Failed prop type" );
 	} );
 } );

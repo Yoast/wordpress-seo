@@ -125,7 +125,7 @@ class Step extends React.Component {
 
 		keys = this.filterConditonalFields( keys, fields );
 
-		return keys.map( ( name, key ) => {
+		return keys.map( ( name ) => {
 			let currentField = fields[ name ];
 
 			if ( typeof this.components[ currentField.componentName ] === "undefined" ||
@@ -134,7 +134,7 @@ class Step extends React.Component {
 				return null;
 			}
 
-			let fieldKey = `${this.state.currentStep}-${key}`;
+			let fieldKey = `${this.state.currentStep}-${name}`;
 			let fieldProps = this.getFieldProps( currentField.componentName, fieldKey, name, currentField );
 
 			return React.createElement( this.components[ currentField.componentName ], fieldProps );
@@ -216,6 +216,8 @@ class Step extends React.Component {
 			onChange: this.onChange.bind( this ),
 			properties: currentField.properties,
 			stepState: this.state,
+			nextStep: this.props.nextStep,
+			previousStep: this.props.previousStep,
 			value: this.getFieldValue( name, currentField ),
 		};
 
@@ -263,6 +265,8 @@ class Step extends React.Component {
 
 Step.propTypes = {
 	title: React.PropTypes.string.isRequired,
+	nextStep: React.PropTypes.func.isRequired,
+	previousStep: React.PropTypes.func.isRequired,
 	fields: React.PropTypes.object,
 	currentStep: React.PropTypes.string,
 	classPrefix: React.PropTypes.string,

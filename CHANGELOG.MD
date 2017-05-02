@@ -5,6 +5,30 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.5.0: 
+
+### Added
+- [ConfigurationWizard] Adds possibility to disable navigation on a step page
+- [ConfigurationWizard] Adds icons to next, previous and close buttons
+- [ConfigurationWizard] Pass `nextStep` and `previousStep` functions to Steps
+- Adds Colors for use in my.yoast
+
+## 2.4.0: February 14th, 2016
+
+### Added
+
+* [Choice] Adds a radio button option to the Choice components.
+
+### Removed
+
+* [StyledSection] Removes width from StyledSection to be usable in different contexts.
+
+## 2.3.0: January 17th, 2016
+
+### Changed
+
+* Removes width from StyledSection.
+
 ## 2.2.0: December 13th, 2016
  
 ### Added

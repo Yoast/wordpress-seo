@@ -24,7 +24,7 @@ describe( "A Label component", () => {
 		expect( console.error ).toBeCalled();
 
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Required prop `for` was not specified" );
+			.toContain( "Warning: Failed prop type" );
 	} );
 
 	it( "generates a warning when a faulty htmlFor prop is passed", () => {
@@ -44,7 +44,6 @@ describe( "A Label component", () => {
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `optionalAttributes.onClick` of type `number` supplied to `Label`" +
-			            ", expected `function`." );
+			.toContain( "Warning: Failed prop type" );
 	} );
 } );

@@ -10,6 +10,10 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { localize } from "../../utils/i18n";
 import muiTheme from "./config/yoast-theme";
 import interpolateComponents from "interpolate-components";
+import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
+import ArrowBackwardIcon from "material-ui/svg-icons/navigation/arrow-back";
+import CloseIcon from "material-ui/svg-icons/navigation/close";
+
 
 /**
  * The OnboardingWizard class.
@@ -32,6 +36,9 @@ class OnboardingWizard extends React.Component {
 			currentStepId: this.getFirstStep( props.steps ),
 			errorMessage: "",
 		};
+
+		this.setNextStep = this.setNextStep.bind( this );
+		this.setPreviousStep = this.setPreviousStep.bind( this );
 	}
 
 	/**
@@ -236,6 +243,7 @@ class OnboardingWizard extends React.Component {
 		if ( type === "next" && ! currentStep.next ) {
 			attributes.label = this.props.translate( "Close" );
 			attributes[ "aria-label" ] = this.props.translate( "Close the Wizard" );
+			attributes.icon = <CloseIcon viewBox="0 0 28 28" />;
 			attributes.onClick = () => {
 				if( this.props.finishUrl !== "" ) {
 					window.location.href = this.props.finishUrl;
@@ -261,24 +269,32 @@ class OnboardingWizard extends React.Component {
 	render() {
 		let step = this.getCurrentStep();
 
-		let previousButton = this.getNavigationbutton( "previous", {
-			label: this.props.translate( "Previous" ),
-			"aria-label": this.props.translate( "Previous step" ),
-			onClick: this.setPreviousStep.bind( this ),
-			disableFocusRipple: true,
-			disableTouchRipple: true,
-			disableKeyboardFocus: true,
-		}, step, "yoast-wizard--button yoast-wizard--button__previous" );
+		let navigation = "";
+		if ( ! step.hideNavigation ) {
+			let previousButton = this.getNavigationbutton( "previous", {
+				label: this.props.translate( "Previous" ),
+				"aria-label": this.props.translate( "Previous step" ),
+				onClick: this.setPreviousStep,
+				disableFocusRipple: true,
+				disableTouchRipple: true,
+				disableKeyboardFocus: true,
+				icon: <ArrowBackwardIcon viewBox="0 0 28 28" />,
+			}, step, "yoast-wizard--button yoast-wizard--button__previous" );
 
-		let nextButton = this.getNavigationbutton( "next", {
-			label: this.props.translate( "Next" ),
-			"aria-label": this.props.translate( "Next step" ),
-			primary: true,
-			onClick: this.setNextStep.bind( this ),
-			disableFocusRipple: true,
-			disableTouchRipple: true,
-			disableKeyboardFocus: true,
-		}, step, "yoast-wizard--button yoast-wizard--button__next" );
+			let nextButton = this.getNavigationbutton( "next", {
+				label: this.props.translate( "Next" ),
+				"aria-label": this.props.translate( "Next step" ),
+				primary: true,
+				onClick: this.setNextStep,
+				disableFocusRipple: true,
+				disableTouchRipple: true,
+				disableKeyboardFocus: true,
+				labelPosition: "before",
+				icon: <ArrowForwardIcon viewBox="0 0 28 28" />,
+			}, step, "yoast-wizard--button yoast-wizard--button__next" );
+
+			navigation = <div className="yoast-wizard--navigation">{previousButton}{nextButton}</div>;
+		}
 
 		return (
 			<MuiThemeProvider muiTheme={muiTheme}>
@@ -290,11 +306,10 @@ class OnboardingWizard extends React.Component {
 						<div className="yoast-wizard">
 							{ this.renderErrorMessage() }
 							<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
-							      fields={step.fields} customComponents={this.props.customComponents} />
-							<div className="yoast-wizard--navigation">
-								{previousButton}
-								{nextButton}
-							</div>
+							      fields={step.fields} customComponents={this.props.customComponents}
+							      nextStep={this.setNextStep}
+							      previousStep={this.setPreviousStep} />
+							{ navigation }
 						</div>
 						{( this.state.isLoading ) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
 					</div>
