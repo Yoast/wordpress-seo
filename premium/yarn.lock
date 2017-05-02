@@ -5726,6 +5726,22 @@ yoast-components@^2.5.0:
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
+"yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#1.3.0":
+  version "1.2.0"
+  resolved "git+ssh://git@github.com/yoast/yoast-premium-components.git#6557b81f1853fca4b3d8900fc9892a0a256d47bd"
+  dependencies:
+    a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
+    babel-core "^6.11.4"
+    babel-loader "^6.2.4"
+    babel-preset-es2015 "^6.9.0"
+    babel-preset-react "^6.11.1"
+    clipboard "^1.5.15"
+    i18n-calypso "^1.6.2"
+    interpolate-components "^1.1.0"
+    react "^15.3.0"
+    react-dom "^15.3.0"
+    yoast-components "^1.0.0"
+
 "yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#release/1.3.0":
   version "1.2.0"
   resolved "git+ssh://git@github.com/yoast/yoast-premium-components.git#c1e8af98dbdf07155875d02742a59f8e6075b406"
@@ -5741,14 +5757,6 @@ yoast-components@^2.5.0:
     react "^15.3.0"
     react-dom "^15.3.0"
     yoast-components "^1.0.0"
-
-"yoast-social-previews@git+ssh://git@github.com/Yoast/yoast-social-previews#develop":
-  version "1.4.1"
-  resolved "git+ssh://git@github.com/Yoast/yoast-social-previews#facdb1b754b3c49324766e587bdff00ac5fd8bba"
-  dependencies:
-    jed "^1.1.0"
-    lodash "^3.10.1"
-    yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#master"
 
 "yoast-social-previews@git+ssh://git@github.com/Yoast/yoast-social-previews#master":
   version "1.4.1"
