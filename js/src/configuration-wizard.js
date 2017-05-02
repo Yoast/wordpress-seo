@@ -116,35 +116,37 @@ class App extends React.Component {
 	}
 
 	/**
-	 * Renders the App componetn.
+	 * Renders the App component.
 	 *
 	 * @returns {JSX.Element|null} The rendered app component.
 	 */
 	render() {
+		// When the wizard is loading, don't do anything.
+		if ( this.state.isLoading === true ) {
+			return null;
+		}
 
-		if ( this.state.isLoading === false && this.state.config !== {} ) {
-
-			if ( typeof ( this.state.config ) === "undefined" ) {
-				let message = {
-					mixedString:
-					"The configuration wizard could not be started." +
-					" The likely cause is an interfering plugin, please {{link}}check for plugin conflicts{{/link}} to solve this problem. ",
-					components: { link: <a href="https://yoa.st/configuration-wizard-error-plugin-conflict" target="_blank" /> },
-				};
-				return (
-					<div>
-						<MessageBox { ...message }/>
-					</div>
-				);
-			}
-
+		// When there is a config and it's not empty.
+		if ( typeof ( this.state.config ) !== "undefined" && this.state.config !== {} ) {
 			return (
 				<div>
 					<OnboardingWizard { ...this.state.config }/>
 				</div>
 			);
 		}
-		return null;
+
+		let message = {
+			mixedString:
+			"The configuration wizard could not be started." +
+			" The likely cause is an interfering plugin, please {{link}}check for plugin conflicts{{/link}} to solve this problem. ",
+			components: { link: <a href="https://yoa.st/configuration-wizard-error-plugin-conflict" target="_blank" /> },
+		};
+
+		return (
+			<div>
+				<MessageBox { ...message }/>
+			</div>
+		);
 	}
 }
 
