@@ -34,6 +34,20 @@ $generated_i18n_strings = array(
 	   %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
 	__( 'The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s', 'wordpress-seo' ),
 
+	// Reference: node_modules/yoastseo/js/assessments/internalLinksAssessment.js:15
+	__( 'No internal links appear in this page, consider adding some as appropriate.', 'wordpress-seo' ),
+
+	// Reference: node_modules/yoastseo/js/assessments/internalLinksAssessment.js:23
+	/* Translators: %1$s expands the number of internal links */
+	__( 'This page has %1$s internal link(s), all nofollowed.', 'wordpress-seo' ),
+
+	// Reference: node_modules/yoastseo/js/assessments/internalLinksAssessment.js:34
+	__( 'This page has %1$s nofollowed internal link(s) and %2$s normal internal link(s).', 'wordpress-seo' ),
+
+	// Reference: node_modules/yoastseo/js/assessments/internalLinksAssessment.js:44
+	/* Translators: %1$s expands to the number of internal links */
+	__( 'This page has %1$s internal link(s).', 'wordpress-seo' ),
+
 	// Reference: node_modules/yoastseo/js/assessments/introductionKeywordAssessment.js:14
 	__( 'The focus keyword appears in the first paragraph of the copy.', 'wordpress-seo' ),
 
@@ -85,6 +99,20 @@ $generated_i18n_strings = array(
 
 	// Reference: node_modules/yoastseo/js/assessments/metaDescriptionLengthAssessment.js:36
 	__( 'The length of the meta description is sufficient.', 'wordpress-seo' ),
+
+	// Reference: node_modules/yoastseo/js/assessments/outboundLinksAssessment.js:15
+	__( 'No outbound links appear in this page, consider adding some as appropriate.', 'wordpress-seo' ),
+
+	// Reference: node_modules/yoastseo/js/assessments/outboundLinksAssessment.js:23
+	/* Translators: %1$s expands the number of outbound links */
+	__( 'This page has %1$s outbound link(s), all nofollowed.', 'wordpress-seo' ),
+
+	// Reference: node_modules/yoastseo/js/assessments/outboundLinksAssessment.js:34
+	__( 'This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s).', 'wordpress-seo' ),
+
+	// Reference: node_modules/yoastseo/js/assessments/outboundLinksAssessment.js:44
+	/* Translators: %1$s expands to the number of outbound links */
+	__( 'This page has %1$s outbound link(s).', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/pageTitleWidthAssessment.js:19
 	__( 'The page title is too short. Use the space to add keyword variations or create compelling call-to-action copy.', 'wordpress-seo' ),
@@ -213,21 +241,6 @@ $generated_i18n_strings = array(
 
 	// Reference: node_modules/yoastseo/js/assessments/textImagesAssessment.js:56
 	__( 'The images on this page are missing alt attributes.', 'wordpress-seo' ),
-
-	// Reference: node_modules/yoastseo/js/assessments/textLinksAssessment.js:15
-	__( 'No links appear in this page, consider adding some as appropriate.', 'wordpress-seo' ),
-
-	// Reference: node_modules/yoastseo/js/assessments/textLinksAssessment.js:23
-	/* Translators: %1$s expands the number of outbound links */
-	__( 'This page has %1$s outbound link(s), all nofollowed.', 'wordpress-seo' ),
-
-	// Reference: node_modules/yoastseo/js/assessments/textLinksAssessment.js:32
-	/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
-	__( 'This page has %1$s nofollowed link(s) and %2$s normal outbound link(s).', 'wordpress-seo' ),
-
-	// Reference: node_modules/yoastseo/js/assessments/textLinksAssessment.js:41
-	/* Translators: %1$s expands to the number of outbound links */
-	__( 'This page has %1$s outbound link(s).', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/textPresenceAssessment.js:18
 	__( 'You have far too little content, please add some content to enable a good analysis.', 'wordpress-seo' ),
@@ -374,10 +387,13 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/snippetPreview.js:385
 	__( 'Mobile preview', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:597
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:386
+	__( 'Scroll to see the preview content.', 'wordpress-seo' ),
+
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:598
 	__( 'Please provide an SEO title by editing the snippet below.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:673
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:674
 	__( 'Please provide a meta description by editing the snippet below.', 'wordpress-seo' )
 );
 /* THIS IS THE END OF THE GENERATED FILE */
