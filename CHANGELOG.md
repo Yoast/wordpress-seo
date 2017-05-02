@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.4.2: May 2nd, 2017
+
+### Changes
+
+* Updates YoastSEO.js to 1.15.0
+
 ## 1.4.1: February 14th, 2017
 
 ### Changes
