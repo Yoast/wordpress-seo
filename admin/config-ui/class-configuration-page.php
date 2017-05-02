@@ -14,7 +14,7 @@ class WPSEO_Configuration_Page {
 	 * Sets the hooks when the user has enought rights and is on the right page.
 	 */
 	public function set_hooks() {
-		if ( ! ( $this->is_config_page() && ! current_user_can( WPSEO_Configuration_Endpoint::CAPABILITY_RETRIEVE ) ) ) {
+		if ( ! ( $this->is_config_page() && current_user_can( WPSEO_Configuration_Endpoint::CAPABILITY_RETRIEVE ) ) ) {
 			return;
 		}
 
