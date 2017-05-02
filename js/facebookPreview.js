@@ -8,7 +8,7 @@ var Jed = require( "jed" );
 
 var imageDisplayMode = require( "./helpers/imageDisplayMode" );
 var renderDescription = require( "./helpers/renderDescription" );
-var imagePlaceholder  = require( "./element/imagePlaceholder" );
+var imagePlaceholder = require( "./element/imagePlaceholder" );
 var bemAddModifier = require( "./helpers/bem/addModifier" );
 var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
 
@@ -26,12 +26,12 @@ var facebookDefaults = {
 	data: {
 		title: "",
 		description: "",
-		imageUrl: ""
+		imageUrl: "",
 	},
 	defaultValue: {
 		title: "",
 		description: "",
-		imageUrl: ""
+		imageUrl: "",
 	},
 	baseURL: "example.com",
 	callbacks: {
@@ -44,23 +44,23 @@ var facebookDefaults = {
 		},
 		modifyImageUrl: function( imageUrl ) {
 			return imageUrl;
-		}
-	}
+		},
+	},
 };
 
 var inputFacebookPreviewBindings = [
 	{
-		"preview": "editable-preview__title--facebook",
-		"inputField": "title"
+		preview: "editable-preview__title--facebook",
+		inputField: "title",
 	},
 	{
-		"preview": "editable-preview__image--facebook",
-		"inputField": "imageUrl"
+		preview: "editable-preview__image--facebook",
+		inputField: "imageUrl",
 	},
 	{
-		"preview": "editable-preview__description--facebook",
-		"inputField": "description"
-	}
+		preview: "editable-preview__description--facebook",
+		inputField: "description",
+	},
 ];
 
 var WIDTH_FACEBOOK_IMAGE_SMALL = 158;
@@ -77,55 +77,55 @@ var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
  */
 
 /**
- * Defines the config and outputTarget for the SnippetPreview
+ * Defines the config and outputTarget for the SnippetPreview.
  *
- * @param {Object}         opts                           - Snippet preview options.
- * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
- * actual placeholders in the inputs and as a fallback for the preview.
- * @param {string}         opts.placeholder.title         - Placeholder for the title field.
- * @param {string}         opts.placeholder.description   - Placeholder for the description field.
- * @param {string}         opts.placeholder.imageUrl      - Placeholder for the image url field.
+ * @param {Object}         opts                               - Snippet preview options.
+ * @param {Object}         opts.placeholder                   - The placeholder values for the fields, will be shown as
+ *                                                              actual placeholders in the inputs and as a fallback for the preview.
+ * @param {string}         opts.placeholder.title             - Placeholder for the title field.
+ * @param {string}         opts.placeholder.description       - Placeholder for the description field.
+ * @param {string}         opts.placeholder.imageUrl          - Placeholder for the image url field.
  *
- * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
- * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.defaultValue.title        - Default title.
- * @param {string}         opts.defaultValue.description  - Default description.
- * @param {string}         opts.defaultValue.imageUrl     - Default image url.
- * it.
+ * @param {Object}         opts.defaultValue                  - The default value for the fields, if the user has not
+ *                                                              changed a field, this value will be used for the analyzer,
+ *                                                              preview and the progress bars.
+ * @param {string}         opts.defaultValue.title            - Default title.
+ * @param {string}         opts.defaultValue.description      - Default description.
+ * @param {string}         opts.defaultValue.imageUrl         - Default image url.
  *
- * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in Facebook.
- * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
+ * @param {string}         opts.baseURL                       - The basic URL as it will be displayed in Facebook.
+ * @param {HTMLElement}    opts.targetElement                 - The target element that contains this snippet editor.
  *
- * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
+ * @param {Object}         opts.callbacks                     - Functions that are called on specific instances.
  * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
  *
- * @param {Object}         i18n                           - The i18n object.
+ * @param {Object}         i18n                               - The i18n object.
  *
- * @property {Object}      i18n                           - The translation object.
+ * @property {Object}      i18n                               - The translation object.
  *
- * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
+ * @property {HTMLElement} targetElement                      - The target element that contains this snippet editor.
  *
- * @property {Object}      element                        - The elements for this snippet editor.
- * @property {Object}      element.rendered               - The rendered elements.
- * @property {HTMLElement} element.rendered.title         - The rendered title element.
- * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
- * @property {HTMLElement} element.rendered.description   - The rendered Facebook description element.
+ * @property {Object}      element                            - The elements for this snippet editor.
+ * @property {Object}      element.rendered                   - The rendered elements.
+ * @property {HTMLElement} element.rendered.title             - The rendered title element.
+ * @property {HTMLElement} element.rendered.imageUrl          - The rendered url path element.
+ * @property {HTMLElement} element.rendered.description       - The rendered Facebook description element.
  *
- * @property {Object}      element.input                  - The input elements.
- * @property {HTMLElement} element.input.title            - The title input element.
- * @property {HTMLElement} element.input.imageUrl         - The url path input element.
- * @property {HTMLElement} element.input.description      - The meta description input element.
+ * @property {Object}      element.input                      - The input elements.
+ * @property {HTMLElement} element.input.title                - The title input element.
+ * @property {HTMLElement} element.input.imageUrl             - The url path input element.
+ * @property {HTMLElement} element.input.description          - The meta description input element.
  *
- * @property {HTMLElement} element.container              - The main container element.
- * @property {HTMLElement} element.formContainer          - The form container element.
- * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
+ * @property {HTMLElement} element.container                  - The main container element.
+ * @property {HTMLElement} element.formContainer              - The form container element.
+ * @property {HTMLElement} element.editToggle                 - The button that toggles the editor form.
  *
- * @property {Object}      data                           - The data for this snippet editor.
- * @property {string}      data.title                     - The title.
- * @property {string}      data.imageUrl                  - The url path.
- * @property {string}      data.description               - The meta description.
+ * @property {Object}      data                               - The data for this snippet editor.
+ * @property {string}      data.title                         - The title.
+ * @property {string}      data.imageUrl                      - The url path.
+ * @property {string}      data.description                   - The meta description.
  *
- * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
+ * @property {string}      baseURL                            - The basic URL as it will be displayed in google.
  *
  * @constructor
  */
@@ -139,12 +139,12 @@ var FacebookPreview = function( opts, i18n ) {
 			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
 			"Facebook"
 		),
-		imageUrl: ""
+		imageUrl: "",
 	};
 
 	defaultsDeep( opts, facebookDefaults );
 
-	if ( !isElement( opts.targetElement ) ) {
+	if ( ! isElement( opts.targetElement ) ) {
 		throw new Error( "The Facebook preview requires a valid target element" );
 	}
 
@@ -165,12 +165,14 @@ var FacebookPreview = function( opts, i18n ) {
  */
 FacebookPreview.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
-		"domain": "yoast-social-previews",
-		"locale_data": {
+		domain: "yoast-social-previews",
+		/* eslint-disable camelcase */
+		locale_data: {
+		/* eslint-enable camelcase */
 			"yoast-social-previews": {
-				"": {}
-			}
-		}
+				"": {},
+			},
+		},
 	};
 
 	translations = translations || {};
@@ -204,7 +206,7 @@ FacebookPreview.prototype.renderTemplate = function() {
 			title: "",
 			description: "",
 			imageUrl: "",
-			baseUrl: this.opts.baseURL
+			baseUrl: this.opts.baseURL,
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
@@ -213,49 +215,48 @@ FacebookPreview.prototype.renderTemplate = function() {
 			/** translators: %1$s expands to Facebook */
 			snippetPreview: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s preview" ), "Facebook" ),
 			/** translators: %1$s expands to Facebook */
-			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "Facebook" )
-		}
+			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "Facebook" ),
+		},
 	} );
 
 	this.element = {
 		rendered: {
-			title: targetElement.getElementsByClassName( "editable-preview__value--facebook-title" )[0],
-			description: targetElement.getElementsByClassName( "editable-preview__value--facebook-description" )[0]
+			title: targetElement.getElementsByClassName( "editable-preview__value--facebook-title" )[ 0 ],
+			description: targetElement.getElementsByClassName( "editable-preview__value--facebook-description" )[ 0 ],
 		},
 		fields: this.getFields(),
-		container: targetElement.getElementsByClassName( "editable-preview--facebook" )[0],
-		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
-		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
+		container: targetElement.getElementsByClassName( "editable-preview--facebook" )[ 0 ],
+		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[ 0 ],
+		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[ 0 ],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
-		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0],
-		authorContainer: targetElement.getElementsByClassName( "editable-preview__value--facebook-author" )[0]
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[ 0 ],
+		authorContainer: targetElement.getElementsByClassName( "editable-preview__value--facebook-author" )[ 0 ],
 	};
 
-	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
-		+ this.element.fields.title.render()
-		+ this.element.fields.description.render();
+	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render() +
+		this.element.fields.title.render() +
+		this.element.fields.description.render();
 
 	this.element.input = {
-		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
-		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[ 0 ],
+		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[ 0 ],
+		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[ 0 ],
 	};
 
 	this.element.fieldElements = this.getFieldElements();
-	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
+	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[ 0 ];
 
 	this.element.caretHooks = {
 		title: this.element.input.title.previousSibling,
 		imageUrl: this.element.input.imageUrl.previousSibling,
-		description: this.element.input.description.previousSibling
+		description: this.element.input.description.previousSibling,
 	};
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
-		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--facebook" )[0],
-		description: this.element.rendered.description.parentNode
+		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--facebook" )[ 0 ],
+		description: this.element.rendered.description.parentNode,
 	};
-
 };
 
 /**
@@ -272,7 +273,7 @@ FacebookPreview.prototype.getFields = function() {
 			placeholder: this.opts.placeholder.title,
 			/** translators: %1$s expands to Facebook */
 			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s title" ), "Facebook" ),
-			labelClassName: "snippet-editor__label"
+			labelClassName: "snippet-editor__label",
 		} ),
 		description: new TextArea( {
 			className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
@@ -281,7 +282,7 @@ FacebookPreview.prototype.getFields = function() {
 			placeholder: this.opts.placeholder.description,
 			/** translators: %1$s expands to Facebook */
 			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s description" ), "Facebook" ),
-			labelClassName: "snippet-editor__label"
+			labelClassName: "snippet-editor__label",
 		} ),
 		imageUrl: new TextField( {
 			className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
@@ -290,8 +291,8 @@ FacebookPreview.prototype.getFields = function() {
 			placeholder: this.opts.placeholder.imageUrl,
 			/** translators: %1$s expands to Facebook */
 			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s image" ), "Facebook" ),
-			labelClassName: "snippet-editor__label"
-		} )
+			labelClassName: "snippet-editor__label",
+		} ),
 	};
 };
 
@@ -305,7 +306,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 
 	return {
 		title: new InputElement(
-			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			targetElement.getElementsByClassName( "js-snippet-editor-title" )[ 0 ],
 			{
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
@@ -314,12 +315,12 @@ FacebookPreview.prototype.getFieldElements = function() {
 					/** translators: %1$s expands to Facebook */
 					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ),
 					"Facebook"
-				)
+				),
 			},
 			this.updatePreview.bind( this )
 		),
 		description: new InputElement(
-			targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
+			targetElement.getElementsByClassName( "js-snippet-editor-description" )[ 0 ],
 			{
 				currentValue: this.data.description,
 				defaultValue: this.opts.defaultValue.description,
@@ -328,26 +329,28 @@ FacebookPreview.prototype.getFieldElements = function() {
 					/** translators: %1$s expands to Facebook */
 					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ),
 					"Facebook"
-				)
+				),
 			},
 			this.updatePreview.bind( this )
 		),
 		imageUrl: new InputElement(
-			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[ 0 ],
 			{
 				currentValue: this.data.imageUrl,
 				defaultValue: this.opts.defaultValue.imageUrl,
 				placeholder: this.opts.placeholder.imageUrl,
-				fallback: ""
+				fallback: "",
 			},
 			this.updatePreview.bind( this )
-		)
+		),
 	};
 };
 
 
 /**
  * Updates the Facebook preview.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.updatePreview = function() {
 	// Update the data.
@@ -372,7 +375,9 @@ FacebookPreview.prototype.updatePreview = function() {
 /**
  * Sets the preview title.
  *
- * @param {string} title The title to set
+ * @param {string} title The title to set.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.setTitle = function( title ) {
 	title = this.opts.callbacks.modifyTitle( title );
@@ -383,7 +388,9 @@ FacebookPreview.prototype.setTitle = function( title ) {
 /**
  * Sets the preview description.
  *
- * @param {string} description The description to set
+ * @param {string} description The description to set.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.setDescription = function( description ) {
 	description = this.opts.callbacks.modifyDescription( description );
@@ -394,6 +401,7 @@ FacebookPreview.prototype.setDescription = function( description ) {
 
 /**
  * Gets the image container.
+ *
  * @returns {string} The container that will hold the image.
  */
 FacebookPreview.prototype.getImageContainer = function() {
@@ -404,9 +412,10 @@ FacebookPreview.prototype.getImageContainer = function() {
  * Updates the image object with the new URL.
  *
  * @param {string} imageUrl The image path.
+ *
  * @returns {void}
  */
-FacebookPreview.prototype.setImage = function ( imageUrl ) {
+FacebookPreview.prototype.setImage = function( imageUrl ) {
 	imageUrl = this.opts.callbacks.modifyImageUrl( imageUrl );
 
 	if ( imageUrl === "" && this.data.imageUrl === "" ) {
@@ -437,6 +446,7 @@ FacebookPreview.prototype.setImage = function ( imageUrl ) {
 
 /**
  * Displays the No URL Set warning.
+ *
  * @returns {void}
  */
 FacebookPreview.prototype.noUrlSet = function() {
@@ -454,6 +464,7 @@ FacebookPreview.prototype.noUrlSet = function() {
 
 /**
  * Displays the Image Too Small error.
+ *
  * @returns {void}
  */
 FacebookPreview.prototype.imageTooSmall = function() {
@@ -488,6 +499,7 @@ FacebookPreview.prototype.imageTooSmall = function() {
 
 /**
  * Displays the Url Cannot Be Loaded error.
+ *
  * @returns {void}
  */
 FacebookPreview.prototype.imageError = function() {
@@ -503,7 +515,10 @@ FacebookPreview.prototype.imageError = function() {
 
 /**
  * Sets the image of the image container.
+ *
  * @param {string} image The image to use.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.addImageToContainer = function( image ) {
 	var container = this.getImageContainer();
@@ -514,6 +529,8 @@ FacebookPreview.prototype.addImageToContainer = function( image ) {
 
 /**
  * Removes the image from the container.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.removeImageFromContainer = function() {
 	var container = this.getImageContainer();
@@ -523,10 +540,12 @@ FacebookPreview.prototype.removeImageFromContainer = function() {
 
 /**
  * Sets the proper CSS class for the current image.
+ *
  * @param {Image} img The image to base the sizing class on.
+ *
  * @returns {void}
  */
-FacebookPreview.prototype.setSizingClass = function ( img ) {
+FacebookPreview.prototype.setSizingClass = function( img ) {
 	this.removeImageClasses();
 
 	if ( imageDisplayMode( img ) === "portrait" ) {
@@ -547,10 +566,11 @@ FacebookPreview.prototype.setSizingClass = function ( img ) {
 };
 
 /**
- * Returns the max image width
+ * Returns the max image width.
  *
  * @param {Image} img The image object to use.
- * @returns {int} The calculated maxwidth
+ *
+ * @returns {int} The calculated maxwidth.
  */
 FacebookPreview.prototype.getMaxImageWidth = function( img ) {
 	if ( this.isSmallImage( img ) ) {
@@ -561,7 +581,7 @@ FacebookPreview.prototype.getMaxImageWidth = function( img ) {
 };
 
 /**
- * Detects if the Facebook preview should switch to small image mode
+ * Detects if the Facebook preview should switch to small image mode.
  *
  * @param {HTMLImageElement} image The image in question.
  *
@@ -575,7 +595,7 @@ FacebookPreview.prototype.isSmallImage = function( image ) {
 };
 
 /**
- * Detects if the Facebook preview image is too small
+ * Detects if the Facebook preview image is too small.
  *
  * @param {HTMLImageElement} image The image in question.
  *
@@ -589,7 +609,9 @@ FacebookPreview.prototype.isTooSmallImage = function( image ) {
 };
 
 /**
- * Sets the classes on the Facebook preview so that it will display a small Facebook image preview
+ * Sets the classes on the Facebook preview so that it will display a small Facebook image preview.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.setSmallImageClasses = function() {
 	var targetElement = this.opts.targetElement;
@@ -601,6 +623,8 @@ FacebookPreview.prototype.setSmallImageClasses = function() {
 
 /**
  * Removes the small image classes.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.removeSmallImageClasses = function() {
 	var targetElement = this.opts.targetElement;
@@ -611,7 +635,9 @@ FacebookPreview.prototype.removeSmallImageClasses = function() {
 };
 
 /**
- * Sets the classes on the facebook preview so that it will display a large facebook image preview
+ * Sets the classes on the facebook preview so that it will display a large facebook image preview.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.setLargeImageClasses = function() {
 	var targetElement = this.opts.targetElement;
@@ -623,6 +649,8 @@ FacebookPreview.prototype.setLargeImageClasses = function() {
 
 /**
  * Removes the large image classes.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.removeLargeImageClasses = function() {
 	var targetElement = this.opts.targetElement;
@@ -633,7 +661,9 @@ FacebookPreview.prototype.removeLargeImageClasses = function() {
 };
 
 /**
- * Sets the classes on the Facebook preview so that it will display a portrait Facebook image preview
+ * Sets the classes on the Facebook preview so that it will display a portrait Facebook image preview.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.setPortraitImageClasses = function() {
 	var targetElement = this.opts.targetElement;
@@ -646,6 +676,8 @@ FacebookPreview.prototype.setPortraitImageClasses = function() {
 
 /**
  * Removes the portrait image classes.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.removePortraitImageClasses = function() {
 	var targetElement = this.opts.targetElement;
@@ -658,6 +690,8 @@ FacebookPreview.prototype.removePortraitImageClasses = function() {
 
 /**
  * Removes all image classes.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.removeImageClasses = function() {
 	this.removeSmallImageClasses();
@@ -679,6 +713,8 @@ FacebookPreview.prototype.bindEvents = function() {
  * Sets the value of the Facebook author name.
  *
  * @param {string} authorName The name of the author to show.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.setAuthor = function( authorName ) {
 	var authorHtml = "";
@@ -686,7 +722,7 @@ FacebookPreview.prototype.setAuthor = function( authorName ) {
 		authorHtml = facebookAuthorTemplate(
 			{
 				authorName: authorName,
-				authorBy: this.i18n.dgettext( "yoast-social-previews", "By" )
+				authorBy: this.i18n.dgettext( "yoast-social-previews", "By" ),
 			}
 		);
 	}

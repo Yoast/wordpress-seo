@@ -1,15 +1,14 @@
 var isEmpty = require( "lodash/lang/isEmpty" );
 var debounce = require( "lodash/function/debounce" );
-
 var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
 var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 
 /**
  * Represents a field and sets the events for that field.
  *
- * @param {Object} inputField The field to represent.
- * @param {Object} values The values to use.
- * @param {Object|undefined} callback The callback to executed after field change.
+ * @param {Object}           inputField The field to represent.
+ * @param {Object}           values     The values to use.
+ * @param {Object|undefined} callback   The callback to executed after field change.
  * @constructor
  */
 function InputElement( inputField, values, callback ) {
@@ -23,7 +22,9 @@ function InputElement( inputField, values, callback ) {
 }
 
 /**
- * Binds the events
+ * Binds the events.
+ *
+ * @returns {void}
  */
 InputElement.prototype.bindEvents = function() {
 	// Set the events.
@@ -36,7 +37,7 @@ InputElement.prototype.bindEvents = function() {
 };
 
 /**
- * Do the change event
+ * Do the change event.
  *
  * @type {Function}
  */
@@ -50,15 +51,16 @@ InputElement.prototype.changeEvent = debounce( function() {
 }, 25 );
 
 /**
+ * Gets the current field value.
  *
- * @returns {string} The current field value
+ * @returns {string} The current field value.
  */
 InputElement.prototype.getInputValue = function() {
 	return this.inputField.value;
 };
 
 /**
- * Formats the a value for the preview. If value is empty a sample value is used
+ * Formats the a value for the preview. If value is empty a sample value is used.
  *
  * @returns {string} The formatted title, without html tags.
  */
@@ -76,7 +78,7 @@ InputElement.prototype.formatValue = function() {
 };
 
 /**
- * Get the value
+ * Get the value.
  *
  * @returns {string} Return the value or get a fallback one.
  */
@@ -97,13 +99,14 @@ InputElement.prototype.getValue = function() {
 };
 
 /**
- * Set the current value
+ * Set the current value.
  *
- * @param {string} value The value to set
+ * @param {string} value The value to set.
+ *
+ * @returns {void}
  */
 InputElement.prototype.setValue = function( value ) {
 	this.values.currentValue = value;
 };
 
 module.exports = InputElement;
-

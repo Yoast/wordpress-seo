@@ -1,22 +1,21 @@
 var defaults = require( "lodash/object/defaults" );
 var buttonTemplate = require( "../../js/templates" ).fields.button;
 var minimizeHtml = require( "../helpers/minimizeHtml" );
-
 var defaultAttributes = {
 	value: "",
-	className: ""
+	className: "",
 };
 
 /**
- * Represents an HTML button
+ * Represents an HTML button.
  *
- * @param {Object} attributes The attributes to set on the HTML element
- * @param {string} attributes.value The value for this text field
- * @param {string} attributes.placeholder The placeholder for this text field
- * @param {string} attributes.name The name for this text field
- * @param {string} attributes.id The id for this text field
- * @param {string} attributes.className The class for this text field
- * @param {string} attributes.title The title that describes this text field
+ * @param {Object} attributes             The attributes to set on the HTML element.
+ * @param {string} attributes.value       The value for this text field.
+ * @param {string} attributes.placeholder The placeholder for this text field.
+ * @param {string} attributes.name        The name for this text field.
+ * @param {string} attributes.id          The id for this text field.
+ * @param {string} attributes.className   The class for this text field.
+ * @param {string} attributes.title       The title that describes this text field.
  *
  * @constructor
  */
@@ -28,18 +27,18 @@ function Button( attributes ) {
 }
 
 /**
- * Returns the HTML attributes set for this text field
+ * Returns the HTML attributes set for this text field.
  *
- * @returns {Object} The HTML attributes
+ * @returns {Object} The HTML attributes.
  */
 Button.prototype.getAttributes = function() {
 	return this._attributes;
 };
 
 /**
- * Renders the text field to HTML
+ * Renders the text field to HTML.
  *
- * @returns {string} The rendered HTML
+ * @returns {string} The rendered HTML.
  */
 Button.prototype.render = function() {
 	var html = buttonTemplate( this.getAttributes() );
@@ -49,18 +48,22 @@ Button.prototype.render = function() {
 };
 
 /**
- * Set the value of the input field
+ * Set the value of the input field.
  *
- * @param {string} value The value to set on this input field
+ * @param {string} value The value to set on this input field.
+ *
+ * @returns {void}
  */
 Button.prototype.setValue = function( value ) {
 	this._attributes.value = value;
 };
 
 /**
- * Set the value of the input field
+ * Set the value of the input field.
  *
- * @param {string} className The class to set on this input field
+ * @param {string} className The class to set on this input field.
+ *
+ * @returns {void}
  */
 Button.prototype.setClassName = function( className ) {
 	this._attributes.className = className;
