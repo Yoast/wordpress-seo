@@ -142,7 +142,7 @@ class SiteWideCalculation extends EventEmitter {
 
 		let prominentWords = getRelevantWords( content, wpseoAdminL10n.contentLocale );
 
-		return this.saveProminentWords( post, prominentWords ) ;
+		return this.saveProminentWords( post, prominentWords );
 	}
 
 	/**
