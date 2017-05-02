@@ -1,3 +1,10 @@
+### 4.7.0: May 2nd, 2017
+* Fixes a bug where 410 redirects could not be imported from `.htaccess`.
+* Fixes a bug where the 'email support tab' did not work on the edit post page.
+* Adds the slug of a deleted post to the redirect notification.
+* Includes every change in Yoast SEO core 4.7.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
+
 ### 4.6.0: April 11th, 2017
 * Adds the ability to mark a post as cornerstone content and display this in the link suggestions box.
 * Fixes a bug where the post_modified was updated whenever the prominent words were calculated.
