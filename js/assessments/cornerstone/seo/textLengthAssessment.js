@@ -47,26 +47,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 		};
 	}
 
-	if ( inRange( wordCount, 200, 400 ) ) {
-		return {
-			score: 5,
-			text: i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
-				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
-			),
-		};
-	}
-
-	if ( inRange( wordCount, 100, 200 ) ) {
+	if ( wordCount <= 400 ) {
 		return {
 			score: -10,
 			text: i18n.dngettext(
@@ -80,25 +61,6 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
 				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
 				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
-			),
-		};
-	}
-
-	if ( inRange( wordCount, 0, 100 ) ) {
-		return {
-			score: -20,
-			text: i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
-				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is far below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is far below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
 				recommendedMinimum
 			),
 		};
