@@ -44,17 +44,17 @@ var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, i18n 
 
 	var longestSubheadingTextLength = subheadingTextsLength[ 0 ].wordCount;
 
-	if ( longestSubheadingTextLength <= 300 ) {
+	if ( longestSubheadingTextLength <= 250 ) {
 		// Green indicator.
 		score = 9;
 	}
 
-	if ( inRange( longestSubheadingTextLength, 300, 350  ) ) {
+	if ( inRange( longestSubheadingTextLength, 250, 300  ) ) {
 		// Orange indicator.
 		score = 6;
 	}
 
-	if ( longestSubheadingTextLength > 350 ) {
+	if ( longestSubheadingTextLength > 300 ) {
 		// Red indicator.
 		score = 3;
 	}
