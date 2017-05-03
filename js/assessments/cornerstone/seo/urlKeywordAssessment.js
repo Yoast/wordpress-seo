@@ -15,7 +15,7 @@ var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
 	}
 
 	return {
-		score: 6,
+		score: 3,
 		text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. " +
 			"If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" ),
 	};

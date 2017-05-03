@@ -11,7 +11,7 @@ var isEmpty = require( "lodash/isEmpty" );
 var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 	if ( linkStatistics.externalTotal === 0 ) {
 		return {
-			score: 6,
+			score: 3,
 			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." ),
 		};
 	}

@@ -36,7 +36,7 @@ var assessImages = function( altProperties, i18n ) {
 	// Has alt-tag, but no keywords and it's not okay
 	if ( altProperties.withAltNonKeyword > 0 ) {
 		return {
-			score: 5,
+			score: 3,
 			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt attributes containing the focus keyword." ),
 		};
 	}
@@ -44,7 +44,7 @@ var assessImages = function( altProperties, i18n ) {
 	// Has alt-tag, but no keyword is set
 	if ( altProperties.withAlt > 0 ) {
 		return {
-			score: 5,
+			score: 3,
 			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt attributes." ),
 		};
 	}
@@ -52,7 +52,7 @@ var assessImages = function( altProperties, i18n ) {
 	// Has no alt-tag
 	if ( altProperties.noAlt > 0 ) {
 		return {
-			score: 5,
+			score: 3,
 			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt attributes." ),
 		};
 	}

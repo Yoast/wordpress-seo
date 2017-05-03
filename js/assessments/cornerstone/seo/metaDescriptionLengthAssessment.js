@@ -18,14 +18,14 @@ var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
 	}
 	if ( descriptionLength <= recommendedValue ) {
 		return {
-			score: 6,
+			score: 1,
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters long. " +
 				"However, up to %2$d characters are available." ), recommendedValue, maximumValue ),
 		};
 	}
 	if ( descriptionLength > maximumValue ) {
 		return {
-			score: 6,
+			score: 1,
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is over %1$d characters. " +
 				"Reducing the length will ensure the entire description will be visible." ), maximumValue ),
 		};

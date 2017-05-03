@@ -13,7 +13,7 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 
 	if ( inRange( pageTitleLength, 1, 400 ) ) {
 		return {
-			score: 6,
+			score: 1,
 			text: i18n.dgettext(
 				"js-text-analysis",
 				"The page title is too short. Use the space to add keyword variations or create compelling call-to-action copy."
@@ -33,7 +33,7 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 
 	if ( pageTitleLength > maxLength ) {
 		return {
-			score: 6,
+			score: 1,
 			text: i18n.dgettext(
 				"js-text-analysis",
 				"The page title is wider than the viewable limit."

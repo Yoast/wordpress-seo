@@ -9,7 +9,7 @@ var recommendedMinimum = 300;
  * @returns {object} The resulting score object.
  */
 var calculateWordCountResult = function( wordCount, i18n ) {
-	if ( wordCount >= 300 ) {
+	if ( wordCount >= 900 ) {
 		return {
 			score: 9,
 			text: i18n.dngettext(
@@ -28,7 +28,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 		};
 	}
 
-	if ( inRange( wordCount, 250, 300 ) ) {
+	if ( inRange( wordCount, 400, 900 ) ) {
 		return {
 			score: 7,
 			text: i18n.dngettext(
@@ -47,7 +47,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 		};
 	}
 
-	if ( inRange( wordCount, 200, 250 ) ) {
+	if ( inRange( wordCount, 200, 400 ) ) {
 		return {
 			score: 5,
 			text: i18n.dngettext(
