@@ -5742,22 +5742,6 @@ yoast-components@^2.5.0:
     react-dom "^15.3.0"
     yoast-components "^1.0.0"
 
-"yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#release/1.3.0":
-  version "1.2.0"
-  resolved "git+ssh://git@github.com/yoast/yoast-premium-components.git#c1e8af98dbdf07155875d02742a59f8e6075b406"
-  dependencies:
-    a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
-    babel-core "^6.11.4"
-    babel-loader "^6.2.4"
-    babel-preset-es2015 "^6.9.0"
-    babel-preset-react "^6.11.1"
-    clipboard "^1.5.15"
-    i18n-calypso "^1.6.2"
-    interpolate-components "^1.1.0"
-    react "^15.3.0"
-    react-dom "^15.3.0"
-    yoast-components "^1.0.0"
-
 "yoast-social-previews@git+ssh://git@github.com/Yoast/yoast-social-previews#master":
   version "1.4.1"
   resolved "git+ssh://git@github.com/Yoast/yoast-social-previews#188a140a19565dff3752a3dee3a900d80f695efb"
@@ -5778,6 +5762,16 @@ yoast-components@^2.5.0:
 "yoastseo@https://github.com/Yoast/YoastSEO.js#1.15.0":
   version "1.15.0"
   resolved "https://github.com/Yoast/YoastSEO.js#155f2d3315b0e435a49402ca265eab0799776a79"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    lodash "^4.14.1"
+    sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"
+
+"yoastseo@https://github.com/Yoast/YoastSEO.js#master":
+  version "1.15.0"
+  resolved "https://github.com/Yoast/YoastSEO.js#9ae141e9d876cdfd092579d71378ffb16815e688"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
