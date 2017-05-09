@@ -6986,19 +6986,9 @@ yoast-components@^2.5.0:
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
-"yoastseo@https://github.com/Yoast/YoastSEO.js#1.15.0":
+"yoastseo@https://github.com/Yoast/YoastSEO.js#master":
   version "1.15.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#155f2d3315b0e435a49402ca265eab0799776a79"
-  dependencies:
-    htmlparser2 "^3.9.2"
-    jed "^1.1.0"
-    lodash "^4.14.1"
-    sassdash "^0.8.1"
-    tokenizer2 "^2.0.0"
-
-"yoastseo@https://github.com/yoast/yoastseo.js#release/1.15":
-  version "1.14.0"
-  resolved "https://github.com/yoast/yoastseo.js#e956334cf27635f9bf9d94f3ba0b6ec79b77a1c4"
+  resolved "https://github.com/Yoast/YoastSEO.js#9ae141e9d876cdfd092579d71378ffb16815e688"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
