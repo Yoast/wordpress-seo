@@ -5,6 +5,11 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.15.1: May 9th, 2017
+
+### Fixed
+* Fixes an issue where the analysis wouldn't work on Internet Explorer.
+
 ## 1.15.0: May 2nd, 2017
 
 ### Fixed
