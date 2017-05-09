@@ -2,8 +2,8 @@ var Assessor = require( "./assessor.js" );
 
 var fleschReadingEase = require( "./assessments/readability/fleschReadingEaseAssessment.js" );
 var paragraphTooLong = require( "./assessments/readability/paragraphTooLongAssessment.js" );
-var sentenceLengthInText = require( "./assessments/readability/sentenceLengthInTextAssessment.js" );
-var subheadingDistributionTooLong = require( "./assessments/readability/subheadingDistributionTooLongAssessment.js" );
+var SentenceLengthInText = require( "./assessments/readability/sentenceLengthInTextAssessment.js" );
+var SubheadingDistributionTooLong = require( "./assessments/readability/subheadingDistributionTooLongAssessment.js" );
 var transitionWords = require( "./assessments/readability/transitionWordsAssessment.js" );
 var passiveVoice = require( "./assessments/readability/passiveVoiceAssessment.js" );
 var sentenceBeginnings = require( "./assessments/readability/sentenceBeginningsAssessment.js" );
@@ -33,10 +33,11 @@ var ContentAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
+
 		fleschReadingEase,
-		subheadingDistributionTooLong,
+		new SubheadingDistributionTooLong(),
 		paragraphTooLong,
-		sentenceLengthInText,
+		new SentenceLengthInText(),
 		transitionWords,
 		passiveVoice,
 		textPresence,

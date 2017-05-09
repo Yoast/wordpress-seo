@@ -1,150 +1,181 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
-var countTooLongSentences = require( "./../../assessmentHelpers/checkForTooLongSentences.js" );
-var formatNumber = require( "../../helpers/formatNumber.js" );
-var inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
-var stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
+let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let countTooLongSentences = require( "../../assessmentHelpers/checkForTooLongSentences.js" );
+let formatNumber = require( "../../helpers/formatNumber.js" );
+let inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
+let stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
-var Mark = require( "../../values/Mark.js" );
-var addMark = require( "../../markers/addMark.js" );
+let Mark = require( "../../values/Mark.js" );
+let addMark = require( "../../markers/addMark.js" );
 
-var map = require( "lodash/map" );
+let map = require( "lodash/map" );
+let merge = require( "lodash/merge" );
 
-var recommendedValue = 20;
-var maximumPercentage = 25;
-
-/**
- * Gets the sentences that are qualified as being too long.
- *
- * @param {Object} sentences The sentences to filter through.
- * @param {Number} recommendedValue The recommended number of words.
- * @returns {Array} Array with all the sentences considered to be too long.
- */
-var tooLongSentences = function( sentences, recommendedValue ) {
-	return countTooLongSentences( sentences, recommendedValue );
+let defaultConfig = {
+	recommendedValue: 20,
+	maximumPercentage: 25,
+	greenPercentage: 25,
+	redPercentage: 30,
 };
 
-/**
- * Get the total amount of sentences that are qualified as being too long.
- *
- * @param {Object} sentences The sentences to filter through.
- * @param {Number} recommendedValue The recommended number of words.
- * @returns {Number} The amount of sentences that are considered too long.
- */
-var tooLongSentencesTotal = function( sentences, recommendedValue ) {
-	return tooLongSentences( sentences, recommendedValue ).length;
-};
+class SentenceLengthInTextAssessment  {
 
-/**
- * Calculates sentence length score.
- *
- * @param {Object} sentences The object containing sentences and their lengths.
- * @param {Object} i18n The object used for translations.
- * @returns {Object} Object containing score and text.
- */
-var calculateSentenceLengthResult = function( sentences, i18n ) {
-	var score;
-	var percentage = 0;
-	var tooLongTotal = tooLongSentencesTotal( sentences, recommendedValue );
-
-	if ( sentences.length !== 0 ) {
-		percentage = formatNumber( ( tooLongTotal / sentences.length ) * 100 );
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {object} config The configuration to use.
+	 * @returns {void}
+	 */
+	constructor( config = {} ) {
+		this.identifier = "textSentenceLength";
+		this._config = merge( config, defaultConfig );
 	}
 
-	if ( percentage <= 25 ) {
-		// Green indicator.
-		score = 9;
+	/**
+	 * Scores the percentage of sentences including more than the recommended number of words.
+	 *
+	 * @param {object} paper The paper to use for the assessment.
+	 * @param {object} researcher The researcher used for calling research.
+	 * @param {object} i18n The object used for translations.
+	 * @returns {AssessmentResult} The Assessment result.
+	 */
+	getResult( paper, researcher, i18n ) {
+		let sentences = researcher.getResearch( "countSentencesFromText" );
+		let percentage = this.calculatePercentage( sentences );
+		let score = this.calculateScore( percentage );
+
+		let assessmentResult = new AssessmentResult();
+
+		assessmentResult.setScore( score );
+		assessmentResult.setText( this.translateScore( score, percentage, i18n ) );
+		assessmentResult.setHasMarks( ( percentage > 0 ) );
+
+		return assessmentResult;
 	}
 
-	if ( inRange( percentage, 25, 30 ) ) {
-		// Orange indicator.
-		score = 6;
+	/**
+	 * Is this assessment applicable?
+	 *
+	 * @param {object} paper The paper to use for the assessment.
+	 * @returns {boolean} True when there is text.
+	 */
+	isApplicable( paper ) {
+		return paper.hasText();
 	}
 
-	if ( percentage > 30 ) {
-		// Red indicator.
-		score = 3;
+	/**
+	 * Mark the sentences.
+	 *
+	 * @param {Paper} paper The paper to use for the marking.
+	 * @param {Researcher} researcher The researcher to use.
+	 * @returns {Array} Array with all the marked sentences.
+	 */
+	getMarks( paper, researcher ) {
+		let sentenceCount = researcher.getResearch( "countSentencesFromText" );
+		let sentenceObjects = this.getTooLongSentences( sentenceCount );
+
+		return map( sentenceObjects, function( sentenceObject ) {
+			let sentence = stripTags( sentenceObject.sentence );
+			return new Mark( {
+				original: sentence,
+				marked: addMark( sentence ),
+			} );
+		} );
 	}
 
-	var hasMarks = ( percentage > 0 );
-	var sentenceLengthURL = "<a href='https://yoa.st/short-sentences' target='_blank'>";
-
-	if ( score >= 7 ) {
-		return {
-			score: score,
-			hasMarks: hasMarks,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
+	/**
+	 * Translates the score to a message the user can understand.
+	 *
+	 * @param {number} score The score.
+	 * @param {number} percentage The percentage.
+	 * @param {object} i18n The object used for translations.
+	 *
+	 * @returns {string} A string.
+	 */
+	translateScore( score, percentage,  i18n ) {
+		let sentenceLengthURL = "<a href='https://yoa.st/short-sentences' target='_blank'>";
+		if ( score >= 7 ) {
+			return i18n.sprintf( i18n.dgettext( "js-text-analysis",
 				// Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 				// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 				// %5$s expands to the recommended maximum percentage.
 				"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less than or equal to the recommended maximum of %5$s."
-				), percentage + "%", sentenceLengthURL, recommendedValue, "</a>", maximumPercentage + "%"
-			),
-		};
-	}
+			), percentage + "%", sentenceLengthURL, this._config.recommendedValue, "</a>", this._config.maximumPercentage + "%"
+			);
+		}
 
-	return {
-		score: score,
-		hasMarks: hasMarks,
-
-		// Translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
-		// %3$s expands to the recommended amount of words.
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
-
+		return i18n.sprintf( i18n.dgettext( "js-text-analysis",
 			// Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 			// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 			// %5$s expands to the recommended maximum percentage.
 			"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more than the recommended maximum of %5$s. " +
 			"Try to shorten the sentences."
-			), percentage + "%", sentenceLengthURL, recommendedValue, "</a>", maximumPercentage + "%"
-		),
-	};
-};
+		), percentage + "%", sentenceLengthURL, this._config.recommendedValue, "</a>", this._config.maximumPercentage + "%" );
+	}
 
-/**
- * Scores the percentage of sentences including more than the recommended number of words.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
- * @returns {object} The Assessmentresult
- */
-var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
-	var sentenceCount = researcher.getResearch( "countSentencesFromText" );
-	var sentenceResult = calculateSentenceLengthResult( sentenceCount, i18n );
+	/**
+	 * Calculates the percentage of sentences that are too long.
+	 *
+	 * @param {Array} sentences The sentences to calculate the percentage for.
+	 * @returns {number} The calculates percentage of too long sentences.
+	 */
+	calculatePercentage( sentences ) {
+		let percentage = 0;
 
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( sentenceResult.score );
-	assessmentResult.setText( sentenceResult.text );
-	assessmentResult.setHasMarks( sentenceResult.hasMarks );
+		if ( sentences.length !== 0 ) {
+			let tooLongTotal = this.countTooLongSentences( sentences );
 
-	return assessmentResult;
-};
+			percentage = formatNumber( ( tooLongTotal / sentences.length ) * 100 );
+		}
 
-/**
- * Mark the sentences.
- *
- * @param {Paper} paper The paper to use for the marking.
- * @param {Researcher} researcher The researcher to use.
- * @returns {Array} Array with all the marked sentences.
- */
-var sentenceLengthMarker = function( paper, researcher ) {
-	var sentenceCount = researcher.getResearch( "countSentencesFromText" );
-	var sentenceObjects = tooLongSentences( sentenceCount, recommendedValue );
+		return percentage;
+	}
 
-	return map( sentenceObjects, function( sentenceObject ) {
-		var sentence = stripTags( sentenceObject.sentence );
-		return new Mark( {
-			original: sentence,
-			marked: addMark( sentence ),
-		} );
-	} );
-};
+	/**
+	 * Calculates the score for the given percentage.
+	 *
+	 * @param {number} percentage The percentage to calculate the score for.
+	 * @returns {number} The calculated score.
+	 */
+	calculateScore( percentage ) {
+		let score;
 
-module.exports = {
-	identifier: "textSentenceLength",
-	getResult: sentenceLengthInTextAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText();
-	},
-	getMarks: sentenceLengthMarker,
-};
+		// Green indicator.
+		if ( percentage <= this._config.greenPercentage ) {
+			score = 9;
+		}
+
+		// Orange indicator.
+		if ( inRange( percentage, this._config.greenPercentage, this._config.redPercentage ) ) {
+			score = 6;
+		}
+
+		// Red indicator.
+		if ( percentage > this._config.redPercentage ) {
+			score = 3;
+		}
+
+		return score;
+	}
+
+	/**
+	 * Gets the sentences that are qualified as being too long.
+	 *
+	 * @param {array} sentences The sentences to filter through.
+	 * @returns {array} Array with all the sentences considered to be too long.
+	 */
+	getTooLongSentences( sentences ) {
+		return countTooLongSentences( sentences, this._config.recommendedValue );
+	}
+
+	/**
+	 * Get the total amount of sentences that are qualified as being too long.
+	 *
+	 * @param {Array} sentences The sentences to filter through.
+	 * @returns {Number} The amount of sentences that are considered too long.
+	 */
+	countTooLongSentences( sentences ) {
+		return this.getTooLongSentences( sentences ).length;
+	}
+}
+
+module.exports = SentenceLengthInTextAssessment;
