@@ -1,6 +1,9 @@
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
 let htmlparser = require( "htmlparser2" );
 
+
+let includes = require( "lodash/includes" );
+
 // The array containing the text parts without the blocks defined in inlineTags.
 let textArray;
 
@@ -23,7 +26,7 @@ let parser = new htmlparser.Parser( {
 	 * @returns {void}
 	 */
 	onopentag: function( tagName, nodeValue ) {
-		if ( inlineTags.includes( tagName ) ) {
+		if ( includes( inlineTags, tagName ) ) {
 			inScriptBlock = true;
 			return;
 		}
@@ -59,7 +62,7 @@ let parser = new htmlparser.Parser( {
 	 * @returns {void}
 	 */
 	onclosetag: function( tagName ) {
-		if( inlineTags.includes( tagName ) ) {
+		if( includes( inlineTags, tagName ) ) {
 			inScriptBlock = false;
 			return;
 		}
