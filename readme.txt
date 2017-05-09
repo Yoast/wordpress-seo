@@ -124,6 +124,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 4.7.1 =
+
+Release Date: May 9th, 2017
+
+* Bugfixes
+	* Fixes a bug where the analysis wouldn't work on Internet Explorer.
+
 = 4.7.0 =
 
 Release Date: May 2nd, 2017
