@@ -1,7 +1,9 @@
-var wordCountAssessment = require( "../../js/assessments/seo/textLengthAssessment.js" );
+var TextLengthAssessment = require( "../../js/assessments/seo/textLengthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
+
+let wordCountAssessment = new TextLengthAssessment();
 
 describe( "A word count assessment", function(){
 

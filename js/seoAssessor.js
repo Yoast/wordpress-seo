@@ -5,17 +5,17 @@ var keyphraseLength = require( "./assessments/seo/keyphraseLengthAssessment.js" 
 var keywordDensity = require( "./assessments/seo/keywordDensityAssessment.js" );
 var keywordStopWords = require( "./assessments/seo/keywordStopWordsAssessment.js" );
 var metaDescriptionKeyword = require( "./assessments/seo/metaDescriptionKeywordAssessment.js" );
-var metaDescriptionLength = require( "./assessments/seo/metaDescriptionLengthAssessment.js" );
-var subheadingsKeyword = require( "./assessments/seo/subheadingsKeywordAssessment.js" );
+var MetaDescriptionLength = require( "./assessments/seo/metaDescriptionLengthAssessment.js" );
+var SubheadingsKeyword = require( "./assessments/seo/subheadingsKeywordAssessment.js" );
 var textCompetingLinks = require( "./assessments/seo/textCompetingLinksAssessment.js" );
-var textImages = require( "./assessments/seo/textImagesAssessment.js" );
-var textLength = require( "./assessments/seo/textLengthAssessment.js" );
-var outboundLinks = require( "./assessments/seo/outboundLinksAssessment.js" );
+var TextImages = require( "./assessments/seo/textImagesAssessment.js" );
+var TextLength = require( "./assessments/seo/textLengthAssessment.js" );
+var OutboundLinks = require( "./assessments/seo/outboundLinksAssessment.js" );
 var internalLinks = require( "./assessments/seo/internalLinksAssessment" );
 var titleKeyword = require( "./assessments/seo/titleKeywordAssessment.js" );
-var titleWidth = require( "./assessments/seo/pageTitleWidthAssessment.js" );
-var urlKeyword = require( "./assessments/seo/urlKeywordAssessment.js" );
-var urlLength = require( "./assessments/seo/urlLengthAssessment.js" );
+var TitleWidth = require( "./assessments/seo/pageTitleWidthAssessment.js" );
+var UrlKeyword = require( "./assessments/seo/urlKeywordAssessment.js" );
+var UrlLength = require( "./assessments/seo/urlLengthAssessment.js" );
 var urlStopWords = require( "./assessments/seo/urlStopWordsAssessment.js" );
 /**
  * Creates the Assessor
@@ -35,17 +35,17 @@ var SEOAssessor = function( i18n, options ) {
 		keywordDensity,
 		keywordStopWords,
 		metaDescriptionKeyword,
-		metaDescriptionLength,
-		subheadingsKeyword,
+		new MetaDescriptionLength(),
+		new SubheadingsKeyword(),
 		textCompetingLinks,
-		textImages,
-		textLength,
-		outboundLinks,
+		new TextImages(),
+		new TextLength(),
+		new OutboundLinks(),
 		internalLinks,
 		titleKeyword,
-		titleWidth,
-		urlKeyword,
-		urlLength,
+		new TitleWidth(),
+		new UrlKeyword(),
+		new UrlLength(),
 		urlStopWords,
 	];
 };

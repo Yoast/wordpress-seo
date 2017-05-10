@@ -1,7 +1,9 @@
-var imageCountAssessment = require( "../../js/assessments/seo/textImagesAssessment" );
+var ImageCountAssessment = require( "../../js/assessments/seo/textImagesAssessment" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
+
+let imageCountAssessment = new ImageCountAssessment();
 
 describe( "An image count assessment", function() {
 	it( "assesses no images", function(){

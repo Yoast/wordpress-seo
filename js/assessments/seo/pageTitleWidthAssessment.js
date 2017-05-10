@@ -1,73 +1,107 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
-var inRange = require( "../../helpers/inRange" ).inRangeEndInclusive;
+let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let inRange = require( "../../helpers/inRange" ).inRangeEndInclusive;
+let merge = require( "lodash/merge" );
 
-/**
- * Returns the score and text for the pageTitleLength
- * @param {number} pageTitleLength The length of the pageTitle.
- * @param {object} i18n The i18n object used for translations.
- * @returns {object} The result object.
- */
-var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
-	var minLength = 400;
-	var maxLength = 600;
+let defaultConfig = {
+	minLength: 400,
+	maxLength: 600,
+	scores: {
+		noWidth: 1,
+		widthTooShort: 6,
+		widthTooLong: 6,
+		widthCorrect: 9,
+	},
+};
 
-	if ( inRange( pageTitleLength, 1, 400 ) ) {
-		return {
-			score: 6,
-			text: i18n.dgettext(
+class PageTitleWidthAssesment {
+
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {object} config The configuration to use.
+	 *
+	 * @returns {void}
+	 */
+	constructor( config = {} ) {
+		this.identifier = "titleWidth";
+		this._config = merge( config, defaultConfig );
+	}
+
+	/**
+	 * Runs the pageTitleWidth module, based on this returns an assessment result with score.
+	 *
+	 * @param {object} paper The paper to use for the assessment.
+	 * @param {object} researcher The researcher used for calling research.
+	 * @param {object} i18n The object used for translations
+	 *
+	 * @returns {AssessmentResult} The assessment result.
+	 */
+	getResult( paper, researcher, i18n ) {
+		let pageTitleWidth = researcher.getResearch( "pageTitleWidth" );
+		let assessmentResult = new AssessmentResult();
+
+		assessmentResult.setScore( this.calculateScore( pageTitleWidth ) );
+		assessmentResult.setText( this.translateScore( pageTitleWidth, i18n ) );
+
+		return assessmentResult;
+	}
+
+	/**
+	 * Returns the score for the pageTitleWidth
+	 *
+	 * @param {number} pageTitleWidth The width of the pageTitle.
+	 *
+	 * @returns {number} The calculated score.
+	 */
+	calculateScore( pageTitleWidth ) {
+		if ( inRange( pageTitleWidth, 1, 400 ) ) {
+			return this._config.scores.widthTooShort;
+		}
+
+		if ( inRange( pageTitleWidth, this._config.minLength, this._config.maxLength ) ) {
+			return this._config.scores.widthCorrect;
+		}
+
+		if ( pageTitleWidth > this._config.maxLength ) {
+			return this._config.scores.widthTooLong;
+		}
+
+		return this._config.scores.noWidth;
+	}
+
+	/**
+	 * Translates the pageTitleWidth score to a message the user can understand.
+	 *
+	 * @param {number} pageTitleWidth The width of the pageTitle.
+	 * @param {object} i18n The object used for translations.
+	 *
+	 * @returns {string} The translated string.
+	 */
+	translateScore( pageTitleWidth, i18n ) {
+		if ( inRange( pageTitleWidth, 1, 400 ) ) {
+			return i18n.dgettext(
 				"js-text-analysis",
 				"The page title is too short. Use the space to add keyword variations or create compelling call-to-action copy."
-			),
-		};
-	}
+			);
+		}
 
-	if ( inRange( pageTitleLength, minLength, maxLength ) ) {
-		return {
-			score: 9,
-			text: i18n.dgettext(
+		if ( inRange( pageTitleWidth, this._config.minLength, this._config.maxLength ) ) {
+			return i18n.dgettext(
 				"js-text-analysis",
 				"The page title has a nice length."
-			),
-		};
-	}
+			);
+		}
 
-	if ( pageTitleLength > maxLength ) {
-		return {
-			score: 6,
-			text: i18n.dgettext(
+		if ( pageTitleWidth > this._config.maxLength ) {
+			return i18n.dgettext(
 				"js-text-analysis",
 				"The page title is wider than the viewable limit."
-			),
-		};
+			);
+		}
+
+		return i18n.dgettext( "js-text-analysis", "Please create a page title." );
 	}
 
-	return {
-		score: 1,
-		text: i18n.dgettext( "js-text-analysis", "Please create a page title." ),
-	};
-};
+}
 
-/**
- * Runs the pageTitleLength module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var titleWidthAssessment = function( paper, researcher, i18n ) {
-	var pageTitleWidth = researcher.getResearch( "pageTitleWidth" );
-	var pageTitleWidthResult = calculatePageTitleLengthResult( pageTitleWidth, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( pageTitleWidthResult.score );
-	assessmentResult.setText( pageTitleWidthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	identifier: "titleWidth",
-	getResult: titleWidthAssessment,
-};
-
+module.exports = PageTitleWidthAssesment;

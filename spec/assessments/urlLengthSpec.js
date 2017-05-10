@@ -1,8 +1,10 @@
-var urlLengthAssessment = require( "../../js/assessments/seo/urlLengthAssessment.js" );
+var UrlLengthAssessment = require( "../../js/assessments/seo/urlLengthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();
+
+let urlLengthAssessment = new UrlLengthAssessment();
 
 describe( "An assessment for the urlLengthAssessment", function(){
     it( "runs the url length assessment on the paper", function(){

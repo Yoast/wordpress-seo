@@ -1,7 +1,9 @@
-var descriptionLengthAssessment = require( "../../js/assessments/seo/metaDescriptionLengthAssessment.js" );
+var MetaDescriptionLengthAssessment = require( "../../js/assessments/seo/metaDescriptionLengthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
+
+let descriptionLengthAssessment = new MetaDescriptionLengthAssessment();
 
 describe( "An descriptionLength assessment", function(){
 	it( "assesses an empty description", function(){
