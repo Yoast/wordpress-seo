@@ -79,7 +79,7 @@ Assessor.prototype.hasMarker = function( assessment ) {
 		return false;
 	}
 
-	return isFunction( this._options.marker ) && assessment.hasOwnProperty( "getMarks" );
+	return isFunction( this._options.marker ) && ( assessment.hasOwnProperty( "getMarks" ) || typeof assessment.getMarks === "function" );
 };
 
 /**
