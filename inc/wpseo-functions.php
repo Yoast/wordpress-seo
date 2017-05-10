@@ -80,7 +80,7 @@ if ( ! function_exists( 'yoast_get_primary_term' ) ) {
 }
 
 /**
- * Add the bulk edit capability to the proper default roles, and setup a new capability to display the 'advanced' metabox tab
+ * Add the bulk edit capability to the proper default roles, and setup a new capability to display the 'advanced' metabox tab.
  */
 function wpseo_add_capabilities() {
 	$roles = array(
@@ -96,8 +96,8 @@ function wpseo_add_capabilities() {
 			$r->add_cap( 'wpseo_bulk_edit' );
 		}
 	}
-	
-	// Create a new cabaility to display the 'advanced' metabox tab
+
+	// Create a new cabaility to display the 'advanced' metabox tab.
 	$r = get_role( 'administrator' );
 	$r->add_cap( 'wpseo_metabox_advanced' );
 }
