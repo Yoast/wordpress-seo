@@ -1,11 +1,15 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let Assessment = require( "../../assessment.js" );
 let merge = require( "lodash/merge" );
 
 let defaultConfig = {
 	scoreWhenTooLong: 5,
 };
 
-class UrlLengthAssessment {
+/**
+ * Assessment that checks if the url is long enough.
+ */
+class UrlLengthAssessment extends Assessment {
 
 	/**
 	 * Sets the identifier and the config.
@@ -15,6 +19,8 @@ class UrlLengthAssessment {
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
+		super();
+
 		this.identifier = "urlLength";
 		this._config = merge( config, defaultConfig );
 	}
@@ -23,10 +29,10 @@ class UrlLengthAssessment {
 	 * Checks the length of the url.
 	 *
 	 * @param {Paper} paper The paper to run this assessment on.
-	 * @param {object} researcher The researcher used for the assessment.
+	 * @param {Researcher} researcher The researcher used for the assessment.
 	 * @param {object} i18n The i18n-object used for parsing translations.
 	 *
-	 * @returns {object} an AssessmentResult with the score and the formatted text.
+	 * @returns {AssessmentResult} an AssessmentResult with the score and the formatted text.
 	 */
 	getResult( paper, researcher, i18n ) {
 		let urlIsTooLong     = researcher.getResearch( "urlLength" );
@@ -41,7 +47,7 @@ class UrlLengthAssessment {
 	/**
 	 * Is this assessment applicable?
 	 *
-	 * @param {object} paper The paper to use for the assessment.
+	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {boolean} True when there is text.
 	 */

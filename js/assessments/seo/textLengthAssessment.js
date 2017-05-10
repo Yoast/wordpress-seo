@@ -1,4 +1,5 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let Assessment = require( "../../assessment.js" );
 let inRange = require( "lodash/inRange" );
 let merge = require( "lodash/merge" );
 
@@ -17,7 +18,10 @@ let defaultConfig = {
 	},
 };
 
-class TextLengthAssessment {
+/**
+ * Assessment that will test if the text is long enough.
+ */
+class TextLengthAssessment extends Assessment {
 
 	/**
 	 * Sets the identifier and the config.
@@ -27,6 +31,8 @@ class TextLengthAssessment {
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
+		super();
+
 		this.identifier = "textLength";
 		this._config = merge( config, defaultConfig );
 	}

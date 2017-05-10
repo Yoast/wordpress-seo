@@ -1,4 +1,5 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let Assessment = require( "../../assessment.js" );
 let isTextTooLong = require( "../../helpers/isValueTooLong" );
 let filter = require( "lodash/filter" );
 let map = require( "lodash/map" );
@@ -15,7 +16,10 @@ let defaultConfig = {
 	redBulletTreshhold: 350,
 };
 
-class SubheadingsDistributionTooLong {
+/**
+ * Represents the assessment for calculating the text after each subheading.
+ */
+class SubheadingsDistributionTooLong extends Assessment {
 
 	/**
 	 * Sets the identifier and the config.
@@ -24,6 +28,8 @@ class SubheadingsDistributionTooLong {
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
+		super();
+
 		this.identifier = "subheadingsTooLong";
 		this._config = merge( config, defaultConfig );
 	}
@@ -32,9 +38,10 @@ class SubheadingsDistributionTooLong {
 	 * Runs the getSubheadingTextLength research and checks scores based on length.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {object} researcher The researcher used for calling research.
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @param {object} i18n The object used for translations.
-	 * @returns {object} The Assessmentresult
+	 *
+	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
 		let subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
@@ -59,7 +66,8 @@ class SubheadingsDistributionTooLong {
 	/**
 	 * Is this assessment applicable?
 	 *
-	 * @param {object} paper The paper to use for the assessment.
+	 * @param {Paper} paper The paper to use for the assessment.
+	 *
 	 * @returns {boolean} True when there is text.
 	 */
 	isApplicable( paper ) {

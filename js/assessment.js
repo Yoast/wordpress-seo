@@ -1,5 +1,3 @@
-let AssessmentResult = require( "values/AssessmentResult.js" );
-
 /* eslint-disable no-unused-vars */
 /**
  * Represents the defaults of an assessment.
@@ -22,7 +20,7 @@ class Assessment {
 	/**
 	 * Is this assessment applicable?
 	 *
-	 * @param {object} paper The paper to use for the assessment.
+	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {boolean} True.
 	 */

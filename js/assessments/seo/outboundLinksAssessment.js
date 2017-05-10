@@ -1,4 +1,5 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let Assessment = require( "../../assessment.js" );
 let isEmpty = require( "lodash/isEmpty" );
 let merge = require( "lodash/merge" );
 
@@ -11,7 +12,10 @@ let defaultConfig = {
 	},
 };
 
-class OutboundLinksAssessment {
+/**
+ * Assessment for calculating the outbound links in the text.
+ */
+class OutboundLinksAssessment extends Assessment {
 
 	/**
 	 * Sets the identifier and the config.
@@ -21,6 +25,8 @@ class OutboundLinksAssessment {
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
+		super();
+
 		this.identifier = "externalLinks";
 		this._config = merge( config, defaultConfig );
 	}
@@ -28,8 +34,8 @@ class OutboundLinksAssessment {
 	/**
 	 * Runs the getLinkStatistics module, based on this returns an assessment result with score.
 	 *
-	 * @param {object} paper The paper to use for the assessment.
-	 * @param {object} researcher The researcher used for calling research.
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @param {object} i18n The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
@@ -47,7 +53,7 @@ class OutboundLinksAssessment {
 	/**
 	 * Is this assessment applicable?
 	 *
-	 * @param {object} paper The paper to use for the assessment.
+	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {boolean} True when there is text.
 	 */

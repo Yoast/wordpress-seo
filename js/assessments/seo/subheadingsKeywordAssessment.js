@@ -1,4 +1,5 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let Assessment = require( "../../assessment.js" );
 let merge = require( "lodash/merge" );
 
 let defaultConfig = {
@@ -9,7 +10,10 @@ let defaultConfig = {
 	},
 };
 
-class SubHeadingsKeywordAssessment {
+/**
+ * Represents the assessment that checks if the keyword is present in one of the subheadings.
+ */
+class SubHeadingsKeywordAssessment extends Assessment {
 
 	/**
 	 * Sets the identifier and the config.
@@ -19,6 +23,8 @@ class SubHeadingsKeywordAssessment {
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
+		super();
+
 		this.identifier = "subheadingsKeyword";
 		this._config = merge( config, defaultConfig );
 	}
@@ -26,8 +32,8 @@ class SubHeadingsKeywordAssessment {
 	/**
 	 * Runs the match keyword in subheadings module, based on this returns an assessment result with score.
 	 *
-	 * @param {object} paper The paper to use for the assessment.
-	 * @param {object} researcher The researcher used for calling research.
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @param {object} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
@@ -46,7 +52,7 @@ class SubHeadingsKeywordAssessment {
 	/**
 	 * Is this assessment applicable?
 	 *
-	 * @param {object} paper The paper to use for the assessment.
+	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {boolean} True when there is text and a keyword.
 	 */
