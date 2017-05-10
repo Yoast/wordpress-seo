@@ -1,4 +1,5 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let Assessment = require( "../../assessment.js" );
 let inRange = require( "../../helpers/inRange" ).inRangeEndInclusive;
 let merge = require( "lodash/merge" );
 
@@ -13,7 +14,10 @@ let defaultConfig = {
 	},
 };
 
-class PageTitleWidthAssesment {
+/**
+ * Represents the assessmenth that will calculate if the width of the page title is correct.
+ */
+class PageTitleWidthAssesment extends Assessment {
 
 	/**
 	 * Sets the identifier and the config.
@@ -23,6 +27,8 @@ class PageTitleWidthAssesment {
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
+		super();
+
 		this.identifier = "titleWidth";
 		this._config = merge( config, defaultConfig );
 	}
@@ -30,8 +36,8 @@ class PageTitleWidthAssesment {
 	/**
 	 * Runs the pageTitleWidth module, based on this returns an assessment result with score.
 	 *
-	 * @param {object} paper The paper to use for the assessment.
-	 * @param {object} researcher The researcher used for calling research.
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @param {object} i18n The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.

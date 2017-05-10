@@ -1,11 +1,15 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let Assessment = require( "../../assessment.js" );
 let merge = require( "lodash/merge" );
 
 let defaultConfig = {
 	scoreWhenNoResults: 6,
 };
 
-class UrlKeywordAssessment {
+/**
+ * Represents the URL keyword assessments. This assessments will check if the URL is present in the url.
+ */
+class UrlKeywordAssessment extends Assessment {
 
 	/**
 	 * Sets the identifier and the config.
@@ -15,6 +19,8 @@ class UrlKeywordAssessment {
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
+		super();
+
 		this.identifier = "urlKeyword";
 		this._config = merge( config, defaultConfig );
 	}
@@ -41,7 +47,7 @@ class UrlKeywordAssessment {
 	/**
 	 * Is this assessment applicable?
 	 *
-	 * @param {object} paper The paper to use for the assessment.
+	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {boolean} True when there is a keyword and an url.
 	 */

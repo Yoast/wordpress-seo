@@ -1,4 +1,5 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let Assessment = require( "../../assessment.js" );
 let countTooLongSentences = require( "../../assessmentHelpers/checkForTooLongSentences.js" );
 let formatNumber = require( "../../helpers/formatNumber.js" );
 let inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
@@ -17,7 +18,10 @@ let defaultConfig = {
 	redPercentage: 30,
 };
 
-class SentenceLengthInTextAssessment  {
+/**
+ * Represents the assessment that will calculate the length of sentences in the text.
+ */
+class SentenceLengthInTextAssessment extends Assessment {
 
 	/**
 	 * Sets the identifier and the config.
@@ -26,6 +30,8 @@ class SentenceLengthInTextAssessment  {
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
+		super();
+
 		this.identifier = "textSentenceLength";
 		this._config = merge( config, defaultConfig );
 	}
@@ -33,8 +39,8 @@ class SentenceLengthInTextAssessment  {
 	/**
 	 * Scores the percentage of sentences including more than the recommended number of words.
 	 *
-	 * @param {object} paper The paper to use for the assessment.
-	 * @param {object} researcher The researcher used for calling research.
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @param {object} i18n The object used for translations.
 	 * @returns {AssessmentResult} The Assessment result.
 	 */
@@ -55,7 +61,8 @@ class SentenceLengthInTextAssessment  {
 	/**
 	 * Is this assessment applicable?
 	 *
-	 * @param {object} paper The paper to use for the assessment.
+	 * @param {Paper} paper The paper to use for the assessment.
+	 *
 	 * @returns {boolean} True when there is text.
 	 */
 	isApplicable( paper ) {
@@ -67,6 +74,7 @@ class SentenceLengthInTextAssessment  {
 	 *
 	 * @param {Paper} paper The paper to use for the marking.
 	 * @param {Researcher} researcher The researcher to use.
+	 *
 	 * @returns {Array} Array with all the marked sentences.
 	 */
 	getMarks( paper, researcher ) {

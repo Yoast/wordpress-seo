@@ -1,4 +1,5 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let Assessment = require( "../../assessment.js" );
 let isEmpty = require( "lodash/isEmpty" );
 let merge = require( "lodash/merge" );
 
@@ -12,7 +13,10 @@ let defaultConfig = {
 	},
 };
 
-class TextImagesAssessment {
+/**
+ * Assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
+ */
+class TextImagesAssessment extends Assessment {
 
 	/**
 	 * Sets the identifier and the config.
@@ -22,6 +26,8 @@ class TextImagesAssessment {
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
+		super();
+
 		this.identifier = "textImages";
 		this._config = merge( config, defaultConfig );
 	}
@@ -53,7 +59,7 @@ class TextImagesAssessment {
 	/**
 	 * Is this assessment applicable?
 	 *
-	 * @param {object} paper The paper to use for the assessment.
+	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {boolean} True when there is text.
 	 */

@@ -22,7 +22,7 @@ class Assessment {
 	/**
 	 * Is this assessment applicable?
 	 *
-	 * @param {object} paper The paper to use for the assessment.
+	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {boolean} True.
 	 */
