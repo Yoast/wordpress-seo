@@ -28,7 +28,7 @@ class OutboundLinksAssessment extends Assessment {
 		super();
 
 		this.identifier = "externalLinks";
-		this._config = merge( config, defaultConfig );
+		this._config = merge( defaultConfig, config );
 	}
 
 	/**

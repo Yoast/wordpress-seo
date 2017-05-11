@@ -33,7 +33,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 		super();
 
 		this.identifier = "textSentenceLength";
-		this._config = merge( config, defaultConfig );
+		this._config = merge( defaultConfig, config );
 	}
 
 	/**

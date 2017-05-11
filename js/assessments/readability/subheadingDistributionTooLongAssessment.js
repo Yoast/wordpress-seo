@@ -31,7 +31,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		super();
 
 		this.identifier = "subheadingsTooLong";
-		this._config = merge( config, defaultConfig );
+		this._config = merge( defaultConfig, config );
 	}
 
 	/**

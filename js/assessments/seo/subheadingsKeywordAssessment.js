@@ -26,7 +26,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		super();
 
 		this.identifier = "subheadingsKeyword";
-		this._config = merge( config, defaultConfig );
+		this._config = merge( defaultConfig, config );
 	}
 
 	/**

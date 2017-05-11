@@ -29,7 +29,7 @@ class TextImagesAssessment extends Assessment {
 		super();
 
 		this.identifier = "textImages";
-		this._config = merge( config, defaultConfig );
+		this._config = merge( defaultConfig, config );
 	}
 
 	/**

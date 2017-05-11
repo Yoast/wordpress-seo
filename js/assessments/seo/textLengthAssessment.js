@@ -34,7 +34,7 @@ class TextLengthAssessment extends Assessment {
 		super();
 
 		this.identifier = "textLength";
-		this._config = merge( config, defaultConfig );
+		this._config = merge( defaultConfig, config );
 	}
 
 	/**
