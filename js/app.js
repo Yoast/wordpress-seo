@@ -295,6 +295,7 @@ App.prototype.switchAssessors = function( useCornerStone ) {
 
 	this.initializeAssessors( assessorConfig );
 	this.initAssessorPresenters();
+	this.refresh();
 };
 
 
