@@ -16,6 +16,8 @@ var Jed = require( "jed" );
 
 var SEOAssessor = require( "./seoAssessor.js" );
 var ContentAssessor = require( "./contentAssessor.js" );
+var CornerstoneSEOAssessor = require( "./cornerstone/seoAssessor.js" );
+var CornerstoneContentAssessor = require( "./cornerstone/contentAssessor.js" );
 var Researcher = require( "./researcher.js" );
 var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
 var Pluggable = require( "./pluggable.js" );
@@ -276,19 +278,37 @@ App.prototype.getDefaultOutputElement = function( args ) {
 };
 
 /**
+ * Switches between the cornerstone and default assessors.
+ */
+App.prototype.switchAssessors = function( useCornerStone ) {
+
+	var assessorConfig = this.config;
+
+	if ( useCornerStone ) {
+		assessorConfig = {
+			keywordAnalysisActive: this.config.keywordAnalysisActive,
+			contentAnalysisActive: this.config.contentAnalysisActive,
+			seoAssessor: new CornerstoneSEOAssessor( this.i18n, { marker: this.config.marker } ),
+			contentAssessor: new CornerstoneContentAssessor( this.i18n, { marker: this.config.marker } ),
+		};
+	}
+
+	console.log( assessorConfig );
+
+	this.initializeAssessors( assessorConfig );
+	this.initAssessorPresenters();
+};
+
+
+/**
  * Initializes assessors based on if the respective analysis is active.
  *
  * @param {Object} args The arguments passed to the App.
  * @returns {void}
  */
 App.prototype.initializeAssessors = function( args ) {
-	if ( args.keywordAnalysisActive ) {
-		this.initializeSEOAssessor( args );
-	}
-
-	if ( args.contentAnalysisActive ) {
-		this.initializeContentAssessor( args );
-	}
+	this.initializeSEOAssessor( args );
+	this.initializeContentAssessor( args );
 };
 
 /**
@@ -298,6 +318,10 @@ App.prototype.initializeAssessors = function( args ) {
  * @returns {void}
  */
 App.prototype.initializeSEOAssessor = function( args ) {
+	if ( ! args.keywordAnalysisActive ) {
+		return;
+	}
+
 	// Set the assessor
 	if ( isUndefined( args.seoAssessor ) ) {
 		this.seoAssessor = new SEOAssessor( this.i18n, { marker: this.config.marker } );
@@ -313,6 +337,10 @@ App.prototype.initializeSEOAssessor = function( args ) {
  * @returns {void}
  */
 App.prototype.initializeContentAssessor = function( args ) {
+	if ( ! args.contentAnalysisActive ) {
+		return;
+	}
+
 	// Set the content assessor
 	if ( isUndefined( args.contentAssessor ) ) {
 		this.contentAssessor = new ContentAssessor( this.i18n, { marker: this.config.marker } );
