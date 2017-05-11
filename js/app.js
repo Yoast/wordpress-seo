@@ -293,8 +293,6 @@ App.prototype.switchAssessors = function( useCornerStone ) {
 		};
 	}
 
-	console.log( assessorConfig );
-
 	this.initializeAssessors( assessorConfig );
 	this.initAssessorPresenters();
 };
