@@ -35,7 +35,7 @@ class WPSEO_Redirect_Page {
 	 */
 	public function list_table_search() {
 		if ( ( $search_string = filter_input( INPUT_POST, 's' ) ) !== null ) {
-			$url = ( $search_string !== '' ) ? add_query_arg( 's', $search_string ) : remove_query_arg( 's' );
+			$url = ( $search_string !== '' ) ? add_query_arg( 's', urlencode( $search_string ) ) : remove_query_arg( 's' );
 
 			// Do the redirect.
 			wp_redirect( $url );
