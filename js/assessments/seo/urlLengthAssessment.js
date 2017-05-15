@@ -2,10 +2,6 @@ let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let Assessment = require( "../../assessment.js" );
 let merge = require( "lodash/merge" );
 
-let defaultConfig = {
-	scoreWhenTooLong: 5,
-};
-
 /**
  * Assessment that checks if the url is long enough.
  */
@@ -20,6 +16,10 @@ class UrlLengthAssessment extends Assessment {
 	 */
 	constructor( config = {} ) {
 		super();
+
+		let defaultConfig = {
+			scoreWhenTooLong: 5,
+		};
 
 		this.identifier = "urlLength";
 		this._config = merge( defaultConfig, config );

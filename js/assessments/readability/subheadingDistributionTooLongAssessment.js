@@ -9,13 +9,6 @@ let Mark = require( "../../values/Mark.js" );
 let marker = require( "../../markers/addMark.js" );
 let inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
 
-let defaultConfig = {
-	// The maximum recommended value of the subheading text.
-	recommendedValue: 300,
-	greenBulletTreshold: 300,
-	redBulletTreshhold: 350,
-};
-
 /**
  * Represents the assessment for calculating the text after each subheading.
  */
@@ -29,6 +22,13 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	constructor( config = {} ) {
 		super();
+
+		let defaultConfig = {
+			// The maximum recommended value of the subheading text.
+			recommendedValue: 300,
+			greenBulletTreshold: 300,
+			redBulletTreshhold: 350,
+		};
 
 		this.identifier = "subheadingsTooLong";
 		this._config = merge( defaultConfig, config );

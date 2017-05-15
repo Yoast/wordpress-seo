@@ -3,21 +3,6 @@ let Assessment = require( "../../assessment.js" );
 let inRange = require( "lodash/inRange" );
 let merge = require( "lodash/merge" );
 
-let defaultConfig = {
-	recommendedMinimum: 300,
-	slightlyBelowMinimum: 250,
-	belowMinimum: 200,
-	farBelowMinimum: 100,
-
-	scores: {
-		recommendedMinimum: 9,
-		slightlyBelowMinimum: 7,
-		belowMinimum: 5,
-		slightlyFarBelowMinimum: -10,
-		farBelowMinimum: -20,
-	},
-};
-
 /**
  * Assessment that will test if the text is long enough.
  */
@@ -32,6 +17,21 @@ class TextLengthAssessment extends Assessment {
 	 */
 	constructor( config = {} ) {
 		super();
+
+		let defaultConfig = {
+			recommendedMinimum: 300,
+			slightlyBelowMinimum: 250,
+			belowMinimum: 200,
+			farBelowMinimum: 100,
+
+			scores: {
+				recommendedMinimum: 9,
+				slightlyBelowMinimum: 7,
+				belowMinimum: 5,
+				slightlyFarBelowMinimum: -10,
+				farBelowMinimum: -20,
+			},
+		};
 
 		this.identifier = "textLength";
 		this._config = merge( defaultConfig, config );

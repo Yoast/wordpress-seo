@@ -3,16 +3,6 @@ let Assessment = require( "../../assessment.js" );
 let isEmpty = require( "lodash/isEmpty" );
 let merge = require( "lodash/merge" );
 
-let defaultConfig = {
-	scores: {
-		noImages: 3,
-		withAltKeyword: 9,
-		withAltNonKeyword: 5,
-		withAlt: 5,
-		noAlt: 5,
-	},
-};
-
 /**
  * Assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
  */
@@ -27,6 +17,16 @@ class TextImagesAssessment extends Assessment {
 	 */
 	constructor( config = {} ) {
 		super();
+
+		let defaultConfig = {
+			scores: {
+				noImages: 3,
+				withAltKeyword: 9,
+				withAltNonKeyword: 5,
+				withAlt: 5,
+				noAlt: 5,
+			},
+		};
 
 		this.identifier = "textImages";
 		this._config = merge( defaultConfig, config );

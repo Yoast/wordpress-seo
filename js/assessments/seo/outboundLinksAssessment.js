@@ -3,15 +3,6 @@ let Assessment = require( "../../assessment.js" );
 let isEmpty = require( "lodash/isEmpty" );
 let merge = require( "lodash/merge" );
 
-let defaultConfig = {
-	score: {
-		whenNoLinks: 6,
-		whenAllNofollowed: 7,
-		whenMoreNoFollowed: 8,
-		whenAllFollowed: 9,
-	},
-};
-
 /**
  * Assessment for calculating the outbound links in the text.
  */
@@ -26,6 +17,15 @@ class OutboundLinksAssessment extends Assessment {
 	 */
 	constructor( config = {} ) {
 		super();
+
+		let defaultConfig = {
+			score: {
+				whenNoLinks: 6,
+				whenAllNofollowed: 7,
+				whenMoreNoFollowed: 8,
+				whenAllFollowed: 9,
+			},
+		};
 
 		this.identifier = "externalLinks";
 		this._config = merge( defaultConfig, config );

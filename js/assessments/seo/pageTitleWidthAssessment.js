@@ -3,17 +3,6 @@ let Assessment = require( "../../assessment.js" );
 let inRange = require( "../../helpers/inRange" ).inRangeEndInclusive;
 let merge = require( "lodash/merge" );
 
-let defaultConfig = {
-	minLength: 400,
-	maxLength: 600,
-	scores: {
-		noWidth: 1,
-		widthTooShort: 6,
-		widthTooLong: 6,
-		widthCorrect: 9,
-	},
-};
-
 /**
  * Represents the assessmenth that will calculate if the width of the page title is correct.
  */
@@ -28,6 +17,17 @@ class PageTitleWidthAssesment extends Assessment {
 	 */
 	constructor( config = {} ) {
 		super();
+
+		let defaultConfig = {
+			minLength: 400,
+			maxLength: 600,
+			scores: {
+				noWidth: 1,
+				widthTooShort: 6,
+				widthTooLong: 6,
+				widthCorrect: 9,
+			},
+		};
 
 		this.identifier = "titleWidth";
 		this._config = merge( defaultConfig, config );

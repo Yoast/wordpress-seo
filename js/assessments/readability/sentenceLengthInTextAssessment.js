@@ -11,13 +11,6 @@ let addMark = require( "../../markers/addMark.js" );
 let map = require( "lodash/map" );
 let merge = require( "lodash/merge" );
 
-let defaultConfig = {
-	recommendedValue: 20,
-	maximumPercentage: 25,
-	greenPercentage: 25,
-	redPercentage: 30,
-};
-
 /**
  * Represents the assessment that will calculate the length of sentences in the text.
  */
@@ -31,6 +24,13 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 */
 	constructor( config = {} ) {
 		super();
+
+		let defaultConfig = {
+			recommendedValue: 20,
+			maximumPercentage: 25,
+			greenPercentage: 25,
+			redPercentage: 30,
+		};
 
 		this.identifier = "textSentenceLength";
 		this._config = merge( defaultConfig, config );

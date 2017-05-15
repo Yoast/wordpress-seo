@@ -2,14 +2,6 @@ let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let Assessment = require( "../../assessment.js" );
 let merge = require( "lodash/merge" );
 
-let defaultConfig = {
-	scores: {
-		noMatches: 6,
-		oneMatch: 9,
-		hasMatches: 9,
-	},
-};
-
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
  */
@@ -24,6 +16,14 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 */
 	constructor( config = {} ) {
 		super();
+
+		let defaultConfig = {
+			scores: {
+				noMatches: 6,
+				oneMatch: 9,
+				hasMatches: 9,
+			},
+		};
 
 		this.identifier = "subheadingsKeyword";
 		this._config = merge( defaultConfig, config );
