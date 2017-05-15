@@ -279,9 +279,12 @@ App.prototype.getDefaultOutputElement = function( args ) {
 
 /**
  * Switches between the cornerstone and default assessors.
+ *
+ * @param {boolean} useCornerStone True when cornerstone should be used.
+ *
+ * @returns {void}
  */
 App.prototype.switchAssessors = function( useCornerStone ) {
-
 	var assessorConfig = this.config;
 
 	if ( useCornerStone ) {
