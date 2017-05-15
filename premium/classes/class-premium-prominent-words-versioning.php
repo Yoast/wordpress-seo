@@ -119,7 +119,7 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 
 		global $wpdb;
 
-		// The meta key has to be private, so prefix it.
+		// The remove all post metas.
 		$wpdb->query(
 			$wpdb->prepare(
 				'DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s"',
