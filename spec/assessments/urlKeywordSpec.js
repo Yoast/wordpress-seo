@@ -1,7 +1,9 @@
-var keywordInUrl = require( "../../js/assessments/urlKeywordAssessment.js" );
+var KeywordInUrl = require( "../../js/assessments/seo/urlKeywordAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
+
+let keywordInUrl = new KeywordInUrl();
 
 describe( "A keyword in url count assessment", function(){
 	it( "assesses no keyword was found in the url", function() {

@@ -1,7 +1,9 @@
-var imageCountAssessment = require( "../../js/assessments/textImagesAssessment" );
+var ImageCountAssessment = require( "../../js/assessments/seo/textImagesAssessment" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
+
+let imageCountAssessment = new ImageCountAssessment();
 
 describe( "An image count assessment", function() {
 	it( "assesses no images", function(){
@@ -23,7 +25,7 @@ describe( "An image count assessment", function() {
 			withAltNonKeyword: 0
 		} ), i18n );
 
-		expect( assessment.getScore() ).toEqual( 5 );
+		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "The images on this page are missing alt attributes." );
 	} );
 
@@ -37,7 +39,7 @@ describe( "An image count assessment", function() {
 			withAltNonKeyword: 0
 		} ), i18n );
 
-		expect( assessment.getScore() ).toEqual( 5 );
+		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "The images on this page contain alt attributes." );
 	} );
 
@@ -53,7 +55,7 @@ describe( "An image count assessment", function() {
 			withAltNonKeyword: 1
 		} ), i18n );
 
-		expect( assessment.getScore() ).toEqual( 5 );
+		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "The images on this page do not have alt attributes containing the focus keyword." );
 	} );
 

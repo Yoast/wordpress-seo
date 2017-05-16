@@ -1,7 +1,9 @@
-var matchKeywordAssessment = require( "../../js/assessments/subheadingsKeywordAssessment.js" );
+var SubheadingsKeywordAssessment = require( "../../js/assessments/seo/subheadingsKeywordAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
+
+let matchKeywordAssessment = new SubheadingsKeywordAssessment();
 
 describe( "An assessment for matching keywords in subheadings", function(){
 	it( "assesses a string without subheadings", function(){

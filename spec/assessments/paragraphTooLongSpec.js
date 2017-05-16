@@ -1,4 +1,4 @@
-var paragraphTooLongAssessment = require( "../../js/assessments/paragraphTooLongAssessment.js" );
+var paragraphTooLongAssessment = require( "../../js/assessments/readability/paragraphTooLongAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();

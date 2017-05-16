@@ -1,8 +1,10 @@
-var pageTitleLengthAssessment = require( "../../js/assessments/pageTitleWidthAssessment.js" );
+var PageTitleLengthAssessment = require( "../../js/assessments/seo/pageTitleWidthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();
+
+let pageTitleLengthAssessment = new PageTitleLengthAssessment();
 
 describe( "the page title length assessment", function() {
 	it( "should assess a paper without a page title", function() {

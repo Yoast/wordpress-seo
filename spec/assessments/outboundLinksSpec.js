@@ -1,8 +1,10 @@
-var linkStatisticAssessment = require( "../../js/assessments/outboundLinksAssessment.js" );
+let OutboundLinksAssessment = require( "../../js/assessments/seo/outboundLinksAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();
+
+let linkStatisticAssessment = new OutboundLinksAssessment();
 
 describe( "An assessor running the linkStatistics", function(){
 	it( "Accepts a paper and i18nobject  ", function(){
