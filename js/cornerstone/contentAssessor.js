@@ -33,9 +33,9 @@ let CornerStoneContentAssessor = function( i18n, options ) {
 		fleschReadingEase,
 		new SubheadingDistributionTooLong(
 			{
-
 				slightlyTooMany: 250,
 				farTooMany: 300,
+				recommendedMaximumWordCount: 250,
 			}
 		),
 		paragraphTooLong,
