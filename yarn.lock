@@ -4161,10 +4161,11 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-"yoastseo@https://github.com/yoast/yoastseo.js#release/1.14":
-  version "1.13.0"
-  resolved "https://github.com/yoast/yoastseo.js#aa7eb9fa30931a9de976066b6d8f5a301dfddfeb"
+"yoastseo@https://github.com/yoast/yoastseo.js#release/1.16":
+  version "1.15.0"
+  resolved "https://github.com/yoast/yoastseo.js#5b39378ce9e195404eda6be45a7f47cd0a632a90"
   dependencies:
+    htmlparser2 "^3.9.2"
     jed "^1.1.0"
     lodash "^4.14.1"
     sassdash "^0.8.1"

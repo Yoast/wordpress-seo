@@ -5,6 +5,15 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.16.0: May 23rd, 2017
+
+### Fixed
+* Fixes a typo in app.js comments, props [Alexander Varwijk](https://github.com/Kingdutch).
+* Fixes an incompatibility issue with includes in Internet Explorer. The browser doesn't support includes and that broke the HTMLparser.
+
+### Added
+* Adds cornerstone assessors.
+
 ## 1.15.1: May 9th, 2017
 
 ### Fixed
