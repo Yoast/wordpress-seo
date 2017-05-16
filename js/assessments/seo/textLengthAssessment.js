@@ -22,14 +22,14 @@ class TextLengthAssessment extends Assessment {
 			recommendedMinimum: 300,
 			slightlyBelowMinimum: 250,
 			belowMinimum: 200,
-			farBelowMinimum: 100,
+			veryFarBelowMinimum: 100,
 
 			scores: {
 				recommendedMinimum: 9,
-				slightlyBelowMinimum: 7,
-				belowMinimum: 5,
-				slightlyFarBelowMinimum: -10,
-				farBelowMinimum: -20,
+				slightlyBelowMinimum: 6,
+				belowMinimum: 3,
+				farBelowMinimum: -10,
+				veryFarBelowMinimum: -20,
 			},
 		};
 
@@ -51,7 +51,8 @@ class TextLengthAssessment extends Assessment {
 		let assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( wordCount ) );
-		assessmentResult.setText( i18n.sprintf( this.translateScore( wordCount, i18n ), wordCount, this._config.recommendedMinimum ) );
+		assessmentResult.setText(
+			i18n.sprintf( this.translateScore( assessmentResult.getScore(), wordCount, i18n ), wordCount, this._config.recommendedMinimum ) );
 
 		return assessmentResult;
 	}
@@ -76,12 +77,12 @@ class TextLengthAssessment extends Assessment {
 			return this._config.scores.belowMinimum;
 		}
 
-		if ( inRange( wordCount, this._config.farBelowMinimum, this._config.belowMinimum ) ) {
-			return this._config.scores.slightlyFarBelowMinimum;
+		if ( inRange( wordCount, this._config.veryFarBelowMinimum, this._config.belowMinimum ) ) {
+			return this._config.scores.farBelowMinimum;
 		}
 
-		if ( inRange( wordCount, 0, this._config.farBelowMinimum ) ) {
-			return this._config.scores.farBelowMinimum;
+		if ( inRange( wordCount, 0, this._config.veryFarBelowMinimum ) ) {
+			return this._config.scores.veryFarBelowMinimum;
 		}
 
 		return null;
@@ -90,13 +91,14 @@ class TextLengthAssessment extends Assessment {
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {number} wordCount The amount of words to be checked against.
+	 * @param {number} score The amount of words to be checked against.
+	 * @param {number} wordCount The amount of words.
 	 * @param {object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( wordCount, i18n ) {
-		if ( wordCount >= this._config.recommendedMinimum ) {
+	translateScore( score, wordCount, i18n ) {
+		if ( score === this._config.scores.recommendedMinimum ) {
 			return i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: %1$d expands to the number of words in the text */
@@ -112,7 +114,7 @@ class TextLengthAssessment extends Assessment {
 			);
 		}
 
-		if ( inRange( wordCount, this._config.slightlyBelowMinimum, this._config.recommendedMinimum ) ) {
+		if ( score === this._config.scores.slightlyBelowMinimum ) {
 			return i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: %1$d expands to the number of words in the text */
@@ -128,7 +130,7 @@ class TextLengthAssessment extends Assessment {
 			);
 		}
 
-		if ( inRange( wordCount, this._config.farBelowMinimum, this._config.slightlyBelowMinimum )  ) {
+		if ( score === this._config.scores.belowMinimum ) {
 			return i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: %1$d expands to the number of words in the text */
@@ -144,7 +146,7 @@ class TextLengthAssessment extends Assessment {
 			);
 		}
 
-		if ( this._config.farBelowMinimum !== 0 && inRange( wordCount, 0, this._config.farBelowMinimum ) ) {
+		if ( score === this._config.scores.farBelowMinimum || score === this._config.scores.veryFarBelowMinimum ) {
 			return i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: %1$d expands to the number of words in the text */

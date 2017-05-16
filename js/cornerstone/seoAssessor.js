@@ -68,8 +68,8 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 			farBelowMinimum: 0,
 
 			scores: {
-				belowMinimum: -10,
-				slightlyFarBelowMinimum: -20,
+				belowMinimum: -20,
+				farBelowMinimum: -20,
 			},
 		} ),
 		new OutboundLinks( {
