@@ -18,7 +18,9 @@ class UrlLengthAssessment extends Assessment {
 		super();
 
 		let defaultConfig = {
-			scoreWhenTooLong: 5,
+			scores: {
+				tooLong: 6,
+			},
 		};
 
 		this.identifier = "urlLength";
@@ -45,7 +47,7 @@ class UrlLengthAssessment extends Assessment {
 	}
 
 	/**
-	 * Is this assessment applicable?
+	 * Checks whether the paper has a url.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
@@ -58,7 +60,7 @@ class UrlLengthAssessment extends Assessment {
 	/**
 	 * Calculates the score based on the url length.
 	 *
-	 * @param {boolean} urlIsTooLong TRue when the URL is too long.
+	 * @param {boolean} urlIsTooLong True when the URL is too long.
 	 *
 	 * @returns {number|null} The calculated score.
 	 */
@@ -73,7 +75,7 @@ class UrlLengthAssessment extends Assessment {
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {boolean} urlIsTooLong TRue when the URL is too long.
+	 * @param {boolean} urlIsTooLong True when the URL is too long.
 	 * @param {object} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.

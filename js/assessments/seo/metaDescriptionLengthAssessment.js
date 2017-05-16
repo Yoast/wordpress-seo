@@ -18,9 +18,14 @@ class MetaDescriptionLengthAssessment extends Assessment {
 		super();
 
 		let defaultConfig = {
-			recommendedValue: 120,
-			maximumValue: 156,
-			wrongLengthScore: 6,
+			recommendedMaximumLength: 120,
+			maximumLength: 156,
+			scores: {
+				noMetaDescription: 1,
+				tooLong: 6,
+				tooShort: 6,
+				correctLength: 9,
+			},
 		};
 
 		this.identifier = "metaDescriptionLength";
@@ -55,19 +60,19 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	 */
 	calculateScore( descriptionLength ) {
 		if ( descriptionLength === 0 ) {
-			return 1;
+			return this._config.scores.noMetaDescription;
 		}
 
-		if ( descriptionLength <= this._config.recommendedValue ) {
-			return this._config.wrongLengthScore;
+		if ( descriptionLength <= this._config.recommendedMaximumLength ) {
+			return this._config.scores.tooShort;
 		}
 
-		if ( descriptionLength > this._config.maximumValue ) {
-			return this._config.wrongLengthScore;
+		if ( descriptionLength > this._config.maximumLength ) {
+			return this._config.scores.tooLong;
 		}
 
-		if ( descriptionLength >= this._config.recommendedValue && descriptionLength <= this._config.maximumValue ) {
-			return 9;
+		if ( descriptionLength >= this._config.recommendedMaximumLength && descriptionLength <= this._config.maximumLength ) {
+			return this._config.scores.correctLength;
 		}
 
 		return 0;
@@ -87,17 +92,17 @@ class MetaDescriptionLengthAssessment extends Assessment {
 				"Search engines will display copy from the page instead." );
 		}
 
-		if ( descriptionLength <= this._config.recommendedValue ) {
+		if ( descriptionLength <= this._config.recommendedMaximumLength ) {
 			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters long. " +
-				"However, up to %2$d characters are available." ), this._config.recommendedValue, this._config.maximumValue );
+				"However, up to %2$d characters are available." ), this._config.recommendedMaximumLength, this._config.maximumLength );
 		}
 
-		if ( descriptionLength > this._config.maximumValue ) {
+		if ( descriptionLength > this._config.maximumLength ) {
 			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is over %1$d characters. " +
-				"Reducing the length will ensure the entire description will be visible." ), this._config.maximumValue );
+				"Reducing the length will ensure the entire description will be visible." ), this._config.maximumLength );
 		}
 
-		if ( descriptionLength >= this._config.recommendedValue && descriptionLength <= this._config.maximumValue ) {
+		if ( descriptionLength >= this._config.recommendedMaximumLength && descriptionLength <= this._config.maximumLength ) {
 			return i18n.dgettext( "js-text-analysis", "The length of the meta description is sufficient." );
 		}
 	}

@@ -4,7 +4,7 @@ let isEmpty = require( "lodash/isEmpty" );
 let merge = require( "lodash/merge" );
 
 /**
- * Assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
+ * Represents the assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
  */
 class TextImagesAssessment extends Assessment {
 
@@ -22,9 +22,9 @@ class TextImagesAssessment extends Assessment {
 			scores: {
 				noImages: 3,
 				withAltKeyword: 9,
-				withAltNonKeyword: 5,
-				withAlt: 5,
-				noAlt: 5,
+				withAltNonKeyword: 6,
+				withAlt: 6,
+				noAlt: 6,
 			},
 		};
 
@@ -57,7 +57,7 @@ class TextImagesAssessment extends Assessment {
 	}
 
 	/**
-	 * Is this assessment applicable?
+	 * Checks whether the paper has text.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *

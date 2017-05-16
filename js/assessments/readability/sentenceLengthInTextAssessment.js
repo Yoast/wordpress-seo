@@ -26,10 +26,9 @@ class SentenceLengthInTextAssessment extends Assessment {
 		super();
 
 		let defaultConfig = {
-			recommendedValue: 20,
-			maximumPercentage: 25,
-			greenPercentage: 25,
-			redPercentage: 30,
+			recommendedWordCount: 20,
+			slightlyTooMany: 25,
+			farTooMany: 30,
 		};
 
 		this.identifier = "textSentenceLength";
@@ -59,7 +58,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	}
 
 	/**
-	 * Is this assessment applicable?
+	 * Checks whether the paper has text.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
@@ -107,7 +106,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 				// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 				// %5$s expands to the recommended maximum percentage.
 				"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less than or equal to the recommended maximum of %5$s."
-			), percentage + "%", sentenceLengthURL, this._config.recommendedValue, "</a>", this._config.maximumPercentage + "%"
+			), percentage + "%", sentenceLengthURL, this._config.recommendedWordCount, "</a>", this._config.slightlyTooMany + "%"
 			);
 		}
 
@@ -117,7 +116,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 			// %5$s expands to the recommended maximum percentage.
 			"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more than the recommended maximum of %5$s. " +
 			"Try to shorten the sentences."
-		), percentage + "%", sentenceLengthURL, this._config.recommendedValue, "</a>", this._config.maximumPercentage + "%" );
+		), percentage + "%", sentenceLengthURL, this._config.recommendedWordCount, "</a>", this._config.slightlyTooMany + "%" );
 	}
 
 	/**
@@ -148,17 +147,17 @@ class SentenceLengthInTextAssessment extends Assessment {
 		let score;
 
 		// Green indicator.
-		if ( percentage <= this._config.greenPercentage ) {
+		if ( percentage <= this._config.slightlyTooMany ) {
 			score = 9;
 		}
 
 		// Orange indicator.
-		if ( inRange( percentage, this._config.greenPercentage, this._config.redPercentage ) ) {
+		if ( inRange( percentage, this._config.slightlyTooMany, this._config.farTooMany ) ) {
 			score = 6;
 		}
 
 		// Red indicator.
-		if ( percentage > this._config.redPercentage ) {
+		if ( percentage > this._config.farTooMany ) {
 			score = 3;
 		}
 
@@ -172,7 +171,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {array} Array with all the sentences considered to be too long.
 	 */
 	getTooLongSentences( sentences ) {
-		return countTooLongSentences( sentences, this._config.recommendedValue );
+		return countTooLongSentences( sentences, this._config.recommendedWordCount );
 	}
 
 	/**

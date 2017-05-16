@@ -18,7 +18,7 @@ class Assessment {
 	}
 
 	/**
-	 * Is this assessment applicable?
+	 * Checks whether the assessment is applicable
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *

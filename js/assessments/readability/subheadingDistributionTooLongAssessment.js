@@ -25,9 +25,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		let defaultConfig = {
 			// The maximum recommended value of the subheading text.
-			recommendedValue: 300,
-			greenBulletTreshold: 300,
-			redBulletTreshhold: 350,
+			recommendedMaximumWordCount: 300,
+			slightlyTooMany: 300,
+			farTooMany: 350,
 		};
 
 		this.identifier = "subheadingsTooLong";
@@ -64,7 +64,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 
 	/**
-	 * Is this assessment applicable?
+	 * Checks whether the paper has text.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
@@ -101,7 +101,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	getTooLongSubheadingTexts( subheadingTextsLength ) {
 		return filter( subheadingTextsLength, function( subheading ) {
-			return isTextTooLong( this._config.recommendedValue, subheading.wordCount );
+			return isTextTooLong( this._config.recommendedMaximumWordCount, subheading.wordCount );
 		}.bind( this ) );
 	}
 
@@ -122,17 +122,17 @@ class SubheadingsDistributionTooLong extends Assessment {
 		let longestSubheadingTextLength = subheadingTextsLength[ 0 ].wordCount;
 
 		// Green indicator.
-		if ( longestSubheadingTextLength <= this._config.greenBulletTreshold ) {
+		if ( longestSubheadingTextLength <= this._config.slightlyTooMany ) {
 			score = 9;
 		}
 
 		// Orange indicator.
-		if ( inRange( longestSubheadingTextLength, this._config.greenBulletTreshold, this._config.redBulletTreshhold  ) ) {
+		if ( inRange( longestSubheadingTextLength, this._config.slightlyTooMany, this._config.farTooMany  ) ) {
 			score = 6;
 		}
 
 		// Red indicator.
-		if ( longestSubheadingTextLength > this._config.redBulletTreshhold ) {
+		if ( longestSubheadingTextLength > this._config.farTooMany ) {
 			score = 3;
 		}
 
@@ -161,7 +161,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 				i18n.dgettext(
 					"js-text-analysis",
 					"The amount of words following each of the subheadings doesn't exceed the recommended maximum of %1$d words, which is great."
-				), this._config.recommendedValue );
+				), this._config.recommendedMaximumWordCount );
 		}
 
 
@@ -172,7 +172,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 				"%1$d subheading is followed by more than the recommended maximum of %2$d words. Try to insert another subheading.",
 				"%1$d of the subheadings are followed by more than the recommended maximum of %2$d words. Try to insert additional subheadings.",
 				tooLongTexts ),
-			tooLongTexts, this._config.recommendedValue
+			tooLongTexts, this._config.recommendedMaximumWordCount
 		);
 	}
 }

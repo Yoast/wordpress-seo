@@ -22,7 +22,7 @@ class PageTitleWidthAssesment extends Assessment {
 			minLength: 400,
 			maxLength: 600,
 			scores: {
-				noWidth: 1,
+				noTitle: 1,
 				widthTooShort: 6,
 				widthTooLong: 6,
 				widthCorrect: 9,
@@ -72,7 +72,7 @@ class PageTitleWidthAssesment extends Assessment {
 			return this._config.scores.widthTooLong;
 		}
 
-		return this._config.scores.noWidth;
+		return this._config.scores.noTitle;
 	}
 
 	/**

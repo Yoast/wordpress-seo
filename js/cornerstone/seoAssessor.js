@@ -22,7 +22,7 @@ let urlStopWords = require( "../assessments/seo/urlStopWordsAssessment.js" );
 /**
  * Creates the Assessor
  *
- * @param {object} i18n The i18n object used for translations.
+ * @param {Object} i18n The i18n object used for translations.
  * @param {Object} options The options for this assessor.
  * @param {Object} options.marker The marker to pass the list of marks to.
  *
@@ -37,13 +37,18 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 		keywordDensity,
 		keywordStopWords,
 		metaDescriptionKeyword,
-		new MetaDescriptionLength( { wrongLengthScore: 3 } ),
+		new MetaDescriptionLength( {
+			scores:	{
+				tooLong: 3,
+				tooShort: 3,
+			},
+		} ),
 		new SubheadingsKeyword(
 			{
 				scores: {
 					noMatches: 3,
 					oneMatch: 6,
-					hasMatches: 9,
+					multipleMatches: 9,
 				},
 			}
 		),
@@ -68,8 +73,8 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 			},
 		} ),
 		new OutboundLinks( {
-			score: {
-				whenNoLinks: 3,
+			scores: {
+				noLinks: 3,
 			},
 		} ),
 		internalLinks,
@@ -82,8 +87,18 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 				},
 			}
 		),
-		new UrlKeyword( { scoreWhenNoResults: 3 } ),
-		new UrlLength( { scoreWhenTooLong: 3 } ),
+		new UrlKeyword(
+			{
+				scores: {
+					noKeywordInUrl: 6,
+				},
+			}
+		),
+		new UrlLength( {
+			scores: {
+				tooLong: 6,
+			},
+		} ),
 		urlStopWords,
 	];
 };

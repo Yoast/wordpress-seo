@@ -19,11 +19,11 @@ class OutboundLinksAssessment extends Assessment {
 		super();
 
 		let defaultConfig = {
-			score: {
-				whenNoLinks: 6,
-				whenAllNofollowed: 7,
-				whenMoreNoFollowed: 8,
-				whenAllFollowed: 9,
+			scores: {
+				noLinks: 6,
+				allNofollowed: 7,
+				moreNoFollowed: 8,
+				allFollowed: 9,
 			},
 		};
 
@@ -51,7 +51,7 @@ class OutboundLinksAssessment extends Assessment {
 	}
 
 	/**
-	 * Is this assessment applicable?
+	 * Checks whether paper has text.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
@@ -70,19 +70,19 @@ class OutboundLinksAssessment extends Assessment {
 	 */
 	calculateScore( linkStatistics ) {
 		if ( linkStatistics.externalTotal === 0 ) {
-			return this._config.score.whenNoLinks;
+			return this._config.scores.noLinks;
 		}
 
 		if ( linkStatistics.externalNofollow === linkStatistics.total ) {
-			return this._config.score.whenAllNofollowed;
+			return this._config.scores.allNofollowed;
 		}
 
 		if ( linkStatistics.externalNofollow < linkStatistics.externalTotal ) {
-			return this._config.score.whenMoreNoFollowed;
+			return this._config.scores.moreNoFollowed;
 		}
 
 		if ( linkStatistics.externalDofollow === linkStatistics.total ) {
-			return this._config.score.whenAllFollowed;
+			return this._config.scores.allFollowed;
 		}
 
 		return null;
@@ -117,7 +117,7 @@ class OutboundLinksAssessment extends Assessment {
 		}
 
 		if ( linkStatistics.externalDofollow === linkStatistics.total ) {
-				/* Translators: %1$s expands to the number of outbound links */
+			/* Translators: %1$s expands to the number of outbound links */
 			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal );
 		}
 

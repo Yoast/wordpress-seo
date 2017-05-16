@@ -5,7 +5,7 @@ let Paper = require("../../js/values/Paper.js");
 let forEach = require( "lodash/forEach" );
 let i18n = Factory.buildJed();
 
-describe( "A content assesor", function() {
+describe( "A content assessor", function() {
 	var contentAssessor;
 
 	beforeEach( function() {
@@ -89,7 +89,9 @@ describe( "A content assesor", function() {
 				new AssessmentResult({ score: 9 }),
 				new AssessmentResult({ text: "A piece of feedback" })
 			];
-			var expected = 6 + 6;
+
+			// 2 bad scores (x3 points) and 3 ok scores (x2 points).
+			var expected = 12;
 
 			var actual = contentAssessor.calculatePenaltyPoints();
 

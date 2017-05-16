@@ -12,8 +12,8 @@ let textPresence = require( "../assessments/readability/textPresenceAssessment.j
 /*
  Temporarily disabled:
 
- var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
- var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
+ var wordComplexity = require( "./assessments/readability/wordComplexityAssessment.js" );
+ var sentenceLengthInDescription = require( "./assessments/readability/sentenceLengthInDescriptionAssessment.js" );
  */
 
 /**
@@ -34,15 +34,15 @@ let CornerStoneContentAssessor = function( i18n, options ) {
 		new SubheadingDistributionTooLong(
 			{
 
-				greenBulletTreshold: 250,
-				redBulletTreshhold: 300,
+				slightlyTooMany: 250,
+				farTooMany: 300,
 			}
 		),
 		paragraphTooLong,
 		new SentenceLengthInText(
 			{
-				greenPercentage: 20,
-				redPercentage: 25,
+				slightlyTooMany: 20,
+				farTooMany: 25,
 			}
 		),
 		transitionWords,

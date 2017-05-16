@@ -21,7 +21,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 			scores: {
 				noMatches: 6,
 				oneMatch: 9,
-				hasMatches: 9,
+				multipleMatches: 9,
 			},
 		};
 
@@ -50,7 +50,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Is this assessment applicable?
+	 * Checks whether the paper has a text and a keyword.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
@@ -76,7 +76,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		}
 
 		if ( subHeadings.matches > 1 ) {
-			return this._config.scores.hasMatches;
+			return this._config.scores.multipleMatches;
 		}
 
 		return null;
@@ -92,7 +92,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( score, subHeadings, i18n ) {
-		if ( score === this._config.scores.hasMatches ) {
+		if ( score === this._config.scores.multipleMatches ) {
 			return i18n.sprintf(
 				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
 					"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches
