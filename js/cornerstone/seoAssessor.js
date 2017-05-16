@@ -90,13 +90,13 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 		new UrlKeyword(
 			{
 				scores: {
-					noKeywordInUrl: 6,
+					noKeywordInUrl: 3,
 				},
 			}
 		),
 		new UrlLength( {
 			scores: {
-				tooLong: 6,
+				tooLong: 3,
 			},
 		} ),
 		urlStopWords,
