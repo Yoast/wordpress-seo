@@ -5,6 +5,11 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.6.0:
+
+### Changed
+* Changes the color blue from #0075b3 to #0066cd.
+
 ## 2.5.0: 
 
 ### Added
