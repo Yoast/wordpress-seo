@@ -11,7 +11,7 @@ describe( "An assessment for the urlLengthAssessment", function(){
         var paper = new Paper();
         var result = urlLengthAssessment.getResult( paper, factory.buildMockResearcher( true ), i18n );
 
-        expect( result.score ).toBe( 5 );
+        expect( result.score ).toBe( 6 );
         expect( result.text ).toBe( "The slug for this page is a bit long, consider shortening it." );
 
         var paper = new Paper();

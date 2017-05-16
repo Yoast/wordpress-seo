@@ -66,7 +66,7 @@ class UrlLengthAssessment extends Assessment {
 	 */
 	calculateScore( urlIsTooLong ) {
 		if ( urlIsTooLong ) {
-			return this._config.scoreWhenTooLong;
+			return this._config.scores.tooLong;
 		}
 
 		return null;
