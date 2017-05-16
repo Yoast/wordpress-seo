@@ -1,4 +1,4 @@
-var passiveVoiceAssessment = require( "../../js/assessments/passiveVoiceAssessment.js" );
+var passiveVoiceAssessment = require( "../../js/assessments/readability/passiveVoiceAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();

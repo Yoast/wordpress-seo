@@ -61,7 +61,7 @@ Assessor.prototype.getAvailableAssessments = function() {
  * @returns {boolean} Whether or not the Assessment is applicable.
  */
 Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
-	if ( assessment.hasOwnProperty( "isApplicable" ) ) {
+	if ( assessment.hasOwnProperty( "isApplicable" ) || typeof assessment.isApplicable === "function" ) {
 		return assessment.isApplicable( paper, researcher );
 	}
 
@@ -79,7 +79,7 @@ Assessor.prototype.hasMarker = function( assessment ) {
 		return false;
 	}
 
-	return isFunction( this._options.marker ) && assessment.hasOwnProperty( "getMarks" );
+	return isFunction( this._options.marker ) && ( assessment.hasOwnProperty( "getMarks" ) || typeof assessment.getMarks === "function" );
 };
 
 /**

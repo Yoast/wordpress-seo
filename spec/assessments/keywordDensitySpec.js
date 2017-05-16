@@ -1,4 +1,4 @@
-var keywordDensityAssessment = require( "../../js/assessments/keywordDensityAssessment.js" );
+var keywordDensityAssessment = require( "../../js/assessments/seo/keywordDensityAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );

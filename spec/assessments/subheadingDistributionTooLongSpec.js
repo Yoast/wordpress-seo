@@ -1,10 +1,12 @@
-import subheadingDistributionTooLong from "../../js/assessments/subheadingDistributionTooLongAssessment.js";
+import SubheadingDistributionTooLong from "../../js/assessments/readability/subheadingDistributionTooLongAssessment.js";
 import Paper from "../../js/values/Paper.js";
 import Factory from "../helpers/factory.js";
 import Mark from "../../js/values/Mark.js";
 let i18n = Factory.buildJed();
 
 let paper = new Paper();
+let subheadingDistributionTooLong = new SubheadingDistributionTooLong();
+
 describe( "An assessment for scoring too long text fragments following a subheading.", function() {
 	it( "scores 3 text fragments, 0 are too long", function() {
 		let assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ {text: "", wordCount: 60},  {text: "", wordCount: 100}, {text: "", wordCount: 300} ] ), i18n );
