@@ -44,11 +44,7 @@ class TextImagesAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		let assessmentResult = new AssessmentResult();
 		let imageCount = researcher.getResearch( "imageCount" );
-
-		let altProperties = {};
-		if ( ! isEmpty( imageCount ) ) {
-			altProperties = researcher.getResearch( "altTagCount" );
-		}
+		let altProperties = researcher.getResearch( "altTagCount" );
 
 		assessmentResult.setScore( this.calculateScore( imageCount, altProperties ) );
 		assessmentResult.setText( this.translateScore( imageCount, altProperties, i18n ) );
