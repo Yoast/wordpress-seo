@@ -1,6 +1,5 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let Assessment = require( "../../assessment.js" );
-let isEmpty = require( "lodash/isEmpty" );
 let merge = require( "lodash/merge" );
 
 /**
