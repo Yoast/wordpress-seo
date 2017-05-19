@@ -26,14 +26,13 @@ describe( "An assessment for matching keywords in subheadings", function(){
 		var assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 1, matches: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "The focus keyword appears in 1 (out of 1) subheadings in the copy. While not a major ranking factor, this is beneficial." );
+		expect( assessment.getText() ).toEqual ( "The focus keyword appears in 1 (out of 1) subheadings in your copy. Try to use it in at least one more subheading." );
 	} );
 	it( "assesses a string with subheadings and keywords", function(){
 		var mockPaper = new Paper();
 		var assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 10, matches: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "The focus keyword appears in 1 (out of 10) subheadings in the copy. While not a major ranking factor, this is beneficial." );
+		expect( assessment.getText() ).toEqual ( "The focus keyword appears in 1 (out of 10) subheadings in your copy. Try to use it in at least one more subheading." );
 	} );
 } );
-
