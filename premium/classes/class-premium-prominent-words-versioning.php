@@ -97,6 +97,8 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 	 * Renames the meta key for the prominent words version. It was a public meta field and it has to be private.
 	 */
 	public static function upgrade_4_7() {
+		global $wpdb;
+
 		// The meta key has to be private, so prefix it.
 		$wpdb->query(
 			$wpdb->prepare(
