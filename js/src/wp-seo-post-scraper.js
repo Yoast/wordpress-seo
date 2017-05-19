@@ -381,6 +381,14 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
 			snippetPreviewHelpers.isolate( snippetContainer );
 		}
+
+		// Switch between assessors when checkbox has been checked.
+		let cornerstoneCheckbox = jQuery( "#_yst_is_cornerstone" );
+		app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
+		cornerstoneCheckbox.change( function() {
+			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
+		} );
+
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );
