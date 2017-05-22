@@ -274,6 +274,10 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 				),
 			),
+			array(
+				'name' => 'polyfill',
+				'src'  => 'wp-seo-babel-polyfill-' . $flat_version
+			),
 		);
 	}
 
