@@ -92,17 +92,10 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( score, subHeadings, i18n ) {
-		if ( score === this._config.scores.multipleMatches ) {
+		if ( score === this._config.scores.multipleMatches || score === this._config.scores.oneMatch ) {
 			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
-					"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches
-			);
-		}
-
-		if ( score === this._config.scores.oneMatch ) {
-			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
-					"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches
+				i18n.dgettext( "js-text-analysis", "The focus keyword appears only in %2$d (out of %1$d) subheadings in your copy. " +
+					"Try to use it in at least one more subheading." ), subHeadings.count, subHeadings.matches
 			);
 		}
 
