@@ -100,13 +100,13 @@ var passiveVoiceMarker = function( paper, researcher ) {
 };
 
 /**
- * Runs the getParagraphLength module, based on this returns an assessment result with score and text.
+ * Runs the passiveVoice module, based on this returns an assessment result with score and text.
  * @param {object} paper The paper to use for the assessment.
  * @param {object} researcher The researcher used for calling research.
  * @param {object} i18n The object used for translations.
  * @returns {object} the Assessmentresult
  */
-var paragraphLengthAssessment = function( paper, researcher, i18n ) {
+var passiveVoiceAssessment = function( paper, researcher, i18n ) {
 	var passiveVoice = researcher.getResearch( "passiveVoice" );
 
 	var passiveVoiceResult = calculatePassiveVoiceResult( passiveVoice, i18n );
@@ -122,7 +122,7 @@ var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 
 module.exports = {
 	identifier: "passiveVoice",
-	getResult: paragraphLengthAssessment,
+	getResult: passiveVoiceAssessment,
 	isApplicable: function( paper ) {
 		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
