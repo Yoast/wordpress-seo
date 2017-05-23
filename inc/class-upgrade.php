@@ -291,17 +291,17 @@ class WPSEO_Upgrade {
 	private function upgrade_49() {
 		global $wpdb;
 
-		$usermetas = $wpdb->get_results( "
+		$usermetas = $wpdb->get_results( '
 			SELECT user_id, meta_value 
-			FROM " . $wpdb->usermeta . " 
-			WHERE meta_key = 'wp_yoast_notifications' && meta_value LIKE '%wpseo-dismiss-about%'
-			", ARRAY_A
+			FROM ' . $wpdb->usermeta . ' 
+			WHERE meta_key = "wp_yoast_notifications" && meta_value LIKE "%wpseo-dismiss-about%"
+			', ARRAY_A
 		);
 
-		foreach( $usermetas as $usermeta ) {
+		foreach ( $usermetas as $usermeta ) {
 			$notifications = unserialize( $usermeta['meta_value'] );
 
-			foreach( $notifications as $notification_key => $notification ) {
+			foreach ( $notifications as $notification_key => $notification ) {
 				if ( ! empty( $notification['options']['id'] ) && $notification['options']['id'] === 'wpseo-dismiss-about' ) {
 					unset( $notifications[ $notification_key ] );
 				}
@@ -309,11 +309,11 @@ class WPSEO_Upgrade {
 
 			// Using a hard query, because WordPress is caching the user meta.
 			$wpdb->query(
-				$wpdb->prepare("
-					UPDATE " . $wpdb->usermeta . " 
-					SET meta_value = '%s' 
-					WHERE meta_key = 'wp_yoast_notifications' && user_id = '%s' 	
-					",
+				$wpdb->prepare('
+					UPDATE ' . $wpdb->usermeta . '
+					SET meta_value = "%s"
+					WHERE meta_key = "wp_yoast_notifications" && user_id = "%s"
+					',
 					serialize( $notifications ),
 					$usermeta['user_id']
 				)
