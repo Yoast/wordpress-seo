@@ -68,6 +68,11 @@ class WPSEO_Upgrade {
 			$this->upgrade_47();
 		}
 
+		if ( version_compare( $this->options['version'], '4.9', '<' ) ) {
+			$this->upgrade_49();
+		}
+
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -278,5 +283,41 @@ class WPSEO_Upgrade {
 				WPSEO_Cornerstone::META_NAME
 			)
 		);
+	}
+
+	/**
+	 * Removes the 'wpseo-dismiss-about' notice for every user that still has it.
+	 */
+	private function upgrade_49() {
+		global $wpdb;
+
+		$usermetas = $wpdb->get_results( "
+			SELECT user_id, meta_value 
+			FROM " . $wpdb->usermeta . " 
+			WHERE meta_key = 'wp_yoast_notifications' && meta_value LIKE '%wpseo-dismiss-about%'
+			", ARRAY_A
+		);
+
+		foreach( $usermetas as $usermeta ) {
+			$notifications = unserialize( $usermeta['meta_value'] );
+
+			foreach( $notifications as $notification_key => $notification ) {
+				if ( ! empty( $notification['options']['id'] ) && $notification['options']['id'] === 'wpseo-dismiss-about' ) {
+					unset( $notifications[ $notification_key ] );
+				}
+			}
+
+			// Using a hard query, because WordPress is caching the user meta.
+			$wpdb->query(
+				$wpdb->prepare("
+					UPDATE " . $wpdb->usermeta . " 
+					SET meta_value = '%s' 
+					WHERE meta_key = 'wp_yoast_notifications' && user_id = '%s' 	
+					",
+					serialize( $notifications ),
+					$usermeta['user_id']
+				)
+			);
+		}
 	}
 }
