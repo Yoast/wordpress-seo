@@ -14,10 +14,8 @@ $yform->currentoption = 'wpseo_internallinks';
 
 echo '<h2>' . __( 'Breadcrumbs settings', 'wordpress-seo' ) . '</h2>';
 
-if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
-	$yform->light_switch( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
-	echo '<br/>';
-}
+$yform->light_switch( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
+echo '<br/>';
 echo '<div id="breadcrumbsinfo">';
 $yform->textinput( 'breadcrumbs-sep', __( 'Separator between breadcrumbs', 'wordpress-seo' ) );
 $yform->textinput( 'breadcrumbs-home', __( 'Anchor text for the Homepage', 'wordpress-seo' ) );
