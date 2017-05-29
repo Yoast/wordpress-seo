@@ -55,7 +55,7 @@ class WPSEO_Cornerstone_Filter {
 			global $wpdb;
 
 			$where .= sprintf(
-				' AND ID IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "1" ) ',
+				' AND ' . $wpdb->posts . '.ID IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "1" ) ',
 				WPSEO_Cornerstone::META_NAME
 			);
 		}
