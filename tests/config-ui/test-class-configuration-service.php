@@ -193,6 +193,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 		$this->configuration_service->set_storage( $storage );
 		$this->configuration_service->set_options_adapter( new WPSEO_Configuration_Options_Adapter() );
 		$this->configuration_service->set_components( new WPSEO_Configuration_Components() );
+		$this->configuration_service->set_structure( new WPSEO_Configuration_Structure() );
 		$this->configuration_service->set_configuration( $data );
 	}
 

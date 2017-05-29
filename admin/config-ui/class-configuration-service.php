@@ -30,22 +30,8 @@ class WPSEO_Configuration_Service {
 	 * Hook into the REST API and switch language.
 	 */
 	public function initialize() {
-		// Switch to the user locale with fallback to the site locale.
-		if ( function_exists( 'switch_to_locale' ) ) {
-			switch_to_locale( WPSEO_Utils::get_user_locale() );
-		}
-
-		// Make sure we have our translations available.
-		wpseo_load_textdomain();
-
 		$this->set_default_providers();
-		$this->populate_configuration();
 		$this->endpoint->register();
-
-		// @todo: check if this is really needed, since the switch happens only in the API.
-		if ( function_exists( 'restore_current_locale' ) ) {
-			restore_current_locale();
-		}
 	}
 
 	/**
@@ -119,11 +105,26 @@ class WPSEO_Configuration_Service {
 	 * Populate the configuration
 	 */
 	protected function populate_configuration() {
+		// Switch to the user locale with fallback to the site locale.
+		if ( function_exists( 'switch_to_locale' ) ) {
+			switch_to_locale( WPSEO_Utils::get_user_locale() );
+		}
+
+		// Make sure we have our translations available.
+		wpseo_load_textdomain();
+
+		$this->structure->initialize();
+
 		$this->storage->set_adapter( $this->adapter );
 		$this->storage->add_default_fields();
 
 		$this->components->initialize();
 		$this->components->set_storage( $this->storage );
+
+		// @todo: check if this is really needed, since the switch happens only in the API.
+		if ( function_exists( 'restore_current_locale' ) ) {
+			restore_current_locale();
+		}
 	}
 
 	/**
@@ -132,6 +133,7 @@ class WPSEO_Configuration_Service {
 	 * @return array List of settings.
 	 */
 	public function get_configuration() {
+		$this->populate_configuration();
 		$fields = $this->storage->retrieve();
 		$steps  = $this->structure->retrieve();
 		$translations = $this->translations->retrieve();

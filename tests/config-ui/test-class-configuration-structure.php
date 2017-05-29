@@ -38,9 +38,11 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Structure::__construct()
+	 * @covers WPSEO_Configuration_Structure::initialize()
 	 */
 	public function test_constructor() {
+		$this->structure->initialize();
+		
 		$steps = $this->structure->retrieve();
 
 		$expected = array(
