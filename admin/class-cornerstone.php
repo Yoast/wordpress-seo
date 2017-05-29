@@ -25,6 +25,12 @@ class WPSEO_Cornerstone {
 	public function save_meta_value( $post_id ) {
 		$is_cornerstone = ( filter_input( INPUT_POST, self::META_NAME ) === '1' );
 
-		update_post_meta( $post_id, self::META_NAME, $is_cornerstone );
+		if ( $is_cornerstone ) {
+			update_post_meta( $post_id, self::META_NAME, $is_cornerstone );
+
+			return;
+		}
+
+		delete_post_meta( $post_id, self::META_NAME );
 	}
 }
