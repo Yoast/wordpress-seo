@@ -23,6 +23,9 @@ class WPSEO_Configuration_Service {
 	/** @var WPSEO_Configuration_Options_Adapter */
 	protected $adapter;
 
+	/** @var WPSEO_Configuration_Translations */
+	protected $translations;
+
 	/**
 	 * Hook into the REST API and switch language.
 	 */
@@ -54,6 +57,7 @@ class WPSEO_Configuration_Service {
 		$this->set_components( new WPSEO_Configuration_Components() );
 		$this->set_endpoint( new WPSEO_Configuration_Endpoint() );
 		$this->set_structure( new WPSEO_Configuration_Structure() );
+		$this->set_translations( new WPSEO_Configuration_Translations( WPSEO_Utils::get_user_locale() ) );
 	}
 
 	/**
@@ -103,6 +107,15 @@ class WPSEO_Configuration_Service {
 	}
 
 	/**
+	 * Sets the translations object.
+	 *
+	 * @param WPSEO_Configuration_Translations $translations The translations object.
+	 */
+	public function set_translations( WPSEO_Configuration_Translations $translations ) {
+		$this->translations = $translations;
+	}
+
+	/**
 	 * Populate the configuration
 	 */
 	protected function populate_configuration() {
@@ -121,10 +134,12 @@ class WPSEO_Configuration_Service {
 	public function get_configuration() {
 		$fields = $this->storage->retrieve();
 		$steps  = $this->structure->retrieve();
+		$translations = $this->translations->retrieve();
 
 		return array(
-			'fields' => $fields,
-			'steps'  => $steps,
+			'fields'       => $fields,
+			'steps'        => $steps,
+			'translations' => $translations,
 		);
 	}
 
