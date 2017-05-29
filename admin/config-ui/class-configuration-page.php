@@ -180,12 +180,12 @@ class WPSEO_Configuration_Page {
 	/**
 	 * Returns the translations necessary for the configuration wizard.
 	 *
-	 * @deprecated 4.8
+	 * @deprecated 4.9
 	 *
 	 * @returns array The translations for the configuration wizard.
 	 */
 	public function get_translations() {
-		_deprecated_function( __METHOD__, 'WPSEO 4.8', 'WPSEO_' );
+		_deprecated_function( __METHOD__, 'WPSEO 4.9', 'WPSEO_' );
 
 		$translations = new WPSEO_Configuration_Translations( WPSEO_Utils::get_user_locale() );
 
