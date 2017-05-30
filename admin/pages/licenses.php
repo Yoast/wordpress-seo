@@ -108,13 +108,7 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 		printf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
 		?></h1>
 
-	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab" id="extensions-tab" href="#top#extensions"><?php _e( 'Extensions', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="licenses-tab" href="#top#licenses"><?php _e( 'Licenses', 'wordpress-seo' ); ?></a>
-	</h2>
-
-	<div class="tabwrapper">
-		<div id="extensions" class="wpseotab">
+		<div id="extensions" class="">
 			<section class="yoast-seo-premium-extension">
 				<?php
 					$extension = $extensions['seo-premium'];
@@ -220,22 +214,5 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 				<?php endforeach; ?>
 			</section>
 		</div>
-
-		<div id="licenses" class="wpseotab">
-			<?php
-
-			/**
-			 * Display license page
-			 */
-			settings_errors();
-			if ( ! has_action( 'wpseo_licenses_forms' ) ) {
-				echo '<div class="msg"><p>', __( 'This is where you would enter the license keys for one of our premium plugins, should you activate one.', 'wordpress-seo' ), '</p></div>';
-			}
-			else {
-				do_action( 'wpseo_licenses_forms' );
-			}
-			?>
-		</div>
-	</div>
 
 </div>
