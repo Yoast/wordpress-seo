@@ -139,23 +139,38 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 				</ul>
 
 				<?php if ( $extension->installed ) : ?>
-					<div class="yoast-button yoast-button--noarrow yoast-button--installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
+					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
+
+					<?php if ( $extension->activated ) : ?>
+						<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php _e( 'Activated', 'wordpress-seo' ); ?></div>
+					<?php else : ?>
+						<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-not-activated"><?php _e( 'Not activated', 'wordpress-seo' ); ?></div>
+					<?php endif; ?>
+
+					<a target="_blank" href="https://my.yoast.com" class="yoast-link--license">
+						<?php
+						echo ( $extension->activated ) ? __( 'Manage your license on My Yoast', 'wordpress-seo' ) : __( 'Activate your license on My Yoast', 'wordpress-seo' );
+						?>
+					</a>
+
 				<?php else : ?>
-					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zz' ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
+
+					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zz' ); ?>" class="yoast-button yoast-button--noarrow yoast-button-go-to yoast-button--extension yoast-button--extension-buy">
+						<?php
 						/* translators: $1$s expands to Yoast SEO Premium */
 						printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->title );
 						?></a>
-				<?php endif; ?>
 
-				<a target="_blank" href="<?php WPSEO_Shortlinker::get( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php
-					printf(
+					<a target="_blank" href="<?php WPSEO_Shortlinker::get( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php
+						printf(
 						/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
-						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
-						'<span class="screen-reader-text">',
-						'</span>',
-						$extension->title
-					);
-					?></a>
+							__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
+							'<span class="screen-reader-text">',
+							'</span>',
+							$extension->title
+						);
+						?></a>
+				<?php endif; ?>
 
 				<p><small class="yoast-money-back-guarantee"><?php _e( 'Comes with our 30-day no questions asked money back guarantee', 'wordpress-seo' ); ?></small></p>
 			</section>
@@ -210,6 +225,7 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 								$extension->title
 							);
 							?></a>
+						<?php endif; ?>
 					</section>
 				<?php endforeach; ?>
 			</section>

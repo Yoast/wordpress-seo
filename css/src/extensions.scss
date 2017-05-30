@@ -56,14 +56,51 @@
 		}
 	}
 
-	&-button--installed {
-		background-color: $color-green;
-		cursor: default;
-		color: $color-white;
+	&-button {
 
-		&:hover {
-			background-color: $color-green;
-			text-decoration: none;
+		&--extension {
+			cursor: default;
+			color: $color-white;
+			text-transform: uppercase;
+			padding-left: 0.8em;
+			padding-right: 0.8em;
+
+			& + &-activated, & + &-not-activated {
+				margin-left: 0;
+			}
+
+			&-buy {
+				&, &:hover {
+					background-color: $color-pink-dark;
+				}
+			}
+
+			&-installed, &-activated, &-not-activated {
+				&:hover {
+					text-decoration: none;
+				}
+			}
+
+			&-installed {
+				margin-right: 0.2rem;
+
+				&, &:hover {
+					background-color: $color-green;
+				}
+			}
+
+			&-not-activated {
+				&, &:hover {
+					background-color: #ca2a2a;
+				}
+			}
+
+			&-activated {
+				&, &:hover {
+					background-color: $color-green;
+				}
+			}
+
 		}
 	}
 
@@ -80,7 +117,7 @@
 	}
 
 	&-promo-extension {
-		max-width: 330px;
+		max-width: 340px;
 		background-color: transparent;
 		border-color: $scheme-academy-secondary;
 		margin-left: $gutter;
@@ -99,13 +136,36 @@
 			}
 		}
 
+
+		.yoast {
+			&-list--usp {
+				height: 160px;
+			}
+		}
+
+
 		.yoast-button {
 			width: 100%;
 			max-height: none;
-		}
+			font-size: 0.9rem;
 
-		.yoast-button--installed {
-			width: auto;
+			&--extension {
+				font-size: 0.9rem;
+				text-align: center;
+				margin-top: 0;
+
+				&-installed {
+					margin: 0 2% 0 0;
+					width: 48%;
+				}
+
+				&-activated, &-not-activated {
+					margin-left: 0;
+					margin-right: 0;
+					width: 48%;
+				}
+			}
+
 		}
 
 		h3 {
@@ -134,6 +194,23 @@
 			}
 		}
 	}
+
+	&-link--license {
+		font-family: "Open Sans",Arial,sans-serif;
+		color: $color-pink-dark;
+		font-weight: 600;
+		margin:  1em 0 0 0;
+
+		.yoast-promo-extension & {
+			display: block;
+			margin:  1em 0 0 0;
+		}
+
+		&:after {
+			content: " \00BB";
+		}
+	}
+
 
 	&-link--more-info {
 		color: $color-grey-text;
