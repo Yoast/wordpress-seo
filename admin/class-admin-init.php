@@ -70,29 +70,23 @@ class WPSEO_Admin_Init {
 			$active_extensions = apply_filters( 'yoast-active-extensions', array() );
 		}
 
-		$extensions = array(
-			'Yoast SEO Premium',
-			'News SEO',
-			'WooCommerce SEO',
-			'Video SEO',
-			'Local SEO',
-		);
+		$extension_list = new WPSEO_Extensions();
+		$extensions = $extension_list->get();
+
+		array_map( array( $extension_list, 'invalidate' ), $extensions );
 
 		$notification_center = Yoast_Notification_Center::get();
 
 		foreach( $extensions as $product_name ) {
-			$option_name = sanitize_title_with_dashes( $product_name. '_', null, 'save' ) . 'license';
-			$extension_option = get_option( $option_name );
-
 			$notification_options = array(
 				'type'         => Yoast_Notification::ERROR,
-				'id'           => 'wpseo-dismiss-' . $option_name,
+				'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name,  null, 'save' ),
 				'capabilities' => 'manage_options',
 			);
 
 			$notification = new Yoast_Notification( sprintf( 'There is something wrong with %s', $product_name ), $notification_options );
 
-			if ( empty( $extension_option ) || $extension_option['status'] === 'valid' ) {
+			if ( ! $extension_list->is_valid( $product_name ) ) {
 				$notification_center->remove_notification( $notification );
 
 				continue;
