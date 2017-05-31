@@ -92,7 +92,7 @@ class WPSEO_Admin_Init {
 
 			$notification = new Yoast_Notification( sprintf( 'There is something wrong with %s', $product_name ), $notification_options );
 
-			if ( $extension_option['status'] === 'valid' ) {
+			if ( empty( $extension_option ) || $extension_option['status'] === 'valid' ) {
 				$notification_center->remove_notification( $notification );
 
 				continue;
