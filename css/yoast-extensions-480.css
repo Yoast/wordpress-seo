@@ -762,15 +762,47 @@ a.promoblock:hover {
 	content: " \00BB";
 }
 
-.yoast-button--installed {
+.yoast-button--extension {
+	padding-right: 0.8em;
+	padding-left: 0.8em;
 	color: #fff;
-	background-color: #77b227;
+	text-transform: uppercase;
 	cursor: default;
 }
 
-.yoast-button--installed:hover {
-	background-color: #77b227;
+.yoast-button--extension + .yoast-button--extension-activated,
+.yoast-button--extension + .yoast-button--extension-not-activated {
+	margin-left: 0;
+}
+
+.yoast-button--extension-buy,
+.yoast-button--extension-buy:hover {
+	background-color: #a4286a;
+}
+
+.yoast-button--extension-installed:hover,
+.yoast-button--extension-activated:hover,
+.yoast-button--extension-not-activated:hover {
 	text-decoration: none;
+}
+
+.yoast-button--extension-installed {
+	margin-right: 0.2rem;
+}
+
+.yoast-button--extension-installed,
+.yoast-button--extension-installed:hover {
+	background-color: #77b227;
+}
+
+.yoast-button--extension-not-activated,
+.yoast-button--extension-not-activated:hover {
+	background-color: #ca2a2a;
+}
+
+.yoast-button--extension-activated,
+.yoast-button--extension-activated:hover {
+	background-color: #77b227;
 }
 
 .yoast-promo-extensions {
@@ -789,7 +821,7 @@ a.promoblock:hover {
 }
 
 .yoast-promo-extension {
-	max-width: 330px;
+	max-width: 340px;
 	margin-left: 32px;
 	border-color: #a4286a;
 	background-color: transparent;
@@ -811,13 +843,32 @@ a.promoblock:hover {
 	}
 }
 
+.yoast-promo-extension .yoast-list--usp {
+	height: 160px;
+}
+
 .yoast-promo-extension .yoast-button {
 	width: 100%;
 	max-height: none;
+	font-size: 0.9rem;
 }
 
-.yoast-promo-extension .yoast-button--installed {
-	width: auto;
+.yoast-promo-extension .yoast-button--extension {
+	margin-top: 0;
+	font-size: 0.9rem;
+	text-align: center;
+}
+
+.yoast-promo-extension .yoast-button--extension-installed {
+	width: 48%;
+	margin: 0 2% 0 0;
+}
+
+.yoast-promo-extension .yoast-button--extension-activated,
+.yoast-promo-extension .yoast-button--extension-not-activated {
+	width: 48%;
+	margin-right: 0;
+	margin-left: 0;
 }
 
 .yoast-promo-extension h3 {
@@ -851,6 +902,22 @@ a.promoblock:hover {
 
 .yoast-seo-premium-benefits__description:before {
 	content: "– ";
+}
+
+.yoast-link--license {
+	margin: 1em 0 0 0;
+	color: #a4286a;
+	font-family: "Open Sans",Arial,sans-serif;
+	font-weight: 600;
+}
+
+.yoast-promo-extension .yoast-link--license {
+	display: block;
+	margin: 1em 0 0 0;
+}
+
+.yoast-link--license:after {
+	content: " \00BB";
 }
 
 .yoast-link--more-info {
