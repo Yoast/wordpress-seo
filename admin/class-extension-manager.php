@@ -61,15 +61,20 @@ class WPSEO_Extension_Manager {
 
 	/**
 	 * Checks if the plugin is activated.
-	 *
-	 * @param string $site_url       The current site url.
+
 	 * @param string $extension_name The extension name to check.
 	 *
 	 * @return bool
 	 */
-	public function is_activated( $site_url, $extension_name ) {
-		return true;
-	}
+	public function is_activated( $extension_name ) {
+		static $active_extensions;
 
+		if ( ! $active_extensions ) {
+			$active_extensions = apply_filters( 'yoast-active-extensions', array() );
+
+		}
+
+		return in_array( $extension_name, $active_extensions, true );
+	}
 
 }

@@ -42,6 +42,7 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
+		add_action( 'admin_init', array( $this, 'validate_extensions' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'blog_public_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'permalink_notice' ), 15 );
@@ -58,6 +59,47 @@ class WPSEO_Admin_Init {
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
+	}
+
+	/**
+	 * Validates the extensions and show a notice for the invalid extensions.
+	 */
+	public function validate_extensions() {
+
+		if ( filter_input( INPUT_GET, 'page' ) === WPSEO_Admin::PAGE_IDENTIFIER ) {
+			$active_extensions = apply_filters( 'yoast-active-extensions', array() );
+		}
+
+		$extensions = array(
+			'Yoast SEO Premium',
+			'News SEO',
+			'WooCommerce SEO',
+			'Video SEO',
+			'Local SEO',
+		);
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		foreach( $extensions as $product_name ) {
+			$option_name = sanitize_title_with_dashes( $product_name. '_', null, 'save' ) . '_license';
+			$extension_option = get_option( $option_name );
+
+			$notification_options = array(
+				'type'         => Yoast_Notification::ERROR,
+				'id'           => 'wpseo-dismiss-' . $option_name,
+				'capabilities' => 'manage_options',
+			);
+
+			$notification = new Yoast_Notification( sprintf( 'There is something wrong with %s', $product_name ), $notification_options );
+
+			if ( $extension_option['status'] === 'valid' ) {
+				$notification_center->remove_notification( $notification );
+
+				continue;
+			}
+
+			$notification_center->add_notification( $notification );
+		}
 	}
 
 	/**

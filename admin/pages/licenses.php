@@ -13,7 +13,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $extensions = new WPSEO_Extension_Manager();
 
 $extensions->add(
-	'seo-premium',
+	'wordpress-seo-premium',
 	new WPSEO_Extension(
 		array(
 			'url'       => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
@@ -29,7 +29,7 @@ $extensions->add(
 );
 
 $extensions->add(
-	'video-seo',
+	'wpseo-video',
 	new WPSEO_Extension(
 		array(
 			'buyUrl'    => WPSEO_Shortlinker::get( 'https://yoa.st/zx/' ),
@@ -49,7 +49,7 @@ $extensions->add(
 );
 
 $extensions->add(
-	'news-seo',
+	'wpseo-news',
 	new WPSEO_Extension(
 		array(
 			'buyUrl'    => WPSEO_Shortlinker::get( 'https://yoa.st/zv/' ),
@@ -69,7 +69,7 @@ $extensions->add(
 );
 
 $extensions->add(
-	'local-seo',
+	'wpseo-local',
 	new WPSEO_Extension(
 		array(
 			'buyUrl'    => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
@@ -90,7 +90,7 @@ $extensions->add(
 // Only add WooCommerce when the plugin is active.
 if ( class_exists( 'Woocommerce' ) ) {
 	$extensions->add(
-		'woocommerce-seo',
+		'wpseo-woocommerce',
 		new WPSEO_Extension(
 			array(
 				'buyUrl'     => WPSEO_Shortlinker::get( 'https://yoa.st/zr' ),
@@ -126,8 +126,8 @@ if ( class_exists( 'Woocommerce' ) ) {
 		<div id="extensions" class="">
 			<section class="yoast-seo-premium-extension">
 				<?php
-					$extension = $extensions->get( 'seo-premium' );
-					$extensions->remove( 'seo-premium' );
+					$extension = $extensions->get( 'wordpress-seo-premium' );
+					$extensions->remove( 'wordpress-seo-premium' );
 				?>
 				<h2><?php
 					/* translators: %1$s expands to Yoast SEO Premium */
@@ -156,7 +156,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 				<?php if ( $extension->is_installed() ) : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
 
-					<?php if ( $extensions->is_activated( home_url(), $extension ) ) : ?>
+					<?php if ( $extensions->is_activated( 'wordpress-seo-premium' ) ) : ?>
 						<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php _e( 'Activated', 'wordpress-seo' ); ?></div>
 						<a target="_blank" href="https://my.yoast.com" class="yoast-link--license"><?php _e( 'Manage your license on My Yoast', 'wordpress-seo' ); ?></a>
 					<?php else : ?>
@@ -215,7 +215,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 						<?php if ( $extension->is_installed() ) : ?>
 							<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
 
-							<?php if ( $extensions->is_activated( home_url(), $extension ) ) : ?>
+							<?php if ( $extensions->is_activated( $id ) ) : ?>
 								<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php _e( 'Activated', 'wordpress-seo' ); ?></div>
 								<a target="_blank" href="https://my.yoast.com" class="yoast-link--license"><?php _e( 'Manage your license on My Yoast', 'wordpress-seo' ); ?></a>
 							<?php else : ?>
