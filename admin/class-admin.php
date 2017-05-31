@@ -95,6 +95,9 @@ class WPSEO_Admin {
 
 		$this->check_php_version();
 		$this->initialize_cornerstone_content();
+
+		add_filter( 'yoast-license-valid', '__return_true' );
+		add_filter( 'yoast-show-license-notice', '__return_false' );
 	}
 
 	/**

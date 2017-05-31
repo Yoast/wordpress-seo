@@ -81,7 +81,7 @@ class WPSEO_Admin_Init {
 		$notification_center = Yoast_Notification_Center::get();
 
 		foreach( $extensions as $product_name ) {
-			$option_name = sanitize_title_with_dashes( $product_name. '_', null, 'save' ) . '_license';
+			$option_name = sanitize_title_with_dashes( $product_name. '_', null, 'save' ) . 'license';
 			$extension_option = get_option( $option_name );
 
 			$notification_options = array(
