@@ -8,8 +8,6 @@
  */
 class WPSEO_Extension_Manager {
 
-	const EXTENSION_ENDPOINT = 'https://my.yoast.com/edd-sl-api';
-
 	/** @var WPSEO_Extension[] */
 	protected $extensions = array();
 
@@ -71,7 +69,6 @@ class WPSEO_Extension_Manager {
 
 		if ( ! $active_extensions ) {
 			$active_extensions = apply_filters( 'yoast-active-extensions', array() );
-
 		}
 
 		return in_array( $extension_name, $active_extensions, true );
