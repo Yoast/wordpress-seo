@@ -10,11 +10,11 @@ class WPSEO_Extensions {
 
 	/** @var array */
 	protected $extensions = array(
-		'Yoast SEO Premium',
-		'News SEO',
-		'WooCommerce SEO',
-		'Video SEO',
-		'Local SEO',
+		'Yoast SEO Premium'     => array( 'classname' => 'WPSEO_Premium' ),
+		'News SEO'              => array( 'classname' => 'WPSEO_News' ),
+		'Yoast WooCommerce SEO' => array( 'classname' => 'Yoast_WooCommerce_SEO' ),
+		'Video SEO'             => array( 'classname' => 'WPSEO_Video_Sitemap' ),
+		'Local SEO'             => array( 'classname' => 'WPSEO_Local_Core' ),
 	);
 
 	/**
@@ -23,7 +23,7 @@ class WPSEO_Extensions {
 	 * @return array
 	 */
 	public function get() {
-		return $this->extensions;
+		return array_keys( $this->extensions );
 	}
 
 	/**
@@ -46,6 +46,17 @@ class WPSEO_Extensions {
 	 */
 	public function invalidate( $extension ) {
 		delete_option( $this->get_option( $extension ) );
+	}
+
+	/**
+	 * Checks if the plugin has been installed.
+	 *
+	 * @param string $extension The name of the plugin to check.
+	 *
+	 * @return bool
+	 */
+	public function is_installed( $extension ) {
+		return class_exists( $this->extensions[ $extension ]['classname'] );
 	}
 
 	/**

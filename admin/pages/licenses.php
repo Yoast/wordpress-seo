@@ -26,8 +26,6 @@ $extensions->add(
 			'title'     => 'Yoast SEO Premium',
 			/* translators: %1$s expands to Yoast SEO */
 			'desc'      => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
-			'installed' => class_exists( 'WPSEO_Premium' ),
-			'activated' => false,
 			'image'     => plugins_url( 'images/extensions-premium-ribbon.png', WPSEO_FILE ),
 			'benefits'  => array(),
 		)
@@ -42,8 +40,6 @@ $extensions->add(
 			'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zw/' ),
 			'title'     => 'Video SEO',
 			'desc'      => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
-			'installed' => class_exists( 'WPSEO_Video_Sitemap' ),
-			'activated' => false,
 			'image'     => plugins_url( 'images/extensions-video.png', WPSEO_FILE ),
 			'benefits'  => array(
 				__( 'Show your videos in Google Videos', 'wordpress-seo' ),
@@ -62,8 +58,6 @@ $extensions->add(
 			'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zu/' ),
 			'title'     => 'News SEO',
 			'desc'      => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
-			'installed' => class_exists( 'WPSEO_News' ),
-			'activated' => true,
 			'image'     => plugins_url( 'images/extensions-news.png', WPSEO_FILE ),
 			'benefits'  => array(
 				__( 'Optimize your site for Google News', 'wordpress-seo' ),
@@ -82,7 +76,6 @@ $extensions->add(
 			'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
 			'title'     => 'Local SEO',
 			'desc'      => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
-			'installed' => false,
 			'image'     => plugins_url( 'images/extensions-local.png', WPSEO_FILE ),
 			'benefits'  => array(
 				__( 'Get found by potential clients', 'wordpress-seo' ),
@@ -104,7 +97,6 @@ if ( class_exists( 'Woocommerce' ) ) {
 				'title'      => 'Yoast WooCommerce SEO',
 				/* translators: %1$s expands to Yoast SEO */
 				'desc'       => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
-				'installed'  => class_exists( 'Yoast_WooCommerce_SEO' ),
 				'image'      => plugins_url( 'images/extensions-woo.png', WPSEO_FILE ),
 				'benefits'   => array(
 					sprintf( __( 'Improve sharing on Pinterest', 'wordpress-seo' ) ),
@@ -159,7 +151,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 					</li>
 				</ul>
 
-				<?php if ( $extension->is_installed() ) : ?>
+				<?php if ( $extension_list->is_installed( $extension->get_title() ) ) : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
 
 					<?php if ( $extensions->is_activated( 'wordpress-seo-premium' ) ) : ?>
@@ -218,7 +210,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 						</ul>
 
 						<div class="yoast-button-container">
-						<?php if ( $extension->is_installed() ) : ?>
+						<?php if ( $extension_list->is_installed( $extension->get_title() ) ) : ?>
 							<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
 
 							<?php if ( $extensions->is_activated( $id ) ) : ?>

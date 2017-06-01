@@ -82,9 +82,17 @@ class WPSEO_Admin_Init {
 				'capabilities' => 'manage_options',
 			);
 
-			$notification = new Yoast_Notification( sprintf( 'There is something wrong with %s', $product_name ), $notification_options );
+			$notification = new Yoast_Notification(
+				sprintf(
+					__( 'You have not enabled %1$s on %2$s. Therefore you might not receive new updates for this plugin' ),
+					$product_name,
+					'my.yoast.com'
+				),
+				$notification_options
+			);
 
-			if ( ! $extension_list->is_valid( $product_name ) ) {
+			// Remove the notice when the plugin is not activate or the license is valid.
+			if ( ! $extension_list->is_installed( $product_name ) || $extension_list->is_valid( $product_name ) ) {
 				$notification_center->remove_notification( $notification );
 
 				continue;

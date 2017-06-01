@@ -30,15 +30,6 @@ class WPSEO_Extension {
 	}
 
 	/**
-	 * Returns true when the plugin is installed.
-	 *
-	 * @return bool
-	 */
-	public function is_installed(  ) {
-		return $this->config['installed'];
-	}
-
-	/**
 	 * Returns URL to the page where the product can be bought.
 	 *
 	 * @return string
