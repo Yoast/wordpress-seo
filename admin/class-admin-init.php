@@ -84,9 +84,10 @@ class WPSEO_Admin_Init {
 
 			$notification = new Yoast_Notification(
 				sprintf(
-					__( 'You have not enabled %1$s on %2$s. Therefore you might not receive new updates for this plugin' ),
+					__( 'Warning! You have not yet activated %1$s in My Yoast. If you want to do so now, %2$sclick here%3$s. Otherwise, you will not receive updates or support', 'wordpress-seo' ),
 					$product_name,
-					'my.yoast.com'
+				'<a href="https://my.yoast.com" target="_blank">',
+					'</a>'
 				),
 				$notification_options
 			);
