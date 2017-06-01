@@ -52,7 +52,7 @@ class WPSEO_Extension {
 	 *
 	 * @return string
 	 */
-	public function get_image(  ) {
+	public function get_image() {
 		return $this->config['image'];
 	}
 
@@ -62,7 +62,7 @@ class WPSEO_Extension {
 	 * @return string
 	 */
 	public function get_product_name() {
-		if( isset( $this->config['buy_button'] ) ) {
+		if ( isset( $this->config['buy_button'] ) ) {
 			return $this->config['buy_button'];
 		}
 
@@ -78,5 +78,4 @@ class WPSEO_Extension {
 	public function get_benefits() {
 		return $this->config['benefits'];
 	}
-
 }

@@ -10,10 +10,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-// First invalidate all licenses
 $extension_list = new WPSEO_Extensions();
 $extensions = $extension_list->get();
 
+// First invalidate all licenses.
 array_map( array( $extension_list, 'invalidate' ), $extensions );
 
 $extensions = new WPSEO_Extension_Manager();

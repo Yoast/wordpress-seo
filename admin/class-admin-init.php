@@ -75,7 +75,7 @@ class WPSEO_Admin_Init {
 
 		$notification_center = Yoast_Notification_Center::get();
 
-		foreach( $extensions as $product_name ) {
+		foreach ( $extensions as $product_name ) {
 			$notification_options = array(
 				'type'         => Yoast_Notification::ERROR,
 				'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name,  null, 'save' ),

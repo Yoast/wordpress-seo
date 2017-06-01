@@ -11,12 +11,11 @@ class WPSEO_Extension_Manager {
 	/** @var WPSEO_Extension[] */
 	protected $extensions = array();
 
-
 	/**
 	 * Adds an extension to the manager.
 	 *
-	 * @param string           $extension_name The extension name.
-	 * @param WPSEO_Extension  $extension      The extension value object.
+	 * @param string          $extension_name The extension name.
+	 * @param WPSEO_Extension $extension      The extension value object.
 	 */
 	public function add( $extension_name, WPSEO_Extension $extension = null ) {
 		$this->extensions[ $extension_name ] = $extension;
@@ -73,5 +72,4 @@ class WPSEO_Extension_Manager {
 
 		return in_array( $extension_name, $active_extensions, true );
 	}
-
 }
