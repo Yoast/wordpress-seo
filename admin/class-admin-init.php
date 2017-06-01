@@ -73,8 +73,6 @@ class WPSEO_Admin_Init {
 		$extension_list = new WPSEO_Extensions();
 		$extensions = $extension_list->get();
 
-		array_map( array( $extension_list, 'invalidate' ), $extensions );
-
 		$notification_center = Yoast_Notification_Center::get();
 
 		foreach( $extensions as $product_name ) {
