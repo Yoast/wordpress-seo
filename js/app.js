@@ -300,11 +300,11 @@ App.prototype.switchAssessors = function( useCornerStone ) {
  * @returns {Assessor} The assessor instance.
  */
 App.prototype.getSeoAssessor = function( useCornerStone ) {
-	if( useCornerStone ) {
+	if ( useCornerStone ) {
 		return this.cornerStoneSeoAssessor;
-    }
+	}
 
-    return this.defaultSeoAssessor;
+	return this.defaultSeoAssessor;
 };
 
 /**
@@ -315,11 +315,11 @@ App.prototype.getSeoAssessor = function( useCornerStone ) {
  * @returns {Assessor} The assessor instance.
  */
 App.prototype.getContentAssessor = function( useCornerStone ) {
-    if( useCornerStone ) {
-        return this.cornerStoneContentAssessor;
-    }
+	if ( useCornerStone ) {
+		return this.cornerStoneContentAssessor;
+	}
 
-    return this.defaultContentAssessor;
+	return this.defaultContentAssessor;
 };
 
 /**
