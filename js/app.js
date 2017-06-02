@@ -295,7 +295,7 @@ App.prototype.switchAssessors = function( useCornerStone ) {
 /**
  * Returns an instance of the seo assessor to use.
  *
- * @param {boolean} useCornerStone Use the cornerstone assessor.
+ * @param {boolean} useCornerStone True if the cornerstone assessor should be used.
  *
  * @returns {Assessor} The assessor instance.
  */
@@ -310,7 +310,7 @@ App.prototype.getSeoAssessor = function( useCornerStone ) {
 /**
  * Returns an instance of the content assessor to use.
  *
- * @param {boolean} useCornerStone Use the cornerstone assessor.
+ * @param {boolean} useCornerStone True if the cornerstone assessor should be used.
  *
  * @returns {Assessor} The assessor instance.
  */
