@@ -285,22 +285,42 @@ App.prototype.getDefaultOutputElement = function( args ) {
  * @returns {void}
  */
 App.prototype.switchAssessors = function( useCornerStone ) {
-	var assessorConfig = this.config;
+	this.seoAssessor = this.getSeoAssessor( useCornerStone );
+	this.contentAssessor = this.getContentAssessor( useCornerStone );
 
-	if ( useCornerStone ) {
-		assessorConfig = {
-			keywordAnalysisActive: this.config.keywordAnalysisActive,
-			contentAnalysisActive: this.config.contentAnalysisActive,
-			seoAssessor: new CornerstoneSEOAssessor( this.i18n, { marker: this.config.marker } ),
-			contentAssessor: new CornerstoneContentAssessor( this.i18n, { marker: this.config.marker } ),
-		};
-	}
-
-	this.initializeAssessors( assessorConfig );
 	this.initAssessorPresenters();
 	this.refresh();
 };
 
+/**
+ * Returns an instance of the seo assessor to use.
+ *
+ * @param {boolean} useCornerStone True if the cornerstone assessor should be used.
+ *
+ * @returns {Assessor} The assessor instance.
+ */
+App.prototype.getSeoAssessor = function( useCornerStone ) {
+	if ( useCornerStone ) {
+		return this.cornerStoneSeoAssessor;
+	}
+
+	return this.defaultSeoAssessor;
+};
+
+/**
+ * Returns an instance of the content assessor to use.
+ *
+ * @param {boolean} useCornerStone True if the cornerstone assessor should be used.
+ *
+ * @returns {Assessor} The assessor instance.
+ */
+App.prototype.getContentAssessor = function( useCornerStone ) {
+	if ( useCornerStone ) {
+		return this.cornerStoneContentAssessor;
+	}
+
+	return this.defaultContentAssessor;
+};
 
 /**
  * Initializes assessors based on if the respective analysis is active.
@@ -324,9 +344,12 @@ App.prototype.initializeSEOAssessor = function( args ) {
 		return;
 	}
 
+	this.defaultSeoAssessor = new SEOAssessor( this.i18n, { marker: this.config.marker } );
+	this.cornerStoneSeoAssessor = new CornerstoneSEOAssessor( this.i18n, { marker: this.config.marker } );
+
 	// Set the assessor
 	if ( isUndefined( args.seoAssessor ) ) {
-		this.seoAssessor = new SEOAssessor( this.i18n, { marker: this.config.marker } );
+		this.seoAssessor = this.defaultSeoAssessor;
 	} else {
 		this.seoAssessor = args.seoAssessor;
 	}
@@ -343,9 +366,12 @@ App.prototype.initializeContentAssessor = function( args ) {
 		return;
 	}
 
+	this.defaultContentAssessor = new ContentAssessor( this.i18n, { marker: this.config.marker } );
+	this.cornerStoneContentAssessor = new CornerstoneContentAssessor( this.i18n, { marker: this.config.marker } );
+
 	// Set the content assessor
 	if ( isUndefined( args.contentAssessor ) ) {
-		this.contentAssessor = new ContentAssessor( this.i18n, { marker: this.config.marker } );
+		this.contentAssessor = this.defaultContentAssessor;
 	} else {
 		this.contentAssessor = args.contentAssessor;
 	}
@@ -785,7 +811,8 @@ App.prototype.registerTest = function() {
  */
 App.prototype.registerAssessment = function( name, assessment, pluginName ) {
 	if ( ! isUndefined( this.seoAssessor ) ) {
-		return this.pluggable._registerAssessment( this.seoAssessor, name, assessment, pluginName );
+		return this.pluggable._registerAssessment( this.defaultSeoAssessor, name, assessment, pluginName ) &&
+		this.pluggable._registerAssessment( this.cornerStoneSeoAssessor, name, assessment, pluginName );
 	}
 };
 
