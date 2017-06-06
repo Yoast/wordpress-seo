@@ -13,7 +13,7 @@ import interpolateComponents from "interpolate-components";
 const MessageBox = ( props ) => (
 	<div className="yoast-wizard-body">
 		<YoastLogo height={93} width={200}/>
-		<div className="yoast-wizard-container">
+		<div className="yoast-wizard-container yoast-wizard-container--no-navigation">
 			<div className="yoast-wizard">
 				{ interpolateComponents( props ) }
 			</div>
