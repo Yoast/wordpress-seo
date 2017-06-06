@@ -45,7 +45,6 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::robots
 	 *
 	 * @todo   test post type archives
-	 * @todo   test with noodp and noydir option set
 	 * @todo   test with page_for_posts option
 	 * @todo   test date archives
 	 * @todo   test search results
@@ -286,14 +285,9 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		$expected['follow'] = 'nofollow';
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
-		// test noodp with default meta-robots-adv
-		self::$class_instance->options['noodp'] = true;
-		$expected['other']                      = array( 'noodp' );
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
-
-		// test meta-robots adv noodp and nosnippet
-		WPSEO_Meta::set_value( 'meta-robots-adv', 'noodp,nosnippet', $post_id );
-		$expected['other'] = array( 'noodp', 'nosnippet' );
+		// test meta-robots adv nosnippet
+		WPSEO_Meta::set_value( 'meta-robots-adv', 'nosnippet', $post_id );
+		$expected['other'] = array( 'nosnippet' );
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post_id );
