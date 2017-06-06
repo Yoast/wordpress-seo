@@ -335,8 +335,7 @@ class WPSEO_Upgrade {
 	 * @return Yoast_Notification[]
 	 */
 	public function remove_about_notice( $notifications ) {
-
-		foreach( $notifications as $notification_key => $notification ) {
+		foreach ( $notifications as $notification_key => $notification ) {
 			if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
 				unset( $notifications[ $notification_key ] );
 			}
@@ -344,5 +343,4 @@ class WPSEO_Upgrade {
 
 		return $notifications;
 	}
-
 }
