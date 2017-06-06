@@ -328,9 +328,11 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * @param Yoast_Notification[] $notifications
+	 * Filters the wpseo-dismiss-about notice from all the notification current user has.
 	 *
-	 * @return mixed
+	 * @param Yoast_Notification[] $notifications The notifications to filter.
+	 *
+	 * @return Yoast_Notification[]
 	 */
 	public function remove_about_notice( $notifications ) {
 
