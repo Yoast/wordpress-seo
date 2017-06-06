@@ -1,3 +1,6 @@
+### 4.9.0: June 7th, 2017
+* Includes every change in Yoast SEO core 4.9.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 4.8.0: May 23rd, 2017
 * Fixes a bug where there is a double trailing slash in the javascript for the social previews that was causing errors.
 * Fixes a bug on the Redirects page where spaces were stripped when using the search field.
