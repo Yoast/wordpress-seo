@@ -15,7 +15,6 @@ module.exports = {
 			"assets/js/dist/wp-seo-premium-admin-redirects-<%= pluginVersionSlug %>.js": [ "assets/js/src/admin-redirects.js" ],
 			"assets/js/dist/wp-seo-premium-custom-fields-plugin-<%= pluginVersionSlug %>.js": [ "assets/js/src/custom-fields-plugin.js" ],
 			"assets/js/dist/wp-seo-premium-quickedit-notification-<%= pluginVersionSlug %>.js": [ "assets/js/src/quickedit-notification.js" ],
-			"assets/js/dist/wpseo-premium-yoast-overlay-<%= pluginVersionSlug %>.js": [ "assets/js/src/yoast-overlay.js" ],
 			"assets/js/dist/wp-seo-premium-redirect-notifications-<%= pluginVersionSlug %>.js": [ "assets/js/src/redirect-notifications.js" ],
 			"assets/js/dist/yoast-premium-gsc-<%= pluginVersionSlug %>.js": [ "assets/js/src/google-search-console.js" ],
 			"assets/js/dist/wp-seo-premium-metabox-<%= pluginVersionSlug %>.js": [ "assets/js/src/metabox.js" ],
