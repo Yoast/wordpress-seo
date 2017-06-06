@@ -68,6 +68,11 @@ class WPSEO_Upgrade {
 			$this->upgrade_47();
 		}
 
+		if ( version_compare( $this->options['version'], '4.9', '<' ) ) {
+			$this->upgrade_49();
+		}
+
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -278,5 +283,64 @@ class WPSEO_Upgrade {
 				WPSEO_Cornerstone::META_NAME
 			)
 		);
+	}
+
+	/**
+	 * Removes the 'wpseo-dismiss-about' notice for every user that still has it.
+	 */
+	private function upgrade_49() {
+		global $wpdb;
+
+		/*
+		 * Using a filter to remove the notification for the current logged in user. The notification center is
+		 * initializing the notifications before the upgrade routine has been executedd and is saving the stored
+		 * notifications on shutdown. This causes the returning notification. By adding this filter the shutdown
+		 * routine on the notification center will remove the notification.
+		 */
+		add_filter( 'yoast_notifications_before_storage', array( $this, 'remove_about_notice' ) );
+
+		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
+
+		$usermetas = $wpdb->get_results(
+			$wpdb->prepare('
+				SELECT user_id, meta_value 
+				FROM ' . $wpdb->usermeta . ' 
+				WHERE meta_key = %s AND meta_value LIKE "%%wpseo-dismiss-about%%"
+				', $meta_key ),
+				ARRAY_A
+		);
+
+		if ( empty( $usermetas ) ) {
+			return;
+		}
+
+		foreach ( $usermetas as $usermeta ) {
+			$notifications = maybe_unserialize( $usermeta['meta_value'] );
+
+			foreach ( $notifications as $notification_key => $notification ) {
+				if ( ! empty( $notification['options']['id'] ) && $notification['options']['id'] === 'wpseo-dismiss-about' ) {
+					unset( $notifications[ $notification_key ] );
+				}
+			}
+
+			update_user_option( $usermeta['user_id'], Yoast_Notification_Center::STORAGE_KEY, array_values( $notifications ) );
+		}
+	}
+
+	/**
+	 * Removes the wpseo-dismiss-about notice from a list of notifications.
+	 *
+	 * @param Yoast_Notification[] $notifications The notifications to filter.
+	 *
+	 * @return Yoast_Notification[] The filtered list of notifications. Excluding the wpseo-dismiss-about notification.
+	 */
+	public function remove_about_notice( $notifications ) {
+		foreach ( $notifications as $notification_key => $notification ) {
+			if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
+				unset( $notifications[ $notification_key ] );
+			}
+		}
+
+		return $notifications;
 	}
 }
