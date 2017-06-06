@@ -778,6 +778,7 @@ class WPSEO_Frontend {
 		}
 
 		$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );
+		$robotsstr = str_replace( array( 'noodp,', 'noodp' ), '', $robotsstr );
 
 		/**
 		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO
