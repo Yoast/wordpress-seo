@@ -86,7 +86,7 @@ $extensions->add(
 	)
 );
 
-// Only add WooCommerce when the plugin is active.
+// Add Yoast WooCommerce SEO when WooCommerce is active.
 if ( class_exists( 'Woocommerce' ) ) {
 	$extensions->add(
 		'wpseo-woocommerce',
@@ -121,7 +121,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 		printf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
 		?></h1>
 
-		<div id="extensions" class="">
+		<div id="extensions">
 			<section class="yoast-seo-premium-extension">
 				<?php
 					$extension = $extensions->get( 'wordpress-seo-premium' );
@@ -223,7 +223,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 						<?php else : ?>
 							<a target="_blank" class="yoast-button yoast-button--noarrow yoast-button-go-to  yoast-button--extension yoast-button--extension-buy" href="<?php echo esc_url( $extension->get_buy_url() ); ?>">
 								<?php /* translators: %s expands to the product name */ ?>
-								<?php printf( __( 'Buy %s', 'wordpress-seo' ), $extension->get_product_name() ); ?>
+								<?php printf( __( 'Buy %s', 'wordpress-seo' ), $extension->get_buy_button() ); ?>
 							</a>
 
 							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension->get_info_url() ); ?>"><?php

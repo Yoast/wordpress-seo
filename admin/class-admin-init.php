@@ -84,7 +84,7 @@ class WPSEO_Admin_Init {
 
 			$notification = new Yoast_Notification(
 				sprintf(
-					__( 'Warning! You have not yet activated %1$s in My Yoast. If you want to do so now, %2$sclick here%3$s. Otherwise, you will not receive updates or support', 'wordpress-seo' ),
+					__( 'Warning! You have not yet activated %1$s in My Yoast. If you want to do so now, please visit %2$sMy Yoast%3$s. Otherwise, you will not receive updates or support.', 'wordpress-seo' ),
 					$product_name,
 				'<a href="https://my.yoast.com" target="_blank">',
 					'</a>'
@@ -92,14 +92,14 @@ class WPSEO_Admin_Init {
 				$notification_options
 			);
 
-			// Remove the notice when the plugin is not activate or the license is valid.
-			if ( ! $extension_list->is_installed( $product_name ) || $extension_list->is_valid( $product_name ) ) {
-				$notification_center->remove_notification( $notification );
+			// Add a notification when the installed plugin isn't activated in My Yoast.
+			if ( $extension_list->is_installed( $product_name ) && ! $extension_list->is_valid( $product_name ) ) {
+				$notification_center->add_notification( $notification );
 
 				continue;
 			}
 
-			$notification_center->add_notification( $notification );
+			$notification_center->remove_notification( $notification );
 		}
 	}
 

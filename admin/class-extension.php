@@ -23,7 +23,7 @@ class WPSEO_Extension {
 	/**
 	 * Returns the product title.
 	 *
-	 * @return string.
+	 * @return string
 	 */
 	public function get_title() {
 		return $this->config['title'];
@@ -61,7 +61,7 @@ class WPSEO_Extension {
 	 *
 	 * @return string
 	 */
-	public function get_product_name() {
+	public function get_buy_button() {
 		if ( isset( $this->config['buy_button'] ) ) {
 			return $this->config['buy_button'];
 		}
