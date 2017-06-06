@@ -11,16 +11,15 @@ class WPSEO_Configuration_Page {
 	const PAGE_IDENTIFIER = 'wpseo_configurator';
 
 	/**
-	 * WPSEO_Configuration_Wizard constructor.
+	 * Sets the hooks when the user has enought rights and is on the right page.
 	 */
-	public function __construct() {
+	public function set_hooks() {
+		if ( ! ( $this->is_config_page() && current_user_can( WPSEO_Configuration_Endpoint::CAPABILITY_RETRIEVE ) ) ) {
+			return;
+		}
 
 		if ( $this->should_add_notification() ) {
 			$this->add_notification();
-		}
-
-		if ( filter_input( INPUT_GET, 'page' ) !== self::PAGE_IDENTIFIER ) {
-			return;
 		}
 
 		// Register the page for the wizard.
@@ -160,7 +159,6 @@ class WPSEO_Configuration_Page {
 	 * @return array The API endpoint config.
 	 */
 	public function get_config() {
-		$translations = $this->get_translations();
 		$service      = new WPSEO_GSC_Service();
 		$config       = array(
 			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
@@ -173,24 +171,33 @@ class WPSEO_Configuration_Page {
 			'gscAuthURL'        => $service->get_client()->createAuthUrl(),
 			'gscProfiles'       => $service->get_sites(),
 			'gscNonce'          => wp_create_nonce( 'wpseo-gsc-ajax-security' ),
-			'translations'      => $translations,
 		);
 
 		return $config;
 	}
 
 	/**
+	 * Checks if the current page is the configuration page.
+	 *
+	 * @return bool
+	 */
+	protected function is_config_page() {
+		return ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER );
+	}
+
+	/**
 	 * Returns the translations necessary for the configuration wizard.
+	 *
+	 * @deprecated 4.9
 	 *
 	 * @returns array The translations for the configuration wizard.
 	 */
 	public function get_translations() {
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/yoast-components-' . WPSEO_Utils::get_user_locale() . '.json';
-		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
-			return json_decode( $file, true );
-		}
+		_deprecated_function( __METHOD__, 'WPSEO 4.9', 'WPSEO_' );
 
-		return array();
+		$translations = new WPSEO_Configuration_Translations( WPSEO_Utils::get_user_locale() );
+
+		return $translations->retrieve();
 	}
 
 	/**

@@ -19,10 +19,6 @@ import FinalStep from "./components/FinalStep";
 import { setTranslations } from "yoast-components/utils/i18n";
 import isUndefined from "lodash/isUndefined";
 
-if ( ! isUndefined( yoastWizardConfig.translations ) ) {
-	setTranslations( yoastWizardConfig.translations );
-}
-
 injectTapEventPlugin();
 
 class App extends React.Component {
@@ -61,13 +57,17 @@ class App extends React.Component {
 	/**
 	 * Parses the response containing the config and sets it in the state.
 	 *
-	 * @param response The response from AJAX request in the getConfig function.
+	 * @param {Object} response The response from AJAX request in the getConfig function.
 	 *
 	 * @returns {void} Returns nothing.
 	 */
 	setConfig( response ) {
 		let config = response;
 		let endpoint = this.getEndpoint();
+
+		if ( ! isUndefined( config.translations ) ) {
+			setTranslations( config.translations );
+		}
 
 		Object.assign( config, {
 			finishUrl: yoastWizardConfig.finishUrl,
@@ -120,9 +120,7 @@ class App extends React.Component {
 	 * @returns {JSX.Element|null} The rendered app component.
 	 */
 	render() {
-
 		if ( this.state.isLoading === false && this.state.config !== {} ) {
-
 			return (
 				<div>
 					<OnboardingWizard { ...this.state.config }/>

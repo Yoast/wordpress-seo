@@ -24,7 +24,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		// Form fields.
 		'forcerewritetitle'      => false,
 		'separator'              => 'sc-dash',
-		'noodp'                  => false,
 		'usemetakeywords'        => false,
 		'title-home-wpseo'       => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
 		'title-author-wpseo'     => '', // Text field.
