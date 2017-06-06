@@ -100,7 +100,7 @@ class WPSEO_Social_Previews {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$version = $asset_manager->flatten_version( WPSEO_VERSION );
 
-		wp_register_script( 'yoast-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-social-preview-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array(
+		wp_register_script( 'yoast-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/yoast-premium-social-preview-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array(
 			'jquery',
 			'jquery-ui-core',
 		), WPSEO_VERSION );

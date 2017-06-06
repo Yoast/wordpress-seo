@@ -60,13 +60,22 @@ class WPSEO_Help_Center {
 		/* translators: %s: expands to 'Yoast SEO Premium'. */
 		$popup_title = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
 
-		$popup_content = '<p>' . __( 'Go Premium and our experts will be there for you to answer any questions you might have about the set-up and use of the plug-in!  ', 'wordpress-seo' ) . '</p>';
+		$popup_content = '<p>' . __( 'Go Premium and our experts will be there for you to answer any questions you might have about the set-up and use of the plug-in!', 'wordpress-seo' ) . '</p>';
 		/* translators: %1$s: expands to 'Yoast SEO Premium'. */
 		$popup_content .= '<p>' . sprintf( __( 'Other benefits of %1$s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
 		$popup_content .= '<ul>';
-		$popup_content .= '<li>' . __( 'No more dead links: easy redirect manager', 'wordpress-seo' ) . '</li>';
-		$popup_content .= '<li>' . __( 'Superfast internal link suggestions', 'wordpress-seo' ) . '</li>';
-		$popup_content .= '<li>' . __( 'Social media preview: Facebook & Twitter', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . sprintf(
+			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( '%1$sNo more dead links%2$s: easy redirect manager', 'wordpress-seo' ), '', ''
+		) . '</li>';
+		$popup_content .= '<li>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . sprintf(
+			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( '%1$sSocial media preview%2$s: Facebook &amp; Twitter', 'wordpress-seo' ), '', ''
+		) . '</li>';
+		$popup_content .= '<li>' . __( '24/7 support', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '</ul>';
 

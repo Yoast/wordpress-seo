@@ -14,7 +14,10 @@ class WPSEO_Redirect_Apache_Exporter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Apache_Exporter::export
 	 */
 	public function test_export() {
-		$class_instance = $this->getMock( 'WPSEO_Redirect_Apache_Exporter', array( 'save' ) );
+		$class_instance = $this
+			->getMockBuilder( 'WPSEO_Redirect_Apache_Exporter' )
+			->setMethods( array( 'save' ) )
+			->getMock();
 
 		$class_instance
 			->expects( $this->once() )

@@ -14,7 +14,9 @@ class WPSEO_Redirect_Nginx_Exporter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Nginx_Exporter::export
 	 */
 	public function test_export() {
-		$class_instance = $this->getMock( 'WPSEO_Redirect_Nginx_Exporter', array( 'save' ) );
+		$class_instance = $this->getMockBuilder( 'WPSEO_Redirect_Nginx_Exporter' )
+			->setMethods( array( 'save' ) )
+			->getMock();
 
 		$class_instance
 			->expects( $this->once() )

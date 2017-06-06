@@ -1,7 +1,7 @@
 /* jshint -W097 */
 /* jshint -W098 */
 /* jshint -W107 */
-/* global ajaxurl, alert, wpseo_premium_strings, wp, _, wpseoSelect2Locale */
+/* global ajaxurl, alert, wpseoPremiumStrings, wp, _, wpseoSelect2Locale */
 
 ( function( $ ) {
 	var ALLOW_EMPTY_TARGET = [
@@ -167,10 +167,10 @@
 			this.form.highlightRow( originField );
 
 			if ( "plain" === this.type ) {
-				return this.setError( wpseo_premium_strings.error_old_url );
+				return this.setError( wpseoPremiumStrings.error_old_url );
 			}
 
-			return this.setError( wpseo_premium_strings.error_regex );
+			return this.setError( wpseoPremiumStrings.error_regex );
 		}
 
 		// Only when the redirect type is not deleted.
@@ -178,20 +178,20 @@
 			// Check new URL.
 			if ( "" === targetField.val() ) {
 				this.form.highlightRow( targetField );
-				return this.setError( wpseo_premium_strings.error_new_url );
+				return this.setError( wpseoPremiumStrings.error_new_url );
 			}
 
 			// Check if both fields aren't the same.
 			if ( targetField.val() === originField.val() ) {
 				this.form.highlightRow( targetField );
-				return this.setError( wpseo_premium_strings.error_circular );
+				return this.setError( wpseoPremiumStrings.error_circular );
 			}
 		}
 
 		// Check the redirect type.
 		if ( "" === typeField.val() ) {
 			this.form.highlightRow( typeField );
-			return this.setError( wpseo_premium_strings.error_new_type );
+			return this.setError( wpseoPremiumStrings.error_new_type );
 		}
 
 		return true;
@@ -219,7 +219,7 @@
 	ValidateRedirect.prototype.addValidationError = function( error, fields ) {
 		this.form.setErrorMessage( error );
 
-		if( fields !== undefined ) {
+		if( typeof fields !== "undefined" ) {
 			this.form.highLightRowErrors( fields );
 		}
 	};
@@ -341,7 +341,7 @@
 	 *
 	 * @returns {void}
 	 */
-	$.fn.wpseo_redirects = function( argType ) {
+	$.fn.wpseoRedirects = function( argType ) {
 		var that   = this;
 		var type   = argType.replace( "table-", "" );
 		var ignore = false;
@@ -365,7 +365,7 @@
 			if ( type === "default" ) {
 				return [
 					{
-						text: wpseo_premium_strings.button_ok,
+						text: wpseoPremiumStrings.button_ok,
 						click: function() {
 							$( this ).dialog( "close" );
 						},
@@ -375,14 +375,14 @@
 
 			return [
 				{
-					text: wpseo_premium_strings.button_cancel,
+					text: wpseoPremiumStrings.button_cancel,
 					click: function() {
 						resetIgnore();
 						$( this ).dialog( "close" );
 					},
 				},
 				{
-					text: wpseo_premium_strings.button_save_anyway,
+					text: wpseoPremiumStrings.button_save_anyway,
 					"class": "button-primary",
 					click: function() {
 						ignore = true;
@@ -424,7 +424,7 @@
 		 * @returns {void}
 		 */
 		this.dialog = function( title, text, type ) {
-			if ( type === undefined || type === "error" ) {
+			if ( typeof type === "undefined" || type === "error" ) {
 				type = "default";
 			}
 
@@ -484,10 +484,12 @@
 		this.editRow = function( row ) {
 			// Just show a dialog when there is already a quick edit form opened.
 			if( $( "#the-list" ).find( "#inline-edit" ).length > 0 ) {
+				/* eslint-disable camelcase */
 				this.dialog(
-					wpseo_premium_strings.edit_redirect,
-					wpseo_premium_strings.editing_redirect
+					wpseoPremiumStrings.edit_redirect,
+					wpseoPremiumStrings.editing_redirect
 				);
+				/* eslint-enable camelcase */
 
 				return;
 			}
@@ -536,11 +538,11 @@
 				).append(
 					$( "<div>" ).addClass( "row-actions" ).append(
 						$( "<span>" ).addClass( "edit" ).append(
-							$( "<a>" ).attr( { href: "#", role: "button", "class": "redirect-edit" } ).html( wpseo_premium_strings.editAction )
+							$( "<a>" ).attr( { href: "#", role: "button", "class": "redirect-edit" } ).html( wpseoPremiumStrings.editAction )
 						).append( " | " )
 					).append(
 						$( "<span>" ).addClass( "trash" ).append(
-							$( "<a>" ).attr( { href: "#", role: "button", "class": "redirect-delete" } ).html( wpseo_premium_strings.deleteAction )
+							$( "<a>" ).attr( { href: "#", role: "button", "class": "redirect-delete" } ).html( wpseoPremiumStrings.deleteAction )
 						)
 					)
 				)
@@ -569,7 +571,7 @@
 			validateRedirect.addValidationError( error.message, error.fields );
 
 			if ( error.type === "warning" ) {
-				that.dialog( wpseo_premium_strings.error_saving_redirect, error.message, error.type );
+				that.dialog( wpseoPremiumStrings.error_saving_redirect, error.message, error.type );
 			}
 		};
 
@@ -620,7 +622,7 @@
 					// Add the new row.
 					$( "form#" + type ).find( "#the-list" ).prepend( tr );
 
-					that.openDialog( wpseo_premium_strings.redirect_added );
+					that.openDialog( wpseoPremiumStrings.redirect_added );
 				}
 			);
 
@@ -649,6 +651,7 @@
 			// Post the request.
 			that.post(
 				{
+					/* eslint-disable camelcase */
 					action: "wpseo_update_redirect_" + type,
 					ajax_nonce: $( ".wpseo_redirects_ajax_nonce" ).val(),
 					old_redirect: {
@@ -677,8 +680,9 @@
 
 					redirectsQuickEdit.remove();
 
-					that.openDialog( wpseo_premium_strings.redirect_updated );
+					that.openDialog( wpseoPremiumStrings.redirect_updated );
 				}
+				/* eslint-enable camelcase */
 			);
 
 			return true;
@@ -712,7 +716,7 @@
 						}
 					);
 
-					that.openDialog( wpseo_premium_strings.redirect_deleted );
+					that.openDialog( wpseoPremiumStrings.redirect_deleted );
 				}
 			);
 		};
@@ -731,7 +735,7 @@
 			$( window ).on( "beforeunload",
 				function() {
 					if( $( "#the-list" ).find( "#inline-edit" ).length > 0 ) {
-						return wpseo_premium_strings.unsaved_redirects;
+						return wpseoPremiumStrings.unsaved_redirects;
 					}
 				}
 			);
@@ -839,7 +843,7 @@
 		$.each(
 			$( ".redirect-table-tab" ),
 			function( key, element ) {
-				$( element ).wpseo_redirects( $( element ).attr( "id" ) );
+				$( element ).wpseoRedirects( $( element ).attr( "id" ) );
 			}
 		);
 

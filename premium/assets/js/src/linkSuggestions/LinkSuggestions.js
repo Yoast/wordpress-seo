@@ -1,3 +1,5 @@
+/* global YoastSEO */
+
 import React from "react";
 import ReactDOM from "react-dom";
 import isEqual from "lodash/isEqual";
@@ -40,7 +42,6 @@ class LinkSuggestions extends EventEmitter {
 	 * @returns {void}
 	 */
 	initializeDOM( currentLinkSuggestions ) {
-
 		// If the server has no cached suggestions, we want to show a loader.
 		if ( currentLinkSuggestions === false ) {
 			currentLinkSuggestions = [];
@@ -75,7 +76,7 @@ class LinkSuggestions extends EventEmitter {
 
 			this.retrieveLinkSuggestions( prominentWords )
 				.then( this.filterCurrentPost )
-				.then (this.saveLinkSuggestions.bind( this ) );
+				.then( this.saveLinkSuggestions.bind( this ) );
 		}
 	}
 
@@ -113,7 +114,7 @@ class LinkSuggestions extends EventEmitter {
 				value: linkSuggestion.title,
 				url: linkSuggestion.link,
 				isActive: linkSuggestion.active,
-				isCornerstone: linkSuggestion.isCornerstone
+				isCornerstone: linkSuggestion.isCornerstone,
 			};
 		} );
 	}
@@ -136,9 +137,9 @@ class LinkSuggestions extends EventEmitter {
 	 */
 	markUsedLinks( linkSuggestions ) {
 		let usedLinks = this.usedLinks || [];
-		forEach( linkSuggestions, function( linkSuggestion ){
+		forEach( linkSuggestions, function( linkSuggestion ) {
 			linkSuggestion.active = includes( usedLinks, linkSuggestion.link );
-		});
+		} );
 		return linkSuggestions;
 	}
 
@@ -180,7 +181,6 @@ class LinkSuggestions extends EventEmitter {
 	/**
 	 * Emits an event suggesting we can now render link suggestions.
 	 *
-	 * @param {Array} suggestions The actual link suggestions.
 	 * @returns {void}
 	 */
 	render() {

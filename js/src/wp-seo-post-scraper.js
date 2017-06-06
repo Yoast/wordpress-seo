@@ -2,6 +2,7 @@
 
 import PostDataCollector from "./analysis/PostDataCollector";
 import { tmceId } from "./wp-seo-tinymce";
+import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 
 var isUndefined = require( "lodash/isUndefined" );
 
@@ -349,6 +350,11 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
 		let shortcodePlugin = new YoastShortcodePlugin( app );
 
+		if ( wpseoPostScraperL10n.markdownEnabled ) {
+			let markdownPlugin = new YoastMarkdownPlugin( app );
+			markdownPlugin.register();
+		}
+
 		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
 
 		tmceHelper.wpTextViewOnInitCheck();
@@ -356,6 +362,15 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		activateEnabledAnalysis( tabManager );
 
 		jQuery( window ).trigger( "YoastSEO:ready" );
+
+		/*
+		 * Checks the snippet preview size and toggles views when the WP admin menu state changes.
+		 * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
+		 * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
+		 */
+		jQuery( document ).on( "wp-collapse-menu wp-menu-state-set", function() {
+			app.snippetPreview.handleWindowResizing();
+		} );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
@@ -366,6 +381,14 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
 			snippetPreviewHelpers.isolate( snippetContainer );
 		}
+
+		// Switch between assessors when checkbox has been checked.
+		let cornerstoneCheckbox = jQuery( "#_yst_is_cornerstone" );
+		app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
+		cornerstoneCheckbox.change( function() {
+			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
+		} );
+
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

@@ -4,19 +4,20 @@
 var redirectFunctions = require( "./redirects/functions" );
 
 /**
- * Use notification counter so we can count how many times the function wpseo_show_notification is called.
+ * Use notification counter so we can count how many times the function wpseoShowNotification is called.
  *
  * @type {number}
  */
-var wpseo_notification_counter = 0;
+var wpseoNotificationCounter = 0;
 
 /**
- * Show notification to user when there's a redirect created. When the response is empty, up the notification counter with 1, wait 100 ms and call function again.
+ * Show notification to user when there's a redirect created. When the response is empty, up the notification counter
+ * with 1, wait 100 ms and call function again.
  * Stop when the notification counter is bigger than 20.
  *
  * @returns {void}
  */
-function wpseo_show_notification() {
+function wpseoShowNotification() {
 	jQuery.post(
 		ajaxurl,
 		{ action: "yoast_get_notifications" },
@@ -24,38 +25,38 @@ function wpseo_show_notification() {
 			if ( response !== "" ) {
 				var insertAfterElement = jQuery( ".wrap" ).children().eq( 0 );
 				jQuery( response ).insertAfter( insertAfterElement );
-				wpseo_notification_counter = 0;
+				wpseoNotificationCounter = 0;
 			}
 
-			if ( wpseo_notification_counter < 20 && response === "" ) {
-				wpseo_notification_counter++;
-				setTimeout( wpseo_show_notification, 500 );
+			if ( wpseoNotificationCounter < 20 && response === "" ) {
+				wpseoNotificationCounter++;
+				setTimeout( wpseoShowNotification, 500 );
 			}
 		}
 	);
 }
 
-window.wpseo_show_notification = wpseo_show_notification;
+window.wpseoShowNotification = wpseoShowNotification;
 
 /**
  * Gets the current page based on the current URL.
  *
  * @returns {string} The current page.
  */
-function wpseo_get_current_page() {
+function wpseoGetCurrentPage() {
 	return jQuery( location ).attr( "pathname" ).split( "/" ).pop();
 }
 
-window.wpseo_get_current_page = wpseo_get_current_page;
+window.wpseoGetCurrentPage = wpseoGetCurrentPage;
 
 /**
  * Gets the current slug of a post based on the current page and post or term being edited.
  *
  * @returns {string} The slug of the current post or term.
  */
-function wpseo_get_current_slug() {
-	var currentPost = wpseo_get_item_id();
-	var currentPage = wpseo_get_current_page();
+function wpseoGetCurrentSlug() {
+	var currentPost = wpseoGetItemId();
+	var currentPage = wpseoGetCurrentPage();
 
 	if ( currentPage === "edit.php" ) {
 		return jQuery( "#inline_" + currentPost ).find( ".post_name" ).html();
@@ -68,33 +69,33 @@ function wpseo_get_current_slug() {
 	return "";
 }
 
-window.wpseo_get_current_slug = wpseo_get_current_slug;
+window.wpseoGetCurrentSlug = wpseoGetCurrentSlug;
 
 /**
  * Checks whether or not the slug has changed.
  *
  * @returns {boolean} Whether or not the slug has changed.
  */
-function wpseo_slug_changed() {
-	var editor = wpseo_get_active_editor();
-	var currentSlug = wpseo_get_current_slug();
+function wpseoSlugChanged() {
+	var editor = wpseoGetActiveEditor();
+	var currentSlug = wpseoGetCurrentSlug();
 	var wpseo_new_slug =  editor.find( "input[name=post_name]" ).val();
 
 	return currentSlug !== wpseo_new_slug;
 }
 
-window.wpseo_slug_changed = wpseo_slug_changed;
+window.wpseoSlugChanged = wpseoSlugChanged;
 
 /**
  * Gets the currently active editor used in quick edit.
  *
  * @returns {Object} The editor that is currently active.
  */
-function wpseo_get_active_editor() {
+function wpseoGetActiveEditor() {
 	return jQuery( "tr.inline-editor" );
 }
 
-window.wpseo_get_active_editor = wpseo_get_active_editor;
+window.wpseoGetActiveEditor = wpseoGetActiveEditor;
 
 /**
  * Gets the current post or term id.
@@ -102,8 +103,8 @@ window.wpseo_get_active_editor = wpseo_get_active_editor;
  *
  * @returns {string} The ID of the current post or term.
  */
-function wpseo_get_item_id() {
-	var editor = wpseo_get_active_editor();
+function wpseoGetItemId() {
+	var editor = wpseoGetActiveEditor();
 
 	if ( editor.length === 0 || editor === "" ) {
 		return "";
@@ -112,7 +113,7 @@ function wpseo_get_item_id() {
 	return editor.attr( "id" ).replace( "edit-", "" );
 }
 
-window.wpseo_get_item_id = wpseo_get_item_id;
+window.wpseoGetItemId = wpseoGetItemId;
 
 /**
  * Handles the key-based events in the quick edit editor.
@@ -121,14 +122,14 @@ window.wpseo_get_item_id = wpseo_get_item_id;
  *
  * @returns {void}
  */
-function wpseo_handle_key_events( ev ) {
+function wpseoHandleKeyEvents( ev ) {
 	// 13 refers to the enter key.
-	if ( ev.which === 13 && wpseo_slug_changed() ) {
-		wpseo_show_notification();
+	if ( ev.which === 13 && wpseoSlugChanged() ) {
+		wpseoShowNotification();
 	}
 }
 
-window.wpseo_handle_key_events = wpseo_handle_key_events;
+window.wpseoHandleKeyEvents = wpseoHandleKeyEvents;
 
 /**
  * Handles the button-based events in the quick edit editor.
@@ -137,28 +138,28 @@ window.wpseo_handle_key_events = wpseo_handle_key_events;
  *
  * @returns {void}
  */
-function wpseo_handle_button_events( ev ) {
-	if ( jQuery( ev.target ).attr( "id" ) !== "save-order" && wpseo_slug_changed() ) {
-		wpseo_show_notification();
+function wpseoHandleButtonEvents( ev ) {
+	if ( jQuery( ev.target ).attr( "id" ) !== "save-order" && wpseoSlugChanged() ) {
+		wpseoShowNotification();
 	}
 }
 
-window.wpseo_handle_button_events = wpseo_handle_button_events;
+window.wpseoHandleButtonEvents = wpseoHandleButtonEvents;
 
-window.wpseo_undo_redirect = redirectFunctions.wpseo_undo_redirect;
-window.wpseo_create_redirect = redirectFunctions.wpseo_create_redirect;
+window.wpseoUndoRedirect = redirectFunctions.wpseoUndoRedirect;
+window.wpseoCreateRedirect = redirectFunctions.wpseoCreateRedirect;
 
 ( jQuery( function() {
-	var wpseoCurrentPage = wpseo_get_current_page();
+	var wpseoCurrentPage = wpseoGetCurrentPage();
 
 	// If current page is edit*.php, continue execution.
 	if ( wpseoCurrentPage === "edit.php" || wpseoCurrentPage === "edit-tags.php" ) {
 		jQuery( "#inline-edit input" ).on( "keydown", function( ev ) {
-			wpseo_handle_key_events( ev );
+			wpseoHandleKeyEvents( ev );
 		} );
 
 		jQuery( ".button-primary" ).click( function( ev ) {
-			wpseo_handle_button_events( ev );
+			wpseoHandleButtonEvents( ev );
 		} );
 	}
 } ) );

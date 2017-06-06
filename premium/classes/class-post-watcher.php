@@ -31,12 +31,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		if ( $current_page === 'edit.php' ) {
 			wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-quickedit-notification-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
-			wp_localize_script( 'wp-seo-premium-quickedit-notification', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
+			wp_localize_script( 'wp-seo-premium-quickedit-notification', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
 		}
 
 		if ( $current_page === 'post.php' ) {
 			wp_enqueue_script( 'wp-seo-premium-redirect-notifications', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-redirect-notifications-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
-			wp_localize_script( 'wp-seo-premium-redirect-notifications', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
+			wp_localize_script( 'wp-seo-premium-redirect-notifications', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
 		}
 	}
 
@@ -133,13 +133,14 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			$id = 'wpseo_redirect_' . md5( $url );
 
 			// Format the message.
-			/* translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a href=''>, %4$s: </a> */
+			/* translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a href=''>, %4$s: </a>, %5$s: Slug to post */
 			$message = sprintf(
-				__( '%1$s detected that you moved a post to the trash. You can either: %2$s Don\'t know what to do? %3$sRead this post%4$s.', 'wordpress-seo-premium' ),
+				__( '%1$s detected that you moved a post (%5$s) to the trash. You can either: %2$s Don\'t know what to do? %3$sRead this post%4$s.', 'wordpress-seo-premium' ),
 				'Yoast SEO Premium',
 				$this->get_delete_action_list( $url, $id ),
 				'<a target="_blank" href="https://yoast.com/deleting-pages-from-your-site/#utm_source=wordpress-seo-premium-' . $this->watch_type . '-watcher&amp;utm_medium=dialog&amp;utm_campaign=410-redirect">',
-				'</a>'
+				'</a>',
+				'<code>' . $url . '</code>'
 			);
 
 			$this->create_notification( $message, 'trash' ); // , $id );
@@ -153,18 +154,20 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param integer $post_id The current post ID.
 	 */
 	public function detect_post_untrash( $post_id ) {
+		$redirect = $this->check_if_redirect_needed( $post_id, true );
 
-		if ( $redirect = $this->check_if_redirect_needed( $post_id, true ) ) {
+		if ( $redirect ) {
 
 			$id = 'wpseo_undo_redirect_' . md5( $redirect->get_origin() );
 
 			// Format the message.
-			/* translators: %1$s: Yoast SEO Premium, %2$s: <a href='{undo_redirect_url}'>, %3$s: </a> */
+			/* translators: %1$s: Yoast SEO Premium, %2$s: <a href='{undo_redirect_url}'>, %3$s: </a>, %4$s: Slug to post */
 			$message = sprintf(
-				__( '%1$s detected that you restored a post from the trash. %2$sClick here to remove the redirect%3$s', 'wordpress-seo-premium' ),
+				__( '%1$s detected that you restored a post (%4$s) from the trash. %2$sClick here to remove the redirect%3$s', 'wordpress-seo-premium' ),
 				'Yoast SEO Premium',
 				'<button type="button" class="button" onclick=\'' . $this->javascript_undo_redirect( $redirect, $id ). '\'>',
-				'</button>'
+				'</button>',
+				'<code>' . $redirect->get_origin() . '</code>'
 			);
 
 			$this->create_notification( $message, 'untrash' );
