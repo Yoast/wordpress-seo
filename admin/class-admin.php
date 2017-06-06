@@ -88,6 +88,7 @@ class WPSEO_Admin {
 
 		if ( WPSEO_Utils::is_api_available() ) {
 			$configuration = new WPSEO_Configuration_Page;
+			$configuration->set_hooks();
 			$configuration->catch_configuration_request();
 		}
 

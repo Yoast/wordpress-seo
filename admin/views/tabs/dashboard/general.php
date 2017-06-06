@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( WPSEO_Utils::is_api_available() ) :
+if ( WPSEO_Utils::is_api_available() && current_user_can( WPSEO_Configuration_Endpoint::CAPABILITY_RETRIEVE )  ) :
 	echo '<h2>' . esc_html__( 'Configuration wizard', 'wordpress-seo' ) . '</h2>';
 	?>
 	<p>

@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
 Tested up to: 4.7
-Stable tag: 4.7.1
+Stable tag: 4.8
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -124,6 +124,17 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 4.8.0 =
+
+Release Date: May 23rd, 2017
+
+* Bugfixes
+	* Fixes a bug where the tabs in the social and advanced metabox section are gone when keyword analysis has been disabled.
+
+* Enhancements
+	* Optimizes the way the cornerstone flag is saved.
+	* Analyzes the content using cornerstone assessors when a post or page is cornerstone content.
+
 = 4.7.1 =
 
 Release Date: May 9th, 2017
@@ -143,18 +154,6 @@ Release Date: May 2nd, 2017
 	* Fixes a bug where the `_yst_is_cornerstone` meta value was not prefixed, causing some themes/plugins to output this meta value.
 	* Fixes a bug where style and script elements were parsed for the prominent words.
 	* Fixes a bug where the cursor pointer was in front of the metabox.
-
-= 4.6.0 =
-
-Release Date: April 11th, 2017
-
-* Enhancements
-	* Improves a language string, props [Sören Wrede](https://github.com/Soean).
-	* Improves the configuration wizard with clear information about the configuration.
-	* Adds the ability to mark posts as cornerstone content.
-
-* Bugfixes
-	* Fixes an issue in combination with WooCommerce 3.0 where the plugins would load incompatible select2 versions.
 
 = Earlier versions =
 
