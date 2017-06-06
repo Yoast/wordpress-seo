@@ -291,15 +291,31 @@ class WPSEO_Upgrade {
 	private function upgrade_49() {
 		global $wpdb;
 
-		$usermetas = $wpdb->get_results( '
-			SELECT user_id, meta_value 
-			FROM ' . $wpdb->usermeta . ' 
-			WHERE meta_key = "wp_yoast_notifications" && meta_value LIKE "%wpseo-dismiss-about%"
-			', ARRAY_A
+		/*
+		 * Using a filter to remove the notification for the current logged in user. The notification center is
+		 * initializing the notifications before the upgrade routine has been executedd and is saving the stored
+		 * notifications on shutdown. This causes the returning notification. By adding this filter the shutdown
+		 * routine on the notification center will remove the notification.
+		 */
+		add_filter( 'yoast_notifications_before_storage', array( $this, 'remove_about_notice' ) );
+
+		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
+
+		$usermetas = $wpdb->get_results(
+			$wpdb->prepare('
+				SELECT user_id, meta_value 
+				FROM ' . $wpdb->usermeta . ' 
+				WHERE meta_key = %s AND meta_value LIKE "%%wpseo-dismiss-about%%"
+				', $meta_key ),
+				ARRAY_A
 		);
 
+		if ( empty( $usermetas ) ) {
+			return;
+		}
+
 		foreach ( $usermetas as $usermeta ) {
-			$notifications = unserialize( $usermeta['meta_value'] );
+			$notifications = maybe_unserialize( $usermeta['meta_value'] );
 
 			foreach ( $notifications as $notification_key => $notification ) {
 				if ( ! empty( $notification['options']['id'] ) && $notification['options']['id'] === 'wpseo-dismiss-about' ) {
@@ -307,17 +323,24 @@ class WPSEO_Upgrade {
 				}
 			}
 
-			// Using a hard query, because WordPress is caching the user meta.
-			$wpdb->query(
-				$wpdb->prepare('
-					UPDATE ' . $wpdb->usermeta . '
-					SET meta_value = "%s"
-					WHERE meta_key = "wp_yoast_notifications" && user_id = "%s"
-					',
-					serialize( $notifications ),
-					$usermeta['user_id']
-				)
-			);
+			update_user_option( $usermeta['user_id'], Yoast_Notification_Center::STORAGE_KEY, array_values( $notifications ) );
 		}
 	}
+
+	/**
+	 * @param Yoast_Notification[] $notifications
+	 *
+	 * @return mixed
+	 */
+	public function remove_about_notice( $notifications ) {
+
+		foreach( $notifications as $notification_key => $notification ) {
+			if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
+				unset( $notifications[ $notification_key ] );
+			}
+		}
+
+		return $notifications;
+	}
+
 }

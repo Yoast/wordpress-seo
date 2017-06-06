@@ -361,6 +361,8 @@ class Yoast_Notification_Center {
 
 		$notifications = $this->get_notifications();
 
+		$notifications = apply_filters( 'yoast_notifications_before_storage', $notifications );
+
 		// No notifications to store, clear storage.
 		if ( empty( $notifications ) ) {
 			$this->remove_storage();
