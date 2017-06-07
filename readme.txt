@@ -133,6 +133,7 @@ Release date: June 7th, 2017
 	* Fixes a bug where the configuration wizard button was visible for users who didn't have enough rights to access the configuration wizard.
 	* Fixes a bug where the column `ID` was ambiguous, causing an SQL error.
 	* Fixes a bug where the category URL in the sitemap was encoded twice.
+	* Fixes a bug where an old upgrade notice is not removed.
 
 * Enhancements
 	* Removes the noodp advanced robots meta value as it is no longer used.
