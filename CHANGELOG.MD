@@ -8,11 +8,13 @@ We follow [Semantic Versioning](http://semver.org/).
 ## 2.6.0:
 
 ### Changed
+
 * Changes the color blue from #0075b3 to #0066cd.
 
 ## 2.5.0: 
 
 ### Added
+
 - [ConfigurationWizard] Adds possibility to disable navigation on a step page
 - [ConfigurationWizard] Adds icons to next, previous and close buttons
 - [ConfigurationWizard] Pass `nextStep` and `previousStep` functions to Steps
