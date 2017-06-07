@@ -130,7 +130,7 @@ Release date: June 7th, 2017
 
 * Bugfixes
 	* Fixes a bug where there were certain assessments missing when switching to cornerstone content.
-	* Fixes a bug where the configuration wizard button was visible for users who didn' have enough rights to access the configuration wizard.
+	* Fixes a bug where the configuration wizard button was visible for users who didn't have enough rights to access the configuration wizard.
 	* Fixes a bug where the column `ID` was ambiguous, causing an SQL error.
 	* Fixes a bug where the category URL in the sitemap was encoded twice.
 
