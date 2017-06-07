@@ -126,7 +126,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 = 4.9.0 =
 
-Release date: June 7th, 2017
+Release Date: June 7th, 2017
 
 * Bugfixes
 	* Fixes a bug where there were certain assessments missing when switching to cornerstone content.
