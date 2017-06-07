@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
 ## 1.17.0: June 7th, 2017
+
 ### Fixed
 * Fixes a bug where assessments added with the pluggable were omitted.
 
