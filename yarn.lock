@@ -4160,24 +4160,3 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
-
-"yoastseo@https://github.com/yoast/yoastseo.js#release/1.16":
-  version "1.15.0"
-  resolved "https://github.com/yoast/yoastseo.js#5b39378ce9e195404eda6be45a7f47cd0a632a90"
-  dependencies:
-    htmlparser2 "^3.9.2"
-    jed "^1.1.0"
-    lodash "^4.14.1"
-    sassdash "^0.8.1"
-    tokenizer2 "^2.0.0"
-
-"yoastseo@https://github.com/yoast/yoastseo.js#release/1.17":
-  version "1.16.0"
-  resolved "https://github.com/yoast/yoastseo.js#41f4a5da9d4ae9d227c9a4ec51d3e12cdebbad3f"
-  dependencies:
-    htmlparser2 "^3.9.2"
-    jed "^1.1.0"
-    lodash "^4.14.1"
-    sassdash "^0.8.1"
-    tokenizer2 "^2.0.0"
-    yoastseo "https://github.com/yoast/yoastseo.js#release/1.16"
