@@ -5717,9 +5717,9 @@ yoast-components@^1.0.0:
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
-yoast-components@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.5.0.tgz#20a47b76cb7f5d9a9af97b366cd5291b9c4b0c5c"
+yoast-components@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.6.0.tgz#88e8cd67088ef254eadada81adfebea1036b4417"
   dependencies:
     i18n-calypso "^1.6.2"
     interpolate-components "^1.1.0"
@@ -5751,15 +5751,16 @@ yoast-components@^2.5.0:
     yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#master"
 
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#master":
-  version "1.7.0"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#8ee1ec8ab921d00305916cbfb098e2a046d3dfd4"
+  version "1.17.2"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#e0269fb92905293973a5e2e0f3ac4567ecb5e14e"
   dependencies:
+    htmlparser2 "^3.9.2"
     jed "^1.1.0"
     lodash "^4.14.1"
     sassdash "^0.8.1"
     tokenizer2 "^2.0.0"
 
-"yoastseo@https://github.com/Yoast/YoastSEO.js#1.16.0", "yoastseo@https://github.com/yoast/yoastseo.js#release/1.16":
+"yoastseo@https://github.com/Yoast/YoastSEO.js#1.16.0":
   version "1.16.0"
   resolved "https://github.com/Yoast/YoastSEO.js#68d95dfe21d1321cd72a9c775c603653ee0529ba"
   dependencies:
@@ -5770,12 +5771,25 @@ yoast-components@^2.5.0:
     tokenizer2 "^2.0.0"
     yoastseo "https://github.com/yoast/yoastseo.js#release/1.16"
 
-"yoastseo@https://github.com/Yoast/YoastSEO.js#master":
-  version "1.15.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#9ae141e9d876cdfd092579d71378ffb16815e688"
+"yoastseo@https://github.com/Yoast/YoastSEO.js#1.17.2":
+  version "1.17.2"
+  uid e0269fb92905293973a5e2e0f3ac4567ecb5e14e
+  resolved "https://github.com/Yoast/YoastSEO.js#e0269fb92905293973a5e2e0f3ac4567ecb5e14e"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
     lodash "^4.14.1"
     sassdash "^0.8.1"
     tokenizer2 "^2.0.0"
+
+"yoastseo@https://github.com/yoast/yoastseo.js#release/1.16":
+  version "1.16.0"
+  uid "68d95dfe21d1321cd72a9c775c603653ee0529ba"
+  resolved "https://github.com/yoast/yoastseo.js#68d95dfe21d1321cd72a9c775c603653ee0529ba"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    lodash "^4.14.1"
+    sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"
+    yoastseo "https://github.com/yoast/yoastseo.js#release/1.16"
