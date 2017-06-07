@@ -81,8 +81,13 @@ class WPSEO_Sitemap_Timezone {
 		// Adjust UTC offset from hours to seconds.
 		$utc_offset *= HOUR_IN_SECONDS;
 
-		// Attempt to guess the timezone string from the UTC offset.
-		$timezone = timezone_name_from_abbr( '', $utc_offset );
+		// Attempt to guess the timezone string from the UTC offset and daylight save mode.
+		$timezone = timezone_name_from_abbr('', $utc_offset, 1 );
+
+		if ( false === $timezone ) {
+			// Attempt to guess the timezone string from the UTC offset.
+			$timezone = timezone_name_from_abbr( '', $utc_offset, 0 );
+		}
 
 		if ( false !== $timezone ) {
 			return $timezone;
