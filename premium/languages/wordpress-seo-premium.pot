@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-05-23 07:56:05+00:00\n"
+"POT-Creation-Date: 2017-06-07 12:17:49+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -516,7 +516,7 @@ msgstr ""
 msgid "We're unable to write data to the file %s"
 msgstr ""
 
-#: classes/redirect/class-redirect-page.php:69
+#: classes/redirect/class-redirect-page.php:68
 msgid "Redirects per page"
 msgstr ""
 
