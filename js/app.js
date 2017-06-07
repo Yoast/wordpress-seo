@@ -366,8 +366,8 @@ App.prototype.initializeContentAssessor = function( args ) {
 		return;
 	}
 
-	this.defaultContentAssessor = new ContentAssessor( this.i18n, { marker: this.config.marker } );
-	this.cornerStoneContentAssessor = new CornerstoneContentAssessor( this.i18n, { marker: this.config.marker } );
+	this.defaultContentAssessor = new ContentAssessor( this.i18n, { marker: this.config.marker, locale: this.config.locale }  );
+	this.cornerStoneContentAssessor = new CornerstoneContentAssessor( this.i18n, { marker: this.config.marker, locale: this.config.locale } );
 
 	// Set the content assessor
 	if ( isUndefined( args.contentAssessor ) ) {
