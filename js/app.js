@@ -362,7 +362,6 @@ App.prototype.initializeSEOAssessor = function( args ) {
  * @returns {void}
  */
 App.prototype.initializeContentAssessor = function( args ) {
-	console.log( args );
 	if ( ! args.contentAnalysisActive ) {
 		return;
 	}
