@@ -24,6 +24,7 @@ module.exports = {
 			"js/dist/wp-seo-replacevar-plugin-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-replacevar-plugin.js" ],
 			"js/dist/wp-seo-shortcode-plugin-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-shortcode-plugin.js" ],
 			"js/dist/wp-seo-term-scraper-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-term-scraper.js" ],
+			"js/dist/wp-seo-babel-polyfill-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-babel-polyfill.js" ],
 		},
 	},
 	"release-es6": {
