@@ -33,7 +33,6 @@ let CornerStoneContentAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	let locale = options.locale;
-	console.log( locale );
 
 	this._assessments = [
 

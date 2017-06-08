@@ -8,7 +8,6 @@ let configurations = {
 };
 
 module.exports = function( locale ) {
-	console.log( locale );
 	let language = getLanguage( locale );
 	if( configurations.hasOwnProperty( language ) ) {
 		return merge( defaultConfig, configurations[ language ] );
