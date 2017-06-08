@@ -171,6 +171,11 @@ class AlgoliaSearcher extends React.Component {
 		this.setState( { showDetail: false } );
 	}
 
+	/**
+	 * Renders a no results found text.
+	 *
+	 * @returns {JSX} The no results found text.
+	 */
 	renderNoResultsFound() {
 		let searchResultContent = <p>{ this.props.noResultsText }</p>;
 		a11ySpeak( this.props.noResultsText );
@@ -178,6 +183,13 @@ class AlgoliaSearcher extends React.Component {
 		return searchResultContent;
 	}
 
+	/**
+	 * Maps the results to SearchResult components.
+	 *
+	 * @param {object} results The results returned by Algolia.
+	 *
+	 * @returns {void}
+	 */
 	resultsToSearchItem( results ) {
 		return results.map( ( result, index ) => {
 			return <SearchResult
@@ -272,7 +284,7 @@ class AlgoliaSearcher extends React.Component {
 
 		let searchBar = <SearchBar
 			headingText={ this.props.headingText }
-			submitAction={ this.searchButtonClicked.bind(this) }
+			submitAction={ this.searchButtonClicked.bind( this ) }
 			searchString={ this.state.searchString }
 			searchButtonText={ this.props.searchButtonText }
 		/>;
@@ -295,6 +307,7 @@ class AlgoliaSearcher extends React.Component {
 
 		// Else show the article content/detail view.
 		if ( this.state.showDetail !== false ) {
+			searchBar = "";
 			results = this.renderDetail();
 		}
 
