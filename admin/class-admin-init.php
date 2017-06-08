@@ -86,7 +86,7 @@ class WPSEO_Admin_Init {
 				sprintf(
 					__( 'Warning! You have not yet activated %1$s in My Yoast. If you want to do so now, please visit %2$sMy Yoast%3$s. Otherwise, you will not receive updates or support.', 'wordpress-seo' ),
 					$product_name,
-				'<a href="https://yoa.st/13i" target="_blank">',
+				'<a href="https://yoa.st/13j" target="_blank">',
 					'</a>'
 				),
 				$notification_options
