@@ -87,25 +87,25 @@ class PageTitleWidthAssesment extends Assessment {
 		if ( inRange( pageTitleWidth, 1, 400 ) ) {
 			return i18n.dgettext(
 				"js-text-analysis",
-				"The page title is too short. Use the space to add keyword variations or create compelling call-to-action copy."
+				"The snippet title is too short. Use the space to add keyword variations or create compelling call-to-action copy."
 			);
 		}
 
 		if ( inRange( pageTitleWidth, this._config.minLength, this._config.maxLength ) ) {
 			return i18n.dgettext(
 				"js-text-analysis",
-				"The page title has a nice length."
+				"The snippet title has a nice length."
 			);
 		}
 
 		if ( pageTitleWidth > this._config.maxLength ) {
 			return i18n.dgettext(
 				"js-text-analysis",
-				"The page title is wider than the viewable limit."
+				"The snippet title is wider than the viewable limit."
 			);
 		}
 
-		return i18n.dgettext( "js-text-analysis", "Please create a page title." );
+		return i18n.dgettext( "js-text-analysis", "Please create a snippet title." );
 	}
 
 }
