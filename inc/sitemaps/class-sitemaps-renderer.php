@@ -186,7 +186,7 @@ class WPSEO_Sitemaps_Renderer {
 			$date = $this->timezone->format_date( $url['lastmod'] );
 		}
 
-		$url['loc'] = htmlspecialchars( $url['loc'] );
+		$url['loc'] = apply_filters( 'wpseo_sitemap_index_url', htmlspecialchars( $url['loc'] ) );
 
 		$output = "\t<sitemap>\n";
 		$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
