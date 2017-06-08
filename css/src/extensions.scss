@@ -195,10 +195,15 @@
 		}
 	}
 
-	&-link--license {
+	&-link--license,
+	&-link--more-info {
 		font-family: "Open Sans", Arial, sans-serif;
 		color: $color-pink-dark;
 		font-weight: 600;
+	}
+
+	&-link--license {
+
 		margin:  1em 0 0 0;
 
 		.yoast-promo-extension & {
@@ -213,7 +218,6 @@
 
 
 	&-link--more-info {
-		color: $color-grey-text;
 		background: url(svg-icon-info($color-grey-text));
 		padding-left: calc( 1em + 5px );
 		background-size: 1em;
