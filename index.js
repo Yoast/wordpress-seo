@@ -6,6 +6,7 @@ import Progressbar from "./forms/Progressbar";
 import Section from "./forms/Section";
 import Textarea from "./forms/Textarea";
 import OnboardingWizard from "./composites/OnboardingWizard/OnboardingWizard";
+import AlgoliaSearcher from "./composites/AlgoliaSearch/AlgoliaSearcher";
 
 export {
 	Textfield,
@@ -15,5 +16,6 @@ export {
 	Progressbar,
 	Section,
 	Textarea,
-	OnboardingWizard
+	OnboardingWizard,
+	AlgoliaSearcher
 };
