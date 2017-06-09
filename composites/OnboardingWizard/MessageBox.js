@@ -8,11 +8,11 @@ import interpolateComponents from "interpolate-components";
  *
  * @param {object} props Object containing the text and link to render in the messagebox.
  *
- * @returns {React.element} The rendered messagebox.
+ * @returns {ReactElement} The rendered message box.
  */
 const MessageBox = ( props ) => (
 	<div className="yoast-wizard-body">
-		<YoastLogo height={93} width={200}/>
+		<YoastLogo height={ 93 } width={ 200 }/>
 		<div className="yoast-wizard-container yoast-wizard-container--no-navigation">
 			<div className="yoast-wizard">
 				{ interpolateComponents( props ) }
