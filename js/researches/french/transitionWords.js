@@ -48,8 +48,8 @@ var multipleWords = [ "à cause de", "à ce jour", "à ce propos", "à ce sujet"
 	"tout d'abord", "tout de même", "vu que" ];
 
 /**
- * Returns an array with transition words to be used by the assessments.
- * @returns {Array} The array filled with transition words.
+ * Returns an list with transition words to be used by the assessments.
+ * @returns {Object} The list filled with transition word lists.
  */
 module.exports = function() {
 	return {
