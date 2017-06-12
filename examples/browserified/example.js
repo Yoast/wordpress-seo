@@ -19,6 +19,7 @@ var bindEvents = function( app ) {
 var setLocale = function() {
 	this.config.locale = document.getElementById( "locale" ).value;
 	this.initializeAssessors( this.config );
+	this.initAssessorPresenters();
 	this.refresh();
 };
 
