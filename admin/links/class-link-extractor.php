@@ -28,8 +28,7 @@ class WPSEO_Link_Extractor {
 	public function extract() {
 		$regexp = "<a\s[^>]*href=(\"??)([^\" >]*?)\\1[^>]*>.*<\/a>";
 		$links  = array();
-		if ( preg_match_all("/$regexp/siU", $this->content, $matches, PREG_SET_ORDER ) ) {
-
+		if ( preg_match_all( "/$regexp/siU", $this->content, $matches, PREG_SET_ORDER ) ) {
 			foreach ( $matches as $match ) {
 				$links[] = $match[2];
 			}
