@@ -35,11 +35,7 @@ let sum = require( "lodash/sum" );
  */
 let ContentAssessor = function( i18n, options = {} ) {
 	Assessor.call( this, i18n, options );
-	let locale = "en_US";
-	if ( options.hasOwnProperty( "locale" ) ) {
-		locale = options.locale;
-	}
-
+	let locale = ( options.hasOwnProperty( "locale" ) ) ? options.locale : "en_US";
 
 	this._assessments = [
 

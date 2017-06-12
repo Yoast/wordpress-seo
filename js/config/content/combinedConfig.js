@@ -1,4 +1,4 @@
-let merge = require( "lodash/merge" );
+let defaultsDeep = require( "lodash/defaultsDeep" );
 let getLanguage = require( "./../../helpers/getLanguage" );
 let defaultConfig = require( "./default" );
 let it = require( "./it" );
@@ -10,7 +10,7 @@ let configurations = {
 module.exports = function( locale ) {
 	let language = getLanguage( locale );
 	if( configurations.hasOwnProperty( language ) ) {
-		return merge( defaultConfig, configurations[ language ] );
+		return defaultsDeep( configurations[ language ], defaultConfig );
 	}
 
 	return defaultConfig;
