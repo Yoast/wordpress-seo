@@ -136,6 +136,7 @@ class App extends React.Component {
 		}
 
 		let message = {
+			/** Translators: {{link}} resolves to the link opening tag to https://yoa.st/configuration-wizard-error-plugin-conflict, {{/link}} resolves to the link closing tag. **/
 			mixedString:
 			"The configuration wizard could not be started." +
 			" The likely cause is an interfering plugin. Please {{link}}check for plugin conflicts{{/link}} to solve this problem. ",
