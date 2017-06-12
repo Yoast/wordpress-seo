@@ -1,13 +1,16 @@
-var Assessor = require( "./assessor.js" );
+let Assessor = require( "./assessor.js" );
 
-var fleschReadingEase = require( "./assessments/readability/fleschReadingEaseAssessment.js" );
-var paragraphTooLong = require( "./assessments/readability/paragraphTooLongAssessment.js" );
-var SentenceLengthInText = require( "./assessments/readability/sentenceLengthInTextAssessment.js" );
-var SubheadingDistributionTooLong = require( "./assessments/readability/subheadingDistributionTooLongAssessment.js" );
-var transitionWords = require( "./assessments/readability/transitionWordsAssessment.js" );
-var passiveVoice = require( "./assessments/readability/passiveVoiceAssessment.js" );
-var sentenceBeginnings = require( "./assessments/readability/sentenceBeginningsAssessment.js" );
-var textPresence = require( "./assessments/readability/textPresenceAssessment.js" );
+let fleschReadingEase = require( "./assessments/readability/fleschReadingEaseAssessment.js" );
+let paragraphTooLong = require( "./assessments/readability/paragraphTooLongAssessment.js" );
+let SentenceLengthInText = require( "./assessments/readability/sentenceLengthInTextAssessment.js" );
+let SubheadingDistributionTooLong = require( "./assessments/readability/subheadingDistributionTooLongAssessment.js" );
+let transitionWords = require( "./assessments/readability/transitionWordsAssessment.js" );
+let passiveVoice = require( "./assessments/readability/passiveVoiceAssessment.js" );
+let sentenceBeginnings = require( "./assessments/readability/sentenceBeginningsAssessment.js" );
+let textPresence = require( "./assessments/readability/textPresenceAssessment.js" );
+
+let contentConfiguration = require( "./config/content/combinedConfig.js" );
+
 /*
 	Temporarily disabled:
 
@@ -15,10 +18,10 @@ var textPresence = require( "./assessments/readability/textPresenceAssessment.js
 	var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
  */
 
-var scoreToRating = require( "./interpreters/scoreToRating" );
+let scoreToRating = require( "./interpreters/scoreToRating" );
 
-var map = require( "lodash/map" );
-var sum = require( "lodash/sum" );
+let map = require( "lodash/map" );
+let sum = require( "lodash/sum" );
 
 /**
  * Creates the Assessor
@@ -26,18 +29,20 @@ var sum = require( "lodash/sum" );
  * @param {object} i18n The i18n object used for translations.
  * @param {Object} options The options for this assessor.
  * @param {Object} options.marker The marker to pass the list of marks to.
+ * @param {string} options.locale The locale.
  *
  * @constructor
  */
-var ContentAssessor = function( i18n, options ) {
+let ContentAssessor = function( i18n, options = {} ) {
 	Assessor.call( this, i18n, options );
+	let locale = ( options.hasOwnProperty( "locale" ) ) ? options.locale : "en_US";
 
 	this._assessments = [
 
 		fleschReadingEase,
 		new SubheadingDistributionTooLong(),
 		paragraphTooLong,
-		new SentenceLengthInText(),
+		new SentenceLengthInText( contentConfiguration( locale ).sentenceLength ),
 		transitionWords,
 		passiveVoice,
 		textPresence,
@@ -91,8 +96,8 @@ ContentAssessor.prototype.calculatePenaltyPointsPartialSupport = function( ratin
  * @returns {boolean} True if fully supported.
  */
 ContentAssessor.prototype._allAssessmentsSupported = function() {
-	var numberOfAssessments = 8;
-	var applicableAssessments = this.getApplicableAssessments();
+	let numberOfAssessments = 8;
+	let applicableAssessments = this.getApplicableAssessments();
 	return applicableAssessments.length === numberOfAssessments;
 };
 
@@ -102,10 +107,10 @@ ContentAssessor.prototype._allAssessmentsSupported = function() {
  * @returns {number} The total penalty points for the results.
  */
 ContentAssessor.prototype.calculatePenaltyPoints = function() {
-	var results = this.getValidResults();
+	let results = this.getValidResults();
 
-	var penaltyPoints = map( results, function( result ) {
-		var rating = scoreToRating( result.getScore() );
+	let penaltyPoints = map( results, function( result ) {
+		let rating = scoreToRating( result.getScore() );
 
 		if ( this._allAssessmentsSupported() ) {
 			return this.calculatePenaltyPointsFullSupport( rating );
@@ -163,14 +168,14 @@ ContentAssessor.prototype._ratePenaltyPoints = function( totalPenaltyPoints ) {
  * @returns {number} The overall score.
  */
 ContentAssessor.prototype.calculateOverallScore = function() {
-	var results = this.getValidResults();
+	let results = this.getValidResults();
 
 	// If you have no content, you have a red indicator.
 	if ( results.length === 0 ) {
 		return 30;
 	}
 
-	var totalPenaltyPoints = this.calculatePenaltyPoints();
+	let totalPenaltyPoints = this.calculatePenaltyPoints();
 
 	return this._ratePenaltyPoints( totalPenaltyPoints );
 };
