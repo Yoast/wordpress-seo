@@ -1,6 +1,5 @@
 <?php
 
-/** @group test */
 class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 
 	/**
