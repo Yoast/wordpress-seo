@@ -3,8 +3,8 @@ var notFilteredPassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )()
 var transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
- * Returns an array with exceptions for the prominent words researcher
- * @returns {Array} The array filled with exceptions.
+ * Returns an object with exceptions for the prominent words researcher
+ * @returns {Object} The object filled with exception arrays.
  */
 
 var articles = [ "the", "an", "a" ];
@@ -18,7 +18,7 @@ var personalPronounsAccusative = [ "me", "him", "her", "us", "them" ];
 var demonstrativePronouns = [ "this", "that", "these", "those" ];
 var possessivePronouns = [ "my", "your", "his", "her", "its", "their", "our", "mine", "yours", "hers", "theirs", "ours" ];
 var quantifiers = [ "all", "some", "many", "few", "lot", "lots", "tons", "bit", "no", "every", "enough", "little", "less", "much", "more", "most",
-	"plenty", "several", "few", "fewer", "many", "kind" ];
+	"plenty", "several", "few", "fewer", "kind" ];
 var reflexivePronouns = [ "myself", "yourself", "himself", "herself", "itself", "oneself", "ourselves", "yourselves", "themselves" ];
 var indefinitePronouns = [ "none", "nobody", "everyone", "everybody", "someone", "somebody", "anyone", "anybody", "nothing",
 	"everything", "something", "anything", "each", "another", "other", "whatever", "whichever", "whoever", "whomever",

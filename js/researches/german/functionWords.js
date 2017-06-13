@@ -3,8 +3,8 @@ var infinitivePassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().
 var transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
- * Returns an array with exceptions for the prominent words researcher
- * @returns {Array} The array filled with exceptions.
+ * Returns an object with exceptions for the prominent words researcher
+ * @returns {Object} The object filled with exception arrays.
  */
 
 var articles = [ "das", "dem", "den", "der", "des", "die", "ein", "eine", "einem", "einen", "einer", "eines" ];
