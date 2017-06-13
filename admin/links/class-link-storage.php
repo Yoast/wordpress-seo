@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Admin\Links
+ */
 
+/**
+ * Represents the storage of an seo link.
+ */
 class WPSEO_Link_Storage {
 
 	const TABLE_NAME = 'yoast_seo_links';
@@ -49,7 +55,7 @@ class WPSEO_Link_Storage {
 	 *
 	 * @param int $post_id The id to get the links for.
 	 *
-	 * @return array|null|object The resultset
+	 * @return array|null|object The resultset.
 	 */
 	public function get_links( $post_id ) {
 		global $wpdb;
@@ -67,8 +73,8 @@ class WPSEO_Link_Storage {
 	/**
 	 * Walks the given links to save them.
 	 *
-	 * @param integer      $post_id
-	 * @param WPSEO_Link[] $links
+	 * @param integer      $post_id The post id to save.
+	 * @param WPSEO_Link[] $links   The link to save.
 	 */
 	public function save_links( $post_id, array $links ) {
 		array_walk( $links, array( $this, 'save_link' ), $post_id );
@@ -86,9 +92,7 @@ class WPSEO_Link_Storage {
 
 		return $wpdb->delete(
 			$this->get_prefixed_table_name(),
-			array(
-				'post_id' => $post_id
-			),
+			array( 'post_id' => $post_id ),
 			array( '%d' )
 		);
 	}
