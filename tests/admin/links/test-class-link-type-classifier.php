@@ -1,5 +1,6 @@
 <?php
 
+/** @group test */
 class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 
 	/** @var WPSEO_Link_Type_Classifier */
@@ -25,7 +26,7 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 	 * Test with an external link
 	 */
 	public function test_outbound_link() {
-		$this->assertEquals( 'outbound', $this->classifier->classify( 'http://test.com/page' ) );
+		$this->assertEquals( 'external', $this->classifier->classify( 'http://test.com/page' ) );
 	}
 
 	/**
@@ -34,6 +35,47 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 	public function test_with_protocolless_link() {
 		$this->assertEquals( 'internal', $this->classifier->classify( 'page' ) );
 	}
+
+	/**
+	 * Checks the execution of contains_protocol
+	 */
+	public function test_contains_protocol() {
+		/** @var WPSEO_Link_Type_Classifier $classifier */
+		$classifier = $this
+			->getMockBuilder( WPSEO_Link_Type_Classifier::class )
+			->setConstructorArgs( array( 'http://example.com' ) )
+			->setMethods( array( 'contains_protocol' ) )
+			->getMock();
+
+		$classifier
+			->expects( $this->once() )
+			->method( 'contains_protocol' )
+			->with( 'http://test.com/page' )
+			->will( $this->returnValue( true ) );
+
+		$classifier->classify( 'http://test.com/page' );
+	}
+
+	/**
+	 * Checks the execution of is_external_link
+	 */
+	public function test_is_external_link() {
+		/** @var WPSEO_Link_Type_Classifier $classifier */
+		$classifier = $this
+			->getMockBuilder( WPSEO_Link_Type_Classifier::class )
+			->setConstructorArgs( array( 'http://example.com' ) )
+			->setMethods( array( 'is_external_link' ) )
+			->getMock();
+
+		$classifier
+			->expects( $this->once() )
+			->method( 'is_external_link' )
+			->with( 'http://test.com/page' )
+			->will( $this->returnValue( true ) );
+
+		$classifier->classify( 'http://test.com/page' );
+	}
+
 }
 
 
