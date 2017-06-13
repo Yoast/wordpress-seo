@@ -28,7 +28,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			array( new WPSEO_Link( 'test', 0,'external'  ) ),
-			$processor->process( array( 'test' ) )
+			$processor->build( array( 'test' ) )
 		);
 	}
 
@@ -58,7 +58,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			array( new WPSEO_Link( 'test',  2,'internal'  ) ),
-			$processor->process( array( 'test' ) )
+			$processor->build( array( 'test' ) )
 		);
 	}
 

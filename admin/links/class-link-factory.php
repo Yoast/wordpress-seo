@@ -32,15 +32,22 @@ class WPSEO_Link_Factory {
 	 *
 	 * @return WPSEO_Link[] The formatted links.
 	 */
-	public function process( array $extracted_links ) {
-		return array_map( array( $this, 'process_link' ), $extracted_links );
+	public function build( array $extracted_links ) {
+		return array_map( array( $this, 'build_link' ), $extracted_links );
 	}
 
-	public function process_link( $link ) {
+	/**
+	 * Builds the link.
+	 *
+	 * @param string $link The link to build.
+	 *
+	 * @return WPSEO_Link The built link.
+	 */
+	public function build_link( $link ) {
+		$link =  trim( $link, "'" );
 		$link_type = $this->classifier->classify( $link );
 		$target_post_id = $this->internal_lookup->lookup( $link, $link_type );
 
 		return new WPSEO_Link( $link, $target_post_id, $link_type );
-
 	}
 }
