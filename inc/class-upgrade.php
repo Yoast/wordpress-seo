@@ -351,21 +351,7 @@ class WPSEO_Upgrade {
 	 * Adds the yoast_seo_links table to the database.
 	 */
 	private function upgrade_50() {
-		global $wpdb;
-
-		$table_name = $wpdb->get_blog_prefix() . 'yoast_seo_links';
-
-		$wpdb->query("
-			CREATE TABLE IF NOT EXISTS `" . $table_name . "` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                `url` varchar(255) NOT NULL,
-                `post_id` bigint(20) unsigned NOT NULL,
-                `target_post_id` bigint(20) unsigned NOT NULL,
-                `type` enum('internal','outbound') NOT NULL,
-                PRIMARY KEY (`id`),
-                KEY `link` (`post_id`,`target_post_id`)
-			) ENGINE=MyISAM;
-			"
-		);
+		$link_storage = new WPSEO_Link_Storage();
+		$link_storage->create_table();
 	}
 }
