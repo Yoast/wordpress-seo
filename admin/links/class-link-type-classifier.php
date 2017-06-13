@@ -8,19 +8,19 @@
  */
 class WPSEO_Link_Type_Classifier {
 
-	const TYPE_OUTBOUND = 'outbound';
+	const TYPE_EXTERNAL = 'external';
 	const TYPE_INTERNAL = 'internal';
 
 	/** @var string */
-	protected $home_url = '';
+	protected $base_url = '';
 
 	/**
-	 * Constructor setting the home url
+	 * Constructor setting the base url
 	 *
-	 * @param string $home_url The home url to set.
+	 * @param string $base_url The base url to set.
 	 */
-	public function __construct( $home_url ) {
-		$this->home_url = $home_url;
+	public function __construct( $base_url ) {
+		$this->base_url = $base_url;
 	}
 
 	/**
@@ -31,22 +31,22 @@ class WPSEO_Link_Type_Classifier {
 	 * @return string Returns outbound or internal.
 	 */
 	public function classify( $link ) {
-		if ( $this->contains_protocol( $link ) && $this->is_outbound_link( $link ) ) {
-			return self::TYPE_OUTBOUND;
+		if ( $this->contains_protocol( $link ) && $this->is_external_link( $link ) ) {
+			return self::TYPE_EXTERNAL;
 		}
 
 		return self::TYPE_INTERNAL;
 	}
 
 	/**
-	 * Returns true when the link contains https:// or http://
+	 * Returns true when the link starts with https:// or http://
 	 *
 	 * @param string $link The link to check.
 	 *
-	 * @return bool True if the url contains a protocol.
+	 * @return bool True if the url starts with a protocol.
 	 */
-	private function contains_protocol( $link ) {
-		return strstr( $link, 'https://' ) || strstr( $link, 'http://' );
+	protected function contains_protocol( $link ) {
+		return strpos( $link, 'https://' ) === 0 || strpos( $link, 'http://' ) === 0;
 	}
 
 	/**
@@ -56,7 +56,7 @@ class WPSEO_Link_Type_Classifier {
 	 *
 	 * @return bool True when the link doesn't contain the home url.
 	 */
-	private function is_outbound_link( $link ) {
-		return ( strstr( $link, $this->home_url ) === false );
+	protected function is_external_link( $link ) {
+		return ( strpos( $link, $this->base_url ) === false );
 	}
 }
