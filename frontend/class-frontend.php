@@ -755,13 +755,13 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 				}
 			}
+		}
 
-			$is_paged         = isset( $wp_query->query_vars['paged'] ) && ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 );
-			$noindex_subpages = $this->options['noindex-subpages-wpseo'] === true;
-			if ( $is_paged && $noindex_subpages ) {
-				$robots['index'] = 'noindex';
-			}
-			unset( $robot );
+		$is_paged         = isset( $wp_query->query_vars['paged'] ) && ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 );
+		$noindex_subpages = true === $this->options['noindex-subpages-wpseo'];
+
+		if ( $is_paged && $noindex_subpages ) {
+			$robots['index'] = 'noindex';
 		}
 
 		// Force override to respect the WP settings.
