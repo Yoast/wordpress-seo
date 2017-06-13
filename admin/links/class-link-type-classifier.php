@@ -12,7 +12,7 @@ class WPSEO_Link_Type_Classifier {
 	const TYPE_INTERNAL = 'internal';
 
 	/** @var string */
-	protected $home_url;
+	protected $home_url = '';
 
 	/**
 	 * Constructor setting the home url
