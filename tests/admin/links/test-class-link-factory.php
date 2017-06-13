@@ -1,9 +1,12 @@
 <?php
 
 /** @group test */
-class WPSEO_Link_Processor_Test extends WPSEO_UnitTestCase {
+class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 
-	public function test_process_outbound_link(  ) {
+	/**
+	 * Tests the processing of an external link.
+	 */
+	public function test_process_external_link(  ) {
 
 		/** @var WPSEO_Link_Type_Classifier $stub */
 		$classifier = $this
@@ -13,23 +16,26 @@ class WPSEO_Link_Processor_Test extends WPSEO_UnitTestCase {
 
 		$classifier
 			->method( 'classify' )
-			->willReturn( 'outbound' );
+			->willReturn( 'external' );
 
 		$populator = $this
-			->getMockBuilder( WPSEO_Link_Populator::class )
+			->getMockBuilder( WPSEO_Link_Internal_Lookup::class )
 			->getMock();
 		$populator
-			->method( 'populate' )
+			->method( 'lookup' )
 			->willReturn( 0 );
 
-		$processor = new WPSEO_Link_Processor( $classifier, $populator );
+		$processor = new WPSEO_Link_Factory( $classifier, $populator );
 
 		$this->assertEquals(
-			array( new WPSEO_Link( 'test', 1, 0,'outbound'  ) ),
-			$processor->process( array( 'test' ), 1 )
+			array( new WPSEO_Link( 'test', 0,'external'  ) ),
+			$processor->process( array( 'test' ) )
 		);
 	}
 
+	/**
+	 * Tests the processing of an internal link.
+	 */
 	public function test_process_internal_link(  ) {
 
 		/** @var WPSEO_Link_Type_Classifier $stub */
@@ -43,17 +49,17 @@ class WPSEO_Link_Processor_Test extends WPSEO_UnitTestCase {
 			->willReturn( 'internal' );
 
 		$populator = $this
-			->getMockBuilder( WPSEO_Link_Populator::class )
+			->getMockBuilder( WPSEO_Link_Internal_Lookup::class )
 			->getMock();
 		$populator
-			->method( 'populate' )
+			->method( 'lookup' )
 			->willReturn( 2 );
 
-		$processor = new WPSEO_Link_Processor( $classifier, $populator );
+		$processor = new WPSEO_Link_Factory( $classifier, $populator );
 
 		$this->assertEquals(
-			array( new WPSEO_Link( 'test', 1, 2,'internal'  ) ),
-			$processor->process( array( 'test' ), 1 )
+			array( new WPSEO_Link( 'test',  2,'internal'  ) ),
+			$processor->process( array( 'test' ) )
 		);
 	}
 

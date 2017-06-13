@@ -6,7 +6,7 @@
 /**
  * Represents the conversion from array with string links into WPSEO_Link objects.
  */
-class WPSEO_Link_Processor {
+class WPSEO_Link_Factory {
 
 	/** @var WPSEO_Link_Type_Classifier */
 	protected $classifier;
