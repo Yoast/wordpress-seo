@@ -96,6 +96,7 @@ class WPSEO_Admin {
 
 		$this->check_php_version();
 		$this->initialize_cornerstone_content();
+		$this->initialize_seo_links();
 	}
 
 	/**
@@ -741,7 +742,7 @@ class WPSEO_Admin {
 	 */
 	protected function initialize_cornerstone_content() {
 		if ( ! $this->options['enable_cornerstone_content'] ) {
-			return false;
+			return;
 		}
 
 		$cornerstone = new WPSEO_Cornerstone();
@@ -749,6 +750,14 @@ class WPSEO_Admin {
 
 		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
 		$cornerstone_filter->register_hooks();
+	}
+
+	/**
+	 * Initializes the seo link watcher.
+	 */
+	protected function initialize_seo_links() {
+		$seo_links = new WPSEO_Link_Watcher();
+		$seo_links->register_hooks();
 	}
 
 	/********************** DEPRECATED METHODS **********************/
