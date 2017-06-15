@@ -20,6 +20,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 		$populator = $this
 			->getMockBuilder( WPSEO_Link_Internal_Lookup::class )
 			->getMock();
+
 		$populator
 			->method( 'lookup' )
 			->willReturn( 0 );

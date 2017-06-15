@@ -756,7 +756,13 @@ class WPSEO_Admin {
 	 * Initializes the seo link watcher.
 	 */
 	protected function initialize_seo_links() {
-		$seo_links = new WPSEO_Link_Watcher( new WPSEO_Link_Content_Processor() );
+		global $wpdb;
+
+		$seo_links = new WPSEO_Link_Watcher(
+			new WPSEO_Link_Content_Processor(
+				new WPSEO_Link_Storage( $wpdb->get_blog_prefix() )
+			)
+		);
 		$seo_links->register_hooks();
 	}
 

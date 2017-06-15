@@ -12,11 +12,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			array( 'post_type' => 'revision', 'post_parent' => $post_parent->ID )
 		);
 
-		$processor =  $this
-			->getMockBuilder( WPSEO_Link_Content_Processor::class )
-			->setMethods( array( 'process' ) )
-			->getMock();
-
+		$processor = $this->get_processor();
 		$processor
 			->expects( $this->never() )
 			->method( 'process' )
@@ -35,11 +31,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			array( 'post_status' => 'draft' )
 		);
 
-		$processor =  $this
-			->getMockBuilder( WPSEO_Link_Content_Processor::class )
-			->setMethods( array( 'process' ) )
-			->getMock();
-
+		$processor = $this->get_processor();
 		$processor
 			->expects( $this->never() )
 			->method( 'process' )
@@ -59,11 +51,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			array( 'post_type' => 'hidden' )
 		);
 
-		$processor =  $this
-			->getMockBuilder( WPSEO_Link_Content_Processor::class )
-			->setMethods( array( 'process' ) )
-			->getMock();
-
+		$processor = $this->get_processor();
 		$processor
 			->expects( $this->never() )
 			->method( 'process' )
@@ -83,11 +71,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 				'post_content' => ''
 			));
 
-		$processor =  $this
-			->getMockBuilder( WPSEO_Link_Content_Processor::class )
-			->setMethods( array( 'process' ) )
-			->getMock();
-
+		$processor = $this->get_processor();
 		$processor
 			->expects( $this->never() )
 			->method( 'process' )
@@ -108,11 +92,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$processor =  $this
-			->getMockBuilder( WPSEO_Link_Content_Processor::class )
-			->setMethods( array( 'process' ) )
-			->getMock();
-
+		$processor = $this->get_processor();
 		$processor
 			->expects( $this->once() )
 			->method( 'process' )
@@ -136,10 +116,23 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$this->assertNotEmpty( $storage->get_links( $post->ID ) );
 
-		$watcher = new WPSEO_Link_Watcher( new WPSEO_Link_Content_Processor() );
+		$watcher = new WPSEO_Link_Watcher( new WPSEO_Link_Content_Processor( $storage ) );
 		$watcher->delete_post( $post->ID );
 
 		$this->assertEmpty( $storage->get_links( $post->ID ) );
+	}
+
+	/**
+	 * Returns an 'instance' of the content processor.
+	 *
+	 * @return PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected function get_processor() {
+		return $this
+			->getMockBuilder( WPSEO_Link_Content_Processor::class )
+			->setConstructorArgs( array( new WPSEO_Link_Storage( 'test_' ) ) )
+			->setMethods( array( 'process' ) )
+			->getMock();
 	}
 
 }
