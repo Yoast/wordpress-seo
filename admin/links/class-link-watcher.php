@@ -8,11 +8,24 @@
  */
 class WPSEO_Link_Watcher {
 
+	/** @var WPSEO_Link_Content_Processor */
+	protected $content_processor;
+
+	/**
+	 * WPSEO_Link_Watcher constructor.
+	 *
+	 * @param WPSEO_Link_Content_Processor $content_processor
+	 */
+	public function __construct( WPSEO_Link_Content_Processor $content_processor ) {
+		$this->content_processor = $content_processor;
+	}
+
 	/**
 	 * Registers the hooks
 	 */
 	public function register_hooks() {
 		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
+		add_action( 'delete_post', array( $this, 'delete_post' ) );
 	}
 
 	/**
@@ -35,8 +48,17 @@ class WPSEO_Link_Watcher {
 			return;
 		}
 
-		$processor = new WPSEO_Link_Content_Processor();
-		$processor->process( $post_id, $content );
+		$this->content_processor->process( $post_id, $content );
+	}
+
+	/**
+	 * Removes the seo links when the post will be deleted.
+	 *
+	 * @param int $post_id The post id.
+	 */
+	public function delete_post( $post_id ) {
+		$storage = new WPSEO_Link_Storage();
+		$storage->cleanup( $post_id );
 	}
 
 	/**
