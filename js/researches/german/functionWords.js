@@ -257,8 +257,8 @@ var interjections = [  "ach", "aha", "oh", "au", "bäh", "baeh", "igitt", "huch"
 var recipeWords = [ "g", "el", "es", "tl", "wg", "be", "bd", "cl", "dl", "dag", "do", "gl", "gr", "kg", "kl", "cb", "ccm", "l", "ms", "mg",
 	"ml", "mi", "pk", "pr", "pp", "sc", "sp", "st", "sk", "ta", "tr", "cm", "mass" ];
 
-var timeWords = [ "sekunde", "sekunden", "minute", "minuten", "uhr", "uhren", "tag", "tages", "tags", "tage", "tagen", "woche", "wochen",
-	"jahr", "jahres", "jahrs", "jahre", "jahren" ];
+var timeWords = [ "sekunde", "sekunden", "minute", "minuten", "uhr", "uhren", "tag", "tages", "tags", "tage", "tagen", "woche", "wochen", "monat",
+	"monate", "monats", "monaten", "jahr", "jahres", "jahrs", "jahre", "jahren" ];
 
 var vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sache", "sachen", "weise", "weisen", "wahrscheinlichkeit",
 	"zeug", "zeuge", "zeuges", "zeugen", "mal", "einmal", "teil", "teile", "teiles", "teilen", "prozent", "prozents", "prozentes", "prozente",
