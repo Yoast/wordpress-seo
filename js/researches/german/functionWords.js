@@ -145,7 +145,7 @@ var prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "al
 var coordinatingConjunctions = [ "und", "oder", "als", "umso" ];
 
 /*
-'Entweder' is part of 'wntweder...oder', 'sowohl', 'auch' is part of 'sowohl als...auch', 'weder' and 'noch' are part of 'weder...noch',
+'Entweder' is part of 'entweder...oder', 'sowohl', 'auch' is part of 'sowohl als...auch', 'weder' and 'noch' are part of 'weder...noch',
  'nur' is part of 'nicht nur...sondern auch'.
  */
 var correlativeConjunctions = [ "entweder", "sowohl", "auch", "weder", "noch", "nur" ];
