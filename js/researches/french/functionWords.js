@@ -5,7 +5,7 @@ let transitionWords = require( "./transitionWords.js" )().singleWords;
  * @returns {Object} The object filled with exception arrays.
  */
 
-let articles = [ "le", "la", "les", "un", "une", "des", "aux", "du", "au" ];
+let articles = [ "le", "la", "les", "un", "une", "des", "aux", "du", "au", "d'un", "d'une" ];
 
 let numerals = [ "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze",
 	"quinze", "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix",
@@ -199,7 +199,7 @@ let timeWords = [ "seconde", "secondes", "minute", "minutes", "heure", "heures",
 let vagueNouns = [ "chose", "choses", "façon", "façons", "ceux", "pièce", "pièces", "truc", "trucs", "fois", "cas", "aspect", "aspects", "objet",
 	"objets", "idée", "idées", "thème", "thèmes", "sujet", "sujets", "personne", "personnes", "manière", "manières", "sorte", "sortes", ];
 
-let miscellaneous = [ "ne", "oui", "non", "d'accord", "amen", "%", "euro", "euros", "rien", "plus", "moins", "même", "mêmes", "aussi" ];
+let miscellaneous = [ "ne", "oui", "non", "d'accord", "amen", "%", "euro", "euros", "rien", "plus", "moins", "même", "mêmes", "aussi", "etc." ];
 
 module.exports = function() {
 	return {

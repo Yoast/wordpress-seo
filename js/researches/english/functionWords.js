@@ -111,7 +111,7 @@ var vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likeliho
 	"person" ];
 
 // 'No' is already included in the quantifier list.
-var miscellaneous = [ "not", "yes", "rid", "sure", "top", "bottom", "ok", "okay", "amen", "aka", "%" ];
+var miscellaneous = [ "not", "yes", "rid", "sure", "top", "bottom", "ok", "okay", "amen", "aka" ];
 
 module.exports = function() {
 	return {

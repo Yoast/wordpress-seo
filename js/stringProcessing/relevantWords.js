@@ -27,7 +27,7 @@ let relevantWordLimit = 100;
 let wordCountLowerLimit = 200;
 
 // En dash, em dash, hyphen-minus, and hash.
-let specialCharacters = [ "–", "—", "-", "#" ];
+let specialCharacters = [ "–", "—", "-", "#", "%" ];
 
 /**
  * Returns the word combinations for the given text based on the combination size.
