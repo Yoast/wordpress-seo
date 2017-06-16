@@ -51,7 +51,7 @@ let locativeAdverbs = [ "là", "ici", "voici" ];
 
 // 'Vins' is not included because it also means 'wines'.
 let otherAuxiliaries = [ "j'ai", "ai", "as", "a", "avons", "avez", "ont", "ai-je", "as-tu", "a-t-il", "a-t-elle", "a-t-on", "avons-nous", "avez-vous",
-	"eu", "avais", "avait", "avions", "aviez", "avaient", "aurai", "auras",	"aura",	"aurons", "aurez", "auront", "aurais", "aurait", "auions",
+	"eu", "avais", "avait", "avions", "aviez", "avaient", "aurai", "auras", "aura", "aurons", "aurez", "auront", "aurais", "aurait", "auions",
 	"auriez", "auraient", "aie", "ayons", "ayez", "vais", "vas", "va", "allons", "allez", "vont", "vais-je", "vas-tu", "va-t-il", "va-t-elle",
 	"va-t-on", "allons-nous", "allez-vous", "vont-elles", "vont-ils", "allé", "allés", "j'allai", "allai", "allas", "allas", "allâmes", "allâtes",
 	"allèrent", "j'allais", "allais", "allait", "allions", "alliez", "allaient", "j'irai", "iras", "ira", "irons", "irez", "iront", "j'aille",
@@ -77,15 +77,15 @@ let otherAuxiliaries = [ "j'ai", "ai", "as", "a", "avons", "avez", "ont", "ai-je
 	"paraissez-vous", "paraissent-ils", "paraissent-elles", "parus", "parut", "parûmes", "parûtes", "parurent", "paraissais", "paraissait",
 	"paraissions", "paraissiez", "paraissaient", "paraîtrai", "paraîtras", "paraîtra", "paraîtrons", "paraîtrez", "paraîtront", "aitrai", "aitras",
 	"aitra", "aitrons", "aitrez", "aitront", "paru", "paraisse", "paraisses", "paraissions", "paraissiez", "paraissent", "parusse", "parusses",
-	"parût", "parussions", "parussiez", "parussent", "paraîtrais", "paraîtrait", "paraîtrions", "paraîtriez", "paraîtraient", "aitrais", "aitrait",
-	"aitrions", "aitriez", "aitraient", "paraissant", "mets", "met", "mettons", "mettez", "mettent", "mets-je", "mets-tu", "met-il", "met-elle",
-	"met-on", "mettons-nous", "mettez-vous", "mettent-ils", "mettent-elles", "mis", "mit", "mîmes", "mîtes", "mirent", "mettais", "mettait",
-	"mettions", "mettiez", "mettaient", "mettrai", "mettras", "mettra", "mettrons", "mettrez", "mettront", "mette", "mettes", "mettions",
-	"mettiez", "mettent", "misse", "misses", "mît", "missions", "missiez", "missent", "mettrais", "mettrais", "mettrait", "mettrions", "mettriez",
-	"mettraient", "mettant", "finis", "finit", "finissons", "finissez", "finissent", "finis-je", "finis-tu", "finit-il", "finit-elle", "finit-on",
-	"finissons-nous", "finissez-vous", "finissent-ils", "finissent-elles", "finîmes", "finîtes", "finirent", "finissais", "finissait", "finissions",
-	"finissiez", "finissaient", "finirai", "finiras", "finira", "finirons", "finirez", "finiront", "fini", "finisse", "finisses", "finissions",
-	"finissiez", "finissent", "finît", "finirais", "finirait", "finirions", "finiriez", "finiraient", "finissant" ];
+	"parût", "parussions", "parussiez", "parussent", "paraîtrais", "paraîtrait", "paraîtrions", "paraîtriez", "paraîtraient", "paraitrais",
+	"paraitrait", "paraitrions", "paraitriez", "paraitraient", "paraissant", "mets", "met", "mettons", "mettez", "mettent", "mets-je", "mets-tu",
+	"met-il", "met-elle", "met-on", "mettons-nous", "mettez-vous", "mettent-ils", "mettent-elles", "mis", "mit", "mîmes", "mîtes", "mirent",
+	"mettais", "mettait", "mettions", "mettiez", "mettaient", "mettrai", "mettras", "mettra", "mettrons", "mettrez", "mettront", "mette", "mettes",
+	"mettions", "mettiez", "mettent", "misse", "misses", "mît", "missions", "missiez", "missent", "mettrais", "mettrais", "mettrait", "mettrions",
+	"mettriez", "mettraient", "mettant", "finis", "finit", "finissons", "finissez", "finissent", "finis-je", "finis-tu", "finit-il", "finit-elle",
+	"finit-on", "finissons-nous", "finissez-vous", "finissent-ils", "finissent-elles", "finîmes", "finîtes", "finirent", "finissais", "finissait",
+	"finissions", "finissiez", "finissaient", "finirai", "finiras", "finira", "finirons", "finirez", "finiront", "fini", "finisse", "finisses",
+	"finissions", "finissiez", "finissent", "finît", "finirais", "finirait", "finirions", "finiriez", "finiraient", "finissant" ];
 
 let otherAuxiliariesInfinitive = [ "avoir", "aller", "venir", "devoir", "pouvoir", "sembler", "paraître", "paraitre", "mettre", "finir" ];
 
@@ -190,7 +190,7 @@ let generalAdjectivesAdverbs = [ "nouveau", "nouvel", "nouvelle", "nouveaux", "n
 	"derniers", "dernière", "dernières", "différent", "différents", "différente", "différentes", "autre", "autres", "similaire", "similaires",
 	"pareil", "pareils", "pareille", "pareilles", "largement", "beaucoup", "mauvais", "mauvaise", "mauvaises", "mal", "super", "meilleur",
 	"meilleurs", "meilleure", "meilleures", "bien", "pire", "pires", "joli", "jolis", "jolie", "jolies", "gros", "grosse", "grosses", "suivant",
-	"suivants",	"suivante", "suivantes", "prochain", "prochaine", "prochains", "prochaines", "proche", "proches", "fur" ];
+	"suivants", "suivante", "suivantes", "prochain", "prochaine", "prochains", "prochaines", "proche", "proches", "fur" ];
 
 let interjections = [ "ah", "ha", "oh", "ho", "bis", "plouf", "vlan", "ciel", "pouf", "paf", "crac", "enfin", "hurrah", "allo", "stop", "bravo", "ô",
 	"eh", "hé", "aïe", "oef", "ahi", "fi", "zest", "ça", "hem", "holà", "chut", "si", "voilà" ];
@@ -227,7 +227,7 @@ module.exports = function() {
 		pronominalAdverbs: pronominalAdverbs,
 		reflexivePronouns: reflexivePronouns,
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
-			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,	pronominalAdverbs,
+			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs,
 			locativeAdverbs, otherAuxiliaries, interrogativeAdjectives, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions,
 			coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, delexicalisedVerbsInfinitive, interjections,
