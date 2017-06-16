@@ -230,7 +230,7 @@ function filterCombinations( combinations, functionWords, locale ) {
 			break;
 		case "es":
 		case "fr":
-			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().verbs );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			break;
