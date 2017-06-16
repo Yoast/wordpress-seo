@@ -6,6 +6,7 @@ var isUndefined = require( "lodash/isUndefined" );
 var de = require( "./syllables/de.json" );
 var en = require( './syllables/en.json' );
 var nl = require( './syllables/nl.json' );
+var it = require( './syllables/it.json' );
 
 module.exports = function( locale ) {
 	if ( isUndefined( locale ) ) {
@@ -17,6 +18,8 @@ module.exports = function( locale ) {
 			return de;
 		case "nl":
 			return nl;
+		case "it":
+			return it;
 		case "en":
 		default:
 			return en;

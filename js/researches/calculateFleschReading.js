@@ -1,12 +1,12 @@
 /** @module analyses/calculateFleschReading */
 
-var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
-var countSentences = require( "../stringProcessing/countSentences.js" );
-var countWords = require( "../stringProcessing/countWords.js" );
-var countSyllables = require( "../stringProcessing/syllables/count.js" );
-var formatNumber = require( "../helpers/formatNumber.js" );
+let stripNumbers = require( "../stringProcessing/stripNumbers.js" );
+let countSentences = require( "../stringProcessing/countSentences.js" );
+let countWords = require( "../stringProcessing/countWords.js" );
+let countSyllables = require( "../stringProcessing/syllables/count.js" );
+let formatNumber = require( "../helpers/formatNumber.js" );
 
-var getLanguage = require( "../helpers/getLanguage.js" );
+let getLanguage = require( "../helpers/getLanguage.js" );
 
 /**
  * Calculates an average from a total and an amount
@@ -15,7 +15,7 @@ var getLanguage = require( "../helpers/getLanguage.js" );
  * @param {number} amount The amount.
  * @returns {number} The average from the total and the amount.
  */
-var getAverage = function( total, amount ) {
+let getAverage = function( total, amount ) {
 	return total / amount;
 };
 
@@ -28,34 +28,37 @@ var getAverage = function( total, amount ) {
  * @returns {number} the score of the fleschreading test
  */
 module.exports = function( paper ) {
-	var score;
-	var text = paper.getText();
-	var locale = paper.getLocale();
-	var language = getLanguage( locale );
+	let score;
+	let text = paper.getText();
+	let locale = paper.getLocale();
+	let language = getLanguage( locale );
 	if ( text === "" ) {
 		return 0;
 	}
 
 	text = stripNumbers( text );
 
-	var numberOfSentences = countSentences( text );
+	let numberOfSentences = countSentences( text );
 
-	var numberOfWords = countWords( text );
+	let numberOfWords = countWords( text );
 
 	// Prevent division by zero errors.
 	if ( numberOfSentences === 0 || numberOfWords === 0 ) {
 		return 0;
 	}
 
-	var numberOfSyllables = countSyllables( text, locale );
-	var averageWordsPerSentence = getAverage( numberOfWords, numberOfSentences );
+	let numberOfSyllables = countSyllables( text, locale );
+	let averageWordsPerSentence = getAverage( numberOfWords, numberOfSentences );
 	switch( language ) {
 		case "nl":
-			var syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
+			let syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
 			score = 206.84 - ( 0.77 * syllablesPer100Words ) - ( 0.93 * ( averageWordsPerSentence  ) );
 			break;
 		case "de":
 			score = 180 - averageWordsPerSentence - ( 58.5 * numberOfSyllables / numberOfWords );
+			break;
+		case "it":
+			score = 217 - ( 1.3 * averageWordsPerSentence ) - ( 0.6 * syllablesPer100Words );
 			break;
 		case "en":
 		default:
