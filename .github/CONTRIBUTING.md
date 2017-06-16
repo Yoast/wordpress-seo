@@ -1,66 +1,57 @@
-Thanks for reading our contribution guidelines! What do you want to do:
+# Contribution Guidelines
+![Image of yoast](https://yoast-mercury.s3.amazonaws.com/uploads/2013/02/Yoast_Logo_Large_RGB.png)
+Before filing a bug report or a feature request, be sure to read the contribution guidelines.
 
-* [File a bug / an issue](#filing-issue)
-* [Security issues](#security)
-* [Contribute to Yoast SEO](#contribute)
+## How to use GitHub
+We use GitHub exclusively for well-documented bugs, feature requests ands code contributions. 
 
-<a name="filing-issue"></a>
-#Filing issues
+To receive free support for WordPress SEO we have the following channels:
+* [Yoast Knowledge base](http://kb.yoast.com)
+* [Support forums](https://wordpress.org/support/plugin/wordpress-seo) on WordPress.org
 
-__Please Note:__ GitHub is for bug reports and code contributions only - if you have a support question or a request for a customisation don't post here, go to our [Support Forum](http://wordpress.org/support/plugin/wordpress-seo) instead.
+If you want personal support via email, you can purchase [our premium plugins](https://yoast.com/wordpress/plugins/).
 
-For localization, please refer to [translate.yoast.com](http://translate.yoast.com/projects/wordpress-seo), though bugs with strings that can't be translated are welcome here.
+Thanks for your understanding.
 
-## How to write a useful bug report
-If you think you have found a bug (we acknowledge that that's a possibility), please make sure you're using the latest version of the plugin. If possible check out the latest version from GitHub and see if the bug still exists there.
+## Security issues
+Please do not report security issues here, but email them to security at yoast dot com so we can deal with them securely and quickly.
 
-A useful bug report explains:
+## I have found a bug
+Before opening a new issue, please try:
+* searching for duplicate issues and prevent opening a duplicate issue. If there is already an open existing issue, please comment on that issue.
+* checking our [knowledge base](http://kb.yoast.com) for your issue. There are a lot of common errors documented there with possible solutions.
+* checking for [plugin and theme conflicts](https://kb.yoast.com/kb/how-to-check-for-plugin-conflicts/). Please report your findings in the issue.
+* checking for [JavaScript errors with your browser's console](https://kb.yoast.com/kb/how-to-find-javascript-errors-with-your-browsers-console/). Please report your findings in the issue.
+* adding as much information as possible. For example: adding screenshots, relevant links, step by step guides etc.
+* updating to the newest versions of WordPress and the Yoast SEO plugins.
 
-1. What you were trying to achieve.
-2. What you were expecting to happen.
-3. What actually happened, illustrated with screenshots if possible.
+## I have a feature request
+Before opening a new issue, please try:
+* searching for duplicate issues and prevent opening a duplicate feature request. If there is already an open existing request, please leave a comment there.
+* adding as much information as possible. For example: give us a clear explanation of why you think the feature request is something we should consider for the Yoast SEO plugins.
 
-Your bug report should also contain your WordPress version and if there are any errors, the _exact_ error text, including line numbers.
-
-### Blank / white screen
-If you're getting a blank screen and you report just that, we can do _absolutely_ nothing. By default, your WordPress install suppresses all errors, to prevent information leaks, but we need those errors to be able to help you. If you apply the small piece of code in [this post on WP_DEBUG](https://yoast.com/wordpress-debug/) to your site, you should be able to open the URL that gave you a white screen, append `?debug=debug` to the URL and get the actual error.
-
-That error will help us, without that error, we're completely in the dark about your white page problem...
-
-### Interface errors
-If you're reporting a bug about specific interface elements not working as expected, there's probably an error showing in your browsers JavaScript console. Please open your browsers console and copy the exact error showing there, or make a screenshot. If you don't know how to open your browsers console, here is info for [Chrome](https://developer.chrome.com/devtools/docs/console) and [Firefox](https://developer.mozilla.org/en/docs/Tools/Web_Console). For IE, some Googling will help but it changes with every version.
-
-<a name="security"></a>
-#Security issues
-Please do _not_ report security issues here, but email them to security at yoast dot com so we can deal with them securely and quickly.
-
-<a name="contribute"></a>
-#Contribute to Yoast SEO
-
-Community made patches, localisations, bug reports and contributions are very welcome and help make Yoast SEO remains the #1 SEO plugin for WordPress.
+## I want to create a patch
+Community made patches, localizations, bug reports and contributions are very welcome and help Yoast SEO remain the #1 SEO plugin for WordPress.
 
 When contributing please ensure you follow the guidelines below so that we can keep on top of things.
 
-## Getting Started
-
+#### Getting Started
 If there is no ticket for your issue, submit it first, following the above guidelines.
 
-## Making Changes
+#### Making Changes
 
 * Fork the repository on GitHub (make sure to use the trunk branch, not master).
 * Make the changes to your forked repository.
-  * Ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/) and have properly documented any new functions, actions and filters following the [documentation standards](http://make.wordpress.org/core/handbook/inline-documentation-standards/php-documentation-standards/).
+	* Ensure you stick to the WordPress Coding Standards and have properly documented any new functions, actions and filters following the documentation standards.
 * When committing, reference your issue (if present) and include a note about the fix.
 * Push the changes to your fork and submit a pull request to the 'trunk' branch of the Yoast SEO repository.
 
 At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary.
 
-<a name="patch-welcome"></a>
-## "Patch welcome" issues
+#### 'patch welcome' issues
+Some issues are labeled 'patch-welcome'. This means we see the value in the particular enhancement being suggested but have decided for now not to prioritize it. If you however decide to write a patch for it we'll gladly include it after some code review.
 
-Some issues are labeled "Patch-welcome". This means we see the value in the particular enhancement being suggested but have decided for now not to prioritize it. If you however decide to write a patch for it we'll gladly include it after some code review.
-
-# Additional Resources
+#### Additional Resources
 * [Yoast SEO API](https://yoast.com/wordpress/plugins/seo/api/)
 * [General GitHub Documentation](http://help.github.com/)
 * [GitHub Pull Request documentation](http://help.github.com/send-pull-requests/)
