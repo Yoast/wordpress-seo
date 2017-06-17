@@ -80,7 +80,7 @@ class WPSEO_Sitemaps {
 		$providers = array(
 			new WPSEO_Post_Type_Sitemap_Provider(),
 			new WPSEO_Taxonomy_Sitemap_Provider(),
-			new WPSEO_Author_Sitemap_Provider()
+			new WPSEO_Author_Sitemap_Provider(),
 		);
 		$this->providers   = apply_filters( 'wpseo_sitmaps_providers', $providers );
 
