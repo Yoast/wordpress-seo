@@ -68,11 +68,12 @@ class WPSEO_Sitemap_Image_Parser {
 		}
 
 		/**
-		 * Filters the post content before it is parsed for images.
+		 * Filter: 'wpseo_sitemap_content_before_parse_html_images' - Filters the post content
+		 * before it is parsed for images.
 		 *
-		 * @param string $content
+		 * @param string $content The raw/unprocessed post content.
 		 */
-		$content = apply_filters( 'wpseo_sitemap_content_before_parse_html', $post->post_content );
+		$content = apply_filters( 'wpseo_sitemap_content_before_parse_html_images', $post->post_content );
 
 		$unfiltered_images = $this->parse_html_images( $content );
 
