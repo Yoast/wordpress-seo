@@ -26,18 +26,15 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param string $current_page The page that is opened at the moment.
 	 */
 	public function page_scripts( $current_page ) {
+		if ( ! $this->is_post_page( $current_page ) ) {
+			return;
+		}
+
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$version = $asset_manager->flatten_version( WPSEO_VERSION );
 
-		if ( $current_page === 'edit.php' ) {
-			wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-quickedit-notification-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
-			wp_localize_script( 'wp-seo-premium-quickedit-notification', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
-		}
-
-		if ( $current_page === 'post.php' ) {
-			wp_enqueue_script( 'wp-seo-premium-redirect-notifications', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-redirect-notifications-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
-			wp_localize_script( 'wp-seo-premium-redirect-notifications', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
-		}
+		wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-quickedit-notification-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		wp_localize_script( 'wp-seo-premium-quickedit-notification', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
 	}
 
 	/**
@@ -331,5 +328,17 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			'%1$s detected that you deleted a post. You can either: %2$s Don\'t know what to do? %3$sRead this post %4$s.',
 			'wordpress-seo-premium'
 		);
+	}
+
+	/**
+	 * Is the current page related to a post (edit/overview).
+	 *
+	 * @param string $current_page The current opened page.
+	 *
+	 * @return bool True when page is a post edit/overview page.
+	 */
+	protected function is_post_page( $current_page ) {
+		// Only set the hooks for the page where they are needed.
+		return ( in_array( $current_page, array( 'edit.php', 'post.php' ), true ) );
 	}
 }
