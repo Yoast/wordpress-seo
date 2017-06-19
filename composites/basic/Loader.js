@@ -1,8 +1,14 @@
 import React from "react";
 
-const Loader = () => {
+const Loader = ( { className } ) => {
+	if ( className !== "" ) {
+		className += " ";
+	}
+
+	className += "yoast-loader";
+
 	return (
-		<svg version="1.1" id="Y__x2B__bg" x="0px" y="0px" viewBox="0 0 500 500" className="yoast-loader">
+		<svg version="1.1" id="Y__x2B__bg" x="0px" y="0px" viewBox="0 0 500 500" className={className} >
 		<g>
 			<g>
 				<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="250" y1="428.6121" x2="250" y2="77.122">
@@ -48,6 +54,10 @@ const Loader = () => {
 		</g>
 		</svg>
 	);
+};
+
+Loader.propTypes = {
+	className: React.PropTypes.string,
 };
 
 export default Loader;
