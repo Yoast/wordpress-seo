@@ -21,6 +21,7 @@ class AlgoliaSearcher extends React.Component {
 	constructor( props ) {
 		super();
 
+
 		this.state = {
 			searchString: "",
 			usedQueries: {},
@@ -51,12 +52,12 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Handles the form submit event. Stores the search string and performs a search.
 	 *
-	 * @param {object} evt The React SyntheticEvent.
+	 * @param {object} clickEvent The React SyntheticEvent.
 	 *
 	 * @returns {void}
 	 */
-	searchButtonClicked( evt ) {
-		let searchString = evt.target.getElementsByTagName( "input" )[ 0 ].value;
+	searchButtonClicked( clickEvent ) {
+		let searchString = clickEvent.target.getElementsByTagName( "input" )[ 0 ].value;
 
 		if ( searchString === "" ) {
 			return;
@@ -174,7 +175,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Renders a no results found text.
 	 *
-	 * @returns {JSX} The no results found text.
+	 * @returns {ReactElement} The no results found text.
 	 */
 	renderNoResultsFound() {
 		let searchResultContent = <p>{ this.props.noResultsText }</p>;
@@ -203,8 +204,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Renders the search results list.
 	 *
-	 * @returns {JSX} A div with either the search results, or a div with a
-	 *                message that no results were found.
+	 * @returns {ReactElement} A div with either the search results, or a div with a message that no results were found.
 	 */
 	renderSearchResults() {
 		let searchResultContent;
@@ -230,7 +230,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Renders the navigation buttons and the article content.
 	 *
-	 * @returns {JSX} A div with navigation buttons and the article content.
+	 * @returns {ReactElement} A div with navigation buttons and the article content.
 	 */
 	renderDetail() {
 		let detailIndex = this.state.showDetail;
@@ -262,7 +262,7 @@ class AlgoliaSearcher extends React.Component {
 	 * Log any occuring error and render a search error warning.
 	 *
 	 * @param {string} errorMessage The message to display.
-	 * @returns {JSX} A div with a warning that the search was not completed.
+	 * @returns {ReactElement} A div with a warning that the search was not completed.
 	 */
 	renderError( errorMessage ) {
 		console.error( errorMessage );
@@ -274,7 +274,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Creates the Search Bar component with additional components such as a loading indicator, errors etc.
 	 *
-	 * @returns {JSX} A div containing the search bar and potential other components.
+	 * @returns {ReactElement} A div containing the search bar and potential other components.
 	 */
 	createSearchBar() {
 		let errorMessage = "";
@@ -325,7 +325,7 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * Called upon each state change. Determines and renders the view to render.
 	 *
-	 * @returns {JSX.Element} The content of the component.
+	 * @returns {ReactElement} The content of the component.
 	 */
 	render() {
 		return <div className="wpseo-kb-search-container">{ this.createSearchBar() }</div>;
@@ -334,7 +334,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Determines whether a search result heading should be created or not.
 	 *
-	 * @returns {JSX|string} Returns a header if there are search results. Otherwise returns an empty string.
+	 * @returns {ReactElement} Returns a header if there are search results. Otherwise returns an empty string.
 	 */
 	determineResultsHeading() {
 		if ( this.state.results.length === 0 ) {
