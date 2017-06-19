@@ -3,8 +3,8 @@ var infinitivePassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().
 var transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
- * Returns an array with exceptions for the prominent words researcher
- * @returns {Array} The array filled with exceptions.
+ * Returns an object with exceptions for the prominent words researcher
+ * @returns {Object} The object filled with exception arrays.
  */
 
 var articles = [ "das", "dem", "den", "der", "des", "die", "ein", "eine", "einem", "einen", "einer", "eines" ];
@@ -145,7 +145,7 @@ var prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "al
 var coordinatingConjunctions = [ "und", "oder", "als", "umso" ];
 
 /*
-'Entweder' is part of 'wntweder...oder', 'sowohl', 'auch' is part of 'sowohl als...auch', 'weder' and 'noch' are part of 'weder...noch',
+'Entweder' is part of 'entweder...oder', 'sowohl', 'auch' is part of 'sowohl als...auch', 'weder' and 'noch' are part of 'weder...noch',
  'nur' is part of 'nicht nur...sondern auch'.
  */
 var correlativeConjunctions = [ "entweder", "sowohl", "auch", "weder", "noch", "nur" ];
@@ -257,8 +257,8 @@ var interjections = [  "ach", "aha", "oh", "au", "bäh", "baeh", "igitt", "huch"
 var recipeWords = [ "g", "el", "es", "tl", "wg", "be", "bd", "cl", "dl", "dag", "do", "gl", "gr", "kg", "kl", "cb", "ccm", "l", "ms", "mg",
 	"ml", "mi", "pk", "pr", "pp", "sc", "sp", "st", "sk", "ta", "tr", "cm", "mass" ];
 
-var timeWords = [ "sekunde", "sekunden", "minute", "minuten", "uhr", "uhren", "tag", "tages", "tags", "tage", "tagen", "woche", "wochen",
-	"jahr", "jahres", "jahrs", "jahre", "jahren" ];
+var timeWords = [ "sekunde", "sekunden", "minute", "minuten", "uhr", "uhren", "tag", "tages", "tags", "tage", "tagen", "woche", "wochen", "monat",
+	"monate", "monats", "monaten", "jahr", "jahres", "jahrs", "jahre", "jahren" ];
 
 var vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sache", "sachen", "weise", "weisen", "wahrscheinlichkeit",
 	"zeug", "zeuge", "zeuges", "zeugen", "mal", "einmal", "teil", "teile", "teiles", "teilen", "prozent", "prozents", "prozentes", "prozente",
@@ -266,7 +266,7 @@ var vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sa
 	"idee", "ideen", "ahnung", "ahnungen", "thema", "themas", "themata", "themen", "fall", "falle", "falles", "falls", "fälle", "fällen",
 	"faelle", "faellen", "mensch", "menschen", "leute" ];
 
-var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "%", "nicht", "amen", "ja", "nein", "euro", "prozent", "was" ];
+var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "nicht", "amen", "ja", "nein", "euro", "prozent", "was" ];
 
 module.exports = function() {
 	return {

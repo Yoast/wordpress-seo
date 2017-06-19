@@ -254,7 +254,7 @@ let recipeWords = [ "kg", "mg", "gr", "g", "km", "m", "l", "ml", "cl" ];
 let vagueNouns = [ "cosa", "cosas", "manera", "maneras", "caso", "casos", "pieza", "piezas", "vez", "veces", "parte", "partes", "porcentaje",
 	"instancia", "aspecto", "aspectos", "punto", "puntos", "objeto", "objectos", "persona", "personas" ];
 
-let miscellaneous = [ "sí", "no", "%", "euros", "años" ];
+let miscellaneous = [ "sí", "no", "euros", "años" ];
 
 module.exports = function() {
 	return {

@@ -139,7 +139,7 @@ let recipeWords = [ "ml", "cl", "dl", "l", "tl", "el", "mg", "g", "gr", "kg", "c
 let vagueNouns = [ "ding", "dingen", "manier", "manieren", "item", "items", "keer", "maal", "procent", "geval", "aspect", "persoon",
 	"personen", "deel" ];
 
-let miscellaneous = [ "niet", "wel", "ja", "nee", "neen", "oké", "oke", "okee", "ok", "niets", "zoiets", "%", "€", "euro" ];
+let miscellaneous = [ "niet", "wel", "ja", "nee", "neen", "oké", "oke", "okee", "ok", "niets", "zoiets", "€", "euro" ];
 
 /*
 Exports all function words concatenated, and specific word categories and category combinations
