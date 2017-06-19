@@ -176,6 +176,13 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * Setting the hooks for the term watcher
 	 */
 	protected function set_hooks() {
+		global $pagenow;
+
+		// Only set the hooks for the page where they are needed.
+		if ( $this->is_term_page( $pagenow ) ) {
+			return;
+		}
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
 
 		// Get all taxonomies.

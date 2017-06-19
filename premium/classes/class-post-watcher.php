@@ -285,6 +285,13 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * Setting the hooks for the post watcher
 	 */
 	protected function set_hooks() {
+		global $pagenow;
+
+		// Only set the hooks for the page where they are needed.
+		if ( ! $this->is_post_page( $pagenow ) ) {
+			return;
+		}
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
 
 		// Add old URL field to post edit screen.
