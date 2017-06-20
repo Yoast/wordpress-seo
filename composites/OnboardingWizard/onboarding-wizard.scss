@@ -171,6 +171,14 @@ body {
 
     box-shadow: rgba($color_black, .15) 0 3px 10px, rgba($color_black, .2) 0 3px 10px;
 
+    &--no-navigation {
+      margin-top: 40px;
+
+      .#{$prefix} {
+        padding-top: 3em;
+      }
+    }
+
     @media screen and (max-width: 768px) {
       box-shadow: none;
     }
