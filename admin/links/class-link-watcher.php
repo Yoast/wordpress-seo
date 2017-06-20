@@ -14,7 +14,7 @@ class WPSEO_Link_Watcher {
 	/**
 	 * WPSEO_Link_Watcher constructor.
 	 *
-	 * @param WPSEO_Link_Content_Processor $content_processor
+	 * @param WPSEO_Link_Content_Processor $content_processor The processor to use.
 	 */
 	public function __construct( WPSEO_Link_Content_Processor $content_processor ) {
 		$this->content_processor = $content_processor;
