@@ -213,7 +213,7 @@ class AlgoliaSearcher extends React.Component {
 			return this.renderNoResultsFound();
 		}
 
-		if ( resultsCount == 0 ) {
+		if ( resultsCount === 0 ) {
 			return searchResultContent;
 		}
 
