@@ -16,7 +16,7 @@ const onClick = ( clickEvent, props ) => {
  * Create the JSX to render a single searchresult.
  *
  * @param {object} props The React props.
- * @returns {ReactElement} A div with a single search result.
+ * @returns {ReactElement} A list item with a single search result.
  * @constructor
  */
 const SearchResult = ( props ) => {
