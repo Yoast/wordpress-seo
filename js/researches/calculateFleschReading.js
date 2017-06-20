@@ -20,12 +20,10 @@ let getAverage = function( total, amount ) {
 };
 
 /**
- * This calculates the fleschreadingscore for a given text
- * The formula used:
- * 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
+ * This calculates the flesch reading score for a given text.
  *
  * @param {object} paper The paper containing the text
- * @returns {number} the score of the fleschreading test
+ * @returns {number} The score of the flesch reading test
  */
 module.exports = function( paper ) {
 	let score;
@@ -49,9 +47,9 @@ module.exports = function( paper ) {
 
 	let numberOfSyllables = countSyllables( text, locale );
 	let averageWordsPerSentence = getAverage( numberOfWords, numberOfSentences );
+	let syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
 	switch( language ) {
 		case "nl":
-			let syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
 			score = 206.84 - ( 0.77 * syllablesPer100Words ) - ( 0.93 * ( averageWordsPerSentence  ) );
 			break;
 		case "de":
