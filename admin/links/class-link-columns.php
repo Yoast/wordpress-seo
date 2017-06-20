@@ -67,11 +67,15 @@ class WPSEO_Link_Columns {
 	 * Sets the objects to use for the count.
 	 */
 	public function set_count_objects() {
+		global $wp_query;
+
+		$post_ids = wp_list_pluck( $wp_query->get_posts() , 'ID' );
+
 		$linked = new WPSEO_Link_Column_Count( 'target_post_id' );
-		$linked->set();
+		$linked->set( $post_ids );
 
 		$links = new WPSEO_Link_Column_Count( 'post_id' );
-		$links->set();
+		$links->set( $post_ids );
 
 		$this->count_linked = $linked;
 		$this->count_links  = $links;

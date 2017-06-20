@@ -25,32 +25,17 @@ class WPSEO_Link_Column_Count {
 
 	/**
 	 * Sets the counts for the set target field.
+	 *
+	 * @param array $post_ids The posts to get the count for.
 	 */
-	public function set() {
-		global $wpdb, $wp_query;
-
-		$post_ids = wp_list_pluck( $wp_query->get_posts(), 'ID' );
-
+	public function set( $post_ids ) {
 		if ( empty( $post_ids )  ) {
 			return;
 		}
 
-		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
-
-		$results = $wpdb->get_results(
-			$wpdb->prepare(  '
-				SELECT COUNT( id ) as total, %1$s 
-				FROM ' . $storage->get_prefixed_table_name() . '
-			    WHERE %1$s IN ( %2$s )
-				GROUP BY %1$s',
-				$this->target_field,
-				implode( ',', $post_ids )
-			),
-			ARRAY_A
-		);
+		$results = $this->get_results( $post_ids );
 
 		array_walk( $results, array( $this, 'format' ) );
-
 	}
 
 	/**
@@ -75,5 +60,32 @@ class WPSEO_Link_Column_Count {
 	 */
 	protected function format( array $result ) {
 		$this->count[ $result[ $this->target_field ] ] = $result['total'];
+	}
+
+	/**
+	 * Gets the link count for the given post ids.
+	 *
+	 * @param array $post_ids Array with post_ids
+	 *
+	 * @return array
+	 */
+	protected function get_results( $post_ids ) {
+		global $wpdb;
+
+		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
+
+		return $wpdb->get_results(
+			$wpdb->prepare( '
+				SELECT COUNT( id ) as total, %1$s 
+				FROM ' . $storage->get_prefixed_table_name() . '
+			    WHERE %1$s IN ( %2$s )
+				GROUP BY %1$s',
+				$this->target_field,
+				implode( ',', $post_ids )
+			),
+			ARRAY_A
+		);
+
+		return $results;
 	}
 }
