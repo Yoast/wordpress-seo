@@ -4,7 +4,7 @@ import React from "react";
  * Creates the JSX to render the content of the selected article.
  *
  * @param {object} props The React props.
- * @returns {ReactElement} A div with the content of the selected article.
+ * @returns {ReactElement} An iframe with the content of the selected article.
  * @constructor
  */
 const ArticleContent = ( props ) => {

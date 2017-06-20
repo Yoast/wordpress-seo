@@ -15,8 +15,4 @@ Loading.propTypes = {
 	loadingPlaceholder: React.PropTypes.string.isRequired,
 };
 
-Loading.defaultProps = {
-	loadingPlaceholder: "Loading...",
-};
-
 export default Loading;

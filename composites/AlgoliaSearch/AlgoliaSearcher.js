@@ -21,7 +21,6 @@ class AlgoliaSearcher extends React.Component {
 	constructor( props ) {
 		super();
 
-
 		this.state = {
 			searchString: "",
 			usedQueries: {},
@@ -34,7 +33,6 @@ class AlgoliaSearcher extends React.Component {
 		this.props = props;
 
 		this.initAlgoliaClient();
-
 		this.searchButtonClicked = this.searchButtonClicked.bind( this );
 		this.hideDetail = this.hideDetail.bind( this );
 	}
@@ -189,7 +187,7 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * @param {object} results The results returned by Algolia.
 	 *
-	 * @returns {void}
+	 * @returns {Array} Array containing the mapped search results.
 	 */
 	resultsToSearchItem( results ) {
 		return results.map( ( result, index ) => {
@@ -204,10 +202,10 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Renders the search results list.
 	 *
-	 * @returns {ReactElement} A div with either the search results, or a div with a message that no results were found.
+	 * @returns {ReactElement|null} A div with either the search results, or a div with a message that no results were found.
 	 */
 	renderSearchResults() {
-		let searchResultContent;
+		let searchResultContent = null;
 		let resultsCount = this.state.results.length;
 
 		// We'll check to see whether no results are returned.
@@ -215,14 +213,14 @@ class AlgoliaSearcher extends React.Component {
 			return this.renderNoResultsFound();
 		}
 
-		if ( resultsCount > 0 ) {
-			let results = this.resultsToSearchItem( this.state.results );
-
-			searchResultContent = <ul role="list" className="wpseo-kb-search-results">{ results }</ul>;
-			a11ySpeak( this.props.foundResultsText.replace( "%d", resultsCount ) );
-
+		if ( resultsCount == 0 ) {
 			return searchResultContent;
 		}
+
+		let results = this.resultsToSearchItem( this.state.results );
+
+		searchResultContent = <ul role="list" className="wpseo-kb-search-results">{ results }</ul>;
+		a11ySpeak( this.props.foundResultsText.replace( "%d", resultsCount ) );
 
 		return searchResultContent;
 	}
@@ -262,7 +260,7 @@ class AlgoliaSearcher extends React.Component {
 	 * Log any occuring error and render a search error warning.
 	 *
 	 * @param {string} errorMessage The message to display.
-	 * @returns {ReactElement} A div with a warning that the search was not completed.
+	 * @returns {ReactElement} A p tag with a warning that the search was not completed.
 	 */
 	renderError( errorMessage ) {
 		console.error( errorMessage );
@@ -334,7 +332,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Determines whether a search result heading should be created or not.
 	 *
-	 * @returns {ReactElement} Returns a header if there are search results. Otherwise returns an empty string.
+	 * @returns {ReactElement|string} Returns a header if there are search results. Otherwise returns an empty string.
 	 */
 	determineResultsHeading() {
 		if ( this.state.results.length === 0 ) {
