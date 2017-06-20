@@ -1,12 +1,12 @@
 /** @module config/syllables */
 
-var getLanguage = require( "../helpers/getLanguage.js" );
-var isUndefined = require( "lodash/isUndefined" );
+let getLanguage = require( "../helpers/getLanguage.js" );
+let isUndefined = require( "lodash/isUndefined" );
 
-var de = require( "./syllables/de.json" );
-var en = require( './syllables/en.json' );
-var nl = require( './syllables/nl.json' );
-var it = require( './syllables/it.json' );
+let de = require( "./syllables/de.json" );
+let en = require( './syllables/en.json' );
+let nl = require( './syllables/nl.json' );
+let it = require( './syllables/it.json' );
 
 module.exports = function( locale ) {
 	if ( isUndefined( locale ) ) {

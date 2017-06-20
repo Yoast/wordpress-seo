@@ -1,0 +1,63 @@
+{
+	"vowels": "aeiouyàèéìïòù",
+	"deviations": {
+		"vowels": [
+			{
+				"fragments": [ "a[íúeo]", "e[íúao]", "o[íúaeè]", "í[aeo]", "ú[aeo]", "ai[aeou]", "aue", "ei[ae]", "ia[ei]", "oi[aeo]", "ui[ao]", "ou[ei]", "coo[pr]" ],
+				"countModifier": 1
+			},
+			{
+				"fragments": [ "aoi", "ioe" ],
+				"countModifier": 1
+			}
+		],
+		"words": {
+			"full": [
+				{
+					"word": "via",
+					"syllables": 2
+				},
+				{
+					"word": "guaime",
+					"syllables": 3
+				},
+				{
+					"word": "guaina",
+					"syllables": 3
+				}
+			],
+			"fragments": {
+				"global": [
+					{
+						"word": "circuíto",
+						"syllables": 4
+					},
+					{
+						"word": "cruento",
+						"syllables": 3
+					},
+					{
+						"word": "rituale",
+						"syllables": 4
+					},
+					{
+						"word": "duello",
+						"syllables": 3
+					},
+					{
+						"word": "fuorviante",
+						"syllables": 4
+					},
+					{
+						"word": "league",
+						"syllables": 1
+					},
+					{
+						"word": "leader",
+						"syllables": 2
+					}
+				]
+			}
+		}
+	}
+}
