@@ -17,6 +17,9 @@ class WPSEO_Link_Columns {
 	/** @var WPSEO_Link_Column_Count */
 	protected $count_links;
 
+	/** @var array List of public post types. */
+	protected $public_post_types;
+
 	/**
 	 * Registers the hooks.
 	 */
@@ -29,10 +32,9 @@ class WPSEO_Link_Columns {
 		// Hook into tablenav to calculate links and linked.
 		add_action( 'manage_posts_extra_tablenav', array( $this, 'count_objects' ) );
 
-		$post_types = get_post_types( array( 'public' => true ), 'names' );
-
-		if ( is_array( $post_types ) && $post_types !== array() ) {
-			array_walk( $post_types, array( $this, 'set_post_type_hooks' ) );
+		$this->public_post_types = get_post_types( array( 'public' => true ) );
+		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
+			array_walk( $this->public_post_types, array( $this, 'set_post_type_hooks' ) );
 		}
 	}
 
