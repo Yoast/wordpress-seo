@@ -5,29 +5,30 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Creates the table to make sure the tests for this class can be executed.
 	 */
-	public static function setUpBeforeClass() {
+	public function setUp() {
 		global $wpdb;
 
-		parent::setUpBeforeClass();
+		parent::setUp();
 
 		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
 		$storage->create_table();
 		$storage->save_links(
 			100,
 			array(
-				new WPSEO_Link( 'url' , 1, 'internal'),
+				new WPSEO_Link( 'url', 1, 'internal' ),
 			)
 		);
 	}
+
 	/**
 	 * Drops the table when all tests for this class are executed.
 	 */
-	public static function tearDownAfterClass() {
-		parent::tearDownAfterClass();
+	public function tearDown() {
+		parent::tearDown();
 
 		global $wpdb;
 
-		$storage = new WPSEO_Link_Storage(  $wpdb->get_blog_prefix()  );
+		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
 
 		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
 	}
@@ -64,7 +65,7 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 		$column_count
 			->expects( $this->once() )
 			->method( 'get_results' )
-			->will( $this->returnValue( array ( 1 => array( 'post_id' => 1, 'total' => 10 ) ) ) );
+			->will( $this->returnValue( array( 1 => array( 'post_id' => 1, 'total' => 10 ) ) ) );
 
 		$column_count->set( array( 1 ) );
 	}
@@ -83,11 +84,11 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 		$column_count
 			->expects( $this->once() )
 			->method( 'get_results' )
-			->will( $this->returnValue( array ( 1 => array( 'post_id' => 1, 'total' => 10 ) ) ) );
+			->will( $this->returnValue( array( 1 => array( 'post_id' => 1, 'total' => 10 ) ) ) );
 
 		$column_count->set( array( 1 ) );
 
-		$this->assertEquals(10, $column_count->get( 1 ));
+		$this->assertEquals( 10, $column_count->get( 1 ) );
 	}
 
 	/**
@@ -104,7 +105,7 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 		$column_count
 			->expects( $this->once() )
 			->method( 'get_results' )
-			->will( $this->returnValue( array ( 1 => array( 'post_id' => 1, 'total' => 10 ) ) ) );
+			->will( $this->returnValue( array( 1 => array( 'post_id' => 1, 'total' => 10 ) ) ) );
 
 		$column_count->set( array( 1 ) );
 
@@ -120,6 +121,4 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 1, $column_count->get( 100 ) );
 	}
-
-
 }
