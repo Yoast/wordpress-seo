@@ -34,41 +34,6 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the registering of the hooks of post columns.
-	 */
-	public function test_register_hooks_on_edit_page() {
-		$GLOBALS['pagenow'] = 'edit.php';
-
-		/** @var WPSEO_Link_Columns $link_columns */
-
-		$link_columns = new WPSEO_Link_Columns();
-		$link_columns->register_hooks();
-
-		$this->assertEquals(
-			10,
-			has_action( 'admin_init', array( $link_columns, 'set_count_objects' ) )
-		);
-	}
-
-
-	/**
-	 * Tests the addition of post columns.
-	 */
-	public function test_set_post_type_hooks() {
-		/** @var WPSEO_Link_Columns $link_columns */
-		$link_columns = $this
-			->getMockBuilder( 'WPSEO_Link_Columns' )
-			->setMethods( array( 'set_post_type_hooks' ) )
-			->getMock();
-
-		$link_columns
-			->expects( $this->atLeastOnce() )
-			->method( 'set_post_type_hooks' );
-
-		$link_columns->register_hooks();
-	}
-
-	/**
 	 * Tests the addition of post columns.
 	 */
 	public function test_add_post_columns() {
@@ -99,10 +64,10 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 		$link_columns->set_count_objects();
 
 		$link_columns->column_content( 'wpseo-links', 1 );
-		$this->expectOutput( 0 );
+		$this->expectOutput( '' );
 
 		$link_columns->column_content( 'wpseo-linked', 1 );
-		$this->expectOutput( 0 );
+		$this->expectOutput( '' );
 	}
 
 	/**
