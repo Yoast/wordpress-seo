@@ -35,7 +35,6 @@ class WPSEO_Link_Watcher {
 	 * @param WP_Post $post    The post object.
 	 */
 	public function save_post( $post_id, WP_Post $post ) {
-
 		if ( ! $this->is_processable( $post_id ) ) {
 			return;
 		}
@@ -82,7 +81,7 @@ class WPSEO_Link_Watcher {
 		}
 
 		// When the post type is not public.
-		$post_type = get_post_type( $post_id );
+		$post_type        = get_post_type( $post_id );
 		$post_type_object = get_post_type_object( $post_type );
 		if ( $post_type_object->public === false ) {
 			return false;

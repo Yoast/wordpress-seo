@@ -22,12 +22,12 @@ class WPSEO_Link_Columns {
 	 */
 	public function register_hooks() {
 		global $pagenow;
-
 		if ( $pagenow !== 'edit.php' ) {
 			return;
 		}
 
-		add_action( 'admin_init', array( $this, 'set_count_objects' ) );
+		// Hook into tablenav to calculate links and linked.
+		add_action( 'manage_posts_extra_tablenav', array( $this, 'count_objects' ) );
 
 		$post_types = get_post_types( array( 'public' => true ), 'names' );
 
@@ -62,12 +62,24 @@ class WPSEO_Link_Columns {
 	}
 
 	/**
+	 * Makes sure we calculate all values in one query.
+	 *
+	 * @param string $target Extra table navigation location which is triggered.
+	 */
+	public function count_objects( $target ) {
+		if ( 'top' === $target ) {
+			$this->set_count_objects();
+		}
+	}
+
+	/**
 	 * Sets the objects to use for the count.
 	 */
 	public function set_count_objects() {
 		global $wp_query;
 
-		$post_ids = wp_list_pluck( $wp_query->get_posts() , 'ID' );
+		$post_ids = array_keys( $wp_query->get_posts() );
+		$post_ids = $this->filter_unprocessed_posts( $post_ids );
 
 		$linked = new WPSEO_Link_Column_Count( 'target_post_id' );
 		$linked->set( $post_ids );
@@ -108,5 +120,30 @@ class WPSEO_Link_Columns {
 		$columns[ 'wpseo-' . self::COLUMN_LINKED ] = 'wpseo-' . self::COLUMN_LINKED;
 
 		return $columns;
+	}
+
+	/**
+	 * Filter out posts that have not been processed yet.
+	 *
+	 * @param array $post_ids Post IDs to filter.
+	 *
+	 * @return array
+	 */
+	protected function filter_unprocessed_posts( $post_ids ) {
+		global $wpdb;
+
+		$post_ids = array_filter( $post_ids );
+		if ( empty( $post_ids ) || array() === $post_ids ) {
+			return $post_ids;
+		}
+
+		$query = $wpdb->prepare(
+			'SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE post_id IN (' . implode( ',', $post_ids ) . ') AND meta_key = "%s"',
+			WPSEO_Link_Factory::get_index_meta_key()
+		);
+
+		$results = $wpdb->get_results( $query, ARRAY_A );
+
+		return array_map( 'intval', wp_list_pluck( $results, 'post_id' ) );
 	}
 }
