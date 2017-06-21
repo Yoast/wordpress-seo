@@ -14,16 +14,18 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$classifier
+			->expects( $this->once() )
 			->method( 'classify' )
-			->willReturn( 'external' );
+			->will( $this->returnValue( 'external' ) );
 
 		$populator = $this
 			->getMockBuilder( 'WPSEO_Link_Internal_Lookup' )
 			->getMock();
 
 		$populator
+			->expects( $this->never() )
 			->method( 'lookup' )
-			->willReturn( 0 );
+			->will( $this->returnValue( 0 ) );
 
 		$processor = new WPSEO_Link_Factory( $classifier, $populator );
 
@@ -45,15 +47,17 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$classifier
+			->expects( $this->once() )
 			->method( 'classify' )
-			->willReturn( 'internal' );
+			->will( $this->returnValue( 'internal' ) );
 
 		$populator = $this
 			->getMockBuilder( 'WPSEO_Link_Internal_Lookup' )
 			->getMock();
 		$populator
+			->expects( $this->once() )
 			->method( 'lookup' )
-			->willReturn( 2 );
+			->will( $this->returnValue( 2 ) );
 
 		$processor = new WPSEO_Link_Factory( $classifier, $populator );
 
