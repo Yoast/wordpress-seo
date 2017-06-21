@@ -33,9 +33,7 @@ class WPSEO_Link_Column_Count {
 			return;
 		}
 
-		$results = $this->get_results( $post_ids );
-
-		array_walk( $results, array( $this, 'format' ) );
+		$this->count = $this->get_results( $post_ids );
 	}
 
 	/**
@@ -50,16 +48,7 @@ class WPSEO_Link_Column_Count {
 			return (int) $this->count[ $post_id ];
 		}
 
-		return 0;
-	}
-
-	/**
-	 * Sets the count value for the field where it belongs to.
-	 *
-	 * @param array $result The link count from the database.
-	 */
-	protected function format( array $result ) {
-		$this->count[ $result[ $this->target_field ] ] = $result['total'];
+		return null;
 	}
 
 	/**
@@ -74,9 +63,9 @@ class WPSEO_Link_Column_Count {
 
 		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
 
-		return $wpdb->get_results(
+		$results = $wpdb->get_results(
 			$wpdb->prepare( '
-				SELECT COUNT( id ) as total, %1$s 
+				SELECT COUNT( id ) as total, %1$s as source_id
 				FROM ' . $storage->get_table_name() . '
 			    WHERE %1$s IN ( %2$s )
 				GROUP BY %1$s',
@@ -86,6 +75,18 @@ class WPSEO_Link_Column_Count {
 			ARRAY_A
 		);
 
-		return $results;
+		$output = array();
+		foreach ( $results as $result ) {
+			$output[ (int) $result['source_id'] ] = $result['total'];
+		}
+
+		// Set unfound items to zero.
+		foreach ( $post_ids as $post_id ) {
+			if ( ! array_key_exists( $post_id, $output ) ) {
+				$output[ $post_id ] = 0;
+			}
+		}
+
+		return $output;
 	}
 }
