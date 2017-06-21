@@ -129,7 +129,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	 */
 	protected function get_processor() {
 		return $this
-			->getMockBuilder( WPSEO_Link_Content_Processor::class )
+			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
 			->setConstructorArgs( array( new WPSEO_Link_Storage( 'test_' ) ) )
 			->setMethods( array( 'process' ) )
 			->getMock();

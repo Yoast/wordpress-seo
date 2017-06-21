@@ -49,7 +49,7 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 	public function test_save_link() {
 		/** @var WPSEO_Link_Storage $storage */
 		$storage = $this
-			->getMockBuilder( WPSEO_Link_Storage::class )
+			->getMockBuilder( 'WPSEO_Link_Storage' )
 			->setMethods( array( 'save_link' ) )
 			->getMock();
 

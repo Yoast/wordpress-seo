@@ -22,7 +22,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
 		/** @var WPSEO_Link_Columns $link_columns */
 		$link_columns = $this
-			->getMockBuilder( WPSEO_Link_Columns::class )
+			->getMockBuilder( 'WPSEO_Link_Columns' )
 			->setMethods( array( 'set_post_type_hooks' ) )
 			->getMock();
 
@@ -57,7 +57,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	public function test_set_post_type_hooks() {
 		/** @var WPSEO_Link_Columns $link_columns */
 		$link_columns = $this
-			->getMockBuilder( WPSEO_Link_Columns::class )
+			->getMockBuilder( 'WPSEO_Link_Columns' )
 			->setMethods( array( 'set_post_type_hooks' ) )
 			->getMock();
 

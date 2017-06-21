@@ -38,7 +38,7 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	public function test_set_without_post_ids() {
 		/** @var WPSEO_Link_Column_Count $column_count */
 		$column_count = $this
-			->getMockBuilder( WPSEO_Link_Column_Count::class )
+			->getMockBuilder( 'WPSEO_Link_Column_Count' )
 			->setConstructorArgs( array( 'post_id' ) )
 			->setMethods( array( 'get_results' ) )
 			->getMock();
@@ -56,7 +56,7 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	public function test_set_with_post_ids() {
 		/** @var WPSEO_Link_Column_Count $column_count */
 		$column_count = $this
-			->getMockBuilder( WPSEO_Link_Column_Count::class )
+			->getMockBuilder( 'WPSEO_Link_Column_Count' )
 			->setConstructorArgs( array( 'post_id' ) )
 			->setMethods( array( 'get_results' ) )
 			->getMock();
@@ -75,7 +75,7 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	public function test_get_existing_post_id() {
 		/** @var WPSEO_Link_Column_Count $column_count */
 		$column_count = $this
-			->getMockBuilder( WPSEO_Link_Column_Count::class )
+			->getMockBuilder( 'WPSEO_Link_Column_Count' )
 			->setConstructorArgs( array( 'post_id' ) )
 			->setMethods( array( 'get_results' ) )
 			->getMock();
@@ -95,7 +95,7 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	public function test_get_non_existing_post_id() {
 		/** @var WPSEO_Link_Column_Count $column_count */
 		$column_count = $this
-			->getMockBuilder( WPSEO_Link_Column_Count::class )
+			->getMockBuilder( 'WPSEO_Link_Column_Count' )
 			->setConstructorArgs( array( 'post_id' ) )
 			->setMethods( array( 'get_results' ) )
 			->getMock();

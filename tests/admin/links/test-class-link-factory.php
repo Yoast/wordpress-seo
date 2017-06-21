@@ -9,7 +9,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 
 		/** @var WPSEO_Link_Type_Classifier $stub */
 		$classifier = $this
-			->getMockBuilder( WPSEO_Link_Type_Classifier::class )
+			->getMockBuilder( 'WPSEO_Link_Type_Classifier' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -18,7 +18,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 			->willReturn( 'external' );
 
 		$populator = $this
-			->getMockBuilder( WPSEO_Link_Internal_Lookup::class )
+			->getMockBuilder( 'WPSEO_Link_Internal_Lookup' )
 			->getMock();
 
 		$populator
@@ -40,7 +40,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 
 		/** @var WPSEO_Link_Type_Classifier $stub */
 		$classifier = $this
-			->getMockBuilder( WPSEO_Link_Type_Classifier::class )
+			->getMockBuilder( 'WPSEO_Link_Type_Classifier' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -49,7 +49,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 			->willReturn( 'internal' );
 
 		$populator = $this
-			->getMockBuilder( WPSEO_Link_Internal_Lookup::class )
+			->getMockBuilder( 'WPSEO_Link_Internal_Lookup' )
 			->getMock();
 		$populator
 			->method( 'lookup' )
