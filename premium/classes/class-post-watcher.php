@@ -26,7 +26,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param string $current_page The page that is opened at the moment.
 	 */
 	public function page_scripts( $current_page ) {
-		if ( ! ( $this->is_post_page( $current_page ) || $this->is_action_inline_save() ) ) {
+		if ( ! ( $this->post_redirect_can_be_made( $current_page ) ) ) {
 			return;
 		}
 
@@ -294,7 +294,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		global $pagenow;
 
 		// Only set the hooks for the page where they are needed.
-		if ( ! ( $this->is_post_page( $pagenow ) || $this->is_action_inline_save() ) ) {
+		if ( ! ( $this->post_redirect_can_be_made( $pagenow ) ) ) {
 			return;
 		}
 
@@ -341,6 +341,17 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			'%1$s detected that you deleted a post. You can either: %2$s Don\'t know what to do? %3$sRead this post %4$s.',
 			'wordpress-seo-premium'
 		);
+	}
+
+	/**
+	 * Is the current page valid to make a redirect from.
+	 *
+	 * @param $current_page The currently opened page.
+	 *
+	 * @return bool True when a redirect can be made on this page.
+	 */
+	protected function post_redirect_can_be_made( $current_page ) {
+		return $this->is_post_page($current_page) || $this->is_action_inline_save();
 	}
 
 	/**

@@ -37,7 +37,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @param string $current_page The page that is opened at the moment.
 	 */
 	public function page_scripts( $current_page ) {
-		if ( ! ( $this->is_term_page( $current_page ) || $this->is_action_inline_save_tax() ) ) {
+		if ( ! ( $this->term_redirect_can_be_made( $current_page ) ) ) {
 			return;
 		}
 
@@ -185,7 +185,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		global $pagenow;
 
 		// Only set the hooks for the page where they are needed.
-		if ( ! ( $this->is_term_page( $pagenow ) || $this->is_action_inline_save_tax() ) ) {
+		if ( ! ( $this->term_redirect_can_be_made( $pagenow ) ) ) {
 			return;
 		}
 
@@ -237,7 +237,16 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		);
 	}
 
-
+	/**
+	 * Is the current page valid to make a redirect from.
+	 *
+	 * @param $current_page The currently opened page.
+	 *
+	 * @return bool True when a redirect can be made on this page.
+	 */
+	protected function term_redirect_can_be_made( $current_page ) {
+		return $this->is_term_page($current_page) || $this->is_action_inline_save_tax();
+	}
 
 	/**
 	 * Is the current page related to a term (edit/overview).
