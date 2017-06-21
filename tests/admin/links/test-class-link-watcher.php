@@ -3,6 +3,30 @@
 class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Creates the table to make sure the tests for this class can be executed.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		$storage = new WPSEO_Link_Storage();
+		$storage->create_table();
+	}
+	/**
+	 * Drops the table when all tests for this class are executed.
+	 */
+	public static function tearDownAfterClass() {
+		parent::tearDownAfterClass();
+
+		global $wpdb;
+
+		$storage = new WPSEO_Link_Storage();
+
+		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
+	}
+
+
+
+	/**
 	 * Test the is processable
 	 */
 	public function test_is_processable_post_revision() {
@@ -130,7 +154,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	protected function get_processor() {
 		return $this
 			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
-			->setConstructorArgs( array( new WPSEO_Link_Storage( 'test_' ) ) )
+			->setConstructorArgs( array( new WPSEO_Link_Storage() ) )
 			->setMethods( array( 'process' ) )
 			->getMock();
 	}
