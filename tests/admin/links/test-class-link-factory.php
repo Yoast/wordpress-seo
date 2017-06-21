@@ -23,7 +23,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$populator
-			->expects( $this->once() )
+			->expects( $this->never() )
 			->method( 'lookup' )
 			->will( $this->returnValue( 0 ) );
 
