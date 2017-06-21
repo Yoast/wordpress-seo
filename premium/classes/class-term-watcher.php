@@ -240,7 +240,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Is the current page valid to make a redirect from.
 	 *
-	 * @param $current_page The currently opened page.
+	 * @param string $current_page The currently opened page.
 	 *
 	 * @return bool True when a redirect can be made on this page.
 	 */
