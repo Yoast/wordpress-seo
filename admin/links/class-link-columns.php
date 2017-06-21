@@ -143,7 +143,11 @@ class WPSEO_Link_Columns {
 		}
 
 		$query = $wpdb->prepare(
-			'SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE post_id IN (' . implode( ',', $post_ids ) . ') AND meta_key = "%s"',
+			'
+		SELECT post_id
+		  FROM ' . $wpdb->postmeta . '
+		 WHERE post_id IN ( ' . implode( ',', $post_ids ) . ' )
+		   AND meta_key = "%s"',
 			WPSEO_Link_Factory::get_index_meta_key()
 		);
 
