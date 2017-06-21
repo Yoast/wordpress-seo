@@ -761,7 +761,7 @@ class WPSEO_Admin {
 		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
 
 		// When the table doesn't exists, just return early.
-		if ( $wpdb->get_var("SHOW TABLES LIKE '" . $storage->get_table_name() . "'") !== $storage->get_table_name() ) {
+		if ( $wpdb->get_var( 'SHOW TABLES LIKE "' . $storage->get_table_name() . '"' ) !== $storage->get_table_name() ) {
 			return;
 		}
 
