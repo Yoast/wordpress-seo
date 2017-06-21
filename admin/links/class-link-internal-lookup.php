@@ -16,6 +16,8 @@ class WPSEO_Link_Internal_Lookup {
 	 * @return int The post id belongs to given link if link is internal.
 	 */
 	public function lookup( $link ) {
+		// @codingStandardsIgnoreStart
 		return url_to_postid( $link );
+		// @codingStandardsIgnoreEnd
 	}
 }
