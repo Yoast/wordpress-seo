@@ -351,7 +351,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool True when a redirect can be made on this page.
 	 */
 	protected function post_redirect_can_be_made( $current_page ) {
-		return $this->is_post_page($current_page) || $this->is_action_inline_save();
+		return $this->is_post_page( $current_page ) || $this->is_action_inline_save();
 	}
 
 	/**

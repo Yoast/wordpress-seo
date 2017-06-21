@@ -245,7 +245,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @return bool True when a redirect can be made on this page.
 	 */
 	protected function term_redirect_can_be_made( $current_page ) {
-		return $this->is_term_page($current_page) || $this->is_action_inline_save_tax();
+		return $this->is_term_page( $current_page ) || $this->is_action_inline_save_tax();
 	}
 
 	/**
