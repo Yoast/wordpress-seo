@@ -54,7 +54,7 @@ class WPSEO_Link_Watcher {
 	}
 
 	/**
-	 * Removes the seo links when the post will be deleted.
+	 * Removes the seo links when the post is deleted.
 	 *
 	 * @param int $post_id The post id.
 	 */
