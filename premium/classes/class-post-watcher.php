@@ -288,7 +288,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		global $pagenow;
 
 		// Only set the hooks for the page where they are needed.
-		if ( ! $this->is_post_page( $pagenow ) ) {
+		if ( ! ( $this->is_post_page( $pagenow ) || $this->is_action_inline_save() ) ) {
 			return;
 		}
 
@@ -347,5 +347,15 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	protected function is_post_page( $current_page ) {
 		// Only set the hooks for the page where they are needed.
 		return ( in_array( $current_page, array( 'edit.php', 'post.php' ), true ) );
+	}
+
+	/**
+	 * Is the page in an AJAX-request and is the action "inline save".
+	 *
+	 * @return bool True when in an AJAX-request and the action is inline-save.
+	 */
+	protected function is_action_inline_save() {
+		// Only set the hooks for the page where they are needed.
+		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && $_POST['action'] === 'inline-save' );
 	}
 }
