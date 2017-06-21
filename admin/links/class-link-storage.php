@@ -36,18 +36,23 @@ class WPSEO_Link_Storage {
 	public function create_table() {
 		global $wpdb;
 
-		return $wpdb->query('
-			CREATE TABLE IF NOT EXISTS `' . $this->get_table_name() . '` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                `url` varchar(255) NOT NULL,
-                `post_id` bigint(20) unsigned NOT NULL,
-                `target_post_id` bigint(20) unsigned NOT NULL,
-                `type` VARCHAR(8) NOT NULL,
-                PRIMARY KEY (`id`),
-                KEY `link` (`post_id`,`target_post_id`)
-			);
-			'
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$create_table = sprintf('
+			CREATE TABLE IF NOT EXISTS %1$s (
+                id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                url varchar(255) NOT NULL,
+                post_id bigint(20) unsigned NOT NULL,
+                target_post_id bigint(20) unsigned NOT NULL,
+                type VARCHAR(8) NOT NULL,
+                PRIMARY KEY (id),
+                KEY link_direction (post_id, type)
+			) %2$s',
+			$this->get_table_name(),
+			$charset_collate
 		);
+
+		return $wpdb->query( $create_table );
 	}
 
 	/**
