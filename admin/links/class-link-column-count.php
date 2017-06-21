@@ -47,7 +47,7 @@ class WPSEO_Link_Column_Count {
 	 */
 	public function get( $post_id ) {
 		if ( array_key_exists( $post_id, $this->count ) ) {
-			return $this->count[ $post_id ];
+			return (int) $this->count[ $post_id ];
 		}
 
 		return 0;
@@ -65,7 +65,7 @@ class WPSEO_Link_Column_Count {
 	/**
 	 * Gets the link count for the given post ids.
 	 *
-	 * @param array $post_ids Array with post_ids
+	 * @param array $post_ids Array with post_ids.
 	 *
 	 * @return array
 	 */
@@ -77,7 +77,7 @@ class WPSEO_Link_Column_Count {
 		return $wpdb->get_results(
 			$wpdb->prepare( '
 				SELECT COUNT( id ) as total, %1$s 
-				FROM ' . $storage->get_prefixed_table_name() . '
+				FROM ' . $storage->get_table_name() . '
 			    WHERE %1$s IN ( %2$s )
 				GROUP BY %1$s',
 				$this->target_field,

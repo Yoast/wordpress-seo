@@ -41,6 +41,8 @@ class WPSEO_Link_Watcher {
 		}
 
 		$content = $post->post_content;
+
+		// Apply the filters to have the same content as shown on the frontend.
 		$content = apply_filters( 'the_content', $content );
 		$content = str_replace( ']]>', ']]&gt;', $content );
 
@@ -62,11 +64,11 @@ class WPSEO_Link_Watcher {
 	}
 
 	/**
-	 * Checks if the post is accessible.
+	 * Checks if the post is processable.
 	 *
 	 * @param int $post_id The post id.
 	 *
-	 * @return bool True when the post is accessible.
+	 * @return bool True when the post is processable.
 	 */
 	protected function is_processable( $post_id ) {
 		// When the post is a revision.

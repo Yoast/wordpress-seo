@@ -29,7 +29,7 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 
 		$storage = new WPSEO_Link_Storage(  $wpdb->get_blog_prefix()  );
 
-		$wpdb->query( 'DROP TABLE ' . $storage->get_prefixed_table_name() );
+		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
 	}
 
 	/**

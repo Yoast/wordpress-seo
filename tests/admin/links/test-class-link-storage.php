@@ -22,7 +22,7 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 
 		$storage = new WPSEO_Link_Storage();
 
-		$wpdb->query( 'DROP TABLE ' . $storage->get_prefixed_table_name() );
+		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
 	}
 
 	/**
@@ -31,7 +31,7 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 	public function test_table_prefix() {
 		$storage = new WPSEO_Link_Storage( 'custom_prefix_' );
 
-		$this->assertEquals( 'custom_prefix_yoast_seo_links', $storage->get_prefixed_table_name() );
+		$this->assertEquals( 'custom_prefix_yoast_seo_links', $storage->get_table_name() );
 	}
 
 	/**

@@ -11,7 +11,7 @@ class WPSEO_Link_Internal_Lookup_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			$post->ID,
-			$lookup->lookup( get_permalink( $post ), 'internal' )
+			$lookup->lookup( get_permalink( $post ) )
 		);
 	}
 
@@ -24,7 +24,7 @@ class WPSEO_Link_Internal_Lookup_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			$post->ID,
-			$lookup->lookup( '?p='. $post->ID, 'internal' )
+			$lookup->lookup( '?p='. $post->ID )
 		);
 	}
 
@@ -36,7 +36,7 @@ class WPSEO_Link_Internal_Lookup_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			0,
-			$lookup->lookup( 'http://external.dev', 'internal' )
+			$lookup->lookup( 'http://external.dev' )
 		);
 	}
 
@@ -48,7 +48,7 @@ class WPSEO_Link_Internal_Lookup_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			0,
-			$lookup->lookup( 'http://external.dev', 'external' )
+			$lookup->lookup( 'http://external.dev' )
 		);
 	}
 

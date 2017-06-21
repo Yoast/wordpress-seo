@@ -44,9 +44,12 @@ class WPSEO_Link_Factory {
 	 * @return WPSEO_Link The built link.
 	 */
 	public function build_link( $link ) {
-		$link = trim( $link, "'" );
 		$link_type = $this->classifier->classify( $link );
-		$target_post_id = $this->internal_lookup->lookup( $link, $link_type );
+
+		$target_post_id = 0;
+		if ( $link_type === WPSEO_Link_Type_Classifier::TYPE_INTERNAL ) {
+			$target_post_id = $this->internal_lookup->lookup( $link );
+		}
 
 		return new WPSEO_Link( $link, $target_post_id, $link_type );
 	}

@@ -758,10 +758,15 @@ class WPSEO_Admin {
 	protected function initialize_seo_links() {
 		global $wpdb;
 
+		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
+
+		// When the table doesn't exists, just return early.
+		if ( $wpdb->get_var("SHOW TABLES LIKE '" . $storage->get_table_name() . "'") !== $storage->get_table_name() ) {
+			return;
+		}
+
 		$seo_links = new WPSEO_Link_Watcher(
-			new WPSEO_Link_Content_Processor(
-				new WPSEO_Link_Storage( $wpdb->get_blog_prefix() )
-			)
+			new WPSEO_Link_Content_Processor( $storage )
 		);
 		$seo_links->register_hooks();
 

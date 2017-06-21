@@ -23,13 +23,11 @@ class WPSEO_Link_Columns {
 	public function register_hooks() {
 		global $pagenow;
 
-		if ( $pagenow === 'upload.php' ) {
+		if ( $pagenow !== 'edit.php' ) {
 			return;
 		}
 
-		if ( $pagenow === 'edit.php' ) {
-			add_action( 'admin_init', array( $this, 'set_count_objects' ) );
-		}
+		add_action( 'admin_init', array( $this, 'set_count_objects' ) );
 
 		$post_types = get_post_types( array( 'public' => true ), 'names' );
 
@@ -57,10 +55,10 @@ class WPSEO_Link_Columns {
 	 * @return array The extended array with columns.
 	 */
 	public function add_post_columns( array $columns ) {
-		$added_columns[ 'wpseo-' . self::COLUMN_LINKS ]  = __( 'Links', 'wordpress-seo' );
-		$added_columns[ 'wpseo-' . self::COLUMN_LINKED ] = __( 'Linked', 'wordpress-seo' );
+		$columns[ 'wpseo-' . self::COLUMN_LINKS ]  = __( 'Links', 'wordpress-seo' );
+		$columns[ 'wpseo-' . self::COLUMN_LINKED ] = __( 'Linked', 'wordpress-seo' );
 
-		return array_merge( $columns, $added_columns );
+		return $columns;
 	}
 
 	/**
@@ -82,7 +80,7 @@ class WPSEO_Link_Columns {
 	}
 
 	/**
-	 * Display the column content for the given column
+	 * Displays the column content for the given column
 	 *
 	 * @param string $column_name Column to display the content for.
 	 * @param int    $post_id     Post to display the column content for.
@@ -90,10 +88,10 @@ class WPSEO_Link_Columns {
 	public function column_content( $column_name, $post_id ) {
 		switch ( $column_name ) {
 			case 'wpseo-' . self::COLUMN_LINKS :
-				echo absint( $this->count_links->get( $post_id ) );
+				echo $this->count_links->get( $post_id );
 				break;
 			case 'wpseo-' . self::COLUMN_LINKED :
-				echo absint( $this->count_linked->get( $post_id ) );
+				echo $this->count_linked->get( $post_id );
 				break;
 		}
 	}

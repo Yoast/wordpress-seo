@@ -29,7 +29,9 @@ class WPSEO_Link_Content_Processor {
 	public function process( $post_id, $content ) {
 		$link_extractor = new WPSEO_Link_Extractor( $content );
 		$link_processor = new WPSEO_Link_Factory( new WPSEO_Link_Type_Classifier( site_url() ), new WPSEO_Link_Internal_Lookup() );
-		$links = $link_processor->build( $link_extractor->extract() );
+
+		$extracted_links = $link_extractor->extract();
+		$links = $link_processor->build( $extracted_links );
 
 		$this->store_links( $post_id, $links );
 	}

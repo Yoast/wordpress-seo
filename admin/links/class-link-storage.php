@@ -13,18 +13,18 @@ class WPSEO_Link_Storage {
 	/**
 	 * Sets the table prefix.
 	 *
-	 * @param string $table_prefix A possible prefix to use for the table.
+	 * @param string $table_prefix Optional. The prefix to use for the table.
 	 */
 	public function __construct( $table_prefix = '' ) {
 		$this->table_prefix = $table_prefix;
 	}
 
 	/**
-	 * Returns the table name with a possible prefix.
+	 * Returns the table name to use.
 	 *
-	 * @return string The prefixed table name.
+	 * @return string The table name.
 	 */
-	public function get_prefixed_table_name() {
+	public function get_table_name() {
 		return $this->table_prefix . self::TABLE_NAME;
 	}
 
@@ -37,15 +37,15 @@ class WPSEO_Link_Storage {
 		global $wpdb;
 
 		return $wpdb->query('
-			CREATE TABLE IF NOT EXISTS `' . $this->get_prefixed_table_name() . '` (
+			CREATE TABLE IF NOT EXISTS `' . $this->get_table_name() . '` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 `url` varchar(255) NOT NULL,
                 `post_id` bigint(20) unsigned NOT NULL,
                 `target_post_id` bigint(20) unsigned NOT NULL,
-                `type` enum("internal","outbound") NOT NULL,
+                `type` VARCHAR(8) NOT NULL,
                 PRIMARY KEY (`id`),
                 KEY `link` (`post_id`,`target_post_id`)
-			) ENGINE=MyISAM;
+			);
 			'
 		);
 	}
@@ -63,8 +63,8 @@ class WPSEO_Link_Storage {
 		return $wpdb->get_results(
 			$wpdb->prepare( '
 				SELECT url, post_id, target_post_id, type
-				FROM ' . $this->get_prefixed_table_name() . '
-				WHERE post_id = %s',
+				FROM ' . $this->get_table_name() . '
+				WHERE post_id = %d',
 				$post_id
 			)
 		);
@@ -91,7 +91,7 @@ class WPSEO_Link_Storage {
 		global $wpdb;
 
 		return $wpdb->delete(
-			$this->get_prefixed_table_name(),
+			$this->get_table_name(),
 			array( 'post_id' => $post_id ),
 			array( '%d' )
 		);
@@ -108,7 +108,7 @@ class WPSEO_Link_Storage {
 		global $wpdb;
 
 		$wpdb->insert(
-			$this->get_prefixed_table_name(),
+			$this->get_table_name(),
 			array(
 				'url' => $link->get_url(),
 				'post_id' => $post_id,
