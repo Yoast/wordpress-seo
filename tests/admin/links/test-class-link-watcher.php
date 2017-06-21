@@ -24,8 +24,6 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
 	}
 
-
-
 	/**
 	 * Test the is processable
 	 */
@@ -39,8 +37,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$processor = $this->get_processor();
 		$processor
 			->expects( $this->never() )
-			->method( 'process' )
-			->with( $post->ID, '' );
+			->method( 'process' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
 		$watcher->save_post( $post->ID, $post );
@@ -58,8 +55,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$processor = $this->get_processor();
 		$processor
 			->expects( $this->never() )
-			->method( 'process' )
-			->with( $post->ID, '' );
+			->method( 'process' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
 		$watcher->save_post( $post->ID, $post );
@@ -78,8 +74,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$processor = $this->get_processor();
 		$processor
 			->expects( $this->never() )
-			->method( 'process' )
-			->with( $post->ID, '' );
+			->method( 'process' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
 		$watcher->save_post( $post->ID, $post );
@@ -98,8 +93,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$processor = $this->get_processor();
 		$processor
 			->expects( $this->never() )
-			->method( 'process' )
-			->with( $post->ID, '' );
+			->method( 'process' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
 		$watcher->save_post( $post->ID, $post );
