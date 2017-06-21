@@ -9,7 +9,7 @@
 class WPSEO_Link_Columns {
 
 	const COLUMN_LINKED = 'linked';
-	const COLUMN_LINKS  = 'links';
+	const COLUMN_LINKS = 'links';
 
 	/** @var WPSEO_Link_Column_Count */
 	protected $count_linked;
@@ -57,8 +57,11 @@ class WPSEO_Link_Columns {
 	 * @return array The extended array with columns.
 	 */
 	public function add_post_columns( array $columns ) {
-		$columns[ 'wpseo-' . self::COLUMN_LINKS ]  = __( 'Links', 'wordpress-seo' );
-		$columns[ 'wpseo-' . self::COLUMN_LINKED ] = __( 'Linked', 'wordpress-seo' );
+		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = __( 'Links', 'wordpress-seo' );
+
+		if ( ! $this->has_unprocessed_posts() ) {
+			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = __( 'Linked', 'wordpress-seo' );
+		}
 
 		return $columns;
 	}
@@ -147,5 +150,41 @@ class WPSEO_Link_Columns {
 		$results = $wpdb->get_results( $query, ARRAY_A );
 
 		return array_map( 'intval', wp_list_pluck( $results, 'post_id' ) );
+	}
+
+	/**
+	 * Determine if there are any unprocessed public posts.
+	 *
+	 * @return bool
+	 */
+	protected function has_unprocessed_posts() {
+		global $wpdb;
+
+		if ( empty( $this->public_post_types ) ) {
+			return false;
+		}
+
+		$sanitized_post_types = array_map( array( $wpdb, 'prepare' ), $this->public_post_types );
+		$post_types           = sprintf( '"%s"', implode( '", "', $sanitized_post_types ) );
+
+		// Get any object which has not got the processed meta key.
+		$query = $wpdb->prepare( '
+		SELECT ID
+		  FROM ' . $wpdb->posts . ' AS p
+		 WHERE p.post_type IN ( ' . $post_types . ' )
+		   AND p.post_status = "publish"
+		   AND NOT EXISTS ( 
+		   	SELECT *
+		   	  FROM ' . $wpdb->postmeta . ' AS pm
+		   	 WHERE p.ID = pm.post_id
+		   	   AND meta_key = "%1$s" )
+		 LIMIT 1',
+			WPSEO_Link_Factory::get_index_meta_key()
+		);
+
+		// If anything is found, we have unprocessed posts.
+		$results = $wpdb->get_var( $query );
+
+		return ! empty( $results );
 	}
 }
