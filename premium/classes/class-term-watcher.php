@@ -37,7 +37,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @param string $current_page The page that is opened at the moment.
 	 */
 	public function page_scripts( $current_page ) {
-		if ( ! $this->is_term_page( $current_page ) ) {
+		if ( ! ( $this->is_term_page( $current_page ) || $this->is_action_inline_save_tax() ) ) {
 			return;
 		}
 
@@ -179,7 +179,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		global $pagenow;
 
 		// Only set the hooks for the page where they are needed.
-		if ( $this->is_term_page( $pagenow ) ) {
+		if ( ! ( $this->is_term_page( $pagenow ) || $this->is_action_inline_save_tax() ) ) {
 			return;
 		}
 
@@ -241,5 +241,15 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	protected function is_term_page( $current_page ) {
 		// Only set the hooks for the page where they are needed.
 		return ( in_array( $current_page, array( 'edit-tags.php', 'term.php' ), true ) );
+	}
+
+	/**
+	 * Is the page in an AJAX-request and is the action "inline save".
+	 *
+	 * @return bool True when in an AJAX-request and the action is inline-save.
+	 */
+	protected function is_action_inline_save_tax() {
+		// Only set the hooks for the page where they are needed.
+		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && $_POST['action'] === 'inline-save-tax' );
 	}
 }

@@ -26,7 +26,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param string $current_page The page that is opened at the moment.
 	 */
 	public function page_scripts( $current_page ) {
-		if ( ! $this->is_post_page( $current_page ) ) {
+		if ( ! ( $this->is_post_page( $current_page ) || $this->is_action_inline_save() ) ) {
 			return;
 		}
 
