@@ -70,7 +70,7 @@ function doReindexRequest( postType, progressbar, resolve ) {
 		},
 		success: function( response ) {
 			let totalIndexed = parseInt( response, 10 );
-			if (totalIndexed !== 0) {
+			if ( totalIndexed !== 0 ) {
 				progressbar.update( totalIndexed );
 
 				doReindexRequest( postType, progressbar, resolve );
@@ -92,12 +92,11 @@ function doReindexRequest( postType, progressbar, resolve ) {
  * @returns {Promise} Promise.
  */
 function reindexLinks( postType ) {
-	let progressbar = new IndexProgressBar( postType, settings.amount[ postType ] );
 
 	// Do request to get post ids
 	return new Promise( ( resolve ) => {
+		let progressbar = new IndexProgressBar( postType, settings.amount[ postType ] );
 		doReindexRequest( postType, progressbar, resolve );
-		tb_remove();
 	} );
 }
 
@@ -110,8 +109,9 @@ function completeReindexing() {
 	a11ySpeak( settings.l10n.calculationCompleted );
 
 	jQuery( "#reindexLinks" ).html( settings.message.indexingCompleted );
-}
 
+	// tb_remove();
+}
 
 /**
  * Starts the reindexing of the links.
