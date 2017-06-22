@@ -229,7 +229,7 @@ class WPSEO_Replace_Vars {
 
 			// Deal with variable variable names first.
 			if ( strpos( $var, 'cf_' ) === 0 ) {
-				$replacement = $this->retrieve_cf_custom_field_name( $var );
+				$replacement = do_shortcode($this->retrieve_cf_custom_field_name( $var ));
 			}
 			elseif ( strpos( $var, 'ct_desc_' ) === 0 ) {
 				$replacement = $this->retrieve_ct_desc_custom_tax_name( $var );
