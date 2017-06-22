@@ -121,7 +121,7 @@ class WPSEO_Link_Query {
 			return array();
 		}
 
-		$sanitized_post_types = array_map( array( $wpdb, 'prepare' ), $post_types );
+		$sanitized_post_types = array_map( 'esc_sql', $post_types );
 		$post_types           = sprintf( '"%s"', implode( '", "', $sanitized_post_types ) );
 
 		// @codingStandardsIgnoreStart
