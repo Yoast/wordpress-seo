@@ -32,7 +32,9 @@ class WPSEO_Link_Columns {
 		// Hook into tablenav to calculate links and linked.
 		add_action( 'manage_posts_extra_tablenav', array( $this, 'count_objects' ) );
 
-		$this->public_post_types = get_post_types( array( 'public' => true ) );
+		$public_post_types = get_post_types( array( 'public' => true ) );
+		$this->public_post_types = array_filter( $public_post_types, array( $this, 'filter_post_types' ) );
+
 		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
 			array_walk( $this->public_post_types, array( $this, 'set_post_type_hooks' ) );
 		}
@@ -59,7 +61,7 @@ class WPSEO_Link_Columns {
 	public function add_post_columns( array $columns ) {
 		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = __( 'Links', 'wordpress-seo' );
 
-		if ( ! $this->has_unprocessed_posts() ) {
+		if ( ! WPSEO_Link_Query::has_unprocessed_posts( $this->public_post_types ) ) {
 			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = __( 'Linked', 'wordpress-seo' );
 		}
 
@@ -128,67 +130,13 @@ class WPSEO_Link_Columns {
 	}
 
 	/**
-	 * Filter out posts that have not been processed yet.
+	 * Filters the post types to remove unwanted items.
 	 *
-	 * @param array $post_ids Post IDs to filter.
+	 * @param string $public_post_type The post type to filter.
 	 *
-	 * @return array
+	 * @return bool Returns true if it is kept, false if removed.
 	 */
-	protected function filter_unprocessed_posts( $post_ids ) {
-		global $wpdb;
-
-		$post_ids = array_filter( $post_ids );
-		if ( empty( $post_ids ) || array() === $post_ids ) {
-			return $post_ids;
-		}
-
-		$query = $wpdb->prepare(
-			'
-		SELECT post_id
-		  FROM ' . $wpdb->postmeta . '
-		 WHERE post_id IN ( ' . implode( ',', $post_ids ) . ' )
-		   AND meta_key = "%s"',
-			WPSEO_Link_Factory::get_index_meta_key()
-		);
-
-		$results = $wpdb->get_results( $query, ARRAY_A );
-
-		return array_map( 'intval', wp_list_pluck( $results, 'post_id' ) );
-	}
-
-	/**
-	 * Determine if there are any unprocessed public posts.
-	 *
-	 * @return bool
-	 */
-	protected function has_unprocessed_posts() {
-		global $wpdb;
-
-		if ( empty( $this->public_post_types ) ) {
-			return false;
-		}
-
-		$sanitized_post_types = array_map( array( $wpdb, 'prepare' ), $this->public_post_types );
-		$post_types           = sprintf( '"%s"', implode( '", "', $sanitized_post_types ) );
-
-		// Get any object which has not got the processed meta key.
-		$query = $wpdb->prepare( '
-		SELECT ID
-		  FROM ' . $wpdb->posts . ' AS p
-		 WHERE p.post_type IN ( ' . $post_types . ' )
-		   AND p.post_status = "publish"
-		   AND NOT EXISTS ( 
-		   	SELECT *
-		   	  FROM ' . $wpdb->postmeta . ' AS pm
-		   	 WHERE p.ID = pm.post_id
-		   	   AND meta_key = "%1$s" )
-		 LIMIT 1',
-			WPSEO_Link_Factory::get_index_meta_key()
-		);
-
-		// If anything is found, we have unprocessed posts.
-		$results = $wpdb->get_var( $query );
-
-		return ! empty( $results );
+	protected function filter_post_types( $public_post_type ) {
+		return ! ( $public_post_type === 'attachment' );
 	}
 }
