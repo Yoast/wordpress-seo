@@ -85,8 +85,14 @@ class WPSEO_Link_Columns {
 	public function set_count_objects() {
 		global $wp_query;
 
-		$post_ids = array_keys( $wp_query->get_posts() );
-		$post_ids = $this->filter_unprocessed_posts( $post_ids );
+		$posts = $wp_query->get_posts();
+		if ( $wp_query->query['post_type'] === 'page' ) {
+			$post_ids = array_keys( $posts );
+		} else {
+			$post_ids = wp_list_pluck( $posts, 'ID' );
+		}
+
+		$post_ids = WPSEO_Link_Query::filter_unprocessed_posts( $post_ids );
 
 		$linked = new WPSEO_Link_Column_Count( 'target_post_id' );
 		$linked->set( $post_ids );
