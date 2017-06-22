@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Admin\Links\Reindex
+ */
 
+/**
+ * Class WPSEO_Link_Reindex_Post_Service
+ */
 class WPSEO_Link_Reindex_Post_Service {
 
 	/**
