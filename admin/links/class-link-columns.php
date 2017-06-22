@@ -18,7 +18,7 @@ class WPSEO_Link_Columns {
 	protected $count_links;
 
 	/** @var array List of public post types. */
-	protected $public_post_types;
+	protected $public_post_types = array();
 
 	/**
 	 * Registers the hooks.
@@ -86,10 +86,14 @@ class WPSEO_Link_Columns {
 		global $wp_query;
 
 		$posts = $wp_query->get_posts();
-		if ( $wp_query->query['post_type'] === 'page' ) {
-			$post_ids = array_keys( $posts );
-		} else {
+		$post_ids = array();
+
+		// Post lists return a list of objects.
+		if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
 			$post_ids = wp_list_pluck( $posts, 'ID' );
+		} elseif ( ! empty( $posts ) ) {
+			// Page list returns an array of post IDs.
+			$post_ids = array_keys( $posts );
 		}
 
 		$post_ids = WPSEO_Link_Query::filter_unprocessed_posts( $post_ids );
