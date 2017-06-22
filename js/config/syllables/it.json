@@ -1,14 +1,14 @@
 {
-	"vowels": "aeiouyàèéìïòù",
+	"vowels": "aeiouyàèéìîïòù",
 	"deviations": {
 		"vowels": [
 			{
-				"fragments": [ "a[íúeo]", "e[íúao]", "o[íúaeè]", "í[aeo]", "ú[aeo]", "ai[aeou]", "aue", "ei[ae]", "ia[ei]", "oi[aeo]", "ui[ao]", "ou[ei]", "coo[pr]",
-					"[^aeuio]y[^aeuio]","[^aeuio]y$", "[aeuio]y[aeuio]" ],
+				"fragments": [ "a[íúeo]", "e[íúao]", "o[íúaeè]", "í[aeo]", "ú[aeo]", "ai[aeou]", "àii", "aiì", "au[eé]", "ei[aàeèé]", "èia", "ia[èiì]", "iài", "oi[aeo]", "uí", "ui[ao]",
+					"ou[ei]", "coo[pr]", "[^aeuioíúèéà]y[^aeuioíúèéà]","[^aeuioíúèéà]y$", "[aeuioíúèéà]y[aeuioíúèéà]", "ia$" ],
 				"countModifier": 1
 			},
 			{
-				"fragments": [ "aoi", "ioe" ],
+				"fragments": [ "aoi", "ioe", "riae" ],
 				"countModifier": 1
 			}
 		],
