@@ -3,7 +3,8 @@
 	"deviations": {
 		"vowels": [
 			{
-				"fragments": [ "a[íúeo]", "e[íúao]", "o[íúaeè]", "í[aeo]", "ú[aeo]", "ai[aeou]", "aue", "ei[ae]", "ia[ei]", "oi[aeo]", "ui[ao]", "ou[ei]", "coo[pr]" ],
+				"fragments": [ "a[íúeo]", "e[íúao]", "o[íúaeè]", "í[aeo]", "ú[aeo]", "ai[aeou]", "aue", "ei[ae]", "ia[ei]", "oi[aeo]", "ui[ao]", "ou[ei]", "coo[pr]",
+					"[^aeuio]y[^aeuio]","[^aeuio]y$", "[aeuio]y[aeuio]" ],
 				"countModifier": 1
 			},
 			{
