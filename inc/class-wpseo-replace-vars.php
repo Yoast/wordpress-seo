@@ -64,6 +64,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Setup the help texts and external replacements as statics so they will be available to all instances
 	 */
+
 	public static function setup_statics_once() {
 		if ( self::$help_texts === array() ) {
 			self::set_basic_help_texts();
