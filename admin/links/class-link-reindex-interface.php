@@ -1,36 +1,60 @@
 <?php
 
+/**
+ * Handles the reindexing of links interface in the Dashboard.
+ */
 class WPSEO_Link_Reindex_Interface {
-
-	const MODAL_DIALOG_HEIGHT_BASE = 282;
-	const PROGRESS_BAR_HEIGHT = 32;
+	/** @var array Public post types to scan for unprocessed items */
+	protected $public_post_types = array();
+	/** @var array Number of unprocessed items per post type */
+	protected $unprocessed = array();
 
 	/**
 	 * Registers all hooks to WordPress
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_internal_linking', array( $this, 'add_link_index_interface' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+		if ( ! $this->is_dashboard_page() ) {
+			return;
+		}
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'calculate_unprocessed' ), 9 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ), 10 );
+
 		add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
+		add_action( 'wpseo_internal_linking', array( $this, 'add_link_index_interface' ) );
+	}
+
+	/**
+	 * Calculates the number of unprocessed items per post type.
+	 *
+	 * @return void
+	 */
+	public function calculate_unprocessed() {
+		$public_post_types       = get_post_types( array( 'public' => true ) );
+		$this->public_post_types = array_filter( $public_post_types, array( $this, 'filter_post_types' ) );
+
+		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
+			$this->unprocessed = WPSEO_Link_Query::get_unprocessed_count( $this->public_post_types );
+		}
 	}
 
 	/**
 	 * Add the indexing interface for links to the dashboard.
 	 */
 	public function add_link_index_interface() {
+		$total_unprocessed = array_sum( $this->unprocessed );
+
 		$html = '';
 
 		$html .= '<h2>' . esc_html__( 'Content link detector', 'wordpress-seo' ) . '</h2>';
 		$html .= '<p>' . __( 'Do you want to detect links in the content. Use the indexing button.', 'wordpress-seo' ) . '</p>';
 
-		$total_posts = $this->count_unindexed_posts_by_type( 'post' );
-		$total_pages = $this->count_unindexed_posts_by_type( 'page' );
-
-		if ( $total_posts === 0 && $total_pages === 0 ) {
-			$html .= '<p>' . $this->messageAlreadyIndexed() . '</p>';
+		if ( $total_unprocessed === 0 ) {
+			$html .= '<p>' . $this->message_already_indexed() . '</p>';
 		}
 		else {
-			$height = $this->get_modal_height( $total_posts, $total_pages );
+			$height = ( 160 * count( $this->unprocessed ) ) + 2;
+
 			$html .= '<p id="reindexLinks">';
 			$html .= sprintf(
 				'<a id="openInternalLinksCalculation" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%3$s</a>',
@@ -57,47 +81,44 @@ class WPSEO_Link_Reindex_Interface {
 		// Adding the thickbox.
 		add_thickbox();
 
-		$total_posts = $this->count_unindexed_posts_by_type( 'post' );
-		$total_pages = $this->count_unindexed_posts_by_type( 'page' );
+		$blocks = array();
 
-		$progressPosts = sprintf(
-		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-			__( 'Post %1$s of %2$s analyzed.', 'wordpress-seo' ),
-			'<span id="wpseo_count_index_links_post">0</span>',
-			'<strong id="wpseo_count_post_total">' . $total_posts . '</strong>'
-		);
+		foreach ( $this->public_post_types as $post_type ) {
 
-		$progressPages = sprintf(
-		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-			__( 'Page %1$s of %2$s analyzed.', 'wordpress-seo' ),
-			'<span id="wpseo_count_index_links_page">0</span>',
-			'<strong id="wpseo_count_page_total">' . $total_pages . '</strong>'
-		);
+			$post_type_labels = get_post_type_labels( get_post_type_object( $post_type ) );
+			$post_type_label  = $post_type_labels->name;
+
+			if ( $this->unprocessed[ $post_type ] === 0 ) {
+				$inner_text = sprintf( '<p>%s</p>',
+					/* Translators: %s resolves to the post type label. */
+					esc_html( sprintf( __( 'All your %s are already indexed, there is no need to do the reindexation for them.', 'wordpress-seo' ), $post_type_label ) )
+				);
+			}
+			else {
+				$progress = sprintf(
+				/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
+					__( 'Post %1$s of %2$s analyzed.', 'wordpress-seo' ),
+					sprintf( '<span id="wpseo_count_index_links_%s">0</span>', esc_attr( $post_type ) ),
+					sprintf( '<strong id="wpseo_count_%s_total">%d</strong>', esc_attr( $post_type ), $this->unprocessed[ $post_type ] )
+				);
+
+				$inner_text = sprintf( '<div id="wpseo_index_links_%s_progressbar" class="wpseo-progressbar"></div>', esc_attr( $post_type ) );
+				$inner_text .= sprintf( '<p>%s</p>', $progress );
+			}
+
+			$blocks[] = sprintf( '<div><p>%s</p>%s</div>',
+				/* Translators: %s resolves to the post type label. */
+				esc_html( sprintf( __( 'Detecting links for %s...', 'wordpress-seo' ), $post_type_label ) ),
+				$inner_text
+			);
+		}
 
 		?>
 		<div id="wpseo_index_links_wrapper" class="hidden">
-			<div>
-				<p><?php esc_html_e( 'Detecting links for posts...', 'wordpress-seo' ); ?></p>
-				<?php if ( $total_posts > 0 ) : ?>
-					<div id="wpseo_index_links_post_progressbar" class="wpseo-progressbar"></div>
-					<p><?php echo $progressPosts; ?></p>
-				<?php else : ?>
-					<p><?php _e( 'All your posts are already indexed, there is no need to do the reindexation for them.', 'wordpress-seo' ); ?></p>
-				<?php endif; ?>
-			</div>
-			<hr />
-			<div>
-				<p><?php esc_html_e( 'Detecting links for pages...', 'wordpress-seo' ); ?></p>
-				<?php if ( $total_pages > 0 ) : ?>
-					<div id="wpseo_index_links_page_progressbar" class="wpseo-progressbar"></div>
-					<p><?php echo $progressPages; ?></p>
-				<?php else : ?>
-					<p><?php _e( 'All your pages are already indexed, there is no need to do the reindexation for them.', 'wordpress-seo' ); ?></p>
-				<?php endif; ?>
-			</div>
-			<button onclick="tb_remove();" type="button" class="button"><?php _e( 'Stop analyzing', 'wordpress-seo' ); ?></button>
+			<?php echo implode( '<hr />', $blocks ); ?>
+			<button onclick="tb_remove();" type="button"
+					class="button"><?php _e( 'Stop analyzing', 'wordpress-seo' ); ?></button>
 		</div>
-
 		<?php
 	}
 
@@ -105,27 +126,20 @@ class WPSEO_Link_Reindex_Interface {
 	 * Enqueues site wide analysis script
 	 */
 	public function enqueue() {
-		if ( ! $this->is_dashboard_page() ) {
-			return;
-		}
-
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'reindex-links' );
 
 		$data = array(
-			'amount' => array(
-				'post' => $total_posts = $this->count_unindexed_posts_by_type( 'post' ),
-				'page' => $total_pages = $this->count_unindexed_posts_by_type( 'page' ),
-			),
+			'amount'  => $this->unprocessed,
 			'restApi' => array(
-				'root' => esc_url_raw( rest_url() ),
+				'root'     => esc_url_raw( rest_url() ),
 				'endpoint' => WPSEO_Link_Reindex_Post_Endpoint::REST_NAMESPACE . '/' . WPSEO_Link_Reindex_Post_Endpoint::ENDPOINT_QUERY,
-				'nonce' => wp_create_nonce( 'wp_rest' ),
+				'nonce'    => wp_create_nonce( 'wp_rest' ),
 			),
 			'message' => array(
-				'indexingCompleted' => $this->messageAlreadyIndexed(),
+				'indexingCompleted' => $this->message_already_indexed(),
 			),
-			'l10n' => array(
+			'l10n'    => array(
 				'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo' ),
 				'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo' ),
 			),
@@ -145,36 +159,22 @@ class WPSEO_Link_Reindex_Interface {
 	}
 
 	/**
-	 * Calculates the total height of the modal.
-	 *
-	 * @param int $total_posts The total amount of posts.
-	 * @param int $total_pages The total amount of pages.
-	 *
-	 * @return int The calculated height.
-	 */
-	protected function get_modal_height( $total_posts, $total_pages ) {
-		if ( $total_posts > 0 && $total_pages > 0 ) {
-			return ( self::MODAL_DIALOG_HEIGHT_BASE + self::PROGRESS_BAR_HEIGHT );
-		}
-
-		return self::MODAL_DIALOG_HEIGHT_BASE;
-	}
-
-	/**
 	 * When everything has been indexed already.
 	 *
 	 * @return string
 	 */
-	protected function messageAlreadyIndexed() {
+	protected function message_already_indexed() {
 		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! You\'ve optimized your internal linking suggestions.', 'wordpress-seo' );
 	}
 
 	/**
-	 * @param $post_type
+	 * Filters the post types to remove unwanted items.
 	 *
-	 * @return null|string
+	 * @param string $public_post_type The post type to filter.
+	 *
+	 * @return bool Returns true if it is kept, false if removed.
 	 */
-	protected function count_unindexed_posts_by_type( $post_type ) {
-		return WPSEO_Link_Reindex_Post_Query::get_total_unindexed_by_post_type( $post_type );
+	protected function filter_post_types( $public_post_type ) {
+		return ! ( $public_post_type === 'attachment' );
 	}
 }

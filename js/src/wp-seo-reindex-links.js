@@ -107,10 +107,9 @@ function reindexLinks( postType ) {
  */
 function completeReindexing() {
 	a11ySpeak( settings.l10n.calculationCompleted );
-
 	jQuery( "#reindexLinks" ).html( settings.message.indexingCompleted );
 
-	// tb_remove();
+	tb_remove();
 }
 
 /**
@@ -121,9 +120,12 @@ function completeReindexing() {
 function startReindexing() {
 	a11ySpeak( settings.l10n.calculationInProgress );
 
-	reindexLinks( "post" )
-		.then( reindexLinks( "page" ) )
-		.then( completeReindexing );
+	let promises = [];
+	Object.keys( settings.amount ).forEach( function( post_type ) {
+		promises.push( reindexLinks( post_type ) );
+	} );
+
+	Promise.all( promises ).then( completeReindexing );
 }
 
 /**
