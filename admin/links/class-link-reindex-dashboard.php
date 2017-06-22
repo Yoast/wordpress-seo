@@ -1,9 +1,12 @@
 <?php
+/**
+ * @package WPSEO\Admin\Links\Reindex
+ */
 
 /**
  * Handles the reindexing of links interface in the Dashboard.
  */
-class WPSEO_Link_Reindex_Interface {
+class WPSEO_Link_Reindex_Dashboard {
 	/** @var array Public post types to scan for unprocessed items */
 	protected $public_post_types = array();
 	/** @var array Number of unprocessed items per post type */
@@ -53,7 +56,7 @@ class WPSEO_Link_Reindex_Interface {
 			$html .= '<p>' . $this->message_already_indexed() . '</p>';
 		}
 		else {
-			$height = ( 160 * count( $this->unprocessed ) ) + 2;
+			$height = ( 160 * count( $this->unprocessed ) + 2 );
 
 			$html .= '<p id="reindexLinks">';
 			$html .= sprintf(

@@ -773,7 +773,7 @@ class WPSEO_Admin {
 		$seo_link_columns = new WPSEO_Link_Columns();
 		$seo_link_columns->register_hooks();
 
-		$link_reindex_interface = new WPSEO_Link_Reindex_Interface();
+		$link_reindex_interface = new WPSEO_Link_Reindex_Dashboard();
 		$link_reindex_interface->register_hooks();
 	}
 
