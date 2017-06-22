@@ -32,7 +32,7 @@ class WPSEO_Link_Columns {
 		// Hook into tablenav to calculate links and linked.
 		add_action( 'manage_posts_extra_tablenav', array( $this, 'count_objects' ) );
 
-		$public_post_types = get_post_types( array( 'public' => true ) );
+		$public_post_types       = get_post_types( array( 'public' => true ) );
 		$this->public_post_types = array_filter( $public_post_types, array( $this, 'filter_post_types' ) );
 
 		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
@@ -85,13 +85,14 @@ class WPSEO_Link_Columns {
 	public function set_count_objects() {
 		global $wp_query;
 
-		$posts = $wp_query->get_posts();
+		$posts    = $wp_query->get_posts();
 		$post_ids = array();
 
 		// Post lists return a list of objects.
 		if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
 			$post_ids = wp_list_pluck( $posts, 'ID' );
-		} elseif ( ! empty( $posts ) ) {
+		}
+		elseif ( ! empty( $posts ) ) {
 			// Page list returns an array of post IDs.
 			$post_ids = array_keys( $posts );
 		}
