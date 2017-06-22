@@ -89,7 +89,7 @@ class WPSEO_Link_Reindex_Interface {
 			<div>
 				<p><?php esc_html_e( 'Detecting links for pages...', 'wordpress-seo' ); ?></p>
 				<?php if ( $total_pages > 0 ) : ?>
-					<div id="wpseo_internal_links_page_progressbar" class="wpseo-progressbar"></div>
+					<div id="wpseo_index_links_page_progressbar" class="wpseo-progressbar"></div>
 					<p><?php echo $progressPages; ?></p>
 				<?php else : ?>
 					<p><?php _e( 'All your pages are already indexed, there is no need to do the reindexation for them.', 'wordpress-seo' ); ?></p>
