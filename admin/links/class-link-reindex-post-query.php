@@ -1,8 +1,22 @@
 <?php
+/**
+ * @package WPSEO\Admin\Links
+ */
 
+/**
+ * Represents the functionality related to unindexed posts.
+ */
 class WPSEO_Link_Reindex_Post_Query {
 
-	public static function get_post_by_post_type( $post_type ) {
+	/**
+	 * Returns a limited set of unindexed posts.
+	 * *
+	 * @param string $post_type The post type.
+	 * @param int    $limit     The limit for the resultset.
+	 *
+	 * @return array|null|object The set of unindexed posts.
+	 */
+	public static function get_posts_by_post_type( $post_type, $limit ) {
 		global $wpdb;
 
 		// @codingStandardsIgnoreStart
@@ -13,10 +27,11 @@ class WPSEO_Link_Reindex_Post_Query {
 				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%1$s" ) 
 					AND post_status = "publish" 
 					AND post_type = "%2$s"
-				LIMIT 5
+				LIMIT %3$d
 				',
 				WPSEO_Link_Factory::get_index_meta_key(),
-				$post_type
+				$post_type,
+				$limit
 			)
 		);
 		// @codingStandardsIgnoreEnd
@@ -24,7 +39,13 @@ class WPSEO_Link_Reindex_Post_Query {
 		return $results;
 	}
 
-
+	/**
+	 * Returns the total amount of unindexed posts for given post type.
+	 *
+	 * @param string $post_type The post type.
+	 *
+	 * @return int The total of unindexed posts
+	 */
 	public static function get_total_unindexed_by_post_type( $post_type ) {
 		global $wpdb;
 
@@ -43,7 +64,7 @@ class WPSEO_Link_Reindex_Post_Query {
 		);
 		// @codingStandardsIgnoreEnd
 
-		return $total_unindexed;
+		return (int) $total_unindexed;
 	}
 
 }

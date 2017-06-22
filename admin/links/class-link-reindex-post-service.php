@@ -13,7 +13,7 @@ class WPSEO_Link_Reindex_Post_Service {
 		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
 		$content_processor = new WPSEO_Link_Content_Processor( $storage );
 
-		$posts = WPSEO_Link_Reindex_Post_Query::get_post_by_post_type( $request->get_param( 'postType' ) );
+		$posts = WPSEO_Link_Reindex_Post_Query::get_posts_by_post_type( $request->get_param( 'postType' ), 5 );
 		foreach( $posts as $post ) {
 			// Apply the filters to have the same content as shown on the frontend.
 			$content = apply_filters( 'the_content', $post->post_content );
