@@ -29,7 +29,8 @@ let demonstrativePronouns = [ "ciò", "codesto", "codesta", "codesti", "codeste"
 
 let possessivePronouns = [ "mio", "mia", "tuo", "tua", "suo", "sua", "nostro", "nostra", "vostro", "vostra", "loro" ];
 
-let quantifiers = [ "abbastanza", "affatto", "assai", "alcun", "alcuna", "alcune", "alcuni", "alcuno", "alquanto", "appena", "bastantemente",
+// Already in the list of transition words: appena
+let quantifiers = [ "abbastanza", "affatto", "assai", "alcun", "alcuna", "alcune", "alcuni", "alcuno", "alquanto", "bastantemente",
     "grandemente", "massimamente", "meno", "minimamente", "molta", "molte", "molti", "moltissimo",
     "molto", "nessun", "nessuna", "nessuno", "niente", "nulla", "ogni", "più", "po'", "poca", "poche", "pochi", "poco", "pochissime",
     "pochissimi", "qualche", "qualsiasi", "qualunque", "quintali", "rara", "rarissima", "rarissimo", "raro", "spesso", "spessissimo", "sufficientemente",
@@ -51,25 +52,25 @@ let interrogativePronouns = [ "chi", "quali", "quanta", "quante", "quanti", "qua
 
 let interrogativeAdjectives = [ "quanto", "quanta", "quanti", "quante" ];
 
-let interrogativeAdverbs = [ "come", "com'è", "com'era", "com'erano", "donde", "d'onde", "dove", "dov'è", "dov'era", "dov'erano",
+let interrogativeAdverbs = [ "come", "com'è", "com'era", "com'erano", "donde", "d'onde", "dove", "dov'è", "dov'era", "dov'erano", "dovunque",
     "onde", "ove", "perché", "quando" ];
 
 
 // 'Ci' and 'vi' are already part of the list of personal pronouns.
 let pronominalAdverbs = [ "ne" ];
 
-let locativeAdverbs = [ "accanto", "lì", "là", "laggiù", "lassù", "giù", "ovunque", "qui", "qua"  ];
+// 'Via' not included because of primary meaning 'street'
+let locativeAdverbs = [ "accanto", "altrove", "attorno", "dappertutto", "giù", "là", "laggiù", "lassù", "lì",  "ovunque", "qua", "quaggiù", "quassù", "qui" ];
 
-let filteredPassiveAuxiliaries = [  ];
+// 'Essere' is already part of the otherAuxiliaries list
+let filteredPassiveAuxiliaries = [ "vengano", "vengo", "vengono", "veniamo", "veniate", "venimmo", "venisse", "venissero", "venissi", "venissimo",
+    "veniste", "venisti", "venite", "veniva", "venivamo", "venivano", "venivate", "venivi", "venivo", "venne",
+    "vennero", "venni", "verrà", "verrai", "verranno", "verrebbe", "verrebbero", "verrei", "verremmo",
+    "verremo", "verreste", "verresti", "verrete", "verrò", "viene", "vieni" ];
 
-let infinitivePassiveAuxiliaries = [  ];
+let infinitivePassiveAuxiliaries = [ "venire" ];
 
 let otherAuxiliaries = [
-
-    "è", "era", "erano", "eravamo", "eravate", "eri", "ero", "essendo", "essente", "fosse", "fossero", "fossi", "fossimo",
-    "foste", "fosti", "fu", "fui", "fummo", "furono", "sarà", "sarai", "saranno", "sarebbe", "sarebbero", "sarei",
-    "saremmo", "saremo", "sareste", "saresti", "sarete", "sarò", "sei", "sia", "siamo", "siano", "siate", "siete",
-    "sii", "sono", "stata", "state", "stati", "stato",
 
     "abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbiente", "avemmo", "avendo", "avente", "avesse", "avessero", "avessi",
     "avessimo", "aveste", "avesti", "avete", "aveva", "avevamo", "avevano", "avevate", "avevi", "avevo", "avrà", "avrai",
@@ -95,77 +96,139 @@ let otherAuxiliaries = [
     "sa", "sai", "sanno", "sapemmo", "sapendo", "sapesse", "sapessero", "sapessi", "sapessimo", "sapeste", "sapesti",
     "sapete", "sapeva", "sapevamo", "sapevano", "sapevate", "sapevi", "sapevo", "sappi", "sappia", "sappiamo", "sappiano",
     "sappiate", "saprà", "saprai", "sapranno", "saprebbe", "saprebbero", "saprei", "sapremmo", "sapremo", "sapreste",
-    "sapresti", "saprete", "saprò", "saputo", "seppe", "seppero", "seppi", "so"
+    "sapresti", "saprete", "saprò", "saputo", "seppe", "seppero", "seppi", "so",
 
-    "soglia",
-    "sogliamo",
-    "sogliano",
-    "sogliate",
-    "soglio",
-    "sogliono",
-    "solesse",
-    "solessero",
-    "solessi",
-    "solessimo",
-    "soleste",
-    "solete",
-    "soleva",
-    "solevamo",
-    "solevano",
-    "solevate",
-    "solevi",
-    "solevo",
-    "solito",
-    "suoli"
+    "soglia", "sogliamo", "sogliano", "sogliate", "soglio", "sogliono", "solesse", "solessero", "solessi", "solessimo",
+    "soleste", "solete", "soleva", "solevamo", "solevano", "solevate", "solevi", "solevo", "solito", "suoli",
 
-    ];
+    "sta", "stai", "stando", "stanno", "stante", "starà", "starai", "staranno", "staremo", "starete", "starò",
+    "stata", "state", "stati", "stato", "stava", "stavamo", "stavano", "stavate", "stavi", "stavo", "stemmo",
+    "stesse", "stessero", "stessi", "stessimo", "steste", "stesti", "stette", "stettero", "stetti", "stia",
+    "stiamo", "stiano", "stiate", "sto" ];
 
-    let otherAuxiliariesInfinitive = [ "essere", "avere", "potere", "volere", "dovere", "sapere", "solere" ];
+    let otherAuxiliariesInfinitive = [ "avere", "potere", "volere", "dovere", "sapere", "solere", "stare" ];
 
-// 'Vóórkomen' (appear) is not included, because we don't want to filter out 'voorkómen' (prevent).
-let copula = [  ];
+let copula = ["è", "era", "erano", "eravamo", "eravate", "eri", "ero", "essendo", "essente", "fosse", "fossero", "fossi", "fossimo",
+    "foste", "fosti", "fu", "fui", "fummo", "furono", "sarà", "sarai", "saranno", "sarebbe", "sarebbero", "sarei",
+    "saremmo", "saremo", "sareste", "saresti", "sarete", "sarò", "sei", "sia", "siamo", "siano", "siate", "siete",
+    "sii", "sono", "stata", "state", "stati", "stato" ];
 
+let copulaInfinitive = [ "essere" ];
+
+/* 'Verso' ('towards') not included because it can also mean 'verse'.
+Already in other lists: malgrado, nonostante
+
+ */
 let prepositions = [ "di", "del", "dello", "della", "dei", "degli", "delle", "a", "al", "allo", "alla", "ai", "agli", "alle",
     "da", "dal", "dallo", "dalla", "dai", "dagli", "dalle", "in", "nel", "nello", "nella", "nei", "negli", "nelle",
     "con", "col", "collo", "colla", "coi", "cogli", "colle", "su", "sul", "sullo", "sulla", "sui", "sugli", "sulle",
     "per", "pel", "pello", "pella", "pei", "pegli", "tra", "fra", "attraverso", "circa", "contro", "davanti", "dentro", "dietro",
-    "dopo", "durante", "eccetto", "entro", "escluso", "fuori", "insieme", "intorno", "lontano", "lungo", "malgrado",
-    "mediante", "nonostante", "oltre", "presso", "rasente", "riguardo", "senza", "sopra", "sotto", "tramite", "tranne", "vicino" ];
+    "dopo", "durante", "eccetto", "entro", "escluso", "fuori", "insieme", "intorno", "lontano", "lungo",
+    "mediante", "oltre", "presso", "rasente", "riguardo", "senza", "sopra", "sotto", "tramite", "tranne", "vicino" ];
 
-// Many prepositional adverbs are already listed as preposition.
-let prepositionalAdverbs = [  ];
+// DELETE
+let prepositionalAdverbs = [ ];
 
-let coordinatingConjunctions = [  ];
+let coordinatingConjunctions = [ "e", "ma", "o" ];
 
-/* 'Zowel' and 'als' are part of 'zowel...als', 'evenmin' is part of 'evenmin...als', 'zomin' is part of 'zomin...als',
- 'hetzij' is part of 'hetzij...hetzij'. */
-let correlativeConjunctions = [  ];
+/* 'Tale' from 'tale ... quale'
+'Dall'altra' from 'da una parte... dall'altra'
+Already in other lists: vuoi...vuoi, tanto...quanto, quanto...quanto, ora...ora, non solo...ma anche, sia...sia, o...o,
+più...meno, né...né, altrettanto...così, così...come
+ */
+let correlativeConjunctions = [ "tale", "l'uno", "l'altro", "tali", "dall'altra" ];
 
-let subordinatingConjunctions = [  ];
+/* Already in another list (transition words, interrogative adverbs, numerals, prepositions):
+perché, quando, mentre, appena [che], sebbene, fino, affinché, finché, dato [che], visto [che], benché,
+come, prima [che], dopo, per, senza [che], di, sempre, nonostante, malgrado, così [che], in modo...da,
+tanto...da, con, dove, quanto, più...che, meno, peggio...che, meglio...di, se, che, di, a meno che, siccome,
+ogni volta [che], anche se, cosicché, invece, bensì, [al] punto [che]
+'Modo' from 'in modgiacché o che'
+'Volta' from 'una volta che
+Excluded because of primary meaning: dal momento che, allo scopo di, a furia di ('fury', 'haste', 'rage'),
+a forza di ('force'), a condizione che ('condition')
+*/
+
+let subordinatingConjunctions = [ "anziché", "fuorché", "giacché", "laddove", "modo", "ove", "qualora", "quantunque", "volta"];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
 let interviewVerbs = [  ];
 
-// These transition words were not included in the list for the transition word assessment for various reasons.
-let additionalTransitionWords = [  ];
+/* These transition words were not included in the list for the transition word assessment for various reasons.
+'Appunto' ('just', 'exactly') not included for the second meaning of 'note'
+*/
+ */
+let additionalTransitionWords = [ "eventualmente", "forse", "mai", "particolarmente", "probabilmente", "sempre" ];
 
-let intensifiers = [  ];
+let intensifiers = [ "addirittura", "assolutamente", "ben", "completamente", "estremamente", "mica", "nemmeno", "neppure", "quasi", "sicuramente", "veramente", "totalmente" ];
 
 // These verbs convey little meaning.
-let delexicalisedVerbs = [  ];
+// Do we need a separate category for the infinitive?
+let delexicalisedVerbs = [
+    "fa", "fa’", "faccia", "facciamo", "facciano", "facciate", "faccio", "facemmo", "facendo", "facente", "facesse",
+    "facessero", "facessi", "facessimo", "faceste", "facesti", "faceva", "facevamo", "facevano", "facevate", "facevi",
+    "facevo", "fai", "fanno", "farà", "farai", "faranno", "fare", "farebbe", "farebbero", "farei", "faremmo", "faremo",
+    "fareste", "faresti", "farete", "farò", "fate", "fatto", "fece", "fecero", "feci", "fo" ];
 
 /* These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
- Keyword combinations containing these adjectives/adverbs are fine. */
-let generalAdjectivesAdverbs = [  ];
+ Keyword combinations containing these adjectives/adverbs are fine.
+ */
+let generalAdjectivesAdverbs = [
 
-let interjections = [  ];
+
+    "nuovo", "nuova", "nuovi", "nuove",
+    "vecchio", "vecchia", "vecchi", "vecchie",
+    "anteriore", "anteriori", "precedente", "precedenti",
+    "bello", "bella", "belli", "belle", "bellissimo", "bellissima", "bellissimi", "bellissime",
+    "buono", "buona", "buoni", "buone", "buonissimo", "buonissima", "buonissimi", "buonissime",
+    "grande", "grandi", "grandissimo", "grandissima", "grandissimi", "grandissime",
+    "facile", "facili", "facilissimo", "facilissima", "facilissimi", "faccilissime",
+    "semplice", "semplici", "simplicissimo", "simplicissima", "simplicissimo", "simplicissimi", "simplicissime",
+    "rapido", "rapida", "rapidi", "rapide", "veloce", "veloci",
+    "difficile", "difficili", "difficilissimo", "difficilissima", "difficilissimi", "difficilissime",
+    "proprio", "propria", "propri", "proprie",
+    "lungo", "lunga", "lunghi", "lunghe",
+    "basso", "bassa", "bassi", "basse",
+    "alto", "alta", "alti", "alte",
+    "normale", "normali",
+    "piccolo", "piccola", "piccoli", "piccole", "piccolissimo", "piccolissima", "piccolissimi", "piccolissime"
+    "corto", "corta", "corti", "corte", "breve", "brevi",
+    "certo", "certa", "certi", "certe",
+    "solita", "soliti", "solite",
+    "recente", "recenti",
+    "totale", "totali",
+    "completo", "completa", "completi", "complete",
+    "possibile", "possibili",
+
+    "ultimo", "ultima", "ultimi", "ultime",
+    "differente", "differenti",
+    "simile", "simili",
+    "parecchio", "parecchia", "parecchi", "parecchie",
+    "prossimo", "prossima", "prossimi", "prossime",
+
+    "giusto", "giusta", "giusti", "giuste",
+    "cosidetto",
+    "bene", "meglio", "benissimo", "male", "peggio", "malissimo", "finalmente"
+    "avanti", "soltanto", "presto",
+    ];
+
+let interjections = [ "accidenti", "acciderba", "ah", "aah", "ahi", "ahia", "ahimé", "bah", "beh", "boh", "ca", "caspita",
+    "chissà", "de'", "diamine", "ecco", "eh", "ehi", "eeh", "ehilà", "ehm", "gna", "ha", "ih", "magari", "macché", "mah", "mhm", "nca", "neh",
+    "oibò", "oh", "ohe", "ohé", "ohilá", "ohibò", "ohimé", "okay", "ok", "olà", "poh", "pota", "puah", "sorbole", "to'", "toh", "ts",
+    "uff", "uffa", "uh", "uhi" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
 let recipeWords = [ "cc", "g", "hg", "hl", "kg", "l", "prs", "pz", "q.b.", "qb", "ta", "tz" ];
 
-let vagueNouns = [  ];
+let timeWords = [ "secondi", "minuto", "minuti", "ora", "ore", "giorno", "giorni", "giornata", "giornate",
+    "settimana", "settimane", "mese", "mesi", "anno", "anni", "oggi", "domani", "ieri", "stamattina", "stamattina",
+    "stasera", "tardi" ];
 
-let miscellaneous = [  ];
+// Already included in other lists
+let vagueNouns = [ "aspetto", "aspetti", "caso", "casi", "cose", "istanza", "maniera", "modo", "oggetto", "oggetti", "parte",
+    "parti", "persona", "persone", "pezzo", "pezzi", "punto", "punti", "sorta", "sorte", "tema", "temi", "volta", "volte" ];
+
+let miscellaneous = [ "sì", "no", "euro", "euros", "ecc.", "eccetera" ];
 
 /*
  Exports all function words concatenated, and specific word categories and category combinations
