@@ -256,7 +256,6 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @return bool True when page is a term edit/overview page.
 	 */
 	protected function is_term_page( $current_page ) {
-		// Only set the hooks for the page where they are needed.
 		return ( in_array( $current_page, array( 'edit-tags.php', 'term.php' ), true ) );
 	}
 
@@ -266,7 +265,6 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @return bool True when in an AJAX-request and the action is inline-save.
 	 */
 	protected function is_action_inline_save_tax() {
-		// Only set the hooks for the page where they are needed.
 		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && $_POST['action'] === 'inline-save-tax' );
 	}
 }
