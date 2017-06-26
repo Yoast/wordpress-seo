@@ -3,18 +3,19 @@
 Before filing a bug report or a feature request, be sure to read the contribution guidelines.
 
 ## How to use GitHub
-We use GitHub exclusively for well-documented bugs, feature requests ands code contributions. 
+We use GitHub exclusively for well-documented bugs, feature requests and code contributions. 
 
 To receive free support for WordPress SEO we have the following channels:
 * [Yoast Knowledge base](http://kb.yoast.com)
 * [Support forums](https://wordpress.org/support/plugin/wordpress-seo) on WordPress.org
 
-If you want personal support via email, you can purchase [our premium plugins](https://yoast.com/wordpress/plugins/).
+If you have purchased one of [our premium plugins](https://yoast.com/wordpress/plugins/), we will give you personal support via email, please see your purchase email for details.
+
 
 Thanks for your understanding.
 
 ## Security issues
-Please do not report security issues here, but email them to security at yoast dot com so we can deal with them securely and quickly.
+Please do not report security issues here. Instead, email them to security at yoast dot com so we can deal with them securely and quickly.
 
 ## I have found a bug
 Before opening a new issue, please:
@@ -35,15 +36,15 @@ Community made patches, localizations, bug reports and contributions are very we
 
 When contributing please ensure you follow the guidelines below so that we can keep on top of things.
 
-#### Getting Started
-If there is no ticket for your issue, submit it first, following the guidelines above.
+#### Submitting an issue you found
+Make sure your problem does not exist as a ticket already by searching through [the existing issues](https://github.com/Yoast/wordpress-seo/issues). If you cannot find anything which resembles your problem, please [create a new issue](https://github.com/Yoast/wordpress-seo/issues/new).
 
-#### Making Changes
+#### Fixing an issue
 
 * Fork the repository on GitHub (make sure to use the trunk branch, not master).
 * Make the changes to your forked repository.
-* Ensure you stick to the []WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/) and you properly document any new functions, actions and filters following the [documentation standards](http://make.wordpress.org/core/handbook/inline-documentation-standards/php-documentation-standards/).
-* When committing, reference your issue (if present) and include a note about the fix.
+* Ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/) and you properly document any new functions, actions and filters following the [documentation standards](http://make.wordpress.org/core/handbook/inline-documentation-standards/php-documentation-standards/).
+* When committing, reference your issue and include a note about the fix.
 * Push the changes to your fork and submit a pull request to the 'trunk' branch of the Yoast SEO repository.
 
 We will review your pull request and merge when everything is in order. We will help you to make sure the code will comply to the standards described above.
