@@ -1,5 +1,6 @@
 # Contribution Guidelines
-![Yoast Logo](https://yoast-mercury.s3.amazonaws.com/uploads/2013/02/Yoast_Logo_Large_RGB.png)
+![Yoast Logo](https://yoast-mercury.s3.amazonaws.com/uploads/2013/02/Yoast_Logo_Large_RGB.png =250x)
+
 Before filing a bug report or a feature request, be sure to read the contribution guidelines.
 
 ## How to use GitHub
