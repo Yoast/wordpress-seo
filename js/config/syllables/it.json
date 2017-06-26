@@ -3,12 +3,12 @@
 	"deviations": {
 		"vowels": [
 			{
-				"fragments": [ "a[íúeo]", "e[íúao]", "o[íúaeè]", "í[aeo]", "ú[aeo]", "ai[aeou]", "àii", "aiì", "au[eé]", "ei[aàeèé]", "èia", "ia[èiì]", "iài", "oi[aeo]", "uí", "ui[ao]",
-					"ou[ei]", "coo[pr]", "[^aeuioíúèéà]y[^aeuioíúèéà]","[^aeuioíúèéà]y$", "[aeuioíúèéà]y[aeuioíúèéà]", "ia$" ],
+				"fragments": [ "a[íúeo]", "e[íúao]", "o[íúaeè]", "í[aeo]", "ú[aeo]", "ai[aeou]", "àii", "aiì", "au[eé]", "ei[aàeèé]", "èia", "ia[èiì]", "iài", "oi[aàeèo]", "òia", "óio", "uí", "ui[aàó]",
+					"ùio", "ouï", "coo[cmnpr]", "lcool", "coòf", "[aeuioìùèéàò]y[aeuioíìùèàó]", "ìa$", "èa$" ],
 				"countModifier": 1
 			},
 			{
-				"fragments": [ "aoi", "ioe", "riae" ],
+				"fragments": [ "aoi", "aoì", "ioe", "riae", "ïa$" ],
 				"countModifier": 1
 			}
 		],
@@ -45,16 +45,44 @@
 				{
 					"word": "mouse",
 					"syllables": 1
+				},
+				{
+					"word": "coon",
+					"syllables": 1
 				}
 			],
 			"fragments": {
 				"global": [
+					{
+						"word": "mayoyào",
+						"syllables": 4
+					},
+					{
+						"word": "eye-liner",
+						"syllables": 3
+					},
+					{
+						"word": "scooner",
+						"syllables": 2
+					},
+					{
+						"word": "cocoon",
+						"syllables": 2
+					},
+					{
+						"word": "silhouette",
+						"syllables": 4
+					},
 					{
 						"word": "circuíto",
 						"syllables": 4
 					},
 					{
 						"word": "cruento",
+						"syllables": 3
+					},
+					{
+						"word": "cruènto",
 						"syllables": 3
 					},
 					{
@@ -183,6 +211,10 @@
 					{
 						"word": "firmware",
 						"syllables": 2
+					},
+					{
+						"word": "fobia",
+						"syllables": 3
 					},
 					{
 						"word": "float",

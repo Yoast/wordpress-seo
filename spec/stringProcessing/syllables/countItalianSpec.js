@@ -82,4 +82,148 @@ describe( "a syllable counter for Italian text strings", function () {
 		expect( countSyllableFunction( "acciàio", "it_IT" ) ).toBe( 3 );
 	} );
 
+	it( "returns the number of syllables of words containing the subtract syllable oi[aàeèoó]", function () {
+		expect( countSyllableFunction( "boianése", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "annoiàre", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "boièra", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "dolicoierìa", "it_IT" ) ).toBe( 6 );
+		expect( countSyllableFunction( "edoiorrèa", "it_IT" ) ).toBe( 5 );
+	} );
+
+ 	it( "returns the number of syllables of words containing the subtract syllable òia", function () {
+ 		expect( countSyllableFunction( "acròia", "it_IT" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable óio", function () {
+		expect( countSyllableFunction( "accecatóio", "it_IT" ) ).toBe( 5 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable uí", function () {
+	 expect( countSyllableFunction( "suíno", "it_IT" ) ).toBe( 3 );
+	 } );
+
+	it( "returns the number of syllables of words containing the subtract syllable ui[aàó]", function () {
+		expect( countSyllableFunction( "equiaffinità", "it_IT" ) ).toBe( 6 );
+		expect( countSyllableFunction( "abbuiàre", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "buióso", "it_IT" ) ).toBe( 3 );
+	} );
+
+	 it( "returns the number of syllables of words containing the subtract syllable ùio", function () {
+		expect( countSyllableFunction( "bùio", "it_IT" ) ).toBe( 2 );
+	 } );
+
+	it( "returns the number of syllables of words containing the subtract syllable ouï", function () {
+		expect( countSyllableFunction( "chaouïa", "it_IT" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable coo[cmnpr]", function () {
+		expect( countSyllableFunction( "cooccorrènza", "it_IT" ) ).toBe( 5 );
+		expect( countSyllableFunction( "coomologìa", "it_IT" ) ).toBe( 6 );
+		expect( countSyllableFunction( "coonestràre", "it_IT" ) ).toBe( 5 );
+		expect( countSyllableFunction( "cooperaménto", "it_IT" ) ).toBe( 6 );
+		expect( countSyllableFunction( "coordinànte", "it_IT" ) ).toBe( 5 );
+	} );
+
+	 it( "returns the number of syllables of words containing the subtract syllable lcool", function () {
+		expect( countSyllableFunction( "alcool", "it_IT" ) ).toBe( 3 );
+	 } );
+
+	 it( "returns the number of syllables of words containing the subtract syllable coòf", function () {
+	 	expect( countSyllableFunction( "arcoòforo", "it_IT" ) ).toBe( 5 );
+	 } );
+
+	it( "returns the number of syllables of words containing the add syllable [aeuioìùèéàò]y[aeuioíìùèàó]", function () {
+		expect( countSyllableFunction( "ayatollah", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "bayerìte", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "ayurvèda", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "fadayin", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "nuovayorkése", "it_IT" ) ).toBe( 5 );
+		expect( countSyllableFunction( "donnayìte", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "cayùga", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "payèna", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "hinayàna", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "freyalìte", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "beyerìte", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "peyotìna", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "neyíte", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "cleyèra", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "cayleyàno", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "tuyau", "it_IT" ) ).toBe( 2 );
+		expect( countSyllableFunction( "zabuyelìte", "it_IT" ) ).toBe( 5 );
+		expect( countSyllableFunction( "guyot", "it_IT" ) ).toBe( 2 );
+		expect( countSyllableFunction( "masuyìte", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "bruyère", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "peguyàno", "it_IT" ) ).toBe( 4 );
+		expect( countSyllableFunction( "kuffiya", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "keffiyeh", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "piyùma", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "kaffiyèh", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "chutiyà", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "flamboyant", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "foyer", "it_IT" ) ).toBe( 2 );
+		expect( countSyllableFunction( "chetoyobirìna", "it_IT" ) ).toBe( 6 );
+		expect( countSyllableFunction( "moyìte", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "royèna", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "coyóte", "it_IT" ) ).toBe( 3 );
+	 	expect( countSyllableFunction( "avokàya", "it_IT" ) ).toBe( 4 );
+	 	expect( countSyllableFunction( "làyia", "it_IT" ) ).toBe( 2 );
+	 	expect( countSyllableFunction( "abéyas", "it_IT" ) ).toBe( 3 );
+	 	expect( countSyllableFunction( "amberlèya", "it_IT" ) ).toBe( 4 );
+	 	expect( countSyllableFunction( "elgèyo", "it_IT" ) ).toBe( 3 );
+	 	expect( countSyllableFunction( "dìya", "it_IT" ) ).toBe( 2 );
+	 	expect( countSyllableFunction( "wìyot", "it_IT" ) ).toBe( 2 );
+	 	expect( countSyllableFunction( "fitzròya", "it_IT" ) ).toBe( 3 );
+	 	expect( countSyllableFunction( "mòyo", "it_IT" ) ).toBe( 2 );
+	 	expect( countSyllableFunction( "pùya", "it_IT" ) ).toBe( 2 );
+	 	expect( countSyllableFunction( "kikùyu", "it_IT" ) ).toBe( 3 );
+		expect( countSyllableFunction( "cucùyo", "it_IT" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ìa$", function () {
+		expect( countSyllableFunction( "abadìa", "it_IT" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable èa$", function () {
+		expect( countSyllableFunction( "ampelidèa", "it_IT" ) ).toBe( 5 );
+	} );
+
+ 	it( "returns the number of syllables of words containing the add syllable aoi", function () {
+		expect( countSyllableFunction( "demaoìzzazióne", "it_IT" ) ).toBe( 7 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable aoì", function () {
+		expect( countSyllableFunction( "maoista", "it_IT" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ioe", function () {
+		expect( countSyllableFunction( "medioevo", "it_IT" ) ).toBe( 5 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable riae", function () {
+		expect( countSyllableFunction( "riaeràto", "it_IT" ) ).toBe( 5 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ïa$", function () {
+		expect( countSyllableFunction( "chaouïa", "it_IT" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words from the exclusion full words list", function () {
+		expect( countSyllableFunction( "coke, frame, mouse, coon", "it_IT" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing words from the global fragments", function () {
+		expect( countSyllableFunction( "incruènto, cheerleader, breakfast", "it_IT" ) ).toBe( 9 );
+	} );
+
+	it( "returns the number of syllables of words containing words from the global fragments at the end", function () {
+		expect( countSyllableFunction( "megabyte", "it_IT" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing words from the global fragments at the beginning", function () {
+		expect( countSyllableFunction( "cheeseburger", "it_IT" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing words from the global fragments at the beginning or end", function () {
+		expect( countSyllableFunction( "teamwork, mainstream", "it_IT" ) ).toBe( 4 );
+	} );
 } );

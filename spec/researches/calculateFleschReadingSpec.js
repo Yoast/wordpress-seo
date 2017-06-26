@@ -49,7 +49,7 @@ describe( "A test that uses the German Flesch Reading", function() {
 describe( "A test that uses the Italian Flesch Reading", function() {
 	it( "returns a score", function () {
 		var mockPaper = new Paper( "Che bella cosa e 'una sola giornata, n'aria serena doppo na tempesta.", { locale: "it_IT" } );
-		expect( fleschFunction( mockPaper ) ).toBe( 76.4 );
+		expect( fleschFunction( mockPaper ) ).toBe( 81.4 );
 	} );
 } );
 
