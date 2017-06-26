@@ -1,6 +1,7 @@
 /* global yoastReindexLinksData, jQuery, tb_remove */
 
 let settings = yoastReindexLinksData.data;
+let linkIndexingCompleted = false;
 
 import a11ySpeak from "a11y-speak";
 
@@ -106,6 +107,7 @@ function reindexLinks( postType ) {
  * @returns {void}
  */
 function completeReindexing() {
+	linkIndexingCompleted = true;
 	a11ySpeak( settings.l10n.calculationCompleted );
 	jQuery( "#reindexLinks" ).html( settings.message.indexingCompleted );
 
@@ -129,6 +131,19 @@ function startReindexing() {
 }
 
 /**
+ * Opens the link indexing modal.
+ *
+ * @returns {void}
+ */
+function openLinkIndexing() {
+	jQuery( "#general-tab" ).click();
+
+	if ( linkIndexingCompleted === false ) {
+		jQuery( "#openLinkIndexing" ).click();
+	}
+}
+
+/**
  * Initializes the indexation of links
  *
  * @returns {void}
@@ -142,6 +157,8 @@ function init() {
 			recalculating = true;
 		}
 	} );
+
+	jQuery( "#noticeRunLinkIndex" ).click( openLinkIndexing );
 }
 
 jQuery( init );

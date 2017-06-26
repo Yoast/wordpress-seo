@@ -59,7 +59,7 @@ class WPSEO_Link_Reindex_Dashboard {
 
 			$html .= '<p id="reindexLinks">';
 			$html .= sprintf(
-				'<a id="openInternalLinksCalculation" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%3$s</a>',
+				'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%3$s</a>',
 				$height,
 				esc_attr( __( 'Detecting links in your content', 'wordpress-seo' ) ),
 				esc_html( __( 'Detect links in your content', 'wordpress-seo' ) )
