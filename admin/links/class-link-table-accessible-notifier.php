@@ -34,8 +34,7 @@ class WPSEO_Link_Table_Accessible_Notifier {
 			sprintf(
 				/* translators: 1: Yoast SEO. 2: Version number of Yoast SEO 3: link to knowledge base article about solving table issue. 3: is anchor closing. */
 				__(
-					'The internal linking statistics feature (introduced in %1$s %2$s) is currently disabled. For this feature to work %1$s needs to create a table in your database. We were unable to create this table automatically.
-
+					'The <strong>Text link counter</strong> feature (introduced in %1$s %2$s) is currently disabled. For this feature to work %1$s needs to create a table in your database. We were unable to create this table automatically.
 					Please read the following %3$sknowledge base article%4$s to find out how to resolve this problem.',
 					'wordpress-seo'
 				),
