@@ -47,7 +47,7 @@ Make sure your problem does not exist as a ticket already by searching through [
 * When committing, reference your issue and include a note about the fix.
 * Push the changes to your fork and submit a pull request to the 'trunk' branch of the Yoast SEO repository.
 
-We will review your pull request and merge when everything is in order. We will help you to make sure the code will comply to the standards described above.
+We will review your pull request and merge when everything is in order. We will help you to make sure the code complies with the standards described above.
 
 #### 'Patch welcome' issues
 Some issues are labeled 'patch-welcome'. This means we see the value in the particular enhancement being suggested but have decided for now not to prioritize it. If you however decide to write a patch for it, we'll gladly include it after some code review.
