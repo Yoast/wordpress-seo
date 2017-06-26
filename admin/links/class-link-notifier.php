@@ -23,7 +23,6 @@ class WPSEO_Link_Notifier {
 		}
 
 		add_action( self::NOTIFICATION_ID, array( $this, 'manage_notification' ) );
-		add_action( "admin_init", array( $this, 'manage_notification' ) );
 	}
 
 	/**
