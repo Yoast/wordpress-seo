@@ -9,7 +9,7 @@
 class WPSEO_Link_Reindex_Post_Service {
 
 	/**
-	 * Reindexes the posts by REST request.
+	 * Reindexes the unprocessed posts by REST request.
 	 *
 	 * @param WP_REST_Request $request The REST request data.
 	 *
