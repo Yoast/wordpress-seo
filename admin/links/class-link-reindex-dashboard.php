@@ -90,7 +90,7 @@ class WPSEO_Link_Reindex_Dashboard {
 			$post_type_labels = get_post_type_labels( get_post_type_object( $post_type ) );
 			$post_type_label  = $post_type_labels->name;
 
-			if ( $this->unprocessed[ $post_type ] === 0 ) {
+			if ( ! isset( $this->unprocessed[ $post_type ] ) || $this->unprocessed[ $post_type ] === 0 ) {
 				$inner_text = sprintf( '<p>%s</p>',
 					/* Translators: %s resolves to the post type label. */
 					esc_html( sprintf( __( 'All your %s are already indexed, there is no need to do the reindexation for them.', 'wordpress-seo' ), $post_type_label ) )
