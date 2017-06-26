@@ -37,6 +37,10 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @param string $current_page The page that is opened at the moment.
 	 */
 	public function page_scripts( $current_page ) {
+		if ( ! ( $this->term_redirect_can_be_made( $current_page ) ) ) {
+			return;
+		}
+
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$version = $asset_manager->flatten_version( WPSEO_VERSION );
 
@@ -44,7 +48,6 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 			wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-quickedit-notification-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 			wp_localize_script( 'wp-seo-premium-quickedit-notification', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
 		}
-
 		if ( $current_page === 'term.php' ) {
 			wp_enqueue_script( 'wp-seo-premium-redirect-notifications', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-redirect-notifications-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 			wp_localize_script( 'wp-seo-premium-redirect-notifications', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
@@ -179,6 +182,13 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * Setting the hooks for the term watcher
 	 */
 	protected function set_hooks() {
+		global $pagenow;
+
+		// Only set the hooks for the page where they are needed.
+		if ( ! ( $this->term_redirect_can_be_made( $pagenow ) ) ) {
+			return;
+		}
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
 
 		// Get all taxonomies.
@@ -225,5 +235,36 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 			'%1$s detected that you deleted a term. You can either: %2$s Don\'t know what to do? %3$sRead this post %4$s.',
 			'wordpress-seo-premium'
 		);
+	}
+
+	/**
+	 * Is the current page valid to make a redirect from.
+	 *
+	 * @param string $current_page The currently opened page.
+	 *
+	 * @return bool True when a redirect can be made on this page.
+	 */
+	protected function term_redirect_can_be_made( $current_page ) {
+		return $this->is_term_page( $current_page ) || $this->is_action_inline_save_tax();
+	}
+
+	/**
+	 * Is the current page related to a term (edit/overview).
+	 *
+	 * @param string $current_page The current opened page.
+	 *
+	 * @return bool True when page is a term edit/overview page.
+	 */
+	protected function is_term_page( $current_page ) {
+		return ( in_array( $current_page, array( 'edit-tags.php', 'term.php' ), true ) );
+	}
+
+	/**
+	 * Is the page in an AJAX-request and is the action "inline save".
+	 *
+	 * @return bool True when in an AJAX-request and the action is inline-save.
+	 */
+	protected function is_action_inline_save_tax() {
+		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && filter_input( INPUT_POST, 'action' ) === 'inline-save-tax' );
 	}
 }
