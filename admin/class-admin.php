@@ -770,7 +770,7 @@ class WPSEO_Admin {
 		);
 		$seo_links->register_hooks();
 
-		$seo_link_columns = new WPSEO_Link_Columns();
+		$seo_link_columns = new WPSEO_Link_Columns( $storage );
 		$seo_link_columns->register_hooks();
 
 	}

@@ -21,6 +21,15 @@ class WPSEO_Link_Columns {
 	protected $public_post_types = array();
 
 	/**
+	 * WPSEO_Link_Columns constructor.
+	 *
+	 * @param WPSEO_Link_Storage $storage The storage object to use.
+	 */
+	public function __construct( WPSEO_Link_Storage $storage ) {
+		$this->storage = $storage;
+	}
+
+	/**
 	 * Registers the hooks.
 	 */
 	public function register_hooks() {
@@ -32,12 +41,97 @@ class WPSEO_Link_Columns {
 		// Hook into tablenav to calculate links and linked.
 		add_action( 'manage_posts_extra_tablenav', array( $this, 'count_objects' ) );
 
+		add_filter( 'posts_clauses', array( $this, 'order_by_links' ), 1, 2 );
+		add_filter( 'posts_clauses', array( $this, 'order_by_linked' ), 1, 2 );
+
 		$public_post_types       = get_post_types( array( 'public' => true ) );
 		$this->public_post_types = array_filter( $public_post_types, array( $this, 'filter_post_types' ) );
 
 		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
 			array_walk( $this->public_post_types, array( $this, 'set_post_type_hooks' ) );
 		}
+	}
+
+	/**
+	 * Modifies the query pieces to allow ordering column by links to post.
+	 *
+	 * @param array     $pieces Array of Query pieces.
+	 * @param \WP_Query $query  The Query on which to apply.
+	 *
+	 * @return array
+	 */
+	public function order_by_links( $pieces, $query ) {
+		if ( 'wpseo-' . self::COLUMN_LINKS !== $query->get( 'orderby' ) ) {
+			return $pieces;
+		}
+
+		return $this->build_sort_query_pieces( $pieces, $query, 'post_id' );
+	}
+
+	/**
+	 * Modifies the query pieces to allow ordering column by links to post.
+	 *
+	 * @param array     $pieces Array of Query pieces.
+	 * @param \WP_Query $query  The Query on which to apply.
+	 *
+	 * @return array
+	 */
+	public function order_by_linked( $pieces, $query ) {
+		if ( 'wpseo-' . self::COLUMN_LINKED !== $query->get( 'orderby' ) ) {
+			return $pieces;
+		}
+
+		return $this->build_sort_query_pieces( $pieces, $query, 'target_post_id' );
+	}
+
+	/**
+	 * Builds the pieces for a sorting query.
+	 *
+	 * @param array     $pieces Array of Query pieces.
+	 * @param \WP_Query $query  The Query on which to apply.
+	 * @param string    $field  The field in the table to JOIN on.
+	 *
+	 * @return array Modified Query pieces.
+	 */
+	protected function build_sort_query_pieces( $pieces, $query, $field ) {
+		global $wpdb;
+
+		// We only want our code to run in the main WP query.
+		if ( ! $query->is_main_query() ) {
+			return $pieces;
+		}
+
+		// Get the order query variable - ASC or DESC.
+		$order = strtoupper( $query->get( 'order' ) );
+
+		// Make sure the order setting qualifies. If not, set default as ASC.
+		if ( ! in_array( $order, array( 'ASC', 'DESC' ), true ) ) {
+			$order = 'ASC';
+		}
+
+		$table = $this->storage->get_table_name();
+
+		$pieces['join']    .= " LEFT JOIN $table AS yst_links ON yst_links.{$field} = {$wpdb->posts}.ID ";
+		$pieces['orderby'] = "COUNT( yst_links.{$field} ) $order, " . $pieces['orderby'];
+
+		// Make sure we don't introduce duplicate groupby fields.
+		$groupby = explode( ',', $pieces['groupby'] );
+		$groupby = array_filter( $groupby );
+		$groupby = array_map( 'trim', $groupby );
+
+		// Add the required fields to the list.
+		$groupby[] = "yst_links.{$field}";
+		$groupby[] = "{$wpdb->posts}.ID";
+
+		// Strip out any duplicates.
+		$groupby = array_unique( $groupby );
+
+		// Convert to string again.
+		$groupby = implode( ',', $groupby );
+
+		$pieces['groupby'] = $groupby;
+
+		return $pieces;
 	}
 
 	/**
