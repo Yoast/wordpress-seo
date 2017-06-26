@@ -17,18 +17,18 @@ Thanks for your understanding.
 Please do not report security issues here, but email them to security at yoast dot com so we can deal with them securely and quickly.
 
 ## I have found a bug
-Before opening a new issue, please try:
-* searching for duplicate issues and prevent opening a duplicate issue. If there is already an open existing issue, please comment on that issue.
-* checking our [knowledge base](http://kb.yoast.com) for your issue. There are a lot of common errors documented there with possible solutions.
-* checking for [plugin and theme conflicts](https://kb.yoast.com/kb/how-to-check-for-plugin-conflicts/). Please report your findings in the issue.
-* checking for [JavaScript errors with your browser's console](https://kb.yoast.com/kb/how-to-find-javascript-errors-with-your-browsers-console/). Please report your findings in the issue.
-* adding as much information as possible. For example: adding screenshots, relevant links, step by step guides etc.
-* updating to the newest versions of WordPress and the Yoast SEO plugins.
+Before opening a new issue, please:
+* update to the newest versions of WordPress and the Yoast SEO plugins.
+* search for duplicate issues to prevent opening a duplicate issue. If there is already an open existing issue, please comment on that issue.
+* check our [knowledge base](http://kb.yoast.com) for your issue. There are a lot of common errors documented there with possible solutions.
+* check for [plugin and theme conflicts](https://kb.yoast.com/kb/how-to-check-for-plugin-conflicts/). Please report your findings in the issue.
+* check for [JavaScript errors with your browser's console](https://kb.yoast.com/kb/how-to-find-javascript-errors-with-your-browsers-console/). Please report your findings in the issue.
+* add as much information as possible. For example: add screenshots, relevant links, step by step guides etc.
 
 ## I have a feature request
-Before opening a new issue, please try:
-* searching for duplicate issues and prevent opening a duplicate feature request. If there is already an open existing request, please leave a comment there.
-* adding as much information as possible. For example: give us a clear explanation of why you think the feature request is something we should consider for the Yoast SEO plugins.
+Before opening a new issue, please:
+* search for duplicate issues to prevent opening a duplicate feature request. If there is already an open existing request, please leave a comment there.
+* add as much information as possible. For example: give us a clear explanation of why you think the feature request is something we should consider for the Yoast SEO plugins.
 
 ## I want to create a patch
 Community made patches, localizations, bug reports and contributions are very welcome and help Yoast SEO remain the #1 SEO plugin for WordPress.
@@ -36,20 +36,20 @@ Community made patches, localizations, bug reports and contributions are very we
 When contributing please ensure you follow the guidelines below so that we can keep on top of things.
 
 #### Getting Started
-If there is no ticket for your issue, submit it first, following the above guidelines.
+If there is no ticket for your issue, submit it first, following the guidelines above.
 
 #### Making Changes
 
 * Fork the repository on GitHub (make sure to use the trunk branch, not master).
 * Make the changes to your forked repository.
-	* Ensure you stick to the WordPress Coding Standards and have properly documented any new functions, actions and filters following the documentation standards.
+* Ensure you stick to the []WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/) and you properly document any new functions, actions and filters following the [documentation standards](http://make.wordpress.org/core/handbook/inline-documentation-standards/php-documentation-standards/).
 * When committing, reference your issue (if present) and include a note about the fix.
 * Push the changes to your fork and submit a pull request to the 'trunk' branch of the Yoast SEO repository.
 
-At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary.
+We will review your pull request and merge when everything is in order. We will help you to make sure the code will comply to the standards described above.
 
-#### 'patch welcome' issues
-Some issues are labeled 'patch-welcome'. This means we see the value in the particular enhancement being suggested but have decided for now not to prioritize it. If you however decide to write a patch for it we'll gladly include it after some code review.
+#### 'Patch welcome' issues
+Some issues are labeled 'patch-welcome'. This means we see the value in the particular enhancement being suggested but have decided for now not to prioritize it. If you however decide to write a patch for it, we'll gladly include it after some code review.
 
 #### Additional Resources
 * [Yoast SEO API](https://yoast.com/wordpress/plugins/seo/api/)
