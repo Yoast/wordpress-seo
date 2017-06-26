@@ -363,6 +363,16 @@ class WPSEO_Admin_Banner_Sidebar {
 			)
 		);
 
+		$courses_spot->add_banner(
+			new WPSEO_Admin_Banner(
+				WPSEO_Shortlinker::get( 'https://yoa.st/15h' ),
+				'structured-data-course.png',
+				261,
+				152,
+				__( 'Take the online Structured Data Training course and learn how to create rich snippets!', 'wordpress-seo' )
+			)
+		);
+
 		return $courses_spot;
 	}
 
