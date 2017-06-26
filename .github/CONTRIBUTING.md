@@ -1,5 +1,5 @@
 # Contribution Guidelines
-![Yoast Logo](https://yoast-mercury.s3.amazonaws.com/uploads/2013/02/Yoast_Logo_Large_RGB.png =250x)
+![Yoast Logo](https://yoast-mercury.s3.amazonaws.com/uploads/2013/02/Yoast_Logo_Large_RGB.png | width=250)
 
 Before filing a bug report or a feature request, be sure to read the contribution guidelines.
 
