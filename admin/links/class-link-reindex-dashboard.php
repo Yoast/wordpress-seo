@@ -13,7 +13,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	protected $unprocessed = array();
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
 		if ( ! $this->is_dashboard_page() ) {

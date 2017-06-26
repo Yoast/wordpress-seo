@@ -90,7 +90,7 @@ class WPSEO_Link_Notifier {
 					'You need to index your posts and/or pages in order to receive the best %1$slink suggestions%2$s.
 
 					%3$sAnalyze the content%4$s to generate the missing link suggestions.',
-					'wordpress-seo-premium'
+					'wordpress-seo'
 				),
 				'<a href="https://yoa.st/notification-internal-link">',
 				'</a>',

@@ -50,7 +50,7 @@ class IndexProgressBar {
 }
 
 /**
- * Does the reindex request for current post and
+ * Does the reindex request for the current post and updates the processbar.
  *
  * @param {string}           postType    The postttype to reindex.
  * @param {IndexProgressBar} progressbar The progressbar.
@@ -93,7 +93,6 @@ function doReindexRequest( postType, progressbar, resolve ) {
  * @returns {Promise} Promise.
  */
 function reindexLinks( postType ) {
-
 	// Do request to get post ids
 	return new Promise( ( resolve ) => {
 		let progressbar = new IndexProgressBar( postType, settings.amount[ postType ] );
@@ -144,7 +143,7 @@ function openLinkIndexing() {
 }
 
 /**
- * Initializes the indexation of links
+ * Initializes the indexation of links.
  *
  * @returns {void}
  */
