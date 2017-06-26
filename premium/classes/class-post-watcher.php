@@ -371,6 +371,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool True when in an AJAX-request and the action is inline-save.
 	 */
 	protected function is_action_inline_save() {
-		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && $_POST['action'] === 'inline-save' );
+		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && filter_input( INPUT_POST, 'action' ) === 'inline-save' );
 	}
 }
