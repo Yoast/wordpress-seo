@@ -33,8 +33,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	 * @return void
 	 */
 	public function calculate_unprocessed() {
-		$public_post_types       = get_post_types( array( 'public' => true ) );
-		$this->public_post_types = array_filter( $public_post_types, array( $this, 'filter_post_types' ) );
+		$this->public_post_types = WPSEO_Link_Utils::get_public_post_types();
 
 		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
 			$this->unprocessed = WPSEO_Link_Query::get_unprocessed_count( $this->public_post_types );
@@ -168,16 +167,5 @@ class WPSEO_Link_Reindex_Dashboard {
 	 */
 	protected function message_already_indexed() {
 		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! You\'ve optimized your internal linking suggestions.', 'wordpress-seo' );
-	}
-
-	/**
-	 * Filters the post types to remove unwanted items.
-	 *
-	 * @param string $public_post_type The post type to filter.
-	 *
-	 * @return bool Returns true if it is kept, false if removed.
-	 */
-	protected function filter_post_types( $public_post_type ) {
-		return ! ( $public_post_type === 'attachment' );
 	}
 }
