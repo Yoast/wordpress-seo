@@ -96,7 +96,7 @@ class WPSEO_Link_Notifier {
 					'wordpress-seo'
 				),
 				// @todo make shortlink to https://yoast.com/internal-linking-for-seo-why-and-how/
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/notification-internal-link' ). '">',
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/notification-internal-link' ). '" target="_blank">',
 				'</a>',
 				'<button type="button" id="noticeRunLinkIndex" class="button">',
 				'</button>'
