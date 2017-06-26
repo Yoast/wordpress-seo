@@ -760,10 +760,16 @@ class WPSEO_Admin {
 
 		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
 
+		$link_table_accessible = new WPSEO_Link_Table_Accessible_Notifier();
+
 		// When the table doesn't exists, just return early.
 		if ( $wpdb->get_var( 'SHOW TABLES LIKE "' . $storage->get_table_name() . '"' ) !== $storage->get_table_name() ) {
+			$link_table_accessible->add_notification();
+
 			return;
 		}
+
+		$link_table_accessible->remove_notification();
 
 		$seo_links = new WPSEO_Link_Watcher(
 			new WPSEO_Link_Content_Processor( $storage )
