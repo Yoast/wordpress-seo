@@ -87,12 +87,16 @@ class WPSEO_Link_Notifier {
 			sprintf(
 			/* translators: 1: link to yoast.com post about internal linking suggestion. 2: is anchor closing. 3: button to the recalculation option. 4: closing button */
 				__(
-					'You need to index your posts and/or pages in order to receive the best %1$slink suggestions%2$s.
-
-					%3$sAnalyze the content%4$s to generate the missing link suggestions.',
+					'To make sure all the links in your texts are counted, we need to analyze all your texts.
+					All you have to do is press the following button and we\'ll go through all your texts for you.
+					
+					%3$sCount links%4$s
+					
+					The Text link counter feature provides insights in how many links are found in your text and how many links are referring to your text. This is very helpful when you are improving your %1$sinternal linking%2$s.',
 					'wordpress-seo'
 				),
-				'<a href="https://yoa.st/notification-internal-link">',
+				// @todo make shortlink to https://yoast.com/internal-linking-for-seo-why-and-how/
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/notification-internal-link' ). '">',
 				'</a>',
 				'<button type="button" id="noticeRunLinkIndex" class="button">',
 				'</button>'
