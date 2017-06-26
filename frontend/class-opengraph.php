@@ -577,6 +577,10 @@ class WPSEO_OpenGraph {
 
 		foreach ( $opengraph_images->get_images() as $img ) {
 			$this->og_tag( 'og:image', esc_url( $img ) );
+
+			if ( 0 === strpos( $img, 'https://' ) ) {
+				$this->og_tag( 'og:image:secure_url', esc_url( $img ) );
+			}
 		}
 
 		$dimensions = $opengraph_images->get_dimensions();
