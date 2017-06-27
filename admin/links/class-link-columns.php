@@ -154,10 +154,12 @@ class WPSEO_Link_Columns {
 	 * @return array The extended array with columns.
 	 */
 	public function add_post_columns( array $columns ) {
-		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = __( 'Links', 'wordpress-seo' );
+		/* translators: %1$s expands to a hashtag (#)  */
+		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = sprintf( __( '%1$s Links in', 'wordpress-seo' ), '#' );
 
 		if ( ! WPSEO_Link_Query::has_unprocessed_posts( $this->public_post_types ) ) {
-			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = __( 'Linked', 'wordpress-seo' );
+			/* translators: %1$s expands to a hashtag (#) */
+			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = sprintf( __( '%1$s Links out', 'wordpress-seo' ), '#' );
 		}
 
 		return $columns;

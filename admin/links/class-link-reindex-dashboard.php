@@ -48,8 +48,15 @@ class WPSEO_Link_Reindex_Dashboard {
 
 		$html = '';
 
-		$html .= '<h2>' . esc_html__( 'Content link detector', 'wordpress-seo' ) . '</h2>';
-		$html .= '<p>' . __( 'Do you want to detect links in the content. Use the indexing button.', 'wordpress-seo' ) . '</p>';
+		$html .= '<h2>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</h2>';
+		$html .= '<p>' . sprintf(
+			/* translators: 1: link to yoast.com post about internal linking suggestion. 4: is Yoast.com 3: is anchor closing. */
+			__( 'The links in all your public texts need to be counted. This will provide insights of which texts need more links to them. If you want to know more about the why and how of internal linking, check out %1$sthe article about internal linking on %2$s%3$s.', 'wordpress-seo' ),
+				// @todo make shortlink to https://yoast.com/internal-linking-for-seo-why-and-how/
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/notification-internal-link' ). '" target="_blank">',
+				'Yoast.com',
+				'</a>'
+		) . '</p>';
 
 		if ( $total_unprocessed === 0 ) {
 			$html .= '<p>' . $this->message_already_indexed() . '</p>';
@@ -59,10 +66,9 @@ class WPSEO_Link_Reindex_Dashboard {
 
 			$html .= '<p id="reindexLinks">';
 			$html .= sprintf(
-				'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%3$s</a>',
+				'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%2$s</a>',
 				$height,
-				esc_attr( __( 'Detecting links in your content', 'wordpress-seo' ) ),
-				esc_html( __( 'Detect links in your content', 'wordpress-seo' ) )
+				esc_attr( __( 'Counting links in your texts', 'wordpress-seo' ) )
 			);
 			$html .= '</p>';
 		}
@@ -90,16 +96,17 @@ class WPSEO_Link_Reindex_Dashboard {
 			$post_type_labels = get_post_type_labels( get_post_type_object( $post_type ) );
 			$post_type_label  = $post_type_labels->name;
 
-			if ( $this->unprocessed[ $post_type ] === 0 ) {
+			if ( ! isset( $this->unprocessed[ $post_type ] ) || $this->unprocessed[ $post_type ] === 0 ) {
 				$inner_text = sprintf( '<p>%s</p>',
 					/* Translators: %s resolves to the post type label. */
-					esc_html( sprintf( __( 'All your %s are already indexed, there is no need to do the reindexation for them.', 'wordpress-seo' ), $post_type_label ) )
+					esc_html( sprintf( __( 'All your %s are already counted, there is no need to count them again.', 'wordpress-seo' ), $post_type_label ) )
 				);
 			}
 			else {
 				$progress = sprintf(
-				/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-					__( 'Post %1$s of %2$s analyzed.', 'wordpress-seo' ),
+				/* translators: 1: expands to the singular label name. 2: expands to a <span> containing the number of items recalculated. 3: expands to a <strong> containing the total number of items. */
+					__( '%1$s %2$s of %3$s processed.', 'wordpress-seo' ),
+					$post_type_labels->singular_name,
 					sprintf( '<span id="wpseo_count_index_links_%s">0</span>', esc_attr( $post_type ) ),
 					sprintf( '<strong id="wpseo_count_%s_total">%d</strong>', esc_attr( $post_type ), $this->unprocessed[ $post_type ] )
 				);
@@ -110,7 +117,7 @@ class WPSEO_Link_Reindex_Dashboard {
 
 			$blocks[] = sprintf( '<div><p>%s</p>%s</div>',
 				/* Translators: %s resolves to the post type label. */
-				esc_html( sprintf( __( 'Detecting links for %s...', 'wordpress-seo' ), $post_type_label ) ),
+				esc_html( sprintf( __( 'Counting links in %s', 'wordpress-seo' ), $post_type_label ) ),
 				$inner_text
 			);
 		}
@@ -119,7 +126,7 @@ class WPSEO_Link_Reindex_Dashboard {
 		<div id="wpseo_index_links_wrapper" class="hidden">
 			<?php echo implode( '<hr />', $blocks ); ?>
 			<button onclick="tb_remove();" type="button"
-					class="button"><?php _e( 'Stop analyzing', 'wordpress-seo' ); ?></button>
+					class="button"><?php _e( 'Stop counting', 'wordpress-seo' ); ?></button>
 		</div>
 		<?php
 	}
@@ -166,6 +173,6 @@ class WPSEO_Link_Reindex_Dashboard {
 	 * @return string
 	 */
 	protected function message_already_indexed() {
-		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! You\'ve optimized your internal linking suggestions.', 'wordpress-seo' );
+		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! All the links in your texts have been counted.', 'wordpress-seo' );
 	}
 }
