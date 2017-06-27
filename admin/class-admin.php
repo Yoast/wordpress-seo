@@ -758,7 +758,7 @@ class WPSEO_Admin {
 	protected function initialize_seo_links() {
 		global $wpdb;
 
-		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
+		$storage = new WPSEO_Link_Storage();
 
 		// When the table doesn't exists, just return early.
 		if ( $wpdb->get_var( 'SHOW TABLES LIKE "' . $storage->get_table_name() . '"' ) !== $storage->get_table_name() ) {
@@ -773,6 +773,11 @@ class WPSEO_Admin {
 		$seo_link_columns = new WPSEO_Link_Columns( $storage );
 		$seo_link_columns->register_hooks();
 
+		$link_reindex_interface = new WPSEO_Link_Reindex_Dashboard();
+		$link_reindex_interface->register_hooks();
+
+		$link_notifier = new WPSEO_Link_Notifier();
+		$link_notifier->register_hooks();
 	}
 
 	/********************** DEPRECATED METHODS **********************/

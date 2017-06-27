@@ -15,7 +15,11 @@ class WPSEO_Link_Storage {
 	 *
 	 * @param string $table_prefix Optional. The prefix to use for the table.
 	 */
-	public function __construct( $table_prefix = '' ) {
+	public function __construct( $table_prefix = null ) {
+		if ( null === $table_prefix ) {
+			$table_prefix = $GLOBALS['wpdb']->get_blog_prefix();
+		}
+
 		$this->table_prefix = $table_prefix;
 	}
 

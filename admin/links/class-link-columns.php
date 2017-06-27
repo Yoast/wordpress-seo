@@ -41,11 +41,9 @@ class WPSEO_Link_Columns {
 		// Hook into tablenav to calculate links and linked.
 		add_action( 'manage_posts_extra_tablenav', array( $this, 'count_objects' ) );
 
+		$this->public_post_types = WPSEO_Link_Utils::get_public_post_types();
 		add_filter( 'posts_clauses', array( $this, 'order_by_links' ), 1, 2 );
 		add_filter( 'posts_clauses', array( $this, 'order_by_linked' ), 1, 2 );
-
-		$public_post_types       = get_post_types( array( 'public' => true ) );
-		$this->public_post_types = array_filter( $public_post_types, array( $this, 'filter_post_types' ) );
 
 		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
 			array_walk( $this->public_post_types, array( $this, 'set_post_type_hooks' ) );
@@ -232,16 +230,5 @@ class WPSEO_Link_Columns {
 		$columns[ 'wpseo-' . self::COLUMN_LINKED ] = 'wpseo-' . self::COLUMN_LINKED;
 
 		return $columns;
-	}
-
-	/**
-	 * Filters the post types to remove unwanted items.
-	 *
-	 * @param string $public_post_type The post type to filter.
-	 *
-	 * @return bool Returns true if it is kept, false if removed.
-	 */
-	protected function filter_post_types( $public_post_type ) {
-		return ! ( $public_post_type === 'attachment' );
 	}
 }

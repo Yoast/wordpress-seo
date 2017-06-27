@@ -61,7 +61,7 @@ class WPSEO_Link_Column_Count {
 	protected function get_results( $post_ids ) {
 		global $wpdb;
 
-		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
+		$storage = new WPSEO_Link_Storage();
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
