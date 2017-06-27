@@ -112,7 +112,7 @@ class WPSEO_Link_Columns {
 		$table = $this->storage->get_table_name();
 
 		$pieces['join']    .= " LEFT JOIN $table AS yst_links ON yst_links.{$field} = {$wpdb->posts}.ID ";
-		$pieces['orderby'] = "COUNT( yst_links.{$field} ) $order, " . $pieces['orderby'];
+		$pieces['orderby'] = "COUNT( yst_links.{$field} ) $order, FIELD( {$wpdb->posts}.post_status, 'publish' ) $order, {$pieces['orderby']}";
 
 		// Make sure we don't introduce duplicate groupby fields.
 		$groupby = explode( ',', $pieces['groupby'] );
