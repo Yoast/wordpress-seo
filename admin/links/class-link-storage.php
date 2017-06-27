@@ -56,9 +56,9 @@ class WPSEO_Link_Storage {
 			$charset_collate
 		);
 
-		$errors = $wpdb->suppress_errors();
-		$is_created = $wpdb->query( $create_table );
-		$wpdb->suppress_errors( $errors );
+		$suppressed = $wpdb->suppress_errors();
+		$is_created = (bool) $wpdb->query( $create_table );
+		$wpdb->suppress_errors( $suppressed );
 
 		if ( $is_created === false ) {
 			WPSEO_Link_Table_Accessible::set_inaccessible();
@@ -77,7 +77,7 @@ class WPSEO_Link_Storage {
 	public function get_links( $post_id ) {
 		global $wpdb;
 
-		$errors = $wpdb->suppress_errors();
+		$suppressed = $wpdb->suppress_errors();
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
 				SELECT url, post_id, target_post_id, type
@@ -86,7 +86,7 @@ class WPSEO_Link_Storage {
 				$post_id
 			)
 		);
-		$wpdb->suppress_errors( $errors );
+		$wpdb->suppress_errors( $suppressed );
 
 		if ( $wpdb->last_error !== '' ) {
 			WPSEO_Link_Table_Accessible::set_inaccessible();
@@ -115,7 +115,7 @@ class WPSEO_Link_Storage {
 	public function cleanup( $post_id ) {
 		global $wpdb;
 
-		$errors = $wpdb->suppress_errors();
+		$suppressed = $wpdb->suppress_errors();
 
 		$is_deleted = $wpdb->delete(
 			$this->get_table_name(),
@@ -123,7 +123,7 @@ class WPSEO_Link_Storage {
 			array( '%d' )
 		);
 
-		$wpdb->suppress_errors( $errors );
+		$wpdb->suppress_errors( $suppressed );
 
 		if ( $is_deleted === false ) {
 			WPSEO_Link_Table_Accessible::set_inaccessible();
@@ -142,7 +142,8 @@ class WPSEO_Link_Storage {
 	protected function save_link( WPSEO_Link $link, $link_key, $post_id ) {
 		global $wpdb;
 
-		$errors = $wpdb->suppress_errors();
+		$suppressed = $wpdb->suppress_errors();
+
 		$inserted = $wpdb->insert(
 			$this->get_table_name(),
 			array(
@@ -154,7 +155,7 @@ class WPSEO_Link_Storage {
 			array( '%s', '%d', '%d', '%s' )
 		);
 
-		$wpdb->suppress_errors( $errors );
+		$wpdb->suppress_errors( $suppressed );
 
 		if ( $inserted === false ) {
 			WPSEO_Link_Table_Accessible::set_inaccessible();
