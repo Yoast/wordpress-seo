@@ -29,7 +29,7 @@ class WPSEO_Link_Table_Accessible_Notifier {
 	 *
 	 * @return Yoast_Notification The notification.
 	 */
-	protected function get_notification(  ) {
+	protected function get_notification() {
 		return new Yoast_Notification(
 			sprintf(
 				/* translators: %1$s: Yoast SEO. %2$s: Version number of Yoast SEO. %3$s: link to knowledge base article about solving table issue. %4$s: is anchor closing. */
