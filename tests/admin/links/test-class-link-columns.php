@@ -6,7 +6,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	 * Tests the registering of the hooks.
 	 */
 	public function test_register_hooks() {
-		$link_columns = new WPSEO_Link_Columns();
+		$link_columns = new WPSEO_Link_Columns( new WPSEO_Link_Storage() );
 		$link_columns->register_hooks();
 
 		$this->assertFalse(
@@ -23,6 +23,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Link_Columns $link_columns */
 		$link_columns = $this
 			->getMockBuilder( 'WPSEO_Link_Columns' )
+			->setConstructorArgs( array( new WPSEO_Link_Storage() ) )
 			->setMethods( array( 'set_post_type_hooks' ) )
 			->getMock();
 
@@ -37,7 +38,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	 * Tests the addition of post columns.
 	 */
 	public function test_add_post_columns() {
-		$link_columns = new WPSEO_Link_Columns();
+		$link_columns = new WPSEO_Link_Columns( new WPSEO_Link_Storage() );
 
 		$this->assertEquals(
 			array( 'wpseo-links' => 'Links', 'wpseo-linked' => 'Linked' ),
@@ -49,7 +50,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	 * Test set_count_objects to set the object correctly.
 	 */
 	public function test_set_count_objects() {
-		$link_columns = new WPSEO_Link_Columns();
+		$link_columns = new WPSEO_Link_Columns( new WPSEO_Link_Storage() );
 		$link_columns->set_count_objects();
 
 		$this->assertAttributeInstanceOf( 'WPSEO_Link_Column_Count', 'count_linked', $link_columns );
@@ -60,7 +61,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	 * Test the getting of the column content
 	 */
 	public function test_column_content() {
-		$link_columns = new WPSEO_Link_Columns();
+		$link_columns = new WPSEO_Link_Columns( new WPSEO_Link_Storage() );
 		$link_columns->set_count_objects();
 
 		$link_columns->column_content( 'wpseo-links', 1 );
@@ -74,7 +75,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	 * Tests column_sort.
 	 */
 	public function test_column_sort() {
-		$link_columns = new WPSEO_Link_Columns();
+		$link_columns = new WPSEO_Link_Columns( new WPSEO_Link_Storage() );
 
 		$this->assertEquals(
 			array( 'wpseo-links' => 'wpseo-links', 'wpseo-linked' => 'wpseo-linked' ),
