@@ -88,8 +88,7 @@ class WPSEO_Link_Storage {
 		);
 		$wpdb->suppress_errors( $errors );
 
-		var_dump( $wpdb->last_error );
-		if( $wpdb->last_error !== '' ) {
+		if ( $wpdb->last_error !== '' ) {
 			WPSEO_Link_Table_Accessible::set_inaccessible();
 		}
 
@@ -125,7 +124,6 @@ class WPSEO_Link_Storage {
 		);
 
 		$wpdb->suppress_errors( $errors );
-
 
 		if ( $is_deleted === false ) {
 			WPSEO_Link_Table_Accessible::set_inaccessible();
