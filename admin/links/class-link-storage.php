@@ -35,7 +35,7 @@ class WPSEO_Link_Storage {
 	/**
 	 * Creates the links table if it doesn't exist.
 	 *
-	 * @return int|false Number of rows affected/selected or false on error
+	 * @return boolean True if the table was created, false if something went wrong.
 	 */
 	public function create_table() {
 		global $wpdb;
@@ -100,6 +100,8 @@ class WPSEO_Link_Storage {
 	 *
 	 * @param integer      $post_id The post id to save.
 	 * @param WPSEO_Link[] $links   The link to save.
+	 *
+	 * @return void
 	 */
 	public function save_links( $post_id, array $links ) {
 		array_walk( $links, array( $this, 'save_link' ), $post_id );
@@ -138,6 +140,8 @@ class WPSEO_Link_Storage {
 	 * @param WPSEO_Link $link     The link to save.
 	 * @param int        $link_key The link key. Unused.
 	 * @param int        $post_id  The post id to save the link for.
+	 *
+	 * @return void
 	 */
 	protected function save_link( WPSEO_Link $link, $link_key, $post_id ) {
 		global $wpdb;
