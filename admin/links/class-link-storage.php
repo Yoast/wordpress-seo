@@ -42,7 +42,7 @@ class WPSEO_Link_Storage {
 
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$create_table = sprintf('
+		$create_table = sprintf( '
 			CREATE TABLE IF NOT EXISTS %1$s (
                 id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 url varchar(255) NOT NULL,
@@ -56,7 +56,15 @@ class WPSEO_Link_Storage {
 			$charset_collate
 		);
 
-		return $wpdb->query( $create_table );
+		$errors = $wpdb->suppress_errors();
+		$is_created = $wpdb->query( $create_table );
+		$wpdb->suppress_errors( $errors );
+
+		if ( $is_created === false ) {
+			WPSEO_Link_Table_Accessible::set_inaccessible();
+		}
+
+		return $is_created;
 	}
 
 	/**
@@ -69,7 +77,8 @@ class WPSEO_Link_Storage {
 	public function get_links( $post_id ) {
 		global $wpdb;
 
-		return $wpdb->get_results(
+		$errors = $wpdb->suppress_errors();
+		$results = $wpdb->get_results(
 			$wpdb->prepare( '
 				SELECT url, post_id, target_post_id, type
 				FROM ' . $this->get_table_name() . '
@@ -77,6 +86,14 @@ class WPSEO_Link_Storage {
 				$post_id
 			)
 		);
+		$wpdb->suppress_errors( $errors );
+
+		var_dump( $wpdb->last_error );
+		if( $wpdb->last_error !== '' ) {
+			WPSEO_Link_Table_Accessible::set_inaccessible();
+		}
+
+		return $results;
 	}
 
 	/**
@@ -99,11 +116,22 @@ class WPSEO_Link_Storage {
 	public function cleanup( $post_id ) {
 		global $wpdb;
 
-		return $wpdb->delete(
+		$errors = $wpdb->suppress_errors();
+
+		$is_deleted = $wpdb->delete(
 			$this->get_table_name(),
 			array( 'post_id' => $post_id ),
 			array( '%d' )
 		);
+
+		$wpdb->suppress_errors( $errors );
+
+
+		if ( $is_deleted === false ) {
+			WPSEO_Link_Table_Accessible::set_inaccessible();
+		}
+
+		return $is_deleted;
 	}
 
 	/**
@@ -116,7 +144,8 @@ class WPSEO_Link_Storage {
 	protected function save_link( WPSEO_Link $link, $link_key, $post_id ) {
 		global $wpdb;
 
-		$wpdb->insert(
+		$errors = $wpdb->suppress_errors();
+		$inserted = $wpdb->insert(
 			$this->get_table_name(),
 			array(
 				'url' => $link->get_url(),
@@ -126,5 +155,11 @@ class WPSEO_Link_Storage {
 			),
 			array( '%s', '%d', '%d', '%s' )
 		);
+
+		$wpdb->suppress_errors( $errors );
+
+		if ( $inserted === false ) {
+			WPSEO_Link_Table_Accessible::set_inaccessible();
+		}
 	}
 }
