@@ -17,6 +17,9 @@ class WPSEO_Link_Columns {
 	/** @var WPSEO_Link_Column_Count */
 	protected $count_links;
 
+	/** @var WPSEO_Link_Storage Storage to use. */
+	protected $storage;
+
 	/** @var array List of public post types. */
 	protected $public_post_types = array();
 
