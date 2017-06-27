@@ -47,6 +47,6 @@ class WPSEO_Link_Table_Accessible {
 	 * Returns the name of the transient.
 	 */
 	protected static function transient_name() {
-		return '_yst-link-table-accessible';
+		return 'wpseo_link_table_accessible';
 	}
 }
