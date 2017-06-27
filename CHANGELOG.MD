@@ -5,6 +5,13 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.7.0:
+
+### Added
+
+- [AlgoliaSearch] Added Algolia Search as a new component.
+- Adds additional colors
+
 ## 2.6.0:
 
 ### Changed
