@@ -21,7 +21,7 @@ class WPSEO_Link_Query {
 			return false;
 		}
 
-		$sanitized_post_types = array_map( array( $wpdb, 'prepare' ), $post_types );
+		$sanitized_post_types = array_map( 'esc_sql', $post_types );
 		$post_types           = sprintf( '"%s"', implode( '", "', $sanitized_post_types ) );
 
 		// Get any object which has not got the processed meta key.
@@ -72,5 +72,78 @@ class WPSEO_Link_Query {
 		$results = $wpdb->get_results( $query, ARRAY_A );
 
 		return array_map( 'intval', wp_list_pluck( $results, 'post_id' ) );
+	}
+
+	/**
+	 * Returns a limited set of unindexed posts.
+	 * *
+	 *
+	 * @param string $post_type The post type.
+	 * @param int    $limit     The limit for the resultset.
+	 *
+	 * @return array|null|object The set of unindexed posts.
+	 */
+	public static function get_unprocessed_posts( $post_type, $limit = 5 ) {
+		global $wpdb;
+
+		// @codingStandardsIgnoreStart
+		$results = $wpdb->get_results(
+			$wpdb->prepare( '
+				SELECT ID, post_content
+				  FROM ' . $wpdb->posts . ' 
+				 WHERE post_status = "publish" 
+				   AND post_type = "%2$s"
+				   AND ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%1$s" ) 
+				 LIMIT %3$d
+				',
+				WPSEO_Link_Factory::get_index_meta_key(),
+				$post_type,
+				$limit
+			)
+		);
+
+		// @codingStandardsIgnoreEnd
+
+		return $results;
+	}
+
+	/**
+	 * Returns the total amount of unindexed posts for given post type.
+	 *
+	 * @param array $post_types The post types.
+	 *
+	 * @return array The total of unindexed posts per post type
+	 */
+	public static function get_unprocessed_count( array $post_types ) {
+		global $wpdb;
+
+		if ( empty( $post_types ) ) {
+			return array();
+		}
+
+		$sanitized_post_types = array_map( 'esc_sql', $post_types );
+		$post_types           = sprintf( '"%s"', implode( '", "', $sanitized_post_types ) );
+
+		// @codingStandardsIgnoreStart
+		$query = $wpdb->prepare( '
+				SELECT COUNT( ID ) as total, post_type
+				  FROM ' . $wpdb->posts . ' 
+				 WHERE post_status = "publish" 
+				   AND post_type IN ( ' . $post_types . ' )
+				   AND ID NOT IN ( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%1$s" )
+			  GROUP BY post_type
+				',
+			WPSEO_Link_Factory::get_index_meta_key()
+		);
+		// @codingStandardsIgnoreEnd
+
+		$results = $wpdb->get_results( $query );
+
+		$output = array();
+		foreach ( $results as $result ) {
+			$output[ $result->post_type ] = $result->total;
+		}
+
+		return $output;
 	}
 }

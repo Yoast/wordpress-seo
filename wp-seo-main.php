@@ -286,6 +286,9 @@ function wpseo_init_rest_api() {
 		// Boot up REST API.
 		$configuration_service = new WPSEO_Configuration_Service();
 		$configuration_service->initialize();
+
+		$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
+		$link_reindex_endpoint->register();
 	}
 }
 

@@ -274,6 +274,15 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 				),
 			),
+			array(
+				'name' => 'reindex-links',
+				'src'  => 'wp-seo-reindex-links-' . $flat_version,
+				'deps' => array(
+					'jquery',
+					'jquery-ui-core',
+					'jquery-ui-progressbar',
+				),
+			),
 		);
 	}
 
