@@ -41,6 +41,11 @@ class WPSEO_Link_Columns {
 			return;
 		}
 
+		// When table doesn't exists.
+		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() ) {
+			return;
+		}
+
 		// Hook into tablenav to calculate links and linked.
 		add_action( 'manage_posts_extra_tablenav', array( $this, 'count_objects' ) );
 
