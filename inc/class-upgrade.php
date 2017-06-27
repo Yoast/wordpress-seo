@@ -72,6 +72,9 @@ class WPSEO_Upgrade {
 			$this->upgrade_49();
 		}
 
+		if ( version_compare( $this->options['version'], '5.0', '<' ) ) {
+			$this->upgrade_50();
+		}
 
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
@@ -342,5 +345,17 @@ class WPSEO_Upgrade {
 		}
 
 		return $notifications;
+	}
+
+	/**
+	 * Adds the yoast_seo_links table to the database.
+	 */
+	private function upgrade_50() {
+		$link_storage = new WPSEO_Link_Storage();
+		$link_storage->create_table();
+
+		// Trigger reindex notification.
+		$notifier = new WPSEO_Link_Notifier();
+		$notifier->manage_notification();
 	}
 }
