@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Admin\Links\Reindex
+ * @package WPSEO\Admin\Links
  */
 
 /**
