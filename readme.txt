@@ -130,6 +130,7 @@ Release Date: July 4th, 2017
 
 * Bugfixes
 	* Fixes a bug where images via `https` were not working, props [Jannik Zschiesche](https://github.com/apfelbox).
+	* Fixes a bug where the whip notification can be shown multiple times.
 
 * Enhancements
 	* Introduces a module that counts links in the content.
