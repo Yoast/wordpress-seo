@@ -756,20 +756,18 @@ class WPSEO_Admin {
 	 * Initializes the seo link watcher.
 	 */
 	protected function initialize_seo_links() {
-		global $wpdb;
-
 		$storage = new WPSEO_Link_Storage();
 
-		$link_table_accessible = new WPSEO_Link_Table_Accessible_Notifier();
+		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
 
 		// When the table doesn't exists, just add the notification and return early.
-		if ( $wpdb->get_var( 'SHOW TABLES LIKE "' . $storage->get_table_name() . '"' ) !== $storage->get_table_name() ) {
-			$link_table_accessible->add_notification();
+		if ( ! WPSEO_Link_Table_Accessible::is_accessible() ) {
+			$link_table_accessible_notifier->add_notification();
 
 			return;
 		}
 
-		$link_table_accessible->remove_notification();
+		$link_table_accessible_notifier->remove_notification();
 
 		$seo_links = new WPSEO_Link_Watcher(
 			new WPSEO_Link_Content_Processor( $storage )
