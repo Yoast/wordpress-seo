@@ -137,6 +137,7 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 	}
 }
 
+
 /**
  * Runs on activation of the plugin.
  */
@@ -170,9 +171,16 @@ function _wpseo_activate() {
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
 
+	// Create the text link storage table.
+	$storage = new WPSEO_Link_Storage();
+	$storage->create_table();
+
+	// Trigger reindex notification.
+	$notifier = new WPSEO_Link_Notifier();
+	$notifier->manage_notification();
+
 	do_action( 'wpseo_activate' );
 }
-
 /**
  * On deactivation, flush the rewrite rules so XML sitemaps stop working.
  */
@@ -281,6 +289,9 @@ function wpseo_init_rest_api() {
 		// Boot up REST API.
 		$configuration_service = new WPSEO_Configuration_Service();
 		$configuration_service->initialize();
+
+		$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
+		$link_reindex_endpoint->register();
 	}
 }
 
