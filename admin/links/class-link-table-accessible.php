@@ -14,7 +14,7 @@ class WPSEO_Link_Table_Accessible {
 	 * @return bool True when table is accessible.
 	 */
 	public static function is_accessible() {
-		return get_transient( self::transient_name() ) !== false;
+		return get_transient( self::transient_name() ) === false;
 	}
 
 	/**
