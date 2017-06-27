@@ -6,11 +6,9 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	 * Creates the table to make sure the tests for this class can be executed.
 	 */
 	public function setUp() {
-		global $wpdb;
-
 		parent::setUp();
 
-		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
+		$storage = new WPSEO_Link_Storage();
 		$storage->create_table();
 		$storage->save_links(
 			100,
@@ -24,11 +22,11 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	 * Drops the table when all tests for this class are executed.
 	 */
 	public function tearDown() {
-		parent::tearDown();
-
 		global $wpdb;
 
-		$storage = new WPSEO_Link_Storage( $wpdb->get_blog_prefix() );
+		parent::tearDown();
+
+		$storage = new WPSEO_Link_Storage();
 
 		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
 	}
