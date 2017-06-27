@@ -8,15 +8,15 @@ let en = require( './syllables/en.json' );
 let nl = require( './syllables/nl.json' );
 let it = require( './syllables/it.json' );
 
-let languages = { "de": de, "nl": nl, "en": en, "it": it };
+let languages = { de, nl, en, it };
 
-module.exports = function( locale ) {
-	// Default to English when no locale is defined.
-	let language = locale ? getLanguage( locale ) : "en";
+module.exports = function( locale = "en_US" ) {
+	let language = getLanguage( locale );
 
 	if( languages.hasOwnProperty( language ) ) {
 		return languages[ language ];
 	}
-	// When a locale is defined, but not included in the languages object, also default to English.
+
+	// If an unknown locale is used, default to English.
 	return languages[ "en" ];
 };
