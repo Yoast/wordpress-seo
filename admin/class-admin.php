@@ -762,7 +762,7 @@ class WPSEO_Admin {
 
 		$link_table_accessible = new WPSEO_Link_Table_Accessible_Notifier();
 
-		// When the table doesn't exists, just return early.
+		// When the table doesn't exists, just add the notification and return early.
 		if ( $wpdb->get_var( 'SHOW TABLES LIKE "' . $storage->get_table_name() . '"' ) !== $storage->get_table_name() ) {
 			$link_table_accessible->add_notification();
 
