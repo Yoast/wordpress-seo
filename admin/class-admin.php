@@ -756,8 +756,6 @@ class WPSEO_Admin {
 	 * Initializes the seo link watcher.
 	 */
 	protected function initialize_seo_links() {
-		$storage = new WPSEO_Link_Storage();
-
 		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
 
 		// When the table doesn't exists, just add the notification and return early.
@@ -768,6 +766,8 @@ class WPSEO_Admin {
 		}
 
 		$link_table_accessible_notifier->remove_notification();
+
+		$storage = new WPSEO_Link_Storage();
 
 		$seo_links = new WPSEO_Link_Watcher(
 			new WPSEO_Link_Content_Processor( $storage )
