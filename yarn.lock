@@ -45,7 +45,7 @@ acorn@^5.0.1:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.0.3.tgz#c460df08491463f028ccb82eab3730bf01087b3d"
 
-agentkeepalive@^2.1.1:
+agentkeepalive@^2.1.1, agentkeepalive@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/agentkeepalive/-/agentkeepalive-2.2.0.tgz#c5d1bd4b129008f1163f236f86e5faea2026e2ef"
 
@@ -79,6 +79,26 @@ algoliasearch@^3.16.0:
     reduce "^1.0.1"
     semver "^5.1.0"
     tunnel-agent "^0.4.3"
+
+algoliasearch@^3.22.3:
+  version "3.24.0"
+  resolved "https://registry.yarnpkg.com/algoliasearch/-/algoliasearch-3.24.0.tgz#d0a6ac2963b781d2fb059a3a853fe18765673346"
+  dependencies:
+    agentkeepalive "^2.2.0"
+    debug "^2.6.8"
+    envify "^4.0.0"
+    es6-promise "^4.1.0"
+    events "^1.1.0"
+    foreach "^2.0.5"
+    global "^4.3.2"
+    inherits "^2.0.1"
+    isarray "^2.0.1"
+    load-script "^1.0.0"
+    object-keys "^1.0.11"
+    querystring-es3 "^0.2.1"
+    reduce "^1.0.1"
+    semver "^5.1.0"
+    tunnel-agent "^0.6.0"
 
 align-text@^0.1.1, align-text@^0.1.3:
   version "0.1.4"
@@ -1811,6 +1831,12 @@ debug@2.3.3, debug@^2.1.1, debug@^2.2.0:
   dependencies:
     ms "0.7.2"
 
+debug@^2.6.8:
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
+  dependencies:
+    ms "2.0.0"
+
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
@@ -2203,7 +2229,7 @@ es6-map@^0.1.3:
     es6-symbol "~3.1.1"
     event-emitter "~0.3.5"
 
-es6-promise@^4.0.5:
+es6-promise@^4.0.5, es6-promise@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.1.0.tgz#dda03ca8f9f89bc597e689842929de7ba8cebdf0"
 
@@ -2865,7 +2891,7 @@ glob@~7.0.0:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-global@^4.3.0:
+global@^4.3.0, global@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/global/-/global-4.3.2.tgz#e76989268a6c74c38908b1305b10fc0e394e9d0f"
   dependencies:
@@ -4895,6 +4921,10 @@ ms@0.7.1:
 ms@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
+
+ms@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
 multimatch@^2.0.0:
   version "2.1.0"
@@ -6981,6 +7011,17 @@ yoast-components@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.6.0.tgz#88e8cd67088ef254eadada81adfebea1036b4417"
   dependencies:
+    i18n-calypso "^1.6.2"
+    interpolate-components "^1.1.0"
+    jed "^1.1.1"
+    whatwg-fetch "^1.0.0"
+
+"yoast-components@git+https://github.com/Yoast/yoast-components.git#release/2.7.0":
+  version "2.7.0"
+  resolved "git+https://github.com/Yoast/yoast-components.git#c164d6004c0d68c0ae6fd4c8dcb3d29bd304e98f"
+  dependencies:
+    a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
+    algoliasearch "^3.22.3"
     i18n-calypso "^1.6.2"
     interpolate-components "^1.1.0"
     jed "^1.1.1"
