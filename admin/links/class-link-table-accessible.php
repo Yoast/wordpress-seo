@@ -43,6 +43,8 @@ class WPSEO_Link_Table_Accessible {
 
 	/**
 	 * Returns the name of the transient.
+	 *
+	 * @return string The name of the transient to use.
 	 */
 	protected static function transient_name() {
 		return 'wpseo_link_table_accessible';
