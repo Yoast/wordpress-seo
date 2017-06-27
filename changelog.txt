@@ -2,6 +2,17 @@
 
 This is an archive of older changelog entries. Most recent entries are maintained in readme.txt
 
+= 4.8.0 =
+
+Release Date: May 23rd, 2017
+
+* Bugfixes
+	* Fixes a bug where the tabs in the social and advanced metabox section are gone when keyword analysis has been disabled.
+
+* Enhancements
+	* Optimizes the way the cornerstone flag is saved.
+	* Analyzes the content using cornerstone assessors when a post or page is cornerstone content.
+
 = 4.7.1 =
 
 Release Date: May 9th, 2017

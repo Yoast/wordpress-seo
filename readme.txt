@@ -124,6 +124,25 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.0.0 =
+
+Release Date: July 4th, 2017
+
+* Bugfixes
+	* Fixes a bug where images via `https` were not working, props [Jannik Zschiesche](https://github.com/apfelbox).
+
+* Enhancements
+	* Introduces a module that counts links in the content.
+	* Adds Flesch Reading for Italian.
+	* Changes 'page title' to 'seo title' in the snippet preview.
+ 	* Changes recommended maximum sentence length for Italian from 20 to 25 words, based on more in-depth research.
+ 	* Implements the extracted version of the Algolia Search which is now present in `yoast-components`.
+ 	* Adds a banner for the structured data course.
+
+ * Under the hood
+ 	* Introduces a database table to keep track of the linking structure. If the table cannot be created, a notification will be shown.
+ 	* When there are posts or pages to reindex, a notice will be shown.
+
 = 4.9.0 =
 
 Release Date: June 7th, 2017
@@ -138,17 +157,6 @@ Release Date: June 7th, 2017
 * Enhancements
 	* Removes the noodp advanced robots meta value as it is no longer used.
 	* Loads the translations only when the configuration wizard endpoint is called, instead of every time `rest_api_init` is called.
-
-= 4.8.0 =
-
-Release Date: May 23rd, 2017
-
-* Bugfixes
-	* Fixes a bug where the tabs in the social and advanced metabox section are gone when keyword analysis has been disabled.
-
-* Enhancements
-	* Optimizes the way the cornerstone flag is saved.
-	* Analyzes the content using cornerstone assessors when a post or page is cornerstone content.
 
 = Earlier versions =
 
