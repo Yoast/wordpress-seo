@@ -353,5 +353,9 @@ class WPSEO_Upgrade {
 	private function upgrade_50() {
 		$link_storage = new WPSEO_Link_Storage();
 		$link_storage->create_table();
+
+		// Trigger reindex notification.
+		$notifier = new WPSEO_Link_Notifier();
+		$notifier->manage_notification();
 	}
 }

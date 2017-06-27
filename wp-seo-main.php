@@ -171,8 +171,13 @@ function _wpseo_activate() {
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
 
+	// Create the text link storage table.
 	$storage = new WPSEO_Link_Storage();
 	$storage->create_table();
+
+	// Trigger reindex notification.
+	$notifier = new WPSEO_Link_Notifier();
+	$notifier->manage_notification();
 
 	do_action( 'wpseo_activate' );
 }
