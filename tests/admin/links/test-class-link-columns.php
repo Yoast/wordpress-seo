@@ -39,9 +39,10 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_post_columns() {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Link_Storage() );
+		$expected = array( 'wpseo-links' => '# Links in', 'wpseo-linked' => '# Links out' );
 
 		$this->assertEquals(
-			array( 'wpseo-links' => 'Links', 'wpseo-linked' => 'Linked' ),
+			$expected,
 			$link_columns->add_post_columns( array() )
 		);
 	}
