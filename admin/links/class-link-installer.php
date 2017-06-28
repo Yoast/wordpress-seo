@@ -18,14 +18,6 @@ class WPSEO_Link_Installer {
 	}
 
 	/**
-	 * Notifies the user that the content might needs to be indexed.
-	 */
-	public function notify() {
-		$notifier = new WPSEO_Link_Notifier();
-		$notifier->manage_notification();
-	}
-
-	/**
 	 * Returns the installable objects.
 	 *
 	 * @return WPSEO_Installable[]
