@@ -27,7 +27,7 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 		}
 
 		$this->table_prefix = $table_prefix;
-		$this->database_proxy = new WPSEO_Database_Proxy( $this->get_table_name(), true );
+		$this->database_proxy = new WPSEO_Database_Proxy( $GLOBALS['wpdb'], $this->get_table_name(), true );
 	}
 
 	/**
