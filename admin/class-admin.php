@@ -724,7 +724,7 @@ class WPSEO_Admin {
 		}
 
 		whip_wp_check_versions( array(
-			'php' => '>=5.3',
+			'php' => '>=5.4',
 		) );
 	}
 
