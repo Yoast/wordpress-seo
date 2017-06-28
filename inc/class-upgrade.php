@@ -351,9 +351,9 @@ class WPSEO_Upgrade {
 	 * Adds the yoast_seo_links table to the database.
 	 */
 	private function upgrade_50() {
-		$link_storage = new WPSEO_Link_Storage();
-		$link_storage->create_table();
-
+		$link_installer = new WPSEO_Link_Installer();
+		$link_installer->install();
+		
 		// Trigger reindex notification.
 		$notifier = new WPSEO_Link_Notifier();
 		$notifier->manage_notification();
