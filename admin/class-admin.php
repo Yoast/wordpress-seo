@@ -770,7 +770,7 @@ class WPSEO_Admin {
 		$storage = new WPSEO_Link_Storage();
 
 		$seo_links = new WPSEO_Link_Watcher(
-			new WPSEO_Link_Content_Processor( $storage )
+			new WPSEO_Link_Content_Processor( $storage, new WPSEO_Link_Count_Storage() )
 		);
 		$seo_links->register_hooks();
 
