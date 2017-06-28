@@ -48,14 +48,14 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 		return $this->database_proxy->create_table(
 			array(
 				'id bigint(20) unsigned NOT NULL AUTO_INCREMENT',
-                'url varchar(255) NOT NULL',
-                'post_id bigint(20) unsigned NOT NULL',
-                'target_post_id bigint(20) unsigned NOT NULL',
-                'type VARCHAR(8) NOT NULL',
+				'url varchar(255) NOT NULL',
+				'post_id bigint(20) unsigned NOT NULL',
+				'target_post_id bigint(20) unsigned NOT NULL',
+				'type VARCHAR(8) NOT NULL',
 			),
 			array(
 				'PRIMARY KEY (id)',
-                'KEY link_direction (post_id, type)',
+				'KEY link_direction (post_id, type)',
 			)
 		);
 	}

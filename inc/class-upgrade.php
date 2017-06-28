@@ -353,7 +353,7 @@ class WPSEO_Upgrade {
 	private function upgrade_50() {
 		$link_installer = new WPSEO_Link_Installer();
 		$link_installer->install();
-		
+
 		// Trigger reindex notification.
 		$notifier = new WPSEO_Link_Notifier();
 		$notifier->manage_notification();

@@ -17,7 +17,7 @@ class WPSEO_Link_Installer {
 	public function __construct() {
 		$this->installables = array(
 			new WPSEO_Link_Storage(),
-			new WPSEO_Link_Count_Storage()
+			new WPSEO_Link_Count_Storage(),
 		);
 	}
 
@@ -25,7 +25,7 @@ class WPSEO_Link_Installer {
 	 * Runs the installation of the link module.
 	 */
 	public function install() {
-		foreach( $this->get_installables() as $installable ) {
+		foreach ( $this->get_installables() as $installable ) {
 			$installable->install();
 		}
 	}
@@ -42,7 +42,7 @@ class WPSEO_Link_Installer {
 	/**
 	 * Returns the installable objects.
 	 *
-	 * @return WPSEO_Installable[]
+	 * @return WPSEO_Installable[] The installables to use.
 	 */
 	protected function get_installables() {
 		return $this->installables;
