@@ -46,7 +46,5 @@ class WPSEO_Link_Content_Processor {
 		$this->storage->cleanup( $post_id );
 		$this->storage->save_links( $post_id, $links );
 
-		// Update post meta to flag that processing has been done.
-		update_post_meta( $post_id, WPSEO_Link_Factory::get_index_meta_key(), '1' );
 	}
 }
