@@ -8,14 +8,8 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$storage = new WPSEO_Link_Storage();
-		$storage->create_table();
-		$storage->save_links(
-			100,
-			array(
-				new WPSEO_Link( 'url', 1, 'internal' ),
-			)
-		);
+		$installer = new WPSEO_Link_Installer();
+		$installer->install();
 	}
 
 	/**
@@ -114,6 +108,15 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	 * Test get_results
 	 */
 	public function test_get_results() {
+
+		$storage = new WPSEO_Link_Storage();
+		$storage->save_links(
+			100,
+			array(
+				new WPSEO_Link( 'url', 1, 'internal' ),
+			)
+		);
+
 		$column_count = new WPSEO_Link_Column_Count( 'post_id' );
 		$column_count->set( array( 100 ) );
 
