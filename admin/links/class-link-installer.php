@@ -8,6 +8,19 @@
  */
 class WPSEO_Link_Installer {
 
+	/** @var WPSEO_Installable[]  */
+	protected $installables = array();
+
+	/**
+	 * Sets the installables.
+	 */
+	public function __construct() {
+		$this->installables = array(
+			new WPSEO_Link_Storage(),
+			new WPSEO_Link_Count_Storage()
+		);
+	}
+
 	/**
 	 * Runs the installation of the link module.
 	 */
@@ -18,14 +31,20 @@ class WPSEO_Link_Installer {
 	}
 
 	/**
+	 * Adds a installable object to the installer.
+	 *
+	 * @param WPSEO_Installable $installable The installable object.
+	 */
+	public function add_installable( WPSEO_Installable $installable ) {
+		$this->installables[] = $installable;
+	}
+
+	/**
 	 * Returns the installable objects.
 	 *
 	 * @return WPSEO_Installable[]
 	 */
 	protected function get_installables() {
-		return array(
-			new WPSEO_Link_Storage(),
-			new WPSEO_Link_Count_Storage()
-		);
+		return $this->installables;
 	}
 }
