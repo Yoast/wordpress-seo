@@ -48,8 +48,8 @@ class WPSEO_Link_Count_Storage implements WPSEO_Installable {
 		return $this->database_proxy->create_table(
 			array(
 				'post_id bigint(20) UNSIGNED NOT NULL',
-				'link_count bigint(20) UNSIGNED NOT NULL DEFAULT "0"',
-				'incoming_link_count bigint(20) UNSIGNED NULL DEFAULT NULL',
+				'link_count int(10) UNSIGNED NOT NULL DEFAULT "0"',
+				'incoming_link_count int(10) UNSIGNED NULL DEFAULT NULL',
 			),
 			array(
 				'UNIQUE KEY post_id (post_id)',
