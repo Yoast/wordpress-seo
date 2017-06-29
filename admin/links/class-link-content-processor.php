@@ -39,6 +39,7 @@ class WPSEO_Link_Content_Processor {
 		$links = $link_processor->build( $extracted_links );
 
 		$this->store_links( $post_id, $links );
+		$this->store_link_count( $post_id, count( $links ) );
 	}
 
 	/**
@@ -50,6 +51,21 @@ class WPSEO_Link_Content_Processor {
 	protected function store_links( $post_id, array $links ) {
 		$this->storage->cleanup( $post_id );
 		$this->storage->save_links( $post_id, $links );
+	}
 
+	/**
+	 * Stores the total links for the post.
+	 *
+	 * @param int $post_id    The post id.
+	 * @param int $link_count Total amount of links in the post.
+	 */
+	protected function store_link_count( $post_id, $link_count ) {
+		$this->count_storage->cleanup( $post_id );
+		$this->count_storage->save_link_count( $post_id, $link_count );
+
+		// When there are unprocess posts, just break out of this.
+		if ( WPSEO_Link_Query::has_unprocessed_posts( WPSEO_Link_Utils::get_public_post_types() ) ) {
+			$this->count_storage->update_incoming_link_counts( $this->storage );
+		}
 	}
 }
