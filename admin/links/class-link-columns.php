@@ -14,7 +14,7 @@ class WPSEO_Link_Columns {
 	/** @var WPSEO_Link_Column_Count */
 	protected $link_count;
 
-	/** @var WPSEO_Link_Storage Storage to use. */
+	/** @var WPSEO_Link_Count_Storage Storage to use. */
 	protected $storage;
 
 	/** @var array List of public post types. */
@@ -23,9 +23,9 @@ class WPSEO_Link_Columns {
 	/**
 	 * WPSEO_Link_Columns constructor.
 	 *
-	 * @param WPSEO_Link_Storage $storage The storage object to use.
+	 * @param WPSEO_Link_Count_Storage $storage The storage object to use.
 	 */
-	public function __construct( WPSEO_Link_Storage $storage ) {
+	public function __construct( WPSEO_Link_Count_Storage $storage ) {
 		$this->storage = $storage;
 	}
 
@@ -68,7 +68,7 @@ class WPSEO_Link_Columns {
 			return $pieces;
 		}
 
-		return $this->build_sort_query_pieces( $pieces, $query, 'post_id' );
+		return $this->build_sort_query_pieces( $pieces, $query, 'link_count' );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class WPSEO_Link_Columns {
 			return $pieces;
 		}
 
-		return $this->build_sort_query_pieces( $pieces, $query, 'target_post_id' );
+		return $this->build_sort_query_pieces( $pieces, $query, 'incoming_link_count' );
 	}
 
 	/**
@@ -114,25 +114,8 @@ class WPSEO_Link_Columns {
 
 		$table = $this->storage->get_table_name();
 
-		$pieces['join']    .= " LEFT JOIN $table AS yst_links ON yst_links.{$field} = {$wpdb->posts}.ID ";
-		$pieces['orderby'] = "COUNT( yst_links.{$field} ) $order, FIELD( {$wpdb->posts}.post_status, 'publish' ) $order, {$pieces['orderby']}";
-
-		// Make sure we don't introduce duplicate groupby fields.
-		$groupby = explode( ',', $pieces['groupby'] );
-		$groupby = array_filter( $groupby );
-		$groupby = array_map( 'trim', $groupby );
-
-		// Add the required fields to the list.
-		$groupby[] = "yst_links.{$field}";
-		$groupby[] = "{$wpdb->posts}.ID";
-
-		// Strip out any duplicates.
-		$groupby = array_unique( $groupby );
-
-		// Convert to string again.
-		$groupby = implode( ',', $groupby );
-
-		$pieces['groupby'] = $groupby;
+		$pieces['join']    .= " LEFT JOIN $table AS yst_links ON yst_links.post_id = {$wpdb->posts}.ID ";
+		$pieces['orderby'] = "{$field} $order, FIELD( {$wpdb->posts}.post_status, 'publish' ) $order, {$pieces['orderby']}";
 
 		return $pieces;
 	}
