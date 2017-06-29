@@ -24,20 +24,16 @@ class WPSEO_Link_Query {
 		$sanitized_post_types = array_map( 'esc_sql', $post_types );
 		$post_types           = sprintf( '"%s"', implode( '", "', $sanitized_post_types ) );
 
+		$count_table = self::get_count_table_name();
+
 		// Get any object which has not got the processed meta key.
-		$query = $wpdb->prepare( '
-		SELECT ID
-		  FROM ' . $wpdb->posts . ' AS p
-		 WHERE p.post_type IN ( ' . $post_types . ' )
-		   AND p.post_status = "publish"
-		   AND NOT EXISTS ( 
-		   	SELECT *
-		   	  FROM ' . $wpdb->postmeta . ' AS pm
-		   	 WHERE p.ID = pm.post_id
-		   	   AND meta_key = "%1$s" )
-		 LIMIT 1',
-			WPSEO_Link_Factory::get_index_meta_key()
-		);
+		$query = '
+			SELECT ID
+			  FROM ' . $wpdb->posts . ' AS p
+			 WHERE p.post_type IN ( ' . $post_types . ' )
+			   AND p.post_status = "publish"
+			   AND ID NOT IN( SELECT post_id FROM ' . $count_table . ' ) 
+			 LIMIT 1';
 
 		// If anything is found, we have unprocessed posts.
 		$results = $wpdb->get_var( $query );
@@ -60,14 +56,13 @@ class WPSEO_Link_Query {
 			return $post_ids;
 		}
 
-		$query = $wpdb->prepare(
-			'
-		SELECT post_id
-		  FROM ' . $wpdb->postmeta . '
-		 WHERE post_id IN ( ' . implode( ',', $post_ids ) . ' )
-		   AND meta_key = "%s"',
-			WPSEO_Link_Factory::get_index_meta_key()
-		);
+		$count_table = self::get_count_table_name();
+
+		$query = '
+			SELECT post_id
+			  FROM ' . $count_table . '
+			 WHERE post_id IN ( ' . implode( ',', $post_ids ) . ' )
+			';
 
 		$results = $wpdb->get_results( $query, ARRAY_A );
 
@@ -86,22 +81,22 @@ class WPSEO_Link_Query {
 	public static function get_unprocessed_posts( $post_type, $limit = 5 ) {
 		global $wpdb;
 
+		$count_table = self::get_count_table_name();
+
 		// @codingStandardsIgnoreStart
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
 				SELECT ID, post_content
 				  FROM ' . $wpdb->posts . ' 
 				 WHERE post_status = "publish" 
-				   AND post_type = "%2$s"
-				   AND ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%1$s" ) 
-				 LIMIT %3$d
+				   AND post_type = "%1$s"
+				   AND ID NOT IN( SELECT post_id FROM ' . $count_table . ' ) 
+				 LIMIT %2$d
 				',
-				WPSEO_Link_Factory::get_index_meta_key(),
 				$post_type,
 				$limit
 			)
 		);
-
 		// @codingStandardsIgnoreEnd
 
 		return $results;
@@ -124,17 +119,16 @@ class WPSEO_Link_Query {
 		$sanitized_post_types = array_map( 'esc_sql', $post_types );
 		$post_types           = sprintf( '"%s"', implode( '", "', $sanitized_post_types ) );
 
+		$count_table = self::get_count_table_name();
+
 		// @codingStandardsIgnoreStart
-		$query = $wpdb->prepare( '
-				SELECT COUNT( ID ) as total, post_type
-				  FROM ' . $wpdb->posts . ' 
-				 WHERE post_status = "publish" 
-				   AND post_type IN ( ' . $post_types . ' )
-				   AND ID NOT IN ( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%1$s" )
-			  GROUP BY post_type
-				',
-			WPSEO_Link_Factory::get_index_meta_key()
-		);
+		$query = '
+			SELECT COUNT( ID ) as total, post_type
+			  FROM ' . $wpdb->posts . ' 
+			 WHERE post_status = "publish" 
+			   AND post_type IN ( ' . $post_types . ' ) 
+			   AND ID NOT IN ( SELECT post_id FROM ' . $count_table . ' )
+		  GROUP BY post_type';
 		// @codingStandardsIgnoreEnd
 
 		$results = $wpdb->get_results( $query );
@@ -145,5 +139,17 @@ class WPSEO_Link_Query {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Returns the table name where the counts are stored.
+	 *
+	 * @return string
+	 */
+	protected static function get_count_table_name() {
+		$storage     = new WPSEO_Link_Count_Storage();
+		$count_table = $storage->get_table_name();
+
+		return $count_table;
 	}
 }
