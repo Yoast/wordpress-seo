@@ -12,10 +12,7 @@ class WPSEO_Link_Columns {
 	const COLUMN_LINKS = 'links';
 
 	/** @var WPSEO_Link_Column_Count */
-	protected $count_linked;
-
-	/** @var WPSEO_Link_Column_Count */
-	protected $count_links;
+	protected $link_count;
 
 	/** @var WPSEO_Link_Storage Storage to use. */
 	protected $storage;
@@ -199,14 +196,10 @@ class WPSEO_Link_Columns {
 
 		$post_ids = WPSEO_Link_Query::filter_unprocessed_posts( $post_ids );
 
-		$linked = new WPSEO_Link_Column_Count( 'target_post_id' );
-		$linked->set( $post_ids );
-
-		$links = new WPSEO_Link_Column_Count( 'post_id' );
+		$links = new WPSEO_Link_Column_Count();
 		$links->set( $post_ids );
 
-		$this->count_linked = $linked;
-		$this->count_links  = $links;
+		$this->link_count = $links;
 	}
 
 	/**
@@ -218,10 +211,10 @@ class WPSEO_Link_Columns {
 	public function column_content( $column_name, $post_id ) {
 		switch ( $column_name ) {
 			case 'wpseo-' . self::COLUMN_LINKS :
-				echo $this->count_links->get( $post_id );
+				echo $this->link_count->get( $post_id, 'link_count' );
 				break;
 			case 'wpseo-' . self::COLUMN_LINKED :
-				echo $this->count_linked->get( $post_id );
+				echo $this->link_count->get( $post_id, 'incoming_link_count' );
 				break;
 		}
 	}

@@ -11,18 +11,6 @@ class WPSEO_Link_Column_Count {
 	/** @var array */
 	protected $count = array();
 
-	/** @var string */
-	protected $target_field;
-
-	/**
-	 * Sets the target field to use.
-	 *
-	 * @param string $target_field The field to get.
-	 */
-	public function __construct( $target_field ) {
-		$this->target_field = $target_field;
-	}
-
 	/**
 	 * Sets the counts for the set target field.
 	 *
@@ -39,13 +27,14 @@ class WPSEO_Link_Column_Count {
 	/**
 	 * Gets the link count for given post id.
 	 *
-	 * @param int $post_id The post id.
+	 * @param int    $post_id      The post id.
+	 * @param string $target_field The field to show.
 	 *
 	 * @return int The total amount of links.
 	 */
-	public function get( $post_id ) {
-		if ( array_key_exists( $post_id, $this->count ) ) {
-			return (int) $this->count[ $post_id ];
+	public function get( $post_id, $target_field = 'link_count' ) {
+		if ( array_key_exists( $post_id, $this->count ) && array_key_exists( $target_field, $this->count[ $post_id ] ) ) {
+			return (int) $this->count[ $post_id ][ $target_field ];
 		}
 
 		return null;
@@ -61,15 +50,13 @@ class WPSEO_Link_Column_Count {
 	protected function get_results( $post_ids ) {
 		global $wpdb;
 
-		$storage = new WPSEO_Link_Storage();
+		$storage = new WPSEO_Link_Count_Storage();
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
-				SELECT COUNT( id ) as total, %1$s as source_id
+				SELECT link_count, incoming_link_count, post_id
 				FROM ' . $storage->get_table_name() . '
-			    WHERE %1$s IN ( %2$s )
-				GROUP BY %1$s',
-				$this->target_field,
+			    WHERE post_id IN ( %1$s )',
 				implode( ',', $post_ids )
 			),
 			ARRAY_A
@@ -77,13 +64,19 @@ class WPSEO_Link_Column_Count {
 
 		$output = array();
 		foreach ( $results as $result ) {
-			$output[ (int) $result['source_id'] ] = $result['total'];
+			$output[ (int) $result['post_id'] ] = array(
+				'link_count' => $result['link_count'],
+				'incoming_link_count' => $result['incoming_link_count'],
+			);
 		}
 
 		// Set unfound items to zero.
 		foreach ( $post_ids as $post_id ) {
 			if ( ! array_key_exists( $post_id, $output ) ) {
-				$output[ $post_id ] = 0;
+				$output[ $post_id ] = array(
+					'link_count'          => 0,
+					'incoming_link_count' => 0,
+				);
 			}
 		}
 

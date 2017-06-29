@@ -54,8 +54,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Link_Storage() );
 		$link_columns->set_count_objects();
 
-		$this->assertAttributeInstanceOf( 'WPSEO_Link_Column_Count', 'count_linked', $link_columns );
-		$this->assertAttributeInstanceOf( 'WPSEO_Link_Column_Count', 'count_links', $link_columns );
+		$this->assertAttributeInstanceOf( 'WPSEO_Link_Column_Count', 'link_count', $link_columns );
 	}
 
 	/**
