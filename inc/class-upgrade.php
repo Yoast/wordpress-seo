@@ -360,7 +360,7 @@ class WPSEO_Upgrade {
 		$notifier = new WPSEO_Link_Notifier();
 		$notifier->manage_notification();
 
-		// Deletes the post meta value, which might created in the RC
+		// Deletes the post meta value, which might created in the RC.
 		$wpdb->query( 'DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_key = "_yst_content_links_processed"' );
 	}
 }
