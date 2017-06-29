@@ -3,7 +3,7 @@ var App = require( "../../js/app" );
 var PreviouslyUsedKeywords = require( "../../js/bundledPlugins/previouslyUsedKeywords.js" );
 var TestPlugin = require( "./example-plugin-test.js" );
 
-var forEach = require( "lodash/foreach" );
+var forEach = require( "lodash/forEach" );
 var escape = require( "lodash/escape" );
 /**
  * binds the renewData function on the change of inputelements.
