@@ -351,11 +351,16 @@ class WPSEO_Upgrade {
 	 * Adds the yoast_seo_links table to the database.
 	 */
 	private function upgrade_50() {
+		global $wpdb;
+
 		$link_installer = new WPSEO_Link_Installer();
 		$link_installer->install();
 
 		// Trigger reindex notification.
 		$notifier = new WPSEO_Link_Notifier();
 		$notifier->manage_notification();
+
+		// Deletes the post meta value, which might created in the RC
+		$wpdb->query( 'DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_key = "_yst_content_links_processed"' );
 	}
 }
