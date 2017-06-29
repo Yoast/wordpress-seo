@@ -7,6 +7,7 @@ let englishFunctionWords = require( "../researches/english/functionWords.js" );
 let dutchFunctionWords = require( "../researches/dutch/functionWords.js" );
 let spanishFunctionWords = require( "../researches/spanish/functionWords.js" );
 let italianFunctionWords = require( "../researches/italian/functionWords.js" );
+let frenchFunctionWords = require( "../researches/french/functionWords.js" );
 let countSyllables = require( "../stringProcessing/syllables/count.js" );
 let getLanguage = require( "../helpers/getLanguage.js" );
 
@@ -27,7 +28,7 @@ let relevantWordLimit = 100;
 let wordCountLowerLimit = 200;
 
 // En dash, em dash, hyphen-minus, and hash.
-let specialCharacters = [ "–", "—", "-", "#" ];
+let specialCharacters = [ "–", "—", "-", "#", "%" ];
 
 /**
  * Returns the word combinations for the given text based on the combination size.
@@ -232,7 +233,12 @@ function filterCombinations( combinations, functionWords, locale ) {
 		case "it":
 			combinations = filterFunctionWords( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().infinitives );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
+            combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
+            break;
+        case "fr":
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
+            combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			break;
 		case "de":
 		case "nl":
@@ -259,6 +265,9 @@ function getRelevantWords( text, locale ) {
 			break;
 		case "nl":
 			functionWords = dutchFunctionWords;
+			break;
+		case "fr":
+			functionWords = frenchFunctionWords;
 			break;
 		case "es":
 			functionWords = spanishFunctionWords;

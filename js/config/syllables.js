@@ -1,24 +1,22 @@
 /** @module config/syllables */
 
-var getLanguage = require( "../helpers/getLanguage.js" );
-var isUndefined = require( "lodash/isUndefined" );
+let getLanguage = require( "../helpers/getLanguage.js" );
+let isUndefined = require( "lodash/isUndefined" );
 
-var de = require( "./syllables/de.json" );
-var en = require( './syllables/en.json' );
-var nl = require( './syllables/nl.json' );
+let de = require( "./syllables/de.json" );
+let en = require( './syllables/en.json' );
+let nl = require( './syllables/nl.json' );
+let it = require( './syllables/it.json' );
 
-module.exports = function( locale ) {
-	if ( isUndefined( locale ) ) {
-		locale = "en_US"
+let languages = { de, nl, en, it };
+
+module.exports = function( locale = "en_US" ) {
+	let language = getLanguage( locale );
+
+	if( languages.hasOwnProperty( language ) ) {
+		return languages[ language ];
 	}
 
-	switch( getLanguage( locale ) ) {
-		case "de":
-			return de;
-		case "nl":
-			return nl;
-		case "en":
-		default:
-			return en;
-	}
+	// If an unknown locale is used, default to English.
+	return languages[ "en" ];
 };

@@ -22,6 +22,7 @@ describe( "gets Spanish word combinations", function() {
 			new WordCombination( [ 'tormenta', 'de', 'nieve' ], 19, spanishFunctionWords ),
 			new WordCombination( [ 'no', 'pudimos', 'ir', 'a', 'trabajar' ], 19, spanishFunctionWords ),
 			new WordCombination( [ 'pudimos', 'ir', 'a', 'trabajar' ], 19, spanishFunctionWords ),
+			new WordCombination( [ 'ir', 'a', 'trabajar' ], 19, spanishFunctionWords ),
 			new WordCombination( [ 'hubo', 'una', 'tormenta' ], 19, spanishFunctionWords ),
 			new WordCombination( [ "trabajar" ], 19, spanishFunctionWords ),
 			new WordCombination( [ "tormenta" ], 19, spanishFunctionWords ),
