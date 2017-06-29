@@ -27,7 +27,8 @@ let demonstrativePronouns = [ "ciò", "codesto", "codesta", "codesti", "codeste"
 	"costei", "costui", "costoro", "medesimo", "medesima", "medesimi", "medesime", "questo", "questa",
 	"questi", "queste", "quello", "quella", "quelli", "quelle", "quel", "quei", "quegli" ];
 
-let possessivePronouns = [ "mio", "mia", "tuo", "tua", "suo", "sua", "nostro", "nostra", "vostro", "vostra", "loro" ];
+let possessivePronouns = [ "mio", "mia", "miei", "mie", "tuo", "tua", "tuoi", "tue", "suo", "sua", "suoi", "sue",
+	"nostro", "nostra", "nostri", "nostre", "vostro", "vostra", "vostro", "vostre" ];
 
 // Already in the list of transition words: appena
 let quantifiers = [ "abbastanza", "affatto", "assai", "alcun", "alcuna", "alcune", "alcuni", "alcuno", "alquanto", "bastantemente",
@@ -46,7 +47,7 @@ let indefinitePronouns = [ "alcunché", "alcunchè", "altro", "altra", "altri", 
 	"diverse", "parecchio", "parecchia", "parecchi", "parecchie", "qualcosa", "qualcuno", "qualcuna", "vario", "varia",
 	"vari", "varie" ];
 
-let interrogativeDeterminers = [ "che", "cosa", "cui", "qual", "quale" ];
+let interrogativeDeterminers = [ "che", "cosa", "cui", "qual", "quale", "quali" ];
 
 let interrogativePronouns = [ "chi", "quali", "quanta", "quante", "quanti", "quanto" ];
 
@@ -68,7 +69,7 @@ let filteredPassiveAuxiliaries = [ "vengano", "vengo", "vengono", "veniamo", "ve
 	"vennero", "venni", "verrà", "verrai", "verranno", "verrebbe", "verrebbero", "verrei", "verremmo",
 	"verremo", "verreste", "verresti", "verrete", "verrò", "viene", "vieni" ];
 
-let infinitivePassiveAuxiliaries = [ "venire" ];
+let infinitivePassiveAuxiliaries = [ "venire", "venir" ];
 
 let otherAuxiliaries = [ "abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbiente", "avemmo", "avendo", "avente", "avesse", "avessero", "avessi",
 	"avessimo", "aveste", "avesti", "avete", "aveva", "avevamo", "avevano", "avevate", "avevi", "avevo", "avrà", "avrai",
@@ -98,26 +99,27 @@ let otherAuxiliaries = [ "abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbi
 	"stesse", "stessero", "stessi", "stessimo", "steste", "stesti", "stette", "stettero", "stetti", "stia",
 	"stiamo", "stiano", "stiate", "sto" ];
 
-let otherAuxiliariesInfinitive = [ "avere", "potere", "volere", "dovere", "sapere", "solere", "stare" ];
+let otherAuxiliariesInfinitive = [ "avere", "aver", "potere", "poter", "volere", "poter", "dovere", "dover", "sapere", "saper", "solere",
+	"stare", "star" ];
 
 let copula = [ "è", "e'", "era", "erano", "eravamo", "eravate", "eri", "ero", "essendo", "essente", "fosse", "fossero", "fossi", "fossimo",
 	"foste", "fosti", "fu", "fui", "fummo", "furono", "sarà", "sarai", "saranno", "sarebbe", "sarebbero", "sarei",
 	"saremmo", "saremo", "sareste", "saresti", "sarete", "sarò", "sei", "sia", "siamo", "siano", "siate", "siete",
 	"sii", "sono", "stata", "state", "stati", "stato" ];
 
-let copulaInfinitive = [ "essere" ];
+let copulaInfinitive = [ "essere", "esser" ];
 
 /* 'Verso' ('towards') not included because it can also mean 'verse'.
 Already in other lists: malgrado, nonostante
  */
-let prepositions = [ "di", "del", "dello", "della", "dei", "degli", "delle", "a", "al", "allo", "alla", "ai", "agli", "alle",
+let prepositions = [ "di", "del", "dello", "della", "dei", "degli", "delle", "a", "ad", "al", "allo", "alla", "ai", "agli", "alle",
 	"da", "dal", "dallo", "dalla", "dai", "dagli", "dalle", "in", "nel", "nello", "nella", "nei", "negli", "nelle",
 	"con", "col", "collo", "colla", "coi", "cogli", "colle", "su", "sul", "sullo", "sulla", "sui", "sugli", "sulle",
 	"per", "pel", "pello", "pella", "pei", "pegli", "tra", "fra", "attraverso", "circa", "contro", "davanti", "dentro", "dietro",
 	"dopo", "durante", "eccetto", "entro", "escluso", "fuori", "insieme", "intorno", "lontano", "lungo",
 	"mediante", "oltre", "presso", "rasente", "riguardo", "senza", "sopra", "sotto", "tramite", "tranne", "vicino" ];
 
-let coordinatingConjunctions = [ "e", "ma", "o", "oppure" ];
+let coordinatingConjunctions = [ "e", "ed", "ma", "o", "oppure" ];
 
 /* 'Tale' from 'tale ... quale'
 'Dall'altra' from 'da una parte... dall'altra'
@@ -230,6 +232,7 @@ module.exports = function() {
 		quantifiers: quantifiers,
 		interrogatives: interrogativePronouns.concat( interrogativeAdverbs, interrogativeDeterminers, interrogativeAdjectives ),
 		passiveAuxiliaries: filteredPassiveAuxiliaries,
+		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeAdjectives, interrogativeAdverbs ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		miscellaneous: miscellaneous,
 		pronominalAdverbs: pronominalAdverbs,
@@ -241,7 +244,7 @@ module.exports = function() {
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
 			interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers, interrogativeAdjectives,
 			pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, infinitivePassiveAuxiliaries,
-			otherAuxiliaries, otherAuxiliariesInfinitive, copula, prepositions, coordinatingConjunctions, correlativeConjunctions,
+			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, delexicalisedVerbsInfinitive,
 			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, timeWords ),
