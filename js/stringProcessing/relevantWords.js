@@ -233,12 +233,12 @@ function filterCombinations( combinations, functionWords, locale ) {
 		case "it":
 			combinations = filterFunctionWords( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().infinitives );
-            combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
-            break;
-        case "fr":
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
+			break;
+		case "fr":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
-            combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			break;
 		case "de":
 		case "nl":
