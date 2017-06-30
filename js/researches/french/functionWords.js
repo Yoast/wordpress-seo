@@ -7,9 +7,11 @@ let transitionWords = require( "./transitionWords.js" )().singleWords;
 
 let articles = [ "le", "la", "les", "un", "une", "des", "aux", "du", "au", "d'un", "d'une" ];
 
-let numerals = [ "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze",
+let cardinalNumerals = [ "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze",
 	"quinze", "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix",
-	"quatre-vingt", "quatre-vingt-dix", "cent", "mille", "million", "milliard", "premier", "première", "deuxième", "troisième",
+	"quatre-vingt", "quatre-vingt-dix", "cent", "mille", "million", "milliard" ];
+
+let ordinalNumerals = [ "premier", "première", "deuxième", "troisième",
 	"quatrième", "cinquième", "sixième", "septième", "huitième", "neuvième", "dixième", "onzième", "douzième", "treizième",
 	"quatorzième", "quinzième", "seizième", "dix-septième", "dix-huitième", "dix-neuvième", "vingtième" ];
 
@@ -167,7 +169,7 @@ let intensifiers = [ "assez", "trop", "tellement", "presque", "extrêmement", "t
 	"plutôt", "fort" ];
 
 // These verbs convey little meaning.
-let delexicalisedVerbs = [ "ont-ils", "ont-elles", "j'eus", "eus", "eut", "eûmes", "eûtes", "eurent", "j'avais", "avais", "avait", "avions", "aviez",
+let delexicalizedVerbs = [ "ont-ils", "ont-elles", "j'eus", "eus", "eut", "eûmes", "eûtes", "eurent", "j'avais", "avais", "avait", "avions", "aviez",
 	"avaient", "j'aurai", "aurai", "auras", "aura", "aurons", "aurez", "auront", "eu", "fais", "fait", "faisons", "faites", "font", "fais-je",
 	"fait-il", "fait-elle", "fait-on", "faisons-nous", "faites-vous", "font-ils", "font-elles", "fis", "fit", "fîmes", "fîtes", "firent", "faisais",
 	"faisait", "faisions", "faisiez", "faisaient", "ferai", "feras", "fera", "ferons", "ferez", "feront", "veux", "veut", "voulons", "voulez",
@@ -175,25 +177,34 @@ let delexicalisedVerbs = [ "ont-ils", "ont-elles", "j'eus", "eus", "eut", "eûme
 	"voudras", "voudra", "voudrons", "voudrez", "voudront", "voulu", "veux-je", "veux-tu", "veut-il", "veut-elle", "veut-on", "voulons-nous",
 	"voulez-vous", "veulent-ils", "veulent-elles", "voudrais", "voudrait", "voudrions", "voudriez", "voudraient", "voulant" ];
 
-let delexicalisedVerbsInfinitive = [ "avoir", "faire", "vouloir" ];
+let delexicalizedVerbsInfinitive = [ "avoir", "faire", "vouloir" ];
 
-// These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
-// Keyword combinations containing these adjectives/adverbs are fine.
-let generalAdjectivesAdverbs = [ "nouveau", "nouvel", "nouvelle", "nouveaux", "nouvelles", "vieux", "vieil", "vieille", "vieux", "vieilles",
-	"antérieur", "antérieures", "antérieurs", "antérieure", "précédent", "précédents", "précédente", "précédentes", "beau", "bel", "belle", "beau",
-	"belles", "bon", "bons", "bonne", "bonnes", "grand", "grande", "grands", "grandes", "facile", "faciles", "simple", "simples", "vite", "vites",
-	"vitesse", "vitesses", "difficile", "difficiles", "propre", "propres", "long", "longe", "longs", "longes", "longue", "longues", "bas", "basse",
-	"basses", "haut", "hauts", "haute", "hautes", "ordinaire", "ordinaires", "petit", "petite", "petits", "petites", "bref", "brefs", "brève",
-	"brèves", "sûr", "sûrs", "sûre", "sûres", "sure", "sures", "surs", "habituel", "habituels", "habituelle", "habituelles", "soi-disant", "surtout",
-	"récent", "récents", "récente", "récentes", "total", "totaux", "totale", "totales", "complet", "complets", "complète", "complètes", "possible",
-	"possibles", "communément", "constamment", "facilement", "continuellement", "directement", "presque", "légèrement", "environ", "dernier",
-	"derniers", "dernière", "dernières", "différent", "différents", "différente", "différentes", "autre", "autres", "similaire", "similaires",
-	"pareil", "pareils", "pareille", "pareilles", "largement", "beaucoup", "mauvais", "mauvaise", "mauvaises", "mal", "super", "meilleur",
-	"meilleurs", "meilleure", "meilleures", "bien", "pire", "pires", "joli", "jolis", "jolie", "jolies", "gros", "grosse", "grosses", "suivant",
+/* These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
+ Keyword combinations containing these adjectives/adverbs are fine.
+ 'Dernier' is also included in generalAdjectivesAdverbsPreceding because it can be used both before and after a noun.
+ */
+let generalAdjectivesAdverbs = [ "antérieur", "antérieures", "antérieurs", "antérieure", "précédent", "précédents", "précédente",
+	"précédentes",  "facile", "faciles", "simple", "simples", "vite", "vites", "vitesse", "vitesses", "difficile", "difficiles",
+	"propre", "propres", "long", "longe", "longs", "longes", "longue", "longues", "bas", "basse",
+	"basses", "ordinaire", "ordinaires", "bref", "brefs", "brève", "brèves", "sûr", "sûrs", "sûre", "sûres", "sure", "sures",
+	"surs", "habituel", "habituels", "habituelle", "habituelles", "soi-disant", "surtout",
+	"récent", "récents", "récente", "récentes", "total", "totaux", "totale", "totales", "complet", "complets", "complète",
+	"complètes", "possible", "possibles", "communément", "constamment", "facilement", "continuellement", "directement",
+	"presque", "légèrement", "environ", "dernier", "derniers", "dernière", "dernières", "différent", "différents", "différente",
+	"différentes", "autre", "autres", "similaire", "similaires",
+	"pareil", "pareils", "pareille", "pareilles", "largement", "beaucoup", "mal", "super", "bien", "pire", "pires", "suivant",
 	"suivants", "suivante", "suivantes", "prochain", "prochaine", "prochains", "prochaines", "proche", "proches", "fur" ];
 
-let interjections = [ "ah", "ha", "oh", "ho", "bis", "plouf", "vlan", "ciel", "pouf", "paf", "crac", "enfin", "hurrah", "allo", "stop", "bravo", "ô",
-	"eh", "hé", "aïe", "oef", "ahi", "fi", "zest", "ça", "hem", "holà", "chut", "si", "voilà" ];
+// 'Dernier' is also included in generalAdjectivesAdverbs because it can be used both before and after a noun.
+let generalAdjectivesAdverbsPreceding = [ "nouveau", "nouvel", "nouvelle", "nouveaux", "nouvelles", "vieux", "vieil",
+	"vieille", "vieux", "vieilles", "beau", "bel", "belle", "beau",
+	"belles", "bon", "bons", "bonne", "bonnes", "grand", "grande", "grands", "grandes", "haut", "hauts", "haute", "hautes",
+	"petit", "petite", "petits", "petites", "meilleur",
+	"meilleurs", "meilleure", "meilleures", "joli", "jolis", "jolie", "jolies", "gros", "grosse", "grosses", "mauvais", "mauvaise",
+	"mauvaises", "derniers", "dernière", "dernières" ];
+
+let interjections = [ "ah", "ha", "oh", "ho", "bis", "plouf", "vlan", "ciel", "pouf", "paf", "crac", "enfin", "hurrah",
+	"allo", "stop", "bravo", "ô", "eh", "hé", "aïe", "oef", "ahi", "fi", "zest", "ça", "hem", "holà", "chut", "si", "voilà" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
 let recipeWords = [ "mg", "g", "kg", "ml", "dl", "cl", "l", "grammes", "gram", "once", "onces", "oz", "lbs", "càc", "cc", "càd", "càs", "càt",
@@ -221,16 +232,25 @@ module.exports = function() {
 		interrogatives: interrogativeProAdverbs.concat( interrogativeAdjectives ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		// These verbs that should be filtered at the beginning of prominent word combinations.
-		beginningVerbs: otherAuxiliariesInfinitive.concat( delexicalisedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ),
+		beginningVerbs: otherAuxiliariesInfinitive.concat( delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ),
 		miscellaneous: miscellaneous,
 		interjections: interjections,
 		pronominalAdverbs: pronominalAdverbs,
 		reflexivePronouns: reflexivePronouns,
-		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns,
+		locativeAdverbs: locativeAdverbs,
+		intensifiers: intensifiers,
+		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
+		recipeWords: recipeWords,
+		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+			personalPronounsNominative,
 			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs,
 			locativeAdverbs, otherAuxiliaries, interrogativeAdjectives, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions,
 			coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, delexicalisedVerbsInfinitive, interjections,
-			generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, timeWords ),
+			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections,
+			generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords ),
 	};
 };

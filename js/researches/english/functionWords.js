@@ -8,11 +8,14 @@ var transitionWords = require( "./transitionWords.js" )().singleWords;
  */
 
 var articles = [ "the", "an", "a" ];
-var numerals = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen",
-	"fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "first", "second", "third", "fourth",
-	"fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelfth", "thirteenth", "fourteenth", "fifteenth",
-	"sixteenth", "seventeenth", "eighteenth", "nineteenth", "twentieth", "hundred", "hundreds", "thousand", "thousands",
+var cardinalNumerals = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen",
+	"fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "hundred", "hundreds", "thousand", "thousands",
 	"million", "million", "billion", "billions" ];
+
+var ordinalNumerals = [ "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth",
+	"eleventh", "twelfth", "thirteenth", "fourteenth", "fifteenth", "sixteenth", "seventeenth", "eighteenth",
+	"nineteenth", "twentieth" ];
+
 var personalPronounsNominative = [ "i", "you", "he", "she", "it", "we", "they" ];
 var personalPronounsAccusative = [ "me", "him", "her", "us", "them" ];
 var demonstrativePronouns = [ "this", "that", "these", "those" ];
@@ -35,15 +38,20 @@ var interrogativeProAdverbs = [ "where", "whither", "whence", "how", "why", "whe
 var pronominalAdverbs = [ "therefor", "therein", "hereby", "hereto", "wherein", "therewith", "herewith", "wherewith", "thereby" ];
 var locativeAdverbs = [ "there", "here", "whither", "thither", "hither", "whence", "thence", "hence" ];
 var adverbialGenitives = [ "always", "afterwards", "towards", "once", "twice", "thrice", "amidst", "amongst", "midst", "whilst" ];
-var otherAuxiliaries = [ "can", "cannot", "can't", "could", "couldn't", "could've", "dare", "dares", "dared", "daring", "do",
-	"don't", "does", "doesn't", "did", "didn't", "doing", "done", "have", "haven't", "had", "hadn't", "has", "hasn't", "having",
+var otherAuxiliaries = [ "can", "cannot", "can't", "could", "couldn't", "could've", "dare", "dares", "dared", "do",
+	"don't", "does", "doesn't", "did", "didn't", "done", "have", "haven't", "had", "hadn't", "has", "hasn't",
 	"i've", "you've", "we've", "they've", "i'd", "you'd", "he'd", "she'd", "it'd", "we'd", "they'd", "would", "wouldn't",
 	"would've", "may", "might", "must", "need", "needn't", "needs", "ought", "shall", "shalln't", "shan't", "should",
 	"shouldn't", "will", "won't", "i'll", "you'll", "he'll", "she'll", "it'll", "we'll", "they'll", "there's", "there're",
 	"there'll", "here's", "here're", "there'll" ];
-var copula = [ "appear", "appears", "appearing", "appeared", "become", "becomes", "becoming", "became", "come", "comes",
-	"coming", "came", "keep", "keeps", "kept", "keeping", "remain", "remains", "remaining", "remained", "stay",
-	"stays", "stayed", "staying", "turn", "turns", "turned" ];
+var copula = [ "appear", "appears", "appeared", "become", "becomes", "became", "come", "comes",
+	"came", "keep", "keeps", "kept", "remain", "remains", "remained", "stay",
+	"stays", "stayed", "turn", "turns", "turned" ];
+
+// These verbs should only be included at the beginning of combinations.
+var continuousVerbs = [ "doing", "daring", "having", "appearing", "becoming", "coming", "keeping", "remaining", "staying",
+	"saying", "asking", "stating", "seeming", "letting", "making", "setting", "showing", "putting", "adding", "going", "using",
+	"trying", "containing" ];
 
 var prepositions = [ "in", "from", "with", "under", "throughout", "atop", "for", "on", "until", "of", "to", "aboard", "about",
 	"above", "abreast", "absent", "across", "adjacent", "after", "against", "along", "alongside", "amid", "midst", "mid",
@@ -67,7 +75,7 @@ var subordinatingConjunctions = [ "after", "although", "when", "as", "if", "thou
 
 // These verbs are frequently used in interviews to indicate questions and answers.
 // 'Claim','claims', 'state' and 'states' are not included, because these words are also nouns.
-var interviewVerbs = [ "say", "says", "said", "saying", "claimed", "ask", "asks", "asked", "asking", "stated", "stating",
+var interviewVerbs = [ "say", "says", "said", "claimed", "ask", "asks", "asked", "stated",
 	"explain", "explains", "explained", "think", "thinks" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
@@ -82,10 +90,10 @@ var intensifiers = [ "highly", "very", "really", "extremely", "absolutely", "com
 	"somewhat", "seriously", "fairly", "fully", "amazingly" ];
 
 // These verbs convey little meaning. 'Show', 'shows', 'uses', "meaning" are not included, because these words could be relevant nouns.
-var delexicalisedVerbs = [ "seem", "seems", "seemed", "seeming", "let", "let's", "lets", "letting", "make", "making", "makes",
-	"made", "want", "showing", "showed", "shown", "go", "goes", "going", "went", "gone", "take", "takes", "took", "taken", "set", "sets",
-	"setting", "put", "puts", "putting", "use", "using", "used", "try", "tries", "tried", "trying", "mean", "means", "meant",
-	"called", "based", "add", "adds", "adding", "added", "contain", "contains", "containing", "contained" ];
+var delexicalizedVerbs = [ "seem", "seems", "seemed", "let", "let's", "lets", "make", "makes",
+	"made", "want", "showed", "shown", "go", "goes", "went", "gone", "take", "takes", "took", "taken", "set", "sets",
+	"put", "puts", "use", "used", "try", "tries", "tried", "mean", "means", "meant",
+	"called", "based", "add", "adds", "added", "contain", "contains", "contained" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
@@ -120,7 +128,8 @@ module.exports = function() {
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
-		verbs: filteredPassiveAuxiliaries.concat( notFilteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
+		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
+		continuousVerbs: notFilteredPassiveAuxiliaries.concat( continuousVerbs ),
 		quantifiers: quantifiers,
 		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
 		passiveAuxiliaries: filteredPassiveAuxiliaries,
@@ -129,12 +138,21 @@ module.exports = function() {
 		pronominalAdverbs: pronominalAdverbs,
 		interjections: interjections,
 		reflexivePronouns: reflexivePronouns,
-		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns.concat( indefinitePronounsPossessive ),
+		locativeAdverbs: locativeAdverbs,
+		adverbialGenitives: adverbialGenitives,
+		prepositionalAdverbs: prepositionalAdverbs,
+		intensifiers: intensifiers,
+		recipeWords: recipeWords,
+		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
 			indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries,
 			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, interjections, generalAdjectivesAdverbs,
+			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
 			recipeWords, vagueNouns, miscellaneous ),
 	};
 };

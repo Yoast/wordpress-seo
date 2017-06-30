@@ -8,7 +8,6 @@ let dutchFunctionWords = require( "../researches/dutch/functionWords.js" );
 let spanishFunctionWords = require( "../researches/spanish/functionWords.js" );
 let italianFunctionWords = require( "../researches/italian/functionWords.js" );
 let frenchFunctionWords = require( "../researches/french/functionWords.js" );
-let countSyllables = require( "../stringProcessing/syllables/count.js" );
 let getLanguage = require( "../helpers/getLanguage.js" );
 
 let filter = require( "lodash/filter" );
@@ -170,19 +169,6 @@ function filterSpecialCharacters( wordCombinations, specialCharacters ) {
 		);
 	} );
 }
-/**
- * Filters word combinations with a length of one and a given syllable count.
- *
- * @param {WordCombination[]} wordCombinations The word combinations to filter.
- * @param {number} syllableCount The number of syllables to use for filtering.
- * @param {string} locale The paper's locale.
- * @returns {WordCombination[]} Filtered word combinations.
- */
-function filterOnSyllableCount( wordCombinations, syllableCount, locale ) {
-	return wordCombinations.filter( function( combination )  {
-		return ! ( combination.getLength() === 1 && countSyllables( combination.getWords()[ 0 ], locale ) <= syllableCount );
-	} );
-}
 
 /**
  * Filters word combinations based on keyword density if the word count is 200 or over.
@@ -202,7 +188,7 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
 
 /**
  * Filters the list of word combination objects.
- * Word combinations with specific parts of speech at the beginning and/or end, as well as one-syllable single words, are removed.
+ * Word combinations with specific parts of speech at the beginning and/or end are removed.
  *
  * @param {Array} combinations The list of word combination objects.
  * @param {Function} functionWords The function containing the lists of function words.
@@ -219,33 +205,50 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
 	combinations = filterFunctionWords( combinations, functionWords().transitionWords );
 	combinations = filterFunctionWords( combinations, functionWords().interjections );
-	combinations = filterFunctionWordsAtEnding( combinations, functionWords().relativePronouns );
+	combinations = filterFunctionWords( combinations, functionWords().relativePronouns );
 	combinations = filterFunctionWords( combinations, functionWords().pronominalAdverbs );
-	combinations = filterFunctionWordsAtEnding( combinations, functionWords().miscellaneous );
-	combinations = filterOnSyllableCount( combinations, 1, locale );
+	combinations = filterFunctionWords( combinations, functionWords().miscellaneous );
+	combinations = filterFunctionWords( combinations, functionWords().cardinalNumerals );
+	combinations = filterFunctionWordsAtEnding( combinations, functionWords().ordinalNumerals );
+	combinations = filterFunctionWords( combinations, functionWords().indefinitePronouns );
+	combinations = filterFunctionWords( combinations, functionWords().locativeAdverbs );
+	combinations = filterFunctionWords( combinations, functionWords().adverbialGenitives );
+	combinations = filterFunctionWords( combinations, functionWords().prepositionalAdverbs );
+	combinations = filterFunctionWords( combinations, functionWords().intensifiers );
+	combinations = filterFunctionWords( combinations, functionWords().recipeWords );
 	switch( getLanguage( locale ) ) {
 		case "en":
-			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().passiveAuxiliaries );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().reflexivePronouns );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
+			combinations = filterFunctionWords( combinations, functionWords().verbs );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().continuousVerbs );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbs );
 			break;
 		case "es":
+			combinations = filterFunctionWords( combinations, functionWords().verbs );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
+			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
+			break;
 		case "it":
 			combinations = filterFunctionWords( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
+			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbsPreceding );
 			break;
 		case "fr":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
+			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbsPreceding );
 			break;
 		case "de":
 		case "nl":
 			combinations = filterFunctionWords( combinations, functionWords().verbs );
-			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().beginningVerbs );
+			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().infinitives );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().interrogativeProAdverbs );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbs );
 			break;
 	}
 	return combinations;
@@ -334,6 +337,5 @@ module.exports = {
 	filterFunctionWordsAtBeginning: filterFunctionWordsAtBeginning,
 	filterFunctionWords: filterFunctionWords,
 	filterSpecialCharacters: filterSpecialCharacters,
-	filterOnSyllableCount: filterOnSyllableCount,
 	filterOnDensity: filterOnDensity,
 };
