@@ -71,7 +71,7 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 		);
 
 		if ( $deleted === false ) {
-			WPSEO_Link_Table_Accessible::set_inaccessible();
+			WPSEO_Meta_Table_Accessible::set_inaccessible();
 		}
 
 		return $deleted;
@@ -93,7 +93,7 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 		);
 
 		if ( $inserted === false ) {
-			WPSEO_Link_Table_Accessible::set_inaccessible();
+			WPSEO_Meta_Table_Accessible::set_inaccessible();
 		}
 	}
 
@@ -120,7 +120,7 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 		);
 
 		if ( $updated === false ) {
-			WPSEO_Link_Table_Accessible::set_inaccessible();
+			WPSEO_Meta_Table_Accessible::set_inaccessible();
 		}
 	}
 }

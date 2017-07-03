@@ -759,7 +759,7 @@ class WPSEO_Admin {
 		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
 
 		// When the table doesn't exists, just add the notification and return early.
-		if ( ! WPSEO_Link_Table_Accessible::is_accessible() ) {
+		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			$link_table_accessible_notifier->add_notification();
 
 			return;
