@@ -27,7 +27,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
      */
     public function test_detect_slug_change_NO_CHANGE_slug() {
         $this->class_instance
-            ->expects( $this->once() )
+            ->expects( $this->never() )
             ->method( 'get_old_url' );
 
         $this->class_instance
