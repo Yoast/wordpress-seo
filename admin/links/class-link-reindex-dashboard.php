@@ -9,8 +9,9 @@
 class WPSEO_Link_Reindex_Dashboard {
 	/** @var array Public post types to scan for unprocessed items */
 	protected $public_post_types = array();
-	/** @var array Number of unprocessed items per post type */
-	protected $unprocessed = array();
+
+	/** @var int Number of unprocessed items */
+	protected $unprocessed = 0;
 
 	/**
 	 * Registers all hooks to WordPress.
@@ -44,10 +45,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	 * Add the indexing interface for links to the dashboard.
 	 */
 	public function add_link_index_interface() {
-		$total_unprocessed = array_sum( $this->unprocessed );
-
-		$html = '';
-
+		$html  = '';
 		$html .= '<h2>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</h2>';
 		$html .= '<p>' . sprintf(
 			/* translators: 1: link to yoast.com post about internal linking suggestion. 4: is Yoast.com 3: is anchor closing. */
@@ -57,11 +55,12 @@ class WPSEO_Link_Reindex_Dashboard {
 				'</a>'
 		) . '</p>';
 
-		if ( $total_unprocessed === 0 ) {
+
+		if ( $this->unprocessed === 0 ) {
 			$html .= '<p>' . $this->message_already_indexed() . '</p>';
 		}
 		else {
-			$height = ( 160 * count( $this->unprocessed ) + 2 );
+			$height = 165 ;
 
 			$html .= '<p id="reindexLinks">';
 			$html .= sprintf(
@@ -90,37 +89,27 @@ class WPSEO_Link_Reindex_Dashboard {
 
 		$blocks = array();
 
-		foreach ( $this->public_post_types as $post_type ) {
-
-			$post_type_labels = get_post_type_labels( get_post_type_object( $post_type ) );
-			$post_type_label  = $post_type_labels->name;
-
-			if ( ! isset( $this->unprocessed[ $post_type ] ) || $this->unprocessed[ $post_type ] === 0 ) {
-				$inner_text = sprintf( '<p>%s</p>',
-					/* Translators: %s resolves to the post type label. */
-					esc_html( sprintf( __( 'All your %s are already counted, there is no need to count them again.', 'wordpress-seo' ), $post_type_label ) )
-				);
-			}
-			else {
-				$progress = sprintf(
-				/* translators: 1: expands to the singular label name. 2: expands to a <span> containing the number of items recalculated. 3: expands to a <strong> containing the total number of items. */
-					__( '%1$s %2$s of %3$s processed.', 'wordpress-seo' ),
-					$post_type_labels->singular_name,
-					sprintf( '<span id="wpseo_count_index_links_%s">0</span>', esc_attr( $post_type ) ),
-					sprintf( '<strong id="wpseo_count_%s_total">%d</strong>', esc_attr( $post_type ), $this->unprocessed[ $post_type ] )
-				);
-
-				$inner_text = sprintf( '<div id="wpseo_index_links_%s_progressbar" class="wpseo-progressbar"></div>', esc_attr( $post_type ) );
-				$inner_text .= sprintf( '<p>%s</p>', $progress );
-			}
-
-			$blocks[] = sprintf( '<div><p>%s</p>%s</div>',
-				/* Translators: %s resolves to the post type label. */
-				esc_html( sprintf( __( 'Counting links in %s', 'wordpress-seo' ), $post_type_label ) ),
-				$inner_text
+		if ( $this->unprocessed === 0 ) {
+			$inner_text = sprintf( '<p>%s</p>',
+				esc_html( __( 'All your texts are already counted, there is no need to count them again.', 'wordpress-seo' ) )
 			);
 		}
+		else {
+			$progress = sprintf(
+			/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
+				__( 'Text %1$s of %2$s processed.', 'wordpress-seo' ),
+				'<span id="wpseo_count_index_links">0</span>',
+				sprintf( '<strong id="wpseo_count_total">%d</strong>', $this->unprocessed )
+			);
 
+			$inner_text = '<div id="wpseo_index_links_progressbar" class="wpseo-progressbar"></div>';
+			$inner_text .= sprintf( '<p>%s</p>', $progress );
+		}
+
+		$blocks[] = sprintf( '<div><p>%s</p>%s</div>',
+			esc_html( __( 'Counting links in your texts', 'wordpress-seo' ) ),
+			$inner_text
+		);
 		?>
 		<div id="wpseo_index_links_wrapper" class="hidden">
 			<?php echo implode( '<hr />', $blocks ); ?>
