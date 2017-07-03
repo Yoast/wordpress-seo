@@ -60,13 +60,13 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 	/**
 	 * Removes the record for given post_id.
 	 *
-	 * @param int $post_id The post_id to remove the record for.
+	 * @param int $object_id The post_id to remove the record for.
 	 *
 	 * @return int|false The number of rows updated, or false on error.
 	 */
-	public function cleanup( $post_id ) {
+	public function cleanup( $object_id ) {
 		$deleted = $this->database_proxy->delete(
-			array( 'object_id' => $post_id ),
+			array( 'object_id' => $object_id ),
 			array( '%d' )
 		);
 
