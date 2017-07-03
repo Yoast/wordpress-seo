@@ -6,6 +6,7 @@ let germanFunctionWords = require( "../researches/german/functionWords.js" );
 let englishFunctionWords = require( "../researches/english/functionWords.js" );
 let dutchFunctionWords = require( "../researches/dutch/functionWords.js" );
 let spanishFunctionWords = require( "../researches/spanish/functionWords.js" );
+let italianFunctionWords = require( "../researches/italian/functionWords.js" );
 let frenchFunctionWords = require( "../researches/french/functionWords.js" );
 let countSyllables = require( "../stringProcessing/syllables/count.js" );
 let getLanguage = require( "../helpers/getLanguage.js" );
@@ -229,6 +230,11 @@ function filterCombinations( combinations, functionWords, locale ) {
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			break;
 		case "es":
+		case "it":
+			combinations = filterFunctionWords( combinations, functionWords().verbs );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
+			break;
 		case "fr":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
@@ -265,6 +271,9 @@ function getRelevantWords( text, locale ) {
 			break;
 		case "es":
 			functionWords = spanishFunctionWords;
+			break;
+		case "it":
+			functionWords = italianFunctionWords;
 			break;
 		default:
 		case "en":

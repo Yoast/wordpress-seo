@@ -264,7 +264,7 @@ module.exports = function() {
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
-		verbs: otherAuxiliaries.concat( copula, interviewVerbs, delexicalisedVerbs, otherAuxiliariesInfinitive ),
+		verbs: otherAuxiliaries.concat( copula, interviewVerbs, delexicalisedVerbs, otherAuxiliaries ),
 		infinitives: otherAuxiliariesInfinitive.concat( copulaInfinitive ),
 		quantifiers: quantifiers,
 		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
