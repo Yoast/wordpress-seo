@@ -12,12 +12,9 @@ class WPSEO_Link_Columns {
 	const COLUMN_LINKS = 'links';
 
 	/** @var WPSEO_Link_Column_Count */
-	protected $count_linked;
+	protected $link_count;
 
-	/** @var WPSEO_Link_Column_Count */
-	protected $count_links;
-
-	/** @var WPSEO_Link_Storage Storage to use. */
+	/** @var WPSEO_Meta_Storage Storage to use. */
 	protected $storage;
 
 	/** @var array List of public post types. */
@@ -26,9 +23,9 @@ class WPSEO_Link_Columns {
 	/**
 	 * WPSEO_Link_Columns constructor.
 	 *
-	 * @param WPSEO_Link_Storage $storage The storage object to use.
+	 * @param WPSEO_Meta_Storage $storage The storage object to use.
 	 */
-	public function __construct( WPSEO_Link_Storage $storage ) {
+	public function __construct( WPSEO_Meta_Storage $storage ) {
 		$this->storage = $storage;
 	}
 
@@ -42,7 +39,7 @@ class WPSEO_Link_Columns {
 		}
 
 		// When table doesn't exists.
-		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() ) {
+		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::check_table_is_accessible() ) {
 			return;
 		}
 
@@ -71,7 +68,7 @@ class WPSEO_Link_Columns {
 			return $pieces;
 		}
 
-		return $this->build_sort_query_pieces( $pieces, $query, 'post_id' );
+		return $this->build_sort_query_pieces( $pieces, $query, 'link_count' );
 	}
 
 	/**
@@ -87,7 +84,7 @@ class WPSEO_Link_Columns {
 			return $pieces;
 		}
 
-		return $this->build_sort_query_pieces( $pieces, $query, 'target_post_id' );
+		return $this->build_sort_query_pieces( $pieces, $query, 'incoming_link_count' );
 	}
 
 	/**
@@ -117,25 +114,8 @@ class WPSEO_Link_Columns {
 
 		$table = $this->storage->get_table_name();
 
-		$pieces['join']    .= " LEFT JOIN $table AS yst_links ON yst_links.{$field} = {$wpdb->posts}.ID ";
-		$pieces['orderby'] = "COUNT( yst_links.{$field} ) $order, FIELD( {$wpdb->posts}.post_status, 'publish' ) $order, {$pieces['orderby']}";
-
-		// Make sure we don't introduce duplicate groupby fields.
-		$groupby = explode( ',', $pieces['groupby'] );
-		$groupby = array_filter( $groupby );
-		$groupby = array_map( 'trim', $groupby );
-
-		// Add the required fields to the list.
-		$groupby[] = "yst_links.{$field}";
-		$groupby[] = "{$wpdb->posts}.ID";
-
-		// Strip out any duplicates.
-		$groupby = array_unique( $groupby );
-
-		// Convert to string again.
-		$groupby = implode( ',', $groupby );
-
-		$pieces['groupby'] = $groupby;
+		$pieces['join']    .= " LEFT JOIN $table AS yst_links ON yst_links.post_id = {$wpdb->posts}.ID ";
+		$pieces['orderby'] = "{$field} $order, FIELD( {$wpdb->posts}.post_status, 'publish' ) $order, {$pieces['orderby']}";
 
 		return $pieces;
 	}
@@ -199,14 +179,10 @@ class WPSEO_Link_Columns {
 
 		$post_ids = WPSEO_Link_Query::filter_unprocessed_posts( $post_ids );
 
-		$linked = new WPSEO_Link_Column_Count( 'target_post_id' );
-		$linked->set( $post_ids );
-
-		$links = new WPSEO_Link_Column_Count( 'post_id' );
+		$links = new WPSEO_Link_Column_Count();
 		$links->set( $post_ids );
 
-		$this->count_linked = $linked;
-		$this->count_links  = $links;
+		$this->link_count = $links;
 	}
 
 	/**
@@ -218,10 +194,10 @@ class WPSEO_Link_Columns {
 	public function column_content( $column_name, $post_id ) {
 		switch ( $column_name ) {
 			case 'wpseo-' . self::COLUMN_LINKS :
-				echo $this->count_links->get( $post_id );
+				echo $this->link_count->get( $post_id, 'link_count' );
 				break;
 			case 'wpseo-' . self::COLUMN_LINKED :
-				echo $this->count_linked->get( $post_id );
+				echo $this->link_count->get( $post_id, 'incoming_link_count' );
 				break;
 		}
 	}

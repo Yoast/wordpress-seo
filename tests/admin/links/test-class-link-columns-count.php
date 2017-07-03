@@ -8,14 +8,8 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$storage = new WPSEO_Link_Storage();
-		$storage->create_table();
-		$storage->save_links(
-			100,
-			array(
-				new WPSEO_Link( 'url', 1, 'internal' ),
-			)
-		);
+		$installer = new WPSEO_Link_Installer();
+		$installer->install();
 	}
 
 	/**
@@ -38,7 +32,6 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Link_Column_Count $column_count */
 		$column_count = $this
 			->getMockBuilder( 'WPSEO_Link_Column_Count' )
-			->setConstructorArgs( array( 'post_id' ) )
 			->setMethods( array( 'get_results' ) )
 			->getMock();
 
@@ -56,7 +49,6 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Link_Column_Count $column_count */
 		$column_count = $this
 			->getMockBuilder( 'WPSEO_Link_Column_Count' )
-			->setConstructorArgs( array( 'post_id' ) )
 			->setMethods( array( 'get_results' ) )
 			->getMock();
 
@@ -75,14 +67,22 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Link_Column_Count $column_count */
 		$column_count = $this
 			->getMockBuilder( 'WPSEO_Link_Column_Count' )
-			->setConstructorArgs( array( 'post_id' ) )
 			->setMethods( array( 'get_results' ) )
 			->getMock();
 
 		$column_count
 			->expects( $this->once() )
 			->method( 'get_results' )
-			->will( $this->returnValue( array( 1 => 10 ) ) );
+			->will(
+				$this->returnValue(
+					array(
+						1 => array(
+							'link_count' => 10,
+							'internal_link_count' => 0,
+						),
+					)
+				)
+			);
 
 		$column_count->set( array( 1 ) );
 
@@ -96,7 +96,6 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Link_Column_Count $column_count */
 		$column_count = $this
 			->getMockBuilder( 'WPSEO_Link_Column_Count' )
-			->setConstructorArgs( array( 'post_id' ) )
 			->setMethods( array( 'get_results' ) )
 			->getMock();
 
@@ -114,9 +113,23 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	 * Test get_results
 	 */
 	public function test_get_results() {
-		$column_count = new WPSEO_Link_Column_Count( 'post_id' );
+		$processor = new WPSEO_Link_Content_Processor( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
+		$processor->process( 100, '<a href="internal-url">internal-url</a>' );
+
+
+		$column_count = new WPSEO_Link_Column_Count();
 		$column_count->set( array( 100 ) );
 
-		$this->assertEquals( 1, $column_count->get( 100 ) );
+		$this->assertEquals( 1, $column_count->get( 100, 'link_count' ) );
+	}
+
+	/**
+	 * Test get_results
+	 */
+	public function test_get_results_unfound_posts() {
+		$column_count = new WPSEO_Link_Column_Count();
+		$column_count->set( array( 120 ) );
+
+		$this->assertEquals( 0, $column_count->get( 120, 'link_count' ) );
 	}
 }
