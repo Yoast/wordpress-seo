@@ -1508,16 +1508,14 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseo-tab-add-keyword .wpseo-add-keyword.button {
 	height: auto;
-	margin: 0;
 	padding: 5px 12px 5px 10px;
-	border: none;
-	border-radius: 0;
-	color: #000;
-	background: transparent;
+	background: none;
 	box-shadow: none;
 	font-size: inherit;
+	font-weight: bold;
 	line-height: inherit;
 	vertical-align: top;
+	text-decoration: none;
 }
 
 .wpseo-tab-add-keyword .wpseo-add-keyword.button:focus {
@@ -1533,7 +1531,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	display: inline-block;
 	margin: -1px 3px 0 0;
 	font-size: 20px;
-	font-weight: bold;
 	vertical-align: top;
 }
 
