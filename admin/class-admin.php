@@ -768,7 +768,7 @@ class WPSEO_Admin {
 		$link_table_accessible_notifier->remove_notification();
 
 		$storage = new WPSEO_Link_Storage();
-		$count_storage = new WPSEO_Link_Count_Storage();
+		$count_storage = new WPSEO_Meta_Storage();
 
 		$seo_links = new WPSEO_Link_Watcher(
 			new WPSEO_Link_Content_Processor( $storage, $count_storage )

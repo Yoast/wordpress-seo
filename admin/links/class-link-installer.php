@@ -17,7 +17,7 @@ class WPSEO_Link_Installer {
 	public function __construct() {
 		$this->installables = array(
 			new WPSEO_Link_Storage(),
-			new WPSEO_Link_Count_Storage(),
+			new WPSEO_Meta_Storage(),
 		);
 	}
 

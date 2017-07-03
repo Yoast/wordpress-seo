@@ -50,7 +50,7 @@ class WPSEO_Link_Column_Count {
 	protected function get_results( $post_ids ) {
 		global $wpdb;
 
-		$storage = new WPSEO_Link_Count_Storage();
+		$storage = new WPSEO_Meta_Storage();
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '

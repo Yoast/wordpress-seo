@@ -135,7 +135,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$this->assertNotEmpty( $storage->get_links( $post->ID ) );
 
-		$watcher = new WPSEO_Link_Watcher( new WPSEO_Link_Content_Processor( $storage, new WPSEO_Link_Count_Storage() ) );
+		$watcher = new WPSEO_Link_Watcher( new WPSEO_Link_Content_Processor( $storage, new WPSEO_Meta_Storage() ) );
 		$watcher->delete_post( $post->ID );
 
 		$this->assertEmpty( $storage->get_links( $post->ID ) );
@@ -149,7 +149,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	protected function get_processor() {
 		return $this
 			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
-			->setConstructorArgs( array( new WPSEO_Link_Storage(), new WPSEO_Link_Count_Storage() ) )
+			->setConstructorArgs( array( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() ) )
 			->setMethods( array( 'process' ) )
 			->getMock();
 	}

@@ -11,16 +11,16 @@ class WPSEO_Link_Content_Processor {
 	/** @var WPSEO_Link_Storage */
 	protected $storage;
 
-	/** @var WPSEO_Link_Count_Storage */
+	/** @var WPSEO_Meta_Storage */
 	private $count_storage;
 
 	/**
 	 * Sets an instance of a storage object.
 	 *
-	 * @param WPSEO_Link_Storage       $storage       The storage object to use.
-	 * @param WPSEO_Link_Count_Storage $count_storage The storage object for the link counts.
+	 * @param WPSEO_Link_Storage $storage       The storage object to use.
+	 * @param WPSEO_Meta_Storage $count_storage The storage object for the link counts.
 	 */
-	public function __construct( WPSEO_Link_Storage $storage, WPSEO_Link_Count_Storage $count_storage ) {
+	public function __construct( WPSEO_Link_Storage $storage, WPSEO_Meta_Storage $count_storage ) {
 		$this->storage = $storage;
 		$this->count_storage = $count_storage;
 	}

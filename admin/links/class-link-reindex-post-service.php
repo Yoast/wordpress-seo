@@ -16,7 +16,7 @@ class WPSEO_Link_Reindex_Post_Service {
 	 * @return WP_REST_Response
 	 */
 	public function reindex( WP_REST_Request $request ) {
-		$content_processor = new WPSEO_Link_Content_Processor( new WPSEO_Link_Storage(), new WPSEO_Link_Count_Storage() );
+		$content_processor = new WPSEO_Link_Content_Processor( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
 
 		$posts = WPSEO_Link_Query::get_unprocessed_posts( $request->get_param( 'postType' ) );
 		foreach ( $posts as $post ) {

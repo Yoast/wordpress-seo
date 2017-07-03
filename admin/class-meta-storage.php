@@ -6,9 +6,9 @@
 /**
  * Represents the link count storage.
  */
-class WPSEO_Link_Count_Storage implements WPSEO_Installable {
+class WPSEO_Meta_Storage implements WPSEO_Installable {
 
-	const TABLE_NAME = 'yoast_seo_text_link_counts';
+	const TABLE_NAME = 'yoast_seo_meta';
 
 	/** @var WPSEO_Database_Proxy */
 	protected $database_proxy;
@@ -47,12 +47,12 @@ class WPSEO_Link_Count_Storage implements WPSEO_Installable {
 	public function install() {
 		return $this->database_proxy->create_table(
 			array(
-				'post_id bigint(20) UNSIGNED NOT NULL',
+				'object_id bigint(20) UNSIGNED NOT NULL',
 				'link_count int(10) UNSIGNED NOT NULL DEFAULT "0"',
 				'incoming_link_count int(10) UNSIGNED NULL DEFAULT NULL',
 			),
 			array(
-				'UNIQUE KEY post_id (post_id)',
+				'UNIQUE KEY object_id (object_id)',
 			)
 		);
 	}
@@ -66,7 +66,7 @@ class WPSEO_Link_Count_Storage implements WPSEO_Installable {
 	 */
 	public function cleanup( $post_id ) {
 		$deleted = $this->database_proxy->delete(
-			array( 'post_id' => $post_id ),
+			array( 'object_id' => $post_id ),
 			array( '%d' )
 		);
 
@@ -80,13 +80,13 @@ class WPSEO_Link_Count_Storage implements WPSEO_Installable {
 	/**
 	 * Saves the link count to the database.
 	 *
-	 * @param int $post_id    The post to save the link count for.
+	 * @param int $meta_id    The id to save the link count for.
 	 * @param int $link_count The total amount of links.
 	 */
-	public function save_link_count( $post_id, $link_count ) {
+	public function save_link_count( $meta_id, $link_count ) {
 		$inserted = $this->database_proxy->insert(
 			array(
-				'post_id' => $post_id,
+				'object_id' => $meta_id,
 				'link_count' => $link_count,
 			),
 			array( '%d', '%d' )
@@ -111,7 +111,7 @@ class WPSEO_Link_Count_Storage implements WPSEO_Installable {
 				   SET count_table.incoming_link_count = ( 
 				       SELECT COUNT(id) 
 				         FROM %2$s links_table 
-				        WHERE links_table.target_post_id = count_table.post_id 
+				        WHERE links_table.target_post_id = count_table.object_id 
 				       ) 
 				',
 				$this->get_table_name(),

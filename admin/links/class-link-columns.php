@@ -14,7 +14,7 @@ class WPSEO_Link_Columns {
 	/** @var WPSEO_Link_Column_Count */
 	protected $link_count;
 
-	/** @var WPSEO_Link_Count_Storage Storage to use. */
+	/** @var WPSEO_Meta_Storage Storage to use. */
 	protected $storage;
 
 	/** @var array List of public post types. */
@@ -23,9 +23,9 @@ class WPSEO_Link_Columns {
 	/**
 	 * WPSEO_Link_Columns constructor.
 	 *
-	 * @param WPSEO_Link_Count_Storage $storage The storage object to use.
+	 * @param WPSEO_Meta_Storage $storage The storage object to use.
 	 */
-	public function __construct( WPSEO_Link_Count_Storage $storage ) {
+	public function __construct( WPSEO_Meta_Storage $storage ) {
 		$this->storage = $storage;
 	}
 
