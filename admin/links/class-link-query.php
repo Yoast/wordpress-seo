@@ -32,7 +32,7 @@ class WPSEO_Link_Query {
 			  FROM ' . $wpdb->posts . ' AS p
 			 WHERE p.post_type IN ( ' . $post_types . ' )
 			   AND p.post_status = "publish"
-			   AND ID NOT IN( SELECT post_id FROM ' . $count_table . ' ) 
+			   AND ID NOT IN( SELECT object_id FROM ' . $count_table . ' ) 
 			 LIMIT 1';
 
 		// If anything is found, we have unprocessed posts.
@@ -59,9 +59,9 @@ class WPSEO_Link_Query {
 		$count_table = self::get_count_table_name();
 
 		$query = '
-			SELECT post_id
+			SELECT object_id
 			  FROM ' . $count_table . '
-			 WHERE post_id IN ( ' . implode( ',', $post_ids ) . ' )
+			 WHERE object_id IN ( ' . implode( ',', $post_ids ) . ' )
 			';
 
 		$results = $wpdb->get_results( $query, ARRAY_A );
@@ -90,7 +90,7 @@ class WPSEO_Link_Query {
 				  FROM ' . $wpdb->posts . ' 
 				 WHERE post_status = "publish" 
 				   AND post_type = "%1$s"
-				   AND ID NOT IN( SELECT post_id FROM ' . $count_table . ' ) 
+				   AND ID NOT IN( SELECT object_id FROM ' . $count_table . ' ) 
 				 LIMIT %2$d
 				',
 				$post_type,
@@ -127,7 +127,7 @@ class WPSEO_Link_Query {
 			  FROM ' . $wpdb->posts . ' 
 			 WHERE post_status = "publish" 
 			   AND post_type IN ( ' . $post_types . ' ) 
-			   AND ID NOT IN ( SELECT post_id FROM ' . $count_table . ' )
+			   AND ID NOT IN ( SELECT object_id FROM ' . $count_table . ' )
 		  GROUP BY post_type';
 		// @codingStandardsIgnoreEnd
 

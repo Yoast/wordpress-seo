@@ -54,9 +54,9 @@ class WPSEO_Link_Column_Count {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
-				SELECT link_count, incoming_link_count, post_id
+				SELECT link_count, incoming_link_count, object_id
 				FROM ' . $storage->get_table_name() . '
-			    WHERE post_id IN ( %1$s )',
+			    WHERE object_id IN ( %1$s )',
 				implode( ',', $post_ids )
 			),
 			ARRAY_A
@@ -64,7 +64,7 @@ class WPSEO_Link_Column_Count {
 
 		$output = array();
 		foreach ( $results as $result ) {
-			$output[ (int) $result['post_id'] ] = array(
+			$output[ (int) $result['object_id'] ] = array(
 				'link_count' => $result['link_count'],
 				'incoming_link_count' => $result['incoming_link_count'],
 			);
