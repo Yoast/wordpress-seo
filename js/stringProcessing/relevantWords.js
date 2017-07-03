@@ -124,8 +124,8 @@ function sortCombinations( wordCombinations ) {
  */
 function filterFunctionWordsAnywhere( wordCombinations, functionWords ) {
 	return wordCombinations.filter( function( combination ) {
-		return isEmpty (
-			intersection( functionWords, combination.getWords())
+		return isEmpty(
+			intersection( functionWords, combination.getWords() )
 		);
 	} );
 }
