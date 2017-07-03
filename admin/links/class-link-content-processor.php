@@ -61,7 +61,7 @@ class WPSEO_Link_Content_Processor {
 	 */
 	protected function store_link_count( $post_id, $link_count ) {
 		$this->count_storage->cleanup( $post_id );
-		$this->count_storage->save_link_count( $post_id, $link_count );
+		$this->count_storage->save_meta_data( $post_id, array( 'link_count' => $link_count ) );
 
 		// When there are unprocess posts, just break out of this.
 		if ( WPSEO_Link_Query::has_unprocessed_posts( WPSEO_Link_Utils::get_public_post_types() ) ) {
