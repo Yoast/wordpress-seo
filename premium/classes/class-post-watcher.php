@@ -73,6 +73,11 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			return false;
 		}
 
+		// There is no slug change.
+		if ( $post->post_name === $post_before->post_name ) {
+			return false;
+		}
+
 		/**
 		 * Filter: 'wpseo_premium_post_redirect_slug_change' - Check if a redirect should be created on post slug change
 		 *
