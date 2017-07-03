@@ -122,4 +122,14 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 1, $column_count->get( 100, 'link_count' ) );
 	}
+
+	/**
+	 * Test get_results
+	 */
+	public function test_get_results_unfound_posts() {
+		$column_count = new WPSEO_Link_Column_Count();
+		$column_count->set( array( 120 ) );
+
+		$this->assertEquals( 0, $column_count->get( 120, 'link_count' ) );
+	}
 }
