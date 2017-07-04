@@ -66,7 +66,7 @@ class WPSEO_Link_Query {
 
 		$results = $wpdb->get_results( $query, ARRAY_A );
 
-		return array_map( 'intval', wp_list_pluck( $results, 'post_id' ) );
+		return array_map( 'intval', wp_list_pluck( $results, 'object_id' ) );
 	}
 
 	/**
