@@ -80,7 +80,7 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 	/**
 	 * Saves the link count to the database.
 	 *
-	 * @param int  $meta_id    The id to save the link count for.
+	 * @param int   $meta_id   The id to save the link count for.
 	 * @param array $meta_data The total amount of links.
 	 */
 	public function save_meta_data( $meta_id, array $meta_data ) {

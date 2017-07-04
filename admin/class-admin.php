@@ -27,6 +27,8 @@ class WPSEO_Admin {
 	 * Class constructor
 	 */
 	function __construct() {
+		$integrations = array();
+
 		global $pagenow;
 
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks' ) );
@@ -96,7 +98,13 @@ class WPSEO_Admin {
 
 		$this->check_php_version();
 		$this->initialize_cornerstone_content();
-		$this->initialize_seo_links();
+
+		$integrations = array_merge( $integrations, $this->initialize_seo_links() );
+
+		/** @var WPSEO_WordPress_Integration $integration */
+		foreach ( $integrations as $integration ) {
+			$integration->register_hooks();
+		}
 	}
 
 	/**
@@ -754,15 +762,28 @@ class WPSEO_Admin {
 
 	/**
 	 * Initializes the seo link watcher.
+	 *
+	 * @returns WPSEO_WordPress_Integration[]
 	 */
 	protected function initialize_seo_links() {
+		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
+
+		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
+		if ( version_compare( phpversion(), '5.3', '<' ) ) {
+			$link_table_compatibility_notifier->add_notification();
+
+			return array();
+		}
+
+		$link_table_compatibility_notifier->remove_notification();
+
 		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
 
 		// When the table doesn't exists, just add the notification and return early.
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			$link_table_accessible_notifier->add_notification();
 
-			return;
+			return array();
 		}
 
 		$link_table_accessible_notifier->remove_notification();
@@ -773,16 +794,19 @@ class WPSEO_Admin {
 		$seo_links = new WPSEO_Link_Watcher(
 			new WPSEO_Link_Content_Processor( $storage, $count_storage )
 		);
-		$seo_links->register_hooks();
 
 		$seo_link_columns = new WPSEO_Link_Columns( $count_storage );
-		$seo_link_columns->register_hooks();
 
 		$link_reindex_interface = new WPSEO_Link_Reindex_Dashboard();
-		$link_reindex_interface->register_hooks();
 
 		$link_notifier = new WPSEO_Link_Notifier();
-		$link_notifier->register_hooks();
+
+		return array(
+			$seo_links,
+			$seo_link_columns,
+			$link_reindex_interface,
+			$link_notifier,
+		);
 	}
 
 	/********************** DEPRECATED METHODS **********************/
