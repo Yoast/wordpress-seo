@@ -68,7 +68,7 @@ class WPSEO_Link_Columns {
 			return $pieces;
 		}
 
-		return $this->build_sort_query_pieces( $pieces, $query, 'link_count' );
+		return $this->build_sort_query_pieces( $pieces, $query, 'internal_link_count' );
 	}
 
 	/**
@@ -194,7 +194,7 @@ class WPSEO_Link_Columns {
 	public function column_content( $column_name, $post_id ) {
 		switch ( $column_name ) {
 			case 'wpseo-' . self::COLUMN_LINKS :
-				echo $this->link_count->get( $post_id, 'link_count' );
+				echo $this->link_count->get( $post_id, 'internal_link_count' );
 				break;
 			case 'wpseo-' . self::COLUMN_LINKED :
 				echo $this->link_count->get( $post_id, 'incoming_link_count' );
