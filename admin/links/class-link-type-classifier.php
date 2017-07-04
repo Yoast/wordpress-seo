@@ -8,9 +8,6 @@
  */
 class WPSEO_Link_Type_Classifier {
 
-	const TYPE_EXTERNAL = 'external';
-	const TYPE_INTERNAL = 'internal';
-
 	/** @var string */
 	protected $base_url = '';
 
@@ -32,10 +29,10 @@ class WPSEO_Link_Type_Classifier {
 	 */
 	public function classify( $link ) {
 		if ( $this->contains_protocol( $link ) && $this->is_external_link( $link ) ) {
-			return self::TYPE_EXTERNAL;
+			return WPSEO_Link::TYPE_EXTERNAL;
 		}
 
-		return self::TYPE_INTERNAL;
+		return WPSEO_Link::TYPE_INTERNAL;
 	}
 
 	/**

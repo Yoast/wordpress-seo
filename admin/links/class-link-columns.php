@@ -34,7 +34,7 @@ class WPSEO_Link_Columns {
 	 */
 	public function register_hooks() {
 		global $pagenow;
-		if ( $pagenow !== 'edit.php' ) {
+		if ( ! WPSEO_Metabox::is_post_overview( $pagenow ) ) {
 			return;
 		}
 
