@@ -128,3 +128,20 @@ h3 .dashicons-warning {
 	padding: 1em 1em 1em 16px;
 	color: #666;
 }
+
+.yoast-muted-title {
+	overflow: hidden;
+	font-weight: 600;
+	font-style: italic;
+
+	&:after {
+		content:"";
+		display: inline-block;
+		height: 0.5em;
+		vertical-align: bottom;
+		width: 100%;
+		margin-right: -100%;
+		margin-left: 10px;
+		border-top: 1px solid #ddd;
+	}
+}
