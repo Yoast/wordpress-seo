@@ -26,15 +26,6 @@ class WPSEO_Link_Factory {
 	}
 
 	/**
-	 * Returns the meta key to use when detecting if a post is processed for links.
-	 *
-	 * @return string The meta key to use.
-	 */
-	public static function get_index_meta_key() {
-		return '_yst_content_links_processed';
-	}
-
-	/**
 	 * Formats an array of links to WPSEO_Link object.
 	 *
 	 * @param array $extracted_links The links for format.
@@ -56,7 +47,7 @@ class WPSEO_Link_Factory {
 		$link_type = $this->classifier->classify( $link );
 
 		$target_post_id = 0;
-		if ( $link_type === WPSEO_Link_Type_Classifier::TYPE_INTERNAL ) {
+		if ( $link_type === WPSEO_Link::TYPE_INTERNAL ) {
 			$target_post_id = $this->internal_lookup->lookup( $link );
 		}
 

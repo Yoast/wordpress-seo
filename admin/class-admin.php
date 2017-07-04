@@ -759,7 +759,7 @@ class WPSEO_Admin {
 		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
 
 		// When the table doesn't exists, just add the notification and return early.
-		if ( ! WPSEO_Link_Table_Accessible::is_accessible() ) {
+		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			$link_table_accessible_notifier->add_notification();
 
 			return;
@@ -768,13 +768,14 @@ class WPSEO_Admin {
 		$link_table_accessible_notifier->remove_notification();
 
 		$storage = new WPSEO_Link_Storage();
+		$count_storage = new WPSEO_Meta_Storage();
 
 		$seo_links = new WPSEO_Link_Watcher(
-			new WPSEO_Link_Content_Processor( $storage )
+			new WPSEO_Link_Content_Processor( $storage, $count_storage )
 		);
 		$seo_links->register_hooks();
 
-		$seo_link_columns = new WPSEO_Link_Columns( $storage );
+		$seo_link_columns = new WPSEO_Link_Columns( $count_storage );
 		$seo_link_columns->register_hooks();
 
 		$link_reindex_interface = new WPSEO_Link_Reindex_Dashboard();

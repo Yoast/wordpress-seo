@@ -8,6 +8,9 @@
  */
 class WPSEO_Link {
 
+	const TYPE_EXTERNAL = 'external';
+	const TYPE_INTERNAL = 'internal';
+
 	/** @var string */
 	protected $url;
 
