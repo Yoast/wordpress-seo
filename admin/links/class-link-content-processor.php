@@ -4,7 +4,8 @@
  */
 
 /**
- * Represents the content processor. It will extract links from the content and saves them for the given post id.
+ * Represents the content processor. It will extract links from the content and
+ * saves them for the given post id.
  */
 class WPSEO_Link_Content_Processor {
 
@@ -18,7 +19,8 @@ class WPSEO_Link_Content_Processor {
 	 * Sets an instance of a storage object.
 	 *
 	 * @param WPSEO_Link_Storage $storage       The storage object to use.
-	 * @param WPSEO_Meta_Storage $count_storage The storage object for the link counts.
+	 * @param WPSEO_Meta_Storage $count_storage The storage object for the link
+	 *                                          counts.
 	 */
 	public function __construct( WPSEO_Link_Storage $storage, WPSEO_Meta_Storage $count_storage ) {
 		$this->storage = $storage;
@@ -71,7 +73,7 @@ class WPSEO_Link_Content_Processor {
 		$this->count_storage->save_meta_data( $post_id, array( 'internal_link_count' => $internal_link_count ) );
 
 		// When there are unprocess posts, just break out of this.
-		if ( WPSEO_Link_Query::has_unprocessed_posts( WPSEO_Link_Utils::get_public_post_types() ) ) {
+		if ( ! WPSEO_Link_Query::has_unprocessed_posts( WPSEO_Link_Utils::get_public_post_types() ) ) {
 			$this->count_storage->update_incoming_link_counts( $this->storage );
 		}
 	}
