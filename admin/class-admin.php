@@ -766,6 +766,11 @@ class WPSEO_Admin {
 	 * @returns WPSEO_WordPress_Integration[]
 	 */
 	protected function initialize_seo_links() {
+		// Only use the link module for PHP 5.3 and higher.
+		if ( version_compare( phpversion(), '5.3', '<' ) ) {
+			return array();
+		}
+
 		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
 
 		// When the table doesn't exists, just add the notification and return early.
