@@ -63,7 +63,7 @@ class WPSEO_Link_Type_Classifier {
 	 *
 	 * @return bool True when the link doesn't contain the home url.
 	 */
-	protected function is_external_link( array $url_parts  ) {
+	protected function is_external_link( array $url_parts ) {
 		if ( isset( $url_parts['scheme'] ) && ! in_array( $url_parts['scheme'], array( 'http', 'https' ), true ) ) {
 			return true;
 		}

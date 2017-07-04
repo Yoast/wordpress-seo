@@ -11,10 +11,8 @@ class WPSEO_Link_Reindex_Post_Service {
 	/**
 	 * Reindexes the unprocessed posts by REST request.
 	 *
-	 *
-	 * @return WP_REST_Response
+	 * @return WP_REST_Response The response object.
 	 */
-
 	public function reindex() {
 		$content_processor = new WPSEO_Link_Content_Processor( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
 
