@@ -766,10 +766,16 @@ class WPSEO_Admin {
 	 * @returns WPSEO_WordPress_Integration[]
 	 */
 	protected function initialize_seo_links() {
-		// Only use the link module for PHP 5.3 and higher.
+		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
+
+		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
 		if ( version_compare( phpversion(), '5.3', '<' ) ) {
+			$link_table_compatibility_notifier->add_notification();
+
 			return array();
 		}
+
+		$link_table_compatibility_notifier->remove_notification();
 
 		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
 
