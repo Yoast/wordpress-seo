@@ -115,7 +115,7 @@ function startReindexing() {
 	a11ySpeak( settings.l10n.calculationInProgress );
 
 	let promises = [];
-	promises.push( reindexLinks );
+	promises.push( reindexLinks() );
 	Promise.all( promises ).then( completeReindexing );
 }
 
