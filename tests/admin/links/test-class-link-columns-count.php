@@ -114,13 +114,13 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_results() {
 		$processor = new WPSEO_Link_Content_Processor( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
-		$processor->process( 100, '<a href="internal-url">internal-url</a>' );
+		$processor->process( 100, '<a href="http://example.com/internal-url">internal-url</a>' );
 
 
 		$column_count = new WPSEO_Link_Column_Count();
 		$column_count->set( array( 100 ) );
 
-		$this->assertEquals( 1, $column_count->get( 100, 'link_count' ) );
+		$this->assertEquals( 1, $column_count->get( 100, 'internal_link_count' ) );
 	}
 
 	/**
@@ -130,6 +130,6 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 		$column_count = new WPSEO_Link_Column_Count();
 		$column_count->set( array( 120 ) );
 
-		$this->assertEquals( 0, $column_count->get( 120, 'link_count' ) );
+		$this->assertEquals( 0, $column_count->get( 120, 'internal_link_count' ) );
 	}
 }

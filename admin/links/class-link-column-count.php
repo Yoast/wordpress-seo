@@ -32,7 +32,7 @@ class WPSEO_Link_Column_Count {
 	 *
 	 * @return int The total amount of links.
 	 */
-	public function get( $post_id, $target_field = 'link_count' ) {
+	public function get( $post_id, $target_field = 'internal_link_count' ) {
 		if ( array_key_exists( $post_id, $this->count ) && array_key_exists( $target_field, $this->count[ $post_id ] ) ) {
 			return (int) $this->count[ $post_id ][ $target_field ];
 		}
@@ -54,7 +54,7 @@ class WPSEO_Link_Column_Count {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
-				SELECT link_count, incoming_link_count, object_id
+				SELECT internal_link_count, incoming_link_count, object_id
 				FROM ' . $storage->get_table_name() . '
 			    WHERE object_id IN ( %1$s )',
 				implode( ',', $post_ids )
@@ -65,7 +65,7 @@ class WPSEO_Link_Column_Count {
 		$output = array();
 		foreach ( $results as $result ) {
 			$output[ (int) $result['object_id'] ] = array(
-				'link_count' => $result['link_count'],
+				'internal_link_count' => $result['internal_link_count'],
 				'incoming_link_count' => $result['incoming_link_count'],
 			);
 		}
@@ -74,7 +74,7 @@ class WPSEO_Link_Column_Count {
 		foreach ( $post_ids as $post_id ) {
 			if ( ! array_key_exists( $post_id, $output ) ) {
 				$output[ $post_id ] = array(
-					'link_count'          => 0,
+					'internal_link_count' => 0,
 					'incoming_link_count' => 0,
 				);
 			}
