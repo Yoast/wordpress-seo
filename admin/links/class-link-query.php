@@ -21,9 +21,7 @@ class WPSEO_Link_Query {
 			return false;
 		}
 
-		$sanitized_post_types = array_map( 'esc_sql', $post_types );
-		$post_types           = sprintf( '"%s"', implode( '", "', $sanitized_post_types ) );
-
+		$post_types  = self::format_post_types( $post_types );
 		$count_table = self::get_count_table_name();
 
 		// Get any object which has not got the processed meta key.
@@ -73,15 +71,16 @@ class WPSEO_Link_Query {
 	 * Returns a limited set of unindexed posts.
 	 * *
 	 *
-	 * @param string $post_type The post type.
-	 * @param int    $limit     The limit for the resultset.
+	 * @param array $post_types The post type.
+	 * @param int   $limit      The limit for the resultset.
 	 *
 	 * @return array|null|object The set of unindexed posts.
 	 */
-	public static function get_unprocessed_posts( $post_type, $limit = 5 ) {
+	public static function get_unprocessed_posts( array $post_types, $limit = 5 ) {
 		global $wpdb;
 
 		$count_table = self::get_count_table_name();
+		$post_types  = self::format_post_types( $post_types );
 
 		// @codingStandardsIgnoreStart
 		$results = $wpdb->get_results(
@@ -89,11 +88,10 @@ class WPSEO_Link_Query {
 				SELECT ID, post_content
 				  FROM ' . $wpdb->posts . ' 
 				 WHERE post_status = "publish" 
-				   AND post_type = "%1$s"
+				   AND post_type IN ( ' . $post_types . ' )
 				   AND ID NOT IN( SELECT object_id FROM ' . $count_table . ' ) 
-				 LIMIT %2$d
+				 LIMIT %1$d
 				',
-				$post_type,
 				$limit
 			)
 		);
@@ -107,38 +105,28 @@ class WPSEO_Link_Query {
 	 *
 	 * @param array $post_types The post types.
 	 *
-	 * @return array The total of unindexed posts per post type
+	 * @return int The total of unindexed posts.
 	 */
 	public static function get_unprocessed_count( array $post_types ) {
 		global $wpdb;
 
 		if ( empty( $post_types ) ) {
-			return array();
+			return 0;
 		}
 
-		$sanitized_post_types = array_map( 'esc_sql', $post_types );
-		$post_types           = sprintf( '"%s"', implode( '", "', $sanitized_post_types ) );
-
 		$count_table = self::get_count_table_name();
+		$post_types  = self::format_post_types( $post_types );
 
 		// @codingStandardsIgnoreStart
 		$query = '
-			SELECT COUNT( ID ) as total, post_type
+			SELECT COUNT( ID )
 			  FROM ' . $wpdb->posts . ' 
 			 WHERE post_status = "publish" 
 			   AND post_type IN ( ' . $post_types . ' ) 
-			   AND ID NOT IN ( SELECT object_id FROM ' . $count_table . ' )
-		  GROUP BY post_type';
+			   AND ID NOT IN ( SELECT object_id FROM ' . $count_table . ' )';
 		// @codingStandardsIgnoreEnd
 
-		$results = $wpdb->get_results( $query );
-
-		$output = array();
-		foreach ( $results as $result ) {
-			$output[ $result->post_type ] = $result->total;
-		}
-
-		return $output;
+		return (int) $wpdb->get_var( $query );
 	}
 
 	/**
@@ -151,5 +139,19 @@ class WPSEO_Link_Query {
 		$count_table = $storage->get_table_name();
 
 		return $count_table;
+	}
+
+	/**
+	 * Formats an array with post types as an SQL string.
+	 *
+	 * @param array $post_types The post types to format.
+	 *
+	 * @return array|string
+	 */
+	protected static function format_post_types( array $post_types ) {
+		$sanitized_post_types = array_map( 'esc_sql', $post_types );
+		$post_types           = sprintf( '"%s"', implode( '", "', $sanitized_post_types ) );
+
+		return $post_types;
 	}
 }
