@@ -1,3 +1,5 @@
+@import "../../node_modules/yoastseo/css/tooltips";
+
 .wpseo-score-icon {
 	display: inline-block;
 	width: 12px;
@@ -43,4 +45,49 @@ th#wpseo-score-readability {
 	.column-wpseo-focuskw {
 		display: none;
 	}
+}
+
+/* Table internal links columns tooltips. */
+.fixed .column-wpseo-links,
+.fixed .column-wpseo-linked {
+	width: 4em;
+}
+
+th.column-wpseo-links a.yoast-tooltip,
+th.column-wpseo-linked a.yoast-tooltip {
+	overflow: visible; /* Override WP property to make tooltips visible. */
+	display: inline-block; /* To contain floats instead of using overflow. */
+}
+
+.column-wpseo-links .yoast-tooltip-multiline::after,
+.column-wpseo-linked .yoast-tooltip-multiline::after {
+	max-width: 160px;
+}
+
+.column-wpseo-links .sorting-indicator,
+.column-wpseo-linked .sorting-indicator {
+	margin-top: 11px;
+}
+
+.yoast-column-header-has-tooltip:before {
+	content: "";
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	position: relative;
+	top: 2px;
+	vertical-align: top;
+	text-decoration: none !important;
+	color: #444;
+}
+
+.yoast-linked-to:before {
+	background: transparent url( "../images/linkout3.svg" ) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.yoast-linked-from:before {
+	background: transparent url( "../images/linkin3.svg" ) no-repeat 0 0;
+	background-size: 20px;
 }
