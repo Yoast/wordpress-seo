@@ -13,12 +13,11 @@ class IndexProgressBar {
 	/**
 	 * The constructor.
 	 *
-	 * @param {string} postType The post type.
-	 * @param {int}    total    The total amount of items for post type.
+	 * @param {int} total The total amount of items.
 	 */
-	constructor( postType, total ) {
-		this.element = jQuery( "#wpseo_count_index_links_" + postType );
-		this.progressbarTarget = jQuery( "#wpseo_index_links_" + postType + "_progressbar" ).progressbar( { value: 0 } );
+	constructor( total ) {
+		this.element = jQuery( "#wpseo_count_index_links" );
+		this.progressbarTarget = jQuery( "#wpseo_index_links_progressbar" ).progressbar( { value: 0 } );
 		this.total = parseInt( total, 10 );
 		this.totalProcessed = 0;
 	}
@@ -52,20 +51,16 @@ class IndexProgressBar {
 /**
  * Does the reindex request for the current post and updates the processbar.
  *
- * @param {string}           postType    The postttype to reindex.
  * @param {IndexProgressBar} progressbar The progressbar.
  * @param {Promise.resolve}  resolve     The method to complete index process.
  *
  * @returns {void}
  */
-function doReindexRequest( postType, progressbar, resolve ) {
+function doReindexRequest( progressbar, resolve ) {
 	// Do
 	jQuery.ajax( {
 		type: "GET",
 		url: settings.restApi.root + settings.restApi.endpoint,
-		data: {
-			postType: postType,
-		},
 		beforeSend: ( xhr ) => {
 			xhr.setRequestHeader( "X-WP-Nonce", settings.restApi.nonce );
 		},
@@ -74,7 +69,7 @@ function doReindexRequest( postType, progressbar, resolve ) {
 			if ( totalIndexed !== 0 ) {
 				progressbar.update( totalIndexed );
 
-				doReindexRequest( postType, progressbar, resolve );
+				doReindexRequest( progressbar, resolve );
 
 				return;
 			}
@@ -86,17 +81,15 @@ function doReindexRequest( postType, progressbar, resolve ) {
 }
 
 /**
- * Starts the reindexing the links for given post type.
- *
- * @param {string} postType The posttype to reindex.
+ * Starts the reindexing of the links.
  *
  * @returns {Promise} Promise.
  */
-function reindexLinks( postType ) {
+function reindexLinks() {
 	// Do request to get post ids
 	return new Promise( ( resolve ) => {
-		let progressbar = new IndexProgressBar( postType, settings.amount[ postType ] );
-		doReindexRequest( postType, progressbar, resolve );
+		let progressbar = new IndexProgressBar( settings.amount );
+		doReindexRequest( progressbar, resolve );
 	} );
 }
 
@@ -122,10 +115,7 @@ function startReindexing() {
 	a11ySpeak( settings.l10n.calculationInProgress );
 
 	let promises = [];
-	Object.keys( settings.amount ).forEach( function( post_type ) {
-		promises.push( reindexLinks( post_type ) );
-	} );
-
+	promises.push( reindexLinks() );
 	Promise.all( promises ).then( completeReindexing );
 }
 
