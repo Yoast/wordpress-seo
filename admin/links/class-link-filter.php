@@ -39,7 +39,7 @@ class WPSEO_Link_Filter {
 			return true;
 		}
 
-		return empty( $url_parts['fragment'] );
+		return false;
 	}
 
 	/**
