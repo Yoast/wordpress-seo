@@ -32,7 +32,7 @@ let demonstrativePronouns = [ "ciò", "codesto", "codesta", "codesti", "codeste"
 let possessivePronouns = [ "mio", "mia", "miei", "mie", "tuo", "tua", "tuoi", "tue", "suo", "sua", "suoi", "sue",
 	"nostro", "nostra", "nostri", "nostre", "vostro", "vostra", "vostro", "vostre" ];
 
-// Already in the list of transition words: appena
+// Already in the list of transition words: appena.
 let quantifiers = [ "abbastanza", "affatto", "assai", "alcun", "alcuna", "alcune", "alcuni", "alcuno", "alquanto", "bastantemente",
 	"grandemente", "massimamente", "meno", "minimamente", "molta", "molte", "molti", "moltissimo",
 	"molto", "nessun", "nessuna", "nessuno", "niente", "nulla", "ogni", "più", "po'", "poca", "poche", "pochi", "poco", "pochissime",
@@ -43,7 +43,7 @@ let quantifiers = [ "abbastanza", "affatto", "assai", "alcun", "alcuna", "alcune
 // Only includes intensifiers, because the normal forms are the same as the accusative pronouns.
 let reflexivePronouns = [ "stesso", "stessa", "stessi", "stesse" ];
 
-// Already in the quantifier list: alcuno, molto, nessuno, poco, taluno tanto, troppo, tutto, nulla, niente
+// Already in the quantifier list: alcuno, molto, nessuno, poco, taluno tanto, troppo, tutto, nulla, niente.
 let indefinitePronouns = [ "alcunché", "alcunchè", "altro", "altra", "altri", "altre", "certo", "certa", "certi", "certe",
 	"checché", "checchè", "chicchessia", "chiunque", "ciascuno", "ciascuna", "ciascun", "diverso", "diversa", "diversi",
 	"diverse", "parecchio", "parecchia", "parecchi", "parecchie", "qualcosa", "qualcuno", "qualcuna", "vario", "varia",
@@ -61,11 +61,11 @@ let interrogativeAdverbs = [ "come", "com'è", "com'era", "com'erano", "donde", 
 // 'Ci' and 'vi' are already part of the list of personal pronouns.
 let pronominalAdverbs = [ "ne" ];
 
-// 'Via' not included because of primary meaning 'street'
+// 'Via' not included because of primary meaning 'street'.
 let locativeAdverbs = [ "accanto", "altrove", "attorno", "dappertutto", "giù", "là", "laggiù", "lassù", "lì",  "ovunque",
 	"qua", "quaggiù", "quassù", "qui" ];
 
-// 'Essere' is already part of the otherAuxiliaries list
+// 'Essere' is already part of the otherAuxiliaries list.
 let filteredPassiveAuxiliaries = [ "vengano", "vengo", "vengono", "veniamo", "veniate", "venimmo", "venisse", "venissero", "venissi", "venissimo",
 	"veniste", "venisti", "venite", "veniva", "venivamo", "venivano", "venivate", "venivi", "venivo", "venne",
 	"vennero", "venni", "verrà", "verrai", "verranno", "verrebbe", "verrebbero", "verrei", "verremmo",
@@ -77,28 +77,25 @@ let otherAuxiliaries = [ "abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbi
 	"avessimo", "aveste", "avesti", "avete", "aveva", "avevamo", "avevano", "avevate", "avevi", "avevo", "avrà", "avrai",
 	"avranno", "avrebbe", "avrebbero", "avrei", "avremmo", "avremo", "avreste", "avresti", "avrete", "avrò", "avuto", "ebbe",
 	"ebbero", "ebbi", "ha", "hai", "hanno", "ho", "possa", "possano", "possiamo", "possiate", "posso", "possono", "poté",
-	"potei", "potemmo", "potendo", "potente", "poterono",
-	"potesse", "potessero", "potessi", "potessimo", "poteste", "potesti", "potete", "potette", "potettero", "potetti",
-	"poteva", "potevamo", "potevano", "potevate", "potevi", "potevo", "potrà", "potrai", "potranno", "potrebbe",
-	"potrebbero", "potrei", "potremmo", "potremo", "potreste", "potresti", "potrete", "potrò", "potuto", "può", "puoi",
-	"voglia", "vogliamo", "vogliano", "vogliate", "voglio", "vogliono", "volemmo", "volendo", "volente", "volesse",
-	"volessero", "volessi", "volessimo", "voleste", "volesti", "volete", "voleva", "volevamo", "volevano", "volevate",
+	"potei", "potemmo", "potendo", "potente", "poterono", "potesse", "potessero", "potessi", "potessimo", "poteste", "potesti",
+	"potete", "potette", "potettero", "potetti", "poteva", "potevamo", "potevano", "potevate", "potevi", "potevo", "potrà",
+	"potrai", "potranno", "potrebbe", "potrebbero", "potrei", "potremmo", "potremo", "potreste", "potresti", "potrete", "potrò",
+	"potuto", "può", "puoi", "voglia", "vogliamo", "vogliano", "vogliate", "voglio", "vogliono", "volemmo", "volendo", "volente",
+	"volesse", "volessero", "volessi", "volessimo", "voleste", "volesti", "volete", "voleva", "volevamo", "volevano", "volevate",
 	"volevi", "volevo", "volle", "vollero", "volli", "voluto", "vorrà", "vorrai", "vorranno", "vorrebbe", "vorrebbero",
 	"vorrei", "vorremmo", "vorremo", "vorreste", "vorresti", "vorrete", "vorrò", "vuoi", "vuole",
 	"debba", "debbano", "debbono", "deva", "deve", "devi", "devo", "devono", "dobbiamo", "dobbiate", "dové", "dovei",
 	"dovemmo", "dovendo", "doverono", "dovesse", "dovessero", "dovessi", "dovessimo", "doveste", "dovesti", "dovete",
 	"dovette", "dovettero", "dovetti", "doveva", "dovevamo", "dovevano", "dovevate", "dovevi", "dovevo", "dovrà",
 	"dovrai", "dovranno", "dovrebbe", "dovrebbero", "dovrei", "dovremmo", "dovremo", "dovreste", "dovresti", "dovrete",
-	"dovrò", "dovuto",
-	"sa", "sai", "sanno", "sapemmo", "sapendo", "sapesse", "sapessero", "sapessi", "sapessimo", "sapeste", "sapesti",
-	"sapete", "sapeva", "sapevamo", "sapevano", "sapevate", "sapevi", "sapevo", "sappi", "sappia", "sappiamo", "sappiano",
+	"dovrò", "dovuto", "sa", "sai", "sanno", "sapemmo", "sapendo", "sapesse", "sapessero", "sapessi", "sapessimo", "sapeste",
+	"sapesti", "sapete", "sapeva", "sapevamo", "sapevano", "sapevate", "sapevi", "sapevo", "sappi", "sappia", "sappiamo", "sappiano",
 	"sappiate", "saprà", "saprai", "sapranno", "saprebbe", "saprebbero", "saprei", "sapremmo", "sapremo", "sapreste",
-	"sapresti", "saprete", "saprò", "saputo", "seppe", "seppero", "seppi", "so",
-	"soglia", "sogliamo", "sogliano", "sogliate", "soglio", "sogliono", "solesse", "solessero", "solessi", "solessimo",
-	"soleste", "solete", "soleva", "solevamo", "solevano", "solevate", "solevi", "solevo", "solito", "suoli",
-	"sta", "stai", "stando", "stanno", "stante", "starà", "starai", "staranno", "staremo", "starete", "starò",
-	"stata", "state", "stati", "stato", "stava", "stavamo", "stavano", "stavate", "stavi", "stavo", "stemmo",
-	"stesse", "stessero", "stessi", "stessimo", "steste", "stesti", "stette", "stettero", "stetti", "stia",
+	"sapresti", "saprete", "saprò", "saputo", "seppe", "seppero", "seppi", "so", "soglia", "sogliamo", "sogliano", "sogliate",
+	"soglio", "sogliono", "solesse", "solessero", "solessi", "solessimo", "soleste", "solete", "soleva", "solevamo", "solevano",
+	"solevate", "solevi", "solevo", "solito", "suoli", "sta", "stai", "stando", "stanno", "stante", "starà", "starai",
+	"staranno", "staremo", "starete", "starò", "stata", "state", "stati", "stato", "stava", "stavamo", "stavano", "stavate",
+	"stavi", "stavo", "stemmo", "stesse", "stessero", "stessi", "stessimo", "steste", "stesti", "stette", "stettero", "stetti", "stia",
 	"stiamo", "stiano", "stiate", "sto" ];
 
 let otherAuxiliariesInfinitive = [ "avere", "aver", "potere", "poter", "volere", "poter", "dovere", "dover", "sapere", "saper", "solere",
@@ -111,8 +108,9 @@ let copula = [ "è", "e'", "era", "erano", "eravamo", "eravate", "eri", "ero", "
 
 let copulaInfinitive = [ "essere", "esser" ];
 
-/* 'Verso' ('towards') not included because it can also mean 'verse'.
-Already in other lists: malgrado, nonostante
+/*
+'Verso' ('towards') not included because it can also mean 'verse'.
+Already in other lists: malgrado, nonostante.
  */
 let prepositions = [ "di", "del", "dello", "della", "dei", "degli", "delle", "a", "ad", "al", "allo", "alla", "ai", "agli", "alle",
 	"da", "dal", "dallo", "dalla", "dai", "dagli", "dalle", "in", "nel", "nello", "nella", "nei", "negli", "nelle",
@@ -123,28 +121,31 @@ let prepositions = [ "di", "del", "dello", "della", "dei", "degli", "delle", "a"
 
 let coordinatingConjunctions = [ "e", "ed", "ma", "o", "oppure" ];
 
-/* 'Tale' from 'tale ... quale'
-'Dall'altra' from 'da una parte... dall'altra'
+/* '
+Tale' from 'tale ... quale'.
+'Dall'altra' from 'da una parte... dall'altra'.
 Already in other lists: vuoi...vuoi, tanto...quanto, quanto...quanto, ora...ora, non solo...ma anche, sia...sia, o...o,
-più...meno, né...né, altrettanto...così, così...come
+più...meno, né...né, altrettanto...così, così...come.
  */
 let correlativeConjunctions = [ "tale", "l'uno", "l'altro", "tali", "dall'altra" ];
 
-/* Already in another list (transition words, interrogative adverbs, numerals, prepositions):
+/*
+Already in another list (transition words, interrogative adverbs, numerals, prepositions):
 perché, quando, mentre, appena [che], sebbene, fino, affinché, finché, dato [che], visto [che], benché,
 come, prima [che], dopo, per, senza [che], di, sempre, nonostante, malgrado, così [che], in modo...da,
 tanto...da, con, dove, quanto, più...che, meno, peggio...che, meglio...di, se, che, di, a meno che, siccome,
-ogni volta [che], anche se, cosicché, invece, bensì, [al] punto [che]
-'Modo' from 'in modgiacché o che'
-'Volta' from 'una volta che
+ogni volta [che], anche se, cosicché, invece, bensì, [al] punto [che].
+'Modo' from 'in modgiacché o che'.
+'Volta' from 'una volta che.
 Excluded because of primary meaning: dal momento che, allo scopo di, a furia di ('fury', 'haste', 'rage'),
-a forza di ('force'), a condizione che ('condition')
+a forza di ('force'), a condizione che ('condition').
 */
 let subordinatingConjunctions = [ "anziché", "anzichè", "fuorché", "fuorchè", "giacché", "giacchè", "laddove", "modo",
 	"ove", "qualora", "quantunque", "volta" ];
 
-/* These verbs are frequently used in interviews to indicate questions and answers.
-Not included: 'legge' ('reads', but also: 'law'), 'letto' ('(has) read', but also: bed), 'precisa' ('states', but also: 'precise')
+/*
+These verbs are frequently used in interviews to indicate questions and answers.
+Not included: 'legge' ('reads', but also: 'law'), 'letto' ('(has) read', but also: bed), 'precisa' ('states', but also: 'precise').
  */
 let interviewVerbs = [ "dice", "dicono", "diceva", "dicevano", "disse", "dissero", "detto",
 	"domanda", "domandano", "domandava", "domandavano", "domandò", "domandarono", "domandato",
@@ -161,8 +162,9 @@ let interviewVerbsInfinitive = [ "affermare", "aggiungere", "ammettere", "annunc
 	"sottolineare", "spiegare" ];
 
 
-/* These transition words were not included in the list for the transition word assessment for various reasons.
-'Appunto' ('just', 'exactly') not included for the second meaning of 'note'
+/*
+These transition words were not included in the list for the transition word assessment for various reasons.
+'Appunto' ('just', 'exactly') not included for the second meaning of 'note'.
 */
 let additionalTransitionWords = [ "eventualmente", "forse", "mai", "particolarmente", "probabilmente", "sempre" ];
 
@@ -177,7 +179,8 @@ let delexicalizedVerbs = [ "fa", "fa’", "faccia", "facciamo", "facciano", "fac
 
 let delexicalizedVerbsInfinitive = [ "fare" ];
 
-/* These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
+/*
+These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
  Keyword combinations containing these adjectives/adverbs are fine.
  */
 let generalAdjectivesAdverbs = [ "anteriore",
@@ -214,7 +217,7 @@ let timeWords = [ "secondi", "minuto", "minuti", "ora", "ore", "giorno", "giorni
 	"settimana", "settimane", "mese", "mesi", "anno", "anni", "oggi", "domani", "ieri", "stamattina", "stamattina",
 	"stasera", "tardi", "immediatamente" ];
 
-// Already included in other lists
+// Already included in other lists.
 let vagueNouns = [ "aspetto", "aspetti", "caso", "casi", "cose", "idea", "idee", "istanza", "maniera", "modo", "oggetto", "oggetti", "parte",
 	"parti", "persona", "persone", "pezzo", "pezzi", "punto", "punti", "sorta", "sorte", "tema", "temi", "volta", "volte" ];
 
