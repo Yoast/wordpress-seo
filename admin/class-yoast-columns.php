@@ -23,7 +23,7 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 		$screen->add_help_tab(
 			array(
 				/* translators: %s expands to Yoast */
-				'title'    => sprintf( __( '%s columns', 'wordpress-seo' ), 'Yoast' ),
+				'title'    => sprintf( __( '%s Columns', 'wordpress-seo' ), 'Yoast' ),
 				'id'       => 'yst-columns',
 				'content'  => sprintf(
 					/* translators: %1$s: Yoast SEO, %2$s: Link to article about content analysis, %3$s: Anchor closing, %4$s: Link to article about text links */
