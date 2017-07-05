@@ -66,7 +66,7 @@ class WPSEO_Link_Reindex_Dashboard {
 			$html .= sprintf(
 				'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%2$s</a>',
 				$height,
-				esc_attr( __( 'Counting links in your texts', 'wordpress-seo' ) )
+				esc_attr( __( 'Count links in your texts', 'wordpress-seo' ) )
 			);
 			$html .= '</p>';
 		}

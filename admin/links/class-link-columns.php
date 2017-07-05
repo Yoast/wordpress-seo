@@ -46,9 +46,17 @@ class WPSEO_Link_Columns {
 		// Hook into tablenav to calculate links and linked.
 		add_action( 'manage_posts_extra_tablenav', array( $this, 'count_objects' ) );
 
-		$this->public_post_types = WPSEO_Link_Utils::get_public_post_types();
 		add_filter( 'posts_clauses', array( $this, 'order_by_links' ), 1, 2 );
 		add_filter( 'posts_clauses', array( $this, 'order_by_linked' ), 1, 2 );
+
+		add_filter( 'admin_init', array( $this, 'register_init_hooks' ) );
+	}
+
+	/**
+	 * Register hooks that require to be registered after `init`.
+	 */
+	public function register_init_hooks() {
+		$this->public_post_types = WPSEO_Link_Utils::get_public_post_types();
 
 		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
 			array_walk( $this->public_post_types, array( $this, 'set_post_type_hooks' ) );
@@ -139,10 +147,10 @@ class WPSEO_Link_Columns {
 	 * @return array The extended array with columns.
 	 */
 	public function add_post_columns( array $columns ) {
-		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = __( 'Text links', 'wordpress-seo' );
+		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = '<span class="yoast-linked-to yoast-column-header-has-tooltip" data-label="' . esc_attr__( 'Number of internal links in this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ) . '"><span class="screen-reader-text">' . __( '# links in post', 'wordpress-seo' ) . '</span></span>';
 
 		if ( ! WPSEO_Link_Query::has_unprocessed_posts( $this->public_post_types ) ) {
-			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = __( 'Linked by', 'wordpress-seo' );
+			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = '<span class="yoast-linked-from yoast-column-header-has-tooltip" data-label="' . esc_attr__( 'Number of internal links linking to this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ) . '"><span class="screen-reader-text">' . __( '# internal links to', 'wordpress-seo' ) . '</span></span>';
 		}
 
 		return $columns;

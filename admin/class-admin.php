@@ -99,6 +99,7 @@ class WPSEO_Admin {
 		$this->check_php_version();
 		$this->initialize_cornerstone_content();
 
+		$integrations[] = new WPSEO_Yoast_Columns();
 		$integrations = array_merge( $integrations, $this->initialize_seo_links() );
 
 		/** @var WPSEO_WordPress_Integration $integration */

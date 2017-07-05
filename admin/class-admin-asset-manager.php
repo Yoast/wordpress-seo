@@ -298,6 +298,11 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-progressbar',
 				),
 			),
+			array(
+				'name' => 'edit-page-script',
+				'src'  => 'wp-seo-edit-page-' . $flat_version,
+				'deps' => array( 'jquery' ),
+			),
 		);
 	}
 
@@ -366,7 +371,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name'    => 'select2',
-				'src'     => 'dist/select2/select2',
+				'src'     => 'select2/select2',
 				'suffix'  => '.min',
 				'version' => '4.0.1',
 				'rtl'     => false,
