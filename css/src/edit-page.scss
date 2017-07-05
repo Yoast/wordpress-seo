@@ -30,14 +30,6 @@
 	background-color: #1e8cbe;
 }
 
-th#wpseo-score {
-	width: 63px;
-}
-
-th#wpseo-score-readability {
-  width: 75px;
-}
-
 @media screen and ( max-width: 782px ) {
 	.column-wpseo-title,
 	.column-wpseo-score,
@@ -47,10 +39,19 @@ th#wpseo-score-readability {
 	}
 }
 
-/* Table internal links columns tooltips. */
-.fixed .column-wpseo-links,
-.fixed .column-wpseo-linked {
+/* Table internal links, SEO, and Readability columns tooltips. */
+.fixed th.column-wpseo-score,
+.fixed th.column-wpseo-score-readability,
+.fixed th.column-wpseo-links,
+.fixed th.column-wpseo-linked {
 	width: 4em;
+	padding: 0;
+}
+
+th.column-wpseo-score .yoast-tooltip,
+th.column-wpseo-score-readability .yoast-tooltip {
+	padding: 8px 10px;
+	vertical-align: middle;
 }
 
 th.column-wpseo-links a.yoast-tooltip,
@@ -84,12 +85,22 @@ th.column-wpseo-linked a.yoast-tooltip {
 }
 
 .manage-column .yoast-linked-to:before {
-	background: transparent url( "../images/linkout3.svg" ) no-repeat 0 0;
+	background: transparent url( "../images/link-out-icon.svg" ) no-repeat 0 0;
 	background-size: 20px;
 }
 
 .manage-column .yoast-linked-from:before {
-	background: transparent url( "../images/linkin3.svg" ) no-repeat 0 0;
+	background: transparent url( "../images/link-in-icon.svg" ) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.manage-column .yoast-column-seo-score:before {
+	background: transparent url( "../images/Yoast_SEO_negative_icon.svg" ) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.manage-column .yoast-column-readability:before {
+	background: transparent url( "../images/readability-icon.svg" ) no-repeat 0 0;
 	background-size: 20px;
 }
 
