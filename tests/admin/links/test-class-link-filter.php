@@ -58,6 +58,26 @@ class WPSEO_Link_Filter_Test extends WPSEO_UnitTestCase {
 				new WPSEO_Link( 'http://extern.al/page?param=foo', 0, 'external' ),
 				true,
 			),
+			array(
+				'page',
+				new WPSEO_Link( '/', 0, 'internal' ),
+				true,
+			),
+			array(
+				'/',
+				new WPSEO_Link( '/', 0, 'internal' ),
+				true,
+			),
+			array(
+				'page',
+				new WPSEO_Link( '?param=foo', 0, 'internal' ),
+				false,
+			),
+			array(
+				'page',
+				new WPSEO_Link( '#fragment', 0, 'internal' ),
+				false,
+			),
 		);
 	}
 }

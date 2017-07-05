@@ -33,9 +33,13 @@ class WPSEO_Link_Filter {
 			return true;
 		}
 
-		$url_path = untrailingslashit( parse_url( $link->get_url(), PHP_URL_PATH ) );
+		$url_parts = parse_url( $link->get_url() );
 
-		return ( ! $this->is_current_page( $url_path ) );
+		if ( isset( $url_parts['path'] ) ) {
+			return ! $this->is_current_page( untrailingslashit( $url_parts['path'] ) );
+		}
+
+		return ( ! isset( $url_parts['fragment'] ) && ! isset( $url_parts['query'] ) );
 	}
 
 	/**
