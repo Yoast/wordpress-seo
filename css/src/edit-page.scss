@@ -69,7 +69,8 @@ th.column-wpseo-linked a.yoast-tooltip {
 	margin-top: 11px;
 }
 
-.yoast-column-header-has-tooltip:before {
+/* Generate the icons in the table columns, exclude Screen Options. */
+.manage-column .yoast-column-header-has-tooltip:before {
 	content: "";
 	display: inline-block;
 	width: 20px;
@@ -82,12 +83,20 @@ th.column-wpseo-linked a.yoast-tooltip {
 	color: #444;
 }
 
-.yoast-linked-to:before {
+.manage-column .yoast-linked-to:before {
 	background: transparent url( "../images/linkout3.svg" ) no-repeat 0 0;
 	background-size: 20px;
 }
 
-.yoast-linked-from:before {
+.manage-column .yoast-linked-from:before {
 	background: transparent url( "../images/linkin3.svg" ) no-repeat 0 0;
 	background-size: 20px;
+}
+
+/* Make the checkboxes lable in the Screen Options visible. */
+#screen-meta .yoast-column-header-has-tooltip .screen-reader-text {
+	position: static;
+	width: auto;
+	height: auto;
+	visibility: visible;
 }

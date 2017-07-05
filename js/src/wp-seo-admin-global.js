@@ -518,14 +518,4 @@
 			closeVideoSlideout();
 		}
 	} );
-
-	// Set the yoast-tooltips on the list table links columns.
-	$( ".yoast-column-header-has-tooltip" ).each( function() {
-		var parentLink = $( this ).closest( "a" );
-
-		parentLink
-			.addClass( "yoast-tooltip yoast-tooltip-n yoast-tooltip-multiline" )
-			.attr( "aria-label", $( this ).data( "label" ) );
-	})
-
 }( jQuery ) );

@@ -309,7 +309,8 @@ th.column-wpseo-linked a.yoast-tooltip {
 	margin-top: 11px;
 }
 
-.yoast-column-header-has-tooltip:before {
+/* Generate the icons in the table columns, exclude Screen Options. */
+.manage-column .yoast-column-header-has-tooltip:before {
 	display: inline-block;
 	position: relative;
 	top: 2px;
@@ -322,12 +323,19 @@ th.column-wpseo-linked a.yoast-tooltip {
 	content: "";
 }
 
-.yoast-linked-to:before {
+.manage-column .yoast-linked-to:before {
 	background: transparent url("../images/linkout3.svg") no-repeat 100% 0;
 	background-size: 20px;
 }
 
-.yoast-linked-from:before {
+.manage-column .yoast-linked-from:before {
 	background: transparent url("../images/linkin3.svg") no-repeat 100% 0;
 	background-size: 20px;
+}
+
+#screen-meta .yoast-column-header-has-tooltip .screen-reader-text {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
 }
