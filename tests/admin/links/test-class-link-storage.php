@@ -21,8 +21,10 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 		global $wpdb;
 
 		$storage = new WPSEO_Link_Storage();
+		$meta_storage = new WPSEO_Meta_Storage();
 
 		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
+		$wpdb->query( 'DROP TABLE ' . $meta_storage->get_table_name() );
 	}
 
 	/**

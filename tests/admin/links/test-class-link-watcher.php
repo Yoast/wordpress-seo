@@ -11,6 +11,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$installer = new WPSEO_Link_Installer();
 		$installer->install();
 	}
+
 	/**
 	 * Drops the table when all tests for this class are executed.
 	 */
@@ -20,8 +21,10 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		global $wpdb;
 
 		$storage = new WPSEO_Link_Storage();
+		$meta_storage = new WPSEO_Meta_Storage();
 
 		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
+		$wpdb->query( 'DROP TABLE ' . $meta_storage->get_table_name() );
 	}
 
 	/**

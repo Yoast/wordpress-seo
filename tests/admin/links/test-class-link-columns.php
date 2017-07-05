@@ -1,6 +1,31 @@
 <?php
-/** @group test */
+
 class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
+
+	/**
+	 * Creates the table to make sure the tests for this class can be executed.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		$installer = new WPSEO_Link_Installer();
+		$installer->install();
+	}
+
+	/**
+	 * Drops the table when all tests for this class are executed.
+	 */
+	public static function tearDownAfterClass() {
+		parent::tearDownAfterClass();
+
+		global $wpdb;
+
+		$storage = new WPSEO_Link_Storage();
+		$meta_storage = new WPSEO_Meta_Storage();
+
+		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
+		$wpdb->query( 'DROP TABLE ' . $meta_storage->get_table_name() );
+	}
 
 	public function setUp() {
 		parent::setUp();
