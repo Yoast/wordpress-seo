@@ -1,3 +1,5 @@
+@import "../../node_modules/yoastseo/css/tooltips";
+
 .wpseo-score-icon {
 	display: inline-block;
 	width: 12px;
@@ -6,6 +8,11 @@
 	border-radius: 50%;
 	background: #888;
 	line-height: 16px;
+}
+
+/* Adjust vertical alignment of the icons in the table cells. */
+td .wpseo-score-icon {
+	margin-top: 3px;
 }
 
 .wpseo-score-icon.good {
@@ -28,14 +35,6 @@
 	background-color: #1e8cbe;
 }
 
-th#wpseo-score {
-	width: 63px;
-}
-
-th#wpseo-score-readability {
-  width: 75px;
-}
-
 @media screen and ( max-width: 782px ) {
 	.column-wpseo-title,
 	.column-wpseo-score,
@@ -43,4 +42,93 @@ th#wpseo-score-readability {
 	.column-wpseo-focuskw {
 		display: none;
 	}
+}
+
+/* Table internal links, SEO, and Readability columns tooltips. */
+.fixed th.column-wpseo-score,
+.fixed th.column-wpseo-score-readability,
+.fixed th.column-wpseo-links,
+.fixed th.column-wpseo-linked {
+	width: 3em;
+	padding: 0;
+}
+
+th.column-wpseo-links a.yoast-tooltip,
+th.column-wpseo-linked a.yoast-tooltip,
+th.column-wpseo-score .yoast-tooltip,
+th.column-wpseo-score-readability .yoast-tooltip {
+	overflow: visible; /* Override WP property to make tooltips visible. */
+	display: inline-block; /* To contain floats instead of using overflow. */
+	vertical-align: middle;
+	padding: 8px 0;
+}
+
+th.column-wpseo-score .yoast-tooltip,
+th.column-wpseo-score-readability .yoast-tooltip {
+	padding: 8px 12px;
+}
+
+.column-wpseo-links .yoast-tooltip-multiline::after {
+	/* Edge doesn't support width: max-content; */
+	width: 999px;
+	max-width: 160px;
+}
+
+.column-wpseo-linked .yoast-tooltip-multiline::after {
+	/* Edge doesn't support width: max-content; */
+	width: 999px;
+	max-width: 170px;
+}
+
+.column-wpseo-links .sorting-indicator,
+.column-wpseo-linked .sorting-indicator {
+	margin-top: 11px;
+}
+
+/* Generate the icons in the table columns, exclude Screen Options. */
+.manage-column .yoast-column-header-has-tooltip:before {
+	content: "";
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	position: relative;
+	top: 2px;
+	vertical-align: top;
+	text-decoration: none !important;
+	color: #444;
+}
+
+.manage-column .yoast-linked-to:before {
+	background: transparent url( "../../images/link-out-icon.svg" ) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.manage-column .yoast-linked-from:before {
+	background: transparent url( "../../images/link-in-icon.svg" ) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.manage-column .yoast-column-seo-score:before {
+	background: transparent url( "../../images/Yoast_SEO_negative_icon.svg" ) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.manage-column .yoast-column-readability:before {
+	background: transparent url( "../../images/readability-icon.svg" ) no-repeat 0 0;
+	background-size: 20px;
+}
+
+/* Do not allow link numbers to break in the table cells. */
+td.column-wpseo-links,
+td.column-wpseo-linked {
+	word-wrap: normal;
+}
+
+/* Make the checkboxes lable in the Screen Options visible. */
+#screen-meta .yoast-column-header-has-tooltip .screen-reader-text {
+	position: static;
+	width: auto;
+	height: auto;
+	visibility: visible;
 }

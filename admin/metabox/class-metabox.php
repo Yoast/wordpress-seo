@@ -875,6 +875,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( self::is_post_overview( $pagenow ) ) {
 			$asset_manager->enqueue_style( 'edit-page' );
+			$asset_manager->enqueue_script( 'edit-page-script' );
 		}
 		else {
 

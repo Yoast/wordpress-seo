@@ -30,6 +30,12 @@ a:focus {
 	position: absolute !important;
 	width: 1px;
 	height: 1px;
+	padding: 0;
+	border: 0;
+	word-wrap: normal !important;
+
+	-webkit-clip-path: inset(50%);
+	clip-path: inset(50%);
 }
 
 /* css for snippet */
@@ -471,6 +477,14 @@ body {
 	border: 1px solid #ccc;
 	box-shadow: rgba(0, 0, 0, 0.15) 0 3px 10px, rgba(0, 0, 0, 0.2) 0 3px 10px;
 	text-align: right;
+}
+
+.yoast-wizard-container--no-navigation {
+	margin-top: 40px;
+}
+
+.yoast-wizard-container--no-navigation .yoast-wizard {
+	padding-top: 3em;
 }
 
 @media screen and (max-width: 768px) {
