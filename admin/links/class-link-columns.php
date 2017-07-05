@@ -139,10 +139,10 @@ class WPSEO_Link_Columns {
 	 * @return array The extended array with columns.
 	 */
 	public function add_post_columns( array $columns ) {
-		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = '<span class="yoast-linked-to yoast-column-header-has-tooltip" data-label="' . esc_attr__( 'Text links very long explanation text very long explanation text', 'wordpress-seo' ) . '"><span class="screen-reader-text">' . __( 'Linked to', 'wordpress-seo' ) . '</span></span>';
+		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = '<span class="yoast-linked-to yoast-column-header-has-tooltip" data-label="' . esc_attr__( 'Number of internal links in this post', 'wordpress-seo' ) . '"><span class="screen-reader-text">' . __( '# links in post', 'wordpress-seo' ) . '</span></span>';
 
 		if ( ! WPSEO_Link_Query::has_unprocessed_posts( $this->public_post_types ) ) {
-			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = '<span class="yoast-linked-from yoast-column-header-has-tooltip" data-label="' . esc_attr__( 'Linked by very long explanation text very long explanation text', 'wordpress-seo' ) . '"><span class="screen-reader-text">' . __( 'Linked by', 'wordpress-seo' ) . '</span></span>';
+			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = '<span class="yoast-linked-from yoast-column-header-has-tooltip" data-label="' . esc_attr__( 'Number of internal links linking to this post', 'wordpress-seo' ) . '"><span class="screen-reader-text">' . __( '# internal links to', 'wordpress-seo' ) . '</span></span>';
 		}
 
 		return $columns;

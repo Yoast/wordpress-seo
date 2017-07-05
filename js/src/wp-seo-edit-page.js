@@ -9,7 +9,6 @@
 	})
 
 	// Clean up the columns titles HTML for the Screen Options checkboxes labels.
-	console.log( $( ".yoast-column-header-has-tooltip, .yoast-tooltip", "#screen-meta" ).length, $( ".yoast-column-header-has-tooltip, .yoast-tooltip", "#screen-meta" ) );
 	$( ".yoast-column-header-has-tooltip, .yoast-tooltip", "#screen-meta" ).each( function() {
 		var text = $( this ).text();
 		$( this ).replaceWith( text );

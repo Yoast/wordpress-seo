@@ -10,6 +10,11 @@
 	line-height: 16px;
 }
 
+/* Adjust vertical alignment of the icons in the table cells. */
+td .wpseo-score-icon {
+	margin-top: 3px;
+}
+
 .wpseo-score-icon.good {
 	background-color: #7ad03a;
 }
@@ -44,25 +49,31 @@
 .fixed th.column-wpseo-score-readability,
 .fixed th.column-wpseo-links,
 .fixed th.column-wpseo-linked {
-	width: 4em;
+	width: 3em;
 	padding: 0;
+}
+
+th.column-wpseo-links a.yoast-tooltip,
+th.column-wpseo-linked a.yoast-tooltip,
+th.column-wpseo-score .yoast-tooltip,
+th.column-wpseo-score-readability .yoast-tooltip {
+	overflow: visible; /* Override WP property to make tooltips visible. */
+	display: inline-block; /* To contain floats instead of using overflow. */
+	vertical-align: middle;
+	padding: 8px 0;
 }
 
 th.column-wpseo-score .yoast-tooltip,
 th.column-wpseo-score-readability .yoast-tooltip {
-	padding: 8px 10px;
-	vertical-align: middle;
+	padding: 8px 12px;
 }
 
-th.column-wpseo-links a.yoast-tooltip,
-th.column-wpseo-linked a.yoast-tooltip {
-	overflow: visible; /* Override WP property to make tooltips visible. */
-	display: inline-block; /* To contain floats instead of using overflow. */
+.column-wpseo-links .yoast-tooltip-multiline::after {
+	max-width: 110px;
 }
 
-.column-wpseo-links .yoast-tooltip-multiline::after,
 .column-wpseo-linked .yoast-tooltip-multiline::after {
-	max-width: 160px;
+	max-width: 130px;
 }
 
 .column-wpseo-links .sorting-indicator,
@@ -85,23 +96,29 @@ th.column-wpseo-linked a.yoast-tooltip {
 }
 
 .manage-column .yoast-linked-to:before {
-	background: transparent url( "../images/link-out-icon.svg" ) no-repeat 0 0;
+	background: transparent url( "../../images/link-out-icon.svg" ) no-repeat 0 0;
 	background-size: 20px;
 }
 
 .manage-column .yoast-linked-from:before {
-	background: transparent url( "../images/link-in-icon.svg" ) no-repeat 0 0;
+	background: transparent url( "../../images/link-in-icon.svg" ) no-repeat 0 0;
 	background-size: 20px;
 }
 
 .manage-column .yoast-column-seo-score:before {
-	background: transparent url( "../images/Yoast_SEO_negative_icon.svg" ) no-repeat 0 0;
+	background: transparent url( "../../images/Yoast_SEO_negative_icon.svg" ) no-repeat 0 0;
 	background-size: 20px;
 }
 
 .manage-column .yoast-column-readability:before {
-	background: transparent url( "../images/readability-icon.svg" ) no-repeat 0 0;
+	background: transparent url( "../../images/readability-icon.svg" ) no-repeat 0 0;
 	background-size: 20px;
+}
+
+/* Do not allow link numbers to break in the table cells. */
+td.column-wpseo-links,
+td.column-wpseo-linked {
+	word-wrap: normal;
 }
 
 /* Make the checkboxes lable in the Screen Options visible. */
