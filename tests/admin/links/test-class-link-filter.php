@@ -53,6 +53,11 @@ class WPSEO_Link_Filter_Test extends WPSEO_UnitTestCase {
 				new WPSEO_Link( 'testpage?param=foo', 0, 'internal' ),
 				true,
 			),
+			array(
+				'page',
+				new WPSEO_Link( 'http://extern.al/page?param=foo', 0, 'external' ),
+				true,
+			),
 		);
 	}
 }
