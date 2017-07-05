@@ -235,7 +235,7 @@ function filterCombinations( combinations, functionWords, locale ) {
 			break;
 		case "fr":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
-			combinations = filterFunctionWords( combinations, functionWords().interrogatives);
+			combinations = filterFunctionWords( combinations, functionWords().interrogatives );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbsPreceding );
