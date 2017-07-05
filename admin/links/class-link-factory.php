@@ -12,17 +12,23 @@ class WPSEO_Link_Factory {
 	protected $classifier;
 
 	/** @var WPSEO_Link_Internal_Lookup */
+
 	protected $internal_lookup;
+
+	/** @var WPSEO_Link_Filter */
+	protected $filter;
 
 	/**
 	 * Sets the dependencies for this object.
 	 *
 	 * @param WPSEO_Link_Type_Classifier $classifier      The classifier to use.
 	 * @param WPSEO_Link_Internal_Lookup $internal_lookup The internal lookup to use.
+	 * @param WPSEO_Link_Filter          $filter          The link filter.
 	 */
-	public function __construct( WPSEO_Link_Type_Classifier $classifier, WPSEO_Link_Internal_Lookup $internal_lookup ) {
+	public function __construct( WPSEO_Link_Type_Classifier $classifier, WPSEO_Link_Internal_Lookup $internal_lookup, WPSEO_Link_Filter $filter ) {
 		$this->classifier = $classifier;
 		$this->internal_lookup = $internal_lookup;
+		$this->filter = $filter;
 	}
 
 	/**
@@ -33,7 +39,10 @@ class WPSEO_Link_Factory {
 	 * @return WPSEO_Link[] The formatted links.
 	 */
 	public function build( array $extracted_links ) {
-		return array_map( array( $this, 'build_link' ), $extracted_links );
+		$extracted_links = array_map( array( $this, 'build_link' ), $extracted_links );
+		$filtered_links = array_filter( $extracted_links, array( $this->filter, 'internal_link_with_fragment_filter' ) );
+
+		return $filtered_links;
 	}
 
 	/**
