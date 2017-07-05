@@ -33,7 +33,10 @@ class WPSEO_Link_Factory {
 	 * @return WPSEO_Link[] The formatted links.
 	 */
 	public function build( array $extracted_links ) {
-		return array_map( array( $this, 'build_link' ), $extracted_links );
+		$extracted_links = array_map( array( $this, 'build_link' ), $extracted_links );
+		$filtered_links = array_filter( $extracted_links, array( $this, 'internal_link_with_fragment_filter' ) );
+
+		return $filtered_links;
 	}
 
 	/**
@@ -52,5 +55,22 @@ class WPSEO_Link_Factory {
 		}
 
 		return new WPSEO_Link( $link, $target_post_id, $link_type );
+	}
+
+	/**
+	 * Filters all internal links that contains an fragment in the URL.
+	 *
+	 * @param WPSEO_Link $link The link that might be filtered.
+	 *
+	 * @return bool False when url contains a fragment.
+	 */
+	protected function internal_link_with_fragment_filter( WPSEO_Link $link ) {
+		if ( $link->get_type() !== WPSEO_Link::TYPE_INTERNAL ) {
+			return true;
+		}
+
+		$url_parts = parse_url( $link->get_url() );
+
+		return empty( $url_parts['fragment'] );
 	}
 }
