@@ -35,11 +35,7 @@ class WPSEO_Link_Filter {
 
 		$url_path = untrailingslashit( parse_url( $link->get_url(), PHP_URL_PATH ) );
 
-		if ( ! $this->is_current_page( $url_path ) ) {
-			return true;
-		}
-
-		return false;
+		return ( ! $this->is_current_page( $url_path ) );
 	}
 
 	/**
