@@ -5,8 +5,8 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Creates the table to make sure the tests for this class can be executed.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
 
 		$installer = new WPSEO_Link_Installer();
 		$installer->install();
@@ -15,14 +15,16 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Drops the table when all tests for this class are executed.
 	 */
-	public function tearDown() {
+	public static function tearDownAfterClass() {
+		parent::tearDownAfterClass();
+
 		global $wpdb;
 
-		parent::tearDown();
-
 		$storage = new WPSEO_Link_Storage();
+		$meta_storage = new WPSEO_Meta_Storage();
 
 		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
+		$wpdb->query( 'DROP TABLE ' . $meta_storage->get_table_name() );
 	}
 
 	/**
@@ -77,8 +79,8 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 				$this->returnValue(
 					array(
 						1 => array(
-							'link_count' => 10,
-							'internal_link_count' => 0,
+							'incoming_link_count' => 0,
+							'internal_link_count' => 10,
 						),
 					)
 				)
@@ -120,7 +122,7 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 		$column_count = new WPSEO_Link_Column_Count();
 		$column_count->set( array( 100 ) );
 
-		$this->assertEquals( 1, $column_count->get( 100, 'internal_link_count' ) );
+		$this->assertEquals( 0, $column_count->get( 100, 'incoming_link_count' ) );
 	}
 
 	/**

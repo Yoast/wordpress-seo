@@ -9,7 +9,10 @@
 class WPSEO_Link_Type_Classifier {
 
 	/** @var string */
-	protected $base_url = '';
+	protected $base_host = '';
+
+	/** @var string */
+	protected $base_path = '';
 
 	/**
 	 * Constructor setting the base url
@@ -17,7 +20,12 @@ class WPSEO_Link_Type_Classifier {
 	 * @param string $base_url The base url to set.
 	 */
 	public function __construct( $base_url ) {
-		$this->base_url = $base_url;
+		$this->base_host = parse_url( $base_url, PHP_URL_HOST );
+
+		$base_path = parse_url( $base_url, PHP_URL_PATH );
+		if ( $base_path ) {
+			$this->base_path = trailingslashit( $base_path );
+		}
 	}
 
 	/**
@@ -28,7 +36,9 @@ class WPSEO_Link_Type_Classifier {
 	 * @return string Returns outbound or internal.
 	 */
 	public function classify( $link ) {
-		if ( $this->contains_protocol( $link ) && $this->is_external_link( $link ) ) {
+		$url_parts = parse_url( $link );
+
+		if ( $this->contains_protocol( $url_parts ) && $this->is_external_link( $url_parts ) ) {
 			return WPSEO_Link::TYPE_EXTERNAL;
 		}
 
@@ -38,22 +48,40 @@ class WPSEO_Link_Type_Classifier {
 	/**
 	 * Returns true when the link starts with https:// or http://
 	 *
-	 * @param string $link The link to check.
+	 * @param array $url_parts The url parts to use.
 	 *
 	 * @return bool True if the url starts with a protocol.
 	 */
-	protected function contains_protocol( $link ) {
-		return strpos( $link, 'https://' ) === 0 || strpos( $link, 'http://' ) === 0;
+	protected function contains_protocol( array $url_parts ) {
+		return isset( $url_parts['scheme'] ) && $url_parts['scheme'] !== null;
 	}
 
 	/**
 	 * Checks if the link contains the home_url. Returns true if this isn't the case.
 	 *
-	 * @param string $link The link to check.
+	 * @param array $url_parts The url parts to use.
 	 *
 	 * @return bool True when the link doesn't contain the home url.
 	 */
-	protected function is_external_link( $link ) {
-		return ( strpos( $link, $this->base_url ) === false );
+	protected function is_external_link( array $url_parts ) {
+		if ( isset( $url_parts['scheme'] ) && ! in_array( $url_parts['scheme'], array( 'http', 'https' ), true ) ) {
+			return true;
+		}
+		// When the base host is equal to the host.
+		if ( isset( $url_parts['host'] ) && $url_parts['host'] !== $this->base_host ) {
+			return true;
+		}
+
+		// There is no base path.
+		if ( empty( $this->base_path ) ) {
+			return false;
+		}
+
+		// When there is a path.
+		if ( isset( $url_parts['path'] ) ) {
+			return ( strpos( $url_parts['path'], $this->base_path ) === false );
+		}
+
+		return true;
 	}
 }

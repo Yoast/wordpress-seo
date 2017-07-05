@@ -14,25 +14,35 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 		$this->classifier = new WPSEO_Link_Type_Classifier( 'http://example.com' );
 	}
 
+
 	/**
-	 * Test with an internal link.
+	 * @dataProvider provider_urls
+	 *
+	 * @param string $base_url
+	 * @param string $url_to_classify
+	 * @param string $expected
 	 */
-	public function test_internal_link() {
-		$this->assertEquals( 'internal', $this->classifier->classify( 'http://example.com/page' ) );
+	public function test_classify( $base_url, $url_to_classify, $expected ) {
+		$classifier = new WPSEO_Link_Type_Classifier( $base_url );
+
+		$this->assertEquals( $expected, $classifier->classify( $url_to_classify ) );
 	}
 
 	/**
-	 * Test with an external link
+	 * @return array
 	 */
-	public function test_outbound_link() {
-		$this->assertEquals( 'external', $this->classifier->classify( 'http://test.com/page' ) );
-	}
-
-	/**
-	 * Test with an internal link.
-	 */
-	public function test_with_protocolless_link() {
-		$this->assertEquals( 'internal', $this->classifier->classify( 'page' ) );
+	public function provider_urls() {
+		return array(
+			array( 'http://example.com', 'page', 'internal' ),
+			array( 'http://example.com', 'http://example.com/page', 'internal' ),
+			array( 'https://example.com', 'http://example.com/page', 'internal' ),
+			array( 'http://example.com', 'http://test.com/page', 'external' ),
+			array( 'http://example.com', 'http://dev.example.com', 'external' ),
+			array( 'http://example.com/subdirectory', 'http://example.com/subdirectory2/', 'external' ),
+			array( 'http://example.com/subdirectory', 'http://example.com/subdirectory/hi?query=set', 'internal' ),
+			array( 'http://example.com', 'mailto:johndoe@example.com', 'external' ),
+			array( 'http://example.com', 'mailto:example.com', 'external' ),
+		);
 	}
 
 	/**
@@ -49,7 +59,7 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 		$classifier
 			->expects( $this->once() )
 			->method( 'contains_protocol' )
-			->with( 'http://test.com/page' )
+			->with( parse_url( 'http://test.com/page' ) )
 			->will( $this->returnValue( true ) );
 
 		$classifier->classify( 'http://test.com/page' );
@@ -69,7 +79,7 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 		$classifier
 			->expects( $this->once() )
 			->method( 'is_external_link' )
-			->with( 'http://test.com/page' )
+			->with( parse_url( 'http://test.com/page' ) )
 			->will( $this->returnValue( true ) );
 
 		$classifier->classify( 'http://test.com/page' );
