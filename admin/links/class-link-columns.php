@@ -46,9 +46,17 @@ class WPSEO_Link_Columns {
 		// Hook into tablenav to calculate links and linked.
 		add_action( 'manage_posts_extra_tablenav', array( $this, 'count_objects' ) );
 
-		$this->public_post_types = WPSEO_Link_Utils::get_public_post_types();
 		add_filter( 'posts_clauses', array( $this, 'order_by_links' ), 1, 2 );
 		add_filter( 'posts_clauses', array( $this, 'order_by_linked' ), 1, 2 );
+
+		add_filter( 'admin_init', array( $this, 'register_init_hooks' ) );
+	}
+
+	/**
+	 * Register hooks that require to be registered after `init`.
+	 */
+	public function register_init_hooks() {
+		$this->public_post_types = WPSEO_Link_Utils::get_public_post_types();
 
 		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
 			array_walk( $this->public_post_types, array( $this, 'set_post_type_hooks' ) );
