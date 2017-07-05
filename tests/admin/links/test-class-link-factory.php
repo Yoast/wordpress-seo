@@ -67,4 +67,32 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
+	public function test_filter_internal_link_with_fragment() {
+		/** @var WPSEO_Link_Type_Classifier $stub */
+		$classifier = $this
+			->getMockBuilder( 'WPSEO_Link_Type_Classifier' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$classifier
+			->expects( $this->once() )
+			->method( 'classify' )
+			->will( $this->returnValue( 'internal' ) );
+
+		/** @var WPSEO_Link_Internal_Lookup $populator */
+		$populator = $this
+			->getMockBuilder( 'WPSEO_Link_Internal_Lookup' )
+			->getMock();
+		$populator
+			->expects( $this->once() )
+			->method( 'lookup' )
+			->will( $this->returnValue( 2 ) );
+
+		$processor = new WPSEO_Link_Factory( $classifier, $populator );
+		$this->assertEquals(
+			array(),
+			$processor->build( array( 'test.html#hashtag' ) )
+		);
+	}
+
 }
