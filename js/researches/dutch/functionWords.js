@@ -21,7 +21,7 @@ let personalPronounsAccusative = [ "mij", "jou", "hem", "haar", "hen", "hun", "u
 let demonstrativePronouns = [ "dit", "dat", "deze", "die", "zelf" ];
 
 // What to do with 'zijn', since it is also a verb?
-let possessivePronouns = [ "mijn", "mijne", "jouw", "jouwe", "zijne", "hare", "ons", "onze", "hunne", "uwe" ];
+let possessivePronouns = [ "mijn", "mijne", "jouw", "jouwe", "zijne", "hare", "ons", "onze", "hunne", "uwe", "elkaars", "elkanders" ];
 let quantifiers = [ "alle", "sommige", "sommigen", "allen", "weinig", "weinige", "weinigen", "veel", "vele", "velen", "geen", "beetje",
 	"elke", "elk", "genoeg", "meer", "meest", "meeste", "meesten", "paar", "zoveel", "enkele", "enkelen", "zoveelste", "hoeveelste",
 	"laatste", "laatsten", "ieder", "iedere", "allemaal", "alles", "al", "zekere", "ander", "andere", "gene", "enig", "enige", "verscheidene",
@@ -38,9 +38,9 @@ let indefinitePronouns = [ "iedereen", "ieder", "eenieder", "alleman", "allen", 
 
 let indefinitePronounsPossessive  = [ "ieders", "aller", "iedereens", "eenieders" ];
 
-let interrogativePronouns = [ "welke", "welk", "wat", "wie", "wiens", "wier" ];
+let relativePronouns = [ "welke", "welk", "wat", "wie", "wiens", "wier" ];
 
-let interrogativeAdverbs = [ "hoe", "waarom", "waar", "hoezo", "wanneer", "hoeveel" ];
+let interrogativeProAdverbs = [ "hoe", "waarom", "waar", "hoezo", "wanneer", "hoeveel" ];
 
 let pronominalAdverbs = [ "daaraan", "daarachter", "daaraf", "daarbij", "daarbinnen", "daarboven", "daarbuiten", "daardoor", "daardoorheen",
 	"daarheen", "daarin", "daarjegens", "daarmede", "daarmee", "daarna", "daarnaar", "daarnaartoe", "daarnaast", "daarom", "daaromtrent",
@@ -161,11 +161,12 @@ module.exports = function() {
 		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
+		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
 		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
 		infinitives: passiveAuxiliariesInfinitive.concat( otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
 		quantifiers: quantifiers,
-		relativePronouns: interrogativePronouns.concat( interrogativeAdverbs ),
+		relativePronouns: relativePronouns,
+		interrogativeProAdverbs: interrogativeProAdverbs,
 		passiveAuxiliaries: filteredPassiveAuxiliaries,
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		miscellaneous: miscellaneous,
@@ -183,11 +184,12 @@ module.exports = function() {
 		recipeWords: recipeWords,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
-			indefinitePronounsPossessive, interrogativePronouns, interrogativeAdverbs,
+			indefinitePronounsPossessive, relativePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, prepositionalAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive,
-			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
-			recipeWords, vagueNouns, miscellaneous, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
+			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions,
+			correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
+			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
+			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous ),
 	};
 };
 

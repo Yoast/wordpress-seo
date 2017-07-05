@@ -42,7 +42,7 @@ var demonstrativePronouns = [ "denen", "deren", "derer", "dessen", "diese", "die
 var possessivePronouns = [ "mein", "meine", "meinem", "meiner", "meines", "dein", "deine", "deinem", "deiner",
 	"deines", "deinen", "sein", "seine", "seinem", "seiner", "seines", "ihr", "ihre", "ihrem", "ihren", "ihrer", "ihres",
 	"unser", "unsere", "unserem", "unseren", "unserer", "unseres", "euer", "eure", "eurem", "euren", "eurer",
-	"eures" ];
+	"eures", "einanders" ];
 
 var quantifiers = [ "manche", "manch", "viele", "viel", "vieler", "vielen", "vielem", "all", "alle", "aller", "alles",
 	"allen", "allem", "allerlei", "solcherlei", "einige", "etliche", "manch", "wenige", "weniger", "wenigen",
@@ -53,6 +53,8 @@ var quantifiers = [ "manche", "manch", "viele", "viel", "vieler", "vielen", "vie
 	"verschiednes", "art", "arten", "sorte", "sorten" ];
 
 var reflexivePronouns = [ "sich" ];
+
+var reciprocalPronouns = [ "einander" ];
 
 // "Welch", "welcher", and "welches" are already included in the demonstrativePronouns.
 var indefinitePronouns = [ "andere", "anderer", "anderem", "anderen", "anderes", "andren", "andern", "andrem",
@@ -188,7 +190,7 @@ var intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weita
 
 // These verbs convey little meaning.
 var delexicalizedVerbs = [ "geschienen", "meine", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
-	"gemeint", "stehe", "stehst", "steht" ];
+	"gemeint", "stehe", "stehst", "steht", "gehe", "gehst", "geht", "gegangen", "ging", "gingst", "gingen", "gingt" ];
 
 var delexicalizedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen", "wissen", "gehen", "kommen" ];
 
@@ -268,7 +270,7 @@ var vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sa
 	"idee", "ideen", "ahnung", "ahnungen", "thema", "themas", "themata", "themen", "fall", "falle", "falles", "falls", "fälle", "fällen",
 	"faelle", "faellen", "mensch", "menschen", "leute" ];
 
-var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "nicht", "amen", "ja", "nein", "euro", "prozent", "was" ];
+var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "nicht", "amen", "ja", "nein", "euro", "prozent" ];
 
 module.exports = function() {
 	return {
@@ -278,7 +280,7 @@ module.exports = function() {
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
-		verbs: copula.concat( interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries ),
+		verbs: copula.concat( interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries, delexicalizedVerbs ),
 		quantifiers: quantifiers,
 		relativePronouns: relativePronouns,
 		interrogativeProAdverbs: interrogativeProAdverbs,
@@ -290,6 +292,7 @@ module.exports = function() {
 		interjections: interjections,
 		pronominalAdverbs: pronominalAdverbs,
 		reflexivePronouns: reflexivePronouns,
+		reciprocalPronouns: reciprocalPronouns,
 		cardinalNumerals: cardinalNumerals,
 		ordinalNumerals: ordinalNumerals,
 		indefinitePronouns: indefinitePronouns,
@@ -298,10 +301,11 @@ module.exports = function() {
 		intensifiers: intensifiers,
 		recipeWords: recipeWords,
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		timeWords: timeWords,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-			personalPronounsNominative,	personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns,
-			interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries,
-			infinitivePassiveAuxiliaries, otherAuxiliaries,
+			reciprocalPronouns,	personalPronounsNominative,	personalPronounsAccusative, relativePronouns, quantifiers,
+			indefinitePronouns,	interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives,
+			filteredPassiveAuxiliaries,	infinitivePassiveAuxiliaries, otherAuxiliaries,
 			otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers,
 			delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,

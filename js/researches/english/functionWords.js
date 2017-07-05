@@ -20,7 +20,7 @@ var personalPronounsNominative = [ "i", "you", "he", "she", "it", "we", "they" ]
 var personalPronounsAccusative = [ "me", "him", "her", "us", "them" ];
 var demonstrativePronouns = [ "this", "that", "these", "those" ];
 var possessivePronouns = [ "my", "your", "his", "her", "its", "their", "our", "mine", "yours", "hers", "theirs", "ours" ];
-var quantifiers = [ "all", "some", "many", "few", "lot", "lots", "tons", "bit", "no", "every", "enough", "little", "less", "much", "more", "most",
+var quantifiers = [ "all", "some", "many", "few", "lot", "lots", "ton", "tons", "bit", "no", "every", "enough", "little", "less", "much", "more", "most",
 	"plenty", "several", "few", "fewer", "kind" ];
 var reflexivePronouns = [ "myself", "yourself", "himself", "herself", "itself", "oneself", "ourselves", "yourselves", "themselves" ];
 var indefinitePronouns = [ "none", "nobody", "everyone", "everybody", "someone", "somebody", "anyone", "anybody", "nothing",

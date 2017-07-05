@@ -216,39 +216,40 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWords( combinations, functionWords().prepositionalAdverbs );
 	combinations = filterFunctionWords( combinations, functionWords().intensifiers );
 	combinations = filterFunctionWords( combinations, functionWords().recipeWords );
+	combinations = filterFunctionWords( combinations, functionWords().verbs );
 	switch( getLanguage( locale ) ) {
 		case "en":
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().reflexivePronouns );
-			combinations = filterFunctionWords( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().continuousVerbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbs );
 			break;
 		case "es":
-			combinations = filterFunctionWords( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
 			break;
 		case "it":
-			combinations = filterFunctionWords( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbsPreceding );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().timeWords );
 			break;
 		case "fr":
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
+			combinations = filterFunctionWords( combinations, functionWords().interrogatives);
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbsPreceding );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().timeWords );
+
 			break;
 		case "de":
 		case "nl":
-			combinations = filterFunctionWords( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().infinitives );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().interrogativeProAdverbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbs );
+			combinations = filterFunctionWords( combinations, functionWords().timeWords );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reciprocalPronouns );
 			break;
 	}
 	return combinations;

@@ -40,9 +40,6 @@ let quantifiers = [ "abbastanza", "affatto", "assai", "alcun", "alcuna", "alcune
 	"sufficientemente",	"taluno", "taluna", "taluni", "talune", "tanta", "tante", "tanti", "tantissime", "tantissimi",
 	"tanto", "tonnellate", "troppa", "troppe", "troppi", "troppo", "tutta", "tutte", "tutti", "tutto" ];
 
-// Only includes intensifiers, because the normal forms are the same as the accusative pronouns.
-let reflexivePronouns = [ "stesso", "stessa", "stessi", "stesse" ];
-
 // Already in the quantifier list: alcuno, molto, nessuno, poco, taluno tanto, troppo, tutto, nulla, niente.
 let indefinitePronouns = [ "alcunché", "alcunchè", "altro", "altra", "altri", "altre", "certo", "certa", "certi", "certe",
 	"checché", "checchè", "chicchessia", "chiunque", "ciascuno", "ciascuna", "ciascun", "diverso", "diversa", "diversi",
@@ -71,7 +68,7 @@ let filteredPassiveAuxiliaries = [ "vengano", "vengo", "vengono", "veniamo", "ve
 	"vennero", "venni", "verrà", "verrai", "verranno", "verrebbe", "verrebbero", "verrei", "verremmo",
 	"verremo", "verreste", "verresti", "verrete", "verrò", "viene", "vieni" ];
 
-let infinitivePassiveAuxiliaries = [ "venire", "venir" ];
+let passiveAuxiliariesInfinitive = [ "venire", "venir" ];
 
 let otherAuxiliaries = [ "abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbiente", "avemmo", "avendo", "avente", "avesse", "avessero", "avessi",
 	"avessimo", "aveste", "avesti", "avete", "aveva", "avevamo", "avevano", "avevate", "avevi", "avevo", "avrà", "avrai",
@@ -203,7 +200,7 @@ let generalAdjectivesAdverbsPreceding = [ "nuovo", "nuova", "nuovi", "nuove", "v
 	"buono", "buona", "buoni", "buone", "buonissimo", "buonissima", "buonissimi", "buonissime", "grande", "grandi",
 	"grandissimo", "grandissima", "grandissimi", "grandissime", "lungo", "lunga", "lunghi", "lunghe", "piccolo", "piccola", "piccoli",
 	"piccole", "piccolissimo", "piccolissima", "piccolissimi", "piccolissime", "proprio", "propria", "propri", "proprie",
-	"solito", "solita", "soliti", "solite" ];
+	"solito", "solita", "soliti", "solite", "stesso", "stessa", "stessi", "stesse" ];
 
 let interjections = [ "accidenti", "acciderba", "ah", "aah", "ahi", "ahia", "ahimé", "bah", "beh", "boh", "ca", "caspita",
 	"chissà", "de'", "diamine", "ecco", "eh", "ehi", "eeh", "ehilà", "ehm", "gna", "ha", "ih", "magari", "macché", "macchè",
@@ -234,18 +231,15 @@ module.exports = function() {
 		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
-		verbs: filteredPassiveAuxiliaries.concat( infinitivePassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
+		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
+		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
 		quantifiers: quantifiers,
-		interrogatives: interrogativePronouns.concat( interrogativeAdverbs, interrogativeDeterminers, interrogativeAdjectives ),
-		passiveAuxiliaries: filteredPassiveAuxiliaries,
 		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeAdjectives, interrogativeAdverbs ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		miscellaneous: miscellaneous,
 		pronominalAdverbs: pronominalAdverbs,
 		interjections: interjections,
-		reflexivePronouns: reflexivePronouns,
-		beginningVerbs: interviewVerbsInfinitive.concat( infinitivePassiveAuxiliaries, otherAuxiliariesInfinitive, copulaInfinitive,
+		infinitives: interviewVerbsInfinitive.concat( passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive,
 			delexicalizedVerbsInfinitive ),
 		cardinalNumerals: cardinalNumerals,
 		ordinalNumerals: ordinalNumerals,
@@ -255,10 +249,10 @@ module.exports = function() {
 		recipeWords: recipeWords,
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
 		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
-		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
 			interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers, interrogativeAdjectives,
-			pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, infinitivePassiveAuxiliaries,
+			pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive,
 			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,

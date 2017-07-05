@@ -15,8 +15,6 @@ describe( "gets English word combinations", function() {
 			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
 			" Here are a ton of syllables. Here are a ton of syllables. ";
 		let expected = [
-			new WordCombination( [ "ton", "of", "syllables" ], 37, englishFunctionWords ),
-			new WordCombination( [ "here", "are", "a", "ton" ], 37, englishFunctionWords ),
 			new WordCombination( [ "syllables" ], 37, englishFunctionWords ),
 		];
 

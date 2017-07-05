@@ -11,7 +11,8 @@ let cardinalNumerals = [ "un", "deux", "trois", "quatre", "cinq", "six", "sept",
 	"quinze", "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix",
 	"quatre-vingt", "quatre-vingt-dix", "cent", "mille", "million", "milliard" ];
 
-let ordinalNumerals = [ "premier", "première", "deuxième", "troisième",
+// 'premier' and 'première' are not included because of their secondary meanings ('prime minister', '[movie] premiere')
+let ordinalNumerals = [ "deuxième", "troisième",
 	"quatrième", "cinquième", "sixième", "septième", "huitième", "neuvième", "dixième", "onzième", "douzième", "treizième",
 	"quatorzième", "quinzième", "seizième", "dix-septième", "dix-huitième", "dix-neuvième", "vingtième" ];
 
@@ -226,13 +227,13 @@ module.exports = function() {
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
-		verbs: copula.concat( interviewVerbs, otherAuxiliaries ),
+		verbs: copula.concat( interviewVerbs, otherAuxiliaries, delexicalizedVerbs ),
 		quantifiers: quantifiers,
 		relativePronouns: relativePronouns,
 		interrogatives: interrogativeProAdverbs.concat( interrogativeAdjectives ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		// These verbs that should be filtered at the beginning of prominent word combinations.
-		beginningVerbs: otherAuxiliariesInfinitive.concat( delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ),
+		infinitives: otherAuxiliariesInfinitive.concat( delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ),
 		miscellaneous: miscellaneous,
 		interjections: interjections,
 		pronominalAdverbs: pronominalAdverbs,
@@ -245,10 +246,11 @@ module.exports = function() {
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
 		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
 		recipeWords: recipeWords,
+		timeWords: timeWords,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative,
 			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs,
-			locativeAdverbs, otherAuxiliaries, interrogativeAdjectives, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions,
+			locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive, prepositions,
 			coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections,
 			generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords ),
