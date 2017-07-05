@@ -7,7 +7,7 @@ let getRelevantCombinations = relevantWords.getRelevantCombinations;
 let sortCombinations = relevantWords.sortCombinations;
 let filterFunctionWordsAtBeginning = relevantWords.filterFunctionWordsAtBeginning;
 let filterFunctionWords = relevantWords.filterFunctionWords;
-let filterSpecialCharacters = relevantWords.filterSpecialCharacters;
+let filterFunctionWordsAnywhere = relevantWords.filterFunctionWordsAnywhere;
 let filterOnSyllableCount = relevantWords.filterOnSyllableCount;
 let filterOnDensity = relevantWords.filterOnDensity;
 let englishFunctionWords = require( "../../js/researches/english/functionWords.js" )().all;
@@ -254,7 +254,7 @@ describe( "filter special characters in word combinations", function() {
 			new WordCombination ( [ "book", "club"] )
 		];
 
-		let combinations  = filterSpecialCharacters( input, [ "–", "—", "-" ] );
+		let combinations  = filterFunctionWordsAnywhere( input, [ "–", "—", "-" ] );
 
 		expect( combinations ).toEqual( expected );
 	});
