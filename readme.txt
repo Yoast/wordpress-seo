@@ -124,6 +124,12 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.0.1 =
+
+Release Date: July 6th, 2017
+
+* Fixes a fatal error that could occur when trying to save a post that <a>-tags with invalid URLs in them.
+
 = 5.0.0 =
 
 Release Date: July 6th, 2017
