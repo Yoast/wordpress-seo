@@ -17,7 +17,7 @@ class WPSEO_Link_Filter {
 	 * @param string $current_page The current page.
 	 */
 	public function __construct( $current_page = '' ) {
-		$this->current_page_path = untrailingslashit( parse_url( $current_page, PHP_URL_PATH ) );
+		$this->current_page_path = untrailingslashit( wp_parse_url( $current_page, PHP_URL_PATH ) );
 	}
 
 	/**
@@ -33,7 +33,7 @@ class WPSEO_Link_Filter {
 			return true;
 		}
 
-		$url_parts = parse_url( $link->get_url() );
+		$url_parts = wp_parse_url( $link->get_url() );
 
 		if ( isset( $url_parts['path'] ) ) {
 			return ! $this->is_current_page( untrailingslashit( $url_parts['path'] ) );
