@@ -126,7 +126,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 = 5.0.0 =
 
-Release Date: July 4th, 2017
+Release Date: July 6th, 2017
 
 * Bugfixes
 	* Fixes a bug where images via `https` were not working, props [Jannik Zschiesche](https://github.com/apfelbox).
