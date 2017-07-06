@@ -128,7 +128,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 Release Date: July 6th, 2017
 
-* Fixes a fatal error that could occur when trying to save a post that <a>-tags with invalid URLs in them.
+* Fixes a fatal error that could occur when trying to save a post that has `<a>`-tags with invalid URLs in it.
 
 = 5.0.0 =
 
