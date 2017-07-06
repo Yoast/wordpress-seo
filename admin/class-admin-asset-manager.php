@@ -289,6 +289,20 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'polyfill',
 				'src'  => 'wp-seo-babel-polyfill-' . $flat_version,
 			),
+			array(
+				'name' => 'reindex-links',
+				'src'  => 'wp-seo-reindex-links-' . $flat_version,
+				'deps' => array(
+					'jquery',
+					'jquery-ui-core',
+					'jquery-ui-progressbar',
+				),
+			),
+			array(
+				'name' => 'edit-page-script',
+				'src'  => 'wp-seo-edit-page-' . $flat_version,
+				'deps' => array( 'jquery' ),
+			),
 		);
 	}
 
@@ -357,7 +371,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name'    => 'select2',
-				'src'     => 'dist/select2/select2',
+				'src'     => 'select2/select2',
 				'suffix'  => '.min',
 				'version' => '4.0.1',
 				'rtl'     => false,
