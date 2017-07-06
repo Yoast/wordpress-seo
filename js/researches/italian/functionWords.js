@@ -25,6 +25,8 @@ let personalPronounsNominative = [ "io", "tu", "egli", "esso", "lui", "ella", "e
 let personalPronounsAccusative = [ "mi", "ti", "lo", "si", "ci", "vi", "li", "me", "te", "se",
 	"glie", "glielo", "gliela", "glieli", "gliele", "gliene", "ce", "ve" ];
 
+let personalPronounsPrepositional = [ "sé" ];
+
 let demonstrativePronouns = [ "ciò", "codesto", "codesta", "codesti", "codeste", "colei", "colui", "coloro",
 	"costei", "costui", "costoro", "medesimo", "medesima", "medesimi", "medesime", "questo", "questa",
 	"questi", "queste", "quello", "quella", "quelli", "quelle", "quel", "quei", "quegli" ];
@@ -228,7 +230,7 @@ let miscellaneous = [ "sì", "no", "non", "€", "euro", "euros", "ecc.", "eccet
 module.exports = function() {
 	return {
 		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns ),
+		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns, personalPronounsPrepositional ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
@@ -250,8 +252,8 @@ module.exports = function() {
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
 		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
-			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
-			interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers, interrogativeAdjectives,
+			personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers,
+			indefinitePronouns,	interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers, interrogativeAdjectives,
 			pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive,
 			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,

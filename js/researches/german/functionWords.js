@@ -1,21 +1,21 @@
-var filteredPassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().filteredAuxiliaries;
-var infinitivePassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().infinitiveAuxiliaries;
-var transitionWords = require( "./transitionWords.js" )().singleWords;
+let filteredPassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().filteredAuxiliaries;
+let passiveAuxiliariesInfinitive = require( "./passivevoice/auxiliaries.js" )().infinitiveAuxiliaries;
+let transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
  * Returns an object with exceptions for the prominent words researcher
  * @returns {Object} The object filled with exception arrays.
  */
 
-var articles = [ "das", "dem", "den", "der", "des", "die", "ein", "eine", "einem", "einen", "einer", "eines" ];
+let articles = [ "das", "dem", "den", "der", "des", "die", "ein", "eine", "einem", "einen", "einer", "eines" ];
 
-var cardinalNumerals = [ "eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn", "elf", "zwölf",
+let cardinalNumerals = [ "eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn", "elf", "zwölf",
 	"zwoelf", "dreizehn", "vierzehn", "fünfzehn", "fuenfzehn", "sechzehn", "siebzehn", "achtzehn", "neunzehn",
 	"zwanzig", "hundert", "einhundert", "zweihundert", "dreihundert", "vierhundert", "fünfhundert",
 	"fuenfhundert", "sechshundert", "siebenhundert", "achthundert", "neunhundert", "tausend",
 	"million", "milliarde", "billion", "billiarde" ];
 
-var ordinalNumerals = [ "erste", "erster", "ersten", "erstem", "erstes", "zweite", "zweites", "zweiter", "zweitem", "zweiten",
+let ordinalNumerals = [ "erste", "erster", "ersten", "erstem", "erstes", "zweite", "zweites", "zweiter", "zweitem", "zweiten",
 	"dritte", "dritter", "drittes", "dritten", "drittem", "vierter", "vierten", "viertem", "viertes", "vierte",
 	"fünfte", "fünfter", "fünftes", "fünften", "fünftem", "fuenfte", "fuenfter", "fuenftem", "fuenften", "fuenftes",
 	"sechste", "sechster", "sechstes", "sechsten", "sechstem", "siebte", "siebter", "siebten", "siebtem", "siebtes",
@@ -29,22 +29,22 @@ var ordinalNumerals = [ "erste", "erster", "ersten", "erstem", "erstes", "zweite
 	"achtzehntes", "achtzehnte", "nehnzehnte", "nehnzehnter", "nehnzehntem", "nehnzehnten", "nehnzehntes", "zwanzigste",
 	"zwanzigster", "zwanzigstem", "zwanzigsten", "zwanzigstes" ];
 
-var personalPronounsNominative = [ "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" ];
+let personalPronounsNominative = [ "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" ];
 
-var personalPronounsAccusative = [ "mich", "dich", "ihn", "sie", "es", "uns", "euch" ];
+let personalPronounsAccusative = [ "mich", "dich", "ihn", "sie", "es", "uns", "euch" ];
 
-var personalPronounsDative = [ "mir", "dir", "ihm", "ihr", "uns", "euch", "ihnen" ];
+let personalPronounsDative = [ "mir", "dir", "ihm", "ihr", "uns", "euch", "ihnen" ];
 
-var demonstrativePronouns = [ "denen", "deren", "derer", "dessen", "diese", "diesem", "diesen", "dieser", "dieses",
+let demonstrativePronouns = [ "denen", "deren", "derer", "dessen", "diese", "diesem", "diesen", "dieser", "dieses",
 	"jene",	"jenem", "jenen", "jener", "jenes", "welch", "welcher", "welches", "derjenige", "desjenigen", "demjenigen",
 	"denjenigen", "diejenige", "derjenigen", "dasjenige", "diejenigen" ];
 
-var possessivePronouns = [ "mein", "meine", "meinem", "meiner", "meines", "dein", "deine", "deinem", "deiner",
+let possessivePronouns = [ "mein", "meine", "meinem", "meiner", "meines", "dein", "deine", "deinem", "deiner",
 	"deines", "deinen", "sein", "seine", "seinem", "seiner", "seines", "ihr", "ihre", "ihrem", "ihren", "ihrer", "ihres",
 	"unser", "unsere", "unserem", "unseren", "unserer", "unseres", "euer", "eure", "eurem", "euren", "eurer",
 	"eures", "einanders" ];
 
-var quantifiers = [ "manche", "manch", "viele", "viel", "vieler", "vielen", "vielem", "all", "alle", "aller", "alles",
+let quantifiers = [ "manche", "manch", "viele", "viel", "vieler", "vielen", "vielem", "all", "alle", "aller", "alles",
 	"allen", "allem", "allerlei", "solcherlei", "einige", "etliche", "manch", "wenige", "weniger", "wenigen",
 	"wenigem", "weniges", "wenig", "wenigerer", "wenigeren", "wenigerem", "wenigere", "wenigeres", "wenig",
 	"bisschen", "paar", "kein", "keines", "keinem", "keinen", "keine", "mehr", "mehrere", "nichts",
@@ -52,12 +52,12 @@ var quantifiers = [ "manche", "manch", "viele", "viel", "vieler", "vielen", "vie
 	"verschiedenen", "verschiedenem", "verschiedenes", "verschiedne", "verschiedner", "verschiednen", "verschiednem",
 	"verschiednes", "art", "arten", "sorte", "sorten" ];
 
-var reflexivePronouns = [ "sich" ];
+let reflexivePronouns = [ "sich" ];
 
-var reciprocalPronouns = [ "einander" ];
+let reciprocalPronouns = [ "einander" ];
 
 // "Welch", "welcher", and "welches" are already included in the demonstrativePronouns.
-var indefinitePronouns = [ "andere", "anderer", "anderem", "anderen", "anderes", "andren", "andern", "andrem",
+let indefinitePronouns = [ "andere", "anderer", "anderem", "anderen", "anderes", "andren", "andern", "andrem",
 	"anderm", "andre", "andrer", "andres", "beide", "beides", "beidem", "beider", "beiden", "etwas", "irgendetwas",
 	"irgendein", "irgendeinen", "irgendeinem", "irgendeines", "irgendeine", "irgendeiner", "irgendwas", "irgendwessen",
 	"irgendwer", "irgendwen", "irgendwem", "irgendwessen", "irgendwelche", "irgendwelcher", "irgendwelchem",
@@ -71,11 +71,11 @@ var indefinitePronouns = [ "andere", "anderer", "anderem", "anderen", "anderes",
 	"niemanden", "niemandem", "niemandes", "niemands", "nichts", "jeglicher", "jeglichen", 	"jeglichem", "jegliches",
 	"jegliche", "zweiter" ];
 
-var relativePronouns = [ "dessen", "deren", "derer", "denen" ];
+let relativePronouns = [ "dessen", "deren", "derer", "denen" ];
 
-var interrogativeProAdverbs =  [ "warum", "wie", "wo", "woher", "wohin", "wann" ];
+let interrogativeProAdverbs =  [ "warum", "wie", "wo", "woher", "wohin", "wann" ];
 
-var pronominalAdverbs = [ "dabei", "dadurch", "dafür", "dafuer", "dagegen", "dahinter", "damit", "danach", "daneben",
+let pronominalAdverbs = [ "dabei", "dadurch", "dafür", "dafuer", "dagegen", "dahinter", "damit", "danach", "daneben",
 	"daran", "darauf", "daraus", "darin", "darum", "darunter", "darüber", "darueber", "davon", "davor", "dazu",
 	"dazwischen", "hieran",	"hierauf", "hieraus", "hierbei", "hierdurch", "hierfuer", "hierfür", "hiergegen",
 	"hierhinter", "hierin",	"hiermit", "hiernach", "hierum", "hierunter", "hierueber", "hierüber", "hiervor",
@@ -83,9 +83,9 @@ var pronominalAdverbs = [ "dabei", "dadurch", "dafür", "dafuer", "dagegen", "da
 	"wogegen", "wohinter", "womit", "wonach", "woneben", "woran", "worauf", "woraus", "worin",	"worum", "worunter",
 	"worüber", "worueber", "wovon", "wovor", "wozu", "wozwischen" ];
 
-var locativeAdverbs = [ "da", "hier", "dorthin", "hierher", "dorther", "daher" ];
+let locativeAdverbs = [ "da", "hier", "dorthin", "hierher", "dorther", "daher" ];
 
-var adverbialGenitives = [ "allenfalls", "keinesfalls", "anderenfalls", "andernfalls", "andrenfalls",
+let adverbialGenitives = [ "allenfalls", "keinesfalls", "anderenfalls", "andernfalls", "andrenfalls",
 	"äußerstenfalls", "bejahendenfalls", "bestenfalls", "ebenfalls", "eintretendenfalls", "entgegengesetztenfalls",
 	"erforderlichenfalls", "gegebenenfalls", "geringstenfalls", "gleichfalls", "günstigenfalls", "günstigstenfalls",
 	"höchstenfalls", "jedenfalls", "möglichenfalls", "notfalls", "nötigenfalls", "notwendigenfalls",
@@ -93,7 +93,7 @@ var adverbialGenitives = [ "allenfalls", "keinesfalls", "anderenfalls", "andernf
 	"abends", "nachts", "keineswegs", "durchwegs", "geradenwegs", "geradeswegs", "geradewegs", "gradenwegs",
 	"halbwegs", "mittwegs", "unterwegs" ];
 
-var otherAuxiliaries = [ "habe", "hast", "hat", "habt", "habest", "habet", "hatte", "hattest", "hatten", "hätte", "haette",
+let otherAuxiliaries = [ "habe", "hast", "hat", "habt", "habest", "habet", "hatte", "hattest", "hatten", "hätte", "haette",
 	"hättest", "haettest", "hätten", "haetten", "haettet", "hättet", "hab", "bin", "bist", "ist", "sind", "sei", "seiest",
 	"seien", "seiet", "war", "warst", "waren", "wart", "wäre", "waere", "wärest", "waerest", "wärst", "waerst", "wären",
 	"waeren", "wäret", "waeret", "wärt", "waert", "seid", "darf", "darfst", "dürft", "duerft", "dürfe", "duerfe", "dürfest",
@@ -110,11 +110,11 @@ var otherAuxiliaries = [ "habe", "hast", "hat", "habt", "habest", "habet", "hatt
 	"lässt", "laesst", "läßt", "laeßt", "lasst", "laßt", "lassest", "lasset", "ließ", "ließest", "ließt", "ließen", "ließe",
 	"ließet", "liess", "liessest", "liesst", "liessen", "liesse", "liesset" ];
 
-var otherAuxiliariesInfinitive = [ "haben", "sein", "dürfen", "duerfen", "können", "koennen", "mögen", "moegen", "müssen", "muessen",
+let otherAuxiliariesInfinitive = [ "haben", "sein", "dürfen", "duerfen", "können", "koennen", "mögen", "moegen", "müssen", "muessen",
 	"sollen", "wollen", "lassen" ];
 
 // Forms from 'aussehen' with two parts, like 'sehe aus', are not included, because we remove words on an single word basis.
-var copula = [ "bleibe", "bleibst", "bleibt", "bleibest", "bleibet", "blieb", "bliebst", "bliebt", "blieben", "bliebe",
+let copula = [ "bleibe", "bleibst", "bleibt", "bleibest", "bleibet", "blieb", "bliebst", "bliebt", "blieben", "bliebe",
 	"bliebest", "bliebet", "heiße", "heißt", "heißest", "heißet", "heisse", "heisst", "heissest", "heisset", "hieß", "hießest",
 	"hießt", "hießen", "hieße", "hießet", "hiess", "hiessest", "hiesst", "hiessen",	"hiesse", "hiesset", "gelte", "giltst",
 	"gilt", "geltet", "gelte", "geltest", "galt", "galtest", "galtst", "galten", "galtet", "gälte", "gaelte", "gölte", "goelte",
@@ -125,9 +125,9 @@ var copula = [ "bleibe", "bleibst", "bleibt", "bleibest", "bleibet", "blieb", "b
 	"schient", "schiene", "schienest", "schienet", "erscheine", "erscheinst", "erscheint", "erscheinest",
 	"erscheinet", "erschien", "erschienst", "erschienen", "erschient", "erschiene", "erschienest", "erschienet" ];
 
-var copulaInfinitive = [ "bleiben", "heißen", "heissen", "gelten", "aussehen", "scheinen", "erscheinen" ];
+let copulaInfinitive = [ "bleiben", "heißen", "heissen", "gelten", "aussehen", "scheinen", "erscheinen" ];
 
-var prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "als", "am", "an", "anfangs", "angelegentlich",
+let prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "als", "am", "an", "anfangs", "angelegentlich",
 	"angesichts", "anhand", "anlässlich", "anlaesslich", "ans", "anstatt", "anstelle", "auf", "aufgrund", "aufs", "aufseiten",
 	"aus", "ausgangs", "ausgenommen", "ausschließlich", "ausschliesslich", "ausser", "außer", "außerhalb", "ausserhalb", "ausweislich",
 	"bar", "behufs", "bei", "beidseits", "beiderseits", "beim", "betreffs", "bezüglich", "bezueglich", "binnen", "bis", "contra",
@@ -146,32 +146,32 @@ var prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "al
 	"zuwider", "zuzüglich",	"zuzueglich", "zwecks", "zwischen" ];
 
 // Many coordinating conjunctions are already included in the transition words list.
-var coordinatingConjunctions = [ "und", "oder", "als", "umso" ];
+let coordinatingConjunctions = [ "und", "oder", "als", "umso" ];
 
 /*
 'Entweder' is part of 'entweder...oder', 'sowohl', 'auch' is part of 'sowohl als...auch', 'weder' and 'noch' are part of 'weder...noch',
  'nur' is part of 'nicht nur...sondern auch'.
  */
-var correlativeConjunctions = [ "entweder", "sowohl", "auch", "weder", "noch", "nur" ];
+let correlativeConjunctions = [ "entweder", "sowohl", "auch", "weder", "noch", "nur" ];
 
 // Many subordinating conjunctions are already included in the prepositions list, transition words list or pronominal adverbs list.
-var subordinatingConjunctions = [ "nun", "so", "gleichwohl" ];
+let subordinatingConjunctions = [ "nun", "so", "gleichwohl" ];
 
 /*
 These verbs are frequently used in interviews to indicate questions and answers. 'Frage' and 'fragen' are not included,
 because those words are also nouns.
  */
-var interviewVerbs = [ "sage", "sagst", "sagt", "sagest", "saget", "sagte", "sagtest", "sagte", "sagten", "sagtet", "gesagt",
+let interviewVerbs = [ "sage", "sagst", "sagt", "sagest", "saget", "sagte", "sagtest", "sagte", "sagten", "sagtet", "gesagt",
 	"fragst", "fragt", "fragest", "fraget", "fragte", "fragtest", "fragten", "fragtet", "gefragt", "erkläre", "erklärst", "erklärt",
 	"erklaere", "erklaerst", "erklaert", "erklärte", "erklärtest", "erklärte",	"erklärtet", "erklärten",
 	"erklaerte", "erklaertest", "erklaerte", "erklaertet", "erklaerten", "denke", "denkst", "denkt", "denkest", "denket",
 	"dachte", "dachtest", "dachten", "dachtet", "dächte", "dächtest", "dächten", "dächtet", "daechte", "daechtest", "daechten",
 	"daechtet", "finde", "findest", "findet", "gefunden" ];
 
-var interviewVerbsInfinitive = [ "sagen", "erklären", "erklaeren", "denken", "finden" ];
+let interviewVerbsInfinitive = [ "sagen", "erklären", "erklaeren", "denken", "finden" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
-var additionalTransitionWords = [ "etwa", "absolut", "unbedingt", "wieder", "definitiv", "bestimmt", "immer", "äußerst", "aeußerst",
+let additionalTransitionWords = [ "etwa", "absolut", "unbedingt", "wieder", "definitiv", "bestimmt", "immer", "äußerst", "aeußerst",
 	"höchst", "hoechst", "sofort", "augenblicklich", "umgehend", "direkt", "unmittelbar", "nämlich", "naemlich", "natürlich", "natuerlich",
 	"besonders", "hauptsächlich", "hauptsaechlich", "jetzt", "eben", "heute", "heutzutage", "positiv", "eindeutig", "wirklich", "echt",
 	"wahrhaft", "ehrlich", "aufrichtig", "wahrhaft", "wahrheitsgemäß", "treu", "letztlich", "einmalig", "unübertrefflich", "normalerweise",
@@ -185,18 +185,18 @@ var additionalTransitionWords = [ "etwa", "absolut", "unbedingt", "wieder", "def
 	"unlaengst", "neuerdings", "neulich", "letztens", "neuerlich", "relativ", "verhältnismäßig", "verhaeltnismaessig", "deutlich", "klar",
 	"eindeutig", "offenbar", "anscheinend", "genau", "u.a", "damals", "zumindest" ];
 
-var intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weitaus", "einigermaßen", "einigermassen", "ganz",
+let intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weitaus", "einigermaßen", "einigermassen", "ganz",
 	"schwer", "tierisch", "ungleich", "voll", "ziemlich", "übelst", "uebelst", "stark", "volkommen", "durchaus", "gar" ];
 
 // These verbs convey little meaning.
-var delexicalizedVerbs = [ "geschienen", "meine", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
+let delexicalizedVerbs = [ "geschienen", "meine", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
 	"gemeint", "stehe", "stehst", "steht", "gehe", "gehst", "geht", "gegangen", "ging", "gingst", "gingen", "gingt" ];
 
-var delexicalizedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen", "wissen", "gehen", "kommen" ];
+let delexicalizedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen", "wissen", "gehen", "kommen" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
-var generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "neuen", "neues", "neuem", "neuerer", "neueren", "neuerem", "neueres",
+let generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "neuen", "neues", "neuem", "neuerer", "neueren", "neuerem", "neueres",
 	"neuere", "neuester", "neuster", "neuesten", "neusten", "neuestem", "neustem", "neuestes", "neustes", "neueste", "neuste", "alt",
 	"alter", "alten", "altem", "altes", "alte", "ältere", "älteren", "älterer", "älteres", "ältester", "ältesten", "ältestem", "ältestes",
 	"älteste", "aeltere", "aelteren", "aelterer", "aelteres", "aeltester", "aeltesten", "aeltestem", "aeltestes", "aelteste", "gut", "guter",
@@ -254,23 +254,23 @@ var generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"vollsten", "vollstem", "vollste", "vollstes", "außen", "ganzer", "ganzen", "ganzem", "ganze", "ganzes", "gerne", "oben", "unten", "zurück",
 	"zurueck" ];
 
-var interjections = [  "ach", "aha", "oh", "au", "bäh", "baeh", "igitt", "huch", "hurra", "hoppla", "nanu", "oha", "olala", "pfui", "tja",
+let interjections = [  "ach", "aha", "oh", "au", "bäh", "baeh", "igitt", "huch", "hurra", "hoppla", "nanu", "oha", "olala", "pfui", "tja",
 	"uups", "wow", "grr", "äh", "aeh", "ähm", "aeh", "öhm", "oehm", "hm", "mei", "nun", "tja", "mhm", "okay", "richtig", "eijeijeijei" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
-var recipeWords = [ "g", "el", "es", "tl", "wg", "be", "bd", "cl", "dl", "dag", "do", "gl", "gr", "kg", "kl", "cb", "ccm", "l", "ms", "mg",
+let recipeWords = [ "g", "el", "es", "tl", "wg", "be", "bd", "cl", "dl", "dag", "do", "gl", "gr", "kg", "kl", "cb", "ccm", "l", "ms", "mg",
 	"ml", "mi", "pk", "pr", "pp", "sc", "sp", "st", "sk", "ta", "tr", "cm", "mass" ];
 
-var timeWords = [ "sekunde", "sekunden", "minute", "minuten", "uhr", "uhren", "tag", "tages", "tags", "tage", "tagen", "woche", "wochen", "monat",
+let timeWords = [ "sekunde", "sekunden", "minute", "minuten", "uhr", "uhren", "tag", "tages", "tags", "tage", "tagen", "woche", "wochen", "monat",
 	"monate", "monats", "monaten", "jahr", "jahres", "jahrs", "jahre", "jahren" ];
 
-var vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sache", "sachen", "weise", "weisen", "wahrscheinlichkeit",
+let vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sache", "sachen", "weise", "weisen", "wahrscheinlichkeit",
 	"zeug", "zeuge", "zeuges", "zeugen", "mal", "einmal", "teil", "teile", "teiles", "teilen", "prozent", "prozents", "prozentes", "prozente",
 	"prozenten", "beispiel", "beispiele", "beispieles", "beispiels", "beispielen", "aspekt", "aspekte", "aspektes", "aspekts", "aspekten",
 	"idee", "ideen", "ahnung", "ahnungen", "thema", "themas", "themata", "themen", "fall", "falle", "falles", "falls", "fälle", "fällen",
 	"faelle", "faellen", "mensch", "menschen", "leute" ];
 
-var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "nicht", "amen", "ja", "nein", "euro", "prozent" ];
+let miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "nicht", "amen", "ja", "nein", "euro", "prozent" ];
 
 module.exports = function() {
 	return {
@@ -286,7 +286,7 @@ module.exports = function() {
 		interrogativeProAdverbs: interrogativeProAdverbs,
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		// These verbs that should be filtered at the beginning of prominent word combinations.
-		infinitives: otherAuxiliariesInfinitive.concat( infinitivePassiveAuxiliaries,
+		infinitives: otherAuxiliariesInfinitive.concat( passiveAuxiliariesInfinitive,
 			delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ),
 		miscellaneous: miscellaneous,
 		interjections: interjections,
@@ -305,7 +305,7 @@ module.exports = function() {
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			reciprocalPronouns,	personalPronounsNominative,	personalPronounsAccusative, relativePronouns, quantifiers,
 			indefinitePronouns,	interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives,
-			filteredPassiveAuxiliaries,	infinitivePassiveAuxiliaries, otherAuxiliaries,
+			filteredPassiveAuxiliaries,	passiveAuxiliariesInfinitive, otherAuxiliaries,
 			otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers,
 			delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
