@@ -26,8 +26,8 @@ let densityUpperLimit = 0.03;
 let relevantWordLimit = 100;
 let wordCountLowerLimit = 200;
 
-// En dash, em dash, hyphen-minus, and hash.
-let specialCharacters = [ "–", "—", "-", "#", "%" ];
+// First four characters: en dash, em dash, hyphen-minus, and copyright sign.
+let specialCharacters = [ "–", "—", "-", "\u00a9", "#", "%", "/", "\\", "$", "€", "£", "*", "•", "|", "→", "←", "}", "{", "//", "||" ];
 
 /**
  * Returns the word combinations for the given text based on the combination size.
@@ -115,6 +115,21 @@ function sortCombinations( wordCombinations ) {
 }
 
 /**
+ * Filters word combinations containing certain function words at any position.
+ *
+ * @param {WordCombination[]} wordCombinations The word combinations to filter.
+ * @param {array} functionWords The list of function words.
+ * @returns {WordCombination[]} Filtered word combinations.
+ */
+function filterFunctionWordsAnywhere( wordCombinations, functionWords ) {
+	return wordCombinations.filter( function( combination ) {
+		return isEmpty(
+			intersection( functionWords, combination.getWords() )
+		);
+	} );
+}
+
+/**
  * Filters word combinations beginning with certain function words.
  *
  * @param {WordCombination[]} wordCombinations The word combinations to filter.
@@ -156,21 +171,6 @@ function filterFunctionWords( wordCombinations, functionWords ) {
 }
 
 /**
- * Filters word combinations containing a special character.
- *
- * @param {WordCombination[]} wordCombinations The word combinations to filter.
- * @param {array} specialCharacters The list of special characters.
- * @returns {WordCombination[]} Filtered word combinations.
- */
-function filterSpecialCharacters( wordCombinations, specialCharacters ) {
-	return wordCombinations.filter( function( combination ) {
-		return isEmpty(
-			intersection( specialCharacters, combination.getWords() )
-		);
-	} );
-}
-
-/**
  * Filters word combinations based on keyword density if the word count is 200 or over.
  *
  * @param {WordCombination[]} wordCombinations The word combinations to filter.
@@ -196,7 +196,7 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
  * @returns {Array} The filtered list of word combination objects.
  */
 function filterCombinations( combinations, functionWords, locale ) {
-	combinations = filterFunctionWords( combinations, specialCharacters );
+	combinations = filterFunctionWordsAnywhere( combinations, specialCharacters );
 	combinations = filterFunctionWords( combinations, functionWords().articles );
 	combinations = filterFunctionWords( combinations, functionWords().personalPronouns );
 	combinations = filterFunctionWords( combinations, functionWords().prepositions );
@@ -335,8 +335,9 @@ module.exports = {
 	calculateOccurrences: calculateOccurrences,
 	getRelevantCombinations: getRelevantCombinations,
 	sortCombinations: sortCombinations,
+	filterFunctionWordsAtEnding: filterFunctionWordsAtEnding,
 	filterFunctionWordsAtBeginning: filterFunctionWordsAtBeginning,
 	filterFunctionWords: filterFunctionWords,
-	filterSpecialCharacters: filterSpecialCharacters,
+	filterFunctionWordsAnywhere: filterFunctionWordsAnywhere,
 	filterOnDensity: filterOnDensity,
 };
