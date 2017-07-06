@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.18.0: July 4th, 2017
+## 1.18.0: July 6th, 2017
 ### Changed
 * Changes 'page title' to 'seo title' in the snippet preview.
 * Changes recommended maximum sentence length for Italian from 20 to 25 words, based on more in-depth research.
