@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 5.0\n"
+"Project-Id-Version: Yoast SEO 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-07-06 07:11:55+00:00\n"
+"POT-Creation-Date: 2017-07-06 15:10:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4564,61 +4564,61 @@ msgstr ""
 msgid "Register now &raquo;"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:123
+#: vendor/yoast/license-manager/class-license-manager.php:112
 msgid ""
 "<b>Warning!</b> You didn't set your %s license key yet, which means you're "
 "missing out on updates and support! <a href=\"%s\">Enter your license key</"
 "a> or <a href=\"%s\" target=\"_blank\">get a license here</a>."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:125
+#: vendor/yoast/license-manager/class-license-manager.php:114
 msgid ""
 "<b>Warning!</b> Your %s license is inactive which means you're missing out "
 "on updates and support! <a href=\"%s\">Activate your license</a> or <a href="
 "\"%s\" target=\"_blank\">get a license here</a>."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:143
+#: vendor/yoast/license-manager/class-license-manager.php:132
 msgid ""
 "<b>Warning!</b> You're blocking external requests which means you won't be "
 "able to get %s updates. Please add %s to %s."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:207
+#: vendor/yoast/license-manager/class-license-manager.php:196
 msgid "Your %s license has been deactivated."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:210
+#: vendor/yoast/license-manager/class-license-manager.php:199
 msgid "Failed to deactivate your %s license."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:252
+#: vendor/yoast/license-manager/class-license-manager.php:241
 msgid "Request error: \"%s\" (%scommon license notices%s)"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:406
+#: vendor/yoast/license-manager/class-license-manager.php:395
 msgid "%s: License Settings"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:610
+#: vendor/yoast/license-manager/class-license-manager.php:599
 msgid "Your %s license has been activated. "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:614
+#: vendor/yoast/license-manager/class-license-manager.php:603
 msgid "You have an unlimited license. "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:616
+#: vendor/yoast/license-manager/class-license-manager.php:605
 msgid "You have used %d/%d activation. "
 msgid_plural "You have used %d/%d activations. "
 msgstr[0] ""
 msgstr[1] ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:621
+#: vendor/yoast/license-manager/class-license-manager.php:610
 msgid "<a href=\"%s\">Did you know you can upgrade your license?</a> "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:627
+#: vendor/yoast/license-manager/class-license-manager.php:616
 msgid ""
 "<a href=\"%s\">Your license is expiring in %d day, would you like to extend "
 "it?</a> "
@@ -4628,17 +4628,17 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:642
+#: vendor/yoast/license-manager/class-license-manager.php:631
 msgid "Failed to activate your license, your license key seems to be invalid."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:648
+#: vendor/yoast/license-manager/class-license-manager.php:637
 msgid ""
 "You've reached your activation limit. You must <a href=\"%s\">upgrade your "
 "license</a> to use it on this site."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:653
+#: vendor/yoast/license-manager/class-license-manager.php:642
 msgid ""
 "Your license has expired. You must <a href=\"%s\">extend your license</a> in "
 "order to use it again."
