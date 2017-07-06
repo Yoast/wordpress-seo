@@ -7007,17 +7007,6 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-"yoast-components@git+https://github.com/Yoast/yoast-components.git#release/2.7.0":
-  version "2.7.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#c164d6004c0d68c0ae6fd4c8dcb3d29bd304e98f"
-  dependencies:
-    a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
-    algoliasearch "^3.22.3"
-    i18n-calypso "^1.6.2"
-    interpolate-components "^1.1.0"
-    jed "^1.1.1"
-    whatwg-fetch "^1.0.0"
-
 "yoast-components@https://github.com/Yoast/yoast-components#release/2.7":
   version "2.6.0"
   resolved "https://github.com/Yoast/yoast-components#f5743d7bb7fb3bde835be7e9d437b27b231e72f9"
@@ -7028,6 +7017,16 @@ yauzl@^2.2.1:
     interpolate-components "^1.1.0"
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
+
+"yoastseo@https://github.com/yoast/yoastseo.js#1.18.0":
+  version "1.18.0"
+  resolved "https://github.com/yoast/yoastseo.js#aa8885445731dd310de3b446d3aaddf39d821381"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    lodash "^4.14.1"
+    sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"
 
 "yoastseo@https://github.com/yoast/yoastseo.js#release/1.18":
   version "1.17.2"
