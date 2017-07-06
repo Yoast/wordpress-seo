@@ -27,6 +27,8 @@ class WPSEO_Admin {
 	 * Class constructor
 	 */
 	function __construct() {
+		$integrations = array();
+
 		global $pagenow;
 
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks' ) );
@@ -96,6 +98,14 @@ class WPSEO_Admin {
 
 		$this->check_php_version();
 		$this->initialize_cornerstone_content();
+
+		$integrations[] = new WPSEO_Yoast_Columns();
+		$integrations = array_merge( $integrations, $this->initialize_seo_links() );
+
+		/** @var WPSEO_WordPress_Integration $integration */
+		foreach ( $integrations as $integration ) {
+			$integration->register_hooks();
+		}
 	}
 
 	/**
@@ -723,7 +733,7 @@ class WPSEO_Admin {
 		}
 
 		whip_wp_check_versions( array(
-			'php' => '>=5.3',
+			'php' => '>=5.4',
 		) );
 	}
 
@@ -741,7 +751,7 @@ class WPSEO_Admin {
 	 */
 	protected function initialize_cornerstone_content() {
 		if ( ! $this->options['enable_cornerstone_content'] ) {
-			return false;
+			return;
 		}
 
 		$cornerstone = new WPSEO_Cornerstone();
@@ -749,6 +759,55 @@ class WPSEO_Admin {
 
 		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
 		$cornerstone_filter->register_hooks();
+	}
+
+	/**
+	 * Initializes the seo link watcher.
+	 *
+	 * @returns WPSEO_WordPress_Integration[]
+	 */
+	protected function initialize_seo_links() {
+		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
+
+		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
+		if ( version_compare( phpversion(), '5.3', '<' ) ) {
+			$link_table_compatibility_notifier->add_notification();
+
+			return array();
+		}
+
+		$link_table_compatibility_notifier->remove_notification();
+
+		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
+
+		// When the table doesn't exists, just add the notification and return early.
+		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+			$link_table_accessible_notifier->add_notification();
+
+			return array();
+		}
+
+		$link_table_accessible_notifier->remove_notification();
+
+		$storage = new WPSEO_Link_Storage();
+		$count_storage = new WPSEO_Meta_Storage();
+
+		$seo_links = new WPSEO_Link_Watcher(
+			new WPSEO_Link_Content_Processor( $storage, $count_storage )
+		);
+
+		$seo_link_columns = new WPSEO_Link_Columns( $count_storage );
+
+		$link_reindex_interface = new WPSEO_Link_Reindex_Dashboard();
+
+		$link_notifier = new WPSEO_Link_Notifier();
+
+		return array(
+			$seo_links,
+			$seo_link_columns,
+			$link_reindex_interface,
+			$link_notifier,
+		);
 	}
 
 	/********************** DEPRECATED METHODS **********************/

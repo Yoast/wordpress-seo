@@ -3,13 +3,15 @@
  * @package WPSEO\Premium
  */
 
-/**
- * An interface for registering integrations with WordPress
- */
-interface WPSEO_WordPress_Integration {
-
+if ( ! interface_exists( 'WPSEO_WordPress_Integration' ) ) {
 	/**
-	 * Registers all hooks to WordPress
+	 * An interface for registering integrations with WordPress
 	 */
-	public function register_hooks();
+	interface WPSEO_WordPress_Integration {
+
+		/**
+		 * Registers all hooks to WordPress
+		 */
+		public function register_hooks();
+	}
 }

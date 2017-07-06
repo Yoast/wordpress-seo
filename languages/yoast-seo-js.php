@@ -193,16 +193,16 @@ $generated_i18n_strings = array(
 	__( 'This page has %1$s outbound link(s).', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/seo/pageTitleWidthAssessment.js:90
-	__( 'The page title is too short. Use the space to add keyword variations or create compelling call-to-action copy.', 'wordpress-seo' ),
+	__( 'The SEO title is too short. Use the space to add keyword variations or create compelling call-to-action copy.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/seo/pageTitleWidthAssessment.js:97
-	__( 'The page title has a nice length.', 'wordpress-seo' ),
+	__( 'The SEO title has a nice length.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/seo/pageTitleWidthAssessment.js:104
-	__( 'The page title is wider than the viewable limit.', 'wordpress-seo' ),
+	__( 'The SEO title is wider than the viewable limit.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/seo/pageTitleWidthAssessment.js:108
-	__( 'Please create a page title.', 'wordpress-seo' ),
+	__( 'Please create an SEO title.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/seo/subheadingsKeywordAssessment.js:97
 	__( 'The focus keyword appears only in %2$d (out of %1$d) subheadings in your copy. Try to use it in at least one more subheading.', 'wordpress-seo' ),
