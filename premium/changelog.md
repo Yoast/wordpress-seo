@@ -1,4 +1,4 @@
-### 5.0.0: July 4th, 2017
+### 5.0.0: July 6th, 2017
 * Fixes a bug where the redirect notice popped up unnecessarily.
 * Introduces insights and linking suggestions for French, props Sylvain Perret and [Evoque](https://github.com/evoqueio).
 * Includes every change in Yoast SEO core 5.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
