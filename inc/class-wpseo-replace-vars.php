@@ -18,6 +18,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * requested page/post/cpt/etc in text strings.
  */
 class WPSEO_Replace_Vars {
+	
 	/**
 	 * @var    array    Default post/page/cpt information
 	 */
@@ -58,8 +59,7 @@ class WPSEO_Replace_Vars {
 	 */
 	public function __construct() {
 	}
-
-
+	
 	/**
 	 * Setup the help texts and external replacements as statics so they will be available to all instances
 	 */
