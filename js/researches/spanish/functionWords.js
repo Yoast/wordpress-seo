@@ -234,7 +234,7 @@ let generalAdjectivesAdverbs = [ "ayer", "hoy", "mañana", "enfrente", "mal", "m
 	"similar", "mal", "malo", "malos", "mala", "malas", "perfectamente", "excelente", "final", "general" ];
 
 let interjections = [ "ah", "eh", "ejem", "ele", "achís", "adiós", "agur", "ajá", "ajajá", "ala",
-	"alá", "albricias", "aleluya", "alerta", "alirón", "aló", "amalaya", "ar", "aro", "arrarray", "arre", arsa", "atatay",
+	"alá", "albricias", "aleluya", "alerta", "alirón", "aló", "amalaya", "ar", "aro", "arrarray", "arre", "arsa", "atatay",
 	"aúpa", "ax", "ay", "ayayay", "bah", "banzai", "barajo", "bla", "bravo", "buf", "bum", "ca", "caguendiós", "canastos",
 	"caracho", "caracoles", "carajo", "caramba", "carape", "caray", "cáscaras", "cáspita", "cataplum", "ce", "chao", "chau", "che", "chis",
 	"chist", "chitón", "cho", "chucho", "chus", "cielos", "clo", "coche", "cochi", "cojones", "concho", "coño",
