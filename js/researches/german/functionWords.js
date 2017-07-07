@@ -9,11 +9,15 @@ var transitionWords = require( "./transitionWords.js" )().singleWords;
 
 var articles = [ "das", "dem", "den", "der", "des", "die", "ein", "eine", "einem", "einen", "einer", "eines" ];
 
-var numerals = [ "eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn", "elf", "zwölf",
+var cardinalNumerals = [ "eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn", "elf", "zwölf",
 	"zwoelf", "dreizehn", "vierzehn", "fünfzehn", "fuenfzehn", "sechzehn", "siebzehn", "achtzehn", "neunzehn",
-	"zwanzig", "erste", "erster", "ersten", "erstem", "erstes", "zweite", "zweites", "zweiter", "zweitem", "zweiten",
+	"zwanzig", "hundert", "einhundert", "zweihundert", "dreihundert", "vierhundert", "fünfhundert",
+	"fuenfhundert", "sechshundert", "siebenhundert", "achthundert", "neunhundert", "tausend",
+	"million", "milliarde", "billion", "billiarde" ];
+
+var ordinalNumerals = [ "erste", "erster", "ersten", "erstem", "erstes", "zweite", "zweites", "zweiter", "zweitem", "zweiten",
 	"dritte", "dritter", "drittes", "dritten", "drittem", "vierter", "vierten", "viertem", "viertes", "vierte",
-	"fünfte", "fünfter", "fünfted", "fünften", "fünftem", "fuenfte", "fuenfter", "fuenftem", "fuenften", "fuenftes",
+	"fünfte", "fünfter", "fünftes", "fünften", "fünftem", "fuenfte", "fuenfter", "fuenftem", "fuenften", "fuenftes",
 	"sechste", "sechster", "sechstes", "sechsten", "sechstem", "siebte", "siebter", "siebten", "siebtem", "siebtes",
 	"achte", "achter", "achten", "achtem", "achtes", "neunte", "neunter", "neuntes", "neunten", "neuntem", "zehnte",
 	"zehnter", "zehnten", "zehntem", "zehntes",  "elfte", "elfter", "elftes", "elften", "elftem", "zwölfte", "zwölfter",
@@ -23,9 +27,7 @@ var numerals = [ "eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "ac
 	"fuenfzehntem", "fuenfzehnter", "fuenfzehntes", "sechzehnte", "sechzehnter", "sechzehnten", "sechzehntes", "sechzehntem",
 	"siebzehnte", "siebzehnter", "siebzehntes", "siebzehntem", "siebzehnten", "achtzehnter", "achtzehnten", "achtzehntem",
 	"achtzehntes", "achtzehnte", "nehnzehnte", "nehnzehnter", "nehnzehntem", "nehnzehnten", "nehnzehntes", "zwanzigste",
-	"zwanzigster", "zwanzigstem", "zwanzigsten", "zwanzigstes", "hundert", "einhundert", "zweihundert", "zweihundert",
-	"dreihundert",	"vierhundert", "fünfhundert", "fuenfhundert", "sechshundert", "siebenhundert", "achthundert", "neunhundert",
-	"tausend", "million", "milliarde", "billion", "billiarde" ];
+	"zwanzigster", "zwanzigstem", "zwanzigsten", "zwanzigstes" ];
 
 var personalPronounsNominative = [ "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" ];
 
@@ -40,7 +42,7 @@ var demonstrativePronouns = [ "denen", "deren", "derer", "dessen", "diese", "die
 var possessivePronouns = [ "mein", "meine", "meinem", "meiner", "meines", "dein", "deine", "deinem", "deiner",
 	"deines", "deinen", "sein", "seine", "seinem", "seiner", "seines", "ihr", "ihre", "ihrem", "ihren", "ihrer", "ihres",
 	"unser", "unsere", "unserem", "unseren", "unserer", "unseres", "euer", "eure", "eurem", "euren", "eurer",
-	"eures" ];
+	"eures", "einanders" ];
 
 var quantifiers = [ "manche", "manch", "viele", "viel", "vieler", "vielen", "vielem", "all", "alle", "aller", "alles",
 	"allen", "allem", "allerlei", "solcherlei", "einige", "etliche", "manch", "wenige", "weniger", "wenigen",
@@ -50,7 +52,9 @@ var quantifiers = [ "manche", "manch", "viele", "viel", "vieler", "vielen", "vie
 	"verschiedenen", "verschiedenem", "verschiedenes", "verschiedne", "verschiedner", "verschiednen", "verschiednem",
 	"verschiednes", "art", "arten", "sorte", "sorten" ];
 
-var reflexivePronouns = [ "mich", "mir", "dich", "dir", "sich", "uns", "euch" ];
+var reflexivePronouns = [ "sich" ];
+
+var reciprocalPronouns = [ "einander" ];
 
 // "Welch", "welcher", and "welches" are already included in the demonstrativePronouns.
 var indefinitePronouns = [ "andere", "anderer", "anderem", "anderen", "anderes", "andren", "andern", "andrem",
@@ -67,7 +71,7 @@ var indefinitePronouns = [ "andere", "anderer", "anderem", "anderen", "anderes",
 	"niemanden", "niemandem", "niemandes", "niemands", "nichts", "jeglicher", "jeglichen", 	"jeglichem", "jegliches",
 	"jegliche", "zweiter" ];
 
-var relativePronouns = [ "dessen", "deren", "derer", "denen", "wes" ];
+var relativePronouns = [ "dessen", "deren", "derer", "denen" ];
 
 var interrogativeProAdverbs =  [ "warum", "wie", "wo", "woher", "wohin", "wann" ];
 
@@ -79,7 +83,7 @@ var pronominalAdverbs = [ "dabei", "dadurch", "dafür", "dafuer", "dagegen", "da
 	"wogegen", "wohinter", "womit", "wonach", "woneben", "woran", "worauf", "woraus", "worin",	"worum", "worunter",
 	"worüber", "worueber", "wovon", "wovor", "wozu", "wozwischen" ];
 
-var locativeAdverbs = [ "da", "hier", "dorthin", "hierher", "whence", "dorther", "daher" ];
+var locativeAdverbs = [ "da", "hier", "dorthin", "hierher", "dorther", "daher" ];
 
 var adverbialGenitives = [ "allenfalls", "keinesfalls", "anderenfalls", "andernfalls", "andrenfalls",
 	"äußerstenfalls", "bejahendenfalls", "bestenfalls", "ebenfalls", "eintretendenfalls", "entgegengesetztenfalls",
@@ -181,14 +185,14 @@ var additionalTransitionWords = [ "etwa", "absolut", "unbedingt", "wieder", "def
 	"unlaengst", "neuerdings", "neulich", "letztens", "neuerlich", "relativ", "verhältnismäßig", "verhaeltnismaessig", "deutlich", "klar",
 	"eindeutig", "offenbar", "anscheinend", "genau", "u.a", "damals", "zumindest" ];
 
-var intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weitaus", "einigermaßen", "einigermassen", "ganz", "schampar",
-	"schwer", "stief", "tierisch", "ungleich", "voll", "ziemlich", "übelst", "uebelst", "stark", "volkommen", "durchaus", "gar" ];
+var intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weitaus", "einigermaßen", "einigermassen", "ganz",
+	"schwer", "tierisch", "ungleich", "voll", "ziemlich", "übelst", "uebelst", "stark", "volkommen", "durchaus", "gar" ];
 
 // These verbs convey little meaning.
-var delexicalisedVerbs = [ "geschienen", "meine", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
-	"gemeint", "stehe", "stehst", "steht" ];
+var delexicalizedVerbs = [ "geschienen", "meine", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
+	"gemeint", "stehe", "stehst", "steht", "gehe", "gehst", "geht", "gegangen", "ging", "gingst", "gingen", "gingt" ];
 
-var delexicalisedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen", "wissen", "gehen", "kommen" ];
+var delexicalizedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen", "wissen", "gehen", "kommen" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
@@ -266,7 +270,7 @@ var vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sa
 	"idee", "ideen", "ahnung", "ahnungen", "thema", "themas", "themata", "themen", "fall", "falle", "falles", "falls", "fälle", "fällen",
 	"faelle", "faellen", "mensch", "menschen", "leute" ];
 
-var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "nicht", "amen", "ja", "nein", "euro", "prozent", "was" ];
+var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "nicht", "amen", "ja", "nein", "euro", "prozent" ];
 
 module.exports = function() {
 	return {
@@ -276,24 +280,35 @@ module.exports = function() {
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
-		verbs: copula.concat( interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries ),
+		verbs: copula.concat( interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries, delexicalizedVerbs ),
 		quantifiers: quantifiers,
 		relativePronouns: relativePronouns,
 		interrogativeProAdverbs: interrogativeProAdverbs,
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		// These verbs that should be filtered at the beginning of prominent word combinations.
-		beginningVerbs: otherAuxiliariesInfinitive.concat( infinitivePassiveAuxiliaries,
-			delexicalisedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ),
+		infinitives: otherAuxiliariesInfinitive.concat( infinitivePassiveAuxiliaries,
+			delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ),
 		miscellaneous: miscellaneous,
 		interjections: interjections,
 		pronominalAdverbs: pronominalAdverbs,
 		reflexivePronouns: reflexivePronouns,
-		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
-			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,	pronominalAdverbs,
-			locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, infinitivePassiveAuxiliaries, otherAuxiliaries,
+		reciprocalPronouns: reciprocalPronouns,
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns,
+		locativeAdverbs: locativeAdverbs,
+		adverbialGenitives: adverbialGenitives,
+		intensifiers: intensifiers,
+		recipeWords: recipeWords,
+		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		timeWords: timeWords,
+		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+			reciprocalPronouns,	personalPronounsNominative,	personalPronounsAccusative, relativePronouns, quantifiers,
+			indefinitePronouns,	interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives,
+			filteredPassiveAuxiliaries,	infinitivePassiveAuxiliaries, otherAuxiliaries,
 			otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers,
-			delexicalisedVerbs, delexicalisedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
+			delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
 			timeWords ),
 	};
 };

@@ -7,14 +7,16 @@ let transitionWords = require( "./transitionWords.js" )().singleWords;
 
 let articles = [ "il", "i", "la", "le", "lo", "gli", "un", "uno", "una", "dei", "degli", "delle" ];
 
-let numerals = [ "uno", "due", "tre", "quattro", "cinque", "sei", "sette", "otto", "nove", "dieci", "undici", "dodici",
-	"tredici", "quattordici", "quindici", "sedici", "diciassette", "diciotto", "diciannove", "venti", "primo", "prima",
+let cardinalNumerals = [ "uno", "due", "tre", "quattro", "cinque", "sei", "sette", "otto", "nove", "dieci", "undici", "dodici",
+	"tredici", "quattordici", "quindici", "sedici", "diciassette", "diciotto", "diciannove", "venti", "cento", "mille", "mila",
+	"duemila", "tremila", "quattromila", "cinquemila", "seimila", "settemila", "ottomila", "novemila",
+	"diecimila", "milione", "milioni", "miliardo", "miliardi" ];
+
+let ordinalNumerals = [ "primo", "prima",
 	"secondo", "seconda", "terzo", "terza", "quarto", "quarta", "quinto", "quinta", "sesto", "sesta", "settimo", "settima",
 	"ottavo", "ottava", "nono", "nona", "decimo", "decima", "undicesimo", "undicesima", "dodicesimo", "dodicesima",
 	"tredicesimo", "tredicesima", "quattordicesimo", "quattordicesima", "quindicesimo", "quindicesima",
-	"sedicesimo", "sedicesima", "diciassettesimo", "diciassettesima", "diciannovesimo", "diciannovesima", "ventesimo", "ventesima",
-	"cento", "mille", "mila", "duemila", "tremila", "quattromila", "cinquemila", "seimila", "settemila", "ottomila", "novemila",
-	"diecimila", "milione", "milioni", "miliardo", "miliardi" ];
+	"sedicesimo", "sedicesima", "diciassettesimo", "diciassettesima", "diciannovesimo", "diciannovesima", "ventesimo", "ventesima" ];
 
 let personalPronounsNominative = [ "io", "tu", "egli", "esso", "lui", "ella", "essa", "lei", "noi", "voi",
 	"essi", "esse", "loro" ];
@@ -37,9 +39,6 @@ let quantifiers = [ "abbastanza", "affatto", "assai", "alcun", "alcuna", "alcune
 	"pochissimi", "qualche", "qualsiasi", "qualunque", "quintali", "rara", "rarissima", "rarissimo", "raro", "spesso", "spessissimo",
 	"sufficientemente",	"taluno", "taluna", "taluni", "talune", "tanta", "tante", "tanti", "tantissime", "tantissimi",
 	"tanto", "tonnellate", "troppa", "troppe", "troppi", "troppo", "tutta", "tutte", "tutti", "tutto" ];
-
-// Only includes intensifiers, because the normal forms are the same as the accusative pronouns.
-let reflexivePronouns = [ "stesso", "stessa", "stessi", "stesse" ];
 
 // Already in the quantifier list: alcuno, molto, nessuno, poco, taluno tanto, troppo, tutto, nulla, niente.
 let indefinitePronouns = [ "alcunché", "alcunchè", "altro", "altra", "altri", "altre", "certo", "certa", "certi", "certe",
@@ -69,7 +68,7 @@ let filteredPassiveAuxiliaries = [ "vengano", "vengo", "vengono", "veniamo", "ve
 	"vennero", "venni", "verrà", "verrai", "verranno", "verrebbe", "verrebbero", "verrei", "verremmo",
 	"verremo", "verreste", "verresti", "verrete", "verrò", "viene", "vieni" ];
 
-let infinitivePassiveAuxiliaries = [ "venire", "venir" ];
+let passiveAuxiliariesInfinitive = [ "venire", "venir" ];
 
 let otherAuxiliaries = [ "abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbiente", "avemmo", "avendo", "avente", "avesse", "avessero", "avessi",
 	"avessimo", "aveste", "avesti", "avete", "aveva", "avevamo", "avevano", "avevate", "avevi", "avevo", "avrà", "avrai",
@@ -170,29 +169,24 @@ let intensifiers = [ "addirittura", "assolutamente", "ben", "completamente", "es
 	"neppure", "quasi", "sicuramente", "veramente", "totalmente" ];
 
 // These verbs convey little meaning.
-let delexicalisedVerbs = [ "fa", "fa’", "faccia", "facciamo", "facciano", "facciate", "faccio", "facemmo", "facendo", "facente", "facesse",
+let delexicalizedVerbs = [ "fa", "fa’", "faccia", "facciamo", "facciano", "facciate", "faccio", "facemmo", "facendo", "facente", "facesse",
 	"facessero", "facessi", "facessimo", "faceste", "facesti", "faceva", "facevamo", "facevano", "facevate", "facevi",
 	"facevo", "fai", "fanno", "farà", "farai", "faranno", "fare", "farebbe", "farebbero", "farei", "faremmo", "faremo",
 	"fareste", "faresti", "farete", "farò", "fate", "fatto", "fece", "fecero", "feci", "fo" ];
 
-let delexicalisedVerbsInfinitive = [ "fare" ];
+let delexicalizedVerbsInfinitive = [ "fare" ];
 
 /*
 These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
  Keyword combinations containing these adjectives/adverbs are fine.
  */
-let generalAdjectivesAdverbs = [ "nuovo", "nuova", "nuovi", "nuove", "vecchio", "vecchia", "vecchi", "vecchie", "anteriore",
-	"anteriori", "precedente", "precedenti", "bello", "bella", "belli", "belle", "bellissimo", "bellissima", "bellissimi", "bellissime",
-	"buono", "buona", "buoni", "buone", "buonissimo", "buonissima", "buonissimi", "buonissime", "grande", "grandi",
-	"grandissimo", "grandissima", "grandissimi", "grandissime", "facile", "facili", "facilissimo", "facilissima", "facilissimi",
+let generalAdjectivesAdverbs = [ "anteriore",
+	"anteriori", "precedente", "precedenti", "facile", "facili", "facilissimo", "facilissima", "facilissimi",
 	"facilissime", "semplice", "semplici", "semplicissimo", "semplicissima", "semplicissimo", "semplicissimi", "semplicissime",
 	"semplicemente", "rapido", "rapida", "rapidi", "rapide", "veloce", "veloci",    "difficile", "difficili",
-	"difficilissimo", "difficilissima", "difficilissimi", "difficilissime", "proprio", "propria",
-	"propri", "proprie",    "lungo", "lunga", "lunghi", "lunghe", "basso", "bassa", "bassi", "basse",
-	"alto", "alta", "alti", "alte", "normale", "normali", "normalmente", "piccolo", "piccola", "piccoli",
-	"piccole", "piccolissimo", "piccolissima", "piccolissimi", "piccolissime",
-	"corto", "corta", "corti", "corte", "breve", "brevi", "certo", "certa", "certi", "certe", "solita",
-	"soliti", "solite", "recente", "recenti", "totale", "totali", "completo", "completa", "completi", "complete",
+	"difficilissimo", "difficilissima", "difficilissimi", "difficilissime", "basso", "bassa", "bassi", "basse",
+	"alto", "alta", "alti", "alte", "normale", "normali", "normalmente",
+	"corto", "corta", "corti", "corte", "breve", "brevi", "recente", "recenti", "totale", "totali", "completo", "completa", "completi", "complete",
 	"possibile", "possibili", "ultimo", "ultima", "ultimi", "ultime", "differente", "differenti", "simile", "simili",
 	"parecchio", "parecchia", "parecchi", "parecchie", "prossimo", "prossima", "prossimi", "prossime",
 	"giusto", "giusta", "giusti", "giuste", "giustamente", "cosiddetto", "bene", "meglio", "benissimo", "male", "peggio",
@@ -200,6 +194,13 @@ let generalAdjectivesAdverbs = [ "nuovo", "nuova", "nuovi", "nuove", "vecchio", 
 	"evidentemente", "facilmente", "finalmente", "generalmente", "leggermente", "naturalmente", "personalmente",
 	"ovviamente", "praticamente", "recentemente", "sinceramente", "specialmente", "solamente", "avanti", "indietro",
 	"soltanto", "presto", "soprattutto"	];
+
+let generalAdjectivesAdverbsPreceding = [ "nuovo", "nuova", "nuovi", "nuove", "vecchio", "vecchia", "vecchi", "vecchie",
+	"bello", "bella", "belli", "belle", "bellissimo", "bellissima", "bellissimi", "bellissime",
+	"buono", "buona", "buoni", "buone", "buonissimo", "buonissima", "buonissimi", "buonissime", "grande", "grandi",
+	"grandissimo", "grandissima", "grandissimi", "grandissime", "lungo", "lunga", "lunghi", "lunghe", "piccolo", "piccola", "piccoli",
+	"piccole", "piccolissimo", "piccolissima", "piccolissimi", "piccolissime", "proprio", "propria", "propri", "proprie",
+	"solito", "solita", "soliti", "solite", "stesso", "stessa", "stessi", "stesse" ];
 
 let interjections = [ "accidenti", "acciderba", "ah", "aah", "ahi", "ahia", "ahimé", "bah", "beh", "boh", "ca", "caspita",
 	"chissà", "de'", "diamine", "ecco", "eh", "ehi", "eeh", "ehilà", "ehm", "gna", "ha", "ih", "magari", "macché", "macchè",
@@ -230,27 +231,32 @@ module.exports = function() {
 		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
-		verbs: filteredPassiveAuxiliaries.concat( infinitivePassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
+		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
+		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
 		quantifiers: quantifiers,
-		interrogatives: interrogativePronouns.concat( interrogativeAdverbs, interrogativeDeterminers, interrogativeAdjectives ),
-		passiveAuxiliaries: filteredPassiveAuxiliaries,
 		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeAdjectives, interrogativeAdverbs ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		miscellaneous: miscellaneous,
 		pronominalAdverbs: pronominalAdverbs,
 		interjections: interjections,
-		reflexivePronouns: reflexivePronouns,
-		beginningVerbs: interviewVerbsInfinitive.concat( infinitivePassiveAuxiliaries, otherAuxiliariesInfinitive, copulaInfinitive,
-			delexicalisedVerbsInfinitive ),
-		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+		infinitives: interviewVerbsInfinitive.concat( passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive,
+			delexicalizedVerbsInfinitive ),
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns,
+		locativeAdverbs: locativeAdverbs,
+		intensifiers: intensifiers,
+		recipeWords: recipeWords,
+		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
+		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
 			interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers, interrogativeAdjectives,
-			pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, infinitivePassiveAuxiliaries,
+			pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive,
 			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, delexicalisedVerbsInfinitive,
-			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, timeWords ),
+			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
+			interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords ),
 	};
 };
 

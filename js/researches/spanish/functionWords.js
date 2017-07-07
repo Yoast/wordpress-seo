@@ -8,11 +8,13 @@ let transitionWords = require( "./transitionWords.js" )().singleWords;
 let articles = [ "el", "la", "los", "las", "un", "una", "unos", "unas" ];
 
 // "Uno" is already included in the articles.
-let numerals = [ "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece",
-	"catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte", "primero", "primera", "segundo",
-	"segunda", "tercero", "tercera", "cuarto", "cuarta", "quinto", "quinta", "sexto", "sexta", "septimo", "septima", "octavo",
-	"octava", "noveno",	"novena", "décimo", "décima", "primero", "vigésimo", "vigésima", "cien", "centena", "mil", "millon",
+let cardinalNumerals = [ "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece",
+	"catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte",  "cien", "centena", "mil", "millon",
 	"millones" ];
+
+let ordinalNumerals = [ "primero", "primera", "segundo", "segunda", "tercero", "tercera", "cuarto", "cuarta",
+	"quinto", "quinta", "sexto", "sexta", "septimo", "septima", "octavo", "octava", "noveno",
+	"novena", "décimo", "décima", "vigésimo", "vigésima" ];
 
 let personalPronounsNominative = [ "yo", "tú", "él", "ella", "ello", "nosotros", "nosotras", "vosotros", "vosotras",
 	"ustedes", "ellos", "ellas" ];
@@ -37,8 +39,6 @@ let possessivePronouns = [ "mi", "mis", "mío", "míos", "mía", "mías", "nuest
 let quantifiers = [ "bastante", "bastantes", "mucho", "muchas", "mucha", "muchos", "demasiado", "demasiada", "demasiados", "demasiadas",
 	"poco", "poca", "pocos", "pocas", "demás", "otros", "otras", "muy", "todo", "toda", "todos", "todas", "demasiado", "demasiados",
 	"demasiada", "demasiadas" ];
-
-let reflexivePronouns = [ "os" ];
 
 let indefinitePronouns = [ "alguien", "algo", "algún", "alguno", "alguna", "algunos", "algunas", "nadie", "nada", "ningún",
 	"ninguno", "ninguna", "ningunos", "ningunas", "tanto", "tantos", "tanta", "tantas" ];
@@ -209,7 +209,7 @@ let additionalTransitionWords = [ "básicamente", "esencialmente", "primeramente
 let intensifiers = [ "muy", "tan", "demasiado", "bastante", "completamente", "algo", "tanto", "poco", "suficiente", "tal", "tales" ];
 
 // These verbs convey little meaning.
-let delexicalisedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hacen", "hice", "hiciste", "hizo", "hicimos", "hicisteis",
+let delexicalizedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hacen", "hice", "hiciste", "hizo", "hicimos", "hicisteis",
 	"hicieron", "hacía", "hacías", "hacíamos", "hacíais", "hacían", "haría,", "harías", "haríamos", "haríais", "harían", "haré", "harás",
 	"hará", "haremos", "haréis", "harán", "haga", "hagas", "hagamos", "hagáis", "hagan", "hiciera", "hicieras", "hiciéramos", "hicierais",
 	"hicieran", "hiciese", "hicieses", "hiciésemos", "hicieseis", "hiciesen", "hiciere", "hicieres", "hiciéremos", "hiciereis", "hicieren",
@@ -263,20 +263,27 @@ module.exports = function() {
 			personalPronounsPrepositional, personalPronounsComitative ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
-		verbs: otherAuxiliaries.concat( copula, interviewVerbs, delexicalisedVerbs, otherAuxiliaries ),
+		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
+		verbs: otherAuxiliaries.concat( copula, interviewVerbs, delexicalizedVerbs, otherAuxiliaries ),
 		infinitives: otherAuxiliariesInfinitive.concat( copulaInfinitive ),
 		quantifiers: quantifiers,
 		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		miscellaneous: miscellaneous,
 		interjections: interjections,
-		reflexivePronouns: reflexivePronouns,
-		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns,
+		locativeAdverbs: locativeAdverbs,
+		prepositionalAdverbs: prepositionalAdverbs,
+		intensifiers: intensifiers,
+		recipeWords: recipeWords,
+		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
+			personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional, personalPronounsGenitive,
 			personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns,
 			interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copula,
 			copulaInfinitive, prepositions,	coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, interjections, generalAdjectivesAdverbs,
+			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
 			recipeWords, vagueNouns, miscellaneous ),
 	};
 };

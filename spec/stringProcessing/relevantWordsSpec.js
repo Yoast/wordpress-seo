@@ -260,52 +260,23 @@ describe( "filter special characters in word combinations", function() {
 	});
 } );
 
-describe( "filter single words based on syllable count", function() {
-	it ( "filters one-syllable single words", function() {
-		let input = [
-			new WordCombination ( [ "book" ] ),
-			new WordCombination ( [ "a", "book" ] ),
-			new WordCombination ( [ "book", "club"] ),
-		];
-		let expected = [
-			new WordCombination ( [ "a", "book" ] ),
-			new WordCombination ( [ "book", "club"] ),
-		];
-
-		let combinations  = filterOnSyllableCount( input, 1 );
-
-		expect( combinations ).toEqual( expected );
-	});
-} );
-
 describe( "getRelevantWords", function() {
 	it( "uses the default (English) function words in case of a unknown locale", function() {
 		let input = "Here are a ton of syllables. Syllables are very important. I think the syllable combinations are even more important. Syllable combinations for the win! " +
 			"This text needs to contain 200 words, because one filter will only work if a text is long enough. 200 words is really, really long. I will just start talking" +
 			"about the weather. The weather is nice today, don't you think? It is sunny outside. It has been a while since it has rained. Let me think of something else to" +
-			"talk about. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore" +
-			" veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur" +
-			" magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non" +
-			" numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis" +
-			" suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur," +
-			" vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?";
+			"talk about.";
 		let expected = [
-			new WordCombination( [ "qui", "dolorem" ], 2, englishFunctionWords ),
-			new WordCombination( [ "sed", "quia" ], 2, englishFunctionWords ),
-			new WordCombination( [ "200", "words" ], 2, englishFunctionWords ),
 			new WordCombination( [ "syllable", "combinations" ], 2, englishFunctionWords ),
-			new WordCombination( [ "voluptatem" ], 4, englishFunctionWords ),
-			new WordCombination( [ "quia" ], 4, englishFunctionWords ),
+			new WordCombination( [ "200", "words" ], 2, englishFunctionWords ),
+			new WordCombination( [ "200" ], 2, englishFunctionWords ),
 			new WordCombination( [ "syllables" ], 2, englishFunctionWords ),
-			new WordCombination( [ "enim" ], 2, englishFunctionWords ),
-			new WordCombination( [ "combinations" ], 2, englishFunctionWords ),
-			new WordCombination( [ "dolorem" ], 2, englishFunctionWords ),
-			new WordCombination( [ "velit" ], 2, englishFunctionWords ),
-			new WordCombination( [ "consequatur" ], 2, englishFunctionWords ),
-			new WordCombination( [ "syllable" ], 2, englishFunctionWords ),
 			new WordCombination( [ "important" ], 2, englishFunctionWords ),
+			new WordCombination( [ "syllable" ], 2, englishFunctionWords ),
+			new WordCombination( [ "combinations" ], 2, englishFunctionWords ),
+			new WordCombination( [ "text" ], 2, englishFunctionWords ),
+			new WordCombination( [ "words" ], 2, englishFunctionWords ),
 			new WordCombination( [ "weather" ], 2, englishFunctionWords ),
-			new WordCombination( [ "voluptas" ], 2, englishFunctionWords ),
 		];
 
 		// Make sure our words aren't filtered by density.

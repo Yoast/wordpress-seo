@@ -7,11 +7,13 @@ let transitionWords = require( "./transitionWords.js" )().singleWords;
 
 let articles = [ "de", "het", "een", "der", "des", "den" ];
 
-let numerals = [ "eén", "één", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien", "elf", "twaalf", "dertien",
-	"veertien", "vijftien", "zestien", "zeventien", "achttien", "negentien", "twintig", "eerste", "tweede", "derde", "vierde",
-	"vijfde", "zesde", "zevende", "achtste", "negende", "tiende", "elfde", "twaalfde", "dertiende", "veertiende", "vijftiende",
-	"zestiende", "zeventiende", "achttiende", "negentiende", "twinstigste", "honderd", "honderden", "duizend", "duizenden", "miljoen",
+let cardinalNumerals = [ "eén", "één", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien", "elf", "twaalf", "dertien",
+	"veertien", "vijftien", "zestien", "zeventien", "achttien", "negentien", "twintig", "honderd", "honderden", "duizend", "duizenden", "miljoen",
 	"miljoenen", "biljoen", "biljoenen" ];
+
+let ordinalNumerals = [ "eerste", "tweede", "derde", "vierde", "vijfde", "zesde", "zevende", "achtste", "negende",
+	"tiende", "elfde", "twaalfde", "dertiende", "veertiende", "vijftiende", "zestiende", "zeventiende",
+	"achttiende", "negentiende", "twinstigste" ];
 
 // 'Het' is already included in the list of articles.
 let personalPronounsNominative = [ "ik", "je", "jij", "hij", "ze", "we", "wij", "jullie", "zij", "u", "ge", "gij" ];
@@ -19,7 +21,7 @@ let personalPronounsAccusative = [ "mij", "jou", "hem", "haar", "hen", "hun", "u
 let demonstrativePronouns = [ "dit", "dat", "deze", "die", "zelf" ];
 
 // What to do with 'zijn', since it is also a verb?
-let possessivePronouns = [ "mijn", "mijne", "jouw", "jouwe", "zijne", "hare", "ons", "onze", "hunne", "uwe" ];
+let possessivePronouns = [ "mijn", "mijne", "jouw", "jouwe", "zijne", "hare", "ons", "onze", "hunne", "uwe", "elkaars", "elkanders" ];
 let quantifiers = [ "alle", "sommige", "sommigen", "allen", "weinig", "weinige", "weinigen", "veel", "vele", "velen", "geen", "beetje",
 	"elke", "elk", "genoeg", "meer", "meest", "meeste", "meesten", "paar", "zoveel", "enkele", "enkelen", "zoveelste", "hoeveelste",
 	"laatste", "laatsten", "ieder", "iedere", "allemaal", "alles", "al", "zekere", "ander", "andere", "gene", "enig", "enige", "verscheidene",
@@ -36,9 +38,9 @@ let indefinitePronouns = [ "iedereen", "ieder", "eenieder", "alleman", "allen", 
 
 let indefinitePronounsPossessive  = [ "ieders", "aller", "iedereens", "eenieders" ];
 
-let interrogativePronouns = [ "welke", "welk", "wat", "wie", "wiens", "wier" ];
+let relativePronouns = [ "welke", "welk", "wat", "wie", "wiens", "wier" ];
 
-let interrogativeAdverbs = [ "hoe", "waarom", "waar", "hoezo", "wanneer", "hoeveel" ];
+let interrogativeProAdverbs = [ "hoe", "waarom", "waar", "hoezo", "wanneer", "hoeveel" ];
 
 let pronominalAdverbs = [ "daaraan", "daarachter", "daaraf", "daarbij", "daarbinnen", "daarboven", "daarbuiten", "daardoor", "daardoorheen",
 	"daarheen", "daarin", "daarjegens", "daarmede", "daarmee", "daarna", "daarnaar", "daarnaartoe", "daarnaast", "daarom", "daaromtrent",
@@ -59,16 +61,20 @@ let locativeAdverbs = [ "daar", "hier", "ginder", "daarginds", "ginds", "ver", "
 
 let filteredPassiveAuxiliaries = [ "word", "wordt", "werd", "werden", "ben", "bent", "is", "was", "waren" ];
 
-let infinitivePassiveAuxiliaries = [ "worden", "zijn" ];
+let passiveAuxiliariesInfinitive = [ "worden", "zijn" ];
 
-let otherAuxiliaries = [ "heb", "hebt", "heeft", "hebben", "hadden", "had", "kun", "kan", "kunt", "kunnen", "kon", "konden", "mag",
-	"mogen", "mocht", "mochten", "dien", "dient", "dienen", "diende", "dienden", "moet", "moeten", "moest", "moesten", "ga", "gaat",
-	"gaan", "ging", "gingen" ];
+let otherAuxiliaries = [ "heb", "hebt", "heeft", "hadden", "had", "kun", "kan", "kunt", "kon", "konden", "mag",
+	"mocht", "mochten", "dien", "dient", "diende", "dienden", "moet", "moest", "moesten", "ga", "gaat",
+	"ging", "gingen" ];
+
+let otherAuxiliariesInfinitive = [ "hebben", "kunnen", "mogen", "dienen", "moeten", "gaan" ];
 
 // 'Vóórkomen' (appear) is not included, because we don't want to filter out 'voorkómen' (prevent).
-let copula = [ "blijken", "blijkt", "blijk", "bleek", "bleken", "gebleken", "dunken", "dunkt", "dunk", "dunkte", "dunkten",
-	"gedunkt", "heet", "heten", "heette", "heetten", "geheten", "lijkt", "lijk", "lijken", "geleken", "leek", "leken", "schijnen",
-	"schijn", "schijnt", "scheen", "schenen", "toescheen", "toeschijnt", "toeschijnen", "toeschijn", "toeschenen" ];
+let copula = [ "blijkt", "blijk", "bleek", "bleken", "gebleken", "dunkt", "dunk", "dunkte", "dunkten",
+	"gedunkt", "heet", "heette", "heetten", "geheten", "lijkt", "lijk", "geleken", "leek", "leken",
+	"schijn", "schijnt", "scheen", "schenen", "toescheen", "toeschijnt", "toeschijn", "toeschenen" ];
+
+let copulaInfinitive = [ "blijken", "dunken", "heten", "lijken", "schijnen", "toeschijnen" ];
 
 let prepositions = [ "à", "aan", "aangaande", "achter", "behalve", "behoudens", "beneden", "benevens", "benoorden", "benoordoosten", "benoordwesten",
 	"beoosten", "betreffende", "bewesten", "bezijden", "bezuiden", "bezuidoosten", "bezuidwesten", "bij", "binnen", "blijkens", "boven", "bovenaan",
@@ -95,7 +101,7 @@ let subordinatingConjunctions = [ "omdat", "doordat", "aangezien", "vermits", "d
 	"behalve", "uitgezonderd", "zoverre", "zover", "naargelang", "naarmate", "alsof", "zoals", "evenals" ];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
-let interviewVerbs = [ "zegt", "zei", "aldus", "vraagt", "vroeg", "denkt", "dacht", "stelt", "pleit", "pleitte" ];
+let interviewVerbs = [ "zegt", "zei", "vraagt", "vroeg", "denkt", "dacht", "stelt", "pleit", "pleitte" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
 let additionalTransitionWords = [ "absoluut", "zeker", "ongetwijfeld", "sowieso", "onmiddelijk", "meteen", "inclusief",
@@ -108,13 +114,16 @@ let additionalTransitionWords = [ "absoluut", "zeker", "ongetwijfeld", "sowieso"
 	"volgend", "recent", "onlangs", "recentelijk", "laatst", "zojuist", "relatief", "duidelijk", "overduidelijk", "klaarblijkelijk",
 	"nadrukkelijk", "ogenschijnlijk", "duidelijk", "kennelijk", "schijnbaar", "alweer", "continu", "herhaaldelijk", "nog", "steeds" ];
 
+// 'vrij' is not included because it also means 'free'.
 let intensifiers = [ "zeer", "erg", "redelijk", "flink", "beetje", "tikkeltje", "bijzonder", "ernstig", "enigszins",
-	"hoe", "zo", "wat", "tamelijk", "nogal", "vrij", "genoeg", "behoorlijk", "hard", "zwaar", "heel", "hele", "reuze", "buitengewoon",
+	"zo", "tamelijk", "nogal", "genoeg", "behoorlijk", "zwaar", "heel", "hele", "reuze", "buitengewoon",
 	"ontzettend", "vreselijk" ];
 
 // These verbs convey little meaning.
-let delexicalisedVerbs = [ "laten", "laat", "liet", "lieten", "komen", "kom", "komt", "kwam", "kwamen", "maken", "maakt",
-	"maak", "maakte", "maakten", "doen", "doe", "doet", "deed", "deden", "vinden", "vindt", "vind", "vond", "vonden" ];
+let delexicalizedVerbs = [ "laat", "liet", "lieten", "kom", "komt", "kwam", "kwamen", "maakt",
+	"maak", "maakte", "maakten", "doe", "doet", "deed", "deden", "vindt", "vind", "vond", "vonden" ];
+
+let delexicalizedVerbsInfinitive = [ "laten", "komen", "maken", "doen", "vinden" ];
 
 /* These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 Keyword combinations containing these adjectives/adverbs are fine. */
@@ -127,7 +136,7 @@ let generalAdjectivesAdverbs = [ "nieuw", "nieuwe", "nieuwer", "nieuwere", "nieu
 	"weinig", "weinige", "minder", "mindere", "minst", "minste", "eigen", "laag", "lage", "lager", "lagere", "laagst", "laagste",
 	"hoog", "hoge", "hoger", "hogere", "hoogst", "hoogste", "klein", "kleine", "kleiner", "kleinere", "kleinst", "kleinste", "kort",
 	"korte", "korter", "kortere", "kortst", "kortste", "zekere", "herhaaldelijke", "directe", "ongeveer", "slecht", "slechte", "slechter",
-	"slechtere", "slechtst", "slechtste", "zulke", "zulk", "zo'n", "zulks", "er", "extreem", "extreme", "bijbehorende", "bijbehorend" ];
+	"slechtere", "slechtst", "slechtste", "zulke", "zulk", "zo'n", "zulks", "er", "extreem", "extreme", "bijbehorende", "bijbehorend", "aldus" ];
 
 let interjections = [ "oh", "wauw", "hèhè", "hè", "hé", "au", "ai", "jaja", "welja", "jawel", "ssst", "heremijntijd", "hemeltjelief", "aha",
 	"er", "foei", "hmm", "nou", "nee", "tja", "nja", "okido", "ho", "halt", "komaan", "komop", "verrek", "nietwaar", "brr", "oef",
@@ -152,10 +161,12 @@ module.exports = function() {
 		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
-		verbs: filteredPassiveAuxiliaries.concat( infinitivePassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
+		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
+		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
+		infinitives: passiveAuxiliariesInfinitive.concat( otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
 		quantifiers: quantifiers,
-		relativePronouns: interrogativePronouns.concat( interrogativeAdverbs ),
+		relativePronouns: relativePronouns,
+		interrogativeProAdverbs: interrogativeProAdverbs,
 		passiveAuxiliaries: filteredPassiveAuxiliaries,
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		miscellaneous: miscellaneous,
@@ -163,13 +174,22 @@ module.exports = function() {
 		interjections: interjections,
 		reflexivePronouns: reflexivePronouns,
 		reciprocalPronouns: reciprocalPronouns,
-		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns,
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns.concat( indefinitePronounsPossessive ),
+		locativeAdverbs: locativeAdverbs,
+		prepositionalAdverbs: prepositionalAdverbs,
+		intensifiers: intensifiers,
+		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		recipeWords: recipeWords,
+		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
-			indefinitePronounsPossessive, interrogativePronouns, interrogativeAdverbs,
-			pronominalAdverbs, locativeAdverbs, prepositionalAdverbs, filteredPassiveAuxiliaries, infinitivePassiveAuxiliaries,
-			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, interjections, generalAdjectivesAdverbs,
-			recipeWords, vagueNouns, miscellaneous ),
+			indefinitePronounsPossessive, relativePronouns, interrogativeProAdverbs,
+			pronominalAdverbs, locativeAdverbs, prepositionalAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive,
+			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions,
+			correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
+			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
+			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous ),
 	};
 };
 
