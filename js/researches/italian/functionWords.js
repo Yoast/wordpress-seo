@@ -5,9 +5,9 @@ let transitionWords = require( "./transitionWords.js" )().singleWords;
  * @returns {Object} The object filled with exception arrays.
  */
 
-let articles = [ "il", "i", "la", "le", "lo", "gli", "un", "uno", "una", "dei", "degli", "delle" ];
+let articles = [ "il", "i", "la", "le", "lo", "gli", "un", "uno", "una" ];
 
-let cardinalNumerals = [ "uno", "due", "tre", "quattro", "cinque", "sei", "sette", "otto", "nove", "dieci", "undici", "dodici",
+let cardinalNumerals = [ "due", "tre", "quattro", "cinque", "sette", "otto", "nove", "dieci", "undici", "dodici",
 	"tredici", "quattordici", "quindici", "sedici", "diciassette", "diciotto", "diciannove", "venti", "cento", "mille", "mila",
 	"duemila", "tremila", "quattromila", "cinquemila", "seimila", "settemila", "ottomila", "novemila",
 	"diecimila", "milione", "milioni", "miliardo", "miliardi" ];
@@ -22,7 +22,7 @@ let personalPronounsNominative = [ "io", "tu", "egli", "esso", "lui", "ella", "e
 	"essi", "esse", "loro" ];
 
 // 'La' and 'le' are already included in the list of articles.
-let personalPronounsAccusative = [ "mi", "ti", "lo", "si", "ci", "vi", "li", "me", "te", "se",
+let personalPronounsAccusative = [ "mi", "ti", "si", "ci", "vi", "li", "me", "te", "se",
 	"glie", "glielo", "gliela", "glieli", "gliele", "gliene", "ce", "ve" ];
 
 let personalPronounsPrepositional = [ "sé" ];
@@ -93,7 +93,7 @@ let otherAuxiliaries = [ "abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbi
 	"sapresti", "saprete", "saprò", "saputo", "seppe", "seppero", "seppi", "so", "soglia", "sogliamo", "sogliano", "sogliate",
 	"soglio", "sogliono", "solesse", "solessero", "solessi", "solessimo", "soleste", "solete", "soleva", "solevamo", "solevano",
 	"solevate", "solevi", "solevo", "solito", "suoli", "sta", "stai", "stando", "stanno", "stante", "starà", "starai",
-	"staranno", "staremo", "starete", "starò", "stata", "state", "stati", "stato", "stava", "stavamo", "stavano", "stavate",
+	"staranno", "staremo", "starete", "starò", "stava", "stavamo", "stavano", "stavate",
 	"stavi", "stavo", "stemmo", "stesse", "stessero", "stessi", "stessimo", "steste", "stesti", "stette", "stettero", "stetti", "stia",
 	"stiamo", "stiano", "stiate", "sto" ];
 
@@ -171,7 +171,7 @@ let intensifiers = [ "addirittura", "assolutamente", "ben", "completamente", "es
 	"neppure", "quasi", "sicuramente", "veramente", "totalmente" ];
 
 // These verbs convey little meaning.
-let delexicalizedVerbs = [ "fa", "fa’", "faccia", "facciamo", "facciano", "facciate", "faccio", "facemmo", "facendo", "facente", "facesse",
+let delexicalizedVerbs = [ "fa", "fa'", "faccia", "facciamo", "facciano", "facciate", "faccio", "facemmo", "facendo", "facente", "facesse",
 	"facessero", "facessi", "facessimo", "faceste", "facesti", "faceva", "facevamo", "facevano", "facevate", "facevi",
 	"facevo", "fai", "fanno", "farà", "farai", "faranno", "fare", "farebbe", "farebbero", "farei", "faremmo", "faremo",
 	"fareste", "faresti", "farete", "farò", "fate", "fatto", "fece", "fecero", "feci", "fo" ];
@@ -233,7 +233,8 @@ module.exports = function() {
 		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns, personalPronounsPrepositional ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
 		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
 		quantifiers: quantifiers,
 		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeAdjectives, interrogativeAdverbs ),

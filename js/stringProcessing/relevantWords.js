@@ -197,26 +197,29 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
  */
 function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWordsAnywhere( combinations, specialCharacters );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().transitionWords );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().adverbialGenitives );
+	// Todo Split pronoun categories
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().personalPronounsAccusative );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().interjections );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().cardinalNumerals );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().verbs);
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().indefinitePronouns);
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().conjunctionsFilteredEverywhere);
 	combinations = filterFunctionWords( combinations, functionWords().articles );
 	combinations = filterFunctionWords( combinations, functionWords().personalPronouns );
 	combinations = filterFunctionWords( combinations, functionWords().prepositions );
-	combinations = filterFunctionWords( combinations, functionWords().conjunctions );
+	combinations = filterFunctionWords( combinations, functionWords().coordinatingConjunctions );
 	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
-	combinations = filterFunctionWords( combinations, functionWords().transitionWords );
-	combinations = filterFunctionWords( combinations, functionWords().interjections );
 	combinations = filterFunctionWords( combinations, functionWords().relativePronouns );
 	combinations = filterFunctionWords( combinations, functionWords().pronominalAdverbs );
 	combinations = filterFunctionWords( combinations, functionWords().miscellaneous );
-	combinations = filterFunctionWords( combinations, functionWords().cardinalNumerals );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().ordinalNumerals );
-	combinations = filterFunctionWords( combinations, functionWords().indefinitePronouns );
 	combinations = filterFunctionWords( combinations, functionWords().locativeAdverbs );
-	combinations = filterFunctionWords( combinations, functionWords().adverbialGenitives );
 	combinations = filterFunctionWords( combinations, functionWords().prepositionalAdverbs );
 	combinations = filterFunctionWords( combinations, functionWords().intensifiers );
 	combinations = filterFunctionWords( combinations, functionWords().recipeWords );
-	combinations = filterFunctionWords( combinations, functionWords().verbs );
 	switch( getLanguage( locale ) ) {
 		case "en":
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().reflexivePronouns );

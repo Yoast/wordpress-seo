@@ -7,7 +7,7 @@ let transitionWords = require( "./transitionWords.js" )().singleWords;
 
 let articles = [ "le", "la", "les", "un", "une", "des", "aux", "du", "au", "d'un", "d'une" ];
 
-let cardinalNumerals = [ "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze",
+let cardinalNumerals = [ "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze",
 	"quinze", "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix",
 	"quatre-vingt", "quatre-vingt-dix", "cent", "mille", "million", "milliard" ];
 
@@ -53,9 +53,11 @@ let pronominalAdverbs = [ "en", "y" ];
 let locativeAdverbs = [ "là", "ici", "voici" ];
 
 // 'Vins' is not included because it also means 'wines'.
-let otherAuxiliaries = [ "j'ai", "ai", "as", "a", "avons", "avez", "ont", "ai-je", "as-tu", "a-t-il", "a-t-elle", "a-t-on", "avons-nous", "avez-vous",
-	"eu", "avais", "avait", "avions", "aviez", "avaient", "aurai", "auras", "aura", "aurons", "aurez", "auront", "aurais", "aurait", "auions",
-	"auriez", "auraient", "aie", "ayons", "ayez", "vais", "vas", "va", "allons", "allez", "vont", "vais-je", "vas-tu", "va-t-il", "va-t-elle",
+let otherAuxiliaries = [ "a", "a-t-elle", "a-t-il", "a-t-on", "ai", "ai-je", "aie", "as", "as-tu", "aura", "aurai", "auraient", "aurais", "aurait",
+	"auras", "aurez", "auriez", "aurons", "auront", "avaient", "avais", "avait", "avez", "avez-vous", "aviez", "avions", "avons",
+	"avons-nous", "ayez", "ayons", "eu", "eûmes", "eurent", "eus", "eut", "eûtes", "j'ai", "j'aurai", "j'avais", "j'eus", "ont",
+	"ont-elles", "ont-ils",
+	"vais", "vas", "va", "allons", "allez", "vont", "vais-je", "vas-tu", "va-t-il", "va-t-elle",
 	"va-t-on", "allons-nous", "allez-vous", "vont-elles", "vont-ils", "allé", "allés", "j'allai", "allai", "allas", "allas", "allâmes", "allâtes",
 	"allèrent", "j'allais", "allais", "allait", "allions", "alliez", "allaient", "j'irai", "iras", "ira", "irons", "irez", "iront", "j'aille",
 	"aille", "ailles", "allions", "alliez", "aillent", "j'allasse", "allasse", "allasses", "allât", "allassions", "allassiez", "allassent",
@@ -111,14 +113,14 @@ let prepositions = [ "à", "après", "au-delà", "au-dessous", "au-dessus", "ava
 	"jusqu'aux", "loin", "malgré", "moyennant", "outre", "par", "parmi", "pendant", "pour", "près", "quant", "sans", "sauf", "selon", "sous",
 	"suivant", "sur", "travers", "vers", "voilà" ];
 
-let coordinatingConjunctions = [  "car", "donc", "et", "mais", "ni", "or", "ou" ];
+let coordinatingConjunctions = [ "car", "donc", "et", "mais", "ni", "or", "ou" ];
 
 /*
 Et...et, ou...ou, ni...ni – in their simple forms already in other lists. 'd'une', 'd'autre' are part of 'd'une part…d'autre part'.
 'sinon' is part of 'sinon…du moins'.
 */
 
-let correlativeConjunctions = [ "non", "pas", "seulement", "si", "alors", "ainsi", "autant", "aussi", "sitôt", "aussitôt", "d'une",
+let correlativeConjunctions = [ "non", "pas", "seulement", "alors", "ainsi", "aussi", "sitôt", "aussitôt",
 	 "d'autre", "sinon" ];
 
 
@@ -159,9 +161,9 @@ let interviewVerbsInfinitive = [ "dire", "penser", "demander", "concéder", "con
 	"écrire", "indiquer", "poursuivre", "préciser", "résumer", "témoigner" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
-let additionalTransitionWords = [ "seulement", "encore", "éternellement", "aussitôt", "immédiatement", "compris", "comprenant",
+let additionalTransitionWords = [ "encore", "éternellement", "immédiatement", "compris", "comprenant",
 	"inclus", "naturellement", "particulièrement", "notablement", "actuellement", "maintenant", "aujourd'hui", "ordinairement", "généralement",
-	"habituellement", "ordinairement", "d'habitude", "vraiment", "finalement", "uniquement", "premier", "première", "deuxième", "troisième",
+	"habituellement", "d'habitude", "vraiment", "finalement", "uniquement",
 	"peut-être", "probablement", "initialement", "globalement", "déjà", "c.-à-d.", "souvent", "fréquemment", "régulièrement", "simplement",
 	"éventuellement", "quelquefois", "parfois", "probable", "plausible", "jamais", "toujours", "incidemment", "accidentellement", "récemment",
 	"dernièrement", "relativement", "clairement", "évidemment", "apparemment", "pourvu", "toutefois", "d'ailleurs" ];
@@ -170,8 +172,7 @@ let intensifiers = [ "assez", "trop", "tellement", "presque", "extrêmement", "t
 	"plutôt", "fort" ];
 
 // These verbs convey little meaning.
-let delexicalizedVerbs = [ "ont-ils", "ont-elles", "j'eus", "eus", "eut", "eûmes", "eûtes", "eurent", "j'avais", "avais", "avait", "avions", "aviez",
-	"avaient", "j'aurai", "aurai", "auras", "aura", "aurons", "aurez", "auront", "eu", "fais", "fait", "faisons", "faites", "font", "fais-je",
+let delexicalizedVerbs = [ "fais", "fait", "faisons", "faites", "font", "fais-je",
 	"fait-il", "fait-elle", "fait-on", "faisons-nous", "faites-vous", "font-ils", "font-elles", "fis", "fit", "fîmes", "fîtes", "firent", "faisais",
 	"faisait", "faisions", "faisiez", "faisaient", "ferai", "feras", "fera", "ferons", "ferez", "feront", "veux", "veut", "voulons", "voulez",
 	"veulent", "voulus", "voulut", "voulûmes", "voulûtes", "voulurent", "voulais", "voulait", "voulions", "vouliez", "voulaient", "voudrai",
@@ -205,7 +206,7 @@ let generalAdjectivesAdverbsPreceding = [ "nouveau", "nouvel", "nouvelle", "nouv
 	"mauvaises", "derniers", "dernière", "dernières" ];
 
 let interjections = [ "ah", "ha", "oh", "ho", "bis", "plouf", "vlan", "ciel", "pouf", "paf", "crac", "enfin", "hurrah",
-	"allo", "stop", "bravo", "ô", "eh", "hé", "aïe", "oef", "ahi", "fi", "zest", "ça", "hem", "holà", "chut", "si", "voilà" ];
+	"allo", "stop", "bravo", "ô", "eh", "hé", "aïe", "oef", "ahi", "fi", "zest", "ça", "hem", "holà", "chut", "voilà" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
 let recipeWords = [ "mg", "g", "kg", "ml", "dl", "cl", "l", "grammes", "gram", "once", "onces", "oz", "lbs", "càc", "cc", "càd", "càs", "càt",
@@ -217,7 +218,7 @@ let timeWords = [ "seconde", "secondes", "minute", "minutes", "heure", "heures",
 let vagueNouns = [ "chose", "choses", "façon", "façons", "ceux", "pièce", "pièces", "truc", "trucs", "fois", "cas", "aspect", "aspects", "objet",
 	"objets", "idée", "idées", "thème", "thèmes", "sujet", "sujets", "personne", "personnes", "manière", "manières", "sorte", "sortes" ];
 
-let miscellaneous = [ "ne", "oui", "non", "d'accord", "amen", "%", "euro", "euros", "rien", "plus", "moins", "même", "mêmes", "aussi", "etc." ];
+let miscellaneous = [ "ne", "oui", "d'accord", "amen", "euro", "euros", "rien", "plus", "moins", "même", "mêmes", "etc." ];
 
 module.exports = function() {
 	return {
@@ -226,7 +227,8 @@ module.exports = function() {
 			possessivePronouns, personalPronounsStressed ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
 		verbs: copula.concat( interviewVerbs, otherAuxiliaries, delexicalizedVerbs ),
 		quantifiers: quantifiers,
 		relativePronouns: relativePronouns,

@@ -10,21 +10,21 @@ let transitionWords = require( "./transitionWords.js" )().singleWords;
 let articles = [ "the", "an", "a" ];
 let cardinalNumerals = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen",
 	"fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "hundred", "hundreds", "thousand", "thousands",
-	"million", "million", "billion", "billions" ];
+	"million", "millions", "billion", "billions" ];
 
 let ordinalNumerals = [ "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth",
 	"eleventh", "twelfth", "thirteenth", "fourteenth", "fifteenth", "sixteenth", "seventeenth", "eighteenth",
 	"nineteenth", "twentieth" ];
 
 let personalPronounsNominative = [ "i", "you", "he", "she", "it", "we", "they" ];
-let personalPronounsAccusative = [ "me", "him", "her", "us", "them" ];
+let personalPronounsAccusative = [ "me", "him", "us", "them" ];
 let demonstrativePronouns = [ "this", "that", "these", "those" ];
 let possessivePronouns = [ "my", "your", "his", "her", "its", "their", "our", "mine", "yours", "hers", "theirs", "ours" ];
-let quantifiers = [ "all", "some", "many", "few", "lot", "lots", "ton", "tons", "bit", "no", "every", "enough", "little",
-	"less", "much", "more", "most",	"plenty", "several", "few", "fewer", "kind" ];
+let quantifiers = [ "all", "some", "many", "lot", "lots", "ton", "tons", "bit", "no", "every", "enough", "little",
+	"much", "more", "most",	"plenty", "several", "few", "fewer", "kind" ];
 let reflexivePronouns = [ "myself", "yourself", "himself", "herself", "itself", "oneself", "ourselves", "yourselves", "themselves" ];
 let indefinitePronouns = [ "none", "nobody", "everyone", "everybody", "someone", "somebody", "anyone", "anybody", "nothing",
-	"everything", "something", "anything", "each", "another", "other", "whatever", "whichever", "whoever", "whomever",
+	"everything", "something", "anything", "each", "other", "whatever", "whichever", "whoever", "whomever",
 	"whomsoever", "whosoever", "others", "neither", "both", "either", "any", "such" ];
 let indefinitePronounsPossessive  = [ "one's", "nobody's", "everyone's", "everybody's", "someone's", "somebody's", "anyone's",
 	"anybody's", "nothing's", "everything's", "something's", "anything's", "whoever's", "others'", "other's", "another's",
@@ -32,12 +32,12 @@ let indefinitePronounsPossessive  = [ "one's", "nobody's", "everyone's", "everyb
 
 let interrogativeDeterminers = [ "which", "what", "whose" ];
 let interrogativePronouns = [ "who", "whom" ];
-let interrogativeProAdverbs = [ "where", "whither", "whence", "how", "why", "whether", "wherever", "whomever", "whenever",
-	"however", "whyever", "whoever", "whatever", "wheresoever", "whomsoever", "whensoever", "howsoever", "whysoever", "whosoever",
+let interrogativeProAdverbs = [ "where", "how", "why", "whether", "wherever",
+	"whyever", "wheresoever", "whensoever", "howsoever", "whysoever",
 	"whatsoever", "whereso", "whomso", "whenso", "howso", "whyso", "whoso", "whatso" ];
 let pronominalAdverbs = [ "therefor", "therein", "hereby", "hereto", "wherein", "therewith", "herewith", "wherewith", "thereby" ];
-let locativeAdverbs = [ "there", "here", "whither", "thither", "hither", "whence", "thence", "hence" ];
-let adverbialGenitives = [ "always", "afterwards", "towards", "once", "twice", "thrice", "amidst", "amongst", "midst", "whilst" ];
+let locativeAdverbs = [ "there", "here", "whither", "thither", "hither", "whence", "thence" ];
+let adverbialGenitives = [ "always", "once", "twice", "thrice" ];
 let otherAuxiliaries = [ "can", "cannot", "can't", "could", "couldn't", "could've", "dare", "dares", "dared", "do",
 	"don't", "does", "doesn't", "did", "didn't", "done", "have", "haven't", "had", "hadn't", "has", "hasn't",
 	"i've", "you've", "we've", "they've", "i'd", "you'd", "he'd", "she'd", "it'd", "we'd", "they'd", "would", "wouldn't",
@@ -53,25 +53,25 @@ let continuousVerbs = [ "doing", "daring", "having", "appearing", "becoming", "c
 	"saying", "asking", "stating", "seeming", "letting", "making", "setting", "showing", "putting", "adding", "going", "using",
 	"trying", "containing" ];
 
-let prepositions = [ "in", "from", "with", "under", "throughout", "atop", "for", "on", "until", "of", "to", "aboard", "about",
-	"above", "abreast", "absent", "across", "adjacent", "after", "against", "along", "alongside", "amid", "midst", "mid",
-	"among", "apropos", "apud", "around", "as", "astride", "at", "ontop", "before", "afore", "tofore", "behind", "ahind",
-	"below", "ablow", "beneath", "neath", "beside", "besides", "between", "atween", "beyond", "ayond", "but", "by", "chez",
-	"circa", "come", "despite", "spite", "down", "during", "except", "into", "less", "like", "minus", "near", "nearer",
+let prepositions = [ "in", "from", "with", "under", "throughout", "atop", "for", "on", "of", "to", "aboard", "about",
+	"above", "abreast", "absent", "across", "adjacent", "after", "against", "along", "alongside", "amid", "mid",
+	"among", "apropos", "apud", "around", "as", "astride", "at", "ontop", "afore", "tofore", "behind", "ahind",
+	"below", "ablow", "beneath", "neath", "beside", "between", "atween", "beyond", "ayond", "by", "chez",
+	"circa", "spite", "down", "except", "into", "less", "like", "minus", "near", "nearer",
 	"nearest", "anear", "notwithstanding", "off", "onto", "opposite", "out", "outen", "over", "past", "per", "pre", "qua",
-	"sans", "sauf", "since", "sithence", "than", "through", "thru", "truout", "toward", "underneath", "unlike", "until",
-	"up", "upon", "upside", "versus", "via", "vis-à-vis", "without", "ago", "apart", "aside", "aslant", "away", "withal" ];
+	"sans", "sauf", "sithence", "through", "thru", "truout", "toward", "underneath",
+	"up", "upon", "upside", "versus", "via", "vis-à-vis", "without", "ago", "apart", "aside", "aslant", "away", "withal",
+	"towards", "amidst", "amongst", "midst", "whilst" ];
 
 // Many prepositional adverbs are already listed as preposition.
 let prepositionalAdverbs = [ "back", "within", "forward", "backward", "ahead" ];
 
-let coordinatingConjunctions = [ "so", "and", "nor", "but", "or", "yet", "for" ];
+let coordinatingConjunctions = [ "and", "or", "yet" ];
 
-// 'Rather' is part of 'rather...than', 'sooner' is part of 'no sooner...than', 'just' is part of 'just as...so',
+// 'sooner' is part of 'no sooner...than', 'just' is part of 'just as...so',
 // 'Only' is part of 'not only...but also'.
-let correlativeConjunctions = [ "rather", "sooner", "just", "only" ];
-let subordinatingConjunctions = [ "after", "although", "when", "as", "if", "though", "because", "before", "even", "since", "unless",
-	"whereas", "while" ];
+let correlativeConjunctions = [ "sooner", "just", "only" ];
+let subordinatingConjunctions = [ "if", "even" ];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
 // 'Claim','claims', 'state' and 'states' are not included, because these words are also nouns.
@@ -79,19 +79,22 @@ let interviewVerbs = [ "say", "says", "said", "claimed", "ask", "asks", "asked",
 	"explain", "explains", "explained", "think", "thinks" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
-let additionalTransitionWords = [ "and", "or", "about", "absolutely", "again", "definitely", "eternally", "expressively",
-	"expressly", "extremely", "immediately", "including", "instantly", "namely", "naturally", "next", "notably", "now", "nowadays",
-	"ordinarily", "positively", "truly", "ultimately", "uniquely", "usually", "almost", "first", "second", "third", "maybe",
-	"probably", "granted", "initially", "overall", "too", "actually", "already", "e.g", "i.e", "often", "regularly", "simply",
+let additionalTransitionWords = [ "again", "definitely", "eternally", "expressively",
+	"expressly", "immediately", "including", "instantly", "namely", "naturally", "next", "notably", "now", "nowadays",
+	"ordinarily", "positively", "truly", "ultimately", "uniquely", "usually", "almost", "maybe",
+	"probably", "granted", "initially", "too", "actually", "already", "e.g", "i.e", "often", "regularly", "simply",
 	"optionally", "perhaps", "sometimes", "likely", "never", "ever", "else", "inasmuch", "provided", "currently", "incidentally",
-	"elsewhere", "following", "particular", "recently", "relatively", "f.i", "clearly", "apparently" ];
+	"elsewhere", "particular", "recently", "relatively", "f.i", "clearly", "apparently" ];
 
 let intensifiers = [ "highly", "very", "really", "extremely", "absolutely", "completely", "totally", "utterly", "quite",
 	"somewhat", "seriously", "fairly", "fully", "amazingly" ];
 
-// These verbs convey little meaning. 'Show', 'shows', 'uses', "meaning" are not included, because these words could be relevant nouns.
+/* These verbs convey little meaning. 'Show', 'shows', 'uses', 'meaning', 'set', 'sets'
+ are not included, because these words could be relevant nouns.
+
+ */
 let delexicalizedVerbs = [ "seem", "seems", "seemed", "let", "let's", "lets", "make", "makes",
-	"made", "want", "showed", "shown", "go", "goes", "went", "gone", "take", "takes", "took", "taken", "set", "sets",
+	"made", "want", "showed", "shown", "go", "goes", "went", "gone", "take", "takes", "took", "taken",
 	"put", "puts", "use", "used", "try", "tries", "tried", "mean", "means", "meant",
 	"called", "based", "add", "adds", "added", "contain", "contains", "contained" ];
 
@@ -127,7 +130,8 @@ module.exports = function() {
 		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
 		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
 		continuousVerbs: notFilteredPassiveAuxiliaries.concat( continuousVerbs ),
 		quantifiers: quantifiers,

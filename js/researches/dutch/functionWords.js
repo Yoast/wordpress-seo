@@ -107,12 +107,12 @@ let interviewVerbs = [ "zegt", "zei", "vraagt", "vroeg", "denkt", "dacht", "stel
 let additionalTransitionWords = [ "absoluut", "zeker", "ongetwijfeld", "sowieso", "onmiddelijk", "meteen", "inclusief",
 	"direct", "ogenblikkelijk", "terstond", "namelijk", "natuurlijk", "vanzelfsprekend", "tegenwoordig", "gewoonlijk", "normaliter",
 	"doorgaans", "werkelijk", "daadwerkelijk", "inderdaad", "uiteindelijk", "waarachtig", "oprecht", "bijna", "meestal", "misschien",
-	"waarschijnlijk", "wellicht", "mogelijk", "vermoedelijk", "ongetwijfeld", "allicht", "aannemelijk", "oorspronkelijk", "aanvankelijk",
+	"waarschijnlijk", "wellicht", "mogelijk", "vermoedelijk", "allicht", "aannemelijk", "oorspronkelijk", "aanvankelijk",
 	"allereerst", "initieel", "eigenlijk", "feitelijk", "wezenlijk", "juist", "reeds", "alvast", "bijv.", "vaak", "dikwijls", "veelal",
 	"geregeld", "menigmaal", "regelmatig", "veelvuldig", "eenvoudigweg", "simpelweg", "louter", "kortweg", "stomweg", "domweg", "zomaar",
 	"eventueel", "mogelijkerwijs", "eens", "weleens", "nooit", "ooit", "anders", "momenteel", "thans", "incidenteel", "trouwens", "elders",
 	"volgend", "recent", "onlangs", "recentelijk", "laatst", "zojuist", "relatief", "duidelijk", "overduidelijk", "klaarblijkelijk",
-	"nadrukkelijk", "ogenschijnlijk", "duidelijk", "kennelijk", "schijnbaar", "alweer", "continu", "herhaaldelijk", "nog", "steeds" ];
+	"nadrukkelijk", "ogenschijnlijk", "kennelijk", "schijnbaar", "alweer", "continu", "herhaaldelijk", "nog", "steeds" ];
 
 // 'vrij' is not included because it also means 'free'.
 let intensifiers = [ "zeer", "erg", "redelijk", "flink", "beetje", "tikkeltje", "bijzonder", "ernstig", "enigszins",
@@ -161,7 +161,8 @@ module.exports = function() {
 		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
 		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
 		infinitives: passiveAuxiliariesInfinitive.concat( otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
 		quantifiers: quantifiers,

@@ -89,7 +89,7 @@ let adverbialGenitives = [ "allenfalls", "keinesfalls", "anderenfalls", "andernf
 	"äußerstenfalls", "bejahendenfalls", "bestenfalls", "ebenfalls", "eintretendenfalls", "entgegengesetztenfalls",
 	"erforderlichenfalls", "gegebenenfalls", "geringstenfalls", "gleichfalls", "günstigenfalls", "günstigstenfalls",
 	"höchstenfalls", "jedenfalls", "möglichenfalls", "notfalls", "nötigenfalls", "notwendigenfalls",
-	"schlimmstenfalls", "vorkommendenfalls", "widrigenfalls", "zutreffendenfalls", "angesichts", "morgens", "mittags",
+	"schlimmstenfalls", "vorkommendenfalls", "widrigenfalls", "zutreffendenfalls", "morgens", "mittags",
 	"abends", "nachts", "keineswegs", "durchwegs", "geradenwegs", "geradeswegs", "geradewegs", "gradenwegs",
 	"halbwegs", "mittwegs", "unterwegs" ];
 
@@ -116,10 +116,10 @@ let otherAuxiliariesInfinitive = [ "haben", "sein", "dürfen", "duerfen", "könn
 // Forms from 'aussehen' with two parts, like 'sehe aus', are not included, because we remove words on an single word basis.
 let copula = [ "bleibe", "bleibst", "bleibt", "bleibest", "bleibet", "blieb", "bliebst", "bliebt", "blieben", "bliebe",
 	"bliebest", "bliebet", "heiße", "heißt", "heißest", "heißet", "heisse", "heisst", "heissest", "heisset", "hieß", "hießest",
-	"hießt", "hießen", "hieße", "hießet", "hiess", "hiessest", "hiesst", "hiessen",	"hiesse", "hiesset", "gelte", "giltst",
+	"hießt", "hießen", "hieße", "hießet", "hiess", "hiessest", "hiesst", "hiessen",	"hiesse", "hiesset", "giltst",
 	"gilt", "geltet", "gelte", "geltest", "galt", "galtest", "galtst", "galten", "galtet", "gälte", "gaelte", "gölte", "goelte",
 	"gältest", "gaeltest", "göltest", "goeltest", "gälten", "gaelten", "gölten", "goelten", "gältet", "gaeltet", "göltet",
-	"goeltet", "aussehe", "aussiehst", "aussieht", "ausseht", "aussehest", "aussehet", "aussah", "aussahst", "aussah", "aussahen",
+	"goeltet", "aussehe", "aussiehst", "aussieht", "ausseht", "aussehest", "aussehet", "aussah", "aussahst", "aussahen",
 	"aussaht", "aussähe", "aussaehe", "aussähest", "aussaehest", "aussähst", "aussaehst", "aussähet", "aussaehet", "aussäht",
 	"aussaeht", "aussähen",	"aussaehen", "scheine", "scheinst", "scheint", "scheinest", "scheinet", "schien", "schienst", "schienen",
 	"schient", "schiene", "schienest", "schienet", "erscheine", "erscheinst", "erscheint", "erscheinest",
@@ -146,7 +146,7 @@ let prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "al
 	"zuwider", "zuzüglich",	"zuzueglich", "zwecks", "zwischen" ];
 
 // Many coordinating conjunctions are already included in the transition words list.
-let coordinatingConjunctions = [ "und", "oder", "als", "umso" ];
+let coordinatingConjunctions = [ "und", "oder", "umso" ];
 
 /*
 'Entweder' is part of 'entweder...oder', 'sowohl', 'auch' is part of 'sowohl als...auch', 'weder' and 'noch' are part of 'weder...noch',
@@ -173,26 +173,26 @@ let interviewVerbsInfinitive = [ "sagen", "erklären", "erklaeren", "denken", "f
 // These transition words were not included in the list for the transition word assessment for various reasons.
 let additionalTransitionWords = [ "etwa", "absolut", "unbedingt", "wieder", "definitiv", "bestimmt", "immer", "äußerst", "aeußerst",
 	"höchst", "hoechst", "sofort", "augenblicklich", "umgehend", "direkt", "unmittelbar", "nämlich", "naemlich", "natürlich", "natuerlich",
-	"besonders", "hauptsächlich", "hauptsaechlich", "jetzt", "eben", "heute", "heutzutage", "positiv", "eindeutig", "wirklich", "echt",
-	"wahrhaft", "ehrlich", "aufrichtig", "wahrhaft", "wahrheitsgemäß", "treu", "letztlich", "einmalig", "unübertrefflich", "normalerweise",
+	"besonders", "hauptsächlich", "hauptsaechlich", "jetzt", "eben", "heutzutage", "eindeutig", "wirklich", "echt",
+	"wahrhaft", "ehrlich", "aufrichtig", "wahrheitsgemäß", "letztlich", "einmalig", "unübertrefflich", "normalerweise",
 	"gewöhnlich", "gewoehnlich", "üblicherweise", "ueblicherweise", "sonst", "fast", "nahezu", "beinahe", "knapp", "annähernd", "annaehernd",
-	"geradezu", "ziemlich", "bald", "vielleicht", "wahrscheinlich", "wohl", "voraussichtlich",  "zugegeben", "ursprünglich", "insgesamt",
+	"geradezu", "bald", "vielleicht", "wahrscheinlich", "wohl", "voraussichtlich",  "zugegeben", "ursprünglich", "insgesamt",
 	"tatsächlich", "eigentlich", "wahrhaftig", "bereits", "schon", "oft", "häufig", "haeufig", "regelmäßig", "regelmaeßig", "gleichmäßig",
-	"gleichmaeßig", "einfach", "einfach", "nur", "lediglich", "bloß", "bloss", "eben", "halt", "wahlweise", "eventuell", "manchmal",
+	"gleichmaeßig", "einfach", "lediglich", "bloß", "bloss", "halt", "wahlweise", "eventuell", "manchmal",
 	"teilweise", "nie", "niemals", "nimmer", "jemals", "allzeit", "irgendeinmal", "anders", "vorausgesetzt", "momentan", "gegenwärtig",
-	"gegenwärtig", "nebenbei", "übrigens", "uebrigens", "anderswo", "woanders", "anderswohin", "anderorts", "besonders", "insbesondere",
+	"gegenwaertig", "nebenbei", "übrigens", "uebrigens", "anderswo", "woanders", "anderswohin", "anderorts", "insbesondere",
 	"namentlich", "sonderlich", "ausdrücklich", "ausdruecklich", "vollends", "kürzlich", "kuerzlich", "jüngst", "juengst", "unlängst",
-	"unlaengst", "neuerdings", "neulich", "letztens", "neuerlich", "relativ", "verhältnismäßig", "verhaeltnismaessig", "deutlich", "klar",
-	"eindeutig", "offenbar", "anscheinend", "genau", "u.a", "damals", "zumindest" ];
+	"unlaengst", "neuerdings", "neulich", "letztens", "neuerlich", "verhältnismäßig", "verhaeltnismaessig", "deutlich", "klar",
+	"offenbar", "anscheinend", "genau", "u.a", "damals", "zumindest" ];
 
 let intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weitaus", "einigermaßen", "einigermassen", "ganz",
 	"schwer", "tierisch", "ungleich", "voll", "ziemlich", "übelst", "uebelst", "stark", "volkommen", "durchaus", "gar" ];
 
 // These verbs convey little meaning.
-let delexicalizedVerbs = [ "geschienen", "meine", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
+let delexicalizedVerbs = [ "geschienen", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
 	"gemeint", "stehe", "stehst", "steht", "gehe", "gehst", "geht", "gegangen", "ging", "gingst", "gingen", "gingt" ];
 
-let delexicalizedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen", "wissen", "gehen", "kommen" ];
+let delexicalizedVerbsInfinitive = [ "meinen", "tun", "machen", "stehen", "wissen", "gehen", "kommen" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
@@ -203,7 +203,7 @@ let generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"gutem", "guten", "gutes", "gute", "besser", "besserer", "besseren", "besserem", "besseres", "bester", "besten", "bestem", "bestes",
 	"beste", "größte", "grösste", "groß", "großer", "großen", "großem", "großes", "große", "großerer", "großerem", "großeren", "großeres", "großere",
 	"großter", "großten", "großtem", "großtes", "großte", "gross", "grosser", "grossen", "grossem", "grosses", "grosse", "grosserer", "grosserem",
-	"grosseren",	"grosseres", "grossere", "grosster", "grossten", "grosstem", "grosstes", "grosste", "einfach", "einfacher", "einfachen",
+	"grosseren",	"grosseres", "grossere", "grosster", "grossten", "grosstem", "grosstes", "grosste", "einfacher", "einfachen",
 	"einfachem",	"einfaches", "einfache", "einfacherer", "einfacheren", "einfacherem", "einfacheres", "einfachere", "einfachste", "einfachster",
 	"einfachsten", "einfachstes", "einfachstem", "schnell", "schneller", "schnellen", "schnellem", "schnelles", "schnelle", "schnellere",
 	"schnellerer", "schnelleren", "schnelleres", "schnellerem", "schnellster", "schnellste", "schnellsten", "schnellstem", "schnellstes",
@@ -223,8 +223,7 @@ let generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"regulaereren", "regulaererem", "regulaereres", "regulaerere", "regulärster", "regulärsten", "regulärstem", "regulärstes", "regulärste",
 	"regulaerster", "regulaersten", "regulaerstem", "regulaerstes", "regulaerste", "normal", "normaler", "normalen", "normalem", "normales",
 	"normale", "normalerer", "normaleren", "normalerem", "normaleres", "normalere", "normalster", "normalsten", "normalstem", "normalstes",
-	"normalste", "einfach", "einfacher", "einfachen", "einfachem", "einfaches", "einfache", "einfacherer", "einfacheren", "einfacherem",
-	"einfacheres", "einfachere", "einfachster", "einfachsten", "einfachstem", "einfachstes", "einfachste", "klein", "kleiner", "kleinen",
+	"normalste", "klein", "kleiner", "kleinen",
 	"kleinem", "kleines", "kleine", "kleinerer", "kleineres", "kleineren", "kleinerem", "kleinere", "kleinster", "kleinsten", "kleinstem",
 	"kleinstes", "kleinste", "winzig", "winziger", "winzigen", "winzigem", "winziges", "winzigerer", "winzigeren", "winzigerem", "winzigeres",
 	"winzigere", "winzigster", "winzigsten", "winzigstem", "winzigste", "winzigstes", "sogenannt", "sogenannter", "sogenannten",
@@ -232,16 +231,16 @@ let generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"kürzerem", "kürzere", "kuerzerer", "kuerzeres", "kuerzeren", "kuerzerem", "kuerzere", "kürzester", "kürzesten", "kürzestem", "kürzestes",
 	"kürzeste", "kuerzester", "kuerzesten", "kuerzestem", "kuerzestes", "kuerzeste", "wirklicher", "wirklichen", "wirklichem", "wirkliches",
 	"wirkliche", "wirklicherer", "wirklicheren", "wirklicherem", "wirklicheres", "wirklichere", "wirklichster", "wirklichsten",
-	"wirklichstes", "wirklichstem", "wirklichste", "eigentlich", "eigentlicher", "eigentlichen", "eigentlichem", "eigentliches", "eigentliche",
+	"wirklichstes", "wirklichstem", "wirklichste", "eigentlicher", "eigentlichen", "eigentlichem", "eigentliches", "eigentliche",
 	"schön", "schöner", "schönen", "schönem", "schönes", "schöne", "schönerer", "schöneren", "schönerem", "schöneres", "schönere", "schönster",
 	"schönsten", "schönstem", "schönstes", "schönste", "real", "realer", "realen", "realem", "reales", "realerer", "realeren", "realerem",
 	"realeres", "realere", "realster", "realsten", "realstem", "realstes", "realste", "derselbe", "denselben", "demselben", "desselben",
 	"dasselbe", "dieselbe", "derselben", "dieselben", "gleich", "gleicher", "gleichen", "gleichem", "gleiches", "gleiche", "gleicherer",
 	"gleicheren", "gleicherem", "gleicheres", "gleichere", "gleichster", "gleichsten", "gleichstem", "gleichstes", "gleichste", "bestimmter",
 	"bestimmten", "bestimmtem", "bestimmtes", "bestimmte", "bestimmtere", "bestimmterer", "bestimmterem", "bestimmteren", "bestimmteres",
-	"bestimmtester", "bestimmtesten", "bestimmtestem", "bestimmtestes", "bestimmteste", "hauptsächlich", "hauptsaechlich", "überwiegend",
-	"ueberwiegend", "zumeist", "meistens", "meisten", "kürzlich", "kuerzlich", "großenteils", "grossenteils", "meistenteils", "gewöhnlich",
-	"gewoehnlich", "häufig", "haeufig", "weithin", "ständig", "staendig", "laufend", "dauernd", "andauernd", "immerfort", "irgendwo", "irgendwann",
+	"bestimmtester", "bestimmtesten", "bestimmtestem", "bestimmtestes", "bestimmteste", "überwiegend",
+	"ueberwiegend", "zumeist", "meistens", "meisten", "großenteils", "grossenteils", "meistenteils",
+	"weithin", "ständig", "staendig", "laufend", "dauernd", "andauernd", "immerfort", "irgendwo", "irgendwann",
 	"ähnlicher", "ähnlichen", "ähnlichem", "ähnliches", "ähnliche", "ähnlich", "ähnlicherer", "ähnlicheren", "ähnlicherem", "ähnlicheres",
 	"ähnlichere", "ähnlichster", "ähnlichsten", "ähnlichstem", "ähnlichstes", "ähnlichste", "schlecht", "schlechter", "schlechten",
 	"schlechtem", "schlechtes", "schlechte", "schlechterer", "schlechteren", "schlechterem", "schlechteres", "schlechtere", "schlechtester",
@@ -279,7 +278,8 @@ module.exports = function() {
 			possessivePronouns ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
 		verbs: copula.concat( interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries, delexicalizedVerbs ),
 		quantifiers: quantifiers,
 		relativePronouns: relativePronouns,

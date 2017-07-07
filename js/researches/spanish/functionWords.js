@@ -19,7 +19,7 @@ let ordinalNumerals = [ "primero", "primera", "segundo", "segunda", "tercero", "
 let personalPronounsNominative = [ "yo", "tú", "él", "ella", "ello", "nosotros", "nosotras", "vosotros", "vosotras",
 	"ustedes", "ellos", "ellas" ];
 
-let personalPronounsAccusative = [ "me", "te", "lo", "la", "se", "nos", "os", "los", "las", "les" ];
+let personalPronounsAccusative = [ "me", "te", "lo", "se", "nos", "os", "les" ];
 
 let personalPronounsGenitive = [ "mío", "míos", "mía", "mías", "tuyo", "tuyos", "tuya", "tuyas", "suyo", "suyos", "suya",
 	"suyas", "nuestros", "nuestro", "nuestra", "nuestras", "vuestros", "vuestro", "vuestra", "vuestras", "suyo", "suyos",
@@ -37,13 +37,12 @@ let possessivePronouns = [ "mi", "mis", "mío", "míos", "mía", "mías", "nuest
 	"su", "sus" ];
 
 let quantifiers = [ "bastante", "bastantes", "mucho", "muchas", "mucha", "muchos", "demasiado", "demasiada", "demasiados", "demasiadas",
-	"poco", "poca", "pocos", "pocas", "demás", "otros", "otras", "muy", "todo", "toda", "todos", "todas", "demasiado", "demasiados",
-	"demasiada", "demasiadas" ];
+	"poco", "poca", "pocos", "pocas", "demás", "otros", "otras", "muy", "todo", "toda", "todos", "todas" ];
 
 let indefinitePronouns = [ "alguien", "algo", "algún", "alguno", "alguna", "algunos", "algunas", "nadie", "nada", "ningún",
 	"ninguno", "ninguna", "ningunos", "ningunas", "tanto", "tantos", "tanta", "tantas" ];
 
-let interrogativeDeterminers = [ "que", "cuyas", "donde", "cual" ];
+let interrogativeDeterminers = [ "que", "cuyas", "cual" ];
 
 let interrogativePronouns = [ "cuyo" ];
 
@@ -51,12 +50,12 @@ let interrogativePronouns = [ "cuyo" ];
 'Qué' is part of 'por qué' ('why'). The combination 'quien sea' ('whoever') is separated into two entries: 'quien' and 'sea'.
 'quira' is part of 'cuando quiera' ('whenever').
  */
-let interrogativeProAdverbs = [ "comoquiera", "cualesquiera", "cualquier", "cuando", "cuanta", "cuantas", "cuanto", "cuantos", "cuál",
-	"cuáles", "cuánta", "cuántas", "cuánto", "cuántos", "como", "cómo", "dondequiera", "dónde", "donde", "quien", "quienes", "quienquiera",
-	"quiera", "quién", "quiénes", "qué", "que", "sea" ];
+let interrogativeProAdverbs = [ "comoquiera", "cualesquiera", "cualquier", "cuanta", "cuantas", "cuanto", "cuantos", "cuál",
+	"cuáles", "cuánta", "cuántas", "cuánto", "cuántos", "cómo", "dondequiera", "dónde", "quien", "quienes", "quienquiera",
+	"quiera", "quién", "quiénes", "qué", "que" ];
 
-let locativeAdverbs = [ "hay", "allí", "ahí", "allá", "aquí", "acá", "adónde", "delante", "detrás", "encima", "debajo", "dentro",
-	"fuera", "adelante", "atrás", "arriba", "arriba", "abajo", "adentro", "afuera" ];
+let locativeAdverbs = [ "allí", "ahí", "allá", "aquí", "acá", "adónde", "delante", "detrás", "debajo",
+	"adelante", "atrás", "adentro", "afuera" ];
 
 let otherAuxiliaries = [ "he", "has", "ha", "hay", "hemos", "habéis", "han", "hube", "hubiste", "hubo", "hubimos", "hubisteis",
 	"hubieron", "había", "habías", "habíamos", "habíais", "habían", "habría", "habrías", "habríais", "habrían", "habré", "habrás", "habrá",
@@ -106,10 +105,9 @@ let otherAuxiliaries = [ "he", "has", "ha", "hay", "hemos", "habéis", "han", "h
 	"abristeis", "abrieron", "abría", "abrías", "abríais", "abrían", "abriría", "abrirías", "abriríamos", "abriríais", "abrirían", "abriré",
 	"abrirás", "abrirá", "abriremos", "abriréis", "abrirán", "abra", "abras", "abramos", "abráis", "abran", "abriera", "abrieras", "abriéramos",
 	"abrierais", "abrieran", "abriese", "abrieses", "abriésemos", "abrieseis", "abriesen", "abriere", "abrieres", "abriéremos", "abriereis",
-	"abrieren", "abrid", "abierto", "voy", "vas", "va", "vamos", "vais", "van", "fui", "fuiste", "fue", "fuimos", "fuisteis", "fueron", "iba",
+	"abrieren", "abrid", "abierto", "voy", "vas", "va", "vamos", "vais", "van", "iba",
 	"ibas", "íbamos", "ibais", "iban", "iría", "irías", "iríamos", "iríais", "irían", "iré", "irás", "irá", "iremos", "iréis", "irán", "vaya",
-	"vayas", "vayamos", "vayáis", "vayan", "fuera", "fueras", "fuéramos", "fuerais", "fueran", "fuese", "fueses", "fuésemos", "fueseis", "fuesen",
-	"fuere", "fueres", "fuéremos", "fuereis", "fueren", "ve", "id", "ido", "acabo", "acabas", "acaba", "acabamos", "acabáis", "acaban",
+	"vayas", "vayamos", "vayáis", "vayan", "ve", "id", "ido", "acabo", "acabas", "acaba", "acabamos", "acabáis", "acaban",
 	"acabé", "acabaste", "acabó", "acabasteis", "acabaron", "acababa", "acababas", "acabábamos", "acababais", "acababan", "acabaría",
 	"acabarías", "acabaríamos", "acabaríais", "acabarían", "acabaré", "acabarás", "acabará", "acabaremos", "acabaréis", "acabarán", "acabe",
 	"acabes", "acabemos", "acabéis", "acaben", "acabara", "acabaras", "acabáramos", "acabarais", "acabaran", "acabase", "acabases", "acabásemos",
@@ -146,7 +144,7 @@ let otherAuxiliaries = [ "he", "has", "ha", "hay", "hemos", "habéis", "han", "h
 	"querías", "queríamos", "queríais", "querían", "querría", "querrías", "querríamos", "querríais", "querrían", "querré", "querrás", "querrá",
 	"querremos", "querréis", "querrán", "quiera", "quieras", "queramos", "queráis", "quieran", "quisiera", "quisieras", "quisiéramos",
 	"quisierais", "quisieran", "quisiese", "quisieses", "quisiésemos", "quisieseis", "quisiesen", "quisiere", "quisieres", "quisiéremos",
-	"quisiereis", "quisieren", "quered", "querido", "sé", "sabes", "sabe", "sabemos", "sabéis", "saben", "supe", "supiste", "supo",
+	"quisiereis", "quisieren", "quered", "querido", "sabes", "sabe", "sabemos", "sabéis", "saben", "supe", "supiste", "supo",
 	"supimos", "supisteis", "supieron", "sabía", "sabías", "sabíamos", "sabíais", "sabían", "sabría", "sabrías", "sabríamos", "sabríais",
 	"sabrían", "sabré", "sabrás", "sabrá", "sabremos", "sabréis", "sabrán", "sepa", "sepas", "sepamos", "sepáis", "sepan", "supiera", "supieras",
 	"supiéramos", "supierais", "supieran", "supiese", "supieses", "supiésemos", "supieseis", "supiesen", "supiere", "supieres", "supiéremos",
@@ -170,43 +168,43 @@ let copula = [ "estoy", "estás", "está", "estamos", "estáis", "están", "estu
 	"estuviese", "estuvieras", "estuviéramos", "estuvierais", "estuvieran", "estuvieses", "estuviésemos", "estuvieseis", "estuviesen",
 	"estuviere", "estuvieres", "estuviéremos", "estuviereis", "estuvieren", "estad", "estado", "soy", "eres", "es", "somos", "sois", "son",
 	"fui", "fuiste", "fuimos", "fuisteis", "fueron", "era", "eras", "éramos", "erais", "eran", "sería", "serías", "seríamos", "seríais",
-	"serían", "seré", "serás", "seremos", "seréis", "serán", "sea", "seas", "seamos", "seáis", "sean", "fuera", "fueras", "fuéramos",
+	"serían", "seré", "serás", "seremos", "seréis", "serán", "sea", "seas", "seamos", "seáis", "sean", "fueras", "fuéramos",
 	"fuerais", "fueran", "fuese", "fueses", "fuésemos", "fueseis", "fuesen", "fuere", "fueres", "fuéremos", "fuereis", "fueren", "sé",
 	"sed", "sido" ];
 
 let copulaInfinitive = [ "estar", "ser" ];
 
-let prepositions = [ "a", "ante", "abajo", "adonde", "al", "allende", "alrededor", "amén", "ante", "antes", "arriba", "aun",
-	"bajo", "cabe", "cabo", "como", "con", "conmigo", "consigo", "contigo", "contra", "cuando", "de", "dejante", "del",
+let prepositions = [ "a", "ante", "abajo", "adonde", "al", "allende", "alrededor", "amén", "antes", "arriba", "aun",
+	"bajo", "cabe", "cabo", "con", "contigo", "contra", "de", "dejante", "del",
 	"dentro", "desde", "donde", "durante", "en", "encima", "entre", "excepto", "fuera", "hacia", "hasta", "incluso",
-	"mediante", "menos", "más", "opuesto", "par", "para", "pero", "por", "próximo", "que", "salvo", "según", "sin",	"so",
+	"mediante", "más", "opuesto", "par", "para", "por", "próximo", "que", "salvo", "según", "sin",	"so",
 	"sobre", "tras", "versus", "vía" ];
 
-let prepositionalAdverbs = [ "cerca", "lejos", "arriba", "abajo", "debajo", "delante", "detrás" ];
+let prepositionalAdverbs = [ "cerca", "lejos" ];
 
-let coordinatingConjunctions = [ "pero", "o", "y", "entonces", "pues", "e", "u", "sino", "ni", "bien", "sea", "ya",
-	"ora", "estos", "aquellos", "así", "luego", "mas", "aunque" ];
+let coordinatingConjunctions = [ "pero", "o", "y", "entonces", "pues", "e", "u", "sino", "ni", "bien", "ya",
+	"ora", "luego", "mas" ];
 
 /*
-'Tanto' and 'como' together form 'tanto...como'. 'Ni' is part of 'ni...ni'. 'Bien' is part of 'bien...bien'.
- 'Ora' is part of 'ora...ora'. 'Ya' is part of 'ya...ya'. 'Igual' is part of 'igual...que'. 'Menos' is part of 'menos...que'.
+'Bien' is part of 'bien...bien'.
+ 'Igual' is part of 'igual...que'.
  */
-let correlativeConjunctions = [ "tanto", "como", "ni", "ora", "ya", "igual", "menos" ];
+let correlativeConjunctions = [ "igual" ];
 
-let subordinatingConjunctions = [ "apenas", "aun", "conque", "como", "cuando", "mientras", "porque", "segun", "según", "si", "tan", "tal" ];
+let subordinatingConjunctions = [ "apenas", "mientras", "porque", "segun", "según", "si", "tan", "tal" ];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
 // 'Dijo' is already included in the otherAuxiliaries category.
 let interviewVerbs = [ "apunto", "apunta", "confieso", "confiesa", "confesaba", "revelado", "revelo", "revela", "revelaba", "declarado",
-	"declaro", "declara", "declaba", "señalo", "señala", "señalaba", "declarou", "declaro", "declara", "declaraba", "comentou", "comento",
-	"comenta", "comentou", "revelou", "revelo", "revela", "revelaba" ];
+	"declaro", "declara", "declaba", "señalo", "señala", "señalaba", "declaraba", "comento",
+	"comenta", "revelo", "revela", "revelaba" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
-let additionalTransitionWords = [ "básicamente", "esencialmente", "primeramente", "siempre", "nunca", "ahora", "obviamente", "apenas",
+let additionalTransitionWords = [ "básicamente", "esencialmente", "primeramente", "siempre", "nunca", "ahora",
 	"quizá", "acaso", "inclusive", "probablemente", "verdaderamente", "seguramente", "jamás", "obviamente",	"indiscutiblement",
-	"inmediatamente", "previamente", "y", "o" ];
+	"inmediatamente", "previamente" ];
 
-let intensifiers = [ "muy", "tan", "demasiado", "bastante", "completamente", "algo", "tanto", "poco", "suficiente", "tal", "tales" ];
+let intensifiers = [ "muy", "tan", "completamente", "poco", "suficiente", "tal", "tales" ];
 
 // These verbs convey little meaning.
 let delexicalizedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hacen", "hice", "hiciste", "hizo", "hicimos", "hicisteis",
@@ -221,28 +219,28 @@ let delexicalizedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hacen
 
 let delexicalizedVerbsInfinitive = [ "hacer", "parecer" ];
 
-// These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
+	// These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
 let generalAdjectivesAdverbs = [ "ayer", "hoy", "mañana", "enfrente", "mal", "mejor", "peor", "más", "menos", "claro", "bueno", "nuevo",
 	"nueva", "nuevos", "nuevas", "viejo", "viejos", "vieja", "viejas", "anterior", "mejor", "grande", "gran", "grandes", "mayores", "fácil",
 	"fáciles", "rápido", "rápida", "rápidos", "rápidas", "lejos", "lejas", "difícil", "difíciles", "propio", "propios", "propia", "propias",
-	"largo", "larga", "largos", "largas", "bajo", "bajos", "baja", "bajos", "alto", "alta", "altos", "altas", "regular", "regulares", "normal",
+	"largo", "larga", "largos", "largas", "bajos", "baja", "bajas", "alto", "alta", "altos", "altas", "regular", "regulares", "normal",
 	"pequeño", "pequeña", "pequeños", "pequeñas", "diminuta", "diminuto", "diminutas", "diminutos", "chiquitito", "chiquititos", "chiquitita",
 	"chiquititas", "corta", "corto", "cortas", "cortos", "principal", "principales", "mismo", "mismos", "misma", "mismas", "capaz", "capaces",
 	"cierta", "cierto", "ciertas", "ciertos", "llamado", "llamada", "llamados", "llamadas", "principalmente", "mayormente", "reciente",
 	"recientes", "completa", "completo", "completas", "completos", "absoluta", "absoluto", "absolutas", "absolutos", "últimamente", "posible",
-	"común", "comúnes", "comúnmente", "constantemente", "continuamente", "directamente", "fácilmente", "casi", "ligeramente", "estimado",
+	"común", "comúnes", "comúnmente", "constantemente", "continuamente", "directamente", "fácilmente", "casi", "ligeramente",
 	"estima", "estimada", "estimado", "aproximada", "aproximadamente", "última", "últimas", "último", "últimos", "diferente", "diferentes",
 	"similar", "mal", "malo", "malos", "mala", "malas", "perfectamente", "excelente", "final", "general" ];
 
-let interjections = [ "ah", "eh", "ejem", "ele", "abajo", "achís", "adelante", "adentro", "adiós", "afuera", "agur", "ajá", "ajajá", "ala",
-	"alá", "albricias", "aleluya", "alerta", "alirón", "aló", "amalaya", "amén", "ar", "aro", "arrarray", "arre", "arriba", "arsa", "atatay",
-	"atrás", "aúpa", "ax", "ay", "ayayay", "bah", "banzai", "barajo", "bla", "bravo", "bueno", "buf", "bum", "ca", "caguendiós", "canastos",
+let interjections = [ "ah", "eh", "ejem", "ele", "achís", "adiós", "agur", "ajá", "ajajá", "ala",
+	"alá", "albricias", "aleluya", "alerta", "alirón", "aló", "amalaya", "ar", "aro", "arrarray", "arre", arsa", "atatay",
+	"aúpa", "ax", "ay", "ayayay", "bah", "banzai", "barajo", "bla", "bravo", "buf", "bum", "ca", "caguendiós", "canastos",
 	"caracho", "caracoles", "carajo", "caramba", "carape", "caray", "cáscaras", "cáspita", "cataplum", "ce", "chao", "chau", "che", "chis",
-	"chist", "chitón", "cho", "chucho", "chus", "cielos", "claro", "clo", "coche", "cochi", "cojones", "cómo", "concho", "contra", "coño",
-	"córcholis", "cuchí", "cuidado", "cuz", "demonio", "demontre", "despacio", "diablo", "diantre", "dios", "ea", "eh", "ejem", "ele",
-	"entonces", "epa", "equilicuá", "estúpido", "eureka", "evohé", "exacto", "fantástico", "firmes", "fo", "forte", "fuera", "gua", "gualá",
-	"guarte", "guay", "ha", "hala", "hale", "he", "hi", "hin", "hola", "hopo", "huesque", "huiche", "huichó", "huifa", "hurra", "huy", "ja",
+	"chist", "chitón", "cho", "chucho", "chus", "cielos", "clo", "coche", "cochi", "cojones", "concho", "coño",
+	"córcholis", "cuchí", "cuidado", "cuz", "demonio", "demontre", "despacio", "diablo", "diantre", "dios", "ea",
+	"epa", "equilicuá", "estúpido", "eureka", "evohé", "exacto", "fantástico", "firmes", "fo", "forte", "gua", "gualá",
+	"guarte", "guay", "hala", "hale", "he", "hi", "hin", "hola", "hopo", "huesque", "huiche", "huichó", "huifa", "hurra", "huy", "ja",
 	"jajajá", "jajay", "jaque", "jau", "jo", "jobar", "joder", "jolín", "jopo", "leñe", "listo", "malhayas", "mamola", "mecachis", "miéchica",
 	"mondo", "moste", "mutis", "nanay", "narices", "oh", "ojalá", "ojo", "okay", "ole", "olé", "órdiga", "oste", "ostras", "ox", "oxte", "paf",
 	"pardiez", "paso", "pucha", "puf", "puff", "pumba", "puñeta", "quedo", "quia", "quiúbole", "recórcholis", "rediez", "rediós", "salve",
@@ -265,7 +263,8 @@ module.exports = function() {
 			personalPronounsPrepositional, personalPronounsComitative ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
 		verbs: otherAuxiliaries.concat( copula, interviewVerbs, delexicalizedVerbs, otherAuxiliaries ),
 		infinitives: otherAuxiliariesInfinitive.concat( copulaInfinitive, delexicalizedVerbsInfinitive ),
 		quantifiers: quantifiers,
