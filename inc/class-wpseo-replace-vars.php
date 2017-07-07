@@ -18,7 +18,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * requested page/post/cpt/etc in text strings.
  */
 class WPSEO_Replace_Vars {
-
 	/**
 	 * @var    array    Default post/page/cpt information
 	 */
