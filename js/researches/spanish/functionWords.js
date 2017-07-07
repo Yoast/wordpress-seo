@@ -219,6 +219,8 @@ let delexicalizedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hacen
 	"parezcamos", "parezcáis", "parezcan", "pareciera", "parecieras", "pareciéramos", "parecierais", "parecieran", "pareciese", "parecieses",
 	"pareciésemos", "parecieseis", "pareciesen", "pareciere", "parecieres", "pareciéremos", "pareciereis", "parecieren", "pareced", "parecido" ];
 
+let delexicalizedVerbsInfinitive = [ "hacer", "parecer" ];
+
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
 let generalAdjectivesAdverbs = [ "ayer", "hoy", "mañana", "enfrente", "mal", "mejor", "peor", "más", "menos", "claro", "bueno", "nuevo",
@@ -265,7 +267,7 @@ module.exports = function() {
 		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
 		verbs: otherAuxiliaries.concat( copula, interviewVerbs, delexicalizedVerbs, otherAuxiliaries ),
-		infinitives: otherAuxiliariesInfinitive.concat( copulaInfinitive ),
+		infinitives: otherAuxiliariesInfinitive.concat( copulaInfinitive, delexicalizedVerbsInfinitive ),
 		quantifiers: quantifiers,
 		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
@@ -283,7 +285,7 @@ module.exports = function() {
 			personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns,
 			interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copula,
 			copulaInfinitive, prepositions,	coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
-			recipeWords, vagueNouns, miscellaneous ),
+			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
+			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous ),
 	};
 };
