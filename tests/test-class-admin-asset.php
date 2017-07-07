@@ -51,7 +51,7 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '.suffix', $asset->get_suffix() );
 
 		$this->assertEquals( home_url() . '/wp-content/plugins/wordpress-seo/js/dist/src.suffix.js', $asset->get_url( WPSEO_Admin_Asset::TYPE_JS, WPSEO_FILE ) );
-		$this->assertEquals( home_url() . '/wp-content/plugins/wordpress-seo/css/src.suffix.css', $asset->get_url( WPSEO_Admin_Asset::TYPE_CSS, WPSEO_FILE ) );
+		$this->assertEquals( home_url() . '/wp-content/plugins/wordpress-seo/css/dist/src.suffix.css', $asset->get_url( WPSEO_Admin_Asset::TYPE_CSS, WPSEO_FILE ) );
 		$this->assertEquals( '', $asset->get_url( '', WPSEO_FILE ) );
 
 	}
