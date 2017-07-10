@@ -164,16 +164,16 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 		return sprintf( "<div class='notice inline yoast-notice yoast-notice-go-premium'>
 			<p>%s</p>
-			<p><a href='%s' class='button button-primary' target='_blank'>%s</a></p>
+			<p><a href='%s' target='_blank'>%s</a></p>
 		</div>",
 			/* translators: %1$s expands to the social network's name, %2$s to Yoast SEO Premium. */
 			sprintf( __( 'Do you want to preview what it will look like if people share this post on %1$s? You can, with %2$s.', 'wordpress-seo' ),
 				$network_name,
 				'<strong>Yoast SEO Premium</strong>'
 			),
-			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
+			WPSEO_Shortlinker::get( 'https://yoa.st/179' ),
 			/* translators: %s expands to Yoast SEO Premium. */
-			sprintf( 'Upgrade to %s', 'Yoast SEO Premium' )
+			sprintf( 'Find out why you should upgrade to %s', 'Yoast SEO Premium' )
 		);
 	}
 
