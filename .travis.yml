@@ -22,9 +22,9 @@ matrix:
     - php: 5.2
       env: WP_VERSION=4.7 WP_MULTISITE=1 PHPLINT=1
     - php: 5.3
-      env: WP_VERSION=4.7
+      env: WP_VERSION=4.6
     - php: 5.6
-      env: WP_VERSION=4.7
+      env: WP_VERSION=4.6
     # WP >= 4.7 is needed for PHP 7.1
     - php: 7.1
       env: WP_VERSION=4.8
