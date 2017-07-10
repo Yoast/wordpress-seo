@@ -767,7 +767,12 @@ class WPSEO_Admin {
 	 * @returns WPSEO_WordPress_Integration[]
 	 */
 	protected function initialize_seo_links() {
+		// Always make sure all possible notices are removed.
 		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
+		$link_table_compatibility_notifier->remove_notification();
+
+		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
+		$link_table_accessible_notifier->remove_notification();
 
 		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
 		if ( version_compare( phpversion(), '5.3', '<' ) ) {
@@ -776,18 +781,12 @@ class WPSEO_Admin {
 			return array();
 		}
 
-		$link_table_compatibility_notifier->remove_notification();
-
-		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
-
 		// When the table doesn't exists, just add the notification and return early.
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			$link_table_accessible_notifier->add_notification();
 
 			return array();
 		}
-
-		$link_table_accessible_notifier->remove_notification();
 
 		$storage = new WPSEO_Link_Storage();
 		$count_storage = new WPSEO_Meta_Storage();
