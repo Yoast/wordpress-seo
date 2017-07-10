@@ -774,6 +774,10 @@ class WPSEO_Admin {
 		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
 		$link_table_accessible_notifier->remove_notification();
 
+		if ( ! $this->options['enable_text_link_counter'] ) {
+			return array();
+		}
+
 		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
 		if ( version_compare( phpversion(), '5.3', '<' ) ) {
 			$link_table_compatibility_notifier->add_notification();
