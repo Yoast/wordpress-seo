@@ -47,6 +47,11 @@ $feature_toggles = array(
 			'</a>'
 		),
 	),
+	(object) array(
+		'name'    => __( 'Text link counter', 'wordpress-seo' ),
+		'setting' => 'enable_text_link_counter',
+		'label'   => __( 'The text link counter functionality ...', 'wordpress-seo' ),
+	),
 );
 
 /**
