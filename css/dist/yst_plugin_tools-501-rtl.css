@@ -466,6 +466,60 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	vertical-align: top;
 }
 
+/* Premium Upsell Admin Block
+ * @since 5.1
+ */
+.yoast_premium_upsell_admin_block {
+	overflow: hidden;
+	max-width: 650px;
+	margin-top: 2em; 
+	padding: 10px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+}
+.yoast_premium_upsell_admin_block--close {
+	padding: 1px 4px; 
+	border: 1px solid #ccc;
+	color: #333;
+	font-size: 16px;
+	font-weight: bold;
+	text-decoration: none;
+}
+.yoast_premium_upsell_admin_block--header {
+	margin-top: 0.3em;
+	font-size: 1.7em;
+	font-weight: bold;
+}
+.yoast_premium_upsell_admin_block--motivation {
+	display: -ms-flexbox;
+	display: flex;
+
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+.yoast_premium_upsell_admin_block--motivation li {
+	list-style: none; 
+
+	-ms-flex: 0 0 50%;
+	flex: 0 0 50%;
+}
+.yoast_premium_upsell_admin_block--argument {
+	padding: 0 20px 0 8px;
+}
+.yoast_premium_upsell_admin_block--argument::before {
+	position: relative;
+	top: -1px; 
+	right: -16px;
+	margin-left: -10px;
+	font-weight: bold;
+	content: "+";
+}
+@media screen and (max-width: 480px) {
+	.yoast_premium_upsell_admin_block--motivation {
+		display: block;
+	}
+}
+
 @media screen and (max-width: 1024px) {
 	.wpseo-tab-video-slideout .yoast-table-scrollable {
 		width: 120%;
@@ -543,15 +597,16 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		border: none;
 		text-align: center;
 	}
-	.yoast-sidebar__spot strong:first-child {
+	.yoast-sidebar__spot > strong:first-child {
 		display: block;
 		max-width: 261px;
 		margin: 0 auto;
 		text-align: right;
 	}
+	.yoast-sidebar__spot ul,
 	.yoast-sidebar__spot p {
 		max-width: 261px;
-		margin: 1em auto;
+		margin: 1em auto; 
 		text-align: right;
 	}
 }
