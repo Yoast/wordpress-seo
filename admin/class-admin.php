@@ -768,16 +768,16 @@ class WPSEO_Admin {
 	 */
 	protected function initialize_seo_links() {
 		$integrations = array();
-		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
-		$link_table_compatibility_notifier->remove_notification();
 
-		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
-		$link_table_accessible_notifier->remove_notification();
+		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
+		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
+
 		if ( $this->options['enable_text_link_counter'] ) {
 			$integrations[] = new WPSEO_Link_Cleanup_Transient();
 		}
 
 		if ( ! $this->options['enable_text_link_counter'] ) {
+			$link_table_compatibility_notifier->remove_notification();
 			return array();
 		}
 
@@ -788,12 +788,17 @@ class WPSEO_Admin {
 			return $integrations;
 		}
 
+		$link_table_compatibility_notifier->remove_notification();
+
 		// When the table doesn't exists, just add the notification and return early.
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			$link_table_accessible_notifier->add_notification();
 
 			return $integrations;
 		}
+
+
+		$link_table_accessible_notifier->remove_notification();
 
 		$storage = new WPSEO_Link_Storage();
 		$count_storage = new WPSEO_Meta_Storage();
