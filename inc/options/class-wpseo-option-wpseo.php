@@ -44,6 +44,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_setting_pages'            => true,
 		'enable_admin_bar_menu'			  => true,
 		'enable_cornerstone_content'      => true,
+		'enable_text_link_counter'        => true,
 		'show_onboarding_notice'          => false,
 		'first_activated_on'              => false,
 	);
