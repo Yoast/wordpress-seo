@@ -41,17 +41,17 @@ class Premium_Upsell_Admin_Block {
 		echo '<h2 class="' . $class . '--header">' . __( 'Go premium!', 'wordpress-seo' ) . '</h2>';
 
 		echo
-		'<ul class="' . $class . '--motivation">' .
-		'<li><div class="' . $class . '--argument"><strong>' . __( 'Multiple keywords', 'wordpress-seo' ) . '</strong>: ' . __( 'Increase your SEO reach', 'wordpress-seo' ) . '</div></li>' .
-		'<li><div class="' . $class . '--argument"><strong>' . __( 'No more dead links', 'wordpress-seo' ) . '</strong>: ' . __( 'Easy redirect manager', 'wordpress-seo' ) . '</div></li>' .
-		'<li><div class="' . $class . '--argument"><strong>' . __( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</strong></div></li>' .
-		'<li><div class="' . $class . '--argument"><strong>' . __( 'Social media preview', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ) . '</div></li>' .
-		'<li><div class="' . $class . '--argument"><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></div></li>' .
-		'<li><div class="' . $class . '--argument"><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></div></li>' .
-		'</ul>';
+			'<ul class="' . $class . '--motivation">' .
+			'<li><div class="' . $class . '--argument"><strong>' . __( 'Multiple keywords', 'wordpress-seo' ) . '</strong>: ' . __( 'Increase your SEO reach', 'wordpress-seo' ) . '</div></li>' .
+			'<li><div class="' . $class . '--argument"><strong>' . __( 'No more dead links', 'wordpress-seo' ) . '</strong>: ' . __( 'Easy redirect manager', 'wordpress-seo' ) . '</div></li>' .
+			'<li><div class="' . $class . '--argument"><strong>' . __( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</strong></div></li>' .
+			'<li><div class="' . $class . '--argument"><strong>' . __( 'Social media preview', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ) . '</div></li>' .
+			'<li><div class="' . $class . '--argument"><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></div></li>' .
+			'<li><div class="' . $class . '--argument"><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></div></li>' .
+			'</ul>';
 
-		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . sprintf( __( 'Find out why you should upgrade to %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br />	
-		<small>' . __( 'Prices start as low as 69,- for one site', 'wordpress-seo' ) . '</small></p>';
+		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . sprintf( __( 'Find out why you should upgrade to %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br />';
+		echo '<small>' . __( 'Prices start as low as 69,- for one site', 'wordpress-seo' ) . '</small></p>';
 		echo '</div>';
 
 		echo '</div>';
