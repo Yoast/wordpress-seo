@@ -23,7 +23,6 @@ class WPSEO_Breadcrumbs {
 	 */
 	public static $after = '';
 
-
 	/**
 	 * @var    string    Blog's show on front setting, 'page' or 'posts'
 	 */
@@ -43,7 +42,6 @@ class WPSEO_Breadcrumbs {
 	 * @var    array    WPSEO options array from get_all()
 	 */
 	private $options;
-
 
 	/**
 	 * @var string    HTML wrapper element for a single breadcrumb element
@@ -87,12 +85,20 @@ class WPSEO_Breadcrumbs {
 	 */
 	private $output;
 
+	/**
+	 * @var string    The vocabulary that is used for building the RFDa breadcrumbs
+	 */
+	private $schema = 'http://schema.org/';
 
 	/**
 	 * Create the breadcrumb
 	 */
 	private function __construct() {
-		$this->options        = WPSEO_Options::get_options( array( 'wpseo_titles', 'wpseo_internallinks', 'wpseo_xml' ) );
+		$this->options        = WPSEO_Options::get_options( array(
+			'wpseo_titles',
+			'wpseo_internallinks',
+			'wpseo_xml',
+		) );
 		$this->post           = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
 		$this->show_on_front  = get_option( 'show_on_front' );
 		$this->page_for_posts = get_option( 'page_for_posts' );
@@ -102,9 +108,23 @@ class WPSEO_Breadcrumbs {
 		$this->filter_wrapper();
 
 		$this->set_crumbs();
+
 		$this->prepare_links();
 		$this->links_to_string();
 		$this->wrap_breadcrumb();
+	}
+
+	/**
+	 * Returns an instance of itself.
+	 *
+	 * @return object|WPSEO_Breadcrumbs
+	 */
+	public static function get_instance() {
+		if ( ! ( self::$instance instanceof self ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**
@@ -117,14 +137,12 @@ class WPSEO_Breadcrumbs {
 	 * @return object
 	 */
 	public static function breadcrumb( $before = '', $after = '', $display = true ) {
-		if ( ! ( self::$instance instanceof self ) ) {
-			self::$instance = new self();
-		}
+		$instance = self::get_instance();
 		// Remember the last used before/after for use in case the object goes __toString().
 		self::$before = $before;
 		self::$after  = $after;
 
-		$output = $before . self::$instance->output . $after;
+		$output = $before . $instance->output . $after;
 
 		if ( $display === true ) {
 			echo $output;
@@ -134,6 +152,59 @@ class WPSEO_Breadcrumbs {
 		else {
 			return $output;
 		}
+	}
+
+	/**
+	 * Get the breadcrumb links in an array.
+	 *
+	 * @return array breadcrumb links
+	 */
+	public function get_breadcrumbs_array() {
+		if ( ! is_array( $this->crumbs ) || $this->crumbs === array() ) {
+			return null;
+		}
+		$links = array();
+		foreach ( $this->crumbs as $i => $crumb ) {
+			$link_info = $crumb; // Keep pre-set url/text combis.
+
+			if ( isset( $crumb['id'] ) ) {
+				$link_info = $this->get_link_info_for_id( $crumb['id'] );
+			}
+			if ( isset( $crumb['term'] ) ) {
+				$link_info = $this->get_link_info_for_term( $crumb['term'] );
+			}
+			if ( isset( $crumb['ptarchive'] ) ) {
+				$link_info = $this->get_link_info_for_ptarchive( $crumb['ptarchive'] );
+			}
+			$links[ $i ] = $link_info;
+		}
+
+		return $links;
+	}
+
+	/**
+	 * Get the standard used for generating the breadcrumbs.
+	 *
+	 * @return string breadcrumbs standard
+	 */
+	public function get_breadcrumb_standard() {
+		$breadcrumb_config = get_theme_support( 'yoast-seo-breadcrumbs' );
+		$standard          = 'schema';
+
+		if ( $breadcrumb_config !== false && is_array( $breadcrumb_config ) ) {
+			// Gets resets the array iterator and returns the first value.
+			$breadcrumb_standard = reset( $breadcrumb_config );
+			if ( isset( $breadcrumb_standard['standard'] ) && is_string( $breadcrumb_standard['standard'] )
+			     && $breadcrumb_standard['standard'] !== ''
+			) {
+				$standard = $breadcrumb_standard['standard'];
+			}
+		}
+
+		/**
+		 * Filter: 'wpseo_breadcrumb_standard' - Allow changing the standard for the generated breadcrumbs
+		 */
+		return apply_filters( 'wpseo_breadcrumb_standard', $standard );
 	}
 
 	/**
@@ -178,7 +249,6 @@ class WPSEO_Breadcrumbs {
 		}
 	}
 
-
 	/**
 	 * Get a term's parents.
 	 *
@@ -189,7 +259,7 @@ class WPSEO_Breadcrumbs {
 	private function get_term_parents( $term ) {
 		$tax     = $term->taxonomy;
 		$parents = array();
-		while ( $term->parent != 0 ) {
+		while ( $term->parent !== 0 ) {
 			$term      = get_term( $term->parent, $tax );
 			$parents[] = $term;
 		}
@@ -624,24 +694,12 @@ class WPSEO_Breadcrumbs {
 	 * @link http://support.google.com/webmasters/bin/answer.py?hl=en&answer=185417 Google documentation on RDFA
 	 */
 	private function prepare_links() {
-		if ( ! is_array( $this->crumbs ) || $this->crumbs === array() ) {
+		$links = $this->get_breadcrumbs_array();
+		if ( ! is_array( $links ) || $links === array() ) {
 			return;
 		}
-
-		foreach ( $this->crumbs as $i => $crumb ) {
-			$link_info = $crumb; // Keep pre-set url/text combis.
-
-			if ( isset( $crumb['id'] ) ) {
-				$link_info = $this->get_link_info_for_id( $crumb['id'] );
-			}
-			if ( isset( $crumb['term'] ) ) {
-				$link_info = $this->get_link_info_for_term( $crumb['term'] );
-			}
-			if ( isset( $crumb['ptarchive'] ) ) {
-				$link_info = $this->get_link_info_for_ptarchive( $crumb['ptarchive'] );
-			}
-
-			$this->links[] = $this->crumb_to_link( $link_info, $i );
+		foreach ( $links as $i => $link ) {
+			$this->links[] = $this->crumb_to_link( $link, $i );
 		}
 	}
 
@@ -730,7 +788,6 @@ class WPSEO_Breadcrumbs {
 		return $link;
 	}
 
-
 	/**
 	 * Create a breadcrumb element string
 	 *
@@ -750,37 +807,34 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function crumb_to_link( $link, $i ) {
 		$link_output = '';
+		$inner_elm   = 'span';
 
 		if ( isset( $link['text'] ) && ( is_string( $link['text'] ) && $link['text'] !== '' ) ) {
-
 			$link['text'] = trim( $link['text'] );
 			if ( ! isset( $link['allow_html'] ) || $link['allow_html'] !== true ) {
 				$link['text'] = esc_html( $link['text'] );
 			}
 
-			$inner_elm = 'span';
 			if ( $this->options['breadcrumbs-boldlast'] === true && $i === ( $this->crumb_count - 1 ) ) {
 				$inner_elm = 'strong';
 			}
-
 			if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) &&
 			     ( $i < ( $this->crumb_count - 1 ) )
 			) {
-				if ( $i === 0 ) {
-					$link_output .= '<' . $this->element . ' typeof="v:Breadcrumb">';
+				$standard = $this->get_breadcrumb_standard();
+				if ( $standard === 'data-vocabulary' ) {
+					$link_output = $this->create_data_vocabulary_standard_links( $link, $i );
 				}
-				else {
-					$link_output .= '<' . $this->element . ' rel="v:child" typeof="v:Breadcrumb">';
+				elseif ( $standard === 'schema' ) {
+					$link_output = $this->create_schema_standard_links( $link, $i );
 				}
-				$title_attr   = isset( $link['title'] ) ? ' title="' . esc_attr( $link['title'] ) . '"' : '';
-				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title"' . $title_attr . '>' . $link['text'] . '</a>';
 			}
 			else {
 				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last">' . $link['text'] . '</' . $inner_elm . '>';
 				// This is the last element, now close all previous elements.
 				while ( $i > 0 ) {
 					$link_output .= '</' . $this->element . '>';
-					$i--;
+					$i --;
 				}
 			}
 		}
@@ -796,6 +850,60 @@ class WPSEO_Breadcrumbs {
 		return apply_filters( 'wpseo_breadcrumb_single_link', $link_output, $link );
 	}
 
+	/**
+	 * Creates a breadcrumb item string following the `schema.org` standards.
+	 *
+	 * @param array $link  Link info array containing the keys:
+	 *                     'text'    => (string) link text
+	 *                     'url'    => (string) link url.
+	 * @param int   $i     Index for the current breadcrumb.
+	 *
+	 * @return string breadcrumb HTML link element
+	 */
+	private function create_schema_standard_links( $link, $i ) {
+		$list_item_type     = 'ListItem';
+		$list_item_property = 'itemListElement';
+
+		$link_property = 'item';
+		$link_type     = 'WebPage';
+
+		$link_output = '<' . $this->element . ' property="' . $list_item_property . '" typeof="' . $list_item_type . '">';
+
+		$title_attr = isset( $link['title'] ) ? ' title="' . esc_attr( $link['title'] ) . '"' : '';
+		$span       = '<span property="name">' . $title_attr . $link['text'] . '</span>';
+		$meta       = '<meta property="position" content="' . ( $i + 1 ) . '">';
+		$link_html  = '<a property="' . $link_property . '" typeof="' . $link_type . '" href="' . esc_url( $link['url'] ) . '">';
+
+		$link_output .= $link_html . $span . $meta . '</a>';
+		$link_output .= '</' . $this->element . '>';
+
+		return $link_output;
+	}
+
+	/**
+	 * Creates a breadcrumb item string following the (old)`data-vocabulary.net` standards
+	 *
+	 * @param array $link  Link info array containing the keys:
+	 *                     'text'    => (string) link text
+	 *                     'url'    => (string) link url.
+	 * @param int   $i     Index for the current breadcrumb.
+	 *
+	 * @return string breadcrumb HTML link element
+	 */
+	private function create_data_vocabulary_standard_links( $link, $i ) {
+		$link_output = '';
+
+		if ( $i === 0 ) {
+			$link_output .= '<' . $this->element . ' typeof="v:Breadcrumb">';
+		}
+		else {
+			$link_output .= '<' . $this->element . ' rel="v:child" typeof="v:Breadcrumb">';
+		}
+		$title_attr = isset( $link['title'] ) ? ' title="' . esc_attr( $link['title'] ) . '"' : '';
+		$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title"' . $title_attr . '>' . $link['text'] . '</a>';
+
+		return $link_output;
+	}
 
 	/**
 	 * Create a complete breadcrumb string from an array of breadcrumb element strings
@@ -814,8 +922,18 @@ class WPSEO_Breadcrumbs {
 	 * Wrap a complete breadcrumb string in a Breadcrumb RDFA wrapper
 	 */
 	private function wrap_breadcrumb() {
+
+		$wrapperType = 'BreadcrumbList';
+
 		if ( is_string( $this->output ) && $this->output !== '' ) {
-			$output = '<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $this->output . '</' . $this->wrapper . '>';
+			$standard = $this->get_breadcrumb_standard();
+
+			if ( $standard === 'data-vocabulary' ) {
+				$output = '<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $this->output . '</' . $this->wrapper . '>';
+			}
+			elseif ( $standard === 'schema' ) {
+				$output = '<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' vocab="' . $this->schema . '" typeof="' . $wrapperType . '">' . $this->output . '</' . $this->wrapper . '>';
+			}
 
 			/**
 			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class
@@ -860,7 +978,6 @@ class WPSEO_Breadcrumbs {
 
 		return $class;
 	}
-
 
 	/********************** DEPRECATED METHODS **********************/
 
