@@ -34,7 +34,9 @@ class Premium_Upsell_Admin_Block {
 	}
 
 	/**
-	 * Renders the upsell block
+	 * Renders the upsell block.
+	 *
+	 * @return void
 	 */
 	public function render() {
 		$url = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
