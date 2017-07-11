@@ -772,14 +772,13 @@ class WPSEO_Admin {
 		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
 		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
 
-		if ( $this->options['enable_text_link_counter'] ) {
-			$integrations[] = new WPSEO_Link_Cleanup_Transient();
-		}
-
 		if ( ! $this->options['enable_text_link_counter'] ) {
 			$link_table_compatibility_notifier->remove_notification();
-			return array();
+
+			return $integrations;
 		}
+
+		$integrations[] = new WPSEO_Link_Cleanup_Transient();
 
 		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
 		if ( version_compare( phpversion(), '5.3', '<' ) ) {
@@ -797,10 +796,9 @@ class WPSEO_Admin {
 			return $integrations;
 		}
 
-
 		$link_table_accessible_notifier->remove_notification();
 
-		$storage = new WPSEO_Link_Storage();
+		$storage       = new WPSEO_Link_Storage();
 		$count_storage = new WPSEO_Meta_Storage();
 
 		$integrations[] = new WPSEO_Link_Watcher(
@@ -808,9 +806,7 @@ class WPSEO_Admin {
 		);
 
 		$integrations[] = new WPSEO_Link_Columns( $count_storage );
-
 		$integrations[] = new WPSEO_Link_Reindex_Dashboard();
-
 		$integrations[] = new WPSEO_Link_Notifier();
 
 		return $integrations;
