@@ -24,9 +24,8 @@ class WPSEO_Link_Cleanup_Transient implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function remove_transients_on_updated_option( $old_value, $value ) {
-
 		$option_name = 'enable_text_link_counter';
-		if ( $old_value[ $option_name ] !== $value[ $option_name ] && empty( $value[ $option_name ] ) ) {
+		if ( $value[ $option_name ] === false && $old_value[ $option_name ] !== $value[ $option_name ] ) {
 			WPSEO_Link_Table_Accessible::cleanup();
 			WPSEO_Meta_Table_Accessible::cleanup();
 		}
