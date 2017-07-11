@@ -42,6 +42,15 @@ class WPSEO_Meta_Table_Accessible {
 	}
 
 	/**
+	 * Removes the transient.
+	 *
+	 * @return void
+	 */
+	public static function cleanup() {
+		delete_transient( self::transient_name() );
+	}
+
+	/**
 	 * Returns the name of the transient.
 	 *
 	 * @return string The name of the transient to use.
