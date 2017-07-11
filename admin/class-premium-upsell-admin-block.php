@@ -11,18 +11,24 @@ class Premium_Upsell_Admin_Block {
 	protected $hook;
 
 	/** @var string Identifier to use in the dismissal functionality. */
-	protected $identifier;
+	protected $identifier = 'premium_upsell_admin_block';
 
 	/**
-	 * Premium_Upsell_Admin_Block constructor.
+	 * Registers which hook the block will be displayed on.
 	 *
 	 * @param string $hook Hook to display the block on.
 	 */
 	public function __construct( $hook ) {
-		$this->hook       = $hook;
-		$this->identifier = 'premium_upsell_admin_block';
+		$this->hook = $hook;
+	}
 
-		if ( ! $this->hide() ) {
+	/**
+	 * Registers WordPress hooks.
+	 *
+	 * @return void
+	 */
+	public function register_hooks() {
+		if ( ! $this->is_hidden() ) {
 			add_action( $this->hook, array( $this, 'render' ) );
 		}
 	}

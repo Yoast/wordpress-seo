@@ -441,7 +441,8 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	private function register_premium_upsell_admin_block() {
-		new Premium_Upsell_Admin_Block( 'wpseo_admin_promo_footer' );
+		$upsell_block = new Premium_Upsell_Admin_Block( 'wpseo_admin_promo_footer' );
+		$upsell_block->register_hooks();
 	}
 
 	/**
