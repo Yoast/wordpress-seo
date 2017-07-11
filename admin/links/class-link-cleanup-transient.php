@@ -18,7 +18,7 @@ class WPSEO_Link_Cleanup_Transient implements WPSEO_WordPress_Integration {
 	/**
 	 * Removes the transient when the option is updated.
 	 *
-	 * @param mixed $old_value The old value
+	 * @param mixed $old_value The old value.
 	 * @param mixed $value     The new value.
 	 *
 	 * @return void
