@@ -45,7 +45,7 @@ if ( ! $active ) {
 		</div>
 
 		<?php if ( $dismissed ) : ?>
-			<div class="separator"></div>
+			<h4 class="yoast-muted-title"><?php echo esc_html( $i18n_muted_issues_title ); ?></h4>
 		<?php endif; ?>
 
 		<div class="container" id="yoast-<?php echo $type ?>-dismissed">
