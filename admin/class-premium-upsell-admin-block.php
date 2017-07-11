@@ -41,22 +41,25 @@ class Premium_Upsell_Admin_Block {
 	public function render() {
 		$url = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
-		$class = 'yoast_' . $this->identifier;
+		$arguments = array(
+			'<strong>' . esc_html__( 'Multiple keywords', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Increase your SEO reach', 'wordpress-seo' ),
+			'<strong>' . esc_html__( 'No more dead links', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Easy redirect manager', 'wordpress-seo' ),
+			'<strong>' . esc_html__( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</strong>',
+			'<strong>' . esc_html__( 'Social media preview', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ),
+			'<strong>' . esc_html__( '24/7 support', 'wordpress-seo' ) . '</strong>',
+			'<strong>' . esc_html__( 'No ads!', 'wordpress-seo' ) . '</strong>',
+		);
+
+		$arguments_html = implode( '', array_map( array( $this, 'get_argument_html' ), $arguments ) );
+
+		$class = $this->get_html_class();
+
 		echo '<div class="' . $class . '">';
 		echo '<a href="' . esc_url( add_query_arg( array( $this->get_query_variable_name() => 1 ) ) ) . '" style="" class="alignright ' . $class . '--close" aria-label="' . esc_attr( sprintf( __( 'Dismiss %s upgrade motivation', 'wordpress-seo' ), 'Yoast SEO Premium' ) ) . '">X</a>';
 
 		echo '<div>';
 		echo '<h2 class="' . $class . '--header">' . __( 'Go premium!', 'wordpress-seo' ) . '</h2>';
-
-		echo
-			'<ul class="' . $class . '--motivation">' .
-			'<li><div class="' . $class . '--argument"><strong>' . __( 'Multiple keywords', 'wordpress-seo' ) . '</strong>: ' . __( 'Increase your SEO reach', 'wordpress-seo' ) . '</div></li>' .
-			'<li><div class="' . $class . '--argument"><strong>' . __( 'No more dead links', 'wordpress-seo' ) . '</strong>: ' . __( 'Easy redirect manager', 'wordpress-seo' ) . '</div></li>' .
-			'<li><div class="' . $class . '--argument"><strong>' . __( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</strong></div></li>' .
-			'<li><div class="' . $class . '--argument"><strong>' . __( 'Social media preview', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ) . '</div></li>' .
-			'<li><div class="' . $class . '--argument"><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></div></li>' .
-			'<li><div class="' . $class . '--argument"><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></div></li>' .
-			'</ul>';
+		echo '<ul class="' . $class . '--motivation">' . $arguments_html . '</ul>';
 
 		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . sprintf( __( 'Find out why you should upgrade to %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br />';
 		echo '<small>' . __( 'Prices start as low as 69,- for one site', 'wordpress-seo' ) . '</small></p>';
@@ -66,11 +69,24 @@ class Premium_Upsell_Admin_Block {
 	}
 
 	/**
-	 * Checks if the block should be shown or not.
+	 * Formats the argument to a HTML list item.
 	 *
-	 * @return bool
+	 * @param string $argument The argument to format.
+	 *
+	 * @return string Formatted argument in HTML.
 	 */
-	protected function hide() {
+	protected function get_argument_html( $argument ) {
+		$class = $this->get_html_class();
+
+		return sprintf( '<li><div class="%s--argument">%s</div></li>', $class, $argument );
+	}
+
+	/**
+	 * Checks if the block is hidden by the user.
+	 *
+	 * @return bool False when it should be shown, True if it should be hidden.
+	 */
+	protected function is_hidden() {
 		$transient_name = $this->get_option_name();
 
 		$hide = (bool) get_user_option( $transient_name );
@@ -102,5 +118,14 @@ class Premium_Upsell_Admin_Block {
 	 */
 	protected function get_query_variable_name() {
 		return 'yoast_promo_hide_' . $this->identifier;
+	}
+
+	/**
+	 * Returns the HTML base class to use.
+	 *
+	 * @return string The HTML base class.
+	 */
+	protected function get_html_class() {
+		return 'yoast_' . $this->identifier;
 	}
 }
