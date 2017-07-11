@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
-Tested up to: 4.7
-Stable tag: 4.8
+Tested up to: 4.8
+Stable tag: 5.0.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -124,36 +124,46 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
-= 4.8.0 =
+= 5.0.1 =
 
-Release Date: May 23rd, 2017
+Release Date: July 6th, 2017
+
+* Fixes a fatal error that could occur when trying to save a post that has `<a>`-tags with invalid URLs in it.
+
+= 5.0.0 =
+
+Release Date: July 6th, 2017
 
 * Bugfixes
-	* Fixes a bug where the tabs in the social and advanced metabox section are gone when keyword analysis has been disabled.
+	* Fixes a bug where images via `https` were not working, props [Jannik Zschiesche](https://github.com/apfelbox).
+	* Fixes a bug where the whip notification can be shown multiple times.
 
 * Enhancements
-	* Optimizes the way the cornerstone flag is saved.
-	* Analyzes the content using cornerstone assessors when a post or page is cornerstone content.
+	* Introduces a module that counts links in the content.
+	* Adds Flesch Reading for Italian.
+	* Changes 'page title' to 'seo title' in the snippet preview.
+ 	* Changes recommended maximum sentence length for Italian from 20 to 25 words, based on more in-depth research.
+ 	* Implements the extracted version of the Algolia Search which is now present in `yoast-components`.
+ 	* Adds a banner for the structured data course.
 
-= 4.7.1 =
+ * Under the hood
+ 	* Introduces a database table to keep track of the linking structure. If the table cannot be created, a notification will be shown.
+ 	* When there are posts or pages to reindex, a notice will be shown.
 
-Release Date: May 9th, 2017
+= 4.9.0 =
+
+Release Date: June 7th, 2017
 
 * Bugfixes
-	* Fixes a bug where the analysis wouldn't work on Internet Explorer.
-
-= 4.7.0 =
-
-Release Date: May 2nd, 2017
+	* Fixes a bug where there were certain assessments missing when switching to cornerstone content.
+	* Fixes a bug where the configuration wizard button was visible for users who didn't have enough rights to access the configuration wizard.
+	* Fixes a bug where the column `ID` was ambiguous, causing an SQL error.
+	* Fixes a bug where the category URL in the sitemap was encoded twice.
+	* Fixes a bug where an old upgrade notice is not removed.
 
 * Enhancements
-	* Adds transition words for Italian.
-	* Adds a new check in the analysis for the presence of at least one internal link.
-
-* Bugfixes
-	* Fixes a bug where the `_yst_is_cornerstone` meta value was not prefixed, causing some themes/plugins to output this meta value.
-	* Fixes a bug where style and script elements were parsed for the prominent words.
-	* Fixes a bug where the cursor pointer was in front of the metabox.
+	* Removes the noodp advanced robots meta value as it is no longer used.
+	* Loads the translations only when the configuration wizard endpoint is called, instead of every time `rest_api_init` is called.
 
 = Earlier versions =
 

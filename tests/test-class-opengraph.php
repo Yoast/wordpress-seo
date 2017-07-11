@@ -420,6 +420,45 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertContains( $expected_output, $output );
 	}
 
+
+
+	/**
+	 * Tests whether the correct OG tag for an image via HTTP is generated
+	 */
+	public function test_image_insecure_url() {
+		$stub = $this
+			->getMockBuilder( 'WPSEO_OpenGraph' )
+			->setMethods( array( 'og_tag' ) )
+			->getMock();
+
+		$stub
+			->expects( $this->once() )
+			->method( 'og_tag' )
+			->with( 'og:image' );
+
+		$stub->image( 'http://example.org/test.png' );
+	}
+
+
+
+	/**
+	 * Tests whether the correct OG tag for an image via HTTPS is generated
+	 */
+	public function test_image_secure_url() {
+		$stub = $this
+			->getMockBuilder( 'WPSEO_OpenGraph' )
+			->setMethods( array( 'og_tag' ) )
+			->getMock();
+
+		$stub
+			->expects( $this->exactly(2) )
+			->method( 'og_tag' )
+			->with( $this->logicalOr( 'og:image', 'og:image:secure_url' ) );
+
+		$stub->image( 'https://example.org/test.png' );
+	}
+
+
 	/**
 	 * @covers WPSEO_OpenGraph::description
 	 */
@@ -490,7 +529,10 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'OG description', $description );
 
 		$image_url       = 'https://example.com/image.png';
-		$expected_output = '<meta property="og:image" content="' . $image_url . '" />';
+		$expected_output = <<<EXPECTED
+<meta property="og:image" content="{$image_url}" />
+<meta property="og:image:secure_url" content="{$image_url}" />
+EXPECTED;
 		WPSEO_Meta::set_value( 'opengraph-image', $image_url, $post_id );
 		ob_start();
 		self::$class_instance->image( false );

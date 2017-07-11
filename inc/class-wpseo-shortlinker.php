@@ -6,7 +6,7 @@
 /**
  * Helps with creating shortlinks in the plugin
  */
-class  WPSEO_Shortlinker {
+class WPSEO_Shortlinker {
 
 	/**
 	 * @var string

@@ -361,6 +361,13 @@ class Yoast_Notification_Center {
 
 		$notifications = $this->get_notifications();
 
+		/**
+		 * Filter: 'yoast_notifications_before_storage' - Allows developer to filter notifications before saving them.
+		 *
+		 * @api Yoast_Notification[] $notifications
+		 */
+		$notifications = apply_filters( 'yoast_notifications_before_storage', $notifications );
+
 		// No notifications to store, clear storage.
 		if ( empty( $notifications ) ) {
 			$this->remove_storage();

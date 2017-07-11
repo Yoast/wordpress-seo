@@ -157,6 +157,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-progressbar',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
@@ -165,22 +166,23 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
 				'name' => 'bulk-editor',
 				'src'  => 'wp-seo-bulk-editor-' . $flat_version,
-				'deps' => array( 'jquery' ),
+				'deps' => array( 'jquery', self::PREFIX . 'polyfill' ),
 			),
 			array(
 				'name' => 'dismissible',
 				'src'  => 'wp-seo-dismissible-' . $flat_version,
-				'deps' => array( 'jquery' ),
+				'deps' => array( 'jquery', self::PREFIX . 'polyfill' ),
 			),
 			array(
 				'name' => 'admin-global-script',
 				'src'  => 'wp-seo-admin-global-' . $flat_version,
-				'deps' => array( 'jquery' ),
+				'deps' => array( 'jquery', self::PREFIX . 'polyfill' ),
 			),
 			array(
 				'name' => 'metabox',
@@ -191,6 +193,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-autocomplete',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
+					self::PREFIX . 'polyfill',
 				),
 				'in_footer' => false,
 			),
@@ -198,13 +201,14 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'featured-image',
 				'src'  => 'wp-seo-featured-image-' . $flat_version,
 				'deps' => array(
-					'jquery'
+					'jquery',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
 				'name'      => 'admin-gsc',
 				'src'       => 'wp-seo-admin-gsc-' . $flat_version,
-				'deps'      => array(),
+				'deps'      => array( self::PREFIX . 'polyfill' ),
 				'in_footer' => false,
 			),
 			array(
@@ -214,6 +218,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
@@ -221,15 +226,18 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
 				'src'  => 'wp-seo-replacevar-plugin-' . $flat_version,
+				'deps' => array( self::PREFIX . 'polyfill' ),
 			),
 			array(
 				'name' => 'shortcode-plugin',
 				'src'  => 'wp-seo-shortcode-plugin-' . $flat_version,
+				'deps' => array( self::PREFIX . 'polyfill' ),
 			),
 			array(
 				'name' => 'recalculate',
@@ -238,6 +246,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
@@ -246,6 +255,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					'wp-util',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
@@ -272,7 +282,26 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'configuration-wizard-' . $flat_version,
 				'deps' => array(
 					'jquery',
+					self::PREFIX . 'polyfill',
 				),
+			),
+			array(
+				'name' => 'polyfill',
+				'src'  => 'wp-seo-babel-polyfill-' . $flat_version,
+			),
+			array(
+				'name' => 'reindex-links',
+				'src'  => 'wp-seo-reindex-links-' . $flat_version,
+				'deps' => array(
+					'jquery',
+					'jquery-ui-core',
+					'jquery-ui-progressbar',
+				),
+			),
+			array(
+				'name' => 'edit-page-script',
+				'src'  => 'wp-seo-edit-page-' . $flat_version,
+				'deps' => array( 'jquery' ),
 			),
 		);
 	}
@@ -342,7 +371,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name'    => 'select2',
-				'src'     => 'dist/select2/select2',
+				'src'     => 'select2/select2',
 				'suffix'  => '.min',
 				'version' => '4.0.1',
 				'rtl'     => false,

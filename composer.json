@@ -27,7 +27,7 @@
 		"yoast/i18n-module": "^2.0.1",
 		"yoast/api-libs": "^2.0",
 		"xrstf/composer-php52": "^1.0.20",
-		"yoast/whip": "1.0.1"
+		"yoast/whip": "^1.0"
 	},
 	"require-dev": {
 		"yoast/yoastcs": "0.3",
