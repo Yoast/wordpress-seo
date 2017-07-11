@@ -31,7 +31,7 @@ class Premium_Upsell_Admin_Block {
 	 * Renders the upsell block
 	 */
 	public function render() {
-		$url = WPSEO_Shortlinker::get( 'https://yoa.st/...' );
+		$url = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
 		$class = 'yoast_' . $this->identifier;
 		echo '<div class="' . $class . '">';
