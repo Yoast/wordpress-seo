@@ -64,15 +64,14 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 	 * @param array $meta_data The total amount of links.
 	 */
 	public function save_meta_data( $meta_id, array $meta_data ) {
-		$inserted = $this->database_proxy->insert(
-			array_merge(
-				array( 'object_id' => $meta_id ),
-				$meta_data
-			),
-			array( '%d', '%d' )
+		$where = array( 'object_id' => $meta_id );
+
+		$saved = $this->database_proxy->upsert(
+			array_merge( $where, $meta_data ),
+			$where
 		);
 
-		if ( $inserted === false ) {
+		if ( $saved === false ) {
 			WPSEO_Meta_Table_Accessible::set_inaccessible();
 		}
 	}
