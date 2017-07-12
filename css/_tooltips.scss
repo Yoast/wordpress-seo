@@ -186,7 +186,7 @@ button.yoast-tooltip {
 
 .yoast-tooltip-multiline::after {
 	/* Microsoft Edge doesn't support max-content. */
-	width: 999px;
+	width: 250px;
 	/* Modern browsers. */
 	width: max-content;
 	max-width: 250px;
