@@ -92,7 +92,8 @@ class WPSEO_Link_Reindex_Dashboard {
 				esc_html( __( 'All your texts are already counted, there is no need to count them again.', 'wordpress-seo' ) )
 			);
 		}
-		else {
+
+		if ( $this->unprocessed > 0 ) {
 			$progress = sprintf(
 			/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 				__( 'Text %1$s of %2$s processed.', 'wordpress-seo' ),

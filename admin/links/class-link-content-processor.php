@@ -46,13 +46,13 @@ class WPSEO_Link_Content_Processor {
 
 		$internal_links = array_filter( $links, array( $this, 'filter_internal_link' ) );
 
-		$stored_internal_links = $this->get_stored_internal_links( $post_id );
+		$stored_links = $this->get_stored_internal_links( $post_id );
 
 		$this->storage->cleanup( $post_id );
 		$this->storage->save_links( $post_id, $links );
 
 		$this->store_internal_link_count( $post_id, count( $internal_links ) );
-		$this->update_incoming_links( $post_id, array_merge( $stored_internal_links, $internal_links ) );
+		$this->update_incoming_links( $post_id, array_merge( $stored_links, $internal_links ) );
 	}
 
 	/**
@@ -117,8 +117,6 @@ class WPSEO_Link_Content_Processor {
 	 */
 	protected function get_stored_internal_links( $post_id ) {
 		$links = $this->storage->get_links( $post_id );
-		$internal_link_objects = array_filter( $links, array( $this, 'filter_internal_link' ) );
-
-		return $internal_link_objects;
+		return array_filter( $links, array( $this, 'filter_internal_link' ) );
 	}
 }
