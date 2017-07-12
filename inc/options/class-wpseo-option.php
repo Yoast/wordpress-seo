@@ -125,12 +125,7 @@ abstract class WPSEO_Option {
 			 */
 			add_action( 'add_option', array( $this, 'add_default_filters' ) ); // Adding back after INSERT.
 
-			if ( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) { // Adding back after non-WP 3.7 UPDATE.
-				add_action( 'update_option', array( $this, 'add_default_filters' ) );
-			}
-			else { // Adding back after WP 3.7 UPDATE.
-				add_filter( 'pre_update_option_' . $this->option_name, array( $this, 'wp37_add_default_filters' ) );
-			}
+			add_action( 'update_option', array( $this, 'add_default_filters' ) );
 		}
 		else if ( is_multisite() ) {
 			/*
@@ -200,8 +195,6 @@ abstract class WPSEO_Option {
 	 */
 	// abstract public function enrich_defaults();
 
-// @codingStandardsIgnoreEnd
-
 	/* *********** METHODS INFLUENCING get_option() *********** */
 
 	/**
@@ -216,7 +209,7 @@ abstract class WPSEO_Option {
 		}
 	}
 
-
+	// @codingStandardsIgnoreStart
 	/**
 	 * Abusing a filter to re-add our default filters
 	 * WP 3.7 specific as update_option action hook was in the wrong place temporarily
@@ -225,13 +218,15 @@ abstract class WPSEO_Option {
 	 *
 	 * @param   mixed $new_value Pass through value in filter.
 	 *
-	 * @deprecated 3.7 version no longer supported.
+	 * @deprecated 3.0 WP 3.7 is no longer supported.
 	 *
 	 * @todo Drop this and logic adding it. R.
 	 *
 	 * @return  mixed   unchanged value
 	 */
 	public function wp37_add_default_filters( $new_value ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
+
 		$this->add_default_filters();
 
 		return $new_value;
@@ -292,7 +287,8 @@ abstract class WPSEO_Option {
 						add_settings_error(
 							$this->group_name, // Slug title of the setting.
 							'_' . $key, // Suffix-id for the error message box.
-							sprintf( __( '%s does not seem to be a valid %s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
+							/* translators: 1: Verification string from user input; 2: Service name. */
+							sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
 							'error' // Error type, either 'error' or 'updated'.
 						);
 					}
@@ -717,6 +713,8 @@ abstract class WPSEO_Option {
 
 	/* *********** DEPRECATED METHODS *********** */
 
+	// @codeCoverageIgnoreStart
+
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way
 	 *
@@ -731,7 +729,7 @@ abstract class WPSEO_Option {
 	 * @return string
 	 */
 	public static function sanitize_text_field( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::sanitize_text_field()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::sanitize_text_field()' );
 
 		return WPSEO_Utils::sanitize_text_field( $value );
 	}
@@ -751,7 +749,7 @@ abstract class WPSEO_Option {
 	 * @return  string
 	 */
 	public static function sanitize_url( $value, $allowed_protocols = array( 'http', 'https' ) ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::sanitize_url()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::sanitize_url()' );
 
 		return WPSEO_Utils::sanitize_url( $value, $allowed_protocols );
 	}
@@ -770,7 +768,7 @@ abstract class WPSEO_Option {
 	 * @return  bool
 	 */
 	public static function validate_bool( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::validate_bool()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::validate_bool()' );
 
 		return WPSEO_Utils::validate_bool( $value );
 	}
@@ -789,7 +787,7 @@ abstract class WPSEO_Option {
 	 * @return    bool
 	 */
 	public static function emulate_filter_bool( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::emulate_filter_bool()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::emulate_filter_bool()' );
 
 		return WPSEO_Utils::emulate_filter_bool( $value );
 	}
@@ -807,7 +805,7 @@ abstract class WPSEO_Option {
 	 * @return  mixed  int or false in case of failure to convert to int
 	 */
 	public static function validate_int( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::validate_int()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::validate_int()' );
 
 		return WPSEO_Utils::validate_int( $value );
 	}
@@ -826,7 +824,7 @@ abstract class WPSEO_Option {
 	 * @return    int|bool
 	 */
 	public static function emulate_filter_int( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::emulate_filter_int()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::emulate_filter_int()' );
 
 		return WPSEO_Utils::emulate_filter_int( $value );
 	}
@@ -847,8 +845,9 @@ abstract class WPSEO_Option {
 	 * @return  mixed      Trimmed value or array of trimmed values
 	 */
 	public static function trim_recursive( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::trim_recursive()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::trim_recursive()' );
 
 		return WPSEO_Utils::trim_recursive( $value );
 	}
+	// @codeCoverageIgnoreEnd
 }

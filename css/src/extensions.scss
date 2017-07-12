@@ -1,0 +1,178 @@
+@import "yoastcom/0-settings/all";
+@import "yoastcom/0-tools/mixins";
+@import "yoastcom/lists";
+@import "yoastcom/headings";
+@import "yoastcom/buttons";
+@import "yoastcom/promoblock";
+@import "icons";
+
+.yoast {
+	font-family: "Open Sans",Arial,sans-serif;
+	font-size: 1rem;
+	line-height: 1.88;
+	letter-spacing: 0.01em;
+	color: #000;
+
+	$gutter: 32px;
+
+	*,
+	*:before,
+	*:after {
+		box-sizing: border-box;;
+	}
+
+	&-hr {
+		margin: 0;
+		border: 0;
+		padding-bottom: 1.88rem;
+		border-top: 1px solid $scheme-academy-secondary;
+		position: relative;
+	}
+
+	&-list--usp {
+		li:before {
+			content: "";
+			background: url(svg-icon-check($color-green)) no-repeat;
+			background-size: contain;
+			width: 1em;
+			height: 100%;
+			background-position: left 0.4em;
+		}
+	}
+
+	&-button--purple {
+		background-color: $color-purple;
+	}
+
+	&-button-go-to {
+		&:after {
+			content: " \00BB";
+			position: static;
+			top: auto;
+			right: auto;
+			width: auto;
+			height: auto;
+			border: none;
+		}
+	}
+
+	&-button--installed {
+		background-color: $color-green;
+		cursor: default;
+		color: $color-white;
+
+		&:hover {
+			background-color: $color-green;
+			text-decoration: none;
+		}
+	}
+
+	&-promo-extensions {
+		display: flex;
+		flex-wrap: wrap;
+		margin-left: ( -1 * $gutter ) + 8px;
+
+		> h2 {
+			width: 100%;
+			margin-left: $gutter;
+			margin-bottom: $gutter;
+		}
+	}
+
+	&-promo-extension {
+		max-width: 330px;
+		background-color: transparent;
+		border-color: $scheme-academy-secondary;
+		margin-left: $gutter;
+
+		&:first-child {
+			margin-left: 0;
+		}
+
+		img {
+			width: 100%;
+			height: auto;
+			margin-bottom: 0.8rem;
+
+			@media screen and (max-width: 900px) {
+				display: none;
+			}
+		}
+
+		.yoast-button {
+			width: 100%;
+			max-height: none;
+		}
+
+		.yoast-button--installed {
+			width: auto;
+		}
+
+		h3 {
+			color: $scheme-academy-secondary;
+		}
+
+		@media screen and (max-width: 900px) {
+			max-width: none;
+			width: 100%;
+		}
+	}
+
+	&-seo {
+		&-premium-extension {
+			@include clearfix;
+			margin: 2em 0.5em 1.5em;
+		}
+
+		&-premium-benefits {
+			&__title {
+				font-weight: 600;
+			}
+
+			&__description:before {
+				content: "– "
+			}
+		}
+	}
+
+	&-link--more-info {
+		color: $color-grey-text;
+		background: url(svg-icon-info($color-grey-text));
+		padding-left: calc( 1em + 5px );
+		background-size: 1em;
+		background-repeat: no-repeat;
+		background-position: left 0.2em;
+
+		&:after {
+			content: " \00BB";
+		}
+
+		.yoast-promo-extension & {
+			display: block;
+			margin: 1em 0 0 0;
+			background-position: left 0.4em;
+		}
+	}
+
+	&-heading-highlight {
+		color: $scheme-academy-secondary;
+		font-weight: 600;
+	}
+
+	&-money-back-guarantee {
+		font-style: italic;
+		font-size: 1.1em;
+	}
+
+	&-license-status-active {
+		padding: 3px 6px;
+		color: $color_white;
+		background: $color_green_medium;
+	}
+
+	&-license-status-inactive {
+		padding: 3px 6px;
+		color: $color_white;
+		background: $color_error;
+	}
+}

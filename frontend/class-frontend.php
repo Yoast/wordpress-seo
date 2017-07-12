@@ -84,7 +84,7 @@ class WPSEO_Frontend {
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
-		add_action( 'wpseo_head', array( $this, 'debug_marker' ), 2 );
+		add_action( 'wpseo_head', array( $this, 'debug_mark' ), 2 );
 		add_action( 'wpseo_head', array( $this, 'metadesc' ), 6 );
 		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
 		add_action( 'wpseo_head', array( $this, 'metakeywords' ), 11 );
@@ -607,7 +607,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return string
 	 */
-	public function debug_marker( $echo = true ) {
+	public function debug_mark( $echo = true ) {
 		$marker = sprintf(
 			'<!-- This site is optimized with the ' . $this->head_product_name() . '%1$s - https://yoast.com/wordpress/plugins/seo/ -->',
 			/**
@@ -761,10 +761,6 @@ class WPSEO_Frontend {
 			if ( $is_paged && $noindex_subpages ) {
 				$robots['index'] = 'noindex';
 			}
-
-			if ( $this->options['noodp'] === true ) {
-				$robots['other'][] = 'noodp';
-			}
 			unset( $robot );
 		}
 
@@ -782,6 +778,7 @@ class WPSEO_Frontend {
 		}
 
 		$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );
+		$robotsstr = str_replace( array( 'noodp,', 'noodp' ), '', $robotsstr );
 
 		/**
 		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO
@@ -826,11 +823,6 @@ class WPSEO_Frontend {
 				$robots['other'][] = $robot;
 			}
 			unset( $robot );
-		}
-		elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
-			if ( $this->options['noodp'] === true ) {
-				$robots['other'][] = 'noodp';
-			}
 		}
 		unset( $meta_robots_adv );
 
@@ -1011,7 +1003,7 @@ class WPSEO_Frontend {
 	private function base_url( $path = null ) {
 		$url = get_option( 'home' );
 
-		$parts = parse_url( $url );
+		$parts = wp_parse_url( $url );
 
 		$base_url = trailingslashit( $parts['scheme'] . '://' . $parts['host'] );
 
@@ -1246,7 +1238,6 @@ class WPSEO_Frontend {
 		if ( $echo !== false ) {
 			if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
 				echo '<meta name="description" content="', esc_attr( strip_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
-				$this->add_robot_content_noodp( $this->metadesc );
 			}
 			elseif ( current_user_can( 'manage_options' ) && is_singular() ) {
 				echo '<!-- ', __( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
@@ -1805,7 +1796,7 @@ class WPSEO_Frontend {
 
 		// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
 		$content = preg_replace( '/<title.*?\/title>/i', '', $content );
-		$content = str_replace( $this->debug_marker( false ), $this->debug_marker( false ) . "\n" . '<title>' . $title . '</title>', $content );
+		$content = str_replace( $this->debug_mark( false ), $this->debug_mark( false ) . "\n" . '<title>' . $title . '</title>', $content );
 
 		$GLOBALS['wp_query'] = $old_wp_query;
 
@@ -1886,17 +1877,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Checks whether the user has written a meta-description. If written,  makes sure meta robots content is noodp.
-	 *
-	 * @param String $description The content of the meta description.
-	 */
-	private function add_robot_content_noodp( $description ) {
-		if ( ! ( empty( $description ) ) && $this->options['noodp'] === false ) {
-			$this->options['noodp'] = true;
-		}
-	}
-
-	/**
 	 * Getting the keywords
 	 *
 	 * @param WP_Post $post The post object with the values.
@@ -1936,4 +1916,20 @@ class WPSEO_Frontend {
 
 		return count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
 	}
+
+	/** Deprecated functions */
+	// @codeCoverageIgnoreStart
+	/**
+	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
+	 *
+	 * @deprecated 4.4
+	 *
+	 * @param bool $echo Whether or not to echo the debug marker.
+	 * @return string
+	 */
+	public function debug_marker( $echo = false ) {
+		return $this->debug_mark( $echo );
+	}
+
+	// @codeCoverageIgnoreEnd
 }

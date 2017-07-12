@@ -57,13 +57,29 @@ class WPSEO_Help_Center {
 	 * Add the contact support help center item to the help center.
 	 */
 	private function add_contact_support_item() {
+		/* translators: %s: expands to 'Yoast SEO Premium'. */
 		$popup_title = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
-		/* translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
-		$popup_content = sprintf( __( 'To be able to contact our support team, you need %1$s. You can buy the plugin, including one year of support, updates and upgrades, on %2$s.', 'wordpress-seo' ),
-			'<a href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=popup&utm_campaign=multiple-keywords">Yoast SEO Premium</a>',
-			'yoast.com' );
 
-		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h3', $popup_title, $popup_content );
+		$popup_content = '<p>' . __( 'Go Premium and our experts will be there for you to answer any questions you might have about the set-up and use of the plug-in!', 'wordpress-seo' ) . '</p>';
+		/* translators: %1$s: expands to 'Yoast SEO Premium'. */
+		$popup_content .= '<p>' . sprintf( __( 'Other benefits of %1$s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
+		$popup_content .= '<ul>';
+		$popup_content .= '<li>' . sprintf(
+			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( '%1$sNo more dead links%2$s: easy redirect manager', 'wordpress-seo' ), '', ''
+		) . '</li>';
+		$popup_content .= '<li>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . sprintf(
+			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( '%1$sSocial media preview%2$s: Facebook &amp; Twitter', 'wordpress-seo' ), '', ''
+		) . '</li>';
+		$popup_content .= '<li>' . __( '24/7 support', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '</ul>';
+
+		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content );
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
 			__( 'Email support', 'wordpress-seo' ),
@@ -122,7 +138,7 @@ class WPSEO_Help_Center {
 						class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ) ?></span>
 				<span class="dashicons dashicons-arrow-down toggle__arrow"></span>
 			</button>
-			<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout">
+			<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout hidden">
 				<div class="yoast-help-center-tabs">
 					<ul>
 						<?php
@@ -149,19 +165,21 @@ class WPSEO_Help_Center {
 						?>
 					</ul>
 				</div>
-				<div class="contextual-help-tabs-wrap">
+				<div class="yoast-help-center-tabs-wrap">
 					<?php
-					$classes = 'help-tab-content active';
+					$classes = 'yoast-help-tab-content active';
 					foreach ( $help_center_items as $help_center_item ) {
 						$id = $help_center_item->get_identifier();
 
+						$video_tab_class = ( 'video' === $id ) ? ' yoast-help-tab-content-video' : '';
+
 						$panel_id = "tab-panel-{$this->group_name}_{$this->tab->get_name()}__{$id}";
 						?>
-						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo $classes; ?>">
+						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo $classes . $video_tab_class; ?>">
 							<?php echo $help_center_item->get_content(); ?>
 						</div>
 						<?php
-						$classes = 'help-tab-content';
+						$classes = 'yoast-help-tab-content';
 					}
 					?>
 				</div>
@@ -192,7 +210,8 @@ class WPSEO_Help_Center {
 		return array(
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
 			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
-			'locale' => get_locale(),
+			'contentLocale' => get_locale(),
+			'userLocale'    => WPSEO_Utils::get_user_locale(),
 			/* translators: %d: number of knowledge base search results found. */
 			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
 			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),

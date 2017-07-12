@@ -16,9 +16,9 @@ $wpseo_bulk_titles_table      = new WPSEO_Bulk_Title_Editor_List_Table();
 $wpseo_bulk_description_table = new WPSEO_Bulk_Description_List_Table();
 
 get_current_screen()->set_screen_reader_content( array(
-	'heading_views'      => __( 'Filter posts list' ),
-	'heading_pagination' => __( 'Posts list navigation' ),
-	'heading_list'       => __( 'Posts list' ),
+	'heading_views'      => __( 'Filter posts list', 'wordpress-seo' ),
+	'heading_pagination' => __( 'Posts list navigation', 'wordpress-seo' ),
+	'heading_list'       => __( 'Posts list', 'wordpress-seo' ),
 ) );
 
 // If type is empty, fill it with value of first tab (title).
@@ -35,7 +35,7 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
  * @param string $id The id for the tab.
  */
 function render_help_center( $id ) {
-	$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-' . $id, 'Bulk editor',
+	$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-' . $id, __( 'Bulk editor', 'wordpress-seo' ),
 		array( 'video_url' => 'https://yoa.st/screencast-tools-bulk-editor' ) );
 
 	$helpcenter = new WPSEO_Help_Center( 'bulk-editor' . $id, $helpcenter_tab );
@@ -64,7 +64,9 @@ function get_rendered_tab( $table, $id ) {
 	var wpseo_bulk_editor_nonce = '<?php echo wp_create_nonce( 'wpseo-bulk-editor' ); ?>';
 </script>
 
-<div class="wrap wpseo_table_page">
+<br/><br/>
+
+<div class="wpseo_table_page">
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" id="title-tab" href="#top#title"><?php _e( 'Title', 'wordpress-seo' ); ?></a>

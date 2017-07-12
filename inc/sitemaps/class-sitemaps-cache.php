@@ -5,6 +5,8 @@
 
 /**
  * Handles sitemaps caching and invalidation.
+ *
+ * @since 3.2
  */
 class WPSEO_Sitemaps_Cache {
 
@@ -52,6 +54,8 @@ class WPSEO_Sitemaps_Cache {
 	/**
 	 * If cache is enabled.
 	 *
+	 * @since 3.2
+	 *
 	 * @return boolean
 	 */
 	public function is_enabled() {
@@ -67,6 +71,8 @@ class WPSEO_Sitemaps_Cache {
 
 	/**
 	 * Retrieve the sitemap page from cache.
+	 *
+	 * @since 3.2
 	 *
 	 * @param string $type Sitemap type.
 	 * @param int    $page Page number to retrieve.
@@ -116,6 +122,8 @@ class WPSEO_Sitemaps_Cache {
 	/**
 	 * Store the sitemap page from cache.
 	 *
+	 * @since 3.2
+	 *
 	 * @param string $type    Sitemap type.
 	 * @param int    $page    Page number to store.
 	 * @param string $sitemap Sitemap body to store.
@@ -145,6 +153,9 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * Always deletes the main index sitemaps cache, as that's always invalidated by any other change.
 	 *
+	 * @since 1.5.4
+	 * @since 3.2   Changed from function wpseo_invalidate_sitemap_cache() to method in this class.
+	 *
 	 * @param string $type Sitemap type to invalidate.
 	 *
 	 * @return void
@@ -157,6 +168,8 @@ class WPSEO_Sitemaps_Cache {
 	/**
 	 * Helper to invalidate in hooks where type is passed as second argument.
 	 *
+	 * @since 3.2
+	 *
 	 * @param int    $unused Unused term ID value.
 	 * @param string $type   Taxonomy to invalidate.
 	 *
@@ -164,7 +177,12 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public static function invalidate_helper( $unused, $type ) {
 
-		self::invalidate( $type );
+		$sitemap_options = WPSEO_Options::get_option( 'wpseo_xml' );
+
+		$taxonomy_not_in_sitemap = 'taxonomies-' . $type . '-not_in_sitemap';
+		if ( isset( $sitemap_options[ $taxonomy_not_in_sitemap ] ) && $sitemap_options[ $taxonomy_not_in_sitemap ] === false ) {
+			self::invalidate( $type );
+		}
 	}
 
 	/**
@@ -190,6 +208,9 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * Don't invalidate for revisions.
 	 *
+	 * @since 1.5.4
+	 * @since 3.2   Changed from function wpseo_invalidate_sitemap_cache_on_save_post() to method in this class.
+	 *
 	 * @param int $post_id Post ID to invalidate type for.
 	 *
 	 * @return void
@@ -205,6 +226,9 @@ class WPSEO_Sitemaps_Cache {
 
 	/**
 	 * Delete cache transients for given sitemaps types or all by default.
+	 *
+	 * @since 1.8.0
+	 * @since 3.2   Moved from WPSEO_Utils to this class.
 	 *
 	 * @param array $types Set of sitemap types to delete cache transients for.
 	 *
@@ -259,6 +283,8 @@ class WPSEO_Sitemaps_Cache {
 	/**
 	 * Adds a hook that when given option is updated, the cache is cleared
 	 *
+	 * @since 3.2
+	 *
 	 * @param string $option Option name.
 	 * @param string $type   Sitemap type.
 	 */
@@ -269,6 +295,8 @@ class WPSEO_Sitemaps_Cache {
 
 	/**
 	 * Clears the transient cache when a given option is updated, if that option has been registered before
+	 *
+	 * @since 3.2
 	 *
 	 * @param string $option The option name that's being updated.
 	 *

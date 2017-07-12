@@ -38,6 +38,7 @@ function wpseo_display_contributors( $contributors ) {
 		/* translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO */
 		printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>', 'Yoast SEO' );
 		echo ' ';
+		/* translators: 1: link open tag; 2: link close tag. */
 		printf( __( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/wpseocontributionguidelines">', '</a>' );
 		?>
 	</p>
@@ -148,11 +149,6 @@ function wpseo_display_contributors( $contributors ) {
 					'name'     => 'Jimmy Comack',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '41073ef9e1f3e01b03cbee75cee33bd4',
-				),
-				'rensw90'       => (object) array(
-					'name'     => 'Rens Weerman',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'b0a3b8fed2b5ac66a082f0e915d4ea6f',
 				),
 			);
 

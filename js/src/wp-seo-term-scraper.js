@@ -163,7 +163,7 @@ window.yoastHideMarkers = true;
 	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
-		snippetContainer = $( "#wpseo_snippet" );
+		snippetContainer = $( "#wpseosnippet" );
 
 		insertTinyMCE();
 
@@ -188,7 +188,7 @@ window.yoastHideMarkers = true;
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 			},
-			locale: wpseoTermScraperL10n.locale,
+			locale: wpseoTermScraperL10n.contentLocale,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			snippetPreview: snippetPreview,
@@ -243,5 +243,14 @@ window.yoastHideMarkers = true;
 		}
 
 		jQuery( window ).trigger( "YoastSEO:ready" );
+
+		/*
+		 * Checks the snippet preview size and toggles views when the WP admin menu state changes.
+		 * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
+		 * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
+		 */
+		jQuery( document ).on( "wp-collapse-menu wp-menu-state-set", function() {
+			app.snippetPreview.handleWindowResizing();
+		} );
 	} );
 }( jQuery ) );

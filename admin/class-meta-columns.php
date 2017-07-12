@@ -36,9 +36,7 @@ class WPSEO_Meta_Columns {
 	public function setup_hooks() {
 		$this->set_post_type_hooks();
 
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
-
-		if ( ! empty( $options['keyword-analysis-active'] ) ) {
+		if ( $this->analysis_seo->is_enabled() ) {
 			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 		}
 
@@ -60,10 +58,10 @@ class WPSEO_Meta_Columns {
 		$added_columns = array();
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			$added_columns['wpseo-score'] = __( 'SEO', 'wordpress-seo' );
+			$added_columns['wpseo-score'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'SEO score', 'wordpress-seo' ) . '"><span class="yoast-column-seo-score yoast-column-header-has-tooltip"><span class="screen-reader-text">' . __( 'SEO score', 'wordpress-seo' ) . '</span></span></span>';
 		}
 		if ( $this->analysis_readability->is_enabled() ) {
-			$added_columns['wpseo-score-readability'] = __( 'Readability', 'wordpress-seo' );
+			$added_columns['wpseo-score-readability'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'Readability score', 'wordpress-seo' ) . '"><span class="yoast-column-readability yoast-column-header-has-tooltip"><span class="screen-reader-text">' . __( 'Readability score', 'wordpress-seo' ) . '</span></span></span>';
 		}
 		$added_columns['wpseo-title']    = __( 'SEO Title', 'wordpress-seo' );
 		$added_columns['wpseo-metadesc'] = __( 'Meta Desc.', 'wordpress-seo' );
@@ -475,6 +473,7 @@ class WPSEO_Meta_Columns {
 	 * meta key clauses and not a combination - which is what we need.
 	 *
 	 * @deprecated 3.5 Unnecessary with nested meta queries in core.
+	 * @codeCoverageIgnore
 	 *
 	 * @param    string $where Where clause.
 	 *
@@ -482,7 +481,7 @@ class WPSEO_Meta_Columns {
 	 */
 	public function seo_score_posts_where( $where ) {
 
-		_deprecated_function( 'WPSEO_Metabox_Columns::seo_score_posts_where', '3.5' );
+		_deprecated_function( __METHOD__, '3.5' );
 
 		global $wpdb;
 

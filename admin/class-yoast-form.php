@@ -5,26 +5,33 @@
 
 /**
  * Admin form class.
+ *
+ * @since 2.0
  */
 class Yoast_Form {
 
 	/**
 	 * @var object    Instance of this class
+	 * @since 2.0
 	 */
 	public static $instance;
 
 	/**
 	 * @var string
+	 * @since 2.0
 	 */
 	public $option_name;
 
 	/**
 	 * @var array
+	 * @since 2.0
 	 */
 	public $options;
 
 	/**
 	 * Get the singleton instance of this class
+	 *
+	 * @since 2.0
 	 *
 	 * @return Yoast_Form
 	 */
@@ -39,6 +46,8 @@ class Yoast_Form {
 	/**
 	 * Generates the header for admin pages
 	 *
+	 * @since 2.0
+	 *
 	 * @param bool   $form             Whether or not the form start tag should be included.
 	 * @param string $option           The short name of the option to use for the current page.
 	 * @param bool   $contains_files   Whether the form should allow for file uploads.
@@ -49,7 +58,7 @@ class Yoast_Form {
 			$option_long_name = WPSEO_Options::get_group_name( $option );
 		}
 		?>
-		<div class="wrap wpseo-admin-page page-<?php echo $option; ?>">
+		<div class="wrap yoast wpseo-admin-page page-<?php echo $option; ?>">
 		<?php
 		/**
 		 * Display the updated/error messages
@@ -74,6 +83,8 @@ class Yoast_Form {
 	/**
 	 * Set the option used in output for form elements
 	 *
+	 * @since 2.0
+	 *
 	 * @param string $option_name Option key.
 	 */
 	public function set_option( $option_name ) {
@@ -85,6 +96,7 @@ class Yoast_Form {
 	 * Retrieve options based on whether we're on multisite or not.
 	 *
 	 * @since 1.2.4
+	 * @since 2.0   Moved to this class.
 	 *
 	 * @return array
 	 */
@@ -99,12 +111,14 @@ class Yoast_Form {
 	/**
 	 * Generates the footer for admin pages
 	 *
+	 * @since 2.0
+	 *
 	 * @param bool $submit       Whether or not a submit button and form end tag should be shown.
 	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it.
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		if ( $submit ) {
-			submit_button();
+			submit_button( __( 'Save changes', 'wordpress-seo' ) );
 
 			echo '
 			</form>';
@@ -154,6 +168,8 @@ class Yoast_Form {
 
 	/**
 	 * Generates the sidebar for admin pages.
+	 *
+	 * @since 2.0
 	 */
 	public function admin_sidebar() {
 
@@ -165,112 +181,22 @@ class Yoast_Form {
 			}
 		}
 
-		$service_banners = array(
-			array(
-				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
-				'img' => 'banner-website-review.png',
-				'alt' => __( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
-			),
-			array(
-				'url' => 'https://yoast.com/hire-us/yoast-seo-configuration/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=configuration-service-banner',
-				'img' => 'banner-configuration-service.png',
-				'alt' => __( 'Let our experts set up your Yoast SEO Premium plugin!', 'wordpress-seo' ),
-			),
-			array(
-				'url' => 'https://yoast.com/academy/course/seo-copywriting-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=seo-copywriting-training-banner',
-				'img' => 'banner-seo-copywriting-training.png',
-				'alt' => __( 'Take the online SEO Copywriting Training course and learn how to write awesome copy that ranks!', 'wordpress-seo' ),
-			),
-			array(
-				'url' => 'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
-				'img' => 'banner-basic-seo-training.png',
-				'alt' => __( 'Take the online Basic SEO Training course and learn the fundamentals of SEO!', 'wordpress-seo' ),
-			),
-			array(
-				'url' => 'https://yoast.com/academy/course/yoast-seo-wordpress-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=yoast-seo-plugin-training-banner',
-				'img' => 'banner-yoast-seo-for-wordpress-training.png',
-				'alt' => __( 'Take the Yoast SEO for WordPress Training course and become a certified Yoast SEO for WordPress expert!', 'wordpress-seo' ),
-			),
-		);
+		$sidebar_renderer = new WPSEO_Admin_Banner_Sidebar_Renderer( new WPSEO_Admin_Banner_Spot_Renderer() );
 
-		$plugin_banners = array(
-			array(
-				'url' => 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
-				'img' => 'banner-premium-seo.png',
-				'alt' => __( 'Buy the Yoast SEO Premium plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' ),
-			),
-		);
+		$banner_renderer = new WPSEO_Admin_Banner_Renderer;
+		$banner_renderer->set_base_path( plugins_url( 'images/banner/', WPSEO_FILE ) );
 
-		if ( ! class_exists( 'wpseo_Video_Sitemap' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
-				'img' => 'banner-video-seo.png',
-				'alt' => __( 'Buy the Yoast Video SEO plugin now and optimize your videos for video search results and social media!', 'wordpress-seo' ),
-			);
-		}
+		$sidebar = new WPSEO_Admin_Banner_Sidebar( sprintf( '%1s recommendations for you', 'Yoast' ), $banner_renderer );
+		$sidebar->initialize( new WPSEO_Features() );
 
-		if ( class_exists( 'Woocommerce' ) && ! class_exists( 'Yoast_WooCommerce_SEO' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
-				'img' => 'banner-woocommerce-seo.png',
-				'alt' => __( 'Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to improve your product promotion!', 'wordpress-seo' ),
-			);
-		}
+		echo $sidebar_renderer->render( $sidebar );
 
-		if ( ! defined( 'WPSEO_LOCAL_VERSION' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
-				'img' => 'banner-local-seo.png',
-				'alt' => __( 'Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO and ranking in Google Maps!', 'wordpress-seo' ),
-			);
-		}
-
-		if ( ! class_exists( 'WPSEO_News' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner',
-				'img' => 'banner-news-seo.png',
-				'alt' => __( 'Buy the Yoast News SEO plugin now and start optimizing to get your site featured in Google News!', 'wordpress-seo' ),
-			);
-		}
-
-		shuffle( $service_banners );
-		shuffle( $plugin_banners );
-		?>
-		<div class="wpseo_content_cell" id="sidebar-container">
-			<div id="sidebar">
-		<?php
-
-		$i = 0;
-		foreach ( $service_banners as $service_banner ) {
-			if ( $i == 2 ) {
-				break;
-			}
-			echo '<a target="_blank" href="' . esc_url( $service_banner['url'] ) . '"><img width="261" height="190" src="' . plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $service_banner['alt'] ) . '"/></a><br/><br/>';
-			$i ++;
-		}
-
-		$i = 0;
-		foreach ( $plugin_banners as $banner ) {
-			if ( $i == 2 ) {
-				break;
-			}
-			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="152" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
-			$i ++;
-		}
-		?>
-				<p class="wpseo-remove-ads">
-				<strong><?php _e( 'Remove these ads?', 'wordpress-seo' ); ?></strong><br/>
-				<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&amp;utm_medium=textlink&amp;utm_campaign=remove-ads-link"><?php
-				 /* translators: %1$s expands to Yoast SEO Premium */
-				printf( __( 'Upgrade to %1$s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
-			</p>
-			</div>
-		</div>
-	<?php
 	}
 
 	/**
 	 * Output a label element
+	 *
+	 * @since 2.0
 	 *
 	 * @param string $text Label text string.
 	 * @param array  $attr HTML attributes set.
@@ -291,6 +217,8 @@ class Yoast_Form {
 	/**
 	 * Output a legend element.
 	 *
+	 * @since 3.4
+	 *
 	 * @param string $text Legend text string.
 	 * @param array  $attr HTML attributes set.
 	 */
@@ -306,6 +234,8 @@ class Yoast_Form {
 
 	/**
 	 * Create a Checkbox input field.
+	 *
+	 * @since 2.0
 	 *
 	 * @param string $var        The variable within the option to create the checkbox for.
 	 * @param string $label      The label to show for the variable.
@@ -342,6 +272,8 @@ class Yoast_Form {
 
 	/**
 	 * Create a light switch input field.
+	 *
+	 * @since 3.1
 	 *
 	 * @param string  $var        The variable within the option to create the checkbox for.
 	 * @param string  $label      The label to show for the variable.
@@ -386,6 +318,9 @@ class Yoast_Form {
 	/**
 	 * Create a Text input field.
 	 *
+	 * @since 2.0
+	 * @since 2.1 Introduced the `$attr` parameter.
+	 *
 	 * @param string       $var   The variable within the option to create the text input field for.
 	 * @param string       $label The label to show for the variable.
 	 * @param array|string $attr  Extra class to add to the input field.
@@ -402,12 +337,14 @@ class Yoast_Form {
 		) );
 		$val  = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
-		$this->label( $label . ':', array( 'for' => $var ) );
+		$this->label( $label . ':', array( 'for' => $var, 'class' => 'textinput' ) );
 		echo '<input class="textinput ' . esc_attr( $attr['class'] ) . ' " placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"/>', '<br class="clear" />';
 	}
 
 	/**
 	 * Create a textarea.
+	 *
+	 * @since 2.0
 	 *
 	 * @param string $var   The variable within the option to create the textarea for.
 	 * @param string $label The label to show for the variable.
@@ -427,11 +364,13 @@ class Yoast_Form {
 		$val  = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
 		$this->label( $label . ':', array( 'for' => $var, 'class' => 'textinput' ) );
-		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea>' . '<br class="clear" />';
+		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea><br class="clear" />';
 	}
 
 	/**
 	 * Create a hidden input field.
+	 *
+	 * @since 2.0
 	 *
 	 * @param string $var The variable within the option to create the hidden input for.
 	 * @param string $id  The ID of the element.
@@ -451,6 +390,8 @@ class Yoast_Form {
 
 	/**
 	 * Create a Select Box.
+	 *
+	 * @since 2.0
 	 *
 	 * @param string $field_name     The variable within the option to create the select for.
 	 * @param string $label          The label to show for the variable.
@@ -477,6 +418,8 @@ class Yoast_Form {
 	/**
 	 * Create a File upload field.
 	 *
+	 * @since 2.0
+	 *
 	 * @param string $var   The variable within the option to create the file upload field for.
 	 * @param string $label The label to show for the variable.
 	 */
@@ -502,6 +445,8 @@ class Yoast_Form {
 	/**
 	 * Media input
 	 *
+	 * @since 2.0
+	 *
 	 * @param string $var   Option name.
 	 * @param string $label Label message.
 	 */
@@ -521,6 +466,8 @@ class Yoast_Form {
 
 	/**
 	 * Create a Radio input field.
+	 *
+	 * @since 2.0
 	 *
 	 * @param string $var         The variable within the option to create the radio button for.
 	 * @param array  $values      The radio options to choose from.
@@ -560,6 +507,8 @@ class Yoast_Form {
 
 	/**
 	 * Create a toggle switch input field.
+	 *
+	 * @since 3.1
 	 *
 	 * @param string $var    The variable within the option to create the file upload field for.
 	 * @param array  $values The radio options to choose from.

@@ -58,15 +58,18 @@ class WPSEO_Statistics {
 		return $posts->found_posts;
 	}
 
+	/********************** DEPRECATED METHODS **********************/
+
+	// @codeCoverageIgnoreStart
 	/**
 	 * Returns the amount of posts that have no focus keyword
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */
 	public function get_no_focus_post_count() {
-		_deprecated_function( 'get_no_focus_post_count', 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
 
 		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::NO_FOCUS ) );
 	}
@@ -74,12 +77,12 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the amount of posts that have a bad SEO ranking
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */
 	public function get_bad_seo_post_count() {
-		_deprecated_function( 'get_bad_seo_post_count', 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
 
 		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::BAD ) );
 	}
@@ -87,12 +90,12 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the amount of posts that have a poor SEO ranking
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */
 	public function get_poor_seo_post_count() {
-		_deprecated_function( 'get_poor_seo_post_count', 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
 
 		return $this->get_post_count( new WPSEO_Rank( 'poor' ) );
 	}
@@ -100,12 +103,12 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the amount of posts that have an ok SEO ranking
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */
 	public function get_ok_seo_post_count() {
-		_deprecated_function( 'get_ok_seo_post_count', 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
 
 		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::OK ) );
 	}
@@ -113,12 +116,12 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the amount of posts that have a good SEO ranking
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */
 	public function get_good_seo_post_count() {
-		_deprecated_function( 'get_good_seo_post_count', 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
 
 		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::GOOD ) );
 	}
@@ -126,13 +129,14 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the amount of posts that have no SEO ranking
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */
 	public function get_no_index_post_count() {
-		_deprecated_function( 'get_no_index_post_count', 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
 
 		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::NO_INDEX ) );
 	}
+	// @codeCoverageIgnoreEnd
 }

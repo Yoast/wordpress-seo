@@ -23,7 +23,7 @@ class WPSEO_OpenGraph {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
 		}
 		else {
-			add_filter( 'language_attributes', array( $this, 'add_opengraph_namespace' ) );
+			add_filter( 'language_attributes', array( $this, 'add_opengraph_namespace' ), 15 );
 
 			add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
 			add_action( 'wpseo_opengraph', array( $this, 'type' ), 5 );
@@ -114,7 +114,36 @@ class WPSEO_OpenGraph {
 	 * @return string
 	 */
 	public function add_opengraph_namespace( $input ) {
-		return $input . ' prefix="og: http://ogp.me/ns#' . ( ( $this->options['fbadminapp'] != 0 || ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
+		$namespaces = array(
+			'og: http://ogp.me/ns#',
+		);
+		if ( $this->options['fbadminapp'] != 0 || ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) ) {
+			$namespaces[] = 'fb: http://ogp.me/ns/fb#';
+		}
+
+		/**
+		 * Allow for adding additional namespaces to the <html> prefix attributes.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param array $namespaces Currently registered namespaces which are to be
+		 *                          added to the prefix attribute.
+		 *                          Namespaces are strings and have the following syntax:
+		 *                          ns: http://url.to.namespace/definition
+		 */
+		$namespaces       = apply_filters( 'wpseo_html_namespaces', $namespaces );
+		$namespace_string = implode( ' ', array_unique( $namespaces ) );
+
+		if ( strpos( $input, ' prefix=' ) !== false ) {
+			$regex   = '`prefix=([\'"])(.+?)\1`';
+			$replace = 'prefix="$2 ' . $namespace_string . '"';
+			$input   = preg_replace( $regex, $replace, $input );
+		}
+		else {
+			$input .= ' prefix="' . $namespace_string . '"';
+		}
+
+		return $input;
 	}
 
 	/**
@@ -548,6 +577,10 @@ class WPSEO_OpenGraph {
 
 		foreach ( $opengraph_images->get_images() as $img ) {
 			$this->og_tag( 'og:image', esc_url( $img ) );
+
+			if ( 0 === strpos( $img, 'https://' ) ) {
+				$this->og_tag( 'og:image:secure_url', esc_url( $img ) );
+			}
 		}
 
 		$dimensions = $opengraph_images->get_dimensions();
@@ -800,9 +833,51 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
+	 * Display an OpenGraph image tag
+	 *
+	 * @param string $img - Source URL to the image.
+	 *
+	 * @return bool
+	 */
+	public function add_image( $img ) {
+
+		$original = trim( $img );
+
+		// Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image.
+		$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
+
+		if ( $original !== $img ) {
+			$this->dimensions = array();
+		}
+
+		if ( empty( $img ) ) {
+			return false;
+		}
+
+		if ( WPSEO_Utils::is_url_relative( $img ) === true ) {
+			$img = $this->get_relative_path( $img );
+		}
+
+		if ( in_array( $img, $this->images ) ) {
+			return false;
+		}
+		array_push( $this->images, $img );
+
+		return true;
+	}
+
+	/**
 	 * Check if page is front page or singular and call the corresponding functions. If not, call get_default_image.
 	 */
 	private function set_images() {
+
+		/**
+		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags
+		 *
+		 * @api WPSEO_OpenGraph_Image The current object.
+		 */
+		do_action( 'wpseo_add_opengraph_images', $this );
+
 		if ( is_front_page() ) {
 			$this->get_front_page_image();
 		}
@@ -994,40 +1069,6 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Display an OpenGraph image tag
-	 *
-	 * @param string $img - Source URL to the image.
-	 *
-	 * @return bool
-	 */
-	private function add_image( $img ) {
-
-		$original = trim( $img );
-
-		// Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image.
-		$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
-
-		if ( $original !== $img ) {
-			$this->dimensions = array();
-		}
-
-		if ( empty( $img ) ) {
-			return false;
-		}
-
-		if ( WPSEO_Utils::is_url_relative( $img ) === true ) {
-			$img = $this->get_relative_path( $img );
-		}
-
-		if ( in_array( $img, $this->images ) ) {
-			return false;
-		}
-		array_push( $this->images, $img );
-
-		return true;
-	}
-
-	/**
 	 * Get the relative path of the image
 	 *
 	 * @param array $img Image data array.
@@ -1041,7 +1082,7 @@ class WPSEO_OpenGraph_Image {
 
 		// If it's a relative URL, it's relative to the domain, not necessarily to the WordPress install, we
 		// want to preserve domain name and URL scheme (http / https) though.
-		$parsed_url = parse_url( home_url() );
+		$parsed_url = wp_parse_url( home_url() );
 		$img        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $img;
 
 		return $img;

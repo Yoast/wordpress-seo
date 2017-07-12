@@ -51,7 +51,8 @@ class WPSEO_Metabox_Formatter {
 			'keywordTab'        => __( 'Keyword:', 'wordpress-seo' ),
 			'enterFocusKeyword' => __( 'Enter your focus keyword', 'wordpress-seo' ),
 			'removeKeyword'     => __( 'Remove keyword', 'wordpress-seo' ),
-			'locale'            => get_locale(),
+			'contentLocale'     => get_locale(),
+			'userLocale'        => WPSEO_Utils::get_user_locale(),
 			'translations'      => $this->get_translations(),
 			'keyword_usage'     => array(),
 			'title_template'    => '',
@@ -77,6 +78,7 @@ class WPSEO_Metabox_Formatter {
 					'good' => __( 'Good', 'wordpress-seo' ),
 				),
 			),
+			'markdownEnabled' => $this->is_markdown_enabled(),
 		);
 
 	}
@@ -87,11 +89,29 @@ class WPSEO_Metabox_Formatter {
 	 * @return array
 	 */
 	private function get_translations() {
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		$locale = WPSEO_Utils::get_user_locale();
+
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
 			return json_decode( $file, true );
 		}
 
 		return array();
+	}
+
+	/**
+	 * Checks if Jetpack's markdown module is enabled.
+	 * Can be extended to work with other plugins that parse markdown in the content.
+	 *
+	 * @return boolean
+	 */
+	private function is_markdown_enabled() {
+		if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'get_active_modules' ) ) {
+			$active_modules = Jetpack::get_active_modules();
+
+			return in_array( 'markdown', $active_modules );
+		}
+
+		return false;
 	}
 }
