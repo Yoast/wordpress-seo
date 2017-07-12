@@ -37,7 +37,7 @@ class WPSEO_Extension_Manager {
 	 *
 	 * @param string $extension_name The name of the extension to get.
 	 *
-	 * @return null|WPSEO_Extension
+	 * @return null|WPSEO_Extension The extension object or null when it doesn't exist.
 	 */
 	public function get( $extension_name ) {
 		if ( array_key_exists( $extension_name, $this->extensions ) ) {
@@ -50,7 +50,7 @@ class WPSEO_Extension_Manager {
 	/**
 	 * Returns all set extension.
 	 *
-	 * @return WPSEO_Extension[]
+	 * @return WPSEO_Extension[] Array with the extensions.
 	 */
 	public function get_all() {
 		return $this->extensions;
@@ -61,7 +61,7 @@ class WPSEO_Extension_Manager {
 
 	 * @param string $extension_name The extension name to check.
 	 *
-	 * @return bool
+	 * @return bool True when the plugin is activated.
 	 */
 	public function is_activated( $extension_name ) {
 		static $active_extensions;

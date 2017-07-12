@@ -91,7 +91,7 @@
 
 			&-not-activated {
 				&, &:hover {
-					background-color: #ca2a2a;
+					background-color: $color-error;
 				}
 			}
 
@@ -197,7 +197,7 @@
 
 	&-link--license,
 	&-link--more-info {
-		font-family: "Open Sans", Arial, sans-serif;
+		font-family: $font-stack-default;
 		color: $color-pink-dark;
 		font-weight: 600;
 	}

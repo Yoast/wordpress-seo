@@ -17,7 +17,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	public function register_hooks() {
 		add_filter( 'http_response', array( $this, 'handle_response' ), 10, 3 );
 
-		if ( $this->get_version() === 2 ) {
+		if ( $this->get_version() === self::VERSION_BACKWARDS_COMPATIBILITY ) {
 			add_filter( 'yoast-license-valid', '__return_true' );
 			add_filter( 'yoast-show-license-notice', '__return_false' );
 		}
@@ -99,7 +99,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 *
 	 * @param array $response The response to parse.
 	 *
-	 * @return mixed|string The parsed response.
+	 * @return mixed|string|false The parsed response.
 	 */
 	protected function parse_response( $response ) {
 		$response = wp_remote_retrieve_body( $response );

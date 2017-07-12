@@ -67,7 +67,7 @@ class WPSEO_Admin_Init {
 	public function validate_extensions() {
 
 		if ( filter_input( INPUT_GET, 'page' ) === WPSEO_Admin::PAGE_IDENTIFIER ) {
-			$active_extensions = apply_filters( 'yoast-active-extensions', array() );
+			apply_filters( 'yoast-active-extensions', array() );
 		}
 
 		$extension_list = new WPSEO_Extensions();
@@ -83,10 +83,11 @@ class WPSEO_Admin_Init {
 			);
 
 			$notification = new Yoast_Notification(
+				/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
 				sprintf(
-					__( 'Warning! You have not yet activated %1$s in My Yoast. If you want to do so now, please visit %2$sMy Yoast%3$s. Otherwise, you will not receive updates or support.', 'wordpress-seo' ),
+					__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
 					$product_name,
-				'<a href="https://yoa.st/13j" target="_blank">',
+				'<a href="https://yoa.st/13j" target="_blank">My Yoast</a>',
 					'</a>'
 				),
 				$notification_options

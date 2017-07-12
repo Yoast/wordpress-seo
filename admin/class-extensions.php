@@ -8,19 +8,19 @@
  */
 class WPSEO_Extensions {
 
-	/** @var array */
+	/** @var array Array with the Yoast extensions */
 	protected $extensions = array(
-		'Yoast SEO Premium'     => array( 'classname' => 'WPSEO_Premium' ),
-		'News SEO'              => array( 'classname' => 'WPSEO_News' ),
-		'Yoast WooCommerce SEO' => array( 'classname' => 'Yoast_WooCommerce_SEO' ),
-		'Video SEO'             => array( 'classname' => 'WPSEO_Video_Sitemap' ),
-		'Local SEO'             => array( 'classname' => 'WPSEO_Local_Core' ),
+		'Yoast SEO Premium'     => array( 'slug' => 'yoast-seo-premium', 'classname' => 'WPSEO_Premium' ),
+		'News SEO'              => array( 'slug' => 'news-seo', 'classname' => 'WPSEO_News' ),
+		'Yoast WooCommerce SEO' => array( 'slug' => 'woocommerce-yoast-seo', 'classname' => 'Yoast_WooCommerce_SEO' ),
+		'Video SEO'             => array( 'slug' => 'video-seo-for-wordpress', 'classname' => 'WPSEO_Video_Sitemap' ),
+		'Local SEO'             => array( 'slug' => 'local-seo-for-wordpress', 'classname' => 'WPSEO_Local_Core' ),
 	);
 
 	/**
 	 * Returns the set extensions.
 	 *
-	 * @return array
+	 * @return array All the extension names.
 	 */
 	public function get() {
 		return array_keys( $this->extensions );
@@ -31,12 +31,12 @@ class WPSEO_Extensions {
 	 *
 	 * @param string $extension The extension to get the name for.
 	 *
-	 * @return bool
+	 * @return bool Returns true when valid.
 	 */
 	public function is_valid( $extension ) {
 		$extension_option = $this->get_option( $extension );
 
-		return ( empty( $extension_option ) && $extension_option['status'] === 'valid' );
+		return ( is_array( $extension_option ) && isset( $extension_option['status'] ) && $extension_option['status'] === 'valid' );
 	}
 
 	/**
@@ -45,7 +45,7 @@ class WPSEO_Extensions {
 	 * @param string $extension The extension to invalidate.
 	 */
 	public function invalidate( $extension ) {
-		delete_option( $this->get_option( $extension ) );
+		delete_option( $this->get_option_name( $extension ) );
 	}
 
 	/**
@@ -53,21 +53,21 @@ class WPSEO_Extensions {
 	 *
 	 * @param string $extension The name of the plugin to check.
 	 *
-	 * @return bool
+	 * @return bool Returns true when installed.
 	 */
 	public function is_installed( $extension ) {
 		return class_exists( $this->extensions[ $extension ]['classname'] );
 	}
 
 	/**
-	 * Convert the extension to an option name.
+	 * Convert the extension to an option.
 	 *
 	 * @param string $extension The extension to get the name for.
 	 *
-	 * @return string
+	 * @return mixed Returns the option.
 	 */
 	protected function get_option( $extension ) {
-		return get_option( $extension );
+		return get_option( $this->get_option_name( $extension ) );
 	}
 
 	/**
@@ -75,9 +75,9 @@ class WPSEO_Extensions {
 	 *
 	 * @param string $extension The extension name to convert.
 	 *
-	 * @return string
+	 * @return string Returns the option name.
 	 */
 	protected function get_option_name( $extension ) {
-		return sanitize_title_with_dashes( $extension. '_', null, 'save' ) . 'license';
+		return sanitize_title_with_dashes( $this->extensions[ $extension ]['slug']. '_', null, 'save' ) . 'license';
 	}
 }

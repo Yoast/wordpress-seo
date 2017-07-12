@@ -23,7 +23,7 @@ class WPSEO_Extension {
 	/**
 	 * Returns the product title.
 	 *
-	 * @return string
+	 * @return string The set title.
 	 */
 	public function get_title() {
 		return $this->config['title'];
@@ -32,7 +32,7 @@ class WPSEO_Extension {
 	/**
 	 * Returns URL to the page where the product can be bought.
 	 *
-	 * @return string
+	 * @return string The buy url.
 	 */
 	public function get_buy_url() {
 		return $this->config['buyUrl'];
@@ -41,7 +41,7 @@ class WPSEO_Extension {
 	/**
 	 * Returns URL to the page with more info.
 	 *
-	 * @return string
+	 * @return string The url to the info page.
 	 */
 	public function get_info_url() {
 		return $this->config['infoUrl'];
@@ -50,7 +50,7 @@ class WPSEO_Extension {
 	/**
 	 * Returns the image.
 	 *
-	 * @return string
+	 * @return string The image.
 	 */
 	public function get_image() {
 		return $this->config['image'];
@@ -59,7 +59,7 @@ class WPSEO_Extension {
 	/**
 	 * Returns the buy button value if set, otherwise fallback to the title.
 	 *
-	 * @return string
+	 * @return string The buy button.
 	 */
 	public function get_buy_button() {
 		if ( isset( $this->config['buy_button'] ) ) {
@@ -73,7 +73,7 @@ class WPSEO_Extension {
 	/**
 	 * Returns the benefits.
 	 *
-	 * @return array
+	 * @return array The array with benefits.
 	 */
 	public function get_benefits() {
 		return $this->config['benefits'];
