@@ -26,7 +26,7 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 			$table_prefix = $GLOBALS['wpdb']->get_blog_prefix();
 		}
 
-		$this->table_prefix = $table_prefix;
+		$this->table_prefix   = $table_prefix;
 		$this->database_proxy = new WPSEO_Database_Proxy( $GLOBALS['wpdb'], $this->get_table_name(), true );
 	}
 
@@ -77,29 +77,28 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 	}
 
 	/**
-	 * Updates the incoming link counts
+	 * Updates the incoming link count
 	 *
-	 * @param WPSEO_Link_Storage $storage The link storage object.
+	 * @param array              $post_ids The posts to update the incoming link count for.
+	 * @param WPSEO_Link_Storage $storage  The link storage object.
 	 */
-	public function update_incoming_link_counts( WPSEO_Link_Storage $storage ) {
+	public function update_incoming_link_count( array $post_ids, WPSEO_Link_Storage $storage ) {
 		global $wpdb;
 
-		$updated = $wpdb->query(
-			$wpdb->prepare('
-				UPDATE %1$s count_table 
-				   SET count_table.incoming_link_count = ( 
-				       SELECT COUNT(id) 
-				         FROM %2$s links_table 
-				        WHERE links_table.target_post_id = count_table.object_id 
-				       ) 
-				',
-				$this->get_table_name(),
-				$storage->get_table_name()
-			)
+		$query = $wpdb->prepare( '
+			SELECT COUNT( id ) AS incoming, target_post_id AS post_id
+			  FROM %2$s
+			 WHERE target_post_id IN( %3$s )
+		  GROUP BY target_post_id',
+			$this->get_table_name(),
+			$storage->get_table_name(),
+			implode( ', ', $post_ids )
 		);
 
-		if ( $updated === false ) {
-			WPSEO_Meta_Table_Accessible::set_inaccessible();
+		$results = $wpdb->get_results( $query );
+
+		foreach ( $results as $result ) {
+			$this->save_meta_data( $result->post_id, array( 'incoming_link_count' => $result->incoming ) );
 		}
 	}
 }
