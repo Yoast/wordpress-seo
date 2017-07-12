@@ -59,7 +59,8 @@ class WPSEO_Link_Reindex_Dashboard {
 		if ( $this->unprocessed === 0 ) {
 			$html .= '<p>' . $this->message_already_indexed() . '</p>';
 		}
-		else {
+
+		if ( $this->unprocessed > 0 ) {
 			$html .= '<p id="reindexLinks">';
 			$html .= sprintf(
 				'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%2$s</a>',
