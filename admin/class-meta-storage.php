@@ -48,7 +48,7 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 		return $this->database_proxy->create_table(
 			array(
 				'object_id bigint(20) UNSIGNED NOT NULL',
-				'internal_link_count int(10) UNSIGNED NOT NULL DEFAULT "0"',
+				'internal_link_count int(10) UNSIGNED NULL DEFAULT NULL',
 				'incoming_link_count int(10) UNSIGNED NULL DEFAULT NULL',
 			),
 			array(
