@@ -26,7 +26,7 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 			$table_prefix = $GLOBALS['wpdb']->get_blog_prefix();
 		}
 
-		$this->table_prefix = $table_prefix;
+		$this->table_prefix   = $table_prefix;
 		$this->database_proxy = new WPSEO_Database_Proxy( $GLOBALS['wpdb'], $this->get_table_name(), true );
 	}
 
@@ -63,9 +63,9 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 	/**
 	 * Returns an array of links from the database.
 	 *
-	 * @param int $post_id The id to get the links for.
+	 * @param int $post_id The post to get the links for.
 	 *
-	 * @return array|null|object The resultset.
+	 * @return WPSEO_Link[] The links connected to the post.
 	 */
 	public function get_links( $post_id ) {
 		global $wpdb;
@@ -83,7 +83,12 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 			WPSEO_Link_Table_Accessible::set_inaccessible();
 		}
 
-		return $results;
+		$links = array();
+		foreach ( $results as $link ) {
+			$links[] = WPSEO_Link_Factory::get_link( $link->url, $link->target_post_id, $link->type );
+		}
+
+		return $links;
 	}
 
 	/**
@@ -130,10 +135,10 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 	protected function save_link( WPSEO_Link $link, $link_key, $post_id ) {
 		$inserted = $this->database_proxy->insert(
 			array(
-				'url' => $link->get_url(),
-				'post_id' => $post_id,
+				'url'            => $link->get_url(),
+				'post_id'        => $post_id,
 				'target_post_id' => $link->get_target_post_id(),
-				'type' => $link->get_type(),
+				'type'           => $link->get_type(),
 			),
 			array( '%s', '%d', '%d', '%s' )
 		);
