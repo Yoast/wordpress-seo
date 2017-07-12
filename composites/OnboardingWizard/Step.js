@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import Components from "./components/StepComponents";
 
 /**
@@ -264,13 +266,13 @@ class Step extends React.Component {
 
 
 Step.propTypes = {
-	title: React.PropTypes.string.isRequired,
-	nextStep: React.PropTypes.func.isRequired,
-	previousStep: React.PropTypes.func.isRequired,
-	fields: React.PropTypes.object,
-	currentStep: React.PropTypes.string,
-	classPrefix: React.PropTypes.string,
-	customComponents: React.PropTypes.object,
+	title: PropTypes.string.isRequired,
+	nextStep: PropTypes.func.isRequired,
+	previousStep: PropTypes.func.isRequired,
+	fields: PropTypes.object,
+	currentStep: PropTypes.string,
+	classPrefix: PropTypes.string,
+	customComponents: PropTypes.object,
 };
 
 Step.defaultProps = {

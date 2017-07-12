@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Represents the label HTML tag.
@@ -19,13 +20,13 @@ const Label = ( props ) => {
  * @type {{for: string, optionalAttributes.onClick: function, optionalAttributes.className: string, children: * }}
  */
 Label.propTypes = {
-	"for": React.PropTypes.string.isRequired,
-	optionalAttributes: React.PropTypes.shape( {
-		"aria-label": React.PropTypes.string,
-		onClick: React.PropTypes.func,
-		className: React.PropTypes.string,
+	"for": PropTypes.string.isRequired,
+	optionalAttributes: PropTypes.shape( {
+		"aria-label": PropTypes.string,
+		onClick: PropTypes.func,
+		className: PropTypes.string,
 	} ),
-	children: React.PropTypes.any.isRequired,
+	children: PropTypes.any.isRequired,
 };
 
 /**

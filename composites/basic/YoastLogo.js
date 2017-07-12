@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const YoastLogo = ( props ) => {
 	/* eslint-disable max-len */
@@ -60,8 +61,8 @@ const YoastLogo = ( props ) => {
 };
 
 YoastLogo.propTypes = {
-	width: React.PropTypes.number,
-	height: React.PropTypes.number,
+	width: PropTypes.number,
+	height: PropTypes.number,
 };
 
 YoastLogo.defaultProps = {

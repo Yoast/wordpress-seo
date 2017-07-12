@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import initAlgoliaSearch from "algoliasearch";
 import isUndefined from "lodash/isUndefined";
 import a11ySpeak from "a11y-speak";
@@ -344,21 +345,21 @@ class AlgoliaSearcher extends React.Component {
 }
 
 AlgoliaSearcher.propTypes = {
-	foundResultsText: React.PropTypes.string,
-	noResultsText: React.PropTypes.string,
-	headingText: React.PropTypes.string,
-	searchButtonText: React.PropTypes.string,
-	searchResultsHeading: React.PropTypes.string,
-	iframeTitle: React.PropTypes.string,
-	algoliaApplicationId: React.PropTypes.string.isRequired,
-	algoliaApiKey: React.PropTypes.string.isRequired,
-	algoliaIndexName: React.PropTypes.string.isRequired,
-	errorMessage: React.PropTypes.string.isRequired,
-	loadingPlaceholder: React.PropTypes.string.isRequired,
-	open: React.PropTypes.string.isRequired,
-	openLabel: React.PropTypes.string.isRequired,
-	back: React.PropTypes.string.isRequired,
-	backLabel: React.PropTypes.string.isRequired,
+	foundResultsText: PropTypes.string,
+	noResultsText: PropTypes.string,
+	headingText: PropTypes.string,
+	searchButtonText: PropTypes.string,
+	searchResultsHeading: PropTypes.string,
+	iframeTitle: PropTypes.string,
+	algoliaApplicationId: PropTypes.string.isRequired,
+	algoliaApiKey: PropTypes.string.isRequired,
+	algoliaIndexName: PropTypes.string.isRequired,
+	errorMessage: PropTypes.string.isRequired,
+	loadingPlaceholder: PropTypes.string.isRequired,
+	open: PropTypes.string.isRequired,
+	openLabel: PropTypes.string.isRequired,
+	back: PropTypes.string.isRequired,
+	backLabel: PropTypes.string.isRequired,
 };
 
 AlgoliaSearcher.defaultProps = {

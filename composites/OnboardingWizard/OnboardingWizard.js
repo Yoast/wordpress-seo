@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import Step from "./Step";
 import StepIndicator from "./StepIndicator";
@@ -333,12 +334,12 @@ class OnboardingWizard extends React.Component {
 }
 
 OnboardingWizard.propTypes = {
-	endpoint: React.PropTypes.object.isRequired,
-	steps: React.PropTypes.object.isRequired,
-	fields: React.PropTypes.object.isRequired,
-	customComponents: React.PropTypes.object,
-	finishUrl: React.PropTypes.string,
-	translate: React.PropTypes.any,
+	endpoint: PropTypes.object.isRequired,
+	steps: PropTypes.object.isRequired,
+	fields: PropTypes.object.isRequired,
+	customComponents: PropTypes.object,
+	finishUrl: PropTypes.string,
+	translate: PropTypes.any,
 };
 
 OnboardingWizard.defaultProps = {

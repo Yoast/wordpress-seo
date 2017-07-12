@@ -1,5 +1,5 @@
-
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Represents a Google search console interface.
@@ -20,8 +20,8 @@ const ConnectGoogleSearchConsole = ( props ) => {
 };
 
 ConnectGoogleSearchConsole.propTypes = {
-	component: React.PropTypes.string,
-	data: React.PropTypes.string,
+	component: PropTypes.string,
+	data: PropTypes.string,
 };
 
 ConnectGoogleSearchConsole.defaultProps = {

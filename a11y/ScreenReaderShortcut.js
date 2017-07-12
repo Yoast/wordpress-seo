@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Styles from "./Styles";
 
 /**
@@ -68,8 +69,8 @@ class ScreenReaderShortcut extends React.Component {
 }
 
 ScreenReaderShortcut.propTypes = {
-	anchor: React.PropTypes.string.isRequired,
-	children: React.PropTypes.string.isRequired,
+	anchor: PropTypes.string.isRequired,
+	children: PropTypes.string.isRequired,
 };
 
 export default ScreenReaderShortcut;

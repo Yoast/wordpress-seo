@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import Input from "../../../forms/Input";
 import Label from "../../../forms/Label";
 import htmlDecoder from "../helpers/htmlDecoder";
@@ -72,15 +74,15 @@ const Choice = ( props ) => {
 };
 
 Choice.propTypes = {
-	component: React.PropTypes.string,
-	type: React.PropTypes.string,
-	value: React.PropTypes.string,
-	properties: React.PropTypes.object,
-	"default": React.PropTypes.string,
-	name: React.PropTypes.string.isRequired,
-	onChange: React.PropTypes.func,
-	className: React.PropTypes.string,
-	optionClassName: React.PropTypes.string,
+	component: PropTypes.string,
+	type: PropTypes.string,
+	value: PropTypes.string,
+	properties: PropTypes.object,
+	"default": PropTypes.string,
+	name: PropTypes.string.isRequired,
+	onChange: PropTypes.func,
+	className: PropTypes.string,
+	optionClassName: PropTypes.string,
 };
 
 Choice.defaultProps = {

@@ -27,9 +27,11 @@
   "dependencies": {
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "algoliasearch": "^3.22.3",
-    "i18n-calypso": "^1.6.2",
+    "i18n-calypso": "^1.7.4",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
+    "prop-types": "^15.5.10",
+    "react-tap-event-plugin": "^2.0.1",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
@@ -54,11 +56,10 @@
     "jest-cli": "^14.1.0",
     "json-loader": "^0.5.4",
     "load-grunt-config": "^0.19.2",
-    "material-ui": "^0.15.2",
-    "react": "^15.5.4",
+    "material-ui": "^0.18.6",
+    "react": "^15.6.1",
     "react-addons-test-utils": "^15.3.0",
-    "react-dom": "^15.3.1",
-    "react-tap-event-plugin": "^1.0.0",
+    "react-dom": "^15.6.1",
     "react-test-renderer": "^15.3.0",
     "sassdash": "^0.8.2",
     "stubby": "^0.3.1",
@@ -66,9 +67,9 @@
     "webpack-dev-server": "^1.14.1"
   },
   "peerDependencies": {
-    "material-ui": "^0.15.4",
-    "react": "^15.3.1",
-    "react-dom": "^15.3.1"
+    "material-ui": "^0.18.6",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   },
   "browserify": {
     "transform": [

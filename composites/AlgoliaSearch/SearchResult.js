@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Overrides the default onClick behavior with a custom one.
@@ -37,8 +38,8 @@ const SearchResult = ( props ) => {
 };
 
 SearchResult.propTypes = {
-	post: React.PropTypes.object,
-	showDetail: React.PropTypes.func,
+	post: PropTypes.object,
+	showDetail: PropTypes.func,
 };
 
 export default SearchResult;

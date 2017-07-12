@@ -1,6 +1,8 @@
 import React from "react";
-import CustomStepButton from "./StepButton";
+import PropTypes from "prop-types";
 import { Stepper, Step, StepButton } from "material-ui/Stepper";
+
+import CustomStepButton from "./StepButton";
 import { localize } from "../../utils/i18n";
 
 /**
@@ -114,10 +116,10 @@ class StepIndicator extends React.Component {
 }
 
 StepIndicator.propTypes = {
-	steps: React.PropTypes.object.isRequired,
-	stepIndex: React.PropTypes.number.isRequired,
-	translate: React.PropTypes.any,
-	onClick: React.PropTypes.func,
+	steps: PropTypes.object.isRequired,
+	stepIndex: PropTypes.number.isRequired,
+	translate: PropTypes.any,
+	onClick: PropTypes.func,
 };
 
 StepIndicator.defaultProps = {

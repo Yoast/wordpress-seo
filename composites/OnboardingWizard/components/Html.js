@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  *  Represents a piece of HTML. This can be useful on the opening and closing screen of the wizard, to add some
@@ -15,7 +16,7 @@ const HTML = ( props ) => {
 };
 
 HTML.propTypes = {
-	properties: React.PropTypes.object.isRequired,
+	properties: PropTypes.object.isRequired,
 };
 
 HTML.defaultProps = {

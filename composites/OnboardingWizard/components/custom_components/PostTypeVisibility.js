@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Represents a post type visibility component.
@@ -16,9 +17,9 @@ const PostTypeVisibility = ( props ) => {
 };
 
 PostTypeVisibility.propTypes = {
-	component: React.PropTypes.string,
-	properties: React.PropTypes.object,
-	data: React.PropTypes.string,
+	component: PropTypes.string,
+	properties: PropTypes.object,
+	data: PropTypes.string,
 };
 
 PostTypeVisibility.defaultProps = {
