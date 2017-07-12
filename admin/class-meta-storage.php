@@ -58,26 +58,6 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 	}
 
 	/**
-	 * Removes the record for given post_id.
-	 *
-	 * @param int $object_id The post_id to remove the record for.
-	 *
-	 * @return int|false The number of rows updated, or false on error.
-	 */
-	public function cleanup( $object_id ) {
-		$deleted = $this->database_proxy->delete(
-			array( 'object_id' => $object_id ),
-			array( '%d' )
-		);
-
-		if ( $deleted === false ) {
-			WPSEO_Meta_Table_Accessible::set_inaccessible();
-		}
-
-		return $deleted;
-	}
-
-	/**
 	 * Saves the link count to the database.
 	 *
 	 * @param int   $meta_id   The id to save the link count for.
