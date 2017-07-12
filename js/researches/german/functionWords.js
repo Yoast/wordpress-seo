@@ -29,28 +29,27 @@ let ordinalNumerals = [ "erste", "erster", "ersten", "erstem", "erstes", "zweite
 	"achtzehntes", "achtzehnte", "nehnzehnte", "nehnzehnter", "nehnzehntem", "nehnzehnten", "nehnzehntes", "zwanzigste",
 	"zwanzigster", "zwanzigstem", "zwanzigsten", "zwanzigstes" ];
 
-let personalPronounsNominative = [ "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" ];
+let personalPronounsNominative = [ "ich", "du", "er", "sie", "es", "wir", "ihr" ];
 
-let personalPronounsAccusative = [ "mich", "dich", "ihn", "sie", "es", "uns", "euch" ];
+let personalPronounsAccusative = [ "mich", "dich", "ihn", "uns", "euch" ];
 
-let personalPronounsDative = [ "mir", "dir", "ihm", "ihr", "uns", "euch", "ihnen" ];
+let personalPronounsDative = [ "mir", "dir", "ihm", "ihnen" ];
 
 let demonstrativePronouns = [ "denen", "deren", "derer", "dessen", "diese", "diesem", "diesen", "dieser", "dieses",
-	"jene",	"jenem", "jenen", "jener", "jenes", "welch", "welcher", "welches", "derjenige", "desjenigen", "demjenigen",
+	"jene", "jenem", "jenen", "jener", "jenes", "welch", "welcher", "welches", "derjenige", "desjenigen", "demjenigen",
 	"denjenigen", "diejenige", "derjenigen", "dasjenige", "diejenigen" ];
 
-let possessivePronouns = [ "mein", "meine", "meinem", "meiner", "meines", "dein", "deine", "deinem", "deiner",
-	"deines", "deinen", "sein", "seine", "seinem", "seiner", "seines", "ihr", "ihre", "ihrem", "ihren", "ihrer", "ihres",
+let possessivePronouns = [ "mein", "meine", "meinem", "meiner", "meines", "meinen", "dein", "deine", "deinem", "deiner",
+	"deines", "deinen", "sein", "seine", "seinem", "seiner", "seines", "ihre", "ihrem", "ihren", "ihrer", "ihres",
 	"unser", "unsere", "unserem", "unseren", "unserer", "unseres", "euer", "eure", "eurem", "euren", "eurer",
 	"eures", "einanders" ];
 
 let quantifiers = [ "manche", "manch", "viele", "viel", "vieler", "vielen", "vielem", "all", "alle", "aller", "alles",
-	"allen", "allem", "allerlei", "solcherlei", "einige", "etliche", "manch", "wenige", "weniger", "wenigen",
-	"wenigem", "weniges", "wenig", "wenigerer", "wenigeren", "wenigerem", "wenigere", "wenigeres", "wenig",
-	"bisschen", "paar", "kein", "keines", "keinem", "keinen", "keine", "mehr", "mehrere", "nichts",
-	"genug", "mehrere", "mehrerer", "mehreren", "mehrerem", "mehreres", "verschiedene", "verschiedener",
-	"verschiedenen", "verschiedenem", "verschiedenes", "verschiedne", "verschiedner", "verschiednen", "verschiednem",
-	"verschiednes", "art", "arten", "sorte", "sorten" ];
+	"allen", "allem", "allerlei", "solcherlei", "einige", "etliche", "wenige", "weniger", "wenigen", "wenigem", "weniges",
+	"wenig", "wenigerer", "wenigeren", "wenigerem", "wenigere", "wenigeres", "wenig", "bisschen", "paar", "kein", "keines",
+	"keinem", "keinen", "keine", "mehr", "genug", "mehrere", "mehrerer", "mehreren", "mehrerem", "mehreres", "verschiedene",
+	"verschiedener", "verschiedenen", "verschiedenem", "verschiedenes", "verschiedne", "verschiedner", "verschiednen",
+	"verschiednem", "verschiednes", "art", "arten", "sorte", "sorten" ];
 
 let reflexivePronouns = [ "sich" ];
 
@@ -60,36 +59,29 @@ let reciprocalPronouns = [ "einander" ];
 let indefinitePronouns = [ "andere", "anderer", "anderem", "anderen", "anderes", "andren", "andern", "andrem",
 	"anderm", "andre", "andrer", "andres", "beide", "beides", "beidem", "beider", "beiden", "etwas", "irgendetwas",
 	"irgendein", "irgendeinen", "irgendeinem", "irgendeines", "irgendeine", "irgendeiner", "irgendwas", "irgendwessen",
-	"irgendwer", "irgendwen", "irgendwem", "irgendwessen", "irgendwelche", "irgendwelcher", "irgendwelchem",
-	"irgendwelchen", "irgendwelches", "irgendjemand", "irgendjemanden", "irgendjemandem", "irgendjemandes", "irgendwie",
-	"wer", "wen", "wem", "wessen", "was", "wessen", "welchen", "welchem", "welche", "jeder", "jedes", "jedem", "jeden",
-	"jede", "jedweder", "jedweden", "jedwedem", "jedwedes", "jedwede", "jeglicher", "jeglichen", "jeglichem",
-	"jegliches", "jegliche", "jedermann", "jedermanns", "jemand", "jemanden", "jemandem", "jemands",  "jemandes",
-	"man", "meinesgleichen", "niemanden", "niemandem", "niemands", "niemandes", "niemand", "sämtlich", "saemtlich",
-	"sämtlicher", "saemtlicher", "sämtlichen", "saemtlichen", "sämtlichem",	"saemtlichem", "sämtliches",
-	"saemtliches", "sämtliche", "saemtliche", "solche", "solcher", "solchen", "solchem", "solches", "niemand",
-	"niemanden", "niemandem", "niemandes", "niemands", "nichts", "jeglicher", "jeglichen", 	"jeglichem", "jegliches",
-	"jegliche", "zweiter" ];
-
-let relativePronouns = [ "dessen", "deren", "derer", "denen" ];
+	"irgendwer", "irgendwen", "irgendwem", "irgendwelche", "irgendwelcher", "irgendwelchem", "irgendwelchen", "irgendwelches",
+	"irgendjemand", "irgendjemanden", "irgendjemandem", "irgendjemandes", "irgendwie", "wer", "wen", "wem", "wessen", "was",
+	"welchen", "welchem", "welche", "jeder", "jedes", "jedem", "jeden", "jede", "jedweder", "jedweden", "jedwedem",
+	"jedwedes", "jedwede", "jeglicher", "jeglichen", "jeglichem", "jegliches", "jegliche", "jedermann", "jedermanns", "jemand",
+	"jemanden", "jemandem", "jemands",  "jemandes", "man", "meinesgleichen", "sämtlich", "saemtlich", "sämtlicher", "saemtlicher",
+	"sämtlichen", "saemtlichen", "sämtlichem", "saemtlichem", "sämtliches", "saemtliches", "sämtliche", "saemtliche", "solche",
+	"solcher", "solchen", "solchem", "solches", "niemand", "niemanden", "niemandem", "niemandes", "niemands", "nichts", "zweiter" ];
 
 let interrogativeProAdverbs =  [ "warum", "wie", "wo", "woher", "wohin", "wann" ];
 
-let pronominalAdverbs = [ "dabei", "dadurch", "dafür", "dafuer", "dagegen", "dahinter", "damit", "danach", "daneben",
-	"daran", "darauf", "daraus", "darin", "darum", "darunter", "darüber", "darueber", "davon", "davor", "dazu",
-	"dazwischen", "hieran",	"hierauf", "hieraus", "hierbei", "hierdurch", "hierfuer", "hierfür", "hiergegen",
-	"hierhinter", "hierin",	"hiermit", "hiernach", "hierum", "hierunter", "hierueber", "hierüber", "hiervor",
-	"hierzu", "hierzwischen", "hierneben", "hiervon", "wobei", "wodurch", "worin", "worauf", "wobei", "wofür", "wofuer",
-	"wogegen", "wohinter", "womit", "wonach", "woneben", "woran", "worauf", "woraus", "worin",	"worum", "worunter",
-	"worüber", "worueber", "wovon", "wovor", "wozu", "wozwischen" ];
+let pronominalAdverbs = [ "dahinter", "damit", "daneben", "daran", "daraus", "darin", "darunter", "darüber", "darueber",
+	"davon", "dazwischen", "hieran", "hierauf", "hieraus", "hierbei", "hierfuer", "hierfür", "hiergegen", "hierhinter",
+	"hierin", "hiermit", "hiernach", "hierum", "hierunter", "hierueber", "hierüber", "hiervor", "hierzwischen", "hierneben",
+	"hiervon", "wodurch", "wofür", "wofuer", "wogegen", "wohinter", "womit", "wonach", "woneben", "woran", "worauf", "woraus",
+	"worin", "worum", "worunter", "worüber", "worueber", "wovon", "wovor", "wozu", "wozwischen" ];
 
-let locativeAdverbs = [ "da", "hier", "dorthin", "hierher", "dorther", "daher" ];
+let locativeAdverbs = [ "hier", "dorthin", "hierher", "dorther" ];
 
 let adverbialGenitives = [ "allenfalls", "keinesfalls", "anderenfalls", "andernfalls", "andrenfalls",
-	"äußerstenfalls", "bejahendenfalls", "bestenfalls", "ebenfalls", "eintretendenfalls", "entgegengesetztenfalls",
+	"äußerstenfalls", "bejahendenfalls", "bestenfalls", "eintretendenfalls", "entgegengesetztenfalls",
 	"erforderlichenfalls", "gegebenenfalls", "geringstenfalls", "gleichfalls", "günstigenfalls", "günstigstenfalls",
-	"höchstenfalls", "jedenfalls", "möglichenfalls", "notfalls", "nötigenfalls", "notwendigenfalls",
-	"schlimmstenfalls", "vorkommendenfalls", "widrigenfalls", "zutreffendenfalls", "morgens", "mittags",
+	"höchstenfalls", "möglichenfalls", "notfalls", "nötigenfalls", "notwendigenfalls",
+	"schlimmstenfalls", "vorkommendenfalls", "zutreffendenfalls", "morgens", "mittags",
 	"abends", "nachts", "keineswegs", "durchwegs", "geradenwegs", "geradeswegs", "geradewegs", "gradenwegs",
 	"halbwegs", "mittwegs", "unterwegs" ];
 
@@ -98,61 +90,58 @@ let otherAuxiliaries = [ "habe", "hast", "hat", "habt", "habest", "habet", "hatt
 	"seien", "seiet", "war", "warst", "waren", "wart", "wäre", "waere", "wärest", "waerest", "wärst", "waerst", "wären",
 	"waeren", "wäret", "waeret", "wärt", "waert", "seid", "darf", "darfst", "dürft", "duerft", "dürfe", "duerfe", "dürfest",
 	"duerfest", "dürfet", "duerfet", "durfte", "durftest", "durften", "durftet", "dürfte", "duerfte", "dürftest", "duerftest",
-	"dürften", "duerften", "dürftet", "duerftet", "kann", "kannst",	"könnt", "koennt", "könne", "koenne", "könnest", "koennest",
+	"dürften", "duerften", "dürftet", "duerftet", "kann", "kannst", "könnt", "koennt", "könne", "koenne", "könnest", "koennest",
 	"könnet", "koennet", "konnte", "konntest", "konnten", "konntet", "könnte", "koennte", "könntest", "koenntest", "könnten",
 	"koennten", "könntet", "koenntet", "mag", "magst", "mögt", "moegt", "möge", "moege", "mögest", "moegest", "möget", "moeget",
 	"mochte", "mochtest", "mochten", "mochtet", "möchte", "moechte", "möchtest", "moechtest", "möchten", "moechten", "möchtet",
 	"moechtet", "muss", "muß", "musst", "mußt", "müsst", "muesst", "müßt", "mueßt", "müsse", "muesse", "müssest", "muessest",
-	"müsset", "muesset", "musste", "mußte", "musstest", "mußtest", "mussten", "mußten",	"musstet", "mußtet", "müsste", "muesste",
+	"müsset", "muesset", "musste", "mußte", "musstest", "mußtest", "mussten", "mußten", "musstet", "mußtet", "müsste", "muesste",
 	"müßte", "mueßte", "müsstest", "muesstest", "müßtest", "mueßtest", "müssten", "muessten", "müßten", "mueßten", "müsstet",
 	"muesstet", "müßtet", "mueßtet", "soll", "sollst", "sollt", "solle", "sollest", "sollet", "sollte", "solltest", "sollten",
 	"solltet", "will", "willst", "wollt", "wolle", "wollest", "wollet", "wollte", "wolltest", "wollten", "wolltet", "lasse",
 	"lässt", "laesst", "läßt", "laeßt", "lasst", "laßt", "lassest", "lasset", "ließ", "ließest", "ließt", "ließen", "ließe",
 	"ließet", "liess", "liessest", "liesst", "liessen", "liesse", "liesset" ];
 
-let otherAuxiliariesInfinitive = [ "haben", "sein", "dürfen", "duerfen", "können", "koennen", "mögen", "moegen", "müssen", "muessen",
+let otherAuxiliariesInfinitive = [ "haben", "dürfen", "duerfen", "können", "koennen", "mögen", "moegen", "müssen", "muessen",
 	"sollen", "wollen", "lassen" ];
 
 // Forms from 'aussehen' with two parts, like 'sehe aus', are not included, because we remove words on an single word basis.
 let copula = [ "bleibe", "bleibst", "bleibt", "bleibest", "bleibet", "blieb", "bliebst", "bliebt", "blieben", "bliebe",
 	"bliebest", "bliebet", "heiße", "heißt", "heißest", "heißet", "heisse", "heisst", "heissest", "heisset", "hieß", "hießest",
-	"hießt", "hießen", "hieße", "hießet", "hiess", "hiessest", "hiesst", "hiessen",	"hiesse", "hiesset", "giltst",
+	"hießt", "hießen", "hieße", "hießet", "hiess", "hiessest", "hiesst", "hiessen", "hiesse", "hiesset", "giltst",
 	"gilt", "geltet", "gelte", "geltest", "galt", "galtest", "galtst", "galten", "galtet", "gälte", "gaelte", "gölte", "goelte",
 	"gältest", "gaeltest", "göltest", "goeltest", "gälten", "gaelten", "gölten", "goelten", "gältet", "gaeltet", "göltet",
 	"goeltet", "aussehe", "aussiehst", "aussieht", "ausseht", "aussehest", "aussehet", "aussah", "aussahst", "aussahen",
 	"aussaht", "aussähe", "aussaehe", "aussähest", "aussaehest", "aussähst", "aussaehst", "aussähet", "aussaehet", "aussäht",
-	"aussaeht", "aussähen",	"aussaehen", "scheine", "scheinst", "scheint", "scheinest", "scheinet", "schien", "schienst", "schienen",
+	"aussaeht", "aussähen", "aussaehen", "scheine", "scheinst", "scheint", "scheinest", "scheinet", "schien", "schienst", "schienen",
 	"schient", "schiene", "schienest", "schienet", "erscheine", "erscheinst", "erscheint", "erscheinest",
 	"erscheinet", "erschien", "erschienst", "erschienen", "erschient", "erschiene", "erschienest", "erschienet" ];
 
 let copulaInfinitive = [ "bleiben", "heißen", "heissen", "gelten", "aussehen", "scheinen", "erscheinen" ];
 
-let prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "als", "am", "an", "anfangs", "angelegentlich",
-	"angesichts", "anhand", "anlässlich", "anlaesslich", "ans", "anstatt", "anstelle", "auf", "aufgrund", "aufs", "aufseiten",
-	"aus", "ausgangs", "ausgenommen", "ausschließlich", "ausschliesslich", "ausser", "außer", "außerhalb", "ausserhalb", "ausweislich",
+let prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "als", "am", "an", "angelegentlich",
+	"angesichts", "anhand", "anlässlich", "anlaesslich", "ans", "anstatt", "anstelle", "auf", "aufs", "aufseiten",
+	"aus", "ausgangs", "ausschließlich", "ausschliesslich", "außerhalb", "ausserhalb", "ausweislich",
 	"bar", "behufs", "bei", "beidseits", "beiderseits", "beim", "betreffs", "bezüglich", "bezueglich", "binnen", "bis", "contra",
 	"dank", "diesseits", "durch", "einbezüglich", "einbezueglich", "eingangs", "eingedenk", "einschließlich", "einschliesslich",
-	"entgegen", "entlang", "entsprechend", "exklusive", "fern", "fernab", "fuer", "für", "fuers", "fürs", "gegen", "gegenüber",
+	"entgegen", "entlang", "exklusive", "fern", "fernab", "fuer", "für", "fuers", "fürs", "gegen", "gegenüber",
 	"gegenueber", "gelegentlich", "gemäß", "gemaeß", "gen", "getreu", "gleich", "halber", "hinsichtlich", "hinter", "hinterm", "hinters",
-	"im", "in", "infolge", "inklusive", "inmitten", "innerhalb", "innert", "ins", "je", "jenseits", "kontra", "kraft",
-	"lang", "längs", "laengs", "längsseits", "laengsseits", "laut", "links", "mangels", "minus", "mit", "mithilfe", "mitsamt", "mittels",
-	"nach",	"nächst", "naechst", "nah", "namens", "neben", "nebst", "nördlich", "noerdlich", "nordöstlich", "nordoestlich", "nordwestlich",
-	"ob", "oberhalb", "ohne", "östlich", "oestlich", "per", "plus", "pro", "quer", "rechts", "rücksichtlich", "ruecksichtlich",
-	"samt", "seit", "seitens", "seitlich", "seitwärts", "seitwaerts", "statt", "südlich", "suedlich", "südöstlich", "suedoestlich",
-	"südwestlich", "suedwestlich", "trotz", "über", "ueber", "überm", "ueberm", "übern", "uebern", "übers", "uebers", "um", "ums",
-	"unbeschadet", "unerachtet", "unfern", "ungeachtet", "unter", "unterhalb", "unterm", "untern", "unters", "unweit", "vermittels",
-	"vermittelst", "vermöge", "vermoege", "via", "vom", "von", "vonseiten", "vor", "vorbehaltlich", "wegen", "wider", "während",
-	"waehrend", "zeit", "zu", "zufolge", "zugunsten", "zulieb", "zuliebe", "zum", "zur", "zusätzlich", "zusaetzlich", "zuungunsten",
-	"zuwider", "zuzüglich",	"zuzueglich", "zwecks", "zwischen" ];
+	"im", "in", "inklusive", "inmitten", "innerhalb", "innert", "ins", "je", "jenseits", "kontra", "kraft",
+	"längs", "laengs", "längsseits", "laengsseits", "laut", "links", "mangels", "minus", "mit", "mithilfe", "mitsamt", "mittels",
+	"nach", "nächst", "naechst", "nah", "namens", "neben", "nebst", "nördlich", "noerdlich", "nordöstlich", "nordoestlich", "nordwestlich",
+	"oberhalb", "ohne", "östlich", "oestlich", "per", "plus", "pro", "quer", "rechts", "rücksichtlich", "ruecksichtlich",
+	"samt", "seitens", "seitlich", "seitwärts", "seitwaerts", "südlich", "suedlich", "südöstlich", "suedoestlich",
+	"südwestlich", "suedwestlich", "über", "ueber", "überm", "ueberm", "übern", "uebern", "übers", "uebers", "um", "ums",
+	"unbeschadet", "unerachtet", "unfern", "unter", "unterhalb", "unterm", "untern", "unters", "unweit", "vermittels",
+	"vermittelst", "vermöge", "vermoege", "via", "vom", "von", "vonseiten", "vor", "vorbehaltlich", "wegen", "wider",
+	"zeit", "zu", "zugunsten", "zulieb", "zuliebe", "zum", "zur", "zusätzlich", "zusaetzlich", "zuungunsten",
+	"zuwider", "zuzüglich", "zuzueglich", "zwecks", "zwischen" ];
 
 // Many coordinating conjunctions are already included in the transition words list.
 let coordinatingConjunctions = [ "und", "oder", "umso" ];
 
-/*
-'Entweder' is part of 'entweder...oder', 'sowohl', 'auch' is part of 'sowohl als...auch', 'weder' and 'noch' are part of 'weder...noch',
- 'nur' is part of 'nicht nur...sondern auch'.
- */
-let correlativeConjunctions = [ "entweder", "sowohl", "auch", "weder", "noch", "nur" ];
+// 'noch' is part of 'weder...noch', 'nur' is part of 'nicht nur...sondern auch'.
+let correlativeConjunctions = [ "auch", "noch", "nur" ];
 
 // Many subordinating conjunctions are already included in the prepositions list, transition words list or pronominal adverbs list.
 let subordinatingConjunctions = [ "nun", "so", "gleichwohl" ];
@@ -161,12 +150,11 @@ let subordinatingConjunctions = [ "nun", "so", "gleichwohl" ];
 These verbs are frequently used in interviews to indicate questions and answers. 'Frage' and 'fragen' are not included,
 because those words are also nouns.
  */
-let interviewVerbs = [ "sage", "sagst", "sagt", "sagest", "saget", "sagte", "sagtest", "sagte", "sagten", "sagtet", "gesagt",
+let interviewVerbs = [ "sage", "sagst", "sagt", "sagest", "saget", "sagte", "sagtest", "sagten", "sagtet", "gesagt",
 	"fragst", "fragt", "fragest", "fraget", "fragte", "fragtest", "fragten", "fragtet", "gefragt", "erkläre", "erklärst", "erklärt",
-	"erklaere", "erklaerst", "erklaert", "erklärte", "erklärtest", "erklärte",	"erklärtet", "erklärten",
-	"erklaerte", "erklaertest", "erklaerte", "erklaertet", "erklaerten", "denke", "denkst", "denkt", "denkest", "denket",
-	"dachte", "dachtest", "dachten", "dachtet", "dächte", "dächtest", "dächten", "dächtet", "daechte", "daechtest", "daechten",
-	"daechtet", "finde", "findest", "findet", "gefunden" ];
+	"erklaere", "erklaerst", "erklaert", "erklärte", "erklärtest", "erklärtet", "erklärten", "erklaerte", "erklaertest", "erklaertet",
+	"erklaerten", "denke", "denkst", "denkt", "denkest", "denket", "dachte", "dachtest", "dachten", "dachtet", "dächte", "dächtest",
+	"dächten", "dächtet", "daechte", "daechtest", "daechten", "daechtet", "finde", "findest", "findet", "gefunden" ];
 
 let interviewVerbsInfinitive = [ "sagen", "erklären", "erklaeren", "denken", "finden" ];
 
@@ -179,20 +167,20 @@ let additionalTransitionWords = [ "etwa", "absolut", "unbedingt", "wieder", "def
 	"geradezu", "bald", "vielleicht", "wahrscheinlich", "wohl", "voraussichtlich",  "zugegeben", "ursprünglich", "insgesamt",
 	"tatsächlich", "eigentlich", "wahrhaftig", "bereits", "schon", "oft", "häufig", "haeufig", "regelmäßig", "regelmaeßig", "gleichmäßig",
 	"gleichmaeßig", "einfach", "lediglich", "bloß", "bloss", "halt", "wahlweise", "eventuell", "manchmal",
-	"teilweise", "nie", "niemals", "nimmer", "jemals", "allzeit", "irgendeinmal", "anders", "vorausgesetzt", "momentan", "gegenwärtig",
-	"gegenwaertig", "nebenbei", "übrigens", "uebrigens", "anderswo", "woanders", "anderswohin", "anderorts", "insbesondere",
+	"teilweise", "nie", "niemals", "nimmer", "jemals", "allzeit", "irgendeinmal", "anders", "momentan", "gegenwärtig",
+	"gegenwaertig", "nebenbei", "anderswo", "woanders", "anderswohin", "anderorts", "insbesondere",
 	"namentlich", "sonderlich", "ausdrücklich", "ausdruecklich", "vollends", "kürzlich", "kuerzlich", "jüngst", "juengst", "unlängst",
 	"unlaengst", "neuerdings", "neulich", "letztens", "neuerlich", "verhältnismäßig", "verhaeltnismaessig", "deutlich", "klar",
 	"offenbar", "anscheinend", "genau", "u.a", "damals", "zumindest" ];
 
 let intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weitaus", "einigermaßen", "einigermassen", "ganz",
-	"schwer", "tierisch", "ungleich", "voll", "ziemlich", "übelst", "uebelst", "stark", "volkommen", "durchaus", "gar" ];
+	"schwer", "tierisch", "ungleich", "ziemlich", "übelst", "uebelst", "stark", "volkommen", "durchaus", "gar" ];
 
 // These verbs convey little meaning.
-let delexicalizedVerbs = [ "geschienen", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
+let delexicalizedVerbs = [ "geschienen", "meinst", "meint", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
 	"gemeint", "stehe", "stehst", "steht", "gehe", "gehst", "geht", "gegangen", "ging", "gingst", "gingen", "gingt" ];
 
-let delexicalizedVerbsInfinitive = [ "meinen", "tun", "machen", "stehen", "wissen", "gehen", "kommen" ];
+let delexicalizedVerbsInfinitive = [ "tun", "machen", "stehen", "wissen", "gehen", "kommen" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
@@ -203,15 +191,14 @@ let generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"gutem", "guten", "gutes", "gute", "besser", "besserer", "besseren", "besserem", "besseres", "bester", "besten", "bestem", "bestes",
 	"beste", "größte", "grösste", "groß", "großer", "großen", "großem", "großes", "große", "großerer", "großerem", "großeren", "großeres", "großere",
 	"großter", "großten", "großtem", "großtes", "großte", "gross", "grosser", "grossen", "grossem", "grosses", "grosse", "grosserer", "grosserem",
-	"grosseren",	"grosseres", "grossere", "grosster", "grossten", "grosstem", "grosstes", "grosste", "einfacher", "einfachen",
-	"einfachem",	"einfaches", "einfache", "einfacherer", "einfacheren", "einfacherem", "einfacheres", "einfachere", "einfachste", "einfachster",
+	"grosseren", "grosseres", "grossere", "grosster", "grossten", "grosstem", "grosstes", "grosste", "einfacher", "einfachen",
+	"einfachem", "einfaches", "einfache", "einfacherer", "einfacheren", "einfacherem", "einfacheres", "einfachere", "einfachste", "einfachster",
 	"einfachsten", "einfachstes", "einfachstem", "schnell", "schneller", "schnellen", "schnellem", "schnelles", "schnelle", "schnellere",
 	"schnellerer", "schnelleren", "schnelleres", "schnellerem", "schnellster", "schnellste", "schnellsten", "schnellstem", "schnellstes",
-	"weiter", "weit", "weiten", "weitem", "weites", "weiterer", "weiteren", "weiterem", "weiteres", "weitere", "weitester", "weitesten",
+	"weit", "weiten", "weitem", "weites", "weiterer", "weiteren", "weiterem", "weiteres", "weitere", "weitester", "weitesten",
 	"weitestem", "weitestes", "weiteste", "eigen", "eigener", "eigenen", "eigenes", "eigenem", "eigene", "eigenerer", "eignerer", "eigeneren",
 	"eigneren", "eigenerem", "eignerem", "eigeneres", "eigneres", "eigenere", "eignere", "eigenster", "eigensten", "eigenstem", "eigenstes",
-	"eigenste", "wenig", "weniger", "wenigen", "wenigem", "weniges", "wenigerer", "wenigeres", "wenigerem", "wenigeren", "wenigere",
-	"wenigster", "wenigsten", "wenigstem", "wenigstes", "wenigste", "minderer", "minderen", "minderem", "mindere", "minderes", "mindester",
+	"eigenste", "wenigster", "wenigsten", "wenigstem", "wenigstes", "wenigste", "minderer", "minderen", "minderem", "mindere", "minderes", "mindester",
 	"mindesten", "mindestes", "mindestem", "mindeste", "lang", "langer", "langen", "langem", "langes", "längerer", "längeren", "längerem",
 	"längeres", "längere", "längster", "längsten", "längstem", "längstes", "längste", "laengerer", "laengeren", "laengerem",
 	"laengeres", "laengere", "laengster", "laengsten", "laengstem", "laengstes", "laengste", "tief", "tiefer", "tiefen", "tiefem", "tiefes",
@@ -235,7 +222,7 @@ let generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"schön", "schöner", "schönen", "schönem", "schönes", "schöne", "schönerer", "schöneren", "schönerem", "schöneres", "schönere", "schönster",
 	"schönsten", "schönstem", "schönstes", "schönste", "real", "realer", "realen", "realem", "reales", "realerer", "realeren", "realerem",
 	"realeres", "realere", "realster", "realsten", "realstem", "realstes", "realste", "derselbe", "denselben", "demselben", "desselben",
-	"dasselbe", "dieselbe", "derselben", "dieselben", "gleich", "gleicher", "gleichen", "gleichem", "gleiches", "gleiche", "gleicherer",
+	"dasselbe", "dieselbe", "derselben", "dieselben", "gleicher", "gleichen", "gleichem", "gleiches", "gleiche", "gleicherer",
 	"gleicheren", "gleicherem", "gleicheres", "gleichere", "gleichster", "gleichsten", "gleichstem", "gleichstes", "gleichste", "bestimmter",
 	"bestimmten", "bestimmtem", "bestimmtes", "bestimmte", "bestimmtere", "bestimmterer", "bestimmterem", "bestimmteren", "bestimmteres",
 	"bestimmtester", "bestimmtesten", "bestimmtestem", "bestimmtestes", "bestimmteste", "überwiegend",
@@ -254,10 +241,10 @@ let generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"zurueck" ];
 
 let interjections = [  "ach", "aha", "oh", "au", "bäh", "baeh", "igitt", "huch", "hurra", "hoppla", "nanu", "oha", "olala", "pfui", "tja",
-	"uups", "wow", "grr", "äh", "aeh", "ähm", "aeh", "öhm", "oehm", "hm", "mei", "nun", "tja", "mhm", "okay", "richtig", "eijeijeijei" ];
+	"uups", "wow", "grr", "äh", "aeh", "ähm", "aehm", "öhm", "oehm", "hm", "mei", "mhm", "okay", "richtig", "eijeijeijei" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
-let recipeWords = [ "g", "el", "es", "tl", "wg", "be", "bd", "cl", "dl", "dag", "do", "gl", "gr", "kg", "kl", "cb", "ccm", "l", "ms", "mg",
+let recipeWords = [ "g", "el", "tl", "wg", "be", "bd", "cl", "dl", "dag", "do", "gl", "gr", "kg", "kl", "cb", "ccm", "l", "ms", "mg",
 	"ml", "mi", "pk", "pr", "pp", "sc", "sp", "st", "sk", "ta", "tr", "cm", "mass" ];
 
 let timeWords = [ "sekunde", "sekunden", "minute", "minuten", "uhr", "uhren", "tag", "tages", "tags", "tage", "tagen", "woche", "wochen", "monat",
@@ -266,10 +253,10 @@ let timeWords = [ "sekunde", "sekunden", "minute", "minuten", "uhr", "uhren", "t
 let vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sache", "sachen", "weise", "weisen", "wahrscheinlichkeit",
 	"zeug", "zeuge", "zeuges", "zeugen", "mal", "einmal", "teil", "teile", "teiles", "teilen", "prozent", "prozents", "prozentes", "prozente",
 	"prozenten", "beispiel", "beispiele", "beispieles", "beispiels", "beispielen", "aspekt", "aspekte", "aspektes", "aspekts", "aspekten",
-	"idee", "ideen", "ahnung", "ahnungen", "thema", "themas", "themata", "themen", "fall", "falle", "falles", "falls", "fälle", "fällen",
+	"idee", "ideen", "ahnung", "ahnungen", "thema", "themas", "themata", "themen", "fall", "falle", "falles", "fälle", "fällen",
 	"faelle", "faellen", "mensch", "menschen", "leute" ];
 
-let miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "nicht", "amen", "ja", "nein", "euro", "prozent" ];
+let miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "nicht", "amen", "ja", "nein", "euro" ];
 
 module.exports = function() {
 	return {
@@ -282,7 +269,6 @@ module.exports = function() {
 		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
 		verbs: copula.concat( interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries, delexicalizedVerbs ),
 		quantifiers: quantifiers,
-		relativePronouns: relativePronouns,
 		interrogativeProAdverbs: interrogativeProAdverbs,
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		// These verbs that should be filtered at the beginning of prominent word combinations.
@@ -303,9 +289,9 @@ module.exports = function() {
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
 		timeWords: timeWords,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-			reciprocalPronouns,	personalPronounsNominative,	personalPronounsAccusative, relativePronouns, quantifiers,
-			indefinitePronouns,	interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives,
-			filteredPassiveAuxiliaries,	passiveAuxiliariesInfinitive, otherAuxiliaries,
+			reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers,
+			indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives,
+			filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries,
 			otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers,
 			delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,

@@ -12,7 +12,7 @@ let cardinalNumerals = [ "dos", "tres", "cuatro", "cinco", "seis", "siete", "och
 	"catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte",  "cien", "centena", "mil", "millon",
 	"millones" ];
 
-let ordinalNumerals = [ "primero", "primera", "segundo", "segunda", "tercero", "tercera", "cuarto", "cuarta",
+let ordinalNumerals = [ "primera", "segunda", "tercera", "cuarto", "cuarta",
 	"quinto", "quinta", "sexto", "sexta", "septimo", "septima", "octavo", "octava", "noveno",
 	"novena", "décimo", "décima", "vigésimo", "vigésima" ];
 
@@ -21,11 +21,7 @@ let personalPronounsNominative = [ "yo", "tú", "él", "ella", "ello", "nosotros
 
 let personalPronounsAccusative = [ "me", "te", "lo", "se", "nos", "os", "les" ];
 
-let personalPronounsGenitive = [ "mío", "míos", "mía", "mías", "tuyo", "tuyos", "tuya", "tuyas", "suyo", "suyos", "suya",
-	"suyas", "nuestros", "nuestro", "nuestra", "nuestras", "vuestros", "vuestro", "vuestra", "vuestras", "suyo", "suyos",
-	"suya", "suyas" ];
-
-let personalPronounsPrepositional = [ "mí", "ti", "ud", "uds", "usted", "sí", "nosotros", "nosotras", "vosotros", "vosotras" ];
+let personalPronounsPrepositional = [ "mí", "ti", "ud", "uds", "usted", "sí" ];
 
 let personalPronounsComitative = [ "conmigo", "contigo", "consigo" ];
 
@@ -33,16 +29,15 @@ let demonstrativePronouns = [ "este", "ese", "aquel", "esta", "esa", "aquella", 
 	"esas", "aquellas", "esto", "eso", "aquello" ];
 
 let possessivePronouns = [ "mi", "mis", "mío", "míos", "mía", "mías", "nuestro", "nuestros", "nuestra", "nuestras", "tuyo", "tuyos", "tuya",
-	"tuyas", "tu", "tus", "vuestro", "vuestros", "vuestra", "vuestras", "suyo", "suyos", "suya", "suyas", "suyo", "suyos", "suya", "suyas",
-	"su", "sus" ];
+	"tuyas", "tu", "tus", "vuestro", "vuestros", "vuestra", "vuestras", "suyo", "suyos", "suya", "suyas", "su", "sus" ];
 
 let quantifiers = [ "bastante", "bastantes", "mucho", "muchas", "mucha", "muchos", "demasiado", "demasiada", "demasiados", "demasiadas",
-	"poco", "poca", "pocos", "pocas", "demás", "otros", "otras", "muy", "todo", "toda", "todos", "todas" ];
+	"poco", "poca", "pocos", "pocas", "demás", "otros", "otras", "todo", "toda", "todos", "todas" ];
 
 let indefinitePronouns = [ "alguien", "algo", "algún", "alguno", "alguna", "algunos", "algunas", "nadie", "nada", "ningún",
 	"ninguno", "ninguna", "ningunos", "ningunas", "tanto", "tantos", "tanta", "tantas" ];
 
-let interrogativeDeterminers = [ "que", "cuyas", "cual" ];
+let interrogativeDeterminers = [ "cuyas", "cual" ];
 
 let interrogativePronouns = [ "cuyo" ];
 
@@ -52,7 +47,7 @@ let interrogativePronouns = [ "cuyo" ];
  */
 let interrogativeProAdverbs = [ "comoquiera", "cualesquiera", "cualquier", "cuanta", "cuantas", "cuanto", "cuantos", "cuál",
 	"cuáles", "cuánta", "cuántas", "cuánto", "cuántos", "cómo", "dondequiera", "dónde", "quien", "quienes", "quienquiera",
-	"quiera", "quién", "quiénes", "qué", "que" ];
+	"quién", "quiénes", "qué" ];
 
 let locativeAdverbs = [ "allí", "ahí", "allá", "aquí", "acá", "adónde", "delante", "detrás", "debajo",
 	"adelante", "atrás", "adentro", "afuera" ];
@@ -175,36 +170,31 @@ let copula = [ "estoy", "estás", "está", "estamos", "estáis", "están", "estu
 let copulaInfinitive = [ "estar", "ser" ];
 
 let prepositions = [ "a", "ante", "abajo", "adonde", "al", "allende", "alrededor", "amén", "antes", "arriba", "aun",
-	"bajo", "cabe", "cabo", "con", "contigo", "contra", "de", "dejante", "del",
-	"dentro", "desde", "donde", "durante", "en", "encima", "entre", "excepto", "fuera", "hacia", "hasta", "incluso",
-	"mediante", "más", "opuesto", "par", "para", "por", "próximo", "que", "salvo", "según", "sin",	"so",
-	"sobre", "tras", "versus", "vía" ];
+	"bajo", "cabe", "cabo", "con", "contigo", "contra", "de", "dejante", "del", "dentro", "desde", "donde", "durante", "en",
+	"encima", "entre", "excepto", "fuera", "hacia", "hasta", "incluso", "mediante", "más", "opuesto", "par", "para", "próximo",
+	"que", "salvo", "según", "sin",	"so", "sobre", "tras", "versus", "vía" ];
 
-let prepositionalAdverbs = [ "cerca", "lejos" ];
+let prepositionalAdverbs = [ "cerca" ];
 
-let coordinatingConjunctions = [ "pero", "o", "y", "entonces", "pues", "e", "u", "sino", "ni", "bien", "ya",
-	"ora", "luego", "mas" ];
+let coordinatingConjunctions = [ "o", "y", "entonces", "e", "u", "ni", "bien", "ora" ];
 
-/*
-'Bien' is part of 'bien...bien'.
- 'Igual' is part of 'igual...que'.
- */
+// 'Igual' is part of 'igual...que'.
 let correlativeConjunctions = [ "igual" ];
 
-let subordinatingConjunctions = [ "apenas", "mientras", "porque", "segun", "según", "si", "tan", "tal" ];
+let subordinatingConjunctions = [ "apenas", "segun" ];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
 // 'Dijo' is already included in the otherAuxiliaries category.
 let interviewVerbs = [ "apunto", "apunta", "confieso", "confiesa", "confesaba", "revelado", "revelo", "revela", "revelaba", "declarado",
 	"declaro", "declara", "declaba", "señalo", "señala", "señalaba", "declaraba", "comento",
-	"comenta", "revelo", "revela", "revelaba" ];
+	"comenta" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
 let additionalTransitionWords = [ "básicamente", "esencialmente", "primeramente", "siempre", "nunca", "ahora",
 	"quizá", "acaso", "inclusive", "probablemente", "verdaderamente", "seguramente", "jamás", "obviamente",	"indiscutiblement",
 	"inmediatamente", "previamente" ];
 
-let intensifiers = [ "muy", "tan", "completamente", "poco", "suficiente", "tal", "tales" ];
+let intensifiers = [ "muy", "tan", "completamente", "suficiente", "tal", "tales" ];
 
 // These verbs convey little meaning.
 let delexicalizedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hacen", "hice", "hiciste", "hizo", "hicimos", "hicisteis",
@@ -219,15 +209,15 @@ let delexicalizedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hacen
 
 let delexicalizedVerbsInfinitive = [ "hacer", "parecer" ];
 
-	// These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
+// These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
-let generalAdjectivesAdverbs = [ "ayer", "hoy", "mañana", "enfrente", "mal", "mejor", "peor", "más", "menos", "claro", "bueno", "nuevo",
-	"nueva", "nuevos", "nuevas", "viejo", "viejos", "vieja", "viejas", "anterior", "mejor", "grande", "gran", "grandes", "mayores", "fácil",
+let generalAdjectivesAdverbs = [ "ayer", "hoy", "mañana", "enfrente", "mejor", "peor", "menos", "claro", "bueno", "nuevo",
+	"nueva", "nuevos", "nuevas", "viejo", "viejos", "vieja", "viejas", "anterior", "grande", "gran", "grandes", "mayores", "fácil",
 	"fáciles", "rápido", "rápida", "rápidos", "rápidas", "lejos", "lejas", "difícil", "difíciles", "propio", "propios", "propia", "propias",
 	"largo", "larga", "largos", "largas", "bajos", "baja", "bajas", "alto", "alta", "altos", "altas", "regular", "regulares", "normal",
 	"pequeño", "pequeña", "pequeños", "pequeñas", "diminuta", "diminuto", "diminutas", "diminutos", "chiquitito", "chiquititos", "chiquitita",
 	"chiquititas", "corta", "corto", "cortas", "cortos", "principal", "principales", "mismo", "mismos", "misma", "mismas", "capaz", "capaces",
-	"cierta", "cierto", "ciertas", "ciertos", "llamado", "llamada", "llamados", "llamadas", "principalmente", "mayormente", "reciente",
+	"cierta", "cierto", "ciertas", "ciertos", "llamado", "llamada", "llamados", "llamadas", "mayormente", "reciente",
 	"recientes", "completa", "completo", "completas", "completos", "absoluta", "absoluto", "absolutas", "absolutos", "últimamente", "posible",
 	"común", "comúnes", "comúnmente", "constantemente", "continuamente", "directamente", "fácilmente", "casi", "ligeramente",
 	"estima", "estimada", "estimado", "aproximada", "aproximadamente", "última", "últimas", "último", "últimos", "diferente", "diferentes",
@@ -243,8 +233,8 @@ let interjections = [ "ah", "eh", "ejem", "ele", "achís", "adiós", "agur", "aj
 	"guarte", "guay", "hala", "hale", "he", "hi", "hin", "hola", "hopo", "huesque", "huiche", "huichó", "huifa", "hurra", "huy", "ja",
 	"jajajá", "jajay", "jaque", "jau", "jo", "jobar", "joder", "jolín", "jopo", "leñe", "listo", "malhayas", "mamola", "mecachis", "miéchica",
 	"mondo", "moste", "mutis", "nanay", "narices", "oh", "ojalá", "ojo", "okay", "ole", "olé", "órdiga", "oste", "ostras", "ox", "oxte", "paf",
-	"pardiez", "paso", "pucha", "puf", "puff", "pumba", "puñeta", "quedo", "quia", "quiúbole", "recórcholis", "rediez", "rediós", "salve",
-	"sanseacabó", "sniff", "so", "socorro", "sus", "ta", "tararira", "tate", "tururú", "uf", "uh", "ui", "upa", "uste", "uy", "victoria",
+	"pardiez", "paso", "pucha", "puf", "puff", "pumba", "puñeta", "quia", "quiúbole", "recórcholis", "rediez", "rediós", "salve",
+	"sanseacabó", "sniff", "socorro", "ta", "tararira", "tate", "tururú", "uf", "uh", "ui", "upa", "uste", "uy", "victoria",
 	"vítor", "viva", "za", "zambomba", "zapateta", "zape", "zas" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
@@ -254,12 +244,12 @@ let recipeWords = [ "kg", "mg", "gr", "g", "km", "m", "l", "ml", "cl" ];
 let vagueNouns = [ "cosa", "cosas", "manera", "maneras", "caso", "casos", "pieza", "piezas", "vez", "veces", "parte", "partes", "porcentaje",
 	"instancia", "aspecto", "aspectos", "punto", "puntos", "objeto", "objectos", "persona", "personas" ];
 
-let miscellaneous = [ "sí", "no", "euros", "años" ];
+let miscellaneous = [ "no", "euros", "años" ];
 
 module.exports = function() {
 	return {
 		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns, personalPronounsGenitive,
+		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns,
 			personalPronounsPrepositional, personalPronounsComitative ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
@@ -280,7 +270,7 @@ module.exports = function() {
 		intensifiers: intensifiers,
 		recipeWords: recipeWords,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
-			personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional, personalPronounsGenitive,
+			personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional,
 			personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns,
 			interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copula,
 			copulaInfinitive, prepositions,	coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
