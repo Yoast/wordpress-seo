@@ -122,12 +122,13 @@ let vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likeliho
 	"person" ];
 
 // 'No' is already included in the quantifier list.
-let miscellaneous = [ "not", "yes", "rid", "sure", "top", "bottom", "ok", "okay", "amen", "aka" ];
+let miscellaneous = [ "not", "yes", "sure", "top", "bottom", "ok", "okay", "amen", "aka" ];
 
 module.exports = function() {
 	return {
 		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns ),
+		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative ),
+		possessivePronouns: possessivePronouns,
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		coordinatingConjunctions: coordinatingConjunctions,
@@ -135,7 +136,7 @@ module.exports = function() {
 		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
 		continuousVerbs: notFilteredPassiveAuxiliaries.concat( continuousVerbs ),
 		quantifiers: quantifiers,
-		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
+		interrogatives: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
 		passiveAuxiliaries: filteredPassiveAuxiliaries,
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		miscellaneous: miscellaneous,
@@ -151,8 +152,9 @@ module.exports = function() {
 		intensifiers: intensifiers,
 		recipeWords: recipeWords,
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		vagueNouns: vagueNouns,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
+			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,
 			indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries,
 			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,

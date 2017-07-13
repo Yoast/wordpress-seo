@@ -214,7 +214,8 @@ let miscellaneous = [ "ne", "oui", "d'accord", "amen", "euro", "euros", "etc" ];
 module.exports = function() {
 	return {
 		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns, personalPronounsStressed ),
+		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, personalPronounsStressed ),
+		possessivePronouns: possessivePronouns,
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		coordinatingConjunctions: coordinatingConjunctions,
@@ -239,6 +240,7 @@ module.exports = function() {
 		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
 		recipeWords: recipeWords,
 		timeWords: timeWords,
+		vagueNouns: vagueNouns,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive,

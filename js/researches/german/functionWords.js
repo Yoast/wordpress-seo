@@ -238,7 +238,7 @@ let generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"möglichem", "möglich", "moegliche", "moeglicher", "moegliches", "moeglichen", "moeglichem", "moeglich", "nächsten", "naechsten",
 	"voll", "voller", "vollen", "vollem", "volle", "volles", "vollerer", "volleren", "vollerem", "vollere", "volleres", "vollster",
 	"vollsten", "vollstem", "vollste", "vollstes", "außen", "ganzer", "ganzen", "ganzem", "ganze", "ganzes", "gerne", "oben", "unten", "zurück",
-	"zurueck" ];
+	"zurueck", "nicht" ];
 
 let interjections = [  "ach", "aha", "oh", "au", "bäh", "baeh", "igitt", "huch", "hurra", "hoppla", "nanu", "oha", "olala", "pfui", "tja",
 	"uups", "wow", "grr", "äh", "aeh", "ähm", "aehm", "öhm", "oehm", "hm", "mei", "mhm", "okay", "richtig", "eijeijeijei" ];
@@ -256,24 +256,24 @@ let vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sa
 	"idee", "ideen", "ahnung", "ahnungen", "thema", "themas", "themata", "themen", "fall", "falle", "falles", "fälle", "fällen",
 	"faelle", "faellen", "mensch", "menschen", "leute" ];
 
-let miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "nicht", "amen", "ja", "nein", "euro" ];
+let miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "amen", "ja", "nein", "euro" ];
 
 module.exports = function() {
 	return {
 		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, personalPronounsDative,
-			possessivePronouns ),
+		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, personalPronounsDative ),
+		possessivePronouns: possessivePronouns,
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		coordinatingConjunctions: coordinatingConjunctions,
 		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
 		verbs: copula.concat( interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries, delexicalizedVerbs ),
 		quantifiers: quantifiers,
-		interrogativeProAdverbs: interrogativeProAdverbs,
+		interrogatives: interrogativeProAdverbs,
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		// These verbs that should be filtered at the beginning of prominent word combinations.
-		infinitives: otherAuxiliariesInfinitive.concat( passiveAuxiliariesInfinitive,
-			delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ),
+		infinitives: otherAuxiliariesInfinitive.concat( passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive,
+			copulaInfinitive, interviewVerbsInfinitive ),
 		miscellaneous: miscellaneous,
 		interjections: interjections,
 		pronominalAdverbs: pronominalAdverbs,
@@ -288,6 +288,7 @@ module.exports = function() {
 		recipeWords: recipeWords,
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
 		timeWords: timeWords,
+		vagueNouns: vagueNouns,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers,
 			indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives,

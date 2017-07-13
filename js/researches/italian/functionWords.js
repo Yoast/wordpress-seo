@@ -210,7 +210,7 @@ let timeWords = [ "secondi", "minuto", "minuti", "ora", "ore", "giorno", "giorni
 let vagueNouns = [ "aspetto", "aspetti", "caso", "casi", "cose", "idea", "idee", "istanza", "maniera", "oggetto", "oggetti", "parte",
 	"parti", "persona", "persone", "pezzo", "pezzi", "punto", "punti", "sorta", "sorte", "tema", "temi", "volte" ];
 
-let miscellaneous = [ "sì", "no", "non", "€", "euro", "euros", "ecc.", "eccetera" ];
+let miscellaneous = [ "sì", "no", "non", "€", "euro", "euros", "ecc", "eccetera" ];
 
 /*
  Exports all function words concatenated, and specific word categories and category combinations
@@ -220,14 +220,15 @@ let miscellaneous = [ "sì", "no", "non", "€", "euro", "euros", "ecc.", "eccet
 module.exports = function() {
 	return {
 		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns, personalPronounsPrepositional ),
+		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, personalPronounsPrepositional ),
+		possessivePronouns: possessivePronouns,
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		coordinatingConjunctions: coordinatingConjunctions,
 		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
 		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
 		quantifiers: quantifiers,
-		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeAdverbs ),
+		interrogatives: interrogativeDeterminers.concat( interrogativePronouns, interrogativeAdverbs ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		miscellaneous: miscellaneous,
 		pronominalAdverbs: pronominalAdverbs,
@@ -242,6 +243,7 @@ module.exports = function() {
 		recipeWords: recipeWords,
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
 		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
+		vagueNouns: vagueNouns,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers,
 			indefinitePronouns,	interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers,

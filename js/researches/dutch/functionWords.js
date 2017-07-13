@@ -33,8 +33,7 @@ let reflexivePronouns = [ "mezelf", "mijzelf", "jezelf", "jouzelf", "zichzelf", 
 
 let reciprocalPronouns = [ "mekaar", "elkaar", "elkander", "mekander" ];
 
-let indefinitePronouns = [ "iedereen", "ieder", "eenieder", "alleman", "allen", "alles", "iemand", "niemand", "iets",
-	"niets", "menigeen" ];
+let indefinitePronouns = [ "iedereen", "ieder", "eenieder", "alleman", "allen", "alles", "iemand", "niemand", "iets", "niets", "menigeen" ];
 
 let indefinitePronounsPossessive  = [ "ieders", "aller", "iedereens", "eenieders" ];
 
@@ -52,9 +51,8 @@ let pronominalAdverbs = [ "daaraan", "daarachter", "daaraf", "daarbij", "daarbin
 	"hierjegens", "hierlangs", "hiermede", "hiermee", "hierna", "hiernaar", "hiernaartoe", "hiernaast", "hieromheen", "hieromtrent",
 	"hieronder", "hierop", "hierover", "hieroverheen", "hierrond", "hiertegen", "hiertoe", "hiertussen", "hiertussenuit", "hieruit", "hiervan",
 	"hiervandaan", "hiervoor", "vandaan", "waaraan", "waarachter", "waaraf", "waarbij", "waarboven", "waarbuiten", "waardoorheen",
-	"waarheen", "waarin", "waarjegens", "waarmede", "waarna", "waarnaar", "waarnaartoe", "waarnaast", "waarop", "waarover",
-	"waaroverheen", "waarrond", "waartegen", "waartegenin", "waartoe", "waartussen", "waartussenuit", "waaruit", "waarvan", "waarvandaan",
-	"waarvoor" ];
+	"waarheen", "waarin", "waarjegens", "waarmede", "waarna", "waarnaar", "waarnaartoe", "waarnaast", "waarop", "waarover", "waaroverheen",
+	"waarrond", "waartegen", "waartegenin", "waartoe", "waartussen", "waartussenuit", "waaruit", "waarvan", "waarvandaan", "waarvoor" ];
 
 let locativeAdverbs = [ "daar", "hier", "ginder", "daarginds", "ginds", "ver", "veraf", "ergens", "nergens", "overal", "dichtbij",
 	"kortbij" ];
@@ -135,7 +133,7 @@ let generalAdjectivesAdverbs = [ "nieuw", "nieuwe", "nieuwer", "nieuwere", "nieu
 	"minder", "mindere", "minst", "minste", "eigen", "laag", "lage", "lager", "lagere", "laagst", "laagste", "hoog", "hoge", "hoger",
 	"hogere", "hoogst", "hoogste", "klein", "kleine", "kleiner", "kleinere", "kleinst", "kleinste", "kort", "korte", "korter", "kortere",
 	"kortst", "kortste", "herhaaldelijke", "directe", "ongeveer", "slecht", "slechte", "slechter", "slechtere", "slechtst",
-	"slechtste", "zulke", "zulk", "zo'n", "zulks", "er", "extreem", "extreme", "bijbehorende", "bijbehorend" ];
+	"slechtste", "zulke", "zulk", "zo'n", "zulks", "er", "extreem", "extreme", "bijbehorende", "bijbehorend", "niet" ];
 
 let interjections = [ "oh", "wauw", "hèhè", "hè", "hé", "au", "ai", "jaja", "welja", "jawel", "ssst", "heremijntijd", "hemeltjelief", "aha",
 	"foei", "hmm", "nou", "nee", "tja", "nja", "okido", "ho", "halt", "komaan", "komop", "verrek", "nietwaar", "brr", "oef",
@@ -147,7 +145,7 @@ let recipeWords = [ "ml", "cl", "dl", "l", "tl", "el", "mg", "g", "gr", "kg", "c
 let vagueNouns = [ "ding", "dingen", "manier", "manieren", "item", "items", "keer", "maal", "procent", "geval", "aspect", "persoon",
 	"personen", "deel" ];
 
-let miscellaneous = [ "niet", "wel", "ja", "neen", "oké", "oke", "okee", "ok", "zoiets", "€", "euro" ];
+let miscellaneous = [ "wel", "ja", "neen", "oké", "oke", "okee", "ok", "zoiets", "€", "euro" ];
 
 /*
 Exports all function words concatenated, and specific word categories and category combinations
@@ -157,7 +155,8 @@ to be used as filters for the prominent words.
 module.exports = function() {
 	return {
 		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns ),
+		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative ),
+		possessivePronouns: possessivePronouns,
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		coordinatingConjunctions: coordinatingConjunctions,
@@ -166,7 +165,7 @@ module.exports = function() {
 		infinitives: passiveAuxiliariesInfinitive.concat( otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
 		quantifiers: quantifiers,
 		relativePronouns: relativePronouns,
-		interrogativeProAdverbs: interrogativeProAdverbs,
+		interrogatives: interrogativeProAdverbs,
 		passiveAuxiliaries: filteredPassiveAuxiliaries,
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		miscellaneous: miscellaneous,
@@ -182,6 +181,7 @@ module.exports = function() {
 		intensifiers: intensifiers,
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
 		recipeWords: recipeWords,
+		vagueNouns: vagueNouns,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
 			indefinitePronounsPossessive, relativePronouns, interrogativeProAdverbs,

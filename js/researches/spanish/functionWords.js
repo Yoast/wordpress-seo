@@ -244,21 +244,22 @@ let recipeWords = [ "kg", "mg", "gr", "g", "km", "m", "l", "ml", "cl" ];
 let vagueNouns = [ "cosa", "cosas", "manera", "maneras", "caso", "casos", "pieza", "piezas", "vez", "veces", "parte", "partes", "porcentaje",
 	"instancia", "aspecto", "aspectos", "punto", "puntos", "objeto", "objectos", "persona", "personas" ];
 
-let miscellaneous = [ "no", "euros", "años" ];
+let miscellaneous = [ "no", "euros" ];
 
 module.exports = function() {
 	return {
 		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns,
-			personalPronounsPrepositional, personalPronounsComitative ),
+		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, personalPronounsPrepositional,
+			personalPronounsComitative ),
+		possessivePronouns: possessivePronouns,
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		coordinatingConjunctions: coordinatingConjunctions,
 		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
-		verbs: otherAuxiliaries.concat( copula, interviewVerbs, delexicalizedVerbs, otherAuxiliaries ),
+		verbs: otherAuxiliaries.concat( copula, interviewVerbs, delexicalizedVerbs ),
 		infinitives: otherAuxiliariesInfinitive.concat( copulaInfinitive, delexicalizedVerbsInfinitive ),
 		quantifiers: quantifiers,
-		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
+		interrogatives: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		miscellaneous: miscellaneous,
 		interjections: interjections,
@@ -269,6 +270,7 @@ module.exports = function() {
 		prepositionalAdverbs: prepositionalAdverbs,
 		intensifiers: intensifiers,
 		recipeWords: recipeWords,
+		vagueNouns: vagueNouns,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional,
 			personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns,

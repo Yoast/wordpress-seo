@@ -199,60 +199,63 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWordsAnywhere( combinations, specialCharacters );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().transitionWords );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().adverbialGenitives );
-	// Todo Split pronoun categories
-	combinations = filterFunctionWordsAnywhere( combinations, functionWords().personalPronounsAccusative );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().personalPronouns );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().reflexivePronouns );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().interjections );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().cardinalNumerals );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().verbs );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().indefinitePronouns );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().conjunctionsFilteredEverywhere );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().interrogatives );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().relativePronouns );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().locativeAdverbs );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().miscellaneous );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().prepositionalAdverbs );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().pronominalAdverbs );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().recipeWords );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().timeWords );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().vagueNouns );
 	combinations = filterFunctionWords( combinations, functionWords().articles );
-	combinations = filterFunctionWords( combinations, functionWords().personalPronouns );
 	combinations = filterFunctionWords( combinations, functionWords().prepositions );
 	combinations = filterFunctionWords( combinations, functionWords().coordinatingConjunctions );
-	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
 	combinations = filterFunctionWords( combinations, functionWords().relativePronouns );
-	combinations = filterFunctionWords( combinations, functionWords().pronominalAdverbs );
-	combinations = filterFunctionWords( combinations, functionWords().miscellaneous );
-	combinations = filterFunctionWordsAtEnding( combinations, functionWords().ordinalNumerals );
-	combinations = filterFunctionWords( combinations, functionWords().locativeAdverbs );
-	combinations = filterFunctionWords( combinations, functionWords().prepositionalAdverbs );
 	combinations = filterFunctionWords( combinations, functionWords().intensifiers );
-	combinations = filterFunctionWords( combinations, functionWords().recipeWords );
+	combinations = filterFunctionWordsAtEnding( combinations, functionWords().ordinalNumerals );
 	switch( getLanguage( locale ) ) {
 		case "en":
-			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().reflexivePronouns );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().continuousVerbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbs );
+			combinations = filterFunctionWords( combinations, functionWords().possessivePronouns );
+			combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 			break;
 		case "es":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
+			combinations = filterFunctionWords( combinations, functionWords().possessivePronouns );
+			combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 			break;
 		case "it":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbsPreceding );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().timeWords );
+			combinations = filterFunctionWords( combinations, functionWords().possessivePronouns );
+			combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 			break;
 		case "fr":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
-			combinations = filterFunctionWords( combinations, functionWords().interrogatives );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbsPreceding );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().timeWords );
-
+			combinations = filterFunctionWords( combinations, functionWords().possessivePronouns );
+			combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 			break;
 		case "de":
 		case "nl":
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().infinitives );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().interrogativeProAdverbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbs );
-			combinations = filterFunctionWords( combinations, functionWords().timeWords );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reciprocalPronouns );
+			combinations = filterFunctionWordsAnywhere( combinations, functionWords().reciprocalPronouns );
+			combinations = filterFunctionWordsAnywhere( combinations, functionWords().possessivePronouns );
+			combinations = filterFunctionWordsAnywhere( combinations, functionWords().quantifiers );
 			break;
 	}
 	return combinations;
