@@ -18,17 +18,12 @@ describe( "gets Italian word combinations", function() {
 			" Le ultime elezioni sono oggetto dell’inchiesta della procura di Caltanissetta.";
 		let expected = [
 			new WordCombination( [ "dell'inchiesta", "della", "procura", "di", "caltanissetta" ], 11, italianFunctionWords ),
-			new WordCombination( [ "oggetto", "dell'inchiesta", "della", "procura" ], 11, italianFunctionWords ),
-			new WordCombination( [ "elezioni", "sono", "oggetto", "dell'inchiesta" ], 11, italianFunctionWords ),
-			new WordCombination( [ "procura", "di", "caltanissetta" ], 11, italianFunctionWords ),
 			new WordCombination( [ "dell'inchiesta", "della", "procura" ], 11, italianFunctionWords ),
-			new WordCombination( [ "elezioni", "sono", "oggetto" ], 11, italianFunctionWords ),
-			new WordCombination( [ "oggetto", "dell'inchiesta" ], 11, italianFunctionWords ),
-			new WordCombination( [ "dell'inchiesta" ], 11, italianFunctionWords ),
-			new WordCombination( [ "caltanissetta" ], 11, italianFunctionWords ),
-			new WordCombination( [ "procura" ], 11, italianFunctionWords ),
+			new WordCombination( [ "procura", "di", "caltanissetta" ], 11, italianFunctionWords ),
 			new WordCombination( [ "elezioni" ], 11, italianFunctionWords ),
-
+			new WordCombination( [ "dell'inchiesta" ], 11, italianFunctionWords ),
+			new WordCombination( [ "procura" ], 11, italianFunctionWords ),
+			new WordCombination( [ "caltanissetta" ], 11, italianFunctionWords ),
 		];
 
 		// Make sure our words aren't filtered by density.

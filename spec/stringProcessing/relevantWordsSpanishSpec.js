@@ -17,7 +17,6 @@ describe( "gets Spanish word combinations", function() {
 			"de nieve. No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar porque hubo una tormenta " +
 			"de nieve.";
 		let expected = [
-			new WordCombination( [ 'trabajar', 'porque', 'hubo', 'una', 'tormenta' ], 19, spanishFunctionWords ),
 			new WordCombination( [ 'tormenta', 'de', 'nieve' ], 19, spanishFunctionWords ),
 			new WordCombination( [ 'ir', 'a', 'trabajar' ], 19, spanishFunctionWords ),
 			new WordCombination( [ "trabajar" ], 19, spanishFunctionWords ),
