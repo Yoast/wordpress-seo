@@ -184,7 +184,7 @@ let generalAdjectivesAdverbs = [ "anteriore",  "anteriori", "precedente", "prece
 	"recente", "recenti", "totale", "totali", "completo", "completa", "completi", "complete", "possibile", "possibili", "ultimo",
 	"ultima", "ultimi", "ultime", "differenti", "simile", "simili", "prossimo", "prossima", "prossimi", "prossime", "giusto",
 	"giusta", "giusti", "giuste", "giustamente", "cosiddetto", "bene", "meglio", "benissimo", "male", "peggio", "malissimo",
-	"comunemente", "constantemente","direttamente", "esattamente", "facilmente", "generalmente", "leggermente", "personalmente",
+	"comunemente", "constantemente", "direttamente", "esattamente", "facilmente", "generalmente", "leggermente", "personalmente",
 	"recentemente", "sinceramente", "solamente", "avanti", "indietro" ];
 
 let generalAdjectivesAdverbsPreceding = [ "nuovo", "nuova", "nuovi", "nuove", "vecchio", "vecchia", "vecchi", "vecchie",

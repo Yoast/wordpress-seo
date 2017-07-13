@@ -203,9 +203,9 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().personalPronounsAccusative );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().interjections );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().cardinalNumerals );
-	combinations = filterFunctionWordsAnywhere( combinations, functionWords().verbs);
-	combinations = filterFunctionWordsAnywhere( combinations, functionWords().indefinitePronouns);
-	combinations = filterFunctionWordsAnywhere( combinations, functionWords().conjunctionsFilteredEverywhere);
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().verbs );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().indefinitePronouns );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords().conjunctionsFilteredEverywhere );
 	combinations = filterFunctionWords( combinations, functionWords().articles );
 	combinations = filterFunctionWords( combinations, functionWords().personalPronouns );
 	combinations = filterFunctionWords( combinations, functionWords().prepositions );

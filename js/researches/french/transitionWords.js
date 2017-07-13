@@ -4,7 +4,7 @@ let singleWords = [ "ainsi", "alors", "aussi", "car", "cependant", "certainement
 	"davantage", "désormais", "deuxièmement", "donc", "dorénavant", "effectivement", "également", "enfin", "ensuite", "entre-temps",
 	"essentiellement", "excepté", "finalement", "globalement", "jusqu'ici", "là-dessus", "lorsque", "mais", "malgré", "néanmoins",
 	"notamment", "partant", "plutôt", "pourtant", "précédemment", "premièrement", "probablement", "puis", "puisque", "quoique",
-	"sauf", "selon", "semblablement", "sinon", "suivant", "tel",  "toutefois", "troisièmement" ];
+	"sauf", "selon", "semblablement", "sinon", "suivant", "toutefois", "troisièmement" ];
 
 let multipleWords = [ "à cause de", "à ce jour", "à ce propos", "à ce sujet", "à cet égard", "à cette fin", "à compter de",
 	"à condition que", "à défaut de", "à force de", "à juste titre", "à la lumière de", "à la suite de", "à l'aide de", "à l'appui de",
