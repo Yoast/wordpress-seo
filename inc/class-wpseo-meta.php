@@ -309,7 +309,8 @@ class WPSEO_Meta {
 							register_meta( 'post', self::$meta_prefix . $key, array(
 								'sanitize_callback' => array( __CLASS__, 'sanitize_post_meta' ),
 							) );
-						} else {
+						}
+						else {
 							register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
 						}
 					}
