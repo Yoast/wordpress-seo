@@ -20,9 +20,10 @@ class WPSEO_Link_Type_Classifier {
 	 * @param string $base_url The base url to set.
 	 */
 	public function __construct( $base_url ) {
-		$this->base_host = wp_parse_url( $base_url, PHP_URL_HOST );
 
-		$base_path = wp_parse_url( $base_url, PHP_URL_PATH );
+		$this->base_host = WPSEO_Link_Utils::get_url_part( $base_url, 'host' );
+
+		$base_path = WPSEO_Link_Utils::get_url_part( $base_url, 'path' );
 		if ( $base_path ) {
 			$this->base_path = trailingslashit( $base_path );
 		}
