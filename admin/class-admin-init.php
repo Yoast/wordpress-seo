@@ -491,7 +491,6 @@ class WPSEO_Admin_Init {
 
 		// WordPress hooks that have been deprecated in Yoast SEO 3.0.
 		$deprecated_30 = array(
-			'wpseo_pre_analysis_post_content',
 			'wpseo_metadesc_length',
 			'wpseo_metadesc_length_reason',
 			'wpseo_body_length_score',
