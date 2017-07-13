@@ -131,6 +131,7 @@ Release Date: July 13th, 2017
 * Only load babel polyfill if it hasn't been loaded by another plugin yet.
 * Adds a feature toggle to disable the link counter tool & link columns.
 * Fixes a compatibility issue with WordPress 4.6.
+* Fixes an issue where the link columns would disappear after quick-editing a post.
 
 = 5.0.1 =
 
