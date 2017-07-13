@@ -83,7 +83,7 @@ class WPSEO_Sitemaps {
 			new WPSEO_Author_Sitemap_Provider(),
 		);
 
-		$external_providers = apply_filters( 'wpseo_sitmaps_providers', array() );
+		$external_providers = apply_filters( 'wpseo_sitemaps_providers', array() );
 
 		foreach ( $external_providers as $provider ) {
 			if ( is_object( $provider ) && $provider instanceof WPSEO_Sitemap_Provider ) {
