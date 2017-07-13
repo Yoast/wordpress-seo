@@ -1,3 +1,6 @@
+### 5.0.2: July 13th, 2017
+* Includes every change in Yoast SEO core 5.0.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 5.0.1: July 6th, 2017
 * Includes every change in Yoast SEO core 5.0.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 
