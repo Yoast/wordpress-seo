@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { localize } from "i18n-calypso";
 
+import { localize } from "../../utils/i18n";
 import Section from "../../forms/Section";
 import Button from "../../forms/Button";
 

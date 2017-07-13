@@ -1,31 +1,30 @@
+const path = require("path");
+
 module.exports = {
 	entry: './main.js',
-	devtool: 'eval-source-map',
 	output: {
-		path: './',
+		path: __dirname,
 		filename: 'index.js'
 	},
 	devServer: {
 		inline: true,
-		port: 3333
+		port: 3333,
+		historyApiFallback: true
 	},
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
-				loader: 'babel',
-				query: {
-					presets: [ 'es2015', 'react' ]
-				}
+				use: [ "babel-loader" ],
 			},
 			{
 				test: /\.json$/,
-				loader: 'json-loader'
+				use: [ "json-loader"],
 			}
 		]
 	},
 	resolve: {
-		extensions: ['', '.json', '.jsx', '.js']
+		extensions: ['.json', '.jsx', '.js']
 	}
 };

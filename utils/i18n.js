@@ -61,18 +61,19 @@ export function translate( singleForm, pluralForm = "", number = 0 ) {
  * @returns {React.Component} The new localized component.
  */
 export function localize( ComposedComponent ) {
-	let componentName = ComposedComponent.displayName || ComposedComponent.name || "";
+	const componentName = ComposedComponent.displayName || ComposedComponent.name || "";
 	let i18nProps = {
 		translate: translate,
 	};
-
-	return React.createClass( {
-		displayName: "Localized" + componentName,
-
-		render: function() {
-			var props = assign( {}, this.props, i18nProps );
-
-			return React.createElement( ComposedComponent, props );
-		},
-	} );
+	class LocalizedComponent extends React.Component {
+		constructor( props ) {
+			super( props );
+			this.displayName = "Localized" + componentName;
+		}
+		render() {
+			const props = assign( {}, this.props, i18nProps );
+			return <ComposedComponent {...props}/>;
+		}
+	}
+	return LocalizedComponent;
 }
