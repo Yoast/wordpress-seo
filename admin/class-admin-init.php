@@ -67,6 +67,12 @@ class WPSEO_Admin_Init {
 	public function validate_extensions() {
 
 		if ( filter_input( INPUT_GET, 'page' ) === WPSEO_Admin::PAGE_IDENTIFIER ) {
+			/**
+			 * Filter: 'yoast-active-extensions' - Collects all active extensions. This hook is implemented in the
+			 *                                     license manager.
+			 *
+			 * @api array $extensions The array with extensions.
+			 */
 			apply_filters( 'yoast-active-extensions', array() );
 		}
 
@@ -87,8 +93,7 @@ class WPSEO_Admin_Init {
 				sprintf(
 					__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
 					$product_name,
-				'<a href="https://yoa.st/13j" target="_blank">My Yoast</a>',
-					'</a>'
+				'<a href="https://yoa.st/13j" target="_blank">My Yoast</a>'
 				),
 				$notification_options
 			);
