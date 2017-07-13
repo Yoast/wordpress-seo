@@ -107,7 +107,7 @@ let generalAdjectivesAdverbs = [ "new", "newer", "newest", "old", "older", "olde
 	"short", "shorter", "shortest", "main", "actual", "nice", "nicer", "nicest", "real", "same", "able", "certain", "usual",
 	"so-called", "mainly", "mostly", "recent", "anymore", "complete", "lately", "possible", "commonly", "constantly",
 	"continually", "directly", "easily", "nearly", "slightly", "somewhere", "estimated", "latest", "different", "similar",
-	"widely", "bad", "worse", "worst", "great" ];
+	"widely", "bad", "worse", "worst", "great", "specific" ];
 
 let interjections = [ "oh", "wow", "tut-tut", "tsk-tsk", "ugh", "whew", "phew", "yeah", "yea", "shh", "oops", "ouch", "aha",
 	"yikes" ];
@@ -122,7 +122,7 @@ let vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likeliho
 	"person" ];
 
 // 'No' is already included in the quantifier list.
-let miscellaneous = [ "not", "yes", "sure", "top", "bottom", "ok", "okay", "amen", "aka" ];
+let miscellaneous = [ "not", "yes", "sure", "top", "bottom", "ok", "okay", "amen", "aka", "etc", "etcetera" ];
 
 module.exports = function() {
 	return {
