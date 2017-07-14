@@ -259,6 +259,10 @@ let vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sa
 
 let miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "amen", "ja", "nein", "euro" ];
 
+let titlesPreceding = [ "fr", "hr", "dr", "prof" ];
+
+let titlesFollowing = [ "jr", "sen" ];
+
 module.exports = function() {
 	return {
 		articles: articles,
@@ -290,6 +294,8 @@ module.exports = function() {
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
 		timeWords: timeWords,
 		vagueNouns: vagueNouns,
+		titlesPreceding: titlesPreceding,
+		titlesFollowing: titlesFollowing,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers,
 			indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives,
@@ -297,6 +303,6 @@ module.exports = function() {
 			otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers,
 			delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
-			timeWords ),
+			timeWords, titlesPreceding, titlesFollowing ),
 	};
 };
