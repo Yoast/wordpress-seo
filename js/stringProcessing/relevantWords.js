@@ -27,7 +27,7 @@ let relevantWordLimit = 100;
 let wordCountLowerLimit = 200;
 
 // First four characters: en dash, em dash, hyphen-minus, and copyright sign.
-let specialCharacters = [ "–", "—", "-", "\u00a9", "#", "%", "/", "\\", "$", "€", "£", "*", "•", "|", "→", "←", "}", "{", "//", "||" ];
+let specialCharacters = [ "–", "—", "-", "\u00a9", "#", "%", "/", "\\", "$", "€", "£", "*", "•", "|", "→", "←", "}", "{", "//", "||", "\u200b" ];
 
 /**
  * Returns the word combinations for the given text based on the combination size.
