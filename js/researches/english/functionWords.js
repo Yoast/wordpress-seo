@@ -21,7 +21,7 @@ let personalPronounsAccusative = [ "me", "him", "us", "them" ];
 let demonstrativePronouns = [ "this", "that", "these", "those" ];
 let possessivePronouns = [ "my", "your", "his", "her", "its", "their", "our", "mine", "yours", "hers", "theirs", "ours" ];
 let quantifiers = [ "all", "some", "many", "lot", "lots", "ton", "tons", "bit", "no", "every", "enough", "little",
-	"much", "more", "most",	"plenty", "several", "few", "fewer", "kind" ];
+	"much", "more", "most", "plenty", "several", "few", "fewer", "kind" ];
 let reflexivePronouns = [ "myself", "yourself", "himself", "herself", "itself", "oneself", "ourselves", "yourselves", "themselves" ];
 let indefinitePronouns = [ "none", "nobody", "everyone", "everybody", "someone", "somebody", "anyone", "anybody", "nothing",
 	"everything", "something", "anything", "each", "other", "whatever", "whichever", "whoever", "whomever",
@@ -116,6 +116,9 @@ let interjections = [ "oh", "wow", "tut-tut", "tsk-tsk", "ugh", "whew", "phew", 
 let recipeWords = [ "tbs", "tbsp", "spk", "lb", "qt", "pk", "bu", "oz", "pt", "mod", "doz", "hr", "f.g", "ml", "dl", "cl",
 	"l", "mg", "g", "kg", "quart" ];
 
+let timeWords = [ "seconds", "minute", "minutes", "hour", "hours", "day", "days", "week", "weeks", "month", "months",
+	"year", "years", "today", "tomorrow", "yesterday" ];
+
 // 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
 let vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likelihood", "ones", "piece", "pieces", "stuff", "times",
 	"part", "parts", "percent", "instance", "instances", "aspect", "aspects", "item", "items", "idea", "theme",
@@ -152,6 +155,7 @@ module.exports = function() {
 		intensifiers: intensifiers,
 		recipeWords: recipeWords,
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		timeWords: timeWords,
 		vagueNouns: vagueNouns,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,

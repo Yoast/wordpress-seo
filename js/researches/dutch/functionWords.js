@@ -142,6 +142,10 @@ let interjections = [ "oh", "wauw", "hèhè", "hè", "hé", "au", "ai", "jaja", 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
 let recipeWords = [ "ml", "cl", "dl", "l", "tl", "el", "mg", "g", "gr", "kg", "ca", "theel", "min", "sec", "uur" ];
 
+let timeWords = [ "seconde", "secondes", "seconden", "minuut", "minuten", "uur", "uren", "dag", "dagen", "week", "weken",
+	"maand", "maanden", "jaar", "jaren", "vandaag", "morgen", "overmorgen", "gisteren", "eergisteren",
+	"'s", "morgens", "avonds", "middags", "nachts" ];
+
 let vagueNouns = [ "ding", "dingen", "manier", "manieren", "item", "items", "keer", "maal", "procent", "geval", "aspect", "persoon",
 	"personen", "deel" ];
 
@@ -181,6 +185,7 @@ module.exports = function() {
 		intensifiers: intensifiers,
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
 		recipeWords: recipeWords,
+		timeWords: timeWords,
 		vagueNouns: vagueNouns,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,

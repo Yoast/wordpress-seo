@@ -12,9 +12,11 @@ let cardinalNumerals = [ "deux", "trois", "quatre", "cinq", "six", "sept", "huit
 	"quatre-vingt", "quatre-vingt-dix", "cent", "mille", "million", "milliard" ];
 
 // 'premier' and 'première' are not included because of their secondary meanings ('prime minister', '[movie] premiere')
-let ordinalNumerals = [ "deuxième", "troisième",
-	"quatrième", "cinquième", "sixième", "septième", "huitième", "neuvième", "dixième", "onzième", "douzième", "treizième",
-	"quatorzième", "quinzième", "seizième", "dix-septième", "dix-huitième", "dix-neuvième", "vingtième" ];
+let ordinalNumerals = [ "second", "secondes", "deuxième", "deuxièmes", "troisième", "troisièmes", "quatrième", "quatrièmes", "cinquième",
+	"cinquièmes", "sixième", "sixièmes", "septième", "septièmes", "huitième", "huitièmes", "neuvième", "neuvièmes",
+	"dixième", "dixièmes", "onzième", "onzièmes", "douzième", "douzièmes", "treizième", "treizièmes", "quatorzième",
+	"quatorzièmes", "quinzième", "quinzièmes", "seizième", "seizièmes", "dix-septième", "dix-septièmes", "dix-huitième",
+	"dix-huitièmes", "dix-neuvième", "dix-neuvièmes", "vingtième", "vingtièmes" ];
 
 let personalPronounsNominative = [ "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles" ];
 
@@ -52,7 +54,7 @@ let locativeAdverbs = [ "là", "ici", "voici" ];
 // 'Vins' is not included because it also means 'wines'.
 let otherAuxiliaries = [ "a", "a-t-elle", "a-t-il", "a-t-on", "ai", "ai-je", "aie", "as", "as-tu", "aura", "aurai", "auraient", "aurais", "aurait",
 	"auras", "aurez", "auriez", "aurons", "auront", "avaient", "avais", "avait", "avez", "avez-vous", "aviez", "avions", "avons", "avons-nous",
-	"ayez",	"ayons", "eu", "eûmes", "eurent", "eus", "eut", "eûtes", "j'ai", "j'aurai", "j'avais", "j'eus", "ont", "ont-elles", "ont-ils", "vais",
+	"ayez", "ayons", "eu", "eûmes", "eurent", "eus", "eut", "eûtes", "j'ai", "j'aurai", "j'avais", "j'eus", "ont", "ont-elles", "ont-ils", "vais",
 	"vas", "va", "allons", "allez", "vont", "vais-je", "vas-tu", "va-t-il", "va-t-elle", "va-t-on", "allons-nous", "allez-vous", "vont-elles",
 	"vont-ils", "allé", "allés", "j'allai", "allai", "allas", "alla", "allâmes", "allâtes", "allèrent", "j'allais", "allais", "allait", "allions",
 	"alliez", "allaient", "j'irai", "iras", "ira", "irons", "irez", "iront", "j'aille", "aille", "ailles", "aillent", "j'allasse", "allasse",
@@ -153,8 +155,8 @@ let interviewVerbsInfinitive = [ "dire", "penser", "demander", "concéder", "con
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
 let additionalTransitionWords = [ "encore", "éternellement", "immédiatement", "compris", "comprenant", "inclus", "naturellement", "particulièrement",
-	"notablement", "actuellement", "maintenant", "aujourd'hui", "ordinairement", "généralement", "habituellement", "d'habitude", "vraiment",
-	"finalement", "uniquement",	"peut-être", "initialement", "déjà", "c.-à-d", "souvent", "fréquemment", "régulièrement", "simplement",
+	"notablement", "actuellement", "maintenant", "ordinairement", "généralement", "habituellement", "d'habitude", "vraiment",
+	"finalement", "uniquement", "peut-être", "initialement", "déjà", "c.-à-d", "souvent", "fréquemment", "régulièrement", "simplement",
 	"éventuellement", "quelquefois", "parfois", "probable", "plausible", "jamais", "toujours", "incidemment", "accidentellement", "récemment",
 	"dernièrement", "relativement", "clairement", "évidemment", "apparemment", "pourvu" ];
 
@@ -203,8 +205,8 @@ let interjections = [ "ah", "ha", "oh", "ho", "bis", "plouf", "vlan", "ciel", "p
 let recipeWords = [ "mg", "g", "kg", "ml", "dl", "cl", "l", "grammes", "gram", "once", "onces", "oz", "lbs", "càc", "cc", "càd", "càs", "càt",
 	"cd", "cs", "ct" ];
 
-let timeWords = [ "seconde", "secondes", "minute", "minutes", "heure", "heures", "journée", "journées", "semaine", "semaines", "mois", "année",
-	"années" ];
+let timeWords = [ "minute", "minutes", "heure", "heures", "journée", "journées", "semaine", "semaines", "mois", "année",
+	"années", "aujourd'hui", "demain", "hier", "après-demain", "avant-hier" ];
 
 let vagueNouns = [ "chose", "choses", "façon", "façons", "pièce", "pièces", "truc", "trucs", "fois", "cas", "aspect", "aspects", "objet",
 	"objets", "idée", "idées", "thème", "thèmes", "sujet", "sujets", "personnes", "manière", "manières", "sorte", "sortes" ];
