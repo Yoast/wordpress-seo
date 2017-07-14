@@ -11,13 +11,13 @@ button.yoast-tooltip {
 	display: none;
 	position: absolute;
 	z-index: 1000000;
-	padding: 5px 8px;
+	padding: 6px 8px 5px;
 	border-radius: 3px;
 	opacity: 0;
 	color: #fff;
 	background: rgba(0,0,0,0.8);
 	text-shadow: none;
-	font: normal normal 11px/1.5 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font: normal normal 11px/1.45454545 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	text-align: center;
 	white-space: pre;
 	text-decoration: none;
@@ -185,6 +185,9 @@ button.yoast-tooltip {
 }
 
 .yoast-tooltip-multiline::after {
+	/* Microsoft Edge doesn't support max-content. */
+	width: 250px;
+	/* Modern browsers. */
 	width: max-content;
 	max-width: 250px;
 	border-collapse: separate;
