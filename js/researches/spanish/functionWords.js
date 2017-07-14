@@ -172,7 +172,7 @@ let copulaInfinitive = [ "estar", "ser" ];
 let prepositions = [ "a", "ante", "abajo", "adonde", "al", "allende", "alrededor", "amén", "antes", "arriba", "aun",
 	"bajo", "cabe", "cabo", "con", "contigo", "contra", "de", "dejante", "del", "dentro", "desde", "donde", "durante", "en",
 	"encima", "entre", "excepto", "fuera", "hacia", "hasta", "incluso", "mediante", "más", "opuesto", "par", "para", "próximo",
-	"que", "salvo", "según", "sin",	"so", "sobre", "tras", "versus", "vía" ];
+	"salvo", "según", "sin",	"so", "sobre", "tras", "versus", "vía" ];
 
 let prepositionalAdverbs = [ "cerca" ];
 
@@ -181,7 +181,7 @@ let coordinatingConjunctions = [ "o", "y", "entonces", "e", "u", "ni", "bien", "
 // 'Igual' is part of 'igual...que'.
 let correlativeConjunctions = [ "igual" ];
 
-let subordinatingConjunctions = [ "apenas", "segun" ];
+let subordinatingConjunctions = [ "apenas", "segun", "que" ];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
 // 'Dijo' is already included in the otherAuxiliaries category.

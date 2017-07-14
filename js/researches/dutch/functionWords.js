@@ -16,7 +16,7 @@ let ordinalNumerals = [ "eerste", "tweede", "derde", "vierde", "vijfde", "zesde"
 	"achttiende", "negentiende", "twinstigste" ];
 
 // 'Het' is already included in the list of articles.
-let personalPronounsNominative = [ "ik", "je", "jij", "hij", "ze", "we", "wij", "jullie", "zij", "u", "ge", "gij" ];
+let personalPronounsNominative = [ "ik", "je", "jij", "hij", "ze", "we", "wij", "jullie", "zij", "u", "ge", "gij", "men" ];
 let personalPronounsAccusative = [ "mij", "jou", "hem", "haar", "hen", "hun", "uw" ];
 let demonstrativePronouns = [ "dit", "dat", "deze", "die", "zelf" ];
 
