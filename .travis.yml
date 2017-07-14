@@ -2,29 +2,20 @@ language: node_js
 node_js:
   - node
 
-env:
-    - CXX=g++-4.8
-addons:
-apt:
-  sources:
-    - ubuntu-toolchain-r-test
-  packages:
-    - g++-4.8
-
-
 sudo: false
 
 cache:
+  yarn: true
   directories:
     - node_modules
 
 install:
-- npm install -g grunt-cli
-- npm install
+- yarn global add grunt-cli
+- yarn
 
 script:
 - grunt check
-- npm test -- --coverage
+- yarn test -- --coverage
 
 after_success:
 - npm install -g codeclimate-test-reporter
