@@ -81,9 +81,8 @@ let adverbialGenitives = [ "allenfalls", "keinesfalls", "anderenfalls", "andernf
 	"äußerstenfalls", "bejahendenfalls", "bestenfalls", "eintretendenfalls", "entgegengesetztenfalls",
 	"erforderlichenfalls", "gegebenenfalls", "geringstenfalls", "gleichfalls", "günstigenfalls", "günstigstenfalls",
 	"höchstenfalls", "möglichenfalls", "notfalls", "nötigenfalls", "notwendigenfalls",
-	"schlimmstenfalls", "vorkommendenfalls", "zutreffendenfalls", "morgens", "mittags",
-	"abends", "nachts", "keineswegs", "durchwegs", "geradenwegs", "geradeswegs", "geradewegs", "gradenwegs",
-	"halbwegs", "mittwegs", "unterwegs" ];
+	"schlimmstenfalls", "vorkommendenfalls", "zutreffendenfalls", "keineswegs", "durchwegs", "geradenwegs", "geradeswegs",
+	"geradewegs", "gradenwegs",	"halbwegs", "mittwegs", "unterwegs" ];
 
 let otherAuxiliaries = [ "habe", "hast", "hat", "habt", "habest", "habet", "hatte", "hattest", "hatten", "hätte", "haette",
 	"hättest", "haettest", "hätten", "haetten", "haettet", "hättet", "hab", "bin", "bist", "ist", "sind", "sei", "seiest",
@@ -247,8 +246,10 @@ let interjections = [  "ach", "aha", "oh", "au", "bäh", "baeh", "igitt", "huch"
 let recipeWords = [ "g", "el", "tl", "wg", "be", "bd", "cl", "dl", "dag", "do", "gl", "gr", "kg", "kl", "cb", "ccm", "l", "ms", "mg",
 	"ml", "mi", "pk", "pr", "pp", "sc", "sp", "st", "sk", "ta", "tr", "cm", "mass" ];
 
-let timeWords = [ "sekunde", "sekunden", "minute", "minuten", "uhr", "uhren", "tag", "tages", "tags", "tage", "tagen", "woche", "wochen", "monat",
-	"monate", "monats", "monaten", "jahr", "jahres", "jahrs", "jahre", "jahren" ];
+let timeWords = [ "sekunde", "sekunden", "minute", "minuten", "stunde", "stunden", "uhr", "tag", "tages", "tags",
+	"tage", "tagen", "woche", "wochen", "monat", "monate", "monates", "monats", "monaten", "jahr", "jahres", "jahrs",
+	"jahre", "jahren", "morgens", "mittags", "abends", "nachts", "heute", "gestern", "morgen", "vorgestern", "übermorgen",
+	"uebermorgen" ];
 
 let vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sache", "sachen", "weise", "weisen", "wahrscheinlichkeit",
 	"zeug", "zeuge", "zeuges", "zeugen", "mal", "einmal", "teil", "teile", "teiles", "teilen", "prozent", "prozents", "prozentes", "prozente",

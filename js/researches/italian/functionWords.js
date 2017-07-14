@@ -12,10 +12,15 @@ let cardinalNumerals = [ "due", "tre", "quattro", "cinque", "sette", "otto", "no
 	"duemila", "tremila", "quattromila", "cinquemila", "seimila", "settemila", "ottomila", "novemila",
 	"diecimila", "milione", "milioni", "miliardo", "miliardi" ];
 
-let ordinalNumerals = [ "seconda", "terza", "quarto", "quarta", "quinto", "quinta", "sesto", "sesta", "settimo", "settima",
-	"ottavo", "ottava", "nono", "nona", "decimo", "decima", "undicesimo", "undicesima", "dodicesimo", "dodicesima",
-	"tredicesimo", "tredicesima", "quattordicesimo", "quattordicesima", "quindicesimo", "quindicesima",
-	"sedicesimo", "sedicesima", "diciassettesimo", "diciassettesima", "diciannovesimo", "diciannovesima", "ventesimo", "ventesima" ];
+let ordinalNumerals = [ "prima", "primi", "prime", "secondo", "seconda", "secondi", "seconde", "terzo", "terza",
+	"terzi", "terze", "quarto", "quarta", "quarti", "quarte", "quinto", "quinta", "quinti", "quinte", "sesto", "sesta",
+	"sesti", "seste", "settimo", "settima", "settimi", "settime", "ottavo", "ottava", "ottavi", "ottave", "nono", "nona",
+	"noni", "none", "decimo", "decima", "decimi", "decime", "undicesimo", "undicesima", "undicesimi", "undicesime",
+	"dodicesimo", "dodicesima", "dodicesimi", "dodicesime", "tredicesimo", "tredicesima", "tredicesimi", "tredicesime",
+	"quattordicesimo", "quattordicesima", "quattordicesimi", "quattordicesime", "quindicesimo", "quindicesima",
+	"quindicesimi", "quindicesime", "sedicesimo", "sedicesima", "sedicesimi", "sedicesime", "diciassettesimo",
+	"diciassettesima", "diciassettesimi", "diciassettesime", "diciannovesimo", "diciannovesima", "diciannovesimi",
+	"diciannovesime", "ventesimo", "ventesima", "ventesimi", "ventesime" ];
 
 let personalPronounsNominative = [ "io", "tu", "egli", "esso", "lui", "ella", "essa", "lei", "noi", "voi",
 	"essi", "esse", "loro" ];
@@ -202,7 +207,7 @@ let interjections = [ "accidenti", "acciderba", "ah", "aah", "ahi", "ahia", "ahi
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
 let recipeWords = [ "cc", "g", "hg", "hl", "kg", "l", "prs", "pz", "q.b.", "qb", "ta", "tz" ];
 
-let timeWords = [ "secondi", "minuto", "minuti", "ora", "ore", "giorno", "giorni", "giornata", "giornate",
+let timeWords = [ "minuto", "minuti", "ora", "ore", "giorno", "giorni", "giornata", "giornate",
 	"settimana", "settimane", "mese", "mesi", "anno", "anni", "oggi", "domani", "ieri", "stamattina", "stanotte",
 	"stasera", "tardi" ];
 

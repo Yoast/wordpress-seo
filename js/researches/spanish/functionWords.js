@@ -12,9 +12,11 @@ let cardinalNumerals = [ "dos", "tres", "cuatro", "cinco", "seis", "siete", "och
 	"catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte",  "cien", "centena", "mil", "millon",
 	"millones" ];
 
-let ordinalNumerals = [ "primera", "segunda", "tercera", "cuarto", "cuarta",
-	"quinto", "quinta", "sexto", "sexta", "septimo", "septima", "octavo", "octava", "noveno",
-	"novena", "décimo", "décima", "vigésimo", "vigésima" ];
+let ordinalNumerals = [ "primera", "segunda", "tercera", "cuarto", "cuarta", "quinto", "quinta", "sexto", "sexta",
+	"septimo", "septima", "octavo", "octava", "noveno",	"novena", "décimo", "décima", "vigésimo", "vigésima", "primeros",
+	"primeras", "segundos", "segundas", "terceros", "terceras", "cuartos", "cuartas", "quintos", "quintas", "sextos",
+	"sextas", "septimos", "septimas", "octavos", "octavas", "novenos", "novenas", "décimos", "décimas", "vigésimos",
+	"vigésimas" ];
 
 let personalPronounsNominative = [ "yo", "tú", "él", "ella", "ello", "nosotros", "nosotras", "vosotros", "vosotras",
 	"ustedes", "ellos", "ellas" ];
@@ -211,7 +213,7 @@ let delexicalizedVerbsInfinitive = [ "hacer", "parecer" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
-let generalAdjectivesAdverbs = [ "ayer", "hoy", "mañana", "enfrente", "mejor", "peor", "menos", "claro", "bueno", "nuevo",
+let generalAdjectivesAdverbs = [ "enfrente", "mejor", "peor", "menos", "claro", "bueno", "nuevo",
 	"nueva", "nuevos", "nuevas", "viejo", "viejos", "vieja", "viejas", "anterior", "grande", "gran", "grandes", "mayores", "fácil",
 	"fáciles", "rápido", "rápida", "rápidos", "rápidas", "lejos", "lejas", "difícil", "difíciles", "propio", "propios", "propia", "propias",
 	"largo", "larga", "largos", "largas", "bajos", "baja", "bajas", "alto", "alta", "altos", "altas", "regular", "regulares", "normal",
@@ -239,6 +241,9 @@ let interjections = [ "ah", "eh", "ejem", "ele", "achís", "adiós", "agur", "aj
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
 let recipeWords = [ "kg", "mg", "gr", "g", "km", "m", "l", "ml", "cl" ];
+
+let timeWords = [ "minuto", "minutos", "hora", "horas", "día", "días", "semana", "semanas", "mes", "meses", "año", "años",
+	"hoy", "mañana", "ayer" ];
 
 // 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
 let vagueNouns = [ "cosa", "cosas", "manera", "maneras", "caso", "casos", "pieza", "piezas", "vez", "veces", "parte", "partes", "porcentaje",
@@ -270,6 +275,7 @@ module.exports = function() {
 		prepositionalAdverbs: prepositionalAdverbs,
 		intensifiers: intensifiers,
 		recipeWords: recipeWords,
+		timeWords: timeWords,
 		vagueNouns: vagueNouns,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional,
