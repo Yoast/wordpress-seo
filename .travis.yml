@@ -11,7 +11,7 @@ cache:
 
 install:
 - yarn global add grunt-cli
-- yarn
+- yarn --ignore-optional
 
 script:
 - grunt check

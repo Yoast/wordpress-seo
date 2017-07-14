@@ -31,7 +31,6 @@
     "jed": "^1.1.1",
     "jest-mock": "^20.0.3",
     "jest-runtime": "^19.0.4",
-    "node-sass": "^4.5.3",
     "prop-types": "^15.5.10",
     "react-tap-event-plugin": "^2.0.1",
     "whatwg-fetch": "^1.0.0"
@@ -53,7 +52,6 @@
     "grunt-eslint": "^19.0.0",
     "grunt-postcss": "^0.8.0",
     "grunt-sass": "^2.0.0",
-    "grunt-scss-to-json": "^1.0.1",
     "jest": "^14.1.0",
     "jest-cli": "^20.0.4",
     "json-loader": "^0.5.4",
@@ -66,6 +64,9 @@
     "stubby": "^0.3.1",
     "webpack": "^3.2.0",
     "webpack-dev-server": "^2.5.1"
+  },
+  "optionalDepdendencies": {
+    "grunt-scss-to-json": "^1.0.1"
   },
   "peerDependencies": {
     "material-ui": "^0.18.6",
