@@ -82,7 +82,7 @@ let adverbialGenitives = [ "allenfalls", "keinesfalls", "anderenfalls", "andernf
 	"erforderlichenfalls", "gegebenenfalls", "geringstenfalls", "gleichfalls", "günstigenfalls", "günstigstenfalls",
 	"höchstenfalls", "möglichenfalls", "notfalls", "nötigenfalls", "notwendigenfalls",
 	"schlimmstenfalls", "vorkommendenfalls", "zutreffendenfalls", "keineswegs", "durchwegs", "geradenwegs", "geradeswegs",
-	"geradewegs", "gradenwegs",	"halbwegs", "mittwegs", "unterwegs" ];
+	"geradewegs", "gradenwegs", "halbwegs", "mittwegs", "unterwegs" ];
 
 let otherAuxiliaries = [ "habe", "hast", "hat", "habt", "habest", "habet", "hatte", "hattest", "hatten", "hätte", "haette",
 	"hättest", "haettest", "hätten", "haetten", "haettet", "hättet", "hab", "bin", "bist", "ist", "sind", "sei", "seiest",

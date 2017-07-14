@@ -251,7 +251,7 @@ module.exports = function() {
 		vagueNouns: vagueNouns,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers,
-			indefinitePronouns,	interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers,
+			indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers,
 			pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive,
 			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,

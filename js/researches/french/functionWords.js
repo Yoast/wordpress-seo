@@ -54,7 +54,7 @@ let locativeAdverbs = [ "là", "ici", "voici" ];
 // 'Vins' is not included because it also means 'wines'.
 let otherAuxiliaries = [ "a", "a-t-elle", "a-t-il", "a-t-on", "ai", "ai-je", "aie", "as", "as-tu", "aura", "aurai", "auraient", "aurais", "aurait",
 	"auras", "aurez", "auriez", "aurons", "auront", "avaient", "avais", "avait", "avez", "avez-vous", "aviez", "avions", "avons", "avons-nous",
-	"ayez",	"ayons", "eu", "eûmes", "eurent", "eus", "eut", "eûtes", "j'ai", "j'aurai", "j'avais", "j'eus", "ont", "ont-elles", "ont-ils", "vais",
+	"ayez", "ayons", "eu", "eûmes", "eurent", "eus", "eut", "eûtes", "j'ai", "j'aurai", "j'avais", "j'eus", "ont", "ont-elles", "ont-ils", "vais",
 	"vas", "va", "allons", "allez", "vont", "vais-je", "vas-tu", "va-t-il", "va-t-elle", "va-t-on", "allons-nous", "allez-vous", "vont-elles",
 	"vont-ils", "allé", "allés", "j'allai", "allai", "allas", "alla", "allâmes", "allâtes", "allèrent", "j'allais", "allais", "allait", "allions",
 	"alliez", "allaient", "j'irai", "iras", "ira", "irons", "irez", "iront", "j'aille", "aille", "ailles", "aillent", "j'allasse", "allasse",
@@ -156,7 +156,7 @@ let interviewVerbsInfinitive = [ "dire", "penser", "demander", "concéder", "con
 // These transition words were not included in the list for the transition word assessment for various reasons.
 let additionalTransitionWords = [ "encore", "éternellement", "immédiatement", "compris", "comprenant", "inclus", "naturellement", "particulièrement",
 	"notablement", "actuellement", "maintenant", "ordinairement", "généralement", "habituellement", "d'habitude", "vraiment",
-	"finalement", "uniquement",	"peut-être", "initialement", "déjà", "c.-à-d", "souvent", "fréquemment", "régulièrement", "simplement",
+	"finalement", "uniquement", "peut-être", "initialement", "déjà", "c.-à-d", "souvent", "fréquemment", "régulièrement", "simplement",
 	"éventuellement", "quelquefois", "parfois", "probable", "plausible", "jamais", "toujours", "incidemment", "accidentellement", "récemment",
 	"dernièrement", "relativement", "clairement", "évidemment", "apparemment", "pourvu" ];
 

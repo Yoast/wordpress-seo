@@ -21,7 +21,7 @@ let personalPronounsAccusative = [ "me", "him", "us", "them" ];
 let demonstrativePronouns = [ "this", "that", "these", "those" ];
 let possessivePronouns = [ "my", "your", "his", "her", "its", "their", "our", "mine", "yours", "hers", "theirs", "ours" ];
 let quantifiers = [ "all", "some", "many", "lot", "lots", "ton", "tons", "bit", "no", "every", "enough", "little",
-	"much", "more", "most",	"plenty", "several", "few", "fewer", "kind" ];
+	"much", "more", "most", "plenty", "several", "few", "fewer", "kind" ];
 let reflexivePronouns = [ "myself", "yourself", "himself", "herself", "itself", "oneself", "ourselves", "yourselves", "themselves" ];
 let indefinitePronouns = [ "none", "nobody", "everyone", "everybody", "someone", "somebody", "anyone", "anybody", "nothing",
 	"everything", "something", "anything", "each", "other", "whatever", "whichever", "whoever", "whomever",
