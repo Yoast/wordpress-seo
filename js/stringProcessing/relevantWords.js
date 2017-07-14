@@ -354,5 +354,5 @@ module.exports = {
 	filterFunctionWords: filterFunctionWords,
 	filterFunctionWordsAnywhere: filterFunctionWordsAnywhere,
 	filterOnDensity: filterOnDensity,
-	filterOnWordLength: filterOneCharacterWords,
+	filterOneCharacterWords: filterOneCharacterWords,
 };

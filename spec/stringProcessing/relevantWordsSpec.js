@@ -8,7 +8,7 @@ let sortCombinations = relevantWords.sortCombinations;
 let filterFunctionWordsAtBeginning = relevantWords.filterFunctionWordsAtBeginning;
 let filterFunctionWords = relevantWords.filterFunctionWords;
 let filterFunctionWordsAnywhere = relevantWords.filterFunctionWordsAnywhere;
-let filterOnSyllableCount = relevantWords.filterOnSyllableCount;
+let filterOneCharacterWords = relevantWords.filterOneCharacterWords;
 let filterOnDensity = relevantWords.filterOnDensity;
 let englishFunctionWords = require( "../../js/researches/english/functionWords.js" )().all;
 
@@ -259,6 +259,29 @@ describe( "filter special characters in word combinations", function() {
 		expect( combinations ).toEqual( expected );
 	});
 } );
+
+describe( "filter one-letter words in word combinations", function() {
+	it ( "filters word combinations containing one-letter words", function() {
+		let input = [
+			new WordCombination ( [ "C" ] ),
+			new WordCombination ( [ "C", "book" ] ),
+			new WordCombination ( [ "book", "C", "club"] ),
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+		];
+		let expected = [
+			new WordCombination ( [ "C", "book" ] ),
+			new WordCombination ( [ "book", "C", "club"] ),
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+		];
+
+		let combinations  = filterOneCharacterWords( input );
+
+		expect( combinations ).toEqual( expected );
+	});
+} );
+
 
 describe( "getRelevantWords", function() {
 	it( "uses the default (English) function words in case of a unknown locale", function() {
