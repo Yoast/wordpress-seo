@@ -18,10 +18,15 @@ import 'Input' from 'yoast-components/forms/Input'
 // Then you can Input in your React components
 ```
 
+## Setup
+- Run a `yarn install` in the root folder.
+- Run `yarn start` in the root folder.
+- Go to `http://localhost:3333`
+
 ## Testing
 
 ```bash
-npm test
+yarn test
 ```
 
 ## Code style
