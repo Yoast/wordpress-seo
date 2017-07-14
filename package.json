@@ -29,6 +29,7 @@
     "algoliasearch": "^3.22.3",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
+    "node-sass": "^4.5.3",
     "prop-types": "^15.5.10",
     "react-tap-event-plugin": "^2.0.1",
     "whatwg-fetch": "^1.0.0"
@@ -49,7 +50,7 @@
     "grunt": "^1.0.1",
     "grunt-eslint": "^19.0.0",
     "grunt-postcss": "^0.8.0",
-    "grunt-sass": "^1.2.0",
+    "grunt-sass": "^2.0.0",
     "grunt-scss-to-json": "^1.0.1",
     "jest": "^14.1.0",
     "jest-cli": "^14.1.0",
