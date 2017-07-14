@@ -1,12 +1,13 @@
 jest.unmock( "../ScreenReaderText" );
+jest.unmock( "prop-types" );
 
 import React from "react";
-import TestUtils from "react-addons-test-utils";
+import ReactShallowRenderer from "react-test-renderer/shallow";
 import ScreenReaderText from "../ScreenReaderText";
 import Styles from "../Styles";
 
 describe( "ScreenReaderText", () => {
-	var renderer = TestUtils.createRenderer();
+	let renderer = new ReactShallowRenderer();
 
 	it( "generates a ScreenReaderText div based on the props", () => {
 		renderer.render( <ScreenReaderText>example text</ScreenReaderText> );

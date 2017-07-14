@@ -1,12 +1,13 @@
 jest.unmock( "../SearchResultForm" );
-jest.unmock( "i18n-calypso" );
+jest.unmock( "../../../utils/i18n" );
+jest.unmock( "prop-types" );
 
 import React from "react";
-import TestUtils from "react-addons-test-utils";
+import ReactShallowRenderer from "react-test-renderer/shallow";
 import SearchResultForm from "../SearchResultForm";
 
 describe( "A SearchResultForm component", () => {
-	var renderer = TestUtils.createRenderer();
+	let renderer = new ReactShallowRenderer();
 
 	it( "generates a SearchResultForm based on the props", () => {
 		renderer.render( <SearchResultForm name="SearchResultForm" label="SearchResultForm" translate={{}} eventHandler={() => {}} /> );

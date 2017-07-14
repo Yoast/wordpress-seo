@@ -1,11 +1,12 @@
 jest.unmock( "../Label" );
+jest.unmock( "prop-types" );
 
 import React from "react";
-import TestUtils from "react-addons-test-utils";
+import ReactShallowRenderer from "react-test-renderer/shallow";
 import Label from "../Label";
 
 describe( "A Label component", () => {
-	var renderer = TestUtils.createRenderer();
+	let renderer = new ReactShallowRenderer();
 
 	it( "generates a Label based on the props", () => {
 		renderer.render( <Label for="">customLabel</Label> );

@@ -1,9 +1,13 @@
+// console.log( '???' );
 jest.unmock( "../OnboardingWizard" );
 jest.unmock( "lodash/cloneDeep" );
 jest.unmock( "../config/production-config" );
 jest.unmock( "material-ui/utils/withWidth" );
 jest.unmock( "../../../utils/i18n" );
-jest.mock( '../helpers/ajaxHelper', () => {
+jest.unmock( "prop-types" );
+// jest.unmock( "[Symbol.iterator]" );
+//
+jest.mock( "../helpers/ajaxHelper", () => {
 
 	let ajaxHelper = ( url, data ) => {
 		return new Promise( ( resolve, reject ) => {
@@ -17,7 +21,7 @@ jest.mock( '../helpers/ajaxHelper', () => {
 import React from "react";
 import Wizard from "../OnboardingWizard";
 import Config from "../config/production-config";
-import {mount, shallow, render} from "enzyme";
+import { mount } from "enzyme";
 import cloneDeep from "lodash/cloneDeep";
 import ApiConfig from "../config/api-config";
 
