@@ -767,47 +767,49 @@ class WPSEO_Admin {
 	 * @returns WPSEO_WordPress_Integration[]
 	 */
 	protected function initialize_seo_links() {
+		$integrations = array();
+
 		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
+		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
+
+		if ( ! $this->options['enable_text_link_counter'] ) {
+			$link_table_compatibility_notifier->remove_notification();
+
+			return $integrations;
+		}
+
+		$integrations[] = new WPSEO_Link_Cleanup_Transient();
 
 		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
 		if ( version_compare( phpversion(), '5.3', '<' ) ) {
 			$link_table_compatibility_notifier->add_notification();
 
-			return array();
+			return $integrations;
 		}
 
 		$link_table_compatibility_notifier->remove_notification();
-
-		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
 
 		// When the table doesn't exists, just add the notification and return early.
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			$link_table_accessible_notifier->add_notification();
 
-			return array();
+			return $integrations;
 		}
 
 		$link_table_accessible_notifier->remove_notification();
 
-		$storage = new WPSEO_Link_Storage();
+		$storage       = new WPSEO_Link_Storage();
 		$count_storage = new WPSEO_Meta_Storage();
 
-		$seo_links = new WPSEO_Link_Watcher(
+		$integrations[] = new WPSEO_Link_Watcher(
 			new WPSEO_Link_Content_Processor( $storage, $count_storage )
 		);
 
-		$seo_link_columns = new WPSEO_Link_Columns( $count_storage );
+		$integrations[] = new WPSEO_Link_Columns( $count_storage );
+		$integrations[] = new WPSEO_Link_Reindex_Dashboard();
+		$integrations[] = new WPSEO_Link_Notifier();
 
-		$link_reindex_interface = new WPSEO_Link_Reindex_Dashboard();
-
-		$link_notifier = new WPSEO_Link_Notifier();
-
-		return array(
-			$seo_links,
-			$seo_link_columns,
-			$link_reindex_interface,
-			$link_notifier,
-		);
+		return $integrations;
 	}
 
 	/********************** DEPRECATED METHODS **********************/
