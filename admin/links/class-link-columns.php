@@ -34,13 +34,19 @@ class WPSEO_Link_Columns {
 	 */
 	public function register_hooks() {
 		global $pagenow;
-		if ( ! WPSEO_Metabox::is_post_overview( $pagenow ) ) {
+		$is_ajax_request = defined( 'DOING_AJAX' ) && DOING_AJAX;
+
+		if ( ! WPSEO_Metabox::is_post_overview( $pagenow ) && ! $is_ajax_request ) {
 			return;
 		}
 
 		// When table doesn't exists.
 		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::check_table_is_accessible() ) {
 			return;
+		}
+
+		if ( $is_ajax_request ) {
+			add_action( 'admin_init', array( $this, 'set_count_objects' ) );
 		}
 
 		// Hook into tablenav to calculate links and linked.
