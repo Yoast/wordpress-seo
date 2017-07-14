@@ -10,7 +10,7 @@ var singleWords = [ "accordingly", "additionally", "afterward", "afterwards", "a
 	"occasionally", "otherwise", "overall", "particularly", "presently", "previously", "rather", "regardless", "secondly",
 	"shortly", "significantly", "similarly", "simultaneously", "since", "so", "soon", "specifically", "still", "straightaway",
 	"subsequently", "surely", "surprisingly", "than", "then", "thereafter", "therefore", "thereupon", "thirdly", "though",
-	"thus", "till", "too", "undeniably", "undoubtedly", "unless", "unlike", "unquestionably", "until", "when", "whenever",
+	"thus", "till", "undeniably", "undoubtedly", "unless", "unlike", "unquestionably", "until", "when", "whenever",
 	"whereas", "while" ];
 var multipleWords = [ "above all", "after all", "after that", "all in all", "all of a sudden", "all things considered",
 	"analogous to", "although this may be true", "analogous to", "another key point", "as a matter of fact", "as a result",

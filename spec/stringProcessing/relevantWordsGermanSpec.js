@@ -18,7 +18,6 @@ describe( "gets German word combinations", function() {
 			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
 			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren.  Probieren geht über Studieren.";
 		let expected = [
-			new WordCombination( [ "probieren", "geht", "über", "studieren" ], 48, germanFunctionWords ),
 			new WordCombination( [ "probieren" ], 48, germanFunctionWords ),
 			new WordCombination( [ "studieren" ], 48, germanFunctionWords ),
 		];
