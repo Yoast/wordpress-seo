@@ -73,7 +73,7 @@ class WPSEO_Link_Factory {
 	 * @param int    $target_post_id The target post ID.
 	 * @param string $type           The link type.
 	 *
-	 * @return WPSEO_Link Generted link object.
+	 * @return WPSEO_Link Generated link object.
 	 */
 	public static function get_link( $url, $target_post_id, $type ) {
 		return new WPSEO_Link( $url, $target_post_id, $type );
