@@ -153,7 +153,7 @@ let miscellaneous = [ "wel", "ja", "neen", "oké", "oke", "okee", "ok", "zoiets"
 
 let titlesPreceding = [ "mevr", "dhr", "mr", "dr", "prof" ];
 
-let titlesFollowing = [ "jr", "sen" ];
+let titlesFollowing = [ "jr", "sr" ];
 
 /*
 Exports all function words concatenated, and specific word categories and category combinations

@@ -217,9 +217,7 @@ let vagueNouns = [ "aspetto", "aspetti", "caso", "casi", "cose", "idea", "idee",
 
 let miscellaneous = [ "sì", "no", "non", "€", "euro", "euros", "ecc", "eccetera" ];
 
-let titlesPreceding = [ "sig.na", "sig.ra", "sig", "sigg" ];
-
-let titlesFollowing = [ "jr", "sen" ];
+let titlesPreceding = [ "sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "dott", "dott.ssa" ];
 
 /*
  Exports all function words concatenated, and specific word categories and category combinations
@@ -254,7 +252,6 @@ module.exports = function() {
 		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
 		vagueNouns: vagueNouns,
 		titlesPreceding: titlesPreceding,
-		titlesFollowing: titlesFollowing,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers,
 			indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers,
@@ -263,7 +260,7 @@ module.exports = function() {
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
 			interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
-			titlesPreceding, titlesFollowing ),
+			titlesPreceding ),
 	};
 };
 

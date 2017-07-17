@@ -261,7 +261,7 @@ let miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "amen", "ja", "ne
 
 let titlesPreceding = [ "fr", "hr", "dr", "prof" ];
 
-let titlesFollowing = [ "jr", "sen" ];
+let titlesFollowing = [ "jr", "jun", "sen", "sr" ];
 
 module.exports = function() {
 	return {

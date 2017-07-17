@@ -253,7 +253,7 @@ let miscellaneous = [ "no", "euros" ];
 
 let titlesPreceding = [ "sra", "sras", "srta", "sr", "sres", "dra", "dr", "profa", "prof" ];
 
-let titlesFollowing = [ "jr", "sen" ];
+let titlesFollowing = [ "jr", "sr" ];
 
 module.exports = function() {
 	return {

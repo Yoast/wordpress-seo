@@ -213,9 +213,9 @@ let vagueNouns = [ "chose", "choses", "façon", "façons", "pièce", "pièces", 
 
 let miscellaneous = [ "ne", "oui", "d'accord", "amen", "euro", "euros", "etc" ];
 
-let titlesPreceding = [ "mme", "mmes", "mlle", "mlles", "mm" ];
+let titlesPreceding = [ "mme", "mmes", "mlle", "mlles", "mm", "dr", "pr" ];
 
-let titlesFollowing = [ "jr", "sen" ];
+let titlesFollowing = [ "jr", "sr" ];
 
 module.exports = function() {
 	return {

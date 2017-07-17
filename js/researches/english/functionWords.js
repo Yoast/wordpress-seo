@@ -127,9 +127,9 @@ let vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likeliho
 // 'No' is already included in the quantifier list.
 let miscellaneous = [ "not", "yes", "sure", "top", "bottom", "ok", "okay", "amen", "aka", "etc", "etcetera" ];
 
-let titlesPreceding = [ "ms", "mss", "mr", "dr", "prof" ];
+let titlesPreceding = [ "ms", "mss", "mrs", "mr", "dr", "prof" ];
 
-let titlesFollowing = [ "jr", "sen" ];
+let titlesFollowing = [ "jr", "sr" ];
 
 module.exports = function() {
 	return {
