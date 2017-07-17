@@ -120,7 +120,7 @@ function sortCombinations( wordCombinations ) {
  * @param {WordCombination[]} wordCombinations The word combinations to filter.
  * @returns {WordCombination[]} Filtered word combinations.
  */
-function filterOneCharacterWords( wordCombinations ) {
+function filterOneCharacterWordCombinations( wordCombinations ) {
 	return wordCombinations.filter( function( combination ) {
 		return ! ( combination.getLength() === 1 && combination.getWords()[ 0 ].length <= 1 );
 	} );
@@ -209,7 +209,7 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
  */
 function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWordsAnywhere( combinations, specialCharacters );
-	combinations = filterOneCharacterWords( combinations );
+	combinations = filterOneCharacterWordCombinations( combinations );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().transitionWords );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().adverbialGenitives );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().personalPronouns );
@@ -354,5 +354,5 @@ module.exports = {
 	filterFunctionWords: filterFunctionWords,
 	filterFunctionWordsAnywhere: filterFunctionWordsAnywhere,
 	filterOnDensity: filterOnDensity,
-	filterOneCharacterWords: filterOneCharacterWords,
+	filterOneCharacterWordCombinations: filterOneCharacterWordCombinations,
 };

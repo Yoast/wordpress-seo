@@ -8,7 +8,7 @@ let sortCombinations = relevantWords.sortCombinations;
 let filterFunctionWordsAtBeginning = relevantWords.filterFunctionWordsAtBeginning;
 let filterFunctionWords = relevantWords.filterFunctionWords;
 let filterFunctionWordsAnywhere = relevantWords.filterFunctionWordsAnywhere;
-let filterOneCharacterWords = relevantWords.filterOneCharacterWords;
+let filterOneCharacterWordCombinations = relevantWords.filterOneCharacterWordCombinations;
 let filterOnDensity = relevantWords.filterOnDensity;
 let englishFunctionWords = require( "../../js/researches/english/functionWords.js" )().all;
 
@@ -276,7 +276,7 @@ describe( "filter one-letter words in word combinations", function() {
 			new WordCombination ( [ "book", "club"] )
 		];
 
-		let combinations  = filterOneCharacterWords( input );
+		let combinations  = filterOneCharacterWordCombinations( input );
 
 		expect( combinations ).toEqual( expected );
 	});
