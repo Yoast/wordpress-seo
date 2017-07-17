@@ -18,9 +18,18 @@ class WPSEO_Link_Reindex_Post_Service {
 
 		$posts = WPSEO_Link_Query::get_unprocessed_posts( WPSEO_Link_Utils::get_public_post_types() );
 		foreach ( $posts as $post ) {
+			/*
+			 * Make sure plugins that echo in shortcodes do not echo during this execution.
+			 * See https://github.com/Yoast/wordpress-seo/issues/7405.
+			 */
+			ob_start();
+
 			// Apply the filters to have the same content as shown on the frontend.
 			$content = apply_filters( 'the_content', $post->post_content );
 			$content = str_replace( ']]>', ']]&gt;', $content );
+
+			// Clear the output buffering without using it.
+			ob_end_clean();
 
 			$content_processor->process( $post->ID, $content );
 		}
