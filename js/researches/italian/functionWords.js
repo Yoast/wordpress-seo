@@ -217,6 +217,10 @@ let vagueNouns = [ "aspetto", "aspetti", "caso", "casi", "cose", "idea", "idee",
 
 let miscellaneous = [ "sì", "no", "non", "€", "euro", "euros", "ecc", "eccetera" ];
 
+let titlesPreceding = [ "sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "dott", "dott.ssa", "prof", "prof.ssa", "gent", "gent.mo",
+	"gent.mi", "gent.ma", "gent.me", "egr", "egr.i", "egr.ia", "egr.ie", "preg.mo", "preg.mo", "preg.ma", "preg.me", "ill", "ill.mo",
+	"ill.mi", "ill.ma", "ill.me", "cav", "on", "spett" ];
+
 /*
  Exports all function words concatenated, and specific word categories and category combinations
  to be used as filters for the prominent words.
@@ -249,6 +253,7 @@ module.exports = function() {
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
 		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
 		vagueNouns: vagueNouns,
+		titlesPreceding: titlesPreceding,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers,
 			indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers,
@@ -256,7 +261,8 @@ module.exports = function() {
 			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
-			interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords ),
+			interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
+			titlesPreceding ),
 	};
 };
 

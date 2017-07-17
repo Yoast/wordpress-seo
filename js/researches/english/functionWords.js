@@ -127,6 +127,10 @@ let vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likeliho
 // 'No' is already included in the quantifier list.
 let miscellaneous = [ "not", "yes", "sure", "top", "bottom", "ok", "okay", "amen", "aka", "etc", "etcetera" ];
 
+let titlesPreceding = [ "ms", "mss", "mrs", "mr", "dr", "prof" ];
+
+let titlesFollowing = [ "jr", "sr" ];
+
 module.exports = function() {
 	return {
 		articles: articles,
@@ -157,12 +161,14 @@ module.exports = function() {
 		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
 		timeWords: timeWords,
 		vagueNouns: vagueNouns,
+		titlesPreceding: titlesPreceding,
+		titlesFollowing: titlesFollowing,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,
 			indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries,
 			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
-			recipeWords, vagueNouns, miscellaneous ),
+			recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing ),
 	};
 };

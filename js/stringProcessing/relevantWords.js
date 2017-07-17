@@ -222,6 +222,8 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWords( combinations, functionWords().intensifiers );
 	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().ordinalNumerals );
+	combinations = filterFunctionWordsAtEnding( combinations, functionWords().titlesPreceding );
+	combinations = filterFunctionWordsAtBeginning( combinations, functionWords().titlesFollowing );
 	switch( getLanguage( locale ) ) {
 		case "en":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().continuousVerbs );

@@ -151,6 +151,10 @@ let vagueNouns = [ "ding", "dingen", "manier", "manieren", "item", "items", "kee
 
 let miscellaneous = [ "wel", "ja", "neen", "oké", "oke", "okee", "ok", "zoiets", "€", "euro" ];
 
+let titlesPreceding = [ "mevr", "dhr", "mr", "dr", "prof" ];
+
+let titlesFollowing = [ "jr", "sr" ];
+
 /*
 Exports all function words concatenated, and specific word categories and category combinations
 to be used as filters for the prominent words.
@@ -187,6 +191,8 @@ module.exports = function() {
 		recipeWords: recipeWords,
 		timeWords: timeWords,
 		vagueNouns: vagueNouns,
+		titlesPreceding: titlesPreceding,
+		titlesFollowing: titlesFollowing,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
 			indefinitePronounsPossessive, relativePronouns, interrogativeProAdverbs,
@@ -194,7 +200,7 @@ module.exports = function() {
 			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions,
 			correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
-			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous ),
+			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing ),
 	};
 };
 

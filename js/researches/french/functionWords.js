@@ -213,6 +213,10 @@ let vagueNouns = [ "chose", "choses", "façon", "façons", "pièce", "pièces", 
 
 let miscellaneous = [ "ne", "oui", "d'accord", "amen", "euro", "euros", "etc" ];
 
+let titlesPreceding = [ "mme", "mmes", "mlle", "mlles", "mm", "dr", "pr" ];
+
+let titlesFollowing = [ "jr", "sr" ];
+
 module.exports = function() {
 	return {
 		articles: articles,
@@ -243,11 +247,14 @@ module.exports = function() {
 		recipeWords: recipeWords,
 		timeWords: timeWords,
 		vagueNouns: vagueNouns,
+		titlesPreceding: titlesPreceding,
+		titlesFollowing: titlesFollowing,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive,
 			prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections,
-			generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords ),
+			generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
+			titlesPreceding, titlesFollowing ),
 	};
 };
