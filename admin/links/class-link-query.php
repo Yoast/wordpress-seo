@@ -127,8 +127,8 @@ class WPSEO_Link_Query {
 			  FROM ' . $wpdb->posts . ' AS posts
 		 LEFT JOIN ' . $count_table . ' AS yoast_meta
 				ON yoast_meta.object_id = posts.ID
-			 WHERE posts.post_status = "publish" 
-			   AND posts.post_type IN ( ' . $post_types . ' ) 
+			 WHERE posts.post_status = "publish"
+			   AND posts.post_type IN ( ' . $post_types . ' )
 			   AND yoast_meta.internal_link_count IS NULL';
 		// @codingStandardsIgnoreEnd
 
