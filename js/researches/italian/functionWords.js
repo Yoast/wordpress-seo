@@ -217,7 +217,9 @@ let vagueNouns = [ "aspetto", "aspetti", "caso", "casi", "cose", "idea", "idee",
 
 let miscellaneous = [ "sì", "no", "non", "€", "euro", "euros", "ecc", "eccetera" ];
 
-let titlesPreceding = [ "sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "dott", "dott.ssa" ];
+let titlesPreceding = [ "sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "dott", "dott.ssa", "prof", "prof.ssa", "gent", "gent.mo",
+	"gent.mi", "gent.ma", "gent.me", "egr", "egr.i", "egr.ia", "egr.ie", "preg.mo", "preg.mo", "preg.ma", "preg.me", "ill", "ill.mo",
+	"ill.mi", "ill.ma", "ill.me", "cav", "on", "spett" ];
 
 /*
  Exports all function words concatenated, and specific word categories and category combinations
