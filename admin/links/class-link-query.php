@@ -27,10 +27,12 @@ class WPSEO_Link_Query {
 		// Get any object which has not got the processed meta key.
 		$query = '
 			SELECT ID
-			  FROM ' . $wpdb->posts . ' AS p
-			 WHERE p.post_type IN ( ' . $post_types . ' )
-			   AND p.post_status = "publish"
-			   AND ID NOT IN( SELECT object_id FROM ' . $count_table . ' ) 
+			  FROM ' . $wpdb->posts . ' AS posts
+		 LEFT JOIN ' . $count_table . ' AS yoast_meta
+				ON yoast_meta.object_id = posts.ID
+			 WHERE posts.post_status = "publish"
+			   AND posts.post_type IN ( ' . $post_types . ' )
+			   AND yoast_meta.internal_link_count IS NULL
 			 LIMIT 1';
 
 		// If anything is found, we have unprocessed posts.
@@ -85,11 +87,13 @@ class WPSEO_Link_Query {
 		// @codingStandardsIgnoreStart
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
-				SELECT ID, post_content
-				  FROM ' . $wpdb->posts . ' 
-				 WHERE post_status = "publish" 
-				   AND post_type IN ( ' . $post_types . ' )
-				   AND ID NOT IN( SELECT object_id FROM ' . $count_table . ' ) 
+				SELECT posts.ID, posts.post_content
+				  FROM ' . $wpdb->posts . ' AS posts
+			 LEFT JOIN ' . $count_table . ' AS yoast_meta
+			 		ON yoast_meta.object_id = posts.ID
+				 WHERE posts.post_status = "publish"
+				   AND posts.post_type IN ( ' . $post_types . ' )
+				   AND yoast_meta.internal_link_count IS NULL
 				 LIMIT %1$d
 				',
 				$limit
@@ -119,11 +123,13 @@ class WPSEO_Link_Query {
 
 		// @codingStandardsIgnoreStart
 		$query = '
-			SELECT COUNT( ID )
-			  FROM ' . $wpdb->posts . ' 
-			 WHERE post_status = "publish" 
-			   AND post_type IN ( ' . $post_types . ' ) 
-			   AND ID NOT IN ( SELECT object_id FROM ' . $count_table . ' )';
+			SELECT COUNT( posts.ID )
+			  FROM ' . $wpdb->posts . ' AS posts
+		 LEFT JOIN ' . $count_table . ' AS yoast_meta
+				ON yoast_meta.object_id = posts.ID
+			 WHERE posts.post_status = "publish"
+			   AND posts.post_type IN ( ' . $post_types . ' )
+			   AND yoast_meta.internal_link_count IS NULL';
 		// @codingStandardsIgnoreEnd
 
 		return (int) $wpdb->get_var( $query );

@@ -28,9 +28,9 @@ class WPSEO_Database_Proxy {
 	 * @param bool   $suppress_errors Should the errors be suppressed.
 	 */
 	public function __construct( $database, $table_name, $suppress_errors = true ) {
-		$this->table_name = $table_name;
+		$this->table_name      = $table_name;
 		$this->suppress_errors = (bool) $suppress_errors;
-		$this->database = $database;
+		$this->database        = $database;
 	}
 
 	/**
@@ -47,6 +47,48 @@ class WPSEO_Database_Proxy {
 		$result = $this->database->insert( $this->get_table_name(), $data, $format );
 
 		$this->post_execution();
+
+		return $result;
+	}
+
+	/**
+	 * Updates data in the database.
+	 *
+	 * @param array $data         Data to update on the table.
+	 * @param array $where        Where condition as key => value array.
+	 * @param null  $format       Optional. data prepare format.
+	 * @param null  $where_format Optional. Where prepare format.
+	 *
+	 * @return false|int False when the update request is invalid, int on number of rows changed.
+	 */
+	public function update( array $data, array $where, $format = null, $where_format = null ) {
+		$this->pre_execution();
+
+		$result = $this->database->update( $this->get_table_name(), $data, $where, $format, $where_format );
+
+		$this->post_execution();
+
+		return $result;
+	}
+
+	/**
+	 * Upserts data in the database.
+	 *
+	 * Tries to insert the data first, if this fails an update is attempted.
+	 *
+	 * @param array $data         Data to update on the table.
+	 * @param array $where        Where condition as key => value array.
+	 * @param null  $format       Optional. data prepare format.
+	 * @param null  $where_format Optional. Where prepare format.
+	 *
+	 * @return false|int False when the upsert request is invalid, int on number of rows changed.
+	 */
+	public function upsert( array $data, array $where, $format = null, $where_format = null ) {
+		$result = $this->insert( $data, $format );
+
+		if ( false === $result ) {
+			$result = $this->update( $data, $where, $format, $where_format );
+		}
 
 		return $result;
 	}
