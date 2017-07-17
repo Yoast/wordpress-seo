@@ -87,7 +87,7 @@ let prepositions = [ "à", "aan", "aangaande", "achter", "behalve", "behoudens",
 let prepositionalAdverbs = [ "af", "heen", "mee", "toe", "achterop", "onderin", "voorin", "bovenop",
 	"buitenop", "achteraan", "onderop", "binnenin", "tevoren" ];
 
-let coordinatingConjunctions = [ "en", "alsmede", "of", "ofwel" ];
+let coordinatingConjunctions = [ "en", "alsmede", "of", "ofwel", "en/of" ];
 
 /* 'Zowel' and 'als' are part of 'zowel...als', 'evenmin' is part of 'evenmin...als', 'zomin' is part of 'zomin...als',
  'hetzij' is part of 'hetzij...hetzij'. */

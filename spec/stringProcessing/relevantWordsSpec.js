@@ -271,7 +271,6 @@ describe( "getRelevantWords", function() {
 			new WordCombination( [ "200", "words" ], 2, englishFunctionWords ),
 			new WordCombination( [ "200" ], 2, englishFunctionWords ),
 			new WordCombination( [ "syllables" ], 2, englishFunctionWords ),
-			new WordCombination( [ "important" ], 2, englishFunctionWords ),
 			new WordCombination( [ "syllable" ], 2, englishFunctionWords ),
 			new WordCombination( [ "combinations" ], 2, englishFunctionWords ),
 			new WordCombination( [ "text" ], 2, englishFunctionWords ),
