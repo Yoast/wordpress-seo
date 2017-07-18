@@ -26,7 +26,7 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 			$table_prefix = $GLOBALS['wpdb']->get_blog_prefix();
 		}
 
-		$this->table_prefix = $table_prefix;
+		$this->table_prefix   = $table_prefix;
 		$this->database_proxy = new WPSEO_Database_Proxy( $GLOBALS['wpdb'], $this->get_table_name(), true );
 	}
 
@@ -48,7 +48,7 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 		return $this->database_proxy->create_table(
 			array(
 				'object_id bigint(20) UNSIGNED NOT NULL',
-				'internal_link_count int(10) UNSIGNED NOT NULL DEFAULT "0"',
+				'internal_link_count int(10) UNSIGNED NULL DEFAULT NULL',
 				'incoming_link_count int(10) UNSIGNED NULL DEFAULT NULL',
 			),
 			array(
@@ -58,69 +58,47 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 	}
 
 	/**
-	 * Removes the record for given post_id.
-	 *
-	 * @param int $object_id The post_id to remove the record for.
-	 *
-	 * @return int|false The number of rows updated, or false on error.
-	 */
-	public function cleanup( $object_id ) {
-		$deleted = $this->database_proxy->delete(
-			array( 'object_id' => $object_id ),
-			array( '%d' )
-		);
-
-		if ( $deleted === false ) {
-			WPSEO_Meta_Table_Accessible::set_inaccessible();
-		}
-
-		return $deleted;
-	}
-
-	/**
 	 * Saves the link count to the database.
 	 *
 	 * @param int   $meta_id   The id to save the link count for.
 	 * @param array $meta_data The total amount of links.
 	 */
 	public function save_meta_data( $meta_id, array $meta_data ) {
-		$inserted = $this->database_proxy->insert(
-			array_merge(
-				array( 'object_id' => $meta_id ),
-				$meta_data
-			),
-			array( '%d', '%d' )
+		$where = array( 'object_id' => $meta_id );
+
+		$saved = $this->database_proxy->upsert(
+			array_merge( $where, $meta_data ),
+			$where
 		);
 
-		if ( $inserted === false ) {
+		if ( $saved === false ) {
 			WPSEO_Meta_Table_Accessible::set_inaccessible();
 		}
 	}
 
 	/**
-	 * Updates the incoming link counts
+	 * Updates the incoming link count
 	 *
-	 * @param WPSEO_Link_Storage $storage The link storage object.
+	 * @param array              $post_ids The posts to update the incoming link count for.
+	 * @param WPSEO_Link_Storage $storage  The link storage object.
 	 */
-	public function update_incoming_link_counts( WPSEO_Link_Storage $storage ) {
+	public function update_incoming_link_count( array $post_ids, WPSEO_Link_Storage $storage ) {
 		global $wpdb;
 
-		$updated = $wpdb->query(
-			$wpdb->prepare('
-				UPDATE %1$s count_table 
-				   SET count_table.incoming_link_count = ( 
-				       SELECT COUNT(id) 
-				         FROM %2$s links_table 
-				        WHERE links_table.target_post_id = count_table.object_id 
-				       ) 
-				',
-				$this->get_table_name(),
-				$storage->get_table_name()
-			)
+		$query = $wpdb->prepare( '
+			SELECT COUNT( id ) AS incoming, target_post_id AS post_id
+			  FROM %2$s
+			 WHERE target_post_id IN( %3$s )
+		  GROUP BY target_post_id',
+			$this->get_table_name(),
+			$storage->get_table_name(),
+			implode( ', ', $post_ids )
 		);
 
-		if ( $updated === false ) {
-			WPSEO_Meta_Table_Accessible::set_inaccessible();
+		$results = $wpdb->get_results( $query );
+
+		foreach ( $results as $result ) {
+			$this->save_meta_data( $result->post_id, array( 'incoming_link_count' => $result->incoming ) );
 		}
 	}
 }

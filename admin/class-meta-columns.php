@@ -58,7 +58,6 @@ class WPSEO_Meta_Columns {
 		$added_columns = array();
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			// $added_columns['wpseo-score'] = __( 'SEO', 'wordpress-seo' );
 			$added_columns['wpseo-score'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'SEO score', 'wordpress-seo' ) . '"><span class="yoast-column-seo-score yoast-column-header-has-tooltip"><span class="screen-reader-text">' . __( 'SEO score', 'wordpress-seo' ) . '</span></span></span>';
 		}
 		if ( $this->analysis_readability->is_enabled() ) {

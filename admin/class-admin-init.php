@@ -430,8 +430,19 @@ class WPSEO_Admin_Init {
 			// Only register the yoast i18n when the page is a Yoast SEO page.
 			if ( WPSEO_Utils::is_yoast_seo_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
 				$this->register_i18n_promo_class();
+				$this->register_premium_upsell_admin_block();
 			}
 		}
+	}
+
+	/**
+	 * Registers the Premium Upsell Admin Block.
+	 *
+	 * @return void
+	 */
+	private function register_premium_upsell_admin_block() {
+		$upsell_block = new Premium_Upsell_Admin_Block( 'wpseo_admin_promo_footer' );
+		$upsell_block->register_hooks();
 	}
 
 	/**
@@ -480,7 +491,6 @@ class WPSEO_Admin_Init {
 
 		// WordPress hooks that have been deprecated in Yoast SEO 3.0.
 		$deprecated_30 = array(
-			'wpseo_pre_analysis_post_content',
 			'wpseo_metadesc_length',
 			'wpseo_metadesc_length_reason',
 			'wpseo_body_length_score',

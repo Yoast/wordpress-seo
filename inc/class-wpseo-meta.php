@@ -594,7 +594,7 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  null   $null       Old, disregard.
+	 * @param  bool   $check      The current status to allow updating metadata for the given type.
 	 * @param  int    $object_id  ID of the current object for which the meta is being updated.
 	 * @param  string $meta_key   The full meta key (including prefix).
 	 * @param  string $meta_value New meta value.
@@ -602,7 +602,7 @@ class WPSEO_Meta {
 	 *
 	 * @return null|bool          true = stop saving, null = continue saving
 	 */
-	public static function remove_meta_if_default( $null, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
+	public static function remove_meta_if_default( $check, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
 		/* If it's one of our meta fields, check against default */
 		if ( isset( self::$fields_index[ $meta_key ] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
 			if ( $prev_value !== '' ) {
@@ -615,7 +615,7 @@ class WPSEO_Meta {
 			return true; // Stop saving the value.
 		}
 
-		return null; // Go on with the normal execution (update) in meta.php.
+		return $check; // Go on with the normal execution (update) in meta.php.
 	}
 
 
@@ -624,20 +624,20 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  null   $null       Old, disregard.
+	 * @param  bool   $check      The current status to allow adding metadata for the given type.
 	 * @param  int    $object_id  ID of the current object for which the meta is being added.
 	 * @param  string $meta_key   The full meta key (including prefix).
 	 * @param  string $meta_value New meta value.
 	 *
 	 * @return null|bool          true = stop saving, null = continue saving
 	 */
-	public static function dont_save_meta_if_default( $null, $object_id, $meta_key, $meta_value ) {
+	public static function dont_save_meta_if_default( $check, $object_id, $meta_key, $meta_value ) {
 		/* If it's one of our meta fields, check against default */
 		if ( isset( self::$fields_index[ $meta_key ] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
 			return true; // Stop saving the value.
 		}
 
-		return null; // Go on with the normal execution (add) in meta.php.
+		return $check; // Go on with the normal execution (add) in meta.php.
 	}
 
 
