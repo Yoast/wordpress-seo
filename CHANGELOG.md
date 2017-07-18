@@ -5,6 +5,24 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.19.0: July 25th, 2017
+### Added
+* Adds additional English transition words.
+* Adds additional French transition words, props [Evoque](https://github.com/@evoqueio).
+* Adds prominent words for Italian.
+* Adds filters for titles such as 'Ms', 'jr' etc. for English, Dutch, German, French, Italian and Spanish.
+* Adds plural ordinal numbers for Spanish, Italian, and French.
+* Adds time words for English, Dutch, German, French and Spanish.
+* Add more function words categories for Spanish and Italian.
+
+### Changed
+* Improves word combination filtering for Insights and Internal Linking Suggestions.
+* Improves filtering for Internal Linking Suggestions and Insights for Italian, Spanish, Dutch, French, English and German.
+* Removes all relevant word combinations containing any of the following special characters if they are not part of a word: –, —, -, ©, #, %, /, \, $, €, £, *, •, |, →, ←, }, {, //, ||.
+
+### Fixed
+* Fixes a visual imperfection in the tooltip in combination with Microsoft Edge.
+
 ## 1.18.0: July 6th, 2017
 ### Changed
 * Changes 'page title' to 'seo title' in the snippet preview.
