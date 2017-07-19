@@ -8,13 +8,16 @@ module.exports = function( grunt ) {
 
 	timeGrunt( grunt );
 
+	let pluginVersion = "5.0.2";
+
 	// Define project configuration
 	var project = {
+		pluginVersion: pluginVersion,
 		paths: {
 			get config() {
 				return this.grunt + "config/";
 			},
-			css: "css/",
+			css: "css/dist/",
 			sass: "css/src/",
 			grunt: "grunt/",
 			images: "images/",
@@ -25,8 +28,8 @@ module.exports = function( grunt ) {
 		files: {
 			sass: [ "<%= paths.sass %>*.scss" ],
 			css: [
-				"css/*.css",
-				"!css/*.min.css",
+				"css/dist/*.css",
+				"!css/dist/*.min.css",
 			],
 			js: [
 				"js/src/**/*.js",
@@ -57,6 +60,12 @@ module.exports = function( grunt ) {
 		},
 		pkg: grunt.file.readJSON( "package.json" ),
 	};
+
+	let versionParts = pluginVersion.split( "." );
+	if ( versionParts.length === 2 ) {
+		versionParts.push( 0 );
+	}
+	project.pluginVersionSlug = versionParts.join( "" );
 
 	// Load Grunt configurations and tasks
 	loadGruntConfig( grunt, {

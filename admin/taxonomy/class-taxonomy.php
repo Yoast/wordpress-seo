@@ -112,6 +112,10 @@ class WPSEO_Taxonomy {
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			) );
 		}
+
+		if ( self::is_term_overview( $pagenow ) ) {
+			$asset_manager->enqueue_script( 'edit-page-script' );
+		}
 	}
 
 	/**
@@ -346,6 +350,7 @@ class WPSEO_Taxonomy {
 
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * @deprecated 3.2
 	 *
@@ -387,4 +392,5 @@ class WPSEO_Taxonomy {
 	public function translate_meta_options() {
 		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Taxonomy_Settings_Fields::translate_meta_options' );
 	}
+	// @codeCoverageIgnoreEnd
 }

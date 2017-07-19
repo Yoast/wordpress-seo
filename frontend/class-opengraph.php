@@ -577,6 +577,10 @@ class WPSEO_OpenGraph {
 
 		foreach ( $opengraph_images->get_images() as $img ) {
 			$this->og_tag( 'og:image', esc_url( $img ) );
+
+			if ( 0 === strpos( $img, 'https://' ) ) {
+				$this->og_tag( 'og:image:secure_url', esc_url( $img ) );
+			}
 		}
 
 		$dimensions = $opengraph_images->get_dimensions();
@@ -829,9 +833,51 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
+	 * Display an OpenGraph image tag
+	 *
+	 * @param string $img - Source URL to the image.
+	 *
+	 * @return bool
+	 */
+	public function add_image( $img ) {
+
+		$original = trim( $img );
+
+		// Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image.
+		$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
+
+		if ( $original !== $img ) {
+			$this->dimensions = array();
+		}
+
+		if ( empty( $img ) ) {
+			return false;
+		}
+
+		if ( WPSEO_Utils::is_url_relative( $img ) === true ) {
+			$img = $this->get_relative_path( $img );
+		}
+
+		if ( in_array( $img, $this->images ) ) {
+			return false;
+		}
+		array_push( $this->images, $img );
+
+		return true;
+	}
+
+	/**
 	 * Check if page is front page or singular and call the corresponding functions. If not, call get_default_image.
 	 */
 	private function set_images() {
+
+		/**
+		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags
+		 *
+		 * @api WPSEO_OpenGraph_Image The current object.
+		 */
+		do_action( 'wpseo_add_opengraph_images', $this );
+
 		if ( is_front_page() ) {
 			$this->get_front_page_image();
 		}
@@ -1018,40 +1064,6 @@ class WPSEO_OpenGraph_Image {
 		if ( $img_data[1] < 200 || $img_data[2] < 200 ) {
 			return false;
 		}
-
-		return true;
-	}
-
-	/**
-	 * Display an OpenGraph image tag
-	 *
-	 * @param string $img - Source URL to the image.
-	 *
-	 * @return bool
-	 */
-	private function add_image( $img ) {
-
-		$original = trim( $img );
-
-		// Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image.
-		$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
-
-		if ( $original !== $img ) {
-			$this->dimensions = array();
-		}
-
-		if ( empty( $img ) ) {
-			return false;
-		}
-
-		if ( WPSEO_Utils::is_url_relative( $img ) === true ) {
-			$img = $this->get_relative_path( $img );
-		}
-
-		if ( in_array( $img, $this->images ) ) {
-			return false;
-		}
-		array_push( $this->images, $img );
 
 		return true;
 	}

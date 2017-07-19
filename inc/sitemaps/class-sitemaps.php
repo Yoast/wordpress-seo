@@ -77,11 +77,19 @@ class WPSEO_Sitemaps {
 		$this->router      = new WPSEO_Sitemaps_Router();
 		$this->renderer    = new WPSEO_Sitemaps_Renderer();
 		$this->cache       = new WPSEO_Sitemaps_Cache();
-		$this->providers   = array( // TODO API for add/remove. R.
+		$this->providers   = array(
 			new WPSEO_Post_Type_Sitemap_Provider(),
 			new WPSEO_Taxonomy_Sitemap_Provider(),
 			new WPSEO_Author_Sitemap_Provider(),
 		);
+
+		$external_providers = apply_filters( 'wpseo_sitemaps_providers', array() );
+
+		foreach ( $external_providers as $provider ) {
+			if ( is_object( $provider ) && $provider instanceof WPSEO_Sitemap_Provider ) {
+				$this->providers[] = $provider;
+			}
+		}
 
 		if ( ! empty( $_SERVER['SERVER_PROTOCOL'] ) ) {
 			$this->http_protocol = sanitize_text_field( $_SERVER['SERVER_PROTOCOL'] );

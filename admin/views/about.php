@@ -19,7 +19,7 @@ $version = '3.4';
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
 		echo '<li class="wp-person" id="wp-person-', $username, '">';
-		echo '<a href="https://github.com/', $username, '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="">', $dev->name, '</a>';
+		echo '<a href="https://github.com/', $username, '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=120" class="gravatar" alt="">', $dev->name, '</a>';
 		echo '<span class="title">', $dev->role, "</span></li>\n";
 	}
 }
@@ -38,6 +38,7 @@ function wpseo_display_contributors( $contributors ) {
 		/* translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO */
 		printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>', 'Yoast SEO' );
 		echo ' ';
+		/* translators: 1: link open tag; 2: link close tag. */
 		printf( __( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/wpseocontributionguidelines">', '</a>' );
 		?>
 	</p>

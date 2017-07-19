@@ -195,8 +195,6 @@ abstract class WPSEO_Option {
 	 */
 	// abstract public function enrich_defaults();
 
-// @codingStandardsIgnoreEnd
-
 	/* *********** METHODS INFLUENCING get_option() *********** */
 
 	/**
@@ -211,7 +209,7 @@ abstract class WPSEO_Option {
 		}
 	}
 
-
+	// @codingStandardsIgnoreStart
 	/**
 	 * Abusing a filter to re-add our default filters
 	 * WP 3.7 specific as update_option action hook was in the wrong place temporarily
@@ -289,7 +287,8 @@ abstract class WPSEO_Option {
 						add_settings_error(
 							$this->group_name, // Slug title of the setting.
 							'_' . $key, // Suffix-id for the error message box.
-							sprintf( __( '%s does not seem to be a valid %s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
+							/* translators: 1: Verification string from user input; 2: Service name. */
+							sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
 							'error' // Error type, either 'error' or 'updated'.
 						);
 					}
@@ -714,6 +713,8 @@ abstract class WPSEO_Option {
 
 	/* *********** DEPRECATED METHODS *********** */
 
+	// @codeCoverageIgnoreStart
+
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way
 	 *
@@ -848,4 +849,5 @@ abstract class WPSEO_Option {
 
 		return WPSEO_Utils::trim_recursive( $value );
 	}
+	// @codeCoverageIgnoreEnd
 }

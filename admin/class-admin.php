@@ -27,6 +27,8 @@ class WPSEO_Admin {
 	 * Class constructor
 	 */
 	function __construct() {
+		$integrations = array();
+
 		global $pagenow;
 
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks' ) );
@@ -88,10 +90,22 @@ class WPSEO_Admin {
 
 		if ( WPSEO_Utils::is_api_available() ) {
 			$configuration = new WPSEO_Configuration_Page;
+			$configuration->set_hooks();
 			$configuration->catch_configuration_request();
 		}
 
 		$this->set_upsell_notice();
+
+		$this->check_php_version();
+		$this->initialize_cornerstone_content();
+
+		$integrations[] = new WPSEO_Yoast_Columns();
+		$integrations = array_merge( $integrations, $this->initialize_seo_links() );
+
+		/** @var WPSEO_WordPress_Integration $integration */
+		foreach ( $integrations as $integration ) {
+			$integration->register_hooks();
+		}
 	}
 
 	/**
@@ -153,6 +167,8 @@ class WPSEO_Admin {
 		), $icon_svg, '99.31337' );
 
 		$admin_page_hooks[ self::PAGE_IDENTIFIER ] = 'seo'; // Wipe notification bits from hooks. R.
+
+		$license_page_title = defined( 'WPSEO_PREMIUM_PLUGIN_FILE' ) ? __( 'Premium', 'wordpress-seo' ) : __( 'Go Premium', 'wordpress-seo' ) . ' ' . $this->get_premium_indicator();
 
 		// Sub menu pages.
 		$submenu_pages = array(
@@ -221,7 +237,7 @@ class WPSEO_Admin {
 			array(
 				self::PAGE_IDENTIFIER,
 				'',
-				__( 'Go Premium', 'wordpress-seo' ) . ' ' . $this->get_premium_indicator(),
+				$license_page_title,
 				$manage_options_cap,
 				'wpseo_licenses',
 				array( $this, 'load_page' ),
@@ -305,8 +321,12 @@ class WPSEO_Admin {
 			array(
 				'id'      => 'basic-help',
 				'title'   => __( 'Template explanation', 'wordpress-seo' ),
-				/* translators: %1$s expands to Yoast SEO */
-				'content' => '<p>' . sprintf( __( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>' . '<p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
+				'content' => "\n\t\t<h2>" . __( 'Template explanation', 'wordpress-seo' ) . "</h2>\n\t\t" . '<p>' .
+					sprintf(
+						/* translators: %1$s expands to Yoast SEO. */
+						__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ),
+						'Yoast SEO' ) .
+					'</p><p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
 			)
 		);
 
@@ -577,12 +597,16 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	public function filter_settings_pages( array $pages ) {
-
 		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
 			return $pages;
 		}
 
-		$pages_to_hide = array( 'wpseo_titles', 'wpseo_social', 'wpseo_xml', 'wpseo_advanced', 'wpseo_tools' );
+		$pages_to_hide = WPSEO_Advanced_Settings::get_advanced_pages();
+		$page = filter_input( INPUT_GET, 'page' );
+
+		if ( WPSEO_Advanced_Settings::is_advanced_settings_page( $page ) ) {
+			$pages_to_hide = $this->temporarily_enable_page( $pages_to_hide, $page );
+		}
 
 		foreach ( $pages as $page_key => $page ) {
 			$page_name = $page[4];
@@ -596,53 +620,21 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Returns the stopwords for the current language
+	 * Given a list of passed pages that will be disabled, removes the given page from the list so that it will no longer be disabled.
 	 *
-	 * @since 1.1.7
-	 * @deprecated 3.1 Use WPSEO_Admin_Stop_Words::list_stop_words() instead.
+	 * @param array  $pages The pages to search through.
+	 * @param string $page  The page to temporarily enable.
 	 *
-	 * @return array $stopwords array of stop words to check and / or remove from slug
+	 * @return array The remaining pages that need to be disabled.
 	 */
-	function stopwords() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1', 'WPSEO_Admin_Stop_Words::list_stop_words' );
+	private function temporarily_enable_page( $pages, $page ) {
+		$enable_page = array_search( $page, $pages );
 
-		$stop_words = new WPSEO_Admin_Stop_Words();
-		return $stop_words->list_stop_words();
-	}
-
-
-	/**
-	 * Check whether the stopword appears in the string
-	 *
-	 * @deprecated 3.1
-	 *
-	 * @param string $haystack    The string to be checked for the stopword.
-	 * @param bool   $checkingUrl Whether or not we're checking a URL.
-	 *
-	 * @return bool|mixed
-	 */
-	function stopwords_check( $haystack, $checkingUrl = false ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
-
-		$stopWords = $this->stopwords();
-
-		if ( is_array( $stopWords ) && $stopWords !== array() ) {
-			foreach ( $stopWords as $stopWord ) {
-				// If checking a URL remove the single quotes.
-				if ( $checkingUrl ) {
-					$stopWord = str_replace( "'", '', $stopWord );
-				}
-
-				// Check whether the stopword appears as a whole word.
-				// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-).
-				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
-				if ( $res > 0 ) {
-					return $stopWord;
-				}
-			}
+		if ( $enable_page !== false ) {
+			unset( $pages[ $enable_page ] );
 		}
 
-		return false;
+		return $pages;
 	}
 
 	/**
@@ -667,6 +659,7 @@ class WPSEO_Admin {
 			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
 			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
 			'help_video_iframe_title' => __( 'Yoast SEO video tutorial', 'wordpress-seo' ),
+			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
 		);
 	}
 
@@ -727,8 +720,101 @@ class WPSEO_Admin {
 		$upsell->initialize();
 	}
 
+	/**
+	 * Initializes Whip to show a notice for outdated PHP versions.
+	 */
+	protected function check_php_version() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( ! $this->on_dashboard_page() ) {
+			return;
+		}
+
+		whip_wp_check_versions( array(
+			'php' => '>=5.4',
+		) );
+	}
+
+	/**
+	 * Whether we are on the admin dashboard page.
+	 *
+	 * @returns bool
+	 */
+	protected function on_dashboard_page() {
+		return 'index.php' === $GLOBALS['pagenow'];
+	}
+
+	/**
+	 * Loads the cornerstone filter
+	 */
+	protected function initialize_cornerstone_content() {
+		if ( ! $this->options['enable_cornerstone_content'] ) {
+			return;
+		}
+
+		$cornerstone = new WPSEO_Cornerstone();
+		$cornerstone->register_hooks();
+
+		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
+		$cornerstone_filter->register_hooks();
+	}
+
+	/**
+	 * Initializes the seo link watcher.
+	 *
+	 * @returns WPSEO_WordPress_Integration[]
+	 */
+	protected function initialize_seo_links() {
+		$integrations = array();
+
+		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
+		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
+
+		if ( ! $this->options['enable_text_link_counter'] ) {
+			$link_table_compatibility_notifier->remove_notification();
+
+			return $integrations;
+		}
+
+		$integrations[] = new WPSEO_Link_Cleanup_Transient();
+
+		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
+		if ( version_compare( phpversion(), '5.3', '<' ) ) {
+			$link_table_compatibility_notifier->add_notification();
+
+			return $integrations;
+		}
+
+		$link_table_compatibility_notifier->remove_notification();
+
+		// When the table doesn't exists, just add the notification and return early.
+		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+			$link_table_accessible_notifier->add_notification();
+
+			return $integrations;
+		}
+
+		$link_table_accessible_notifier->remove_notification();
+
+		$storage       = new WPSEO_Link_Storage();
+		$count_storage = new WPSEO_Meta_Storage();
+
+		$integrations[] = new WPSEO_Link_Watcher(
+			new WPSEO_Link_Content_Processor( $storage, $count_storage )
+		);
+
+		$integrations[] = new WPSEO_Link_Columns( $count_storage );
+		$integrations[] = new WPSEO_Link_Reindex_Dashboard();
+		$integrations[] = new WPSEO_Link_Notifier();
+
+		return $integrations;
+	}
+
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
@@ -810,4 +896,55 @@ class WPSEO_Admin {
 	function meta_description_warning() {
 		_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 	}
+
+	/**
+	 * Returns the stopwords for the current language
+	 *
+	 * @since 1.1.7
+	 * @deprecated 3.1 Use WPSEO_Admin_Stop_Words::list_stop_words() instead.
+	 *
+	 * @return array $stopwords array of stop words to check and / or remove from slug
+	 */
+	function stopwords() {
+		_deprecated_function( __METHOD__, 'WPSEO 3.1', 'WPSEO_Admin_Stop_Words::list_stop_words' );
+
+		$stop_words = new WPSEO_Admin_Stop_Words();
+		return $stop_words->list_stop_words();
+	}
+
+	/**
+	 * Check whether the stopword appears in the string
+	 *
+	 * @deprecated 3.1
+	 *
+	 * @param string $haystack     The string to be checked for the stopword.
+	 * @param bool   $checking_url Whether or not we're checking a URL.
+	 *
+	 * @return bool|mixed
+	 */
+	function stopwords_check( $haystack, $checking_url = false ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
+
+		$stop_words = $this->stopwords();
+
+		if ( is_array( $stop_words ) && $stop_words !== array() ) {
+			foreach ( $stop_words as $stop_word ) {
+				// If checking a URL remove the single quotes.
+				if ( $checking_url ) {
+					$stop_word = str_replace( "'", '', $stop_word );
+				}
+
+				// Check whether the stopword appears as a whole word.
+				// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-).
+				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stop_word, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
+				if ( $res > 0 ) {
+					return $stop_word;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	// @codeCoverageIgnoreEnd
 }

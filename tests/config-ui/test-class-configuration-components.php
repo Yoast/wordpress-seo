@@ -53,7 +53,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 		$components->initialize();
 		$list       = $components->get_components();
 
-		$this->assertEquals( 2, count( $list ) );
+		$this->assertEquals( 4, count( $list ) );
 	}
 
 	/**

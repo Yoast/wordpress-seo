@@ -13,9 +13,10 @@ class WPSEO_Configuration_Structure_Mock extends WPSEO_Configuration_Structure {
 	 * @param string $identifier
 	 * @param string $title
 	 * @param array  $fields
+	 * @param bool   $navigation
 	 */
-	public function add_step( $identifier, $title, $fields ) {
-		return parent::add_step( $identifier, $title, $fields );
+	public function add_step( $identifier, $title, $fields, $navigation = true ) {
+		return parent::add_step( $identifier, $title, $fields, $navigation );
 	}
 }
 
@@ -37,9 +38,11 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Structure::__construct()
+	 * @covers WPSEO_Configuration_Structure::initialize()
 	 */
 	public function test_constructor() {
+		$this->structure->initialize();
+		
 		$steps = $this->structure->retrieve();
 
 		$expected = array(
@@ -52,6 +55,8 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 			'multipleAuthors',
 			'connectGoogleSearchConsole',
 			'titleTemplate',
+			'newsletter',
+			'suggestions',
 			'success',
 		);
 
@@ -79,7 +84,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue( isset( $steps[ $identifier ] ) );
 		$this->assertEquals(
-			array( 'title' => $title, 'fields' => $fields ),
+			array( 'title' => $title, 'fields' => $fields, 'hideNavigation' => false ),
 			$steps[ $identifier ]
 		);
 	}

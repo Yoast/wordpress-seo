@@ -14,16 +14,22 @@ class WPSEO_Config_Field_Upsell_Site_Review extends WPSEO_Config_Field {
 	public function __construct() {
 		parent::__construct( 'upsellSiteReview', 'HTML' );
 
-		/* translators: Text between %1$s and %2$s will be a link to a review explanation page. Text between %3$s and %4$s will be a link to an SEO copywriting course page. */
 		$upsell_text = sprintf(
-			__( 'If you want more help creating awesome content, check out our %3$sSEO copywriting course%4$s. We can also %1$sreview your site%2$s if you’d like some more in-depth help!', 'wordpress-seo' ),
-			'<a href="https://yoa.st/1a" target="_blank">',
-			'</a>',
-			'<a href="https://yoa.st/configuration-wizard-copywrite-course-link" target="_blank">',
+			/* translators: %1$s will be a link to a review explanation page. Text between %2$s and %3$s will be a link to an SEO copywriting course page. */
+			__( 'If you want more help creating awesome content, check out our %2$sSEO copywriting course%3$s. Do you want to know all about the features of the plugin, consider doing our %1$s!', 'wordpress-seo' ),
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/yoastseotraining' ) . '" target="_blank">Yoast SEO for WordPress training</a>',
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/configuration-wizard-copywrite-course-link' ) . '" target="_blank">',
 			'</a>'
 		);
 
-		$html = '<p>' . $upsell_text . '</p>';
+		$html = '<p>' .
+				wp_kses( $upsell_text, array(
+					'a' => array(
+						'href'   => array(),
+						'target' => array( '_blank' ),
+					),
+				) ) .
+				'</p>';
 
 		$this->set_property( 'html', $html );
 	}

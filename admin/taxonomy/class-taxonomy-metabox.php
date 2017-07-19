@@ -115,7 +115,7 @@ class WPSEO_Taxonomy_Metabox {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
-			__( '', 'wordpress-seo' ),
+			'',
 			array(
 				'tab_class' => 'yoast-seo__remove-tab',
 			)
@@ -169,6 +169,7 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_social_meta_section() {
 		$options = WPSEO_Options::get_option( 'wpseo_social' );
 		$taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
+		$social_admin = new WPSEO_Social_Admin;
 
 		$tabs = array();
 		$single = true;
@@ -182,7 +183,7 @@ class WPSEO_Taxonomy_Metabox {
 
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'facebook',
-				$this->taxonomy_tab_content->html( $facebook_meta_fields ),
+				$social_admin->get_premium_notice( 'opengraph' ) . $this->taxonomy_tab_content->html( $facebook_meta_fields ),
 				'<span class="screen-reader-text">' . __( 'Facebook / Open Graph metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-facebook-alt"></span>',
 				array(
 					'link_aria_label' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
@@ -197,7 +198,7 @@ class WPSEO_Taxonomy_Metabox {
 
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'twitter',
-				$this->taxonomy_tab_content->html( $twitter_meta_fields ),
+				$social_admin->get_premium_notice( 'twitter' ) . $this->taxonomy_tab_content->html( $twitter_meta_fields ),
 				'<span class="screen-reader-text">' . __( 'Twitter metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-twitter"></span>',
 				array(
 					'link_aria_label' => __( 'Twitter metadata', 'wordpress-seo' ),
@@ -269,10 +270,10 @@ class WPSEO_Taxonomy_Metabox {
 			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
 			__( 'Premium support', 'wordpress-seo' ),
 			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
-			'https://yoa.st/pe-buy-premium',
+			WPSEO_Shortlinker::get( 'https://yoa.st/pe-buy-premium' ),
 			/* translators: %s expands to Yoast SEO Premium. */
 			sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			'https://yoa.st/pe-premium-page',
+			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
 			__( 'More info', 'wordpress-seo' )
 		);
 

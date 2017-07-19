@@ -4,9 +4,10 @@ Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.4
-Tested up to: 4.7
-Stable tag: 4.0.2
+Requires at least: 4.6
+Tested up to: 4.8
+Stable tag: 5.0.2
+Minimum PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -124,53 +125,55 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
-= 4.0.2 =
+= 5.0.2 =
 
-Release Date: December 20th, 2016
+Release Date: July 13th, 2017
+
+* Only load babel polyfill if it hasn't been loaded by another plugin yet.
+* Adds a feature toggle to disable the link counter tool & link columns.
+* Fixes a compatibility issue with WordPress 4.6.
+* Fixes an issue where the link columns would disappear after quick-editing a post.
+
+= 5.0.1 =
+
+Release Date: July 6th, 2017
+
+* Fixes a fatal error that could occur when trying to save a post that has `<a>`-tags with invalid URLs in it.
+
+= 5.0.0 =
+
+Release Date: July 6th, 2017
 
 * Bugfixes
-	* Fixes a bug where shortcodes would be kept in the content that would be analyzed, which would result in incorrect results.
-	* Fixes a bug where the user language would be used to analyze the content instead of the site language.
+	* Fixes a bug where images via `https` were not working, props [Jannik Zschiesche](https://github.com/apfelbox).
+	* Fixes a bug where the whip notification can be shown multiple times.
 
-= 4.0.0 =
+* Enhancements
+	* Introduces a module that counts links in the content.
+	* Adds Flesch Reading for Italian.
+	* Changes 'page title' to 'seo title' in the snippet preview.
+ 	* Changes recommended maximum sentence length for Italian from 20 to 25 words, based on more in-depth research.
+ 	* Implements the extracted version of the Algolia Search which is now present in `yoast-components`.
+ 	* Adds a banner for the structured data course.
 
-Release Date: December 13th, 2016
+ * Under the hood
+ 	* Introduces a database table to keep track of the linking structure. If the table cannot be created, a notification will be shown.
+ 	* When there are posts or pages to reindex, a notice will be shown.
 
-* Enhancements:
-	* License manager: Add a get_extension_url method to Yoast_Product to retrieve the URL where people can extend/upgrade their license.
-	* License manager: Add a set_extension_url method to Yoast_Product to set the URL where people can extend/upgrade their license.
-	* Updates the credits page.
-	* Improves plugin naming in translations.
-	* Improves translations by making texts more consistent.
-	* Displays the translations in the language chosen by the user in stead of using only the site language.
-	* Improves the styling of the banners.
-	* Adds passive voice for German.
-	* Adds more transition words for French.
-	* Improves feedback strings for the meta description length assessment.
-	* Improves matching of the keyword in the first paragraph.
-	* Improves the snippet preview to match the styling of googles snippet.
+= 4.9.0 =
 
-* Bugfixes:
-	* Fixes a compatibility bug with the onboarding wizard and Polylang, and possibly more plugins that prevented the configuration wizard from working properly.
-	* Fixes a bug where post format archives showed up in sitemap when disabled.
-	* Fixes a bug where an old update notice would not be removed.
-	* Fixes a bug where keywords with periods where not highlighted in the snippet.
-	* Fixes a bug where the title of the metabox wasn't displayed correctly.
+Release Date: June 7th, 2017
 
-= 3.9.0 =
+* Bugfixes
+	* Fixes a bug where there were certain assessments missing when switching to cornerstone content.
+	* Fixes a bug where the configuration wizard button was visible for users who didn't have enough rights to access the configuration wizard.
+	* Fixes a bug where the column `ID` was ambiguous, causing an SQL error.
+	* Fixes a bug where the category URL in the sitemap was encoded twice.
+	* Fixes a bug where an old upgrade notice is not removed.
 
-Release Date: November 29nd, 2016
-
-* Enhancements:
-	* Updates the banners on the admin pages.
-	* Improves accessibility by moving the Google Search Console reload button from the header.
-	* Allow for other plugins and themes to more easily add html namespaces through the new wpseo_html_namespaces filter.
-	* Prevent conflicts with other plugins/themes which also add html namespaces.
-
-* Bugfixes:
-	* Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
-	* Fixes a bug that prevented bulk actions to work in the Google Search Console.
-	* Fixed incorrect timezone for zero offset case (Atlantic/Azores instead of UTC).
+* Enhancements
+	* Removes the noodp advanced robots meta value as it is no longer used.
+	* Loads the translations only when the configuration wizard endpoint is called, instead of every time `rest_api_init` is called.
 
 = Earlier versions =
 
