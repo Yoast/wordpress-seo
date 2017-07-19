@@ -1032,11 +1032,11 @@ class WPSEO_Frontend {
 		}
 
 		/**
-		 * Filter: 'wpseo_pre_adjacent_rel_links' - Allows disabling of Yoast adjacent links if this is being handled by other code.
+		 * Filter: 'wpseo_disable_adjacent_rel_links' - Allows disabling of Yoast adjacent links if this is being handled by other code.
 		 *
 		 * @api bool $links_generated Indicates if other code has handled adjacent links.
 		 */
-		if ( apply_filters( 'wpseo_pre_adjacent_rel_links', false ) ) {
+		if ( true === apply_filters( 'wpseo_disable_adjacent_rel_links', false ) ) {
 			return;
 		}
 
