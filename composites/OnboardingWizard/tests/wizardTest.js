@@ -1,12 +1,10 @@
-// console.log( '???' );
 jest.unmock( "../OnboardingWizard" );
 jest.unmock( "lodash/cloneDeep" );
 jest.unmock( "../config/production-config" );
 jest.unmock( "material-ui/utils/withWidth" );
 jest.unmock( "../../../utils/i18n" );
 jest.unmock( "prop-types" );
-// jest.unmock( "[Symbol.iterator]" );
-//
+
 jest.mock( "../helpers/ajaxHelper", () => {
 
 	let ajaxHelper = ( url, data ) => {
