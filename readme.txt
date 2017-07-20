@@ -136,7 +136,7 @@ Release Date: July 25th, 2017
 	* Adds a WordPress SEO Premium motivation box on Yoast SEO settings pages.
 	* Adds a WordPress SEO Premium motivation on the social tabs.
 	* Adds support for third party sitemaps providers to be registered and used.
-	* Changes the column titles the taxonomy list table to icons.
+	* Changes the column titles in the taxonomy list table to icons.
 	* Adds a subheader on the notification dashboard to clarify problems and issues which are muted.
 	* Improves avatars on the credit page, props [Mike DeHart](https://github.com/mikedehart)
 
