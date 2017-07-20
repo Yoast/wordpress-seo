@@ -2668,12 +2668,6 @@ grunt-sass@^2.0.0:
     node-sass "^4.0.0"
     object-assign "^4.0.1"
 
-grunt-scss-to-json@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/grunt-scss-to-json/-/grunt-scss-to-json-1.0.1.tgz#212ccbefc907d6df4a61423a8d174e844b30228b"
-  dependencies:
-    scss-to-json "^1.0.1"
-
 grunt@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/grunt/-/grunt-1.0.1.tgz#e8778764e944b18f32bb0f10b9078475c9dfb56b"
@@ -4570,7 +4564,7 @@ node-sass@^3.1.2:
     request "^2.61.0"
     sass-graph "^2.1.1"
 
-node-sass@^4.0.0, node-sass@^4.5.3:
+node-sass@^4.0.0:
   version "4.5.3"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.5.3.tgz#d09c9d1179641239d1b97ffc6231fdcec53e1568"
   dependencies:
@@ -5486,7 +5480,7 @@ sax@^1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
-scss-to-json@^1.0.1:
+scss-to-json@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/scss-to-json/-/scss-to-json-1.1.0.tgz#a76555605b27db15114156797928e3d3ddf62128"
   dependencies:
