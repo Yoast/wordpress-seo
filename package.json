@@ -29,13 +29,13 @@
     "algoliasearch": "^3.22.3",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
-    "jest-mock": "^20.0.3",
-    "jest-runtime": "^19.0.4",
     "prop-types": "^15.5.10",
-    "react-tap-event-plugin": "^2.0.1",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
+    "jest-mock": "^20.0.3",
+    "jest-runtime": "^19.0.4",
+    "react-tap-event-plugin": "^2.0.1",
     "autoprefixer": "^6.4.0",
     "babel-core": "^6.25.0",
     "babel-jest": "^14.1.0",
