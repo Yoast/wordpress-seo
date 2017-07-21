@@ -22,6 +22,7 @@ import Config from "../config/production-config";
 import { mount } from "enzyme";
 import cloneDeep from "lodash/cloneDeep";
 import ApiConfig from "../config/api-config";
+import injectTapEventPlugin from "react-tap-event-plugin";
 
 /**
  *
@@ -34,6 +35,10 @@ import ApiConfig from "../config/api-config";
 describe( "a wizard component", () => {
 	let renderedWizard = undefined;
 	let config = undefined;
+
+	beforeAll( () => {
+		injectTapEventPlugin();
+	} );
 
 	beforeEach( () => {
 		config = cloneDeep( Config );

@@ -3,10 +3,6 @@ import PropTypes from "prop-types";
 import IconButton from "material-ui/IconButton";
 import SvgIcon from "material-ui/SvgIcon";
 
-/* Needed for material-iu */
-import injectTapEventPlugin from "react-tap-event-plugin";
-injectTapEventPlugin();
-
 import colors from "../../style-guide/colors.json";
 
 /**
