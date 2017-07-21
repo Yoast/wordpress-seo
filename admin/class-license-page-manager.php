@@ -8,8 +8,8 @@
  */
 class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 
-	const VERSION_LEGACY = 'v1';
-	const VERSION_BACKWARDS_COMPATIBILITY = 'v2';
+	const VERSION_LEGACY = '1';
+	const VERSION_BACKWARDS_COMPATIBILITY = '2';
 
 	/**
 	 * Registers all hooks to WordPress.
@@ -80,8 +80,8 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * @param array $response The response to extract the version from.
 	 */
 	protected function detect_version( $response ) {
-		if ( ! empty( $response['server_version'] ) ) {
-			$this->set_version( $response['server_version'] );
+		if ( ! empty( $response['serverVersion'] ) ) {
+			$this->set_version( $response['serverVersion'] );
 		}
 	}
 
