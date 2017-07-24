@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Styles from "./Styles";
 
 /**
@@ -18,7 +19,7 @@ const ScreenReaderText = ( props ) => {
 };
 
 ScreenReaderText.propTypes = {
-	children: React.PropTypes.string.isRequired,
+	children: PropTypes.string.isRequired,
 };
 
 export default ScreenReaderText;

@@ -3,7 +3,9 @@ jest.unmock( "lodash/cloneDeep" );
 jest.unmock( "../config/production-config" );
 jest.unmock( "material-ui/utils/withWidth" );
 jest.unmock( "../../../utils/i18n" );
-jest.mock( '../helpers/ajaxHelper', () => {
+jest.unmock( "prop-types" );
+
+jest.mock( "../helpers/ajaxHelper", () => {
 
 	let ajaxHelper = ( url, data ) => {
 		return new Promise( ( resolve, reject ) => {
@@ -17,9 +19,10 @@ jest.mock( '../helpers/ajaxHelper', () => {
 import React from "react";
 import Wizard from "../OnboardingWizard";
 import Config from "../config/production-config";
-import {mount, shallow, render} from "enzyme";
+import { mount } from "enzyme";
 import cloneDeep from "lodash/cloneDeep";
 import ApiConfig from "../config/api-config";
+import injectTapEventPlugin from "react-tap-event-plugin";
 
 /**
  *
@@ -32,6 +35,10 @@ import ApiConfig from "../config/api-config";
 describe( "a wizard component", () => {
 	let renderedWizard = undefined;
 	let config = undefined;
+
+	beforeAll( () => {
+		injectTapEventPlugin();
+	} );
 
 	beforeEach( () => {
 		config = cloneDeep( Config );

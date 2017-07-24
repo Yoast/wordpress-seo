@@ -1,6 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import IconButton from "material-ui/IconButton";
 import SvgIcon from "material-ui/SvgIcon";
+
 import colors from "../../style-guide/colors.json";
 
 /**
@@ -27,12 +29,12 @@ const StepButton = ( props ) => (
 );
 
 StepButton.propTypes = {
-	className: React.PropTypes.string,
-	onClick: React.PropTypes.func.isRequired,
-	tooltip: React.PropTypes.string,
-	tooltipStyles: React.PropTypes.object,
-	ariaLabel: React.PropTypes.string,
-	index: React.PropTypes.string,
+	className: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+	tooltip: PropTypes.string,
+	tooltipStyles: PropTypes.object,
+	ariaLabel: PropTypes.string,
+	index: PropTypes.string,
 };
 
 export default StepButton;

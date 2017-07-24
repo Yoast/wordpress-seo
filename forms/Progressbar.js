@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Represents the progress HTML tag.
@@ -57,15 +58,15 @@ class Progressbar extends React.Component {
  * @type {{min: number, max: number, value: number, optionalAttributes:object}}
  */
 Progressbar.propTypes = {
-	value: React.PropTypes.number.isRequired,
+	value: PropTypes.number.isRequired,
 
-	name: React.PropTypes.string,
-	onChange: React.PropTypes.func,
-	min: React.PropTypes.number,
-	max: React.PropTypes.number,
-	forceFallback: React.PropTypes.bool,
-	optionalAttributes: React.PropTypes.shape( {
-		className: React.PropTypes.string,
+	name: PropTypes.string,
+	onChange: PropTypes.func,
+	min: PropTypes.number,
+	max: PropTypes.number,
+	forceFallback: PropTypes.bool,
+	optionalAttributes: PropTypes.shape( {
+		className: PropTypes.string,
 	} ),
 };
 

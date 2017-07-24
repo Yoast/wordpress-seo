@@ -1,7 +1,8 @@
 jest.unmock( "../Step" );
+jest.unmock( "prop-types" );
 
 import React from "react";
-import TestUtils from "react-addons-test-utils";
+import ReactShallowRenderer from "react-test-renderer/shallow";
 import Step from "../Step";
 
 describe( "a step component", () => {
@@ -15,7 +16,7 @@ describe( "a step component", () => {
 		previousStep: () => {},
 	};
 
-	let renderer = TestUtils.createRenderer();
+	let renderer = new ReactShallowRenderer();
 	renderer.render( <Step {...inputProps} /> );
 
 	let stepComponent = renderer.getRenderOutput();

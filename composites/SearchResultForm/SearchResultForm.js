@@ -1,6 +1,7 @@
 import React from "react";
-import { localize } from "i18n-calypso";
+import PropTypes from "prop-types";
 
+import { localize } from "../../utils/i18n";
 import Section from "../../forms/Section";
 import Button from "../../forms/Button";
 import Textfield from "../../forms/composites/Textfield";
@@ -184,24 +185,24 @@ class SearchResultForm extends React.Component {
  * @type {{date: string, description: string, title: string, url: string}}
  */
 SearchResultForm.propTypes = {
-	date: React.PropTypes.string,
-	description: React.PropTypes.string,
-	title: React.PropTypes.string,
-	slug: React.PropTypes.string,
-	baseUrl: React.PropTypes.string,
-	onCloseButtonClick: React.PropTypes.func,
-	onTitleChange: React.PropTypes.func,
-	onSlugChange: React.PropTypes.func,
-	onDescriptionChange: React.PropTypes.func,
-	focusedField: React.PropTypes.string,
-	hoveredField: React.PropTypes.string,
-	translate: React.PropTypes.func.isRequired,
-	classNames: React.PropTypes.object,
-	eventHandler: React.PropTypes.func.isRequired,
-	titleLengthInPixels: React.PropTypes.number,
-	titleRating: React.PropTypes.string,
-	descriptionLength: React.PropTypes.number,
-	descriptionRating: React.PropTypes.string,
+	date: PropTypes.string,
+	description: PropTypes.string,
+	title: PropTypes.string,
+	slug: PropTypes.string,
+	baseUrl: PropTypes.string,
+	onCloseButtonClick: PropTypes.func,
+	onTitleChange: PropTypes.func,
+	onSlugChange: PropTypes.func,
+	onDescriptionChange: PropTypes.func,
+	focusedField: PropTypes.string,
+	hoveredField: PropTypes.string,
+	translate: PropTypes.func.isRequired,
+	classNames: PropTypes.object,
+	eventHandler: PropTypes.func.isRequired,
+	titleLengthInPixels: PropTypes.number,
+	titleRating: PropTypes.string,
+	descriptionLength: PropTypes.number,
+	descriptionRating: PropTypes.string,
 };
 
 /**

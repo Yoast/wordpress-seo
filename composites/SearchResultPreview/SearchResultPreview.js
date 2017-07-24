@@ -1,6 +1,7 @@
 import React from "react";
-import { localize } from "i18n-calypso";
+import PropTypes from "prop-types";
 
+import { localize } from "../../utils/i18n";
 import Section from "../../forms/Section";
 import Button from "../../forms/Button";
 
@@ -199,18 +200,18 @@ class SearchResultPreview extends React.Component {
  * @type {{date: string, description: string, title: string, url: string}}
  */
 SearchResultPreview.propTypes = {
-	date: React.PropTypes.string,
-	description: React.PropTypes.string,
-	title: React.PropTypes.string,
-	url: React.PropTypes.string,
-	onEditButtonClick: React.PropTypes.func,
-	classNames: React.PropTypes.object,
-	eventHandler: React.PropTypes.func,
-	translate: React.PropTypes.func.isRequired,
-	measureTitle: React.PropTypes.func,
-	measureDescription: React.PropTypes.func,
-	focusedField: React.PropTypes.string,
-	hoveredField: React.PropTypes.string,
+	date: PropTypes.string,
+	description: PropTypes.string,
+	title: PropTypes.string,
+	url: PropTypes.string,
+	onEditButtonClick: PropTypes.func,
+	classNames: PropTypes.object,
+	eventHandler: PropTypes.func,
+	translate: PropTypes.func.isRequired,
+	measureTitle: PropTypes.func,
+	measureDescription: PropTypes.func,
+	focusedField: PropTypes.string,
+	hoveredField: PropTypes.string,
 };
 
 /**

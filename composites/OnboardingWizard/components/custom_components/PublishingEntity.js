@@ -1,5 +1,6 @@
 
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Represents a publishing entity interface.
@@ -19,9 +20,9 @@ const PublishingEntity = ( props ) => {
 };
 
 PublishingEntity.propTypes = {
-	component: React.PropTypes.string,
-	defaults: React.PropTypes.object,
-	data: React.PropTypes.string,
+	component: PropTypes.string,
+	defaults: PropTypes.object,
+	data: PropTypes.string,
 };
 
 PublishingEntity.defaultProps = {
