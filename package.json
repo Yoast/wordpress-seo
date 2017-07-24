@@ -70,6 +70,7 @@
     "lodash": "^4.7.0",
     "marked": "^0.3.6",
     "material-ui": "^0.15.4",
+    "prop-types": "^15.5.10",
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
     "yoast-components": "^2.7.0",
