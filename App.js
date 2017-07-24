@@ -23,7 +23,7 @@ class App extends React.Component {
 		injectTapEventPlugin();
 
 		this.state = {
-			activeComponent: "wizard",
+			activeComponent: "snippet-preview",
 		};
 	}
 
@@ -36,6 +36,7 @@ class App extends React.Component {
 				break;
 
 			case "snippet-preview":
+			default:
 				content = <SnippetPreview />;
 				break;
 
@@ -44,7 +45,6 @@ class App extends React.Component {
 				break;
 
 			case "wizard":
-			default:
 				let config = cloneDeep( Config );
 
 				// @todo: Add customComponents manually, because cloneDeep is clearing the value of it. Should be solved.
