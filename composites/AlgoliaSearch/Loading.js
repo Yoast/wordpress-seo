@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Creates the JSX to render a loading indicator.
@@ -12,7 +13,7 @@ const Loading = ( props ) => {
 };
 
 Loading.propTypes = {
-	loadingPlaceholder: React.PropTypes.string.isRequired,
+	loadingPlaceholder: PropTypes.string.isRequired,
 };
 
 export default Loading;

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Creates the JSX to render the content of the selected article.
@@ -14,8 +15,8 @@ const ArticleContent = ( props ) => {
 };
 
 ArticleContent.propTypes = {
-	post: React.PropTypes.object,
-	iframeTitle: React.PropTypes.string,
+	post: PropTypes.object,
+	iframeTitle: PropTypes.string,
 };
 
 ArticleContent.defaultProps = {

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Represents the textarea HTML element.
@@ -46,12 +47,12 @@ class Textarea extends React.Component {
  * @type {{name: string, value: string, onChange:function, optionalAttributes: object}}
  */
 Textarea.propTypes = {
-	name: React.PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
 
-	value: React.PropTypes.string,
-	onChange: React.PropTypes.func,
-	optionalAttributes: React.PropTypes.object,
-	hasFocus: React.PropTypes.bool,
+	value: PropTypes.string,
+	onChange: PropTypes.func,
+	optionalAttributes: PropTypes.object,
+	hasFocus: PropTypes.bool,
 };
 
 /**

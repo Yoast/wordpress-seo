@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import Label from "../Label";
 import Input from "../Input";
@@ -113,15 +114,15 @@ class Textfield extends React.Component {
  * @type {{type: string, name: string, placeholder: string, value: string, onChange: function, optionalAttributes:object}}
  */
 Textfield.propTypes = {
-	label: React.PropTypes.string.isRequired,
-	name: React.PropTypes.string.isRequired,
-	onChange: React.PropTypes.func.isRequired,
-	value: React.PropTypes.string,
-	optionalAttributes: React.PropTypes.object,
-	multiline: React.PropTypes.bool,
-	hasFocus: React.PropTypes.bool,
-	"class": React.PropTypes.string,
-	explanation: React.PropTypes.string,
+	label: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
+	value: PropTypes.string,
+	optionalAttributes: PropTypes.object,
+	multiline: PropTypes.bool,
+	hasFocus: PropTypes.bool,
+	"class": PropTypes.string,
+	explanation: PropTypes.string,
 };
 
 Textfield.defaultProps = {

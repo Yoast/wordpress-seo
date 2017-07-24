@@ -5,16 +5,17 @@ node_js:
 sudo: false
 
 cache:
+  yarn: true
   directories:
     - node_modules
 
 install:
-- npm install -g grunt-cli
-- npm install
+- yarn global add grunt-cli
+- yarn --ignore-optional
 
 script:
 - grunt check
-- npm test -- --coverage
+- yarn test -- --coverage
 
 after_success:
 - npm install -g codeclimate-test-reporter

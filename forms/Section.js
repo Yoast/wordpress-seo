@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Represents the section HTML element.
@@ -24,11 +25,11 @@ const Section = ( props ) => {
  * @type {{level: number, headingText: string, headingClassName: string}}
  */
 Section.propTypes = {
-	level: React.PropTypes.number.isRequired,
-	headingText: React.PropTypes.string,
-	headingClassName: React.PropTypes.string,
-	className: React.PropTypes.string,
-	children: React.PropTypes.any,
+	level: PropTypes.number.isRequired,
+	headingText: PropTypes.string,
+	headingClassName: PropTypes.string,
+	className: PropTypes.string,
+	children: PropTypes.any,
 };
 
 /**

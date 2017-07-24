@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Renders a progress indicator for the wizard based on the total number of steps and the current step number.
@@ -25,8 +26,8 @@ const ProgressIndicator = ( props ) => {
 };
 
 ProgressIndicator.propTypes = {
-	currentStepNumber: React.PropTypes.number.isRequired,
-	totalSteps: React.PropTypes.number.isRequired,
+	currentStepNumber: PropTypes.number.isRequired,
+	totalSteps: PropTypes.number.isRequired,
 };
 
 ProgressIndicator.defaultProps = {

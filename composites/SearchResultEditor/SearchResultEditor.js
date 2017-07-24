@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import SearchResultPreview from "../SearchResultPreview/SearchResultPreview";
 import SearchResultForm from "../SearchResultForm/SearchResultForm";
@@ -294,7 +295,7 @@ class SearchResultEditor extends React.Component {
  * @type {{ baseUrl: string }}
  */
 SearchResultEditor.propTypes = {
-	baseUrl: React.PropTypes.string.isRequired,
+	baseUrl: PropTypes.string.isRequired,
 };
 
 /**

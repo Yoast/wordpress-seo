@@ -1,11 +1,12 @@
 jest.unmock( '../ProgressIndicator' );
+jest.unmock( "prop-types" );
 
 import React from "react";
-import TestUtils from "react-addons-test-utils";
+import ReactShallowRenderer from "react-test-renderer/shallow";
 import ProgressIndicator from '../ProgressIndicator';
 
 describe( "a processIndicator component", () => {
-	let renderer = TestUtils.createRenderer();
+	let renderer = new ReactShallowRenderer();
 
 	let inputProps = {
 		currentStepNumber: 1,

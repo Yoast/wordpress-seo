@@ -1,12 +1,13 @@
 jest.unmock( "../SearchResultPreview" );
-jest.unmock( "i18n-calypso" );
+jest.unmock( "../../../utils/i18n" );
+jest.unmock( "prop-types" );
 
 import React from "react";
-import TestUtils from "react-addons-test-utils";
+import ReactShallowRenderer from "react-test-renderer/shallow";
 import SearchResultPreview from "../SearchResultPreview";
 
 describe( "A SearchResultPreview component", () => {
-	var renderer = TestUtils.createRenderer();
+	let renderer = new ReactShallowRenderer();
 
 	it( "generates a SearchResultPreview based on the props", () => {
 		renderer.render( <SearchResultPreview label="SearchResultPreview" translate={{}}/> );

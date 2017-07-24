@@ -1,11 +1,12 @@
 jest.unmock( "../Progressbar" );
+jest.unmock( "prop-types" );
 
 import React from "react";
-import TestUtils from "react-addons-test-utils";
+import ReactShallowRenderer from "react-test-renderer/shallow";
 import Progressbar from "../Progressbar";
 
 describe( "A Progressbar component", () => {
-	var renderer = TestUtils.createRenderer();
+	let renderer = new ReactShallowRenderer();
 
 	it( "generates a Progressbar based on the props", () => {
 		renderer.render( <Progressbar name="customProgressbar" value={0} /> );

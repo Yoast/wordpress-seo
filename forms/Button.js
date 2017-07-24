@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Represents the button HTML element.
@@ -19,11 +20,11 @@ const Button = ( props ) => {
  * @type {{text: string, className: string, onClick: function, optionalAttributes: object}}
  */
 Button.propTypes = {
-	text: React.PropTypes.string.isRequired,
-	className: React.PropTypes.string,
-	onClick: React.PropTypes.func.isRequired,
+	text: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
 
-	optionalAttributes: React.PropTypes.object,
+	optionalAttributes: PropTypes.object,
 };
 
 export default Button;

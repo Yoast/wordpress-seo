@@ -1,13 +1,14 @@
 jest.unmock( "../ScreenReaderShortcut" );
+jest.unmock( "prop-types" );
 
 import React from "react";
-import TestUtils from "react-addons-test-utils";
+import ReactShallowRenderer from "react-test-renderer/shallow";
 import ScreenReaderShortcut from "../ScreenReaderShortcut";
 import Styles from "../Styles";
 import { shallow } from "enzyme";
 
 describe( "ScreenReaderShortcut", () => {
-	var renderer = TestUtils.createRenderer();
+	let renderer = new ReactShallowRenderer();
 
 	it( "generates a ScreenReaderShortcut div based on the props", () => {
 		renderer.render( <ScreenReaderShortcut anchor="example">example text</ScreenReaderShortcut> );

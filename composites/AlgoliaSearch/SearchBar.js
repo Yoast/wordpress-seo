@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Overrides the default submit action with a custom one.
@@ -32,10 +33,10 @@ const SearchBar = ( props ) => {
 };
 
 SearchBar.propTypes = {
-	headingText: React.PropTypes.string,
-	searchButtonText: React.PropTypes.string,
-	searchString: React.PropTypes.string,
-	submitAction: React.PropTypes.func,
+	headingText: PropTypes.string,
+	searchButtonText: PropTypes.string,
+	searchString: PropTypes.string,
+	submitAction: PropTypes.func,
 };
 
 SearchBar.defaultProps = {

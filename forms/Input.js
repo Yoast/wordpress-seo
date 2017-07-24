@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Lists the supported input types.
@@ -69,13 +70,13 @@ class Input extends React.Component {
  * @type {{type: string, name: string, placeholder: string, value: string, onChange: function, optionalAttributes:object}}
  */
 Input.propTypes = {
-	name: React.PropTypes.string.isRequired,
-	type: React.PropTypes.oneOf( inputTypes ).isRequired,
+	name: PropTypes.string.isRequired,
+	type: PropTypes.oneOf( inputTypes ).isRequired,
 
-	value: React.PropTypes.any,
-	onChange: React.PropTypes.func,
-	optionalAttributes: React.PropTypes.object,
-	hasFocus: React.PropTypes.bool,
+	value: PropTypes.any,
+	onChange: PropTypes.func,
+	optionalAttributes: PropTypes.object,
+	hasFocus: PropTypes.bool,
 };
 
 /**

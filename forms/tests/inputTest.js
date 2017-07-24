@@ -1,11 +1,12 @@
 jest.unmock( "../Input" );
+jest.unmock( "prop-types" );
 
 import React from "react";
-import TestUtils from "react-addons-test-utils";
+import ReactShallowRenderer from "react-test-renderer/shallow";
 import Input from "../Input";
 
 describe( "Input", () => {
-	var renderer = TestUtils.createRenderer();
+	let renderer = new ReactShallowRenderer();
 
 	it( "generates an input based on the props", () => {
 		renderer.render( <Input type="text" name="textInput" /> );

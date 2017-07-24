@@ -1,5 +1,7 @@
-import Section from "../Section";
 import React from "react";
+import PropTypes from "prop-types";
+
+import Section from "../Section";
 
 /**
  * Represents a visual section within the page.
@@ -21,9 +23,9 @@ const StyledSection = ( { title, icon, sectionContent } ) => {
 };
 
 StyledSection.propTypes = {
-	title: React.PropTypes.string.isRequired,
-	icon: React.PropTypes.string.isRequired,
-	sectionContent: React.PropTypes.element.isRequired,
+	title: PropTypes.string.isRequired,
+	icon: PropTypes.string.isRequired,
+	sectionContent: PropTypes.element.isRequired,
 };
 
 export default StyledSection;

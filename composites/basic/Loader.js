@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Loader = ( { className } ) => {
 	if ( className !== "" ) {
@@ -57,7 +58,7 @@ const Loader = ( { className } ) => {
 };
 
 Loader.propTypes = {
-	className: React.PropTypes.string,
+	className: PropTypes.string,
 };
 
 export default Loader;

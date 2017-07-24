@@ -1,11 +1,12 @@
 jest.unmock( "../Textarea" );
+jest.unmock( "prop-types" );
 
 import React from "react";
-import TestUtils from "react-addons-test-utils";
+import ReactShallowRenderer from "react-test-renderer/shallow";
 import Textarea from "../Textarea";
 
 describe( "A Textarea component", () => {
-	var renderer = TestUtils.createRenderer();
+	var renderer = new ReactShallowRenderer();
 
 	it( "generates a textarea based on the props", () => {
 		renderer.render( <Textarea name="customTextarea" /> );

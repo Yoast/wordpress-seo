@@ -1,11 +1,12 @@
 jest.unmock( "../../composites/Textfield" );
+jest.unmock( "prop-types" );
 
 import React from "react";
-import TestUtils from "react-addons-test-utils";
+import ReactShallowRenderer from "react-test-renderer/shallow";
 import Textfield from "../Textfield";
 
 describe( "A Textfield component", () => {
-	var renderer = TestUtils.createRenderer();
+	let renderer = new ReactShallowRenderer();
 
 	it( "generates a textarea based on the props", () => {
 		renderer.render( <Textfield name="customTextArea" label="Custom Textarea" onChange={() => {}} /> );

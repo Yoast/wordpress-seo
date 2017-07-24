@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Explanation component.
@@ -20,7 +21,7 @@ const Explanation = ( props ) => {
 };
 
 Explanation.propTypes = {
-	text: React.PropTypes.string,
+	text: PropTypes.string,
 };
 
 export default Explanation;

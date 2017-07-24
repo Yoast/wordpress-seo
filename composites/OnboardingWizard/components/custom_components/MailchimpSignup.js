@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Represents a mailchimg signup interface.
@@ -18,11 +19,11 @@ const MailchimpSignup = ( props ) => {
 };
 
 MailchimpSignup.propTypes = {
-	component: React.PropTypes.string,
-	name: React.PropTypes.string.isRequired,
-	properties: React.PropTypes.object,
-	data: React.PropTypes.string,
-	onChange: React.PropTypes.func,
+	component: PropTypes.string,
+	name: PropTypes.string.isRequired,
+	properties: PropTypes.object,
+	data: PropTypes.string,
+	onChange: PropTypes.func,
 };
 
 MailchimpSignup.defaultProps = {
