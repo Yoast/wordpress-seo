@@ -238,7 +238,6 @@ import a11ySpeak from "a11y-speak";
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
-
 		/**
 		 * When the hash changes, get the base url from the action and then add the current hash.
 		 */
