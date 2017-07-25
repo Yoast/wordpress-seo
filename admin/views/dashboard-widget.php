@@ -97,7 +97,7 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 			echo '<a class="fetch-status button" href="' . esc_attr( add_query_arg( 'wpseo-redo-onpage', '1' ) ) . '#wpseo-dashboard-overview">' . __( 'Fetch the current status', 'wordpress-seo' ) . ' </a> ';
 		endif;
 
-		echo '<a class="landing-page button" href="https://onpage.org/yoast-indexability/" target="_blank">' . __( 'Analyze entire site', 'wordpress-seo' ) . ' </a>';
+		echo '<a class="landing-page button" href="https://yoa.st/rytelp" target="_blank">' . __( 'Analyze entire site', 'wordpress-seo' ) . ' </a>';
 		?>
 	</p>
 </div>
