@@ -9,11 +9,11 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Added
 * Adds additional English transition words.
 * Adds additional French transition words, props [Evoque](https://github.com/@evoqueio).
-* Adds prominent words for Italian.
-* Adds filters for titles such as 'Ms', 'jr' etc. for English, Dutch, German, French, Italian and Spanish.
-* Adds plural ordinal numbers for Spanish, Italian, and French.
-* Adds time words for English, Dutch, German, French and Spanish.
-* Adds more function words categories for Spanish and Italian.
+* Adds relevant words functionality for Italian.
+* Adds relevant words filters for titles such as 'Ms', 'jr' etc. for English, Dutch, German, French, Italian and Spanish.
+* Adds plural ordinal numbers relevant words filters for Spanish, Italian, and French.
+* Adds time words relevant words filters for English, Dutch, German, French and Spanish.
+* Adds more function words category relevant words filters for Spanish and Italian.
 
 ### Changed
 * Improves filtering for Internal Linking Suggestions and Insights for Italian, Spanish, Dutch, French, English and German.
