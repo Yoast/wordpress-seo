@@ -38,10 +38,9 @@ const ProgressBarContainer = styled.progress`
 /**
  * The ProgressBar component
  *
- * @summary
- * A component that displays a progress bar
+ * @summary A component that displays a progress bar.
  *
- * @param {object} props Component props
+ * @param {object} props Component props.
  *
  * @returns {ReactElement} The ProgressBar component.
  */
@@ -63,4 +62,9 @@ ProgressBar.propTypes = {
 	progressColor: PropTypes.string,
 };
 
+/**
+ * Returns the ProgressBar component.
+ *
+ * @returns {ReactElement} The ProgressBar component.
+ */
 export default ProgressBar;
