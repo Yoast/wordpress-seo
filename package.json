@@ -29,6 +29,7 @@
     "algoliasearch": "^3.22.3",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
+    "styled-components": "^2.1.1",
     "prop-types": "^15.5.10",
     "whatwg-fetch": "^1.0.0"
   },
@@ -56,6 +57,7 @@
     "jest-cli": "^20.0.4",
     "json-loader": "^0.5.4",
     "load-grunt-config": "^0.19.2",
+    "react-addons-test-utils": "^15.3.0",
     "material-ui": "^0.18.6",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

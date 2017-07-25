@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import Config from "./composites/OnboardingWizard/config/production-config";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
+import SnippetPreview from "./composites/SnippetPreview/components/SnippetPreview";
 import apiConfig from "./composites/OnboardingWizard/config/api-config";
 import Loader from "./composites/basic/Loader";
 
@@ -22,7 +23,7 @@ class App extends React.Component {
 		injectTapEventPlugin();
 
 		this.state = {
-			activeComponent: "wizard",
+			activeComponent: "snippet-preview",
 		};
 	}
 
@@ -32,6 +33,10 @@ class App extends React.Component {
 		switch ( this.state.activeComponent ) {
 			case "search-results-editor":
 				content = <SearchResultsEditor />;
+				break;
+
+			case "snippet-preview":
+				content = <SnippetPreview />;
 				break;
 
 			case "loader":
@@ -65,6 +70,7 @@ class App extends React.Component {
 				<button type="button" onClick={this.navigate.bind( this, "wizard" )}>Wizard</button>
 				<button type="button" onClick={this.navigate.bind( this, "search-results-editor" )}>Search results editor</button>
 				<button type="button" onClick={this.navigate.bind( this, "loader" )}>Loader</button>
+				<button type="button" onClick={this.navigate.bind( this, "snippet-preview" )}>Snippet preview</button>
 			</nav>
 		);
 	}
