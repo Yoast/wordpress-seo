@@ -28,13 +28,13 @@ button.yoast-tooltip {
 	display: none;
 	position: absolute;
 	z-index: 1000000;
-	padding: 5px 8px;
+	padding: 6px 8px 5px;
 	border-radius: 3px;
 	opacity: 0;
 	color: #fff;
 	background: rgba(0, 0, 0, 0.8);
 	text-shadow: none;
-	font: normal normal 11px/1.5 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font: normal normal 11px/1.45454545 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	text-align: center;
 	white-space: pre;
 	text-decoration: none;
@@ -205,6 +205,9 @@ button.yoast-tooltip {
 }
 
 .yoast-tooltip-multiline::after {
+	/* Microsoft Edge doesn't support max-content. */
+	width: 250px;
+	/* Modern browsers. */
 	width: -webkit-max-content;
 	width: -moz-max-content;
 	width: max-content;
@@ -305,7 +308,7 @@ button.yoast-tooltip {
 }
 
 .yoast-video-container {
-	overflow: hidden;
+	overflow: hidden; 
 	position: relative;
 	height: 0;
 	padding-bottom: 56.25%;
@@ -362,7 +365,7 @@ button.yoast-tooltip {
 .yoast .yoast-settings__checkbox,
 .yoast .yoast-settings__radio {
 	position: relative;
-	top: 1px;
+	top: 1px; 
 	vertical-align: top;
 }
 
@@ -379,7 +382,7 @@ button.yoast-tooltip {
 .yoast-settings__checkbox + label,
 .yoast-settings__radio + label {
 	width: auto;
-	max-width: calc( 100% - 25px);
+	max-width: calc( 100% - 25px); 
 	margin-left: 0;
 	margin-right: 0;
 	padding: 0;
@@ -393,7 +396,7 @@ button.yoast-tooltip {
 }
 
 .yoast-settings legend {
-	color: #23282d;
+	color: #23282d; 
 	font-size: 14px;
 	font-weight: 600;
 }
@@ -437,7 +440,7 @@ th.column-wpseo-score-readability .yoast-tooltip {
 	/* Override WP property to make tooltips visible. */
 	display: inline-block;
 	overflow: visible;
-	padding: 8px 0; 
+	padding: 8px 0;
 	/* To contain floats instead of using overflow. */
 	vertical-align: middle;
 }
@@ -470,7 +473,7 @@ th.column-wpseo-score-readability .yoast-tooltip {
 	width: 20px;
 	height: 20px;
 	padding: 0;
-	color: #444; 
+	color: #444;
 	vertical-align: top;
 	text-decoration: none !important;
 	content: "";
@@ -504,7 +507,7 @@ td.column-wpseo-linked {
 
 /* Make the checkboxes lable in the Screen Options visible. */
 #screen-meta .yoast-column-header-has-tooltip .screen-reader-text {
-	visibility: visible; 
+	visibility: visible;
 	position: static;
 	width: auto;
 	height: auto;
@@ -514,33 +517,39 @@ td.column-wpseo-linked {
 	.yoast-settings {
 		padding-right: 0;
 	}
+
 	.yoast-settings h2 {
 		margin-right: 0;
 	}
+
 	.yoast-settings label {
 		width: auto;
 		margin-left: 0;
-		margin-right: 0; 
+		margin-right: 0;
 		padding: 0;
 	}
+
 	.yoast .yoast-settings__radio,
 	.yoast-settings__radio + label {
 		margin-bottom: 1em;
 	}
+
 	.yoast-settings__checkbox + label,
 	.yoast-settings__radio + label {
 		max-width: calc( 100% - 35px);
 		padding-top: 8px;
 	}
+
 	.yoast-settings__group--checkbox .yoast-settings__checkbox + label,
 	.yoast-settings__group--radio .yoast-settings__radio + label {
 		padding-top: 4px;
 	}
+
 	.yoast-settings input[type="text"],
 	.yoast-settings textarea,
 	.yoast-settings select {
 		display: block;
-		box-sizing: border-box; 
+		box-sizing: border-box;
 		width: 100%;
 		max-width: none;
 		margin-top: 0;
