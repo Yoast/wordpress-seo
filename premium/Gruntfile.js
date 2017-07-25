@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 
 	require('time-grunt')(grunt);
 
-	let pluginVersion = "5.0.2";
+	let pluginVersion = "5.1";
 
 	// Define project configuration
 	var project = {
