@@ -149,6 +149,10 @@
 			max-height: none;
 			font-size: 0.9rem;
 
+			&--installed {
+				color: $color-white;
+			}
+
 			&--extension {
 				font-size: 0.9rem;
 				text-align: center;

@@ -792,17 +792,17 @@ a.promoblock:hover {
 
 .yoast-button--extension-installed,
 .yoast-button--extension-installed:hover {
-	background-color: #77b227;
+	background-color: #008a00;
 }
 
 .yoast-button--extension-not-activated,
 .yoast-button--extension-not-activated:hover {
-	background-color: #ca2a2a;
+	background-color: #dc3232;
 }
 
 .yoast-button--extension-activated,
 .yoast-button--extension-activated:hover {
-	background-color: #77b227;
+	background-color: #008a00;
 }
 
 .yoast-promo-extensions {
@@ -851,6 +851,10 @@ a.promoblock:hover {
 	width: 100%;
 	max-height: none;
 	font-size: 0.9rem;
+}
+
+.yoast-promo-extension .yoast-button--installed {
+	color: #fff;
 }
 
 .yoast-promo-extension .yoast-button--extension {
@@ -904,11 +908,15 @@ a.promoblock:hover {
 	content: "– ";
 }
 
-.yoast-link--license {
-	margin: 1em 0 0 0;
+.yoast-link--license,
+.yoast-link--more-info {
 	color: #a4286a;
 	font-family: "Open Sans", Arial, sans-serif;
 	font-weight: 600;
+}
+
+.yoast-link--license {
+	margin: 1em 0 0 0;
 }
 
 .yoast-promo-extension .yoast-link--license {
@@ -922,8 +930,7 @@ a.promoblock:hover {
 
 .yoast-link--more-info {
 	padding-left: calc( 1em + 5px);
-	color: #646464;
-	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23646464%22%20d%3D%22M1152%201376v%2D160q0%2D14%2D9%2D23t%2D23%2D9h%2D96v%2D512q0%2D14%2D9%2D23t%2D23%2D9h%2D320q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h96v320h%2D96q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h448q14%200%2023%2D9t9%2D23zm%2D128%2D896v%2D160q0%2D14%2D9%2D23t%2D23%2D9h%2D192q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h192q14%200%2023%2D9t9%2D23zm640%20416q0%20209%2D103%20385%2E5t%2D279%2E5%20279%2E5%2D385%2E5%20103%2D385%2E5%2D103%2D279%2E5%2D279%2E5%2D103%2D385%2E5%20103%2D385%2E5%20279%2E5%2D279%2E5%20385%2E5%2D103%20385%2E5%20103%20279%2E5%20279%2E5%20103%20385%2E5z%22%2F%3E%3C%2Fsvg%3E");
+	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23A4286A%22%20d%3D%22M1152%201376v%2D160q0%2D14%2D9%2D23t%2D23%2D9h%2D96v%2D512q0%2D14%2D9%2D23t%2D23%2D9h%2D320q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h96v320h%2D96q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h448q14%200%2023%2D9t9%2D23zm%2D128%2D896v%2D160q0%2D14%2D9%2D23t%2D23%2D9h%2D192q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h192q14%200%2023%2D9t9%2D23zm640%20416q0%20209%2D103%20385%2E5t%2D279%2E5%20279%2E5%2D385%2E5%20103%2D385%2E5%2D103%2D279%2E5%2D279%2E5%2D103%2D385%2E5%20103%2D385%2E5%20279%2E5%2D279%2E5%20385%2E5%2D103%20385%2E5%20103%20279%2E5%20279%2E5%20103%20385%2E5z%22%2F%3E%3C%2Fsvg%3E");
 	background-repeat: no-repeat;
 	background-position: left 0.2em;
 	background-size: 1em;
