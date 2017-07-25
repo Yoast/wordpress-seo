@@ -11,15 +11,17 @@ const ProgressBarContainer = styled.progress`
 	margin-top: 5px;
 	border: none;
 	-webkit-appearance: none;
+	appearance: none;
 	
 	::-webkit-progress-bar {
-	   	background-color: ${colors.$color_progress_background};
+	   	background-color: ${colors.$color_background_light};
 	   	color: ${( { color } ) => color };
 		border: 1px solid ${colors.$color_input_border};
 	}
 	
 	::-webkit-progress-value {
 		background-color: ${ props => props.progressColor };
+		transition: width 250ms;
 	}
 `;
 
@@ -28,32 +30,27 @@ const ProgressBarContainer = styled.progress`
  *
  * @summary
  * A component that displays a progress bar
+ *
+ * @param {object} props Component props
+ *
+ * @returns {ReactElement} The ProgressBar component.
  */
-class ProgressBar extends React.Component {
-	render() {
-		const { max, value, progressColor } = this.props;
-		return (
-			<ProgressBarContainer progressColor={ progressColor } aria-hidden="true" max={max} value={value}>
-			</ProgressBarContainer>
-		);
-	}
+function ProgressBar( props ) {
+	return (
+		<ProgressBarContainer max={props.max} value={props.value} progressColor={props.progressColor} aria-hidden="true"/>
+	);
 }
 
 ProgressBar.defaultProps = {
 	max: 1,
 	value: 0,
 	progressColor: colors.$color_good,
-}
+};
 
 ProgressBar.propTypes = {
 	max: PropTypes.number,
 	value: PropTypes.number,
 	progressColor: PropTypes.string,
-}
+};
 
-/**
- * Returns the ProgressBar component.
- *
- * @returns {ReactElement} The ProgressBar component.
- */
 export default ProgressBar;
