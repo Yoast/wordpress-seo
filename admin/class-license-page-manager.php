@@ -102,7 +102,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * @return mixed|string|false The parsed response.
 	 */
 	protected function parse_response( $response ) {
-		$response = wp_remote_retrieve_body( $response );
+		$response = json_decode( wp_remote_retrieve_body( $response ), true );
 		$response = maybe_unserialize( $response );
 
 		return $response;
