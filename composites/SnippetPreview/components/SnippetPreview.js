@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import ProgressBar from "./ProgressBar";
+
 export const SnippetPreviewDiv = styled.div`
 	height: 700px;
 	width: 100%;
@@ -13,5 +15,5 @@ export const SnippetPreviewDiv = styled.div`
  * @returns {ReactElement} The SnippetPreview component.
  */
 export default function SnippetPreview() {
-	return <SnippetPreviewDiv/>;
+	return <SnippetPreviewDiv><ProgressBar/></SnippetPreviewDiv>;
 }
