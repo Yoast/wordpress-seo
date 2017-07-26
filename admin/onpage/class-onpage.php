@@ -14,7 +14,7 @@ class WPSEO_OnPage {
 	const USER_META_KEY = 'wpseo_dismiss_onpage';
 
 	/**
-	 * @var WPSEO_OnPage_Option The OnPage.org option class.
+	 * @var WPSEO_OnPage_Option The Ryte option class.
 	 */
 	private $onpage_option;
 
@@ -99,10 +99,11 @@ class WPSEO_OnPage {
 
 		if ( $this->should_show_notice() ) {
 			$notification_center->add_notification( $notification );
+
+			return;
 		}
-		else {
-			$notification_center->remove_notification( $notification );
-		}
+
+		$notification_center->remove_notification( $notification );
 	}
 
 	/**
@@ -129,7 +130,7 @@ class WPSEO_OnPage {
 	}
 
 	/**
-	 * Send a request to OnPage.org to get the indexability
+	 * Send a request to Ryte to get the indexability
 	 *
 	 * @return int(0)|int(1)|false
 	 */
