@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`button executes callback 1`] = `
+<button
+  className="sc-bdVaJa hSUPKu"
+  onClick={[Function]}
+>
+  ButtonValue
+</button>
+`;
+
+exports[`button executes callback 2`] = `
+<button
+  className="sc-bdVaJa hSUPKu"
+  onClick={[Function]}
+>
+  ButtonValue
+</button>
+`;
+
+exports[`the button matches the snapshot 1`] = `
+<button
+  className="sc-bdVaJa hSUPKu"
+>
+  ButtonValue
+</button>
+`;
