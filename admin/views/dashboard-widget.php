@@ -73,7 +73,7 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 				echo '<span class="wpseo-score-icon na"></span>';
 				printf(
 					/* translators: %1$s opens a link to a related knowledge base article, %2$s expands to Yoast SEO, %3$s closes the link, %4$s expands to Ryte.  */
-					__( '%1$s%2$s has not been able to fetch your site\'s indexability status%3$s from Ryte', 'wordpress-seo' ),
+					__( '%1$s%2$s has not been able to fetch your site\'s indexability status%3$s from %4$s', 'wordpress-seo' ),
 					'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/onpagerequestfailed' ) . '" target="_blank">',
 					'Yoast SEO',
 					'</a>',
