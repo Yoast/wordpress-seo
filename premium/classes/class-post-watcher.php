@@ -116,6 +116,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		$public_post_statuses = array(
 			'publish',
 			'static',
+			'private',
 		);
 
 		/**
