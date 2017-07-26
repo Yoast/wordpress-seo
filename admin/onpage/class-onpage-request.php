@@ -44,7 +44,7 @@ class WPSEO_OnPage_Request {
 	}
 
 	/**
-	 * Sending a request to OnPage to check if the $home_url is indexable
+	 * Sending a request to Ryte to check if the $home_url is indexable.
 	 *
 	 * @param string $target_url The URL that will be send to the API.
 	 * @param array  $parameters Array of extra parameters to send to Ryte.
