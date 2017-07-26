@@ -1,8 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const StyledButton = styled.button`
+/**
+ * @summary:
+ * Returns a basic styled button
+ *
+ * @param {object} props Component props
+ *
+ * @returns {ReactElement} Styled button
+ */
+const Button = styled.button`
 	display: inline-block;
 	padding: 8px 10px;
     border: 1px solid #dbdbdb;
@@ -24,26 +30,5 @@ const StyledButton = styled.button`
 		box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
     }
 `;
-
-/**
- * @summary:
- * Returns a basic styled button
- *
- * @param {object} props Component props
- *
- * @returns {ReactElement} Styled button
- */
-function Button( props ) {
-	return (
-		<StyledButton onClick={props.onClick}>
-			{props.children}
-		</StyledButton>
-	);
-}
-
-Button.propTypes = {
-	onClick: PropTypes.func.isRequired,
-	children: PropTypes.any,
-};
 
 export default Button;
