@@ -21,10 +21,7 @@ export const Button = styled.button`
 	font-family: inherit;
 	font-weight: inherit;
 
-	::-moz-focus-inner,
-	[type="reset"]::-moz-focus-inner,
-	[type="button"]::-moz-focus-inner,
-	[type="submit"]::-moz-focus-inner {
+	::-moz-focus-inner {
 		border-width: 0;
 		border-style: none;
 		padding: 0;
