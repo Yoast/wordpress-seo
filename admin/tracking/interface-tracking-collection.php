@@ -9,12 +9,10 @@
 interface WPSEO_Tracking_Collection {
 
 	/**
-	 * Extends the collection data.
+	 * Returns the collection data.
 	 *
-	 * @param array $data The data to extend.
-	 *
-	 * @return array The extended data.
+	 * @return array The collection data.
 	 */
-	public function extend( array $data );
+	public function get();
 
 }
