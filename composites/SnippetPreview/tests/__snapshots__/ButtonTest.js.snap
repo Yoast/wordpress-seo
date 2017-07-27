@@ -1,26 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`button executes callback 1`] = `
+exports[`Button executes callback 1`] = `
 <button
-  className="sc-bdVaJa hSUPKu"
+  className="button,yoast-button sc-bdVaJa eswEHi"
   onClick={[Function]}
+  type="button"
 >
   ButtonValue
 </button>
 `;
 
-exports[`button executes callback 2`] = `
+exports[`Button executes callback 2`] = `
 <button
-  className="sc-bdVaJa hSUPKu"
+  className="button,yoast-button sc-bdVaJa eswEHi"
   onClick={[Function]}
+  type="button"
 >
   ButtonValue
 </button>
 `;
 
-exports[`the button matches the snapshot 1`] = `
+exports[`SnippetPreviewButton executes callback 1`] = `
 <button
-  className="sc-bdVaJa hSUPKu"
+  className="button,yoast-button sc-bdVaJa eswEHi"
+  onClick={[Function]}
+  type="button"
+>
+  ButtonValue
+</button>
+`;
+
+exports[`SnippetPreviewButton executes callback 2`] = `
+<button
+  className="button,yoast-button sc-bdVaJa eswEHi"
+  onClick={[Function]}
+  type="button"
+>
+  ButtonValue
+</button>
+`;
+
+exports[`the Button matches the snapshot 1`] = `
+<button
+  className="button,yoast-button sc-bdVaJa eswEHi"
+  type="button"
+>
+  ButtonValue
+</button>
+`;
+
+exports[`the SnippetPreviewButton matches the snapshot 1`] = `
+<button
+  className="button,yoast-button sc-bdVaJa eswEHi"
+  type="button"
 >
   ButtonValue
 </button>
