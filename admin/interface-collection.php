@@ -1,12 +1,12 @@
 <?php
 /**
- * @package WPSEO\Admin\Tracking
+ * @package WPSEO\Admin
  */
 
 /**
- * Interface that represents a tracking collection.
+ * Interface that represents a collection.
  */
-interface WPSEO_Tracking_Collection {
+interface WPSEO_Collection {
 
 	/**
 	 * Returns the collection data.
