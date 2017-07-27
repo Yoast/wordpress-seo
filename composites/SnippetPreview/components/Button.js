@@ -20,7 +20,21 @@ export const Button = styled.button`
 	font-size: inherit;
 	font-family: inherit;
 	font-weight: inherit;
+
+	::-moz-focus-inner,
+	input[type="reset"]::-moz-focus-inner,
+	input[type="button"]::-moz-focus-inner,
+	input[type="submit"]::-moz-focus-inner {
+		border-width: 0;
+		border-style: none;
+		padding: 0;
+	}
 `;
+
+Button.defaultProps = {
+	type: "button",
+	className: [ "button", "yoast-button" ],
+};
 
 /**
  * @summary Returns a button styled for the SnippetPreview.
@@ -32,17 +46,4 @@ export const Button = styled.button`
 export const SnippetPreviewButton = styled( Button )`
 	line-height: 15px;
 	font-size: 0.8rem;
-
-	:focus {
-		border-color: #5b9dd9;
-		outline: none;
-		color: #23282d;
-		background-color: #fafafa;
-		box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
-	}
-`
-
-Button.defaultProps = {
-	type: "button",
-};
-
+`;
