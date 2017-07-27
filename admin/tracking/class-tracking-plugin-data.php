@@ -50,7 +50,7 @@ class WPSEO_Tracking_Plugin_Data implements WPSEO_Collection {
 			'url'     => $plugin['PluginURI'],
 			'version' => $plugin['Version'],
 			'author'  => array(
-				'name' => $plugin['Author'],
+				'name' => strip_tags( $plugin['Author'] ),
 				'url'  => $plugin['AuthorURI'],
 			),
 		);

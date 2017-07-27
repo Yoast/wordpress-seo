@@ -17,7 +17,7 @@ class WPSEO_Tracking_Default_Data implements WPSEO_Collection {
 		return array(
 			'name'         => $this->get_user_info( 'name' ),
 			'email'        => $this->get_user_info( 'email' ),
-			'timestamp'    => time(),
+			'@timestamp'   => date( 'd-m-Y H:i:s' ),
 			'wpVersion'    => $this->get_wordpress_version(),
 			'isMultisite'  => is_multisite(),
 			'siteLanguage' => get_bloginfo( 'language' ),
