@@ -5,16 +5,16 @@ const PORT = 3333;
 
 module.exports = {
 	entry: [
-		"react-hot-loader/patch",
 		// Activate HMR for React
+		"react-hot-loader/patch",
 
-		`webpack-dev-server/client?http://localhost:${PORT}`,
 		// Bundle the client for webpack-dev-server
 		// And connect to the provided endpoint
+		`webpack-dev-server/client?http://localhost:${PORT}`,
 
-		"webpack/hot/only-dev-server",
 		// Bundle the client for hot reloading
-		// Only- means to only hot reload for successful updates
+		// 'Only-' means to only hot reload for successful updates
+		"webpack/hot/only-dev-server",
 
 		"./render.js",
 	],
