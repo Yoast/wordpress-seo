@@ -13,5 +13,5 @@ export const SnippetPreviewDiv = styled.div`
  * @returns {ReactElement} The SnippetPreview component.
  */
 export default function SnippetPreview() {
-	return <SnippetPreviewDiv></SnippetPreviewDiv>;
+	return <SnippetPreviewDiv/>;
 }
