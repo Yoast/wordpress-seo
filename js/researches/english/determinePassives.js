@@ -10,6 +10,7 @@ var determineSentencePartIsPassive =  require( "../passivevoice/determineSentenc
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
 module.exports = function( sentencePart, auxiliaries ) {
+	console.log( sentencePart );
 	var participles = getParticiples( sentencePart, auxiliaries );
 	return determineSentencePartIsPassive( participles );
 };
