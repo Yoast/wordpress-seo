@@ -12,4 +12,9 @@ describe( "splits English sentences into parts", function() {
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "are always" );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
 	} );
+	it ( "doesn't split on sentence breakers within words", function() {
+		var sentence =  "Commented is praise due.";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is praise due." );
+		expect( getSentenceParts( sentence ).length ).toBe( 1 );
+	} );
 } );

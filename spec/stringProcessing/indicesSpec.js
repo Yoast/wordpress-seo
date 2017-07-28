@@ -3,6 +3,7 @@ var getIndices = indices.getIndicesByWord;
 var getIndicesOfList = indices.getIndicesByWordList;
 var filterIndices = indices.filterIndices;
 var sortIndices = indices.sortIndices;
+var getIndicesByWord = indices.getIndicesByWord;
 
 describe( "A function to get indices from words in a string." , function( ) {
 	it( "returns a list with a single word and its index", function() {
@@ -91,6 +92,20 @@ describe( "A function to filter out overlapping matches", function() {
 	});
 
 });
+
+describe( "A function that returns all instances of the input word and their index", function() {
+	it( "returns an array", function() {
+		var word = "is";
+		var text = "praise is";
+		var output = [
+			{
+				match: "is",
+				index: 7,
+			}
+		];
+		expect( getIndicesByWord (word, text) ).toEqual ( output );
+	} );
+} );
 
 describe( "A function that sorts an array based on the indices of the objects", function() {
 	it( "returns a sorted array", function() {
