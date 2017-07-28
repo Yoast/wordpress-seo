@@ -17,12 +17,16 @@ class ProgressBarTest extends React.Component {
 		};
 	}
 
+	addToValue( diff ) {
+		this.setState( { value: this.state.value + diff } );
+	}
+
 	render() {
 		console.log(this.state.value);
 		return (
 			<Preview>
-				<button onClick={() => this.setState( { value: this.state.value - 10 } ) }>-10%</button>
-				<button onClick={() => this.setState( { value: this.state.value + 10 } ) }>+10%</button>
+				<button onClick={ this.addToValue.bind( this, -10 ) }>-10%</button>
+				<button onClick={ this.addToValue.bind( this, 10 ) }>+10%</button>
 				<ProgressBar max={100} value={this.state.value}/>
 			</Preview>
 		);
