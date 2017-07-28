@@ -249,11 +249,6 @@ function filterCombinations( combinations, functionWords, locale ) {
 			combinations = filterFunctionWords( combinations, functionWords().possessivePronouns );
 			break;
 		case "it":
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
-			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbsPreceding );
-			combinations = filterFunctionWords( combinations, functionWords().possessivePronouns );
-			break;
 		case "fr":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
