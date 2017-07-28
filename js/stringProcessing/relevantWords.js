@@ -176,7 +176,7 @@ function filterFunctionWordsAtEnding( wordCombinations, functionWords ) {
  * @param {Array} functionWords The list of function words.
  * @returns {WordCombination[]} Filtered word combinations.
  */
-function filterFunctionWords( wordCombinations, functionWords ) {
+function filterFunctionWordsAtBeginningAndEnding( wordCombinations, functionWords ) {
 	wordCombinations = filterFunctionWordsAtBeginning( wordCombinations, functionWords );
 	wordCombinations = filterFunctionWordsAtEnding( wordCombinations, functionWords );
 	return wordCombinations;
@@ -199,17 +199,15 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
 }
 
 /**
- * Filters the list of word combination objects.
- * Word combinations with specific parts of speech at the beginning and/or end are removed.
+ * Filters the list of word combination objects based on the language-specific function word filters.
+ * Word combinations with specific parts of speech are removed.
  *
  * @param {Array} combinations The list of word combination objects.
  * @param {Function} functionWords The function containing the lists of function words.
  * @param {string} locale The paper's locale.
  * @returns {Array} The filtered list of word combination objects.
  */
-function filterCombinations( combinations, functionWords, locale ) {
-	combinations = filterFunctionWordsAnywhere( combinations, specialCharacters );
-	combinations = filterOneCharacterWordCombinations( combinations );
+function filterFunctionWords( combinations, functionWords, locale ) {
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().transitionWords );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().adverbialGenitives );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().personalPronouns );
@@ -228,12 +226,12 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().recipeWords );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().timeWords );
 	combinations = filterFunctionWordsAnywhere( combinations, functionWords().vagueNouns );
-	combinations = filterFunctionWords( combinations, functionWords().articles );
-	combinations = filterFunctionWords( combinations, functionWords().prepositions );
-	combinations = filterFunctionWords( combinations, functionWords().coordinatingConjunctions );
-	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
-	combinations = filterFunctionWords( combinations, functionWords().intensifiers );
-	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
+	combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords().articles );
+	combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords().prepositions );
+	combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords().coordinatingConjunctions );
+	combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords().demonstrativePronouns );
+	combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords().intensifiers );
+	combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords().quantifiers );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().ordinalNumerals );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().titlesPreceding );
 	combinations = filterFunctionWordsAtBeginning( combinations, functionWords().titlesFollowing );
@@ -241,19 +239,19 @@ function filterCombinations( combinations, functionWords, locale ) {
 		case "en":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().continuousVerbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbs );
-			combinations = filterFunctionWords( combinations, functionWords().possessivePronouns );
+			combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords().possessivePronouns );
 			break;
 		case "es":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
-			combinations = filterFunctionWords( combinations, functionWords().possessivePronouns );
+			combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords().possessivePronouns );
 			break;
 		case "it":
 		case "fr":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().infinitives );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().generalAdjectivesAdverbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().generalAdjectivesAdverbsPreceding );
-			combinations = filterFunctionWords( combinations, functionWords().possessivePronouns );
+			combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords().possessivePronouns );
 			break;
 		case "de":
 		case "nl":
@@ -263,6 +261,22 @@ function filterCombinations( combinations, functionWords, locale ) {
 			combinations = filterFunctionWordsAnywhere( combinations, functionWords().possessivePronouns );
 			break;
 	}
+	return combinations;
+}
+
+/**
+ * Filters the list of word combination objects based on function word filters, a special character filter and
+ * a one-character filter.
+ *
+ * @param {Array} combinations The list of word combination objects.
+ * @param {Function} functionWords The function containing the lists of function words.
+ * @param {string} locale The paper's locale.
+ * @returns {Array} The filtered list of word combination objects.
+ */
+function filterCombinations( combinations, functionWords, locale ) {
+	combinations = filterFunctionWordsAnywhere( combinations, specialCharacters );
+	combinations = filterOneCharacterWordCombinations( combinations );
+	combinations = filterFunctionWords( combinations, functionWords, locale );
 	return combinations;
 }
 /**
@@ -348,7 +362,7 @@ module.exports = {
 	sortCombinations: sortCombinations,
 	filterFunctionWordsAtEnding: filterFunctionWordsAtEnding,
 	filterFunctionWordsAtBeginning: filterFunctionWordsAtBeginning,
-	filterFunctionWords: filterFunctionWords,
+	filterFunctionWords: filterFunctionWordsAtBeginningAndEnding,
 	filterFunctionWordsAnywhere: filterFunctionWordsAnywhere,
 	filterOnDensity: filterOnDensity,
 	filterOneCharacterWordCombinations: filterOneCharacterWordCombinations,
