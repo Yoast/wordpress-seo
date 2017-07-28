@@ -10,20 +10,30 @@ const ProgressBarContainer = styled.progress`
 	display: block;
 	margin-top: 5px;
 	border: none;
+	-moz-appearance: none;
 	-webkit-appearance: none;
 	appearance: none;
-	
+
 	::-webkit-progress-bar {
 	   	background-color: ${colors.$color_background_light};
-	   	color: ${( { color } ) => color };
+	   	color: ${( { progressColor } ) => progressColor };
 		border: 1px solid ${colors.$color_input_border};
 	}
-	
+
 	::-webkit-progress-value {
 		background-color: ${ props => props.progressColor };
 		transition: width 250ms;
 	}
-`;
+
+	::-moz-progress-bar {
+		background-color: ${ ( { progressColor } ) => progressColor };
+		border: 1px solid ${colors.$color_input_border};
+	}
+	
+	::-ms-fill {
+		background-color: ${ ( { progressColor } ) => progressColor };
+	}
+}`;
 
 /**
  * The ProgressBar component
@@ -37,7 +47,7 @@ const ProgressBarContainer = styled.progress`
  */
 function ProgressBar( props ) {
 	return (
-		<ProgressBarContainer max={props.max} value={props.value} progressColor={props.progressColor} aria-hidden="true"/>
+		<ProgressBarContainer max={props.max} value={props.value} progressColor={props.progressColor} aria-hidden="true" />
 	);
 }
 
