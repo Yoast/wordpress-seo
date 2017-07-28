@@ -3,7 +3,7 @@
 exports[`the progress bar matches the snapshot 1`] = `
 <progress
   aria-hidden="true"
-  className="sc-bdVaJa jorXDS"
+  className="sc-bdVaJa iNoWhH"
   max={1}
   value={0}
 />
@@ -12,7 +12,7 @@ exports[`the progress bar matches the snapshot 1`] = `
 exports[`the progress bar with custom color matches the snapshot 1`] = `
 <progress
   aria-hidden="true"
-  className="sc-bdVaJa zVVEV"
+  className="sc-bdVaJa kDlOjh"
   max={100}
   value={50}
 />
@@ -21,7 +21,7 @@ exports[`the progress bar with custom color matches the snapshot 1`] = `
 exports[`the progress bar with progress matches the snapshot 1`] = `
 <progress
   aria-hidden="true"
-  className="sc-bdVaJa jorXDS"
+  className="sc-bdVaJa iNoWhH"
   max={100}
   value={50}
 />
