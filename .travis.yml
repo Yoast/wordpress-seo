@@ -1,5 +1,5 @@
 language: php
-
+dist: trusty
 sudo: false
 
 branches:
@@ -20,8 +20,12 @@ matrix:
     - php: 7.0
       env: WP_VERSION=4.8 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 COVERAGE=1 TRAVIS_NODE_VERSION=node CXX=g++-4.8
     - php: 5.2
+      # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
+      dist: precise
       env: WP_VERSION=4.7 WP_MULTISITE=1 PHPLINT=1
     - php: 5.3
+      # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
+      dist: precise
       env: WP_VERSION=4.6
     - php: 5.6
       env: WP_VERSION=4.6
@@ -31,6 +35,8 @@ matrix:
     - php: hhvm
       env: WP_VERSION=4.8
     - php: 5.2
+      # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
+      dist: precise
       env: WP_VERSION=master
     - php: nightly
       env: WP_VERSION=master
