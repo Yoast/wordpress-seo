@@ -43,8 +43,8 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 <div class="onpage">
 	<h3><?php
 		printf(
-			/* translators: %s expands to Ryte */
-			__( 'Indexability check by %s', 'wordpress-seo' ),
+			/* translators: %1$s expands to Ryte. */
+			__( 'Indexability check by %1$s', 'wordpress-seo' ),
 			'Ryte'
 		);
 	?></h3>

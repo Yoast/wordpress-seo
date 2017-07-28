@@ -28,8 +28,8 @@ $feature_toggles = array(
 	(object) array(
 		'name'    => 'Ryte',
 		'setting' => 'onpage_indexability',
-		/* translators: %s expands to Ryte. */
-		'label'   => sprintf( __( 'The %s integration checks daily if your site is still indexable by search engines and notifies you when this is not the case.', 'wordpress-seo' ), 'Ryte' ),
+		/* translators: %1$s expands to Ryte. */
+		'label'   => sprintf( __( 'The %1$s integration checks daily if your site is still indexable by search engines and notifies you when this is not the case.', 'wordpress-seo' ), 'Ryte' ),
 	),
 	(object) array(
 		'name'    => __( 'Admin bar menu', 'wordpress-seo' ),
