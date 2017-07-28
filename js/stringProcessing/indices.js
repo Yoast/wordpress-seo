@@ -52,7 +52,6 @@ var getIndicesByWordList = function( words, text ) {
 		}
 		matchedWords = matchedWords.concat( getIndicesByWord( word, text ) );
 	} );
-
 	return matchedWords;
 };
 

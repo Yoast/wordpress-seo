@@ -1,5 +1,6 @@
 var wordBoundaries = require( "../config/wordBoundaries.js" )();
 var includes = require( "lodash/includes" );
+var addWordBoundary = require( "./addWordboundary.js" );
 
 /**
  * Checks whether a character is present in the list of word boundaries.
@@ -23,9 +24,9 @@ var isWordInSentence = function( word, sentence ) {
 	word = word.toLocaleLowerCase();
 	sentence = sentence.toLocaleLowerCase();
 
-	var occurrenceStart = sentence.indexOf( word );
+	word = addWordBoundary( word );
+	var occurrenceStart = sentence.search( new RegExp ( word, "ig" ) );
 	var occurrenceEnd = occurrenceStart + word.length;
-
 	// Return false if no match has been found.
 	if ( occurrenceStart === -1 ) {
 		return false;
