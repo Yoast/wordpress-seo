@@ -4,8 +4,9 @@
  */
 
 /**
- * This class will fetch a new status from Ryte and if it's necessary it will notify the site admin by email and
- * remove the current meta value for hidding the notice for all admin users
+ * This class will fetch a new status from Ryte and if it's necessary it will
+ * notify the site admin by email and remove the current meta value to hide the
+ * notice for all admin users.
  */
 class WPSEO_OnPage_Request {
 

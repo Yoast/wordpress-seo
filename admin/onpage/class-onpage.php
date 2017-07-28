@@ -130,7 +130,7 @@ class WPSEO_OnPage {
 	}
 
 	/**
-	 * Send a request to Ryte to get the indexability
+	 * Send a request to Ryte to get the indexability.
 	 *
 	 * @return int(0)|int(1)|false
 	 */

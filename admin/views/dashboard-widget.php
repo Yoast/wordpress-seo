@@ -43,8 +43,8 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 <div class="onpage">
 	<h3><?php
 		printf(
-			/* translators: 1: expands to Ryte */
-			__( 'Indexability check by %1$s', 'wordpress-seo' ),
+			/* translators: %s expands to Ryte */
+			__( 'Indexability check by %s', 'wordpress-seo' ),
 			'Ryte'
 		);
 	?></h3>
@@ -63,7 +63,7 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 			case WPSEO_OnPage_Option::IS_NOT_INDEXABLE :
 				echo '<span class="wpseo-score-icon bad"></span>';
 				printf(
-					/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
+					/* translators: %1$s: opens a link to a related knowledge base article. %2$s: closes the link. */
 					__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
 					'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/onpageindexerror' ) . '" target="_blank">',
 					'</a>'
@@ -72,7 +72,7 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 			case WPSEO_OnPage_Option::CANNOT_FETCH :
 				echo '<span class="wpseo-score-icon na"></span>';
 				printf(
-					/* translators: %1$s opens a link to a related knowledge base article, %2$s expands to Yoast SEO, %3$s closes the link, %4$s expands to Ryte.  */
+					/* translators: %1$s: opens a link to a related knowledge base article, %2$s: expands to Yoast SEO, %3$s: closes the link, %4$s: expands to Ryte. */
 					__( '%1$s%2$s has not been able to fetch your site\'s indexability status%3$s from %4$s', 'wordpress-seo' ),
 					'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/onpagerequestfailed' ) . '" target="_blank">',
 					'Yoast SEO',
@@ -83,7 +83,7 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 			case WPSEO_OnPage_Option::NOT_FETCHED :
 				echo '<span class="wpseo-score-icon na"></span>';
 				echo esc_html( sprintf(
-					/* translators: 1: expands to Yoast SEO, 2: expands to Ryte */
+					/* translators: %1$s: expands to Yoast SEO, %2$s: expands to Ryte. */
 					__( '%1$s has not fetched your site\'s indexability status yet from %2$s', 'wordpress-seo' ),
 					'Yoast SEO',
 					'Ryte'

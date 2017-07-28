@@ -104,7 +104,7 @@ class WPSEO_OnPage_Option {
 	}
 
 	/**
-	 * Getting the option with the Ryte data
+	 * Getting the option with the Ryte data.
 	 *
 	 * @return array
 	 */
