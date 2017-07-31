@@ -49,10 +49,6 @@ class WPSEO_Remote_Request {
 	 * @return bool True when sending data has been successful.
 	 */
 	public function post() {
-		echo "<pre>";
-		print_r( $this->args );
-		return true;
-
 		$response = wp_remote_post( $this->endpoint, $this->args );
 
 		return $this->process_response( $response );
