@@ -40,7 +40,7 @@ class WPSEO_Tracking {
 
 		$collector = $this->get_collector();
 
-		$request = new WPSEO_Remote_Request( $this->endpoint, array( 'timeout' => 2 ) );
+		$request = new WPSEO_Remote_Request( $this->endpoint );
 		$request->set_body( $collector->get_as_json() );
 		$request->send();
 
