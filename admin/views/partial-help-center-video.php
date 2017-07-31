@@ -21,7 +21,7 @@ if ( ! empty( $tab_video_url ) ) :
 		<?php
 
 		// Don't show for Premium.
-		if ( ! defined( 'WPSEO_PREMIUM_PLUGIN_FILE' ) ) :
+		if ( ! WPSEO_Utils::is_yoast_seo_premium() ) :
 			?>
 			<div class="wpseo-tab-video__panel__textarea">
 				<h3><?php _e( 'Need some help?', 'wordpress-seo' ); ?></h3>
