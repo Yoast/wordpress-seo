@@ -253,23 +253,30 @@ let miscellaneous = [ "no", "euros" ];
 
 module.exports = function() {
 	return {
-		// These word categories are filtered at the beginning of word combinations.
-		filteredAtBeginning: generalAdjectivesAdverbs,
-
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: ordinalNumerals.concat( otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
-
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: articles.concat( prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
-			quantifiers, possessivePronouns ),
-
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: transitionWords.concat( personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional,
-			personalPronounsComitative, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs,
-			indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns,
-			interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, recipeWords, timeWords, vagueNouns ),
-
-		// This export contains all of the above words.
+		articles: articles,
+		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, personalPronounsPrepositional,
+			personalPronounsComitative ),
+		possessivePronouns: possessivePronouns,
+		prepositions: prepositions,
+		demonstrativePronouns: demonstrativePronouns,
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
+		verbs: otherAuxiliaries.concat( copula, interviewVerbs, delexicalizedVerbs ),
+		infinitives: otherAuxiliariesInfinitive.concat( copulaInfinitive, delexicalizedVerbsInfinitive ),
+		quantifiers: quantifiers,
+		interrogatives: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
+		transitionWords: transitionWords.concat( additionalTransitionWords ),
+		miscellaneous: miscellaneous,
+		interjections: interjections,
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns,
+		locativeAdverbs: locativeAdverbs,
+		prepositionalAdverbs: prepositionalAdverbs,
+		intensifiers: intensifiers,
+		recipeWords: recipeWords,
+		timeWords: timeWords,
+		vagueNouns: vagueNouns,
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional,
 			personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns,
