@@ -73,6 +73,10 @@
 				&, &:hover {
 					background-color: $color-pink-dark;
 				}
+
+				&:visited {
+					color: $color-white;
+				}
 			}
 
 			&-installed, &-activated, &-not-activated {

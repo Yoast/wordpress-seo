@@ -780,6 +780,10 @@ a.promoblock:hover {
 	background-color: #a4286a;
 }
 
+.yoast-button--extension-buy:visited {
+	color: #fff;
+}
+
 .yoast-button--extension-installed:hover,
 .yoast-button--extension-activated:hover,
 .yoast-button--extension-not-activated:hover {
