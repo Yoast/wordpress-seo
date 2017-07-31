@@ -17,7 +17,7 @@ class WPSEO_Tracking_Default_Data implements WPSEO_Collection {
 		return array(
 			'name'         => $this->get_user_info( 'name' ),
 			'email'        => $this->get_user_info( 'email' ),
-			'@timestamp'   => date( 'd-m-Y H:i:s' ),
+			'@timestamp'   => date( 'U' ),
 			'wpVersion'    => $this->get_wordpress_version(),
 			'isMultisite'  => is_multisite(),
 			'siteLanguage' => get_bloginfo( 'language' ),
@@ -37,9 +37,10 @@ class WPSEO_Tracking_Default_Data implements WPSEO_Collection {
 			case 'email':
 				return $current_user->user_email;
 			case 'name':
-			default:
 				return trim( $current_user->user_firstname . ' ' . $current_user->user_lastname );
 		}
+
+		return '';
 	}
 
 	/**
