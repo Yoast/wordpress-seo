@@ -66,7 +66,7 @@ class WPSEO_Config_Component_Configuration_Choices implements WPSEO_Config_Compo
 				'type'   => 'secondary',
 				'label'  => __( 'Configuration service', 'wordpress-seo' ),
 				'action' => 'followURL',
-				'url'    => 'https://yoa.st/wizard-configuration-upsell',
+				'url'    => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-configuration-upsell' ),
 			),
 			plugin_dir_url( WPSEO_FILE ) . 'images/yoast-configuration-icon.svg'
 		);
