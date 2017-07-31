@@ -17,11 +17,11 @@ function getIndicesByWord( word, text ) {
 	var index, indices = [];
 	while ( ( index = text.indexOf( word, startIndex ) ) > -1 ) {
 		// Check if the previous and next character are word boundaries to determine if a complete word was detected
-		var previousCharacter = characterInBoundary( text[ index - 1 ] ) || index === 0;
+		var isPreviousCharacterWordBoundary = characterInBoundary( text[ index - 1 ] ) || index === 0;
 
-		var nextCharacter = characterInBoundary( text[ index + searchStringLength ] ) || ( text.length === index + searchStringLength );
+		var isNextCharacterWordBoundary = characterInBoundary( text[ index + searchStringLength ] ) || ( text.length === index + searchStringLength );
 
-		if ( previousCharacter &&  nextCharacter ) {
+		if ( isPreviousCharacterWordBoundary &&  isNextCharacterWordBoundary ) {
 			indices.push(
 				{
 					index: index,

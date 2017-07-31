@@ -1,9 +1,9 @@
-var indices = require ( "../../js/stringProcessing/indices.js" );
-var getIndices = indices.getIndicesByWord;
-var getIndicesOfList = indices.getIndicesByWordList;
-var filterIndices = indices.filterIndices;
-var sortIndices = indices.sortIndices;
-var getIndicesByWord = indices.getIndicesByWord;
+let indices = require ( "../../js/stringProcessing/indices.js" );
+let getIndices = indices.getIndicesByWord;
+let getIndicesOfList = indices.getIndicesByWordList;
+let filterIndices = indices.filterIndices;
+let sortIndices = indices.sortIndices;
+let getIndicesByWord = indices.getIndicesByWord;
 
 describe( "A function to get indices from words in a string." , function( ) {
 	it( "returns a list with a single word and its index", function() {
@@ -28,7 +28,7 @@ describe( "A function to get indices from words in a word list in a string." , f
 
 describe( "A function to filter out overlapping matches", function() {
 	it( "removes the overlapping match 'though'", function() {
-		var input = [
+		let input = [
 		{
 			match: "even though",
 			index: 10
@@ -37,7 +37,7 @@ describe( "A function to filter out overlapping matches", function() {
 			index: 15
 		}
 		];
-		var expectedOutput = [
+		let expectedOutput = [
 			{
 				match: "even though",
 				index: 10
@@ -48,7 +48,7 @@ describe( "A function to filter out overlapping matches", function() {
 	});
 
 	it( "removes the overlapping match 'though', doesn't remove the non overlapping 'though' ", function() {
-		var input = [
+		let input = [
 			{
 				match: "even though",
 				index: 10
@@ -61,7 +61,7 @@ describe( "A function to filter out overlapping matches", function() {
 				index: 25
 			}
 		];
-		var expectedOutput = [
+		let expectedOutput = [
 			{
 				match: "even though",
 				index: 10
@@ -76,7 +76,7 @@ describe( "A function to filter out overlapping matches", function() {
 	});
 
 	it( "removes the overlapping match 'though', doesn't remove the non overlapping 'though' ", function() {
-		var input = [
+		let input = [
 			{
 				match: "word1",
 				index: 10
@@ -93,23 +93,54 @@ describe( "A function to filter out overlapping matches", function() {
 
 });
 
-describe( "A function that returns all instances of the input word and their index", function() {
+describe( "A function that returns all instances of the input word and their index when there is one match", function() {
 	it( "returns an array", function() {
-		var word = "is";
-		var text = "praise is";
-		var output = [
+		let word = "is";
+		let text = "praise is";
+		let output = [
 			{
 				match: "is",
 				index: 7,
 			}
 		];
-		expect( getIndicesByWord (word, text) ).toEqual ( output );
+		expect( getIndicesByWord( word, text ) ).toEqual( output );
+	} );
+} );
+
+describe( "A function that returns all instances of the input word and their index when there are multiple matches", function() {
+	it( "returns an array", function() {
+		let word = "is";
+		let text = "is praise is praise is";
+		let output = [
+			{
+				match: "is",
+				index: 0,
+			},
+			{
+				match: "is",
+				index: 10,
+			},
+			{
+				match: "is",
+				index: 20,
+			}
+		];
+		expect( getIndicesByWord( word, text) ).toEqual( output );
+	} );
+} );
+
+describe( "A function that returns all instances of the input word and their index when there is no match", function() {
+	it( "returns an array", function() {
+		let word = "is";
+		let text = "praise";
+		let output = [];
+		expect( getIndicesByWord( word, text ) ).toEqual( output );
 	} );
 } );
 
 describe( "A function that sorts an array based on the indices of the objects", function() {
 	it( "returns a sorted array", function() {
-		var input = [
+		let input = [
 			{
 				match: "word2",
 				index: 20
@@ -121,7 +152,7 @@ describe( "A function that sorts an array based on the indices of the objects", 
 				index: 30
 			}
 		];
-		var output = [
+		let output = [
 			{
 				match: "word1",
 				index: 10
