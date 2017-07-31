@@ -152,6 +152,10 @@ class WPSEO_Premium {
 				new WPSEO_Custom_Fields_Plugin();
 			}
 
+			if ( ! in_array( $pagenow, array( 'plugins.php', 'plugin-install.php', 'plugin-editor.php' ), true ) ) {
+				add_action( 'admin_init', array( $this, 'initialize_tracking' ), 1 );
+			}
+
 			// Disable Yoast SEO.
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
 
@@ -551,5 +555,15 @@ class WPSEO_Premium {
 		$version = $asset_manager->flatten_version( WPSEO_VERSION );
 
 		wp_enqueue_script( 'yoast-contact-support', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wpseo-premium-contact-support-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+	}
+
+	/**
+	 * Initializes the tracking class, for sending data.
+	 *
+	 * @return void
+	 */
+	public function initialize_tracking() {
+		$tracker = new WPSEO_Tracking( 'https://search-yoast-poc-gdaxpa7udbwtvpgxqaufa3dejm.eu-central-1.es.amazonaws.com/yoast/tracking', ( WEEK_IN_SECONDS * 2 ) );
+		$tracker->send();
 	}
 }
