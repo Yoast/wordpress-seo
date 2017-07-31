@@ -153,7 +153,7 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 						?></a>
 				<?php endif; ?>
 
-				<a target="_blank" href="<?php WPSEO_Shortlinker::get( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php
+				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php
 					printf(
 						/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
