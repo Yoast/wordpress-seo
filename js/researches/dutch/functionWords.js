@@ -162,37 +162,23 @@ to be used as filters for the prominent words.
 
 module.exports = function() {
 	return {
-		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative ),
-		possessivePronouns: possessivePronouns,
-		prepositions: prepositions,
-		demonstrativePronouns: demonstrativePronouns,
-		coordinatingConjunctions: coordinatingConjunctions,
-		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
-		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
-		infinitives: passiveAuxiliariesInfinitive.concat( otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
-		quantifiers: quantifiers,
-		relativePronouns: relativePronouns,
-		interrogatives: interrogativeProAdverbs,
-		passiveAuxiliaries: filteredPassiveAuxiliaries,
-		transitionWords: transitionWords.concat( additionalTransitionWords ),
-		miscellaneous: miscellaneous,
-		pronominalAdverbs: pronominalAdverbs,
-		interjections: interjections,
-		reflexivePronouns: reflexivePronouns,
-		reciprocalPronouns: reciprocalPronouns,
-		cardinalNumerals: cardinalNumerals,
-		ordinalNumerals: ordinalNumerals,
-		indefinitePronouns: indefinitePronouns.concat( indefinitePronounsPossessive ),
-		locativeAdverbs: locativeAdverbs,
-		prepositionalAdverbs: prepositionalAdverbs,
-		intensifiers: intensifiers,
-		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
-		recipeWords: recipeWords,
-		timeWords: timeWords,
-		vagueNouns: vagueNouns,
-		titlesPreceding: titlesPreceding,
-		titlesFollowing: titlesFollowing,
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtBeginning: passiveAuxiliariesInfinitive.concat( otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
+
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtEnding: ordinalNumerals.concat( generalAdjectivesAdverbs ),
+
+		// These word categories are filtered at the beginning and ending of word combinations.
+		filteredAtBeginningAndEnding: articles.concat( prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers ),
+
+		// These word categories are filtered everywhere within word combinations.
+		filteredAnywhere: transitionWords.concat( personalPronounsNominative, personalPronounsAccusative, reflexivePronouns, interjections,
+			cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns,
+			correlativeConjunctions, subordinatingConjunctions, interrogativeProAdverbs, relativePronouns, locativeAdverbs, miscellaneous,
+			prepositionalAdverbs, pronominalAdverbs, recipeWords, timeWords, vagueNouns, reciprocalPronouns, possessivePronouns ),
+
+		// This export contains all of the above words.
+
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
 			indefinitePronounsPossessive, relativePronouns, interrogativeProAdverbs,

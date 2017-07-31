@@ -133,36 +133,21 @@ let titlesFollowing = [ "jr", "sr" ];
 
 module.exports = function() {
 	return {
-		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative ),
-		possessivePronouns: possessivePronouns,
-		prepositions: prepositions,
-		demonstrativePronouns: demonstrativePronouns,
-		coordinatingConjunctions: coordinatingConjunctions,
-		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
-		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
-		continuousVerbs: notFilteredPassiveAuxiliaries.concat( continuousVerbs ),
-		quantifiers: quantifiers,
-		interrogatives: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
-		passiveAuxiliaries: filteredPassiveAuxiliaries,
-		transitionWords: transitionWords.concat( additionalTransitionWords ),
-		miscellaneous: miscellaneous,
-		pronominalAdverbs: pronominalAdverbs,
-		interjections: interjections,
-		reflexivePronouns: reflexivePronouns,
-		cardinalNumerals: cardinalNumerals,
-		ordinalNumerals: ordinalNumerals,
-		indefinitePronouns: indefinitePronouns.concat( indefinitePronounsPossessive ),
-		locativeAdverbs: locativeAdverbs,
-		adverbialGenitives: adverbialGenitives,
-		prepositionalAdverbs: prepositionalAdverbs,
-		intensifiers: intensifiers,
-		recipeWords: recipeWords,
-		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
-		timeWords: timeWords,
-		vagueNouns: vagueNouns,
-		titlesPreceding: titlesPreceding,
-		titlesFollowing: titlesFollowing,
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtEnding: ordinalNumerals.concat( continuousVerbs, generalAdjectivesAdverbs ),
+
+		// These word categories are filtered at the beginning and ending of word combinations.
+		filteredAtBeginningAndEnding: articles.concat( prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
+			quantifiers, possessivePronouns ),
+
+		// These word categories are filtered everywhere within word combinations.
+		filteredAnywhere: transitionWords.concat( adverbialGenitives, personalPronounsNominative, personalPronounsAccusative,
+			reflexivePronouns, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs,
+			delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers,
+			interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, pronominalAdverbs,
+			recipeWords, timeWords, vagueNouns ),
+
+		// This export contains all of the above words.
 		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,
 			indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
