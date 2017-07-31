@@ -8,6 +8,9 @@
  */
 class WPSEO_Remote_Request {
 
+	const METHOD_POST = 'post';
+	const METHOD_GET  = 'get';
+
 	/** @var string */
 	protected $endpoint = '';
 
@@ -15,13 +18,14 @@ class WPSEO_Remote_Request {
 	protected $args = array(
 		'blocking'  => false,
 		'sslverify' => false,
+		'timeout'   => 2,
 	);
 
 	/** @var WP_Error|null */
-	protected $response_error = null;
+	protected $response_error;
 
 	/** @var mixed */
-	protected $response_body = null;
+	protected $response_body;
 
 	/**
 	 * Sets the endpoint and arguments.
@@ -31,7 +35,7 @@ class WPSEO_Remote_Request {
 	 */
 	public function __construct( $endpoint, array $args = array() ) {
 		$this->endpoint = $endpoint;
-		$this->args     = array_merge( $this->args, $args );
+		$this->args     = wp_parse_args( $this->args, $args );
 	}
 
 	/**
@@ -46,10 +50,22 @@ class WPSEO_Remote_Request {
 	/**
 	 * Sends the data to the given endpoint.
 	 *
+	 * @param string $method The type of request to send.
+	 *
 	 * @return bool True when sending data has been successful.
 	 */
-	public function post() {
-		$response = wp_remote_post( $this->endpoint, $this->args );
+	public function send( $method = self::METHOD_POST ) {
+
+		$response = array();
+
+		switch ( $method ) {
+			case self::METHOD_POST;
+				$response = $this->post();
+				break;
+			case self::METHOD_GET;
+				$response = $this->get();
+				break;
+		}
 
 		return $this->process_response( $response );
 	}
@@ -88,10 +104,24 @@ class WPSEO_Remote_Request {
 
 		$this->response_body = wp_remote_retrieve_body( $response );
 
-		if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
-			return true;
-		}
+		return ( wp_remote_retrieve_response_code( $response ) === 200 );
+	}
 
-		return false;
+	/**
+	 * Performs a post request to the specified endpoint with set arguments.
+	 *
+	 * @return WP_Error|array The response or WP_Error on failure.
+	 */
+	protected function post() {
+		return wp_remote_post( $this->endpoint, $this->args );
+	}
+
+	/**
+	 * Performs a post request to the specified endpoint with set arguments.
+	 *
+	 * @return WP_Error|array The response or WP_Error on failure.
+	 */
+	protected function get() {
+		return wp_remote_get( $this->endpoint, $this->args );
 	}
 }

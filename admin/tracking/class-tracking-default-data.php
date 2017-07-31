@@ -20,6 +20,7 @@ class WPSEO_Tracking_Default_Data implements WPSEO_Collection {
 			'@timestamp'   => date( 'U' ),
 			'wpVersion'    => $this->get_wordpress_version(),
 			'homeURL'      => home_url(),
+			'adminURL'     => admin_url(),
 			'isMultisite'  => is_multisite(),
 			'siteLanguage' => get_bloginfo( 'language' ),
 		);

@@ -6,46 +6,45 @@
 /**
  * This class handles the tracking routine.
  */
-class WPSEO_Tracking implements WPSEO_WordPress_Integration {
+class WPSEO_Tracking {
 
 	/** @var string */
-	protected $transient_name = 'wpseo_tracking_last_request';
+	protected $option_name = 'wpseo_tracking_last_request';
 
 	/** @var int */
 	protected $threshold = 0;
 
 	/** @var string */
-	protected $endpoint = 'https://search-yoast-poc-gdaxpa7udbwtvpgxqaufa3dejm.eu-central-1.es.amazonaws.com/yoast/tracking';
+	protected $endpoint = '';
 
 	/**
 	 * Constructor setting the treshhold..
+	 *
+	 * @param string $endpoint  The endpoint to send the data to.
+	 * @param int    $threshold The limit for the option.
 	 */
-	public function __construct() {
-		$this->threshold = ( WEEK_IN_SECONDS * 2 );
+	public function __construct( $endpoint, $threshold ) {
+		$this->endpoint  = $endpoint;
+		$this->threshold = $threshold;
 	}
 
 	/**
 	 * Registers all hooks to WordPress
 	 */
-	public function register_hooks() {
+	public function send() {
 
 		$current_time = time();
-		if ( ! $this->should_run_tracking( $current_time ) ) {
+		if ( ! $this->should_send_tracking( $current_time ) ) {
 			return;
 		}
 
 		$collector = $this->get_collector();
 
-		$request = new WPSEO_Remote_Request( $this->endpoint );
+		$request = new WPSEO_Remote_Request( $this->endpoint, array( 'timeout' => 2 ) );
 		$request->set_body( $collector->get_as_json() );
-		if ( $request->post() ) {
-			update_option( $this->transient_name, $current_time );
+		$request->send();
 
-			return;
-		}
-
-		// Try sending the request data later.
-		update_option( $this->transient_name, ( $current_time - HOUR_IN_SECONDS ) );
+		update_option( $this->option_name, $current_time, 'yes' );
 	}
 
 	/**
@@ -55,8 +54,8 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 *
 	 * @return bool True when tracking data should be send.
 	 */
-	protected function should_run_tracking( $current_time ) {
-		$last_time = get_option( $this->transient_name );
+	protected function should_send_tracking( $current_time ) {
+		$last_time = get_option( $this->option_name );
 
 		// When there is no data being set.
 		if ( ! $last_time ) {

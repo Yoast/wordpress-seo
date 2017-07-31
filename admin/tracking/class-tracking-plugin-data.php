@@ -20,19 +20,19 @@ class WPSEO_Tracking_Plugin_Data implements WPSEO_Collection {
 	}
 
 	/**
-	 * @return array
+	 * Returns all plugins.
+	 *
+	 * @return array The formatted plugins.
 	 */
 	protected function get_plugin_data() {
-
-		$plugins = array();
 
 		if ( ! function_exists( 'get_plugin_data' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
-			$plugins[] = $this->format_plugin( get_plugin_data( $plugin ) );
-		}
+		$plugins = wp_get_active_and_valid_plugins();
+		$plugins = array_map( 'get_plugin_data', $plugins );
+		$plugins = array_map( array( $this, 'format_plugin' ), $plugins );
 
 		return $plugins;
 	}
