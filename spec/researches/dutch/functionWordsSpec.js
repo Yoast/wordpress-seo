@@ -30,6 +30,7 @@ describe('a test for the existence of the properties of functionWords', function
 		expect ( functionWords().hasOwnProperty('generalAdjectivesAdverbs') ).toBe( true );
 		expect ( functionWords().hasOwnProperty('recipeWords') ).toBe( true );
 		expect ( functionWords().hasOwnProperty('vagueNouns') ).toBe( true );
+		expect ( functionWords().hasOwnProperty('all') ).toBe( true );
 	});
 
 	it('returns false for a non-existing property', function() {
