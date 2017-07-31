@@ -173,9 +173,6 @@ class WPSEO_Premium {
 				'add_variable_array_key_pattern',
 			) );
 
-			// Hide the premium promo block for all users.
-			add_filter( 'get_user_option_yoast_promo_hide_premium_upsell_admin_block', '__return_true' );
-
 			// Settings.
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
