@@ -9,8 +9,8 @@ export const Preview = styled.div`
 `;
 
 class ProgressBarTest extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor( props ) {
+		super( props );
 
 		this.state = {
 			value: 0,
@@ -22,7 +22,6 @@ class ProgressBarTest extends React.Component {
 	}
 
 	render() {
-		console.log(this.state.value);
 		return (
 			<Preview>
 				<button onClick={ this.addToValue.bind( this, -10 ) }>-10%</button>
