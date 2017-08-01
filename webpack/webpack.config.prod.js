@@ -1,6 +1,4 @@
 const webpack = require( "webpack" );
-const path = require( "path" );
-const CopyWebpackPlugin = require( "copy-webpack-plugin" );
 const UnminifiedWebpackPlugin = require( "unminified-webpack-plugin" );
 
 const paths = require( "./paths" );
@@ -15,20 +13,6 @@ if ( versionParts.length === 2 ) {
 const pluginVersionSlug = versionParts.join( "" );
 
 const PLUGINS = [
-	new CopyWebpackPlugin( [ {
-		from: path.resolve( paths.select2, "js", "select2.full.min.js" ),
-		/* Copies to {output.path}/select2 */
-		to: "select2",
-	}, {
-		context: path.resolve( paths.select2, "js", "i18n" ),
-		from: "*.js",
-		to: path.resolve( paths.jsDist, "select2", "i18n" ),
-	}, {
-		from: path.resolve( paths.select2, "css", "select2.min.css" ),
-		to: path.resolve( paths.cssDist, "select2" ),
-	} ], {
-		ignore: [ "*.txt" ],
-	} ),
 	new webpack.DefinePlugin( {
 		"process.env": {
 			NODE_ENV: JSON.stringify( "production" ),

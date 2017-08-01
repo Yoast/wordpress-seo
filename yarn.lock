@@ -2009,6 +2009,12 @@ deep-extend@~0.4.0:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.4.1.tgz#efe4113d08085f4e6f9687759810f807469e2253"
 
+deep-for-each@^1.0.5:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/deep-for-each/-/deep-for-each-1.0.6.tgz#afa0ce249c58492a9720539478a18d37e1b10bae"
+  dependencies:
+    is-plain-object "^2.0.1"
+
 deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
@@ -3361,6 +3367,13 @@ grunt-shell@^1.1.2:
     npm-run-path "^1.0.0"
     object-assign "^4.0.0"
 
+grunt-webpack@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/grunt-webpack/-/grunt-webpack-3.0.2.tgz#bcfdea313d431e79b6fc18c42040b48dfac9d32f"
+  dependencies:
+    deep-for-each "^1.0.5"
+    lodash "^4.7.0"
+
 grunt-wp-css@cedaro/grunt-wp-css#develop:
   version "0.2.1"
   resolved "https://codeload.github.com/cedaro/grunt-wp-css/tar.gz/cf2c86c5cecac74c633071a85840ac4366ebaccf"
@@ -4023,6 +4036,12 @@ is-path-inside@^1.0.0:
   dependencies:
     path-is-inside "^1.0.1"
 
+is-plain-object@^2.0.1:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-2.0.4.tgz#2c163b3fafb1b606d9d17928f05c2a1c38e07677"
+  dependencies:
+    isobject "^3.0.1"
+
 is-png@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-png/-/is-png-1.1.0.tgz#d574b12bf275c0350455570b0e5b57ab062077ce"
@@ -4120,6 +4139,10 @@ isobject@^2.0.0:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-2.1.0.tgz#f065561096a3f1da2ef46272f815c840d87e0c89"
   dependencies:
     isarray "1.0.0"
+
+isobject@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
 isomorphic-fetch@^2.1.1:
   version "2.2.1"
