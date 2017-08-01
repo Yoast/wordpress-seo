@@ -42,6 +42,7 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
+		add_action( 'admin_init', array( $this, 'validate_extensions' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'blog_public_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'permalink_notice' ), 15 );
@@ -58,6 +59,54 @@ class WPSEO_Admin_Init {
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
+	}
+
+	/**
+	 * Validates the extensions and show a notice for the invalid extensions.
+	 */
+	public function validate_extensions() {
+
+		if ( filter_input( INPUT_GET, 'page' ) === WPSEO_Admin::PAGE_IDENTIFIER ) {
+			/**
+			 * Filter: 'yoast-active-extensions' - Collects all active extensions. This hook is implemented in the
+			 *                                     license manager.
+			 *
+			 * @api array $extensions The array with extensions.
+			 */
+			apply_filters( 'yoast-active-extensions', array() );
+		}
+
+		$extension_list = new WPSEO_Extensions();
+		$extensions = $extension_list->get();
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		foreach ( $extensions as $product_name ) {
+			$notification_options = array(
+				'type'         => Yoast_Notification::ERROR,
+				'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name,  null, 'save' ),
+				'capabilities' => 'manage_options',
+			);
+
+			$notification = new Yoast_Notification(
+				/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
+				sprintf(
+					__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
+					$product_name,
+				'<a href="https://yoa.st/13j" target="_blank">My Yoast</a>'
+				),
+				$notification_options
+			);
+
+			// Add a notification when the installed plugin isn't activated in My Yoast.
+			if ( $extension_list->is_installed( $product_name ) && ! $extension_list->is_valid( $product_name ) ) {
+				$notification_center->add_notification( $notification );
+
+				continue;
+			}
+
+			$notification_center->remove_notification( $notification );
+		}
 	}
 
 	/**
