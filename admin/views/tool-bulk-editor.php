@@ -36,7 +36,7 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
  */
 function render_help_center( $id ) {
 	$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-' . $id, __( 'Bulk editor', 'wordpress-seo' ),
-		array( 'video_url' => 'https://yoa.st/screencast-tools-bulk-editor' ) );
+		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) ) );
 
 	$helpcenter = new WPSEO_Help_Center( 'bulk-editor' . $id, $helpcenter_tab );
 	$helpcenter->output_help_center();

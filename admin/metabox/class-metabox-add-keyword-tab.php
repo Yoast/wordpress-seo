@@ -31,7 +31,7 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		$popup_title = __( 'Want to add more than one keyword?', 'wordpress-seo' );
 		/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
 		$popup_content = '<p>' . sprintf( __( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
-				'<a href="https://yoa.st/pe-premium-page">Yoast SEO Premium</a>'
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ) . '">Yoast SEO Premium</a>'
 				) . '</p>';
 		$popup_content .= '<p>' . sprintf(
 			/* translators: %s expands to 'Yoast SEO Premium'. */
