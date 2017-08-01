@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b36a09348b04daf81afb7ca6cf6fb393",
+    "content-hash": "b91f46e7a1a3067c5fb9b311fd0cba39",
     "packages": [
         {
             "name": "composer/installers",
@@ -274,16 +274,16 @@
         },
         {
             "name": "yoast/whip",
-            "version": "1.0.2",
+            "version": "1.1.0-RC1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/whip.git",
-                "reference": "e9df81e3360c81e28a2cae4469ec6aa54f7fd434"
+                "reference": "1ea57a0472508b57d796eacacd3b120e26ce410f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/whip/zipball/e9df81e3360c81e28a2cae4469ec6aa54f7fd434",
-                "reference": "e9df81e3360c81e28a2cae4469ec6aa54f7fd434",
+                "url": "https://api.github.com/repos/Yoast/whip/zipball/1ea57a0472508b57d796eacacd3b120e26ce410f",
+                "reference": "1ea57a0472508b57d796eacacd3b120e26ce410f",
                 "shasum": ""
             },
             "require": {
@@ -312,7 +312,7 @@
                 }
             ],
             "description": "A WordPress package to nudge users to upgrade their software versions (starting with PHP)",
-            "time": "2017-06-27T13:36:33+00:00"
+            "time": "2017-08-01T06:55:13+00:00"
         },
         {
             "name": "yoast/wp-helpscout",
