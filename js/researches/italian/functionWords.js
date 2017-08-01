@@ -232,21 +232,21 @@ module.exports = function() {
 		filteredAtBeginning: generalAdjectivesAdverbs,
 
 		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: ordinalNumerals.concat( interviewVerbsInfinitive, passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive,
+		filteredAtEnding: [].concat( ordinalNumerals, interviewVerbsInfinitive, passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive,
 			copulaInfinitive, delexicalizedVerbsInfinitive, generalAdjectivesAdverbsPreceding ),
 
 		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: articles.concat( prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers,
+		filteredAtBeginningAndEnding: [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers,
 			possessivePronouns ),
 
 		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: transitionWords.concat( personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional,
+		filteredAnywhere: [].concat( transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional,
 			interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs,
 			indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns,
 			interrogativeAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns ),
 
 		// This export contains all of the above words.
-		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
+		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers,
 			indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers,
 			pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive,

@@ -266,23 +266,23 @@ let titlesFollowing = [ "jr", "jun", "sen", "sr" ];
 module.exports = function() {
 	return {
 		// These word categories are filtered at the beginning of word combinations.
-		filteredAtBeginning: otherAuxiliariesInfinitive.concat( passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive,
+		filteredAtBeginning: [].concat( otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive,
 		copulaInfinitive, interviewVerbsInfinitive ),
 
 		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: ordinalNumerals.concat( generalAdjectivesAdverbs ),
+		filteredAtEnding: [].concat( ordinalNumerals, generalAdjectivesAdverbs ),
 
 		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: articles.concat( prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers ),
+		filteredAtBeginningAndEnding: [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers ),
 
 		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: transitionWords.concat( adverbialGenitives, personalPronounsNominative, personalPronounsAccusative, personalPronounsDative,
+		filteredAnywhere: [].concat( transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative, personalPronounsDative,
 			reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries,
 			delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeProAdverbs, locativeAdverbs,
 			miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns, reciprocalPronouns, possessivePronouns ),
 
 		// This export contains all of the above words.
-		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers,
 			indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives,
 			filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries,

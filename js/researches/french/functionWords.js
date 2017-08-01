@@ -220,24 +220,24 @@ let titlesFollowing = [ "jr", "sr" ];
 module.exports = function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: ordinalNumerals.concat( otherAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive,
+		filteredAtEnding: [].concat( ordinalNumerals, otherAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive,
 			interviewVerbsInfinitive, generalAdjectivesAdverbsPreceding ),
 
 		// These word categories are filtered at the beginning of word combinations.
 		filteredAtBeginning: generalAdjectivesAdverbs,
 
 		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: articles.concat( prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
+		filteredAtBeginningAndEnding: [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
 			quantifiers, possessivePronouns ),
 
 		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: transitionWords.concat( personalPronounsNominative, personalPronounsAccusative, personalPronounsStressed,
+		filteredAnywhere: [].concat( transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsStressed,
 			reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries, delexicalizedVerbs,
 			indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeAdjectives, relativePronouns,
 			locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns ),
 
 		// This export contains all of the above words.
-		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive,
 			prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
