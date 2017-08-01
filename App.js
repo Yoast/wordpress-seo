@@ -1,12 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { AppContainer } from "react-hot-loader";
 
 import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import Config from "./composites/OnboardingWizard/config/production-config";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
 import SnippetPreview from "./composites/SnippetPreview/components/SnippetPreview";
-import ProgressBarPreview from "./composites/SnippetPreview/components/ProgressBarPreview";
 import apiConfig from "./composites/OnboardingWizard/config/api-config";
 import Loader from "./composites/basic/Loader";
 
@@ -41,10 +38,6 @@ class App extends React.Component {
 				content = <SnippetPreview />;
 				break;
 
-			case "progress-bar":
-				content = <ProgressBarPreview/>
-				break;
-
 			case "loader":
 				content = <Loader />;
 				break;
@@ -77,7 +70,6 @@ class App extends React.Component {
 				<button type="button" onClick={this.navigate.bind( this, "search-results-editor" )}>Search results editor</button>
 				<button type="button" onClick={this.navigate.bind( this, "loader" )}>Loader</button>
 				<button type="button" onClick={this.navigate.bind( this, "snippet-preview" )}>Snippet preview</button>
-				<button type="button" onClick={this.navigate.bind( this, "progress-bar" )}>Progress bar</button>
 			</nav>
 		);
 	}
