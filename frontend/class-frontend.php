@@ -155,7 +155,10 @@ class WPSEO_Frontend {
 		$primary_category = new WPSEO_Frontend_Primary_Category();
 		$primary_category->register_hooks();
 
-		$this->hooks = array( $primary_category );
+		$json_ld = new WPSEO_JSON_LD();
+		$json_ld->register_hooks();
+
+		$this->hooks = array( $primary_category, $json_ld );
 	}
 
 	/**
@@ -166,7 +169,6 @@ class WPSEO_Frontend {
 			return;
 		}
 
-		new WPSEO_JSON_LD;
 		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
 	}
 
