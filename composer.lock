@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce0126b6301af65463048d23a8435456",
+    "content-hash": "e17d121866cf7cd0155e888d763c24cd",
     "packages": [
         {
             "name": "composer/installers",
@@ -274,16 +274,16 @@
         },
         {
             "name": "yoast/whip",
-            "version": "1.0.2",
+            "version": "dev-release/1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/whip.git",
-                "reference": "e9df81e3360c81e28a2cae4469ec6aa54f7fd434"
+                "reference": "1ea57a0472508b57d796eacacd3b120e26ce410f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/whip/zipball/e9df81e3360c81e28a2cae4469ec6aa54f7fd434",
-                "reference": "e9df81e3360c81e28a2cae4469ec6aa54f7fd434",
+                "url": "https://api.github.com/repos/Yoast/whip/zipball/1ea57a0472508b57d796eacacd3b120e26ce410f",
+                "reference": "1ea57a0472508b57d796eacacd3b120e26ce410f",
                 "shasum": ""
             },
             "require": {
@@ -301,7 +301,17 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "post-install-cmd": [
+                    "xrstf\\Composer52\\Generator::onPostInstallCmd"
+                ],
+                "post-update-cmd": [
+                    "xrstf\\Composer52\\Generator::onPostInstallCmd"
+                ],
+                "post-autoload-dump": [
+                    "xrstf\\Composer52\\Generator::onPostInstallCmd"
+                ]
+            },
             "license": [
                 "GPL-3.0+"
             ],
@@ -312,7 +322,11 @@
                 }
             ],
             "description": "A WordPress package to nudge users to upgrade their software versions (starting with PHP)",
-            "time": "2017-06-27T13:36:33+00:00"
+            "support": {
+                "source": "https://github.com/Yoast/whip/tree/release/1.1",
+                "issues": "https://github.com/Yoast/whip/issues"
+            },
+            "time": "2017-08-01 06:55:13"
         }
     ],
     "packages-dev": [
@@ -1566,6 +1580,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "yoast/whip": 20,
         "codeclimate/php-test-reporter": 20
     },
     "prefer-stable": true,
