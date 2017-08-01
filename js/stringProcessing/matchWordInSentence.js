@@ -18,7 +18,7 @@ var characterInBoundary = function( character ) {
  * @param {string} sentence The sentence to look through.
  * @returns {boolean} Whether or not the word is present in the sentence.
  */
-module.exports = function( word, sentence ) {
+var isWordInSentence = function( word, sentence ) {
 	// To ensure proper matching, make everything lowercase.
 	word = word.toLocaleLowerCase();
 	sentence = sentence.toLocaleLowerCase();
@@ -36,4 +36,9 @@ module.exports = function( word, sentence ) {
 	var nextCharacter = characterInBoundary( sentence[ occurrenceEnd ] ) || occurrenceEnd === sentence.length;
 
 	return ( ( previousCharacter ) && ( nextCharacter ) );
+};
+
+module.exports = {
+	characterInBoundary: characterInBoundary,
+	isWordInSentence: isWordInSentence,
 };
