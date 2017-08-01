@@ -125,6 +125,21 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.2.0 =
+
+Release Date: August 8th, 2017
+
+* Enhancements
+	* Added wpseo_pre_adjacent_rel_links filter to bypass built-in rel prev/next functionality.
+	* Introduces classes to allow collecting data in the Premium plugin.
+	* Renamed OnPage.org to Ryte.
+	* Allow WordPress WHIP messages to be dismissed until the next WordPress major release.
+	* Adds a filter for word combinations that consist of a single one-character word.
+	* Adds aria-current to the onboarding wizard active step.
+
+* Bugfixes
+	* Removes JQMIGRATE JavaScript warnings.
+
 = 5.1.0 =
 
 Release Date: July 25th, 2017
