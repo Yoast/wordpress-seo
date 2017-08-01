@@ -68,7 +68,7 @@ let sendJQueryRequest = ( url, requestParams ) => {
  * @param {Object} config The config containing the headers.
  * @returns {void}
  */
-var parseHeaders = ( type, config ) => {
+let parseHeaders = ( type, config ) => {
 	if ( type === "jquery" ) {
 		Object.assign( config, {
 			beforeSend: ( xhr ) => {
@@ -87,6 +87,25 @@ var parseHeaders = ( type, config ) => {
 };
 
 /**
+ * @summary Takes the target object and overwrites fields that are undefined
+ * 			with default object
+ *
+ * @param {Object} target Target to apply default values
+ * @param {Object} defaults Default values
+ * @returns {Object} Shallow copied target object with applied defaults
+ */
+let overwriteUndefinedKeysWithDefaults = ( target, defaults ) => {
+	for ( let key in defaults ) {
+		if ( defaults.hasOwnProperty( key ) ) {
+			if( typeof target[ key ] === "undefined" || target[ key ] === "" ) {
+				target[ key ] = defaults[ key ];
+			}
+		}
+	}
+	return target;
+};
+
+/**
  * @summary Parses the arguments needed for sending a JSON or Fetch request.
  *
  * @param {Object} requestArgs The arguments for the request.
@@ -101,15 +120,7 @@ let parseRequestArgs = ( requestArgs, type ) => {
 		contentType: "application/json",
 	};
 
-	let config = requestArgs;
-
-	for ( var key in defaults ) {
-		if ( defaults.hasOwnProperty( key ) ) {
-			if( typeof config[ key ] === "undefined" || config[ key ] === "" ) {
-				config[ key ] = defaults[ key ];
-			}
-		}
-	}
+	let config = overwriteUndefinedKeysWithDefaults( requestArgs, defaults );
 
 	if ( typeof config.headers !== "undefined" || config.headers !== "" ) {
 		parseHeaders( type, config );
