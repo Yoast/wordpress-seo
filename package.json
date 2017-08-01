@@ -60,7 +60,7 @@
     "react": "^15.6.1",
     "react-addons-test-utils": "^15.3.0",
     "react-dom": "^15.6.1",
-    "react-hot-loader": "3.0.0-beta7",
+    "react-hot-loader": "3.0.0-beta.7",
     "react-tap-event-plugin": "^2.0.1",
     "react-test-renderer": "^15.6.1",
     "sassdash": "^0.8.2",
