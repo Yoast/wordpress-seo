@@ -217,6 +217,10 @@ let vagueNouns = [ "aspetto", "aspetti", "caso", "casi", "cose", "idea", "idee",
 
 let miscellaneous = [ "sì", "no", "non", "€", "euro", "euros", "ecc", "eccetera" ];
 
+let titlesPreceding = [ "sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "dott", "dott.ssa", "prof", "prof.ssa", "gent", "gent.mo",
+	"gent.mi", "gent.ma", "gent.me", "egr", "egr.i", "egr.ia", "egr.ie", "preg.mo", "preg.mo", "preg.ma", "preg.me", "ill", "ill.mo",
+	"ill.mi", "ill.ma", "ill.me", "cav", "on", "spett" ];
+
 /*
  Exports all function words concatenated, and specific word categories and category combinations
  to be used as filters for the prominent words.
@@ -224,39 +228,33 @@ let miscellaneous = [ "sì", "no", "non", "€", "euro", "euros", "ecc", "eccete
 
 module.exports = function() {
 	return {
-		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, personalPronounsPrepositional ),
-		possessivePronouns: possessivePronouns,
-		prepositions: prepositions,
-		demonstrativePronouns: demonstrativePronouns,
-		coordinatingConjunctions: coordinatingConjunctions,
-		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
-		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
-		quantifiers: quantifiers,
-		interrogatives: interrogativeDeterminers.concat( interrogativePronouns, interrogativeAdverbs ),
-		transitionWords: transitionWords.concat( additionalTransitionWords ),
-		miscellaneous: miscellaneous,
-		pronominalAdverbs: pronominalAdverbs,
-		interjections: interjections,
-		infinitives: interviewVerbsInfinitive.concat( passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive,
-			delexicalizedVerbsInfinitive ),
-		cardinalNumerals: cardinalNumerals,
-		ordinalNumerals: ordinalNumerals,
-		indefinitePronouns: indefinitePronouns,
-		locativeAdverbs: locativeAdverbs,
-		intensifiers: intensifiers,
-		recipeWords: recipeWords,
-		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
-		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
-		vagueNouns: vagueNouns,
-		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
+		// These word categories are filtered at the beginning of word combinations.
+		filteredAtBeginning: generalAdjectivesAdverbs,
+
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtEnding: [].concat( ordinalNumerals, interviewVerbsInfinitive, passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive,
+			copulaInfinitive, delexicalizedVerbsInfinitive, generalAdjectivesAdverbsPreceding ),
+
+		// These word categories are filtered at the beginning and ending of word combinations.
+		filteredAtBeginningAndEnding: [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers,
+			possessivePronouns ),
+
+		// These word categories are filtered everywhere within word combinations.
+		filteredAnywhere: [].concat( transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional,
+			interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs,
+			indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns,
+			interrogativeAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns ),
+
+		// This export contains all of the above words.
+		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers,
 			indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers,
 			pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive,
 			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
-			interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords ),
+			interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
+			titlesPreceding ),
 	};
 };
 

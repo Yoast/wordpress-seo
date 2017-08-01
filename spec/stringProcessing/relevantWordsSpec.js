@@ -8,7 +8,7 @@ let sortCombinations = relevantWords.sortCombinations;
 let filterFunctionWordsAtBeginning = relevantWords.filterFunctionWordsAtBeginning;
 let filterFunctionWords = relevantWords.filterFunctionWords;
 let filterFunctionWordsAnywhere = relevantWords.filterFunctionWordsAnywhere;
-let filterOnSyllableCount = relevantWords.filterOnSyllableCount;
+let filterOneCharacterWordCombinations = relevantWords.filterOneCharacterWordCombinations;
 let filterOnDensity = relevantWords.filterOnDensity;
 let englishFunctionWords = require( "../../js/researches/english/functionWords.js" )().all;
 
@@ -260,6 +260,29 @@ describe( "filter special characters in word combinations", function() {
 	});
 } );
 
+describe( "filter one-letter words in word combinations", function() {
+	it ( "filters word combinations containing one-letter words", function() {
+		let input = [
+			new WordCombination ( [ "C" ] ),
+			new WordCombination ( [ "C", "book" ] ),
+			new WordCombination ( [ "book", "C", "club"] ),
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+		];
+		let expected = [
+			new WordCombination ( [ "C", "book" ] ),
+			new WordCombination ( [ "book", "C", "club"] ),
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+		];
+
+		let combinations  = filterOneCharacterWordCombinations( input );
+
+		expect( combinations ).toEqual( expected );
+	});
+} );
+
+
 describe( "getRelevantWords", function() {
 	it( "uses the default (English) function words in case of a unknown locale", function() {
 		let input = "Here are a ton of syllables. Syllables are very important. I think the syllable combinations are even more important. Syllable combinations for the win! " +
@@ -271,7 +294,6 @@ describe( "getRelevantWords", function() {
 			new WordCombination( [ "200", "words" ], 2, englishFunctionWords ),
 			new WordCombination( [ "200" ], 2, englishFunctionWords ),
 			new WordCombination( [ "syllables" ], 2, englishFunctionWords ),
-			new WordCombination( [ "important" ], 2, englishFunctionWords ),
 			new WordCombination( [ "syllable" ], 2, englishFunctionWords ),
 			new WordCombination( [ "combinations" ], 2, englishFunctionWords ),
 			new WordCombination( [ "text" ], 2, englishFunctionWords ),

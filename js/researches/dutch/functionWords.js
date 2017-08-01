@@ -87,7 +87,7 @@ let prepositions = [ "à", "aan", "aangaande", "achter", "behalve", "behoudens",
 let prepositionalAdverbs = [ "af", "heen", "mee", "toe", "achterop", "onderin", "voorin", "bovenop",
 	"buitenop", "achteraan", "onderop", "binnenin", "tevoren" ];
 
-let coordinatingConjunctions = [ "en", "alsmede", "of", "ofwel" ];
+let coordinatingConjunctions = [ "en", "alsmede", "of", "ofwel", "en/of" ];
 
 /* 'Zowel' and 'als' are part of 'zowel...als', 'evenmin' is part of 'evenmin...als', 'zomin' is part of 'zomin...als',
  'hetzij' is part of 'hetzij...hetzij'. */
@@ -151,6 +151,10 @@ let vagueNouns = [ "ding", "dingen", "manier", "manieren", "item", "items", "kee
 
 let miscellaneous = [ "wel", "ja", "neen", "oké", "oke", "okee", "ok", "zoiets", "€", "euro" ];
 
+let titlesPreceding = [ "mevr", "dhr", "mr", "dr", "prof" ];
+
+let titlesFollowing = [ "jr", "sr" ];
+
 /*
 Exports all function words concatenated, and specific word categories and category combinations
 to be used as filters for the prominent words.
@@ -158,43 +162,30 @@ to be used as filters for the prominent words.
 
 module.exports = function() {
 	return {
-		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative ),
-		possessivePronouns: possessivePronouns,
-		prepositions: prepositions,
-		demonstrativePronouns: demonstrativePronouns,
-		coordinatingConjunctions: coordinatingConjunctions,
-		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
-		verbs: filteredPassiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
-		infinitives: passiveAuxiliariesInfinitive.concat( otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
-		quantifiers: quantifiers,
-		relativePronouns: relativePronouns,
-		interrogatives: interrogativeProAdverbs,
-		passiveAuxiliaries: filteredPassiveAuxiliaries,
-		transitionWords: transitionWords.concat( additionalTransitionWords ),
-		miscellaneous: miscellaneous,
-		pronominalAdverbs: pronominalAdverbs,
-		interjections: interjections,
-		reflexivePronouns: reflexivePronouns,
-		reciprocalPronouns: reciprocalPronouns,
-		cardinalNumerals: cardinalNumerals,
-		ordinalNumerals: ordinalNumerals,
-		indefinitePronouns: indefinitePronouns.concat( indefinitePronounsPossessive ),
-		locativeAdverbs: locativeAdverbs,
-		prepositionalAdverbs: prepositionalAdverbs,
-		intensifiers: intensifiers,
-		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
-		recipeWords: recipeWords,
-		timeWords: timeWords,
-		vagueNouns: vagueNouns,
-		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns,
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtBeginning: [].concat( passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
+
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtEnding: [].concat( ordinalNumerals, generalAdjectivesAdverbs ),
+
+		// These word categories are filtered at the beginning and ending of word combinations.
+		filteredAtBeginningAndEnding: [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers ),
+
+		// These word categories are filtered everywhere within word combinations.
+		filteredAnywhere: [].concat( transitionWords, personalPronounsNominative, personalPronounsAccusative, reflexivePronouns, interjections,
+			cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns,
+			correlativeConjunctions, subordinatingConjunctions, interrogativeProAdverbs, relativePronouns, locativeAdverbs, miscellaneous,
+			prepositionalAdverbs, pronominalAdverbs, recipeWords, timeWords, vagueNouns, reciprocalPronouns, possessivePronouns ),
+
+		// This export contains all of the above words.
+		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
 			indefinitePronounsPossessive, relativePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, prepositionalAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive,
 			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions,
 			correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
-			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous ),
+			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing ),
 	};
 };
 

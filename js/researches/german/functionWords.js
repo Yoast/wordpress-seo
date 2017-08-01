@@ -259,44 +259,37 @@ let vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sa
 
 let miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "amen", "ja", "nein", "euro" ];
 
+let titlesPreceding = [ "fr", "hr", "dr", "prof" ];
+
+let titlesFollowing = [ "jr", "jun", "sen", "sr" ];
+
 module.exports = function() {
 	return {
-		articles: articles,
-		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, personalPronounsDative ),
-		possessivePronouns: possessivePronouns,
-		prepositions: prepositions,
-		demonstrativePronouns: demonstrativePronouns,
-		coordinatingConjunctions: coordinatingConjunctions,
-		conjunctionsFilteredEverywhere: correlativeConjunctions.concat( subordinatingConjunctions ),
-		verbs: copula.concat( interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries, delexicalizedVerbs ),
-		quantifiers: quantifiers,
-		interrogatives: interrogativeProAdverbs,
-		transitionWords: transitionWords.concat( additionalTransitionWords ),
-		// These verbs that should be filtered at the beginning of prominent word combinations.
-		infinitives: otherAuxiliariesInfinitive.concat( passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive,
-			copulaInfinitive, interviewVerbsInfinitive ),
-		miscellaneous: miscellaneous,
-		interjections: interjections,
-		pronominalAdverbs: pronominalAdverbs,
-		reflexivePronouns: reflexivePronouns,
-		reciprocalPronouns: reciprocalPronouns,
-		cardinalNumerals: cardinalNumerals,
-		ordinalNumerals: ordinalNumerals,
-		indefinitePronouns: indefinitePronouns,
-		locativeAdverbs: locativeAdverbs,
-		adverbialGenitives: adverbialGenitives,
-		intensifiers: intensifiers,
-		recipeWords: recipeWords,
-		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
-		timeWords: timeWords,
-		vagueNouns: vagueNouns,
-		all: articles.concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+		// These word categories are filtered at the beginning of word combinations.
+		filteredAtBeginning: [].concat( otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive,
+		copulaInfinitive, interviewVerbsInfinitive ),
+
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtEnding: [].concat( ordinalNumerals, generalAdjectivesAdverbs ),
+
+		// These word categories are filtered at the beginning and ending of word combinations.
+		filteredAtBeginningAndEnding: [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers ),
+
+		// These word categories are filtered everywhere within word combinations.
+		filteredAnywhere: [].concat( transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative,
+			personalPronounsDative,	reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries,
+			filteredPassiveAuxiliaries, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions,
+			interrogativeProAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns,
+			reciprocalPronouns, possessivePronouns ),
+
+		// This export contains all of the above words.
+		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers,
 			indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives,
 			filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries,
 			otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers,
 			delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
-			timeWords ),
+			timeWords, titlesPreceding, titlesFollowing ),
 	};
 };
