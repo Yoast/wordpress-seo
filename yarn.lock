@@ -7072,7 +7072,7 @@ yauzl@^2.2.1:
 
 "yoast-components@https://github.com/yoast/yoast-components#release/2.8":
   version "2.7.1"
-  resolved "https://github.com/yoast/yoast-components#931855245b7d0c6cc908baee7b538026c049a62b"
+  resolved "https://github.com/yoast/yoast-components#601b37699b8506f863e545cb7b1829f230d8f700"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     algoliasearch "^3.22.3"
@@ -7084,7 +7084,7 @@ yauzl@^2.2.1:
 
 "yoastseo@https://github.com/yoast/yoastseo.js#release/1.20":
   version "1.19.0"
-  resolved "https://github.com/yoast/yoastseo.js#9f5769090fb4834e3b45ac5aca514fe4cb961212"
+  resolved "https://github.com/yoast/yoastseo.js#843ba749f2192b06fcfc7e019b098e3ebd3ddf35"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
