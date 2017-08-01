@@ -6,7 +6,8 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
 Tested up to: 4.8
-Stable tag: 5.0.1
+Stable tag: 5.1
+Minimum PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -29,7 +30,7 @@ Using the snippet preview, you can see a rendering of what your post or page wil
 = Page Analysis =
 The Yoast SEO plugins [Page Analysis](https://yoast.com/content-seo-wordpress-linkdex/) functionality checks simple things you're bound to forget. It checks, for instance, if you have images in your post and whether they have an alt tag containing the focus keyword for that post. It also checks whether your posts are long enough, whether you've written a meta description and if that meta description contains your focus keyword, if you've used any subheadings within your post, etc. etc.
 
-The plugin alsgruo allows you to write meta titles and descriptions for all your category, tag and custom taxonomy archives, giving you the option to further optimize those pages.
+The plugin also allows you to write meta titles and descriptions for all your category, tag and custom taxonomy archives, giving you the option to further optimize those pages.
 
 Combined, this plugin makes sure that your content is the type of content search engines will love!
 
@@ -124,6 +125,35 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.1.0 =
+
+Release Date: July 25th, 2017
+
+* Enhancements
+	* Adds the post-type and taxonomy identifiers on the titles and metas settings tab.
+	* Adds support for importing of Jetpack SEO data.
+	* Improves the readability feature for Dutch, English, French, German, Italian and Spanish.
+	* Adds a WordPress SEO Premium motivation box on Yoast SEO settings pages.
+	* Adds a WordPress SEO Premium motivation on the social tabs.
+	* Adds support for third party sitemaps providers to be registered and used.
+	* Changes the column titles in the taxonomy list table to icons.
+	* Adds a subheader on the notification dashboard to clarify problems and issues which are muted.
+	* Improves avatars on the credit page, props [Mike DeHart](https://github.com/mikedehart)
+
+* Bugfixes
+	* Fixes a bug where `remove_meta_if_default` and `dont_save_meta_if_default` don't return the given input value as default.
+	* Fixes a performance issue related to calculating text link counts when saving a post.
+	* Fixes a typo in the readme.txt, props [Raymond Rutjes](https://github.com/rayrutjes)
+
+= 5.0.2 =
+
+Release Date: July 13th, 2017
+
+* Only load babel polyfill if it hasn't been loaded by another plugin yet.
+* Adds a feature toggle to disable the link counter tool & link columns.
+* Fixes a compatibility issue with WordPress 4.6.
+* Fixes an issue where the link columns would disappear after quick-editing a post.
+
 = 5.0.1 =
 
 Release Date: July 6th, 2017
@@ -149,21 +179,6 @@ Release Date: July 6th, 2017
  * Under the hood
  	* Introduces a database table to keep track of the linking structure. If the table cannot be created, a notification will be shown.
  	* When there are posts or pages to reindex, a notice will be shown.
-
-= 4.9.0 =
-
-Release Date: June 7th, 2017
-
-* Bugfixes
-	* Fixes a bug where there were certain assessments missing when switching to cornerstone content.
-	* Fixes a bug where the configuration wizard button was visible for users who didn't have enough rights to access the configuration wizard.
-	* Fixes a bug where the column `ID` was ambiguous, causing an SQL error.
-	* Fixes a bug where the category URL in the sitemap was encoded twice.
-	* Fixes a bug where an old upgrade notice is not removed.
-
-* Enhancements
-	* Removes the noodp advanced robots meta value as it is no longer used.
-	* Loads the translations only when the configuration wizard endpoint is called, instead of every time `rest_api_init` is called.
 
 = Earlier versions =
 

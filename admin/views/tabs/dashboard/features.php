@@ -26,10 +26,10 @@ $feature_toggles = array(
 		'label'   => __( 'The advanced settings include site-wide settings for your titles and meta descriptions, social metadata, sitemaps and much more.', 'wordpress-seo' ),
 	),
 	(object) array(
-		'name'    => __( 'OnPage.org', 'wordpress-seo' ),
+		'name'    => 'Ryte',
 		'setting' => 'onpage_indexability',
-		/* translators: %1$s expands to OnPage.org */
-		'label'   => sprintf( __( 'The %1$s integration checks daily if your site is still indexable by search engines and notifies you when this is not the case.', 'wordpress-seo' ), 'OnPage.org' ),
+		/* translators: %1$s expands to Ryte. */
+		'label'   => sprintf( __( 'The %1$s integration checks daily if your site is still indexable by search engines and notifies you when this is not the case.', 'wordpress-seo' ), 'Ryte' ),
 	),
 	(object) array(
 		'name'    => __( 'Admin bar menu', 'wordpress-seo' ),
@@ -51,7 +51,7 @@ $feature_toggles = array(
 		'name'    => __( 'Text link counter', 'wordpress-seo' ),
 		'setting' => 'enable_text_link_counter',
 		'label'   => sprintf(
-			__( 'This feature plays a crucial part in helping you with improving the internal linking within your site. If you want to know more about the why and how of internal linking, check out the %1$sarticle about internal linking on Yoast.com%2$s.', 'wordpress-seo' ),
+			__( 'This feature helps you improve the internal link structure of your site. If you want to know more about the why and how of internal linking, check out the %1$sarticle about internal linking on Yoast.com%2$s.', 'wordpress-seo' ),
 			'<a href="' .  WPSEO_Shortlinker::get( 'https://yoa.st/17g' ) . '" target="_blank">',
 			'</a>'
 		),

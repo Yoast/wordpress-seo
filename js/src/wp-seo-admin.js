@@ -141,11 +141,6 @@ import a11ySpeak from "a11y-speak";
 	jQuery( window ).on( "hashchange", wpseoSetTabHash );
 
 	/**
-	 * When the hash changes, get the base url from the action and then add the current hash
-	 */
-	jQuery( document ).on( "ready", wpseoSetTabHash );
-
-	/**
 	 * Add a Facebook admin for via AJAX.
 	 */
 	function wpseo_add_fb_admin() {
@@ -243,6 +238,10 @@ import a11ySpeak from "a11y-speak";
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
+		/**
+		 * When the hash changes, get the base url from the action and then add the current hash.
+		 */
+		wpseoSetTabHash();
 
 		initializeAlgoliaSearch();
 
