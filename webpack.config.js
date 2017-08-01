@@ -1,5 +1,5 @@
 const path = require( "path" );
-const webpack = require("webpack");
+const webpack = require( "webpack" );
 
 const PORT = 3333;
 
@@ -34,7 +34,23 @@ module.exports = {
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
-				use: [ "babel-loader" ],
+				use: [ {
+					loader: "babel-loader",
+					options: {
+						babelrc: false,
+						presets: [ "es2015", "react" ],
+
+						env: {
+							development: {
+								plugins: [
+									"react-hot-loader/babel",
+								],
+							},
+
+							production: {},
+						},
+					},
+				} ],
 			},
 			{
 				test: /\.json$/,
