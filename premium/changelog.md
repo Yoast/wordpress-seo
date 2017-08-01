@@ -1,6 +1,6 @@
 ### 5.2.0: August 8th, 2017
 * Adds a watcher for private posts to be redirected correctly after trashing them.
-* Adds technical meta-data tracking functionality.
+* Adds collecting technical meta-data to send to Yoast.
 * Includes every change in Yoast SEO core 5.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 5.1.0: July 25th, 2017
