@@ -27,17 +27,17 @@ echo '<br/>';
 $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'wordpress-seo' ) );
 
 $tabs = new WPSEO_Option_Tabs( 'sitemaps' );
-$tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-sitemaps' ) ) ) );
 
 $title_options = WPSEO_Options::get_option( 'wpseo_titles' );
 
 if ( empty( $title_options['disable-author'] ) ) {
-	$tabs->add_tab( new WPSEO_Option_Tab( 'user-sitemap', __( 'User sitemap', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-user-sitemap' ) ) );
+	$tabs->add_tab( new WPSEO_Option_Tab( 'user-sitemap', __( 'User sitemap', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-sitemaps-user-sitemap' ) ) ) );
 }
 
-$tabs->add_tab( new WPSEO_Option_Tab( 'post-types', __( 'Post Types', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-post-types' ) ) );
-$tabs->add_tab( new WPSEO_Option_Tab( 'exclude-post', __( 'Excluded Posts', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-exclude-post' ) ) );
-$tabs->add_tab( new WPSEO_Option_Tab( 'taxonomies', __( 'Taxonomies', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-taxonomies' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'post-types', __( 'Post Types', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-sitemaps-post-types' ) ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'exclude-post', __( 'Excluded Posts', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-sitemaps-exclude-post' ) ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'taxonomies', __( 'Taxonomies', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-sitemaps-taxonomies' ) ) ) );
 
 echo '<div id="sitemapinfo">';
 $tabs->display( $yform, $options );
