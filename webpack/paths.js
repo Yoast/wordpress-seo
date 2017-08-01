@@ -1,9 +1,9 @@
-const path = require("path");
-const fs = require("fs");
+/* global require, module */
+const path = require( "path" );
 
-const jsDistPath = path.resolve("js", "dist");
-const jsSrcPath = path.resolve("js", "src");
-const cssDistPath = path.resolve("css", "dist");
+const jsDistPath = path.resolve( "js", "dist" );
+const jsSrcPath = path.resolve( "js", "src" );
+const cssDistPath = path.resolve( "css", "dist" );
 
 // Output filename: Entry file (relative to jsSrcPath)
 const entry = {
@@ -33,5 +33,5 @@ module.exports = {
 	jsDist: jsDistPath,
 	jsSrc: jsSrcPath,
 	cssDist: cssDistPath,
-	select2: path.resolve("node_modules", "select2", "dist"),
+	select2: path.resolve( "node_modules", "select2", "dist" ),
 };
