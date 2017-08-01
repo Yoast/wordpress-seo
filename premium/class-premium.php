@@ -560,6 +560,15 @@ class WPSEO_Premium {
 	public function initialize_tracking() {
 		global $pagenow;
 
+		/**
+		 * Filter: 'wpseo_disable_tracking' - Disables the data tracking of Yoast SEO Premium.
+		 *
+		 * @api string $is_disabled The disabled state. Default is false.
+		 */
+		if ( apply_filters( 'wpseo_disable_tracking', false ) === true ) {
+			return;
+		}
+
 		// Because we don't want to possibly block plugin actions with our routines.
 		if ( in_array( $pagenow, array( 'plugins.php', 'plugin-install.php', 'plugin-editor.php' ), true ) ) {
 			return;
