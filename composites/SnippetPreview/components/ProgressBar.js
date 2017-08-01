@@ -41,6 +41,7 @@ const ProgressBarContainer = styled.progress`
  * @summary A component that displays a progress bar.
  *
  * @param {object} props Component props.
+ *
  * @returns {ReactElement} The ProgressBar component.
  */
 function ProgressBar( props ) {
