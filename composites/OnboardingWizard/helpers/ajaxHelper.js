@@ -88,13 +88,13 @@ let parseHeaders = ( type, config ) => {
 
 /**
  * @summary Takes the target object and overwrites fields that are undefined
- * 			with default object
+ * 			or empty with the defaults object values
  *
  * @param {Object} target Target to apply default values
  * @param {Object} defaults Default values
- * @returns {Object} Shallow copied target object with applied defaults
+ * @returns {Object} Target object with overwritten values
  */
-let overwriteUndefinedKeysWithDefaults = ( target, defaults ) => {
+let overwriteObjectWithDefaultValues = ( target, defaults ) => {
 	for ( let key in defaults ) {
 		if ( defaults.hasOwnProperty( key ) ) {
 			if( typeof target[ key ] === "undefined" || target[ key ] === "" ) {
@@ -120,7 +120,7 @@ let parseRequestArgs = ( requestArgs, type ) => {
 		contentType: "application/json",
 	};
 
-	let config = overwriteUndefinedKeysWithDefaults( requestArgs, defaults );
+	let config = overwriteObjectWithDefaultValues( requestArgs, defaults );
 
 	if ( typeof config.headers !== "undefined" || config.headers !== "" ) {
 		parseHeaders( type, config );
