@@ -59,13 +59,12 @@ class WPSEO_Link_Reindex_Dashboard {
 		if ( $this->unprocessed === 0 ) {
 			$html .= '<p>' . $this->message_already_indexed() . '</p>';
 		}
-		else {
-			$height = 165 ;
 
+		if ( $this->unprocessed > 0 ) {
 			$html .= '<p id="reindexLinks">';
 			$html .= sprintf(
 				'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%2$s</a>',
-				$height,
+				175,
 				esc_attr( __( 'Count links in your texts', 'wordpress-seo' ) )
 			);
 			$html .= '</p>';
@@ -94,7 +93,8 @@ class WPSEO_Link_Reindex_Dashboard {
 				esc_html( __( 'All your texts are already counted, there is no need to count them again.', 'wordpress-seo' ) )
 			);
 		}
-		else {
+
+		if ( $this->unprocessed > 0 ) {
 			$progress = sprintf(
 			/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 				__( 'Text %1$s of %2$s processed.', 'wordpress-seo' ),

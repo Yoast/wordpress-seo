@@ -479,6 +479,62 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 }
 
+/* Premium Upsell Admin Block
+ * @since 5.1
+ */
+.yoast_premium_upsell_admin_block {
+	border: 1px solid #ccc;
+	background-color: #fff;
+	padding: 10px;
+	max-width: 650px;
+	overflow: hidden;
+	margin-top: 2em;
+
+	&--close {
+		color: #333;
+		text-decoration: none;
+		font-weight: bold;
+		font-size: 16px;
+		border: 1px solid #ccc;
+		padding: 1px 4px;
+	}
+
+	&--header {
+		margin-top: 0.3em;
+		font-size: 1.7em;
+		font-weight: bold;
+	}
+
+	&--motivation {
+		display: flex;
+		flex-wrap: wrap;
+
+		& li {
+			flex: 0 0 50%;
+			list-style: none;
+		}
+	}
+
+	&--argument {
+		padding: 0 8px 0 20px;
+
+		&::before {
+			position: relative;
+			left: -16px;
+			margin-right: -10px;
+			font-weight: bold;
+			content: "+";
+			top: -1px;
+		}
+	}
+
+	@media screen and (max-width: 480px) {
+		&--motivation {
+			display: block;
+		}
+	}
+}
+
 // Scrollable tables.
 //
 // The scrollable tables can be used in three different ways.
@@ -596,17 +652,17 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 			border: none;
 			text-align: center;
 
-			strong:first-child {
+			& > strong:first-child {
 				display: block;
 				max-width: 261px;
 				margin: 0 auto;
 				text-align: left;
 			}
 
-			p {
+			ul, p {
 				max-width: 261px;
-				margin: 1em auto;
 				text-align: left;
+				margin: 1em auto;
 			}
 		}
 	}

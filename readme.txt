@@ -7,6 +7,7 @@ Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
 Tested up to: 4.8
 Stable tag: 5.0.2
+Minimum PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -29,7 +30,7 @@ Using the snippet preview, you can see a rendering of what your post or page wil
 = Page Analysis =
 The Yoast SEO plugins [Page Analysis](https://yoast.com/content-seo-wordpress-linkdex/) functionality checks simple things you're bound to forget. It checks, for instance, if you have images in your post and whether they have an alt tag containing the focus keyword for that post. It also checks whether your posts are long enough, whether you've written a meta description and if that meta description contains your focus keyword, if you've used any subheadings within your post, etc. etc.
 
-The plugin alsgruo allows you to write meta titles and descriptions for all your category, tag and custom taxonomy archives, giving you the option to further optimize those pages.
+The plugin also allows you to write meta titles and descriptions for all your category, tag and custom taxonomy archives, giving you the option to further optimize those pages.
 
 Combined, this plugin makes sure that your content is the type of content search engines will love!
 
@@ -137,7 +138,7 @@ Release Date: July 13th, 2017
 
 Release Date: July 6th, 2017
 
-* Fixes a fatal error that could occur when trying to save a post that <a>-tags with invalid URLs in them.
+* Fixes a fatal error that could occur when trying to save a post that has `<a>`-tags with invalid URLs in it.
 
 = 5.0.0 =
 

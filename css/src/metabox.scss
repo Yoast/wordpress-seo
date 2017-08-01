@@ -343,20 +343,35 @@ ul.wpseo-metabox-tabs li {
 }
 
 ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
-	border: none;
+	border: 1px dashed #dfdfdf;
+	border-bottom: none;
 }
 
 .wpseo-tab-add-keyword .wpseo-add-keyword.button {
 	height: auto;
-	margin-top: 1px;
-	padding: 3px 6px;
-	color: #000;
-	background: transparent;
-	font-size: 12px;
-	line-height: 1;
+	padding: 5px 12px 5px 10px;
 	vertical-align: top;
+	font-size: inherit;
+	line-height: inherit;
+	font-weight: bold;
+	box-shadow: none;
+	background: none;
 	text-decoration: none;
-	cursor: pointer;
+}
+
+.wpseo-tab-add-keyword .wpseo-add-keyword.button:focus {
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8)
+}
+
+.wpseo-tab-add-keyword .wpseo-add-keyword.button:active {
+	transform: none;
+}
+
+.wpseo-add-keyword-plus {
+	display: inline-block;
+	vertical-align: top;
+	margin: -1px 3px 0 0;
+	font-size: 20px;
 }
 
 #wpseo-add-keyword-popup-title {
@@ -661,6 +676,11 @@ ul.wpseo-metabox-premium-advantages {
 .screen-reader-text.wpseo-generic-tab-textual-score,
 .screen-reader-text.wpseo-keyword-tab-textual-score {
 	display: block;
+}
+
+.yoast-notice-go-premium {
+	border-left-color: #a4286a;
+	background: #f1f1f1;
 }
 
 @media screen and ( max-width: 782px ) {

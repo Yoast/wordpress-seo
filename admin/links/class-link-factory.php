@@ -26,9 +26,9 @@ class WPSEO_Link_Factory {
 	 * @param WPSEO_Link_Filter          $filter          The link filter.
 	 */
 	public function __construct( WPSEO_Link_Type_Classifier $classifier, WPSEO_Link_Internal_Lookup $internal_lookup, WPSEO_Link_Filter $filter ) {
-		$this->classifier = $classifier;
+		$this->classifier      = $classifier;
 		$this->internal_lookup = $internal_lookup;
-		$this->filter = $filter;
+		$this->filter          = $filter;
 	}
 
 	/**
@@ -40,7 +40,10 @@ class WPSEO_Link_Factory {
 	 */
 	public function build( array $extracted_links ) {
 		$extracted_links = array_map( array( $this, 'build_link' ), $extracted_links );
-		$filtered_links = array_filter( $extracted_links, array( $this->filter, 'internal_link_with_fragment_filter' ) );
+		$filtered_links  = array_filter( $extracted_links, array(
+			$this->filter,
+			'internal_link_with_fragment_filter',
+		) );
 
 		return $filtered_links;
 	}
@@ -60,6 +63,19 @@ class WPSEO_Link_Factory {
 			$target_post_id = $this->internal_lookup->lookup( $link );
 		}
 
-		return new WPSEO_Link( $link, $target_post_id, $link_type );
+		return self::get_link( $link, $target_post_id, $link_type );
+	}
+
+	/**
+	 * Returns the link object.
+	 *
+	 * @param string $url            The URL of the link.
+	 * @param int    $target_post_id The target post ID.
+	 * @param string $type           The link type.
+	 *
+	 * @return WPSEO_Link Generated link object.
+	 */
+	public static function get_link( $url, $target_post_id, $type ) {
+		return new WPSEO_Link( $url, $target_post_id, $type );
 	}
 }
