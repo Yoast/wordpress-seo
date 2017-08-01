@@ -55,6 +55,7 @@ class StepIndicator extends React.Component {
 					key: "step-indicator-" + key,
 					className: "yoast-wizard--step yoast-wizard--step__active",
 					"aria-label": ariaLabel,
+					"aria-current": "step",
 					style: {
 						verticalAlign: "middle",
 					},
