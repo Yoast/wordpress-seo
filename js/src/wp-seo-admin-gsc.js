@@ -88,7 +88,6 @@ jQuery( function() {
  * @param {string} category The category count to update.
  *
  * @returns {void}
- *
  */
 function wpseo_update_category_count( category ) {
 	"use strict";

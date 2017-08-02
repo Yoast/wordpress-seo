@@ -319,6 +319,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Replace the custom taxonomies.
 	 *
 	 * @param {string} text The text to have its custom taxonomy placeholders replaced.
+	 *
 	 * @returns {string} The text in which the custom taxonomy placeholders have been replaced.
 	 */
 	YoastReplaceVarPlugin.prototype.replaceCustomTaxonomy = function( text ) {
@@ -339,6 +340,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Returns the string to replace the category taxonomy placeholders.
 	 *
 	 * @param {string} taxonomyName The name of the taxonomy needed for the lookup.
+	 *
 	 * @returns {string} The categories as a comma separated list.
 	 */
 	YoastReplaceVarPlugin.prototype.getTaxonomyReplaceVar = function( taxonomyName ) {

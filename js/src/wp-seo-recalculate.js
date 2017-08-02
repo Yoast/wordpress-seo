@@ -128,6 +128,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * Returns the score
 	 *
 	 * @param {json} item Item to get te score for.
+	 *
 	 * @returns {{item_id: int, score}} Object with score for item.
 	 */
 	YoastRecalculateScore.prototype.getScore = function( item ) {
@@ -142,6 +143,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * Returns the item id
 	 *
 	 * @param {json} item Item to get the id from.
+	 *
 	 * @returns {int} The id from the item.
 	 */
 	YoastRecalculateScore.prototype.getItemID = function( item ) {

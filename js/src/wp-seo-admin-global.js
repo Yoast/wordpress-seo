@@ -43,7 +43,7 @@
 	/**
 	 * Used to remove the admin notices for several purposes, dies on exit.
 	 *
-	 * @param {string} option The option to ignnore
+	 * @param {string} option The option to ignore.
 	 * @param {string} hide   The target element to hide.
 	 * @param {string} nonce  Nonce for verification.
 	 *

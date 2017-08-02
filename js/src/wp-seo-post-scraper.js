@@ -40,7 +40,9 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
+	 *
 	 * @param {Object} response The AJAX response object.
+	 *
 	 * @returns {String} The url path.
 	 */
 	function getUrlPathFromResponse( response ) {
@@ -77,6 +79,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	 * Initializes the snippet preview.
 	 *
 	 * @param {PostDataCollector} postScraper Object for getting post data.
+	 *
 	 * @returns {SnippetPreview} The created snippetpreview element.
 	 */
 	function initSnippetPreview( postScraper ) {
@@ -121,9 +124,9 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {App} app The App object.
+	 * @param {App} app                       The App object.
 	 * @param {PostDataCollector} postScraper The post scraper object.
-	 * @param {Object} publishBox The publish box object.
+	 * @param {Object} publishBox             The publish box object.
 	 *
 	 * @returns {void}
 	 */

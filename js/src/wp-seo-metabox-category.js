@@ -20,6 +20,7 @@
 	 * Retrieves the primary term for a taxonomy.
 	 *
 	 * @param {string} taxonomyName The taxonomy name.
+	 *
 	 * @returns {string} The value of the primary term.
 	 */
 	function getPrimaryTerm( taxonomyName ) {
@@ -145,6 +146,7 @@
 	 * Returns the term checkbox handler for a certain taxonomy name.
 	 *
 	 * @param {string} taxonomyName The taxonomy name.
+	 *
 	 * @returns {Function} Event handler for the checkbox.
 	 */
 	function termCheckboxHandler( taxonomyName ) {
@@ -164,6 +166,7 @@
 	 * Returns the term list add handler for a certain taxonomy name.
 	 *
 	 * @param {string} taxonomyName The taxonomy name.
+	 *
 	 * @returns {Function} The term list add handler.
 	 */
 	function termListAddHandler( taxonomyName ) {
@@ -177,6 +180,7 @@
 	 * Returns the make primary event handler for a certain taxonomy name.
 	 *
 	 * @param {string} taxonomyName The taxonomy name.
+	 *
 	 * @returns {Function} The event handler.
 	 */
 	function makePrimaryHandler( taxonomyName ) {

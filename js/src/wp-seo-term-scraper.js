@@ -77,6 +77,7 @@ window.yoastHideMarkers = true;
 	 * Initializes the snippet preview.
 	 *
 	 * @param {TermDataCollector} termScraper Object for getting term data.
+	 *
 	 * @returns {SnippetPreview} Instance of snippetpreview.
 	 */
 	function initSnippetPreview( termScraper ) {

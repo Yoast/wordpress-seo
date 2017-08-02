@@ -66,6 +66,7 @@ import a11ySpeak from "a11y-speak";
 	 * Adds featured image to sort so it can be analyzed
 	 *
 	 * @param {String} content The content to alter.
+	 *
 	 * @returns {String} Returns the possible altered content.
 	 */
 	FeaturedImagePlugin.prototype.addImageToContent = function( content ) {
@@ -88,6 +89,7 @@ import a11ySpeak from "a11y-speak";
 
 	/**
 	 * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
+	 *
 	 * @param {object} featuredImage The featured image object.
 	 *
 	 * @returns {void}

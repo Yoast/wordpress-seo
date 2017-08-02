@@ -214,8 +214,10 @@ PostDataCollector.prototype.getPermalink = function() {
 
 /**
  * Get the category name from the list item.
+ *
  * @param {Object} li Item which contains the category.
- * @returns {String} Name of the category.
+ *
+ * @returns {String}  Name of the category.
  */
 PostDataCollector.prototype.getCategoryName = function( li ) {
 	var clone = li.clone();

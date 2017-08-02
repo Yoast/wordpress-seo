@@ -25,6 +25,7 @@ var termsTmceId = "description";
 	 * Gets content from the content field by element id.
 	 *
 	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
+	 *
 	 * @returns {String} The tinyMCE content.
 	 */
 	function tinyMCEElementContent( content_id ) {
