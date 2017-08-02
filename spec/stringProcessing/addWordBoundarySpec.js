@@ -4,7 +4,7 @@ import addWordBoundary from "../../js/stringProcessing/addWordboundary";
 
 describe("a test adding wordboundaries to a string", function(){
 	it("adds start and end boundaries", function(){
-		expect( addWordBoundary( "keyword" ) ).toBe( "(^|[ \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])keyword($|[ \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])" );
-		expect( addWordBoundary( "keyword", "extra" ) ).toBe( "(^|[ \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›extra<>])keyword($|[ \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›extra<>])" );
+		expect( addWordBoundary( "keyword" ) ).toBe( "(^|[ \\u00a0 \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])keyword($|[ \\u00a0 \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])" );
+		expect( addWordBoundary( "keyword", "extra" ) ).toBe( "(^|[ \\u00a0 \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›extra<>])keyword($|[ \\u00a0 \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›extra<>])" );
 	});
 });
