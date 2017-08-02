@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1381);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1010);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 1381:
+/***/ 1010:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -154,6 +154,8 @@ jQuery(function () {
  * Decrement current category count by one.
  *
  * @param {string} category The category count to update.
+ *
+ * @returns {void}
  */
 function wpseo_update_category_count(category) {
 	"use strict";
@@ -174,6 +176,8 @@ function wpseo_update_category_count(category) {
  * @param {string} platform The platform to mark the issue for.
  * @param {string} category The category to mark the issue for.
  * @param {string} url      The url to mark as fixed.
+ *
+ * @returns {void}
  */
 function wpseo_send_mark_as_fixed(nonce, platform, category, url) {
 	jQuery.post(ajaxurl, {

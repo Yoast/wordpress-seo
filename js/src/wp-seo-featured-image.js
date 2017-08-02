@@ -23,9 +23,9 @@ import a11ySpeak from "a11y-speak";
 	};
 
 	/**
-	 * Set's the featured image to use in the analysis
+	 * Sets the featured image to use in the analysis
 	 *
-	 * @param {String} featuredImage
+	 * @param {String} featuredImage The featured image to use.
 	 *
 	 * @returns {void}
 	 */
@@ -65,8 +65,9 @@ import a11ySpeak from "a11y-speak";
 	/**
 	 * Adds featured image to sort so it can be analyzed
 	 *
-	 * @param {String} content
-	 * @returns {String}
+	 * @param {String} content The content to alter.
+	 *
+	 * @returns {String} Returns the possible altered content.
 	 */
 	FeaturedImagePlugin.prototype.addImageToContent = function( content ) {
 		if ( null !== this.featuredImage ) {
@@ -88,7 +89,8 @@ import a11ySpeak from "a11y-speak";
 
 	/**
 	 * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
-	 * @param {object} featuredImage
+	 *
+	 * @param {object} featuredImage The featured image object.
 	 *
 	 * @returns {void}
 	 */

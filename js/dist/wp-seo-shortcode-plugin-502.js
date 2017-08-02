@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1582);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1211);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 1582:
+/***/ 1211:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -96,6 +96,8 @@ var shortcodeEndRegex = new RegExp("\\[/" + shortcodeNameMatcher + "\\]", "g");
   * @property {RegExp} closingTagRegex Used to match a given string for shortcode closing tags.
   * @property {RegExp} nonCaptureRegex Used to match a given string for non capturing shortcodes.
   * @property {Array} parsedShortcodes Used to store parsed shortcodes.
+  *
+  * @param {app} app The app object.
   */
 
 	var YoastShortcodePlugin = function YoastShortcodePlugin(app) {
@@ -163,8 +165,9 @@ var shortcodeEndRegex = new RegExp("\\[/" + shortcodeNameMatcher + "\\]", "g");
 	/**
   * The callback used to replace the shortcodes.
   *
-  * @param {string} data
-  * @returns {string}
+  * @param {string} data The text to replace the shortcodes in.
+  *
+  * @returns {string} The text with replaced shortcodes.
   */
 	YoastShortcodePlugin.prototype.replaceShortcodes = function (data) {
 		var parsedShortcodes = this.parsedShortcodes;
@@ -222,8 +225,10 @@ var shortcodeEndRegex = new RegExp("\\[/" + shortcodeNameMatcher + "\\]", "g");
 	};
 
 	/**
-  * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
-  * @returns {String}
+  * Gets content from the content field, if tinyMCE is initialized, use the getContent function to
+  * get the data from tinyMCE.
+  *
+  * @returns {String} Content from tinyMCE.
   */
 	YoastShortcodePlugin.prototype.getContentTinyMCE = function () {
 		var val = document.getElementById("content") && document.getElementById("content").value || "";
@@ -239,8 +244,9 @@ var shortcodeEndRegex = new RegExp("\\[/" + shortcodeNameMatcher + "\\]", "g");
 	/**
   * Returns the unparsed shortcodes out of a collection of shortcodes.
   *
-  * @param {Array} shortcodes
-  * @returns {Array}
+  * @param {Array} shortcodes The shortcodes to check.
+  *
+  * @returns {Array} Array with unparsed shortcodes.
   */
 	YoastShortcodePlugin.prototype.getUnparsedShortcodes = function (shortcodes) {
 		if ((typeof shortcodes === "undefined" ? "undefined" : _typeof(shortcodes)) !== "object") {
@@ -263,8 +269,9 @@ var shortcodeEndRegex = new RegExp("\\[/" + shortcodeNameMatcher + "\\]", "g");
 	/**
   * Checks if a given shortcode was already parsed.
   *
-  * @param {string} shortcode
-  * @returns {boolean}
+  * @param {string} shortcode The shortcode to check.
+  *
+  * @returns {boolean} True when shortcode is not parsed yet.
   */
 	YoastShortcodePlugin.prototype.isUnparsedShortcode = function (shortcode) {
 		var already_exists = false;
@@ -281,8 +288,9 @@ var shortcodeEndRegex = new RegExp("\\[/" + shortcodeNameMatcher + "\\]", "g");
 	/**
   * Gets the shortcodes from a given piece of text.
   *
-  * @param {string} text
-  * @returns {array} The matched shortcodes
+  * @param {string} text Text to extract shortcodes from.
+  *
+  * @returns {array} The matched shortcodes.
   */
 	YoastShortcodePlugin.prototype.getShortcodes = function (text) {
 		if (typeof text !== "string") {
@@ -307,8 +315,9 @@ var shortcodeEndRegex = new RegExp("\\[/" + shortcodeNameMatcher + "\\]", "g");
 	/**
   * Matches the capturing shortcodes from a given piece of text.
   *
-  * @param {string} text
-  * @returns {Array}
+  * @param {string} text Text to get the capturing shortcodes from.
+  *
+  * @returns {Array} The capturing shortcodes.
   */
 	YoastShortcodePlugin.prototype.matchCapturingShortcodes = function (text) {
 		var captures = [];
@@ -331,8 +340,9 @@ var shortcodeEndRegex = new RegExp("\\[/" + shortcodeNameMatcher + "\\]", "g");
 	/**
   * Matches the non capturing shortcodes from a given piece of text.
   *
-  * @param {string} text
-  * @returns {Array}
+  * @param {string} text Text to get the non capturing shortcodes from.
+  *
+  * @returns {Array}     The non capturing shortcodes.
   */
 	YoastShortcodePlugin.prototype.matchNonCapturingShortcodes = function (text) {
 		return text.match(this.nonCaptureRegex) || [];
@@ -370,8 +380,8 @@ var shortcodeEndRegex = new RegExp("\\[/" + shortcodeNameMatcher + "\\]", "g");
 	/**
   * Saves the shortcodes that were parsed with AJAX to `this.parsedShortcodes`
   *
-  * @param {Array} shortcodeResults
-  * @param {function} callback
+  * @param {Array}    shortcodeResults Shortcodes that must be saved.
+  * @param {function} callback         Callback to execute of saving shortcodes.
   *
   * @returns {void}
   */
