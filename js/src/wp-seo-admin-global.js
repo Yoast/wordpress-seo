@@ -28,7 +28,7 @@
 	/**
 	 * Used to dismiss the tagline notice for a specific user.
 	 *
-	 * @param {string} nonce
+	 * @param {string} nonce Nonce for verification.
 	 *
 	 * @returns {void}
 	 */
@@ -43,9 +43,9 @@
 	/**
 	 * Used to remove the admin notices for several purposes, dies on exit.
 	 *
-	 * @param {string} option
-	 * @param {string} hide
-	 * @param {string} nonce
+	 * @param {string} option The option to ignnore
+	 * @param {string} hide   The target element to hide.
+	 * @param {string} nonce  Nonce for verification.
 	 *
 	 * @returns {void}
 	 */

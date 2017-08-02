@@ -23,6 +23,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	/**
 	 * Variable replacement plugin for WordPress.
 	 *
+	 * @param {app} app The app object.
+	 *
 	 * @returns {void}
 	 */
 	var YoastReplaceVarPlugin = function( app ) {
@@ -317,7 +319,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Replace the custom taxonomies.
 	 *
 	 * @param {string} text The text to have its custom taxonomy placeholders replaced.
-	 * @return {string} The text in which the custom taxonomy placeholders have been replaced.
+	 * @returns {string} The text in which the custom taxonomy placeholders have been replaced.
 	 */
 	YoastReplaceVarPlugin.prototype.replaceCustomTaxonomy = function( text ) {
 		forEach( taxonomyElements, function( taxonomy, taxonomyName ) {
@@ -501,6 +503,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	/**
 	 * Checks whether or not there's a parent title available.
 	 *
+	 * @param {Object} parent The parent element.
+ 	 *
 	 * @returns {boolean} Whether or not there is a parent title present.
 	 */
 	YoastReplaceVarPlugin.prototype.hasParentTitle = function( parent ) {

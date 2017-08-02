@@ -26,7 +26,7 @@ module.exports = ( function() {
 
 	/**
 	 * Constructor for a keyword tab object
-	 * @param {Object} args
+	 * @param {Object} args The arguments.
 	 * @constructor
 	 */
 	function KeywordTab( args ) {
@@ -45,9 +45,8 @@ module.exports = ( function() {
 	/**
 	 * Updates the keyword tabs with new values.
 	 *
-	 * @param {string} scoreClass
-	 * @param {string} scoreText
-	 * @param {string} [keyword]
+	 * @param {string} score   The score to set.
+	 * @param {string} keyword The keyword to set the score for.
 	 *
 	 * @returns {void}
 	 */

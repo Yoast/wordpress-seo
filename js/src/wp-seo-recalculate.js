@@ -23,6 +23,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Constructs the recalculate score.
 	 *
+	 * @param {int} total_count The total amount of items to calculate.
+	 *
 	 * @constructor
 	 */
 	var YoastRecalculateScore = function( total_count ) {
@@ -55,10 +57,10 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Starts the recalculation
 	 *
-	 * @param {int} items_to_fetch
-	 * @param {string} fetch_type
-	 * @param {string} id_field
-	 * @param {Function|bool} callback
+	 * @param {int} items_to_fetch     The amount of items to fetch.
+	 * @param {string} fetch_type      The fetch type.
+	 * @param {string} id_field        The ID field to extract from each item.
+	 * @param {Function|bool} callback Callback when calculating has been completed.
 	 *
 	 * @returns {void}
 	 */
@@ -80,7 +82,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Updates the progressbar
 	 *
-	 * @param {int} total_posts
+	 * @param {int} total_posts Total amount of posts.
 	 *
 	 * @returns {void}
 	 */
@@ -97,7 +99,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Updates the element with the new count value
 	 *
-	 * @param {int} new_value
+	 * @param {int} new_value The new value for count element.
 	 *
 	 * @returns {void}
 	 */
@@ -108,10 +110,10 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Calculate the scores
 	 *
-	 * @param {int}   total_items
-	 * @param {array} items
+	 * @param {int}   total_items Total amount of items.
+	 * @param {array} items       The items to calculate the score for.
 	 *
-	 * @returns {void}
+	 * @returns {array} The calculated scores
 	 */
 	YoastRecalculateScore.prototype.calculateScores = function( total_items, items ) {
 		var scores = [];
@@ -125,8 +127,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Returns the score
 	 *
-	 * @param {json} item
-	 * @returns {{item_id: int, score}}
+	 * @param {json} item Item to get te score for.
+	 * @returns {{item_id: int, score}} Object with score for item.
 	 */
 	YoastRecalculateScore.prototype.getScore = function( item ) {
 		return {
@@ -139,8 +141,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Returns the item id
 	 *
-	 * @param {json} item
-	 * @returns {int}
+	 * @param {json} item Item to get the id from.
+	 * @returns {int} The id from the item.
 	 */
 	YoastRecalculateScore.prototype.getItemID = function( item ) {
 		this.items_to_fetch--;
@@ -151,7 +153,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Pass the post to the analyzer to calculates it's core
 	 *
-	 * @param {Object} item
+	 * @param {Object} item Item to calculate the score for.
 	 *
 	 * @returns {void}
 	 */
@@ -174,7 +176,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Parse the response given by request in getItemsToRecalculate.
 	 *
-	 * @param {Object} response
+	 * @param {Object} response Response to parse.
 	 *
 	 * @returns {void}
 	 */
@@ -217,7 +219,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Sends the scores to the backend
 	 *
-	 * @param {array} scores
+	 * @param {array} scores Scores to send.
 	 *
 	 * @returns {void}
 	 */
@@ -236,7 +238,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Get the posts which have to be recalculated.
 	 *
-	 * @param {int} current_page
+	 * @param {int} current_page The current page.
 	 *
 	 * @returns {void}
 	 */
@@ -257,7 +259,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Starting the recalculation process
 	 *
-	 * @param {object} response
+	 * @param {object} response The response.
 	 *
 	 * @returns {void}
 	 */

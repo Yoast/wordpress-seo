@@ -41,7 +41,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
 	 * @param {Object} response The AJAX response object.
-	 * @returns {String}
+	 * @returns {String} The url path.
 	 */
 	function getUrlPathFromResponse( response ) {
 		if ( response.responseText === "" ) {
@@ -76,8 +76,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	/**
 	 * Initializes the snippet preview.
 	 *
-	 * @param {PostDataCollector} postScraper
-	 * @returns {SnippetPreview}
+	 * @param {PostDataCollector} postScraper Object for getting post data.
+	 * @returns {SnippetPreview} The created snippetpreview element.
 	 */
 	function initSnippetPreview( postScraper ) {
 		return snippetPreviewHelpers.create( snippetContainer, {
@@ -89,7 +89,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	/**
 	 * Determines if markers should be shown.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
 		return wpseoPostScraperL10n.show_markers === "1";
@@ -98,7 +98,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	/**
 	 * Returns the marker callback method for the assessor.
 	 *
-	 * @returns {*|bool}
+	 * @returns {*|bool} False when tinyMCE is undefined or when there are no markers.
 	 */
 	function getMarker() {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
