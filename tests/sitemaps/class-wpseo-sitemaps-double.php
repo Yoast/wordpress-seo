@@ -4,9 +4,18 @@
  */
 
 /**
- * Exposes the protected functions of the WPSEO Twitter class for testing
+ * Overwrite couple functions of the WPSEO Sitemaps class for testing
  */
 class WPSEO_Sitemaps_Double extends WPSEO_Sitemaps {
+
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
+		parent::__construct();
+
+		$this->init_sitemaps_providers();
+	}
 
 	/**
 	 * Overwrite sitemap_close() so we don't die on outputting the sitemap
