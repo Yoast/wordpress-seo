@@ -1,11 +1,7 @@
 import React from "react";
-import { EditorState, Modifier } from "draft-js";
+import { EditorState, Modifier, Editor } from "draft-js";
 import colors from "../../../style-guide/colors.json";
-import createSingleLinePlugin from "draft-js-single-line-plugin";
-import Editor from "draft-js-plugins-editor";
-
-const singleLinePlugin = createSingleLinePlugin();
-const plugins = [ singleLinePlugin ];
+import styled from "styled-components";
 
 const styles = {
 	root: {
@@ -25,6 +21,13 @@ const styles = {
 	},
 };
 
+const EditorContainer = styled.div`
+    .public-DraftStyleDefault-block {
+        white-space: nowrap;
+        word-wrap: normal;
+    }
+`;
+
 export default class InputField extends React.Component {
 	constructor( props ) {
 		super( props );
@@ -35,16 +38,16 @@ export default class InputField extends React.Component {
 		return (
 			<div style={ styles.root }>
 				<div style={ styles.editor } onClick={ this.focus.bind( this ) }>
-					<Editor
-						plugins={ plugins }
-						blockRenderMap={ singleLinePlugin.blockRenderMap }
-						editorState={ this.state.editorState }
-						onChange={ this.onChange.bind( this ) }
-						// handlePastedText= { this.handlePastedText.bind( this ) }
-						placeholder={ this.props.placeholder }
-						ref="editor"
-						// handleReturn={ () => "handled" }
-					/>
+					<EditorContainer>
+						<Editor
+							editorState={ this.state.editorState }
+							onChange={ this.onChange.bind( this ) }
+							handlePastedText= { this.handlePastedText.bind( this ) }
+							placeholder={ this.props.placeholder }
+							ref="editor"
+							handleReturn={ () => "handled" }
+						/>
+					</EditorContainer>
 				</div>
 			</div>
 		);
