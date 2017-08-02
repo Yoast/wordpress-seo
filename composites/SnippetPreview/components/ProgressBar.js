@@ -15,9 +15,9 @@ const ProgressBarContainer = styled.progress`
 	appearance: none;
 
 	::-webkit-progress-bar {
-	   	background-color: ${colors.$color_background_light};
+	   	background-color: ${ colors.$color_background_light };
 	   	color: ${( { progressColor } ) => progressColor };
-		border: 1px solid ${colors.$color_input_border};
+		border: 1px solid ${ colors.$color_input_border };
 	}
 
 	::-webkit-progress-value {
@@ -44,7 +44,7 @@ const ProgressBarContainer = styled.progress`
  */
 function ProgressBar( props ) {
 	return (
-		<ProgressBarContainer max={props.max} value={props.value} progressColor={props.progressColor} aria-hidden="true" />
+		<ProgressBarContainer max={ props.max } value={ props.value } progressColor={ props.progressColor } aria-hidden="true" />
 	);
 }
 
