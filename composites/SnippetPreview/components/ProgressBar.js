@@ -25,7 +25,7 @@ const ProgressBarContainer = styled.progress`
 
 	::-moz-progress-bar {
 		background-color: ${ ( { progressColor } ) => progressColor };
-		border: 1px solid ${colors.$color_input_border};
+		border: 1px solid ${ colors.$color_input_border };
 	}
 	
 	::-ms-fill {
