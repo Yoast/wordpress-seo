@@ -3,7 +3,7 @@ let Paper = require( "../../js/values/Paper.js" );
 
 describe("a test for finding transition words from a string", function() {
 	let mockPaper, result;
-/*
+
 	it("returns 1 when a transition word is found in the middle of a sentence (English)", function () {
 		// Transition word: above all.
 		mockPaper = new Paper("this story is, above all, about a boy", { locale: 'en_US'} );
@@ -301,7 +301,7 @@ describe("a test for finding transition words from a string", function() {
 			transitionWordSentences: 1
 		} );
 	});
-*/
+
 	it( "works with the no-break space character", function() {
 		// Transition word: then.
 		mockPaper = new Paper( "and\u00a0then" );
