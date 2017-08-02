@@ -5,7 +5,7 @@
   "homepage": "https://github.com/Yoast/",
   "main": "index.js",
   "scripts": {
-    "start": "stubby -d stubby/endpoints.yaml & webpack-dev-server",
+    "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml\" \"webpack-dev-server\"",
     "test": "jest"
   },
   "jest": {
@@ -42,6 +42,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
+    "concurrently": "^3.5.0",
     "enzyme": "^2.9.1",
     "eslint-config-yoast": "^2.0.0",
     "eslint-plugin-react": "^6.0.0",
