@@ -87,7 +87,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Initialize sitemap providers classes.
 	 *
-	 * @since 5.1
+	 * @since 5.3
 	 */
 	public function init_sitemaps_providers() {
 
