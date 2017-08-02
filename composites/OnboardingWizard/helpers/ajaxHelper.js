@@ -88,7 +88,7 @@ let parseHeaders = ( type, config ) => {
 
 /**
  * @summary Takes the target object and overwrites fields that are undefined
- * 			or empty with the defaults object values
+ *          or empty with the defaults object values.
  *
  * @param {Object} target 	Target to apply default values.
  * @param {Object} defaults Default values.
