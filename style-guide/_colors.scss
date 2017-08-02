@@ -26,7 +26,7 @@ $palette_green_blue:         #009288; // Safe to use with $palette_black.
 $palette_orange:             #dc5c04; // Safe to use with $palette_black.
 $palette_orange_light:       #ee7c1b; // Safe to use with $palette_black.
 $palette_red:                #dc3232; // Safe to use with $palette_white and $palette_black.
-$palette_red_light:          #f9bdbd;
+$palette_red_light:          #f9bdbd; // Safe to use with $palette_grey_dark.
 $palette_yellow:             #ffeb3b; // Safe to use with $palette_grey_text - $palette_black.
 
 $color_bad:                  $palette_red;
