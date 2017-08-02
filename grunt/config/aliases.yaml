@@ -24,6 +24,9 @@ build:
   - 'copy:dependencies'
   - 'browserify:build'
   - 'uglify'
+'build-webpack:js':
+  - 'copy:dependencies'
+  - 'webpack:build'
 
 # Build internationalisation features
 'build:i18n':
