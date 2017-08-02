@@ -298,10 +298,6 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 				if ( $field_def['type'] !== 'snippetpreview' ) {
-					/**
-					 * Function register_meta() is undocumented and not used by WP internally, wrapped in
-					 * function_exists as a precaution in case they remove it.
-					 */
 					if ( $register === true ) {
 						register_meta( 'post', self::$meta_prefix . $key, array(
 							'sanitize_callback' => array( __CLASS__, 'sanitize_post_meta' ),
