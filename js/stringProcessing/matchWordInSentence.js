@@ -24,13 +24,22 @@ var isWordInSentence = function( word, sentence ) {
 	word = word.toLocaleLowerCase();
 	sentence = sentence.toLocaleLowerCase();
 
-	word = addWordBoundary( word );
-	var occurrenceStart = sentence.search( new RegExp ( word, "ig" ) );
-	var occurrenceEnd = occurrenceStart + word.length;
+	var wordWithBoundaries = addWordBoundary( word );
+	var occurrenceStart = sentence.search( new RegExp ( wordWithBoundaries, "ig" ) );
 	// Return false if no match has been found.
 	if ( occurrenceStart === -1 ) {
 		return false;
 	}
+	/*
+	If there is a word boundary before the matched word, the regex includes this word boundary in the match.
+	This means that occurrenceStart is the index of the word boundary before the match. Therefore 1 has to
+	be added to occurrenceStart, except when there is no word boundary before the match (i.e. at the start
+	of a sentence).
+	 */
+	if ( occurrenceStart > 0 ) {
+		occurrenceStart += 1;
+	}
+	var occurrenceEnd = occurrenceStart + word.length;
 
 	// Check if the previous and next character are word boundaries to determine if a complete word was detected
 	var previousCharacter = characterInBoundary( sentence[ occurrenceStart - 1 ] ) || occurrenceStart === 0;
