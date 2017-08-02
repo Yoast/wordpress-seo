@@ -18,17 +18,12 @@ const styles = {
 		backgroundColor: colors.$color_white,
 		overflow: "hidden",
 	},
-	".public-DraftStyleDefault-block": {
-		whiteSpace: "pre",
-	},
-
 };
 
 export default class InputField extends React.Component {
 	constructor( props ) {
 		super( props );
 		this.state = { editorState: EditorState.createEmpty() };
-		this.onChange = ( editorState ) => this.setState( { editorState } );
 	}
 
 	render() {
@@ -46,6 +41,10 @@ export default class InputField extends React.Component {
 				</div>
 			</div>
 		);
+	}
+
+	onChange( editorState ) {
+		this.setState( { editorState } );
 	}
 
 	handlePastedText( text ) {
