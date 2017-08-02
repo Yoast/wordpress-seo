@@ -14,7 +14,7 @@ const ProgressBarContainer = styled.progress`
 
 	::-webkit-progress-bar {
 	   	background-color: ${ colors.$color_background_light };
-	   	color: ${( { progressColor } ) => progressColor };
+	   	color: ${ ( { progressColor } ) => progressColor };
 		border: 1px solid ${ colors.$color_input_border };
 	}
 
