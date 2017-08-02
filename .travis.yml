@@ -85,7 +85,7 @@ before_script:
 
 script:
 - if [[ "$PHPLINT" == "1" ]]; then find -L .  -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
-- if [[ "$PHPCS" == "1" ]]; then vendor/bin/phpcs -v; fi
+- if [[ "$PHPCS" == "1" ]]; then vendor/bin/phpcs -v --runtime-set ignore_warnings_on_exit 1; fi
 - if [[ "$CHECKJS" == "1" ]]; then grunt check:js; fi
 - if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then COVERAGE="0"; fi
 - if [[ "$COVERAGE" != "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "5" || $TRAVIS_PHP_VERSION == hhv* ]]; then phpunit -c phpunit.xml; fi

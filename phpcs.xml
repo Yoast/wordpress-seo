@@ -11,7 +11,7 @@
 	<exclude-pattern>languages/*</exclude-pattern>
 
     <arg name="extensions" value="php" />
-    <arg value="nsp" />
+    <arg value="sp"/>
 
     <rule ref="Yoast">
         <exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification" /><!-- TODO audit and fix nonces -->
