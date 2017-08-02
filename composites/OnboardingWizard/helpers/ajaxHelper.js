@@ -90,14 +90,14 @@ let parseHeaders = ( type, config ) => {
  * @summary Takes the target object and overwrites fields that are undefined
  * 			or empty with the defaults object values
  *
- * @param {Object} target Target to apply default values
- * @param {Object} defaults Default values
- * @returns {Object} Target object with overwritten values
+ * @param {Object} target 	Target to apply default values.
+ * @param {Object} defaults Default values.
+ * @returns {Object} 		Target object with overwritten values.
  */
 let overwriteObjectWithDefaultValues = ( target, defaults ) => {
 	for ( let key in defaults ) {
 		if ( defaults.hasOwnProperty( key ) ) {
-			if( typeof target[ key ] === "undefined" || target[ key ] === "" ) {
+			if ( typeof target[ key ] === "undefined" || target[ key ] === "" ) {
 				target[ key ] = defaults[ key ];
 			}
 		}
