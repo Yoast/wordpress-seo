@@ -9,7 +9,9 @@ import a11ySpeak from "a11y-speak";
 	/**
 	 * Detects the wrong use of variables in title and description templates
 	 *
-	 * @param {element} e
+	 * @param {element} e The element to verify.
+	 *
+	 * @returns {void}
 	 */
 	function wpseoDetectWrongVariables( e ) {
 		var warn = false;
@@ -73,10 +75,12 @@ import a11ySpeak from "a11y-speak";
 	/**
 	 * Sets a specific WP option
 	 *
-	 * @param {string} option The option to update
-	 * @param {string} newval The new value for the option
-	 * @param {string} hide The ID of the element to hide on success
-	 * @param {string} nonce The nonce for the action
+	 * @param {string} option The option to update.
+	 * @param {string} newval The new value for the option.
+	 * @param {string} hide   The ID of the element to hide on success.
+	 * @param {string} nonce  The nonce for the action.
+	 *
+	 * @returns {void}
 	 */
 	function setWPOption( option, newval, hide, nonce ) {
 		jQuery.post( ajaxurl, {
@@ -95,7 +99,9 @@ import a11ySpeak from "a11y-speak";
 	/**
 	 * Do the kill blocking files action
 	 *
-	 * @param {string} nonce
+	 * @param {string} nonce Nonce to validate request.
+	 *
+	 * @returns {void}
 	 */
 	function wpseoKillBlockingFiles( nonce ) {
 		jQuery.post( ajaxurl, {
@@ -119,6 +125,8 @@ import a11ySpeak from "a11y-speak";
 
 	/**
 	 * Copies the meta description for the homepage
+	 *
+	 * @returns {void}
 	 */
 	function wpseoCopyHomeMeta() {
 		jQuery( "#og_frontpage_desc" ).val( jQuery( "#meta_description" ).val() );
@@ -126,6 +134,8 @@ import a11ySpeak from "a11y-speak";
 
 	/**
 	 * Makes sure we store the action hash so we can return to the right hash
+	 *
+	 * @returns {void}
 	 */
 	function wpseoSetTabHash() {
 		var conf = jQuery( "#wpseo-conf" );
@@ -142,6 +152,8 @@ import a11ySpeak from "a11y-speak";
 
 	/**
 	 * Add a Facebook admin for via AJAX.
+	 *
+	 * @returns {void}
 	 */
 	function wpseo_add_fb_admin() {
 		var target_form = jQuery( "#TB_ajaxContent" );
@@ -178,6 +190,8 @@ import a11ySpeak from "a11y-speak";
 
 	/**
 	 * Adds select2 for selected fields.
+	 *
+	 * @returns {void}
 	 */
 	function initSelect2() {
 		var select2Width = "400px";
@@ -209,6 +223,8 @@ import a11ySpeak from "a11y-speak";
 
 	/**
 	 * Set the initial active tab in the settings pages.
+	 *
+	 * @returns {void}
 	 */
 	function setInitialActiveTab() {
 		var activeTabId = window.location.hash.replace( "#top#", "" );

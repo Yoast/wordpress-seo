@@ -214,8 +214,10 @@ PostDataCollector.prototype.getPermalink = function() {
 
 /**
  * Get the category name from the list item.
- * @param {jQuery Object} li Item which contains the category
- * @returns {String} Name of the category
+ *
+ * @param {Object} li Item which contains the category.
+ *
+ * @returns {String}  Name of the category.
  */
 PostDataCollector.prototype.getCategoryName = function( li ) {
 	var clone = li.clone();
@@ -225,8 +227,9 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
 
 /**
  * When the snippet is updated, update the (hidden) fields on the page.
- * @param {Object} value
- * @param {String} type
+ *
+ * @param {Object} value The value to set.
+ * @param {String} type  The type to set the value for.
  *
  * @returns {void}
  */
@@ -267,10 +270,10 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 /**
  * The data passed from the snippet editor.
  *
- * @param {Object} data
- * @param {string} data.title
- * @param {string} data.urlPath
- * @param {string} data.metaDesc
+ * @param {Object} data          Object with data value.
+ * @param {string} data.title    The title.
+ * @param {string} data.urlPath  The url.
+ * @param {string} data.metaDesc The meta description.
  *
  * @returns {void}
  */
@@ -283,6 +286,8 @@ PostDataCollector.prototype.saveSnippetData = function( data ) {
 /**
  * Calls the event binders.
  *
+ * @param {app} app The app object.
+ *
  * @returns {void}
  */
 PostDataCollector.prototype.bindElementEvents = function( app ) {
@@ -292,6 +297,8 @@ PostDataCollector.prototype.bindElementEvents = function( app ) {
 
 /**
  * Binds the reanalyze timer on change of dom element.
+ *
+ * @param {app} app The app object.
  *
  * @returns {void}
  */
@@ -304,6 +311,8 @@ PostDataCollector.prototype.changeElementEventBinder = function( app ) {
 
 /**
  * Binds the renewData function on the change of input elements.
+ *
+ * @param {app} app The app object.
  *
  * @returns {void}
  */
