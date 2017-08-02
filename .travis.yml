@@ -14,7 +14,7 @@ addons:
     packages:
       - g++-4.8
 
-matrix:
+jobs:
   fast_finish: true
   include:
     - php: 7.0
@@ -40,6 +40,11 @@ matrix:
       env: WP_VERSION=master
     - php: nightly
       env: WP_VERSION=master
+    - stage: 🚀
+      script: skip
+      deploy:
+        provider: script
+        script: grunt/deploy.sh
   allow_failures:
     # Allow failures for unstable builds.
     - php: nightly
