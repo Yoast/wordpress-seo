@@ -10,8 +10,6 @@ const ProgressBarContainer = styled.progress`
 	display: block;
 	margin-top: 5px;
 	border: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
 	appearance: none;
 
 	::-webkit-progress-bar {
