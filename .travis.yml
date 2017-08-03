@@ -40,8 +40,9 @@ jobs:
       env: WP_VERSION=master
     - php: nightly
       env: WP_VERSION=master
-    - stage: 🚀
+    - stage: 🚀 deployment
       script: skip
+      install: skip
       deploy:
         provider: script
         script: grunt/deploy.sh
