@@ -6,6 +6,7 @@ branches:
   only:
     - master
     - trunk
+    - stories/build-stages
 
 addons:
   apt:
