@@ -507,7 +507,7 @@ class WPSEO_Admin_Init {
 			array(
 				'textdomain'  => 'wordpress-seo',
 				'plugin_name' => 'Yoast SEO',
-				'hook'        => 'wpseo_admin_promo_footer',
+				'hook'        => 'init',
 			)
 		);
 	}
