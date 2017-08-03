@@ -9,12 +9,12 @@ jQuery( function() {
 
 	jQuery( "#gsc_auth_code" ).click(
 		function() {
-			var auth_url = jQuery( "#gsc_auth_url" ).val(),
+			var authUrl = jQuery( "#gsc_auth_url" ).val(),
 				w = 600,
 				h = 500,
 				left = ( screen.width / 2 ) - ( w / 2 ),
 				top = ( screen.height / 2 ) - ( h / 2 );
-			return window.open( auth_url, "wpseogscauthcode", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left );
+			return window.open( authUrl, "wpseogscauthcode", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left );
 		}
 	);
 
@@ -89,16 +89,16 @@ jQuery( function() {
  *
  * @returns {void}
  */
-function wpseo_update_category_count( category ) {
+function wpseoUpdateCategoryCount( category ) {
 	"use strict";
 
-	var count_element = jQuery( "#gsc_count_" + category + "" );
-	var new_count     = parseInt( count_element.text(), 10 ) - 1;
-	if( new_count < 0 ) {
-		new_count = 0;
+	var countElement = jQuery( "#gsc_count_" + category + "" );
+	var newCount     = parseInt( countElement.text(), 10 ) - 1;
+	if( newCount < 0 ) {
+		newCount = 0;
 	}
 
-	count_element.text( new_count );
+	countElement.text( newCount );
 }
 
 /**
@@ -111,7 +111,7 @@ function wpseo_update_category_count( category ) {
  *
  * @returns {void}
  */
-function wpseo_send_mark_as_fixed( nonce, platform, category, url ) {
+function wpseoSendMarkAsFixed( nonce, platform, category, url ) {
 	jQuery.post(
 		ajaxurl,
 		{
@@ -123,7 +123,7 @@ function wpseo_send_mark_as_fixed( nonce, platform, category, url ) {
 		},
 		function( response ) {
 			if ( "true" === response ) {
-				wpseo_update_category_count( jQuery( "#field_category" ).val() );
+				wpseoUpdateCategoryCount( jQuery( "#field_category" ).val() );
 				jQuery( 'span:contains("' + url + '")' ).closest( "tr" ).remove();
 			}
 		}
@@ -137,10 +137,10 @@ function wpseo_send_mark_as_fixed( nonce, platform, category, url ) {
  *
  * @returns {void}
  */
-function wpseo_mark_as_fixed( url ) {
+function wpseoMarkAsFixed( url ) {
 	"use strict";
 
-	wpseo_send_mark_as_fixed(
+	wpseoSendMarkAsFixed(
 		jQuery( ".wpseo-gsc-ajax-security" ).val(),
 		jQuery( "#field_platform" ).val(),
 		jQuery( "#field_category" ).val(),
@@ -148,6 +148,6 @@ function wpseo_mark_as_fixed( url ) {
 	);
 }
 
-window.wpseo_update_category_count = wpseo_update_category_count;
-window.wpseo_mark_as_fixed = wpseo_mark_as_fixed;
-window.wpseo_send_mark_as_fixed = wpseo_send_mark_as_fixed;
+window.wpseoUpdateCategoryCount = wpseoUpdateCategoryCount;
+window.wpseoMarkAsFixed = wpseoMarkAsFixed;
+window.wpseoSendMarkAsFixed = wpseoSendMarkAsFixed;

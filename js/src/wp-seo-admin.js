@@ -15,7 +15,7 @@ import a11ySpeak from "a11y-speak";
 	 */
 	function wpseoDetectWrongVariables( e ) {
 		var warn = false;
-		var error_id = "";
+		var errorId = "";
 		var wrongVariables = [];
 		var authorVariables = [ "userid", "name", "user_description" ];
 		var dateVariables = [ "date" ];
@@ -45,15 +45,15 @@ import a11ySpeak from "a11y-speak";
 			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "searchphrase" ] );
 		}
 		jQuery.each( wrongVariables, function( index, variable ) {
-			error_id = e.attr( "id" ) + "-" + variable + "-warning";
+			errorId = e.attr( "id" ) + "-" + variable + "-warning";
 			if ( e.val().search( "%%" + variable + "%%" ) !== -1 ) {
 				e.addClass( "wpseo-variable-warning-element" );
 				var msg = wpseoAdminL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
-				if ( jQuery( "#" + error_id ).length ) {
-					jQuery( "#" + error_id ).html( msg );
+				if ( jQuery( "#" + errorId ).length ) {
+					jQuery( "#" + errorId ).html( msg );
 				}
 				else {
-					e.after( ' <div id="' + error_id + '" class="wpseo-variable-warning">' + msg + "</div>" );
+					e.after( ' <div id="' + errorId + '" class="wpseo-variable-warning">' + msg + "</div>" );
 				}
 
 				a11ySpeak( wpseoAdminL10n.variable_warning.replace( "%s", variable ), "assertive" );
@@ -61,8 +61,8 @@ import a11ySpeak from "a11y-speak";
 				warn = true;
 			}
 			else {
-				if ( jQuery( "#" + error_id ).length ) {
-					jQuery( "#" + error_id ).remove();
+				if ( jQuery( "#" + errorId ).length ) {
+					jQuery( "#" + errorId ).remove();
 				}
 			}
 		}
@@ -155,33 +155,33 @@ import a11ySpeak from "a11y-speak";
 	 *
 	 * @returns {void}
 	 */
-	function wpseo_add_fb_admin() {
-		var target_form = jQuery( "#TB_ajaxContent" );
+	function wpseoAddFbAdmin() {
+		var targetForm = jQuery( "#TB_ajaxContent" );
 
 		jQuery.post(
 			ajaxurl,
 			{
-				_wpnonce: target_form.find( "input[name=fb_admin_nonce]" ).val(),
-				admin_name: target_form.find( "input[name=fb_admin_name]" ).val(),
-				admin_id: target_form.find( "input[name=fb_admin_id]" ).val(),
+				_wpnonce: targetForm.find( "input[name=fb_admin_nonce]" ).val(),
+				admin_name: targetForm.find( "input[name=fb_admin_name]" ).val(),
+				admin_id: targetForm.find( "input[name=fb_admin_id]" ).val(),
 				action: "wpseo_add_fb_admin",
 			},
 			function( response ) {
 				var resp = jQuery.parseJSON( response );
 
-				target_form.find( "p.notice" ).remove();
+				targetForm.find( "p.notice" ).remove();
 
 				switch ( resp.success ) {
 					case 1:
 
-						target_form.find( "input[type=text]" ).val( "" );
+						targetForm.find( "input[type=text]" ).val( "" );
 
 						jQuery( "#user_admin" ).append( resp.html );
 						jQuery( "#connected_fb_admins" ).show();
 						tb_remove();
 						break;
 					case 0 :
-						target_form.find( ".form-wrap" ).prepend( resp.html );
+						targetForm.find( ".form-wrap" ).prepend( resp.html );
 						break;
 				}
 			}
@@ -250,7 +250,7 @@ import a11ySpeak from "a11y-speak";
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
-	window.wpseo_add_fb_admin = wpseo_add_fb_admin;
+	window.wpseoAddFbAdmin = wpseoAddFbAdmin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {

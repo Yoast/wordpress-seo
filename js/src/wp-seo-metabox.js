@@ -4,7 +4,7 @@
 import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 ( function( $ ) {
-	window.wpseo_init_tabs = function() {
+	window.wpseoInitTabs = function() {
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
 			jQuery( ".wpseo-metabox-tabs" )
 				.on( "click", "a.wpseo_tablink", function( ev ) {
@@ -170,7 +170,7 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 			jQuery( el ).find( ".wpseo-metabox-tabs li:first" ).addClass( "active" );
 			jQuery( el ).find( ".wpseotab:first" ).addClass( "active" );
 		} );
-		window.wpseo_init_tabs();
+		window.wpseoInitTabs();
 
 		initAddKeywordPopup();
 		initSelect2();
