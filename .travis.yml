@@ -41,7 +41,9 @@ jobs:
     - php: nightly
       env: WP_VERSION=master
     - stage: 🚀 deployment
+      before_script: skip
       script: skip
+      before_install: skip
       install: skip
       deploy:
         provider: script
