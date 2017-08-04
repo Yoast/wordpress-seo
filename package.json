@@ -50,7 +50,7 @@
     "grunt-postcss": "^0.8.0",
     "grunt-replace": "^1.0.1",
     "grunt-rtlcss": "^2.0.1",
-    "grunt-sass": "^1.1.0",
+    "grunt-sass": "^2.0.0",
     "grunt-shell": "^1.1.2",
     "grunt-webpack": "^3.0.2",
     "grunt-wp-css": "cedaro/grunt-wp-css#develop",
