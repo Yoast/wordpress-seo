@@ -54,10 +54,9 @@ export function focus( component ) {
 		}
 
 		&:focus {
-			border-color: #5b9dd9;
-			color: #23282d;
-			background-color: #fafafa;
-			box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+			border-color: ${ colors.$color_blue };
+			background-color: ${ colors.$color_white };
+			box-shadow: 0 0 3px ${ colors.$palette_blue_dark };
 		}
 	`;
 }
