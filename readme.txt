@@ -133,7 +133,7 @@ Release Date: August 8th, 2017
 	* Added wpseo_pre_adjacent_rel_links filter to bypass built-in rel prev/next functionality.
 	* Introduces classes to allow collecting data in the Premium plugin.
 	* Renamed OnPage.org to Ryte.
-	* Allow WordPress WHIP messages to be dismissed until the next WordPress major release.
+	* Allow WordPress WHIP messages to be dismissed for a period of 4 weeks.
 	* Adds a filter for word combinations that consist of a single one-character word.
 	* Adds aria-current to the onboarding wizard active step.
 
