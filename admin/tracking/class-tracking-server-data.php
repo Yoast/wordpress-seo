@@ -76,6 +76,8 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 			'filter'  => extension_loaded( 'filter' ),
 			'bcmath'  => extension_loaded( 'bcmath' ),
 			'modXml'  => extension_loaded( 'modXml' ),
+			'pcre'    => extension_loaded( 'pcre' ),
+			'xml'     => extension_loaded( 'xml' ),
 		);
 	}
 }
