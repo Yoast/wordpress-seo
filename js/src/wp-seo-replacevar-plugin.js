@@ -529,5 +529,14 @@ var ReplaceVar = require( "./values/replaceVar" );
 		return parentText;
 	};
 
+	/**
+	 * STATIC VARIABLES
+	 */
+
+	/**
+	 * Exposes the ReplaceVar class for functionality of plugins integrating.
+	 */
+	YoastReplaceVarPlugin.ReplaceVar = ReplaceVar;
+
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
 }() );

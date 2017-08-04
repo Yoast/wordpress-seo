@@ -9,7 +9,7 @@ var isUndefined = require( "lodash/isUndefined" );
 var getIndicatorForScore = require( "./analysis/getIndicatorForScore" );
 var TabManager = require( "./analysis/tabManager" );
 
-var tmceHelper = require( "./wp-seo-tinymce" );
+var tinyMCEHelper = require( "./wp-seo-tinymce" );
 
 var tinyMCEDecorator = require( "./decorator/tinyMCE" ).tinyMCEDecorator;
 var publishBox = require( "./ui/publishBox" );
@@ -111,7 +111,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		}
 
 		return function( paper, marks ) {
-			if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
+			if ( tinyMCEHelper.isTinyMCEAvailable( tmceId ) ) {
 				if ( null === decorator ) {
 					decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
 				}
@@ -302,11 +302,12 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		window.YoastSEO.app = app;
 
 		// Init Plugins.
-		YoastSEO.wp = {};
-		YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
-		YoastSEO.wp.shortcodePlugin = shortcodePlugin;
+		window.YoastSEO.wp = {};
+		window.YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
+		window.YoastSEO.wp.shortcodePlugin = shortcodePlugin;
 
 		window.YoastSEO.wp._tabManager = tabManager;
+		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
 	}
 
 	/**
@@ -360,7 +361,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
 
-		tmceHelper.wpTextViewOnInitCheck();
+		tinyMCEHelper.wpTextViewOnInitCheck();
 
 		activateEnabledAnalysis( tabManager );
 
