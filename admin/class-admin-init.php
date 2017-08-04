@@ -480,6 +480,9 @@ class WPSEO_Admin_Init {
 			if ( WPSEO_Utils::is_yoast_seo_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
 				$this->register_i18n_promo_class();
 				$this->register_premium_upsell_admin_block();
+
+				// Checks whether a translation promo notice needs to be added or removed.
+				do_action( 'wpseo_admin_i18n_promo' );
 			}
 		}
 	}
@@ -507,7 +510,7 @@ class WPSEO_Admin_Init {
 			array(
 				'textdomain'  => 'wordpress-seo',
 				'plugin_name' => 'Yoast SEO',
-				'hook'        => 'init',
+				'hook'        => 'wpseo_admin_i18n_promo',
 			)
 		);
 	}
