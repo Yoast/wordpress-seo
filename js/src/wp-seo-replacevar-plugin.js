@@ -36,9 +36,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		this.registerEvents();
 	};
 
-	/**
-	 * GENERIC
-	 */
+	/* GENERIC */
 
 	/**
 	 * Registers all the placeholders and their replacements.
@@ -233,9 +231,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		this._app.pluginReloaded( "replaceVariablePlugin" );
 	};
 
-	/**
-	 * TAXONOMIES
-	 */
+	/* TAXONOMIES */
 
 	/**
 	 * Gets the taxonomy name from categories.
@@ -363,9 +359,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		return jQuery.unique( filtered ).join( ", " );
 	};
 
-	/**
-	 * CUSTOM FIELDS
-	 */
+	/* CUSTOM FIELDS */
 
 	/**
 	 * Get the custom fields that are available on the current page and adds them to the placeholders.
@@ -468,9 +462,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		}.bind( this ) );
 	};
 
-	/**
-	 * SPECIALIZED REPLACES
-	 */
+	/* SPECIALIZED REPLACES */
 
 	/**
 	 * Replaces %%term_title%% with the title of the term.
@@ -529,9 +521,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		return parentText;
 	};
 
-	/**
-	 * STATIC VARIABLES
-	 */
+	/* STATIC VARIABLES */
 
 	/**
 	 * Exposes the ReplaceVar class for functionality of plugins integrating.
