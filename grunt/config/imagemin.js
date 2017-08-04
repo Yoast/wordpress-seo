@@ -6,7 +6,7 @@ module.exports = {
 			// this would require the addition of a assets folder from which the images are
 			// processed and put inside the images folder
 			cwd: "<%= paths.images %>",
-			src: [ "*.*" ],
+			src: [ "*.*", "!*.gif" ],
 			dest: "<%= paths.images %>",
 			isFile: true,
 		} ],

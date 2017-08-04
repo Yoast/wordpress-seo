@@ -74,6 +74,7 @@ artifact:
 
 # Get the project ready for release
 release:
+  - 'build:images'
   - 'release:css'
   - 'release:js'
   - 'build:i18n'
