@@ -32,7 +32,7 @@ test( "Button executes callback", () => {
 
 test( "the SnippetPreviewButton matches the snapshot", () => {
 	const component = renderer.create(
-		<Button>ButtonValue</Button>
+		<SnippetPreviewButton>ButtonValue</SnippetPreviewButton>
 	);
 
 	let tree = component.toJSON();
@@ -41,11 +41,11 @@ test( "the SnippetPreviewButton matches the snapshot", () => {
 
 test( "SnippetPreviewButton executes callback", () => {
 	const component = renderer.create(
-		<Button onClick={
+		<SnippetPreviewButton onClick={
 			() => {
 				return "clicked";
 			}
-		}>ButtonValue</Button>
+		}>ButtonValue</SnippetPreviewButton>
 	);
 
 	let tree = component.toJSON();
