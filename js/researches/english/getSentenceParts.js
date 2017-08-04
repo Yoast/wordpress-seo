@@ -45,7 +45,6 @@ var getVerbsEndingInIng = function( sentence ) {
 var getSentenceBreakers = function( sentence ) {
 	sentence = sentence.toLocaleLowerCase();
 	var auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
-
 	var stopwordIndices = getIndicesOfList( stopwords, sentence );
 
 	var ingVerbs = getVerbsEndingInIng( sentence );
@@ -87,7 +86,6 @@ var getSentenceParts = function( sentence ) {
 	}
 
 	var indices = getSentenceBreakers( sentence );
-
 	// Get the words after the found auxiliary.
 	for ( var i = 0; i < indices.length; i++ ) {
 		var endIndex = sentence.length;
@@ -99,7 +97,6 @@ var getSentenceParts = function( sentence ) {
 		var sentencePart = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
 
 		var auxiliaryMatches = getAuxiliaryMatches(  sentencePart );
-
 		// If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
 		if ( auxiliaryMatches.length !== 0 ) {
 			sentenceParts.push( new SentencePart( sentencePart, auxiliaryMatches ) );
