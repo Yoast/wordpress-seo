@@ -49,6 +49,7 @@ jobs:
         - yarn global add grunt-cli
         - yarn install
       deploy:
+        skip_cleanup: true
         provider: s3
         access_key_id: AKIAJRNLQAPRL5UKDJKQ
         secret_access_key:
