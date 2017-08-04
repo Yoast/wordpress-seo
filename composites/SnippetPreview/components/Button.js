@@ -20,20 +20,7 @@ export const Button = styled.button`
 	font-size: inherit;
 	font-family: inherit;
 	font-weight: inherit;
-
-	::-moz-focus-inner {
-		border-width: 0;
-		padding: 0;
-	}
-
-	:focus {
-		border-color: #5b9dd9;
-		outline: none;
-		color: #23282d;
-		background-color: #fafafa;
-		box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
-	}
-}
+	outline: none;
 `;
 
 Button.defaultProps = {
@@ -51,3 +38,26 @@ export const SnippetPreviewButton = styled( Button )`
 	line-height: 15px;
 	font-size: 0.8rem;
 `;
+
+/**
+ * Returns a component with applied focus styles
+ *
+ * @param {ReactElement} component The original component
+ *
+ * @returns {ReactElement} Component with applied focus styles
+ */
+export function focus( component ) {
+	return styled( component )`
+		&::-moz-focus-inner {
+			border-width: 0;
+			padding: 0;
+		}
+
+		&:focus {
+			border-color: #5b9dd9;
+			color: #23282d;
+			background-color: #fafafa;
+			box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+		}
+	`;
+}
