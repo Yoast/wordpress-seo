@@ -74,6 +74,12 @@ cache:
     - $HOME/.composer/cache
     - node_modules
 
+before_cache:
+  # Delete node-sass because caching it will make is unusable on Travis in the cached run. It has to install bindings.
+  - rm -rf node_modules/node-sass
+  - rm -rf node_modules/gifsicle
+  - rm -rf node_modules/optipng-bin
+
 before_install:
 - if [[ "$CHECKJS" == "1" ]]; then nvm install $TRAVIS_NODE_VERSION; fi
 - if [[ "$CHECKJS" == "1" ]]; then curl -o- -L https://yarnpkg.com/install.sh | bash; fi
