@@ -7084,7 +7084,7 @@ yauzl@^2.2.1:
 
 "yoastseo@https://github.com/yoast/yoastseo.js#release/1.20":
   version "1.19.0"
-  resolved "https://github.com/yoast/yoastseo.js#843ba749f2192b06fcfc7e019b098e3ebd3ddf35"
+  resolved "https://github.com/yoast/yoastseo.js#72398b37e0b84a2b91b82b23ac3e5ca27f432330"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
