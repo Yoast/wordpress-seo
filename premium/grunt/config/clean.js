@@ -10,4 +10,7 @@ module.exports = {
 		"<%= paths.js %>/dist/*.js",
 		"<%= paths.css %>/*.css",
 	],
+	artifact: [
+		"artifact",
+	],
 };
