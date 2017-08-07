@@ -32,8 +32,6 @@ matrix:
     # WP >= 4.8 is needed for PHP 7.1
     - php: 7.1
       env: WP_VERSION=4.8
-    - php: hhvm
-      env: WP_VERSION=4.8
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
@@ -43,7 +41,6 @@ matrix:
   allow_failures:
     # Allow failures for unstable builds.
     - php: nightly
-    - php: hhvm
     - env: WP_VERSION=master
 
 cache:
