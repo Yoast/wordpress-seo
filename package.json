@@ -27,7 +27,6 @@
   "dependencies": {
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "algoliasearch": "^3.22.3",
-    "grunt-scss-to-json": "^1.0.1",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "prop-types": "^15.5.10",
@@ -70,7 +69,7 @@
     "webpack": "^3.2.0",
     "webpack-dev-server": "^2.5.1"
   },
-  "optionalDepdendencies": {
+  "optionalDependencies": {
     "grunt-scss-to-json": "^1.0.1"
   },
   "peerDependencies": {
