@@ -98,7 +98,7 @@ class UrlStructure {
 	 */
 	_buildVariablePart( data, urlPartConfig ) {
 		if ( ! data.hasOwnProperty( urlPartConfig.name ) ) {
-			throw new TypeError( `Data doesn't have required property "${urlPartConfig.name}"` );
+			throw new TypeError( 'Data doesn\'t have required property "' + urlPartConfig.name + '"' );
 		}
 
 		return data[ urlPartConfig.name ];
