@@ -13,6 +13,8 @@ module.exports = function( grunt ) {
 	// Define project configuration
 	var project = {
 		pluginVersion: pluginVersion,
+		pluginSlug: "wordpress-seo",
+		pluginMainFile: "wp-seo.php",
 		paths: {
 			get config() {
 				return this.grunt + "config/";
