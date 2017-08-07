@@ -45,6 +45,7 @@ jobs:
       before_script: skip
       script: "grunt artifact -vvv"
       before_install: skip
+      after_success: skip
       install:
         - yarn global add grunt-cli
         - yarn install
