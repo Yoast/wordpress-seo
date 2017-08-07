@@ -199,15 +199,15 @@ const shortcodeEndRegex = new RegExp( "\\[/" + shortcodeNameMatcher + "\\]", "g"
 	 * @returns {boolean} True when shortcode is not parsed yet.
 	 */
 	YoastShortcodePlugin.prototype.isUnparsedShortcode = function( shortcode ) {
-		var already_exists = false;
+		var alreadyExists = false;
 
 		for ( var i = 0; i < this.parsedShortcodes.length; i++ ) {
 			if ( this.parsedShortcodes[ i ].shortcode === shortcode ) {
-				already_exists = true;
+				alreadyExists = true;
 			}
 		}
 
-		return already_exists === false;
+		return alreadyExists === false;
 	};
 
 	/**

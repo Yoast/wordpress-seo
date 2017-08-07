@@ -24,12 +24,12 @@ var termsTmceId = "description";
 	/**
 	 * Gets content from the content field by element id.
 	 *
-	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
+	 * @param {String} contentID The (HTML) id attribute for the TinyMCE field.
 	 *
 	 * @returns {String} The tinyMCE content.
 	 */
-	function tinyMCEElementContent( content_id ) {
-		return document.getElementById( content_id ) && document.getElementById( content_id ).value || "";
+	function tinyMCEElementContent( contentID ) {
+		return document.getElementById( contentID ) && document.getElementById( contentID ).value || "";
 	}
 
 	/**
@@ -92,17 +92,17 @@ var termsTmceId = "description";
 	/**
 	 * Returns the value of the content field via TinyMCE object, or ff tinyMCE isn't initialized via the content element id.
 	 * Also converts 'amp;' to & in the content.
-	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
+	 * @param {String} contentID The (HTML) id attribute for the TinyMCE field.
 	 * @returns {String} Content from the TinyMCE editor.
 	 */
-	function getContentTinyMce( content_id ) {
+	function getContentTinyMce( contentID ) {
 		// if no TinyMce object available
 		var content = "";
-		if ( isTinyMCEAvailable( content_id ) === false || isTinyMCEBodyAvailable( content_id ) === false ) {
-			content = tinyMCEElementContent( content_id );
+		if ( isTinyMCEAvailable( contentID ) === false || isTinyMCEBodyAvailable( contentID ) === false ) {
+			content = tinyMCEElementContent( contentID );
 		}
 		else {
-			content = tinyMCE.get( content_id ).getContent();
+			content = tinyMCE.get( contentID ).getContent();
 		}
 
 		return convertHtmlEntities( content );

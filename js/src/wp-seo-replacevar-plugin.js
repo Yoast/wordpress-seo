@@ -479,9 +479,9 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * @returns {string} The data with all its placeholders replaced by actual values.
 	 */
 	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
-		var term_title = this._app.rawData.name;
+		var termTitle = this._app.rawData.name;
 
-		data = data.replace( /%%term_title%%/g, term_title );
+		data = data.replace( /%%term_title%%/g, termTitle );
 
 		return data;
 	};
