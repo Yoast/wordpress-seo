@@ -316,16 +316,16 @@
         },
         {
             "name": "yoast/wp-helpscout",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/wp-helpscout.git",
-                "reference": "6df28e99330039c205ceba3aafec77ada5cd9417"
+                "reference": "00c6d777497c935af76ba1b4962823165139bbbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/wp-helpscout/zipball/6df28e99330039c205ceba3aafec77ada5cd9417",
-                "reference": "6df28e99330039c205ceba3aafec77ada5cd9417",
+                "url": "https://api.github.com/repos/Yoast/wp-helpscout/zipball/00c6d777497c935af76ba1b4962823165139bbbc",
+                "reference": "00c6d777497c935af76ba1b4962823165139bbbc",
                 "shasum": ""
             },
             "type": "library",
@@ -349,7 +349,7 @@
                 }
             ],
             "description": "A package to integrate the helpscout beacon into WordPress",
-            "time": "2016-07-14T09:16:23+00:00"
+            "time": "2017-08-03T07:48:33+00:00"
         }
     ],
     "packages-dev": [
