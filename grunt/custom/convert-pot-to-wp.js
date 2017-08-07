@@ -1,5 +1,5 @@
 let gettextParser = require( "gettext-parser" );
-let _forEach = require( "lodash/foreach" );
+let _forEach = require( "lodash/forEach" );
 let _isEmpty = require( "lodash/isempty" );
 
 let TAB = "\t";
