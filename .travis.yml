@@ -43,7 +43,7 @@ jobs:
       env: WP_VERSION=master
     - stage: 🚀 deployment
       before_script: skip
-      script: grunt artifact
+      script: grunt artifact -vvv
       before_install: skip
       install:
         - yarn global add grunt-cli
