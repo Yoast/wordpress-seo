@@ -233,7 +233,9 @@ var ReplaceVar = require( "./values/replaceVar" );
 		this._app.pluginReloaded( "replaceVariablePlugin" );
 	};
 
-	/* TAXONOMIES */
+	/*
+	 * TAXONOMIES
+	 */
 
 	/**
 	 * Gets the taxonomy name from categories.
