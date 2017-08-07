@@ -65,3 +65,20 @@ If you discover any security related issues, please email security [at] yoast.co
 ## License
 
 We follow the GPL. Please see [License](LICENSE) file for more information.
+
+## Developing within `wordpress-seo`<sup>1</sup>
+<sup>1. With some minor tweaks this can also be used to develop yoast-components within other projects</sup>
+
+If you would like to develop `yoast-components` within the `wordpress-seo` plugin, you can do this quite easily using [`yarn`](https://yarnpkg.com/lang/en/).
+
+1. First you need to delete the `node_modules` folder in both your `yoast-components` and `wordpress-seo` project.
+2. Now link your `yoast-components` project to `wordpress-seo` using the command line:
+    1. In your `yoast-components` project run `yarn link`.
+    2. In your `wordpress-seo` project run `yarn link "yoast-components"`.
+3. Install dependencies in `wordpress-seo`: `yarn install`.
+
+Now you can make development easier by having `grunt` watch your files:
+1. In `wordpress-seo` open `Gruntfile.js`.
+2. Within the configuration object `project`, add the following line to `paths>files>js[]`:
+    `node_modules/yoast-components/**/*.js`
+3. Run `grunt watch`
