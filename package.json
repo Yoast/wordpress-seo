@@ -79,6 +79,6 @@
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
     "yoast-components": "https://github.com/Yoast/yoast-components#develop",
-    "yoastseo": "https://github.com/yoast/yoastseo.js#master"
+    "yoastseo": "https://github.com/Yoast/YoastSEO.js#stories/fix-gettext-template-string"
   }
 }

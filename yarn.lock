@@ -7644,6 +7644,16 @@ yauzl@^2.2.1:
     styled-components "^2.1.1"
     whatwg-fetch "^1.0.0"
 
+"yoastseo@https://github.com/Yoast/YoastSEO.js#stories/fix-gettext-template-string":
+  version "1.19.0"
+  resolved "https://github.com/Yoast/YoastSEO.js#5e9397255f8e1e8c7030f9baa32b4854a140ac24"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    lodash "^4.14.1"
+    sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"
+
 "yoastseo@https://github.com/yoast/yoastseo.js#master":
   version "1.19.0"
   resolved "https://github.com/yoast/yoastseo.js#f169b12353335386a876d76ce45f6832dcc13d56"
