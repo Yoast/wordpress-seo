@@ -51,7 +51,7 @@ jobs:
         bucket: yoast-seo-builds
         region: us-east-1
         local-dir: artifact
-        upload-dir: branch-$TRAVIS_BRANCH
+        upload-dir: $TRAVIS_BRANCH
         on:
           repo: Yoast/wordpress-seo
           all_branches: true
