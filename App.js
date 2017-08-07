@@ -1,3 +1,5 @@
+import "babel-polyfill";
+
 import React from "react";
 
 import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
