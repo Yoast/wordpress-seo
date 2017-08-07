@@ -2,12 +2,6 @@ language: php
 dist: trusty
 sudo: false
 
-branches:
-  only:
-    - master
-    - trunk
-    - stories/build-stages
-
 addons:
   apt:
     sources:
@@ -43,7 +37,7 @@ jobs:
       env: WP_VERSION=master
     - stage: 🚀 deployment
       before_script: skip
-      script: "grunt artifact -vvv"
+      script: grunt artifact
       before_install: skip
       install:
         - yarn global add grunt-cli
@@ -55,11 +49,12 @@ jobs:
         secret_access_key:
           secure: TE13B5MDyw16DxEIRpbXPtxb1LZAzi8jdCU4FZuTzNsdVaowlAXUEFFB+g8uapoQhJKqvZrwvrpqifRPhH0tcRlJ5Z0A+qWp8WhiFGmipp3gJBblacviAIvswGzKFN8+DgQVwHSKpzk3ZjEkDkH/KYq6OTYPL/g5oRwsjI0Ug9w=
         bucket: yoast-seo-builds
+        region: us-east-1
         local-dir: artifact
-        upload-dir: yoast-seo
+        upload-dir: branch-$TRAVIS_BRANCH
         on:
           repo: Yoast/wordpress-seo
-          branch: stories/build-stages
+          all_branches: true
   allow_failures:
     # Allow failures for unstable builds.
     - php: nightly
