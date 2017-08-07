@@ -156,7 +156,8 @@
 
 		return instance;
 	};
-	window.bulkEditor = bulkEditor;
+	// eslint-disable-next-line
+	window.bulk_editor = bulkEditor;
 
 	jQuery( document ).ready( function() {
 		var parentTables = jQuery( 'table[class*="wpseo_bulk"]' );
