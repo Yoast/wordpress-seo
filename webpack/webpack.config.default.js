@@ -42,7 +42,6 @@ const defaultWebpackConfig = {
 };
 
 const defaults = ( config ) => {
-	console.log( _defaultsDeep( defaultWebpackConfig, config ) );
 	return _defaultsDeep( defaultWebpackConfig, config );
 };
 
