@@ -195,6 +195,9 @@ class WPSEO_Premium {
 			// Add Premium imports.
 			new WPSEO_Premium_Import_Manager();
 
+			// Add Premium exports.
+			new WPSEO_Premium_Export_Manager();
+
 			// Only activate post and term watcher if permalink structure is enabled.
 			if ( get_option( 'permalink_structure' ) ) {
 				add_action( 'admin_init', array( $this, 'init_watchers' ) );
