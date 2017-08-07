@@ -42,10 +42,8 @@ export default class InputField extends React.Component {
 						<Editor
 							editorState={ this.state.editorState }
 							onChange={ this.onChange.bind( this ) }
-							handlePastedText= { this.handlePastedText.bind( this ) }
 							placeholder={ this.props.placeholder }
 							ref="editor"
-							handleReturn={ () => "handled" }
 						/>
 					</EditorContainer>
 				</div>
@@ -55,18 +53,6 @@ export default class InputField extends React.Component {
 
 	onChange( editorState ) {
 		this.setState( { editorState } );
-	}
-
-	handlePastedText( text ) {
-		this.onChange( EditorState.push(
-			this.state.editorState,
-			Modifier.replaceText(
-				this.state.editorState.getCurrentContent(),
-				this.state.editorState.getSelection(),
-				text.replace( /\n|\r/g, " " )
-			)
-		) );
-		return "handled";
 	}
 
 	focus() {
