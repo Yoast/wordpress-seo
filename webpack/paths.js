@@ -7,6 +7,7 @@ const cssDistPath = path.resolve( "css", "dist" );
 
 // Output filename: Entry file (relative to jsSrcPath)
 const entryAll = {
+	"configuration-wizard": "./configuration-wizard.js",
 	"wp-seo-admin-global": "./wp-seo-admin-global.js",
 	"wp-seo-admin-gsc": "./wp-seo-admin-gsc.js",
 	"wp-seo-admin-media": "./wp-seo-admin-media.js",
@@ -23,8 +24,6 @@ const entryAll = {
 	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
 	"wp-seo-shortcode-plugin": "./wp-seo-shortcode-plugin.js",
 	"wp-seo-term-scraper": "./wp-seo-term-scraper.js",
-	// "wp-seo-tinymce": "./wp-seo-tinymce.js",
-	// "wp-seo-markdown-plugin": "./wp-seo-markdown-plugin.js",
 };
 
 // Output filename: Entry file (relative to jsSrcPath)
