@@ -63,7 +63,7 @@ function get_rendered_tab( $table, $id ) {
 <script>
 	var wpseoBulkEditorNonce = '<?php echo wp_create_nonce( 'wpseo-bulk-editor' ); ?>';
 
-	// eslint-ignore-next-line
+	// eslint-disable-next-line
 	var wpseo_bulk_editor_nonce = wpseoBulkEditorNonce;
 </script>
 

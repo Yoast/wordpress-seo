@@ -36,6 +36,7 @@ jQuery( function() {
 			// Get the control that opened the modal dialog.
 			$gscModalFocusedBefore = jQuery( this );
 			// Call Thickbox now and bind `this`. The Thickbox UI is now available.
+			// eslint-disable-next-line
 			tb_click.call( this );
 
 			// Get the Thickbox modal elements.
@@ -116,6 +117,7 @@ function wpseoSendMarkAsFixed( nonce, platform, category, url ) {
 		ajaxurl,
 		{
 			action: "wpseo_mark_fixed_crawl_issue",
+			// eslint-disable-next-line
 			ajax_nonce: nonce,
 			platform: platform,
 			category: category,
@@ -148,6 +150,8 @@ function wpseoMarkAsFixed( url ) {
 	);
 }
 
+/* eslint-disable camelcase */
 window.wpseo_update_category_count = wpseoUpdateCategoryCount;
 window.wpseo_mark_as_fixed = wpseoMarkAsFixed;
 window.wpseo_send_mark_as_fixed = wpseoSendMarkAsFixed;
+/* eslint-enable camelcase */

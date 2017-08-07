@@ -4,6 +4,7 @@
 import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 ( function( $ ) {
+	// eslint-disable-next-line
 	window.wpseo_init_tabs = function() {
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
 			jQuery( ".wpseo-metabox-tabs" )

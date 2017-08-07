@@ -14,6 +14,7 @@ jQuery( document ).ready(
 
 		$( ".wpseo_image_upload_button" ).each( function( index, element ) {
 			var wpseoTargetId = $( element ).attr( "id" ).replace( /_button$/, "" );
+			// eslint-disable-next-line
 			var wpseoCustomUploader = wp.media.frames.file_frame = wp.media( {
 				title: wpseoMediaL10n.choose_image,
 				button: { text: wpseoMediaL10n.choose_image },

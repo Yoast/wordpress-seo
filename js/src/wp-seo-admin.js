@@ -106,6 +106,7 @@ import a11ySpeak from "a11y-speak";
 	function wpseoKillBlockingFiles( nonce ) {
 		jQuery.post( ajaxurl, {
 			action: "wpseo_kill_blocking_files",
+			// eslint-disable-next-line
 			_ajax_nonce: nonce,
 		} ).done( function( response ) {
 			var noticeContainer = jQuery( ".yoast-notice-blocking-files" ),
@@ -250,6 +251,7 @@ import a11ySpeak from "a11y-speak";
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
+	// eslint-disable-next-line
 	window.wpseo_add_fb_admin = wpseoAddFbAdmin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
 

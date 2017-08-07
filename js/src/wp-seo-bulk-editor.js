@@ -46,6 +46,7 @@
 						return;
 					}
 
+					/* eslint-disable camelcase */
 					var data = {
 						action: saveMethod,
 						_ajax_nonce: wpseoBulkEditorNonce,
@@ -53,6 +54,7 @@
 						new_value: newValue,
 						existing_value: currentValue,
 					};
+					/* eslint-enable camelcase */
 
 					jQuery.post( ajaxurl, data, instance.handleResponse );
 				}
@@ -63,6 +65,7 @@
 
 				var data = {
 					action: saveAllMethod,
+					// eslint-disable-next-line
 					_ajax_nonce: wpseoBulkEditorNonce,
 				};
 
