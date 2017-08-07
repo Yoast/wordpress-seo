@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { AppContainer } from "react-hot-loader";
 
 import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import Config from "./composites/OnboardingWizard/config/production-config";
@@ -85,4 +86,4 @@ class App extends React.Component {
 	}
 }
 
-ReactDOM.render( <App />, document.getElementById( 'container' ) );
+export default App;
