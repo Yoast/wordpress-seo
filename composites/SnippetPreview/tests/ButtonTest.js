@@ -1,11 +1,11 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { Button, SnippetPreviewButton } from "../components/Button";
+import { BaseButton, SnippetPreviewButton } from "../components/Button";
 
 test( "the Button matches the snapshot", () => {
 	const component = renderer.create(
-		<Button>ButtonValue</Button>
+		<BaseButton>ButtonValue</BaseButton>
 	);
 
 	let tree = component.toJSON();
@@ -14,11 +14,11 @@ test( "the Button matches the snapshot", () => {
 
 test( "Button executes callback", () => {
 	const component = renderer.create(
-		<Button onClick={
+		<BaseButton onClick={
 			() => {
 				return "clicked";
 			}
-		}>ButtonValue</Button>
+		}>ButtonValue</BaseButton>
 	);
 
 	let tree = component.toJSON();
