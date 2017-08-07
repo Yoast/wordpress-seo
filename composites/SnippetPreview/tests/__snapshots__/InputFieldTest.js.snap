@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the logo matches the snapshot 1`] = `
+exports[`the input field matches the snapshot 1`] = `
 <div
   className="sc-bdVaJa jIBrAg"
   onClick={[Function]}
@@ -13,7 +13,7 @@ exports[`the logo matches the snapshot 1`] = `
     >
       <div
         className="public-DraftEditorPlaceholder-inner"
-        id="placeholder-jvdo"
+        id="placeholder-1mn8j"
       >
         placeholder
       </div>
@@ -24,7 +24,7 @@ exports[`the logo matches the snapshot 1`] = `
       <div
         aria-activedescendant={undefined}
         aria-autocomplete={undefined}
-        aria-describedby="placeholder-jvdo"
+        aria-describedby="placeholder-1mn8j"
         aria-expanded={undefined}
         aria-haspopup={undefined}
         aria-label={undefined}
@@ -73,15 +73,15 @@ exports[`the logo matches the snapshot 1`] = `
           <div
             className=""
             data-block={true}
-            data-editor="jvdo"
-            data-offset-key="1jh0i-0-0"
+            data-editor="1mn8j"
+            data-offset-key="7pmh2-0-0"
           >
             <div
               className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"
-              data-offset-key="1jh0i-0-0"
+              data-offset-key="7pmh2-0-0"
             >
               <span
-                data-offset-key="1jh0i-0-0"
+                data-offset-key="7pmh2-0-0"
                 style={Object {}}
               >
                 <br
