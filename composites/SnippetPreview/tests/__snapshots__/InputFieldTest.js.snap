@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the logo matches the snapshot 1`] = `
+<div
+  style={
+    Object {
+      "fontFamily": "Arial, Helvetica, sans-serif",
+      "fontSize": 14,
+    }
+  }
+>
+  <div
+    onClick={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "border": "1px solid",
+        "borderColor": "#ddd",
+        "cursor": "text",
+        "height": 16,
+        "margin": "5px 1px 1px 1px",
+        "overflow": "hidden",
+        "padding": "3px 5px",
+        "width": "20%",
+      }
+    }
+  >
+    <div
+      className="sc-bdVaJa hPAemK"
+    >
+      <div
+        className="DraftEditor-root"
+      >
+        <div
+          className="public-DraftEditorPlaceholder-root"
+        >
+          <div
+            className="public-DraftEditorPlaceholder-inner"
+            id="placeholder-c2do4"
+          >
+            placeholder
+          </div>
+        </div>
+        <div
+          className="DraftEditor-editorContainer"
+        >
+          <div
+            aria-activedescendant={undefined}
+            aria-autocomplete={undefined}
+            aria-describedby="placeholder-c2do4"
+            aria-expanded={undefined}
+            aria-haspopup={undefined}
+            aria-label={undefined}
+            aria-owns={undefined}
+            autoCapitalize={undefined}
+            autoComplete={undefined}
+            autoCorrect={undefined}
+            className="notranslate public-DraftEditor-content"
+            contentEditable={true}
+            data-testid={undefined}
+            onBeforeInput={[Function]}
+            onBlur={[Function]}
+            onCompositionEnd={[Function]}
+            onCompositionStart={[Function]}
+            onCopy={[Function]}
+            onCut={[Function]}
+            onDragEnd={[Function]}
+            onDragEnter={[Function]}
+            onDragLeave={[Function]}
+            onDragOver={[Function]}
+            onDragStart={[Function]}
+            onDrop={[Function]}
+            onFocus={[Function]}
+            onInput={[Function]}
+            onKeyDown={[Function]}
+            onKeyPress={[Function]}
+            onKeyUp={[Function]}
+            onMouseUp={[Function]}
+            onPaste={[Function]}
+            onSelect={[Function]}
+            role="textbox"
+            spellCheck={false}
+            style={
+              Object {
+                "outline": "none",
+                "whiteSpace": "pre-wrap",
+                "wordWrap": "break-word",
+              }
+            }
+            suppressContentEditableWarning={true}
+            tabIndex={undefined}
+          >
+            <div
+              data-contents="true"
+            >
+              <div
+                className=""
+                data-block={true}
+                data-editor="c2do4"
+                data-offset-key="7d1b5-0-0"
+              >
+                <div
+                  className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"
+                  data-offset-key="7d1b5-0-0"
+                >
+                  <span
+                    data-offset-key="7d1b5-0-0"
+                    style={Object {}}
+                  >
+                    <br
+                      data-text="true"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
