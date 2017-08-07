@@ -6,8 +6,7 @@ const jsSrcPath = path.resolve( "js", "src" );
 const cssDistPath = path.resolve( "css", "dist" );
 
 // Output filename: Entry file (relative to jsSrcPath)
-const entry = {
-	"configuration-wizard": "./configuration-wizard.js",
+const entryAll = {
 	"wp-seo-admin-global": "./wp-seo-admin-global.js",
 	"wp-seo-admin-gsc": "./wp-seo-admin-gsc.js",
 	"wp-seo-admin-media": "./wp-seo-admin-media.js",
@@ -28,8 +27,14 @@ const entry = {
 	// "wp-seo-markdown-plugin": "./wp-seo-markdown-plugin.js",
 };
 
+// Output filename: Entry file (relative to jsSrcPath)
+const entry = {
+	"configuration-wizard": "./configuration-wizard.js",
+}
+
 module.exports = {
-	entry: entry,
+	entry,
+	entryAll,
 	jsDist: jsDistPath,
 	jsSrc: jsSrcPath,
 	cssDist: cssDistPath,

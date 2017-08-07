@@ -1,6 +1,8 @@
 /* global require */
-const webpackConfig = require( "../../webpack/webpack.config.prod" );
+const webpackConfigProd = require( "../../webpack/webpack.config.prod" );
+const webpackConfigDev = require( "../../webpack/webpack.config.dev" );
 
 module.exports = {
-	build: webpackConfig
+	buildDev: webpackConfigDev,
+	buildProd: webpackConfigProd,
 };

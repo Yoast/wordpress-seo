@@ -1,8 +1,8 @@
 /* global require, module */
 const defaults = require( "./webpack.config.default" ).defaults;
 
-const prodConfig = {
-	devtool: "cheap-module-source-map",
+const devConfig ={
+	devtool: "eval",
 };
 
-module.exports = defaults( prodConfig );
+module.exports = defaults( devConfig );
