@@ -250,7 +250,7 @@ import a11ySpeak from "a11y-speak";
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
-	window.wpseoAddFbAdmin = wpseoAddFbAdmin;
+	window.wpseo_add_fb_admin = wpseoAddFbAdmin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
