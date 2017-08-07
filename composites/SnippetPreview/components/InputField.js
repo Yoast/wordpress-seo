@@ -1,5 +1,6 @@
+import PropTypes from "prop-types";
 import React from "react";
-import { EditorState, Modifier, Editor } from "draft-js";
+import { EditorState, Editor } from "draft-js";
 import colors from "../../../style-guide/colors.json";
 import styled from "styled-components";
 
@@ -59,3 +60,11 @@ export default class InputField extends React.Component {
 		this.refs.editor.focus();
 	}
 }
+
+InputField.propTypes = {
+	placeholder: PropTypes.string,
+};
+
+InputField.defaultProps = {
+	placeholder: "",
+};
