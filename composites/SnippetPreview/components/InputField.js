@@ -4,26 +4,18 @@ import { EditorState, Editor } from "draft-js";
 import colors from "../../../style-guide/colors.json";
 import styled from "styled-components";
 
-const styles = {
-	root: {
-		fontFamily: "Arial, Helvetica, sans-serif",
-		fontSize: 14,
-	},
-	editor: {
-		cursor: "text",
-		height: 16,
-		border: "1px solid",
-		borderColor: colors.$color_grey,
-		width: "20%",
-		padding: "3px 5px",
-		margin: "5px 1px 1px 1px",
-		backgroundColor: colors.$color_white,
-		overflow: "hidden",
-	},
-};
-
-const EditorContainer = styled.div`
-    .public-DraftStyleDefault-block {
+const InputFieldContainer = styled.div`
+	cursor: text;
+	height: 16px;
+	border: 1px solid ${ colors.$color_grey };
+	width: 100%;
+	padding: 3px 5px;
+	margin: 5px 1px 1px 1px;
+	background-color: ${ colors.$color_white };
+	overflow: hidden;
+	font-size: 14px;
+	font-style: inherit;
+	.public-DraftStyleDefault-block {
         white-space: nowrap;
         word-wrap: normal;
     }
@@ -37,18 +29,14 @@ export default class InputField extends React.Component {
 
 	render() {
 		return (
-			<div style={ styles.root }>
-				<div style={ styles.editor } onClick={ this.focus.bind( this ) }>
-					<EditorContainer>
-						<Editor
-							editorState={ this.state.editorState }
-							onChange={ this.onChange.bind( this ) }
-							placeholder={ this.props.placeholder }
-							ref="editor"
-						/>
-					</EditorContainer>
-				</div>
-			</div>
+			<InputFieldContainer onClick={ this.focus.bind( this ) }>
+				<Editor
+					editorState={ this.state.editorState }
+					onChange={ this.onChange.bind( this ) }
+					placeholder={ this.props.placeholder }
+					ref="editor"
+				/>
+			</InputFieldContainer>
 		);
 	}
 
