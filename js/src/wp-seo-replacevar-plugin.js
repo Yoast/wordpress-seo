@@ -36,7 +36,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		this.registerEvents();
 	};
 
-	/**
+	/*
 	 * GENERIC
 	 */
 
@@ -233,7 +233,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		this._app.pluginReloaded( "replaceVariablePlugin" );
 	};
 
-	/**
+	/*
 	 * TAXONOMIES
 	 */
 
@@ -363,7 +363,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		return jQuery.unique( filtered ).join( ", " );
 	};
 
-	/**
+	/*
 	 * CUSTOM FIELDS
 	 */
 
@@ -468,7 +468,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		}.bind( this ) );
 	};
 
-	/**
+	/*
 	 * SPECIALIZED REPLACES
 	 */
 
@@ -528,6 +528,13 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 		return parentText;
 	};
+
+	/*
+	 * STATIC VARIABLES
+	 */
+
+	// Exposes the ReplaceVar class for functionality of plugins integrating.
+	YoastReplaceVarPlugin.ReplaceVar = ReplaceVar;
 
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
 }() );
