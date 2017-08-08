@@ -46,11 +46,7 @@ class WPSEO_Premium_Export_Manager {
 	 * Hijacks the request and returns a CSV file if we're on the right page with the right method and the right capabilities.
 	 */
 	public function redirects_csv_export() {
-		if (
-			filter_input( INPUT_GET, 'page' ) == 'wpseo_tools' &&
-			filter_input( INPUT_GET, 'tool' ) == 'import-export' &&
-			filter_input( INPUT_POST, 'export') && current_user_can('export')
-		) {
+		if ( $this->is_valid_csv_export_request() && current_user_can('export')	) {
 			// Check if we have a valid nonce.
 			check_admin_referer( 'wpseo-export' );
 
@@ -64,18 +60,25 @@ class WPSEO_Premium_Export_Manager {
 			echo $this->get_csv_contents();
 
 			// And exit so we don't start appending HTML to our CSV file.
+			// NOTE: this makes this entire class untestable as it will exit all tests but WordPress seems to have no elegant way of handling this.
 			exit();
 		}
 	}
 
-	private function set_csv_headers() {
+	protected function is_valid_csv_export_request() {
+		return filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' &&
+		       filter_input( INPUT_GET, 'tool' ) === 'import-export' &&
+		       filter_input( INPUT_POST, 'export' );
+	}
+
+	protected function set_csv_headers() {
 		header( 'Content-type: text/csv' );
 		header( 'Content-Disposition: attachment; filename=wordpress-seo-redirects.csv' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 	}
 
-	private function get_csv_contents() {
+	protected function get_csv_contents() {
 		// Grab all our redirects.
 		$redirect_manager = new WPSEO_Redirect_Manager();
 		$redirects = $redirect_manager->get_all_redirects();

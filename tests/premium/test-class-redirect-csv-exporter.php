@@ -33,7 +33,7 @@ class WPSEO_Redirect_CSV_Exporter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Apache_Exporter::export
 	 */
 	public function test_export_empty() {
-		$class_instance = new WPSEO_Redirect_Apache_Exporter();
+		$class_instance = new WPSEO_Redirect_CSV_Exporter();
 
 		// Match any combination of word characters and commas in the headers and a single new-line.
 		$this->assertRegExp( '/\A[\w,]+\n\Z/i', $class_instance->export( array() ) );
