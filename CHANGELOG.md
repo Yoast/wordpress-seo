@@ -9,6 +9,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Added
 * Adds a filter for word combinations that consist of a single one-character word.
 
+### Fixed
+* Fixes a bug where the passive voice and transition word assessments were broken when the passive voice sentence breaker or the transition word was preceded by a word containing the same string of letters.
+
 ## 1.19.0: July 25th, 2017
 ### Added
 * Adds additional English transition words.
