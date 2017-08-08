@@ -1,7 +1,11 @@
+import React from "react";
 import styled from "styled-components";
 import _flow from "lodash/flow";
-import colors from "../../../../style-guide/colors.json";
-import { rgba } from "../../../../style-guide/helpers";
+import PropTypes from "prop-types";
+
+import { rgba } from "../../../style-guide/helpers";
+import colors from "../../../style-guide/colors.json";
+import { Icon } from "./Icon";
 
 /**
  * Returns a component with applied focus styles.
@@ -82,6 +86,7 @@ export const BaseButton = addButtonStyles(
 		background: ${ colors.$color_button };
 		box-shadow: 0 1px 0 ${ rgba( colors.$color_button_border, 1 ) };
 		vertical-align: top;
+		float: left;
 		display: inline-block;
 		text-decoration: none;
 		padding: 6px 10px 5px;
@@ -91,6 +96,8 @@ export const BaseButton = addButtonStyles(
 		font-size: inherit;
 		font-family: inherit;
 		font-weight: inherit;
+		outline: none;
+		min-height: 33px;
 	`
 );
 
@@ -108,4 +115,35 @@ BaseButton.defaultProps = {
 export const SnippetPreviewButton = styled( BaseButton )`
 	line-height: 15px;
 	font-size: 0.8rem;
+	
+	> span {
+		margin-left: 8px;
+	}
 `;
+
+/**
+ * Returns an icon button that can optionally contain text.
+ *
+ * @param {object} props Component props.
+ *
+ * @returns {ReactElement} Styled icon button.
+ */
+export const IconButton = ( props ) => {
+	const { children, icon, iconColor } = props;
+	return (
+		<SnippetPreviewButton { ...props } >
+			<Icon icon={ icon } color={ iconColor } />
+			{ children ? <span>{ children }</span> : null }
+		</SnippetPreviewButton>
+	);
+};
+
+IconButton.propTypes = {
+	icon: PropTypes.string,
+	iconColor: PropTypes.string,
+	children: PropTypes.string,
+};
+
+IconButton.defaultProps = {
+	icon: "edit",
+};
