@@ -73,6 +73,7 @@ artifact:
 # Get the project ready for release
 release:
   - 'build:images'
+  - 'clean:build-assets'
   - 'release:css'
   - 'release:js'
   - 'build:i18n'
@@ -88,6 +89,10 @@ release:
 'deploy:trunk':
   - artifact
   - wp_deploy:trunk
+
+'deploy:master':
+  - artifact
+  - wp_deploy:master
 
 # Default task
 default:
