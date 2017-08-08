@@ -255,7 +255,6 @@ function wpseo_admin_bar_menu() {
 	if ( $user_is_admin_or_networkadmin ) {
 
 		$advanced_settings = wpseo_advanced_settings_enabled( $options );
-		$license_page_title = WPSEO_Utils::is_yoast_seo_premium() ? __( 'Premium', 'wordpress-seo' ) : __( 'Go Premium', 'wordpress-seo' ) . ' ' . $this->get_premium_indicator();
 
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-menu',
@@ -310,7 +309,7 @@ function wpseo_admin_bar_menu() {
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-licenses',
-			'title'  => $license_page_title,
+			'title'  => __( 'Premium', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_licenses' ),
 		) );
 	}
