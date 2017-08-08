@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { EditorState, Editor } from "draft-js";
+import { EditorState, Editor, Modifier } from "draft-js";
 import colors from "../../../style-guide/colors.json";
 import styled from "styled-components";
 
@@ -32,9 +32,11 @@ export default class InputField extends React.Component {
 			<InputFieldContainer onClick={ this.focus.bind( this ) }>
 				<Editor
 					editorState={ this.state.editorState }
+					handlePastedText= { this.handlePastedText.bind( this ) }
 					onChange={ this.onChange.bind( this ) }
 					placeholder={ this.props.placeholder }
 					ref="editor"
+					handleReturn={ () => "handled" }
 				/>
 			</InputFieldContainer>
 		);
@@ -46,6 +48,18 @@ export default class InputField extends React.Component {
 
 	focus() {
 		this.refs.editor.focus();
+	}
+
+	handlePastedText( text ) {
+		this.onChange( EditorState.push(
+			this.state.editorState,
+			Modifier.replaceText(
+				this.state.editorState.getCurrentContent(),
+				this.state.editorState.getSelection(),
+				text.replace( /\n/g, " " )
+			)
+		) );
+		return "handled";
 	}
 }
 
