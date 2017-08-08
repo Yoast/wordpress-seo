@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the input field matches the snapshot 1`] = `
+<div
+  className="sc-bdVaJa jIBrAg"
+  onClick={[Function]}
+>
+  <div
+    className="DraftEditor-root"
+  >
+    <div
+      className="public-DraftEditorPlaceholder-root"
+    >
+      <div
+        className="public-DraftEditorPlaceholder-inner"
+        id="placeholder-test"
+      >
+        placeholder
+      </div>
+    </div>
+    <div
+      className="DraftEditor-editorContainer"
+    >
+      <div
+        aria-activedescendant={undefined}
+        aria-autocomplete={undefined}
+        aria-describedby="placeholder-test"
+        aria-expanded={undefined}
+        aria-haspopup={undefined}
+        aria-label={undefined}
+        aria-owns={undefined}
+        autoCapitalize={undefined}
+        autoComplete={undefined}
+        autoCorrect={undefined}
+        className="notranslate public-DraftEditor-content"
+        contentEditable={true}
+        data-testid={undefined}
+        onBeforeInput={[Function]}
+        onBlur={[Function]}
+        onCompositionEnd={[Function]}
+        onCompositionStart={[Function]}
+        onCopy={[Function]}
+        onCut={[Function]}
+        onDragEnd={[Function]}
+        onDragEnter={[Function]}
+        onDragLeave={[Function]}
+        onDragOver={[Function]}
+        onDragStart={[Function]}
+        onDrop={[Function]}
+        onFocus={[Function]}
+        onInput={[Function]}
+        onKeyDown={[Function]}
+        onKeyPress={[Function]}
+        onKeyUp={[Function]}
+        onMouseUp={[Function]}
+        onPaste={[Function]}
+        onSelect={[Function]}
+        role="textbox"
+        spellCheck={false}
+        style={
+          Object {
+            "outline": "none",
+            "whiteSpace": "pre-wrap",
+            "wordWrap": "break-word",
+          }
+        }
+        suppressContentEditableWarning={true}
+        tabIndex={undefined}
+      >
+        <div
+          data-contents="true"
+        >
+          <div
+            className=""
+            data-block={true}
+            data-editor="test"
+            data-offset-key="test-0-0"
+          >
+            <div
+              className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"
+              data-offset-key="test-0-0"
+            >
+              <span
+                data-offset-key="test-0-0"
+                style={Object {}}
+              >
+                <br
+                  data-text="true"
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
