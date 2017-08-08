@@ -78,6 +78,6 @@ class WPSEO_Redirect_CSV_Exporter_Test extends WPSEO_UnitTestCase {
 	 * @param int $rows Number of values expected.
 	 */
 	private function expectNumberOfCsvValues( $csv, $rows ) {
-		$this->assertEquals( $rows,	preg_match_all( $this->csvRegex, $csv )	);
+		$this->assertEquals( $rows,	preg_match_all( $this->csvRegex, $csv, $matches )	);
 	}
 }
