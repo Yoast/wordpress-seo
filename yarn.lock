@@ -7070,9 +7070,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-"yoast-components@https://github.com/yoast/yoast-components#release/2.8":
-  version "2.7.1"
-  resolved "https://github.com/yoast/yoast-components#601b37699b8506f863e545cb7b1829f230d8f700"
+yoast-components@^2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.8.0.tgz#9b5157e685d3117eb96e1c6a6e806b0f32afa683"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     algoliasearch "^3.22.3"
@@ -7081,6 +7081,16 @@ yauzl@^2.2.1:
     prop-types "^15.5.10"
     styled-components "^2.1.1"
     whatwg-fetch "^1.0.0"
+
+"yoastseo@https://github.com/yoast/yoastseo.js#1.20.0":
+  version "1.20.0"
+  resolved "https://github.com/yoast/yoastseo.js#01f71bfb402b8cdb369f89ea2c94b7be596f1fa1"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    lodash "^4.14.1"
+    sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"
 
 "yoastseo@https://github.com/yoast/yoastseo.js#release/1.20":
   version "1.19.0"
