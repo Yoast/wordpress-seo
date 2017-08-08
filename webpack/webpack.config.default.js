@@ -3,8 +3,7 @@ const webpack = require( "webpack" );
 const UnminifiedWebpackPlugin = require( "unminified-webpack-plugin" );
 
 const paths = require( "./paths" );
-const pluginVersionSlug = require( "./version" ).pluginVersionSlug;
-const outputFilename = `[name]-${pluginVersionSlug}.min.js`;
+const outputFilename = "[name]-<%= pluginVersionSlug %>.min.js";
 
 const defaultWebpackConfig = {
 	devtool: "eval",
