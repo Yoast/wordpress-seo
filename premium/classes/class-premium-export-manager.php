@@ -96,7 +96,7 @@ class WPSEO_Premium_Export_Manager {
 		$redirects = $redirect_manager->get_all_redirects();
 
 		// Generate our CSV file.
-		$redirect_csv_exporter = new WPSEO_Redirect_CSV_Exporter();
-		return $redirect_csv_exporter->export( $redirects );
+		$csv_exporter = new WPSEO_Redirect_CSV_Exporter();
+		return $csv_exporter->export( $redirects );
 	}
 }
