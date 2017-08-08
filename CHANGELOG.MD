@@ -5,6 +5,16 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.8.0: August 8th, 2017
+
+### Added
+
+* Adds aria-current to the onboarding wizard active step.
+
+### Fixed
+
+* Removes console errors caused by using React.PropTypes and React.createClass. 
+
 ## 2.7.1: July 25th, 2017
 
 ### Changed

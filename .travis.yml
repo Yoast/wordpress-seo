@@ -1,13 +1,13 @@
 language: node_js
 node_js:
-  - node
+- node
 
 sudo: false
 
 cache:
   yarn: true
   directories:
-    - node_modules
+  - node_modules
 
 install:
 - yarn global add grunt-cli
@@ -24,3 +24,12 @@ after_success:
 notifications:
   slack:
     secure: W3StABr+AdcdQawTObK4nbsnn5nLrTTtZfVpD/GEN6gvSOQcykbGEC5+ceYg0jn5b4StDyCiTo5blEsrpVICFpYKc44+ogah+qaGRUfVRS/rpOvn4AueXTWn4JxhZzuxqKMiTmyW+MQG0uYM7sk7Q5S+15jj6ilkj4QATaBVNbY=
+
+deploy:
+  provider: npm
+  email: email@atimmer.com
+  api_key:
+    secure: HlfvASEndZGHvSep3ET6uatVZQeUmrKHUowbVtgMzGyD/xU82lG8YTIbSGatba+N7YP2VypZ+OdfWIPmL3pWjaEZOPj2eyPuShLkPwzdU7B7U65aiDJoz3CNAzlyw2HMK7Iq5HaAOQDlZ6np2kSdzeLFeErDJwkhZjykk0biwB5AA7UFsfuNwbHp6smTvbuo2GSf8NcI/cHe9ty2QWbBjFEMsA4vdAWc2uLBHBIYwHrHz58VIgbrXdd51V0X2xGhu40zJwIenpTg4gjOnoqDtt3X5ihC2bpIDg0uHzBb/m53narxFh1lt9KjjTkEgifJWfmVs352QdPsCFSz4tC8y9cm9Wus1TAG3HFGGTYGJjcraHv0WwWrdZV2xTeTxT+WKjpoPorNhsqYHTDPwt+dLs8f6cm4xq5gekqUXLUwWuEPJokYAJzgcS2OAJnBDVSxvNl3P28zG3mBPeZ79Rn3Fz2lq3KlCYVWdio8Sg985M+R57DsBgTwir3KJf5J2k12JqcjBmBPVXXgQbe33wtAOE/zjGNyuIHXhwKCE3dqRq3LVM2R1dX0rR9RZgJ1I/s5jXVKP4WHe8K8XwTnZpWAbshYQprpbKADjzIpVB6D+5wAd0oOvlPsEui1JzsAsu8GA+CbhHjb8NMSPEZXlN22Uv27zAZG9HURXCJnuC0qYNI=
+  on:
+    tags: true
+    repo: Yoast/yoast-components
