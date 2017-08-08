@@ -50,7 +50,7 @@
     "grunt-postcss": "^0.8.0",
     "grunt-replace": "^1.0.1",
     "grunt-rtlcss": "^2.0.1",
-    "grunt-sass": "^1.1.0",
+    "grunt-sass": "^2.0.0",
     "grunt-shell": "^1.1.2",
     "grunt-webpack": "^3.0.2",
     "grunt-wp-css": "cedaro/grunt-wp-css#develop",
@@ -66,7 +66,7 @@
     "webpack": "^3.4.1"
   },
   "optionalDependencies": {
-    "grunt-contrib-imagemin": "^1.0.0"
+    "grunt-contrib-imagemin": "^2.0.1"
   },
   "dependencies": {
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
@@ -78,7 +78,7 @@
     "material-ui": "^0.15.4",
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
-    "yoast-components": "^2.7.1",
-    "yoastseo": "https://github.com/yoast/yoastseo.js#master"
+    "yoast-components": "https://github.com/Yoast/yoast-components#develop",
+    "yoastseo": "https://github.com/Yoast/YoastSEO.js#develop"
   }
 }

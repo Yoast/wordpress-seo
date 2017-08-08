@@ -4,7 +4,7 @@
 
 var Jed = require( "jed" );
 var Paper = require( "yoastseo/js/values/Paper" );
-var SEOAssessor = require( "yoastseo/js/SEOAssessor" );
+var SEOAssessor = require( "yoastseo/js/seoAssessor" );
 var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
 var isUndefined = require( "lodash/isUndefined" );
 
