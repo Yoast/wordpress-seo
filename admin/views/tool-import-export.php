@@ -85,15 +85,15 @@ if ( $import ) {
 $tabs = array(
 	'wpseo-import' => array(
 		'label'                => __( 'Import settings', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
 	),
 	'wpseo-export' => array(
 		'label'                => __( 'Export settings', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
 	),
 	'import-seo'   => array(
 		'label'                => __( 'Import from other SEO plugins', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
 	),
 );
 

@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 5.1\n"
+"Project-Id-Version: Yoast SEO 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-07-25 06:54:45+00:00\n"
+"POT-Creation-Date: 2017-08-08 08:23:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -216,34 +216,28 @@ msgstr ""
 
 #: admin/banner/class-admin-banner-sidebar.php:342
 msgid ""
-"Take the online Keyword Research Training course and learn how to rank with "
-"your keywords!"
-msgstr ""
-
-#: admin/banner/class-admin-banner-sidebar.php:352
-msgid ""
 "Take the online Site Structure Training course and learn how to structure "
 "your website!"
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:362
+#: admin/banner/class-admin-banner-sidebar.php:352
 msgid ""
 "Take the online Technical SEO Training course and learn essential technical "
 "SEO-concepts!"
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:372
+#: admin/banner/class-admin-banner-sidebar.php:362
 msgid ""
 "Take the online Structured Data Training course and learn how to create rich "
 "snippets!"
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:387
+#: admin/banner/class-admin-banner-sidebar.php:377
 msgid "Remove these ads?"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO Premium
-#: admin/banner/class-admin-banner-sidebar.php:393
+#: admin/banner/class-admin-banner-sidebar.php:383
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
@@ -316,7 +310,7 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to the actual filter/action that has been used.
-#: admin/class-admin-init.php:509
+#: admin/class-admin-init.php:511
 msgid "%s filter/action"
 msgstr ""
 
@@ -997,6 +991,11 @@ msgstr ""
 #: admin/class-recalculate-scores.php:45
 msgid ""
 "Recalculating SEO scores for all pieces of content with a focus keyword."
+msgstr ""
+
+#. translators: %1$s expands to the request method
+#: admin/class-remote-request.php:67
+msgid "Request method %1$s is not valid."
 msgstr ""
 
 #. translators: %s expands to the social network's name
@@ -2109,9 +2108,9 @@ msgid ""
 "your texts.\n"
 "\t\t\t\t\tAll you have to do is press the following button and we'll go "
 "through all your texts for you.\n"
-"\t\t\t\t\t\n"
+"\n"
 "\t\t\t\t\t%3$sCount links%4$s\n"
-"\t\t\t\t\t\n"
+"\n"
 "\t\t\t\t\tThe Text link counter feature provides insights in how many links "
 "are found in your text and how many links are referring to your text. This "
 "is very helpful when you are improving your %1$sinternal linking%2$s."
@@ -2460,7 +2459,9 @@ msgstr ""
 
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
 #. the link
-#: admin/onpage/class-onpage.php:116 admin/views/dashboard-widget.php:67
+#. translators: %1$s: opens a link to a related knowledge base article. %2$s:
+#. closes the link.
+#: admin/onpage/class-onpage.php:117 admin/views/dashboard-widget.php:67
 msgid ""
 "%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad "
 "for SEO and should be fixed."
@@ -2978,7 +2979,7 @@ msgid ""
 "any to start improving some of your posts!"
 msgstr ""
 
-#. translators: 1: expands to OnPage.org
+#. translators: %1$s expands to Ryte.
 #: admin/views/dashboard-widget.php:47
 msgid "Indexability check by %1$s"
 msgstr ""
@@ -2987,24 +2988,24 @@ msgstr ""
 msgid "Your homepage can be indexed by search engines."
 msgstr ""
 
-#. translators: %1$s opens a link to a related knowledge base article, %2$s
-#. expands to Yoast SEO, %3$s closes the link.
+#. translators: %1$s: opens a link to a related knowledge base article, %2$s:
+#. expands to Yoast SEO, %3$s: closes the link, %4$s: expands to Ryte.
 #: admin/views/dashboard-widget.php:76
 msgid ""
 "%1$s%2$s has not been able to fetch your site's indexability status%3$s from "
-"OnPage.org"
+"%4$s"
 msgstr ""
 
-#. translators: %s expands to Yoast SEO.
-#: admin/views/dashboard-widget.php:86
-msgid "%s has not fetched your site's indexability status yet from OnPage.org"
+#. translators: %1$s: expands to Yoast SEO, %2$s: expands to Ryte.
+#: admin/views/dashboard-widget.php:87
+msgid "%1$s has not fetched your site's indexability status yet from %2$s"
 msgstr ""
 
-#: admin/views/dashboard-widget.php:97
+#: admin/views/dashboard-widget.php:99
 msgid "Fetch the current status"
 msgstr ""
 
-#: admin/views/dashboard-widget.php:100
+#: admin/views/dashboard-widget.php:102
 msgid "Analyze entire site"
 msgstr ""
 
@@ -3400,11 +3401,7 @@ msgid ""
 "descriptions, social metadata, sitemaps and much more."
 msgstr ""
 
-#: admin/views/tabs/dashboard/features.php:29
-msgid "OnPage.org"
-msgstr ""
-
-#. translators: %1$s expands to OnPage.org
+#. translators: %1$s expands to Ryte.
 #: admin/views/tabs/dashboard/features.php:32
 msgid ""
 "The %1$s integration checks daily if your site is still indexable by search "
@@ -4169,7 +4166,7 @@ msgstr ""
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1243
+#: frontend/class-frontend.php:1252
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -4813,6 +4810,10 @@ msgstr ""
 
 #: vendor/yoast/license-manager/views/form.php:84
 msgid "%sRenew your license now%s."
+msgstr ""
+
+#: vendor/yoast/whip/src/facades/wordpress.php:29
+msgid "Remind me again in 4 weeks."
 msgstr ""
 
 #: vendor/yoast/whip/src/messages/Whip_HostMessage.php:54
@@ -5589,73 +5590,73 @@ msgstr ""
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:286
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:287
 msgid "Next step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:285
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:286
 msgid "Next"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:276
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:277
 msgid "Previous step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:275
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:276
 msgid "Previous"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:245
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:246
 msgid "Close the Wizard"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:170
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:171
 msgid ""
 "A problem occurred when saving the current step, {{link}}please file a bug "
 "report{{/link}} describing what step you are on and which changes you want "
 "to make (if any)."
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/StepIndicator.js:48
+#: yoast-components/composites/OnboardingWizard/StepIndicator.js:50
 msgid "Step %1$d: %2$s"
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:67
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:68
 msgid "Close search result form"
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:46
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:47
 msgid "Please provide a meta description by editing it here."
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:45
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:44
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:46
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:45
 msgid "Meta description preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:44
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:45
 msgid "Slug preview: "
+msgstr ""
+
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:44
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:43
+msgid "This is an example title - edit by clicking here"
 msgstr ""
 
 #: yoast-components/composites/SearchResultForm/SearchResultForm.js:43
 #: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:42
-msgid "This is an example title - edit by clicking here"
-msgstr ""
-
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:42
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:41
 msgid "SEO title preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:40
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:41
 msgid "Search Result Form"
 msgstr ""
 
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:43
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:44
 msgid "URL preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:39
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:40
 msgid "Search Result Preview"
 msgstr ""
 

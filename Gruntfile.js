@@ -8,11 +8,13 @@ module.exports = function( grunt ) {
 
 	timeGrunt( grunt );
 
-	let pluginVersion = "5.1";
+	let pluginVersion = "5.2";
 
 	// Define project configuration
 	var project = {
 		pluginVersion: pluginVersion,
+		pluginSlug: "wordpress-seo",
+		pluginMainFile: "wp-seo.php",
 		paths: {
 			get config() {
 				return this.grunt + "config/";
