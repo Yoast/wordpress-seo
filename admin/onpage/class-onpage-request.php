@@ -4,8 +4,9 @@
  */
 
 /**
- * This class will fetch a new status from OnPage.org and if it's necessary it will notify the site admin by email and
- * remove the current meta value for hidding the notice for all admin users
+ * This class will fetch a new status from Ryte and if it's necessary it will
+ * notify the site admin by email and remove the current meta value to hide the
+ * notice for all admin users.
  */
 class WPSEO_OnPage_Request {
 
@@ -18,7 +19,7 @@ class WPSEO_OnPage_Request {
 	 * Doing the remote get and returns the body
 	 *
 	 * @param string $target_url The home url.
-	 * @param array  $parameters Array of extra parameters to send to OnPage.
+	 * @param array  $parameters Array of extra parameters to send to Ryte.
 	 *
 	 * @return array
 	 * @throws Exception The error message that can be used to show to the user.
@@ -44,17 +45,17 @@ class WPSEO_OnPage_Request {
 	}
 
 	/**
-	 * Sending a request to OnPage to check if the $home_url is indexable
+	 * Sending a request to Ryte to check if the $home_url is indexable.
 	 *
 	 * @param string $target_url The URL that will be send to the API.
-	 * @param array  $parameters Array of extra parameters to send to OnPage.
+	 * @param array  $parameters Array of extra parameters to send to Ryte.
 	 *
 	 * @return array
 	 */
 	public function do_request( $target_url, $parameters = array() ) {
 		$json_body = $this->get_remote( $target_url, $parameters );
 
-		// OnPage.org recognized a redirect, fetch the data of that URL by calling this method with the value from OnPage.org.
+		// Ryte recognized a redirect, fetch the data of that URL by calling this method with the value from Ryte.
 		if ( ! empty( $json_body['passes_juice_to'] ) ) {
 			return $this->do_request( $json_body['passes_juice_to'], $parameters );
 		}

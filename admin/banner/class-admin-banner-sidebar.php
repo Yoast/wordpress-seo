@@ -335,16 +335,6 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$courses_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				WPSEO_Shortlinker::get( 'https://yoa.st/jx' ),
-				'keyword-research-training.png',
-				261,
-				152,
-				__( 'Take the online Keyword Research Training course and learn how to rank with your keywords!', 'wordpress-seo' )
-			)
-		);
-
-		$courses_spot->add_banner(
-			new WPSEO_Admin_Banner(
 				WPSEO_Shortlinker::get( 'https://yoa.st/qy' ),
 				'site-structure-training.png',
 				261,

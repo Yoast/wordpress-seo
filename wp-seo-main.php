@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '5.1' );
+define( 'WPSEO_VERSION', '5.2' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -397,7 +397,7 @@ register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 
-// Loading OnPage integration.
+// Loading Ryte integration.
 new WPSEO_OnPage();
 
 

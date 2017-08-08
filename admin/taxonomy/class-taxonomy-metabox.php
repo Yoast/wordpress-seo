@@ -55,7 +55,7 @@ class WPSEO_Taxonomy_Metabox {
 		echo '<div class="inside">';
 
 		$helpcenter_tab = new WPSEO_Option_Tab( 'tax-metabox', 'Meta box',
-			array( 'video_url' => 'https://yoa.st/metabox-taxonomy-screencast' ) );
+			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-taxonomy-screencast' ) ) );
 
 		$helpcenter = new WPSEO_Help_Center( 'tax-metabox', $helpcenter_tab );
 		$helpcenter->output_help_center();
