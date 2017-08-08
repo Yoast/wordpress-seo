@@ -78,12 +78,7 @@
     "material-ui": "^0.15.4",
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
-<<<<<<< HEAD
     "yoast-components": "https://github.com/Yoast/yoast-components#develop",
     "yoastseo": "https://github.com/Yoast/YoastSEO.js#develop"
-=======
-    "yoast-components": "^2.8.0",
-    "yoastseo": "https://github.com/yoast/yoastseo.js#1.20.0"
->>>>>>> master
   }
 }
