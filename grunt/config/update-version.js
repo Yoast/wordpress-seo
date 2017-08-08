@@ -17,7 +17,7 @@ module.exports = {
 			preVersionMatch: "$1",
 			postVersionMatch: "$4",
 		},
-		src: "wp-seo.php",
+		src: "wp-seo-premium.php",
 	},
 	initializer: {
 		options: {
@@ -26,5 +26,13 @@ module.exports = {
 			postVersionMatch: "$4",
 		},
 		src: "wp-seo-main.php",
+	},
+	premiumClass: {
+		options: {
+			regEx: /(const PLUGIN_VERSION_NAME = )(\')(\d\d?(\.\d\d?){0,3})(\'.*?\n)/,
+			preVersionMatch: "$1$2",
+			postVersionMatch: "$5",
+		},
+		src: "premium/class-premium.php",
 	},
 };
