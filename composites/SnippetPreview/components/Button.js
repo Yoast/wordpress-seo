@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import colors from "../../../style-guide/colors.json";
+import { rgba } from "../../../style-guide/helpers";
 
 /**
- * Returns a component with applied focus styles
+ * Returns a component with applied focus styles.
  *
- * @param {ReactElement} component The original component
+ * @param {ReactElement} component The original component.
  *
- * @returns {ReactElement} Component with applied focus styles
+ * @returns {ReactElement} Component with applied focus styles.
  */
 export function addFocusStyle( component ) {
 	return styled( component )`
@@ -18,7 +19,7 @@ export function addFocusStyle( component ) {
 			outline: none;
 			border-color: ${ colors.$color_blue };
 			background-color: ${ colors.$color_white };
-			box-shadow: 0 0 3px ${ colors.$palette_blue_dark };
+			box-shadow: 0 0 3px ${ rgba( `${ colors.$color_blue_dark }`, .8 ) };
 		}
 	`;
 }

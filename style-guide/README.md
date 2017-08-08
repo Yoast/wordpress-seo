@@ -11,6 +11,14 @@ Design guidelines for use within different Yoast projects. Includes a shiny colo
 - platform specific colors (e.g. WordPress focus style) shouldn't be part of the palette or hardcoded in reusable components
 - add new colors only if they're really needed: if they're used just once or twice, they're probably not needed
 
+## Helper functions:
+- for use in the JS components, the `rgba()` function can be used to output a CSS rgba color. Usage examples:
+```
+${ rgba( "#ff0000", .8 ) }
+${ rgba( "#f00", .8 ) }
+${ rgba( `${ colors.$color_red }`, .8 ) }
+```
+
 ## Removed/replaced colors:
 ```
 $color_border: #f7f7f7;					renamed in $color_border_light: #f7f7f7;
