@@ -11,9 +11,11 @@
 
 class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 
+
 	protected $headers = 'Origin,Target,Type,Format';
+
 	/**
-	 * Exports an array of redirects.
+	 * Exports an array of redirects to a CSV string.
 	 *
 	 * @param WPSEO_Redirect[] $redirects The redirects to export.
 	 *
@@ -24,7 +26,9 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 
 		if ( ! empty( $redirects ) ) {
 			foreach ( $redirects as $redirect ) {
-				$csv .= $this->format( $redirect ) . PHP_EOL;
+				if ( $redirect instanceof WPSEO_Redirect ) {
+					$csv .= $this->format( $redirect ) . PHP_EOL;
+				}
 			}
 		}
 
@@ -32,7 +36,7 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 	}
 
 	/**
-	 * Formats a redirect for use in the export.
+	 * Formats a redirect for use in the export, returns a line of CSV.
 	 *
 	 * @param WPSEO_Redirect $redirect The redirect to format.
 	 *
@@ -40,8 +44,10 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 	 */
 	public function format( WPSEO_Redirect $redirect ) {
 		return join(',', array(
-			(string) $redirect->get_origin(),
-			(string) $redirect->get_target(),
+			// Potentially take into account weird URLs containing commas.
+			// NOTE: sanitize_url does not allow double quotes but does allow commas.
+			'"' . (string) $redirect->get_origin() . '"',
+			'"' . (string) $redirect->get_target() . '"',
 			(string) $redirect->get_type(),
 			(string) $redirect->get_format()
 		));

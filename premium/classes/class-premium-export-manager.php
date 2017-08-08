@@ -21,10 +21,9 @@ class WPSEO_Premium_Export_Manager {
 	}
 
 	/**
-	 * Outputs a tab header for the CSV export block
+	 * Outputs a tab header for the CSV export block.
 	 */
 	public function redirects_export_header() {
-		/* translators: %s: 'export' file name */
 		if ( current_user_can( 'export' ) ) {
 			echo '<a class="nav-tab" id="export-redirects-tab" href="#top#export-redirects">' .
 			        __( 'Export redirects', 'wordpress-seo-premium' ) .
@@ -33,7 +32,7 @@ class WPSEO_Premium_Export_Manager {
 	}
 
 	/**
-	 * Adding the import block for htaccess. Makes it able to import redirects from htaccess
+	 * Adding the export block for CSV. Makes it able to export redirects to CSV.
 	 */
 	public function add_redirect_export_block() {
 		// Display the forms.
@@ -50,7 +49,7 @@ class WPSEO_Premium_Export_Manager {
 			// Check if we have a valid nonce.
 			check_admin_referer( 'wpseo-export' );
 
-			// Clean any content that has been already output. For example by other plugins or faulty PHP files.
+			// Clean any content that has been already outputted, for example by other plugins or faulty PHP files.
 			if ( ob_get_contents() ) {
 				ob_clean();
 			}
@@ -65,12 +64,20 @@ class WPSEO_Premium_Export_Manager {
 		}
 	}
 
+	/**
+	 * Are we on the wpseo_tools page in the import-export tool and have we received an export post request?
+	 *
+	 * @return bool
+	 */
 	protected function is_valid_csv_export_request() {
 		return filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' &&
 		       filter_input( INPUT_GET, 'tool' ) === 'import-export' &&
 		       filter_input( INPUT_POST, 'export' );
 	}
 
+	/**
+	 * Sets the headers to trigger an CSV download in the browser.
+	 */
 	protected function set_csv_headers() {
 		header( 'Content-type: text/csv' );
 		header( 'Content-Disposition: attachment; filename=wordpress-seo-redirects.csv' );
@@ -78,6 +85,11 @@ class WPSEO_Premium_Export_Manager {
 		header( 'Expires: 0' );
 	}
 
+	/**
+	 * Generates CSV from all redirects.
+	 *
+	 * @return string
+	 */
 	protected function get_csv_contents() {
 		// Grab all our redirects.
 		$redirect_manager = new WPSEO_Redirect_Manager();
