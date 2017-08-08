@@ -24,9 +24,7 @@ build:
   - 'copy:dependencies'
   - 'browserify:build'
   - 'uglify'
-'build-webpack:js':
-  - 'copy:dependencies'
-  - 'webpack:build'
+  - 'webpack:buildDev'
 
 # Build internationalisation features
 'build:i18n':
@@ -85,6 +83,7 @@ release:
   - 'copy:dependencies'
   - 'browserify:release-es6'
   - 'uglify'
+  - 'webpack:buildProd'
 
 'deploy:trunk':
   - artifact
