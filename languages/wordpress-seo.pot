@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 5.1\n"
+"Project-Id-Version: Yoast SEO 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-08-01 08:36:49+00:00\n"
+"POT-Creation-Date: 2017-08-08 08:23:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4812,6 +4812,10 @@ msgstr ""
 msgid "%sRenew your license now%s."
 msgstr ""
 
+#: vendor/yoast/whip/src/facades/wordpress.php:29
+msgid "Remind me again in 4 weeks."
+msgstr ""
+
 #: vendor/yoast/whip/src/messages/Whip_HostMessage.php:54
 msgid "A message from %1$s"
 msgstr ""
@@ -4871,11 +4875,6 @@ msgid ""
 "recommended %3$sWordPress hosting partners%4$s, they've all been vetted by "
 "our Yoast support team and provide all the features a modern host should "
 "provide."
-msgstr ""
-
-#. translators: 1: is a link to dismiss url 2: closing link tag
-#: vendor/yoast/whip/src/presenters/Whip_WPMessagePresenter.php:51
-msgid "<p>%1$sRemind me again after the next WordPress release.%2$s</p>"
 msgstr ""
 
 #: wp-seo-main.php:432

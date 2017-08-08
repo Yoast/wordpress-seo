@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a3cd76eb5fd79b9eec2550220c24a3e",
+    "content-hash": "690d09bc7d6adc820344845ae1e0197a",
     "packages": [
         {
             "name": "composer/installers",
@@ -274,16 +274,16 @@
         },
         {
             "name": "yoast/whip",
-            "version": "1.1.0-RC2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/whip.git",
-                "reference": "a6823f414ee482501827a100047fa4ecd8c18908"
+                "reference": "f66106f5030a8f426ea2f0314bae814862336db1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/whip/zipball/a6823f414ee482501827a100047fa4ecd8c18908",
-                "reference": "a6823f414ee482501827a100047fa4ecd8c18908",
+                "url": "https://api.github.com/repos/Yoast/whip/zipball/f66106f5030a8f426ea2f0314bae814862336db1",
+                "reference": "f66106f5030a8f426ea2f0314bae814862336db1",
                 "shasum": ""
             },
             "require": {
@@ -312,20 +312,20 @@
                 }
             ],
             "description": "A WordPress package to nudge users to upgrade their software versions (starting with PHP)",
-            "time": "2017-08-04T08:45:13+00:00"
+            "time": "2017-08-04T10:00:35+00:00"
         },
         {
             "name": "yoast/wp-helpscout",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/wp-helpscout.git",
-                "reference": "6df28e99330039c205ceba3aafec77ada5cd9417"
+                "reference": "00c6d777497c935af76ba1b4962823165139bbbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/wp-helpscout/zipball/6df28e99330039c205ceba3aafec77ada5cd9417",
-                "reference": "6df28e99330039c205ceba3aafec77ada5cd9417",
+                "url": "https://api.github.com/repos/Yoast/wp-helpscout/zipball/00c6d777497c935af76ba1b4962823165139bbbc",
+                "reference": "00c6d777497c935af76ba1b4962823165139bbbc",
                 "shasum": ""
             },
             "type": "library",
@@ -349,7 +349,7 @@
                 }
             ],
             "description": "A package to integrate the helpscout beacon into WordPress",
-            "time": "2016-07-14T09:16:23+00:00"
+            "time": "2017-08-03T07:48:33+00:00"
         }
     ],
     "packages-dev": [

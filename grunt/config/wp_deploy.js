@@ -3,12 +3,23 @@
 module.exports = {
 	trunk: {
 		options: {
-			plugin_slug: "wordpress-seo",
+			plugin_slug: "<%= pluginSlug %>",
 			build_dir: "artifact",
-			plugin_main_file: "wp-seo.php",
+			plugin_main_file: "<%= pluginMainFile %>",
 			deploy_trunk: true,
 			deploy_tag: false,
-			max_buffer: 3000 * 1024, // Equals about 3MB
+			// Equals about 3MB.
+			max_buffer: 3000 * 1024,
+		},
+	},
+	master: {
+		options: {
+			plugin_slug: "<%= pluginSlug %>",
+			build_dir: "artifact",
+			plugin_main_file: "<%= pluginMainFile %>",
+			deploy_trunk: true,
+			deploy_tag: true,
+			max_buffer: 3000 * 1024,
 		},
 	},
 };
