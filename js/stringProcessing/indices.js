@@ -1,7 +1,8 @@
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
+var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" ).isWordInSentence;
+var characterInBoundary = require( "../stringProcessing/matchWordInSentence.js" ).characterInBoundary;
 
 /**
  * Returns the indices of a string in a text. If it is found multiple times, it will return multiple indices.
@@ -15,12 +16,19 @@ function getIndicesByWord( word, text ) {
 	var searchStringLength = word.length;
 	var index, indices = [];
 	while ( ( index = text.indexOf( word, startIndex ) ) > -1 ) {
-		indices.push(
-			{
-				index: index,
-				match: word,
-			}
-		);
+		// Check if the previous and next character are word boundaries to determine if a complete word was detected
+		var isPreviousCharacterWordBoundary = characterInBoundary( text[ index - 1 ] ) || index === 0;
+
+		var isNextCharacterWordBoundary = characterInBoundary( text[ index + searchStringLength ] ) || ( text.length === index + searchStringLength );
+
+		if ( isPreviousCharacterWordBoundary &&  isNextCharacterWordBoundary ) {
+			indices.push(
+				{
+					index: index,
+					match: word,
+				}
+			);
+		}
 		startIndex = index + searchStringLength;
 	}
 	return indices;
@@ -44,7 +52,6 @@ var getIndicesByWordList = function( words, text ) {
 		}
 		matchedWords = matchedWords.concat( getIndicesByWord( word, text ) );
 	} );
-
 	return matchedWords;
 };
 

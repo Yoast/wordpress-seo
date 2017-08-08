@@ -1,8 +1,8 @@
 var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDoubleArray.js" );
 var getSentences = require( "../stringProcessing/getSentences.js" );
-var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
 var getTransitionWords = require( "../helpers/getTransitionWords.js" );
+var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" ).isWordInSentence;
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
