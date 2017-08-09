@@ -497,7 +497,7 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Register the promotion class for our GlotPress instance
+	 * Register the promotion class for our GlotPress instance. Then creates a notification with the i18n_promo.
 	 *
 	 * @link https://github.com/Yoast/i18n-module
 	 */
@@ -507,9 +507,8 @@ class WPSEO_Admin_Init {
 			array(
 				'textdomain'  => 'wordpress-seo',
 				'plugin_name' => 'Yoast SEO',
-				'hook'        => 'wpseo_admin_i18n_promo',
-			)
-
+				'hook'        => 'wpseo_admin_promo_footer',
+			), false
 		);
 
 		$notification_center = Yoast_Notification_Center::get();
