@@ -3,19 +3,25 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import colors from "../../../style-guide/colors.json";
 
-const ProgressBarContainer = styled.progress`
+/**
+ * The ProgressBar component.
+ *
+ * @param {object} props Component props.
+ *
+ * @returns {ReactElement} The ProgressBar component.
+ */
+const ProgressBar = styled.progress`
 	box-sizing: border-box;
 	width: 100%;
 	height: 8px;
 	display: block;
 	margin-top: 5px;
-	border: none;
 	appearance: none;
+	background-color: ${ props => props.backgroundColor };
+	border: 1px solid ${ props => props.borderColor };
 
 	::-webkit-progress-bar {
-	   	background-color: ${ colors.$color_background_light };
-	   	color: ${ ( { progressColor } ) => progressColor };
-		border: 1px solid ${ colors.$color_input_border };
+	   	background-color: ${ props => props.backgroundColor };
 	}
 
 	::-webkit-progress-value {
@@ -24,38 +30,30 @@ const ProgressBarContainer = styled.progress`
 	}
 
 	::-moz-progress-bar {
-		background-color: ${ ( { progressColor } ) => progressColor };
-		border: 1px solid ${ colors.$color_input_border };
+		background-color: ${ props => props.progressColor };
 	}
 	
 	::-ms-fill {
-		background-color: ${ ( { progressColor } ) => progressColor };
+		background-color: ${ props => props.progressColor };
+		border: 0;
 	}
 }`;
 
-/**
- * The ProgressBar component.
- *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} The ProgressBar component.
- */
-function ProgressBar( props ) {
-	return (
-		<ProgressBarContainer max={ props.max } value={ props.value } progressColor={ props.progressColor } aria-hidden="true" />
-	);
-}
 
 ProgressBar.defaultProps = {
 	max: 1,
 	value: 0,
 	progressColor: colors.$color_good,
+	backgroundColor: colors.$color_background_light,
+	borderColor: colors.$color_input_border,
 };
 
 ProgressBar.propTypes = {
 	max: PropTypes.number,
 	value: PropTypes.number,
 	progressColor: PropTypes.string,
+	backgroundColor: PropTypes.string,
+	borderColor: PropTypes.string,
 };
 
 export default ProgressBar;
