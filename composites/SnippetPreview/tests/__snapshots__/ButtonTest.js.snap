@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button executes callback 1`] = `
+<button
+  className="sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  onClick={[Function]}
+  type="button"
+>
+  ButtonValue
+</button>
+`;
+
+exports[`Button executes callback 2`] = `
+<button
+  className="sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  onClick={[Function]}
+  type="button"
+>
+  ButtonValue
+</button>
+`;
+
+exports[`SnippetPreviewButton executes callback 1`] = `
+<button
+  className="sc-htpNat bfvzQm sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  onClick={[Function]}
+  type="button"
+>
+  ButtonValue
+</button>
+`;
+
+exports[`SnippetPreviewButton executes callback 2`] = `
+<button
+  className="sc-htpNat bfvzQm sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  onClick={[Function]}
+  type="button"
+>
+  ButtonValue
+</button>
+`;
+
+exports[`the Button matches the snapshot 1`] = `
+<button
+  className="sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  type="button"
+>
+  ButtonValue
+</button>
+`;
+
+exports[`the SnippetPreviewButton matches the snapshot 1`] = `
+<button
+  className="sc-htpNat bfvzQm sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  type="button"
+>
+  ButtonValue
+</button>
+`;
