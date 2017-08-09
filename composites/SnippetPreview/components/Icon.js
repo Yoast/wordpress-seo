@@ -16,7 +16,7 @@ export const Icon = ( props ) => {
 		height: ${ props => props.size }px;
 		fill: ${ props => props.color };
 	`;
-	return <IconComponent { ...props } />;
+	return <IconComponent aria-hidden="true" { ...props } />;
 };
 
 Icon.propTypes = {
