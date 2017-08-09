@@ -4,14 +4,14 @@
  */
 
 /**
- * Class WPSEO_Premium_Export_Manager
+ * Class WPSEO_Premium_Redirect_Export_Manager
  */
-class WPSEO_Premium_Export_Manager {
+class WPSEO_Premium_Redirect_Export_Manager implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Constructor.
+	 * Registers all hooks to WordPress.
 	 */
-	public function __construct() {
+	public function register_hooks() {
 		// Add export CSV block, the import and export settings are confusingly named only import.
 		add_action( 'wpseo_import_tab_content', array( $this, 'add_redirect_export_block' ) );
 		add_action( 'wpseo_import_tab_header', array( $this, 'redirects_export_header' ) );
@@ -36,7 +36,7 @@ class WPSEO_Premium_Export_Manager {
 	 */
 	public function add_redirect_export_block() {
 		// Display the forms.
-		if ( current_user_can('export') ) {
+		if ( current_user_can( 'export' ) ) {
 			require( 'views/export-redirects.php' );
 		}
 	}
@@ -45,7 +45,7 @@ class WPSEO_Premium_Export_Manager {
 	 * Hijacks the request and returns a CSV file if we're on the right page with the right method and the right capabilities.
 	 */
 	public function redirects_csv_export() {
-		if ( $this->is_valid_csv_export_request() && current_user_can('export')	) {
+		if ( $this->is_valid_csv_export_request() && current_user_can( 'export' ) ) {
 			// Check if we have a valid nonce.
 			check_admin_referer( 'wpseo-export' );
 
@@ -95,7 +95,6 @@ class WPSEO_Premium_Export_Manager {
 		$redirect_manager = new WPSEO_Redirect_Manager();
 		$redirects = $redirect_manager->get_all_redirects();
 
-		// Generate our CSV file.
 		$csv_exporter = new WPSEO_Redirect_CSV_Exporter();
 		return $csv_exporter->export( $redirects );
 	}

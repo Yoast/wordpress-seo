@@ -8,11 +8,7 @@
  *
  * Does not implement WPSEO_Redirect_File_Exporter as the CSV is intended to be streamed, not saved.
  */
-
 class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
-
-
-	protected $headers = 'Origin,Target,Type,Format';
 
 	/**
 	 * Exports an array of redirects to a CSV string.
@@ -22,7 +18,7 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 	 * @return string
 	 */
 	public function export( $redirects ) {
-		$csv = $this->headers . PHP_EOL;
+		$csv = $this->get_headers() . PHP_EOL;
 
 		if ( ! empty( $redirects ) ) {
 			foreach ( $redirects as $redirect ) {
@@ -51,5 +47,21 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 			(string) $redirect->get_type(),
 			(string) $redirect->get_format()
 		));
+	}
+
+	/**
+	 * Returns the headers to add to the first line of our generated CSV.
+	 *
+	 * @return string
+	 */
+	protected function get_headers() {
+		return join( ',',
+			array(
+				__( 'Origin', 'wordpress-seo-premium' ),
+				__( 'Target', 'wordpress-seo-premium' ),
+				__( 'Type', 'wordpress-seo-premium' ),
+				__( 'Format',  'wordpress-seo-premium' )
+			)
+		);
 	}
 }
