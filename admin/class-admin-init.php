@@ -480,9 +480,6 @@ class WPSEO_Admin_Init {
 			if ( WPSEO_Utils::is_yoast_seo_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
 				$this->register_i18n_promo_class();
 				$this->register_premium_upsell_admin_block();
-
-				// Checks whether a translation promo notice needs to be added or removed.
-				do_action( 'wpseo_admin_i18n_promo' );
 			}
 		}
 	}
@@ -506,13 +503,33 @@ class WPSEO_Admin_Init {
 	 */
 	private function register_i18n_promo_class() {
 		// BC, because an older version of the i18n-module didn't have this class.
-		new Yoast_I18n_WordPressOrg_v2(
+		$i18n_module = new Yoast_I18n_WordPressOrg_v2(
 			array(
 				'textdomain'  => 'wordpress-seo',
 				'plugin_name' => 'Yoast SEO',
 				'hook'        => 'wpseo_admin_i18n_promo',
 			)
+
 		);
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		$notification        = new Yoast_Notification(
+			$i18n_module->promo_message(),
+			array(
+				'type' => Yoast_Notification::WARNING,
+				'id'   => 'i18nModuleTranslationAssistance',
+			)
+		);
+
+		$notification_center->add_notification( $notification );
+
+		if ( $i18n_module->is_admin_in_other_language() ) {
+			$notification_center->add_notification( $notification );
+		}
+		else {
+			$notification_center->remove_notification( $notification );
+		}
 	}
 
 	/**
