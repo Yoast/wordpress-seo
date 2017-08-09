@@ -20,7 +20,7 @@ export const Icon = ( props ) => {
 };
 
 Icon.propTypes = {
-	icon: PropTypes.string.isRequired,
+	icon: PropTypes.func.isRequired,
 	color: PropTypes.string.isRequired,
 	size: PropTypes.number,
 };

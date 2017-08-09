@@ -2,9 +2,9 @@
 
 exports[`the Icon matches the snapshot 1`] = `
 <svg
-  className="sc-bdVaJa ekYXbX"
-  color="#555"
-  icon="edit"
+  className="sc-bdVaJa jEZkCV"
+  color="black"
+  icon={[Function]}
   size={16}
 />
 `;
