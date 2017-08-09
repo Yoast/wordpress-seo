@@ -23,7 +23,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '5.1';
+	const PLUGIN_VERSION_NAME = '5.2';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'http://my.yoast.com';
@@ -559,6 +559,15 @@ class WPSEO_Premium {
 	 */
 	public function initialize_tracking() {
 		global $pagenow;
+
+		/**
+		 * Filter: 'wpseo_disable_tracking' - Disables the data tracking of Yoast SEO Premium.
+		 *
+		 * @api string $is_disabled The disabled state. Default is false.
+		 */
+		if ( apply_filters( 'wpseo_disable_tracking', false ) === true ) {
+			return;
+		}
 
 		// Because we don't want to possibly block plugin actions with our routines.
 		if ( in_array( $pagenow, array( 'plugins.php', 'plugin-install.php', 'plugin-editor.php' ), true ) ) {

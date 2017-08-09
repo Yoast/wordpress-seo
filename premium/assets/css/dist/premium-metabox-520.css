@@ -1,0 +1,233 @@
+.yoast-section {
+	position: relative;
+	padding: 0 20px 15px;
+	background-color: #fff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.yoast-section__heading {
+	margin: 0 -20px 15px;
+	padding: 8px 20px;
+	color: #555;
+	font-family: "Open Sans", sans-serif;
+	font-size: 0.9rem;
+	font-weight: 300;
+}
+
+.yoast-section__heading-icon {
+	padding-left: 45px;
+	background-repeat: no-repeat;
+	background-position: left 20px top 0.6em;
+	background-size: 16px;
+}
+
+.yoast-section__heading-icon-file-text-o {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20file%3D%22%23555%22%20d%3D%22M1596%20380q28%2028%2048%2076t20%2088v1152q0%2040%2D28%2068t%2D68%2028h%2D1344q%2D40%200%2D68%2D28t%2D28%2D68v%2D1600q0%2D40%2028%2D68t68%2D28h896q40%200%2088%2020t76%2048zm%2D444%2D244v376h376q%2D10%2D29%2D22%2D41l%2D313%2D313q%2D12%2D12%2D41%2D22zm384%201528v%2D1024h%2D416q%2D40%200%2D68%2D28t%2D28%2D68v%2D416h%2D768v1536h1280zm%2D1024%2D864q0%2D14%209%2D23t23%2D9h704q14%200%2023%209t9%2023v64q0%2014%2D9%2023t%2D23%209h%2D704q%2D14%200%2D23%2D9t%2D9%2D23v%2D64zm736%20224q14%200%2023%209t9%2023v64q0%2014%2D9%2023t%2D23%209h%2D704q%2D14%200%2D23%2D9t%2D9%2D23v%2D64q0%2D14%209%2D23t23%2D9h704zm0%20256q14%200%2023%209t9%2023v64q0%2014%2D9%2023t%2D23%209h%2D704q%2D14%200%2D23%2D9t%2D9%2D23v%2D64q0%2D14%209%2D23t23%2D9h704z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.yoast-section *,
+.yoast-section {
+	box-sizing: border-box;
+}
+
+.yoast-section *:before,
+.yoast-section *:after,
+.yoast-section:before,
+.yoast-section:after {
+	box-sizing: border-box;
+}
+
+.yoast-link-suggestions {
+	display: table-cell;
+}
+
+.yoast-link-suggestion {
+	display: block;
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+.yoast-link-suggestion-icon {
+	display: table-cell;
+	float: left;
+	width: 30px;
+	height: 30px;
+	margin-right: 5px;
+	border: 1px solid #dbdbdb;
+	border-radius: 5px;
+	outline: none;
+	background-color: #f7f7f7;
+	background-repeat: no-repeat;
+	background-position: left 0.6em top 0.6em;
+	background-size: 14px;
+	cursor: pointer;
+}
+
+.yoast-link-suggestion__copy {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M768%201664h896v%2D640h%2D416q%2D40%200%2D68%2D28t%2D28%2D68v%2D416h%2D384v1152zm256%2D1440v%2D64q0%2D13%2D9%2E5%2D22%2E5t%2D22%2E5%2D9%2E5h%2D704q%2D13%200%2D22%2E5%209%2E5t%2D9%2E5%2022%2E5v64q0%2013%209%2E5%2022%2E5t22%2E5%209%2E5h704q13%200%2022%2E5%2D9%2E5t9%2E5%2D22%2E5zm256%20672h299l%2D299%2D299v299zm512%20128v672q0%2040%2D28%2068t%2D68%2028h%2D960q%2D40%200%2D68%2D28t%2D28%2D68v%2D160h%2D544q%2D40%200%2D68%2D28t%2D28%2D68v%2D1344q0%2D40%2028%2D68t68%2D28h1088q40%200%2068%2028t28%2068v328q21%2013%2036%2028l408%20408q28%2028%2048%2076t20%2088z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.yoast-link-suggestion__copy:focus {
+	border-radius: 100%;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.yoast-link-suggestion__copy:hover,
+.yoast-link-suggestion__copy:focus,
+.yoast-link-suggestion__copy:active {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231074a8%22%20d%3D%22M768%201664h896v%2D640h%2D416q%2D40%200%2D68%2D28t%2D28%2D68v%2D416h%2D384v1152zm256%2D1440v%2D64q0%2D13%2D9%2E5%2D22%2E5t%2D22%2E5%2D9%2E5h%2D704q%2D13%200%2D22%2E5%209%2E5t%2D9%2E5%2022%2E5v64q0%2013%209%2E5%2022%2E5t22%2E5%209%2E5h704q13%200%2022%2E5%2D9%2E5t9%2E5%2D22%2E5zm256%20672h299l%2D299%2D299v299zm512%20128v672q0%2040%2D28%2068t%2D68%2028h%2D960q%2D40%200%2D68%2D28t%2D28%2D68v%2D160h%2D544q%2D40%200%2D68%2D28t%2D28%2D68v%2D1344q0%2D40%2028%2D68t68%2D28h1088q40%200%2068%2028t28%2068v328q21%2013%2036%2028l408%20408q28%2028%2048%2076t20%2088z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.yoast-link-suggestion__value {
+	display: table-cell;
+	padding: 6px 0;
+}
+
+.yoast-link-suggestion__check {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M249%2E2%2C431%2E2c%2D23%2C0%2D45%2E6%2C9%2E4%2D61%2E8%2C25%2E6L25%2E6%2C618%2E6C9%2E4%2C634%2E8%2C0%2C657%2E4%2C0%2C680%2E4c0%2C23%2C9%2E4%2C45%2E6%2C25%2E6%2C61%2E8\a 			l593%2E1%2C593%2E1c16%2E2%2C16%2E2%2C38%2E8%2C25%2E6%2C61%2E8%2C25%2E6c23%2C0%2C45%2E6%2D9%2E4%2C61%2E8%2D25%2E6L1766%2E4%2C311c16%2E2%2D16%2E2%2C25%2E6%2D38%2E8%2C25%2E6%2D61%2E8\a 			s%2D9%2E4%2D45%2E6%2D25%2E6%2D61%2E8L1604%2E5%2C25%2E6C1588%2E3%2C9%2E4%2C1565%2E8%2C0%2C1542%2E8%2C0c%2D23%2C0%2D45%2E6%2C9%2E4%2D61%2E8%2C25%2E6L680%2E4%2C827L311%2C456%2E3\a 			C294%2E8%2C440%2E5%2C272%2E3%2C431%2E2%2C249%2E2%2C431%2E2z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.yoast-link-suggestion__check:focus {
+	border-radius: 100%;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.yoast-link-suggestion__check:hover,
+.yoast-link-suggestion__check:focus,
+.yoast-link-suggestion__check:active {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231074a8%22%20d%3D%22M249%2E2%2C431%2E2c%2D23%2C0%2D45%2E6%2C9%2E4%2D61%2E8%2C25%2E6L25%2E6%2C618%2E6C9%2E4%2C634%2E8%2C0%2C657%2E4%2C0%2C680%2E4c0%2C23%2C9%2E4%2C45%2E6%2C25%2E6%2C61%2E8\a 			l593%2E1%2C593%2E1c16%2E2%2C16%2E2%2C38%2E8%2C25%2E6%2C61%2E8%2C25%2E6c23%2C0%2C45%2E6%2D9%2E4%2C61%2E8%2D25%2E6L1766%2E4%2C311c16%2E2%2D16%2E2%2C25%2E6%2D38%2E8%2C25%2E6%2D61%2E8\a 			s%2D9%2E4%2D45%2E6%2D25%2E6%2D61%2E8L1604%2E5%2C25%2E6C1588%2E3%2C9%2E4%2C1565%2E8%2C0%2C1542%2E8%2C0c%2D23%2C0%2D45%2E6%2C9%2E4%2D61%2E8%2C25%2E6L680%2E4%2C827L311%2C456%2E3\a 			C294%2E8%2C440%2E5%2C272%2E3%2C431%2E2%2C249%2E2%2C431%2E2z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+@keyframes heartbeat {
+	0% {
+		opacity: 0.4;
+		transform: scale(0.7);
+	}
+
+	80% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(0.95);
+	}
+}
+
+.yoast-loader {
+	animation: heartbeat 1.15s infinite;
+	animation-timing-function: cubic-bezier(0.96, 0.02, 0.63, 0.86);
+	animation-direction: alternate;
+}
+
+.yoast-link-suggestions--loading {
+	display: block;
+	width: 75px;
+	height: 75px;
+	margin: 0 auto;
+	padding: 3em 0;
+}
+
+#yoast_internal_linking .inside {
+	margin-top: 0;
+}
+
+/*
+ * Meta box tabs by default have `padding: 20px 35px;` but we use a smaller
+ * padding on the Content tab. We should do the same for the Social Previews tabs.
+ */
+.wpseotab.facebook,
+.wpseotab.twitter {
+	padding: 20px 15px;
+}
+
+/* Fix the help buttons positioning. */
+.wpseotab.facebook .yoast_help.yoast-help-button,
+.wpseotab.twitter .yoast_help.yoast-help-button {
+	margin-top: -29px;
+}
+
+/* Reduce top margin of the Social Previews inner containers. */
+.editable-preview .editable-preview__inner--facebook,
+.editable-preview .editable-preview__inner--twitter,
+.editable-preview--facebook .snippet-editor__form,
+.editable-preview--twitter .snippet-editor__form {
+	padding-top: 0;
+}
+
+.remove-keyword {
+	display: inline-block;
+	margin: 0 0 0 -3px;
+	padding: 5px 6px 6px;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+}
+
+.remove-keyword span {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: 100%;
+	color: #686868;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 15px;
+	text-align: center;
+	vertical-align: top;
+}
+
+.remove-keyword:focus {
+	outline: none;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.remove-keyword:hover span,
+.remove-keyword:focus span {
+	color: white;
+	background-color: #dc3232;
+}
+
+.wpseo-add-keyword:disabled {
+	display: none;
+}
+
+/* Bold the main keyword tab */
+.wpseo_content_tab + .wpseo_keyword_tab .wpseo-keyword {
+	font-weight: 600;
+}
+
+/* But not bold when there is no keyword set */
+.wpseo_content_tab + .wpseo_keyword_tab a[data-score="na"] .wpseo-keyword {
+	font-weight: normal;
+}
+
+/* Narrow all the tabs without a focus keyword */
+.wpseo_keyword_tab a[data-score="na"] .wpseo-keyword {
+	max-width: 1em;
+	max-width: 1rem;
+}
+
+/* Except the active one */
+.wpseo_keyword_tab.active a[data-score="na"] .wpseo-keyword {
+	max-width: none;
+}
+
+.wpseo-metabox-tabs .wpseo_keyword_tab_hideable .wpseo_tablink {
+	padding-right: 0;
+}
+
+/* Breaks out of the .inside div with a negative margin */
+.wrap .wpseo-notice-breakout-inside {
+	margin: 0 -12px;
+}
+
+@media screen and (max-width: 600px) {
+	/* Reduce the tabs padding on smaller screens. */
+	.wpseotab.facebook,
+	.wpseotab.twitter {
+		padding: 20px 0;
+	}
+}
