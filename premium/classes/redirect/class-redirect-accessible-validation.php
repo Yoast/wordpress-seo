@@ -90,7 +90,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 *
 	 * @return bool
 	 */
-	private function is_temporary( $response_code ) {
+	protected function is_temporary( $response_code ) {
 		return in_array( $response_code, array( 302, 307 ) ) || in_array( substr( $response_code, 0, 2 ), array( 40, 50 ) );
 	}
 
@@ -101,11 +101,15 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 *
 	 * @return string
 	 */
-	private function parse_target( $target ) {
+	protected function parse_target( $target ) {
 		$url_parts = parse_url( $target );
 
 		if ( ! empty( $url_parts['scheme'] ) ) {
 			return $target;
+		}
+		// Do not trailingslashit if it has an extension.
+		if ( preg_match( '/\.[^\/]+\Z/', $url_parts['path'], $matches ) ) {
+			return get_home_url( null, $target );
 		}
 
 		// Parse the URL based on the home URL.

@@ -4,6 +4,17 @@
  */
 
 /**
+ * Class WPSEO_Redirect_Accessible_Validation_Double
+ *
+ * Create double class so we can test against the parse_target function.
+ */
+class WPSEO_Redirect_Accessible_Validation_Double extends WPSEO_Redirect_Accessible_Validation {
+	function return_parse_target( $target ) {
+		return $this->parse_target( $target );
+	}
+}
+
+/**
  * Test class for testing the accessible validation class
  *
  * @covers WPSEO_Redirect_Accessible_Validation
@@ -175,6 +186,25 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 			new WPSEO_Validation_Warning( 'The URL you are redirecting to seems to return a 404 status. You might want to check if the target can be reached manually before saving.', 'target' ),
 			$this->class_instance->get_error()
 		);
+	}
+
+	/**
+	 * Validate if the target URL is resolvable, in this test it will be a url with an extension. It should be accessible.
+	 *
+	 * @covers WPSEO_Redirect_Accessible_Validation::run
+	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
+	 */
+	public function test_validate_with_extension( ) {
+		$this->assertTrue(
+			$this->class_instance->run(
+				new WPSEO_Redirect( 'accessible_url.pdf', 'https://www.w3.org/2003/01/Consortium.pdf', 301 )
+			)
+		);
+
+		// Because inside all unit tests home_url returns example.org we can't run the entire validation.
+		// So instead we just check the parse_target function from our double and validate it doesn't add a trailing slash.
+		$double = new WPSEO_Redirect_Accessible_Validation_Double();
+		$this->assertEquals( 'f', substr( $double->return_parse_target( '/relative.pdf' ), -1 ) );
 	}
 
 	/**
