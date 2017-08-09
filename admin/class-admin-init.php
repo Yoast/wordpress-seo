@@ -521,8 +521,6 @@ class WPSEO_Admin_Init {
 			)
 		);
 
-		$notification_center->add_notification( $notification );
-
 		if ( $i18n_module->is_admin_in_other_language() ) {
 			$notification_center->add_notification( $notification );
 		}
