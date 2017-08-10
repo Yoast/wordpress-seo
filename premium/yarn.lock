@@ -5927,17 +5927,27 @@ yoast-components@^2.8.0:
     react-dom "^15.3.0"
     yoast-components "^1.0.0"
 
-"yoast-social-previews@https://github.com/Yoast/yoast-social-previews#1.4.2":
+"yoast-social-previews@git+ssh://git@github.com/Yoast/yoast-social-previews#1.4.2":
   version "1.4.1"
-  resolved "https://github.com/Yoast/yoast-social-previews#188a140a19565dff3752a3dee3a900d80f695efb"
+  uid "188a140a19565dff3752a3dee3a900d80f695efb"
+  resolved "git+ssh://git@github.com/Yoast/yoast-social-previews#188a140a19565dff3752a3dee3a900d80f695efb"
+  dependencies:
+    jed "^1.1.0"
+    lodash "^3.10.1"
+    yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#master"
+
+"yoast-social-previews@https://github.com/yoast/yoast-social-previews.git#master":
+  version "1.4.1"
+  resolved "https://github.com/yoast/yoast-social-previews.git#188a140a19565dff3752a3dee3a900d80f695efb"
   dependencies:
     jed "^1.1.0"
     lodash "^3.10.1"
     yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#master"
 
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#master":
-  version "1.17.2"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#e0269fb92905293973a5e2e0f3ac4567ecb5e14e"
+  version "1.20.0"
+  uid "01f71bfb402b8cdb369f89ea2c94b7be596f1fa1"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#01f71bfb402b8cdb369f89ea2c94b7be596f1fa1"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
