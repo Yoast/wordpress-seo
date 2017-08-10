@@ -104,15 +104,12 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	protected function parse_target( $target ) {
 		$url_parts = parse_url( $target );
 
+		// If we have an absolute url return it.
 		if ( ! empty( $url_parts['scheme'] ) ) {
 			return $target;
 		}
-		// Do not trailingslashit if it has an extension.
-		if ( preg_match( '/\.[^\/]+\Z/', $url_parts['path'], $matches ) ) {
-			return get_home_url( null, $target );
-		}
 
-		// Parse the URL based on the home URL.
-		return trailingslashit( get_home_url( null, $target ) );
+		// Else make it absolute relative to the home_url and return it.
+		return get_home_url( null, $target );
 	}
 }

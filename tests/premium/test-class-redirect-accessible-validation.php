@@ -191,7 +191,6 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Validate if the target URL is resolvable, in this test it will be a url with an extension. It should be accessible.
 	 *
-	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
 	 */
 	public function test_validate_with_extension( ) {
@@ -201,10 +200,36 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		// Because inside all unit tests home_url returns example.org we can't run the entire validation.
-		// So instead we just check the parse_target function from our double and validate it doesn't add a trailing slash.
+		// Because inside all unit tests home_url returns example.org we can't validate a relative url with extension.
+		// Instead see test_parse_target.
+	}
+
+	/**
+	 * Validate if the parse_target function deals with absolute urls, relative urls,
+	 * urls with an extension and urls with a fragment correctly.
+	 *
+	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
+	 */
+	public function test_parse_target( ) {
 		$double = new WPSEO_Redirect_Accessible_Validation_Double();
-		$this->assertEquals( 'f', substr( $double->return_parse_target( '/relative.pdf' ), -1 ) );
+
+		$this->assertEquals( 'http://www.domain.org/absolute',
+			$double->return_parse_target( 'http://www.domain.org/absolute' ) );
+
+		$this->assertEquals( 'http://www.domain.org/absolute.pdf',
+			$double->return_parse_target( 'http://www.domain.org/absolute.pdf' ) );
+
+		$this->assertEquals( 'http://www.domain.org/absolute?a=b',
+			$double->return_parse_target( 'http://www.domain.org/absolute?a=b' ) );
+
+		$this->assertEquals( 'http://example.org/relative',
+			$double->return_parse_target( '/relative' ) );
+
+		$this->assertEquals( 'http://example.org/relative.pdf',
+			$double->return_parse_target( '/relative.pdf' ) );
+
+		$this->assertEquals( 'http://example.org/relative?a=b',
+			$double->return_parse_target( '/relative?a=b' ) );
 	}
 
 	/**
