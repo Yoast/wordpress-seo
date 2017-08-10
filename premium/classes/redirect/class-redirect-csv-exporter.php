@@ -15,7 +15,7 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 	 *
 	 * @param WPSEO_Redirect[] $redirects The redirects to export.
 	 *
-	 * @return string
+	 * @return string CSV string of all exported redirects with headers.
 	 */
 	public function export( $redirects ) {
 		$csv = $this->get_headers() . PHP_EOL;
@@ -36,7 +36,7 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 	 *
 	 * @param WPSEO_Redirect $redirect The redirect to format.
 	 *
-	 * @return string
+	 * @return string CSV line of the redirect for format.
 	 */
 	public function format( WPSEO_Redirect $redirect ) {
 		return join(',', array(
@@ -50,9 +50,9 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 	}
 
 	/**
-	 * Returns the headers to add to the first line of our generated CSV.
+	 * Returns the headers to add to the first line of the generated CSV.
 	 *
-	 * @return string
+	 * @return string CSV line of the headers.
 	 */
 	protected function get_headers() {
 		return join( ',',
