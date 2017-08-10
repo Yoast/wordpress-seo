@@ -23,6 +23,10 @@ class WPSEO_Dublin_Core_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_dublin_core_date_issued() {
 
+		$this->setExpectedDeprecated( 'WPSEO_Dublin_Core::__construct' );
+		$this->setExpectedDeprecated( 'WPSEO_Dublin_Core::date_issued' );
+		$this->setExpectedDeprecated( 'WPSEO_Dublin_Core::dc_tag' );
+
 		$dublin_core = new WPSEO_Dublin_Core();
 
 		$dublin_core->date_issued();
