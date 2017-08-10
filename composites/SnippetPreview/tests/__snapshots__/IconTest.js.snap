@@ -3,9 +3,8 @@
 exports[`the Icon matches the snapshot 1`] = `
 <svg
   aria-hidden="true"
-  className="sc-bdVaJa jEZkCV"
-  color="black"
-  icon={[Function]}
-  size={16}
+  className="sc-bdVaJa inStFx"
+  iconColor={undefined}
+  iconSize={16}
 />
 `;
