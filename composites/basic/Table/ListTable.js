@@ -101,14 +101,18 @@ class ZebrafiedListTable extends ListTable {
 	 * @returns {Array} Array containing the zebrafied rows.
 	 */
 	zebrafyChildren() {
-		// When there is only one child, there is no array, meaning there is no map method.
-		if ( this.props.children.length > 1 ) {
-			this.zebraProps.children = this.props.children.map( ( child, index ) => {
-				return React.cloneElement( child, {
-					background: ( index % 2 === 1 ) ? colors.$color_white : colors.$color_background_light,
-				} );
-			} );
+		let children = this.props.children;
+
+		// If there is only one child, there is no array, meaning there is no map method.
+		if ( ! this.props.children.map ) {
+			children = [ children ];
 		}
+
+		this.zebraProps.children = children.map( ( child, index ) => {
+			return React.cloneElement( child, {
+				background: ( index % 2 === 1 ) ? colors.$color_white : colors.$color_background_light,
+			} );
+		} );
 	}
 
 	/**

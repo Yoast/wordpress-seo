@@ -26,6 +26,8 @@ exports[`the ZebrafiedListTable component with one child matches the snapshot 1`
   className="sc-bdVaJa cQAnKY"
   role="list"
 >
-  <li />
+  <li
+    background="#f7f7f7"
+  />
 </ul>
 `;
