@@ -45,7 +45,7 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 			'"' . (string) $redirect->get_origin() . '"',
 			'"' . (string) $redirect->get_target() . '"',
 			(string) $redirect->get_type(),
-			(string) $redirect->get_format()
+			(string) $redirect->get_format(),
 		));
 	}
 
@@ -60,7 +60,7 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 				__( 'Origin', 'wordpress-seo-premium' ),
 				__( 'Target', 'wordpress-seo-premium' ),
 				__( 'Type', 'wordpress-seo-premium' ),
-				__( 'Format',  'wordpress-seo-premium' )
+				__( 'Format',  'wordpress-seo-premium' ),
 			)
 		);
 	}
