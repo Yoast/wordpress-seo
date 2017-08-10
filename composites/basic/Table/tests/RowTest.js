@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { Row, RowMobileCollapse } from "../Table/Row";
+import { Row, RowMobileCollapse } from "../../Table/Row";
 
 test( "the Row component matches the snapshot", () => {
 	const component = renderer.create(

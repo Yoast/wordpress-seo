@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { PrimaryCell, FixedWidthCell, MinWidthCell, IconCell, responsiveHeaders } from "../Table/Cell";
+import { PrimaryCell, FixedWidthCell, MinWidthCell, IconCell, responsiveHeaders } from "../../Table/Cell";
 
 test( "the PrimaryCell component matches the snapshot", () => {
 	const component = renderer.create(
