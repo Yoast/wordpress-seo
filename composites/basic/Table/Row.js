@@ -41,5 +41,8 @@ export const RowMobileCollapse = styled( Row )`
 			padding-right: 0.5em;
 			font-size: inherit;
 		}
+		& > span {
+			padding-left: 0;
+		}
 	}
 `;
