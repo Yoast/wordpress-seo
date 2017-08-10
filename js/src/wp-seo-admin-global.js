@@ -28,7 +28,7 @@
 	/**
 	 * Used to dismiss the tagline notice for a specific user.
 	 *
-	 * @param {string} nonce
+	 * @param {string} nonce Nonce for verification.
 	 *
 	 * @returns {void}
 	 */
@@ -43,9 +43,9 @@
 	/**
 	 * Used to remove the admin notices for several purposes, dies on exit.
 	 *
-	 * @param {string} option
-	 * @param {string} hide
-	 * @param {string} nonce
+	 * @param {string} option The option to ignore.
+	 * @param {string} hide   The target element to hide.
+	 * @param {string} nonce  Nonce for verification.
 	 *
 	 * @returns {void}
 	 */
@@ -66,13 +66,13 @@
 	/**
 	 * Generates a dismissable anchor button.
 	 *
-	 * @param {string} dismiss_link The URL that leads to the dismissing of the notice.
+	 * @param {string} dismissLink The URL that leads to the dismissing of the notice.
 	 *
 	 * @returns {Object} Anchor to dismiss.
 	 */
-	function wpseoDismissLink( dismiss_link ) {
+	function wpseoDismissLink( dismissLink ) {
 		return jQuery(
-			'<a href="' + dismiss_link + '" type="button" class="notice-dismiss">' +
+			'<a href="' + dismissLink + '" type="button" class="notice-dismiss">' +
 			'<span class="screen-reader-text">Dismiss this notice.</span>' +
 			"</a>"
 		);
@@ -132,7 +132,7 @@
 	 */
 	function hideAlertPopup() {
 		// Remove the namespaced hover event from the menu top level list items.
-		$( "#wp-admin-bar-root-default > li" ).off( "hover.yoastalertpopup" );
+		$( "#wp-admin-bar-root-default > li" ).off( "mouseenter.yoastalertpopup mouseleave.yoastalertpopup" );
 		// Hide the notification popup by fading it out.
 		$( ".yoast-issue-added" ).fadeOut( 200 );
 	}
@@ -145,7 +145,7 @@
 	function showAlertPopup() {
 		// Attach an hover event and show the notification popup by fading it in.
 		$( ".yoast-issue-added" )
-			.on( "hover", function( evt ) {
+			.on( "mouseenter mouseleave", function( evt ) {
 				// Avoid the hover event to propagate on the parent elements.
 				evt.stopPropagation();
 				// Hide the notification popup when hovering on it.
@@ -159,7 +159,7 @@
 		 * Note: this will work just the first time the list items get hovered in the
 		 * first 3 seconds after DOM ready because this event is then removed.
 		 */
-		$( "#wp-admin-bar-root-default > li" ).on( "hover.yoastalertpopup", hideAlertPopup );
+		$( "#wp-admin-bar-root-default > li" ).on( "mouseenter.yoastalertpopup mouseleave.yoastalertpopup", hideAlertPopup );
 
 		// Hide the notification popup after 3 seconds from DOM ready.
 		setTimeout( hideAlertPopup, 3000 );
@@ -189,19 +189,19 @@
 			/* eslint-enable */
 		}
 
-		var $wpseo_menu = $( "#wp-admin-bar-wpseo-menu" );
-		var $issue_counter = $wpseo_menu.find( ".yoast-issue-counter" );
+		var $wpseoMenu = $( "#wp-admin-bar-wpseo-menu" );
+		var $issueCounter = $wpseoMenu.find( ".yoast-issue-counter" );
 
-		if ( ! $issue_counter.length ) {
-			$wpseo_menu.find( "> a:first-child" ).append( '<div class="yoast-issue-counter"/>' );
-			$issue_counter = $wpseo_menu.find( ".yoast-issue-counter" );
+		if ( ! $issueCounter.length ) {
+			$wpseoMenu.find( "> a:first-child" ).append( '<div class="yoast-issue-counter"/>' );
+			$issueCounter = $wpseoMenu.find( ".yoast-issue-counter" );
 		}
 
-		$issue_counter.html( response.total );
+		$issueCounter.html( response.total );
 		if ( response.total === 0 ) {
-			$issue_counter.hide();
+			$issueCounter.hide();
 		} else {
-			$issue_counter.show();
+			$issueCounter.show();
 		}
 
 		$( "#toplevel_page_wpseo_dashboard .update-plugins" ).removeClass().addClass( "update-plugins count-" + response.total );

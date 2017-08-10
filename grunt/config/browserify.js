@@ -9,7 +9,6 @@ module.exports = {
 			},
 		},
 		files: {
-			"js/dist/configuration-wizard-<%= pluginVersionSlug %>.js": [ "js/src/configuration-wizard.js" ],
 			"js/dist/wp-seo-admin-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-admin.js" ],
 			"js/dist/wp-seo-admin-global-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-admin-global.js" ],
 			"js/dist/wp-seo-admin-gsc-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-admin-gsc.js" ],

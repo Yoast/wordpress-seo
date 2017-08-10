@@ -2,6 +2,21 @@
 
 This is an archive of older changelog entries. Most recent entries are maintained in readme.txt
 
+= 4.9.0 =
+
+Release Date: June 7th, 2017
+
+* Bugfixes
+	* Fixes a bug where there were certain assessments missing when switching to cornerstone content.
+	* Fixes a bug where the configuration wizard button was visible for users who didn't have enough rights to access the configuration wizard.
+	* Fixes a bug where the column `ID` was ambiguous, causing an SQL error.
+	* Fixes a bug where the category URL in the sitemap was encoded twice.
+	* Fixes a bug where an old upgrade notice is not removed.
+
+* Enhancements
+	* Removes the noodp advanced robots meta value as it is no longer used.
+	* Loads the translations only when the configuration wizard endpoint is called, instead of every time `rest_api_init` is called.
+
 = 4.8.0 =
 
 Release Date: May 23rd, 2017
