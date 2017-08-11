@@ -401,6 +401,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$needs_archive = false;
 		}
+		else {
+			$options = $this->get_options();
+
+			if ( isset( $options[ 'noindex-ptarchive-' . $post_type ] ) && $options[ 'noindex-ptarchive-' . $post_type ] === true ) {
+				$needs_archive = false;
+			}
+		}
 
 		if ( ! $needs_archive ) {
 			return $links;
