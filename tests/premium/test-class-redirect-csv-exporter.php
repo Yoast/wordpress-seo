@@ -71,6 +71,23 @@ class WPSEO_Redirect_CSV_Exporter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Testing if the export method returns double quotes correctly when dealing with urls containing double quotes.
+	 *
+	 * @covers WPSEO_Redirect_CSV_Exporter::export
+	 */
+	public function test_export_quotes() {
+		$class_instance = new WPSEO_Redirect_CSV_Exporter();
+
+		$csv = $class_instance->export(
+			array(
+				new WPSEO_Redirect( 'origin?q="1,2"', 'target?q=1,2', '301', WPSEO_Redirect::FORMAT_PLAIN ),
+			)
+		);
+
+		$this->assertContains( 'origin?q=""1,2""', $csv );
+	}
+
+	/**
 	 * Asserts if the CSV string contains the expected number of values.
 	 * Currently using a Regex as str_getcsv requires PHP 5.3 while we still support PHP 5.2.
 	 *

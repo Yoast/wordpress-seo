@@ -42,8 +42,8 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 		return join(',', array(
 			// Potentially take into account weird URLs containing commas.
 			// NOTE: sanitize_url does not allow double quotes but does allow commas.
-			'"' . (string) $redirect->get_origin() . '"',
-			'"' . (string) $redirect->get_target() . '"',
+			'"' . str_replace( '"', '""', (string) $redirect->get_origin() ) . '"',
+			'"' . str_replace( '"', '""', (string) $redirect->get_target() ) . '"',
 			(string) $redirect->get_type(),
 			(string) $redirect->get_format(),
 		));
