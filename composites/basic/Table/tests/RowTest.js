@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { Row, RowMobileCollapse } from "../../Table/Row";
+import { Row, RowResponsiveWrap } from "../../Table/Row";
 
 test( "the Row component matches the snapshot", () => {
 	const component = renderer.create(
@@ -12,9 +12,9 @@ test( "the Row component matches the snapshot", () => {
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "the RowMobileCollapse component matches the snapshot", () => {
+test( "the RowResponsiveWrap component matches the snapshot", () => {
 	const component = renderer.create(
-		<RowMobileCollapse />
+		<RowResponsiveWrap />
 	);
 
 	let tree = component.toJSON();

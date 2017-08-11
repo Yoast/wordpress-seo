@@ -6,6 +6,7 @@ import colors from "../../../style-guide/colors.json";
 export const Row = styled.li`
 	background: ${ props => props.background };
 	display: flex;
+	min-height: 100px;
 	align-items: center;
 	justify-content: space-between;
 `;
@@ -21,11 +22,11 @@ Row.defaultProps = {
 };
 
 /*
- * A responsive row allows children to wrap in new lines in the responsive view.
+ * A row with responsive wrap allows children to wrap in new lines in the responsive view.
  * If the columns have headers, they're displayed as labels inside the column
  * content.
  */
-export const RowMobileCollapse = styled( Row )`
+export const RowResponsiveWrap = styled( Row )`
 	@media screen and ( max-width: 800px ) {
 		flex-wrap: wrap;
 		align-items: flex-start;
