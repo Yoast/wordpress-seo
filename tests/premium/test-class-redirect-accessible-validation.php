@@ -9,7 +9,7 @@
  * Create double class so we can test against the parse_target function.
  */
 class WPSEO_Redirect_Accessible_Validation_Double extends WPSEO_Redirect_Accessible_Validation {
-	function return_parse_target( $target ) {
+	public function return_parse_target( $target ) {
 		return $this->parse_target( $target );
 	}
 }
