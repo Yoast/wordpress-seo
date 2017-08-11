@@ -1277,6 +1277,7 @@ SVG;
 
 		/** @var WPSEO_Meta_Columns $meta_columns */
 		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+
 		$meta_columns->posts_filter_dropdown();
 	}
 

@@ -18,6 +18,8 @@ class WPSEO_Meta_Columns {
 	 */
 	private $analysis_readability;
 
+	private $score_filters = array();
+
 	/**
 	 * When page analysis is enabled, just initialize the hooks
 	 */
@@ -40,6 +42,10 @@ class WPSEO_Meta_Columns {
 			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 		}
 
+		if ( $this->analysis_readability->is_enabled() ) {
+			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown_readability' ) );
+		}
+
 		add_filter( 'request', array( $this, 'column_sort_orderby' ) );
 	}
 
@@ -60,9 +66,11 @@ class WPSEO_Meta_Columns {
 		if ( $this->analysis_seo->is_enabled() ) {
 			$added_columns['wpseo-score'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'SEO score', 'wordpress-seo' ) . '"><span class="yoast-column-seo-score yoast-column-header-has-tooltip"><span class="screen-reader-text">' . __( 'SEO score', 'wordpress-seo' ) . '</span></span></span>';
 		}
+
 		if ( $this->analysis_readability->is_enabled() ) {
 			$added_columns['wpseo-score-readability'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'Readability score', 'wordpress-seo' ) . '"><span class="yoast-column-readability yoast-column-header-has-tooltip"><span class="screen-reader-text">' . __( 'Readability score', 'wordpress-seo' ) . '</span></span></span>';
 		}
+
 		$added_columns['wpseo-title']    = __( 'SEO Title', 'wordpress-seo' );
 		$added_columns['wpseo-metadesc'] = __( 'Meta Desc.', 'wordpress-seo' );
 
@@ -168,19 +176,77 @@ class WPSEO_Meta_Columns {
 		}
 
 		$ranks = WPSEO_Rank::get_all_ranks();
-		$current_seo_filter = filter_input( INPUT_GET, 'seo_filter' );
 
-		echo '
-			<label class="screen-reader-text" for="wpseo-filter">' . __( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>
-			<select name="seo_filter" id="wpseo-filter">
-				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
+		echo '<label class="screen-reader-text" for="wpseo-filter">' . __( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>';
+		echo '<select name="seo_filter" id="wpseo-filter">';
+
+		echo $this->generate_option( '',  __( 'All SEO Scores', 'wordpress-seo' ) );
+
 		foreach ( $ranks as $rank ) {
-			$sel = selected( $current_seo_filter, $rank->get_rank(), false );
-			echo '
-				<option ', $sel, 'value="', $rank->get_rank(), '">', $rank->get_drop_down_label(), '</option>';
+			$selected = selected( $this->get_current_seo_filter(), $rank->get_rank(), false );
+
+			echo $this->generate_option( $rank->get_rank(), $rank->get_drop_down_label(), $selected );
 		}
-		echo '
-			</select>';
+
+		echo '</select>';
+	}
+
+	/**
+	 * Adds a dropdown that allows filtering on the posts Readability Quality.
+	 *
+	 * @return void
+	 */
+	public function posts_filter_dropdown_readability() {
+		if ( $GLOBALS['pagenow'] === 'upload.php' || $this->is_metabox_hidden() === true ) {
+			return;
+		}
+
+		$ranks = WPSEO_Rank::get_all_readability_ranks();
+
+		echo '<label class="screen-reader-text" for="wpseo-readability-filter">' . __( 'Filter by Readability Score', 'wordpress-seo' ) . '</label>';
+		echo '<select name="readability_filter" id="wpseo-readability-filter">';
+
+		echo $this->generate_option( '',  __( 'All Readability Scores', 'wordpress-seo' ) );
+
+		foreach ( $ranks as $rank ) {
+			$selected = selected( $this->get_current_readability_filter(), $rank->get_rank(), false );
+
+			echo $this->generate_option( $rank->get_rank(), $rank->get_drop_down_readability_labels(), $selected );
+		}
+
+		echo '</select>';
+	}
+
+	private function generate_option( $value, $label, $selected = false ) {
+		return '<option ' . $selected . ' value="' . $value . '">' . $label . '</option>';
+	}
+
+	private function get_seo_filter_values( $seo_filter ) {
+		if ( $seo_filter === WPSEO_Rank::NO_FOCUS || $seo_filter === WPSEO_Rank::NO_INDEX ) {
+			$this->filter_other( $seo_filter );
+
+			return;
+		}
+
+		$rank = new WPSEO_Rank( $seo_filter );
+
+		$this->add_seo_score_filter( $rank->get_starting_score(), $rank->get_end_score() );
+	}
+
+	private function get_readability_filter_values( $readability_filter ) {
+		$rank = new WPSEO_Rank( $readability_filter );
+
+		$this->add_content_score_filter( $rank->get_starting_score(), $rank->get_end_score() );
+	}
+
+	private function get_keyword_filter( $vars, $seo_kw_filter ) {
+		return array_merge(
+			$vars, array(
+				'post_type'  => get_query_var( 'post_type', 'post' ),
+				'meta_key'   => WPSEO_Meta::$meta_prefix . 'focuskw',
+				'meta_value' => sanitize_text_field( $seo_kw_filter ),
+			)
+		);
 	}
 
 	/**
@@ -191,118 +257,144 @@ class WPSEO_Meta_Columns {
 	 * @return array
 	 */
 	public function column_sort_orderby( $vars ) {
-		if ( $seo_filter = filter_input( INPUT_GET, 'seo_filter' ) ) {
-			$rank = new WPSEO_Rank( $seo_filter );
-
-			if ( WPSEO_Rank::NO_FOCUS === $seo_filter || WPSEO_Rank::NO_INDEX === $seo_filter ) {
-				$vars = $this->filter_other( $vars, $seo_filter );
-			}
-			else {
-				$vars = array_merge( $vars, $this->filter_scored( $rank->get_starting_score(), $rank->get_end_score() ) );
-			}
+		if ( $seo_filter = $this->get_current_seo_filter() ) {
+			$this->get_seo_filter_values( $seo_filter );
 		}
 
-		if ( $seo_kw_filter = filter_input( INPUT_GET, 'seo_kw_filter' ) ) {
-			$vars = array_merge(
-				$vars, array(
-					'post_type'  => get_query_var( 'post_type', 'post' ),
-					'meta_key'   => WPSEO_Meta::$meta_prefix . 'focuskw',
-					'meta_value' => sanitize_text_field( $seo_kw_filter ),
-				)
-			);
+		if ( $readability_filter = $this->get_current_readability_filter() ) {
+			$this->get_readability_filter_values( $readability_filter );
+		}
+
+		if ( $current_keyword_filter = $this->get_current_keyword_filter() ) {
+			$vars = $this->get_keyword_filter( $vars, $current_keyword_filter );
 		}
 
 		if ( isset( $vars['orderby'] ) ) {
 			$vars = array_merge( $vars,  $this->filter_order_by( $vars['orderby'] ) );
 		}
 
-		return $vars;
+		return $this->build_filter_query( $vars );
 	}
 
-	/**
-	 * When there is a score just return this meta query array
-	 *
-	 * @param string $low The lowest number in the score range.
-	 * @param string $high The highest number in the score range.
-	 *
-	 * @return array
-	 */
-	private function filter_scored( $low, $high ) {
-		/**
-		 * @internal DON'T touch the order of these without double-checking/adjusting the seo_score_posts_where() method below!
-		 */
+	private function get_meta_robots_query_values() {
 		return array(
-			'meta_query' => array(
-				'relation' => 'AND',
-				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'value'   => array( $low, $high ),
-					'type'    => 'numeric',
-					'compare' => 'BETWEEN',
-				),
-				array(
-					'relation' => 'OR',
-					array(
-						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-						'compare' => 'NOT EXISTS',
-					),
-					array(
-						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-						'value'   => '1',
-						'compare' => '!=',
-					),
-				),
+			'relation' => 'OR',
+			array(
+				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+				'compare' => 'NOT EXISTS',
 			),
+			array(
+				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+				'value'   => '1',
+				'compare' => '!=',
+			),
+		);
+	}
+
+	private function collect_score_filters() {
+		if ( count( $this->score_filters ) > 1 ) {
+			return array_merge( array( 'relation' => 'AND' ), $this->score_filters );
+		}
+
+		return $this->score_filters;
+	}
+
+	private function has_score_filters() {
+		return count( $this->score_filters ) !== 0;
+	}
+
+	private function get_current_post_type() {
+		return filter_input( INPUT_GET, 'post_type' );
+	}
+
+	private function get_current_seo_filter() {
+		return filter_input( INPUT_GET, 'seo_filter' );
+	}
+
+	private function get_current_readability_filter() {
+		return filter_input( INPUT_GET, 'readability_filter' );
+	}
+
+	private function get_current_keyword_filter() {
+		return filter_input( INPUT_GET, 'seo_kw_filter' );
+	}
+
+	private function build_filter_query( $vars ) {
+		$result = array( 'meta_query' => array() );
+
+		// Determine whether or not to add the score filters.
+		if ( $this->has_score_filters() ) {
+			$result['meta_query'] = array_merge( $result[ 'meta_query' ], $this->collect_score_filters() );
+		}
+
+		if ( $this->get_current_seo_filter() !== WPSEO_Rank::NO_INDEX) {
+			$result['meta_query'] = array_merge( $result['meta_query'], array( $this->get_meta_robots_query_values() ) );
+		}
+
+		return array_merge( $vars, $result );
+	}
+
+	private function add_to_score_filters( $filter ) {
+		array_push( $this->score_filters, $filter );
+	}
+
+	private function add_content_score_filter( $low, $high ) {
+		$this->add_to_score_filters(
+			array(
+				'key' => WPSEO_Meta::$meta_prefix . 'content_score',
+				'value' => array( $low, $high ),
+				'type' => 'numeric',
+				'compare' => 'BETWEEN',
+			)
+		);
+	}
+
+	private function add_seo_score_filter( $low, $high ) {
+		$this->add_to_score_filters(
+			array(
+				'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
+				'value' => array( $low, $high ),
+				'type' => 'numeric',
+				'compare' => 'BETWEEN',
+			)
 		);
 	}
 
 	/**
 	 * Get vars for noindex or na filters
 	 *
-	 * @param array  $vars The unmerged vars.
 	 * @param string $seo_filter The SEO filter.
 	 *
 	 * @return array
 	 */
-	private function filter_other( $vars, $seo_filter ) {
-		switch ( $seo_filter ) {
-			case 'noindex':
-				$vars = array_merge(
-					$vars,
-					array(
-						'meta_query' => array(
-							array(
-								'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-								'value'   => '1',
-								'compare' => '=',
-							),
-						),
-					)
-				);
-				break;
-			case 'na':
-				$vars = array_merge(
-					$vars,
-					array(
-						'meta_query' => array(
-							'relation' => 'AND',
-							array(
-								'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-								'value'   => 'needs-a-value-anyway',
-								'compare' => 'NOT EXISTS',
-							),
-							array(
-								'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-								'value'   => 'needs-a-value-anyway',
-								'compare' => 'NOT EXISTS',
-							)
-						),
-					)
-				);
-				break;
+	private function filter_other( $seo_filter ) {
+		if ( $seo_filter === 'noindex' ) {
+			$this->add_to_score_filters(
+				array(
+					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+					'value'   => '1',
+					'compare' => '=',
+				)
+			);
 		}
 
-		return $vars;
+		if ( $seo_filter === 'na' ) {
+			$this->add_to_score_filters(
+				array(
+					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+					'value'   => 'needs-a-value-anyway',
+					'compare' => 'NOT EXISTS',
+				)
+			);
+
+			$this->add_to_score_filters(
+				array(
+					'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+					'value'   => 'needs-a-value-anyway',
+					'compare' => 'NOT EXISTS',
+				)
+			);
+		}
 	}
 
 	/**
@@ -339,12 +431,12 @@ class WPSEO_Meta_Columns {
 	 * @return string The HTML for the SEO score indicator.
 	 */
 	private function parse_column_score( $post_id ) {
-		if ( '1' === WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) ) {
+		if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
 			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
 			$title = __( 'Post is set to noindex.', 'wordpress-seo' );
 			WPSEO_Meta::set_value( 'linkdex', 0, $post_id );
 		}
-		elseif ( '' === WPSEO_Meta::get_value( 'focuskw', $post_id ) ) {
+		elseif ( WPSEO_Meta::get_value( 'focuskw', $post_id ) === '' ) {
 			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
 			$title = __( 'Focus keyword not set.', 'wordpress-seo' );
 		}
@@ -378,14 +470,15 @@ class WPSEO_Meta_Columns {
 		$post_types = get_post_types( array( 'public' => true ), 'names' );
 
 		if ( is_array( $post_types ) && $post_types !== array() ) {
-			foreach ( $post_types as $pt ) {
-				if ( $this->is_metabox_hidden( $pt ) === false ) {
-					add_filter( 'manage_' . $pt . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
-					add_action( 'manage_' . $pt . '_posts_custom_column', array(
+			foreach ( $post_types as $post_type ) {
+				if ( $this->is_metabox_hidden( $post_type ) === false ) {
+					add_filter( 'manage_' . $post_type . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
+					add_action( 'manage_' . $post_type . '_posts_custom_column', array(
 						$this,
 						'column_content',
 					), 10, 2 );
-					add_action( 'manage_edit-' . $pt . '_sortable_columns', array(
+
+					add_action( 'manage_edit-' . $post_type . '_sortable_columns', array(
 						$this,
 						'column_sort',
 					), 10, 2 );
@@ -395,11 +488,18 @@ class WPSEO_Meta_Columns {
 					 * function for the `manage{$screen}columnshidden` option, which is based on the current
 					 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
 					 */
-					$filter = sprintf( 'get_user_option_%s', sprintf( 'manage%scolumnshidden', 'edit-' . $pt ) );
+					$filter = sprintf(
+						'get_user_option_%s',
+						sprintf(
+							'manage%scolumnshidden',
+							'edit-' . $post_type
+						)
+					);
+
 					add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
 				}
 			}
-			unset( $pt );
+			unset( $post_type );
 		}
 	}
 
@@ -414,8 +514,8 @@ class WPSEO_Meta_Columns {
 	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
 	 */
 	private function is_metabox_hidden( $post_type = null ) {
-		if ( ! isset( $post_type ) &&  $get_post_type = filter_input( INPUT_GET, 'post_type' ) ) {
-			$post_type = sanitize_text_field( $get_post_type );
+		if ( ! isset( $post_type ) && $current_post_type = $this->get_current_post_type() ) {
+			$post_type = sanitize_text_field( $current_post_type );
 		}
 
 		if ( isset( $post_type ) ) {
