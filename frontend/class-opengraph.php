@@ -21,8 +21,7 @@ class WPSEO_OpenGraph {
 
 		if ( isset( $GLOBALS['fb_ver'] ) || class_exists( 'Facebook_Loader', false ) ) {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
-		}
-		else {
+		} else {
 			add_filter( 'language_attributes', array( $this, 'add_opengraph_namespace' ), 15 );
 
 			add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
@@ -138,8 +137,7 @@ class WPSEO_OpenGraph {
 			$regex   = '`prefix=([\'"])(.+?)\1`';
 			$replace = 'prefix="$2 ' . $namespace_string . '"';
 			$input   = preg_replace( $regex, $replace, $input );
-		}
-		else {
+		} else {
 			$input .= ' prefix="' . $namespace_string . '"';
 		}
 
@@ -204,8 +202,7 @@ class WPSEO_OpenGraph {
 			$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
 
 			return true;
-		}
-		else if ( isset( $this->options['fb_admins'] ) && is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
+		} else if ( isset( $this->options['fb_admins'] ) && is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 			$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
 			/**
 			 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by Yoast SEO
@@ -250,26 +247,21 @@ class WPSEO_OpenGraph {
 
 			if ( $title === '' ) {
 				$title = $frontend->title( '' );
-			}
-			else {
+			} else {
 				// Replace Yoast SEO Variables.
 				$title = wpseo_replace_vars( $title, $post );
 			}
-		}
-		else if ( is_front_page() ) {
+		} else if ( is_front_page() ) {
 			$title = ( isset( $this->options['og_frontpage_title'] ) && $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : $frontend->title( '' );
-		}
-		elseif ( is_category() || is_tax() || is_tag() ) {
+		} elseif ( is_category() || is_tax() || is_tag() ) {
 			$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-title' );
 			if ( $title === '' ) {
 				$title = $frontend->title( '' );
-			}
-			else {
+			} else {
 				// Replace Yoast SEO Variables.
 				$title = wpseo_replace_vars( $title, $GLOBALS['wp_query']->get_queried_object() );
 			}
-		}
-		else {
+		} else {
 			$title = $frontend->title( '' );
 		}
 
@@ -533,8 +525,7 @@ class WPSEO_OpenGraph {
 
 		if ( is_front_page() || is_home() ) {
 			$type = 'website';
-		}
-		elseif ( is_singular() ) {
+		} elseif ( is_singular() ) {
 
 			// This'll usually only be changed by plugins right now.
 			$type = WPSEO_Meta::get_value( 'og_type' );
@@ -542,8 +533,7 @@ class WPSEO_OpenGraph {
 			if ( $type === '' ) {
 				$type = 'article';
 			}
-		}
-		else {
+		} else {
 			// We use "object" for archives etc. as article doesn't apply there.
 			$type = 'object';
 		}
@@ -558,8 +548,7 @@ class WPSEO_OpenGraph {
 		if ( is_string( $type ) && $type !== '' ) {
 			if ( $echo !== false ) {
 				$this->og_tag( 'og:type', $type );
-			}
-			else {
+			} else {
 				return $type;
 			}
 		}
@@ -572,10 +561,17 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param string|boolean $image Optional image URL.
 	 */
+
 	public function image( $image = false ) {
 		$opengraph_images = new WPSEO_OpenGraph_Image( $this->options, $image );
 
-		foreach ( $opengraph_images->get_images() as $img ) {
+		/**
+		 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph images of the page
+		 *
+		 */
+		$images = apply_filters( 'wpseo_opengraph_image', $opengraph_images->get_images() );
+
+		foreach ( $images as $img ) {
 			$this->og_tag( 'og:image', esc_url( $img ) );
 
 			if ( 0 === strpos( $img, 'https://' ) ) {
@@ -584,6 +580,11 @@ class WPSEO_OpenGraph {
 		}
 
 		$dimensions = $opengraph_images->get_dimensions();
+		/**
+		 * Filter: 'wpseo_opengraph_dimensions' - Allow changing the OpenGraph page images dimensions.
+		 *
+		 */
+		$dimensions = apply_filters( 'wpseo_opengraph_dimensions', $dimensions );
 
 		if ( ! empty( $dimensions['width'] ) ) {
 			$this->og_tag( 'og:image:width', absint( $dimensions['width'] ) );
@@ -617,8 +618,7 @@ class WPSEO_OpenGraph {
 		if ( is_front_page() ) {
 			if ( isset( $this->options['og_frontpage_desc'] ) && $this->options['og_frontpage_desc'] !== '' ) {
 				$ogdesc = wpseo_replace_vars( $this->options['og_frontpage_desc'], null );
-			}
-			else {
+			} else {
 				$ogdesc = $frontend->metadesc( false );
 			}
 		}
@@ -808,8 +808,7 @@ class WPSEO_OpenGraph_Image {
 
 		if ( ! empty( $image ) && $this->add_image( $image ) ) {
 			// Safely assume an image was added so we don't need to automatically determine it anymore.
-		}
-		else {
+		} else {
 			$this->set_images();
 		}
 	}
@@ -880,8 +879,7 @@ class WPSEO_OpenGraph_Image {
 
 		if ( is_front_page() ) {
 			$this->get_front_page_image();
-		}
-		elseif ( is_home() ) { // Posts page, which won't be caught by is_singular() below.
+		} elseif ( is_home() ) { // Posts page, which won't be caught by is_singular() below.
 			$this->get_posts_page_image();
 		}
 
