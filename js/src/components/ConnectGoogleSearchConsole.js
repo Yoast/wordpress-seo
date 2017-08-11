@@ -1,6 +1,7 @@
 /* global yoastWizardConfig */
 
 import React from "react";
+import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import { localize } from "yoast-components/utils/i18n";
 import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
@@ -383,20 +384,20 @@ class ConnectGoogleSearchConsole extends React.Component {
 }
 
 ConnectGoogleSearchConsole.propTypes = {
-	translate: React.PropTypes.func.isRequired,
-	component: React.PropTypes.string,
-	data: React.PropTypes.string,
-	value: React.PropTypes.shape( {
-		profileList: React.PropTypes.oneOfType( [
-			React.PropTypes.object,
-			React.PropTypes.array,
+	translate: PropTypes.func.isRequired,
+	component: PropTypes.string,
+	data: PropTypes.string,
+	value: PropTypes.shape( {
+		profileList: PropTypes.oneOfType( [
+			PropTypes.object,
+			PropTypes.array,
 		] ),
 
-		profile: React.PropTypes.string,
-		hasAccessToken: React.PropTypes.bool,
+		profile: PropTypes.string,
+		hasAccessToken: PropTypes.bool,
 	} ),
-	onChange: React.PropTypes.func,
-	name: React.PropTypes.string,
+	onChange: PropTypes.func,
+	name: PropTypes.string,
 };
 
 ConnectGoogleSearchConsole.defaultProps = {
