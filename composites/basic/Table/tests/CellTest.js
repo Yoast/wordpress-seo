@@ -1,58 +1,58 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { PrimaryCell, FixedWidthCell, MinWidthCell, IconCell, responsiveHeaders } from "../../Table/Cell";
+import { CellPrimary, CellFixedWidth, CellMinWidth, CellIcon, responsiveHeaders } from "../../Table/Cell";
 
-test( "the PrimaryCell component matches the snapshot", () => {
+test( "the CellPrimary component matches the snapshot", () => {
 	const component = renderer.create(
-		<PrimaryCell headerLabel="PrimaryCell">
+		<CellPrimary headerLabel="PrimaryCell">
 			This is a primary cell
-		</PrimaryCell>
+		</CellPrimary>
 	);
 
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "the FixedWidthCell component matches the snapshot", () => {
+test( "the CellFixedWidth component matches the snapshot", () => {
 	const component = renderer.create(
-		<FixedWidthCell headerLabel="FixedWidthCell">
+		<CellFixedWidth headerLabel="FixedWidthCell">
 			This is a cell with a fixed width
-		</FixedWidthCell>
+		</CellFixedWidth>
 	);
 
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "the MinWidthCell component matches the snapshot", () => {
+test( "the CellMinWidth component matches the snapshot", () => {
 	const component = renderer.create(
-		<MinWidthCell headerLabel="MinWidthCell">
+		<CellMinWidth headerLabel="MinWidthCell">
 			This is a call with a min width
-		</MinWidthCell>
+		</CellMinWidth>
 	);
 
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "the IconCell component matches the snapshot", () => {
+test( "the CellIcon component matches the snapshot", () => {
 	const component = renderer.create(
-		<IconCell headerLabel="IconCell">
+		<CellIcon headerLabel="IconCell">
 			Icon
-		</IconCell>
+		</CellIcon>
 	);
 
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "the PrimaryCell with responsiveHeaders matches the snapshot", () => {
-	let PrimaryCellResponsive = responsiveHeaders( PrimaryCell );
+test( "the CellPrimary with responsiveHeaders matches the snapshot", () => {
+	let CellPrimaryResponsive = responsiveHeaders( CellPrimary );
 	const component = renderer.create(
-		<PrimaryCellResponsive headerLabel="responsiveHeaders">
+		<CellPrimaryResponsive headerLabel="responsiveHeaders">
 			This is a primary cell with responsive headers
-		</PrimaryCellResponsive>
+		</CellPrimaryResponsive>
 	);
 
 	let tree = component.toJSON();

@@ -52,7 +52,7 @@ export function ellipsify() {
  * A cell can be changed on a case by case basis wrapping the cells in a
  * styled component.
  */
-const BaseCell = styled.span`
+const CellBase = styled.span`
 	font-size: 14px;
 	padding-left: 40px;
 
@@ -82,7 +82,7 @@ const BaseCell = styled.span`
 	}
 `;
 
-BaseCell.propTypes = {
+CellBase.propTypes = {
 	children: PropTypes.any,
 	hideOnMobile: PropTypes.bool,
 	hideOnTablet: PropTypes.bool,
@@ -91,7 +91,7 @@ BaseCell.propTypes = {
 	ellipsis: PropTypes.bool,
 };
 
-BaseCell.defaultProps = {
+CellBase.defaultProps = {
 	hideOnMobile: false,
 	hideOnTable: false,
 	separator: false,
@@ -102,7 +102,7 @@ BaseCell.defaultProps = {
  * Primary cell, the largest one in a row: can grow, cannot shrink, and the
  * initial width is 200 pixels. In the responsive view, can shrink.
  */
-export const PrimaryCell = styled( BaseCell )`
+export const CellPrimary = styled( CellBase )`
 	flex: 1 0 200px;
 
 	@media screen and ( max-width: 800px ) {
@@ -114,7 +114,7 @@ export const PrimaryCell = styled( BaseCell )`
  * Cell with fixed width: cannot grow, cannot shrink, and the width based on
  * its content.
  */
-export const FixedWidthCell = styled( BaseCell )`
+export const CellFixedWidth = styled( CellBase )`
 	flex: 0 0 auto;
 `;
 
@@ -122,7 +122,7 @@ export const FixedWidthCell = styled( BaseCell )`
  * Cell with a minimum width: can grow, cannot shrink, and the initial width
  * is 100 pixels.
  */
-export const MinWidthCell = styled( BaseCell )`
+export const CellMinWidth = styled( CellBase )`
 	flex: 1 0 100px;
 `;
 
@@ -131,7 +131,7 @@ export const MinWidthCell = styled( BaseCell )`
  * its content. The height is smaller in the responsive view because icons are
  * smaller.
  */
-export const IconCell = styled( FixedWidthCell )`
+export const CellIcon = styled( CellFixedWidth )`
 	height: 60px;
 
 	@media screen and ( max-width: 800px ) {

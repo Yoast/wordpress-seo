@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the FixedWidthCell component matches the snapshot 1`] = `
+exports[`the CellFixedWidth component matches the snapshot 1`] = `
 <span
   className="sc-htpNat Adyvh sc-bdVaJa cypmDc"
 >
@@ -8,7 +8,7 @@ exports[`the FixedWidthCell component matches the snapshot 1`] = `
 </span>
 `;
 
-exports[`the IconCell component matches the snapshot 1`] = `
+exports[`the CellIcon component matches the snapshot 1`] = `
 <span
   className="sc-ifAKCX bQLOYb sc-htpNat Adyvh sc-bdVaJa kvTJHa"
 >
@@ -16,7 +16,7 @@ exports[`the IconCell component matches the snapshot 1`] = `
 </span>
 `;
 
-exports[`the MinWidthCell component matches the snapshot 1`] = `
+exports[`the CellMinWidth component matches the snapshot 1`] = `
 <span
   className="sc-bxivhb lotSSC sc-bdVaJa dGqibM"
 >
@@ -24,7 +24,7 @@ exports[`the MinWidthCell component matches the snapshot 1`] = `
 </span>
 `;
 
-exports[`the PrimaryCell component matches the snapshot 1`] = `
+exports[`the CellPrimary component matches the snapshot 1`] = `
 <span
   className="sc-bwzfXH gExHBp sc-bdVaJa ktZzSQ"
 >
@@ -32,7 +32,7 @@ exports[`the PrimaryCell component matches the snapshot 1`] = `
 </span>
 `;
 
-exports[`the PrimaryCell with responsiveHeaders matches the snapshot 1`] = `
+exports[`the CellPrimary with responsiveHeaders matches the snapshot 1`] = `
 <span
   className="sc-EHOje jXVInk sc-bwzfXH gExHBp sc-bdVaJa hWcPUc"
 >
