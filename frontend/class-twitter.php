@@ -389,11 +389,11 @@ class WPSEO_Twitter {
 		}
 
 		if ( is_singular() ) {
-			if ( $this->image_from_meta_values_output() ) {
+			$post_id = get_the_ID();
+
+			if ( $this->image_from_meta_values_output( $post_id ) ) {
 				return;
 			}
-
-			$post_id = get_the_ID();
 
 			if ( $this->image_of_attachment_page_output( $post_id ) ) {
 				return;
