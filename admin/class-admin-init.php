@@ -508,20 +508,23 @@ class WPSEO_Admin_Init {
 				'textdomain'  => 'wordpress-seo',
 				'plugin_name' => 'Yoast SEO',
 				'hook'        => 'wpseo_admin_promo_footer',
-			), false
+			), true
 		);
+
+		$message = $i18n_module->get_promo_message();
+
 
 		$notification_center = Yoast_Notification_Center::get();
 
 		$notification        = new Yoast_Notification(
-			$i18n_module->promo_message(),
+			$message,
 			array(
 				'type' => Yoast_Notification::WARNING,
 				'id'   => 'i18nModuleTranslationAssistance',
 			)
 		);
 
-		if ( $i18n_module->is_admin_in_other_language() ) {
+		if ( $message ) {
 			$notification_center->add_notification( $notification );
 		}
 		else {
