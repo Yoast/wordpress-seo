@@ -355,7 +355,7 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
-	 * Get attached image URL. Adapted from core for speed.
+	 * Get attached image URL with filters applied. Adapted from core for speed.
 	 *
 	 * @param int $post_id ID of the post.
 	 *
