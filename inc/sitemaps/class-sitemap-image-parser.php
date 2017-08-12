@@ -386,7 +386,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$src = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
 		} else {
 			// It's a newly uploaded file, therefore $file is relative to the baseurl.
-			$src = $uploads['baseurl'] . "/$file";
+			$src = $uploads['baseurl'] . '/' . $file;
 		}
 
 		return apply_filters( 'wp_get_attachment_url', $src, $post_id );
