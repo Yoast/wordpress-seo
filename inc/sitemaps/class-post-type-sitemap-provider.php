@@ -436,15 +436,15 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		return $links;
 	}
 
-        /**
-         * Get URL for a post type archive.
-         *
-         * @since  5.3
-         *
-         * @param  string $post_type Post type.
-         *
-         * @return string|bool URL or false if it should be excluded.
-         */
+	/**
+	 * Get URL for a post type archive.
+	 *
+	 * @since  5.3
+	 *
+	 * @param  string $post_type Post type.
+	 *
+	 * @return string|bool URL or false if it should be excluded.
+	 */
 	protected function get_post_type_archive_link( $post_type ) {
 
 		$options = $this->get_options();
