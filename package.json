@@ -36,6 +36,7 @@
     "grunt-scss-to-json": "^1.0.1",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
+    "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "styled-components": "^2.1.1",
     "whatwg-fetch": "^1.0.0"

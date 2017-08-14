@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import _omit from "lodash/omit";
 
 /**
  * Returns the Icon component.
@@ -11,20 +12,23 @@ import styled from "styled-components";
  */
 export const Icon = ( props ) => {
 	const IconComponent = styled( props.icon )`
-		width: ${ props.iconSize };
-		height: ${ props.iconSize };
-		fill: ${ props.iconColor };
+		width: ${ props.size };
+		height: ${ props.size };
+		fill: ${ props.color };
 	`;
 
-	return <IconComponent aria-hidden="true" />;
+	// Remove the props that are no longer needed
+	const newProps = _omit( props, [ "icon", "size", "color" ] );
+
+	return <IconComponent aria-hidden="true" { ...newProps } />;
 };
 
 Icon.propTypes = {
 	icon: PropTypes.func.isRequired,
-	iconColor: PropTypes.string.isRequired,
-	iconSize: PropTypes.string,
+	color: PropTypes.string.isRequired,
+	size: PropTypes.string,
 };
 
 Icon.defaultProps = {
-	iconSize: "16px",
+	size: "16px",
 };
