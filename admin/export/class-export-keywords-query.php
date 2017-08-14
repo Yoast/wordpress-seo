@@ -8,22 +8,22 @@ class WPSEO_Export_Keywords_Query {
 	/**
 	 * @var wpdb The wordpress database object.
 	 */
-	private $wpdb;
+	protected $wpdb;
 
 	/**
 	 * @var array[int]string The columns to query for, an array of strings.
 	 */
-	private $columns;
+	protected $columns;
 
 	/**
 	 * @var array[int]string The database columns to select in the query, an array of strings.
 	 */
-	private $selects;
+	protected $selects;
 
 	/**
 	 * @var array[int]string The database tables to join in the query, an array of strings.
 	 */
-	private $joins = array();
+	protected $joins = array();
 
 	/**
 	 * WPSEO_Export_Keywords_Query constructor.
@@ -72,21 +72,21 @@ class WPSEO_Export_Keywords_Query {
 	protected function set_columns() {
 		$this->selects = array( $this->wpdb->prefix . 'posts.ID' );
 
-		if ( in_array( 'post_title', $this->columns ) ) {
+		if ( in_array( 'post_title', $this->columns, true ) ) {
 			$this->selects[] = $this->wpdb->prefix . 'posts.post_title';
 		}
 
 		// If we're selecting keywords_score then we always want the keywords as well.
-		if ( in_array( 'keywords', $this->columns ) || in_array( 'keywords_score', $this->columns ) ) {
+		if ( in_array( 'keywords', $this->columns, true ) || in_array( 'keywords_score', $this->columns, true ) ) {
 			$this->add_meta_join( 'primary_keyword', WPSEO_Meta::$meta_prefix . 'focuskw' );
 			$this->add_meta_join( 'other_keywords', WPSEO_Meta::$meta_prefix . 'focuskeywords' );
 		}
 
-		if ( in_array( 'seo_score', $this->columns ) ) {
+		if ( in_array( 'seo_score', $this->columns, true ) ) {
 			$this->add_meta_join( 'seo_score', WPSEO_Meta::$meta_prefix . 'content_score' );
 		}
 
-		if ( in_array( 'keywords_score', $this->columns ) ) {
+		if ( in_array( 'keywords_score', $this->columns, true ) ) {
 			$this->add_meta_join( 'primary_keyword_score', WPSEO_Meta::$meta_prefix . 'linkdex' );
 			// Score for other keywords is already in the other_keywords select.
 		}
@@ -118,22 +118,22 @@ class WPSEO_Export_Keywords_Query {
 	 */
 	protected function result_mapper( $result ) {
 		// If post titles were selected run their filters.
-		if ( in_array( 'post_title', $this->columns ) ) {
+		if ( in_array( 'post_title', $this->columns, true ) ) {
 			$result['post_title'] = apply_filters( 'the_title', $result['post_title'], $result['ID'] );
 		}
 
 		// If post urls were selected add them to our results.
-		if ( in_array( 'post_url', $this->columns ) ) {
+		if ( in_array( 'post_url', $this->columns, true ) ) {
 			$result['post_url'] = get_permalink( $result['ID'] );
 		}
 
 		// If SEO scores were selected convert them to nice ratings.
-		if ( in_array( 'seo_score', $this->columns ) ) {
+		if ( in_array( 'seo_score', $this->columns, true ) ) {
 			$result['seo_score'] = $this->get_rating_from_int_score( intval( $result['seo_score']) );
 		}
 
 		// If keywords were selected we need to convert them to a better format.
-		if ( in_array( 'keywords', $this->columns ) || in_array( 'keywords_score', $this->columns ) ) {
+		if ( in_array( 'keywords', $this->columns, true ) || in_array( 'keywords_score', $this->columns, true ) ) {
 			$result = $this->convert_result_keywords( $result );
 		}
 
@@ -151,17 +151,19 @@ class WPSEO_Export_Keywords_Query {
 		if ( $result['primary_keyword'] ) {
 			$result['keywords'] = array( $result['primary_keyword'] );
 
-			if ( in_array( 'keywords_score', $this->columns ) ) {
-				$result['keywords_score'] = array( $this->get_rating_from_int_score( $result['primary_keyword_score'] ) );
+			if ( in_array( 'keywords_score', $this->columns, true ) ) {
+				$result['keywords_score'] = array( $this->get_rating_from_int_score( intval( $result['primary_keyword_score'] ) ) );
 			}
 
 			// Convert multiple keywords from the Premium plugin from json to string arrays.
 			if ( array_key_exists( 'other_keywords', $result ) && $result['other_keywords'] ) {
 				$keywords = json_decode( $result['other_keywords'], true );
-				foreach( $keywords as $keyword ) {
-					$result['keywords'][] = $keyword['keyword'];
-					if ( in_array( 'keywords_score', $this->columns ) ) {
-						$result['keywords_score'][] = $this->get_rating_from_string_score( $keyword['score'] );
+				if ( $keywords ) {
+					foreach( $keywords as $keyword ) {
+						$result['keywords'][] = $keyword['keyword'];
+						if ( in_array( 'keywords_score', $this->columns, true ) ) {
+							$result['keywords_score'][] = $this->get_rating_from_string_score( $keyword['score'] );
+						}
 					}
 				}
 			}
@@ -183,6 +185,10 @@ class WPSEO_Export_Keywords_Query {
 	 * @return string
 	 */
 	protected function get_rating_from_int_score( $score ) {
+		if ( ! is_int( $score ) ) {
+			return __( 'none' );
+		}
+
 		if ( $score > 0 && $score <= 40 ) {
 			return __( "needs improvement" );
 		}
@@ -206,6 +212,10 @@ class WPSEO_Export_Keywords_Query {
 	 * @return string
 	 */
 	protected function get_rating_from_string_score( $score ) {
+		if ( ! is_string( $score ) ) {
+			return __( 'none' );
+		}
+
 		if ( $score === 'bad' ) {
 			return __( "needs improvement" );
 		}
