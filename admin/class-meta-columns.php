@@ -21,7 +21,7 @@ class WPSEO_Meta_Columns {
 	private $score_filters = array();
 
 	/**
-	 * When page analysis is enabled, just initialize the hooks
+	 * When page analysis is enabled, just initialize the hooks.
 	 */
 	public function __construct() {
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
@@ -33,7 +33,7 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Setting up the hooks
+	 * Sets up up the hooks.
 	 */
 	public function setup_hooks() {
 		$this->set_post_type_hooks();
@@ -54,7 +54,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @param array $columns Already existing columns.
 	 *
-	 * @return array
+	 * @return array Array containing the column headings.
 	 */
 	public function column_heading( $columns ) {
 		if ( $this->is_metabox_hidden() === true ) {
@@ -82,7 +82,7 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Display the column content for the given column
+	 * Displays the column content for the given column.
 	 *
 	 * @param string $column_name Column to display the content for.
 	 * @param int    $post_id     Post to display the column content for.
@@ -116,11 +116,11 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Indicate which of the SEO columns are sortable.
+	 * Indicates which of the SEO columns are sortable.
 	 *
 	 * @param array $columns appended with their orderby variable.
 	 *
-	 * @return array
+	 * @return array Array containing the sortable columns.
 	 */
 	public function column_sort( $columns ) {
 		if ( $this->is_metabox_hidden() === true ) {
@@ -137,29 +137,29 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Hide the SEO Title, Meta Desc and Focus KW columns if the user hasn't chosen which columns to hide
+	 * Hides the SEO title, meta description and focus keyword columns if the user hasn't chosen which columns to hide.
 	 *
 	 * @param array|false $result The hidden columns.
 	 * @param string      $option The option name used to set which columns should be hidden.
 	 * @param WP_User     $user The User.
 	 *
-	 * @return array|false $result
+	 * @return array      $result Array containing the columns to hide.
 	 */
 	public function column_hidden( $result, $option, $user ) {
 		global $wpdb;
 
-		$prefix = $wpdb->get_blog_prefix();
-		if ( ! $user->has_prop( $prefix . $option ) && ! $user->has_prop( $option ) ) {
+		if ( $user->has_prop( $wpdb->get_blog_prefix() . $option ) || $user->has_prop( $option ) ) {
+			return $result;
+		}
 
-			if ( ! is_array( $result ) ) {
-				$result = array();
-			}
+		if ( ! is_array( $result ) ) {
+			$result = array();
+		}
 
-			array_push( $result, 'wpseo-title', 'wpseo-metadesc' );
+		array_push( $result, 'wpseo-title', 'wpseo-metadesc' );
 
-			if ( $this->analysis_seo->is_enabled() ) {
-				array_push( $result, 'wpseo-focuskw' );
-			}
+		if ( $this->analysis_seo->is_enabled() ) {
+			array_push( $result, 'wpseo-focuskw' );
 		}
 
 		return $result;
@@ -167,11 +167,9 @@ class WPSEO_Meta_Columns {
 
 	/**
 	 * Adds a dropdown that allows filtering on the posts SEO Quality.
-	 *
-	 * @return void
 	 */
 	public function posts_filter_dropdown() {
-		if ( $GLOBALS['pagenow'] === 'upload.php' || $this->is_metabox_hidden() === true ) {
+		if ( $this->can_display_filter() ) {
 			return;
 		}
 
@@ -197,7 +195,7 @@ class WPSEO_Meta_Columns {
 	 * @return void
 	 */
 	public function posts_filter_dropdown_readability() {
-		if ( $GLOBALS['pagenow'] === 'upload.php' || $this->is_metabox_hidden() === true ) {
+		if ( $this->can_display_filter() ) {
 			return;
 		}
 
@@ -217,13 +215,27 @@ class WPSEO_Meta_Columns {
 		echo '</select>';
 	}
 
-	private function generate_option( $value, $label, $selected = false ) {
+	/**
+	 * Generates an <option> element.
+	 *
+	 * @param      $value       The option's value.
+	 * @param      $label       The option's label.
+	 * @param bool $selected    Whether or not the option should be selected.
+	 *
+	 * @return string The generated <option> element.
+	 */
+	protected function generate_option( $value, $label, $selected = false ) {
 		return '<option ' . $selected . ' value="' . $value . '">' . $label . '</option>';
 	}
 
-	private function get_seo_filter_values( $seo_filter ) {
+	/**
+	 * Adds the SEO score filter to be later used in the meta query, based on the passed SEO filter.
+	 *
+	 * @param string $seo_filter The SEO filter to use to determine what further filter to apply.
+	 */
+	protected function get_seo_filter_values( $seo_filter ) {
 		if ( $seo_filter === WPSEO_Rank::NO_FOCUS || $seo_filter === WPSEO_Rank::NO_INDEX ) {
-			$this->filter_other( $seo_filter );
+			$this->add_other_filter( $seo_filter );
 
 			return;
 		}
@@ -233,28 +245,38 @@ class WPSEO_Meta_Columns {
 		$this->add_seo_score_filter( $rank->get_starting_score(), $rank->get_end_score() );
 	}
 
-	private function get_readability_filter_values( $readability_filter ) {
+	/**
+	 * Adds the Readabilty score filter to the meta query, based on the passed Readabilty filter.
+	 *
+	 * @param string $readability_filter The Readability filter to use to determine what further filter to apply.
+	 */
+	protected function get_readability_filter_values( $readability_filter ) {
 		$rank = new WPSEO_Rank( $readability_filter );
 
-		$this->add_content_score_filter( $rank->get_starting_score(), $rank->get_end_score() );
+		$this->add_readability_score_filter( $rank->get_starting_score(), $rank->get_end_score() );
 	}
 
-	private function get_keyword_filter( $vars, $seo_kw_filter ) {
-		return array_merge(
-			$vars, array(
-				'post_type'  => get_query_var( 'post_type', 'post' ),
-				'meta_key'   => WPSEO_Meta::$meta_prefix . 'focuskw',
-				'meta_value' => sanitize_text_field( $seo_kw_filter ),
-			)
+	/**
+	 * Creates a keyword filter for the meta query, based on the passed Keyword filter.
+	 *
+	 * @param $keyword_filter
+	 *
+	 * @return array
+	 */
+	protected function get_keyword_filter( $keyword_filter ) {
+		return array(
+			'post_type'  => get_query_var( 'post_type', 'post' ),
+			'meta_key'   => WPSEO_Meta::$meta_prefix . 'focuskw',
+			'meta_value' => sanitize_text_field( $keyword_filter ),
 		);
 	}
 
 	/**
-	 * Modify the query based on the seo_filter variable in $_GET
+	 * Modify the query based on the filters that are being passed.
 	 *
-	 * @param array $vars Query variables.
+	 * @param array $vars Query variables that need to be modified based on the filters.
 	 *
-	 * @return array
+	 * @return array Array containing the meta query to use for filtering the posts overview.
 	 */
 	public function column_sort_orderby( $vars ) {
 		if ( $seo_filter = $this->get_current_seo_filter() ) {
@@ -266,7 +288,7 @@ class WPSEO_Meta_Columns {
 		}
 
 		if ( $current_keyword_filter = $this->get_current_keyword_filter() ) {
-			$vars = $this->get_keyword_filter( $vars, $current_keyword_filter );
+			$vars = array_merge( $vars, $this->get_keyword_filter( $current_keyword_filter ) );
 		}
 
 		if ( isset( $vars['orderby'] ) ) {
@@ -276,7 +298,12 @@ class WPSEO_Meta_Columns {
 		return $this->build_filter_query( $vars );
 	}
 
-	private function get_meta_robots_query_values() {
+	/**
+	 * Retrieves the meta robots query values to be used within the meta query.
+	 *
+	 * @return array Array containing the query parameters regarding meta robots.
+	 */
+	protected function get_meta_robots_query_values() {
 		return array(
 			'relation' => 'OR',
 			array(
@@ -291,7 +318,12 @@ class WPSEO_Meta_Columns {
 		);
 	}
 
-	private function collect_score_filters() {
+	/**
+	 * Determines the score filters to be used. If more than one is passed, it created an AND statement for the query.
+	 *
+	 * @return array Array containing the score filters that need to be applied to the meta query.
+	 */
+	private function determine_score_filters() {
 		if ( count( $this->score_filters ) > 1 ) {
 			return array_merge( array( 'relation' => 'AND' ), $this->score_filters );
 		}
@@ -299,32 +331,64 @@ class WPSEO_Meta_Columns {
 		return $this->score_filters;
 	}
 
-	private function has_score_filters() {
+	/**
+	 * Determines if there are any score filters.
+	 *
+	 * @return bool Whether or not any score filters are present.
+	 */
+	public function has_score_filters() {
 		return count( $this->score_filters ) !== 0;
 	}
 
-	private function get_current_post_type() {
+	/**
+	 * Retrieves the post type from the $_GET variable.
+	 *
+	 * @return string The current post type.
+	 */
+	public function get_current_post_type() {
 		return filter_input( INPUT_GET, 'post_type' );
 	}
 
-	private function get_current_seo_filter() {
+	/**
+	 * Retrieves the SEO filter from the $_GET variable.
+	 *
+	 * @return string The current post type.
+	 */
+	public function get_current_seo_filter() {
 		return filter_input( INPUT_GET, 'seo_filter' );
 	}
 
-	private function get_current_readability_filter() {
+	/**
+	 * Retrieves the Readability filter from the $_GET variable.
+	 *
+	 * @return string The current post type.
+	 */
+	public function get_current_readability_filter() {
 		return filter_input( INPUT_GET, 'readability_filter' );
 	}
 
-	private function get_current_keyword_filter() {
+	/**
+	 * Retrieves the keyword filter from the $_GET variable.
+	 *
+	 * @return string The current post type.
+	 */
+	public function get_current_keyword_filter() {
 		return filter_input( INPUT_GET, 'seo_kw_filter' );
 	}
 
+	/**
+	 * Uses the vars to create a complete filter query that can later be executed to filter out posts.
+	 *
+	 * @param array $vars Array containing the variables that will be used in the meta query.
+	 *
+	 * @return array Array containing the complete filter query.
+	 */
 	private function build_filter_query( $vars ) {
 		$result = array( 'meta_query' => array() );
 
 		// Determine whether or not to add the score filters.
 		if ( $this->has_score_filters() ) {
-			$result['meta_query'] = array_merge( $result[ 'meta_query' ], $this->collect_score_filters() );
+			$result['meta_query'] = array_merge( $result[ 'meta_query' ], $this->determine_score_filters() );
 		}
 
 		if ( $this->get_current_seo_filter() !== WPSEO_Rank::NO_INDEX) {
@@ -334,11 +398,22 @@ class WPSEO_Meta_Columns {
 		return array_merge( $vars, $result );
 	}
 
+	/**
+	 * Adds a new filter into the array of score filters.
+	 *
+	 * @param $filter The filter to add.
+	 */
 	private function add_to_score_filters( $filter ) {
 		array_push( $this->score_filters, $filter );
 	}
 
-	private function add_content_score_filter( $low, $high ) {
+	/**
+	 * Adds a filter to the score filters based on the Readability score.
+	 *
+	 * @param $low The lower boundary of the score.
+	 * @param $high The higher boundary of the score.
+	 */
+	private function add_readability_score_filter( $low, $high ) {
 		$this->add_to_score_filters(
 			array(
 				'key' => WPSEO_Meta::$meta_prefix . 'content_score',
@@ -349,6 +424,12 @@ class WPSEO_Meta_Columns {
 		);
 	}
 
+	/**
+	 * Adds a filter to the score filters based on the SEO score.
+	 *
+	 * @param $low The lower boundary of the score.
+	 * @param $high The higher boundary of the score.
+	 */
 	private function add_seo_score_filter( $low, $high ) {
 		$this->add_to_score_filters(
 			array(
@@ -361,13 +442,11 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Get vars for noindex or na filters
+	 * Adds the filters for noindex or posts that are considered not available.
 	 *
-	 * @param string $seo_filter The SEO filter.
-	 *
-	 * @return array
+	 * @param string $seo_filter The SEO filter to use to determine what score filters to add.
 	 */
-	private function filter_other( $seo_filter ) {
+	private function add_other_filter( $seo_filter ) {
 		if ( $seo_filter === 'noindex' ) {
 			$this->add_to_score_filters(
 				array(
@@ -424,7 +503,7 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Parsing the score column
+	 * Parses the score column.
 	 *
 	 * @param integer $post_id The ID of the post for which to show the score.
 	 *
@@ -434,17 +513,22 @@ class WPSEO_Meta_Columns {
 		if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
 			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
 			$title = __( 'Post is set to noindex.', 'wordpress-seo' );
+
 			WPSEO_Meta::set_value( 'linkdex', 0, $post_id );
+
+			return $this->render_score_indicator( $rank, $title );
 		}
-		elseif ( WPSEO_Meta::get_value( 'focuskw', $post_id ) === '' ) {
+
+		if ( WPSEO_Meta::get_value( 'focuskw', $post_id ) === '' ) {
 			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
 			$title = __( 'Focus keyword not set.', 'wordpress-seo' );
+
+			return $this->render_score_indicator( $rank, $title );
 		}
-		else {
-			$score = (int) WPSEO_Meta::get_value( 'linkdex', $post_id );
-			$rank  = WPSEO_Rank::from_numeric_score( $score );
-			$title = $rank->get_label();
-		}
+
+		$score = (int) WPSEO_Meta::get_value( 'linkdex', $post_id );
+		$rank  = WPSEO_Rank::from_numeric_score( $score );
+		$title = $rank->get_label();
 
 		return $this->render_score_indicator( $rank, $title );
 	}
@@ -464,7 +548,7 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Setting the hooks for the post_types
+	 * Sets up the hooks for the post_types.
 	 */
 	private function set_post_type_hooks() {
 		$post_types = get_post_types( array( 'public' => true ), 'names' );
@@ -596,5 +680,14 @@ class WPSEO_Meta_Columns {
 			return $new_where;
 		}
 		return $where;
+	}
+
+	/**
+	 * Determines whether or not filter dropdowns should be displayed.
+	 *
+	 * @return bool Whether or the current page can display the filter drop downs.
+	 */
+	public function can_display_filter() {
+		return $GLOBALS['pagenow'] !== 'upload.php' && $this->is_metabox_hidden() === false;
 	}
 }
