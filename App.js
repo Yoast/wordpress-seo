@@ -5,7 +5,7 @@ import { AppContainer } from "react-hot-loader";
 import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import Config from "./composites/OnboardingWizard/config/production-config";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
-import SnippetPreview from "./composites/SnippetPreview/components/SnippetPreview";
+import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
 import apiConfig from "./composites/OnboardingWizard/config/api-config";
 import Loader from "./composites/basic/Loader";
 
