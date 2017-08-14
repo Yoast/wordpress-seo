@@ -10,13 +10,13 @@ const initialState = {};
  */
 
 /**
- * A reducer for the seo object.
+ * A reducer for the keyword results object.
  *
  * @param {Object} state The current state of the object.
  * @param {Object} action The current action received.
- * @returns {Object} The updated seo object.
+ * @returns {Object} The updated keywords results object.
  */
-export function seoReducer( state = initialState.seo, action ) {
+export function keywordResultsReducer( state = initialState, action ) {
 	switch ( action.type ) {
 		case UPDATE_SEO_RESULT:
 			if( ! state[ action.keyword ] ) {

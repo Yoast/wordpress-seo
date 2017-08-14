@@ -1,4 +1,4 @@
-import * as actions from "../ContentAnalysis";
+import * as actions from "../contentAnalysis";
 
 
 test( "update SEO Result action creator", () => {
