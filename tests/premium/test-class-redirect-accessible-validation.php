@@ -219,17 +219,11 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'http://www.domain.org/absolute.pdf',
 			$double->return_parse_target( 'http://www.domain.org/absolute.pdf' ) );
 
-		$this->assertEquals( 'http://www.domain.org/absolute?a=b',
-			$double->return_parse_target( 'http://www.domain.org/absolute?a=b' ) );
-
-		$this->assertEquals( 'http://example.org/relative',
+		$this->assertEquals( 'http://example.org/relative/',
 			$double->return_parse_target( '/relative' ) );
 
 		$this->assertEquals( 'http://example.org/relative.pdf',
 			$double->return_parse_target( '/relative.pdf' ) );
-
-		$this->assertEquals( 'http://example.org/relative?a=b',
-			$double->return_parse_target( '/relative?a=b' ) );
 	}
 
 	/**

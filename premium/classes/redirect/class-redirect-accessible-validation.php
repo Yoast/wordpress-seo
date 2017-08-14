@@ -109,7 +109,14 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 			return $target;
 		}
 
-		// Else make it absolute relative to the home_url and return it.
-		return get_home_url( null, $target );
+		// If we have a relative url make it absolute.
+		$absolute = get_home_url( null, $target );
+
+		// If the path does not end with an extension then add a trailing slash.
+		if ( ! preg_match( '/\.[^\/]+\Z/', $url_parts['path'], $matches ) ) {
+			return trailingslashit( $absolute );
+		}
+
+		return $absolute;
 	}
 }
