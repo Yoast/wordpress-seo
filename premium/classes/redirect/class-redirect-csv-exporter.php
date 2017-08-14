@@ -48,7 +48,7 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 		}
 
 		$origin = $redirect->get_origin();
-		if ( WPSEO_Redirect_Util::is_relative_url( $origin ) ) {
+		if ( $redirect->get_format() === WPSEO_Redirect::FORMAT_PLAIN && WPSEO_Redirect_Util::is_relative_url( $origin ) ) {
 			$origin = '/' . $origin;
 		}
 

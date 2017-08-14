@@ -147,6 +147,22 @@ class WPSEO_Redirect_CSV_Exporter_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '"/origin?q=""1,2""","/target?q=1,2","301","plain"', $lines[1] );
 	}
 
+	public function test_export_regex() {
+		$class_instance = new WPSEO_Redirect_CSV_Exporter();
+
+		$csv = $class_instance->export(
+			array(
+				new WPSEO_Redirect( '\A\d+\Z', 'numbers', '301', WPSEO_Redirect::FORMAT_REGEX ),
+			)
+		);
+
+		$lines = explode( "\n", $csv );
+
+		$this->assertCount( 2, $lines );
+
+		$this->assertEquals( '"\A\d+\Z","/numbers","301","regex"', $lines[1] );
+	}
+
 	/**
 	 * Asserts if the CSV string contains the expected number of values.
 	 * Currently using a Regex as str_getcsv requires PHP 5.3 while we still support PHP 5.2.
