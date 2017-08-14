@@ -90,7 +90,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 *
 	 * @return bool
 	 */
-	private function is_temporary( $response_code ) {
+	protected function is_temporary( $response_code ) {
 		return in_array( $response_code, array( 302, 307 ) ) || in_array( substr( $response_code, 0, 2 ), array( 40, 50 ) );
 	}
 
@@ -101,14 +101,22 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 *
 	 * @return string
 	 */
-	private function parse_target( $target ) {
+	protected function parse_target( $target ) {
 		$url_parts = parse_url( $target );
 
+		// If we have an absolute url return it.
 		if ( ! empty( $url_parts['scheme'] ) ) {
 			return $target;
 		}
 
-		// Parse the URL based on the home URL.
-		return trailingslashit( get_home_url( null, $target ) );
+		// If we have a relative url make it absolute.
+		$absolute = get_home_url( null, $target );
+
+		// If the path does not end with an extension then add a trailing slash.
+		if ( WPSEO_Redirect_Util::requires_trailing_slash( $target ) ) {
+			return trailingslashit( $absolute );
+		}
+
+		return $absolute;
 	}
 }

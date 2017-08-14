@@ -4,6 +4,17 @@
  */
 
 /**
+ * Class WPSEO_Redirect_Accessible_Validation_Double
+ *
+ * Create double class so we can test against the parse_target function.
+ */
+class WPSEO_Redirect_Accessible_Validation_Double extends WPSEO_Redirect_Accessible_Validation {
+	public function return_parse_target( $target ) {
+		return $this->parse_target( $target );
+	}
+}
+
+/**
  * Test class for testing the accessible validation class
  *
  * @covers WPSEO_Redirect_Accessible_Validation
@@ -14,6 +25,15 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 * @var WPSEO_Redirect_Accessible_Validation
 	 */
 	private $class_instance;
+
+
+	/**
+	 * Reset WPSEO_Redirect_Util::$has_permalink_trailing_slash so it does not interfere in other tests.
+	 */
+	public function tearDown() {
+		WPSEO_Redirect_Util::$has_permalink_trailing_slash = null;
+		parent::tearDown();
+	}
 
 	/**
 	 * Setting the class_instance with an instance of WPSEO_Redirect_Accessible_Validation
@@ -175,6 +195,49 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 			new WPSEO_Validation_Warning( 'The URL you are redirecting to seems to return a 404 status. You might want to check if the target can be reached manually before saving.', 'target' ),
 			$this->class_instance->get_error()
 		);
+	}
+
+	/**
+	 * Validate if the target URL is resolvable, in this test it will be a url with an extension. It should be accessible.
+	 *
+	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
+	 */
+	public function test_validate_with_extension( ) {
+		$this->assertTrue(
+			$this->class_instance->run(
+				new WPSEO_Redirect( 'accessible_url.pdf', 'https://www.w3.org/2003/01/Consortium.pdf', 301 )
+			)
+		);
+
+		// Because inside all unit tests home_url returns example.org we can't validate a relative url with extension.
+		// Instead see test_parse_target.
+	}
+
+	/**
+	 * Validate if the parse_target function deals with absolute urls, relative urls,
+	 * urls with an extension and urls with a fragment correctly.
+	 *
+	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
+	 */
+	public function test_parse_target( ) {
+		$double = new WPSEO_Redirect_Accessible_Validation_Double();
+
+		$this->assertEquals( 'http://www.domain.org/absolute',
+			$double->return_parse_target( 'http://www.domain.org/absolute' ) );
+
+		$this->assertEquals( 'http://www.domain.org/absolute.pdf',
+			$double->return_parse_target( 'http://www.domain.org/absolute.pdf' ) );
+
+		WPSEO_Redirect_Util::$has_permalink_trailing_slash = false;
+		$this->assertEquals( 'http://example.org/relative',
+			$double->return_parse_target( '/relative' ) );
+
+		WPSEO_Redirect_Util::$has_permalink_trailing_slash = true;
+		$this->assertEquals( 'http://example.org/relative/',
+			$double->return_parse_target( '/relative' ) );
+
+		$this->assertEquals( 'http://example.org/relative.pdf',
+			$double->return_parse_target( '/relative.pdf' ) );
 	}
 
 	/**
