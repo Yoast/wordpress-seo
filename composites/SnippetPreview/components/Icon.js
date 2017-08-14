@@ -11,21 +11,20 @@ import styled from "styled-components";
  */
 export const Icon = ( props ) => {
 	const IconComponent = styled( props.icon )`
-		float: left;
-		width: ${ props => props.iconSize }px;
-		height: ${ props => props.iconSize }px;
-		fill: ${ props => props.iconColor };
+		width: ${ props.iconSize };
+		height: ${ props.iconSize };
+		fill: ${ props.iconColor };
 	`;
 
-	return <IconComponent aria-hidden="true" iconSize={ props.iconSize } iconColor={ props.iconColor } />;
+	return <IconComponent aria-hidden="true" />;
 };
 
 Icon.propTypes = {
 	icon: PropTypes.func.isRequired,
 	iconColor: PropTypes.string.isRequired,
-	iconSize: PropTypes.number,
+	iconSize: PropTypes.string,
 };
 
 Icon.defaultProps = {
-	iconSize: 16,
+	iconSize: "16px",
 };

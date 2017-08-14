@@ -1,12 +1,12 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import Edit from "../../../style-guide/svg/edit.svg";
+import edit from "../../../style-guide/svg/edit.svg";
 import { Icon } from "../components/Icon";
 
 test( "the Icon matches the snapshot", () => {
 	const component = renderer.create(
-		<Icon icon={ Edit } iconColor="black"  />
+		<Icon icon={ edit } iconColor="black" iconSize="16px" />
 	);
 
 	let tree = component.toJSON();
