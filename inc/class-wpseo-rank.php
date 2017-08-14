@@ -200,7 +200,7 @@ class WPSEO_Rank {
 	 * @return WPSEO_Rank[]
 	 */
 	public static function get_all_readability_ranks() {
-		return array_map( array( 'WPSEO_Rank', 'create_rank' ), [ self::BAD, self::OK, self::GOOD ] );
+		return array_map( array( 'WPSEO_Rank', 'create_rank' ), array( self::BAD, self::OK, self::GOOD ) );
 	}
 
 	/**
