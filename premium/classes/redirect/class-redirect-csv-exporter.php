@@ -18,12 +18,12 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 	 * @return string CSV string of all exported redirects with headers.
 	 */
 	public function export( $redirects ) {
-		$csv = $this->get_headers() . PHP_EOL;
+		$csv = $this->get_headers();
 
 		if ( ! empty( $redirects ) ) {
 			foreach ( $redirects as $redirect ) {
 				if ( $redirect instanceof WPSEO_Redirect ) {
-					$csv .= $this->format( $redirect ) . PHP_EOL;
+					$csv .= PHP_EOL . $this->format( $redirect );
 				}
 			}
 		}
@@ -39,13 +39,24 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 	 * @return string CSV line of the redirect for format.
 	 */
 	public function format( WPSEO_Redirect $redirect ) {
+		$target = $redirect->get_target();
+		if ( WPSEO_Redirect_Util::is_relative_url( $target ) ) {
+			$target = '/' . $target;
+		}
+		if ( WPSEO_Redirect_Util::requires_trailing_slash( $target ) ) {
+			$target = trailingslashit( $target );
+		}
+
+		$origin = $redirect->get_origin();
+		if ( WPSEO_Redirect_Util::is_relative_url( $origin ) ) {
+			$origin = '/' . $origin;
+		}
+
 		return join(',', array(
-			// Potentially take into account weird URLs containing commas.
-			// NOTE: sanitize_url does not allow double quotes but does allow commas.
-			'"' . str_replace( '"', '""', (string) $redirect->get_origin() ) . '"',
-			'"' . str_replace( '"', '""', (string) $redirect->get_target() ) . '"',
-			(string) $redirect->get_type(),
-			(string) $redirect->get_format(),
+			$this->format_csv_column( $origin ),
+			$this->format_csv_column( $target ),
+			$this->format_csv_column( $redirect->get_type() ),
+			$this->format_csv_column( $redirect->get_format() ),
 		));
 	}
 
@@ -63,5 +74,16 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 				__( 'Format',  'wordpress-seo-premium' ),
 			)
 		);
+	}
+
+	/**
+	 * Surrounds a value with double quotes and escapes existing double quotes.
+	 *
+	 * @param string $value The value to sanitize.
+	 *
+	 * @return string The sanitized value.
+	 */
+	protected function format_csv_column( $value ) {
+		return '"' . str_replace( '"', '""', (string) $value ) . '"';
 	}
 }
