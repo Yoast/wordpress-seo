@@ -139,6 +139,15 @@ msgstr ""
 msgid "%s import failed: No redirects found."
 msgstr ""
 
+#: classes/class-premium-export-manager.php:29
+#: classes/views/export-redirects.php:11
+msgid "Export redirects"
+msgstr ""
+
+#: classes/views/export-redirects.php:8
+msgid "Export redirects to a CSV file"
+msgstr ""
+
 #: classes/class-premium-javascript-strings.php:21
 msgid "You can't redirect a URL to itself."
 msgstr ""
