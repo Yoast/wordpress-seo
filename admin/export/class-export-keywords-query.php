@@ -6,14 +6,14 @@
 class WPSEO_Export_Keywords_Query {
 
 	/**
+	 * @var wpdb The wordpress database object.
+	 */
+	private $wpdb;
+
+	/**
 	 * @var array[int]string The columns to query for, an array of strings.
 	 */
 	private $columns;
-
-	/**
-	 * @var array[int][string]string The results of the query, an array of associative arrays.
-	 */
-	private $results;
 
 	/**
 	 * @var array[int]string The database columns to select in the query, an array of strings.
@@ -33,8 +33,9 @@ class WPSEO_Export_Keywords_Query {
 	 *
 	 * @param array[int]string $columns The columns we want our query to return.
 	 */
-	public function __construct( $columns ) {
+	public function __construct( $columns, $wpdb ) {
 		$this->columns = $columns;
+		$this->wpdb = $wpdb;
 	}
 
 	/**
@@ -51,38 +52,28 @@ class WPSEO_Export_Keywords_Query {
 	 * @return array[int][tring]string array of associative arrays containing the keys as requested in the constructor.
 	 */
 	public function get_data() {
-		global $wpdb;
-
 		$this->set_columns();
 
+		// Get all public post types and run esc_sql on them.
 		$post_types = join('", "', array_map( 'esc_sql', get_post_types( array( 'public' => true ), 'names' ) ) );
-		$query = 'SELECT ' . join( ', ', $this->selects ) . ' FROM ' . $wpdb->prefix . 'posts ' . join( ' ', $this->joins ) .
-				 ' WHERE ' . $wpdb->prefix . 'posts.post_status = "publish" AND ' . $wpdb->prefix . 'posts.post_type IN ("' . $post_types . '");';
-		$this->results = $wpdb->get_results( $query, ARRAY_A );
 
-		// If post urls were selected we need to add them to our results.
-		if ( in_array( 'post_url', $this->columns ) ) {
-			$this->add_post_urls();
-		}
+		// Construct the query.
+		$query = 'SELECT ' . join( ', ', $this->selects ) . ' FROM ' . $this->wpdb->prefix . 'posts ' . join( ' ', $this->joins ) .
+				 ' WHERE ' . $this->wpdb->prefix . 'posts.post_status = "publish" AND ' . $this->wpdb->prefix . 'posts.post_type IN ("' . $post_types . '");';
 
-		// If keywords were selected we need to convert them to a better format.
-		if ( in_array( 'keywords', $this->columns ) || in_array( 'keywords_score', $this->columns ) ) {
-			$this->convert_result_keywords();
-		}
+		$results = $this->wpdb->get_results( $query, ARRAY_A );
 
-		return $this->results;
+		return array_map( array( $this, 'result_mapper' ), $results );
 	}
 
 	/**
 	 * Constructs our query by preparing the necessary selects and joins to get all our data in a single query.
 	 */
 	protected function set_columns() {
-		global $wpdb;
-
-		$this->selects = array( $wpdb->prefix . 'posts.ID' );
+		$this->selects = array( $this->wpdb->prefix . 'posts.ID' );
 
 		if ( in_array( 'post_title', $this->columns ) ) {
-			array_push( $this->selects, $wpdb->prefix . 'posts.post_title' );
+			$this->selects[] = $this->wpdb->prefix . 'posts.post_title';
 		}
 
 		// If we're selecting keywords_score then we always want the keywords as well.
@@ -109,39 +100,55 @@ class WPSEO_Export_Keywords_Query {
 	 * @param string $key The meta_key to select.
 	 */
 	protected function add_meta_join( $alias, $key ) {
-		global $wpdb;
-
 		$alias = preg_replace( '/[^\w\d]/', '', $alias );
 		$key = preg_replace( '/[^\w\d]/', '', $key );
 
-		array_push( $this->selects, $alias . '_join.meta_value AS ' . $alias );
-		array_push( $this->joins,
-			'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS ' . $alias . '_join ' .
-			'ON ' . $alias . '_join.post_id = ' . $wpdb->prefix . 'posts.ID AND ' . $alias . '_join.meta_key = "' . $key . '"');
+		$this->selects[] = $alias . '_join.meta_value AS ' . $alias;
+		$this->joins[] = 'LEFT OUTER JOIN ' . $this->wpdb->prefix . 'postmeta AS ' . $alias . '_join ' .
+						 'ON ' . $alias . '_join.post_id = ' . $this->wpdb->prefix . 'posts.ID ' .
+						 'AND ' .$alias . '_join.meta_key = "' . $key . '"';
 	}
 
 	/**
-	 * Add post URLs to all results.
+	 * Updates a result by modifying and adding the requested fields.
+	 *
+	 * @param array[string]string $result The result to modify.
+	 *
+	 * @return array[string]string The modified result.
 	 */
-	protected function add_post_urls() {
-		$converted = array();
-
-		foreach ( $this->results as $result ) {
-			$result['post_url'] = get_permalink( $result['ID'] );
-
-			$converted[] = $result;
+	protected function result_mapper( $result ) {
+		// If post titles were selected run their filters.
+		if ( in_array( 'post_title', $this->columns ) ) {
+			$result['post_title'] = apply_filters( 'the_title', $result['post_title'], $result['ID'] );
 		}
 
-		$this->results = $converted;
+		// If post urls were selected add them to our results.
+		if ( in_array( 'post_url', $this->columns ) ) {
+			$result['post_url'] = get_permalink( $result['ID'] );
+		}
+
+		// If SEO scores were selected convert them to nice ratings.
+		if ( in_array( 'seo_score', $this->columns ) ) {
+			$result['seo_score'] = $this->get_rating_from_int_score( intval( $result['seo_score']) );
+		}
+
+		// If keywords were selected we need to convert them to a better format.
+		if ( in_array( 'keywords', $this->columns ) || in_array( 'keywords_score', $this->columns ) ) {
+			$result = $this->convert_result_keywords( $result );
+		}
+
+		return $result;
 	}
 
 	/**
 	 * Converts the results of the query from strings and JSON string to keyword arrays.
+	 *
+	 * @param array[string]string $result The result to convert.
+	 *
+	 * @return array[string]string The converted result.
 	 */
-	protected function convert_result_keywords() {
-		$converted = array();
-
-		foreach ( $this->results as $result ) {
+	protected function convert_result_keywords( $result ) {
+		if ( $result['primary_keyword'] ) {
 			$result['keywords'] = array( $result['primary_keyword'] );
 
 			if ( in_array( 'keywords_score', $this->columns ) ) {
@@ -158,16 +165,14 @@ class WPSEO_Export_Keywords_Query {
 					}
 				}
 			}
-
-			// Unset all old variables, if they do not exist nothing will happen.
-			unset( $result['primary_keyword'] );
-			unset( $result['primary_keyword_score'] );
-			unset( $result['other_keywords'] );
-
-			$converted[] = $result;
 		}
 
-		$this->results = $converted;
+		// Unset all old variables, if they do not exist nothing will happen.
+		unset( $result['primary_keyword'] );
+		unset( $result['primary_keyword_score'] );
+		unset( $result['other_keywords'] );
+
+		return $result;
 	}
 
 	/**

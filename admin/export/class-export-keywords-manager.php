@@ -62,7 +62,8 @@ class WPSEO_Export_Keywords_Manager {
 	 * @return string A CSV string.
 	 */
 	protected function get_csv_contents() {
-		$query = new WPSEO_Export_Keywords_Query( $this->get_export_columns() );
+		global $wpdb;
+		$query = new WPSEO_Export_Keywords_Query( $this->get_export_columns(), $wpdb );
 
 		$builder = new WPSEO_Export_Keywords_CSV();
 		return $builder->export( $query );
