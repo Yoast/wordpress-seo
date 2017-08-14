@@ -45,6 +45,7 @@ ProgressBar.defaultProps = {
 	progressColor: colors.$color_good,
 	backgroundColor: colors.$color_background_light,
 	borderColor: colors.$color_input_border,
+	"aria-hidden": "true",
 };
 
 ProgressBar.propTypes = {
@@ -53,6 +54,7 @@ ProgressBar.propTypes = {
 	progressColor: PropTypes.string,
 	backgroundColor: PropTypes.string,
 	borderColor: PropTypes.string,
+	"aria-hidden": PropTypes.string,
 };
 
 export default ProgressBar;
