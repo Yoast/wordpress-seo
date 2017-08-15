@@ -1,12 +1,9 @@
 import { UPDATE_SEO_RESULT, UPDATE_READABILITY_RESULT } from "../../actions/contentAnalysis";
-import { contentAnalysisReducer} from "../../reducers/contentAnalysisReducer";
-import { readabilityResultsReducer } from "../../reducers/contentAnalysis/readabilityResultsReducer";
-import { keywordResultsReducer } from "../../reducers/contentAnalysis/keywordResultsReducer";
-
+import { contentAnalysisReducer } from "../../reducers/contentAnalysisReducer";
 
 jest.mock( "../../reducers/contentAnalysis/readabilityResultsReducer", () => {
 	return {
-		readabilityResultsReducer: jest.fn( ( state = {} ) => {
+		readabilityResultsReducer: jest.fn( () => {
 			return { name: "readabilityResultsReducer" };
 		} ),
 	};
@@ -14,7 +11,7 @@ jest.mock( "../../reducers/contentAnalysis/readabilityResultsReducer", () => {
 
 jest.mock( "../../reducers/contentAnalysis/keywordResultsReducer", () => {
 	return {
-		keywordResultsReducer: jest.fn( ( state = {} ) => {
+		keywordResultsReducer: jest.fn( () => {
 			return { name: "keywordResultsReducer" };
 		} ),
 	};
