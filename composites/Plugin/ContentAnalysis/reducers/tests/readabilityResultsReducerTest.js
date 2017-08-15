@@ -62,4 +62,3 @@ test( "the update readability result action modifies the state when there is alr
 
 	expect( actual ).toEqual( expected );
 } );
-

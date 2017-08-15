@@ -27,7 +27,7 @@ export function readabilityResultsReducer( state = initialState, action ) {
 				} );
 			}
 			return Object.assign( {}, state, {
-				readability: [ action.result ],
+				readability: [ ...state.readability, action.result ],
 			} );
 		default:
 			return state;
