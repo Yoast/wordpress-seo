@@ -34,6 +34,7 @@
     "jed": "^1.1.1",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
+    "redux": "^3.7.2",
     "styled-components": "^2.1.2",
     "whatwg-fetch": "^1.0.0"
   },
