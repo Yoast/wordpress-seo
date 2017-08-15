@@ -98,6 +98,7 @@ export const BaseButton = addButtonStyles(
 		font-weight: inherit;
 		outline: none;
 		min-height: 33px;
+		vertical-align: top;
 	`
 );
 
@@ -115,11 +116,21 @@ BaseButton.defaultProps = {
 export const SnippetPreviewButton = styled( BaseButton )`
 	line-height: 15px;
 	font-size: 0.8rem;
-	
-	> span {
-		margin-left: 8px;
-	}
 `;
+
+/**
+ * Applies styles to icon for IconButton with text.
+ *
+ * @param {ReactElement} icon The original icon.
+ *
+ * @returns {ReactElement} Icon with text styles applied.
+ */
+function applyIconTextStyle( icon ) {
+	return styled( icon )`
+		margin: 0 8px 0 0;
+		float: left;
+	`;
+}
 
 /**
  * Returns an icon button that can optionally contain text.
@@ -130,16 +141,22 @@ export const SnippetPreviewButton = styled( BaseButton )`
  */
 export const IconButton = ( props ) => {
 	const { children, icon, iconColor } = props;
+
+	let IconComponent = Icon;
+	if( children ) {
+		IconComponent = applyIconTextStyle( IconComponent );
+	}
+
 	return (
 		<SnippetPreviewButton { ...props } >
-			<Icon icon={ icon } color={ iconColor } />
-			{ children ? <span>{ children }</span> : null }
+			<IconComponent icon={ icon } color={ iconColor } />
+			{ children }
 		</SnippetPreviewButton>
 	);
 };
 
 IconButton.propTypes = {
-	icon: PropTypes.string,
+	icon: PropTypes.func.isRequired,
 	iconColor: PropTypes.string,
 	children: PropTypes.string,
 };
