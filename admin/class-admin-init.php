@@ -234,7 +234,11 @@ class WPSEO_Admin_Init {
 	public function has_default_tagline() {
 		$blog_description = get_bloginfo( 'description' );
 		$default_blog_description    = 'Just another WordPress site';
+
+		// We are checking against the WordPress internal translation.
+		// @codingStandardsIgnoreLine
 		$translated_blog_description = __( 'Just another WordPress site' );
+
 		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
 	}
 
