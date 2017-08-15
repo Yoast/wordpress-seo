@@ -99,9 +99,12 @@ class WPSEO_GSC_Issues {
 	 * @param stdClass $issue        Issue object to check against the list.
 	 */
 	private function issue_compare( &$crawl_issues, $issue ) {
-		$issue->pageUrl = WPSEO_Utils::format_url( (string) $issue->pageUrl );
+		// Ignore coding standards for object properties.
+		// @codingStandardsIgnoreStart
+		$page_url = $issue->pageUrl = WPSEO_Utils::format_url( (string) $issue->pageUrl );
+		// @codingStandardsIgnoreEnd
 
-		if ( ! in_array( $issue->pageUrl, $this->current_issues ) ) {
+		if ( ! in_array( $page_url, $this->current_issues, true ) ) {
 			array_push(
 				$crawl_issues,
 				$this->get_issue( $this->create_issue( $issue ) )
@@ -118,11 +121,17 @@ class WPSEO_GSC_Issues {
 	 * @return WPSEO_GSC_Issue
 	 */
 	private function create_issue( $issue ) {
+		// Ignore coding standards for object properties.
+		// @codingStandardsIgnoreStart
+		$response_code = $issue->responseCode;
+		$page_url = $issue->pageUrl;
+		// @codingStandardsIgnoreEnd
+
 		return new WPSEO_GSC_Issue(
-			$issue->pageUrl,
+			$page_url,
 			new DateTime( (string) $issue->first_detected ),
 			new DateTime( (string) $issue->last_crawled ),
-			(string) ( ! empty( $issue->responseCode ) ) ? $issue->responseCode : null
+			(string) ( ! empty( $response_code ) ) ? $response_code : null
 		);
 	}
 
