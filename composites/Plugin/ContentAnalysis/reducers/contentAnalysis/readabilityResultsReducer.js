@@ -1,4 +1,4 @@
-import { UPDATE_READABILITY_RESULT } from "../../actions/contentAnalysis";
+import { UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS } from "../../actions/contentAnalysis";
 
 /**
  * Initial state
@@ -18,6 +18,8 @@ const initialState = {};
  */
 export function readabilityResultsReducer( state = initialState, action ) {
 	switch ( action.type ) {
+		case SET_READABILITY_RESULTS:
+			return Object.assign( {}, state, { readability: action.results } );
 		case UPDATE_READABILITY_RESULT:
 			if ( ! state.readability ) {
 				return Object.assign( {}, state, {

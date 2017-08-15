@@ -1,5 +1,6 @@
 import * as actions from "../contentAnalysis";
-
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
 
 test( "update SEO Result action creator", () => {
 	const expected = {
@@ -19,4 +20,18 @@ test( "update readability Result action creator", () => {
 	};
 	const actual = actions.updateReadabilityResult( { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } );
 	expect( actual ).toEqual( expected );
+} );
+
+test( "the change keyword action changes", () => {
+	const middlewares = [ thunk ];
+	const mockStore = configureMockStore( middlewares );
+
+	const expectedActions = [
+		{ type: actions.REMOVE_KEYWORD, keyword: "oldKeyword" },
+		{ type: actions.SET_SEO_RESULTS, keyword: "newKeyword", results: [ { result: "my result" } ] },
+	];
+	const store = mockStore( { oldKeyword: [] }, { otherKeyword: [] } );
+
+	store.dispatch( actions.changeKeyword( "oldKeyword", "newKeyword", [ { result: "my result" } ] ) );
+	expect( store.getActions() ).toEqual( expectedActions );
 } );
