@@ -59,8 +59,7 @@ class WPSEO_GSC_Service {
 		// Do list sites request.
 		if ( ! empty( $response_json->siteEntry ) ) {
 			foreach ( $response_json->siteEntry as $entry ) {
-				$site_url = (string) $entry->siteUrl;
-				$sites[ str_ireplace( 'sites/', '', $site_url ) ] = $site_url;
+				$sites[ str_ireplace( 'sites/', '', (string) $entry->siteUrl ) ] = (string) $entry->siteUrl;
 			}
 
 			// Sorting the retrieved sites.
