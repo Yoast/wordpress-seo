@@ -3,10 +3,15 @@
  * @package WPSEO\Admin\Export
  */
 
+/**
+ * Class WPSEO_Export_Keywords_Query
+ *
+ * Creates a SQL query to gather all data for a keywords export.
+ */
 class WPSEO_Export_Keywords_Query {
 
 	/**
-	 * @var wpdb The wordpress database object.
+	 * @var wpdb wpdb The wordpress database object.
 	 */
 	protected $wpdb;
 

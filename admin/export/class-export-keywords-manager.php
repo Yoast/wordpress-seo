@@ -3,6 +3,11 @@
  * @package WPSEO\Admin\Export
  */
 
+/**
+ * Class WPSEO_Export_Keywords_Manager
+ *
+ * Manages exporting keywords.
+ */
 class WPSEO_Export_Keywords_Manager {
 	/**
 	 * Registers all hooks to WordPress.

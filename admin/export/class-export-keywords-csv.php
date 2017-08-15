@@ -3,6 +3,11 @@
  * @package WPSEO\Admin\Export
  */
 
+/**
+ * Class WPSEO_Export_Keywords_CSV
+ *
+ * Exports data as returned by WPSEO_Export_Keywords_Presenter to CSV.
+ */
 class WPSEO_Export_Keywords_CSV {
 
 	/**

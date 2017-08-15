@@ -3,6 +3,11 @@
  * @package WPSEO\Admin\Export
  */
 
+/**
+ * Class WPSEO_Export_Keywords_Presenter
+ *
+ * Readies data as returned by WPSEO_Export_Keywords_Query for exporting.
+ */
 class WPSEO_Export_Keywords_Presenter {
 	/**
 	 * @var array[int]string The columns to query for, an array of strings.
