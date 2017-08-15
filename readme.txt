@@ -133,6 +133,7 @@ Release Date: August 22nd, 2017
 	* Adds missing I18n function call to make a string translatable
 	* Adds XML schema for image sitemap, props: [stodorovic](https://github.com/stodorovic)
 	* Adds schema.org meta-data on every page, instead of only on the homepage
+	* Adds the possibility to filter posts by readability score.
 	* Exposes tinyMCEHelper as window.YoastSEO.wp._tinyMCEHelper in JavaScript
 	* Exposes the ReplaceVar class in YoastReplaceVarPlugin as window.YoastReplaceVarPlugin.ReplaceVar in JavaScript
 
@@ -140,6 +141,7 @@ Release Date: August 22nd, 2017
 	* Adds sanitization for the Twitter Image meta field
 	* Fixes use of `register_meta` for usage in WordPress 4.6 and higher
 	* Initialize the providers on hook `after_theme_setup` to make sure custom providers are added properly, props: [stodorovic](https://github.com/stodorovic)
+	* Changes the label of the "Bad" score to "Needs improvement" while filtering on SEO or readability scores.
 
 = 5.2.0 =
 
