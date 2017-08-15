@@ -83,10 +83,7 @@ class WPSEO_Help_Center_Item {
 			}
 
 			if ( ! empty( $this->args['view_arguments'] ) ) {
-				// As we are going to move UI to React, this will be resolved in that project.
-				// @codingStandardsIgnoreStart
 				extract( $this->args['view_arguments'] );
-				// @codingStandardsIgnoreEnd
 			}
 
 			include WPSEO_PATH . 'admin/views/' . $view . '.php';

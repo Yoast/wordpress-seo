@@ -58,10 +58,7 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 		 * Extract because we want values accessible via variables for later use
 		 * in the view instead of accessing them as an array.
 		 */
-		// As we are going to move UI to React, this will be resolved in that project.
-		// @codingStandardsIgnoreStart
 		extract( $this->get_parts() );
-		// @codingStandardsIgnoreEnd
 
 		require dirname( WPSEO_FILE ) . '/admin/views/form/fieldset.php';
 	}
