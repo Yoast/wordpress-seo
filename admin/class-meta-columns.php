@@ -18,8 +18,6 @@ class WPSEO_Meta_Columns {
 	 */
 	private $analysis_readability;
 
-	private $score_filters = array();
-
 	/**
 	 * When page analysis is enabled, just initialize the hooks.
 	 */
@@ -169,7 +167,7 @@ class WPSEO_Meta_Columns {
 	 * Adds a dropdown that allows filtering on the posts SEO Quality.
 	 */
 	public function posts_filter_dropdown() {
-		if ( $this->can_display_filter() ) {
+		if ( ! $this->can_display_filter() ) {
 			return;
 		}
 
@@ -195,7 +193,7 @@ class WPSEO_Meta_Columns {
 	 * @return void
 	 */
 	public function posts_filter_dropdown_readability() {
-		if ( $this->can_display_filter() ) {
+		if ( ! $this->can_display_filter() ) {
 			return;
 		}
 
@@ -218,9 +216,9 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Generates an <option> element.
 	 *
-	 * @param      $value       The option's value.
-	 * @param      $label       The option's label.
-	 * @param bool $selected    Whether or not the option should be selected.
+	 * @param string    $value       The option's value.
+	 * @param string    $label       The option's label.
+	 * @param bool      $selected    Whether or not the option should be selected.
 	 *
 	 * @return string The generated <option> element.
 	 */
@@ -229,31 +227,37 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Adds the SEO score filter to be later used in the meta query, based on the passed SEO filter.
+	 * Determines the SEO score filter to be later used in the meta query, based on the passed SEO filter.
 	 *
 	 * @param string $seo_filter The SEO filter to use to determine what further filter to apply.
+	 *
+	 * @return array The SEO score filter.
 	 */
-	protected function get_seo_filter_values( $seo_filter ) {
-		if ( $seo_filter === WPSEO_Rank::NO_FOCUS || $seo_filter === WPSEO_Rank::NO_INDEX ) {
-			$this->add_other_filter( $seo_filter );
+	protected function determine_seo_filters( $seo_filter ) {
+		if ( $seo_filter === WPSEO_Rank::NO_FOCUS ) {
+			return $this->create_no_focus_keyword_filter();
+		}
 
-			return;
+		if ( $seo_filter === WPSEO_Rank::NO_INDEX ) {
+			return $this->create_no_index_filter();
 		}
 
 		$rank = new WPSEO_Rank( $seo_filter );
 
-		$this->add_seo_score_filter( $rank->get_starting_score(), $rank->get_end_score() );
+		return $this->create_seo_score_filter( $rank->get_starting_score(), $rank->get_end_score() );
 	}
 
 	/**
-	 * Adds the Readabilty score filter to the meta query, based on the passed Readabilty filter.
+	 * Determines the Readabilty score filter to the meta query, based on the passed Readabilty filter.
 	 *
 	 * @param string $readability_filter The Readability filter to use to determine what further filter to apply.
+	 *
+	 * @return array The Readability score filter.
 	 */
-	protected function get_readability_filter_values( $readability_filter ) {
+	protected function determine_readability_filters( $readability_filter ) {
 		$rank = new WPSEO_Rank( $readability_filter );
 
-		$this->add_readability_score_filter( $rank->get_starting_score(), $rank->get_end_score() );
+		return $this->create_readability_score_filter( $rank->get_starting_score(), $rank->get_end_score() );
 	}
 
 	/**
@@ -272,6 +276,53 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
+	 * Determines whether the passed filter is considered to be valid.
+	 *
+	 * @param mixed $filter The filter to check against.
+	 *
+	 * @return bool Whether or not the filter is considered valid.
+	 */
+	protected function is_valid_filter( $filter ) {
+		return ! empty( $filter ) && is_string( $filter );
+	}
+
+	/**
+	 * Collects the filters and merges them into a single array.
+	 *
+	 * @return array Array containing all the applicable filters.
+	 */
+	protected function collect_filters() {
+		$active_filters = array();
+
+		$seo_filter = $this->get_current_seo_filter();
+		$readability_filter = $this->get_current_readability_filter();
+		$current_keyword_filter = $this->get_current_keyword_filter();
+
+		if ( $this->is_valid_filter( $seo_filter ) ) {
+			$active_filters = array_merge(
+				$active_filters,
+				$this->determine_seo_filters( $seo_filter )
+			);
+		}
+
+		if ( $this->is_valid_filter( $readability_filter ) ) {
+			$active_filters = array_merge(
+				$active_filters,
+				$this->determine_readability_filters( $readability_filter )
+			);
+		}
+
+		if ( $this->is_valid_filter( $current_keyword_filter ) ) {
+			$active_filters = array_merge(
+				$active_filters,
+				$this->get_keyword_filter( $current_keyword_filter )
+			);
+		}
+
+		return $active_filters;
+	}
+
+	/**
 	 * Modify the query based on the filters that are being passed.
 	 *
 	 * @param array $vars Query variables that need to be modified based on the filters.
@@ -279,23 +330,13 @@ class WPSEO_Meta_Columns {
 	 * @return array Array containing the meta query to use for filtering the posts overview.
 	 */
 	public function column_sort_orderby( $vars ) {
-		if ( $seo_filter = $this->get_current_seo_filter() ) {
-			$this->get_seo_filter_values( $seo_filter );
-		}
-
-		if ( $readability_filter = $this->get_current_readability_filter() ) {
-			$this->get_readability_filter_values( $readability_filter );
-		}
-
-		if ( $current_keyword_filter = $this->get_current_keyword_filter() ) {
-			$vars = array_merge( $vars, $this->get_keyword_filter( $current_keyword_filter ) );
-		}
+		$collected_filters = $this->collect_filters();
 
 		if ( isset( $vars['orderby'] ) ) {
 			$vars = array_merge( $vars,  $this->filter_order_by( $vars['orderby'] ) );
 		}
 
-		return $this->build_filter_query( $vars );
+		return $this->build_filter_query( $vars, $collected_filters );
 	}
 
 	/**
@@ -321,23 +362,16 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Determines the score filters to be used. If more than one is passed, it created an AND statement for the query.
 	 *
+	 * @param array $score_filters Array containing the score filters.
+	 *
 	 * @return array Array containing the score filters that need to be applied to the meta query.
 	 */
-	private function determine_score_filters() {
-		if ( count( $this->score_filters ) > 1 ) {
-			return array_merge( array( 'relation' => 'AND' ), $this->score_filters );
+	protected function determine_score_filters( $score_filters ) {
+		if ( count( $score_filters ) > 1 ) {
+			return array_merge( array( 'relation' => 'AND' ), $score_filters );
 		}
 
-		return $this->score_filters;
-	}
-
-	/**
-	 * Determines if there are any score filters.
-	 *
-	 * @return bool Whether or not any score filters are present.
-	 */
-	public function has_score_filters() {
-		return count( $this->score_filters ) !== 0;
+		return $score_filters;
 	}
 
 	/**
@@ -380,15 +414,16 @@ class WPSEO_Meta_Columns {
 	 * Uses the vars to create a complete filter query that can later be executed to filter out posts.
 	 *
 	 * @param array $vars Array containing the variables that will be used in the meta query.
+	 * @param array $filters Array containing the filters that we need to apply in the meta query.
 	 *
 	 * @return array Array containing the complete filter query.
 	 */
-	private function build_filter_query( $vars ) {
+	protected function build_filter_query( $vars, $filters ) {
 		$result = array( 'meta_query' => array() );
 
 		// Determine whether or not to add the score filters.
-		if ( $this->has_score_filters() ) {
-			$result['meta_query'] = array_merge( $result[ 'meta_query' ], $this->determine_score_filters() );
+		if ( count( $filters ) !== 0 ) {
+			$result['meta_query'] = array_merge( $result[ 'meta_query' ], array( $this->determine_score_filters( $filters ) ) );
 		}
 
 		if ( $this->get_current_seo_filter() !== WPSEO_Rank::NO_INDEX) {
@@ -399,22 +434,15 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Adds a new filter into the array of score filters.
+	 * Creates a Readability score filter.
 	 *
-	 * @param $filter The filter to add.
-	 */
-	private function add_to_score_filters( $filter ) {
-		array_push( $this->score_filters, $filter );
-	}
-
-	/**
-	 * Adds a filter to the score filters based on the Readability score.
+	 * @param number $low The lower boundary of the score.
+	 * @param number $high The higher boundary of the score.
 	 *
-	 * @param $low The lower boundary of the score.
-	 * @param $high The higher boundary of the score.
+	 * @return array The Readability Score filter.
 	 */
-	private function add_readability_score_filter( $low, $high ) {
-		$this->add_to_score_filters(
+	protected function create_readability_score_filter( $low, $high ) {
+		return array(
 			array(
 				'key' => WPSEO_Meta::$meta_prefix . 'content_score',
 				'value' => array( $low, $high ),
@@ -425,13 +453,15 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Adds a filter to the score filters based on the SEO score.
+	 * Creates an SEO score filter.
 	 *
-	 * @param $low The lower boundary of the score.
-	 * @param $high The higher boundary of the score.
+	 * @param number $low The lower boundary of the score.
+	 * @param number $high The higher boundary of the score.
+	 *
+	 * @return array The SEO score filter.
 	 */
-	private function add_seo_score_filter( $low, $high ) {
-		$this->add_to_score_filters(
+	protected function create_seo_score_filter( $low, $high ) {
+		return array(
 			array(
 				'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
 				'value' => array( $low, $high ),
@@ -442,46 +472,46 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Adds the filters for noindex or posts that are considered not available.
+	 * Creates a filter to retrieve posts that were set to no-index.
 	 *
-	 * @param string $seo_filter The SEO filter to use to determine what score filters to add.
+	 * @return array Array containin the no-index filter.
 	 */
-	private function add_other_filter( $seo_filter ) {
-		if ( $seo_filter === 'noindex' ) {
-			$this->add_to_score_filters(
-				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-					'value'   => '1',
-					'compare' => '=',
-				)
-			);
-		}
-
-		if ( $seo_filter === 'na' ) {
-			$this->add_to_score_filters(
-				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-					'value'   => 'needs-a-value-anyway',
-					'compare' => 'NOT EXISTS',
-				)
-			);
-
-			$this->add_to_score_filters(
-				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'value'   => 'needs-a-value-anyway',
-					'compare' => 'NOT EXISTS',
-				)
-			);
-		}
+	protected function create_no_index_filter() {
+		return array(
+			array(
+				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+				'value'   => '1',
+				'compare' => '=',
+			)
+		);
 	}
 
 	/**
-	 * Returning filters when $order_by is matched in the if-statement
+	 * Creates a filter to retrieve posts that have no keyword set.
+	 *
+	 * @return array Array containing the no focus keyword filter.
+	 */
+	protected function create_no_focus_keyword_filter() {
+		return array(
+			array(
+				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+				'value'   => 'needs-a-value-anyway',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+				'value'   => 'needs-a-value-anyway',
+				'compare' => 'NOT EXISTS',
+			),
+		);
+	}
+
+	/**
+	 * Returns filters when $order_by is matched in the if-statement
 	 *
 	 * @param string $order_by The ID of the column by which to order the posts.
 	 *
-	 * @return array
+	 * @return array Array containing the order filters.
 	 */
 	private function filter_order_by( $order_by ) {
 		switch ( $order_by ) {
@@ -628,6 +658,7 @@ class WPSEO_Meta_Columns {
 
 		$post    = get_post( $post_id );
 		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+
 		if ( is_object( $post ) && ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) ) {
 			$title_template = $options[ 'title-' . $post->post_type ];
 			$title_template = str_replace( ' %%page%% ', ' ', $title_template );
