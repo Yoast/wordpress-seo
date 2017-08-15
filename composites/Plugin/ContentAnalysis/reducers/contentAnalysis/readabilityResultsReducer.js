@@ -3,9 +3,7 @@ import { UPDATE_READABILITY_RESULT } from "../../actions/contentAnalysis";
 /**
  * Initial state
  */
-const initialState = {
-	readability: [],
-};
+const initialState = {};
 
 /**
  * Reducers
@@ -21,7 +19,7 @@ const initialState = {
 export function readabilityResultsReducer( state = initialState, action ) {
 	switch ( action.type ) {
 		case UPDATE_READABILITY_RESULT:
-			if ( state.readability.length === 0 ) {
+			if ( ! state.readability ) {
 				return Object.assign( {}, state, {
 					readability: [ action.result ],
 				} );

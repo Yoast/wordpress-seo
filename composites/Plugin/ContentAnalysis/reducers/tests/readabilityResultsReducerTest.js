@@ -1,10 +1,8 @@
 import { readabilityResultsReducer } from "../contentAnalysis/readabilityResultsReducer";
 import { UPDATE_READABILITY_RESULT } from "../../actions/contentAnalysis";
 
-test( "the update seo result action with a new keyword modifies the state", () => {
-	const state = {
-		readability: [],
-	};
+test( "the update readabiility result action with a new keyword modifies the state", () => {
+	const state = {};
 	const action = {
 		type: UPDATE_READABILITY_RESULT,
 		result: { id: "resultId", score: 3, description: "This is a bad score!", markingIsActive: false },
