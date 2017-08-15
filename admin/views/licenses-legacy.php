@@ -190,7 +190,6 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 					// @codingStandardsIgnoreEnd
 					?>
 
-
 					<section class="yoast-promoblock secondary yoast-promo-extension">
 						<img alt="" width="280" height="147" src="<?php echo esc_attr( $extension->image ); ?>" />
 						<h3><?php echo esc_html( $extension->title ); ?></h3>
@@ -218,8 +217,7 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 								__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 								'<span class="screen-reader-text">',
 								'</span>',
-								$extension->title
-							);
+								$extension->title );
 							?></a>
 					</section>
 				<?php endforeach; ?>
