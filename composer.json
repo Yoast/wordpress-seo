@@ -52,6 +52,9 @@
 		"check-cs": [
 			"\"vendor/bin/phpcs\""
 		],
+		"check-cs-errors": [
+			"\"vendor/bin/phpcs\" --error-severity=1 --warning-severity=6"
+		],
 		"fix-cs": [
 			"\"vendor/bin/phpcbf\""
 		],
