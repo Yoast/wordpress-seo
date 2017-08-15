@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
 import RaisedURLNewWindowButton from "./RaisedURLNewWindowButton";
 
@@ -35,8 +36,8 @@ class Suggestion extends React.Component {
 export default Suggestion;
 
 Suggestion.PropTypes = {
-	title: React.PropTypes.string.isRequired,
-	copy: React.PropTypes.string.isRequired,
-	video: React.PropTypes.string.isRequired,
-	button: React.PropTypes.array.isRequired,
+	title: PropTypes.string.isRequired,
+	copy: PropTypes.string.isRequired,
+	video: PropTypes.string.isRequired,
+	button: PropTypes.array.isRequired,
 };

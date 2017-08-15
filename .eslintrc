@@ -7,3 +7,4 @@ rules:
   brace-style: 1
   max-len: 1
   max-statements: 1
+  valid-jsdoc: 2

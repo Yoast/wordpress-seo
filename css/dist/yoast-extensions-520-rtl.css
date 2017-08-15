@@ -762,15 +762,51 @@ a.promoblock:hover {
 	content: " \00BB";
 }
 
-.yoast-button--installed {
+.yoast-button--extension {
+	padding-left: 0.8em;
+	padding-right: 0.8em;
 	color: #fff;
-	background-color: #77b227;
+	text-transform: uppercase;
 	cursor: default;
 }
 
-.yoast-button--installed:hover {
-	background-color: #77b227;
+.yoast-button--extension + .yoast-button--extension-activated,
+.yoast-button--extension + .yoast-button--extension-not-activated {
+	margin-right: 0;
+}
+
+.yoast-button--extension-buy,
+.yoast-button--extension-buy:hover {
+	background-color: #a4286a;
+}
+
+.yoast-button--extension-buy:visited {
+	color: #fff;
+}
+
+.yoast-button--extension-installed:hover,
+.yoast-button--extension-activated:hover,
+.yoast-button--extension-not-activated:hover {
 	text-decoration: none;
+}
+
+.yoast-button--extension-installed {
+	margin-left: 0.2rem;
+}
+
+.yoast-button--extension-installed,
+.yoast-button--extension-installed:hover {
+	background-color: #008a00;
+}
+
+.yoast-button--extension-not-activated,
+.yoast-button--extension-not-activated:hover {
+	background-color: #dc3232;
+}
+
+.yoast-button--extension-activated,
+.yoast-button--extension-activated:hover {
+	background-color: #008a00;
 }
 
 .yoast-promo-extensions {
@@ -789,7 +825,7 @@ a.promoblock:hover {
 }
 
 .yoast-promo-extension {
-	max-width: 330px;
+	max-width: 340px;
 	margin-right: 32px;
 	border-color: #a4286a;
 	background-color: transparent;
@@ -811,13 +847,36 @@ a.promoblock:hover {
 	}
 }
 
+.yoast-promo-extension .yoast-list--usp {
+	height: 160px;
+}
+
 .yoast-promo-extension .yoast-button {
 	width: 100%;
 	max-height: none;
+	font-size: 0.9rem;
 }
 
 .yoast-promo-extension .yoast-button--installed {
-	width: auto;
+	color: #fff;
+}
+
+.yoast-promo-extension .yoast-button--extension {
+	margin-top: 0;
+	font-size: 0.9rem;
+	text-align: center;
+}
+
+.yoast-promo-extension .yoast-button--extension-installed {
+	width: 48%;
+	margin: 0 0 0 2%;
+}
+
+.yoast-promo-extension .yoast-button--extension-activated,
+.yoast-promo-extension .yoast-button--extension-not-activated {
+	width: 48%;
+	margin-left: 0;
+	margin-right: 0;
 }
 
 .yoast-promo-extension h3 {
@@ -853,10 +912,29 @@ a.promoblock:hover {
 	content: "– ";
 }
 
+.yoast-link--license,
+.yoast-link--more-info {
+	color: #a4286a;
+	font-family: "Open Sans", Arial, sans-serif;
+	font-weight: 600;
+}
+
+.yoast-link--license {
+	margin: 1em 0 0 0;
+}
+
+.yoast-promo-extension .yoast-link--license {
+	display: block;
+	margin: 1em 0 0 0;
+}
+
+.yoast-link--license:after {
+	content: " \00BB";
+}
+
 .yoast-link--more-info {
 	padding-right: calc( 1em + 5px);
-	color: #646464;
-	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23646464%22%20d%3D%22M1152%201376v%2D160q0%2D14%2D9%2D23t%2D23%2D9h%2D96v%2D512q0%2D14%2D9%2D23t%2D23%2D9h%2D320q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h96v320h%2D96q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h448q14%200%2023%2D9t9%2D23zm%2D128%2D896v%2D160q0%2D14%2D9%2D23t%2D23%2D9h%2D192q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h192q14%200%2023%2D9t9%2D23zm640%20416q0%20209%2D103%20385%2E5t%2D279%2E5%20279%2E5%2D385%2E5%20103%2D385%2E5%2D103%2D279%2E5%2D279%2E5%2D103%2D385%2E5%20103%2D385%2E5%20279%2E5%2D279%2E5%20385%2E5%2D103%20385%2E5%20103%20279%2E5%20279%2E5%20103%20385%2E5z%22%2F%3E%3C%2Fsvg%3E");
+	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23A4286A%22%20d%3D%22M1152%201376v%2D160q0%2D14%2D9%2D23t%2D23%2D9h%2D96v%2D512q0%2D14%2D9%2D23t%2D23%2D9h%2D320q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h96v320h%2D96q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h448q14%200%2023%2D9t9%2D23zm%2D128%2D896v%2D160q0%2D14%2D9%2D23t%2D23%2D9h%2D192q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h192q14%200%2023%2D9t9%2D23zm640%20416q0%20209%2D103%20385%2E5t%2D279%2E5%20279%2E5%2D385%2E5%20103%2D385%2E5%2D103%2D279%2E5%2D279%2E5%2D103%2D385%2E5%20103%2D385%2E5%20279%2E5%2D279%2E5%20385%2E5%2D103%20385%2E5%20103%20279%2E5%20279%2E5%20103%20385%2E5z%22%2F%3E%3C%2Fsvg%3E");
 	background-repeat: no-repeat;
 	background-position: right 0.2em;
 	background-size: 1em;
