@@ -37,6 +37,7 @@ class WPSEO_Export_Keywords_Query {
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
 	 * @param array[int]string $columns The columns we want our query to return.
+	 * @param wpdb             $wpdb    A Wordpress Database object.
 	 */
 	public function __construct( $columns, $wpdb ) {
 		$this->columns = $columns;
@@ -47,13 +48,13 @@ class WPSEO_Export_Keywords_Query {
 	 * Constructs the query and executes it, returning an array of objects containing the columns this object was constructed with.
 	 * Every object will always contain the ID column.
 	 *
-	 * @return array[int][tring]string array of associative arrays containing the keys as requested in the constructor.
+	 * @return array[int][string]string array of associative arrays containing the keys as requested in the constructor.
 	 */
 	public function get_data() {
 		$this->set_columns();
 
 		// Get all public post types and run esc_sql on them.
-		$post_types = join('", "', array_map( 'esc_sql', get_post_types( array( 'public' => true ), 'names' ) ) );
+		$post_types = join( '", "', array_map( 'esc_sql', get_post_types( array( 'public' => true ), 'names' ) ) );
 
 		// Construct the query.
 		$query = 'SELECT ' . join( ', ', $this->selects ) . ' FROM ' . $this->wpdb->prefix . 'posts ' . join( ' ', $this->joins ) .

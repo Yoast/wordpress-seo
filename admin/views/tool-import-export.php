@@ -95,9 +95,9 @@ $tabs = array(
 		'label'                => __( 'Import from other SEO plugins', 'wordpress-seo' ),
 		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
 	),
-    'export-keywords' => array (
+	'export-keywords' => array(
 		'label'                => __( 'Export keywords', 'wordpress-seo' ),
-    ),
+	),
 );
 
 ?>

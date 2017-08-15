@@ -13,14 +13,15 @@ class WPSEO_Export_Keywords_CSV {
 	/**
 	 * Exports the supplied keyword query to a CSV string.
 	 *
-	 * @param WPSEO_Export_Keywords_Query $keywords_query The query to export to CSV.
+	 * @param array[int][string]string $data    An array of results from WPSEO_Export_Keywords_Query::get_data.
+	 * @param array[int]string         $columns An array of columns that should be presented.
 	 *
 	 * @return string A CSV string.
 	 */
 	public function export( $data, $columns ) {
 		$csv = $this->get_headers( $columns );
 
-		foreach( $data as $result ) {
+		foreach ( $data as $result ) {
 			$csv .= $this->format( $result, $columns );
 		}
 
@@ -64,14 +65,14 @@ class WPSEO_Export_Keywords_CSV {
 	 * Formats a WPSEO_Export_Keywords_Query result as a CSV line.
 	 * In case of multiple keywords it will return multiple lines.
 	 *
-	 * @param array[string]string $result A result as returned from WPSEO_Export_Keywords_Query::get_data.
-	 * @param array[int]string $columns The columns as returned from WPSEO_Export_Keywords_Query::get_columns.
+	 * @param array[string]string $result  A result as returned from WPSEO_Export_Keywords_Query::get_data.
+	 * @param array[int]string    $columns The columns as returned from WPSEO_Export_Keywords_Query::get_columns.
 	 *
 	 * @return string A line of CSV, beginning with EOL.
 	 */
 	protected function format( $result, $columns ) {
 		// If our input is malformed return an empty string.
-		if ( ! is_array( $result) || ! array_key_exists( 'ID', $result ) ) {
+		if ( ! is_array( $result ) || ! array_key_exists( 'ID', $result ) ) {
 			return '';
 		}
 
@@ -109,7 +110,7 @@ class WPSEO_Export_Keywords_CSV {
 			if ( in_array( 'keywords_score', $columns, true ) ) {
 				$csv .= ',' . $this->format_csv_column( array_shift( $keywords_score ) );
 			}
-		} while( count( $keywords ) > 0 );
+		} while ( count( $keywords ) > 0 );
 
 		return $csv;
 	}

@@ -35,7 +35,7 @@ class WPSEO_Export_Keywords_Presenter {
 	 */
 	public function present( $result ) {
 		// If our input is malformed return false.
-		if ( ! is_array( $result) || ! array_key_exists( 'ID', $result ) ) {
+		if ( ! is_array( $result ) || ! array_key_exists( 'ID', $result ) ) {
 			return false;
 		}
 
@@ -90,7 +90,7 @@ class WPSEO_Export_Keywords_Presenter {
 			if ( array_key_exists( 'other_keywords', $result ) && $result['other_keywords'] ) {
 				$keywords = json_decode( $result['other_keywords'], true );
 				if ( $keywords ) {
-					foreach( $keywords as $keyword ) {
+					foreach ( $keywords as $keyword ) {
 						$result['keywords'][] = $keyword['keyword'];
 						if ( in_array( 'keywords_score', $this->columns, true ) ) {
 							$rank = new WPSEO_Rank( $keyword['score'] );

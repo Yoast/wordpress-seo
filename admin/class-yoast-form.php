@@ -95,13 +95,13 @@ class Yoast_Form {
 	/**
 	 * Sets a value in the options.
 	 *
-	 * @param string $key The key of the option to set.
-	 * @param mixed $value The value to set the option to.
-	 * @param bool $overwrite Whether to overwrite existing options, default is false.
+	 * @param string $key       The key of the option to set.
+	 * @param mixed  $value     The value to set the option to.
+	 * @param bool   $overwrite Whether to overwrite existing options, default is false.
 	 */
 	public function set_options_value( $key, $value, $overwrite = false ) {
 		if ( $overwrite || ! array_key_exists( $key, $this->options ) ) {
-			$this->options[$key] = $value;
+			$this->options[ $key ] = $value;
 		}
 	}
 
