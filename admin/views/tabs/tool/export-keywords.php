@@ -10,7 +10,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 ?>
-<h2><?php __( 'Export keywords to a CSV file', 'wordpress-seo' ); ?></h2>
+<h2><?php _e( 'Export keywords to a CSV file', 'wordpress-seo' ) ?></h2>
+<p><?php _e( 'If you need to have a list of all public posts and related keywords, you can generate a CSV file using the button below.', 'wordpress-seo' ) ?></p>
+<p><?php _e( 'You can add or remove columns to be included in the export using the checkboxes below.', 'wordpress-seo' ) ?></p>
+<p><?php _e( 'Please note that the first row in this file is a header. This row should be ignored when parsing or importing the data from the export.', 'wordpress-seo' ) ?></p>
 <form action="" method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 	<?php
 	wp_nonce_field( 'wpseo-export', '_wpnonce', true );
@@ -23,5 +26,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	$yform->checkbox( 'export-keywords', __( 'Export keywords', 'wordpress-seo' ) );
 	$yform->checkbox( 'export-keywords-score', __( 'Export keyword scores', 'wordpress-seo' ) );
 	?>
+    <br class="clear">
 	<input type="submit" class="button button-primary" name="export-posts" value="<?php echo __( 'Export keywords', 'wordpress-seo' ); ?>"/>
 </form>
