@@ -45,11 +45,14 @@ class WPSEO_GSC_Modal {
 	 * @param string $unique_id An unique identifier for the modal.
 	 */
 	public function load_view( $unique_id ) {
+		// As we are going to move UI to React, this will be resolved in that project.
+		// @codingStandardsIgnoreStart
 		extract( $this->view_vars );
+		// @codingStandardsIgnoreEnd
 
 		echo '<div id="redirect-' . $unique_id . '" class="hidden">';
 		echo '<div class="form-wrap wpseo_content_wrapper">';
-		require( $this->view );
+		require $this->view;
 		echo '</div>';
 		echo '</div>';
 	}

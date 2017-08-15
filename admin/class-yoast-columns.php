@@ -31,7 +31,7 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 					'Yoast SEO',
 					'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/16p' ) . '">',
 					'</a>',
-					'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/16q' )  .'">',
+					'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/16q' ) . '">',
 					'<em>',
 					'</em>'
 				),
