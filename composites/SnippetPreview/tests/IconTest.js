@@ -6,7 +6,7 @@ import { Icon } from "../components/Icon";
 
 test( "the Icon matches the snapshot", () => {
 	const component = renderer.create(
-		<Icon icon={ edit } iconColor="black" iconSize="16px" />
+		<Icon icon={ edit } color="black" size="16px" />
 	);
 
 	let tree = component.toJSON();
