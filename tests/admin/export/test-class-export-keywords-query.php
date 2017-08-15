@@ -31,11 +31,14 @@ class WPSEO_Export_Keywords_Query_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->run_add_meta_join( 'meta_alias', 'meta_key' );
 
-		$this->assertEquals( 'meta_alias_join.meta_value AS meta_alias', $class_instance->get_selects()[0] );
+		$selects = $class_instance->get_selects();
+		$joins = $class_instance->get_joins();
+
+		$this->assertEquals( 'meta_alias_join.meta_value AS meta_alias', $selects[0] );
 
 		$this->assertEquals( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS meta_alias_join ' .
 							 'ON meta_alias_join.post_id = ' . $wpdb->prefix . 'posts.ID ' .
-							 'AND meta_alias_join.meta_key = "meta_key"', $class_instance->get_joins()[0] );
+							 'AND meta_alias_join.meta_key = "meta_key"', $joins[0] );
 	}
 
 	/**
@@ -50,9 +53,12 @@ class WPSEO_Export_Keywords_Query_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->run_add_meta_join( '; DROP TABLE wp_posts;', '; DROP TABLE wp_posts;' );
 
-		$this->assertNotContains( 'DROP TABLE wp_posts', $class_instance->get_selects()[0] );
+		$selects = $class_instance->get_selects();
+		$joins = $class_instance->get_joins();
 
-		$this->assertNotContains( 'DROP TABLE wp_posts', $class_instance->get_joins()[0] );
+		$this->assertNotContains( 'DROP TABLE wp_posts', $selects[0] );
+
+		$this->assertNotContains( 'DROP TABLE wp_posts', $joins[0] );
 	}
 
 	/**
@@ -86,25 +92,30 @@ class WPSEO_Export_Keywords_Query_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->run_set_columns();
 
-		$this->assertContains( $wpdb->prefix . 'posts.ID', $class_instance->get_selects() );
-		$this->assertContains( $wpdb->prefix . 'posts.post_title', $class_instance->get_selects() );
-		$this->assertContains( 'primary_keyword_join.meta_value AS primary_keyword', $class_instance->get_selects() );
-		$this->assertContains( 'primary_keyword_score_join.meta_value AS primary_keyword_score', $class_instance->get_selects() );
-		$this->assertContains( 'other_keywords_join.meta_value AS other_keywords', $class_instance->get_selects() );
-		$this->assertContains( 'seo_score_join.meta_value AS seo_score', $class_instance->get_selects() );
+		$selects = $class_instance->get_selects();
+		$joins = $class_instance->get_joins();
 
+		$this->assertCount( 6, $selects );
+		$this->assertContains( $wpdb->prefix . 'posts.ID', $selects );
+		$this->assertContains( $wpdb->prefix . 'posts.post_title', $selects );
+		$this->assertContains( 'primary_keyword_join.meta_value AS primary_keyword', $selects );
+		$this->assertContains( 'primary_keyword_score_join.meta_value AS primary_keyword_score', $selects );
+		$this->assertContains( 'other_keywords_join.meta_value AS other_keywords', $selects );
+		$this->assertContains( 'seo_score_join.meta_value AS seo_score', $selects );
+
+		$this->assertCount( 4, $joins );
 		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS primary_keyword_join ' .
 							   'ON primary_keyword_join.post_id = ' . $wpdb->prefix . 'posts.ID ' .
-							   'AND primary_keyword_join.meta_key = "_yoast_wpseo_focuskw"', $class_instance->get_joins() );
+							   'AND primary_keyword_join.meta_key = "_yoast_wpseo_focuskw"', $joins );
 		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS primary_keyword_score_join ' .
 							   'ON primary_keyword_score_join.post_id = ' . $wpdb->prefix . 'posts.ID ' .
-							   'AND primary_keyword_score_join.meta_key = "_yoast_wpseo_linkdex"', $class_instance->get_joins() );
+							   'AND primary_keyword_score_join.meta_key = "_yoast_wpseo_linkdex"', $joins );
 		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS seo_score_join ' .
 							   'ON seo_score_join.post_id = ' . $wpdb->prefix . 'posts.ID ' .
-							   'AND seo_score_join.meta_key = "_yoast_wpseo_content_score"', $class_instance->get_joins() );
+							   'AND seo_score_join.meta_key = "_yoast_wpseo_content_score"', $joins );
 		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS other_keywords_join ' .
 							   'ON other_keywords_join.post_id = ' . $wpdb->prefix . 'posts.ID ' .
-							   'AND other_keywords_join.meta_key = "_yoast_wpseo_focuskeywords"', $class_instance->get_joins() );
+							   'AND other_keywords_join.meta_key = "_yoast_wpseo_focuskeywords"', $joins );
 	}
 
 	/**
@@ -120,10 +131,13 @@ class WPSEO_Export_Keywords_Query_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->run_set_columns();
 
-		$this->assertCount( 1, $class_instance->get_selects() );
-		$this->assertEquals( $wpdb->prefix . 'posts.ID', $class_instance->get_selects()[0] );
+		$selects = $class_instance->get_selects();
+		$joins = $class_instance->get_joins();
 
-		$this->assertEmpty( $class_instance->get_joins() );
+		$this->assertCount( 1, $class_instance->get_selects() );
+		$this->assertEquals( $wpdb->prefix . 'posts.ID', $selects[0] );
+
+		$this->assertEmpty( $joins );
 	}
 
 	/**
