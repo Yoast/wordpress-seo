@@ -421,12 +421,17 @@ class WPSEO_Meta_Columns {
 	protected function build_filter_query( $vars, $filters ) {
 		$result = array( 'meta_query' => array() );
 
-		// Determine whether or not to add the score filters.
-		if ( count( $filters ) !== 0 ) {
-			$result['meta_query'] = array_merge( $result['meta_query'], array( $this->determine_score_filters( $filters ) ) );
+		// If no filters were applied, just return everything.
+		if ( count( $filters ) === 0 ) {
+			return array_merge( $vars, $result );
 		}
 
-		if ( $this->get_current_seo_filter() !== WPSEO_Rank::NO_INDEX ) {
+		$result['meta_query'] = array_merge( $result['meta_query'], array( $this->determine_score_filters( $filters ) ) );
+
+		$current_seo_filter = $this->get_current_seo_filter();
+
+		// This only applies for the SEO score filter because it can because the SEO score can be altered by the no-index option.
+		if ( $this->is_valid_filter( $current_seo_filter ) && ! in_array( $current_seo_filter, array( WPSEO_Rank::NO_INDEX, WPSEO_Rank::NO_FOCUS ), true ) ) {
 			$result['meta_query'] = array_merge( $result['meta_query'], array( $this->get_meta_robots_query_values() ) );
 		}
 
