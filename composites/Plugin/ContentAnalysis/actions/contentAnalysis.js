@@ -1,9 +1,10 @@
 /*
  * Action types
  */
+const prefix = "CONTENT_ANALYSIS_";
 
-export const UPDATE_SEO_RESULT = "CONTENT_ANALYSIS_UPDATE_SEO_RESULT";
-export const UPDATE_READABILITY_RESULT = "CONTENT_ANALYSIS_UPDATE_READABILITY_RESULT";
+export const UPDATE_SEO_RESULT = `${ prefix }UPDATE_SEO_RESULT`;
+export const UPDATE_READABILITY_RESULT = `${ prefix }UPDATE_READABILITY_RESULT`;
 
 /*
  * Action creators
