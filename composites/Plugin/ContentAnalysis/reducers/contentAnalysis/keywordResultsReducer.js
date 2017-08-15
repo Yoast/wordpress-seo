@@ -1,4 +1,4 @@
-import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, CHANGE_KEYWORD } from "../../actions/contentAnalysis";
+import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD } from "../../actions/contentAnalysis";
 import findIndex from "lodash/findIndex";
 import omit from "lodash/omit";
 

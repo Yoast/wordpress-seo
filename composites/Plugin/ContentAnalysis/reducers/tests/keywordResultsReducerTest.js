@@ -1,5 +1,5 @@
 import { keywordResultsReducer } from "../contentAnalysis/keywordResultsReducer";
-import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, changeKeyword } from "../../actions/contentAnalysis";
+import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD } from "../../actions/contentAnalysis";
 
 // The SET_SEO_RESULTS action
 test( "the set seo results action modifies an empty state", () => {
