@@ -41,9 +41,18 @@ class WPSEO_Link_Watcher {
 
 		$content = $post->post_content;
 
+		/*
+		 * Make sure plugins that echo in shortcodes do not echo during this execution.
+		 * See https://github.com/Yoast/wordpress-seo/issues/7405.
+		 */
+		ob_start();
+
 		// Apply the filters to have the same content as shown on the frontend.
 		$content = apply_filters( 'the_content', $content );
 		$content = str_replace( ']]>', ']]&gt;', $content );
+
+		// Clear the output buffering without using it.
+		ob_end_clean();
 
 		$this->content_processor->process( $post_id, $content );
 	}
