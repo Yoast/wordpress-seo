@@ -428,7 +428,10 @@ class WPSEO_Meta_Columns {
 
 		$result['meta_query'] = array_merge( $result['meta_query'], array( $this->determine_score_filters( $filters ) ) );
 
-		if ( ( $this->get_current_seo_filter() !== WPSEO_Rank::NO_INDEX && $this->get_current_seo_filter() !== WPSEO_Rank::NO_FOCUS ) ) {
+		$current_seo_filter = $this->get_current_seo_filter();
+
+		// This only applies for the SEO score filter because it can because the SEO score can be altered by the no-index option.
+		if ( $this->is_valid_filter( $current_seo_filter ) && ! in_array( $current_seo_filter, array( WPSEO_Rank::NO_INDEX, WPSEO_Rank::NO_FOCUS ), true ) ) {
 			$result['meta_query'] = array_merge( $result['meta_query'], array( $this->get_meta_robots_query_values() ) );
 		}
 
