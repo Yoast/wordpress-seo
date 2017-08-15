@@ -88,7 +88,8 @@ class WPSEO_Export_Keywords_Presenter {
 					foreach( $keywords as $keyword ) {
 						$result['keywords'][] = $keyword['keyword'];
 						if ( in_array( 'keywords_score', $this->columns, true ) ) {
-							$result['keywords_score'][] = ( new WPSEO_Rank( $keyword['score'] ) )->get_rank();
+							$rank = new WPSEO_Rank( $keyword['score'] );
+							$result['keywords_score'][] = $rank->get_rank();
 						}
 					}
 				}
