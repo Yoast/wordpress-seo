@@ -63,10 +63,15 @@ class WPSEO_Export_Keywords_Manager {
 	 */
 	protected function get_csv_contents() {
 		global $wpdb;
-		$query = new WPSEO_Export_Keywords_Query( $this->get_export_columns(), $wpdb );
+		$columns = $this->get_export_columns();
+
+		$query = new WPSEO_Export_Keywords_Query( $columns, $wpdb );
+
+		$presenter = new WPSEO_Export_Keywords_Presenter( $columns );
+		$data = array_map( array( $presenter, 'present' ), $query->get_data() );
 
 		$builder = new WPSEO_Export_Keywords_CSV();
-		return $builder->export( $query );
+		return $builder->export( $data, $columns );
 	}
 
 	/**

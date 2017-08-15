@@ -39,13 +39,6 @@ class WPSEO_Export_Keywords_Query {
 	}
 
 	/**
-	 * @return array[int]string The columns to query for, an array of strings.
-	 */
-	public function get_columns() {
-		return $this->columns;
-	}
-
-	/**
 	 * Constructs the query and executes it, returning an array of objects containing the columns this object was constructed with.
 	 * Every object will always contain the ID column.
 	 *
@@ -61,9 +54,7 @@ class WPSEO_Export_Keywords_Query {
 		$query = 'SELECT ' . join( ', ', $this->selects ) . ' FROM ' . $this->wpdb->prefix . 'posts ' . join( ' ', $this->joins ) .
 				 ' WHERE ' . $this->wpdb->prefix . 'posts.post_status = "publish" AND ' . $this->wpdb->prefix . 'posts.post_type IN ("' . $post_types . '");';
 
-		$results = $this->wpdb->get_results( $query, ARRAY_A );
-
-		return array_map( array( $this, 'result_mapper' ), $results );
+		return $this->wpdb->get_results( $query, ARRAY_A );
 	}
 
 	/**
@@ -107,127 +98,5 @@ class WPSEO_Export_Keywords_Query {
 		$this->joins[] = 'LEFT OUTER JOIN ' . $this->wpdb->prefix . 'postmeta AS ' . $alias . '_join ' .
 						 'ON ' . $alias . '_join.post_id = ' . $this->wpdb->prefix . 'posts.ID ' .
 						 'AND ' .$alias . '_join.meta_key = "' . $key . '"';
-	}
-
-	/**
-	 * Updates a result by modifying and adding the requested fields.
-	 *
-	 * @param array[string]string $result The result to modify.
-	 *
-	 * @return array[string]string The modified result.
-	 */
-	protected function result_mapper( $result ) {
-		// If post titles were selected run their filters.
-		if ( in_array( 'post_title', $this->columns, true ) ) {
-			$result['post_title'] = apply_filters( 'the_title', $result['post_title'], $result['ID'] );
-		}
-
-		// If post urls were selected add them to our results.
-		if ( in_array( 'post_url', $this->columns, true ) ) {
-			$result['post_url'] = get_permalink( $result['ID'] );
-		}
-
-		// If SEO scores were selected convert them to nice ratings.
-		if ( in_array( 'seo_score', $this->columns, true ) ) {
-			$result['seo_score'] = $this->get_rating_from_int_score( intval( $result['seo_score']) );
-		}
-
-		// If keywords were selected we need to convert them to a better format.
-		if ( in_array( 'keywords', $this->columns, true ) || in_array( 'keywords_score', $this->columns, true ) ) {
-			$result = $this->convert_result_keywords( $result );
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Converts the results of the query from strings and JSON string to keyword arrays.
-	 *
-	 * @param array[string]string $result The result to convert.
-	 *
-	 * @return array[string]string The converted result.
-	 */
-	protected function convert_result_keywords( $result ) {
-		if ( $result['primary_keyword'] ) {
-			$result['keywords'] = array( $result['primary_keyword'] );
-
-			if ( in_array( 'keywords_score', $this->columns, true ) ) {
-				$result['keywords_score'] = array( $this->get_rating_from_int_score( intval( $result['primary_keyword_score'] ) ) );
-			}
-
-			// Convert multiple keywords from the Premium plugin from json to string arrays.
-			if ( array_key_exists( 'other_keywords', $result ) && $result['other_keywords'] ) {
-				$keywords = json_decode( $result['other_keywords'], true );
-				if ( $keywords ) {
-					foreach( $keywords as $keyword ) {
-						$result['keywords'][] = $keyword['keyword'];
-						if ( in_array( 'keywords_score', $this->columns, true ) ) {
-							$result['keywords_score'][] = $this->get_rating_from_string_score( $keyword['score'] );
-						}
-					}
-				}
-			}
-		}
-
-		// Unset all old variables, if they do not exist nothing will happen.
-		unset( $result['primary_keyword'] );
-		unset( $result['primary_keyword_score'] );
-		unset( $result['other_keywords'] );
-
-		return $result;
-	}
-
-	/**
-	 * Converts an integer keyword score to a friendly rating.
-	 *
-	 * @param int $score A score, normally from 0 to 100.
-	 *
-	 * @return string
-	 */
-	protected function get_rating_from_int_score( $score ) {
-		if ( ! is_int( $score ) ) {
-			return __( 'none' );
-		}
-
-		if ( $score > 0 && $score <= 40 ) {
-			return __( "needs improvement" );
-		}
-
-		if ( $score > 40 && $score <= 70 ) {
-			return __( "ok" );
-		}
-
-		if ( $score > 70 ) {
-			return __( "good" );
-		}
-
-		return __( "none" );
-	}
-
-	/**
-	 * Converts an unfriendly integer keyword score to a friendly rating.
-	 *
-	 * @param string $score A score, normally 'na', 'bad', 'ok' or 'good'.
-	 *
-	 * @return string
-	 */
-	protected function get_rating_from_string_score( $score ) {
-		if ( ! is_string( $score ) ) {
-			return __( 'none' );
-		}
-
-		if ( $score === 'bad' ) {
-			return __( "needs improvement" );
-		}
-
-		if ( $score === 'ok' ) {
-			return __( 'ok' );
-		}
-
-		if ( $score === 'good' ) {
-			return __( 'good' );
-		}
-
-		return __( 'none' );
 	}
 }

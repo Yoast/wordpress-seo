@@ -12,11 +12,11 @@ class WPSEO_Export_Keywords_CSV {
 	 *
 	 * @return string A CSV string.
 	 */
-	public function export( WPSEO_Export_Keywords_Query $keywords_query ) {
-		$csv = $this->get_headers( $keywords_query->get_columns() );
+	public function export( $data, $columns ) {
+		$csv = $this->get_headers( $columns );
 
-		foreach( $keywords_query->get_data() as $result ) {
-			$csv .= $this->format( $result, $keywords_query->get_columns() );
+		foreach( $data as $result ) {
+			$csv .= $this->format( $result, $columns );
 		}
 
 		return $csv;
@@ -32,23 +32,23 @@ class WPSEO_Export_Keywords_CSV {
 	protected function get_headers( $columns ) {
 		$csv = $this->format_csv_column( __( 'ID' ) );
 
-		if ( in_array( 'post_title', $columns) ) {
+		if ( in_array( 'post_title', $columns, true ) ) {
 			$csv .= ',' . $this->format_csv_column( __( 'post title', 'wordpress-seo' ) );
 		}
 
-		if ( in_array( 'post_url', $columns) ) {
+		if ( in_array( 'post_url', $columns, true ) ) {
 			$csv .= ',' . $this->format_csv_column( __( 'post url', 'wordpress-seo' ) );
 		}
 
-		if ( in_array( 'seo_score', $columns) ) {
+		if ( in_array( 'seo_score', $columns, true ) ) {
 			$csv .= ',' . $this->format_csv_column( __( 'seo score', 'wordpress-seo' ) );
 		}
 
-		if ( in_array( 'keywords', $columns) ) {
+		if ( in_array( 'keywords', $columns, true ) ) {
 			$csv .= ',' . $this->format_csv_column( __( 'keyword', 'wordpress-seo' ) );
 		}
 
-		if ( in_array( 'keywords_score', $columns) ) {
+		if ( in_array( 'keywords_score', $columns, true ) ) {
 			$csv .= ',' . $this->format_csv_column( __( 'keyword score', 'wordpress-seo' ) );
 		}
 
@@ -65,31 +65,43 @@ class WPSEO_Export_Keywords_CSV {
 	 * @return string A line of CSV, beginning with EOL.
 	 */
 	protected function format( $result, $columns ) {
-		$keywords = array_key_exists( 'keywords' , $result ) ? $result['keywords'] : array();
-		$keywords_score = array_key_exists( 'keywords_score' , $result ) ? $result['keywords_score'] : array();
+		// If our input is malformed return an empty string.
+		if ( ! is_array( $result) || ! array_key_exists( 'ID', $result ) || ! is_int( $result['ID'] ) ) {
+			return '';
+		}
+
+		$keywords = array();
+		if ( array_key_exists( 'keywords' , $result ) && is_array( $result['keywords'] ) ) {
+			$keywords = $result['keywords'];
+		}
+		$keywords_score = array();
+		if ( array_key_exists( 'keywords_score' , $result ) && is_array( $result['keywords_score'] ) ) {
+			$keywords_score = $result['keywords_score'];
+		}
+
 		$csv = '';
 
 		// Add at least one row plus additional ones if we have more keywords.
 		do {
 			$csv .= PHP_EOL . $this->format_csv_column( $result['ID'] );
 
-			if ( in_array( 'post_title', $columns ) ) {
+			if ( in_array( 'post_title', $columns, true ) && array_key_exists( 'post_title', $result ) ) {
 				$csv .= ',' . $this->format_csv_column( $result['post_title'] );
 			}
 
-			if ( in_array( 'post_url', $columns ) ) {
+			if ( in_array( 'post_url', $columns, true ) && array_key_exists( 'post_url', $result ) ) {
 				$csv .= ',' . $this->format_csv_column( $result['post_url'] );
 			}
 
-			if ( in_array( 'seo_score', $columns ) ) {
+			if ( in_array( 'seo_score', $columns, true ) && array_key_exists( 'seo_score', $result ) ) {
 				$csv .= ',' . $this->format_csv_column( $result['seo_score'] );
 			}
 
-			if ( in_array( 'keywords', $columns ) && count( $keywords ) > 0 ) {
+			if ( in_array( 'keywords', $columns, true ) ) {
 				$csv .= ',' . $this->format_csv_column( array_shift( $keywords ) );
 			}
 
-			if ( in_array( 'keywords_score', $columns ) && count( $keywords_score ) > 0 ) {
+			if ( in_array( 'keywords_score', $columns, true ) ) {
 				$csv .= ',' . $this->format_csv_column( array_shift( $keywords_score ) );
 			}
 		} while( count( $keywords ) > 0 );
@@ -105,6 +117,23 @@ class WPSEO_Export_Keywords_CSV {
 	 * @return string The sanitized value.
 	 */
 	protected function format_csv_column( $value ) {
-		return '"' . str_replace( '"', '""', (string) $value ) . '"';
+		// Return an empty string if value is null.
+		if ( is_null( $value ) ) {
+			return '';
+		}
+
+		// Convert non-string values to strings.
+		if ( ! is_string( $value ) ) {
+			$value = var_export( $value, true );
+		}
+
+		// Replace all whitespace with spaces because Excel can't deal with newlines and tabs even if escaped.
+		$value = preg_replace( '/\s/', ' ', $value );
+
+		// Escape double quotes.
+		$value = str_replace( '"', '""', $value );
+
+		// Return the value enclosed in double quotes.
+		return '"' . $value . '"';
 	}
 }

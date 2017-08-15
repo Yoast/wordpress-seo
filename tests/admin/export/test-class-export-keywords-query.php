@@ -16,23 +16,13 @@ class WPSEO_Export_Keywords_Query_Double extends WPSEO_Export_Keywords_Query {
 	public function run_set_columns() {
 		$this->set_columns();
 	}
-
-	public function return_convert_result_keywords( $result ) {
-		return $this->convert_result_keywords( $result );
-	}
-
-	public function return_get_rating_from_int_score( $score ) {
-		return $this->get_rating_from_int_score( $score );
-	}
-
-	public function return_get_rating_from_string_score( $score ) {
-		return $this->get_rating_from_string_score( $score );
-	}
 }
 
 class WPSEO_Export_Keywords_Query_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the add_meta_join function for constructing joins.
+	 *
+	 * @covers WPSEO_Export_Keywords_Query::add_meta_join
 	 */
 	public function test_add_meta_join() {
 		global $wpdb;
@@ -50,6 +40,8 @@ class WPSEO_Export_Keywords_Query_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests that you can't add snippets of SQL by using add_meta_join.
+	 *
+	 * @covers WPSEO_Export_Keywords_Query::add_meta_join
 	 */
 	public function test_add_meta_join_no_sql_injection() {
 		global $wpdb;
@@ -65,6 +57,9 @@ class WPSEO_Export_Keywords_Query_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if set_columns works with simple columns that exist on the posts table.
+	 *
+	 * @covers WPSEO_Export_Keywords_Query::__construct
+	 * @covers WPSEO_Export_Keywords_Query::set_columns
 	 */
 	public function test_set_columns_simple() {
 		global $wpdb;
@@ -80,6 +75,9 @@ class WPSEO_Export_Keywords_Query_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if set_columns works with all possible columns.
+	 *
+	 * @covers WPSEO_Export_Keywords_Query::__construct
+	 * @covers WPSEO_Export_Keywords_Query::set_columns
 	 */
 	public function test_set_columns_complete() {
 		global $wpdb;
@@ -111,6 +109,9 @@ class WPSEO_Export_Keywords_Query_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests how set_columns deals with random input.
+	 *
+	 * @covers WPSEO_Export_Keywords_Query::__construct
+	 * @covers WPSEO_Export_Keywords_Query::set_columns
 	 */
 	public function test_set_columns_random_input() {
 		global $wpdb;
@@ -126,90 +127,91 @@ class WPSEO_Export_Keywords_Query_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if convert_result_keywords works with expected input.
+	 * Tests the get_data with expected input.
+	 *
+	 * @covers WPSEO_Export_Keywords_Query::__construct
+	 * @covers WPSEO_Export_Keywords_Query::get_data
 	 */
-	public function test_convert_result_keywords() {
+	public function test_get_data() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Query_Double( array( 'keywords', 'keywords_score' ), $wpdb );
+		$class_instance = new WPSEO_Export_Keywords_Query_Double( array( 'post_title', 'post_url', 'keywords', 'seo_score', 'keywords_score' ), $wpdb );
 
-		$fake_result = array(
-			'primary_keyword' => 'foo',
-			'primary_keyword_score' => '90',
-			'other_keywords' => '[{"keyword": "bar", "score": "bad"}]'
-		);
+		// Create fake data.
+		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post' ) );
+		add_post_meta( $fake_post, '_yoast_wpseo_content_score', '80' );
+		add_post_meta( $fake_post, '_yoast_wpseo_focuskw', 'foo' );
+		add_post_meta( $fake_post, '_yoast_wpseo_linkdex', '10' );
+		add_post_meta( $fake_post, '_yoast_wpseo_focuskeywords', '[{"keyword": "foo", "score": "good"},{"keyword": "baz", "score": "bad"}]' );
 
-		$result = $class_instance->return_convert_result_keywords( $fake_result );
+		$results = $class_instance->get_data();
 
-		$this->assertEquals( 'foo', $result['keywords'][0] );
-		$this->assertEquals( 'bar', $result['keywords'][1] );
-		$this->assertCount( 2, $result['keywords'] );
+		$this->assertCount( 1, $results );
+		$this->assertEquals( $fake_post, $results[0]['ID'] );
+		$this->assertEquals( 'fake post', $results[0]['post_title'] );
+		$this->assertEquals( '80', $results[0]['seo_score'] );
+		$this->assertEquals( 'foo', $results[0]['primary_keyword'] );
+		$this->assertEquals( '10', $results[0]['primary_keyword_score'] );
+		$this->assertEquals( '[{"keyword": "foo", "score": "good"},{"keyword": "baz", "score": "bad"}]', $results[0]['other_keywords'] );
 
-		$this->assertEquals( 'good', $result['keywords_score'][0] );
-		$this->assertEquals( 'needs improvement', $result['keywords_score'][1] );
-		$this->assertCount( 2, $result['keywords_score'] );
+		// And clean up fake data, factory created objects are automatically cleaned up. Unfortunately there's no meta factory.
+		delete_post_meta( $fake_post, '_yoast_wpseo_content_score' );
+		delete_post_meta( $fake_post, '_yoast_wpseo_focuskw' );
+		delete_post_meta( $fake_post, '_yoast_wpseo_linkdex' );
+		delete_post_meta( $fake_post, '_yoast_wpseo_focuskeywords' );
 	}
 
 	/**
-	 * Tests if convert_result_keywords works with malformed input.
+	 * Tests the get_data with private input.
+	 *
+	 * @covers WPSEO_Export_Keywords_Query::__construct
+	 * @covers WPSEO_Export_Keywords_Query::get_data
 	 */
-	public function test_convert_result_keywords_malformed() {
+	public function test_get_data_public_only() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Query_Double( array( 'keywords', 'keywords_score' ), $wpdb );
+		$class_instance = new WPSEO_Export_Keywords_Query_Double( array( 'post_title', 'post_url', 'keywords', 'seo_score', 'keywords_score' ), $wpdb );
 
-		$fake_result = array(
-			'primary_keyword' => 'foo',
-			'primary_keyword_score' => '90',
-			'other_keywords' => '[{"keyword" => "bar", what_even_is_this?}]'
-		);
+		// Create fake data.
+		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post', 'post_status' => 'draft' ) );
+		add_post_meta( $fake_post, '_yoast_wpseo_content_score', '80' );
+		add_post_meta( $fake_post, '_yoast_wpseo_focuskw', 'foo' );
+		add_post_meta( $fake_post, '_yoast_wpseo_linkdex', '10' );
+		add_post_meta( $fake_post, '_yoast_wpseo_focuskeywords', '[{"keyword": "foo", "score": "good"},{"keyword": "baz", "score": "bad"}]' );
 
-		$result = $class_instance->return_convert_result_keywords( $fake_result );
+		$results = $class_instance->get_data();
 
-		$this->assertEquals( 'foo', $result['keywords'][0] );
-		$this->assertCount( 1, $result['keywords'] );
+		$this->assertCount( 0, $results );
 
-		$this->assertEquals( 'good', $result['keywords_score'][0] );
-		$this->assertCount( 1, $result['keywords_score'] );
+		// And clean up fake data, factory created objects are automatically cleaned up. Unfortunately there's no meta factory.
+		delete_post_meta( $fake_post, '_yoast_wpseo_content_score' );
+		delete_post_meta( $fake_post, '_yoast_wpseo_focuskw' );
+		delete_post_meta( $fake_post, '_yoast_wpseo_linkdex' );
+		delete_post_meta( $fake_post, '_yoast_wpseo_focuskeywords' );
 	}
 
 	/**
-	 * Tests the get_rating_from_int_score function
+	 * Tests the get_data with null input.
+	 *
+	 * @covers WPSEO_Export_Keywords_Query::__construct
+	 * @covers WPSEO_Export_Keywords_Query::get_data
 	 */
-	public function test_get_rating_from_int_score() {
+	public function test_get_data_null() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Query_Double( array( ), $wpdb );
+		$class_instance = new WPSEO_Export_Keywords_Query_Double( array( 'post_title', 'post_url', 'keywords', 'seo_score', 'keywords_score' ), $wpdb );
 
-		// Check legitimate input.
-		$this->assertEquals('none', $class_instance->return_get_rating_from_int_score( 0 ) );
-		$this->assertEquals('needs improvement', $class_instance->return_get_rating_from_int_score( 5 ) );
-		$this->assertEquals('ok', $class_instance->return_get_rating_from_int_score( 50 ) );
-		$this->assertEquals('good', $class_instance->return_get_rating_from_int_score( 80 ) );
+		// Create fake data.
+		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post' ) );
 
-		// Check malformed input.
-		$this->assertEquals('none', $class_instance->return_get_rating_from_int_score( true ) );
-		$this->assertEquals('none', $class_instance->return_get_rating_from_int_score( 'bar' ) );
-		$this->assertEquals('none', $class_instance->return_get_rating_from_int_score( array() ) );
-	}
+		$results = $class_instance->get_data();
 
-	/**
-	 * Tests the get_rating_from_string_score function
-	 */
-	public function test_get_rating_from_string_score() {
-		global $wpdb;
-
-		$class_instance = new WPSEO_Export_Keywords_Query_Double( array( ), $wpdb );
-
-		// Check legitimate input.
-		$this->assertEquals('none', $class_instance->return_get_rating_from_string_score( 'none' ) );
-		$this->assertEquals('needs improvement', $class_instance->return_get_rating_from_string_score( 'bad' ) );
-		$this->assertEquals('ok', $class_instance->return_get_rating_from_string_score( 'ok' ) );
-		$this->assertEquals('good', $class_instance->return_get_rating_from_string_score( 'good' ) );
-
-		// Check malformed input.
-		$this->assertEquals('none', $class_instance->return_get_rating_from_string_score( true ) );
-		$this->assertEquals('none', $class_instance->return_get_rating_from_string_score( 25 ) );
-		$this->assertEquals('none', $class_instance->return_get_rating_from_string_score( array() ) );
+		$this->assertCount( 1, $results );
+		$this->assertEquals( $fake_post, $results[0]['ID'] );
+		$this->assertEquals( 'fake post', $results[0]['post_title'] );
+		$this->assertNull( $results[0]['seo_score'] );
+		$this->assertNull( $results[0]['primary_keyword'] );
+		$this->assertNull( $results[0]['primary_keyword_score'] );
+		$this->assertNull( $results[0]['other_keywords'] );
 	}
 }
