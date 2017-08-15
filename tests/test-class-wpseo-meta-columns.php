@@ -140,18 +140,6 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 								'compare' => 'BETWEEN',
 							)
 						),
-						array(
-							'relation' => 'OR',
-							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-                                'compare' => 'NOT EXISTS',
-							),
-							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-				                'value' => '1',
-				                'compare' => '!=',
-							),
-						),
 					)
 				)
 			),
@@ -189,18 +177,6 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 								'compare' => 'BETWEEN',
 							)
 						),
-						array(
-							'relation' => 'OR',
-							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-								'compare' => 'NOT EXISTS',
-							),
-							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-								'value' => '1',
-								'compare' => '!=',
-							),
-						),
 					)
 				)
 			),
@@ -209,20 +185,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 				array(),
 				array(),
 				array(
-					'meta_query' => array(
-						array(
-							'relation' => 'OR',
-							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-								'compare' => 'NOT EXISTS',
-							),
-							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-								'value' => '1',
-								'compare' => '!=',
-							),
-						),
-					)
+					'meta_query' => array()
 				)
 			),
 
@@ -260,18 +223,6 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 								'type' => 'numeric',
 								'compare' => 'BETWEEN',
 							)
-						),
-						array(
-							'relation' => 'OR',
-							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-								'compare' => 'NOT EXISTS',
-							),
-							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-								'value' => '1',
-								'compare' => '!=',
-							),
 						),
 					)
 				)
