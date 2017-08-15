@@ -806,10 +806,8 @@ class WPSEO_OpenGraph_Image {
 	public function __construct( $options, $image = false ) {
 		$this->options = $options;
 
-		if ( ! empty( $image ) && $this->add_image( $image ) ) {
-			// Safely assume an image was added so we don't need to automatically determine it anymore.
-		}
-		else {
+		// If an image was not supplied or could not be added.
+		if ( empty( $image ) || ! $this->add_image( $image ) ) {
 			$this->set_images();
 		}
 	}
