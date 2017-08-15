@@ -57,13 +57,9 @@ class WPSEO_GSC_Service {
 		$response_json = $this->client->do_request( 'sites', true );
 
 		// Do list sites request.
-		// Ignore coding standarsd for object properties.
-		// @codingStandardsIgnoreStart
 		if ( ! empty( $response_json->siteEntry ) ) {
 			foreach ( $response_json->siteEntry as $entry ) {
 				$site_url = (string) $entry->siteUrl;
-				// @codingStandardsIgnoreEnd
-
 				$sites[ str_ireplace( 'sites/', '', $site_url ) ] = $site_url;
 			}
 
@@ -85,10 +81,8 @@ class WPSEO_GSC_Service {
 
 		$return = array();
 		// Ignore coding standards for object properties.
-		// @codingStandardsIgnoreStart
 		if ( ! empty( $crawl_error_counts->countPerTypes ) ) {
 			foreach ( $crawl_error_counts->countPerTypes as $category ) {
-				// @codingStandardsIgnoreEnd
 				$return[ $category->platform ][ $category->category ] = array(
 					'count'      => $category->entries[0]->count,
 					'last_fetch' => null,
@@ -127,12 +121,9 @@ class WPSEO_GSC_Service {
 			true
 		);
 
-		// Ignore coding standards for object properties.
-		// @codingStandardsIgnoreStart
 		if ( ! empty( $issues->urlCrawlErrorSample ) ) {
 			return $issues->urlCrawlErrorSample;
 		}
-		// @codingStandardsIgnoreEnd
 	}
 
 	/**
