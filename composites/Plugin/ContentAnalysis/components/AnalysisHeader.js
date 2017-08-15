@@ -1,28 +1,29 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import colors from "yoast-components/style-guide/colors.json";
-//import { SVGIcon } from "./SVGIcon";
-import defaults from "config/defaults.json";
+import colors from "../../../../style-guide/colors.json";
+import { Icon } from "../../Shared/components/Icon";
+import { edit } from "../../../../style-guide/svg";
+import defaults from "../../../../config/defaults.json";
 
-const CollapsibleHeaderContainer = styled.div`
+const AnalysisHeaderContainer = styled.div`
 	margin-top: 20px;
 	background-color: ${ colors.$color_white };
 `;
 
-const CollapsibleHeading = styled.button`
+const AnalysisHeader = styled.button`
 	display: flex;
 	width: 100%;
 	justify-content: space-between;
 	align-items: center;
 	background-color: ${ colors.$color_white };
-	padding: 24px 32px;
+	padding: 0;
 	border: none;
 	text-align: left;
 	font-weight: 300;
 	cursor: pointer;
 	// When clicking, the button text disappears in Safari 10 because of color: activebuttontext.
-	color: ${ colors.$color_black };
+	color: ${ colors.$color_blue };
 	@media screen and ( max-width: ${ defaults.css.breakpoint.tablet }px ) {
 		padding: 16px 24px;
 	}
@@ -49,7 +50,7 @@ const CollapsibleHeading = styled.button`
 	}
 `;
 
-const CollapsibleTitle = styled.span`
+const AnalysisTitle = styled.span`
 	flex: 1 1 auto;
 	font-size: 1.5em;
 	// Chrome needs 8 decimals to make this 32px without roundings.
@@ -72,6 +73,11 @@ export default class ListToggle extends React.Component {
 		this.state = {
 			isOpen: this.props.isOpen,
 		};
+
+		let children = this.props.children;
+		// todo: Error when children doesn't have a child. prevent this error from being shown??
+		children = children.props.children;
+		console.log( children.length );
 
 		this.toggleOpen = this.toggleOpen.bind( this );
 	}
@@ -96,14 +102,14 @@ export default class ListToggle extends React.Component {
 		} );
 	}
 
-	/**
+	/** todo: icon color, color_grey_dark.
 	 * Gets the correct arrow based on whether the list is collapsed or not.
 	 *
 	 * @returns {ReactElement} The upArrow when the header is collapsed, otherwise the downArrow.
 	 */
 	getArrow() {
-		let upArrow = <SVGIcon><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></SVGIcon>;
-		let downArrow = <SVGIcon><path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"/></SVGIcon>;
+		let upArrow = <Icon icon={ edit } iconColor= { colors.$color_grey_dark }  iconSize="20px" />;
+		let downArrow = <Icon icon={ edit } iconColor= { colors.$color_grey_dark } iconSize="20px" />;
 
 		return this.isOpen() ? upArrow : downArrow;
 	}
@@ -121,15 +127,15 @@ export default class ListToggle extends React.Component {
 		}
 
 		return (
-			<CollapsibleHeaderContainer>
-				<CollapsibleHeading onClick={ this.toggleOpen } aria-expanded={ this.isOpen() }>
-					<CollapsibleTitle>
-						{ this.props.title }
-					</CollapsibleTitle>
+			<AnalysisHeaderContainer>
+				<AnalysisHeader onClick={ this.toggleOpen } aria-expanded={ this.isOpen() } role="heading" aria-level="3" >
 					{ this.getArrow() }
-				</CollapsibleHeading>
+					<AnalysisTitle>
+						{ this.props.title }
+					</AnalysisTitle>
+				</AnalysisHeader>
 				{ children }
-			</CollapsibleHeaderContainer>
+			</AnalysisHeaderContainer>
 		);
 	}
 }
