@@ -17,12 +17,10 @@ jest.mock( "../../reducers/contentAnalysis/keywordResultsReducer", () => {
 	};
 } );
 
-test( "content analysis reducer", () => {
+test( "content analysis reducer with the UPDATE_SEO_RESULT action", () => {
 	const state = {};
 	const action = {
 		type: UPDATE_SEO_RESULT,
-		keyword: "keyword",
-		result: { score: "good result" },
 	};
 	const expected = { seo: { name: "keywordResultsReducer" }, readability: { name: "readabilityResultsReducer" } };
 
@@ -30,11 +28,10 @@ test( "content analysis reducer", () => {
 	expect( actual ).toEqual( expected );
 } );
 
-test( "content analysis reducer", () => {
+test( "content analysis reducer with the UPDATE_READABILITY_RESULT action", () => {
 	const state = {};
 	const action = {
 		type: UPDATE_READABILITY_RESULT,
-		result: { score: "good result" },
 	};
 	const expected = { readability: { name: "readabilityResultsReducer" }, seo: { name: "keywordResultsReducer" } };
 

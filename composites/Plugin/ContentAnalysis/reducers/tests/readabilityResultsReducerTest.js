@@ -60,3 +60,15 @@ test( "the update readability result action modifies the state when there is alr
 
 	expect( actual ).toEqual( expected );
 } );
+
+test( "readability results reducer with a bogus action", () => {
+	const state = {};
+	const BOGUS = "BOGUS";
+	const action = {
+		type: BOGUS,
+	};
+	const expected = {};
+
+	const actual = readabilityResultsReducer( state, action );
+	expect( actual ).toEqual( expected );
+} );

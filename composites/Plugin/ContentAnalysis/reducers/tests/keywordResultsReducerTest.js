@@ -151,3 +151,15 @@ test( "the update seo result action modifies the state when there is already a k
 
 	expect( actual ).toEqual( expected );
 } );
+
+test( "keyword results reducer with a bogus action", () => {
+	const state = {};
+	const BOGUS = "BOGUS";
+	const action = {
+		type: BOGUS,
+	};
+	const expected = {};
+
+	const actual = keywordResultsReducer( state, action );
+	expect( actual ).toEqual( expected );
+} );
