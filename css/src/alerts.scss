@@ -32,7 +32,7 @@
 .yoast-container {
 	position: relative;
 	max-width: 1280px;
-	margin: 20px 20px 1px 20px;
+	margin: 20px 0 1px;
 	padding: 20px 20px 0;
 	border: 1px solid #e5e5e5;
 	background-color: #fdfdfd;
@@ -127,4 +127,21 @@ h3 .dashicons-warning {
 .yoast-no-issues {
 	padding: 1em 1em 1em 16px;
 	color: #666;
+}
+
+.yoast-muted-title {
+	overflow: hidden;
+	font-weight: 600;
+	font-style: italic;
+
+	&:after {
+		content: "";
+		display: inline-block;
+		height: 0.5em;
+		vertical-align: bottom;
+		width: 100%;
+		margin-right: -100%;
+		margin-left: 10px;
+		border-top: 1px solid #ddd;
+	}
 }

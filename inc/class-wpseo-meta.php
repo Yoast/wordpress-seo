@@ -188,7 +188,6 @@ class WPSEO_Meta {
 				'options'       => array(
 					'-'            => '', // Site-wide default - translation added later.
 					'none'         => '', // Translation added later.
-					'noodp'        => '', // Translation added later.
 					'noimageindex' => '', // Translation added later.
 					'noarchive'    => '', // Translation added later.
 					'nosnippet'    => '', // Translation added later.
@@ -299,12 +298,10 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 				if ( $field_def['type'] !== 'snippetpreview' ) {
-					/**
-					 * Function register_meta() is undocumented and not used by WP internally, wrapped in
-					 * function_exists as a precaution in case they remove it.
-					 */
 					if ( $register === true ) {
-						register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
+						register_meta( 'post', self::$meta_prefix . $key, array(
+							'sanitize_callback' => array( __CLASS__, 'sanitize_post_meta' ),
+						) );
 					}
 					else {
 						add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
@@ -404,17 +401,8 @@ class WPSEO_Meta {
 				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options[ 'noindex-' . $post_type ] ) && $options[ 'noindex-' . $post_type ] === true ) ? 'noindex' : 'index' ) );
 
 				/* Adjust the robots advanced 'site-wide default' text string based on those settings */
-				if ( $options['noodp'] !== false ) {
-					$robots_adv = array();
-					if ( $options['noodp'] === true ) {
-						// Use translation from field def options - mind that $options and $field_def['options'] keys should be the same!
-						$robots_adv[] = $field_defs['meta-robots-adv']['options']['noodp'];
-					}
-					$robots_adv = implode( ', ', $robots_adv );
-				}
-				else {
-					$robots_adv = __( 'None', 'wordpress-seo' );
-				}
+				$robots_adv = __( 'None', 'wordpress-seo' );
+
 				$field_defs['meta-robots-adv']['options']['-'] = sprintf( $field_defs['meta-robots-adv']['options']['-'], $robots_adv );
 				unset( $robots_adv );
 
@@ -499,7 +487,7 @@ class WPSEO_Meta {
 				break;
 
 
-			case ( $field_def['type'] === 'upload' && $meta_key === self::$meta_prefix . 'opengraph-image' ):
+			case ( $field_def['type'] === 'upload' && in_array( $meta_key, array( self::$meta_prefix . 'opengraph-image', self::$meta_prefix . 'twitter-image' ), true ) ):
 				// Validate as url.
 				$url = WPSEO_Utils::sanitize_url( $meta_value, array( 'http', 'https', 'ftp', 'ftps' ) );
 				if ( $url !== '' ) {
@@ -604,7 +592,7 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  null   $null       Old, disregard.
+	 * @param  bool   $check      The current status to allow updating metadata for the given type.
 	 * @param  int    $object_id  ID of the current object for which the meta is being updated.
 	 * @param  string $meta_key   The full meta key (including prefix).
 	 * @param  string $meta_value New meta value.
@@ -612,7 +600,7 @@ class WPSEO_Meta {
 	 *
 	 * @return null|bool          true = stop saving, null = continue saving
 	 */
-	public static function remove_meta_if_default( $null, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
+	public static function remove_meta_if_default( $check, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
 		/* If it's one of our meta fields, check against default */
 		if ( isset( self::$fields_index[ $meta_key ] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
 			if ( $prev_value !== '' ) {
@@ -625,7 +613,7 @@ class WPSEO_Meta {
 			return true; // Stop saving the value.
 		}
 
-		return null; // Go on with the normal execution (update) in meta.php.
+		return $check; // Go on with the normal execution (update) in meta.php.
 	}
 
 
@@ -634,20 +622,20 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  null   $null       Old, disregard.
+	 * @param  bool   $check      The current status to allow adding metadata for the given type.
 	 * @param  int    $object_id  ID of the current object for which the meta is being added.
 	 * @param  string $meta_key   The full meta key (including prefix).
 	 * @param  string $meta_value New meta value.
 	 *
 	 * @return null|bool          true = stop saving, null = continue saving
 	 */
-	public static function dont_save_meta_if_default( $null, $object_id, $meta_key, $meta_value ) {
+	public static function dont_save_meta_if_default( $check, $object_id, $meta_key, $meta_value ) {
 		/* If it's one of our meta fields, check against default */
 		if ( isset( self::$fields_index[ $meta_key ] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
 			return true; // Stop saving the value.
 		}
 
-		return null; // Go on with the normal execution (add) in meta.php.
+		return $check; // Go on with the normal execution (add) in meta.php.
 	}
 
 
@@ -1043,6 +1031,7 @@ class WPSEO_Meta {
 	 *                     Will return empty string if key does not exists in $_POST
 	 */
 	public static function get_post_value( $key ) {
+		// @codingStandardsIgnoreLine
 		return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
 	}
 

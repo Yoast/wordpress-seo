@@ -204,7 +204,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 		}
 
 		$actions['view']        = '<a href="' . home_url( $item['url'] ) . '" target="_blank">' . __( 'View', 'wordpress-seo' ) . '</a>';
-		$actions['markasfixed'] = '<a href="javascript:wpseo_mark_as_fixed(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Mark as fixed', 'wordpress-seo' ) . '</a>';
+		$actions['markasfixed'] = '<a href="javascript:wpseoMarkAsFixed(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Mark as fixed', 'wordpress-seo' ) . '</a>';
 
 		return sprintf(
 			'<span class="value">%1$s</span> %2$s',

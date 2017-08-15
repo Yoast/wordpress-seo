@@ -27,6 +27,8 @@ class WPSEO_Admin {
 	 * Class constructor
 	 */
 	function __construct() {
+		$integrations = array();
+
 		global $pagenow;
 
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks' ) );
@@ -88,12 +90,24 @@ class WPSEO_Admin {
 
 		if ( WPSEO_Utils::is_api_available() ) {
 			$configuration = new WPSEO_Configuration_Page;
+			$configuration->set_hooks();
 			$configuration->catch_configuration_request();
 		}
 
 		$this->set_upsell_notice();
 
 		$this->check_php_version();
+		$this->initialize_cornerstone_content();
+
+		$integrations[] = new WPSEO_Yoast_Columns();
+		$integrations[] = new WPSEO_License_Page_Manager();
+		$integrations = array_merge( $integrations, $this->initialize_seo_links() );
+
+		/** @var WPSEO_WordPress_Integration $integration */
+		foreach ( $integrations as $integration ) {
+			$integration->register_hooks();
+		}
+
 	}
 
 	/**
@@ -155,6 +169,8 @@ class WPSEO_Admin {
 		), $icon_svg, '99.31337' );
 
 		$admin_page_hooks[ self::PAGE_IDENTIFIER ] = 'seo'; // Wipe notification bits from hooks. R.
+
+		$license_page_title = __( 'Premium', 'wordpress-seo' );
 
 		// Sub menu pages.
 		$submenu_pages = array(
@@ -223,7 +239,7 @@ class WPSEO_Admin {
 			array(
 				self::PAGE_IDENTIFIER,
 				'',
-				__( 'Go Premium', 'wordpress-seo' ) . ' ' . $this->get_premium_indicator(),
+				$license_page_title,
 				$manage_options_cap,
 				'wpseo_licenses',
 				array( $this, 'load_page' ),
@@ -564,6 +580,7 @@ class WPSEO_Admin {
 
 		// Don't change slug if the post is a draft, this conflicts with polylang.
 		// Doesn't work with filter_input() since need current value, not originally submitted one.
+		// @codingStandardsIgnoreLine
 		if ( 'draft' === $_POST['post_status'] ) {
 			return $slug;
 		}
@@ -666,38 +683,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * @return string
-	 */
-	private function get_premium_indicator() {
-		/**
-		 * The class that will be applied to the premium indicator.
-		 *
-		 * @type array Classes that will be applied tot the premium indicator.
-		 */
-		$classes = apply_filters( 'wpseo_premium_indicator_classes', array(
-			'wpseo-premium-indicator',
-			'wpseo-premium-indicator--no',
-			'wpseo-js-premium-indicator',
-			'update-plugins',
-		) );
-
-		/**
-		 * The text to put inside the premium indicator.
-		 *
-		 * @type string The text to read to screen readers.
-		 */
-		$text = apply_filters( 'wpseo_premium_indicator_text', __( 'Disabled', 'wordpress-seo' ) );
-
-		$premium_indicator = sprintf(
-			"<span class='%s' aria-hidden='true'><svg width=\"20\" height=\"20\" viewBox=\"0 0 1792 1792\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"currentColor\" d=\"M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z\"/></svg></span><span class='screen-reader-text'>%s</span>",
-			esc_attr( implode( ' ', $classes ) ),
-			esc_html( $text )
-		);
-
-		return $premium_indicator;
-	}
-
-	/**
 	 * Sets the upsell notice.
 	 */
 	protected function set_upsell_notice() {
@@ -719,7 +704,7 @@ class WPSEO_Admin {
 		}
 
 		whip_wp_check_versions( array(
-			'php' => '>=5.3',
+			'php' => '>=5.4',
 		) );
 	}
 
@@ -730,6 +715,72 @@ class WPSEO_Admin {
 	 */
 	protected function on_dashboard_page() {
 		return 'index.php' === $GLOBALS['pagenow'];
+	}
+
+	/**
+	 * Loads the cornerstone filter
+	 */
+	protected function initialize_cornerstone_content() {
+		if ( ! $this->options['enable_cornerstone_content'] ) {
+			return;
+		}
+
+		$cornerstone = new WPSEO_Cornerstone();
+		$cornerstone->register_hooks();
+
+		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
+		$cornerstone_filter->register_hooks();
+	}
+
+	/**
+	 * Initializes the seo link watcher.
+	 *
+	 * @returns WPSEO_WordPress_Integration[]
+	 */
+	protected function initialize_seo_links() {
+		$integrations = array();
+
+		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
+		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
+
+		if ( ! $this->options['enable_text_link_counter'] ) {
+			$link_table_compatibility_notifier->remove_notification();
+
+			return $integrations;
+		}
+
+		$integrations[] = new WPSEO_Link_Cleanup_Transient();
+
+		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
+		if ( version_compare( phpversion(), '5.3', '<' ) ) {
+			$link_table_compatibility_notifier->add_notification();
+
+			return $integrations;
+		}
+
+		$link_table_compatibility_notifier->remove_notification();
+
+		// When the table doesn't exists, just add the notification and return early.
+		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+			$link_table_accessible_notifier->add_notification();
+
+			return $integrations;
+		}
+
+		$link_table_accessible_notifier->remove_notification();
+
+		$storage       = new WPSEO_Link_Storage();
+		$count_storage = new WPSEO_Meta_Storage();
+
+		$integrations[] = new WPSEO_Link_Watcher(
+			new WPSEO_Link_Content_Processor( $storage, $count_storage )
+		);
+
+		$integrations[] = new WPSEO_Link_Columns( $count_storage );
+		$integrations[] = new WPSEO_Link_Reindex_Dashboard();
+		$integrations[] = new WPSEO_Link_Notifier();
+
+		return $integrations;
 	}
 
 	/********************** DEPRECATED METHODS **********************/

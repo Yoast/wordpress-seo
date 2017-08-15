@@ -9,7 +9,6 @@ module.exports = {
 			},
 		},
 		files: {
-			"js/dist/configuration-wizard-<%= pluginVersionSlug %>.js": [ "js/src/configuration-wizard.js" ],
 			"js/dist/wp-seo-admin-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-admin.js" ],
 			"js/dist/wp-seo-admin-global-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-admin-global.js" ],
 			"js/dist/wp-seo-admin-gsc-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-admin-gsc.js" ],
@@ -24,6 +23,9 @@ module.exports = {
 			"js/dist/wp-seo-replacevar-plugin-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-replacevar-plugin.js" ],
 			"js/dist/wp-seo-shortcode-plugin-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-shortcode-plugin.js" ],
 			"js/dist/wp-seo-term-scraper-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-term-scraper.js" ],
+			"js/dist/wp-seo-reindex-links-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-reindex-links.js" ],
+			"js/dist/wp-seo-babel-polyfill-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-babel-polyfill.js" ],
+			"js/dist/wp-seo-edit-page-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-edit-page.js" ],
 		},
 	},
 	"release-es6": {

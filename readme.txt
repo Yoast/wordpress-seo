@@ -5,8 +5,9 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
-Tested up to: 4.7
-Stable tag: 4.5
+Tested up to: 4.8
+Stable tag: 5.2
+Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -29,7 +30,7 @@ Using the snippet preview, you can see a rendering of what your post or page wil
 = Page Analysis =
 The Yoast SEO plugins [Page Analysis](https://yoast.com/content-seo-wordpress-linkdex/) functionality checks simple things you're bound to forget. It checks, for instance, if you have images in your post and whether they have an alt tag containing the focus keyword for that post. It also checks whether your posts are long enough, whether you've written a meta description and if that meta description contains your focus keyword, if you've used any subheadings within your post, etc. etc.
 
-The plugin alsgruo allows you to write meta titles and descriptions for all your category, tag and custom taxonomy archives, giving you the option to further optimize those pages.
+The plugin also allows you to write meta titles and descriptions for all your category, tag and custom taxonomy archives, giving you the option to further optimize those pages.
 
 Combined, this plugin makes sure that your content is the type of content search engines will love!
 
@@ -124,44 +125,75 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
-= 4.5.0 =
+= 5.2.0 =
 
-Release Date: March 21st, 2017
-
-* Additions
-	* Adds a message about the PHP version for WordPress installations that run on PHP 5.2. The warning also has pointers on how to address this situation. [We have an article about why we are doing this on yoast.com](https://yoa.st/x6).
-
-* Bugfixes
-	* Adds a check for the breadcrumbs-home option to prevent a blank entry being added to the crumbs array, props [codemonkeynorth](https://github.com/codemonkeynorth)
+Release Date: August 8th, 2017
 
 * Enhancements
-	* Throws a warning in the admin for the RS Head Cleaner plugin, because the plugin cloaks.
-	* Improves copy about Yoast SEO Premium benefits.
-	* Adds link to our knowledge base article about connecting your website to Google Search Console.
-
-= 4.4.0 =
-
-Release date: February 28th, 2017
-
-* Bugfixes:
-	* Fixes a bug where a `span` tag wasn't closed correctly, props [lubobill1990](https://github.com/lubobill1990).
-	* Fixes a bug where there were deprecation warnings shown when an existing author was being updated.
-	* Fixes a bug where the user received an 'insufficient rights' error when the advanced settings are disabled, but an advanced page is visited.
-
-* Enhancements:
-	* Moves the options to disable keyword and content analysis from the general tab to the features tab.
-	* Improves styling of tables so they are viewable on mobile.
-	* Changes the links into shortlinks for the extensions page, helpcenter, facebook settings and premium popup.
-
-= 4.3.0 =
-
-Release Date: February 14th, 2017
+	* Added wpseo_pre_adjacent_rel_links filter to bypass built-in rel prev/next functionality.
+	* Introduces classes to allow collecting data in the Premium plugin.
+	* Renamed OnPage.org to Ryte.
+	* Allow WordPress WHIP messages to be dismissed for a period of 4 weeks.
+	* Adds a filter for word combinations that consist of a single one-character word.
+	* Adds aria-current to the onboarding wizard active step.
 
 * Bugfixes
-    * Fixes the width of the readability column on post overview, props [rikayla](https://github.com/rikayla).
+	* Removes JQMIGRATE JavaScript warnings.
+
+= 5.1.0 =
+
+Release Date: July 25th, 2017
 
 * Enhancements
-    * Improves feedback text for subheading too long assessment.
+	* Adds the post-type and taxonomy identifiers on the titles and metas settings tab.
+	* Adds support for importing of Jetpack SEO data.
+	* Improves the readability feature for Dutch, English, French, German, Italian and Spanish.
+	* Adds a WordPress SEO Premium motivation box on Yoast SEO settings pages.
+	* Adds a WordPress SEO Premium motivation on the social tabs.
+	* Adds support for third party sitemaps providers to be registered and used.
+	* Changes the column titles in the taxonomy list table to icons.
+	* Adds a subheader on the notification dashboard to clarify problems and issues which are muted.
+	* Improves avatars on the credit page, props [Mike DeHart](https://github.com/mikedehart)
+
+* Bugfixes
+	* Fixes a bug where `remove_meta_if_default` and `dont_save_meta_if_default` don't return the given input value as default.
+	* Fixes a performance issue related to calculating text link counts when saving a post.
+	* Fixes a typo in the readme.txt, props [Raymond Rutjes](https://github.com/rayrutjes)
+
+= 5.0.2 =
+
+Release Date: July 13th, 2017
+
+* Only load babel polyfill if it hasn't been loaded by another plugin yet.
+* Adds a feature toggle to disable the link counter tool & link columns.
+* Fixes a compatibility issue with WordPress 4.6.
+* Fixes an issue where the link columns would disappear after quick-editing a post.
+
+= 5.0.1 =
+
+Release Date: July 6th, 2017
+
+* Fixes a fatal error that could occur when trying to save a post that has `<a>`-tags with invalid URLs in it.
+
+= 5.0.0 =
+
+Release Date: July 6th, 2017
+
+* Bugfixes
+	* Fixes a bug where images via `https` were not working, props [Jannik Zschiesche](https://github.com/apfelbox).
+	* Fixes a bug where the whip notification can be shown multiple times.
+
+* Enhancements
+	* Introduces a module that counts links in the content.
+	* Adds Flesch Reading for Italian.
+	* Changes 'page title' to 'seo title' in the snippet preview.
+ 	* Changes recommended maximum sentence length for Italian from 20 to 25 words, based on more in-depth research.
+ 	* Implements the extracted version of the Algolia Search which is now present in `yoast-components`.
+ 	* Adds a banner for the structured data course.
+
+ * Under the hood
+ 	* Introduces a database table to keep track of the linking structure. If the table cannot be created, a notification will be shown.
+ 	* When there are posts or pages to reindex, a notice will be shown.
 
 = Earlier versions =
 

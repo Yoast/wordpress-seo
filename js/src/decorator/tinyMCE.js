@@ -1,4 +1,4 @@
-var _forEach = require( "lodash/foreach" );
+var _forEach = require( "lodash/forEach" );
 
 var removeMarks = require( "yoastseo/js/markers/removeMarks" );
 

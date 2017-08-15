@@ -22,9 +22,10 @@ printf( __( 'If you\'ve used another SEO plugin, try the %1$sSEO Data Transporte
 	method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 	<?php
 	wp_nonce_field( 'wpseo-import', '_wpnonce', true, true );
-	$yform->checkbox( 'importheadspace', __( 'Import from HeadSpace2?', 'wordpress-seo' ) );
-	$yform->checkbox( 'importaioseo', __( 'Import from All-in-One SEO?', 'wordpress-seo' ) );
-	$yform->checkbox( 'importwoo', __( 'Import from WooThemes SEO framework?', 'wordpress-seo' ) );
+	$yform->checkbox( 'importheadspace', __( 'Import from HeadSpace2', 'wordpress-seo' ) );
+	$yform->checkbox( 'importaioseo', __( 'Import from All-in-One SEO', 'wordpress-seo' ) );
+	$yform->checkbox( 'importjetpackseo', __( 'Import from Jetpack SEO', 'wordpress-seo' ) );
+	$yform->checkbox( 'importwoo', __( 'Import from WooThemes SEO framework', 'wordpress-seo' ) );
 	$yform->checkbox( 'importwpseo', __( 'Import from wpSEO', 'wordpress-seo' ) );
 
 	do_action( 'wpseo_import_other_plugins' );
