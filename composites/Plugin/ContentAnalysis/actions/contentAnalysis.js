@@ -23,8 +23,6 @@ export const UPDATE_READABILITY_RESULT = `${ prefix }UPDATE_READABILITY_RESULT`;
  * @returns {Object} A set SEO results action.
  */
 export function setSeoResults( keyword, results ) {
-	console.log( "hoi2")
-
 	return {
 		type: SET_SEO_RESULTS,
 		keyword: keyword,
@@ -56,7 +54,6 @@ export function updateSeoResult( keyword, result ) {
  * @returns {Object} A remove keyword action.
  */
 export function removeKeyword( keyword ) {
-	console.log( "hoi2")
 	return {
 		type: REMOVE_KEYWORD,
 		keyword: keyword,
