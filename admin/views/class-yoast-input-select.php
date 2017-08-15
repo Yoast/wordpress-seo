@@ -53,9 +53,12 @@ class Yoast_Input_Select {
 	 */
 	public function output_html() {
 		// Extract it, because we want each value accessible via a variable instead of accessing it as an array.
+		// As we are going to move UI to React, this will be resolved in that project.
+		// @codingStandardsIgnoreStart
 		extract( $this->get_select_values() );
+		// @codingStandardsIgnoreEnd
 
-		require( dirname( WPSEO_FILE ) . '/admin/views/form/select.php' );
+		require dirname( WPSEO_FILE ) . '/admin/views/form/select.php';
 	}
 
 	/**
