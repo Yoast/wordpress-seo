@@ -58,7 +58,7 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 		return array(
 			array( WPSEO_Rank::NO_FOCUS, 'Not available' ),
 			array( WPSEO_Rank::NO_INDEX, 'No index' ),
-			array( WPSEO_Rank::BAD, 'Bad' ),
+			array( WPSEO_Rank::BAD, 'Needs improvement' ),
 			array( WPSEO_Rank::OK, 'OK' ),
 			array( WPSEO_Rank::GOOD, 'Good' ),
 		);
@@ -80,7 +80,7 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	public function provider_get_drop_down_label() {
 		return array(
 			array( WPSEO_Rank::NO_FOCUS, 'SEO: No Focus Keyword' ),
-			array( WPSEO_Rank::BAD     , 'SEO: Bad' ),
+			array( WPSEO_Rank::BAD     , 'SEO: Needs improvement' ),
 			array( WPSEO_Rank::OK      , 'SEO: OK' ),
 			array( WPSEO_Rank::GOOD    , 'SEO: Good' ),
 			array( WPSEO_Rank::NO_INDEX, 'SEO: Post Noindexed' ),
