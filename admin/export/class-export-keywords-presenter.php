@@ -30,7 +30,7 @@ class WPSEO_Export_Keywords_Presenter {
 	 */
 	public function present( $result ) {
 		// If our input is malformed return false.
-		if ( ! is_array( $result) || ! array_key_exists( 'ID', $result ) || ! is_int( $result['ID'] ) ) {
+		if ( ! is_array( $result) || ! array_key_exists( 'ID', $result ) ) {
 			return false;
 		}
 

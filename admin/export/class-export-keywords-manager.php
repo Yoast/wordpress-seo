@@ -66,9 +66,10 @@ class WPSEO_Export_Keywords_Manager {
 		$columns = $this->get_export_columns();
 
 		$query = new WPSEO_Export_Keywords_Query( $columns, $wpdb );
+		$results = $query->get_data();
 
 		$presenter = new WPSEO_Export_Keywords_Presenter( $columns );
-		$data = array_map( array( $presenter, 'present' ), $query->get_data() );
+		$data = array_map( array( $presenter, 'present' ), $results );
 
 		$builder = new WPSEO_Export_Keywords_CSV();
 		return $builder->export( $data, $columns );

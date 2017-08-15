@@ -41,7 +41,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
 
 		$fake_result = array(
-			'ID' => 0,
+			'ID' => '0',
 			'post_title' => 'fake title',
 			'post_url' => 'http://www.example.org',
 		);
@@ -60,7 +60,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
 
 		$fake_result = array(
-			'ID' => 0,
+			'ID' => '0',
 			'post_title' => 'fake title',
 			'post_url' => 'http://www.example.org',
 			'seo_score' => 'bad',
@@ -117,7 +117,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
 
 		$fake_result = array(
-			'ID' => 0,
+			'ID' => '0',
 			'post_title' => null,
 			'post_url' => null,
 			'seo_score' => null,
@@ -139,7 +139,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
 
 		$fake_result = array(
-			'ID' => 0,
+			'ID' => '0',
 			'post_title' => 'fake title',
 			'post_url' => 'http://www.example.org',
 		);
@@ -185,7 +185,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 
 		$fake_results = array(
 			array(
-				'ID' => 0,
+				'ID' => '0',
 				'post_title' => 'fake title',
 				'post_url' => 'http://www.example.org/fake_title',
 				'seo_score' => 'bad',
@@ -193,7 +193,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 				'keywords_score' => array( 'ok', 'good', 'na' )
 			),
 			array(
-				'ID' => 1,
+				'ID' => '1',
 				'post_title' => 'another title',
 				'post_url' => 'http://www.example.org/another_title',
 				'seo_score' => 'good',
@@ -201,7 +201,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 				'keywords_score' => array( 'bad', 'bad' )
 			),
 			array(
-				'ID' => 2,
+				'ID' => '2',
 				'post_title' => 'last title',
 				'post_url' => 'http://www.example.org/last_title',
 				'seo_score' => 'ok',
@@ -235,7 +235,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 
 		$fake_results = array(
 			array(
-				'ID' => 0,
+				'ID' => '0',
 				'post_title' => 'fake title',
 				'post_url' => 'http://www.example.org/fake_title',
 				'seo_score' => 'bad',
@@ -243,7 +243,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 				'keywords_score' => array( 'ok', 'good', 'na' )
 			),
 			array(
-				'ID' => 1,
+				'ID' => '1',
 				'post_title' => 'another title',
 				'post_url' => 'http://www.example.org/another_title',
 				'seo_score' => 50,

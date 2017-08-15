@@ -66,7 +66,7 @@ class WPSEO_Export_Keywords_CSV {
 	 */
 	protected function format( $result, $columns ) {
 		// If our input is malformed return an empty string.
-		if ( ! is_array( $result) || ! array_key_exists( 'ID', $result ) || ! is_int( $result['ID'] ) ) {
+		if ( ! is_array( $result) || ! array_key_exists( 'ID', $result ) ) {
 			return '';
 		}
 
