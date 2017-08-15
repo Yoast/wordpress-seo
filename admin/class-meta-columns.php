@@ -216,9 +216,9 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Generates an <option> element.
 	 *
-	 * @param string    $value       The option's value.
-	 * @param string    $label       The option's label.
-	 * @param bool      $selected    Whether or not the option should be selected.
+	 * @param string $value       The option's value.
+	 * @param string $label       The option's label.
+	 * @param bool   $selected    Whether or not the option should be selected.
 	 *
 	 * @return string The generated <option> element.
 	 */
@@ -263,9 +263,9 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Creates a keyword filter for the meta query, based on the passed Keyword filter.
 	 *
-	 * @param $keyword_filter
+	 * @param string $keyword_filter The keyword filter to use.
 	 *
-	 * @return array
+	 * @return array The keyword filter.
 	 */
 	protected function get_keyword_filter( $keyword_filter ) {
 		return array(
@@ -423,10 +423,10 @@ class WPSEO_Meta_Columns {
 
 		// Determine whether or not to add the score filters.
 		if ( count( $filters ) !== 0 ) {
-			$result['meta_query'] = array_merge( $result[ 'meta_query' ], array( $this->determine_score_filters( $filters ) ) );
+			$result['meta_query'] = array_merge( $result['meta_query'], array( $this->determine_score_filters( $filters ) ) );
 		}
 
-		if ( $this->get_current_seo_filter() !== WPSEO_Rank::NO_INDEX) {
+		if ( $this->get_current_seo_filter() !== WPSEO_Rank::NO_INDEX ) {
 			$result['meta_query'] = array_merge( $result['meta_query'], array( $this->get_meta_robots_query_values() ) );
 		}
 
@@ -448,7 +448,7 @@ class WPSEO_Meta_Columns {
 				'value' => array( $low, $high ),
 				'type' => 'numeric',
 				'compare' => 'BETWEEN',
-			)
+			),
 		);
 	}
 
@@ -467,7 +467,7 @@ class WPSEO_Meta_Columns {
 				'value' => array( $low, $high ),
 				'type' => 'numeric',
 				'compare' => 'BETWEEN',
-			)
+			),
 		);
 	}
 
@@ -482,7 +482,7 @@ class WPSEO_Meta_Columns {
 				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 				'value'   => '1',
 				'compare' => '=',
-			)
+			),
 		);
 	}
 
