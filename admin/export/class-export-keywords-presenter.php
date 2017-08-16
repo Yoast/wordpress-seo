@@ -34,36 +34,54 @@ class WPSEO_Export_Keywords_Presenter {
 	 * @return bool|array[string]string The modified result, false if the result could not be modified.
 	 */
 	public function present( $result ) {
-		// If our input is malformed return false.
+		if ( ! $this->validate_result( $result ) ) {
+			return false;
+		}
+
+		foreach ( $this->columns as $column ) {
+			if ( ! is_string( $column ) ) {
+				continue;
+			}
+			switch ( $column ) {
+				case 'post_title':
+					$result['post_title'] = apply_filters( 'the_title', $result['post_title'], $result['ID'] );
+					break;
+				case 'post_url':
+					$result['post_url'] = get_permalink( $result['ID'] );
+					break;
+				case 'seo_score':
+					$result['seo_score'] = WPSEO_Rank::from_numeric_score( intval( $result['seo_score'] ) )->get_rank();
+					break;
+				case 'keywords':
+					$result = $this->convert_result_keywords( $result );
+					break;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns whether a result to present is a valid result by doing a simple check.
+	 *
+	 * @param array[string]string $result The result to validate.
+	 *
+	 * @return bool
+	 */
+	protected function validate_result( $result ) {
+		// If there is no ID then it's not valid.
 		if ( ! is_array( $result ) || ! array_key_exists( 'ID', $result ) ) {
 			return false;
 		}
 
-		// If post titles were selected run their filters.
+		// If a post_title is requested but not present then it's not valid.
 		if ( in_array( 'post_title', $this->columns, true ) ) {
 			if ( ! array_key_exists( 'post_title', $result ) || ! is_string( $result['post_title'] ) ) {
 				return false;
 			}
-
-			$result['post_title'] = apply_filters( 'the_title', $result['post_title'], $result['ID'] );
 		}
 
-		// If post urls were selected add them to our results.
-		if ( in_array( 'post_url', $this->columns, true ) ) {
-			$result['post_url'] = get_permalink( $result['ID'] );
-		}
-
-		// If SEO scores were selected convert them to nice ratings.
-		if ( in_array( 'seo_score', $this->columns, true ) ) {
-			$result['seo_score'] = WPSEO_Rank::from_numeric_score( intval( $result['seo_score'] ) )->get_rank();
-		}
-
-		// If keywords were selected we need to convert them to a better format.
-		if ( in_array( 'keywords', $this->columns, true ) || in_array( 'keywords_score', $this->columns, true ) ) {
-			$result = $this->convert_result_keywords( $result );
-		}
-
-		return $result;
+		return true;
 	}
 
 	/**
@@ -79,11 +97,12 @@ class WPSEO_Export_Keywords_Presenter {
 			$result['keywords_score'] = array();
 		}
 
-		if ( $result['primary_keyword'] ) {
+		if ( array_key_exists( 'primary_keyword', $result ) && $result['primary_keyword'] ) {
 			$result['keywords'][] = $result['primary_keyword'];
 
 			if ( in_array( 'keywords_score', $this->columns, true ) ) {
-				$result['keywords_score'][] = WPSEO_Rank::from_numeric_score( intval( $result['primary_keyword_score'] ) )->get_rank();
+				$rank = WPSEO_Rank::from_numeric_score( intval( $result['primary_keyword_score'] ) );
+				$result['keywords_score'][] = $rank->get_rank();
 			}
 
 			// Convert multiple keywords from the Premium plugin from json to string arrays.

@@ -91,27 +91,46 @@ class WPSEO_Export_Keywords_CSV {
 		do {
 			$csv .= PHP_EOL . $this->format_csv_column( $result['ID'] );
 
-			if ( in_array( 'post_title', $columns, true ) && array_key_exists( 'post_title', $result ) ) {
-				$csv .= ',' . $this->format_csv_column( $result['post_title'] );
-			}
-
-			if ( in_array( 'post_url', $columns, true ) && array_key_exists( 'post_url', $result ) ) {
-				$csv .= ',' . $this->format_csv_column( $result['post_url'] );
-			}
-
-			if ( in_array( 'seo_score', $columns, true ) && array_key_exists( 'seo_score', $result ) ) {
-				$csv .= ',' . $this->format_csv_column( $result['seo_score'] );
-			}
-
-			if ( in_array( 'keywords', $columns, true ) ) {
-				$csv .= ',' . $this->format_csv_column( array_shift( $keywords ) );
-			}
-
-			if ( in_array( 'keywords_score', $columns, true ) ) {
-				$csv .= ',' . $this->format_csv_column( array_shift( $keywords_score ) );
+			foreach ( $columns as $column ) {
+				if ( ! is_string( $column ) ) {
+					continue;
+				}
+				switch ( $column ) {
+					case 'post_title':
+						$csv .= $this->get_csv_column_from_result( $result, 'post_title' );
+						break;
+					case 'post_url':
+						$csv .= $this->get_csv_column_from_result( $result, 'post_url' );
+						break;
+					case 'seo_score':
+						$csv .= $this->get_csv_column_from_result( $result, 'seo_score' );
+						break;
+					case 'keywords':
+						$csv .= ',' . $this->format_csv_column( array_shift( $keywords ) );
+						break;
+					case 'keywords_score':
+						$csv .= ',' . $this->format_csv_column( array_shift( $keywords_score ) );
+						break;
+				}
 			}
 		} while ( count( $keywords ) > 0 );
 
+		return $csv;
+	}
+
+	/**
+	 * Returns a CSV column including comma from the result object by the specified key.
+	 *
+	 * @param array[string]string $result The result object to get the CSV column from.
+	 * @param string $key The key of the value to get the CSV column for.
+	 *
+	 * @return string A CSV column including comma.
+	 */
+	protected function get_csv_column_from_result( $result, $key ) {
+		$csv = ',';
+		if ( is_array( $result ) && is_string( $key ) && array_key_exists( $key, $result ) ) {
+			$csv .= $this->format_csv_column( $result[ $key ] );
+		}
 		return $csv;
 	}
 

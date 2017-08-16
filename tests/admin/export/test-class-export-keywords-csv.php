@@ -12,6 +12,10 @@ class WPSEO_Export_Keywords_CSV_Double extends WPSEO_Export_Keywords_CSV {
 	public function return_format_csv_column( $value ) {
 		return $this->format_csv_column( $value );
 	}
+
+	public function return_get_csv_column_from_result( $result, $key ) {
+		return $this->get_csv_column_from_result( $result, $key );
+	}
 }
 
 class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
@@ -30,6 +34,28 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals('"true"', $class_instance->return_format_csv_column( true ) );
 		$this->assertEquals('"new line"', $class_instance->return_format_csv_column( "new\nline" ) );
 		$this->assertEquals('', $class_instance->return_format_csv_column( null ) );
+	}
+
+	public function test_get_csv_column_from_result() {
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+
+		$fake_result = array(
+			'ID' => '0',
+			'post_title' => 'fake title',
+			'post_url' => 'http://www.example.org',
+		);
+
+		$this->assertEquals( ',"fake title"', $class_instance->return_get_csv_column_from_result( $fake_result, 'post_title' ) );
+		$this->assertEquals( ',"http://www.example.org"', $class_instance->return_get_csv_column_from_result( $fake_result, 'post_url' ) );
+		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( $fake_result, 'key that does not exist' ) );
+		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( $fake_result, 5 ) );
+		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( $fake_result, true ) );
+		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( $fake_result, null ) );
+		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( 5, 'key that does not exist' ) );
+		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( 'foo', 'key that does not exist' ) );
+		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( true, 'key that does not exist' ) );
+		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( null, 'key that does not exist' ) );
+
 	}
 
 	/**

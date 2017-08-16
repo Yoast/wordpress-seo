@@ -6,6 +6,10 @@
  * A double for testing protected method.
  */
 class WPSEO_Export_Keywords_Presenter_Double extends WPSEO_Export_Keywords_Presenter {
+	public function return_validate_result( $result ) {
+		return $this->validate_result( $result );
+	}
+
 	public function return_convert_result_keywords( $result ) {
 		return $this->convert_result_keywords( $result );
 	}
@@ -23,6 +27,39 @@ class WPSEO_Export_Keywords_Presenter_Test_Filter {
 }
 
 class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
+	/**
+	 * Tests if validate_result works with expected input.
+	 */
+	public function test_validate_result() {
+		global $wpdb;
+
+		$class_instance = new WPSEO_Export_Keywords_Presenter_Double( array( 'post_title' ), $wpdb );
+
+		$fake_result = array(
+			'ID'         => '1',
+			'post_title' => 'fake post',
+		);
+
+		$this->assertTrue( $class_instance->return_validate_result( $fake_result ) );
+	}
+
+	public function test_validate_input_false() {
+		global $wpdb;
+
+		$class_instance = new WPSEO_Export_Keywords_Presenter_Double( array( 'post_title' ), $wpdb );
+
+		$fake_result = array(
+			'ID'         => '1',
+			'post_title' => true,
+		);
+
+		$this->assertFalse( $class_instance->return_validate_result( $fake_result ) );
+		$this->assertFalse( $class_instance->return_validate_result( 'foo' ) );
+		$this->assertFalse( $class_instance->return_validate_result( 5 ) );
+		$this->assertFalse( $class_instance->return_validate_result( true ) );
+		$this->assertFalse( $class_instance->return_validate_result( null ) );
+	}
+
 	/**
 	 * Tests if convert_result_keywords works with expected input.
 	 *
