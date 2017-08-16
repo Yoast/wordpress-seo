@@ -26,6 +26,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	$yform->checkbox( 'export-keywords', __( 'Export keywords', 'wordpress-seo' ) );
 	$yform->checkbox( 'export-keywords-score', __( 'Export keyword scores', 'wordpress-seo' ) );
 	?>
-    <br class="clear">
+	<br class="clear">
 	<input type="submit" class="button button-primary" name="export-posts" value="<?php echo __( 'Export keywords', 'wordpress-seo' ); ?>"/>
 </form>
