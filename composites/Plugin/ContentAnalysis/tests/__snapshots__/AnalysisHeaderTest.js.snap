@@ -14,7 +14,7 @@ exports[`the AnalysisHeader in opened state matches the snapshot 1`] = `
       <button
         aria-controls="sect1"
         aria-expanded={true}
-        className="sc-bwzfXH bpgAeB"
+        className="sc-bwzfXH cocqEj"
         onClick={[Function]}
       >
         <svg
@@ -62,7 +62,7 @@ exports[`the default AnalysisHeader matches the snapshot 1`] = `
       <button
         aria-controls="sect1"
         aria-expanded={false}
-        className="sc-bwzfXH bpgAeB"
+        className="sc-bwzfXH cocqEj"
         onClick={[Function]}
       >
         <svg

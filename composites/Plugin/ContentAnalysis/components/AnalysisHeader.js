@@ -24,12 +24,7 @@ const AnalysisHeader = styled.button`
 	cursor: pointer;
 	// When clicking, the button text disappears in Safari 10 because of color: activebuttontext.
 	color: ${ colors.$color_blue };
-	@media screen and ( max-width: ${ defaults.css.breakpoint.tablet }px ) {
-		padding: 16px 24px;
-	}
-	@media screen and ( max-width: ${ defaults.css.breakpoint.mobile }px ) {
-		padding: 16px;
-	}
+
 	svg {
 		flex: 0 0 40px;
 		// Add some spacing between icon and text.
@@ -102,8 +97,8 @@ export default class ListToggle extends React.Component {
 	 * @returns {ReactElement} The upArrow when the header is collapsed, otherwise the downArrow.
 	 */
 	getArrow() {
-		let upArrow = <Icon icon={ angleUp } iconColor= { colors.$color_grey_dark } iconSize="20px" />;
-		let downArrow = <Icon icon={ angleDown } iconColor= { colors.$color_grey_dark } iconSize="20px" />;
+		let upArrow = <Icon icon={ angleUp } color= { colors.$color_grey_dark } size="20px" />;
+		let downArrow = <Icon icon={ angleDown } color= { colors.$color_grey_dark } size="20px" />;
 
 		return this.isOpen() ? upArrow : downArrow;
 	}
