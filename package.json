@@ -79,7 +79,7 @@
     "webpack": "^3.2.0",
     "webpack-dev-server": "^2.5.1"
   },
-  "optionalDepdendencies": {
+  "optionalDependencies": {
     "grunt-scss-to-json": "^1.0.1"
   },
   "peerDependencies": {
