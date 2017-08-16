@@ -53,7 +53,7 @@ export function addActiveStyle( component ) {
 	return styled( component )`
 		&:active {
 			background: ${ colors.$color_button };
-			border-color: ${ colors.$color_button_border };
+			border-color: ${ colors.$color_button_border_hover };
 			box-shadow: inset 0 2px 5px -3px ${ rgba( colors.$color_button_border_active, 0.5 ) };
 		}
 	`;
