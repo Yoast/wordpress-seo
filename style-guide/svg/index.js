@@ -1,3 +1,3 @@
 export { default as edit } from "./edit.svg";
-export { default as caretUp } from "./caret-up.svg";
-export { default as caretDown } from "./caret-down.svg";
+export { default as angleUp } from "./angle-up.svg";
+export { default as angledown } from "./angle-down.svg";

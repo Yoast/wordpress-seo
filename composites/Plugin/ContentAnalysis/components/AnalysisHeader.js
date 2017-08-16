@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import colors from "../../../../style-guide/colors.json";
 import { Icon } from "../../Shared/components/Icon";
-import { caretUp, caretDown } from "../../../../style-guide/svg";
+import { angleUp, angledown } from "../../../../style-guide/svg";
 import { ButtonHeader } from "./ButtonHeader";
 
 const AnalysisHeaderContainer = styled.div`
@@ -55,8 +55,8 @@ export default class ListToggle extends React.Component {
 	 * @returns {ReactElement} The upArrow when the header is collapsed, otherwise the downArrow.
 	 */
 	getArrow() {
-		let upArrow = <Icon icon={ caretUp } iconColor= { colors.$color_grey_dark }  iconSize="20px" />;
-		let downArrow = <Icon icon={ caretDown } iconColor= { colors.$color_grey_dark } iconSize="20px" />;
+		let upArrow = <Icon icon={ angleUp } iconColor= { colors.$color_grey_dark } iconSize="20px" />;
+		let downArrow = <Icon icon={ angledown } iconColor= { colors.$color_grey_dark } iconSize="20px" />;
 
 		return this.isOpen() ? upArrow : downArrow;
 	}

@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import colors from "../../../../style-guide/colors.json";
 import defaults from "../../../../config/defaults.json";
-import { caretUp, caretDown } from "../../../../style-guide/svg";
+import { angleUp, angledown } from "../../../../style-guide/svg";
 import { Icon } from "../../Shared/components/Icon";
 
 const AnalysisHeader = styled.button`
@@ -67,7 +67,7 @@ export const ButtonHeader = ( props ) => {
 		<div id="accordionGroup" role="presentation" className="Accordion">
 			<h3 role="heading" aria-level="3">
 				<AnalysisHeader aria-expanded={ props.isOpen } className="Accordion-trigger" aria-controls="sect1" id="accordion1id" onClick={ props.headerClick }>
-					<Icon icon={ props.isOpen ? caretUp : caretDown } iconColor= { colors.$color_grey_dark }  iconSize="20px" /><AnalysisTitle className="Accordion-title">{ props.title }</AnalysisTitle>
+					<Icon icon={ props.isOpen ? angleUp : angledown } iconColor= { colors.$color_grey_dark } iconSize="20px" /><AnalysisTitle className="Accordion-title">{ props.title }</AnalysisTitle>
 				</AnalysisHeader>
 			</h3>
 		</div>
