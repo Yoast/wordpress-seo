@@ -1,12 +1,27 @@
 import { readabilityResultsReducer } from "../contentAnalysis/readabilityResultsReducer";
 import { UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS } from "../../actions/contentAnalysis";
 
-// The SET_READABILITY_RESULTS action.
-test( "the set readability results action modifies an empty state", () => {
-	const state = {};
-	const action = {
-		type: SET_READABILITY_RESULTS,
-		results: [
+describe( "SET_READABILITY_RESULTS action", () => {
+	it( "sets readability results in an empty state", () => {
+		const state = {};
+		const action = {
+			type: SET_READABILITY_RESULTS,
+			results: [
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId2",
+					score: 6,
+					description: "This is a mediocre score!",
+					markingIsActive: false,
+				},
+			],
+		};
+		const expected = [
 			{
 				id: "resultId",
 				score: 3,
@@ -19,150 +34,136 @@ test( "the set readability results action modifies an empty state", () => {
 				description: "This is a mediocre score!",
 				markingIsActive: false,
 			},
-		],
-	};
-	const expected = {
-		readability: [
-			{
-				id: "resultId",
-				score: 3,
-				description: "This is a bad score!",
-				markingIsActive: false,
-			},
-			{
-				id: "resultId2",
-				score: 6,
-				description: "This is a mediocre score!",
-				markingIsActive: false,
-			},
-		],
-	};
+		];
 
-	const actual = readabilityResultsReducer( state, action );
+		const actual = readabilityResultsReducer( state, action) ;
 
-	expect( actual ).toEqual( expected );
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "overwrites a non-empty state ", () => {
+
+		const state = {
+			readability: [
+				{
+					id: "resultId",
+					score: 9,
+					description: "This is a good score!",
+					markingIsActive: true,
+				},
+			],
+		};
+		const action = {
+			type: SET_READABILITY_RESULTS,
+			results: [
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId2",
+					score: 6,
+					description: "This is a mediocre score!",
+					markingIsActive: false,
+				},
+			],
+		};
+		const expected = {
+			readability: [
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId2",
+					score: 6,
+					description: "This is a mediocre score!",
+					markingIsActive: false,
+				},
+			],
+		};
+
+		const actual = readabilityResultsReducer( state, action );
+
+		expect( actual ).toEqual( expected );
+	} );
 } );
 
-test( "the set readability results action overwrites a non-empty state", () => {
-	const state = {
-		readability: [
-			{
-				id: "resultId",
-				score: 9,
-				description: "This is a good score!",
-				markingIsActive: true,
-			},
-		],
-	};
-	const action = {
-		type: SET_READABILITY_RESULTS,
-		results: [
-			{
-				id: "resultId",
-				score: 3,
-				description: "This is a bad score!",
-				markingIsActive: false,
-			},
-			{
-				id: "resultId2",
-				score: 6,
-				description: "This is a mediocre score!",
-				markingIsActive: false,
-			},
-		],
-	};
-	const expected = {
-		readability: [
-			{
-				id: "resultId",
-				score: 3,
-				description: "This is a bad score!",
-				markingIsActive: false,
-			},
-			{
-				id: "resultId2",
-				score: 6,
-				description: "This is a mediocre score!",
-				markingIsActive: false,
-			},
-		],
-	};
+describe( "UPDATE_READABILITY_RESULT action", () => {
+	it( "adds a new result to an empty state", () => {
+		const state = {};
+		const action = {
+			type: UPDATE_READABILITY_RESULT,
+			result: { id: "resultId", score: 3, description: "This is a bad score!", markingIsActive: false },
+		};
+		const expected = {
+			readability: [
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+			],
+		};
 
-	const actual = readabilityResultsReducer( state, action );
+		const actual = readabilityResultsReducer( state, action );
 
-	expect( actual ).toEqual( expected );
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "adds results for a new keyword to an empty state", () => {
+		const state = {
+			readability: [
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+			],
+		};
+		const action = {
+			type: UPDATE_READABILITY_RESULT,
+			result: { id: "resultId2", score: 9, description: "This is a good score!", markingIsActive: true },
+		};
+		const expected = {
+			readability: [
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId2",
+					score: 9,
+					description: "This is a good score!",
+					markingIsActive: true,
+				},
+			],
+		};
+
+		const actual = readabilityResultsReducer( state, action );
+
+		expect( actual ).toEqual( expected );
+	} );
 } );
 
-// The UPDATE_READABILITY_RESULT action.
-test( "the update readabiility result action with a new keyword modifies the state", () => {
-	const state = {};
-	const action = {
-		type: UPDATE_READABILITY_RESULT,
-		result: { id: "resultId", score: 3, description: "This is a bad score!", markingIsActive: false },
-	};
-	const expected = {
-		readability: [
-			{
-				id: "resultId",
-				score: 3,
-				description: "This is a bad score!",
-				markingIsActive: false,
-			},
-		],
-	};
+describe( "BOGUS action", () => {
+	it( "doesn't change the state when a bogus action is passed to the reducer", () => {
+		const state = {};
+		const action = {
+			type: "BOGUS",
+		};
+		const expected = {};
 
-	const actual = readabilityResultsReducer( state, action );
-
-	expect( actual ).toEqual( expected );
+		const actual = readabilityResultsReducer( state, action );
+		expect( actual ).toEqual( expected );
+	} );
 } );
 
-
-test( "the update readability result action modifies the state when there is already a result", () => {
-	const state = {
-		readability: [
-			{
-				id: "resultId",
-				score: 3,
-				description: "This is a bad score!",
-				markingIsActive: false,
-			},
-		],
-	};
-	const action = {
-		type: UPDATE_READABILITY_RESULT,
-		result: { id: "resultId2", score: 9, description: "This is a good score!", markingIsActive: true },
-	};
-	const expected = {
-		readability: [
-			{
-				id: "resultId",
-				score: 3,
-				description: "This is a bad score!",
-				markingIsActive: false,
-			},
-			{
-				id: "resultId2",
-				score: 9,
-				description: "This is a good score!",
-				markingIsActive: true,
-			},
-		],
-	};
-
-	const actual = readabilityResultsReducer( state, action );
-
-	expect( actual ).toEqual( expected );
-} );
-
-// A BOGUS action.
-test( "readability results reducer with a bogus action", () => {
-	const state = {};
-	const BOGUS = "BOGUS";
-	const action = {
-		type: BOGUS,
-	};
-	const expected = {};
-
-	const actual = readabilityResultsReducer( state, action );
-	expect( actual ).toEqual( expected );
-} );

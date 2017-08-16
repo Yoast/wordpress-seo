@@ -1,37 +1,49 @@
-import * as actions from "../contentAnalysis";
+import { UPDATE_SEO_RESULT, UPDATE_READABILITY_RESULT, REMOVE_KEYWORD, SET_SEO_RESULTS,
+	updateSeoResult, updateReadabilityResult, changeKeyword } from "../contentAnalysis";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-test( "update SEO Result action creator", () => {
-	const expected = {
-		type: actions.UPDATE_SEO_RESULT,
-		keyword: "keyword",
-		result: { id: "result", score: 9, description: "This is a great score!", markingIsActive: true },
-	};
-	const actual = actions.updateSeoResult( "keyword", { id: "result", score: 9, description: "This is a great score!", markingIsActive: true } );
-	expect( actual ).toEqual( expected );
+describe( "update SEO result action creator", function() {
+	it( "creates the update SEO result action", function() {
+		let result = { id: "result", score: 9, description: "This is a great score!", markingIsActive: true };
+
+		const expected = {
+			type: UPDATE_SEO_RESULT,
+			keyword: "keyword",
+			result: result,
+		};
+		const actual = updateSeoResult( "keyword", result );
+		expect( actual ).toEqual( expected );
+	} );
 } );
 
-test( "update readability Result action creator", () => {
-	const expected = {
-		type: actions.UPDATE_READABILITY_RESULT,
-		result: { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false },
+describe( "update readability result action creator", function() {
+	it( "creates the readability SEO result action", function() {
+		let result = { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false };
 
-	};
-	const actual = actions.updateReadabilityResult( { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } );
-	expect( actual ).toEqual( expected );
+		const expected = {
+			type: UPDATE_READABILITY_RESULT,
+			result: result,
+		};
+		const actual = updateReadabilityResult( result );
+		expect( actual ).toEqual( expected );
+	} );
 } );
 
-test( "the change keyword action changes", () => {
-	const middlewares = [ thunk ];
-	const mockStore = configureMockStore( middlewares );
+describe( "the change keyword action creator", function() {
+	it( "creates the change keyword action", function() {
+		const middlewares = [ thunk ];
+		const mockStore = configureMockStore( middlewares );
+		let results = [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ];
 
-	const expectedActions = [
-		{ type: actions.REMOVE_KEYWORD, keyword: "oldKeyword" },
-		{ type: actions.SET_SEO_RESULTS, keyword: "newKeyword", results: [ { result: "my result" } ] },
-	];
-	const store = mockStore( { oldKeyword: [] }, { otherKeyword: [] } );
+		const expectedActions = [
+			{ type: REMOVE_KEYWORD, keyword: "oldKeyword" },
+			{ type: SET_SEO_RESULTS, keyword: "newKeyword",
+				results: results },
+		];
+		const store = mockStore( { oldKeyword: [] }, { otherKeyword: [] } );
 
-	store.dispatch( actions.changeKeyword( "oldKeyword", "newKeyword", [ { result: "my result" } ] ) );
-	expect( store.getActions() ).toEqual( expectedActions );
+		store.dispatch( changeKeyword( "oldKeyword", "newKeyword", results ) );
+		expect( store.getActions() ).toEqual( expectedActions );
+	} );
 } );
