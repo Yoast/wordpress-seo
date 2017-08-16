@@ -122,7 +122,7 @@ class WPSEO_Export_Keywords_CSV {
 	 * Returns a CSV column including comma from the result object by the specified key.
 	 *
 	 * @param array[string]string $result The result object to get the CSV column from.
-	 * @param string $key The key of the value to get the CSV column for.
+	 * @param string              $key    The key of the value to get the CSV column for.
 	 *
 	 * @return string A CSV column including comma.
 	 */
