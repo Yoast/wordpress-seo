@@ -3,9 +3,9 @@ import styled from "styled-components";
 import _flow from "lodash/flow";
 import PropTypes from "prop-types";
 
-import { rgba } from "../../../../style-guide/helpers";
 import colors from "../../../../style-guide/colors.json";
 import { Icon } from "./Icon";
+import { rgba } from "../../../../style-guide/helpers";
 
 /**
  * Returns a component with applied focus styles.
