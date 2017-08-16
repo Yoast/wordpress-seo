@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { BaseButton, SnippetPreviewButton } from "../../Shared/Button";
+import { BaseButton, SnippetPreviewButton } from "../components/Button";
 
 test( "the Button matches the snapshot", () => {
 	const component = renderer.create(
