@@ -78,7 +78,7 @@ function updateSeoResult( state, action ) {
 export function keywordResultsReducer( state = initialState, action ) {
 	switch ( action.type ) {
 		case SET_SEO_RESULTS:
-			return Object.assign( {}, state, { [ action.keyword ]: action.results } );
+			return Object.assign( {}, initialState, { [ action.keyword ]: action.results } );
 		case UPDATE_SEO_RESULT:
 			return updateSeoResult( state, action );
 		case REMOVE_KEYWORD:
