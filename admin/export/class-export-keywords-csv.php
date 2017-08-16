@@ -31,12 +31,12 @@ class WPSEO_Export_Keywords_CSV {
 	/**
 	 * Returns the CSV headers based on the queried columns.
 	 *
-	 * @param array[int]string $columns  The columns as returned from WPSEO_Export_Keywords_Query::get_columns.
+	 * @param array[int]string $columns The columns as returned from WPSEO_Export_Keywords_Query::get_columns.
 	 *
 	 * @return string A line of CSV.
 	 */
 	protected function get_headers( $columns ) {
-		$csv = $this->format_csv_column( __( 'ID' ) );
+		$csv = $this->format_csv_column( __( 'ID', 'wordpress-seo' ) );
 
 		if ( in_array( 'post_title', $columns, true ) ) {
 			$csv .= ',' . $this->format_csv_column( __( 'post title', 'wordpress-seo' ) );

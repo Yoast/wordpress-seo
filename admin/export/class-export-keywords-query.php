@@ -103,6 +103,6 @@ class WPSEO_Export_Keywords_Query {
 		$this->selects[] = $alias . '_join.meta_value AS ' . $alias;
 		$this->joins[] = 'LEFT OUTER JOIN ' . $this->wpdb->prefix . 'postmeta AS ' . $alias . '_join ' .
 						 'ON ' . $alias . '_join.post_id = ' . $this->wpdb->prefix . 'posts.ID ' .
-						 'AND ' .$alias . '_join.meta_key = "' . $key . '"';
+						 'AND ' . $alias . '_join.meta_key = "' . $key . '"';
 	}
 }
