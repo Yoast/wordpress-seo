@@ -2,7 +2,7 @@
 
 exports[`Button executes callback 1`] = `
 <button
-  className="sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  className="sc-bxivhb kBfEqg sc-htpNat clPCcB sc-bwzfXH kGsEoO sc-bdVaJa hZtEcp"
   onClick={[Function]}
   type="button"
 >
@@ -12,7 +12,7 @@ exports[`Button executes callback 1`] = `
 
 exports[`Button executes callback 2`] = `
 <button
-  className="sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  className="sc-bxivhb kBfEqg sc-htpNat clPCcB sc-bwzfXH kGsEoO sc-bdVaJa hZtEcp"
   onClick={[Function]}
   type="button"
 >
@@ -22,7 +22,7 @@ exports[`Button executes callback 2`] = `
 
 exports[`SnippetPreviewButton executes callback 1`] = `
 <button
-  className="sc-htpNat bfvzQm sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  className="sc-ifAKCX hpLiYA sc-bxivhb kBfEqg sc-htpNat clPCcB sc-bwzfXH kGsEoO sc-bdVaJa hZtEcp"
   onClick={[Function]}
   type="button"
 >
@@ -32,7 +32,7 @@ exports[`SnippetPreviewButton executes callback 1`] = `
 
 exports[`SnippetPreviewButton executes callback 2`] = `
 <button
-  className="sc-htpNat bfvzQm sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  className="sc-ifAKCX hpLiYA sc-bxivhb kBfEqg sc-htpNat clPCcB sc-bwzfXH kGsEoO sc-bdVaJa hZtEcp"
   onClick={[Function]}
   type="button"
 >
@@ -42,7 +42,7 @@ exports[`SnippetPreviewButton executes callback 2`] = `
 
 exports[`the Button matches the snapshot 1`] = `
 <button
-  className="sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  className="sc-bxivhb kBfEqg sc-htpNat clPCcB sc-bwzfXH kGsEoO sc-bdVaJa hZtEcp"
   type="button"
 >
   ButtonValue
@@ -51,7 +51,7 @@ exports[`the Button matches the snapshot 1`] = `
 
 exports[`the SnippetPreviewButton matches the snapshot 1`] = `
 <button
-  className="sc-htpNat bfvzQm sc-bwzfXH kGsEoO sc-bdVaJa cNDoHL"
+  className="sc-ifAKCX hpLiYA sc-bxivhb kBfEqg sc-htpNat clPCcB sc-bwzfXH kGsEoO sc-bdVaJa hZtEcp"
   type="button"
 >
   ButtonValue

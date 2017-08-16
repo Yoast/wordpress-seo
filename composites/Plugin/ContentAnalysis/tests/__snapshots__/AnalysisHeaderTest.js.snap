@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the AnalysisHeader in opened state matches the snapshot 1`] = `
+<div
+  className="sc-bdVaJa efvPnS"
+>
+  <div
+    role="presentation"
+  >
+    <h3
+      aria-level="3"
+      role="heading"
+    >
+      <button
+        aria-controls="sect1"
+        aria-expanded={true}
+        className="sc-bwzfXH bpgAeB"
+        onClick={[Function]}
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-ifAKCX dgWlkW"
+        />
+        <span
+          className="sc-htpNat klnds"
+        >
+           
+          Problems (4)
+           
+        </span>
+      </button>
+    </h3>
+  </div>
+  <ul>
+    <li>
+       First item 
+    </li>
+    <li>
+       Second item 
+    </li>
+    <li>
+       Third item 
+    </li>
+    <li>
+       Fourth item 
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`the default AnalysisHeader matches the snapshot 1`] = `
+<div
+  className="sc-bdVaJa efvPnS"
+>
+  <div
+    role="presentation"
+  >
+    <h3
+      aria-level="3"
+      role="heading"
+    >
+      <button
+        aria-controls="sect1"
+        aria-expanded={false}
+        className="sc-bwzfXH bpgAeB"
+        onClick={[Function]}
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb kTrnFu"
+        />
+        <span
+          className="sc-htpNat klnds"
+        >
+           
+          Problems (4)
+           
+        </span>
+      </button>
+    </h3>
+  </div>
+</div>
+`;
