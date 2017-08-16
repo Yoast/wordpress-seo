@@ -124,12 +124,12 @@ export default class ListToggle extends React.Component {
 
 		return (
 			<AnalysisHeaderContainer>
-				<div id="accordionGroup" role="presentation" className="Accordion">
+				<div role="presentation">
 					<h3 role="heading" aria-level="3">
-						<AnalysisHeader aria-expanded={ this.isOpen() } className="Accordion-trigger"
-										aria-controls="sect1" id="accordion1id" onClick={ () => { this.toggleOpen(); } } >
+						<AnalysisHeader aria-expanded={ this.isOpen() } aria-controls="sect1"
+										onClick={ () => { this.toggleOpen(); } } >
 							{ this.getArrow() }
-							<AnalysisTitle className="Accordion-title">{ this.props.title + " (" + childrenAmount + ")" }</AnalysisTitle>
+							<AnalysisTitle> { this.props.title + " (" + childrenAmount + ")" } </AnalysisTitle>
 						</AnalysisHeader>
 					</h3>
 				</div>
