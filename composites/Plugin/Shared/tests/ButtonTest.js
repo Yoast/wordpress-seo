@@ -1,9 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { BaseButton, SnippetPreviewButton } from "../components/Button";
+import { BaseButton, SnippetPreviewButton, IconButton } from "../components/Button";
+import { edit } from "../../../../style-guide/svg";
 
-test( "the Button matches the snapshot", () => {
+test( "the BaseButton matches the snapshot", () => {
 	const component = renderer.create(
 		<BaseButton>ButtonValue</BaseButton>
 	);
@@ -12,7 +13,7 @@ test( "the Button matches the snapshot", () => {
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "Button executes callback", () => {
+test( "BaseButton executes callback", () => {
 	const component = renderer.create(
 		<BaseButton onClick={
 			() => {
@@ -54,5 +55,23 @@ test( "SnippetPreviewButton executes callback", () => {
 	tree.props.onClick();
 
 	tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
+test( "the IconButton matches the snapshot", () => {
+	const component = renderer.create(
+		<IconButton icon={ edit } iconColor="black" />
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
+test( "the IconButton with text matches the snapshot", () => {
+	const component = renderer.create(
+		<IconButton icon={ edit } iconColor="black">Click</IconButton>
+	);
+
+	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

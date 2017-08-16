@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`the Icon matches the snapshot 1`] = `
-<svg
-  aria-hidden="true"
-  className="sc-bdVaJa bVWPlL"
-/>
-`;
