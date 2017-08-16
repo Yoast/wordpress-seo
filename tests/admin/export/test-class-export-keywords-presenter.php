@@ -65,6 +65,7 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Export_Keywords_Presenter::__construct
 	 * @covers WPSEO_Export_Keywords_Presenter::convert_result_keywords
+	 * @covers WPSEO_Export_Keywords_Presenter::parse_result_keywords_json
 	 */
 	public function test_convert_result_keywords() {
 		global $wpdb;
@@ -93,6 +94,7 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Export_Keywords_Presenter::__construct
 	 * @covers WPSEO_Export_Keywords_Presenter::convert_result_keywords
+	 * @covers WPSEO_Export_Keywords_Presenter::parse_result_keywords_json
 	 */
 	public function test_convert_result_keywords_malformed() {
 		global $wpdb;

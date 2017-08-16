@@ -100,22 +100,18 @@ class WPSEO_Export_Keywords_Presenter {
 		if ( array_key_exists( 'primary_keyword', $result ) && $result['primary_keyword'] ) {
 			$result['keywords'][] = $result['primary_keyword'];
 
+			// Convert multiple keywords from the Premium plugin from json to string arrays.
+			$keywords = $this->parse_result_keywords_json( $result, 'other_keywords' );
+			foreach ( $keywords as $keyword ) {
+				$result['keywords'][] = $keyword['keyword'];
+			}
+
 			if ( in_array( 'keywords_score', $this->columns, true ) ) {
 				$rank = WPSEO_Rank::from_numeric_score( intval( $result['primary_keyword_score'] ) );
 				$result['keywords_score'][] = $rank->get_rank();
-			}
-
-			// Convert multiple keywords from the Premium plugin from json to string arrays.
-			if ( array_key_exists( 'other_keywords', $result ) && $result['other_keywords'] ) {
-				$keywords = json_decode( $result['other_keywords'], true );
-				if ( $keywords ) {
-					foreach ( $keywords as $keyword ) {
-						$result['keywords'][] = $keyword['keyword'];
-						if ( in_array( 'keywords_score', $this->columns, true ) ) {
-							$rank = new WPSEO_Rank( $keyword['score'] );
-							$result['keywords_score'][] = $rank->get_rank();
-						}
-					}
+				foreach ( $keywords as $keyword ) {
+					$rank = new WPSEO_Rank( $keyword['score'] );
+					$result['keywords_score'][] = $rank->get_rank();
 				}
 			}
 		}
@@ -126,5 +122,24 @@ class WPSEO_Export_Keywords_Presenter {
 		unset( $result['other_keywords'] );
 
 		return $result;
+	}
+
+	/**
+	 * Parses keywords JSON in the result object from the specified key.
+	 *
+	 * @param array[string]string $result The result object.
+	 * @param string              $key    The key containing the JSON.
+	 *
+	 * @return array[string]string The parsed keywords.
+	 */
+	protected function parse_result_keywords_json( $result, $key ) {
+		if ( array_key_exists( $key, $result ) && $result[ $key ] ) {
+			$parsed = json_decode( $result[ $key ], true );
+			if ( $parsed ) {
+				return $parsed;
+			}
+		}
+
+		return array();
 	}
 }

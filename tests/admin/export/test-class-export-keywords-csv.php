@@ -62,6 +62,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * Tests the format function with simple input.
 	 *
 	 * @covers WPSEO_Export_Keywords_CSV::format
+	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_simple() {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
@@ -81,6 +82,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * Tests the format function with complex input.
 	 *
 	 * @covers WPSEO_Export_Keywords_CSV::format
+	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_complex() {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
@@ -109,6 +111,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * Tests the format function with random input.
 	 *
 	 * @covers WPSEO_Export_Keywords_CSV::format
+	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_random() {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
@@ -138,6 +141,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * Tests the format function with null input.
 	 *
 	 * @covers WPSEO_Export_Keywords_CSV::format
+	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_null() {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
@@ -160,6 +164,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * Tests the format function with bad column input.
 	 *
 	 * @covers WPSEO_Export_Keywords_CSV::format
+	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_bad_columns() {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double();

@@ -76,14 +76,8 @@ class WPSEO_Export_Keywords_CSV {
 			return '';
 		}
 
-		$keywords = array();
-		if ( array_key_exists( 'keywords' , $result ) && is_array( $result['keywords'] ) ) {
-			$keywords = $result['keywords'];
-		}
-		$keywords_score = array();
-		if ( array_key_exists( 'keywords_score' , $result ) && is_array( $result['keywords_score'] ) ) {
-			$keywords_score = $result['keywords_score'];
-		}
+		$keywords = $this->get_array_from_result( $result, 'keywords' );
+		$keywords_score = $this->get_array_from_result( $result, 'keywords_score' );
 
 		$csv = '';
 
@@ -116,6 +110,21 @@ class WPSEO_Export_Keywords_CSV {
 		} while ( count( $keywords ) > 0 );
 
 		return $csv;
+	}
+
+	/**
+	 * Returns an array from the result object.
+	 *
+	 * @param array[string]string $result The result object.
+	 * @param string              $key    The key of the array to retrieve.
+	 *
+	 * @return array
+	 */
+	protected function get_array_from_result( $result, $key ) {
+		if ( array_key_exists( $key , $result ) && is_array( $result[ $key ] ) ) {
+			return $result[ $key ];
+		}
+		return array();
 	}
 
 	/**
