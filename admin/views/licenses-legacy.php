@@ -182,9 +182,13 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 				<?php unset( $extensions['seo-premium'] ); ?>
 
 				<?php foreach ( $extensions as $id => $extension ) : ?>
-					<?php $buy_url = $extension->buyUrl;
-					$info_url = $extension->infoUrl; ?>
-
+					<?php
+					// Ignore coding standards for object properties.
+					// @codingStandardsIgnoreStart
+					$buy_url = $extension->buyUrl;
+					$info_url = $extension->infoUrl;
+					// @codingStandardsIgnoreEnd
+					?>
 
 					<section class="yoast-promoblock secondary yoast-promo-extension">
 						<img alt="" width="280" height="147" src="<?php echo esc_attr( $extension->image ); ?>" />
@@ -213,8 +217,7 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 								__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 								'<span class="screen-reader-text">',
 								'</span>',
-								$extension->title
-							);
+								$extension->title );
 							?></a>
 					</section>
 				<?php endforeach; ?>

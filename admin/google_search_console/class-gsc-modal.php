@@ -49,7 +49,7 @@ class WPSEO_GSC_Modal {
 
 		echo '<div id="redirect-' . $unique_id . '" class="hidden">';
 		echo '<div class="form-wrap wpseo_content_wrapper">';
-		require( $this->view );
+		require $this->view;
 		echo '</div>';
 		echo '</div>';
 	}

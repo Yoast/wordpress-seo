@@ -177,8 +177,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 						'<span class="screen-reader-text">',
 						'</span>',
-						$extension->get_title()
-					);
+						$extension->get_title() );
 					?></a>
 			<?php endif; ?>
 
@@ -232,8 +231,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 									__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 									'<span class="screen-reader-text">',
 									'</span>',
-									$extension->get_title()
-								);
+									$extension->get_title() );
 								?>
 							</a>
 						<?php endif; ?>
