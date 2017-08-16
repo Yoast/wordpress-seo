@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import _flow from "lodash/flow";
-import colors from "../../../../style-guide/colors.json";
-import { rgba } from "../../../../style-guide/helpers";
+import colors from "../../../style-guide/colors.json";
+import { rgba } from "../../../style-guide/helpers";
 
 /**
  * Returns a component with applied focus styles.
