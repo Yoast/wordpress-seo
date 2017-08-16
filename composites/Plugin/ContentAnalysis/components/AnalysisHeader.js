@@ -49,7 +49,7 @@ const AnalysisHeader = styled.button`
 `;
 
 const AnalysisTitle = styled.span`
-	font-weight: 500;
+	font-weight: 400;
 	flex: 1 1 auto;
 	font-size: 1.2em;
 	// Chrome needs 8 decimals to make this 32px without roundings.
