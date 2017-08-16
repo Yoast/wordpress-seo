@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 import edit from "../../../style-guide/svg/edit.svg";
-import { Icon } from "../components/Icon";
+import { Icon } from "../../Shared/Icon";
 
 test( "the Icon matches the snapshot", () => {
 	const component = renderer.create(
