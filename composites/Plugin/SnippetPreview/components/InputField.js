@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { EditorState, Editor, Modifier } from "draft-js";
-import colors from "../../../style-guide/colors.json";
+import colors from "../../../../style-guide/colors.json";
 import styled from "styled-components";
 
 const InputFieldContainer = styled.div`
