@@ -126,8 +126,9 @@ export default class ListToggle extends React.Component {
 			<AnalysisHeaderContainer>
 				<div role="presentation">
 					<h3 role="heading" aria-level="3">
-						<AnalysisHeader aria-expanded={ this.isOpen() } aria-controls="sect1"
-										onClick={ () => { this.toggleOpen(); } } >
+						<AnalysisHeader aria-expanded={ this.isOpen() } aria-controls="sect1" onClick={ () => {
+							this.toggleOpen();
+						} } >
 							{ this.getArrow() }
 							<AnalysisTitle> { this.props.title + " (" + childrenAmount + ")" } </AnalysisTitle>
 						</AnalysisHeader>
