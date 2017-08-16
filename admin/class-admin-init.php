@@ -89,11 +89,11 @@ class WPSEO_Admin_Init {
 			);
 
 			$notification = new Yoast_Notification(
-				/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
 				sprintf(
+					/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
 					__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
 					$product_name,
-				'<a href="https://yoa.st/13j" target="_blank">My Yoast</a>'
+					'<a href="https://yoa.st/13j" target="_blank">My Yoast</a>'
 				),
 				$notification_options
 			);

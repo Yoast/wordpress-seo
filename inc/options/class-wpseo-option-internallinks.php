@@ -162,6 +162,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
 									'_' . $key, // Suffix-id for the error message box.
+									/* translators: %s resolves to the post type name */
 									sprintf( __( 'Please select a valid taxonomy for post type "%s"', 'wordpress-seo' ), $post_type ), // The error message.
 									'error' // Error type, either 'error' or 'updated'.
 								);
@@ -201,6 +202,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
 									'_' . $tax, // Suffix-id for the error message box.
+									/* translators: %s resolves to the taxonomy name */
 									sprintf( __( 'Please select a valid post type for taxonomy "%s"', 'wordpress-seo' ), $tax ), // The error message.
 									'error' // Error type, either 'error' or 'updated'.
 								);

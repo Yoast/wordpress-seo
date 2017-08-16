@@ -310,7 +310,13 @@ class WPSEO_Sitemaps_Renderer {
 			parse_str( $query, $parsed_query );
 
 			if ( defined( 'PHP_QUERY_RFC3986' ) ) { // PHP 5.4+.
-				$parsed_query = http_build_query( $parsed_query, null, '&amp;', PHP_QUERY_RFC3986 );
+				// @codingStandardsIgnoreLine
+				$parsed_query = http_build_query(
+					$parsed_query,
+					null,
+					'&amp;',
+					PHP_QUERY_RFC3986
+				);
 			}
 			else {
 				$parsed_query = http_build_query( $parsed_query, null, '&amp;' );

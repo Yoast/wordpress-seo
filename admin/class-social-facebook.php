@@ -153,6 +153,8 @@ class Yoast_Social_Facebook {
 			unset( $this->options['fb_admins'][ $admin_id ] );
 
 			$this->save_options();
+
+			/* translators: %s resolves to the name of the Facebook admin */
 			$this->success_notice( sprintf( __( 'Successfully removed admin %s', 'wordpress-seo' ), $fbadmin ) );
 
 			unset( $fbadmin );

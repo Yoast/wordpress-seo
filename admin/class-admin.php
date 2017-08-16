@@ -168,7 +168,8 @@ class WPSEO_Admin {
 			'load_page',
 		), $icon_svg, '99.31337' );
 
-		$admin_page_hooks[ self::PAGE_IDENTIFIER ] = 'seo'; // Wipe notification bits from hooks. R.
+		// Wipe notification bits from hooks.
+		$admin_page_hooks[ self::PAGE_IDENTIFIER ] = 'seo'; // WPCS: override ok.
 
 		$license_page_title = __( 'Premium', 'wordpress-seo' );
 
@@ -275,7 +276,7 @@ class WPSEO_Admin {
 
 		global $submenu;
 		if ( isset( $submenu[ self::PAGE_IDENTIFIER ] ) && current_user_can( $manage_options_cap ) ) {
-			$submenu[ self::PAGE_IDENTIFIER ][0][0] = __( 'Dashboard', 'wordpress-seo' );
+			$submenu[ self::PAGE_IDENTIFIER ][0][0] = __( 'Dashboard', 'wordpress-seo' ); // WPCS: override ok.
 		}
 	}
 
@@ -327,7 +328,8 @@ class WPSEO_Admin {
 					sprintf(
 						/* translators: %1$s expands to Yoast SEO. */
 						__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ),
-						'Yoast SEO' ) .
+						'Yoast SEO'
+					) .
 					'</p><p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
 			)
 		);

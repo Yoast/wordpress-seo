@@ -25,9 +25,13 @@ class WPSEO_Config_Component_Configuration_Choices implements WPSEO_Config_Compo
 	public function get_field() {
 		$field = new WPSEO_Config_Field_Configuration_Choices();
 
-		$field->set_property( 'label', sprintf(
-			/* translators: %s expands to 'Yoast SEO'. */
-			__( 'Please choose the %s configuration of your liking:', 'wordpress-seo' ), 'Yoast SEO' )
+		$field->set_property(
+			'label',
+			sprintf(
+				/* translators: %s expands to 'Yoast SEO'. */
+				__( 'Please choose the %s configuration of your liking:', 'wordpress-seo' ),
+				'Yoast SEO'
+			)
 		);
 
 		$field->add_choice(

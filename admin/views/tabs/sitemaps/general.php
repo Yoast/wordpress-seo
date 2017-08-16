@@ -9,6 +9,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+/* translators: %s resolves to the maximum number of sitemap entries per file */
+$label_entries = sprintf( __( 'Please enter the maximum number of entries per sitemap page (defaults to %s, you might want to lower this to prevent memory issues on some installs):', 'wordpress-seo' ), WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' ) );
+
 echo '<h2>' . esc_html__( 'Your XML Sitemap', 'wordpress-seo' ) . '</h2>';
 
 if ( $options['enablexmlsitemap'] === true ) {
@@ -30,9 +33,7 @@ else {
 
 echo '<h2>' . esc_html__( 'Entries per sitemap page', 'wordpress-seo' ) . '</h2>';
 ?>
-	<p>
-		<?php printf( __( 'Please enter the maximum number of entries per sitemap page (defaults to %s, you might want to lower this to prevent memory issues on some installs):', 'wordpress-seo' ), WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' ) ); ?>
-	</p>
+	<p><?php echo $label_entries ?></p>
 
 <?php
 $yform->textinput( 'entries-per-page', __( 'Max entries per sitemap', 'wordpress-seo' ) );

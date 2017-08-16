@@ -182,9 +182,11 @@ function wpseo_display_contributors( $contributors ) {
 		<?php
 		$patches_from = array();
 		if ( ! empty( $patches_from ) ) :
+			/* translators: %1$s resolves to Yoast SEO, %2$s resolves to the version number */
+			$label_contributors = sprintf( __( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', $version );
 			?>
 			<h3 class="wp-people-group"><?php _e( 'Community contributors', 'wordpress-seo' ); ?></h3>
-			<p><?php printf( __( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', $version ); ?></p>
+			<p><?php echo $label_contributors ?></p>
 			<ul class="ul-square">
 				<?php
 				foreach ( $patches_from as $patcher => $link ) {

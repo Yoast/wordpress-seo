@@ -83,8 +83,10 @@ class WPSEO_Admin_Banner_Sidebar {
 	 */
 	protected function get_premium_spot() {
 		$premium_spot = new WPSEO_Admin_Banner_Spot( '', $this->banner_renderer );
-
 		$premium_uri = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
+
+		/* translators: %s resolves to Yoast SEO Premium */
+		$label_get_premium_now = sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' );
 
 		$premium_spot->set_extra(
 			/* translators: %1$s expands to the plugin name */
@@ -98,7 +100,7 @@ class WPSEO_Admin_Banner_Sidebar {
 			'<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>' .
 			'</ul>' .
 			/* translators: %s expands to Yoast SEO Premium */
-		    '<a id="wpseo-premium-button" class="button button-primary" href="' . $premium_uri . '" target="_blank">' . sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>' .
+			'<a id="wpseo-premium-button" class="button button-primary" href="' . $premium_uri . '" target="_blank">' . $label_get_premium_now . '</a><br/>' .
 			'<small>' . __( 'Prices start as low as 69,- for one site', 'wordpress-seo' ) . '</small><br/><br/>'
 		);
 
@@ -156,7 +158,7 @@ class WPSEO_Admin_Banner_Sidebar {
 				261,
 				152,
 				sprintf(
-				/* translators: %1$s expands to Yoast SEO Premium. */
+					/* translators: %1$s expands to Yoast SEO Premium. */
 					__( 'Let our experts set up your %1$s plugin!', 'wordpress-seo' ),
 					'Yoast SEO Premium'
 				)

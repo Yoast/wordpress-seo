@@ -6,6 +6,8 @@
 	// Admin header.
 	Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpseo_gsc_options' );
 
+$platform_tabs = new WPSEO_GSC_Platform_Tabs();
+
 if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== '' ) { ?>
 	<form action="" method="post" class="wpseo-gsc-reload-crawl-issues-form">
 		<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo wp_create_nonce( 'reload-crawl-issues' ); ?>' />
@@ -15,7 +17,7 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== 
 <?php } ?>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<?php echo $platform_tabs = new WPSEO_GSC_Platform_Tabs; ?>
+		<?php echo $platform_tabs ?>
 	</h2>
 
 <?php
@@ -54,7 +56,9 @@ switch ( $platform_tabs->current_tab() ) {
 		else {
 			$reset_button = '<a class="button" href="' . add_query_arg( 'gsc_reset', 1 ) . '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) . '</a>';
 			echo '<h3>',  __( 'Current profile', 'wordpress-seo' ), '</h3>';
-			if ( ($profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
+
+			$profile = WPSEO_GSC_Settings::get_profile();
+			if ( $profile !== '' ) {
 				echo '<p>';
 				echo $profile;
 				echo '</p>';
@@ -71,7 +75,9 @@ switch ( $platform_tabs->current_tab() ) {
 				Yoast_Form::get_instance()->set_option( 'wpseo-gsc' );
 
 				echo '<p>';
-				if ( $profiles = $this->service->get_sites() ) {
+
+				$profiles = $this->service->get_sites();
+				if ( $profiles ) {
 					$show_save = true;
 					echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $profiles );
 				}
@@ -122,8 +128,11 @@ switch ( $platform_tabs->current_tab() ) {
 	echo '<p>';
 
 	printf(
-	/* translators: %1$s expands anchor to knowledge base article, %2$s expands to </a> */
-	__( 'Please refer to %1$sour article about how to connect your website to Google Search Console%2$s if you need assistance.', 'wordpress-seo' ), '<a href="https://kb.yoast.com/kb/how-to-connect-and-retrieve-crawl-issues/" target="_blank">', '</a>' );
+		/* translators: %1$s expands anchor to knowledge base article, %2$s expands to </a> */
+		__( 'Please refer to %1$sour article about how to connect your website to Google Search Console%2$s if you need assistance.', 'wordpress-seo' ),
+		'<a href="https://kb.yoast.com/kb/how-to-connect-and-retrieve-crawl-issues/" target="_blank">',
+		'</a>'
+	);
 
 	echo '</p>';
 ?>

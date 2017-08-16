@@ -129,7 +129,8 @@ class WPSEO_Taxonomy {
 		/* Create post array with only our values */
 		$new_meta_data = array();
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
-			if ( $posted_value = filter_input( INPUT_POST, $key ) ) {
+			$posted_value = filter_input( INPUT_POST, $key );
+			if ( $posted_value ) {
 				$new_meta_data[ $key ] = $posted_value;
 			}
 
@@ -270,8 +271,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	public static function is_term_edit( $page ) {
-		return 'term.php' === $page
-		       || 'edit-tags.php' === $page; // After we drop support for <4.5 this can be removed.
+		return 'term.php' === $page || 'edit-tags.php' === $page; // After we drop support for <4.5 this can be removed.
 	}
 
 	/**
@@ -284,7 +284,7 @@ class WPSEO_Taxonomy {
 		$options    = WPSEO_Options::get_option( 'wpseo_titles' );
 		$option_key = 'hideeditbox-tax-' . $this->taxonomy;
 
-		return ( empty( $options[ $option_key ] ) );
+		return empty( $options[ $option_key ] );
 	}
 
 	/**

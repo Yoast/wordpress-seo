@@ -268,6 +268,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$attachments = array_merge( $attachments, $gallery_attachments );
 		}
 
+		// @codingStandardsIgnoreLine
 		return array_unique( $attachments, SORT_REGULAR );
 	}
 

@@ -116,8 +116,8 @@ class WPSEO_Frontend {
 		add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
 
 		if ( $this->options['disable-date'] === true ||
-		     $this->options['disable-author'] === true ||
-		     $this->options['disable-post_format'] === true
+			 $this->options['disable-author'] === true ||
+			 $this->options['disable-post_format'] === true
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
@@ -468,6 +468,7 @@ class WPSEO_Frontend {
 			$title = $this->get_title_from_options( 'title-search-wpseo' );
 
 			if ( ! is_string( $title ) || '' === $title ) {
+				/* translators: %s resolves to the search query */
 				$title_part = sprintf( __( 'Search for "%s"', 'wordpress-seo' ), esc_html( get_search_query() ) );
 			}
 		}
@@ -527,12 +528,15 @@ class WPSEO_Frontend {
 			// Replacement would be needed!
 			if ( empty( $title ) ) {
 				if ( is_month() ) {
+					/* translators: %s resolves to the single month title */
 					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
 				}
 				elseif ( is_year() ) {
+					/* translators: %s resolves to the year */
 					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
 				}
 				elseif ( is_day() ) {
+					/* translators: %s resolves to the date */
 					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
 				}
 				else {
@@ -1549,14 +1553,14 @@ class WPSEO_Frontend {
 		if ( is_singular() ) {
 			global $post;
 			if ( empty( $post ) ) {
-				$post = $wp_query->get_queried_object();
+				$post = $wp_query->get_queried_object(); // WPCS: override ok.
 			}
 
 			$properurl = get_permalink( $post->ID );
 
 			$page = get_query_var( 'page' );
 			if ( $page && $page != 1 ) {
-				$post       = get_post( $post->ID );
+				$post       = get_post( $post->ID ); // WPCS: override ok.
 				$page_count = substr_count( $post->post_content, '<!--nextpage-->' );
 				if ( $page > ( $page_count + 1 ) ) {
 					$properurl = user_trailingslashit( trailingslashit( $properurl ) . ( $page_count + 1 ) );

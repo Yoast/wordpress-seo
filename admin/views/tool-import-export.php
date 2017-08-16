@@ -122,7 +122,8 @@ foreach ( $tabs as $identifier => $tab ) {
 		$tab_video_url = $tab['screencast_video_url'];
 
 		$helpcenter_tab = new WPSEO_Option_Tab( $identifier, $tab['label'],
-			array( 'video_url' => $tab['screencast_video_url'] ) );
+			array( 'video_url' => $tab['screencast_video_url'] )
+		);
 
 		$helpcenter = new WPSEO_Help_Center( $identifier, $helpcenter_tab );
 		$helpcenter->output_help_center();

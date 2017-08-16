@@ -11,6 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 if ( ! current_theme_supports( 'title-tag' ) ) {
 	$yform->light_switch( 'forcerewritetitle', __( 'Force rewrite titles', 'wordpress-seo' ) );
+	/* translators: %1$s resolves to Yoast SEO */
 	echo '<p class="description">', sprintf( __( '%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
 }
 

@@ -120,6 +120,7 @@ class WPSEO_Import {
 	private function unzip_file() {
 		$unzipped = unzip_file( $this->file['file'], $this->path );
 		if ( is_wp_error( $unzipped ) ) {
+			/* translators: %s resolves to the error message */
 			$this->msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . sprintf( __( 'Unzipping failed with error "%s".', 'wordpress-seo' ), $unzipped->get_error_message() );
 
 			return false;
@@ -174,6 +175,7 @@ class WPSEO_Import {
 			$option_instance->import( $opt_group, $this->old_wpseo_version, $options );
 		}
 		elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
+			/* translators: %s resolves to the name or the option */
 			$this->msg = sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name );
 		}
 	}

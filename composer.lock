@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa0ba23999d1938863b91899dd6256a6",
+    "content-hash": "ec629586e074fdc71b03fe3da85d91ab",
     "packages": [
         {
             "name": "composer/installers",
@@ -1575,22 +1575,23 @@
         },
         {
             "name": "yoast/yoastcs",
-            "version": "0.4.3",
+            "version": "dev-JRF/update-for-WPCS-0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/yoastcs.git",
-                "reference": "0573753b5e8b939e83894bb6a9830ab1bd296cfe"
+                "reference": "03db8bcc77b5a36621313c6ce2af91b1b920537e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/0573753b5e8b939e83894bb6a9830ab1bd296cfe",
-                "reference": "0573753b5e8b939e83894bb6a9830ab1bd296cfe",
+                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/03db8bcc77b5a36621313c6ce2af91b1b920537e",
+                "reference": "03db8bcc77b5a36621313c6ce2af91b1b920537e",
                 "shasum": ""
             },
             "require": {
                 "phpmd/phpmd": "^2.2.3",
-                "squizlabs/php_codesniffer": "~2.8.1",
-                "wp-coding-standards/wpcs": "~0.10.0"
+                "squizlabs/php_codesniffer": "^2.8.1",
+                "wimg/php-compatibility": "^8.0.0",
+                "wp-coding-standards/wpcs": "~0.11.0"
             },
             "suggest": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.4.1"
@@ -1624,7 +1625,11 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2017-08-02T07:45:07+00:00"
+            "support": {
+                "issues": "https://github.com/Yoast/yoastcs/issues",
+                "source": "https://github.com/Yoast/yoastcs/tree/JRF/update-for-WPCS-0.11.0"
+            },
+            "time": "2017-08-16T10:13:32+00:00"
         }
     ],
     "aliases": [],

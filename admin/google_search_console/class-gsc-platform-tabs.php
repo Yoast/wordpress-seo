@@ -69,7 +69,9 @@ class WPSEO_GSC_Platform_Tabs {
 	 */
 	private function set_current_tab( array $platforms ) {
 		$this->current_tab = key( $platforms );
-		if ( $current_platform = filter_input( INPUT_GET, 'tab' ) ) {
+
+		$current_platform = filter_input( INPUT_GET, 'tab' );
+		if ( $current_platform ) {
 			$this->current_tab = $current_platform;
 		}
 	}
