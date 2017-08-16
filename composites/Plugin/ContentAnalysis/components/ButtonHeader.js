@@ -63,7 +63,6 @@ const AnalysisTitle = styled.span`
  * @returns {ReactElement} Icon component.
  */
 export const ButtonHeader = ( props ) => {
-	console.log( props.isOpen );
 	return (
 		<div id="accordionGroup" role="presentation" className="Accordion">
 			<h3 role="heading" aria-level="3">

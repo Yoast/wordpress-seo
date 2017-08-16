@@ -44,8 +44,6 @@ export default class ListToggle extends React.Component {
 	 * @returns {void}
 	 */
 	toggleOpen() {
-		console.log( "toggleOpen called" );
-
 		this.setState( {
 			isOpen: ! this.state.isOpen,
 		} );
