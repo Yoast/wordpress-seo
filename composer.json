@@ -21,19 +21,24 @@
 		"wiki": "https://github.com/Yoast/wordpress-seo/wiki",
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/Yoast/yoastcs"
+		}
+	],
 	"require": {
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "^1.4.0",
 		"yoast/i18n-module": "^2.0.1",
 		"yoast/api-libs": "^2.0",
 		"xrstf/composer-php52": "^1.0.20",
-		"yoast/whip": "1.0.1"
+		"yoast/whip": "^1.1.0"
 	},
 	"require-dev": {
-		"yoast/yoastcs": "0.5.*",
+		"yoast/yoastcs": "dev-JRF/update-for-WPCS-0.11.0",
 		"codeclimate/php-test-reporter": "dev-master",
-		"yoast/php-development-environment": "^1.0",
-		"dealerdirect/phpcodesniffer-composer-installer": "^0.4.1"
+		"yoast/php-development-environment": "^1.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -47,8 +52,17 @@
 	},
 	"scripts": {
 		"config-yoastcs": [
-			"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+			"\"vendor/bin/phpcs\" --config-set installed_paths ../../..,../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/wimg/php-compatibility",
 			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
+		],
+		"check-cs": [
+			"\"vendor/bin/phpcs\""
+		],
+		"check-cs-errors": [
+			"\"vendor/bin/phpcs\" --error-severity=1 --warning-severity=6"
+		],
+		"fix-cs": [
+			"\"vendor/bin/phpcbf\""
 		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"

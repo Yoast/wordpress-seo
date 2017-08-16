@@ -135,13 +135,46 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$medium . '-image',
 		);
 
-		$tab_content = '';
+		$tab_content = $this->get_premium_notice( $medium );
 
 		foreach ( $field_names as $field_name ) {
 			$tab_content .= $this->do_meta_box( $meta_field_defs[ $field_name ], $field_name );
 		}
 
 		return $tab_content;
+	}
+
+	/**
+	 * Returns the Upgrade to Premium notice.
+	 *
+	 * @param string $network The social network.
+	 * @return string The notice HTML on the free version, empty string on premium.
+	 */
+	public function get_premium_notice( $network ) {
+		$features = new WPSEO_Features();
+		if ( $features->is_premium() ) {
+			return '';
+		}
+
+		$network_name = __( 'Facebook', 'wordpress-seo' );
+
+		if ( 'twitter' === $network ) {
+			$network_name = __( 'Twitter', 'wordpress-seo' );
+		}
+
+		return sprintf( "<div class='notice inline yoast-notice yoast-notice-go-premium'>
+			<p>%s</p>
+			<p><a href='%s' target='_blank'>%s</a></p>
+		</div>",
+			/* translators: %1$s expands to the social network's name, %2$s to Yoast SEO Premium. */
+			sprintf( __( 'Do you want to preview what it will look like if people share this post on %1$s? You can, with %2$s.', 'wordpress-seo' ),
+				$network_name,
+				'<strong>Yoast SEO Premium</strong>'
+			),
+			WPSEO_Shortlinker::get( 'https://yoa.st/179' ),
+			/* translators: %s expands to Yoast SEO Premium. */
+			sprintf( 'Find out why you should upgrade to %s', 'Yoast SEO Premium' )
+		);
 	}
 
 	/**
@@ -165,10 +198,12 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	public function og_data_compare( $post ) {
 
 		// Check if post data is available, if post_id is set and if original post_status is publish.
+		// @codingStandardsIgnoreStart
 		if (
 			! empty( $_POST ) && ! empty( $post->ID ) && $post->post_status == 'publish' &&
 			isset( $_POST['original_post_status'] ) && $_POST['original_post_status'] === 'publish'
 		) {
+			// @codingStandardsIgnoreEnd
 
 			$fields_to_compare = array(
 				'opengraph-title',

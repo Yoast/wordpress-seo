@@ -24,6 +24,7 @@ build:
   - 'copy:dependencies'
   - 'browserify:build'
   - 'uglify'
+  - 'webpack:buildDev'
 
 # Build internationalisation features
 'build:i18n':
@@ -72,6 +73,7 @@ artifact:
 # Get the project ready for release
 release:
   - 'build:images'
+  - 'clean:build-assets'
   - 'release:css'
   - 'release:js'
   - 'build:i18n'
@@ -82,10 +84,15 @@ release:
   - 'copy:dependencies'
   - 'browserify:release-es6'
   - 'uglify'
+  - 'webpack:buildProd'
 
 'deploy:trunk':
   - artifact
   - wp_deploy:trunk
+
+'deploy:master':
+  - artifact
+  - wp_deploy:master
 
 # Default task
 default:

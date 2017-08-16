@@ -26,7 +26,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 		$field = new WPSEO_Config_Field_Suggestions();
 
 		// Only show Premium upsell when we are not inside a Premium install.
-		if ( ! defined( 'WPSEO_PREMIUM_PLUGIN_FILE' ) ) {
+		if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
 			$field->add_suggestion(
 				/* translators: %s resolves to Yoast SEO Premium */
 				sprintf( __( 'Outrank the competition with %s', 'wordpress-seo' ), 'Yoast SEO Premium' ),
@@ -35,9 +35,9 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				array(
 					'label' => __( 'Upgrade to Premium', 'wordpress-seo' ),
 					'type' => 'primary',
-					'url'  => 'https://yoa.st/wizard-suggestion-premium',
+					'url'  => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-premium' ),
 				),
-				'https://yoa.st/video-yoast-seo-premium'
+				WPSEO_Shortlinker::get( 'https://yoa.st/video-yoast-seo-premium' )
 			);
 		}
 
@@ -48,9 +48,9 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 			array(
 				'label' => 'SEO copywriting training',
 				'type' => 'link',
-				'url'  => 'https://yoa.st/configuration-wizard-copywrite-course-link',
+				'url'  => WPSEO_Shortlinker::get( 'https://yoa.st/configuration-wizard-copywrite-course-link' ),
 			),
-			'https://yoa.st/video-course-copywriting'
+			WPSEO_Shortlinker::get( 'https://yoa.st/video-course-copywriting' )
 		);
 
 		$field->add_suggestion(
@@ -61,13 +61,13 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 			array(
 				'label' => 'Yoast SEO plugin training',
 				'type' => 'link',
-				'url' => 'https://yoa.st/wizard-suggestion-plugin-course',
+				'url' => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-plugin-course' ),
 			),
-			'https://yoa.st/video-plugin-course'
+			WPSEO_Shortlinker::get( 'https://yoa.st/video-plugin-course' )
 		);
 
 		// When we are running in Yoast SEO Premium and don't have Local SEO installed, show Local SEO as suggestion.
-		if ( defined( 'WPSEO_PREMIUM_PLUGIN_FILE' ) && ! defined( 'WPSEO_LOCAL_FILE' ) ) {
+		if ( WPSEO_Utils::is_yoast_seo_premium() && ! defined( 'WPSEO_LOCAL_FILE' ) ) {
 			$field->add_suggestion(
 				sprintf( __( 'Attract more customers near you', 'wordpress-seo' ), 'Yoast SEO', 'Yoast SEO plugin training' ),
 				/* translators: %1$s resolves to Local SEO */
@@ -75,9 +75,9 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				array(
 					'label' => 'Local SEO',
 					'type' => 'link',
-					'url' => 'https://yoa.st/wizard-suggestion-localseo',
+					'url' => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-localseo' ),
 				),
-				'https://yoa.st/video-localseo'
+				WPSEO_Shortlinker::get( 'https://yoa.st/video-localseo' )
 			);
 		}
 

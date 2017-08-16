@@ -14,8 +14,7 @@ class WPSEO_Configuration_Structure {
 	/**
 	 * WPSEO_Configuration_Structure constructor.
 	 */
-	public function __construct() {
-
+	public function initialize() {
 		$this->add_step( 'intro', __( 'Welcome!', 'wordpress-seo' ), array(
 			'configurationChoices',
 		), false );
@@ -55,7 +54,7 @@ class WPSEO_Configuration_Structure {
 			'siteName',
 			'separator',
 		) );
-		$this->add_step( 'newsletter', __( 'Newsletter' ), array(
+		$this->add_step( 'newsletter', __( 'Newsletter', 'wordpress-seo' ), array(
 			'mailchimpSignup',
 		) );
 		$this->add_step( 'suggestions', __( 'You might like', 'wordpress-seo' ), array(

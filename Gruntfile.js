@@ -8,16 +8,18 @@ module.exports = function( grunt ) {
 
 	timeGrunt( grunt );
 
-	let pluginVersion = "4.5";
+	let pluginVersion = "5.2";
 
 	// Define project configuration
 	var project = {
 		pluginVersion: pluginVersion,
+		pluginSlug: "wordpress-seo",
+		pluginMainFile: "wp-seo.php",
 		paths: {
 			get config() {
 				return this.grunt + "config/";
 			},
-			css: "css/",
+			css: "css/dist/",
 			sass: "css/src/",
 			grunt: "grunt/",
 			images: "images/",
@@ -28,8 +30,8 @@ module.exports = function( grunt ) {
 		files: {
 			sass: [ "<%= paths.sass %>*.scss" ],
 			css: [
-				"css/*.css",
-				"!css/*.min.css",
+				"css/dist/*.css",
+				"!css/dist/*.min.css",
 			],
 			js: [
 				"js/src/**/*.js",

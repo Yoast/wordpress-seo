@@ -112,6 +112,10 @@ class WPSEO_Taxonomy {
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			) );
 		}
+
+		if ( self::is_term_overview( $pagenow ) ) {
+			$asset_manager->enqueue_script( 'edit-page-script' );
+		}
 	}
 
 	/**

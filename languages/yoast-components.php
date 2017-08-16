@@ -1,92 +1,92 @@
 <?php
 /* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */
 $generated_i18n_strings = array(
-	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:275
+	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:287
 	__( 'Next step', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:274
+	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:286
 	__( 'Next', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:266
+	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:277
 	__( 'Previous step', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:265
+	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:276
 	__( 'Previous', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:238
+	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:246
 	__( 'Close the Wizard', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:237
+	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:245
 	__( 'Close', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:163
+	// Reference: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:171
 	__( 'A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} describing what step you are on and which changes you want to make (if any).', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/OnboardingWizard/StepIndicator.js:48
+	// Reference: yoast-components/composites/OnboardingWizard/StepIndicator.js:50
 	__( 'Step %1$d: %2$s', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:67
+	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:68
 	__( 'Close search result form', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:46
+	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:47
 	__( 'Please provide a meta description by editing it here.', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:45
-	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:44
+	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:46
+	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:45
 	__( 'Meta description preview: ', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:44
+	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:45
 	__( 'Slug preview: ', 'wordpress-seo' ),
+
+	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:44
+	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:43
+	__( 'This is an example title - edit by clicking here', 'wordpress-seo' ),
 
 	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:43
 	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:42
-	__( 'This is an example title - edit by clicking here', 'wordpress-seo' ),
+	__( 'SEO title preview: ', 'wordpress-seo' ),
 
 	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:42
 	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:41
-	__( 'SEO title preview: ', 'wordpress-seo' ),
-
-	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:41
-	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:40
 	__( 'You can click on each element in the preview to jump to the Snippet Editor.', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:40
+	// Reference: yoast-components/composites/SearchResultForm/SearchResultForm.js:41
 	__( 'Search Result Form', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:72
+	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:73
 	__( 'Edit snippet', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:45
+	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:46
 	__( 'Please provide a meta description by editing the snippet below.', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:43
+	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:44
 	__( 'URL preview: ', 'wordpress-seo' ),
 
-	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:39
+	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:40
 	__( 'Search Result Preview', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:352
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:357
 	__( 'Get Google Authorization Code', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:345
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:350
 	__( 'To allow %s to fetch your Google Search Console information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:334
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:339
 	__( 'Reauthenticate with Google', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:311
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:314
 	__( 'Authenticate', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:308
-	__( 'Authorization code', 'wordpress-seo' ),
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:310
+	__( 'Enter authorization code here...', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:297
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:299
 	__( 'Enter your Google Authorization Code and press the Authenticate button.', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:273
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:274
 	__( 'Choose a profile', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:267
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:268
 	__( 'Select profile', 'wordpress-seo' ),
 
 	// Reference: js/src/components/ConnectGoogleSearchConsole.js:256
@@ -95,20 +95,17 @@ $generated_i18n_strings = array(
 	// Reference: js/src/components/ConnectGoogleSearchConsole.js:110
 	__( 'There is an error with the request.', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MailchimpSignup.js:224
+	// Reference: js/src/components/MailchimpSignup.js:228
 	__( 'Email', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MailchimpSignup.js:210
+	// Reference: js/src/components/MailchimpSignup.js:214
 	__( 'Name', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MailchimpSignup.js:194
+	// Reference: js/src/components/MailchimpSignup.js:196
 	__( 'Sign Up!', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MailchimpSignup.js:112
+	// Reference: js/src/components/MailchimpSignup.js:111
 	__( 'MailChimp signup failed:', 'wordpress-seo' ),
-
-	// Reference: js/src/components/MailchimpSignup.js:24
-	__( 'Sign up for our newsletter!', 'wordpress-seo' ),
 
 	// Reference: js/src/components/MediaUpload.js:106
 	__( 'Choose image', 'wordpress-seo' ),

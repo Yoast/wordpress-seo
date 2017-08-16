@@ -1,6 +1,3 @@
-// Required for browser compatibility.
-import "babel-polyfill";
-
 /* global yoastWizardConfig */
 import React from "react";
 import ReactDOM from "react-dom";
@@ -8,6 +5,7 @@ import ReactDOM from "react-dom";
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
 import { OnboardingWizard } from "yoast-components";
+import { MessageBox } from "yoast-components";
 
 import MailchimpSignup from "./components/MailchimpSignup";
 import ConfigurationChoices from "./components/ConfigurationChoices";
@@ -18,10 +16,6 @@ import FinalStep from "./components/FinalStep";
 
 import { setTranslations } from "yoast-components/utils/i18n";
 import isUndefined from "lodash/isUndefined";
-
-if ( ! isUndefined( yoastWizardConfig.translations ) ) {
-	setTranslations( yoastWizardConfig.translations );
-}
 
 injectTapEventPlugin();
 
@@ -61,13 +55,17 @@ class App extends React.Component {
 	/**
 	 * Parses the response containing the config and sets it in the state.
 	 *
-	 * @param response The response from AJAX request in the getConfig function.
+	 * @param {Object} response The response from AJAX request in the getConfig function.
 	 *
 	 * @returns {void} Returns nothing.
 	 */
 	setConfig( response ) {
 		let config = response;
 		let endpoint = this.getEndpoint();
+
+		if ( ! isUndefined( config.translations ) ) {
+			setTranslations( config.translations );
+		}
 
 		Object.assign( config, {
 			finishUrl: yoastWizardConfig.finishUrl,
@@ -115,21 +113,38 @@ class App extends React.Component {
 	}
 
 	/**
-	 * Renders the App componetn.
+	 * Renders the App component.
 	 *
 	 * @returns {JSX.Element|null} The rendered app component.
 	 */
 	render() {
+		// When the wizard is loading, don't do anything.
+		if ( this.state.isLoading === true ) {
+			return null;
+		}
 
-		if ( this.state.isLoading === false && this.state.config !== {} ) {
-
+		// When there is a config and it's not empty.
+		if ( typeof ( this.state.config ) !== "undefined" && this.state.config !== {} ) {
 			return (
 				<div>
 					<OnboardingWizard { ...this.state.config }/>
 				</div>
 			);
 		}
-		return null;
+
+		let message = {
+			/** Translators: {{link}} resolves to the link opening tag to https://yoa.st/configuration-wizard-error-plugin-conflict, {{/link}} resolves to the link closing tag. **/
+			mixedString:
+			"The configuration wizard could not be started." +
+			" The likely cause is an interfering plugin. Please {{link}}check for plugin conflicts{{/link}} to solve this problem. ",
+			components: { link: <a href="https://yoa.st/configuration-wizard-error-plugin-conflict" target="_blank" /> },
+		};
+
+		return (
+			<div>
+				<MessageBox { ...message }/>
+			</div>
+		);
 	}
 }
 

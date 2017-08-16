@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import Suggestion from "./Suggestion";
 
@@ -24,5 +25,5 @@ class Suggestions extends React.Component {
 export default Suggestions;
 
 Suggestions.PropTypes = {
-	properties: React.PropTypes.array.isRequired,
+	properties: PropTypes.array.isRequired,
 };

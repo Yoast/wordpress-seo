@@ -305,8 +305,11 @@ class WPSEO_Breadcrumbs {
 		$this->maybe_add_home_crumb();
 		$this->maybe_add_blog_crumb();
 
+		// Ignore coding standards for empty if statement.
+		// @codingStandardsIgnoreStart
 		if ( ( $this->show_on_front === 'page' && is_front_page() ) || ( $this->show_on_front === 'posts' && is_home() ) ) {
 			// Do nothing.
+			// @codingStandardsIgnoreEnd
 		}
 		elseif ( $this->show_on_front == 'page' && is_home() ) {
 			$this->add_blog_crumb();
@@ -350,8 +353,9 @@ class WPSEO_Breadcrumbs {
 			}
 			elseif ( is_author() ) {
 				$user = $wp_query->get_queried_object();
+				$display_name = get_the_author_meta( 'display_name', $user->ID );
 				$this->add_predefined_crumb(
-					$this->options['breadcrumbs-archiveprefix'] . ' ' . $user->display_name,
+					$this->options['breadcrumbs-archiveprefix'] . ' ' . $display_name,
 					null,
 					true
 				);

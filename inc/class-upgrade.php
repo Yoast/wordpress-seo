@@ -64,6 +64,23 @@ class WPSEO_Upgrade {
 			$this->upgrade_44();
 		}
 
+		if ( version_compare( $this->options['version'], '4.7', '<' ) ) {
+			$this->upgrade_47();
+		}
+
+		if ( version_compare( $this->options['version'], '4.9', '<' ) ) {
+			$this->upgrade_49();
+		}
+
+		if ( version_compare( $this->options['version'], '5.0', '<' ) ) {
+			$this->upgrade_50();
+		}
+
+		if ( version_compare( $this->options['version'], '5.0', '>=' )
+			 && version_compare( $this->options['version'], '5.1', '<' ) ) {
+			$this->upgrade_50_51();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -259,5 +276,106 @@ class WPSEO_Upgrade {
 			update_option( 'wpseo_titles', $option_titles );
 			update_option( 'wpseo', $option_wpseo );
 		}
+	}
+
+	/**
+	 * Renames the meta name for the cornerstone content. It was a public meta field and it has to be private.
+	 */
+	private function upgrade_47() {
+		global $wpdb;
+
+		// The meta key has to be private, so prefix it.
+		$wpdb->query(
+			$wpdb->prepare(
+				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = "%s" WHERE meta_key = "yst_is_cornerstone"',
+				WPSEO_Cornerstone::META_NAME
+			)
+		);
+	}
+
+	/**
+	 * Removes the 'wpseo-dismiss-about' notice for every user that still has it.
+	 */
+	private function upgrade_49() {
+		global $wpdb;
+
+		/*
+		 * Using a filter to remove the notification for the current logged in user. The notification center is
+		 * initializing the notifications before the upgrade routine has been executedd and is saving the stored
+		 * notifications on shutdown. This causes the returning notification. By adding this filter the shutdown
+		 * routine on the notification center will remove the notification.
+		 */
+		add_filter( 'yoast_notifications_before_storage', array( $this, 'remove_about_notice' ) );
+
+		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
+
+		$usermetas = $wpdb->get_results(
+			$wpdb->prepare('
+				SELECT user_id, meta_value
+				FROM ' . $wpdb->usermeta . '
+				WHERE meta_key = %s AND meta_value LIKE "%%wpseo-dismiss-about%%"
+				', $meta_key ),
+				ARRAY_A
+		);
+
+		if ( empty( $usermetas ) ) {
+			return;
+		}
+
+		foreach ( $usermetas as $usermeta ) {
+			$notifications = maybe_unserialize( $usermeta['meta_value'] );
+
+			foreach ( $notifications as $notification_key => $notification ) {
+				if ( ! empty( $notification['options']['id'] ) && $notification['options']['id'] === 'wpseo-dismiss-about' ) {
+					unset( $notifications[ $notification_key ] );
+				}
+			}
+
+			update_user_option( $usermeta['user_id'], Yoast_Notification_Center::STORAGE_KEY, array_values( $notifications ) );
+		}
+	}
+
+	/**
+	 * Removes the wpseo-dismiss-about notice from a list of notifications.
+	 *
+	 * @param Yoast_Notification[] $notifications The notifications to filter.
+	 *
+	 * @return Yoast_Notification[] The filtered list of notifications. Excluding the wpseo-dismiss-about notification.
+	 */
+	public function remove_about_notice( $notifications ) {
+		foreach ( $notifications as $notification_key => $notification ) {
+			if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
+				unset( $notifications[ $notification_key ] );
+			}
+		}
+
+		return $notifications;
+	}
+
+	/**
+	 * Adds the yoast_seo_links table to the database.
+	 */
+	private function upgrade_50() {
+		global $wpdb;
+
+		$link_installer = new WPSEO_Link_Installer();
+		$link_installer->install();
+
+		// Trigger reindex notification.
+		$notifier = new WPSEO_Link_Notifier();
+		$notifier->manage_notification();
+
+		// Deletes the post meta value, which might created in the RC.
+		$wpdb->query( 'DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_key = "_yst_content_links_processed"' );
+	}
+
+	/**
+	 * Updates the internal_link_count column to support improved functionality.
+	 */
+	private function upgrade_50_51() {
+		global $wpdb;
+
+		$count_storage = new WPSEO_Meta_Storage();
+		$wpdb->query( 'ALTER TABLE ' . $count_storage->get_table_name() . ' MODIFY internal_link_count int(10) UNSIGNED NULL DEFAULT NULL' );
 	}
 }

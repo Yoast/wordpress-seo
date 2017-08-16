@@ -5,8 +5,8 @@ module.exports = {
 	},
 	plugin: {
 		options: {
+			bin: "vendor/bin/phpcs",
 			standard: "phpcs.xml",
-			reportFile: "<%= paths.logs %>phpcs.log",
 			extensions: "php",
 		},
 		dir: [

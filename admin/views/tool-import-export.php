@@ -40,6 +40,10 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 		$import->import_headspace();
 	}
 
+	if ( ! empty( $post_wpseo['importjetpackseo'] ) || filter_input( INPUT_GET, 'importjetpackseo' ) ) {
+		$import = new WPSEO_Import_Jetpack_SEO( $replace );
+	}
+
 	if ( ! empty( $post_wpseo['importwpseo'] ) || filter_input( INPUT_GET, 'importwpseo' ) ) {
 		$import = new WPSEO_Import_WPSEO( $replace );
 	}
@@ -81,15 +85,15 @@ if ( $import ) {
 $tabs = array(
 	'wpseo-import' => array(
 		'label'                => __( 'Import settings', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
 	),
 	'wpseo-export' => array(
 		'label'                => __( 'Export settings', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
 	),
 	'import-seo'   => array(
 		'label'                => __( 'Import from other SEO plugins', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
 	),
 );
 
