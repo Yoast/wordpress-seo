@@ -89,7 +89,7 @@ export const BaseButton = addButtonStyles(
 		float: left;
 		display: inline-block;
 		text-decoration: none;
-		padding: 6px 10px 5px;
+		padding: 5px 10px;
 		border-radius: 3px;
 		cursor: pointer;
 		box-sizing: border-box;
@@ -97,7 +97,7 @@ export const BaseButton = addButtonStyles(
 		font-family: inherit;
 		font-weight: inherit;
 		outline: none;
-		min-height: 33px;
+		min-height: 32px;
 		vertical-align: top;
 	`
 );
