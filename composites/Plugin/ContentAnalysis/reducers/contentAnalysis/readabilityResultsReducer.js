@@ -1,9 +1,35 @@
 import { UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS } from "../../actions/contentAnalysis";
+import findIndex from "lodash/findIndex";
 
 /**
  * Initial state
  */
-const initialState = {};
+const initialState = [];
+
+/**
+ * Helper functions
+ */
+
+/**
+ * Updates a readability result.
+ *
+ * @param {Object} state The state.
+ * @param {Object} action The action.
+ *
+ * @returns {Object} The new results.
+ */
+function updateReadabilityResult( state, action ) {
+	let resultIndex = findIndex( state, { id: action.result.id } );
+
+	// Replace a result when there already is a result with the given id.
+	if( resultIndex !== -1 ) {
+		let newResults = state.filter( function( resultIndex ) {
+			return state[ resultIndex ];
+		} );
+		return newResults.concat( action.result );
+	}
+	return state.concat( action.result );
+}
 
 /**
  * Reducers
@@ -19,16 +45,9 @@ const initialState = {};
 export function readabilityResultsReducer( state = initialState, action ) {
 	switch ( action.type ) {
 		case SET_READABILITY_RESULTS:
-			return Object.assign( {}, state, { readability: action.results } );
+			return action.results;
 		case UPDATE_READABILITY_RESULT:
-			if ( ! state.readability ) {
-				return Object.assign( {}, state, {
-					readability: [ action.result ],
-				} );
-			}
-			return Object.assign( {}, state, {
-				readability: [ ...state.readability, action.result ],
-			} );
+			return updateReadabilityResult( state, action );
 		default:
 			return state;
 	}

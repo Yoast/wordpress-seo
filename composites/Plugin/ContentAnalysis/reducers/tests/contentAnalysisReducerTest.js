@@ -27,14 +27,3 @@ test( "content analysis reducer with the UPDATE_SEO_RESULT action", () => {
 	const actual = contentAnalysisReducer( state, action );
 	expect( actual ).toEqual( expected );
 } );
-
-test( "content analysis reducer with the UPDATE_READABILITY_RESULT action", () => {
-	const state = {};
-	const action = {
-		type: UPDATE_READABILITY_RESULT,
-	};
-	const expected = { readability: { name: "readabilityResultsReducer" }, seo: { name: "keywordResultsReducer" } };
-
-	const actual = contentAnalysisReducer( state, action );
-	expect( actual ).toEqual( expected );
-} );

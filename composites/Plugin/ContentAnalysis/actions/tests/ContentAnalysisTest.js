@@ -1,5 +1,5 @@
 import { UPDATE_SEO_RESULT, UPDATE_READABILITY_RESULT, REMOVE_KEYWORD, SET_SEO_RESULTS,
-	updateSeoResult, updateReadabilityResult, changeKeyword } from "../contentAnalysis";
+	updateSeoResult, updateReadabilityResult, changeKeyword, setSeoResults, removeKeyword } from "../contentAnalysis";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
@@ -45,5 +45,30 @@ describe( "the change keyword action creator", function() {
 
 		store.dispatch( changeKeyword( "oldKeyword", "newKeyword", results ) );
 		expect( store.getActions() ).toEqual( expectedActions );
+	} );
+} );
+
+describe( "set SEO results function", function() {
+	it( "creates the set SEO results action", function() {
+		let result = { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false };
+
+		const expected = {
+			type: SET_SEO_RESULTS,
+			keyword: "keyword",
+			results: result,
+		};
+		const actual = setSeoResults( "keyword", result );
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "remove keyword function", function() {
+	it( "creates the remove keywords action", function() {
+		const expected = {
+			type: REMOVE_KEYWORD,
+			keyword: "keyword",
+		};
+		const actual = removeKeyword( "keyword" );
+		expect( actual ).toEqual( expected );
 	} );
 } );

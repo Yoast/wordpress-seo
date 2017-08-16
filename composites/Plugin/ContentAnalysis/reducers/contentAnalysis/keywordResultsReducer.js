@@ -8,6 +8,10 @@ import omit from "lodash/omit";
 const initialState = {};
 
 /**
+ * Helper functions
+ */
+
+/**
  * Replaces a result when there already is a result with the given id.
  *
  * @param {Object} state The state.
@@ -28,21 +32,21 @@ function replaceResult( state, action ) {
 }
 
 /**
- * Adds a result for a new keyword.
+ * Sets a result for a new keyword.
  *
  * @param {Object} state The state.
  * @param {Object} action The action.
  *
  * @returns {Object} The new results.
  */
-function addResultForNewKeyword( state, action ) {
+function setResultForNewKeyword( state, action ) {
 	return Object.assign( {}, state, {
 		[ action.keyword ]: [ action.result ],
 	} );
 }
 
 /**
- * Updates a SEO result.
+ * Updates a SEO result. Adds a keyword if it doesn't exist yet and updates it otherwise.
  *
  * @param {Object} state The state.
  * @param {Object} action The action.
@@ -51,7 +55,7 @@ function addResultForNewKeyword( state, action ) {
  */
 function updateSeoResult( state, action ) {
 	if( ! state[ action.keyword ] ) {
-		return addResultForNewKeyword( state, action );
+		return setResultForNewKeyword( state, action );
 	}
 
 	let resultIndex = findIndex( state[ action.keyword ], { id: action.result.id } );
