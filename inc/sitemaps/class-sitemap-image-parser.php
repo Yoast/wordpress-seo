@@ -382,9 +382,11 @@ class WPSEO_Sitemap_Image_Parser {
 		// Check that the upload base exists in the file location.
 		if ( 0 === strpos( $file, $uploads['basedir'] ) ) {
 			$src = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
-		} elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
+		}
+		elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
 			$src = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
-		} else {
+		}
+		else {
 			// It's a newly uploaded file, therefore $file is relative to the baseurl.
 			$src = $uploads['baseurl'] . '/' . $file;
 		}
