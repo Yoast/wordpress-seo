@@ -168,6 +168,57 @@ describe( "UPDATE_READABILITY_RESULT action", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
+
+	it( "overwrites an existing result", () => {
+		const state = [
+			{
+				id: "resultId2",
+				score: 3,
+				description: "This is a bad score!",
+				markingIsActive: false,
+			},
+			{
+				id: "resultId",
+				score: 3,
+				description: "This is a bad score!",
+				markingIsActive: false,
+			},
+			{
+				id: "resultId3",
+				score: 3,
+				description: "This is a bad score!",
+				markingIsActive: false,
+			},
+		];
+		const action = {
+			type: UPDATE_READABILITY_RESULT,
+			result: { id: "resultId", score: 9, description: "This is a good score!", markingIsActive: true },
+		};
+		const expected = [
+			{
+				id: "resultId2",
+				score: 3,
+				description: "This is a bad score!",
+				markingIsActive: false,
+			},
+			{
+				id: "resultId3",
+				score: 3,
+				description: "This is a bad score!",
+				markingIsActive: false,
+			},
+			{
+				id: "resultId",
+				score: 9,
+				description: "This is a good score!",
+				markingIsActive: true,
+			},
+		];
+
+		const actual = readabilityResultsReducer( state, action );
+
+		expect( actual ).toEqual( expected );
+	} );
 } );
 
 describe( "BOGUS action", () => {

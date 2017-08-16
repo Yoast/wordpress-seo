@@ -23,8 +23,8 @@ function updateReadabilityResult( state, action ) {
 
 	// Replace a result when there already is a result with the given id.
 	if( resultIndex !== -1 ) {
-		let newResults = state.filter( function( resultIndex ) {
-			return state[ resultIndex ];
+		let newResults = state.filter( function( result ) {
+			return result !== state[ resultIndex ];
 		} );
 		return newResults.concat( action.result );
 	}
