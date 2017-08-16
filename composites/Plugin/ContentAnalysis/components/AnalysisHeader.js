@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import { angleUp, angledown } from "../../../../style-guide/svg";
+import { angleUp, angleDown } from "../../../../style-guide/svg";
 import colors from "../../../../style-guide/colors.json";
 import defaults from "../../../../config/defaults.json";
 import { Icon } from "../../Shared/components/Icon";
@@ -32,8 +32,6 @@ const AnalysisHeader = styled.button`
 	}
 	svg {
 		flex: 0 0 40px;
-		// Compensate the SVGIcon width-viewbox size.
-		margin-right: -10px;
 		// Add some spacing between icon and text.
 		margin-left: 10px;
 		// Compensate the height difference with a line of text (32px).
@@ -51,8 +49,9 @@ const AnalysisHeader = styled.button`
 `;
 
 const AnalysisTitle = styled.span`
+	font-weight: 500;
 	flex: 1 1 auto;
-	font-size: 1.5em;
+	font-size: 1.2em;
 	// Chrome needs 8 decimals to make this 32px without roundings.
 	line-height: 1.33333333;
 	// Looks like Safari 10 doesn't like align-items: center for SVGs and needs some help.
@@ -74,7 +73,7 @@ export default class ListToggle extends React.Component {
 			isOpen: this.props.isOpen,
 		};
 
-		//this.toggleOpen = this.toggleOpen.bind( this );
+		this.toggleOpen = this.toggleOpen.bind( this );
 	}
 
 	/**
@@ -104,7 +103,7 @@ export default class ListToggle extends React.Component {
 	 */
 	getArrow() {
 		let upArrow = <Icon icon={ angleUp } iconColor= { colors.$color_grey_dark } iconSize="20px" />;
-		let downArrow = <Icon icon={ angledown } iconColor= { colors.$color_grey_dark } iconSize="20px" />;
+		let downArrow = <Icon icon={ angleDown } iconColor= { colors.$color_grey_dark } iconSize="20px" />;
 
 		return this.isOpen() ? upArrow : downArrow;
 	}
@@ -121,14 +120,16 @@ export default class ListToggle extends React.Component {
 			children = this.props.children;
 		}
 
+		let childrenAmount = this.props.children.props.children.length;
+
 		return (
 			<AnalysisHeaderContainer>
 				<div id="accordionGroup" role="presentation" className="Accordion">
 					<h3 role="heading" aria-level="3">
 						<AnalysisHeader aria-expanded={ this.isOpen() } className="Accordion-trigger"
-										aria-controls="sect1" id="accordion1id" onClick={ () => { this.toggleOpen() } } >
+										aria-controls="sect1" id="accordion1id" onClick={ () => { this.toggleOpen(); } } >
 							{ this.getArrow() }
-							<AnalysisTitle className="Accordion-title">{ this.props.title }</AnalysisTitle>
+							<AnalysisTitle className="Accordion-title">{ this.props.title + " (" + childrenAmount + ")" }</AnalysisTitle>
 						</AnalysisHeader>
 					</h3>
 				</div>
