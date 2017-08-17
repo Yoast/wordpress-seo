@@ -105,7 +105,7 @@ BaseButton.propTypes = {
 	textColor: PropTypes.string,
 	borderColor: PropTypes.string,
 	boxShadowColor: PropTypes.string,
-}
+};
 
 BaseButton.defaultProps = {
 	backgroundColor: colors.$color_button,
