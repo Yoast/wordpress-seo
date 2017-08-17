@@ -81,12 +81,10 @@ export const addButtonStyles = _flow( [ addFocusStyle, addHoverStyle, addActiveS
  */
 export const BaseButton = addButtonStyles(
 	styled.button`
-		color: ${ colors.$color_button_text };
-		border: 1px solid ${ colors.$color_button_border };
-		background: ${ colors.$color_button };
-		box-shadow: 0 1px 0 ${ rgba( colors.$color_button_border, 1 ) };
-		vertical-align: top;
-		float: left;
+		color: ${ props => props.textColor };
+		border: 1px solid ${ props => props.borderColor };
+		background: ${ props => props.backgroundColor };
+		box-shadow: 0 1px 0 ${ props => rgba( props.boxShadowColor, 1 ) };
 		display: inline-block;
 		text-decoration: none;
 		padding: 5px 10px;
@@ -102,7 +100,18 @@ export const BaseButton = addButtonStyles(
 	`
 );
 
+BaseButton.propTypes = {
+	backgroundColor: PropTypes.string,
+	textColor: PropTypes.string,
+	borderColor: PropTypes.string,
+	boxShadowColor: PropTypes.string,
+}
+
 BaseButton.defaultProps = {
+	backgroundColor: colors.$color_button,
+	textColor: colors.$color_button_text,
+	borderColor: colors.$color_button_border,
+	boxShadowColor: colors.$color_button_border,
 	type: "button",
 };
 
@@ -140,27 +149,23 @@ function applyIconTextStyle( icon ) {
  * @returns {ReactElement} Styled icon button.
  */
 export const IconButton = ( props ) => {
-	const { children, icon, iconColor } = props;
+	const { children: text, icon, iconColor } = props;
 
 	let IconComponent = Icon;
-	if( children ) {
+	if( text ) {
 		IconComponent = applyIconTextStyle( IconComponent );
 	}
 
 	return (
 		<SnippetPreviewButton { ...props } >
 			<IconComponent icon={ icon } color={ iconColor } />
-			{ children }
+			{ text }
 		</SnippetPreviewButton>
 	);
 };
 
 IconButton.propTypes = {
 	icon: PropTypes.func.isRequired,
-	iconColor: PropTypes.string,
+	iconColor: PropTypes.string.isRequired,
 	children: PropTypes.string,
-};
-
-IconButton.defaultProps = {
-	icon: "edit",
 };
