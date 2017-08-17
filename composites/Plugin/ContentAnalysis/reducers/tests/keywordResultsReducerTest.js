@@ -2,12 +2,30 @@ import { keywordResultsReducer } from "../contentAnalysis/keywordResultsReducer"
 import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD } from "../../actions/contentAnalysis";
 
 describe( "SET_SEO_RESULTS action", () => {
-	it( "sets seo results in an empty state", () => {
+	it( "sets seo results for a single keyword in an empty state", () => {
 		const state = {};
 		const action = {
 			type: SET_SEO_RESULTS,
-			keyword: "thisIsMyKeyword",
-			results: [
+			resultsPerKeyword: [ {
+				keyword: "thisIsMyKeyword",
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			} ],
+		};
+		const expected = {
+			thisIsMyKeyword: [
 				{
 					id: "resultId",
 					score: 3,
@@ -21,6 +39,110 @@ describe( "SET_SEO_RESULTS action", () => {
 					markingIsActive: false,
 				},
 			],
+		};
+
+		const actual = keywordResultsReducer( state, action );
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "sets seo results for multiple keywords in an empty state", () => {
+		const state = {};
+		const action = {
+			type: SET_SEO_RESULTS,
+			resultsPerKeyword: [ {
+				keyword: "thisIsMyKeyword",
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
+			{
+				keyword: "thisIsMySecondKeyword",
+				results: [
+					{
+						id: "resultId",
+						score: 9,
+						description: "This is a good score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			} ],
+		};
+		const expected = {
+			thisIsMyKeyword: [
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId2",
+					score: 6,
+					description: "This is a mediocre score!",
+					markingIsActive: false,
+				},
+			],
+			thisIsMySecondKeyword: [
+				{
+					id: "resultId",
+					score: 9,
+					description: "This is a good score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId2",
+					score: 6,
+					description: "This is a mediocre score!",
+					markingIsActive: false,
+				},
+			],
+		};
+
+		const actual = keywordResultsReducer( state, action );
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "sets seo results in an empty state", () => {
+		const state = {};
+		const action = {
+			type: SET_SEO_RESULTS,
+			resultsPerKeyword: [ {
+				keyword: "thisIsMyKeyword",
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			} ],
+
 		};
 		const expected = {
 			thisIsMyKeyword: [
@@ -57,21 +179,23 @@ describe( "SET_SEO_RESULTS action", () => {
 		};
 		const action = {
 			type: SET_SEO_RESULTS,
-			keyword: "thisIsMyKeyword",
-			results: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
+			resultsPerKeyword: [ {
+				keyword: "thisIsMyKeyword",
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			} ],
 		};
 		const expected = {
 			thisIsMyKeyword: [

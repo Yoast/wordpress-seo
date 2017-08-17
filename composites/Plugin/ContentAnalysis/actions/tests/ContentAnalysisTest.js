@@ -35,11 +35,14 @@ describe( "the change keyword action creator", function() {
 		const middlewares = [ thunk ];
 		const mockStore = configureMockStore( middlewares );
 		let results = [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ];
+		let resultsPerKeyword = [ {
+			keyword: "newKeyword",
+			results: [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ]
+		} ];
 
 		const expectedActions = [
 			{ type: REMOVE_KEYWORD, keyword: "oldKeyword" },
-			{ type: SET_SEO_RESULTS, keyword: "newKeyword",
-				results: results },
+			{ type: SET_SEO_RESULTS, resultsPerKeyword: resultsPerKeyword },
 		];
 		const store = mockStore( { oldKeyword: [] }, { otherKeyword: [] } );
 
@@ -50,14 +53,16 @@ describe( "the change keyword action creator", function() {
 
 describe( "set SEO results function", function() {
 	it( "creates the set SEO results action", function() {
-		let result = { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false };
+		let resultsPerKeyword = [ {
+			keyword: "keyword",
+			results: [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ]
+		} ];
 
 		const expected = {
 			type: SET_SEO_RESULTS,
-			keyword: "keyword",
-			results: result,
+			resultsPerKeyword: resultsPerKeyword,
 		};
-		const actual = setSeoResults( "keyword", result );
+		const actual = setSeoResults( resultsPerKeyword );
 		expect( actual ).toEqual( expected );
 	} );
 } );

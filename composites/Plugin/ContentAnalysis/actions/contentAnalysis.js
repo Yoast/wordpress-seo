@@ -17,16 +17,14 @@ export const UPDATE_READABILITY_RESULT = `${ prefix }UPDATE_READABILITY_RESULT`;
 /**
  * An action creator for setting the SEO results.
  *
- * @param {string} keyword The focus keyword.
- * @param {Object} results The SEO results for the specific keyword.
+ * @param {Array} resultsPerKeyword The SEO results per keyword.
  *
  * @returns {Object} A set SEO results action.
  */
-export function setSeoResults( keyword, results ) {
+export function setSeoResults( resultsPerKeyword ) {
 	return {
 		type: SET_SEO_RESULTS,
-		keyword: keyword,
-		results: results,
+		resultsPerKeyword: resultsPerKeyword,
 	};
 }
 
@@ -70,9 +68,10 @@ export function removeKeyword( keyword ) {
  * @returns {Object} A change keyword action.
  */
 export function changeKeyword( oldKeyword, newKeyword, newKeywordResults ) {
+	let resultsPerKeyword = [ { keyword: newKeyword, results: newKeywordResults } ];
 	return function( dispatch ) {
 		dispatch( removeKeyword( oldKeyword ) );
-		dispatch( setSeoResults( newKeyword, newKeywordResults ) );
+		dispatch( setSeoResults( resultsPerKeyword ) );
 	};
 }
 

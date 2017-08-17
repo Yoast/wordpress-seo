@@ -69,6 +69,20 @@ function updateSeoResult( state, action ) {
 }
 
 /**
+ * Sets the SEO results for one of more keywords.
+ *
+ * @param {string} action The action.
+ * @returns {Object} The SEO results per keyword.
+ */
+function setSeoResults( action ) {
+	let resultsPerKeyword = {};
+	action.resultsPerKeyword.forEach( function( keywordResultsPair ) {
+		resultsPerKeyword[ keywordResultsPair.keyword ] = keywordResultsPair.results;
+	} );
+	return resultsPerKeyword;
+}
+
+/**
  * Reducers
  */
 
@@ -82,7 +96,7 @@ function updateSeoResult( state, action ) {
 export function keywordResultsReducer( state = initialState, action ) {
 	switch ( action.type ) {
 		case SET_SEO_RESULTS:
-			return Object.assign( {}, initialState, { [ action.keyword ]: action.results } );
+			return setSeoResults( action );
 		case UPDATE_SEO_RESULT:
 			return updateSeoResult( state, action );
 		case REMOVE_KEYWORD:
