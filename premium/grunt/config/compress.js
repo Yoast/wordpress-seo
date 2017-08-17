@@ -6,8 +6,8 @@ module.exports = {
 		files: [
 			{
 				cwd: "artifact/",
-				src: [ "**" ],
-				dest: "wordpress-seo",
+				serc: [ "**" ],
+				dest: "wordpress-seo-premium",
 			},
 		],
 	},
