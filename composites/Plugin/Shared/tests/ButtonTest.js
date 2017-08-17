@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { BaseButton, SnippetPreviewButton, IconButton } from "../components/Button";
+import { BaseButton, Button, IconButton } from "../components/Button";
 import { edit } from "../../../../style-guide/svg";
 
 test( "the BaseButton matches the snapshot", () => {
@@ -33,7 +33,7 @@ test( "BaseButton executes callback", () => {
 
 test( "the SnippetPreviewButton matches the snapshot", () => {
 	const component = renderer.create(
-		<SnippetPreviewButton>ButtonValue</SnippetPreviewButton>
+		<Button>ButtonValue</Button>
 	);
 
 	let tree = component.toJSON();
@@ -42,11 +42,11 @@ test( "the SnippetPreviewButton matches the snapshot", () => {
 
 test( "SnippetPreviewButton executes callback", () => {
 	const component = renderer.create(
-		<SnippetPreviewButton onClick={
+		<Button onClick={
 			() => {
 				return "clicked";
 			}
-		}>ButtonValue</SnippetPreviewButton>
+		}>ButtonValue</Button>
 	);
 
 	let tree = component.toJSON();
