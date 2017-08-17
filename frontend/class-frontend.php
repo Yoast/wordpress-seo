@@ -1702,7 +1702,7 @@ class WPSEO_Frontend {
 
 		$author_link = '';
 		if ( is_object( $post ) ) {
-			$author_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . get_the_author() . '</a>';
+			$author_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . strip_tags( get_the_author() ) . '</a>';
 		}
 
 		$post_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . strip_tags( get_the_title() ) . '</a>';
