@@ -21,6 +21,9 @@ module.exports = {
 					"premium/assets/css/dist/**/*.min.css",
 					"premium/assets/js/dist/**/*.min.js",
 
+					// Copy Free .mo files because they cannot be loaded from WordPress.org.
+					"languages/*.mo",
+
 					"!premium/languages/wordpress-seo-premium.pot",
 				],
 				dest: "../artifact",
