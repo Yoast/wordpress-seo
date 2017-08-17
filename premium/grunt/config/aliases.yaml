@@ -25,12 +25,26 @@ build:
   - 'po2json'
   - 'i18n-clean-json'
   - 'clean:po-files'
+
 # Check health of the project
 check:
   - 'eslint'
   - 'phplint'
   - 'phpcs'
   - 'checktextdomain'
+
+artifact:
+  # Update the version numbers in the relevant files
+  - 'update-version'
+  # Build like we normally would
+  - 'release'
+  # Remove build folder
+  - 'clean:artifact'
+  # Copy only the relevant files to the folder
+  - 'copy:artifact'
+  # Create a zip file
+  - 'compress:artifact'
+
 # Get the project ready for release
 release:
   - 'build:css'
@@ -40,6 +54,7 @@ release:
   - 'browserify:build'
   - 'browserify:release-es6'
   - 'uglify'
+
 # Default task
 default:
   - build
