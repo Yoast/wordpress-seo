@@ -35,11 +35,9 @@ check:
 
 artifact:
   # Update the version numbers in the relevant files
-  - 'update-version'
+  # - 'update-version'
   # Build like we normally would
   - 'release'
-  # Remove build folder
-  - 'clean:artifact'
   # Copy only the relevant files to the folder
   - 'copy:artifact'
   # Create a zip file
