@@ -10,19 +10,18 @@ module.exports = {
 		files: [
 			{
 				expand: true,
-				cwd: ".",
+				cwd: "..",
 				src: [
-					"../wp-seo-premium.php",
-					"class-premium.php",
+					"wp-seo-premium.php",
+					"premium/class-premium.php",
 
-					"classes/**",
-					"languages/**",
-					"assets/dist/**",
-					"css/dist/**/*.min.css",
-					"js/dist/**/*.min.js",
+					"premium/classes/**",
+					"premium/languages/**",
+					"premium/assets/dist/**",
+					"premium/css/dist/**/*.min.css",
+					"premium/js/dist/**/*.min.js",
 
-					"!languages/wordpress-seo-premium.pot",
-					"!changelog.md",
+					"!premium/languages/wordpress-seo-premium.pot",
 				],
 				dest: "artifact",
 			},
