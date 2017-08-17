@@ -37,7 +37,7 @@ describe( "the change keyword action creator", function() {
 		let results = [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ];
 		let resultsPerKeyword = [ {
 			keyword: "newKeyword",
-			results: [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ]
+			results: [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ],
 		} ];
 
 		const expectedActions = [
@@ -55,7 +55,7 @@ describe( "set SEO results function", function() {
 	it( "creates the set SEO results action", function() {
 		let resultsPerKeyword = [ {
 			keyword: "keyword",
-			results: [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ]
+			results: [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ],
 		} ];
 
 		const expected = {

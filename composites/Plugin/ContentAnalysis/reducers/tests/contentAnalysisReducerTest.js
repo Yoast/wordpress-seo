@@ -1,4 +1,4 @@
-import { UPDATE_SEO_RESULT, UPDATE_READABILITY_RESULT } from "../../actions/contentAnalysis";
+import { UPDATE_SEO_RESULT } from "../../actions/contentAnalysis";
 import { contentAnalysisReducer } from "../../reducers/contentAnalysisReducer";
 
 jest.mock( "../../reducers/contentAnalysis/readabilityResultsReducer", () => {
