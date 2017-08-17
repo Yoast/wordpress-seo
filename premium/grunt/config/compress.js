@@ -1,7 +1,7 @@
 module.exports = {
 	artifact: {
 		options: {
-			archive: "artifact.zip",
+			archive: "../artifact.zip",
 		},
 		files: [
 			{
