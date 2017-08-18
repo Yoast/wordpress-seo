@@ -59,15 +59,15 @@ export function removeKeyword( keyword ) {
 }
 
 /**
- * An action creator for changing a keyword.
+ * An action creator for replacing a keyword.
  *
  * @param {string} oldKeyword The old focus keyword.
  * @param {string} newKeyword The new focus keyword.
  * @param {Array} newKeywordResults The results for the new focus keyword.
  *
- * @returns {Object} A change keyword action.
+ * @returns {Object} A repalce keyword action.
  */
-export function changeKeyword( oldKeyword, newKeyword, newKeywordResults ) {
+export function replaceKeyword( oldKeyword, newKeyword, newKeywordResults ) {
 	let resultsPerKeyword = [ { keyword: newKeyword, results: newKeywordResults } ];
 	return function( dispatch ) {
 		dispatch( removeKeyword( oldKeyword ) );
@@ -76,13 +76,13 @@ export function changeKeyword( oldKeyword, newKeyword, newKeywordResults ) {
 }
 
 /**
- * An action creator for setting the SEO results.
+ * An action creator for setting the readability results.
  *
- * @param {Object} results The SEO results for the specific keyword.
+ * @param {Object} results The readability results.
  *
- * @returns {Object} A set SEO results action.
+ * @returns {Object} A set readability results action.
  */
-export function setReadabilityResult( results ) {
+export function setReadabilityResults( results ) {
 	return {
 		type: SET_READABILITY_RESULTS,
 		results: results,

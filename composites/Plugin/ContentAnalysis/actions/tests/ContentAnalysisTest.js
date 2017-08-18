@@ -1,15 +1,16 @@
-import { UPDATE_SEO_RESULT, UPDATE_READABILITY_RESULT, REMOVE_KEYWORD, SET_SEO_RESULTS,
-	updateSeoResult, updateReadabilityResult, changeKeyword, setSeoResults, removeKeyword } from "../contentAnalysis";
+import { UPDATE_SEO_RESULT, UPDATE_READABILITY_RESULT, REMOVE_KEYWORD, SET_SEO_RESULTS, SET_READABILITY_RESULTS,
+	updateSeoResult, updateReadabilityResult, replaceKeyword, setSeoResults, removeKeyword, setReadabilityResults } from "../contentAnalysis";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-describe( "update SEO result action creator", function() {
-	it( "creates the update SEO result action", function() {
+describe( "updateSeoResult action creator", function() {
+	it( "creates the updateSeoResult action", function() {
 		let result = { id: "result", score: 9, description: "This is a great score!", markingIsActive: true };
+		let keyword = "keyword";
 
 		const expected = {
 			type: UPDATE_SEO_RESULT,
-			keyword: "keyword",
+			keyword: keyword,
 			result: result,
 		};
 		const actual = updateSeoResult( "keyword", result );
@@ -17,8 +18,8 @@ describe( "update SEO result action creator", function() {
 	} );
 } );
 
-describe( "update readability result action creator", function() {
-	it( "creates the readability SEO result action", function() {
+describe( "updateReadabilityResult action creator", function() {
+	it( "creates the readabilitySeoResult action", function() {
 		let result = { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false };
 
 		const expected = {
@@ -30,31 +31,35 @@ describe( "update readability result action creator", function() {
 	} );
 } );
 
-describe( "the change keyword action creator", function() {
-	it( "creates the change keyword action", function() {
+describe( "the replaceKeyword action creator", function() {
+	it( "creates the replaceKeyword action", function() {
 		const middlewares = [ thunk ];
 		const mockStore = configureMockStore( middlewares );
+
 		let results = [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ];
+		let oldKeyword = "oldKeyword";
+		let newKeyword = "newKeyword";
 		let resultsPerKeyword = [ {
-			keyword: "newKeyword",
+			keyword: newKeyword,
 			results: [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ],
 		} ];
 
 		const expectedActions = [
-			{ type: REMOVE_KEYWORD, keyword: "oldKeyword" },
+			{ type: REMOVE_KEYWORD, keyword: oldKeyword },
 			{ type: SET_SEO_RESULTS, resultsPerKeyword: resultsPerKeyword },
 		];
 		const store = mockStore( { oldKeyword: [] }, { otherKeyword: [] } );
 
-		store.dispatch( changeKeyword( "oldKeyword", "newKeyword", results ) );
+		store.dispatch( replaceKeyword( oldKeyword, newKeyword, results ) );
 		expect( store.getActions() ).toEqual( expectedActions );
 	} );
 } );
 
-describe( "set SEO results function", function() {
-	it( "creates the set SEO results action", function() {
+describe( "setSeoResults function", function() {
+	it( "creates the setSeoResults action", function() {
+		let keyword = "keyword";
 		let resultsPerKeyword = [ {
-			keyword: "keyword",
+			keyword: keyword,
 			results: [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ],
 		} ];
 
@@ -67,13 +72,28 @@ describe( "set SEO results function", function() {
 	} );
 } );
 
-describe( "remove keyword function", function() {
-	it( "creates the remove keywords action", function() {
+describe( "setReadabilityResults function", function() {
+	it( "creates the setReadabilityResults action", function() {
+		let results = [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ];
+
+		const expected = {
+			type: SET_READABILITY_RESULTS,
+			results: results,
+		};
+		const actual = setReadabilityResults( results );
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "removeKeyword function", function() {
+	it( "creates the removeKeywordsAction", function() {
+		let keyword = "keyword";
+
 		const expected = {
 			type: REMOVE_KEYWORD,
-			keyword: "keyword",
+			keyword: keyword,
 		};
-		const actual = removeKeyword( "keyword" );
+		const actual = removeKeyword( keyword );
 		expect( actual ).toEqual( expected );
 	} );
 } );

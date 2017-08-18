@@ -121,51 +121,6 @@ describe( "SET_SEO_RESULTS action", () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "sets seo results in an empty state", () => {
-		const state = {};
-		const action = {
-			type: SET_SEO_RESULTS,
-			resultsPerKeyword: [ {
-				keyword: "thisIsMyKeyword",
-				results: [
-					{
-						id: "resultId",
-						score: 3,
-						description: "This is a bad score!",
-						markingIsActive: false,
-					},
-					{
-						id: "resultId2",
-						score: 6,
-						description: "This is a mediocre score!",
-						markingIsActive: false,
-					},
-				],
-			} ],
-
-		};
-		const expected = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
-		};
-
-		const actual = keywordResultsReducer( state, action );
-
-		expect( actual ).toEqual( expected );
-	} );
-
 	it( "overwrites existing seo results in a non-empty state", () => {
 		const state = {
 			thisIsMyOldKeyword: [
@@ -413,14 +368,14 @@ describe( "REMOVE_KEYWORD action", () => {
 } );
 
 describe( "BOGUS action", () => {
-	it( "doesn't change the state when a bogus action is passed to the reducer", () => {
+	it( "doesn't create a new state when a bogus action is passed to the reducer", () => {
 		const state = {};
 		const action = {
 			type: "BOGUS",
 		};
-		const expected = {};
+		const expected = state;
 
 		const actual = keywordResultsReducer( state, action );
-		expect( actual ).toEqual( expected );
+		expect( actual ).toBe( expected );
 	} );
 } );
