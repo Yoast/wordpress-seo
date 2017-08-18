@@ -368,7 +368,7 @@ describe( "REMOVE_KEYWORD action", () => {
 } );
 
 describe( "BOGUS action", () => {
-	it( "doesn't create a new state when a bogus action is passed to the reducer", () => {
+	it( "returns the unchanged state when a bogus action is passed to the reducer", () => {
 		const state = {};
 		const action = {
 			type: "BOGUS",

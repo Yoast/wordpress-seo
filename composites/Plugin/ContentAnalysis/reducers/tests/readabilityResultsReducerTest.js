@@ -227,10 +227,9 @@ describe( "BOGUS action", () => {
 		const action = {
 			type: "BOGUS",
 		};
-		const expected = {};
+		const expected = state;
 
 		const actual = readabilityResultsReducer( state, action );
-		expect( actual ).toEqual( expected );
+		expect( actual ).toBe( expected );
 	} );
 } );
-
