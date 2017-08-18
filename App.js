@@ -27,7 +27,7 @@ const WizardWrapper = () => {
 	return <Wizard { ...config } />;
 };
 
-const Components = [
+const components = [
 	{
 		id: "search-results-editor",
 		name: "Search results editor",
@@ -69,9 +69,9 @@ class App extends React.Component {
 
 	getContent() {
 		const activeComponent = this.state.activeComponent;
-		for( var i = 0; i < Components.length; i++ )  {
-			if( activeComponent === Components[ i ].id ) {
-				return Components[ i ].component;
+		for( var i = 0; i < components.length; i++ )  {
+			if( activeComponent === components[ i ].id ) {
+				return components[ i ].component;
 			}
 		}
 	}
@@ -103,7 +103,7 @@ class App extends React.Component {
 		return (
 			<nav style={ { margin: "0 0 2rem 0", textAlign: "center" } }>
 				{
-					Components.map( config => {
+					components.map( config => {
 						return this.renderButton( config.id, config.name );
 					} )
 				}
