@@ -65,7 +65,7 @@ export function removeKeyword( keyword ) {
  * @param {string} newKeyword The new focus keyword.
  * @param {Array} newKeywordResults The results for the new focus keyword.
  *
- * @returns {Object} A repalce keyword action.
+ * @returns {Object} A replace keyword action.
  */
 export function replaceKeyword( oldKeyword, newKeyword, newKeywordResults ) {
 	let resultsPerKeyword = [ { keyword: newKeyword, results: newKeywordResults } ];
