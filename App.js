@@ -63,7 +63,7 @@ class App extends React.Component {
 		injectTapEventPlugin();
 
 		this.state = {
-			activeComponent: "snippet-preview",
+			activeComponent: "content-analysis",
 		};
 	}
 
