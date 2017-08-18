@@ -32,7 +32,9 @@ const AnalysisHeaderButton = styled.button`
 	color: ${ colors.$color_blue };
 `;
 
-
+/**
+ * The up or down pointing angle shown next to the title.
+ */
 const AnalysisHeaderIcon = styled( Icon )`
 	flex: 0 0 40px;
 	// Add some spacing between icon and text.
@@ -54,6 +56,7 @@ const AnalysisHeaderIcon = styled( Icon )`
  * The analysis header text.
  */
 const AnalysisTitle = styled.span`
+	word-wrap: break-word
 	font-weight: 400;
 	flex: 1 1 auto;
 	font-size: 1.2em;
