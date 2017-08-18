@@ -24,7 +24,7 @@ const WizardWrapper = () => {
 	config.customComponents = Config.customComponents;
 	config.endpoint = apiConfig;
 
-	return <Wizard {...config} />;
+	return <Wizard { ...config } />;
 };
 
 const Components = [
@@ -93,7 +93,7 @@ class App extends React.Component {
 			style.outline = "none";
 		}
 		return (
-			<button style={ style } key={ id } type="button" onClick={this.navigate.bind( this, id )}>
+			<button style={ style } key={ id } type="button" onClick={ this.navigate.bind( this, id ) }>
 				{ title }
 			</button>
 		);
@@ -101,7 +101,7 @@ class App extends React.Component {
 
 	getMenu() {
 		return (
-			<nav style={ {margin: "0 0 2rem 0", textAlign: "center" } }>
+			<nav style={ { margin: "0 0 2rem 0", textAlign: "center" } }>
 				{
 					Components.map( config => {
 						return this.renderButton( config.id, config.name );
@@ -114,8 +114,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				{this.getMenu()}
-				{this.getContent()}
+				{ this.getMenu() }
+				{ this.getContent() }
 			</div>
 		);
 	}
