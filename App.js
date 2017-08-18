@@ -1,6 +1,6 @@
+import "babel-polyfill";
+
 import React from "react";
-import ReactDOM from "react-dom";
-import { AppContainer } from "react-hot-loader";
 
 import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import Config from "./composites/OnboardingWizard/config/production-config";
