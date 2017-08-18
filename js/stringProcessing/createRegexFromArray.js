@@ -18,7 +18,7 @@ module.exports = function( array, disableWordBoundary ) {
 		if ( _disableWordBoundary ) {
 			return string;
 		}
-		return addWordBoundary( string );
+		return addWordBoundary( string, true );
 	} );
 
 	regexString = "(" + boundedArray.join( ")|(" ) + ")";
