@@ -5,7 +5,8 @@ import React from "react";
 import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import Config from "./composites/OnboardingWizard/config/production-config";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
-import SnippetPreview from "./composites/SnippetPreview/components/SnippetPreview";
+import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
+import ContentAnalysis from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import apiConfig from "./composites/OnboardingWizard/config/api-config";
 import Loader from "./composites/basic/Loader";
 
@@ -15,6 +16,44 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 function cloneDeep( object ) {
 	return JSON.parse( JSON.stringify( object ) );
 }
+
+const WizardWrapper = () => {
+	let config = cloneDeep( Config );
+
+	// @todo: Add customComponents manually, because cloneDeep is clearing the value of it. Should be solved.
+	config.customComponents = Config.customComponents;
+	config.endpoint = apiConfig;
+
+	return <Wizard {...config} />;
+};
+
+const Components = [
+	{
+		id: "search-results-editor",
+		name: "Search results editor",
+		component: <SearchResultsEditor />,
+	},
+	{
+		id: "snippet-preview",
+		name: "Snippet preview",
+		component: <SnippetPreview />,
+	},
+	{
+		id: "wizard",
+		name: "Wizard",
+		component: <WizardWrapper />,
+	},
+	{
+		id: "loader",
+		name: "Loader",
+		component: <Loader />,
+	},
+	{
+		id: "content-analysis",
+		name: "Content analysis",
+		component: <ContentAnalysis />,
+	},
+]
 
 class App extends React.Component {
 
@@ -29,49 +68,45 @@ class App extends React.Component {
 	}
 
 	getContent() {
-		var content;
-
-		switch ( this.state.activeComponent ) {
-			case "search-results-editor":
-				content = <SearchResultsEditor />;
-				break;
-
-			case "snippet-preview":
-				content = <SnippetPreview />;
-				break;
-
-			case "loader":
-				content = <Loader />;
-				break;
-
-			case "wizard":
-			default:
-				let config = cloneDeep( Config );
-
-				// @todo: Add customComponents manually, because cloneDeep is clearing the value of it. Should be solved.
-				config.customComponents = Config.customComponents;
-				config.endpoint = apiConfig;
-
-				content = <Wizard {...config} />;
-				break;
+		const activeComponent = this.state.activeComponent;
+		for( var i = 0; i < Components.length; i++ )  {
+			if( activeComponent === Components[ i ].id ) {
+				return Components[ i ].component;
+			}
 		}
-
-		return content;
 	}
 
 	navigate( activeComponent, event ) {
-		this.setState({
-			activeComponent: activeComponent
-		});
+		this.setState( {
+			activeComponent: activeComponent,
+		} );
+	}
+
+	renderButton( id, title ) {
+		const isActive = this.state.activeComponent === id;
+		const style = {};
+		if( isActive ) {
+			style.backgroundColor = "#006671";
+			style.color = "#FFF";
+			style.borderRadius = "5px";
+			style.border = "1px solid white";
+			style.outline = "none";
+		}
+		return (
+			<button style={ style } key={ id } type="button" onClick={this.navigate.bind( this, id )}>
+				{ title }
+			</button>
+		);
 	}
 
 	getMenu() {
 		return (
 			<nav style={ {margin: "0 0 2rem 0", textAlign: "center" } }>
-				<button type="button" onClick={this.navigate.bind( this, "wizard" )}>Wizard</button>
-				<button type="button" onClick={this.navigate.bind( this, "search-results-editor" )}>Search results editor</button>
-				<button type="button" onClick={this.navigate.bind( this, "loader" )}>Loader</button>
-				<button type="button" onClick={this.navigate.bind( this, "snippet-preview" )}>Snippet preview</button>
+				{
+					Components.map( config => {
+						return this.renderButton( config.id, config.name );
+					} )
+				}
 			</nav>
 		);
 	}
