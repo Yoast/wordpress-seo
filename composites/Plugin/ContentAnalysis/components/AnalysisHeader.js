@@ -6,12 +6,18 @@ import colors from "../../../../style-guide/colors.json";
 import defaults from "../../../../config/defaults.json";
 import { Icon } from "../../Shared/components/Icon";
 
+/**
+ * Container for the Collapsable header and it's content.
+ */
 const AnalysisHeaderContainer = styled.div`
 	margin-top: 20px;
 	background-color: ${ colors.$color_white };
 `;
 
-const AnalysisHeader = styled.button`
+/**
+ * The clickable component of the analysis header.
+ */
+const AnalysisHeaderButton = styled.button`
 	display: flex;
 	width: 100%;
 	justify-content: space-between;
@@ -24,25 +30,29 @@ const AnalysisHeader = styled.button`
 	cursor: pointer;
 	// When clicking, the button text disappears in Safari 10 because of color: activebuttontext.
 	color: ${ colors.$color_blue };
+`;
 
-	svg {
-		flex: 0 0 40px;
-		// Add some spacing between icon and text.
-		margin-left: 10px;
-		// Compensate the height difference with a line of text (32px).
-		margin-top: -4px;
-		margin-bottom: -4px;
-		// Looks like Safari 10 doesn't like align-items: center for SVGs and needs some help.
-		align-self: flex-start;
-		
-		@media screen and ( max-width: ${ defaults.css.breakpoint.tablet }px ) {
+
+const AnalysisHeaderIcon = styled( Icon )`
+	flex: 0 0 40px;
+	// Add some spacing between icon and text.
+	margin-left: 10px;
+	// Compensate the height difference with a line of text (32px).
+	margin-top: -4px;
+	margin-bottom: -4px;
+	// Looks like Safari 10 doesn't like align-items: center for SVGs and needs some help.
+	align-self: flex-start;
+	
+	@media screen and ( max-width: ${ defaults.css.breakpoint.tablet }px ) {
 		margin-top: 4px;
 		margin-bottom: 4px;
 		margin-right: -2px;
-		}
 	}
 `;
 
+/**
+ * The analysis header text.
+ */
 const AnalysisTitle = styled.span`
 	font-weight: 400;
 	flex: 1 1 auto;
@@ -53,7 +63,7 @@ const AnalysisTitle = styled.span`
 	align-self: center;
 `;
 
-export default class ListToggle extends React.Component {
+export default class AnalysisHeader extends React.Component {
 	/**
 	 * The constructor.
 	 *
@@ -74,7 +84,7 @@ export default class ListToggle extends React.Component {
 	/**
 	 * Returns whether the list is collapsed.
 	 *
-	 * @returns {Boolean} True when the list is collapsed.
+	 * @returns {Boolean} False when the list is collapsed.
 	 */
 	isOpen() {
 		return this.state.isOpen;
@@ -92,50 +102,31 @@ export default class ListToggle extends React.Component {
 	}
 
 	/**
-	 * Gets the correct arrow based on whether the list is collapsed or not.
+	 * Returns the rendered AnalysisHeader element.
 	 *
-	 * @returns {ReactElement} The upArrow when the header is collapsed, otherwise the downArrow.
-	 */
-	getArrow() {
-		let upArrow = <Icon icon={ angleUp } color= { colors.$color_grey_dark } size="20px" />;
-		let downArrow = <Icon icon={ angleDown } color= { colors.$color_grey_dark } size="20px" />;
-
-		return this.isOpen() ? upArrow : downArrow;
-	}
-
-	/**
-	 * Returns the rendered ListToggle element.
-	 *
-	 * @returns {ReactElement} The rendered ListToggle element.
+	 * @returns {ReactElement} The rendered AnalysisHeader element.
 	 */
 	render() {
-		let children = null;
-
-		if ( this.state.isOpen ) {
-			children = this.props.children;
-		}
-
+		const isOpen = this.isOpen();
 		let childrenAmount = this.props.children.props.children.length;
 
 		return (
 			<AnalysisHeaderContainer>
 				<div role="presentation">
 					<h3 role="heading" aria-level="3">
-						<AnalysisHeader aria-expanded={ this.isOpen() } aria-controls="sect1" onClick={ () => {
-							this.toggleOpen();
-						} } >
-							{ this.getArrow() }
+						<AnalysisHeaderButton aria-expanded={ isOpen } aria-controls="sect1" onClick={ this.toggleOpen } >
+							<AnalysisHeaderIcon icon={ isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
 							<AnalysisTitle> { this.props.title + " (" + childrenAmount + ")" } </AnalysisTitle>
-						</AnalysisHeader>
+						</AnalysisHeaderButton>
 					</h3>
 				</div>
-				{ children }
+				{ isOpen ? this.props.children : "" }
 			</AnalysisHeaderContainer>
 		);
 	}
 }
 
-ListToggle.propTypes = {
+AnalysisHeader.propTypes = {
 	title: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool,
 	children: PropTypes.oneOfType( [
@@ -144,7 +135,7 @@ ListToggle.propTypes = {
 	] ),
 };
 
-ListToggle.defaultProps = {
+AnalysisHeader.defaultProps = {
 	isOpen: false,
 };
 
