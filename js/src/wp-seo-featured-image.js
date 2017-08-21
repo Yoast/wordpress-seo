@@ -117,11 +117,11 @@ import a11ySpeak from "a11y-speak";
 	$( document ).ready( function() {
 		var featuredImage = wp.media.featuredImage.frame();
 
-		featuredImagePlugin = new FeaturedImagePlugin( YoastSEO.app );
-
 		if ( typeof YoastSEO === "undefined" ) {
 			return;
 		}
+
+		featuredImagePlugin = new FeaturedImagePlugin( YoastSEO.app );
 
 		$postImageDiv = $( "#postimagediv" );
 		$postImageDivHeading = $postImageDiv.find( ".hndle" );
