@@ -13,12 +13,12 @@ class WPSEO_Export_Keywords_Manager {
 	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
-		// Hijack the request in case of CSV download and return our generated CSV instead.
+		// Hook into the request in case of CSV download and return our generated CSV instead.
 		add_action( 'admin_init', array( $this, 'keywords_csv_export' ) );
 	}
 
 	/**
-	 * Hijacks the request and returns a CSV file if we're on the right page with the right method and the right capabilities.
+	 * Hooks into the request and returns a CSV file if we're on the right page with the right method and the right capabilities.
 	 */
 	public function keywords_csv_export() {
 		if ( $this->is_valid_csv_export_request() && current_user_can( 'export' ) ) {
@@ -41,9 +41,9 @@ class WPSEO_Export_Keywords_Manager {
 	}
 
 	/**
-	 * Are we on the wpseo_tools page in the import-export tool and have we received an export-keywords post request?
+	 * Returns whether this is a POST request for a CSV export of posts and keywords.
 	 *
-	 * @return bool
+	 * @return bool True if this is a valid CSV export request.
 	 */
 	protected function is_valid_csv_export_request() {
 		return filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' &&
@@ -71,9 +71,10 @@ class WPSEO_Export_Keywords_Manager {
 		$columns = $this->get_export_columns();
 
 		$query = new WPSEO_Export_Keywords_Query( $columns, $wpdb );
+		$presenter = new WPSEO_Export_Keywords_Presenter( $columns );
+
 		$results = $query->get_data();
 
-		$presenter = new WPSEO_Export_Keywords_Presenter( $columns );
 		$data = array_map( array( $presenter, 'present' ), $results );
 
 		$builder = new WPSEO_Export_Keywords_CSV();
@@ -83,7 +84,7 @@ class WPSEO_Export_Keywords_Manager {
 	/**
 	 * Returns a string array of the requested columns.
 	 *
-	 * @return array[int]string
+	 * @return array The requested columns.
 	 */
 	protected function get_export_columns() {
 		$columns = array();

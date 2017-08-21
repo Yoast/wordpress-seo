@@ -11,22 +11,22 @@
 class WPSEO_Export_Keywords_Query {
 
 	/**
-	 * @var wpdb wpdb The wordpress database object.
+	 * @var wpdb wpdb The WordPress database object.
 	 */
 	protected $wpdb;
 
 	/**
-	 * @var array[int]string The columns to query for, an array of strings.
+	 * @var array The columns to query for, an array of strings.
 	 */
 	protected $columns;
 
 	/**
-	 * @var array[int]string The database columns to select in the query, an array of strings.
+	 * @var array The database columns to select in the query, an array of strings.
 	 */
 	protected $selects;
 
 	/**
-	 * @var array[int]string The database tables to join in the query, an array of strings.
+	 * @var array The database tables to join in the query, an array of strings.
 	 */
 	protected $joins = array();
 
@@ -36,8 +36,8 @@ class WPSEO_Export_Keywords_Query {
 	 * Supported values for columns are 'post_title', 'post_url', 'keywords', 'seo_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
-	 * @param array[int]string $columns The columns we want our query to return.
-	 * @param wpdb             $wpdb    A Wordpress Database object.
+	 * @param array $columns The columns we want our query to return.
+	 * @param wpdb  $wpdb    A WordPress Database object.
 	 */
 	public function __construct( $columns, $wpdb ) {
 		$this->columns = $columns;
@@ -48,7 +48,7 @@ class WPSEO_Export_Keywords_Query {
 	 * Constructs the query and executes it, returning an array of objects containing the columns this object was constructed with.
 	 * Every object will always contain the ID column.
 	 *
-	 * @return array[int][string]string array of associative arrays containing the keys as requested in the constructor.
+	 * @return array An array of associative arrays containing the keys as requested in the constructor.
 	 */
 	public function get_data() {
 		$this->set_columns();
@@ -64,7 +64,7 @@ class WPSEO_Export_Keywords_Query {
 	}
 
 	/**
-	 * Constructs our query by preparing the necessary selects and joins to get all our data in a single query.
+	 * Prepares the necessary selects and joins to get all data in a single query.
 	 */
 	protected function set_columns() {
 		$this->selects = array( $this->wpdb->prefix . 'posts.ID' );
@@ -84,14 +84,14 @@ class WPSEO_Export_Keywords_Query {
 		}
 
 		if ( in_array( 'keywords_score', $this->columns, true ) ) {
+			// Score for other keywords is already in the other_keywords select so only join for the primary_keyword_score.
 			$this->add_meta_join( 'primary_keyword_score', WPSEO_Meta::$meta_prefix . 'linkdex' );
-			// Score for other keywords is already in the other_keywords select.
 		}
 	}
 
 	/**
 	 * Adds an aliased join to the $wpdb->postmeta table so that multiple meta values can be selected in a single row.
-	 * While this function should never be used with user input all non-word non-digit characters are removed from both params to be idiot-proof.
+	 * While this function should never be used with user input all non-word non-digit characters are removed from both params for increased robustness.
 	 *
 	 * @param string $alias The alias to use in our query output.
 	 * @param string $key The meta_key to select.

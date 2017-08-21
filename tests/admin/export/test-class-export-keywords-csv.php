@@ -10,11 +10,11 @@ class WPSEO_Export_Keywords_CSV_Double extends WPSEO_Export_Keywords_CSV {
 	}
 
 	public function return_format_csv_column( $value ) {
-		return $this->format_csv_column( $value );
+		return $this->sanitize_csv_column( $value );
 	}
 
 	public function return_get_csv_column_from_result( $result, $key ) {
-		return $this->get_csv_column_from_result( $result, $key );
+		return $this->get_csv_string_column_from_result( $result, $key );
 	}
 }
 
@@ -22,7 +22,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the format_csv_column function with input of various types.
 	 *
-	 * @covers WPSEO_Export_Keywords_CSV::format_csv_column
+	 * @covers WPSEO_Export_Keywords_CSV::sanitize_csv_column
 	 */
 	public function test_format_csv_column() {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
@@ -62,6 +62,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * Tests the format function with simple input.
 	 *
 	 * @covers WPSEO_Export_Keywords_CSV::format
+	 * @covers WPSEO_Export_Keywords_CSV::get_csv_column_from_result
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_simple() {
@@ -82,6 +83,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * Tests the format function with complex input.
 	 *
 	 * @covers WPSEO_Export_Keywords_CSV::format
+	 * @covers WPSEO_Export_Keywords_CSV::get_csv_column_from_result
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_complex() {
@@ -111,6 +113,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * Tests the format function with random input.
 	 *
 	 * @covers WPSEO_Export_Keywords_CSV::format
+	 * @covers WPSEO_Export_Keywords_CSV::get_csv_column_from_result
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_random() {
@@ -141,6 +144,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * Tests the format function with null input.
 	 *
 	 * @covers WPSEO_Export_Keywords_CSV::format
+	 * @covers WPSEO_Export_Keywords_CSV::get_csv_column_from_result
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_null() {
@@ -164,6 +168,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * Tests the format function with bad column input.
 	 *
 	 * @covers WPSEO_Export_Keywords_CSV::format
+	 * @covers WPSEO_Export_Keywords_CSV::get_csv_column_from_result
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_bad_columns() {

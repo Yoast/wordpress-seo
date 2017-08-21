@@ -10,7 +10,7 @@
  */
 class WPSEO_Export_Keywords_Presenter {
 	/**
-	 * @var array[int]string The columns to query for, an array of strings.
+	 * @var array The columns to query for.
 	 */
 	protected $columns;
 
@@ -20,7 +20,7 @@ class WPSEO_Export_Keywords_Presenter {
 	 * Supported values for columns are 'post_title', 'post_url', 'keywords', 'seo_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
-	 * @param array[int]string $columns The columns we want our query to return.
+	 * @param array $columns The columns we want our query to return.
 	 */
 	public function __construct( $columns ) {
 		$this->columns = $columns;
@@ -29,9 +29,9 @@ class WPSEO_Export_Keywords_Presenter {
 	/**
 	 * Updates a result by modifying and adding the requested fields.
 	 *
-	 * @param array[string]string $result The result to modify.
+	 * @param array $result The result to modify.
 	 *
-	 * @return bool|array[string]string The modified result, false if the result could not be modified.
+	 * @return bool|array The modified result, false if the result could not be modified.
 	 */
 	public function present( $result ) {
 		if ( ! $this->validate_result( $result ) ) {
@@ -64,7 +64,7 @@ class WPSEO_Export_Keywords_Presenter {
 	/**
 	 * Returns whether a result to present is a valid result by doing a simple check.
 	 *
-	 * @param array[string]string $result The result to validate.
+	 * @param array $result The result to validate.
 	 *
 	 * @return bool
 	 */
@@ -87,12 +87,13 @@ class WPSEO_Export_Keywords_Presenter {
 	/**
 	 * Converts the results of the query from strings and JSON string to keyword arrays.
 	 *
-	 * @param array[string]string $result The result to convert.
+	 * @param array $result The result to convert.
 	 *
-	 * @return array[string]string The converted result.
+	 * @return array The converted result.
 	 */
 	protected function convert_result_keywords( $result ) {
 		$result['keywords'] = array();
+
 		if ( in_array( 'keywords_score', $this->columns, true ) ) {
 			$result['keywords_score'] = array();
 		}
@@ -102,44 +103,63 @@ class WPSEO_Export_Keywords_Presenter {
 
 			// Convert multiple keywords from the Premium plugin from json to string arrays.
 			$keywords = $this->parse_result_keywords_json( $result, 'other_keywords' );
+
 			foreach ( $keywords as $keyword ) {
 				$result['keywords'][] = $keyword['keyword'];
 			}
 
 			if ( in_array( 'keywords_score', $this->columns, true ) ) {
-				$rank = WPSEO_Rank::from_numeric_score( intval( $result['primary_keyword_score'] ) );
-				$result['keywords_score'][] = $rank->get_rank();
-				foreach ( $keywords as $keyword ) {
-					$rank = new WPSEO_Rank( $keyword['score'] );
-					$result['keywords_score'][] = $rank->get_rank();
-				}
+				$result['keywords)score'] = $this->get_result_keywords_scores( $result, $keywords );
 			}
 		}
 
 		// Unset all old variables, if they do not exist nothing will happen.
-		unset( $result['primary_keyword'] );
-		unset( $result['primary_keyword_score'] );
-		unset( $result['other_keywords'] );
+		unset( $result['primary_keyword'], $result['primary_keyword_score'], $result['other_keywords'] );
 
 		return $result;
 	}
 
 	/**
-	 * Parses keywords JSON in the result object from the specified key.
+	 * Parses then keywords JSON string in the result object for the specified key.
 	 *
-	 * @param array[string]string $result The result object.
-	 * @param string              $key    The key containing the JSON.
+	 * @param array  $result The result object.
+	 * @param string $key    The key containing the JSON.
 	 *
-	 * @return array[string]string The parsed keywords.
+	 * @return array The parsed keywords.
 	 */
 	protected function parse_result_keywords_json( $result, $key ) {
-		if ( array_key_exists( $key, $result ) && $result[ $key ] ) {
-			$parsed = json_decode( $result[ $key ], true );
-			if ( $parsed ) {
-				return $parsed;
-			}
+		if ( ! array_key_exists( $key, $result ) || ! $result[ $key ] ) {
+			return array();
 		}
 
-		return array();
+		$parsed = json_decode( $result[ $key ], true );
+
+		if ( ! $parsed ) {
+			return array();
+		}
+
+		return $parsed;
+	}
+
+	/**
+	 * Returns an array of all scores from the result object and the parsed keywords JSON.
+	 *
+	 * @param array $result   The result object.
+	 * @param array $keywords The parsed keywords.
+	 *
+	 * @return array  The keyword scores.
+	 */
+	protected function get_result_keywords_scores( $result, $keywords ) {
+		$scores = array();
+
+		$rank = WPSEO_Rank::from_numeric_score( intval( $result['primary_keyword_score'] ) );
+		$scores[] = $rank->get_rank();
+
+		foreach ( $keywords as $keyword ) {
+			$rank = new WPSEO_Rank( $keyword['score'] );
+			$scores[] = $rank->get_rank();
+		}
+
+		return $scores;
 	}
 }
