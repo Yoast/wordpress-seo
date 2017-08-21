@@ -5,7 +5,7 @@ import thunk from "redux-thunk";
 import rootReducer from "./reducers";
 import DevTools from "./utils/DevTools";
 
-const middleware = applyMiddleware(thunk);
+const middleware = applyMiddleware( thunk );
 const enhancer = compose(
 	middleware,
 	DevTools.instrument()
