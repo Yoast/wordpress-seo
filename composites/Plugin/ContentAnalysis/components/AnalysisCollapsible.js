@@ -117,13 +117,14 @@ export default class AnalysisCollapsible extends React.Component {
 			<AnalysisHeaderContainer>
 				<div role="presentation">
 					<h3 role="heading" aria-level="3">
-						<AnalysisHeaderButton aria-expanded={ isOpen } aria-controls="sect1" onClick={ this.toggleOpen } >
+						<AnalysisHeaderButton aria-expanded={ isOpen } aria-controls="AnalysisHeaderContentId"
+											  id="analysisHeaderButtonId" onClick={ this.toggleOpen }>
 							<AnalysisHeaderIcon icon={ isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
 							<AnalysisTitle> { this.props.title + " (" + childrenAmount + ")" } </AnalysisTitle>
 						</AnalysisHeaderButton>
 					</h3>
 				</div>
-				<ul>
+				<ul id="AnalysisHEaderContentId" role="region" aria-labelledby="analysisHeaderButtonId">
 				{ isOpen ? this.props.children : "" }
 				</ul>
 			</AnalysisHeaderContainer>
