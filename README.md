@@ -73,7 +73,7 @@ module.exports = {
 
 ### Reducers and Middleware
 
-Some components require that you implement a reducer. See which components need what reducers below:
+Some components require implementing a reducer. See which components need what reducers below:
 
 #### Content analysis
 
@@ -88,7 +88,7 @@ combineReducers( {
 } );
 ```
 
-The Content Analysis requires the [`redux-thunk` (link)](https://www.npmjs.com/package/redux-thunk) middleware.
+The Content Analysis requires the [`redux-thunk`](https://www.npmjs.com/package/redux-thunk) middleware.
 
 ## Setup
 - Run a `yarn install` in the root folder.
