@@ -2,15 +2,19 @@ import "babel-polyfill";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
 import { AppContainer } from "react-hot-loader";
+
+import App from "./App";
+import TopLevelComponents from "./app/TopLevelComponents";
 
 function render( RootElement ) {
 	ReactDOM.render(
 		<AppContainer>
-			<RootElement/>
+			<TopLevelComponents>
+				<RootElement/>
+			</TopLevelComponents>
 		</AppContainer>,
-		document.getElementById("container")
+		document.getElementById( "container" )
 	);
 }
 
@@ -18,7 +22,7 @@ render( App );
 
 if ( module.hot ) {
 	module.hot.accept( "./App", () => {
-		const NextRoot = require( "./App" ).default;
+		const NextRoot = require( "./App" ).default; // eslint-disable-line global-require
 		render( NextRoot );
 	} );
 }
