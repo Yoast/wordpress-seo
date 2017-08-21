@@ -30,6 +30,7 @@ const AnalysisHeaderButton = styled.button`
 	cursor: pointer;
 	// When clicking, the button text disappears in Safari 10 because of color: activebuttontext.
 	color: ${ colors.$color_blue };
+	outline: none;
 `;
 
 /**
