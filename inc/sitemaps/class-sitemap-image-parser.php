@@ -467,8 +467,8 @@ class WPSEO_Sitemap_Image_Parser {
 			'order'            => 'DESC',
 			'exclude'          => array(),
 			'meta_key'         => '',
-			'meta_value'       =>'',
-			'suppress_filters' => true
+			'meta_value'       => '',
+			'suppress_filters' => true,
 		);
 
 		$args = wp_parse_args( $args, $default_args );
