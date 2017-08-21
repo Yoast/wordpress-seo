@@ -230,40 +230,8 @@ class WPSEO_Sitemap_Image_Parser {
 				$gallery['include'] = $gallery['ids'];
 			}
 
-			$gallery_attachments = array();
+			$gallery_attachments = $this->get_gallery_attachments( $id, $gallery );
 
-			if ( ! empty( $gallery['include'] ) ) {
-
-				$_attachments = get_posts( array(
-					'include'        => $gallery['include'],
-					'post_status'    => 'inherit',
-					'post_type'      => 'attachment',
-					'post_mime_type' => 'image',
-				) );
-
-				foreach ( $_attachments as $key => $val ) {
-					$gallery_attachments[ $val->ID ] = $_attachments[ $key ];
-				}
-			}
-			elseif ( ! empty( $gallery['exclude'] ) && ! empty( $id ) ) {
-
-				$gallery_attachments = get_children( array(
-					'post_parent'    => $id,
-					'exclude'        => $gallery['exclude'],
-					'post_status'    => 'inherit',
-					'post_type'      => 'attachment',
-					'post_mime_type' => 'image',
-				) );
-			}
-			elseif ( ! empty( $id ) ) {
-
-				$gallery_attachments = get_children( array(
-					'post_parent'    => $id,
-					'post_status'    => 'inherit',
-					'post_type'      => 'attachment',
-					'post_mime_type' => 'image',
-				) );
-			}
 
 			$attachments = array_merge( $attachments, $gallery_attachments );
 		}
@@ -422,6 +390,84 @@ class WPSEO_Sitemap_Image_Parser {
 		}
 
 		return $src;
+	}
+
+	/**
+	 * Returns the attachments for a gallery.
+	 *
+	 * @param int   $id      The post id.
+	 * @param array $gallery The gallery config.
+	 *
+	 * @return array The selected attachments
+	 */
+	protected function get_gallery_attachments( $id, $gallery ) {
+
+		// When there are posts to include.
+		if ( ! empty( $gallery['include'] ) ) {
+			$query = array(
+				'post_status'      => 'inherit',
+				'post_type'        => 'attachment',
+				'post_mime_type'   => 'image',
+				'include'          => $gallery['include'],
+				'numberposts'      => 5,
+				'category'         => 0,
+				'orderby'          => 'date',
+				'order'            => 'DESC',
+				'exclude'          => array(),
+				'meta_key'         => '',
+				'meta_value'       =>'',
+				'suppress_filters' => true
+			);
+
+			$get_attachments = new WP_Query;
+			$_attachments        = $get_attachments->query( $query );
+
+			$gallery_attachments = array();
+			foreach ( $_attachments as $key => $val ) {
+				$gallery_attachments[ $val->ID ] = $_attachments[ $key ];
+			}
+
+			return $gallery_attachments;
+		}
+
+		// When $id is empty, just return empty array.
+		if ( empty( $id ) ) {
+			return array();
+		}
+
+		return $this->get_gallery_attachments_for_parent( $id, $gallery );
+	}
+
+	/**
+	 * Returns the attachments for the given id.
+	 * 	 * @param int   $id      The post id.
+	 * @param array $gallery The gallery config.
+	 *
+	 * @return array The selected attachments
+	 */
+	protected function get_gallery_attachments_for_parent( $id, $gallery ) {
+		$query = array(
+			'numberposts'      => -1,
+			'post_parent'      => $id,
+			'post_status'      => 'inherit',
+			'post_type'        => 'attachment',
+			'post_mime_type'   => 'image',
+			'category'         => 0,
+			'orderby'          => 'date',
+			'order'            => 'DESC',
+			'exclude'          => array(),
+			'meta_key'         => '',
+			'meta_value'       =>'',
+			'suppress_filters' => true
+		);
+
+		// When there are posts that should be excluded from result set.
+		if ( ! empty( $gallery['exclude'] ) ) {
+			$query['exclude'] = $gallery['exclude'];
+		}
+
+		$get_attachments = new WP_Query;
+		return $get_attachments->query( $query );
 	}
 
 	/**
