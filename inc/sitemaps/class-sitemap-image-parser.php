@@ -433,7 +433,7 @@ class WPSEO_Sitemap_Image_Parser {
 	 * @param int   $id      The post id.
 	 * @param array $gallery The gallery config.
 	 *
-	 * @return array The selected attachments
+	 * @return array The selected attachments.
 	 */
 	protected function get_gallery_attachments_for_parent( $id, $gallery ) {
 		$query = array(
@@ -462,7 +462,7 @@ class WPSEO_Sitemap_Image_Parser {
 			'post_type'        => 'attachment',
 			'post_mime_type'   => 'image',
 
-			// Defaults taken from function get_posts
+			// Defaults taken from function get_posts.
 			'category'         => 0,
 			'orderby'          => 'date',
 			'order'            => 'DESC',
