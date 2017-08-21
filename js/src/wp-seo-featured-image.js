@@ -119,6 +119,11 @@ import a11ySpeak from "a11y-speak";
 
 		featuredImagePlugin = new FeaturedImagePlugin( YoastSEO.app );
 
+		if ( typeof YoastSEO === "undefined" ) {
+			console.log( "hoi" );
+			return;
+		}
+
 		$postImageDiv = $( "#postimagediv" );
 		$postImageDivHeading = $postImageDiv.find( ".hndle" );
 

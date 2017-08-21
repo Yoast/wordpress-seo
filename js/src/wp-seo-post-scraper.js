@@ -28,6 +28,10 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 ( function( $ ) {
 	"use strict";
 
+	if ( typeof wpseoPostScraperL18n === "undefined" ) {
+		return;
+	}
+
 	var snippetContainer;
 
 	var titleElement;
