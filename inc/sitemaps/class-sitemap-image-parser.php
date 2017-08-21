@@ -404,23 +404,12 @@ class WPSEO_Sitemap_Image_Parser {
 
 		// When there are posts to include.
 		if ( ! empty( $gallery['include'] ) ) {
-			$query = array(
-				'post_status'      => 'inherit',
-				'post_type'        => 'attachment',
-				'post_mime_type'   => 'image',
-				'include'          => $gallery['include'],
-				'numberposts'      => 5,
-				'category'         => 0,
-				'orderby'          => 'date',
-				'order'            => 'DESC',
-				'exclude'          => array(),
-				'meta_key'         => '',
-				'meta_value'       =>'',
-				'suppress_filters' => true
+			$_attachments = $this->get_attachments(
+				array(
+					'include'     => $gallery['include'],
+					'numberposts' => 5,
+				)
 			);
-
-			$get_attachments = new WP_Query;
-			$_attachments        = $get_attachments->query( $query );
 
 			$gallery_attachments = array();
 			foreach ( $_attachments as $key => $val ) {
@@ -447,11 +436,32 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	protected function get_gallery_attachments_for_parent( $id, $gallery ) {
 		$query = array(
-			'numberposts'      => -1,
-			'post_parent'      => $id,
+			'numberposts' => -1,
+			'post_parent' => $id,
+		);
+
+		// When there are posts that should be excluded from result set.
+		if ( ! empty( $gallery['exclude'] ) ) {
+			$query['exclude'] = $gallery['exclude'];
+		}
+
+		return $this->get_attachments( $query );
+	}
+
+	/**
+	 * Returns the attachments.
+	 *
+	 * @param array $args Array with query args.
+	 *
+	 * @return array The found attachments.
+	 */
+	protected function get_attachments( $args ) {
+		$default_args = array(
 			'post_status'      => 'inherit',
 			'post_type'        => 'attachment',
 			'post_mime_type'   => 'image',
+
+			// Defaults taken from function get_posts
 			'category'         => 0,
 			'orderby'          => 'date',
 			'order'            => 'DESC',
@@ -461,13 +471,10 @@ class WPSEO_Sitemap_Image_Parser {
 			'suppress_filters' => true
 		);
 
-		// When there are posts that should be excluded from result set.
-		if ( ! empty( $gallery['exclude'] ) ) {
-			$query['exclude'] = $gallery['exclude'];
-		}
+		$args = wp_parse_args( $args, $default_args );
 
 		$get_attachments = new WP_Query;
-		return $get_attachments->query( $query );
+		return $get_attachments->query( $args );
 	}
 
 	/**
