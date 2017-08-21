@@ -71,6 +71,24 @@ module.exports = {
 }
 ```
 
+### Reducers and Middleware
+
+Some components require implementing a reducer. See which components need what reducers below:
+
+#### Content analysis
+
+If you wish to use the content analysis component you should implement the `contentAnalysisReducer`, located in `yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer.js`. In your root reducer this reducer should have the name `contentAnalysis`.
+```js
+import contentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer.js";
+// Your root reducer
+combineReducers( {
+    // ...
+    contentAnalysis: contentAnalysis,
+    // ...
+} );
+```
+
+The Content Analysis requires the [`redux-thunk`](https://www.npmjs.com/package/redux-thunk) middleware.
 
 ## Setup
 - Run a `yarn install` in the root folder.
