@@ -2,18 +2,15 @@ import "babel-polyfill";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { AppContainer } from "react-hot-loader";
 
 import App from "./App";
 import TopLevelComponents from "./app/TopLevelComponents";
 
 function render( RootElement ) {
 	ReactDOM.render(
-		<AppContainer>
-			<TopLevelComponents>
-				<RootElement/>
-			</TopLevelComponents>
-		</AppContainer>,
+		<TopLevelComponents>
+			<RootElement/>
+		</TopLevelComponents>,
 		document.getElementById( "container" )
 	);
 }
