@@ -85,9 +85,9 @@ class App extends React.Component {
 		return (
 			<nav style={ { textAlign: "center" } }>
 				{
-					components.map(config => {
-						return this.renderButton(config.id, config.name);
-					})
+					components.map( config => {
+						return this.renderButton( config.id, config.name );
+					} )
 				}
 				<p style={ { fontSize: "0.8em", margin: "5px 0" } }>
 					For redux devtools press <strong>Ctrl + H</strong>,
