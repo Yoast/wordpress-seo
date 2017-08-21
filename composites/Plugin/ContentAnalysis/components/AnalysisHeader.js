@@ -111,7 +111,7 @@ export default class AnalysisHeader extends React.Component {
 	 */
 	render() {
 		const isOpen = this.isOpen();
-		let childrenAmount = this.props.children.props.children.length;
+		let childrenAmount = this.props.children.length;
 
 		return (
 			<AnalysisHeaderContainer>
@@ -123,7 +123,9 @@ export default class AnalysisHeader extends React.Component {
 						</AnalysisHeaderButton>
 					</h3>
 				</div>
+				<ul>
 				{ isOpen ? this.props.children : "" }
+				</ul>
 			</AnalysisHeaderContainer>
 		);
 	}
