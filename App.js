@@ -1,9 +1,12 @@
+import "babel-polyfill";
+
 import React from "react";
 
 import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import Config from "./composites/OnboardingWizard/config/production-config";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
 import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
+import ContentAnalysis from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import apiConfig from "./composites/OnboardingWizard/config/api-config";
 import Loader from "./composites/basic/Loader";
 
@@ -14,6 +17,44 @@ function cloneDeep( object ) {
 	return JSON.parse( JSON.stringify( object ) );
 }
 
+const WizardWrapper = () => {
+	let config = cloneDeep( Config );
+
+	// @todo: Add customComponents manually, because cloneDeep is clearing the value of it. Should be solved.
+	config.customComponents = Config.customComponents;
+	config.endpoint = apiConfig;
+
+	return <Wizard { ...config } />;
+};
+
+const components = [
+	{
+		id: "search-results-editor",
+		name: "Search results editor",
+		component: <SearchResultsEditor />,
+	},
+	{
+		id: "snippet-preview",
+		name: "Snippet preview",
+		component: <SnippetPreview />,
+	},
+	{
+		id: "wizard",
+		name: "Wizard",
+		component: <WizardWrapper />,
+	},
+	{
+		id: "loader",
+		name: "Loader",
+		component: <Loader />,
+	},
+	{
+		id: "content-analysis",
+		name: "Content analysis",
+		component: <ContentAnalysis />,
+	},
+]
+
 class App extends React.Component {
 
 	constructor() {
@@ -22,54 +63,50 @@ class App extends React.Component {
 		injectTapEventPlugin();
 
 		this.state = {
-			activeComponent: "snippet-preview",
+			activeComponent: "content-analysis",
 		};
 	}
 
 	getContent() {
-		var content;
-
-		switch ( this.state.activeComponent ) {
-			case "search-results-editor":
-				content = <SearchResultsEditor />;
-				break;
-
-			case "snippet-preview":
-				content = <SnippetPreview />;
-				break;
-
-			case "loader":
-				content = <Loader />;
-				break;
-
-			case "wizard":
-			default:
-				let config = cloneDeep( Config );
-
-				// @todo: Add customComponents manually, because cloneDeep is clearing the value of it. Should be solved.
-				config.customComponents = Config.customComponents;
-				config.endpoint = apiConfig;
-
-				content = <Wizard {...config} />;
-				break;
+		const activeComponent = this.state.activeComponent;
+		for( var i = 0; i < components.length; i++ )  {
+			if( activeComponent === components[ i ].id ) {
+				return components[ i ].component;
+			}
 		}
-
-		return content;
 	}
 
 	navigate( activeComponent, event ) {
-		this.setState({
-			activeComponent: activeComponent
-		});
+		this.setState( {
+			activeComponent: activeComponent,
+		} );
+	}
+
+	renderButton( id, title ) {
+		const isActive = this.state.activeComponent === id;
+		const style = {};
+		if( isActive ) {
+			style.backgroundColor = "#006671";
+			style.color = "#FFF";
+			style.borderRadius = "5px";
+			style.border = "1px solid white";
+			style.outline = "none";
+		}
+		return (
+			<button style={ style } key={ id } type="button" onClick={ this.navigate.bind( this, id ) }>
+				{ title }
+			</button>
+		);
 	}
 
 	getMenu() {
 		return (
-			<nav style={ {margin: "0 0 2rem 0", textAlign: "center" } }>
-				<button type="button" onClick={this.navigate.bind( this, "wizard" )}>Wizard</button>
-				<button type="button" onClick={this.navigate.bind( this, "search-results-editor" )}>Search results editor</button>
-				<button type="button" onClick={this.navigate.bind( this, "loader" )}>Loader</button>
-				<button type="button" onClick={this.navigate.bind( this, "snippet-preview" )}>Snippet preview</button>
+			<nav style={ { margin: "0 0 2rem 0", textAlign: "center" } }>
+				{
+					components.map( config => {
+						return this.renderButton( config.id, config.name );
+					} )
+				}
 			</nav>
 		);
 	}
@@ -77,8 +114,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				{this.getMenu()}
-				{this.getContent()}
+				{ this.getMenu() }
+				{ this.getContent() }
 			</div>
 		);
 	}
