@@ -163,7 +163,7 @@ class WPSEO_Export_Keywords_CSV {
 	 * @return string
 	 */
 	protected function get_csv_array_column_from_result( $result, $key, $index ) {
-		if ( $index < count( $result[ $key ]  ) ) {
+		if ( $index < count( $result[ $key ] ) ) {
 			return ',' . $this->sanitize_csv_column( $result[ $key ][ $index ] );
 		}
 
