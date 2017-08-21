@@ -1,5 +1,3 @@
-import "babel-polyfill";
-
 import React from "react";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
 import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
