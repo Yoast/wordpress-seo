@@ -66,7 +66,7 @@ const AnalysisTitle = styled.span`
 	align-self: center;
 `;
 
-export default class AnalysisHeader extends React.Component {
+export default class AnalysisCollapsible extends React.Component {
 	/**
 	 * The constructor.
 	 *
@@ -105,9 +105,9 @@ export default class AnalysisHeader extends React.Component {
 	}
 
 	/**
-	 * Returns the rendered AnalysisHeader element.
+	 * Returns the rendered AnalysisCollapsible element.
 	 *
-	 * @returns {ReactElement} The rendered AnalysisHeader element.
+	 * @returns {ReactElement} The rendered AnalysisCollapsible element.
 	 */
 	render() {
 		const isOpen = this.isOpen();
@@ -131,7 +131,7 @@ export default class AnalysisHeader extends React.Component {
 	}
 }
 
-AnalysisHeader.propTypes = {
+AnalysisCollapsible.propTypes = {
 	title: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool,
 	children: PropTypes.oneOfType( [
@@ -140,7 +140,7 @@ AnalysisHeader.propTypes = {
 	] ),
 };
 
-AnalysisHeader.defaultProps = {
+AnalysisCollapsible.defaultProps = {
 	isOpen: false,
 };
 

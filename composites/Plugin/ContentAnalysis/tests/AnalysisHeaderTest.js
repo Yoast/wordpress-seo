@@ -1,33 +1,33 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import AnalysisHeader from "../components/AnalysisHeader";
+import AnalysisHeader from "../components/AnalysisCollapsible";
 
-test( "the default AnalysisHeader matches the snapshot", () => {
+test( "the default AnalysisCollapsible matches the snapshot", () => {
 	const component = renderer.create(
-		<AnalysisHeader title="Problems">
+		<AnalysisCollapsible title="Problems">
 			<ul>
 				<li> First item </li>
 				<li> Second item </li>
 				<li> Third item </li>
 				<li> Fourth item </li>
 			</ul>
-		</AnalysisHeader>
+		</AnalysisCollapsible>
 	);
 
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "the AnalysisHeader in opened state matches the snapshot", () => {
+test( "the AnalysisCollapsible in opened state matches the snapshot", () => {
 	const component = renderer.create(
-		<AnalysisHeader title="Problems" isOpen={true}>
+		<AnalysisCollapsible title="Problems" isOpen={true}>
 			<ul>
 				<li> First item </li>
 				<li> Second item </li>
 				<li> Third item </li>
 				<li> Fourth item </li>
 			</ul>
-		</AnalysisHeader>
+		</AnalysisCollapsible>
 	);
 
 	let tree = component.toJSON();
