@@ -22,25 +22,6 @@ import 'Input' from 'yoast-components/forms/Input'
 
 If you use `yoast-components` within your own project we recommend using `webpack` with the following loaders and configuration:
 
-### Reducers and Middleware
-
-Some components require that you implement a reducer. See which components need what reducers below:
-
-#### Content analysis
-
-If you wish to use the content analysis component you should implement the `contentAnalysisReducer`, located in `yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer.js`. In your root reducer this reducer should have the name `contentAnalysis`.
-```js
-import contentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer.js";
-// Your root reducer
-combineReducers( {
-    // ...
-    contentAnalysis: contentAnalysis,
-    // ...
-} );
-```
-
-The Content Analysis requires the [`redux-thunk` (link)](https://www.npmjs.com/package/redux-thunk) middleware.
-
 ### Webpack loaders
 
 * Babel-loader
@@ -90,6 +71,24 @@ module.exports = {
 }
 ```
 
+### Reducers and Middleware
+
+Some components require that you implement a reducer. See which components need what reducers below:
+
+#### Content analysis
+
+If you wish to use the content analysis component you should implement the `contentAnalysisReducer`, located in `yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer.js`. In your root reducer this reducer should have the name `contentAnalysis`.
+```js
+import contentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer.js";
+// Your root reducer
+combineReducers( {
+    // ...
+    contentAnalysis: contentAnalysis,
+    // ...
+} );
+```
+
+The Content Analysis requires the [`redux-thunk` (link)](https://www.npmjs.com/package/redux-thunk) middleware.
 
 ## Setup
 - Run a `yarn install` in the root folder.
