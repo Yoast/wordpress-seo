@@ -398,25 +398,13 @@ class WPSEO_Sitemap_Image_Parser {
 	 * @param int   $id      The post id.
 	 * @param array $gallery The gallery config.
 	 *
-	 * @return array The selected attachments
+	 * @return array The selected attachments.
 	 */
 	protected function get_gallery_attachments( $id, $gallery ) {
 
-		// When there are posts to include.
+		// When there are attachments to include.
 		if ( ! empty( $gallery['include'] ) ) {
-			$_attachments = $this->get_attachments(
-				array(
-					'include'     => $gallery['include'],
-					'numberposts' => 5,
-				)
-			);
-
-			$gallery_attachments = array();
-			foreach ( $_attachments as $key => $val ) {
-				$gallery_attachments[ $val->ID ] = $_attachments[ $key ];
-			}
-
-			return $gallery_attachments;
+			return $this->get_gallery_attachments_for_included( $gallery['include'] );
 		}
 
 		// When $id is empty, just return empty array.
@@ -437,16 +425,40 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	protected function get_gallery_attachments_for_parent( $id, $gallery ) {
 		$query = array(
-			'numberposts' => -1,
-			'post_parent' => $id,
+			'posts_per_page' => -1,
+			'post_parent'    => $id,
 		);
 
 		// When there are posts that should be excluded from result set.
 		if ( ! empty( $gallery['exclude'] ) ) {
-			$query['exclude'] = $gallery['exclude'];
+			$query['post__not_in'] = wp_parse_id_list( $gallery['exclude'] );
 		}
 
 		return $this->get_attachments( $query );
+	}
+
+	/**
+	 * Returns an array with attachments for the post ids that will be included.
+	 *
+	 * @param array $include Array with ids to include.
+	 *
+	 * @return array The found attachments.
+	 */
+	protected function get_gallery_attachments_for_included( $include ) {
+		$ids_to_include = wp_parse_id_list( $include );
+		$attachments    = $this->get_attachments(
+			array(
+				'posts_per_page' => count( $ids_to_include ),
+				'post__in'       => $ids_to_include,
+			)
+		);
+
+		$gallery_attachments = array();
+		foreach ( $attachments as $key => $val ) {
+			$gallery_attachments[ $val->ID ] = $val;
+		}
+
+		return $gallery_attachments;
 	}
 
 	/**
@@ -458,18 +470,18 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	protected function get_attachments( $args ) {
 		$default_args = array(
-			'post_status'      => 'inherit',
-			'post_type'        => 'attachment',
-			'post_mime_type'   => 'image',
+			'post_status'         => 'inherit',
+			'post_type'           => 'attachment',
+			'post_mime_type'      => 'image',
 
 			// Defaults taken from function get_posts.
-			'category'         => 0,
-			'orderby'          => 'date',
-			'order'            => 'DESC',
-			'exclude'          => array(),
-			'meta_key'         => '',
-			'meta_value'       => '',
-			'suppress_filters' => true,
+			'orderby'             => 'date',
+			'order'               => 'DESC',
+			'meta_key'            => '',
+			'meta_value'          => '',
+			'suppress_filters'    => true,
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
 		);
 
 		$args = wp_parse_args( $args, $default_args );
