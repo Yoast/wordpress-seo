@@ -429,7 +429,8 @@ class WPSEO_Sitemap_Image_Parser {
 
 	/**
 	 * Returns the attachments for the given id.
-	 * 	 * @param int   $id      The post id.
+	 *
+	 * @param int   $id      The post id.
 	 * @param array $gallery The gallery config.
 	 *
 	 * @return array The selected attachments
