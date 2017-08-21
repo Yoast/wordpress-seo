@@ -109,7 +109,7 @@ class WPSEO_Export_Keywords_Presenter {
 			}
 
 			if ( in_array( 'keywords_score', $this->columns, true ) ) {
-				$result['keywords)score'] = $this->get_result_keywords_scores( $result, $keywords );
+				$result['keywords_score'] = $this->get_result_keywords_scores( $result, $keywords );
 			}
 		}
 
