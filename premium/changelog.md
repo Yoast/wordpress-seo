@@ -1,3 +1,6 @@
+### 5.3.1: August 22nd, 2017
+* Includes every change in Yoast SEO core 5.3.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 5.3.0: August 22nd, 2017
 * Add feature to export redirects, via SEO - Tools - Import/Export
 * Removes the `DC.date.issued` meta tag
