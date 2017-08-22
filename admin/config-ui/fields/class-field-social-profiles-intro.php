@@ -14,9 +14,14 @@ class WPSEO_Config_Field_Social_Profiles_Intro extends WPSEO_Config_Field {
 	public function __construct() {
 		parent::__construct( 'socialProfilesIntro', 'HTML' );
 
-		$intro_text = __( 'Please add all your relevant social profiles. We use these to let search engines know about them, and to enhance your social metadata:', 'wordpress-seo' );
+		/* translators: %s is the plugin name */
+		$intro_text = sprintf( __( '%1$s can tell search engines about your social media profiles. ' .
+						  'These will be used in Google\'s Knowledge Graph. There are additional ' .
+						  'sharing options in the advanced settings.', 'wordpress-seo' ), 'Yoast SEO' );
 
-		$html = '<p>' . esc_html( $intro_text ) . '</p>';
+		$link = '<a>' . __( 'More info', 'wordpress-seo' ) . '</a>';
+
+		$html = '<p>' . esc_html( $intro_text ) . ' ' . $link . '</p>';
 
 		$this->set_property( 'html', $html );
 	}
