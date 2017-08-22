@@ -125,6 +125,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.3.1 =
+
+Release Date: August 22nd, 2017
+
+* Bugfixes
+	* Fixes a bug where "mark as fixed" on the search console page didn't work.
+	* Fixes a bug where the configuration wizard JavaScript file was too large.
+
 = 5.3.0 =
 
 Release Date: August 22nd, 2017
