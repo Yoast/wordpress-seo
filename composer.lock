@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d0a09436882657f5b1e8faeb36577647",
+    "content-hash": "493eef44e37e8caa765c5ef69a2c98b8",
     "packages": [
         {
             "name": "composer/installers",
@@ -229,16 +229,16 @@
         },
         {
             "name": "yoast/license-manager",
-            "version": "1.6.0-RC1",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/License-Manager.git",
-                "reference": "9497adc825185e905f2b4b1842919364ffca2b01"
+                "reference": "fbacabb06d788912fead4f32d0d1d8b9a2d883c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/9497adc825185e905f2b4b1842919364ffca2b01",
-                "reference": "9497adc825185e905f2b4b1842919364ffca2b01",
+                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/fbacabb06d788912fead4f32d0d1d8b9a2d883c9",
+                "reference": "fbacabb06d788912fead4f32d0d1d8b9a2d883c9",
                 "shasum": ""
             },
             "type": "library",
@@ -270,7 +270,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-08-15T06:33:35+00:00"
+            "time": "2017-08-22T07:59:16+00:00"
         },
         {
             "name": "yoast/whip",
@@ -373,7 +373,7 @@
                 "codeclimate",
                 "coverage"
             ],
-            "time": "2017-06-01T13:19:55+00:00"
+            "time": "2017-06-01 13:19:55"
         },
         {
             "name": "guzzle/guzzle",
