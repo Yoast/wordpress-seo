@@ -72,7 +72,7 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 		// End Tabs code.
 
 		initializeAlgoliaSearch();
-	};
+	}
 
 	window.wpseoInitTabs = wpseoInitTabs;
 	window.wpseo_init_tabs = wpseoInitTabs;
