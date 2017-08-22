@@ -65,59 +65,59 @@ $generated_i18n_strings = array(
 	// Reference: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:40
 	__( 'Search Result Preview', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:357
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:360
 	__( 'Get Google Authorization Code', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:350
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:353
 	__( 'To allow %s to fetch your Google Search Console information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:339
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:342
 	__( 'Reauthenticate with Google', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:314
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:317
 	__( 'Authenticate', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:310
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:313
 	__( 'Enter authorization code here...', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:299
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:302
 	__( 'Enter your Google Authorization Code and press the Authenticate button.', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:274
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:277
 	__( 'Choose a profile', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:268
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:271
 	__( 'Select profile', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:256
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:259
 	__( 'There were no profiles found', 'wordpress-seo' ),
 
-	// Reference: js/src/components/ConnectGoogleSearchConsole.js:110
+	// Reference: js/src/components/ConnectGoogleSearchConsole.js:112
 	__( 'There is an error with the request.', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MailchimpSignup.js:228
+	// Reference: js/src/components/MailchimpSignup.js:229
 	__( 'Email', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MailchimpSignup.js:214
+	// Reference: js/src/components/MailchimpSignup.js:215
 	__( 'Name', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MailchimpSignup.js:196
+	// Reference: js/src/components/MailchimpSignup.js:197
 	__( 'Sign Up!', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MailchimpSignup.js:111
+	// Reference: js/src/components/MailchimpSignup.js:112
 	__( 'MailChimp signup failed:', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MediaUpload.js:106
+	// Reference: js/src/components/MediaUpload.js:107
 	__( 'Choose image', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MediaUpload.js:96
+	// Reference: js/src/components/MediaUpload.js:97
 	__( 'company logo image preview', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MediaUpload.js:89
+	// Reference: js/src/components/MediaUpload.js:90
 	__( 'Remove the image', 'wordpress-seo' ),
 
+	// Reference: js/src/components/MediaUpload.js:20
 	// Reference: js/src/components/MediaUpload.js:19
-	// Reference: js/src/components/MediaUpload.js:18
 	__( 'Choose an image', 'wordpress-seo' )
 );
 /* THIS IS THE END OF THE GENERATED FILE */

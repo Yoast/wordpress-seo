@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import RaisedDefaultButton from "./RaisedDefaultButton";
 import InfoIcon from "material-ui/svg-icons/action/info";
 
@@ -16,8 +17,8 @@ const RaisedURLButton = ( props ) => {
 };
 
 RaisedURLButton.propTypes = {
-	url: React.PropTypes.string.isRequired,
-	icon: React.PropTypes.object,
+	url: PropTypes.string.isRequired,
+	icon: PropTypes.object,
 };
 
 RaisedURLButton.defaultProps = {

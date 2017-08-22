@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '5.2' );
+define( 'WPSEO_VERSION', '5.3' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -350,17 +350,6 @@ if ( ! $spl_autoload_exists ) {
 
 if ( ! $filter_exists ) {
 	add_action( 'admin_init', 'yoast_wpseo_missing_filter', 1 );
-}
-
-if ( ! function_exists( 'wp_installing' ) ) {
-	/**
-	 * We need to define wp_installing in WordPress versions older than 4.4
-	 *
-	 * @return bool
-	 */
-	function wp_installing() {
-		return defined( 'WP_INSTALLING' );
-	}
 }
 
 if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {

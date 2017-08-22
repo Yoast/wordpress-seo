@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 
 /**
@@ -21,10 +22,10 @@ const RaisedDefaultButton = ( props ) => {
 };
 
 RaisedDefaultButton.propTypes = {
-	type: React.PropTypes.string,
-	disableFocusRipple: React.PropTypes.bool,
-	disableTouchRipple: React.PropTypes.bool,
-	disableKeyboardFocus: React.PropTypes.bool,
+	type: PropTypes.string,
+	disableFocusRipple: PropTypes.bool,
+	disableTouchRipple: PropTypes.bool,
+	disableKeyboardFocus: PropTypes.bool,
 };
 
 RaisedDefaultButton.defaultProps = {

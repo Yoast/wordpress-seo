@@ -5,9 +5,9 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
-Tested up to: 4.8
-Stable tag: 5.2
-Minimum PHP: 5.2.4
+Tested up to: 4.8.1
+Stable tag: 5.3
+Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -124,6 +124,24 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 6. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 5.3.0 =
+
+Release Date: August 22nd, 2017
+
+* Enhancements
+	* Adds missing I18n function call to make a string translatable
+	* Adds XML schema for image sitemap, props: [stodorovic](https://github.com/stodorovic)
+	* Adds schema.org meta-data on every page, instead of only on the homepage
+	* Adds the possibility to filter posts by readability score.
+	* Exposes tinyMCEHelper as window.YoastSEO.wp._tinyMCEHelper in JavaScript
+	* Exposes the ReplaceVar class in YoastReplaceVarPlugin as window.YoastReplaceVarPlugin.ReplaceVar in JavaScript
+
+* Bugfixes
+	* Adds sanitization for the Twitter Image meta field
+	* Fixes use of `register_meta` for usage in WordPress 4.6 and higher
+	* Initialize the providers on hook `after_theme_setup` to make sure custom providers are added properly, props: [stodorovic](https://github.com/stodorovic)
+	* Changes the label of the "Bad" score to "Needs improvement" while filtering on SEO or readability scores.
 
 = 5.2.0 =
 

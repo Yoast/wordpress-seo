@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-08-08 09:04:58+00:00\n"
+"POT-Creation-Date: 2017-08-22 08:42:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,39 +24,39 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:114
+#: class-premium.php:115
 msgid "Metabox insights"
 msgstr ""
 
-#: class-premium.php:116
+#: class-premium.php:117
 msgid ""
 "The metabox insights section contains insights about your content, like an "
 "overview of the most prominent words in your text."
 msgstr ""
 
-#: class-premium.php:119
+#: class-premium.php:120
 msgid "Link suggestions"
 msgstr ""
 
-#: class-premium.php:121
+#: class-premium.php:122
 msgid ""
 "The link suggestions section contains a list of posts on your blog with "
 "similar content that might be interesting to link to."
 msgstr ""
 
-#: class-premium.php:376
+#: class-premium.php:375
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:408
+#: class-premium.php:407
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:427 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:426 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:461
+#: class-premium.php:460
 msgid "Enabled"
 msgstr ""
 
@@ -137,15 +137,6 @@ msgstr ""
 #. translators: %s: '.htaccess' file name
 #: classes/class-premium-import-manager.php:114
 msgid "%s import failed: No redirects found."
-msgstr ""
-
-#: classes/class-premium-export-manager.php:29
-#: classes/views/export-redirects.php:11
-msgid "Export redirects"
-msgstr ""
-
-#: classes/views/export-redirects.php:8
-msgid "Export redirects to a CSV file"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:21
@@ -407,6 +398,11 @@ msgstr ""
 msgid "Limit result set to items that are unindexed."
 msgstr ""
 
+#: classes/class-premium-redirect-export-manager.php:29
+#: classes/views/export-redirects.php:13
+msgid "Export redirects"
+msgstr ""
+
 #: classes/class-social-previews.php:132
 msgid "Upload image"
 msgstr ""
@@ -499,6 +495,22 @@ msgstr ""
 
 #: classes/redirect/class-redirect-ajax.php:92
 msgid "Unknown error. Failed to update redirect."
+msgstr ""
+
+#: classes/redirect/class-redirect-csv-exporter.php:71
+msgid "Origin"
+msgstr ""
+
+#: classes/redirect/class-redirect-csv-exporter.php:72
+msgid "Target"
+msgstr ""
+
+#: classes/redirect/class-redirect-csv-exporter.php:73
+msgid "Type"
+msgstr ""
+
+#: classes/redirect/class-redirect-csv-exporter.php:74
+msgid "Format"
 msgstr ""
 
 #: classes/redirect/class-redirect-endpoint-validation.php:43
@@ -691,6 +703,22 @@ msgstr ""
 
 #: classes/redirect/views/redirects-tab-settings.php:91
 msgid "Save Changes"
+msgstr ""
+
+#: classes/views/export-redirects.php:8
+msgid "Export redirects to a CSV file"
+msgstr ""
+
+#: classes/views/export-redirects.php:9
+msgid ""
+"If you need to have a list of all redirects, you can generate a CSV file "
+"using the button below."
+msgstr ""
+
+#: classes/views/export-redirects.php:10
+msgid ""
+"Please note that the first row in this file is a header. This row should be "
+"ignored when parsing or importing the data from the export."
 msgstr ""
 
 #: classes/views/gsc-redirect-create.php:15

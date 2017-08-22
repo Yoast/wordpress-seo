@@ -16,16 +16,19 @@
     "url": "https://github.com/Yoast/wordpress-seo"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack --config ./webpack/webpack.config.prod.js"
   },
   "devDependencies": {
     "algoliasearch": "^3.16.0",
     "autoprefixer": "^6.3.1",
     "babel-jest": "^18.0.0",
+    "babel-loader": "^7.1.1",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
+    "copy-webpack-plugin": "^4.0.1",
     "envify": "^3.4.1",
     "eslint-config-yoast": "^1.3.1",
     "eslint-plugin-react": "^6.0.0",
@@ -47,8 +50,9 @@
     "grunt-postcss": "^0.8.0",
     "grunt-replace": "^1.0.1",
     "grunt-rtlcss": "^2.0.1",
-    "grunt-sass": "^1.1.0",
+    "grunt-sass": "^2.0.0",
     "grunt-shell": "^1.1.2",
+    "grunt-webpack": "^3.0.2",
     "grunt-wp-css": "cedaro/grunt-wp-css#develop",
     "grunt-wp-i18n": "^0.5.4",
     "i18n-calypso": "^1.6.3",
@@ -57,10 +61,12 @@
     "react": "^15.3.1",
     "react-dom": "^15.4.0",
     "sassdash": "^0.8.1",
-    "time-grunt": "^1.0.0"
+    "time-grunt": "^1.0.0",
+    "unminified-webpack-plugin": "^1.2.0",
+    "webpack": "^3.4.1"
   },
   "optionalDependencies": {
-    "grunt-contrib-imagemin": "^1.0.0"
+    "grunt-contrib-imagemin": "^2.0.1"
   },
   "dependencies": {
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
@@ -70,9 +76,10 @@
     "lodash": "^4.7.0",
     "marked": "^0.3.6",
     "material-ui": "^0.15.4",
+    "prop-types": "^15.5.10",
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
-    "yoast-components": "^2.8.0",
-    "yoastseo": "https://github.com/yoast/yoastseo.js#1.20.0"
+    "yoast-components": "https://github.com/Yoast/yoast-components#develop",
+    "yoastseo": "https://github.com/Yoast/YoastSEO.js#develop"
   }
 }

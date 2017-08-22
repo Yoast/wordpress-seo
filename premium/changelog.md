@@ -1,3 +1,8 @@
+### 5.3.0: August 22nd, 2017
+* Add feature to export redirects, via SEO - Tools - Import/Export
+* Removes the `DC.date.issued` meta tag
+* When creating a redirect to a file, it will no longer show a warning that the target location does not exist
+
 ### 5.2.0: August 8th, 2017
 * Adds a watcher for private posts to be redirected correctly after trashing them.
 * Adds collecting technical environment data to send to Yoast.
