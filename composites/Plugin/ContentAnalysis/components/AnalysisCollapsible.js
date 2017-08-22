@@ -119,13 +119,13 @@ export default class AnalysisCollapsible extends React.Component {
 				<div role="presentation">
 					<h3 role="heading" aria-level="3">
 						<AnalysisHeaderButton aria-expanded={ isOpen } aria-controls="AnalysisHeaderContentId"
-											  id="analysisHeaderButtonId" onClick={ this.toggleOpen }>
+											  id={ this.props.id } onClick={ this.toggleOpen }>
 							<AnalysisHeaderIcon icon={ isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
 							<AnalysisTitle> { this.props.title + " (" + childrenAmount + ")" } </AnalysisTitle>
 						</AnalysisHeaderButton>
 					</h3>
 				</div>
-				<ul id="AnalysisHEaderContentId" role="region" aria-labelledby="analysisHeaderButtonId">
+				<ul id={ this.props.id } role="region" aria-labelledby="analysisHeaderButtonId">
 				{ isOpen ? this.props.children : "" }
 				</ul>
 			</AnalysisHeaderContainer>
@@ -134,6 +134,7 @@ export default class AnalysisCollapsible extends React.Component {
 }
 
 AnalysisCollapsible.propTypes = {
+	id: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool,
 	children: PropTypes.oneOfType( [

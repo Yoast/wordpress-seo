@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the AnalysisHeader in opened state matches the snapshot 1`] = `
+exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
 <div
   className="sc-bdVaJa efvPnS"
 >
@@ -12,43 +12,50 @@ exports[`the AnalysisHeader in opened state matches the snapshot 1`] = `
       role="heading"
     >
       <button
-        aria-controls="sect1"
+        aria-controls="AnalysisHeaderContentId"
         aria-expanded={true}
-        className="sc-bwzfXH cocqEj"
+        className="sc-bwzfXH kkDEGu"
+        id={undefined}
         onClick={[Function]}
       >
         <svg
           aria-hidden="true"
-          className="sc-ifAKCX dgWlkW"
+          className="sc-htpNat bYQXEr sc-EHOje gGDgkd"
         />
         <span
-          className="sc-htpNat klnds"
+          className="sc-bxivhb gsqksJ"
         >
            
-          Problems (4)
+          Problems (undefined)
            
         </span>
       </button>
     </h3>
   </div>
-  <ul>
-    <li>
-       First item 
-    </li>
-    <li>
-       Second item 
-    </li>
-    <li>
-       Third item 
-    </li>
-    <li>
-       Fourth item 
-    </li>
+  <ul
+    aria-labelledby="analysisHeaderButtonId"
+    id={undefined}
+    role="region"
+  >
+    <ul>
+      <li>
+         First item 
+      </li>
+      <li>
+         Second item 
+      </li>
+      <li>
+         Third item 
+      </li>
+      <li>
+         Fourth item 
+      </li>
+    </ul>
   </ul>
 </div>
 `;
 
-exports[`the default AnalysisHeader matches the snapshot 1`] = `
+exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
 <div
   className="sc-bdVaJa efvPnS"
 >
@@ -60,24 +67,32 @@ exports[`the default AnalysisHeader matches the snapshot 1`] = `
       role="heading"
     >
       <button
-        aria-controls="sect1"
+        aria-controls="AnalysisHeaderContentId"
         aria-expanded={false}
-        className="sc-bwzfXH cocqEj"
+        className="sc-bwzfXH kkDEGu"
+        id={undefined}
         onClick={[Function]}
       >
         <svg
           aria-hidden="true"
-          className="sc-bxivhb kTrnFu"
+          className="sc-htpNat bYQXEr sc-ifAKCX dgWlkW"
         />
         <span
-          className="sc-htpNat klnds"
+          className="sc-bxivhb gsqksJ"
         >
            
-          Problems (4)
+          Problems (undefined)
            
         </span>
       </button>
     </h3>
   </div>
+  <ul
+    aria-labelledby="analysisHeaderButtonId"
+    id={undefined}
+    role="region"
+  >
+    
+  </ul>
 </div>
 `;

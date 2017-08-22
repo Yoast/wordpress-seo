@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import AnalysisHeader from "../components/AnalysisCollapsible";
+import AnalysisCollapsible from "../components/AnalysisCollapsible";
 
 test( "the default AnalysisCollapsible matches the snapshot", () => {
 	const component = renderer.create(
