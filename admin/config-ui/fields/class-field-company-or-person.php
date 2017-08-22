@@ -23,6 +23,8 @@ class WPSEO_Config_Field_Company_Or_Person extends WPSEO_Config_Field_Choice {
 
 		$this->set_property( 'html', $html );
 
+		$this->set_property( 'decoration', plugin_dir_url( WPSEO_FILE ) . 'images/google-knowledge-card.png' );
+
 		$this->add_choice( 'company', __( 'Company', 'wordpress-seo' ) );
 		$this->add_choice( 'person', __( 'Person', 'wordpress-seo' ) );
 	}

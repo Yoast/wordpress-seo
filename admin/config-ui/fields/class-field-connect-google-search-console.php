@@ -20,7 +20,9 @@ class WPSEO_Config_Field_Connect_Google_Search_Console extends WPSEO_Config_Fiel
 							  'if you grant ia access. Don\'t have a Search Console account or is your ' .
 							  'site not activated yet?', 'wordpress-seo' ), 'Yoast SEO' );
 
-		$link = '<a>' . esc_html( __( 'Find out how to connect Search Console to your site.') ) . '</a>';
+		$link = '<a href="https://kb.yoast.com/kb/how-to-connect-your-website-to-google-webmaster-tools/">' .
+					esc_html( __( 'Find out how to connect Search Console to your site.') ) .
+				'</a>';
 
 		$disclaimer = __( 'Ps: we don\'t store your data in any way and don\'t have full access to your account. ' .
 						  'Your privacy is safe with us.' );
