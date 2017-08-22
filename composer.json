@@ -23,7 +23,7 @@
 	},
 	"require": {
 		"composer/installers": "~1.0",
-		"yoast/license-manager": "^1.4.0",
+		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^2.0.1",
 		"yoast/api-libs": "^2.0",
 		"xrstf/composer-php52": "^1.0.20",
