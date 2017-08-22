@@ -19,7 +19,9 @@ class WPSEO_Config_Field_Social_Profiles_Intro extends WPSEO_Config_Field {
 						  'These will be used in Google\'s Knowledge Graph. There are additional ' .
 						  'sharing options in the advanced settings.', 'wordpress-seo' ), 'Yoast SEO' );
 
-		$link = '<a>' . __( 'More info', 'wordpress-seo' ) . '</a>';
+		$link = '<a href="https://kb.yoast.com/kb/social-profile-knowledge-graph/">' .
+					__( 'More info', 'wordpress-seo' ) .
+				'</a>';
 
 		$html = '<p>' . esc_html( $intro_text ) . ' ' . $link . '</p>';
 
