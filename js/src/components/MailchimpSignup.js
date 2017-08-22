@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/ajaxHelper";
 import RaisedButton from "material-ui/RaisedButton";
 import { localize } from "yoast-components/utils/i18n";
@@ -276,19 +277,19 @@ class MailchimpSignup extends React.Component {
 }
 
 MailchimpSignup.propTypes = {
-	translate: React.PropTypes.func.isRequired,
-	title: React.PropTypes.string,
-	component: React.PropTypes.string,
-	name: React.PropTypes.string.isRequired,
-	properties: React.PropTypes.object,
-	data: React.PropTypes.string,
-	onChange: React.PropTypes.func,
-	value: React.PropTypes.shape(
+	translate: PropTypes.func.isRequired,
+	title: PropTypes.string,
+	component: PropTypes.string,
+	name: PropTypes.string.isRequired,
+	properties: PropTypes.object,
+	data: PropTypes.string,
+	onChange: PropTypes.func,
+	value: PropTypes.shape(
 		{
-			hasSignup: React.PropTypes.bool,
+			hasSignup: PropTypes.bool,
 		}
 	),
-	stepState: React.PropTypes.object,
+	stepState: PropTypes.object,
 };
 
 MailchimpSignup.defaultProps = {

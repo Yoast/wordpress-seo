@@ -2,11 +2,6 @@ language: php
 dist: trusty
 sudo: false
 
-branches:
-  only:
-    - master
-    - trunk
-
 addons:
   apt:
     sources:
@@ -14,7 +9,7 @@ addons:
     packages:
       - g++-4.8
 
-matrix:
+jobs:
   fast_finish: true
   include:
     - php: 7.0
@@ -32,18 +27,35 @@ matrix:
     # WP >= 4.8 is needed for PHP 7.1
     - php: 7.1
       env: WP_VERSION=4.8
-    - php: hhvm
-      env: WP_VERSION=4.8
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
       env: WP_VERSION=master
     - php: nightly
       env: WP_VERSION=master
+    - stage: 🚀 deployment
+      before_script: skip
+      script: grunt artifact
+      before_install: skip
+      install:
+        - yarn global add grunt-cli
+        - yarn install
+      deploy:
+        skip_cleanup: true
+        provider: s3
+        access_key_id: AKIAJRNLQAPRL5UKDJKQ
+        secret_access_key:
+          secure: TE13B5MDyw16DxEIRpbXPtxb1LZAzi8jdCU4FZuTzNsdVaowlAXUEFFB+g8uapoQhJKqvZrwvrpqifRPhH0tcRlJ5Z0A+qWp8WhiFGmipp3gJBblacviAIvswGzKFN8+DgQVwHSKpzk3ZjEkDkH/KYq6OTYPL/g5oRwsjI0Ug9w=
+        bucket: yoast-seo-builds
+        region: us-east-1
+        local-dir: artifact
+        upload-dir: $TRAVIS_BRANCH
+        on:
+          repo: Yoast/wordpress-seo
+          all_branches: true
   allow_failures:
     # Allow failures for unstable builds.
     - php: nightly
-    - php: hhvm
     - env: WP_VERSION=master
 
 cache:
@@ -51,7 +63,6 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
-    - node_modules
 
 before_install:
 - if [[ "$CHECKJS" == "1" ]]; then nvm install $TRAVIS_NODE_VERSION; fi
@@ -85,7 +96,7 @@ before_script:
 
 script:
 - if [[ "$PHPLINT" == "1" ]]; then find -L .  -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
-- if [[ "$PHPCS" == "1" ]]; then vendor/bin/phpcs -v; fi
+- if [[ "$PHPCS" == "1" ]]; then vendor/bin/phpcs -v --runtime-set ignore_warnings_on_exit 1; fi
 - if [[ "$CHECKJS" == "1" ]]; then grunt check:js; fi
 - if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then COVERAGE="0"; fi
 - if [[ "$COVERAGE" != "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "5" || $TRAVIS_PHP_VERSION == hhv* ]]; then phpunit -c phpunit.xml; fi

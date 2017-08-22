@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import RaisedURLNewWindowButton from "./RaisedURLNewWindowButton";
 import RaisedNextStepButton from "./RaisedNextStepButton";
 
@@ -41,9 +42,9 @@ class ConfigurationChoice extends React.Component {
 export default ConfigurationChoice;
 
 ConfigurationChoice.propTypes = {
-	title: React.PropTypes.string.isRequired,
-	copy: React.PropTypes.string.isRequired,
-	image: React.PropTypes.string.isRequired,
-	button: React.PropTypes.object.isRequired,
-	nextStep: React.PropTypes.func.isRequired,
+	title: PropTypes.string.isRequired,
+	copy: PropTypes.string.isRequired,
+	image: PropTypes.string.isRequired,
+	button: PropTypes.object.isRequired,
+	nextStep: PropTypes.func.isRequired,
 };

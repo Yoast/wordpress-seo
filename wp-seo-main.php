@@ -351,17 +351,6 @@ if ( ! $filter_exists ) {
 	add_action( 'admin_init', 'yoast_wpseo_missing_filter', 1 );
 }
 
-if ( ! function_exists( 'wp_installing' ) ) {
-	/**
-	 * We need to define wp_installing in WordPress versions older than 4.4
-	 *
-	 * @return bool
-	 */
-	function wp_installing() {
-		return defined( 'WP_INSTALLING' );
-	}
-}
-
 if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 	add_action( 'rest_api_init', 'wpseo_init_rest_api' );

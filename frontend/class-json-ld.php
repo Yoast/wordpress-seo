@@ -10,7 +10,7 @@
  *
  * @since 1.8
  */
-class WPSEO_JSON_LD {
+class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 
 	/**
 	 * @var array Holds the plugins options.
@@ -32,7 +32,12 @@ class WPSEO_JSON_LD {
 	 */
 	public function __construct() {
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
+	}
 
+	/**
+	 * Registers the hooks.
+	 */
+	public function register_hooks() {
 		add_action( 'wpseo_head', array( $this, 'json_ld' ), 90 );
 		add_action( 'wpseo_json_ld', array( $this, 'website' ), 10 );
 		add_action( 'wpseo_json_ld', array( $this, 'organization_or_person' ), 20 );

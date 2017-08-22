@@ -66,6 +66,7 @@ class WPSEO_Sitemaps {
 	 */
 	public function __construct() {
 
+		add_action( 'after_setup_theme', array( $this, 'init_sitemaps_providers' ) );
 		add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
 		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
@@ -77,6 +78,19 @@ class WPSEO_Sitemaps {
 		$this->router      = new WPSEO_Sitemaps_Router();
 		$this->renderer    = new WPSEO_Sitemaps_Renderer();
 		$this->cache       = new WPSEO_Sitemaps_Cache();
+
+		if ( ! empty( $_SERVER['SERVER_PROTOCOL'] ) ) {
+			$this->http_protocol = sanitize_text_field( $_SERVER['SERVER_PROTOCOL'] );
+		}
+	}
+
+	/**
+	 * Initialize sitemap providers classes.
+	 *
+	 * @since 5.3
+	 */
+	public function init_sitemaps_providers() {
+
 		$this->providers   = array(
 			new WPSEO_Post_Type_Sitemap_Provider(),
 			new WPSEO_Taxonomy_Sitemap_Provider(),
@@ -89,10 +103,6 @@ class WPSEO_Sitemaps {
 			if ( is_object( $provider ) && $provider instanceof WPSEO_Sitemap_Provider ) {
 				$this->providers[] = $provider;
 			}
-		}
-
-		if ( ! empty( $_SERVER['SERVER_PROTOCOL'] ) ) {
-			$this->http_protocol = sanitize_text_field( $_SERVER['SERVER_PROTOCOL'] );
 		}
 	}
 

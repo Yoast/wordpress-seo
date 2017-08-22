@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { localize } from "yoast-components/utils/i18n";
 import ConfigurationChoice from "./ConfigurationChoice";
@@ -32,9 +33,9 @@ class ConfigurationChoices extends React.Component {
 }
 
 ConfigurationChoices.propTypes = {
-	nextStep: React.PropTypes.func.isRequired,
-	previousStep: React.PropTypes.func.isRequired,
-	properties: React.PropTypes.object.isRequired,
+	nextStep: PropTypes.func.isRequired,
+	previousStep: PropTypes.func.isRequired,
+	properties: PropTypes.object.isRequired,
 };
 
 export default localize( ConfigurationChoices );
