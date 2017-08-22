@@ -5,7 +5,7 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 ( function( $ ) {
 	// eslint-disable-next-line
-	window.wpseo_init_tabs = function() {
+	 function wpseoInitTabs() {
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
 			jQuery( ".wpseo-metabox-tabs" )
 				.on( "click", "a.wpseo_tablink", function( ev ) {
@@ -72,7 +72,10 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 		// End Tabs code.
 
 		initializeAlgoliaSearch();
-	};
+	}
+
+	window.wpseoInitTabs = wpseoInitTabs;
+	window.wpseo_init_tabs = wpseoInitTabs;
 
 	/**
 	 * @summary Adds select2 for selected fields.
