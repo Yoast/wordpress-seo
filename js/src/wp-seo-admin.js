@@ -252,6 +252,7 @@ import a11ySpeak from "a11y-speak";
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
 	// eslint-disable-next-line
+	window.wpseoAddFbAdmin = wpseoAddFbAdmin;
 	window.wpseo_add_fb_admin = wpseoAddFbAdmin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
