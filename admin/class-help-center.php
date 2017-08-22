@@ -132,8 +132,7 @@ class WPSEO_Help_Center {
 		$id = sprintf( 'tab-help-center-%s-%s', $this->group_name, $this->tab->get_name() );
 		?>
 		<div class="wpseo-tab-video-container">
-			<button type="button" class="wpseo-tab-video-container__handle" aria-controls="<?php echo $id ?>"
-			        aria-expanded="false">
+			<button type="button" class="wpseo-tab-video-container__handle" aria-controls="<?php echo $id ?>" aria-expanded="false">
 					<span
 						class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ) ?></span>
 				<span class="dashicons dashicons-arrow-down toggle__arrow"></span>

@@ -131,10 +131,17 @@ class WPSEO_Upgrade {
 		if ( ! empty( $taxonomies ) ) {
 			foreach ( $taxonomies as $taxonomy => $tax_metas ) {
 				foreach ( $tax_metas as $term_id => $tax_meta ) {
-					if ( function_exists( 'wp_get_split_term' ) && $new_term_id = wp_get_split_term( $term_id, $taxonomy ) ) {
-						$taxonomies[ $taxonomy ][ $new_term_id ] = $taxonomies[ $taxonomy ][ $term_id ];
-						unset( $taxonomies[ $taxonomy ][ $term_id ] );
+					if ( ! function_exists( 'wp_get_split_term' ) ) {
+						continue;
 					}
+
+					$new_term_id = wp_get_split_term( $term_id, $taxonomy );
+					if ( ! $new_term_id ) {
+						continue;
+					}
+
+					$taxonomies[ $taxonomy ][ $new_term_id ] = $taxonomies[ $taxonomy ][ $term_id ];
+					unset( $taxonomies[ $taxonomy ][ $term_id ] );
 				}
 			}
 
@@ -310,12 +317,12 @@ class WPSEO_Upgrade {
 		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
 
 		$usermetas = $wpdb->get_results(
-			$wpdb->prepare('
+			$wpdb->prepare( '
 				SELECT user_id, meta_value
 				FROM ' . $wpdb->usermeta . '
 				WHERE meta_key = %s AND meta_value LIKE "%%wpseo-dismiss-about%%"
 				', $meta_key ),
-				ARRAY_A
+			ARRAY_A
 		);
 
 		if ( empty( $usermetas ) ) {

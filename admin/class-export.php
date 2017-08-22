@@ -75,6 +75,8 @@ class WPSEO_Export {
 	 */
 	public function set_error_hook() {
 		$class   = 'notice notice-error';
+
+		/* translators: %1$s resolves to Yoast SEO */
 		$message = sprintf( __( 'Error creating %1$s export: ', 'wordpress-seo' ), 'Yoast SEO' ) . $this->error;
 
 		printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );

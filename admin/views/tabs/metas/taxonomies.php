@@ -40,7 +40,8 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 					'off' => __( 'Show', 'wordpress-seo' ),
 					'on'  => __( 'Hide', 'wordpress-seo' ),
 					/* translators: %1$s expands to Yoast SEO */
-				), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
+				), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' )
+			);
 		}
 		/**
 		 * Allow adding custom checkboxes to the admin meta page - Taxonomies tab

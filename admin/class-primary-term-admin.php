@@ -117,7 +117,8 @@ class WPSEO_Primary_Term_Admin {
 			$post_id = $this->get_current_id();
 		}
 
-		if ( false !== ( $taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_id, 'wpseo' ) ) ) {
+		$taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_id, 'wpseo' );
+		if ( false !== $taxonomies ) {
 			return $taxonomies;
 		}
 

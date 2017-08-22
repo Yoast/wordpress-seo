@@ -620,8 +620,11 @@ class WPSEO_Replace_Vars {
 		}
 
 		if ( $post_type !== '' ) {
-			$pt        = get_post_type_object( $post_type );
-			$pt_plural = $pt_single = $pt->name;
+			$pt = get_post_type_object( $post_type );
+
+			$pt_plural = $pt->name;
+			$pt_single = $pt->name;
+
 			if ( isset( $pt->labels->singular_name ) ) {
 				$pt_single = $pt->labels->singular_name;
 			}
@@ -903,6 +906,7 @@ class WPSEO_Replace_Vars {
 		$sep = $this->retrieve_sep();
 
 		if ( $max > 1 && $nr > 1 ) {
+			/* translators: %1$d resolves to the current page number, %2$d resolves to the total number of pages */
 			$replacement = sprintf( $sep . ' ' . __( 'Page %1$d of %2$d', 'wordpress-seo' ), $nr, $max );
 		}
 
@@ -1086,7 +1090,7 @@ class WPSEO_Replace_Vars {
 			if ( ( is_string( $type ) && in_array( $type, array(
 						'basic',
 						'advanced',
-					), true ) ) && ( $replace !== '' && ! isset( self::$help_texts[ $type ][ $replace ] ) )
+			), true ) ) && ( $replace !== '' && ! isset( self::$help_texts[ $type ][ $replace ] ) )
 			) {
 				self::$help_texts[ $type ][ $replace ] = $help_text;
 			}

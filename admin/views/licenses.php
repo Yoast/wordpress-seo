@@ -163,7 +163,16 @@ if ( class_exists( 'Woocommerce' ) ) {
 				<?php endif; ?>
 				</a>
 
-			<?php else : ?>
+			<?php else :
+
+				$label_more_info_about = sprintf(
+					/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
+					__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
+					'<span class="screen-reader-text">',
+					'</span>',
+					$extension->get_title()
+				);
+				?>
 
 				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zz' ); ?>" class="yoast-button yoast-button--noarrow yoast-button-go-to yoast-button--extension yoast-button--extension-buy">
 					<?php
@@ -171,14 +180,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 					printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->get_title() );
 					?></a>
 
-				<a target="_blank" href="<?php WPSEO_Shortlinker::get( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php
-					printf(
-					/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
-						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
-						'<span class="screen-reader-text">',
-						'</span>',
-						$extension->get_title() );
-					?></a>
+				<a target="_blank" href="<?php WPSEO_Shortlinker::get( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php echo $label_more_info_about ?></a>
 			<?php endif; ?>
 
 			<p><small class="yoast-money-back-guarantee"><?php _e( 'Comes with our 30-day no questions asked money back guarantee', 'wordpress-seo' ); ?></small></p>
@@ -192,6 +194,14 @@ if ( class_exists( 'Woocommerce' ) ) {
 				$yoast_seo_extensions = sprintf( __( '%1$s extensions', 'wordpress-seo' ), 'Yoast SEO' );
 
 				$yoast_seo_extensions = '<span class="yoast-heading-highlight">' . $yoast_seo_extensions . '</span>';
+
+				$label_more_info_about = sprintf(
+					/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
+					__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
+					'<span class="screen-reader-text">',
+					'</span>',
+					$extension->get_title()
+				);
 
 				/* translators: %1$s expands to Yoast SEO extensions */
 				printf( __( '%1$s to optimize your site even further', 'wordpress-seo' ), $yoast_seo_extensions );
@@ -225,14 +235,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 								<?php printf( __( 'Buy %s', 'wordpress-seo' ), $extension->get_buy_button() ); ?>
 							</a>
 
-							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension->get_info_url() ); ?>"><?php
-								printf(
-								/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
-									__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
-									'<span class="screen-reader-text">',
-									'</span>',
-									$extension->get_title() );
-								?>
+							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension->get_info_url() ); ?>"><?php echo $label_more_info_about ?>
 							</a>
 						<?php endif; ?>
 					</div>

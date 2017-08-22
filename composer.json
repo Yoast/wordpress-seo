@@ -21,6 +21,12 @@
 		"wiki": "https://github.com/Yoast/wordpress-seo/wiki",
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/Yoast/yoastcs"
+		}
+	],
 	"require": {
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "^1.4.0",
@@ -30,9 +36,9 @@
 		"yoast/whip": "^1.1.0"
 	},
 	"require-dev": {
+		"yoast/yoastcs": "dev-JRF/update-for-WPCS-0.11.0",
 		"codeclimate/php-test-reporter": "dev-master",
-		"yoast/php-development-environment": "^1.0",
-		"yoast/yoastcs": "~0.4.3"
+		"yoast/php-development-environment": "^1.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -46,7 +52,7 @@
 	},
 	"scripts": {
 		"config-yoastcs": [
-			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
+			"\"vendor/bin/phpcs\" --config-set installed_paths ../../..,../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/wimg/php-compatibility",
 			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
 		],
 		"check-cs": [

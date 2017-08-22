@@ -176,6 +176,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 							}
 
 							$error_message = sprintf(
+								/* translators: %s resolves to the option value which contains the entries per sitemap page */
 								__( '"Max entries per sitemap page" should be a positive number, which %s is not. Please correct.', 'wordpress-seo' ),
 								'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
 							);
@@ -187,7 +188,8 @@ class WPSEO_Option_XML extends WPSEO_Option {
 
 				case 'excluded-posts' :
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-						if ( $filtered_array = filter_var_array( explode( ',', $dirty[ $key ] ), FILTER_VALIDATE_INT ) ) {
+						$filtered_array = filter_var_array( explode( ',', $dirty[ $key ] ), FILTER_VALIDATE_INT );
+						if ( $filtered_array ) {
 							$clean[ $key ] = implode( ',', array_filter( $filtered_array, 'is_integer' ) );
 
 							unset( $filtered_array );

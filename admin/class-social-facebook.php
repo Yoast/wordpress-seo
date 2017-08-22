@@ -130,7 +130,8 @@ class Yoast_Social_Facebook {
 	 * This method will hook into the defined get params
 	 */
 	private function get_listener() {
-		if ( $delfbadmin = filter_input( INPUT_GET, 'delfbadmin' ) ) {
+		$delfbadmin = filter_input( INPUT_GET, 'delfbadmin' );
+		if ( $delfbadmin ) {
 			$this->delete_admin( $delfbadmin );
 		}
 		elseif ( filter_input( INPUT_GET, 'fbclearall' ) ) {
@@ -152,6 +153,8 @@ class Yoast_Social_Facebook {
 			unset( $this->options['fb_admins'][ $admin_id ] );
 
 			$this->save_options();
+
+			/* translators: %s resolves to the name of the Facebook admin */
 			$this->success_notice( sprintf( __( 'Successfully removed admin %s', 'wordpress-seo' ), $fbadmin ) );
 
 			unset( $fbadmin );

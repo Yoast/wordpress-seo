@@ -178,7 +178,7 @@ class WPSEO_Utils {
 		global $wp_roles;
 
 		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
+			$wp_roles = new WP_Roles(); // WPCS: override ok.
 		}
 
 		$roles = $wp_roles->get_names();
@@ -982,8 +982,7 @@ class WPSEO_Utils {
 	 * @return bool Returns true if the API is available.
 	 */
 	public static function is_api_available( $minimum_version = '2.0' ) {
-		return ( defined( 'REST_API_VERSION' )
-		         && version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
+		return ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
 	}
 
 	/********************** DEPRECATED METHODS **********************/

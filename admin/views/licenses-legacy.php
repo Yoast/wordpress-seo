@@ -155,7 +155,7 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 
 				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php
 					printf(
-					/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
+						/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 						'<span class="screen-reader-text">',
 						'</span>',
@@ -183,11 +183,16 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 
 				<?php foreach ( $extensions as $id => $extension ) : ?>
 					<?php
-					// Ignore coding standards for object properties.
-					// @codingStandardsIgnoreStart
-					$buy_url = $extension->buyUrl;
+					$buy_url  = $extension->buyUrl;
 					$info_url = $extension->infoUrl;
-					// @codingStandardsIgnoreEnd
+
+					$label_more_info_about = sprintf(
+						/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
+						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
+						'<span class="screen-reader-text">',
+						'</span>',
+						$extension->title
+					);
 					?>
 
 					<section class="yoast-promoblock secondary yoast-promo-extension">
@@ -211,14 +216,7 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 							</a>
 						<?php endif; ?>
 
-						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $info_url ); ?>"><?php
-							printf(
-							/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
-								__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
-								'<span class="screen-reader-text">',
-								'</span>',
-								$extension->title );
-							?></a>
+						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $info_url ); ?>"><?php echo $label_more_info_about ?></a>
 					</section>
 				<?php endforeach; ?>
 			</section>
