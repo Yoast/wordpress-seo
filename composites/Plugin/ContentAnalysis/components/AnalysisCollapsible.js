@@ -112,20 +112,19 @@ export default class AnalysisCollapsible extends React.Component {
 	 */
 	render() {
 		const isOpen = this.isOpen();
-		let childrenAmount = this.props.children.length;
 
 		return (
 			<AnalysisHeaderContainer>
 				<div role="presentation">
 					<h3 role="heading" aria-level="3">
-						<AnalysisHeaderButton aria-expanded={ isOpen } aria-controls="AnalysisHeaderContentId"
-											  id={ this.props.id } onClick={ this.toggleOpen }>
+						<AnalysisHeaderButton aria-expanded={ isOpen } aria-controls={ this.props.headerId + "Content" }
+											  id={ this.props.headerId } onClick={ this.toggleOpen }>
 							<AnalysisHeaderIcon icon={ isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
-							<AnalysisTitle> { this.props.title + " (" + childrenAmount + ")" } </AnalysisTitle>
+							<AnalysisTitle> { this.props.title + " (" + this.props.children.length + ")" } </AnalysisTitle>
 						</AnalysisHeaderButton>
 					</h3>
 				</div>
-				<ul id={ this.props.id } role="region" aria-labelledby="analysisHeaderButtonId">
+				<ul id={ this.props.headerId + "Content" } role="region" aria-labelledby={ this.props.headerId }>
 				{ isOpen ? this.props.children : "" }
 				</ul>
 			</AnalysisHeaderContainer>
@@ -134,7 +133,7 @@ export default class AnalysisCollapsible extends React.Component {
 }
 
 AnalysisCollapsible.propTypes = {
-	id: PropTypes.string.isRequired,
+	headerId: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool,
 	children: PropTypes.oneOfType( [

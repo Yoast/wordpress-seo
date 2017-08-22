@@ -4,7 +4,7 @@ import AnalysisCollapsible from "../components/AnalysisCollapsible";
 
 test( "the default AnalysisCollapsible matches the snapshot", () => {
 	const component = renderer.create(
-		<AnalysisCollapsible title="Problems">
+		<AnalysisCollapsible headerId="AnalysisProblems" title="Problems">
 			<ul>
 				<li> First item </li>
 				<li> Second item </li>
@@ -20,7 +20,7 @@ test( "the default AnalysisCollapsible matches the snapshot", () => {
 
 test( "the AnalysisCollapsible in opened state matches the snapshot", () => {
 	const component = renderer.create(
-		<AnalysisCollapsible title="Problems" isOpen={true}>
+		<AnalysisCollapsible headerId="AnalysisProblems" title="Problems" isOpen={true}>
 			<ul>
 				<li> First item </li>
 				<li> Second item </li>

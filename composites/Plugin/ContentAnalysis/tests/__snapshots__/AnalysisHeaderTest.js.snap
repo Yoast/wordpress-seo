@@ -12,10 +12,10 @@ exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
       role="heading"
     >
       <button
-        aria-controls="AnalysisHeaderContentId"
+        aria-controls="AnalysisProblemsContent"
         aria-expanded={true}
         className="sc-bwzfXH kkDEGu"
-        id={undefined}
+        id="AnalysisProblems"
         onClick={[Function]}
       >
         <svg
@@ -33,8 +33,8 @@ exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
     </h3>
   </div>
   <ul
-    aria-labelledby="analysisHeaderButtonId"
-    id={undefined}
+    aria-labelledby="AnalysisProblems"
+    id="AnalysisProblemsContent"
     role="region"
   >
     <ul>
@@ -67,10 +67,10 @@ exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
       role="heading"
     >
       <button
-        aria-controls="AnalysisHeaderContentId"
+        aria-controls="AnalysisProblemsContent"
         aria-expanded={false}
         className="sc-bwzfXH kkDEGu"
-        id={undefined}
+        id="AnalysisProblems"
         onClick={[Function]}
       >
         <svg
@@ -88,8 +88,8 @@ exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
     </h3>
   </div>
   <ul
-    aria-labelledby="analysisHeaderButtonId"
-    id={undefined}
+    aria-labelledby="AnalysisProblems"
+    id="AnalysisProblemsContent"
     role="region"
   >
     
