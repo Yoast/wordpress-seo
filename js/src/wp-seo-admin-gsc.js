@@ -150,6 +150,10 @@ function wpseoMarkAsFixed( url ) {
 	);
 }
 
+window.wpseoUpdateCategoryCount = wpseoUpdateCategoryCount;
+window.wpseoMarkAsFixed = wpseoMarkAsFixed;
+window.wpseoSendMarkAsFixed = wpseoSendMarkAsFixed;
+
 /* eslint-disable camelcase */
 window.wpseo_update_category_count = wpseoUpdateCategoryCount;
 window.wpseo_mark_as_fixed = wpseoMarkAsFixed;

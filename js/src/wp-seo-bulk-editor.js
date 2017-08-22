@@ -23,6 +23,9 @@
 
 		var instance = {
 
+			submit_new: function( id ) {
+				instance.submitNew( id );
+			},
 			submitNew: function( id ) {
 				var newTarget = options.newId + id;
 				var existingTarget = options.existingId + id;
@@ -60,6 +63,9 @@
 				}
 			},
 
+			submit_all: function( ev ) {
+				instance.submitAll( ev );
+			},
 			submitAll: function( ev ) {
 				ev.preventDefault();
 
@@ -95,6 +101,9 @@
 				}
 			},
 
+			handle_response: function( response, status ) {
+				instance.handleResponse( response, status );
+			},
 			handleResponse: function( response, status ) {
 				if ( status !== "success" ) {
 					return;
@@ -120,6 +129,9 @@
 				}
 			},
 
+			handle_responses: function( responses, status ) {
+				instance.handleResponses( responses, status );
+			},
 			handleResponses: function( responses, status ) {
 				var resps = jQuery.parseJSON( responses );
 				jQuery.each( resps, function() {
@@ -128,6 +140,9 @@
 				);
 			},
 
+			set_events: function() {
+				instance.setEvents();
+			},
 			setEvents: function() {
 				// Save link.
 				currentTable.find( ".wpseo-save" ).click( function( event ) {
@@ -158,6 +173,7 @@
 	};
 	// eslint-disable-next-line
 	window.bulk_editor = bulkEditor;
+	window.bulkEditor = bulkEditor;
 
 	jQuery( document ).ready( function() {
 		var parentTables = jQuery( 'table[class*="wpseo_bulk"]' );
