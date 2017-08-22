@@ -16,16 +16,6 @@ class WPSEO_Config_Field_Site_Name extends WPSEO_Config_Field {
 
 		$this->set_property( 'label', __( 'Website name', 'wordpress-seo' ) );
 
-		$html = __( 'On this page, you can change the name of your site and choose which ' .
-					'separator to use. The separator will display, for instance, between your ' .
-					'post title and site name. Symbols are shown in the size they\'ll appear in ' .
-					'the search results. Choose the one that fits your brand best or takes up ' .
-					'the least space in the snippets.', 'wordpress-seo' );
-
-		$html = '<p>' . esc_html( $html ) . '</p>';
-
-		$this->set_property( 'html', $html );
-
 		$this->set_property( 'explanation', __( 'Google shows your website\'s name in the search results, if you want to change it, you can do that here.', 'wordpress-seo' ) );
 	}
 
