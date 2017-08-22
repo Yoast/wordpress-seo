@@ -41,7 +41,7 @@ const defaultWebpackConfig = {
 };
 
 const defaults = ( config ) => {
-	return _defaultsDeep( defaultWebpackConfig, config );
+	return _defaultsDeep( config, defaultWebpackConfig );
 };
 
 module.exports = {
