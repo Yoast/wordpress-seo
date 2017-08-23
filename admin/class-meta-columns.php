@@ -423,7 +423,7 @@ class WPSEO_Meta_Columns {
 
 		// If no filters were applied, just return everything.
 		if ( count( $filters ) === 0 ) {
-			return array_merge( $vars, $result );
+			return $vars;
 		}
 
 		$result['meta_query'] = array_merge( $result['meta_query'], array( $this->determine_score_filters( $filters ) ) );
