@@ -9,6 +9,8 @@ exports[`the checked IconRadioButton matches the snapshot 1`] = `
     type="radio"
   />
   <label
+    aria-checked={true}
+    aria-label="RadioButton2"
     checked={true}
     className="label sc-bwzfXH byTXON"
     htmlFor="RadioButton2"
@@ -30,6 +32,8 @@ exports[`the unchecked IconRadioButton matches the snapshot 1`] = `
     type="radio"
   />
   <label
+    aria-checked={false}
+    aria-label="RadioButton"
     checked={false}
     className="label sc-bwzfXH gnevpY"
     htmlFor="RadioButton"

@@ -46,6 +46,8 @@ const IconRadioButton = ( props ) => {
 				checkedBoxShadowColor={ props.checkedBoxShadowColor }
 				checkedBackground={ props.checkedBackground }
 				uncheckedBackground={ props.uncheckedBackground }
+				aria-label={ props.id }
+				aria-checked={ props.checked }
 			>
 				{ props.checked
 					? <Icon icon={ props.checkedIcon } color={ props.checkedIconColor }/>
