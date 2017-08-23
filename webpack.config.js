@@ -5,6 +5,9 @@ const PORT = 3333;
 
 module.exports = {
 	entry: [
+		// Polyfill
+		"babel-polyfill",
+
 		// Activate HMR for React
 		"react-hot-loader/patch",
 
@@ -16,6 +19,7 @@ module.exports = {
 		// 'Only-' means to only hot reload for successful updates
 		"webpack/hot/only-dev-server",
 
+		// Yoast components entry
 		"./render.js",
 	],
 	output: {

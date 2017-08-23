@@ -18,6 +18,78 @@ import 'Input' from 'yoast-components/forms/Input'
 // Then you can Input in your React components
 ```
 
+## Requirements
+
+If you use `yoast-components` within your own project we recommend using `webpack` with the following loaders and configuration:
+
+### Webpack loaders
+
+* Babel-loader
+  * Presets: es2015 and react
+  
+#### Example
+
+Webpack 2+ configuration:
+```js
+module.exports = {
+    // ...
+    module: {
+        rules: [
+            {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                use: [ {
+                    loader: "babel-loader",
+                } ],
+            },
+            // ...
+        ],
+    },
+    // ...
+}
+```
+`.babelrc`:
+```json
+{
+  "presets": ["es2015", "react"]
+}
+```
+  
+### Additional configuration
+
+In the `entry` of your webpack you should include [babel-bolyfill](https://babeljs.io/docs/usage/polyfill/#usage-in-node-browserify-webpack) as the very first element:
+
+```js
+module.exports = {
+    // ...
+    entry: [
+        "babel-polyfill",
+        // ...
+        "your-app-entry.js"
+    ]
+    // ...
+}
+```
+
+### Reducers and Middleware
+
+Some components require implementing a reducer. See which components need what reducers below:
+
+#### Content analysis
+
+If you wish to use the content analysis component you should implement the `contentAnalysisReducer`, located in `yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer.js`. In your root reducer this reducer should have the name `contentAnalysis`.
+```js
+import contentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer.js";
+// Your root reducer
+combineReducers( {
+    // ...
+    contentAnalysis: contentAnalysis,
+    // ...
+} );
+```
+
+The Content Analysis requires the [`redux-thunk`](https://www.npmjs.com/package/redux-thunk) middleware.
+
 ## Setup
 - Run a `yarn install` in the root folder.
 - Run `yarn start` in the root folder.
