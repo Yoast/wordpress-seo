@@ -68,12 +68,11 @@ const AnalysisTitle = styled.span`
 `;
 
 /**
- * Returns the rendered AnalysisCollapsible element.
+ * A collapsible header used to show sets of analysis results. Expects list items as children.
  *
- * @param props The stuff passed.
- *
- * @returns {ReactElement} The rendered AnalysisCollapsible element.
- *
+ * @param {object} props The properties for the component.
+ * @returns {XML} A collasible analysisresult set.
+ * @constructor
  */
 const AnalysisCollapsible = ( props ) => {
 	const headerContentId = props.headerId + "Content";
