@@ -57,10 +57,8 @@ class WPSEO_Export_Keywords_Manager {
 	 * Sets the headers to trigger an CSV download in the browser.
 	 */
 	protected function set_csv_headers() {
-		$datestring = preg_replace( '/\s/', '-', date_i18n( get_option( 'date_format' ) ) );
-
 		header( 'Content-type: text/csv' );
-		header( 'Content-Disposition: attachment; filename=' . $datestring . 'wordpress-seo-keywords.csv' );
+		header( 'Content-Disposition: attachment; filename=' . date('Y-m-d') . '-wordpress-seo-keywords.csv' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 	}
