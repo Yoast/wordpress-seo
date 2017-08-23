@@ -125,6 +125,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.3.2 =
+
+Release Date: August 23th, 2017
+
+* Bugfixes
+	* Fixes a bug where an invalid license notification could be shown in certain situations.
+
 = 5.3.1 =
 
 Release Date: August 22nd, 2017
