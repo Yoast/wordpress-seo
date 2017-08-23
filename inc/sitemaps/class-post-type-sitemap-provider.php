@@ -453,15 +453,14 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		$archive_url = get_post_type_archive_link( $post_type );
-
 		// Post archive should be excluded if it isn't front page or posts page.
 		if ( $post_type === 'post' && get_option( 'show_on_front' ) !== 'posts' && ! $this->get_page_for_posts_id() ) {
 			return false;
 		}
 
-		return $archive_url;
+		$archive_url = get_post_type_archive_link( $post_type );
 
+		return $archive_url;
 	}
 
 	/**
