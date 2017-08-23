@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the checked IconRadioButton matches the snapshot 1`] = `
+<span>
+  <input
+    className="sc-bdVaJa jwdLsH"
+    id="RadioButton2"
+    name="group1"
+    type="radio"
+  />
+  <label
+    checked={true}
+    className="label sc-bwzfXH byTXON"
+    htmlFor="RadioButton2"
+  >
+    <svg
+      aria-hidden="true"
+      className="sc-bxivhb leOCwi"
+    />
+  </label>
+</span>
+`;
+
+exports[`the unchecked IconRadioButton matches the snapshot 1`] = `
+<span>
+  <input
+    className="sc-bdVaJa jwdLsH"
+    id="RadioButton"
+    name="group1"
+    type="radio"
+  />
+  <label
+    checked={false}
+    className="label sc-bwzfXH gnevpY"
+    htmlFor="RadioButton"
+  >
+    <svg
+      aria-hidden="true"
+      className="sc-htpNat etIqZE"
+    />
+  </label>
+</span>
+`;
