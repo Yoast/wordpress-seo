@@ -76,18 +76,19 @@ const AnalysisTitle = styled.span`
  *
  */
 const AnalysisCollapsible = ( props ) => {
+	const headerContentId = props.headerId + "Content";
 	return (
 		<AnalysisHeaderContainer>
 			<div role="presentation">
 				<h3 role="heading" aria-level="3">
-					<AnalysisHeaderButton aria-expanded={ props.isOpen } aria-controls={ props.headerId + "Content" }
+					<AnalysisHeaderButton aria-expanded={ props.isOpen } aria-controls={ headerContentId }
 										  id={ props.headerId } onClick={ props.onOpen }>
 						<AnalysisHeaderIcon icon={ props.isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
 						<AnalysisTitle> { props.title + " (" + props.children.length + ")" } </AnalysisTitle>
 					</AnalysisHeaderButton>
 				</h3>
 			</div>
-			<ul id={ props.headerId + "Content" } role="region" aria-labelledby={ props.headerId }>
+			<ul id={ headerContentId } role="region" aria-labelledby={ props.headerId }>
 			{ props.isOpen ? props.children : "" }
 			</ul>
 		</AnalysisHeaderContainer>
