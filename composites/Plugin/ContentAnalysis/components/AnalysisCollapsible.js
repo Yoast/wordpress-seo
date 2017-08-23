@@ -67,83 +67,48 @@ const AnalysisTitle = styled.span`
 	align-self: center;
 `;
 
-export default class AnalysisCollapsible extends React.Component {
-	/**
-	 * The constructor.
-	 *
-	 * @constructor
-	 *
-	 * @param {Object} props The props to use.
-	 */
-	constructor( props ) {
-		super( props );
-
-		this.state = {
-			isOpen: this.props.isOpen,
-		};
-
-		this.toggleOpen = this.toggleOpen.bind( this );
-	}
-
-	/**
-	 * Returns whether the list is collapsed.
-	 *
-	 * @returns {Boolean} False when the list is collapsed.
-	 */
-	isOpen() {
-		return this.state.isOpen;
-	}
-
-	/**
-	 * Toggles whether the list is collapsed.
-	 *
-	 * @returns {void}
-	 */
-	toggleOpen() {
-		this.setState( {
-			isOpen: ! this.state.isOpen,
-		} );
-	}
-
-	/**
-	 * Returns the rendered AnalysisCollapsible element.
-	 *
-	 * @returns {ReactElement} The rendered AnalysisCollapsible element.
-	 */
-	render() {
-		const isOpen = this.isOpen();
-
-		return (
-			<AnalysisHeaderContainer>
-				<div role="presentation">
-					<h3 role="heading" aria-level="3">
-						<AnalysisHeaderButton aria-expanded={ isOpen } aria-controls={ this.props.headerId + "Content" }
-											  id={ this.props.headerId } onClick={ this.toggleOpen }>
-							<AnalysisHeaderIcon icon={ isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
-							<AnalysisTitle> { this.props.title + " (" + this.props.children.length + ")" } </AnalysisTitle>
-						</AnalysisHeaderButton>
-					</h3>
-				</div>
-				<ul id={ this.props.headerId + "Content" } role="region" aria-labelledby={ this.props.headerId }>
-				{ isOpen ? this.props.children : "" }
-				</ul>
-			</AnalysisHeaderContainer>
-		);
-	}
-}
+/**
+ * Returns the rendered AnalysisCollapsible element.
+ *
+ * @param props The stuff passed.
+ *
+ * @returns {ReactElement} The rendered AnalysisCollapsible element.
+ *
+ */
+const AnalysisCollapsible = ( props ) => {
+	return (
+		<AnalysisHeaderContainer>
+			<div role="presentation">
+				<h3 role="heading" aria-level="3">
+					<AnalysisHeaderButton aria-expanded={ props.isOpen } aria-controls={ props.headerId + "Content" }
+										  id={ props.headerId } onClick={ props.onOpen }>
+						<AnalysisHeaderIcon icon={ props.isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
+						<AnalysisTitle> { props.title + " (" + props.children.length + ")" } </AnalysisTitle>
+					</AnalysisHeaderButton>
+				</h3>
+			</div>
+			<ul id={ props.headerId + "Content" } role="region" aria-labelledby={ props.headerId }>
+			{ props.isOpen ? props.children : "" }
+			</ul>
+		</AnalysisHeaderContainer>
+	);
+};
 
 AnalysisCollapsible.propTypes = {
 	headerId: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
-	isOpen: PropTypes.bool,
+	isOpen: PropTypes.bool.isRequired,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
 	] ),
+	onOpen: PropTypes.func.isRequired,
 };
 
 AnalysisCollapsible.defaultProps = {
 	isOpen: false,
 };
+
+export default AnalysisCollapsible;
 
 
