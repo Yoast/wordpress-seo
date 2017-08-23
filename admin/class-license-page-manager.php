@@ -76,7 +76,6 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 		}
 	}
 
-
 	/**
 	 * Handles the response.
 	 *
