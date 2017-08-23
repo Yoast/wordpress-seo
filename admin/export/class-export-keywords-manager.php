@@ -58,7 +58,7 @@ class WPSEO_Export_Keywords_Manager {
 	 */
 	protected function set_csv_headers() {
 		header( 'Content-type: text/csv' );
-		header( 'Content-Disposition: attachment; filename=' . date('Y-m-d') . '-wordpress-seo-keywords.csv' );
+		header( 'Content-Disposition: attachment; filename=' . date( 'Y-m-d' ) . '-wordpress-seo-keywords.csv' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 	}

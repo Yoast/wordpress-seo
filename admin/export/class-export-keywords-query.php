@@ -39,7 +39,7 @@ class WPSEO_Export_Keywords_Query {
 	 * @param array $columns The columns we want our query to return.
 	 * @param wpdb  $wpdb    A WordPress Database object.
 	 */
-	public function __construct( $columns, $wpdb ) {
+	public function __construct( array $columns, $wpdb ) {
 		$this->columns = $columns;
 		$this->wpdb = $wpdb;
 	}

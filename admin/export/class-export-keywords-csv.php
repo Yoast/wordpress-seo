@@ -23,7 +23,7 @@ class WPSEO_Export_Keywords_CSV {
 	 *
 	 * @param array $columns An array of columns that should be presented.
 	 */
-	public function __construct( $columns ) {
+	public function __construct( array $columns ) {
 		$this->columns = array_filter( $columns, 'is_string' );
 	}
 
@@ -34,7 +34,7 @@ class WPSEO_Export_Keywords_CSV {
 	 *
 	 * @return string A CSV string.
 	 */
-	public function export( $data ) {
+	public function export( array $data ) {
 
 		$csv = $this->get_headers();
 
