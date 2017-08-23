@@ -21,23 +21,25 @@ class WPSEO_Export_Keywords_Manager {
 	 * Hooks into the request and returns a CSV file if we're on the right page with the right method and the right capabilities.
 	 */
 	public function keywords_csv_export() {
-		if ( $this->is_valid_csv_export_request() && current_user_can( 'export' ) ) {
-			// Check if we have a valid nonce.
-			check_admin_referer( 'wpseo-export' );
-
-			// Clean any content that has been already outputted, for example by other plugins or faulty PHP files.
-			if ( ob_get_contents() ) {
-				ob_clean();
-			}
-
-			// Set CSV headers and content.
-			$this->set_csv_headers();
-			echo $this->get_csv_contents();
-
-			// And exit so we don't start appending HTML to our CSV file.
-			// NOTE: this makes this entire class untestable as it will exit all tests but WordPress seems to have no elegant way of handling this.
-			exit();
+		if ( ! $this->is_valid_csv_export_request() || ! current_user_can( 'export' ) ) {
+			return;
 		}
+
+		// Check if we have a valid nonce.
+		check_admin_referer( 'wpseo-export' );
+
+		// Clean any content that has been already outputted, for example by other plugins or faulty PHP files.
+		if ( ob_get_contents() ) {
+			ob_clean();
+		}
+
+		// Set CSV headers and content.
+		$this->set_csv_headers();
+		echo $this->get_csv_contents();
+
+		// And exit so we don't start appending HTML to our CSV file.
+		// NOTE: this makes this entire class untestable as it will exit all tests but WordPress seems to have no elegant way of handling this.
+		exit();
 	}
 
 	/**
@@ -55,8 +57,10 @@ class WPSEO_Export_Keywords_Manager {
 	 * Sets the headers to trigger an CSV download in the browser.
 	 */
 	protected function set_csv_headers() {
+		$datestring = preg_replace( '/\s/', '-', date_i18n( get_option( 'date_format' ) ) );
+
 		header( 'Content-type: text/csv' );
-		header( 'Content-Disposition: attachment; filename=wordpress-seo-keywords.csv' );
+		header( 'Content-Disposition: attachment; filename=' . $datestring . 'wordpress-seo-keywords.csv' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 	}
@@ -68,7 +72,9 @@ class WPSEO_Export_Keywords_Manager {
 	 */
 	protected function get_csv_contents() {
 		global $wpdb;
-		$columns = $this->get_export_columns();
+
+		$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		$columns = $this->get_export_columns( $post_wpseo );
 
 		$query = new WPSEO_Export_Keywords_Query( $columns, $wpdb );
 		$presenter = new WPSEO_Export_Keywords_Presenter( $columns );
@@ -77,37 +83,32 @@ class WPSEO_Export_Keywords_Manager {
 
 		$data = array_map( array( $presenter, 'present' ), $results );
 
-		$builder = new WPSEO_Export_Keywords_CSV();
-		return $builder->export( $data, $columns );
+		$builder = new WPSEO_Export_Keywords_CSV( $columns );
+		return $builder->export( $data );
 	}
 
 	/**
 	 * Returns a string array of the requested columns.
 	 *
+	 * @param array $post_object An associative array with the post data.
+	 *
 	 * @return array The requested columns.
 	 */
-	protected function get_export_columns() {
+	protected function get_export_columns( array $post_object ) {
 		$columns = array();
-		$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 
-		if ( ! empty( $post_wpseo['export-post-title'] ) ) {
-			$columns[] = 'post_title';
-		}
+		$exportable_columns = array(
+			'export-post-title'     => 'post_title',
+			'export-post-url'       => 'post_url',
+			'export-seo-score'      => 'seo_score',
+			'export-keywords'       => 'keywords',
+			'export-keywords-score' => 'keywords_score',
+		);
 
-		if ( ! empty( $post_wpseo['export-post-url'] ) ) {
-			$columns[] = 'post_url';
-		}
-
-		if ( ! empty( $post_wpseo['export-seo-score'] ) ) {
-			$columns[] = 'seo_score';
-		}
-
-		if ( ! empty( $post_wpseo['export-keywords'] ) ) {
-			$columns[] = 'keywords';
-		}
-
-		if ( ! empty( $post_wpseo['export-keywords-score'] ) ) {
-			$columns[] = 'keywords_score';
+		foreach ( $exportable_columns as $exportable_column => $column ) {
+			if ( array_key_exists( $exportable_column, $post_object ) ) {
+				$columns[] = $column;
+			}
 		}
 
 		return $columns;

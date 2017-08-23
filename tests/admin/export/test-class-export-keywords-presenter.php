@@ -54,10 +54,7 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertFalse( $class_instance->return_validate_result( $fake_result ) );
-		$this->assertFalse( $class_instance->return_validate_result( 'foo' ) );
-		$this->assertFalse( $class_instance->return_validate_result( 5 ) );
-		$this->assertFalse( $class_instance->return_validate_result( true ) );
-		$this->assertFalse( $class_instance->return_validate_result( null ) );
+		$this->assertFalse( $class_instance->return_validate_result( array() ) );
 	}
 
 	/**
@@ -181,7 +178,6 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = new WPSEO_Export_Keywords_Presenter_Double( array( 'post_title' ), $wpdb );
 
-		$this->assertFalse( $class_instance->present( 'foo' ) );
 		$this->assertFalse( $class_instance->present( array( 'ID' => 'foo' ) ) );
 		$this->assertFalse( $class_instance->present( array( 'ID' => 0, 'post_title' => true ) ) );
 	}

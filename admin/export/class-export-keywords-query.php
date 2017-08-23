@@ -11,7 +11,7 @@
 class WPSEO_Export_Keywords_Query {
 
 	/**
-	 * @var wpdb wpdb The WordPress database object.
+	 * @var wpdb The WordPress database object.
 	 */
 	protected $wpdb;
 

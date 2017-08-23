@@ -1,12 +1,12 @@
 <?php
 
 class WPSEO_Export_Keywords_CSV_Double extends WPSEO_Export_Keywords_CSV {
-	public function return_get_headers( $columns ) {
-		return $this->get_headers( $columns );
+	public function return_get_headers() {
+		return $this->get_headers();
 	}
 
-	public function return_format( $result, $columns ) {
-		return $this->format( $result, $columns );
+	public function return_format( $result ) {
+		return $this->format( $result );
 	}
 
 	public function return_format_csv_column( $value ) {
@@ -25,7 +25,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::sanitize_csv_column
 	 */
 	public function test_format_csv_column() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array() );
 
 		$this->assertEquals('"simple value"', $class_instance->return_format_csv_column( 'simple value' ) );
 		$this->assertEquals('"""quotes"""', $class_instance->return_format_csv_column( '"quotes"' ) );
@@ -37,7 +37,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_get_csv_column_from_result() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array() );
 
 		$fake_result = array(
 			'ID' => '0',
@@ -49,12 +49,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( ',"http://www.example.org"', $class_instance->return_get_csv_column_from_result( $fake_result, 'post_url' ) );
 		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( $fake_result, 'key that does not exist' ) );
 		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( $fake_result, 5 ) );
-		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( $fake_result, true ) );
-		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( $fake_result, null ) );
-		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( 5, 'key that does not exist' ) );
-		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( 'foo', 'key that does not exist' ) );
-		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( true, 'key that does not exist' ) );
-		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( null, 'key that does not exist' ) );
+		$this->assertEquals( ',', $class_instance->return_get_csv_column_from_result( array(), 'key that does not exist' ) );
 
 	}
 
@@ -66,7 +61,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_simple() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'post_title', 'post_url' ) );
 
 		$fake_result = array(
 			'ID' => '0',
@@ -74,7 +69,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 			'post_url' => 'http://www.example.org',
 		);
 
-		$csv = $class_instance->return_format( $fake_result, array( 'post_title', 'post_url' ) );
+		$csv = $class_instance->return_format( $fake_result );
 
 		$this->assertEquals( "\n\"0\",\"fake title\",\"http://www.example.org\"", $csv );
 	}
@@ -87,7 +82,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_complex() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
 
 		$fake_result = array(
 			'ID' => '0',
@@ -98,7 +93,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 			'keywords_score' => array( 'ok', 'good', 'na' )
 		);
 
-		$csv = $class_instance->return_format( $fake_result, array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
+		$csv = $class_instance->return_format( $fake_result );
 
 		$lines = preg_split( "/\n/", $csv, null, PREG_SPLIT_NO_EMPTY );
 
@@ -117,25 +112,13 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_random() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
 
-		$csv = $class_instance->return_format( 'foo', array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
-
-		$this->assertEmpty( $csv );
-
-		$csv = $class_instance->return_format( 5, array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
+		$csv = $class_instance->return_format( array() );
 
 		$this->assertEmpty( $csv );
 
-		$csv = $class_instance->return_format( true, array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
-
-		$this->assertEmpty( $csv );
-
-		$csv = $class_instance->return_format( array(), array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
-
-		$this->assertEmpty( $csv );
-
-		$csv = $class_instance->return_format( array( 'foo' => 'bar' ), array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
+		$csv = $class_instance->return_format( array( 'foo' => 'bar' ) );
 
 		$this->assertEmpty( $csv );
 	}
@@ -148,7 +131,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_null() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
 
 		$fake_result = array(
 			'ID' => '0',
@@ -159,7 +142,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 			'keywords_score' => null
 		);
 
-		$csv = $class_instance->return_format( $fake_result, array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
+		$csv = $class_instance->return_format( $fake_result );
 
 		$this->assertEquals( "\n\"0\",,,,,", $csv );
 	}
@@ -172,7 +155,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_bad_columns() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'post_title', 'post_url', 'foo', 5, true, null ) );
 
 		$fake_result = array(
 			'ID' => '0',
@@ -180,7 +163,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 			'post_url' => 'http://www.example.org',
 		);
 
-		$csv = $class_instance->return_format( $fake_result, array( 'post_title', 'post_url', 'foo', 5, true, null ) );
+		$csv = $class_instance->return_format( $fake_result );
 
 		$this->assertEquals( "\n\"0\",\"fake title\",\"http://www.example.org\"", $csv );
 	}
@@ -191,9 +174,9 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::get_headers
 	 */
 	public function test_get_headers() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
 
-		$csv = $class_instance->return_get_headers( array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
+		$csv = $class_instance->return_get_headers();
 
 		$this->assertEquals( '"ID","post title","post url","seo score","keyword","keyword score"', $csv );
 	}
@@ -204,9 +187,9 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::get_headers
 	 */
 	public function test_get_headers_bad() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'post_title', 'post_url', 'foo', 5, true, null ) );
 
-		$csv = $class_instance->return_get_headers( array( 'post_title', 'post_url', 'foo', 5, true, null ) );
+		$csv = $class_instance->return_get_headers();
 
 		$this->assertEquals( '"ID","post title","post url"', $csv );
 	}
@@ -217,7 +200,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::export
 	 */
 	public function test_export() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
 
 		$fake_results = array(
 			array(
@@ -246,7 +229,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 			),
 		);
 
-		$csv = $class_instance->export( $fake_results, array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
+		$csv = $class_instance->export( $fake_results );
 
 		$lines = preg_split( "/\n/", $csv, null, PREG_SPLIT_NO_EMPTY );
 
@@ -267,7 +250,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::export
 	 */
 	public function test_export_bad() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double();
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
 
 		$fake_results = array(
 			array(
@@ -286,13 +269,10 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 				'keywords' => true,
 				'foo' => 'bar',
 			),
-			5,
-			'baz',
-			true,
-			null,
+			array(),
 		);
 
-		$csv = $class_instance->export( $fake_results, array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ) );
+		$csv = $class_instance->export( $fake_results );
 
 		$lines = preg_split( "/\n/", $csv, null, PREG_SPLIT_NO_EMPTY );
 

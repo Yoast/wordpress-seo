@@ -11,18 +11,35 @@
 class WPSEO_Export_Keywords_CSV {
 
 	/**
+	 * @var array The columns that should be presented
+	 */
+	protected $columns;
+
+	/**
+	 * WPSEO_Export_Keywords_CSV constructor.
+	 *
+	 * Supported values for columns are 'post_title', 'post_url', 'keywords', 'seo_score' and 'keywords_score'.
+	 * Requesting 'keywords_score' will always also return 'keywords'.
+	 *
+	 * @param array $columns An array of columns that should be presented.
+	 */
+	public function __construct( $columns ) {
+		$this->columns = array_filter( $columns, 'is_string' );
+	}
+
+	/**
 	 * Exports the supplied keyword query to a CSV string.
 	 *
 	 * @param array $data    An array of results from WPSEO_Export_Keywords_Query::get_data.
-	 * @param array $columns An array of columns that should be presented.
 	 *
 	 * @return string A CSV string.
 	 */
-	public function export( $data, $columns ) {
-		$csv = $this->get_headers( $columns );
+	public function export( $data ) {
+
+		$csv = $this->get_headers();
 
 		foreach ( $data as $result ) {
-			$csv .= $this->format( $result, $columns );
+			$csv .= $this->format( $result );
 		}
 
 		return $csv;
@@ -31,31 +48,23 @@ class WPSEO_Export_Keywords_CSV {
 	/**
 	 * Returns the CSV headers based on the queried columns.
 	 *
-	 * @param array $columns The columns as returned from WPSEO_Export_Keywords_Query::get_columns.
-	 *
 	 * @return string A line of CSV.
 	 */
-	protected function get_headers( $columns ) {
+	protected function get_headers() {
+		$header_columns = array(
+			'post_title'     => __( 'post title', 'wordpress-seo' ),
+			'post_url'       => __( 'post url', 'wordpress-seo' ),
+			'seo_score'      => __( 'seo score', 'wordpress-seo' ),
+			'keywords'       => __( 'keyword', 'wordpress-seo' ),
+			'keywords_score' => __( 'keyword score', 'wordpress-seo' ),
+		);
+
 		$csv = $this->sanitize_csv_column( __( 'ID', 'wordpress-seo' ) );
 
-		if ( in_array( 'post_title', $columns, true ) ) {
-			$csv .= ',' . $this->sanitize_csv_column( __( 'post title', 'wordpress-seo' ) );
-		}
-
-		if ( in_array( 'post_url', $columns, true ) ) {
-			$csv .= ',' . $this->sanitize_csv_column( __( 'post url', 'wordpress-seo' ) );
-		}
-
-		if ( in_array( 'seo_score', $columns, true ) ) {
-			$csv .= ',' . $this->sanitize_csv_column( __( 'seo score', 'wordpress-seo' ) );
-		}
-
-		if ( in_array( 'keywords', $columns, true ) ) {
-			$csv .= ',' . $this->sanitize_csv_column( __( 'keyword', 'wordpress-seo' ) );
-		}
-
-		if ( in_array( 'keywords_score', $columns, true ) ) {
-			$csv .= ',' . $this->sanitize_csv_column( __( 'keyword score', 'wordpress-seo' ) );
+		foreach ( $this->columns as $column ) {
+			if ( array_key_exists( $column, $header_columns ) ) {
+				$csv .= ',' . $this->sanitize_csv_column( $header_columns[ $column ] );
+			}
 		}
 
 		return $csv;
@@ -66,13 +75,12 @@ class WPSEO_Export_Keywords_CSV {
 	 * In case of multiple keywords it will return multiple lines.
 	 *
 	 * @param array $result  A result as returned from WPSEO_Export_Keywords_Query::get_data.
-	 * @param array $columns The columns as returned from WPSEO_Export_Keywords_Query::get_columns.
 	 *
 	 * @return string A line of CSV, beginning with EOL.
 	 */
-	protected function format( $result, $columns ) {
+	protected function format( array $result ) {
 		// If our input is malformed return an empty string.
-		if ( ! is_array( $result ) || ! array_key_exists( 'ID', $result ) ) {
+		if ( ! array_key_exists( 'ID', $result ) ) {
 			return '';
 		}
 
@@ -83,13 +91,11 @@ class WPSEO_Export_Keywords_CSV {
 		$csv = '';
 
 		// Add at least one row plus additional ones if we have more keywords.
-		for ( $keywords_index = 0; $keywords_index < max( 1, count( $result['keywords'] ) ); $keywords_index++ ) {
+		$loops = max( 1, count( $result['keywords'] ) );
+		for ( $keywords_index = 0; $keywords_index < $loops; $keywords_index++ ) {
 			$csv .= PHP_EOL . $this->sanitize_csv_column( $result['ID'] );
 
-			foreach ( $columns as $column ) {
-				if ( ! is_string( $column ) ) {
-					continue;
-				}
+			foreach ( $this->columns as $column ) {
 				$csv .= $this->get_csv_column_from_result( $result, $column, $keywords_index );
 			}
 		}
@@ -106,7 +112,7 @@ class WPSEO_Export_Keywords_CSV {
 	 *
 	 * @return string
 	 */
-	protected function get_csv_column_from_result( $result, $key, $keywords_index ) {
+	protected function get_csv_column_from_result( array $result, $key, $keywords_index ) {
 		switch ( $key ) {
 			case 'post_title':
 			case 'post_url':
@@ -127,7 +133,7 @@ class WPSEO_Export_Keywords_CSV {
 	 *
 	 * @return array
 	 */
-	protected function get_array_from_result( $result, $key ) {
+	protected function get_array_from_result( array $result, $key ) {
 		if ( array_key_exists( $key , $result ) && is_array( $result[ $key ] ) ) {
 			return $result[ $key ];
 		}
@@ -144,8 +150,8 @@ class WPSEO_Export_Keywords_CSV {
 	 *
 	 * @return string A CSV column including comma.
 	 */
-	protected function get_csv_string_column_from_result( $result, $key ) {
-		if ( is_array( $result ) && is_string( $key ) && array_key_exists( $key, $result ) ) {
+	protected function get_csv_string_column_from_result( array $result, $key ) {
+		if ( array_key_exists( $key, $result ) ) {
 			return ',' . $this->sanitize_csv_column( $result[ $key ] );
 		}
 
@@ -162,7 +168,8 @@ class WPSEO_Export_Keywords_CSV {
 	 *
 	 * @return string
 	 */
-	protected function get_csv_array_column_from_result( $result, $key, $index ) {
+	protected function get_csv_array_column_from_result( array $result, $key, $index ) {
+		// If the array has an element at $index.
 		if ( $index < count( $result[ $key ] ) ) {
 			return ',' . $this->sanitize_csv_column( $result[ $key ][ $index ] );
 		}
