@@ -4,13 +4,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import App from "./App";
-import TopLevelComponents from "./app/TopLevelComponents";
+import AppWrapper from "./app/AppWrapper";
 
 function render( RootElement ) {
 	ReactDOM.render(
-		<TopLevelComponents>
+		<AppWrapper>
 			<RootElement/>
-		</TopLevelComponents>,
+		</AppWrapper>,
 		document.getElementById( "container" )
 	);
 }

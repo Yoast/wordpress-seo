@@ -8,7 +8,7 @@ import configureStore from "./configureStore";
 
 const store = configureStore();
 
-const TopLevelComponents = ( { children } ) => (
+const AppWrapper = ( { children } ) => (
 	<AppContainer>
 		<Provider store={ store }>
 			<div>
@@ -19,9 +19,9 @@ const TopLevelComponents = ( { children } ) => (
 	</AppContainer>
 );
 
-TopLevelComponents.propTypes = {
-	children: PropTypes.node,
+AppWrapper.propTypes = {
+	children: PropTypes.node.isRequired,
 };
 
-export default TopLevelComponents;
+export default AppWrapper;
 
