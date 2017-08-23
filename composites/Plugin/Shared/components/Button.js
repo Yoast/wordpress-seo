@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import _flow from "lodash/flow";
-import _omit from "lodash/omit";
+import flow from "lodash/flow";
+import omit from "lodash/omit";
 import PropTypes from "prop-types";
 
 import colors from "../../../../style-guide/colors.json";
@@ -71,7 +71,7 @@ export function addActiveStyle( component ) {
  *
  * @returns {ReactElement} Component with applied styles.
  */
-export const addButtonStyles = _flow( [ addFocusStyle, addHoverStyle, addActiveStyle ] );
+export const addButtonStyles = flow( [ addFocusStyle, addHoverStyle, addActiveStyle ] );
 
 /**
  * Returns a basic styled button.
@@ -171,7 +171,7 @@ export const IconButton = ( props ) => {
 		IconComponent = addIconTextStyle( IconComponent );
 	}
 
-	const newProps = _omit( props, "icon" );
+	const newProps = omit( props, "icon" );
 
 	return (
 		<InlineFlexButton { ...newProps } >
