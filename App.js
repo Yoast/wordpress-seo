@@ -1,4 +1,7 @@
 import React from "react";
+
+import { IntlProvider } from "react-intl";
+
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
 import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
 import ContentAnalysis from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
@@ -99,10 +102,12 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
-				{ this.getMenu() }
-				{ this.getContent() }
-			</div>
+			<IntlProvider locale="en">
+				<div>
+					{ this.getMenu() }
+					{ this.getContent() }
+				</div>
+			</IntlProvider>
 		);
 	}
 }

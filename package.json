@@ -40,9 +40,11 @@
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react-redux": "^5.0.6",
+    "react-intl": "^2.3.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "styled-components": "^2.1.2",
+    "svg-url-loader": "^2.1.1",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
@@ -83,8 +85,8 @@
     "sassdash": "^0.8.2",
     "stubby": "^0.3.1",
     "svg-react-loader": "^0.4.4",
-    "webpack": "^3.2.0",
-    "webpack-dev-server": "^2.5.1"
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1"
   },
   "optionalDependencies": {
     "grunt-scss-to-json": "^1.0.1"
