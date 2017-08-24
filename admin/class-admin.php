@@ -101,6 +101,7 @@ class WPSEO_Admin {
 
 		$integrations[] = new WPSEO_Yoast_Columns();
 		$integrations[] = new WPSEO_License_Page_Manager();
+		$integrations[] = new WPSEO_Slug_Change_Watcher();
 		$integrations = array_merge( $integrations, $this->initialize_seo_links() );
 
 		/** @var WPSEO_WordPress_Integration $integration */
