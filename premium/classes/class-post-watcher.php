@@ -33,7 +33,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$version = $asset_manager->flatten_version( WPSEO_VERSION );
 
-		if ( $current_page === 'edit.php' ) {
+		if ( $current_page === 'edit.php' || $this->is_nested_pages( $current_page ) ) {
 			wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-quickedit-notification-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 			wp_localize_script( 'wp-seo-premium-quickedit-notification', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
 		}
@@ -378,5 +378,16 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	protected function is_action_inline_save() {
 		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && filter_input( INPUT_POST, 'action' ) === 'inline-save' );
+	}
+
+	/**
+	 * Checks if current page is loaded by nested pages.
+	 *
+	 * @param string $current_page The current page.
+	 *
+	 * @return bool True when the current page is nested pages.
+	 */
+	protected function is_nested_pages( $current_page ) {
+		return ( $current_page === 'admin' && filter_input( INPUT_GET, 'page' ) === 'nestedpages' );
 	}
 }
