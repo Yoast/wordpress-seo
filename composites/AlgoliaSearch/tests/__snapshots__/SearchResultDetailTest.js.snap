@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the SearchResultDetail component matches the snapshot 1`] = `
+<section
+  className="sc-bwzfXH uTxCW"
+>
+  <nav>
+    <button
+      aria-label="Back to search results"
+      className="sc-htpNat jDuKkv"
+      onClick={[Function]}
+    >
+      Back
+    </button>
+    <a
+      aria-label="Open the knowledge base article in a new window or read it in the iframe below"
+      className="sc-bxivhb iZNgQM"
+      href="https://kb.yoast.com/kb/passive-voice/"
+      target="_blank"
+    >
+      Open
+    </a>
+  </nav>
+  <iframe
+    className="kb-search-content-frame sc-bdVaJa jFnyks"
+    src="https://kb.yoast.com/kb/passive-voice/amp?source=wpseo-kb-search"
+    title="Title"
+  />
+</section>
+`;

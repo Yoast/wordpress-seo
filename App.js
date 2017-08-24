@@ -1,6 +1,7 @@
 import "babel-polyfill";
 
 import React from "react";
+import { IntlProvider } from "react-intl";
 
 import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import Config from "./composites/OnboardingWizard/config/production-config";
@@ -113,10 +114,12 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
-				{ this.getMenu() }
-				{ this.getContent() }
-			</div>
+			<IntlProvider locale="en">
+				<div>
+					{ this.getMenu() }
+					{ this.getContent() }
+				</div>
+			</IntlProvider>
 		);
 	}
 }
