@@ -162,7 +162,7 @@ class AlgoliaSearcher extends React.Component {
 		let usedQueries = this.state.usedQueries;
 
 		usedQueries[ this.state.searchString ][ post.objectID ] = {
-			title: post.post_title,
+			title: post.postTitle,
 			link: post.permalink,
 		};
 
