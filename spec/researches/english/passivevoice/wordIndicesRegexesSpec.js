@@ -1,10 +1,8 @@
 var wordIndicesRegexes = require( "../../../../js/researches/english/passivevoice/getIndicesWithRegex.js" );
 
 var determinerList = require( "../../../../js/researches/english/passivevoice/determiners.js" )();
-var havingList = require( "../../../../js/researches/english/passivevoice/having.js" )();
 var arrayToRegex = require( "../../../../js/stringProcessing/createRegexFromArray.js" );
 var determinersRegex = arrayToRegex( determinerList );
-var havingRegex = arrayToRegex( havingList );
 
 describe( "a test for matching determiners.", function() {
 	it( "matches a single determiner in a sentence part", function() {
@@ -38,33 +36,3 @@ describe( "a test for matching determiners.", function() {
 	} );
 } );
 
-describe( "a test for matching 'having'.", function() {
-	it( "matches a single instance of 'having' in a sentence part", function() {
-		var havingMatches = wordIndicesRegexes( "was having the house painted", havingRegex );
-		expect( havingMatches ).toEqual(
-			[
-				{ match: ' having', index: 3 }
-			]
-		)
-	} );
-
-	it( "matches multiple instances of 'having' in a sentence part", function() {
-		var havingMatches = wordIndicesRegexes( "having fun, having the house painted", havingRegex );
-		expect( havingMatches ).toEqual(
-			[
-				{ match: 'having', index: 0 },
-				{ match: ' having', index: 11 },
-			]
-		);
-	} );
-
-	it( "does not match anything in a sentence part without 'having'", function() {
-		var havingMatches = wordIndicesRegexes( "was chosen.", havingRegex );
-		expect( havingMatches ).toEqual( [] );
-	} );
-
-	it( "does not match an empty string", function() {
-		var havingMatches = wordIndicesRegexes( "", havingRegex );
-		expect( havingMatches ).toEqual( [] );
-	} );
-} );
