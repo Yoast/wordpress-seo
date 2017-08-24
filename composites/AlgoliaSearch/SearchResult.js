@@ -29,7 +29,7 @@ const SearchResult = ( props ) => {
 			   onClick={ ( clickEvent ) => onClick( clickEvent, props ) }
 			   className="wpseo-kb-search-result-link">
 				<div className="wpseo-kb-search-result">
-					<h3 className="wpseo-kb-search-result-title">{ post.post_title }</h3>
+					<h3 className="wpseo-kb-search-result-title">{ post.postTitle }</h3>
 					{ description && <p>{ description }</p> }
 				</div>
 			</a>

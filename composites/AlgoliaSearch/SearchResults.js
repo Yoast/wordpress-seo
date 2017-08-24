@@ -40,7 +40,7 @@ export function SearchResult( props ) {
 		<Row {...props}>
 			<SearchResultLink href={ post.permalink } onClick={ props.handler }>
 				<div>
-					<SearchResultTitle>{ post.post_title }</SearchResultTitle>
+					<SearchResultTitle>{ post.postTitle }</SearchResultTitle>
 				</div>
 			</SearchResultLink>
 		</Row>

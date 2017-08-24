@@ -20,19 +20,13 @@ const messages = defineMessages( {
 const SearchLabelText = styled.span``;
 
 const SearchLabel = styled.label`
-
-	background-image: url( ${ searchIcon } ); // HIER GAAT HET MIS
-	
-	
-	
-	
+	background-image: url( ${ searchIcon } );
 	background-size: 25px;
 	background-position: left center;
 	background-repeat: no-repeat;
 	width: 2em;
 	height: 2em;
 	float: left;
-	
 	margin-top: 0.25em;
 `;
 
@@ -98,7 +92,7 @@ class SearchBar extends React.Component {
 	 * @returns {void}
 	 */
 	componentWillMount() {
-		this.doFormSubmission = debounce( (event ) => {
+		this.doFormSubmission = debounce( ( event ) => {
 			this.props.submitAction( event );
 		}, 1000 );
 	}
@@ -121,7 +115,6 @@ class SearchBar extends React.Component {
 	 * @returns {ReactElement} The SearchBar component.
 	 */
 	render() {
-
 		return (
 			<SearchBarWrapper role="search">
 				<SearchHeading>{ this.props.headingText }</SearchHeading>
