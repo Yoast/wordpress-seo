@@ -11,7 +11,7 @@ describe( "a test for matching determiners.", function() {
 		var determiners = wordIndicesRegexes( "A boy.", determinersRegex );
 		expect( determiners ).toEqual(
 			[
-				{ match: 'A ', index: 0 }
+				{ match: 'A', index: 0 }
 			]
 		)
 	} );
@@ -20,9 +20,9 @@ describe( "a test for matching determiners.", function() {
 		var determiners = wordIndicesRegexes( "The boy, the girl, a dog.", determinersRegex );
 		expect( determiners ).toEqual(
 			[
-				{ match: 'The ', index: 0 },
-				{ match: ' the ', index: 8 },
-				{ match: ' a ', index: 18 }
+				{ match: 'The', index: 0 },
+				{ match: ' the', index: 8 },
+				{ match: ' a', index: 18 }
 			]
 		);
 	} );
@@ -43,7 +43,7 @@ describe( "a test for matching 'having'.", function() {
 		var havingMatches = wordIndicesRegexes( "was having the house painted", havingRegex );
 		expect( havingMatches ).toEqual(
 			[
-				{ match: ' having ', index: 3 }
+				{ match: ' having', index: 3 }
 			]
 		)
 	} );
@@ -52,8 +52,8 @@ describe( "a test for matching 'having'.", function() {
 		var havingMatches = wordIndicesRegexes( "having fun, having the house painted", havingRegex );
 		expect( havingMatches ).toEqual(
 			[
-				{ match: 'having ', index: 0 },
-				{ match: ' having ', index: 11 },
+				{ match: 'having', index: 0 },
+				{ match: ' having', index: 11 },
 			]
 		);
 	} );

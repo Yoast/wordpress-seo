@@ -27,6 +27,6 @@ module.exports = memoize( function( string, extraBoundary, doReplaceDiacritics )
 
 	string = sanitizeString( string );
 	string = escapeRegExp( string );
-	string = addWordBoundary( string, extraBoundary );
+	string = addWordBoundary( string, false, extraBoundary );
 	return new RegExp( string, "ig" );
 } );

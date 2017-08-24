@@ -64,7 +64,7 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
-	it( "checks the properties of the English participle object with a word from the direct precedence exception list which not directly precedes the participle", function() {
+	it( "checks the properties of the English participle object with a word from the direct precedence exception list which does not directly precede the participle", function() {
 		let mockParticiple = new EnglishParticiple( "painted", "He was having his house painted", { auxiliaries: [ "was" ], type: "regular" } );
 		expect( mockParticiple.getParticiple() ).toBe( "painted" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );

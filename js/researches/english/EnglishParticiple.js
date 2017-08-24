@@ -112,10 +112,11 @@ EnglishParticiple.prototype.hasRidException = function() {
 };
 
 /**
- * Checks whether the participle is directly preceded by 'having'.
+ * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
  * If this is the case, the sentence part is not passive.
  *
- * @returns {boolean} Returns true if having is directly preceding the participle, otherwise returns false.
+ * @returns {boolean} Returns true if a word from the direct precedence exception list is directly preceding
+ * the participle, otherwise returns false.
  */
 EnglishParticiple.prototype.directPrecedenceException = function() {
 	var sentencePart = this.getSentencePart();
