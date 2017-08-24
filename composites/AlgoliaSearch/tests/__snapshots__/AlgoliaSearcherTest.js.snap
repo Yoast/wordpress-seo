@@ -15,7 +15,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
     </h2>
     <form>
       <label
-        className="sc-bwzfXH hLnktT"
+        className="sc-bwzfXH euRyYj"
         htmlFor="search-input"
       >
         <span

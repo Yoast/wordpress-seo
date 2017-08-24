@@ -12,7 +12,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
   </h2>
   <form>
     <label
-      className="sc-bwzfXH hLnktT"
+      className="sc-bwzfXH euRyYj"
       htmlFor="search-input"
     >
       <span
@@ -50,7 +50,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
   </h2>
   <form>
     <label
-      className="sc-bwzfXH hLnktT"
+      className="sc-bwzfXH euRyYj"
       htmlFor="search-input"
     >
       <span
