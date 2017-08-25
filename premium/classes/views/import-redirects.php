@@ -14,6 +14,13 @@
 		<br/>
 		<input type="submit" class="button button-primary" name="import" value="<?php _e( 'Import redirects', 'wordpress-seo-premium' ); ?>"/>
 	</form>
+	<h2><?php _e( 'Import from a CSV file.', 'wordpress-seo-premium' ); ?></h2>
+	<form enctype="multipart/form-data" action="" method="post" accept-charset="<?php esc_attr_e( get_bloginfo( 'charset' ), 'wordpress-seo-premium' ); ?>">
+		<?php wp_nonce_field( 'wpseo-import', '_wpnonce', true ); ?>
+		<input type="file" name="redirects_csv_file" id="redirects_csv_file"/>
+		<br/>
+		<input type="submit" class="button button-primary" name="import_csv" value="<?php _e( 'Import CSV file', 'wordpress-seo-premium' ); ?>"/>
+	</form>
 	<br/>
 	<h2><?php
 		/* translators: %s: '.htaccess' file name */

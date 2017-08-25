@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Test double for testing the result of the match_redirect_regex which is protected in the import manager.
+ * Test double for testing the result of the match_redirects function.
  */
-class WPSEO_Premium_Import_Manager_Double extends WPSEO_Premium_Import_Manager {
-	public function match_with_given_regex( $regex, $htaccess ) {
-		return $this->match_redirect_regex( $regex, $htaccess );
+class WPSEO_Redirect_HTAccess_Loader_Double extends WPSEO_Redirect_HTAccess_Loader {
+	public function match_with_given_regex( $regex ) {
+		return $this->match_redirects( $regex );
 	}
 
 }
 
 /**
- * Test class for the WPSEO Premium Import Manager
+ * Test class for the WPSEO Redirect HTAccess Loader
  */
-class WPSEO_Premium_Import_Manager_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test the plain redirect regex when the redirect origin does not contain quotes.
@@ -21,8 +21,8 @@ class WPSEO_Premium_Import_Manager_Test extends WPSEO_UnitTestCase {
 	 * @dataProvider plain_redirect_provider
 	 */
 	public function test_match_plain_redirects_regex_without_quotes( $regex, $htaccess, $expected ) {
-		$instance = new WPSEO_Premium_Import_Manager_Double();
-		$match = $instance->match_with_given_regex( $regex , $htaccess );
+		$instance = new WPSEO_Redirect_HTAccess_Loader_Double( $htaccess );
+		$match = $instance->match_with_given_regex( $regex );
 
 		$this->assertEquals( $expected, $match[0][3] );
 
@@ -33,8 +33,8 @@ class WPSEO_Premium_Import_Manager_Test extends WPSEO_UnitTestCase {
 	 * @dataProvider plain_redirect_provider_with_quotes
 	 */
 	public function test_match_plain_redirects_regex_with_quotes( $regex, $htaccess, $expected ) {
-		$instance = new WPSEO_Premium_Import_Manager_Double();
-		$match = $instance->match_with_given_regex( $regex , $htaccess );
+		$instance = new WPSEO_Redirect_HTAccess_Loader_Double( $htaccess );
+		$match = $instance->match_with_given_regex( $regex );
 
 		$this->assertEquals( $expected, $match[0][3] );
 
