@@ -1,22 +1,22 @@
 var wordIndicesRegexes = require( "../../../../js/researches/english/passivevoice/getIndicesWithRegex.js" );
 
-var determinerList = require( "../../../../js/researches/english/passivevoice/determiners.js" )();
+var cannotDirectlyPrecedePassiveParticiple = require( "../../../../js/researches/english/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 var arrayToRegex = require( "../../../../js/stringProcessing/createRegexFromArray.js" );
-var determinersRegex = arrayToRegex( determinerList );
+var directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticiple );
 
-describe( "a test for matching determiners.", function() {
-	it( "matches a single determiner in a sentence part", function() {
-		var determiners = wordIndicesRegexes( "A boy.", determinersRegex );
-		expect( determiners ).toEqual(
+describe( "a test for matching words that cannot directly precede a participle.", function() {
+	it( "matches a single word that cannot directly precede a participle in a sentence part", function() {
+		var directPrecedenceExceptionWords = wordIndicesRegexes( "A boy.", directPrecedenceExceptionRegex );
+		expect( directPrecedenceExceptionWords ).toEqual(
 			[
 				{ match: 'A', index: 0 }
 			]
 		)
 	} );
 
-	it( "matches multiple determiners in a sentence part", function() {
-		var determiners = wordIndicesRegexes( "The boy, the girl, a dog.", determinersRegex );
-		expect( determiners ).toEqual(
+	it( "matches multiple words that cannot directly precede a participle in a sentence part", function() {
+		var directPrecedenceExceptionWords = wordIndicesRegexes( "The boy, the girl, a dog.", directPrecedenceExceptionRegex );
+		expect( directPrecedenceExceptionWords ).toEqual(
 			[
 				{ match: 'The', index: 0 },
 				{ match: ' the', index: 8 },
@@ -25,14 +25,14 @@ describe( "a test for matching determiners.", function() {
 		);
 	} );
 
-	it( "does not match anything in a sentence part without determiners", function() {
-		var determiners = wordIndicesRegexes( "was chosen.", determinersRegex );
-		expect( determiners ).toEqual( [] );
+	it( "does not match anything in a sentence part without any words that cannot directly precede a participle", function() {
+		var directPrecedenceExceptionWords = wordIndicesRegexes( "was chosen.", directPrecedenceExceptionRegex );
+		expect( directPrecedenceExceptionWords ).toEqual( [] );
 	} );
 
 	it( "does not match an empty string", function() {
-		var determiners = wordIndicesRegexes( "", determinersRegex );
-		expect( determiners ).toEqual( [] );
+		var directPrecedenceExceptionWords = wordIndicesRegexes( "", directPrecedenceExceptionRegex );
+		expect( directPrecedenceExceptionWords ).toEqual( [] );
 	} );
 } );
 

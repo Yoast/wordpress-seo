@@ -2,17 +2,14 @@ var Participle = require( "../../values/Participle.js" );
 
 var nonVerbsEndingEd = require( "./passivevoice/non-verb-ending-ed.js" )();
 var getWordIndices = require( "./passivevoice/getIndicesWithRegex.js" );
-var determinerList = require( "./passivevoice/determiners.js" )();
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 var cannotDirectlyPrecedePassiveParticiple = require( "./functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
-var cannotBeBetweenPassiveAuxiliaryAndParticiple = require( "./functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 
 var forEach = require( "lodash/forEach" );
 var includes = require( "lodash/includes" );
 var isEmpty = require( "lodash/isEmpty" );
 var intersection = require( "lodash/intersection" );
 
-var determinersRegex = arrayToRegex( determinerList );
 var directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticiple );
 var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
 
@@ -78,7 +75,7 @@ EnglishParticiple.prototype.checkException = function() {
 EnglishParticiple.prototype.isPassive = function() {
 	return 	! this.isNonVerbEndingEd() &&
 				! this.hasRidException() &&
-				! this.directPrecedenceException()
+				! this.directPrecedenceException();
 };
 
 /**
