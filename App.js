@@ -1,31 +1,12 @@
-import "babel-polyfill";
-
 import React from "react";
-
-import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
-import Config from "./composites/OnboardingWizard/config/production-config";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
 import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
 import ContentAnalysis from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
-import apiConfig from "./composites/OnboardingWizard/config/api-config";
+import Wizard from "./app/WizardWrapper";
 import Loader from "./composites/basic/Loader";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
-
-function cloneDeep( object ) {
-	return JSON.parse( JSON.stringify( object ) );
-}
-
-const WizardWrapper = () => {
-	let config = cloneDeep( Config );
-
-	// @todo: Add customComponents manually, because cloneDeep is clearing the value of it. Should be solved.
-	config.customComponents = Config.customComponents;
-	config.endpoint = apiConfig;
-
-	return <Wizard { ...config } />;
-};
 
 const components = [
 	{
@@ -41,7 +22,7 @@ const components = [
 	{
 		id: "wizard",
 		name: "Wizard",
-		component: <WizardWrapper />,
+		component: <Wizard />,
 	},
 	{
 		id: "loader",
@@ -53,7 +34,7 @@ const components = [
 		name: "Content analysis",
 		component: <ContentAnalysis />,
 	},
-]
+];
 
 class App extends React.Component {
 
@@ -100,13 +81,18 @@ class App extends React.Component {
 	}
 
 	getMenu() {
+
 		return (
-			<nav style={ { margin: "0 0 2rem 0", textAlign: "center" } }>
+			<nav style={ { textAlign: "center" } }>
 				{
 					components.map( config => {
 						return this.renderButton( config.id, config.name );
 					} )
 				}
+				<p style={ { fontSize: "0.8em", margin: "5px 0" } }>
+					For redux devtools press <strong>Ctrl + H</strong>,
+					to change position press <strong>Ctrl + Q</strong>.
+				</p>
 			</nav>
 		);
 	}
