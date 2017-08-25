@@ -513,7 +513,7 @@ class WPSEO_Admin_Init {
 
 		$message = $i18n_module->get_promo_message();
 
-		if( $message !== "" ) {
+		if ( $message !== '' ) {
 			$message .= $i18n_module->get_dismiss_i18n_message_button();
 		}
 
