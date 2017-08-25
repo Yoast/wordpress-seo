@@ -183,6 +183,18 @@ function verifyArguments( args ) {
  */
 
 /**
+ * @callback YoastSEO.App~updatedContentResults
+ *
+ * @param {object} results The updated page analysis results.
+ */
+
+/**
+ * @callback YoastSEO.App~updatedKeywordsResults
+ *
+ * @param {object} results The updated keyword analysis results.
+ */
+
+/**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
  *
  * @param {Object} args The arguments passed to the loader.
@@ -622,27 +634,66 @@ App.prototype.runAnalyzer = function() {
 		this.researcher.setPaper( this.paper );
 	}
 
-	if ( this.config.keywordAnalysisActive && ! isUndefined( this.seoAssessorPresenter ) ) {
-		this.seoAssessor.assess( this.paper );
+	this.runKeywordAnalysis();
 
-		this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
-		this.seoAssessorPresenter.render();
+	this.runContentAnalysis();
 
-		this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
-	}
-
-	if ( this.config.contentAnalysisActive && ! isUndefined( this.contentAssessorPresenter ) ) {
-		this.contentAssessor.assess( this.paper );
-
-		this.contentAssessorPresenter.renderIndividualRatings();
-		this.callbacks.saveContentScore( this.contentAssessor.calculateOverallScore(), this.contentAssessorPresenter );
-	}
+	this.renderAnalysisResults();
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
 	}
 
 	this.snippetPreview.reRender();
+};
+
+/**
+ * Runs the keyword analysis and calls the appropriate callbacks.
+ *
+ * @returns {void}
+ */
+App.prototype.runKeywordAnalysis = function() {
+	if ( this.config.keywordAnalysisActive ) {
+		this.seoAssessor.assess( this.paper );
+		const overallSeoScore = this.seoAssessor.calculateOverallScore();
+
+		if( ! isUndefined( this.seoAssessorPresenter ) ) {
+			this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
+			this.seoAssessorPresenter.render();
+		}
+
+		if( ! isUndefined( this.callbacks.updatedKeywordsResults ) ) {
+			this.callbacks.updatedKeywordsResults( this.seoAssessor.results, overallSeoScore );
+		}
+
+		if( ! isUndefined( this.callbacks.saveScores ) ) {
+			this.callbacks.saveScores( overallSeoScore, this.seoAssessorPresenter );
+		}
+	}
+};
+
+/**
+ * Runs the content analysis and calls the appropriate callbacks.
+ *
+ * @returns {void}
+ */
+App.prototype.runContentAnalysis = function() {
+	if ( this.config.contentAnalysisActive ) {
+		this.contentAssessor.assess( this.paper );
+		const overallContentScore = this.contentAssessor.calculateOverallScore();
+
+		if( ! isUndefined( this.contentAssessorPresenter ) ) {
+			this.contentAssessorPresenter.renderIndividualRatings();
+		}
+
+		if( ! isUndefined( this.callbacks.updatedContentResults ) ) {
+			this.callbacks.updatedContentResults( this.contentAssessor.results, overallContentScore );
+		}
+
+		if( ! isUndefined( this.callbacks.saveContentScore ) ) {
+			this.callbacks.saveContentScore( overallContentScore, this.contentAssessorPresenter );
+		}
+	}
 };
 
 /**
@@ -776,26 +827,6 @@ App.prototype.registerModification = function( modification, callable, pluginNam
 };
 
 /**
- * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
- * has to return a result based on the contents of the page/posts.
- *
- * The scoring object is a special object with definitions about how to translate a result from your analysis function
- * to a SEO score.
- *
- * Negative scores result in a red circle
- * Scores 1, 2, 3, 4 and 5 result in a orange circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a red circle
- *
- * @returns {void}
- *
- * @deprecated since version 1.2
- */
-App.prototype.registerTest = function() {
-	console.error( "This function is deprecated, please use registerAssessment" );
-};
-
-/**
  * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
  * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
  *
@@ -832,6 +863,23 @@ App.prototype.disableMarkers = function() {
 };
 
 // Deprecated functions
+/**
+ * Renders the content and keyword analysis results.
+ *
+ * @deprecated: Rendering shouldn't be this library's responsibility, please use the updatedContentResults and
+ * updatedKeywordResults callbacks to obtain the analysis data for rendering.
+ *
+ * @returns {void}
+ */
+App.prototype.renderAnalysisResults = function() {
+	if( this.config.contentAnalysisActive && ! isUndefined( this.contentAssessorPresenter ) ) {
+		this.contentAssessorPresenter.renderIndividualRatings();
+	}
+	if( this.config.keywordAnalysisActive && ! isUndefined( this.seoAssessorPresenter ) ) {
+		this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
+		this.seoAssessorPresenter.render();
+	}
+};
 
 /**
  * The analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
@@ -845,5 +893,26 @@ App.prototype.disableMarkers = function() {
 App.prototype.analyzeTimer = function() {
 	this.refresh();
 };
+
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @returns {void}
+ *
+ * @deprecated since version 1.2
+ */
+App.prototype.registerTest = function() {
+	console.error( "This function is deprecated, please use registerAssessment" );
+};
+
 
 module.exports = App;
