@@ -513,6 +513,10 @@ class WPSEO_Admin_Init {
 
 		$message = $i18n_module->get_promo_message();
 
+		if( $message !== "" ) {
+			$message .= $i18n_module->get_dismiss_i18n_message_button();
+		}
+
 		$notification_center = Yoast_Notification_Center::get();
 
 		$notification = new Yoast_Notification(
@@ -525,7 +529,6 @@ class WPSEO_Admin_Init {
 
 		if ( $message ) {
 			$notification_center->add_notification( $notification );
-
 			return;
 		}
 
