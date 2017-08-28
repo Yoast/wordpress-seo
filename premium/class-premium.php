@@ -40,7 +40,7 @@ class WPSEO_Premium {
 	private $integrations = array();
 
 	/**
-	 * Function that will be executed when plugin is activated
+	 * Function that will be executed when plugin is activated.
 	 */
 	public static function install() {
 
@@ -128,7 +128,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Setup the Yoast SEO premium plugin
+	 * Setup the Yoast SEO premium plugin.
 	 */
 	private function setup() {
 
@@ -234,7 +234,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Checks if the page is a premium page
+	 * Checks if the page is a premium page.
 	 *
 	 * @param string $page The page to check.
 	 *
@@ -247,7 +247,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Register the promotion class for our GlotPress instance
+	 * Register the promotion class for our GlotPress instance.
 	 *
 	 * @link https://github.com/Yoast/i18n-module
 	 */
@@ -267,7 +267,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Setting the autoloader for the redirects and instantiate the redirect page object
+	 * Setting the autoloader for the redirects and instantiate the redirect page object.
 	 */
 	private function redirect_setup() {
 		// Setting the autoloader for redirects.
@@ -277,7 +277,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Setting the autoloader for the redirects and instantiate the redirect page object
+	 * Setting the autoloader for the exports.
 	 */
 	private function export_setup() {
 		// Setting the autoloader for redirects.
