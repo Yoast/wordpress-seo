@@ -419,13 +419,12 @@ class WPSEO_Meta_Columns {
 	 * @return array Array containing the complete filter query.
 	 */
 	protected function build_filter_query( $vars, $filters ) {
-		$result = array( 'meta_query' => array() );
-
 		// If no filters were applied, just return everything.
 		if ( count( $filters ) === 0 ) {
-			return array_merge( $vars, $result );
+			return $vars;
 		}
 
+		$result = array( 'meta_query' => array() );
 		$result['meta_query'] = array_merge( $result['meta_query'], array( $this->determine_score_filters( $filters ) ) );
 
 		$current_seo_filter = $this->get_current_seo_filter();
