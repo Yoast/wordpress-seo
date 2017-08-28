@@ -139,6 +139,10 @@ function wpseoMarkAsFixed(url) {
 	wpseoSendMarkAsFixed(jQuery(".wpseo-gsc-ajax-security").val(), jQuery("#field_platform").val(), jQuery("#field_category").val(), url);
 }
 
+window.wpseoUpdateCategoryCount = wpseoUpdateCategoryCount;
+window.wpseoMarkAsFixed = wpseoMarkAsFixed;
+window.wpseoSendMarkAsFixed = wpseoSendMarkAsFixed;
+
 /* eslint-disable camelcase */
 window.wpseo_update_category_count = wpseoUpdateCategoryCount;
 window.wpseo_mark_as_fixed = wpseoMarkAsFixed;

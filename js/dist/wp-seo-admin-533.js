@@ -357,6 +357,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
 	// eslint-disable-next-line
+	window.wpseoAddFbAdmin = wpseoAddFbAdmin;
 	window.wpseo_add_fb_admin = wpseoAddFbAdmin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
