@@ -36,11 +36,12 @@ class WPSEO_Redirect_Importer {
 	}
 
 	/**
-	 * Save and export the redirects.
+	 * Saves the redirects to the database and exports them to the necessary configuration file.
 	 */
 	protected function save_import() {
 		$this->get_redirect_option()->save();
 		$redirect_manager = new WPSEO_Redirect_Manager();
+		// Export the redirects to .htaccess, Apache or NGinx configuration files depending on plugin settings.
 		$redirect_manager->export_redirects();
 	}
 }

@@ -35,7 +35,7 @@ class WPSEO_Premium_Import_Manager {
 	}
 
 	/**
-	 * Do premium imports.
+	 * Imports redirects from specified file or location.
 	 *
 	 * @param object|bool $import The import object.
 	 *
@@ -119,7 +119,7 @@ class WPSEO_Premium_Import_Manager {
 	 * CSV import invalid file message.
 	 */
 	protected function message_csv_file_invalid() {
-		$this->import->msg .= __( 'CSV import failed: Invalid CSV file.', 'wordpress-seo-premium' );
+		$this->import->msg .= __( 'CSV import failed: The provided file could not be parsed using a CSV parser.', 'wordpress-seo-premium' );
 	}
 
 	/**
@@ -134,7 +134,7 @@ class WPSEO_Premium_Import_Manager {
 			return;
 		}
 
-		$loader    = new WPSEO_Redirect_HTAccess_Loader( $htaccess );
+		$loader = new WPSEO_Redirect_HTAccess_Loader( $htaccess );
 
 		if ( $this->import_redirects_from_loader( $loader ) ) {
 			$this->message_htaccess_success();
@@ -145,7 +145,7 @@ class WPSEO_Premium_Import_Manager {
 	}
 
 	/**
-	 * Handle plugin imports.
+	 * Handles plugin imports.
 	 */
 	private function do_plugin_imports() {
 		$wpseo_post = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
@@ -193,20 +193,20 @@ class WPSEO_Premium_Import_Manager {
 	}
 
 	/**
-	 * Process a CSV import.
+	 * Processes a CSV import.
 	 */
 	protected function do_csv_imports() {
 		if ( ! isset( $_FILES['redirects_csv_file'] ) ) {
 			return;
 		}
 
-		if ( ! $this->validate_csv_file( $_FILES['redirects_csv_file'] ) ) {
+		if ( ! $this->validate_uploaded_csv_file( $_FILES['redirects_csv_file'] ) ) {
 			$this->message_csv_file_invalid();
 			return;
 		}
 
 		// Load the redirects from the uploaded file.
-		$loader    = new WPSEO_Redirect_CSV_Loader( $_FILES['redirects_csv_file']['tmp_name'] );
+		$loader = new WPSEO_Redirect_CSV_Loader( $_FILES['redirects_csv_file']['tmp_name'] );
 
 		if ( $this->import_redirects_from_loader( $loader ) ) {
 			$this->message_redirect_import_success();
@@ -223,7 +223,7 @@ class WPSEO_Premium_Import_Manager {
 	 *
 	 * @return bool Wether or not the file passes the validation.
 	 */
-	protected function validate_csv_file( $csv_file ) {
+	protected function validate_uploaded_csv_file( $csv_file ) {
 		// If the file upload failed for any reason.
 		if ( ! isset( $csv_file['error'] ) || ! $csv_file['error'] === UPLOAD_ERR_OK ) {
 			return false;

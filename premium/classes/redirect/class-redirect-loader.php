@@ -15,6 +15,3 @@ interface WPSEO_Redirect_Loader {
 	 */
 	public function load();
 }
-
-
-

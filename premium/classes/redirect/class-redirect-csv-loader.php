@@ -19,7 +19,7 @@ class WPSEO_Redirect_CSV_Loader implements WPSEO_Redirect_Loader {
 	 * @param string $csv_file Path of the CSV file to load.
 	 */
 	public function __construct( $csv_file ) {
-		$this->csv_file   = $csv_file;
+		$this->csv_file = $csv_file;
 	}
 
 	/**
@@ -49,7 +49,7 @@ class WPSEO_Redirect_CSV_Loader implements WPSEO_Redirect_Loader {
 	/**
 	 * Checks if a parsed CSV row is has a valid redirect format.
 	 * It should have exactly 4 values.
-	 * The third value should contain exactly 3 digits.
+	 * The third value should be a http status code.
 	 * The last value should be a redirect format.
 	 *
 	 * @param array $item The parsed CSV row.
@@ -61,7 +61,14 @@ class WPSEO_Redirect_CSV_Loader implements WPSEO_Redirect_Loader {
 			return false;
 		}
 
-		if ( ! preg_match( '/\A\d{3}\Z/', $item[2], $matches ) ) {
+		$permitted_status_codes = array(
+			(string) WPSEO_Redirect::PERMANENT,
+			(string) WPSEO_Redirect::FOUND,
+			(string) WPSEO_Redirect::TEMPORARY,
+			(string) WPSEO_Redirect::DELETED,
+			(string) WPSEO_Redirect::UNAVAILABLE,
+		);
+		if ( ! in_array( $item[2], $permitted_status_codes, true ) ) {
 			return false;
 		}
 
