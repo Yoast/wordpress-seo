@@ -235,7 +235,8 @@ class WPSEO_Premium_Import_Manager {
 		}
 
 		// If it's not a CSV file.
-		if ( wp_check_filetype( $csv_file['name'] )['ext'] !== 'csv' ) {
+		$filetype = wp_check_filetype( $csv_file['name'] );
+		if ( $filetype['ext'] !== 'csv' ) {
 			return false;
 		}
 
