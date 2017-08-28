@@ -31,7 +31,8 @@ class WPSEO_Redirect_Redirection_Loader implements WPSEO_Redirect_Loader {
 		// Get redirects.
 		$items = $this->wpdb->get_results(
 			'SELECT `url`, `action_data`, `regex`, `action_code` ' .
-			'FROM {$this->wpdb->prefix}redirection_items WHERE `status` = \'enabled\' AND `action_type` = \'url\''
+			'FROM ' . $this->wpdb->prefix . 'redirection_items ' .
+			'WHERE `status` = \'enabled\' AND `action_type` = \'url\''
 		);
 		$redirects = array();
 
