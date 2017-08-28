@@ -1,3 +1,6 @@
+### 5.3.3: August 23rd, 2017
+* Includes every change in Yoast SEO core 5.3.3, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 5.3.2: August 23rd, 2017
 * Includes every change in Yoast SEO core 5.3.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
