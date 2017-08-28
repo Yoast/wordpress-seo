@@ -7,7 +7,7 @@ import defaults from "../../../../config/defaults.json";
 import { Icon } from "../../Shared/components/Icon";
 
 /**
- * Container for the Collapsable header and it's content.
+ * Container for the Collapsible header and its content.
  */
 const AnalysisHeaderContainer = styled.div`
 	margin-top: 20px;
@@ -71,31 +71,27 @@ const AnalysisTitle = styled.span`
  * A collapsible header used to show sets of analysis results. Expects list items as children.
  *
  * @param {object} props The properties for the component.
- * @returns {XML} A collasible analysisresult set.
- * @constructor
+ * @returns {ReactElement} A collasible analysisresult set.
  */
 const AnalysisCollapsible = ( props ) => {
-	const headerContentId = props.headerId + "Content";
 	return (
 		<AnalysisHeaderContainer>
-			<div role="presentation">
-				<h3 role="heading" aria-level="3">
-					<AnalysisHeaderButton aria-expanded={ props.isOpen } aria-controls={ headerContentId }
-										  id={ props.headerId } onClick={ props.onOpen }>
+			<div>
+				<h3>
+					<AnalysisHeaderButton aria-expanded={ props.isOpen } onClick={ props.onOpen }>
 						<AnalysisHeaderIcon icon={ props.isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
 						<AnalysisTitle> { props.title + " (" + props.children.length + ")" } </AnalysisTitle>
 					</AnalysisHeaderButton>
 				</h3>
 			</div>
-			<ul id={ headerContentId } role="region" aria-labelledby={ props.headerId }>
-			{ props.isOpen ? props.children : "" }
+			<ul >
+				{ props.isOpen ? props.children : "" }
 			</ul>
 		</AnalysisHeaderContainer>
 	);
 };
 
 AnalysisCollapsible.propTypes = {
-	headerId: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	children: PropTypes.oneOfType( [
