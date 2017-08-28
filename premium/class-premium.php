@@ -93,6 +93,7 @@ class WPSEO_Premium {
 			'premium-search-console' => new WPSEO_Premium_GSC(),
 			'redirects-endpoint' => new WPSEO_Premium_Redirect_EndPoint( new WPSEO_Premium_Redirect_Service() ),
 			'redirect-export-manager' => new WPSEO_Premium_Redirect_Export_Manager(),
+			'keyword-export-manager' => new WPSEO_Premium_Keyword_Export_Manager(),
 		);
 
 		$this->setup();
@@ -136,6 +137,7 @@ class WPSEO_Premium {
 		$this->load_textdomain();
 
 		$this->redirect_setup();
+		$this->export_setup();
 
 		if ( is_admin() ) {
 			// Make sure priority is below registration of other implementations of the beacon in News, Video, etc.
@@ -272,6 +274,14 @@ class WPSEO_Premium {
 		new WPSEO_Premium_Autoloader( 'WPSEO_Redirect', 'redirect/', 'WPSEO_' );
 
 		$this->redirects = new WPSEO_Redirect_Page();
+	}
+
+	/**
+	 * Setting the autoloader for the redirects and instantiate the redirect page object
+	 */
+	private function export_setup() {
+		// Setting the autoloader for redirects.
+		new WPSEO_Premium_Autoloader( 'WPSEO_Export', 'export/', 'WPSEO_' );
 	}
 
 	/**
