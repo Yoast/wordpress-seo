@@ -917,6 +917,4 @@ App.prototype.createSnippetPreview = function() {
 	this.initSnippetPreview();
 };
 
-
-
 module.exports = App;
