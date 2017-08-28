@@ -8,7 +8,7 @@
  *
  * Manages exporting keywords.
  */
-class WPSEO_Export_Keywords_Manager {
+class WPSEO_Export_Keywords_Manager implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers all hooks to WordPress.
 	 */

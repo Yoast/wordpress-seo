@@ -30,7 +30,7 @@ class WPSEO_Export_Keywords_CSV {
 	/**
 	 * Exports the supplied keyword query to a CSV string.
 	 *
-	 * @param array $data    An array of results from WPSEO_Export_Keywords_Query::get_data.
+	 * @param array $data An array of results from WPSEO_Export_Keywords_Query::get_data.
 	 *
 	 * @return string A CSV string.
 	 */
@@ -74,7 +74,7 @@ class WPSEO_Export_Keywords_CSV {
 	 * Formats a WPSEO_Export_Keywords_Query result as a CSV line.
 	 * In case of multiple keywords it will return multiple lines.
 	 *
-	 * @param array $result  A result as returned from WPSEO_Export_Keywords_Query::get_data.
+	 * @param array $result A result as returned from WPSEO_Export_Keywords_Query::get_data.
 	 *
 	 * @return string A line of CSV, beginning with EOL.
 	 */
@@ -85,7 +85,7 @@ class WPSEO_Export_Keywords_CSV {
 		}
 
 		// Ensure we have arrays in the keywords.
-		$result['keywords'] = $this->get_array_from_result( $result, 'keywords' );
+		$result['keywords']       = $this->get_array_from_result( $result, 'keywords' );
 		$result['keywords_score'] = $this->get_array_from_result( $result, 'keywords_score' );
 
 		$csv = '';
