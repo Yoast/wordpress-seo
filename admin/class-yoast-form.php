@@ -93,6 +93,19 @@ class Yoast_Form {
 	}
 
 	/**
+	 * Sets a value in the options.
+	 *
+	 * @param string $key       The key of the option to set.
+	 * @param mixed  $value     The value to set the option to.
+	 * @param bool   $overwrite Whether to overwrite existing options. Default is false.
+	 */
+	public function set_options_value( $key, $value, $overwrite = false ) {
+		if ( $overwrite || ! array_key_exists( $key, $this->options ) ) {
+			$this->options[ $key ] = $value;
+		}
+	}
+
+	/**
 	 * Retrieve options based on whether we're on multisite or not.
 	 *
 	 * @since 1.2.4
