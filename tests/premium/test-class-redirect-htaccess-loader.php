@@ -15,17 +15,27 @@ class WPSEO_Redirect_HTAccess_Loader_Double extends WPSEO_Redirect_HTAccess_Load
  */
 class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 
-	private $htaccess_base = 'AuthName "Under Development"' . PHP_EOL .
-							 'AuthUserFile /web/sitename.com/.htpasswd' . PHP_EOL .
-							 'AuthType basic' . PHP_EOL .
-							 'Require valid-user' . PHP_EOL .
-							 'Order deny,allow' . PHP_EOL .
-							 'Deny from all' . PHP_EOL .
-							 'Allow from 208.113.134.190 w3.org htmlhelp.com googlebot.com' . PHP_EOL .
-							 'Satisfy Any';
+	/**
+	 * Returns a HTAccess base string to include some non-redirect data.
+	 *
+	 * @return string A HTAccess file contents without any redirects.
+	 */
+	private function get_htaccess_base() {
+		return 'AuthName "Under Development"' . PHP_EOL .
+			   'AuthUserFile /web/sitename.com/.htpasswd' . PHP_EOL .
+			   'AuthType basic' . PHP_EOL .
+			   'Require valid-user' . PHP_EOL .
+			   'Order deny,allow' . PHP_EOL .
+			   'Deny from all' . PHP_EOL .
+			   'Allow from 208.113.134.190 w3.org htmlhelp.com googlebot.com' . PHP_EOL .
+			   'Satisfy Any';
+	}
 
+	/**
+	 * Tests loading redirects from .htaccess file contents with plain redirects.
+	 */
 	public function test_simple_load() {
-		$htaccess = $this->htaccess_base . PHP_EOL .
+		$htaccess = $this->get_htaccess_base() . PHP_EOL .
 					'Redirect 301 /origin1 /target1' . PHP_EOL .
 					'Redirect 301 /origin2 /target2';
 
@@ -46,8 +56,11 @@ class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'target2', $redirects[1]->get_target() );
 	}
 
+	/**
+	 * Tests loading redirects from .htaccess file contents with regex redirects.
+	 */
 	public function test_regex_load() {
-		$htaccess = $this->htaccess_base . PHP_EOL .
+		$htaccess = $this->get_htaccess_base() . PHP_EOL .
 					'RedirectMatch 301 /regex(\d+) /target' . PHP_EOL .
 					'Redirect 301 /origin1 /target1';
 
@@ -70,8 +83,11 @@ class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( WPSEO_Redirect::FORMAT_REGEX, $redirects[1]->get_format() );
 	}
 
+	/**
+	 * Tests loading redirects from .htaccess file contents with quoted regex redirects.
+	 */
 	public function test_regex_quote_load() {
-		$htaccess = $this->htaccess_base . PHP_EOL .
+		$htaccess = $this->get_htaccess_base() . PHP_EOL .
 					'RedirectMatch 301 "regex in quotes.*" /target' . PHP_EOL .
 					'Redirect 301 /origin1 /target1';
 
@@ -94,8 +110,11 @@ class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( WPSEO_Redirect::FORMAT_REGEX, $redirects[1]->get_format() );
 	}
 
+	/**
+	 * Tests loading redirects from .htaccess file contents with deleted redirects.
+	 */
 	public function test_deleted_load() {
-		$htaccess = $this->htaccess_base . PHP_EOL .
+		$htaccess = $this->get_htaccess_base() . PHP_EOL .
 					'Redirect 410 /deleted' . PHP_EOL .
 					'Redirect 301 /origin1 /target1';
 
