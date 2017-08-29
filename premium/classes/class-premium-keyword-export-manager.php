@@ -97,8 +97,11 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	protected function get_csv_contents() {
 		global $wpdb;
 
+		$columns    = array();
 		$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-		$columns = $this->get_export_columns( $post_wpseo );
+		if ( is_array( $post_wpseo ) ) {
+			$columns = $this->get_export_columns( $post_wpseo );
+		}
 
 		$query = new WPSEO_Export_Keywords_Query( $columns, $wpdb );
 		$presenter = new WPSEO_Export_Keywords_Presenter( $columns );
