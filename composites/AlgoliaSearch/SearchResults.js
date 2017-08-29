@@ -40,7 +40,7 @@ export function SearchResult( props ) {
 		<Row {...props}>
 			<SearchResultLink href={ post.permalink } onClick={ props.handler }>
 				<div>
-					<SearchResultTitle>{ post.postTitle }</SearchResultTitle>
+					<SearchResultTitle>{ post.post_title }</SearchResultTitle>
 				</div>
 			</SearchResultLink>
 		</Row>
@@ -160,8 +160,6 @@ class SearchResults extends React.Component {
 }
 
 SearchResults.propTypes = {
-	post: PropTypes.object.isRequired,
-	showDetail: PropTypes.func.isRequired,
 	handler: PropTypes.func.isRequired,
 	searchString: PropTypes.string,
 	results: PropTypes.array,
