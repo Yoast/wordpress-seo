@@ -81,8 +81,8 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'bar', $result['keywords'][1] );
 		$this->assertCount( 2, $result['keywords'] );
 
-		$this->assertEquals( 'good', $result['keywords_score'][0] );
-		$this->assertEquals( 'bad', $result['keywords_score'][1] );
+		$this->assertEquals( 'Good', $result['keywords_score'][0] );
+		$this->assertEquals( 'Needs improvement', $result['keywords_score'][1] );
 		$this->assertCount( 2, $result['keywords_score'] );
 	}
 
@@ -109,7 +109,7 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'foo', $result['keywords'][0] );
 		$this->assertCount( 1, $result['keywords'] );
 
-		$this->assertEquals( 'good', $result['keywords_score'][0] );
+		$this->assertEquals( 'Good', $result['keywords_score'][0] );
 		$this->assertCount( 1, $result['keywords_score'] );
 	}
 
@@ -138,9 +138,9 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $fake_post, $result['ID'] );
 		$this->assertEquals( 'fake post', $result['post_title'] );
 		$this->assertEquals( get_permalink( $fake_post ), $result['post_url'] );
-		$this->assertEquals( 'ok', $result['seo_score'] );
+		$this->assertEquals( 'OK', $result['seo_score'] );
 		$this->assertEquals( array( 'bar', 'foo', 'baz' ), $result['keywords'] );
-		$this->assertEquals( array( 'ok', 'good', 'bad' ), $result['keywords_score'] );
+		$this->assertEquals( array( 'OK', 'Good', 'Needs improvement' ), $result['keywords_score'] );
 	}
 
 	/**
@@ -207,7 +207,7 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $fake_post, $result['ID'] );
 		$this->assertEquals( 'fake post', $result['post_title'] );
 		$this->assertEquals( get_permalink( $fake_post ), $result['post_url'] );
-		$this->assertEquals( 'na', $result['seo_score'] );
+		$this->assertEquals( 'Not available', $result['seo_score'] );
 		$this->assertEquals( array(), $result['keywords'] );
 		$this->assertEquals( array(), $result['keywords_score'] );
 	}
