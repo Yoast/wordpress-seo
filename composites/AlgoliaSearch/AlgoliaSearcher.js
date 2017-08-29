@@ -54,13 +54,11 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Handles the form submit event. Stores the search string and performs a search.
 	 *
-	 * @param {object} clickEvent The React SyntheticEvent.
+	 * @param {string} searchString The entered search string.
 	 *
 	 * @returns {void}
 	 */
-	onSearchButtonClick( clickEvent ) {
-		let searchString = clickEvent.target.value;
-
+	onSearchButtonClick( searchString ) {
 		if ( searchString === "" ) {
 			return;
 		}

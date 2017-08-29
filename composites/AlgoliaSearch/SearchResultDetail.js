@@ -6,6 +6,7 @@
  * @constructor
  */
 import React from "react";
+import PropTypes from "prop-types";
 import ArticleContent from "./ArticleContent";
 import styled from "styled-components";
 
@@ -71,14 +72,14 @@ class SearchResultDetail extends React.Component {
 }
 
 SearchResultDetail.propTypes = {
-	post: React.PropTypes.object.isRequired,
-	showDetail: React.PropTypes.func.isRequired,
-	back: React.PropTypes.string,
-	open: React.PropTypes.string,
-	onClick: React.PropTypes.func.isRequired,
-	backLabel: React.PropTypes.string,
-	openLabel: React.PropTypes.string,
-	iframeTitle: React.PropTypes.string.isRequired,
+	post: PropTypes.object.isRequired,
+	showDetail: PropTypes.func.isRequired,
+	back: PropTypes.string,
+	open: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+	backLabel: PropTypes.string,
+	openLabel: PropTypes.string,
+	iframeTitle: PropTypes.string.isRequired,
 };
 
 SearchResultDetail.defaultProps = {

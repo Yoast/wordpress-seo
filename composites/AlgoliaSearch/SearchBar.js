@@ -83,6 +83,7 @@ class SearchBar extends React.Component {
 
 		this.state = {
 			doRequest: false,
+			searchString: "",
 		};
 	}
 
@@ -92,8 +93,8 @@ class SearchBar extends React.Component {
 	 * @returns {void}
 	 */
 	componentWillMount() {
-		this.doFormSubmission = debounce( ( event ) => {
-			this.props.submitAction( event );
+		this.doFormSubmission = debounce( ( searchString ) => {
+			this.props.submitAction( searchString );
 		}, 1000 );
 	}
 
@@ -106,7 +107,22 @@ class SearchBar extends React.Component {
 	 */
 	onSearchChange( event ) {
 		event.persist();
-		this.doFormSubmission( event );
+		this.setState( { searchString: event.target.value }, () => {
+			this.doFormSubmission( this.state.searchString );
+		} );
+	}
+
+	/**
+	 * Handles the search bar form submit.
+	 *
+	 * @param {DOMEvent} event The event being triggered on the SearchBar.
+	 *
+	 * @returns {void}
+	 */
+	onSubmit( event ) {
+		event.preventDefault();
+		this.doFormSubmission.cancel();
+		this.props.submitAction( this.state.searchString );
 	}
 
 	/**
@@ -118,7 +134,7 @@ class SearchBar extends React.Component {
 		return (
 			<SearchBarWrapper role="search">
 				<SearchHeading>{ this.props.headingText }</SearchHeading>
-				<form>
+				<form onSubmit={ this.onSubmit.bind( this ) }>
 					<SearchLabel htmlFor="search-input">
 						<SearchLabelText className="screen-reader-text">
 							{ this.props.headingText ? this.props.headingText : this.props.intl.formatMessage( messages.searchLabel ) }
