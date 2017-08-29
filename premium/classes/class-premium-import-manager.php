@@ -156,6 +156,11 @@ class WPSEO_Premium_Import_Manager {
 
 		$loader = $this->get_plugin_loader( $wpseo_post['import_plugin'] );
 
+		if ( $loader === false ) {
+			$this->message_redirection_plugin_not_find();
+			return;
+		}
+
 		if ( $this->import_redirects_from_loader( $loader ) ) {
 			$this->message_redirect_import_success();
 			return;
@@ -169,7 +174,7 @@ class WPSEO_Premium_Import_Manager {
 	 *
 	 * @param string $plugin_name The plugin we want to load redirects from.
 	 *
-	 * @return bool|WPSEO_Redirect_Loader The redirect loader.
+	 * @return bool|WPSEO_Redirect_Abstract_Loader The redirect loader.
 	 */
 	protected function get_plugin_loader( $plugin_name ) {
 		global $wpdb;
@@ -178,8 +183,6 @@ class WPSEO_Premium_Import_Manager {
 			case 'redirection':
 				// Only do import if Redirections is active.
 				if ( ! defined( 'REDIRECTION_VERSION' ) ) {
-					// Add plugin not found message.
-					$this->message_redirection_plugin_not_find();
 					return false;
 				}
 				return new WPSEO_Redirect_Redirection_Loader( $wpdb );
@@ -246,11 +249,11 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Imports all redirects from the loader.
 	 *
-	 * @param WPSEO_Redirect_Loader $loader The loader to import redirects from.
+	 * @param WPSEO_Redirect_Abstract_Loader $loader The loader to import redirects from.
 	 *
 	 * @return bool Whether or not any redirects were imported.
 	 */
-	protected function import_redirects_from_loader( WPSEO_Redirect_Loader $loader ) {
+	protected function import_redirects_from_loader( WPSEO_Redirect_Abstract_Loader $loader ) {
 		if ( ! $loader ) {
 			return false;
 		}

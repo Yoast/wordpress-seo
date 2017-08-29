@@ -6,7 +6,7 @@
 /**
  * Class for loading redirects from a CSV file and validating them.
  */
-class WPSEO_Redirect_CSV_Loader implements WPSEO_Redirect_Loader {
+class WPSEO_Redirect_CSV_Loader extends WPSEO_Redirect_Abstract_Loader {
 
 	/**
 	 * @var string Path of the CSV file to load.
@@ -61,19 +61,11 @@ class WPSEO_Redirect_CSV_Loader implements WPSEO_Redirect_Loader {
 			return false;
 		}
 
-		$permitted_status_codes = array(
-			(string) WPSEO_Redirect::PERMANENT,
-			(string) WPSEO_Redirect::FOUND,
-			(string) WPSEO_Redirect::TEMPORARY,
-			(string) WPSEO_Redirect::DELETED,
-			(string) WPSEO_Redirect::UNAVAILABLE,
-		);
-		if ( ! in_array( $item[2], $permitted_status_codes, true ) ) {
+		if ( ! $this->validate_status_code( $item[2] ) ) {
 			return false;
 		}
 
-		$permitted_formats = array( WPSEO_Redirect::FORMAT_PLAIN, WPSEO_Redirect::FORMAT_REGEX );
-		if ( ! in_array( $item[3], $permitted_formats , true ) ) {
+		if ( ! $this->validate_format( $item[3] ) ) {
 			return false;
 		}
 

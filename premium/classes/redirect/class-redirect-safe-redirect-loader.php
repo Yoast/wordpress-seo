@@ -8,7 +8,7 @@
  *
  * @link https://wordpress.org/plugins/safe-redirect-manager/
  */
-class WPSEO_Redirect_Safe_Redirect_Loader implements WPSEO_Redirect_Loader {
+class WPSEO_Redirect_Safe_Redirect_Loader extends WPSEO_Redirect_Abstract_Loader {
 
 	/**
 	 * Loads redirects as WPSEO_Redirects from the Safe Redirect Manager plugin.
@@ -19,6 +19,10 @@ class WPSEO_Redirect_Safe_Redirect_Loader implements WPSEO_Redirect_Loader {
 		$items     = get_transient( '_srm_redirects' );
 		$redirects = array();
 
+		if ( ! is_array( $items ) ) {
+			return $redirects;
+		}
+
 		foreach ( $items as $item ) {
 			$item = $this->convert_wildcards( $item );
 
@@ -28,6 +32,10 @@ class WPSEO_Redirect_Safe_Redirect_Loader implements WPSEO_Redirect_Loader {
 			}
 
 			$status_code = $this->convert_status_code( $item['status_code'] );
+
+			if ( ! $this->validate_status_code( $status_code ) ) {
+				continue;
+			}
 
 			$redirects[] = new WPSEO_Redirect( $item['redirect_from'], $item['redirect_to'], $status_code, $format );
 		}

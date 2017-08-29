@@ -6,7 +6,7 @@
 /**
  * Class for loading redirects from  .htaccess files.
  */
-class WPSEO_Redirect_HTAccess_Loader implements WPSEO_Redirect_Loader {
+class WPSEO_Redirect_HTAccess_Loader extends WPSEO_Redirect_Abstract_Loader {
 
 	/**
 	 * @var string The contents of the htaccess file to import.
@@ -71,7 +71,7 @@ class WPSEO_Redirect_HTAccess_Loader implements WPSEO_Redirect_Loader {
 			$source = trim( $match[2] );
 			$target = $this->parse_target( $type, $match );
 
-			if ( $target === false || $source === '' ) {
+			if ( $target === false || $source === '' || ! $this->validate_status_code( $type ) ) {
 				continue;
 			}
 
