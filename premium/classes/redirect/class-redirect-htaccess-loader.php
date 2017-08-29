@@ -134,7 +134,7 @@ class WPSEO_Redirect_HTAccess_Loader extends WPSEO_Redirect_Abstract_Loader {
 			),
 			array(
 				'type'    => WPSEO_Redirect::FORMAT_REGEX,
-				'pattern' => '`^RedirectMatch ([0-9]{3}) "?([^"]+)"? ([^\s]+)`im',
+				'pattern' => '`^RedirectMatch ([0-9]{3}) "([^"]+)" ([^\s]+)`im',
 			),
 		);
 	}

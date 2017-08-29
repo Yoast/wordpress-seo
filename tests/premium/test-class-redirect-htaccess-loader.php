@@ -15,6 +15,109 @@ class WPSEO_Redirect_HTAccess_Loader_Double extends WPSEO_Redirect_HTAccess_Load
  */
 class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 
+	private $htaccess_base = 'AuthName "Under Development"' . PHP_EOL .
+							 'AuthUserFile /web/sitename.com/.htpasswd' . PHP_EOL .
+							 'AuthType basic' . PHP_EOL .
+							 'Require valid-user' . PHP_EOL .
+							 'Order deny,allow' . PHP_EOL .
+							 'Deny from all' . PHP_EOL .
+							 'Allow from 208.113.134.190 w3.org htmlhelp.com googlebot.com' . PHP_EOL .
+							 'Satisfy Any';
+
+	public function test_simple_load() {
+		$htaccess = $this->htaccess_base . PHP_EOL .
+					'Redirect 301 /origin1 /target1' . PHP_EOL .
+					'Redirect 301 /origin2 /target2';
+
+		$instance  = new WPSEO_Redirect_HTAccess_Loader( $htaccess );
+		$redirects = $instance->load();
+
+		$this->assertCount( 2, $redirects );
+
+		foreach ( $redirects as $redirect ) {
+			$this->assertInstanceOf( 'WPSEO_Redirect', $redirect );
+			$this->assertEquals( WPSEO_Redirect::PERMANENT, $redirect->get_type() );
+			$this->assertEquals( WPSEO_Redirect::FORMAT_PLAIN, $redirect->get_format() );
+		}
+		$this->assertEquals( 'origin1', $redirects[0]->get_origin() );
+		$this->assertEquals( 'target1', $redirects[0]->get_target() );
+
+		$this->assertEquals( 'origin2', $redirects[1]->get_origin() );
+		$this->assertEquals( 'target2', $redirects[1]->get_target() );
+	}
+
+	public function test_regex_load() {
+		$htaccess = $this->htaccess_base . PHP_EOL .
+					'RedirectMatch 301 /regex(\d+) /target' . PHP_EOL .
+					'Redirect 301 /origin1 /target1';
+
+		$instance  = new WPSEO_Redirect_HTAccess_Loader( $htaccess );
+		$redirects = $instance->load();
+
+		$this->assertCount( 2, $redirects );
+
+		foreach ( $redirects as $redirect ) {
+			$this->assertInstanceOf( 'WPSEO_Redirect', $redirect );
+			$this->assertEquals( WPSEO_Redirect::PERMANENT, $redirect->get_type() );
+		}
+		// Plains redirects are always added first.
+		$this->assertEquals( 'origin1', $redirects[0]->get_origin() );
+		$this->assertEquals( 'target1', $redirects[0]->get_target() );
+		$this->assertEquals( WPSEO_Redirect::FORMAT_PLAIN, $redirects[0]->get_format() );
+
+		$this->assertEquals( '/regex(\d+)', $redirects[1]->get_origin() );
+		$this->assertEquals( 'target', $redirects[1]->get_target() );
+		$this->assertEquals( WPSEO_Redirect::FORMAT_REGEX, $redirects[1]->get_format() );
+	}
+
+	public function test_regex_quote_load() {
+		$htaccess = $this->htaccess_base . PHP_EOL .
+					'RedirectMatch 301 "regex in quotes.*" /target' . PHP_EOL .
+					'Redirect 301 /origin1 /target1';
+
+		$instance  = new WPSEO_Redirect_HTAccess_Loader( $htaccess );
+		$redirects = $instance->load();
+
+		$this->assertCount( 2, $redirects );
+
+		foreach ( $redirects as $redirect ) {
+			$this->assertInstanceOf( 'WPSEO_Redirect', $redirect );
+			$this->assertEquals( WPSEO_Redirect::PERMANENT, $redirect->get_type() );
+		}
+		// Plains redirects are always added first.
+		$this->assertEquals( 'origin1', $redirects[0]->get_origin() );
+		$this->assertEquals( 'target1', $redirects[0]->get_target() );
+		$this->assertEquals( WPSEO_Redirect::FORMAT_PLAIN, $redirects[0]->get_format() );
+
+		$this->assertEquals( 'regex in quotes.*', $redirects[1]->get_origin() );
+		$this->assertEquals( 'target', $redirects[1]->get_target() );
+		$this->assertEquals( WPSEO_Redirect::FORMAT_REGEX, $redirects[1]->get_format() );
+	}
+
+	public function test_deleted_load() {
+		$htaccess = $this->htaccess_base . PHP_EOL .
+					'Redirect 410 /deleted' . PHP_EOL .
+					'Redirect 301 /origin1 /target1';
+
+		$instance  = new WPSEO_Redirect_HTAccess_Loader( $htaccess );
+		$redirects = $instance->load();
+
+		$this->assertCount( 2, $redirects );
+
+		foreach ( $redirects as $redirect ) {
+			$this->assertInstanceOf( 'WPSEO_Redirect', $redirect );
+			$this->assertEquals( WPSEO_Redirect::FORMAT_PLAIN, $redirect->get_format() );
+		}
+		// Non-deleted redirects are always matched first.
+		$this->assertEquals( 'origin1', $redirects[0]->get_origin() );
+		$this->assertEquals( 'target1', $redirects[0]->get_target() );
+		$this->assertEquals( WPSEO_Redirect::PERMANENT, $redirects[0]->get_type() );
+
+		$this->assertEquals( 'deleted', $redirects[1]->get_origin() );
+		$this->assertEquals( '', $redirects[1]->get_target() );
+		$this->assertEquals( WPSEO_Redirect::DELETED, $redirects[1]->get_type() );
+	}
+
 	/**
 	 * Test the plain redirect regex when the redirect origin does not contain quotes.
 	 *

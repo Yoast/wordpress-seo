@@ -30,14 +30,8 @@ abstract class WPSEO_Redirect_Abstract_Loader {
 			$status_code = (int) $status_code;
 		}
 
-		$permitted_status_codes = array(
-			WPSEO_Redirect::PERMANENT,
-			WPSEO_Redirect::FOUND,
-			WPSEO_Redirect::TEMPORARY,
-			WPSEO_Redirect::DELETED,
-			WPSEO_Redirect::UNAVAILABLE,
-		);
-		if ( ! in_array( $status_code, $permitted_status_codes, true ) ) {
+		$status_codes = new WPSEO_Redirect_Types();
+		if ( ! in_array( $status_code, array_keys( $status_codes->get() ), true ) ) {
 			return false;
 		}
 

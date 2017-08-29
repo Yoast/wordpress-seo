@@ -38,6 +38,11 @@ class WPSEO_Redirect_Safe_Redirect_Loader_Test extends WPSEO_UnitTestCase {
 			$this->assertEquals( WPSEO_Redirect::PERMANENT, $redirect->get_type() );
 			$this->assertEquals( WPSEO_Redirect::FORMAT_PLAIN, $redirect->get_format() );
 		}
+		$this->assertEquals( 'origin1', $redirects[0]->get_origin() );
+		$this->assertEquals( 'target1', $redirects[0]->get_target() );
+
+		$this->assertEquals( 'origin2', $redirects[1]->get_origin() );
+		$this->assertEquals( 'target2', $redirects[1]->get_target() );
 
 		delete_transient( '_srm_redirects' );
 	}
@@ -70,7 +75,12 @@ class WPSEO_Redirect_Safe_Redirect_Loader_Test extends WPSEO_UnitTestCase {
 			$this->assertInstanceOf( 'WPSEO_Redirect', $redirect );
 			$this->assertEquals( WPSEO_Redirect::PERMANENT, $redirect->get_type() );
 		}
+		$this->assertEquals( 'origin', $redirects[0]->get_origin() );
+		$this->assertEquals( 'target', $redirects[0]->get_target() );
 		$this->assertEquals( WPSEO_Redirect::FORMAT_PLAIN, $redirects[0]->get_format() );
+
+		$this->assertEquals( '/wildcard.*', $redirects[1]->get_origin() );
+		$this->assertEquals( 'target', $redirects[1]->get_target() );
 		$this->assertEquals( WPSEO_Redirect::FORMAT_REGEX, $redirects[1]->get_format() );
 
 		delete_transient( '_srm_redirects' );
@@ -104,7 +114,12 @@ class WPSEO_Redirect_Safe_Redirect_Loader_Test extends WPSEO_UnitTestCase {
 			$this->assertInstanceOf( 'WPSEO_Redirect', $redirect );
 			$this->assertEquals( WPSEO_Redirect::PERMANENT, $redirect->get_type() );
 		}
+		$this->assertEquals( 'origin', $redirects[0]->get_origin() );
+		$this->assertEquals( 'target', $redirects[0]->get_target() );
 		$this->assertEquals( WPSEO_Redirect::FORMAT_PLAIN, $redirects[0]->get_format() );
+
+		$this->assertEquals( '/regex\d+', $redirects[1]->get_origin() );
+		$this->assertEquals( 'target', $redirects[1]->get_target() );
 		$this->assertEquals( WPSEO_Redirect::FORMAT_REGEX, $redirects[1]->get_format() );
 
 		delete_transient( '_srm_redirects' );
