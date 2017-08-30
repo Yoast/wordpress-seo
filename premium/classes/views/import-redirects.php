@@ -5,6 +5,7 @@
 
 ?>
 <div id="import-htaccess" class="wpseotab">
+	<div>
 	<h2><?php _e( 'Import from other redirect plugins', 'wordpress-seo-premium' ); ?></h2>
 	<form action="" method="post" accept-charset="<?php esc_attr_e( get_bloginfo( 'charset' ), 'wordpress-seo-premium' ); ?>">
 		<?php wp_nonce_field( 'wpseo-import', '_wpnonce', true ); ?>
@@ -14,14 +15,22 @@
 		<br/>
 		<input type="submit" class="button button-primary" name="import" value="<?php _e( 'Import redirects', 'wordpress-seo-premium' ); ?>"/>
 	</form>
-	<h2><?php _e( 'Import from a CSV file.', 'wordpress-seo-premium' ); ?></h2>
+	</div>
+
+	<br/>
+
+	<div>
+	<h2><?php _e( 'Import from a CSV file', 'wordpress-seo-premium' ); ?></h2>
 	<form enctype="multipart/form-data" action="" method="post" accept-charset="<?php esc_attr_e( get_bloginfo( 'charset' ), 'wordpress-seo-premium' ); ?>">
 		<?php wp_nonce_field( 'wpseo-import', '_wpnonce', true ); ?>
-		<input type="file" name="redirects_csv_file" id="redirects_csv_file"/>
-		<br/>
+		<p><input type="file" name="redirects_csv_file" id="redirects_csv_file"/></p>
 		<input type="submit" class="button button-primary" name="import_csv" value="<?php _e( 'Import CSV file', 'wordpress-seo-premium' ); ?>"/>
 	</form>
+	</div>
+
 	<br/>
+
+	<div>
 	<h2><?php
 		/* translators: %s: '.htaccess' file name */
 		printf( __( 'Import redirects from %s', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
@@ -38,4 +47,5 @@
 		<textarea name="htaccess" id="htaccess" rows="15" class="large-text code"></textarea><br/>
 		<input type="submit" class="button button-primary" name="import" value="<?php _e( 'Import .htaccess', 'wordpress-seo-premium' ); ?>"/>
 	</form>
+	</div>
 </div>
