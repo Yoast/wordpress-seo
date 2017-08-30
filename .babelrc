@@ -1,6 +1,7 @@
 {
   "presets": [ "es2015" ],
   "ignore": [
-    "js/templates.js"
+    "js/templates.js",
+    "src/templates.js"
   ]
 }
