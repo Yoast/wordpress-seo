@@ -2,7 +2,7 @@ import { readabilityResultsReducer } from "../reducers/contentAnalysis/readabili
 import { keywordResultsReducer } from "../reducers/contentAnalysis/keywordResultsReducer";
 import { combineReducers } from "redux";
 
-export const contentAnalysisReducer = combineReducers( {
+export default combineReducers( {
 	seo: keywordResultsReducer,
 	readability: readabilityResultsReducer,
 } );
