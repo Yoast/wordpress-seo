@@ -1,15 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
 import a11ySpeak from "a11y-speak";
+import { injectIntl, intlShape, defineMessages } from "react-intl";
 import styled from "styled-components";
 import { ZebrafiedListTable } from "../basic/Table/ListTable";
 import { Row } from "../basic/Table/Row";
 import colors from "../../style-guide/colors.json";
 
+const messages = defineMessages( {
+	noResultsText: {
+		id: "searchresults.noresultstext",
+		defaultMessage: "No results found.",
+	},
+	foundResultsText: {
+		id: "searchresults.foundresultstext",
+		defaultMessage: "Found {resultsCount} { resultsCount, plural, one {result} other {results} }",
+	},
+} );
+
 /**
  * The title of the search result item.
  */
-const SearchResultTitle = styled.h3`
+const SearchResultTitle = styled.p`
 	padding-left: 10px;
 	margin: 0;
 	font-size: 1em;
@@ -21,6 +33,7 @@ const SearchResultTitle = styled.h3`
  */
 const SearchResultLink = styled.a`
 	color: ${ colors.$color_black };
+	padding: 10px;
 	
 	&:hover, &:focus {
 		color: ${ colors.$color_pink_dark };
@@ -39,9 +52,7 @@ export function SearchResult( props ) {
 	return (
 		<Row {...props}>
 			<SearchResultLink href={ post.permalink } onClick={ props.handler }>
-				<div>
-					<SearchResultTitle>{ post.post_title }</SearchResultTitle>
-				</div>
+				<SearchResultTitle>{ post.post_title }</SearchResultTitle>
 			</SearchResultLink>
 		</Row>
 	);
@@ -107,9 +118,15 @@ class SearchResults extends React.Component {
 	 * @returns {ReactElement} The no results found text.
 	 */
 	renderNoResultsFound() {
-		a11ySpeak( this.props.noResultsText );
+		const noResultsText = this.props.intl.formatMessage( messages.noResultsText );
 
-		return ( <NoResults>{ this.props.noResultsText }</NoResults> );
+		a11ySpeak( noResultsText );
+
+		return (
+			<NoResults>
+				{ noResultsText }
+			</NoResults>
+		);
 	}
 
 	/**
@@ -122,7 +139,7 @@ class SearchResults extends React.Component {
 	resultsToSearchItem( results ) {
 		return results.map( ( result, index ) => {
 			return <SearchResult
-				height="24px"
+				height="32px"
 				key={ result.objectID }
 				post={ result }
 				handler={ ( event ) => {
@@ -146,7 +163,11 @@ class SearchResults extends React.Component {
 			return this.handleZeroResults();
 		}
 
-		a11ySpeak( this.props.foundResultsText.replace( "%d", resultsCount ) );
+		const foundResultsText = this.props.intl.formatMessage( messages.foundResultsText, {
+			resultsCount: resultsCount,
+		} );
+
+		a11ySpeak( foundResultsText );
 
 		return (
 			<SearchResultsWrapper>
@@ -160,11 +181,10 @@ class SearchResults extends React.Component {
 }
 
 SearchResults.propTypes = {
+	intl: intlShape,
 	handler: PropTypes.func.isRequired,
 	searchString: PropTypes.string,
 	results: PropTypes.array,
-	noResultsText: PropTypes.string.isRequired,
-	foundResultsText: PropTypes.string.isRequired,
 };
 
 SearchResults.defaultProps = {
@@ -172,4 +192,4 @@ SearchResults.defaultProps = {
 	results: [],
 };
 
-export default SearchResults;
+export default injectIntl( SearchResults );

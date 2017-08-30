@@ -1,11 +1,11 @@
 import React from "react";
-import renderer from "react-test-renderer";
 
+import { createComponentWithIntl } from "../../../utils/intlProvider";
 import SearchResultDetail from "../SearchResultDetail.js";
 let post = { permalink: "https://kb.yoast.com/kb/passive-voice/", postTitle: "Post Title", objectID: 1 };
 
 test( "the SearchResultDetail component matches the snapshot", () => {
-	const component = renderer.create(
+	const component = createComponentWithIntl(
 		<SearchResultDetail post={ post } showDetail={ () => {} } onClick={ () => {} } iframeTitle="Title"/>
 	);
 

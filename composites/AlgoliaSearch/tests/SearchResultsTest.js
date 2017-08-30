@@ -1,12 +1,12 @@
 import React from "react";
-import renderer from "react-test-renderer";
 
+import { createComponentWithIntl } from "../../../utils/intlProvider";
 import SearchResults from "../SearchResults.js";
 
 let post = { permalink: "https://kb.yoast.com/kb/passive-voice/", postTitle: "Post Title", objectID: 1 };
 
 test( "the SearchResults component with results matches the snapshot", () => {
-	const component = renderer.create(
+	const component = createComponentWithIntl(
 		<SearchResults handler={ () => {} }
 					   post={ post }
 					   showDetail={ () => {} }
@@ -22,7 +22,7 @@ test( "the SearchResults component with results matches the snapshot", () => {
 } );
 
 test( "the SearchResults component without results matches the snapshot", () => {
-	const component = renderer.create(
+	const component = createComponentWithIntl(
 		<SearchResults handler={ () => {} }
 					   post={ {} }
 					   showDetail={ () => {} }

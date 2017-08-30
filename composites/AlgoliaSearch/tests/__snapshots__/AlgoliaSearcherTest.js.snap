@@ -13,11 +13,17 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
     >
       Search the Yoast knowledge base
     </h2>
-    <form>
+    <form
+      onSubmit={[Function]}
+    >
       <label
-        className="sc-bwzfXH euRyYj"
+        className="sc-bwzfXH OqFBN"
         htmlFor="search-input"
       >
+        <mockedSvg
+          aria-hidden="true"
+          className="sc-cSHVUG dKOTqE"
+        />
         <span
           className="screen-reader-text sc-bdVaJa bDWFJH"
         >

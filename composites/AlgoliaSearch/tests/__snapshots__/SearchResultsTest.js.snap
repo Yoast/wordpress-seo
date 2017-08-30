@@ -9,21 +9,17 @@ exports[`the SearchResults component with results matches the snapshot 1`] = `
     role="list"
   >
     <li
-      className="sc-bwzfXH gpJyjl"
-      height="24px"
+      className="sc-bwzfXH kzcaNF"
+      height="32px"
     >
       <a
-        className="sc-ifAKCX qfHdh"
+        className="sc-ifAKCX bTzYEK"
         href="https://kb.yoast.com/kb/passive-voice/"
         onClick={[Function]}
       >
-        <div>
-          <h3
-            className="sc-bxivhb fueSDl"
-          >
-            Post Title
-          </h3>
-        </div>
+        <p
+          className="sc-bxivhb fueSDl"
+        />
       </a>
     </li>
   </ul>
@@ -34,6 +30,6 @@ exports[`the SearchResults component without results matches the snapshot 1`] = 
 <p
   className="sc-bZQynM fsLvqP"
 >
-  No Results
+  No results found.
 </p>
 `;
