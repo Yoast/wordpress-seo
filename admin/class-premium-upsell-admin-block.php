@@ -62,7 +62,6 @@ class Premium_Upsell_Admin_Block {
 		echo '<ul class="' . $class . '--motivation">' . $arguments_html . '</ul>';
 
 		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . sprintf( __( 'Find out why you should upgrade to %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br />';
-		echo '<small>' . __( 'Prices start as low as 69,- for one site', 'wordpress-seo' ) . '</small></p>';
 		echo '</div>';
 
 		echo '</div>';
