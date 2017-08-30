@@ -63,7 +63,7 @@ class WPSEO_Export_Keywords_Presenter {
 				$result['post_url'] = get_permalink( $result['ID'] );
 				break;
 			case 'seo_score':
-				$result['seo_score'] = WPSEO_Rank::from_numeric_score( intval( $result['seo_score'] ) )->get_label();
+				$result['seo_score'] = WPSEO_Rank::from_numeric_score( (int) $result['seo_score'] )->get_label();
 				break;
 			case 'keywords':
 				$result = $this->convert_result_keywords( $result );
@@ -163,7 +163,7 @@ class WPSEO_Export_Keywords_Presenter {
 	protected function get_result_keywords_scores( array $result, $keywords ) {
 		$scores = array();
 
-		$rank = WPSEO_Rank::from_numeric_score( intval( $result['primary_keyword_score'] ) );
+		$rank = WPSEO_Rank::from_numeric_score( (int) $result['primary_keyword_score'] );
 		$scores[] = $rank->get_label();
 
 		foreach ( $keywords as $keyword ) {
