@@ -15,11 +15,9 @@ module.exports = function( matchString, positiveLookAhead, extraWordBoundary ) {
 
 	wordBoundary = "[ \\u00a0 \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›" + _extraWordBoundary + "<>]";
 	wordBoundaryStart = "(^|" + wordBoundary + ")";
-	wordBoundaryEnd = "($|" + wordBoundary + ")";
 	if( positiveLookAhead ) {
 		wordBoundary = "(?=[ \\u00a0 \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›" + _extraWordBoundary + "<>])";
-		wordBoundaryEnd = "($|" + wordBoundary + ")";
 	}
-
+	wordBoundaryEnd = "($|" + wordBoundary + ")";
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
 };
