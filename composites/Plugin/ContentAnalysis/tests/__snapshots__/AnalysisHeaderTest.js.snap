@@ -69,8 +69,6 @@ exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
       </button>
     </h3>
   </div>
-  <ul>
-    
-  </ul>
+  <ul />
 </div>
 `;
