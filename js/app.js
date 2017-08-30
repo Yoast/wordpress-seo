@@ -38,6 +38,8 @@ var defaults = {
 		updateSnippetValues: function() {},
 		saveScores: function() {},
 		saveContentScore: function() {},
+		updatedContentResults: function() {},
+		updatedKeywordsResults: function() {},
 	},
 	sampleText: {
 		baseUrl: "example.org/",
@@ -183,6 +185,26 @@ function verifyArguments( args ) {
  */
 
 /**
+ * @callback YoastSEO.App~updatedContentResults
+ *
+ * @param {Object[]} result The updated content analysis results.
+ * @param {number} result[].score The SEO score.
+ * @param {string} result[].rating String representation of the SEO score.
+ * @param {string} result[].text Textual explanation of the score.
+ * @param {number} overallContentScore The overall content SEO score.
+ */
+
+/**
+ * @callback YoastSEO.App~updatedKeywordsResults
+ *
+ * @param {Object[]} result The updated keywords analysis results.
+ * @param {number} result[].score The SEO score.
+ * @param {string} result[].rating String representation of the SEO score.
+ * @param {string} result[].text Textual explanation of the score.
+ * @param {number} overallContentScore The overall keywords SEO score.
+ */
+
+/**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
  *
  * @param {Object} args The arguments passed to the loader.
@@ -204,6 +226,10 @@ function verifyArguments( args ) {
  * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
  * @param {YoastSEO.App~saveContentScore} args.callback.saveContentScore Called when the content score has been
  *                                                                       determined by the assessor.
+ * @param {YoastSEO.App~updatedContentResults} args.callbacks.updatedContentResults Called when the score has been determined
+ *                                                                                  by the analyzer.
+ * @param {YoastSEO.App~updatedKeywordsResults} args.callback.updatedKeywordsResults Called when the content score has been
+ *                                                                                   determined by the assessor.
  * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  * @param {Function} args.marker The marker to use to apply the list of marks retrieved from an assessment.
  *
@@ -482,18 +508,6 @@ App.prototype._pureRefresh = function() {
 };
 
 /**
- * Creates the elements for the snippetPreview
- *
- * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
- * an argument instead.
- * @returns {void}
- */
-App.prototype.createSnippetPreview = function() {
-	this.snippetPreview = createDefaultSnippetPreview.call( this );
-	this.initSnippetPreview();
-};
-
-/**
  * Initializes the snippet preview for this App.
  *
  * @returns {void}
@@ -622,27 +636,57 @@ App.prototype.runAnalyzer = function() {
 		this.researcher.setPaper( this.paper );
 	}
 
-	if ( this.config.keywordAnalysisActive && ! isUndefined( this.seoAssessorPresenter ) ) {
-		this.seoAssessor.assess( this.paper );
+	this.runKeywordAnalysis();
 
-		this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
-		this.seoAssessorPresenter.render();
+	this.runContentAnalysis();
 
-		this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
-	}
-
-	if ( this.config.contentAnalysisActive && ! isUndefined( this.contentAssessorPresenter ) ) {
-		this.contentAssessor.assess( this.paper );
-
-		this.contentAssessorPresenter.renderIndividualRatings();
-		this.callbacks.saveContentScore( this.contentAssessor.calculateOverallScore(), this.contentAssessorPresenter );
-	}
+	this._renderAnalysisResults();
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
 	}
 
 	this.snippetPreview.reRender();
+};
+
+/**
+ * Runs the keyword analysis and calls the appropriate callbacks.
+ *
+ * @returns {void}
+ */
+App.prototype.runKeywordAnalysis = function() {
+	if ( this.config.keywordAnalysisActive ) {
+		this.seoAssessor.assess( this.paper );
+		const overallSeoScore = this.seoAssessor.calculateOverallScore();
+
+		if( ! isUndefined( this.callbacks.updatedKeywordsResults ) ) {
+			this.callbacks.updatedKeywordsResults( this.seoAssessor.results, overallSeoScore );
+		}
+
+		if( ! isUndefined( this.callbacks.saveScores ) ) {
+			this.callbacks.saveScores( overallSeoScore, this.seoAssessorPresenter );
+		}
+	}
+};
+
+/**
+ * Runs the content analysis and calls the appropriate callbacks.
+ *
+ * @returns {void}
+ */
+App.prototype.runContentAnalysis = function() {
+	if ( this.config.contentAnalysisActive ) {
+		this.contentAssessor.assess( this.paper );
+		const overallContentScore = this.contentAssessor.calculateOverallScore();
+
+		if( ! isUndefined( this.callbacks.updatedContentResults ) ) {
+			this.callbacks.updatedContentResults( this.contentAssessor.results, overallContentScore );
+		}
+
+		if( ! isUndefined( this.callbacks.saveContentScore ) ) {
+			this.callbacks.saveContentScore( overallContentScore, this.contentAssessorPresenter );
+		}
+	}
 };
 
 /**
@@ -776,26 +820,6 @@ App.prototype.registerModification = function( modification, callable, pluginNam
 };
 
 /**
- * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
- * has to return a result based on the contents of the page/posts.
- *
- * The scoring object is a special object with definitions about how to translate a result from your analysis function
- * to a SEO score.
- *
- * Negative scores result in a red circle
- * Scores 1, 2, 3, 4 and 5 result in a orange circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a red circle
- *
- * @returns {void}
- *
- * @deprecated since version 1.2
- */
-App.prototype.registerTest = function() {
-	console.error( "This function is deprecated, please use registerAssessment" );
-};
-
-/**
  * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
  * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
  *
@@ -831,8 +855,22 @@ App.prototype.disableMarkers = function() {
 	}
 };
 
-// Deprecated functions
+/**
+ * Renders the content and keyword analysis results.
+ *
+ * @returns {void}
+ */
+App.prototype._renderAnalysisResults = function() {
+	if( this.config.contentAnalysisActive && ! isUndefined( this.contentAssessorPresenter ) ) {
+		this.contentAssessorPresenter.renderIndividualRatings();
+	}
+	if( this.config.keywordAnalysisActive && ! isUndefined( this.seoAssessorPresenter ) ) {
+		this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
+		this.seoAssessorPresenter.render();
+	}
+};
 
+// Deprecated functions
 /**
  * The analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
  * at every keystroke checks the reference object, so this function can be called from anywhere,
@@ -844,6 +882,39 @@ App.prototype.disableMarkers = function() {
  */
 App.prototype.analyzeTimer = function() {
 	this.refresh();
+};
+
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @returns {void}
+ *
+ * @deprecated since version 1.2
+ */
+App.prototype.registerTest = function() {
+	console.error( "This function is deprecated, please use registerAssessment" );
+};
+
+/**
+ * Creates the elements for the snippetPreview
+ *
+ * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
+ * an argument instead.
+ *
+ * @returns {void}
+ */
+App.prototype.createSnippetPreview = function() {
+	this.snippetPreview = createDefaultSnippetPreview.call( this );
+	this.initSnippetPreview();
 };
 
 module.exports = App;
