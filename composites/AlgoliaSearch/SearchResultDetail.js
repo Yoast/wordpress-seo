@@ -11,7 +11,7 @@ import ArticleContent from "./ArticleContent";
 import styled from "styled-components";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
 
-import { Button } from "../Plugin/Shared/components/Button"
+import { Button } from "../Plugin/Shared/components/Button";
 
 const messages = defineMessages( {
 	openButton: {
