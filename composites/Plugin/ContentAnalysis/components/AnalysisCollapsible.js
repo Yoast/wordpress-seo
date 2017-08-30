@@ -73,7 +73,7 @@ const AnalysisTitle = styled.span`
  * @param {object} props The properties for the component.
  * @returns {ReactElement} A collasible analysisresult set.
  */
-const AnalysisCollapsible = ( props ) => {
+export const AnalysisCollapsibleStateless = ( props ) => {
 	return (
 		<AnalysisHeaderContainer>
 			<div>
@@ -91,7 +91,7 @@ const AnalysisCollapsible = ( props ) => {
 	);
 };
 
-AnalysisCollapsible.propTypes = {
+AnalysisCollapsibleStateless.propTypes = {
 	title: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	children: PropTypes.oneOfType( [
@@ -101,9 +101,64 @@ AnalysisCollapsible.propTypes = {
 	onOpen: PropTypes.func.isRequired,
 };
 
-AnalysisCollapsible.defaultProps = {
+AnalysisCollapsibleStateless.defaultProps = {
 	isOpen: false,
 };
+
+export class AnalysisCollapsible extends React.Component {
+	/**
+	 * The constructor.
+	 *
+	 * @constructor
+	 *
+	 * @param {Object} props The props to use.
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			isOpen: this.props.initialIsOpen,
+		};
+
+		this.toggleOpen = this.toggleOpen.bind( this );
+	}
+
+	/**
+	 * Toggles whether the list is collapsed.
+	 *
+	 * @returns {void}
+	 */
+	toggleOpen() {
+		this.setState( {
+			isOpen: ! this.state.isOpen,
+		} );
+	}
+
+	render() {
+		return (
+			<AnalysisCollapsibleStateless
+				title={ this.props.title }
+				onOpen={ this.toggleOpen.bind( this ) }
+				isOpen={ this.state.isOpen }>
+				{ this.props.children }
+			</AnalysisCollapsibleStateless>
+		);
+	}
+}
+
+AnalysisCollapsible.propTypes = {
+	title: PropTypes.string.isRequired,
+	initialIsOpen: PropTypes.bool,
+	children: PropTypes.oneOfType( [
+		PropTypes.arrayOf( PropTypes.node ),
+		PropTypes.node,
+	] ),
+};
+
+AnalysisCollapsible.defaultProps = {
+	initialIsOpen: false,
+};
+
 
 export default AnalysisCollapsible;
 
