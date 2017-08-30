@@ -26,7 +26,7 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	 */
 	public function keywords_export_header() {
 		if ( current_user_can( 'export' ) ) {
-			echo '<a class="nav-tab" id="export-keywords-tab" href="#top#export-keywords">' .
+			echo '<a class="nav-tab" id="keywords-export-tab" href="#top#keywords-expot">' .
 			        __( 'Export keywords', 'wordpress-seo-premium' ) .
 			     '</a>';
 		}

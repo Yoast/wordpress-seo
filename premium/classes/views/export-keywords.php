@@ -4,7 +4,7 @@
  */
 
 ?>
-<div id="export-keywords" class="wpseotab">
+<div id="keywords-export" class="wpseotab">
 	<h2><?php _e( 'Export keywords to a CSV file', 'wordpress-seo' ) ?></h2>
 	<p><?php _e( 'If you need to have a list of all public posts and related keywords, you can generate a CSV file using the button below.', 'wordpress-seo' ) ?></p>
 	<p><?php _e( 'You can add or remove columns to be included in the export using the checkboxes below.', 'wordpress-seo' ) ?></p>
