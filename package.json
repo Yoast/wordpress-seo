@@ -47,7 +47,6 @@
     "load-grunt-config": "^0.19.1",
     "lodash-cli": "^4.14.1",
     "grunt-ts": "^5.5.1",
-    "lodash-cli": "^4.14.1",
     "typescript": "^2.4.2"
   },
   "bugs": {
