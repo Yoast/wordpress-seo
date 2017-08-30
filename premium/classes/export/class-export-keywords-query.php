@@ -54,10 +54,10 @@ class WPSEO_Export_Keywords_Query {
 		$this->set_columns();
 
 		// Get all public post types and run esc_sql on them.
-		$post_types = join( '", "', array_map( 'esc_sql', get_post_types( array( 'public' => true ), 'names' ) ) );
+		$post_types = implode( '", "', array_map( 'esc_sql', get_post_types( array( 'public' => true ), 'names' ) ) );
 
 		// Construct the query.
-		$query = 'SELECT ' . join( ', ', $this->selects ) . ' FROM ' . $this->wpdb->prefix . 'posts ' . join( ' ', $this->joins ) .
+		$query = 'SELECT ' . implode( ', ', $this->selects ) . ' FROM ' . $this->wpdb->prefix . 'posts ' . implode( ' ', $this->joins ) .
 				 ' WHERE ' . $this->wpdb->prefix . 'posts.post_status = "publish" AND ' . $this->wpdb->prefix . 'posts.post_type IN ("' . $post_types . '");';
 
 		return $this->wpdb->get_results( $query, ARRAY_A );
