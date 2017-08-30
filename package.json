@@ -80,6 +80,6 @@
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
     "yoast-components": "https://github.com/Yoast/yoast-components#develop",
-    "yoastseo": "https://github.com/Yoast/YoastSEO.js#develop"
+    "yoastseo": "https://github.com/Yoast/YoastSEO.js#release/1.21"
   }
 }

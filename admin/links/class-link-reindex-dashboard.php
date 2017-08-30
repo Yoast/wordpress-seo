@@ -50,7 +50,7 @@ class WPSEO_Link_Reindex_Dashboard {
 		$html .= '<p>' . sprintf(
 			/* translators: 1: link to yoast.com post about internal linking suggestion. 4: is Yoast.com 3: is anchor closing. */
 			__( 'The links in all your public texts need to be counted. This will provide insights of which texts need more links to them. If you want to know more about the why and how of internal linking, check out %1$sthe article about internal linking on %2$s%3$s.', 'wordpress-seo' ),
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15n' ). '" target="_blank">',
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15n' ) . '" target="_blank">',
 				'Yoast.com',
 				'</a>'
 		) . '</p>';
