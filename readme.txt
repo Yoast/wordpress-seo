@@ -125,6 +125,22 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.4.0 =
+
+Release Date: September 5th, 2016
+
+* Enhancements
+	* Added a hook to disabled the twitter card. (Props: @petenelson)
+
+* Performance
+	* Replaced the use of `get_posts` and `get_children` by `WP_Query`.
+
+* Bugfixes
+	* Archive pages are excluded from the sitemap based on the noindex setting. (Props: @stodorovic)
+	* Prevent the throwing of an error when `wpseoPostScraperL10n` is not defined.
+	* Escapes all input when generating links for the RSS feed.
+	* Apply the `wp_get_attachment_url` filter to Sitemap images.
+
 = 5.3.3 =
 
 Release Date: August 28th, 2017
