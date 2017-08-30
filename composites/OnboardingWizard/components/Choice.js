@@ -65,11 +65,11 @@ const Choice = ( props ) => {
 	};
 
 	return (
-		<div className={wrapperClass}>
-			<p className="yoast-wizard-field-description">{props.properties.label}</p>
-			<p> {props.properties.description} </p>
-			{fieldSet()}
-			<Explanation text={props.properties.description}/>
+		<div className={ wrapperClass }>
+			<p className="yoast-wizard-field-description">{ props.properties.label }</p>
+			<p> { props.properties.description } </p>
+			{ fieldSet() }
+			<Explanation text={ props.properties.explanation }/>
 		</div>
 	);
 };
@@ -81,6 +81,7 @@ Choice.propTypes = {
 	properties: PropTypes.shape( {
 		label: PropTypes.string,
 		choices: PropTypes.object,
+		explanation: PropTypes.string,
 		description: PropTypes.string,
 	} ),
 	"default": PropTypes.string,
