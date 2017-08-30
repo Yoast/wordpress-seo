@@ -67,8 +67,9 @@ const Choice = ( props ) => {
 	return (
 		<div className={wrapperClass}>
 			<p className="yoast-wizard-field-description">{props.properties.label}</p>
+			<p> {props.properties.description} </p>
 			{fieldSet()}
-			<Explanation text={props.properties.explanation}/>
+			<Explanation text={props.properties.description}/>
 		</div>
 	);
 };
@@ -77,7 +78,11 @@ Choice.propTypes = {
 	component: PropTypes.string,
 	type: PropTypes.string,
 	value: PropTypes.string,
-	properties: PropTypes.object,
+	properties: PropTypes.shape( {
+		label: PropTypes.string,
+		choices: PropTypes.object,
+		description: PropTypes.string,
+	} ),
 	"default": PropTypes.string,
 	name: PropTypes.string.isRequired,
 	onChange: PropTypes.func,
@@ -92,6 +97,7 @@ Choice.defaultProps = {
 	properties: {
 		label: "",
 		choices: {},
+		description: "",
 	},
 	"default": "",
 };
