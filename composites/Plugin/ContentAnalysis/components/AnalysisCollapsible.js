@@ -84,8 +84,8 @@ const AnalysisCollapsible = ( props ) => {
 					</AnalysisHeaderButton>
 				</h3>
 			</div>
-			<ul >
-				{ props.isOpen ? props.children : "" }
+			<ul>
+				{ props.isOpen ? props.children : null }
 			</ul>
 		</AnalysisHeaderContainer>
 	);
