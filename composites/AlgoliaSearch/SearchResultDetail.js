@@ -11,10 +11,12 @@ import ArticleContent from "./ArticleContent";
 import styled from "styled-components";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
 
+import { Button } from "../Plugin/Shared/components/Button"
+
 const messages = defineMessages( {
 	openButton: {
 		id: "searchresultdetail.openbutton",
-		defaultMessage: "Open",
+		defaultMessage: "View in KB",
 	},
 	openButtonLabel: {
 		id: "searchresultdetail.openbuttonlabel",
@@ -32,23 +34,12 @@ const messages = defineMessages( {
 
 const Detail = styled.section``;
 
-const BackButton = styled.button`
-	display: inline-block;
-    text-decoration: none;
-    font-size: 13px;
-    line-height: 24px;
-    height: 24px;
-    margin: 0;
-    padding: 0 10px 1px;
-    cursor: pointer;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 3px;
-    white-space: nowrap;
-    box-sizing: border-box;
+const Nav = styled.nav`
+	padding: 8px;
 `;
 
 const OpenLink = styled.a`
+	float: right;
 	display: inline-block;
     text-decoration: none;
     font-size: 13px;
@@ -73,15 +64,15 @@ class SearchResultDetail extends React.Component {
 		const backButtonText = formatMessage( messages.backButton );
 		const backButtonLabel = formatMessage( messages.backButtonLabel );
 		return (
-			<nav>
-				<BackButton aria-label={ backButtonLabel } onClick={ this.props.onClick }>
+			<Nav>
+				<Button aria-label={ backButtonLabel } onClick={ this.props.onClick }>
 					{ backButtonText }
-				</BackButton>
+				</Button>
 
 				<OpenLink href={ this.props.post.permalink } aria-label={ openButtonLabel } target="_blank">
 					{ openButtonText }
 				</OpenLink>
-			</nav>
+			</Nav>
 		);
 	}
 

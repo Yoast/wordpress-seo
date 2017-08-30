@@ -2,7 +2,7 @@
 
 exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`] = `
 <div
-  className="sc-jzJRlG ijBJil"
+  className="sc-kpOJdX gQYvNB"
 >
   <div
     className="sc-htpNat kgyyXF"
@@ -22,7 +22,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
       >
         <mockedSvg
           aria-hidden="true"
-          className="sc-cSHVUG dKOTqE"
+          className="sc-dxgOiQ icnOAf"
         />
         <span
           className="screen-reader-text sc-bdVaJa bDWFJH"
