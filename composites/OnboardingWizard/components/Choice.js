@@ -67,7 +67,7 @@ const Choice = ( props ) => {
 	return (
 		<div className={ wrapperClass }>
 			<p className="yoast-wizard-field-description">{ props.properties.label }</p>
-			<p> { props.properties.description } </p>
+			<p>{ props.properties.description }</p>
 			{ fieldSet() }
 			<Explanation text={ props.properties.explanation }/>
 		</div>
