@@ -83,6 +83,7 @@ Choice.propTypes = {
 		choices: PropTypes.object,
 		explanation: PropTypes.string,
 		description: PropTypes.string,
+		type: PropTypes.string,
 	} ),
 	"default": PropTypes.string,
 	name: PropTypes.string.isRequired,
