@@ -9,6 +9,26 @@ import React from "react";
 import PropTypes from "prop-types";
 import ArticleContent from "./ArticleContent";
 import styled from "styled-components";
+import { defineMessages, injectIntl, intlShape } from "react-intl";
+
+const messages = defineMessages( {
+	openButton: {
+		id: "searchresultdetail.openbutton",
+		defaultMessage: "Open",
+	},
+	openButtonLabel: {
+		id: "searchresultdetail.openbuttonlabel",
+		defaultMessage: "Open the knowledge base article in a new window or read it in the iframe below",
+	},
+	backButton: {
+		id: "searchresultdetail.backbutton",
+		defaultMessage: "Back",
+	},
+	backButtonLabel: {
+		id: "searchresultdetail.backbuttonlabel",
+		defaultMessage: "Back to the search results",
+	},
+} );
 
 const Detail = styled.section``;
 
@@ -47,14 +67,19 @@ const OpenLink = styled.a`
 class SearchResultDetail extends React.Component {
 
 	createNavigation() {
+		const formatMessage = this.props.intl.formatMessage;
+		const openButtonText = formatMessage( messages.openButton );
+		const openButtonLabel = formatMessage( messages.openButtonLabel );
+		const backButtonText = formatMessage( messages.backButton );
+		const backButtonLabel = formatMessage( messages.backButtonLabel );
 		return (
 			<nav>
-				<BackButton aria-label={ this.props.backLabel } onClick={ this.props.onClick }>
-					{ this.props.back }
+				<BackButton aria-label={ backButtonLabel } onClick={ this.props.onClick }>
+					{ backButtonText }
 				</BackButton>
 
-				<OpenLink href={ this.props.post.permalink } aria-label={ this.props.openLabel } target="_blank">
-					{ this.props.open }
+				<OpenLink href={ this.props.post.permalink } aria-label={ openButtonLabel } target="_blank">
+					{ openButtonText }
 				</OpenLink>
 			</nav>
 		);
@@ -73,20 +98,12 @@ class SearchResultDetail extends React.Component {
 
 SearchResultDetail.propTypes = {
 	post: PropTypes.object.isRequired,
-	showDetail: PropTypes.func.isRequired,
-	back: PropTypes.string,
-	open: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
-	backLabel: PropTypes.string,
-	openLabel: PropTypes.string,
 	iframeTitle: PropTypes.string.isRequired,
+	intl: intlShape.isRequired,
 };
 
 SearchResultDetail.defaultProps = {
-	back: "Back",
-	backLabel: "Back to search results",
-	open: "Open",
-	openLabel: "Open the knowledge base article in a new window or read it in the iframe below",
 };
 
-export default SearchResultDetail;
+export default injectIntl( SearchResultDetail );

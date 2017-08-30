@@ -6,7 +6,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
 >
   <nav>
     <button
-      aria-label="Back to search results"
+      aria-label="Back to the search results"
       className="sc-htpNat jDuKkv"
       onClick={[Function]}
     >

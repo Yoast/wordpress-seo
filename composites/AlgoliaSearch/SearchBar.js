@@ -2,28 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import colors from "../../style-guide/colors.json";
-import searchIcon from "svg-url-loader!../../icons/search.svg";
+
+import SearchIcon from "../../style-guide/svg/search.svg";
+import { Icon } from "../Plugin/Shared/components/Icon";
+
 import { intlShape, injectIntl, defineMessages } from "react-intl";
 import debounce from "lodash/debounce";
 
 const messages = defineMessages( {
-	searchLabel: {
-		id: "search.label",
-		defaultMessage: "Search",
-	},
-	description: {
-		id: "search.description",
-		defaultMessage: "The search results will be updated as you type.",
+	headingText: {
+		id: "searchbar.headingtext",
+		defaultMessage: "Search the Yoast knowledge base",
 	},
 } );
 
 const SearchLabelText = styled.span``;
 
 const SearchLabel = styled.label`
-	background-image: url( ${ searchIcon } );
-	background-size: 25px;
-	background-position: left center;
-	background-repeat: no-repeat;
 	width: 2em;
 	height: 2em;
 	float: left;
@@ -131,13 +126,17 @@ class SearchBar extends React.Component {
 	 * @returns {ReactElement} The SearchBar component.
 	 */
 	render() {
+		const headingText = this.props.intl.formatMessage( messages.headingText );
 		return (
 			<SearchBarWrapper role="search">
-				<SearchHeading>{ this.props.headingText }</SearchHeading>
+				<SearchHeading>
+					{ headingText }
+				</SearchHeading>
 				<form onSubmit={ this.onSubmit.bind( this ) }>
 					<SearchLabel htmlFor="search-input">
+						<Icon icon={ SearchIcon } color="inherit" size="30px" />
 						<SearchLabelText className="screen-reader-text">
-							{ this.props.headingText ? this.props.headingText : this.props.intl.formatMessage( messages.searchLabel ) }
+							{ headingText }
 						</SearchLabelText>
 					</SearchLabel>
 					<SearchBarInput
@@ -161,16 +160,12 @@ class SearchBar extends React.Component {
 }
 
 SearchBar.propTypes = {
-	headingText: PropTypes.string,
-	searchButtonText: PropTypes.string,
 	searchString: PropTypes.string,
 	submitAction: PropTypes.func,
 	intl: intlShape.isRequired,
 };
 
 SearchBar.defaultProps = {
-	headingText: "Search the Yoast knowledge base",
-	searchButtonText: "Search",
 };
 
 export default injectIntl( SearchBar );

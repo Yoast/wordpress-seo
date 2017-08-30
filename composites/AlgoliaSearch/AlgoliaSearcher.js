@@ -4,6 +4,7 @@ import isUndefined from "lodash/isUndefined";
 import a11ySpeak from "a11y-speak";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { injectIntl, intlShape, FormattedMessage, defineMessages } from "react-intl";
 
 import Loading from "./Loading";
 import SearchBar from "./SearchBar";
@@ -15,6 +16,21 @@ const AlgoliaSearchWrapper = styled.div`
 	margin: 0 auto 20px auto;
 	box-sizing: border-box;
 `;
+
+const messages = defineMessages( {
+	loadingPlaceholder: {
+		id: "algoliasearcher.loadingplaceholder",
+		defaultMessage: "Loading...",
+	},
+	errorMessage: {
+		id: "algoliasearcher.errormessage",
+		defaultMessage: "Something went wrong. Please try again later.",
+	},
+	searchResultsHeading: {
+		id: "algoliaseacher.searchresultsheading",
+		defaultMessage: "Search results",
+	},
+} );
 
 class AlgoliaSearcher extends React.Component {
 
@@ -196,13 +212,15 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * @returns {ReactElement} A p tag with a warning that the search was not completed.
 	 */
-	renderError( errorMessage ) {
-		console.error( errorMessage );
-		a11ySpeak( this.props.errorMessage );
+	renderError() {
+		const errorMessage = this.props.intl.formatMessage( messages.errorMessage );
 
-		return ( <p>{ this.props.errorMessage }</p> );
+		a11ySpeak( errorMessage );
+
+		return (
+			<p>{ errorMessage }</p>
+		);
 	}
-
 	/**
 	 * Creates the Search Bar component.
 	 *
@@ -214,11 +232,9 @@ class AlgoliaSearcher extends React.Component {
 		}
 
 		return <SearchBar
-			headingText={ this.props.headingText }
 			submitAction={ this.onSearchButtonClick.bind( this ) }
 			searchString={ this.state.searchString }
-			searchButtonText={ this.props.searchButtonText }
-		/>;
+			/>;
 	}
 
 	/**
@@ -228,7 +244,7 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	getErrorMessage() {
 		if ( this.state.errorMessage ) {
-			return this.renderError( this.state.errorMessage );
+			return this.renderError();
 		}
 
 		return "";
@@ -240,8 +256,10 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {ReactElement|string} Returns a loader if the loading state is active. Defaults to empty string.
 	 */
 	getLoadingIndicator() {
+		const loadingPlaceholder = this.props.intl.formatMessage( messages.loadingPlaceholder );
+
 		if ( this.state.searching ) {
-			return <Loading placeholder={ this.props.loadingPlaceholder } />;
+			return <Loading placeholder={ loadingPlaceholder } />;
 		}
 
 		return "";
@@ -318,44 +336,25 @@ class AlgoliaSearcher extends React.Component {
 			return "";
 		}
 
-		return <h2 className="screen-reader-text">{ this.props.searchResultsHeading }</h2>;
+		return <h2 className="screen-reader-text">
+			{ this.props.intl.formatMessage( messages.searchResultsHeading ) }
+		</h2>;
 	}
 }
 
 AlgoliaSearcher.propTypes = {
-	foundResultsText: PropTypes.string,
-	noResultsText: PropTypes.string,
-	headingText: PropTypes.string,
-	searchButtonText: PropTypes.string,
-	searchResultsHeading: PropTypes.string,
 	iframeTitle: PropTypes.string,
 	algoliaApplicationId: PropTypes.string,
 	algoliaApiKey: PropTypes.string,
 	algoliaIndexName: PropTypes.string,
-	errorMessage: PropTypes.string,
-	loadingPlaceholder: PropTypes.string,
-	open: PropTypes.string,
-	openLabel: PropTypes.string,
-	back: PropTypes.string,
-	backLabel: PropTypes.string,
+	intl: intlShape.isRequired,
 };
 
 AlgoliaSearcher.defaultProps = {
-	foundResultsText: "Number of search results: %d",
-	noResultsText: "No results found.",
-	headingText: "Search the Yoast knowledge base",
-	searchButtonText: "Search",
-	searchResultsHeading: "Search results",
 	iframeTitle: "Knowledge base article",
 	algoliaApplicationId: "RC8G2UCWJK",
 	algoliaApiKey: "459903434a7963f83e7d4cd9bfe89c0d",
 	algoliaIndexName: "knowledge_base_all",
-	errorMessage: "Something went wrong. Please try again later.",
-	loadingPlaceholder: "Loading...",
-	back: "Back",
-	backLabel: "Back to search results",
-	open: "Open",
-	openLabel: "Open the knowledge base article in a new window or read it in the iframe below",
 };
 
-export default AlgoliaSearcher;
+export default injectIntl( AlgoliaSearcher );
