@@ -76,7 +76,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 					'You just changed the URL of a post. To ensure your visitors do not see a 404, you should create a redirect. %1$sLearn how to create redirects here.%2$s',
 					'wordpress-seo'
 				),
-				'<a href="https://yoast.com/which-redirect/">',
+				'<a href="https://yoa.st/1d0">',
 				'</a>'
 			), array( 'type' => 'notice-info' )
 		);
