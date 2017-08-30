@@ -4,7 +4,7 @@ import isUndefined from "lodash/isUndefined";
 import a11ySpeak from "a11y-speak";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { injectIntl, intlShape, FormattedMessage, defineMessages } from "react-intl";
+import { injectIntl, intlShape, defineMessages } from "react-intl";
 
 import Loading from "./Loading";
 import SearchBar from "./SearchBar";

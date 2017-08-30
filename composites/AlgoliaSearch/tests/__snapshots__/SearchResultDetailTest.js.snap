@@ -2,23 +2,26 @@
 
 exports[`the SearchResultDetail component matches the snapshot 1`] = `
 <section
-  className="sc-bwzfXH uTxCW"
+  className="sc-gzVnrw ibZhkv"
 >
-  <nav>
+  <nav
+    className="sc-htoDjs genCy"
+  >
     <button
       aria-label="Back to the search results"
-      className="sc-htpNat jDuKkv"
+      className="sc-EHOje cbEodJ sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fbBmuo"
       onClick={[Function]}
+      type="button"
     >
       Back
     </button>
     <a
       aria-label="Open the knowledge base article in a new window or read it in the iframe below"
-      className="sc-bxivhb iZNgQM"
+      className="sc-dnqmqq cYmquQ"
       href="https://kb.yoast.com/kb/passive-voice/"
       target="_blank"
     >
-      Open
+      View in KB
     </a>
   </nav>
   <iframe
