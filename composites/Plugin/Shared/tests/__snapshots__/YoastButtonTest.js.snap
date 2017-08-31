@@ -1,37 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`YoastBaseButton executes callback 1`] = `
-<button
-  className="sc-bdVaJa jIFifk"
-  onClick={[Function]}
-  type="button"
->
-  ButtonValue
-</button>
-`;
-
-exports[`YoastBaseButton executes callback 2`] = `
-<button
-  className="sc-bdVaJa jIFifk"
-  onClick={[Function]}
-  type="button"
->
-  ButtonValue
-</button>
-`;
-
-exports[`the YoastBaseButton matches the snapshot 1`] = `
-<button
-  className="sc-bdVaJa jIFifk"
-  type="button"
->
-  ButtonValue
-</button>
-`;
-
 exports[`the YoastButton executes callback 1`] = `
 <button
-  className="sc-bwzfXH evZibj sc-bdVaJa jIFifk"
+  className="sc-bwzfXH dQfeoL sc-bdVaJa exAxcS"
   onClick={[Function]}
   type="button"
 >
@@ -41,7 +12,7 @@ exports[`the YoastButton executes callback 1`] = `
 
 exports[`the YoastButton executes callback 2`] = `
 <button
-  className="sc-bwzfXH evZibj sc-bdVaJa jIFifk"
+  className="sc-bwzfXH dQfeoL sc-bdVaJa exAxcS"
   onClick={[Function]}
   type="button"
 >
@@ -51,7 +22,7 @@ exports[`the YoastButton executes callback 2`] = `
 
 exports[`the YoastButton matches the snapshot 1`] = `
 <button
-  className="sc-bwzfXH gkvUVS sc-bdVaJa jIFifk"
+  className="sc-bwzfXH dQfeoL sc-bdVaJa dNRIPk"
   type="button"
 >
   ButtonValue
