@@ -14,7 +14,12 @@
         "noUnusedParameters": true,
         "strictNullChecks": true,
         "noImplicitThis": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "alwaysStrict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noEmitOnError": true,
+        "noImplicitAny": true,
+        "pretty": true
     },
     "filesGlob": [
         "src/**/*.ts",
