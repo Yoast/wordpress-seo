@@ -44,6 +44,23 @@ body {
   box-sizing: border-box;
   width: 100%;
 
+  &--header {
+    text-align: center;
+
+    h1 {
+      color: $color_pink_dark;
+      margin: 0 0 -16px;
+      font-size: 1.2em;
+      letter-spacing: 0.03em;
+      line-height: 2.6rem;
+      font-weight: 100;
+      @media screen and (max-width: 768px) {
+        font-size: 1.4em;
+        line-height: 1.25;
+      }
+    }
+  }
+
   &--navigation {
     text-align: right;
     width: 100%;
