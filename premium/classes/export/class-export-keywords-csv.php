@@ -52,14 +52,17 @@ class WPSEO_Export_Keywords_CSV {
 	 */
 	protected function get_headers() {
 		$header_columns = array(
-			'post_title'     => __( 'post title', 'wordpress-seo' ),
-			'post_url'       => __( 'post url', 'wordpress-seo' ),
+			'post_title'     => __( 'title', 'wordpress-seo' ),
+			'post_url'       => __( 'url', 'wordpress-seo' ),
 			'seo_score'      => __( 'seo score', 'wordpress-seo' ),
 			'keywords'       => __( 'keyword', 'wordpress-seo' ),
 			'keywords_score' => __( 'keyword score', 'wordpress-seo' ),
 		);
 
 		$csv = $this->sanitize_csv_column( __( 'ID', 'wordpress-seo' ) );
+
+		/** translators: type represents of the object is a post or term */
+		$csv .= ',' . $this->sanitize_csv_column( __( 'type', 'wordpress-seo' ) );
 
 		foreach ( $this->columns as $column ) {
 			if ( array_key_exists( $column, $header_columns ) ) {
@@ -93,8 +96,11 @@ class WPSEO_Export_Keywords_CSV {
 		// Add at least one row plus additional ones if we have more keywords.
 		$loops = max( 1, count( $result['keywords'] ) );
 		for ( $keywords_index = 0; $keywords_index < $loops; $keywords_index++ ) {
+			// Add static columns.
 			$csv .= PHP_EOL . $this->sanitize_csv_column( $result['ID'] );
+			$csv .= ',' . $this->sanitize_csv_column( $result['type'] );
 
+			// Add dynamic columns.
 			foreach ( $this->columns as $column ) {
 				$csv .= $this->get_csv_column_from_result( $result, $column, $keywords_index );
 			}

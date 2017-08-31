@@ -9,6 +9,9 @@
  * Manages exporting keywords.
  */
 class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integration {
+	/** @var  wpdb instance */
+	protected $wpdb;
+
 	/**
 	 * Registers all hooks to WordPress.
 	 */
@@ -27,8 +30,8 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	public function keywords_export_header() {
 		if ( current_user_can( 'export' ) ) {
 			echo '<a class="nav-tab" id="keywords-export-tab" href="#top#keywords-export">' .
-			        __( 'Export keywords', 'wordpress-seo-premium' ) .
-			     '</a>';
+				 __( 'Export keywords', 'wordpress-seo-premium' ) .
+				 '</a>';
 		}
 	}
 
@@ -39,7 +42,7 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 		// Display the forms.
 		if ( current_user_can( 'export' ) ) {
 			$yform = Yoast_Form::get_instance();
-			require( 'views/export-keywords.php' );
+			require dirname( __FILE__ ) . '/views/export-keywords.php';
 		}
 	}
 
@@ -47,6 +50,8 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	 * Hooks into the request and returns a CSV file if we're on the right page with the right method and the right capabilities.
 	 */
 	public function keywords_csv_export() {
+		global $wpdb;
+
 		if ( ! $this->is_valid_csv_export_request() || ! current_user_can( 'export' ) ) {
 			return;
 		}
@@ -54,14 +59,18 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 		// Check if we have a valid nonce.
 		check_admin_referer( 'wpseo-export' );
 
+		$this->wpdb = $wpdb;
+
 		// Clean any content that has been already outputted, for example by other plugins or faulty PHP files.
 		if ( ob_get_contents() ) {
 			ob_clean();
 		}
 
+		$csv_contents = $this->get_csv_contents();
+
 		// Set CSV headers and content.
 		$this->set_csv_headers();
-		echo $this->get_csv_contents();
+		echo $csv_contents;
 
 		// And exit so we don't start appending HTML to our CSV file.
 		// NOTE: this makes this entire class untestable as it will exit all tests but WordPress seems to have no elegant way of handling this.
@@ -75,8 +84,8 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	 */
 	protected function is_valid_csv_export_request() {
 		return filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' &&
-		       filter_input( INPUT_GET, 'tool' ) === 'import-export' &&
-		       filter_input( INPUT_POST, 'export-posts' );
+			   filter_input( INPUT_GET, 'tool' ) === 'import-export' &&
+			   filter_input( INPUT_POST, 'export-posts' );
 	}
 
 	/**
@@ -95,24 +104,15 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	 * @return string A CSV string.
 	 */
 	protected function get_csv_contents() {
-		global $wpdb;
+		$columns = array( 'keywords' );
 
 		$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-		if ( ! is_array( $post_wpseo ) ) {
-			return '';
+		if ( is_array( $post_wpseo ) ) {
+			$columns = array_merge( $columns, $this->get_export_columns( $post_wpseo ) );
 		}
 
-		$columns = $this->get_export_columns( $post_wpseo );
-
-		$query = new WPSEO_Export_Keywords_Query( $columns, $wpdb );
-		$presenter = new WPSEO_Export_Keywords_Presenter( $columns );
-
-		$results = $query->get_data();
-
-		$data = array_map( array( $presenter, 'present' ), $results );
-
 		$builder = new WPSEO_Export_Keywords_CSV( $columns );
-		return $builder->export( $data );
+		return $builder->export( $this->get_data( $columns ) );
 	}
 
 	/**
@@ -126,11 +126,10 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 		$columns = array();
 
 		$exportable_columns = array(
-			'export-post-title'     => 'post_title',
-			'export-post-url'       => 'post_url',
-			'export-seo-score'      => 'seo_score',
-			'export-keywords'       => 'keywords',
 			'export-keywords-score' => 'keywords_score',
+			'export-post-url'       => 'post_url',
+			'export-post-title'     => 'post_title',
+			'export-seo-score'      => 'seo_score',
 		);
 
 		foreach ( $exportable_columns as $exportable_column => $column ) {
@@ -140,5 +139,60 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 		}
 
 		return $columns;
+	}
+
+	/**
+	 * Retrieves data to display in the CSV
+	 *
+	 * @param array $columns Columns to collect.
+	 *
+	 * @return array List of items to
+	 */
+	protected function get_data( $columns ) {
+		$page_size = 1000;
+
+		// Get posts.
+		$post_query = new WPSEO_Export_Keywords_Post_Query( $this->wpdb, $page_size );
+		$post_query->set_columns( $columns );
+
+		$post_data = $this->get_query_data( $post_query, $page_size );
+
+		$presenter = new WPSEO_Export_Keywords_Post_Presenter( $columns );
+		$csv_post_data = array_map( array( $presenter, 'present' ), $post_data );
+
+		// Get terms.
+		$term_query = new WPSEO_Export_Keywords_Term_Query( $this->wpdb, $page_size );
+		$term_query->set_columns( $columns );
+
+		$term_data = $this->get_query_data( $term_query, $page_size );
+
+		$presenter = new WPSEO_Export_Keywords_Term_Presenter( $columns );
+		$csv_term_data = array_map( array( $presenter, 'present' ), $term_data );
+
+		return array_merge( $csv_post_data, $csv_term_data );
+	}
+
+	/**
+	 * Fetch data from an Export Query.
+	 *
+	 * @param WPSEO_Export_Keywords_Query $export_query Export Query to fetch data from.
+	 * @param int                         $page_size    Pagination size to use.
+	 *
+	 * @return array List of items from the Export Query.
+	 */
+	protected function get_query_data( WPSEO_Export_Keywords_Query $export_query, $page_size ) {
+		$data = array();
+		$page = 0;
+
+		do {
+			$results = $export_query->get_data( ++ $page );
+
+			if ( is_array( $results ) ) {
+				$data = array_merge( $data, $results );
+			}
+
+		} while ( is_array( $results ) && count( $results ) === $page_size );
+
+		return $data;
 	}
 }

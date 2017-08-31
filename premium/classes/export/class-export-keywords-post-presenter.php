@@ -8,7 +8,7 @@
  *
  * Readies data as returned by WPSEO_Export_Keywords_Query for exporting.
  */
-class WPSEO_Export_Keywords_Presenter {
+class WPSEO_Export_Keywords_Post_Presenter {
 
 	/**
 	 * @var array The columns to query for.
@@ -42,6 +42,8 @@ class WPSEO_Export_Keywords_Presenter {
 		foreach ( $this->columns as $column ) {
 			$result = $this->populate_column( $result, $column );
 		}
+
+		$result['type'] = 'post';
 
 		return $result;
 	}

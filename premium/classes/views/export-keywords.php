@@ -17,8 +17,6 @@
 		$yform->set_options_value( 'export-post-url', true );
 		$yform->checkbox( 'export-post-url', __( 'Export post URL', 'wordpress-seo' ) );
 		$yform->checkbox( 'export-seo-score', __( 'Export SEO score', 'wordpress-seo' ) );
-		$yform->set_options_value( 'export-keywords', true );
-		$yform->checkbox( 'export-keywords', __( 'Export keywords', 'wordpress-seo' ) );
 		$yform->checkbox( 'export-keywords-score', __( 'Export keyword scores', 'wordpress-seo' ) );
 		?>
 		<br class="clear">
