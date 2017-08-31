@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "module": "es6",
+        "moduleResolution": "node",
+        "target": "es6",
+        "sourceMap": true,
+        "outDir": "js/",
+        "allowJs": true,
+        "rootDir": "src",
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strictNullChecks": true,
+        "noImplicitThis": true,
+        "noFallthroughCasesInSwitch": true,
+        "alwaysStrict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noEmitOnError": true,
+        "noImplicitAny": true,
+        "pretty": true
+    },
+    "filesGlob": [
+        "src/**/*.ts",
+        "src/**/*.js"
+    ],
+    "files": []
+}
