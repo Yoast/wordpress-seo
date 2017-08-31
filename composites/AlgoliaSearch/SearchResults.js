@@ -91,6 +91,13 @@ const NoResults = styled.p`
  */
 class SearchResults extends React.Component {
 
+	/**
+	 * Constructs the component and sets its initial state.
+	 *
+	 * @param {Object} props The props to use for this component.
+	 *
+	 * @constructor
+	 */
 	constructor( props ) {
 		super( props );
 
