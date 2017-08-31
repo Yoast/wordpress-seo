@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import colors from "../../style-guide/colors.json";
-
-import SearchIcon from "../../style-guide/svg/search.svg";
-import { Icon } from "../Plugin/Shared/components/Icon";
-
 import { intlShape, injectIntl, defineMessages } from "react-intl";
 import debounce from "lodash/debounce";
+
+import colors from "../../style-guide/colors.json";
+import SearchIcon from "../../style-guide/svg/search.svg";
+import { Icon } from "../Plugin/Shared/components/Icon";
 
 const messages = defineMessages( {
 	headingText: {
@@ -15,8 +14,6 @@ const messages = defineMessages( {
 		defaultMessage: "Search the Yoast knowledge base",
 	},
 } );
-
-const SearchLabelText = styled.span``;
 
 const SearchLabel = styled.label`
 	width: 2em;
@@ -45,7 +42,7 @@ const SearchBarInput = styled.input`
 	height: 1em;
 	width: calc(100% - 2em);
 	box-shadow: inset 0 2px 8px 0px rgba(0,0,0,0.3);
-	background: ${colors.$color_grey_light};
+	background: ${ colors.$color_grey_light };
 	padding: 20px;
 	border: 0;
 	font-size: 1em;
@@ -94,7 +91,7 @@ class SearchBar extends React.Component {
 	}
 
 	/**
-	 * Handles the change even on the SearchBar.
+	 * Handles the change event on the SearchBar.
 	 *
 	 * @param {DOMEvent} event The event being triggered on the SearchBar.
 	 *
@@ -135,9 +132,9 @@ class SearchBar extends React.Component {
 				<form onSubmit={ this.onSubmit.bind( this ) }>
 					<SearchLabel htmlFor="search-input">
 						<Icon icon={ SearchIcon } color="inherit" size="30px" />
-						<SearchLabelText className="screen-reader-text">
+						<span className="screen-reader-text">
 							{ headingText }
-						</SearchLabelText>
+						</span>
 					</SearchLabel>
 					<SearchBarInput
 						onChange={ this.onSearchChange.bind( this ) }

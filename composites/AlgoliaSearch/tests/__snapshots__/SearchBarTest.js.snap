@@ -2,11 +2,11 @@
 
 exports[`the SearchBar component with headingText matches the snapshot 1`] = `
 <div
-  className="sc-htpNat kgyyXF"
+  className="sc-bwzfXH dNRFDx"
   role="search"
 >
   <h2
-    className="sc-ifAKCX hKUwhn"
+    className="sc-bxivhb gFAOWL"
   >
     Search the Yoast knowledge base
   </h2>
@@ -14,15 +14,15 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
     onSubmit={[Function]}
   >
     <label
-      className="sc-bwzfXH OqFBN"
+      className="sc-bdVaJa CLHKE"
       htmlFor="search-input"
     >
-      <mockedSvg
+      <svg
         aria-hidden="true"
-        className="sc-EHOje bsqrpZ"
+        className="sc-ifAKCX jmVmZf"
       />
       <span
-        className="screen-reader-text sc-bdVaJa bDWFJH"
+        className="screen-reader-text"
       >
         Search the Yoast knowledge base
       </span>
@@ -31,7 +31,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
       autoCapitalize="off"
       autoComplete="off"
       autoCorrect="off"
-      className="sc-bxivhb bsncyX"
+      className="sc-htpNat jePDQv"
       defaultValue=""
       id="search-input"
       name="search-input"
@@ -46,11 +46,11 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
 
 exports[`the SearchBar component without headingText matches the snapshot 1`] = `
 <div
-  className="sc-htpNat kgyyXF"
+  className="sc-bwzfXH dNRFDx"
   role="search"
 >
   <h2
-    className="sc-ifAKCX hKUwhn"
+    className="sc-bxivhb gFAOWL"
   >
     Search the Yoast knowledge base
   </h2>
@@ -58,15 +58,15 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
     onSubmit={[Function]}
   >
     <label
-      className="sc-bwzfXH OqFBN"
+      className="sc-bdVaJa CLHKE"
       htmlFor="search-input"
     >
-      <mockedSvg
+      <svg
         aria-hidden="true"
-        className="sc-bZQynM fNWYPv"
+        className="sc-EHOje bsqrpZ"
       />
       <span
-        className="screen-reader-text sc-bdVaJa bDWFJH"
+        className="screen-reader-text"
       >
         Search the Yoast knowledge base
       </span>
@@ -75,7 +75,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
       autoCapitalize="off"
       autoComplete="off"
       autoCorrect="off"
-      className="sc-bxivhb bsncyX"
+      className="sc-htpNat jePDQv"
       defaultValue=""
       id="search-input"
       name="search-input"
