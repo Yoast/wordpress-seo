@@ -98,6 +98,7 @@ export const BaseButton = addButtonStyles(
 		text-align: left;
 		outline: none;
 		min-height: 32px;
+		overflow: visible;
 	`
 );
 
@@ -135,7 +136,7 @@ export const Button = styled( BaseButton )`
  *
  * @returns {ReactElement} Styled component.
  */
-const InlineFlexButton = styled( Button )`
+export const InlineFlexButton = styled( Button )`
 	display: inline-flex;
 	flex-direction: row;
 `;
@@ -167,7 +168,7 @@ export const IconButton = ( props ) => {
 	const { children: text, icon, iconColor } = props;
 
 	let IconComponent = Icon;
-	if( text ) {
+	if ( text ) {
 		IconComponent = addIconTextStyle( IconComponent );
 	}
 
