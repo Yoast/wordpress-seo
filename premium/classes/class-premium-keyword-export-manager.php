@@ -127,8 +127,8 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 
 		$exportable_columns = array(
 			'export-keywords-score' => 'keywords_score',
-			'export-post-url'       => 'post_url',
-			'export-post-title'     => 'post_title',
+			'export-url'            => 'url',
+			'export-title'          => 'title',
 			'export-seo-score'      => 'seo_score',
 		);
 
@@ -148,51 +148,34 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	 *
 	 * @return array List of items to
 	 */
-	protected function get_data( $columns ) {
-		$page_size = 1000;
+	protected function get_data( array $columns ) {
+		$post_data = $this->query_and_present(
+			$columns,
+			new WPSEO_Export_Keywords_Post_Query( $this->wpdb ),
+			new WPSEO_Export_Keywords_Post_Presenter( $columns )
+		);
 
-		// Get posts.
-		$post_query = new WPSEO_Export_Keywords_Post_Query( $this->wpdb, $page_size );
-		$post_query->set_columns( $columns );
+		$term_data = $this->query_and_present(
+			$columns,
+			new WPSEO_Export_Keywords_Term_Query( $this->wpdb ),
+			new WPSEO_Export_Keywords_Term_Presenter( $columns )
+		);
 
-		$post_data = $this->get_query_data( $post_query, $page_size );
-
-		$presenter = new WPSEO_Export_Keywords_Post_Presenter( $columns );
-		$csv_post_data = array_map( array( $presenter, 'present' ), $post_data );
-
-		// Get terms.
-		$term_query = new WPSEO_Export_Keywords_Term_Query( $this->wpdb, $page_size );
-		$term_query->set_columns( $columns );
-
-		$term_data = $this->get_query_data( $term_query, $page_size );
-
-		$presenter = new WPSEO_Export_Keywords_Term_Presenter( $columns );
-		$csv_term_data = array_map( array( $presenter, 'present' ), $term_data );
-
-		return array_merge( $csv_post_data, $csv_term_data );
+		return array_merge( $post_data, $term_data );
 	}
 
 	/**
-	 * Fetch data from an Export Query.
+	 * Executes the query object and uses the presenter to convert all results for the specified columns.
 	 *
-	 * @param WPSEO_Export_Keywords_Query $export_query Export Query to fetch data from.
-	 * @param int                         $page_size    Pagination size to use.
+	 * @param array                           $columns   The columns to query and present.
+	 * @param WPSEO_Export_Keywords_Query     $query     The query object.
+	 * @param WPSEO_Export_Keywords_Presenter $presenter The presenter object.
 	 *
-	 * @return array List of items from the Export Query.
+	 * @return array
 	 */
-	protected function get_query_data( WPSEO_Export_Keywords_Query $export_query, $page_size ) {
-		$data = array();
-		$page = 0;
+	protected function query_and_present( array $columns, WPSEO_Export_Keywords_Query $query, WPSEO_Export_Keywords_Presenter $presenter ) {
+		$query->set_columns( $columns );
 
-		do {
-			$results = $export_query->get_data( ++ $page );
-
-			if ( is_array( $results ) ) {
-				$data = array_merge( $data, $results );
-			}
-
-		} while ( is_array( $results ) && count( $results ) === $page_size );
-
-		return $data;
+		return array_map( array( $presenter, 'present' ), $query->get_data() );
 	}
 }

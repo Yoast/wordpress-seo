@@ -18,7 +18,7 @@ class WPSEO_Export_Keywords_CSV {
 	/**
 	 * WPSEO_Export_Keywords_CSV constructor.
 	 *
-	 * Supported values for columns are 'post_title', 'post_url', 'keywords', 'seo_score' and 'keywords_score'.
+	 * Supported values for columns are 'title', 'url', 'keywords', 'seo_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
 	 * @param array $columns An array of columns that should be presented.
@@ -52,8 +52,8 @@ class WPSEO_Export_Keywords_CSV {
 	 */
 	protected function get_headers() {
 		$header_columns = array(
-			'post_title'     => __( 'title', 'wordpress-seo' ),
-			'post_url'       => __( 'url', 'wordpress-seo' ),
+			'title'          => __( 'title', 'wordpress-seo' ),
+			'url'            => __( 'url', 'wordpress-seo' ),
 			'seo_score'      => __( 'seo score', 'wordpress-seo' ),
 			'keywords'       => __( 'keyword', 'wordpress-seo' ),
 			'keywords_score' => __( 'keyword score', 'wordpress-seo' ),
@@ -61,7 +61,7 @@ class WPSEO_Export_Keywords_CSV {
 
 		$csv = $this->sanitize_csv_column( __( 'ID', 'wordpress-seo' ) );
 
-		/** translators: type represents of the object is a post or term */
+		/** Translators: type represents the post_type of a post or the taxonomy of a term. */
 		$csv .= ',' . $this->sanitize_csv_column( __( 'type', 'wordpress-seo' ) );
 
 		foreach ( $this->columns as $column ) {
@@ -83,7 +83,7 @@ class WPSEO_Export_Keywords_CSV {
 	 */
 	protected function format( array $result ) {
 		// If our input is malformed return an empty string.
-		if ( ! array_key_exists( 'ID', $result ) ) {
+		if ( ! array_key_exists( 'ID', $result ) || ! array_key_exists( 'type', $result ) ) {
 			return '';
 		}
 
@@ -120,8 +120,8 @@ class WPSEO_Export_Keywords_CSV {
 	 */
 	protected function get_csv_column_from_result( array $result, $key, $keywords_index ) {
 		switch ( $key ) {
-			case 'post_title':
-			case 'post_url':
+			case 'title':
+			case 'url':
 			case 'seo_score':
 				return $this->get_csv_string_column_from_result( $result, $key );
 			case 'keywords':

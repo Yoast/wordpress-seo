@@ -4,11 +4,11 @@
  */
 
 /**
- * Class WPSEO_Export_Keywords_Presenter
+ * Class WPSEO_Export_Keywords_Term_Presenter
  *
- * Readies data as returned by WPSEO_Export_Keywords_Query for exporting.
+ * Readies data as returned by WPSEO_Export_Keywords_Term_Query for exporting.
  */
-class WPSEO_Export_Keywords_Term_Presenter {
+class WPSEO_Export_Keywords_Term_Presenter implements WPSEO_Export_Keywords_Presenter {
 
 	/**
 	 * @var array The columns to query for.
@@ -16,9 +16,9 @@ class WPSEO_Export_Keywords_Term_Presenter {
 	protected $columns;
 
 	/**
-	 * WPSEO_Export_Keywords_Presenter constructor.
+	 * WPSEO_Export_Keywords_Term_Presenter constructor.
 	 *
-	 * Supported values for columns are 'post_title', 'post_url', 'keywords', 'seo_score' and 'keywords_score'.
+	 * Supported values for columns are 'title', 'url', 'keywords', 'seo_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
 	 * @param array $columns The columns we want our query to return.
@@ -46,7 +46,8 @@ class WPSEO_Export_Keywords_Term_Presenter {
 			$result = $this->populate_column( $result, $column );
 		}
 
-		$result['type'] = 'term';
+		$result['type'] = $result['taxonomy'];
+		unset( $result['taxonomy'] );
 
 		return $result;
 	}
@@ -61,12 +62,12 @@ class WPSEO_Export_Keywords_Term_Presenter {
 	 */
 	protected function populate_column( array $result, $column ) {
 		switch ( $column ) {
-			case 'post_title':
-				$result['post_title'] = $result['name'];
-				unset ( $result['name'] );
+			case 'title':
+				$result['title'] = $result['name'];
+				unset( $result['name'] );
 				break;
-			case 'post_url':
-				$result['post_url'] = get_term_link( $result['ID'], $result['taxonomy'] );
+			case 'url':
+				$result['url'] = get_term_link( $result['ID'], $result['taxonomy'] );
 				break;
 			case 'seo_score':
 				$content_score = WPSEO_Taxonomy_Meta::get_term_meta( $result['ID'], $result['taxonomy'], 'content_score' );
@@ -74,19 +75,10 @@ class WPSEO_Export_Keywords_Term_Presenter {
 				break;
 			case 'keywords':
 				// Make array, because it can contain more.
-				$keyword = (string) WPSEO_Taxonomy_Meta::get_term_meta( $result['ID'], $result['taxonomy'], 'focuskw' );
-				$result['keywords'] = array( $keyword );
+				$result['keywords'] = $this->get_result_keywords( $result );
 				break;
 			case 'keywords_score':
-				// Make array, because it can contain more.
-				$keyword = (string) WPSEO_Taxonomy_Meta::get_term_meta( $result['ID'], $result['taxonomy'], 'focuskw' );
-				if ( empty( $keyword ) ) {
-					break;
-				}
-
-				$keyword_score = WPSEO_Taxonomy_Meta::get_term_meta( $result['ID'], $result['taxonomy'], 'linkdex' );
-				$keyword_score_label = WPSEO_Rank::from_numeric_score( (int) $keyword_score )->get_label();
-				$result['keywords_score'] = array( $keyword_score_label );
+				$result['keywords_score'] = $this->get_result_keywords_score( $result );
 				break;
 		}
 
@@ -106,13 +98,48 @@ class WPSEO_Export_Keywords_Term_Presenter {
 			return false;
 		}
 
-		// If a post_title is requested but not present then it's not valid.
-		if ( in_array( 'post_title', $this->columns, true ) ) {
+		// If a title is requested but not present then it's not valid.
+		if ( in_array( 'title', $this->columns, true ) ) {
 			if ( ! array_key_exists( 'name', $result ) || ! is_string( $result['name'] ) ) {
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Gets the result keywords from WPSEO_Taxonomy_Meta.
+	 *
+	 * @param array $result The result to get the keywords for.
+	 *
+	 * @return array The keywords.
+	 */
+	protected function get_result_keywords( array $result ) {
+		$keyword = WPSEO_Taxonomy_Meta::get_term_meta( $result['ID'], $result['taxonomy'], 'focuskw' );
+
+		if ( $keyword === false || empty( $keyword ) ) {
+			return array();
+		}
+
+		return array( (string) $keyword );
+	}
+
+	/**
+	 * Gets the result keyword scores from WPSEO_Taxonomy_Meta.
+	 *
+	 * @param array $result The result to get the keyword scores for.
+	 *
+	 * @return array The keyword scores.
+	 */
+	protected function get_result_keywords_score( array $result ) {
+		$keyword_score = WPSEO_Taxonomy_Meta::get_term_meta( $result['ID'], $result['taxonomy'], 'linkdex' );
+
+		if ( $keyword_score === false || empty( $keyword_score ) ) {
+			return array();
+		}
+
+		$keyword_score_label = WPSEO_Rank::from_numeric_score( (int) $keyword_score )->get_label();
+		return array( $keyword_score_label );
 	}
 }

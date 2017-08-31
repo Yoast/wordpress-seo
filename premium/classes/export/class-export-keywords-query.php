@@ -1,5 +1,13 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes\Export
+ */
 
+/**
+ * Interface WPSEO_Export_Keywords_Query
+ *
+ * Creates a SQL query to gather all data for a keywords export.
+ */
 interface WPSEO_Export_Keywords_Query {
 	/**
 	 * Constructs the query and executes it, returning an array of objects containing the columns this object was constructed with.
@@ -9,7 +17,7 @@ interface WPSEO_Export_Keywords_Query {
 	 *
 	 * @return array An array of associative arrays containing the keys as requested in the constructor.
 	 */
-	public function get_data( $page );
+	public function get_data( $page = 1 );
 
 	/**
 	 * Prepares the necessary selects and joins to get all data in a single query.

@@ -20,20 +20,18 @@ class WPSEO_Export_Keywords_Post_Presenter_Double extends WPSEO_Export_Keywords_
  *
  * Provides a simple filter to test against.
  */
-class WPSEO_Export_Keywords_Presenter_Test_Filter {
+class WPSEO_Export_Keywords_Post_Presenter_Test_Filter {
 	public function filter( $title, $id ) {
 		return "filtered";
 	}
 }
 
-class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
+class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if validate_result works with expected input.
 	 */
 	public function test_validate_result() {
-		global $wpdb;
-
-		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'post_title' ), $wpdb );
+		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title' ) );
 
 		$fake_result = array(
 			'ID'         => '1',
@@ -44,9 +42,7 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_validate_input_false() {
-		global $wpdb;
-
-		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'post_title' ), $wpdb );
+		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title' ) );
 
 		$fake_result = array(
 			'ID'         => '1',
@@ -65,9 +61,7 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_Post_Presenter::parse_result_keywords_json
 	 */
 	public function test_convert_result_keywords() {
-		global $wpdb;
-
-		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'keywords', 'keywords_score' ), $wpdb );
+		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'keywords', 'keywords_score' ) );
 
 		$fake_result = array(
 			'primary_keyword' => 'foo',
@@ -94,9 +88,7 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_Post_Presenter::parse_result_keywords_json
 	 */
 	public function test_convert_result_keywords_malformed() {
-		global $wpdb;
-
-		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'keywords', 'keywords_score' ), $wpdb );
+		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'keywords', 'keywords_score' ) );
 
 		$fake_result = array(
 			'primary_keyword' => 'foo',
@@ -119,13 +111,12 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_Post_Presenter::present
 	 */
 	public function test_present() {
-		global $wpdb;
+		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title', 'url', 'seo_score', 'keywords', 'keywords_score' ) );
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ), $wpdb );
-
-		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post' ) );
+		$fake_post = $this->factory->post->create( array( 'title' => 'fake post' ) );
 		$fake_result = array(
 			'ID' => var_export( $fake_post, true ),
+			'post_type' => 'post',
 			'post_title' => 'fake post',
 			'seo_score' => '50',
 			'primary_keyword' => 'bar',
@@ -136,8 +127,8 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 		$result = $class_instance->present( $fake_result );
 
 		$this->assertEquals( $fake_post, $result['ID'] );
-		$this->assertEquals( 'fake post', $result['post_title'] );
-		$this->assertEquals( get_permalink( $fake_post ), $result['post_url'] );
+		$this->assertEquals( 'fake post', $result['title'] );
+		$this->assertEquals( get_permalink( $fake_post ), $result['url'] );
 		$this->assertEquals( 'OK', $result['seo_score'] );
 		$this->assertEquals( array( 'bar', 'foo', 'baz' ), $result['keywords'] );
 		$this->assertEquals( array( 'OK', 'Good', 'Needs improvement' ), $result['keywords_score'] );
@@ -149,21 +140,20 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_Post_Presenter::present
 	 */
 	public function test_present_filter() {
-		global $wpdb;
-
-		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'post_title' ), $wpdb );
+		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title' ) );
 
 		$fake_result = array(
 			'ID'         => '1',
 			'post_title' => 'fake post',
+			'post_type' => 'post',
 		);
 
-		$filter_class = new WPSEO_Export_Keywords_Presenter_Test_Filter();
+		$filter_class = new WPSEO_Export_Keywords_Post_Presenter_Test_Filter();
 		add_filter( 'the_title', array( $filter_class, 'filter'), 10, 2 );
 
 		$result = $class_instance->present( $fake_result );
 
-		$this->assertEquals( 'filtered', $result['post_title'] );
+		$this->assertEquals( 'filtered', $result['title'] );
 
 		remove_filter( 'the_title', array( $filter_class, 'filter'), 10 );
 	}
@@ -174,12 +164,10 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_Post_Presenter::present
 	 */
 	public function test_present_malformed() {
-		global $wpdb;
-
-		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'post_title' ), $wpdb );
+		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title' ) );
 
 		$this->assertFalse( $class_instance->present( array( 'ID' => 'foo' ) ) );
-		$this->assertFalse( $class_instance->present( array( 'ID' => 0, 'post_title' => true ) ) );
+		$this->assertFalse( $class_instance->present( array( 'ID' => 0, 'title' => true ) ) );
 	}
 
 	/**
@@ -188,14 +176,13 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_Post_Presenter::present
 	 */
 	public function test_present_null() {
-		global $wpdb;
+		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title', 'url', 'seo_score', 'keywords', 'keywords_score' ) );
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'post_title', 'post_url', 'seo_score', 'keywords', 'keywords_score' ), $wpdb );
-
-		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post' ) );
+		$fake_post = $this->factory->post->create( array( 'title' => 'fake post' ) );
 		$fake_result = array(
 			'ID' => var_export( $fake_post, true ),
 			'post_title' => 'fake post',
+			'post_type' => 'post',
 			'seo_score' => null,
 			'primary_keyword' => null,
 			'primary_keyword_score' => null,
@@ -205,8 +192,8 @@ class WPSEO_Export_Keywords_Presenter_Test extends WPSEO_UnitTestCase {
 		$result = $class_instance->present( $fake_result );
 
 		$this->assertEquals( $fake_post, $result['ID'] );
-		$this->assertEquals( 'fake post', $result['post_title'] );
-		$this->assertEquals( get_permalink( $fake_post ), $result['post_url'] );
+		$this->assertEquals( 'fake post', $result['title'] );
+		$this->assertEquals( get_permalink( $fake_post ), $result['url'] );
 		$this->assertEquals( 'Not available', $result['seo_score'] );
 		$this->assertEquals( array(), $result['keywords'] );
 		$this->assertEquals( array(), $result['keywords_score'] );

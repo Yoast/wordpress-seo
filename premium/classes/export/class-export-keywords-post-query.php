@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Export_Keywords_Query
  *
- * Creates a SQL query to gather all data for a keywords export.
+ * Creates a SQL query to gather all post data for a keywords export.
  */
 class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 
@@ -39,14 +39,13 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	/**
 	 * WPSEO_Export_Keywords_Query constructor.
 	 *
-	 * Supported values for columns are 'post_title', 'post_url', 'keywords', 'seo_score' and 'keywords_score'.
+	 * Supported values for columns are 'title', 'url', 'keywords', 'seo_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
-
-	 * @param wpdb  $wpdb      A WordPress Database object.
-	 * @param int   $page_size Number of items to retrieve.
+	 * @param wpdb     $wpdb      A WordPress Database object.
+	 * @param int|bool $page_size Number of items to retrieve, false if no pagination should be used.
 	 */
-	public function __construct( $wpdb, $page_size = 1000 ) {
+	public function __construct( $wpdb, $page_size = false ) {
 		$this->wpdb = $wpdb;
 		$this->page_size = $page_size;
 	}
@@ -59,7 +58,7 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	 *
 	 * @return array An array of associative arrays containing the keys as requested in the constructor.
 	 */
-	public function get_data( $page ) {
+	public function get_data( $page = 1 ) {
 		if ( null === $this->columns ) {
 			return array();
 		}
@@ -68,13 +67,18 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 			return array();
 		}
 
-		// Pages have a starting index of 1, we need to convert to a 0 based offset.
-		$offset_multiplier = max( 0, $page - 1 );
-
 		// Construct the query.
-		$query = 'SELECT ' . implode( ', ', $this->selects ) . ' FROM ' . $this->wpdb->prefix . 'posts ' . implode( ' ', $this->joins ) .
-				 ' WHERE ' . $this->wpdb->prefix . 'posts.post_status = "publish" AND ' . $this->wpdb->prefix . 'posts.post_type IN ("' . $this->post_types_escaped . '")' .
-				 ' LIMIT ' . $this->page_size . ' OFFSET ' . ( $offset_multiplier * $this->page_size ) ;
+		$query = 'SELECT ' . implode( ', ', $this->selects ) .
+				 ' FROM ' . $this->wpdb->prefix . 'posts AS posts '
+				 . implode( ' ', $this->joins ) .
+				 ' WHERE posts.post_status = "publish" AND posts.post_type IN ("' . $this->post_types_escaped . '")';
+
+		if ( $this->page_size ) {
+			// Pages have a starting index of 1, we need to convert to a 0 based offset.
+			$offset_multiplier = max( 0, ( $page - 1 ) );
+
+			$query .= ' LIMIT ' . $this->page_size . ' OFFSET ' . ( $offset_multiplier * $this->page_size );
+		}
 
 		return $this->wpdb->get_results( $query, ARRAY_A );
 	}
@@ -88,10 +92,10 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 		$this->columns = $columns;
 
 		$this->joins = array();
-		$this->selects = array( $this->wpdb->prefix . 'posts.ID' );
+		$this->selects = array( 'posts.ID', 'posts.post_type' );
 
-		if ( in_array( 'post_title', $this->columns, true ) ) {
-			$this->selects[] = $this->wpdb->prefix . 'posts.post_title';
+		if ( in_array( 'title', $this->columns, true ) ) {
+			$this->selects[] = 'posts.post_title';
 		}
 
 		// If we're selecting keywords_score then we always want the keywords as well.
@@ -126,7 +130,7 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 
 		$this->selects[] = $alias . '_join.meta_value AS ' . $alias;
 		$this->joins[] = 'LEFT OUTER JOIN ' . $this->wpdb->prefix . 'postmeta AS ' . $alias . '_join ' .
-						 'ON ' . $alias . '_join.post_id = ' . $this->wpdb->prefix . 'posts.ID ' .
+						 'ON ' . $alias . '_join.post_id = posts.ID ' .
 						 'AND ' . $alias . '_join.meta_key = "' . $key . '"';
 	}
 }

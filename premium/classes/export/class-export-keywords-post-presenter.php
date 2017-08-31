@@ -6,9 +6,9 @@
 /**
  * Class WPSEO_Export_Keywords_Presenter
  *
- * Readies data as returned by WPSEO_Export_Keywords_Query for exporting.
+ * Readies data as returned by WPSEO_Export_Keywords_Post_Query for exporting.
  */
-class WPSEO_Export_Keywords_Post_Presenter {
+class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Presenter {
 
 	/**
 	 * @var array The columns to query for.
@@ -16,9 +16,9 @@ class WPSEO_Export_Keywords_Post_Presenter {
 	protected $columns;
 
 	/**
-	 * WPSEO_Export_Keywords_Presenter constructor.
+	 * WPSEO_Export_Keywords_Post_Presenter constructor.
 	 *
-	 * Supported values for columns are 'post_title', 'post_url', 'keywords', 'seo_score' and 'keywords_score'.
+	 * Supported values for columns are 'title', 'url', 'keywords', 'seo_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
 	 * @param array $columns The columns we want our query to return.
@@ -43,7 +43,8 @@ class WPSEO_Export_Keywords_Post_Presenter {
 			$result = $this->populate_column( $result, $column );
 		}
 
-		$result['type'] = 'post';
+		$result['type'] = $result['post_type'];
+		unset( $result['post_type'] );
 
 		return $result;
 	}
@@ -58,11 +59,12 @@ class WPSEO_Export_Keywords_Post_Presenter {
 	 */
 	protected function populate_column( array $result, $column ) {
 		switch ( $column ) {
-			case 'post_title':
-				$result['post_title'] = apply_filters( 'the_title', $result['post_title'], $result['ID'] );
+			case 'title':
+				$result['title'] = apply_filters( 'the_title', $result['post_title'], $result['ID'] );
+				unset( $result['post_title'] );
 				break;
-			case 'post_url':
-				$result['post_url'] = get_permalink( $result['ID'] );
+			case 'url':
+				$result['url'] = get_permalink( $result['ID'] );
 				break;
 			case 'seo_score':
 				$result['seo_score'] = WPSEO_Rank::from_numeric_score( (int) $result['seo_score'] )->get_label();
@@ -88,8 +90,8 @@ class WPSEO_Export_Keywords_Post_Presenter {
 			return false;
 		}
 
-		// If a post_title is requested but not present then it's not valid.
-		if ( in_array( 'post_title', $this->columns, true ) ) {
+		// If a title is requested but not present then it's not valid.
+		if ( in_array( 'title', $this->columns, true ) ) {
 			if ( ! array_key_exists( 'post_title', $result ) || ! is_string( $result['post_title'] ) ) {
 				return false;
 			}
