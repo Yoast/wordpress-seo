@@ -9,6 +9,30 @@ import { Icon } from "./Icon";
 import { rgba } from "../../../../style-guide/helpers";
 
 /**
+ * Returns a component with applied base button styles.
+ *
+ * @param {ReactElement} component The original component.
+ *
+ * @returns {ReactElement} Component with applied base button styles.
+ */
+export function addBaseStyle( component ) {
+	return styled( component )`
+		vertical-align: middle;
+		margin: 0;
+		padding: 4px 10px;
+		border-radius: 3px;
+		cursor: pointer;
+		box-sizing: border-box;
+		font-size: inherit;
+		font-family: inherit;
+		font-weight: inherit;
+		text-align: left;
+		height: 32px;
+		overflow: visible;
+	`;
+}
+
+/**
  * Returns a component with applied focus styles.
  *
  * @param {ReactElement} component The original component.
@@ -64,6 +88,12 @@ export function addActiveStyle( component ) {
 	`;
 }
 
+export function addFontSizeStyles( component ) {
+	return styled( component )`
+		font-size: 0.8rem;
+	`;
+}
+
 /**
  * Returns a component with all button selector styles applied.
  *
@@ -71,7 +101,7 @@ export function addActiveStyle( component ) {
  *
  * @returns {ReactElement} Component with applied styles.
  */
-export const addButtonStyles = _flow( [ addFocusStyle, addHoverStyle, addActiveStyle ] );
+export const addButtonStyles = _flow( [ addBaseStyle, addFocusStyle, addHoverStyle, addActiveStyle ] );
 
 /**
  * Returns a basic styled button.
@@ -86,19 +116,6 @@ export const BaseButton = addButtonStyles(
 		border: 1px solid ${ props => props.borderColor };
 		background: ${ props => props.backgroundColor };
 		box-shadow: 0 1px 0 ${ props => rgba( props.boxShadowColor, 1 ) };
-		vertical-align: middle;
-		margin: 0;
-		padding: 4px 10px;
-		border-radius: 3px;
-		cursor: pointer;
-		box-sizing: border-box;
-		font-size: inherit;
-		font-family: inherit;
-		font-weight: inherit;
-		text-align: left;
-		outline: none;
-		min-height: 32px;
-		overflow: visible;
 	`
 );
 
@@ -124,10 +141,7 @@ BaseButton.defaultProps = {
  *
  * @returns {ReactElement} Styled button.
  */
-export const Button = styled( BaseButton )`
-	font-size: 0.8rem;
-	line-height: 1.4;
-`;
+export const Button = addFontSizeStyles( BaseButton );
 
 /**
  * Returns a button with inline flex styles.
@@ -138,7 +152,7 @@ export const Button = styled( BaseButton )`
  */
 export const InlineFlexButton = styled( Button )`
 	display: inline-flex;
-	flex-direction: row;
+	align-items: center;
 `;
 
 /**
@@ -151,8 +165,6 @@ export const InlineFlexButton = styled( Button )`
 function addIconTextStyle( icon ) {
 	return styled( icon )`
 		margin: 0 8px 0 0;
-		display: flex;
-		align-self: center;
 		flex-shrink: 0;
 	`;
 }
