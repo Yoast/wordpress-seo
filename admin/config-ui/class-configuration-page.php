@@ -122,15 +122,17 @@ class WPSEO_Configuration_Page {
 		</head>
 		<body class="wp-admin">
 		<div id="wizard"></div>
-		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
-			<?php
-			printf(
-				/* translators: %s expands to Yoast SEO. */
-				__( 'Go back to the %s dashboard.', 'wordpress-seo' ),
-				'Yoast SEO'
-			);
-			?>
-		</a>
+		<footer>
+			<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
+				<?php
+				printf(
+					/* translators: %s expands to Yoast SEO. */
+					__( 'Go back to the %s dashboard.', 'wordpress-seo' ),
+					'Yoast SEO'
+				);
+				?>
+			</a>
+		</footer>
 		<?php
 			wp_print_media_templates();
 			wp_print_footer_scripts();
@@ -138,7 +140,7 @@ class WPSEO_Configuration_Page {
 			/**
 			 * Is called before the closing </body> tag in the Yoast Configuration wizard.
 			 *
-			 * Allows users to add their own scripts or content.
+			 * Allows users to add their own scripts.
 			 *
 			 * @since 4.0
 			 */
