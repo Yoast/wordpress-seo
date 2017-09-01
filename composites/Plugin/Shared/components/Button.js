@@ -88,6 +88,13 @@ export function addActiveStyle( component ) {
 	`;
 }
 
+/**
+ * Returns a component with applied font size style.
+ *
+ * @param {ReactElement} component The original component.
+ *
+ * @returns {ReactElement} Component with applied font size styles.
+ */
 export function addFontSizeStyles( component ) {
 	return styled( component )`
 		font-size: 0.8rem;
