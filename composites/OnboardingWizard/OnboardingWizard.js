@@ -303,7 +303,7 @@ class OnboardingWizard extends React.Component {
 					<YoastLogo height={93} width={200}/>
 					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
 					               onClick={( stepNumber, evt ) => this.postStep( stepNumber, evt )}/>
-					<div className="yoast-wizard-container">
+					<main className="yoast-wizard-container">
 						<div className="yoast-wizard">
 							{ this.renderErrorMessage() }
 							<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
@@ -313,7 +313,7 @@ class OnboardingWizard extends React.Component {
 							{ navigation }
 						</div>
 						{( this.state.isLoading ) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
-					</div>
+					</main>
 				</div>
 			</MuiThemeProvider>
 		);
