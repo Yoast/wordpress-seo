@@ -78,14 +78,14 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 		<AnalysisHeaderContainer>
 			<div>
 				<h3>
-					<AnalysisHeaderButton aria-expanded={ props.isOpen } onClick={ props.onOpen }>
-						<AnalysisHeaderIcon icon={ props.isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
+					<AnalysisHeaderButton aria-expanded={ props.initialIsOpen } onClick={ props.onOpen }>
+						<AnalysisHeaderIcon icon={ props.initialIsOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
 						<AnalysisTitle> { props.title + " (" + props.children.length + ")" } </AnalysisTitle>
 					</AnalysisHeaderButton>
 				</h3>
 			</div>
 			<ul>
-				{ props.isOpen ? props.children : null }
+				{ props.initialIsOpen ? props.children : null }
 			</ul>
 		</AnalysisHeaderContainer>
 	);
@@ -93,7 +93,7 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 
 AnalysisCollapsibleStateless.propTypes = {
 	title: PropTypes.string.isRequired,
-	isOpen: PropTypes.bool.isRequired,
+	initialIsOpen: PropTypes.bool.isRequired,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
@@ -134,12 +134,17 @@ export class AnalysisCollapsible extends React.Component {
 		} );
 	}
 
+	/**
+	 * Returns the rendered ListToggle element.
+	 *
+	 * @returns {ReactElement} The rendered collapsible analysisHeader.
+	 */
 	render() {
 		return (
 			<AnalysisCollapsibleStateless
 				title={ this.props.title }
 				onOpen={ this.toggleOpen.bind( this ) }
-				isOpen={ this.state.isOpen }>
+				initialIsOpen={ this.state.isOpen }>
 				{ this.props.children }
 			</AnalysisCollapsibleStateless>
 		);
