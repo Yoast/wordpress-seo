@@ -76,16 +76,14 @@ const AnalysisTitle = styled.span`
 export const AnalysisCollapsibleStateless = ( props ) => {
 	return (
 		<AnalysisHeaderContainer>
-			<div>
-				<h3>
-					<AnalysisHeaderButton aria-expanded={ props.initialIsOpen } onClick={ props.onOpen }>
-						<AnalysisHeaderIcon icon={ props.initialIsOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
-						<AnalysisTitle> { props.title + " (" + props.children.length + ")" } </AnalysisTitle>
-					</AnalysisHeaderButton>
-				</h3>
-			</div>
+			<h3>
+				<AnalysisHeaderButton aria-expanded={ props.isOpen } onClick={ props.onToggle }>
+					<AnalysisHeaderIcon icon={ props.isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
+					<AnalysisTitle> { props.title + " (" + props.children.length + ")" } </AnalysisTitle>
+				</AnalysisHeaderButton>
+			</h3>
 			<ul>
-				{ props.initialIsOpen ? props.children : null }
+				{ props.isOpen ? props.children : null }
 			</ul>
 		</AnalysisHeaderContainer>
 	);
@@ -93,16 +91,12 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 
 AnalysisCollapsibleStateless.propTypes = {
 	title: PropTypes.string.isRequired,
-	initialIsOpen: PropTypes.bool.isRequired,
+	isOpen: PropTypes.bool.isRequired,
+	onToggle: PropTypes.func.isRequired,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
 	] ),
-	onOpen: PropTypes.func.isRequired,
-};
-
-AnalysisCollapsibleStateless.defaultProps = {
-	isOpen: false,
 };
 
 export class AnalysisCollapsible extends React.Component {
@@ -143,8 +137,8 @@ export class AnalysisCollapsible extends React.Component {
 		return (
 			<AnalysisCollapsibleStateless
 				title={ this.props.title }
-				onOpen={ this.toggleOpen.bind( this ) }
-				initialIsOpen={ this.state.isOpen }>
+				onToggle={ this.toggleOpen.bind( this ) }
+				isOpen={ this.state.isOpen }>
 				{ this.props.children }
 			</AnalysisCollapsibleStateless>
 		);
