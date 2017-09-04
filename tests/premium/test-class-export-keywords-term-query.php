@@ -21,6 +21,36 @@ class WPSEO_Export_Keywords_Term_Query_Database_Mock {
 
 class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	/**
+	 * Tests entering a valid page size and retrieving it
+	 *
+	 * @covers WPSEO_Export_Keywords_Term_Query::get_page_size
+	 */
+	public function test_get_page_size() {
+		global $wpdb;
+
+		$class_instance = new WPSEO_Export_Keywords_Term_Query( $wpdb, array(), 10 );
+		$this->assertEquals( 10, $class_instance->get_page_size() );
+
+		$class_instance = new WPSEO_Export_Keywords_Term_Query( $wpdb, array(), 10000 );
+		$this->assertEquals( 10000, $class_instance->get_page_size() );
+	}
+
+	/**
+	 * Tests entering an invalid page size.
+	 *
+	 * @covers WPSEO_Export_Keywords_Term_Query::get_page_size
+	 */
+	public function test_get_invalid_page_size() {
+		global $wpdb;
+
+		$class_instance = new WPSEO_Export_Keywords_Term_Query( $wpdb, array(), -1 );
+		$this->assertEquals( 1, $class_instance->get_page_size() );
+
+		$class_instance = new WPSEO_Export_Keywords_Term_Query( $wpdb, array(), 'hoi' );
+		$this->assertEquals( 1, $class_instance->get_page_size() );
+	}
+
+	/**
 	 * Tests the set_columns function with good data.
 	 *
 	 * @covers WPSEO_Export_Keywords_Term_Query::set_columns
