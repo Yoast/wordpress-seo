@@ -62,7 +62,7 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	 * @return array An array of associative arrays containing the keys as requested in the constructor.
 	 */
 	public function get_data( $page = 1 ) {
-		if ( empty( $this->columns ) ) {
+		if ( array() === $this->columns ) {
 			return array();
 		}
 
