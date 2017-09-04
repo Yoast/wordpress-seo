@@ -115,7 +115,9 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 		}
 
 		$builder = new WPSEO_Export_Keywords_CSV( $columns );
-		return $builder->export( $this->get_data( $columns ) );
+		$this->prepare_export( $builder, $columns );
+
+		return $builder->export();
 	}
 
 	/**
@@ -145,40 +147,50 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	}
 
 	/**
-	 * Retrieves data to display in the CSV
+	 * Feeds post and term items to the CSV builder.
 	 *
-	 * @param array $columns Columns to collect.
+	 * @param WPSEO_Export_Keywords_CSV $builder The builder to use.
+	 * @param array                     $columns The columns that need to be exported.
 	 *
-	 * @return array List of items to
+	 * @return void
 	 */
-	protected function get_data( array $columns ) {
-		$post_data = $this->query_and_present(
-			$columns,
-			new WPSEO_Export_Keywords_Post_Query( $this->wpdb ),
+	protected function prepare_export( WPSEO_Export_Keywords_CSV $builder, array $columns ) {
+		$this->feed_to_builder(
+			$builder,
+			new WPSEO_Export_Keywords_Post_Query( $this->wpdb, $columns, 1000 ),
 			new WPSEO_Export_Keywords_Post_Presenter( $columns )
 		);
 
-		$term_data = $this->query_and_present(
-			$columns,
-			new WPSEO_Export_Keywords_Term_Query( $this->wpdb ),
+		$this->feed_to_builder(
+			$builder,
+			new WPSEO_Export_Keywords_Term_Query( $this->wpdb, $columns, 1000 ),
 			new WPSEO_Export_Keywords_Term_Presenter( $columns )
 		);
-
-		return array_merge( $post_data, $term_data );
 	}
 
 	/**
-	 * Executes the query object and uses the presenter to convert all results for the specified columns.
+	 * Fetches the items and feeds them to the builder.
 	 *
-	 * @param array                           $columns   The columns to query and present.
-	 * @param WPSEO_Export_Keywords_Query     $query     The query object.
-	 * @param WPSEO_Export_Keywords_Presenter $presenter The presenter object.
+	 * @param WPSEO_Export_Keywords_CSV       $builder      Builder to feed the items to.
+	 * @param WPSEO_Export_Keywords_Query     $export_query Query to use to get the items.
+	 * @param WPSEO_Export_Keywords_Presenter $presenter    Presenter to present the items in the builder format.
 	 *
-	 * @return array
+	 * @return void
 	 */
-	protected function query_and_present( array $columns, WPSEO_Export_Keywords_Query $query, WPSEO_Export_Keywords_Presenter $presenter ) {
-		$query->set_columns( $columns );
+	protected function feed_to_builder( WPSEO_Export_Keywords_CSV $builder, WPSEO_Export_Keywords_Query $export_query, WPSEO_Export_Keywords_Presenter $presenter ) {
+		$page_size = $export_query->get_page_size();
 
-		return array_map( array( $presenter, 'present' ), $query->get_data() );
+		$page = 0;
+		do {
+			$results = $export_query->get_data( ++$page );
+
+			// Present the result.
+			$presented = array_map( array( $presenter, 'present' ), $results );
+
+			// Feed presented item to the builder.
+			array_map( array( $builder, 'add_row' ), $presented );
+
+			// If we have the number of items per page, there will be more items ahead.
+		} while ( is_array( $results ) && count( $results ) === $page_size );
 	}
 }
