@@ -31,9 +31,7 @@ class WPSEO_Export_Keywords_CSV {
 	/**
 	 * Exports the supplied keyword query to a CSV string.
 	 *
-	 * @param array $data An array of results from WPSEO_Export_Keywords_Query::get_data.
-	 *
-	 * @return string A CSV string.
+	 * @return string CSV formatted data.
 	 */
 	public function export() {
 
