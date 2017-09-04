@@ -43,11 +43,14 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
 	 * @param wpdb     $wpdb      A WordPress Database object.
+	 * @param array    $columns
 	 * @param int|bool $page_size Number of items to retrieve, false if no pagination should be used.
 	 */
-	public function __construct( $wpdb, $page_size = false ) {
-		$this->wpdb = $wpdb;
-		$this->page_size = $page_size;
+	public function __construct( $wpdb, array $columns, $page_size = 1000 ) {
+		$this->wpdb      = $wpdb;
+		$this->page_size = max( 1, (int) $page_size );
+
+		$this->set_columns( $columns );
 	}
 
 	/**
@@ -63,7 +66,8 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 			return array();
 		}
 
-		if ( empty( $this->post_types_escaped ) ) {
+		$escaped_post_types = $this->get_post_types_escaped();
+		if ( empty( $escaped_post_types ) ) {
 			return array();
 		}
 
@@ -71,14 +75,12 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 		$query = 'SELECT ' . implode( ', ', $this->selects ) .
 				 ' FROM ' . $this->wpdb->prefix . 'posts AS posts '
 				 . implode( ' ', $this->joins ) .
-				 ' WHERE posts.post_status = "publish" AND posts.post_type IN ("' . $this->post_types_escaped . '")';
+				 ' WHERE posts.post_status = "publish" AND posts.post_type IN ("' . $escaped_post_types . '")';
 
-		if ( $this->page_size ) {
-			// Pages have a starting index of 1, we need to convert to a 0 based offset.
-			$offset_multiplier = max( 0, ( $page - 1 ) );
+		// Pages have a starting index of 1, we need to convert to a 0 based offset.
+		$offset_multiplier = max( 0, ( $page - 1 ) );
 
-			$query .= ' LIMIT ' . $this->page_size . ' OFFSET ' . ( $offset_multiplier * $this->page_size );
-		}
+		$query .= ' LIMIT ' . $this->page_size . ' OFFSET ' . ( $offset_multiplier * $this->page_size );
 
 		return $this->wpdb->get_results( $query, ARRAY_A );
 	}
@@ -86,12 +88,12 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	/**
 	 * Prepares the necessary selects and joins to get all data in a single query.
 	 *
-	 * @param array $columns   The columns we want our query to return.
+	 * @param array $columns The columns we want our query to return.
 	 */
 	public function set_columns( $columns ) {
 		$this->columns = $columns;
 
-		$this->joins = array();
+		$this->joins   = array();
 		$this->selects = array( 'posts.ID', 'posts.post_type' );
 
 		if ( in_array( 'title', $this->columns, true ) ) {
@@ -112,9 +114,20 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 			// Score for other keywords is already in the other_keywords select so only join for the primary_keyword_score.
 			$this->add_meta_join( 'primary_keyword_score', WPSEO_Meta::$meta_prefix . 'linkdex' );
 		}
+	}
 
-		// Get all public post types and run esc_sql on them.
-		$this->post_types_escaped = implode( '", "', array_map( 'esc_sql', get_post_types( array( 'public' => true ), 'names' ) ) );
+	/**
+	 * @return string
+	 */
+	protected function get_post_types_escaped() {
+		static $escaped = null;
+
+		if ( null === $escaped ) {
+			// Get all public post types and run esc_sql on them.
+			$escaped = implode( '", "', array_map( 'esc_sql', get_post_types( array( 'public' => true ), 'names' ) ) );
+		}
+
+		return $escaped;
 	}
 
 	/**
@@ -122,16 +135,16 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	 * While this function should never be used with user input all non-word non-digit characters are removed from both params for increased robustness.
 	 *
 	 * @param string $alias The alias to use in our query output.
-	 * @param string $key The meta_key to select.
+	 * @param string $key   The meta_key to select.
 	 */
 	protected function add_meta_join( $alias, $key ) {
 		$alias = preg_replace( '/[^\w\d]/', '', $alias );
-		$key = preg_replace( '/[^\w\d]/', '', $key );
+		$key   = preg_replace( '/[^\w\d]/', '', $key );
 
 		$this->selects[] = $alias . '_join.meta_value AS ' . $alias;
-		$this->joins[] = 'LEFT OUTER JOIN ' . $this->wpdb->prefix . 'postmeta AS ' . $alias . '_join ' .
-						 'ON ' . $alias . '_join.post_id = posts.ID ' .
-						 'AND ' . $alias . '_join.meta_key = "' . $key . '"';
+		$this->joins[]   = 'LEFT OUTER JOIN ' . $this->wpdb->prefix . 'postmeta AS ' . $alias . '_join ' .
+						   'ON ' . $alias . '_join.post_id = posts.ID ' .
+						   'AND ' . $alias . '_join.meta_key = "' . $key . '"';
 	}
 
 	/**

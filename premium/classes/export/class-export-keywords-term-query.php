@@ -37,11 +37,13 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
 	 * @param wpdb     $wpdb      A WordPress Database object.
+	 * @param array    $columns
 	 * @param int|bool $page_size Number of items to retrieve, false if no pagination should be used.
 	 */
-	public function __construct( $wpdb, $page_size = false ) {
-		$this->wpdb = $wpdb;
-		$this->page_size = $page_size;
+	public function __construct( $wpdb, array $columns, $page_size = 1000 ) {
+		$this->wpdb      = $wpdb;
+		$this->page_size = max( 1, (int) $page_size );
+		$this->set_columns( $columns );
 	}
 
 	/**
@@ -67,14 +69,15 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 			return array();
 		}
 
-		if ( empty( $this->taxonomies_escaped ) ) {
+		$escaped_taxonomies = $this->get_escaped_taxonomies();
+		if ( empty( $escaped_taxonomies ) ) {
 			return array();
 		}
 
 		// Construct the query.
 		$query = 'SELECT ' . implode( ', ', $this->selects ) . ' FROM ' . $this->wpdb->prefix . 'terms AS terms' .
 				 ' INNER JOIN ' . $this->wpdb->prefix . 'term_taxonomy AS taxonomies' .
-				 ' ON terms.term_id = taxonomies.term_id AND taxonomies.taxonomy IN ("' . $this->taxonomies_escaped . '")';
+				 ' ON terms.term_id = taxonomies.term_id AND taxonomies.taxonomy IN ("' . $escaped_taxonomies . '")';
 
 		if ( $this->page_size ) {
 			// Pages have a starting index of 1, we need to convert to a 0 based offset.
@@ -94,14 +97,26 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 	public function set_columns( $columns ) {
 		$this->columns = $columns;
 
-		$this->joins = array();
 		$this->selects = array( 'terms.term_id', 'taxonomies.taxonomy' );
 
 		if ( in_array( 'title', $this->columns, true ) ) {
 			$this->selects[] = 'terms.name';
 		}
+	}
 
-		$taxonomies = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'names' );
-		$this->taxonomies_escaped = implode( '", "', array_map( 'esc_sql', $taxonomies ) );
+	/**
+	 * Retrieves a list of taxonomies to be used in a query.
+	 *
+	 * @return string List of escaped taxonomies to use in a query.
+	 */
+	protected function get_escaped_taxonomies() {
+		static $escaped = null;
+
+		if ( null === $escaped ) {
+			$taxonomies = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'names' );
+			$escaped    = implode( '", "', array_map( 'esc_sql', $taxonomies ) );
+		}
+
+		return $escaped;
 	}
 }
