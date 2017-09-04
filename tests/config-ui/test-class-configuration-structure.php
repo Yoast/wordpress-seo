@@ -42,7 +42,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_constructor() {
 		$this->structure->initialize();
-		
+
 		$steps = $this->structure->retrieve();
 
 		$expected = array(
@@ -84,7 +84,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue( isset( $steps[ $identifier ] ) );
 		$this->assertEquals(
-			array( 'title' => $title, 'fields' => $fields, 'hideNavigation' => false ),
+			array( 'title' => $title, 'fields' => $fields, 'hideNavigation' => false, 'fullWidth' => false ),
 			$steps[ $identifier ]
 		);
 	}
