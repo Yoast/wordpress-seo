@@ -120,7 +120,7 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 			// Convert multiple keywords from the Premium plugin from json to string arrays.
 			$keywords = $this->parse_result_keywords_json( $result, 'other_keywords' );
 
-			$other_keywords = wp_list_pluck( $keywords, 'keyword' );
+			$other_keywords     = wp_list_pluck( $keywords, 'keyword' );
 			$result['keywords'] = array_merge( $result['keywords'], $other_keywords );
 
 			if ( in_array( 'keywords_score', $this->columns, true ) ) {
@@ -167,11 +167,11 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 	protected function get_result_keywords_scores( array $result, $keywords ) {
 		$scores = array();
 
-		$rank = WPSEO_Rank::from_numeric_score( (int) $result['primary_keyword_score'] );
+		$rank     = WPSEO_Rank::from_numeric_score( (int) $result['primary_keyword_score'] );
 		$scores[] = $rank->get_label();
 
 		foreach ( $keywords as $keyword ) {
-			$rank = new WPSEO_Rank( $keyword['score'] );
+			$rank     = new WPSEO_Rank( $keyword['score'] );
 			$scores[] = $rank->get_label();
 		}
 
