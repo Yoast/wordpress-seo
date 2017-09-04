@@ -133,4 +133,13 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 						 'ON ' . $alias . '_join.post_id = posts.ID ' .
 						 'AND ' . $alias . '_join.meta_key = "' . $key . '"';
 	}
+
+	/**
+	 * Returns the page size for the query.
+	 *
+	 * @return int Page size that is being used.
+	 */
+	public function get_page_size() {
+		return $this->page_size;
+	}
 }
