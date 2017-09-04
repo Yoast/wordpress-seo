@@ -120,17 +120,20 @@ class WPSEO_Configuration_Page {
 			do_action( 'wpseo_configuration_wizard_head' );
 			?>
 		</head>
-		<body class="wp-admin">
+		<body class="wp-admin wp-core-ui">
 		<div id="wizard"></div>
-		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
-			<?php
-			printf(
-				/* translators: %s expands to Yoast SEO. */
-				__( 'Go back to the %s dashboard.', 'wordpress-seo' ),
-				'Yoast SEO'
-			);
-			?>
-		</a>
+		<p class="yoast-wizard-return-link-container">
+			<a class="button yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
+				<span aria-hidden="true" class="dashicons dashicons-no"></span>
+				<?php
+				printf(
+					/* translators: %s expands to Yoast SEO. */
+					__( 'Close wizard', 'wordpress-seo' ),
+					'Yoast SEO'
+				);
+				?>
+			</a>
+		</p>
 		<?php
 			wp_print_media_templates();
 			wp_print_footer_scripts();
