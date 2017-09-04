@@ -319,4 +319,8 @@ body {
 
 .#{ $prefix }-content-container {
   max-width: 560px;
+
+  &.#{ $prefix }-content-container__is-full-width {
+    max-width: none;
+  }
 }
