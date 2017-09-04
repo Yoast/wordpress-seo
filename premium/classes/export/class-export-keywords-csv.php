@@ -10,10 +10,11 @@
  */
 class WPSEO_Export_Keywords_CSV {
 
-	/**
-	 * @var array The columns that should be presented
-	 */
+	/** @var array The columns that should be presented */
 	protected $columns;
+
+	/** @var array Data to be exported */
+	protected $data = '';
 
 	/**
 	 * WPSEO_Export_Keywords_CSV constructor.
@@ -34,15 +35,23 @@ class WPSEO_Export_Keywords_CSV {
 	 *
 	 * @return string A CSV string.
 	 */
-	public function export( array $data ) {
+	public function export() {
 
 		$csv = $this->get_headers();
-
-		foreach ( $data as $result ) {
-			$csv .= $this->format( $result );
-		}
+		$csv .= $this->data;
 
 		return $csv;
+	}
+
+	/**
+	 * Adds a row to the data to be exported.
+	 *
+	 * @param array $row Add row for the export.
+	 *
+	 * @return void
+	 */
+	public function add_row( array $row ) {
+		$this->data .= $this->format( $row );
 	}
 
 	/**
