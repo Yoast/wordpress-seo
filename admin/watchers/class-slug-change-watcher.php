@@ -8,6 +8,8 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Registers all hooks to WordPress
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 
@@ -53,7 +55,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 *
 	 * @param string $post_status The post status to check.
 	 *
-	 * @return bool
+	 * @return bool Whether or not the post is visible.
 	 */
 	protected function check_visible_post_status( $post_status ) {
 		$visible_post_statuses = array(
@@ -67,6 +69,8 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Adds a notification to be shown on the next page request since posts are updated in an ajax request.
+	 *
+	 * @return void
 	 */
 	protected function add_notification() {
 		$notification = new Yoast_Notification(
