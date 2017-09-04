@@ -66,6 +66,9 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 			ob_clean();
 		}
 
+		// Make sure we don't time out during the collection of items.
+		set_time_limit( 0 );
+
 		$csv_contents = $this->get_csv_contents();
 
 		// Set CSV headers and content.
