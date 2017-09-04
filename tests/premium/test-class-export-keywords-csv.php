@@ -237,7 +237,8 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 			),
 		);
 
-		$csv = $class_instance->export( $fake_results );
+		array_map( array( $class_instance, 'add_row' ), $fake_results );
+		$csv = $class_instance->export();
 
 		$lines = preg_split( "/\n/", $csv, null, PREG_SPLIT_NO_EMPTY );
 
@@ -282,7 +283,8 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 			array(),
 		);
 
-		$csv = $class_instance->export( $fake_results );
+		array_map( array( $class_instance, 'add_row' ), $fake_results );
+		$csv = $class_instance->export();
 
 		$lines = preg_split( "/\n/", $csv, null, PREG_SPLIT_NO_EMPTY );
 

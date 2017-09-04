@@ -28,8 +28,7 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	public function test_set_columns() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $wpdb );
-		$class_instance->set_columns( array( 'title' ) );
+		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $wpdb, array( 'title' ) );
 
 		$this->assertCount( 3, $class_instance->get_selects() );
 		$this->assertContains( 'terms.term_id', $class_instance->get_selects() );
@@ -45,8 +44,7 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	public function test_bad_set_columns() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $wpdb );
-		$class_instance->set_columns( array( 'foo', true, null, array() ) );
+		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $wpdb, array( 'foo', true, null, array() ) );
 
 		$this->assertCount( 2, $class_instance->get_selects() );
 		$this->assertContains( 'terms.term_id', $class_instance->get_selects() );
@@ -61,8 +59,7 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	public function test_get_data() {
 		$db = new WPSEO_Export_Keywords_Term_Query_Database_Mock();
 
-		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $db );
-		$class_instance->set_columns( array( 'title' ) );
+		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $db, array( 'title' ) );
 		$class_instance->get_data( 1 );
 
 		$taxonomies = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'names' );
@@ -73,7 +70,7 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 			'SELECT terms.term_id, taxonomies.taxonomy, terms.name FROM ' .
 			$db->prefix . 'terms AS terms INNER JOIN ' . $db->prefix .
 			'term_taxonomy AS taxonomies ON terms.term_id = taxonomies.term_id ' .
-			'AND taxonomies.taxonomy IN ("' . $taxonomies_escaped . '")',
+			'AND taxonomies.taxonomy IN ("' . $taxonomies_escaped . '") LIMIT ' . $class_instance->get_page_size() . ' OFFSET 0',
 			$db->query
 		);
 	}
@@ -86,8 +83,7 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	public function test_paginated_get_data() {
 		$db = new WPSEO_Export_Keywords_Term_Query_Database_Mock();
 
-		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $db, 1000 );
-		$class_instance->set_columns( array( 'title' ) );
+		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $db, array( 'title' ), 1000 );
 		$class_instance->get_data( 2 );
 
 		$taxonomies = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'names' );
@@ -111,8 +107,7 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	public function test_bad_get_data() {
 		$db = new WPSEO_Export_Keywords_Term_Query_Database_Mock();
 
-		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $db, 1000 );
-		$class_instance->set_columns( array( 'foo', true, null, array() ) );
+		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $db, array( 'foo', true, null, array() ), 1000 );
 		$class_instance->get_data( -999 );
 
 		$taxonomies = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'names' );

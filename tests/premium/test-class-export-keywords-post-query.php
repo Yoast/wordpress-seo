@@ -23,15 +23,14 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_add_meta_join() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb );
-//		$class_instance->set_columns( array() );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array() );
 
 		$class_instance->run_add_meta_join( 'meta_alias', 'meta_key' );
 
 		$selects = $class_instance->get_selects();
 		$joins = $class_instance->get_joins();
 
-		$this->assertEquals( 'meta_alias_join.meta_value AS meta_alias', $selects[0] );
+		$this->assertEquals( 'meta_alias_join.meta_value AS meta_alias', end( $selects ) );
 
 		$this->assertEquals( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS meta_alias_join ' .
 							 'ON meta_alias_join.post_id = posts.ID ' .
@@ -46,8 +45,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_add_meta_join_no_sql_injection() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb );
-		$class_instance->set_columns( array() );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array() );
 
 		$class_instance->run_add_meta_join( '; DROP TABLE wp_posts;', '; DROP TABLE wp_posts;' );
 
@@ -68,8 +66,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_set_columns_simple() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb );
-		$class_instance->set_columns( array( 'title' ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title') );
 
 		$this->assertContains( 'posts.ID', $class_instance->get_selects() );
 		$this->assertContains( 'posts.post_title', $class_instance->get_selects() );
@@ -85,8 +82,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_set_columns_complete() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb );
-		$class_instance->set_columns( array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
 
 		$selects = $class_instance->get_selects();
 		$joins = $class_instance->get_joins();
@@ -124,8 +120,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_set_columns_random_input() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb );
-		$class_instance->set_columns( array( 'bla', 'foo', 'DROP TABLE wp_posts;', 2, true ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'bla', 'foo', 'DROP TABLE wp_posts;', 2, true ) );
 
 		$selects = $class_instance->get_selects();
 		$joins = $class_instance->get_joins();
@@ -146,8 +141,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_get_data() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb );
-		$class_instance->set_columns( array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
 
 		// Create fake data.
 		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post' ) );
@@ -182,8 +176,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_get_data_public_only() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb );
-		$class_instance->set_columns( array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
 
 		// Create fake data.
 		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post', 'post_status' => 'draft' ) );
@@ -212,8 +205,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_get_data_null() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb );
-		$class_instance->set_columns( array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
 
 		// Create fake data.
 		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post' ) );

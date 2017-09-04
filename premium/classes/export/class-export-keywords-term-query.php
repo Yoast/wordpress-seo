@@ -79,12 +79,10 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 				 ' INNER JOIN ' . $this->wpdb->prefix . 'term_taxonomy AS taxonomies' .
 				 ' ON terms.term_id = taxonomies.term_id AND taxonomies.taxonomy IN ("' . $escaped_taxonomies . '")';
 
-		if ( $this->page_size ) {
-			// Pages have a starting index of 1, we need to convert to a 0 based offset.
-			$offset_multiplier = max( 0, ( $page - 1 ) );
+		// Pages have a starting index of 1, we need to convert to a 0 based offset.
+		$offset_multiplier = max( 0, ( $page - 1 ) );
 
-			$query .= ' LIMIT ' . $this->page_size . ' OFFSET ' . ( $offset_multiplier * $this->page_size );
-		}
+		$query .= ' LIMIT ' . $this->page_size . ' OFFSET ' . ( $offset_multiplier * $this->page_size );
 
 		return $this->wpdb->get_results( $query, ARRAY_A );
 	}
