@@ -16,9 +16,29 @@ class WPSEO_Export_Keywords_CSV_Double extends WPSEO_Export_Keywords_CSV {
 	public function return_get_csv_column_from_result( $result, $key ) {
 		return $this->get_csv_string_column_from_result( $result, $key );
 	}
+
+	public function return_get_csv_array_column_from_result( $result, $key, $index ) {
+		return $this->get_csv_array_column_from_result( $result, $key, $index );
+	}
+
+	public function return_data() {
+		return $this->data;
+	}
 }
 
 class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
+	public function test_add_row() {
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array() );
+
+		$input = array( 'ID' => 1, 'type' => 'post' );
+
+		$class_instance->add_row( $input );
+
+		$this->assertInternalType( 'string', $class_instance->return_data() );
+		$this->assertContains( 'post', $class_instance->return_data() );
+		$this->assertContains( '1', $class_instance->return_data() );
+	}
+
 	/**
 	 * Tests the format_csv_column function with input of various types.
 	 *
@@ -295,5 +315,53 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( "\"0\",\"post\",\"fake title\",\"http://www.example.org/fake_title\",\"bad\",\"bar\",\"good\"", $lines[2] );
 		$this->assertEquals( "\"0\",\"post\",\"fake title\",\"http://www.example.org/fake_title\",\"bad\",\"baz\",\"na\"", $lines[3] );
 		$this->assertEquals( "\"1\",\"post\",\"another title\",\"http://www.example.org/another_title\",\"50\",,", $lines[4] );
+	}
+
+	/**
+	 * Tests with a valid index.
+	 *
+	 * @covers WPSEO_Export_Keywords_CSV::get_csv_array_column_from_result
+	 */
+	public function test_get_csv_array_column_from_result() {
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array() );
+		$column = $class_instance->return_get_csv_array_column_from_result(
+			array(
+				'ID' => 1,
+				'type' => 'post',
+				'url' => array(
+					'http://www.example.org/1',
+					'http://www.example.org/2',
+				)
+			),
+			'url',
+			1
+		);
+
+		$this->assertEquals( ',"http://www.example.org/2"', $column );
+	}
+
+	/**
+	 * Tests with an invalid index.
+	 *
+	 * @covers WPSEO_Export_Keywords_CSV::get_csv_array_column_from_result
+	 */
+	public function test_get_csv_array_column_from_result_invalid_index() {
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array() );
+
+		// The index does not exist.
+		$column = $class_instance->return_get_csv_array_column_from_result(
+			array(
+				'ID' => 1,
+				'type' => 'post',
+				'url' => array(
+					'http://www.example.org/1',
+					'http://www.example.org/2',
+				)
+			),
+			'url',
+			3
+		);
+
+		$this->assertEquals( ',', $column );
 	}
 }
