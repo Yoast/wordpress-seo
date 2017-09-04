@@ -65,7 +65,7 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 	 */
 	public function get_data( $page = 1 ) {
 
-		if ( null === $this->columns ) {
+		if ( empty( $this->columns ) ) {
 			return array();
 		}
 
