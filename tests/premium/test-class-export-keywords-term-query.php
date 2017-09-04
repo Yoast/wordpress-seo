@@ -53,6 +53,7 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the set_columns function with good data.
 	 *
+	 * @covers WPSEO_Export_Keywords_Term_Query::__construct
 	 * @covers WPSEO_Export_Keywords_Term_Query::set_columns
 	 */
 	public function test_set_columns() {
@@ -69,6 +70,7 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the set_columns function with bad data.
 	 *
+	 * @covers WPSEO_Export_Keywords_Term_Query::__construct
 	 * @covers WPSEO_Export_Keywords_Term_Query::set_columns
 	 */
 	public function test_bad_set_columns() {
