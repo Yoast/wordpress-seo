@@ -108,6 +108,20 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the get_data function with no columns.
+	 *
+	 * @covers WPSEO_Export_Keywords_Term_Query::get_data
+	 */
+	public function test_empty_get_data() {
+		$db = new WPSEO_Export_Keywords_Term_Query_Database_Mock();
+
+		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $db, array() );
+		$data = $class_instance->get_data();
+
+		$this->assertEquals( array(), $data );
+	}
+
+	/**
 	 * Tests the get_data function with pagination.
 	 *
 	 * @covers WPSEO_Export_Keywords_Term_Query::get_data

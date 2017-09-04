@@ -198,6 +198,19 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the get_data with no columns
+	 *
+	 * @covers WPSEO_Export_Keywords_Post_Query::get_data
+	 */
+	public function test_get_data_empty() {
+		global $wpdb;
+
+		$class_instance = new WPSEO_Export_Keywords_Post_Query( $wpdb, array() );
+
+		$this->assertEquals( array(), $class_instance->get_data() );
+	}
+
+	/**
 	 * Tests the get_data with private input.
 	 *
 	 * @covers WPSEO_Export_Keywords_Post_Query::__construct
