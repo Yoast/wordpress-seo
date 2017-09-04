@@ -70,12 +70,11 @@ class WPSEO_Export_Keywords_Term_Presenter_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_Term_Presenter_Double( array( 'title' ) );
 
 		$fake_result = array(
-			'ID'         => $category,
-			'title' => 'test',
-			'taxonomy'   => 'category',
+			'ID'       => $category,
+			'title'    => 'test',
+			'taxonomy' => 'category',
 		);
-		$keywords = $class_instance->return_get_result_keywords( $fake_result );
-
+		$keywords    = $class_instance->return_get_result_keywords( $fake_result );
 
 		$this->assertCount( 1, $keywords );
 		$this->assertContains( 'keyword', $keywords );
@@ -99,10 +98,10 @@ class WPSEO_Export_Keywords_Term_Presenter_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = new WPSEO_Export_Keywords_Term_Presenter_Double( array( 'title' ) );
 
-		$fake_result = array(
-			'ID'         => $category,
-			'title' => 'test',
-			'taxonomy'   => 'category',
+		$fake_result    = array(
+			'ID'       => $category,
+			'title'    => 'test',
+			'taxonomy' => 'category',
 		);
 		$keywords_score = $class_instance->return_get_result_keywords_score( $fake_result );
 
@@ -140,7 +139,7 @@ class WPSEO_Export_Keywords_Term_Presenter_Test extends WPSEO_UnitTestCase {
 			'name'     => 'test',
 			'taxonomy' => 'category',
 		);
-		$presented = $class_instance->present( $fake_result );
+		$presented   = $class_instance->present( $fake_result );
 
 		$this->assertEquals( 'test', $presented['title'] );
 		$this->assertEquals( 'http://example.org/?cat=' . $category, $presented['url'] );
