@@ -1,5 +1,4 @@
-import RSSParser from 'rss-parser';
-import Promise from 'promise';
+import RSSParser from "rss-parser";
 
 /**
  * @typedef  {Object}   Feed
@@ -22,11 +21,11 @@ import Promise from 'promise';
  * @param {string} url      The URL the feed is located at.
  * @param {int}    maxItems The amount of entries you wish returned.
  *
- * @returns {Promise.<Feed>}
+ * @returns {Promise.<Feed>} The retrieved feed.
  */
 export function getFeed( url, maxItems ) {
-	return new Promise( function ( resolve, reject ) {
-		RSSParser.parseURL( url, function ( err, parsed ) {
+	return new Promise( function( resolve, reject ) {
+		RSSParser.parseURL( url, function( err, parsed ) {
 			if ( err ) {
 				reject( err );
 			}
