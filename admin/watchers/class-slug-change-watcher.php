@@ -77,6 +77,8 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	/**
 	 * Adds a notification to be shown on the next page request since posts are updated in an ajax request.
 	 *
+	 * @param string $post_type_label The singular_name label from a post_type_object.
+	 *
 	 * @return void
 	 */
 	protected function add_notification( $post_type_label ) {
