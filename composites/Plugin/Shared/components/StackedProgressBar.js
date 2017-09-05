@@ -35,8 +35,7 @@ const StackedProgressBar = ( props ) => {
 		totalValue += props.items[ i ].value;
 	}
 	return(
-		<StackedProgressBarContainer
-			aria-hidden="true" >
+		<StackedProgressBarContainer>
 			{ props.items.map( ( item, index ) =>
 				<StackedProgressBarProgress
 					key={ index }

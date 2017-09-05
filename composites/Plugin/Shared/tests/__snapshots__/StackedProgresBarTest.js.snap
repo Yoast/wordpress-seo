@@ -2,7 +2,6 @@
 
 exports[`the BaseButton matches the snapshot 1`] = `
 <div
-  aria-hidden="true"
   className="sc-bdVaJa edlbmG"
   height="40px"
 >
