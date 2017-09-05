@@ -7,7 +7,7 @@
 class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
 	 *
 	 * @return void
 	 */
@@ -23,7 +23,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Detect if the slug changed, hooked into 'post_updated'
+	 * Detects if the slug changed, hooked into 'post_updated'.
 	 *
 	 * @param integer $post_id     The ID of the post. Unused.
 	 * @param WP_Post $post        The post with the new values.
@@ -47,11 +47,18 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$this->add_notification();
+		$post_type_object = get_post_type_object( $post->post_type );
+
+		// If the post type of this post wasn't registered default back to post.
+		if ( $post_type_object === null ) {
+			$post_type_object = get_post_type_object( 'post' );
+		}
+
+		$this->add_notification( $post_type_object->labels->singular_name );
 	}
 
 	/**
-	 * Checks whether the given post status is visible or not
+	 * Checks whether the given post status is visible or not.
 	 *
 	 * @param string $post_status The post status to check.
 	 *
@@ -72,15 +79,16 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	protected function add_notification() {
+	protected function add_notification( $post_type_label ) {
 		$notification = new Yoast_Notification(
 			sprintf(
-			/* translators: %1$s expands to the anchor opening tag, %2$s to the anchor closing tag. */
+				/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
 				__(
-					'You just changed the URL of a post. To ensure your visitors do not see a 404, you should create a redirect. %1$sLearn how to create redirects here.%2$s',
+					'You just changed the URL of this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect. %2$sLearn how to create redirects here.%3$s',
 					'wordpress-seo'
 				),
-				'<a href="https://yoa.st/1d0">',
+				$post_type_label,
+				'<a href="https://yoa.st/1d0" target="_blank">',
 				'</a>'
 			), array( 'type' => 'notice-info' )
 		);
