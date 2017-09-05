@@ -1,4 +1,4 @@
-require('../node_modules/rss-parser/dist/rss-parser.js');
+import RSSParser from 'rss-parser';
 import Promise from 'promise';
 
 /**
