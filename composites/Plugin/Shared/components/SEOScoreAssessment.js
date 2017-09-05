@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import colors from "../../../../style-guide/colors.json";
 
 const SEOScoreAssessmentItem = styled.li`
 	display:   table-row;
@@ -33,24 +32,22 @@ const SEOScoreAssessmentScore = styled( SEOScoreAssessmentPart )`
 `;
 
 const SEOScoreAssessment = ( props ) => {
-	let html = props.html;
-	console.log( html );
 	return (
 		<SEOScoreAssessmentItem>
 			<SEOScoreAssessmentPart>
 				<SEOScoreAssessmentBullet color={ props.color }/>
-				<span dangerouslySetInnerHTML={{ __html: html }}></span>
+				<span dangerouslySetInnerHTML={{ __html: props.html }}></span>
 			</SEOScoreAssessmentPart>
 			{ props.score &&
 				<SEOScoreAssessmentScore>{props.score}</SEOScoreAssessmentScore>
 			}
 		</SEOScoreAssessmentItem>
-	)
+	);
 };
 
 SEOScoreAssessment.propTypes = {
 	color: PropTypes.string.isRequired,
-	html:  PropTypes.string.isRequired,
+	html: PropTypes.string.isRequired,
 	score: PropTypes.string,
 };
 

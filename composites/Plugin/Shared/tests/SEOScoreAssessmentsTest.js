@@ -6,15 +6,15 @@ import SEOScoreAssessments from "../components/SEOScoreAssessments";
 test( "the SEOScoreAssessments matches the snapshot", () => {
 	const items = [
 		{
-			color: '#F00',
-			score: '20',
-			html: '<a href="http://google.com">Posts with a <strong>bad</strong> SEO score</a>:'
+			color: "#F00",
+			score: "20",
+			html: "<a href=\"http://google.com\">Posts with a <strong>bad</strong> SEO score</a>:",
 		},
 		{
-			color: '#0F0',
-			score: '50',
-			html: '<a href="http://google.com">Posts with an <strong>OK</strong> SEO score</a>:'
-		}
+			color: "#0F0",
+			score: "50",
+			html: "<a href=\"http://google.com\">Posts with an <strong>OK</strong> SEO score</a>:",
+		},
 	];
 
 	const component = renderer.create(
@@ -28,13 +28,13 @@ test( "the SEOScoreAssessments matches the snapshot", () => {
 test( "the SEOScoreAssessments without scores matches the snapshot", () => {
 	const items = [
 		{
-			color: '#F00',
-			html: '<a href="http://google.com">Posts with a <strong>bad</strong> SEO score</a>:'
+			color: "#F00",
+			html: "<a href=\"http://google.com\">Posts with a <strong>bad</strong> SEO score</a>:",
 		},
 		{
-			color: '#0F0',
-			html: '<a href="http://google.com">Posts with an <strong>OK</strong> SEO score</a>:'
-		}
+			color: "#0F0",
+			html: "<a href=\"http://google.com\">Posts with an <strong>OK</strong> SEO score</a>:",
+		},
 	];
 
 	const component = renderer.create(
@@ -48,14 +48,14 @@ test( "the SEOScoreAssessments without scores matches the snapshot", () => {
 test( "the SEOScoreAssessments with some scores matches the snapshot", () => {
 	const items = [
 		{
-			color: '#F00',
-			score: '20',
-			html: '<a href="http://google.com">Posts with a <strong>bad</strong> SEO score</a>:'
+			color: "#F00",
+			score: "20",
+			html: "<a href=\"http://google.com\">Posts with a <strong>bad</strong> SEO score</a>:",
 		},
 		{
-			color: '#0F0',
-			html: '<a href="http://google.com">Posts with an <strong>OK</strong> SEO score</a>:'
-		}
+			color: "#0F0",
+			html: "<a href=\"http://google.com\">Posts with an <strong>OK</strong> SEO score</a>:",
+		},
 	];
 
 	const component = renderer.create(

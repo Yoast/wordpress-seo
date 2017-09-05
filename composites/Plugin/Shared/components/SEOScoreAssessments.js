@@ -26,10 +26,10 @@ SEOScoreAssessments.propTypes = {
 	items: PropTypes.arrayOf(
 		PropTypes.shape( {
 			color: PropTypes.string.isRequired,
-			html:  PropTypes.string.isRequired,
+			html: PropTypes.string.isRequired,
 			score: PropTypes.string,
 		} )
-	)
+	),
 };
 
 export default SEOScoreAssessments;
