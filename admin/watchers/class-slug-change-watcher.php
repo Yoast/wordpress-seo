@@ -13,7 +13,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 
-		// When plugin is premium, just do nothing.
+		// If the current plugin is Yoast SEO Premium, stop registering.
 		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
 			return;
 		}
@@ -32,7 +32,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
-		// If post is a revision do not create redirect.
+		// If post is a revision do not advise creating a redirect.
 		if ( wp_is_post_revision( $post_before ) && wp_is_post_revision( $post ) ) {
 			return;
 		}
@@ -42,7 +42,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		// If the post URL wasn't visible before, or isn't visible now, don't even check if we have to redirect.
+		// If the post URL wasn't visible before, or isn't visible now, don't advise creating a redirect.
 		if ( ! $this->check_visible_post_status( get_post_status( $post_before->ID ) ) || ! $this->check_visible_post_status( get_post_status( $post->ID ) ) ) {
 			return;
 		}
