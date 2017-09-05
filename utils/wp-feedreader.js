@@ -27,12 +27,12 @@ export function getFeed( url, maxItems ) {
 	return new Promise( function( resolve, reject ) {
 		RSSParser.parseURL( url, function( err, parsed ) {
 			if ( err ) {
-				reject( err );
+				return reject( err );
 			}
 
 			parsed.feed.entries = parsed.feed.entries.slice( 0, maxItems );
 
-			resolve( parsed.feed );
+			return resolve( parsed.feed );
 		} );
 	} );
 }
