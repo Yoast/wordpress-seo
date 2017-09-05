@@ -51,13 +51,14 @@ body {
 		&--page-title {
 			color: $color_pink_dark;
 			margin: 0 0 -16px;
-			font-size: 1.2em;
+			font-size: 1.25em;
 			letter-spacing: 0.03em;
-			line-height: 2.6rem;
-			font-weight: 100;
+			line-height: 2.5;
+			font-weight: normal;
+			padding: 0 8px;
 
 			@media screen and (max-width: 768px) {
-				font-size: 1.4em;
+				font-size: 1.5em;
 				line-height: 1.25;
 			}
 		}
