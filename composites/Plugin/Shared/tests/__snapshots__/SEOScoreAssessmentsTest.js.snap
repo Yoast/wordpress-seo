@@ -1,0 +1,151 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the SEOScoreAssessments matches the snapshot 1`] = `
+<ul
+  className="sc-ifAKCX kLAUFz"
+>
+  <li
+    className="sc-bdVaJa NwjxL"
+  >
+    <span
+      className="sc-bwzfXH hDUHkw"
+    >
+      <span
+        className="sc-htpNat dcpFRW"
+        color="#F00"
+      />
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+          }
+        }
+      />
+    </span>
+    <span
+      className="sc-bxivhb bIsIdK sc-bwzfXH hDUHkw"
+    >
+      20
+    </span>
+  </li>
+  <li
+    className="sc-bdVaJa NwjxL"
+  >
+    <span
+      className="sc-bwzfXH hDUHkw"
+    >
+      <span
+        className="sc-htpNat BIXFl"
+        color="#0F0"
+      />
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+          }
+        }
+      />
+    </span>
+    <span
+      className="sc-bxivhb bIsIdK sc-bwzfXH hDUHkw"
+    >
+      50
+    </span>
+  </li>
+</ul>
+`;
+
+exports[`the SEOScoreAssessments with some scores matches the snapshot 1`] = `
+<ul
+  className="sc-ifAKCX kLAUFz"
+>
+  <li
+    className="sc-bdVaJa NwjxL"
+  >
+    <span
+      className="sc-bwzfXH hDUHkw"
+    >
+      <span
+        className="sc-htpNat dcpFRW"
+        color="#F00"
+      />
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+          }
+        }
+      />
+    </span>
+    <span
+      className="sc-bxivhb bIsIdK sc-bwzfXH hDUHkw"
+    >
+      20
+    </span>
+  </li>
+  <li
+    className="sc-bdVaJa NwjxL"
+  >
+    <span
+      className="sc-bwzfXH hDUHkw"
+    >
+      <span
+        className="sc-htpNat BIXFl"
+        color="#0F0"
+      />
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+          }
+        }
+      />
+    </span>
+  </li>
+</ul>
+`;
+
+exports[`the SEOScoreAssessments without scores matches the snapshot 1`] = `
+<ul
+  className="sc-ifAKCX kLAUFz"
+>
+  <li
+    className="sc-bdVaJa NwjxL"
+  >
+    <span
+      className="sc-bwzfXH hDUHkw"
+    >
+      <span
+        className="sc-htpNat dcpFRW"
+        color="#F00"
+      />
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+          }
+        }
+      />
+    </span>
+  </li>
+  <li
+    className="sc-bdVaJa NwjxL"
+  >
+    <span
+      className="sc-bwzfXH hDUHkw"
+    >
+      <span
+        className="sc-htpNat BIXFl"
+        color="#0F0"
+      />
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+          }
+        }
+      />
+    </span>
+  </li>
+</ul>
+`;
