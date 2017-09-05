@@ -1,6 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * The Yoast SEO icon.
+ *
+ * @param {object} props The props object.
+ *
+ * @returns {ReactElement} The renderer svg icon.
+ */
 const YoastSeoIcon = ( props ) => {
 	/* eslint-disable max-len */
 	return (

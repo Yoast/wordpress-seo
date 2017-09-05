@@ -48,7 +48,7 @@ body {
 	&--header {
 		text-align: center;
 
-		h1 {
+		&--page-title {
 			color: $color_pink_dark;
 			margin: 0 0 -16px;
 			font-size: 1.2em;
