@@ -12,7 +12,7 @@ const Header = () => {
 		<div
 			role="banner"
 			className="yoast-wizard--header">
-			<YoastSeoIcon height={56} width={56}/>
+			<YoastSeoIcon height={ 56 } width={ 56 }/>
 			<div className="yoast-wizard--header--page-title">Yoast SEO for WordPress installation wizard</div>
 		</div>
 	);
