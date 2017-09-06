@@ -165,16 +165,8 @@ function _wpseo_activate() {
 		$wpseo_rewrite->schedule_flush();
 	}
 
-	// Registers the capabilities.
-	$register_capabilities = new WPSEO_Register_Capabilities();
-	$register_capabilities->register_hooks();
-
 	do_action( 'wpseo_register_capabilities' );
 	WPSEO_Capability_Manager_Factory::get()->add();
-
-	// Registers the roles.
-	$register_capabilities = new WPSEO_Register_Roles();
-	$register_capabilities->register_hooks();
 
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();
@@ -406,6 +398,13 @@ add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 // Loading Ryte integration.
 new WPSEO_OnPage();
 
+// Registers SEO capabilities.
+$register_capabilities = new WPSEO_Register_Capabilities();
+$register_capabilities->register_hooks();
+
+// Registers SEO roles.
+$register_capabilities = new WPSEO_Register_Roles();
+$register_capabilities->register_hooks();
 
 /**
  * Wraps for notifications center class.
