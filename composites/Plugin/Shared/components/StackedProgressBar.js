@@ -23,11 +23,12 @@ StackedProgressBarProgress.propTypes = {
 const StackedProgressBar = ( props ) => {
 	let totalValue = 0;
 	for ( let i = 0; i < props.items.length; i++ ) {
+		props.items[ i ].value = Math.max( props.items[ i ].value, 0 );
 		totalValue += props.items[ i ].value;
 	}
 	return(
 		<StackedProgressBarContainer barHeight={ props.barHeight }>
-			{ props.items.map( ( item, index ) =>
+			{ totalValue > 0 && props.items.map( ( item, index ) =>
 				<StackedProgressBarProgress
 					key={ index }
 					progressColor={ item.color }
