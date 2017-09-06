@@ -8,6 +8,14 @@ import colors from "../../../../style-guide/colors.json";
 import { Icon } from "./Icon";
 import { rgba } from "../../../../style-guide/helpers";
 
+const settings = {
+	minHeight: 32,
+	verticalPadding: 4,
+	borderWidth: 1,
+};
+
+const ieMinHeight = settings.minHeight - ( settings.verticalPadding * 2 ) - ( settings.borderWidth * 2 );
+
 /**
  * Returns a component with applied base button styles.
  *
@@ -17,9 +25,13 @@ import { rgba } from "../../../../style-guide/helpers";
  */
 export function addBaseStyle( component ) {
 	return styled( component )`
+		display: inline-flex;
+		align-items: center;
 		vertical-align: middle;
+		border-width: ${ `${ settings.borderWidth }px` };
+		border-style: solid;
 		margin: 0;
-		padding: 4px 10px;
+		padding: ${ `${ settings.verticalPadding }px` } 10px;
 		border-radius: 3px;
 		cursor: pointer;
 		box-sizing: border-box;
@@ -27,8 +39,21 @@ export function addBaseStyle( component ) {
 		font-family: inherit;
 		font-weight: inherit;
 		text-align: left;
-		height: 32px;
 		overflow: visible;
+		min-height: ${ `${ settings.minHeight }px` };
+
+		svg {
+			// Safari 10
+			align-self: center;
+		}
+
+		@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+			// IE 10+
+			::after {
+				content: "";
+				min-height: ${ `${ ieMinHeight }px` };
+			}
+		}
 	`;
 }
 
@@ -120,7 +145,7 @@ export const addButtonStyles = _flow( [ addBaseStyle, addFocusStyle, addHoverSty
 export const BaseButton = addButtonStyles(
 	styled.button`
 		color: ${ props => props.textColor };
-		border: 1px solid ${ props => props.borderColor };
+		border-color: ${ props => props.borderColor };
 		background: ${ props => props.backgroundColor };
 		box-shadow: 0 1px 0 ${ props => rgba( props.boxShadowColor, 1 ) };
 	`
@@ -149,18 +174,6 @@ BaseButton.defaultProps = {
  * @returns {ReactElement} Styled button.
  */
 export const Button = addFontSizeStyles( BaseButton );
-
-/**
- * Returns a button with inline flex styles.
- *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} Styled component.
- */
-export const InlineFlexButton = styled( Button )`
-	display: inline-flex;
-	align-items: center;
-`;
 
 /**
  * Applies styles to icon for IconButton with text.
@@ -194,10 +207,10 @@ export const IconButton = ( props ) => {
 	const newProps = _omit( props, "icon" );
 
 	return (
-		<InlineFlexButton { ...newProps } >
+		<Button { ...newProps }>
 			<IconComponent icon={ icon } color={ iconColor } />
 			{ text }
-		</InlineFlexButton>
+		</Button>
 	);
 };
 

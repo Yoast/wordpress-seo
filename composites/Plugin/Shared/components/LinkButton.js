@@ -14,11 +14,9 @@ import { addButtonStyles, addFontSizeStyles } from "./Button";
  */
 export const BaseLinkButton = addButtonStyles(
 	styled.a`
-		display: inline-flex;
-		align-items: center;
 		text-decoration: none;
 		color: ${ props => props.textColor };
-		border: 1px solid ${ props => props.borderColor };
+		border-color: ${ props => props.borderColor };
 		background: ${ props => props.backgroundColor };
 		box-shadow: 0 1px 0 ${ props => rgba( props.boxShadowColor, 1 ) };
 	`

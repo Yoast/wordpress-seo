@@ -2,7 +2,7 @@
 
 exports[`BaseButton executes callback 1`] = `
 <button
-  className="sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fALjbt sc-bdVaJa bXkERd"
+  className="sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH hVByhd sc-bdVaJa dHgGrL"
   onClick={[Function]}
   type="button"
 >
@@ -12,7 +12,7 @@ exports[`BaseButton executes callback 1`] = `
 
 exports[`BaseButton executes callback 2`] = `
 <button
-  className="sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fALjbt sc-bdVaJa bXkERd"
+  className="sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH hVByhd sc-bdVaJa dHgGrL"
   onClick={[Function]}
   type="button"
 >
@@ -22,7 +22,7 @@ exports[`BaseButton executes callback 2`] = `
 
 exports[`SnippetPreviewButton executes callback 1`] = `
 <button
-  className="sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fALjbt sc-bdVaJa bXkERd"
+  className="sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH hVByhd sc-bdVaJa dHgGrL"
   onClick={[Function]}
   type="button"
 >
@@ -32,7 +32,7 @@ exports[`SnippetPreviewButton executes callback 1`] = `
 
 exports[`SnippetPreviewButton executes callback 2`] = `
 <button
-  className="sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fALjbt sc-bdVaJa bXkERd"
+  className="sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH hVByhd sc-bdVaJa dHgGrL"
   onClick={[Function]}
   type="button"
 >
@@ -42,7 +42,7 @@ exports[`SnippetPreviewButton executes callback 2`] = `
 
 exports[`the BaseButton matches the snapshot 1`] = `
 <button
-  className="sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fALjbt sc-bdVaJa bXkERd"
+  className="sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH hVByhd sc-bdVaJa dHgGrL"
   type="button"
 >
   ButtonValue
@@ -51,24 +51,24 @@ exports[`the BaseButton matches the snapshot 1`] = `
 
 exports[`the IconButton matches the snapshot 1`] = `
 <button
-  className="sc-bZQynM hjxBKu sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fALjbt sc-bdVaJa bXkERd"
+  className="sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH hVByhd sc-bdVaJa dHgGrL"
   type="button"
 >
   <svg
     aria-hidden="true"
-    className="sc-gzVnrw gRPBNm"
+    className="sc-bZQynM gdBXij"
   />
 </button>
 `;
 
 exports[`the IconButton with text matches the snapshot 1`] = `
 <button
-  className="sc-bZQynM hjxBKu sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fALjbt sc-bdVaJa bXkERd"
+  className="sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH hVByhd sc-bdVaJa dHgGrL"
   type="button"
 >
   <svg
     aria-hidden="true"
-    className="sc-htoDjs kcKEfw sc-dnqmqq IcJuo"
+    className="sc-gzVnrw kYMwGB sc-htoDjs gKJpvu"
   />
   Click
 </button>
@@ -76,7 +76,7 @@ exports[`the IconButton with text matches the snapshot 1`] = `
 
 exports[`the SnippetPreviewButton matches the snapshot 1`] = `
 <button
-  className="sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fALjbt sc-bdVaJa bXkERd"
+  className="sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH hVByhd sc-bdVaJa dHgGrL"
   type="button"
 >
   ButtonValue
