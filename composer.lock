@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4a0be1acccb491247e904e4fb3352d24",
-    "content-hash": "8e10ff96df8b94a1ad50f24752e32101",
+    "content-hash": "4bd677878629f98e0f720bd67116ff81",
     "packages": [
         {
             "name": "composer/installers",
@@ -119,7 +118,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2017-04-24 06:37:16"
+            "time": "2017-04-24T06:37:16+00:00"
         },
         {
             "name": "xrstf/composer-php52",
@@ -150,7 +149,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2016-04-16 21:52:24"
+            "time": "2016-04-16T21:52:24+00:00"
         },
         {
             "name": "yoast/api-libs",
@@ -188,20 +187,20 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-07-14 10:25:59"
+            "time": "2015-07-14T10:25:59+00:00"
         },
         {
             "name": "yoast/i18n-module",
-            "version": "3.0.0-RC1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "c46cc543085c8937d93c6a10f766d3437533396d"
+                "reference": "76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/c46cc543085c8937d93c6a10f766d3437533396d",
-                "reference": "c46cc543085c8937d93c6a10f766d3437533396d",
+                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c",
+                "reference": "76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c",
                 "shasum": ""
             },
             "type": "library",
@@ -226,7 +225,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-08-31 13:38:31"
+            "time": "2017-09-06T07:17:52+00:00"
         },
         {
             "name": "yoast/license-manager",
@@ -271,7 +270,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-08-22 07:59:16"
+            "time": "2017-08-22T07:59:16+00:00"
         },
         {
             "name": "yoast/whip",
@@ -313,7 +312,7 @@
                 }
             ],
             "description": "A WordPress package to nudge users to upgrade their software versions (starting with PHP)",
-            "time": "2017-08-04 10:00:35"
+            "time": "2017-08-04T10:00:35+00:00"
         }
     ],
     "packages-dev": [
@@ -374,7 +373,7 @@
                 "codeclimate",
                 "coverage"
             ],
-            "time": "2017-06-01 13:19:55"
+            "time": "2017-06-01T13:19:55+00:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -470,7 +469,7 @@
                 "web service"
             ],
             "abandoned": "guzzlehttp/guzzle",
-            "time": "2015-03-18 18:23:50"
+            "time": "2015-03-18T18:23:50+00:00"
         },
         {
             "name": "padraic/humbug_get_contents",
@@ -527,7 +526,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2015-04-22 18:45:00"
+            "time": "2015-04-22T18:45:00+00:00"
         },
         {
             "name": "padraic/phar-updater",
@@ -567,7 +566,7 @@
             ],
             "authors": [
                 {
-                    "name": "Padraic Brady",
+                    "name": "Pádraic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
                 }
@@ -579,7 +578,7 @@
                 "self-update",
                 "update"
             ],
-            "time": "2017-07-12 22:42:45"
+            "time": "2017-07-12T22:42:45+00:00"
         },
         {
             "name": "pdepend/pdepend",
@@ -619,7 +618,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Official version of pdepend to be handled with Composer",
-            "time": "2017-01-19 14:23:36"
+            "time": "2017-01-19T14:23:36+00:00"
         },
         {
             "name": "phpmd/phpmd",
@@ -685,7 +684,7 @@
                 "phpmd",
                 "pmd"
             ],
-            "time": "2017-01-20 14:41:10"
+            "time": "2017-01-20T14:41:10+00:00"
         },
         {
             "name": "psr/container",
@@ -734,7 +733,7 @@
                 "container-interop",
                 "psr"
             ],
-            "time": "2017-02-14 16:28:37"
+            "time": "2017-02-14T16:28:37+00:00"
         },
         {
             "name": "psr/log",
@@ -781,7 +780,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10 12:19:37"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "satooshi/php-coveralls",
@@ -839,7 +838,7 @@
                 "github",
                 "test"
             ],
-            "time": "2016-01-20 17:35:46"
+            "time": "2016-01-20T17:35:46+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -917,7 +916,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-03-01 22:17:45"
+            "time": "2017-03-01T22:17:45+00:00"
         },
         {
             "name": "symfony/config",
@@ -979,7 +978,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-19 07:37:29"
+            "time": "2017-07-19T07:37:29+00:00"
         },
         {
             "name": "symfony/console",
@@ -1048,7 +1047,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-29 21:27:59"
+            "time": "2017-07-29T21:27:59+00:00"
         },
         {
             "name": "symfony/debug",
@@ -1104,7 +1103,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-28 15:27:31"
+            "time": "2017-07-28T15:27:31+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -1174,7 +1173,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-28 15:27:31"
+            "time": "2017-07-28T15:27:31+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1234,7 +1233,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-02 07:47:27"
+            "time": "2017-06-02T07:47:27+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -1283,7 +1282,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-11 07:17:58"
+            "time": "2017-07-11T07:17:58+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1342,7 +1341,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-06-09 14:24:12"
+            "time": "2017-06-09T14:24:12+00:00"
         },
         {
             "name": "symfony/stopwatch",
@@ -1391,7 +1390,7 @@
             ],
             "description": "Symfony Stopwatch Component",
             "homepage": "https://symfony.com",
-            "time": "2017-04-12 14:14:56"
+            "time": "2017-04-12T14:14:56+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -1446,7 +1445,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-23 12:43:26"
+            "time": "2017-07-23T12:43:26+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -1482,7 +1481,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2016-08-29 20:04:47"
+            "time": "2016-08-29T20:04:47+00:00"
         },
         {
             "name": "yoast/php-development-environment",
@@ -1520,7 +1519,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2016-06-16 10:12:26"
+            "time": "2016-06-16T10:12:26+00:00"
         },
         {
             "name": "yoast/yoastcs",
@@ -1562,7 +1561,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2017-08-02 07:45:07"
+            "time": "2017-08-02T07:45:07+00:00"
         }
     ],
     "aliases": [],
