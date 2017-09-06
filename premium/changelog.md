@@ -1,4 +1,4 @@
-### 5.4: September 5th, 2017
+### 5.4.0: September 6th, 2017
 * Adds importing of exported redirects in CSV format via `SEO > Tools > import and export > import redirects`.
 
 ### 5.3.3: August 23rd, 2017
