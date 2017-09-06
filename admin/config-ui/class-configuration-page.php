@@ -104,8 +104,7 @@ class WPSEO_Configuration_Page {
 				printf(
 					/* translators: %s expands to Yoast SEO. */
 					__( '%s &rsaquo; Configuration Wizard', 'wordpress-seo' ),
-					'Yoast SEO'
-				);
+					'Yoast SEO' );
 			?></title>
 			<?php
 			wp_print_head_scripts();

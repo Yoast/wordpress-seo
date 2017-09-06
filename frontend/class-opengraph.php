@@ -205,7 +205,7 @@ class WPSEO_OpenGraph {
 
 			return true;
 		}
-		else if ( isset( $this->options['fb_admins'] ) && is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
+		elseif ( isset( $this->options['fb_admins'] ) && is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 			$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
 			/**
 			 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by Yoast SEO
@@ -256,7 +256,7 @@ class WPSEO_OpenGraph {
 				$title = wpseo_replace_vars( $title, $post );
 			}
 		}
-		else if ( is_front_page() ) {
+		elseif ( is_front_page() ) {
 			$title = ( isset( $this->options['og_frontpage_title'] ) && $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : $frontend->title( '' );
 		}
 		elseif ( is_category() || is_tax() || is_tag() ) {
@@ -806,10 +806,8 @@ class WPSEO_OpenGraph_Image {
 	public function __construct( $options, $image = false ) {
 		$this->options = $options;
 
-		if ( ! empty( $image ) && $this->add_image( $image ) ) {
-			// Safely assume an image was added so we don't need to automatically determine it anymore.
-		}
-		else {
+		// If an image was not supplied or could not be added.
+		if ( empty( $image ) || ! $this->add_image( $image ) ) {
 			$this->set_images();
 		}
 	}
