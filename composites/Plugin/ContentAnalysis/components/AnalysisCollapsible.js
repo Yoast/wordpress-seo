@@ -10,7 +10,7 @@ import { Icon } from "../../Shared/components/Icon";
  * Container for the Collapsible header and its content.
  */
 const AnalysisHeaderContainer = styled.div`
-	margin-top: 20px;
+	margin: 8px 0;
 	background-color: ${ colors.$color_white };
 `;
 
@@ -56,15 +56,25 @@ const AnalysisHeaderIcon = styled( Icon )`
 /**
  * The analysis header text.
  */
-const AnalysisTitle = styled.span`
-	word-wrap: break-word
-	font-weight: 400;
+const AnalysisTitle = styled.h3`
+	margin: 8px 0;
+	word-wrap: break-word;
+	font-weight: normal;
 	flex: 1 1 auto;
 	font-size: 1.2em;
 	// Chrome needs 8 decimals to make this 32px without roundings.
 	line-height: 1.33333333;
 	// Looks like Safari 10 doesn't like align-items: center for SVGs and needs some help.
 	align-self: center;
+`;
+
+/**
+ * Analysis items list
+ */
+const AnalysisList = styled.ul`
+	margin: 0;
+	list-style: none;
+	padding: 0 16px;
 `;
 
 /**
@@ -76,15 +86,13 @@ const AnalysisTitle = styled.span`
 export const AnalysisCollapsibleStateless = ( props ) => {
 	return (
 		<AnalysisHeaderContainer>
-			<h3>
-				<AnalysisHeaderButton aria-expanded={ props.isOpen } onClick={ props.onToggle }>
-					<AnalysisHeaderIcon icon={ props.isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
-					<AnalysisTitle> { props.title + " (" + props.children.length + ")" } </AnalysisTitle>
-				</AnalysisHeaderButton>
-			</h3>
-			<ul>
+			<AnalysisHeaderButton aria-expanded={ props.isOpen } onClick={ props.onToggle }>
+				<AnalysisHeaderIcon icon={ props.isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
+				<AnalysisTitle> { props.title + " (" + props.children.length + ")" } </AnalysisTitle>
+			</AnalysisHeaderButton>
+			<AnalysisList>
 				{ props.isOpen ? props.children : null }
-			</ul>
+			</AnalysisList>
 		</AnalysisHeaderContainer>
 	);
 };
