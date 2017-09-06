@@ -137,7 +137,6 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 	}
 }
 
-
 /**
  * Runs on activation of the plugin.
  */
@@ -166,7 +165,19 @@ function _wpseo_activate() {
 		$wpseo_rewrite->schedule_flush();
 	}
 
-	wpseo_add_capabilities();
+	// Registers the capabilities.
+	$register_capabilities = new WPSEO_Register_Capabilities();
+	$register_capabilities->register_hooks();
+
+	do_action( 'wpseo_register_capabilities' );
+	WPSEO_Capability_Manager_Factory::get()->add();
+
+	// Registers the roles.
+	$register_capabilities = new WPSEO_Register_Roles();
+	$register_capabilities->register_hooks();
+
+	do_action( 'wpseo_register_roles' );
+	WPSEO_Role_Manager_Factory::get()->add();
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
@@ -194,7 +205,9 @@ function _wpseo_deactivate() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
-	wpseo_remove_capabilities();
+	// Clean up capabilities.
+	WPSEO_Capability_Manager_Factory::get()->remove();
+	WPSEO_Role_Manager_Factory::get()->remove();
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
