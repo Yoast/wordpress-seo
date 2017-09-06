@@ -147,6 +147,16 @@ module.exports = function() {
 			interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, pronominalAdverbs,
 			recipeWords, timeWords, vagueNouns ),
 
+		// These categories are used in the passive voice assessment. If they directly precede a participle, the sentence part is not passive.
+		cannotDirectlyPrecedePassiveParticiple: [].concat( articles, prepositions, demonstrativePronouns, possessivePronouns, ordinalNumerals,
+		continuousVerbs, quantifiers ),
+
+		/*
+		These categories are used in the passive voice assessment. If they appear between an auxiliary and a participle,
+		the sentence part is not passive.
+		*/
+		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
+
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,

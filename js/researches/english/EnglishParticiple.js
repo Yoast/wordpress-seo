@@ -2,17 +2,15 @@ var Participle = require( "../../values/Participle.js" );
 
 var nonVerbsEndingEd = require( "./passivevoice/non-verb-ending-ed.js" )();
 var getWordIndices = require( "./passivevoice/getIndicesWithRegex.js" );
-var determinerList = require( "./passivevoice/determiners.js" )();
-var havingList = require( "./passivevoice/having.js" )();
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
+var cannotDirectlyPrecedePassiveParticiple = require( "./functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 
 var forEach = require( "lodash/forEach" );
 var includes = require( "lodash/includes" );
 var isEmpty = require( "lodash/isEmpty" );
 var intersection = require( "lodash/intersection" );
 
-var determinersRegex = arrayToRegex( determinerList );
-var havingRegex = arrayToRegex( havingList );
+var directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticiple );
 var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
 
 /**
@@ -30,30 +28,12 @@ var includesIndex = function( precedingWords, participleIndex ) {
 
 	var precedingWordsEndIndices = [];
 	forEach( precedingWords, function( precedingWord ) {
-		var precedingWordsEndIndex = precedingWord.index + precedingWord.match.length;
+		// + 1 because the end word boundary is not included in the match.
+		var precedingWordsEndIndex = precedingWord.index + precedingWord.match.length + 1;
 		precedingWordsEndIndices.push( precedingWordsEndIndex );
 	} );
 
 	return includes( precedingWordsEndIndices, participleIndex );
-};
-
-/**
- * Looks for a specific participle and checks if it is directly preceded by a determiner.
- * If the participle is directly preceded by a determiner it is not a verb, and therefor the sentence part is not passive.
- *
- * @param {string} participle The participle.
- * @param {string} word The word to check whether it is preceded by a determiner.
- * @param {string} sentencePart The sentence part to find the participle and word index in.
- *
- * @returns {boolean} Returns true if the participle is preceded by a determiner, otherwise returns false.
- */
-var isPrecededByDeterminer = function( participle, word, sentencePart ) {
-	if ( participle !== word ) {
-		return false;
-	}
-	var indexOfFit = sentencePart.indexOf( word );
-	var determinerMatches = getWordIndices( sentencePart, determinersRegex );
-	return includesIndex( determinerMatches, indexOfFit );
 };
 
 /**
@@ -95,9 +75,7 @@ EnglishParticiple.prototype.checkException = function() {
 EnglishParticiple.prototype.isPassive = function() {
 	return 	! this.isNonVerbEndingEd() &&
 				! this.hasRidException() &&
-				! this.hasHavingException() &&
-				! this.hasLeftException() &&
-				! this.hasFitException();
+				! this.directPrecedenceException();
 };
 
 /**
@@ -130,36 +108,17 @@ EnglishParticiple.prototype.hasRidException = function() {
 };
 
 /**
- * Checks whether the participle is directly preceded by 'having'.
+ * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
  * If this is the case, the sentence part is not passive.
  *
- * @returns {boolean} Returns true if having is directly preceding the participle, otherwise returns false.
+ * @returns {boolean} Returns true if a word from the direct precedence exception list is directly preceding
+ * the participle, otherwise returns false.
  */
-EnglishParticiple.prototype.hasHavingException = function() {
+EnglishParticiple.prototype.directPrecedenceException = function() {
 	var sentencePart = this.getSentencePart();
-	var wordIndex = sentencePart.indexOf( this.getParticiple() );
-	var havingMatch = getWordIndices( sentencePart, havingRegex );
-	return includesIndex( havingMatch, wordIndex );
-};
-
-/**
- * Checks whether the participle is 'left', and, if so, if it is directly preceded by a determiner.
- * If 'left' is directly preceded by a determiner it is not a verb, hence the sentence part is not passive.
- *
- * @returns {boolean} Returns true if 'left' is found preceded by a determiner, otherwise returns false.
- */
-EnglishParticiple.prototype.hasLeftException = function() {
-	return isPrecededByDeterminer( this.getParticiple(), "left", this.getSentencePart() );
-};
-
-/**
- * Checks whether the participle is 'fit', and, if so, if it is directly preceded by a determiner.
- * If 'fit' is directly preceded by a determiner it is not a verb, hence the sentence part is not passive.
- *
- * @returns {boolean} Returns true if 'fit' is found preceded by a determiner, otherwise returns false.
- */
-EnglishParticiple.prototype.hasFitException = function() {
-	return isPrecededByDeterminer( this.getParticiple(), "fit", this.getSentencePart() );
+	var participleIndex = sentencePart.indexOf( this.getParticiple() );
+	var exceptionMatch = getWordIndices( sentencePart, directPrecedenceExceptionRegex );
+	return includesIndex( exceptionMatch, participleIndex );
 };
 
 module.exports = EnglishParticiple;
