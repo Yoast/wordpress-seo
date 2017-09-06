@@ -205,6 +205,10 @@ function _wpseo_deactivate() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
+	// Register capabilities and roles, to make sure they are cleaned up.
+	do_action( 'wpseo_register_capabilities' );
+	do_action( 'wpseo_register_roles' );
+
 	// Clean up capabilities.
 	WPSEO_Capability_Manager_Factory::get()->remove();
 	WPSEO_Role_Manager_Factory::get()->remove();
