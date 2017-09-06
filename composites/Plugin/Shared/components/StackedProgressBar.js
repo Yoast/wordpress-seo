@@ -7,16 +7,9 @@ const StackedProgressBarContainer = styled.div`
 	overflow: hidden;
 `;
 
-StackedProgressBarContainer.propTypes = {
-	barHeight: PropTypes.string,
-};
-
-StackedProgressBarContainer.defaultProps = {
-	barHeight: "40px",
-};
-
 const StackedProgressBarProgress = styled.span`
 	display: inline-block;
+	vertical-align: top;
 	width: ${ props => `${ props.progressWidth }%` };
 	background-color: ${ props => props.progressColor };
 	height: 100%;
@@ -51,6 +44,11 @@ StackedProgressBar.propTypes = {
 			color: PropTypes.string.isRequired,
 		} )
 	),
+	barHeight: PropTypes.string,
+};
+
+StackedProgressBar.defaultProps = {
+	barHeight: "40px",
 };
 
 export default StackedProgressBar;
