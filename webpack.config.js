@@ -81,7 +81,4 @@ module.exports = {
 	resolve: {
 		extensions: [ ".json", ".jsx", ".js", ".svg" ],
 	},
-	node: {
-		fs: "empty",
-	}
 };
