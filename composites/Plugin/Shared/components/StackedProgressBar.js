@@ -3,21 +3,19 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const StackedProgressBarContainer = styled.div`
-	box-sizing: border-box;
-	height: ${ props => props.height };
+	height: ${ props => props.barHeight };
 	overflow: hidden;
 `;
 
 StackedProgressBarContainer.propTypes = {
-	height: PropTypes.string,
+	barHeight: PropTypes.string,
 };
 
 StackedProgressBarContainer.defaultProps = {
-	height: "40px",
+	barHeight: "40px",
 };
 
 const StackedProgressBarProgress = styled.span`
-	box-sizing: border-box;
 	display: inline-block;
 	width: ${ props => `${ props.progressWidth }%` };
 	background-color: ${ props => props.progressColor };
@@ -31,11 +29,11 @@ StackedProgressBarProgress.propTypes = {
 
 const StackedProgressBar = ( props ) => {
 	let totalValue = 0;
-	for( let i = 0; i < props.items.length; i++ ) {
+	for ( let i = 0; i < props.items.length; i++ ) {
 		totalValue += props.items[ i ].value;
 	}
 	return(
-		<StackedProgressBarContainer>
+		<StackedProgressBarContainer barHeight={ props.barHeight }>
 			{ props.items.map( ( item, index ) =>
 				<StackedProgressBarProgress
 					key={ index }

@@ -2,20 +2,19 @@
 
 exports[`the BaseButton matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa edlbmG"
-  height="40px"
+  className="sc-bdVaJa lbMxOx"
 >
   <span
-    className="sc-bwzfXH kyakmQ"
+    className="sc-bwzfXH keiNUl"
   />
   <span
-    className="sc-bwzfXH hDTGeX"
+    className="sc-bwzfXH lgSqam"
   />
   <span
-    className="sc-bwzfXH VzrpC"
+    className="sc-bwzfXH jxotSo"
   />
   <span
-    className="sc-bwzfXH guvkqV"
+    className="sc-bwzfXH hFmFfd"
   />
 </div>
 `;
