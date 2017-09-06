@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-08-28 11:57:55+00:00\n"
+"POT-Creation-Date: 2017-09-06 08:06:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -100,43 +100,48 @@ msgid ""
 msgstr ""
 
 #. translators: %s: '.htaccess' file name
-#: classes/class-premium-import-manager.php:62
-#: classes/views/import-redirects.php:15
+#: classes/class-premium-import-manager.php:63
+#: classes/views/import-redirects.php:16
 msgid "Import redirects"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:71
+#: classes/class-premium-import-manager.php:72
 msgid "Redirection"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:72
+#: classes/class-premium-import-manager.php:73
 msgid "Safe Redirect Manager"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:73
+#: classes/class-premium-import-manager.php:74
 msgid "Simple 301 Redirects"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:84
+#: classes/class-premium-import-manager.php:85
 msgid "Redirects have been imported."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:91
+#: classes/class-premium-import-manager.php:92
 msgid "Redirect import failed: Redirection plugin not installed or activated."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:98
+#: classes/class-premium-import-manager.php:99
 msgid "Redirect import failed: No redirects found."
 msgstr ""
 
 #. translators: %s: '.htaccess' file name
-#: classes/class-premium-import-manager.php:106
+#: classes/class-premium-import-manager.php:107
 msgid "%s redirects have been imported."
 msgstr ""
 
 #. translators: %s: '.htaccess' file name
-#: classes/class-premium-import-manager.php:114
+#: classes/class-premium-import-manager.php:115
 msgid "%s import failed: No redirects found."
+msgstr ""
+
+#: classes/class-premium-import-manager.php:122
+msgid ""
+"CSV import failed: The provided file could not be parsed using a CSV parser."
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:21
@@ -772,31 +777,39 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: classes/views/import-redirects.php:8
+#: classes/views/import-redirects.php:9
 msgid "Import from other redirect plugins"
 msgstr ""
 
-#: classes/views/import-redirects.php:12
+#: classes/views/import-redirects.php:13
 msgid "Import from:"
 msgstr ""
 
+#: classes/views/import-redirects.php:23
+msgid "Import from a CSV file"
+msgstr ""
+
+#: classes/views/import-redirects.php:27
+msgid "Import CSV file"
+msgstr ""
+
 #. translators: %s: '.htaccess' file name
-#: classes/views/import-redirects.php:20
+#: classes/views/import-redirects.php:36
 msgid "Import redirects from %s"
 msgstr ""
 
 #. translators: %1$s: '.htaccess' file name, %2$s plugin name
-#: classes/views/import-redirects.php:25
+#: classes/views/import-redirects.php:41
 msgid ""
 "You can copy the contents of any %1$s file in here, and it will import the "
 "redirects into %2$s."
 msgstr ""
 
-#: classes/views/import-redirects.php:30
+#: classes/views/import-redirects.php:46
 msgid "Enter redirects to import"
 msgstr ""
 
-#: classes/views/import-redirects.php:32
+#: classes/views/import-redirects.php:48
 msgid "Import .htaccess"
 msgstr ""
 

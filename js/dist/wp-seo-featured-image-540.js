@@ -119,6 +119,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	$(document).ready(function () {
 		var featuredImage = wp.media.featuredImage.frame();
 
+		if (typeof YoastSEO === "undefined") {
+			return;
+		}
+
 		featuredImagePlugin = new FeaturedImagePlugin(YoastSEO.app);
 
 		$postImageDiv = $("#postimagediv");

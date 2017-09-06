@@ -61,6 +61,6 @@
     "yoast-components": "^2.8.0",
     "yoast-premium-components": "git+ssh://git@github.com/yoast/yoast-premium-components.git#1.3.0",
     "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews#1.4.2",
-    "yoastseo": "https://github.com/Yoast/YoastSEO.js#1.20.0"
+    "yoastseo": "https://github.com/Yoast/YoastSEO.js#1.21.0"
   }
 }

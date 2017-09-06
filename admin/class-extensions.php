@@ -78,6 +78,6 @@ class WPSEO_Extensions {
 	 * @return string Returns the option name.
 	 */
 	protected function get_option_name( $extension ) {
-		return sanitize_title_with_dashes( $this->extensions[ $extension ]['slug']. '_', null, 'save' ) . 'license';
+		return sanitize_title_with_dashes( $this->extensions[ $extension ]['slug'] . '_', null, 'save' ) . 'license';
 	}
 }
