@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
 Tested up to: 4.8.1
-Stable tag: 5.3.3
+Stable tag: 5.4
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -127,7 +127,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 = 5.4.0 =
 
-Release Date: September 5th, 2016
+Release Date: September 6th, 2016
 
 * Enhancements
 	* Added a hook to disabled the twitter card. (Props: @petenelson)

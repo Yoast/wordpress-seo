@@ -1,0 +1,47 @@
+.wpseo-primary-term > label,
+.wpseo-is-primary-term {
+	font-weight: 600;
+}
+
+.wpseo-primary-term > .wpseo-make-primary-term,
+.wpseo-term-unchecked > .wpseo-make-primary-term {
+	display: none;
+}
+
+.wpseo-non-primary-term > .wpseo-is-primary-term,
+.wpseo-term-unchecked > .wpseo-is-primary-term {
+	display: none;
+}
+
+.wpseo-make-primary-term,
+.wpseo-is-primary-term {
+	float: left;
+}
+
+.wpseo-primary-term:before,
+.wpseo-primary-term:after,
+.wpseo-non-primary-term:before,
+.wpseo-non-primary-term:after {
+	display: table;
+	content: "";
+}
+
+.wpseo-primary-term:after,
+.wpseo-non-primary-term:after {
+	clear: both;
+}
+
+/* It is a button, style it like a link */
+.wpseo-make-primary-term {
+	margin: 4px 0 0 0;
+	padding: 0;
+	border: none;
+	color: #0073aa;
+	background: none;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.wpseo-make-primary-term:hover {
+	color: #00a0d2;
+}
