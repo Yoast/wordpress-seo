@@ -1160,11 +1160,28 @@ class WPSEO_Frontend {
 	}
 
 	/**
+	 * Sanitizes keywords and returns either an empty string or sanitized
+	 * keywords.
+	 *
+	 * @param type $keywords
+	 * @return string
+	 */
+	private function sanitize_keywords( $keywords ) {
+		if ( is_string( $keywords ) && $keywords !== '' ) {
+			return esc_attr( strip_tags( stripslashes( $keywords ) ) );
+		}
+
+		return '';
+	}
+
+	/**
 	 * Outputs the meta keywords element.
+	 *
+	 * @param bool $echo Echo or return output flag.
 	 *
 	 * @return void
 	 */
-	public function metakeywords() {
+	public function metakeywords( $echo = true ) {
 		global $wp_query, $post;
 
 		if ( $this->options['usemetakeywords'] === false ) {
@@ -1229,9 +1246,17 @@ class WPSEO_Frontend {
 		 */
 		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // More appropriately named.
 
-		if ( is_string( $keywords ) && $keywords !== '' ) {
-			echo '<meta name="keywords" content="', esc_attr( strip_tags( stripslashes( $keywords ) ) ), '"/>', "\n";
+		$sanitized_keywords = $this->sanitize_keywords( $keywords );
+
+		if ( $echo === false  ) {
+			return $sanitized_keywords;
 		}
+
+		if ( $sanitized_keywords !== '' ) {
+			echo '<meta name="keywords" content="', $sanitized_keywords, '"/>', "\n";
+		}
+
+		echo '';
 	}
 
 	/**
