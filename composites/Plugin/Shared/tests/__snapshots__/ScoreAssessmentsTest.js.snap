@@ -2,13 +2,13 @@
 
 exports[`the ScoreAssessments matches the snapshot 1`] = `
 <ul
-  className="sc-EHOje kBZoEb"
+  className="sc-EHOje kEjhkX"
 >
   <li
-    className="sc-bdVaJa NwjxL"
+    className="sc-bdVaJa fLzWHd"
   >
     <span
-      className="sc-htpNat vKFbs sc-bwzfXH hDUHkw"
+      className="sc-htpNat bgVquZ sc-bwzfXH hDUHkw"
       color="#F00"
     />
     <span
@@ -20,16 +20,16 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
       }
     />
     <span
-      className="sc-ifAKCX bJWxvd sc-bwzfXH hDUHkw"
+      className="sc-ifAKCX bdjqhu sc-bwzfXH hDUHkw"
     >
       20
     </span>
   </li>
   <li
-    className="sc-bdVaJa NwjxL"
+    className="sc-bdVaJa fLzWHd"
   >
     <span
-      className="sc-htpNat jbltM sc-bwzfXH hDUHkw"
+      className="sc-htpNat cxyHjY sc-bwzfXH hDUHkw"
       color="#0F0"
     />
     <span
@@ -41,7 +41,7 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
       }
     />
     <span
-      className="sc-ifAKCX bJWxvd sc-bwzfXH hDUHkw"
+      className="sc-ifAKCX bdjqhu sc-bwzfXH hDUHkw"
     >
       50
     </span>
@@ -51,13 +51,13 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
 
 exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
 <ul
-  className="sc-EHOje kBZoEb"
+  className="sc-EHOje kEjhkX"
 >
   <li
-    className="sc-bdVaJa NwjxL"
+    className="sc-bdVaJa fLzWHd"
   >
     <span
-      className="sc-htpNat vKFbs sc-bwzfXH hDUHkw"
+      className="sc-htpNat bgVquZ sc-bwzfXH hDUHkw"
       color="#F00"
     />
     <span
@@ -69,16 +69,16 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
       }
     />
     <span
-      className="sc-ifAKCX bJWxvd sc-bwzfXH hDUHkw"
+      className="sc-ifAKCX bdjqhu sc-bwzfXH hDUHkw"
     >
       20
     </span>
   </li>
   <li
-    className="sc-bdVaJa NwjxL"
+    className="sc-bdVaJa fLzWHd"
   >
     <span
-      className="sc-htpNat jbltM sc-bwzfXH hDUHkw"
+      className="sc-htpNat cxyHjY sc-bwzfXH hDUHkw"
       color="#0F0"
     />
     <span
@@ -95,13 +95,13 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
 
 exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
 <ul
-  className="sc-EHOje kBZoEb"
+  className="sc-EHOje kEjhkX"
 >
   <li
-    className="sc-bdVaJa NwjxL"
+    className="sc-bdVaJa fLzWHd"
   >
     <span
-      className="sc-htpNat vKFbs sc-bwzfXH hDUHkw"
+      className="sc-htpNat bgVquZ sc-bwzfXH hDUHkw"
       color="#F00"
     />
     <span
@@ -114,10 +114,10 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
     />
   </li>
   <li
-    className="sc-bdVaJa NwjxL"
+    className="sc-bdVaJa fLzWHd"
   >
     <span
-      className="sc-htpNat jbltM sc-bwzfXH hDUHkw"
+      className="sc-htpNat cxyHjY sc-bwzfXH hDUHkw"
       color="#0F0"
     />
     <span

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const ScoreAssessmentItem = styled.li`
-	display:   table-row;
+	display: table-row;
 	font-size: 14px;
 `;
 
@@ -13,13 +13,13 @@ const ScoreAssessmentPart = styled.span`
 `;
 
 const ScoreAssessmentBullet = styled( ScoreAssessmentPart )`
-	position:         relative;
-	top:              1px;
-	display:          inline-block;
-	height:           8px;
-	width:            8px;
-	border-radius:    50%;
-	background-color: ${props => props.color};
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	height: 8px;
+	width: 8px;
+	border-radius: 50%;
+	background-color: ${ props => props.color };
 `;
 
 ScoreAssessmentBullet.propTypes = {
@@ -31,8 +31,8 @@ const ScoreAssessmentText = styled( ScoreAssessmentPart )`
 `;
 
 const ScoreAssessmentScore = styled( ScoreAssessmentPart )`
-	font-weight:  bold;
-	text-align:   right;
+	font-weight: 600;
+	text-align: right;
 	padding-left: 16px;
 `;
 
@@ -40,9 +40,9 @@ const ScoreAssessment = ( props ) => {
 	return (
 		<ScoreAssessmentItem>
 			<ScoreAssessmentBullet color={ props.color }/>
-			<ScoreAssessmentText dangerouslySetInnerHTML={{ __html: props.html }}></ScoreAssessmentText>
+			<ScoreAssessmentText dangerouslySetInnerHTML={ { __html: props.html } }></ScoreAssessmentText>
 			{ props.score &&
-				<ScoreAssessmentScore>{props.score}</ScoreAssessmentScore>
+				<ScoreAssessmentScore>{ props.score }</ScoreAssessmentScore>
 			}
 		</ScoreAssessmentItem>
 	);
@@ -55,12 +55,12 @@ ScoreAssessment.propTypes = {
 };
 
 const ScoreAssessmentList = styled.ul`
-	display:    table;
+	display: table;
 	box-sizing: border-box;
 	list-style: none;
-	max-width:  100%;
-	margin:     0;
-	padding:    5px;
+	max-width: 100%;
+	margin: 0;
+	padding: 5px;
 `;
 
 const ScoreAssessments = ( props ) => {
