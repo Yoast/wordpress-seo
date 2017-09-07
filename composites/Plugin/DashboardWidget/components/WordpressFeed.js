@@ -47,6 +47,7 @@ const WordpressFeedLink = styled.a`
 
 const WordpressFeedListItemContainer = styled.li`
 	padding: 0 8px 8px;
+	overflow: hidden;
 
 	a {
 		padding-bottom: 4px;
@@ -84,8 +85,11 @@ WordpressFeedListItem.propTypes = {
 /**
  * Displays a parsed wordpress feed.
  *
- * @param {Object} props    The component props.
- * @param {Feed} props.feed The feed object.
+ * @param {Object} props            The component props.
+ * @param {Feed} props.feed         The feed object.
+ * @param {string} props.title      The title. Defaults to feed title.
+ * @param {string} props.footerHtml The footer HTML contents.
+ * @param {string} props.feedLink   The footer link. Defaults to feed link.
  *
  * @returns {ReactElement} The WordpressFeed component.
  */
