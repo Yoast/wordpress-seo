@@ -1,9 +1,9 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import SEOScoreAssessments from "../components/SEOScoreAssessments";
+import ScoreAssessments from "../components/ScoreAssessments";
 
-test( "the SEOScoreAssessments matches the snapshot", () => {
+test( "the ScoreAssessments matches the snapshot", () => {
 	const items = [
 		{
 			color: "#F00",
@@ -18,14 +18,14 @@ test( "the SEOScoreAssessments matches the snapshot", () => {
 	];
 
 	const component = renderer.create(
-		<SEOScoreAssessments items={ items } />
+		<ScoreAssessments items={ items } />
 	);
 
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "the SEOScoreAssessments without scores matches the snapshot", () => {
+test( "the ScoreAssessments without scores matches the snapshot", () => {
 	const items = [
 		{
 			color: "#F00",
@@ -38,14 +38,14 @@ test( "the SEOScoreAssessments without scores matches the snapshot", () => {
 	];
 
 	const component = renderer.create(
-		<SEOScoreAssessments items={ items } />
+		<ScoreAssessments items={ items } />
 	);
 
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "the SEOScoreAssessments with some scores matches the snapshot", () => {
+test( "the ScoreAssessments with some scores matches the snapshot", () => {
 	const items = [
 		{
 			color: "#F00",
@@ -59,7 +59,7 @@ test( "the SEOScoreAssessments with some scores matches the snapshot", () => {
 	];
 
 	const component = renderer.create(
-		<SEOScoreAssessments items={ items } />
+		<ScoreAssessments items={ items } />
 	);
 
 	let tree = component.toJSON();
