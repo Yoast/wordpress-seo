@@ -307,17 +307,23 @@ class OnboardingWizard extends React.Component {
 					<Header headerTitle={ headerTitle } />
 					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
 					               onClick={( stepNumber, evt ) => this.postStep( stepNumber, evt )}/>
-					<div className="yoast-wizard-container">
+					<main className="yoast-wizard-container">
 						<div className="yoast-wizard">
 							{ this.renderErrorMessage() }
-							<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
-							      fields={step.fields} customComponents={this.props.customComponents}
-							      nextStep={this.setNextStep}
-							      previousStep={this.setPreviousStep} />
+							<Step
+								ref="step"
+								currentStep={ this.state.currentStepId }
+								title={ step.title }
+								fields={ step.fields }
+								customComponents={ this.props.customComponents }
+								nextStep={ this.setNextStep }
+								previousStep={ this.setPreviousStep }
+								fullWidth={ step.fullWidth }
+							/>
 							{ navigation }
 						</div>
 						{( this.state.isLoading ) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
-					</div>
+					</main>
 				</div>
 			</MuiThemeProvider>
 		);

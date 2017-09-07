@@ -28,6 +28,8 @@ module.exports = {
 	},
 	devServer: {
 		inline: true,
+		host: "0.0.0.0",
+		disableHostCheck: true,
 		port: PORT,
 		historyApiFallback: true,
 		hot: true,
