@@ -13,7 +13,7 @@ exports[`the WordpressFeed matches the snapshot 1`] = `
     className="sc-htpNat czsPZk"
   >
     <li
-      className="sc-ifAKCX gXsDqK"
+      className="sc-ifAKCX jkldAs"
     >
       <a
         className="sc-bxivhb eBNJKg"
@@ -27,7 +27,7 @@ exports[`the WordpressFeed matches the snapshot 1`] = `
       </p>
     </li>
     <li
-      className="sc-ifAKCX gXsDqK"
+      className="sc-ifAKCX jkldAs"
     >
       <a
         className="sc-bxivhb eBNJKg"
