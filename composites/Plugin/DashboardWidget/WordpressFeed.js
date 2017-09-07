@@ -22,20 +22,22 @@ import colors from "../../../style-guide/colors.json";
  */
 
 const WordpressFeedContainer = styled.div`
-	padding: 8px;
 	box-sizing: border-box;
 	
-	p {
+	p, a {
+		font-size: 14px;
 		margin: 0;
 	}
 `;
 
 const WordpressFeedHeader = styled.h3`
+	margin: 8px 0;
+	font-size: 1em;
 	padding: 0 8px;
 `;
 
 const WordpressFeedList = styled.ul`
-	margin: 8px 0;
+	margin: 0;
 	list-style: none;
 	padding: 0;
 `;
@@ -45,14 +47,19 @@ const WordpressFeedLink = styled.a`
 
 const WordpressFeedListItemContainer = styled.li`
 	padding: 0 8px 8px;
-	
+
+	a {
+		padding-bottom: 4px;
+		display: inline-block;
+	}
+
 	:last-child {
 		border-bottom: 1px solid ${ colors.$palette_grey };
 	}
 `;
 
 const WordpressFeedFooter = styled.div`
-	padding: 0 8px;
+	padding: 8px;
 `;
 
 const WordpressFeedListItem = ( props ) => {
