@@ -165,11 +165,11 @@ function _wpseo_activate() {
 		$wpseo_rewrite->schedule_flush();
 	}
 
-	do_action( 'wpseo_register_capabilities' );
-	WPSEO_Capability_Manager_Factory::get()->add();
-
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();
+
+	do_action( 'wpseo_register_capabilities' );
+	WPSEO_Capability_Manager_Factory::get()->add();
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
@@ -197,13 +197,11 @@ function _wpseo_deactivate() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
-	// Register capabilities and roles, to make sure they are cleaned up.
+	// Register capabilities, to make sure they are cleaned up.
 	do_action( 'wpseo_register_capabilities' );
-	do_action( 'wpseo_register_roles' );
 
 	// Clean up capabilities.
 	WPSEO_Capability_Manager_Factory::get()->remove();
-	WPSEO_Role_Manager_Factory::get()->remove();
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
