@@ -647,6 +647,7 @@ body {
 
 .yoast-wizard {
 	padding-top: 2em;
+	/* Higher specificity to override WP styles. */
 }
 
 .yoast-wizard input[type="text"] {
@@ -671,12 +672,48 @@ body {
 	border-top: 1px solid #a4286a;
 }
 
-.yoast-wizard-return-link {
-	display: block;
-	margin: 1em 0;
-	/* lighter #555d66 */
-	color: #646d78;
+.yoast-wizard-return-link-container {
 	text-align: center;
+}
+
+.wp-core-ui .yoast-wizard-return-link.button {
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	height: 36px;
+	margin: 0 0 1em;
+	padding: 0 10px 0 16px;
+	border-color: transparent;
+	border-radius: 2px;
+	color: #646d78;
+	background: #fff;
+	box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+	text-align: center;
+	text-transform: uppercase;
+	transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+
+	align-items: center;
+	-ms-flex-align: center;
+}
+
+.wp-core-ui .yoast-wizard-return-link.button:hover {
+	border-color: transparent;
+	background: #ebebeb;
+}
+
+.wp-core-ui .yoast-wizard-return-link.button:focus {
+	outline: none;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.wp-core-ui .yoast-wizard-return-link.button:active {
+	background: #ebebeb;
+	box-shadow: rgba(0, 0, 0, 0.16) 0 3px 10px, rgba(0, 0, 0, 0.23) 0 3px 10px;
+	-ms-transform: none;
+	transform: none;
+}
+
+.wp-core-ui .yoast-wizard-return-link.button .dashicons {
+	margin-left: 8px;
 }
 
 .yoast-wizard-mailchimp-message-error {
