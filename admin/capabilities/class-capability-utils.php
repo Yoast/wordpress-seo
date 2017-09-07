@@ -11,7 +11,7 @@ class WPSEO_Capability_Utils {
 	 *
 	 * @return bool True if the user has the proper rights.
 	 */
-	public static function can( $capability ) {
+	public static function current_user_can( $capability ) {
 		if ( $capability === 'wpseo_manage_options' ) {
 			return self::has( $capability );
 		}
@@ -26,7 +26,7 @@ class WPSEO_Capability_Utils {
 	 *
 	 * @return bool True if the user has at least one capability.
 	 */
-	public static function has_any( array $capabilities ) {
+	protected static function has_any( array $capabilities ) {
 		foreach ( $capabilities as $capability ) {
 			if ( self::has( $capability ) ) {
 				return true;
@@ -43,7 +43,7 @@ class WPSEO_Capability_Utils {
 	 *
 	 * @return bool True if the user has the capability.
 	 */
-	public static function has( $capability ) {
+	protected static function has( $capability ) {
 		return current_user_can( $capability );
 	}
 }
