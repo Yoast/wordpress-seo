@@ -17,7 +17,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 	public function register() {
 		$manager = WPSEO_Capability_Manager_Factory::get();
 
-		$manager->register( 'wpseo_bulk_edit', array( 'administrator', 'editor' ) );
-		$manager->register( 'wpseo_manage_options', array( 'administrator', 'editor' ) );
+		$manager->register( 'wpseo_bulk_edit', array( 'editor' ) );
+		$manager->register( 'wpseo_manage_options', array( 'administrator' ) );
 	}
 }
