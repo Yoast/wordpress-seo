@@ -43,13 +43,7 @@ class WPSEO_Capability_Manager_WP implements WPSEO_Capability_Manager {
 	 * Unregisters the capabilities from the system.
 	 */
 	public function remove() {
-		// Remove from any role it has been added to.
-		$roles = array(
-			'administrator',
-			'editor',
-			'author',
-			'contributor'
-		);
+		$roles = wp_roles()->get_names();
 
 		foreach ( $this->capabilities as $capability => $capability_roles ) {
 			$registered_roles = array_unique( array_merge( $roles, $this->capabilities[ $capability ] ) );

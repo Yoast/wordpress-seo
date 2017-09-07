@@ -17,7 +17,7 @@ class WPSEO_Capability_Manager_VIP implements WPSEO_Capability_Manager {
 	}
 
 	/**
-	 *
+	 * Adds the registerd capabilities to the system.
 	 */
 	public function add() {
 
@@ -40,16 +40,11 @@ class WPSEO_Capability_Manager_VIP implements WPSEO_Capability_Manager {
 	}
 
 	/**
-	 *
+	 * Removes the registered capabilities from the system
 	 */
 	public function remove() {
 		// Remove from any role it has been added to.
-		$roles = array(
-			'administrator',
-			'editor',
-			'author',
-			'contributor'
-		);
+		$roles = wp_roles()->get_names();
 
 		$add_role_caps = array();
 		foreach( $this->capabilities as $capability => $roles ) {
@@ -87,7 +82,7 @@ class WPSEO_Capability_Manager_VIP implements WPSEO_Capability_Manager {
 	 */
 	protected function filter_roles( $capability, array $roles ) {
 		/**
-		 *
+		 * @todo filter documentation
 		 */
 		return apply_filters( $capability . '_roles', $roles );
 	}
