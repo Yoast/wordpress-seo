@@ -6,7 +6,7 @@ import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
 import sendStep from "./helpers/ajaxHelper";
 import RaisedButton from "material-ui/RaisedButton";
-import YoastLogo from "../basic/YoastLogo";
+import Header from "./Header";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { localize } from "../../utils/i18n";
 import muiTheme from "./config/yoast-theme";
@@ -297,10 +297,14 @@ class OnboardingWizard extends React.Component {
 			navigation = <div className="yoast-wizard--navigation">{previousButton}{nextButton}</div>;
 		}
 
+		/* Translators: %s expands to "Yoast SEO for WordPress". */
+		let headerTitle = this.props.translate( "%s installation wizard" );
+		headerTitle = headerTitle.replace( "%s", "Yoast SEO for WordPress" );
+
 		return (
 			<MuiThemeProvider muiTheme={muiTheme}>
 				<div className="yoast-wizard-body">
-					<YoastLogo height={93} width={200}/>
+					<Header headerTitle={ headerTitle } />
 					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
 					               onClick={( stepNumber, evt ) => this.postStep( stepNumber, evt )}/>
 					<main className="yoast-wizard-container">
