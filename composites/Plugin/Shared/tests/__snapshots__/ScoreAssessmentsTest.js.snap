@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the ScoreAssessments matches the snapshot 1`] = `
+<ul
+  className="sc-EHOje kEjhkX"
+  role="list"
+>
+  <li
+    className="sc-bdVaJa fLzWHd"
+  >
+    <span
+      className="sc-htpNat bgVquZ sc-bwzfXH hDUHkw"
+    />
+    <span
+      className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+        }
+      }
+    />
+    <span
+      className="sc-ifAKCX bdjqhu sc-bwzfXH hDUHkw"
+    >
+      20
+    </span>
+  </li>
+  <li
+    className="sc-bdVaJa fLzWHd"
+  >
+    <span
+      className="sc-htpNat cxyHjY sc-bwzfXH hDUHkw"
+    />
+    <span
+      className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+        }
+      }
+    />
+    <span
+      className="sc-ifAKCX bdjqhu sc-bwzfXH hDUHkw"
+    >
+      50
+    </span>
+  </li>
+</ul>
+`;
+
+exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
+<ul
+  className="sc-EHOje kEjhkX"
+  role="list"
+>
+  <li
+    className="sc-bdVaJa fLzWHd"
+  >
+    <span
+      className="sc-htpNat bgVquZ sc-bwzfXH hDUHkw"
+    />
+    <span
+      className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+        }
+      }
+    />
+    <span
+      className="sc-ifAKCX bdjqhu sc-bwzfXH hDUHkw"
+    >
+      20
+    </span>
+  </li>
+  <li
+    className="sc-bdVaJa fLzWHd"
+  >
+    <span
+      className="sc-htpNat cxyHjY sc-bwzfXH hDUHkw"
+    />
+    <span
+      className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+        }
+      }
+    />
+  </li>
+</ul>
+`;
+
+exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
+<ul
+  className="sc-EHOje kEjhkX"
+  role="list"
+>
+  <li
+    className="sc-bdVaJa fLzWHd"
+  >
+    <span
+      className="sc-htpNat bgVquZ sc-bwzfXH hDUHkw"
+    />
+    <span
+      className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+        }
+      }
+    />
+  </li>
+  <li
+    className="sc-bdVaJa fLzWHd"
+  >
+    <span
+      className="sc-htpNat cxyHjY sc-bwzfXH hDUHkw"
+    />
+    <span
+      className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+        }
+      }
+    />
+  </li>
+</ul>
+`;
