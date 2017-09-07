@@ -302,9 +302,7 @@ class WPSEO_Admin {
 		 *
 		 * @api string unsigned The capability
 		 */
-		$manage_options_cap = apply_filters( 'wpseo_manage_options_capability', 'manage_options' );
-
-		return $manage_options_cap;
+		return apply_filters( 'wpseo_manage_options_capability', 'wpseo_manage_options' );
 	}
 
 	/**

@@ -41,7 +41,7 @@ class WPSEO_Utils {
 		$options = get_site_option( 'wpseo_ms' );
 
 		if ( empty( $options['access'] ) || $options['access'] === 'admin' ) {
-			return current_user_can( 'manage_options' );
+			return current_user_can( 'wpseo_manage_options' );
 		}
 
 		return is_super_admin();
