@@ -3,6 +3,7 @@
 exports[`the ScoreAssessments matches the snapshot 1`] = `
 <ul
   className="sc-EHOje kEjhkX"
+  role="list"
 >
   <li
     className="sc-bdVaJa fLzWHd"
@@ -52,6 +53,7 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
 exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
 <ul
   className="sc-EHOje kEjhkX"
+  role="list"
 >
   <li
     className="sc-bdVaJa fLzWHd"
@@ -96,6 +98,7 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
 exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
 <ul
   className="sc-EHOje kEjhkX"
+  role="list"
 >
   <li
     className="sc-bdVaJa fLzWHd"

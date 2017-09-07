@@ -65,7 +65,7 @@ const ScoreAssessmentList = styled.ul`
 
 const ScoreAssessments = ( props ) => {
 	return (
-		<ScoreAssessmentList>
+		<ScoreAssessmentList role="list">
 			{ props.items.map( ( item, index ) =>
 				<ScoreAssessment
 					key={ index }
