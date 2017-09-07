@@ -17,12 +17,10 @@ class WPSEO_Register_Roles implements WPSEO_WordPress_Integration {
 	public function register() {
 		$role_manager = WPSEO_Role_Manager_Factory::get();
 
-		// Add all `wpseo_*` capabilities to the manager.
-		$capability_manager = WPSEO_Capability_Manager_Factory::get();
 		$role_manager->register(
 			'wpseo_manager',
 			'SEO Manager',
-			$this->combine_capabilities( 'editor', $capability_manager->get_capabilities(), true ),
+			$this->combine_capabilities( 'editor', array( 'wpseo_manage_options' ),true ),
 			$this->combine_capabilities( 'editor', array(), false )
 		);
 
