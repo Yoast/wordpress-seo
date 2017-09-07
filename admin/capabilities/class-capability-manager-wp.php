@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Capabilities
+ */
 
 class WPSEO_Capability_Manager_WP implements WPSEO_Capability_Manager {
 	protected $capabilities = array();
@@ -14,7 +17,16 @@ class WPSEO_Capability_Manager_WP implements WPSEO_Capability_Manager {
 	}
 
 	/**
+	 * Returns the list of registered capabilities
 	 *
+	 * @return string[] List of registered capabilities
+	 */
+	public function get_capabilities() {
+		return array_keys( $this->capabilities );
+	}
+
+	/**
+	 * Adds the capabilities to the roles.
 	 */
 	public function add() {
 		foreach ( $this->capabilities as $capability => $roles ) {
@@ -28,7 +40,7 @@ class WPSEO_Capability_Manager_WP implements WPSEO_Capability_Manager {
 	}
 
 	/**
-	 *
+	 * Unregisters the capabilities from the system.
 	 */
 	public function remove() {
 		// Remove from any role it has been added to.
@@ -73,14 +85,5 @@ class WPSEO_Capability_Manager_WP implements WPSEO_Capability_Manager {
 		 *
 		 */
 		return apply_filters( $capability . '_roles', $roles );
-	}
-
-	/**
-	 * Returns the list of registered capabilities
-	 *
-	 * @return string[] List of registered capabilities
-	 */
-	public function get_capabilities() {
-		return array_keys( $this->capabilities );
 	}
 }

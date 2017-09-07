@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Roles
+ */
 
 class WPSEO_Role_Manager_Factory {
 	/**

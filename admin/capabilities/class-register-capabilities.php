@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Capabilities
+ */
 
 class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 	/**

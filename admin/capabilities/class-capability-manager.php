@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Capabilities
+ */
 
 interface WPSEO_Capability_Manager {
 	/**

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Capabilities
+ */
 
 class WPSEO_Capability_Manager_VIP implements WPSEO_Capability_Manager {
 	protected $capabilities = array();
