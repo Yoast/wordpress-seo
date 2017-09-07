@@ -1160,11 +1160,29 @@ class WPSEO_Frontend {
 	}
 
 	/**
+	 * Sanitizes keywords and returns them.
+	 * Returns an empty string if keywords are not a string or if there are no keywords.
+	 *
+	 * @param string $keywords The meta keywords to sanitize.
+	 *
+	 * @return string The sanitized keywords or an empty string if keywords are considered invalid.
+	 */
+	private function sanitize_keywords( $keywords ) {
+		if ( is_string( $keywords ) && $keywords !== '' ) {
+			return esc_attr( strip_tags( stripslashes( $keywords ) ) );
+		}
+
+		return '';
+	}
+
+	/**
 	 * Outputs the meta keywords element.
 	 *
-	 * @return void
+	 * @param bool $echo Whether or not to echo the keywords element. If false, only the keywords are returned.
+	 *
+	 * @return string|void If $echo is false, it returns the keywords. Otherwise, echoes it.
 	 */
-	public function metakeywords() {
+	public function metakeywords( $echo = true ) {
 		global $wp_query, $post;
 
 		if ( $this->options['usemetakeywords'] === false ) {
@@ -1229,8 +1247,14 @@ class WPSEO_Frontend {
 		 */
 		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // More appropriately named.
 
-		if ( is_string( $keywords ) && $keywords !== '' ) {
-			echo '<meta name="keywords" content="', esc_attr( strip_tags( stripslashes( $keywords ) ) ), '"/>', "\n";
+		$sanitized_keywords = $this->sanitize_keywords( $keywords );
+
+		if ( $echo === false  ) {
+			return $sanitized_keywords;
+		}
+
+		if ( is_string( $sanitized_keywords ) && $sanitized_keywords !== '' ) {
+			echo '<meta name="keywords" content="', $sanitized_keywords, '"/>', "\n";
 		}
 	}
 
