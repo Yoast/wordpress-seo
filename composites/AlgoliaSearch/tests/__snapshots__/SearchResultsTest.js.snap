@@ -2,7 +2,7 @@
 
 exports[`the SearchResults component with results matches the snapshot 1`] = `
 <div
-  className="sc-EHOje biHARL"
+  className="sc-EHOje hRzeBO"
 >
   <ul
     className="sc-bdVaJa cQAnKY"

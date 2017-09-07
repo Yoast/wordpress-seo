@@ -68,8 +68,6 @@ SearchResult.propTypes = {
  */
 const SearchResultsWrapper = styled.div`
 	margin-top: 20px;
-	width: 100%;
-	display: block;
 	clear: both;
 `;
 
@@ -86,8 +84,6 @@ const NoResults = styled.p`
  * @param {object} props The React props.
  *
  * @returns {ReactElement} A list of search results.
- *
- * @constructor
  */
 class SearchResults extends React.Component {
 
