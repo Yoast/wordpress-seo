@@ -22,17 +22,23 @@
  * @param {string} raw      The raw XML of the feed.
  * @param {number} maxItems The maximum amount of items to parse, 0 for all items.
  *
- * @returns {Feed} The parsed feed.
+ * @returns {Promise.<Feed>} A promise which resolves with the parsed Feed.
  */
 export function parseFeed( raw, maxItems = 0 ) {
-	let parser     = new DOMParser();
-	let parsed     = parser.parseFromString( raw, 'application/xml' );
-	let nsResolver = parsed.createNSResolver( parsed.documentElement );
+	return new Promise(function ( resolve, reject ) {
+		try {
+			let parser     = new DOMParser();
+			let parsed     = parser.parseFromString( raw, 'application/xml' );
+			let nsResolver = parsed.createNSResolver( parsed.documentElement );
 
-	let result   = getFeedMeta( parsed );
-	result.items = getFeedItems( parsed, nsResolver, maxItems );
+			let result   = getFeedMeta( parsed );
+			result.items = getFeedItems( parsed, nsResolver, maxItems );
 
-	return result;
+			resolve( result );
+		} catch ( error ) {
+			reject( error );
+		}
+	} );
 }
 
 /**
