@@ -144,7 +144,7 @@ class WPSEO_Admin {
 	 * @global array $submenu used to change the label on the first item.
 	 */
 	public function register_settings_page() {
-		if ( WPSEO_Utils::grant_access() !== true ) {
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			return;
 		}
 
@@ -353,28 +353,30 @@ class WPSEO_Admin {
 	 * Register the settings page for the Network settings.
 	 */
 	public function register_network_settings_page() {
-		if ( WPSEO_Utils::grant_access() ) {
-			// Base 64 encoded SVG image.
-			$icon_svg = WPSEO_Utils::get_icon_svg();
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+			return;
+		}
 
-			add_menu_page( 'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', self::PAGE_IDENTIFIER, array(
-				$this,
-				'network_config_page',
-			), $icon_svg );
+		// Base 64 encoded SVG image.
+		$icon_svg = WPSEO_Utils::get_icon_svg();
 
-			if ( WPSEO_Utils::allow_system_file_edit() === true ) {
-				add_submenu_page( self::PAGE_IDENTIFIER, 'Yoast SEO: ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array(
-					$this,
-					'load_page',
-				) );
-			}
+		add_menu_page( 'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', self::PAGE_IDENTIFIER, array(
+			$this,
+			'network_config_page',
+		), $icon_svg );
 
-			// Add Extension submenu page.
-			add_submenu_page( self::PAGE_IDENTIFIER, 'Yoast SEO: ' . __( 'Extensions', 'wordpress-seo' ), __( 'Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_licenses', array(
+		if ( WPSEO_Utils::allow_system_file_edit() === true ) {
+			add_submenu_page( self::PAGE_IDENTIFIER, 'Yoast SEO: ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array(
 				$this,
 				'load_page',
 			) );
 		}
+
+		// Add Extension submenu page.
+		add_submenu_page( self::PAGE_IDENTIFIER, 'Yoast SEO: ' . __( 'Extensions', 'wordpress-seo' ), __( 'Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_licenses', array(
+			$this,
+			'load_page',
+		) );
 	}
 
 
@@ -478,7 +480,7 @@ class WPSEO_Admin {
 	 * @return array $links
 	 */
 	public function add_action_link( $links, $file ) {
-		if ( WPSEO_BASENAME === $file && WPSEO_Utils::grant_access() ) {
+		if ( WPSEO_BASENAME === $file && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
 			array_unshift( $links, $settings_link );
 		}
@@ -505,12 +507,14 @@ class WPSEO_Admin {
 	 * Enqueues the (tiny) global JS needed for the plugin.
 	 */
 	public function config_page_scripts() {
-		if ( WPSEO_Utils::grant_access() ) {
-			$asset_manager = new WPSEO_Admin_Asset_Manager();
-			$asset_manager->enqueue_script( 'admin-global-script' );
-
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+			return;
 		}
+
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'admin-global-script' );
+
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
 	}
 
 	/**
