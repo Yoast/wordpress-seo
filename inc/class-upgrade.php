@@ -383,6 +383,9 @@ class WPSEO_Upgrade {
 		$wpdb->query( 'ALTER TABLE ' . $count_storage->get_table_name() . ' MODIFY internal_link_count int(10) UNSIGNED NULL DEFAULT NULL' );
 	}
 
+	/**
+	 * Register new capabilities and roles
+	 */
 	private function upgrade_55() {
 		// Register new capabilities.
 		do_action( 'wpseo_register_capabilities' );
