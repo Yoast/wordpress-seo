@@ -47,7 +47,7 @@ final class WPSEO_Role_Manager_WP extends WPSEO_Abstract_Role_Manager {
 	 */
 	protected function format_capabilities( array $capabilities, $enabled = true ) {
 		// Flip keys and values.
-		array_flip( $capabilities );
+		$capabilities = array_flip( $capabilities );
 
 		// Set all values to $enabled.
 		return array_fill_keys( array_keys( $capabilities ), $enabled );
