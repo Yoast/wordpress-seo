@@ -50,6 +50,7 @@ export function addBaseStyle( component ) {
 		@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 			// IE 10+
 			::after {
+				display: inline-block;
 				content: "";
 				min-height: ${ `${ ieMinHeight }px` };
 			}
