@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import colors from "../../../style-guide/colors.json";
+import colors from "../../../../style-guide/colors.json";
 
 /**
  * @typedef  {Object}     Feed
@@ -93,31 +93,35 @@ const WordpressFeed = ( props ) => {
 	return (
 		<WordpressFeedContainer>
 			<WordpressFeedHeader>
-				{ props.title }
+				{ props.title ? props.title : props.feed.title }
 			</WordpressFeedHeader>
 			<WordpressFeedList>
 				{ props.feed.items.map( item => (
 					<WordpressFeedListItem
+						key={ item.link }
 						title={ item.title }
 						link={ item.link }
 						description={ item.description } />
 				) ) }
 			</WordpressFeedList>
-			<WordpressFeedFooter>
-				<WordpressFeedLink
-					href={ props.feed.link }
-					target="_blank">
-					{ props.footerText }
-				</WordpressFeedLink>
-			</WordpressFeedFooter>
+			{ props.footerHtml &&
+				<WordpressFeedFooter>
+					<WordpressFeedLink
+						href={props.feedLink ? props.feedLink : props.feed.link}
+						target="_blank"
+						dangerouslySetInnerHTML={ { __html: props.footerHtml } } >
+					</WordpressFeedLink>
+				</WordpressFeedFooter>
+			}
 		</WordpressFeedContainer>
 	);
 };
 
 WordpressFeed.propTypes = {
 	feed: PropTypes.object.isRequired,
-	title: PropTypes.object.isRequired,
-	footerText: PropTypes.string.isRequired,
+	title: PropTypes.string,
+	footerHtml: PropTypes.string,
+	feedLink: PropTypes.string,
 };
 
 export default WordpressFeed;
