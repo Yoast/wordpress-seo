@@ -285,7 +285,7 @@ class Yoast_Notification {
 
 		// Set default capabilities when not supplied.
 		if ( empty( $options['capabilities'] ) || array() === $options['capabilities'] ) {
-			$options['capabilities'] = array( 'manage_options' );
+			$options['capabilities'] = array( 'wpseo_manage_options' );
 		}
 
 		return $options;

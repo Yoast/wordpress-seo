@@ -350,7 +350,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->social_admin->get_meta_section();
 		}
 
-		if ( current_user_can( 'manage_options' ) || $this->options['disableadvanced_meta'] === false ) {
+		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options['disableadvanced_meta'] === false ) {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
 

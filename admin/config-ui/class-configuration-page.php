@@ -51,7 +51,7 @@ class WPSEO_Configuration_Page {
 	 *  Registers the page for the wizard.
 	 */
 	public function add_wizard_page() {
-		add_dashboard_page( '', '', 'manage_options', self::PAGE_IDENTIFIER, '' );
+		add_dashboard_page( '', '', 'wpseo_manage_options', self::PAGE_IDENTIFIER, '' );
 	}
 
 	/**
@@ -236,7 +236,7 @@ class WPSEO_Configuration_Page {
 			array(
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'wpseo-dismiss-onboarding-notice',
-				'capabilities' => 'manage_options',
+				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			)
 		);

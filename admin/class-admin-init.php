@@ -100,7 +100,7 @@ class WPSEO_Admin_Init {
 		$notification_options = array(
 			'type'         => Yoast_Notification::ERROR,
 			'id'           => 'wpseo-dismiss-tagline-notice',
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 		);
 
 		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
@@ -131,7 +131,7 @@ class WPSEO_Admin_Init {
 			'type'         => Yoast_Notification::ERROR,
 			'id'           => 'wpseo-dismiss-blog-public-notice',
 			'priority'     => 1.0,
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 		);
 
 		$notification = new Yoast_Notification( $info_message, $notification_options );
@@ -163,7 +163,7 @@ class WPSEO_Admin_Init {
 		$notification_options = array(
 			'type'         => Yoast_Notification::WARNING,
 			'id'           => 'wpseo-dismiss-page_comments-notice',
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 		);
 
 		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
@@ -210,7 +210,7 @@ class WPSEO_Admin_Init {
 		$notification_options = array(
 			'type'         => Yoast_Notification::WARNING,
 			'id'           => 'wpseo-dismiss-permalink-notice',
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 			'priority'     => 0.8,
 		);
 
@@ -335,24 +335,29 @@ class WPSEO_Admin_Init {
 			return;
 		}
 
-		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
-		if ( $can_access && ! $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
-			Yoast_Notification_Center::get()->add_notification(
-				new Yoast_Notification(
-					sprintf(
-						/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
-						__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
-						'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
-						'</a>'
-					),
-					array(
-						'type'  => 'updated yoast-dismissible',
-						'id'    => 'wpseo-dismiss-recalculate',
-						'nonce' => wp_create_nonce( 'wpseo-dismiss-recalculate' ),
-					)
-				)
-			);
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+			return;
 		}
+
+		if ( $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
+			return;
+		}
+
+		Yoast_Notification_Center::get()->add_notification(
+			new Yoast_Notification(
+				sprintf(
+					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
+					__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
+					'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
+					'</a>'
+				),
+				array(
+					'type'  => 'updated yoast-dismissible',
+					'id'    => 'wpseo-dismiss-recalculate',
+					'nonce' => wp_create_nonce( 'wpseo-dismiss-recalculate' ),
+				)
+			)
+		);
 	}
 
 	/**
