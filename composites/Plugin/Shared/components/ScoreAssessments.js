@@ -19,11 +19,11 @@ const ScoreAssessmentBullet = styled( ScoreAssessmentPart )`
 	height: 8px;
 	width: 8px;
 	border-radius: 50%;
-	background-color: ${ props => props.color };
+	background-color: ${ props => props.scoreColor };
 `;
 
 ScoreAssessmentBullet.propTypes = {
-	color: PropTypes.string.isRequired,
+	scoreColor: PropTypes.string.isRequired,
 };
 
 const ScoreAssessmentText = styled( ScoreAssessmentPart )`
@@ -39,7 +39,7 @@ const ScoreAssessmentScore = styled( ScoreAssessmentPart )`
 const ScoreAssessment = ( props ) => {
 	return (
 		<ScoreAssessmentItem>
-			<ScoreAssessmentBullet color={ props.color }/>
+			<ScoreAssessmentBullet scoreColor={ props.scoreColor }/>
 			<ScoreAssessmentText dangerouslySetInnerHTML={ { __html: props.html } }></ScoreAssessmentText>
 			{ props.score &&
 				<ScoreAssessmentScore>{ props.score }</ScoreAssessmentScore>
@@ -49,7 +49,7 @@ const ScoreAssessment = ( props ) => {
 };
 
 ScoreAssessment.propTypes = {
-	color: PropTypes.string.isRequired,
+	scoreColor: PropTypes.string.isRequired,
 	html: PropTypes.string.isRequired,
 	score: PropTypes.string,
 };
@@ -69,7 +69,7 @@ const ScoreAssessments = ( props ) => {
 			{ props.items.map( ( item, index ) =>
 				<ScoreAssessment
 					key={ index }
-					color={ item.color }
+					scoreColor={ item.color }
 					html={ item.html }
 					score={ item.score }/>
 			) }

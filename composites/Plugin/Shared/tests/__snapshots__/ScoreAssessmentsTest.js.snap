@@ -10,7 +10,6 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
   >
     <span
       className="sc-htpNat bgVquZ sc-bwzfXH hDUHkw"
-      color="#F00"
     />
     <span
       className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
@@ -31,7 +30,6 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
   >
     <span
       className="sc-htpNat cxyHjY sc-bwzfXH hDUHkw"
-      color="#0F0"
     />
     <span
       className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
@@ -60,7 +58,6 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
   >
     <span
       className="sc-htpNat bgVquZ sc-bwzfXH hDUHkw"
-      color="#F00"
     />
     <span
       className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
@@ -81,7 +78,6 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
   >
     <span
       className="sc-htpNat cxyHjY sc-bwzfXH hDUHkw"
-      color="#0F0"
     />
     <span
       className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
@@ -105,7 +101,6 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
   >
     <span
       className="sc-htpNat bgVquZ sc-bwzfXH hDUHkw"
-      color="#F00"
     />
     <span
       className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
@@ -121,7 +116,6 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
   >
     <span
       className="sc-htpNat cxyHjY sc-bwzfXH hDUHkw"
-      color="#0F0"
     />
     <span
       className="sc-bxivhb jEgnSH sc-bwzfXH hDUHkw"
