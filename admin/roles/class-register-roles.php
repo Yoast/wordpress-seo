@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Roles
+ */
 
 class WPSEO_Register_Roles implements WPSEO_WordPress_Integration {
 	/**
