@@ -22,16 +22,6 @@ const SearchLabel = styled.label`
 	margin-top: 0.25em;
 `;
 
-SearchLabel.propTypes = {
-	className: PropTypes.string,
-	htmlFor: PropTypes.string,
-};
-
-SearchLabel.defaultProps = {
-	className: "",
-	htmlFor: "",
-};
-
 const SearchBarWrapper = styled.div`
 	overflow: hidden;
 	width: 100%;
@@ -77,17 +67,19 @@ class SearchBar extends React.Component {
 			doRequest: false,
 			searchString: "",
 		};
-	}
 
-	/**
-	 * Defines the debounced doFormSubmission function to be triggered after the user quits typing for 1 second.
-	 *
-	 * @returns {void}
-	 */
-	componentWillMount() {
 		this.doFormSubmission = debounce( ( searchString ) => {
 			this.props.submitAction( searchString );
 		}, 1000 );
+	}
+
+	/**
+	 * Cancel form submission on unmount.
+	 *
+	 * @returns {void}
+	 */
+	componentWillUnmount() {
+		this.doFormSubmission.cancel();
 	}
 
 	/**

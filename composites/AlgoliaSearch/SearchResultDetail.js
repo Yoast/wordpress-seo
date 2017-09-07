@@ -23,6 +23,10 @@ const messages = defineMessages( {
 		id: "searchresultdetail.backbuttonlabel",
 		defaultMessage: "Back to the search results",
 	},
+	iframeTitle: {
+		id: "algoliosearcher.iframetitle",
+		defaultMessage: "Knowledge base article",
+	},
 } );
 
 const Detail = styled.section``;
@@ -40,9 +44,7 @@ const OpenLink = styled.a`
 	height: 28px;
 	margin: 0;
 	padding: 0 10px 1px;
-	cursor: pointer;
-	border-width: 1px;
-	border-style: solid;
+	border: 1px solid;
 	border-radius: 3px;
 	white-space: nowrap;
 	box-sizing: border-box;
@@ -76,10 +78,12 @@ class SearchResultDetail extends React.Component {
 	}
 
 	render() {
+		const formatMessage = this.props.intl.formatMessage;
+		const iframeTitle = formatMessage( messages.iframeTitle );
 		return (
 			<Detail>
 				{ this.createNavigation() }
-				<ArticleContent permalink={ this.props.post.permalink } title={ this.props.iframeTitle }/>
+				<ArticleContent permalink={ this.props.post.permalink } title={ iframeTitle }/>
 			</Detail>
 		);
 	}
@@ -88,7 +92,6 @@ class SearchResultDetail extends React.Component {
 SearchResultDetail.propTypes = {
 	post: PropTypes.object.isRequired,
 	onClick: PropTypes.func.isRequired,
-	iframeTitle: PropTypes.string.isRequired,
 	intl: intlShape.isRequired,
 };
 

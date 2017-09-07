@@ -45,9 +45,5 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
       />
     </form>
   </div>
-  
-  
-  
-  
 </div>
 `;

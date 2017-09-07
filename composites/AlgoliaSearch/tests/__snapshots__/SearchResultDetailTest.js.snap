@@ -17,7 +17,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
     </button>
     <a
       aria-label="Open the knowledge base article in a new window or read it in the iframe below"
-      className="sc-dnqmqq krTtXM"
+      className="sc-dnqmqq gdnzfL"
       href="https://kb.yoast.com/kb/passive-voice/"
       target="_blank"
     >
@@ -27,7 +27,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   <iframe
     className="kb-search-content-frame sc-bdVaJa jFnyks"
     src="https://kb.yoast.com/kb/passive-voice/amp?source=wpseo-kb-search"
-    title="Title"
+    title="Knowledge base article"
   />
 </section>
 `;

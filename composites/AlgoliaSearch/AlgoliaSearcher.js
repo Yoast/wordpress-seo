@@ -30,6 +30,10 @@ const messages = defineMessages( {
 		id: "algoliaseacher.searchresultsheading",
 		defaultMessage: "Search results",
 	},
+	iframeTitle: {
+		id: "algoliosearcher.iframetitle",
+		defaultMessage: "Knowledge base article",
+	},
 } );
 
 class AlgoliaSearcher extends React.Component {
@@ -145,7 +149,7 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	/**
-	 * Performs a search with the given search string withing the Algolia index.
+	 * Performs a search with the given search string within the Algolia index.
 	 *
 	 * @param {string} searchString The words or sentence to get the results for.
 	 *
@@ -208,9 +212,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Log any occuring error and render a search error warning.
 	 *
-	 * @param {string} errorMessage The message to display.
-	 *
-	 * @returns {ReactElement} A p tag with a warning that the search was not completed.
+	 * @returns {ReactElement} A p element with a warning that the search was not completed.
 	 */
 	renderError() {
 		const errorMessage = this.props.intl.formatMessage( messages.errorMessage );
@@ -221,6 +223,7 @@ class AlgoliaSearcher extends React.Component {
 			<p>{ errorMessage }</p>
 		);
 	}
+
 	/**
 	 * Creates the Search Bar component.
 	 *
@@ -228,7 +231,7 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	createSearchBar() {
 		if ( this.state.currentDetailViewIndex !== -1 ) {
-			return "";
+			return null;
 		}
 
 		return <SearchBar
@@ -247,7 +250,7 @@ class AlgoliaSearcher extends React.Component {
 			return this.renderError();
 		}
 
-		return "";
+		return null;
 	}
 
 	/**
@@ -262,7 +265,7 @@ class AlgoliaSearcher extends React.Component {
 			return <Loading placeholder={ loadingPlaceholder } />;
 		}
 
-		return "";
+		return null;
 	}
 
 	/**
@@ -272,7 +275,7 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	determineSearchResultsView() {
 		if ( this.state.searchString === "" && this.state.currentDetailViewIndex === -1 ) {
-			return "";
+			return null;
 		}
 
 		// Show the list of search results if the postId for the detail view isn't set.
@@ -293,7 +296,7 @@ class AlgoliaSearcher extends React.Component {
 			/>;
 		}
 
-		return "";
+		return null;
 	}
 
 	/**
@@ -333,7 +336,7 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	determineResultsHeading() {
 		if ( this.state.currentDetailViewIndex === -1 || this.state.results.length === 0 ) {
-			return "";
+			return null;
 		}
 
 		return <h2 className="screen-reader-text">
@@ -343,7 +346,6 @@ class AlgoliaSearcher extends React.Component {
 }
 
 AlgoliaSearcher.propTypes = {
-	iframeTitle: PropTypes.string,
 	algoliaApplicationId: PropTypes.string,
 	algoliaApiKey: PropTypes.string,
 	algoliaIndexName: PropTypes.string,
@@ -351,7 +353,6 @@ AlgoliaSearcher.propTypes = {
 };
 
 AlgoliaSearcher.defaultProps = {
-	iframeTitle: "Knowledge base article",
 	algoliaApplicationId: "RC8G2UCWJK",
 	algoliaApiKey: "459903434a7963f83e7d4cd9bfe89c0d",
 	algoliaIndexName: "knowledge_base_all",
