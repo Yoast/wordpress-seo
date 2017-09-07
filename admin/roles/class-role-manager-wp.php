@@ -8,22 +8,24 @@ final class WPSEO_Role_Manager_WP extends WPSEO_Abstract_Role_Manager {
 	/**
 	 * Adds a role to the system.
 	 *
-	 * @param string $role Role to add.
-	 * @param object $data Data to use to add the role.
+	 * @param string $role         Role to add.
+	 * @param string $display_name Name to display for the role.
+	 * @param array  $capabilities Capabilities to add to the role.
 	 *
 	 * @return void
 	 */
-	protected function add_role( $role, $data ) {
-		$capabilities = array_merge( $this->format_capabilities( $data->enabled_capabilities ), $this->format_capabilities( $data->disabled_capabilities ) );
+	protected function add_role( $role, $display_name, array $capabilities = array() ) {
 		$wp_role = get_role( $role );
 		if ( $wp_role ) {
 			foreach ( $capabilities as $capability => $grant ) {
+
+
 				$wp_role->add_cap( $capability, $grant );
 			}
 			return;
 		}
 
-		add_role( $role, $data->display_name, $capabilities );
+		add_role( $role, $display_name, $capabilities );
 	}
 
 	/**
