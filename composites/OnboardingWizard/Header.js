@@ -1,21 +1,28 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import YoastSeoIcon from "../basic/YoastSeoIcon";
 
 /**
  * Onboarding wizard header.
  *
- * @returns {ReactElement} The renderer header.
+ * @param {Object} props The properties.
+ *
+ * @returns {ReactElement} The rendered header.
  */
-const Header = () => {
+const Header = ( props ) => {
 	return (
 		<div
 			role="banner"
 			className="yoast-wizard--header">
 			<YoastSeoIcon height={ 56 } width={ 56 }/>
-			<div className="yoast-wizard--header--page-title">Yoast SEO for WordPress installation wizard</div>
+			{ ( props.headerTitle ) ? <p className="yoast-wizard--header--page-title">{ props.headerTitle }</p> : null }
 		</div>
 	);
+};
+
+Header.propTypes = {
+	headerTitle: PropTypes.string,
 };
 
 export default Header;

@@ -297,10 +297,14 @@ class OnboardingWizard extends React.Component {
 			navigation = <div className="yoast-wizard--navigation">{previousButton}{nextButton}</div>;
 		}
 
+		/* Translators: %s expands to "Yoast SEO for WordPress". */
+		let headerTitle = this.props.translate( "%s installation wizard" );
+		headerTitle = headerTitle.replace( "%s", "Yoast SEO for WordPress" );
+
 		return (
 			<MuiThemeProvider muiTheme={muiTheme}>
 				<div className="yoast-wizard-body">
-					<Header />
+					<Header headerTitle={ headerTitle } />
 					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
 					               onClick={( stepNumber, evt ) => this.postStep( stepNumber, evt )}/>
 					<div className="yoast-wizard-container">
