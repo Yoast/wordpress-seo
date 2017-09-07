@@ -29,14 +29,14 @@ const SearchBarWrapper = styled.div`
 
 const SearchBarInput = styled.input`
 	box-sizing: border-box;
-	height: 1em;
+	height: 2.5em;
 	width: calc(100% - 2em);
 	box-shadow: inset 0 2px 8px 0px rgba(0,0,0,0.3);
 	background: ${ colors.$color_grey_light };
-	padding: 20px;
 	border: 0;
 	font-size: 1em;
 	float: left;
+	padding-left: 16px;
 `;
 
 const SearchHeading = styled.h2`
