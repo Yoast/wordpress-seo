@@ -65,18 +65,21 @@ class WPSEO_Capability_Manager_WP implements WPSEO_Capability_Manager {
 	 */
 	protected function get_wp_roles( array $roles ) {
 		$wp_roles = array_map( 'get_role', $roles );
-		return array_filter($wp_roles );
+
+		return array_filter( $wp_roles );
 	}
 
 	/**
-	 * @param string $capability
-	 * @param array $roles
+	 * Filter capability roles.
 	 *
-	 * @return array
+	 * @param string $capability Capability to filter roles for.
+	 * @param array  $roles      Default roles.
+	 *
+	 * @return array Filtered list of roles for the capability.
 	 */
 	protected function filter_roles( $capability, array $roles ) {
 		/**
-		 *
+		 * @todo add filter documentation
 		 */
 		return apply_filters( $capability . '_roles', $roles );
 	}

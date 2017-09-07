@@ -297,6 +297,7 @@ class WPSEO_Admin {
 	 * @return mixed|void
 	 */
 	private function get_manage_options_cap() {
+		// @todo deprecate filter
 		/**
 		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
 		 *

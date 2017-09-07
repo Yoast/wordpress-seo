@@ -34,6 +34,7 @@ class WPSEO_Utils {
 	 * @return boolean
 	 */
 	public static function grant_access() {
+		// @todo add deprecation warning
 		if ( ! is_multisite() ) {
 			return true;
 		}
