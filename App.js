@@ -83,7 +83,6 @@ class App extends React.Component {
 	}
 
 	getMenu() {
-
 		return (
 			<nav style={ { textAlign: "center" } }>
 				{
