@@ -9,7 +9,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   >
     <button
       aria-label="Back to the search results"
-      className="sc-EHOje cbEodJ sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fbBmuo"
+      className="sc-bZQynM evMXiX sc-EHOje ikesyh sc-ifAKCX gNLndS sc-bxivhb bmigSy sc-htpNat gWIWnG sc-bwzfXH epawHt"
       onClick={[Function]}
       type="button"
     >
