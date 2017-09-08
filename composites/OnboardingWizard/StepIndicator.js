@@ -89,11 +89,11 @@ class StepIndicator extends React.Component {
 	 */
 	render() {
 		return (
-			<div className="yoast-wizard--stepper">
+			<nav className="yoast-wizard--stepper">
 				<Stepper linear={false} activeStep={this.state.stepIndex}>
 					{this.getStepButtonComponents()}
 				</Stepper>
-			</div>
+			</nav>
 		);
 	}
 
