@@ -45,6 +45,16 @@ const WordpressFeedList = styled.ul`
 const WordpressFeedLink = styled.a`
 `;
 
+const A11yNotice = styled.span`
+	clip: rect(1px, 1px, 1px, 1px);
+    clip-path: polygon(0px 0px, 0px 0px,0px 0px, 0px 0px);
+    position: absolute !important;
+    white-space: nowrap;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+`;
+
 const WordpressFeedListItemContainer = styled.li`
 	padding: 0 8px 8px;
 	overflow: hidden;
@@ -68,8 +78,12 @@ const WordpressFeedListItem = ( props ) => {
 		<WordpressFeedListItemContainer>
 			<WordpressFeedLink
 				href={ props.link }
-				target="_blank">
+				target="_blank"
+				rel="noopener noreferrer">
 				{ props.title }
+				<A11yNotice>
+					( Opens in a new browser tab )
+				</A11yNotice>
 			</WordpressFeedLink>
 			<p>{ props.description }</p>
 		</WordpressFeedListItemContainer>
@@ -99,7 +113,8 @@ const WordpressFeed = ( props ) => {
 			<WordpressFeedHeader>
 				{ props.title ? props.title : props.feed.title }
 			</WordpressFeedHeader>
-			<WordpressFeedList>
+			<WordpressFeedList
+				role="list">
 				{ props.feed.items.map( item => (
 					<WordpressFeedListItem
 						key={ item.link }
@@ -113,6 +128,7 @@ const WordpressFeed = ( props ) => {
 					<WordpressFeedLink
 						href={ props.feedLink ? props.feedLink : props.feed.link }
 						target="_blank"
+						rel="noopener noreferrer"
 						dangerouslySetInnerHTML={ { __html: props.footerHtml } } >
 					</WordpressFeedLink>
 				</WordpressFeedFooter>

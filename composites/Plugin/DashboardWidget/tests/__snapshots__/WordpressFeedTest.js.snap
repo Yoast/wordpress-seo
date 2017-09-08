@@ -11,30 +11,43 @@ exports[`the WordpressFeed matches the snapshot 1`] = `
   </h3>
   <ul
     className="sc-htpNat czsPZk"
+    role="list"
   >
     <li
-      className="sc-ifAKCX jkldAs"
+      className="sc-EHOje jBRHiO"
     >
       <a
         className="sc-bxivhb eBNJKg"
         href="https://www.yoast.com/1"
+        rel="noopener noreferrer"
         target="_blank"
       >
         Wordpress SEO
+        <span
+          className="sc-ifAKCX hIBhpO"
+        >
+          ( Opens in a new browser tab )
+        </span>
       </a>
       <p>
         Some arbitrary description any blog post could have
       </p>
     </li>
     <li
-      className="sc-ifAKCX jkldAs"
+      className="sc-EHOje jBRHiO"
     >
       <a
         className="sc-bxivhb eBNJKg"
         href="https://www.yoast.com/2"
+        rel="noopener noreferrer"
         target="_blank"
       >
         Wordpress SEO
+        <span
+          className="sc-ifAKCX hIBhpO"
+        >
+          ( Opens in a new browser tab )
+        </span>
       </a>
       <p>
         Some arbitrary description any blog post could have
