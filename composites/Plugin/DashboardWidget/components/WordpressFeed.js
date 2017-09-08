@@ -46,13 +46,16 @@ const WordpressFeedLink = styled.a`
 `;
 
 const A11yNotice = styled.span`
+	border: 0;
 	clip: rect(1px, 1px, 1px, 1px);
-	clip-path: polygon(0px 0px, 0px 0px,0px 0px, 0px 0px);
-	position: absolute !important;
-	white-space: nowrap;
+	clip-path: inset(50%);
 	height: 1px;
-	width: 1px;
+	margin: -1px;
 	overflow: hidden;
+	padding: 0;
+	position: absolute !important;
+	width: 1px;
+	word-wrap: normal !important;
 `;
 
 const WordpressFeedListItemContainer = styled.li`

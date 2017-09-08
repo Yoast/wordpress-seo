@@ -2,7 +2,7 @@
 
 exports[`the WordpressFeed matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa daJxLK"
+  className="sc-bdVaJa ggoxkE"
 >
   <h3
     className="sc-bwzfXH bfDjIW"
@@ -24,7 +24,7 @@ exports[`the WordpressFeed matches the snapshot 1`] = `
       >
         Wordpress SEO
         <span
-          className="sc-ifAKCX hIBhpO"
+          className="sc-ifAKCX GTYdS"
         >
           ( Opens in a new browser tab )
         </span>
@@ -44,7 +44,7 @@ exports[`the WordpressFeed matches the snapshot 1`] = `
       >
         Wordpress SEO
         <span
-          className="sc-ifAKCX hIBhpO"
+          className="sc-ifAKCX GTYdS"
         >
           ( Opens in a new browser tab )
         </span>
