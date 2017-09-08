@@ -7644,16 +7644,6 @@ yauzl@^2.2.1:
     styled-components "^2.1.1"
     whatwg-fetch "^1.0.0"
 
-"yoastseo@https://github.com/Yoast/YoastSEO.js#develop":
-  version "1.19.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#0660fba439d39fd3485495093f4a9078c963b113"
-  dependencies:
-    htmlparser2 "^3.9.2"
-    jed "^1.1.0"
-    lodash "^4.14.1"
-    sassdash "^0.8.1"
-    tokenizer2 "^2.0.0"
-
 "yoastseo@https://github.com/Yoast/YoastSEO.js#release/1.21":
   version "1.20.0"
   resolved "https://github.com/Yoast/YoastSEO.js#b9385ae7d01e1070b23de88d72c22e25a88a9fc8"
