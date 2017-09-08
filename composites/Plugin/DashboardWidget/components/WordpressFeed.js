@@ -8,7 +8,7 @@ import colors from "../../../../style-guide/colors.json";
  * @property {string}     title       The title of the website.
  * @property {string}     description A description of the website.
  * @property {string}     link        A link to the website.
- * @property {FeedItem[]} items     The items in the feed.
+ * @property {FeedItem[]} items       The items in the feed.
  */
 
 /**
@@ -111,7 +111,7 @@ const WordpressFeed = ( props ) => {
 			{ props.footerHtml &&
 				<WordpressFeedFooter>
 					<WordpressFeedLink
-						href={props.feedLink ? props.feedLink : props.feed.link}
+						href={ props.feedLink ? props.feedLink : props.feed.link }
 						target="_blank"
 						dangerouslySetInnerHTML={ { __html: props.footerHtml } } >
 					</WordpressFeedLink>
