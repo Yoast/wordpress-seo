@@ -307,6 +307,7 @@ let configuration = {
 		"intro": {
 			"title": "Intro",
 			"fields": [ "upsellConfigurationService", "mailchimpSignup" ],
+			"fullWidth": true,
 		},
 		"environment": {
 			"title": "Environment",

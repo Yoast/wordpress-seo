@@ -1,5 +1,4 @@
 import React from "react";
-
 import { IntlProvider } from "react-intl";
 
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
