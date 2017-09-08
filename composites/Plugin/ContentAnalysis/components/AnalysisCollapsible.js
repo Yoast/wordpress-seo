@@ -3,7 +3,6 @@ import React from "react";
 import styled from "styled-components";
 import { angleUp, angleDown } from "../../../../style-guide/svg";
 import colors from "../../../../style-guide/colors.json";
-import defaults from "../../../../config/defaults.json";
 import { IconButton } from "../../Shared/components/Button";
 
 /**
@@ -92,6 +91,10 @@ AnalysisCollapsibleStateless.propTypes = {
 	title: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onToggle: PropTypes.func.isRequired,
+	children: PropTypes.oneOfType( [
+		PropTypes.arrayOf( PropTypes.node ),
+		PropTypes.node,
+	] ),
 };
 
 export class AnalysisCollapsible extends React.Component {
@@ -153,6 +156,5 @@ AnalysisCollapsible.propTypes = {
 AnalysisCollapsible.defaultProps = {
 	initialIsOpen: false,
 };
-
 
 export default AnalysisCollapsible;
