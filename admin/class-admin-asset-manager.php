@@ -307,7 +307,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'api',
 				'src'  => 'wp-seo-api-' . $flat_version,
 				'deps' => array( 'wp-api', 'jquery' ),
-			)
+			),
 		);
 	}
 
