@@ -303,6 +303,11 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-edit-page-' . $flat_version,
 				'deps' => array( 'jquery' ),
 			),
+			array(
+				'name' => 'api',
+				'src'  => 'wp-seo-api-' . $flat_version,
+				'deps' => array( 'wp-api', 'jquery' ),
+			)
 		);
 	}
 
