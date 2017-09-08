@@ -292,6 +292,9 @@ function wpseo_init_rest_api() {
 
 		$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
 		$link_reindex_endpoint->register();
+
+		$statistics_endpoint = new WPSEO_Statistics_Endpoint( new WPSEO_Statistics_Service() );
+		$statistics_endpoint->register();
 	}
 }
 
