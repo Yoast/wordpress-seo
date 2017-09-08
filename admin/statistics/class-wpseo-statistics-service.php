@@ -80,8 +80,6 @@ class WPSEO_Statistics_Service {
 	/**
 	 * Returns an the results of the onpage option.
 	 *
-	 * @param WPSEO_OnPage_Option $onpage_option The onpage option to map.
-	 *
 	 * @return array The results, contains a score and label.
 	 */
 	private function onpage_item() {
