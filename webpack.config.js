@@ -28,6 +28,8 @@ module.exports = {
 	},
 	devServer: {
 		inline: true,
+		host: "0.0.0.0",
+		disableHostCheck: true,
 		port: PORT,
 		historyApiFallback: true,
 		hot: true,
@@ -42,7 +44,11 @@ module.exports = {
 					loader: "babel-loader",
 					options: {
 						babelrc: false,
-						presets: [ "es2015", "react" ],
+						presets: [
+							[ "es2015",
+								// https://github.com/gaearon/react-hot-loader/tree/master/docs#webpack-2
+								{ modules: false },
+							], "react" ],
 
 						env: {
 							development: {
