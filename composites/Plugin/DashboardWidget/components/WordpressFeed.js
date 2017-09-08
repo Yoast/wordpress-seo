@@ -23,7 +23,7 @@ import colors from "../../../../style-guide/colors.json";
 
 const WordpressFeedContainer = styled.div`
 	box-sizing: border-box;
-	
+
 	p, a {
 		font-size: 14px;
 		margin: 0;
@@ -47,12 +47,12 @@ const WordpressFeedLink = styled.a`
 
 const A11yNotice = styled.span`
 	clip: rect(1px, 1px, 1px, 1px);
-    clip-path: polygon(0px 0px, 0px 0px,0px 0px, 0px 0px);
-    position: absolute !important;
-    white-space: nowrap;
-    height: 1px;
-    width: 1px;
-    overflow: hidden;
+	clip-path: polygon(0px 0px, 0px 0px,0px 0px, 0px 0px);
+	position: absolute !important;
+	white-space: nowrap;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
 `;
 
 const WordpressFeedListItemContainer = styled.li`
