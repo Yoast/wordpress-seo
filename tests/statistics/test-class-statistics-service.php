@@ -81,8 +81,6 @@ class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 		$rest_response  = $class_instance->get_statistics();
 		$response_data  = $rest_response->get_data();
 
-		var_dump( $response_data );
-
 		$this->assertEquals(
 			esc_url( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=ok' ) ),
 			$response_data['seo_scores'][0]['link']
