@@ -2,27 +2,27 @@
 
 exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa iEJpkO"
+  className="sc-bZQynM fwTBJs"
 >
   <button
     aria-expanded={true}
-    className="sc-bwzfXH kkDEGu"
+    className="sc-gzVnrw dKARFf sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fpmUPV sc-bdVaJa dHgGrL"
     onClick={[Function]}
+    type="button"
   >
     <svg
       aria-hidden="true"
-      className="sc-htpNat bYQXEr sc-bZQynM cmRxon"
+      className="sc-gqjmRU dRmBjb sc-VigVT clSXcg"
     />
-    <h3
-      className="sc-bxivhb kiAvRw"
+    <span
+      className="sc-htoDjs grDYmx"
     >
-       
       Problems (4)
-       
-    </h3>
+    </span>
   </button>
   <ul
-    className="sc-ifAKCX dHcsqz"
+    className="sc-dnqmqq MWLzA"
+    role="list"
   >
     <li>
        First item 
@@ -42,27 +42,27 @@ exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
 
 exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa iEJpkO"
+  className="sc-bZQynM fwTBJs"
 >
   <button
     aria-expanded={false}
-    className="sc-bwzfXH kkDEGu"
+    className="sc-gzVnrw dKARFf sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fpmUPV sc-bdVaJa dHgGrL"
     onClick={[Function]}
+    type="button"
   >
     <svg
       aria-hidden="true"
-      className="sc-htpNat bYQXEr sc-EHOje gGDgkd"
+      className="sc-iwsKbI iENOxB sc-gZMcBi iRuAiN"
     />
-    <h3
-      className="sc-bxivhb kiAvRw"
+    <span
+      className="sc-htoDjs grDYmx"
     >
-       
       Problems (4)
-       
-    </h3>
+    </span>
   </button>
   <ul
-    className="sc-ifAKCX dHcsqz"
+    className="sc-dnqmqq MWLzA"
+    role="list"
   />
 </div>
 `;

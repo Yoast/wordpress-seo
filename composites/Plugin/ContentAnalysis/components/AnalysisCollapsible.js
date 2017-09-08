@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { angleUp, angleDown } from "../../../../style-guide/svg";
 import colors from "../../../../style-guide/colors.json";
 import defaults from "../../../../config/defaults.json";
-import { Icon } from "../../Shared/components/Icon";
+import { IconButton } from "../../Shared/components/Button";
 
 /**
  * Container for the Collapsible header and its content.
@@ -17,62 +17,48 @@ const AnalysisHeaderContainer = styled.div`
 /**
  * The clickable component of the analysis header.
  */
-const AnalysisHeaderButton = styled.button`
-	display: flex;
+const AnalysisHeaderButton = styled( IconButton )`
 	width: 100%;
-	justify-content: space-between;
-	align-items: center;
 	background-color: ${ colors.$color_white };
 	padding: 0;
-	border: none;
-	text-align: left;
-	font-weight: 300;
-	cursor: pointer;
+	border-color: transparent;
+	border-radius: 0;
+	outline: none;
+	box-shadow: none;
 	// When clicking, the button text disappears in Safari 10 because of color: activebuttontext.
 	color: ${ colors.$color_blue };
-	outline: none;
-`;
 
-/**
- * The up or down pointing angle shown next to the title.
- */
-const AnalysisHeaderIcon = styled( Icon )`
-	flex: 0 0 40px;
-	// Add some spacing between icon and text.
-	margin-left: 10px;
-	// Compensate the height difference with a line of text (32px).
-	margin-top: -4px;
-	margin-bottom: -4px;
-	// Looks like Safari 10 doesn't like align-items: center for SVGs and needs some help.
-	align-self: flex-start;
-	
-	@media screen and ( max-width: ${ defaults.css.breakpoint.tablet }px ) {
-		margin-top: 4px;
-		margin-bottom: 4px;
-		margin-right: -2px;
+	:hover {
+		border-color: transparent;
+	}
+
+	:active {
+		box-shadow: none;
+		background-color: ${ colors.$color_white };
+	}
+
+	svg {
+		margin 0 10px;
+		width: 20px;
+		height: 20px;
 	}
 `;
 
 /**
  * The analysis header text.
  */
-const AnalysisTitle = styled.h3`
+const AnalysisTitle = styled.span`
 	margin: 8px 0;
 	word-wrap: break-word;
-	font-weight: normal;
-	flex: 1 1 auto;
-	font-size: 1.2em;
-	// Chrome needs 8 decimals to make this 32px without roundings.
-	line-height: 1.33333333;
-	// Looks like Safari 10 doesn't like align-items: center for SVGs and needs some help.
-	align-self: center;
+	font-size: 1.25em;
+	line-height: 1.25;
 `;
 
 /**
- * Analysis items list
+ * Analysis items list.
  */
 const AnalysisList = styled.ul`
-	margin: 0;
+	margin: 8px 0 0;
 	list-style: none;
 	padding: 0 16px;
 `;
@@ -81,16 +67,21 @@ const AnalysisList = styled.ul`
  * A collapsible header used to show sets of analysis results. Expects list items as children.
  *
  * @param {object} props The properties for the component.
- * @returns {ReactElement} A collasible analysisresult set.
+ * @returns {ReactElement} A collapsible analysisresult set.
  */
 export const AnalysisCollapsibleStateless = ( props ) => {
 	return (
 		<AnalysisHeaderContainer>
-			<AnalysisHeaderButton aria-expanded={ props.isOpen } onClick={ props.onToggle }>
-				<AnalysisHeaderIcon icon={ props.isOpen ? angleUp : angleDown } color={ colors.$color_grey_dark } size="20px" />
-				<AnalysisTitle> { props.title + " (" + props.children.length + ")" } </AnalysisTitle>
+			<AnalysisHeaderButton
+				type="button"
+				aria-expanded={ props.isOpen }
+				onClick={ props.onToggle }
+				icon={ props.isOpen ? angleUp : angleDown }
+				iconColor={ colors.$color_grey_dark }
+			>
+				<AnalysisTitle>{ props.title + " (" + props.children.length + ")" }</AnalysisTitle>
 			</AnalysisHeaderButton>
-			<AnalysisList>
+			<AnalysisList role="list">
 				{ props.isOpen ? props.children : null }
 			</AnalysisList>
 		</AnalysisHeaderContainer>
@@ -101,10 +92,6 @@ AnalysisCollapsibleStateless.propTypes = {
 	title: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	onToggle: PropTypes.func.isRequired,
-	children: PropTypes.oneOfType( [
-		PropTypes.arrayOf( PropTypes.node ),
-		PropTypes.node,
-	] ),
 };
 
 export class AnalysisCollapsible extends React.Component {
@@ -137,7 +124,7 @@ export class AnalysisCollapsible extends React.Component {
 	}
 
 	/**
-	 * Returns the rendered ListToggle element.
+	 * Returns the rendered AnalysisCollapsible element.
 	 *
 	 * @returns {ReactElement} The rendered collapsible analysisHeader.
 	 */
@@ -146,7 +133,8 @@ export class AnalysisCollapsible extends React.Component {
 			<AnalysisCollapsibleStateless
 				title={ this.props.title }
 				onToggle={ this.toggleOpen.bind( this ) }
-				isOpen={ this.state.isOpen }>
+				isOpen={ this.state.isOpen }
+			>
 				{ this.props.children }
 			</AnalysisCollapsibleStateless>
 		);
@@ -168,5 +156,3 @@ AnalysisCollapsible.defaultProps = {
 
 
 export default AnalysisCollapsible;
-
-
