@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const StackedProgressBarContainer = styled.div`
+	margin: 8px 0;
 	height: ${ props => props.barHeight };
 	overflow: hidden;
 `;

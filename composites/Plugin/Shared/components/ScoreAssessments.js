@@ -28,6 +28,7 @@ ScoreAssessmentBullet.propTypes = {
 
 const ScoreAssessmentText = styled( ScoreAssessmentPart )`
 	padding-left: 8px;
+	width: 100%;
 `;
 
 const ScoreAssessmentScore = styled( ScoreAssessmentPart )`
@@ -41,8 +42,8 @@ const ScoreAssessment = ( props ) => {
 		<ScoreAssessmentItem>
 			<ScoreAssessmentBullet scoreColor={ props.scoreColor }/>
 			<ScoreAssessmentText dangerouslySetInnerHTML={ { __html: props.html } }></ScoreAssessmentText>
-			{ props.score &&
-				<ScoreAssessmentScore>{ props.score }</ScoreAssessmentScore>
+			{ props.value &&
+				<ScoreAssessmentScore>{ props.value }</ScoreAssessmentScore>
 			}
 		</ScoreAssessmentItem>
 	);
@@ -51,7 +52,7 @@ const ScoreAssessment = ( props ) => {
 ScoreAssessment.propTypes = {
 	scoreColor: PropTypes.string.isRequired,
 	html: PropTypes.string.isRequired,
-	score: PropTypes.string,
+	value: PropTypes.number,
 };
 
 const ScoreAssessmentList = styled.ul`
@@ -59,8 +60,9 @@ const ScoreAssessmentList = styled.ul`
 	box-sizing: border-box;
 	list-style: none;
 	max-width: 100%;
-	margin: 0;
-	padding: 5px;
+	min-width: 200px;
+	margin: 8px 0;
+	padding: 0 8px;
 `;
 
 const ScoreAssessments = ( props ) => {
@@ -71,7 +73,7 @@ const ScoreAssessments = ( props ) => {
 					key={ index }
 					scoreColor={ item.color }
 					html={ item.html }
-					score={ item.score }/>
+					value={ item.value }/>
 			) }
 		</ScoreAssessmentList>
 	);
@@ -82,7 +84,7 @@ ScoreAssessments.propTypes = {
 		PropTypes.shape( {
 			color: PropTypes.string.isRequired,
 			html: PropTypes.string.isRequired,
-			score: PropTypes.string,
+			value: PropTypes.number,
 		} )
 	),
 };
