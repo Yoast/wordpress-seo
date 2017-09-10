@@ -102,9 +102,9 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	}
 
 	/**
-	 * Generates CSV from all posts.
+	 * Generates the CSV to be exported.
 	 *
-	 * @return string A CSV string.
+	 * @return string The generated CSV string.
 	 */
 	protected function get_csv_contents() {
 		$columns = array( 'keywords' );
