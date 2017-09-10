@@ -108,9 +108,6 @@ class WPSEO_Upgrade {
 		// Clean up options and meta.
 		WPSEO_Options::clean_up( null, $version );
 		WPSEO_Meta::clean_up();
-
-		// Add new capabilities on upgrade.
-		wpseo_add_capabilities();
 	}
 
 	/**
