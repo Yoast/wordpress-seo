@@ -81,6 +81,13 @@ class WPSEO_Capability_Manager_WP implements WPSEO_Capability_Manager {
 		/**
 		 * @todo add filter documentation
 		 */
-		return apply_filters( $capability . '_roles', $roles );
+		$filtered = apply_filters( $capability . '_roles', $roles );
+
+		// Make sure we have the expected type.
+		if ( ! is_array( $filtered ) ) {
+			return array();
+		}
+
+		return $filtered;
 	}
 }
