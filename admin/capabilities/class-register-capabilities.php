@@ -17,7 +17,9 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 	public function register() {
 		$manager = WPSEO_Capability_Manager_Factory::get();
 
-		$manager->register( 'wpseo_bulk_edit', array( 'editor' ) );
+		$manager->register( 'wpseo_bulk_edit', array( 'editor', 'wpseo_editor' ) );
+
+		$manager->register( 'wpseo_manage_options', array( 'wpseo_manager' ) );
 
 		/*
 		 * Respect MultiSite 'access' setting if set to 'super admins only'.
@@ -27,9 +29,5 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		if ( $ms_options['access'] !== 'superadmins' ) {
 			$manager->register( 'wpseo_manage_options', array( 'administrator' ) );
 		}
-
-		// Add capabilities to WPSEO Roles.
-		$manager->register( 'wpseo_bulk_edit', array( 'wpseo_editor' ) );
-		$manager->register( 'wpseo_manage_options', array( 'wpseo_manager' ) );
 	}
 }
