@@ -40,15 +40,7 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	public function add() {
 		foreach ( $this->roles as $role => $data ) {
 			$capabilities = $this->get_capabilities( $data->template );
-
-			$wp_role = get_role( $role );
-			if ( $wp_role && $capabilities ) {
-				foreach ( $capabilities as $capability => $grant ) {
-					if ( $this->capability_exists( $wp_role, $capability ) ) {
-						unset( $capabilities[ $capability ] );
-					}
-				}
-			}
+			$capabilities = $this->filter_existing_capabilties( $role, $capabilities );
 
 			$this->add_role( $role, $data->display_name, $capabilities );
 		}
@@ -72,6 +64,10 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 * @return array List of capabilities.
 	 */
 	protected function get_capabilities( $role ) {
+		if ( ! is_string( $role ) || empty( $role ) ) {
+			return array();
+		}
+
 		$wp_role = get_role( $role );
 		if ( ! $wp_role ) {
 			return array();
@@ -90,6 +86,35 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 */
 	protected function capability_exists( \WP_Role $role, $capability ) {
 		return ! array_key_exists( $capability, $role->capabilities );
+	}
+
+	/**
+	 * Filters out capabilities that are already set for the role.
+	 *
+	 * This makes sure we don't override configuration that has been done previously.
+	 *
+	 * @param string $role         The role to check against.
+	 * @param array  $capabilities The capabilties that are going to be set.
+	 *
+	 * @return array Capabilties that can be safely set.
+	 */
+	protected function filter_existing_capabilties( $role, array $capabilities ) {
+		if ( array() === $capabilities ) {
+			return $capabilities;
+		}
+
+		$wp_role = get_role( $role );
+		if ( ! $wp_role ) {
+			return $capabilities;
+		}
+
+		foreach ( $capabilities as $capability => $grant ) {
+			if ( $this->capability_exists( $wp_role, $capability ) ) {
+				unset( $capabilities[ $capability ] );
+			}
+		}
+
+		return $capabilities;
 	}
 
 	/**
