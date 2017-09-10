@@ -10,7 +10,7 @@ $button_label = __( 'Export keywords', 'wordpress-seo' );
 	<h2><?php esc_html_e( 'Export keywords to a CSV file', 'wordpress-seo' ) ?></h2>
 	<p><?php printf(
 			/* translators: %s resolves to the button label translation. */
-			esc_html__( 'If you need to have a list of all public posts, terms and related keywords, you can generate a CSV file using the %s button below.', 'wordpress-seo' ), sprintf( '<code>%s</code>', $button_label ) ) ?></p>
+			esc_html__( 'If you need a list of all public posts, terms and related keywords, you can generate a CSV file using the %s button below.', 'wordpress-seo' ), sprintf( '<code>%s</code>', $button_label ) ) ?></p>
 	<p><?php esc_html_e( 'You can add or remove columns to be included in the export using the checkboxes below.', 'wordpress-seo' ) ?></p>
 
 	<form action="" method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
@@ -30,7 +30,7 @@ $button_label = __( 'Export keywords', 'wordpress-seo' );
 
 	<p><strong><?php esc_html_e( 'Please note:', 'wordpress-seo' ) ?></strong></p>
 	<ul>
-		<li><?php esc_html_e( 'The first row in this file is a header, this row should be ignored when parsing or importing the data from the export.', 'wordpress-seo' ) ?></li>
+		<li><?php esc_html_e( 'The first row in this file is the header row. This row should be ignored when parsing or importing the data from the export.', 'wordpress-seo' ) ?></li>
 		<li><?php esc_html_e( 'Exporting data can take a long time when there are many posts, pages, public custom post types or terms.', 'wordpress-seo' ) ?></li>
 	</ul>
 </div>

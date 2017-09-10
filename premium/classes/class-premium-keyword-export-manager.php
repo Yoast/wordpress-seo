@@ -9,7 +9,7 @@
  * Manages exporting keywords.
  */
 class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integration {
-	/** @var  wpdb instance */
+	/** @var wpdb instance */
 	protected $wpdb;
 
 	/**
@@ -20,14 +20,14 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 		add_action( 'admin_init', array( $this, 'keywords_csv_export' ) );
 
 		// Add htaccess import block.
-		add_action( 'wpseo_import_tab_content', array( $this, 'add_keyword_export_block' ) );
-		add_action( 'wpseo_import_tab_header', array( $this, 'keywords_export_header' ) );
+		add_action( 'wpseo_import_tab_content', array( $this, 'add_keyword_export_tab_block' ) );
+		add_action( 'wpseo_import_tab_header', array( $this, 'keywords_export_tab_header' ) );
 	}
 
 	/**
 	 * Outputs a tab header for the CSV export block.
 	 */
-	public function keywords_export_header() {
+	public function keywords_export_tab_header() {
 		if ( current_user_can( 'export' ) ) {
 			echo '<a class="nav-tab" id="keywords-export-tab" href="#top#keywords-export">' .
 				 __( 'Export keywords', 'wordpress-seo-premium' ) .
@@ -36,9 +36,9 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	}
 
 	/**
-	 * Adding the export block for CSV. Makes it able to export redirects to CSV.
+	 * Adds the export block for CSV. Makes it able to export redirects to CSV.
 	 */
-	public function add_keyword_export_block() {
+	public function add_keyword_export_tab_block() {
 		// Display the forms.
 		if ( current_user_can( 'export' ) ) {
 			$yform = Yoast_Form::get_instance();
@@ -92,7 +92,7 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	}
 
 	/**
-	 * Sets the headers to trigger an CSV download in the browser.
+	 * Sets the headers to trigger a CSV download in the browser.
 	 */
 	protected function set_csv_headers() {
 		header( 'Content-type: text/csv' );
@@ -121,11 +121,11 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	}
 
 	/**
-	 * Returns a string array of the requested columns.
+	 * Returns an array of the requested columns.
 	 *
 	 * @param array $post_object An associative array with the post data.
 	 *
-	 * @return array The requested columns.
+	 * @return array List of columns.
 	 */
 	protected function get_export_columns( array $post_object ) {
 		$columns = array();
@@ -180,15 +180,17 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	protected function feed_to_builder( WPSEO_Export_Keywords_CSV $builder, WPSEO_Export_Keywords_Query $export_query, WPSEO_Export_Keywords_Presenter $presenter ) {
 		$page_size = $export_query->get_page_size();
 
-		$page = 0;
+		$page = 1;
 		do {
-			$results = $export_query->get_data( ++$page );
+			$results = $export_query->get_data( $page );
 
 			// Present the result.
 			$presented = array_map( array( $presenter, 'present' ), $results );
 
 			// Feed presented item to the builder.
 			array_map( array( $builder, 'add_row' ), $presented );
+
+			$page += 1;
 
 			// If we have the number of items per page, there will be more items ahead.
 		} while ( is_array( $results ) && count( $results ) === $page_size );

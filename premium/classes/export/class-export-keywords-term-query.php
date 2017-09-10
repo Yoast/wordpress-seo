@@ -6,29 +6,20 @@
 /**
  * Class WPSEO_Export_Keywords_Term_Query
  *
- * Creates a SQL query to gather all term data for a keywords export.
+ * Creates an SQL query to gather all term data for a keywords export.
  */
 class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
-	/**
-	 * @var wpdb The WordPress database object.
-	 */
+	/** @var wpdb The WordPress database object. */
 	protected $wpdb;
 
-	/**
-	 * @var array The columns to query for, an array of strings.
-	 */
+	/** @var array The columns to query for, an array of strings. */
 	protected $columns;
 
-	/**
-	 * @var array The database columns to select in the query, an array of strings.
-	 */
+	/** @var array The database columns to select in the query, an array of strings. */
 	protected $selects;
 
 	/** @var int Number of items to fetch per page */
 	protected $page_size;
-
-	/** @var string Escaped list of taxonomy names */
-	protected $taxonomies_escaped;
 
 	/**
 	 * WPSEO_Export_Keywords_Query constructor.
@@ -65,7 +56,7 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 	 */
 	public function get_data( $page = 1 ) {
 
-		if ( array() === $this->columns ) {
+		if ( $this->columns === array() ) {
 			return array();
 		}
 
@@ -110,7 +101,7 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 	protected function get_escaped_taxonomies() {
 		static $escaped = null;
 
-		if ( null === $escaped ) {
+		if ( $escaped === null ) {
 			$taxonomies = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'names' );
 			$escaped    = implode( '", "', array_map( 'esc_sql', $taxonomies ) );
 		}

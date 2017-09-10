@@ -25,7 +25,7 @@ interface WPSEO_Export_Keywords_Presenter {
 	 *
 	 * @param array $result The result to modify.
 	 *
-	 * @return bool|array The modified result, false if the result could not be modified.
+	 * @return array The modified result.
 	 */
 	public function present( array $result );
 }

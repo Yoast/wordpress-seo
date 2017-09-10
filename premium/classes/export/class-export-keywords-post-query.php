@@ -6,35 +6,27 @@
 /**
  * Class WPSEO_Export_Keywords_Query
  *
- * Creates a SQL query to gather all post data for a keywords export.
+ * Creates an SQL query to gather all post data for a keywords export.
  */
 class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 
-	/**
-	 * @var wpdb The WordPress database object.
-	 */
+	/** @var wpdb The WordPress database object. */
 	protected $wpdb;
 
-	/**
-	 * @var array The columns to query for, an array of strings.
-	 */
+	/** @var array The columns to query for. */
 	protected $columns;
 
-	/**
-	 * @var array The database columns to select in the query, an array of strings.
-	 */
+	/** @var array The database columns to select in the query. */
 	protected $selects;
 
-	/**
-	 * @var array The database tables to join in the query, an array of strings.
-	 */
+	/** @var array The database tables to join in the query. */
 	protected $joins = array();
 
 	/** @var int Number of items to fetch per page */
 	protected $page_size;
 
 	/** @var  string Escaped list of post types */
-	protected $post_types_escaped;
+	protected $escaped_post_types;
 
 	/**
 	 * WPSEO_Export_Keywords_Query constructor.
@@ -42,9 +34,9 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	 * Supported values for columns are 'title', 'url', 'keywords', 'seo_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
-	 * @param wpdb     $wpdb      A WordPress Database object.
-	 * @param array    $columns   List of columns that need to be retrieved.
-	 * @param int|bool $page_size Number of items to retrieve, false if no pagination should be used.
+	 * @param wpdb  $wpdb      A WordPress Database object.
+	 * @param array $columns   List of columns that need to be retrieved.
+	 * @param int   $page_size Number of items to retrieve.
 	 */
 	public function __construct( $wpdb, array $columns, $page_size = 1000 ) {
 		$this->wpdb      = $wpdb;
@@ -62,11 +54,11 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	 * @return array An array of associative arrays containing the keys as requested in the constructor.
 	 */
 	public function get_data( $page = 1 ) {
-		if ( array() === $this->columns ) {
+		if ( $this->columns === array() ) {
 			return array();
 		}
 
-		$escaped_post_types = $this->get_post_types_escaped();
+		$escaped_post_types = $this->get_escaped_post_types();
 		if ( empty( $escaped_post_types ) ) {
 			return array();
 		}
@@ -117,12 +109,14 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	}
 
 	/**
-	 * @return string
+	 * Escapes the post types to be used in an SQL list.
+	 *
+	 * @return string Escaped post types.
 	 */
-	protected function get_post_types_escaped() {
+	protected function get_escaped_post_types() {
 		static $escaped = null;
 
-		if ( null === $escaped ) {
+		if ( $escaped === null ) {
 			// Get all public post types and run esc_sql on them.
 			$escaped = implode( '", "', array_map( 'esc_sql', get_post_types( array( 'public' => true ), 'names' ) ) );
 		}
@@ -132,7 +126,9 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 
 	/**
 	 * Adds an aliased join to the $wpdb->postmeta table so that multiple meta values can be selected in a single row.
-	 * While this function should never be used with user input all non-word non-digit characters are removed from both params for increased robustness.
+	 *
+	 * While this function should never be used with user input,
+	 * all non-word non-digit characters are removed from both params for increased robustness.
 	 *
 	 * @param string $alias The alias to use in our query output.
 	 * @param string $key   The meta_key to select.

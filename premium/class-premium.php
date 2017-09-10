@@ -128,7 +128,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Setup the Yoast SEO premium plugin.
+	 * Sets up the Yoast SEO premium plugin.
 	 */
 	private function setup() {
 
@@ -247,7 +247,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Register the promotion class for our GlotPress instance.
+	 * Registers the promotion class for our GlotPress instance.
 	 *
 	 * @link https://github.com/Yoast/i18n-module
 	 */
@@ -267,20 +267,20 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Setting the autoloader for the redirects and instantiate the redirect page object.
+	 * Sets the autoloader for the redirects and instantiates the redirect page object.
 	 */
 	private function redirect_setup() {
-		// Setting the autoloader for redirects.
+		// Set the autoloader for redirects.
 		new WPSEO_Premium_Autoloader( 'WPSEO_Redirect', 'redirect/', 'WPSEO_' );
 
 		$this->redirects = new WPSEO_Redirect_Page();
 	}
 
 	/**
-	 * Setting the autoloader for the exports.
+	 * Sets the autoloader for the exports.
 	 */
 	private function export_setup() {
-		// Setting the autoloader for redirects.
+		// Set the autoloader for redirects.
 		new WPSEO_Premium_Autoloader( 'WPSEO_Export', 'export/', 'WPSEO_' );
 	}
 

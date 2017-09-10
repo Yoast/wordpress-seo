@@ -32,11 +32,11 @@ class WPSEO_Export_Keywords_Term_Presenter implements WPSEO_Export_Keywords_Pres
 	 *
 	 * @param array $result The result to modify.
 	 *
-	 * @return bool|array The modified result, false if the result could not be modified.
+	 * @return array The modified result.
 	 */
 	public function present( array $result ) {
 		if ( ! $this->validate_result( $result ) ) {
-			return false;
+			return array();
 		}
 
 		$result['ID'] = (int) $result['term_id'];
@@ -74,7 +74,6 @@ class WPSEO_Export_Keywords_Term_Presenter implements WPSEO_Export_Keywords_Pres
 				$result['seo_score'] = WPSEO_Rank::from_numeric_score( (int) $content_score )->get_label();
 				break;
 			case 'keywords':
-				// Make array, because it can contain more.
 				$result['keywords'] = $this->get_result_keywords( $result );
 				break;
 			case 'keywords_score':
@@ -86,11 +85,11 @@ class WPSEO_Export_Keywords_Term_Presenter implements WPSEO_Export_Keywords_Pres
 	}
 
 	/**
-	 * Returns whether a result to present is a valid result by doing a simple check.
+	 * Returns whether a result to present is a valid result.
 	 *
 	 * @param array $result The result to validate.
 	 *
-	 * @return bool
+	 * @return bool True if the result is validated.
 	 */
 	protected function validate_result( array $result ) {
 		// If there is no ID then it's not valid.

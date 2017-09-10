@@ -166,8 +166,8 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 	public function test_present_malformed() {
 		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title' ) );
 
-		$this->assertFalse( $class_instance->present( array( 'ID' => 'foo' ) ) );
-		$this->assertFalse( $class_instance->present( array( 'ID' => 0, 'title' => true ) ) );
+		$this->assertEquals( array(), $class_instance->present( array( 'ID' => 'foo' ) ) );
+		$this->assertEquals( array(), $class_instance->present( array( 'ID' => 0, 'title' => true ) ) );
 	}
 
 	/**

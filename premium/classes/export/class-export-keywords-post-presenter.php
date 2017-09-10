@@ -32,11 +32,11 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 	 *
 	 * @param array $result The result to modify.
 	 *
-	 * @return bool|array The modified result, false if the result could not be modified.
+	 * @return array The modified result, false if the result could not be modified.
 	 */
 	public function present( array $result ) {
 		if ( ! $this->validate_result( $result ) ) {
-			return false;
+			return array();
 		}
 
 		foreach ( $this->columns as $column ) {
@@ -78,11 +78,11 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 	}
 
 	/**
-	 * Returns whether a result to present is a valid result by doing a simple check.
+	 * Returns whether a result to present is a valid result.
 	 *
 	 * @param array $result The result to validate.
 	 *
-	 * @return bool
+	 * @return bool True for a value valid result.
 	 */
 	protected function validate_result( array $result ) {
 		// If there is no ID then it's not valid.
@@ -143,7 +143,7 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 	 * @return array The parsed keywords.
 	 */
 	protected function parse_result_keywords_json( array $result, $key ) {
-		if ( ! array_key_exists( $key, $result ) || ! $result[ $key ] ) {
+		if ( empty( $result[ $key ] ) ) {
 			return array();
 		}
 
