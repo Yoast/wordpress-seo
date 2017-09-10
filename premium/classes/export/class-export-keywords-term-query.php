@@ -27,9 +27,9 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 	 * Supported values for columns are 'title', 'url', 'keywords', 'seo_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
-	 * @param wpdb     $wpdb      A WordPress Database object.
-	 * @param array    $columns   List of columns that need to be retrieved.
-	 * @param int|bool $page_size Number of items to retrieve, false if no pagination should be used.
+	 * @param wpdb  $wpdb      A WordPress Database object.
+	 * @param array $columns   List of columns that need to be retrieved.
+	 * @param int   $page_size Number of items to retrieve.
 	 */
 	public function __construct( $wpdb, array $columns, $page_size = 1000 ) {
 		$this->wpdb      = $wpdb;
