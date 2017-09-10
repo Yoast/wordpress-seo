@@ -9,8 +9,9 @@ interface WPSEO_Capability_Manager {
 	 *
 	 * @param string $capability Capability to add.
 	 * @param array  $roles      Roles to add the capability to.
+	 * @param bool   $add        Optional. Use add or overwrite as registration method.
 	 */
-	public function register( $capability, array $roles );
+	public function register( $capability, array $roles, $add = true );
 
 	/**
 	 * Adds the registerd capabilities to the system.

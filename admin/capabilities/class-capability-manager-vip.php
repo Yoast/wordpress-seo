@@ -3,30 +3,17 @@
  * @package WPSEO\Admin\Capabilities
  */
 
-class WPSEO_Capability_Manager_VIP implements WPSEO_Capability_Manager {
-	protected $capabilities = array();
-
-	/**
-	 * Registers a capability.
-	 *
-	 * @param string $capability Capability to add.
-	 * @param array  $roles      Roles to add the capability to.
-	 */
-	public function register( $capability, array $roles ) {
-		$this->capabilities[ $capability ] = $roles;
-	}
-
+final class WPSEO_Capability_Manager_VIP extends WPSEO_Abstract_Capability_Manager {
 	/**
 	 * Adds the registerd capabilities to the system.
 	 */
 	public function add() {
-
 		$add_role_caps = array();
-		foreach( $this->capabilities as $capability => $roles ) {
+		foreach ( $this->capabilities as $capability => $roles ) {
 			// Allow filtering of roles.
 			$filtered_roles = $this->filter_roles( $capability, $roles );
 
-			foreach ($filtered_roles as $role) {
+			foreach ( $filtered_roles as $role ) {
 				if ( ! isset( $add_role_caps[ $role ] ) ) {
 					$add_role_caps[ $role ] = array();
 				}
@@ -47,11 +34,11 @@ class WPSEO_Capability_Manager_VIP implements WPSEO_Capability_Manager {
 		$roles = wp_roles()->get_names();
 
 		$add_role_caps = array();
-		foreach( $this->capabilities as $capability => $roles ) {
+		foreach ( $this->capabilities as $capability => $_roles ) {
 			// Allow filtering of roles.
 			$filtered_roles = $this->filter_roles( $capability, $roles );
 
-			foreach ($filtered_roles as $role) {
+			foreach ( $filtered_roles as $role ) {
 				if ( ! isset( $add_role_caps[ $role ] ) ) {
 					$add_role_caps[ $role ] = array();
 				}
@@ -62,35 +49,5 @@ class WPSEO_Capability_Manager_VIP implements WPSEO_Capability_Manager {
 		foreach ( $add_role_caps as $role => $capabilities ) {
 			wpcom_vip_remove_role_caps( $role, array( $capabilities ) );
 		}
-	}
-
-	/**
-	 * @param array $roles
-	 *
-	 * @return WP_Role[] List of WP_Role objects.
-	 */
-	protected function get_wp_roles( array $roles ) {
-		$wp_roles = array_map( 'get_role', $roles );
-		return array_filter($wp_roles );
-	}
-
-	/**
-	 * @param string $capability
-	 * @param array $roles
-	 *
-	 * @return array
-	 */
-	protected function filter_roles( $capability, array $roles ) {
-		/**
-		 * @todo filter documentation
-		 */
-		return apply_filters( $capability . '_roles', $roles );
-	}
-
-	/**
-	 * @return string[] List of registered capabilities
-	 */
-	public function get_capabilities() {
-		return array_keys( $this->capabilities );
 	}
 }
