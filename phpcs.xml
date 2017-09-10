@@ -23,12 +23,6 @@
         <exclude-pattern>css/xml-sitemap-xsl.php</exclude-pattern>
     </rule>
 
-	<rule ref="WordPress.WP.I18n">
-		<properties>
-			<property name="text_domain" value="wordpress-seo" />
-		</properties>
-	</rule>
-
     <rule ref="WordPress.NamingConventions.ValidVariableName">
         <properties>
             <property name="customVariablesWhitelist" type="array" value="pageUrl,responseCode,siteEntry,siteUrl,countPerTypes,urlCrawlErrorSample,buyUrl,infoUrl" />
