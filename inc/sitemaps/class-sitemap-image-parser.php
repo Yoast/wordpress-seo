@@ -230,40 +230,8 @@ class WPSEO_Sitemap_Image_Parser {
 				$gallery['include'] = $gallery['ids'];
 			}
 
-			$gallery_attachments = array();
+			$gallery_attachments = $this->get_gallery_attachments( $id, $gallery );
 
-			if ( ! empty( $gallery['include'] ) ) {
-
-				$_attachments = get_posts( array(
-					'include'        => $gallery['include'],
-					'post_status'    => 'inherit',
-					'post_type'      => 'attachment',
-					'post_mime_type' => 'image',
-				) );
-
-				foreach ( $_attachments as $key => $val ) {
-					$gallery_attachments[ $val->ID ] = $_attachments[ $key ];
-				}
-			}
-			elseif ( ! empty( $gallery['exclude'] ) && ! empty( $id ) ) {
-
-				$gallery_attachments = get_children( array(
-					'post_parent'    => $id,
-					'exclude'        => $gallery['exclude'],
-					'post_status'    => 'inherit',
-					'post_type'      => 'attachment',
-					'post_mime_type' => 'image',
-				) );
-			}
-			elseif ( ! empty( $id ) ) {
-
-				$gallery_attachments = get_children( array(
-					'post_parent'    => $id,
-					'post_status'    => 'inherit',
-					'post_type'      => 'attachment',
-					'post_mime_type' => 'image',
-				) );
-			}
 
 			$attachments = array_merge( $attachments, $gallery_attachments );
 		}
@@ -355,7 +323,7 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
-	 * Get attached image URL. Adapted from core for speed.
+	 * Get attached image URL with filters applied. Adapted from core for speed.
 	 *
 	 * @param int $post_id ID of the post.
 	 *
@@ -381,16 +349,17 @@ class WPSEO_Sitemap_Image_Parser {
 
 		// Check that the upload base exists in the file location.
 		if ( 0 === strpos( $file, $uploads['basedir'] ) ) {
-			return str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
+			$src = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
+		}
+		elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
+			$src = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
+		}
+		else {
+			// It's a newly uploaded file, therefore $file is relative to the baseurl.
+			$src = $uploads['baseurl'] . '/' . $file;
 		}
 
-		// Replace file location with url location.
-		if ( false !== strpos( $file, 'wp-content/uploads' ) ) {
-			return $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
-		}
-
-		// It's a newly uploaded file, therefore $file is relative to the baseurl.
-		return $uploads['baseurl'] . "/$file";
+		return apply_filters( 'wp_get_attachment_url', $src, $post_id );
 	}
 
 	/**
@@ -422,6 +391,104 @@ class WPSEO_Sitemap_Image_Parser {
 		}
 
 		return $src;
+	}
+
+	/**
+	 * Returns the attachments for a gallery.
+	 *
+	 * @param int   $id      The post id.
+	 * @param array $gallery The gallery config.
+	 *
+	 * @return array The selected attachments.
+	 */
+	protected function get_gallery_attachments( $id, $gallery ) {
+
+		// When there are attachments to include.
+		if ( ! empty( $gallery['include'] ) ) {
+			return $this->get_gallery_attachments_for_included( $gallery['include'] );
+		}
+
+		// When $id is empty, just return empty array.
+		if ( empty( $id ) ) {
+			return array();
+		}
+
+		return $this->get_gallery_attachments_for_parent( $id, $gallery );
+	}
+
+	/**
+	 * Returns the attachments for the given id.
+	 *
+	 * @param int   $id      The post id.
+	 * @param array $gallery The gallery config.
+	 *
+	 * @return array The selected attachments.
+	 */
+	protected function get_gallery_attachments_for_parent( $id, $gallery ) {
+		$query = array(
+			'posts_per_page' => -1,
+			'post_parent'    => $id,
+		);
+
+		// When there are posts that should be excluded from result set.
+		if ( ! empty( $gallery['exclude'] ) ) {
+			$query['post__not_in'] = wp_parse_id_list( $gallery['exclude'] );
+		}
+
+		return $this->get_attachments( $query );
+	}
+
+	/**
+	 * Returns an array with attachments for the post ids that will be included.
+	 *
+	 * @param array $include Array with ids to include.
+	 *
+	 * @return array The found attachments.
+	 */
+	protected function get_gallery_attachments_for_included( $include ) {
+		$ids_to_include = wp_parse_id_list( $include );
+		$attachments    = $this->get_attachments(
+			array(
+				'posts_per_page' => count( $ids_to_include ),
+				'post__in'       => $ids_to_include,
+			)
+		);
+
+		$gallery_attachments = array();
+		foreach ( $attachments as $key => $val ) {
+			$gallery_attachments[ $val->ID ] = $val;
+		}
+
+		return $gallery_attachments;
+	}
+
+	/**
+	 * Returns the attachments.
+	 *
+	 * @param array $args Array with query args.
+	 *
+	 * @return array The found attachments.
+	 */
+	protected function get_attachments( $args ) {
+		$default_args = array(
+			'post_status'         => 'inherit',
+			'post_type'           => 'attachment',
+			'post_mime_type'      => 'image',
+
+			// Defaults taken from function get_posts.
+			'orderby'             => 'date',
+			'order'               => 'DESC',
+			'meta_key'            => '',
+			'meta_value'          => '',
+			'suppress_filters'    => true,
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
+		);
+
+		$args = wp_parse_args( $args, $default_args );
+
+		$get_attachments = new WP_Query;
+		return $get_attachments->query( $args );
 	}
 
 	/**

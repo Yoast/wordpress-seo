@@ -54,14 +54,14 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 
 		$curl = curl_version();
 
-		$sslSupport = true;
+		$ssl_support = true;
 		if ( ! $curl['features'] && CURL_VERSION_SSL ) {
-			$sslSupport = false;
+			$ssl_support = false;
 		}
 
 		return array(
 			'version'    => $curl['version'],
-			'sslSupport' => $sslSupport,
+			'sslSupport' => $ssl_support,
 		);
 	}
 

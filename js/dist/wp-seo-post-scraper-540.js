@@ -2,76 +2,78 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /* global jQuery, wpseoTermScraperL10n */
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /* global jQuery, YoastSEO, wpseoPostScraperL10n */
 
-var _getIndicatorForScore = require("../analysis/getIndicatorForScore");
+var _isKeywordAnalysisActive = require("./isKeywordAnalysisActive");
 
-var _getIndicatorForScore2 = _interopRequireDefault(_getIndicatorForScore);
+var _isKeywordAnalysisActive2 = _interopRequireDefault(_isKeywordAnalysisActive);
+
+var _removeMarks = require("yoastseo/js/markers/removeMarks");
+
+var _removeMarks2 = _interopRequireDefault(_removeMarks);
 
 var _wpSeoTinymce = require("../wp-seo-tinymce");
 
 var _wpSeoTinymce2 = _interopRequireDefault(_wpSeoTinymce);
 
+var _getIndicatorForScore = require("./getIndicatorForScore");
+
+var _getIndicatorForScore2 = _interopRequireDefault(_getIndicatorForScore);
+
 var _trafficLight = require("../ui/trafficLight");
 
 var _adminBar = require("../ui/adminBar");
 
-var _isKeywordAnalysisActive = require("../analysis/isKeywordAnalysisActive");
+var _publishBox = require("../ui/publishBox");
 
-var _isKeywordAnalysisActive2 = _interopRequireDefault(_isKeywordAnalysisActive);
+var _publishBox2 = _interopRequireDefault(_publishBox);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var $ = jQuery;
+var currentKeyword = "";
 
 /**
- * Show warning in console when the unsupported CkEditor is used.
+ * Show warning in console when the unsupported CkEditor is used
  *
  * @param {Object} args The arguments for the post scraper.
  * @param {TabManager} args.tabManager The tab manager for this post.
  *
  * @constructor
  */
-var TermDataCollector = function TermDataCollector(args) {
-  if ((typeof CKEDITOR === "undefined" ? "undefined" : _typeof(CKEDITOR)) === "object") {
-    console.warn("YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.");
-  }
+var PostDataCollector = function PostDataCollector(args) {
+	if ((typeof CKEDITOR === "undefined" ? "undefined" : _typeof(CKEDITOR)) === "object") {
+		console.warn("YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.");
+	}
 
-  this._tabManager = args.tabManager;
+	this._tabManager = args.tabManager;
 };
 
 /**
- * Returns data fetched from input fields.
+ * Get data from input fields and store them in an analyzerData object. This object will be used to fill
+ * the analyzer and the snippet preview.
  *
- * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}} The object with data.
+ * @returns {void}
  */
-TermDataCollector.prototype.getData = function () {
-  return {
-    title: this.getTitle(),
-    keyword: (0, _isKeywordAnalysisActive2.default)() ? this.getKeyword() : "",
-    text: this.getText(),
-    meta: this.getMeta(),
-    url: this.getUrl(),
-    permalink: this.getPermalink(),
-    snippetCite: this.getSnippetCite(),
-    snippetTitle: this.getSnippetTitle(),
-    snippetMeta: this.getSnippetMeta(),
-    name: this.getName(),
-    baseUrl: this.getBaseUrl(),
-    pageTitle: this.getPageTitle()
-  };
-};
-
-/**
- * Returns the title from the DOM.
- *
- * @returns {string} The title.
- */
-TermDataCollector.prototype.getTitle = function () {
-  return document.getElementById("hidden_wpseo_title").value;
+PostDataCollector.prototype.getData = function () {
+	return {
+		keyword: (0, _isKeywordAnalysisActive2.default)() ? this.getKeyword() : "",
+		meta: this.getMeta(),
+		text: this.getText(),
+		title: this.getTitle(),
+		url: this.getUrl(),
+		excerpt: this.getExcerpt(),
+		snippetTitle: this.getSnippetTitle(),
+		snippetMeta: this.getSnippetMeta(),
+		snippetCite: this.getSnippetCite(),
+		primaryCategory: this.getPrimaryCategory(),
+		searchUrl: this.getSearchUrl(),
+		postUrl: this.getPostUrl(),
+		permalink: this.getPermalink()
+	};
 };
 
 /**
@@ -79,147 +81,209 @@ TermDataCollector.prototype.getTitle = function () {
  *
  * @returns {string} The keyword.
  */
-TermDataCollector.prototype.getKeyword = function () {
-  var elem, val;
+PostDataCollector.prototype.getKeyword = function () {
+	var val = document.getElementById("yoast_wpseo_focuskw_text_input") && document.getElementById("yoast_wpseo_focuskw_text_input").value || "";
+	currentKeyword = val;
 
-  elem = document.getElementById("wpseo_focuskw");
-  val = elem.value;
-  if (val === "") {
-    val = document.getElementById("name").value;
-    elem.placeholder = val;
-  }
-
-  return val;
+	return val;
 };
 
 /**
- * Returns the text from the DOM.
+ * Returns the Meta from the DOM.
+ *
+ * @returns {string} The meta description.
+ */
+PostDataCollector.prototype.getMeta = function () {
+	return document.getElementById("yoast_wpseo_metadesc") && document.getElementById("yoast_wpseo_metadesc").value || "";
+};
+
+/**
+ * Returns the Text from the DOM.
  *
  * @returns {string} The text.
  */
-TermDataCollector.prototype.getText = function () {
-  return _wpSeoTinymce2.default.getContentTinyMce(_wpSeoTinymce.termsTmceId);
+PostDataCollector.prototype.getText = function () {
+	return (0, _removeMarks2.default)(_wpSeoTinymce2.default.getContentTinyMce(_wpSeoTinymce.tmceId));
 };
 
 /**
- * Returns the meta description from the DOM.
+ * Returns the Title from the DOM.
  *
- * @returns {string} The meta.
+ * @returns {string} The title.
  */
-TermDataCollector.prototype.getMeta = function () {
-  var val = "";
-
-  var elem = document.getElementById("hidden_wpseo_desc");
-  if (elem !== null) {
-    val = elem.value;
-  }
-
-  return val;
+PostDataCollector.prototype.getTitle = function () {
+	return document.getElementById("title") && document.getElementById("title").value || "";
 };
 
 /**
- * Returns the url from the DOM.
+ * Returns the Url from the DOM.
  *
  * @returns {string} The url.
  */
-TermDataCollector.prototype.getUrl = function () {
-  return document.getElementById("slug").value;
+PostDataCollector.prototype.getUrl = function () {
+	var url = "";
+
+	var newPostSlug = $("#new-post-slug");
+	if (0 < newPostSlug.length) {
+		url = newPostSlug.val();
+	} else if (document.getElementById("editable-post-name-full") !== null) {
+		url = document.getElementById("editable-post-name-full").textContent;
+	}
+
+	return url;
 };
 
 /**
- * Returns the permalink from the DOM.
+ * Returns the Excerpt from the DOM.
  *
- * @returns {string} The permalink.
+ * @returns {string} The excerpt.
  */
-TermDataCollector.prototype.getPermalink = function () {
-  var url = this.getUrl();
+PostDataCollector.prototype.getExcerpt = function () {
+	var val = "";
 
-  return this.getBaseUrl() + url + "/";
+	if (document.getElementById("excerpt") !== null) {
+		val = document.getElementById("excerpt") && document.getElementById("excerpt").value || "";
+	}
+
+	return val;
 };
 
 /**
- * Returns the snippet cite from the DOM.
- *
- * @returns {string} The snippet cite.
- */
-TermDataCollector.prototype.getSnippetCite = function () {
-  return this.getUrl();
-};
-
-/**
- * Returns the snippet title from the DOM.
+ * Returns the SnippetTitle from the DOM.
  *
  * @returns {string} The snippet title.
  */
-TermDataCollector.prototype.getSnippetTitle = function () {
-  return document.getElementById("hidden_wpseo_title").value;
+PostDataCollector.prototype.getSnippetTitle = function () {
+	return document.getElementById("yoast_wpseo_title") && document.getElementById("yoast_wpseo_title").value || "";
 };
 
 /**
- * Returns the snippet meta from the DOM.
+ * Returns the SnippetMeta from the DOM.
  *
  * @returns {string} The snippet meta.
  */
-TermDataCollector.prototype.getSnippetMeta = function () {
-  var val = "";
-
-  var elem = document.getElementById("hidden_wpseo_desc");
-  if (elem !== null) {
-    val = elem.value;
-  }
-
-  return val;
+PostDataCollector.prototype.getSnippetMeta = function () {
+	return document.getElementById("yoast_wpseo_metadesc") && document.getElementById("yoast_wpseo_metadesc").value || "";
 };
 
 /**
- * Returns the name from the DOM.
+ * Returns the SnippetCite from the DOM.
  *
- * @returns {string} The name.
+ * @returns {string} The snippet cite.
  */
-TermDataCollector.prototype.getName = function () {
-  return document.getElementById("name").value;
+PostDataCollector.prototype.getSnippetCite = function () {
+	return this.getUrl();
 };
 
 /**
- * Returns the base url from the DOM.
+ * Returns the PrimaryCategory from the DOM.
  *
- * @returns {string} The base url.
+ * @returns {string} The primary category.
  */
-TermDataCollector.prototype.getBaseUrl = function () {
-  return wpseoTermScraperL10n.base_url;
+PostDataCollector.prototype.getPrimaryCategory = function () {
+	var val = "";
+	var categoryBase = $("#category-all").find("ul.categorychecklist");
+
+	// If only one is visible than that item is the primary category.
+	var checked = categoryBase.find("li input:checked");
+
+	if (checked.length === 1) {
+		val = this.getCategoryName(checked.parent());
+
+		return val;
+	}
+
+	var primaryTerm = categoryBase.find(".wpseo-primary-term > label");
+
+	if (primaryTerm.length) {
+		val = this.getCategoryName(primaryTerm);
+
+		return val;
+	}
+
+	return val;
 };
 
 /**
- * Returns the page title from the DOM.
+ * Returns the SearchUrl from the DOM.
  *
- * @returns {string} The page title.
+ * @returns {string} The search url.
  */
-TermDataCollector.prototype.getPageTitle = function () {
-  return document.getElementById("hidden_wpseo_title").value;
+PostDataCollector.prototype.getSearchUrl = function () {
+	return wpseoPostScraperL10n.search_url;
+};
+
+/**
+ * Returns the PostUrl from the DOM.
+ *
+ * @returns {string} The post url.
+ */
+PostDataCollector.prototype.getPostUrl = function () {
+	return wpseoPostScraperL10n.post_edit_url;
+};
+
+/**
+ * Returns the Permalink from the DOM.
+ *
+ * @returns {string} The permalink.
+ */
+PostDataCollector.prototype.getPermalink = function () {
+	var url = this.getUrl();
+
+	return wpseoPostScraperL10n.base_url + url;
+};
+
+/**
+ * Get the category name from the list item.
+ *
+ * @param {Object} li Item which contains the category.
+ *
+ * @returns {String}  Name of the category.
+ */
+PostDataCollector.prototype.getCategoryName = function (li) {
+	var clone = li.clone();
+	clone.children().remove();
+	return $.trim(clone.text());
 };
 
 /**
  * When the snippet is updated, update the (hidden) fields on the page.
  *
- * @param {Object} value Value for the data to set.
- * @param {String} type The field(type) that the data is set for.
+ * @param {Object} value The value to set.
+ * @param {String} type  The type to set the value for.
  *
  * @returns {void}
  */
-TermDataCollector.prototype.setDataFromSnippet = function (value, type) {
-  switch (type) {
-    case "snippet_meta":
-      document.getElementById("hidden_wpseo_desc").value = value;
-      break;
-    case "snippet_cite":
-      document.getElementById("slug").value = value;
-      break;
-    case "snippet_title":
-      document.getElementById("hidden_wpseo_title").value = value;
-      break;
-    default:
-      break;
-  }
+PostDataCollector.prototype.setDataFromSnippet = function (value, type) {
+	switch (type) {
+		case "snippet_meta":
+			document.getElementById("yoast_wpseo_metadesc").value = value;
+			break;
+		case "snippet_cite":
+
+			/*
+    * WordPress leaves the post name empty to signify that it should be generated from the title once the
+    * post is saved. So when we receive an auto generated slug from WordPress we should be
+    * able to not save this to the UI. This conditional makes that possible.
+    */
+			if (this.leavePostNameUntouched) {
+				this.leavePostNameUntouched = false;
+				return;
+			}
+			if (document.getElementById("post_name") !== null) {
+				document.getElementById("post_name").value = value;
+			}
+			if (document.getElementById("editable-post-name") !== null && document.getElementById("editable-post-name-full") !== null) {
+				document.getElementById("editable-post-name").textContent = value;
+				document.getElementById("editable-post-name-full").textContent = value;
+			}
+			break;
+		case "snippet_title":
+			document.getElementById("yoast_wpseo_title").value = value;
+			break;
+		default:
+			break;
+	}
 };
 
 /**
@@ -232,96 +296,148 @@ TermDataCollector.prototype.setDataFromSnippet = function (value, type) {
  *
  * @returns {void}
  */
-TermDataCollector.prototype.saveSnippetData = function (data) {
-  this.setDataFromSnippet(data.title, "snippet_title");
-  this.setDataFromSnippet(data.urlPath, "snippet_cite");
-  this.setDataFromSnippet(data.metaDesc, "snippet_meta");
+PostDataCollector.prototype.saveSnippetData = function (data) {
+	this.setDataFromSnippet(data.title, "snippet_title");
+	this.setDataFromSnippet(data.urlPath, "snippet_cite");
+	this.setDataFromSnippet(data.metaDesc, "snippet_meta");
 };
 
 /**
- * Binds TermDataCollector events to elements.
+ * Calls the event binders.
  *
  * @param {app} app The app object.
  *
  * @returns {void}
  */
-TermDataCollector.prototype.bindElementEvents = function (app) {
-  this.inputElementEventBinder(app);
+PostDataCollector.prototype.bindElementEvents = function (app) {
+	this.inputElementEventBinder(app);
+	this.changeElementEventBinder(app);
 };
 
 /**
- * Binds the renewData function on the change of inputelements.
+ * Binds the reanalyze timer on change of dom element.
  *
  * @param {app} app The app object.
  *
  * @returns {void}
  */
-TermDataCollector.prototype.inputElementEventBinder = function (app) {
-  var elems = ["name", _wpSeoTinymce.termsTmceId, "slug", "wpseo_focuskw"];
-  for (var i = 0; i < elems.length; i++) {
-    var elem = document.getElementById(elems[i]);
-    if (elem !== null) {
-      document.getElementById(elems[i]).addEventListener("input", app.refresh.bind(app));
-    }
-  }
-  _wpSeoTinymce2.default.tinyMceEventBinder(app, _wpSeoTinymce.termsTmceId);
+PostDataCollector.prototype.changeElementEventBinder = function (app) {
+	var elems = ["#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]'];
+	for (var i = 0; i < elems.length; i++) {
+		$(elems[i]).on("change", app.refresh.bind(app));
+	}
 };
 
 /**
- * Creates SVG for the overall score.
+ * Binds the renewData function on the change of input elements.
  *
- * @param {number} score Score to save.
+ * @param {app} app The app object.
  *
  * @returns {void}
  */
-TermDataCollector.prototype.saveScores = function (score) {
-  var indicator = (0, _getIndicatorForScore2.default)(score);
-  var keyword = this.getKeyword();
+PostDataCollector.prototype.inputElementEventBinder = function (app) {
+	var elems = ["excerpt", "content", "yoast_wpseo_focuskw_text_input", "title"];
+	for (var i = 0; i < elems.length; i++) {
+		var elem = document.getElementById(elems[i]);
+		if (elem !== null) {
+			document.getElementById(elems[i]).addEventListener("input", app.refresh.bind(app));
+		}
+	}
 
-  document.getElementById("hidden_wpseo_linkdex").value = score;
-  jQuery(window).trigger("YoastSEO:numericScore", score);
+	_wpSeoTinymce2.default.tinyMceEventBinder(app, _wpSeoTinymce.tmceId);
 
-  this._tabManager.updateKeywordTab(score, keyword);
+	document.getElementById("yoast_wpseo_focuskw_text_input").addEventListener("blur", this.resetQueue.bind(this));
+};
 
-  (0, _trafficLight.update)(indicator);
-  (0, _adminBar.update)(indicator);
+/**
+ * Resets the current queue if focus keyword is changed and not empty.
+ *
+ * @returns {void}
+ */
+PostDataCollector.prototype.resetQueue = function () {
+	if (this.app.rawData.keyword !== "") {
+		this.app.runAnalyzer(this.rawData);
+	}
+};
+
+/**
+ * Saves the score to the linkdex.
+ * Outputs the score in the overall target.
+ *
+ * @param {string} score The score to save.
+ *
+ * @returns {void}
+ */
+PostDataCollector.prototype.saveScores = function (score) {
+	var indicator = (0, _getIndicatorForScore2.default)(score);
+
+	// If multi keyword isn't available we need to update the first tab (content).
+	if (!YoastSEO.multiKeyword) {
+		this._tabManager.updateKeywordTab(score, currentKeyword);
+		_publishBox2.default.updateScore("content", indicator.className);
+
+		// Updates the input with the currentKeyword value.
+		$("#yoast_wpseo_focuskw").val(currentKeyword);
+	}
+
+	if (this._tabManager.isMainKeyword(currentKeyword)) {
+		document.getElementById("yoast_wpseo_linkdex").value = score;
+
+		if ("" === currentKeyword) {
+			indicator.className = "na";
+			indicator.screenReaderText = this.app.i18n.dgettext("js-text-analysis", "Enter a focus keyword to calculate the SEO score");
+			indicator.fullText = this.app.i18n.dgettext("js-text-analysis", "Content optimization: Enter a focus keyword to calculate the SEO score");
+		}
+
+		this._tabManager.updateKeywordTab(score, currentKeyword);
+
+		(0, _trafficLight.update)(indicator);
+		(0, _adminBar.update)(indicator);
+
+		_publishBox2.default.updateScore("keyword", indicator.className);
+	}
+
+	jQuery(window).trigger("YoastSEO:numericScore", score);
 };
 
 /**
  * Saves the content score to a hidden field.
  *
- * @param {number} score The score calculated by the content assessor.
+ * @param {number} score The score to save.
  *
  * @returns {void}
  */
-TermDataCollector.prototype.saveContentScore = function (score) {
-  var indicator = (0, _getIndicatorForScore2.default)(score);
+PostDataCollector.prototype.saveContentScore = function (score) {
+	this._tabManager.updateContentTab(score);
+	var indicator = (0, _getIndicatorForScore2.default)(score);
+	_publishBox2.default.updateScore("content", indicator.className);
 
-  this._tabManager.updateContentTab(score);
+	if (!(0, _isKeywordAnalysisActive2.default)()) {
+		(0, _trafficLight.update)(indicator);
+		(0, _adminBar.update)(indicator);
+	}
 
-  if (!(0, _isKeywordAnalysisActive2.default)()) {
-    (0, _trafficLight.update)(indicator);
-    (0, _adminBar.update)(indicator);
-  }
-
-  $("#hidden_wpseo_content_score").val(score);
+	$("#yoast_wpseo_content_score").val(score);
 };
 
 /**
- * Initializes keyword tab with the correct template.
+ * Initializes keyword tab with the correct template if multi keyword isn't available.
  *
  * @returns {void}
  */
-TermDataCollector.prototype.initKeywordTabTemplate = function () {
-  // Remove default functionality to prevent scrolling to top.
-  $(".wpseo-metabox-tabs").on("click", ".wpseo_tablink", function (ev) {
-    ev.preventDefault();
-  });
+PostDataCollector.prototype.initKeywordTabTemplate = function () {
+	// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
+	if (YoastSEO.multiKeyword) {
+		return;
+	}
+
+	var keyword = $("#yoast_wpseo_focuskw").val();
+	$("#yoast_wpseo_focuskw_text_input").val(keyword);
 };
 
-exports.default = TermDataCollector;
+exports.default = PostDataCollector;
 
-},{"../analysis/getIndicatorForScore":5,"../analysis/isKeywordAnalysisActive":10,"../ui/adminBar":17,"../ui/trafficLight":18,"../wp-seo-tinymce":20}],2:[function(require,module,exports){
+},{"../ui/adminBar":16,"../ui/publishBox":17,"../ui/trafficLight":18,"../wp-seo-tinymce":21,"./getIndicatorForScore":5,"./isKeywordAnalysisActive":10,"yoastseo/js/markers/removeMarks":406}],2:[function(require,module,exports){
 "use strict";
 
 /* global wp, jQuery */
@@ -529,7 +645,7 @@ module.exports = function () {
 	return GenericTab;
 }();
 
-},{"./getIndicatorForScore":5,"lodash/defaultsDeep":245}],3:[function(require,module,exports){
+},{"./getIndicatorForScore":5,"lodash/defaultsDeep":246}],3:[function(require,module,exports){
 "use strict";
 
 var getL10nObject = require("./getL10nObject");
@@ -584,7 +700,7 @@ function getI18n() {
 
 module.exports = getI18n;
 
-},{"./getTranslations":8,"jed":60,"lodash/isEmpty":270}],5:[function(require,module,exports){
+},{"./getTranslations":8,"jed":61,"lodash/isEmpty":271}],5:[function(require,module,exports){
 "use strict";
 
 /* global YoastSEO */
@@ -648,7 +764,7 @@ function getIndicatorForScore(score) {
 
 module.exports = getIndicatorForScore;
 
-},{"lodash/isUndefined":281,"yoastseo":337}],6:[function(require,module,exports){
+},{"lodash/isUndefined":282,"yoastseo":339}],6:[function(require,module,exports){
 "use strict";
 
 var isUndefined = require("lodash/isUndefined");
@@ -672,7 +788,7 @@ function getL10nObject() {
 
 module.exports = getL10nObject;
 
-},{"lodash/isUndefined":281}],7:[function(require,module,exports){
+},{"lodash/isUndefined":282}],7:[function(require,module,exports){
 "use strict";
 
 var getL10nObject = require("./getL10nObject");
@@ -726,7 +842,7 @@ function getTranslations() {
 
 module.exports = getTranslations;
 
-},{"./getL10nObject":6,"lodash/isUndefined":281}],9:[function(require,module,exports){
+},{"./getL10nObject":6,"lodash/isUndefined":282}],9:[function(require,module,exports){
 "use strict";
 
 var getL10nObject = require("./getL10nObject");
@@ -746,7 +862,7 @@ function isContentAnalysisActive() {
 
 module.exports = isContentAnalysisActive;
 
-},{"./getL10nObject":6,"lodash/isUndefined":281}],10:[function(require,module,exports){
+},{"./getL10nObject":6,"lodash/isUndefined":282}],10:[function(require,module,exports){
 "use strict";
 
 var getL10nObject = require("./getL10nObject");
@@ -766,7 +882,7 @@ function isKeywordAnalysisActive() {
 
 module.exports = isKeywordAnalysisActive;
 
-},{"./getL10nObject":6,"lodash/isUndefined":281}],11:[function(require,module,exports){
+},{"./getL10nObject":6,"lodash/isUndefined":282}],11:[function(require,module,exports){
 "use strict";
 
 /* global wp, jQuery */
@@ -906,7 +1022,7 @@ module.exports = function () {
 	return KeywordTab;
 }();
 
-},{"./genericTab":2,"lodash/defaultsDeep":245,"lodash/isUndefined":281}],12:[function(require,module,exports){
+},{"./genericTab":2,"lodash/defaultsDeep":246,"lodash/isUndefined":282}],12:[function(require,module,exports){
 "use strict";
 
 /* global jQuery */
@@ -1038,7 +1154,7 @@ module.exports = {
   createStandalone: createStandalone
 };
 
-},{"./getDescriptionPlaceholder":3,"./getI18n":4,"./getL10nObject":6,"./getTitlePlaceholder":7,"yoastseo":337}],13:[function(require,module,exports){
+},{"./getDescriptionPlaceholder":3,"./getI18n":4,"./getL10nObject":6,"./getTitlePlaceholder":7,"yoastseo":339}],13:[function(require,module,exports){
 "use strict";
 
 /* global YoastSEO */
@@ -1224,7 +1340,7 @@ TabManager.prototype.getContentTab = function () {
 
 module.exports = TabManager;
 
-},{"./genericTab":2,"./keywordTab":11,"lodash/defaultsDeep":245}],14:[function(require,module,exports){
+},{"./genericTab":2,"./keywordTab":11,"lodash/defaultsDeep":246}],14:[function(require,module,exports){
 "use strict";
 
 /* global jQuery, ajaxurl */
@@ -1324,41 +1440,7 @@ UsedKeywords.prototype.updateKeywordUsage = function (keyword, response) {
 
 module.exports = UsedKeywords;
 
-},{"lodash/debounce":243,"lodash/has":257,"lodash/isArray":265,"yoastseo":337}],15:[function(require,module,exports){
-"use strict";
-
-var Assessor = require("yoastseo/js/assessor.js");
-
-var introductionKeyword = require("yoastseo/js/assessments/seo/introductionKeywordAssessment.js");
-var keyphraseLength = require("yoastseo/js/assessments/seo/keyphraseLengthAssessment.js");
-var keywordDensity = require("yoastseo/js/assessments/seo/keywordDensityAssessment.js");
-var keywordStopWords = require("yoastseo/js/assessments/seo/keywordStopWordsAssessment.js");
-var metaDescriptionKeyword = require("yoastseo/js/assessments/seo/metaDescriptionKeywordAssessment.js");
-var MetaDescriptionLength = require("yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js");
-var titleKeyword = require("yoastseo/js/assessments/seo/titleKeywordAssessment.js");
-var TitleWidth = require("yoastseo/js/assessments/seo/pageTitleWidthAssessment.js");
-var UrlKeyword = require("yoastseo/js/assessments/seo/urlKeywordAssessment.js");
-var UrlLength = require("yoastseo/js/assessments/seo/urlLengthAssessment.js");
-var urlStopWords = require("yoastseo/js/assessments/seo/urlStopWordsAssessment.js");
-var taxonomyTextLength = require("yoastseo/js/assessments/seo/taxonomyTextLengthAssessment");
-
-/**
- * Creates the Assessor
- *
- * @param {object} i18n The i18n object used for translations.
- * @constructor
- */
-var TaxonomyAssessor = function TaxonomyAssessor(i18n) {
-	Assessor.call(this, i18n);
-
-	this._assessments = [introductionKeyword, keyphraseLength, keywordDensity, keywordStopWords, metaDescriptionKeyword, new MetaDescriptionLength(), taxonomyTextLength, titleKeyword, new TitleWidth(), new UrlKeyword(), new UrlLength(), urlStopWords];
-};
-
-module.exports = TaxonomyAssessor;
-
-require("util").inherits(module.exports, Assessor);
-
-},{"util":336,"yoastseo/js/assessments/seo/introductionKeywordAssessment.js":350,"yoastseo/js/assessments/seo/keyphraseLengthAssessment.js":351,"yoastseo/js/assessments/seo/keywordDensityAssessment.js":352,"yoastseo/js/assessments/seo/keywordStopWordsAssessment.js":353,"yoastseo/js/assessments/seo/metaDescriptionKeywordAssessment.js":354,"yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js":355,"yoastseo/js/assessments/seo/pageTitleWidthAssessment.js":357,"yoastseo/js/assessments/seo/taxonomyTextLengthAssessment":359,"yoastseo/js/assessments/seo/titleKeywordAssessment.js":363,"yoastseo/js/assessments/seo/urlKeywordAssessment.js":364,"yoastseo/js/assessments/seo/urlLengthAssessment.js":365,"yoastseo/js/assessments/seo/urlStopWordsAssessment.js":366,"yoastseo/js/assessor.js":367}],16:[function(require,module,exports){
+},{"lodash/debounce":244,"lodash/has":258,"lodash/isArray":266,"yoastseo":339}],15:[function(require,module,exports){
 "use strict";
 
 var _forEach = require("lodash/forEach");
@@ -1463,7 +1545,7 @@ module.exports = {
 	editorRemoveMarks: editorRemoveMarks
 };
 
-},{"lodash/forEach":255,"yoastseo/js/markers/removeMarks":405}],17:[function(require,module,exports){
+},{"lodash/forEach":256,"yoastseo/js/markers/removeMarks":406}],16:[function(require,module,exports){
 "use strict";
 
 /**
@@ -1480,6 +1562,106 @@ function updateAdminBar(indicator) {
 module.exports = {
   update: updateAdminBar
 };
+
+},{}],17:[function(require,module,exports){
+"use strict";
+
+/* global wpseoPostScraperL10n */
+
+var scoreDescriptionClass = "score-text";
+var imageScoreClass = "image yoast-logo svg";
+
+(function ($) {
+	/* eslint-disable no-extend-native */
+	/**
+  * Converts the first letter to uppercase in a string.
+  *
+  * @returns {string} The string with the first letter uppercased.
+  */
+	String.prototype.ucfirst = function () {
+		return this.charAt(0).toUpperCase() + this.substr(1);
+	};
+	/* eslint-enable no-extend-native */
+
+	/**
+  * Creates a text with the label and description for a seo score.
+  *
+  * @param {String} scoreType The type of score, this is used for the label.
+  * @param {String} status The status for the score, this is the descriptive status text.
+  * @returns {String} A string with label and description with correct text decoration.
+  */
+	function createSEOScoreLabel(scoreType, status) {
+		var label = wpseoPostScraperL10n.publish_box.labels[scoreType] || "";
+		status = wpseoPostScraperL10n.publish_box.statuses[status] || "";
+
+		return label + ": <strong>" + status + "</strong>";
+	}
+
+	/**
+  * Updates a score type in the publish box.
+  *
+  * @param {String} type The score type to update (content or seo).
+  * @param {String} status The status is the class name that is used to update the image.
+  *
+  * @returns {void}
+  */
+	function updateScoreInPublishBox(type, status) {
+		var publishSection = $("#" + type + "-score");
+
+		var imageClass = imageScoreClass + " " + status;
+		publishSection.children(".image").attr("class", imageClass);
+
+		var text = createSEOScoreLabel(type, status);
+		publishSection.children("." + scoreDescriptionClass).html(text);
+	}
+
+	/**
+  * Creates a new item in the publish box for an yoast-seo score.
+  *
+  * @param {String} type The score type, for example content score or keyword score.
+  * @param {String} status The status for the score initialisation.
+  *
+  * @returns {void}
+  */
+	function createScoresInPublishBox(type, status) {
+		var publishSection = $("<div />", {
+			"class": "misc-pub-section yoast yoast-seo-score " + type + "-score",
+			"id": type + "-score"
+		});
+
+		var spanElem = $("<span />", {
+			"class": scoreDescriptionClass,
+			"html": createSEOScoreLabel(type, status)
+		});
+
+		var imgElem = $("<span>").attr("class", imageScoreClass + " na");
+
+		publishSection.append(imgElem).append(spanElem);
+		$("#misc-publishing-actions").append(publishSection);
+	}
+
+	/**
+  * Initializes the publish box score indicators.
+  *
+  * @returns {void}
+  */
+	function initialise() {
+		var notAvailableStatus = "na";
+
+		if (wpseoPostScraperL10n.contentAnalysisActive === "1") {
+			createScoresInPublishBox("content", notAvailableStatus);
+		}
+
+		if (wpseoPostScraperL10n.keywordAnalysisActive === "1") {
+			createScoresInPublishBox("keyword", notAvailableStatus);
+		}
+	}
+
+	module.exports = {
+		initalise: initialise,
+		updateScore: updateScoreInPublishBox
+	};
+})(jQuery);
 
 },{}],18:[function(require,module,exports){
 "use strict";
@@ -1516,20 +1698,88 @@ module.exports = {
 },{}],19:[function(require,module,exports){
 "use strict";
 
-var _TermDataCollector = require("./analysis/TermDataCollector");
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-var _TermDataCollector2 = _interopRequireDefault(_TermDataCollector);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _wpSeoTinymce = require("./wp-seo-tinymce");
+var _marked = require("marked");
+
+var _marked2 = _interopRequireDefault(_marked);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var isUndefined = require("lodash/isUndefined");
+/**
+ * Plugin to parse markdown in the content before it is analyzed.
+ */
+var YoastMarkdownPlugin = function () {
+	function YoastMarkdownPlugin(app) {
+		_classCallCheck(this, YoastMarkdownPlugin);
+
+		this._app = app;
+	}
+
+	/**
+  * Registers the plugin and modification with YoastSEO.js
+  *
+  * @returns {void}
+  */
+
+
+	_createClass(YoastMarkdownPlugin, [{
+		key: "register",
+		value: function register() {
+			this._app.registerPlugin("YoastMarkdownPlugin", { status: "ready" });
+			this._app.registerModification("content", this.parseMarkdown.bind(this), "YoastMarkdownPlugin", 1);
+		}
+
+		/**
+   * The modification that parses the markdown in the content.
+   *
+   * @param {string} content The content to parse.
+   *
+  	 * @returns {string} The parsed content
+   */
+
+	}, {
+		key: "parseMarkdown",
+		value: function parseMarkdown(content) {
+			return (0, _marked2.default)(content);
+		}
+	}]);
+
+	return YoastMarkdownPlugin;
+}();
+
+exports.default = YoastMarkdownPlugin;
+
+},{"marked":310}],20:[function(require,module,exports){
+"use strict";
+
+var _PostDataCollector = require("./analysis/PostDataCollector");
+
+var _PostDataCollector2 = _interopRequireDefault(_PostDataCollector);
+
+var _wpSeoTinymce = require("./wp-seo-tinymce");
+
+var _wpSeoMarkdownPlugin = require("./wp-seo-markdown-plugin");
+
+var _wpSeoMarkdownPlugin2 = _interopRequireDefault(_wpSeoMarkdownPlugin);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var isUndefined = require("lodash/isUndefined"); /* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
 var getIndicatorForScore = require("./analysis/getIndicatorForScore");
 var TabManager = require("./analysis/tabManager");
+
+var tinyMCEHelper = require("./wp-seo-tinymce");
+
+var tinyMCEDecorator = require("./decorator/tinyMCE").tinyMCEDecorator;
+var publishBox = require("./ui/publishBox");
 
 var updateTrafficLight = require("./ui/trafficLight").update;
 var updateAdminBar = require("./ui/adminBar").update;
@@ -1540,94 +1790,169 @@ var isContentAnalysisActive = require("./analysis/isContentAnalysisActive");
 var snippetPreviewHelpers = require("./analysis/snippetPreview");
 
 var App = require("yoastseo").App;
-var TaxonomyAssessor = require("./assessors/taxonomyAssessor");
 var UsedKeywords = require("./analysis/usedKeywords");
-
-window.yoastHideMarkers = true;
 
 (function ($) {
 	"use strict";
 
+	if (typeof wpseoPostScraperL10n === "undefined") {
+		return;
+	}
+
 	var snippetContainer;
+
+	var titleElement;
 
 	var app, snippetPreview;
 
-	var termSlugInput;
+	var decorator = null;
 
-	var tabManager;
+	var tabManager, postDataCollector;
 
 	/**
-  * Get the editor created via wp_editor() and append it to the term-description-wrap
-  * table cell. This way we can use the wp tinyMCE editor on the description field.
+  * Retrieves either a generated slug or the page title as slug for the preview.
   *
-  * @returns {void}
+  * @param {Object} response The AJAX response object.
+  *
+  * @returns {String} The url path.
   */
-	var insertTinyMCE = function insertTinyMCE() {
-		// Get the table cell that contains the description textarea.
-		var descriptionTd = jQuery(".term-description-wrap").find("td");
+	function getUrlPathFromResponse(response) {
+		if (response.responseText === "") {
+			return titleElement.val();
+		}
+		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
+		return jQuery("<div>" + response.responseText + "</div>").find("#editable-post-name-full").text();
+	}
 
-		// Get the description textarea label.
-		var descriptionLabel = jQuery(".term-description-wrap").find("label");
+	/**
+  * Binds to the WordPress jQuery function to put the permalink on the page.
+  * If the response matches with permalink string, the snippet can be rendered.
+  */
+	jQuery(document).on("ajaxComplete", function (ev, response, ajaxOptions) {
+		var ajaxEndPoint = "/admin-ajax.php";
+		if (ajaxEndPoint !== ajaxOptions.url.substr(0 - ajaxEndPoint.length)) {
+			return;
+		}
 
-		// Get the textNode from the original textarea.
-		var textNode = descriptionTd.find("textarea").val();
+		if ("string" === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf("action=sample-permalink")) {
+			/*
+    * WordPress do not update post name for auto-generated slug, so we should leave this field untouched.
+    */
+			postDataCollector.leavePostNameUntouched = true;
 
-		// Get the editor container.
-		var newEditor = document.getElementById("wp-description-wrap");
-
-		// Get the description help text below the textarea.
-		var text = descriptionTd.find("p");
-
-		// Empty the TD with the old description textarea.
-		descriptionTd.html("");
-
-		/*
-   * The editor is printed out via PHP as child of the form and initially
-   * hidden with a child `>` CSS selector. We now move the editor and the
-   * help text in a new position so the previous CSS rule won't apply any
-   * longer and the editor will be visible.
-   */
-		descriptionTd.append(newEditor).append(text);
-
-		// Populate the editor textarea with the original content,
-		document.getElementById("description").value = textNode;
-
-		// Make the description textarea label plain text removing the label tag.
-		descriptionLabel.replaceWith(descriptionLabel.html());
-	};
+			app.snippetPreview.setUrlPath(getUrlPathFromResponse(response));
+		}
+	});
 
 	/**
   * Initializes the snippet preview.
   *
-  * @param {TermDataCollector} termScraper Object for getting term data.
+  * @param {PostDataCollector} postScraper Object for getting post data.
   *
-  * @returns {SnippetPreview} Instance of snippetpreview.
+  * @returns {SnippetPreview} The created snippetpreview element.
   */
-	function initSnippetPreview(termScraper) {
+	function initSnippetPreview(postScraper) {
 		return snippetPreviewHelpers.create(snippetContainer, {
-			title: termScraper.getSnippetTitle(),
-			urlPath: termScraper.getSnippetCite(),
-			metaDesc: termScraper.getSnippetMeta()
-		}, termScraper.saveSnippetData.bind(termScraper));
+			title: postScraper.getSnippetTitle(),
+			urlPath: postScraper.getSnippetCite(),
+			metaDesc: postScraper.getSnippetMeta()
+		}, postScraper.saveSnippetData.bind(postScraper));
+	}
+	/**
+  * Determines if markers should be shown.
+  *
+  * @returns {boolean} True when markers should be shown.
+  */
+	function displayMarkers() {
+		return wpseoPostScraperL10n.show_markers === "1";
 	}
 
 	/**
-  * Function to handle when the user updates the term slug
+  * Returns the marker callback method for the assessor.
   *
-  * @returns {void}
+  * @returns {*|bool} False when tinyMCE is undefined or when there are no markers.
   */
-	function updatedTermSlug() {
-		snippetPreview.setUrlPath(termSlugInput.val());
+	function getMarker() {
+		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
+		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
+		if (typeof tinyMCE === "undefined" || !displayMarkers()) {
+			return false;
+		}
+
+		return function (paper, marks) {
+			if (tinyMCEHelper.isTinyMCEAvailable(_wpSeoTinymce.tmceId)) {
+				if (null === decorator) {
+					decorator = tinyMCEDecorator(tinyMCE.get(_wpSeoTinymce.tmceId));
+				}
+
+				decorator(paper, marks);
+			}
+		};
 	}
 
 	/**
-  * Adds a watcher on the term slug input field
+  * Initializes keyword analysis.
+  *
+  * @param {App} app                       The App object.
+  * @param {PostDataCollector} postScraper The post scraper object.
+  * @param {Object} publishBox             The publish box object.
   *
   * @returns {void}
   */
-	function initTermSlugWatcher() {
-		termSlugInput = $("#slug");
-		termSlugInput.on("change", updatedTermSlug);
+	function initializeKeywordAnalysis(app, postScraper, publishBox) {
+		var savedKeywordScore = $("#yoast_wpseo_linkdex").val();
+		var usedKeywords = new UsedKeywords("#yoast_wpseo_focuskw_text_input", "get_focus_keyword_usage", wpseoPostScraperL10n, app);
+
+		usedKeywords.init();
+		postScraper.initKeywordTabTemplate();
+
+		var indicator = getIndicatorForScore(savedKeywordScore);
+
+		updateTrafficLight(indicator);
+		updateAdminBar(indicator);
+
+		publishBox.updateScore("keyword", indicator.className);
+	}
+
+	/**
+  * Initializes content analysis
+  *
+  * @param {Object} publishBox The publish box object.
+  *
+  * @returns {void}
+  */
+	function initializeContentAnalysis(publishBox) {
+		var savedContentScore = $("#yoast_wpseo_content_score").val();
+
+		var indicator = getIndicatorForScore(savedContentScore);
+
+		updateAdminBar(indicator);
+
+		publishBox.updateScore("content", indicator.className);
+	}
+
+	/**
+  * Makes sure the hidden focus keyword field is filled with the correct keyword.
+  *
+  * @returns {void}
+  */
+	function keywordElementSubmitHandler() {
+		if (isKeywordAnalysisActive() && !YoastSEO.multiKeyword) {
+			/*
+    * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
+    * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
+    * onsubmit event that is copying the focus keyword, this should be solved.
+    */
+			$("#post").on("submit", function () {
+				var hiddenKeyword = $("#yoast_wpseo_focuskw");
+				var hiddenKeywordValue = hiddenKeyword.val();
+				var visibleKeywordValue = tabManager.getKeywordTab().getKeywordFromElement();
+
+				if (hiddenKeywordValue !== visibleKeywordValue) {
+					hiddenKeyword.val(visibleKeywordValue);
+				}
+			});
+		}
 	}
 
 	/**
@@ -1639,7 +1964,7 @@ window.yoastHideMarkers = true;
 		var targets = {};
 
 		if (isKeywordAnalysisActive()) {
-			targets.output = "wpseo_analysis";
+			targets.output = "wpseo-pageanalysis";
 		}
 
 		if (isContentAnalysisActive()) {
@@ -1650,121 +1975,157 @@ window.yoastHideMarkers = true;
 	}
 
 	/**
-  * Initializes keyword analysis.
-  *
-  * @param {App} app The App object.
-  * @param {TermDataCollector} termScraper The post scraper object.
+  * Hides the add keyword button.
   *
   * @returns {void}
   */
-	function initializeKeywordAnalysis(app, termScraper) {
-		var savedKeywordScore = $("#hidden_wpseo_linkdex").val();
-		var usedKeywords = new UsedKeywords("#wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app);
-
-		usedKeywords.init();
-		termScraper.initKeywordTabTemplate();
-
-		var indicator = getIndicatorForScore(savedKeywordScore);
-
-		updateTrafficLight(indicator);
-		updateAdminBar(indicator);
+	function hideAddKeywordButton() {
+		$(".wpseo-tab-add-keyword").hide();
 	}
 
 	/**
-  * Initializes content analysis
+  * Initializes tab manager.
   *
-  * @returns {void}
+  * @returns {TabManager} The initialized tab manager.
   */
-	function initializeContentAnalysis() {
-		var savedContentScore = $("#hidden_wpseo_content_score").val();
-
-		var indicator = getIndicatorForScore(savedContentScore);
-
-		updateTrafficLight(indicator);
-		updateAdminBar(indicator);
-	}
-
-	jQuery(document).ready(function () {
-		var args, termScraper, translations;
-
-		snippetContainer = $("#wpseosnippet");
-
-		insertTinyMCE();
-
-		$("#wpseo_analysis").after('<div id="yoast-seo-content-analysis"></div>');
-
-		tabManager = new TabManager({
-			strings: wpseoTermScraperL10n,
-			focusKeywordField: "#wpseo_focuskw",
+	function initializeTabManager() {
+		var tabManager = new TabManager({
+			strings: wpseoPostScraperL10n,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive()
 		});
-
 		tabManager.init();
 
-		termScraper = new _TermDataCollector2.default({ tabManager: tabManager });
-		snippetPreview = initSnippetPreview(termScraper);
+		return tabManager;
+	}
 
-		args = {
+	/**
+  * Initializes post data collector.
+  *
+  * @returns {PostDataCollector} The initialized post data collector.
+  */
+	function initializePostDataCollector() {
+		var postDataCollector = new _PostDataCollector2.default({
+			tabManager: tabManager
+		});
+		postDataCollector.leavePostNameUntouched = false;
+
+		return postDataCollector;
+	}
+
+	/**
+  * Returns the arguments necessary to initialize the app.
+  *
+  * @returns {Object} The arguments to initialize the app
+  */
+	function getAppArgs() {
+		var args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [_wpSeoTinymce.termsTmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full"],
+			elementTarget: [_wpSeoTinymce.tmceId, "yoast_wpseo_focuskw_text_input", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full"],
 			targets: retrieveTargets(),
 			callbacks: {
-				getData: termScraper.getData.bind(termScraper)
+				getData: postDataCollector.getData.bind(postDataCollector)
 			},
-			locale: wpseoTermScraperL10n.contentLocale,
+			locale: wpseoPostScraperL10n.contentLocale,
+			marker: getMarker(),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			snippetPreview: snippetPreview
 		};
 
 		if (isKeywordAnalysisActive()) {
-			args.callbacks.saveScores = termScraper.saveScores.bind(termScraper);
+			args.callbacks.saveScores = postDataCollector.saveScores.bind(postDataCollector);
 		}
 
 		if (isContentAnalysisActive()) {
-			args.callbacks.saveContentScore = termScraper.saveContentScore.bind(termScraper);
+			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind(postDataCollector);
 		}
 
-		translations = getTranslations();
+		titleElement = $("#title");
+
+		var translations = getTranslations();
 		if (!isUndefined(translations) && !isUndefined(translations.domain)) {
 			args.translations = translations;
 		}
+		return args;
+	}
 
-		app = new App(args);
-
-		if (isKeywordAnalysisActive()) {
-			app.seoAssessor = new TaxonomyAssessor(app.i18n);
-			app.seoAssessorPresenter.assessor = app.seoAssessor;
-		}
-
+	/**
+  * Exposes globals necessary for functionality of plugins integrating.
+  *
+  * @param {App} app The app to expose globally.
+  * @param {TabManager} tabManager The tab manager to expose globally.
+  * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
+  * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
+  * @returns {void}
+  */
+	function exposeGlobals(app, tabManager, replaceVarsPlugin, shortcodePlugin) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
-		termScraper.initKeywordTabTemplate();
-
 		// Init Plugins.
-		YoastSEO.wp = {};
-		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin(app);
+		window.YoastSEO.wp = {};
+		window.YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
+		window.YoastSEO.wp.shortcodePlugin = shortcodePlugin;
 
-		// For backwards compatibility.
-		YoastSEO.analyzerArgs = args;
+		window.YoastSEO.wp._tabManager = tabManager;
+		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
+	}
 
-		initTermSlugWatcher();
-		termScraper.bindElementEvents(app);
-
+	/**
+  * Activates the correct analysis and tab based on which analyses are enabled.
+  *
+  * @param {TabManager} tabManager The tab manager to use to activate tabs.
+  * @returns {void}
+  */
+	function activateEnabledAnalysis(tabManager) {
 		if (isKeywordAnalysisActive()) {
-			initializeKeywordAnalysis(app, termScraper);
+			initializeKeywordAnalysis(app, postDataCollector, publishBox);
 			tabManager.getKeywordTab().activate();
-		} else if (isContentAnalysisActive()) {
-			tabManager.getContentTab().activate();
 		} else {
-			snippetPreviewHelpers.isolate(snippetContainer);
+			hideAddKeywordButton();
 		}
 
 		if (isContentAnalysisActive()) {
-			initializeContentAnalysis();
+			initializeContentAnalysis(publishBox);
 		}
+
+		if (!isKeywordAnalysisActive() && isContentAnalysisActive()) {
+			tabManager.getContentTab().activate();
+		}
+	}
+
+	/**
+  * Initializes analysis for the post edit screen.
+  *
+  * @returns {void}
+  */
+	function initializePostAnalysis() {
+		snippetContainer = $("#wpseosnippet");
+
+		tabManager = initializeTabManager();
+		postDataCollector = initializePostDataCollector();
+		publishBox.initalise();
+		snippetPreview = initSnippetPreview(postDataCollector);
+
+		var appArgs = getAppArgs();
+		app = new App(appArgs);
+
+		postDataCollector.app = app;
+
+		var replaceVarsPlugin = new YoastReplaceVarPlugin(app);
+		var shortcodePlugin = new YoastShortcodePlugin(app);
+
+		if (wpseoPostScraperL10n.markdownEnabled) {
+			var markdownPlugin = new _wpSeoMarkdownPlugin2.default(app);
+			markdownPlugin.register();
+		}
+
+		exposeGlobals(app, tabManager, replaceVarsPlugin, shortcodePlugin);
+
+		tinyMCEHelper.wpTextViewOnInitCheck();
+
+		activateEnabledAnalysis(tabManager);
 
 		jQuery(window).trigger("YoastSEO:ready");
 
@@ -1776,10 +2137,29 @@ window.yoastHideMarkers = true;
 		jQuery(document).on("wp-collapse-menu wp-menu-state-set", function () {
 			app.snippetPreview.handleWindowResizing();
 		});
-	});
+
+		// Backwards compatibility.
+		YoastSEO.analyzerArgs = appArgs;
+
+		keywordElementSubmitHandler();
+		postDataCollector.bindElementEvents(app);
+
+		if (!isKeywordAnalysisActive() && !isContentAnalysisActive()) {
+			snippetPreviewHelpers.isolate(snippetContainer);
+		}
+
+		// Switch between assessors when checkbox has been checked.
+		var cornerstoneCheckbox = jQuery("#_yst_is_cornerstone");
+		app.switchAssessors(cornerstoneCheckbox.is(":checked"));
+		cornerstoneCheckbox.change(function () {
+			app.switchAssessors(cornerstoneCheckbox.is(":checked"));
+		});
+	}
+
+	jQuery(document).ready(initializePostAnalysis);
 })(jQuery);
 
-},{"./analysis/TermDataCollector":1,"./analysis/getIndicatorForScore":5,"./analysis/getTranslations":8,"./analysis/isContentAnalysisActive":9,"./analysis/isKeywordAnalysisActive":10,"./analysis/snippetPreview":12,"./analysis/tabManager":13,"./analysis/usedKeywords":14,"./assessors/taxonomyAssessor":15,"./ui/adminBar":17,"./ui/trafficLight":18,"./wp-seo-tinymce":20,"lodash/isUndefined":281,"yoastseo":337}],20:[function(require,module,exports){
+},{"./analysis/PostDataCollector":1,"./analysis/getIndicatorForScore":5,"./analysis/getTranslations":8,"./analysis/isContentAnalysisActive":9,"./analysis/isKeywordAnalysisActive":10,"./analysis/snippetPreview":12,"./analysis/tabManager":13,"./analysis/usedKeywords":14,"./decorator/tinyMCE":15,"./ui/adminBar":16,"./ui/publishBox":17,"./ui/trafficLight":18,"./wp-seo-markdown-plugin":19,"./wp-seo-tinymce":21,"lodash/isUndefined":282,"yoastseo":339}],21:[function(require,module,exports){
 "use strict";
 
 /* global tinyMCE, require, YoastSEO */
@@ -2007,7 +2387,7 @@ var termsTmceId = "description";
 	};
 })(jQuery);
 
-},{"./decorator/tinyMCE":16,"lodash/forEach":255,"lodash/isUndefined":281}],21:[function(require,module,exports){
+},{"./decorator/tinyMCE":15,"lodash/forEach":256,"lodash/isUndefined":282}],22:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -2123,9 +2503,9 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],22:[function(require,module,exports){
-
 },{}],23:[function(require,module,exports){
+
+},{}],24:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2237,7 +2617,7 @@ exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"buffer":24}],24:[function(require,module,exports){
+},{"buffer":25}],25:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -4030,7 +4410,7 @@ function isnan (val) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":21,"ieee754":56,"isarray":59}],25:[function(require,module,exports){
+},{"base64-js":22,"ieee754":57,"isarray":60}],26:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -4141,7 +4521,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":58}],26:[function(require,module,exports){
+},{"../../is-buffer/index.js":59}],27:[function(require,module,exports){
 /*
   Module dependencies
 */
@@ -4321,7 +4701,7 @@ function renderComment(elem) {
   return '<!--' + elem.data + '-->';
 }
 
-},{"domelementtype":27,"entities":39}],27:[function(require,module,exports){
+},{"domelementtype":28,"entities":40}],28:[function(require,module,exports){
 //Types of elements found in the DOM
 module.exports = {
 	Text: "text", //Text
@@ -4336,7 +4716,7 @@ module.exports = {
 		return elem.type === "tag" || elem.type === "script" || elem.type === "style";
 	}
 };
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 //Types of elements found in the DOM
 module.exports = {
 	Text: "text", //Text
@@ -4353,7 +4733,7 @@ module.exports = {
 	}
 };
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 var ElementType = require("domelementtype");
 
 var re_whitespace = /\s+/g;
@@ -4537,7 +4917,7 @@ DomHandler.prototype.onprocessinginstruction = function(name, data){
 
 module.exports = DomHandler;
 
-},{"./lib/element":30,"./lib/node":31,"domelementtype":28}],30:[function(require,module,exports){
+},{"./lib/element":31,"./lib/node":32,"domelementtype":29}],31:[function(require,module,exports){
 // DOM-Level-1-compliant structure
 var NodePrototype = require('./node');
 var ElementPrototype = module.exports = Object.create(NodePrototype);
@@ -4559,7 +4939,7 @@ Object.keys(domLvl1).forEach(function(key) {
 	});
 });
 
-},{"./node":31}],31:[function(require,module,exports){
+},{"./node":32}],32:[function(require,module,exports){
 // This object will be used as the prototype for Nodes when creating a
 // DOM-Level-1-compliant structure.
 var NodePrototype = module.exports = {
@@ -4605,7 +4985,7 @@ Object.keys(domLvl1).forEach(function(key) {
 	});
 });
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 var DomUtils = module.exports;
 
 [
@@ -4621,7 +5001,7 @@ var DomUtils = module.exports;
 	});
 });
 
-},{"./lib/helpers":33,"./lib/legacy":34,"./lib/manipulation":35,"./lib/querying":36,"./lib/stringify":37,"./lib/traversal":38}],33:[function(require,module,exports){
+},{"./lib/helpers":34,"./lib/legacy":35,"./lib/manipulation":36,"./lib/querying":37,"./lib/stringify":38,"./lib/traversal":39}],34:[function(require,module,exports){
 // removeSubsets
 // Given an array of nodes, remove any member that is contained by another.
 exports.removeSubsets = function(nodes) {
@@ -4764,7 +5144,7 @@ exports.uniqueSort = function(nodes) {
 	return nodes;
 };
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 var ElementType = require("domelementtype");
 var isTag = exports.isTag = ElementType.isTag;
 
@@ -4853,7 +5233,7 @@ exports.getElementsByTagType = function(type, element, recurse, limit){
 	return this.filter(Checks.tag_type(type), element, recurse, limit);
 };
 
-},{"domelementtype":28}],35:[function(require,module,exports){
+},{"domelementtype":29}],36:[function(require,module,exports){
 exports.removeElement = function(elem){
 	if(elem.prev) elem.prev.next = elem.next;
 	if(elem.next) elem.next.prev = elem.prev;
@@ -4932,7 +5312,7 @@ exports.prepend = function(elem, prev){
 
 
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 var isTag = require("domelementtype").isTag;
 
 module.exports = {
@@ -5028,7 +5408,7 @@ function findAll(test, elems){
 	return result;
 }
 
-},{"domelementtype":28}],37:[function(require,module,exports){
+},{"domelementtype":29}],38:[function(require,module,exports){
 var ElementType = require("domelementtype"),
     getOuterHTML = require("dom-serializer"),
     isTag = ElementType.isTag;
@@ -5052,7 +5432,7 @@ function getText(elem){
 	return "";
 }
 
-},{"dom-serializer":26,"domelementtype":28}],38:[function(require,module,exports){
+},{"dom-serializer":27,"domelementtype":29}],39:[function(require,module,exports){
 var getChildren = exports.getChildren = function(elem){
 	return elem.children;
 };
@@ -5078,7 +5458,7 @@ exports.getName = function(elem){
 	return elem.name;
 };
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var encode = require("./lib/encode.js"),
     decode = require("./lib/decode.js");
 
@@ -5113,7 +5493,7 @@ exports.decodeHTMLStrict = decode.HTMLStrict;
 
 exports.escape = encode.escape;
 
-},{"./lib/decode.js":40,"./lib/encode.js":42}],40:[function(require,module,exports){
+},{"./lib/decode.js":41,"./lib/encode.js":43}],41:[function(require,module,exports){
 var entityMap = require("../maps/entities.json"),
     legacyMap = require("../maps/legacy.json"),
     xmlMap    = require("../maps/xml.json"),
@@ -5186,7 +5566,7 @@ module.exports = {
 	HTML: decodeHTML,
 	HTMLStrict: decodeHTMLStrict
 };
-},{"../maps/entities.json":44,"../maps/legacy.json":45,"../maps/xml.json":46,"./decode_codepoint.js":41}],41:[function(require,module,exports){
+},{"../maps/entities.json":45,"../maps/legacy.json":46,"../maps/xml.json":47,"./decode_codepoint.js":42}],42:[function(require,module,exports){
 var decodeMap = require("../maps/decode.json");
 
 module.exports = decodeCodePoint;
@@ -5214,7 +5594,7 @@ function decodeCodePoint(codePoint){
 	return output;
 }
 
-},{"../maps/decode.json":43}],42:[function(require,module,exports){
+},{"../maps/decode.json":44}],43:[function(require,module,exports){
 var inverseXML = getInverseObj(require("../maps/xml.json")),
     xmlReplacer = getInverseReplacer(inverseXML);
 
@@ -5289,16 +5669,16 @@ function escapeXML(data){
 
 exports.escape = escapeXML;
 
-},{"../maps/entities.json":44,"../maps/xml.json":46}],43:[function(require,module,exports){
+},{"../maps/entities.json":45,"../maps/xml.json":47}],44:[function(require,module,exports){
 module.exports={"0":65533,"128":8364,"130":8218,"131":402,"132":8222,"133":8230,"134":8224,"135":8225,"136":710,"137":8240,"138":352,"139":8249,"140":338,"142":381,"145":8216,"146":8217,"147":8220,"148":8221,"149":8226,"150":8211,"151":8212,"152":732,"153":8482,"154":353,"155":8250,"156":339,"158":382,"159":376}
-},{}],44:[function(require,module,exports){
-module.exports={"Aacute":"\u00C1","aacute":"\u00E1","Abreve":"\u0102","abreve":"\u0103","ac":"\u223E","acd":"\u223F","acE":"\u223E\u0333","Acirc":"\u00C2","acirc":"\u00E2","acute":"\u00B4","Acy":"\u0410","acy":"\u0430","AElig":"\u00C6","aelig":"\u00E6","af":"\u2061","Afr":"\uD835\uDD04","afr":"\uD835\uDD1E","Agrave":"\u00C0","agrave":"\u00E0","alefsym":"\u2135","aleph":"\u2135","Alpha":"\u0391","alpha":"\u03B1","Amacr":"\u0100","amacr":"\u0101","amalg":"\u2A3F","amp":"&","AMP":"&","andand":"\u2A55","And":"\u2A53","and":"\u2227","andd":"\u2A5C","andslope":"\u2A58","andv":"\u2A5A","ang":"\u2220","ange":"\u29A4","angle":"\u2220","angmsdaa":"\u29A8","angmsdab":"\u29A9","angmsdac":"\u29AA","angmsdad":"\u29AB","angmsdae":"\u29AC","angmsdaf":"\u29AD","angmsdag":"\u29AE","angmsdah":"\u29AF","angmsd":"\u2221","angrt":"\u221F","angrtvb":"\u22BE","angrtvbd":"\u299D","angsph":"\u2222","angst":"\u00C5","angzarr":"\u237C","Aogon":"\u0104","aogon":"\u0105","Aopf":"\uD835\uDD38","aopf":"\uD835\uDD52","apacir":"\u2A6F","ap":"\u2248","apE":"\u2A70","ape":"\u224A","apid":"\u224B","apos":"'","ApplyFunction":"\u2061","approx":"\u2248","approxeq":"\u224A","Aring":"\u00C5","aring":"\u00E5","Ascr":"\uD835\uDC9C","ascr":"\uD835\uDCB6","Assign":"\u2254","ast":"*","asymp":"\u2248","asympeq":"\u224D","Atilde":"\u00C3","atilde":"\u00E3","Auml":"\u00C4","auml":"\u00E4","awconint":"\u2233","awint":"\u2A11","backcong":"\u224C","backepsilon":"\u03F6","backprime":"\u2035","backsim":"\u223D","backsimeq":"\u22CD","Backslash":"\u2216","Barv":"\u2AE7","barvee":"\u22BD","barwed":"\u2305","Barwed":"\u2306","barwedge":"\u2305","bbrk":"\u23B5","bbrktbrk":"\u23B6","bcong":"\u224C","Bcy":"\u0411","bcy":"\u0431","bdquo":"\u201E","becaus":"\u2235","because":"\u2235","Because":"\u2235","bemptyv":"\u29B0","bepsi":"\u03F6","bernou":"\u212C","Bernoullis":"\u212C","Beta":"\u0392","beta":"\u03B2","beth":"\u2136","between":"\u226C","Bfr":"\uD835\uDD05","bfr":"\uD835\uDD1F","bigcap":"\u22C2","bigcirc":"\u25EF","bigcup":"\u22C3","bigodot":"\u2A00","bigoplus":"\u2A01","bigotimes":"\u2A02","bigsqcup":"\u2A06","bigstar":"\u2605","bigtriangledown":"\u25BD","bigtriangleup":"\u25B3","biguplus":"\u2A04","bigvee":"\u22C1","bigwedge":"\u22C0","bkarow":"\u290D","blacklozenge":"\u29EB","blacksquare":"\u25AA","blacktriangle":"\u25B4","blacktriangledown":"\u25BE","blacktriangleleft":"\u25C2","blacktriangleright":"\u25B8","blank":"\u2423","blk12":"\u2592","blk14":"\u2591","blk34":"\u2593","block":"\u2588","bne":"=\u20E5","bnequiv":"\u2261\u20E5","bNot":"\u2AED","bnot":"\u2310","Bopf":"\uD835\uDD39","bopf":"\uD835\uDD53","bot":"\u22A5","bottom":"\u22A5","bowtie":"\u22C8","boxbox":"\u29C9","boxdl":"\u2510","boxdL":"\u2555","boxDl":"\u2556","boxDL":"\u2557","boxdr":"\u250C","boxdR":"\u2552","boxDr":"\u2553","boxDR":"\u2554","boxh":"\u2500","boxH":"\u2550","boxhd":"\u252C","boxHd":"\u2564","boxhD":"\u2565","boxHD":"\u2566","boxhu":"\u2534","boxHu":"\u2567","boxhU":"\u2568","boxHU":"\u2569","boxminus":"\u229F","boxplus":"\u229E","boxtimes":"\u22A0","boxul":"\u2518","boxuL":"\u255B","boxUl":"\u255C","boxUL":"\u255D","boxur":"\u2514","boxuR":"\u2558","boxUr":"\u2559","boxUR":"\u255A","boxv":"\u2502","boxV":"\u2551","boxvh":"\u253C","boxvH":"\u256A","boxVh":"\u256B","boxVH":"\u256C","boxvl":"\u2524","boxvL":"\u2561","boxVl":"\u2562","boxVL":"\u2563","boxvr":"\u251C","boxvR":"\u255E","boxVr":"\u255F","boxVR":"\u2560","bprime":"\u2035","breve":"\u02D8","Breve":"\u02D8","brvbar":"\u00A6","bscr":"\uD835\uDCB7","Bscr":"\u212C","bsemi":"\u204F","bsim":"\u223D","bsime":"\u22CD","bsolb":"\u29C5","bsol":"\\","bsolhsub":"\u27C8","bull":"\u2022","bullet":"\u2022","bump":"\u224E","bumpE":"\u2AAE","bumpe":"\u224F","Bumpeq":"\u224E","bumpeq":"\u224F","Cacute":"\u0106","cacute":"\u0107","capand":"\u2A44","capbrcup":"\u2A49","capcap":"\u2A4B","cap":"\u2229","Cap":"\u22D2","capcup":"\u2A47","capdot":"\u2A40","CapitalDifferentialD":"\u2145","caps":"\u2229\uFE00","caret":"\u2041","caron":"\u02C7","Cayleys":"\u212D","ccaps":"\u2A4D","Ccaron":"\u010C","ccaron":"\u010D","Ccedil":"\u00C7","ccedil":"\u00E7","Ccirc":"\u0108","ccirc":"\u0109","Cconint":"\u2230","ccups":"\u2A4C","ccupssm":"\u2A50","Cdot":"\u010A","cdot":"\u010B","cedil":"\u00B8","Cedilla":"\u00B8","cemptyv":"\u29B2","cent":"\u00A2","centerdot":"\u00B7","CenterDot":"\u00B7","cfr":"\uD835\uDD20","Cfr":"\u212D","CHcy":"\u0427","chcy":"\u0447","check":"\u2713","checkmark":"\u2713","Chi":"\u03A7","chi":"\u03C7","circ":"\u02C6","circeq":"\u2257","circlearrowleft":"\u21BA","circlearrowright":"\u21BB","circledast":"\u229B","circledcirc":"\u229A","circleddash":"\u229D","CircleDot":"\u2299","circledR":"\u00AE","circledS":"\u24C8","CircleMinus":"\u2296","CirclePlus":"\u2295","CircleTimes":"\u2297","cir":"\u25CB","cirE":"\u29C3","cire":"\u2257","cirfnint":"\u2A10","cirmid":"\u2AEF","cirscir":"\u29C2","ClockwiseContourIntegral":"\u2232","CloseCurlyDoubleQuote":"\u201D","CloseCurlyQuote":"\u2019","clubs":"\u2663","clubsuit":"\u2663","colon":":","Colon":"\u2237","Colone":"\u2A74","colone":"\u2254","coloneq":"\u2254","comma":",","commat":"@","comp":"\u2201","compfn":"\u2218","complement":"\u2201","complexes":"\u2102","cong":"\u2245","congdot":"\u2A6D","Congruent":"\u2261","conint":"\u222E","Conint":"\u222F","ContourIntegral":"\u222E","copf":"\uD835\uDD54","Copf":"\u2102","coprod":"\u2210","Coproduct":"\u2210","copy":"\u00A9","COPY":"\u00A9","copysr":"\u2117","CounterClockwiseContourIntegral":"\u2233","crarr":"\u21B5","cross":"\u2717","Cross":"\u2A2F","Cscr":"\uD835\uDC9E","cscr":"\uD835\uDCB8","csub":"\u2ACF","csube":"\u2AD1","csup":"\u2AD0","csupe":"\u2AD2","ctdot":"\u22EF","cudarrl":"\u2938","cudarrr":"\u2935","cuepr":"\u22DE","cuesc":"\u22DF","cularr":"\u21B6","cularrp":"\u293D","cupbrcap":"\u2A48","cupcap":"\u2A46","CupCap":"\u224D","cup":"\u222A","Cup":"\u22D3","cupcup":"\u2A4A","cupdot":"\u228D","cupor":"\u2A45","cups":"\u222A\uFE00","curarr":"\u21B7","curarrm":"\u293C","curlyeqprec":"\u22DE","curlyeqsucc":"\u22DF","curlyvee":"\u22CE","curlywedge":"\u22CF","curren":"\u00A4","curvearrowleft":"\u21B6","curvearrowright":"\u21B7","cuvee":"\u22CE","cuwed":"\u22CF","cwconint":"\u2232","cwint":"\u2231","cylcty":"\u232D","dagger":"\u2020","Dagger":"\u2021","daleth":"\u2138","darr":"\u2193","Darr":"\u21A1","dArr":"\u21D3","dash":"\u2010","Dashv":"\u2AE4","dashv":"\u22A3","dbkarow":"\u290F","dblac":"\u02DD","Dcaron":"\u010E","dcaron":"\u010F","Dcy":"\u0414","dcy":"\u0434","ddagger":"\u2021","ddarr":"\u21CA","DD":"\u2145","dd":"\u2146","DDotrahd":"\u2911","ddotseq":"\u2A77","deg":"\u00B0","Del":"\u2207","Delta":"\u0394","delta":"\u03B4","demptyv":"\u29B1","dfisht":"\u297F","Dfr":"\uD835\uDD07","dfr":"\uD835\uDD21","dHar":"\u2965","dharl":"\u21C3","dharr":"\u21C2","DiacriticalAcute":"\u00B4","DiacriticalDot":"\u02D9","DiacriticalDoubleAcute":"\u02DD","DiacriticalGrave":"`","DiacriticalTilde":"\u02DC","diam":"\u22C4","diamond":"\u22C4","Diamond":"\u22C4","diamondsuit":"\u2666","diams":"\u2666","die":"\u00A8","DifferentialD":"\u2146","digamma":"\u03DD","disin":"\u22F2","div":"\u00F7","divide":"\u00F7","divideontimes":"\u22C7","divonx":"\u22C7","DJcy":"\u0402","djcy":"\u0452","dlcorn":"\u231E","dlcrop":"\u230D","dollar":"$","Dopf":"\uD835\uDD3B","dopf":"\uD835\uDD55","Dot":"\u00A8","dot":"\u02D9","DotDot":"\u20DC","doteq":"\u2250","doteqdot":"\u2251","DotEqual":"\u2250","dotminus":"\u2238","dotplus":"\u2214","dotsquare":"\u22A1","doublebarwedge":"\u2306","DoubleContourIntegral":"\u222F","DoubleDot":"\u00A8","DoubleDownArrow":"\u21D3","DoubleLeftArrow":"\u21D0","DoubleLeftRightArrow":"\u21D4","DoubleLeftTee":"\u2AE4","DoubleLongLeftArrow":"\u27F8","DoubleLongLeftRightArrow":"\u27FA","DoubleLongRightArrow":"\u27F9","DoubleRightArrow":"\u21D2","DoubleRightTee":"\u22A8","DoubleUpArrow":"\u21D1","DoubleUpDownArrow":"\u21D5","DoubleVerticalBar":"\u2225","DownArrowBar":"\u2913","downarrow":"\u2193","DownArrow":"\u2193","Downarrow":"\u21D3","DownArrowUpArrow":"\u21F5","DownBreve":"\u0311","downdownarrows":"\u21CA","downharpoonleft":"\u21C3","downharpoonright":"\u21C2","DownLeftRightVector":"\u2950","DownLeftTeeVector":"\u295E","DownLeftVectorBar":"\u2956","DownLeftVector":"\u21BD","DownRightTeeVector":"\u295F","DownRightVectorBar":"\u2957","DownRightVector":"\u21C1","DownTeeArrow":"\u21A7","DownTee":"\u22A4","drbkarow":"\u2910","drcorn":"\u231F","drcrop":"\u230C","Dscr":"\uD835\uDC9F","dscr":"\uD835\uDCB9","DScy":"\u0405","dscy":"\u0455","dsol":"\u29F6","Dstrok":"\u0110","dstrok":"\u0111","dtdot":"\u22F1","dtri":"\u25BF","dtrif":"\u25BE","duarr":"\u21F5","duhar":"\u296F","dwangle":"\u29A6","DZcy":"\u040F","dzcy":"\u045F","dzigrarr":"\u27FF","Eacute":"\u00C9","eacute":"\u00E9","easter":"\u2A6E","Ecaron":"\u011A","ecaron":"\u011B","Ecirc":"\u00CA","ecirc":"\u00EA","ecir":"\u2256","ecolon":"\u2255","Ecy":"\u042D","ecy":"\u044D","eDDot":"\u2A77","Edot":"\u0116","edot":"\u0117","eDot":"\u2251","ee":"\u2147","efDot":"\u2252","Efr":"\uD835\uDD08","efr":"\uD835\uDD22","eg":"\u2A9A","Egrave":"\u00C8","egrave":"\u00E8","egs":"\u2A96","egsdot":"\u2A98","el":"\u2A99","Element":"\u2208","elinters":"\u23E7","ell":"\u2113","els":"\u2A95","elsdot":"\u2A97","Emacr":"\u0112","emacr":"\u0113","empty":"\u2205","emptyset":"\u2205","EmptySmallSquare":"\u25FB","emptyv":"\u2205","EmptyVerySmallSquare":"\u25AB","emsp13":"\u2004","emsp14":"\u2005","emsp":"\u2003","ENG":"\u014A","eng":"\u014B","ensp":"\u2002","Eogon":"\u0118","eogon":"\u0119","Eopf":"\uD835\uDD3C","eopf":"\uD835\uDD56","epar":"\u22D5","eparsl":"\u29E3","eplus":"\u2A71","epsi":"\u03B5","Epsilon":"\u0395","epsilon":"\u03B5","epsiv":"\u03F5","eqcirc":"\u2256","eqcolon":"\u2255","eqsim":"\u2242","eqslantgtr":"\u2A96","eqslantless":"\u2A95","Equal":"\u2A75","equals":"=","EqualTilde":"\u2242","equest":"\u225F","Equilibrium":"\u21CC","equiv":"\u2261","equivDD":"\u2A78","eqvparsl":"\u29E5","erarr":"\u2971","erDot":"\u2253","escr":"\u212F","Escr":"\u2130","esdot":"\u2250","Esim":"\u2A73","esim":"\u2242","Eta":"\u0397","eta":"\u03B7","ETH":"\u00D0","eth":"\u00F0","Euml":"\u00CB","euml":"\u00EB","euro":"\u20AC","excl":"!","exist":"\u2203","Exists":"\u2203","expectation":"\u2130","exponentiale":"\u2147","ExponentialE":"\u2147","fallingdotseq":"\u2252","Fcy":"\u0424","fcy":"\u0444","female":"\u2640","ffilig":"\uFB03","fflig":"\uFB00","ffllig":"\uFB04","Ffr":"\uD835\uDD09","ffr":"\uD835\uDD23","filig":"\uFB01","FilledSmallSquare":"\u25FC","FilledVerySmallSquare":"\u25AA","fjlig":"fj","flat":"\u266D","fllig":"\uFB02","fltns":"\u25B1","fnof":"\u0192","Fopf":"\uD835\uDD3D","fopf":"\uD835\uDD57","forall":"\u2200","ForAll":"\u2200","fork":"\u22D4","forkv":"\u2AD9","Fouriertrf":"\u2131","fpartint":"\u2A0D","frac12":"\u00BD","frac13":"\u2153","frac14":"\u00BC","frac15":"\u2155","frac16":"\u2159","frac18":"\u215B","frac23":"\u2154","frac25":"\u2156","frac34":"\u00BE","frac35":"\u2157","frac38":"\u215C","frac45":"\u2158","frac56":"\u215A","frac58":"\u215D","frac78":"\u215E","frasl":"\u2044","frown":"\u2322","fscr":"\uD835\uDCBB","Fscr":"\u2131","gacute":"\u01F5","Gamma":"\u0393","gamma":"\u03B3","Gammad":"\u03DC","gammad":"\u03DD","gap":"\u2A86","Gbreve":"\u011E","gbreve":"\u011F","Gcedil":"\u0122","Gcirc":"\u011C","gcirc":"\u011D","Gcy":"\u0413","gcy":"\u0433","Gdot":"\u0120","gdot":"\u0121","ge":"\u2265","gE":"\u2267","gEl":"\u2A8C","gel":"\u22DB","geq":"\u2265","geqq":"\u2267","geqslant":"\u2A7E","gescc":"\u2AA9","ges":"\u2A7E","gesdot":"\u2A80","gesdoto":"\u2A82","gesdotol":"\u2A84","gesl":"\u22DB\uFE00","gesles":"\u2A94","Gfr":"\uD835\uDD0A","gfr":"\uD835\uDD24","gg":"\u226B","Gg":"\u22D9","ggg":"\u22D9","gimel":"\u2137","GJcy":"\u0403","gjcy":"\u0453","gla":"\u2AA5","gl":"\u2277","glE":"\u2A92","glj":"\u2AA4","gnap":"\u2A8A","gnapprox":"\u2A8A","gne":"\u2A88","gnE":"\u2269","gneq":"\u2A88","gneqq":"\u2269","gnsim":"\u22E7","Gopf":"\uD835\uDD3E","gopf":"\uD835\uDD58","grave":"`","GreaterEqual":"\u2265","GreaterEqualLess":"\u22DB","GreaterFullEqual":"\u2267","GreaterGreater":"\u2AA2","GreaterLess":"\u2277","GreaterSlantEqual":"\u2A7E","GreaterTilde":"\u2273","Gscr":"\uD835\uDCA2","gscr":"\u210A","gsim":"\u2273","gsime":"\u2A8E","gsiml":"\u2A90","gtcc":"\u2AA7","gtcir":"\u2A7A","gt":">","GT":">","Gt":"\u226B","gtdot":"\u22D7","gtlPar":"\u2995","gtquest":"\u2A7C","gtrapprox":"\u2A86","gtrarr":"\u2978","gtrdot":"\u22D7","gtreqless":"\u22DB","gtreqqless":"\u2A8C","gtrless":"\u2277","gtrsim":"\u2273","gvertneqq":"\u2269\uFE00","gvnE":"\u2269\uFE00","Hacek":"\u02C7","hairsp":"\u200A","half":"\u00BD","hamilt":"\u210B","HARDcy":"\u042A","hardcy":"\u044A","harrcir":"\u2948","harr":"\u2194","hArr":"\u21D4","harrw":"\u21AD","Hat":"^","hbar":"\u210F","Hcirc":"\u0124","hcirc":"\u0125","hearts":"\u2665","heartsuit":"\u2665","hellip":"\u2026","hercon":"\u22B9","hfr":"\uD835\uDD25","Hfr":"\u210C","HilbertSpace":"\u210B","hksearow":"\u2925","hkswarow":"\u2926","hoarr":"\u21FF","homtht":"\u223B","hookleftarrow":"\u21A9","hookrightarrow":"\u21AA","hopf":"\uD835\uDD59","Hopf":"\u210D","horbar":"\u2015","HorizontalLine":"\u2500","hscr":"\uD835\uDCBD","Hscr":"\u210B","hslash":"\u210F","Hstrok":"\u0126","hstrok":"\u0127","HumpDownHump":"\u224E","HumpEqual":"\u224F","hybull":"\u2043","hyphen":"\u2010","Iacute":"\u00CD","iacute":"\u00ED","ic":"\u2063","Icirc":"\u00CE","icirc":"\u00EE","Icy":"\u0418","icy":"\u0438","Idot":"\u0130","IEcy":"\u0415","iecy":"\u0435","iexcl":"\u00A1","iff":"\u21D4","ifr":"\uD835\uDD26","Ifr":"\u2111","Igrave":"\u00CC","igrave":"\u00EC","ii":"\u2148","iiiint":"\u2A0C","iiint":"\u222D","iinfin":"\u29DC","iiota":"\u2129","IJlig":"\u0132","ijlig":"\u0133","Imacr":"\u012A","imacr":"\u012B","image":"\u2111","ImaginaryI":"\u2148","imagline":"\u2110","imagpart":"\u2111","imath":"\u0131","Im":"\u2111","imof":"\u22B7","imped":"\u01B5","Implies":"\u21D2","incare":"\u2105","in":"\u2208","infin":"\u221E","infintie":"\u29DD","inodot":"\u0131","intcal":"\u22BA","int":"\u222B","Int":"\u222C","integers":"\u2124","Integral":"\u222B","intercal":"\u22BA","Intersection":"\u22C2","intlarhk":"\u2A17","intprod":"\u2A3C","InvisibleComma":"\u2063","InvisibleTimes":"\u2062","IOcy":"\u0401","iocy":"\u0451","Iogon":"\u012E","iogon":"\u012F","Iopf":"\uD835\uDD40","iopf":"\uD835\uDD5A","Iota":"\u0399","iota":"\u03B9","iprod":"\u2A3C","iquest":"\u00BF","iscr":"\uD835\uDCBE","Iscr":"\u2110","isin":"\u2208","isindot":"\u22F5","isinE":"\u22F9","isins":"\u22F4","isinsv":"\u22F3","isinv":"\u2208","it":"\u2062","Itilde":"\u0128","itilde":"\u0129","Iukcy":"\u0406","iukcy":"\u0456","Iuml":"\u00CF","iuml":"\u00EF","Jcirc":"\u0134","jcirc":"\u0135","Jcy":"\u0419","jcy":"\u0439","Jfr":"\uD835\uDD0D","jfr":"\uD835\uDD27","jmath":"\u0237","Jopf":"\uD835\uDD41","jopf":"\uD835\uDD5B","Jscr":"\uD835\uDCA5","jscr":"\uD835\uDCBF","Jsercy":"\u0408","jsercy":"\u0458","Jukcy":"\u0404","jukcy":"\u0454","Kappa":"\u039A","kappa":"\u03BA","kappav":"\u03F0","Kcedil":"\u0136","kcedil":"\u0137","Kcy":"\u041A","kcy":"\u043A","Kfr":"\uD835\uDD0E","kfr":"\uD835\uDD28","kgreen":"\u0138","KHcy":"\u0425","khcy":"\u0445","KJcy":"\u040C","kjcy":"\u045C","Kopf":"\uD835\uDD42","kopf":"\uD835\uDD5C","Kscr":"\uD835\uDCA6","kscr":"\uD835\uDCC0","lAarr":"\u21DA","Lacute":"\u0139","lacute":"\u013A","laemptyv":"\u29B4","lagran":"\u2112","Lambda":"\u039B","lambda":"\u03BB","lang":"\u27E8","Lang":"\u27EA","langd":"\u2991","langle":"\u27E8","lap":"\u2A85","Laplacetrf":"\u2112","laquo":"\u00AB","larrb":"\u21E4","larrbfs":"\u291F","larr":"\u2190","Larr":"\u219E","lArr":"\u21D0","larrfs":"\u291D","larrhk":"\u21A9","larrlp":"\u21AB","larrpl":"\u2939","larrsim":"\u2973","larrtl":"\u21A2","latail":"\u2919","lAtail":"\u291B","lat":"\u2AAB","late":"\u2AAD","lates":"\u2AAD\uFE00","lbarr":"\u290C","lBarr":"\u290E","lbbrk":"\u2772","lbrace":"{","lbrack":"[","lbrke":"\u298B","lbrksld":"\u298F","lbrkslu":"\u298D","Lcaron":"\u013D","lcaron":"\u013E","Lcedil":"\u013B","lcedil":"\u013C","lceil":"\u2308","lcub":"{","Lcy":"\u041B","lcy":"\u043B","ldca":"\u2936","ldquo":"\u201C","ldquor":"\u201E","ldrdhar":"\u2967","ldrushar":"\u294B","ldsh":"\u21B2","le":"\u2264","lE":"\u2266","LeftAngleBracket":"\u27E8","LeftArrowBar":"\u21E4","leftarrow":"\u2190","LeftArrow":"\u2190","Leftarrow":"\u21D0","LeftArrowRightArrow":"\u21C6","leftarrowtail":"\u21A2","LeftCeiling":"\u2308","LeftDoubleBracket":"\u27E6","LeftDownTeeVector":"\u2961","LeftDownVectorBar":"\u2959","LeftDownVector":"\u21C3","LeftFloor":"\u230A","leftharpoondown":"\u21BD","leftharpoonup":"\u21BC","leftleftarrows":"\u21C7","leftrightarrow":"\u2194","LeftRightArrow":"\u2194","Leftrightarrow":"\u21D4","leftrightarrows":"\u21C6","leftrightharpoons":"\u21CB","leftrightsquigarrow":"\u21AD","LeftRightVector":"\u294E","LeftTeeArrow":"\u21A4","LeftTee":"\u22A3","LeftTeeVector":"\u295A","leftthreetimes":"\u22CB","LeftTriangleBar":"\u29CF","LeftTriangle":"\u22B2","LeftTriangleEqual":"\u22B4","LeftUpDownVector":"\u2951","LeftUpTeeVector":"\u2960","LeftUpVectorBar":"\u2958","LeftUpVector":"\u21BF","LeftVectorBar":"\u2952","LeftVector":"\u21BC","lEg":"\u2A8B","leg":"\u22DA","leq":"\u2264","leqq":"\u2266","leqslant":"\u2A7D","lescc":"\u2AA8","les":"\u2A7D","lesdot":"\u2A7F","lesdoto":"\u2A81","lesdotor":"\u2A83","lesg":"\u22DA\uFE00","lesges":"\u2A93","lessapprox":"\u2A85","lessdot":"\u22D6","lesseqgtr":"\u22DA","lesseqqgtr":"\u2A8B","LessEqualGreater":"\u22DA","LessFullEqual":"\u2266","LessGreater":"\u2276","lessgtr":"\u2276","LessLess":"\u2AA1","lesssim":"\u2272","LessSlantEqual":"\u2A7D","LessTilde":"\u2272","lfisht":"\u297C","lfloor":"\u230A","Lfr":"\uD835\uDD0F","lfr":"\uD835\uDD29","lg":"\u2276","lgE":"\u2A91","lHar":"\u2962","lhard":"\u21BD","lharu":"\u21BC","lharul":"\u296A","lhblk":"\u2584","LJcy":"\u0409","ljcy":"\u0459","llarr":"\u21C7","ll":"\u226A","Ll":"\u22D8","llcorner":"\u231E","Lleftarrow":"\u21DA","llhard":"\u296B","lltri":"\u25FA","Lmidot":"\u013F","lmidot":"\u0140","lmoustache":"\u23B0","lmoust":"\u23B0","lnap":"\u2A89","lnapprox":"\u2A89","lne":"\u2A87","lnE":"\u2268","lneq":"\u2A87","lneqq":"\u2268","lnsim":"\u22E6","loang":"\u27EC","loarr":"\u21FD","lobrk":"\u27E6","longleftarrow":"\u27F5","LongLeftArrow":"\u27F5","Longleftarrow":"\u27F8","longleftrightarrow":"\u27F7","LongLeftRightArrow":"\u27F7","Longleftrightarrow":"\u27FA","longmapsto":"\u27FC","longrightarrow":"\u27F6","LongRightArrow":"\u27F6","Longrightarrow":"\u27F9","looparrowleft":"\u21AB","looparrowright":"\u21AC","lopar":"\u2985","Lopf":"\uD835\uDD43","lopf":"\uD835\uDD5D","loplus":"\u2A2D","lotimes":"\u2A34","lowast":"\u2217","lowbar":"_","LowerLeftArrow":"\u2199","LowerRightArrow":"\u2198","loz":"\u25CA","lozenge":"\u25CA","lozf":"\u29EB","lpar":"(","lparlt":"\u2993","lrarr":"\u21C6","lrcorner":"\u231F","lrhar":"\u21CB","lrhard":"\u296D","lrm":"\u200E","lrtri":"\u22BF","lsaquo":"\u2039","lscr":"\uD835\uDCC1","Lscr":"\u2112","lsh":"\u21B0","Lsh":"\u21B0","lsim":"\u2272","lsime":"\u2A8D","lsimg":"\u2A8F","lsqb":"[","lsquo":"\u2018","lsquor":"\u201A","Lstrok":"\u0141","lstrok":"\u0142","ltcc":"\u2AA6","ltcir":"\u2A79","lt":"<","LT":"<","Lt":"\u226A","ltdot":"\u22D6","lthree":"\u22CB","ltimes":"\u22C9","ltlarr":"\u2976","ltquest":"\u2A7B","ltri":"\u25C3","ltrie":"\u22B4","ltrif":"\u25C2","ltrPar":"\u2996","lurdshar":"\u294A","luruhar":"\u2966","lvertneqq":"\u2268\uFE00","lvnE":"\u2268\uFE00","macr":"\u00AF","male":"\u2642","malt":"\u2720","maltese":"\u2720","Map":"\u2905","map":"\u21A6","mapsto":"\u21A6","mapstodown":"\u21A7","mapstoleft":"\u21A4","mapstoup":"\u21A5","marker":"\u25AE","mcomma":"\u2A29","Mcy":"\u041C","mcy":"\u043C","mdash":"\u2014","mDDot":"\u223A","measuredangle":"\u2221","MediumSpace":"\u205F","Mellintrf":"\u2133","Mfr":"\uD835\uDD10","mfr":"\uD835\uDD2A","mho":"\u2127","micro":"\u00B5","midast":"*","midcir":"\u2AF0","mid":"\u2223","middot":"\u00B7","minusb":"\u229F","minus":"\u2212","minusd":"\u2238","minusdu":"\u2A2A","MinusPlus":"\u2213","mlcp":"\u2ADB","mldr":"\u2026","mnplus":"\u2213","models":"\u22A7","Mopf":"\uD835\uDD44","mopf":"\uD835\uDD5E","mp":"\u2213","mscr":"\uD835\uDCC2","Mscr":"\u2133","mstpos":"\u223E","Mu":"\u039C","mu":"\u03BC","multimap":"\u22B8","mumap":"\u22B8","nabla":"\u2207","Nacute":"\u0143","nacute":"\u0144","nang":"\u2220\u20D2","nap":"\u2249","napE":"\u2A70\u0338","napid":"\u224B\u0338","napos":"\u0149","napprox":"\u2249","natural":"\u266E","naturals":"\u2115","natur":"\u266E","nbsp":"\u00A0","nbump":"\u224E\u0338","nbumpe":"\u224F\u0338","ncap":"\u2A43","Ncaron":"\u0147","ncaron":"\u0148","Ncedil":"\u0145","ncedil":"\u0146","ncong":"\u2247","ncongdot":"\u2A6D\u0338","ncup":"\u2A42","Ncy":"\u041D","ncy":"\u043D","ndash":"\u2013","nearhk":"\u2924","nearr":"\u2197","neArr":"\u21D7","nearrow":"\u2197","ne":"\u2260","nedot":"\u2250\u0338","NegativeMediumSpace":"\u200B","NegativeThickSpace":"\u200B","NegativeThinSpace":"\u200B","NegativeVeryThinSpace":"\u200B","nequiv":"\u2262","nesear":"\u2928","nesim":"\u2242\u0338","NestedGreaterGreater":"\u226B","NestedLessLess":"\u226A","NewLine":"\n","nexist":"\u2204","nexists":"\u2204","Nfr":"\uD835\uDD11","nfr":"\uD835\uDD2B","ngE":"\u2267\u0338","nge":"\u2271","ngeq":"\u2271","ngeqq":"\u2267\u0338","ngeqslant":"\u2A7E\u0338","nges":"\u2A7E\u0338","nGg":"\u22D9\u0338","ngsim":"\u2275","nGt":"\u226B\u20D2","ngt":"\u226F","ngtr":"\u226F","nGtv":"\u226B\u0338","nharr":"\u21AE","nhArr":"\u21CE","nhpar":"\u2AF2","ni":"\u220B","nis":"\u22FC","nisd":"\u22FA","niv":"\u220B","NJcy":"\u040A","njcy":"\u045A","nlarr":"\u219A","nlArr":"\u21CD","nldr":"\u2025","nlE":"\u2266\u0338","nle":"\u2270","nleftarrow":"\u219A","nLeftarrow":"\u21CD","nleftrightarrow":"\u21AE","nLeftrightarrow":"\u21CE","nleq":"\u2270","nleqq":"\u2266\u0338","nleqslant":"\u2A7D\u0338","nles":"\u2A7D\u0338","nless":"\u226E","nLl":"\u22D8\u0338","nlsim":"\u2274","nLt":"\u226A\u20D2","nlt":"\u226E","nltri":"\u22EA","nltrie":"\u22EC","nLtv":"\u226A\u0338","nmid":"\u2224","NoBreak":"\u2060","NonBreakingSpace":"\u00A0","nopf":"\uD835\uDD5F","Nopf":"\u2115","Not":"\u2AEC","not":"\u00AC","NotCongruent":"\u2262","NotCupCap":"\u226D","NotDoubleVerticalBar":"\u2226","NotElement":"\u2209","NotEqual":"\u2260","NotEqualTilde":"\u2242\u0338","NotExists":"\u2204","NotGreater":"\u226F","NotGreaterEqual":"\u2271","NotGreaterFullEqual":"\u2267\u0338","NotGreaterGreater":"\u226B\u0338","NotGreaterLess":"\u2279","NotGreaterSlantEqual":"\u2A7E\u0338","NotGreaterTilde":"\u2275","NotHumpDownHump":"\u224E\u0338","NotHumpEqual":"\u224F\u0338","notin":"\u2209","notindot":"\u22F5\u0338","notinE":"\u22F9\u0338","notinva":"\u2209","notinvb":"\u22F7","notinvc":"\u22F6","NotLeftTriangleBar":"\u29CF\u0338","NotLeftTriangle":"\u22EA","NotLeftTriangleEqual":"\u22EC","NotLess":"\u226E","NotLessEqual":"\u2270","NotLessGreater":"\u2278","NotLessLess":"\u226A\u0338","NotLessSlantEqual":"\u2A7D\u0338","NotLessTilde":"\u2274","NotNestedGreaterGreater":"\u2AA2\u0338","NotNestedLessLess":"\u2AA1\u0338","notni":"\u220C","notniva":"\u220C","notnivb":"\u22FE","notnivc":"\u22FD","NotPrecedes":"\u2280","NotPrecedesEqual":"\u2AAF\u0338","NotPrecedesSlantEqual":"\u22E0","NotReverseElement":"\u220C","NotRightTriangleBar":"\u29D0\u0338","NotRightTriangle":"\u22EB","NotRightTriangleEqual":"\u22ED","NotSquareSubset":"\u228F\u0338","NotSquareSubsetEqual":"\u22E2","NotSquareSuperset":"\u2290\u0338","NotSquareSupersetEqual":"\u22E3","NotSubset":"\u2282\u20D2","NotSubsetEqual":"\u2288","NotSucceeds":"\u2281","NotSucceedsEqual":"\u2AB0\u0338","NotSucceedsSlantEqual":"\u22E1","NotSucceedsTilde":"\u227F\u0338","NotSuperset":"\u2283\u20D2","NotSupersetEqual":"\u2289","NotTilde":"\u2241","NotTildeEqual":"\u2244","NotTildeFullEqual":"\u2247","NotTildeTilde":"\u2249","NotVerticalBar":"\u2224","nparallel":"\u2226","npar":"\u2226","nparsl":"\u2AFD\u20E5","npart":"\u2202\u0338","npolint":"\u2A14","npr":"\u2280","nprcue":"\u22E0","nprec":"\u2280","npreceq":"\u2AAF\u0338","npre":"\u2AAF\u0338","nrarrc":"\u2933\u0338","nrarr":"\u219B","nrArr":"\u21CF","nrarrw":"\u219D\u0338","nrightarrow":"\u219B","nRightarrow":"\u21CF","nrtri":"\u22EB","nrtrie":"\u22ED","nsc":"\u2281","nsccue":"\u22E1","nsce":"\u2AB0\u0338","Nscr":"\uD835\uDCA9","nscr":"\uD835\uDCC3","nshortmid":"\u2224","nshortparallel":"\u2226","nsim":"\u2241","nsime":"\u2244","nsimeq":"\u2244","nsmid":"\u2224","nspar":"\u2226","nsqsube":"\u22E2","nsqsupe":"\u22E3","nsub":"\u2284","nsubE":"\u2AC5\u0338","nsube":"\u2288","nsubset":"\u2282\u20D2","nsubseteq":"\u2288","nsubseteqq":"\u2AC5\u0338","nsucc":"\u2281","nsucceq":"\u2AB0\u0338","nsup":"\u2285","nsupE":"\u2AC6\u0338","nsupe":"\u2289","nsupset":"\u2283\u20D2","nsupseteq":"\u2289","nsupseteqq":"\u2AC6\u0338","ntgl":"\u2279","Ntilde":"\u00D1","ntilde":"\u00F1","ntlg":"\u2278","ntriangleleft":"\u22EA","ntrianglelefteq":"\u22EC","ntriangleright":"\u22EB","ntrianglerighteq":"\u22ED","Nu":"\u039D","nu":"\u03BD","num":"#","numero":"\u2116","numsp":"\u2007","nvap":"\u224D\u20D2","nvdash":"\u22AC","nvDash":"\u22AD","nVdash":"\u22AE","nVDash":"\u22AF","nvge":"\u2265\u20D2","nvgt":">\u20D2","nvHarr":"\u2904","nvinfin":"\u29DE","nvlArr":"\u2902","nvle":"\u2264\u20D2","nvlt":"<\u20D2","nvltrie":"\u22B4\u20D2","nvrArr":"\u2903","nvrtrie":"\u22B5\u20D2","nvsim":"\u223C\u20D2","nwarhk":"\u2923","nwarr":"\u2196","nwArr":"\u21D6","nwarrow":"\u2196","nwnear":"\u2927","Oacute":"\u00D3","oacute":"\u00F3","oast":"\u229B","Ocirc":"\u00D4","ocirc":"\u00F4","ocir":"\u229A","Ocy":"\u041E","ocy":"\u043E","odash":"\u229D","Odblac":"\u0150","odblac":"\u0151","odiv":"\u2A38","odot":"\u2299","odsold":"\u29BC","OElig":"\u0152","oelig":"\u0153","ofcir":"\u29BF","Ofr":"\uD835\uDD12","ofr":"\uD835\uDD2C","ogon":"\u02DB","Ograve":"\u00D2","ograve":"\u00F2","ogt":"\u29C1","ohbar":"\u29B5","ohm":"\u03A9","oint":"\u222E","olarr":"\u21BA","olcir":"\u29BE","olcross":"\u29BB","oline":"\u203E","olt":"\u29C0","Omacr":"\u014C","omacr":"\u014D","Omega":"\u03A9","omega":"\u03C9","Omicron":"\u039F","omicron":"\u03BF","omid":"\u29B6","ominus":"\u2296","Oopf":"\uD835\uDD46","oopf":"\uD835\uDD60","opar":"\u29B7","OpenCurlyDoubleQuote":"\u201C","OpenCurlyQuote":"\u2018","operp":"\u29B9","oplus":"\u2295","orarr":"\u21BB","Or":"\u2A54","or":"\u2228","ord":"\u2A5D","order":"\u2134","orderof":"\u2134","ordf":"\u00AA","ordm":"\u00BA","origof":"\u22B6","oror":"\u2A56","orslope":"\u2A57","orv":"\u2A5B","oS":"\u24C8","Oscr":"\uD835\uDCAA","oscr":"\u2134","Oslash":"\u00D8","oslash":"\u00F8","osol":"\u2298","Otilde":"\u00D5","otilde":"\u00F5","otimesas":"\u2A36","Otimes":"\u2A37","otimes":"\u2297","Ouml":"\u00D6","ouml":"\u00F6","ovbar":"\u233D","OverBar":"\u203E","OverBrace":"\u23DE","OverBracket":"\u23B4","OverParenthesis":"\u23DC","para":"\u00B6","parallel":"\u2225","par":"\u2225","parsim":"\u2AF3","parsl":"\u2AFD","part":"\u2202","PartialD":"\u2202","Pcy":"\u041F","pcy":"\u043F","percnt":"%","period":".","permil":"\u2030","perp":"\u22A5","pertenk":"\u2031","Pfr":"\uD835\uDD13","pfr":"\uD835\uDD2D","Phi":"\u03A6","phi":"\u03C6","phiv":"\u03D5","phmmat":"\u2133","phone":"\u260E","Pi":"\u03A0","pi":"\u03C0","pitchfork":"\u22D4","piv":"\u03D6","planck":"\u210F","planckh":"\u210E","plankv":"\u210F","plusacir":"\u2A23","plusb":"\u229E","pluscir":"\u2A22","plus":"+","plusdo":"\u2214","plusdu":"\u2A25","pluse":"\u2A72","PlusMinus":"\u00B1","plusmn":"\u00B1","plussim":"\u2A26","plustwo":"\u2A27","pm":"\u00B1","Poincareplane":"\u210C","pointint":"\u2A15","popf":"\uD835\uDD61","Popf":"\u2119","pound":"\u00A3","prap":"\u2AB7","Pr":"\u2ABB","pr":"\u227A","prcue":"\u227C","precapprox":"\u2AB7","prec":"\u227A","preccurlyeq":"\u227C","Precedes":"\u227A","PrecedesEqual":"\u2AAF","PrecedesSlantEqual":"\u227C","PrecedesTilde":"\u227E","preceq":"\u2AAF","precnapprox":"\u2AB9","precneqq":"\u2AB5","precnsim":"\u22E8","pre":"\u2AAF","prE":"\u2AB3","precsim":"\u227E","prime":"\u2032","Prime":"\u2033","primes":"\u2119","prnap":"\u2AB9","prnE":"\u2AB5","prnsim":"\u22E8","prod":"\u220F","Product":"\u220F","profalar":"\u232E","profline":"\u2312","profsurf":"\u2313","prop":"\u221D","Proportional":"\u221D","Proportion":"\u2237","propto":"\u221D","prsim":"\u227E","prurel":"\u22B0","Pscr":"\uD835\uDCAB","pscr":"\uD835\uDCC5","Psi":"\u03A8","psi":"\u03C8","puncsp":"\u2008","Qfr":"\uD835\uDD14","qfr":"\uD835\uDD2E","qint":"\u2A0C","qopf":"\uD835\uDD62","Qopf":"\u211A","qprime":"\u2057","Qscr":"\uD835\uDCAC","qscr":"\uD835\uDCC6","quaternions":"\u210D","quatint":"\u2A16","quest":"?","questeq":"\u225F","quot":"\"","QUOT":"\"","rAarr":"\u21DB","race":"\u223D\u0331","Racute":"\u0154","racute":"\u0155","radic":"\u221A","raemptyv":"\u29B3","rang":"\u27E9","Rang":"\u27EB","rangd":"\u2992","range":"\u29A5","rangle":"\u27E9","raquo":"\u00BB","rarrap":"\u2975","rarrb":"\u21E5","rarrbfs":"\u2920","rarrc":"\u2933","rarr":"\u2192","Rarr":"\u21A0","rArr":"\u21D2","rarrfs":"\u291E","rarrhk":"\u21AA","rarrlp":"\u21AC","rarrpl":"\u2945","rarrsim":"\u2974","Rarrtl":"\u2916","rarrtl":"\u21A3","rarrw":"\u219D","ratail":"\u291A","rAtail":"\u291C","ratio":"\u2236","rationals":"\u211A","rbarr":"\u290D","rBarr":"\u290F","RBarr":"\u2910","rbbrk":"\u2773","rbrace":"}","rbrack":"]","rbrke":"\u298C","rbrksld":"\u298E","rbrkslu":"\u2990","Rcaron":"\u0158","rcaron":"\u0159","Rcedil":"\u0156","rcedil":"\u0157","rceil":"\u2309","rcub":"}","Rcy":"\u0420","rcy":"\u0440","rdca":"\u2937","rdldhar":"\u2969","rdquo":"\u201D","rdquor":"\u201D","rdsh":"\u21B3","real":"\u211C","realine":"\u211B","realpart":"\u211C","reals":"\u211D","Re":"\u211C","rect":"\u25AD","reg":"\u00AE","REG":"\u00AE","ReverseElement":"\u220B","ReverseEquilibrium":"\u21CB","ReverseUpEquilibrium":"\u296F","rfisht":"\u297D","rfloor":"\u230B","rfr":"\uD835\uDD2F","Rfr":"\u211C","rHar":"\u2964","rhard":"\u21C1","rharu":"\u21C0","rharul":"\u296C","Rho":"\u03A1","rho":"\u03C1","rhov":"\u03F1","RightAngleBracket":"\u27E9","RightArrowBar":"\u21E5","rightarrow":"\u2192","RightArrow":"\u2192","Rightarrow":"\u21D2","RightArrowLeftArrow":"\u21C4","rightarrowtail":"\u21A3","RightCeiling":"\u2309","RightDoubleBracket":"\u27E7","RightDownTeeVector":"\u295D","RightDownVectorBar":"\u2955","RightDownVector":"\u21C2","RightFloor":"\u230B","rightharpoondown":"\u21C1","rightharpoonup":"\u21C0","rightleftarrows":"\u21C4","rightleftharpoons":"\u21CC","rightrightarrows":"\u21C9","rightsquigarrow":"\u219D","RightTeeArrow":"\u21A6","RightTee":"\u22A2","RightTeeVector":"\u295B","rightthreetimes":"\u22CC","RightTriangleBar":"\u29D0","RightTriangle":"\u22B3","RightTriangleEqual":"\u22B5","RightUpDownVector":"\u294F","RightUpTeeVector":"\u295C","RightUpVectorBar":"\u2954","RightUpVector":"\u21BE","RightVectorBar":"\u2953","RightVector":"\u21C0","ring":"\u02DA","risingdotseq":"\u2253","rlarr":"\u21C4","rlhar":"\u21CC","rlm":"\u200F","rmoustache":"\u23B1","rmoust":"\u23B1","rnmid":"\u2AEE","roang":"\u27ED","roarr":"\u21FE","robrk":"\u27E7","ropar":"\u2986","ropf":"\uD835\uDD63","Ropf":"\u211D","roplus":"\u2A2E","rotimes":"\u2A35","RoundImplies":"\u2970","rpar":")","rpargt":"\u2994","rppolint":"\u2A12","rrarr":"\u21C9","Rrightarrow":"\u21DB","rsaquo":"\u203A","rscr":"\uD835\uDCC7","Rscr":"\u211B","rsh":"\u21B1","Rsh":"\u21B1","rsqb":"]","rsquo":"\u2019","rsquor":"\u2019","rthree":"\u22CC","rtimes":"\u22CA","rtri":"\u25B9","rtrie":"\u22B5","rtrif":"\u25B8","rtriltri":"\u29CE","RuleDelayed":"\u29F4","ruluhar":"\u2968","rx":"\u211E","Sacute":"\u015A","sacute":"\u015B","sbquo":"\u201A","scap":"\u2AB8","Scaron":"\u0160","scaron":"\u0161","Sc":"\u2ABC","sc":"\u227B","sccue":"\u227D","sce":"\u2AB0","scE":"\u2AB4","Scedil":"\u015E","scedil":"\u015F","Scirc":"\u015C","scirc":"\u015D","scnap":"\u2ABA","scnE":"\u2AB6","scnsim":"\u22E9","scpolint":"\u2A13","scsim":"\u227F","Scy":"\u0421","scy":"\u0441","sdotb":"\u22A1","sdot":"\u22C5","sdote":"\u2A66","searhk":"\u2925","searr":"\u2198","seArr":"\u21D8","searrow":"\u2198","sect":"\u00A7","semi":";","seswar":"\u2929","setminus":"\u2216","setmn":"\u2216","sext":"\u2736","Sfr":"\uD835\uDD16","sfr":"\uD835\uDD30","sfrown":"\u2322","sharp":"\u266F","SHCHcy":"\u0429","shchcy":"\u0449","SHcy":"\u0428","shcy":"\u0448","ShortDownArrow":"\u2193","ShortLeftArrow":"\u2190","shortmid":"\u2223","shortparallel":"\u2225","ShortRightArrow":"\u2192","ShortUpArrow":"\u2191","shy":"\u00AD","Sigma":"\u03A3","sigma":"\u03C3","sigmaf":"\u03C2","sigmav":"\u03C2","sim":"\u223C","simdot":"\u2A6A","sime":"\u2243","simeq":"\u2243","simg":"\u2A9E","simgE":"\u2AA0","siml":"\u2A9D","simlE":"\u2A9F","simne":"\u2246","simplus":"\u2A24","simrarr":"\u2972","slarr":"\u2190","SmallCircle":"\u2218","smallsetminus":"\u2216","smashp":"\u2A33","smeparsl":"\u29E4","smid":"\u2223","smile":"\u2323","smt":"\u2AAA","smte":"\u2AAC","smtes":"\u2AAC\uFE00","SOFTcy":"\u042C","softcy":"\u044C","solbar":"\u233F","solb":"\u29C4","sol":"/","Sopf":"\uD835\uDD4A","sopf":"\uD835\uDD64","spades":"\u2660","spadesuit":"\u2660","spar":"\u2225","sqcap":"\u2293","sqcaps":"\u2293\uFE00","sqcup":"\u2294","sqcups":"\u2294\uFE00","Sqrt":"\u221A","sqsub":"\u228F","sqsube":"\u2291","sqsubset":"\u228F","sqsubseteq":"\u2291","sqsup":"\u2290","sqsupe":"\u2292","sqsupset":"\u2290","sqsupseteq":"\u2292","square":"\u25A1","Square":"\u25A1","SquareIntersection":"\u2293","SquareSubset":"\u228F","SquareSubsetEqual":"\u2291","SquareSuperset":"\u2290","SquareSupersetEqual":"\u2292","SquareUnion":"\u2294","squarf":"\u25AA","squ":"\u25A1","squf":"\u25AA","srarr":"\u2192","Sscr":"\uD835\uDCAE","sscr":"\uD835\uDCC8","ssetmn":"\u2216","ssmile":"\u2323","sstarf":"\u22C6","Star":"\u22C6","star":"\u2606","starf":"\u2605","straightepsilon":"\u03F5","straightphi":"\u03D5","strns":"\u00AF","sub":"\u2282","Sub":"\u22D0","subdot":"\u2ABD","subE":"\u2AC5","sube":"\u2286","subedot":"\u2AC3","submult":"\u2AC1","subnE":"\u2ACB","subne":"\u228A","subplus":"\u2ABF","subrarr":"\u2979","subset":"\u2282","Subset":"\u22D0","subseteq":"\u2286","subseteqq":"\u2AC5","SubsetEqual":"\u2286","subsetneq":"\u228A","subsetneqq":"\u2ACB","subsim":"\u2AC7","subsub":"\u2AD5","subsup":"\u2AD3","succapprox":"\u2AB8","succ":"\u227B","succcurlyeq":"\u227D","Succeeds":"\u227B","SucceedsEqual":"\u2AB0","SucceedsSlantEqual":"\u227D","SucceedsTilde":"\u227F","succeq":"\u2AB0","succnapprox":"\u2ABA","succneqq":"\u2AB6","succnsim":"\u22E9","succsim":"\u227F","SuchThat":"\u220B","sum":"\u2211","Sum":"\u2211","sung":"\u266A","sup1":"\u00B9","sup2":"\u00B2","sup3":"\u00B3","sup":"\u2283","Sup":"\u22D1","supdot":"\u2ABE","supdsub":"\u2AD8","supE":"\u2AC6","supe":"\u2287","supedot":"\u2AC4","Superset":"\u2283","SupersetEqual":"\u2287","suphsol":"\u27C9","suphsub":"\u2AD7","suplarr":"\u297B","supmult":"\u2AC2","supnE":"\u2ACC","supne":"\u228B","supplus":"\u2AC0","supset":"\u2283","Supset":"\u22D1","supseteq":"\u2287","supseteqq":"\u2AC6","supsetneq":"\u228B","supsetneqq":"\u2ACC","supsim":"\u2AC8","supsub":"\u2AD4","supsup":"\u2AD6","swarhk":"\u2926","swarr":"\u2199","swArr":"\u21D9","swarrow":"\u2199","swnwar":"\u292A","szlig":"\u00DF","Tab":"\t","target":"\u2316","Tau":"\u03A4","tau":"\u03C4","tbrk":"\u23B4","Tcaron":"\u0164","tcaron":"\u0165","Tcedil":"\u0162","tcedil":"\u0163","Tcy":"\u0422","tcy":"\u0442","tdot":"\u20DB","telrec":"\u2315","Tfr":"\uD835\uDD17","tfr":"\uD835\uDD31","there4":"\u2234","therefore":"\u2234","Therefore":"\u2234","Theta":"\u0398","theta":"\u03B8","thetasym":"\u03D1","thetav":"\u03D1","thickapprox":"\u2248","thicksim":"\u223C","ThickSpace":"\u205F\u200A","ThinSpace":"\u2009","thinsp":"\u2009","thkap":"\u2248","thksim":"\u223C","THORN":"\u00DE","thorn":"\u00FE","tilde":"\u02DC","Tilde":"\u223C","TildeEqual":"\u2243","TildeFullEqual":"\u2245","TildeTilde":"\u2248","timesbar":"\u2A31","timesb":"\u22A0","times":"\u00D7","timesd":"\u2A30","tint":"\u222D","toea":"\u2928","topbot":"\u2336","topcir":"\u2AF1","top":"\u22A4","Topf":"\uD835\uDD4B","topf":"\uD835\uDD65","topfork":"\u2ADA","tosa":"\u2929","tprime":"\u2034","trade":"\u2122","TRADE":"\u2122","triangle":"\u25B5","triangledown":"\u25BF","triangleleft":"\u25C3","trianglelefteq":"\u22B4","triangleq":"\u225C","triangleright":"\u25B9","trianglerighteq":"\u22B5","tridot":"\u25EC","trie":"\u225C","triminus":"\u2A3A","TripleDot":"\u20DB","triplus":"\u2A39","trisb":"\u29CD","tritime":"\u2A3B","trpezium":"\u23E2","Tscr":"\uD835\uDCAF","tscr":"\uD835\uDCC9","TScy":"\u0426","tscy":"\u0446","TSHcy":"\u040B","tshcy":"\u045B","Tstrok":"\u0166","tstrok":"\u0167","twixt":"\u226C","twoheadleftarrow":"\u219E","twoheadrightarrow":"\u21A0","Uacute":"\u00DA","uacute":"\u00FA","uarr":"\u2191","Uarr":"\u219F","uArr":"\u21D1","Uarrocir":"\u2949","Ubrcy":"\u040E","ubrcy":"\u045E","Ubreve":"\u016C","ubreve":"\u016D","Ucirc":"\u00DB","ucirc":"\u00FB","Ucy":"\u0423","ucy":"\u0443","udarr":"\u21C5","Udblac":"\u0170","udblac":"\u0171","udhar":"\u296E","ufisht":"\u297E","Ufr":"\uD835\uDD18","ufr":"\uD835\uDD32","Ugrave":"\u00D9","ugrave":"\u00F9","uHar":"\u2963","uharl":"\u21BF","uharr":"\u21BE","uhblk":"\u2580","ulcorn":"\u231C","ulcorner":"\u231C","ulcrop":"\u230F","ultri":"\u25F8","Umacr":"\u016A","umacr":"\u016B","uml":"\u00A8","UnderBar":"_","UnderBrace":"\u23DF","UnderBracket":"\u23B5","UnderParenthesis":"\u23DD","Union":"\u22C3","UnionPlus":"\u228E","Uogon":"\u0172","uogon":"\u0173","Uopf":"\uD835\uDD4C","uopf":"\uD835\uDD66","UpArrowBar":"\u2912","uparrow":"\u2191","UpArrow":"\u2191","Uparrow":"\u21D1","UpArrowDownArrow":"\u21C5","updownarrow":"\u2195","UpDownArrow":"\u2195","Updownarrow":"\u21D5","UpEquilibrium":"\u296E","upharpoonleft":"\u21BF","upharpoonright":"\u21BE","uplus":"\u228E","UpperLeftArrow":"\u2196","UpperRightArrow":"\u2197","upsi":"\u03C5","Upsi":"\u03D2","upsih":"\u03D2","Upsilon":"\u03A5","upsilon":"\u03C5","UpTeeArrow":"\u21A5","UpTee":"\u22A5","upuparrows":"\u21C8","urcorn":"\u231D","urcorner":"\u231D","urcrop":"\u230E","Uring":"\u016E","uring":"\u016F","urtri":"\u25F9","Uscr":"\uD835\uDCB0","uscr":"\uD835\uDCCA","utdot":"\u22F0","Utilde":"\u0168","utilde":"\u0169","utri":"\u25B5","utrif":"\u25B4","uuarr":"\u21C8","Uuml":"\u00DC","uuml":"\u00FC","uwangle":"\u29A7","vangrt":"\u299C","varepsilon":"\u03F5","varkappa":"\u03F0","varnothing":"\u2205","varphi":"\u03D5","varpi":"\u03D6","varpropto":"\u221D","varr":"\u2195","vArr":"\u21D5","varrho":"\u03F1","varsigma":"\u03C2","varsubsetneq":"\u228A\uFE00","varsubsetneqq":"\u2ACB\uFE00","varsupsetneq":"\u228B\uFE00","varsupsetneqq":"\u2ACC\uFE00","vartheta":"\u03D1","vartriangleleft":"\u22B2","vartriangleright":"\u22B3","vBar":"\u2AE8","Vbar":"\u2AEB","vBarv":"\u2AE9","Vcy":"\u0412","vcy":"\u0432","vdash":"\u22A2","vDash":"\u22A8","Vdash":"\u22A9","VDash":"\u22AB","Vdashl":"\u2AE6","veebar":"\u22BB","vee":"\u2228","Vee":"\u22C1","veeeq":"\u225A","vellip":"\u22EE","verbar":"|","Verbar":"\u2016","vert":"|","Vert":"\u2016","VerticalBar":"\u2223","VerticalLine":"|","VerticalSeparator":"\u2758","VerticalTilde":"\u2240","VeryThinSpace":"\u200A","Vfr":"\uD835\uDD19","vfr":"\uD835\uDD33","vltri":"\u22B2","vnsub":"\u2282\u20D2","vnsup":"\u2283\u20D2","Vopf":"\uD835\uDD4D","vopf":"\uD835\uDD67","vprop":"\u221D","vrtri":"\u22B3","Vscr":"\uD835\uDCB1","vscr":"\uD835\uDCCB","vsubnE":"\u2ACB\uFE00","vsubne":"\u228A\uFE00","vsupnE":"\u2ACC\uFE00","vsupne":"\u228B\uFE00","Vvdash":"\u22AA","vzigzag":"\u299A","Wcirc":"\u0174","wcirc":"\u0175","wedbar":"\u2A5F","wedge":"\u2227","Wedge":"\u22C0","wedgeq":"\u2259","weierp":"\u2118","Wfr":"\uD835\uDD1A","wfr":"\uD835\uDD34","Wopf":"\uD835\uDD4E","wopf":"\uD835\uDD68","wp":"\u2118","wr":"\u2240","wreath":"\u2240","Wscr":"\uD835\uDCB2","wscr":"\uD835\uDCCC","xcap":"\u22C2","xcirc":"\u25EF","xcup":"\u22C3","xdtri":"\u25BD","Xfr":"\uD835\uDD1B","xfr":"\uD835\uDD35","xharr":"\u27F7","xhArr":"\u27FA","Xi":"\u039E","xi":"\u03BE","xlarr":"\u27F5","xlArr":"\u27F8","xmap":"\u27FC","xnis":"\u22FB","xodot":"\u2A00","Xopf":"\uD835\uDD4F","xopf":"\uD835\uDD69","xoplus":"\u2A01","xotime":"\u2A02","xrarr":"\u27F6","xrArr":"\u27F9","Xscr":"\uD835\uDCB3","xscr":"\uD835\uDCCD","xsqcup":"\u2A06","xuplus":"\u2A04","xutri":"\u25B3","xvee":"\u22C1","xwedge":"\u22C0","Yacute":"\u00DD","yacute":"\u00FD","YAcy":"\u042F","yacy":"\u044F","Ycirc":"\u0176","ycirc":"\u0177","Ycy":"\u042B","ycy":"\u044B","yen":"\u00A5","Yfr":"\uD835\uDD1C","yfr":"\uD835\uDD36","YIcy":"\u0407","yicy":"\u0457","Yopf":"\uD835\uDD50","yopf":"\uD835\uDD6A","Yscr":"\uD835\uDCB4","yscr":"\uD835\uDCCE","YUcy":"\u042E","yucy":"\u044E","yuml":"\u00FF","Yuml":"\u0178","Zacute":"\u0179","zacute":"\u017A","Zcaron":"\u017D","zcaron":"\u017E","Zcy":"\u0417","zcy":"\u0437","Zdot":"\u017B","zdot":"\u017C","zeetrf":"\u2128","ZeroWidthSpace":"\u200B","Zeta":"\u0396","zeta":"\u03B6","zfr":"\uD835\uDD37","Zfr":"\u2128","ZHcy":"\u0416","zhcy":"\u0436","zigrarr":"\u21DD","zopf":"\uD835\uDD6B","Zopf":"\u2124","Zscr":"\uD835\uDCB5","zscr":"\uD835\uDCCF","zwj":"\u200D","zwnj":"\u200C"}
 },{}],45:[function(require,module,exports){
-module.exports={"Aacute":"\u00C1","aacute":"\u00E1","Acirc":"\u00C2","acirc":"\u00E2","acute":"\u00B4","AElig":"\u00C6","aelig":"\u00E6","Agrave":"\u00C0","agrave":"\u00E0","amp":"&","AMP":"&","Aring":"\u00C5","aring":"\u00E5","Atilde":"\u00C3","atilde":"\u00E3","Auml":"\u00C4","auml":"\u00E4","brvbar":"\u00A6","Ccedil":"\u00C7","ccedil":"\u00E7","cedil":"\u00B8","cent":"\u00A2","copy":"\u00A9","COPY":"\u00A9","curren":"\u00A4","deg":"\u00B0","divide":"\u00F7","Eacute":"\u00C9","eacute":"\u00E9","Ecirc":"\u00CA","ecirc":"\u00EA","Egrave":"\u00C8","egrave":"\u00E8","ETH":"\u00D0","eth":"\u00F0","Euml":"\u00CB","euml":"\u00EB","frac12":"\u00BD","frac14":"\u00BC","frac34":"\u00BE","gt":">","GT":">","Iacute":"\u00CD","iacute":"\u00ED","Icirc":"\u00CE","icirc":"\u00EE","iexcl":"\u00A1","Igrave":"\u00CC","igrave":"\u00EC","iquest":"\u00BF","Iuml":"\u00CF","iuml":"\u00EF","laquo":"\u00AB","lt":"<","LT":"<","macr":"\u00AF","micro":"\u00B5","middot":"\u00B7","nbsp":"\u00A0","not":"\u00AC","Ntilde":"\u00D1","ntilde":"\u00F1","Oacute":"\u00D3","oacute":"\u00F3","Ocirc":"\u00D4","ocirc":"\u00F4","Ograve":"\u00D2","ograve":"\u00F2","ordf":"\u00AA","ordm":"\u00BA","Oslash":"\u00D8","oslash":"\u00F8","Otilde":"\u00D5","otilde":"\u00F5","Ouml":"\u00D6","ouml":"\u00F6","para":"\u00B6","plusmn":"\u00B1","pound":"\u00A3","quot":"\"","QUOT":"\"","raquo":"\u00BB","reg":"\u00AE","REG":"\u00AE","sect":"\u00A7","shy":"\u00AD","sup1":"\u00B9","sup2":"\u00B2","sup3":"\u00B3","szlig":"\u00DF","THORN":"\u00DE","thorn":"\u00FE","times":"\u00D7","Uacute":"\u00DA","uacute":"\u00FA","Ucirc":"\u00DB","ucirc":"\u00FB","Ugrave":"\u00D9","ugrave":"\u00F9","uml":"\u00A8","Uuml":"\u00DC","uuml":"\u00FC","Yacute":"\u00DD","yacute":"\u00FD","yen":"\u00A5","yuml":"\u00FF"}
+module.exports={"Aacute":"\u00C1","aacute":"\u00E1","Abreve":"\u0102","abreve":"\u0103","ac":"\u223E","acd":"\u223F","acE":"\u223E\u0333","Acirc":"\u00C2","acirc":"\u00E2","acute":"\u00B4","Acy":"\u0410","acy":"\u0430","AElig":"\u00C6","aelig":"\u00E6","af":"\u2061","Afr":"\uD835\uDD04","afr":"\uD835\uDD1E","Agrave":"\u00C0","agrave":"\u00E0","alefsym":"\u2135","aleph":"\u2135","Alpha":"\u0391","alpha":"\u03B1","Amacr":"\u0100","amacr":"\u0101","amalg":"\u2A3F","amp":"&","AMP":"&","andand":"\u2A55","And":"\u2A53","and":"\u2227","andd":"\u2A5C","andslope":"\u2A58","andv":"\u2A5A","ang":"\u2220","ange":"\u29A4","angle":"\u2220","angmsdaa":"\u29A8","angmsdab":"\u29A9","angmsdac":"\u29AA","angmsdad":"\u29AB","angmsdae":"\u29AC","angmsdaf":"\u29AD","angmsdag":"\u29AE","angmsdah":"\u29AF","angmsd":"\u2221","angrt":"\u221F","angrtvb":"\u22BE","angrtvbd":"\u299D","angsph":"\u2222","angst":"\u00C5","angzarr":"\u237C","Aogon":"\u0104","aogon":"\u0105","Aopf":"\uD835\uDD38","aopf":"\uD835\uDD52","apacir":"\u2A6F","ap":"\u2248","apE":"\u2A70","ape":"\u224A","apid":"\u224B","apos":"'","ApplyFunction":"\u2061","approx":"\u2248","approxeq":"\u224A","Aring":"\u00C5","aring":"\u00E5","Ascr":"\uD835\uDC9C","ascr":"\uD835\uDCB6","Assign":"\u2254","ast":"*","asymp":"\u2248","asympeq":"\u224D","Atilde":"\u00C3","atilde":"\u00E3","Auml":"\u00C4","auml":"\u00E4","awconint":"\u2233","awint":"\u2A11","backcong":"\u224C","backepsilon":"\u03F6","backprime":"\u2035","backsim":"\u223D","backsimeq":"\u22CD","Backslash":"\u2216","Barv":"\u2AE7","barvee":"\u22BD","barwed":"\u2305","Barwed":"\u2306","barwedge":"\u2305","bbrk":"\u23B5","bbrktbrk":"\u23B6","bcong":"\u224C","Bcy":"\u0411","bcy":"\u0431","bdquo":"\u201E","becaus":"\u2235","because":"\u2235","Because":"\u2235","bemptyv":"\u29B0","bepsi":"\u03F6","bernou":"\u212C","Bernoullis":"\u212C","Beta":"\u0392","beta":"\u03B2","beth":"\u2136","between":"\u226C","Bfr":"\uD835\uDD05","bfr":"\uD835\uDD1F","bigcap":"\u22C2","bigcirc":"\u25EF","bigcup":"\u22C3","bigodot":"\u2A00","bigoplus":"\u2A01","bigotimes":"\u2A02","bigsqcup":"\u2A06","bigstar":"\u2605","bigtriangledown":"\u25BD","bigtriangleup":"\u25B3","biguplus":"\u2A04","bigvee":"\u22C1","bigwedge":"\u22C0","bkarow":"\u290D","blacklozenge":"\u29EB","blacksquare":"\u25AA","blacktriangle":"\u25B4","blacktriangledown":"\u25BE","blacktriangleleft":"\u25C2","blacktriangleright":"\u25B8","blank":"\u2423","blk12":"\u2592","blk14":"\u2591","blk34":"\u2593","block":"\u2588","bne":"=\u20E5","bnequiv":"\u2261\u20E5","bNot":"\u2AED","bnot":"\u2310","Bopf":"\uD835\uDD39","bopf":"\uD835\uDD53","bot":"\u22A5","bottom":"\u22A5","bowtie":"\u22C8","boxbox":"\u29C9","boxdl":"\u2510","boxdL":"\u2555","boxDl":"\u2556","boxDL":"\u2557","boxdr":"\u250C","boxdR":"\u2552","boxDr":"\u2553","boxDR":"\u2554","boxh":"\u2500","boxH":"\u2550","boxhd":"\u252C","boxHd":"\u2564","boxhD":"\u2565","boxHD":"\u2566","boxhu":"\u2534","boxHu":"\u2567","boxhU":"\u2568","boxHU":"\u2569","boxminus":"\u229F","boxplus":"\u229E","boxtimes":"\u22A0","boxul":"\u2518","boxuL":"\u255B","boxUl":"\u255C","boxUL":"\u255D","boxur":"\u2514","boxuR":"\u2558","boxUr":"\u2559","boxUR":"\u255A","boxv":"\u2502","boxV":"\u2551","boxvh":"\u253C","boxvH":"\u256A","boxVh":"\u256B","boxVH":"\u256C","boxvl":"\u2524","boxvL":"\u2561","boxVl":"\u2562","boxVL":"\u2563","boxvr":"\u251C","boxvR":"\u255E","boxVr":"\u255F","boxVR":"\u2560","bprime":"\u2035","breve":"\u02D8","Breve":"\u02D8","brvbar":"\u00A6","bscr":"\uD835\uDCB7","Bscr":"\u212C","bsemi":"\u204F","bsim":"\u223D","bsime":"\u22CD","bsolb":"\u29C5","bsol":"\\","bsolhsub":"\u27C8","bull":"\u2022","bullet":"\u2022","bump":"\u224E","bumpE":"\u2AAE","bumpe":"\u224F","Bumpeq":"\u224E","bumpeq":"\u224F","Cacute":"\u0106","cacute":"\u0107","capand":"\u2A44","capbrcup":"\u2A49","capcap":"\u2A4B","cap":"\u2229","Cap":"\u22D2","capcup":"\u2A47","capdot":"\u2A40","CapitalDifferentialD":"\u2145","caps":"\u2229\uFE00","caret":"\u2041","caron":"\u02C7","Cayleys":"\u212D","ccaps":"\u2A4D","Ccaron":"\u010C","ccaron":"\u010D","Ccedil":"\u00C7","ccedil":"\u00E7","Ccirc":"\u0108","ccirc":"\u0109","Cconint":"\u2230","ccups":"\u2A4C","ccupssm":"\u2A50","Cdot":"\u010A","cdot":"\u010B","cedil":"\u00B8","Cedilla":"\u00B8","cemptyv":"\u29B2","cent":"\u00A2","centerdot":"\u00B7","CenterDot":"\u00B7","cfr":"\uD835\uDD20","Cfr":"\u212D","CHcy":"\u0427","chcy":"\u0447","check":"\u2713","checkmark":"\u2713","Chi":"\u03A7","chi":"\u03C7","circ":"\u02C6","circeq":"\u2257","circlearrowleft":"\u21BA","circlearrowright":"\u21BB","circledast":"\u229B","circledcirc":"\u229A","circleddash":"\u229D","CircleDot":"\u2299","circledR":"\u00AE","circledS":"\u24C8","CircleMinus":"\u2296","CirclePlus":"\u2295","CircleTimes":"\u2297","cir":"\u25CB","cirE":"\u29C3","cire":"\u2257","cirfnint":"\u2A10","cirmid":"\u2AEF","cirscir":"\u29C2","ClockwiseContourIntegral":"\u2232","CloseCurlyDoubleQuote":"\u201D","CloseCurlyQuote":"\u2019","clubs":"\u2663","clubsuit":"\u2663","colon":":","Colon":"\u2237","Colone":"\u2A74","colone":"\u2254","coloneq":"\u2254","comma":",","commat":"@","comp":"\u2201","compfn":"\u2218","complement":"\u2201","complexes":"\u2102","cong":"\u2245","congdot":"\u2A6D","Congruent":"\u2261","conint":"\u222E","Conint":"\u222F","ContourIntegral":"\u222E","copf":"\uD835\uDD54","Copf":"\u2102","coprod":"\u2210","Coproduct":"\u2210","copy":"\u00A9","COPY":"\u00A9","copysr":"\u2117","CounterClockwiseContourIntegral":"\u2233","crarr":"\u21B5","cross":"\u2717","Cross":"\u2A2F","Cscr":"\uD835\uDC9E","cscr":"\uD835\uDCB8","csub":"\u2ACF","csube":"\u2AD1","csup":"\u2AD0","csupe":"\u2AD2","ctdot":"\u22EF","cudarrl":"\u2938","cudarrr":"\u2935","cuepr":"\u22DE","cuesc":"\u22DF","cularr":"\u21B6","cularrp":"\u293D","cupbrcap":"\u2A48","cupcap":"\u2A46","CupCap":"\u224D","cup":"\u222A","Cup":"\u22D3","cupcup":"\u2A4A","cupdot":"\u228D","cupor":"\u2A45","cups":"\u222A\uFE00","curarr":"\u21B7","curarrm":"\u293C","curlyeqprec":"\u22DE","curlyeqsucc":"\u22DF","curlyvee":"\u22CE","curlywedge":"\u22CF","curren":"\u00A4","curvearrowleft":"\u21B6","curvearrowright":"\u21B7","cuvee":"\u22CE","cuwed":"\u22CF","cwconint":"\u2232","cwint":"\u2231","cylcty":"\u232D","dagger":"\u2020","Dagger":"\u2021","daleth":"\u2138","darr":"\u2193","Darr":"\u21A1","dArr":"\u21D3","dash":"\u2010","Dashv":"\u2AE4","dashv":"\u22A3","dbkarow":"\u290F","dblac":"\u02DD","Dcaron":"\u010E","dcaron":"\u010F","Dcy":"\u0414","dcy":"\u0434","ddagger":"\u2021","ddarr":"\u21CA","DD":"\u2145","dd":"\u2146","DDotrahd":"\u2911","ddotseq":"\u2A77","deg":"\u00B0","Del":"\u2207","Delta":"\u0394","delta":"\u03B4","demptyv":"\u29B1","dfisht":"\u297F","Dfr":"\uD835\uDD07","dfr":"\uD835\uDD21","dHar":"\u2965","dharl":"\u21C3","dharr":"\u21C2","DiacriticalAcute":"\u00B4","DiacriticalDot":"\u02D9","DiacriticalDoubleAcute":"\u02DD","DiacriticalGrave":"`","DiacriticalTilde":"\u02DC","diam":"\u22C4","diamond":"\u22C4","Diamond":"\u22C4","diamondsuit":"\u2666","diams":"\u2666","die":"\u00A8","DifferentialD":"\u2146","digamma":"\u03DD","disin":"\u22F2","div":"\u00F7","divide":"\u00F7","divideontimes":"\u22C7","divonx":"\u22C7","DJcy":"\u0402","djcy":"\u0452","dlcorn":"\u231E","dlcrop":"\u230D","dollar":"$","Dopf":"\uD835\uDD3B","dopf":"\uD835\uDD55","Dot":"\u00A8","dot":"\u02D9","DotDot":"\u20DC","doteq":"\u2250","doteqdot":"\u2251","DotEqual":"\u2250","dotminus":"\u2238","dotplus":"\u2214","dotsquare":"\u22A1","doublebarwedge":"\u2306","DoubleContourIntegral":"\u222F","DoubleDot":"\u00A8","DoubleDownArrow":"\u21D3","DoubleLeftArrow":"\u21D0","DoubleLeftRightArrow":"\u21D4","DoubleLeftTee":"\u2AE4","DoubleLongLeftArrow":"\u27F8","DoubleLongLeftRightArrow":"\u27FA","DoubleLongRightArrow":"\u27F9","DoubleRightArrow":"\u21D2","DoubleRightTee":"\u22A8","DoubleUpArrow":"\u21D1","DoubleUpDownArrow":"\u21D5","DoubleVerticalBar":"\u2225","DownArrowBar":"\u2913","downarrow":"\u2193","DownArrow":"\u2193","Downarrow":"\u21D3","DownArrowUpArrow":"\u21F5","DownBreve":"\u0311","downdownarrows":"\u21CA","downharpoonleft":"\u21C3","downharpoonright":"\u21C2","DownLeftRightVector":"\u2950","DownLeftTeeVector":"\u295E","DownLeftVectorBar":"\u2956","DownLeftVector":"\u21BD","DownRightTeeVector":"\u295F","DownRightVectorBar":"\u2957","DownRightVector":"\u21C1","DownTeeArrow":"\u21A7","DownTee":"\u22A4","drbkarow":"\u2910","drcorn":"\u231F","drcrop":"\u230C","Dscr":"\uD835\uDC9F","dscr":"\uD835\uDCB9","DScy":"\u0405","dscy":"\u0455","dsol":"\u29F6","Dstrok":"\u0110","dstrok":"\u0111","dtdot":"\u22F1","dtri":"\u25BF","dtrif":"\u25BE","duarr":"\u21F5","duhar":"\u296F","dwangle":"\u29A6","DZcy":"\u040F","dzcy":"\u045F","dzigrarr":"\u27FF","Eacute":"\u00C9","eacute":"\u00E9","easter":"\u2A6E","Ecaron":"\u011A","ecaron":"\u011B","Ecirc":"\u00CA","ecirc":"\u00EA","ecir":"\u2256","ecolon":"\u2255","Ecy":"\u042D","ecy":"\u044D","eDDot":"\u2A77","Edot":"\u0116","edot":"\u0117","eDot":"\u2251","ee":"\u2147","efDot":"\u2252","Efr":"\uD835\uDD08","efr":"\uD835\uDD22","eg":"\u2A9A","Egrave":"\u00C8","egrave":"\u00E8","egs":"\u2A96","egsdot":"\u2A98","el":"\u2A99","Element":"\u2208","elinters":"\u23E7","ell":"\u2113","els":"\u2A95","elsdot":"\u2A97","Emacr":"\u0112","emacr":"\u0113","empty":"\u2205","emptyset":"\u2205","EmptySmallSquare":"\u25FB","emptyv":"\u2205","EmptyVerySmallSquare":"\u25AB","emsp13":"\u2004","emsp14":"\u2005","emsp":"\u2003","ENG":"\u014A","eng":"\u014B","ensp":"\u2002","Eogon":"\u0118","eogon":"\u0119","Eopf":"\uD835\uDD3C","eopf":"\uD835\uDD56","epar":"\u22D5","eparsl":"\u29E3","eplus":"\u2A71","epsi":"\u03B5","Epsilon":"\u0395","epsilon":"\u03B5","epsiv":"\u03F5","eqcirc":"\u2256","eqcolon":"\u2255","eqsim":"\u2242","eqslantgtr":"\u2A96","eqslantless":"\u2A95","Equal":"\u2A75","equals":"=","EqualTilde":"\u2242","equest":"\u225F","Equilibrium":"\u21CC","equiv":"\u2261","equivDD":"\u2A78","eqvparsl":"\u29E5","erarr":"\u2971","erDot":"\u2253","escr":"\u212F","Escr":"\u2130","esdot":"\u2250","Esim":"\u2A73","esim":"\u2242","Eta":"\u0397","eta":"\u03B7","ETH":"\u00D0","eth":"\u00F0","Euml":"\u00CB","euml":"\u00EB","euro":"\u20AC","excl":"!","exist":"\u2203","Exists":"\u2203","expectation":"\u2130","exponentiale":"\u2147","ExponentialE":"\u2147","fallingdotseq":"\u2252","Fcy":"\u0424","fcy":"\u0444","female":"\u2640","ffilig":"\uFB03","fflig":"\uFB00","ffllig":"\uFB04","Ffr":"\uD835\uDD09","ffr":"\uD835\uDD23","filig":"\uFB01","FilledSmallSquare":"\u25FC","FilledVerySmallSquare":"\u25AA","fjlig":"fj","flat":"\u266D","fllig":"\uFB02","fltns":"\u25B1","fnof":"\u0192","Fopf":"\uD835\uDD3D","fopf":"\uD835\uDD57","forall":"\u2200","ForAll":"\u2200","fork":"\u22D4","forkv":"\u2AD9","Fouriertrf":"\u2131","fpartint":"\u2A0D","frac12":"\u00BD","frac13":"\u2153","frac14":"\u00BC","frac15":"\u2155","frac16":"\u2159","frac18":"\u215B","frac23":"\u2154","frac25":"\u2156","frac34":"\u00BE","frac35":"\u2157","frac38":"\u215C","frac45":"\u2158","frac56":"\u215A","frac58":"\u215D","frac78":"\u215E","frasl":"\u2044","frown":"\u2322","fscr":"\uD835\uDCBB","Fscr":"\u2131","gacute":"\u01F5","Gamma":"\u0393","gamma":"\u03B3","Gammad":"\u03DC","gammad":"\u03DD","gap":"\u2A86","Gbreve":"\u011E","gbreve":"\u011F","Gcedil":"\u0122","Gcirc":"\u011C","gcirc":"\u011D","Gcy":"\u0413","gcy":"\u0433","Gdot":"\u0120","gdot":"\u0121","ge":"\u2265","gE":"\u2267","gEl":"\u2A8C","gel":"\u22DB","geq":"\u2265","geqq":"\u2267","geqslant":"\u2A7E","gescc":"\u2AA9","ges":"\u2A7E","gesdot":"\u2A80","gesdoto":"\u2A82","gesdotol":"\u2A84","gesl":"\u22DB\uFE00","gesles":"\u2A94","Gfr":"\uD835\uDD0A","gfr":"\uD835\uDD24","gg":"\u226B","Gg":"\u22D9","ggg":"\u22D9","gimel":"\u2137","GJcy":"\u0403","gjcy":"\u0453","gla":"\u2AA5","gl":"\u2277","glE":"\u2A92","glj":"\u2AA4","gnap":"\u2A8A","gnapprox":"\u2A8A","gne":"\u2A88","gnE":"\u2269","gneq":"\u2A88","gneqq":"\u2269","gnsim":"\u22E7","Gopf":"\uD835\uDD3E","gopf":"\uD835\uDD58","grave":"`","GreaterEqual":"\u2265","GreaterEqualLess":"\u22DB","GreaterFullEqual":"\u2267","GreaterGreater":"\u2AA2","GreaterLess":"\u2277","GreaterSlantEqual":"\u2A7E","GreaterTilde":"\u2273","Gscr":"\uD835\uDCA2","gscr":"\u210A","gsim":"\u2273","gsime":"\u2A8E","gsiml":"\u2A90","gtcc":"\u2AA7","gtcir":"\u2A7A","gt":">","GT":">","Gt":"\u226B","gtdot":"\u22D7","gtlPar":"\u2995","gtquest":"\u2A7C","gtrapprox":"\u2A86","gtrarr":"\u2978","gtrdot":"\u22D7","gtreqless":"\u22DB","gtreqqless":"\u2A8C","gtrless":"\u2277","gtrsim":"\u2273","gvertneqq":"\u2269\uFE00","gvnE":"\u2269\uFE00","Hacek":"\u02C7","hairsp":"\u200A","half":"\u00BD","hamilt":"\u210B","HARDcy":"\u042A","hardcy":"\u044A","harrcir":"\u2948","harr":"\u2194","hArr":"\u21D4","harrw":"\u21AD","Hat":"^","hbar":"\u210F","Hcirc":"\u0124","hcirc":"\u0125","hearts":"\u2665","heartsuit":"\u2665","hellip":"\u2026","hercon":"\u22B9","hfr":"\uD835\uDD25","Hfr":"\u210C","HilbertSpace":"\u210B","hksearow":"\u2925","hkswarow":"\u2926","hoarr":"\u21FF","homtht":"\u223B","hookleftarrow":"\u21A9","hookrightarrow":"\u21AA","hopf":"\uD835\uDD59","Hopf":"\u210D","horbar":"\u2015","HorizontalLine":"\u2500","hscr":"\uD835\uDCBD","Hscr":"\u210B","hslash":"\u210F","Hstrok":"\u0126","hstrok":"\u0127","HumpDownHump":"\u224E","HumpEqual":"\u224F","hybull":"\u2043","hyphen":"\u2010","Iacute":"\u00CD","iacute":"\u00ED","ic":"\u2063","Icirc":"\u00CE","icirc":"\u00EE","Icy":"\u0418","icy":"\u0438","Idot":"\u0130","IEcy":"\u0415","iecy":"\u0435","iexcl":"\u00A1","iff":"\u21D4","ifr":"\uD835\uDD26","Ifr":"\u2111","Igrave":"\u00CC","igrave":"\u00EC","ii":"\u2148","iiiint":"\u2A0C","iiint":"\u222D","iinfin":"\u29DC","iiota":"\u2129","IJlig":"\u0132","ijlig":"\u0133","Imacr":"\u012A","imacr":"\u012B","image":"\u2111","ImaginaryI":"\u2148","imagline":"\u2110","imagpart":"\u2111","imath":"\u0131","Im":"\u2111","imof":"\u22B7","imped":"\u01B5","Implies":"\u21D2","incare":"\u2105","in":"\u2208","infin":"\u221E","infintie":"\u29DD","inodot":"\u0131","intcal":"\u22BA","int":"\u222B","Int":"\u222C","integers":"\u2124","Integral":"\u222B","intercal":"\u22BA","Intersection":"\u22C2","intlarhk":"\u2A17","intprod":"\u2A3C","InvisibleComma":"\u2063","InvisibleTimes":"\u2062","IOcy":"\u0401","iocy":"\u0451","Iogon":"\u012E","iogon":"\u012F","Iopf":"\uD835\uDD40","iopf":"\uD835\uDD5A","Iota":"\u0399","iota":"\u03B9","iprod":"\u2A3C","iquest":"\u00BF","iscr":"\uD835\uDCBE","Iscr":"\u2110","isin":"\u2208","isindot":"\u22F5","isinE":"\u22F9","isins":"\u22F4","isinsv":"\u22F3","isinv":"\u2208","it":"\u2062","Itilde":"\u0128","itilde":"\u0129","Iukcy":"\u0406","iukcy":"\u0456","Iuml":"\u00CF","iuml":"\u00EF","Jcirc":"\u0134","jcirc":"\u0135","Jcy":"\u0419","jcy":"\u0439","Jfr":"\uD835\uDD0D","jfr":"\uD835\uDD27","jmath":"\u0237","Jopf":"\uD835\uDD41","jopf":"\uD835\uDD5B","Jscr":"\uD835\uDCA5","jscr":"\uD835\uDCBF","Jsercy":"\u0408","jsercy":"\u0458","Jukcy":"\u0404","jukcy":"\u0454","Kappa":"\u039A","kappa":"\u03BA","kappav":"\u03F0","Kcedil":"\u0136","kcedil":"\u0137","Kcy":"\u041A","kcy":"\u043A","Kfr":"\uD835\uDD0E","kfr":"\uD835\uDD28","kgreen":"\u0138","KHcy":"\u0425","khcy":"\u0445","KJcy":"\u040C","kjcy":"\u045C","Kopf":"\uD835\uDD42","kopf":"\uD835\uDD5C","Kscr":"\uD835\uDCA6","kscr":"\uD835\uDCC0","lAarr":"\u21DA","Lacute":"\u0139","lacute":"\u013A","laemptyv":"\u29B4","lagran":"\u2112","Lambda":"\u039B","lambda":"\u03BB","lang":"\u27E8","Lang":"\u27EA","langd":"\u2991","langle":"\u27E8","lap":"\u2A85","Laplacetrf":"\u2112","laquo":"\u00AB","larrb":"\u21E4","larrbfs":"\u291F","larr":"\u2190","Larr":"\u219E","lArr":"\u21D0","larrfs":"\u291D","larrhk":"\u21A9","larrlp":"\u21AB","larrpl":"\u2939","larrsim":"\u2973","larrtl":"\u21A2","latail":"\u2919","lAtail":"\u291B","lat":"\u2AAB","late":"\u2AAD","lates":"\u2AAD\uFE00","lbarr":"\u290C","lBarr":"\u290E","lbbrk":"\u2772","lbrace":"{","lbrack":"[","lbrke":"\u298B","lbrksld":"\u298F","lbrkslu":"\u298D","Lcaron":"\u013D","lcaron":"\u013E","Lcedil":"\u013B","lcedil":"\u013C","lceil":"\u2308","lcub":"{","Lcy":"\u041B","lcy":"\u043B","ldca":"\u2936","ldquo":"\u201C","ldquor":"\u201E","ldrdhar":"\u2967","ldrushar":"\u294B","ldsh":"\u21B2","le":"\u2264","lE":"\u2266","LeftAngleBracket":"\u27E8","LeftArrowBar":"\u21E4","leftarrow":"\u2190","LeftArrow":"\u2190","Leftarrow":"\u21D0","LeftArrowRightArrow":"\u21C6","leftarrowtail":"\u21A2","LeftCeiling":"\u2308","LeftDoubleBracket":"\u27E6","LeftDownTeeVector":"\u2961","LeftDownVectorBar":"\u2959","LeftDownVector":"\u21C3","LeftFloor":"\u230A","leftharpoondown":"\u21BD","leftharpoonup":"\u21BC","leftleftarrows":"\u21C7","leftrightarrow":"\u2194","LeftRightArrow":"\u2194","Leftrightarrow":"\u21D4","leftrightarrows":"\u21C6","leftrightharpoons":"\u21CB","leftrightsquigarrow":"\u21AD","LeftRightVector":"\u294E","LeftTeeArrow":"\u21A4","LeftTee":"\u22A3","LeftTeeVector":"\u295A","leftthreetimes":"\u22CB","LeftTriangleBar":"\u29CF","LeftTriangle":"\u22B2","LeftTriangleEqual":"\u22B4","LeftUpDownVector":"\u2951","LeftUpTeeVector":"\u2960","LeftUpVectorBar":"\u2958","LeftUpVector":"\u21BF","LeftVectorBar":"\u2952","LeftVector":"\u21BC","lEg":"\u2A8B","leg":"\u22DA","leq":"\u2264","leqq":"\u2266","leqslant":"\u2A7D","lescc":"\u2AA8","les":"\u2A7D","lesdot":"\u2A7F","lesdoto":"\u2A81","lesdotor":"\u2A83","lesg":"\u22DA\uFE00","lesges":"\u2A93","lessapprox":"\u2A85","lessdot":"\u22D6","lesseqgtr":"\u22DA","lesseqqgtr":"\u2A8B","LessEqualGreater":"\u22DA","LessFullEqual":"\u2266","LessGreater":"\u2276","lessgtr":"\u2276","LessLess":"\u2AA1","lesssim":"\u2272","LessSlantEqual":"\u2A7D","LessTilde":"\u2272","lfisht":"\u297C","lfloor":"\u230A","Lfr":"\uD835\uDD0F","lfr":"\uD835\uDD29","lg":"\u2276","lgE":"\u2A91","lHar":"\u2962","lhard":"\u21BD","lharu":"\u21BC","lharul":"\u296A","lhblk":"\u2584","LJcy":"\u0409","ljcy":"\u0459","llarr":"\u21C7","ll":"\u226A","Ll":"\u22D8","llcorner":"\u231E","Lleftarrow":"\u21DA","llhard":"\u296B","lltri":"\u25FA","Lmidot":"\u013F","lmidot":"\u0140","lmoustache":"\u23B0","lmoust":"\u23B0","lnap":"\u2A89","lnapprox":"\u2A89","lne":"\u2A87","lnE":"\u2268","lneq":"\u2A87","lneqq":"\u2268","lnsim":"\u22E6","loang":"\u27EC","loarr":"\u21FD","lobrk":"\u27E6","longleftarrow":"\u27F5","LongLeftArrow":"\u27F5","Longleftarrow":"\u27F8","longleftrightarrow":"\u27F7","LongLeftRightArrow":"\u27F7","Longleftrightarrow":"\u27FA","longmapsto":"\u27FC","longrightarrow":"\u27F6","LongRightArrow":"\u27F6","Longrightarrow":"\u27F9","looparrowleft":"\u21AB","looparrowright":"\u21AC","lopar":"\u2985","Lopf":"\uD835\uDD43","lopf":"\uD835\uDD5D","loplus":"\u2A2D","lotimes":"\u2A34","lowast":"\u2217","lowbar":"_","LowerLeftArrow":"\u2199","LowerRightArrow":"\u2198","loz":"\u25CA","lozenge":"\u25CA","lozf":"\u29EB","lpar":"(","lparlt":"\u2993","lrarr":"\u21C6","lrcorner":"\u231F","lrhar":"\u21CB","lrhard":"\u296D","lrm":"\u200E","lrtri":"\u22BF","lsaquo":"\u2039","lscr":"\uD835\uDCC1","Lscr":"\u2112","lsh":"\u21B0","Lsh":"\u21B0","lsim":"\u2272","lsime":"\u2A8D","lsimg":"\u2A8F","lsqb":"[","lsquo":"\u2018","lsquor":"\u201A","Lstrok":"\u0141","lstrok":"\u0142","ltcc":"\u2AA6","ltcir":"\u2A79","lt":"<","LT":"<","Lt":"\u226A","ltdot":"\u22D6","lthree":"\u22CB","ltimes":"\u22C9","ltlarr":"\u2976","ltquest":"\u2A7B","ltri":"\u25C3","ltrie":"\u22B4","ltrif":"\u25C2","ltrPar":"\u2996","lurdshar":"\u294A","luruhar":"\u2966","lvertneqq":"\u2268\uFE00","lvnE":"\u2268\uFE00","macr":"\u00AF","male":"\u2642","malt":"\u2720","maltese":"\u2720","Map":"\u2905","map":"\u21A6","mapsto":"\u21A6","mapstodown":"\u21A7","mapstoleft":"\u21A4","mapstoup":"\u21A5","marker":"\u25AE","mcomma":"\u2A29","Mcy":"\u041C","mcy":"\u043C","mdash":"\u2014","mDDot":"\u223A","measuredangle":"\u2221","MediumSpace":"\u205F","Mellintrf":"\u2133","Mfr":"\uD835\uDD10","mfr":"\uD835\uDD2A","mho":"\u2127","micro":"\u00B5","midast":"*","midcir":"\u2AF0","mid":"\u2223","middot":"\u00B7","minusb":"\u229F","minus":"\u2212","minusd":"\u2238","minusdu":"\u2A2A","MinusPlus":"\u2213","mlcp":"\u2ADB","mldr":"\u2026","mnplus":"\u2213","models":"\u22A7","Mopf":"\uD835\uDD44","mopf":"\uD835\uDD5E","mp":"\u2213","mscr":"\uD835\uDCC2","Mscr":"\u2133","mstpos":"\u223E","Mu":"\u039C","mu":"\u03BC","multimap":"\u22B8","mumap":"\u22B8","nabla":"\u2207","Nacute":"\u0143","nacute":"\u0144","nang":"\u2220\u20D2","nap":"\u2249","napE":"\u2A70\u0338","napid":"\u224B\u0338","napos":"\u0149","napprox":"\u2249","natural":"\u266E","naturals":"\u2115","natur":"\u266E","nbsp":"\u00A0","nbump":"\u224E\u0338","nbumpe":"\u224F\u0338","ncap":"\u2A43","Ncaron":"\u0147","ncaron":"\u0148","Ncedil":"\u0145","ncedil":"\u0146","ncong":"\u2247","ncongdot":"\u2A6D\u0338","ncup":"\u2A42","Ncy":"\u041D","ncy":"\u043D","ndash":"\u2013","nearhk":"\u2924","nearr":"\u2197","neArr":"\u21D7","nearrow":"\u2197","ne":"\u2260","nedot":"\u2250\u0338","NegativeMediumSpace":"\u200B","NegativeThickSpace":"\u200B","NegativeThinSpace":"\u200B","NegativeVeryThinSpace":"\u200B","nequiv":"\u2262","nesear":"\u2928","nesim":"\u2242\u0338","NestedGreaterGreater":"\u226B","NestedLessLess":"\u226A","NewLine":"\n","nexist":"\u2204","nexists":"\u2204","Nfr":"\uD835\uDD11","nfr":"\uD835\uDD2B","ngE":"\u2267\u0338","nge":"\u2271","ngeq":"\u2271","ngeqq":"\u2267\u0338","ngeqslant":"\u2A7E\u0338","nges":"\u2A7E\u0338","nGg":"\u22D9\u0338","ngsim":"\u2275","nGt":"\u226B\u20D2","ngt":"\u226F","ngtr":"\u226F","nGtv":"\u226B\u0338","nharr":"\u21AE","nhArr":"\u21CE","nhpar":"\u2AF2","ni":"\u220B","nis":"\u22FC","nisd":"\u22FA","niv":"\u220B","NJcy":"\u040A","njcy":"\u045A","nlarr":"\u219A","nlArr":"\u21CD","nldr":"\u2025","nlE":"\u2266\u0338","nle":"\u2270","nleftarrow":"\u219A","nLeftarrow":"\u21CD","nleftrightarrow":"\u21AE","nLeftrightarrow":"\u21CE","nleq":"\u2270","nleqq":"\u2266\u0338","nleqslant":"\u2A7D\u0338","nles":"\u2A7D\u0338","nless":"\u226E","nLl":"\u22D8\u0338","nlsim":"\u2274","nLt":"\u226A\u20D2","nlt":"\u226E","nltri":"\u22EA","nltrie":"\u22EC","nLtv":"\u226A\u0338","nmid":"\u2224","NoBreak":"\u2060","NonBreakingSpace":"\u00A0","nopf":"\uD835\uDD5F","Nopf":"\u2115","Not":"\u2AEC","not":"\u00AC","NotCongruent":"\u2262","NotCupCap":"\u226D","NotDoubleVerticalBar":"\u2226","NotElement":"\u2209","NotEqual":"\u2260","NotEqualTilde":"\u2242\u0338","NotExists":"\u2204","NotGreater":"\u226F","NotGreaterEqual":"\u2271","NotGreaterFullEqual":"\u2267\u0338","NotGreaterGreater":"\u226B\u0338","NotGreaterLess":"\u2279","NotGreaterSlantEqual":"\u2A7E\u0338","NotGreaterTilde":"\u2275","NotHumpDownHump":"\u224E\u0338","NotHumpEqual":"\u224F\u0338","notin":"\u2209","notindot":"\u22F5\u0338","notinE":"\u22F9\u0338","notinva":"\u2209","notinvb":"\u22F7","notinvc":"\u22F6","NotLeftTriangleBar":"\u29CF\u0338","NotLeftTriangle":"\u22EA","NotLeftTriangleEqual":"\u22EC","NotLess":"\u226E","NotLessEqual":"\u2270","NotLessGreater":"\u2278","NotLessLess":"\u226A\u0338","NotLessSlantEqual":"\u2A7D\u0338","NotLessTilde":"\u2274","NotNestedGreaterGreater":"\u2AA2\u0338","NotNestedLessLess":"\u2AA1\u0338","notni":"\u220C","notniva":"\u220C","notnivb":"\u22FE","notnivc":"\u22FD","NotPrecedes":"\u2280","NotPrecedesEqual":"\u2AAF\u0338","NotPrecedesSlantEqual":"\u22E0","NotReverseElement":"\u220C","NotRightTriangleBar":"\u29D0\u0338","NotRightTriangle":"\u22EB","NotRightTriangleEqual":"\u22ED","NotSquareSubset":"\u228F\u0338","NotSquareSubsetEqual":"\u22E2","NotSquareSuperset":"\u2290\u0338","NotSquareSupersetEqual":"\u22E3","NotSubset":"\u2282\u20D2","NotSubsetEqual":"\u2288","NotSucceeds":"\u2281","NotSucceedsEqual":"\u2AB0\u0338","NotSucceedsSlantEqual":"\u22E1","NotSucceedsTilde":"\u227F\u0338","NotSuperset":"\u2283\u20D2","NotSupersetEqual":"\u2289","NotTilde":"\u2241","NotTildeEqual":"\u2244","NotTildeFullEqual":"\u2247","NotTildeTilde":"\u2249","NotVerticalBar":"\u2224","nparallel":"\u2226","npar":"\u2226","nparsl":"\u2AFD\u20E5","npart":"\u2202\u0338","npolint":"\u2A14","npr":"\u2280","nprcue":"\u22E0","nprec":"\u2280","npreceq":"\u2AAF\u0338","npre":"\u2AAF\u0338","nrarrc":"\u2933\u0338","nrarr":"\u219B","nrArr":"\u21CF","nrarrw":"\u219D\u0338","nrightarrow":"\u219B","nRightarrow":"\u21CF","nrtri":"\u22EB","nrtrie":"\u22ED","nsc":"\u2281","nsccue":"\u22E1","nsce":"\u2AB0\u0338","Nscr":"\uD835\uDCA9","nscr":"\uD835\uDCC3","nshortmid":"\u2224","nshortparallel":"\u2226","nsim":"\u2241","nsime":"\u2244","nsimeq":"\u2244","nsmid":"\u2224","nspar":"\u2226","nsqsube":"\u22E2","nsqsupe":"\u22E3","nsub":"\u2284","nsubE":"\u2AC5\u0338","nsube":"\u2288","nsubset":"\u2282\u20D2","nsubseteq":"\u2288","nsubseteqq":"\u2AC5\u0338","nsucc":"\u2281","nsucceq":"\u2AB0\u0338","nsup":"\u2285","nsupE":"\u2AC6\u0338","nsupe":"\u2289","nsupset":"\u2283\u20D2","nsupseteq":"\u2289","nsupseteqq":"\u2AC6\u0338","ntgl":"\u2279","Ntilde":"\u00D1","ntilde":"\u00F1","ntlg":"\u2278","ntriangleleft":"\u22EA","ntrianglelefteq":"\u22EC","ntriangleright":"\u22EB","ntrianglerighteq":"\u22ED","Nu":"\u039D","nu":"\u03BD","num":"#","numero":"\u2116","numsp":"\u2007","nvap":"\u224D\u20D2","nvdash":"\u22AC","nvDash":"\u22AD","nVdash":"\u22AE","nVDash":"\u22AF","nvge":"\u2265\u20D2","nvgt":">\u20D2","nvHarr":"\u2904","nvinfin":"\u29DE","nvlArr":"\u2902","nvle":"\u2264\u20D2","nvlt":"<\u20D2","nvltrie":"\u22B4\u20D2","nvrArr":"\u2903","nvrtrie":"\u22B5\u20D2","nvsim":"\u223C\u20D2","nwarhk":"\u2923","nwarr":"\u2196","nwArr":"\u21D6","nwarrow":"\u2196","nwnear":"\u2927","Oacute":"\u00D3","oacute":"\u00F3","oast":"\u229B","Ocirc":"\u00D4","ocirc":"\u00F4","ocir":"\u229A","Ocy":"\u041E","ocy":"\u043E","odash":"\u229D","Odblac":"\u0150","odblac":"\u0151","odiv":"\u2A38","odot":"\u2299","odsold":"\u29BC","OElig":"\u0152","oelig":"\u0153","ofcir":"\u29BF","Ofr":"\uD835\uDD12","ofr":"\uD835\uDD2C","ogon":"\u02DB","Ograve":"\u00D2","ograve":"\u00F2","ogt":"\u29C1","ohbar":"\u29B5","ohm":"\u03A9","oint":"\u222E","olarr":"\u21BA","olcir":"\u29BE","olcross":"\u29BB","oline":"\u203E","olt":"\u29C0","Omacr":"\u014C","omacr":"\u014D","Omega":"\u03A9","omega":"\u03C9","Omicron":"\u039F","omicron":"\u03BF","omid":"\u29B6","ominus":"\u2296","Oopf":"\uD835\uDD46","oopf":"\uD835\uDD60","opar":"\u29B7","OpenCurlyDoubleQuote":"\u201C","OpenCurlyQuote":"\u2018","operp":"\u29B9","oplus":"\u2295","orarr":"\u21BB","Or":"\u2A54","or":"\u2228","ord":"\u2A5D","order":"\u2134","orderof":"\u2134","ordf":"\u00AA","ordm":"\u00BA","origof":"\u22B6","oror":"\u2A56","orslope":"\u2A57","orv":"\u2A5B","oS":"\u24C8","Oscr":"\uD835\uDCAA","oscr":"\u2134","Oslash":"\u00D8","oslash":"\u00F8","osol":"\u2298","Otilde":"\u00D5","otilde":"\u00F5","otimesas":"\u2A36","Otimes":"\u2A37","otimes":"\u2297","Ouml":"\u00D6","ouml":"\u00F6","ovbar":"\u233D","OverBar":"\u203E","OverBrace":"\u23DE","OverBracket":"\u23B4","OverParenthesis":"\u23DC","para":"\u00B6","parallel":"\u2225","par":"\u2225","parsim":"\u2AF3","parsl":"\u2AFD","part":"\u2202","PartialD":"\u2202","Pcy":"\u041F","pcy":"\u043F","percnt":"%","period":".","permil":"\u2030","perp":"\u22A5","pertenk":"\u2031","Pfr":"\uD835\uDD13","pfr":"\uD835\uDD2D","Phi":"\u03A6","phi":"\u03C6","phiv":"\u03D5","phmmat":"\u2133","phone":"\u260E","Pi":"\u03A0","pi":"\u03C0","pitchfork":"\u22D4","piv":"\u03D6","planck":"\u210F","planckh":"\u210E","plankv":"\u210F","plusacir":"\u2A23","plusb":"\u229E","pluscir":"\u2A22","plus":"+","plusdo":"\u2214","plusdu":"\u2A25","pluse":"\u2A72","PlusMinus":"\u00B1","plusmn":"\u00B1","plussim":"\u2A26","plustwo":"\u2A27","pm":"\u00B1","Poincareplane":"\u210C","pointint":"\u2A15","popf":"\uD835\uDD61","Popf":"\u2119","pound":"\u00A3","prap":"\u2AB7","Pr":"\u2ABB","pr":"\u227A","prcue":"\u227C","precapprox":"\u2AB7","prec":"\u227A","preccurlyeq":"\u227C","Precedes":"\u227A","PrecedesEqual":"\u2AAF","PrecedesSlantEqual":"\u227C","PrecedesTilde":"\u227E","preceq":"\u2AAF","precnapprox":"\u2AB9","precneqq":"\u2AB5","precnsim":"\u22E8","pre":"\u2AAF","prE":"\u2AB3","precsim":"\u227E","prime":"\u2032","Prime":"\u2033","primes":"\u2119","prnap":"\u2AB9","prnE":"\u2AB5","prnsim":"\u22E8","prod":"\u220F","Product":"\u220F","profalar":"\u232E","profline":"\u2312","profsurf":"\u2313","prop":"\u221D","Proportional":"\u221D","Proportion":"\u2237","propto":"\u221D","prsim":"\u227E","prurel":"\u22B0","Pscr":"\uD835\uDCAB","pscr":"\uD835\uDCC5","Psi":"\u03A8","psi":"\u03C8","puncsp":"\u2008","Qfr":"\uD835\uDD14","qfr":"\uD835\uDD2E","qint":"\u2A0C","qopf":"\uD835\uDD62","Qopf":"\u211A","qprime":"\u2057","Qscr":"\uD835\uDCAC","qscr":"\uD835\uDCC6","quaternions":"\u210D","quatint":"\u2A16","quest":"?","questeq":"\u225F","quot":"\"","QUOT":"\"","rAarr":"\u21DB","race":"\u223D\u0331","Racute":"\u0154","racute":"\u0155","radic":"\u221A","raemptyv":"\u29B3","rang":"\u27E9","Rang":"\u27EB","rangd":"\u2992","range":"\u29A5","rangle":"\u27E9","raquo":"\u00BB","rarrap":"\u2975","rarrb":"\u21E5","rarrbfs":"\u2920","rarrc":"\u2933","rarr":"\u2192","Rarr":"\u21A0","rArr":"\u21D2","rarrfs":"\u291E","rarrhk":"\u21AA","rarrlp":"\u21AC","rarrpl":"\u2945","rarrsim":"\u2974","Rarrtl":"\u2916","rarrtl":"\u21A3","rarrw":"\u219D","ratail":"\u291A","rAtail":"\u291C","ratio":"\u2236","rationals":"\u211A","rbarr":"\u290D","rBarr":"\u290F","RBarr":"\u2910","rbbrk":"\u2773","rbrace":"}","rbrack":"]","rbrke":"\u298C","rbrksld":"\u298E","rbrkslu":"\u2990","Rcaron":"\u0158","rcaron":"\u0159","Rcedil":"\u0156","rcedil":"\u0157","rceil":"\u2309","rcub":"}","Rcy":"\u0420","rcy":"\u0440","rdca":"\u2937","rdldhar":"\u2969","rdquo":"\u201D","rdquor":"\u201D","rdsh":"\u21B3","real":"\u211C","realine":"\u211B","realpart":"\u211C","reals":"\u211D","Re":"\u211C","rect":"\u25AD","reg":"\u00AE","REG":"\u00AE","ReverseElement":"\u220B","ReverseEquilibrium":"\u21CB","ReverseUpEquilibrium":"\u296F","rfisht":"\u297D","rfloor":"\u230B","rfr":"\uD835\uDD2F","Rfr":"\u211C","rHar":"\u2964","rhard":"\u21C1","rharu":"\u21C0","rharul":"\u296C","Rho":"\u03A1","rho":"\u03C1","rhov":"\u03F1","RightAngleBracket":"\u27E9","RightArrowBar":"\u21E5","rightarrow":"\u2192","RightArrow":"\u2192","Rightarrow":"\u21D2","RightArrowLeftArrow":"\u21C4","rightarrowtail":"\u21A3","RightCeiling":"\u2309","RightDoubleBracket":"\u27E7","RightDownTeeVector":"\u295D","RightDownVectorBar":"\u2955","RightDownVector":"\u21C2","RightFloor":"\u230B","rightharpoondown":"\u21C1","rightharpoonup":"\u21C0","rightleftarrows":"\u21C4","rightleftharpoons":"\u21CC","rightrightarrows":"\u21C9","rightsquigarrow":"\u219D","RightTeeArrow":"\u21A6","RightTee":"\u22A2","RightTeeVector":"\u295B","rightthreetimes":"\u22CC","RightTriangleBar":"\u29D0","RightTriangle":"\u22B3","RightTriangleEqual":"\u22B5","RightUpDownVector":"\u294F","RightUpTeeVector":"\u295C","RightUpVectorBar":"\u2954","RightUpVector":"\u21BE","RightVectorBar":"\u2953","RightVector":"\u21C0","ring":"\u02DA","risingdotseq":"\u2253","rlarr":"\u21C4","rlhar":"\u21CC","rlm":"\u200F","rmoustache":"\u23B1","rmoust":"\u23B1","rnmid":"\u2AEE","roang":"\u27ED","roarr":"\u21FE","robrk":"\u27E7","ropar":"\u2986","ropf":"\uD835\uDD63","Ropf":"\u211D","roplus":"\u2A2E","rotimes":"\u2A35","RoundImplies":"\u2970","rpar":")","rpargt":"\u2994","rppolint":"\u2A12","rrarr":"\u21C9","Rrightarrow":"\u21DB","rsaquo":"\u203A","rscr":"\uD835\uDCC7","Rscr":"\u211B","rsh":"\u21B1","Rsh":"\u21B1","rsqb":"]","rsquo":"\u2019","rsquor":"\u2019","rthree":"\u22CC","rtimes":"\u22CA","rtri":"\u25B9","rtrie":"\u22B5","rtrif":"\u25B8","rtriltri":"\u29CE","RuleDelayed":"\u29F4","ruluhar":"\u2968","rx":"\u211E","Sacute":"\u015A","sacute":"\u015B","sbquo":"\u201A","scap":"\u2AB8","Scaron":"\u0160","scaron":"\u0161","Sc":"\u2ABC","sc":"\u227B","sccue":"\u227D","sce":"\u2AB0","scE":"\u2AB4","Scedil":"\u015E","scedil":"\u015F","Scirc":"\u015C","scirc":"\u015D","scnap":"\u2ABA","scnE":"\u2AB6","scnsim":"\u22E9","scpolint":"\u2A13","scsim":"\u227F","Scy":"\u0421","scy":"\u0441","sdotb":"\u22A1","sdot":"\u22C5","sdote":"\u2A66","searhk":"\u2925","searr":"\u2198","seArr":"\u21D8","searrow":"\u2198","sect":"\u00A7","semi":";","seswar":"\u2929","setminus":"\u2216","setmn":"\u2216","sext":"\u2736","Sfr":"\uD835\uDD16","sfr":"\uD835\uDD30","sfrown":"\u2322","sharp":"\u266F","SHCHcy":"\u0429","shchcy":"\u0449","SHcy":"\u0428","shcy":"\u0448","ShortDownArrow":"\u2193","ShortLeftArrow":"\u2190","shortmid":"\u2223","shortparallel":"\u2225","ShortRightArrow":"\u2192","ShortUpArrow":"\u2191","shy":"\u00AD","Sigma":"\u03A3","sigma":"\u03C3","sigmaf":"\u03C2","sigmav":"\u03C2","sim":"\u223C","simdot":"\u2A6A","sime":"\u2243","simeq":"\u2243","simg":"\u2A9E","simgE":"\u2AA0","siml":"\u2A9D","simlE":"\u2A9F","simne":"\u2246","simplus":"\u2A24","simrarr":"\u2972","slarr":"\u2190","SmallCircle":"\u2218","smallsetminus":"\u2216","smashp":"\u2A33","smeparsl":"\u29E4","smid":"\u2223","smile":"\u2323","smt":"\u2AAA","smte":"\u2AAC","smtes":"\u2AAC\uFE00","SOFTcy":"\u042C","softcy":"\u044C","solbar":"\u233F","solb":"\u29C4","sol":"/","Sopf":"\uD835\uDD4A","sopf":"\uD835\uDD64","spades":"\u2660","spadesuit":"\u2660","spar":"\u2225","sqcap":"\u2293","sqcaps":"\u2293\uFE00","sqcup":"\u2294","sqcups":"\u2294\uFE00","Sqrt":"\u221A","sqsub":"\u228F","sqsube":"\u2291","sqsubset":"\u228F","sqsubseteq":"\u2291","sqsup":"\u2290","sqsupe":"\u2292","sqsupset":"\u2290","sqsupseteq":"\u2292","square":"\u25A1","Square":"\u25A1","SquareIntersection":"\u2293","SquareSubset":"\u228F","SquareSubsetEqual":"\u2291","SquareSuperset":"\u2290","SquareSupersetEqual":"\u2292","SquareUnion":"\u2294","squarf":"\u25AA","squ":"\u25A1","squf":"\u25AA","srarr":"\u2192","Sscr":"\uD835\uDCAE","sscr":"\uD835\uDCC8","ssetmn":"\u2216","ssmile":"\u2323","sstarf":"\u22C6","Star":"\u22C6","star":"\u2606","starf":"\u2605","straightepsilon":"\u03F5","straightphi":"\u03D5","strns":"\u00AF","sub":"\u2282","Sub":"\u22D0","subdot":"\u2ABD","subE":"\u2AC5","sube":"\u2286","subedot":"\u2AC3","submult":"\u2AC1","subnE":"\u2ACB","subne":"\u228A","subplus":"\u2ABF","subrarr":"\u2979","subset":"\u2282","Subset":"\u22D0","subseteq":"\u2286","subseteqq":"\u2AC5","SubsetEqual":"\u2286","subsetneq":"\u228A","subsetneqq":"\u2ACB","subsim":"\u2AC7","subsub":"\u2AD5","subsup":"\u2AD3","succapprox":"\u2AB8","succ":"\u227B","succcurlyeq":"\u227D","Succeeds":"\u227B","SucceedsEqual":"\u2AB0","SucceedsSlantEqual":"\u227D","SucceedsTilde":"\u227F","succeq":"\u2AB0","succnapprox":"\u2ABA","succneqq":"\u2AB6","succnsim":"\u22E9","succsim":"\u227F","SuchThat":"\u220B","sum":"\u2211","Sum":"\u2211","sung":"\u266A","sup1":"\u00B9","sup2":"\u00B2","sup3":"\u00B3","sup":"\u2283","Sup":"\u22D1","supdot":"\u2ABE","supdsub":"\u2AD8","supE":"\u2AC6","supe":"\u2287","supedot":"\u2AC4","Superset":"\u2283","SupersetEqual":"\u2287","suphsol":"\u27C9","suphsub":"\u2AD7","suplarr":"\u297B","supmult":"\u2AC2","supnE":"\u2ACC","supne":"\u228B","supplus":"\u2AC0","supset":"\u2283","Supset":"\u22D1","supseteq":"\u2287","supseteqq":"\u2AC6","supsetneq":"\u228B","supsetneqq":"\u2ACC","supsim":"\u2AC8","supsub":"\u2AD4","supsup":"\u2AD6","swarhk":"\u2926","swarr":"\u2199","swArr":"\u21D9","swarrow":"\u2199","swnwar":"\u292A","szlig":"\u00DF","Tab":"\t","target":"\u2316","Tau":"\u03A4","tau":"\u03C4","tbrk":"\u23B4","Tcaron":"\u0164","tcaron":"\u0165","Tcedil":"\u0162","tcedil":"\u0163","Tcy":"\u0422","tcy":"\u0442","tdot":"\u20DB","telrec":"\u2315","Tfr":"\uD835\uDD17","tfr":"\uD835\uDD31","there4":"\u2234","therefore":"\u2234","Therefore":"\u2234","Theta":"\u0398","theta":"\u03B8","thetasym":"\u03D1","thetav":"\u03D1","thickapprox":"\u2248","thicksim":"\u223C","ThickSpace":"\u205F\u200A","ThinSpace":"\u2009","thinsp":"\u2009","thkap":"\u2248","thksim":"\u223C","THORN":"\u00DE","thorn":"\u00FE","tilde":"\u02DC","Tilde":"\u223C","TildeEqual":"\u2243","TildeFullEqual":"\u2245","TildeTilde":"\u2248","timesbar":"\u2A31","timesb":"\u22A0","times":"\u00D7","timesd":"\u2A30","tint":"\u222D","toea":"\u2928","topbot":"\u2336","topcir":"\u2AF1","top":"\u22A4","Topf":"\uD835\uDD4B","topf":"\uD835\uDD65","topfork":"\u2ADA","tosa":"\u2929","tprime":"\u2034","trade":"\u2122","TRADE":"\u2122","triangle":"\u25B5","triangledown":"\u25BF","triangleleft":"\u25C3","trianglelefteq":"\u22B4","triangleq":"\u225C","triangleright":"\u25B9","trianglerighteq":"\u22B5","tridot":"\u25EC","trie":"\u225C","triminus":"\u2A3A","TripleDot":"\u20DB","triplus":"\u2A39","trisb":"\u29CD","tritime":"\u2A3B","trpezium":"\u23E2","Tscr":"\uD835\uDCAF","tscr":"\uD835\uDCC9","TScy":"\u0426","tscy":"\u0446","TSHcy":"\u040B","tshcy":"\u045B","Tstrok":"\u0166","tstrok":"\u0167","twixt":"\u226C","twoheadleftarrow":"\u219E","twoheadrightarrow":"\u21A0","Uacute":"\u00DA","uacute":"\u00FA","uarr":"\u2191","Uarr":"\u219F","uArr":"\u21D1","Uarrocir":"\u2949","Ubrcy":"\u040E","ubrcy":"\u045E","Ubreve":"\u016C","ubreve":"\u016D","Ucirc":"\u00DB","ucirc":"\u00FB","Ucy":"\u0423","ucy":"\u0443","udarr":"\u21C5","Udblac":"\u0170","udblac":"\u0171","udhar":"\u296E","ufisht":"\u297E","Ufr":"\uD835\uDD18","ufr":"\uD835\uDD32","Ugrave":"\u00D9","ugrave":"\u00F9","uHar":"\u2963","uharl":"\u21BF","uharr":"\u21BE","uhblk":"\u2580","ulcorn":"\u231C","ulcorner":"\u231C","ulcrop":"\u230F","ultri":"\u25F8","Umacr":"\u016A","umacr":"\u016B","uml":"\u00A8","UnderBar":"_","UnderBrace":"\u23DF","UnderBracket":"\u23B5","UnderParenthesis":"\u23DD","Union":"\u22C3","UnionPlus":"\u228E","Uogon":"\u0172","uogon":"\u0173","Uopf":"\uD835\uDD4C","uopf":"\uD835\uDD66","UpArrowBar":"\u2912","uparrow":"\u2191","UpArrow":"\u2191","Uparrow":"\u21D1","UpArrowDownArrow":"\u21C5","updownarrow":"\u2195","UpDownArrow":"\u2195","Updownarrow":"\u21D5","UpEquilibrium":"\u296E","upharpoonleft":"\u21BF","upharpoonright":"\u21BE","uplus":"\u228E","UpperLeftArrow":"\u2196","UpperRightArrow":"\u2197","upsi":"\u03C5","Upsi":"\u03D2","upsih":"\u03D2","Upsilon":"\u03A5","upsilon":"\u03C5","UpTeeArrow":"\u21A5","UpTee":"\u22A5","upuparrows":"\u21C8","urcorn":"\u231D","urcorner":"\u231D","urcrop":"\u230E","Uring":"\u016E","uring":"\u016F","urtri":"\u25F9","Uscr":"\uD835\uDCB0","uscr":"\uD835\uDCCA","utdot":"\u22F0","Utilde":"\u0168","utilde":"\u0169","utri":"\u25B5","utrif":"\u25B4","uuarr":"\u21C8","Uuml":"\u00DC","uuml":"\u00FC","uwangle":"\u29A7","vangrt":"\u299C","varepsilon":"\u03F5","varkappa":"\u03F0","varnothing":"\u2205","varphi":"\u03D5","varpi":"\u03D6","varpropto":"\u221D","varr":"\u2195","vArr":"\u21D5","varrho":"\u03F1","varsigma":"\u03C2","varsubsetneq":"\u228A\uFE00","varsubsetneqq":"\u2ACB\uFE00","varsupsetneq":"\u228B\uFE00","varsupsetneqq":"\u2ACC\uFE00","vartheta":"\u03D1","vartriangleleft":"\u22B2","vartriangleright":"\u22B3","vBar":"\u2AE8","Vbar":"\u2AEB","vBarv":"\u2AE9","Vcy":"\u0412","vcy":"\u0432","vdash":"\u22A2","vDash":"\u22A8","Vdash":"\u22A9","VDash":"\u22AB","Vdashl":"\u2AE6","veebar":"\u22BB","vee":"\u2228","Vee":"\u22C1","veeeq":"\u225A","vellip":"\u22EE","verbar":"|","Verbar":"\u2016","vert":"|","Vert":"\u2016","VerticalBar":"\u2223","VerticalLine":"|","VerticalSeparator":"\u2758","VerticalTilde":"\u2240","VeryThinSpace":"\u200A","Vfr":"\uD835\uDD19","vfr":"\uD835\uDD33","vltri":"\u22B2","vnsub":"\u2282\u20D2","vnsup":"\u2283\u20D2","Vopf":"\uD835\uDD4D","vopf":"\uD835\uDD67","vprop":"\u221D","vrtri":"\u22B3","Vscr":"\uD835\uDCB1","vscr":"\uD835\uDCCB","vsubnE":"\u2ACB\uFE00","vsubne":"\u228A\uFE00","vsupnE":"\u2ACC\uFE00","vsupne":"\u228B\uFE00","Vvdash":"\u22AA","vzigzag":"\u299A","Wcirc":"\u0174","wcirc":"\u0175","wedbar":"\u2A5F","wedge":"\u2227","Wedge":"\u22C0","wedgeq":"\u2259","weierp":"\u2118","Wfr":"\uD835\uDD1A","wfr":"\uD835\uDD34","Wopf":"\uD835\uDD4E","wopf":"\uD835\uDD68","wp":"\u2118","wr":"\u2240","wreath":"\u2240","Wscr":"\uD835\uDCB2","wscr":"\uD835\uDCCC","xcap":"\u22C2","xcirc":"\u25EF","xcup":"\u22C3","xdtri":"\u25BD","Xfr":"\uD835\uDD1B","xfr":"\uD835\uDD35","xharr":"\u27F7","xhArr":"\u27FA","Xi":"\u039E","xi":"\u03BE","xlarr":"\u27F5","xlArr":"\u27F8","xmap":"\u27FC","xnis":"\u22FB","xodot":"\u2A00","Xopf":"\uD835\uDD4F","xopf":"\uD835\uDD69","xoplus":"\u2A01","xotime":"\u2A02","xrarr":"\u27F6","xrArr":"\u27F9","Xscr":"\uD835\uDCB3","xscr":"\uD835\uDCCD","xsqcup":"\u2A06","xuplus":"\u2A04","xutri":"\u25B3","xvee":"\u22C1","xwedge":"\u22C0","Yacute":"\u00DD","yacute":"\u00FD","YAcy":"\u042F","yacy":"\u044F","Ycirc":"\u0176","ycirc":"\u0177","Ycy":"\u042B","ycy":"\u044B","yen":"\u00A5","Yfr":"\uD835\uDD1C","yfr":"\uD835\uDD36","YIcy":"\u0407","yicy":"\u0457","Yopf":"\uD835\uDD50","yopf":"\uD835\uDD6A","Yscr":"\uD835\uDCB4","yscr":"\uD835\uDCCE","YUcy":"\u042E","yucy":"\u044E","yuml":"\u00FF","Yuml":"\u0178","Zacute":"\u0179","zacute":"\u017A","Zcaron":"\u017D","zcaron":"\u017E","Zcy":"\u0417","zcy":"\u0437","Zdot":"\u017B","zdot":"\u017C","zeetrf":"\u2128","ZeroWidthSpace":"\u200B","Zeta":"\u0396","zeta":"\u03B6","zfr":"\uD835\uDD37","Zfr":"\u2128","ZHcy":"\u0416","zhcy":"\u0436","zigrarr":"\u21DD","zopf":"\uD835\uDD6B","Zopf":"\u2124","Zscr":"\uD835\uDCB5","zscr":"\uD835\uDCCF","zwj":"\u200D","zwnj":"\u200C"}
 },{}],46:[function(require,module,exports){
+module.exports={"Aacute":"\u00C1","aacute":"\u00E1","Acirc":"\u00C2","acirc":"\u00E2","acute":"\u00B4","AElig":"\u00C6","aelig":"\u00E6","Agrave":"\u00C0","agrave":"\u00E0","amp":"&","AMP":"&","Aring":"\u00C5","aring":"\u00E5","Atilde":"\u00C3","atilde":"\u00E3","Auml":"\u00C4","auml":"\u00E4","brvbar":"\u00A6","Ccedil":"\u00C7","ccedil":"\u00E7","cedil":"\u00B8","cent":"\u00A2","copy":"\u00A9","COPY":"\u00A9","curren":"\u00A4","deg":"\u00B0","divide":"\u00F7","Eacute":"\u00C9","eacute":"\u00E9","Ecirc":"\u00CA","ecirc":"\u00EA","Egrave":"\u00C8","egrave":"\u00E8","ETH":"\u00D0","eth":"\u00F0","Euml":"\u00CB","euml":"\u00EB","frac12":"\u00BD","frac14":"\u00BC","frac34":"\u00BE","gt":">","GT":">","Iacute":"\u00CD","iacute":"\u00ED","Icirc":"\u00CE","icirc":"\u00EE","iexcl":"\u00A1","Igrave":"\u00CC","igrave":"\u00EC","iquest":"\u00BF","Iuml":"\u00CF","iuml":"\u00EF","laquo":"\u00AB","lt":"<","LT":"<","macr":"\u00AF","micro":"\u00B5","middot":"\u00B7","nbsp":"\u00A0","not":"\u00AC","Ntilde":"\u00D1","ntilde":"\u00F1","Oacute":"\u00D3","oacute":"\u00F3","Ocirc":"\u00D4","ocirc":"\u00F4","Ograve":"\u00D2","ograve":"\u00F2","ordf":"\u00AA","ordm":"\u00BA","Oslash":"\u00D8","oslash":"\u00F8","Otilde":"\u00D5","otilde":"\u00F5","Ouml":"\u00D6","ouml":"\u00F6","para":"\u00B6","plusmn":"\u00B1","pound":"\u00A3","quot":"\"","QUOT":"\"","raquo":"\u00BB","reg":"\u00AE","REG":"\u00AE","sect":"\u00A7","shy":"\u00AD","sup1":"\u00B9","sup2":"\u00B2","sup3":"\u00B3","szlig":"\u00DF","THORN":"\u00DE","thorn":"\u00FE","times":"\u00D7","Uacute":"\u00DA","uacute":"\u00FA","Ucirc":"\u00DB","ucirc":"\u00FB","Ugrave":"\u00D9","ugrave":"\u00F9","uml":"\u00A8","Uuml":"\u00DC","uuml":"\u00FC","Yacute":"\u00DD","yacute":"\u00FD","yen":"\u00A5","yuml":"\u00FF"}
+},{}],47:[function(require,module,exports){
 module.exports={"amp":"&","apos":"'","gt":">","lt":"<","quot":"\""}
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -5602,7 +5982,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 module.exports = CollectingHandler;
 
 function CollectingHandler(cbs){
@@ -5659,7 +6039,7 @@ CollectingHandler.prototype.restart = function(){
 	}
 };
 
-},{"./":55}],49:[function(require,module,exports){
+},{"./":56}],50:[function(require,module,exports){
 var index = require("./index.js"),
     DomHandler = index.DomHandler,
     DomUtils = index.DomUtils;
@@ -5756,7 +6136,7 @@ FeedHandler.prototype.onend = function(){
 
 module.exports = FeedHandler;
 
-},{"./index.js":55,"inherits":57}],50:[function(require,module,exports){
+},{"./index.js":56,"inherits":58}],51:[function(require,module,exports){
 var Tokenizer = require("./Tokenizer.js");
 
 /*
@@ -6111,7 +6491,7 @@ Parser.prototype.done = Parser.prototype.end;
 
 module.exports = Parser;
 
-},{"./Tokenizer.js":53,"events":47,"inherits":57}],51:[function(require,module,exports){
+},{"./Tokenizer.js":54,"events":48,"inherits":58}],52:[function(require,module,exports){
 module.exports = ProxyHandler;
 
 function ProxyHandler(cbs){
@@ -6139,7 +6519,7 @@ Object.keys(EVENTS).forEach(function(name){
 		throw Error("wrong number of arguments");
 	}
 });
-},{"./":55}],52:[function(require,module,exports){
+},{"./":56}],53:[function(require,module,exports){
 module.exports = Stream;
 
 var Parser = require("./WritableStream.js");
@@ -6175,7 +6555,7 @@ Object.keys(EVENTS).forEach(function(name){
 		throw Error("wrong number of arguments!");
 	}
 });
-},{"../":55,"./WritableStream.js":54,"inherits":57}],53:[function(require,module,exports){
+},{"../":56,"./WritableStream.js":55,"inherits":58}],54:[function(require,module,exports){
 module.exports = Tokenizer;
 
 var decodeCodePoint = require("entities/lib/decode_codepoint.js"),
@@ -7083,7 +7463,7 @@ Tokenizer.prototype._emitPartial = function(value){
 	}
 };
 
-},{"entities/lib/decode_codepoint.js":41,"entities/maps/entities.json":44,"entities/maps/legacy.json":45,"entities/maps/xml.json":46}],54:[function(require,module,exports){
+},{"entities/lib/decode_codepoint.js":42,"entities/maps/entities.json":45,"entities/maps/legacy.json":46,"entities/maps/xml.json":47}],55:[function(require,module,exports){
 module.exports = Stream;
 
 var Parser = require("./Parser.js"),
@@ -7109,7 +7489,7 @@ WritableStream.prototype._write = function(chunk, encoding, cb){
 	this._parser.write(chunk);
 	cb();
 };
-},{"./Parser.js":50,"buffer":24,"inherits":57,"readable-stream":22,"stream":328,"string_decoder":329}],55:[function(require,module,exports){
+},{"./Parser.js":51,"buffer":25,"inherits":58,"readable-stream":23,"stream":330,"string_decoder":331}],56:[function(require,module,exports){
 var Parser = require("./Parser.js"),
     DomHandler = require("domhandler");
 
@@ -7179,7 +7559,7 @@ module.exports = {
 	}
 };
 
-},{"./CollectingHandler.js":48,"./FeedHandler.js":49,"./Parser.js":50,"./ProxyHandler.js":51,"./Stream.js":52,"./Tokenizer.js":53,"./WritableStream.js":54,"domelementtype":28,"domhandler":29,"domutils":32}],56:[function(require,module,exports){
+},{"./CollectingHandler.js":49,"./FeedHandler.js":50,"./Parser.js":51,"./ProxyHandler.js":52,"./Stream.js":53,"./Tokenizer.js":54,"./WritableStream.js":55,"domelementtype":29,"domhandler":30,"domutils":33}],57:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -7265,7 +7645,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -7290,7 +7670,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -7313,14 +7693,14 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -8349,7 +8729,7 @@ return parser;
 
 })(this);
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -8358,7 +8738,7 @@ var DataView = getNative(root, 'DataView');
 
 module.exports = DataView;
 
-},{"./_getNative":181,"./_root":225}],62:[function(require,module,exports){
+},{"./_getNative":182,"./_root":226}],63:[function(require,module,exports){
 var hashClear = require('./_hashClear'),
     hashDelete = require('./_hashDelete'),
     hashGet = require('./_hashGet'),
@@ -8392,7 +8772,7 @@ Hash.prototype.set = hashSet;
 
 module.exports = Hash;
 
-},{"./_hashClear":189,"./_hashDelete":190,"./_hashGet":191,"./_hashHas":192,"./_hashSet":193}],63:[function(require,module,exports){
+},{"./_hashClear":190,"./_hashDelete":191,"./_hashGet":192,"./_hashHas":193,"./_hashSet":194}],64:[function(require,module,exports){
 var listCacheClear = require('./_listCacheClear'),
     listCacheDelete = require('./_listCacheDelete'),
     listCacheGet = require('./_listCacheGet'),
@@ -8426,7 +8806,7 @@ ListCache.prototype.set = listCacheSet;
 
 module.exports = ListCache;
 
-},{"./_listCacheClear":205,"./_listCacheDelete":206,"./_listCacheGet":207,"./_listCacheHas":208,"./_listCacheSet":209}],64:[function(require,module,exports){
+},{"./_listCacheClear":206,"./_listCacheDelete":207,"./_listCacheGet":208,"./_listCacheHas":209,"./_listCacheSet":210}],65:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -8435,7 +8815,7 @@ var Map = getNative(root, 'Map');
 
 module.exports = Map;
 
-},{"./_getNative":181,"./_root":225}],65:[function(require,module,exports){
+},{"./_getNative":182,"./_root":226}],66:[function(require,module,exports){
 var mapCacheClear = require('./_mapCacheClear'),
     mapCacheDelete = require('./_mapCacheDelete'),
     mapCacheGet = require('./_mapCacheGet'),
@@ -8469,7 +8849,7 @@ MapCache.prototype.set = mapCacheSet;
 
 module.exports = MapCache;
 
-},{"./_mapCacheClear":210,"./_mapCacheDelete":211,"./_mapCacheGet":212,"./_mapCacheHas":213,"./_mapCacheSet":214}],66:[function(require,module,exports){
+},{"./_mapCacheClear":211,"./_mapCacheDelete":212,"./_mapCacheGet":213,"./_mapCacheHas":214,"./_mapCacheSet":215}],67:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -8478,7 +8858,7 @@ var Promise = getNative(root, 'Promise');
 
 module.exports = Promise;
 
-},{"./_getNative":181,"./_root":225}],67:[function(require,module,exports){
+},{"./_getNative":182,"./_root":226}],68:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -8487,7 +8867,7 @@ var Set = getNative(root, 'Set');
 
 module.exports = Set;
 
-},{"./_getNative":181,"./_root":225}],68:[function(require,module,exports){
+},{"./_getNative":182,"./_root":226}],69:[function(require,module,exports){
 var MapCache = require('./_MapCache'),
     setCacheAdd = require('./_setCacheAdd'),
     setCacheHas = require('./_setCacheHas');
@@ -8516,7 +8896,7 @@ SetCache.prototype.has = setCacheHas;
 
 module.exports = SetCache;
 
-},{"./_MapCache":65,"./_setCacheAdd":226,"./_setCacheHas":227}],69:[function(require,module,exports){
+},{"./_MapCache":66,"./_setCacheAdd":227,"./_setCacheHas":228}],70:[function(require,module,exports){
 var ListCache = require('./_ListCache'),
     stackClear = require('./_stackClear'),
     stackDelete = require('./_stackDelete'),
@@ -8545,7 +8925,7 @@ Stack.prototype.set = stackSet;
 
 module.exports = Stack;
 
-},{"./_ListCache":63,"./_stackClear":231,"./_stackDelete":232,"./_stackGet":233,"./_stackHas":234,"./_stackSet":235}],70:[function(require,module,exports){
+},{"./_ListCache":64,"./_stackClear":232,"./_stackDelete":233,"./_stackGet":234,"./_stackHas":235,"./_stackSet":236}],71:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -8553,7 +8933,7 @@ var Symbol = root.Symbol;
 
 module.exports = Symbol;
 
-},{"./_root":225}],71:[function(require,module,exports){
+},{"./_root":226}],72:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -8561,7 +8941,7 @@ var Uint8Array = root.Uint8Array;
 
 module.exports = Uint8Array;
 
-},{"./_root":225}],72:[function(require,module,exports){
+},{"./_root":226}],73:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -8570,7 +8950,7 @@ var WeakMap = getNative(root, 'WeakMap');
 
 module.exports = WeakMap;
 
-},{"./_getNative":181,"./_root":225}],73:[function(require,module,exports){
+},{"./_getNative":182,"./_root":226}],74:[function(require,module,exports){
 /**
  * Adds the key-value `pair` to `map`.
  *
@@ -8587,7 +8967,7 @@ function addMapEntry(map, pair) {
 
 module.exports = addMapEntry;
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 /**
  * Adds `value` to `set`.
  *
@@ -8604,7 +8984,7 @@ function addSetEntry(set, value) {
 
 module.exports = addSetEntry;
 
-},{}],75:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 /**
  * A faster alternative to `Function#apply`, this function invokes `func`
  * with the `this` binding of `thisArg` and the arguments of `args`.
@@ -8627,7 +9007,7 @@ function apply(func, thisArg, args) {
 
 module.exports = apply;
 
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 /**
  * A specialized version of `baseAggregator` for arrays.
  *
@@ -8651,7 +9031,7 @@ function arrayAggregator(array, setter, iteratee, accumulator) {
 
 module.exports = arrayAggregator;
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for
  * iteratee shorthands.
@@ -8675,7 +9055,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],78:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 /**
  * A specialized version of `_.filter` for arrays without support for
  * iteratee shorthands.
@@ -8702,7 +9082,7 @@ function arrayFilter(array, predicate) {
 
 module.exports = arrayFilter;
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 var baseIndexOf = require('./_baseIndexOf');
 
 /**
@@ -8721,7 +9101,7 @@ function arrayIncludes(array, value) {
 
 module.exports = arrayIncludes;
 
-},{"./_baseIndexOf":108}],80:[function(require,module,exports){
+},{"./_baseIndexOf":109}],81:[function(require,module,exports){
 /**
  * This function is like `arrayIncludes` except that it accepts a comparator.
  *
@@ -8745,7 +9125,7 @@ function arrayIncludesWith(array, value, comparator) {
 
 module.exports = arrayIncludesWith;
 
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 var baseTimes = require('./_baseTimes'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -8796,7 +9176,7 @@ function arrayLikeKeys(value, inherited) {
 
 module.exports = arrayLikeKeys;
 
-},{"./_baseTimes":138,"./_isIndex":198,"./isArguments":264,"./isArray":265,"./isBuffer":268,"./isTypedArray":280}],82:[function(require,module,exports){
+},{"./_baseTimes":139,"./_isIndex":199,"./isArguments":265,"./isArray":266,"./isBuffer":269,"./isTypedArray":281}],83:[function(require,module,exports){
 /**
  * A specialized version of `_.map` for arrays without support for iteratee
  * shorthands.
@@ -8819,7 +9199,7 @@ function arrayMap(array, iteratee) {
 
 module.exports = arrayMap;
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 /**
  * Appends the elements of `values` to `array`.
  *
@@ -8841,7 +9221,7 @@ function arrayPush(array, values) {
 
 module.exports = arrayPush;
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 /**
  * A specialized version of `_.reduce` for arrays without support for
  * iteratee shorthands.
@@ -8869,7 +9249,7 @@ function arrayReduce(array, iteratee, accumulator, initAccum) {
 
 module.exports = arrayReduce;
 
-},{}],85:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 /**
  * A specialized version of `_.some` for arrays without support for iteratee
  * shorthands.
@@ -8894,7 +9274,7 @@ function arraySome(array, predicate) {
 
 module.exports = arraySome;
 
-},{}],86:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 var baseAssignValue = require('./_baseAssignValue'),
     eq = require('./eq');
 
@@ -8916,7 +9296,7 @@ function assignMergeValue(object, key, value) {
 
 module.exports = assignMergeValue;
 
-},{"./_baseAssignValue":92,"./eq":247}],87:[function(require,module,exports){
+},{"./_baseAssignValue":93,"./eq":248}],88:[function(require,module,exports){
 var baseAssignValue = require('./_baseAssignValue'),
     eq = require('./eq');
 
@@ -8946,7 +9326,7 @@ function assignValue(object, key, value) {
 
 module.exports = assignValue;
 
-},{"./_baseAssignValue":92,"./eq":247}],88:[function(require,module,exports){
+},{"./_baseAssignValue":93,"./eq":248}],89:[function(require,module,exports){
 var eq = require('./eq');
 
 /**
@@ -8969,7 +9349,7 @@ function assocIndexOf(array, key) {
 
 module.exports = assocIndexOf;
 
-},{"./eq":247}],89:[function(require,module,exports){
+},{"./eq":248}],90:[function(require,module,exports){
 var baseEach = require('./_baseEach');
 
 /**
@@ -8992,7 +9372,7 @@ function baseAggregator(collection, setter, iteratee, accumulator) {
 
 module.exports = baseAggregator;
 
-},{"./_baseEach":96}],90:[function(require,module,exports){
+},{"./_baseEach":97}],91:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keys = require('./keys');
 
@@ -9011,7 +9391,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"./_copyObject":158,"./keys":282}],91:[function(require,module,exports){
+},{"./_copyObject":159,"./keys":283}],92:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keysIn = require('./keysIn');
 
@@ -9030,7 +9410,7 @@ function baseAssignIn(object, source) {
 
 module.exports = baseAssignIn;
 
-},{"./_copyObject":158,"./keysIn":283}],92:[function(require,module,exports){
+},{"./_copyObject":159,"./keysIn":284}],93:[function(require,module,exports){
 var defineProperty = require('./_defineProperty');
 
 /**
@@ -9057,7 +9437,7 @@ function baseAssignValue(object, key, value) {
 
 module.exports = baseAssignValue;
 
-},{"./_defineProperty":170}],93:[function(require,module,exports){
+},{"./_defineProperty":171}],94:[function(require,module,exports){
 var Stack = require('./_Stack'),
     arrayEach = require('./_arrayEach'),
     assignValue = require('./_assignValue'),
@@ -9212,7 +9592,7 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
 
 module.exports = baseClone;
 
-},{"./_Stack":69,"./_arrayEach":77,"./_assignValue":87,"./_baseAssign":90,"./_baseAssignIn":91,"./_cloneBuffer":148,"./_copyArray":157,"./_copySymbols":159,"./_copySymbolsIn":160,"./_getAllKeys":177,"./_getAllKeysIn":178,"./_getTag":186,"./_initCloneArray":194,"./_initCloneByTag":195,"./_initCloneObject":196,"./isArray":265,"./isBuffer":268,"./isObject":275,"./keys":282}],94:[function(require,module,exports){
+},{"./_Stack":70,"./_arrayEach":78,"./_assignValue":88,"./_baseAssign":91,"./_baseAssignIn":92,"./_cloneBuffer":149,"./_copyArray":158,"./_copySymbols":160,"./_copySymbolsIn":161,"./_getAllKeys":178,"./_getAllKeysIn":179,"./_getTag":187,"./_initCloneArray":195,"./_initCloneByTag":196,"./_initCloneObject":197,"./isArray":266,"./isBuffer":269,"./isObject":276,"./keys":283}],95:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** Built-in value references. */
@@ -9244,7 +9624,7 @@ var baseCreate = (function() {
 
 module.exports = baseCreate;
 
-},{"./isObject":275}],95:[function(require,module,exports){
+},{"./isObject":276}],96:[function(require,module,exports){
 var SetCache = require('./_SetCache'),
     arrayIncludes = require('./_arrayIncludes'),
     arrayIncludesWith = require('./_arrayIncludesWith'),
@@ -9313,7 +9693,7 @@ function baseDifference(array, values, iteratee, comparator) {
 
 module.exports = baseDifference;
 
-},{"./_SetCache":68,"./_arrayIncludes":79,"./_arrayIncludesWith":80,"./_arrayMap":82,"./_baseUnary":140,"./_cacheHas":143}],96:[function(require,module,exports){
+},{"./_SetCache":69,"./_arrayIncludes":80,"./_arrayIncludesWith":81,"./_arrayMap":83,"./_baseUnary":141,"./_cacheHas":144}],97:[function(require,module,exports){
 var baseForOwn = require('./_baseForOwn'),
     createBaseEach = require('./_createBaseEach');
 
@@ -9329,7 +9709,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./_baseForOwn":101,"./_createBaseEach":164}],97:[function(require,module,exports){
+},{"./_baseForOwn":102,"./_createBaseEach":165}],98:[function(require,module,exports){
 var baseEach = require('./_baseEach');
 
 /**
@@ -9352,7 +9732,7 @@ function baseFilter(collection, predicate) {
 
 module.exports = baseFilter;
 
-},{"./_baseEach":96}],98:[function(require,module,exports){
+},{"./_baseEach":97}],99:[function(require,module,exports){
 /**
  * The base implementation of `_.findIndex` and `_.findLastIndex` without
  * support for iteratee shorthands.
@@ -9378,7 +9758,7 @@ function baseFindIndex(array, predicate, fromIndex, fromRight) {
 
 module.exports = baseFindIndex;
 
-},{}],99:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 var arrayPush = require('./_arrayPush'),
     isFlattenable = require('./_isFlattenable');
 
@@ -9418,7 +9798,7 @@ function baseFlatten(array, depth, predicate, isStrict, result) {
 
 module.exports = baseFlatten;
 
-},{"./_arrayPush":83,"./_isFlattenable":197}],100:[function(require,module,exports){
+},{"./_arrayPush":84,"./_isFlattenable":198}],101:[function(require,module,exports){
 var createBaseFor = require('./_createBaseFor');
 
 /**
@@ -9436,7 +9816,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./_createBaseFor":165}],101:[function(require,module,exports){
+},{"./_createBaseFor":166}],102:[function(require,module,exports){
 var baseFor = require('./_baseFor'),
     keys = require('./keys');
 
@@ -9454,7 +9834,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"./_baseFor":100,"./keys":282}],102:[function(require,module,exports){
+},{"./_baseFor":101,"./keys":283}],103:[function(require,module,exports){
 var castPath = require('./_castPath'),
     toKey = require('./_toKey');
 
@@ -9480,7 +9860,7 @@ function baseGet(object, path) {
 
 module.exports = baseGet;
 
-},{"./_castPath":146,"./_toKey":238}],103:[function(require,module,exports){
+},{"./_castPath":147,"./_toKey":239}],104:[function(require,module,exports){
 var arrayPush = require('./_arrayPush'),
     isArray = require('./isArray');
 
@@ -9502,7 +9882,7 @@ function baseGetAllKeys(object, keysFunc, symbolsFunc) {
 
 module.exports = baseGetAllKeys;
 
-},{"./_arrayPush":83,"./isArray":265}],104:[function(require,module,exports){
+},{"./_arrayPush":84,"./isArray":266}],105:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     getRawTag = require('./_getRawTag'),
     objectToString = require('./_objectToString');
@@ -9532,7 +9912,7 @@ function baseGetTag(value) {
 
 module.exports = baseGetTag;
 
-},{"./_Symbol":70,"./_getRawTag":183,"./_objectToString":222}],105:[function(require,module,exports){
+},{"./_Symbol":71,"./_getRawTag":184,"./_objectToString":223}],106:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -9553,7 +9933,7 @@ function baseHas(object, key) {
 
 module.exports = baseHas;
 
-},{}],106:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 /**
  * The base implementation of `_.hasIn` without support for deep paths.
  *
@@ -9568,7 +9948,7 @@ function baseHasIn(object, key) {
 
 module.exports = baseHasIn;
 
-},{}],107:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max,
     nativeMin = Math.min;
@@ -9588,7 +9968,7 @@ function baseInRange(number, start, end) {
 
 module.exports = baseInRange;
 
-},{}],108:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 var baseFindIndex = require('./_baseFindIndex'),
     baseIsNaN = require('./_baseIsNaN'),
     strictIndexOf = require('./_strictIndexOf');
@@ -9610,7 +9990,7 @@ function baseIndexOf(array, value, fromIndex) {
 
 module.exports = baseIndexOf;
 
-},{"./_baseFindIndex":98,"./_baseIsNaN":114,"./_strictIndexOf":236}],109:[function(require,module,exports){
+},{"./_baseFindIndex":99,"./_baseIsNaN":115,"./_strictIndexOf":237}],110:[function(require,module,exports){
 var SetCache = require('./_SetCache'),
     arrayIncludes = require('./_arrayIncludes'),
     arrayIncludesWith = require('./_arrayIncludesWith'),
@@ -9686,7 +10066,7 @@ function baseIntersection(arrays, iteratee, comparator) {
 
 module.exports = baseIntersection;
 
-},{"./_SetCache":68,"./_arrayIncludes":79,"./_arrayIncludesWith":80,"./_arrayMap":82,"./_baseUnary":140,"./_cacheHas":143}],110:[function(require,module,exports){
+},{"./_SetCache":69,"./_arrayIncludes":80,"./_arrayIncludesWith":81,"./_arrayMap":83,"./_baseUnary":141,"./_cacheHas":144}],111:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isObjectLike = require('./isObjectLike');
 
@@ -9706,7 +10086,7 @@ function baseIsArguments(value) {
 
 module.exports = baseIsArguments;
 
-},{"./_baseGetTag":104,"./isObjectLike":276}],111:[function(require,module,exports){
+},{"./_baseGetTag":105,"./isObjectLike":277}],112:[function(require,module,exports){
 var baseIsEqualDeep = require('./_baseIsEqualDeep'),
     isObjectLike = require('./isObjectLike');
 
@@ -9736,7 +10116,7 @@ function baseIsEqual(value, other, bitmask, customizer, stack) {
 
 module.exports = baseIsEqual;
 
-},{"./_baseIsEqualDeep":112,"./isObjectLike":276}],112:[function(require,module,exports){
+},{"./_baseIsEqualDeep":113,"./isObjectLike":277}],113:[function(require,module,exports){
 var Stack = require('./_Stack'),
     equalArrays = require('./_equalArrays'),
     equalByTag = require('./_equalByTag'),
@@ -9821,7 +10201,7 @@ function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
 
 module.exports = baseIsEqualDeep;
 
-},{"./_Stack":69,"./_equalArrays":171,"./_equalByTag":172,"./_equalObjects":173,"./_getTag":186,"./isArray":265,"./isBuffer":268,"./isTypedArray":280}],113:[function(require,module,exports){
+},{"./_Stack":70,"./_equalArrays":172,"./_equalByTag":173,"./_equalObjects":174,"./_getTag":187,"./isArray":266,"./isBuffer":269,"./isTypedArray":281}],114:[function(require,module,exports){
 var Stack = require('./_Stack'),
     baseIsEqual = require('./_baseIsEqual');
 
@@ -9885,7 +10265,7 @@ function baseIsMatch(object, source, matchData, customizer) {
 
 module.exports = baseIsMatch;
 
-},{"./_Stack":69,"./_baseIsEqual":111}],114:[function(require,module,exports){
+},{"./_Stack":70,"./_baseIsEqual":112}],115:[function(require,module,exports){
 /**
  * The base implementation of `_.isNaN` without support for number objects.
  *
@@ -9899,7 +10279,7 @@ function baseIsNaN(value) {
 
 module.exports = baseIsNaN;
 
-},{}],115:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isMasked = require('./_isMasked'),
     isObject = require('./isObject'),
@@ -9948,7 +10328,7 @@ function baseIsNative(value) {
 
 module.exports = baseIsNative;
 
-},{"./_isMasked":202,"./_toSource":239,"./isFunction":271,"./isObject":275}],116:[function(require,module,exports){
+},{"./_isMasked":203,"./_toSource":240,"./isFunction":272,"./isObject":276}],117:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isLength = require('./isLength'),
     isObjectLike = require('./isObjectLike');
@@ -10010,7 +10390,7 @@ function baseIsTypedArray(value) {
 
 module.exports = baseIsTypedArray;
 
-},{"./_baseGetTag":104,"./isLength":272,"./isObjectLike":276}],117:[function(require,module,exports){
+},{"./_baseGetTag":105,"./isLength":273,"./isObjectLike":277}],118:[function(require,module,exports){
 var baseMatches = require('./_baseMatches'),
     baseMatchesProperty = require('./_baseMatchesProperty'),
     identity = require('./identity'),
@@ -10043,7 +10423,7 @@ function baseIteratee(value) {
 
 module.exports = baseIteratee;
 
-},{"./_baseMatches":121,"./_baseMatchesProperty":122,"./identity":259,"./isArray":265,"./property":293}],118:[function(require,module,exports){
+},{"./_baseMatches":122,"./_baseMatchesProperty":123,"./identity":260,"./isArray":266,"./property":294}],119:[function(require,module,exports){
 var isPrototype = require('./_isPrototype'),
     nativeKeys = require('./_nativeKeys');
 
@@ -10075,7 +10455,7 @@ function baseKeys(object) {
 
 module.exports = baseKeys;
 
-},{"./_isPrototype":203,"./_nativeKeys":219}],119:[function(require,module,exports){
+},{"./_isPrototype":204,"./_nativeKeys":220}],120:[function(require,module,exports){
 var isObject = require('./isObject'),
     isPrototype = require('./_isPrototype'),
     nativeKeysIn = require('./_nativeKeysIn');
@@ -10110,7 +10490,7 @@ function baseKeysIn(object) {
 
 module.exports = baseKeysIn;
 
-},{"./_isPrototype":203,"./_nativeKeysIn":220,"./isObject":275}],120:[function(require,module,exports){
+},{"./_isPrototype":204,"./_nativeKeysIn":221,"./isObject":276}],121:[function(require,module,exports){
 var baseEach = require('./_baseEach'),
     isArrayLike = require('./isArrayLike');
 
@@ -10134,7 +10514,7 @@ function baseMap(collection, iteratee) {
 
 module.exports = baseMap;
 
-},{"./_baseEach":96,"./isArrayLike":266}],121:[function(require,module,exports){
+},{"./_baseEach":97,"./isArrayLike":267}],122:[function(require,module,exports){
 var baseIsMatch = require('./_baseIsMatch'),
     getMatchData = require('./_getMatchData'),
     matchesStrictComparable = require('./_matchesStrictComparable');
@@ -10158,7 +10538,7 @@ function baseMatches(source) {
 
 module.exports = baseMatches;
 
-},{"./_baseIsMatch":113,"./_getMatchData":180,"./_matchesStrictComparable":216}],122:[function(require,module,exports){
+},{"./_baseIsMatch":114,"./_getMatchData":181,"./_matchesStrictComparable":217}],123:[function(require,module,exports){
 var baseIsEqual = require('./_baseIsEqual'),
     get = require('./get'),
     hasIn = require('./hasIn'),
@@ -10193,7 +10573,7 @@ function baseMatchesProperty(path, srcValue) {
 
 module.exports = baseMatchesProperty;
 
-},{"./_baseIsEqual":111,"./_isKey":200,"./_isStrictComparable":204,"./_matchesStrictComparable":216,"./_toKey":238,"./get":256,"./hasIn":258}],123:[function(require,module,exports){
+},{"./_baseIsEqual":112,"./_isKey":201,"./_isStrictComparable":205,"./_matchesStrictComparable":217,"./_toKey":239,"./get":257,"./hasIn":259}],124:[function(require,module,exports){
 var Stack = require('./_Stack'),
     assignMergeValue = require('./_assignMergeValue'),
     baseFor = require('./_baseFor'),
@@ -10236,7 +10616,7 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
 
 module.exports = baseMerge;
 
-},{"./_Stack":69,"./_assignMergeValue":86,"./_baseFor":100,"./_baseMergeDeep":124,"./isObject":275,"./keysIn":283}],124:[function(require,module,exports){
+},{"./_Stack":70,"./_assignMergeValue":87,"./_baseFor":101,"./_baseMergeDeep":125,"./isObject":276,"./keysIn":284}],125:[function(require,module,exports){
 var assignMergeValue = require('./_assignMergeValue'),
     cloneBuffer = require('./_cloneBuffer'),
     cloneTypedArray = require('./_cloneTypedArray'),
@@ -10331,7 +10711,7 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
 
 module.exports = baseMergeDeep;
 
-},{"./_assignMergeValue":86,"./_cloneBuffer":148,"./_cloneTypedArray":154,"./_copyArray":157,"./_initCloneObject":196,"./isArguments":264,"./isArray":265,"./isArrayLikeObject":267,"./isBuffer":268,"./isFunction":271,"./isObject":275,"./isPlainObject":277,"./isTypedArray":280,"./toPlainObject":305}],125:[function(require,module,exports){
+},{"./_assignMergeValue":87,"./_cloneBuffer":149,"./_cloneTypedArray":155,"./_copyArray":158,"./_initCloneObject":197,"./isArguments":265,"./isArray":266,"./isArrayLikeObject":268,"./isBuffer":269,"./isFunction":272,"./isObject":276,"./isPlainObject":278,"./isTypedArray":281,"./toPlainObject":306}],126:[function(require,module,exports){
 var arrayMap = require('./_arrayMap'),
     baseIteratee = require('./_baseIteratee'),
     baseMap = require('./_baseMap'),
@@ -10367,7 +10747,7 @@ function baseOrderBy(collection, iteratees, orders) {
 
 module.exports = baseOrderBy;
 
-},{"./_arrayMap":82,"./_baseIteratee":117,"./_baseMap":120,"./_baseSortBy":136,"./_baseUnary":140,"./_compareMultiple":156,"./identity":259}],126:[function(require,module,exports){
+},{"./_arrayMap":83,"./_baseIteratee":118,"./_baseMap":121,"./_baseSortBy":137,"./_baseUnary":141,"./_compareMultiple":157,"./identity":260}],127:[function(require,module,exports){
 var basePickBy = require('./_basePickBy'),
     hasIn = require('./hasIn');
 
@@ -10388,7 +10768,7 @@ function basePick(object, paths) {
 
 module.exports = basePick;
 
-},{"./_basePickBy":127,"./hasIn":258}],127:[function(require,module,exports){
+},{"./_basePickBy":128,"./hasIn":259}],128:[function(require,module,exports){
 var baseGet = require('./_baseGet'),
     baseSet = require('./_baseSet'),
     castPath = require('./_castPath');
@@ -10420,7 +10800,7 @@ function basePickBy(object, paths, predicate) {
 
 module.exports = basePickBy;
 
-},{"./_baseGet":102,"./_baseSet":133,"./_castPath":146}],128:[function(require,module,exports){
+},{"./_baseGet":103,"./_baseSet":134,"./_castPath":147}],129:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -10436,7 +10816,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],129:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 var baseGet = require('./_baseGet');
 
 /**
@@ -10454,7 +10834,7 @@ function basePropertyDeep(path) {
 
 module.exports = basePropertyDeep;
 
-},{"./_baseGet":102}],130:[function(require,module,exports){
+},{"./_baseGet":103}],131:[function(require,module,exports){
 /**
  * The base implementation of `_.propertyOf` without support for deep paths.
  *
@@ -10470,7 +10850,7 @@ function basePropertyOf(object) {
 
 module.exports = basePropertyOf;
 
-},{}],131:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 /**
  * The base implementation of `_.reduce` and `_.reduceRight`, without support
  * for iteratee shorthands, which iterates over `collection` using `eachFunc`.
@@ -10495,7 +10875,7 @@ function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
 
 module.exports = baseReduce;
 
-},{}],132:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 var identity = require('./identity'),
     overRest = require('./_overRest'),
     setToString = require('./_setToString');
@@ -10514,7 +10894,7 @@ function baseRest(func, start) {
 
 module.exports = baseRest;
 
-},{"./_overRest":224,"./_setToString":229,"./identity":259}],133:[function(require,module,exports){
+},{"./_overRest":225,"./_setToString":230,"./identity":260}],134:[function(require,module,exports){
 var assignValue = require('./_assignValue'),
     castPath = require('./_castPath'),
     isIndex = require('./_isIndex'),
@@ -10563,7 +10943,7 @@ function baseSet(object, path, value, customizer) {
 
 module.exports = baseSet;
 
-},{"./_assignValue":87,"./_castPath":146,"./_isIndex":198,"./_toKey":238,"./isObject":275}],134:[function(require,module,exports){
+},{"./_assignValue":88,"./_castPath":147,"./_isIndex":199,"./_toKey":239,"./isObject":276}],135:[function(require,module,exports){
 var constant = require('./constant'),
     defineProperty = require('./_defineProperty'),
     identity = require('./identity');
@@ -10587,7 +10967,7 @@ var baseSetToString = !defineProperty ? identity : function(func, string) {
 
 module.exports = baseSetToString;
 
-},{"./_defineProperty":170,"./constant":242,"./identity":259}],135:[function(require,module,exports){
+},{"./_defineProperty":171,"./constant":243,"./identity":260}],136:[function(require,module,exports){
 /**
  * The base implementation of `_.slice` without an iteratee call guard.
  *
@@ -10620,7 +11000,7 @@ function baseSlice(array, start, end) {
 
 module.exports = baseSlice;
 
-},{}],136:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 /**
  * The base implementation of `_.sortBy` which uses `comparer` to define the
  * sort order of `array` and replaces criteria objects with their corresponding
@@ -10643,7 +11023,7 @@ function baseSortBy(array, comparer) {
 
 module.exports = baseSortBy;
 
-},{}],137:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 /**
  * The base implementation of `_.sum` and `_.sumBy` without support for
  * iteratee shorthands.
@@ -10669,7 +11049,7 @@ function baseSum(array, iteratee) {
 
 module.exports = baseSum;
 
-},{}],138:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 /**
  * The base implementation of `_.times` without support for iteratee shorthands
  * or max array length checks.
@@ -10691,7 +11071,7 @@ function baseTimes(n, iteratee) {
 
 module.exports = baseTimes;
 
-},{}],139:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     arrayMap = require('./_arrayMap'),
     isArray = require('./isArray'),
@@ -10730,7 +11110,7 @@ function baseToString(value) {
 
 module.exports = baseToString;
 
-},{"./_Symbol":70,"./_arrayMap":82,"./isArray":265,"./isSymbol":279}],140:[function(require,module,exports){
+},{"./_Symbol":71,"./_arrayMap":83,"./isArray":266,"./isSymbol":280}],141:[function(require,module,exports){
 /**
  * The base implementation of `_.unary` without support for storing metadata.
  *
@@ -10746,7 +11126,7 @@ function baseUnary(func) {
 
 module.exports = baseUnary;
 
-},{}],141:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 var SetCache = require('./_SetCache'),
     arrayIncludes = require('./_arrayIncludes'),
     arrayIncludesWith = require('./_arrayIncludesWith'),
@@ -10820,7 +11200,7 @@ function baseUniq(array, iteratee, comparator) {
 
 module.exports = baseUniq;
 
-},{"./_SetCache":68,"./_arrayIncludes":79,"./_arrayIncludesWith":80,"./_cacheHas":143,"./_createSet":167,"./_setToArray":228}],142:[function(require,module,exports){
+},{"./_SetCache":69,"./_arrayIncludes":80,"./_arrayIncludesWith":81,"./_cacheHas":144,"./_createSet":168,"./_setToArray":229}],143:[function(require,module,exports){
 var arrayMap = require('./_arrayMap');
 
 /**
@@ -10841,7 +11221,7 @@ function baseValues(object, props) {
 
 module.exports = baseValues;
 
-},{"./_arrayMap":82}],143:[function(require,module,exports){
+},{"./_arrayMap":83}],144:[function(require,module,exports){
 /**
  * Checks if a `cache` value for `key` exists.
  *
@@ -10856,7 +11236,7 @@ function cacheHas(cache, key) {
 
 module.exports = cacheHas;
 
-},{}],144:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 var isArrayLikeObject = require('./isArrayLikeObject');
 
 /**
@@ -10872,7 +11252,7 @@ function castArrayLikeObject(value) {
 
 module.exports = castArrayLikeObject;
 
-},{"./isArrayLikeObject":267}],145:[function(require,module,exports){
+},{"./isArrayLikeObject":268}],146:[function(require,module,exports){
 var identity = require('./identity');
 
 /**
@@ -10888,7 +11268,7 @@ function castFunction(value) {
 
 module.exports = castFunction;
 
-},{"./identity":259}],146:[function(require,module,exports){
+},{"./identity":260}],147:[function(require,module,exports){
 var isArray = require('./isArray'),
     isKey = require('./_isKey'),
     stringToPath = require('./_stringToPath'),
@@ -10911,7 +11291,7 @@ function castPath(value, object) {
 
 module.exports = castPath;
 
-},{"./_isKey":200,"./_stringToPath":237,"./isArray":265,"./toString":306}],147:[function(require,module,exports){
+},{"./_isKey":201,"./_stringToPath":238,"./isArray":266,"./toString":307}],148:[function(require,module,exports){
 var Uint8Array = require('./_Uint8Array');
 
 /**
@@ -10929,7 +11309,7 @@ function cloneArrayBuffer(arrayBuffer) {
 
 module.exports = cloneArrayBuffer;
 
-},{"./_Uint8Array":71}],148:[function(require,module,exports){
+},{"./_Uint8Array":72}],149:[function(require,module,exports){
 var root = require('./_root');
 
 /** Detect free variable `exports`. */
@@ -10966,7 +11346,7 @@ function cloneBuffer(buffer, isDeep) {
 
 module.exports = cloneBuffer;
 
-},{"./_root":225}],149:[function(require,module,exports){
+},{"./_root":226}],150:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer');
 
 /**
@@ -10984,7 +11364,7 @@ function cloneDataView(dataView, isDeep) {
 
 module.exports = cloneDataView;
 
-},{"./_cloneArrayBuffer":147}],150:[function(require,module,exports){
+},{"./_cloneArrayBuffer":148}],151:[function(require,module,exports){
 var addMapEntry = require('./_addMapEntry'),
     arrayReduce = require('./_arrayReduce'),
     mapToArray = require('./_mapToArray');
@@ -11008,7 +11388,7 @@ function cloneMap(map, isDeep, cloneFunc) {
 
 module.exports = cloneMap;
 
-},{"./_addMapEntry":73,"./_arrayReduce":84,"./_mapToArray":215}],151:[function(require,module,exports){
+},{"./_addMapEntry":74,"./_arrayReduce":85,"./_mapToArray":216}],152:[function(require,module,exports){
 /** Used to match `RegExp` flags from their coerced string values. */
 var reFlags = /\w*$/;
 
@@ -11027,7 +11407,7 @@ function cloneRegExp(regexp) {
 
 module.exports = cloneRegExp;
 
-},{}],152:[function(require,module,exports){
+},{}],153:[function(require,module,exports){
 var addSetEntry = require('./_addSetEntry'),
     arrayReduce = require('./_arrayReduce'),
     setToArray = require('./_setToArray');
@@ -11051,7 +11431,7 @@ function cloneSet(set, isDeep, cloneFunc) {
 
 module.exports = cloneSet;
 
-},{"./_addSetEntry":74,"./_arrayReduce":84,"./_setToArray":228}],153:[function(require,module,exports){
+},{"./_addSetEntry":75,"./_arrayReduce":85,"./_setToArray":229}],154:[function(require,module,exports){
 var Symbol = require('./_Symbol');
 
 /** Used to convert symbols to primitives and strings. */
@@ -11071,7 +11451,7 @@ function cloneSymbol(symbol) {
 
 module.exports = cloneSymbol;
 
-},{"./_Symbol":70}],154:[function(require,module,exports){
+},{"./_Symbol":71}],155:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer');
 
 /**
@@ -11089,7 +11469,7 @@ function cloneTypedArray(typedArray, isDeep) {
 
 module.exports = cloneTypedArray;
 
-},{"./_cloneArrayBuffer":147}],155:[function(require,module,exports){
+},{"./_cloneArrayBuffer":148}],156:[function(require,module,exports){
 var isSymbol = require('./isSymbol');
 
 /**
@@ -11132,7 +11512,7 @@ function compareAscending(value, other) {
 
 module.exports = compareAscending;
 
-},{"./isSymbol":279}],156:[function(require,module,exports){
+},{"./isSymbol":280}],157:[function(require,module,exports){
 var compareAscending = require('./_compareAscending');
 
 /**
@@ -11178,7 +11558,7 @@ function compareMultiple(object, other, orders) {
 
 module.exports = compareMultiple;
 
-},{"./_compareAscending":155}],157:[function(require,module,exports){
+},{"./_compareAscending":156}],158:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -11200,7 +11580,7 @@ function copyArray(source, array) {
 
 module.exports = copyArray;
 
-},{}],158:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 var assignValue = require('./_assignValue'),
     baseAssignValue = require('./_baseAssignValue');
 
@@ -11242,7 +11622,7 @@ function copyObject(source, props, object, customizer) {
 
 module.exports = copyObject;
 
-},{"./_assignValue":87,"./_baseAssignValue":92}],159:[function(require,module,exports){
+},{"./_assignValue":88,"./_baseAssignValue":93}],160:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     getSymbols = require('./_getSymbols');
 
@@ -11260,7 +11640,7 @@ function copySymbols(source, object) {
 
 module.exports = copySymbols;
 
-},{"./_copyObject":158,"./_getSymbols":184}],160:[function(require,module,exports){
+},{"./_copyObject":159,"./_getSymbols":185}],161:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     getSymbolsIn = require('./_getSymbolsIn');
 
@@ -11278,7 +11658,7 @@ function copySymbolsIn(source, object) {
 
 module.exports = copySymbolsIn;
 
-},{"./_copyObject":158,"./_getSymbolsIn":185}],161:[function(require,module,exports){
+},{"./_copyObject":159,"./_getSymbolsIn":186}],162:[function(require,module,exports){
 var root = require('./_root');
 
 /** Used to detect overreaching core-js shims. */
@@ -11286,7 +11666,7 @@ var coreJsData = root['__core-js_shared__'];
 
 module.exports = coreJsData;
 
-},{"./_root":225}],162:[function(require,module,exports){
+},{"./_root":226}],163:[function(require,module,exports){
 var arrayAggregator = require('./_arrayAggregator'),
     baseAggregator = require('./_baseAggregator'),
     baseIteratee = require('./_baseIteratee'),
@@ -11311,7 +11691,7 @@ function createAggregator(setter, initializer) {
 
 module.exports = createAggregator;
 
-},{"./_arrayAggregator":76,"./_baseAggregator":89,"./_baseIteratee":117,"./isArray":265}],163:[function(require,module,exports){
+},{"./_arrayAggregator":77,"./_baseAggregator":90,"./_baseIteratee":118,"./isArray":266}],164:[function(require,module,exports){
 var baseRest = require('./_baseRest'),
     isIterateeCall = require('./_isIterateeCall');
 
@@ -11350,7 +11730,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"./_baseRest":132,"./_isIterateeCall":199}],164:[function(require,module,exports){
+},{"./_baseRest":133,"./_isIterateeCall":200}],165:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike');
 
 /**
@@ -11384,7 +11764,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./isArrayLike":266}],165:[function(require,module,exports){
+},{"./isArrayLike":267}],166:[function(require,module,exports){
 /**
  * Creates a base function for methods like `_.forIn` and `_.forOwn`.
  *
@@ -11411,7 +11791,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{}],166:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 var baseIteratee = require('./_baseIteratee'),
     isArrayLike = require('./isArrayLike'),
     keys = require('./keys');
@@ -11438,7 +11818,7 @@ function createFind(findIndexFunc) {
 
 module.exports = createFind;
 
-},{"./_baseIteratee":117,"./isArrayLike":266,"./keys":282}],167:[function(require,module,exports){
+},{"./_baseIteratee":118,"./isArrayLike":267,"./keys":283}],168:[function(require,module,exports){
 var Set = require('./_Set'),
     noop = require('./noop'),
     setToArray = require('./_setToArray');
@@ -11459,7 +11839,7 @@ var createSet = !(Set && (1 / setToArray(new Set([,-0]))[1]) == INFINITY) ? noop
 
 module.exports = createSet;
 
-},{"./_Set":67,"./_setToArray":228,"./noop":289}],168:[function(require,module,exports){
+},{"./_Set":68,"./_setToArray":229,"./noop":290}],169:[function(require,module,exports){
 var eq = require('./eq');
 
 /** Used for built-in method references. */
@@ -11490,7 +11870,7 @@ function customDefaultsAssignIn(objValue, srcValue, key, object) {
 
 module.exports = customDefaultsAssignIn;
 
-},{"./eq":247}],169:[function(require,module,exports){
+},{"./eq":248}],170:[function(require,module,exports){
 var baseMerge = require('./_baseMerge'),
     isObject = require('./isObject');
 
@@ -11520,7 +11900,7 @@ function customDefaultsMerge(objValue, srcValue, key, object, source, stack) {
 
 module.exports = customDefaultsMerge;
 
-},{"./_baseMerge":123,"./isObject":275}],170:[function(require,module,exports){
+},{"./_baseMerge":124,"./isObject":276}],171:[function(require,module,exports){
 var getNative = require('./_getNative');
 
 var defineProperty = (function() {
@@ -11533,7 +11913,7 @@ var defineProperty = (function() {
 
 module.exports = defineProperty;
 
-},{"./_getNative":181}],171:[function(require,module,exports){
+},{"./_getNative":182}],172:[function(require,module,exports){
 var SetCache = require('./_SetCache'),
     arraySome = require('./_arraySome'),
     cacheHas = require('./_cacheHas');
@@ -11618,7 +11998,7 @@ function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
 
 module.exports = equalArrays;
 
-},{"./_SetCache":68,"./_arraySome":85,"./_cacheHas":143}],172:[function(require,module,exports){
+},{"./_SetCache":69,"./_arraySome":86,"./_cacheHas":144}],173:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     Uint8Array = require('./_Uint8Array'),
     eq = require('./eq'),
@@ -11732,7 +12112,7 @@ function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
 
 module.exports = equalByTag;
 
-},{"./_Symbol":70,"./_Uint8Array":71,"./_equalArrays":171,"./_mapToArray":215,"./_setToArray":228,"./eq":247}],173:[function(require,module,exports){
+},{"./_Symbol":71,"./_Uint8Array":72,"./_equalArrays":172,"./_mapToArray":216,"./_setToArray":229,"./eq":248}],174:[function(require,module,exports){
 var getAllKeys = require('./_getAllKeys');
 
 /** Used to compose bitmasks for value comparisons. */
@@ -11823,7 +12203,7 @@ function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
 
 module.exports = equalObjects;
 
-},{"./_getAllKeys":177}],174:[function(require,module,exports){
+},{"./_getAllKeys":178}],175:[function(require,module,exports){
 var basePropertyOf = require('./_basePropertyOf');
 
 /** Used to map characters to HTML entities. */
@@ -11846,7 +12226,7 @@ var escapeHtmlChar = basePropertyOf(htmlEscapes);
 
 module.exports = escapeHtmlChar;
 
-},{"./_basePropertyOf":130}],175:[function(require,module,exports){
+},{"./_basePropertyOf":131}],176:[function(require,module,exports){
 var flatten = require('./flatten'),
     overRest = require('./_overRest'),
     setToString = require('./_setToString');
@@ -11864,7 +12244,7 @@ function flatRest(func) {
 
 module.exports = flatRest;
 
-},{"./_overRest":224,"./_setToString":229,"./flatten":254}],176:[function(require,module,exports){
+},{"./_overRest":225,"./_setToString":230,"./flatten":255}],177:[function(require,module,exports){
 (function (global){
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -11872,7 +12252,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 module.exports = freeGlobal;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],177:[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 var baseGetAllKeys = require('./_baseGetAllKeys'),
     getSymbols = require('./_getSymbols'),
     keys = require('./keys');
@@ -11890,7 +12270,7 @@ function getAllKeys(object) {
 
 module.exports = getAllKeys;
 
-},{"./_baseGetAllKeys":103,"./_getSymbols":184,"./keys":282}],178:[function(require,module,exports){
+},{"./_baseGetAllKeys":104,"./_getSymbols":185,"./keys":283}],179:[function(require,module,exports){
 var baseGetAllKeys = require('./_baseGetAllKeys'),
     getSymbolsIn = require('./_getSymbolsIn'),
     keysIn = require('./keysIn');
@@ -11909,7 +12289,7 @@ function getAllKeysIn(object) {
 
 module.exports = getAllKeysIn;
 
-},{"./_baseGetAllKeys":103,"./_getSymbolsIn":185,"./keysIn":283}],179:[function(require,module,exports){
+},{"./_baseGetAllKeys":104,"./_getSymbolsIn":186,"./keysIn":284}],180:[function(require,module,exports){
 var isKeyable = require('./_isKeyable');
 
 /**
@@ -11929,7 +12309,7 @@ function getMapData(map, key) {
 
 module.exports = getMapData;
 
-},{"./_isKeyable":201}],180:[function(require,module,exports){
+},{"./_isKeyable":202}],181:[function(require,module,exports){
 var isStrictComparable = require('./_isStrictComparable'),
     keys = require('./keys');
 
@@ -11955,7 +12335,7 @@ function getMatchData(object) {
 
 module.exports = getMatchData;
 
-},{"./_isStrictComparable":204,"./keys":282}],181:[function(require,module,exports){
+},{"./_isStrictComparable":205,"./keys":283}],182:[function(require,module,exports){
 var baseIsNative = require('./_baseIsNative'),
     getValue = require('./_getValue');
 
@@ -11974,7 +12354,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"./_baseIsNative":115,"./_getValue":187}],182:[function(require,module,exports){
+},{"./_baseIsNative":116,"./_getValue":188}],183:[function(require,module,exports){
 var overArg = require('./_overArg');
 
 /** Built-in value references. */
@@ -11982,7 +12362,7 @@ var getPrototype = overArg(Object.getPrototypeOf, Object);
 
 module.exports = getPrototype;
 
-},{"./_overArg":223}],183:[function(require,module,exports){
+},{"./_overArg":224}],184:[function(require,module,exports){
 var Symbol = require('./_Symbol');
 
 /** Used for built-in method references. */
@@ -12030,7 +12410,7 @@ function getRawTag(value) {
 
 module.exports = getRawTag;
 
-},{"./_Symbol":70}],184:[function(require,module,exports){
+},{"./_Symbol":71}],185:[function(require,module,exports){
 var arrayFilter = require('./_arrayFilter'),
     stubArray = require('./stubArray');
 
@@ -12062,7 +12442,7 @@ var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
 
 module.exports = getSymbols;
 
-},{"./_arrayFilter":78,"./stubArray":297}],185:[function(require,module,exports){
+},{"./_arrayFilter":79,"./stubArray":298}],186:[function(require,module,exports){
 var arrayPush = require('./_arrayPush'),
     getPrototype = require('./_getPrototype'),
     getSymbols = require('./_getSymbols'),
@@ -12089,7 +12469,7 @@ var getSymbolsIn = !nativeGetSymbols ? stubArray : function(object) {
 
 module.exports = getSymbolsIn;
 
-},{"./_arrayPush":83,"./_getPrototype":182,"./_getSymbols":184,"./stubArray":297}],186:[function(require,module,exports){
+},{"./_arrayPush":84,"./_getPrototype":183,"./_getSymbols":185,"./stubArray":298}],187:[function(require,module,exports){
 var DataView = require('./_DataView'),
     Map = require('./_Map'),
     Promise = require('./_Promise'),
@@ -12149,7 +12529,7 @@ if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
 
 module.exports = getTag;
 
-},{"./_DataView":61,"./_Map":64,"./_Promise":66,"./_Set":67,"./_WeakMap":72,"./_baseGetTag":104,"./_toSource":239}],187:[function(require,module,exports){
+},{"./_DataView":62,"./_Map":65,"./_Promise":67,"./_Set":68,"./_WeakMap":73,"./_baseGetTag":105,"./_toSource":240}],188:[function(require,module,exports){
 /**
  * Gets the value at `key` of `object`.
  *
@@ -12164,7 +12544,7 @@ function getValue(object, key) {
 
 module.exports = getValue;
 
-},{}],188:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 var castPath = require('./_castPath'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -12205,7 +12585,7 @@ function hasPath(object, path, hasFunc) {
 
 module.exports = hasPath;
 
-},{"./_castPath":146,"./_isIndex":198,"./_toKey":238,"./isArguments":264,"./isArray":265,"./isLength":272}],189:[function(require,module,exports){
+},{"./_castPath":147,"./_isIndex":199,"./_toKey":239,"./isArguments":265,"./isArray":266,"./isLength":273}],190:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /**
@@ -12222,7 +12602,7 @@ function hashClear() {
 
 module.exports = hashClear;
 
-},{"./_nativeCreate":218}],190:[function(require,module,exports){
+},{"./_nativeCreate":219}],191:[function(require,module,exports){
 /**
  * Removes `key` and its value from the hash.
  *
@@ -12241,7 +12621,7 @@ function hashDelete(key) {
 
 module.exports = hashDelete;
 
-},{}],191:[function(require,module,exports){
+},{}],192:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -12273,7 +12653,7 @@ function hashGet(key) {
 
 module.exports = hashGet;
 
-},{"./_nativeCreate":218}],192:[function(require,module,exports){
+},{"./_nativeCreate":219}],193:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used for built-in method references. */
@@ -12298,7 +12678,7 @@ function hashHas(key) {
 
 module.exports = hashHas;
 
-},{"./_nativeCreate":218}],193:[function(require,module,exports){
+},{"./_nativeCreate":219}],194:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -12323,7 +12703,7 @@ function hashSet(key, value) {
 
 module.exports = hashSet;
 
-},{"./_nativeCreate":218}],194:[function(require,module,exports){
+},{"./_nativeCreate":219}],195:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -12351,7 +12731,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],195:[function(require,module,exports){
+},{}],196:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer'),
     cloneDataView = require('./_cloneDataView'),
     cloneMap = require('./_cloneMap'),
@@ -12433,7 +12813,7 @@ function initCloneByTag(object, tag, cloneFunc, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./_cloneArrayBuffer":147,"./_cloneDataView":149,"./_cloneMap":150,"./_cloneRegExp":151,"./_cloneSet":152,"./_cloneSymbol":153,"./_cloneTypedArray":154}],196:[function(require,module,exports){
+},{"./_cloneArrayBuffer":148,"./_cloneDataView":150,"./_cloneMap":151,"./_cloneRegExp":152,"./_cloneSet":153,"./_cloneSymbol":154,"./_cloneTypedArray":155}],197:[function(require,module,exports){
 var baseCreate = require('./_baseCreate'),
     getPrototype = require('./_getPrototype'),
     isPrototype = require('./_isPrototype');
@@ -12453,7 +12833,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{"./_baseCreate":94,"./_getPrototype":182,"./_isPrototype":203}],197:[function(require,module,exports){
+},{"./_baseCreate":95,"./_getPrototype":183,"./_isPrototype":204}],198:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray');
@@ -12475,7 +12855,7 @@ function isFlattenable(value) {
 
 module.exports = isFlattenable;
 
-},{"./_Symbol":70,"./isArguments":264,"./isArray":265}],198:[function(require,module,exports){
+},{"./_Symbol":71,"./isArguments":265,"./isArray":266}],199:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -12499,7 +12879,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],199:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 var eq = require('./eq'),
     isArrayLike = require('./isArrayLike'),
     isIndex = require('./_isIndex'),
@@ -12531,7 +12911,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"./_isIndex":198,"./eq":247,"./isArrayLike":266,"./isObject":275}],200:[function(require,module,exports){
+},{"./_isIndex":199,"./eq":248,"./isArrayLike":267,"./isObject":276}],201:[function(require,module,exports){
 var isArray = require('./isArray'),
     isSymbol = require('./isSymbol');
 
@@ -12562,7 +12942,7 @@ function isKey(value, object) {
 
 module.exports = isKey;
 
-},{"./isArray":265,"./isSymbol":279}],201:[function(require,module,exports){
+},{"./isArray":266,"./isSymbol":280}],202:[function(require,module,exports){
 /**
  * Checks if `value` is suitable for use as unique object key.
  *
@@ -12579,7 +12959,7 @@ function isKeyable(value) {
 
 module.exports = isKeyable;
 
-},{}],202:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 var coreJsData = require('./_coreJsData');
 
 /** Used to detect methods masquerading as native. */
@@ -12601,7 +12981,7 @@ function isMasked(func) {
 
 module.exports = isMasked;
 
-},{"./_coreJsData":161}],203:[function(require,module,exports){
+},{"./_coreJsData":162}],204:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -12621,7 +13001,7 @@ function isPrototype(value) {
 
 module.exports = isPrototype;
 
-},{}],204:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /**
@@ -12638,7 +13018,7 @@ function isStrictComparable(value) {
 
 module.exports = isStrictComparable;
 
-},{"./isObject":275}],205:[function(require,module,exports){
+},{"./isObject":276}],206:[function(require,module,exports){
 /**
  * Removes all key-value entries from the list cache.
  *
@@ -12653,7 +13033,7 @@ function listCacheClear() {
 
 module.exports = listCacheClear;
 
-},{}],206:[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /** Used for built-in method references. */
@@ -12690,7 +13070,7 @@ function listCacheDelete(key) {
 
 module.exports = listCacheDelete;
 
-},{"./_assocIndexOf":88}],207:[function(require,module,exports){
+},{"./_assocIndexOf":89}],208:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -12711,7 +13091,7 @@ function listCacheGet(key) {
 
 module.exports = listCacheGet;
 
-},{"./_assocIndexOf":88}],208:[function(require,module,exports){
+},{"./_assocIndexOf":89}],209:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -12729,7 +13109,7 @@ function listCacheHas(key) {
 
 module.exports = listCacheHas;
 
-},{"./_assocIndexOf":88}],209:[function(require,module,exports){
+},{"./_assocIndexOf":89}],210:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -12757,7 +13137,7 @@ function listCacheSet(key, value) {
 
 module.exports = listCacheSet;
 
-},{"./_assocIndexOf":88}],210:[function(require,module,exports){
+},{"./_assocIndexOf":89}],211:[function(require,module,exports){
 var Hash = require('./_Hash'),
     ListCache = require('./_ListCache'),
     Map = require('./_Map');
@@ -12780,7 +13160,7 @@ function mapCacheClear() {
 
 module.exports = mapCacheClear;
 
-},{"./_Hash":62,"./_ListCache":63,"./_Map":64}],211:[function(require,module,exports){
+},{"./_Hash":63,"./_ListCache":64,"./_Map":65}],212:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -12800,7 +13180,7 @@ function mapCacheDelete(key) {
 
 module.exports = mapCacheDelete;
 
-},{"./_getMapData":179}],212:[function(require,module,exports){
+},{"./_getMapData":180}],213:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -12818,7 +13198,7 @@ function mapCacheGet(key) {
 
 module.exports = mapCacheGet;
 
-},{"./_getMapData":179}],213:[function(require,module,exports){
+},{"./_getMapData":180}],214:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -12836,7 +13216,7 @@ function mapCacheHas(key) {
 
 module.exports = mapCacheHas;
 
-},{"./_getMapData":179}],214:[function(require,module,exports){
+},{"./_getMapData":180}],215:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -12860,7 +13240,7 @@ function mapCacheSet(key, value) {
 
 module.exports = mapCacheSet;
 
-},{"./_getMapData":179}],215:[function(require,module,exports){
+},{"./_getMapData":180}],216:[function(require,module,exports){
 /**
  * Converts `map` to its key-value pairs.
  *
@@ -12880,7 +13260,7 @@ function mapToArray(map) {
 
 module.exports = mapToArray;
 
-},{}],216:[function(require,module,exports){
+},{}],217:[function(require,module,exports){
 /**
  * A specialized version of `matchesProperty` for source values suitable
  * for strict equality comparisons, i.e. `===`.
@@ -12902,7 +13282,7 @@ function matchesStrictComparable(key, srcValue) {
 
 module.exports = matchesStrictComparable;
 
-},{}],217:[function(require,module,exports){
+},{}],218:[function(require,module,exports){
 var memoize = require('./memoize');
 
 /** Used as the maximum memoize cache size. */
@@ -12930,7 +13310,7 @@ function memoizeCapped(func) {
 
 module.exports = memoizeCapped;
 
-},{"./memoize":285}],218:[function(require,module,exports){
+},{"./memoize":286}],219:[function(require,module,exports){
 var getNative = require('./_getNative');
 
 /* Built-in method references that are verified to be native. */
@@ -12938,7 +13318,7 @@ var nativeCreate = getNative(Object, 'create');
 
 module.exports = nativeCreate;
 
-},{"./_getNative":181}],219:[function(require,module,exports){
+},{"./_getNative":182}],220:[function(require,module,exports){
 var overArg = require('./_overArg');
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
@@ -12946,7 +13326,7 @@ var nativeKeys = overArg(Object.keys, Object);
 
 module.exports = nativeKeys;
 
-},{"./_overArg":223}],220:[function(require,module,exports){
+},{"./_overArg":224}],221:[function(require,module,exports){
 /**
  * This function is like
  * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
@@ -12968,7 +13348,7 @@ function nativeKeysIn(object) {
 
 module.exports = nativeKeysIn;
 
-},{}],221:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 var freeGlobal = require('./_freeGlobal');
 
 /** Detect free variable `exports`. */
@@ -12992,7 +13372,7 @@ var nodeUtil = (function() {
 
 module.exports = nodeUtil;
 
-},{"./_freeGlobal":176}],222:[function(require,module,exports){
+},{"./_freeGlobal":177}],223:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -13016,7 +13396,7 @@ function objectToString(value) {
 
 module.exports = objectToString;
 
-},{}],223:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 /**
  * Creates a unary function that invokes `func` with its argument transformed.
  *
@@ -13033,7 +13413,7 @@ function overArg(func, transform) {
 
 module.exports = overArg;
 
-},{}],224:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 var apply = require('./_apply');
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
@@ -13071,7 +13451,7 @@ function overRest(func, start, transform) {
 
 module.exports = overRest;
 
-},{"./_apply":75}],225:[function(require,module,exports){
+},{"./_apply":76}],226:[function(require,module,exports){
 var freeGlobal = require('./_freeGlobal');
 
 /** Detect free variable `self`. */
@@ -13082,7 +13462,7 @@ var root = freeGlobal || freeSelf || Function('return this')();
 
 module.exports = root;
 
-},{"./_freeGlobal":176}],226:[function(require,module,exports){
+},{"./_freeGlobal":177}],227:[function(require,module,exports){
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
@@ -13103,7 +13483,7 @@ function setCacheAdd(value) {
 
 module.exports = setCacheAdd;
 
-},{}],227:[function(require,module,exports){
+},{}],228:[function(require,module,exports){
 /**
  * Checks if `value` is in the array cache.
  *
@@ -13119,7 +13499,7 @@ function setCacheHas(value) {
 
 module.exports = setCacheHas;
 
-},{}],228:[function(require,module,exports){
+},{}],229:[function(require,module,exports){
 /**
  * Converts `set` to an array of its values.
  *
@@ -13139,7 +13519,7 @@ function setToArray(set) {
 
 module.exports = setToArray;
 
-},{}],229:[function(require,module,exports){
+},{}],230:[function(require,module,exports){
 var baseSetToString = require('./_baseSetToString'),
     shortOut = require('./_shortOut');
 
@@ -13155,7 +13535,7 @@ var setToString = shortOut(baseSetToString);
 
 module.exports = setToString;
 
-},{"./_baseSetToString":134,"./_shortOut":230}],230:[function(require,module,exports){
+},{"./_baseSetToString":135,"./_shortOut":231}],231:[function(require,module,exports){
 /** Used to detect hot functions by number of calls within a span of milliseconds. */
 var HOT_COUNT = 800,
     HOT_SPAN = 16;
@@ -13194,7 +13574,7 @@ function shortOut(func) {
 
 module.exports = shortOut;
 
-},{}],231:[function(require,module,exports){
+},{}],232:[function(require,module,exports){
 var ListCache = require('./_ListCache');
 
 /**
@@ -13211,7 +13591,7 @@ function stackClear() {
 
 module.exports = stackClear;
 
-},{"./_ListCache":63}],232:[function(require,module,exports){
+},{"./_ListCache":64}],233:[function(require,module,exports){
 /**
  * Removes `key` and its value from the stack.
  *
@@ -13231,7 +13611,7 @@ function stackDelete(key) {
 
 module.exports = stackDelete;
 
-},{}],233:[function(require,module,exports){
+},{}],234:[function(require,module,exports){
 /**
  * Gets the stack value for `key`.
  *
@@ -13247,7 +13627,7 @@ function stackGet(key) {
 
 module.exports = stackGet;
 
-},{}],234:[function(require,module,exports){
+},{}],235:[function(require,module,exports){
 /**
  * Checks if a stack value for `key` exists.
  *
@@ -13263,7 +13643,7 @@ function stackHas(key) {
 
 module.exports = stackHas;
 
-},{}],235:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 var ListCache = require('./_ListCache'),
     Map = require('./_Map'),
     MapCache = require('./_MapCache');
@@ -13299,7 +13679,7 @@ function stackSet(key, value) {
 
 module.exports = stackSet;
 
-},{"./_ListCache":63,"./_Map":64,"./_MapCache":65}],236:[function(require,module,exports){
+},{"./_ListCache":64,"./_Map":65,"./_MapCache":66}],237:[function(require,module,exports){
 /**
  * A specialized version of `_.indexOf` which performs strict equality
  * comparisons of values, i.e. `===`.
@@ -13324,7 +13704,7 @@ function strictIndexOf(array, value, fromIndex) {
 
 module.exports = strictIndexOf;
 
-},{}],237:[function(require,module,exports){
+},{}],238:[function(require,module,exports){
 var memoizeCapped = require('./_memoizeCapped');
 
 /** Used to match property names within property paths. */
@@ -13354,7 +13734,7 @@ var stringToPath = memoizeCapped(function(string) {
 
 module.exports = stringToPath;
 
-},{"./_memoizeCapped":217}],238:[function(require,module,exports){
+},{"./_memoizeCapped":218}],239:[function(require,module,exports){
 var isSymbol = require('./isSymbol');
 
 /** Used as references for various `Number` constants. */
@@ -13377,7 +13757,7 @@ function toKey(value) {
 
 module.exports = toKey;
 
-},{"./isSymbol":279}],239:[function(require,module,exports){
+},{"./isSymbol":280}],240:[function(require,module,exports){
 /** Used for built-in method references. */
 var funcProto = Function.prototype;
 
@@ -13405,7 +13785,7 @@ function toSource(func) {
 
 module.exports = toSource;
 
-},{}],240:[function(require,module,exports){
+},{}],241:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     createAssigner = require('./_createAssigner'),
     keysIn = require('./keysIn');
@@ -13445,7 +13825,7 @@ var assignInWith = createAssigner(function(object, source, srcIndex, customizer)
 
 module.exports = assignInWith;
 
-},{"./_copyObject":158,"./_createAssigner":163,"./keysIn":283}],241:[function(require,module,exports){
+},{"./_copyObject":159,"./_createAssigner":164,"./keysIn":284}],242:[function(require,module,exports){
 var baseClone = require('./_baseClone');
 
 /** Used to compose bitmasks for cloning. */
@@ -13483,7 +13863,7 @@ function clone(value) {
 
 module.exports = clone;
 
-},{"./_baseClone":93}],242:[function(require,module,exports){
+},{"./_baseClone":94}],243:[function(require,module,exports){
 /**
  * Creates a function that returns `value`.
  *
@@ -13511,7 +13891,7 @@ function constant(value) {
 
 module.exports = constant;
 
-},{}],243:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
 var isObject = require('./isObject'),
     now = require('./now'),
     toNumber = require('./toNumber');
@@ -13701,7 +14081,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"./isObject":275,"./now":290,"./toNumber":304}],244:[function(require,module,exports){
+},{"./isObject":276,"./now":291,"./toNumber":305}],245:[function(require,module,exports){
 var apply = require('./_apply'),
     assignInWith = require('./assignInWith'),
     baseRest = require('./_baseRest'),
@@ -13735,7 +14115,7 @@ var defaults = baseRest(function(args) {
 
 module.exports = defaults;
 
-},{"./_apply":75,"./_baseRest":132,"./_customDefaultsAssignIn":168,"./assignInWith":240}],245:[function(require,module,exports){
+},{"./_apply":76,"./_baseRest":133,"./_customDefaultsAssignIn":169,"./assignInWith":241}],246:[function(require,module,exports){
 var apply = require('./_apply'),
     baseRest = require('./_baseRest'),
     customDefaultsMerge = require('./_customDefaultsMerge'),
@@ -13767,7 +14147,7 @@ var defaultsDeep = baseRest(function(args) {
 
 module.exports = defaultsDeep;
 
-},{"./_apply":75,"./_baseRest":132,"./_customDefaultsMerge":169,"./mergeWith":287}],246:[function(require,module,exports){
+},{"./_apply":76,"./_baseRest":133,"./_customDefaultsMerge":170,"./mergeWith":288}],247:[function(require,module,exports){
 var baseDifference = require('./_baseDifference'),
     baseFlatten = require('./_baseFlatten'),
     baseRest = require('./_baseRest'),
@@ -13802,7 +14182,7 @@ var difference = baseRest(function(array, values) {
 
 module.exports = difference;
 
-},{"./_baseDifference":95,"./_baseFlatten":99,"./_baseRest":132,"./isArrayLikeObject":267}],247:[function(require,module,exports){
+},{"./_baseDifference":96,"./_baseFlatten":100,"./_baseRest":133,"./isArrayLikeObject":268}],248:[function(require,module,exports){
 /**
  * Performs a
  * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
@@ -13841,7 +14221,7 @@ function eq(value, other) {
 
 module.exports = eq;
 
-},{}],248:[function(require,module,exports){
+},{}],249:[function(require,module,exports){
 var escapeHtmlChar = require('./_escapeHtmlChar'),
     toString = require('./toString');
 
@@ -13886,7 +14266,7 @@ function escape(string) {
 
 module.exports = escape;
 
-},{"./_escapeHtmlChar":174,"./toString":306}],249:[function(require,module,exports){
+},{"./_escapeHtmlChar":175,"./toString":307}],250:[function(require,module,exports){
 var toString = require('./toString');
 
 /**
@@ -13920,7 +14300,7 @@ function escapeRegExp(string) {
 
 module.exports = escapeRegExp;
 
-},{"./toString":306}],250:[function(require,module,exports){
+},{"./toString":307}],251:[function(require,module,exports){
 var arrayFilter = require('./_arrayFilter'),
     baseFilter = require('./_baseFilter'),
     baseIteratee = require('./_baseIteratee'),
@@ -13970,7 +14350,7 @@ function filter(collection, predicate) {
 
 module.exports = filter;
 
-},{"./_arrayFilter":78,"./_baseFilter":97,"./_baseIteratee":117,"./isArray":265}],251:[function(require,module,exports){
+},{"./_arrayFilter":79,"./_baseFilter":98,"./_baseIteratee":118,"./isArray":266}],252:[function(require,module,exports){
 var createFind = require('./_createFind'),
     findIndex = require('./findIndex');
 
@@ -14014,7 +14394,7 @@ var find = createFind(findIndex);
 
 module.exports = find;
 
-},{"./_createFind":166,"./findIndex":252}],252:[function(require,module,exports){
+},{"./_createFind":167,"./findIndex":253}],253:[function(require,module,exports){
 var baseFindIndex = require('./_baseFindIndex'),
     baseIteratee = require('./_baseIteratee'),
     toInteger = require('./toInteger');
@@ -14071,7 +14451,7 @@ function findIndex(array, predicate, fromIndex) {
 
 module.exports = findIndex;
 
-},{"./_baseFindIndex":98,"./_baseIteratee":117,"./toInteger":303}],253:[function(require,module,exports){
+},{"./_baseFindIndex":99,"./_baseIteratee":118,"./toInteger":304}],254:[function(require,module,exports){
 var baseFlatten = require('./_baseFlatten'),
     map = require('./map');
 
@@ -14102,7 +14482,7 @@ function flatMap(collection, iteratee) {
 
 module.exports = flatMap;
 
-},{"./_baseFlatten":99,"./map":284}],254:[function(require,module,exports){
+},{"./_baseFlatten":100,"./map":285}],255:[function(require,module,exports){
 var baseFlatten = require('./_baseFlatten');
 
 /**
@@ -14126,7 +14506,7 @@ function flatten(array) {
 
 module.exports = flatten;
 
-},{"./_baseFlatten":99}],255:[function(require,module,exports){
+},{"./_baseFlatten":100}],256:[function(require,module,exports){
 var arrayEach = require('./_arrayEach'),
     baseEach = require('./_baseEach'),
     castFunction = require('./_castFunction'),
@@ -14169,7 +14549,7 @@ function forEach(collection, iteratee) {
 
 module.exports = forEach;
 
-},{"./_arrayEach":77,"./_baseEach":96,"./_castFunction":145,"./isArray":265}],256:[function(require,module,exports){
+},{"./_arrayEach":78,"./_baseEach":97,"./_castFunction":146,"./isArray":266}],257:[function(require,module,exports){
 var baseGet = require('./_baseGet');
 
 /**
@@ -14204,7 +14584,7 @@ function get(object, path, defaultValue) {
 
 module.exports = get;
 
-},{"./_baseGet":102}],257:[function(require,module,exports){
+},{"./_baseGet":103}],258:[function(require,module,exports){
 var baseHas = require('./_baseHas'),
     hasPath = require('./_hasPath');
 
@@ -14241,7 +14621,7 @@ function has(object, path) {
 
 module.exports = has;
 
-},{"./_baseHas":105,"./_hasPath":188}],258:[function(require,module,exports){
+},{"./_baseHas":106,"./_hasPath":189}],259:[function(require,module,exports){
 var baseHasIn = require('./_baseHasIn'),
     hasPath = require('./_hasPath');
 
@@ -14277,7 +14657,7 @@ function hasIn(object, path) {
 
 module.exports = hasIn;
 
-},{"./_baseHasIn":106,"./_hasPath":188}],259:[function(require,module,exports){
+},{"./_baseHasIn":107,"./_hasPath":189}],260:[function(require,module,exports){
 /**
  * This method returns the first argument it receives.
  *
@@ -14300,7 +14680,7 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],260:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 var baseInRange = require('./_baseInRange'),
     toFinite = require('./toFinite'),
     toNumber = require('./toNumber');
@@ -14357,7 +14737,7 @@ function inRange(number, start, end) {
 
 module.exports = inRange;
 
-},{"./_baseInRange":107,"./toFinite":302,"./toNumber":304}],261:[function(require,module,exports){
+},{"./_baseInRange":108,"./toFinite":303,"./toNumber":305}],262:[function(require,module,exports){
 var baseIndexOf = require('./_baseIndexOf'),
     isArrayLike = require('./isArrayLike'),
     isString = require('./isString'),
@@ -14412,7 +14792,7 @@ function includes(collection, value, fromIndex, guard) {
 
 module.exports = includes;
 
-},{"./_baseIndexOf":108,"./isArrayLike":266,"./isString":278,"./toInteger":303,"./values":308}],262:[function(require,module,exports){
+},{"./_baseIndexOf":109,"./isArrayLike":267,"./isString":279,"./toInteger":304,"./values":309}],263:[function(require,module,exports){
 var baseIndexOf = require('./_baseIndexOf'),
     toInteger = require('./toInteger');
 
@@ -14456,7 +14836,7 @@ function indexOf(array, value, fromIndex) {
 
 module.exports = indexOf;
 
-},{"./_baseIndexOf":108,"./toInteger":303}],263:[function(require,module,exports){
+},{"./_baseIndexOf":109,"./toInteger":304}],264:[function(require,module,exports){
 var arrayMap = require('./_arrayMap'),
     baseIntersection = require('./_baseIntersection'),
     baseRest = require('./_baseRest'),
@@ -14488,7 +14868,7 @@ var intersection = baseRest(function(arrays) {
 
 module.exports = intersection;
 
-},{"./_arrayMap":82,"./_baseIntersection":109,"./_baseRest":132,"./_castArrayLikeObject":144}],264:[function(require,module,exports){
+},{"./_arrayMap":83,"./_baseIntersection":110,"./_baseRest":133,"./_castArrayLikeObject":145}],265:[function(require,module,exports){
 var baseIsArguments = require('./_baseIsArguments'),
     isObjectLike = require('./isObjectLike');
 
@@ -14526,7 +14906,7 @@ var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsAr
 
 module.exports = isArguments;
 
-},{"./_baseIsArguments":110,"./isObjectLike":276}],265:[function(require,module,exports){
+},{"./_baseIsArguments":111,"./isObjectLike":277}],266:[function(require,module,exports){
 /**
  * Checks if `value` is classified as an `Array` object.
  *
@@ -14554,7 +14934,7 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],266:[function(require,module,exports){
+},{}],267:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isLength = require('./isLength');
 
@@ -14589,7 +14969,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./isFunction":271,"./isLength":272}],267:[function(require,module,exports){
+},{"./isFunction":272,"./isLength":273}],268:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isObjectLike = require('./isObjectLike');
 
@@ -14624,7 +15004,7 @@ function isArrayLikeObject(value) {
 
 module.exports = isArrayLikeObject;
 
-},{"./isArrayLike":266,"./isObjectLike":276}],268:[function(require,module,exports){
+},{"./isArrayLike":267,"./isObjectLike":277}],269:[function(require,module,exports){
 var root = require('./_root'),
     stubFalse = require('./stubFalse');
 
@@ -14664,7 +15044,7 @@ var isBuffer = nativeIsBuffer || stubFalse;
 
 module.exports = isBuffer;
 
-},{"./_root":225,"./stubFalse":298}],269:[function(require,module,exports){
+},{"./_root":226,"./stubFalse":299}],270:[function(require,module,exports){
 var isObjectLike = require('./isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -14691,7 +15071,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"./isObjectLike":276,"./isPlainObject":277}],270:[function(require,module,exports){
+},{"./isObjectLike":277,"./isPlainObject":278}],271:[function(require,module,exports){
 var baseKeys = require('./_baseKeys'),
     getTag = require('./_getTag'),
     isArguments = require('./isArguments'),
@@ -14770,7 +15150,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"./_baseKeys":118,"./_getTag":186,"./_isPrototype":203,"./isArguments":264,"./isArray":265,"./isArrayLike":266,"./isBuffer":268,"./isTypedArray":280}],271:[function(require,module,exports){
+},{"./_baseKeys":119,"./_getTag":187,"./_isPrototype":204,"./isArguments":265,"./isArray":266,"./isArrayLike":267,"./isBuffer":269,"./isTypedArray":281}],272:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isObject = require('./isObject');
 
@@ -14809,7 +15189,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./_baseGetTag":104,"./isObject":275}],272:[function(require,module,exports){
+},{"./_baseGetTag":105,"./isObject":276}],273:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -14846,7 +15226,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],273:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 var isNumber = require('./isNumber');
 
 /**
@@ -14886,7 +15266,7 @@ function isNaN(value) {
 
 module.exports = isNaN;
 
-},{"./isNumber":274}],274:[function(require,module,exports){
+},{"./isNumber":275}],275:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isObjectLike = require('./isObjectLike');
 
@@ -14926,7 +15306,7 @@ function isNumber(value) {
 
 module.exports = isNumber;
 
-},{"./_baseGetTag":104,"./isObjectLike":276}],275:[function(require,module,exports){
+},{"./_baseGetTag":105,"./isObjectLike":277}],276:[function(require,module,exports){
 /**
  * Checks if `value` is the
  * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
@@ -14959,7 +15339,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],276:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -14990,7 +15370,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],277:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     getPrototype = require('./_getPrototype'),
     isObjectLike = require('./isObjectLike');
@@ -15054,7 +15434,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_baseGetTag":104,"./_getPrototype":182,"./isObjectLike":276}],278:[function(require,module,exports){
+},{"./_baseGetTag":105,"./_getPrototype":183,"./isObjectLike":277}],279:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isArray = require('./isArray'),
     isObjectLike = require('./isObjectLike');
@@ -15086,7 +15466,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"./_baseGetTag":104,"./isArray":265,"./isObjectLike":276}],279:[function(require,module,exports){
+},{"./_baseGetTag":105,"./isArray":266,"./isObjectLike":277}],280:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isObjectLike = require('./isObjectLike');
 
@@ -15117,7 +15497,7 @@ function isSymbol(value) {
 
 module.exports = isSymbol;
 
-},{"./_baseGetTag":104,"./isObjectLike":276}],280:[function(require,module,exports){
+},{"./_baseGetTag":105,"./isObjectLike":277}],281:[function(require,module,exports){
 var baseIsTypedArray = require('./_baseIsTypedArray'),
     baseUnary = require('./_baseUnary'),
     nodeUtil = require('./_nodeUtil');
@@ -15146,7 +15526,7 @@ var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedA
 
 module.exports = isTypedArray;
 
-},{"./_baseIsTypedArray":116,"./_baseUnary":140,"./_nodeUtil":221}],281:[function(require,module,exports){
+},{"./_baseIsTypedArray":117,"./_baseUnary":141,"./_nodeUtil":222}],282:[function(require,module,exports){
 /**
  * Checks if `value` is `undefined`.
  *
@@ -15170,7 +15550,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],282:[function(require,module,exports){
+},{}],283:[function(require,module,exports){
 var arrayLikeKeys = require('./_arrayLikeKeys'),
     baseKeys = require('./_baseKeys'),
     isArrayLike = require('./isArrayLike');
@@ -15209,7 +15589,7 @@ function keys(object) {
 
 module.exports = keys;
 
-},{"./_arrayLikeKeys":81,"./_baseKeys":118,"./isArrayLike":266}],283:[function(require,module,exports){
+},{"./_arrayLikeKeys":82,"./_baseKeys":119,"./isArrayLike":267}],284:[function(require,module,exports){
 var arrayLikeKeys = require('./_arrayLikeKeys'),
     baseKeysIn = require('./_baseKeysIn'),
     isArrayLike = require('./isArrayLike');
@@ -15243,7 +15623,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"./_arrayLikeKeys":81,"./_baseKeysIn":119,"./isArrayLike":266}],284:[function(require,module,exports){
+},{"./_arrayLikeKeys":82,"./_baseKeysIn":120,"./isArrayLike":267}],285:[function(require,module,exports){
 var arrayMap = require('./_arrayMap'),
     baseIteratee = require('./_baseIteratee'),
     baseMap = require('./_baseMap'),
@@ -15298,7 +15678,7 @@ function map(collection, iteratee) {
 
 module.exports = map;
 
-},{"./_arrayMap":82,"./_baseIteratee":117,"./_baseMap":120,"./isArray":265}],285:[function(require,module,exports){
+},{"./_arrayMap":83,"./_baseIteratee":118,"./_baseMap":121,"./isArray":266}],286:[function(require,module,exports){
 var MapCache = require('./_MapCache');
 
 /** Error message constants. */
@@ -15373,7 +15753,7 @@ memoize.Cache = MapCache;
 
 module.exports = memoize;
 
-},{"./_MapCache":65}],286:[function(require,module,exports){
+},{"./_MapCache":66}],287:[function(require,module,exports){
 var baseMerge = require('./_baseMerge'),
     createAssigner = require('./_createAssigner');
 
@@ -15414,7 +15794,7 @@ var merge = createAssigner(function(object, source, srcIndex) {
 
 module.exports = merge;
 
-},{"./_baseMerge":123,"./_createAssigner":163}],287:[function(require,module,exports){
+},{"./_baseMerge":124,"./_createAssigner":164}],288:[function(require,module,exports){
 var baseMerge = require('./_baseMerge'),
     createAssigner = require('./_createAssigner');
 
@@ -15455,7 +15835,7 @@ var mergeWith = createAssigner(function(object, source, srcIndex, customizer) {
 
 module.exports = mergeWith;
 
-},{"./_baseMerge":123,"./_createAssigner":163}],288:[function(require,module,exports){
+},{"./_baseMerge":124,"./_createAssigner":164}],289:[function(require,module,exports){
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -15497,7 +15877,7 @@ function negate(predicate) {
 
 module.exports = negate;
 
-},{}],289:[function(require,module,exports){
+},{}],290:[function(require,module,exports){
 /**
  * This method returns `undefined`.
  *
@@ -15516,7 +15896,7 @@ function noop() {
 
 module.exports = noop;
 
-},{}],290:[function(require,module,exports){
+},{}],291:[function(require,module,exports){
 var root = require('./_root');
 
 /**
@@ -15541,7 +15921,7 @@ var now = function() {
 
 module.exports = now;
 
-},{"./_root":225}],291:[function(require,module,exports){
+},{"./_root":226}],292:[function(require,module,exports){
 var createAggregator = require('./_createAggregator');
 
 /**
@@ -15586,7 +15966,7 @@ var partition = createAggregator(function(result, value, key) {
 
 module.exports = partition;
 
-},{"./_createAggregator":162}],292:[function(require,module,exports){
+},{"./_createAggregator":163}],293:[function(require,module,exports){
 var basePick = require('./_basePick'),
     flatRest = require('./_flatRest');
 
@@ -15613,7 +15993,7 @@ var pick = flatRest(function(object, paths) {
 
 module.exports = pick;
 
-},{"./_basePick":126,"./_flatRest":175}],293:[function(require,module,exports){
+},{"./_basePick":127,"./_flatRest":176}],294:[function(require,module,exports){
 var baseProperty = require('./_baseProperty'),
     basePropertyDeep = require('./_basePropertyDeep'),
     isKey = require('./_isKey'),
@@ -15647,7 +16027,7 @@ function property(path) {
 
 module.exports = property;
 
-},{"./_baseProperty":128,"./_basePropertyDeep":129,"./_isKey":200,"./_toKey":238}],294:[function(require,module,exports){
+},{"./_baseProperty":129,"./_basePropertyDeep":130,"./_isKey":201,"./_toKey":239}],295:[function(require,module,exports){
 var arrayReduce = require('./_arrayReduce'),
     baseEach = require('./_baseEach'),
     baseIteratee = require('./_baseIteratee'),
@@ -15700,7 +16080,7 @@ function reduce(collection, iteratee, accumulator) {
 
 module.exports = reduce;
 
-},{"./_arrayReduce":84,"./_baseEach":96,"./_baseIteratee":117,"./_baseReduce":131,"./isArray":265}],295:[function(require,module,exports){
+},{"./_arrayReduce":85,"./_baseEach":97,"./_baseIteratee":118,"./_baseReduce":132,"./isArray":266}],296:[function(require,module,exports){
 var arrayFilter = require('./_arrayFilter'),
     baseFilter = require('./_baseFilter'),
     baseIteratee = require('./_baseIteratee'),
@@ -15748,7 +16128,7 @@ function reject(collection, predicate) {
 
 module.exports = reject;
 
-},{"./_arrayFilter":78,"./_baseFilter":97,"./_baseIteratee":117,"./isArray":265,"./negate":288}],296:[function(require,module,exports){
+},{"./_arrayFilter":79,"./_baseFilter":98,"./_baseIteratee":118,"./isArray":266,"./negate":289}],297:[function(require,module,exports){
 var baseFlatten = require('./_baseFlatten'),
     baseOrderBy = require('./_baseOrderBy'),
     baseRest = require('./_baseRest'),
@@ -15798,7 +16178,7 @@ var sortBy = baseRest(function(collection, iteratees) {
 
 module.exports = sortBy;
 
-},{"./_baseFlatten":99,"./_baseOrderBy":125,"./_baseRest":132,"./_isIterateeCall":199}],297:[function(require,module,exports){
+},{"./_baseFlatten":100,"./_baseOrderBy":126,"./_baseRest":133,"./_isIterateeCall":200}],298:[function(require,module,exports){
 /**
  * This method returns a new empty array.
  *
@@ -15823,7 +16203,7 @@ function stubArray() {
 
 module.exports = stubArray;
 
-},{}],298:[function(require,module,exports){
+},{}],299:[function(require,module,exports){
 /**
  * This method returns `false`.
  *
@@ -15843,7 +16223,7 @@ function stubFalse() {
 
 module.exports = stubFalse;
 
-},{}],299:[function(require,module,exports){
+},{}],300:[function(require,module,exports){
 var baseSum = require('./_baseSum'),
     identity = require('./identity');
 
@@ -15869,7 +16249,7 @@ function sum(array) {
 
 module.exports = sum;
 
-},{"./_baseSum":137,"./identity":259}],300:[function(require,module,exports){
+},{"./_baseSum":138,"./identity":260}],301:[function(require,module,exports){
 var baseSlice = require('./_baseSlice'),
     toInteger = require('./toInteger');
 
@@ -15908,7 +16288,7 @@ function take(array, n, guard) {
 
 module.exports = take;
 
-},{"./_baseSlice":135,"./toInteger":303}],301:[function(require,module,exports){
+},{"./_baseSlice":136,"./toInteger":304}],302:[function(require,module,exports){
 var debounce = require('./debounce'),
     isObject = require('./isObject');
 
@@ -15979,7 +16359,7 @@ function throttle(func, wait, options) {
 
 module.exports = throttle;
 
-},{"./debounce":243,"./isObject":275}],302:[function(require,module,exports){
+},{"./debounce":244,"./isObject":276}],303:[function(require,module,exports){
 var toNumber = require('./toNumber');
 
 /** Used as references for various `Number` constants. */
@@ -16023,7 +16403,7 @@ function toFinite(value) {
 
 module.exports = toFinite;
 
-},{"./toNumber":304}],303:[function(require,module,exports){
+},{"./toNumber":305}],304:[function(require,module,exports){
 var toFinite = require('./toFinite');
 
 /**
@@ -16061,7 +16441,7 @@ function toInteger(value) {
 
 module.exports = toInteger;
 
-},{"./toFinite":302}],304:[function(require,module,exports){
+},{"./toFinite":303}],305:[function(require,module,exports){
 var isObject = require('./isObject'),
     isSymbol = require('./isSymbol');
 
@@ -16129,7 +16509,7 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isObject":275,"./isSymbol":279}],305:[function(require,module,exports){
+},{"./isObject":276,"./isSymbol":280}],306:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keysIn = require('./keysIn');
 
@@ -16163,7 +16543,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"./_copyObject":158,"./keysIn":283}],306:[function(require,module,exports){
+},{"./_copyObject":159,"./keysIn":284}],307:[function(require,module,exports){
 var baseToString = require('./_baseToString');
 
 /**
@@ -16193,7 +16573,7 @@ function toString(value) {
 
 module.exports = toString;
 
-},{"./_baseToString":139}],307:[function(require,module,exports){
+},{"./_baseToString":140}],308:[function(require,module,exports){
 var baseIteratee = require('./_baseIteratee'),
     baseUniq = require('./_baseUniq');
 
@@ -16226,7 +16606,7 @@ function uniqBy(array, iteratee) {
 
 module.exports = uniqBy;
 
-},{"./_baseIteratee":117,"./_baseUniq":141}],308:[function(require,module,exports){
+},{"./_baseIteratee":118,"./_baseUniq":142}],309:[function(require,module,exports){
 var baseValues = require('./_baseValues'),
     keys = require('./keys');
 
@@ -16262,7 +16642,1297 @@ function values(object) {
 
 module.exports = values;
 
-},{"./_baseValues":142,"./keys":282}],309:[function(require,module,exports){
+},{"./_baseValues":143,"./keys":283}],310:[function(require,module,exports){
+(function (global){
+/**
+ * marked - a markdown parser
+ * Copyright (c) 2011-2014, Christopher Jeffrey. (MIT Licensed)
+ * https://github.com/chjj/marked
+ */
+
+;(function() {
+
+/**
+ * Block-Level Grammar
+ */
+
+var block = {
+  newline: /^\n+/,
+  code: /^( {4}[^\n]+\n*)+/,
+  fences: noop,
+  hr: /^( *[-*_]){3,} *(?:\n+|$)/,
+  heading: /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/,
+  nptable: noop,
+  lheading: /^([^\n]+)\n *(=|-){2,} *(?:\n+|$)/,
+  blockquote: /^( *>[^\n]+(\n(?!def)[^\n]+)*\n*)+/,
+  list: /^( *)(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?!\1bull )\n*|\s*$)/,
+  html: /^ *(?:comment *(?:\n|\s*$)|closed *(?:\n{2,}|\s*$)|closing *(?:\n{2,}|\s*$))/,
+  def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +["(]([^\n]+)[")])? *(?:\n+|$)/,
+  table: noop,
+  paragraph: /^((?:[^\n]+\n?(?!hr|heading|lheading|blockquote|tag|def))+)\n*/,
+  text: /^[^\n]+/
+};
+
+block.bullet = /(?:[*+-]|\d+\.)/;
+block.item = /^( *)(bull) [^\n]*(?:\n(?!\1bull )[^\n]*)*/;
+block.item = replace(block.item, 'gm')
+  (/bull/g, block.bullet)
+  ();
+
+block.list = replace(block.list)
+  (/bull/g, block.bullet)
+  ('hr', '\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))')
+  ('def', '\\n+(?=' + block.def.source + ')')
+  ();
+
+block.blockquote = replace(block.blockquote)
+  ('def', block.def)
+  ();
+
+block._tag = '(?!(?:'
+  + 'a|em|strong|small|s|cite|q|dfn|abbr|data|time|code'
+  + '|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo'
+  + '|span|br|wbr|ins|del|img)\\b)\\w+(?!:/|[^\\w\\s@]*@)\\b';
+
+block.html = replace(block.html)
+  ('comment', /<!--[\s\S]*?-->/)
+  ('closed', /<(tag)[\s\S]+?<\/\1>/)
+  ('closing', /<tag(?:"[^"]*"|'[^']*'|[^'">])*?>/)
+  (/tag/g, block._tag)
+  ();
+
+block.paragraph = replace(block.paragraph)
+  ('hr', block.hr)
+  ('heading', block.heading)
+  ('lheading', block.lheading)
+  ('blockquote', block.blockquote)
+  ('tag', '<' + block._tag)
+  ('def', block.def)
+  ();
+
+/**
+ * Normal Block Grammar
+ */
+
+block.normal = merge({}, block);
+
+/**
+ * GFM Block Grammar
+ */
+
+block.gfm = merge({}, block.normal, {
+  fences: /^ *(`{3,}|~{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/,
+  paragraph: /^/,
+  heading: /^ *(#{1,6}) +([^\n]+?) *#* *(?:\n+|$)/
+});
+
+block.gfm.paragraph = replace(block.paragraph)
+  ('(?!', '(?!'
+    + block.gfm.fences.source.replace('\\1', '\\2') + '|'
+    + block.list.source.replace('\\1', '\\3') + '|')
+  ();
+
+/**
+ * GFM + Tables Block Grammar
+ */
+
+block.tables = merge({}, block.gfm, {
+  nptable: /^ *(\S.*\|.*)\n *([-:]+ *\|[-| :]*)\n((?:.*\|.*(?:\n|$))*)\n*/,
+  table: /^ *\|(.+)\n *\|( *[-:]+[-| :]*)\n((?: *\|.*(?:\n|$))*)\n*/
+});
+
+/**
+ * Block Lexer
+ */
+
+function Lexer(options) {
+  this.tokens = [];
+  this.tokens.links = {};
+  this.options = options || marked.defaults;
+  this.rules = block.normal;
+
+  if (this.options.gfm) {
+    if (this.options.tables) {
+      this.rules = block.tables;
+    } else {
+      this.rules = block.gfm;
+    }
+  }
+}
+
+/**
+ * Expose Block Rules
+ */
+
+Lexer.rules = block;
+
+/**
+ * Static Lex Method
+ */
+
+Lexer.lex = function(src, options) {
+  var lexer = new Lexer(options);
+  return lexer.lex(src);
+};
+
+/**
+ * Preprocessing
+ */
+
+Lexer.prototype.lex = function(src) {
+  src = src
+    .replace(/\r\n|\r/g, '\n')
+    .replace(/\t/g, '    ')
+    .replace(/\u00a0/g, ' ')
+    .replace(/\u2424/g, '\n');
+
+  return this.token(src, true);
+};
+
+/**
+ * Lexing
+ */
+
+Lexer.prototype.token = function(src, top, bq) {
+  var src = src.replace(/^ +$/gm, '')
+    , next
+    , loose
+    , cap
+    , bull
+    , b
+    , item
+    , space
+    , i
+    , l;
+
+  while (src) {
+    // newline
+    if (cap = this.rules.newline.exec(src)) {
+      src = src.substring(cap[0].length);
+      if (cap[0].length > 1) {
+        this.tokens.push({
+          type: 'space'
+        });
+      }
+    }
+
+    // code
+    if (cap = this.rules.code.exec(src)) {
+      src = src.substring(cap[0].length);
+      cap = cap[0].replace(/^ {4}/gm, '');
+      this.tokens.push({
+        type: 'code',
+        text: !this.options.pedantic
+          ? cap.replace(/\n+$/, '')
+          : cap
+      });
+      continue;
+    }
+
+    // fences (gfm)
+    if (cap = this.rules.fences.exec(src)) {
+      src = src.substring(cap[0].length);
+      this.tokens.push({
+        type: 'code',
+        lang: cap[2],
+        text: cap[3] || ''
+      });
+      continue;
+    }
+
+    // heading
+    if (cap = this.rules.heading.exec(src)) {
+      src = src.substring(cap[0].length);
+      this.tokens.push({
+        type: 'heading',
+        depth: cap[1].length,
+        text: cap[2]
+      });
+      continue;
+    }
+
+    // table no leading pipe (gfm)
+    if (top && (cap = this.rules.nptable.exec(src))) {
+      src = src.substring(cap[0].length);
+
+      item = {
+        type: 'table',
+        header: cap[1].replace(/^ *| *\| *$/g, '').split(/ *\| */),
+        align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
+        cells: cap[3].replace(/\n$/, '').split('\n')
+      };
+
+      for (i = 0; i < item.align.length; i++) {
+        if (/^ *-+: *$/.test(item.align[i])) {
+          item.align[i] = 'right';
+        } else if (/^ *:-+: *$/.test(item.align[i])) {
+          item.align[i] = 'center';
+        } else if (/^ *:-+ *$/.test(item.align[i])) {
+          item.align[i] = 'left';
+        } else {
+          item.align[i] = null;
+        }
+      }
+
+      for (i = 0; i < item.cells.length; i++) {
+        item.cells[i] = item.cells[i].split(/ *\| */);
+      }
+
+      this.tokens.push(item);
+
+      continue;
+    }
+
+    // lheading
+    if (cap = this.rules.lheading.exec(src)) {
+      src = src.substring(cap[0].length);
+      this.tokens.push({
+        type: 'heading',
+        depth: cap[2] === '=' ? 1 : 2,
+        text: cap[1]
+      });
+      continue;
+    }
+
+    // hr
+    if (cap = this.rules.hr.exec(src)) {
+      src = src.substring(cap[0].length);
+      this.tokens.push({
+        type: 'hr'
+      });
+      continue;
+    }
+
+    // blockquote
+    if (cap = this.rules.blockquote.exec(src)) {
+      src = src.substring(cap[0].length);
+
+      this.tokens.push({
+        type: 'blockquote_start'
+      });
+
+      cap = cap[0].replace(/^ *> ?/gm, '');
+
+      // Pass `top` to keep the current
+      // "toplevel" state. This is exactly
+      // how markdown.pl works.
+      this.token(cap, top, true);
+
+      this.tokens.push({
+        type: 'blockquote_end'
+      });
+
+      continue;
+    }
+
+    // list
+    if (cap = this.rules.list.exec(src)) {
+      src = src.substring(cap[0].length);
+      bull = cap[2];
+
+      this.tokens.push({
+        type: 'list_start',
+        ordered: bull.length > 1
+      });
+
+      // Get each top-level item.
+      cap = cap[0].match(this.rules.item);
+
+      next = false;
+      l = cap.length;
+      i = 0;
+
+      for (; i < l; i++) {
+        item = cap[i];
+
+        // Remove the list item's bullet
+        // so it is seen as the next token.
+        space = item.length;
+        item = item.replace(/^ *([*+-]|\d+\.) +/, '');
+
+        // Outdent whatever the
+        // list item contains. Hacky.
+        if (~item.indexOf('\n ')) {
+          space -= item.length;
+          item = !this.options.pedantic
+            ? item.replace(new RegExp('^ {1,' + space + '}', 'gm'), '')
+            : item.replace(/^ {1,4}/gm, '');
+        }
+
+        // Determine whether the next list item belongs here.
+        // Backpedal if it does not belong in this list.
+        if (this.options.smartLists && i !== l - 1) {
+          b = block.bullet.exec(cap[i + 1])[0];
+          if (bull !== b && !(bull.length > 1 && b.length > 1)) {
+            src = cap.slice(i + 1).join('\n') + src;
+            i = l - 1;
+          }
+        }
+
+        // Determine whether item is loose or not.
+        // Use: /(^|\n)(?! )[^\n]+\n\n(?!\s*$)/
+        // for discount behavior.
+        loose = next || /\n\n(?!\s*$)/.test(item);
+        if (i !== l - 1) {
+          next = item.charAt(item.length - 1) === '\n';
+          if (!loose) loose = next;
+        }
+
+        this.tokens.push({
+          type: loose
+            ? 'loose_item_start'
+            : 'list_item_start'
+        });
+
+        // Recurse.
+        this.token(item, false, bq);
+
+        this.tokens.push({
+          type: 'list_item_end'
+        });
+      }
+
+      this.tokens.push({
+        type: 'list_end'
+      });
+
+      continue;
+    }
+
+    // html
+    if (cap = this.rules.html.exec(src)) {
+      src = src.substring(cap[0].length);
+      this.tokens.push({
+        type: this.options.sanitize
+          ? 'paragraph'
+          : 'html',
+        pre: !this.options.sanitizer
+          && (cap[1] === 'pre' || cap[1] === 'script' || cap[1] === 'style'),
+        text: cap[0]
+      });
+      continue;
+    }
+
+    // def
+    if ((!bq && top) && (cap = this.rules.def.exec(src))) {
+      src = src.substring(cap[0].length);
+      this.tokens.links[cap[1].toLowerCase()] = {
+        href: cap[2],
+        title: cap[3]
+      };
+      continue;
+    }
+
+    // table (gfm)
+    if (top && (cap = this.rules.table.exec(src))) {
+      src = src.substring(cap[0].length);
+
+      item = {
+        type: 'table',
+        header: cap[1].replace(/^ *| *\| *$/g, '').split(/ *\| */),
+        align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
+        cells: cap[3].replace(/(?: *\| *)?\n$/, '').split('\n')
+      };
+
+      for (i = 0; i < item.align.length; i++) {
+        if (/^ *-+: *$/.test(item.align[i])) {
+          item.align[i] = 'right';
+        } else if (/^ *:-+: *$/.test(item.align[i])) {
+          item.align[i] = 'center';
+        } else if (/^ *:-+ *$/.test(item.align[i])) {
+          item.align[i] = 'left';
+        } else {
+          item.align[i] = null;
+        }
+      }
+
+      for (i = 0; i < item.cells.length; i++) {
+        item.cells[i] = item.cells[i]
+          .replace(/^ *\| *| *\| *$/g, '')
+          .split(/ *\| */);
+      }
+
+      this.tokens.push(item);
+
+      continue;
+    }
+
+    // top-level paragraph
+    if (top && (cap = this.rules.paragraph.exec(src))) {
+      src = src.substring(cap[0].length);
+      this.tokens.push({
+        type: 'paragraph',
+        text: cap[1].charAt(cap[1].length - 1) === '\n'
+          ? cap[1].slice(0, -1)
+          : cap[1]
+      });
+      continue;
+    }
+
+    // text
+    if (cap = this.rules.text.exec(src)) {
+      // Top-level should never reach here.
+      src = src.substring(cap[0].length);
+      this.tokens.push({
+        type: 'text',
+        text: cap[0]
+      });
+      continue;
+    }
+
+    if (src) {
+      throw new
+        Error('Infinite loop on byte: ' + src.charCodeAt(0));
+    }
+  }
+
+  return this.tokens;
+};
+
+/**
+ * Inline-Level Grammar
+ */
+
+var inline = {
+  escape: /^\\([\\`*{}\[\]()#+\-.!_>])/,
+  autolink: /^<([^ >]+(@|:\/)[^ >]+)>/,
+  url: noop,
+  tag: /^<!--[\s\S]*?-->|^<\/?\w+(?:"[^"]*"|'[^']*'|[^'">])*?>/,
+  link: /^!?\[(inside)\]\(href\)/,
+  reflink: /^!?\[(inside)\]\s*\[([^\]]*)\]/,
+  nolink: /^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/,
+  strong: /^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/,
+  em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
+  code: /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/,
+  br: /^ {2,}\n(?!\s*$)/,
+  del: noop,
+  text: /^[\s\S]+?(?=[\\<!\[_*`]| {2,}\n|$)/
+};
+
+inline._inside = /(?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*/;
+inline._href = /\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*/;
+
+inline.link = replace(inline.link)
+  ('inside', inline._inside)
+  ('href', inline._href)
+  ();
+
+inline.reflink = replace(inline.reflink)
+  ('inside', inline._inside)
+  ();
+
+/**
+ * Normal Inline Grammar
+ */
+
+inline.normal = merge({}, inline);
+
+/**
+ * Pedantic Inline Grammar
+ */
+
+inline.pedantic = merge({}, inline.normal, {
+  strong: /^__(?=\S)([\s\S]*?\S)__(?!_)|^\*\*(?=\S)([\s\S]*?\S)\*\*(?!\*)/,
+  em: /^_(?=\S)([\s\S]*?\S)_(?!_)|^\*(?=\S)([\s\S]*?\S)\*(?!\*)/
+});
+
+/**
+ * GFM Inline Grammar
+ */
+
+inline.gfm = merge({}, inline.normal, {
+  escape: replace(inline.escape)('])', '~|])')(),
+  url: /^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/,
+  del: /^~~(?=\S)([\s\S]*?\S)~~/,
+  text: replace(inline.text)
+    (']|', '~]|')
+    ('|', '|https?://|')
+    ()
+});
+
+/**
+ * GFM + Line Breaks Inline Grammar
+ */
+
+inline.breaks = merge({}, inline.gfm, {
+  br: replace(inline.br)('{2,}', '*')(),
+  text: replace(inline.gfm.text)('{2,}', '*')()
+});
+
+/**
+ * Inline Lexer & Compiler
+ */
+
+function InlineLexer(links, options) {
+  this.options = options || marked.defaults;
+  this.links = links;
+  this.rules = inline.normal;
+  this.renderer = this.options.renderer || new Renderer;
+  this.renderer.options = this.options;
+
+  if (!this.links) {
+    throw new
+      Error('Tokens array requires a `links` property.');
+  }
+
+  if (this.options.gfm) {
+    if (this.options.breaks) {
+      this.rules = inline.breaks;
+    } else {
+      this.rules = inline.gfm;
+    }
+  } else if (this.options.pedantic) {
+    this.rules = inline.pedantic;
+  }
+}
+
+/**
+ * Expose Inline Rules
+ */
+
+InlineLexer.rules = inline;
+
+/**
+ * Static Lexing/Compiling Method
+ */
+
+InlineLexer.output = function(src, links, options) {
+  var inline = new InlineLexer(links, options);
+  return inline.output(src);
+};
+
+/**
+ * Lexing/Compiling
+ */
+
+InlineLexer.prototype.output = function(src) {
+  var out = ''
+    , link
+    , text
+    , href
+    , cap;
+
+  while (src) {
+    // escape
+    if (cap = this.rules.escape.exec(src)) {
+      src = src.substring(cap[0].length);
+      out += cap[1];
+      continue;
+    }
+
+    // autolink
+    if (cap = this.rules.autolink.exec(src)) {
+      src = src.substring(cap[0].length);
+      if (cap[2] === '@') {
+        text = cap[1].charAt(6) === ':'
+          ? this.mangle(cap[1].substring(7))
+          : this.mangle(cap[1]);
+        href = this.mangle('mailto:') + text;
+      } else {
+        text = escape(cap[1]);
+        href = text;
+      }
+      out += this.renderer.link(href, null, text);
+      continue;
+    }
+
+    // url (gfm)
+    if (!this.inLink && (cap = this.rules.url.exec(src))) {
+      src = src.substring(cap[0].length);
+      text = escape(cap[1]);
+      href = text;
+      out += this.renderer.link(href, null, text);
+      continue;
+    }
+
+    // tag
+    if (cap = this.rules.tag.exec(src)) {
+      if (!this.inLink && /^<a /i.test(cap[0])) {
+        this.inLink = true;
+      } else if (this.inLink && /^<\/a>/i.test(cap[0])) {
+        this.inLink = false;
+      }
+      src = src.substring(cap[0].length);
+      out += this.options.sanitize
+        ? this.options.sanitizer
+          ? this.options.sanitizer(cap[0])
+          : escape(cap[0])
+        : cap[0]
+      continue;
+    }
+
+    // link
+    if (cap = this.rules.link.exec(src)) {
+      src = src.substring(cap[0].length);
+      this.inLink = true;
+      out += this.outputLink(cap, {
+        href: cap[2],
+        title: cap[3]
+      });
+      this.inLink = false;
+      continue;
+    }
+
+    // reflink, nolink
+    if ((cap = this.rules.reflink.exec(src))
+        || (cap = this.rules.nolink.exec(src))) {
+      src = src.substring(cap[0].length);
+      link = (cap[2] || cap[1]).replace(/\s+/g, ' ');
+      link = this.links[link.toLowerCase()];
+      if (!link || !link.href) {
+        out += cap[0].charAt(0);
+        src = cap[0].substring(1) + src;
+        continue;
+      }
+      this.inLink = true;
+      out += this.outputLink(cap, link);
+      this.inLink = false;
+      continue;
+    }
+
+    // strong
+    if (cap = this.rules.strong.exec(src)) {
+      src = src.substring(cap[0].length);
+      out += this.renderer.strong(this.output(cap[2] || cap[1]));
+      continue;
+    }
+
+    // em
+    if (cap = this.rules.em.exec(src)) {
+      src = src.substring(cap[0].length);
+      out += this.renderer.em(this.output(cap[2] || cap[1]));
+      continue;
+    }
+
+    // code
+    if (cap = this.rules.code.exec(src)) {
+      src = src.substring(cap[0].length);
+      out += this.renderer.codespan(escape(cap[2], true));
+      continue;
+    }
+
+    // br
+    if (cap = this.rules.br.exec(src)) {
+      src = src.substring(cap[0].length);
+      out += this.renderer.br();
+      continue;
+    }
+
+    // del (gfm)
+    if (cap = this.rules.del.exec(src)) {
+      src = src.substring(cap[0].length);
+      out += this.renderer.del(this.output(cap[1]));
+      continue;
+    }
+
+    // text
+    if (cap = this.rules.text.exec(src)) {
+      src = src.substring(cap[0].length);
+      out += this.renderer.text(escape(this.smartypants(cap[0])));
+      continue;
+    }
+
+    if (src) {
+      throw new
+        Error('Infinite loop on byte: ' + src.charCodeAt(0));
+    }
+  }
+
+  return out;
+};
+
+/**
+ * Compile Link
+ */
+
+InlineLexer.prototype.outputLink = function(cap, link) {
+  var href = escape(link.href)
+    , title = link.title ? escape(link.title) : null;
+
+  return cap[0].charAt(0) !== '!'
+    ? this.renderer.link(href, title, this.output(cap[1]))
+    : this.renderer.image(href, title, escape(cap[1]));
+};
+
+/**
+ * Smartypants Transformations
+ */
+
+InlineLexer.prototype.smartypants = function(text) {
+  if (!this.options.smartypants) return text;
+  return text
+    // em-dashes
+    .replace(/---/g, '\u2014')
+    // en-dashes
+    .replace(/--/g, '\u2013')
+    // opening singles
+    .replace(/(^|[-\u2014/(\[{"\s])'/g, '$1\u2018')
+    // closing singles & apostrophes
+    .replace(/'/g, '\u2019')
+    // opening doubles
+    .replace(/(^|[-\u2014/(\[{\u2018\s])"/g, '$1\u201c')
+    // closing doubles
+    .replace(/"/g, '\u201d')
+    // ellipses
+    .replace(/\.{3}/g, '\u2026');
+};
+
+/**
+ * Mangle Links
+ */
+
+InlineLexer.prototype.mangle = function(text) {
+  if (!this.options.mangle) return text;
+  var out = ''
+    , l = text.length
+    , i = 0
+    , ch;
+
+  for (; i < l; i++) {
+    ch = text.charCodeAt(i);
+    if (Math.random() > 0.5) {
+      ch = 'x' + ch.toString(16);
+    }
+    out += '&#' + ch + ';';
+  }
+
+  return out;
+};
+
+/**
+ * Renderer
+ */
+
+function Renderer(options) {
+  this.options = options || {};
+}
+
+Renderer.prototype.code = function(code, lang, escaped) {
+  if (this.options.highlight) {
+    var out = this.options.highlight(code, lang);
+    if (out != null && out !== code) {
+      escaped = true;
+      code = out;
+    }
+  }
+
+  if (!lang) {
+    return '<pre><code>'
+      + (escaped ? code : escape(code, true))
+      + '\n</code></pre>';
+  }
+
+  return '<pre><code class="'
+    + this.options.langPrefix
+    + escape(lang, true)
+    + '">'
+    + (escaped ? code : escape(code, true))
+    + '\n</code></pre>\n';
+};
+
+Renderer.prototype.blockquote = function(quote) {
+  return '<blockquote>\n' + quote + '</blockquote>\n';
+};
+
+Renderer.prototype.html = function(html) {
+  return html;
+};
+
+Renderer.prototype.heading = function(text, level, raw) {
+  return '<h'
+    + level
+    + ' id="'
+    + this.options.headerPrefix
+    + raw.toLowerCase().replace(/[^\w]+/g, '-')
+    + '">'
+    + text
+    + '</h'
+    + level
+    + '>\n';
+};
+
+Renderer.prototype.hr = function() {
+  return this.options.xhtml ? '<hr/>\n' : '<hr>\n';
+};
+
+Renderer.prototype.list = function(body, ordered) {
+  var type = ordered ? 'ol' : 'ul';
+  return '<' + type + '>\n' + body + '</' + type + '>\n';
+};
+
+Renderer.prototype.listitem = function(text) {
+  return '<li>' + text + '</li>\n';
+};
+
+Renderer.prototype.paragraph = function(text) {
+  return '<p>' + text + '</p>\n';
+};
+
+Renderer.prototype.table = function(header, body) {
+  return '<table>\n'
+    + '<thead>\n'
+    + header
+    + '</thead>\n'
+    + '<tbody>\n'
+    + body
+    + '</tbody>\n'
+    + '</table>\n';
+};
+
+Renderer.prototype.tablerow = function(content) {
+  return '<tr>\n' + content + '</tr>\n';
+};
+
+Renderer.prototype.tablecell = function(content, flags) {
+  var type = flags.header ? 'th' : 'td';
+  var tag = flags.align
+    ? '<' + type + ' style="text-align:' + flags.align + '">'
+    : '<' + type + '>';
+  return tag + content + '</' + type + '>\n';
+};
+
+// span level renderer
+Renderer.prototype.strong = function(text) {
+  return '<strong>' + text + '</strong>';
+};
+
+Renderer.prototype.em = function(text) {
+  return '<em>' + text + '</em>';
+};
+
+Renderer.prototype.codespan = function(text) {
+  return '<code>' + text + '</code>';
+};
+
+Renderer.prototype.br = function() {
+  return this.options.xhtml ? '<br/>' : '<br>';
+};
+
+Renderer.prototype.del = function(text) {
+  return '<del>' + text + '</del>';
+};
+
+Renderer.prototype.link = function(href, title, text) {
+  if (this.options.sanitize) {
+    try {
+      var prot = decodeURIComponent(unescape(href))
+        .replace(/[^\w:]/g, '')
+        .toLowerCase();
+    } catch (e) {
+      return '';
+    }
+    if (prot.indexOf('javascript:') === 0 || prot.indexOf('vbscript:') === 0) {
+      return '';
+    }
+  }
+  var out = '<a href="' + href + '"';
+  if (title) {
+    out += ' title="' + title + '"';
+  }
+  out += '>' + text + '</a>';
+  return out;
+};
+
+Renderer.prototype.image = function(href, title, text) {
+  var out = '<img src="' + href + '" alt="' + text + '"';
+  if (title) {
+    out += ' title="' + title + '"';
+  }
+  out += this.options.xhtml ? '/>' : '>';
+  return out;
+};
+
+Renderer.prototype.text = function(text) {
+  return text;
+};
+
+/**
+ * Parsing & Compiling
+ */
+
+function Parser(options) {
+  this.tokens = [];
+  this.token = null;
+  this.options = options || marked.defaults;
+  this.options.renderer = this.options.renderer || new Renderer;
+  this.renderer = this.options.renderer;
+  this.renderer.options = this.options;
+}
+
+/**
+ * Static Parse Method
+ */
+
+Parser.parse = function(src, options, renderer) {
+  var parser = new Parser(options, renderer);
+  return parser.parse(src);
+};
+
+/**
+ * Parse Loop
+ */
+
+Parser.prototype.parse = function(src) {
+  this.inline = new InlineLexer(src.links, this.options, this.renderer);
+  this.tokens = src.reverse();
+
+  var out = '';
+  while (this.next()) {
+    out += this.tok();
+  }
+
+  return out;
+};
+
+/**
+ * Next Token
+ */
+
+Parser.prototype.next = function() {
+  return this.token = this.tokens.pop();
+};
+
+/**
+ * Preview Next Token
+ */
+
+Parser.prototype.peek = function() {
+  return this.tokens[this.tokens.length - 1] || 0;
+};
+
+/**
+ * Parse Text Tokens
+ */
+
+Parser.prototype.parseText = function() {
+  var body = this.token.text;
+
+  while (this.peek().type === 'text') {
+    body += '\n' + this.next().text;
+  }
+
+  return this.inline.output(body);
+};
+
+/**
+ * Parse Current Token
+ */
+
+Parser.prototype.tok = function() {
+  switch (this.token.type) {
+    case 'space': {
+      return '';
+    }
+    case 'hr': {
+      return this.renderer.hr();
+    }
+    case 'heading': {
+      return this.renderer.heading(
+        this.inline.output(this.token.text),
+        this.token.depth,
+        this.token.text);
+    }
+    case 'code': {
+      return this.renderer.code(this.token.text,
+        this.token.lang,
+        this.token.escaped);
+    }
+    case 'table': {
+      var header = ''
+        , body = ''
+        , i
+        , row
+        , cell
+        , flags
+        , j;
+
+      // header
+      cell = '';
+      for (i = 0; i < this.token.header.length; i++) {
+        flags = { header: true, align: this.token.align[i] };
+        cell += this.renderer.tablecell(
+          this.inline.output(this.token.header[i]),
+          { header: true, align: this.token.align[i] }
+        );
+      }
+      header += this.renderer.tablerow(cell);
+
+      for (i = 0; i < this.token.cells.length; i++) {
+        row = this.token.cells[i];
+
+        cell = '';
+        for (j = 0; j < row.length; j++) {
+          cell += this.renderer.tablecell(
+            this.inline.output(row[j]),
+            { header: false, align: this.token.align[j] }
+          );
+        }
+
+        body += this.renderer.tablerow(cell);
+      }
+      return this.renderer.table(header, body);
+    }
+    case 'blockquote_start': {
+      var body = '';
+
+      while (this.next().type !== 'blockquote_end') {
+        body += this.tok();
+      }
+
+      return this.renderer.blockquote(body);
+    }
+    case 'list_start': {
+      var body = ''
+        , ordered = this.token.ordered;
+
+      while (this.next().type !== 'list_end') {
+        body += this.tok();
+      }
+
+      return this.renderer.list(body, ordered);
+    }
+    case 'list_item_start': {
+      var body = '';
+
+      while (this.next().type !== 'list_item_end') {
+        body += this.token.type === 'text'
+          ? this.parseText()
+          : this.tok();
+      }
+
+      return this.renderer.listitem(body);
+    }
+    case 'loose_item_start': {
+      var body = '';
+
+      while (this.next().type !== 'list_item_end') {
+        body += this.tok();
+      }
+
+      return this.renderer.listitem(body);
+    }
+    case 'html': {
+      var html = !this.token.pre && !this.options.pedantic
+        ? this.inline.output(this.token.text)
+        : this.token.text;
+      return this.renderer.html(html);
+    }
+    case 'paragraph': {
+      return this.renderer.paragraph(this.inline.output(this.token.text));
+    }
+    case 'text': {
+      return this.renderer.paragraph(this.parseText());
+    }
+  }
+};
+
+/**
+ * Helpers
+ */
+
+function escape(html, encode) {
+  return html
+    .replace(!encode ? /&(?!#?\w+;)/g : /&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function unescape(html) {
+	// explicitly match decimal, hex, and named HTML entities 
+  return html.replace(/&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/g, function(_, n) {
+    n = n.toLowerCase();
+    if (n === 'colon') return ':';
+    if (n.charAt(0) === '#') {
+      return n.charAt(1) === 'x'
+        ? String.fromCharCode(parseInt(n.substring(2), 16))
+        : String.fromCharCode(+n.substring(1));
+    }
+    return '';
+  });
+}
+
+function replace(regex, opt) {
+  regex = regex.source;
+  opt = opt || '';
+  return function self(name, val) {
+    if (!name) return new RegExp(regex, opt);
+    val = val.source || val;
+    val = val.replace(/(^|[^\[])\^/g, '$1');
+    regex = regex.replace(name, val);
+    return self;
+  };
+}
+
+function noop() {}
+noop.exec = noop;
+
+function merge(obj) {
+  var i = 1
+    , target
+    , key;
+
+  for (; i < arguments.length; i++) {
+    target = arguments[i];
+    for (key in target) {
+      if (Object.prototype.hasOwnProperty.call(target, key)) {
+        obj[key] = target[key];
+      }
+    }
+  }
+
+  return obj;
+}
+
+
+/**
+ * Marked
+ */
+
+function marked(src, opt, callback) {
+  if (callback || typeof opt === 'function') {
+    if (!callback) {
+      callback = opt;
+      opt = null;
+    }
+
+    opt = merge({}, marked.defaults, opt || {});
+
+    var highlight = opt.highlight
+      , tokens
+      , pending
+      , i = 0;
+
+    try {
+      tokens = Lexer.lex(src, opt)
+    } catch (e) {
+      return callback(e);
+    }
+
+    pending = tokens.length;
+
+    var done = function(err) {
+      if (err) {
+        opt.highlight = highlight;
+        return callback(err);
+      }
+
+      var out;
+
+      try {
+        out = Parser.parse(tokens, opt);
+      } catch (e) {
+        err = e;
+      }
+
+      opt.highlight = highlight;
+
+      return err
+        ? callback(err)
+        : callback(null, out);
+    };
+
+    if (!highlight || highlight.length < 3) {
+      return done();
+    }
+
+    delete opt.highlight;
+
+    if (!pending) return done();
+
+    for (; i < tokens.length; i++) {
+      (function(token) {
+        if (token.type !== 'code') {
+          return --pending || done();
+        }
+        return highlight(token.text, token.lang, function(err, code) {
+          if (err) return done(err);
+          if (code == null || code === token.text) {
+            return --pending || done();
+          }
+          token.text = code;
+          token.escaped = true;
+          --pending || done();
+        });
+      })(tokens[i]);
+    }
+
+    return;
+  }
+  try {
+    if (opt) opt = merge({}, marked.defaults, opt);
+    return Parser.parse(Lexer.lex(src, opt), opt);
+  } catch (e) {
+    e.message += '\nPlease report this to https://github.com/chjj/marked.';
+    if ((opt || marked.defaults).silent) {
+      return '<p>An error occured:</p><pre>'
+        + escape(e.message + '', true)
+        + '</pre>';
+    }
+    throw e;
+  }
+}
+
+/**
+ * Options
+ */
+
+marked.options =
+marked.setOptions = function(opt) {
+  merge(marked.defaults, opt);
+  return marked;
+};
+
+marked.defaults = {
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: false,
+  sanitizer: null,
+  mangle: true,
+  smartLists: false,
+  silent: false,
+  highlight: null,
+  langPrefix: 'lang-',
+  smartypants: false,
+  headerPrefix: '',
+  renderer: new Renderer,
+  xhtml: false
+};
+
+/**
+ * Expose
+ */
+
+marked.Parser = Parser;
+marked.parser = Parser.parse;
+
+marked.Renderer = Renderer;
+
+marked.Lexer = Lexer;
+marked.lexer = Lexer.lex;
+
+marked.InlineLexer = InlineLexer;
+marked.inlineLexer = InlineLexer.output;
+
+marked.parse = marked;
+
+if (typeof module !== 'undefined' && typeof exports === 'object') {
+  module.exports = marked;
+} else if (typeof define === 'function' && define.amd) {
+  define(function() { return marked; });
+} else {
+  this.marked = marked;
+}
+
+}).call(function() {
+  return this || (typeof window !== 'undefined' ? window : global);
+}());
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],311:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -16309,7 +17979,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 }).call(this,require('_process'))
-},{"_process":310}],310:[function(require,module,exports){
+},{"_process":312}],312:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -16491,7 +18161,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],311:[function(require,module,exports){
+},{}],313:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -17028,7 +18698,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],312:[function(require,module,exports){
+},{}],314:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -17114,7 +18784,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],313:[function(require,module,exports){
+},{}],315:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -17201,16 +18871,16 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],314:[function(require,module,exports){
+},{}],316:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":312,"./encode":313}],315:[function(require,module,exports){
+},{"./decode":314,"./encode":315}],317:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":316}],316:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":318}],318:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -17286,7 +18956,7 @@ function forEach(xs, f) {
     f(xs[i], i);
   }
 }
-},{"./_stream_readable":318,"./_stream_writable":320,"core-util-is":25,"inherits":57,"process-nextick-args":309}],317:[function(require,module,exports){
+},{"./_stream_readable":320,"./_stream_writable":322,"core-util-is":26,"inherits":58,"process-nextick-args":311}],319:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -17313,7 +18983,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":319,"core-util-is":25,"inherits":57}],318:[function(require,module,exports){
+},{"./_stream_transform":321,"core-util-is":26,"inherits":58}],320:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -18251,7 +19921,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":316,"./internal/streams/BufferList":321,"./internal/streams/stream":322,"_process":310,"buffer":24,"buffer-shims":23,"core-util-is":25,"events":47,"inherits":57,"isarray":59,"process-nextick-args":309,"string_decoder/":323,"util":22}],319:[function(require,module,exports){
+},{"./_stream_duplex":318,"./internal/streams/BufferList":323,"./internal/streams/stream":324,"_process":312,"buffer":25,"buffer-shims":24,"core-util-is":26,"events":48,"inherits":58,"isarray":60,"process-nextick-args":311,"string_decoder/":325,"util":23}],321:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -18434,7 +20104,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":316,"core-util-is":25,"inherits":57}],320:[function(require,module,exports){
+},{"./_stream_duplex":318,"core-util-is":26,"inherits":58}],322:[function(require,module,exports){
 (function (process){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
@@ -18981,7 +20651,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":316,"./internal/streams/stream":322,"_process":310,"buffer":24,"buffer-shims":23,"core-util-is":25,"inherits":57,"process-nextick-args":309,"util-deprecate":333}],321:[function(require,module,exports){
+},{"./_stream_duplex":318,"./internal/streams/stream":324,"_process":312,"buffer":25,"buffer-shims":24,"core-util-is":26,"inherits":58,"process-nextick-args":311,"util-deprecate":335}],323:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -19046,10 +20716,10 @@ BufferList.prototype.concat = function (n) {
   }
   return ret;
 };
-},{"buffer":24,"buffer-shims":23}],322:[function(require,module,exports){
+},{"buffer":25,"buffer-shims":24}],324:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":47}],323:[function(require,module,exports){
+},{"events":48}],325:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -19323,10 +20993,10 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"buffer":24,"buffer-shims":23}],324:[function(require,module,exports){
+},{"buffer":25,"buffer-shims":24}],326:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":325}],325:[function(require,module,exports){
+},{"./readable":327}],327:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -19335,13 +21005,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":316,"./lib/_stream_passthrough.js":317,"./lib/_stream_readable.js":318,"./lib/_stream_transform.js":319,"./lib/_stream_writable.js":320}],326:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":318,"./lib/_stream_passthrough.js":319,"./lib/_stream_readable.js":320,"./lib/_stream_transform.js":321,"./lib/_stream_writable.js":322}],328:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":325}],327:[function(require,module,exports){
+},{"./readable":327}],329:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":320}],328:[function(require,module,exports){
+},{"./lib/_stream_writable.js":322}],330:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -19470,7 +21140,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":47,"inherits":57,"readable-stream/duplex.js":315,"readable-stream/passthrough.js":324,"readable-stream/readable.js":325,"readable-stream/transform.js":326,"readable-stream/writable.js":327}],329:[function(require,module,exports){
+},{"events":48,"inherits":58,"readable-stream/duplex.js":317,"readable-stream/passthrough.js":326,"readable-stream/readable.js":327,"readable-stream/transform.js":328,"readable-stream/writable.js":329}],331:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -19693,7 +21363,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":24}],330:[function(require,module,exports){
+},{"buffer":25}],332:[function(require,module,exports){
 var findMatchingRule = function(rules, text){
   var i;
   for(i=0; i<rules.length; i++)
@@ -19768,7 +21438,7 @@ module.exports = function(onToken_orig){
   };
 };
 
-},{}],331:[function(require,module,exports){
+},{}],333:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -20502,7 +22172,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":332,"punycode":311,"querystring":314}],332:[function(require,module,exports){
+},{"./util":334,"punycode":313,"querystring":316}],334:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -20520,7 +22190,7 @@ module.exports = {
   }
 };
 
-},{}],333:[function(require,module,exports){
+},{}],335:[function(require,module,exports){
 (function (global){
 
 /**
@@ -20591,16 +22261,16 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],334:[function(require,module,exports){
-arguments[4][57][0].apply(exports,arguments)
-},{"dup":57}],335:[function(require,module,exports){
+},{}],336:[function(require,module,exports){
+arguments[4][58][0].apply(exports,arguments)
+},{"dup":58}],337:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],336:[function(require,module,exports){
+},{}],338:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -21190,7 +22860,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":335,"_process":310,"inherits":334}],337:[function(require,module,exports){
+},{"./support/isBuffer":337,"_process":312,"inherits":336}],339:[function(require,module,exports){
 "use strict";
 
 var plugins = {
@@ -21217,7 +22887,7 @@ module.exports = {
 	helpers: helpers
 };
 
-},{"./js/app":338,"./js/assessor":367,"./js/bundledPlugins/previouslyUsedKeywords":368,"./js/contentAssessor":384,"./js/interpreters/scoreToRating":402,"./js/pluggable":406,"./js/researcher":408,"./js/seoAssessor":486,"./js/snippetPreview.js":487,"./js/values/AssessmentResult":530,"./js/values/Paper":532}],338:[function(require,module,exports){
+},{"./js/app":340,"./js/assessor":368,"./js/bundledPlugins/previouslyUsedKeywords":369,"./js/contentAssessor":385,"./js/interpreters/scoreToRating":403,"./js/pluggable":407,"./js/researcher":409,"./js/seoAssessor":487,"./js/snippetPreview.js":488,"./js/values/AssessmentResult":531,"./js/values/Paper":533}],340:[function(require,module,exports){
 "use strict";
 
 require("./config/config.js");
@@ -21259,7 +22929,9 @@ var defaults = {
 		bindElementEvents: function bindElementEvents() {},
 		updateSnippetValues: function updateSnippetValues() {},
 		saveScores: function saveScores() {},
-		saveContentScore: function saveContentScore() {}
+		saveContentScore: function saveContentScore() {},
+		updatedContentResults: function updatedContentResults() {},
+		updatedKeywordsResults: function updatedKeywordsResults() {}
 	},
 	sampleText: {
 		baseUrl: "example.org/",
@@ -21391,6 +23063,26 @@ function verifyArguments(args) {
  */
 
 /**
+ * @callback YoastSEO.App~updatedContentResults
+ *
+ * @param {Object[]} result The updated content analysis results.
+ * @param {number} result[].score The SEO score.
+ * @param {string} result[].rating String representation of the SEO score.
+ * @param {string} result[].text Textual explanation of the score.
+ * @param {number} overallContentScore The overall content SEO score.
+ */
+
+/**
+ * @callback YoastSEO.App~updatedKeywordsResults
+ *
+ * @param {Object[]} result The updated keywords analysis results.
+ * @param {number} result[].score The SEO score.
+ * @param {string} result[].rating String representation of the SEO score.
+ * @param {string} result[].text Textual explanation of the score.
+ * @param {number} overallContentScore The overall keywords SEO score.
+ */
+
+/**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
  *
  * @param {Object} args The arguments passed to the loader.
@@ -21412,6 +23104,10 @@ function verifyArguments(args) {
  * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
  * @param {YoastSEO.App~saveContentScore} args.callback.saveContentScore Called when the content score has been
  *                                                                       determined by the assessor.
+ * @param {YoastSEO.App~updatedContentResults} args.callbacks.updatedContentResults Called when the score has been determined
+ *                                                                                  by the analyzer.
+ * @param {YoastSEO.App~updatedKeywordsResults} args.callback.updatedKeywordsResults Called when the content score has been
+ *                                                                                   determined by the assessor.
  * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  * @param {Function} args.marker The marker to use to apply the list of marks retrieved from an assessment.
  *
@@ -21690,18 +23386,6 @@ App.prototype._pureRefresh = function () {
 };
 
 /**
- * Creates the elements for the snippetPreview
- *
- * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
- * an argument instead.
- * @returns {void}
- */
-App.prototype.createSnippetPreview = function () {
-	this.snippetPreview = createDefaultSnippetPreview.call(this);
-	this.initSnippetPreview();
-};
-
-/**
  * Initializes the snippet preview for this App.
  *
  * @returns {void}
@@ -21830,27 +23514,57 @@ App.prototype.runAnalyzer = function () {
 		this.researcher.setPaper(this.paper);
 	}
 
-	if (this.config.keywordAnalysisActive && !isUndefined(this.seoAssessorPresenter)) {
-		this.seoAssessor.assess(this.paper);
+	this.runKeywordAnalysis();
 
-		this.seoAssessorPresenter.setKeyword(this.paper.getKeyword());
-		this.seoAssessorPresenter.render();
+	this.runContentAnalysis();
 
-		this.callbacks.saveScores(this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter);
-	}
-
-	if (this.config.contentAnalysisActive && !isUndefined(this.contentAssessorPresenter)) {
-		this.contentAssessor.assess(this.paper);
-
-		this.contentAssessorPresenter.renderIndividualRatings();
-		this.callbacks.saveContentScore(this.contentAssessor.calculateOverallScore(), this.contentAssessorPresenter);
-	}
+	this._renderAnalysisResults();
 
 	if (this.config.dynamicDelay) {
 		this.endTime();
 	}
 
 	this.snippetPreview.reRender();
+};
+
+/**
+ * Runs the keyword analysis and calls the appropriate callbacks.
+ *
+ * @returns {void}
+ */
+App.prototype.runKeywordAnalysis = function () {
+	if (this.config.keywordAnalysisActive) {
+		this.seoAssessor.assess(this.paper);
+		var overallSeoScore = this.seoAssessor.calculateOverallScore();
+
+		if (!isUndefined(this.callbacks.updatedKeywordsResults)) {
+			this.callbacks.updatedKeywordsResults(this.seoAssessor.results, overallSeoScore);
+		}
+
+		if (!isUndefined(this.callbacks.saveScores)) {
+			this.callbacks.saveScores(overallSeoScore, this.seoAssessorPresenter);
+		}
+	}
+};
+
+/**
+ * Runs the content analysis and calls the appropriate callbacks.
+ *
+ * @returns {void}
+ */
+App.prototype.runContentAnalysis = function () {
+	if (this.config.contentAnalysisActive) {
+		this.contentAssessor.assess(this.paper);
+		var overallContentScore = this.contentAssessor.calculateOverallScore();
+
+		if (!isUndefined(this.callbacks.updatedContentResults)) {
+			this.callbacks.updatedContentResults(this.contentAssessor.results, overallContentScore);
+		}
+
+		if (!isUndefined(this.callbacks.saveContentScore)) {
+			this.callbacks.saveContentScore(overallContentScore, this.contentAssessorPresenter);
+		}
+	}
 };
 
 /**
@@ -21983,26 +23697,6 @@ App.prototype.registerModification = function (modification, callable, pluginNam
 };
 
 /**
- * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
- * has to return a result based on the contents of the page/posts.
- *
- * The scoring object is a special object with definitions about how to translate a result from your analysis function
- * to a SEO score.
- *
- * Negative scores result in a red circle
- * Scores 1, 2, 3, 4 and 5 result in a orange circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a red circle
- *
- * @returns {void}
- *
- * @deprecated since version 1.2
- */
-App.prototype.registerTest = function () {
-	console.error("This function is deprecated, please use registerAssessment");
-};
-
-/**
  * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
  * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
  *
@@ -22037,8 +23731,22 @@ App.prototype.disableMarkers = function () {
 	}
 };
 
-// Deprecated functions
+/**
+ * Renders the content and keyword analysis results.
+ *
+ * @returns {void}
+ */
+App.prototype._renderAnalysisResults = function () {
+	if (this.config.contentAnalysisActive && !isUndefined(this.contentAssessorPresenter)) {
+		this.contentAssessorPresenter.renderIndividualRatings();
+	}
+	if (this.config.keywordAnalysisActive && !isUndefined(this.seoAssessorPresenter)) {
+		this.seoAssessorPresenter.setKeyword(this.paper.getKeyword());
+		this.seoAssessorPresenter.render();
+	}
+};
 
+// Deprecated functions
 /**
  * The analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
  * at every keystroke checks the reference object, so this function can be called from anywhere,
@@ -22052,9 +23760,42 @@ App.prototype.analyzeTimer = function () {
 	this.refresh();
 };
 
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @returns {void}
+ *
+ * @deprecated since version 1.2
+ */
+App.prototype.registerTest = function () {
+	console.error("This function is deprecated, please use registerAssessment");
+};
+
+/**
+ * Creates the elements for the snippetPreview
+ *
+ * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
+ * an argument instead.
+ *
+ * @returns {void}
+ */
+App.prototype.createSnippetPreview = function () {
+	this.snippetPreview = createDefaultSnippetPreview.call(this);
+	this.initSnippetPreview();
+};
+
 module.exports = App;
 
-},{"./config/config.js":369,"./contentAssessor.js":384,"./cornerstone/contentAssessor.js":385,"./cornerstone/seoAssessor.js":386,"./errors/missingArgument":388,"./pluggable.js":406,"./renderers/AssessorPresenter.js":407,"./researcher.js":408,"./seoAssessor.js":486,"./snippetPreview.js":487,"./stringProcessing/htmlParser.js":504,"./values/Paper.js":532,"jed":60,"lodash/debounce":243,"lodash/defaultsDeep":245,"lodash/forEach":255,"lodash/isEmpty":270,"lodash/isObject":275,"lodash/isString":278,"lodash/isUndefined":281,"lodash/throttle":301}],339:[function(require,module,exports){
+},{"./config/config.js":370,"./contentAssessor.js":385,"./cornerstone/contentAssessor.js":386,"./cornerstone/seoAssessor.js":387,"./errors/missingArgument":389,"./pluggable.js":407,"./renderers/AssessorPresenter.js":408,"./researcher.js":409,"./seoAssessor.js":487,"./snippetPreview.js":488,"./stringProcessing/htmlParser.js":505,"./values/Paper.js":533,"jed":61,"lodash/debounce":244,"lodash/defaultsDeep":246,"lodash/forEach":256,"lodash/isEmpty":271,"lodash/isObject":276,"lodash/isString":279,"lodash/isUndefined":282,"lodash/throttle":302}],341:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22109,7 +23850,7 @@ var Assessment = function () {
 
 module.exports = Assessment;
 
-},{}],340:[function(require,module,exports){
+},{}],342:[function(require,module,exports){
 "use strict";
 
 var filter = require("lodash/filter");
@@ -22129,7 +23870,7 @@ module.exports = function (sentences, recommendedValue) {
   return tooLongSentences;
 };
 
-},{"../helpers/isValueTooLong":398,"lodash/filter":250}],341:[function(require,module,exports){
+},{"../helpers/isValueTooLong":399,"lodash/filter":251}],343:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -22247,7 +23988,7 @@ module.exports = {
 	}
 };
 
-},{"../../helpers/getLanguageAvailability.js":394,"../../values/AssessmentResult.js":530,"lodash/inRange":260}],342:[function(require,module,exports){
+},{"../../helpers/getLanguageAvailability.js":395,"../../values/AssessmentResult.js":531,"lodash/inRange":261}],344:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -22385,7 +24126,7 @@ module.exports = {
 	getMarks: paragraphLengthMarker
 };
 
-},{"../../helpers/inRange.js":397,"../../helpers/isValueTooLong":398,"../../markers/addMark.js":403,"../../stringProcessing/stripHTMLTags":519,"../../values/AssessmentResult.js":530,"../../values/Mark.js":531,"lodash/filter":250,"lodash/map":284}],343:[function(require,module,exports){
+},{"../../helpers/inRange.js":398,"../../helpers/isValueTooLong":399,"../../markers/addMark.js":404,"../../stringProcessing/stripHTMLTags":520,"../../values/AssessmentResult.js":531,"../../values/Mark.js":532,"lodash/filter":251,"lodash/map":285}],345:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -22503,7 +24244,7 @@ module.exports = {
 	getMarks: passiveVoiceMarker
 };
 
-},{"../../helpers/formatNumber.js":391,"../../helpers/getLanguageAvailability.js":394,"../../helpers/inRange.js":397,"../../markers/addMark.js":403,"../../stringProcessing/stripHTMLTags":519,"../../values/AssessmentResult.js":530,"../../values/Mark.js":531,"lodash/map":284}],344:[function(require,module,exports){
+},{"../../helpers/formatNumber.js":392,"../../helpers/getLanguageAvailability.js":395,"../../helpers/inRange.js":398,"../../markers/addMark.js":404,"../../stringProcessing/stripHTMLTags":520,"../../values/AssessmentResult.js":531,"../../values/Mark.js":532,"lodash/map":285}],346:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -22620,7 +24361,7 @@ module.exports = {
 	getMarks: sentenceBeginningMarker
 };
 
-},{"../../helpers/getLanguageAvailability.js":394,"../../markers/addMark.js":403,"../../stringProcessing/stripHTMLTags":519,"../../values/AssessmentResult.js":530,"../../values/Mark.js":531,"lodash/filter":250,"lodash/flatten":254,"lodash/map":284,"lodash/partition":291,"lodash/sortBy":296}],345:[function(require,module,exports){
+},{"../../helpers/getLanguageAvailability.js":395,"../../markers/addMark.js":404,"../../stringProcessing/stripHTMLTags":520,"../../values/AssessmentResult.js":531,"../../values/Mark.js":532,"lodash/filter":251,"lodash/flatten":255,"lodash/map":285,"lodash/partition":292,"lodash/sortBy":297}],347:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22851,7 +24592,7 @@ var SentenceLengthInTextAssessment = function (_Assessment) {
 
 module.exports = SentenceLengthInTextAssessment;
 
-},{"../../assessment.js":339,"../../assessmentHelpers/checkForTooLongSentences.js":340,"../../helpers/formatNumber.js":391,"../../helpers/inRange.js":397,"../../markers/addMark.js":403,"../../stringProcessing/stripHTMLTags":519,"../../values/AssessmentResult.js":530,"../../values/Mark.js":531,"lodash/map":284,"lodash/merge":286}],346:[function(require,module,exports){
+},{"../../assessment.js":341,"../../assessmentHelpers/checkForTooLongSentences.js":342,"../../helpers/formatNumber.js":392,"../../helpers/inRange.js":398,"../../markers/addMark.js":404,"../../stringProcessing/stripHTMLTags":520,"../../values/AssessmentResult.js":531,"../../values/Mark.js":532,"lodash/map":285,"lodash/merge":287}],348:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -23055,7 +24796,7 @@ var SubheadingsDistributionTooLong = function (_Assessment) {
 
 module.exports = SubheadingsDistributionTooLong;
 
-},{"../../assessment.js":339,"../../helpers/inRange.js":397,"../../helpers/isValueTooLong":398,"../../markers/addMark.js":403,"../../values/AssessmentResult.js":530,"../../values/Mark.js":531,"lodash/filter":250,"lodash/map":284,"lodash/merge":286}],347:[function(require,module,exports){
+},{"../../assessment.js":341,"../../helpers/inRange.js":398,"../../helpers/isValueTooLong":399,"../../markers/addMark.js":404,"../../values/AssessmentResult.js":531,"../../values/Mark.js":532,"lodash/filter":251,"lodash/map":285,"lodash/merge":287}],349:[function(require,module,exports){
 "use strict";
 
 var stripHTMLTags = require("../../stringProcessing/stripHTMLTags").stripFullTags;
@@ -23089,7 +24830,7 @@ module.exports = {
 	getResult: textPresenceAssessment
 };
 
-},{"../../stringProcessing/stripHTMLTags":519,"../../values/AssessmentResult":530}],348:[function(require,module,exports){
+},{"../../stringProcessing/stripHTMLTags":520,"../../values/AssessmentResult":531}],350:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -23219,7 +24960,7 @@ module.exports = {
 	getMarks: transitionWordsMarker
 };
 
-},{"../../helpers/formatNumber.js":391,"../../helpers/getLanguageAvailability.js":394,"../../helpers/inRange.js":397,"../../markers/addMark.js":403,"../../stringProcessing/stripHTMLTags":519,"../../values/AssessmentResult.js":530,"../../values/Mark.js":531,"lodash/map":284}],349:[function(require,module,exports){
+},{"../../helpers/formatNumber.js":392,"../../helpers/getLanguageAvailability.js":395,"../../helpers/inRange.js":398,"../../markers/addMark.js":404,"../../stringProcessing/stripHTMLTags":520,"../../values/AssessmentResult.js":531,"../../values/Mark.js":532,"lodash/map":285}],351:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -23294,7 +25035,7 @@ module.exports = {
 	}
 };
 
-},{"../../values/AssessmentResult.js":530,"lodash/isEmpty":270}],350:[function(require,module,exports){
+},{"../../values/AssessmentResult.js":531,"lodash/isEmpty":271}],352:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -23347,7 +25088,7 @@ module.exports = {
 	}
 };
 
-},{"../../values/AssessmentResult.js":530}],351:[function(require,module,exports){
+},{"../../values/AssessmentResult.js":531}],353:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -23381,7 +25122,7 @@ module.exports = {
 	getResult: keyphraseAssessment
 };
 
-},{"../../values/AssessmentResult.js":530}],352:[function(require,module,exports){
+},{"../../values/AssessmentResult.js":531}],354:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -23485,7 +25226,7 @@ module.exports = {
 	}
 };
 
-},{"../../helpers/formatNumber.js":391,"../../helpers/inRange.js":397,"../../stringProcessing/countWords.js":492,"../../stringProcessing/matchTextWithWord.js":510,"../../values/AssessmentResult.js":530}],353:[function(require,module,exports){
+},{"../../helpers/formatNumber.js":392,"../../helpers/inRange.js":398,"../../stringProcessing/countWords.js":493,"../../stringProcessing/matchTextWithWord.js":511,"../../values/AssessmentResult.js":531}],355:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -23540,7 +25281,7 @@ module.exports = {
 	}
 };
 
-},{"../../helpers/getLanguageAvailability.js":394,"../../values/AssessmentResult.js":530}],354:[function(require,module,exports){
+},{"../../helpers/getLanguageAvailability.js":395,"../../values/AssessmentResult.js":531}],356:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -23594,7 +25335,7 @@ module.exports = {
 	}
 };
 
-},{"../../values/AssessmentResult.js":530}],355:[function(require,module,exports){
+},{"../../values/AssessmentResult.js":531}],357:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -23734,7 +25475,7 @@ var MetaDescriptionLengthAssessment = function (_Assessment) {
 
 module.exports = MetaDescriptionLengthAssessment;
 
-},{"../../assessment.js":339,"../../values/AssessmentResult.js":530,"lodash/merge":286}],356:[function(require,module,exports){
+},{"../../assessment.js":341,"../../values/AssessmentResult.js":531,"lodash/merge":287}],358:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -23892,7 +25633,7 @@ var OutboundLinksAssessment = function (_Assessment) {
 
 module.exports = OutboundLinksAssessment;
 
-},{"../../assessment.js":339,"../../values/AssessmentResult.js":530,"lodash/isEmpty":270,"lodash/merge":286}],357:[function(require,module,exports){
+},{"../../assessment.js":341,"../../values/AssessmentResult.js":531,"lodash/isEmpty":271,"lodash/merge":287}],359:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -24027,7 +25768,7 @@ var PageTitleWidthAssesment = function (_Assessment) {
 
 module.exports = PageTitleWidthAssesment;
 
-},{"../../assessment.js":339,"../../helpers/inRange":397,"../../values/AssessmentResult.js":530,"lodash/merge":286}],358:[function(require,module,exports){
+},{"../../assessment.js":341,"../../helpers/inRange":398,"../../values/AssessmentResult.js":531,"lodash/merge":287}],360:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -24169,100 +25910,7 @@ var SubHeadingsKeywordAssessment = function (_Assessment) {
 
 module.exports = SubHeadingsKeywordAssessment;
 
-},{"../../assessment.js":339,"../../values/AssessmentResult.js":530,"lodash/merge":286}],359:[function(require,module,exports){
-"use strict";
-
-var AssessmentResult = require("../../values/AssessmentResult.js");
-var inRange = require("lodash/inRange");
-
-var recommendedMinimum = 150;
-/**
- * Calculate the score based on the current word count.
- * @param {number} wordCount The amount of words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateWordCountResult = function calculateWordCountResult(wordCount, i18n) {
-	if (wordCount >= 150) {
-		return {
-			score: 9,
-			text: i18n.dngettext("js-text-analysis",
-			/* Translators: %1$d expands to the number of words in the text. */
-			"The text contains %1$d word.", "The text contains %1$d words.", wordCount) + " " + i18n.dngettext("js-text-analysis",
-			/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-			"This is more than or equal to the recommended minimum of %2$d word.", "This is more than or equal to the recommended minimum of %2$d words.", recommendedMinimum)
-		};
-	}
-
-	if (inRange(wordCount, 125, 150)) {
-		return {
-			score: 7,
-			text: i18n.dngettext("js-text-analysis",
-			/* Translators: %1$d expands to the number of words in the text. */
-			"The text contains %1$d word.", "The text contains %1$d words.", wordCount) + " " + i18n.dngettext("js-text-analysis",
-			/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-			"This is slightly below the recommended minimum of %2$d word. Add a bit more copy.", "This is slightly below the recommended minimum of %2$d words. Add a bit more copy.", recommendedMinimum)
-		};
-	}
-
-	if (inRange(wordCount, 100, 125)) {
-		return {
-			score: 5,
-			text: i18n.dngettext("js-text-analysis",
-			/* Translators: %1$d expands to the number of words in the text. */
-			"The text contains %1$d word.", "The text contains %1$d words.", wordCount) + " " + i18n.dngettext("js-text-analysis",
-			/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-			"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.", "This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.", recommendedMinimum)
-		};
-	}
-
-	if (inRange(wordCount, 50, 100)) {
-		return {
-			score: -10,
-			text: i18n.dngettext("js-text-analysis",
-			/* Translators: %1$d expands to the number of words in the text. */
-			"The text contains %1$d word.", "The text contains %1$d words.", wordCount) + " " + i18n.dngettext("js-text-analysis",
-			/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-			"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.", "This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.", recommendedMinimum)
-		};
-	}
-
-	if (inRange(wordCount, 0, 50)) {
-		return {
-			score: -20,
-			text: i18n.dngettext("js-text-analysis",
-			/* Translators: %1$d expands to the number of words in the text. */
-			"The text contains %1$d word.", "The text contains %1$d words.", wordCount) + " " + i18n.dngettext("js-text-analysis",
-			/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-			"This is far below the recommended minimum of %2$d word. Add more content that is relevant for the topic.", "This is far below the recommended minimum of %2$d words. Add more content that is relevant for the topic.", recommendedMinimum)
-		};
-	}
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var taxonomyTextLengthAssessment = function taxonomyTextLengthAssessment(paper, researcher, i18n) {
-	var wordCount = researcher.getResearch("wordCountInText");
-	var wordCountResult = calculateWordCountResult(wordCount, i18n);
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore(wordCountResult.score);
-	assessmentResult.setText(i18n.sprintf(wordCountResult.text, wordCount, recommendedMinimum));
-
-	return assessmentResult;
-};
-
-module.exports = {
-	identifier: "taxonomyTextLength",
-	getResult: taxonomyTextLengthAssessment
-};
-
-},{"../../values/AssessmentResult.js":530,"lodash/inRange":260}],360:[function(require,module,exports){
+},{"../../assessment.js":341,"../../values/AssessmentResult.js":531,"lodash/merge":287}],361:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -24338,7 +25986,7 @@ module.exports = {
 	getMarks: competingLinkMarker
 };
 
-},{"../../markers/addMark.js":403,"../../values/AssessmentResult.js":530,"../../values/Mark.js":531,"lodash/map":284}],361:[function(require,module,exports){
+},{"../../markers/addMark.js":404,"../../values/AssessmentResult.js":531,"../../values/Mark.js":532,"lodash/map":285}],362:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -24512,7 +26160,7 @@ var TextImagesAssessment = function (_Assessment) {
 
 module.exports = TextImagesAssessment;
 
-},{"../../assessment.js":339,"../../values/AssessmentResult.js":530,"lodash/merge":286}],362:[function(require,module,exports){
+},{"../../assessment.js":341,"../../values/AssessmentResult.js":531,"lodash/merge":287}],363:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -24679,7 +26327,7 @@ var TextLengthAssessment = function (_Assessment) {
 
 module.exports = TextLengthAssessment;
 
-},{"../../assessment.js":339,"../../values/AssessmentResult.js":530,"lodash/inRange":260,"lodash/merge":286}],363:[function(require,module,exports){
+},{"../../assessment.js":341,"../../values/AssessmentResult.js":531,"lodash/inRange":261,"lodash/merge":287}],364:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -24726,7 +26374,7 @@ module.exports = {
 	}
 };
 
-},{"../../values/AssessmentResult.js":530,"lodash/escape":248}],364:[function(require,module,exports){
+},{"../../values/AssessmentResult.js":531,"lodash/escape":249}],365:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -24853,7 +26501,7 @@ var UrlKeywordAssessment = function (_Assessment) {
 
 module.exports = UrlKeywordAssessment;
 
-},{"../../assessment.js":339,"../../values/AssessmentResult.js":530,"lodash/merge":286}],365:[function(require,module,exports){
+},{"../../assessment.js":341,"../../values/AssessmentResult.js":531,"lodash/merge":287}],366:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -24980,7 +26628,7 @@ var UrlLengthAssessment = function (_Assessment) {
 
 module.exports = UrlLengthAssessment;
 
-},{"../../assessment.js":339,"../../values/AssessmentResult.js":530,"lodash/merge":286}],366:[function(require,module,exports){
+},{"../../assessment.js":341,"../../values/AssessmentResult.js":531,"lodash/merge":287}],367:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -25036,7 +26684,7 @@ module.exports = {
 	getResult: urlHasStopWordsAssessment
 };
 
-},{"../../helpers/getLanguageAvailability.js":394,"../../values/AssessmentResult.js":530}],367:[function(require,module,exports){
+},{"../../helpers/getLanguageAvailability.js":395,"../../values/AssessmentResult.js":531}],368:[function(require,module,exports){
 "use strict";
 
 var Researcher = require("./researcher.js");
@@ -25331,7 +26979,7 @@ Assessor.prototype.getApplicableAssessments = function () {
 
 module.exports = Assessor;
 
-},{"./errors/missingArgument":388,"./helpers/errors.js":390,"./markers/removeDuplicateMarks":404,"./researcher.js":408,"./values/AssessmentResult.js":530,"lodash/filter":250,"lodash/find":251,"lodash/findIndex":252,"lodash/forEach":255,"lodash/isFunction":271,"lodash/isUndefined":281,"lodash/map":284}],368:[function(require,module,exports){
+},{"./errors/missingArgument":389,"./helpers/errors.js":391,"./markers/removeDuplicateMarks":405,"./researcher.js":409,"./values/AssessmentResult.js":531,"lodash/filter":251,"lodash/find":252,"lodash/findIndex":253,"lodash/forEach":256,"lodash/isFunction":272,"lodash/isUndefined":282,"lodash/map":285}],369:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../values/AssessmentResult.js");
@@ -25468,7 +27116,7 @@ PreviouslyUsedKeyword.prototype.assess = function (paper, researcher, i18n) {
 
 module.exports = PreviouslyUsedKeyword;
 
-},{"../../js/errors/missingArgument":388,"../values/AssessmentResult.js":530,"lodash/isUndefined":281}],369:[function(require,module,exports){
+},{"../../js/errors/missingArgument":389,"../values/AssessmentResult.js":531,"lodash/isUndefined":282}],370:[function(require,module,exports){
 "use strict";
 
 var analyzerConfig = {
@@ -25482,7 +27130,7 @@ var analyzerConfig = {
 
 module.exports = analyzerConfig;
 
-},{}],370:[function(require,module,exports){
+},{}],371:[function(require,module,exports){
 "use strict";
 
 var defaultsDeep = require("lodash/defaultsDeep");
@@ -25503,7 +27151,7 @@ module.exports = function (locale) {
 	return defaultConfig;
 };
 
-},{"./../../helpers/getLanguage":393,"./default":371,"./it":372,"lodash/defaultsDeep":245}],371:[function(require,module,exports){
+},{"./../../helpers/getLanguage":394,"./default":372,"./it":373,"lodash/defaultsDeep":246}],372:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -25514,7 +27162,7 @@ module.exports = {
 	}
 };
 
-},{}],372:[function(require,module,exports){
+},{}],373:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -25523,7 +27171,7 @@ module.exports = {
 	}
 };
 
-},{}],373:[function(require,module,exports){
+},{}],374:[function(require,module,exports){
 "use strict";
 
 /** @module config/diacritics */
@@ -25591,7 +27239,7 @@ module.exports = function () {
 	}];
 };
 
-},{}],374:[function(require,module,exports){
+},{}],375:[function(require,module,exports){
 "use strict";
 
 /**
@@ -25628,7 +27276,7 @@ module.exports = function (i18n) {
 	};
 };
 
-},{}],375:[function(require,module,exports){
+},{}],376:[function(require,module,exports){
 "use strict";
 
 /** @module config/removalWords */
@@ -25642,7 +27290,7 @@ module.exports = function () {
   return [" a", " in", " an", " on", " for", " the", " and"];
 };
 
-},{}],376:[function(require,module,exports){
+},{}],377:[function(require,module,exports){
 "use strict";
 
 /** @module config/stopwords */
@@ -25656,7 +27304,7 @@ module.exports = function () {
   return ["a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves"];
 };
 
-},{}],377:[function(require,module,exports){
+},{}],378:[function(require,module,exports){
 "use strict";
 
 /** @module config/syllables */
@@ -25684,7 +27332,7 @@ module.exports = function () {
 	return languages["en"];
 };
 
-},{"../helpers/getLanguage.js":393,"./syllables/de.json":378,"./syllables/en.json":379,"./syllables/it.json":380,"./syllables/nl.json":381,"lodash/isUndefined":281}],378:[function(require,module,exports){
+},{"../helpers/getLanguage.js":394,"./syllables/de.json":379,"./syllables/en.json":380,"./syllables/it.json":381,"./syllables/nl.json":382,"lodash/isUndefined":282}],379:[function(require,module,exports){
 module.exports={
 	"vowels": "aeiouyäöüáéâàèîêâûôœ",
 	"deviations": {
@@ -26146,7 +27794,7 @@ module.exports={
 	}
 }
 
-},{}],379:[function(require,module,exports){
+},{}],380:[function(require,module,exports){
 module.exports={
 	"vowels": "aeiouy",
 	"deviations": {
@@ -26234,7 +27882,7 @@ module.exports={
 	}
 }
 
-},{}],380:[function(require,module,exports){
+},{}],381:[function(require,module,exports){
 module.exports={
 	"vowels": "aeiouyàèéìîïòù",
 	"deviations": {
@@ -26809,7 +28457,7 @@ module.exports={
 	}
 }
 
-},{}],381:[function(require,module,exports){
+},{}],382:[function(require,module,exports){
 module.exports={
 	"vowels": "aáäâeéëêiíïîoóöôuúüûy",
 	"deviations": {
@@ -27154,7 +28802,7 @@ module.exports={
 	}
 }
 
-},{}],382:[function(require,module,exports){
+},{}],383:[function(require,module,exports){
 "use strict";
 
 var getLanguage = require("../helpers/getLanguage.js");
@@ -27575,7 +29223,7 @@ module.exports = function (locale) {
 	}
 };
 
-},{"../helpers/getLanguage.js":393,"lodash/isUndefined":281}],383:[function(require,module,exports){
+},{"../helpers/getLanguage.js":394,"lodash/isUndefined":282}],384:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -27586,7 +29234,7 @@ module.exports = function () {
 	"\xA0", " ", ".", ",", "'", "(", ")", "\"", "+", "-", ";", "!", "?", ":", "/", "»", "«", "‹", "›", "<", ">"];
 };
 
-},{}],384:[function(require,module,exports){
+},{}],385:[function(require,module,exports){
 "use strict";
 
 var Assessor = require("./assessor.js");
@@ -27764,7 +29412,7 @@ ContentAssessor.prototype.calculateOverallScore = function () {
 
 module.exports = ContentAssessor;
 
-},{"./assessments/readability/fleschReadingEaseAssessment.js":341,"./assessments/readability/paragraphTooLongAssessment.js":342,"./assessments/readability/passiveVoiceAssessment.js":343,"./assessments/readability/sentenceBeginningsAssessment.js":344,"./assessments/readability/sentenceLengthInTextAssessment.js":345,"./assessments/readability/subheadingDistributionTooLongAssessment.js":346,"./assessments/readability/textPresenceAssessment.js":347,"./assessments/readability/transitionWordsAssessment.js":348,"./assessor.js":367,"./config/content/combinedConfig.js":370,"./interpreters/scoreToRating":402,"lodash/map":284,"lodash/sum":299,"util":336}],385:[function(require,module,exports){
+},{"./assessments/readability/fleschReadingEaseAssessment.js":343,"./assessments/readability/paragraphTooLongAssessment.js":344,"./assessments/readability/passiveVoiceAssessment.js":345,"./assessments/readability/sentenceBeginningsAssessment.js":346,"./assessments/readability/sentenceLengthInTextAssessment.js":347,"./assessments/readability/subheadingDistributionTooLongAssessment.js":348,"./assessments/readability/textPresenceAssessment.js":349,"./assessments/readability/transitionWordsAssessment.js":350,"./assessor.js":368,"./config/content/combinedConfig.js":371,"./interpreters/scoreToRating":403,"lodash/map":285,"lodash/sum":300,"util":338}],386:[function(require,module,exports){
 "use strict";
 
 var Assessor = require("../assessor.js");
@@ -27819,7 +29467,7 @@ require("util").inherits(CornerStoneContentAssessor, ContentAssessor);
 
 module.exports = CornerStoneContentAssessor;
 
-},{"../assessments/readability/fleschReadingEaseAssessment.js":341,"../assessments/readability/paragraphTooLongAssessment.js":342,"../assessments/readability/passiveVoiceAssessment.js":343,"../assessments/readability/sentenceBeginningsAssessment.js":344,"../assessments/readability/sentenceLengthInTextAssessment.js":345,"../assessments/readability/subheadingDistributionTooLongAssessment.js":346,"../assessments/readability/textPresenceAssessment.js":347,"../assessments/readability/transitionWordsAssessment.js":348,"../assessor.js":367,"../contentAssessor":384,"./../config/content/combinedConfig.js":370,"util":336}],386:[function(require,module,exports){
+},{"../assessments/readability/fleschReadingEaseAssessment.js":343,"../assessments/readability/paragraphTooLongAssessment.js":344,"../assessments/readability/passiveVoiceAssessment.js":345,"../assessments/readability/sentenceBeginningsAssessment.js":346,"../assessments/readability/sentenceLengthInTextAssessment.js":347,"../assessments/readability/subheadingDistributionTooLongAssessment.js":348,"../assessments/readability/textPresenceAssessment.js":349,"../assessments/readability/transitionWordsAssessment.js":350,"../assessor.js":368,"../contentAssessor":385,"./../config/content/combinedConfig.js":371,"util":338}],387:[function(require,module,exports){
 "use strict";
 
 var Assessor = require("../assessor.js");
@@ -27907,7 +29555,7 @@ require("util").inherits(CornerstoneSEOAssessor, SEOAssessor);
 
 module.exports = CornerstoneSEOAssessor;
 
-},{"../assessments/seo/internalLinksAssessment":349,"../assessments/seo/introductionKeywordAssessment.js":350,"../assessments/seo/keyphraseLengthAssessment.js":351,"../assessments/seo/keywordDensityAssessment.js":352,"../assessments/seo/keywordStopWordsAssessment.js":353,"../assessments/seo/metaDescriptionKeywordAssessment.js":354,"../assessments/seo/metaDescriptionLengthAssessment.js":355,"../assessments/seo/outboundLinksAssessment.js":356,"../assessments/seo/pageTitleWidthAssessment.js":357,"../assessments/seo/subheadingsKeywordAssessment.js":358,"../assessments/seo/textCompetingLinksAssessment.js":360,"../assessments/seo/textImagesAssessment.js":361,"../assessments/seo/textLengthAssessment.js":362,"../assessments/seo/titleKeywordAssessment.js":363,"../assessments/seo/urlKeywordAssessment.js":364,"../assessments/seo/urlLengthAssessment.js":365,"../assessments/seo/urlStopWordsAssessment.js":366,"../assessor.js":367,"../seoAssessor":486,"util":336}],387:[function(require,module,exports){
+},{"../assessments/seo/internalLinksAssessment":351,"../assessments/seo/introductionKeywordAssessment.js":352,"../assessments/seo/keyphraseLengthAssessment.js":353,"../assessments/seo/keywordDensityAssessment.js":354,"../assessments/seo/keywordStopWordsAssessment.js":355,"../assessments/seo/metaDescriptionKeywordAssessment.js":356,"../assessments/seo/metaDescriptionLengthAssessment.js":357,"../assessments/seo/outboundLinksAssessment.js":358,"../assessments/seo/pageTitleWidthAssessment.js":359,"../assessments/seo/subheadingsKeywordAssessment.js":360,"../assessments/seo/textCompetingLinksAssessment.js":361,"../assessments/seo/textImagesAssessment.js":362,"../assessments/seo/textLengthAssessment.js":363,"../assessments/seo/titleKeywordAssessment.js":364,"../assessments/seo/urlKeywordAssessment.js":365,"../assessments/seo/urlLengthAssessment.js":366,"../assessments/seo/urlStopWordsAssessment.js":367,"../assessor.js":368,"../seoAssessor":487,"util":338}],388:[function(require,module,exports){
 "use strict";
 
 /**
@@ -27923,7 +29571,7 @@ module.exports = function InvalidTypeError(message) {
 
 require("util").inherits(module.exports, Error);
 
-},{"util":336}],388:[function(require,module,exports){
+},{"util":338}],389:[function(require,module,exports){
 "use strict";
 
 module.exports = function MissingArgumentError(message) {
@@ -27934,7 +29582,7 @@ module.exports = function MissingArgumentError(message) {
 
 require("util").inherits(module.exports, Error);
 
-},{"util":336}],389:[function(require,module,exports){
+},{"util":338}],390:[function(require,module,exports){
 "use strict";
 
 var forEach = require("lodash/forEach");
@@ -28003,7 +29651,7 @@ module.exports = {
   removeClasses: removeClasses
 };
 
-},{"lodash/forEach":255}],390:[function(require,module,exports){
+},{"lodash/forEach":256}],391:[function(require,module,exports){
 "use strict";
 
 var isUndefined = require("lodash/isUndefined");
@@ -28028,7 +29676,7 @@ module.exports = {
 	showTrace: showTrace
 };
 
-},{"lodash/isUndefined":281}],391:[function(require,module,exports){
+},{"lodash/isUndefined":282}],392:[function(require,module,exports){
 "use strict";
 
 /**
@@ -28044,7 +29692,7 @@ module.exports = function (number) {
   return Math.round(number * 10) / 10;
 };
 
-},{}],392:[function(require,module,exports){
+},{}],393:[function(require,module,exports){
 "use strict";
 
 var firstWordExceptionsEnglish = require("../researches/english/firstWordExceptions.js");
@@ -28074,7 +29722,7 @@ module.exports = function (locale) {
 	}
 };
 
-},{"../researches/dutch/firstWordExceptions.js":413,"../researches/english/firstWordExceptions.js":420,"../researches/french/firstWordExceptions.js":437,"../researches/german/firstWordExceptions.js":444,"../researches/italian/firstWordExceptions.js":465,"../researches/spanish/firstWordExceptions.js":477,"./getLanguage.js":393}],393:[function(require,module,exports){
+},{"../researches/dutch/firstWordExceptions.js":414,"../researches/english/firstWordExceptions.js":421,"../researches/french/firstWordExceptions.js":438,"../researches/german/firstWordExceptions.js":445,"../researches/italian/firstWordExceptions.js":466,"../researches/spanish/firstWordExceptions.js":478,"./getLanguage.js":394}],394:[function(require,module,exports){
 "use strict";
 
 /**
@@ -28087,7 +29735,7 @@ module.exports = function (locale) {
   return locale.split("_")[0];
 };
 
-},{}],394:[function(require,module,exports){
+},{}],395:[function(require,module,exports){
 "use strict";
 
 var indexOf = require("lodash/indexOf");
@@ -28106,7 +29754,7 @@ module.exports = function (locale, languages) {
   return indexOf(languages, language) > -1;
 };
 
-},{"./getLanguage.js":393,"lodash/indexOf":262}],395:[function(require,module,exports){
+},{"./getLanguage.js":394,"lodash/indexOf":263}],396:[function(require,module,exports){
 "use strict";
 
 var transitionWordsEnglish = require("../researches/english/transitionWords.js")().allWords;
@@ -28160,7 +29808,7 @@ module.exports = function (locale) {
 	}
 };
 
-},{"../researches/dutch/transitionWords.js":415,"../researches/dutch/twoPartTransitionWords.js":416,"../researches/english/transitionWords.js":432,"../researches/english/twoPartTransitionWords.js":433,"../researches/french/transitionWords.js":439,"../researches/french/twoPartTransitionWords.js":440,"../researches/german/transitionWords.js":453,"../researches/german/twoPartTransitionWords.js":454,"../researches/italian/transitionWords.js":467,"../researches/italian/twoPartTransitionWords.js":468,"../researches/spanish/transitionWords.js":479,"../researches/spanish/twoPartTransitionWords.js":480,"./getLanguage.js":393}],396:[function(require,module,exports){
+},{"../researches/dutch/transitionWords.js":416,"../researches/dutch/twoPartTransitionWords.js":417,"../researches/english/transitionWords.js":433,"../researches/english/twoPartTransitionWords.js":434,"../researches/french/transitionWords.js":440,"../researches/french/twoPartTransitionWords.js":441,"../researches/german/transitionWords.js":454,"../researches/german/twoPartTransitionWords.js":455,"../researches/italian/transitionWords.js":468,"../researches/italian/twoPartTransitionWords.js":469,"../researches/spanish/transitionWords.js":480,"../researches/spanish/twoPartTransitionWords.js":481,"./getLanguage.js":394}],397:[function(require,module,exports){
 "use strict";
 
 var blockElements = ["address", "article", "aside", "blockquote", "canvas", "dd", "div", "dl", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main", "nav", "noscript", "ol", "output", "p", "pre", "section", "table", "tfoot", "ul", "video"];
@@ -28329,7 +29977,7 @@ module.exports = {
 	getBlocks: memoize(getBlocks)
 };
 
-},{"lodash/forEach":255,"lodash/memoize":285,"tokenizer2/core":330}],397:[function(require,module,exports){
+},{"lodash/forEach":256,"lodash/memoize":286,"tokenizer2/core":332}],398:[function(require,module,exports){
 "use strict";
 
 /**
@@ -28375,7 +30023,7 @@ module.exports = {
   inRangeStartEndInclusive: inRangeStartEndInclusive
 };
 
-},{}],398:[function(require,module,exports){
+},{}],399:[function(require,module,exports){
 "use strict";
 
 /**
@@ -28389,7 +30037,7 @@ module.exports = function (recommendedValue, valueLength) {
   return valueLength > recommendedValue;
 };
 
-},{}],399:[function(require,module,exports){
+},{}],400:[function(require,module,exports){
 "use strict";
 
 var SyllableCountStep = require("./syllableCountStep.js");
@@ -28447,7 +30095,7 @@ SyllableCountIterator.prototype.countSyllables = function (word) {
 
 module.exports = SyllableCountIterator;
 
-},{"./syllableCountStep.js":400,"lodash/forEach":255,"lodash/isUndefined":281}],400:[function(require,module,exports){
+},{"./syllableCountStep.js":401,"lodash/forEach":256,"lodash/isUndefined":282}],401:[function(require,module,exports){
 "use strict";
 
 var isUndefined = require("lodash/isUndefined");
@@ -28516,7 +30164,7 @@ SyllableCountStep.prototype.countSyllables = function (word) {
 
 module.exports = SyllableCountStep;
 
-},{"../stringProcessing/createRegexFromArray.js":493,"lodash/isUndefined":281}],401:[function(require,module,exports){
+},{"../stringProcessing/createRegexFromArray.js":494,"lodash/isUndefined":282}],402:[function(require,module,exports){
 "use strict";
 
 /**
@@ -28568,7 +30216,7 @@ module.exports = {
 	isSameType: isSameType
 };
 
-},{}],402:[function(require,module,exports){
+},{}],403:[function(require,module,exports){
 "use strict";
 
 /**
@@ -28599,7 +30247,7 @@ var ScoreToRating = function ScoreToRating(score) {
 
 module.exports = ScoreToRating;
 
-},{}],403:[function(require,module,exports){
+},{}],404:[function(require,module,exports){
 "use strict";
 
 /**
@@ -28612,7 +30260,7 @@ module.exports = function (text) {
   return "<yoastmark class='yoast-text-mark'>" + text + "</yoastmark>";
 };
 
-},{}],404:[function(require,module,exports){
+},{}],405:[function(require,module,exports){
 "use strict";
 
 var uniqBy = require("lodash/uniqBy");
@@ -28631,7 +30279,7 @@ function removeDuplicateMarks(marks) {
 
 module.exports = removeDuplicateMarks;
 
-},{"lodash/uniqBy":307}],405:[function(require,module,exports){
+},{"lodash/uniqBy":308}],406:[function(require,module,exports){
 "use strict";
 
 /**
@@ -28644,7 +30292,7 @@ module.exports = function (text) {
   return text.replace(new RegExp("<yoastmark[^>]*>", "g"), "").replace(new RegExp("</yoastmark>", "g"), "");
 };
 
-},{}],406:[function(require,module,exports){
+},{}],407:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -29029,7 +30677,7 @@ Pluggable.prototype._validateUniqueness = function (pluginName) {
 
 module.exports = Pluggable;
 
-},{"./errors/invalidType":387,"lodash/forEach":255,"lodash/isObject":275,"lodash/isString":278,"lodash/isUndefined":281,"lodash/reduce":294}],407:[function(require,module,exports){
+},{"./errors/invalidType":388,"lodash/forEach":256,"lodash/isObject":276,"lodash/isString":279,"lodash/isUndefined":282,"lodash/reduce":295}],408:[function(require,module,exports){
 "use strict";
 
 var forEach = require("lodash/forEach");
@@ -29410,7 +31058,7 @@ AssessorPresenter.prototype.renderOverallRating = function () {
 
 module.exports = AssessorPresenter;
 
-},{"../config/presenter.js":374,"../interpreters/scoreToRating.js":402,"../templates.js":529,"lodash/difference":246,"lodash/forEach":255,"lodash/isNumber":274,"lodash/isObject":275,"lodash/isUndefined":281}],408:[function(require,module,exports){
+},{"../config/presenter.js":375,"../interpreters/scoreToRating.js":403,"../templates.js":530,"lodash/difference":247,"lodash/forEach":256,"lodash/isNumber":275,"lodash/isObject":276,"lodash/isUndefined":282}],409:[function(require,module,exports){
 "use strict";
 
 var merge = require("lodash/merge");
@@ -29561,7 +31209,7 @@ Researcher.prototype.getResearch = function (name) {
 
 module.exports = Researcher;
 
-},{"./errors/invalidType":387,"./errors/missingArgument":388,"./researches/calculateFleschReading.js":409,"./researches/countLinks.js":410,"./researches/countSentencesFromDescription.js":411,"./researches/countSentencesFromText.js":412,"./researches/findKeywordInFirstParagraph.js":434,"./researches/findKeywordInPageTitle.js":435,"./researches/findTransitionWords.js":436,"./researches/getKeywordDensity.js":455,"./researches/getLinkStatistics.js":456,"./researches/getLinks.js":457,"./researches/getParagraphLength.js":458,"./researches/getPassiveVoice.js":459,"./researches/getSentenceBeginnings.js":460,"./researches/getSubheadingTextLengths.js":461,"./researches/getWordComplexity.js":462,"./researches/imageAltTags.js":463,"./researches/imageCountInText.js":464,"./researches/keyphraseLength":469,"./researches/keywordCountInUrl":470,"./researches/matchKeywordInSubheadings.js":471,"./researches/metaDescriptionKeyword.js":472,"./researches/metaDescriptionLength.js":473,"./researches/pageTitleWidth.js":474,"./researches/relevantWords":476,"./researches/stopWordsInKeyword":481,"./researches/stopWordsInUrl":483,"./researches/urlIsTooLong.js":484,"./researches/wordCountInText.js":485,"lodash/isEmpty":270,"lodash/isUndefined":281,"lodash/merge":286}],409:[function(require,module,exports){
+},{"./errors/invalidType":388,"./errors/missingArgument":389,"./researches/calculateFleschReading.js":410,"./researches/countLinks.js":411,"./researches/countSentencesFromDescription.js":412,"./researches/countSentencesFromText.js":413,"./researches/findKeywordInFirstParagraph.js":435,"./researches/findKeywordInPageTitle.js":436,"./researches/findTransitionWords.js":437,"./researches/getKeywordDensity.js":456,"./researches/getLinkStatistics.js":457,"./researches/getLinks.js":458,"./researches/getParagraphLength.js":459,"./researches/getPassiveVoice.js":460,"./researches/getSentenceBeginnings.js":461,"./researches/getSubheadingTextLengths.js":462,"./researches/getWordComplexity.js":463,"./researches/imageAltTags.js":464,"./researches/imageCountInText.js":465,"./researches/keyphraseLength":470,"./researches/keywordCountInUrl":471,"./researches/matchKeywordInSubheadings.js":472,"./researches/metaDescriptionKeyword.js":473,"./researches/metaDescriptionLength.js":474,"./researches/pageTitleWidth.js":475,"./researches/relevantWords":477,"./researches/stopWordsInKeyword":482,"./researches/stopWordsInUrl":484,"./researches/urlIsTooLong.js":485,"./researches/wordCountInText.js":486,"lodash/isEmpty":271,"lodash/isUndefined":282,"lodash/merge":287}],410:[function(require,module,exports){
 "use strict";
 
 /** @module analyses/calculateFleschReading */
@@ -29633,7 +31281,7 @@ module.exports = function (paper) {
 	return formatNumber(score);
 };
 
-},{"../helpers/formatNumber.js":391,"../helpers/getLanguage.js":393,"../stringProcessing/countSentences.js":491,"../stringProcessing/countWords.js":492,"../stringProcessing/stripNumbers.js":521,"../stringProcessing/syllables/count.js":525}],410:[function(require,module,exports){
+},{"../helpers/formatNumber.js":392,"../helpers/getLanguage.js":394,"../stringProcessing/countSentences.js":492,"../stringProcessing/countWords.js":493,"../stringProcessing/stripNumbers.js":522,"../stringProcessing/syllables/count.js":526}],411:[function(require,module,exports){
 "use strict";
 
 /** @module analyses/getLinkStatistics */
@@ -29652,7 +31300,7 @@ module.exports = function (paper) {
   return anchors.length;
 };
 
-},{"./getLinks":457}],411:[function(require,module,exports){
+},{"./getLinks":458}],412:[function(require,module,exports){
 "use strict";
 
 var getSentences = require("../stringProcessing/getSentences");
@@ -29668,7 +31316,7 @@ module.exports = function (paper) {
   return sentencesLength(sentences);
 };
 
-},{"../stringProcessing/getSentences":500,"./../stringProcessing/sentencesLength.js":518}],412:[function(require,module,exports){
+},{"../stringProcessing/getSentences":501,"./../stringProcessing/sentencesLength.js":519}],413:[function(require,module,exports){
 "use strict";
 
 var getSentences = require("../stringProcessing/getSentences");
@@ -29684,7 +31332,7 @@ module.exports = function (paper) {
   return sentencesLength(sentences);
 };
 
-},{"../stringProcessing/getSentences":500,"./../stringProcessing/sentencesLength.js":518}],413:[function(require,module,exports){
+},{"../stringProcessing/getSentences":501,"./../stringProcessing/sentencesLength.js":519}],414:[function(require,module,exports){
 "use strict";
 
 /**
@@ -29703,7 +31351,7 @@ module.exports = function () {
 	"dit", "dat", "die", "deze"];
 };
 
-},{}],414:[function(require,module,exports){
+},{}],415:[function(require,module,exports){
 "use strict";
 
 var transitionWords = require("./transitionWords.js")().singleWords;
@@ -29810,42 +31458,24 @@ to be used as filters for the prominent words.
 
 module.exports = function () {
 	return {
-		articles: articles,
-		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative),
-		possessivePronouns: possessivePronouns,
-		prepositions: prepositions,
-		demonstrativePronouns: demonstrativePronouns,
-		coordinatingConjunctions: coordinatingConjunctions,
-		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
-		verbs: filteredPassiveAuxiliaries.concat(otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs),
-		infinitives: passiveAuxiliariesInfinitive.concat(otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive),
-		quantifiers: quantifiers,
-		relativePronouns: relativePronouns,
-		interrogatives: interrogativeProAdverbs,
-		passiveAuxiliaries: filteredPassiveAuxiliaries,
-		transitionWords: transitionWords.concat(additionalTransitionWords),
-		miscellaneous: miscellaneous,
-		pronominalAdverbs: pronominalAdverbs,
-		interjections: interjections,
-		reflexivePronouns: reflexivePronouns,
-		reciprocalPronouns: reciprocalPronouns,
-		cardinalNumerals: cardinalNumerals,
-		ordinalNumerals: ordinalNumerals,
-		indefinitePronouns: indefinitePronouns.concat(indefinitePronounsPossessive),
-		locativeAdverbs: locativeAdverbs,
-		prepositionalAdverbs: prepositionalAdverbs,
-		intensifiers: intensifiers,
-		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
-		recipeWords: recipeWords,
-		timeWords: timeWords,
-		vagueNouns: vagueNouns,
-		titlesPreceding: titlesPreceding,
-		titlesFollowing: titlesFollowing,
-		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, indefinitePronounsPossessive, relativePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, prepositionalAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtBeginning: [].concat(passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive),
+
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtEnding: [].concat(ordinalNumerals, generalAdjectivesAdverbs),
+
+		// These word categories are filtered at the beginning and ending of word combinations.
+		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers),
+
+		// These word categories are filtered everywhere within word combinations.
+		filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, reflexivePronouns, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeProAdverbs, relativePronouns, locativeAdverbs, miscellaneous, prepositionalAdverbs, pronominalAdverbs, recipeWords, timeWords, vagueNouns, reciprocalPronouns, possessivePronouns),
+
+		// This export contains all of the above words.
+		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, indefinitePronounsPossessive, relativePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, prepositionalAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
 	};
 };
 
-},{"./transitionWords.js":415}],415:[function(require,module,exports){
+},{"./transitionWords.js":416}],416:[function(require,module,exports){
 "use strict";
 
 var singleWords = ["aangezien", "al", "aldus", "allereerst", "als", "alsook", "anderzijds", "bijgevolg", "bijvoorbeeld", "bovendien", "concluderend", "daardoor", "daarentegen", "daarmee", "daarna", "daarnaast", "daarom", "daartoe", "daarvoor", "dadelijk", "dan", "desondanks", "dienovereenkomstig", "dientegevolge", "doch", "doordat", "dus", "echter", "eerst", "evenals", "eveneens", "evenzeer", "hierom", "hoewel", "immers", "indien", "integendeel", "intussen", "kortom", "later", "maar", "mits", "nadat", "namelijk", "net als", "niettemin", "noch", "ofschoon", "omdat", "ondanks", "ondertussen", "ook", "opdat", "resumerend", "samengevat", "samenvattend", "tegenwoordig", "teneinde", "tenzij", "terwijl", "tevens", "toch", "toen", "uiteindelijk", "vanwege", "vervolgens", "voorafgaand", "vooralsnog", "voordat", "voorts", "vroeger", "waardoor", "waarmee", "waaronder", "wanneer", "want", "zoals", "zodat", "zodoende", "zodra"];
@@ -29864,7 +31494,7 @@ module.exports = function () {
 	};
 };
 
-},{}],416:[function(require,module,exports){
+},{}],417:[function(require,module,exports){
 "use strict";
 
 /**
@@ -29875,7 +31505,7 @@ module.exports = function () {
 	return [["aan de ene kant", "aan de andere kant"], ["enerzijds", "anderzijds"], ["natuurlijk", "maar"], ["niet alleen", "maar ook"], ["noch", "noch"], ["zowel", "als"]];
 };
 
-},{}],417:[function(require,module,exports){
+},{}],418:[function(require,module,exports){
 "use strict";
 
 var Participle = require("../../values/Participle.js");
@@ -30040,7 +31670,7 @@ EnglishParticiple.prototype.hasFitException = function () {
 
 module.exports = EnglishParticiple;
 
-},{"../../stringProcessing/createRegexFromArray.js":493,"../../values/Participle.js":533,"./passivevoice/determiners.js":424,"./passivevoice/getIndicesWithRegex.js":425,"./passivevoice/having.js":427,"./passivevoice/non-verb-ending-ed.js":430,"lodash/forEach":255,"lodash/includes":261,"lodash/intersection":263,"lodash/isEmpty":270,"util":336}],418:[function(require,module,exports){
+},{"../../stringProcessing/createRegexFromArray.js":494,"../../values/Participle.js":534,"./passivevoice/determiners.js":425,"./passivevoice/getIndicesWithRegex.js":426,"./passivevoice/having.js":428,"./passivevoice/non-verb-ending-ed.js":431,"lodash/forEach":256,"lodash/includes":262,"lodash/intersection":264,"lodash/isEmpty":271,"util":338}],419:[function(require,module,exports){
 "use strict";
 
 var SentencePart = require("../../values/SentencePart.js");
@@ -30071,7 +31701,7 @@ EnglishSentencePart.prototype.getParticiples = function () {
 
 module.exports = EnglishSentencePart;
 
-},{"../../values/SentencePart.js":535,"./passivevoice/getParticiples.js":426,"util":336}],419:[function(require,module,exports){
+},{"../../values/SentencePart.js":536,"./passivevoice/getParticiples.js":427,"util":338}],420:[function(require,module,exports){
 "use strict";
 
 var getParticiples = require("./passivevoice/getParticiples.js");
@@ -30090,7 +31720,7 @@ module.exports = function (sentencePart, auxiliaries) {
   return determineSentencePartIsPassive(participles);
 };
 
-},{"../passivevoice/determineSentencePartIsPassive.js":475,"./passivevoice/getParticiples.js":426}],420:[function(require,module,exports){
+},{"../passivevoice/determineSentencePartIsPassive.js":476,"./passivevoice/getParticiples.js":427}],421:[function(require,module,exports){
 "use strict";
 
 /**
@@ -30109,7 +31739,7 @@ module.exports = function () {
 	"this", "that", "these", "those"];
 };
 
-},{}],421:[function(require,module,exports){
+},{}],422:[function(require,module,exports){
 "use strict";
 
 var filteredPassiveAuxiliaries = require("./passivevoice/auxiliaries.js")().filteredAuxiliaries;
@@ -30197,41 +31827,21 @@ var titlesFollowing = ["jr", "sr"];
 
 module.exports = function () {
 	return {
-		articles: articles,
-		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative),
-		possessivePronouns: possessivePronouns,
-		prepositions: prepositions,
-		demonstrativePronouns: demonstrativePronouns,
-		coordinatingConjunctions: coordinatingConjunctions,
-		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
-		verbs: filteredPassiveAuxiliaries.concat(otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs),
-		continuousVerbs: notFilteredPassiveAuxiliaries.concat(continuousVerbs),
-		quantifiers: quantifiers,
-		interrogatives: interrogativeDeterminers.concat(interrogativePronouns, interrogativeProAdverbs),
-		passiveAuxiliaries: filteredPassiveAuxiliaries,
-		transitionWords: transitionWords.concat(additionalTransitionWords),
-		miscellaneous: miscellaneous,
-		pronominalAdverbs: pronominalAdverbs,
-		interjections: interjections,
-		reflexivePronouns: reflexivePronouns,
-		cardinalNumerals: cardinalNumerals,
-		ordinalNumerals: ordinalNumerals,
-		indefinitePronouns: indefinitePronouns.concat(indefinitePronounsPossessive),
-		locativeAdverbs: locativeAdverbs,
-		adverbialGenitives: adverbialGenitives,
-		prepositionalAdverbs: prepositionalAdverbs,
-		intensifiers: intensifiers,
-		recipeWords: recipeWords,
-		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
-		timeWords: timeWords,
-		vagueNouns: vagueNouns,
-		titlesPreceding: titlesPreceding,
-		titlesFollowing: titlesFollowing,
-		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs, indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries, otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtEnding: [].concat(ordinalNumerals, continuousVerbs, generalAdjectivesAdverbs),
+
+		// These word categories are filtered at the beginning and ending of word combinations.
+		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
+
+		// These word categories are filtered everywhere within word combinations.
+		filteredAnywhere: [].concat(transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative, reflexivePronouns, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, pronominalAdverbs, recipeWords, timeWords, vagueNouns),
+
+		// This export contains all of the above words.
+		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs, indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries, otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
 	};
 };
 
-},{"./passivevoice/auxiliaries.js":423,"./transitionWords.js":432}],422:[function(require,module,exports){
+},{"./passivevoice/auxiliaries.js":424,"./transitionWords.js":433}],423:[function(require,module,exports){
 "use strict";
 
 var verbEndingInIngRegex = /\w+ing($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
@@ -30281,7 +31891,6 @@ var getVerbsEndingInIng = function getVerbsEndingInIng(sentence) {
 var getSentenceBreakers = function getSentenceBreakers(sentence) {
 	sentence = sentence.toLocaleLowerCase();
 	var auxiliaryIndices = getIndicesOfList(auxiliaries, sentence);
-
 	var stopwordIndices = getIndicesOfList(stopwords, sentence);
 
 	var ingVerbs = getVerbsEndingInIng(sentence);
@@ -30323,7 +31932,6 @@ var getSentenceParts = function getSentenceParts(sentence) {
 	}
 
 	var indices = getSentenceBreakers(sentence);
-
 	// Get the words after the found auxiliary.
 	for (var i = 0; i < indices.length; i++) {
 		var endIndex = sentence.length;
@@ -30335,7 +31943,6 @@ var getSentenceParts = function getSentenceParts(sentence) {
 		var sentencePart = stripSpaces(sentence.substr(indices[i].index, endIndex - indices[i].index));
 
 		var auxiliaryMatches = getAuxiliaryMatches(sentencePart);
-
 		// If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
 		if (auxiliaryMatches.length !== 0) {
 			sentenceParts.push(new SentencePart(sentencePart, auxiliaryMatches));
@@ -30354,7 +31961,7 @@ module.exports = function (sentence) {
 	return getSentenceParts(sentence);
 };
 
-},{"../../stringProcessing/createRegexFromArray.js":493,"../../stringProcessing/indices":506,"../../stringProcessing/quotes.js":512,"../../stringProcessing/stripSpaces.js":522,"./SentencePart.js":418,"./passivevoice/auxiliaries.js":423,"./passivevoice/stopwords.js":431,"lodash/filter":250,"lodash/includes":261,"lodash/isUndefined":281,"lodash/map":284}],423:[function(require,module,exports){
+},{"../../stringProcessing/createRegexFromArray.js":494,"../../stringProcessing/indices":507,"../../stringProcessing/quotes.js":513,"../../stringProcessing/stripSpaces.js":523,"./SentencePart.js":419,"./passivevoice/auxiliaries.js":424,"./passivevoice/stopwords.js":432,"lodash/filter":251,"lodash/includes":262,"lodash/isUndefined":282,"lodash/map":285}],424:[function(require,module,exports){
 "use strict";
 
 // These auxiliaries are filtered from the beginning of word combinations in the prominent words.
@@ -30371,14 +31978,14 @@ module.exports = function () {
 	};
 };
 
-},{}],424:[function(require,module,exports){
+},{}],425:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
 	return ["a", "an", "the", "my", "her", "his", "their", "its", "our", "your"];
 };
 
-},{}],425:[function(require,module,exports){
+},{}],426:[function(require,module,exports){
 "use strict";
 
 /**
@@ -30402,7 +32009,7 @@ module.exports = function (sentencePart, regex) {
 	return results;
 };
 
-},{}],426:[function(require,module,exports){
+},{}],427:[function(require,module,exports){
 "use strict";
 
 var getWords = require("../../../stringProcessing/getWords.js");
@@ -30441,7 +32048,7 @@ module.exports = function (sentencePartText, auxiliaries) {
 	return foundParticiples;
 };
 
-},{"../../../../js/researches/english/passivevoice/matchParticiples":429,"../../../stringProcessing/getWords.js":503,"../EnglishParticiple.js":417,"lodash/forEach":255}],427:[function(require,module,exports){
+},{"../../../../js/researches/english/passivevoice/matchParticiples":430,"../../../stringProcessing/getWords.js":504,"../EnglishParticiple.js":418,"lodash/forEach":256}],428:[function(require,module,exports){
 "use strict";
 
 // More words will be added soon. See issue #920.
@@ -30449,7 +32056,7 @@ module.exports = function () {
 	return ["having"];
 };
 
-},{}],428:[function(require,module,exports){
+},{}],429:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -30458,7 +32065,7 @@ module.exports = function () {
 	"gotten", "ground", "reground", "grown", "outgrown", "regrown", "had", "handwritten", "heard", "reheard", "misheard", "overheard", "held", "hewn", "hidden", "unhidden", "hit", "hung", "rehung", "overhung", "unhung", "hurt", "inlaid", "input", "interwound", "interwoven", "jerry-built", "kept", "knelt", "knit", "reknit", "unknit", "known", "laid", "mislaid", "relaid", "overlaid", "lain", "underlain", "leant", "leapt", "outleapt", "learnt", "unlearnt", "relearnt", "mislearnt", "left", "lent", "let", "lip-read", "lit", "relit", "lost", "made", "premade", "remade", "meant", "met", "mown", "offset", "paid", "prepaid", "repaid", "overpaid", "partaken", "proofread", "proven", "put", "quick-frozen", "quit", "read", "misread", "reread", "retread", "rewaken", "rid", "ridden", "outridden", "overridden", "risen", "roughcast", "run", "outrun", "rerun", "overrun", "rung", "said", "sand-cast", "sat", "outsat", "sawn", "seen", "overseen", "sent", "resent", "set", "preset", "reset", "misset", "sewn", "resewn", "oversewn", "unsewn", "shaken", "shat", "shaven", "shit", "shone", "outshone", "shorn", "shot", "outshot", "overshot", "shown", "shrunk", "preshrunk", "shut", "sight-read", "slain", "slept", "outslept", "overslept", "slid", "slit", "slung", "unslung", "slunk", "smelt", "outsmelt", "snuck", "sold", "undersold", "presold", "outsold", "resold", "oversold", "sought", "sown", "spat", "spelt", "misspelt", "spent", "underspent", "outspent", "misspent", "overspent", "spilt", "overspilt", "spit", "split", "spoilt", "spoken", "outspoken", "misspoken", "overspoken", "spread", "sprung", "spun", "unspun", "stolen", "stood", "understood", "misunderstood", "strewn", "stricken", "stridden", "striven", "struck", "strung", "unstrung", "stuck", "unstuck", "stung", "stunk", "sublet", "sunburnt", "sung", "outsung", "sunk", "sweat", "swept", "swollen", "sworn", "outsworn", "swum", "outswum", "swung", "taken", "undertaken", "mistaken", "retaken", "overtaken", "taught", "mistaught", "retaught", "telecast", "test-driven", "test-flown", "thought", "outthought", "rethought", "overthought", "thrown", "outthrown", "overthrown", "thrust", "told", "retold", "torn", "retorn", "trod", "trodden", "typecast", "typeset", "upheld", "upset", "waylaid", "wept", "wet", "rewet", "withdrawn", "withheld", "withstood", "woken", "won", "rewon", "worn", "reworn", "wound", "rewound", "overwound", "unwound", "woven", "rewoven", "unwoven", "written", "typewritten", "underwritten", "outwritten", "miswritten", "rewritten", "overwritten", "wrung"];
 };
 
-},{}],429:[function(require,module,exports){
+},{}],430:[function(require,module,exports){
 "use strict";
 
 var find = require("lodash/find");
@@ -30503,21 +32110,21 @@ module.exports = function () {
 	};
 };
 
-},{"./irregulars":428,"lodash/find":251}],430:[function(require,module,exports){
+},{"./irregulars":429,"lodash/find":252}],431:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
 	return ["ablebodied", "abovementioned", "absentminded", "accoladed", "accompanied", "acculturized", "accursed", "acerated", "acerbated", "acetylized", "achromatised", "achromatized", "acidified", "acned", "actualised", "adrenalised", "adulated", "adversed", "aestheticised", "affectioned", "affined", "affricated", "aforementioned", "agerelated", "aggrieved", "airbed", "aircooled", "airspeed", "alcoholized", "alcoved", "alkalised", "allianced", "aluminized", "alveolated", "ambered", "ammonified", "amplified", "anagrammatised", "anagrammatized", "anathematised", "aniseed", "ankled", "annualized", "anonymised", "anthologized", "antlered", "anucleated", "anviled", "anvilshaped", "apostrophised", "apostrophized", "appliqued", "apprized", "arbitrated", "armored", "articled", "ashamed", "assented", "atomised", "atrophied", "auricled", "auriculated", "aurified", "autopsied", "axled", "babied", "backhoed", "badmannered", "badtempered", "balustered", "baned", "barcoded", "bareboned", "barefooted", "barelegged", "barnacled", "bayoneted", "beadyeyed", "beaked", "beaned", "beatified", "beautified", "beavered", "bed", "bedamned", "bedecked", "behoved", "belated", "bellbottomed", "bellshaped", "benighted", "bequeathed", "berried", "bespectacled", "bewhiskered", "bighearted", "bigmouthed", "bigoted", "bindweed", "binucleated", "biopsied", "bioturbed", "biped", "bipinnated", "birdfeed", "birdseed", "bisegmented", "bitterhearted", "blabbermouthed", "blackhearted", "bladed", "blankminded", "blearyeyed", "bleed", "blissed", "blobbed", "blondhaired", "bloodied", "bloodred", "bloodshed", "blueblooded", "boatshaped", "bobsled", "bodied", "boldhearted", "boogied", "boosed", "bosomed", "bottlefed", "bottlefeed", "bottlenecked", "bouldered", "bowlegged", "bowlshaped", "brandied", "bravehearted", "breastfed", "breastfeed", "breed", "brighteyed", "brindled", "broadhearted", "broadleaved", "broadminded", "brokenhearted", "broomed", "broomweed", "buccaned", "buckskinned", "bucktoothed", "buddied", "buffaloed", "bugeyed", "bugleweed", "bugweed", "bulletined", "bunked", "busied", "butterfingered", "cabbed", "caddied", "cairned", "calcified", "canalized", "candied", "cannulated", "canoed", "canopied", "canvased", "caped", "capsulated", "cassocked", "castellated", "catabolised", "catheterised", "caudated", "cellmediated", "cellulosed", "certified", "chagrined", "chambered", "chested", "chevroned", "chickenfeed", "chickenhearted", "chickweed", "chilblained", "childbed", "chinned", "chromatographed", "ciliated", "cindered", "cingulated", "circumstanced", "cisgendered", "citrullinated", "clappered", "clarified", "classified", "clawshaped", "claysized", "cleanhearted", "clearminded", "clearsighted", "cliched", "clodded", "cloistered", "closefisted", "closehearted", "closelipped", "closemouthed", "closeted", "cloudseed", "clubfooted", "clubshaped", "clued", "cockeyed", "codified", "coed", "coevolved", "coffined", "coiffed", "coinfected", "coldblooded", "coldhearted", "collateralised", "colonialised", "colorcoded", "colorised", "colourised", "columned", "commoditized", "compactified", "companioned", "complexioned", "conceited", "concerned", "concussed", "coneshaped", "congested", "contented", "convexed", "coralled", "corymbed", "cottonseed", "countrified", "countrybred", "courtmartialled", "coved", "coveralled", "cowshed", "cozied", "cragged", "crayoned", "credentialed", "creed", "crenulated", "crescentshaped", "cressweed", "crewed", "cricked", "crispated", "crossbarred", "crossbed", "crossbred", "crossbreed", "crossclassified", "crosseyed", "crossfertilised", "crossfertilized", "crossindexed", "crosslegged", "crossshaped", "crossstratified", "crossstriated", "crotched", "crucified", "cruelhearted", "crutched", "cubeshaped", "cubified", "cuckolded", "cucumbershaped", "cumbered", "cuminseed", "cupshaped", "curated", "curded", "curfewed", "curlicued", "curlycued", "curried", "curtsied", "cyclized", "cylindershaped", "damed", "dandified", "dangered", "darkhearted", "daybed", "daylighted", "deacidified", "deacylated", "deadhearted", "deadlined", "deaminized", "deathbed", "decalcified", "decertified", "deckbed", "declassified", "declutched", "decolourated", "decreed", "deed", "deeprooted", "deepseated", "defensed", "defied", "deflexed", "deglamorised", "degunkified", "dehumidified", "deified", "deled", "delegitimised", "demoded", "demystified", "denasalized", "denazified", "denied", "denitrified", "denticulated", "deseed", "desexualised", "desposited", "detoxified", "deuced", "devitrified", "dewlapped", "dezincified", "diagonalised", "dialogued", "died", "digitated", "dignified", "dilled", "dimwitted", "diphthonged", "disaffected", "disaggregated", "disarrayed", "discalced", "discolorated", "discolourated", "discshaped", "diseased", "disembodied", "disencumbered", "disfranchised", "diskshaped", "disproportionated", "disproportioned", "disqualified", "distempered", "districted", "diversified", "diverticulated", "divested", "divvied", "dizzied", "dogged", "dogsbodied", "dogsled", "domeshaped", "domiciled", "dormered", "doublebarrelled", "doublestranded", "doublewalled", "downhearted", "duckbilled", "eared", "echeloned", "eddied", "edified", "eggshaped", "elasticated", "electrified", "elegized", "embed", "embodied", "emceed", "empaneled", "empanelled", "emptyhearted", "emulsified", "engined", "ennobled", "envied", "enzymecatalysed", "enzymecatalyzed", "epitomised", "epoxidized", "epoxied", "etherised", "etherized", "evilhearted", "evilminded", "exceed", "exemplified", "exponentiated", "expurgated", "extravasated", "extraverted", "extroverted", "fabled", "facelifted", "facsimiled", "fainthearted", "falcated", "falsehearted", "falsified", "famed", "fancified", "fanged", "fanshaped", "fantasied", "farsighted", "fated", "fatted", "fazed", "featherbed", "fed", "federalized", "feeblehearted", "feebleminded", "feeblewitted", "feed", "fendered", "fenestrated", "ferried", "fevered", "fibered", "fibred", "ficklehearted", "fiercehearted", "figged", "filigreed", "filterfeed", "fireweed", "firmhearted", "fissured", "flanged", "flanneled", "flannelled", "flatbed", "flatfooted", "flatted", "flaxenhaired", "flaxseed", "flaxweed", "flighted", "floodgenerated", "flowerbed", "fluidised", "fluidized", "flurried", "fobbed", "fonded", "forcefeed", "foreshortened", "foresighted", "forkshaped", "formfeed", "fortified", "fortressed", "foulmouthed", "foureyed", "foxtailed", "fractionalised", "fractionalized", "frankhearted", "freed", "freehearted", "freespirited", "frenzied", "friezed", "frontiered", "fructified", "frumped", "fullblooded", "fullbodied", "fullfledged", "fullhearted", "funnelshaped", "furnaced", "gaitered", "galleried", "gangliated", "ganglionated", "gangrened", "gargoyled", "gasified", "gaunted", "gauntleted", "gauzed", "gavelled", "gelatinised", "gemmed", "genderized", "gentled", "gentlehearted", "gerrymandered", "gladhearted", "glamored", "globed", "gloried", "glorified", "glycosylated", "goateed", "gobletshaped", "godspeed", "goodhearted", "goodhumored", "goodhumoured", "goodnatured", "goodtempered", "goosed", "goosenecked", "goutweed", "grainfed", "grammaticalized", "grapeseed", "gratified", "graved", "gravelbed", "grayhaired", "greathearted", "greed", "greenweed", "grommeted", "groundspeed", "groved", "gruffed", "guiled", "gulled", "gumshoed", "gunkholed", "gussied", "guyed", "gyrostabilized", "hackneyed", "hagged", "haired", "halfcivilized", "halfhearted", "halfwitted", "haloed", "handballed", "handfed", "handfeed", "hardcoded", "hardhearted", "hardnosed", "hared", "harelipped", "hasted", "hatred", "haunched", "hawkeyed", "hayseed", "hayweed", "hearsed", "hearted", "heartshaped", "heavenlyminded", "heavyfooted", "heavyhearted", "heed", "heired", "heisted", "helicoptered", "helmed", "helmeted", "hemagglutinated", "hemolyzed", "hempseed", "hempweed", "heparinised", "heparinized", "herbed", "highheeled", "highminded", "highpriced", "highspeed", "highspirited", "hilled", "hipped", "hispanicised", "hocked", "hoed", "hogweed", "holstered", "homaged", "hoodooed", "hoofed", "hooknosed", "hooved", "horned", "horrified", "horseshoed", "horseweed", "hotbed", "hotblooded", "hothearted", "hotted", "hottempered", "hued", "humansized", "humidified", "humped", "hundred", "hutched", "hyperinflated", "hyperpigmented", "hyperstimulated", "hypertrophied", "hyphened", "hypophysectomised", "hypophysectomized", "hypopigmented", "hypostatised", "hysterectomized", "iconified", "iconised", "iconized", "ideologised", "illbred", "illconceived", "illdefined", "illdisposed", "illequipped", "illfated", "illfavored", "illfavoured", "illflavored", "illfurnished", "illhumored", "illhumoured", "illimited", "illmannered", "illnatured", "illomened", "illproportioned", "illqualified", "illscented", "illtempered", "illumed", "illusioned", "imbed", "imbossed", "imbued", "immatured", "impassioned", "impenetrated", "imperfected", "imperialised", "imperturbed", "impowered", "imputed", "inarticulated", "inbred", "inbreed", "incapsulated", "incased", "incrustated", "incrusted", "indebted", "indeed", "indemnified", "indentured", "indigested", "indisposed", "inexperienced", "infrared", "intensified", "intentioned", "interbedded", "interbred", "interbreed", "interluded", "introverted", "inured", "inventoried", "iodinated", "iodised", "irked", "ironfisted", "ironweed", "itchweed", "ivied", "ivyweed", "jagged", "jellified", "jerseyed", "jetlagged", "jetpropelled", "jeweled", "jewelled", "jewelweed", "jiggered", "jimmyweed", "jimsonweed", "jointweed", "joyweed", "jungled", "juried", "justiceweed", "justified", "karstified", "kerchiefed", "kettleshaped", "kibbled", "kidneyshaped", "kimonoed", "kindhearted", "kindred", "kingsized", "kirtled", "knacked", "knapweed", "kneed", "knobbed", "knobweed", "knopweed", "knotweed", "lakebed", "lakeweed", "lamed", "lamellated", "lanceshaped", "lanceted", "landbased", "lapeled", "lapelled", "largehearted", "lariated", "lased", "latticed", "lauded", "lavaged", "lavendered", "lawned", "led", "lefteyed", "legitimatised", "legitimatized", "leisured", "lensshaped", "leveed", "levied", "lichened", "lichenized", "lidded", "lifesized", "lightfingered", "lightfooted", "lighthearted", "lightminded", "lightspeed", "lignified", "likeminded", "lilylivered", "limbed", "linearised", "linearized", "linefeed", "linseed", "lionhearted", "liquefied", "liquified", "lithified", "liveried", "lobbied", "locoweed", "longarmed", "longhaired", "longhorned", "longlegged", "longnecked", "longsighted", "longwinded", "lopsided", "loudmouthed", "louvered", "louvred", "lowbred", "lowpriced", "lowspirited", "lozenged", "lunated", "lyrated", "lysinated", "maced", "macroaggregated", "macrodissected", "maculated", "madweed", "magnified", "maidenweed", "maladapted", "maladjusted", "malnourished", "malrotated", "maned", "mannered", "manuevered", "manyhued", "manyshaped", "manysided", "masted", "mealymouthed", "meanspirited", "membered", "membraned", "metaled", "metalized", "metallised", "metallized", "metamerized", "metathesized", "meted", "methylated", "mettled", "microbrecciated", "microminiaturized", "microstratified", "middleaged", "midsized", "miffed", "mildhearted", "milkweed", "miniskirted", "misactivated", "misaligned", "mischiefed", "misclassified", "misdeed", "misdemeaned", "mismannered", "misnomered", "misproportioned", "miswired", "mitred", "mitted", "mittened", "moneyed", "monocled", "mononucleated", "monospaced", "monotoned", "monounsaturated", "mortified", "moseyed", "motorised", "motorized", "moussed", "moustached", "muddied", "mugweed", "multiarmed", "multibarreled", "multibladed", "multicelled", "multichambered", "multichanneled", "multichannelled", "multicoated", "multidirected", "multiengined", "multifaceted", "multilaminated", "multilaned", "multilayered", "multilobed", "multilobulated", "multinucleated", "multipronged", "multisegmented", "multisided", "multispeed", "multistemmed", "multistoried", "multitalented", "multitoned", "multitowered", "multivalued", "mummied", "mummified", "mustached", "mustachioed", "mutinied", "myelinated", "mystified", "mythicised", "naked", "narcotised", "narrowminded", "natured", "neaped", "nearsighted", "necrosed", "nectared", "need", "needleshaped", "newfangled", "newlywed", "nibbed", "nimblewitted", "nippled", "nixed", "nobled", "noduled", "noised", "nonaccented", "nonactivated", "nonadsorbed", "nonadulterated", "nonaerated", "nonaffiliated", "nonaliased", "nonalienated", "nonaligned", "nonarchived", "nonarmored", "nonassociated", "nonattenuated", "nonblackened", "nonbreastfed", "nonbrecciated", "nonbuffered", "nonbuttered", "noncarbonated", "noncarbonized", "noncatalogued", "noncatalyzed", "noncategorized", "noncertified", "nonchlorinated", "nonciliated", "noncircumcised", "noncivilized", "nonclassified", "noncoated", "noncodified", "noncoerced", "noncommercialized", "noncommissioned", "noncompacted", "noncompiled", "noncomplicated", "noncomposed", "noncomputed", "noncomputerized", "nonconcerted", "nonconditioned", "nonconfirmed", "noncongested", "nonconjugated", "noncooled", "noncorrugated", "noncoupled", "noncreated", "noncrowded", "noncultured", "noncurated", "noncushioned", "nondecoded", "nondecomposed", "nondedicated", "nondeferred", "nondeflated", "nondegenerated", "nondegraded", "nondelegated", "nondelimited", "nondelineated", "nondemarcated", "nondeodorized", "nondeployed", "nonderivatized", "nonderived", "nondetached", "nondetailed", "nondifferentiated", "nondigested", "nondigitized", "nondilapidated", "nondilated", "nondimensionalised", "nondimensionalized", "nondirected", "nondisabled", "nondisciplined", "nondispersed", "nondisputed", "nondisqualified", "nondisrupted", "nondisseminated", "nondissipated", "nondissolved", "nondistressed", "nondistributed", "nondiversified", "nondiverted", "nondocumented", "nondomesticated", "nondoped", "nondrafted", "nondrugged", "nondubbed", "nonducted", "nonearthed", "noneclipsed", "nonedged", "nonedited", "nonelasticized", "nonelectrified", "nonelectroplated", "nonelectroporated", "nonelevated", "noneliminated", "nonelongated", "nonembedded", "nonembodied", "nonemphasized", "nonencapsulated", "nonencoded", "nonencrypted", "nonendangered", "nonengraved", "nonenlarged", "nonenriched", "nonentangled", "nonentrenched", "nonepithelized", "nonequilibrated", "nonestablished", "nonetched", "nonethoxylated", "nonethylated", "nonetiolated", "nonexaggerated", "nonexcavated", "nonexhausted", "nonexperienced", "nonexpired", "nonfabricated", "nonfalsified", "nonfeathered", "nonfeatured", "nonfed", "nonfederated", "nonfeed", "nonfenestrated", "nonfertilized", "nonfilamented", "nonfinanced", "nonfinished", "nonfinned", "nonfissured", "nonflagellated", "nonflagged", "nonflared", "nonflavored", "nonfluidized", "nonfluorinated", "nonfluted", "nonforested", "nonformalized", "nonformatted", "nonfragmented", "nonfragranced", "nonfranchised", "nonfreckled", "nonfueled", "nonfumigated", "nonfunctionalized", "nonfunded", "nongalvanized", "nongated", "nongelatinized", "nongendered", "nongeneralized", "nongenerated", "nongifted", "nonglazed", "nonglucosated", "nonglucosylated", "nonglycerinated", "nongraded", "nongrounded", "nonhalogenated", "nonhandicapped", "nonhospitalised", "nonhospitalized", "nonhydrated", "nonincorporated", "nonindexed", "noninfected", "noninfested", "noninitialized", "noninitiated", "noninoculated", "noninseminated", "noninstitutionalized", "noninsured", "nonintensified", "noninterlaced", "noninterpreted", "nonintroverted", "noninvestigated", "noninvolved", "nonirrigated", "nonisolated", "nonisomerized", "nonissued", "nonitalicized", "nonitemized", "noniterated", "nonjaded", "nonlabelled", "nonlaminated", "nonlateralized", "nonlayered", "nonlegalized", "nonlegislated", "nonlesioned", "nonlexicalized", "nonliberated", "nonlichenized", "nonlighted", "nonlignified", "nonlimited", "nonlinearized", "nonlinked", "nonlobed", "nonlobotomized", "nonlocalized", "nonlysed", "nonmachined", "nonmalnourished", "nonmandated", "nonmarginalized", "nonmassaged", "nonmatriculated", "nonmatted", "nonmatured", "nonmechanized", "nonmedicated", "nonmedullated", "nonmentioned", "nonmetabolized", "nonmetallized", "nonmetastasized", "nonmetered", "nonmethoxylated", "nonmilled", "nonmineralized", "nonmirrored", "nonmodeled", "nonmoderated", "nonmodified", "nonmonetized", "nonmonitored", "nonmortgaged", "nonmotorized", "nonmottled", "nonmounted", "nonmultithreaded", "nonmutilated", "nonmyelinated", "nonnormalized", "nonnucleated", "nonobjectified", "nonobligated", "nonoccupied", "nonoiled", "nonopinionated", "nonoxygenated", "nonpaginated", "nonpaired", "nonparalyzed", "nonparameterized", "nonparasitized", "nonpasteurized", "nonpatterned", "nonphased", "nonphosphatized", "nonphosphorized", "nonpierced", "nonpigmented", "nonpiloted", "nonpipelined", "nonpitted", "nonplussed", "nonpuffed", "nonrandomized", "nonrated", "nonrefined", "nonregistered", "nonregulated", "nonrelated", "nonretarded", "nonsacred", "nonsalaried", "nonsanctioned", "nonsaturated", "nonscented", "nonscheduled", "nonseasoned", "nonsecluded", "nonsegmented", "nonsegregated", "nonselected", "nonsolidified", "nonspecialized", "nonspored", "nonstandardised", "nonstandardized", "nonstratified", "nonstressed", "nonstriated", "nonstriped", "nonstructured", "nonstylised", "nonstylized", "nonsubmerged", "nonsubscripted", "nonsubsidised", "nonsubsidized", "nonsubstituted", "nonsyndicated", "nonsynthesised", "nontabulated", "nontalented", "nonthreaded", "nontinted", "nontolerated", "nontranslated", "nontunnelled", "nonunified", "nonunionised", "nonupholstered", "nonutilised", "nonutilized", "nonvalued", "nonvaried", "nonverbalized", "nonvitrified", "nonvolatilised", "nonvolatilized", "normed", "nosebleed", "notated", "notified", "nuanced", "nullified", "numerated", "oarweed", "objectified", "obliqued", "obtunded", "occupied", "octupled", "odored", "oilseed", "oinked", "oldfashioned", "onesided", "oophorectomized", "opaqued", "openhearted", "openminded", "openmouthed", "opiated", "opinionated", "oracled", "oreweed", "ossified", "outbreed", "outmoded", "outrigged", "outriggered", "outsized", "outskated", "outspeed", "outtopped", "outtrumped", "outvoiced", "outweed", "ovated", "overadorned", "overaged", "overalled", "overassured", "overbred", "overbreed", "overcomplicated", "overdamped", "overdetailed", "overdiversified", "overdyed", "overequipped", "overfatigued", "overfed", "overfeed", "overindebted", "overintensified", "overinventoried", "overmagnified", "overmodified", "overpreoccupied", "overprivileged", "overproportionated", "overqualified", "overseed", "oversexed", "oversimplified", "oversized", "oversophisticated", "overstudied", "oversulfated", "ovicelled", "ovoidshaped", "ozonated", "pacified", "packeted", "palatalized", "paled", "palsied", "paned", "panicled", "parabled", "parallelepiped", "parallelized", "parallelopiped", "parenthesised", "parodied", "parqueted", "passioned", "paunched", "pauperised", "pedigreed", "pedimented", "pedunculated", "pegged", "peglegged", "penanced", "pencilshaped", "permineralized", "personified", "petrified", "photodissociated", "photoduplicated", "photoed", "photoinduced", "photolysed", "photolyzed", "pied", "pigeoned", "pigtailed", "pigweed", "pilastered", "pillared", "pilloried", "pimpled", "pinealectomised", "pinealectomized", "pinfeathered", "pinnacled", "pinstriped", "pixellated", "pixilated", "pixillated", "plainclothed", "plantarflexed", "pled", "plumaged", "pocked", "pokeweed", "polychlorinated", "polyunsaturated", "ponytailed", "pooched", "poorspirited", "popeyed", "poppyseed", "porcelainized", "porched", "poshed", "pottered", "poxed", "preachified", "precertified", "preclassified", "preconized", "preinoculated", "premed", "prenotified", "preoccupied", "preposed", "prequalified", "preshaped", "presignified", "prespecified", "prettified", "pried", "principled", "proceed", "prophesied", "propounded", "prosed", "protonated", "proudhearted", "proxied", "pulpified", "pumpkinseed", "puppied", "purebred", "pured", "pureed", "purified", "pustuled", "putrefied", "pyjamaed", "quadruped", "qualified", "quantified", "quantised", "quantized", "quarried", "queried", "questoned", "quicktempered", "quickwitted", "quiesced", "quietened", "quizzified", "racemed", "radiosensitised", "ragweed", "raindrenched", "ramped", "rapeseed", "rarefied", "rarified", "ratified", "razoredged", "reaccelerated", "reaccompanied", "reachieved", "reacknowledged", "readdicted", "readied", "reamplified", "reannealed", "reassociated", "rebadged", "rebiopsied", "recabled", "recategorised", "receipted", "recentred", "recertified", "rechoreographed", "reclarified", "reclassified", "reconferred", "recrystalized", "rectified", "recursed", "redblooded", "redefied", "redenied", "rednecked", "redshifted", "redweed", "redyed", "reed", "reembodied", "reenlighted", "refeed", "refereed", "reflexed", "refortified", "refronted", "refuged", "reglorified", "reimpregnated", "reinitialized", "rejustified", "reliquefied", "remedied", "remodified", "remonetized", "remythologized", "renotified", "renullified", "renumerated", "reoccupied", "repacified", "repurified", "reputed", "requalified", "rescinded", "reseed", "reshoed", "resolidified", "resorbed", "respecified", "restudied", "retabulated", "reticulated", "retinted", "retreed", "retroacted", "reunified", "reverified", "revested", "revivified", "rewed", "ridgepoled", "riffled", "rightminded", "rigidified", "rinded", "riped", "rited", "ritualised", "riverbed", "rivered", "roached", "roadbed", "robotised", "robotized", "romanized", "rosetted", "rosined", "roughhearted", "rubied", "ruddied", "runcinated", "russeted", "sabled", "sabred", "sabretoothed", "sacheted", "sacred", "saddlebred", "sainted", "salaried", "samoyed", "sanctified", "satellited", "savvied", "sawtoothed", "scandalled", "scarified", "scarped", "sceptred", "scissored", "screed", "screwshaped", "scrupled", "sculked", "scurried", "scuttled", "seabed", "seaweed", "seed", "seedbed", "selfassured", "selforganized", "semicivilized", "semidetached", "semidisassembled", "semidomesticated", "semipetrified", "semipronated", "semirefined", "semivitrified", "sentineled", "sepaled", "sepalled", "sequinned", "sexed", "shagged", "shaggycoated", "shaggyhaired", "shaled", "shammed", "sharpangled", "sharpclawed", "sharpcornered", "sharpeared", "sharpedged", "sharpeyed", "sharpflavored", "sharplimbed", "sharpnosed", "sharpsighted", "sharptailed", "sharptongued", "sharptoothed", "sharpwitted", "sharpworded", "shed", "shellbed", "shieldshaped", "shimmied", "shinned", "shirted", "shirtsleeved", "shoed", "shortbeaked", "shortbilled", "shortbodied", "shorthaired", "shortlegged", "shortlimbed", "shortnecked", "shortnosed", "shortsighted", "shortsleeved", "shortsnouted", "shortstaffed", "shorttailed", "shorttempered", "shorttoed", "shorttongued", "shortwinded", "shortwinged", "shotted", "shred", "shrewsized", "shrined", "shrinkproofed", "sickbed", "sickleshaped", "sickleweed", "signalised", "signified", "silicified", "siliconized", "silkweed", "siltsized", "silvertongued", "simpleminded", "simplified", "singlebarreled", "singlebarrelled", "singlebed", "singlebladed", "singlebreasted", "singlecelled", "singlefooted", "singlelayered", "singleminded", "singleseeded", "singleshelled", "singlestranded", "singlevalued", "sissified", "sistered", "sixgilled", "sixmembered", "sixsided", "sixstoried", "skulled", "slickered", "slipcased", "slowpaced", "slowwitted", "slurried", "smallminded", "smoothened", "smoothtongued", "snaggletoothed", "snouted", "snowballed", "snowcapped", "snowshed", "snowshoed", "snubnosed", "so-called", "sofabed", "softhearted", "sogged", "soled", "solidified", "soliped", "sorbed", "souled", "spearshaped", "specified", "spectacled", "sped", "speeched", "speechified", "speed", "spied", "spiffied", "spindleshaped", "spiritualised", "spirted", "splayfooted", "spoonfed", "spoonfeed", "spoonshaped", "spreadeagled", "squarejawed", "squareshaped", "squareshouldered", "squaretoed", "squeegeed", "staled", "starshaped", "starspangled", "starstudded", "statechartered", "statesponsored", "statued", "steadied", "steampowered", "steed", "steelhearted", "steepled", "sterned", "stiffnecked", "stilettoed", "stimied", "stinkweed", "stirrupshaped", "stockinged", "storeyed", "storied", "stouthearted", "straitlaced", "stratified", "strawberryflavored", "streambed", "stressinduced", "stretchered", "strictured", "strongbodied", "strongboned", "strongflavored", "stronghearted", "stronglimbed", "strongminded", "strongscented", "strongwilled", "stubbled", "studied", "stultified", "stupefied", "styed", "stymied", "subclassified", "subcommissioned", "subminiaturised", "subsaturated", "subulated", "suburbanised", "suburbanized", "suburbed", "succeed", "sueded", "sugarrelated", "sulfurized", "sunbed", "superhardened", "superinfected", "supersimplified", "surefooted", "sweetscented", "swifted", "swordshaped", "syllabified", "syphilized", "tabularized", "talented", "tarpapered", "tautomerized", "teated", "teed", "teenaged", "teetotaled", "tenderhearted", "tentacled", "tenured", "termed", "ternated", "testbed", "testified", "theatricalised", "theatricalized", "themed", "thicketed", "thickskinned", "thickwalled", "thighed", "thimbled", "thimblewitted", "thonged", "thoroughbred", "thralled", "threated", "throated", "throughbred", "thyroidectomised", "thyroidectomized", "tiaraed", "ticktocked", "tidied", "tightassed", "tightfisted", "tightlipped", "timehonoured", "tindered", "tined", "tinselled", "tippytoed", "tiptoed", "titled", "toed", "tomahawked", "tonged", "toolshed", "toothplated", "toplighted", "torchlighted", "toughhearted", "traditionalized", "trajected", "tranced", "transgendered", "transliterated", "translocated", "transmogrified", "treadled", "treed", "treelined", "tressed", "trialled", "triangled", "trifoliated", "trifoliolated", "trilobed", "trucklebed", "truehearted", "trumpetshaped", "trumpetweed", "tuberculated", "tumbleweed", "tunnelshaped", "turbaned", "turreted", "turtlenecked", "tuskshaped", "tweed", "twigged", "typified", "ulcered", "ultracivilised", "ultracivilized", "ultracooled", "ultradignified", "ultradispersed", "ultrafiltered", "ultrared", "ultrasimplified", "ultrasophisticated", "unabandoned", "unabashed", "unabbreviated", "unabetted", "unabolished", "unaborted", "unabraded", "unabridged", "unabsolved", "unabsorbed", "unaccelerated", "unaccented", "unaccentuated", "unacclimatised", "unacclimatized", "unaccompanied", "unaccomplished", "unaccosted", "unaccredited", "unaccrued", "unaccumulated", "unaccustomed", "unacidulated", "unacquainted", "unacquitted", "unactivated", "unactuated", "unadapted", "unaddicted", "unadjourned", "unadjudicated", "unadjusted", "unadmonished", "unadopted", "unadored", "unadorned", "unadsorbed", "unadulterated", "unadvertised", "unaerated", "unaffiliated", "unaggregated", "unagitated", "unaimed", "unaired", "unaliased", "unalienated", "unaligned", "unallocated", "unalloyed", "unalphabetized", "unamassed", "unamortized", "unamplified", "unanaesthetised", "unanaesthetized", "unaneled", "unanesthetised", "unanesthetized", "unangered", "unannealed", "unannexed", "unannihilated", "unannotated", "unanointed", "unanticipated", "unappareled", "unappendaged", "unapportioned", "unapprenticed", "unapproached", "unappropriated", "unarbitrated", "unarched", "unarchived", "unarmored", "unarmoured", "unarticulated", "unascertained", "unashamed", "unaspirated", "unassembled", "unasserted", "unassessed", "unassociated", "unassorted", "unassuaged", "unastonished", "unastounded", "unatoned", "unattained", "unattainted", "unattenuated", "unattributed", "unauctioned", "unaudited", "unauthenticated", "unautographed", "unaverted", "unawaked", "unawakened", "unawarded", "unawed", "unbaffled", "unbaited", "unbalconied", "unbanded", "unbanished", "unbaptised", "unbaptized", "unbarreled", "unbarrelled", "unbattered", "unbeaded", "unbearded", "unbeneficed", "unbesotted", "unbetrayed", "unbetrothed", "unbiased", "unbiassed", "unbigoted", "unbilled", "unblackened", "unblanketed", "unblasphemed", "unblazoned", "unblistered", "unblockaded", "unbloodied", "unbodied", "unbonded", "unbothered", "unbounded", "unbracketed", "unbranded", "unbreaded", "unbrewed", "unbridged", "unbridled", "unbroached", "unbudgeted", "unbuffed", "unbuffered", "unburnished", "unbutchered", "unbuttered", "uncached", "uncaked", "uncalcified", "uncalibrated", "uncamouflaged", "uncamphorated", "uncanceled", "uncancelled", "uncapitalized", "uncarbonated", "uncarpeted", "uncased", "uncashed", "uncastrated", "uncatalogued", "uncatalysed", "uncatalyzed", "uncategorised", "uncatered", "uncaulked", "uncelebrated", "uncensored", "uncensured", "uncertified", "unchambered", "unchanneled", "unchannelled", "unchaperoned", "uncharacterized", "uncharted", "unchartered", "unchastened", "unchastised", "unchelated", "uncherished", "unchilled", "unchristened", "unchronicled", "uncircumcised", "uncircumscribed", "uncited", "uncivilised", "uncivilized", "unclarified", "unclassed", "unclassified", "uncleaved", "unclimbed", "unclustered", "uncluttered", "uncoagulated", "uncoded", "uncodified", "uncoerced", "uncoined", "uncollapsed", "uncollated", "uncolonised", "uncolonized", "uncolumned", "uncombined", "uncommented", "uncommercialised", "uncommercialized", "uncommissioned", "uncommitted", "uncompacted", "uncompartmentalized", "uncompartmented", "uncompensated", "uncompiled", "uncomplicated", "uncompounded", "uncomprehened", "uncomputed", "unconcealed", "unconceded", "unconcluded", "uncondensed", "unconditioned", "unconfined", "unconfirmed", "uncongested", "unconglomerated", "uncongratulated", "unconjugated", "unconquered", "unconsecrated", "unconsoled", "unconsolidated", "unconstipated", "unconstricted", "unconstructed", "unconsumed", "uncontacted", "uncontracted", "uncontradicted", "uncontrived", "unconverted", "unconveyed", "unconvicted", "uncooked", "uncooled", "uncoordinated", "uncopyrighted", "uncored", "uncorrelated", "uncorroborated", "uncosted", "uncounseled", "uncounselled", "uncounterfeited", "uncoveted", "uncrafted", "uncramped", "uncrannied", "uncrazed", "uncreamed", "uncreased", "uncreated", "uncredentialled", "uncredited", "uncrested", "uncrevassed", "uncrippled", "uncriticised", "uncriticized", "uncropped", "uncrosslinked", "uncrowded", "uncrucified", "uncrumbled", "uncrystalized", "uncrystallised", "uncrystallized", "uncubed", "uncuddled", "uncued", "unculled", "uncultivated", "uncultured", "uncupped", "uncurated", "uncurbed", "uncurried", "uncurtained", "uncushioned", "undamped", "undampened", "undappled", "undarkened", "undated", "undaubed", "undazzled", "undeadened", "undeafened", "undebated", "undebunked", "undeceased", "undecimalized", "undeciphered", "undecked", "undeclared", "undecomposed", "undeconstructed", "undedicated", "undefeated", "undeferred", "undefied", "undefined", "undeflected", "undefrauded", "undefrayed", "undegassed", "undejected", "undelegated", "undeleted", "undelimited", "undelineated", "undemented", "undemolished", "undemonstrated", "undenatured", "undenied", "undented", "undeodorized", "undepicted", "undeputized", "underaged", "underarmed", "underassessed", "underbred", "underbudgeted", "undercapitalised", "undercapitalized", "underdiagnosed", "underdocumented", "underequipped", "underexploited", "underexplored", "underfed", "underfeed", "underfurnished", "undergoverned", "undergrazed", "underinflated", "underinsured", "underinvested", "underived", "undermaintained", "undermentioned", "undermotivated", "underperceived", "underpowered", "underprivileged", "underqualified", "underrehearsed", "underresourced", "underripened", "undersaturated", "undersexed", "undersized", "underspecified", "understaffed", "understocked", "understressed", "understudied", "underutilised", "underventilated", "undescaled", "undesignated", "undetached", "undetailed", "undetained", "undeteriorated", "undeterred", "undetonated", "undevised", "undevoted", "undevoured", "undiagnosed", "undialed", "undialysed", "undialyzed", "undiapered", "undiffracted", "undigested", "undignified", "undiluted", "undiminished", "undimmed", "undipped", "undirected", "undisciplined", "undiscouraged", "undiscussed", "undisfigured", "undisguised", "undisinfected", "undismayed", "undisposed", "undisproved", "undisputed", "undisrupted", "undissembled", "undissipated", "undissociated", "undissolved", "undistilled", "undistorted", "undistracted", "undistributed", "undisturbed", "undiversified", "undiverted", "undivulged", "undoctored", "undocumented", "undomesticated", "undosed", "undramatised", "undrilled", "undrugged", "undubbed", "unduplicated", "uneclipsed", "unedged", "unedited", "unejaculated", "unejected", "unelaborated", "unelapsed", "unelected", "unelectrified", "unelevated", "unelongated", "unelucidated", "unemaciated", "unemancipated", "unemasculated", "unembalmed", "unembed", "unembellished", "unembodied", "unemboldened", "unemerged", "unenacted", "unencoded", "unencrypted", "unencumbered", "unendangered", "unendorsed", "unenergized", "unenfranchised", "unengraved", "unenhanced", "unenlarged", "unenlivened", "unenraptured", "unenriched", "unentangled", "unentitled", "unentombed", "unentranced", "unentwined", "unenumerated", "unenveloped", "unenvied", "unequaled", "unequalised", "unequalized", "unequalled", "unequipped", "unerased", "unerected", "uneroded", "unerupted", "unescorted", "unestablished", "unevaluated", "unexaggerated", "unexampled", "unexcavated", "unexceeded", "unexcelled", "unexecuted", "unexerted", "unexhausted", "unexpensed", "unexperienced", "unexpired", "unexploited", "unexplored", "unexposed", "unexpurgated", "unextinguished", "unfabricated", "unfaceted", "unfanned", "unfashioned", "unfathered", "unfathomed", "unfattened", "unfavored", "unfavoured", "unfazed", "unfeathered", "unfed", "unfeigned", "unfermented", "unfertilised", "unfertilized", "unfilleted", "unfiltered", "unfinished", "unflavored", "unflavoured", "unflawed", "unfledged", "unfleshed", "unflurried", "unflushed", "unflustered", "unfluted", "unfocussed", "unforested", "unformatted", "unformulated", "unfortified", "unfractionated", "unfractured", "unfragmented", "unfrequented", "unfretted", "unfrosted", "unfueled", "unfunded", "unfurnished", "ungarbed", "ungarmented", "ungarnished", "ungeared", "ungerminated", "ungifted", "unglazed", "ungoverned", "ungraded", "ungrasped", "ungratified", "ungroomed", "ungrounded", "ungrouped", "ungummed", "ungusseted", "unhabituated", "unhampered", "unhandicapped", "unhardened", "unharvested", "unhasped", "unhatched", "unheralded", "unhindered", "unhomogenised", "unhomogenized", "unhonored", "unhonoured", "unhooded", "unhusked", "unhyphenated", "unified", "unillustrated", "unimpacted", "unimpaired", "unimpassioned", "unimpeached", "unimpelled", "unimplemented", "unimpregnated", "unimprisoned", "unimpugned", "unincorporated", "unincubated", "unincumbered", "unindemnified", "unindexed", "unindicted", "unindorsed", "uninduced", "unindustrialised", "unindustrialized", "uninebriated", "uninfected", "uninflated", "uninflected", "uninhabited", "uninhibited", "uninitialised", "uninitialized", "uninitiated", "uninoculated", "uninseminated", "uninsulated", "uninsured", "uninterpreted", "unintimidated", "unintoxicated", "unintroverted", "uninucleated", "uninverted", "uninvested", "uninvolved", "unissued", "unjaundiced", "unjointed", "unjustified", "unkeyed", "unkindled", "unlabelled", "unlacquered", "unlamented", "unlaminated", "unlarded", "unlaureled", "unlaurelled", "unleaded", "unleavened", "unled", "unlettered", "unlicenced", "unlighted", "unlimbered", "unlimited", "unlined", "unlipped", "unliquidated", "unlithified", "unlittered", "unliveried", "unlobed", "unlocalised", "unlocalized", "unlocated", "unlogged", "unlubricated", "unmagnified", "unmailed", "unmaimed", "unmaintained", "unmalted", "unmangled", "unmanifested", "unmanipulated", "unmannered", "unmanufactured", "unmapped", "unmarred", "unmastered", "unmatriculated", "unmechanised", "unmechanized", "unmediated", "unmedicated", "unmentioned", "unmerged", "unmerited", "unmetabolised", "unmetabolized", "unmetamorphosed", "unmethylated", "unmineralized", "unmitigated", "unmoderated", "unmodernised", "unmodernized", "unmodified", "unmodulated", "unmolded", "unmolested", "unmonitored", "unmortgaged", "unmotivated", "unmotorised", "unmotorized", "unmounted", "unmutated", "unmutilated", "unmyelinated", "unnaturalised", "unnaturalized", "unnotched", "unnourished", "unobligated", "unobstructed", "unoccupied", "unoiled", "unopposed", "unoptimised", "unordained", "unorganised", "unorganized", "unoriented", "unoriginated", "unornamented", "unoxidized", "unoxygenated", "unpacified", "unpackaged", "unpaired", "unparalleled", "unparallelled", "unparasitized", "unpardoned", "unparodied", "unpartitioned", "unpasteurised", "unpasteurized", "unpatented", "unpaved", "unpedigreed", "unpenetrated", "unpenned", "unperfected", "unperjured", "unpersonalised", "unpersuaded", "unperturbed", "unperverted", "unpestered", "unphosphorylated", "unphotographed", "unpigmented", "unpiloted", "unpledged", "unploughed", "unplumbed", "unpoised", "unpolarized", "unpoliced", "unpolled", "unpopulated", "unposed", "unpowered", "unprecedented", "unpredicted", "unprejudiced", "unpremeditated", "unprescribed", "unpressurised", "unpressurized", "unpriced", "unprimed", "unprincipled", "unprivileged", "unprized", "unprocessed", "unprofaned", "unprofessed", "unprohibited", "unprompted", "unpronounced", "unproposed", "unprospected", "unproved", "unpruned", "unpublicised", "unpublicized", "unpublished", "unpuckered", "unpunctuated", "unpurified", "unqualified", "unquantified", "unquenched", "unquoted", "unranked", "unrated", "unratified", "unrebuked", "unreckoned", "unrecompensed", "unreconciled", "unreconstructed", "unrectified", "unredeemed", "unrefined", "unrefreshed", "unrefrigerated", "unregarded", "unregimented", "unregistered", "unregulated", "unrehearsed", "unrelated", "unrelieved", "unrelinquished", "unrenewed", "unrented", "unrepealed", "unreplicated", "unreprimanded", "unrequited", "unrespected", "unrestricted", "unretained", "unretarded", "unrevised", "unrevived", "unrevoked", "unrifled", "unripened", "unrivaled", "unrivalled", "unroasted", "unroofed", "unrounded", "unruffled", "unsalaried", "unsalted", "unsanctified", "unsanctioned", "unsanded", "unsaponified", "unsated", "unsatiated", "unsatisfied", "unsaturated", "unscaled", "unscarred", "unscathed", "unscented", "unscheduled", "unschooled", "unscreened", "unscripted", "unseamed", "unseared", "unseasoned", "unseeded", "unsegmented", "unsegregated", "unselected", "unserviced", "unsexed", "unshamed", "unshaped", "unsharpened", "unsheared", "unshielded", "unshifted", "unshirted", "unshoed", "unshuttered", "unsifted", "unsighted", "unsilenced", "unsimplified", "unsized", "unskewed", "unskinned", "unslaked", "unsliced", "unsloped", "unsmoothed", "unsoiled", "unsoldered", "unsolicited", "unsolved", "unsophisticated", "unsorted", "unsourced", "unsoured", "unspaced", "unspanned", "unspecialised", "unspecialized", "unspecified", "unspiced", "unstaged", "unstandardised", "unstandardized", "unstapled", "unstarched", "unstarred", "unstated", "unsteadied", "unstemmed", "unsterilised", "unsterilized", "unstickered", "unstiffened", "unstifled", "unstigmatised", "unstigmatized", "unstilted", "unstippled", "unstipulated", "unstirred", "unstocked", "unstoked", "unstoppered", "unstratified", "unstressed", "unstriped", "unstructured", "unstudied", "unstumped", "unsubdued", "unsubmitted", "unsubsidised", "unsubsidized", "unsubstantiated", "unsubstituted", "unsugared", "unsummarized", "unsupervised", "unsuprised", "unsurveyed", "unswayed", "unsweetened", "unsyllabled", "unsymmetrized", "unsynchronised", "unsynchronized", "unsyncopated", "unsyndicated", "unsynthesized", "unsystematized", "untagged", "untainted", "untalented", "untanned", "untaped", "untapered", "untargeted", "untarnished", "untattooed", "untelevised", "untempered", "untenanted", "unterminated", "untextured", "unthickened", "unthinned", "unthrashed", "unthreaded", "unthrottled", "unticketed", "untiled", "untilled", "untilted", "untimbered", "untinged", "untinned", "untinted", "untitled", "untoasted", "untoggled", "untoothed", "untopped", "untoughened", "untracked", "untrammeled", "untrammelled", "untranscribed", "untransduced", "untransferred", "untranslated", "untransmitted", "untraumatized", "untraversed", "untufted", "untuned", "untutored", "unupgraded", "unupholstered", "unutilised", "unutilized", "unuttered", "unvaccinated", "unvacuumed", "unvalidated", "unvalued", "unvandalized", "unvaned", "unvanquished", "unvapourised", "unvapourized", "unvaried", "unvariegated", "unvarnished", "unvented", "unventilated", "unverbalised", "unverbalized", "unverified", "unversed", "unvetted", "unvictimized", "unviolated", "unvitrified", "unvocalized", "unvoiced", "unwaged", "unwarped", "unwarranted", "unwaxed", "unweakened", "unweaned", "unwearied", "unweathered", "unwebbed", "unwed", "unwedded", "unweeded", "unweighted", "unwelded", "unwinterized", "unwired", "unwitnessed", "unwonted", "unwooded", "unworshipped", "unwounded", "unzoned", "uprated", "uprighted", "upsized", "upswelled", "vacuolated", "valanced", "valueoriented", "varied", "vascularised", "vascularized", "vasectomised", "vaunted", "vectorised", "vectorized", "vegged", "verdured", "verified", "vermiculated", "vernacularized", "versified", "verticillated", "vesiculated", "vied", "vilified", "virtualised", "vitrified", "vivified", "volumed", "vulcanised", "wabbled", "wafered", "waisted", "walleyed", "wared", "warmblooded", "warmhearted", "warted", "waterbased", "waterbed", "watercooled", "watersaturated", "watershed", "wavegenerated", "waxweed", "weakhearted", "weakkneed", "weakminded", "wearied", "weatherised", "weatherstriped", "webfooted", "wedgeshaped", "weed", "weeviled", "welladapted", "welladjusted", "wellbred", "wellconducted", "welldefined", "welldisposed", "welldocumented", "wellequipped", "wellestablished", "wellfavored", "wellfed", "wellgrounded", "wellintentioned", "wellmannered", "wellminded", "wellorganised", "wellrounded", "wellshaped", "wellstructured", "whinged", "whinnied", "whiplashed", "whiskered", "wholehearted", "whorled", "widebased", "wideeyed", "widemeshed", "widemouthed", "widenecked", "widespaced", "wilded", "wildered", "wildeyed", "willinghearted", "windspeed", "winterfed", "winterfeed", "winterised", "wirehaired", "wised", "witchweed", "woaded", "wombed", "wooded", "woodshed", "wooled", "woolled", "woollyhaired", "woollystemmed", "woolyhaired", "woolyminded", "wormholed", "wormshaped", "wrappered", "wretched", "wronghearted", "ycleped", "yolked", "zincified", "zinckified", "zinkified", "zombified"];
 };
 
-},{}],431:[function(require,module,exports){
+},{}],432:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
 	return ["to", "which", "who", "whom", "that", "whose", "after", "although", "as", "because", "before", "even if", "even though", "how", "if", "in order that", "inasmuch", "lest", "once", "provided", "since", "so that", "than", "though", "till", "unless", "until", "when", "whenever", "where", "whereas", "wherever", "whether", "while", "why", "by the time", "supposing", "no matter", "how", "what", "won't", "do", "does", "'ll", ":"];
 };
 
-},{}],432:[function(require,module,exports){
+},{}],433:[function(require,module,exports){
 "use strict";
 
 /** @module config/transitionWords */
@@ -30537,7 +32144,7 @@ module.exports = function () {
 	};
 };
 
-},{}],433:[function(require,module,exports){
+},{}],434:[function(require,module,exports){
 "use strict";
 
 /** @module config/twoPartTransitionWords */
@@ -30550,7 +32157,7 @@ module.exports = function () {
   return [["both", "and"], ["if", "then"], ["not only", "but also"], ["neither", "nor"], ["either", "or"], ["not", "but"], ["whether", "or"], ["no sooner", "than"]];
 };
 
-},{}],434:[function(require,module,exports){
+},{}],435:[function(require,module,exports){
 "use strict";
 
 /** @module analyses/findKeywordInFirstParagraph */
@@ -30577,7 +32184,7 @@ module.exports = function (paper) {
   return wordMatch(paragraph, keyword, paper.getLocale());
 };
 
-},{"../stringProcessing/matchParagraphs.js":507,"../stringProcessing/matchTextWithWord.js":510,"lodash/escapeRegExp":249,"lodash/isEmpty":270,"lodash/reject":295}],435:[function(require,module,exports){
+},{"../stringProcessing/matchParagraphs.js":508,"../stringProcessing/matchTextWithWord.js":511,"lodash/escapeRegExp":250,"lodash/isEmpty":271,"lodash/reject":296}],436:[function(require,module,exports){
 "use strict";
 
 /** @module analyses/findKeywordInPageTitle */
@@ -30605,14 +32212,14 @@ module.exports = function (paper) {
 	return result;
 };
 
-},{"../stringProcessing/matchTextWithWord.js":510,"lodash/escapeRegExp":249}],436:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":511,"lodash/escapeRegExp":250}],437:[function(require,module,exports){
 "use strict";
 
 var createRegexFromDoubleArray = require("../stringProcessing/createRegexFromDoubleArray.js");
 var getSentences = require("../stringProcessing/getSentences.js");
-var matchWordInSentence = require("../stringProcessing/matchWordInSentence.js");
 var normalizeSingleQuotes = require("../stringProcessing/quotes.js").normalizeSingle;
 var getTransitionWords = require("../helpers/getTransitionWords.js");
+var matchWordInSentence = require("../stringProcessing/matchWordInSentence.js").isWordInSentence;
 
 var forEach = require("lodash/forEach");
 var filter = require("lodash/filter");
@@ -30707,7 +32314,7 @@ module.exports = function (paper) {
 	};
 };
 
-},{"../helpers/getTransitionWords.js":395,"../stringProcessing/createRegexFromDoubleArray.js":494,"../stringProcessing/getSentences.js":500,"../stringProcessing/matchWordInSentence.js":511,"../stringProcessing/quotes.js":512,"lodash/filter":250,"lodash/forEach":255,"lodash/memoize":285}],437:[function(require,module,exports){
+},{"../helpers/getTransitionWords.js":396,"../stringProcessing/createRegexFromDoubleArray.js":495,"../stringProcessing/getSentences.js":501,"../stringProcessing/matchWordInSentence.js":512,"../stringProcessing/quotes.js":513,"lodash/filter":251,"lodash/forEach":256,"lodash/memoize":286}],438:[function(require,module,exports){
 "use strict";
 
 /**
@@ -30726,7 +32333,7 @@ module.exports = function () {
 	"celui", "celle", "ceux", "celles", "celui-ci", "celle-là", "celui-là", "celle-ci"];
 };
 
-},{}],438:[function(require,module,exports){
+},{}],439:[function(require,module,exports){
 "use strict";
 
 var transitionWords = require("./transitionWords.js")().singleWords;
@@ -30858,41 +32465,24 @@ var titlesFollowing = ["jr", "sr"];
 
 module.exports = function () {
 	return {
-		articles: articles,
-		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative, personalPronounsStressed),
-		possessivePronouns: possessivePronouns,
-		prepositions: prepositions,
-		demonstrativePronouns: demonstrativePronouns,
-		coordinatingConjunctions: coordinatingConjunctions,
-		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
-		verbs: copula.concat(interviewVerbs, otherAuxiliaries, delexicalizedVerbs),
-		quantifiers: quantifiers,
-		relativePronouns: relativePronouns,
-		interrogatives: interrogativeProAdverbs.concat(interrogativeAdjectives),
-		transitionWords: transitionWords.concat(additionalTransitionWords),
-		// These verbs that should be filtered at the beginning of prominent word combinations.
-		infinitives: otherAuxiliariesInfinitive.concat(delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive),
-		miscellaneous: miscellaneous,
-		interjections: interjections,
-		pronominalAdverbs: pronominalAdverbs,
-		reflexivePronouns: reflexivePronouns,
-		cardinalNumerals: cardinalNumerals,
-		ordinalNumerals: ordinalNumerals,
-		indefinitePronouns: indefinitePronouns,
-		locativeAdverbs: locativeAdverbs,
-		intensifiers: intensifiers,
-		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
-		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
-		recipeWords: recipeWords,
-		timeWords: timeWords,
-		vagueNouns: vagueNouns,
-		titlesPreceding: titlesPreceding,
-		titlesFollowing: titlesFollowing,
-		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing)
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtEnding: [].concat(ordinalNumerals, otherAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive, generalAdjectivesAdverbsPreceding),
+
+		// These word categories are filtered at the beginning of word combinations.
+		filteredAtBeginning: generalAdjectivesAdverbs,
+
+		// These word categories are filtered at the beginning and ending of word combinations.
+		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
+
+		// These word categories are filtered everywhere within word combinations.
+		filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsStressed, reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeAdjectives, relativePronouns, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns),
+
+		// This export contains all of the above words.
+		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing)
 	};
 };
 
-},{"./transitionWords.js":439}],439:[function(require,module,exports){
+},{"./transitionWords.js":440}],440:[function(require,module,exports){
 "use strict";
 
 /** @module config/transitionWords */
@@ -30913,7 +32503,7 @@ module.exports = function () {
 	};
 };
 
-},{}],440:[function(require,module,exports){
+},{}],441:[function(require,module,exports){
 "use strict";
 
 /** @module config/twoPartTransitionWords */
@@ -30926,7 +32516,7 @@ module.exports = function () {
 	return [["à première vue", "mais à bien considérer les choses"], ["à première vue", "mais toute réflexion faite"], ["aussi", "que"], ["autant de", "que"], ["certes", "mais"], ["d'un côté", "de l'autre côté"], ["d'un côté", "de l'autre"], ["d'un côté", "d'un autre côté"], ["d'une part", "d'autre part"], ["d'une parte", "de l'autre parte"], ["moins de", "que"], ["non seulement", "mais aussi"], ["non seulement", "mais en outre"], ["non seulement", "mais encore"], ["plus de", "que"], ["quelque", "que"], ["si", "que"], ["soit", "soit"], ["tantôt", "tantôt"], ["tout d'abord", "ensuite"], ["tout", "que"]];
 };
 
-},{}],441:[function(require,module,exports){
+},{}],442:[function(require,module,exports){
 "use strict";
 
 var Participle = require("../../values/Participle.js");
@@ -31015,7 +32605,7 @@ GermanParticiple.prototype.isAuxiliary = function () {
 
 module.exports = GermanParticiple;
 
-},{"../../stringProcessing/indices.js":506,"../../values/Participle.js":533,"./passivevoice/auxiliaries.js":447,"./passivevoice/exceptionsParticiplesActive.js":448,"lodash/includes":261,"lodash/map":284,"util":336}],442:[function(require,module,exports){
+},{"../../stringProcessing/indices.js":507,"../../values/Participle.js":534,"./passivevoice/auxiliaries.js":448,"./passivevoice/exceptionsParticiplesActive.js":449,"lodash/includes":262,"lodash/map":285,"util":338}],443:[function(require,module,exports){
 "use strict";
 
 var SentencePart = require("../../values/SentencePart.js");
@@ -31046,7 +32636,7 @@ GermanSentencePart.prototype.getParticiples = function () {
 
 module.exports = GermanSentencePart;
 
-},{"../../values/SentencePart.js":535,"./passivevoice/getParticiples.js":449,"util":336}],443:[function(require,module,exports){
+},{"../../values/SentencePart.js":536,"./passivevoice/getParticiples.js":450,"util":338}],444:[function(require,module,exports){
 "use strict";
 
 var arrayToRegex = require("../../stringProcessing/createRegexFromArray.js");
@@ -31074,7 +32664,7 @@ module.exports = function (sentencePartText, auxiliaries) {
 	return determineSentencePartIsPassive(participles);
 };
 
-},{"../../stringProcessing/createRegexFromArray.js":493,"../passivevoice/determineSentencePartIsPassive.js":475,"./passivevoice/auxiliaries.js":447,"./passivevoice/getParticiples.js":449}],444:[function(require,module,exports){
+},{"../../stringProcessing/createRegexFromArray.js":494,"../passivevoice/determineSentencePartIsPassive.js":476,"./passivevoice/auxiliaries.js":448,"./passivevoice/getParticiples.js":450}],445:[function(require,module,exports){
 "use strict";
 
 /**
@@ -31093,7 +32683,7 @@ module.exports = function () {
 	"denen", "deren", "derer", "dessen", "diese", "diesem", "diesen", "dieser", "dieses", "jene", "jenem", "jenen", "jener", "jenes", "welch", "welcher", "welches"];
 };
 
-},{}],445:[function(require,module,exports){
+},{}],446:[function(require,module,exports){
 "use strict";
 
 var filteredPassiveAuxiliaries = require("./passivevoice/auxiliaries.js")().filteredAuxiliaries;
@@ -31197,41 +32787,24 @@ var titlesFollowing = ["jr", "jun", "sen", "sr"];
 
 module.exports = function () {
 	return {
-		articles: articles,
-		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative, personalPronounsDative),
-		possessivePronouns: possessivePronouns,
-		prepositions: prepositions,
-		demonstrativePronouns: demonstrativePronouns,
-		coordinatingConjunctions: coordinatingConjunctions,
-		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
-		verbs: copula.concat(interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries, delexicalizedVerbs),
-		quantifiers: quantifiers,
-		interrogatives: interrogativeProAdverbs,
-		transitionWords: transitionWords.concat(additionalTransitionWords),
-		// These verbs that should be filtered at the beginning of prominent word combinations.
-		infinitives: otherAuxiliariesInfinitive.concat(passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive),
-		miscellaneous: miscellaneous,
-		interjections: interjections,
-		pronominalAdverbs: pronominalAdverbs,
-		reflexivePronouns: reflexivePronouns,
-		reciprocalPronouns: reciprocalPronouns,
-		cardinalNumerals: cardinalNumerals,
-		ordinalNumerals: ordinalNumerals,
-		indefinitePronouns: indefinitePronouns,
-		locativeAdverbs: locativeAdverbs,
-		adverbialGenitives: adverbialGenitives,
-		intensifiers: intensifiers,
-		recipeWords: recipeWords,
-		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
-		timeWords: timeWords,
-		vagueNouns: vagueNouns,
-		titlesPreceding: titlesPreceding,
-		titlesFollowing: titlesFollowing,
-		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing)
+		// These word categories are filtered at the beginning of word combinations.
+		filteredAtBeginning: [].concat(otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive),
+
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtEnding: [].concat(ordinalNumerals, generalAdjectivesAdverbs),
+
+		// These word categories are filtered at the beginning and ending of word combinations.
+		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers),
+
+		// These word categories are filtered everywhere within word combinations.
+		filteredAnywhere: [].concat(transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative, personalPronounsDative, reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeProAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns, reciprocalPronouns, possessivePronouns),
+
+		// This export contains all of the above words.
+		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing)
 	};
 };
 
-},{"./passivevoice/auxiliaries.js":447,"./transitionWords.js":453}],446:[function(require,module,exports){
+},{"./passivevoice/auxiliaries.js":448,"./transitionWords.js":454}],447:[function(require,module,exports){
 "use strict";
 
 var stopwords = require("./passivevoice/stopwords.js")();
@@ -31322,7 +32895,7 @@ module.exports = function (sentence) {
 	return splitSentence(sentence);
 };
 
-},{"../../stringProcessing/createRegexFromArray.js":493,"../../stringProcessing/stripSpaces.js":522,"./SentencePart.js":442,"./passivevoice/auxiliaries.js":447,"./passivevoice/stopwords.js":452,"lodash/forEach":255,"lodash/isEmpty":270,"lodash/map":284}],447:[function(require,module,exports){
+},{"../../stringProcessing/createRegexFromArray.js":494,"../../stringProcessing/stripSpaces.js":523,"./SentencePart.js":443,"./passivevoice/auxiliaries.js":448,"./passivevoice/stopwords.js":453,"lodash/forEach":256,"lodash/isEmpty":271,"lodash/map":285}],448:[function(require,module,exports){
 "use strict";
 
 // These passive auxiliaries start with be-, ge- or er- en and with -t, and therefore look like a participle.
@@ -31349,7 +32922,7 @@ module.exports = function () {
 	};
 };
 
-},{}],448:[function(require,module,exports){
+},{}],449:[function(require,module,exports){
 "use strict";
 
 // This is a list of words that look like a participle, but aren't participles.
@@ -31357,7 +32930,7 @@ module.exports = function () {
 	return ["geht", "gämsbart", "gemsbart", "geäst", "gebarungsbericht", "geähnelt", "geartet", "gebäudetrakt", "gebet", "gebiet", "gebietsrepräsentant", "gebildbrot", "gebirgsart", "gebirgsgrat", "gebirgskurort", "gebirgsluft", "gebirgsschlucht", "geblüt", "geblütsrecht", "gebohntkraut", "gebot", "gebrauchsgut", "gebrauchstext", "gebrauchsverlust", "gebrauchtgerät", "gebrauchtwagengeschäft", "gebrauchtwagenmarkt", "geburt", "geburtsakt", "geburtsgeschwulst", "geburtsgewicht", "geburtsort", "geburtsrecht", "geburtsstadt", "geburtstagsfest", "geckenart", "gedächtniskonzert", "gedächtniskunst", "gedächtnisverlust", "gedankenarmut", "gedankenexperiment", "gedankenflucht", "gedankengut", "gedankenschritt", "gedankenwelt", "gedenkkonzert", "gedicht", "geest", "gefahrengebiet", "gefahrenmoment", "gefahrenpunkt", "gefahrgut", "gefahrguttransport", "gefährt", "gefälligkeitsakzept", "gefallsucht", "gefangenenanstalt", "gefangenentransport", "gefängnisarzt", "gefängniskluft", "gefäßnaht", "gefecht", "gefechtsabschnitt", "gefechtsbereit", "gefechtsgebiet", "gefechtsgewicht", "gefechtshut", "gefechtsmast", "gefechtsmast", "geflecht", "geflügelaufzucht", "geflügelleberwurst", "geflügelmarkt", "geflügelmast", "geflügelpest", "geflügelsalat", "geflügelwurst", "geflügelzucht", "gefolgsleute", "gefrett", "gefriergerät", "gefriergut", "gefrierobst", "gefrierpunkt", "gefrierschnitt", "gefühlsarmut", "gefühlswelt", "gegenangebot", "gegenansicht", "gegenargument", "gegengeschäft", "gegengewalt", "gegengewicht", "gegenkandidat", "gegenkompliment", "gegenkonzept", "gegenlicht", "gegenmacht", "gegenpapst", "gegenpart", "gegensatzwort", "gegenstandpunkt", "gegenstandsgebiet", "gegenwart", "gegenwartskunst", "gegenwelt", "gegenwort", "gehaart", "gehandicapt", "gehandikapt", "geheimagent", "geheimbericht", "geheimdokument", "geheimfavorit", "geheimkontakt", "geheimkult", "geheimnisverrat", "geheimpolizist", "geheimrat", "geheimrezept", "geheimtext", "gehirnakrobat", "gehirngeschwulst", "gehirnhaut", "gehirnsandgeschwulst", "gehirntot", "gehirntrust", "gehöft", "gehörlosensport", "geigenkonzert", "geißbart", "geißblatt", "geißhirte", "geißhirt", "geist", "geisterfahrt", "geisterstadt", "geisterwelt", "geistesarmut", "geistesart", "geistesfürst", "geistesgegenwart", "geistesgestört", "geistesprodukt", "geistestat", "geistesverwandt", "geisteswelt", "geklüft", "geländefahrt", "geländeritt", "geländesport", "gelangweilt", "gelaut", "geläut", "gelblicht", "gelbrost", "gelbsucht", "gelbwurst", "gelcoat", "geldausgabeautomat", "geldautomat", "geldgeschäft", "geldheirat", "geldinstitut", "geldmarkt", "geldsurrogat", "geldtransport", "geldverlust", "gelehrtenstreit", "gelehrtenwelt", "geleit", "geleitboot", "geleitwort", "gelenkgicht", "gelenkwassersucht", "geleucht", "geltungssucht", "gelüst", "gemächt", "gemeindeamt", "gemeindebürgerrecht", "gemeindegut", "gemeindekirchenrat", "gemeindepräsident", "gemeinderat", "gemeingeist", "gemeingut", "gemeinschaftsgeist", "gemeinschaftsprojekt", "gemeinschaftsunterkunft", "gemengesaat", "gemüseart", "gemüsebeet", "gemüsegeschäft", "gemüsemarkt", "gemüsesaft", "gemüsesalat", "gemüsezucht", "gemüt", "gemütsarmut", "gemütsart", "gemütsathlet", "gemütskalt", "genausogut", "genausooft", "genausoweit", "gendefekt", "generalagent", "generalarzt", "generalat", "generalbassinstrument", "generalbaßinstrument", "generalbundesanwalt", "generalgouvernement", "generalintendant", "generalist", "generalkonsulat", "generalleutnant", "generaloberst", "generalresident", "generalsekretariat", "generalstaaten", "generalstaatsanwalt", "generalsuperintendent", "generalüberholt", "generalvikariat", "generalvollmacht", "generationenkonflikt", "generativist", "genist", "genitivattribut", "genitivobjekt", "genmanipuliert", "gennesaret", "genotzüchtigt", "gent", "genuasamt", "genussgift", "genußgift", "genusssucht", "genuss-sucht", "genußsucht", "genverändert", "geobiont", "geodät", "geografieunterricht", "geographieunterricht", "geokrat", "geophyt", "gepäckfracht", "geradeausfahrt", "geradesogut", "gefälligst", "gerant", "gerät", "gerätewart", "geräuschlaut", "gerbextrakt", "gericht", "gerichtsarzt", "gerichtsort", "gerichtspräsident", "germanisiert", "germanist", "germanistikstudent", "gerodelt", "geröllschicht", "geröllschutt", "geront", "gerontokrat", "gerstenbrot", "gerstensaft", "gerstenschrot", "gerücht", "gerüst", "gesamtansicht", "gesamtaspekt", "gesamtdurchschnitt", "gesamtgewicht", "gesamtgut", "gesamt", "gesamtklassement", "gesamtunterricht", "gesandtschaftsrat", "gesangskunst", "gesangspart", "gesangssolist", "gesangsunterricht", "gesangunterricht", "geschäft", "geschäftsaufsicht", "geschäftsbericht", "geschäftsgeist", "geschäftswelt", "geschenkpaket", "geschichtsunterricht", "geschicklichkeitstest", "geschicklichkeitstest", "geschlecht", "geschlechtsakt", "geschlechtslust", "geschlechtsprodukt", "geschlechtswort", "geschmackstest", "geschwindigkeitslimit", "geschworenengericht", "geschwulst", "gesellschaftsfahrt", "gesellschaftsschicht", "gesetzblatt", "gesetzespaket", "gesetzestext", "gesicht", "gesichtshaut", "gesichtspunkt", "gesichtsschnitt", "gesichtsverlust", "gespenst", "gespensterfurcht", "gespinst", "gespött", "gesprächstherapeut", "gestalt", "gestaltungselement", "gesteinsart", "gesteinschutt", "gesteinsschicht", "gestüt", "gestüthengst", "verantwortungsbewusst", "verantwortungsbewußt", "getast", "getränkeabholmarkt", "getränkeautomat", "getränkemarkt", "getreideart", "getreideaussaat", "getreideexport", "getreideimport", "getreideprodukt", "getreideschnitt", "getreidevorrat", "gewährfrist", "gewalt", "gewaltakt", "gewaltbereit", "gewalttat", "gesprächsbereit", "gewaltverbot", "gewaltverzicht", "gewässerbett", "gewässerwart", "gewebeschicht", "gewebsrest", "gewicht", "gewichtsprozent", "gewichtsverlust", "gewerbeamt", "gewerbearzt", "gewerbeaufsicht", "gewerbeaufsichtsamt", "gewerbegebiet", "gewerberecht", "gewerbsunzucht", "gewerkschaft", "gewerkschaftsjournalist", "gewindestift", "gewinnsucht", "gewinst", "gewissensangst", "gewissenskonflikt", "gewitterfront", "gewitterluft", "gewohnheitsrecht", "gewürzextrakt", "gewürzkraut", "gezücht", "erbbaurecht", "erbfolgerecht", "erbfolgestreit", "erbgut", "erbhofrecht", "erblast", "erbpacht", "erbrecht", "erbschaftsstreit", "erbsenkraut", "erbbedingt", "erbberechtigt", "erblasst", "erblaßt", "erbswurst", "erbverzicht", "erbwort", "erbzinsgut", "erdbebengebiet", "erdbeerjogurt", "erdbeerjoghurt", "erdbeeryoghurt", "erdbeerkompott", "erdbeerrot", "erdbeersaft", "erdbeersekt", "erdengut", "erdenlust", "erdfrucht", "erdgeist", "erdkundeunterricht", "erdlicht", "erdmittelpunkt", "erdnussfett", "erdölprodukt", "erdölproduzent", "erdsatellit", "erdschicht", "erdsicht", "erdtrabant", "erdverhaftet", "eremit", "erfahrungsbericht", "erfahrungshorizont", "erfahrungswelt", "erfindergeist", "erfolgsaussicht", "erfolgsorientiert", "erfolgsrezept", "erfolgsverwöhnt", "erfüllungsort", "erfurt", "ergänzungsheft", "ergänzungssport", "ergänzungstest", "ergostat", "ergotherapeut", "erholungsgebiet", "erholungsort", "erkundungsfahrt", "erlaucht", "erläuterungstext", "erlebnisbericht", "erlebnisorientiert", "erlebniswelt", "ernährungsamt", "ernst", "ernstgemeint", "ernteaussicht", "erntedankfest", "erntefest", "erntemonat", "ernteresultat", "eroberungsabsicht", "eroberungsgeist", "eroberungslust", "eroberungssucht", "eröffnungskonzert", "ersatzgeschwächt", "ersatzgut", "ersatzkandidat", "ersatzobjekt", "ersatzpräparat", "ersatzreservist", "ersatztorwart", "erscheinungsfest", "erscheinungsort", "erscheinungswelt", "erschließungsgebiet", "erst", "erstbundesligist", "erstfahrt", "erstgebot", "erstgeburt", "erstgeburtsrecht", "erstklassbillett", "erstklaßbillett", "erstkommunikant", "erstkonsument", "erstligist", "erstplatziert", "erstplaciert", "erstplaziert", "erstrecht", "ertragsaussicht", "erwartungsangst", "erwartungshorizont", "erwerbseinkünfte", "erythrit", "erythroblast", "erythrozyt", "erzählertalent", "erzählgut", "erzählkunst", "erzähltalent", "erzamt", "erzdemokrat", "erzeugungsschlacht", "erzfaschist", "erziehungsanstalt", "erziehungsberechtigt", "erziehungsinstitut", "erzkommunist", "erzprotestant", "veranlassungswort", "veranschaulicht", "veranschlagt", "verantwortungsbewusst", "verantwortungsbewußt", "veräußerungsverbot", "verbalist", "verbalkontrakt", "verbändestaat", "verbannungsort", "verbildlicht", "verbindungspunkt", "verbindungsstudent", "verbraucherkredit", "verbrauchermarkt", "verbrauchsgut", "verbrechernest", "verbrechersyndikat", "verbrecherwelt", "verbreitungsgebiet", "verbrennungsprodukt", "verdachtsmoment", "verdampfungsgerät", "verdauungstrakt", "verdikt", "veredelungsprodukt", "verehrerpost", "vereinspräsident", "vereinsrecht", "vereinssport", "verfahrensrecht", "verfassungsfahrt", "verfassungsgericht", "verfassungsrecht", "verfassungsstaat", "verfolgungsrecht", "verfremdungseffekt", "verfügungsgewalt", "verfügungsrecht", "verfügungsberechtigt", "verführungskunst", "vergegenständlicht", "vergegenwärtigt", "vergeltungsakt", "vergenossenschaftlicht", "vergissmeinnicht", "vergißmeinnicht", "vergleichsmonat", "vergleichsobjekt", "vergleichspunkt", "vergnügungsetablissement", "vergnügungsfahrt", "vergnügungssucht", "vergrößerungsgerät", "verhaltensgestört", "verhältniswahlrecht", "verhältniswort", "verhandlungsangebot", "verhandlungsbereit", "versandbereit", "verteidigungsbereit", "verhandlungsmandat", "verhandlungsort", "verhandlungspunkt", "verhöramt", "verist", "verjährungsfrist", "verkaufsagent", "verkaufsangebot", "verkaufsargument", "verkaufsautomat", "verkaufsfront", "verkaufshit", "verkaufsobjekt", "verkaufsorientiert", "verkaufspunkt", "verkehrsamt", "verkehrsdelikt", "verkehrsinfarkt", "verkehrsknotenpunkt", "verkehrslicht", "verkehrsnachricht", "verkehrspolizist", "verkehrsrecht", "verkehrsunterricht", "verkehrsverbot", "verklarungsbericht", "verknüpfungspunkt", "verkündungsblatt", "verlagsanstalt", "verlagsprospekt", "verlagsrecht", "verlagsrepräsentant", "verlagssignet", "verlust", "verlustgeschäft", "verlust", "verlustgeschäft", "verlustpunkt", "vermessungsamt", "vermittlungsamt", "vermögensrecht", "vermont", "vermummungsverbot", "verneinungswort", "vernichtungswut", "vernunft", "vernunftheirat", "verordnungsblatt", "verpackungsflut", "verpflichtungsgeschäft", "verrat", "versammlungsort", "versammlungsrecht", "versandgeschäft", "versandgut", "versart", "verschlusslaut", "verschnitt", "verschwendungssucht", "versehrtensport", "versicherungsagent", "versicherungsanstalt", "versicherungsrecht", "verskunst", "versöhnungsfest", "versorgungsamt", "versorgungsberechtigt", "versorgungsgebiet", "versorgungsgut", "versorgungsstaat", "verstakt", "verständigungsbereit", "verstellungskunst", "verstürznaht", "versuchsanstalt", "versuchsobjekt", "versuchsprojekt", "vertebrat", "verteidigungsbudget", "verteidigungsetat", "verteidigungspakt", "verteilungskonflikt", "verteilungszahlwort", "vertikalschnitt", "vertikutiergerät", "vertragsgerecht", "vertragspunkt", "vertragsrecht", "vertragsstaat", "vertragstext", "vertragswerkstatt", "vertrauensanwalt", "vertrauensarzt", "vertrauensverlust", "vertriebsrecht", "vervielfältigungsrecht", "vervielfältigungszahlwort", "verwaltungsakt", "verwaltungsgericht", "verwaltungsrat", "verwaltungsrecht", "verwundetentransport", "verzicht", "verzweiflungsakt", "verzweiflungstat", "entbindungsanstalt", "entdeckungsfahrt", "entenbrust", "entenfett", "entertainment", "enthusiast", "entlastungsmoment", "entlüftungsschacht", "entnazifizierungsgericht", "entoblast", "entoparasit", "entrechat", "entrefilet", "entrepot", "entscheidungsfurcht", "entscheidungsgewalt", "entscheidungsrecht", "entscheidungsschlacht", "entstehungsort", "entsteht", "entwässerungsschacht", "entwicklungsabschnitt", "entwicklungsinstitut", "entwicklungsprojekt", "entwicklungsschritt", "entziehungsanstalt", "zerat", "zerebrallaut", "zerfallsprodukt", "zergliederungskunst", "zerit", "zermatt", "zersetzungsprodukt", "zerstörungslust", "zerstörungswut", "zertifikat", "zerussit", "zervelat", "zervelatwurst", "beamtenrecht", "beamtenschicht", "beamtenstaat", "beat", "beatmungsgerät", "beaufort", "becherfrucht", "beckengurt", "becquereleffekt", "bedarfsgut", "bedenkfrist", "bedienungselement", "bedienungsgerät", "bedienungskomfort", "bedingtgut", "bedürfnisanstalt", "beeinflusst", "beeinflußt", "beerdigungsanstalt", "beerdigungsinstitut", "beerenfrucht", "beerenobst", "beerensaft", "beet", "befasst", "befaßt", "befehlsgewalt", "beförderungsentgelt", "beförderungsrecht", "begabungstest", "begegnungsort", "begleitinstrument", "begleittext", "begleitwort", "begnadigungsrecht", "begräbt", "begrenzungslicht", "begriffswelt", "begriffswort", "begrüßungswort", "behaviorist", "behebungsfrist", "behelfsausfahrt", "behelfsunterkunft", "behindertengerecht", "behindertensport", "behindertentransport", "behmlot", "beiblatt", "beiboot", "beignet", "beiheft", "beikost", "beilast", "beileidswort", "beinamputiert", "beinhaut", "beirat", "beirut", "beistandskredit", "beistandspakt", "beitritt", "beitrittsabsicht", "beitrittsgebiet", "beiwacht", "beiwort", "beizgerät", "bekehrungswut", "bekennergeist", "bekennermut", "bekleidungsamt", "bekommen", "belegarzt", "belegbett", "belegfrist", "belehrungssucht", "belemnit", "belesprit", "beleuchtungseffekt", "beleuchtungsgerät", "belfast", "belkantist", "belcantist", "belletrist", "bellizist", "belt", "benedikt", "benediktenkraut", "benefiziant", "benefiziat", "benefizkonzert", "beneluxstaat", "bentonit", "benzindunst", "beratungspunkt", "bereit", "bereicherungsabsicht", "bereitschaftsarzt", "bergamt", "bergeslast", "bergfahrt", "bergfest", "berggeist", "berggrat", "bergluft", "bergpredigt", "bergsport", "berg-und-Tal-Fahrt", "bergwacht", "bergwelt", "bericht", "berichtsmonat", "beritt", "bermudashort", "bernbiet", "berserkerwut", "berufsaussicht", "berufssoldat", "berufssport", "berufsstart", "berufstracht", "berufsverbot", "berufungsfrist", "berufungsgericht", "berufungsrecht", "berührungsangst", "berührungspunkt", "besanmast", "besatzungsgebiet", "besatzungsmacht", "besatzungsrecht", "besatzungssoldat", "besatzungsstatut", "beschaffungsamt", "beschäftigungstherapeut", "beschlächt", "beschlussrecht", "beschlußrecht", "beschmet", "beschneidungsfest", "beschlächt", "beschlussrecht", "beschlußrecht", "beschmet", "beschneidungsfest", "beschwerdefrist", "beschwerderecht", "beschwörungskunst", "beseitigungsanstalt", "besetzungsgebiet", "besetzungsmacht", "besetzungsstatut", "besichtigungsfahrt", "besitzrecht", "besoldungsrecht", "besprechungspunkt", "besserungsanstalt", "bestattungsinstitut", "bestimmungsort", "bestimmungswort", "bestinformiert", "bestqualifiziert", "bestrahlungsgerät", "bestrenommiert", "bestsituiert", "bestverkauft", "besucherrat", "besuchsrecht", "betpult", "betracht", "betreibungsamt", "betriebsarzt", "betriebsfest", "betriebsrat", "betriebswirt", "bett", "bettelmusikant", "bettelvogt", "bettstatt", "bettwurst", "beulenpest", "beutegut", "beutekunst", "beuterecht", "bevölkerungsschicht", "bewahranstalt", "bewährungsfrist", "bewegungsarmut", "beweislast", "bewußt", "bewusst", "beziehungsgeflecht", "bezirksamt", "bezirksarzt", "bezirksgericht", "bezirkskabinett", "bezirksschulrat", "bezirksstadt", "bezugspunkt", "bezugsrecht", "heraklit", "herat", "herbalist", "herbst", "herbstmonat", "herbstpunkt", "herdbuchzucht", "herdeninstinkt", "herfahrt", "heringsfilet", "heringssalat", "herkuleskraut", "herkunft", "herkunftsort", "hermaphrodit", "heroenkult", "heroinsucht", "heroldsamt", "heroldskunst", "herostrat", "herrenabfahrt", "herrenbrot", "herrendienst", "herrenfest", "herrenhut", "herrenrecht", "herrenschnitt", "herrenwelt", "herrgott", "herrnhut", "herrschaftsgebiet", "herrschaftsgewalt", "herrschaftsinstrument", "herrschergeschlecht", "herrscherkult", "herrschsucht", "herstellungsart", "herzacht", "herzangst", "herzblatt", "herzblut", "herzensangst", "herzensgut", "herzenslust", "herzenstrost", "herzgeliebt", "herzinfarkt", "herzinnenhaut", "herzklappendefekt", "herzogshut", "herzlichst", "herzpatient", "herzpunkt", "herzspezialist", "überbackt", "ueberbackt", "überbacktet", "ueberbacktet", "überbietet", "ueberbietet", "überbot", "ueberbot", "überbotet", "ueberbotet", "überbindet", "ueberbindet", "überbandet", "ueberbandet", "überbläst", "ueberblaest", "überbliest", "ueberbliest", "überbrät", "ueberbraet", "überbratet", "ueberbratet", "überbriet", "ueberbriet", "überbrietet", "ueberbrietet", "überbringt", "ueberbringt", "überbrachtet", "ueberbrachtet", "überbrücktet", "ueberbruecktet", "überbrühtet", "ueberbrühtet", "überbrülltet", "ueberbruelltet", "überbuchtet", "ueberbuchtet", "überbürdetet", "ueberbuerdetet", "überdecktet", "ueberdecktet", "überdehntet", "ueberdehntet", "überdenkt", "ueberdenkt", "überdachtet", "ueberdachtet", "überdosiertet", "ueberdosiertet", "überdrehtet", "ueberdrehtet", "überdrucktet", "ueberdrucktet", "überdüngtet", "ueberdüngtet", "übereignetet", "uebereignetet", "übereiltet", "uebereiltet", "übererfülltet", "uebererfuelltet", "überißt", "ueberisst", "ueberißt", "überisst", "überesst", "ueberesst", "übereßt", "uebereßt", "überaßt", "ueberaßt", "überesset", "ueberesset", "überäßet", "ueberaesset", "überfährt", "ueberfaehrt", "überfahrt", "ueberfahrt", "überfuhrt", "ueberfuhrt", "überfällt", "ueberfaellt", "überfallet", "ueberfallet", "überfielt", "ueberfielt", "überfielet", "ueberfielet", "überfängt", "ueberfaengt", "überfingt", "ueberfingt", "überfinget", "ueberfinget", "überfärbet", "ueberfaerbet", "überfettetet", "ueberfettetet", "überfirnisset", "ueberfirnisset", "überfirnißtet", "ueberfirnisstet", "überfischet", "ueberfischet", "überfischtet", "ueberfischtet", "überflanktet", "ueberflanktet", "überflanktet", "ueberflanktet", "überfliegt", "ueberfliegt", "überflieget", "ueberflieget", "überflöget", "ueberflöget", "überflösset", "ueberfloesset", "überflosst", "ueberflosst", "überfloßt", "ueberflosst", "überfließt", "ueberfliesst", "überflutetet", "ueberflutetet", "überformet", "ueberformet", "überformtet", "ueberformtet", "überfrachtetet", "ueberfrachtetet", "überfracht", "ueberfracht", "überfraget", "ueberfraget", "überfragtet", "ueberfragtet", "überfremdetet", "ueberfremdetet", "überfrisst", "ueberfrisst", "überfrißt", "ueberfrißt", "überfresst", "ueberfresst", "überfreßt", "ueberfreßt", "überfresset", "ueberfresset", "überfraßt", "ueberfraßt", "ueberfrasst", "überfräßet", "ueberfraesset", "überfriert", "ueberfriert", "überfrieret", "ueberfrieret", "überfrort", "ueberfrort", "überfröret", "ueberfroeret", "überfrört", "ueberfroert", "überführet", "ueberfuehret", "überführtet", "ueberfuehrtet", "überfüllet", "ueberfuellet", "übergibt", "uebergibt", "übergebt", "uebergebt", "übergebet", "uebergebet", "übergabt", "uebergabt", "übergäbet", "uebergaebet", "übergäbt", "uebergaebt", "übergeht", "uebergeht", "übergehet", "uebergehet", "übergingt", "uebergingt", "übergewichtetet", "uebergewichtetet", "übergießet", "uebergiesset", "übergießt", "uebergiesst", "übergösset", "uebergoesset", "übergosst", "uebergosst", "uebergoßt", "übergipset", "uebergipset", "übergipstet", "uebergipstet", "übergipset", "uebergipset", "übergipstet", "uebergipstet", "überglänzet", "ueberglaenzet", "überglänztet", "ueberglaenztet", "überglaset", "ueberglaset", "überglastet", "ueberglastet", "überglühet", "uebergluehet", "überglühtet", "uebergluehtet", "übergoldetet", "uebergoldetet", "übergraset", "uebergraset", "übergrastet", "uebergrastet", "übergrätschet", "uebergraetschet", "übergrätschtet", "uebergraetschtet", "übergreift", "uebergreift", "übergreifet", "uebergreifet", "übergrifft", "uebergrifft", "übergriffet", "uebergriffet", "übergreift", "uebergreift", "übergreifet", "uebergreifet", "übergriffet", "uebergriffet", "übergrifft", "uebergrifft", "übergrünet", "uebergruenet", "übergrüntet", "uebergruentet", "überhat", "ueberhat", "überhabt", "ueberhabt", "überhabet", "ueberhabet", "überhattet", "ueberhattet", "überhättet", "ueberhaettet", "überhält", "ueberhaelt", "überhaltet", "ueberhaltet", "überhielt", "ueberhielt", "überhieltet", "ueberhieltet", "überhändiget", "ueberhaendiget", "überhändigtet", "ueberhaendigtet", "überhängt", "ueberhaengt", "überhänget", "ueberhaenget", "überhingt", "ueberhingt", "überhinget", "ueberhinget", "überhängt", "ueberhaengt", "überhänget", "ueberhaenget", "überhängtet", "ueberhaengtet", "überhänget", "ueberhaenget", "überhängtet", "ueberhaengtet", "überhängt", "ueberhaengt", "überhänget", "ueberhaenget", "überhingt", "ueberhingt", "überhinget", "ueberhinget", "überhastetet", "ueberhastetet", "überhäufet", "ueberhaeufet", "überhäuftet", "ueberhaeuftet", "überhebt", "ueberhebt", "überhebet", "ueberhebet", "überhobt", "ueberhobt", "überhöbet", "ueberhoebet", "überhebt", "ueberhebt", "überhebet", "ueberhebet", "überhobt", "ueberhobt", "überheiztet", "ueberheiztet", "überheizet", "ueberheizet", "überhöhet", "ueberhoehet", "überhöhtet", "ueberhoehtet", "überhitzet", "ueberhitzet", "überhitztet", "ueberhitztet", "überholet", "ueberholet", "überholtet", "ueberholtet", "überhöret", "ueberhoeret", "überhörtet", "ueberhoertet", "überinterpretieret", "ueberinterpretieret", "überinterpretiertet", "ueberinterpretiertet", "überinterpretieret", "ueberinterpretieret", "überinterpretiertet", "ueberinterpretiertet", "überklebet", "ueberklebet", "überklebtet", "ueberklebtet", "überkleidetet", "ueberkleidetet", "überkochet", "ueberkochet", "überkochtet", "ueberkochtet", "überkommet", "ueberkommet", "überkamt", "ueberkamt", "überkämet", "ueberkaemet", "überkämt", "ueberkaemt", "überkompensieret", "ueberkompensieret", "überkompensiertet", "ueberkompensiertet", "überkreuzet", "ueberkreuzet", "überkreuztet", "ueberkreuztet", "überkronet", "ueberkronet", "überkrontet", "ueberkrontet", "überkrustetet", "ueberkrustetet", "überladet", "ueberladet", "überludet", "ueberludet", "überlüdet", "ueberluedet", "überlappet", "ueberlappet", "überlapptet", "ueberlapptet", "überlasset", "ueberlasset", "überlaßt", "ueberlaßt", "ueberlasst", "ueberlasst", "überlässt", "ueberlaesst", "überließt", "ueberließt", "ueberliesst", "überließet", "ueberließet", "ueberliesset", "überlastet", "ueberlastet", "überlastetet", "ueberlastetet", "überläuft", "ueberlaeuft", "überlaufet", "ueberlaufet", "überlieft", "ueberlieft", "überliefet", "ueberliefet", "überlebet", "ueberlebet", "überlebtet", "ueberlebtet", "überleget", "ueberleget", "überlegtet", "ueberlegtet", "überlegt", "ueberlegt", "überleget", "ueberleget", "überlegtet", "ueberlegtet", "überleitet", "ueberleitet", "überleitetet", "ueberleitetet", "überleset", "ueberleset", "überlast", "ueberlast", "überläset", "ueberlaeset", "überliegt", "ueberliegt", "überlieget", "ueberlieget", "überlagt", "ueberlagt", "überläget", "ueberlaeget", "überlägt", "ueberlaegt", "überlistetet", "ueberlistetet", "übermachet", "uebermachet", "übermachtet", "uebermachtet", "übermalet", "uebermalet", "übermaltet", "uebermaltet", "übermalet", "uebermalet", "übermaltet", "uebermaltet", "übermannet", "uebermannet", "übermanntet", "uebermanntet", "übermarchtet", "uebermarchtet", "übermarchet", "uebermarchet", "übermästetet", "uebermaestetet", "übermüdetet", "uebermuedetet", "übernächtiget", "uebernaechtiget", "übernächtigtet", "uebernaechtigtet", "übernimmt", "uebernimmt", "übernehmt", "uebernehmt", "übernehmet", "uebernehmet", "übernahmt", "uebernahmt", "übernähmet", "uebernaehmet", "übernähmt", "uebernaehmt", "übernutzet", "uebernutzet", "übernutztet", "uebernutztet", "überpflanzt", "ueberpflanzt", "überpflanzet", "ueberpflanzet", "überpflanztet", "ueberpflanztet", "überplanet", "ueberplanet", "überplantet", "ueberplantet", "überprüfet", "ueberpruefet", "überprüftet", "ueberprueftet", "überquillt", "ueberquillt", "überquellt", "ueberquellt", "überquellet", "ueberquellet", "überquollt", "ueberquollt", "überquöllet", "ueberquoellet", "ueberquöllt", "ueberquoellt", "überqueret", "ueberqueret", "überquertet", "ueberquertet", "überraget", "ueberraget", "überragtet", "ueberragtet", "überragt", "ueberragt", "überraget", "ueberraget", "überragtet", "ueberragtet", "überraschet", "ueberraschet", "überraschtet", "ueberraschtet", "überreagieret", "ueberreagieret", "überreagiertet", "ueberreagiertet", "überrechnetet", "ueberrechnetet", "überredetet", "ueberredetet", "überreglementieret", "ueberreglementieret", "überreglementiertet", "ueberreglementiertet", "überregulieret", "ueberregulieret", "überreguliertet", "ueberreguliertet", "überreichet", "ueberreichet", "überreichtet", "ueberreichtet", "überreißet", "ueberreisset", "überrisset", "ueberrisset", "überreitet", "ueberreitet", "überrittet", "ueberrittet", "überreizet", "ueberreizet", "überreiztet", "ueberreiztet", "überrennet", "ueberrennet", "überrenntet", "ueberrenntet", "überrollet", "ueberrollet", "überrolltet", "ueberrolltet", "überrundetet", "ueberrundetet", "übersäet", "uebersaeet", "übersätet", "uebersaetet", "übersättiget", "uebersaettiget", "uebersaettigtet", "übersättigtet", "überschattetet", "ueberschattetet", "überschätzet", "ueberschaetzet", "überschätztet", "ueberschaetztet", "überschauet", "ueberschauet", "überschautet", "ueberschautet", "überschäumt", "ueberschaeumt", "überschäumet", "ueberschaeumet", "überschäumtet", "ueberschaeumtet", "überschießt", "ueberschießt", "ueberschiesst", "überschießet", "ueberschiesset", "ueberschießet", "überschosst", "ueberschosst", "überschosst", "ueberschosst", "überschoßt", "ueberschoßt", "überschösset", "ueberschoesset", "überschlafet", "ueberschlafet", "überschliefet", "ueberschliefet", "überschlieft", "ueberschlieft", "überschlaget", "ueberschlaget", "überschlüget", "ueberschlueget", "überschlügt", "ueberschluegt", "überschlägt", "ueberschlaegt", "überschlagt", "ueberschlagt", "überschlaget", "ueberschlaget", "überschlugt", "ueberschlugt", "überschlüget", "ueberschlueget", "überschlügt", "ueberschluegt", "überschlägt", "ueberschlaegt", "überschlagt", "ueberschlagt", "überschlaget", "ueberschlaget", "überschlugt", "ueberschlugt", "überschlüget", "ueberschlueget", "ueberschluegt", "überschlügt", "überschließt", "ueberschließt", "ueberschliesst", "überschließet", "ueberschliesset", "überschlosst", "ueberschlosst", "überschloßt", "ueberschlosst", "überschlösset", "ueberschloesset", "überschmieret", "ueberschmieret", "überschmiertet", "ueberschmiertet", "überschminket", "ueberschminket", "überschminktet", "ueberschminktet", "überschnappt", "ueberschnappt", "überschnappet", "ueberschnappet", "überschnapptet", "ueberschnapptet", "überschneidet", "ueberschneidet", "überschnittet", "ueberschnittet", "überschneiet", "ueberschneiet", "überschneitet", "ueberschneitet", "überschreibet", "ueberschreibet", "überschriebet", "ueberschriebet", "überschriebt", "ueberschriebt", "überschreiet", "ueberschreiet", "überschrieet", "ueberschrieet", "überschriet", "ueberschriet", "überschriet", "ueberschriet", "überschreitet", "ueberschreitet", "überschritt", "ueberschritt", "überschrittet", "ueberschrittet", "überschuldetet", "ueberschuldetet", "überschüttet", "ueberschüttet", "überschüttetet", "ueberschüttetet", "überschüttetet", "ueberschuettetet", "überschwappt", "ueberschwappt", "überschwappet", "ueberschwappet", "überschwapptet", "ueberschwapptet", "überschwemmet", "ueberschwemmet", "überschwemmtet", "ueberschwemmtet", "überschwinget", "ueberschwinget", "überschwangt", "ueberschwangt", "überschwänget", "ueberschwaenget", "überschwängt", "ueberschwaengt", "übersieht", "uebersieht", "überseht", "ueberseht", "übersehet", "uebersehet", "übersaht", "uebersaht", "übersähet", "uebersaehet", "übersäht", "uebersaeht", "übersähet", "uebersaehet", "übersäht", "uebersaeht", "übersandtet", "uebersandtet", "übersendetet", "uebersendetet", "übersensibilisieret", "uebersensibilisieret", "übersensibilisiertet", "uebersensibilisiertet", "übersetzt", "uebersetzt", "übersetzet", "uebersetzet", "übersetztet", "uebersetztet", "übersetzet", "uebersetzet", "übersetztet", "uebersetztet", "übersiedet", "uebersiedet", "übersiedetet", "uebersiedetet", "übersott", "uebersott", "übersottet", "uebersottet", "übersöttet", "uebersoettet", "übersiedet", "uebersiedet", "übersiedetet", "uebersiedetet", "übersott", "uebersott", "übersottet", "uebersottet", "übersöttet", "uebersoettet", "überspannet", "ueberspannet", "überspanntet", "ueberspanntet", "überspielet", "ueberspielet", "überspieltet", "ueberspieltet", "überspinnet", "ueberspinnet", "überspännet", "ueberspaennet", "überspännt", "ueberspaennt", "überspönnet", "ueberspoennet", "überspönnt", "ueberspoennt", "überspitzet", "ueberspitzet", "überspitztet", "ueberspitztet", "übersprechet", "uebersprechet", "überspracht", "ueberspracht", "übersprächet", "ueberspraechet", "übersprächt", "ueberspraecht", "überspringt", "ueberspringt", "überspringet", "ueberspringet", "überspränget", "ueberspraenget", "übersprängt", "ueberspraengt", "überspringt", "ueberspringt", "überspringet", "ueberspringet", "übersprangt", "uebersprangt", "überspränget", "ueberspraenget", "übersprängt", "ueberspraengt", "übersprühet", "ueberspruehet", "übersprühtet", "ueberspruehtet", "übersprühet", "ueberspruehet", "übersprühtet", "ueberspruehtet", "überspület", "ueberspuelet", "überspültet", "überspueltet", "übersticht", "uebersticht", "überstecht", "ueberstecht", "überstechet", "ueberstechet", "überstacht", "ueberstacht", "überstächet", "ueberstaechet", "überstächt", "ueberstaecht", "übersticht", "uebersticht", "überstecht", "ueberstecht", "überstechet", "ueberstechet", "überstacht", "ueberstacht", "überstächet", "ueberstaechet", "überstächt", "ueberstaecht", "überstehet", "ueberstehet", "überstandet", "überstandet", "überständet", "überstaendet", "überstündet", "überstuendet", "übersteht", "uebersteht", "überstehet", "ueberstehet", "überstandet", "ueberstandet", "überständet", "ueberstaendet", "überstündet", "ueberstuendet", "übersteiget", "uebersteiget", "überstieget", "ueberstieget", "überstiegt", "ueberstiegt", "übersteigt", "uebersteigt", "übersteiget", "uebersteiget", "überstiegt", "ueberstiegt", "überstieget", "ueberstieget", "überstellet", "ueberstellet", "überstilisieret", "ueberstilisieret", "überstimmet", "ueberstimmet", "überstimmtet", "ueberstimmtet", "überstrahlet", "ueberstrahlet", "überstrahltet", "ueberstrahltet", "überstrapazieret", "ueberstrapazieret", "überstrapaziertet", "ueberstrapaziertet", "überstreicht", "ueberstreicht", "überstreichet", "ueberstreichet", "überstricht", "ueberstricht", "überstrichet", "ueberstrichet", "überstreichet", "ueberstreichet", "überstrichet", "ueberstrichet", "überstricht", "ueberstricht", "überstreift", "ueberstreift", "überstreifet", "ueberstreifet", "überstreiftet", "ueberstreiftet", "überstreuet", "ueberstreuet", "überstreutet", "ueberstreutet", "überströmet", "ueberstroemet", "überströmtet", "überstroemtet", "überstülpt", "überstuelpt", "ueberstuelpet", "überstülpet", "überstülptet", "ueberstuelptet", "überstürzet", "ueberstuerzet", "überstürztet", "ueberstuerztet", "übertäubet", "uebertaeubet", "übertäubtet", "uebertaeubtet", "übertauchet", "uebertauchet", "übertauchtet", "uebertauchtet", "übertippet", "uebertippet", "übertipptet", "uebertipptet", "übertönet", "uebertoenet", "übertöntet", "uebertoentet", "übertouret", "uebertouret", "übertourtet", "uebertourtet", "überträgt", "uebertraegt", "übertragt", "uebertragt", "übertraget", "uebertraget", "übertrugt", "uebertrugt", "übertrüget", "uebertrueget", "übertrügt", "uebertruegt", "übertrainieret", "uebertrainieret", "übertrainiertet", "uebertrainiertet", "übertreffet", "uebertreffet", "übertraft", "uebertraft", "überträfet", "uebertraefet", "überträft", "uebertraeft", "übertreibt", "uebertreibt", "übertreibet", "uebertreibet", "übertriebet", "uebertriebet", "übertriebt", "uebertriebt", "übertritt", "uebertritt", "übertretet", "uebertretet", "übertrat", "uebertrat", "übertratet", "uebertratet", "überträtet", "uebertraetet", "übertritt", "uebertritt", "übertretet", "uebertretet", "übertrat", "uebertrat", "übertratet", "uebertratet", "überträtet", "uebertraetet", "übertrumpfet", "uebertrumpfet", "übertrumpftet", "uebertrumpftet", "übertünchet", "uebertuenchet", "übertünchtet", "überversorget", "ueberversorget", "überversorgtet", "ueberversorgtet", "übervorteilet", "uebervorteilet", "übervorteiltet", "uebervorteiltet", "überwachet", "ueberwachet", "überwachtet", "ueberwachtet", "überwachset", "ueberwachset", "überwüchset", "ueberwuechset", "überwallt", "ueberwallt", "überwallet", "ueberwallet", "überwalltet", "ueberwalltet", "überwallet", "ueberwallet", "überwalltet", "ueberwalltet", "überwältiget", "ueberwaeltiget", "überwältigtet", "ueberwaeltigtet", "überwalzet", "ueberwalzet", "überwalztet", "ueberwalztet", "überwälzet", "ueberwaelzet", "überwälztet", "ueberwaelztet", "überwechtetet", "ueberwechtetet", "überwächtetet", "ueberwaechtetet", "überwehet", "ueberwehet", "überwehtet", "ueberwehtet", "überweidetet", "ueberweidetet", "überweist", "ueberweist", "überweiset", "ueberweiset", "überwiest", "ueberwiest", "überwieset", "ueberwieset", "überweißet", "ueberweisset", "überweißtet", "ueberweisstet", "überwirft", "ueberwirft", "überwerft", "ueberwerft", "überwerfet", "ueberwerfet", "überwarft", "ueberwarft", "überwürfet", "ueberwuerfet", "überwürft", "ueberwuerft", "überwirft", "ueberwirft", "überwerft", "ueberwerft", "überwerfet", "ueberwerfet", "überwarft", "ueberwarft", "überwürfet", "ueberwuerfet", "überwürft", "ueberwuerft", "überwertetet", "ueberwertetet", "überwiegt", "ueberwiegt", "überwieget", "ueberwieget", "überwogt", "ueberwogt", "überwöget", "ueberwoeget", "überwögt", "ueberwoegt", "überwindet", "ueberwindet", "überwandet", "ueberwandet", "überwändet", "ueberwaendet", "überwölbet", "ueberwoelbet", "überwölbtet", "ueberwoelbtet", "ueberwuerzet", "ueberwuerzet", "überwürztet", "ueberwuerztet", "überzahlet", "ueberzahlet", "überzahltet", "ueberzahltet", "überzahltet", "ueberzahltet", "überzeichnetet", "ueberzeichnetet", "überzeuget", "ueberzeuget", "überzeugtet", "ueberzeugtet", "überzieht", "ueberzieht", "überziehet", "ueberziehet", "überzogt", "ueberzogt", "überzöget", "ueberzoeget", "überzögt", "ueberzoegt", "überzüchtetet", "ueberzuechtetet", "überangebot", "ueberangebot", "überbrückungskredit", "ueberbrückungskredit", "übereinkunft", "uebereinkunft", "überfahrt", "ueberfahrt", "überflugverbot", "ueberflugverbot", "überflutungsgebiet", "ueberflutungsgebiet", "überfracht", "ueberfracht", "überfrucht", "ueberfrucht", "übergangslaut", "uebergangslaut", "übergebot", "uebergebot", "übergewicht", "uebergewicht", "überhangmandat", "ueberhangmandat", "überhangsrecht", "ueberhangsrecht", "überholverbot", "ueberholverbot", "überladenheit", "ueberladenheit", "überlandfahrt", "ueberlandfahrt", "überlast", "ueberlast", "überlegenheit", "ueberlegenheit", "übermacht", "uebermacht", "übermaßverbot", "uebermassverbot", "übermut", "uebermut", "überraschungseffekt", "ueberraschungseffekt", "überraschungsgast", "ueberraschungsgast", "überraschungsmoment", "ueberraschungsmoment", "überredungskunst", "ueberredungskunst", "überreiztheit", "ueberreiztheit", "überrest", "ueberrest", "überschicht", "ueberschicht", "überschnitt", "ueberschnitt", "überschrift", "ueberschrift", "überschwemmungsgebiet", "ueberschwemmungsgebiet", "überseegebiet", "ueberseegebiet", "überseegeschäft", "ueberseegeschaeft", "übersicht", "uebersicht", "überspanntheit", "ueberspanntheit", "überspitztheit", "ueberspitztheit", "übertragungsrecht", "uebertragungsrecht", "übertriebenheit", "uebertriebenheit", "übertritt", "uebertritt", "überwachungsdienst", "ueberwachungsdienst", "überwachungsstaat", "ueberwachungsstaat", "überwelt", "ueberwelt", "überwinterungsgebiet", "ueberwinterungsgebiet", "überzeugtheit", "ueberzeugtheit", "überzeugungstat", "ueberzeugungstat", "überziehungskredit", "ueberziehungskredit"];
 };
 
-},{}],449:[function(require,module,exports){
+},{}],450:[function(require,module,exports){
 "use strict";
 
 var getWords = require("../../../stringProcessing/getWords.js");
@@ -31413,7 +32986,7 @@ module.exports = function (sentencePartText, auxiliaries) {
 	return foundParticiples;
 };
 
-},{"../../../stringProcessing/getWords.js":503,"../GermanParticiple.js":441,"./irregulars.js":450,"./regex.js":451,"lodash/forEach":255,"lodash/includes":261}],450:[function(require,module,exports){
+},{"../../../stringProcessing/getWords.js":504,"../GermanParticiple.js":442,"./irregulars.js":451,"./regex.js":452,"lodash/forEach":256,"lodash/includes":262}],451:[function(require,module,exports){
 "use strict";
 
 // This is a list of irregular participles used in German.
@@ -31423,7 +32996,7 @@ module.exports = function () {
 	"überbremst", "ueberbremst", "übergeblieben", "uebergeblieben", "übereinandergelegen", "uebereinandergelegen", "übereinandergeschlagen", "uebereinandergeschlagen", "übereinandergesessen", "uebereinandergesessen", "übereinandergestanden", "uebereinandergestanden", "übereingefallen", "uebereingefallen", "übereingekommen", "uebereingekommen", "übereingetroffen", "uebereingetroffen", "übergefallen", "uebergefallen", "übergessen", "uebergessen", "überfahren", "ueberfahren", "übergefahren", "uebergefahren", "überfallen", "ueberfallen", "überfangen", "ueberfangen", "überflogen", "ueberflogen", "überflossen", "ueberflossen", "übergeflossen", "uebergeflossen", "überfressen", "ueberfressen", "überfroren", "ueberfroren", "übergegeben", "uebergegeben", "übergeben", "uebergeben", "übergegangen", "uebergegangen", "übergangen", "uebergangen", "übergangen", "uebergangen", "übergossen", "uebergossen", "übergriffen", "uebergriffen", "übergegriffen", "uebergegriffen", "übergehalten", "uebergehalten", "überhandgenommen", "ueberhandgenommen", "überhangen", "ueberhangen", "übergehangen", "uebergehangen", "übergehoben", "uebergehoben", "überhoben", "ueberhoben", "überkommen", "ueberkommen", "übergekommen", "uebergekommen", "überladen", "ueberladen", "übergeladen", "uebergeladen", "überlassen", "ueberlassen", "übergelassen", "uebergelassen", "überlaufen", "ueberlaufen", "übergelaufen", "uebergelaufen", "überlesen", "ueberlesen", "übergelegen", "uebergelegen", "übergenommen", "uebergenommen", "übernommen", "uebernommen", "übergequollen", "uebergequollen", "überrissen", "ueberrissen", "überritten", "ueberritten", "übergeschossen", "uebergeschossen", "überschlafen", "ueberschlafen", "überschlagen", "ueberschlagen", "übergeschlagen", "uebergeschlagen", "übergeschlossen", "uebergeschlossen", "überschnitten", "ueberschnitten", "überschrieben", "ueberschrieben", "überschrieen", "ueberschrieen", "überschrien", "ueberschrien", "überschritten", "ueberschritten", "überschwungen", "ueberschwungen", "übergesehen", "uebergesehen", "übersehen", "uebersehen", "übergesotten", "uebergesotten", "übergesotten", "uebergesotten", "übersponnen", "uebersponnen", "übersprochen", "uebersprochen", "übersprungen", "uebersprungen", "übergesprungen", "uebergesprungen", "überstochen", "ueberstochen", "übergestochen", "uebergestochen", "überstanden", "ueberstanden", "übergestanden", "uebergestanden", "überstiegen", "ueberstiegen", "übergestiegen", "uebergestiegen", "übergestrichen", "uebergestrichen", "überstrichen", "ueberstrichen", "übertragen", "uebertragen", "übertroffen", "uebertroffen", "übertrieben", "uebertrieben", "übertreten", "uebertreten", "übergetreten", "uebergetreten", "überwachsen", "ueberwachsen", "überwiesen", "ueberwiesen", "überworfen", "ueberworfen", "übergeworfen", "uebergeworfen", "überwogen", "ueberwogen", "überwunden", "ueberwunden", "überzogen", "ueberzogen", "übergezogen", "uebergezogen", "verdorben", "vergessen", "verglichen", "verloren", "verstanden", "verschwunden", "vorgeschlagen"];
 };
 
-},{}],451:[function(require,module,exports){
+},{}],452:[function(require,module,exports){
 "use strict";
 
 var verbsBeginningWithGeRegex = /^((ge)\S+t($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>]))/ig;
@@ -31505,7 +33078,7 @@ module.exports = function () {
   };
 };
 
-},{}],452:[function(require,module,exports){
+},{}],453:[function(require,module,exports){
 "use strict";
 
 // This is a list with stopwords used in German.
@@ -31513,7 +33086,7 @@ module.exports = function () {
 	return [":", "aber", "als", "bevor", "bis", "da", "damit", "daß", "dass", "denn", "doch", "ehe", "falls", "gleichwohl", "indem", "indes", "indessen", "insofern", "insoweit", "nachdem", "nun", "ob", "obgleich", "obschon", "obwohl", "obzwar", "oder", "seitdem", "sobald", "sodass", "sofern", "solange", "sondern", "sooft", "soviel", "soweit", "sowie", "trotz", "und", "ungeachtet", "waehrend", "während", "weil", "welche", "welchem", "welchen", "welcher", "welches", "wem", "wen", "wenn", "wenngleich", "wennschon", "wer", "wes", "wessen", "wie", "wiewohl", "wohingegen", "zumal"];
 };
 
-},{}],453:[function(require,module,exports){
+},{}],454:[function(require,module,exports){
 "use strict";
 
 /** @module config/transitionWords */
@@ -31533,7 +33106,7 @@ module.exports = function () {
 	};
 };
 
-},{}],454:[function(require,module,exports){
+},{}],455:[function(require,module,exports){
 "use strict";
 
 /** @module config/twoPartTransitionWords */
@@ -31546,7 +33119,7 @@ module.exports = function () {
 	return [["anstatt", "dass"], ["bald", "bald"], ["dadurch", "dass"], ["dessen ungeachtet", "dass"], ["entweder", "oder"], ["einerseits", "andererseits"], ["erst", "wenn"], ["je", "desto"], ["je", "umsto"], ["nicht nur", "sondern auch"], ["ob", "oder"], ["ohne", "dass"], ["so", "dass"], ["sowohl", "als auch"], ["sowohl", "wie auch"], ["unbeschadet dessen", "dass"], ["weder", "noch"], ["wenn", "auch"], ["wenn", "schon"], ["nicht weil", "sondern"]];
 };
 
-},{}],455:[function(require,module,exports){
+},{}],456:[function(require,module,exports){
 "use strict";
 
 /** @module analyses/getKeywordDensity */
@@ -31574,7 +33147,7 @@ module.exports = function (paper) {
 	return keywordCount / wordCount * 100;
 };
 
-},{"../stringProcessing/countWords.js":492,"../stringProcessing/matchTextWithWord.js":510,"lodash/escapeRegExp":249}],456:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":493,"../stringProcessing/matchTextWithWord.js":511,"lodash/escapeRegExp":250}],457:[function(require,module,exports){
 "use strict";
 
 /** @module analyses/getLinkStatistics */
@@ -31677,7 +33250,7 @@ module.exports = function (paper) {
 	return countLinkTypes(paper);
 };
 
-},{"../stringProcessing/checkNofollow.js":490,"../stringProcessing/findKeywordInUrl.js":496,"../stringProcessing/getAnchorsFromText.js":498,"../stringProcessing/getLinkType.js":499,"../stringProcessing/url.js":528,"lodash/escapeRegExp":249}],457:[function(require,module,exports){
+},{"../stringProcessing/checkNofollow.js":491,"../stringProcessing/findKeywordInUrl.js":497,"../stringProcessing/getAnchorsFromText.js":499,"../stringProcessing/getLinkType.js":500,"../stringProcessing/url.js":529,"lodash/escapeRegExp":250}],458:[function(require,module,exports){
 "use strict";
 
 /** @module analyses/getLinkStatistics */
@@ -31699,7 +33272,7 @@ module.exports = function (paper) {
   return map(anchors, url.getFromAnchorTag);
 };
 
-},{"../stringProcessing/getAnchorsFromText.js":498,"../stringProcessing/url.js":528,"lodash/map":284}],458:[function(require,module,exports){
+},{"../stringProcessing/getAnchorsFromText.js":499,"../stringProcessing/url.js":529,"lodash/map":285}],459:[function(require,module,exports){
 "use strict";
 
 var countWords = require("../stringProcessing/countWords.js");
@@ -31728,7 +33301,7 @@ module.exports = function (paper) {
 	});
 };
 
-},{"../stringProcessing/countWords.js":492,"../stringProcessing/matchParagraphs.js":507,"lodash/filter":250}],459:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":493,"../stringProcessing/matchParagraphs.js":508,"lodash/filter":251}],460:[function(require,module,exports){
 "use strict";
 
 var getSentences = require("../stringProcessing/getSentences.js");
@@ -31830,7 +33403,7 @@ module.exports = function (paper) {
 	};
 };
 
-},{"../helpers/getLanguage.js":393,"../stringProcessing/getSentences.js":500,"../stringProcessing/stripHTMLTags.js":519,"../values/Sentence.js":534,"./english/determinePassives.js":419,"./english/getSentenceParts.js":422,"./german/determinePassives.js":443,"./german/getSentenceParts.js":446,"lodash/forEach":255}],460:[function(require,module,exports){
+},{"../helpers/getLanguage.js":394,"../stringProcessing/getSentences.js":501,"../stringProcessing/stripHTMLTags.js":520,"../values/Sentence.js":535,"./english/determinePassives.js":420,"./english/getSentenceParts.js":423,"./german/determinePassives.js":444,"./german/getSentenceParts.js":447,"lodash/forEach":256}],461:[function(require,module,exports){
 "use strict";
 
 var getSentences = require("../stringProcessing/getSentences.js");
@@ -31946,7 +33519,7 @@ module.exports = function (paper) {
 	return compareFirstWords(sentenceBeginnings, sentences);
 };
 
-},{"../helpers/getFirstWordExceptions.js":392,"../stringProcessing/getSentences.js":500,"../stringProcessing/getWords.js":503,"../stringProcessing/stripHTMLTags.js":519,"../stringProcessing/stripSpaces.js":522,"lodash/filter":250,"lodash/forEach":255,"lodash/isEmpty":270}],461:[function(require,module,exports){
+},{"../helpers/getFirstWordExceptions.js":393,"../stringProcessing/getSentences.js":501,"../stringProcessing/getWords.js":504,"../stringProcessing/stripHTMLTags.js":520,"../stringProcessing/stripSpaces.js":523,"lodash/filter":251,"lodash/forEach":256,"lodash/isEmpty":271}],462:[function(require,module,exports){
 "use strict";
 
 var getSubheadingTexts = require("../stringProcessing/getSubheadingTexts.js");
@@ -31973,7 +33546,7 @@ module.exports = function (paper) {
 	return subHeadingTexts;
 };
 
-},{"../stringProcessing/countWords.js":492,"../stringProcessing/getSubheadingTexts.js":501,"lodash/forEach":255}],462:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":493,"../stringProcessing/getSubheadingTexts.js":502,"lodash/forEach":256}],463:[function(require,module,exports){
 "use strict";
 
 var getWords = require("../stringProcessing/getWords.js");
@@ -32019,7 +33592,7 @@ module.exports = function (paper) {
 	});
 };
 
-},{"../stringProcessing/getSentences.js":500,"../stringProcessing/getWords.js":503,"../stringProcessing/syllables/count.js":525,"lodash/forEach":255,"lodash/map":284}],463:[function(require,module,exports){
+},{"../stringProcessing/getSentences.js":501,"../stringProcessing/getWords.js":504,"../stringProcessing/syllables/count.js":526,"lodash/forEach":256,"lodash/map":285}],464:[function(require,module,exports){
 "use strict";
 
 /** @module researches/imageAltTags */
@@ -32088,7 +33661,7 @@ module.exports = function (paper) {
 	return matchAltProperties(imageInText(paper.getText()), keyword, paper.getLocale());
 };
 
-},{"../stringProcessing/getAlttagContent":497,"../stringProcessing/imageInText":505,"../stringProcessing/matchTextWithWord":510,"lodash/escapeRegExp":249}],464:[function(require,module,exports){
+},{"../stringProcessing/getAlttagContent":498,"../stringProcessing/imageInText":506,"../stringProcessing/matchTextWithWord":511,"lodash/escapeRegExp":250}],465:[function(require,module,exports){
 "use strict";
 
 /** @module researches/imageInText */
@@ -32105,7 +33678,7 @@ module.exports = function (paper) {
   return imageInText(paper.getText()).length;
 };
 
-},{"./../stringProcessing/imageInText":505}],465:[function(require,module,exports){
+},{"./../stringProcessing/imageInText":506}],466:[function(require,module,exports){
 "use strict";
 
 /**
@@ -32124,7 +33697,7 @@ module.exports = function () {
 	"questo", "questa", "quello", "quella", "questi", "queste", "quelli", "quelle", "codesto", "codesti", "codesta", "codeste"];
 };
 
-},{}],466:[function(require,module,exports){
+},{}],467:[function(require,module,exports){
 "use strict";
 
 var transitionWords = require("./transitionWords.js")().singleWords;
@@ -32261,36 +33834,24 @@ var titlesPreceding = ["sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "dott"
 
 module.exports = function () {
 	return {
-		articles: articles,
-		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative, personalPronounsPrepositional),
-		possessivePronouns: possessivePronouns,
-		prepositions: prepositions,
-		demonstrativePronouns: demonstrativePronouns,
-		coordinatingConjunctions: coordinatingConjunctions,
-		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
-		verbs: filteredPassiveAuxiliaries.concat(otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs),
-		quantifiers: quantifiers,
-		interrogatives: interrogativeDeterminers.concat(interrogativePronouns, interrogativeAdverbs),
-		transitionWords: transitionWords.concat(additionalTransitionWords),
-		miscellaneous: miscellaneous,
-		pronominalAdverbs: pronominalAdverbs,
-		interjections: interjections,
-		infinitives: interviewVerbsInfinitive.concat(passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive),
-		cardinalNumerals: cardinalNumerals,
-		ordinalNumerals: ordinalNumerals,
-		indefinitePronouns: indefinitePronouns,
-		locativeAdverbs: locativeAdverbs,
-		intensifiers: intensifiers,
-		recipeWords: recipeWords,
-		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
-		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
-		vagueNouns: vagueNouns,
-		titlesPreceding: titlesPreceding,
-		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers, indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers, pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding)
+		// These word categories are filtered at the beginning of word combinations.
+		filteredAtBeginning: generalAdjectivesAdverbs,
+
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtEnding: [].concat(ordinalNumerals, interviewVerbsInfinitive, passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive, generalAdjectivesAdverbsPreceding),
+
+		// These word categories are filtered at the beginning and ending of word combinations.
+		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
+
+		// These word categories are filtered everywhere within word combinations.
+		filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns, interrogativeAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns),
+
+		// This export contains all of the above words.
+		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers, indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers, pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding)
 	};
 };
 
-},{"./transitionWords.js":467}],467:[function(require,module,exports){
+},{"./transitionWords.js":468}],468:[function(require,module,exports){
 "use strict";
 
 /** @module config/transitionWords */
@@ -32311,7 +33872,7 @@ module.exports = function () {
 	};
 };
 
-},{}],468:[function(require,module,exports){
+},{}],469:[function(require,module,exports){
 "use strict";
 
 /**
@@ -32322,7 +33883,7 @@ module.exports = function () {
   return [["né", "né"], ["non", "ma"], ["non prima", "che"], ["non prima", "di"], ["non solo", "ma anche"], ["o", "o"], ["se", "allora"], ["se", "o"], ["sia", "che"]];
 };
 
-},{}],469:[function(require,module,exports){
+},{}],470:[function(require,module,exports){
 "use strict";
 
 var countWords = require("../stringProcessing/countWords");
@@ -32342,7 +33903,7 @@ function keyphraseLengthResearch(paper) {
 
 module.exports = keyphraseLengthResearch;
 
-},{"../stringProcessing/countWords":492,"../stringProcessing/sanitizeString":517}],470:[function(require,module,exports){
+},{"../stringProcessing/countWords":493,"../stringProcessing/sanitizeString":518}],471:[function(require,module,exports){
 "use strict";
 
 /** @module researches/countKeywordInUrl */
@@ -32362,7 +33923,7 @@ module.exports = function (paper) {
   return wordMatch(paper.getUrl(), keyword, paper.getLocale());
 };
 
-},{"../stringProcessing/matchTextWithWord.js":510,"lodash/escapeRegExp":249}],471:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":511,"lodash/escapeRegExp":250}],472:[function(require,module,exports){
 "use strict";
 
 /* @module analyses/matchKeywordInSubheadings */
@@ -32396,7 +33957,7 @@ module.exports = function (paper) {
 	return result;
 };
 
-},{"../stringProcessing/getSubheadings.js":502,"../stringProcessing/stripNonTextTags.js":520,"../stringProcessing/subheadingsMatch.js":523,"lodash/escapeRegExp":249}],472:[function(require,module,exports){
+},{"../stringProcessing/getSubheadings.js":503,"../stringProcessing/stripNonTextTags.js":521,"../stringProcessing/subheadingsMatch.js":524,"lodash/escapeRegExp":250}],473:[function(require,module,exports){
 "use strict";
 
 var matchTextWithWord = require("../stringProcessing/matchTextWithWord.js");
@@ -32418,7 +33979,7 @@ module.exports = function (paper) {
   return matchTextWithWord(paper.getDescription(), keyword, paper.getLocale());
 };
 
-},{"../stringProcessing/matchTextWithWord.js":510,"lodash/escapeRegExp":249}],473:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":511,"lodash/escapeRegExp":250}],474:[function(require,module,exports){
 "use strict";
 
 /**
@@ -32430,7 +33991,7 @@ module.exports = function (paper) {
   return paper.getDescription().length;
 };
 
-},{}],474:[function(require,module,exports){
+},{}],475:[function(require,module,exports){
 "use strict";
 
 /**
@@ -32445,7 +34006,7 @@ module.exports = function (paper) {
   return 0;
 };
 
-},{}],475:[function(require,module,exports){
+},{}],476:[function(require,module,exports){
 "use strict";
 
 var forEach = require("lodash/forEach");
@@ -32467,7 +34028,7 @@ module.exports = function (participles) {
 	return passive;
 };
 
-},{"lodash/forEach":255}],476:[function(require,module,exports){
+},{"lodash/forEach":256}],477:[function(require,module,exports){
 "use strict";
 
 var getRelevantWords = require("../stringProcessing/relevantWords").getRelevantWords;
@@ -32484,7 +34045,7 @@ function relevantWords(paper) {
 
 module.exports = relevantWords;
 
-},{"../stringProcessing/relevantWords":513}],477:[function(require,module,exports){
+},{"../stringProcessing/relevantWords":514}],478:[function(require,module,exports){
 "use strict";
 
 /**
@@ -32503,7 +34064,7 @@ module.exports = function () {
 	"este", "estos", "esta", "estas", "ese", "esos", "esa", "esas", "aquel", "aquellos", "aquella", "aquellas", "esto", "eso", "aquello"];
 };
 
-},{}],478:[function(require,module,exports){
+},{}],479:[function(require,module,exports){
 "use strict";
 
 var transitionWords = require("./transitionWords.js")().singleWords;
@@ -32603,36 +34164,25 @@ var titlesFollowing = ["jr", "sr"];
 
 module.exports = function () {
 	return {
-		articles: articles,
-		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative, personalPronounsPrepositional, personalPronounsComitative),
-		possessivePronouns: possessivePronouns,
-		prepositions: prepositions,
-		demonstrativePronouns: demonstrativePronouns,
-		coordinatingConjunctions: coordinatingConjunctions,
-		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
-		verbs: otherAuxiliaries.concat(copula, interviewVerbs, delexicalizedVerbs),
-		infinitives: otherAuxiliariesInfinitive.concat(copulaInfinitive, delexicalizedVerbsInfinitive),
-		quantifiers: quantifiers,
-		interrogatives: interrogativeDeterminers.concat(interrogativePronouns, interrogativeProAdverbs),
-		transitionWords: transitionWords.concat(additionalTransitionWords),
-		miscellaneous: miscellaneous,
-		interjections: interjections,
-		cardinalNumerals: cardinalNumerals,
-		ordinalNumerals: ordinalNumerals,
-		indefinitePronouns: indefinitePronouns,
-		locativeAdverbs: locativeAdverbs,
-		prepositionalAdverbs: prepositionalAdverbs,
-		intensifiers: intensifiers,
-		recipeWords: recipeWords,
-		timeWords: timeWords,
-		vagueNouns: vagueNouns,
-		titlesPreceding: titlesPreceding,
-		titlesFollowing: titlesFollowing,
-		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
+
+		// These word categories are filtered at the beginning of word combinations.
+		filteredAtBeginning: generalAdjectivesAdverbs,
+
+		// These word categories are filtered at the ending of word combinations.
+		filteredAtEnding: [].concat(ordinalNumerals, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive),
+
+		// These word categories are filtered at the beginning and ending of word combinations.
+		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
+
+		// These word categories are filtered everywhere within word combinations.
+		filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, personalPronounsComitative, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, recipeWords, timeWords, vagueNouns),
+
+		// This export contains all of the above words.
+		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
 	};
 };
 
-},{"./transitionWords.js":479}],479:[function(require,module,exports){
+},{"./transitionWords.js":480}],480:[function(require,module,exports){
 "use strict";
 
 /** @module config/transitionWords */
@@ -32652,7 +34202,7 @@ module.exports = function () {
 	};
 };
 
-},{}],480:[function(require,module,exports){
+},{}],481:[function(require,module,exports){
 "use strict";
 
 /** @module config/twoPartTransitionWords */
@@ -32665,7 +34215,7 @@ module.exports = function () {
   return [["de un lado", "de otra parte"], ["de un lado", "de otro"], ["no", "sino que"], ["no", "sino"], ["por un lado", "por otro lado"], ["por una parte", "por otra parte"], ["por una parte", "por otra"], ["tanto", "como"], ["bien", "bien"]];
 };
 
-},{}],481:[function(require,module,exports){
+},{}],482:[function(require,module,exports){
 "use strict";
 
 /** @module researches/stopWordsInKeyword */
@@ -32684,7 +34234,7 @@ module.exports = function (paper) {
   return stopWordsInText(keyword);
 };
 
-},{"./stopWordsInText.js":482,"lodash/escapeRegExp":249}],482:[function(require,module,exports){
+},{"./stopWordsInText.js":483,"lodash/escapeRegExp":250}],483:[function(require,module,exports){
 "use strict";
 
 var stopwords = require("../config/stopwords.js")();
@@ -32709,7 +34259,7 @@ module.exports = function (text) {
 	return matches;
 };
 
-},{"../config/stopwords.js":376,"../stringProcessing/createWordRegex.js":495}],483:[function(require,module,exports){
+},{"../config/stopwords.js":377,"../stringProcessing/createWordRegex.js":496}],484:[function(require,module,exports){
 "use strict";
 
 /** @module researches/stopWordsInUrl */
@@ -32725,7 +34275,7 @@ module.exports = function (paper) {
   return stopWordsInText(paper.getUrl().replace(/[-_]/g, " "));
 };
 
-},{"./stopWordsInText.js":482}],484:[function(require,module,exports){
+},{"./stopWordsInText.js":483}],485:[function(require,module,exports){
 "use strict";
 
 /** @module analyses/isUrlTooLong */
@@ -32748,7 +34298,7 @@ module.exports = function (paper) {
 	return false;
 };
 
-},{}],485:[function(require,module,exports){
+},{}],486:[function(require,module,exports){
 "use strict";
 
 var wordCount = require("../stringProcessing/countWords.js");
@@ -32762,7 +34312,7 @@ module.exports = function (paper) {
   return wordCount(paper.getText());
 };
 
-},{"../stringProcessing/countWords.js":492}],486:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":493}],487:[function(require,module,exports){
 "use strict";
 
 var Assessor = require("./assessor.js");
@@ -32803,7 +34353,7 @@ require("util").inherits(SEOAssessor, Assessor);
 
 module.exports = SEOAssessor;
 
-},{"./assessments/seo/internalLinksAssessment":349,"./assessments/seo/introductionKeywordAssessment.js":350,"./assessments/seo/keyphraseLengthAssessment.js":351,"./assessments/seo/keywordDensityAssessment.js":352,"./assessments/seo/keywordStopWordsAssessment.js":353,"./assessments/seo/metaDescriptionKeywordAssessment.js":354,"./assessments/seo/metaDescriptionLengthAssessment.js":355,"./assessments/seo/outboundLinksAssessment.js":356,"./assessments/seo/pageTitleWidthAssessment.js":357,"./assessments/seo/subheadingsKeywordAssessment.js":358,"./assessments/seo/textCompetingLinksAssessment.js":360,"./assessments/seo/textImagesAssessment.js":361,"./assessments/seo/textLengthAssessment.js":362,"./assessments/seo/titleKeywordAssessment.js":363,"./assessments/seo/urlKeywordAssessment.js":364,"./assessments/seo/urlLengthAssessment.js":365,"./assessments/seo/urlStopWordsAssessment.js":366,"./assessor.js":367,"util":336}],487:[function(require,module,exports){
+},{"./assessments/seo/internalLinksAssessment":351,"./assessments/seo/introductionKeywordAssessment.js":352,"./assessments/seo/keyphraseLengthAssessment.js":353,"./assessments/seo/keywordDensityAssessment.js":354,"./assessments/seo/keywordStopWordsAssessment.js":355,"./assessments/seo/metaDescriptionKeywordAssessment.js":356,"./assessments/seo/metaDescriptionLengthAssessment.js":357,"./assessments/seo/outboundLinksAssessment.js":358,"./assessments/seo/pageTitleWidthAssessment.js":359,"./assessments/seo/subheadingsKeywordAssessment.js":360,"./assessments/seo/textCompetingLinksAssessment.js":361,"./assessments/seo/textImagesAssessment.js":362,"./assessments/seo/textLengthAssessment.js":363,"./assessments/seo/titleKeywordAssessment.js":364,"./assessments/seo/urlKeywordAssessment.js":365,"./assessments/seo/urlLengthAssessment.js":366,"./assessments/seo/urlStopWordsAssessment.js":367,"./assessor.js":368,"util":338}],488:[function(require,module,exports){
 "use strict";
 
 var isEmpty = require("lodash/isEmpty");
@@ -34068,7 +35618,7 @@ SnippetPreview.prototype.setFocus = function (ev) {};
 /* eslint-disable */
 module.exports = SnippetPreview;
 
-},{"./helpers/domManipulation.js":389,"./snippetPreviewToggler":488,"./stringProcessing/createWordRegex.js":495,"./stringProcessing/replaceDiacritics.js":515,"./stringProcessing/stripHTMLTags.js":519,"./stringProcessing/stripSpaces.js":522,"./stringProcessing/transliterate.js":526,"./templates.js":529,"lodash/clone":241,"lodash/debounce":243,"lodash/defaultsDeep":245,"lodash/forEach":255,"lodash/isElement":269,"lodash/isEmpty":270,"lodash/isUndefined":281}],488:[function(require,module,exports){
+},{"./helpers/domManipulation.js":390,"./snippetPreviewToggler":489,"./stringProcessing/createWordRegex.js":496,"./stringProcessing/replaceDiacritics.js":516,"./stringProcessing/stripHTMLTags.js":520,"./stringProcessing/stripSpaces.js":523,"./stringProcessing/transliterate.js":527,"./templates.js":530,"lodash/clone":242,"lodash/debounce":244,"lodash/defaultsDeep":246,"lodash/forEach":256,"lodash/isElement":270,"lodash/isEmpty":271,"lodash/isUndefined":282}],489:[function(require,module,exports){
 "use strict";
 
 var forEach = require("lodash/forEach");
@@ -34312,7 +35862,7 @@ SnippetPreviewToggler.prototype._setActiveState = function (elementToActivate) {
 
 module.exports = SnippetPreviewToggler;
 
-},{"./helpers/domManipulation.js":389,"lodash/forEach":255}],489:[function(require,module,exports){
+},{"./helpers/domManipulation.js":390,"lodash/forEach":256}],490:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/addWordboundary */
@@ -34328,14 +35878,14 @@ module.exports = function (matchString, extraWordBoundary) {
   var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
   var _extraWordBoundary = extraWordBoundary || "";
 
-  wordBoundary = "[ \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›" + _extraWordBoundary + "<>]";
+  wordBoundary = "[ \\u00a0\xA0\\n\\r\\t.,'()\"+-;!?:/\xBB\xAB\u2039\u203A" + _extraWordBoundary + "<>]";
   wordBoundaryStart = "(^|" + wordBoundary + ")";
   wordBoundaryEnd = "($|" + wordBoundary + ")";
 
   return wordBoundaryStart + matchString + wordBoundaryEnd;
 };
 
-},{}],490:[function(require,module,exports){
+},{}],491:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/checkNofollow */
@@ -34356,7 +35906,7 @@ module.exports = function (text) {
 	return linkFollow;
 };
 
-},{}],491:[function(require,module,exports){
+},{}],492:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/countSentences */
@@ -34378,7 +35928,7 @@ module.exports = function (text) {
 	return sentenceCount;
 };
 
-},{"../stringProcessing/getSentences.js":500}],492:[function(require,module,exports){
+},{"../stringProcessing/getSentences.js":501}],493:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/countWords */
@@ -34395,7 +35945,7 @@ module.exports = function (text) {
   return getWords(text).length;
 };
 
-},{"../stringProcessing/getWords.js":503}],493:[function(require,module,exports){
+},{"../stringProcessing/getWords.js":504}],494:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/createRegexFromArray */
@@ -34426,7 +35976,7 @@ module.exports = function (array, disableWordBoundary) {
 	return new RegExp(regexString, "ig");
 };
 
-},{"../stringProcessing/addWordboundary.js":489,"lodash/map":284}],494:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":490,"lodash/map":285}],495:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/createRegexFromDoubleArray */
@@ -34458,7 +36008,7 @@ module.exports = function (array) {
 	return new RegExp(regexString, "ig");
 };
 
-},{"../stringProcessing/addWordboundary.js":489}],495:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":490}],496:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/stringToRegex */
@@ -34494,7 +36044,7 @@ module.exports = memoize(function (string, extraBoundary, doReplaceDiacritics) {
 	return new RegExp(string, "ig");
 });
 
-},{"../stringProcessing/addWordboundary.js":489,"../stringProcessing/replaceDiacritics.js":515,"../stringProcessing/sanitizeString":517,"lodash/escapeRegExp":249,"lodash/isUndefined":281,"lodash/memoize":285}],496:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":490,"../stringProcessing/replaceDiacritics.js":516,"../stringProcessing/sanitizeString":518,"lodash/escapeRegExp":250,"lodash/isUndefined":282,"lodash/memoize":286}],497:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/findKeywordInUrl */
@@ -34522,7 +36072,7 @@ module.exports = function (url, keyword, locale) {
   return false;
 };
 
-},{"./matchTextWithTransliteration.js":509,"lodash/escapeRegExp":249}],497:[function(require,module,exports){
+},{"./matchTextWithTransliteration.js":510,"lodash/escapeRegExp":250}],498:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/getAlttagContent */
@@ -34551,7 +36101,7 @@ module.exports = function (text) {
 	return alt;
 };
 
-},{"../stringProcessing/stripSpaces.js":522}],498:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":523}],499:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/getAnchorsFromText */
@@ -34575,7 +36125,7 @@ module.exports = function (text) {
 	return matches;
 };
 
-},{}],499:[function(require,module,exports){
+},{}],500:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcess/getLinkType */
@@ -34607,7 +36157,7 @@ module.exports = function (text, url) {
 	return linkType;
 };
 
-},{"./url":528}],500:[function(require,module,exports){
+},{"./url":529}],501:[function(require,module,exports){
 "use strict";
 
 var map = require("lodash/map");
@@ -34935,7 +36485,7 @@ module.exports = function (text) {
 	return filter(sentences, negate(isEmpty));
 };
 
-},{"../helpers/html.js":396,"../stringProcessing/quotes.js":512,"../stringProcessing/unifyWhitespace.js":527,"lodash/filter":250,"lodash/flatMap":253,"lodash/forEach":255,"lodash/isEmpty":270,"lodash/isNaN":273,"lodash/isUndefined":281,"lodash/map":284,"lodash/memoize":285,"lodash/negate":288,"tokenizer2/core":330}],501:[function(require,module,exports){
+},{"../helpers/html.js":397,"../stringProcessing/quotes.js":513,"../stringProcessing/unifyWhitespace.js":528,"lodash/filter":251,"lodash/flatMap":254,"lodash/forEach":256,"lodash/isEmpty":271,"lodash/isNaN":274,"lodash/isUndefined":282,"lodash/map":285,"lodash/memoize":286,"lodash/negate":289,"tokenizer2/core":332}],502:[function(require,module,exports){
 "use strict";
 
 /**
@@ -34963,7 +36513,7 @@ module.exports = function (text) {
 	return subheadings;
 };
 
-},{}],502:[function(require,module,exports){
+},{}],503:[function(require,module,exports){
 "use strict";
 
 var map = require("lodash/map");
@@ -35008,7 +36558,7 @@ module.exports = {
 	getSubheadingContents: getSubheadingContents
 };
 
-},{"lodash/map":284}],503:[function(require,module,exports){
+},{"lodash/map":285}],504:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/countWords */
@@ -35042,7 +36592,7 @@ module.exports = function (text) {
 	});
 };
 
-},{"./removePunctuation.js":514,"./stripHTMLTags.js":519,"./stripSpaces.js":522,"lodash/filter":250,"lodash/map":284}],504:[function(require,module,exports){
+},{"./removePunctuation.js":515,"./stripHTMLTags.js":520,"./stripSpaces.js":523,"lodash/filter":251,"lodash/map":285}],505:[function(require,module,exports){
 "use strict";
 
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
@@ -35129,7 +36679,7 @@ module.exports = function (text) {
 	return textArray.join("");
 };
 
-},{"htmlparser2":55,"lodash/includes":261}],505:[function(require,module,exports){
+},{"htmlparser2":56,"lodash/includes":262}],506:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/imageInText */
@@ -35146,13 +36696,14 @@ module.exports = function (text) {
   return matchStringWithRegex(text, "<img(?:[^>]+)?>");
 };
 
-},{"./matchStringWithRegex.js":508}],506:[function(require,module,exports){
+},{"./matchStringWithRegex.js":509}],507:[function(require,module,exports){
 "use strict";
 
 var isUndefined = require("lodash/isUndefined");
 var forEach = require("lodash/forEach");
 var stripSpaces = require("../stringProcessing/stripSpaces.js");
-var matchWordInSentence = require("../stringProcessing/matchWordInSentence.js");
+var matchWordInSentence = require("../stringProcessing/matchWordInSentence.js").isWordInSentence;
+var characterInBoundary = require("../stringProcessing/matchWordInSentence.js").characterInBoundary;
 
 /**
  * Returns the indices of a string in a text. If it is found multiple times, it will return multiple indices.
@@ -35167,10 +36718,17 @@ function getIndicesByWord(word, text) {
 	var index,
 	    indices = [];
 	while ((index = text.indexOf(word, startIndex)) > -1) {
-		indices.push({
-			index: index,
-			match: word
-		});
+		// Check if the previous and next character are word boundaries to determine if a complete word was detected
+		var isPreviousCharacterWordBoundary = characterInBoundary(text[index - 1]) || index === 0;
+
+		var isNextCharacterWordBoundary = characterInBoundary(text[index + searchStringLength]) || text.length === index + searchStringLength;
+
+		if (isPreviousCharacterWordBoundary && isNextCharacterWordBoundary) {
+			indices.push({
+				index: index,
+				match: word
+			});
+		}
 		startIndex = index + searchStringLength;
 	}
 	return indices;
@@ -35194,7 +36752,6 @@ var getIndicesByWordList = function getIndicesByWordList(words, text) {
 		}
 		matchedWords = matchedWords.concat(getIndicesByWord(word, text));
 	});
-
 	return matchedWords;
 };
 
@@ -35241,7 +36798,7 @@ module.exports = {
 	sortIndices: sortIndices
 };
 
-},{"../stringProcessing/matchWordInSentence.js":511,"../stringProcessing/stripSpaces.js":522,"lodash/forEach":255,"lodash/isUndefined":281}],507:[function(require,module,exports){
+},{"../stringProcessing/matchWordInSentence.js":512,"../stringProcessing/stripSpaces.js":523,"lodash/forEach":256,"lodash/isUndefined":282}],508:[function(require,module,exports){
 "use strict";
 
 var map = require("lodash/map");
@@ -35303,7 +36860,7 @@ module.exports = function (text) {
 	return [text];
 };
 
-},{"../helpers/html":396,"lodash/filter":250,"lodash/flatMap":253,"lodash/map":284}],508:[function(require,module,exports){
+},{"../helpers/html":397,"lodash/filter":251,"lodash/flatMap":254,"lodash/map":285}],509:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/matchStringWithRegex */
@@ -35326,7 +36883,7 @@ module.exports = function (text, regexString) {
   return matches;
 };
 
-},{}],509:[function(require,module,exports){
+},{}],510:[function(require,module,exports){
 "use strict";
 
 var map = require("lodash/map");
@@ -35367,7 +36924,7 @@ module.exports = function (text, keyword, locale) {
 	});
 };
 
-},{"./addWordboundary.js":489,"./stripSpaces.js":522,"./transliterate.js":526,"lodash/map":284}],510:[function(require,module,exports){
+},{"./addWordboundary.js":490,"./stripSpaces.js":523,"./transliterate.js":527,"lodash/map":285}],511:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/matchTextWithWord */
@@ -35392,11 +36949,12 @@ module.exports = function (text, wordToMatch, locale, extraBoundary) {
   return matches.length;
 };
 
-},{"../stringProcessing/matchTextWithTransliteration.js":509,"../stringProcessing/stripNonTextTags.js":520,"../stringProcessing/unifyWhitespace.js":527}],511:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithTransliteration.js":510,"../stringProcessing/stripNonTextTags.js":521,"../stringProcessing/unifyWhitespace.js":528}],512:[function(require,module,exports){
 "use strict";
 
 var wordBoundaries = require("../config/wordBoundaries.js")();
 var includes = require("lodash/includes");
+var addWordBoundary = require("./addWordboundary.js");
 
 /**
  * Checks whether a character is present in the list of word boundaries.
@@ -35415,18 +36973,27 @@ var characterInBoundary = function characterInBoundary(character) {
  * @param {string} sentence The sentence to look through.
  * @returns {boolean} Whether or not the word is present in the sentence.
  */
-module.exports = function (word, sentence) {
+var isWordInSentence = function isWordInSentence(word, sentence) {
 	// To ensure proper matching, make everything lowercase.
 	word = word.toLocaleLowerCase();
 	sentence = sentence.toLocaleLowerCase();
 
-	var occurrenceStart = sentence.indexOf(word);
-	var occurrenceEnd = occurrenceStart + word.length;
-
+	var wordWithBoundaries = addWordBoundary(word);
+	var occurrenceStart = sentence.search(new RegExp(wordWithBoundaries, "ig"));
 	// Return false if no match has been found.
 	if (occurrenceStart === -1) {
 		return false;
 	}
+	/*
+ If there is a word boundary before the matched word, the regex includes this word boundary in the match.
+ This means that occurrenceStart is the index of the word boundary before the match. Therefore 1 has to
+ be added to occurrenceStart, except when there is no word boundary before the match (i.e. at the start
+ of a sentence).
+  */
+	if (occurrenceStart > 0) {
+		occurrenceStart += 1;
+	}
+	var occurrenceEnd = occurrenceStart + word.length;
 
 	// Check if the previous and next character are word boundaries to determine if a complete word was detected
 	var previousCharacter = characterInBoundary(sentence[occurrenceStart - 1]) || occurrenceStart === 0;
@@ -35435,7 +37002,12 @@ module.exports = function (word, sentence) {
 	return previousCharacter && nextCharacter;
 };
 
-},{"../config/wordBoundaries.js":383,"lodash/includes":261}],512:[function(require,module,exports){
+module.exports = {
+	characterInBoundary: characterInBoundary,
+	isWordInSentence: isWordInSentence
+};
+
+},{"../config/wordBoundaries.js":384,"./addWordboundary.js":490,"lodash/includes":262}],513:[function(require,module,exports){
 "use strict";
 
 /**
@@ -35474,7 +37046,7 @@ module.exports = {
   normalize: normalizeQuotes
 };
 
-},{}],513:[function(require,module,exports){
+},{}],514:[function(require,module,exports){
 "use strict";
 
 var getWords = require("../stringProcessing/getWords.js");
@@ -35653,7 +37225,7 @@ function filterFunctionWordsAtEnding(wordCombinations, functionWords) {
  * @param {Array} functionWords The list of function words.
  * @returns {WordCombination[]} Filtered word combinations.
  */
-function filterFunctionWords(wordCombinations, functionWords) {
+function filterFunctionWordsAtBeginningAndEnding(wordCombinations, functionWords) {
 	wordCombinations = filterFunctionWordsAtBeginning(wordCombinations, functionWords);
 	wordCombinations = filterFunctionWordsAtEnding(wordCombinations, functionWords);
 	return wordCombinations;
@@ -35675,75 +37247,33 @@ function filterOnDensity(wordCombinations, wordCount, densityLowerLimit, density
 }
 
 /**
- * Filters the list of word combination objects.
- * Word combinations with specific parts of speech at the beginning and/or end are removed.
+ * Filters the list of word combination objects based on the language-specific function word filters.
+ * Word combinations with specific parts of speech are removed.
  *
  * @param {Array} combinations The list of word combination objects.
  * @param {Function} functionWords The function containing the lists of function words.
- * @param {string} locale The paper's locale.
  * @returns {Array} The filtered list of word combination objects.
  */
-function filterCombinations(combinations, functionWords, locale) {
+function filterFunctionWords(combinations, functionWords) {
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().filteredAnywhere);
+	combinations = filterFunctionWordsAtBeginningAndEnding(combinations, functionWords().filteredAtBeginningAndEnding);
+	combinations = filterFunctionWordsAtEnding(combinations, functionWords().filteredAtEnding);
+	combinations = filterFunctionWordsAtBeginning(combinations, functionWords().filteredAtBeginning);
+	return combinations;
+}
+
+/**
+ * Filters the list of word combination objects based on function word filters, a special character filter and
+ * a one-character filter.
+ *
+ * @param {Array} combinations The list of word combination objects.
+ * @param {Function} functionWords The function containing the lists of function words.
+ * @returns {Array} The filtered list of word combination objects.
+ */
+function filterCombinations(combinations, functionWords) {
 	combinations = filterFunctionWordsAnywhere(combinations, specialCharacters);
 	combinations = filterOneCharacterWordCombinations(combinations);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().transitionWords);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().adverbialGenitives);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().personalPronouns);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().reflexivePronouns);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().interjections);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().cardinalNumerals);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().verbs);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().indefinitePronouns);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().conjunctionsFilteredEverywhere);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().interrogatives);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().relativePronouns);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().locativeAdverbs);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().miscellaneous);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().prepositionalAdverbs);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().pronominalAdverbs);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().recipeWords);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().timeWords);
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().vagueNouns);
-	combinations = filterFunctionWords(combinations, functionWords().articles);
-	combinations = filterFunctionWords(combinations, functionWords().prepositions);
-	combinations = filterFunctionWords(combinations, functionWords().coordinatingConjunctions);
-	combinations = filterFunctionWords(combinations, functionWords().demonstrativePronouns);
-	combinations = filterFunctionWords(combinations, functionWords().intensifiers);
-	combinations = filterFunctionWords(combinations, functionWords().quantifiers);
-	combinations = filterFunctionWordsAtEnding(combinations, functionWords().ordinalNumerals);
-	combinations = filterFunctionWordsAtEnding(combinations, functionWords().titlesPreceding);
-	combinations = filterFunctionWordsAtBeginning(combinations, functionWords().titlesFollowing);
-	switch (getLanguage(locale)) {
-		case "en":
-			combinations = filterFunctionWordsAtEnding(combinations, functionWords().continuousVerbs);
-			combinations = filterFunctionWordsAtEnding(combinations, functionWords().generalAdjectivesAdverbs);
-			combinations = filterFunctionWords(combinations, functionWords().possessivePronouns);
-			break;
-		case "es":
-			combinations = filterFunctionWordsAtEnding(combinations, functionWords().infinitives);
-			combinations = filterFunctionWordsAtBeginning(combinations, functionWords().generalAdjectivesAdverbs);
-			combinations = filterFunctionWords(combinations, functionWords().possessivePronouns);
-			break;
-		case "it":
-			combinations = filterFunctionWordsAtEnding(combinations, functionWords().infinitives);
-			combinations = filterFunctionWordsAtBeginning(combinations, functionWords().generalAdjectivesAdverbs);
-			combinations = filterFunctionWordsAtEnding(combinations, functionWords().generalAdjectivesAdverbsPreceding);
-			combinations = filterFunctionWords(combinations, functionWords().possessivePronouns);
-			break;
-		case "fr":
-			combinations = filterFunctionWordsAtEnding(combinations, functionWords().infinitives);
-			combinations = filterFunctionWordsAtBeginning(combinations, functionWords().generalAdjectivesAdverbs);
-			combinations = filterFunctionWordsAtEnding(combinations, functionWords().generalAdjectivesAdverbsPreceding);
-			combinations = filterFunctionWords(combinations, functionWords().possessivePronouns);
-			break;
-		case "de":
-		case "nl":
-			combinations = filterFunctionWordsAtBeginning(combinations, functionWords().infinitives);
-			combinations = filterFunctionWordsAtEnding(combinations, functionWords().generalAdjectivesAdverbs);
-			combinations = filterFunctionWordsAnywhere(combinations, functionWords().reciprocalPronouns);
-			combinations = filterFunctionWordsAnywhere(combinations, functionWords().possessivePronouns);
-			break;
-	}
+	combinations = filterFunctionWords(combinations, functionWords);
 	return combinations;
 }
 /**
@@ -35798,7 +37328,7 @@ function getRelevantWords(text, locale) {
 
 	var combinations = oneWordCombinations.concat(twoWordCombinations, threeWordCombinations, fourWordCombinations, fiveWordCombinations);
 
-	combinations = filterCombinations(combinations, functionWords, locale);
+	combinations = filterCombinations(combinations, functionWords);
 
 	forEach(combinations, function (combination) {
 		combination.setRelevantWords(oneWordRelevanceMap);
@@ -35822,13 +37352,13 @@ module.exports = {
 	sortCombinations: sortCombinations,
 	filterFunctionWordsAtEnding: filterFunctionWordsAtEnding,
 	filterFunctionWordsAtBeginning: filterFunctionWordsAtBeginning,
-	filterFunctionWords: filterFunctionWords,
+	filterFunctionWords: filterFunctionWordsAtBeginningAndEnding,
 	filterFunctionWordsAnywhere: filterFunctionWordsAnywhere,
 	filterOnDensity: filterOnDensity,
 	filterOneCharacterWordCombinations: filterOneCharacterWordCombinations
 };
 
-},{"../helpers/getLanguage.js":393,"../researches/dutch/functionWords.js":414,"../researches/english/functionWords.js":421,"../researches/french/functionWords.js":438,"../researches/german/functionWords.js":445,"../researches/italian/functionWords.js":466,"../researches/spanish/functionWords.js":478,"../stringProcessing/getSentences.js":500,"../stringProcessing/getWords.js":503,"../stringProcessing/quotes.js":512,"../values/WordCombination.js":536,"lodash/filter":250,"lodash/flatMap":253,"lodash/forEach":255,"lodash/has":257,"lodash/includes":261,"lodash/intersection":263,"lodash/isEmpty":270,"lodash/map":284,"lodash/take":300,"lodash/values":308}],514:[function(require,module,exports){
+},{"../helpers/getLanguage.js":394,"../researches/dutch/functionWords.js":415,"../researches/english/functionWords.js":422,"../researches/french/functionWords.js":439,"../researches/german/functionWords.js":446,"../researches/italian/functionWords.js":467,"../researches/spanish/functionWords.js":479,"../stringProcessing/getSentences.js":501,"../stringProcessing/getWords.js":504,"../stringProcessing/quotes.js":513,"../values/WordCombination.js":537,"lodash/filter":251,"lodash/flatMap":254,"lodash/forEach":256,"lodash/has":258,"lodash/includes":262,"lodash/intersection":264,"lodash/isEmpty":271,"lodash/map":285,"lodash/take":301,"lodash/values":309}],515:[function(require,module,exports){
 "use strict";
 
 // Replace all other punctuation characters at the beginning or at the end of a word.
@@ -35850,7 +37380,7 @@ module.exports = function (text) {
   return text;
 };
 
-},{}],515:[function(require,module,exports){
+},{}],516:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/replaceDiacritics */
@@ -35872,7 +37402,7 @@ module.exports = function (text) {
 	return text;
 };
 
-},{"../config/diacritics.js":373}],516:[function(require,module,exports){
+},{"../config/diacritics.js":374}],517:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/replaceString */
@@ -35891,7 +37421,7 @@ module.exports = function (text, stringToReplace, replacement) {
   return text;
 };
 
-},{}],517:[function(require,module,exports){
+},{}],518:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/sanitizeString */
@@ -35912,7 +37442,7 @@ module.exports = function (text) {
   return text;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":519,"../stringProcessing/stripSpaces.js":522}],518:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":520,"../stringProcessing/stripSpaces.js":523}],519:[function(require,module,exports){
 "use strict";
 
 var wordCount = require("./countWords.js");
@@ -35943,7 +37473,7 @@ module.exports = function (sentences) {
 	return sentencesWordCount;
 };
 
-},{"./countWords.js":492,"./stripHTMLTags.js":519,"lodash/forEach":255}],519:[function(require,module,exports){
+},{"./countWords.js":493,"./stripHTMLTags.js":520,"lodash/forEach":256}],520:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/stripHTMLTags */
@@ -35997,7 +37527,7 @@ module.exports = {
   stripBlockTagsAtStartEnd: stripBlockTagsAtStartEnd
 };
 
-},{"../helpers/html.js":396,"../stringProcessing/stripSpaces.js":522}],520:[function(require,module,exports){
+},{"../helpers/html.js":397,"../stringProcessing/stripSpaces.js":523}],521:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/stripNonTextTags */
@@ -36016,7 +37546,7 @@ module.exports = function (text) {
   return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":522}],521:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":523}],522:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/stripNumbers */
@@ -36042,7 +37572,7 @@ module.exports = function (text) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":522}],522:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":523}],523:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/stripSpaces */
@@ -36066,7 +37596,7 @@ module.exports = function (text) {
 	return text;
 };
 
-},{}],523:[function(require,module,exports){
+},{}],524:[function(require,module,exports){
 "use strict";
 
 var replaceString = require("../stringProcessing/replaceString.js");
@@ -36098,7 +37628,7 @@ module.exports = function (matches, keyword, locale) {
 	return foundInHeader;
 };
 
-},{"../config/removalWords.js":375,"../stringProcessing/matchTextWithTransliteration.js":509,"../stringProcessing/replaceString.js":516}],524:[function(require,module,exports){
+},{"../config/removalWords.js":376,"../stringProcessing/matchTextWithTransliteration.js":510,"../stringProcessing/replaceString.js":517}],525:[function(require,module,exports){
 "use strict";
 
 var isUndefined = require("lodash/isUndefined");
@@ -36212,7 +37742,7 @@ DeviationFragment.prototype.getSyllables = function () {
 
 module.exports = DeviationFragment;
 
-},{"lodash/isUndefined":281,"lodash/pick":292}],525:[function(require,module,exports){
+},{"lodash/isUndefined":282,"lodash/pick":293}],526:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/countSyllables */
@@ -36395,7 +37925,7 @@ var countSyllablesInText = function countSyllablesInText(text, locale) {
 
 module.exports = countSyllablesInText;
 
-},{"../../config/syllables.js":377,"../../helpers/syllableCountIterator.js":399,"../getWords.js":503,"./DeviationFragment":524,"lodash/filter":250,"lodash/find":251,"lodash/flatMap":253,"lodash/forEach":255,"lodash/isUndefined":281,"lodash/map":284,"lodash/memoize":285,"lodash/sum":299}],526:[function(require,module,exports){
+},{"../../config/syllables.js":378,"../../helpers/syllableCountIterator.js":400,"../getWords.js":504,"./DeviationFragment":525,"lodash/filter":251,"lodash/find":252,"lodash/flatMap":254,"lodash/forEach":256,"lodash/isUndefined":282,"lodash/map":285,"lodash/memoize":286,"lodash/sum":300}],527:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/replaceDiacritics */
@@ -36417,7 +37947,7 @@ module.exports = function (text, locale) {
 	return text;
 };
 
-},{"../config/transliterations.js":382}],527:[function(require,module,exports){
+},{"../config/transliterations.js":383}],528:[function(require,module,exports){
 "use strict";
 
 /** @module stringProcessing/unifyWhitespace */
@@ -36457,7 +37987,7 @@ module.exports = {
   unifyAllSpaces: unifyAllSpaces
 };
 
-},{}],528:[function(require,module,exports){
+},{}],529:[function(require,module,exports){
 "use strict";
 
 var urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
@@ -36553,7 +38083,7 @@ module.exports = {
   getHostname: getHostname
 };
 
-},{"url":331}],529:[function(require,module,exports){
+},{"url":333}],530:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -37096,7 +38626,7 @@ module.exports = {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],530:[function(require,module,exports){
+},{}],531:[function(require,module,exports){
 "use strict";
 
 var isUndefined = require("lodash/isUndefined");
@@ -37264,7 +38794,7 @@ AssessmentResult.prototype.hasMarks = function () {
 
 module.exports = AssessmentResult;
 
-},{"lodash/isNumber":274,"lodash/isUndefined":281}],531:[function(require,module,exports){
+},{"lodash/isNumber":275,"lodash/isUndefined":282}],532:[function(require,module,exports){
 "use strict";
 
 var defaults = require("lodash/defaults");
@@ -37314,7 +38844,7 @@ Mark.prototype.applyWithReplace = function (text) {
 
 module.exports = Mark;
 
-},{"lodash/defaults":244}],532:[function(require,module,exports){
+},{"lodash/defaults":245}],533:[function(require,module,exports){
 "use strict";
 
 var defaults = require("lodash/defaults");
@@ -37480,7 +39010,7 @@ Paper.prototype.getPermalink = function () {
 
 module.exports = Paper;
 
-},{"lodash/defaults":244}],533:[function(require,module,exports){
+},{"lodash/defaults":245}],534:[function(require,module,exports){
 "use strict";
 
 var getType = require("./../helpers/types.js").getType;
@@ -37614,7 +39144,7 @@ Participle.prototype.setSentencePartPassiveness = function (passive) {
 
 module.exports = Participle;
 
-},{"./../helpers/types.js":401,"lodash/defaults":244,"lodash/forEach":255}],534:[function(require,module,exports){
+},{"./../helpers/types.js":402,"lodash/defaults":245,"lodash/forEach":256}],535:[function(require,module,exports){
 "use strict";
 
 /**
@@ -37656,7 +39186,7 @@ Sentence.prototype.getLocale = function () {
 
 module.exports = Sentence;
 
-},{}],535:[function(require,module,exports){
+},{}],536:[function(require,module,exports){
 "use strict";
 
 /**
@@ -37723,7 +39253,7 @@ SentencePart.prototype.setPassive = function (passive) {
 
 module.exports = SentencePart;
 
-},{}],536:[function(require,module,exports){
+},{}],537:[function(require,module,exports){
 "use strict";
 
 var forEach = require("lodash/forEach");
@@ -37906,4 +39436,4 @@ WordCombination.prototype.getDensity = function (wordCount) {
 
 module.exports = WordCombination;
 
-},{"lodash/forEach":255,"lodash/has":257}]},{},[19]);
+},{"lodash/forEach":256,"lodash/has":258}]},{},[20]);

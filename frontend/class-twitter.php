@@ -49,6 +49,16 @@ class WPSEO_Twitter {
 	 * Outputs the Twitter Card code on singular pages.
 	 */
 	public function twitter() {
+
+		/**
+		 * Filter: 'wpseo_output_twitter_card' - Allow disabling of the Twitter card
+		 *
+		 * @api bool $enabled Enabled/disabled flag
+		 */
+		if ( false === apply_filters( 'wpseo_output_twitter_card', true ) ) {
+			return;
+		}
+
 		wp_reset_query();
 
 		$this->type();

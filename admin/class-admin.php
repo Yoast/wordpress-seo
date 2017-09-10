@@ -26,7 +26,7 @@ class WPSEO_Admin {
 	/**
 	 * Class constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		$integrations = array();
 
 		global $pagenow;
@@ -125,7 +125,7 @@ class WPSEO_Admin {
 	/**
 	 * Schedules a rewrite flush to happen at shutdown
 	 */
-	function schedule_rewrite_flush() {
+	public function schedule_rewrite_flush() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
@@ -143,7 +143,7 @@ class WPSEO_Admin {
 	 *
 	 * @global array $submenu used to change the label on the first item.
 	 */
-	function register_settings_page() {
+	public function register_settings_page() {
 		if ( WPSEO_Utils::grant_access() !== true ) {
 			return;
 		}
@@ -310,7 +310,7 @@ class WPSEO_Admin {
 	/**
 	 * Adds contextual help to the titles & metas page.
 	 */
-	function title_metas_help_tab() {
+	public function title_metas_help_tab() {
 		$screen = get_current_screen();
 
 		$screen->set_help_sidebar( '
@@ -352,7 +352,7 @@ class WPSEO_Admin {
 	/**
 	 * Register the settings page for the Network settings.
 	 */
-	function register_network_settings_page() {
+	public function register_network_settings_page() {
 		if ( WPSEO_Utils::grant_access() ) {
 			// Base 64 encoded SVG image.
 			$icon_svg = WPSEO_Utils::get_icon_svg();
@@ -381,7 +381,7 @@ class WPSEO_Admin {
 	/**
 	 * Load the form for a WPSEO admin page
 	 */
-	function load_page() {
+	public function load_page() {
 		$page = filter_input( INPUT_GET, 'page' );
 
 		switch ( $page ) {
@@ -431,7 +431,7 @@ class WPSEO_Admin {
 	/**
 	 * Loads the form for the network configuration page.
 	 */
-	function network_config_page() {
+	public function network_config_page() {
 		require_once( WPSEO_PATH . 'admin/pages/network.php' );
 	}
 
@@ -440,7 +440,7 @@ class WPSEO_Admin {
 	 * Adds the ability to choose how many posts are displayed per page
 	 * on the bulk edit pages.
 	 */
-	function bulk_edit_options() {
+	public function bulk_edit_options() {
 		$option = 'per_page';
 		$args   = array(
 			'label'   => __( 'Posts', 'wordpress-seo' ),
@@ -459,7 +459,7 @@ class WPSEO_Admin {
 	 *
 	 * @return int
 	 */
-	function save_bulk_edit_options( $status, $option, $value ) {
+	public function save_bulk_edit_options( $status, $option, $value ) {
 		if ( 'wpseo_posts_per_page' === $option && ( $value > 0 && $value < 1000 ) ) {
 			return $value;
 		}
@@ -477,7 +477,7 @@ class WPSEO_Admin {
 	 *
 	 * @return array $links
 	 */
-	function add_action_link( $links, $file ) {
+	public function add_action_link( $links, $file ) {
 		if ( WPSEO_BASENAME === $file && WPSEO_Utils::grant_access() ) {
 			$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
 			array_unshift( $links, $settings_link );
@@ -504,7 +504,7 @@ class WPSEO_Admin {
 	/**
 	 * Enqueues the (tiny) global JS needed for the plugin.
 	 */
-	function config_page_scripts() {
+	public function config_page_scripts() {
 		if ( WPSEO_Utils::grant_access() ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 			$asset_manager->enqueue_script( 'admin-global-script' );
@@ -550,7 +550,7 @@ class WPSEO_Admin {
 	 *
 	 * @return string $clean_slug cleaned slug
 	 */
-	function remove_stopwords_from_slug( $slug ) {
+	public function remove_stopwords_from_slug( $slug ) {
 		return $this->filter_stopwords_from_slug( $slug, filter_input( INPUT_POST, 'post_title' ) );
 	}
 
@@ -580,6 +580,7 @@ class WPSEO_Admin {
 
 		// Don't change slug if the post is a draft, this conflicts with polylang.
 		// Doesn't work with filter_input() since need current value, not originally submitted one.
+		// @codingStandardsIgnoreLine
 		if ( 'draft' === $_POST['post_status'] ) {
 			return $slug;
 		}
@@ -642,7 +643,7 @@ class WPSEO_Admin {
 	/**
 	 * Log the updated timestamp for user profiles when theme is changed
 	 */
-	function switch_theme() {
+	public function switch_theme() {
 		$users = get_users( array( 'who' => 'authors' ) );
 		if ( is_array( $users ) && $users !== array() ) {
 			foreach ( $users as $user ) {
@@ -794,7 +795,7 @@ class WPSEO_Admin {
 	 *
 	 * @return boolean
 	 */
-	function grant_access() {
+	public function grant_access() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::grant_access()' );
 
 		return WPSEO_Utils::grant_access();
@@ -807,7 +808,7 @@ class WPSEO_Admin {
 	 * @deprecated use wpseo_do_upgrade()
 	 * @see        WPSEO_Upgrade
 	 */
-	function maybe_upgrade() {
+	public function maybe_upgrade() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
 		new WPSEO_Upgrade();
 	}
@@ -819,7 +820,7 @@ class WPSEO_Admin {
 	 * @deprecated use WPSEO_Utils::clear_cache()
 	 * @see        WPSEO_Utils::clear_cache()
 	 */
-	function clear_cache() {
+	public function clear_cache() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_cache()' );
 		WPSEO_Utils::clear_cache();
 	}
@@ -831,7 +832,7 @@ class WPSEO_Admin {
 	 * @deprecated use WPSEO_Utils::clear_rewrites()
 	 * @see        WPSEO_Utils::clear_rewrites()
 	 */
-	function clear_rewrites() {
+	public function clear_rewrites() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_rewrites()' );
 		WPSEO_Utils::clear_rewrites();
 	}
@@ -843,7 +844,7 @@ class WPSEO_Admin {
 	 * @deprecated use WPSEO_Option::register_setting() on each individual option
 	 * @see        WPSEO_Option::register_setting()
 	 */
-	function options_init() {
+	public function options_init() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
 	}
 
@@ -852,7 +853,7 @@ class WPSEO_Admin {
 	 *
 	 * @deprecated 3.3
 	 */
-	function blog_public_warning() {
+	public function blog_public_warning() {
 		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
 	}
 
@@ -863,7 +864,7 @@ class WPSEO_Admin {
 	 *
 	 * @deprecated 3.3
 	 */
-	function meta_description_warning() {
+	public function meta_description_warning() {
 		_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 	}
 
@@ -875,7 +876,7 @@ class WPSEO_Admin {
 	 *
 	 * @return array $stopwords array of stop words to check and / or remove from slug
 	 */
-	function stopwords() {
+	public function stopwords() {
 		_deprecated_function( __METHOD__, 'WPSEO 3.1', 'WPSEO_Admin_Stop_Words::list_stop_words' );
 
 		$stop_words = new WPSEO_Admin_Stop_Words();
@@ -892,7 +893,7 @@ class WPSEO_Admin {
 	 *
 	 * @return bool|mixed
 	 */
-	function stopwords_check( $haystack, $checking_url = false ) {
+	public function stopwords_check( $haystack, $checking_url = false ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
 
 		$stop_words = $this->stopwords();

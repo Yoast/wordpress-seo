@@ -95,6 +95,8 @@ class Yoast_Form {
 	/**
 	 * Sets a value in the options.
 	 *
+	 * @since 5.4
+	 *
 	 * @param string $key       The key of the option to set.
 	 * @param mixed  $value     The value to set the option to.
 	 * @param bool   $overwrite Whether to overwrite existing options. Default is false.
