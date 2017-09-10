@@ -387,11 +387,11 @@ class WPSEO_Upgrade {
 	 * Register new capabilities and roles
 	 */
 	private function upgrade_55() {
-		// Register new roles.
+		// Register roles.
 		do_action( 'wpseo_register_roles' );
 		WPSEO_Role_Manager_Factory::get()->add();
 
-		// Register new capabilities.
+		// Register capabilities.
 		do_action( 'wpseo_register_capabilities' );
 		WPSEO_Capability_Manager_Factory::get()->add();
 	}
