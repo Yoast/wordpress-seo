@@ -12,6 +12,7 @@ build:
 # Build JavaScript from assets to production
 'build:js':
   - 'ts'
+  - 'copy:js'
   - 'browserify'
   - 'exorcise'
 # Build CSS

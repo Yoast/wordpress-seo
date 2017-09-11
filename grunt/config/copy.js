@@ -11,4 +11,13 @@ module.exports = {
 			dest: "dist/images",
 		} ],
 	},
+	js: {
+		files: [ {
+			expand: true,
+			cwd: "src/",
+			src: "**/*.json",
+			dest: "js",
+		},
+		],
+	},
 };

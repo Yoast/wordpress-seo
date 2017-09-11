@@ -1,7 +1,7 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isUndefined = require( "lodash/isUndefined" );
 
-var MissingArgument = require( "../../js/errors/missingArgument" );
+var MissingArgument = require( "../errors/missingArgument" );
 /**
  * @param {object} app The app
  * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,

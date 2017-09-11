@@ -1,6 +1,6 @@
 var getWords = require( "../../../stringProcessing/getWords.js" );
 
-var regexFunction = require( "../../../../js/researches/english/passivevoice/matchParticiples" )();
+var regexFunction = require( "../../../researches/english/passivevoice/matchParticiples" )();
 var regularParticiples = regexFunction.regularParticiples;
 var irregularParticiples = regexFunction.irregularParticiples;
 
