@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_OnPage_Service
  */
-class WPSEO_OnPage_Service {
+class WPSEO_Ryte_Service {
 
 	/**
 	 * @var WPSEO_OnPage_Option

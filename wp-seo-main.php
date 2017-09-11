@@ -296,7 +296,7 @@ function wpseo_init_rest_api() {
 		$statistics_endpoint = new WPSEO_Statistics_Endpoint( new WPSEO_Statistics_Service() );
 		$statistics_endpoint->register();
 
-		$onpage_endpoint = new WPSEO_OnPage_Endpoint( new WPSEO_OnPage_Service() );
+		$onpage_endpoint = new WPSEO_Ryte_Endpoint( new WPSEO_Ryte_Service() );
 		$onpage_endpoint->register();
 	}
 }

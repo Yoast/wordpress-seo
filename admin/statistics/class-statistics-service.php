@@ -10,11 +10,12 @@ class WPSEO_Statistics_Service {
 
 	const CACHE_TRANSIENT_KEY = 'wpseo-dashboard-totals';
 
-
 	/**
 	 * @var WPSEO_Statistics
 	 */
 	protected $statistics;
+
+	protected $labels;
 
 	/**
 	 * WPSEO_Statistics_Service contructor.
@@ -26,7 +27,7 @@ class WPSEO_Statistics_Service {
 			$statistics = new WPSEO_Statistics();
 		}
 
-		$this->statistics    = $statistics;
+		$this->statistics = $statistics;
 	}
 
 	/**
@@ -119,20 +120,33 @@ class WPSEO_Statistics_Service {
 	 * @return string The label for the rank.
 	 */
 	private function get_label_for_rank( WPSEO_Rank $rank ) {
-		$labels = array(
-			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-			WPSEO_Rank::NO_FOCUS => sprintf( __( 'Posts %1$swithout%2$s a focus keyword', 'wordpress-seo' ), '<strong>', '</strong>' ),
-			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-			WPSEO_Rank::BAD      => sprintf( __( 'Posts with a %1$sneeds improvement%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
-			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-			WPSEO_Rank::OK       => sprintf( __( 'Posts with an %1$sOK%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
-			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-			WPSEO_Rank::GOOD     => sprintf( __( 'Posts with a %1$sgood%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
-			/* translators: %s expands to <span lang="en">noindex</span> */
-			WPSEO_Rank::NO_INDEX => sprintf( __( 'Posts that are set to &#8220;%s&#8221;', 'wordpress-seo' ), '<span lang="en">noindex</span>' ),
-		);
+		$labels = $this->get_labels();
 
 		return $labels[ $rank->get_rank() ];
+	}
+
+	/**
+	 * Gets the labels for the different SEO Scores.
+	 *
+	 * @return array
+	 */
+	private function get_labels() {
+		if ( ! isset( $this->labels ) ) {
+			$this->labels = array(
+				/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+				WPSEO_Rank::NO_FOCUS => sprintf( __( 'Posts %1$swithout%2$s a focus keyword', 'wordpress-seo' ), '<strong>', '</strong>' ),
+				/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+				WPSEO_Rank::BAD      => sprintf( __( 'Posts with a %1$sneeds improvement%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
+				/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+				WPSEO_Rank::OK       => sprintf( __( 'Posts with an %1$sOK%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
+				/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+				WPSEO_Rank::GOOD     => sprintf( __( 'Posts with a %1$sgood%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
+				/* translators: %s expands to <span lang="en">noindex</span> */
+				WPSEO_Rank::NO_INDEX => sprintf( __( 'Posts that are set to &#8220;%s&#8221;', 'wordpress-seo' ), '<span lang="en">noindex</span>' ),
+			);
+		}
+
+		return $this->labels;
 	}
 
 	/**

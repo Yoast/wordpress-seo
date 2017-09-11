@@ -6,22 +6,22 @@
 /**
  * Class WPSEO_OnPage_Endpoint
  */
-class WPSEO_OnPage_Endpoint {
+class WPSEO_Ryte_Endpoint {
 
 	const REST_NAMESPACE = 'yoast/v1';
-	const ENDPOINT_RETRIEVE = 'onpage';
+	const ENDPOINT_RETRIEVE = 'ryte';
 
 	const CAPABILITY_RETRIEVE = 'manage_options';
 
-	/** @var WPSEO_OnPage_Service Service to use */
+	/** @var WPSEO_Ryte_Service Service to use */
 	protected $service;
 
 	/**
 	 * WPSEO_OnPage_Endpoint constructor.
 	 *
-	 * @param WPSEO_OnPage_Service $service Service to use.
+	 * @param WPSEO_Ryte_Service $service Service to use.
 	 */
-	public function __construct( WPSEO_OnPage_Service $service ) {
+	public function __construct( WPSEO_Ryte_Service $service ) {
 		$this->service = $service;
 	}
 
