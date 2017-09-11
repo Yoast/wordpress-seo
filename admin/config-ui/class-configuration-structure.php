@@ -17,7 +17,7 @@ class WPSEO_Configuration_Structure {
 	public function initialize() {
 		$this->add_step( 'intro', __( 'Welcome!', 'wordpress-seo' ), array(
 			'configurationChoices',
-		), false );
+		), false, true );
 
 		$this->add_step( 'environment_type', __( 'Environment', 'wordpress-seo' ), array( 'environment_type' ) );
 		$this->add_step( 'siteType', __( 'Site type', 'wordpress-seo' ), array( 'siteType' ) );
@@ -54,7 +54,7 @@ class WPSEO_Configuration_Structure {
 			'siteName',
 			'separator',
 		) );
-		$this->add_step( 'newsletter', __( 'Newsletter' ), array(
+		$this->add_step( 'newsletter', __( 'Newsletter', 'wordpress-seo' ), array(
 			'mailchimpSignup',
 		) );
 		$this->add_step( 'suggestions', __( 'You might like', 'wordpress-seo' ), array(
@@ -72,12 +72,14 @@ class WPSEO_Configuration_Structure {
 	 * @param string $title      Title to display for this step.
 	 * @param array  $fields     Fields to use on the step.
 	 * @param bool   $navigation Show navigation buttons.
+	 * @param bool   $full_width Wheter the step content is full width or not.
 	 */
-	protected function add_step( $identifier, $title, $fields, $navigation = true ) {
+	protected function add_step( $identifier, $title, $fields, $navigation = true, $full_width = false ) {
 		$this->steps[ $identifier ] = array(
 			'title'          => $title,
 			'fields'         => $fields,
 			'hideNavigation' => ! (bool) $navigation,
+			'fullWidth'      => $full_width,
 		);
 	}
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "493eef44e37e8caa765c5ef69a2c98b8",
+    "content-hash": "4bd677878629f98e0f720bd67116ff81",
     "packages": [
         {
             "name": "composer/installers",
@@ -191,16 +191,16 @@
         },
         {
             "name": "yoast/i18n-module",
-            "version": "2.0.1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "c08da78bba4747dff960e31dda2be46aae6b30e8"
+                "reference": "76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/c08da78bba4747dff960e31dda2be46aae6b30e8",
-                "reference": "c08da78bba4747dff960e31dda2be46aae6b30e8",
+                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c",
+                "reference": "76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c",
                 "shasum": ""
             },
             "type": "library",
@@ -225,7 +225,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-02-02T11:32:53+00:00"
+            "time": "2017-09-06T07:17:52+00:00"
         },
         {
             "name": "yoast/license-manager",
@@ -373,7 +373,7 @@
                 "codeclimate",
                 "coverage"
             ],
-            "time": "2017-06-01 13:19:55"
+            "time": "2017-06-01T13:19:55+00:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -566,7 +566,7 @@
             ],
             "authors": [
                 {
-                    "name": "Padraic Brady",
+                    "name": "Pádraic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
                 }
@@ -842,19 +842,20 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.5.1",
+            "version": "2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "6731851d6aaf1d0d6c58feff1065227b7fda3ba8"
+                "reference": "d7cf0d894e8aa4c73712ee4a331cc1eaa37cdc7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/6731851d6aaf1d0d6c58feff1065227b7fda3ba8",
-                "reference": "6731851d6aaf1d0d6c58feff1065227b7fda3ba8",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d7cf0d894e8aa4c73712ee4a331cc1eaa37cdc7d",
+                "reference": "d7cf0d894e8aa4c73712ee4a331cc1eaa37cdc7d",
                 "shasum": ""
             },
             "require": {
+                "ext-simplexml": "*",
                 "ext-tokenizer": "*",
                 "ext-xmlwriter": "*",
                 "php": ">=5.1.2"
@@ -915,7 +916,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-01-19T23:39:10+00:00"
+            "time": "2017-03-01T22:17:45+00:00"
         },
         {
             "name": "symfony/config",
@@ -1448,20 +1449,20 @@
         },
         {
             "name": "wp-coding-standards/wpcs",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git",
-                "reference": "b415094aa5fd24da6eba2295323bcff840902dd3"
+                "reference": "b39490465f6fd7375743a395019cd597e12119c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/b415094aa5fd24da6eba2295323bcff840902dd3",
-                "reference": "b415094aa5fd24da6eba2295323bcff840902dd3",
+                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/b39490465f6fd7375743a395019cd597e12119c9",
+                "reference": "b39490465f6fd7375743a395019cd597e12119c9",
                 "shasum": ""
             },
             "require": {
-                "squizlabs/php_codesniffer": "~2.2"
+                "squizlabs/php_codesniffer": "^2.6"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
@@ -1480,7 +1481,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2016-02-01T16:14:59+00:00"
+            "time": "2016-08-29T20:04:47+00:00"
         },
         {
             "name": "yoast/php-development-environment",
@@ -1522,22 +1523,22 @@
         },
         {
             "name": "yoast/yoastcs",
-            "version": "0.3",
+            "version": "0.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/yoastcs.git",
-                "reference": "f568cc6fc1194c5ef67ccc24b7cfd24259e92a16"
+                "reference": "0573753b5e8b939e83894bb6a9830ab1bd296cfe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/f568cc6fc1194c5ef67ccc24b7cfd24259e92a16",
-                "reference": "f568cc6fc1194c5ef67ccc24b7cfd24259e92a16",
+                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/0573753b5e8b939e83894bb6a9830ab1bd296cfe",
+                "reference": "0573753b5e8b939e83894bb6a9830ab1bd296cfe",
                 "shasum": ""
             },
             "require": {
                 "phpmd/phpmd": "^2.2.3",
-                "squizlabs/php_codesniffer": "2.5.1",
-                "wp-coding-standards/wpcs": "0.9"
+                "squizlabs/php_codesniffer": "~2.8.1",
+                "wp-coding-standards/wpcs": "~0.10.0"
             },
             "conflict": {
                 "squizlabs/php_codesniffer": "2.3.1"
@@ -1560,7 +1561,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2016-05-03T09:58:54+00:00"
+            "time": "2017-08-02T07:45:07+00:00"
         }
     ],
     "aliases": [],
