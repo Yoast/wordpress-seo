@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the BaseButton matches the snapshot 1`] = `
+<div
+  className="sc-bdVaJa bJbZBf"
+>
+  <span
+    className="sc-bwzfXH gpLKCA"
+  />
+  <span
+    className="sc-bwzfXH gKBHnT"
+  />
+  <span
+    className="sc-bwzfXH kTBlxh"
+  />
+  <span
+    className="sc-bwzfXH cNtiMG"
+  />
+</div>
+`;
