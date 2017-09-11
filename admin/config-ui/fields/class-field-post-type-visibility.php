@@ -23,6 +23,6 @@ class WPSEO_Config_Field_Post_Type_Visibility extends WPSEO_Config_Field {
 
 		$html = '<p>' . esc_html( $copy ) . '</p><br/>';
 
-		//$this->set_property( 'html', $html );
+		$this->set_property( 'html', $html );
 	}
 }

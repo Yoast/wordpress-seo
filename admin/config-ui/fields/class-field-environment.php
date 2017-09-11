@@ -15,13 +15,9 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 
 		$this->set_property( 'label', __( 'Please specify if your site is under construction or already active.', 'wordpress-seo' ) );
 
-		$html = __( 'Choose under construction if you want to keep the site out of the index ' .
-					'of search engines. Don\'t forget to activate it once you\'re ready to ' .
-					'publish your site.', 'wordpress-seo' );
-
-		$html = '<p>' . esc_html( $html ) . '</p>';
-
-		$this->set_property( 'html', $html );
+		$this->set_property( 'description',  __( 'Choose under construction if you want to keep the site out of the index ' .
+												 'of search engines. Don\'t forget to activate it once you\'re ready to ' .
+												 'publish your site.', 'wordpress-seo' ) );
 
 		$this->add_choice( 'production', __( 'Option A: My site is live and ready to be indexed', 'wordpress-seo' ) );
 		$this->add_choice( 'staging', __( 'Option B: My site is under construction and should not be indexed', 'wordpress-seo' ) );
