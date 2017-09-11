@@ -24,11 +24,11 @@ class OnPage_Option_Mock extends WPSEO_OnPage_Option {
 	}
 }
 
-class WPSEO_OnPage_Service_Test extends WPSEO_UnitTestCase {
+class WPSEO_Ryte_Service_Test extends WPSEO_UnitTestCase {
 	public function test_cannot_view_onpage() {
 		$onpage     = new OnPage_Option_Mock( false, WPSEO_OnPage_Option::IS_INDEXABLE, true );
 
-		$class_instance = new WPSEO_OnPage_Service( $onpage );
+		$class_instance = new WPSEO_Ryte_Service( $onpage );
 		$rest_response  = $class_instance->get_onpage();
 		$response_data  = $rest_response->get_data();
 
@@ -41,7 +41,7 @@ class WPSEO_OnPage_Service_Test extends WPSEO_UnitTestCase {
 
 		$onpage     = new OnPage_Option_Mock( true, WPSEO_OnPage_Option::IS_INDEXABLE, true );
 
-		$class_instance = new WPSEO_OnPage_Service( $onpage );
+		$class_instance = new WPSEO_Ryte_Service( $onpage );
 		$rest_response  = $class_instance->get_onpage();
 		$response_data  = $rest_response->get_data();
 
