@@ -59,7 +59,7 @@ const AnalysisTitle = styled.span`
 const AnalysisList = styled.ul`
 	margin: 0;
 	list-style: none;
-	padding: 8px 16px 8px;
+	padding: 8px 16px;
 `;
 
 /**
@@ -72,7 +72,6 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 	return (
 		<AnalysisHeaderContainer>
 			<AnalysisHeaderButton
-				type="button"
 				aria-expanded={ props.isOpen }
 				onClick={ props.onToggle }
 				icon={ props.isOpen ? angleUp : angleDown }
