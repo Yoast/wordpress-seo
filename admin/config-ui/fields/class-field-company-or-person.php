@@ -16,14 +16,8 @@ class WPSEO_Config_Field_Company_Or_Person extends WPSEO_Config_Field_Choice {
 
 		$this->set_property( 'label', __( 'Does your site represent a person or company?', 'wordpress-seo' ) );
 
-		$html = __( 'This information will be used in Google\'s Knowledge Graph Card, the big ' .
-					'block of information you see on the right side of the search results.', 'wordpress-seo' );
-
-		$html = '<p>' . esc_html( $html ) . '</p>';
-
-		$this->set_property( 'html', $html );
-
-		$this->set_property( 'decoration', plugin_dir_url( WPSEO_FILE ) . 'images/google-knowledge-card.png' );
+		$this->set_property( 'description', __( 'This information will be used in Google\'s Knowledge Graph Card, the big ' .
+												'block of information you see on the right side of the search results.', 'wordpress-seo' ) );
 
 		$this->add_choice( 'company', __( 'Company', 'wordpress-seo' ) );
 		$this->add_choice( 'person', __( 'Person', 'wordpress-seo' ) );
