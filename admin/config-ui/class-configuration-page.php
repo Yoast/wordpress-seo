@@ -120,7 +120,7 @@ class WPSEO_Configuration_Page {
 			do_action( 'wpseo_configuration_wizard_head' );
 			?>
 		</head>
-		<body class="wp-admin">
+		<body class="wp-admin wp-core-ui">
 		<div id="wizard"></div>
 		<footer>
 			<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
