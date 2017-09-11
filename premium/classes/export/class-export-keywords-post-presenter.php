@@ -170,7 +170,7 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 	 * @return bool Whether or not a valid primary keyword is present.
 	 */
 	protected function has_primary_keyword( $result ) {
-		if ( ! is_array( $result) || ! array_key_exists( 'primary_keyword', $result ) ) {
+		if ( ! is_array( $result ) || ! array_key_exists( 'primary_keyword', $result ) ) {
 			return false;
 		}
 
