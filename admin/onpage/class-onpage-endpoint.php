@@ -9,7 +9,7 @@
 class WPSEO_OnPage_Endpoint {
 
 	const REST_NAMESPACE = 'yoast/v1';
-	const ENDPOINT_RETRIEVE = 'statistics';
+	const ENDPOINT_RETRIEVE = 'onpage';
 
 	const CAPABILITY_RETRIEVE = 'manage_options';
 
