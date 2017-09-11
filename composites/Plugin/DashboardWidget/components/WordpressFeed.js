@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import colors from "../../../../style-guide/colors.json";
+
+import Divider from "./Divider";
 
 /**
  * @typedef  {Object}     Feed
@@ -33,7 +34,6 @@ const WordpressFeedContainer = styled.div`
 const WordpressFeedHeader = styled.h3`
 	margin: 8px 0;
 	font-size: 1em;
-	padding: 0 8px;
 `;
 
 const WordpressFeedList = styled.ul`
@@ -43,6 +43,8 @@ const WordpressFeedList = styled.ul`
 `;
 
 const WordpressFeedLink = styled.a`
+	display: inline-block;
+	padding-bottom: 4px;
 `;
 
 const A11yNotice = styled.span`
@@ -59,21 +61,14 @@ const A11yNotice = styled.span`
 `;
 
 const WordpressFeedListItemContainer = styled.li`
-	padding: 0 8px 8px;
+	margin: 8px 0;
 	overflow: hidden;
-
-	a {
-		padding-bottom: 4px;
-		display: inline-block;
-	}
-
-	:last-child {
-		border-bottom: 1px solid ${ colors.$palette_grey };
-	}
 `;
 
 const WordpressFeedFooter = styled.div`
-	padding: 8px;
+	a {
+		margin: 8px 0 0;
+	}
 `;
 
 const WordpressFeedListItem = ( props ) => {
@@ -128,6 +123,7 @@ const WordpressFeed = ( props ) => {
 			</WordpressFeedList>
 			{ props.footerHtml &&
 				<WordpressFeedFooter>
+					<Divider />
 					<WordpressFeedLink
 						href={ props.feedLink ? props.feedLink : props.feed.link }
 						target="_blank"
