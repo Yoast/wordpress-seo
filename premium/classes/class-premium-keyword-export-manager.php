@@ -95,7 +95,7 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	 */
 	protected function set_csv_headers() {
 		header( 'Content-type: text/csv' );
-		header( 'Content-Disposition: attachment; filename=' . date( 'Y-m-d' ) . '-wordpress-seo-keywords.csv' );
+		header( 'Content-Disposition: attachment; filename=' . date( 'Y-m-d' ) . '-yoast-seo-keywords.csv' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 	}
