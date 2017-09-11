@@ -135,6 +135,7 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 			'export-seo-score'      => 'seo_score',
 		);
 
+		// Need to call array_values to ensure that we get a numerical key back.
 		return array_values( array_intersect_key( $exportable_columns, $post_object ) );
 	}
 
