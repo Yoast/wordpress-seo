@@ -10,10 +10,6 @@ class WPSEO_Statistics_Service {
 
 	const CACHE_TRANSIENT_KEY = 'wpseo-dashboard-totals';
 
-	/**
-	 * @var WPSEO_OnPage_Option
-	 */
-	protected $onpage_option;
 
 	/**
 	 * @var WPSEO_Statistics
@@ -23,18 +19,13 @@ class WPSEO_Statistics_Service {
 	/**
 	 * WPSEO_Statistics_Service contructor.
 	 *
-	 * @param WPSEO_Statistics    $statistics    The statistics class to retrieve statistics from.
-	 * @param WPSEO_OnPage_Option $onpage_option The onpage option to retrieve onpage data from.
+	 * @param WPSEO_Statistics $statistics The statistics class to retrieve statistics from.
 	 */
-	public function __construct( WPSEO_Statistics $statistics = null, WPSEO_OnPage_Option $onpage_option = null ) {
+	public function __construct( WPSEO_Statistics $statistics = null ) {
 		if ( null === $statistics ) {
 			$statistics = new WPSEO_Statistics();
 		}
-		if ( null == $onpage_option ) {
-			$onpage_option = new WPSEO_OnPage_Option();
-		}
 
-		$this->onpage_option = $onpage_option;
 		$this->statistics    = $statistics;
 	}
 
@@ -47,15 +38,10 @@ class WPSEO_Statistics_Service {
 		$statistics = $this->statistic_items();
 
 		$header = __( 'Below are your published posts&#8217; SEO scores. Now is as good a time as any to start improving some of your posts!', 'wordpress-seo' );
-		$onpage = false;
-		if ( $this->can_view_onpage() && $this->onpage_option->is_enabled() ) {
-			$onpage = $this->onpage_item();
-		}
 
 		$data = array(
 			'header'     => $header,
 			'seo_scores' => $statistics,
-			'onpage'     => $onpage,
 		);
 
 		return new WP_REST_Response( $data );
@@ -75,61 +61,6 @@ class WPSEO_Statistics_Service {
 		}
 
 		return $this->set_statistic_items_for_this_user( $transient );
-	}
-
-	/**
-	 * Returns an the results of the onpage option.
-	 *
-	 * @return array The results, contains a score and label.
-	 */
-	private function onpage_item() {
-		$can_fetch = $this->onpage_option->should_be_fetched();
-
-		switch ( $this->onpage_option->get_status() ) {
-			case WPSEO_OnPage_Option::IS_INDEXABLE :
-				return array(
-					'score' => 'good',
-					'label' => __( 'Your homepage can be indexed by search engines.', 'wordpress-seo' ),
-					'can_fetch' => $can_fetch,
-				);
-			case WPSEO_OnPage_Option::IS_NOT_INDEXABLE :
-				return array(
-					'score' => 'bad',
-					'label' => printf(
-						/* translators: %1$s: opens a link to a related knowledge base article. %2$s: closes the link. */
-						__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
-						'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/onpageindexerror' ) . '" target="_blank">',
-						'</a>'
-					),
-					'can_fetch' => $can_fetch,
-				);
-			case WPSEO_OnPage_Option::CANNOT_FETCH :
-				return array(
-					'score' => 'na',
-					'label' => printf(
-						/* translators: %1$s: opens a link to a related knowledge base article, %2$s: expands to Yoast SEO, %3$s: closes the link, %4$s: expands to Ryte. */
-						__( '%1$s%2$s has not been able to fetch your site\'s indexability status%3$s from %4$s', 'wordpress-seo' ),
-						'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/onpagerequestfailed' ) . '" target="_blank">',
-						'Yoast SEO',
-						'</a>',
-						'Ryte'
-					),
-					'can_fetch' => $can_fetch,
-				);
-			case WPSEO_OnPage_Option::NOT_FETCHED :
-				return array(
-					'score' => 'na',
-					'label' => esc_html( sprintf(
-					/* translators: %1$s: expands to Yoast SEO, %2$s: expands to Ryte. */
-						__( '%1$s has not fetched your site\'s indexability status yet from %2$s', 'wordpress-seo' ),
-						'Yoast SEO',
-						'Ryte'
-					) ),
-					'can_fetch' => $can_fetch,
-				);
-		}
-
-		return array();
 	}
 
 	/**
@@ -189,10 +120,14 @@ class WPSEO_Statistics_Service {
 	 */
 	private function get_label_for_rank( WPSEO_Rank $rank ) {
 		$labels = array(
-			WPSEO_Rank::NO_FOCUS => __( 'Posts without focus keyword', 'wordpress-seo' ),
-			WPSEO_Rank::BAD      => __( 'Posts with bad SEO score', 'wordpress-seo' ),
-			WPSEO_Rank::OK       => __( 'Posts with OK SEO score', 'wordpress-seo' ),
-			WPSEO_Rank::GOOD     => __( 'Posts with good SEO score', 'wordpress-seo' ),
+			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+			WPSEO_Rank::NO_FOCUS => sprintf( __( 'Posts %1$swithout%2$s a focus keyword', 'wordpress-seo' ), '<strong>', '</strong>' ),
+			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+			WPSEO_Rank::BAD      => sprintf( __( 'Posts with a %1$sneeds improvement%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
+			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+			WPSEO_Rank::OK       => sprintf( __( 'Posts with an %1$sOK%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
+			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+			WPSEO_Rank::GOOD     => sprintf( __( 'Posts with a %1$sgood%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
 			/* translators: %s expands to <span lang="en">noindex</span> */
 			WPSEO_Rank::NO_INDEX => sprintf( __( 'Posts that are set to &#8220;%s&#8221;', 'wordpress-seo' ), '<span lang="en">noindex</span>' ),
 		);
