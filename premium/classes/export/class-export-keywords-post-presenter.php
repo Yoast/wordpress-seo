@@ -28,11 +28,11 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 	}
 
 	/**
-	 * Updates a result by modifying and adding the requested fields.
+	 * Creates a presentable result by modifying and adding the requested fields.
 	 *
 	 * @param array $result The result to modify.
 	 *
-	 * @return array The modified result, false if the result could not be modified.
+	 * @return array The modified result or an empty array if the result is considered invalid.
 	 */
 	public function present( array $result ) {
 		if ( ! $this->validate_result( $result ) ) {
@@ -40,7 +40,7 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 		}
 
 		foreach ( $this->columns as $column ) {
-			$result = $this->populate_column( $result, $column );
+			$result = $this->prepare_column_result( $result, $column );
 		}
 
 		$result['type'] = $result['post_type'];
@@ -50,14 +50,14 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 	}
 
 	/**
-	 * Updates a result by modifying and adding the requested column.
+	 * Prepares the passed result to make it more presentable.
 	 *
 	 * @param array  $result The result to modify.
 	 * @param string $column The requested column.
 	 *
-	 * @return array The modified result.
+	 * @return array The prepared result.
 	 */
-	protected function populate_column( array $result, $column ) {
+	protected function prepare_column_result( array $result, $column ) {
 		switch ( $column ) {
 			case 'title':
 				$result['title'] = apply_filters( 'the_title', $result['post_title'], $result['ID'] );
@@ -91,13 +91,41 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 		}
 
 		// If a title is requested but not present then it's not valid.
-		if ( in_array( 'title', $this->columns, true ) ) {
-			if ( ! array_key_exists( 'post_title', $result ) || ! is_string( $result['post_title'] ) ) {
-				return false;
-			}
+		if ( $this->column_is_present( 'title' ) && $this->has_title( $result ) === false ) {
+			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Determines if the result contains a valid title.
+	 *
+	 * @param array $result The result array to check for a title.
+	 *
+	 * @return bool Whether or not a title is valid.
+	 */
+	protected function has_title( $result ) {
+		if ( ! is_array( $result ) || ! array_key_exists( 'post_title', $result ) ) {
+			return false;
+		}
+
+		return is_string( $result['post_title'] );
+	}
+
+	/**
+	 * Determines if the wanted column exists within the $this->columns class variable.
+	 *
+	 * @param string $column The column to search for.
+	 *
+	 * @return bool Whether or not the column exists.
+	 */
+	protected function column_is_present( $column ) {
+		if ( ! is_string( $column ) ) {
+			return false;
+		}
+
+		return in_array( $column, $this->columns, true );
 	}
 
 	/**
@@ -110,11 +138,11 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 	protected function convert_result_keywords( array $result ) {
 		$result['keywords'] = array();
 
-		if ( in_array( 'keywords_score', $this->columns, true ) ) {
+		if ( $this->column_is_present( 'keywords_score' ) ) {
 			$result['keywords_score'] = array();
 		}
 
-		if ( array_key_exists( 'primary_keyword', $result ) && $result['primary_keyword'] ) {
+		if ( $this->has_primary_keyword( $result ) ) {
 			$result['keywords'][] = $result['primary_keyword'];
 
 			// Convert multiple keywords from the Premium plugin from json to string arrays.
@@ -123,7 +151,7 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 			$other_keywords     = wp_list_pluck( $keywords, 'keyword' );
 			$result['keywords'] = array_merge( $result['keywords'], $other_keywords );
 
-			if ( in_array( 'keywords_score', $this->columns, true ) ) {
+			if ( $this->column_is_present( 'keywords_score' ) ) {
 				$result['keywords_score'] = $this->get_result_keywords_scores( $result, $keywords );
 			}
 		}
@@ -134,6 +162,20 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 		return $result;
 	}
 
+	/**
+	 * Determines whether there's a valid primary keyword present in the result array.
+	 *
+	 * @param array $result The result array to check for the primary_keyword key.
+	 *
+	 * @return bool Whether or not a valid primary keyword is present.
+	 */
+	protected function has_primary_keyword( $result ) {
+		if ( ! is_array( $result) || ! array_key_exists( 'primary_keyword', $result ) ) {
+			return false;
+		}
+
+		return is_string( $result['primary_keyword'] ) && ! empty( $result['primary_keyword'] );
+	}
 	/**
 	 * Parses then keywords JSON string in the result object for the specified key.
 	 *

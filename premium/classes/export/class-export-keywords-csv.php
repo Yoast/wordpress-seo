@@ -34,7 +34,6 @@ class WPSEO_Export_Keywords_CSV {
 	 * @return string CSV formatted data.
 	 */
 	public function export() {
-
 		$csv = $this->get_headers();
 		$csv .= $this->data;
 

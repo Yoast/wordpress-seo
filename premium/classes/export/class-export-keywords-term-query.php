@@ -9,6 +9,7 @@
  * Creates an SQL query to gather all term data for a keywords export.
  */
 class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
+
 	/** @var wpdb The WordPress database object. */
 	protected $wpdb;
 
@@ -83,7 +84,7 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 	 *
 	 * @param array $columns The columns we want our query to return.
 	 */
-	public function set_columns( $columns ) {
+	public function set_columns( array $columns ) {
 		$this->columns = $columns;
 
 		$this->selects = array( 'terms.term_id', 'taxonomies.taxonomy' );

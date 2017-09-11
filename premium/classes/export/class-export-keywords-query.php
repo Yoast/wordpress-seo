@@ -31,5 +31,5 @@ interface WPSEO_Export_Keywords_Query {
 	 *
 	 * @param array $columns   The columns we want our query to return.
 	 */
-	public function set_columns( $columns );
+	public function set_columns( array $columns );
 }

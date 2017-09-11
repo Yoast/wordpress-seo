@@ -9,6 +9,7 @@
  * Manages exporting keywords.
  */
 class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integration {
+
 	/** @var wpdb instance */
 	protected $wpdb;
 
@@ -69,15 +70,13 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 		// Make sure we don't time out during the collection of items.
 		set_time_limit( 0 );
 
-		$csv_contents = $this->get_csv_contents();
-
 		// Set CSV headers and content.
 		$this->set_csv_headers();
-		echo $csv_contents;
+		echo $this->get_csv_contents();
 
 		// And exit so we don't start appending HTML to our CSV file.
 		// NOTE: this makes this entire class untestable as it will exit all tests but WordPress seems to have no elegant way of handling this.
-		exit();
+		exit;
 	}
 
 	/**
@@ -110,6 +109,7 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 		$columns = array( 'keywords' );
 
 		$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+
 		if ( is_array( $post_wpseo ) ) {
 			$columns = array_merge( $columns, $this->get_export_columns( $post_wpseo ) );
 		}
@@ -125,11 +125,9 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	 *
 	 * @param array $post_object An associative array with the post data.
 	 *
-	 * @return array List of columns.
+	 * @return array List of export columns.
 	 */
 	protected function get_export_columns( array $post_object ) {
-		$columns = array();
-
 		$exportable_columns = array(
 			'export-keywords-score' => 'keywords_score',
 			'export-url'            => 'url',
@@ -137,13 +135,7 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 			'export-seo-score'      => 'seo_score',
 		);
 
-		foreach ( $exportable_columns as $exportable_column => $column ) {
-			if ( array_key_exists( $exportable_column, $post_object ) ) {
-				$columns[] = $column;
-			}
-		}
-
-		return $columns;
+		return array_values( array_intersect_key( $exportable_columns, $post_object ) );
 	}
 
 	/**

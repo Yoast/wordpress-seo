@@ -28,11 +28,11 @@ class WPSEO_Export_Keywords_Term_Presenter implements WPSEO_Export_Keywords_Pres
 	}
 
 	/**
-	 * Updates a result by modifying and adding the requested fields.
+	 * Creates a presentable result by modifying and adding the requested fields.
 	 *
 	 * @param array $result The result to modify.
 	 *
-	 * @return array The modified result.
+	 * @return array The modified result or an empty array if the result is considered invalid.
 	 */
 	public function present( array $result ) {
 		if ( ! $this->validate_result( $result ) ) {
@@ -43,7 +43,7 @@ class WPSEO_Export_Keywords_Term_Presenter implements WPSEO_Export_Keywords_Pres
 		unset( $result['term_id'] );
 
 		foreach ( $this->columns as $column ) {
-			$result = $this->populate_column( $result, $column );
+			$result = $this->prepare_column_result( $result, $column );
 		}
 
 		$result['type'] = $result['taxonomy'];
@@ -53,14 +53,14 @@ class WPSEO_Export_Keywords_Term_Presenter implements WPSEO_Export_Keywords_Pres
 	}
 
 	/**
-	 * Updates a result by modifying and adding the requested column.
+	 * Prepares the passed result to make it more presentable.
 	 *
 	 * @param array  $result The result to modify.
 	 * @param string $column The requested column.
 	 *
-	 * @return array The modified result.
+	 * @return array The prepared result.
 	 */
-	protected function populate_column( array $result, $column ) {
+	protected function prepare_column_result( array $result, $column ) {
 		switch ( $column ) {
 			case 'title':
 				$result['title'] = $result['name'];
@@ -98,13 +98,41 @@ class WPSEO_Export_Keywords_Term_Presenter implements WPSEO_Export_Keywords_Pres
 		}
 
 		// If a title is requested but not present then it's not valid.
-		if ( in_array( 'title', $this->columns, true ) ) {
-			if ( ! array_key_exists( 'name', $result ) || ! is_string( $result['name'] ) ) {
-				return false;
-			}
+		if ( $this->column_is_present( 'title' ) && $this->has_title( $result ) === false ) {
+			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Determines if the result contains a valid title.
+	 *
+	 * @param array $result The result array to check for a title.
+	 *
+	 * @return bool Whether or not a title is valid.
+	 */
+	protected function has_title( $result ) {
+		if ( ! is_array( $result ) || ! array_key_exists( 'name', $result ) ) {
+			return false;
+		}
+
+		return is_string( $result['name'] );
+	}
+
+	/**
+	 * Determines if the wanted column exists within the $this->columns class variable.
+	 *
+	 * @param string $column The column to search for.
+	 *
+	 * @return bool Whether or not the column exists.
+	 */
+	protected function column_is_present( $column ) {
+		if ( ! is_string( $column ) ) {
+			return false;
+		}
+
+		return in_array( $column, $this->columns, true );
 	}
 
 	/**

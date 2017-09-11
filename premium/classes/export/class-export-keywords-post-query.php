@@ -82,7 +82,7 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	 *
 	 * @param array $columns The columns we want our query to return.
 	 */
-	public function set_columns( $columns ) {
+	public function set_columns( array $columns ) {
 		$this->columns = $columns;
 
 		$this->joins   = array();
@@ -106,6 +106,15 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 			// Score for other keywords is already in the other_keywords select so only join for the primary_keyword_score.
 			$this->add_meta_join( 'primary_keyword_score', WPSEO_Meta::$meta_prefix . 'linkdex' );
 		}
+	}
+
+	/**
+	 * Returns the page size for the query.
+	 *
+	 * @return int Page size that is being used.
+	 */
+	public function get_page_size() {
+		return $this->page_size;
 	}
 
 	/**
@@ -141,14 +150,5 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 		$this->joins[]   = 'LEFT OUTER JOIN ' . $this->wpdb->prefix . 'postmeta AS ' . $alias . '_join ' .
 						   'ON ' . $alias . '_join.post_id = posts.ID ' .
 						   'AND ' . $alias . '_join.meta_key = "' . $key . '"';
-	}
-
-	/**
-	 * Returns the page size for the query.
-	 *
-	 * @return int Page size that is being used.
-	 */
-	public function get_page_size() {
-		return $this->page_size;
 	}
 }
