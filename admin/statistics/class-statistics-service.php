@@ -15,6 +15,9 @@ class WPSEO_Statistics_Service {
 	 */
 	protected $statistics;
 
+	/**
+	 * @var string[]
+	 */
 	protected $labels;
 
 	/**
