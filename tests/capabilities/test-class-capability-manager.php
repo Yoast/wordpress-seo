@@ -28,6 +28,8 @@ class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 	public function test_register() {
 		$instance = new WPSEO_Capability_Manager_Test();
 
+		$this->assertNotContains( 'capability', $instance->get_capabilities() );
+
 		$instance->register( 'capability', array( 'role' ) );
 
 		$this->assertContains( 'capability', $instance->get_capabilities() );
