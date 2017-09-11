@@ -37,7 +37,7 @@ const AnalysisHeaderButton = styled( IconButton )`
 	}
 
 	svg {
-		margin 0 10px;
+		margin: 0 10px;
 		width: 20px;
 		height: 20px;
 	}
@@ -57,9 +57,9 @@ const AnalysisTitle = styled.span`
  * Analysis items list.
  */
 const AnalysisList = styled.ul`
-	margin: 8px 0 0;
+	margin: 0;
 	list-style: none;
-	padding: 0 16px;
+	padding: 8px 16px 8px;
 `;
 
 /**
@@ -80,9 +80,13 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 			>
 				<AnalysisTitle>{ props.title + " (" + props.children.length + ")" }</AnalysisTitle>
 			</AnalysisHeaderButton>
-			<AnalysisList role="list">
-				{ props.isOpen ? props.children : null }
-			</AnalysisList>
+			{
+				props.isOpen
+				?	<AnalysisList role="list">
+						{ props.children }
+					</AnalysisList>
+				: null
+			}
 		</AnalysisHeaderContainer>
 	);
 };

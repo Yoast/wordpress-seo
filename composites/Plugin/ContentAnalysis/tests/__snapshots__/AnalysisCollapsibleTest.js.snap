@@ -6,7 +6,7 @@ exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
 >
   <button
     aria-expanded={true}
-    className="sc-gzVnrw dKARFf sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fpmUPV sc-bdVaJa dHgGrL"
+    className="sc-gzVnrw dLFwSb sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fpmUPV sc-bdVaJa dHgGrL"
     onClick={[Function]}
     type="button"
   >
@@ -21,7 +21,7 @@ exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
     </span>
   </button>
   <ul
-    className="sc-dnqmqq MWLzA"
+    className="sc-dnqmqq iTokWo"
     role="list"
   >
     <li>
@@ -46,7 +46,7 @@ exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
 >
   <button
     aria-expanded={false}
-    className="sc-gzVnrw dKARFf sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fpmUPV sc-bdVaJa dHgGrL"
+    className="sc-gzVnrw dLFwSb sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fpmUPV sc-bdVaJa dHgGrL"
     onClick={[Function]}
     type="button"
   >
@@ -60,9 +60,5 @@ exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
       Problems (4)
     </span>
   </button>
-  <ul
-    className="sc-dnqmqq MWLzA"
-    role="list"
-  />
 </div>
 `;
