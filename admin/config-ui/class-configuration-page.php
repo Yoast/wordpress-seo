@@ -122,12 +122,13 @@ class WPSEO_Configuration_Page {
 		</head>
 		<body class="wp-admin wp-core-ui">
 		<div id="wizard"></div>
-		<footer>
-			<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
+		<footer class="yoast-wizard-return-link-container">
+			<a class="button yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
+				<span aria-hidden="true" class="dashicons dashicons-no"></span>
 				<?php
 				printf(
 					/* translators: %s expands to Yoast SEO. */
-					__( 'Go back to the %s dashboard.', 'wordpress-seo' ),
+					__( 'Close wizard', 'wordpress-seo' ),
 					'Yoast SEO'
 				);
 				?>
