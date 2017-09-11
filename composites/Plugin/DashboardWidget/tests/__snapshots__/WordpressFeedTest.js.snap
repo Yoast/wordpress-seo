@@ -14,10 +14,10 @@ exports[`the WordpressFeed matches the snapshot 1`] = `
     role="list"
   >
     <li
-      className="sc-bZQynM dKTcnO"
+      className="sc-bZQynM cOIVoz"
     >
       <a
-        className="sc-ifAKCX dzurso"
+        className="sc-ifAKCX bqQcTP"
         href="https://www.yoast.com/1"
         rel="noopener noreferrer"
         target="_blank"
@@ -34,10 +34,10 @@ exports[`the WordpressFeed matches the snapshot 1`] = `
       </p>
     </li>
     <li
-      className="sc-bZQynM dKTcnO"
+      className="sc-bZQynM cOIVoz"
     >
       <a
-        className="sc-ifAKCX dzurso"
+        className="sc-ifAKCX bqQcTP"
         href="https://www.yoast.com/2"
         rel="noopener noreferrer"
         target="_blank"

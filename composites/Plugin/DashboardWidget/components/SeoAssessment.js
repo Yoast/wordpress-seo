@@ -5,10 +5,16 @@ import styled from "styled-components";
 import StackedProgressBar from "../../Shared/components/StackedProgressBar";
 import SeoScoreAssessments from "../../Shared/components/ScoreAssessments";
 
-const SeoAssassmentContainer = styled.div`
+/**
+ * SeoAssessment container.
+ */
+const SeoAssessmentContainer = styled.div`
 `;
 
-const SeoAssassmentText = styled.p`
+/**
+ * SeoAssessment top text.
+ */
+const SeoAssessmentText = styled.p`
 	font-size: 14px;
 `;
 
@@ -19,12 +25,12 @@ const SeoAssassmentText = styled.p`
  *
  * @returns {ReactElement} The react component.
  */
-const SeoAssessment  = ( props ) => {
+const SeoAssessment = ( props ) => {
 	return (
-		<SeoAssassmentContainer>
-			<SeoAssassmentText>
+		<SeoAssessmentContainer>
+			<SeoAssessmentText>
 				{ props.seoAssessmentText }
-			</SeoAssassmentText>
+			</SeoAssessmentText>
 			<StackedProgressBar
 				items={ props.seoAssessmentItems }
 				barHeight={ props.barHeight }
@@ -32,7 +38,7 @@ const SeoAssessment  = ( props ) => {
 			<SeoScoreAssessments
 				items={ props.seoAssessmentItems }
 				/>
-		</SeoAssassmentContainer>
+		</SeoAssessmentContainer>
 	);
 };
 

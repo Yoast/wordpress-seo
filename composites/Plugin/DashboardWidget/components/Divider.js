@@ -2,7 +2,7 @@ import styled from "styled-components";
 import colors from "../../../../style-guide/colors";
 
 /**
- * Simple divider
+ * Simple divider.
  */
 const DashboardWidgetDivider = styled.div`
 	box-sizing: border-box;

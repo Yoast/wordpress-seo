@@ -44,6 +44,7 @@ const WordpressFeedList = styled.ul`
 
 const WordpressFeedLink = styled.a`
 	display: inline-block;
+	padding-bottom: 4px;
 `;
 
 const A11yNotice = styled.span`
@@ -62,10 +63,6 @@ const A11yNotice = styled.span`
 const WordpressFeedListItemContainer = styled.li`
 	margin: 8px 0;
 	overflow: hidden;
-
-	a {
-		padding-bottom: 4px;
-	}
 `;
 
 const WordpressFeedFooter = styled.div`
