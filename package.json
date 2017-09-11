@@ -63,8 +63,7 @@
     "sassdash": "^0.8.1",
     "time-grunt": "^1.0.0",
     "unminified-webpack-plugin": "^1.2.0",
-    "webpack": "^3.4.1",
-    "request": "^2.81.0"
+    "webpack": "^3.4.1"
   },
   "optionalDependencies": {
     "grunt-contrib-imagemin": "^2.0.1"
