@@ -77,7 +77,7 @@ install:
 - composer config-yoastcs
 - if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local --unset; fi
 - if [[ "$CHECKJS" == "1" ]]; then yarn global add grunt-cli; fi
-- if [[ "$CHECKJS" == "1" ]]; then yarn install --ignore-optional; fi
+- if [[ "$CHECKJS" == "1" ]]; then yarn install; fi
 
 before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
