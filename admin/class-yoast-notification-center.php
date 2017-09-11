@@ -434,7 +434,8 @@ class Yoast_Notification_Center {
 
 		if ( is_array( $stored_notifications ) ) {
 			$notifications = array_map( array( $this, 'array_to_notification' ), $stored_notifications );
-			$notifications = array_filter( $notifications, array( $this, 'filter_notification_current_user' ) );
+			// Apply array_values to ensure we get a 0-indexed array.
+			$notifications = array_values( array_filter( $notifications, array( $this, 'filter_notification_current_user' ) ) );
 
 			$this->notifications = $notifications;
 		}
