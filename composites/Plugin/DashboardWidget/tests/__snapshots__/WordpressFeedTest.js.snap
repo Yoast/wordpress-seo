@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the WordpressFeed matches the snapshot 1`] = `
+<div
+  className="sc-bwzfXH kjhQEX"
+>
+  <h3
+    className="sc-htpNat jeQuir"
+  >
+    Feed title
+  </h3>
+  <ul
+    className="sc-bxivhb beUGoh"
+    role="list"
+  >
+    <li
+      className="sc-bZQynM cOIVoz"
+    >
+      <a
+        className="sc-ifAKCX bqQcTP"
+        href="https://www.yoast.com/1"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Wordpress SEO
+        <span
+          className="sc-EHOje fXITby"
+        >
+          ( Opens in a new browser tab )
+        </span>
+      </a>
+      <p>
+        Some arbitrary description any blog post could have
+      </p>
+    </li>
+    <li
+      className="sc-bZQynM cOIVoz"
+    >
+      <a
+        className="sc-ifAKCX bqQcTP"
+        href="https://www.yoast.com/2"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Wordpress SEO
+        <span
+          className="sc-EHOje fXITby"
+        >
+          ( Opens in a new browser tab )
+        </span>
+      </a>
+      <p>
+        Some arbitrary description any blog post could have
+      </p>
+    </li>
+  </ul>
+</div>
+`;
