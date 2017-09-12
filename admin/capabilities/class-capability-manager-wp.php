@@ -24,6 +24,7 @@ final class WPSEO_Capability_Manager_WP extends WPSEO_Abstract_Capability_Manage
 	public function remove() {
 		// Remove from any roles it has been added to.
 		$roles = wp_roles()->get_names();
+		$roles = array_keys( $roles );
 
 		foreach ( $this->capabilities as $capability => $_roles ) {
 			$registered_roles = array_unique( array_merge( $roles, $this->capabilities[ $capability ] ) );

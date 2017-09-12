@@ -32,6 +32,7 @@ final class WPSEO_Capability_Manager_VIP extends WPSEO_Abstract_Capability_Manag
 	public function remove() {
 		// Remove from any role it has been added to.
 		$roles = wp_roles()->get_names();
+		$roles = array_keys( $roles );
 
 		$add_role_caps = array();
 		foreach ( $this->capabilities as $capability => $_roles ) {
