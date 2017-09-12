@@ -198,9 +198,11 @@ function _wpseo_deactivate() {
 	}
 
 	// Register capabilities, to make sure they are cleaned up.
+	do_action( 'wpseo_register_roles' );
 	do_action( 'wpseo_register_capabilities' );
 
 	// Clean up capabilities.
+	WPSEO_Role_Manager_Factory::get()->remove();
 	WPSEO_Capability_Manager_Factory::get()->remove();
 
 	// Clear cache so the changes are obvious.
