@@ -1,5 +1,5 @@
 instrumentation:
-  root: js
+  root: src
   extensions:
       - .js
   include-all-sources: true

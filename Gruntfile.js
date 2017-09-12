@@ -14,10 +14,11 @@ module.exports = function( grunt ) {
 		},
 		files: {
 			js: [
-				"js/**/*.js",
+				"src/**/*.js",
 				"grunt/config/*.js",
-				"!js/config/*.js",
+				"!src/config/*.js",
 				"<%= files.grunt %>",
+				"!js",
 			],
 			jsDontLint: [
 				"!js/templates.js",
