@@ -20,6 +20,21 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 
 		// Detect a post slug change.
 		add_action( 'post_updated', array( $this, 'detect_slug_change' ), 12, 3 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+	}
+
+	/**
+	 * Enqueues the quick edit handler.
+	 */
+	public function enqueue_assets() {
+		global $pagenow;
+
+		if ( ! in_array( $pagenow, array( 'edit.php' ), true )  ) {
+			return;
+		}
+
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'quick-edit-handler' );
 	}
 
 	/**
