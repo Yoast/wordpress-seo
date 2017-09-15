@@ -84,12 +84,20 @@
 		 * @returns {void}
 		 */
 		request: function( method, route, data, success, error ) {
-			// If no data was passed along use the third argument as the success callback
-			// and the fourth argument as the error callback.
+			/*
+			 * If no data was passed along use the third argument as the success callback
+			 * and the fourth argument as the error callback.
+			 */
 			if ( $.isFunction( data ) && typeof error === "undefined" ) {
 				error   = success;
 				success = data;
 				data    = {};
+			}
+
+			// If this is no GET or POST request then use API's method override for maximum compatibility.
+			if ( method !== "POST" && method !== "GET" ) {
+				data["_method"] = method;
+				method = "POST";
 			}
 
 			$.ajax( {
