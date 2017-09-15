@@ -294,7 +294,7 @@ function wpseo_init_rest_api() {
 		$link_reindex_endpoint->register();
 
 		$statistics_service = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
-		$statistics_endpoint = new WPSEO_Statistics_Endpoint( $statistics_service );
+		$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
 		$statistics_endpoint->register();
 
 		$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
