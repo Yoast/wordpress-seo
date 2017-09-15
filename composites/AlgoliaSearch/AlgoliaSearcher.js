@@ -244,7 +244,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Gets the current error message if it is set in the state.
 	 *
-	 * @returns {ReactElement|string} Returns a rendered error object if an error is set. Defaults to empty string.
+	 * @returns {ReactElement|string} Returns a rendered error object if an error is set.
 	 */
 	getErrorMessage() {
 		if ( this.state.errorMessage ) {
@@ -257,12 +257,12 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Gets the loading indicator.
 	 *
-	 * @returns {ReactElement|string} Returns a loader if the loading state is active. Defaults to empty string.
+	 * @returns {ReactElement|string} Returns a loader if the searching state is active.
 	 */
 	getLoadingIndicator() {
-		const loadingPlaceholder = this.props.intl.formatMessage( messages.loadingPlaceholder );
-
+		// Don't show loading indicator when a search has already been performed, to avoid flickering.
 		if ( this.state.searching && ! this.state.results ) {
+			const loadingPlaceholder = this.props.intl.formatMessage( messages.loadingPlaceholder );
 			return <Loading placeholder={ loadingPlaceholder } />;
 		}
 
@@ -272,7 +272,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Determines what the search results view needs to look like.
 	 *
-	 * @returns {ReactElement|string} Returns a specific search result object based on state. Defaults to empty string.
+	 * @returns {ReactElement|string} Returns a specific search result object based on state.
 	 */
 	determineSearchResultsView() {
 		if ( this.state.searchString === "" && this.state.currentDetailViewIndex === -1 ) {
