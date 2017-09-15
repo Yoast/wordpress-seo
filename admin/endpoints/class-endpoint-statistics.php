@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_Statistics_Endpoint
+ * Represents an implementation of the WPSEO_Endpoint interface to register one or multiple endpoints.
  */
-class WPSEO_Statistics_Endpoint {
+class WPSEO_Endpoint_Statistics implements WPSEO_Endpoint {
 
 	const REST_NAMESPACE = 'yoast/v1';
 	const ENDPOINT_RETRIEVE = 'statistics';
@@ -17,7 +17,7 @@ class WPSEO_Statistics_Endpoint {
 	protected $service;
 
 	/**
-	 * WPSEO_Statistics_Endpoint constructor.
+	 * Constructs the WPSEO_Endpoint_Statistics class and sets the service to use.
 	 *
 	 * @param WPSEO_Statistics_Service $service Service to use.
 	 */
@@ -26,7 +26,7 @@ class WPSEO_Statistics_Endpoint {
 	}
 
 	/**
-	 * Register REST routes.
+	 * Registers the REST routes that are available on the endpoint.
 	 */
 	public function register() {
 		// Register fetch config.
@@ -44,9 +44,9 @@ class WPSEO_Statistics_Endpoint {
 	}
 
 	/**
-	 * Permission callback implementation
+	 * Determines whether or not data can be retrieved for the registered endpoints.
 	 *
-	 * @return bool
+	 * @return bool Whether or not data can be retrieved.
 	 */
 	public function can_retrieve_data() {
 		return current_user_can( self::CAPABILITY_RETRIEVE );
