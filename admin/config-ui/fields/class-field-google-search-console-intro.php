@@ -4,7 +4,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Social_Profiles_Intro
+ * Class WPSEO_Config_Field_Google_Search_Console_Intro
  */
 class WPSEO_Config_Field_Google_Search_Console_Intro extends WPSEO_Config_Field {
 
@@ -14,7 +14,7 @@ class WPSEO_Config_Field_Google_Search_Console_Intro extends WPSEO_Config_Field 
 	public function __construct() {
 		parent::__construct( 'googleSearchConsoleIntro', 'HTML' );
 
-		/* translators: %1$s is the plugin name */
+		/* translators: %1$s is the plugin name, %2$s is a link start tag to a Yoast help page, %3$s is the link closing tag. */
 		$html = sprintf(
 			__( '%1$s integrates with Google Search Console. Search Console is a
  must-have tool for site owners. You can use it to get a lot of data about
