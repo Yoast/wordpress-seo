@@ -4,7 +4,7 @@
  */
 
 /**
- * Represents the service to be used by the WPSEO_Endpoint_Right endpoint.
+ * Represents the service to be used by the WPSEO_Endpoint_Ryte endpoint.
  */
 class WPSEO_Ryte_Service {
 
