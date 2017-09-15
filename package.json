@@ -58,6 +58,7 @@
     "babelify": "^7.3.0",
     "concurrently": "^3.5.0",
     "enzyme": "^2.9.1",
+    "eslint": "^4.6.1",
     "eslint-config-yoast": "^2.0.0",
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-yoast": "^1.0.0",
