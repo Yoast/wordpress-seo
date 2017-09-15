@@ -92,6 +92,12 @@
 				data    = {};
 			}
 
+			// If this is no GET or POST request then use API's method override for maximum compatibility.
+			if ( method !== "POST" && method !== "GET" ) {
+				data["_method"] = method;
+				method = "POST";
+			}
+
 			$.ajax( {
 				url: wpApiSettings.root + "yoast/v1/" + route,
 				method: method,
