@@ -29,26 +29,21 @@ class WPSEO_Export_Keywords_CSV {
 	}
 
 	/**
-	 * Exports the supplied keyword query to a CSV string.
-	 *
-	 * @return string CSV formatted data.
+	 * Echoes the CSV headers
 	 */
-	public function export() {
-		$csv = $this->get_headers();
-		$csv .= $this->data;
-
-		return $csv;
+	public function print_headers() {
+		echo $this->get_headers();
 	}
 
 	/**
-	 * Adds a row to the data to be exported.
+	 * Echoes a formatted row.
 	 *
 	 * @param array $row Row to add to the export.
 	 *
 	 * @return void
 	 */
-	public function add_row( array $row ) {
-		$this->data .= $this->format( $row );
+	public function print_row( $row ) {
+		echo $this->format( $row );
 	}
 
 	/**
@@ -75,6 +70,8 @@ class WPSEO_Export_Keywords_CSV {
 				$csv .= ',' . $this->sanitize_csv_column( $header_columns[ $column ] );
 			}
 		}
+
+		$csv .= PHP_EOL;
 
 		return $csv;
 	}
@@ -103,13 +100,15 @@ class WPSEO_Export_Keywords_CSV {
 		$keywords = max( 1, count( $result['keywords'] ) );
 		for ( $keywords_index = 0; $keywords_index < $keywords; $keywords_index++ ) {
 			// Add static columns.
-			$csv .= PHP_EOL . $this->sanitize_csv_column( $result['ID'] );
+			$csv .= $this->sanitize_csv_column( $result['ID'] );
 			$csv .= ',' . $this->sanitize_csv_column( $result['type'] );
 
 			// Add dynamic columns.
 			foreach ( $this->columns as $column ) {
 				$csv .= $this->get_csv_column_from_result( $result, $column, $keywords_index );
 			}
+
+			$csv .= PHP_EOL;
 		}
 
 		return $csv;
@@ -197,7 +196,7 @@ class WPSEO_Export_Keywords_CSV {
 	 */
 	protected function sanitize_csv_column( $value ) {
 		// Return an empty string if value is null.
-		if ( is_null( $value ) ) {
+		if ( $value === null ) {
 			return '';
 		}
 

@@ -115,9 +115,8 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 		}
 
 		$builder = new WPSEO_Export_Keywords_CSV( $columns );
+		$builder->print_headers();
 		$this->prepare_export( $builder, $columns );
-
-		return $builder->export();
 	}
 
 	/**
@@ -181,9 +180,9 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 			$presented = array_map( array( $presenter, 'present' ), $results );
 
 			// Feed presented item to the builder.
-			array_map( array( $builder, 'add_row' ), $presented );
+			array_walk( $presented, array( $builder, 'print_row' ) );
 
-			$page += 1;
+			++$page;
 
 			// If we have the number of items per page, there will be more items ahead.
 		} while ( is_array( $results ) && count( $results ) === $page_size );
