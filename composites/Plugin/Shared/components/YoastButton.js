@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import colors from "../../../../style-guide/colors.json";
@@ -15,12 +16,14 @@ import { rgba } from "../../../../style-guide/helpers";
  */
 export function addButtonStyles( component ) {
 	return styled( component )`
-		display: inline-block;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		vertical-align: middle;
 		height: 48px;
 		margin: 0;
 		padding: 0 16px;
 		border: 0;
-		vertical-align: middle;
 		border-radius: 4px;
 		box-sizing: border-box;
 		font: 400 14px/24px "Open Sans", sans-serif;
@@ -39,18 +42,47 @@ export function addButtonStyles( component ) {
 			transform: translateY( 1px );
 			box-shadow: none;
 		}
+
+		// Only needed for Safari 10.
+		span {
+			display: inherit;
+			align-items: inherit;
+			justify-content: inherit;
+			width: 100%;
+		}
 	`;
 }
 
 /**
+ * Returns a component with a button and an inner span element.
+ *
+ * The inner span is only needed to fix a Safari 10 bug with flexbox and button
+ * elements. This bug is fixed in Safari Technology Previs and in the future it
+ * will be possible to remove this component and directly style a button element.
+ * See https://github.com/philipwalton/flexbugs#9-some-html-elements-cant-be-flex-containers
+ *
+ * @returns {ReactElement} The button with inner span.
+ */
+const YoastButtonBase = ( { className, onClick, type, children } ) => (
+	<button className={ className } onClick={ onClick } type={ type }>
+		<span>
+			{ children }
+		</span>
+	</button>
+);
+
+/**
  * Returns a Button with the Yoast button style.
+ *
+ * We're styling the YoastButtonBase component just because of the Safari 10 bug.
+ * In the future, it will be possible to directly style a button element.
  *
  * @param {object} props Component props.
  *
  * @returns {ReactElement} Styled button.
  */
 export const YoastButton = addButtonStyles(
-	styled.button`
+	styled( YoastButtonBase )`
 		color: ${ props => props.textColor };
 		background: ${ props => props.backgroundColor };
 		min-width: 152px;

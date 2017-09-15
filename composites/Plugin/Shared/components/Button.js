@@ -27,6 +27,7 @@ export function addBaseStyle( component ) {
 	return styled( component )`
 		display: inline-flex;
 		align-items: center;
+		justify-content: center;
 		vertical-align: middle;
 		border-width: ${ `${ settings.borderWidth }px` };
 		border-style: solid;
