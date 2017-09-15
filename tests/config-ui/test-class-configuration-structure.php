@@ -18,8 +18,6 @@ class WPSEO_Configuration_Structure_Mock extends WPSEO_Configuration_Structure {
 	 */
 	public function add_step_mock( $identifier, $title, $fields, $navigation = true ) {
 		$this->add_step( $identifier, $title, $fields, $navigation );
-
-		return ! empty( $this->steps[ $identifier ] );
 	}
 }
 
@@ -71,9 +69,9 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_add_step() {
 
-		$steps = $this->structure->retrieve();
-
 		$this->structure->add_step_mock( 'i', 't', 'f' );
+
+		$steps = $this->structure->retrieve();
 
 		$this->assertTrue( ! empty( $steps['i'] ) );
 	}
