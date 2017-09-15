@@ -4,11 +4,11 @@ import colors from "../../../../style-guide/colors.json";
 import { addButtonStyles } from "./YoastButton";
 
 /**
- * Returns a Button with the Yoast button style.
+ * Returns a Link with the Yoast button style.
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled button.
+ * @returns {ReactElement} Styled link.
  */
 export const YoastLinkButton = addButtonStyles(
 	styled.a`

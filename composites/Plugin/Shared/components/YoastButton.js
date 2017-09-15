@@ -85,8 +85,7 @@ YoastButtonBase.defaultProps = {
 /**
  * Returns a Button with the Yoast button style.
  *
- * We're styling the YoastButtonBase component just because of the Safari 10 bug.
- * In the future, it will be possible to directly style a button element.
+ * See the Safari 10 bug description in the YoastButtonBase JSDoc.
  *
  * @param {object} props Component props.
  *
