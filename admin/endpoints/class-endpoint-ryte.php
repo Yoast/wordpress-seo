@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_OnPage_Endpoint
+ * Represents an implementation of the WPSEO_Endpoint interface to register one or multiple endpoints.
  */
-class WPSEO_Ryte_Endpoint {
+class WPSEO_Endpoint_Ryte implements WPSEO_Endpoint {
 
 	const REST_NAMESPACE = 'yoast/v1';
 	const ENDPOINT_RETRIEVE = 'ryte';
@@ -17,7 +17,7 @@ class WPSEO_Ryte_Endpoint {
 	protected $service;
 
 	/**
-	 * WPSEO_OnPage_Endpoint constructor.
+	 * Constructs the WPSEO_Endpoint_Ryte class and sets the service to use.
 	 *
 	 * @param WPSEO_Ryte_Service $service Service to use.
 	 */
@@ -26,7 +26,7 @@ class WPSEO_Ryte_Endpoint {
 	}
 
 	/**
-	 * Register REST routes.
+	 * Registers the REST routes that are available on the endpoint.
 	 */
 	public function register() {
 		// Register fetch config.
@@ -34,7 +34,7 @@ class WPSEO_Ryte_Endpoint {
 			'methods'             => 'GET',
 			'callback'            => array(
 				$this->service,
-				'get_onpage',
+				'get_statistics',
 			),
 			'permission_callback' => array(
 				$this,
@@ -44,9 +44,9 @@ class WPSEO_Ryte_Endpoint {
 	}
 
 	/**
-	 * Permission callback implementation
+	 * Determines whether or not data can be retrieved for the registered endpoints.
 	 *
-	 * @return bool
+	 * @return bool Whether or not data can be retrieved.
 	 */
 	public function can_retrieve_data() {
 		return current_user_can( self::CAPABILITY_RETRIEVE );

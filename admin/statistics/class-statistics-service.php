@@ -25,12 +25,9 @@ class WPSEO_Statistics_Service {
 	 *
 	 * @param WPSEO_Statistics $statistics The statistics class to retrieve statistics from.
 	 */
-	public function __construct( WPSEO_Statistics $statistics = null ) {
-		if ( null === $statistics ) {
-			$statistics = new WPSEO_Statistics();
-		}
-
+	public function __construct( WPSEO_Statistics $statistics ) {
 		$this->statistics = $statistics;
+		$this->labels = $this->labels();
 	}
 
 	/**
@@ -57,35 +54,46 @@ class WPSEO_Statistics_Service {
 	 * @return array
 	 */
 	private function statistic_items() {
-		$transient = get_transient( self::CACHE_TRANSIENT_KEY );
+		$transient = $this->get_transient();
 		$user_id   = get_current_user_id();
 
 		if ( isset( $transient[ $user_id ] ) ) {
 			return $transient[ $user_id ];
 		}
 
-		return $this->set_statistic_items_for_this_user( $transient );
+		return $this->set_statistic_items_for_user( $transient, $user_id );
 	}
 
 	/**
-	 * Set the cache for a specific user
+	 * Gets the statistics transient value. Returns array if transient wasn't set.
 	 *
-	 * @param array|boolean $transient The current stored transient with the cached data.
-	 *
-	 * @return mixed
+	 * @return array|mixed Returns the transient or an empty array if the transient doesn't exist.
 	 */
-	private function set_statistic_items_for_this_user( $transient ) {
+	private function get_transient() {
+		$transient = get_transient( self::CACHE_TRANSIENT_KEY );
+
 		if ( $transient === false ) {
-			$transient = array();
+			return array();
 		}
 
-		$user_id               = get_current_user_id();
+		return $transient;
+	}
+
+	/**
+	 * Set the statistics transient cache for a specific user
+	 *
+	 * @param array $transient The current stored transient with the cached data.
+	 * @param int   $user The user's ID to assign the retrieved values to.
+	 *
+	 * @return array The statistics transient for the user.
+	 */
+	private function set_statistic_items_for_user( $transient, $user ) {
 		// Use array_values because array_filter may return non-zero indexed arrays.
-		$transient[ $user_id ] = array_values( array_filter( $this->get_seo_scores_with_post_count(), array( $this, 'filter_items' ) ) );
+		$transient[ $user ] = array_values( array_filter( $this->get_seo_scores_with_post_count(), array( $this, 'filter_items' ) ) );
 
 		set_transient( self::CACHE_TRANSIENT_KEY, $transient, DAY_IN_SECONDS );
 
-		return $transient[ $user_id ];
+		return $transient[ $user ];
 	}
 
 	/**
@@ -123,44 +131,38 @@ class WPSEO_Statistics_Service {
 	 * @return string The label for the rank.
 	 */
 	private function get_label_for_rank( WPSEO_Rank $rank ) {
-		$labels = $this->get_labels();
-
-		return $labels[ $rank->get_rank() ];
+		return $this->labels[ $rank->get_rank() ];
 	}
 
 	/**
-	 * Gets the labels for the different SEO Scores.
+	 * Determines the labels for the various scoring ranks that are known within Yoast SEO.
 	 *
-	 * @return array
+	 * @return array Array containing the translateable labels.
 	 */
-	private function get_labels() {
-		if ( ! isset( $this->labels ) ) {
-			$this->labels = array(
-				/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-				WPSEO_Rank::NO_FOCUS => sprintf( __( 'Posts %1$swithout%2$s a focus keyword', 'wordpress-seo' ), '<strong>', '</strong>' ),
-				/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-				WPSEO_Rank::BAD      => sprintf( __( 'Posts with a %1$sneeds improvement%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
-				/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-				WPSEO_Rank::OK       => sprintf( __( 'Posts with an %1$sOK%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
-				/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-				WPSEO_Rank::GOOD     => sprintf( __( 'Posts with a %1$sgood%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
-				/* translators: %s expands to <span lang="en">noindex</span> */
-				WPSEO_Rank::NO_INDEX => sprintf( __( 'Posts that are set to &#8220;%s&#8221;', 'wordpress-seo' ), '<span lang="en">noindex</span>' ),
-			);
-		}
-
-		return $this->labels;
+	private function labels() {
+		return array(
+			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+			WPSEO_Rank::NO_FOCUS => sprintf( __( 'Posts %1$swithout%2$s a focus keyword', 'wordpress-seo' ), '<strong>', '</strong>' ),
+			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+			WPSEO_Rank::BAD      => sprintf( __( 'Posts with a %1$sneeds improvement%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
+			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+			WPSEO_Rank::OK       => sprintf( __( 'Posts with an %1$sOK%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
+			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+			WPSEO_Rank::GOOD     => sprintf( __( 'Posts with a %1$sgood%2$s SEO score', 'wordpress-seo' ), '<strong>', '</strong>' ),
+			/* translators: %s expands to <span lang="en">noindex</span> */
+			WPSEO_Rank::NO_INDEX => sprintf( __( 'Posts that are set to &#8220;%s&#8221;', 'wordpress-seo' ), '<span lang="en">noindex</span>' ),
+		);
 	}
 
 	/**
 	 * Filter items if they have a count of zero.
 	 *
-	 * @param array $item Data array.
+	 * @param array $item The item to potentially filter out.
 	 *
 	 * @return bool Whether or not the count is zero.
 	 */
 	private function filter_items( $item ) {
-		return 0 !== $item['count'];
+		return $item['count'] !== 0;
 	}
 
 	/**
@@ -176,14 +178,5 @@ class WPSEO_Statistics_Service {
 		}
 
 		return esc_url( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $rank->get_rank() ) );
-	}
-
-	/**
-	 * Gets permissions of the current user to view the onpage result.
-	 *
-	 * @return bool Whether or not the current user can view the onpage option result.
-	 */
-	private function can_view_onpage() {
-		return is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
 	}
 }

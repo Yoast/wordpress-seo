@@ -293,10 +293,11 @@ function wpseo_init_rest_api() {
 		$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
 		$link_reindex_endpoint->register();
 
-		$statistics_endpoint = new WPSEO_Statistics_Endpoint( new WPSEO_Statistics_Service() );
+		$statistics_service = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
+		$statistics_endpoint = new WPSEO_Statistics_Endpoint( $statistics_service );
 		$statistics_endpoint->register();
 
-		$onpage_endpoint = new WPSEO_Ryte_Endpoint( new WPSEO_Ryte_Service() );
+		$onpage_endpoint = new WPSEO_Endpoint_Ryte( new WPSEO_Ryte_Service() );
 		$onpage_endpoint->register();
 	}
 }
