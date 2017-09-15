@@ -241,11 +241,11 @@ class Yoast_Notification_Center {
 		$sorted_notifications = $this->get_sorted_notifications();
 		$notifications = array_filter( $sorted_notifications, array( $this, 'is_notification_persistent' ) );
 
-		array_walk( $notifications, array( $this, 'remove_notification' ) );
-
 		if ( empty( $notifications ) ) {
 			return;
 		}
+
+		array_walk( $notifications, array( $this, 'remove_notification' ) );
 
 		if ( $echo_as_json ) {
 			$notification_json = array();
