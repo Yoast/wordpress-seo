@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Endpoints
+ */
 
 /**
  * Dictates the required methods for an Endpoint implementation.

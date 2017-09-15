@@ -45,7 +45,7 @@ class WPSEO_Ryte_Service {
 	 *
 	 * @return array The results, contains a score and label.
 	 */
-	private function get_score( $status, $fetch = false) {
+	private function get_score( $status, $fetch = false ) {
 		if ( $status === WPSEO_OnPage_Option::IS_INDEXABLE ) {
 			return array(
 				'score'     => 'good',
