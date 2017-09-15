@@ -37,7 +37,6 @@ const messages = defineMessages( {
 } );
 
 class AlgoliaSearcher extends React.Component {
-
 	/**
 	 * AlgoliaSearcher constructor.
 	 *
@@ -234,10 +233,12 @@ class AlgoliaSearcher extends React.Component {
 			return null;
 		}
 
-		return <SearchBar
-			submitAction={ this.onSearchButtonClick.bind( this ) }
-			searchString={ this.state.searchString }
-			/>;
+		return (
+			<SearchBar
+				submitAction={ this.onSearchButtonClick.bind( this ) }
+				searchString={ this.state.searchString }
+			/>
+		);
 	}
 
 	/**
