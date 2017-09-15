@@ -18,11 +18,7 @@ class WPSEO_Ryte_Service {
 	 *
 	 * @param WPSEO_OnPage_Option $option The option to retrieve data from.
 	 */
-	public function __construct( WPSEO_OnPage_Option $option = null ) {
-		if ( $option === null ) {
-			$option = new WPSEO_OnPage_Option();
-		}
-
+	public function __construct( WPSEO_OnPage_Option $option ) {
 		$this->option = $option;
 	}
 
