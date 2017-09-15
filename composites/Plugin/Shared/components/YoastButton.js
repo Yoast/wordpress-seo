@@ -71,6 +71,17 @@ const YoastButtonBase = ( { className, onClick, type, children } ) => (
 	</button>
 );
 
+YoastButtonBase.propTypes = {
+	className: PropTypes.string,
+	onClick: PropTypes.func,
+	type: PropTypes.string,
+	children: PropTypes.string,
+};
+
+YoastButtonBase.defaultProps = {
+	type: "button",
+};
+
 /**
  * Returns a Button with the Yoast button style.
  *
@@ -99,13 +110,11 @@ export const YoastButton = addButtonStyles(
 YoastButton.propTypes = {
 	backgroundColor: PropTypes.string,
 	textColor: PropTypes.string,
-	type: PropTypes.string,
 	withTextShadow: PropTypes.bool,
 };
 
 YoastButton.defaultProps = {
 	backgroundColor: colors.$color_green_medium_light,
 	textColor: colors.$color_white,
-	type: "button",
 	withTextShadow: true,
 };
