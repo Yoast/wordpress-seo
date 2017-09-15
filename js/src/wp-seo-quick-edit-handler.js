@@ -9,7 +9,6 @@
 		return;
 	}
 
-	let notificationShown = false;
 	let notificationTarget = jQuery( ".wrap" ).children().eq( 0 );
 
 	/**
@@ -18,6 +17,23 @@
 	 * @type {number}
 	 */
 	let wpseoNotificationCounter = 0;
+
+	let addedNotifications = [];
+
+	/**
+	 * Adds the given notification to the dom, when it doesn't exists already.
+	 *
+	 * @param {string} notification The notification to add.
+	 *
+	 * @returns {void}
+	 */
+	function addNotificationToDom( notification ) {
+		if ( ! addedNotifications.includes( notification ) ) {
+			addedNotifications.push( notification );
+
+			$( notification ).insertAfter( notificationTarget );
+		}
+	}
 
 	/**
 	 * Show notification to user when there's a redirect created.
@@ -28,22 +44,18 @@
 	 * @returns {void}
 	 */
 	function wpseoShowNotification() {
-		// We only want to show the notification once.
-		if ( notificationShown ) {
-			return;
-		}
-
 		jQuery.post(
 			ajaxurl,
 			{
 				action: "yoast_get_notifications",
+				version: 2,
 			},
 			function( response ) {
 				if ( response !== "" ) {
-					notificationShown = true;
-
-					jQuery( response ).insertAfter( notificationTarget );
 					wpseoNotificationCounter = 0;
+
+					let notifications = JSON.parse( response );
+					notifications.map( addNotificationToDom );
 				}
 
 				if ( wpseoNotificationCounter < 20 && response === "" ) {
