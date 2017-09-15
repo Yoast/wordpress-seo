@@ -75,7 +75,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 		$this->structure->add_step_mock( 'i', 't', 'f' );
 
-		$this->assertNotTrue( ! empty( $steps['i'] ) );
+		$this->assertTrue( ! empty( $steps['i'] ) );
 	}
 
 	/**
