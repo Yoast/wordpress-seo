@@ -262,7 +262,7 @@ class AlgoliaSearcher extends React.Component {
 	getLoadingIndicator() {
 		const loadingPlaceholder = this.props.intl.formatMessage( messages.loadingPlaceholder );
 
-		if ( this.state.searching ) {
+		if ( this.state.searching && ! this.state.results ) {
 			return <Loading placeholder={ loadingPlaceholder } />;
 		}
 
