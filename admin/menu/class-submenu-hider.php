@@ -20,7 +20,7 @@ class WPSEO_Submenu_Hider implements WPSEO_WordPress_Integration {
 	 *
 	 * @param array $pages The pages to filter.
 	 *
-	 * @return array
+	 * @return array Filtered list of submenu pages to show.
 	 */
 	public function filter_settings_pages( array $pages ) {
 		$options = WPSEO_Options::get_options( array( 'wpseo' ) );

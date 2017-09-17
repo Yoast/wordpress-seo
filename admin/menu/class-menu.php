@@ -10,15 +10,13 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 	/** The page identifier used in WordPress to register the admin page !DO NOT CHANGE THIS! */
 	const PAGE_IDENTIFIER = 'wpseo_dashboard';
 
-	/**
-	 * Array of classes that add admin functionality
-	 *
-	 * @var array
-	 */
+	/** @var array List of classes that add admin functionality. */
 	protected $admin_features;
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		$admin_menu = new WPSEO_Admin_Menu( $this );
@@ -34,7 +32,7 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the main menu page identifier.
 	 *
-	 * @return string
+	 * @return string Page identifier to use.
 	 */
 	public function get_page_identifier() {
 		return self::PAGE_IDENTIFIER;
@@ -42,6 +40,8 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Loads the requested admin settings page.
+	 *
+	 * return @void
 	 */
 	public function load_page() {
 		$page = filter_input( INPUT_GET, 'page' );
@@ -51,7 +51,9 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Shows an admin settings page.
 	 *
-	 * @param string $page
+	 * @param string $page Page to display.
+	 *
+	 * @return void
 	 */
 	protected function show_page( $page ) {
 		switch ( $page ) {

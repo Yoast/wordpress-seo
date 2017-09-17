@@ -3,6 +3,9 @@
  * @package WPSEO\Admin\Menu
  */
 
+/**
+ * Registers the admin menu on the left of the admin area.
+ */
 class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	/** @var WPSEO_Menu Menu */
 	protected $menu;
@@ -18,6 +21,8 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Registers all hooks to WordPress
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
@@ -25,16 +30,18 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Register the menu item and its sub menu's.
-	 *
-	 * @global array $submenu used to change the label on the first item.
+	 * Registers the menu item submenus.
 	 */
 	public function register_settings_page() {
-		global $admin_page_hooks;
-
 		$can_manage_options = WPSEO_Capability_Utils::current_user_can( $this->get_manage_options_cap() );
 
+		/*
+		 * If the current user has the capability to control anything.
+		 * This means that all submenus and dashboard can be shown.
+		 */
 		if ( $can_manage_options ) {
+			global $admin_page_hooks;
+
 			add_menu_page(
 				'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ),
 				__( 'SEO', 'wordpress-seo' ) . ' ' . $this->get_notification_counter(),
@@ -51,8 +58,8 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 		// Get all submenu pages.
 		$submenu_pages = $this->get_submenu_pages();
 
+		// Add submenu items to the main menu if possible.
 		if ( $can_manage_options ) {
-			// Add submenu items.
 			$this->register_submenu_pages( $submenu_pages );
 		}
 
@@ -96,9 +103,9 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the manage_options cap
+	 * Returns the capability that is required to manage all options.
 	 *
-	 * @return string
+	 * @return string Capability to check against.
 	 */
 	protected function get_manage_options_cap() {
 		/**
@@ -154,7 +161,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the list of registered submenu pages.
 	 *
-	 * @return array
+	 * @return array List of registered submenu pages.
 	 */
 	protected function get_submenu_pages() {
 		global $wpseo_admin;

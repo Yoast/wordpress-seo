@@ -10,14 +10,16 @@ class WPSEO_Network_Admin_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * WPSEO_Network_Admin_Menu constructor.
 	 *
-	 * @param WPSEO_Menu $menu
+	 * @param WPSEO_Menu $menu Menu to use.
 	 */
 	public function __construct( WPSEO_Menu $menu ) {
 		$this->menu = $menu;
 	}
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
@@ -26,13 +28,14 @@ class WPSEO_Network_Admin_Menu implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Register the settings page for the Network settings.
+	 *
+	 * @return void
 	 */
 	public function register_settings_page() {
 		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			return;
 		}
 
-		// Base 64 encoded SVG image.
 		$page_callback = array( $this->menu, 'load_page' );
 
 		add_menu_page(
@@ -67,6 +70,8 @@ class WPSEO_Network_Admin_Menu implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Loads the form for the network configuration page.
+	 *
+	 * @return void
 	 */
 	public function network_config_page() {
 		require_once WPSEO_PATH . 'admin/pages/network.php';
