@@ -28,16 +28,6 @@ abstract class WPSEO_Abstract_Capability_Manager implements WPSEO_Capability_Man
 	}
 
 	/**
-	 * Adds the registerd capabilities to the system.
-	 */
-	abstract public function add();
-
-	/**
-	 * Removes the registered capabilities from the system
-	 */
-	abstract public function remove();
-
-	/**
 	 * @return string[] List of registered capabilities
 	 */
 	public function get_capabilities() {
