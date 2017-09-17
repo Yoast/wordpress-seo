@@ -33,7 +33,9 @@ class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 		$instance->register( 'capability', array( 'role' ) );
 
 		$this->assertContains( 'capability', $instance->get_capabilities() );
-		$this->assertContains( 'role', $instance->get_registered_capabilities()['capability'] );
+
+		$registered = $instance->get_registered_capabilities();
+		$this->assertContains( 'role', $registered['capability'] );
 	}
 
 	public function test_register_overwrite() {
@@ -43,8 +45,10 @@ class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 		$instance->register( 'capability', array(  'role2' ), false );
 
 		$this->assertContains( 'capability', $instance->get_capabilities() );
-		$this->assertContains( 'role2', $instance->get_registered_capabilities()['capability'] );
-		$this->assertNotContains( 'role1', $instance->get_registered_capabilities()['capability'] );
+
+		$registered = $instance->get_registered_capabilities();
+		$this->assertContains( 'role2', $registered['capability'] );
+		$this->assertNotContains( 'role1', $registered['capability'] );
 	}
 
 	public function test_register_add() {
@@ -54,8 +58,10 @@ class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 		$instance->register( 'capability', array( 'role2' ) );
 
 		$this->assertContains( 'capability', $instance->get_capabilities() );
-		$this->assertContains( 'role2', $instance->get_registered_capabilities()['capability'] );
-		$this->assertContains( 'role1', $instance->get_registered_capabilities()['capability'] );
+
+		$registered = $instance->get_registered_capabilities();
+		$this->assertContains( 'role2', $registered['capability'] );
+		$this->assertContains( 'role1', $registered['capability'] );
 	}
 
 	public function test_filter_roles() {
