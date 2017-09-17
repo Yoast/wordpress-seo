@@ -39,11 +39,9 @@ class WPSEO_Admin_Pages {
 			wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
 		}
 
-		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
-			add_action( 'admin_init', array( $this, 'admin_init' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
-		}
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
 	}
 
 	/**
