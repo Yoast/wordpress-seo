@@ -84,7 +84,7 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 *
 	 * @return bool True if the capability is defined for the role.
 	 */
-	protected function capability_exists( \WP_Role $role, $capability ) {
+	protected function capability_exists( WP_Role $role, $capability ) {
 		return ! array_key_exists( $capability, $role->capabilities );
 	}
 
