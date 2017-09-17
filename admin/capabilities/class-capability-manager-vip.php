@@ -3,9 +3,14 @@
  * @package WPSEO\Admin\Capabilities
  */
 
+/**
+ * VIP implementation of the Capability Manager.
+ */
 final class WPSEO_Capability_Manager_VIP extends WPSEO_Abstract_Capability_Manager {
 	/**
 	 * Adds the registerd capabilities to the system.
+	 *
+	 * @return void
 	 */
 	public function add() {
 		$add_role_caps = array();
@@ -28,6 +33,8 @@ final class WPSEO_Capability_Manager_VIP extends WPSEO_Abstract_Capability_Manag
 
 	/**
 	 * Removes the registered capabilities from the system
+	 *
+	 * @return void
 	 */
 	public function remove() {
 		// Remove from any role it has been added to.

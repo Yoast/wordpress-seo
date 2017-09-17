@@ -610,8 +610,6 @@ class WPSEO_Admin {
 	 *
 	 * @deprecated 5.5
 	 * @param array $pages The pages to filter.
-	 *
-	 * @return array
 	 */
 	public function filter_settings_pages( array $pages ) {
 		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );

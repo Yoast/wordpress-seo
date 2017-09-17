@@ -3,6 +3,9 @@
  * @package WPSEO\Admin\Roles
  */
 
+/**
+ * Role Manager Factory.
+ */
 class WPSEO_Role_Manager_Factory {
 	/**
 	 * Retrieves the Role manager to use.
@@ -15,7 +18,9 @@ class WPSEO_Role_Manager_Factory {
 		if ( null === $manager ) {
 			if ( function_exists( 'wpcom_vip_add_role' ) ) {
 				$manager = new WPSEO_Role_Manager_VIP();
-			} else {
+			}
+
+			if ( ! function_exists( 'wpcom_vip_add_role' ) ) {
 				$manager = new WPSEO_Role_Manager_WP();
 			}
 		}

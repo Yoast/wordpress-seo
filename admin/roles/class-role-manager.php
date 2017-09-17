@@ -3,25 +3,32 @@
  * @package WPSEO\Admin\Roles
  */
 
+/**
+ * Role Manager interface.
+ */
 interface WPSEO_Role_Manager {
 	/**
 	 * Registers a role.
 	 *
-	 * @param string $role         Role to add.
-	 * @param string $display_name Display name to use.
-	 * @param null|string   $template     Optional. Role to base the new role on.
+	 * @param string      $role         Role to add.
+	 * @param string      $display_name Display name to use.
+	 * @param null|string $template     Optional. Role to base the new role on.
 	 *
-	 * @return
+	 * @return void
 	 */
 	public function register( $role, $display_name, $template = null );
 
 	/**
 	 * Adds the registered roles.
+	 *
+	 * @return void
 	 */
 	public function add();
 
 	/**
 	 * Removes the registered roles.
+	 *
+	 * @return void
 	 */
 	public function remove();
 

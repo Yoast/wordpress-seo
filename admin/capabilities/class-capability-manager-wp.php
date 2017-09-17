@@ -3,9 +3,14 @@
  * @package WPSEO\Admin\Capabilities
  */
 
+/**
+ * Default WordPress capability manager implementation.
+ */
 final class WPSEO_Capability_Manager_WP extends WPSEO_Abstract_Capability_Manager {
 	/**
 	 * Adds the capabilities to the roles.
+	 *
+	 * @return void
 	 */
 	public function add() {
 		foreach ( $this->capabilities as $capability => $roles ) {
@@ -20,6 +25,8 @@ final class WPSEO_Capability_Manager_WP extends WPSEO_Abstract_Capability_Manage
 
 	/**
 	 * Unregisters the capabilities from the system.
+	 *
+	 * @return void
 	 */
 	public function remove() {
 		// Remove from any roles it has been added to.

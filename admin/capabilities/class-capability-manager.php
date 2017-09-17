@@ -3,6 +3,9 @@
  * @package WPSEO\Admin\Capabilities
  */
 
+/**
+ * Capability Manager interface.
+ */
 interface WPSEO_Capability_Manager {
 	/**
 	 * Registers a capability.

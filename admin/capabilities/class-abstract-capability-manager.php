@@ -3,7 +3,11 @@
  * @package WPSEO\Admin\Capabilities
  */
 
+/**
+ * Abstract Capability Manager shared code.
+ */
 abstract class WPSEO_Abstract_Capability_Manager implements WPSEO_Capability_Manager {
+	/** @var array Registered capabilities */
 	protected $capabilities = array();
 
 	/**
@@ -28,14 +32,18 @@ abstract class WPSEO_Abstract_Capability_Manager implements WPSEO_Capability_Man
 	}
 
 	/**
-	 * @return string[] List of registered capabilities
+	 * Returns the list of registered capabilitities.
+	 *
+	 * @return string[] Registered capabilities
 	 */
 	public function get_capabilities() {
 		return array_keys( $this->capabilities );
 	}
 
 	/**
-	 * @param array $roles
+	 * Returns a list of WP_Role roles.
+	 *
+	 * @param array $roles Roles to retrieve the objects for.
 	 *
 	 * @return WP_Role[] List of WP_Role objects.
 	 */

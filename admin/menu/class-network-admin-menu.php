@@ -3,6 +3,9 @@
  * @package WPSEO\Admin\Menu
  */
 
+/**
+ * Network Admin Menu handler.
+ */
 class WPSEO_Network_Admin_Menu implements WPSEO_WordPress_Integration {
 	/** @var WPSEO_Menu Menu */
 	protected $menu;

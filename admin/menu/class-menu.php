@@ -41,7 +41,7 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Loads the requested admin settings page.
 	 *
-	 * return @void
+	 * @return void
 	 */
 	public function load_page() {
 		$page = filter_input( INPUT_GET, 'page' );

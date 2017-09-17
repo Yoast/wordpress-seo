@@ -3,6 +3,9 @@
  * @package WPSEO\Admin\Capabilities
  */
 
+/**
+ * Capability Utils collection.
+ */
 class WPSEO_Capability_Utils {
 	/**
 	 * Checks if the user has the proper capabilities.
