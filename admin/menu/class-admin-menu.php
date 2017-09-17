@@ -47,7 +47,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 				__( 'SEO', 'wordpress-seo' ) . ' ' . $this->get_notification_counter(),
 				$this->get_manage_options_cap(),
 				$this->menu->get_page_identifier(),
-				$this->get_admin_page_handler(),
+				$this->get_admin_page_callback(),
 				WPSEO_Utils::get_icon_svg(),
 				'99.31337'
 			);
@@ -78,12 +78,11 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	 * @param array $submenu_pages List of submenu pages.
 	 */
 	protected function register_menu_pages( $submenu_pages ) {
-		// Loop through submenu pages and add them.
-		if ( ! is_array( $submenu_pages ) ) {
+		if ( ! is_array( $submenu_pages ) || $submenu_pages === array() ) {
 			return;
 		}
 
-
+		// Loop through submenu pages and add them.
 		foreach ( $submenu_pages as $submenu_page ) {
 			if ( $submenu_page[3] === $this->get_manage_options_cap() ) {
 				continue;
@@ -95,67 +94,11 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 				$submenu_page[2],
 				$submenu_page[3],
 				$submenu_page[4],
-				$this->get_admin_page_handler(),
+				$this->get_admin_page_callback(),
 				WPSEO_Utils::get_icon_svg(),
 				'99.31337'
 			);
 		}
-	}
-
-	/**
-	 * Returns the capability that is required to manage all options.
-	 *
-	 * @return string Capability to check against.
-	 */
-	protected function get_manage_options_cap() {
-		/**
-		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
-		 *
-		 * @api string unsigned The capability
-		 */
-		return (string) apply_filters( 'wpseo_manage_options_capability', 'wpseo_manage_options' );
-	}
-
-	/**
-	 * Returns the page handler callback.
-	 *
-	 * @return array Callback page handler.
-	 */
-	protected function get_admin_page_handler() {
-		return array( $this->menu, 'load_page' );
-	}
-
-	/**
-	 * Returns the page title to use for the licenses page.
-	 *
-	 * @return string The title for the license page.
-	 */
-	protected function get_license_page_title() {
-		static $title = null;
-
-		if ( $title === null ) {
-			$title = __( 'Premium', 'wordpress-seo' );
-		}
-
-		return $title;
-	}
-
-	/**
-	 * Returns the notification count in HTML format.
-	 *
-	 * @return string The notification count in HTML format.
-	 */
-	protected function get_notification_counter() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_count  = $notification_center->get_notification_count();
-
-		// Add main page.
-		/* translators: %s: number of notifications */
-		$notifications = sprintf( _n( '%s notification', '%s notifications', $notification_count, 'wordpress-seo' ), number_format_i18n( $notification_count ) );
-
-		$counter = sprintf( '<span class="update-plugins count-%1$d"><span class="plugin-count" aria-hidden="true">%1$d</span><span class="screen-reader-text">%2$s</span></span>', $notification_count, $notifications );
-
-		return $counter;
 	}
 
 	/**
@@ -196,15 +139,15 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Creates a submenu formatted array.
 	 *
-	 * @param string $page_title Page title to use.
-	 * @param string $page_slug  Page slug to use.
-	 * @param null   $callback   Optional. Callback which handles the page request.
-	 * @param null   $hook       Optional. Hook to trigger when the page is registered.
+	 * @param string     $page_title Page title to use.
+	 * @param string     $page_slug  Page slug to use.
+	 * @param callable   $callback   Optional. Callback which handles the page request.
+	 * @param callable[] $hook       Optional. Hook to trigger when the page is registered.
 	 *
 	 * @return array Formatted submenu.
 	 */
 	protected function get_submenu_page( $page_title, $page_slug, $callback = null, $hook = null ) {
-		$callback = ( $callback === null ) ? $this->get_admin_page_handler() : $callback;
+		$callback = ( $callback === null ) ? $this->get_admin_page_callback() : $callback;
 
 		return array(
 			$this->menu->get_page_identifier(),
@@ -225,13 +168,12 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function register_submenu_pages( $submenu_pages ) {
-		// Loop through submenu pages and add them.
-		if ( ! is_array( $submenu_pages ) ) {
+		if ( ! is_array( $submenu_pages ) || $submenu_pages === array() ) {
 			return;
 		}
 
+		// Loop through submenu pages and add them.
 		foreach ( $submenu_pages as $submenu_page ) {
-
 			$page_title = $submenu_page[2];
 
 			// We cannot use $submenu_page[1] because add-ons define that, so hard-code this value.
@@ -259,6 +201,24 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Returns the notification count in HTML format.
+	 *
+	 * @return string The notification count in HTML format.
+	 */
+	protected function get_notification_counter() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_count  = $notification_center->get_notification_count();
+
+		// Add main page.
+		/* translators: %s: number of notifications */
+		$notifications = sprintf( _n( '%s notification', '%s notifications', $notification_count, 'wordpress-seo' ), number_format_i18n( $notification_count ) );
+
+		$counter = sprintf( '<span class="update-plugins count-%1$d"><span class="plugin-count" aria-hidden="true">%1$d</span><span class="screen-reader-text">%2$s</span></span>', $notification_count, $notifications );
+
+		return $counter;
+	}
+
+	/**
 	 * Converts any `manage_options` to `wpseo_manage_options`.
 	 *
 	 * This is needed as the module plugins are not updated with the new capabilities directly,
@@ -276,5 +236,43 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		return $submenu_pages;
+	}
+
+	/**
+	 * Returns the capability that is required to manage all options.
+	 *
+	 * @return string Capability to check against.
+	 */
+	protected function get_manage_options_cap() {
+		/**
+		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
+		 *
+		 * @api string unsigned The capability
+		 */
+		return (string) apply_filters( 'wpseo_manage_options_capability', 'wpseo_manage_options' );
+	}
+
+	/**
+	 * Returns the page handler callback.
+	 *
+	 * @return array Callback page handler.
+	 */
+	protected function get_admin_page_callback() {
+		return array( $this->menu, 'load_page' );
+	}
+
+	/**
+	 * Returns the page title to use for the licenses page.
+	 *
+	 * @return string The title for the license page.
+	 */
+	protected function get_license_page_title() {
+		static $title = null;
+
+		if ( $title === null ) {
+			$title = __( 'Premium', 'wordpress-seo' );
+		}
+
+		return $title;
 	}
 }
