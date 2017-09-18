@@ -5,16 +5,16 @@ exports[`the BaseButton matches the snapshot 1`] = `
   className="sc-bdVaJa bJbZBf"
 >
   <span
-    className="sc-bwzfXH gpLKCA"
+    className="undefined-part sc-bwzfXH gpLKCA"
   />
   <span
-    className="sc-bwzfXH gKBHnT"
+    className="undefined-part sc-bwzfXH gKBHnT"
   />
   <span
-    className="sc-bwzfXH kTBlxh"
+    className="undefined-part sc-bwzfXH kTBlxh"
   />
   <span
-    className="sc-bwzfXH cNtiMG"
+    className="undefined-part sc-bwzfXH cNtiMG"
   />
 </div>
 `;
