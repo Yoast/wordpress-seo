@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Menu
+ */
 
 /**
  * Normalize submenu capabilities to `wpseo_manage_options`
