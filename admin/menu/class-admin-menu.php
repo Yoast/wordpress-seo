@@ -237,7 +237,13 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	 * @return string Capability to check against.
 	 */
 	protected function get_manage_capability() {
-		return 'wpseo_manage_options';
+		/**
+		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
+		 *
+		 * @deprecated 5.5
+		 * @api string unsigned The capability
+		 */
+		return apply_filters_deprecated( 'wpseo_manage_options_capability', array( 'wpseo_manage_options' ), 'WPSEO 5.5.0', false,'Use the introduced wpseo_manage_options capability instead.' );
 	}
 
 	/**
