@@ -21,7 +21,7 @@
 	let addedNotifications = [];
 
 	/**
-	 * Adds the given notification to the dom, when it doesn't exists already.
+	 * Adds the given notification to the DOM if it doesn't already exist.
 	 *
 	 * @param {string} notification The notification to add.
 	 *
@@ -36,10 +36,10 @@
 	}
 
 	/**
-	 * Show notification to user when there's a redirect created.
+	 * Shows notification to user when a redirect is created.
 	 *
-	 * When the response is empty, up the notification counter with 1, wait 100 ms and call function again.
-	 * Stop when the notification counter is bigger than 20.
+	 * When the response is empty, up the notification counter with 1, wait 500 ms and call the function again.
+	 * Stops when the notification counter is more than 20.
 	 *
 	 * @returns {void}
 	 */
@@ -67,11 +67,11 @@
 	}
 
 	/**
-	 * Gets the current post or term id.
+	 * Gets the current post or term ID.
 	 *
 	 * Returns an empty string if no editor is currently active.
 	 *
-	 * @param {Object} editor The editor to get the id from.
+	 * @param {Object} editor The editor to get the ID from.
 	 *
 	 * @returns {string} The ID of the current post or term.
 	 */

@@ -239,7 +239,7 @@ class Yoast_Notification {
 	/**
 	 * Renders the notification as a string.
 	 *
-	 * @return string The rendered notification
+	 * @return string The rendered notification.
 	 */
 	public function render() {
 		$attributes = array();
