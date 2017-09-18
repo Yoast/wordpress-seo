@@ -230,26 +230,6 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Converts any `manage_options` to `wpseo_manage_options`.
-	 *
-	 * This is needed as the module plugins are not updated with the new capabilities directly,
-	 * but they should not be shown as main menu items.
-	 *
-	 * @param array $submenu_pages List of subpages to convert.
-	 *
-	 * @return array Converted subpages.
-	 */
-	protected function ensure_wpseo_capability( $submenu_pages ) {
-		foreach ( $submenu_pages as $index => $submenu_page ) {
-			if ( $submenu_page[3] === 'manage_options' ) {
-				$submenu_pages[ $index ][3] = 'wpseo_manage_options';
-			}
-		}
-
-		return $submenu_pages;
-	}
-
-	/**
 	 * Returns the capability that is required to manage all options.
 	 *
 	 * @return string Capability to check against.
