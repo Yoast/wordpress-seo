@@ -1,3 +1,5 @@
+/* global wpseoDashboardWidgetL10n, wpseoApi, jQuery */
+
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -39,62 +41,73 @@ class DashboardWidget extends React.Component {
 
 	/**
 	 * Fetches data from the statistics endpoint, parses it and sets it to the state.
+	 *
+	 * @returns {void}
 	 */
 	getStatistics() {
-		let self = this;
+		let that = this;
 
-		wpseoApi.get( 'statistics', function ( statistics ) {
-			statistics.seo_scores = statistics.seo_scores.map( function ( score ) {
+		wpseoApi.get( "statistics", function( raw ) {
+			let statistics = {};
+
+			statistics.seoScores = raw.seo_scores.map( function( score ) {
 				return {
-					value: parseInt( score.count ),
+					value: parseInt( score.count, 10 ),
 					color: DashboardWidget.getColorFromScore( score.seo_rank ),
 					html: `<a href="${ score.link }">${ score.label }</a>`,
 				};
 			} );
 
 			// Wrap in a div and get the text to HTML decode.
-			statistics.header = jQuery( `<div>${ statistics.header }</div>` ).text();
+			statistics.header = jQuery( `<div>${ raw.header }</div>` ).text();
 
-			self.setState( { statistics } );
+			that.setState( { statistics } );
 		} );
 	}
 
 	/**
 	 * Fetches data from the ryte endpoint, parses it and sets it to the state.
+	 *
+	 * @returns {void}
 	 */
 	getRyte() {
-		let self = this;
+		let that = this;
 
-		wpseoApi.get( 'ryte', function ( raw ) {
+		wpseoApi.get( "ryte", function( raw ) {
 			let ryte = {
 				scores: [ {
 					color: DashboardWidget.getColorFromScore( raw.onpage.score ),
-					html:  raw.onpage.label,
+					html: raw.onpage.label,
 				} ],
-				can_fetch: raw.onpage.can_fetch,
+				canFetch: raw.onpage.can_fetch,
 			};
 
-			self.setState( { ryte } );
+			that.setState( { ryte } );
 		} );
 	}
 
 	/**
 	 * Fetches data from the yoast.com feed, parses it and sets it to the state.
+	 *
+	 * @returns {void}
 	 */
 	getFeed() {
-		let self = this;
+		let that = this;
 
 		getFeed( "https://www.yoast.com/feed", 2 )
-			.then( function ( feed ) {
-				feed.items = feed.items.map( function ( item ) {
+			.then( function( feed ) {
+				feed.items = feed.items.map( function( item ) {
 					item.description = jQuery( `<div>${ item.description }</div>` ).text();
 					item.content = jQuery( `<div>${ item.content }</div>` ).text();
 
 					return item;
 				} );
-				self.setState( { feed } );
+
+				that.setState( { feed } );
 			} )
-			.catch( function () { /* Don't render the component. */ } );
+			.catch( function() {
+				// Don't trigger any change, the component won't be rendered.
+			} );
 	}
 
 	/**
@@ -109,7 +122,7 @@ class DashboardWidget extends React.Component {
 
 		return <SeoAssessment key="yoast-seo-posts-assessment"
 			seoAssessmentText={ this.state.statistics.header }
-			seoAssessmentItems={ this.state.statistics.seo_scores }/>
+			seoAssessmentItems={ this.state.statistics.seoScores }/>;
 	}
 
 	/**
@@ -127,10 +140,10 @@ class DashboardWidget extends React.Component {
 				<h3>{ wpseoDashboardWidgetL10n.ryte_header }</h3>
 				<ScoreAssessments items={ this.state.ryte.scores }/>
 				<div>
-					{ this.state.ryte.can_fetch &&
-					  <a className="fetch-status button" href={ wpseoDashboardWidgetL10n.ryte_fetch_url }>
-						  { wpseoDashboardWidgetL10n.ryte_fetch }
-					  </a>
+					{ this.state.ryte.canFetch &&
+						<a className="fetch-status button" href={ wpseoDashboardWidgetL10n.ryte_fetch_url }>
+							{ wpseoDashboardWidgetL10n.ryte_fetch }
+						</a>
 					}
 					<a className="landing-page button" href={ wpseoDashboardWidgetL10n.ryte_landing_url } target="_blank">
 						{ wpseoDashboardWidgetL10n.ryte_analyze }
@@ -175,7 +188,7 @@ class DashboardWidget extends React.Component {
 
 		return (
 			<div>
-				{ contents.reduce( function ( list, component, i ) {
+				{ contents.reduce( function( list, component, i ) {
 					if ( list === null ) {
 						return [ component ];
 					}
