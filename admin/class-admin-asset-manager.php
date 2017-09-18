@@ -306,10 +306,16 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'quick-edit-handler',
 				'src'  => 'wp-seo-quick-edit-handler-' . $flat_version,
-				'deps' => array(
-					'jquery',
-				),
+				'deps' => array( 'jquery' ),
 				'in_footer' => true,
+      ),
+      array(
+				'name' => 'api',
+				'src'  => 'wp-seo-api-' . $flat_version,
+				'deps' => array(
+          'wp-api', 
+          'jquery'
+        ),
 			),
 		);
 	}

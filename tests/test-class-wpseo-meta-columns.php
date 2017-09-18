@@ -184,9 +184,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 			array(
 				array(),
 				array(),
-				array(
-					'meta_query' => array()
-				)
+				array()
 			),
 
 			array(

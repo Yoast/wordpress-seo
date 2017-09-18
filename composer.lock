@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "05d8808126e12f939f8e85f0ad5d7b79",
+    "content-hash": "4bd677878629f98e0f720bd67116ff81",
     "packages": [
         {
             "name": "composer/installers",
@@ -191,16 +191,16 @@
         },
         {
             "name": "yoast/i18n-module",
-            "version": "2.0.1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "c08da78bba4747dff960e31dda2be46aae6b30e8"
+                "reference": "76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/c08da78bba4747dff960e31dda2be46aae6b30e8",
-                "reference": "c08da78bba4747dff960e31dda2be46aae6b30e8",
+                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c",
+                "reference": "76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c",
                 "shasum": ""
             },
             "type": "library",
@@ -225,7 +225,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-02-02T11:32:53+00:00"
+            "time": "2017-09-06T07:17:52+00:00"
         },
         {
             "name": "yoast/license-manager",
@@ -566,7 +566,7 @@
             ],
             "authors": [
                 {
-                    "name": "Padraic Brady",
+                    "name": "Pádraic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
                 }

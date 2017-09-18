@@ -20,6 +20,59 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 		if ( $this->get_version() === self::VERSION_BACKWARDS_COMPATIBILITY ) {
 			add_filter( 'yoast-license-valid', '__return_true' );
 			add_filter( 'yoast-show-license-notice', '__return_false' );
+			add_action( 'admin_init', array( $this, 'validate_extensions' ), 15 );
+		}
+		else {
+			add_action( 'admin_init', array( $this, 'remove_faulty_notifications' ), 15 );
+		}
+	}
+
+	/**
+	 * Validates the extensions and show a notice for the invalid extensions.
+	 */
+	public function validate_extensions() {
+
+		if ( filter_input( INPUT_GET, 'page' ) === WPSEO_Admin::PAGE_IDENTIFIER ) {
+			/**
+			 * Filter: 'yoast-active-extensions' - Collects all active extensions. This hook is implemented in the
+			 *                                     license manager.
+			 *
+			 * @api array $extensions The array with extensions.
+			 */
+			apply_filters( 'yoast-active-extensions', array() );
+		}
+
+		$extension_list = new WPSEO_Extensions();
+		$extensions = $extension_list->get();
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		foreach ( $extensions as $product_name ) {
+			$notification = $this->create_notification( $product_name );
+
+			// Add a notification when the installed plugin isn't activated in My Yoast.
+			if ( $extension_list->is_installed( $product_name ) && ! $extension_list->is_valid( $product_name ) ) {
+				$notification_center->add_notification( $notification );
+
+				continue;
+			}
+
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Removes the faulty set notifications.
+	 */
+	public function remove_faulty_notifications() {
+		$extension_list = new WPSEO_Extensions();
+		$extensions = $extension_list->get();
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		foreach ( $extensions as $product_name ) {
+			$notification = $this->create_notification( $product_name );
+			$notification_center->remove_notification( $notification );
 		}
 	}
 
@@ -122,5 +175,32 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 		$is_edd_api   = ( isset( $url_parts['path'] ) && $url_parts['path'] === '/edd-sl-api' );
 
 		return $is_yoast_com && $is_edd_api;
+	}
+
+	/**
+	 * Creates an instance of Yoast_Notification
+	 *
+	 * @param string $product_name The product to create the notification for.
+	 *
+	 * @return Yoast_Notification The created notification.
+	 */
+	protected function create_notification( $product_name ) {
+		$notification_options = array(
+			'type'         => Yoast_Notification::ERROR,
+			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name,  null, 'save' ),
+			'capabilities' => 'manage_options',
+		);
+
+		$notification = new Yoast_Notification(
+		/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
+			sprintf(
+				__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
+				$product_name,
+				'<a href="https://yoa.st/13j" target="_blank">My Yoast</a>'
+			),
+			$notification_options
+		);
+
+		return $notification;
 	}
 }
