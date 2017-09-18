@@ -164,6 +164,9 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers the submenu pages.
 	 *
+	 * This is only done when the user has the `wpseo_manage_options` capability.
+	 * Thus all capabilities can be set to this capability.
+	 *
 	 * @param array $submenu_pages List of submenu pages to register.
 	 *
 	 * @return void
