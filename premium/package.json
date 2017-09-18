@@ -53,6 +53,7 @@
   "dependencies": {
     "a11y-speak": "github:yoast/a11y-speak",
     "babel-polyfill": "^6.16.0",
+    "concat-map": "^0.0.1",
     "interpolate-components": "^1.1.0",
     "lodash": "^4.7.0",
     "react": "^15.3.1",
