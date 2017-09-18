@@ -31,14 +31,36 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
+	 * Catches possible posted filter values and redirects it to a GET-request.
+	 *
+	 * It catches:
+	 * A search post.
+	 * A redirect-type filter.
+	 *
 	 * Catch the redirects search post and redirect it to a search get
 	 */
 	public function list_table_search() {
-		if ( ( $search_string = filter_input( INPUT_POST, 's' ) ) !== null ) {
-			$url = ( $search_string !== '' ) ? add_query_arg( 's', urlencode( $search_string ) ) : remove_query_arg( 's' );
+		$url = filter_input( INPUT_SERVER, 'REQUEST_URI' );
+		$new_url = $url;
 
+		$filter = filter_input( INPUT_POST, 'redirect-type' );
+		if ( $filter !== null ) {
+			$new_url = remove_query_arg( 'redirect-type', $new_url );
+			if ( $filter !== '0' ) {
+				$new_url = add_query_arg( 'redirect-type', rawurlencode( $filter ), $new_url );
+			}
+		}
+
+		if ( ( $search_string = filter_input( INPUT_POST, 's' ) ) !== null ) {
+			$new_url = remove_query_arg( 's', $new_url );
+			if ( $search_string !== '' ) {
+				$new_url = add_query_arg( 's', rawurlencode( $search_string ), $new_url );
+			}
+		}
+
+		if ( $url !== $new_url ) {
 			// Do the redirect.
-			wp_redirect( $url );
+			wp_safe_redirect( $new_url );
 			exit;
 		}
 	}

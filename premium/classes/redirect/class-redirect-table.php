@@ -17,6 +17,11 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public $items;
 
+	/** @var array */
+	protected $filter = array(
+		'redirect_type' => null,
+	);
+
 	/**
 	 * @var string The name of the first column
 	 */
@@ -47,6 +52,45 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$this->set_items( $redirects );
 
 		add_filter( 'list_table_primary_column', array( $this, 'redirect_list_table_primary_column' ), 10, 2 );
+	}
+
+	/**
+	 * Renders the extra table navigation.
+	 *
+	 * @param string $which Which tablenav is called.
+	 *
+	 * @return void
+	 */
+	public function extra_tablenav( $which ) {
+		if ( $which !== 'top' ) {
+			return;
+		}
+
+		$selected = filter_input( INPUT_GET, 'redirect-type' );
+		if ( ! $selected  ) {
+			$selected = 0;
+		}
+
+		?>
+		<label for="filter-by-redirect" class="screen-reader-text"><?php _e( 'Filter by redirect type', 'wordpress-seo-premium' ); ?></label>
+		<select name="redirect-type" id="filter-by-redirect">
+			<option<?php selected( $selected, 0 ); ?> value="0"><?php _e( 'All redirect types', 'wordpress-seo-premium' ); ?></option>
+			<?php
+			$redirect_types = new WPSEO_Redirect_Types;
+
+			foreach ( $redirect_types->get() as $http_code => $redirect_type ) {
+				printf( "<option %s value='%s'>%s</option>\n",
+					selected( $selected, $http_code, false ),
+					esc_attr( $http_code ),
+					$redirect_type
+				);
+			}
+			?>
+		</select>
+
+		<?php
+
+		submit_button( __( 'Filter', 'wordpress-seo-premium' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 	}
 
 	/**
@@ -261,8 +305,16 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		// Getting the items.
 		$this->items = $items;
 
-		if ( ( $search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) ) ) !== '' ) {
+		$search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
+		if ( $search_string !== '' ) {
 			$this->do_search( $search_string );
+		}
+
+		$redirect_type = (int) filter_input( INPUT_GET, 'redirect-type' );
+		if ( ! empty( $redirect_type )  ) {
+
+			$this->filter['redirect_type'] = $redirect_type;
+			$this->items = array_filter( $this->items, array( $this, 'filter_by_type' ) );
 		}
 
 		$this->format_items();
@@ -310,6 +362,18 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		}
 
 		$this->items = $results;
+	}
+
+	/**
+	 * Filters the redirect by redirect type.
+	 *
+	 * @param WPSEO_Redirect $redirect The redirect to filter.
+	 *
+	 *
+	 * @return bool True when type matches redirect type.
+	 */
+	private function filter_by_type( WPSEO_Redirect $redirect ) {
+		return $redirect->get_type() === $this->filter['redirect_type'];
 	}
 
 	/**
