@@ -60,13 +60,13 @@ class WPSEO_Configuration_Structure {
 		) );
 		$this->add_step( 'newsletter', __( 'Newsletter', 'wordpress-seo' ), array(
 			'mailchimpSignup',
-		) );
+		), true, true );
 		$this->add_step( 'suggestions', __( 'You might like', 'wordpress-seo' ), array(
 			'suggestions'
-		) );
+		), true, true );
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), array(
 			'successMessage',
-		) );
+		), true, true );
 	}
 
 	/**
