@@ -134,7 +134,7 @@ class WPSEO_Statistics_Service {
 		$total = max( $total, 1 );
 
 		foreach ( $scores as $score ) {
-			$division[ $score['seo_rank'] ] = $score['count'] / $total;
+			$division[ $score['seo_rank'] ] = ( $score['count'] / $total );
 		}
 
 		return $division;
