@@ -8,25 +8,17 @@
  */
 final class WPSEO_Capability_Manager_VIP extends WPSEO_Abstract_Capability_Manager {
 	/**
-	 * Adds the registerd capabilities to the system.
+	 * Adds the registered capabilities to the system.
 	 *
 	 * @return void
 	 */
 	public function add() {
-		$add_role_caps = array();
+		$role_capabilities = array();
 		foreach ( $this->capabilities as $capability => $roles ) {
-			// Allow filtering of roles.
-			$filtered_roles = $this->filter_roles( $capability, $roles );
-
-			foreach ( $filtered_roles as $role ) {
-				if ( ! isset( $add_role_caps[ $role ] ) ) {
-					$add_role_caps[ $role ] = array();
-				}
-				$add_role_caps[ $role ][] = $capability;
-			}
+			$role_capabilities = $this->get_role_capabilities( $role_capabilities, $capability, $roles );
 		}
 
-		foreach ( $add_role_caps as $role => $capabilities ) {
+		foreach ( $role_capabilities as $role => $capabilities ) {
 			wpcom_vip_add_role_caps( $role, array( $capabilities ) );
 		}
 	}
@@ -41,21 +33,38 @@ final class WPSEO_Capability_Manager_VIP extends WPSEO_Abstract_Capability_Manag
 		$roles = wp_roles()->get_names();
 		$roles = array_keys( $roles );
 
-		$add_role_caps = array();
-		foreach ( $this->capabilities as $capability => $_roles ) {
+		$role_capabilities = array();
+		foreach ( array_keys( $this->capabilities ) as $capability ) {
 			// Allow filtering of roles.
-			$filtered_roles = $this->filter_roles( $capability, $roles );
-
-			foreach ( $filtered_roles as $role ) {
-				if ( ! isset( $add_role_caps[ $role ] ) ) {
-					$add_role_caps[ $role ] = array();
-				}
-				$add_role_caps[ $role ][] = $capability;
-			}
+			$role_capabilities = $this->get_role_capabilities( $role_capabilities, $capability, $roles );
 		}
 
-		foreach ( $add_role_caps as $role => $capabilities ) {
+		foreach ( $role_capabilities as $role => $capabilities ) {
 			wpcom_vip_remove_role_caps( $role, array( $capabilities ) );
 		}
+	}
+
+	/**
+	 * Returns the roles which the capability is registered on.
+	 *
+	 * @param array  $role_capabilities List of all roles with their capabilities.
+	 * @param string $capability        Capability to filter roles for.
+	 * @param array  $roles             List of default roles.
+	 *
+	 * @return array List of capabilities.
+	 */
+	protected function get_role_capabilities( $role_capabilities, $capability, $roles ) {
+		// Allow filtering of roles.
+		$filtered_roles = $this->filter_roles( $capability, $roles );
+
+		foreach ( $filtered_roles as $role ) {
+			if ( ! isset( $add_role_caps[ $role ] ) ) {
+				$role_capabilities[ $role ] = array();
+			}
+
+			$role_capabilities[ $role ][] = $capability;
+		}
+
+		return $role_capabilities;
 	}
 }

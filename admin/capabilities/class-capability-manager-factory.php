@@ -4,7 +4,7 @@
  */
 
 /**
- * Capability Manager Factory
+ * Capability Manager Factory.
  */
 class WPSEO_Capability_Manager_Factory {
 	/**
@@ -15,7 +15,7 @@ class WPSEO_Capability_Manager_Factory {
 	public static function get() {
 		static $manager = null;
 
-		if ( null === $manager ) {
+		if ( $manager === null ) {
 			if ( function_exists( 'wpcom_vip_add_role_caps' ) ) {
 				$manager = new WPSEO_Capability_Manager_VIP();
 			}

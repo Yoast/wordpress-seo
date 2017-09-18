@@ -4,7 +4,7 @@
  */
 
 /**
- * WordPress default implementatino of the Role Manager.
+ * WordPress' default implementation of the Role Manager.
  */
 final class WPSEO_Role_Manager_WP extends WPSEO_Abstract_Role_Manager {
 
@@ -21,10 +21,9 @@ final class WPSEO_Role_Manager_WP extends WPSEO_Abstract_Role_Manager {
 		$wp_role = get_role( $role );
 		if ( $wp_role ) {
 			foreach ( $capabilities as $capability => $grant ) {
-
-
 				$wp_role->add_cap( $capability, $grant );
 			}
+
 			return;
 		}
 
@@ -33,7 +32,7 @@ final class WPSEO_Role_Manager_WP extends WPSEO_Abstract_Role_Manager {
 	}
 
 	/**
-	 * Removes a role from the system
+	 * Removes a role from the system.
 	 *
 	 * @param string $role Role to remove.
 	 *
@@ -47,9 +46,9 @@ final class WPSEO_Role_Manager_WP extends WPSEO_Abstract_Role_Manager {
 	 * Formats the capabilities to the required format.
 	 *
 	 * @param array $capabilities Capabilities to format.
-	 * @param bool  $enabled      Should this capability be enabled.
+	 * @param bool  $enabled      Whether these capabilities should be enabled or not.
 	 *
-	 * @return array
+	 * @return array Formatted capabilities.
 	 */
 	protected function format_capabilities( array $capabilities, $enabled = true ) {
 		// Flip keys and values.

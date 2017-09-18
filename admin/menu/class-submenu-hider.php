@@ -9,7 +9,7 @@
 class WPSEO_Submenu_Hider implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
 		add_filter( 'wpseo_submenu_pages', array( $this, 'filter_settings_pages' ) );
@@ -32,6 +32,7 @@ class WPSEO_Submenu_Hider implements WPSEO_WordPress_Integration {
 		$pages_to_hide = WPSEO_Advanced_Settings::get_advanced_pages();
 		$page          = filter_input( INPUT_GET, 'page' );
 
+		// If we are on the advanced settings page, don't hide this page from the list of items to display.
 		if ( WPSEO_Advanced_Settings::is_advanced_settings_page( $page ) ) {
 			$pages_to_hide = $this->unhide_page( $pages_to_hide, $page );
 		}

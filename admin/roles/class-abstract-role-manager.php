@@ -13,7 +13,7 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	/**
 	 * Registers a role.
 	 *
-	 * @param string      $role         Role to add.
+	 * @param string      $role         Role to register.
 	 * @param string      $display_name Display name to use.
 	 * @param null|string $template     Optional. Role to base the new role on.
 	 *
@@ -95,15 +95,15 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	/**
 	 * Filters out capabilities that are already set for the role.
 	 *
-	 * This makes sure we don't override configuration that has been done previously.
+	 * This makes sure we don't override configurations that have been previously set.
 	 *
 	 * @param string $role         The role to check against.
-	 * @param array  $capabilities The capabilties that are going to be set.
+	 * @param array  $capabilities The capabilities that should be set.
 	 *
 	 * @return array Capabilties that can be safely set.
 	 */
 	protected function filter_existing_capabilties( $role, array $capabilities ) {
-		if ( array() === $capabilities ) {
+		if ( $capabilities === array() ) {
 			return $capabilities;
 		}
 

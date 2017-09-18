@@ -10,11 +10,11 @@ interface WPSEO_Capability_Manager {
 	/**
 	 * Registers a capability.
 	 *
-	 * @param string $capability Capability to add.
+	 * @param string $capability Capability to register.
 	 * @param array  $roles      Roles to add the capability to.
-	 * @param bool   $add        Optional. Use add or overwrite as registration method.
+	 * @param bool   $overwrite  Optional. Use add or overwrite as registration method.
 	 */
-	public function register( $capability, array $roles, $add = true );
+	public function register( $capability, array $roles, $overwrite = false );
 
 	/**
 	 * Adds the registerd capabilities to the system.
@@ -22,14 +22,14 @@ interface WPSEO_Capability_Manager {
 	public function add();
 
 	/**
-	 * Removes the registered capabilities from the system
+	 * Removes the registered capabilities from the system.
 	 */
 	public function remove();
 
 	/**
-	 * Returns the list of registered capabilities
+	 * Returns the list of registered capabilities.
 	 *
-	 * @return string[] List of registered capabilities
+	 * @return string[] List of registered capabilities.
 	 */
 	public function get_capabilities();
 }

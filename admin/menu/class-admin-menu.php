@@ -11,7 +11,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	protected $menu;
 
 	/**
-	 * Constructs the Admin Menu
+	 * Constructs the Admin Menu.
 	 *
 	 * @param WPSEO_Menu $menu Menu to use.
 	 */
@@ -20,7 +20,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
 	 *
 	 * @return void
 	 */
@@ -35,11 +35,11 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	public function register_settings_page() {
 		$can_manage_options = WPSEO_Capability_Utils::current_user_can( $this->get_manage_options_cap() );
 
-		/*
-		 * If the current user has the capability to control anything.
-		 * This means that all submenus and dashboard can be shown.
-		 */
 		if ( $can_manage_options ) {
+			/*
+			 * The current user has the capability to control anything.
+			 * This means that all submenus and dashboard can be shown.
+			 */
 			global $admin_page_hooks;
 
 			add_menu_page(
@@ -112,7 +112,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 		/** WPSEO_Admin $wpseo_admin */
 		$admin_features = $wpseo_admin->get_admin_features();
 
-		// Sub menu pages.
+		// Submenu pages.
 		$submenu_pages = array(
 			$this->get_submenu_page( __( 'General', 'wordpress-seo' ), $this->menu->get_page_identifier() ),
 			$this->get_submenu_page( __( 'Titles &amp; Metas', 'wordpress-seo' ), 'wpseo_titles' ),
@@ -148,7 +148,9 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	 * @return array Formatted submenu.
 	 */
 	protected function get_submenu_page( $page_title, $page_slug, $callback = null, $hook = null ) {
-		$callback = ( $callback === null ) ? $this->get_admin_page_callback() : $callback;
+		if ( $callback === null ) {
+			$callback = $this->get_admin_page_callback();
+		}
 
 		return array(
 			$this->menu->get_page_identifier(),
@@ -164,8 +166,8 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers the submenu pages.
 	 *
-	 * This is only done when the user has the `wpseo_manage_options` capability.
-	 * Thus all capabilities can be set to this capability.
+	 * This is only done when the user has the `wpseo_manage_options` capability,
+	 * thus all capabilities can be set to this capability.
 	 *
 	 * @param array $submenu_pages List of submenu pages to register.
 	 *
@@ -181,7 +183,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 			$page_title = $submenu_page[2];
 
 			// We cannot use $submenu_page[1] because add-ons define that, so hard-code this value.
-			if ( 'wpseo_licenses' === $submenu_page[4] ) {
+			if ( $submenu_page[4] === 'wpseo_licenses' ) {
 				$page_title = $this->get_license_page_title();
 			}
 
@@ -190,10 +192,9 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 			/*
 			 * Add submenu page.
 			 *
-			 * If we don't register this on `wpseo_manage_options` admin users with only this capability
-			 * will not be able to see the submenus which are configured with something else.
-			 *
-			 * Thus all submenu pages are registered with the `wpseo_manage_options` capability here.
+			 * If we don't register this on `wpseo_manage_options`, admin users with only this capability
+			 * will not be able to see the submenus which are configured with something else,
+			 * thus all submenu pages are registered with the `wpseo_manage_options` capability here.
 			 */
 			$admin_page = add_submenu_page( $submenu_page[0], $page_title, $submenu_page[2], $this->get_manage_options_cap(), $submenu_page[4], $submenu_page[5] );
 
@@ -205,6 +206,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 			}
 		}
 
+		// Use WordPress global $submenu to directly access it's properties.
 		global $submenu;
 		if ( isset( $submenu[ $this->menu->get_page_identifier() ] ) && WPSEO_Capability_Utils::current_user_can( $this->get_manage_options_cap() ) ) {
 			$submenu[ $this->menu->get_page_identifier() ][0][0] = __( 'Dashboard', 'wordpress-seo' );

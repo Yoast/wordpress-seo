@@ -15,7 +15,7 @@ class WPSEO_Role_Manager_Factory {
 	public static function get() {
 		static $manager = null;
 
-		if ( null === $manager ) {
+		if ( $manager === null ) {
 			if ( function_exists( 'wpcom_vip_add_role' ) ) {
 				$manager = new WPSEO_Role_Manager_VIP();
 			}

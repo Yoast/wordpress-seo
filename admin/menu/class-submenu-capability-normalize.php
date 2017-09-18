@@ -4,7 +4,7 @@
  */
 
 /**
- * Normalize submenu capabilities to `wpseo_manage_options`
+ * Normalize submenu capabilities to `wpseo_manage_options`.
  */
 class WPSEO_Submenu_Capability_Normalize implements WPSEO_WordPress_Integration {
 
@@ -18,7 +18,7 @@ class WPSEO_Submenu_Capability_Normalize implements WPSEO_WordPress_Integration 
 	}
 
 	/**
-	 * Converts any `manage_options` to `wpseo_manage_options`.
+	 * Normalizes any `manage_options` to `wpseo_manage_options`.
 	 *
 	 * This is needed as the module plugins are not updated with the new capabilities directly,
 	 * but they should not be shown as main menu items.
