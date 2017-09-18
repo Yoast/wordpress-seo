@@ -1,8 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+
 import colors from "../../../../style-guide/colors.json";
 import { rgba } from "../../../../style-guide/helpers";
+
+const settings = {
+	minHeight: 48,
+	verticalPadding: 0,
+	borderWidth: 0,
+};
+
+const ieMinHeight = settings.minHeight - ( settings.verticalPadding * 2 ) - ( settings.borderWidth * 2 );
 
 /**
  * Returns a component with a Yoast button-like style.
@@ -20,9 +29,10 @@ export function addButtonStyles( component ) {
 		align-items: center;
 		justify-content: center;
 		vertical-align: middle;
-		height: 48px;
+		min-height: ${ `${ settings.minHeight }px` };
 		margin: 0;
 		padding: 0 16px;
+		padding: ${ `${ settings.verticalPadding }px` } 16px;
 		border: 0;
 		border-radius: 4px;
 		box-sizing: border-box;
@@ -49,6 +59,15 @@ export function addButtonStyles( component ) {
 			align-items: inherit;
 			justify-content: inherit;
 			width: 100%;
+		}
+
+		// Only needed for IE 10+.
+		@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+			::after {
+				display: inline-block;
+				content: "";
+				min-height: ${ `${ ieMinHeight }px` };
+			}
 		}
 	`;
 }

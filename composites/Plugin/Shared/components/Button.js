@@ -48,8 +48,8 @@ export function addBaseStyle( component ) {
 			align-self: center;
 		}
 
+		// Only needed for IE 10+.
 		@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-			// IE 10+
 			::after {
 				display: inline-block;
 				content: "";
