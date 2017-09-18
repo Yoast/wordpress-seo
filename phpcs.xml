@@ -24,7 +24,9 @@
     </rule>
 
 	<rule ref="WordPress.WP.I18n">
-		<properties>
+        <exclude-pattern>premium/</exclude-pattern>
+
+        <properties>
 			<property name="text_domain" value="wordpress-seo" />
 		</properties>
 	</rule>

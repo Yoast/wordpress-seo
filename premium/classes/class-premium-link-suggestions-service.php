@@ -182,13 +182,13 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	/**
 	 * Compares post counts for use in usort.
 	 *
-	 * @param array $postA An associative array with a post object and a post count.
-	 * @param array $postB An associative array with a post object and a post count.
+	 * @param array $post_a An associative array with a post object and a post count.
+	 * @param array $post_b An associative array with a post object and a post count.
 	 *
 	 * @return int -1 if $a has a higher count, 0 if $a and $b have an identical count, 1 if $b has a higher count.
 	 */
-	private function compare_post_count( $postA, $postB ) {
-		return ( $postB['count'] - $postA['count'] );
+	private function compare_post_count( $post_a, $post_b ) {
+		return ( $post_b['count'] - $post_a['count'] );
 	}
 
 	/**
