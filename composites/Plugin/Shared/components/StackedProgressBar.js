@@ -33,9 +33,12 @@ const StackedProgressBar = ( props ) => {
 	}
 
 	return(
-		<StackedProgressBarContainer barHeight={ props.barHeight }>
+		<StackedProgressBarContainer
+			className={ props.className }
+			barHeight={ props.barHeight }>
 			{ props.items.map( ( item, index ) =>
 				<StackedProgressBarProgress
+					className={ `${ props.className}-part` }
 					key={ index }
 					progressColor={ item.color }
 					progressWidth={ item.value / totalValue * 100 }/>
@@ -45,6 +48,7 @@ const StackedProgressBar = ( props ) => {
 };
 
 StackedProgressBar.propTypes = {
+	className: PropTypes.string,
 	items: PropTypes.arrayOf(
 		PropTypes.shape( {
 			value: PropTypes.number.isRequired,
