@@ -30,7 +30,7 @@ const SeoAssessment = ( props ) => {
 		<SeoAssessmentContainer
 			className={ props.className }>
 			<SeoAssessmentText
-				className={ `${ props.className }__text`}>
+				className={ `${ props.className }__text` }>
 				{ props.seoAssessmentText }
 			</SeoAssessmentText>
 			<StackedProgressBar

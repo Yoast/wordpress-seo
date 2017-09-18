@@ -76,7 +76,7 @@ const WordpressFeedListItem = ( props ) => {
 		<WordpressFeedListItemContainer
 			className={ props.className }>
 			<WordpressFeedLink
-				className={ `${props.className}-link` }
+				className={ `${ props.className }-link` }
 				href={ props.link }
 				target="_blank"
 				rel="noopener noreferrer">
@@ -85,7 +85,7 @@ const WordpressFeedListItem = ( props ) => {
 					( Opens in a new browser tab )
 				</A11yNotice>
 			</WordpressFeedLink>
-			<p className={ `${props.className}-description` }>
+			<p className={ `${ props.className }-description` }>
 				{ props.description }
 			</p>
 		</WordpressFeedListItemContainer>
@@ -115,15 +115,15 @@ const WordpressFeed = ( props ) => {
 		<WordpressFeedContainer
 			className={ props.className }>
 			<WordpressFeedHeader
-				className={ `${props.className}__header` }>
+				className={ `${ props.className }__header` }>
 				{ props.title ? props.title : props.feed.title }
 			</WordpressFeedHeader>
 			<WordpressFeedList
-				className={ `${props.className}__posts` }
+				className={ `${ props.className }__posts` }
 				role="list">
 				{ props.feed.items.map( item => (
 					<WordpressFeedListItem
-						className={ `${props.className}__post` }
+						className={ `${ props.className }__post` }
 						key={ item.link }
 						title={ item.title }
 						link={ item.link }
@@ -132,10 +132,10 @@ const WordpressFeed = ( props ) => {
 			</WordpressFeedList>
 			{ props.footerHtml &&
 				<WordpressFeedFooter
-					className={ `${props.className}__footer` }>
-					<Divider className={ `${props.className}__footer-divider` }/>
+					className={ `${ props.className }__footer` }>
+					<Divider className={ `${ props.className }__footer-divider` }/>
 					<WordpressFeedLink
-						className={ `${props.className}__footer-link` }
+						className={ `${ props.className }__footer-link` }
 						href={ props.feedLink ? props.feedLink : props.feed.link }
 						target="_blank"
 						rel="noopener noreferrer"
