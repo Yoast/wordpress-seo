@@ -27,6 +27,7 @@ module.exports = {
 			"js/dist/wp-seo-babel-polyfill-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-babel-polyfill.js" ],
 			"js/dist/wp-seo-edit-page-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-edit-page.js" ],
 			"js/dist/wp-seo-api-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-api.js" ],
+			"js/dist/wp-seo-dashboard-widget-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-dashboard-widget.js" ],
 		},
 	},
 	"release-es6": {
