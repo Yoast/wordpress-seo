@@ -184,8 +184,15 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 
 			$page_title .= ' - Yoast SEO';
 
-			// Add submenu page.
-			$admin_page = add_submenu_page( $submenu_page[0], $page_title, $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
+			/*
+			 * Add submenu page.
+			 *
+			 * If we don't register this on `wpseo_manage_options` admin users with only this capability
+			 * will not be able to see the submenus which are configured with something else.
+			 *
+			 * Thus all submenu pages are registered with the `wpseo_manage_options` capability here.
+			 */
+			$admin_page = add_submenu_page( $submenu_page[0], $page_title, $submenu_page[2], $this->get_manage_options_cap(), $submenu_page[4], $submenu_page[5] );
 
 			// Check if we need to hook.
 			if ( isset( $submenu_page[6] ) && ( is_array( $submenu_page[6] ) && $submenu_page[6] !== array() ) ) {
