@@ -18,8 +18,9 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	public $items;
 
 	/** @var array */
-	protected $filter = array(
+	private $filter = array(
 		'redirect_type' => null,
+		'search_string' => null,
 	);
 
 	/**
@@ -31,11 +32,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 * @var string The primary column
 	 */
 	private $primary_column = 'type';
-
-	/**
-	 * @var boolean Whether or not the target column has a trailing slash
-	 */
-	private $target_has_trailing_slash = null;
 
 	/**
 	 * WPSEO_Redirect_Table constructor
@@ -153,7 +149,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			'per_page'    => $per_page,
 		) );
 
-		$current_page = intval( ( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 0 ) );
+		$current_page = (int) ( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 0 );
 
 		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back.
 		$slice_start = ( $current_page - 1 );
@@ -198,7 +194,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		// If no order, default to asc.
 		$order   = filter_input( INPUT_GET, 'order', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'asc', 'regexp' => '/^(asc|desc)$/' ) ) );
 
-		$order = ( ( $order = filter_input( INPUT_GET, 'order' ) ) != '' ) ? $order : 'asc';
+		$order = ( ( $order = filter_input( INPUT_GET, 'order' ) ) !== '' ) ? $order : 'asc';
 
 		// Determine sort order.
 		$result   = strcmp( $a[ $orderby ], $b[ $orderby ] );
@@ -284,38 +280,13 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Returns whether or not the target should have a trailing slash
-	 */
-	private function has_target_trailing_slash() {
-		if ( null === $this->target_has_trailing_slash ) {
-			$permalink_structure = get_option( 'permalink_structure' );
-
-			$this->target_has_trailing_slash = substr( $permalink_structure, -1 ) === '/';
-		}
-
-		return $this->target_has_trailing_slash;
-	}
-
-	/**
 	 * Setting the items
 	 *
 	 * @param array $items The data that will be showed.
 	 */
 	private function set_items( $items ) {
 		// Getting the items.
-		$this->items = $items;
-
-		$search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
-		if ( $search_string !== '' ) {
-			$this->do_search( $search_string );
-		}
-
-		$redirect_type = (int) filter_input( INPUT_GET, 'redirect-type' );
-		if ( ! empty( $redirect_type )  ) {
-
-			$this->filter['redirect_type'] = $redirect_type;
-			$this->items = array_filter( $this->items, array( $this, 'filter_by_type' ) );
-		}
+		$this->items = $this->filter_items( $items );
 
 		$this->format_items();
 
@@ -323,6 +294,29 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		if ( count( $this->items ) > 0 ) {
 			usort( $this->items, array( $this, 'do_reorder' ) );
 		}
+	}
+
+	/**
+	 * Filters the given items.
+	 *
+	 * @param WPSEO_Redirect[] $items The items to filter.
+	 *
+	 * @return array The filtered items.
+	 */
+	private function filter_items( array $items ) {
+		$search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
+		if ( $search_string !== '' ) {
+			$this->filter['search_string'] = $search_string;
+			$items = array_filter( $items, array( $this, 'filter_by_search_string' ) );
+		}
+
+		$redirect_type = (int) filter_input( INPUT_GET, 'redirect-type' );
+		if ( ! empty( $redirect_type )  ) {
+			$this->filter['redirect_type'] = $redirect_type;
+			$items = array_filter( $items, array( $this, 'filter_by_type' ) );
+		}
+
+		return $items;
 	}
 
 	/**
@@ -348,27 +342,20 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Search through the items
+	 * Filters the redirect by entered search string.
 	 *
-	 * @param string $search_string The entered search string.
+	 * @param WPSEO_Redirect $redirect The redirect to filter.
+	 *
+	 * @return bool True when type matches the set search string.
 	 */
-	private function do_search( $search_string ) {
-		$results = array();
-
-		foreach ( $this->items as $old => $redirect ) {
-			if ( false !== stripos( $redirect->get_origin(), $search_string ) || false !== stripos( $redirect->get_target(), $search_string ) ) {
-				$results[ $old ] = $redirect;
-			}
-		}
-
-		$this->items = $results;
+	private function filter_by_search_string( WPSEO_Redirect $redirect ) {
+		return ( false !== stripos( $redirect->get_origin(), $this->filter['search_string'] ) || false !== stripos( $redirect->get_target(), $this->filter['search_string'] ) );
 	}
 
 	/**
 	 * Filters the redirect by redirect type.
 	 *
 	 * @param WPSEO_Redirect $redirect The redirect to filter.
-	 *
 	 *
 	 * @return bool True when type matches redirect type.
 	 */

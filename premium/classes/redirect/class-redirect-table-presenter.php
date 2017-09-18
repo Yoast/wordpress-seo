@@ -60,7 +60,7 @@ class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 	/**
 	 * Return the value of the first column based on the table type
 	 *
-	 * @return string|void
+	 * @return string
 	 */
 	private function get_first_column_value() {
 		if ( $this->view === 'regex' ) {
