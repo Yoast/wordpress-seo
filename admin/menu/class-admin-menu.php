@@ -129,11 +129,12 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 			$this->get_submenu_page( $this->get_license_page_title(), 'wpseo_licenses' ),
 		);
 
-		// Allow submenu pages manipulation.
-		$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
-		$submenu_pages = $this->ensure_wpseo_capability( $submenu_pages );
-
-		return $submenu_pages;
+		/**
+		 * Filter: 'wpseo_submenu_pages' - Collects all submenus that need to be shown.
+		 *
+		 * @api array $submenu_pages List with all submenu pages.
+		 */
+		return (array) apply_filters( 'wpseo_submenu_pages', $submenu_pages );
 	}
 
 	/**
