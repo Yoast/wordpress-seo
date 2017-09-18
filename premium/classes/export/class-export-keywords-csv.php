@@ -19,7 +19,7 @@ class WPSEO_Export_Keywords_CSV {
 	/**
 	 * WPSEO_Export_Keywords_CSV constructor.
 	 *
-	 * Supported values for columns are 'title', 'url', 'keywords', 'seo_score' and 'keywords_score'.
+	 * Supported values for columns are 'title', 'url', 'keywords', 'readability_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
 	 * @param array $columns An array of columns that should be presented.
@@ -53,11 +53,11 @@ class WPSEO_Export_Keywords_CSV {
 	 */
 	protected function get_headers() {
 		$header_columns = array(
-			'title'          => __( 'title', 'wordpress-seo-premium' ),
-			'url'            => __( 'url', 'wordpress-seo-premium' ),
-			'seo_score'      => __( 'seo score', 'wordpress-seo-premium' ),
-			'keywords'       => __( 'keyword', 'wordpress-seo-premium' ),
-			'keywords_score' => __( 'keyword score', 'wordpress-seo-premium' ),
+			'title'             => __( 'title', 'wordpress-seo-premium' ),
+			'url'               => __( 'url', 'wordpress-seo-premium' ),
+			'readability_score' => __( 'readability score', 'wordpress-seo-premium' ),
+			'keywords'          => __( 'keyword', 'wordpress-seo-premium' ),
+			'keywords_score'    => __( 'keyword score', 'wordpress-seo-premium' ),
 		);
 
 		$csv = $this->sanitize_csv_column( __( 'ID', 'wordpress-seo-premium' ) );
@@ -98,7 +98,7 @@ class WPSEO_Export_Keywords_CSV {
 
 		// Add at least one row plus additional ones if we have more keywords.
 		$keywords = max( 1, count( $result['keywords'] ) );
-		for ( $keywords_index = 0; $keywords_index < $keywords; $keywords_index++ ) {
+		for ( $keywords_index = 0; $keywords_index < $keywords; $keywords_index ++ ) {
 			// Add static columns.
 			$csv .= $this->sanitize_csv_column( $result['ID'] );
 			$csv .= ',' . $this->sanitize_csv_column( $result['type'] );
@@ -124,7 +124,7 @@ class WPSEO_Export_Keywords_CSV {
 	 * @return string CSV formatted column.
 	 */
 	protected function get_csv_column_from_result( array $result, $key, $keywords_index ) {
-		if ( in_array( $key, array( 'title', 'url', 'seo_score' ), true ) ) {
+		if ( in_array( $key, array( 'title', 'url', 'readability_score' ), true ) ) {
 			return $this->get_csv_string_column_from_result( $result, $key );
 		}
 
@@ -144,7 +144,7 @@ class WPSEO_Export_Keywords_CSV {
 	 * @return array Contents of the key in the object.
 	 */
 	protected function get_array_from_result( array $result, $key ) {
-		if ( array_key_exists( $key , $result ) && is_array( $result[ $key ] ) ) {
+		if ( array_key_exists( $key, $result ) && is_array( $result[ $key ] ) ) {
 			return $result[ $key ];
 		}
 

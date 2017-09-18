@@ -128,10 +128,10 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 	 */
 	protected function get_export_columns( array $post_object ) {
 		$exportable_columns = array(
-			'export-keywords-score' => 'keywords_score',
-			'export-url'            => 'url',
-			'export-title'          => 'title',
-			'export-seo-score'      => 'seo_score',
+			'export-keywords-score'    => 'keywords_score',
+			'export-url'               => 'url',
+			'export-title'             => 'title',
+			'export-readability-score' => 'readability_score',
 		);
 
 		// Need to call array_values to ensure that we get a numerical key back.

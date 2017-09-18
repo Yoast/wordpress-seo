@@ -22,7 +22,7 @@ $button_label = __( 'Export keywords', 'wordpress-seo-premium' );
 		$yform->checkbox( 'export-url', __( 'Export URL', 'wordpress-seo-premium' ) );
 		$yform->set_options_value( 'export-title', true );
 		$yform->checkbox( 'export-title', __( 'Export title', 'wordpress-seo-premium' ) );
-		$yform->checkbox( 'export-seo-score', __( 'Export SEO score', 'wordpress-seo-premium' ) );
+		$yform->checkbox( 'export-readability-score', __( 'Export readability score', 'wordpress-seo-premium' ) );
 		?>
 		<br class="clear">
 		<input type="submit" class="button button-primary" name="export-posts" value="<?php echo esc_attr( $button_label ) ?>"/>

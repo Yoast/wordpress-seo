@@ -31,7 +31,7 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	/**
 	 * WPSEO_Export_Keywords_Query constructor.
 	 *
-	 * Supported values for columns are 'title', 'url', 'keywords', 'seo_score' and 'keywords_score'.
+	 * Supported values for columns are 'title', 'url', 'keywords', 'readability_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
 	 * @param wpdb  $wpdb      A WordPress Database object.
@@ -98,8 +98,8 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 			$this->add_meta_join( 'other_keywords', WPSEO_Meta::$meta_prefix . 'focuskeywords' );
 		}
 
-		if ( in_array( 'seo_score', $this->columns, true ) ) {
-			$this->add_meta_join( 'seo_score', WPSEO_Meta::$meta_prefix . 'content_score' );
+		if ( in_array( 'readability_score', $this->columns, true ) ) {
+			$this->add_meta_join( 'readability_score', WPSEO_Meta::$meta_prefix . 'content_score' );
 		}
 
 		if ( in_array( 'keywords_score', $this->columns, true ) ) {

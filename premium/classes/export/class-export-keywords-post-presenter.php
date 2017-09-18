@@ -18,7 +18,7 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 	/**
 	 * WPSEO_Export_Keywords_Post_Presenter constructor.
 	 *
-	 * Supported values for columns are 'title', 'url', 'keywords', 'seo_score' and 'keywords_score'.
+	 * Supported values for columns are 'title', 'url', 'keywords', 'readability_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
 	 * @param array $columns The columns we want our query to return.
@@ -66,8 +66,8 @@ class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Pres
 			case 'url':
 				$result['url'] = get_permalink( $result['ID'] );
 				break;
-			case 'seo_score':
-				$result['seo_score'] = WPSEO_Rank::from_numeric_score( (int) $result['seo_score'] )->get_label();
+			case 'readability_score':
+				$result['readability_score'] = WPSEO_Rank::from_numeric_score( (int) $result['readability_score'] )->get_label();
 				break;
 			case 'keywords':
 				$result = $this->convert_result_keywords( $result );

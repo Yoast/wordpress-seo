@@ -25,7 +25,7 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 	/**
 	 * WPSEO_Export_Keywords_Query constructor.
 	 *
-	 * Supported values for columns are 'title', 'url', 'keywords', 'seo_score' and 'keywords_score'.
+	 * Supported values for columns are 'title', 'url', 'keywords', 'readability_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
 	 * @param wpdb  $wpdb      A WordPress Database object.

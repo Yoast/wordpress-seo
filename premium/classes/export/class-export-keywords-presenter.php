@@ -13,7 +13,7 @@ interface WPSEO_Export_Keywords_Presenter {
 	/**
 	 * WPSEO_Export_Keywords_Presenter constructor.
 	 *
-	 * Supported values for columns are 'title', 'url', 'keywords', 'seo_score' and 'keywords_score'.
+	 * Supported values for columns are 'title', 'url', 'keywords', 'readability_score' and 'keywords_score'.
 	 * Requesting 'keywords_score' will always also return 'keywords'.
 	 *
 	 * @param array $columns The columns we want our query to return.
