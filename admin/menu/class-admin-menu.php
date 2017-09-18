@@ -33,7 +33,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	 * Registers the menu item submenus.
 	 */
 	public function register_settings_page() {
-		$can_manage_options = WPSEO_Capability_Utils::current_user_can( $this->get_manage_options_cap() );
+		$can_manage_options = WPSEO_Capability_Utils::current_user_can( $this->get_manage_capability() );
 
 		if ( $can_manage_options ) {
 			/*
@@ -45,7 +45,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 			add_menu_page(
 				'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ),
 				__( 'SEO', 'wordpress-seo' ) . ' ' . $this->get_notification_counter(),
-				$this->get_manage_options_cap(),
+				$this->get_manage_capability(),
 				$this->menu->get_page_identifier(),
 				$this->get_admin_page_callback(),
 				WPSEO_Utils::get_icon_svg(),
@@ -84,7 +84,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 
 		// Loop through submenu pages and add them.
 		foreach ( $submenu_pages as $submenu_page ) {
-			if ( $submenu_page[3] === $this->get_manage_options_cap() ) {
+			if ( $submenu_page[3] === $this->get_manage_capability() ) {
 				continue;
 			}
 
@@ -156,7 +156,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 			$this->menu->get_page_identifier(),
 			'',
 			$page_title,
-			$this->get_manage_options_cap(),
+			$this->get_manage_capability(),
 			$page_slug,
 			$callback,
 			$hook,
@@ -196,7 +196,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 			 * will not be able to see the submenus which are configured with something else,
 			 * thus all submenu pages are registered with the `wpseo_manage_options` capability here.
 			 */
-			$admin_page = add_submenu_page( $submenu_page[0], $page_title, $submenu_page[2], $this->get_manage_options_cap(), $submenu_page[4], $submenu_page[5] );
+			$admin_page = add_submenu_page( $submenu_page[0], $page_title, $submenu_page[2], $this->get_manage_capability(), $submenu_page[4], $submenu_page[5] );
 
 			// Check if we need to hook.
 			if ( isset( $submenu_page[6] ) && ( is_array( $submenu_page[6] ) && $submenu_page[6] !== array() ) ) {
@@ -208,7 +208,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 
 		// Use WordPress global $submenu to directly access it's properties.
 		global $submenu;
-		if ( isset( $submenu[ $this->menu->get_page_identifier() ] ) && WPSEO_Capability_Utils::current_user_can( $this->get_manage_options_cap() ) ) {
+		if ( isset( $submenu[ $this->menu->get_page_identifier() ] ) && WPSEO_Capability_Utils::current_user_can( $this->get_manage_capability() ) ) {
 			$submenu[ $this->menu->get_page_identifier() ][0][0] = __( 'Dashboard', 'wordpress-seo' );
 		}
 	}
@@ -236,13 +236,8 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @return string Capability to check against.
 	 */
-	protected function get_manage_options_cap() {
-		/**
-		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
-		 *
-		 * @api string unsigned The capability
-		 */
-		return (string) apply_filters( 'wpseo_manage_options_capability', 'wpseo_manage_options' );
+	protected function get_manage_capability() {
+		return 'wpseo_manage_options';
 	}
 
 	/**
