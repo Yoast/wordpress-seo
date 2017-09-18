@@ -110,8 +110,10 @@ class Yoast_Dashboard_Widget {
 				__( 'Indexability check by %1$s', 'wordpress-seo' ),
 				'Ryte'
 			),
-			'ryte_fetch'   => __( 'Fetch the current status', 'wordpress-seo' ),
-			'ryte_analyze' => __( 'Analyze entire site', 'wordpress-seo' ),
+			'ryte_fetch'       => __( 'Fetch the current status', 'wordpress-seo' ),
+			'ryte_analyze'     => __( 'Analyze entire site', 'wordpress-seo' ),
+			'ryte_fetch_url'   => esc_attr( add_query_arg( 'wpseo-redo-onpage', '1' ) ) . '#wpseo-dashboard-overview',
+			'ryte_landing_url' => WPSEO_Shortlinker::get( 'https://yoa.st/rytelp' ),
 		);
 	}
 

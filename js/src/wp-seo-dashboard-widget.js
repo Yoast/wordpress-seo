@@ -128,11 +128,11 @@ class DashboardWidget extends React.Component {
 				<ScoreAssessments items={ this.state.ryte.scores }/>
 				<div>
 					{ this.state.ryte.can_fetch &&
-					  <a className="fetch-status button" href="?wpseo-redo-onpage=1#wpseo-dashboard-overview">
+					  <a className="fetch-status button" href={ wpseoDashboardWidgetL10n.ryte_fetch_url }>
 						  { wpseoDashboardWidgetL10n.ryte_fetch }
 					  </a>
 					}
-					<a className="landing-page button" href="https://yoa.st/rytelp" target="_blank">
+					<a className="landing-page button" href={ wpseoDashboardWidgetL10n.ryte_landing_url } target="_blank">
 						{ wpseoDashboardWidgetL10n.ryte_analyze }
 					</a>
 				</div>
