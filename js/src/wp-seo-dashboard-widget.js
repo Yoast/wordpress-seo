@@ -10,6 +10,7 @@ import WordpressFeed from "yoast-components/composites/Plugin/DashboardWidget/co
 import colors from "yoast-components/style-guide/colors.json";
 
 class DashboardWidget extends React.Component {
+
 	/**
 	 * Creates the components and initializes its state.
 	 */
@@ -32,7 +33,7 @@ class DashboardWidget extends React.Component {
 	 *
 	 * @param {string} score The score, expected to be 'na', 'bad', 'ok', 'good'.
 	 *
-	 * @returns {color} The color to use for this score. Defaults to grey if no such color exists.
+	 * @returns {string} The color to use for this score. Defaults to grey if no such color exists.
 	 */
 	static getColorFromScore( score ) {
 		return colors[ `$color_${ score }` ] || colors.$color_grey;
@@ -44,44 +45,38 @@ class DashboardWidget extends React.Component {
 	 * @returns {void}
 	 */
 	getStatistics() {
-		let that = this;
-
-		wpseoApi.get( "statistics", function( raw ) {
+		wpseoApi.get( "statistics", ( response ) => {
 			let statistics = {};
 
-			statistics.seoScores = raw.seo_scores.map( function( score ) {
-				return {
-					value: parseInt( score.count, 10 ),
-					color: DashboardWidget.getColorFromScore( score.seo_rank ),
-					html: `<a href="${ score.link }">${ score.label }</a>`,
-				};
-			} );
+			statistics.seoScores = response.seo_scores.map( ( score ) => ( {
+				value: parseInt( score.count, 10 ),
+				color: DashboardWidget.getColorFromScore( score.seo_rank ),
+				html: `<a href="${ score.link }">${ score.label }</a>`,
+			} ) );
 
 			// Wrap in a div and get the text to HTML decode.
-			statistics.header = jQuery( `<div>${ raw.header }</div>` ).text();
+			statistics.header = jQuery( `<div>${ response.header }</div>` ).text();
 
-			that.setState( { statistics } );
+			this.setState( { statistics } );
 		} );
 	}
 
 	/**
-	 * Fetches data from the ryte endpoint, parses it and sets it to the state.
+	 * Fetches data from the Ryte endpoint, parses it and sets it to the state.
 	 *
 	 * @returns {void}
 	 */
 	getRyte() {
-		let that = this;
-
-		wpseoApi.get( "ryte", function( raw ) {
+		wpseoApi.get( "ryte", ( response ) => {
 			let ryte = {
 				scores: [ {
-					color: DashboardWidget.getColorFromScore( raw.onpage.score ),
-					html: raw.onpage.label,
+					color: DashboardWidget.getColorFromScore( response.ryte.score ),
+					html: response.ryte.label,
 				} ],
-				canFetch: raw.onpage.can_fetch,
+				canFetch: response.ryte.can_fetch,
 			};
 
-			that.setState( { ryte } );
+			this.setState( { ryte } );
 		} );
 	}
 
@@ -91,22 +86,19 @@ class DashboardWidget extends React.Component {
 	 * @returns {void}
 	 */
 	getFeed() {
-		let that = this;
-
-		getFeed( "https://www.yoast.com/feed", 2 )
-			.then( function( feed ) {
-				feed.items = feed.items.map( function( item ) {
+		getFeed( "https://yoast.com/feed/", 2 )
+			.then( ( feed ) => {
+				feed.items = feed.items.map( ( item ) => {
 					item.description = jQuery( `<div>${ item.description }</div>` ).text();
+					item.description = item.description.replace( `The post ${ item.title } appeared first on Yoast.`, '' ).trim();
 					item.content = jQuery( `<div>${ item.content }</div>` ).text();
 
 					return item;
 				} );
 
-				that.setState( { feed } );
+				this.setState( { feed } );
 			} )
-			.catch( function() {
-				// Don't trigger any change, the component won't be rendered.
-			} );
+			.catch( error => console.log( error ) );
 	}
 
 	/**
@@ -172,7 +164,7 @@ class DashboardWidget extends React.Component {
 	/**
 	 * Renders the component.
 	 *
-	 * @returns {ReactElement} The coponent.
+	 * @returns {ReactElement} The component.
 	 */
 	render() {
 		let contents = [
@@ -185,11 +177,7 @@ class DashboardWidget extends React.Component {
 			return null;
 		}
 
-		return (
-			<div>
-				{ contents }
-			</div>
-		);
+		return <div>{ contents }</div>;
 	}
 }
 

@@ -34,7 +34,7 @@ class WPSEO_Ryte_Service {
 			$result = $this->get_score( $this->option->get_status(), $this->option->should_be_fetched() );
 		}
 
-		return new WP_REST_Response( array( 'onpage' => $result ) );
+		return new WP_REST_Response( array( 'ryte' => $result ) );
 	}
 
 	/**

@@ -64,14 +64,14 @@ class Yoast_Dashboard_Widget {
 	}
 
 	/**
-	 * Display the dashboard widget.
+	 * Displays the dashboard widget.
 	 */
 	public function display_dashboard_widget() {
 		echo '<div id="yoast-seo-dashboard-widget"></div>';
 	}
 
 	/**
-	 * Enqueue's stylesheet for the dashboard if the current page is the dashboard.
+	 * Enqueues stylesheet for the dashboard if the current page is the dashboard.
 	 */
 	public function enqueue_dashboard_stylesheets() {
 		_deprecated_function( __METHOD__, 'WPSEO 5.5', 'This method is deprecated, please use the <code>enqueue_dashboard_assets</code> method.' );
@@ -84,7 +84,7 @@ class Yoast_Dashboard_Widget {
 	}
 
 	/**
-	 * Enqueue's assets for the dashboard if the current page is the dashboard.
+	 * Enqueues assets for the dashboard if the current page is the dashboard.
 	 */
 	public function enqueue_dashboard_assets() {
 		if ( ! $this->is_dashboard_screen() ) {
@@ -125,7 +125,7 @@ class Yoast_Dashboard_Widget {
 	private function is_dashboard_screen() {
 		$current_screen = get_current_screen();
 
-		return ( $current_screen instanceof WP_Screen && 'dashboard' === $current_screen->id );
+		return ( $current_screen instanceof WP_Screen && $current_screen->id === 'dashboard' );
 	}
 
 	/**
