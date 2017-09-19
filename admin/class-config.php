@@ -39,11 +39,9 @@ class WPSEO_Admin_Pages {
 			wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
 		}
 
-		if ( WPSEO_Utils::grant_access() ) {
-			add_action( 'admin_init', array( $this, 'admin_init' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
-		}
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
 	}
 
 	/**
@@ -134,7 +132,7 @@ class WPSEO_Admin_Pages {
 	private function do_yoast_export() {
 		check_admin_referer( WPSEO_Export::NONCE_ACTION, WPSEO_Export::NONCE_NAME );
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			return;
 		}
 

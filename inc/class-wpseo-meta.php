@@ -385,7 +385,7 @@ class WPSEO_Meta {
 
 				$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_titles', 'wpseo_internallinks' ) );
 
-				if ( ! current_user_can( 'manage_options' ) && $options['disableadvanced_meta'] ) {
+				if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && $options['disableadvanced_meta'] ) {
 					return array();
 				}
 
