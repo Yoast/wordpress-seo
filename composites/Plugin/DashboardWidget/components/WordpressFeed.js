@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import Divider from "./Divider";
-
 /**
  * @typedef  {Object}     Feed
  * @property {string}     title       The title of the website.
@@ -133,7 +131,6 @@ const WordpressFeed = ( props ) => {
 			{ props.footerHtml &&
 				<WordpressFeedFooter
 					className={ `${ props.className }__footer` }>
-					<Divider className={ `${ props.className }__footer-divider` }/>
 					<WordpressFeedLink
 						className={ `${ props.className }__footer-link` }
 						href={ props.feedLink ? props.feedLink : props.feed.link }
