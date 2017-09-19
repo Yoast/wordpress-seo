@@ -74,7 +74,7 @@ class Yoast_Dashboard_Widget {
 	 * Enqueue's stylesheet for the dashboard if the current page is the dashboard.
 	 */
 	public function enqueue_dashboard_stylesheets() {
-		_deprecated_function( __METHOD__, 'WPSEO 5.4', 'This method is deprecated, please use the <code>enqueue_dashboard_assets</code> method.' );
+		_deprecated_function( __METHOD__, 'WPSEO 5.5', 'This method is deprecated, please use the <code>enqueue_dashboard_assets</code> method.' );
 
 		if ( ! $this->is_dashboard_screen() ) {
 			return;
