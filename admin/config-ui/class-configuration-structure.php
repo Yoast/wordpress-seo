@@ -49,20 +49,24 @@ class WPSEO_Configuration_Structure {
 		$this->add_step( 'postTypeVisibility', __( 'Post type visibility', 'wordpress-seo' ), $fields );
 
 		$this->add_step( 'multipleAuthors', __( 'Multiple authors', 'wordpress-seo' ), array( 'multipleAuthors' ) );
-		$this->add_step( 'connectGoogleSearchConsole', __( 'Google Search Console', 'wordpress-seo' ), array( 'connectGoogleSearchConsole' ) );
+		$this->add_step( 'connectGoogleSearchConsole', __( 'Google Search Console', 'wordpress-seo' ), array(
+			'googleSearchConsoleIntro',
+			'connectGoogleSearchConsole',
+		) );
 		$this->add_step( 'titleTemplate', __( 'Title settings', 'wordpress-seo' ), array(
+			'titleIntro',
 			'siteName',
 			'separator',
 		) );
 		$this->add_step( 'newsletter', __( 'Newsletter', 'wordpress-seo' ), array(
 			'mailchimpSignup',
-		) );
+		), true, true );
 		$this->add_step( 'suggestions', __( 'You might like', 'wordpress-seo' ), array(
 			'suggestions'
-		) );
+		), true, true );
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), array(
 			'successMessage',
-		) );
+		), true, true );
 	}
 
 	/**
