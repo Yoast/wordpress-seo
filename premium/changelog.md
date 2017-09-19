@@ -1,3 +1,7 @@
+### 5.5.0: September 26th, 2017
+* Introduces `wpseo_manage_redirects` to allow any role or user to manage redirects without having to be an administrator.
+* Added filter for filtering redirects by redirect-type.
+
 ### 5.4.0: September 6th, 2017
 * Adds importing of exported redirects in CSV format via `SEO > Tools > import and export > import redirects`.
 
