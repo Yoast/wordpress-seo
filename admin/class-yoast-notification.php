@@ -233,6 +233,15 @@ class Yoast_Notification {
 	 * @return string
 	 */
 	public function __toString() {
+		return $this->render();
+	}
+
+	/**
+	 * Renders the notification as a string.
+	 *
+	 * @return string The rendered notification.
+	 */
+	public function render() {
 		$attributes = array();
 
 		// Default notification classes.
