@@ -317,6 +317,15 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 				),
 			),
+			array(
+				'name' => 'dashboard-widget',
+				'src'  => 'wp-seo-dashboard-widget-' . $flat_version,
+				'deps' => array(
+					self::PREFIX . 'api',
+					self::PREFIX . 'polyfill',
+					'jquery',
+				),
+			),
 		);
 	}
 

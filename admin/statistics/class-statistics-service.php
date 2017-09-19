@@ -8,7 +8,7 @@
  */
 class WPSEO_Statistics_Service {
 
-	const CACHE_TRANSIENT_KEY = 'wpseo-dashboard-totals';
+	const CACHE_TRANSIENT_KEY = 'wpseo-statistics-totals';
 
 	/**
 	 * @var WPSEO_Statistics
@@ -38,20 +38,38 @@ class WPSEO_Statistics_Service {
 	public function get_statistics() {
 		$statistics = $this->statistic_items();
 
-		$header = __( 'Below are your published posts&#8217; SEO scores. Now is as good a time as any to start improving some of your posts!', 'wordpress-seo' );
-
 		$data = array(
-			'header'     => $header,
-			'seo_scores' => $statistics,
+			'header'     => $this->get_header_from_statistics( $statistics ),
+			'seo_scores' => $statistics['scores'],
 		);
 
 		return new WP_REST_Response( $data );
 	}
 
 	/**
+	 * Gets a header summarizing the given statistics results.
+	 *
+	 * @param array $statistics The statistics results.
+	 *
+	 * @return string The header summing up the statistics results.
+	 */
+	private function get_header_from_statistics( array $statistics ) {
+		// Personal interpretation to allow release, should be looked at later.
+		if ( $statistics['division'] === false ) {
+			return __( 'You don\'t have any published posts, your SEO scores will appear here once you make your first post!', 'wordpress-seo' );
+		}
+
+		if ( $statistics['division']['good'] > 0.66 ) {
+			return __( 'Hey, your SEO is doing pretty well! Check out the stats:', 'wordpress-seo' );
+		}
+
+		return __( 'Below are your published posts\' SEO scores. Now is as good a time as any to start improving some of your posts!', 'wordpress-seo' );
+	}
+
+	/**
 	 * An array representing items to be added to the At a Glance dashboard widget
 	 *
-	 * @return array
+	 * @return array The statistics for the current user.
 	 */
 	private function statistic_items() {
 		$transient = $this->get_transient();
@@ -88,12 +106,44 @@ class WPSEO_Statistics_Service {
 	 * @return array The statistics transient for the user.
 	 */
 	private function set_statistic_items_for_user( $transient, $user ) {
-		// Use array_values because array_filter may return non-zero indexed arrays.
-		$transient[ $user ] = array_values( array_filter( $this->get_seo_scores_with_post_count(), array( $this, 'filter_items' ) ) );
+		$scores   = $this->get_seo_scores_with_post_count();
+		$division = $this->get_seo_score_division( $scores );
+
+		$transient[ $user ] = array(
+			// Use array_values because array_filter may return non-zero indexed arrays.
+			'scores'   => array_values( array_filter( $scores, array( $this, 'filter_items' ) ) ),
+			'division' => $division,
+		);
 
 		set_transient( self::CACHE_TRANSIENT_KEY, $transient, DAY_IN_SECONDS );
 
 		return $transient[ $user ];
+	}
+
+	/**
+	 * Gets the division of SEO scores.
+	 *
+	 * @param array $scores The SEO scores.
+	 *
+	 * @return array|bool The division of SEO scores, false if there are no posts.
+	 */
+	private function get_seo_score_division( array $scores ) {
+		$total    = 0;
+		$division = array();
+
+		foreach ( $scores as $score ) {
+			$total += $score['count'];
+		}
+
+		if ( $total === 0 ) {
+			return false;
+		}
+
+		foreach ( $scores as $score ) {
+			$division[ $score['seo_rank'] ] = ( $score['count'] / $total );
+		}
+
+		return $division;
 	}
 
 	/**
