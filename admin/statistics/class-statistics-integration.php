@@ -18,7 +18,7 @@ class WPSEO_Statistic_Integration implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Clears the dashboard widget items cache.1
+	 * Clears the dashboard widget items cache.
 	 *
 	 * @return void
 	 */
