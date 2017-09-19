@@ -26,14 +26,6 @@ const messages = defineMessages( {
 		id: "algoliasearcher.errormessage",
 		defaultMessage: "Something went wrong. Please try again later.",
 	},
-	searchResultsHeading: {
-		id: "algoliaseacher.searchresultsheading",
-		defaultMessage: "Search results",
-	},
-	iframeTitle: {
-		id: "algoliosearcher.iframetitle",
-		defaultMessage: "Knowledge base article",
-	},
 } );
 
 class AlgoliaSearcher extends React.Component {
@@ -324,25 +316,9 @@ class AlgoliaSearcher extends React.Component {
 				{ this.createSearchBar() }
 				{ this.getErrorMessage() }
 				{ this.getLoadingIndicator() }
-				{ this.determineResultsHeading() }
 				{ this.determineSearchResultsView() }
 			</AlgoliaSearchWrapper>
 		);
-	}
-
-	/**
-	 * Determines whether a search result heading should be created or not.
-	 *
-	 * @returns {ReactElement|string} Returns a header if there are search results. Otherwise returns an empty string.
-	 */
-	determineResultsHeading() {
-		if ( this.state.currentDetailViewIndex === -1 || this.state.results.length === 0 ) {
-			return null;
-		}
-
-		return <h2 className="screen-reader-text">
-			{ this.props.intl.formatMessage( messages.searchResultsHeading ) }
-		</h2>;
 	}
 }
 

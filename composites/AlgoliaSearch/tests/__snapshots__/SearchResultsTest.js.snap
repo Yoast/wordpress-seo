@@ -4,6 +4,11 @@ exports[`the SearchResults component with results matches the snapshot 1`] = `
 <div
   className="sc-EHOje hRzeBO"
 >
+  <h2
+    className="screen-reader-text"
+  >
+    Search results
+  </h2>
   <ul
     className="sc-bdVaJa cQAnKY"
     role="list"

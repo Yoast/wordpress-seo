@@ -16,6 +16,10 @@ const messages = defineMessages( {
 		id: "searchresults.foundresultstext",
 		defaultMessage: "Found {resultsCount} { resultsCount, plural, one {result} other {results} }",
 	},
+	searchResultsHeading: {
+		id: "algoliaseacher.searchresultsheading",
+		defaultMessage: "Search results",
+	},
 } );
 
 /**
@@ -174,6 +178,9 @@ class SearchResults extends React.Component {
 
 		return (
 			<SearchResultsWrapper>
+				<h2 className="screen-reader-text">
+					{ this.props.intl.formatMessage( messages.searchResultsHeading ) }
+				</h2>
 				<ZebrafiedListTable>
 					{ this.resultsToSearchItem( this.props.results ) }
 				</ZebrafiedListTable>
