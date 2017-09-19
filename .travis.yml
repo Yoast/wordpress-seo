@@ -2,6 +2,11 @@ language: php
 dist: trusty
 sudo: false
 
+branches:
+  only:
+    - master
+    - trunk
+
 addons:
   apt:
     sources:

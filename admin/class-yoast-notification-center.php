@@ -226,8 +226,12 @@ class Yoast_Notification_Center {
 
 	/**
 	 * Display the notifications
+	 *
+	 * @param bool $echo_as_json True when notifications should be printed directly.
+	 *
+	 * @return void
 	 */
-	public function display_notifications() {
+	public function display_notifications( $echo_as_json = false ) {
 
 		// Never display notifications for network admin.
 		if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
@@ -235,11 +239,27 @@ class Yoast_Notification_Center {
 		}
 
 		$sorted_notifications = $this->get_sorted_notifications();
-		foreach ( $sorted_notifications as $notification ) {
-			if ( ! $notification->is_persistent() ) {
-				echo $notification;
-				$this->remove_notification( $notification );
+		$notifications = array_filter( $sorted_notifications, array( $this, 'is_notification_persistent' ) );
+
+		if ( empty( $notifications ) ) {
+			return;
+		}
+
+		array_walk( $notifications, array( $this, 'remove_notification' ) );
+
+		if ( $echo_as_json ) {
+			$notification_json = array();
+			foreach ( $notifications as $notification ) {
+				$notification_json[] = $notification->render();
 			}
+
+			echo json_encode( $notification_json, ( JSON_HEX_QUOT | JSON_HEX_TAG ) );
+
+			return;
+		}
+
+		foreach ( $notifications as $notification ) {
+			echo $notification;
 		}
 	}
 
@@ -332,9 +352,10 @@ class Yoast_Notification_Center {
 	 * AJAX display notifications
 	 */
 	public function ajax_get_notifications() {
+		$echo = filter_input( INPUT_POST, 'version' ) === '2';
 
 		// Display the notices.
-		$this->display_notifications();
+		$this->display_notifications( $echo );
 
 		// AJAX die.
 		exit;
@@ -434,7 +455,8 @@ class Yoast_Notification_Center {
 
 		if ( is_array( $stored_notifications ) ) {
 			$notifications = array_map( array( $this, 'array_to_notification' ), $stored_notifications );
-			$notifications = array_filter( $notifications, array( $this, 'filter_notification_current_user' ) );
+			// Apply array_values to ensure we get a 0-indexed array.
+			$notifications = array_values( array_filter( $notifications, array( $this, 'filter_notification_current_user' ) ) );
 
 			$this->notifications = $notifications;
 		}
@@ -561,6 +583,17 @@ class Yoast_Notification_Center {
 	 */
 	private function filter_notification_current_user( Yoast_Notification $notification ) {
 		return $notification->display_for_current_user();
+	}
+
+	/**
+	 * Checks if given notification is persistent.
+	 *
+	 * @param Yoast_Notification $notification The notification to check.
+	 *
+	 * @return bool True when notification is not persistent.
+	 */
+	private function is_notification_persistent( Yoast_Notification $notification ) {
+		return ! $notification->is_persistent();
 	}
 
 	/**
