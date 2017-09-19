@@ -418,13 +418,13 @@ class WPSEO_Premium {
 		/**
 		 * Filter: 'wpseo_premium_manage_redirects_role' - Change the minimum rule to access and change the site redirects
 		 *
-		 * @api string manage_options
+		 * @api string wpseo_manage_redirects
 		 */
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
 			__( 'Redirects', 'wordpress-seo-premium' ),
-			apply_filters( 'wpseo_premium_manage_redirects_role', 'manage_options' ),
+			apply_filters_deprecated( 'wpseo_premium_manage_redirects_role', array( 'wpseo_manage_redirects' ), 'WPSEO 5.5', false, 'Use the introduced wpseo_manage_redirects capability instead.' ),
 			'wpseo_redirects',
 			array( $this->redirects, 'display' ),
 		);
