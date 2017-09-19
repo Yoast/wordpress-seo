@@ -38,8 +38,8 @@
 	</li>
 	<?php endforeach; ?>
 </ul>
-<?php $can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
-if ( ! empty( $onpage ) && $can_access ) : ?>
+<?php
+if ( ! empty( $onpage ) && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) : ?>
 <div class="onpage">
 	<h3><?php
 		printf(
