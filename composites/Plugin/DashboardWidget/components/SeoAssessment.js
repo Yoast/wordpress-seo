@@ -34,12 +34,12 @@ const SeoAssessment = ( props ) => {
 				{ props.seoAssessmentText }
 			</SeoAssessmentText>
 			<StackedProgressBar
-				className={ "progress" }
+				className="progress"
 				items={ props.seoAssessmentItems }
 				barHeight={ props.barHeight }
 			/>
 			<SeoScoreAssessments
-				className={ "assessments" }
+				className="assessments"
 				items={ props.seoAssessmentItems }
 			/>
 		</SeoAssessmentContainer>
