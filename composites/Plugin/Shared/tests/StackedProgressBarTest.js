@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 
 import StackedProgressBar from "../components/StackedProgressBar";
 
-test( "the BaseButton matches the snapshot", () => {
+test( "the StackedProgressBar matches the snapshot", () => {
 	const items = [
 		{
 			value: 7,
