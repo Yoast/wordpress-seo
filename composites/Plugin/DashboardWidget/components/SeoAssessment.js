@@ -27,22 +27,27 @@ const SeoAssessmentText = styled.p`
  */
 const SeoAssessment = ( props ) => {
 	return (
-		<SeoAssessmentContainer>
-			<SeoAssessmentText>
+		<SeoAssessmentContainer
+			className={ props.className }>
+			<SeoAssessmentText
+				className={ `${ props.className }__text` }>
 				{ props.seoAssessmentText }
 			</SeoAssessmentText>
 			<StackedProgressBar
+				className="progress"
 				items={ props.seoAssessmentItems }
 				barHeight={ props.barHeight }
-				/>
+			/>
 			<SeoScoreAssessments
+				className="assessments"
 				items={ props.seoAssessmentItems }
-				/>
+			/>
 		</SeoAssessmentContainer>
 	);
 };
 
 SeoAssessment.propTypes = {
+	className: PropTypes.string,
 	seoAssessmentText: PropTypes.string,
 	seoAssessmentItems: PropTypes.arrayOf(
 		PropTypes.shape( {
@@ -51,6 +56,10 @@ SeoAssessment.propTypes = {
 		} )
 	),
 	barHeight: PropTypes.string,
+};
+
+SeoAssessment.defaultProps = {
+	className: "seo-assessment",
 };
 
 export default SeoAssessment;

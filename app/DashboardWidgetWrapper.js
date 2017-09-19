@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import SeoAssessment from "../composites/Plugin/DashboardWidget/components/SeoAssessment";
 import WordpressFeed from "../composites/Plugin/DashboardWidget/components/WordpressFeed";
-import Divider from "../composites/Plugin/DashboardWidget/components/Divider";
 
 export const DashboardWidgetContainer = styled.div`
    min-height: 700px;
@@ -63,7 +62,6 @@ export default function DashboardWidget() {
 				<SeoAssessment
 					seoAssessmentText="Your SEO score is decent overall, but can be improved! Get to work!"
 					seoAssessmentItems={ seoAssessmentItems }/>
-				<Divider/>
 				<WordpressFeed
 					feed={ feed }
 					footerHtml="View our blog on yoast.com!"/>
