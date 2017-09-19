@@ -119,7 +119,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 			array(
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => self::NOTIFICATION_ID,
-				'capabilities' => 'manage_options',
+				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			)
 		);
