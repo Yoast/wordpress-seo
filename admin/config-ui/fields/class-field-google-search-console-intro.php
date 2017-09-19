@@ -16,11 +16,10 @@ class WPSEO_Config_Field_Google_Search_Console_Intro extends WPSEO_Config_Field 
 
 		/* translators: %1$s is the plugin name, %2$s is a link start tag to a Yoast help page, %3$s is the link closing tag. */
 		$html = sprintf(
-			__( '%1$s integrates with Google Search Console. Search Console is a
- must-have tool for site owners. You can use it to get a lot of data about
- the health of your site. This data can be accessed from within %1$s
- if you grant ia access. Don\'t have a Search Console account or is your
- site not activated yet? Find out %2$show to connect Search Console to your site.%3$s',
+			__( '%1$s integrates with Google Search Console, a must-have tool for site owners.
+ It provides you with information about the health of your site. 
+ Don\'t have a Google account or is your site not activated yet?
+ Find out %2$show to connect Google Search Console to your site.%3$s',
 				'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="https://yoa.st/1ex">',
