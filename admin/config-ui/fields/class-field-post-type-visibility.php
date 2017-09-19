@@ -19,7 +19,7 @@ class WPSEO_Config_Field_Post_Type_Visibility extends WPSEO_Config_Field {
  default settings. For instance, setting \'Media\' to visible would index your
  images which could lead to visitors finding your images without ever
  coming to your site. If you have a custom post type on your site, you need
- to activate these by hand.', 'wordpress-seo' );
+ to activate these manually.', 'wordpress-seo' );
 
 		$html = '<p>' . esc_html( $copy ) . '</p><br/>';
 
