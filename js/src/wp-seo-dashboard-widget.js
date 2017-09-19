@@ -90,7 +90,7 @@ class DashboardWidget extends React.Component {
 			.then( ( feed ) => {
 				feed.items = feed.items.map( ( item ) => {
 					item.description = jQuery( `<div>${ item.description }</div>` ).text();
-					item.description = item.description.replace( `The post ${ item.title } appeared first on Yoast.`, '' ).trim();
+					item.description = item.description.replace( `The post ${ item.title } appeared first on Yoast.`, "" ).trim();
 					item.content = jQuery( `<div>${ item.content }</div>` ).text();
 
 					return item;
