@@ -39,7 +39,6 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
         id="search-input"
         name="search-input"
         onChange={[Function]}
-        onSubmit={[Function]}
         spellCheck="false"
         type="text"
       />

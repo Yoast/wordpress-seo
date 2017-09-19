@@ -36,7 +36,6 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
       id="search-input"
       name="search-input"
       onChange={[Function]}
-      onSubmit={[Function]}
       spellCheck="false"
       type="text"
     />
@@ -80,7 +79,6 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
       id="search-input"
       name="search-input"
       onChange={[Function]}
-      onSubmit={[Function]}
       spellCheck="false"
       type="text"
     />
