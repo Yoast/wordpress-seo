@@ -34,7 +34,7 @@ body {
 	text-align: left;
 	min-height: 20px;
 	background: $color_white;
-	padding: 3em;
+	padding: 2em;
 
 	@media screen and (max-width: 768px) {
 		padding: 1em 1em 2em;
@@ -121,8 +121,8 @@ body {
 			}
 
 			svg {
-				color: $color_purple;
-				fill: $color_purple;
+				color: $color_green;
+				fill: $color_green;
 			}
 		}
 
@@ -145,7 +145,6 @@ body {
 		h1 {
 			color: $color_pink_dark;
 			margin-top: 0;
-			margin-bottom: 16px;
 			margin-bottom: 1rem;
 			font-size: 2.75em;
 			letter-spacing: 0.03em;
@@ -160,8 +159,9 @@ body {
 
 		h2 {
 			color: $color_pink_dark;
-			font-size: 1.375em;
-			font-weight: 400;
+			font-size: 2.25em;
+			font-weight: 100;
+			margin: 0;
 		}
 	}
 
