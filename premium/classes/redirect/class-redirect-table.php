@@ -68,25 +68,25 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		}
 
 		?>
-        <div class="alignleft actions">
-            <label for="filter-by-redirect" class="screen-reader-text"><?php esc_html_e( 'Filter by redirect type', 'wordpress-seo-premium' ); ?></label>
-            <select name="redirect-type" id="filter-by-redirect">
-                <option<?php selected( $selected, 0 ); ?> value="0"><?php esc_html_e( 'All redirect types', 'wordpress-seo-premium' ); ?></option>
-                <?php
-                $redirect_types = new WPSEO_Redirect_Types();
+		<div class="alignleft actions">
+			<label for="filter-by-redirect" class="screen-reader-text"><?php esc_html_e( 'Filter by redirect type', 'wordpress-seo-premium' ); ?></label>
+			<select name="redirect-type" id="filter-by-redirect">
+				<option<?php selected( $selected, 0 ); ?> value="0"><?php esc_html_e( 'All redirect types', 'wordpress-seo-premium' ); ?></option>
+				<?php
+				$redirect_types = new WPSEO_Redirect_Types();
 
-                foreach ( $redirect_types->get() as $http_code => $redirect_type ) {
-                    printf( "<option %s value='%s'>%s</option>\n",
-                        selected( $selected, $http_code, false ),
-                        esc_attr( $http_code ),
-                        $redirect_type
-                    );
-                }
-                ?>
-            </select>
-		    <?php submit_button( __( 'Filter', 'wordpress-seo-premium' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) ); ?>
-        </div>
-        <?php
+				foreach ( $redirect_types->get() as $http_code => $redirect_type ) {
+					printf( "<option %s value='%s'>%s</option>\n",
+						selected( $selected, $http_code, false ),
+						esc_attr( $http_code ),
+						$redirect_type
+					);
+				}
+				?>
+			</select>
+			<?php submit_button( __( 'Filter', 'wordpress-seo-premium' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) ); ?>
+		</div>
+		<?php
 	}
 
 	/**
