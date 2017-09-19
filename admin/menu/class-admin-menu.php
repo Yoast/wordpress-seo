@@ -94,7 +94,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 				$submenu_page[2],
 				$submenu_page[3],
 				$submenu_page[4],
-				$this->get_admin_page_callback(),
+				$submenu_page[5],
 				WPSEO_Utils::get_icon_svg(),
 				'99.31337'
 			);
