@@ -66,7 +66,7 @@ class SearchResultDetail extends React.Component {
 		const backButtonLabel = formatMessage( messages.backButtonLabel );
 		return (
 			<Nav>
-				<Button aria-label={ backButtonLabel } onClick={ this.props.onClick }>
+				<Button aria-label={ backButtonLabel } onClick={ this.props.onBackButtonClicked }>
 					{ backButtonText }
 				</Button>
 				<OpenLink href={ this.props.post.permalink } aria-label={ openButtonLabel } target="_blank">
@@ -90,7 +90,7 @@ class SearchResultDetail extends React.Component {
 
 SearchResultDetail.propTypes = {
 	post: PropTypes.object.isRequired,
-	onClick: PropTypes.func.isRequired,
+	onBackButtonClicked: PropTypes.func.isRequired,
 	intl: intlShape.isRequired,
 };
 

@@ -28,6 +28,11 @@ const messages = defineMessages( {
 	},
 } );
 
+const VIEW = {
+	SEARCH: "SEARCH",
+	DETAIL: "DETAIL",
+};
+
 class AlgoliaSearcher extends React.Component {
 	/**
 	 * AlgoliaSearcher constructor.
@@ -47,6 +52,7 @@ class AlgoliaSearcher extends React.Component {
 			errorMessage: "",
 			usedQueries: {},
 			currentDetailViewIndex: -1,
+			currentView: VIEW.SEARCH,
 		};
 
 		this.initAlgoliaClient();
@@ -185,10 +191,14 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	setCurrentDetailedViewIndex( currentDetailViewIndex ) {
+	showDetailView( currentDetailViewIndex ) {
 		let usedQueries = this.addResultToUsedQueries( currentDetailViewIndex );
 
-		this.setState( { currentDetailViewIndex, usedQueries } );
+		this.setState( {
+			currentDetailViewIndex,
+			usedQueries,
+			currentView: VIEW.DETAIL,
+		} );
 	}
 
 	/**
@@ -196,8 +206,8 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	unsetCurrentDetailedView() {
-		this.setState( { currentDetailViewIndex: -1 } );
+	hideDetailView() {
+		this.setState( { currentView: VIEW.SEARCH } );
 	}
 
 	/**
@@ -253,20 +263,7 @@ class AlgoliaSearcher extends React.Component {
 			{ ...this.props }
 			searchString={ this.state.searchString }
 			results={ this.state.results }
-			handler={ this.setCurrentDetailedViewIndex.bind( this ) }
-		/>;
-	}
-
-	/**
-	 * Gets the search result detail.
-	 *
-	 * @returns {ReactElement} Returns the search result detail.
-	 */
-	getSearchResultDetail() {
-		return <SearchResultDetail
-			{ ...this.props }
-			post={ this.getPostFromResults( this.state.currentDetailViewIndex ) }
-			onClick={ this.unsetCurrentDetailedView.bind( this ) }
+			handler={ this.showDetailView.bind( this ) }
 		/>;
 	}
 
@@ -287,12 +284,7 @@ class AlgoliaSearcher extends React.Component {
 		}
 
 		// Show the list of search results if the postId for the detail view isn't set.
-		if ( this.state.currentDetailViewIndex === -1 ) {
-			return this.getSearchResults();
-		}
-
-		// Else show the result detail
-		return this.getSearchResultDetail();
+		return this.getSearchResults();
 	}
 
 	/**
@@ -307,6 +299,37 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	/**
+	 * Get the search view.
+	 *
+	 * @returns {ReactElement} Search view elements
+	 */
+	getSearchView() {
+		return (
+			<AlgoliaSearchWrapper>
+				{ this.createSearchBar() }
+				{ this.determineSearchResultsView() }
+			</AlgoliaSearchWrapper>
+		);
+	}
+
+	/**
+	 * Gets the search result detail.
+	 *
+	 * @returns {ReactElement} Search result detail.
+	 */
+	getDetailView() {
+		return (
+			<AlgoliaSearchWrapper>
+				<SearchResultDetail
+					{ ...this.props }
+					post={ this.getPostFromResults( this.state.currentDetailViewIndex ) }
+					onBackButtonClicked={ this.hideDetailView.bind( this ) }
+				/>
+			</AlgoliaSearchWrapper>
+		);
+	}
+
+	/**
 	 * Render the React component.
 	 *
 	 * Called upon each state change. Determines and renders the view to render.
@@ -314,12 +337,12 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {ReactElement} The content of the component.
 	 */
 	render() {
-		return (
-			<AlgoliaSearchWrapper>
-				{ this.createSearchBar() }
-				{ this.determineSearchResultsView() }
-			</AlgoliaSearchWrapper>
-		);
+		switch( this.state.currentView ) {
+			case VIEW.SEARCH:
+				return this.getSearchView();
+			case VIEW.DETAIL:
+				return this.getDetailView();
+		}
 	}
 }
 

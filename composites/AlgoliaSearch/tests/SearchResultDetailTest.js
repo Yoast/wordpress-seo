@@ -6,7 +6,7 @@ let post = { permalink: "https://kb.yoast.com/kb/passive-voice/", postTitle: "Po
 
 test( "the SearchResultDetail component matches the snapshot", () => {
 	const component = createComponentWithIntl(
-		<SearchResultDetail post={ post } showDetail={ () => {} } onClick={ () => {} } iframeTitle="Title"/>
+		<SearchResultDetail post={ post } showDetail={ () => {} } onBackButtonClicked={ () => {} } iframeTitle="Title"/>
 	);
 
 	let tree = component.toJSON();
