@@ -37,7 +37,6 @@ const Nav = styled.nav`
 
 const OpenLink = styled.a`
 	float: right;
-	display: inline-block;
 	text-decoration: none;
 	font-size: 13px;
 	line-height: 26px;
@@ -54,8 +53,8 @@ const OpenLink = styled.a`
  * Create the JSX to render the SearchResultDetail component.
  *
  * @param {object} props The React props.
+ *
  * @returns {ReactElement} A SearchResultDetail component.
- * @constructor
  */
 class SearchResultDetail extends React.Component {
 

@@ -69,7 +69,7 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	onSearchButtonClick( searchString ) {
+	onSearch( searchString ) {
 		if ( searchString === "" ) {
 			return;
 		}
@@ -135,8 +135,8 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	updateSearchResults() {
 		this.performSearch( this.state.searchString )
-		    .then( this.processResults.bind( this ) )
-		    .catch( this.processSearchError.bind( this ) );
+			.then( this.processResults.bind( this ) )
+			.catch( this.processSearchError.bind( this ) );
 	}
 
 	/**
@@ -171,7 +171,7 @@ class AlgoliaSearcher extends React.Component {
 		let usedQueries = this.state.usedQueries;
 
 		usedQueries[ this.state.searchString ][ post.objectID ] = {
-			title: post.postTitle,
+			title: post.post_title, // eslint-disable-line
 			link: post.permalink,
 		};
 
@@ -201,11 +201,29 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	/**
-	 * Log any occuring error and render a search error warning.
+	 * Creates the Search Bar component, unless you are in the detail view.
 	 *
-	 * @returns {ReactElement} A p element with a warning that the search was not completed.
+	 * @returns {ReactElement} Searchbar component.
 	 */
-	renderError() {
+	createSearchBar() {
+		if ( this.state.currentDetailViewIndex !== -1 ) {
+			return null;
+		}
+
+		return (
+			<SearchBar
+				submitAction={ this.onSearch.bind( this ) }
+				searchString={ this.state.searchString }
+			/>
+		);
+	}
+
+	/**
+	 * Gets the error message.
+	 *
+	 * @returns {ReactElement} Error component.
+	 */
+	getErrorMessage() {
 		const errorMessage = this.props.intl.formatMessage( messages.errorMessage );
 
 		a11ySpeak( errorMessage );
@@ -216,80 +234,65 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	/**
-	 * Creates the Search Bar component.
-	 *
-	 * @returns {ReactElement|string} Searchbar component. Returns empty string if we're in the detail view.
-	 */
-	createSearchBar() {
-		if ( this.state.currentDetailViewIndex !== -1 ) {
-			return null;
-		}
-
-		return (
-			<SearchBar
-				submitAction={ this.onSearchButtonClick.bind( this ) }
-				searchString={ this.state.searchString }
-			/>
-		);
-	}
-
-	/**
-	 * Gets the current error message if it is set in the state.
-	 *
-	 * @returns {ReactElement|string} Returns a rendered error object if an error is set.
-	 */
-	getErrorMessage() {
-		if ( this.state.errorMessage ) {
-			return this.renderError();
-		}
-
-		return null;
-	}
-
-	/**
 	 * Gets the loading indicator.
 	 *
-	 * @returns {ReactElement|string} Returns a loader if the searching state is active.
+	 * @returns {ReactElement} Returns a loader.
 	 */
 	getLoadingIndicator() {
-		// Don't show loading indicator when a search has already been performed, to avoid flickering.
-		if ( this.state.searching && ! this.state.results ) {
-			const loadingPlaceholder = this.props.intl.formatMessage( messages.loadingPlaceholder );
-			return <Loading placeholder={ loadingPlaceholder } />;
-		}
+		const loadingPlaceholder = this.props.intl.formatMessage( messages.loadingPlaceholder );
+		return <Loading placeholder={ loadingPlaceholder } />;
+	}
 
-		return null;
+	/**
+	 * Gets the search results.
+	 *
+	 * @returns {ReactElement} Returns the search results.
+	 */
+	getSearchResults() {
+		return <SearchResults
+			{ ...this.props }
+			searchString={ this.state.searchString }
+			results={ this.state.results }
+			handler={ this.setCurrentDetailedViewIndex.bind( this ) }
+		/>;
+	}
+
+	/**
+	 * Gets the search result detail.
+	 *
+	 * @returns {ReactElement} Returns the search result detail.
+	 */
+	getSearchResultDetail() {
+		return <SearchResultDetail
+			{ ...this.props }
+			post={ this.getPostFromResults( this.state.currentDetailViewIndex ) }
+			onClick={ this.unsetCurrentDetailedView.bind( this ) }
+		/>;
 	}
 
 	/**
 	 * Determines what the search results view needs to look like.
 	 *
-	 * @returns {ReactElement|string} Returns a specific search result object based on state.
+	 * @returns {ReactElement} Returns a specific search result object based on state.
 	 */
 	determineSearchResultsView() {
-		if ( this.state.searchString === "" && this.state.currentDetailViewIndex === -1 ) {
-			return null;
+		// Show error when a error message is set.
+		if( this.state.errorMessage ) {
+			return this.getErrorMessage();
+		}
+
+		// Show loading indicator when search results are being fetched and no results are present.
+		if ( this.state.searching && ! this.state.results ) {
+			return this.getLoadingIndicator();
 		}
 
 		// Show the list of search results if the postId for the detail view isn't set.
 		if ( this.state.currentDetailViewIndex === -1 ) {
-			return <SearchResults
-				{ ...this.props }
-				searchString={ this.state.searchString }
-				results={ this.state.results }
-				handler={ this.setCurrentDetailedViewIndex.bind( this ) }
-			/>;
+			return this.getSearchResults();
 		}
 
-		if ( this.state.currentDetailViewIndex !== -1 ) {
-			return <SearchResultDetail
-				{ ...this.props }
-				post={ this.getPostFromResults( this.state.currentDetailViewIndex ) }
-				onClick={ this.unsetCurrentDetailedView.bind( this ) }
-			/>;
-		}
-
-		return null;
+		// Else show the result detail
+		return this.getSearchResultDetail();
 	}
 
 	/**
@@ -314,8 +317,6 @@ class AlgoliaSearcher extends React.Component {
 		return (
 			<AlgoliaSearchWrapper>
 				{ this.createSearchBar() }
-				{ this.getErrorMessage() }
-				{ this.getLoadingIndicator() }
 				{ this.determineSearchResultsView() }
 			</AlgoliaSearchWrapper>
 		);

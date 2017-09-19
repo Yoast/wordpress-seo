@@ -130,9 +130,6 @@ class SearchBar extends React.Component {
 					</SearchLabel>
 					<SearchBarInput
 						onChange={ this.onSearchChange.bind( this ) }
-						onSubmit={ ( event ) => {
-							event.preventDefault();
-						} }
 						type="text"
 						name="search-input"
 						id="search-input"

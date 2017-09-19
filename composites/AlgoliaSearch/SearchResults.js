@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import a11ySpeak from "a11y-speak";
 import { injectIntl, intlShape, defineMessages } from "react-intl";
 import styled from "styled-components";
+
 import { ZebrafiedListTable } from "../basic/Table/ListTable";
 import { Row } from "../basic/Table/Row";
 import colors from "../../style-guide/colors.json";
@@ -54,7 +55,7 @@ export function SearchResult( props ) {
 	let post = props.post;
 
 	return (
-		<Row {...props}>
+		<Row { ...props } >
 			<SearchResultLink href={ post.permalink } onClick={ props.handler }>
 				<SearchResultTitle>{ post.post_title }</SearchResultTitle>
 			</SearchResultLink>
@@ -90,7 +91,6 @@ const NoResults = styled.p`
  * @returns {ReactElement} A list of search results.
  */
 class SearchResults extends React.Component {
-
 	/**
 	 * Constructs the component and sets its initial state.
 	 *
@@ -146,7 +146,7 @@ class SearchResults extends React.Component {
 	resultsToSearchItem( results ) {
 		return results.map( ( result, index ) => {
 			return <SearchResult
-				height="32px"
+				rowHeight="32px"
 				key={ result.objectID }
 				post={ result }
 				handler={ ( event ) => {
@@ -160,7 +160,7 @@ class SearchResults extends React.Component {
 	/**
 	 * Renders the search results list.
 	 *
-	 * @returns {ReactElement} A div with either the search results, or a div with a message that no results were found.
+	 * @returns {ReactElement} Either returns the search results, or a message that no results were found.
 	 */
 	render() {
 		let resultsCount = this.props.results.length;

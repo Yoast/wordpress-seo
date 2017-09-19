@@ -6,7 +6,7 @@ import colors from "../../../style-guide/colors.json";
 export const Row = styled.li`
 	background: ${ props => props.background };
 	display: flex;
-	height: ${ props => props.height };
+	height: ${ props => props.rowHeight };
 	align-items: center;
 	justify-content: space-between;
 `;
@@ -14,6 +14,7 @@ export const Row = styled.li`
 Row.propTypes = {
 	background: PropTypes.string,
 	hasHeaderLabels: PropTypes.bool,
+	rowHeight: PropTypes.string,
 };
 
 Row.defaultProps = {
