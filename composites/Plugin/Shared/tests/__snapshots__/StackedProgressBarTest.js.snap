@@ -1,24 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the BaseButton matches the snapshot 1`] = `
-<div
-  className="stacked-progress-bar sc-bdVaJa bJbZBf"
->
-  <span
-    className="stacked-progress-bar__part sc-bwzfXH gpLKCA"
-  />
-  <span
-    className="stacked-progress-bar__part sc-bwzfXH gKBHnT"
-  />
-  <span
-    className="stacked-progress-bar__part sc-bwzfXH kTBlxh"
-  />
-  <span
-    className="stacked-progress-bar__part sc-bwzfXH cNtiMG"
-  />
-</div>
-`;
-
 exports[`the StackedProgressBar matches the snapshot 1`] = `
 <div
   className="stacked-progress-bar sc-bdVaJa bJbZBf"
