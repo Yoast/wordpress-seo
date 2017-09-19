@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "grunt build:js",
-    "test": "babel-node ./node_modules/istanbul/lib/cli.js cover jasmine",
+    "test": "grunt build:js && babel-node ./node_modules/istanbul/lib/cli.js cover jasmine",
     "check-coverage": "istanbul check-coverage --statements 86 --branches 77 --functions 78 --lines 86"
   },
   "browser": "js/browser.js",
