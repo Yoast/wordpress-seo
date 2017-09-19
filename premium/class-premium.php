@@ -40,7 +40,7 @@ class WPSEO_Premium {
 	private $integrations = array();
 
 	/**
-	 * Function that will be executed when plugin is activated
+	 * Function that will be executed when plugin is activated.
 	 */
 	public static function install() {
 
@@ -93,6 +93,7 @@ class WPSEO_Premium {
 			'premium-search-console' => new WPSEO_Premium_GSC(),
 			'redirects-endpoint' => new WPSEO_Premium_Redirect_EndPoint( new WPSEO_Premium_Redirect_Service() ),
 			'redirect-export-manager' => new WPSEO_Premium_Redirect_Export_Manager(),
+			'keyword-export-manager' => new WPSEO_Premium_Keyword_Export_Manager(),
 		);
 
 		$this->setup();
@@ -127,7 +128,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Setup the Yoast SEO premium plugin
+	 * Sets up the Yoast SEO premium plugin.
 	 */
 	private function setup() {
 
@@ -136,6 +137,7 @@ class WPSEO_Premium {
 		$this->load_textdomain();
 
 		$this->redirect_setup();
+		$this->export_setup();
 
 		if ( is_admin() ) {
 			// Make sure priority is below registration of other implementations of the beacon in News, Video, etc.
@@ -232,7 +234,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Checks if the page is a premium page
+	 * Checks if the page is a premium page.
 	 *
 	 * @param string $page The page to check.
 	 *
@@ -245,7 +247,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Register the promotion class for our GlotPress instance
+	 * Registers the promotion class for our GlotPress instance.
 	 *
 	 * @link https://github.com/Yoast/i18n-module
 	 */
@@ -265,13 +267,21 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Setting the autoloader for the redirects and instantiate the redirect page object
+	 * Sets the autoloader for the redirects and instantiates the redirect page object.
 	 */
 	private function redirect_setup() {
-		// Setting the autoloader for redirects.
+		// Set the autoloader for redirects.
 		new WPSEO_Premium_Autoloader( 'WPSEO_Redirect', 'redirect/', 'WPSEO_' );
 
 		$this->redirects = new WPSEO_Redirect_Page();
+	}
+
+	/**
+	 * Sets the autoloader for the exports.
+	 */
+	private function export_setup() {
+		// Set the autoloader for redirects.
+		new WPSEO_Premium_Autoloader( 'WPSEO_Export', 'export/', 'WPSEO_' );
 	}
 
 	/**
@@ -418,13 +428,13 @@ class WPSEO_Premium {
 		/**
 		 * Filter: 'wpseo_premium_manage_redirects_role' - Change the minimum rule to access and change the site redirects
 		 *
-		 * @api string manage_options
+		 * @api string wpseo_manage_redirects
 		 */
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
 			__( 'Redirects', 'wordpress-seo-premium' ),
-			apply_filters( 'wpseo_premium_manage_redirects_role', 'manage_options' ),
+			apply_filters_deprecated( 'wpseo_premium_manage_redirects_role', array( 'wpseo_manage_redirects' ), 'WPSEO 5.5', false, 'Use the introduced wpseo_manage_redirects capability instead.' ),
 			'wpseo_redirects',
 			array( $this->redirects, 'display' ),
 		);

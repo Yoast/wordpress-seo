@@ -81,6 +81,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_50_51();
 		}
 
+		if ( version_compare( $this->options['version'], '5.5', '<' ) ) {
+			$this->upgrade_55();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -104,9 +108,6 @@ class WPSEO_Upgrade {
 		// Clean up options and meta.
 		WPSEO_Options::clean_up( null, $version );
 		WPSEO_Meta::clean_up();
-
-		// Add new capabilities on upgrade.
-		wpseo_add_capabilities();
 	}
 
 	/**
@@ -377,5 +378,18 @@ class WPSEO_Upgrade {
 
 		$count_storage = new WPSEO_Meta_Storage();
 		$wpdb->query( 'ALTER TABLE ' . $count_storage->get_table_name() . ' MODIFY internal_link_count int(10) UNSIGNED NULL DEFAULT NULL' );
+	}
+
+	/**
+	 * Register new capabilities and roles
+	 */
+	private function upgrade_55() {
+		// Register roles.
+		do_action( 'wpseo_register_roles' );
+		WPSEO_Role_Manager_Factory::get()->add();
+
+		// Register capabilities.
+		do_action( 'wpseo_register_capabilities' );
+		WPSEO_Capability_Manager_Factory::get()->add();
 	}
 }

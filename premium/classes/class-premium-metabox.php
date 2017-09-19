@@ -92,7 +92,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 			),
 			'linkSuggestionsEnabled' => ( $link_suggestions_enabled ) ? 'enabled' : 'disabled',
 			'linkSuggestionsAvailable' => $this->link_suggestions->is_available( $post->post_type ),
-			'linkSuggestionsUnindexed' => $this->link_suggestions->is_site_unindexed() && current_user_can( 'manage_options' ),
+			'linkSuggestionsUnindexed' => $this->link_suggestions->is_site_unindexed() && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ),
 			'linkSuggestions' => $this->link_suggestions->get_js_data(),
 		);
 
