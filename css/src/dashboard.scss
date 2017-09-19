@@ -1,14 +1,14 @@
 #yoast-seo-dashboard-widget {
-	h3 {
+	h3 { /* csslint allow: qualified-headings */
 		font-weight: bold;
 	}
 
-	ul.assessments {
+	.assessments {
 		padding-left: 0;
 		max-width: 300px;
 	}
 
-	ul.score-assessments {
+	.score-assessments {
 		padding-left: 0;
 	}
 
