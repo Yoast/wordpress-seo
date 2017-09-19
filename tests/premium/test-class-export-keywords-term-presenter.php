@@ -129,7 +129,7 @@ class WPSEO_Export_Keywords_Term_Presenter_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_Term_Presenter_Double( array(
 			'title',
 			'url',
-			'seo_score',
+			'readability_score',
 			'keywords',
 			'keywords_score',
 		) );
@@ -143,7 +143,7 @@ class WPSEO_Export_Keywords_Term_Presenter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 'test', $presented['title'] );
 		$this->assertEquals( 'http://example.org/?cat=' . $category, $presented['url'] );
-		$this->assertEquals( 'Needs improvement', $presented['seo_score'] );
+		$this->assertEquals( 'Needs improvement', $presented['readability_score'] );
 
 		$this->assertCount( 1, $presented['keywords'] );
 		$this->assertEquals( 'keyword', $presented['keywords'][0] );

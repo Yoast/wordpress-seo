@@ -111,14 +111,14 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_Post_Presenter::present
 	 */
 	public function test_present() {
-		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title', 'url', 'seo_score', 'keywords', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score' ) );
 
 		$fake_post = $this->factory->post->create( array( 'title' => 'fake post' ) );
 		$fake_result = array(
 			'ID' => var_export( $fake_post, true ),
 			'post_type' => 'post',
 			'post_title' => 'fake post',
-			'seo_score' => '50',
+			'readability_score' => '50',
 			'primary_keyword' => 'bar',
 			'primary_keyword_score' => '60',
 			'other_keywords' => '[{"keyword": "foo", "score": "good"},{"keyword": "baz", "score": "bad"}]'
@@ -129,7 +129,7 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $fake_post, $result['ID'] );
 		$this->assertEquals( 'fake post', $result['title'] );
 		$this->assertEquals( get_permalink( $fake_post ), $result['url'] );
-		$this->assertEquals( 'OK', $result['seo_score'] );
+		$this->assertEquals( 'OK', $result['readability_score'] );
 		$this->assertEquals( array( 'bar', 'foo', 'baz' ), $result['keywords'] );
 		$this->assertEquals( array( 'OK', 'Good', 'Needs improvement' ), $result['keywords_score'] );
 	}
@@ -176,14 +176,14 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_Post_Presenter::present
 	 */
 	public function test_present_null() {
-		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title', 'url', 'seo_score', 'keywords', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score' ) );
 
 		$fake_post = $this->factory->post->create( array( 'title' => 'fake post' ) );
 		$fake_result = array(
 			'ID' => var_export( $fake_post, true ),
 			'post_title' => 'fake post',
 			'post_type' => 'post',
-			'seo_score' => null,
+			'readability_score' => null,
 			'primary_keyword' => null,
 			'primary_keyword_score' => null,
 			'other_keywords' => null
@@ -194,7 +194,7 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $fake_post, $result['ID'] );
 		$this->assertEquals( 'fake post', $result['title'] );
 		$this->assertEquals( get_permalink( $fake_post ), $result['url'] );
-		$this->assertEquals( 'Not available', $result['seo_score'] );
+		$this->assertEquals( 'Not available', $result['readability_score'] );
 		$this->assertEquals( array(), $result['keywords'] );
 		$this->assertEquals( array(), $result['keywords_score'] );
 	}

@@ -112,7 +112,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_set_columns_complete() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'readability_score', 'keywords_score' ) );
 
 		$selects = $class_instance->get_selects();
 		$joins = $class_instance->get_joins();
@@ -124,7 +124,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 		$this->assertContains( 'primary_keyword_join.meta_value AS primary_keyword', $selects );
 		$this->assertContains( 'primary_keyword_score_join.meta_value AS primary_keyword_score', $selects );
 		$this->assertContains( 'other_keywords_join.meta_value AS other_keywords', $selects );
-		$this->assertContains( 'seo_score_join.meta_value AS seo_score', $selects );
+		$this->assertContains( 'readability_score_join.meta_value AS readability_score', $selects );
 
 		$this->assertCount( 4, $joins );
 		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS primary_keyword_join ' .
@@ -133,9 +133,9 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS primary_keyword_score_join ' .
 							   'ON primary_keyword_score_join.post_id = posts.ID ' .
 							   'AND primary_keyword_score_join.meta_key = "_yoast_wpseo_linkdex"', $joins );
-		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS seo_score_join ' .
-							   'ON seo_score_join.post_id = posts.ID ' .
-							   'AND seo_score_join.meta_key = "_yoast_wpseo_content_score"', $joins );
+		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS readability_score_join ' .
+							   'ON readability_score_join.post_id = posts.ID ' .
+							   'AND readability_score_join.meta_key = "_yoast_wpseo_content_score"', $joins );
 		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS other_keywords_join ' .
 							   'ON other_keywords_join.post_id = posts.ID ' .
 							   'AND other_keywords_join.meta_key = "_yoast_wpseo_focuskeywords"', $joins );
@@ -171,7 +171,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_get_data() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'readability_score', 'keywords_score' ) );
 
 		// Create fake data.
 		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post' ) );
@@ -185,7 +185,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 		$this->assertCount( 1, $results );
 		$this->assertEquals( $fake_post, $results[0]['ID'] );
 		$this->assertEquals( 'fake post', $results[0]['post_title'] );
-		$this->assertEquals( '80', $results[0]['seo_score'] );
+		$this->assertEquals( '80', $results[0]['readability_score'] );
 		$this->assertEquals( 'foo', $results[0]['primary_keyword'] );
 		$this->assertEquals( '10', $results[0]['primary_keyword_score'] );
 		$this->assertEquals( '[{"keyword": "foo", "score": "good"},{"keyword": "baz", "score": "bad"}]', $results[0]['other_keywords'] );
@@ -219,7 +219,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_get_data_public_only() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'readability_score', 'keywords_score' ) );
 
 		// Create fake data.
 		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post', 'post_status' => 'draft' ) );
@@ -248,7 +248,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_get_data_null() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'seo_score', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'readability_score', 'keywords_score' ) );
 
 		// Create fake data.
 		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post' ) );
@@ -258,7 +258,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 		$this->assertCount( 1, $results );
 		$this->assertEquals( $fake_post, $results[0]['ID'] );
 		$this->assertEquals( 'fake post', $results[0]['post_title'] );
-		$this->assertNull( $results[0]['seo_score'] );
+		$this->assertNull( $results[0]['readability_score'] );
 		$this->assertNull( $results[0]['primary_keyword'] );
 		$this->assertNull( $results[0]['primary_keyword_score'] );
 		$this->assertNull( $results[0]['other_keywords'] );
