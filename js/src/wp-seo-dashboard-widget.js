@@ -7,7 +7,6 @@ import SeoAssessment from "yoast-components/composites/Plugin/DashboardWidget/co
 import ScoreAssessments from "yoast-components/composites/Plugin/Shared/components/ScoreAssessments";
 import getFeed from "yoast-components/utils/getFeed";
 import WordpressFeed from "yoast-components/composites/Plugin/DashboardWidget/components/WordpressFeed";
-import Divider from "yoast-components/composites/Plugin/DashboardWidget/components/Divider";
 import colors from "yoast-components/style-guide/colors.json";
 
 class DashboardWidget extends React.Component {
@@ -188,12 +187,7 @@ class DashboardWidget extends React.Component {
 
 		return (
 			<div>
-				{ contents.reduce( function( list, component, i ) {
-					if ( list === null ) {
-						return [ component ];
-					}
-					return [ ...list, <Divider key={ i }/>, component ];
-				}, null ) }
+				{ contents }
 			</div>
 		);
 	}

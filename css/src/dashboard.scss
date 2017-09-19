@@ -1,5 +1,38 @@
+#yoast-seo-dashboard-widget {
+	h3 {
+		font-weight: bold;
+	}
+
+	ul.assessments {
+		padding-left: 0;
+		max-width: 300px;
+	}
+
+	ul.score-assessments {
+		padding-left: 0;
+	}
+
+	.wordpress-feed {
+		margin: 16px -12px 0;
+		padding: 12px 12px 0;
+		border-top: 1px solid #eee;
+
+		.wordpress-feed__post {
+			margin-top: 12px;
+		}
+
+		.wordpress-feed__footer {
+			margin: 0 -12px;
+			padding: 4px 12px 0;
+			border-top: 1px solid #eee;
+		}
+	}
+}
+
 #yoast-seo-ryte-assessment {
-	margin: 8px 0;
+	margin: 12px -12px 0;
+	padding: 12px 12px 0;
+	border-top: 1px solid #eee;
 
 	.button {
 		margin-right: 8px;
@@ -57,35 +90,4 @@
 		}
 	}
 
-}
-
-// These styles will be replaced with actual class names with Yoast Components 2.9.1.
-#yoast-seo-dashboard-widget > div {
-	margin: 0 -12px;
-}
-
-#yoast-seo-dashboard-widget > div > * {
-	padding: 0 12px;
-}
-
-#yoast-seo-dashboard-widget > div > div > ul {
-	padding-left: 0;
-	max-width: 300px;
-}
-
-#yoast-seo-dashboard-widget > div > div > h3 {
-	font-weight: bold;
-	margin-top: 8px;
-}
-
-#yoast-seo-dashboard-widget > div > div:last-child > ul > li {
-	margin-top: 12px;
-}
-
-#yoast-seo-dashboard-widget > div > div:last-child > div:last-child {
-	margin: 0 -12px;
-}
-
-#yoast-seo-dashboard-widget > div > div:last-child > div:last-child > a {
-	margin: 12px 12px 0;
 }
