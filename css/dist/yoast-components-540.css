@@ -351,6 +351,27 @@ body {
 	}
 }
 
+.yoast-wizard--header {
+	text-align: center;
+}
+
+.yoast-wizard--header--page-title {
+	margin: 0 0 -16px;
+	padding: 0 8px;
+	color: #a4286a;
+	font-size: 1.25em;
+	font-weight: normal;
+	line-height: 2.5;
+	letter-spacing: 0.03em;
+}
+
+@media screen and (max-width: 768px) {
+	.yoast-wizard--header--page-title {
+		font-size: 1.5em;
+		line-height: 1.25;
+	}
+}
+
 .yoast-wizard--navigation {
 	width: 100%;
 	text-align: right;
@@ -495,7 +516,6 @@ body {
 
 .yoast-wizard-container fieldset {
 	margin: 1em 0;
-	padding-left: 0.5em;
 	border: 0;
 }
 
@@ -507,6 +527,7 @@ body {
 .yoast-wizard-text-input-label {
 	display: block;
 	margin: 0.5em 0 0;
+	font-size: 14px;
 	font-weight: bold;
 	cursor: pointer;
 }
@@ -567,7 +588,7 @@ body {
 	float: left;
 	width: 30px !important;
 	margin: 0 5px 5px 0 !important;
-	padding: 9px 6px;
+	padding: 6px 3px;
 	border: 1px solid #ccc;
 	/* Don't change: these mimic Google's font and font size for titles */
 	font-family: Arial, Helvetica, sans-serif !important;
@@ -617,6 +638,14 @@ body {
 	border-left: 4px solid #dc3232;
 	background: #fff;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.yoast-wizard-content-container {
+	max-width: 560px;
+}
+
+.yoast-wizard-content-container.yoast-wizard-content-container__is-full-width {
+	max-width: none;
 }
 
 @keyframes heartbeat {
