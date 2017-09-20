@@ -8,7 +8,8 @@
  */
 class WPSEO_Cornerstone_Filter {
 
-	const FILTER_QUERY_ARG = 'yoast_cornerstone';
+	const FILTER_QUERY_ARG = 'yoast_filter';
+	const FILTER_QUERY_VAL = 'cornerstone';
 
 	/**
 	 * Registers the hook.
@@ -71,7 +72,7 @@ class WPSEO_Cornerstone_Filter {
 	 */
 	protected function get_cornerstone_url() {
 		$cornerstone_url = remove_query_arg( array( 'post_status' ) );
-		$cornerstone_url = add_query_arg( self::FILTER_QUERY_ARG, '1', $cornerstone_url );
+		$cornerstone_url = add_query_arg( self::FILTER_QUERY_ARG, self::FILTER_QUERY_VAL, $cornerstone_url );
 
 		return $cornerstone_url;
 	}
@@ -103,7 +104,7 @@ class WPSEO_Cornerstone_Filter {
 	 * @return bool
 	 */
 	protected function is_cornerstone_filter_active() {
-		return ( filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === '1' );
+		return ( filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === self::FILTER_QUERY_VAL );
 	}
 
 	/**
