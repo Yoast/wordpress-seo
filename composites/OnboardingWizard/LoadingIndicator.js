@@ -10,8 +10,6 @@ const style = {
 	refresh: {
 		display: "inline-block",
 		position: "relative",
-		zIndex: 11,
-		justifyContent: "center",
 	},
 };
 
