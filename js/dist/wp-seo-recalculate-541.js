@@ -15321,20 +15321,38 @@ to be used as filters for the prominent words.
 
 module.exports = function () {
 	return {
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtBeginning: [].concat(passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive),
-
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat(ordinalNumerals, generalAdjectivesAdverbs),
-
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers),
-
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, reflexivePronouns, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeProAdverbs, relativePronouns, locativeAdverbs, miscellaneous, prepositionalAdverbs, pronominalAdverbs, recipeWords, timeWords, vagueNouns, reciprocalPronouns, possessivePronouns),
-
-		// This export contains all of the above words.
-		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, indefinitePronounsPossessive, relativePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, prepositionalAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
+		articles: articles,
+		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative),
+		possessivePronouns: possessivePronouns,
+		prepositions: prepositions,
+		demonstrativePronouns: demonstrativePronouns,
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
+		verbs: filteredPassiveAuxiliaries.concat(otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs),
+		infinitives: passiveAuxiliariesInfinitive.concat(otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive),
+		quantifiers: quantifiers,
+		relativePronouns: relativePronouns,
+		interrogatives: interrogativeProAdverbs,
+		passiveAuxiliaries: filteredPassiveAuxiliaries,
+		transitionWords: transitionWords.concat(additionalTransitionWords),
+		miscellaneous: miscellaneous,
+		pronominalAdverbs: pronominalAdverbs,
+		interjections: interjections,
+		reflexivePronouns: reflexivePronouns,
+		reciprocalPronouns: reciprocalPronouns,
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns.concat(indefinitePronounsPossessive),
+		locativeAdverbs: locativeAdverbs,
+		prepositionalAdverbs: prepositionalAdverbs,
+		intensifiers: intensifiers,
+		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		recipeWords: recipeWords,
+		timeWords: timeWords,
+		vagueNouns: vagueNouns,
+		titlesPreceding: titlesPreceding,
+		titlesFollowing: titlesFollowing,
+		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, indefinitePronounsPossessive, relativePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, prepositionalAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
 	};
 };
 
@@ -15690,17 +15708,37 @@ var titlesFollowing = ["jr", "sr"];
 
 module.exports = function () {
 	return {
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat(ordinalNumerals, continuousVerbs, generalAdjectivesAdverbs),
-
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
-
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat(transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative, reflexivePronouns, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, pronominalAdverbs, recipeWords, timeWords, vagueNouns),
-
-		// This export contains all of the above words.
-		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs, indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries, otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
+		articles: articles,
+		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative),
+		possessivePronouns: possessivePronouns,
+		prepositions: prepositions,
+		demonstrativePronouns: demonstrativePronouns,
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
+		verbs: filteredPassiveAuxiliaries.concat(otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs),
+		continuousVerbs: notFilteredPassiveAuxiliaries.concat(continuousVerbs),
+		quantifiers: quantifiers,
+		interrogatives: interrogativeDeterminers.concat(interrogativePronouns, interrogativeProAdverbs),
+		passiveAuxiliaries: filteredPassiveAuxiliaries,
+		transitionWords: transitionWords.concat(additionalTransitionWords),
+		miscellaneous: miscellaneous,
+		pronominalAdverbs: pronominalAdverbs,
+		interjections: interjections,
+		reflexivePronouns: reflexivePronouns,
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns.concat(indefinitePronounsPossessive),
+		locativeAdverbs: locativeAdverbs,
+		adverbialGenitives: adverbialGenitives,
+		prepositionalAdverbs: prepositionalAdverbs,
+		intensifiers: intensifiers,
+		recipeWords: recipeWords,
+		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		timeWords: timeWords,
+		vagueNouns: vagueNouns,
+		titlesPreceding: titlesPreceding,
+		titlesFollowing: titlesFollowing,
+		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs, indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries, otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
 	};
 };
 
@@ -15754,6 +15792,7 @@ var getVerbsEndingInIng = function getVerbsEndingInIng(sentence) {
 var getSentenceBreakers = function getSentenceBreakers(sentence) {
 	sentence = sentence.toLocaleLowerCase();
 	var auxiliaryIndices = getIndicesOfList(auxiliaries, sentence);
+
 	var stopwordIndices = getIndicesOfList(stopwords, sentence);
 
 	var ingVerbs = getVerbsEndingInIng(sentence);
@@ -15795,6 +15834,7 @@ var getSentenceParts = function getSentenceParts(sentence) {
 	}
 
 	var indices = getSentenceBreakers(sentence);
+
 	// Get the words after the found auxiliary.
 	for (var i = 0; i < indices.length; i++) {
 		var endIndex = sentence.length;
@@ -15806,6 +15846,7 @@ var getSentenceParts = function getSentenceParts(sentence) {
 		var sentencePart = stripSpaces(sentence.substr(indices[i].index, endIndex - indices[i].index));
 
 		var auxiliaryMatches = getAuxiliaryMatches(sentencePart);
+
 		// If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
 		if (auxiliaryMatches.length !== 0) {
 			sentenceParts.push(new SentencePart(sentencePart, auxiliaryMatches));
@@ -16080,9 +16121,9 @@ module.exports = function (paper) {
 
 var createRegexFromDoubleArray = require("../stringProcessing/createRegexFromDoubleArray.js");
 var getSentences = require("../stringProcessing/getSentences.js");
+var matchWordInSentence = require("../stringProcessing/matchWordInSentence.js");
 var normalizeSingleQuotes = require("../stringProcessing/quotes.js").normalizeSingle;
 var getTransitionWords = require("../helpers/getTransitionWords.js");
-var matchWordInSentence = require("../stringProcessing/matchWordInSentence.js").isWordInSentence;
 
 var forEach = require("lodash/forEach");
 var filter = require("lodash/filter");
@@ -16328,20 +16369,37 @@ var titlesFollowing = ["jr", "sr"];
 
 module.exports = function () {
 	return {
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat(ordinalNumerals, otherAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive, generalAdjectivesAdverbsPreceding),
-
-		// These word categories are filtered at the beginning of word combinations.
-		filteredAtBeginning: generalAdjectivesAdverbs,
-
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
-
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsStressed, reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeAdjectives, relativePronouns, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns),
-
-		// This export contains all of the above words.
-		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing)
+		articles: articles,
+		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative, personalPronounsStressed),
+		possessivePronouns: possessivePronouns,
+		prepositions: prepositions,
+		demonstrativePronouns: demonstrativePronouns,
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
+		verbs: copula.concat(interviewVerbs, otherAuxiliaries, delexicalizedVerbs),
+		quantifiers: quantifiers,
+		relativePronouns: relativePronouns,
+		interrogatives: interrogativeProAdverbs.concat(interrogativeAdjectives),
+		transitionWords: transitionWords.concat(additionalTransitionWords),
+		// These verbs that should be filtered at the beginning of prominent word combinations.
+		infinitives: otherAuxiliariesInfinitive.concat(delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive),
+		miscellaneous: miscellaneous,
+		interjections: interjections,
+		pronominalAdverbs: pronominalAdverbs,
+		reflexivePronouns: reflexivePronouns,
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns,
+		locativeAdverbs: locativeAdverbs,
+		intensifiers: intensifiers,
+		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
+		recipeWords: recipeWords,
+		timeWords: timeWords,
+		vagueNouns: vagueNouns,
+		titlesPreceding: titlesPreceding,
+		titlesFollowing: titlesFollowing,
+		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing)
 	};
 };
 
@@ -16650,20 +16708,37 @@ var titlesFollowing = ["jr", "jun", "sen", "sr"];
 
 module.exports = function () {
 	return {
-		// These word categories are filtered at the beginning of word combinations.
-		filteredAtBeginning: [].concat(otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive),
-
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat(ordinalNumerals, generalAdjectivesAdverbs),
-
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers),
-
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat(transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative, personalPronounsDative, reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeProAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns, reciprocalPronouns, possessivePronouns),
-
-		// This export contains all of the above words.
-		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing)
+		articles: articles,
+		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative, personalPronounsDative),
+		possessivePronouns: possessivePronouns,
+		prepositions: prepositions,
+		demonstrativePronouns: demonstrativePronouns,
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
+		verbs: copula.concat(interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries, delexicalizedVerbs),
+		quantifiers: quantifiers,
+		interrogatives: interrogativeProAdverbs,
+		transitionWords: transitionWords.concat(additionalTransitionWords),
+		// These verbs that should be filtered at the beginning of prominent word combinations.
+		infinitives: otherAuxiliariesInfinitive.concat(passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive),
+		miscellaneous: miscellaneous,
+		interjections: interjections,
+		pronominalAdverbs: pronominalAdverbs,
+		reflexivePronouns: reflexivePronouns,
+		reciprocalPronouns: reciprocalPronouns,
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns,
+		locativeAdverbs: locativeAdverbs,
+		adverbialGenitives: adverbialGenitives,
+		intensifiers: intensifiers,
+		recipeWords: recipeWords,
+		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		timeWords: timeWords,
+		vagueNouns: vagueNouns,
+		titlesPreceding: titlesPreceding,
+		titlesFollowing: titlesFollowing,
+		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns, personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing)
 	};
 };
 
@@ -17697,20 +17772,32 @@ var titlesPreceding = ["sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "dott"
 
 module.exports = function () {
 	return {
-		// These word categories are filtered at the beginning of word combinations.
-		filteredAtBeginning: generalAdjectivesAdverbs,
-
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat(ordinalNumerals, interviewVerbsInfinitive, passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive, generalAdjectivesAdverbsPreceding),
-
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
-
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns, interrogativeAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns),
-
-		// This export contains all of the above words.
-		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers, indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers, pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding)
+		articles: articles,
+		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative, personalPronounsPrepositional),
+		possessivePronouns: possessivePronouns,
+		prepositions: prepositions,
+		demonstrativePronouns: demonstrativePronouns,
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
+		verbs: filteredPassiveAuxiliaries.concat(otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs),
+		quantifiers: quantifiers,
+		interrogatives: interrogativeDeterminers.concat(interrogativePronouns, interrogativeAdverbs),
+		transitionWords: transitionWords.concat(additionalTransitionWords),
+		miscellaneous: miscellaneous,
+		pronominalAdverbs: pronominalAdverbs,
+		interjections: interjections,
+		infinitives: interviewVerbsInfinitive.concat(passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive),
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns,
+		locativeAdverbs: locativeAdverbs,
+		intensifiers: intensifiers,
+		recipeWords: recipeWords,
+		generalAdjectivesAdverbs: generalAdjectivesAdverbs,
+		generalAdjectivesAdverbsPreceding: generalAdjectivesAdverbsPreceding,
+		vagueNouns: vagueNouns,
+		titlesPreceding: titlesPreceding,
+		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers, indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers, pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding)
 	};
 };
 
@@ -18027,21 +18114,32 @@ var titlesFollowing = ["jr", "sr"];
 
 module.exports = function () {
 	return {
-
-		// These word categories are filtered at the beginning of word combinations.
-		filteredAtBeginning: generalAdjectivesAdverbs,
-
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat(ordinalNumerals, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive),
-
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
-
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, personalPronounsComitative, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, recipeWords, timeWords, vagueNouns),
-
-		// This export contains all of the above words.
-		all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
+		articles: articles,
+		personalPronouns: personalPronounsNominative.concat(personalPronounsAccusative, personalPronounsPrepositional, personalPronounsComitative),
+		possessivePronouns: possessivePronouns,
+		prepositions: prepositions,
+		demonstrativePronouns: demonstrativePronouns,
+		coordinatingConjunctions: coordinatingConjunctions,
+		conjunctionsFilteredEverywhere: correlativeConjunctions.concat(subordinatingConjunctions),
+		verbs: otherAuxiliaries.concat(copula, interviewVerbs, delexicalizedVerbs),
+		infinitives: otherAuxiliariesInfinitive.concat(copulaInfinitive, delexicalizedVerbsInfinitive),
+		quantifiers: quantifiers,
+		interrogatives: interrogativeDeterminers.concat(interrogativePronouns, interrogativeProAdverbs),
+		transitionWords: transitionWords.concat(additionalTransitionWords),
+		miscellaneous: miscellaneous,
+		interjections: interjections,
+		cardinalNumerals: cardinalNumerals,
+		ordinalNumerals: ordinalNumerals,
+		indefinitePronouns: indefinitePronouns,
+		locativeAdverbs: locativeAdverbs,
+		prepositionalAdverbs: prepositionalAdverbs,
+		intensifiers: intensifiers,
+		recipeWords: recipeWords,
+		timeWords: timeWords,
+		vagueNouns: vagueNouns,
+		titlesPreceding: titlesPreceding,
+		titlesFollowing: titlesFollowing,
+		all: articles.concat(cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
 	};
 };
 
@@ -18232,7 +18330,7 @@ module.exports = function (matchString, extraWordBoundary) {
   var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
   var _extraWordBoundary = extraWordBoundary || "";
 
-  wordBoundary = "[ \\u00a0\xA0\\n\\r\\t.,'()\"+-;!?:/\xBB\xAB\u2039\u203A" + _extraWordBoundary + "<>]";
+  wordBoundary = "[ \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›" + _extraWordBoundary + "<>]";
   wordBoundaryStart = "(^|" + wordBoundary + ")";
   wordBoundaryEnd = "($|" + wordBoundary + ")";
 
@@ -18969,8 +19067,7 @@ module.exports = function (text) {
 var isUndefined = require("lodash/isUndefined");
 var forEach = require("lodash/forEach");
 var stripSpaces = require("../stringProcessing/stripSpaces.js");
-var matchWordInSentence = require("../stringProcessing/matchWordInSentence.js").isWordInSentence;
-var characterInBoundary = require("../stringProcessing/matchWordInSentence.js").characterInBoundary;
+var matchWordInSentence = require("../stringProcessing/matchWordInSentence.js");
 
 /**
  * Returns the indices of a string in a text. If it is found multiple times, it will return multiple indices.
@@ -18985,17 +19082,10 @@ function getIndicesByWord(word, text) {
 	var index,
 	    indices = [];
 	while ((index = text.indexOf(word, startIndex)) > -1) {
-		// Check if the previous and next character are word boundaries to determine if a complete word was detected
-		var isPreviousCharacterWordBoundary = characterInBoundary(text[index - 1]) || index === 0;
-
-		var isNextCharacterWordBoundary = characterInBoundary(text[index + searchStringLength]) || text.length === index + searchStringLength;
-
-		if (isPreviousCharacterWordBoundary && isNextCharacterWordBoundary) {
-			indices.push({
-				index: index,
-				match: word
-			});
-		}
+		indices.push({
+			index: index,
+			match: word
+		});
 		startIndex = index + searchStringLength;
 	}
 	return indices;
@@ -19019,6 +19109,7 @@ var getIndicesByWordList = function getIndicesByWordList(words, text) {
 		}
 		matchedWords = matchedWords.concat(getIndicesByWord(word, text));
 	});
+
 	return matchedWords;
 };
 
@@ -19221,7 +19312,6 @@ module.exports = function (text, wordToMatch, locale, extraBoundary) {
 
 var wordBoundaries = require("../config/wordBoundaries.js")();
 var includes = require("lodash/includes");
-var addWordBoundary = require("./addWordboundary.js");
 
 /**
  * Checks whether a character is present in the list of word boundaries.
@@ -19240,27 +19330,18 @@ var characterInBoundary = function characterInBoundary(character) {
  * @param {string} sentence The sentence to look through.
  * @returns {boolean} Whether or not the word is present in the sentence.
  */
-var isWordInSentence = function isWordInSentence(word, sentence) {
+module.exports = function (word, sentence) {
 	// To ensure proper matching, make everything lowercase.
 	word = word.toLocaleLowerCase();
 	sentence = sentence.toLocaleLowerCase();
 
-	var wordWithBoundaries = addWordBoundary(word);
-	var occurrenceStart = sentence.search(new RegExp(wordWithBoundaries, "ig"));
+	var occurrenceStart = sentence.indexOf(word);
+	var occurrenceEnd = occurrenceStart + word.length;
+
 	// Return false if no match has been found.
 	if (occurrenceStart === -1) {
 		return false;
 	}
-	/*
- If there is a word boundary before the matched word, the regex includes this word boundary in the match.
- This means that occurrenceStart is the index of the word boundary before the match. Therefore 1 has to
- be added to occurrenceStart, except when there is no word boundary before the match (i.e. at the start
- of a sentence).
-  */
-	if (occurrenceStart > 0) {
-		occurrenceStart += 1;
-	}
-	var occurrenceEnd = occurrenceStart + word.length;
 
 	// Check if the previous and next character are word boundaries to determine if a complete word was detected
 	var previousCharacter = characterInBoundary(sentence[occurrenceStart - 1]) || occurrenceStart === 0;
@@ -19269,12 +19350,7 @@ var isWordInSentence = function isWordInSentence(word, sentence) {
 	return previousCharacter && nextCharacter;
 };
 
-module.exports = {
-	characterInBoundary: characterInBoundary,
-	isWordInSentence: isWordInSentence
-};
-
-},{"../config/wordBoundaries.js":254,"./addWordboundary.js":349,"lodash/includes":173}],371:[function(require,module,exports){
+},{"../config/wordBoundaries.js":254,"lodash/includes":173}],371:[function(require,module,exports){
 "use strict";
 
 /**
@@ -19492,7 +19568,7 @@ function filterFunctionWordsAtEnding(wordCombinations, functionWords) {
  * @param {Array} functionWords The list of function words.
  * @returns {WordCombination[]} Filtered word combinations.
  */
-function filterFunctionWordsAtBeginningAndEnding(wordCombinations, functionWords) {
+function filterFunctionWords(wordCombinations, functionWords) {
 	wordCombinations = filterFunctionWordsAtBeginning(wordCombinations, functionWords);
 	wordCombinations = filterFunctionWordsAtEnding(wordCombinations, functionWords);
 	return wordCombinations;
@@ -19514,33 +19590,75 @@ function filterOnDensity(wordCombinations, wordCount, densityLowerLimit, density
 }
 
 /**
- * Filters the list of word combination objects based on the language-specific function word filters.
- * Word combinations with specific parts of speech are removed.
+ * Filters the list of word combination objects.
+ * Word combinations with specific parts of speech at the beginning and/or end are removed.
  *
  * @param {Array} combinations The list of word combination objects.
  * @param {Function} functionWords The function containing the lists of function words.
+ * @param {string} locale The paper's locale.
  * @returns {Array} The filtered list of word combination objects.
  */
-function filterFunctionWords(combinations, functionWords) {
-	combinations = filterFunctionWordsAnywhere(combinations, functionWords().filteredAnywhere);
-	combinations = filterFunctionWordsAtBeginningAndEnding(combinations, functionWords().filteredAtBeginningAndEnding);
-	combinations = filterFunctionWordsAtEnding(combinations, functionWords().filteredAtEnding);
-	combinations = filterFunctionWordsAtBeginning(combinations, functionWords().filteredAtBeginning);
-	return combinations;
-}
-
-/**
- * Filters the list of word combination objects based on function word filters, a special character filter and
- * a one-character filter.
- *
- * @param {Array} combinations The list of word combination objects.
- * @param {Function} functionWords The function containing the lists of function words.
- * @returns {Array} The filtered list of word combination objects.
- */
-function filterCombinations(combinations, functionWords) {
+function filterCombinations(combinations, functionWords, locale) {
 	combinations = filterFunctionWordsAnywhere(combinations, specialCharacters);
 	combinations = filterOneCharacterWordCombinations(combinations);
-	combinations = filterFunctionWords(combinations, functionWords);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().transitionWords);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().adverbialGenitives);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().personalPronouns);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().reflexivePronouns);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().interjections);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().cardinalNumerals);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().verbs);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().indefinitePronouns);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().conjunctionsFilteredEverywhere);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().interrogatives);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().relativePronouns);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().locativeAdverbs);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().miscellaneous);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().prepositionalAdverbs);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().pronominalAdverbs);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().recipeWords);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().timeWords);
+	combinations = filterFunctionWordsAnywhere(combinations, functionWords().vagueNouns);
+	combinations = filterFunctionWords(combinations, functionWords().articles);
+	combinations = filterFunctionWords(combinations, functionWords().prepositions);
+	combinations = filterFunctionWords(combinations, functionWords().coordinatingConjunctions);
+	combinations = filterFunctionWords(combinations, functionWords().demonstrativePronouns);
+	combinations = filterFunctionWords(combinations, functionWords().intensifiers);
+	combinations = filterFunctionWords(combinations, functionWords().quantifiers);
+	combinations = filterFunctionWordsAtEnding(combinations, functionWords().ordinalNumerals);
+	combinations = filterFunctionWordsAtEnding(combinations, functionWords().titlesPreceding);
+	combinations = filterFunctionWordsAtBeginning(combinations, functionWords().titlesFollowing);
+	switch (getLanguage(locale)) {
+		case "en":
+			combinations = filterFunctionWordsAtEnding(combinations, functionWords().continuousVerbs);
+			combinations = filterFunctionWordsAtEnding(combinations, functionWords().generalAdjectivesAdverbs);
+			combinations = filterFunctionWords(combinations, functionWords().possessivePronouns);
+			break;
+		case "es":
+			combinations = filterFunctionWordsAtEnding(combinations, functionWords().infinitives);
+			combinations = filterFunctionWordsAtBeginning(combinations, functionWords().generalAdjectivesAdverbs);
+			combinations = filterFunctionWords(combinations, functionWords().possessivePronouns);
+			break;
+		case "it":
+			combinations = filterFunctionWordsAtEnding(combinations, functionWords().infinitives);
+			combinations = filterFunctionWordsAtBeginning(combinations, functionWords().generalAdjectivesAdverbs);
+			combinations = filterFunctionWordsAtEnding(combinations, functionWords().generalAdjectivesAdverbsPreceding);
+			combinations = filterFunctionWords(combinations, functionWords().possessivePronouns);
+			break;
+		case "fr":
+			combinations = filterFunctionWordsAtEnding(combinations, functionWords().infinitives);
+			combinations = filterFunctionWordsAtBeginning(combinations, functionWords().generalAdjectivesAdverbs);
+			combinations = filterFunctionWordsAtEnding(combinations, functionWords().generalAdjectivesAdverbsPreceding);
+			combinations = filterFunctionWords(combinations, functionWords().possessivePronouns);
+			break;
+		case "de":
+		case "nl":
+			combinations = filterFunctionWordsAtBeginning(combinations, functionWords().infinitives);
+			combinations = filterFunctionWordsAtEnding(combinations, functionWords().generalAdjectivesAdverbs);
+			combinations = filterFunctionWordsAnywhere(combinations, functionWords().reciprocalPronouns);
+			combinations = filterFunctionWordsAnywhere(combinations, functionWords().possessivePronouns);
+			break;
+	}
 	return combinations;
 }
 /**
@@ -19595,7 +19713,7 @@ function getRelevantWords(text, locale) {
 
 	var combinations = oneWordCombinations.concat(twoWordCombinations, threeWordCombinations, fourWordCombinations, fiveWordCombinations);
 
-	combinations = filterCombinations(combinations, functionWords);
+	combinations = filterCombinations(combinations, functionWords, locale);
 
 	forEach(combinations, function (combination) {
 		combination.setRelevantWords(oneWordRelevanceMap);
@@ -19619,7 +19737,7 @@ module.exports = {
 	sortCombinations: sortCombinations,
 	filterFunctionWordsAtEnding: filterFunctionWordsAtEnding,
 	filterFunctionWordsAtBeginning: filterFunctionWordsAtBeginning,
-	filterFunctionWords: filterFunctionWordsAtBeginningAndEnding,
+	filterFunctionWords: filterFunctionWords,
 	filterFunctionWordsAnywhere: filterFunctionWordsAnywhere,
 	filterOnDensity: filterOnDensity,
 	filterOneCharacterWordCombinations: filterOneCharacterWordCombinations
