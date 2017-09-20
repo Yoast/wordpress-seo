@@ -10,6 +10,8 @@ const style = {
 	refresh: {
 		display: "inline-block",
 		position: "relative",
+		zIndex: 11,
+		justifyContent: "center",
 	},
 };
 
@@ -26,8 +28,6 @@ const LoadingIndicator = () => (
 			top={100}
 			status="loading"
 			style={style.refresh}
-			justify-content= "center"
-			z-index={11}
 		/>
 	</div>
 );
