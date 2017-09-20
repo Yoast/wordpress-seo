@@ -42,7 +42,6 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
-		add_action( 'admin_init', array( $this, 'validate_extensions' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'blog_public_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'permalink_notice' ), 15 );
@@ -59,54 +58,6 @@ class WPSEO_Admin_Init {
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
-	}
-
-	/**
-	 * Validates the extensions and show a notice for the invalid extensions.
-	 */
-	public function validate_extensions() {
-
-		if ( filter_input( INPUT_GET, 'page' ) === WPSEO_Admin::PAGE_IDENTIFIER ) {
-			/**
-			 * Filter: 'yoast-active-extensions' - Collects all active extensions. This hook is implemented in the
-			 *                                     license manager.
-			 *
-			 * @api array $extensions The array with extensions.
-			 */
-			apply_filters( 'yoast-active-extensions', array() );
-		}
-
-		$extension_list = new WPSEO_Extensions();
-		$extensions = $extension_list->get();
-
-		$notification_center = Yoast_Notification_Center::get();
-
-		foreach ( $extensions as $product_name ) {
-			$notification_options = array(
-				'type'         => Yoast_Notification::ERROR,
-				'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name,  null, 'save' ),
-				'capabilities' => 'manage_options',
-			);
-
-			$notification = new Yoast_Notification(
-				/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
-				sprintf(
-					__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
-					$product_name,
-				'<a href="https://yoa.st/13j" target="_blank">My Yoast</a>'
-				),
-				$notification_options
-			);
-
-			// Add a notification when the installed plugin isn't activated in My Yoast.
-			if ( $extension_list->is_installed( $product_name ) && ! $extension_list->is_valid( $product_name ) ) {
-				$notification_center->add_notification( $notification );
-
-				continue;
-			}
-
-			$notification_center->remove_notification( $notification );
-		}
 	}
 
 	/**
@@ -149,7 +100,7 @@ class WPSEO_Admin_Init {
 		$notification_options = array(
 			'type'         => Yoast_Notification::ERROR,
 			'id'           => 'wpseo-dismiss-tagline-notice',
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 		);
 
 		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
@@ -180,7 +131,7 @@ class WPSEO_Admin_Init {
 			'type'         => Yoast_Notification::ERROR,
 			'id'           => 'wpseo-dismiss-blog-public-notice',
 			'priority'     => 1.0,
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 		);
 
 		$notification = new Yoast_Notification( $info_message, $notification_options );
@@ -212,7 +163,7 @@ class WPSEO_Admin_Init {
 		$notification_options = array(
 			'type'         => Yoast_Notification::WARNING,
 			'id'           => 'wpseo-dismiss-page_comments-notice',
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 		);
 
 		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
@@ -234,7 +185,11 @@ class WPSEO_Admin_Init {
 	public function has_default_tagline() {
 		$blog_description = get_bloginfo( 'description' );
 		$default_blog_description    = 'Just another WordPress site';
+
+		// We are checking against the WordPress internal translation.
+		// @codingStandardsIgnoreLine
 		$translated_blog_description = __( 'Just another WordPress site' );
+
 		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
 	}
 
@@ -255,7 +210,7 @@ class WPSEO_Admin_Init {
 		$notification_options = array(
 			'type'         => Yoast_Notification::WARNING,
 			'id'           => 'wpseo-dismiss-permalink-notice',
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 			'priority'     => 0.8,
 		);
 
@@ -380,24 +335,29 @@ class WPSEO_Admin_Init {
 			return;
 		}
 
-		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
-		if ( $can_access && ! $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
-			Yoast_Notification_Center::get()->add_notification(
-				new Yoast_Notification(
-					sprintf(
-						/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
-						__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
-						'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
-						'</a>'
-					),
-					array(
-						'type'  => 'updated yoast-dismissible',
-						'id'    => 'wpseo-dismiss-recalculate',
-						'nonce' => wp_create_nonce( 'wpseo-dismiss-recalculate' ),
-					)
-				)
-			);
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+			return;
 		}
+
+		if ( $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
+			return;
+		}
+
+		Yoast_Notification_Center::get()->add_notification(
+			new Yoast_Notification(
+				sprintf(
+					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
+					__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
+					'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
+					'</a>'
+				),
+				array(
+					'type'  => 'updated yoast-dismissible',
+					'id'    => 'wpseo-dismiss-recalculate',
+					'nonce' => wp_create_nonce( 'wpseo-dismiss-recalculate' ),
+				)
+			)
+		);
 	}
 
 	/**
@@ -497,19 +457,42 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Register the promotion class for our GlotPress instance
+	 * Registers the promotion class for our GlotPress instance, then creates a notification with the i18n promo.
 	 *
 	 * @link https://github.com/Yoast/i18n-module
 	 */
 	private function register_i18n_promo_class() {
 		// BC, because an older version of the i18n-module didn't have this class.
-		new Yoast_I18n_WordPressOrg_v2(
+		$i18n_module = new Yoast_I18n_WordPressOrg_v3(
 			array(
 				'textdomain'  => 'wordpress-seo',
 				'plugin_name' => 'Yoast SEO',
 				'hook'        => 'wpseo_admin_promo_footer',
+			), false
+		);
+
+		$message = $i18n_module->get_promo_message();
+
+		if ( $message !== '' ) {
+			$message .= $i18n_module->get_dismiss_i18n_message_button();
+		}
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		$notification = new Yoast_Notification(
+			$message,
+			array(
+				'type' => Yoast_Notification::WARNING,
+				'id'   => 'i18nModuleTranslationAssistance',
 			)
 		);
+
+		if ( $message ) {
+			$notification_center->add_notification( $notification );
+			return;
+		}
+
+		$notification_center->remove_notification( $notification );
 	}
 
 	/**

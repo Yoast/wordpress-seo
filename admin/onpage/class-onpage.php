@@ -124,7 +124,7 @@ class WPSEO_OnPage {
 			array(
 				'type'  => Yoast_Notification::ERROR,
 				'id'    => 'wpseo-dismiss-onpageorg',
-				'capabilities' => 'manage_options',
+				'capabilities' => 'wpseo_manage_options',
 			)
 		);
 	}

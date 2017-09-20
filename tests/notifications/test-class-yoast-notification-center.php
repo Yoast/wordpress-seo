@@ -20,7 +20,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$this->user_id = $this->factory->user->create();
 
 		$user = new WP_User( $this->user_id );
-		$user->add_cap( 'manage_options' );
+		$user->add_cap( 'wpseo_manage_options' );
 
 		wp_set_current_user( $this->user_id );
 	}
@@ -369,6 +369,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notifications = $notification_center->get_notifications();
 
 		$this->assertInternalType( 'array', $notifications );
+
 		$this->assertNotEquals( $notifications[0]->get_nonce(), $old_nonce );
 	}
 

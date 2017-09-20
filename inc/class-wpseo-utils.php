@@ -34,6 +34,7 @@ class WPSEO_Utils {
 	 * @return boolean
 	 */
 	public static function grant_access() {
+		// @todo add deprecation warning
 		if ( ! is_multisite() ) {
 			return true;
 		}
@@ -41,7 +42,7 @@ class WPSEO_Utils {
 		$options = get_site_option( 'wpseo_ms' );
 
 		if ( empty( $options['access'] ) || $options['access'] === 'admin' ) {
-			return current_user_can( 'manage_options' );
+			return current_user_can( 'wpseo_manage_options' );
 		}
 
 		return is_super_admin();
@@ -405,18 +406,18 @@ class WPSEO_Utils {
 		if ( is_bool( $value ) ) {
 			return $value;
 		}
-		else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
+		elseif ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
 			return (bool) $value;
 		}
-		else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
+		elseif ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
 			return (bool) $value;
 		}
-		else if ( is_string( $value ) ) {
+		elseif ( is_string( $value ) ) {
 			$value = trim( $value );
 			if ( in_array( $value, $true, true ) ) {
 				return true;
 			}
-			else if ( in_array( $value, $false, true ) ) {
+			elseif ( in_array( $value, $false, true ) ) {
 				return false;
 			}
 			else {
@@ -466,7 +467,7 @@ class WPSEO_Utils {
 		if ( is_int( $value ) ) {
 			return $value;
 		}
-		else if ( is_float( $value ) ) {
+		elseif ( is_float( $value ) ) {
 			if ( (int) $value == $value && ! is_nan( $value ) ) {
 				return (int) $value;
 			}
@@ -474,15 +475,15 @@ class WPSEO_Utils {
 				return false;
 			}
 		}
-		else if ( is_string( $value ) ) {
+		elseif ( is_string( $value ) ) {
 			$value = trim( $value );
 			if ( $value === '' ) {
 				return false;
 			}
-			else if ( ctype_digit( $value ) ) {
+			elseif ( ctype_digit( $value ) ) {
 				return (int) $value;
 			}
-			else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
+			elseif ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
 				return (int) $value;
 			}
 			else {

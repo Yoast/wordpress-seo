@@ -51,7 +51,7 @@ class WPSEO_Configuration_Page {
 	 *  Registers the page for the wizard.
 	 */
 	public function add_wizard_page() {
-		add_dashboard_page( '', '', 'manage_options', self::PAGE_IDENTIFIER, '' );
+		add_dashboard_page( '', '', 'wpseo_manage_options', self::PAGE_IDENTIFIER, '' );
 	}
 
 	/**
@@ -104,8 +104,7 @@ class WPSEO_Configuration_Page {
 				printf(
 					/* translators: %s expands to Yoast SEO. */
 					__( '%s &rsaquo; Configuration Wizard', 'wordpress-seo' ),
-					'Yoast SEO'
-				);
+					'Yoast SEO' );
 			?></title>
 			<?php
 			wp_print_head_scripts();
@@ -121,17 +120,20 @@ class WPSEO_Configuration_Page {
 			do_action( 'wpseo_configuration_wizard_head' );
 			?>
 		</head>
-		<body class="wp-admin">
+		<body class="wp-admin wp-core-ui">
 		<div id="wizard"></div>
-		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
-			<?php
-			printf(
-				/* translators: %s expands to Yoast SEO. */
-				__( 'Go back to the %s dashboard.', 'wordpress-seo' ),
-				'Yoast SEO'
-			);
-			?>
-		</a>
+		<div role="contentinfo" class="yoast-wizard-return-link-container">
+			<a class="button yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
+				<span aria-hidden="true" class="dashicons dashicons-no"></span>
+				<?php
+				printf(
+					/* translators: %s expands to Yoast SEO. */
+					__( 'Close wizard', 'wordpress-seo' ),
+					'Yoast SEO'
+				);
+				?>
+			</a>
+		</div>
 		<?php
 			wp_print_media_templates();
 			wp_print_footer_scripts();
@@ -139,7 +141,7 @@ class WPSEO_Configuration_Page {
 			/**
 			 * Is called before the closing </body> tag in the Yoast Configuration wizard.
 			 *
-			 * Allows users to add their own scripts or content.
+			 * Allows users to add their own scripts.
 			 *
 			 * @since 4.0
 			 */
@@ -237,7 +239,7 @@ class WPSEO_Configuration_Page {
 			array(
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'wpseo-dismiss-onboarding-notice',
-				'capabilities' => 'manage_options',
+				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			)
 		);

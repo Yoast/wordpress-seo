@@ -159,7 +159,7 @@ class WPSEO_Product_Upsell_Notice {
 			array(
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'wpseo-upsell-notice',
-				'capabilities' => 'manage_options',
+				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			)
 		);

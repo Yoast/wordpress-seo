@@ -71,14 +71,14 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		$total_posts = $this->count_unindexed_posts_by_type( 'post' );
 		$total_pages = $this->count_unindexed_posts_by_type( 'page' );
 
-		$progressPosts = sprintf(
+		$progress_posts = sprintf(
 		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 			__( 'Post %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
 			'<span id="wpseo_count_posts" class="wpseo-prominent-words-progress-current">0</span>',
 			'<strong id="wpseo_count_posts_total" class="wpseo-prominent-words-progress-total">' . $total_posts . '</strong>'
 		);
 
-		$progressPages = sprintf(
+		$progress_pages = sprintf(
 		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 			__( 'Page %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
 			'<span id="wpseo_count_pages" class="wpseo-prominent-words-progress-current">0</span>',
@@ -91,7 +91,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 				<p><?php esc_html_e( 'Generating suggestions for posts...', 'wordpress-seo-premium' ); ?></p>
 				<?php if ( $total_posts > 0 ) : ?>
 				<div id="wpseo_internal_links_posts_progressbar" class="wpseo-progressbar"></div>
-				<p><?php echo $progressPosts; ?></p>
+				<p><?php echo $progress_posts; ?></p>
 				<?php else : ?>
 				<p><?php _e( 'All your posts are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
 				<?php endif; ?>
@@ -101,7 +101,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 				<p><?php esc_html_e( 'Generating suggestions for pages...', 'wordpress-seo-premium' ); ?></p>
 				<?php if ( $total_pages > 0 ) : ?>
 				<div id="wpseo_internal_links_pages_progressbar" class="wpseo-progressbar"></div>
-				<p><?php echo $progressPages; ?></p>
+				<p><?php echo $progress_pages; ?></p>
 				<?php else : ?>
 				<p><?php _e( 'All your pages are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
 				<?php endif; ?>

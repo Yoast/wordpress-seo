@@ -4,12 +4,12 @@
  */
 
 /**
- * Class WPSEO_Redirect_Page
+ * Class WPSEO_Redirect_Page.
  */
 class WPSEO_Redirect_Page {
 
 	/**
-	 * Constructing redirect module
+	 * Constructing redirect module.
 	 */
 	public function __construct() {
 		if ( is_admin() ) {
@@ -23,7 +23,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Display the presenter
+	 * Display the presenter.
 	 */
 	public function display() {
 		$redirect_presenter = new WPSEO_Redirect_Presenter();
@@ -31,16 +31,69 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Catch the redirects search post and redirect it to a search get
+	 * Catches possible posted filter values and redirects it to a GET-request.
+	 *
+	 * It catches:
+	 * A search post.
+	 * A redirect-type filter.
 	 */
 	public function list_table_search() {
-		if ( ( $search_string = filter_input( INPUT_POST, 's' ) ) !== null ) {
-			$url = ( $search_string !== '' ) ? add_query_arg( 's', urlencode( $search_string ) ) : remove_query_arg( 's' );
+		$url = filter_input( INPUT_SERVER, 'REQUEST_URI' );
 
+		$new_url = $this->extract_redirect_type_from_url( $url );
+		$new_url = $this->extract_search_string_from_url( $new_url );
+
+		if ( $url !== $new_url ) {
 			// Do the redirect.
-			wp_redirect( $url );
+			wp_safe_redirect( $new_url );
 			exit;
 		}
+	}
+
+	/**
+	 * Extracts the redirect type from the passed URL.
+	 *
+	 * @param string $url The URL to try and extract the redirect type from.
+	 *
+	 * @return string The newly formatted URL. Returns original URL if filter is null.
+	 */
+	protected function extract_redirect_type_from_url( $url ) {
+		$filter = filter_input( INPUT_POST, 'redirect-type' );
+
+		if ( $filter === null ) {
+			return $url;
+		}
+
+		$new_url = remove_query_arg( 'redirect-type', $url );
+
+		if ( $filter !== '0' ) {
+			$new_url = add_query_arg( 'redirect-type', rawurlencode( $filter ), $new_url );
+		}
+
+		return $new_url;
+	}
+
+	/**
+	 * Extracts the search string from the passed URL.
+	 *
+	 * @param string $url The URL to try and extract the search string from.
+	 *
+	 * @return string The newly formatted URL. Returns original URL if search string is null.
+	 */
+	protected function extract_search_string_from_url( $url ) {
+		$search_string = filter_input( INPUT_POST, 's' );
+
+		if ( $search_string === null ) {
+			return $url;
+		}
+
+		$new_url = remove_query_arg( 's', $url );
+
+		if ( $search_string !== '' ) {
+			$new_url = add_query_arg( 's', rawurlencode( $search_string ), $new_url );
+		}
+
+		return $new_url;
 	}
 
 	/**

@@ -4,12 +4,12 @@
  */
 
 /**
- * Class WPSEO_Redirect_Table_Presenter
+ * Class WPSEO_Redirect_Table_Presenter.
  */
 class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 
 	/**
-	 * Adding the redirect table to the view vars
+	 * Adds the redirect table to the view vars.
 	 *
 	 * @param WPSEO_Redirect[] $redirects The redirect for the table.
 	 */
@@ -22,9 +22,9 @@ class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 	}
 
 	/**
-	 * Getting the variables for the view
+	 * Gets the variables for the view.
 	 *
-	 * @return array
+	 * @return array The view variables to be used.
 	 */
 	protected function get_view_vars() {
 		return array_merge(
@@ -42,9 +42,9 @@ class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 	}
 
 	/**
-	 * Get the old URL from the URL
+	 * Get the old URL from the URL.
 	 *
-	 * @return string
+	 * @return string The old URL.
 	 */
 	private function get_old_url() {
 		// Check if there's an old URL set.
@@ -58,9 +58,9 @@ class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 	}
 
 	/**
-	 * Return the value of the first column based on the table type
+	 * Return the value of the first column based on the table type.
 	 *
-	 * @return string|void
+	 * @return string The value of the first column.
 	 */
 	private function get_first_column_value() {
 		if ( $this->view === 'regex' ) {
