@@ -7,7 +7,7 @@ let post = { permalink: "https://kb.yoast.com/kb/passive-voice/", postTitle: "Po
 
 test( "the SearchResults component with results matches the snapshot", () => {
 	const component = createComponentWithIntl(
-		<SearchResults handler={ () => {} }
+		<SearchResults onClick={ () => {} }
 					   post={ post }
 					   showDetail={ () => {} }
 					   searchString="Test"
@@ -23,7 +23,7 @@ test( "the SearchResults component with results matches the snapshot", () => {
 
 test( "the SearchResults component without results matches the snapshot", () => {
 	const component = createComponentWithIntl(
-		<SearchResults handler={ () => {} }
+		<SearchResults onClick={ () => {} }
 					   post={ {} }
 					   showDetail={ () => {} }
 					   searchString="Test"
