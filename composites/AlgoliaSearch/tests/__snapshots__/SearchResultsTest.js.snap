@@ -15,6 +15,7 @@ exports[`the SearchResults component with results matches the snapshot 1`] = `
   >
     <li
       className="sc-bwzfXH kzcaNF"
+      onClick={[Function]}
     >
       <a
         className="sc-ifAKCX bTzYEK"
