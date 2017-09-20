@@ -8,7 +8,8 @@
  */
 class WPSEO_Premium_Orphaned_Filter implements WPSEO_WordPress_Integration {
 
-	const FILTER_QUERY_ARG = 'yoast_orphaned';
+	const FILTER_QUERY_ARG = 'yoast_filter';
+	const FILTER_QUERY_VAL = 'cornerstone';
 
 	/**
 	 * @var string
@@ -66,14 +67,14 @@ class WPSEO_Premium_Orphaned_Filter implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Removes the post_type from the REQUEST URL because of the orphaned filter is in the same line.
+	 * Removes the post_status from the REQUEST URL because of the orphaned filter is in the same line.
 	 * After removing the post_type it will add a query arg for filtering the orphaned content.
 	 *
 	 * @return string
 	 */
 	protected function get_orphaned_url() {
 		$orphaned_url = remove_query_arg( array( 'post_status' ) );
-		$orphaned_url = add_query_arg( self::FILTER_QUERY_ARG, '1', $orphaned_url );
+		$orphaned_url = add_query_arg( self::FILTER_QUERY_ARG, self::FILTER_QUERY_VAL, $orphaned_url );
 
 		return $orphaned_url;
 	}
@@ -103,7 +104,7 @@ class WPSEO_Premium_Orphaned_Filter implements WPSEO_WordPress_Integration {
 	 * @return bool
 	 */
 	protected function is_orphaned_filter_active() {
-		return ( filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === '1' );
+		return ( filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === self::FILTER_QUERY_VAL );
 	}
 
 	/**
