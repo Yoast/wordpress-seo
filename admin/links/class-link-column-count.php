@@ -56,8 +56,8 @@ class WPSEO_Link_Column_Count {
 			$wpdb->prepare( '
 				SELECT internal_link_count, incoming_link_count, object_id
 				FROM ' . $storage->get_table_name() . '
-			    WHERE object_id IN ( %1$s )',
-				implode( ',', $post_ids )
+				WHERE object_id IN (' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')',
+				$post_ids
 			),
 			ARRAY_A
 		);
