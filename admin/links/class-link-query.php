@@ -71,7 +71,6 @@ class WPSEO_Link_Query {
 
 	/**
 	 * Returns a limited set of unindexed posts.
-	 * *
 	 *
 	 * @param array $post_types The post type.
 	 * @param int   $limit      The limit for the resultset.
