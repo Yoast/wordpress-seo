@@ -10,15 +10,15 @@ import colors from "../../style-guide/colors.json";
 
 const messages = defineMessages( {
 	noResultsText: {
-		id: "searchresults.noresultstext",
+		id: "searchResult.noResultsText",
 		defaultMessage: "No results found.",
 	},
 	foundResultsText: {
-		id: "searchresults.foundresultstext",
-		defaultMessage: "Found {resultsCount} { resultsCount, plural, one {result} other {results} }",
+		id: "searchResult.foundResultsText",
+		defaultMessage: "Number of results found: { resultsCount }",
 	},
 	searchResultsHeading: {
-		id: "algoliaseacher.searchresultsheading",
+		id: "searchResult.searchResultsHeading",
 		defaultMessage: "Search results",
 	},
 } );
@@ -56,7 +56,7 @@ export function SearchResult( props ) {
 
 	return (
 		<Row { ...props } >
-			<SearchResultLink href={ post.permalink } onClick={ props.handler }>
+			<SearchResultLink href={ post.permalink } onClick={ props.onClick }>
 				<SearchResultTitle>{ post.post_title }</SearchResultTitle>
 			</SearchResultLink>
 		</Row>
@@ -64,7 +64,7 @@ export function SearchResult( props ) {
 }
 
 SearchResult.propTypes = {
-	handler: PropTypes.func.isRequired,
+	onClick: PropTypes.func.isRequired,
 	post: PropTypes.object.isRequired,
 };
 
@@ -84,11 +84,11 @@ const NoResults = styled.p`
 `;
 
 /**
- * Create the ReactElement to render a list of search results.
+ * Creates the SearchResults component to render a list of search results.
  *
  * @param {object} props The React props.
  *
- * @returns {ReactElement} A list of search results.
+ * @returns {ReactElement} The SearchResults component.
  */
 class SearchResults extends React.Component {
 	/**
@@ -149,9 +149,9 @@ class SearchResults extends React.Component {
 				rowHeight="32px"
 				key={ result.objectID }
 				post={ result }
-				handler={ ( event ) => {
+				onClick={ ( event ) => {
 					event.preventDefault();
-					this.props.handler( index );
+					this.props.onClick( index );
 				} }
 			/>;
 		} );
@@ -191,8 +191,8 @@ class SearchResults extends React.Component {
 }
 
 SearchResults.propTypes = {
-	intl: intlShape,
-	handler: PropTypes.func.isRequired,
+	intl: intlShape.isRequired,
+	onClick: PropTypes.func.isRequired,
 	searchString: PropTypes.string,
 	results: PropTypes.array,
 };

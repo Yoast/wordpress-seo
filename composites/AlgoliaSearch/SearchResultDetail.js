@@ -8,23 +8,23 @@ import { Button } from "../Plugin/Shared/components/Button";
 
 const messages = defineMessages( {
 	openButton: {
-		id: "searchresultdetail.openbutton",
+		id: "searchResultDetail.openButton",
 		defaultMessage: "View in KB",
 	},
 	openButtonLabel: {
-		id: "searchresultdetail.openbuttonlabel",
+		id: "searchResultDetail.openButtonLabel",
 		defaultMessage: "Open the knowledge base article in a new window or read it in the iframe below",
 	},
 	backButton: {
-		id: "searchresultdetail.backbutton",
+		id: "searchResultDetail.backButton",
 		defaultMessage: "Back",
 	},
 	backButtonLabel: {
-		id: "searchresultdetail.backbuttonlabel",
+		id: "searchResultDetail.backButtonLabel",
 		defaultMessage: "Back to the search results",
 	},
 	iframeTitle: {
-		id: "algoliosearcher.iframetitle",
+		id: "searchResultDetail.iframeTitle",
 		defaultMessage: "Knowledge base article",
 	},
 } );

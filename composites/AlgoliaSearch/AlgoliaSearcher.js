@@ -19,11 +19,11 @@ const AlgoliaSearchWrapper = styled.div`
 
 const messages = defineMessages( {
 	loadingPlaceholder: {
-		id: "algoliasearcher.loadingplaceholder",
+		id: "algoliaSearcher.loadingPlaceholder",
 		defaultMessage: "Loading...",
 	},
 	errorMessage: {
-		id: "algoliasearcher.errormessage",
+		id: "algoliaSearcher.errorMessage",
 		defaultMessage: "Something went wrong. Please try again later.",
 	},
 } );
@@ -185,7 +185,7 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	/**
-	 * Sets all values required to display the detailed view of a search result.
+	 * Set the current view to the detail view and set the article index.
 	 *
 	 * @param {number} currentDetailViewIndex The index of the article you want to show in the state.results array.
 	 *
@@ -202,7 +202,7 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	/**
-	 * Resets the values associated with the displaying of the detailed search result view.
+	 * Set the current view to the search view.
 	 *
 	 * @returns {void}
 	 */
@@ -216,10 +216,6 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {ReactElement} Searchbar component.
 	 */
 	createSearchBar() {
-		if ( this.state.currentDetailViewIndex !== -1 ) {
-			return null;
-		}
-
 		return (
 			<SearchBar
 				submitAction={ this.onSearch.bind( this ) }
@@ -246,7 +242,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Gets the loading indicator.
 	 *
-	 * @returns {ReactElement} Returns a loader.
+	 * @returns {ReactElement} Loader component.
 	 */
 	getLoadingIndicator() {
 		const loadingPlaceholder = this.props.intl.formatMessage( messages.loadingPlaceholder );
@@ -256,21 +252,21 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Gets the search results.
 	 *
-	 * @returns {ReactElement} Returns the search results.
+	 * @returns {ReactElement} Search results component.
 	 */
 	getSearchResults() {
 		return <SearchResults
 			{ ...this.props }
 			searchString={ this.state.searchString }
 			results={ this.state.results }
-			handler={ this.showDetailView.bind( this ) }
+			onClick={ this.showDetailView.bind( this ) }
 		/>;
 	}
 
 	/**
 	 * Determines what the search results view needs to look like.
 	 *
-	 * @returns {ReactElement} Returns a specific search result object based on state.
+	 * @returns {ReactElement} Returns a specific search result component based on state.
 	 */
 	determineSearchResultsView() {
 		// Show error when a error message is set.
@@ -299,9 +295,9 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	/**
-	 * Get the search view.
+	 * Gets the search view.
 	 *
-	 * @returns {ReactElement} Search view elements
+	 * @returns {ReactElement} Search view component.
 	 */
 	getSearchView() {
 		return (
@@ -315,7 +311,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Gets the search result detail.
 	 *
-	 * @returns {ReactElement} Search result detail.
+	 * @returns {ReactElement} Detail view component.
 	 */
 	getDetailView() {
 		return (
@@ -330,9 +326,9 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	/**
-	 * Render the React component.
+	 * Renders the React component.
 	 *
-	 * Called upon each state change. Determines and renders the view to render.
+	 * Called upon each state/props change. Determines and renders the view to render.
 	 *
 	 * @returns {ReactElement} The content of the component.
 	 */

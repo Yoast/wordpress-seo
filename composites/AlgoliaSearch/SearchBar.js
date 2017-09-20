@@ -10,7 +10,7 @@ import { Icon } from "../Plugin/Shared/components/Icon";
 
 const messages = defineMessages( {
 	headingText: {
-		id: "searchbar.headingtext",
+		id: "searchBar.headingText",
 		defaultMessage: "Search the Yoast knowledge base",
 	},
 } );
@@ -48,17 +48,14 @@ const SearchHeading = styled.h2`
  * Create the JSX to render the search bar.
  *
  * @param {object} props The React props.
- * @returns {ReactElement} A div with the searchbar.
- * @constructor
+ *
+ * @returns {ReactElement} The SearchBar component.
  */
 class SearchBar extends React.Component {
-
 	/**
 	 * Constructs the component and sets its initial state.
 	 *
 	 * @param {Object} props The props to use for this component.
-	 *
-	 * @constructor
 	 */
 	constructor( props ) {
 		super( props );
