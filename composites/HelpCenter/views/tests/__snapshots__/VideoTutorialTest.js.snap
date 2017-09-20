@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the VideoTutorial component matches the snapshot 1`] = `
+<section
+  className="sc-htpNat hqgsEe sc-bwzfXH gwKLSd"
+>
+  <iframe
+    allowFullScreen={true}
+    className="sc-bdVaJa bDWFJH"
+    frameBorder={0}
+    height={315}
+    src="https:/www.youtube.com/embed/bIgcj_pPIbw"
+    title="Video title"
+    width={560}
+  />
+  <section
+    className="sc-bxivhb foTyhW sc-bwzfXH gwKLSd"
+  >
+    Video description
+  </section>
+</section>
+`;

@@ -10,5 +10,5 @@ import * as React from "react";
  * @constructor
  */
 export default function IFrame( props ) {
-	return ( <iframe {...props} />	);
+	return ( <iframe { ...props } />	);
 }
