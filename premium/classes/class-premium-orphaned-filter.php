@@ -59,7 +59,7 @@ class WPSEO_Premium_Orphaned_Filter implements WPSEO_WordPress_Integration {
 		if ( $this->is_orphaned_filter_active() ) {
 			global $wpdb;
 
-			$where .= ' AND ' . $wpdb->posts . '.ID NOT IN( SELECT post_id FROM ' .$this->get_link_table_name() . ' UNION SELECT target_post_id FROM ' .$this->get_link_table_name() . ' ) ';
+			$where .= ' AND ' . $wpdb->posts . '.ID NOT IN( SELECT post_id FROM ' . $this->get_link_table_name() . ' UNION SELECT target_post_id FROM ' . $this->get_link_table_name() . ' ) ';
 		}
 
 		return $where;
@@ -128,6 +128,11 @@ class WPSEO_Premium_Orphaned_Filter implements WPSEO_WordPress_Integration {
 		return array( 'post', 'page' );
 	}
 
+	/**
+	 * Returns the name of the Yoast link table.
+	 *
+	 * @return string The nameof the Yoast link table.
+	 */
 	protected function get_link_table_name() {
 		if ( $this->link_table_name === null ) {
 			$link_storage = new WPSEO_Link_Storage();
