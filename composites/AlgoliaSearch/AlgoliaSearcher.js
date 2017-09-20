@@ -185,7 +185,7 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	/**
-	 * Set the current view to the detail view and set the article index.
+	 * Sets the current view to the detail view and set the article index.
 	 *
 	 * @param {number} currentDetailViewIndex The index of the article you want to show in the state.results array.
 	 *
@@ -202,7 +202,7 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	/**
-	 * Set the current view to the search view.
+	 * Sets the current view to the search view.
 	 *
 	 * @returns {void}
 	 */
