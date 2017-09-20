@@ -17,6 +17,7 @@ body {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 80%;
+	max-width: 60em;
 	margin: 1rem auto 4rem;
 
 	@media screen and (max-width: 768px) {
@@ -119,11 +120,6 @@ body {
 					padding-right: 99px !important;
 				}
 			}
-
-			svg {
-				color: $color_green;
-				fill: $color_green;
-			}
 		}
 
 		&__inactive {
@@ -144,9 +140,8 @@ body {
 
 		h1 {
 			color: $color_pink_dark;
-			margin-top: 0;
-			margin-bottom: 1rem;
-			font-size: 2.75em;
+			margin: 0;
+			font-size: 2.25em;
 			letter-spacing: 0.03em;
 			line-height: 3.68rem;
 			font-weight: 100;
@@ -159,9 +154,8 @@ body {
 
 		h2 {
 			color: $color_pink_dark;
-			font-size: 2.25em;
+			font-size: 1.375em;
 			font-weight: 100;
-			margin: 0;
 		}
 	}
 

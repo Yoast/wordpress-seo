@@ -259,7 +259,7 @@ class Step extends React.Component {
 		return (
 			<div className={`${ this.props.classPrefix }--step--container`} ref="stepContainer"
 				tabIndex="-1" aria-labelledby="step-title">
-				<h2 id="step-title">{ this.props.title }</h2>
+				<h1 id="step-title">{this.props.title}</h1>
 				<div className={ `${ this.props.classPrefix }-content-container${ fullWidthClass }` }>
 					{ this.getFieldComponents( this.props.fields ) }
 				</div>
