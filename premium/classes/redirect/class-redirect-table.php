@@ -8,7 +8,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 }
 
 /**
- * Class WPSEO_Redirect_Table
+ * Class WPSEO_Redirect_Table.
  */
 class WPSEO_Redirect_Table extends WP_List_Table {
 
@@ -17,23 +17,24 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public $items;
 
+	/** @var array */
+	private $filter = array(
+		'redirect_type' => null,
+		'search_string' => null,
+	);
+
 	/**
-	 * @var string The name of the first column
+	 * @var string The name of the first column.
 	 */
 	private $current_column;
 
 	/**
-	 * @var string The primary column
+	 * @var string The primary column.
 	 */
 	private $primary_column = 'type';
 
 	/**
-	 * @var boolean Whether or not the target column has a trailing slash
-	 */
-	private $target_has_trailing_slash = null;
-
-	/**
-	 * WPSEO_Redirect_Table constructor
+	 * WPSEO_Redirect_Table constructor.
 	 *
 	 * @param array|string     $type           Type of the redirects that is opened.
 	 * @param string           $current_column The value of the first column.
@@ -50,9 +51,48 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Set the table columns
+	 * Renders the extra table navigation.
 	 *
-	 * @return array
+	 * @param string $which Which tablenav is called.
+	 *
+	 * @return void
+	 */
+	public function extra_tablenav( $which ) {
+		if ( $which !== 'top' ) {
+			return;
+		}
+
+		$selected = filter_input( INPUT_GET, 'redirect-type' );
+		if ( ! $selected  ) {
+			$selected = 0;
+		}
+
+		?>
+		<div class="alignleft actions">
+			<label for="filter-by-redirect" class="screen-reader-text"><?php esc_html_e( 'Filter by redirect type', 'wordpress-seo-premium' ); ?></label>
+			<select name="redirect-type" id="filter-by-redirect">
+				<option<?php selected( $selected, 0 ); ?> value="0"><?php esc_html_e( 'All redirect types', 'wordpress-seo-premium' ); ?></option>
+				<?php
+				$redirect_types = new WPSEO_Redirect_Types();
+
+				foreach ( $redirect_types->get() as $http_code => $redirect_type ) {
+					printf( "<option %s value='%s'>%s</option>\n",
+						selected( $selected, $http_code, false ),
+						esc_attr( $http_code ),
+						$redirect_type
+					);
+				}
+				?>
+			</select>
+			<?php submit_button( __( 'Filter', 'wordpress-seo-premium' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) ); ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Set the table columns.
+	 *
+	 * @return array The table columns.
 	 */
 	public function get_columns() {
 		$columns = array(
@@ -66,21 +106,21 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Counts the total columns for the table
+	 * Counts the total columns for the table.
 	 *
-	 * @return int
+	 * @return int The total amount of columns.
 	 */
 	public function count_columns() {
 		return count( $this->get_columns() );
 	}
 
 	/**
-	 * Filter for setting the primary table column
+	 * Filter for setting the primary table column.
 	 *
 	 * @param string $column The current column.
 	 * @param string $screen The current opened window.
 	 *
-	 * @return string
+	 * @return string The primary table column.
 	 */
 	public function redirect_list_table_primary_column( $column, $screen ) {
 		if ( 'seo_page_wpseo_redirects' === $screen ) {
@@ -91,8 +131,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Setup the table variables, fetch the items from the database, search, sort and format the items.
-	 * Set the items as the WPSEO_Redirect_Table items variable.
+	 * Sets up the table variables, fetch the items from the database, search, sort and format the items.
+	 * Sets the items as the WPSEO_Redirect_Table items variable.
+	 *
+	 * @return void
 	 */
 	public function prepare_items() {
 		// Setup the columns.
@@ -109,7 +151,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			'per_page'    => $per_page,
 		) );
 
-		$current_page = intval( ( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 0 ) );
+		$current_page = (int) ( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 0 );
 
 		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back.
 		$slice_start = ( $current_page - 1 );
@@ -125,9 +167,9 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Return the columns that are sortable
+	 * Returns the columns that are sortable.
 	 *
-	 * @return array
+	 * @return array An array containing the sortable columns.
 	 */
 	public function get_sortable_columns() {
 		$sortable_columns = array(
@@ -140,21 +182,19 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Reorder the items based on user input
+	 * Reorders the items based on user input.
 	 *
 	 * @param array $a The current sort direction.
 	 * @param array $b The new sort direction.
 	 *
-	 * @return int
+	 * @return int The order that should be used.
 	 */
 	public function do_reorder( $a, $b ) {
 		// If no sort, default to title.
 		$orderby = filter_input( INPUT_GET, 'orderby', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'old', 'regexp' => '/^(old|new|type)$/' ) ) );
 
 		// If no order, default to asc.
-		$order   = filter_input( INPUT_GET, 'order', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'asc', 'regexp' => '/^(asc|desc)$/' ) ) );
-
-		$order = ( ( $order = filter_input( INPUT_GET, 'order' ) ) != '' ) ? $order : 'asc';
+		$order = filter_input( INPUT_GET, 'order', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'asc', 'regexp' => '/^(asc|desc)$/' ) ) );
 
 		// Determine sort order.
 		$result   = strcmp( $a[ $orderby ], $b[ $orderby ] );
@@ -164,11 +204,11 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Checkbox columns
+	 * Creates a column for a checkbox.
 	 *
 	 * @param array $item Array with the row data.
 	 *
-	 * @return string
+	 * @return string The column with a checkbox.
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
@@ -180,12 +220,12 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Default method to display a column
+	 * Displays a default column.
 	 *
 	 * @param array  $item        Array with the row data.
 	 * @param string $column_name The name of the needed column.
 	 *
-	 * @return string
+	 * @return string The default column.
 	 */
 	public function column_default( $item, $column_name ) {
 
@@ -217,19 +257,19 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 					$classes = ' remove-slashes';
 				}
 
-				return "<div class='val" . $classes . "'>" . esc_html( $item['old'] ). '</div>' . $row_actions;
+				return "<div class='val" . $classes . "'>" . esc_html( $item['old'] ) . '</div>' . $row_actions;
 				break;
 			case 'type';
-				return '<div class="val type">' . esc_html( $item['type'] ) .'</div>' . $row_actions;
+				return '<div class="val type">' . esc_html( $item['type'] ) . '</div>' . $row_actions;
 				break;
 			default:
 				return $item[ $column_name ];
 		}
 	}
 	/**
-	 * Return available bulk actions
+	 * Returns the available bulk actions.
 	 *
-	 * @return array
+	 * @return array Array containing the available bulk actions.
 	 */
 	public function get_bulk_actions() {
 		$actions = array(
@@ -240,30 +280,15 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Returns whether or not the target should have a trailing slash
-	 */
-	private function has_target_trailing_slash() {
-		if ( null === $this->target_has_trailing_slash ) {
-			$permalink_structure = get_option( 'permalink_structure' );
-
-			$this->target_has_trailing_slash = substr( $permalink_structure, -1 ) === '/';
-		}
-
-		return $this->target_has_trailing_slash;
-	}
-
-	/**
-	 * Setting the items
+	 * Sets the items and orders them.
 	 *
 	 * @param array $items The data that will be showed.
+	 *
+	 * @return void
 	 */
 	private function set_items( $items ) {
 		// Getting the items.
-		$this->items = $items;
-
-		if ( ( $search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) ) ) !== '' ) {
-			$this->do_search( $search_string );
-		}
+		$this->items = $this->filter_items( $items );
 
 		$this->format_items();
 
@@ -274,7 +299,30 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Format the items
+	 * Filters the given items.
+	 *
+	 * @param WPSEO_Redirect[] $items The items to filter.
+	 *
+	 * @return array The filtered items.
+	 */
+	private function filter_items( array $items ) {
+		$search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
+		if ( $search_string !== '' ) {
+			$this->filter['search_string'] = $search_string;
+			$items = array_filter( $items, array( $this, 'filter_by_search_string' ) );
+		}
+
+		$redirect_type = (int) filter_input( INPUT_GET, 'redirect-type' );
+		if ( ! empty( $redirect_type )  ) {
+			$this->filter['redirect_type'] = $redirect_type;
+			$items = array_filter( $items, array( $this, 'filter_by_type' ) );
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Formats the items.
 	 */
 	private function format_items() {
 		// Format the data.
@@ -289,6 +337,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 				'type'       => $redirect->get_type(),
 				'row_number' => $counter,
 			);
+
 			$counter++;
 		}
 
@@ -296,20 +345,25 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Search through the items
+	 * Filters the redirect by entered search string.
 	 *
-	 * @param string $search_string The entered search string.
+	 * @param WPSEO_Redirect $redirect The redirect to filter.
+	 *
+	 * @return bool True when the search strings match.
 	 */
-	private function do_search( $search_string ) {
-		$results = array();
+	private function filter_by_search_string( WPSEO_Redirect $redirect ) {
+		return ( stripos( $redirect->get_origin(), $this->filter['search_string'] ) !== false || stripos( $redirect->get_target(), $this->filter['search_string'] ) !== false );
+	}
 
-		foreach ( $this->items as $old => $redirect ) {
-			if ( false !== stripos( $redirect->get_origin(), $search_string ) || false !== stripos( $redirect->get_target(), $search_string ) ) {
-				$results[ $old ] = $redirect;
-			}
-		}
-
-		$this->items = $results;
+	/**
+	 * Filters the redirect by redirect type.
+	 *
+	 * @param WPSEO_Redirect $redirect The redirect to filter.
+	 *
+	 * @return bool True when type matches redirect type.
+	 */
+	private function filter_by_type( WPSEO_Redirect $redirect ) {
+		return $redirect->get_type() === $this->filter['redirect_type'];
 	}
 
 	/**

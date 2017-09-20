@@ -21,11 +21,16 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	 * @return false|array Either an array of cached suggestions or false.
 	 */
 	public function get_js_data() {
+		// @codingStandardsIgnoreStart
 		global $post_ID;
+
+		$post_id = $post_ID;
+		// @codingStandardsIgnoreEnd
 
 		$service = new WPSEO_Premium_Link_Suggestions_Service();
 
-		$prominent_words = get_the_terms( $post_ID, WPSEO_Premium_Prominent_Words_Registration::TERM_NAME );
+		$prominent_words = get_the_terms( $post_id, WPSEO_Premium_Prominent_Words_Registration::TERM_NAME );
+
 		if ( false === $prominent_words ) {
 			return false;
 		}

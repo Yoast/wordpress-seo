@@ -385,7 +385,7 @@ class WPSEO_Meta {
 
 				$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_titles', 'wpseo_internallinks' ) );
 
-				if ( ! current_user_can( 'manage_options' ) && $options['disableadvanced_meta'] ) {
+				if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && $options['disableadvanced_meta'] ) {
 					return array();
 				}
 
@@ -1031,6 +1031,7 @@ class WPSEO_Meta {
 	 *                     Will return empty string if key does not exists in $_POST
 	 */
 	public static function get_post_value( $key ) {
+		// @codingStandardsIgnoreLine
 		return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
 	}
 

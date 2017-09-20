@@ -1250,7 +1250,7 @@ class WPSEO_Frontend {
 			if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
 				echo '<meta name="description" content="', esc_attr( strip_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
 			}
-			elseif ( current_user_can( 'manage_options' ) && is_singular() ) {
+			elseif ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
 				echo '<!-- ', __( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
 			}
 		}
@@ -1350,7 +1350,7 @@ class WPSEO_Frontend {
 				$post_data = $term;
 			}
 		}
-		else if ( ( ! is_string( $metadesc ) || '' === $metadesc ) && '' !== $template ) {
+		elseif ( ( ! is_string( $metadesc ) || '' === $metadesc ) && '' !== $template ) {
 			if ( ! isset( $term ) ) {
 				$term = $wp_query->get_queried_object();
 			}
@@ -1702,12 +1702,12 @@ class WPSEO_Frontend {
 
 		$author_link = '';
 		if ( is_object( $post ) ) {
-			$author_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . get_the_author() . '</a>';
+			$author_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . esc_html( get_the_author() ) . '</a>';
 		}
 
-		$post_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';
-		$blog_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . '</a>';
-		$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . strip_tags( get_bloginfo( 'description' ) ) . '</a>';
+		$post_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . esc_html( get_the_title() ) . '</a>';
+		$blog_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . esc_html( get_bloginfo( 'name' ) ) . '</a>';
+		$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . esc_html( get_bloginfo( 'name' ) ) . ' - ' . esc_html( get_bloginfo( 'description' ) ) . '</a>';
 
 		$content = stripslashes( trim( $content ) );
 		$content = str_replace( '%%AUTHORLINK%%', $author_link, $content );

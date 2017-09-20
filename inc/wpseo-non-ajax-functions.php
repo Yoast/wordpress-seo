@@ -26,12 +26,6 @@ function wpseo_admin_bar_menu() {
 
 	global $wp_admin_bar, $post;
 
-	// Determine is user is admin or network admin.
-	$user_is_admin_or_networkadmin = current_user_can( 'manage_options' );
-	if ( ! $user_is_admin_or_networkadmin && is_multisite() ) {
-		$user_is_admin_or_networkadmin = ( $options['access'] === 'superadmin' && is_super_admin() );
-	}
-
 	$focuskw = '';
 	$score   = '';
 	// By default, the top level menu item has no link.
@@ -66,8 +60,11 @@ function wpseo_admin_bar_menu() {
 	// Never display notifications for network admin.
 	$counter = $alert_popup = '';
 
+	// Determine is user is admin or network admin.
+	$can_manage_seo = WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
+
 	// Set the top level menu item content for admins and network admins.
-	if ( $user_is_admin_or_networkadmin ) {
+	if ( $can_manage_seo ) {
 
 		// Link the top level menu item to the Yoast Dashboard page.
 		$seo_url = get_admin_url( null, 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER );
@@ -252,7 +249,7 @@ function wpseo_admin_bar_menu() {
 	}
 
 	// @todo: add links to bulk title and bulk description edit pages.
-	if ( $user_is_admin_or_networkadmin ) {
+	if ( $can_manage_seo ) {
 
 		$advanced_settings = wpseo_advanced_settings_enabled( $options );
 

@@ -305,8 +305,11 @@ class WPSEO_Breadcrumbs {
 		$this->maybe_add_home_crumb();
 		$this->maybe_add_blog_crumb();
 
+		// Ignore coding standards for empty if statement.
+		// @codingStandardsIgnoreStart
 		if ( ( $this->show_on_front === 'page' && is_front_page() ) || ( $this->show_on_front === 'posts' && is_home() ) ) {
 			// Do nothing.
+			// @codingStandardsIgnoreEnd
 		}
 		elseif ( $this->show_on_front == 'page' && is_home() ) {
 			$this->add_blog_crumb();

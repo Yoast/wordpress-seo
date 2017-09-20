@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '5.3.1' );
+define( 'WPSEO_VERSION', '5.4' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -137,7 +137,6 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 	}
 }
 
-
 /**
  * Runs on activation of the plugin.
  */
@@ -166,7 +165,11 @@ function _wpseo_activate() {
 		$wpseo_rewrite->schedule_flush();
 	}
 
-	wpseo_add_capabilities();
+	do_action( 'wpseo_register_roles' );
+	WPSEO_Role_Manager_Factory::get()->add();
+
+	do_action( 'wpseo_register_capabilities' );
+	WPSEO_Capability_Manager_Factory::get()->add();
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
@@ -194,7 +197,13 @@ function _wpseo_deactivate() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
-	wpseo_remove_capabilities();
+	// Register capabilities, to make sure they are cleaned up.
+	do_action( 'wpseo_register_roles' );
+	do_action( 'wpseo_register_capabilities' );
+
+	// Clean up capabilities.
+	WPSEO_Role_Manager_Factory::get()->remove();
+	WPSEO_Capability_Manager_Factory::get()->remove();
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
@@ -293,6 +302,14 @@ function wpseo_init_rest_api() {
 
 		$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
 		$link_reindex_endpoint->register();
+
+		$statistics_service = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
+		$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
+		$statistics_endpoint->register();
+
+		$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
+		$ryte_endpoint = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
+		$ryte_endpoint->register();
 	}
 }
 
@@ -390,6 +407,13 @@ add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 // Loading Ryte integration.
 new WPSEO_OnPage();
 
+// Registers SEO capabilities.
+$register_capabilities = new WPSEO_Register_Capabilities();
+$register_capabilities->register_hooks();
+
+// Registers SEO roles.
+$register_capabilities = new WPSEO_Register_Roles();
+$register_capabilities->register_hooks();
 
 /**
  * Wraps for notifications center class.

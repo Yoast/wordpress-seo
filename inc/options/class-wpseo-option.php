@@ -127,7 +127,7 @@ abstract class WPSEO_Option {
 
 			add_action( 'update_option', array( $this, 'add_default_filters' ) );
 		}
-		else if ( is_multisite() ) {
+		elseif ( is_multisite() ) {
 			/*
 			The option validation routines remove the default filters to prevent failing
 			   to insert an option if it's new. Let's add them back afterwards.
@@ -423,7 +423,7 @@ abstract class WPSEO_Option {
 	 * @return void
 	 */
 	public function register_setting() {
-		if ( WPSEO_Utils::grant_access() ) {
+		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			register_setting( $this->group_name, $this->option_name );
 		}
 	}

@@ -212,7 +212,7 @@ abstract class WPSEO_Watcher {
 			'</a>',
 			$this->create_hyperlink_from_url( $old_url ),
 			$this->create_hyperlink_from_url( $new_url ),
-			'<button type="button" class="button" onclick=\'' . $this->javascript_undo_redirect( $redirect, $id ). '\'>',
+			'<button type="button" class="button" onclick=\'' . $this->javascript_undo_redirect( $redirect, $id ) . '\'>',
 			'</button>'
 		);
 

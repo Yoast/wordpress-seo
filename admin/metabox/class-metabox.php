@@ -350,7 +350,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->social_admin->get_meta_section();
 		}
 
-		if ( current_user_can( 'manage_options' ) || $this->options['disableadvanced_meta'] === false ) {
+		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options['disableadvanced_meta'] === false ) {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
 
@@ -795,9 +795,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 * Determine we're not accidentally updating a different post.
 		 * We can't use filter_input here as the ID isn't available at this point, other than in the $_POST data.
 		 */
+		// @codingStandardsIgnoreStart
 		if ( ! isset( $_POST['ID'] ) || $post_id !== (int) $_POST['ID'] ) {
 			return false;
 		}
+		// @codingStandardsIgnoreEnd
 
 		clean_post_cache( $post_id );
 		$post = get_post( $post_id );
@@ -822,10 +824,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			$data = null;
 			if ( 'checkbox' === $meta_box['type'] ) {
+				// @codingStandardsIgnoreLine
 				$data = isset( $_POST[ self::$form_prefix . $key ] ) ? 'on' : 'off';
 			}
 			else {
+				// @codingStandardsIgnoreLine
 				if ( isset( $_POST[ self::$form_prefix . $key ] ) ) {
+					// @codingStandardsIgnoreLine
 					$data = $_POST[ self::$form_prefix . $key ];
 				}
 			}
