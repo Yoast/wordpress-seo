@@ -87,12 +87,10 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 
 		$query = $wpdb->prepare( '
 			SELECT COUNT( id ) AS incoming, target_post_id AS post_id
-			  FROM %2$s
-			 WHERE target_post_id IN( %3$s )
-		  GROUP BY target_post_id',
-			$this->get_table_name(),
-			$storage->get_table_name(),
-			implode( ', ', $post_ids )
+			FROM ' . $storage->get_table_name() . '
+			WHERE target_post_id IN(' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')
+			GROUP BY target_post_id',
+			$post_ids
 		);
 
 		$results = $wpdb->get_results( $query );
