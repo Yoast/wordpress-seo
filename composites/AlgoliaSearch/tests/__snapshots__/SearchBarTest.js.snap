@@ -20,6 +20,8 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
       <svg
         aria-hidden="true"
         className="sc-ifAKCX jmVmZf"
+        focusable="false"
+        role="img"
       />
       <span
         className="screen-reader-text"
@@ -63,6 +65,8 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
       <svg
         aria-hidden="true"
         className="sc-EHOje bsqrpZ"
+        focusable="false"
+        role="img"
       />
       <span
         className="screen-reader-text"
