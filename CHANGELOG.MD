@@ -5,6 +5,36 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.9.0: September 11th, 2017
+
+### Added
+
+#### Components
+* `Icon` component (using `svg-react-loader`, see `README.md`). #218 
+* `Button`(#173), `IconButton`(##232), `LinkButton`(#262), `YoastButton`(#257) components.
+* `InputField` component (using `DraftJS` ). #204 
+* `ListTable`, `Row` and `Cell` component. #219 
+* `ProgressBar`component. #172 
+* `IFrame` and `ArticleContent` components. #242 
+* `StackedProgressBar` component. #270
+* `SeoScoreAssessment(s)` components. #272
+* `WordpressFeed` component. #273 
+* `SeoAssessment` component. #281 
+
+##### Other
+* Added `getFeed` RSS reader utility function. #267 
+* Added `ContentAnalysis` reducer and actions. #224
+* Added `striptags` utility library. #276 
+* Added various documentation. #239 
+
+### Other
+* Improved development environment. (#238, #174 )
+
+#### Onboarding wizard
+* Added max width for content in Onboarding wizard (#250), and `fullWidth` property for full screen support (#269).
+* Changed Onboarding wizard header. #256  
+* Added paragraph for additional information to Onboard wizard `Choice component`. #254
+
 ## 2.8.0: August 8th, 2017
 
 ### Added

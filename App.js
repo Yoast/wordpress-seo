@@ -5,6 +5,7 @@ import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEdi
 import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
 import ContentAnalysis from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import Wizard from "./app/WizardWrapper";
+import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
 
 // Required to make Material UI work with touch screens.
@@ -36,6 +37,11 @@ const components = [
 		name: "Content analysis",
 		component: <ContentAnalysis />,
 	},
+	{
+		id: "dashboard-widget",
+		name: "Dashboard Widget",
+		component: <DashboardWidget />,
+	}
 ];
 
 class App extends React.Component {

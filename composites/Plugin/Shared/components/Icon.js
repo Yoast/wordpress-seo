@@ -20,7 +20,7 @@ export const Icon = ( props ) => {
 	// Remove the props that are no longer needed
 	const newProps = _omit( props, [ "icon", "size", "color" ] );
 
-	return <IconComponent aria-hidden="true" { ...newProps } />;
+	return <IconComponent role="img" aria-hidden="true" focusable="false" { ...newProps } />;
 };
 
 Icon.propTypes = {
