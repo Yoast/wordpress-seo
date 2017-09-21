@@ -131,7 +131,6 @@ class SearchBar extends React.Component {
 						onChange={ this.onSearchChange.bind( this ) }
 						type="text"
 						name="search-input"
-						id="search-input"
 						defaultValue={ this.props.searchString }
 						autoComplete="off"
 						autoCorrect="off"
