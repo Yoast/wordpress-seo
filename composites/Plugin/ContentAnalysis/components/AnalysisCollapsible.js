@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
+
+import { getChildCount } from "../../../../utils/reactUtils";
 import { angleUp, angleDown } from "../../../../style-guide/svg";
 import colors from "../../../../style-guide/colors.json";
 import { IconButton } from "../../Shared/components/Button";
@@ -66,9 +68,13 @@ const AnalysisList = styled.ul`
  * A collapsible header used to show sets of analysis results. Expects list items as children.
  *
  * @param {object} props The properties for the component.
+ *
  * @returns {ReactElement} A collapsible analysisresult set.
  */
 export const AnalysisCollapsibleStateless = ( props ) => {
+	let title = props.title;
+	let count = getChildCount( props.children );
+
 	return (
 		<AnalysisHeaderContainer>
 			<AnalysisHeaderButton
@@ -77,14 +83,12 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 				icon={ props.isOpen ? angleUp : angleDown }
 				iconColor={ colors.$color_grey_dark }
 			>
-				<AnalysisTitle>{ props.title + " (" + props.children.length + ")" }</AnalysisTitle>
+				<AnalysisTitle>{ `${ title } (${ count })` }</AnalysisTitle>
 			</AnalysisHeaderButton>
 			{
-				props.isOpen
-				?	<AnalysisList role="list">
-						{ props.children }
-					</AnalysisList>
-				: null
+				props.isOpen && props.children
+					? <AnalysisList role="list"> { props.children } </AnalysisList>
+					: null
 			}
 		</AnalysisHeaderContainer>
 	);
@@ -103,8 +107,6 @@ AnalysisCollapsibleStateless.propTypes = {
 export class AnalysisCollapsible extends React.Component {
 	/**
 	 * The constructor.
-	 *
-	 * @constructor
 	 *
 	 * @param {Object} props The props to use.
 	 */
