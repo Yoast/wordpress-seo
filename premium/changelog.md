@@ -1,3 +1,6 @@
+### 5.4.2: September 21th, 2017
+* Includes every change in Yoast SEO core 5.4.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 5.4.1: September 20th, 2017
 * Includes every change in Yoast SEO core 5.4.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
