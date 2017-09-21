@@ -2,6 +2,9 @@
 * Introduces `wpseo_manage_redirects` to allow any role or user to manage redirects without having to be an administrator.
 * Added filter for filtering redirects by redirect-type.
 
+### 5.4.1: September 20th, 2017
+* Includes every change in Yoast SEO core 5.4.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 5.4.0: September 6th, 2017
 * Adds importing of exported redirects in CSV format via `SEO > Tools > import and export > import redirects`.
 
