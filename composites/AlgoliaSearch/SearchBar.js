@@ -25,6 +25,8 @@ const SearchLabel = styled.label`
 const SearchBarWrapper = styled.div`
 	overflow: hidden;
 	width: 100%;
+	padding: 0 16px;
+	box-sizing: border-box;
 `;
 
 const SearchBarInput = styled.input`

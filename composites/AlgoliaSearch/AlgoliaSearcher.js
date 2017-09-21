@@ -12,7 +12,7 @@ import SearchResultDetail from "./SearchResultDetail";
 import SearchResults from "./SearchResults";
 
 const AlgoliaSearchWrapper = styled.div`
-	width: 80%;
+	max-width: 800px;
 	margin: 0 auto 20px auto;
 	box-sizing: border-box;
 `;

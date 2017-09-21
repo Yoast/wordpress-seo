@@ -2,10 +2,10 @@
 
 exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`] = `
 <div
-  className="sc-kGXeez fJgSvt"
+  className="sc-kGXeez gSIsWZ"
 >
   <div
-    className="sc-bwzfXH dNRFDx"
+    className="sc-bwzfXH hiNZVk"
     role="search"
   >
     <h2

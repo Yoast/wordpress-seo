@@ -27,7 +27,6 @@ const messages = defineMessages( {
  * The title of the search result item.
  */
 const SearchResultTitle = styled.p`
-	padding-left: 10px;
 	margin: 0;
 	font-size: 1em;
 	font-weight: normal;
@@ -38,7 +37,7 @@ const SearchResultTitle = styled.p`
  */
 const SearchResultLink = styled.a`
 	color: ${ colors.$color_black };
-	padding: 10px;
+	padding: 8px 16px;
 	
 	&:hover, &:focus {
 		color: ${ colors.$color_pink_dark };

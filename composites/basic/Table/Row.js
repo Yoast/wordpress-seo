@@ -6,7 +6,7 @@ import colors from "../../../style-guide/colors.json";
 export const Row = styled.li`
 	background: ${ props => props.background };
 	display: flex;
-	height: ${ props => props.rowHeight };
+	min-height: ${ props => props.rowHeight };
 	align-items: center;
 	justify-content: space-between;
 `;

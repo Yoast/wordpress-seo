@@ -14,16 +14,16 @@ exports[`the SearchResults component with results matches the snapshot 1`] = `
     role="list"
   >
     <li
-      className="sc-bwzfXH kzcaNF"
+      className="sc-bwzfXH iqRtAK"
       onClick={[Function]}
     >
       <a
-        className="sc-ifAKCX bTzYEK"
+        className="sc-ifAKCX iFJkNu"
         href="https://kb.yoast.com/kb/passive-voice/"
         onClick={[Function]}
       >
         <p
-          className="sc-bxivhb fueSDl"
+          className="sc-bxivhb iBXuxb"
         />
       </a>
     </li>
