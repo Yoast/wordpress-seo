@@ -130,14 +130,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 Release Date: September 21th, 2017
 
 * Bugfixes
-	* Replace invalid placeholder %1$d with %d to prevent invalid queries.
+	* Replace unsupported query `prepare` placeholder `%1$d` with `%d` to fix broken queries. Fixes compatibility issue with WordPress 4.8.2.
 
 = 5.4.1
 
 Release Date: September 20th, 2017
 
 * Bugfixes
-	* Replace invalid placeholder %1$s with %d to prevent invalid queries.
+	* Replace unsupported query `prepare` placeholder `%1$s` with `%d` to fix broken queries. Fixes compatibility issue with WordPress 4.8.2.
 
 = 5.4.0 =
 
