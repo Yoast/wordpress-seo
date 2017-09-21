@@ -1,6 +1,7 @@
 ### 5.5.0: September 26th, 2017
 * Introduces `wpseo_manage_redirects` to allow any role or user to manage redirects without having to be an administrator.
 * Added filter for filtering redirects by redirect-type.
+* Added a tool to export Focus Keywords.
 
 ### 5.4.2: September 21th, 2017
 * Includes every change in Yoast SEO core 5.4.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
