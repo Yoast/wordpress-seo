@@ -25,7 +25,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
     </a>
   </nav>
   <iframe
-    className="kb-search-content-frame sc-bdVaJa jFnyks"
+    className="kb-search-content-frame sc-bdVaJa jsOWvL"
     src="https://kb.yoast.com/kb/passive-voice/amp?source=wpseo-kb-search"
     title="Knowledge base article"
   />

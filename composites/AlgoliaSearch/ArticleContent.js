@@ -6,6 +6,7 @@ import styled from "styled-components";
 const ArticleContentFullWidth = styled( IFrame )`
 	width: 100%;
 	height: 600px;
+	border: none;
 `;
 
 /**
