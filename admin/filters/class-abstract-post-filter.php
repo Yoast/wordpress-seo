@@ -51,11 +51,16 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 		add_filter( 'posts_where', array( $this, 'filter_posts' ) );
 
 		if ( $this->is_filter_active() && $this->get_explanation() !== null ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_explanation_assets' ) );
 		}
 	}
 
-	public function enqueue_assets() {
+	/**
+	 * Enqueues the necessary assets to display a filter explanation.
+	 *
+	 * @return void
+	 */
+	public function enqueue_explanation_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'filter-explanation' );
 		$asset_manager->enqueue_style( 'filter-explanation' );
