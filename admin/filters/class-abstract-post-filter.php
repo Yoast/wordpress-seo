@@ -13,23 +13,23 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	/**
 	 * Modify the query based on the FILTER_QUERY_ARG variable in $_GET
 	 *
-	 * @param array $where Query variables.
+	 * @param string $where Query variables.
 	 *
-	 * @return array The modified query.
+	 * @return string The modified query.
 	 */
 	public abstract function filter_posts( $where );
 
 	/**
 	 * Returns the query value this filter uses.
 	 *
-	 * @return {string} The query value this filter uses.
+	 * @return string The query value this filter uses.
 	 */
 	public abstract function get_query_val();
 
 	/**
 	 * Returns the total number of posts that match this filter.
 	 *
-	 * @return number The total number of posts that match this filter.
+	 * @return int The total number of posts that match this filter.
 	 */
 	protected abstract function get_post_total();
 
@@ -41,7 +41,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	protected abstract function get_label();
 
 	/**
-	 * Registers the hook.
+	 * Registers the hooks.
 	 */
 	public function register_hooks() {
 		foreach ( $this->get_post_types() as $post_type ) {
@@ -56,7 +56,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 *
 	 * @param array $views Array with the views.
 	 *
-	 * @return array
+	 * @return array Array of views including the added view.
 	 */
 	public function add_filter_link( array $views ) {
 		$views[ 'yoast_' . $this->get_query_val() ] = sprintf(

@@ -13,25 +13,16 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	 *
 	 * @return {string} The query value this filter uses.
 	 */
-	public  function get_query_val() {
+	public function get_query_val() {
 		return 'cornerstone';
-	}
-
-	/**
-	 * Returns the label for this filter.
-	 *
-	 * @return string The label for this filter.
-	 */
-	protected  function get_label() {
-		return __( 'Cornerstone content', 'wordpress-seo' );
 	}
 
 	/**
 	 * Modify the query based on the seo_filter variable in $_GET
 	 *
-	 * @param array $where Query variables.
+	 * @param string $where Query variables.
 	 *
-	 * @return array
+	 * @return string The modified query.
 	 */
 	public function filter_posts( $where ) {
 		if ( $this->is_filter_active() ) {
@@ -44,6 +35,15 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 		}
 
 		return $where;
+	}
+
+	/**
+	 * Returns the label for this filter.
+	 *
+	 * @return string The label for this filter.
+	 */
+	protected function get_label() {
+		return __( 'Cornerstone content', 'wordpress-seo' );
 	}
 
 	/**
