@@ -50,7 +50,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 
 		add_filter( 'posts_where', array( $this, 'filter_posts' ) );
 
-		if ( $this->is_filter_active() && $this->get_explanation() !== null ) {
+		if ( $this->get_explanation() !== null && $this->is_filter_active() ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_explanation_assets' ) );
 		}
 	}
