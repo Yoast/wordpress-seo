@@ -389,6 +389,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool True when the current page is nested pages.
 	 */
 	protected function is_nested_pages( $current_page ) {
-		return ( $current_page === 'admin' && filter_input( INPUT_GET, 'page' ) === 'nestedpages' );
+		return ( $current_page === 'admin.php' && filter_input( INPUT_GET, 'page' ) === 'nestedpages' );
 	}
 }
