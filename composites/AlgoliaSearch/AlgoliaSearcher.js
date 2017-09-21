@@ -12,10 +12,14 @@ import SearchResultDetail from "./SearchResultDetail";
 import SearchResults from "./SearchResults";
 
 const AlgoliaSearchWrapper = styled.div`
-	max-width: 800px;
+	max-width: ${ props => props.maxWidth };
 	margin: 0 auto 20px auto;
 	box-sizing: border-box;
 `;
+
+AlgoliaSearchWrapper.propTypes = {
+	maxWidth: PropTypes.string.isRequired,
+};
 
 const messages = defineMessages( {
 	loadingPlaceholder: {
@@ -301,7 +305,8 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	getSearchView() {
 		return (
-			<AlgoliaSearchWrapper>
+			<AlgoliaSearchWrapper
+				maxWidth={ this.props.maxWidth }>
 				{ this.createSearchBar() }
 				{ this.determineSearchResultsView() }
 			</AlgoliaSearchWrapper>
@@ -315,7 +320,8 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	getDetailView() {
 		return (
-			<AlgoliaSearchWrapper>
+			<AlgoliaSearchWrapper
+				maxWidth={ this.props.maxWidth }>
 				<SearchResultDetail
 					{ ...this.props }
 					post={ this.getPostFromResults( this.state.currentDetailViewIndex ) }
@@ -346,6 +352,7 @@ AlgoliaSearcher.propTypes = {
 	algoliaApplicationId: PropTypes.string,
 	algoliaApiKey: PropTypes.string,
 	algoliaIndexName: PropTypes.string,
+	maxWidth: PropTypes.string,
 	intl: intlShape.isRequired,
 };
 
@@ -353,6 +360,7 @@ AlgoliaSearcher.defaultProps = {
 	algoliaApplicationId: "RC8G2UCWJK",
 	algoliaApiKey: "459903434a7963f83e7d4cd9bfe89c0d",
 	algoliaIndexName: "knowledge_base_all",
+	maxWidth: "800px",
 };
 
 export default injectIntl( AlgoliaSearcher );
