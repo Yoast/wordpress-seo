@@ -121,7 +121,7 @@ class SearchBar extends React.Component {
 					{ headingText }
 				</SearchHeading>
 				<form onSubmit={ this.onSubmit.bind( this ) }>
-					<SearchLabel htmlFor="search-input">
+					<SearchLabel htmlFor="kb-search-input">
 						<Icon icon={ SearchIcon } color="inherit" size="30px" />
 						<span className="screen-reader-text">
 							{ headingText }
@@ -130,6 +130,7 @@ class SearchBar extends React.Component {
 					<SearchBarInput
 						onChange={ this.onSearchChange.bind( this ) }
 						type="text"
+						id="kb-search-input"
 						name="search-input"
 						defaultValue={ this.props.searchString }
 						autoComplete="off"

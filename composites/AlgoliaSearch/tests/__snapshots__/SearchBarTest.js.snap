@@ -15,7 +15,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
   >
     <label
       className="sc-bdVaJa CLHKE"
-      htmlFor="search-input"
+      htmlFor="kb-search-input"
     >
       <svg
         aria-hidden="true"
@@ -35,6 +35,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
       autoCorrect="off"
       className="sc-htpNat fxYYiS"
       defaultValue=""
+      id="kb-search-input"
       name="search-input"
       onChange={[Function]}
       spellCheck="false"
@@ -59,7 +60,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
   >
     <label
       className="sc-bdVaJa CLHKE"
-      htmlFor="search-input"
+      htmlFor="kb-search-input"
     >
       <svg
         aria-hidden="true"
@@ -79,6 +80,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
       autoCorrect="off"
       className="sc-htpNat fxYYiS"
       defaultValue=""
+      id="kb-search-input"
       name="search-input"
       onChange={[Function]}
       spellCheck="false"
