@@ -84,7 +84,7 @@ class SearchBar extends React.Component {
 	/**
 	 * Handles the change event on the SearchBar.
 	 *
-	 * @param {DOMEvent} event The event being triggered on the SearchBar.
+	 * @param {object} event React SyntheticEvent.
 	 *
 	 * @returns {void}
 	 */
@@ -96,9 +96,9 @@ class SearchBar extends React.Component {
 	}
 
 	/**
-	 * Handles the search bar form submit.
+	 * Handles the submit event on the SearchBar.
 	 *
-	 * @param {DOMEvent} event The event being triggered on the SearchBar.
+	 * @param {object} event React SyntheticEvent.
 	 *
 	 * @returns {void}
 	 */

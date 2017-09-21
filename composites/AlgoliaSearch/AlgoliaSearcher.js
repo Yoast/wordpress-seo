@@ -274,7 +274,7 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	determineSearchResultsView() {
 		// Show error when a error message is set.
-		if( this.state.errorMessage ) {
+		if ( this.state.errorMessage ) {
 			return this.getErrorMessage();
 		}
 
