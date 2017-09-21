@@ -6234,18 +6234,7 @@ yoast-components@^2.8.0:
 
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#master":
   version "1.20.0"
-  uid "01f71bfb402b8cdb369f89ea2c94b7be596f1fa1"
   resolved "git+https://github.com/Yoast/YoastSEO.js.git#01f71bfb402b8cdb369f89ea2c94b7be596f1fa1"
-  dependencies:
-    htmlparser2 "^3.9.2"
-    jed "^1.1.0"
-    lodash "^4.14.1"
-    sassdash "^0.8.1"
-    tokenizer2 "^2.0.0"
-
-"yoastseo@https://github.com/Yoast/YoastSEO.js#1.20.0":
-  version "1.20.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#01f71bfb402b8cdb369f89ea2c94b7be596f1fa1"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
