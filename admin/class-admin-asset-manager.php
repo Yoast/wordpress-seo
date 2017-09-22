@@ -326,6 +326,11 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 				),
 			),
+			array(
+				'name' => 'filter-explanation',
+				'src'  => 'wp-seo-filter-explanation-' . $flat_version,
+				'deps' => array( 'jquery' ),
+			),
 		);
 	}
 
@@ -418,6 +423,10 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'extensions',
 				'src'  => 'yoast-extensions-' . $flat_version,
+			),
+			array(
+				'name' => 'filter-explanation',
+				'src'  => 'filter-explanation-' . $flat_version,
 			),
 		);
 	}
