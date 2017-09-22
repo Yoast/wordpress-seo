@@ -119,12 +119,10 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * @return string The url to activate this filter.
 	 */
 	protected function get_filter_url() {
-		$filter_url = add_query_arg( array(
+		return add_query_arg( array(
 			self::FILTER_QUERY_ARG => $this->get_query_val(),
 			'post_type' => $this->get_current_post_type(),
 		), 'edit.php' );
-
-		return $filter_url;
 	}
 
 	/**
