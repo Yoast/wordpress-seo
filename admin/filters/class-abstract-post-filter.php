@@ -113,8 +113,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	}
 
 	/**
-	 * Removes the post_status from the REQUEST URL because of the filter is in the same line.
-	 * After removing the post_status it will add a query arg for this filter.
+	 * Returns an url to edit.php with post_type and this filter as the query arguments.
 	 *
 	 * @return string The url to activate this filter.
 	 */
