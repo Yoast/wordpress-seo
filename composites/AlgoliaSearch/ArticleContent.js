@@ -22,7 +22,7 @@ class ArticleContent extends React.Component {
 	}
 
 	toAmp( originalUrl ) {
-		return `${ originalUrl }amp?source=wpseo-kb-search`;
+		return `${ originalUrl }amp/?source=wpseo-kb-search`;
 	}
 
 	render() {
