@@ -57,7 +57,7 @@ if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files']
 $tabs = new WPSEO_Option_Tabs( 'dashboard' );
 $tabs->add_tab( new WPSEO_Option_Tab( 'dashboard', __( 'Dashboard', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-notification-center' ) ) ) );
 $tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-general' ) ) ) );
-$tabs->add_tab( new WPSEO_Option_Tab( 'features', __( 'Features', 'wordpress-seo' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'features', __( 'Features', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-features' ) ) ) );
 $knowledge_graph_label = ( 'company' === $options['company_or_person'] ) ? __( 'Company info', 'wordpress-seo' ) : __( 'Your info', 'wordpress-seo' );
 $tabs->add_tab( new WPSEO_Option_Tab( 'knowledge-graph', $knowledge_graph_label, array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-knowledge-graph' ) ) ) );
 $tabs->add_tab( new WPSEO_Option_Tab( 'webmaster-tools', __( 'Webmaster tools', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-general-search-console' ) ) ) );
