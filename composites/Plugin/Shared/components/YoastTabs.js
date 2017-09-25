@@ -64,7 +64,7 @@ class YoastTabs extends React.Component {
 	 */
 	getTabPanels() {
 		return this.props.items.map( ( item ) => {
-			return <TabPanel key={ item.id } tabIndex="0">{ item.view }</TabPanel>;
+			return <TabPanel key={ item.id } tabIndex="0">{ item.content }</TabPanel>;
 		} );
 	}
 
@@ -90,7 +90,7 @@ YoastTabs.propTypes = {
 		PropTypes.shape( {
 			id: PropTypes.string.isRequired,
 			label: PropTypes.string.isRequired,
-			view: PropTypes.object.isRequired,
+			content: PropTypes.object.isRequired,
 		} )
 	),
 };
