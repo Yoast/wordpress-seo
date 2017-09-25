@@ -7739,8 +7739,8 @@ yauzl@^2.2.1:
     fd-slicer "~1.0.1"
 
 yoast-components@^2.9.1:
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.9.1.tgz#9438565f8dfa28c4b924d2d29b66e644f941f52d"
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.9.2.tgz#3d37a09d25bdb6ea0024217ea160d15ae1a4edc6"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     algoliasearch "^3.22.3"
