@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import Divider from "./Divider";
-
 /**
  * @typedef  {Object}     Feed
  * @property {string}     title       The title of the website.
@@ -73,8 +71,10 @@ const WordpressFeedFooter = styled.div`
 
 const WordpressFeedListItem = ( props ) => {
 	return (
-		<WordpressFeedListItemContainer>
+		<WordpressFeedListItemContainer
+			className={ props.className }>
 			<WordpressFeedLink
+				className={ `${ props.className }-link` }
 				href={ props.link }
 				target="_blank"
 				rel="noopener noreferrer">
@@ -83,12 +83,15 @@ const WordpressFeedListItem = ( props ) => {
 					( Opens in a new browser tab )
 				</A11yNotice>
 			</WordpressFeedLink>
-			<p>{ props.description }</p>
+			<p className={ `${ props.className }-description` }>
+				{ props.description }
+			</p>
 		</WordpressFeedListItemContainer>
 	);
 };
 
 WordpressFeedListItem.propTypes = {
+	className: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	link: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
@@ -107,14 +110,18 @@ WordpressFeedListItem.propTypes = {
  */
 const WordpressFeed = ( props ) => {
 	return (
-		<WordpressFeedContainer>
-			<WordpressFeedHeader>
+		<WordpressFeedContainer
+			className={ props.className }>
+			<WordpressFeedHeader
+				className={ `${ props.className }__header` }>
 				{ props.title ? props.title : props.feed.title }
 			</WordpressFeedHeader>
 			<WordpressFeedList
+				className={ `${ props.className }__posts` }
 				role="list">
 				{ props.feed.items.map( item => (
 					<WordpressFeedListItem
+						className={ `${ props.className }__post` }
 						key={ item.link }
 						title={ item.title }
 						link={ item.link }
@@ -122,9 +129,10 @@ const WordpressFeed = ( props ) => {
 				) ) }
 			</WordpressFeedList>
 			{ props.footerHtml &&
-				<WordpressFeedFooter>
-					<Divider />
+				<WordpressFeedFooter
+					className={ `${ props.className }__footer` }>
 					<WordpressFeedLink
+						className={ `${ props.className }__footer-link` }
 						href={ props.feedLink ? props.feedLink : props.feed.link }
 						target="_blank"
 						rel="noopener noreferrer"
@@ -137,10 +145,15 @@ const WordpressFeed = ( props ) => {
 };
 
 WordpressFeed.propTypes = {
+	className: PropTypes.string,
 	feed: PropTypes.object.isRequired,
 	title: PropTypes.string,
 	footerHtml: PropTypes.string,
 	feedLink: PropTypes.string,
+};
+
+WordpressFeed.defaultProps = {
+	className: "wordpress-feed",
 };
 
 export default WordpressFeed;

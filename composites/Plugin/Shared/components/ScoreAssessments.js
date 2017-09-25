@@ -39,17 +39,27 @@ const ScoreAssessmentScore = styled( ScoreAssessmentPart )`
 
 const ScoreAssessment = ( props ) => {
 	return (
-		<ScoreAssessmentItem>
-			<ScoreAssessmentBullet scoreColor={ props.scoreColor }/>
-			<ScoreAssessmentText dangerouslySetInnerHTML={ { __html: props.html } }></ScoreAssessmentText>
+		<ScoreAssessmentItem
+			className={ `${ props.className }` }>
+			<ScoreAssessmentBullet
+				className={ `${ props.className }-bullet` }
+				scoreColor={ props.scoreColor }/>
+			<ScoreAssessmentText
+				className={ `${ props.className }-text` }
+				dangerouslySetInnerHTML={ { __html: props.html } }>
+			</ScoreAssessmentText>
 			{ props.value &&
-				<ScoreAssessmentScore>{ props.value }</ScoreAssessmentScore>
+				<ScoreAssessmentScore
+					className={ `${ props.className }-score` }>
+					{ props.value }
+				</ScoreAssessmentScore>
 			}
 		</ScoreAssessmentItem>
 	);
 };
 
 ScoreAssessment.propTypes = {
+	className: PropTypes.string.isRequired,
 	scoreColor: PropTypes.string.isRequired,
 	html: PropTypes.string.isRequired,
 	value: PropTypes.number,
@@ -67,9 +77,12 @@ const ScoreAssessmentList = styled.ul`
 
 const ScoreAssessments = ( props ) => {
 	return (
-		<ScoreAssessmentList role="list">
+		<ScoreAssessmentList
+			className={ props.className }
+			role="list">
 			{ props.items.map( ( item, index ) =>
 				<ScoreAssessment
+					className={ `${ props.className }__item` }
 					key={ index }
 					scoreColor={ item.color }
 					html={ item.html }
@@ -80,6 +93,7 @@ const ScoreAssessments = ( props ) => {
 };
 
 ScoreAssessments.propTypes = {
+	className: PropTypes.string,
 	items: PropTypes.arrayOf(
 		PropTypes.shape( {
 			color: PropTypes.string.isRequired,
@@ -87,6 +101,10 @@ ScoreAssessments.propTypes = {
 			value: PropTypes.number,
 		} )
 	),
+};
+
+ScoreAssessments.defaultProps = {
+	className: "score-assessments",
 };
 
 export default ScoreAssessments;

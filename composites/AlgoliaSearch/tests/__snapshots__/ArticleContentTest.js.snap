@@ -3,7 +3,7 @@
 exports[`the ArticleContent component  matches the snapshot 1`] = `
 <iframe
   className="kb-search-content-frame sc-bdVaJa jFnyks"
-  src="www.example.com/amp?source=wpseo-kb-search"
+  src="www.example.com/amp/?source=wpseo-kb-search"
   title="KB article"
 />
 `;

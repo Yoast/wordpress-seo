@@ -2,54 +2,58 @@
 
 exports[`the WordpressFeed matches the snapshot 1`] = `
 <div
-  className="sc-bwzfXH kjhQEX"
+  className="wordpress-feed sc-bdVaJa ggoxkE"
 >
   <h3
-    className="sc-htpNat jeQuir"
+    className="wordpress-feed__header sc-bwzfXH iCXoeB"
   >
     Feed title
   </h3>
   <ul
-    className="sc-bxivhb beUGoh"
+    className="wordpress-feed__posts sc-htpNat czsPZk"
     role="list"
   >
     <li
-      className="sc-bZQynM cOIVoz"
+      className="wordpress-feed__post sc-EHOje fruGfq"
     >
       <a
-        className="sc-ifAKCX bqQcTP"
+        className="wordpress-feed__post-link sc-bxivhb iPuika"
         href="https://www.yoast.com/1"
         rel="noopener noreferrer"
         target="_blank"
       >
         Wordpress SEO
         <span
-          className="sc-EHOje fXITby"
+          className="sc-ifAKCX GTYdS"
         >
           ( Opens in a new browser tab )
         </span>
       </a>
-      <p>
+      <p
+        className="wordpress-feed__post-description"
+      >
         Some arbitrary description any blog post could have
       </p>
     </li>
     <li
-      className="sc-bZQynM cOIVoz"
+      className="wordpress-feed__post sc-EHOje fruGfq"
     >
       <a
-        className="sc-ifAKCX bqQcTP"
+        className="wordpress-feed__post-link sc-bxivhb iPuika"
         href="https://www.yoast.com/2"
         rel="noopener noreferrer"
         target="_blank"
       >
         Wordpress SEO
         <span
-          className="sc-EHOje fXITby"
+          className="sc-ifAKCX GTYdS"
         >
           ( Opens in a new browser tab )
         </span>
       </a>
-      <p>
+      <p
+        className="wordpress-feed__post-description"
+      >
         Some arbitrary description any blog post could have
       </p>
     </li>
