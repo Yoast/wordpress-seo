@@ -50,6 +50,10 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 
 		add_filter( 'posts_where', array( $this, 'filter_posts' ) );
 
+		if ( $this->is_filter_active() ) {
+			add_action( 'restrict_manage_posts', array( $this, 'render_hidden_input' ) );
+		}
+
 		if ( $this->get_explanation() !== null && $this->is_filter_active() ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_explanation_assets' ) );
 		}
@@ -100,16 +104,24 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	}
 
 	/**
-	 * Removes the post_status from the REQUEST URL because of the filter is in the same line.
-	 * After removing the post_status it will add a query arg for this filter.
+	 * Renders a hidden input to preserve this filter's state when using sub-filters.
+	 *
+	 * @return void
+	 */
+	public function render_hidden_input() {
+		echo '<input type="hidden" name="' . self::FILTER_QUERY_ARG . '" value="' . $this->get_query_val() . '">';
+	}
+
+	/**
+	 * Returns an url to edit.php with post_type and this filter as the query arguments.
 	 *
 	 * @return string The url to activate this filter.
 	 */
 	protected function get_filter_url() {
-		$filter_url = remove_query_arg( array( 'post_status' ) );
-		$filter_url = add_query_arg( self::FILTER_QUERY_ARG, $this->get_query_val(), $filter_url );
-
-		return $filter_url;
+		return add_query_arg( array(
+			self::FILTER_QUERY_ARG => $this->get_query_val(),
+			'post_type' => $this->get_current_post_type(),
+		), 'edit.php' );
 	}
 
 	/**
