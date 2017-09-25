@@ -24,7 +24,6 @@ exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
     className="sc-dnqmqq fMZGyT"
     role="list"
   >
-     
     <li>
        First item 
     </li>
@@ -37,7 +36,6 @@ exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
     <li>
        Fourth item 
     </li>
-     
   </ul>
 </div>
 `;

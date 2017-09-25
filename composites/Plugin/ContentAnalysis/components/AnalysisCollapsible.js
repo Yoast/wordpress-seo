@@ -87,7 +87,7 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 			</AnalysisHeaderButton>
 			{
 				props.isOpen && props.children
-					? <AnalysisList role="list"> { props.children } </AnalysisList>
+					? <AnalysisList role="list">{ props.children }</AnalysisList>
 					: null
 			}
 		</AnalysisHeaderContainer>
