@@ -767,7 +767,6 @@ a.promoblock:hover {
 	padding-right: 0.8em;
 	color: #fff;
 	text-transform: uppercase;
-	cursor: default;
 }
 
 .yoast-button--extension + .yoast-button--extension-activated,
@@ -827,6 +826,7 @@ a.promoblock:hover {
 .yoast-promo-extension {
 	max-width: 340px;
 	margin-right: 32px;
+	padding-bottom: 120px;
 	border-color: #a4286a;
 	background-color: transparent;
 }
@@ -847,8 +847,15 @@ a.promoblock:hover {
 	}
 }
 
-.yoast-promo-extension .yoast-list--usp {
-	height: 160px;
+.yoast-promo-extension .yoast-button-container {
+	position: absolute;
+	left: 20px;
+	bottom: 20px;
+	right: 20px;
+}
+
+.yoast-promo-extension .yoast-button-container div.yoast-button--extension {
+	cursor: default;
 }
 
 .yoast-promo-extension .yoast-button {

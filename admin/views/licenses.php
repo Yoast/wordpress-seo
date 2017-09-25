@@ -156,10 +156,10 @@ if ( class_exists( 'Woocommerce' ) ) {
 
 				<?php if ( $extensions->is_activated( 'wordpress-seo-premium' ) ) : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php _e( 'Activated', 'wordpress-seo' ); ?></div>
-					<a target="_blank" href="https://my.yoast.com" class="yoast-link--license"><?php _e( 'Manage your license on My Yoast', 'wordpress-seo' ); ?></a>
+					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ) ?>" class="yoast-link--license"><?php _e( 'Manage your subscription on My Yoast', 'wordpress-seo' ); ?></a>
 				<?php else : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-not-activated"><?php _e( 'Not activated', 'wordpress-seo' ); ?></div>
-					<a target="_blank" href="https://my.yoast.com" class="yoast-link--license"><?php _e( 'Activate your license on My Yoast', 'wordpress-seo' ); ?></a>
+					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ) ?>" class="yoast-link--license"><?php _e( 'Activate your site on My Yoast', 'wordpress-seo' ); ?></a>
 				<?php endif; ?>
 				</a>
 
@@ -171,7 +171,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 					printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->get_title() );
 					?></a>
 
-				<a target="_blank" href="<?php WPSEO_Shortlinker::get( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php
+				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php
 					printf(
 					/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
@@ -214,10 +214,10 @@ if ( class_exists( 'Woocommerce' ) ) {
 
 							<?php if ( $extensions->is_activated( $id ) ) : ?>
 								<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php _e( 'Activated', 'wordpress-seo' ); ?></div>
-								<a target="_blank" href="https://yoa.st/13k" class="yoast-link--license"><?php _e( 'Manage your license on My Yoast', 'wordpress-seo' ); ?></a>
+								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ) ?>" class="yoast-link--license"><?php _e( 'Manage your subscription on My Yoast', 'wordpress-seo' ); ?></a>
 							<?php else : ?>
 								<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-not-activated"><?php _e( 'Not activated', 'wordpress-seo' ); ?></div>
-								<a target="_blank" href="https://yoa.st/13i" class="yoast-link--license"><?php _e( 'Activate your license on My Yoast', 'wordpress-seo' ); ?></a>
+								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ) ?>" class="yoast-link--license"><?php _e( 'Activate your site on My Yoast', 'wordpress-seo' ); ?></a>
 							<?php endif; ?>
 						<?php else : ?>
 							<a target="_blank" class="yoast-button yoast-button--noarrow yoast-button-go-to  yoast-button--extension yoast-button--extension-buy" href="<?php echo esc_url( $extension->get_buy_url() ); ?>">

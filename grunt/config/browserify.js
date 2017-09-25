@@ -29,6 +29,7 @@ module.exports = {
 			"js/dist/wp-seo-quick-edit-handler-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-quick-edit-handler.js" ],
 			"js/dist/wp-seo-api-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-api.js" ],
 			"js/dist/wp-seo-dashboard-widget-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-dashboard-widget.js" ],
+			"js/dist/wp-seo-filter-explanation-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-filter-explanation.js" ],
 		},
 	},
 	"release-es6": {
