@@ -47,9 +47,9 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
-	 * Returns a text explaining this filter. Null if no explanation is necessary.
+	 * Returns a text explaining this filter.
 	 *
-	 * @return string|null The explanation or null.
+	 * @return string The explanation.
 	 */
 	protected function get_explanation() {
 		return sprintf(
