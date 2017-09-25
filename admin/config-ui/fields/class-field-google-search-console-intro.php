@@ -22,7 +22,7 @@ class WPSEO_Config_Field_Google_Search_Console_Intro extends WPSEO_Config_Field 
  Find out %2$show to connect Google Search Console to your site.%3$s',
 				'wordpress-seo' ),
 			'Yoast SEO',
-			'<a href="https://yoa.st/1ex">',
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1ex' ) . '">',
 			'</a>' );
 
 		$disclaimer = __( 'Note: we don\'t store your data in any way and don\'t have full access to your account. 
