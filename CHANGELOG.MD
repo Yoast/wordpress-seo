@@ -5,6 +5,11 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.9.2: September 25th, 2017
+
+### Other
+* Added trailing slash to knowledge base URL in help center
+
 ## 2.9.1: September 19th, 2017
 
 ### Added
