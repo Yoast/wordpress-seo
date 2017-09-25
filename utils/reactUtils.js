@@ -5,10 +5,10 @@
  *
  * @returns {number} Number of children
  */
-export function getChildCount( children ) {
+export function getChildrenCount( children ) {
 	let count = 0;
-	if( children ) {
-		if( isNaN( children.length ) ) {
+	if ( children ) {
+		if ( isNaN( children.length ) ) {
 			count = 1;
 		} else {
 			count = children.length;

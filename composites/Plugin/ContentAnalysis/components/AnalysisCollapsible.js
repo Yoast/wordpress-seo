@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-import { getChildCount } from "../../../../utils/reactUtils";
+import { getChildrenCount } from "../../../../utils/reactUtils";
 import { angleUp, angleDown } from "../../../../style-guide/svg";
 import colors from "../../../../style-guide/colors.json";
 import { IconButton } from "../../Shared/components/Button";
@@ -73,7 +73,7 @@ const AnalysisList = styled.ul`
  */
 export const AnalysisCollapsibleStateless = ( props ) => {
 	let title = props.title;
-	let count = getChildCount( props.children );
+	let count = getChildrenCount( props.children );
 
 	return (
 		<AnalysisHeaderContainer>
