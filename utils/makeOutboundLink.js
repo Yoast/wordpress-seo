@@ -1,5 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { defineMessages, injectIntl, intlShape } from "react-intl";
+
+import { A11yNotice } from "../composites/Plugin/Shared/components/A11yNotice";
+
+const messages = defineMessages( {
+	opensInNewTab: {
+		id: "a11yNotice.opensInNewTab",
+		defaultMessage: "(This link opens in a new tab)",
+	},
+} );
 
 /**
  * Makes an anchor component into an outbound link that opens in a new tab.
@@ -12,12 +22,11 @@ export const makeOutboundLink = ( Component = "a" ) => {
 	class OutboundLink extends React.Component {
 		render() {
 			const newProps = Object.assign(
-				{},
-				this.props,
 				{
 					target: "_blank",
 					rel: "noopener noreferrer",
-				}
+				},
+				this.props
 			);
 			// Using React.createElement because it can accept a string as a component parameter
 			return React.createElement(
@@ -25,9 +34,9 @@ export const makeOutboundLink = ( Component = "a" ) => {
 				newProps,
 				this.props.children,
 				React.createElement(
-					"span",
+					A11yNotice,
 					null,
-					"(This link opens in a new tab)"
+					this.props.intl.formatMessage( messages.opensInNewTab )
 				)
 			);
 		}
@@ -37,6 +46,7 @@ export const makeOutboundLink = ( Component = "a" ) => {
 			PropTypes.string,
 			PropTypes.node
 		),
+		intl: intlShape.isRequired,
 	};
-	return OutboundLink;
+	return injectIntl( OutboundLink );
 };
