@@ -132,10 +132,10 @@ Release Date: September 26th, 2017
 * Enhancements
 	* Updated the Dashboard Widget with a new design.
 	* Added additional explanations to the Configuration wizard.
-	* Added contentinfo landmark for assistive technologies to the Configuration wizard page.
+	* Added `contentinfo` landmark for assistive technologies to the Configuration wizard page.
 	* Introduces `wpseo_manager` and `wpseo_editor` roles.
-	* Introduces `wpseo_manage_options` capability to control which user has access to all SEO settings.
-	* Introduces `wpseo_edit_advanced_metadata` capability to control which user has access to the advanced SEO settings.
+	* Introduces `wpseo_manage_options` capability to control which users have access to all SEO settings.
+	* Introduces `wpseo_edit_advanced_metadata` capability to control which users have access to the advanced SEO settings.
 
 * Bugfixes
 	* Fixed a bug where certain options (`site_type`, `environment_type` and `has_multiple_authors`) would be reset to their default value whenever one of the feature toggles were changed.
@@ -143,7 +143,7 @@ Release Date: September 26th, 2017
 
 = 5.4.2
 
-Release Date: September 21th, 2017
+Release Date: September 21st, 2017
 
 * Bugfixes
 	* Replace unsupported query `prepare` placeholder `%1$d` with `%d` to fix broken queries. Fixes compatibility issue with WordPress 4.8.2.
@@ -180,7 +180,7 @@ Release Date: August 28th, 2017
 
 = 5.3.2 =
 
-Release Date: August 23th, 2017
+Release Date: August 23rd, 2017
 
 * Bugfixes
 	* Fixes a bug where an invalid license notification could be shown in certain situations.
