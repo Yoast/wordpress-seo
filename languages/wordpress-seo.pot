@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO Premium 5.4.1\n"
+"Project-Id-Version: Yoast SEO 5.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-09-20 12:28:32+00:00\n"
+"POT-Creation-Date: 2017-09-26 08:22:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -954,7 +954,7 @@ msgstr ""
 #: admin/class-social-admin.php:38
 msgid ""
 "If you want to override the image used on %s for this post, upload / choose "
-"an image here."
+"an image or add the URL here."
 msgstr ""
 
 #. translators: %1$s expands to the social network, %2$s to the recommended
@@ -5023,98 +5023,7 @@ msgid ""
 "provide."
 msgstr ""
 
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:92
-msgid ""
-"Please explain what you're trying to find or do. If something isn't working, "
-"please explain what you expect to happen. If you can make a screenshot, "
-"please attach it."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:94
-msgid "Note: submitting this form also sends us debug info about your server."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:106
-msgid "What can we help you with?"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:107
-msgid ""
-"Your search timed out. Please double-check your internet connection and try "
-"again."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:108
-msgid "No results found for"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:109
-msgid "Send a Message"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:110
-msgid "Attach a file"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:111
-msgid "The maximum file size is 10 MB"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:112
-msgid "Your Name"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:113
-msgid "Please enter your name"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:114
-msgid "Email address"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:115
-msgid "Please enter a valid email address"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:116
-msgid "Select a topic"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:117
-msgid "Please select a topic from the list"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:118
-msgid "Subject"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:119
-msgid "Please enter a subject"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:120
-msgid "How can we help you?"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:121
-msgid "Please enter a message"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:122
-msgid "Send"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:123
-msgid "Message sent, thank you!"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:124
-msgid ""
-"Someone from Team Yoast will get back to you soon, normally within a couple "
-"of hours."
-msgstr ""
-
-#: wp-seo-main.php:446
+#: wp-seo-main.php:445
 msgid ""
 "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask "
 "your web host to enable it."
@@ -5123,24 +5032,24 @@ msgstr ""
 #. translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the
 #. installation manual in the Readme for the Yoast SEO code repository on
 #. GitHub
-#: wp-seo-main.php:468
+#: wp-seo-main.php:467
 msgid ""
 "The %1$s plugin installation is incomplete. Please refer to %2$sinstallation "
 "instructions%3$s."
 msgstr ""
 
-#: wp-seo-main.php:492
+#: wp-seo-main.php:491
 msgid ""
 "The filter extension seem to be unavailable. Please ask your web host to "
 "enable it."
 msgstr ""
 
-#: wp-seo-main.php:502
+#: wp-seo-main.php:501
 msgid "Activation failed:"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "Yoast SEO Premium"
+msgid "Yoast SEO"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
