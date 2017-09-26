@@ -7,6 +7,7 @@
  * Class WPSEO_Configuration_Structure_Mock
  */
 class WPSEO_Configuration_Structure_Mock extends WPSEO_Configuration_Structure {
+
 	/**
 	 * Make add_step public
 	 *
@@ -15,8 +16,8 @@ class WPSEO_Configuration_Structure_Mock extends WPSEO_Configuration_Structure {
 	 * @param array  $fields
 	 * @param bool   $navigation
 	 */
-	public function add_step( $identifier, $title, $fields, $navigation = true ) {
-		return parent::add_step( $identifier, $title, $fields, $navigation );
+	public function add_step_mock( $identifier, $title, $fields, $navigation = true ) {
+		$this->add_step( $identifier, $title, $fields, $navigation );
 	}
 }
 
@@ -42,7 +43,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_constructor() {
 		$this->structure->initialize();
-		
+
 		$steps = $this->structure->retrieve();
 
 		$expected = array(
@@ -67,7 +68,12 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Structure::add_step()
 	 */
 	public function test_add_step() {
-		$this->assertNull( $this->structure->add_step( 'i', 't', 'f' ) );
+
+		$this->structure->add_step_mock( 'i', 't', 'f' );
+
+		$steps = $this->structure->retrieve();
+
+		$this->assertTrue( ! empty( $steps['i'] ) );
 	}
 
 	/**
@@ -78,13 +84,13 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 		$title      = 't';
 		$fields     = 'f';
 
-		$this->structure->add_step( $identifier, $title, $fields );
+		$this->structure->add_step_mock( $identifier, $title, $fields );
 
 		$steps = $this->structure->retrieve();
 
 		$this->assertTrue( isset( $steps[ $identifier ] ) );
 		$this->assertEquals(
-			array( 'title' => $title, 'fields' => $fields, 'hideNavigation' => false ),
+			array( 'title' => $title, 'fields' => $fields, 'hideNavigation' => false, 'fullWidth' => false ),
 			$steps[ $identifier ]
 		);
 	}

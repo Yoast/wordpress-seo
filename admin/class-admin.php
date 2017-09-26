@@ -31,6 +31,9 @@ class WPSEO_Admin {
 
 		global $pagenow;
 
+		$wpseo_menu = new WPSEO_Menu();
+		$wpseo_menu->register_hooks();
+
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks' ) );
 
 		if ( is_multisite() ) {
@@ -57,10 +60,6 @@ class WPSEO_Admin {
 			new WPSEO_Recalculate_Scores();
 		}
 
-		// Needs the lower than default priority so other plugins can hook underneath it without issue.
-		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
-		add_action( 'network_admin_menu', array( $this, 'register_network_settings_page' ) );
-
 		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, array( $this, 'add_action_link' ), 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
@@ -79,8 +78,6 @@ class WPSEO_Admin {
 
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
-
-		add_filter( 'wpseo_submenu_pages', array( $this, 'filter_settings_pages' ) );
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 
@@ -101,6 +98,8 @@ class WPSEO_Admin {
 
 		$integrations[] = new WPSEO_Yoast_Columns();
 		$integrations[] = new WPSEO_License_Page_Manager();
+		$integrations[] = new WPSEO_Statistic_Integration();
+		$integrations[] = new WPSEO_Slug_Change_Watcher();
 		$integrations = array_merge( $integrations, $this->initialize_seo_links() );
 
 		/** @var WPSEO_WordPress_Integration $integration */
@@ -139,147 +138,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Register the menu item and its sub menu's.
-	 *
-	 * @global array $submenu used to change the label on the first item.
-	 */
-	public function register_settings_page() {
-		if ( WPSEO_Utils::grant_access() !== true ) {
-			return;
-		}
-
-		global $admin_page_hooks;
-
-		// Base 64 encoded SVG image.
-		$icon_svg = WPSEO_Utils::get_icon_svg();
-
-		$manage_options_cap = $this->get_manage_options_cap();
-
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_count  = $notification_center->get_notification_count();
-
-		// Add main page.
-		/* translators: %s: number of notifications */
-		$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count, 'wordpress-seo' ), number_format_i18n( $notification_count ) );
-		$counter = sprintf( '<span class="update-plugins count-%1$d"><span class="plugin-count" aria-hidden="true">%1$d</span><span class="screen-reader-text">%2$s</span></span>', $notification_count, $counter_screen_reader_text );
-
-		$admin_page = add_menu_page( 'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) . ' ' . $counter, $manage_options_cap, self::PAGE_IDENTIFIER, array(
-			$this,
-			'load_page',
-		), $icon_svg, '99.31337' );
-
-		$admin_page_hooks[ self::PAGE_IDENTIFIER ] = 'seo'; // Wipe notification bits from hooks. R.
-
-		$license_page_title = __( 'Premium', 'wordpress-seo' );
-
-		// Sub menu pages.
-		$submenu_pages = array(
-			array(
-				self::PAGE_IDENTIFIER,
-				'',
-				__( 'General', 'wordpress-seo' ),
-				$manage_options_cap,
-				self::PAGE_IDENTIFIER,
-				array( $this, 'load_page' ),
-				null,
-			),
-			array(
-				self::PAGE_IDENTIFIER,
-				'',
-				__( 'Titles &amp; Metas', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_titles',
-				array( $this, 'load_page' ),
-			),
-			array(
-				self::PAGE_IDENTIFIER,
-				'',
-				__( 'Social', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_social',
-				array( $this, 'load_page' ),
-				null,
-			),
-			array(
-				self::PAGE_IDENTIFIER,
-				'',
-				__( 'XML Sitemaps', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_xml',
-				array( $this, 'load_page' ),
-				null,
-			),
-			array(
-				self::PAGE_IDENTIFIER,
-				'',
-				__( 'Advanced', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_advanced',
-				array( $this, 'load_page' ),
-				null,
-			),
-			array(
-				self::PAGE_IDENTIFIER,
-				'',
-				__( 'Tools', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_tools',
-				array( $this, 'load_page' ),
-				null,
-			),
-			array(
-				self::PAGE_IDENTIFIER,
-				'',
-				__( 'Search Console', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_search_console',
-				array( $this->admin_features['google_search_console'], 'display' ),
-				array( array( $this->admin_features['google_search_console'], 'set_help' ) ),
-			),
-			array(
-				self::PAGE_IDENTIFIER,
-				'',
-				$license_page_title,
-				$manage_options_cap,
-				'wpseo_licenses',
-				array( $this, 'load_page' ),
-				null,
-			),
-		);
-
-		// Allow submenu pages manipulation.
-		$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
-
-		// Loop through submenu pages and add them.
-		if ( count( $submenu_pages ) ) {
-			foreach ( $submenu_pages as $submenu_page ) {
-
-				$page_title = $submenu_page[2] . ' - Yoast SEO';
-
-				// We cannot use $submenu_page[1] because add-ons define that, so hard-code this value.
-				if ( 'wpseo_licenses' === $submenu_page[4] ) {
-					$page_title = __( 'Premium', 'wordpress-seo' ) . ' - Yoast SEO';
-				}
-
-				// Add submenu page.
-				$admin_page = add_submenu_page( $submenu_page[0], $page_title, $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
-
-				// Check if we need to hook.
-				if ( isset( $submenu_page[6] ) && ( is_array( $submenu_page[6] ) && $submenu_page[6] !== array() ) ) {
-					foreach ( $submenu_page[6] as $submenu_page_action ) {
-						add_action( 'load-' . $admin_page, $submenu_page_action );
-					}
-				}
-			}
-		}
-
-		global $submenu;
-		if ( isset( $submenu[ self::PAGE_IDENTIFIER ] ) && current_user_can( $manage_options_cap ) ) {
-			$submenu[ self::PAGE_IDENTIFIER ][0][0] = __( 'Dashboard', 'wordpress-seo' );
-		}
-	}
-
-	/**
 	 * Register assets needed on admin pages
 	 */
 	public function enqueue_assets() {
@@ -297,14 +155,13 @@ class WPSEO_Admin {
 	 * @return mixed|void
 	 */
 	private function get_manage_options_cap() {
+		// @todo deprecate filter
 		/**
 		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
 		 *
 		 * @api string unsigned The capability
 		 */
-		$manage_options_cap = apply_filters( 'wpseo_manage_options_capability', 'manage_options' );
-
-		return $manage_options_cap;
+		return apply_filters( 'wpseo_manage_options_capability', 'wpseo_manage_options' );
 	}
 
 	/**
@@ -349,91 +206,7 @@ class WPSEO_Admin {
 		);
 	}
 
-	/**
-	 * Register the settings page for the Network settings.
-	 */
-	public function register_network_settings_page() {
-		if ( WPSEO_Utils::grant_access() ) {
-			// Base 64 encoded SVG image.
-			$icon_svg = WPSEO_Utils::get_icon_svg();
 
-			add_menu_page( 'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', self::PAGE_IDENTIFIER, array(
-				$this,
-				'network_config_page',
-			), $icon_svg );
-
-			if ( WPSEO_Utils::allow_system_file_edit() === true ) {
-				add_submenu_page( self::PAGE_IDENTIFIER, 'Yoast SEO: ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array(
-					$this,
-					'load_page',
-				) );
-			}
-
-			// Add Extension submenu page.
-			add_submenu_page( self::PAGE_IDENTIFIER, 'Yoast SEO: ' . __( 'Extensions', 'wordpress-seo' ), __( 'Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_licenses', array(
-				$this,
-				'load_page',
-			) );
-		}
-	}
-
-
-	/**
-	 * Load the form for a WPSEO admin page
-	 */
-	public function load_page() {
-		$page = filter_input( INPUT_GET, 'page' );
-
-		switch ( $page ) {
-			case 'wpseo_advanced':
-				require_once( WPSEO_PATH . 'admin/pages/advanced.php' );
-				break;
-
-			case 'wpseo_tools':
-				require_once( WPSEO_PATH . 'admin/pages/tools.php' );
-				break;
-
-			case 'wpseo_titles':
-				require_once( WPSEO_PATH . 'admin/pages/metas.php' );
-				break;
-
-			case 'wpseo_social':
-				require_once( WPSEO_PATH . 'admin/pages/social.php' );
-				break;
-
-			case 'wpseo_xml':
-				require_once( WPSEO_PATH . 'admin/pages/xml-sitemaps.php' );
-				break;
-
-			case 'wpseo_licenses':
-				require_once( WPSEO_PATH . 'admin/pages/licenses.php' );
-				break;
-
-			case 'wpseo_files':
-				require_once( WPSEO_PATH . 'admin/views/tool-file-editor.php' );
-				break;
-
-			case 'wpseo_tutorial_videos':
-				require_once( WPSEO_PATH . 'admin/pages/tutorial-videos.php' );
-				break;
-
-			case 'wpseo_configurator':
-				require_once( WPSEO_PATH . 'admin/config-ui/class-configuration-page.php' );
-				break;
-
-			case self::PAGE_IDENTIFIER:
-			default:
-				require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
-				break;
-		}
-	}
-
-	/**
-	 * Loads the form for the network configuration page.
-	 */
-	public function network_config_page() {
-		require_once( WPSEO_PATH . 'admin/pages/network.php' );
-	}
 
 
 	/**
@@ -478,7 +251,7 @@ class WPSEO_Admin {
 	 * @return array $links
 	 */
 	public function add_action_link( $links, $file ) {
-		if ( WPSEO_BASENAME === $file && WPSEO_Utils::grant_access() ) {
+		if ( WPSEO_BASENAME === $file && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
 			array_unshift( $links, $settings_link );
 		}
@@ -505,12 +278,10 @@ class WPSEO_Admin {
 	 * Enqueues the (tiny) global JS needed for the plugin.
 	 */
 	public function config_page_scripts() {
-		if ( WPSEO_Utils::grant_access() ) {
-			$asset_manager = new WPSEO_Admin_Asset_Manager();
-			$asset_manager->enqueue_script( 'admin-global-script' );
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'admin-global-script' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
-		}
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
 	}
 
 	/**
@@ -590,54 +361,6 @@ class WPSEO_Admin {
 
 		$stop_words = new WPSEO_Admin_Stop_Words();
 		return $stop_words->remove_in( $new_slug );
-	}
-
-	/**
-	 * Filters all advanced settings pages from the given pages.
-	 *
-	 * @param array $pages The pages to filter.
-	 *
-	 * @return array
-	 */
-	public function filter_settings_pages( array $pages ) {
-		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
-			return $pages;
-		}
-
-		$pages_to_hide = WPSEO_Advanced_Settings::get_advanced_pages();
-		$page = filter_input( INPUT_GET, 'page' );
-
-		if ( WPSEO_Advanced_Settings::is_advanced_settings_page( $page ) ) {
-			$pages_to_hide = $this->temporarily_enable_page( $pages_to_hide, $page );
-		}
-
-		foreach ( $pages as $page_key => $page ) {
-			$page_name = $page[4];
-
-			if ( in_array( $page_name, $pages_to_hide ) ) {
-				unset( $pages[ $page_key ] );
-			}
-		}
-
-		return $pages;
-	}
-
-	/**
-	 * Given a list of passed pages that will be disabled, removes the given page from the list so that it will no longer be disabled.
-	 *
-	 * @param array  $pages The pages to search through.
-	 * @param string $page  The page to temporarily enable.
-	 *
-	 * @return array The remaining pages that need to be disabled.
-	 */
-	private function temporarily_enable_page( $pages, $page ) {
-		$enable_page = array_search( $page, $pages );
-
-		if ( $enable_page !== false ) {
-			unset( $pages[ $enable_page ] );
-		}
-
-		return $pages;
 	}
 
 	/**
@@ -849,6 +572,52 @@ class WPSEO_Admin {
 	}
 
 	/**
+	 * Register the menu item and its sub menu's.
+	 *
+	 * @deprecated 5.5
+	 */
+	public function register_settings_page() {
+		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
+	}
+
+	/**
+	 * Register the settings page for the Network settings.
+	 *
+	 * @deprecated 5.5
+	 */
+	public function register_network_settings_page() {
+		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
+	}
+
+	/**
+	 * Load the form for a WPSEO admin page
+	 *
+	 * @deprecated 5.5
+	 */
+	public function load_page() {
+		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
+	}
+
+	/**
+	 * Loads the form for the network configuration page.
+	 *
+	 * @deprecated 5.5
+	 */
+	public function network_config_page() {
+		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
+	}
+
+	/**
+	 * Filters all advanced settings pages from the given pages.
+	 *
+	 * @deprecated 5.5
+	 * @param array $pages The pages to filter.
+	 */
+	public function filter_settings_pages( array $pages ) {
+		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
+	}
+
+	/**
 	 * Display an error message when the blog is set to private.
 	 *
 	 * @deprecated 3.3
@@ -865,7 +634,7 @@ class WPSEO_Admin {
 	 * @deprecated 3.3
 	 */
 	public function meta_description_warning() {
-		_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
 	}
 
 	/**

@@ -423,7 +423,7 @@ abstract class WPSEO_Option {
 	 * @return void
 	 */
 	public function register_setting() {
-		if ( WPSEO_Utils::grant_access() ) {
+		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			register_setting( $this->group_name, $this->option_name );
 		}
 	}

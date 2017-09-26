@@ -2,6 +2,11 @@ language: php
 dist: trusty
 sudo: false
 
+branches:
+  only:
+    - master
+    - trunk
+
 addons:
   apt:
     sources:
@@ -70,14 +75,14 @@ before_install:
 - if [[ "$CHECKJS" == "1" ]]; then export PATH=$HOME/.yarn/bin:$PATH; fi
 
 install:
-- phpenv local 5.6
+- if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local 5.6.13; fi
 - composer selfupdate 1.0.0 --no-interaction
 - if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then composer require --dev phpunit/phpunit ^5.7; fi
 - composer install --no-interaction
 - composer config-yoastcs
-- phpenv local --unset
+- if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local --unset; fi
 - if [[ "$CHECKJS" == "1" ]]; then yarn global add grunt-cli; fi
-- if [[ "$CHECKJS" == "1" ]]; then yarn install --ignore-optional; fi
+- if [[ "$CHECKJS" == "1" ]]; then yarn install; fi
 
 before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
