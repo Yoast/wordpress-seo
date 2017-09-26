@@ -1,22 +1,69 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the VideoTutorial component matches the snapshot 1`] = `
-<section
-  className="sc-htpNat hqgsEe sc-bwzfXH gwKLSd"
+<div
+  className="sc-htpNat cqhNjk"
 >
-  <iframe
-    allowFullScreen={true}
-    className="sc-bdVaJa bDWFJH"
-    frameBorder={0}
-    height={315}
-    src="https:/www.youtube.com/embed/bIgcj_pPIbw"
-    title="Video title"
-    width={560}
-  />
-  <section
-    className="sc-bxivhb foTyhW sc-bwzfXH gwKLSd"
+  <div
+    className="sc-bxivhb hNRhjd"
   >
-    Video description
-  </section>
-</section>
+    <div
+      className="sc-bwzfXH oQWOt"
+    >
+      <iframe
+        allowFullScreen={true}
+        className="sc-bdVaJa bDWFJH"
+        frameBorder={0}
+        height={315}
+        src="https:/www.youtube.com/embed/bIgcj_pPIbw"
+        title="Video title"
+        width={560}
+      />
+    </div>
+  </div>
+  <div
+    className="sc-ifAKCX jBaCxv"
+  >
+    <div
+      className="sc-EHOje hWqomB"
+    >
+      <p
+        className="sc-bZQynM gSmTMg"
+      >
+        Need some help?
+      </p>
+      <p
+        className="sc-gzVnrw fgSTpW"
+      >
+        Go Premium!
+      </p>
+      <a
+        className="sc-htoDjs laZdDb"
+        href="#1"
+      >
+        Get Yoast SEO Premium now »
+      </a>
+    </div>
+    <div
+      className="sc-EHOje hWqomB"
+    >
+      <p
+        className="sc-bZQynM gSmTMg"
+      >
+        Need some help?
+      </p>
+      <p
+        className="sc-gzVnrw fgSTpW"
+      >
+        Go Premium!
+      </p>
+      <a
+        className="sc-htoDjs laZdDb"
+        href="#2"
+      >
+        Get Yoast SEO Premium now »
+      </a>
+    </div>
+  </div>
+</div>
 `;

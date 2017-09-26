@@ -5,6 +5,23 @@ import IFrame from "../../composites/basic/IFrame";
 
 const StyledIFrame = styled( IFrame )``;
 
+/* Responsive videos. */
+/* Other common aspect ratios: 75% = 4:3, 66.66% = 3:2, 62.5% = 8:5 */
+const YoutubeVideoContainer = styled.div`
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	height: 0;
+	overflow: hidden;
+
+	iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+`;
+
 /**
  * Creates a YouTubeVideo component.
  *
@@ -16,14 +33,11 @@ const StyledIFrame = styled( IFrame )``;
  */
 export default function YouTubeVideo( props ) {
 	return (
-		<StyledIFrame
-			width={ props.width }
-			height={ props.height }
-			src={ props.src }
-			title={ props.title }
-		    frameBorder={ props.frameBorder }
-		    allowFullScreen={ props.allowFullScreen }
-		/>
+		<YoutubeVideoContainer>
+			<StyledIFrame
+				{ ...props }
+			/>
+		</YoutubeVideoContainer>
 	);
 }
 
