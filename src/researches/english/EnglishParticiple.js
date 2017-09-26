@@ -108,10 +108,12 @@ EnglishParticiple.prototype.checkException = function() {
  * @returns {boolean} Returns true if no exception is found.
  */
 EnglishParticiple.prototype.isPassive = function() {
+	let sentencePart = this.getSentencePart();
+	let participleIndex = sentencePart.indexOf( this.getParticiple() );
 	return 	! this.isNonVerbEndingEd() &&
 				! this.hasRidException() &&
-				! this.directPrecedenceException() &&
-				! this.precedenceException();
+				! this.directPrecedenceException( sentencePart, participleIndex ) &&
+				! this.precedenceException( sentencePart, participleIndex );
 };
 
 /**
@@ -150,9 +152,7 @@ EnglishParticiple.prototype.hasRidException = function() {
  * @returns {boolean} Returns true if a word from the direct precedence exception list is directly preceding
  * the participle, otherwise returns false.
  */
-EnglishParticiple.prototype.directPrecedenceException = function() {
-	var sentencePart = this.getSentencePart();
-	var participleIndex = sentencePart.indexOf( this.getParticiple() );
+EnglishParticiple.prototype.directPrecedenceException = function( sentencePart, participleIndex ) {
 	var exceptionMatch = getWordIndices( sentencePart, directPrecedenceExceptionRegex );
 	return includesIndex( exceptionMatch, participleIndex );
 };
@@ -164,9 +164,7 @@ EnglishParticiple.prototype.directPrecedenceException = function() {
  * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
  * sentence part before the participle, otherwise returns false.
  */
-EnglishParticiple.prototype.precedenceException = function() {
-	var sentencePart = this.getSentencePart();
-	var participleIndex = sentencePart.indexOf( this.getParticiple() );
+EnglishParticiple.prototype.precedenceException = function( sentencePart, participleIndex ) {
 	var exceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
 	return precedesIndex( exceptionMatch, participleIndex );
 };
