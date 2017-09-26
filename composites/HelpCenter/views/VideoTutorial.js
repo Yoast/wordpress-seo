@@ -6,13 +6,16 @@ import YouTubeVideo from "../../basic/YouTubeVideo";
 import colors from "../../../style-guide/colors.json";
 import breakpoints from "../../../style-guide/responsive-breakpoints.json";
 
+// Used to align the video and the description next to each other.
+const VIDEO_WIDTH = "560px";
+
 const VideoTutorialContainer = styled.div`
-	padding: 1em;
+	padding: 16px;
 `;
 
 const VideoContainer = styled.div`
 	float: left;
-	width: 560px;
+	width: ${ VIDEO_WIDTH };
 
 	@media screen and (max-width: ${ breakpoints.mobile } ) {
 		float: none;
@@ -21,7 +24,7 @@ const VideoContainer = styled.div`
 `;
 
 const VideoDescriptions = styled.div`
-	margin-left: 560px;
+	margin-left: ${ VIDEO_WIDTH };
 	padding: 0 16px;
 
 	@media screen and (max-width: ${ breakpoints.mobile } ) {
@@ -53,6 +56,13 @@ const VideoDescriptionLink = styled.a`
 	color: ${ colors.$color_pink_dark };
 `;
 
+/**
+ * Creates a VideoDescription component, to be displayed next to the video.
+ *
+ * @param {Object} props The props to use for the component.
+ *
+ * @returns {ReactElement} The VideoDescription component.
+ */
 const VideoDescriptionItem = ( props ) => {
 	return (
 		<VideoDescription>
@@ -87,12 +97,16 @@ export default function VideoTutorial( props ) {
 	return (
 		<VideoTutorialContainer>
 			<VideoContainer>
-				<YouTubeVideo src={ props.src } title={ props.title } />
+				<YouTubeVideo
+					src={ props.src }
+					title={ props.title } />
 			</VideoContainer>
 			<VideoDescriptions>
 				{ props.items.map( item => {
 					return (
-						<VideoDescriptionItem key={ item.link } { ...item }/>
+						<VideoDescriptionItem
+							key={ item.link }
+							{ ...item } />
 					);
 				} ) }
 			</VideoDescriptions>
