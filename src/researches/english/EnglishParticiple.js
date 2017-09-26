@@ -56,15 +56,14 @@ var precedesIndex = function( precedingWords, participleIndex ) {
 		var precedingWordsIndex = precedingWord.index;
 		precedingWordsIndices.push( precedingWordsIndex );
 	} );
-	console.log( "precedingWordsIndices:", precedingWordsIndices );
 
 	var matches = [];
 	forEach( precedingWordsIndices, function( precedingWordsIndex ) {
+		// + 1 because the beginning word boundary is not included in the passive participle match
 		if ( precedingWordsIndex + 1 < participleIndex ) {
 			matches.push( precedingWordsIndex );
 		}
 	} );
-	console.log( "matches:", matches );
 
 	if ( matches.length ) {
 		return true;
@@ -167,11 +166,8 @@ EnglishParticiple.prototype.directPrecedenceException = function() {
  */
 EnglishParticiple.prototype.precedenceException = function() {
 	var sentencePart = this.getSentencePart();
-	console.log( "sentencePart:", sentencePart );
 	var participleIndex = sentencePart.indexOf( this.getParticiple() );
-	console.log( "participleIndex:", participleIndex );
 	var exceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
-	console.log(precedesIndex( exceptionMatch, participleIndex ));
 	return precedesIndex( exceptionMatch, participleIndex );
 };
 
