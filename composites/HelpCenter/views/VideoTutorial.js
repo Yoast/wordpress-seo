@@ -10,7 +10,6 @@ import breakpoints from "../../../style-guide/responsive-breakpoints.json";
 const VIDEO_WIDTH = "560px";
 
 const VideoTutorialContainer = styled.div`
-	padding: 16px;
 `;
 
 const VideoContainer = styled.div`
@@ -52,7 +51,6 @@ const VideoDescriptionText = styled.p`
 `;
 
 const VideoDescriptionLink = styled.a`
-	font-weight: 100;
 	color: ${ colors.$color_pink_dark };
 `;
 
