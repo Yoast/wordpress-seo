@@ -5,6 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.9.3: September 26th, 2017
+
+### Other
+* Fixed the loading of AMP articles in the Algolia article iFrame. 
+
+
 ## 2.9.2: September 25th, 2017
 
 ### Other
