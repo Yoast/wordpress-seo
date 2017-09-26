@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
 Tested up to: 4.8.2
-Stable tag: 5.4.1
+Stable tag: 5.4.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -141,12 +141,19 @@ Release Date: September 26th, 2017
 	* Fixed a bug where certain options (`site_type`, `environment_type` and `has_multiple_authors`) would be reset to their default value whenever one of the feature toggles were changed.
 	* Ensured that `has_multiple_authors` gets validated.
 
+= 5.4.2
+
+Release Date: September 21th, 2017
+
+* Bugfixes
+	* Replace unsupported query `prepare` placeholder `%1$d` with `%d` to fix broken queries. Fixes compatibility issue with WordPress 4.8.2.
+
 = 5.4.1
 
 Release Date: September 20th, 2017
 
 * Bugfixes
-    * Replace invalid placeholder %1$s with %d to prevent invalid queries.
+	* Replace unsupported query `prepare` placeholder `%1$s` with `%d` to fix broken queries. Fixes compatibility issue with WordPress 4.8.2.
 
 = 5.4.0 =
 
