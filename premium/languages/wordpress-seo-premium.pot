@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-09-06 08:06:17+00:00\n"
+"POT-Creation-Date: 2017-09-26 09:08:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,44 +24,44 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:115
+#: class-premium.php:116
 msgid "Metabox insights"
 msgstr ""
 
-#: class-premium.php:117
+#: class-premium.php:118
 msgid ""
 "The metabox insights section contains insights about your content, like an "
 "overview of the most prominent words in your text."
 msgstr ""
 
-#: class-premium.php:120
+#: class-premium.php:121
 msgid "Link suggestions"
 msgstr ""
 
-#: class-premium.php:122
+#: class-premium.php:123
 msgid ""
 "The link suggestions section contains a list of posts on your blog with "
 "similar content that might be interesting to link to."
 msgstr ""
 
-#: class-premium.php:375
+#: class-premium.php:385
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:407
+#: class-premium.php:417
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:426 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:436 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:460
+#: class-premium.php:470
 msgid "Enabled"
 msgstr ""
 
 #. translators: %s expands to Yoast
-#: classes/class-metabox-link-suggestions.php:132
+#: classes/class-metabox-link-suggestions.php:137
 msgid "%s internal linking"
 msgstr ""
 
@@ -236,14 +236,19 @@ msgid "You are already editing a redirect, please finish this one first"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:56
-#: classes/redirect/class-redirect-table.php:325
+#: classes/redirect/class-redirect-table.php:379
 msgid "Edit"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:57
-#: classes/redirect/class-redirect-table.php:236
-#: classes/redirect/class-redirect-table.php:326
+#: classes/redirect/class-redirect-table.php:276
+#: classes/redirect/class-redirect-table.php:380
 msgid "Delete"
+msgstr ""
+
+#: classes/class-premium-keyword-export-manager.php:34
+#: classes/views/export-keywords.php:6
+msgid "Export keywords"
 msgstr ""
 
 #: classes/class-premium-link-suggestions-service.php:206
@@ -470,6 +475,34 @@ msgstr ""
 msgid "Make it serve a 410 Content Deleted header"
 msgstr ""
 
+#: classes/export/class-export-keywords-csv.php:56
+msgid "title"
+msgstr ""
+
+#: classes/export/class-export-keywords-csv.php:57
+msgid "url"
+msgstr ""
+
+#: classes/export/class-export-keywords-csv.php:58
+msgid "readability score"
+msgstr ""
+
+#: classes/export/class-export-keywords-csv.php:59
+msgid "keyword"
+msgstr ""
+
+#: classes/export/class-export-keywords-csv.php:60
+msgid "keyword score"
+msgstr ""
+
+#: classes/export/class-export-keywords-csv.php:63
+msgid "ID"
+msgstr ""
+
+#: classes/export/class-export-keywords-csv.php:66
+msgid "type"
+msgstr ""
+
 #: classes/redirect/class-redirect-accessible-validation.php:34
 msgid "The URL you entered could not be resolved."
 msgstr ""
@@ -542,7 +575,7 @@ msgstr ""
 msgid "We're unable to write data to the file %s"
 msgstr ""
 
-#: classes/redirect/class-redirect-page.php:68
+#: classes/redirect/class-redirect-page.php:121
 msgid "Redirects per page"
 msgstr ""
 
@@ -580,11 +613,23 @@ msgstr ""
 msgid "Old URL"
 msgstr ""
 
-#: classes/redirect/class-redirect-table.php:62
+#: classes/redirect/class-redirect-table.php:72
+msgid "Filter by redirect type"
+msgstr ""
+
+#: classes/redirect/class-redirect-table.php:74
+msgid "All redirect types"
+msgstr ""
+
+#: classes/redirect/class-redirect-table.php:87
+msgid "Filter"
+msgstr ""
+
+#: classes/redirect/class-redirect-table.php:102
 msgid "New URL"
 msgstr ""
 
-#: classes/redirect/class-redirect-table.php:178
+#: classes/redirect/class-redirect-table.php:218
 msgid "Select this redirect"
 msgstr ""
 
@@ -710,6 +755,55 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
+#: classes/views/export-keywords.php:10
+msgid "Export keywords to a CSV file"
+msgstr ""
+
+#. translators: %s resolves to the button label translation.
+#: classes/views/export-keywords.php:13
+msgid ""
+"If you need a list of all public posts, terms and related keywords, you can "
+"generate a CSV file using the %s button below."
+msgstr ""
+
+#: classes/views/export-keywords.php:14
+msgid ""
+"You can add or remove columns to be included in the export using the "
+"checkboxes below."
+msgstr ""
+
+#: classes/views/export-keywords.php:20
+msgid "Export keyword scores"
+msgstr ""
+
+#: classes/views/export-keywords.php:22
+msgid "Export URL"
+msgstr ""
+
+#: classes/views/export-keywords.php:24
+msgid "Export title"
+msgstr ""
+
+#: classes/views/export-keywords.php:25
+msgid "Export readability score"
+msgstr ""
+
+#: classes/views/export-keywords.php:31
+msgid "Please note:"
+msgstr ""
+
+#: classes/views/export-keywords.php:33
+msgid ""
+"The first row in this file is the header row. This row should be ignored "
+"when parsing or importing the data from the export."
+msgstr ""
+
+#: classes/views/export-keywords.php:34
+msgid ""
+"Exporting data can take a long time when there are many posts, pages, public "
+"custom post types or terms."
+msgstr ""
+
 #: classes/views/export-redirects.php:8
 msgid "Export redirects to a CSV file"
 msgstr ""
@@ -823,7 +917,7 @@ msgctxt "Taxonomy Singular Name"
 msgid "Prominent word"
 msgstr ""
 
-#: classes/redirect/class-redirect-table.php:60
+#: classes/redirect/class-redirect-table.php:100
 #: classes/redirect/views/redirects-form.php:13
 #: classes/views/gsc-redirect-create.php:22
 msgctxt "noun"
