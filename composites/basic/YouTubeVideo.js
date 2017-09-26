@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-
 import IFrame from "../../composites/basic/IFrame";
 
 /* Responsive videos. */
@@ -44,6 +43,7 @@ YouTubeVideo.propTypes = {
 	width: PropTypes.number,
 	height: PropTypes.number,
 	src: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
 	frameBorder: PropTypes.number,
 	allowFullScreen: PropTypes.bool,
 };
