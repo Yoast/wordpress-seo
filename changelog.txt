@@ -2,6 +2,61 @@
 
 This is an archive of older changelog entries. Most recent entries are maintained in readme.txt
 
+= 5.1.0 =
+
+Release Date: July 25th, 2017
+
+* Enhancements
+	* Adds the post-type and taxonomy identifiers on the titles and metas settings tab.
+	* Adds support for importing of Jetpack SEO data.
+	* Improves the readability feature for Dutch, English, French, German, Italian and Spanish.
+	* Adds a WordPress SEO Premium motivation box on Yoast SEO settings pages.
+	* Adds a WordPress SEO Premium motivation on the social tabs.
+	* Adds support for third party sitemaps providers to be registered and used.
+	* Changes the column titles in the taxonomy list table to icons.
+	* Adds a subheader on the notification dashboard to clarify problems and issues which are muted.
+	* Improves avatars on the credit page, props [Mike DeHart](https://github.com/mikedehart)
+
+* Bugfixes
+	* Fixes a bug where `remove_meta_if_default` and `dont_save_meta_if_default` don't return the given input value as default.
+	* Fixes a performance issue related to calculating text link counts when saving a post.
+	* Fixes a typo in the readme.txt, props [Raymond Rutjes](https://github.com/rayrutjes)
+
+= 5.0.2 =
+
+Release Date: July 13th, 2017
+
+* Only load babel polyfill if it hasn't been loaded by another plugin yet.
+* Adds a feature toggle to disable the link counter tool & link columns.
+* Fixes a compatibility issue with WordPress 4.6.
+* Fixes an issue where the link columns would disappear after quick-editing a post.
+
+= 5.0.1 =
+
+Release Date: July 6th, 2017
+
+* Fixes a fatal error that could occur when trying to save a post that has `<a>`-tags with invalid URLs in it.
+
+= 5.0.0 =
+
+Release Date: July 6th, 2017
+
+* Bugfixes
+	* Fixes a bug where images via `https` were not working, props [Jannik Zschiesche](https://github.com/apfelbox).
+	* Fixes a bug where the whip notification can be shown multiple times.
+
+* Enhancements
+	* Introduces a module that counts links in the content.
+	* Adds Flesch Reading for Italian.
+	* Changes 'page title' to 'seo title' in the snippet preview.
+	* Changes recommended maximum sentence length for Italian from 20 to 25 words, based on more in-depth research.
+	* Implements the extracted version of the Algolia Search which is now present in `yoast-components`.
+	* Adds a banner for the structured data course.
+
+ * Under the hood
+	* Introduces a database table to keep track of the linking structure. If the table cannot be created, a notification will be shown.
+	* When there are posts or pages to reindex, a notice will be shown.
+
 = 4.9.0 =
 
 Release Date: June 7th, 2017

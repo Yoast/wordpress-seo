@@ -115,7 +115,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * @return int The version number
 	 */
 	protected function get_version() {
-		return get_option( $this->get_option_name(), self::VERSION_LEGACY );
+		return get_option( $this->get_option_name(), self::VERSION_BACKWARDS_COMPATIBILITY );
 	}
 
 	/**
