@@ -27,14 +27,14 @@ class ArticleContent extends React.Component {
 
 	render() {
 		return ( <ArticleContentFullWidth
-			src={ this.toAmp( this.props.permalink ) }
+			src={ this.toAmp( this.props.post.permalink ) }
 			className="kb-search-content-frame"
 			title={ this.props.title } /> );
 	}
 }
 
 ArticleContent.propTypes = {
-	permalink: PropTypes.string.isRequired,
+	post: PropTypes.object.isRequired,
 	title: PropTypes.string,
 };
 
