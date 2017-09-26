@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import IFrame from "../../composites/basic/IFrame";
 
-const StyledIFrame = styled( IFrame )``;
+import IFrame from "../../composites/basic/IFrame";
 
 /* Responsive videos. */
 /* Other common aspect ratios: 75% = 4:3, 66.66% = 3:2, 62.5% = 8:5 */
@@ -34,7 +33,7 @@ const YoutubeVideoContainer = styled.div`
 export default function YouTubeVideo( props ) {
 	return (
 		<YoutubeVideoContainer>
-			<StyledIFrame
+			<IFrame
 				{ ...props }
 			/>
 		</YoutubeVideoContainer>
@@ -45,7 +44,6 @@ YouTubeVideo.propTypes = {
 	width: PropTypes.number,
 	height: PropTypes.number,
 	src: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
 	frameBorder: PropTypes.number,
 	allowFullScreen: PropTypes.bool,
 };
