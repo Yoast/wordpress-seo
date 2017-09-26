@@ -2,11 +2,10 @@
 
 exports[`the YouTubeVideo component matches the snapshot 1`] = `
 <div
-  className="sc-bwzfXH oQWOt"
+  className="sc-bdVaJa fpzLVP"
 >
   <iframe
     allowFullScreen={true}
-    className="sc-bdVaJa bDWFJH"
     frameBorder={0}
     height={315}
     src="https:/www.youtube.com/embed/bIgcj_pPIbw"

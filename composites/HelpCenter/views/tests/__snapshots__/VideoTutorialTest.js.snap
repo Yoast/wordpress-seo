@@ -2,17 +2,16 @@
 
 exports[`the VideoTutorial component matches the snapshot 1`] = `
 <div
-  className="sc-htpNat cqhNjk"
+  className="sc-bwzfXH bFHdpU"
 >
   <div
-    className="sc-bxivhb hNRhjd"
+    className="sc-htpNat dsjwIP"
   >
     <div
-      className="sc-bwzfXH oQWOt"
+      className="sc-bdVaJa fpzLVP"
     >
       <iframe
         allowFullScreen={true}
-        className="sc-bdVaJa bDWFJH"
         frameBorder={0}
         height={315}
         src="https:/www.youtube.com/embed/bIgcj_pPIbw"
@@ -22,43 +21,43 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
     </div>
   </div>
   <div
-    className="sc-ifAKCX jBaCxv"
+    className="sc-bxivhb UupoC"
   >
     <div
-      className="sc-EHOje hWqomB"
+      className="sc-ifAKCX gyrham"
     >
       <p
-        className="sc-bZQynM gSmTMg"
+        className="sc-EHOje clbTar"
       >
         Need some help?
       </p>
       <p
-        className="sc-gzVnrw fgSTpW"
+        className="sc-bZQynM dSgrvo"
       >
         Go Premium!
       </p>
       <a
-        className="sc-htoDjs laZdDb"
+        className="sc-gzVnrw fUXSEk"
         href="#1"
       >
         Get Yoast SEO Premium now »
       </a>
     </div>
     <div
-      className="sc-EHOje hWqomB"
+      className="sc-ifAKCX gyrham"
     >
       <p
-        className="sc-bZQynM gSmTMg"
+        className="sc-EHOje clbTar"
       >
         Need some help?
       </p>
       <p
-        className="sc-gzVnrw fgSTpW"
+        className="sc-bZQynM dSgrvo"
       >
         Go Premium!
       </p>
       <a
-        className="sc-htoDjs laZdDb"
+        className="sc-gzVnrw fUXSEk"
         href="#2"
       >
         Get Yoast SEO Premium now »
