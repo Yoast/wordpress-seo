@@ -156,8 +156,8 @@ EnglishParticiple.prototype.hasRidException = function() {
  * the participle, otherwise returns false.
  */
 EnglishParticiple.prototype.directPrecedenceException = function( sentencePart, participleIndex ) {
-	var exceptionMatch = getWordIndices( sentencePart, directPrecedenceExceptionRegex );
-	return includesIndex( exceptionMatch, participleIndex );
+	var directPrecedenceExceptionMatch = getWordIndices( sentencePart, directPrecedenceExceptionRegex );
+	return includesIndex( directPrecedenceExceptionMatch, participleIndex );
 };
 
 /**
@@ -171,8 +171,8 @@ EnglishParticiple.prototype.directPrecedenceException = function( sentencePart, 
  * sentence part before the participle, otherwise returns false.
  */
 EnglishParticiple.prototype.precedenceException = function( sentencePart, participleIndex ) {
-	var exceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
-	return precedesIndex( exceptionMatch, participleIndex );
+	var precedenceExceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
+	return precedesIndex( precedenceExceptionMatch, participleIndex );
 };
 
 
