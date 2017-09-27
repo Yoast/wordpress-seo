@@ -90,7 +90,7 @@ class DashboardWidget extends React.Component {
 	 * @returns {void}
 	 */
 	getFeed() {
-		getFeed( "https://yoast.com/feed/", 2 )
+		getFeed( "https://yoa.st/widget-feed", 2 )
 			.then( ( feed ) => {
 				feed.items = feed.items.map( ( item ) => {
 					item.description = jQuery( `<div>${ item.description }</div>` ).text();
