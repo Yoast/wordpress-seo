@@ -5,7 +5,7 @@ import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 
 import colors from "../../../../style-guide/colors.json";
 
-const YoastTabsContainer = styled.div`
+const YoastTabsContainer = styled( Tabs )`
 	border-bottom: 1px solid ${ colors.$color_grey_light };
 	font-size: 1em;
 
@@ -64,7 +64,13 @@ class YoastTabs extends React.Component {
 	 */
 	getTabPanels() {
 		return this.props.items.map( ( item ) => {
-			return <TabPanel key={ item.id } tabIndex="0">{ item.content }</TabPanel>;
+			return(
+				<TabPanel
+					key={ item.id }
+					tabIndex="0">
+					{ item.content }
+				</TabPanel>
+			);
 		} );
 	}
 
@@ -74,14 +80,14 @@ class YoastTabs extends React.Component {
 	 * @returns {ReactElement} The ARIA tabs widget.
 	 */
 	render() {
-		return <YoastTabsContainer>
-			<Tabs>
+		return(
+			<YoastTabsContainer>
 				<TabList>
 					{ this.getTabs() }
 				</TabList>
 				{ this.getTabPanels() }
-			</Tabs>
-		</YoastTabsContainer>;
+			</YoastTabsContainer>
+		);
 	}
 }
 
