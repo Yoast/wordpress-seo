@@ -4,6 +4,7 @@ var nonVerbsEndingEd = require( "./passivevoice/non-verb-ending-ed.js" )();
 var getWordIndices = require( "./passivevoice/getIndicesWithRegex.js" );
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 var cannotDirectlyPrecedePassiveParticiple = require( "./functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+var cannotBeBetweenAuxiliaryAndParticiple = require( "./functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 
 var forEach = require( "lodash/forEach" );
 var includes = require( "lodash/includes" );
@@ -11,6 +12,7 @@ var isEmpty = require( "lodash/isEmpty" );
 var intersection = require( "lodash/intersection" );
 
 var directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticiple );
+var precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticiple );
 var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
 
 /**
@@ -34,6 +36,39 @@ var includesIndex = function( precedingWords, participleIndex ) {
 	} );
 
 	return includes( precedingWordsEndIndices, participleIndex );
+};
+
+/**
+ * Checks whether a given word precedes a participle directly or indirectly.
+ *
+ * @param {Array} precedingWords The array of objects with matches and indices.
+ * @param {number} participleIndex The index of the participle.
+ *
+ * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
+ */
+var precedesIndex = function( precedingWords, participleIndex ) {
+	if ( isEmpty( precedingWords ) ) {
+		return false;
+	}
+
+	var precedingWordsIndices = [];
+	forEach( precedingWords, function( precedingWord ) {
+		var precedingWordsIndex = precedingWord.index;
+		precedingWordsIndices.push( precedingWordsIndex );
+	} );
+
+	var matches = [];
+	forEach( precedingWordsIndices, function( precedingWordsIndex ) {
+		// + 1 because the beginning word boundary is not included in the passive participle match
+		if ( precedingWordsIndex + 1 < participleIndex ) {
+			matches.push( precedingWordsIndex );
+		}
+	} );
+
+	if ( matches.length ) {
+		return true;
+	}
+	return false;
 };
 
 /**
@@ -73,9 +108,12 @@ EnglishParticiple.prototype.checkException = function() {
  * @returns {boolean} Returns true if no exception is found.
  */
 EnglishParticiple.prototype.isPassive = function() {
+	let sentencePart = this.getSentencePart();
+	let participleIndex = sentencePart.indexOf( this.getParticiple() );
 	return 	! this.isNonVerbEndingEd() &&
 				! this.hasRidException() &&
-				! this.directPrecedenceException();
+				! this.directPrecedenceException( sentencePart, participleIndex ) &&
+				! this.precedenceException( sentencePart, participleIndex );
 };
 
 /**
@@ -111,14 +149,31 @@ EnglishParticiple.prototype.hasRidException = function() {
  * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
  * If this is the case, the sentence part is not passive.
  *
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {number} participleIndex The index of the participle.
+ *
  * @returns {boolean} Returns true if a word from the direct precedence exception list is directly preceding
  * the participle, otherwise returns false.
  */
-EnglishParticiple.prototype.directPrecedenceException = function() {
-	var sentencePart = this.getSentencePart();
-	var participleIndex = sentencePart.indexOf( this.getParticiple() );
-	var exceptionMatch = getWordIndices( sentencePart, directPrecedenceExceptionRegex );
-	return includesIndex( exceptionMatch, participleIndex );
+EnglishParticiple.prototype.directPrecedenceException = function( sentencePart, participleIndex ) {
+	var directPrecedenceExceptionMatch = getWordIndices( sentencePart, directPrecedenceExceptionRegex );
+	return includesIndex( directPrecedenceExceptionMatch, participleIndex );
 };
+
+/**
+ * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
+ * If this is the case, the sentence part is not passive.
+ *
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {number} participleIndex The index of the participle.
+ *
+ * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
+ * sentence part before the participle, otherwise returns false.
+ */
+EnglishParticiple.prototype.precedenceException = function( sentencePart, participleIndex ) {
+	var precedenceExceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
+	return precedesIndex( precedenceExceptionMatch, participleIndex );
+};
+
 
 module.exports = EnglishParticiple;
