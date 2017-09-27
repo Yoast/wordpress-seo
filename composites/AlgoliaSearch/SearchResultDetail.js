@@ -8,6 +8,7 @@ import { YoastButton } from "../Plugin/Shared/components/YoastButton";
 import { YoastLinkButton } from "../Plugin/Shared/components/YoastLinkButton";
 import { Icon } from "../Plugin/Shared/components/Icon";
 import { angleLeft, angleRight } from "../../style-guide/svg/index";
+import { makeOutboundLink } from "../../utils/makeOutboundLink";
 import colors from "../../style-guide/colors.json";
 
 const messages = defineMessages( {
@@ -39,9 +40,9 @@ const Nav = styled.nav`
 	padding: 8px;
 `;
 
-const RightYoastLinkButton = styled( YoastLinkButton )`
+const RightYoastLinkButton = makeOutboundLink( styled( YoastLinkButton )`
 	float: right;
-`;
+` );
 
 /**
  * Create the JSX to render the SearchResultDetail component.
