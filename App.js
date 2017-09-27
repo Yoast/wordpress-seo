@@ -7,6 +7,7 @@ import ContentAnalysis from "./composites/Plugin/ContentAnalysis/components/Cont
 import Wizard from "./app/WizardWrapper";
 import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
+import HelpCenter from "./composites/Plugin/HelpCenter/HelpCenter";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
@@ -41,7 +42,12 @@ const components = [
 		id: "dashboard-widget",
 		name: "Dashboard Widget",
 		component: <DashboardWidget />,
-	}
+	},
+	{
+		id: "help-center",
+		name: "Help center",
+		component: <HelpCenter />,
+	},
 ];
 
 class App extends React.Component {
@@ -52,7 +58,7 @@ class App extends React.Component {
 		injectTapEventPlugin();
 
 		this.state = {
-			activeComponent: "content-analysis",
+			activeComponent: "help-center",
 		};
 	}
 
