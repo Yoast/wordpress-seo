@@ -2,6 +2,7 @@ var verbEndingInIngRegex = /\w+ing($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/
 var ingExclusionArray = [ "king", "cling", "ring", "being" ];
 var indices = require( "../../stringProcessing/indices" );
 var getIndicesOfList = indices.getIndicesByWordList;
+var getIndicesOfStopCharacterList = indices.getIndicesByStopCharacterList;
 var filterIndices = indices.filterIndices;
 var sortIndices = indices.sortIndices;
 var stripSpaces = require( "../../stringProcessing/stripSpaces.js" );
@@ -12,6 +13,7 @@ var auxiliaries = require( "./passivevoice/auxiliaries.js" )().all;
 var SentencePart = require( "./SentencePart.js" );
 var auxiliaryRegex = arrayToRegex( auxiliaries );
 var stopwords = require( "./passivevoice/stopwords.js" )();
+var stopCharacters = require( "./passivevoice/stopCharacters.js" )();
 
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -46,12 +48,13 @@ var getSentenceBreakers = function( sentence ) {
 	sentence = sentence.toLocaleLowerCase();
 	var auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
 	var stopwordIndices = getIndicesOfList( stopwords, sentence );
+	var stopCharacterIndices = getIndicesOfStopCharacterList( stopCharacters, sentence);
 
 	var ingVerbs = getVerbsEndingInIng( sentence );
 	var ingVerbsIndices = getIndicesOfList( ingVerbs, sentence );
 
 	// Concat all indices arrays, filter them and sort them.
-	var indices = [].concat( auxiliaryIndices, stopwordIndices, ingVerbsIndices );
+	var indices = [].concat( auxiliaryIndices, stopwordIndices, ingVerbsIndices, stopCharacterIndices );
 	indices = filterIndices( indices );
 	return sortIndices( indices );
 };

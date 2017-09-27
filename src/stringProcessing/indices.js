@@ -34,6 +34,32 @@ function getIndicesByWord( word, text ) {
 	return indices;
 }
 
+function getIndicesByStopCharacter( stopCharacter, text ) {
+	var startIndex = 0;
+	var searchStringLength = stopCharacter.length;
+	var index, indices = [];
+	while ( ( index = text.indexOf( stopCharacter, startIndex ) ) > -1 ) {
+		indices.push(
+			{
+				index: index,
+				match: stopCharacter,
+			}
+		);
+		startIndex = index + searchStringLength;
+	}
+	return indices;
+}
+
+var getIndicesByStopCharacterList = function ( stopCharacters, text ) {
+	var matchedStopCharacters = [];
+
+	forEach( stopCharacters, function ( stopCharacter ) {
+		matchedStopCharacters = matchedStopCharacters.concat( getIndicesByStopCharacter( stopCharacter, text ) );
+	} );
+	return matchedStopCharacters;
+};
+
+
 /**
  * Matches string with an array, returns the word and the index it was found on.
  *
@@ -96,4 +122,5 @@ module.exports = {
 	getIndicesByWordList: getIndicesByWordList,
 	filterIndices: filterIndices,
 	sortIndices: sortIndices,
+	getIndicesByStopCharacterList: getIndicesByStopCharacterList,
 };
