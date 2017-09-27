@@ -28,7 +28,7 @@ const YoastTabsContainer = styled( Tabs )`
 		cursor: pointer;
 
 		&.react-tabs__tab--selected {
-			box-shadow: inset 0 -5px 0 0 ${ colors.$color_pink_dark }
+			box-shadow: inset 0 -5px 0 0 ${ colors.$color_pink_dark };
 		}
 	}
 
