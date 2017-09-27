@@ -9,7 +9,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   >
     <button
       aria-label="Back to the search results"
-      className="sc-bZQynM evMXiX sc-EHOje ikesyh sc-ifAKCX gNLndS sc-bxivhb bmigSy sc-htpNat gWIWnG sc-bwzfXH epawHt"
+      className="sc-bZQynM evMXiX sc-EHOje ikesyh sc-ifAKCX gNLndS sc-bxivhb bmigSy sc-htpNat DQVXv sc-bwzfXH epawHt"
       onClick={[Function]}
       type="button"
     >
@@ -26,7 +26,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   </nav>
   <iframe
     className="kb-search-content-frame sc-bdVaJa jsOWvL"
-    src="https://kb.yoast.com/kb/passive-voice/amp?source=wpseo-kb-search"
+    src="https://kb.yoast.com/kb/passive-voice/amp/?source=wpseo-kb-search"
     title="Knowledge base article"
   />
 </section>

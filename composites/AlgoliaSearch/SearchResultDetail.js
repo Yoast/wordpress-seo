@@ -82,7 +82,7 @@ class SearchResultDetail extends React.Component {
 		return (
 			<Detail>
 				{ this.createNavigation() }
-				<ArticleContent permalink={ this.props.post.permalink } title={ iframeTitle }/>
+				<ArticleContent post={ this.props.post } title={ iframeTitle }/>
 			</Detail>
 		);
 	}
