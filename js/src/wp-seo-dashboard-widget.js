@@ -68,6 +68,10 @@ class DashboardWidget extends React.Component {
 	 */
 	getRyte() {
 		wpseoApi.get( "ryte", ( response ) => {
+			if ( ! response.ryte ) {
+				return;
+			}
+
 			let ryte = {
 				scores: [ {
 					color: DashboardWidget.getColorFromScore( response.ryte.score ),

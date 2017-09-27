@@ -71,7 +71,6 @@ class WPSEO_Link_Query {
 
 	/**
 	 * Returns a limited set of unindexed posts.
-	 * *
 	 *
 	 * @param array $post_types The post type.
 	 * @param int   $limit      The limit for the resultset.
@@ -94,7 +93,7 @@ class WPSEO_Link_Query {
 				 WHERE posts.post_status = "publish"
 				   AND posts.post_type IN ( ' . $post_types . ' )
 				   AND yoast_meta.internal_link_count IS NULL
-				 LIMIT %1$d
+				 LIMIT %d
 				',
 				$limit
 			)
