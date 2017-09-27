@@ -5,7 +5,7 @@ import { defineMessages, injectIntl, intlShape } from "react-intl";
 
 import ArticleContent from "./ArticleContent";
 import { YoastButton } from "../Plugin/Shared/components/YoastButton";
-import { YoastLinkButton } from "../Plugin/Shared/components/YoastLinkButton"
+import { YoastLinkButton } from "../Plugin/Shared/components/YoastLinkButton";
 
 const messages = defineMessages( {
 	openButton: {
