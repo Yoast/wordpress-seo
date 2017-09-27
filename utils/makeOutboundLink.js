@@ -7,7 +7,7 @@ import { A11yNotice } from "../composites/Plugin/Shared/components/A11yNotice";
 const messages = defineMessages( {
 	opensInNewTab: {
 		id: "a11yNotice.opensInNewTab",
-		defaultMessage: "(This link opens in a new tab)",
+		defaultMessage: "Opens in a new browser tab.",
 	},
 } );
 
@@ -16,7 +16,7 @@ const messages = defineMessages( {
  *
  * @param {ReactElement} Component The anchor component to be wrapped.
  *
- * @returns {OutboundLink} The OutboundLink component.
+ * @returns {ReactElement} The OutboundLink component.
  */
 export const makeOutboundLink = ( Component = "a" ) => {
 	class OutboundLink extends React.Component {
@@ -28,7 +28,7 @@ export const makeOutboundLink = ( Component = "a" ) => {
 				},
 				this.props
 			);
-			// Using React.createElement because it can accept a string as a component parameter
+			// Use React.createElement instead of JSX because it can accept a string as a component parameter
 			return React.createElement(
 				Component,
 				newProps,
