@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
+<div
+  className="sc-bZQynM fwTBJs"
+>
+  <button
+    aria-expanded={true}
+    className="sc-gzVnrw dLFwSb sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fpmUPV sc-bdVaJa dHgGrL"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden="true"
+      className="sc-gqjmRU dRmBjb sc-VigVT clSXcg"
+    />
+    <span
+      className="sc-htoDjs grDYmx"
+    >
+      Problems (4)
+    </span>
+  </button>
+  <ul
+    className="sc-dnqmqq fMZGyT"
+    role="list"
+  >
+    <li>
+       First item 
+    </li>
+    <li>
+       Second item 
+    </li>
+    <li>
+       Third item 
+    </li>
+    <li>
+       Fourth item 
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
+<div
+  className="sc-bZQynM fwTBJs"
+>
+  <button
+    aria-expanded={false}
+    className="sc-gzVnrw dLFwSb sc-EHOje FXgKN sc-ifAKCX jUaWfj sc-bxivhb kvsYTM sc-htpNat Opked sc-bwzfXH fpmUPV sc-bdVaJa dHgGrL"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden="true"
+      className="sc-iwsKbI iENOxB sc-gZMcBi iRuAiN"
+    />
+    <span
+      className="sc-htoDjs grDYmx"
+    >
+      Problems (4)
+    </span>
+  </button>
+</div>
+`;
