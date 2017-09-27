@@ -6188,15 +6188,7 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yoast-components@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-1.1.0.tgz#ffe73823fbd6cf5419f947714e9eab7f351cab83"
-  dependencies:
-    i18n-calypso "^1.6.2"
-    jed "^1.1.1"
-    whatwg-fetch "^1.0.0"
-
-yoast-components@^2.8.0:
+yoast-components@2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.8.0.tgz#9b5157e685d3117eb96e1c6a6e806b0f32afa683"
   dependencies:
@@ -6206,6 +6198,14 @@ yoast-components@^2.8.0:
     jed "^1.1.1"
     prop-types "^15.5.10"
     styled-components "^2.1.1"
+    whatwg-fetch "^1.0.0"
+
+yoast-components@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-1.1.0.tgz#ffe73823fbd6cf5419f947714e9eab7f351cab83"
+  dependencies:
+    i18n-calypso "^1.6.2"
+    jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
 "yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#1.3.0":
