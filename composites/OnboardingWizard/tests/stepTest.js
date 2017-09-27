@@ -21,15 +21,15 @@ describe( "a step component", () => {
 
 	let stepComponent = renderer.getRenderOutput();
 
-	it( 'has div container with correct id', () => {
-		expect( stepComponent.type ).toEqual( 'div' );
-		expect( stepComponent.props.className ).toEqual( 'yoast-wizard--step--container' );
+	it( "has div container with correct id", () => {
+		expect( stepComponent.type ).toEqual( "div" );
+		expect( stepComponent.props.className ).toEqual( "yoast-wizard--step--container" );
 	} );
 
 	it( "has a h1 header title", () => {
 		let header = stepComponent.props.children[ 0 ];
 
-		expect( header.type ).toEqual( 'h1' );
+		expect( header.type ).toEqual( "h1" );
 		expect( header.props.children ).toEqual( inputProps.title );
 	} );
 

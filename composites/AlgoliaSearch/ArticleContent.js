@@ -6,6 +6,7 @@ import styled from "styled-components";
 const ArticleContentFullWidth = styled( IFrame )`
 	width: 100%;
 	height: 600px;
+	border: none;
 `;
 
 /**
@@ -22,20 +23,20 @@ class ArticleContent extends React.Component {
 	}
 
 	toAmp( originalUrl ) {
-		return `${ originalUrl }amp?source=wpseo-kb-search`;
+		return `${ originalUrl }amp/?source=wpseo-kb-search`;
 	}
 
 	render() {
 		return ( <ArticleContentFullWidth
-			src={ this.toAmp( this.props.permalink ) }
+			src={ this.toAmp( this.props.post.permalink ) }
 			className="kb-search-content-frame"
 			title={ this.props.title } /> );
 	}
 }
 
 ArticleContent.propTypes = {
-	permalink: PropTypes.string.isRequired,
-	title: PropTypes.string,
+	post: PropTypes.object.isRequired,
+	title: PropTypes.string
 };
 
 ArticleContent.defaultProps = {

@@ -1,47 +1,156 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import { intlShape, injectIntl, defineMessages } from "react-intl";
+import debounce from "lodash/debounce";
 
-/**
- * Overrides the default submit action with a custom one.
- *
- * @param {Event} submitEvent The submit event.
- * @param {object} props The React props.
- * @returns {void}
- */
-const onSubmit = ( submitEvent, props ) => {
-	submitEvent.preventDefault();
-	props.submitAction( submitEvent );
-};
+import colors from "../../style-guide/colors.json";
+import SearchIcon from "../../style-guide/svg/search.svg";
+import { Icon } from "../Plugin/Shared/components/Icon";
+
+const messages = defineMessages( {
+	headingText: {
+		id: "searchBar.headingText",
+		defaultMessage: "Search the Yoast knowledge base",
+	},
+} );
+
+const SearchLabel = styled.label`
+	width: 2em;
+	height: 2em;
+	float: left;
+	margin-top: 0.25em;
+`;
+
+const SearchBarWrapper = styled.div`
+	overflow: hidden;
+	width: 100%;
+	padding: 0 16px;
+	box-sizing: border-box;
+`;
+
+const SearchBarInput = styled.input`
+	box-sizing: border-box;
+	height: 2.5em;
+	width: calc(100% - 2em);
+	box-shadow: inset 0 2px 8px 0px rgba(0,0,0,0.3);
+	background: ${ colors.$color_grey_light };
+	border: 0;
+	font-size: 1em;
+	float: left;
+	padding-left: 16px;
+`;
+
+const SearchHeading = styled.h2`
+	font-size: 1em;
+	margin: 0.5em 0;
+`;
 
 /**
  * Create the JSX to render the search bar.
  *
  * @param {object} props The React props.
- * @returns {ReactElement} A div with the searchbar.
- * @constructor
+ *
+ * @returns {ReactElement} The SearchBar component.
  */
-const SearchBar = ( props ) => {
-	return (
-		<div className="wpseo-kb-search-search-bar">
-			<h2 id="wpseo-kb-search-heading">{ props.headingText }</h2>
-			<form onSubmit={ ( submitEvent ) => onSubmit( submitEvent, props ) }>
-				<input type="text" aria-labelledby="wpseo-kb-search-heading" defaultValue={ props.searchString }/>
-				<button type="submit" className="button wpseo-kb-search-search-button">{ props.searchButtonText }</button>
-			</form>
-		</div>
-	);
-};
+class SearchBar extends React.Component {
+	/**
+	 * Constructs the component and sets its initial state.
+	 *
+	 * @param {Object} props The props to use for this component.
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			doRequest: false,
+			searchString: "",
+		};
+
+		this.doFormSubmission = debounce( ( searchString ) => {
+			this.props.submitAction( searchString );
+		}, 1000 );
+	}
+
+	/**
+	 * Cancel form submission on unmount.
+	 *
+	 * @returns {void}
+	 */
+	componentWillUnmount() {
+		this.doFormSubmission.cancel();
+	}
+
+	/**
+	 * Handles the change event on the SearchBar.
+	 *
+	 * @param {object} event React SyntheticEvent.
+	 *
+	 * @returns {void}
+	 */
+	onSearchChange( event ) {
+		event.persist();
+		this.setState( { searchString: event.target.value }, () => {
+			this.doFormSubmission( this.state.searchString );
+		} );
+	}
+
+	/**
+	 * Handles the submit event on the SearchBar.
+	 *
+	 * @param {object} event React SyntheticEvent.
+	 *
+	 * @returns {void}
+	 */
+	onSubmit( event ) {
+		event.preventDefault();
+		this.doFormSubmission.cancel();
+		this.props.submitAction( this.state.searchString );
+	}
+
+	/**
+	 * Renders the SearchBar component.
+	 *
+	 * @returns {ReactElement} The SearchBar component.
+	 */
+	render() {
+		const headingText = this.props.intl.formatMessage( messages.headingText );
+		return (
+			<SearchBarWrapper role="search">
+				<SearchHeading>
+					{ headingText }
+				</SearchHeading>
+				<form onSubmit={ this.onSubmit.bind( this ) }>
+					<SearchLabel htmlFor="kb-search-input">
+						<Icon icon={ SearchIcon } color="inherit" size="30px" />
+						<span className="screen-reader-text">
+							{ headingText }
+						</span>
+					</SearchLabel>
+					<SearchBarInput
+						onChange={ this.onSearchChange.bind( this ) }
+						type="text"
+						id="kb-search-input"
+						name="search-input"
+						defaultValue={ this.props.searchString }
+						autoComplete="off"
+						autoCorrect="off"
+						autoCapitalize="off"
+						spellCheck="false"
+					/>
+				</form>
+			</SearchBarWrapper>
+		);
+	}
+}
 
 SearchBar.propTypes = {
-	headingText: PropTypes.string,
-	searchButtonText: PropTypes.string,
 	searchString: PropTypes.string,
 	submitAction: PropTypes.func,
+	intl: intlShape.isRequired,
 };
 
 SearchBar.defaultProps = {
-	headingText: "Search the Yoast knowledge base",
-	searchButtonText: "Search",
 };
 
-export default SearchBar;
+export default injectIntl( SearchBar );
