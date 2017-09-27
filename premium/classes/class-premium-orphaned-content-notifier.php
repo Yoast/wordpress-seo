@@ -1,6 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
-
+/**
+ * Represents the notifier when there is orphaned content present for one of the post types.
+ */
 class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integration {
 
 	/** @var Yoast_Notification_Center */
@@ -29,6 +34,11 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 		}
 
 		// @todo: Schedule a task for checking the notification.
+		if ( ! wp_next_scheduled( 'wpseo-premium-orphaned-content' ) ) {
+			wp_schedule_event( time(), 'daily', 'wpseo-premium-orphaned-content' );
+		}
+
+		add_action( 'wpseo-premium-orphaned-content', array( $this, 'notify' ) );
 
 	}
 
@@ -38,7 +48,6 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 * @return void
 	 */
 	public function notify() {
-		// @todo: Set the counts per post type, for further use in 'requires' notification.
 		$this->set_post_type_counts();
 
 		// Loops over the posts types and handle the notification.
@@ -61,7 +70,7 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 *
 	 * @param WP_Post_Type $post_type The post type.
 	 *
-	 * @returns void
+	 * @return void
 	 */
 	protected function notify_post_type( WP_Post_Type $post_type ) {
 		$notification_id = sprintf( 'wpseo-premium-orphaned-content-%1$s', $post_type->name );
@@ -133,7 +142,7 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 *
 	 * @param string $post_type_name The name of the post type.
 	 *
-	 * @return int Total orphaned item.
+	 * @return int Total orphaned items.
 	 */
 	protected function get_post_type_count( $post_type_name ) {
 		if ( array_key_exists( $post_type_name, $this->post_type_counts ) ) {
