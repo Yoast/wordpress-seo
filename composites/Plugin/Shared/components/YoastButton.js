@@ -53,14 +53,6 @@ export function addButtonStyles( component ) {
 			box-shadow: none;
 		}
 
-		// Only needed for Safari 10.
-		span {
-			display: inherit;
-			align-items: inherit;
-			justify-content: inherit;
-			width: 100%;
-		}
-
 		// Only needed for IE 10+.
 		@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 			::after {
@@ -121,6 +113,14 @@ export const YoastButton = addButtonStyles(
 
 		&::-moz-focus-inner {
 			border-width: 0;
+		}
+
+		// Only needed for Safari 10 and only for buttons.
+		span {
+			display: inherit;
+			align-items: inherit;
+			justify-content: inherit;
+			width: 100%;
 		}
 	`
 );
