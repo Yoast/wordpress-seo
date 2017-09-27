@@ -1,24 +1,30 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Represents the orphaned content query methods.
+ */
 class WPSEO_Premium_Orphaned_Content_Query {
 
 	/**
 	 * Returns the table name where the counts are stored.
 	 *
-	 * @return array
+	 * @return array The counts for all post types.
 	 */
 	public static function get_post_type_counts() {
 		global $wpdb;
 
 		$storage = new WPSEO_Meta_Storage();
 
-		$query = "
+		$query = '
 			SELECT COUNT( ID ) as total_orphaned, post_type
-			  FROM " . $wpdb->posts . "
+			  FROM ' . $wpdb->posts . '
 			 WHERE 
 			    ID IN( 
 			        SELECT object_id 
-			          FROM " . $storage->get_table_name() . "
+			          FROM ' . $storage->get_table_name() . "
 			        WHERE  internal_link_count = '0' AND ( incoming_link_count = '0' OR incoming_link_count IS NULL ) 
 			    )
 			 GROUP BY post_type
@@ -33,5 +39,4 @@ class WPSEO_Premium_Orphaned_Content_Query {
 
 		return $post_type_counts;
 	}
-
 }
