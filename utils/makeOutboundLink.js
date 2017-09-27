@@ -7,7 +7,7 @@ import { A11yNotice } from "../composites/Plugin/Shared/components/A11yNotice";
 const messages = defineMessages( {
 	opensInNewTab: {
 		id: "a11yNotice.opensInNewTab",
-		defaultMessage: "Opens in a new browser tab.",
+		defaultMessage: "(Opens in a new browser tab)",
 	},
 } );
 
@@ -28,7 +28,7 @@ export const makeOutboundLink = ( Component = "a" ) => {
 				},
 				this.props
 			);
-			// Use React.createElement instead of JSX because it can accept a string as a component parameter
+			// Use React.createElement instead of JSX because it can accept a string as a component parameter.
 			return React.createElement(
 				Component,
 				newProps,
