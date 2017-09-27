@@ -1,10 +1,10 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { createComponentWithIntl } from "../../../../utils/intlProvider";
 
 import VideoTutorial from "../VideoTutorial.js";
 
 test( "the VideoTutorial component matches the snapshot", () => {
-	const component = renderer.create(
+	const component = createComponentWithIntl(
 		<VideoTutorial
 			src="https:/www.youtube.com/embed/bIgcj_pPIbw"
 			title="Video title"

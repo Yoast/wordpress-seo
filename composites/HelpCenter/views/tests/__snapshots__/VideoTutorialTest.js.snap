@@ -2,10 +2,10 @@
 
 exports[`the VideoTutorial component matches the snapshot 1`] = `
 <div
-  className="sc-bwzfXH bFHdpU"
+  className="sc-htpNat hHtpcc"
 >
   <div
-    className="sc-htpNat dsjwIP"
+    className="sc-bxivhb hNRhjd"
   >
     <div
       className="sc-bdVaJa fpzLVP"
@@ -21,46 +21,60 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
     </div>
   </div>
   <div
-    className="sc-bxivhb UupoC"
+    className="sc-ifAKCX jBaCxv"
   >
     <div
-      className="sc-ifAKCX gyrham"
+      className="sc-EHOje hWqomB"
     >
       <p
-        className="sc-EHOje clbTar"
+        className="sc-bZQynM gSmTMg"
       >
         Need some help?
       </p>
       <p
-        className="sc-bZQynM dSgrvo"
+        className="sc-gzVnrw fgSTpW"
       >
         Go Premium!
       </p>
       <a
-        className="sc-gzVnrw fUXSEk"
+        className="sc-htoDjs dJjwbP"
         href="#1"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         Get Yoast SEO Premium now »
+        <span
+          className="sc-bwzfXH bGOGuL"
+        >
+          (Opens in a new browser tab)
+        </span>
       </a>
     </div>
     <div
-      className="sc-ifAKCX gyrham"
+      className="sc-EHOje hWqomB"
     >
       <p
-        className="sc-EHOje clbTar"
+        className="sc-bZQynM gSmTMg"
       >
         Need some help?
       </p>
       <p
-        className="sc-bZQynM dSgrvo"
+        className="sc-gzVnrw fgSTpW"
       >
         Go Premium!
       </p>
       <a
-        className="sc-gzVnrw fUXSEk"
+        className="sc-htoDjs dJjwbP"
         href="#2"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         Get Yoast SEO Premium now »
+        <span
+          className="sc-bwzfXH bGOGuL"
+        >
+          (Opens in a new browser tab)
+        </span>
       </a>
     </div>
   </div>

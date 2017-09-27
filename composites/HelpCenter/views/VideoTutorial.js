@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import YouTubeVideo from "../../basic/YouTubeVideo";
 import colors from "../../../style-guide/colors.json";
 import breakpoints from "../../../style-guide/responsive-breakpoints.json";
+import { makeOutboundLink } from "../../../utils/makeOutboundLink"
 
 // Used to align the video and the description next to each other.
 const VIDEO_WIDTH = "560px";
@@ -50,9 +51,9 @@ const VideoDescriptionTitle = styled.p`
 const VideoDescriptionText = styled.p`
 `;
 
-const VideoDescriptionLink = styled.a`
+const VideoDescriptionLink = makeOutboundLink( styled.a`
 	color: ${ colors.$color_pink_dark };
-`;
+` );
 
 /**
  * Creates a VideoDescription component, to be displayed next to the video.
