@@ -6,7 +6,6 @@ import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import colors from "../../../../style-guide/colors.json";
 
 const YoastTabsContainer = styled( Tabs )`
-	border-bottom: 1px solid ${ colors.$color_grey_light };
 	font-size: 1em;
 
 	.react-tabs__tab-list {
@@ -17,6 +16,7 @@ const YoastTabsContainer = styled( Tabs )`
 		padding: 0;
 		margin: 0;
 		text-transform: uppercase;
+		border-bottom: 1px solid ${ colors.$color_grey_light };
 	}
 
 	.react-tabs__tab {

@@ -2,7 +2,7 @@
 
 exports[`the YoastTabs matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa kXyDjN"
+  className="sc-bdVaJa ereLAB"
   data-tabs={true}
   onClick={[Function]}
   onKeyDown={[Function]}
