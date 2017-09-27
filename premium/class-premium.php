@@ -94,6 +94,7 @@ class WPSEO_Premium {
 			'redirects-endpoint' => new WPSEO_Premium_Redirect_EndPoint( new WPSEO_Premium_Redirect_Service() ),
 			'redirect-export-manager' => new WPSEO_Premium_Redirect_Export_Manager(),
 			'keyword-export-manager' => new WPSEO_Premium_Keyword_Export_Manager(),
+			'orphaned-content-notifier' => new WPSEO_Premium_Orphaned_Content_Notifier( Yoast_Notification_Center::get() ),
 		);
 
 		$this->setup();
