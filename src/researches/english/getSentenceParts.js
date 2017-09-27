@@ -48,7 +48,7 @@ var getSentenceBreakers = function( sentence ) {
 	sentence = sentence.toLocaleLowerCase();
 	var auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
 	var stopwordIndices = getIndicesOfList( stopwords, sentence );
-	var stopCharacterIndices = getIndicesOfStopCharacterList( stopCharacters, sentence);
+	var stopCharacterIndices = getIndicesOfStopCharacterList( stopCharacters, sentence );
 
 	var ingVerbs = getVerbsEndingInIng( sentence );
 	var ingVerbsIndices = getIndicesOfList( ingVerbs, sentence );

@@ -47,7 +47,6 @@ var includesIndex = function( precedingWords, participleIndex ) {
  */
 var EnglishParticiple = function( participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
-	console.log("sentencePart",sentencePart);
 	this.checkException();
 };
 
