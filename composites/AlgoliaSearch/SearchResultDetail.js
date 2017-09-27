@@ -6,6 +6,9 @@ import { defineMessages, injectIntl, intlShape } from "react-intl";
 import ArticleContent from "./ArticleContent";
 import { YoastButton } from "../Plugin/Shared/components/YoastButton";
 import { YoastLinkButton } from "../Plugin/Shared/components/YoastLinkButton";
+import { Icon } from "../Plugin/Shared/components/Icon";
+import { angleLeft, angleRight } from "../../style-guide/svg/index";
+import colors from "../../style-guide/colors.json";
 
 const messages = defineMessages( {
 	openButton: {
@@ -58,10 +61,18 @@ class SearchResultDetail extends React.Component {
 		return (
 			<Nav>
 				<YoastButton aria-label={ backButtonLabel } onClick={ this.props.onBackButtonClicked }>
+					<Icon
+						size="24px"
+						color={ colors.$color_white }
+						icon={ angleLeft } />
 					{ backButtonText }
 				</YoastButton>
 				<RightYoastLinkButton href={ this.props.post.permalink } aria-label={ openButtonLabel } target="_blank">
 					{ openButtonText }
+					<Icon
+						size="24px"
+						color={ colors.$color_white }
+						icon={ angleRight } />
 				</RightYoastLinkButton>
 			</Nav>
 		);
