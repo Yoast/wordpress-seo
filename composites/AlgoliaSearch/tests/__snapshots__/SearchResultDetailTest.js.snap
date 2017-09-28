@@ -8,6 +8,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
     className="sc-gzVnrw kJqUwD"
   >
     <button
+      aria-expanded={undefined}
       className="sc-htpNat eKudLn sc-bwzfXH dIZeqH"
       onClick={[Function]}
       type="button"
