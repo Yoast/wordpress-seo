@@ -85,6 +85,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_55();
 		}
 
+		if ( version_compare( $this->options['version'], '5.6', '<' ) ) {
+			$this->upgrade_56();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -392,4 +396,13 @@ class WPSEO_Upgrade {
 		do_action( 'wpseo_register_capabilities' );
 		WPSEO_Capability_Manager_Factory::get()->add();
 	}
+
+	/**
+	 * Updates legacy license page options to the latest version.
+	 */
+	private function upgrade_56() {
+		update_option( 'wpseo_license_server_version', WPSEO_License_Page_Manager::VERSION_BACKWARDS_COMPATIBILITY );
+	}
+
+
 }
