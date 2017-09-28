@@ -6,7 +6,6 @@ import AlgoliaSearcher from "../../AlgoliaSearch/AlgoliaSearcher";
 
 export const HelpCenterContainer = styled.div`
 	box-sizing: border-box;
-	padding: 16px;
 	min-height: 700px;
 	width: 100%;
 	background-color: white;
@@ -17,7 +16,7 @@ export const HelpCenterContainer = styled.div`
  *
  * @returns {ReactElement} The ContentAnalysis component.
  */
-export default function ContentAnalysis() {
+export default function HelpCenter() {
 	return (
 		<HelpCenterContainer>
 			<YoastTabs
@@ -40,4 +39,8 @@ export default function ContentAnalysis() {
 				] } />
 		</HelpCenterContainer>
 	);
+}
+
+HelpCenter.propTypes = {
+
 }

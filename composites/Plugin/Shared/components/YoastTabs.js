@@ -33,7 +33,6 @@ const YoastTabsContainer = styled( Tabs )`
 	}
 
 	.react-tabs__tab-panel {
-		padding: 18px 20px;
 		display: none;
 
 		&.react-tabs__tab-panel--selected {
