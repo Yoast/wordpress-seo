@@ -37,7 +37,7 @@ const messages = defineMessages( {
 const Detail = styled.section``;
 
 const Nav = styled.nav`
-	padding: 8px;
+	padding: 8px 16px;
 `;
 
 const RightYoastLinkButton = makeOutboundLink( styled( YoastLinkButton )`
