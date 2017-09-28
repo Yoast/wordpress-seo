@@ -7,7 +7,7 @@ import ContentAnalysis from "./composites/Plugin/ContentAnalysis/components/Cont
 import Wizard from "./app/WizardWrapper";
 import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
-import HelpCenter from "./composites/Plugin/HelpCenter/HelpCenter";
+import HelpCenterWrapper from "./app/HelpCenterWrapper";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
@@ -46,7 +46,7 @@ const components = [
 	{
 		id: "help-center",
 		name: "Help center",
-		component: <HelpCenter />,
+		component: <HelpCenterWrapper />,
 	},
 ];
 
