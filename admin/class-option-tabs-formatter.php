@@ -31,15 +31,12 @@ class WPSEO_Option_Tabs_Formatter {
 		}
 		echo '</h2>';
 
-		foreach ( $option_tabs->get_tabs() as $tab ) {
-			// Prepare the help center for each tab.
-			$help_center = new WPSEO_Help_Center( $option_tabs->get_base(), $tab );
+		$help_center = new WPSEO_Help_Center( $option_tabs->get_base(), $option_tabs->get_tabs() );
+		$help_center->output_help_center();
 
+		foreach ( $option_tabs->get_tabs() as $tab ) {
 			$identifier = $tab->get_name();
 			printf( '<div id="%s" class="wpseotab">', $identifier );
-
-			// Output the help center.
-			$help_center->output_help_center();
 
 			// Output the settings view for all tabs.
 			$tab_view = $this->get_tab_view( $option_tabs, $tab );

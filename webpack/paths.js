@@ -32,6 +32,7 @@ const entryAll = {
 // Output filename: Entry file (relative to jsSrcPath)
 const entry = {
 	"configuration-wizard": "./configuration-wizard.js",
+	"wp-seo-help-center": "./wp-seo-help-center.js",
 };
 
 module.exports = {

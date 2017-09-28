@@ -149,6 +149,11 @@ class WPSEO_Admin_Asset_Manager {
 
 		return array(
 			array(
+				'name' => 'help-center',
+				'src'  => 'wp-seo-help-center-' . $flat_version,
+				'deps' => array( ),
+			),
+			array(
 				'name' => 'admin-script',
 				'src'  => 'wp-seo-admin-' . $flat_version,
 				'deps' => array(
