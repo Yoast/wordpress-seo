@@ -23,7 +23,7 @@ class WPSEO_Premium_Orphaned_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
-	 * Modify the query based on the seo_filter variable in $_GET
+	 * Modifies the query based on the seo_filter variable in $_GET
 	 *
 	 * @param string $where Query variables.
 	 *
@@ -33,7 +33,7 @@ class WPSEO_Premium_Orphaned_Filter extends WPSEO_Abstract_Post_Filter {
 		if ( $this->is_filter_active() ) {
 			global $wpdb;
 
-			$where .= ' AND ' . $wpdb->posts . '.ID NOT IN( SELECT post_id FROM ' . $this->get_link_table_name() . ' UNION SELECT target_post_id FROM ' . $this->get_link_table_name() . ' ) ';
+			$where .= ' AND ' . $wpdb->posts . '.ID IN ( ' . $this->get_subquery() . ' ) ';
 		}
 
 		return $where;
@@ -49,7 +49,7 @@ class WPSEO_Premium_Orphaned_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
-	 * Returns the total amount of articles marked as cornerstone content.
+	 * Returns the total amount of articles that are orphaned content.
 	 *
 	 * @return integer
 	 */
@@ -57,13 +57,12 @@ class WPSEO_Premium_Orphaned_Filter extends WPSEO_Abstract_Post_Filter {
 		global $wpdb;
 
 		return (int) $wpdb->get_var(
-			$wpdb->prepare( '
-				SELECT COUNT( 1 )
+			$wpdb->prepare('
+				SELECT COUNT(id)
 				FROM ' . $wpdb->posts . '
-				WHERE ' . $wpdb->posts . '.ID NOT IN( SELECT post_id FROM ' . $this->get_link_table_name() . ' UNION SELECT target_post_id FROM ' . $this->get_link_table_name() . ' )
-				AND ' . $wpdb->posts . '.post_type = "%s"
-				AND ' . $wpdb->posts . '.post_status IN ("publish", "future", "draft", "pending", "private")
-				',
+				WHERE  ' . $wpdb->posts . '.ID IN (' . $this->get_subquery() . ')
+				AND ' . $wpdb->posts . '.post_status IN ("publish", "future", "pending", "private")
+				AND ' . $wpdb->posts . '.post_type = %s;',
 				$this->get_current_post_type()
 			)
 		);
@@ -76,10 +75,23 @@ class WPSEO_Premium_Orphaned_Filter extends WPSEO_Abstract_Post_Filter {
 	 */
 	protected function get_link_table_name() {
 		if ( $this->link_table_name === null ) {
-			$link_storage = new WPSEO_Link_Storage();
+			$link_storage = new WPSEO_Meta_Storage();
 			$this->link_table_name = $link_storage->get_table_name();
 		}
 
 		return $this->link_table_name;
+	}
+
+	/**
+	 * Returns a query that gets all IDs of objects that have no incoming or outgoing links.
+	 *
+	 * @return string The query.
+	 */
+	protected function get_subquery() {
+		return 'SELECT object_id
+				FROM ' . $this->get_link_table_name() . '
+				WHERE ' . $this->get_link_table_name() . '.internal_link_count = 0
+				AND ( ' . $this->get_link_table_name() . '.incoming_link_count IS NULL
+				OR ' . $this->get_link_table_name() . '.incoming_link_count = 0 )';
 	}
 }
