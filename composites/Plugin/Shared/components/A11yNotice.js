@@ -16,4 +16,6 @@ export const A11yNotice = styled.span`
 	position: absolute !important;
 	width: 1px;
 	word-wrap: normal !important;
+	// Safari+VoiceOver bug see PR 308 and My Yoast issues 445, 712 and PR 715.
+	transform: translateY(1em);
 `;
