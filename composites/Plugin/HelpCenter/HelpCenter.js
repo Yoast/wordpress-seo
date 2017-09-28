@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import YoastTabs from "../Shared/components/YoastTabs";
+import AlgoliaSearcher from "../../AlgoliaSearch/AlgoliaSearcher";
 
 export const HelpCenterContainer = styled.div`
 	box-sizing: border-box;
@@ -29,7 +30,7 @@ export default function ContentAnalysis() {
 					{
 						label: "Knowledge base",
 						id: "knowledge_base",
-						content: <h1>Knowledge base</h1>,
+						content: <AlgoliaSearcher />,
 					},
 					{
 						label: "Support",
