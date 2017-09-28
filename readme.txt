@@ -125,6 +125,16 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.5.1 =
+
+Release Date: September 28th, 2017
+
+* Bugfixes
+	* Fixes Snippet preview error when Yoast metabox has been removed.
+
+* Changes
+	* Change Yoast Blog feed to new endpoint.
+
 = 5.5.0 =
 
 Release Date: September 26th, 2017
