@@ -2,7 +2,7 @@
 
 exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`] = `
 <div
-  className="sc-kGXeez gSIsWZ"
+  className="sc-kgoBCf ijaDUj"
 >
   <div
     className="sc-bwzfXH hiNZVk"
@@ -22,7 +22,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
       >
         <svg
           aria-hidden="true"
-          className="sc-kpOJdX biuQJY"
+          className="sc-kGXeez fVArXq"
           focusable="false"
           role="img"
         />

@@ -86,7 +86,7 @@ YoastButtonBase.propTypes = {
 	className: PropTypes.string,
 	onClick: PropTypes.func,
 	type: PropTypes.string,
-	children: PropTypes.string,
+	children: PropTypes.node,
 };
 
 YoastButtonBase.defaultProps = {
