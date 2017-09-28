@@ -105,15 +105,20 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 * @return Yoast_Notification The notification.
 	 */
 	protected function get_message( $notification_id, $post_type ) {
-		/* translators: %1$s: Link to the filter page, %2$d: amount of orphaned items, %3$s: plural form of post type, %4$s closing tag.  */
+
+		$total_orphaned = $this->get_post_type_count( $post_type->name );
+
 		$message = sprintf(
-			__(
+			/* translators: %1$s: Link to the filter page, %2$d: amount of orphaned items, %3$s: plural/singular form of post type, %4$s closing tag.  */
+			_n(
+				'Yoast SEO detected %1$s%2$d \'orphaned\' %3$s%4$s (no inbound and no outbound links). Consider adding links to this %3$s so search engines can find it.',
 				'Yoast SEO detected %1$s%2$d \'orphaned\' %3$s%4$s (no inbound and no outbound links). Consider adding links to these %3$s so search engines can find them.',
+				$total_orphaned,
 				'wordpress-seo-premium'
 			),
 			 '<a href="' . $this->get_filter_url( $post_type->name ) . '">',
-			$this->get_post_type_count( $post_type->name ),
-			strtolower( $post_type->labels->name ),
+			$total_orphaned,
+			strtolower( _n( $post_type->labels->singular_name,  $post_type->labels->name, $total_orphaned, 'wordpress-seo-premium' ) ),
 			'</a>'
 		);
 
