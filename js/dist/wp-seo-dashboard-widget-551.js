@@ -140,7 +140,7 @@ var DashboardWidget = function (_React$Component) {
 		value: function getFeed() {
 			var _this4 = this;
 
-			(0, _getFeed3.default)("https://yoast.com/feed/", 2).then(function (feed) {
+			(0, _getFeed3.default)("https://yoast.com/feed/widget/", 2).then(function (feed) {
 				feed.items = feed.items.map(function (item) {
 					item.description = jQuery("<div>" + item.description + "</div>").text();
 					item.description = item.description.replace("The post " + item.title + " appeared first on Yoast.", "").trim();

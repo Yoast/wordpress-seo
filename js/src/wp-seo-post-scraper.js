@@ -345,6 +345,11 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	function initializePostAnalysis() {
 		snippetContainer = $( "#wpseosnippet" );
 
+		// Avoid error when snippet metabox is not rendered.
+		if ( snippetContainer.length === 0 ) {
+			return;
+		}
+
 		tabManager = initializeTabManager();
 		postDataCollector = initializePostDataCollector();
 		publishBox.initalise();
