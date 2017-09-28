@@ -36,7 +36,7 @@ class ArticleContent extends React.Component {
 
 ArticleContent.propTypes = {
 	post: PropTypes.object.isRequired,
-	title: PropTypes.string
+	title: PropTypes.string,
 };
 
 ArticleContent.defaultProps = {
