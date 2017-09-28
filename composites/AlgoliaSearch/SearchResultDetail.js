@@ -4,7 +4,12 @@ import styled from "styled-components";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
 
 import ArticleContent from "./ArticleContent";
-import { Button } from "../Plugin/Shared/components/Button";
+import { YoastButton } from "../Plugin/Shared/components/YoastButton";
+import { YoastLinkButton } from "../Plugin/Shared/components/YoastLinkButton";
+import { Icon } from "../Plugin/Shared/components/Icon";
+import { angleLeft, angleRight } from "../../style-guide/svg/index";
+import { makeOutboundLink } from "../../utils/makeOutboundLink";
+import colors from "../../style-guide/colors.json";
 
 const messages = defineMessages( {
 	openButton: {
@@ -17,11 +22,11 @@ const messages = defineMessages( {
 	},
 	backButton: {
 		id: "searchResultDetail.backButton",
-		defaultMessage: "Back",
+		defaultMessage: "Go back",
 	},
 	backButtonLabel: {
 		id: "searchResultDetail.backButtonLabel",
-		defaultMessage: "Back to the search results",
+		defaultMessage: "Go back to the search results",
 	},
 	iframeTitle: {
 		id: "searchResultDetail.iframeTitle",
@@ -32,22 +37,12 @@ const messages = defineMessages( {
 const Detail = styled.section``;
 
 const Nav = styled.nav`
-	padding: 8px;
+	padding: 8px 16px;
 `;
 
-const OpenLink = styled.a`
+const RightYoastLinkButton = makeOutboundLink( styled( YoastLinkButton )`
 	float: right;
-	text-decoration: none;
-	font-size: 13px;
-	line-height: 26px;
-	height: 28px;
-	margin: 0;
-	padding: 0 10px 1px;
-	border: 1px solid;
-	border-radius: 3px;
-	white-space: nowrap;
-	box-sizing: border-box;
-`;
+` );
 
 /**
  * Create the JSX to render the SearchResultDetail component.
@@ -66,12 +61,20 @@ class SearchResultDetail extends React.Component {
 		const backButtonLabel = formatMessage( messages.backButtonLabel );
 		return (
 			<Nav>
-				<Button aria-label={ backButtonLabel } onClick={ this.props.onBackButtonClicked }>
+				<YoastButton aria-label={ backButtonLabel } onClick={ this.props.onBackButtonClicked }>
+					<Icon
+						size="24px"
+						color={ colors.$color_white }
+						icon={ angleLeft } />
 					{ backButtonText }
-				</Button>
-				<OpenLink href={ this.props.post.permalink } aria-label={ openButtonLabel } target="_blank">
+				</YoastButton>
+				<RightYoastLinkButton href={ this.props.post.permalink } aria-label={ openButtonLabel } target="_blank">
 					{ openButtonText }
-				</OpenLink>
+					<Icon
+						size="24px"
+						color={ colors.$color_white }
+						icon={ angleRight } />
+				</RightYoastLinkButton>
 			</Nav>
 		);
 	}
