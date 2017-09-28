@@ -33,7 +33,6 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 			add_action( 'admin_init', array( $this, 'notify' ) );
 		}
 
-		// @todo: Schedule a task for checking the notification.
 		if ( ! wp_next_scheduled( 'wpseo-premium-orphaned-content' ) ) {
 			wp_schedule_event( time(), 'daily', 'wpseo-premium-orphaned-content' );
 		}
@@ -74,7 +73,7 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 */
 	protected function notify_post_type( WP_Post_Type $post_type ) {
 		$notification_id = sprintf( 'wpseo-premium-orphaned-content-%1$s', $post_type->name );
-		$message         = $this->get_message( $notification_id, $post_type );
+		$message         = $this->get_notification( $notification_id, $post_type );
 
 		if ( $this->requires_notification( $post_type ) ) {
 			Yoast_Notification_Center::get()->add_notification( $message );
@@ -104,7 +103,7 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 *
 	 * @return Yoast_Notification The notification.
 	 */
-	protected function get_message( $notification_id, $post_type ) {
+	protected function get_notification( $notification_id, $post_type ) {
 
 		$total_orphaned = $this->get_post_type_count( $post_type->name );
 
@@ -118,7 +117,7 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 			),
 			 '<a href="' . $this->get_filter_url( $post_type->name ) . '">',
 			$total_orphaned,
-			strtolower( _n( $post_type->labels->singular_name,  $post_type->labels->name, $total_orphaned, 'wordpress-seo-premium' ) ),
+			strtolower( _n( $post_type->labels->singular_name, $post_type->labels->name, $total_orphaned, 'wordpress-seo-premium' ) ),
 			'</a>'
 		);
 
