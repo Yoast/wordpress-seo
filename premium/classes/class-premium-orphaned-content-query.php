@@ -16,22 +16,19 @@ class WPSEO_Premium_Orphaned_Content_Query {
 	public static function get_post_type_counts() {
 		global $wpdb;
 
-		$storage = new WPSEO_Meta_Storage();
+		$post_ids = self::get_orphaned_object_ids();
 
-		$query = '
-			SELECT COUNT( ID ) as total_orphaned, post_type
-			  FROM ' . $wpdb->posts . '
-			 WHERE 
-			    ID IN( 
-			        SELECT object_id 
-			          FROM ' . $storage->get_table_name() . "
-			        WHERE  internal_link_count = '0' AND ( incoming_link_count = '0' OR incoming_link_count IS NULL ) 
-			    )
-			    AND post_status IN ( 'publish', 'future', 'pending', 'private' )
-			 GROUP BY post_type
-		";
-
-		$results = $wpdb->get_results( $query );
+		$results = $wpdb->get_results(
+			$wpdb->prepare( '
+				SELECT COUNT( ID ) as total_orphaned, post_type
+				  FROM ' . $wpdb->posts . '
+				 WHERE 
+				    ID IN( ' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')
+				    AND post_status = "publish"
+				 GROUP BY post_type',
+				$post_ids
+			)
+		);
 
 		$post_type_counts = array();
 		foreach ( $results as $result ) {
@@ -39,5 +36,19 @@ class WPSEO_Premium_Orphaned_Content_Query {
 		}
 
 		return $post_type_counts;
+	}
+
+	/**
+	 * Returns all the object ids from the records with and incoming link count of 0.
+	 *
+	 * @return array Array with the object ids.
+	 */
+	public static function get_orphaned_object_ids() {
+		global $wpdb;
+
+		$storage = new WPSEO_Meta_Storage();
+		$query   = 'SELECT object_id FROM ' . $storage->get_table_name() . ' WHERE incoming_link_count = 0';
+
+		return $wpdb->get_col( $query );
 	}
 }

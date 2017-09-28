@@ -17,7 +17,7 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	/**
 	 * WPSEO_Premium_Orphaned_Content_Notifier constructor.
 	 *
-	 * @param Yoast_Notification_Center $notification_center
+	 * @param Yoast_Notification_Center $notification_center The notification center object.
 	 */
 	public function __construct( Yoast_Notification_Center $notification_center ) {
 		$this->notification_center = $notification_center;
@@ -51,7 +51,7 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 		$this->set_post_type_counts();
 
 		// Loops over the posts types and handle the notification.
-		foreach( $this->get_post_types() as $post_type ) {
+		foreach ( $this->get_post_types() as $post_type ) {
 			$this->notify_post_type( get_post_type_object( $post_type ) );
 		}
 	}
@@ -111,8 +111,8 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 		$message = sprintf(
 			/* translators: %1$s: Link to the filter page, %2$d: amount of orphaned items, %3$s: plural/singular form of post type, %4$s closing tag.  */
 			_n(
-				'Yoast SEO detected %1$s%2$d \'orphaned\' %3$s%4$s (no inbound and no outbound links). Consider adding links to this %3$s so search engines can find it.',
-				'Yoast SEO detected %1$s%2$d \'orphaned\' %3$s%4$s (no inbound and no outbound links). Consider adding links to these %3$s so search engines can find them.',
+				'Yoast SEO detected %1$s%2$d \'orphaned\' %3$s%4$s (no inbound links). Consider adding links to this %3$s.',
+				'Yoast SEO detected %1$s%2$d \'orphaned\' %3$s%4$s (no inbound links). Consider adding links to these %3$s.',
 				$total_orphaned,
 				'wordpress-seo-premium'
 			),
