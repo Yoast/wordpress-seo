@@ -8,7 +8,7 @@ exports[`the YouTubeVideo component matches the snapshot 1`] = `
     allowFullScreen={true}
     frameBorder={0}
     height={315}
-    src="https:/www.youtube.com/embed/bIgcj_pPIbw"
+    src="https://www.youtube.com/embed/bIgcj_pPIbw"
     title="Video title"
     width={560}
   />

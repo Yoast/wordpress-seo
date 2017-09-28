@@ -6,7 +6,7 @@ import VideoTutorial from "../VideoTutorial.js";
 test( "the VideoTutorial component matches the snapshot", () => {
 	const component = createComponentWithIntl(
 		<VideoTutorial
-			src="https:/www.youtube.com/embed/bIgcj_pPIbw"
+			src="https://www.youtube.com/embed/bIgcj_pPIbw"
 			title="Video title"
 			items={[
 				{
@@ -27,4 +27,3 @@ test( "the VideoTutorial component matches the snapshot", () => {
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
-

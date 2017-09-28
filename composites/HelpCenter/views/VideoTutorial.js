@@ -10,9 +10,6 @@ import { makeOutboundLink } from "../../../utils/makeOutboundLink";
 // Used to align the video and the description next to each other.
 const VIDEO_WIDTH = "560px";
 
-const VideoTutorialContainer = styled.div`
-`;
-
 const VideoContainer = styled.div`
 	float: left;
 	width: ${ VIDEO_WIDTH };
@@ -28,7 +25,7 @@ const VideoDescriptions = styled.div`
 	padding: 0 16px;
 
 	@media screen and (max-width: ${ breakpoints.mobile } ) {
-		margin-left: initial;
+		margin-left: 0;
 		padding: 0;
 	}
 `;
@@ -48,9 +45,6 @@ const VideoDescriptionTitle = styled.p`
 	font-weight: 600;
 `;
 
-const VideoDescriptionText = styled.p`
-`;
-
 const VideoDescriptionLink = makeOutboundLink( styled.a`
 	color: ${ colors.$color_pink_dark };
 ` );
@@ -68,9 +62,9 @@ const VideoDescriptionItem = ( props ) => {
 			<VideoDescriptionTitle>
 				{ props.title }
 			</VideoDescriptionTitle>
-			<VideoDescriptionText>
+			<p>
 				{ props.description }
-			</VideoDescriptionText>
+			</p>
 			<VideoDescriptionLink href={ props.link }>
 				{ props.linkText }
 			</VideoDescriptionLink>
@@ -88,13 +82,16 @@ VideoDescriptionItem.propTypes = {
 /**
  * Creates a VideoTutorial component that displays a YouTube video.
  *
+ * The passed YouTube URLs must be of type "embed", e.g.:
+ * https://www.youtube.com/embed/bIgcj_pPIbw
+ *
  * @param {Object} props The props to use for the component.
  *
  * @returns {ReactElement} The VideoTutorial component.
  */
 export default function VideoTutorial( props ) {
 	return (
-		<VideoTutorialContainer>
+		<div>
 			<VideoContainer>
 				<YouTubeVideo
 					src={ props.src }
@@ -109,7 +106,7 @@ export default function VideoTutorial( props ) {
 					);
 				} ) }
 			</VideoDescriptions>
-		</VideoTutorialContainer>
+		</div>
 	);
 }
 

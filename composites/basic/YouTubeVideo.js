@@ -27,8 +27,6 @@ const YoutubeVideoContainer = styled.div`
  * @param {Object} props The props to use for the component.
  *
  * @returns {ReactElement} The YouTubeVideo component.
- *
- * @constructor
  */
 export default function YouTubeVideo( props ) {
 	return (

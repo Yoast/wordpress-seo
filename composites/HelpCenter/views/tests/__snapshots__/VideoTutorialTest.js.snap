@@ -1,11 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the VideoTutorial component matches the snapshot 1`] = `
-<div
-  className="sc-htpNat hHtpcc"
->
+<div>
   <div
-    className="sc-bxivhb hNRhjd"
+    className="sc-htpNat dsjwIP"
   >
     <div
       className="sc-bdVaJa fpzLVP"
@@ -14,30 +12,28 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
         allowFullScreen={true}
         frameBorder={0}
         height={315}
-        src="https:/www.youtube.com/embed/bIgcj_pPIbw"
+        src="https://www.youtube.com/embed/bIgcj_pPIbw"
         title="Video title"
         width={560}
       />
     </div>
   </div>
   <div
-    className="sc-ifAKCX jBaCxv"
+    className="sc-bxivhb gSasYg"
   >
     <div
-      className="sc-EHOje hWqomB"
+      className="sc-ifAKCX gyrham"
     >
       <p
-        className="sc-bZQynM gSmTMg"
+        className="sc-EHOje clbTar"
       >
         Need some help?
       </p>
-      <p
-        className="sc-gzVnrw fgSTpW"
-      >
+      <p>
         Go Premium!
       </p>
       <a
-        className="sc-htoDjs dJjwbP"
+        className="sc-bZQynM jhhMlL"
         href="#1"
         rel="noopener noreferrer"
         target="_blank"
@@ -51,20 +47,18 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
       </a>
     </div>
     <div
-      className="sc-EHOje hWqomB"
+      className="sc-ifAKCX gyrham"
     >
       <p
-        className="sc-bZQynM gSmTMg"
+        className="sc-EHOje clbTar"
       >
         Need some help?
       </p>
-      <p
-        className="sc-gzVnrw fgSTpW"
-      >
+      <p>
         Go Premium!
       </p>
       <a
-        className="sc-htoDjs dJjwbP"
+        className="sc-bZQynM jhhMlL"
         href="#2"
         rel="noopener noreferrer"
         target="_blank"
