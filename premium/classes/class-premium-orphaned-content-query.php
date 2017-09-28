@@ -27,6 +27,7 @@ class WPSEO_Premium_Orphaned_Content_Query {
 			          FROM ' . $storage->get_table_name() . "
 			        WHERE  internal_link_count = '0' AND ( incoming_link_count = '0' OR incoming_link_count IS NULL ) 
 			    )
+			    AND post_status IN ( 'publish', 'future', 'pending', 'private' )
 			 GROUP BY post_type
 		";
 
