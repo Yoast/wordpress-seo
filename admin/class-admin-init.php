@@ -91,6 +91,7 @@ class WPSEO_Admin_Init {
 		), wp_customize_url() );
 
 		$info_message = sprintf(
+			/* translators: 1: link open tag; 2: link close tag. */
 			__( 'You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s.', 'wordpress-seo' ),
 			'<a href="' . esc_attr( $customize_url ) . '">',
 			'</a>'
@@ -99,7 +100,7 @@ class WPSEO_Admin_Init {
 		$notification_options = array(
 			'type'         => Yoast_Notification::ERROR,
 			'id'           => 'wpseo-dismiss-tagline-notice',
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 		);
 
 		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
@@ -130,7 +131,7 @@ class WPSEO_Admin_Init {
 			'type'         => Yoast_Notification::ERROR,
 			'id'           => 'wpseo-dismiss-blog-public-notice',
 			'priority'     => 1.0,
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 		);
 
 		$notification = new Yoast_Notification( $info_message, $notification_options );
@@ -152,8 +153,8 @@ class WPSEO_Admin_Init {
 		$info_message = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
 		$info_message .= '<br/>';
 
-		/* translators: %1$s resolves to the opening tag of the link to the comment setting page, %2$s resolves to the closing tag of the link */
 		$info_message .= sprintf(
+			/* translators: %1$s resolves to the opening tag of the link to the comment setting page, %2$s resolves to the closing tag of the link */
 			__( 'Simply uncheck the box before "Break comments into pages..." on the %1$sComment settings page%2$s.', 'wordpress-seo' ),
 			'<a href="' . esc_url( admin_url( 'options-discussion.php' ) ) . '">',
 			'</a>'
@@ -162,7 +163,7 @@ class WPSEO_Admin_Init {
 		$notification_options = array(
 			'type'         => Yoast_Notification::WARNING,
 			'id'           => 'wpseo-dismiss-page_comments-notice',
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 		);
 
 		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
@@ -183,8 +184,13 @@ class WPSEO_Admin_Init {
 	 */
 	public function has_default_tagline() {
 		$blog_description = get_bloginfo( 'description' );
-		$default_blog_description = 'Just another WordPress site';
-		return __( $default_blog_description ) === $blog_description || $default_blog_description === $blog_description;
+		$default_blog_description    = 'Just another WordPress site';
+
+		// We are checking against the WordPress internal translation.
+		// @codingStandardsIgnoreLine
+		$translated_blog_description = __( 'Just another WordPress site' );
+
+		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
 	}
 
 	/**
@@ -204,7 +210,7 @@ class WPSEO_Admin_Init {
 		$notification_options = array(
 			'type'         => Yoast_Notification::WARNING,
 			'id'           => 'wpseo-dismiss-permalink-notice',
-			'capabilities' => 'manage_options',
+			'capabilities' => 'wpseo_manage_options',
 			'priority'     => 0.8,
 		);
 
@@ -301,7 +307,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function get_yoast_seo_compatibility_notification( $name, $plugin, $level = Yoast_Notification::WARNING ) {
 		$info_message = sprintf(
-		/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
 			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 			'Yoast SEO',
 			$plugin['version'],
@@ -329,24 +335,29 @@ class WPSEO_Admin_Init {
 			return;
 		}
 
-		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
-		if ( $can_access && ! $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
-			Yoast_Notification_Center::get()->add_notification(
-				new Yoast_Notification(
-					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
-					sprintf(
-						__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
-						'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
-						'</a>'
-					),
-					array(
-						'type'  => 'updated yoast-dismissible',
-						'id'    => 'wpseo-dismiss-recalculate',
-						'nonce' => wp_create_nonce( 'wpseo-dismiss-recalculate' ),
-					)
-				)
-			);
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+			return;
 		}
+
+		if ( $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
+			return;
+		}
+
+		Yoast_Notification_Center::get()->add_notification(
+			new Yoast_Notification(
+				sprintf(
+					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
+					__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
+					'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
+					'</a>'
+				),
+				array(
+					'type'  => 'updated yoast-dismissible',
+					'id'    => 'wpseo-dismiss-recalculate',
+					'nonce' => wp_create_nonce( 'wpseo-dismiss-recalculate' ),
+				)
+			)
+		);
 	}
 
 	/**
@@ -428,28 +439,60 @@ class WPSEO_Admin_Init {
 			// Only register the yoast i18n when the page is a Yoast SEO page.
 			if ( WPSEO_Utils::is_yoast_seo_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
 				$this->register_i18n_promo_class();
+				$this->register_premium_upsell_admin_block();
 			}
 		}
 	}
 
 	/**
-	 * Register the promotion class for our GlotPress instance
+	 * Registers the Premium Upsell Admin Block.
+	 *
+	 * @return void
+	 */
+	private function register_premium_upsell_admin_block() {
+		if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
+			$upsell_block = new Premium_Upsell_Admin_Block( 'wpseo_admin_promo_footer' );
+			$upsell_block->register_hooks();
+		}
+	}
+
+	/**
+	 * Registers the promotion class for our GlotPress instance, then creates a notification with the i18n promo.
 	 *
 	 * @link https://github.com/Yoast/i18n-module
 	 */
 	private function register_i18n_promo_class() {
-		new yoast_i18n(
+		// BC, because an older version of the i18n-module didn't have this class.
+		$i18n_module = new Yoast_I18n_WordPressOrg_v3(
 			array(
-				'textdomain'     => 'wordpress-seo',
-				'project_slug'   => 'wordpress-seo',
-				'plugin_name'    => 'Yoast SEO',
-				'hook'           => 'wpseo_admin_promo_footer',
-				'glotpress_url'  => 'http://translate.yoast.com/gp/',
-				'glotpress_name' => 'Yoast Translate',
-				'glotpress_logo' => 'https://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
-				'register_url'   => 'https://translate.yoast.com/gp/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
+				'textdomain'  => 'wordpress-seo',
+				'plugin_name' => 'Yoast SEO',
+				'hook'        => 'wpseo_admin_promo_footer',
+			), false
+		);
+
+		$message = $i18n_module->get_promo_message();
+
+		if ( $message !== '' ) {
+			$message .= $i18n_module->get_dismiss_i18n_message_button();
+		}
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		$notification = new Yoast_Notification(
+			$message,
+			array(
+				'type' => Yoast_Notification::WARNING,
+				'id'   => 'i18nModuleTranslationAssistance',
 			)
 		);
+
+		if ( $message ) {
+			$notification_center->add_notification( $notification );
+			return;
+		}
+
+		$notification_center->remove_notification( $notification );
 	}
 
 	/**
@@ -482,7 +525,6 @@ class WPSEO_Admin_Init {
 
 		// WordPress hooks that have been deprecated in Yoast SEO 3.0.
 		$deprecated_30 = array(
-			'wpseo_pre_analysis_post_content',
 			'wpseo_metadesc_length',
 			'wpseo_metadesc_length_reason',
 			'wpseo_body_length_score',
@@ -497,7 +539,7 @@ class WPSEO_Admin_Init {
 
 		foreach ( $deprecated_notices as $deprecated_filter ) {
 			_deprecated_function(
-				/* %s expands to the actual filter/action that has been used. */
+				/* translators: %s expands to the actual filter/action that has been used. */
 				sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ),
 				'WPSEO 3.0',
 				'javascript'
@@ -517,17 +559,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Returns whether or not the user has seen the tagline notice
-	 *
-	 * @deprecated 3.3
-	 *
-	 * @return bool
-	 */
-	public function seen_tagline_notice() {
-		return false;
-	}
-
-	/**
 	 * Check if the permalink uses %postname%
 	 *
 	 * @return bool
@@ -536,12 +567,28 @@ class WPSEO_Admin_Init {
 		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
 	}
 
+	/********************** DEPRECATED METHODS **********************/
+
+	/**
+	 * Returns whether or not the user has seen the tagline notice
+	 *
+	 * @deprecated 3.3
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool
+	 */
+	public function seen_tagline_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
+		return false;
+	}
+
 	/**
 	 * Redirect first time or just upgraded users to the about screen.
 	 *
 	 * @deprecated 3.5
+	 * @codeCoverageIgnore
 	 */
 	public function after_update_notice() {
-		_deprecated_function( 'WPSEO_Admin_Init::after_update_notice', 'WPSEO 3.5' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
 	}
 }

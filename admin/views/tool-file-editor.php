@@ -76,7 +76,7 @@ else {
 
 echo '<br><br>';
 $helpcenter_tab = new WPSEO_Option_Tab( 'bulk-editor', 'Bulk editor',
-	array( 'video_url' => 'https://yoa.st/screencast-tools-file-editor' ) );
+	array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-file-editor' ) ) );
 
 $helpcenter = new WPSEO_Help_Center( 'bulk-editor', $helpcenter_tab );
 $helpcenter->output_help_center();

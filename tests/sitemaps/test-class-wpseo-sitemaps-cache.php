@@ -137,6 +137,9 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$index_cache_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key();
 		set_transient( $index_cache_key, $test_index_content );
 
+		// De cache invalidator is based on time so if there isn't enough time difference between the two generations we will end up with the same cache invalidator, failing this test.
+		usleep( 10000 );
+
 		// Act.
 		WPSEO_Sitemaps_Cache::clear( array( 'page' ) );
 		WPSEO_Sitemaps_Cache::clear_queued();

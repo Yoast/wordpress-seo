@@ -2,6 +2,325 @@
 
 This is an archive of older changelog entries. Most recent entries are maintained in readme.txt
 
+= 5.1.0 =
+
+Release Date: July 25th, 2017
+
+* Enhancements
+	* Adds the post-type and taxonomy identifiers on the titles and metas settings tab.
+	* Adds support for importing of Jetpack SEO data.
+	* Improves the readability feature for Dutch, English, French, German, Italian and Spanish.
+	* Adds a WordPress SEO Premium motivation box on Yoast SEO settings pages.
+	* Adds a WordPress SEO Premium motivation on the social tabs.
+	* Adds support for third party sitemaps providers to be registered and used.
+	* Changes the column titles in the taxonomy list table to icons.
+	* Adds a subheader on the notification dashboard to clarify problems and issues which are muted.
+	* Improves avatars on the credit page, props [Mike DeHart](https://github.com/mikedehart)
+
+* Bugfixes
+	* Fixes a bug where `remove_meta_if_default` and `dont_save_meta_if_default` don't return the given input value as default.
+	* Fixes a performance issue related to calculating text link counts when saving a post.
+	* Fixes a typo in the readme.txt, props [Raymond Rutjes](https://github.com/rayrutjes)
+
+= 5.0.2 =
+
+Release Date: July 13th, 2017
+
+* Only load babel polyfill if it hasn't been loaded by another plugin yet.
+* Adds a feature toggle to disable the link counter tool & link columns.
+* Fixes a compatibility issue with WordPress 4.6.
+* Fixes an issue where the link columns would disappear after quick-editing a post.
+
+= 5.0.1 =
+
+Release Date: July 6th, 2017
+
+* Fixes a fatal error that could occur when trying to save a post that has `<a>`-tags with invalid URLs in it.
+
+= 5.0.0 =
+
+Release Date: July 6th, 2017
+
+* Bugfixes
+	* Fixes a bug where images via `https` were not working, props [Jannik Zschiesche](https://github.com/apfelbox).
+	* Fixes a bug where the whip notification can be shown multiple times.
+
+* Enhancements
+	* Introduces a module that counts links in the content.
+	* Adds Flesch Reading for Italian.
+	* Changes 'page title' to 'seo title' in the snippet preview.
+	* Changes recommended maximum sentence length for Italian from 20 to 25 words, based on more in-depth research.
+	* Implements the extracted version of the Algolia Search which is now present in `yoast-components`.
+	* Adds a banner for the structured data course.
+
+ * Under the hood
+	* Introduces a database table to keep track of the linking structure. If the table cannot be created, a notification will be shown.
+	* When there are posts or pages to reindex, a notice will be shown.
+
+= 4.9.0 =
+
+Release Date: June 7th, 2017
+
+* Bugfixes
+	* Fixes a bug where there were certain assessments missing when switching to cornerstone content.
+	* Fixes a bug where the configuration wizard button was visible for users who didn't have enough rights to access the configuration wizard.
+	* Fixes a bug where the column `ID` was ambiguous, causing an SQL error.
+	* Fixes a bug where the category URL in the sitemap was encoded twice.
+	* Fixes a bug where an old upgrade notice is not removed.
+
+* Enhancements
+	* Removes the noodp advanced robots meta value as it is no longer used.
+	* Loads the translations only when the configuration wizard endpoint is called, instead of every time `rest_api_init` is called.
+
+= 4.8.0 =
+
+Release Date: May 23rd, 2017
+
+* Bugfixes
+	* Fixes a bug where the tabs in the social and advanced metabox section are gone when keyword analysis has been disabled.
+
+* Enhancements
+	* Optimizes the way the cornerstone flag is saved.
+	* Analyzes the content using cornerstone assessors when a post or page is cornerstone content.
+
+= 4.7.1 =
+
+Release Date: May 9th, 2017
+
+* Bugfixes
+	* Fixes a bug where the analysis wouldn't work on Internet Explorer.
+
+= 4.7.0 =
+
+Release Date: May 2nd, 2017
+
+* Enhancements
+	* Adds transition words for Italian.
+	* Adds a new check in the analysis for the presence of at least one internal link.
+
+* Bugfixes
+	* Fixes a bug where the `_yst_is_cornerstone` meta value was not prefixed, causing some themes/plugins to output this meta value.
+	* Fixes a bug where style and script elements were parsed for the prominent words.
+	* Fixes a bug where the cursor pointer was in front of the metabox.
+
+= 4.6.0 =
+
+Release Date: April 11th, 2017
+
+* Enhancements
+	* Improves a language string, props [Sören Wrede](https://github.com/Soean).
+	* Improves the configuration wizard with clear information about the configuration.
+	* Adds the ability to mark posts as cornerstone content.
+
+* Bugfixes
+	* Fixes an issue in combination with WooCommerce 3.0 where the plugins would load incompatible select2 versions.
+
+= 4.5.0 =
+
+Release Date: March 21st, 2017
+
+* Additions
+	* Adds a message about the PHP version for WordPress installations that run on PHP 5.2. The warning also has pointers on how to address this situation. [We have an article about why we are doing this on yoast.com](https://yoa.st/x6).
+
+* Bugfixes
+	* Adds a check for the breadcrumbs-home option to prevent a blank entry being added to the crumbs array, props [codemonkeynorth](https://github.com/codemonkeynorth)
+
+* Enhancements
+	* Throws a warning in the admin for the RS Head Cleaner plugin, because the plugin cloaks.
+	* Improves copy about Yoast SEO Premium benefits.
+	* Adds link to our knowledge base article about connecting your website to Google Search Console.
+
+= 4.4.0 =
+
+Release date: February 28th, 2017
+
+* Bugfixes:
+	* Fixes a bug where a `span` tag wasn't closed correctly, props [lubobill1990](https://github.com/lubobill1990).
+	* Fixes a bug where there were deprecation warnings shown when an existing author was being updated.
+	* Fixes a bug where the user received an 'insufficient rights' error when the advanced settings are disabled, but an advanced page is visited.
+
+* Enhancements:
+	* Moves the options to disable keyword and content analysis from the general tab to the features tab.
+	* Improves styling of tables so they are viewable on mobile.
+	* Changes the links into shortlinks for the extensions page, helpcenter, facebook settings and premium popup.
+
+= 4.3.0 =
+
+Release Date: February 14th, 2017
+
+* Bugfixes
+    * Fixes the width of the readability column on post overview, props [rikayla](https://github.com/rikayla).
+
+* Enhancements
+    * Improves feedback text for subheading too long assessment.
+
+= 4.2.1 =
+
+Release Date: February 2nd, 2017
+
+* Bugfixes
+	* Fixes a fatal error "Call to undefined method yoast_i18n::set_api_url()". This error occurred with certain other plugins that also include the i18n-module.
+	* Fixes a bug where some strings wouldn't be translated.
+	* Makes the Yoast SEO menu top and first item visible in the responsive view.
+	* Fixes a bug where the yoast icon on the credits page wasn't displayed properly in some views.
+
+* Enhancements:
+    * Improves the styling of the notification center.
+    * Improves the styling of the title separators.
+
+= 4.2.0 =
+
+Release Date: January 31st, 2017
+
+* Bugfixes:
+	* Fixes a bug where the sitemaps were being invalidated too often.
+	* Fixes a bug where the 'meta keywords' meta box section stayed visible when switching to the readability tab.
+
+* Enhancements:
+	* Moves translations from translate.yoast.com to translate.wordpress.org.
+	* Improves the styling of the featured image warning and sends an audible message for screen readers.
+	* Makes the left sidebar of the meta box responsive.
+	* Removes unused heading from the meta box.
+	* Improves responsiveness for settings pages.
+
+= 4.1.0 =
+
+Release Date: January 17th, 2017
+
+* Bugfixes:
+	* Fixes a glitch in the notification center where a notification would be shown twice.
+	* Fixes a bug where the realtime analysis didn't work on term pages.
+	* Fixes a bug where the sitemap invalidation uses an expensive query to clean up old validators.
+
+* Enhancements:
+	* Adds a mobile snippet preview.
+	* Adds a function that allows retrieving an option only when it's been autoloaded.
+	* Removes review banner from mobile, props [abhinavkumar940](https://github.com/abhinavkumar940).
+	* Adds labels to redirect checkboxes in the search console to improve accessibility.
+
+= 4.0.2 =
+
+Release Date: December 20th, 2016
+
+* Bugfixes
+	* Fixes a bug where shortcodes would be kept in the content that would be analyzed, which would result in incorrect results.
+	* Fixes a bug where the user language would be used to analyze the content instead of the site language.
+
+= 4.0.0 =
+
+Release Date: December 13th, 2016
+
+* Enhancements:
+	* License manager: Add a get_extension_url method to Yoast_Product to retrieve the URL where people can extend/upgrade their license.
+	* License manager: Add a set_extension_url method to Yoast_Product to set the URL where people can extend/upgrade their license.
+	* Updates the credits page.
+	* Improves plugin naming in translations.
+	* Improves translations by making texts more consistent.
+	* Displays the translations in the language chosen by the user in stead of using only the site language.
+	* Improves the styling of the banners.
+	* Adds passive voice for German.
+	* Adds more transition words for French.
+	* Improves feedback strings for the meta description length assessment.
+	* Improves matching of the keyword in the first paragraph.
+	* Improves the snippet preview to match the styling of googles snippet.
+
+* Bugfixes:
+	* Fixes a compatibility bug with the onboarding wizard and Polylang, and possibly more plugins that prevented the configuration wizard from working properly.
+	* Fixes a bug where post format archives showed up in sitemap when disabled.
+	* Fixes a bug where an old update notice would not be removed.
+	* Fixes a bug where keywords with periods where not highlighted in the snippet.
+	* Fixes a bug where the title of the metabox wasn't displayed correctly.
+
+= 3.9.0 =
+
+Release Date: November 29nd, 2016
+
+* Enhancements:
+	* Updates the banners on the admin pages.
+	* Improves accessibility by moving the Google Search Console reload button from the header.
+	* Allow for other plugins and themes to more easily add html namespaces through the new wpseo_html_namespaces filter.
+	* Prevent conflicts with other plugins/themes which also add html namespaces.
+
+* Bugfixes:
+	* Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
+	* Fixes a bug that prevented bulk actions to work in the Google Search Console.
+	* Fixed incorrect timezone for zero offset case (Atlantic/Azores instead of UTC).
+
+= 3.8.0 =
+
+Release Date: November 8th, 2016
+
+* Enhancements:
+	* Makes tooltips on tabs icons accessible.
+	* Adds check to prevent sitemap from having empty image entries.
+	* Improves screenreader text for the readability tab.
+	* Adds a toggle for author and date archives.
+	* Adds several improvements for readability and consistent styling.
+
+* Bugfixes:
+	* Fixes a bug where the category picker would become slow with 1000+ categories, props [Ron Willemse](https://github.com/RonWillemse)
+	* Fixes a bug with VoiceOver on the readability and keyword tabs.
+
+= 3.7.1 =
+
+Release Date: October 20th, 2016
+
+* Bugfixes:
+	* Fixes a bug where the configuration wizard couldn't go to the next step if PUT requests were disabled on the server.
+
+= 3.7.0 =
+
+Release Date: October 11th, 2016
+
+* Enhancements:
+	* Includes a few design improvements in the analysis section of the metabox. Design is now more consistent.
+	* Makes sure author archives are disabled when a user confirms his site is single-author.
+	* The configuration wizard is now called "configuration wizard" consistently throughout the plugin.
+	* Makes sure the help center is now included on all Yoast SEO pages.
+	* Added a notification asking users to rate Yoast SEO on WordPress.org.
+
+* Bugfixes:
+	* Fixes a bug where the metabox was taking up too much space on small screens.
+	* Fixes a bug where the marking for consecutive sentences beginning with the same word was off by one.
+	* Fixes a bug where the Google Search Console integration wasn't working well on multisite.
+	* Fixes a bug where the newsletter signup always did a http request, causing mixed content errors on https sites.
+
+= 3.6.1 =
+
+Release Date: October 3rd, 2016
+
+* Bugfixes:
+	* Fixes a bug where the admin bar would still show advanced settings when the advanced settings were disabled.
+
+= 3.6.0 =
+
+Release Date: September 27th, 2016
+
+* Enhancements:
+	* Introduces the installation wizard that enables an easy way of setting up Yoast SEO. The installation wizard enables you to:
+		- Newsletter signup.
+		- Specify the environment in which a site is running.
+		- Specify the type of a site.
+		- Specify a company or person for the metadata used in Google's Knowledge Graph.
+		- Specify social profiles.
+		- Specify post type visibility.
+		- Specify if you have multiple authors.
+		- Setup Google Search Console.
+		- Setup the title settings.
+	* The installation wizard replaces the tour.
+	* Adds a notification to the Yoast notification center to start the onboarding wizard.
+	* Adds a button on the general settings page to start the onboarding wizard.
+	* Adds a premium tab to the metabox.
+	* Introduces a feature toggles tab on the Yoast SEO dashboard where users can enable/disable certain features.
+		* New: Enable/disable the advanced settings pages.
+		* New: Enable/disable the Yoast SEO admin bar menu. Added after receiving feedback from multiple users who wanted this option.
+		* Moved: Enable/disable The OnPage.org integration.
+	* Removes the tour. With the help center available on every Yoast SEO page or section and the new installation wizard, there was no real usecase for the tour anymore.
+
+* Bugfixes:
+	* Fixes sorting the table in sitemaps.
+	* Fixes a bug where keywords with a $ where not recognized.
+
 = 3.5.0 =
 
 Release Date: September 7th, 2016

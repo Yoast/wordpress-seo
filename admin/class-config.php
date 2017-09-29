@@ -39,11 +39,9 @@ class WPSEO_Admin_Pages {
 			wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
 		}
 
-		if ( WPSEO_Utils::grant_access() ) {
-			add_action( 'admin_init', array( $this, 'admin_init' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
-		}
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
 	}
 
 	/**
@@ -88,7 +86,7 @@ class WPSEO_Admin_Pages {
 
 		$page = filter_input( INPUT_GET, 'page' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Utils::get_language( get_locale() ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
 
 		if ( in_array( $page, array( 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER ) ) ) {
 			wp_enqueue_media();
@@ -134,7 +132,7 @@ class WPSEO_Admin_Pages {
 	private function do_yoast_export() {
 		check_admin_referer( WPSEO_Export::NONCE_ACTION, WPSEO_Export::NONCE_NAME );
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			return;
 		}
 
@@ -150,8 +148,11 @@ class WPSEO_Admin_Pages {
 
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * Exports the current site's Yoast SEO settings.
+	 *
+	 * @deprecated 2.0
 	 *
 	 * @param bool $include_taxonomy Whether to include the taxonomy metadata the plugin creates.
 	 *
@@ -432,4 +433,5 @@ class WPSEO_Admin_Pages {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
 		WPSEO_Options::reset();
 	}
+	// @codeCoverageIgnoreEnd
 } /* End of class */

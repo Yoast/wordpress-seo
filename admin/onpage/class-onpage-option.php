@@ -4,7 +4,7 @@
  */
 
 /**
- * This class handles the data for the option where the OnPage.org data is stored.
+ * This class handles the data for the option where the Ryte data is stored.
  */
 class WPSEO_OnPage_Option {
 
@@ -34,7 +34,7 @@ class WPSEO_OnPage_Option {
 	const FETCH_LIMIT = 15;
 
 	/**
-	 * @var array The OnPage.org option stored in the database.
+	 * @var array The Ryte option stored in the database.
 	 */
 	private $onpage_option;
 
@@ -104,7 +104,7 @@ class WPSEO_OnPage_Option {
 	}
 
 	/**
-	 * Getting the option with the OnPage.org data
+	 * Getting the option with the Ryte data.
 	 *
 	 * @return array
 	 */
@@ -114,13 +114,14 @@ class WPSEO_OnPage_Option {
 
 	/**
 	 * @deprecated 3.0.2
+	 * @codeCoverageIgnore
 	 *
 	 * Returns the indexable status of the website.
 	 *
 	 * @return bool
 	 */
 	public function is_indexable() {
-		_deprecated_function( 'WPSEO_OnPage_Option::is_indexable', 'WPSEO 3.0.2' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0.2' );
 
 		return self::IS_INDEXABLE === $this->get_status();
 	}

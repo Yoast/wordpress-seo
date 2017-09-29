@@ -153,7 +153,8 @@ class WPSEO_Option_XML extends WPSEO_Option {
 							if ( $int > 50000 ) {
 
 								$error_message = sprintf(
-									__( '"Max entries per sitemap page" should be below %s to meet Google\'s requirements, which %s is not.', 'wordpress-seo' ),
+									/* translators: 1: number; 2: number received from user. */
+									__( '"Max entries per sitemap page" should be below %1$s to meet Google\'s requirements, which %2$s is not.', 'wordpress-seo' ),
 									number_format_i18n( 50000 ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
 								);
 								add_settings_error( $this->group_name, '_' . $key, $error_message, 'error' );

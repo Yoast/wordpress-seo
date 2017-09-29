@@ -43,6 +43,9 @@ window.yoastHideMarkers = true;
 		// Get the table cell that contains the description textarea.
 		var descriptionTd = jQuery( ".term-description-wrap" ).find( "td" );
 
+		// Get the description textarea label.
+		var descriptionLabel = jQuery( ".term-description-wrap" ).find( "label" );
+
 		// Get the textNode from the original textarea.
 		var textNode = descriptionTd.find( "textarea" ).val();
 
@@ -65,13 +68,17 @@ window.yoastHideMarkers = true;
 
 		// Populate the editor textarea with the original content,
 		document.getElementById( "description" ).value = textNode;
+
+		// Make the description textarea label plain text removing the label tag.
+		descriptionLabel.replaceWith( descriptionLabel.html() );
 	};
 
 	/**
 	 * Initializes the snippet preview.
 	 *
-	 * @param {TermDataCollector} termScraper
-	 * @returns {SnippetPreview}
+	 * @param {TermDataCollector} termScraper Object for getting term data.
+	 *
+	 * @returns {SnippetPreview} Instance of snippetpreview.
 	 */
 	function initSnippetPreview( termScraper ) {
 		return snippetPreviewHelpers.create( snippetContainer, {
@@ -157,7 +164,7 @@ window.yoastHideMarkers = true;
 	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
-		snippetContainer = $( "#wpseo_snippet" );
+		snippetContainer = $( "#wpseosnippet" );
 
 		insertTinyMCE();
 
@@ -182,7 +189,7 @@ window.yoastHideMarkers = true;
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 			},
-			locale: wpseoTermScraperL10n.locale,
+			locale: wpseoTermScraperL10n.contentLocale,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			snippetPreview: snippetPreview,
@@ -237,5 +244,14 @@ window.yoastHideMarkers = true;
 		}
 
 		jQuery( window ).trigger( "YoastSEO:ready" );
+
+		/*
+		 * Checks the snippet preview size and toggles views when the WP admin menu state changes.
+		 * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
+		 * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
+		 */
+		jQuery( document ).on( "wp-collapse-menu wp-menu-state-set", function() {
+			app.snippetPreview.handleWindowResizing();
+		} );
 	} );
 }( jQuery ) );

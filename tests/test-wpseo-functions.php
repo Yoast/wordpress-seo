@@ -12,14 +12,6 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 		parent::setUp();
 	}
 
-	public function test_wpseo_add_capabilities() {
-		// TODO
-	}
-
-	public function test_wpseo_remove_capabilities() {
-
-	}
-
 	/**
 	 * @covers wpseo_replace_vars
 	 */
@@ -57,17 +49,5 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 			- Test all Basic Variables
 			- Test all Advanced Variables
 		 */
-	}
-
-	public function test_wpseo_get_terms() {
-		// TODO
-	}
-
-	public function test_wpseo_strip_shortcodes() {
-		// TODO
-	}
-
-	public function test_wpseo_wpml_config() {
-		// TODO
 	}
 }

@@ -15,11 +15,11 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 
 			switch ( $status ) {
 				case 'active':
-					$button = sprintf( '<button type="button" class="button button-link dismiss"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-no-alt"></span></button>', __( 'Dismiss this item.', 'wordpress-seo' ) );
+					$button = sprintf( '<button type="button" class="button dismiss"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-no-alt"></span></button>', __( 'Dismiss this item.', 'wordpress-seo' ) );
 					break;
 
 				case 'dismissed':
-					$button = sprintf( '<button type="button" class="button button-link restore"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-hidden"></span></button>', __( 'Restore this item.', 'wordpress-seo' ) );
+					$button = sprintf( '<button type="button" class="button restore"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-hidden"></span></button>', __( 'Restore this item.', 'wordpress-seo' ) );
 					break;
 			}
 
@@ -45,14 +45,12 @@ if ( ! $active ) {
 		</div>
 
 		<?php if ( $dismissed ) : ?>
-			<div class="separator"></div>
+			<h4 class="yoast-muted-title"><?php echo esc_html( $i18n_muted_issues_title ); ?></h4>
 		<?php endif; ?>
 
 		<div class="container" id="yoast-<?php echo $type ?>-dismissed">
 			<?php _yoast_display_alerts( $dismissed, 'dismissed' ); ?>
 		</div>
-
-		<div class="yoast-bottom-spacing"></div>
 
 	<?php else : ?>
 

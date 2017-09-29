@@ -41,7 +41,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 				$this->options['usemetakeywords'] !== true
 			),
 			'noindex'         => $this->get_field_config(
-				esc_html__( 'Meta Robots Index', 'wordpress-seo' ),
+				esc_html__( 'Meta robots index', 'wordpress-seo' ),
 				esc_html__( 'This taxonomy follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ),
 				'select',
 				$this->get_noindex_options()
@@ -97,7 +97,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 		$noindex_options['options']            = $this->no_index_options;
 			$noindex_options['options']['default'] = sprintf( $noindex_options['options']['default'], $this->get_robot_index() );
 
-		if ( get_option( 'blog_public' ) === '0' ) {
+		if ( get_option( 'blog_public' ) === 0 ) {
 			$noindex_options['description'] = '<br /><span class="error-message">' . esc_html__( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';
 		}
 

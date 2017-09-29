@@ -29,6 +29,16 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 	private $link_title;
 
 	/**
+	 * @var string
+	 */
+	private $link_class;
+
+	/**
+	 * @var string
+	 */
+	private $link_aria_label;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param string $name         The name of the section, used as an identifier in the html. Can only contain URL safe characters.
@@ -37,12 +47,21 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 	 * @param array  $options      Optional link attributes.
 	 */
 	public function __construct( $name, $link_content, array $tabs = array(), array $options = array() ) {
+		$default_options = array(
+			'link_title'      => '',
+			'link_class'      => '',
+			'link_aria_label' => '',
+		);
+		$options = array_merge( $default_options, $options );
+
 		$this->name = $name;
 		foreach ( $tabs as $tab ) {
 			$this->add_tab( $tab );
 		}
-		$this->link_content = $link_content;
-		$this->link_title   = isset( $options['link_title'] ) ? $options['link_title'] : '';
+		$this->link_content    = $link_content;
+		$this->link_title      = $options['link_title'];
+		$this->link_class      = $options['link_class'];
+		$this->link_aria_label = $options['link_aria_label'];
 	}
 
 	/**
@@ -51,9 +70,11 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 	public function display_link() {
 		if ( $this->has_tabs() ) {
 			printf(
-				'<li><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link"%2$s>%3$s</a></li>',
+				'<li><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s%4$s>%5$s</a></li>',
 				esc_attr( $this->name ),
+				esc_attr( $this->link_class ),
 				( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
+				( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
 				$this->link_content
 			);
 		}
@@ -65,8 +86,8 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 	public function display_content() {
 		if ( $this->has_tabs() ) {
 			$html = '<div id="wpseo-meta-section-%1$s" class="wpseo-meta-section">';
-			$html .= '<div class="wpseo-metabox-tabs-div" >';
-			$html .= '<ul class="wpseo-metabox-tabs" id="wpseo-metabox-tabs">%2$s</ul>%3$s';
+			$html .= '<div class="wpseo-metabox-tabs-div">';
+			$html .= '<ul class="wpseo-metabox-tabs wpseo-metabox-tab-%1$s">%2$s</ul>%3$s';
 			$html .= '</div></div>';
 
 			printf( $html, esc_attr( $this->name ), $this->tab_links(), $this->tab_content() );

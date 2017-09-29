@@ -6,21 +6,22 @@
 	var taxonomies = wpseoPrimaryCategoryL10n.taxonomies;
 
 	/**
-	 * Checks if the elements to make a term the primary term and the display for a primary term exist
+	 * Checks if the elements to make a term the primary term and the display for a primary term exist.
 	 *
-	 * @param {Object} checkbox
+	 * @param {Object} checkbox The checkbox to get the closest required fields for.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} True when there are primary elements.
 	 */
 	function hasPrimaryTermElements( checkbox ) {
 		return 1 === $( checkbox ).closest( "li" ).children( ".wpseo-make-primary-term" ).length;
 	}
 
 	/**
-	 * Retrieves the primary term for a taxonomy
+	 * Retrieves the primary term for a taxonomy.
 	 *
-	 * @param {string} taxonomyName
-	 * @returns {string}
+	 * @param {string} taxonomyName The taxonomy name.
+	 *
+	 * @returns {string} The value of the primary term.
 	 */
 	function getPrimaryTerm( taxonomyName ) {
 		var primaryTermInput;
@@ -30,10 +31,10 @@
 	}
 
 	/**
-	 * Sets the primary term for a taxonomy
+	 * Sets the primary term for a taxonomy.
 	 *
-	 * @param {string} taxonomyName
-	 * @param {string} termId
+	 * @param {string} taxonomyName The taxonomy name.
+	 * @param {string} termId       The term id.
 	 *
 	 * @returns {void}
 	 */
@@ -45,10 +46,10 @@
 	}
 
 	/**
-	 * Creates the elements necessary to show something is a primary term or to make it the primary term
+	 * Creates the elements necessary to show something is a primary term or to make it the primary term.
 	 *
-	 * @param {string} taxonomyName
-	 * @param {Object} checkbox
+	 * @param {string} taxonomyName The taxonomy name.
+	 * @param {Object} checkbox     The checkbox to get label for.
 	 *
 	 * @returns {void}
 	 */
@@ -66,36 +67,33 @@
 	}
 
 	/**
-	 * Updates the primary term selectors/indicators for a certain taxonomy
+	 * Updates the primary term selectors/indicators for a certain taxonomy.
 	 *
-	 * @param {string} taxonomyName
+	 * @param {string} taxonomyName The taxonomy name.
 	 *
 	 * @returns {void}
 	 */
 	function updatePrimaryTermSelectors( taxonomyName ) {
-		var checkedTerms, uncheckedTerms;
+		var checkedTerms;
 		var listItem, label;
 
 		checkedTerms = $( "#" + taxonomyName + 'checklist input[type="checkbox"]:checked' );
-		uncheckedTerms = $( "#" + taxonomyName + 'checklist input[type="checkbox"]:not(:checked)' );
 
-		// Remove all classes for a consistent experience
-		checkedTerms.add( uncheckedTerms ).closest( "li" )
-			.removeClass( "wpseo-term-unchecked" )
-			.removeClass( "wpseo-primary-term" )
-			.removeClass( "wpseo-non-primary-term" );
+		var taxonomyListItem = $( "#" + taxonomyName + "checklist li" );
+		taxonomyListItem.removeClass( "wpseo-term-unchecked wpseo-primary-term wpseo-non-primary-term" );
 
 		$( ".wpseo-primary-category-label" ).remove();
+		taxonomyListItem.addClass( "wpseo-term-unchecked" );
 
 		// If there is only one term selected we don't want to show our interface.
 		if ( checkedTerms.length <= 1 ) {
-			checkedTerms.add( uncheckedTerms ).closest( "li" ).addClass( "wpseo-term-unchecked" );
 			return;
 		}
 
 		checkedTerms.each( function( i, term ) {
 			term = $( term );
 			listItem = term.closest( "li" );
+			listItem.removeClass( "wpseo-term-unchecked" );
 
 			// Create our interface elements if they don't exist.
 			if ( ! hasPrimaryTermElements( term ) ) {
@@ -115,15 +113,12 @@
 				listItem.addClass( "wpseo-non-primary-term" );
 			}
 		} );
-
-		// Hide our interface elements on all unchecked checkboxes.
-		uncheckedTerms.closest( "li" ).addClass( "wpseo-term-unchecked" );
 	}
 
 	/**
-	 * Makes the first term primary for a certain taxonomy
+	 * Makes the first term primary for a certain taxonomy.
 	 *
-	 * @param {string} taxonomyName
+	 * @param {string} taxonomyName The taxonomy name.
 	 *
 	 * @returns {void}
 	 */
@@ -137,7 +132,7 @@
 	/**
 	 * If we check a term while there is no primary term we make that one the primary term.
 	 *
-	 * @param {string} taxonomyName
+	 * @param {string} taxonomyName The taxonomy name.
 	 *
 	 * @returns {void}
 	 */
@@ -148,10 +143,11 @@
 	}
 
 	/**
-	 * Returns the term checkbox handler for a certain taxonomy name
+	 * Returns the term checkbox handler for a certain taxonomy name.
 	 *
-	 * @param {string} taxonomyName
-	 * @returns {Function}
+	 * @param {string} taxonomyName The taxonomy name.
+	 *
+	 * @returns {Function} Event handler for the checkbox.
 	 */
 	function termCheckboxHandler( taxonomyName ) {
 		return function() {
@@ -167,10 +163,11 @@
 	}
 
 	/**
-	 * Returns the term list add handler for a certain taxonomy name
+	 * Returns the term list add handler for a certain taxonomy name.
 	 *
-	 * @param {string} taxonomyName
-	 * @returns {Function}
+	 * @param {string} taxonomyName The taxonomy name.
+	 *
+	 * @returns {Function} The term list add handler.
 	 */
 	function termListAddHandler( taxonomyName ) {
 		return function() {
@@ -180,10 +177,11 @@
 	}
 
 	/**
-	 * Returns the make primary event handler for a certain taxonomy name
+	 * Returns the make primary event handler for a certain taxonomy name.
 	 *
-	 * @param {string} taxonomyName
-	 * @returns {Function}
+	 * @param {string} taxonomyName The taxonomy name.
+	 *
+	 * @returns {Function} The event handler.
 	 */
 	function makePrimaryHandler( taxonomyName ) {
 		return function( e ) {

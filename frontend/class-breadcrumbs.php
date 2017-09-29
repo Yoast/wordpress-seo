@@ -302,11 +302,14 @@ class WPSEO_Breadcrumbs {
 		/** @var WP_Query $wp_query */
 		global $wp_query;
 
-		$this->add_home_crumb();
+		$this->maybe_add_home_crumb();
 		$this->maybe_add_blog_crumb();
 
+		// Ignore coding standards for empty if statement.
+		// @codingStandardsIgnoreStart
 		if ( ( $this->show_on_front === 'page' && is_front_page() ) || ( $this->show_on_front === 'posts' && is_home() ) ) {
 			// Do nothing.
+			// @codingStandardsIgnoreEnd
 		}
 		elseif ( $this->show_on_front == 'page' && is_home() ) {
 			$this->add_blog_crumb();
@@ -350,8 +353,9 @@ class WPSEO_Breadcrumbs {
 			}
 			elseif ( is_author() ) {
 				$user = $wp_query->get_queried_object();
+				$display_name = get_the_author_meta( 'display_name', $user->ID );
 				$this->add_predefined_crumb(
-					$this->options['breadcrumbs-archiveprefix'] . ' ' . $user->display_name,
+					$this->options['breadcrumbs-archiveprefix'] . ' ' . $display_name,
 					null,
 					true
 				);
@@ -434,12 +438,14 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Add Homepage crumb to the crumbs property
 	 */
-	private function add_home_crumb() {
-		$this->add_predefined_crumb(
-			$this->options['breadcrumbs-home'],
-			WPSEO_Utils::home_url(),
-			true
-		);
+	private function maybe_add_home_crumb() {
+		if ( $this->options['breadcrumbs-home'] !== '' ) {
+			$this->add_predefined_crumb(
+				$this->options['breadcrumbs-home'],
+				WPSEO_Utils::home_url(),
+				true
+			);
+		}
 	}
 
 	/**
@@ -862,6 +868,7 @@ class WPSEO_Breadcrumbs {
 
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * Wrapper function for the breadcrumb so it can be output for the supported themes.
 	 *
@@ -886,4 +893,5 @@ class WPSEO_Breadcrumbs {
 	public function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.2.3', 'yoast_breadcrumbs' );
 	}
+	// @codeCoverageIgnoreEnd
 }

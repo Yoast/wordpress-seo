@@ -8,13 +8,18 @@ module.exports = function( grunt ) {
 
 	timeGrunt( grunt );
 
+	let pluginVersion = "5.5.1";
+
 	// Define project configuration
 	var project = {
+		pluginVersion: pluginVersion,
+		pluginSlug: "wordpress-seo",
+		pluginMainFile: "wp-seo.php",
 		paths: {
 			get config() {
 				return this.grunt + "config/";
 			},
-			css: "css/",
+			css: "css/dist/",
 			sass: "css/src/",
 			grunt: "grunt/",
 			images: "images/",
@@ -25,8 +30,8 @@ module.exports = function( grunt ) {
 		files: {
 			sass: [ "<%= paths.sass %>*.scss" ],
 			css: [
-				"css/*.css",
-				"!css/*.min.css",
+				"css/dist/*.css",
+				"!css/dist/*.min.css",
 			],
 			js: [
 				"js/src/**/*.js",
@@ -38,8 +43,13 @@ module.exports = function( grunt ) {
 				"inc/**/*.php",
 			],
 			pot: {
-				yoastseo: "node_modules/yoastseo/languages/yoast-seo.pot",
-				yoastComponents: "<%= paths.languages %>/yoast-components.pot",
+				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
+				yoastComponents: "<%= paths.languages %>yoast-components.pot",
+
+				php: {
+					yoastseojs: "<%= paths.languages %>yoast-seo-js.php",
+					yoastComponents: "<%= paths.languages %>yoast-components.php",
+				},
 			},
 			phptests: "tests/**/*.php",
 			get config() {
@@ -52,6 +62,12 @@ module.exports = function( grunt ) {
 		},
 		pkg: grunt.file.readJSON( "package.json" ),
 	};
+
+	let versionParts = pluginVersion.split( "." );
+	if ( versionParts.length === 2 ) {
+		versionParts.push( 0 );
+	}
+	project.pluginVersionSlug = versionParts.join( "" );
 
 	// Load Grunt configurations and tasks
 	loadGruntConfig( grunt, {

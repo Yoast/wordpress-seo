@@ -48,11 +48,11 @@ class WPSEO_Taxonomy_Columns {
 			$new_columns[ $column_name ] = $column_value;
 
 			if ( $column_name === 'description' && $this->analysis_seo->is_enabled() ) {
-				$new_columns['wpseo_score'] = __( 'SEO', 'wordpress-seo' );
+				$new_columns['wpseo-score'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'SEO score', 'wordpress-seo' ) . '"><span class="yoast-column-seo-score yoast-column-header-has-tooltip"><span class="screen-reader-text">' . __( 'SEO score', 'wordpress-seo' ) . '</span></span></span>';
 			}
 
 			if ( $column_name === 'description' && $this->analysis_readability->is_enabled() ) {
-				$new_columns['wpseo_score_readability'] = __( 'Readability', 'wordpress-seo' );
+				$new_columns['wpseo-score-readability'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'Readability score', 'wordpress-seo' ) . '"><span class="yoast-column-readability yoast-column-header-has-tooltip"><span class="screen-reader-text">' . __( 'Readability score', 'wordpress-seo' ) . '</span></span></span>';
 			}
 		}
 
@@ -71,12 +71,12 @@ class WPSEO_Taxonomy_Columns {
 	public function parse_column( $content, $column_name, $term_id ) {
 
 		switch ( $column_name ) {
-			case 'wpseo_score':
+			case 'wpseo-score':
 				return $this->get_score_value( $term_id );
 
 				break;
 
-			case 'wpseo_score_readability':
+			case 'wpseo-score-readability':
 				return $this->get_score_readability_value( $term_id );
 				break;
 		}

@@ -1,6 +1,7 @@
 /* global wpseoAdminL10n, ajaxurl, tb_remove, wpseoSelect2Locale */
 
 import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
+import a11ySpeak from "a11y-speak";
 
 ( function() {
 	"use strict";
@@ -8,11 +9,13 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 	/**
 	 * Detects the wrong use of variables in title and description templates
 	 *
-	 * @param {element} e
+	 * @param {element} e The element to verify.
+	 *
+	 * @returns {void}
 	 */
 	function wpseoDetectWrongVariables( e ) {
 		var warn = false;
-		var error_id = "";
+		var errorId = "";
 		var wrongVariables = [];
 		var authorVariables = [ "userid", "name", "user_description" ];
 		var dateVariables = [ "date" ];
@@ -42,21 +45,24 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "searchphrase" ] );
 		}
 		jQuery.each( wrongVariables, function( index, variable ) {
-			error_id = e.attr( "id" ) + "-" + variable + "-warning";
+			errorId = e.attr( "id" ) + "-" + variable + "-warning";
 			if ( e.val().search( "%%" + variable + "%%" ) !== -1 ) {
 				e.addClass( "wpseo-variable-warning-element" );
 				var msg = wpseoAdminL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
-				if ( jQuery( "#" + error_id ).length ) {
-					jQuery( "#" + error_id ).html( msg );
+				if ( jQuery( "#" + errorId ).length ) {
+					jQuery( "#" + errorId ).html( msg );
 				}
 				else {
-					e.after( ' <div id="' + error_id + '" class="wpseo-variable-warning" aria-live="assertive">' + msg + "</div>" );
+					e.after( ' <div id="' + errorId + '" class="wpseo-variable-warning">' + msg + "</div>" );
 				}
+
+				a11ySpeak( wpseoAdminL10n.variable_warning.replace( "%s", variable ), "assertive" );
+
 				warn = true;
 			}
 			else {
-				if ( jQuery( "#" + error_id ).length ) {
-					jQuery( "#" + error_id ).remove();
+				if ( jQuery( "#" + errorId ).length ) {
+					jQuery( "#" + errorId ).remove();
 				}
 			}
 		}
@@ -69,10 +75,12 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 	/**
 	 * Sets a specific WP option
 	 *
-	 * @param {string} option The option to update
-	 * @param {string} newval The new value for the option
-	 * @param {string} hide The ID of the element to hide on success
-	 * @param {string} nonce The nonce for the action
+	 * @param {string} option The option to update.
+	 * @param {string} newval The new value for the option.
+	 * @param {string} hide   The ID of the element to hide on success.
+	 * @param {string} nonce  The nonce for the action.
+	 *
+	 * @returns {void}
 	 */
 	function setWPOption( option, newval, hide, nonce ) {
 		jQuery.post( ajaxurl, {
@@ -91,11 +99,14 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 	/**
 	 * Do the kill blocking files action
 	 *
-	 * @param {string} nonce
+	 * @param {string} nonce Nonce to validate request.
+	 *
+	 * @returns {void}
 	 */
 	function wpseoKillBlockingFiles( nonce ) {
 		jQuery.post( ajaxurl, {
 			action: "wpseo_kill_blocking_files",
+			// eslint-disable-next-line
 			_ajax_nonce: nonce,
 		} ).done( function( response ) {
 			var noticeContainer = jQuery( ".yoast-notice-blocking-files" ),
@@ -115,6 +126,8 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 	/**
 	 * Copies the meta description for the homepage
+	 *
+	 * @returns {void}
 	 */
 	function wpseoCopyHomeMeta() {
 		jQuery( "#og_frontpage_desc" ).val( jQuery( "#meta_description" ).val() );
@@ -122,6 +135,8 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 	/**
 	 * Makes sure we store the action hash so we can return to the right hash
+	 *
+	 * @returns {void}
 	 */
 	function wpseoSetTabHash() {
 		var conf = jQuery( "#wpseo-conf" );
@@ -137,40 +152,37 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 	jQuery( window ).on( "hashchange", wpseoSetTabHash );
 
 	/**
-	 * When the hash changes, get the base url from the action and then add the current hash
-	 */
-	jQuery( document ).on( "ready", wpseoSetTabHash );
-
-	/**
 	 * Add a Facebook admin for via AJAX.
+	 *
+	 * @returns {void}
 	 */
-	function wpseo_add_fb_admin() {
-		var target_form = jQuery( "#TB_ajaxContent" );
+	function wpseoAddFbAdmin() {
+		var targetForm = jQuery( "#TB_ajaxContent" );
 
 		jQuery.post(
 			ajaxurl,
 			{
-				_wpnonce: target_form.find( "input[name=fb_admin_nonce]" ).val(),
-				admin_name: target_form.find( "input[name=fb_admin_name]" ).val(),
-				admin_id: target_form.find( "input[name=fb_admin_id]" ).val(),
+				_wpnonce: targetForm.find( "input[name=fb_admin_nonce]" ).val(),
+				admin_name: targetForm.find( "input[name=fb_admin_name]" ).val(),
+				admin_id: targetForm.find( "input[name=fb_admin_id]" ).val(),
 				action: "wpseo_add_fb_admin",
 			},
 			function( response ) {
 				var resp = jQuery.parseJSON( response );
 
-				target_form.find( "p.notice" ).remove();
+				targetForm.find( "p.notice" ).remove();
 
 				switch ( resp.success ) {
 					case 1:
 
-						target_form.find( "input[type=text]" ).val( "" );
+						targetForm.find( "input[type=text]" ).val( "" );
 
 						jQuery( "#user_admin" ).append( resp.html );
 						jQuery( "#connected_fb_admins" ).show();
 						tb_remove();
 						break;
 					case 0 :
-						target_form.find( ".form-wrap" ).prepend( resp.html );
+						targetForm.find( ".form-wrap" ).prepend( resp.html );
 						break;
 				}
 			}
@@ -179,6 +191,8 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 	/**
 	 * Adds select2 for selected fields.
+	 *
+	 * @returns {void}
 	 */
 	function initSelect2() {
 		var select2Width = "400px";
@@ -210,6 +224,8 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 	/**
 	 * Set the initial active tab in the settings pages.
+	 *
+	 * @returns {void}
 	 */
 	function setInitialActiveTab() {
 		var activeTabId = window.location.hash.replace( "#top#", "" );
@@ -235,36 +251,63 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
-	window.wpseo_add_fb_admin = wpseo_add_fb_admin;
+	// eslint-disable-next-line
+	window.wpseoAddFbAdmin = wpseoAddFbAdmin;
+	window.wpseo_add_fb_admin = wpseoAddFbAdmin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
+		/**
+		 * When the hash changes, get the base url from the action and then add the current hash.
+		 */
+		wpseoSetTabHash();
 
 		initializeAlgoliaSearch();
 
-		// events
+		// Toggle the XML sitemap section.
 		jQuery( "#enablexmlsitemap" ).change( function() {
 			jQuery( "#sitemapinfo" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
+		// Toggle the Author archives section.
+		jQuery( "#disable-author input[type='radio']" ).change( function() {
+			// The value on is disabled, off is enabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
+			}
+		} ).change();
+
+		// Toggle the Date archives section.
+		jQuery( "#disable-date input[type='radio']" ).change( function() {
+			// The value on is disabled, off is enabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
+			}
+		} ).change();
+
+		// Toggle the Format-based archives section.
 		jQuery( "#disable-post_format" ).change( function() {
 			jQuery( "#post_format-titles-metas" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
+		// Toggle the Breadcrumbs section.
 		jQuery( "#breadcrumbs-enable" ).change( function() {
 			jQuery( "#breadcrumbsinfo" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
+		// Toggle the Author / user sitemap section.
 		jQuery( "#disable_author_sitemap" ).find( "input:radio" ).change( function() {
 			if ( jQuery( this ).is( ":checked" ) ) {
 				jQuery( "#xml_user_block" ).toggle( jQuery( this ).val() === "off" );
 			}
 		} ).change();
 
+		// Toggle the Redirect ugly URLs to clean permalinks section.
 		jQuery( "#cleanpermalinks" ).change( function() {
 			jQuery( "#cleanpermalinksdiv" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
+		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
 			jQuery( ".wpseotab" ).removeClass( "active" );
@@ -274,6 +317,7 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 			jQuery( this ).addClass( "nav-tab-active" );
 		} );
 
+		// Handle the Company or Person select.
 		jQuery( "#company_or_person" ).change( function() {
 			var companyOrPerson = jQuery( this ).val();
 			if ( "company" === companyOrPerson ) {
@@ -290,6 +334,7 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 			}
 		} ).change();
 
+		// Check correct variables usage in title and description templates.
 		jQuery( ".template" ).change( function() {
 			wpseoDetectWrongVariables( jQuery( this ) );
 		} ).change();

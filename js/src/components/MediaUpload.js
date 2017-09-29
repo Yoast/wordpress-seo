@@ -1,6 +1,7 @@
 /* global wp */
 
 import React from "react";
+import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import { localize } from "yoast-components/utils/i18n";
 
@@ -135,12 +136,12 @@ class MediaUpload extends React.Component {
  * Adds validation for the properties.
  */
 MediaUpload.propTypes = {
-	translate: React.PropTypes.func.isRequired,
-	name: React.PropTypes.string.isRequired,
-	value: React.PropTypes.any,
-	onChange: React.PropTypes.func,
-	properties: React.PropTypes.shape( {
-		label: React.PropTypes.string,
+	translate: PropTypes.func.isRequired,
+	name: PropTypes.string.isRequired,
+	value: PropTypes.any,
+	onChange: PropTypes.func,
+	properties: PropTypes.shape( {
+		label: PropTypes.string,
 	} ),
 };
 

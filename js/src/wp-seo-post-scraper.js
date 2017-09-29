@@ -2,13 +2,14 @@
 
 import PostDataCollector from "./analysis/PostDataCollector";
 import { tmceId } from "./wp-seo-tinymce";
+import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 
 var isUndefined = require( "lodash/isUndefined" );
 
 var getIndicatorForScore = require( "./analysis/getIndicatorForScore" );
 var TabManager = require( "./analysis/tabManager" );
 
-var tmceHelper = require( "./wp-seo-tinymce" );
+var tinyMCEHelper = require( "./wp-seo-tinymce" );
 
 var tinyMCEDecorator = require( "./decorator/tinyMCE" ).tinyMCEDecorator;
 var publishBox = require( "./ui/publishBox" );
@@ -27,6 +28,10 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 ( function( $ ) {
 	"use strict";
 
+	if ( typeof wpseoPostScraperL10n === "undefined" ) {
+		return;
+	}
+
 	var snippetContainer;
 
 	var titleElement;
@@ -39,8 +44,10 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
+	 *
 	 * @param {Object} response The AJAX response object.
-	 * @returns {String}
+	 *
+	 * @returns {String} The url path.
 	 */
 	function getUrlPathFromResponse( response ) {
 		if ( response.responseText === "" ) {
@@ -57,8 +64,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	 * If the response matches with permalink string, the snippet can be rendered.
 	 */
 	jQuery( document ).on( "ajaxComplete", function( ev, response, ajaxOptions ) {
-		var ajax_end_point = "/admin-ajax.php";
-		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
+		var ajaxEndPoint = "/admin-ajax.php";
+		if ( ajaxEndPoint !== ajaxOptions.url.substr( 0 - ajaxEndPoint.length ) ) {
 			return;
 		}
 
@@ -75,8 +82,9 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	/**
 	 * Initializes the snippet preview.
 	 *
-	 * @param {PostDataCollector} postScraper
-	 * @returns {SnippetPreview}
+	 * @param {PostDataCollector} postScraper Object for getting post data.
+	 *
+	 * @returns {SnippetPreview} The created snippetpreview element.
 	 */
 	function initSnippetPreview( postScraper ) {
 		return snippetPreviewHelpers.create( snippetContainer, {
@@ -88,7 +96,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	/**
 	 * Determines if markers should be shown.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
 		return wpseoPostScraperL10n.show_markers === "1";
@@ -97,7 +105,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	/**
 	 * Returns the marker callback method for the assessor.
 	 *
-	 * @returns {*|bool}
+	 * @returns {*|bool} False when tinyMCE is undefined or when there are no markers.
 	 */
 	function getMarker() {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
@@ -107,7 +115,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		}
 
 		return function( paper, marks ) {
-			if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
+			if ( tinyMCEHelper.isTinyMCEAvailable( tmceId ) ) {
 				if ( null === decorator ) {
 					decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
 				}
@@ -120,9 +128,9 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {App} app The App object.
+	 * @param {App} app                       The App object.
 	 * @param {PostDataCollector} postScraper The post scraper object.
-	 * @param {Object} publishBox The publish box object.
+	 * @param {Object} publishBox             The publish box object.
 	 *
 	 * @returns {void}
 	 */
@@ -260,7 +268,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 			callbacks: {
 				getData: postDataCollector.getData.bind( postDataCollector ),
 			},
-			locale: wpseoPostScraperL10n.locale,
+			locale: wpseoPostScraperL10n.contentLocale,
 			marker: getMarker(),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
@@ -298,11 +306,12 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		window.YoastSEO.app = app;
 
 		// Init Plugins.
-		YoastSEO.wp = {};
-		YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
-		YoastSEO.wp.shortcodePlugin = shortcodePlugin;
+		window.YoastSEO.wp = {};
+		window.YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
+		window.YoastSEO.wp.shortcodePlugin = shortcodePlugin;
 
 		window.YoastSEO.wp._tabManager = tabManager;
+		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
 	}
 
 	/**
@@ -336,6 +345,11 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	function initializePostAnalysis() {
 		snippetContainer = $( "#wpseosnippet" );
 
+		// Avoid error when snippet metabox is not rendered.
+		if ( snippetContainer.length === 0 ) {
+			return;
+		}
+
 		tabManager = initializeTabManager();
 		postDataCollector = initializePostDataCollector();
 		publishBox.initalise();
@@ -349,13 +363,27 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
 		let shortcodePlugin = new YoastShortcodePlugin( app );
 
+		if ( wpseoPostScraperL10n.markdownEnabled ) {
+			let markdownPlugin = new YoastMarkdownPlugin( app );
+			markdownPlugin.register();
+		}
+
 		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
 
-		tmceHelper.wpTextViewOnInitCheck();
+		tinyMCEHelper.wpTextViewOnInitCheck();
 
 		activateEnabledAnalysis( tabManager );
 
 		jQuery( window ).trigger( "YoastSEO:ready" );
+
+		/*
+		 * Checks the snippet preview size and toggles views when the WP admin menu state changes.
+		 * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
+		 * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
+		 */
+		jQuery( document ).on( "wp-collapse-menu wp-menu-state-set", function() {
+			app.snippetPreview.handleWindowResizing();
+		} );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
@@ -366,6 +394,14 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
 			snippetPreviewHelpers.isolate( snippetContainer );
 		}
+
+		// Switch between assessors when checkbox has been checked.
+		let cornerstoneCheckbox = jQuery( "#_yst_is_cornerstone" );
+		app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
+		cornerstoneCheckbox.change( function() {
+			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
+		} );
+
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

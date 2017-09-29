@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '3.7.0' );
+define( 'WPSEO_VERSION', '5.5.1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -165,14 +165,25 @@ function _wpseo_activate() {
 		$wpseo_rewrite->schedule_flush();
 	}
 
-	wpseo_add_capabilities();
+	do_action( 'wpseo_register_roles' );
+	WPSEO_Role_Manager_Factory::get()->add();
+
+	do_action( 'wpseo_register_capabilities' );
+	WPSEO_Capability_Manager_Factory::get()->add();
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
 
+	// Create the text link storage table.
+	$link_installer = new WPSEO_Link_Installer();
+	$link_installer->install();
+
+	// Trigger reindex notification.
+	$notifier = new WPSEO_Link_Notifier();
+	$notifier->manage_notification();
+
 	do_action( 'wpseo_activate' );
 }
-
 /**
  * On deactivation, flush the rewrite rules so XML sitemaps stop working.
  */
@@ -186,7 +197,13 @@ function _wpseo_deactivate() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
-	wpseo_remove_capabilities();
+	// Register capabilities, to make sure they are cleaned up.
+	do_action( 'wpseo_register_roles' );
+	do_action( 'wpseo_register_capabilities' );
+
+	// Clean up capabilities.
+	WPSEO_Role_Manager_Factory::get()->remove();
+	WPSEO_Capability_Manager_Factory::get()->remove();
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
@@ -278,10 +295,20 @@ function wpseo_init() {
 function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
 	if ( WPSEO_Utils::is_api_available() ) {
-		// Boot up REST API endpoints.
+		// Boot up REST API.
 		$configuration_service = new WPSEO_Configuration_Service();
-		$configuration_service->set_default_providers();
-		$configuration_service->register_hooks();
+		$configuration_service->initialize();
+
+		$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
+		$link_reindex_endpoint->register();
+
+		$statistics_service = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
+		$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
+		$statistics_endpoint->register();
+
+		$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
+		$ryte_endpoint = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
+		$ryte_endpoint->register();
 	}
 }
 
@@ -341,20 +368,9 @@ if ( ! $filter_exists ) {
 	add_action( 'admin_init', 'yoast_wpseo_missing_filter', 1 );
 }
 
-if ( ! function_exists( 'wp_installing' ) ) {
-	/**
-	 * We need to define wp_installing in WordPress versions older than 4.4
-	 *
-	 * @return bool
-	 */
-	function wp_installing() {
-		return defined( 'WP_INSTALLING' );
-	}
-}
-
 if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
-	add_action( 'init', 'wpseo_init_rest_api' );
+	add_action( 'rest_api_init', 'wpseo_init_rest_api' );
 
 	if ( is_admin() ) {
 
@@ -387,9 +403,16 @@ register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 
-// Loading OnPage integration.
+// Loading Ryte integration.
 new WPSEO_OnPage();
 
+// Registers SEO capabilities.
+$register_capabilities = new WPSEO_Register_Capabilities();
+$register_capabilities->register_hooks();
+
+// Registers SEO roles.
+$register_capabilities = new WPSEO_Register_Roles();
+$register_capabilities->register_hooks();
 
 /**
  * Wraps for notifications center class.

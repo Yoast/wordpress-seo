@@ -25,7 +25,8 @@ class WPSEO_Import_WPSEO_Hooks extends  WPSEO_Import_Hooks {
 	 */
 	public function show_import_settings_notice() {
 		$url = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'wpseo-import' ) ), admin_url( 'admin.php?page=wpseo_tools&tool=import-export&import=1&importwpseo=1#top#import-seo' ) );
-		echo '<div class="error"><p>', sprintf( esc_html__( 'The plugin wpSEO has been detected. Do you want to %simport its settings%s?', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( $url ) ), '</a>' ), '</p></div>';
+		/* translators: 1: link open tag; 2: link close tag. */
+		echo '<div class="error"><p>', sprintf( esc_html__( 'The plugin wpSEO has been detected. Do you want to %1$simport its settings%2$s?', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( $url ) ), '</a>' ), '</p></div>';
 	}
 
 	/**

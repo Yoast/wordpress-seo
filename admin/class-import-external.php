@@ -87,9 +87,6 @@ class WPSEO_Import_External {
 				if ( isset( $custom['_headspace_noarchive'] ) ) {
 					$robotsmeta_adv .= 'noarchive,';
 				}
-				if ( isset( $custom['_headspace_noodp'] ) ) {
-					$robotsmeta_adv .= 'noodp,';
-				}
 				$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
 				WPSEO_Meta::set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
 			}

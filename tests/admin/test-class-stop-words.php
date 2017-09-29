@@ -7,6 +7,7 @@ class WPSEO_Admin_Stop_WordsTest extends PHPUnit_Framework_TestCase {
 	protected $subject;
 
 	public function setUp() {
+		parent::setUp();
 		$this->subject = new WPSEO_Admin_Stop_Words();
 	}
 

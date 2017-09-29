@@ -17,7 +17,7 @@ module.exports = {
 	},
 	js: {
 		src: [
-			"<%= files.pot.yoastseo %>",
+			"<%= files.pot.yoastseojs %>",
 			"<%= files.pot.yoastComponents %>",
 		],
 		dest: "languages",

@@ -6,7 +6,7 @@
 /**
  * Represents the SEO analysis
  */
-class WPSEO_Metabox_Analysis_SEO implements WPSEO_Metabox_Analysis{
+class WPSEO_Metabox_Analysis_SEO implements WPSEO_Metabox_Analysis {
 
 	/**
 	 * Whether this analysis is enabled.
@@ -32,8 +32,8 @@ class WPSEO_Metabox_Analysis_SEO implements WPSEO_Metabox_Analysis{
 	 * @return bool Whether or not this analysis is enabled globally.
 	 */
 	public function is_globally_enabled() {
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+		$options = WPSEO_Options::get_option( 'wpseo' );
 
-		return (bool) $options['keyword-analysis-active'];
+		return (bool) $options['keyword_analysis_active'];
 	}
 }

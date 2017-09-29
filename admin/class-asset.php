@@ -167,8 +167,7 @@ class WPSEO_Admin_Asset {
 			return '';
 		}
 
-		if ( ! $this->get_suffix() ) {
-
+		if ( 'development' !== YOAST_ENVIRONMENT && ! $this->get_suffix() ) {
 			$plugin_path = plugin_dir_path( $plugin_file );
 			if ( ! file_exists( $plugin_path . $relative_path ) ) {
 
@@ -212,10 +211,9 @@ class WPSEO_Admin_Asset {
 			case self::TYPE_CSS:
 				// Path and suffix for RTL stylesheets.
 				if ( function_exists( 'is_rtl' ) && is_rtl() && $this->has_rtl() ) {
-					$rtl_path = 'dist/';
 					$rtl_suffix = '-rtl';
 				}
-				$relative_path = 'css/' . $rtl_path . $this->get_src() . $rtl_suffix . $suffix . '.css';
+				$relative_path = 'css/dist/' . $this->get_src() . $rtl_suffix . $suffix . '.css';
 				break;
 		}
 
