@@ -59,7 +59,6 @@
 	&-button {
 
 		&--extension {
-			cursor: default;
 			color: $color-white;
 			text-transform: uppercase;
 			padding-left: 0.8em;
@@ -122,6 +121,7 @@
 
 	&-promo-extension {
 		max-width: 340px;
+		padding-bottom: 120px;
 		background-color: transparent;
 		border-color: $scheme-academy-secondary;
 		margin-left: $gutter;
@@ -142,8 +142,15 @@
 
 
 		.yoast {
-			&-list--usp {
-				height: 160px;
+			&-button-container {
+				position: absolute;
+				bottom: 20px;
+				left: 20px;
+				right: 20px;
+
+				div.yoast-button--extension {
+					cursor: default;
+				}
 			}
 		}
 

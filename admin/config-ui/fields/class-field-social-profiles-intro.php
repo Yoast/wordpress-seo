@@ -20,7 +20,7 @@ class WPSEO_Config_Field_Social_Profiles_Intro extends WPSEO_Config_Field {
  These will be used in Google\'s Knowledge Graph. There are additional
  sharing options in the advanced settings. More %2$sinfo%3$s.', 'wordpress-seo' ),
 			'Yoast SEO',
-			'<a href="https://yoa.st/1ey">',
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1ey' ) . '">',
 			'</a>'
 		);
 

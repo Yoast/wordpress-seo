@@ -102,11 +102,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * @return string The page to use.
 	 */
 	public function get_license_page() {
-		if ( $this->get_version() === self::VERSION_BACKWARDS_COMPATIBILITY ) {
-			return 'licenses';
-		}
-
-		return 'licenses-legacy';
+		return 'licenses';
 	}
 
 	/**
@@ -196,7 +192,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 			sprintf(
 				__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
 				$product_name,
-				'<a href="https://yoa.st/13j" target="_blank">My Yoast</a>'
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/13j' ) . '" target="_blank">My Yoast</a>'
 			),
 			$notification_options
 		);

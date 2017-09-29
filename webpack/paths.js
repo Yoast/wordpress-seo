@@ -25,7 +25,8 @@ const entryAll = {
 	"wp-seo-shortcode-plugin": "./wp-seo-shortcode-plugin.js",
 	"wp-seo-term-scraper": "./wp-seo-term-scraper.js",
 	"wp-seo-api": "./wp-seo-api.js",
-	"wp-seo-dashbaord-widget": "./wp-seo-dashboard-widget.js",
+	"wp-seo-dashboard-widget": "./wp-seo-dashboard-widget.js",
+	"wp-seo-filter-explanation": "./wp-seo-filter-explanation.js",
 };
 
 // Output filename: Entry file (relative to jsSrcPath)
