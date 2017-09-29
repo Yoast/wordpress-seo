@@ -6,7 +6,7 @@
 /**
  * Registers the filter for filtering posts by orphaned content.
  */
-class WPSEO_Premium_Orphaned_Filter extends WPSEO_Abstract_Post_Filter {
+class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 
 	/**
 	 * Returns the query value this filter uses.
