@@ -74,8 +74,8 @@ export function addButtonStyles( component ) {
  *
  * @returns {ReactElement} The button with inner span.
  */
-const YoastButtonBase = ( { className, onClick, type, children } ) => (
-	<button className={ className } onClick={ onClick } type={ type }>
+const YoastButtonBase = ( { className, onClick, type, children, isExpanded } ) => (
+	<button className={ className } onClick={ onClick } type={ type } aria-expanded={ isExpanded }>
 		<span>
 			{ children }
 		</span>
@@ -86,7 +86,12 @@ YoastButtonBase.propTypes = {
 	className: PropTypes.string,
 	onClick: PropTypes.func,
 	type: PropTypes.string,
-	children: PropTypes.node,
+	isExpanded: PropTypes.bool,
+	children: PropTypes.oneOfType( [
+		PropTypes.arrayOf( PropTypes.node ),
+		PropTypes.node,
+		PropTypes.string,
+	] ),
 };
 
 YoastButtonBase.defaultProps = {
