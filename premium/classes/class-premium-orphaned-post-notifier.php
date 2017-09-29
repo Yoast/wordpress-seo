@@ -111,7 +111,8 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 	 * @return Yoast_Notification The notification.
 	 */
 	protected function get_notification( $notification_id, $post_type ) {
-		$total_orphaned = $this->get_count_by_post_type( $post_type->name );
+		$total_orphaned  = $this->get_count_by_post_type( $post_type->name );
+		$post_type_value = ( $total_orphaned === 1 ) ? $post_type->labels->singular_name : $post_type->labels->name;
 
 		$message = sprintf(
 			/* translators: %1$s: Link to the filter page, %2$d: amount of orphaned items, %3$s: plural/singular form of post type, %4$s closing tag.  */
@@ -123,7 +124,7 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 			),
 			 '<a href="' . $this->get_filter_url( $post_type->name ) . '">',
 			$total_orphaned,
-			_n( strtolower( $post_type->labels->singular_name ), strtolower( $post_type->labels->name ), $total_orphaned, 'wordpress-seo-premium' ),
+			strtolower( $post_type_value ),
 			'</a>'
 		);
 
