@@ -34,7 +34,7 @@ const YoastTabsContainer = styled( Tabs )`
 
 	.react-tabs__tab-panel {
 		display: none;
-		padding: 18px 20px;
+		padding: 16px;
 
 		:focus {
 			outline: none;
