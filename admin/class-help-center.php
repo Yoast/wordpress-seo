@@ -46,6 +46,10 @@ class WPSEO_Help_Center {
 	 */
 	public static function get_translated_texts() {
 		return array(
+			'translations' => array(
+				'locale' => 'default',
+				'translationId' => __( 'Translated sentence', 'wordpress-seo' ),
+			),
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
 			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
 			'contentLocale' => get_locale(),
