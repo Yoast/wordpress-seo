@@ -6,21 +6,23 @@
 /**
  * Represents the notifier when there is orphaned content present for one of the post types.
  */
-class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integration {
+class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integration {
 
 	/** @var Yoast_Notification_Center */
 	protected $notification_center;
 
-	/** @var array */
-	protected $post_type_counts = array();
+	/** @var WP_Post_Type[]  */
+	protected $post_types = array();
 
 	/**
 	 * WPSEO_Premium_Orphaned_Content_Notifier constructor.
 	 *
+	 * @param array                     $post_types          The supported post types.
 	 * @param Yoast_Notification_Center $notification_center The notification center object.
 	 */
-	public function __construct( Yoast_Notification_Center $notification_center ) {
+	public function __construct( array $post_types, Yoast_Notification_Center $notification_center ) {
 		$this->notification_center = $notification_center;
+		$this->post_types = $post_types;
 	}
 
 	/**
@@ -38,7 +40,6 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 		}
 
 		add_action( 'wpseo-premium-orphaned-content', array( $this, 'notify' ) );
-
 	}
 
 	/**
@@ -47,12 +48,26 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 * @return void
 	 */
 	public function notify() {
-		$this->post_type_counts = WPSEO_Premium_Orphaned_Content_Query::get_post_type_counts( $this->get_post_types() );
+		$post_types = $this->format_post_types( $this->post_types );
+		// Walks over the posts types and handle the notification.
+		array_walk( $post_types, array( $this, 'notify_for_post_type' ) );
+	}
 
-		// Loops over the posts types and handle the notification.
-		foreach ( $this->get_post_types() as $post_type ) {
-			$this->notify_for_post_type( get_post_type_object( $post_type ) );
-		}
+	/**
+	 * Formats the array with post types as an array with post type objects.
+	 *
+	 * It also filters out the null values, because these are unknown post types.
+	 *
+	 * @param array $post_types Array with post type names.
+	 *
+	 * @return WP_Post_Type[] The formatted posttypes.
+	 */
+	protected function format_post_types( array $post_types ) {
+		// First convert the array to post type objects.
+		$post_type_objects = array_map( 'get_post_type_object', $post_types );
+
+		// The unknown post types will have a value of null, filter these.
+		return array_filter( $post_type_objects );
 	}
 
 	/**
@@ -124,15 +139,6 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	}
 
 	/**
-	 * Returns the supported post types.
-	 *
-	 * @return array The supported post types.
-	 */
-	protected function get_post_types() {
-		return array( 'post', 'page' );
-	}
-
-	/**
 	 * Returns the total number of orphaned items for given post type name.
 	 *
 	 * @param string $post_type_name The name of the post type.
@@ -140,8 +146,14 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 * @return int Total orphaned items.
 	 */
 	protected function get_count_by_post_type( $post_type_name ) {
-		if ( array_key_exists( $post_type_name, $this->post_type_counts ) ) {
-			return (int) $this->post_type_counts[ $post_type_name ];
+		static $post_type_counts;
+
+		if ( ! $post_type_counts ) {
+			$post_type_counts = WPSEO_Premium_Orphaned_Post_Query::get_counts( $this->post_types );
+		}
+
+		if ( array_key_exists( $post_type_name, $post_type_counts ) ) {
+			return (int) $post_type_counts[ $post_type_name ];
 		}
 
 		return 0;

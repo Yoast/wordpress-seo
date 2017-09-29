@@ -4,9 +4,9 @@
  */
 
 /**
- * Represents the orphaned content query methods.
+ * Represents the orphaned post query methods.
  */
-class WPSEO_Premium_Orphaned_Content_Query {
+class WPSEO_Premium_Orphaned_Post_Query {
 
 	/**
 	 * Returns the total number of orphaned items for the given post types.
@@ -15,7 +15,7 @@ class WPSEO_Premium_Orphaned_Content_Query {
 	 *
 	 * @return array The counts for all post types.
 	 */
-	public static function get_post_type_counts( array $post_types ) {
+	public static function get_counts( array $post_types ) {
 		global $wpdb;
 
 		$post_ids = self::get_orphaned_object_ids();
