@@ -54,7 +54,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	protected function get_explanation() {
 		return sprintf(
 			/* translators: %1$s expands anchor to knowledge base article, %2$s expands to </a> */
-			__( 'You can mark the most important articles or pages on your website as \'cornerstone content\' to improve your site structure. %1$sRead more about cornerstone content%2$s.', 'wordpress-seo' ),
+			__( 'You can mark the most important articles or pages on your website as \'cornerstone content\' to improve your site structure. %1$sLearn more about cornerstone content%2$s.', 'wordpress-seo' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1i9' ) . '" target="_blank">',
 			'</a>'
 		);
