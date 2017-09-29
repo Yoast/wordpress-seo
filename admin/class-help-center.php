@@ -29,12 +29,10 @@ class WPSEO_Help_Center {
 	}
 
 	/**
-	 * Outputs the help center.
+	 * Outputs the help center div.
 	 */
 	public function output_help_center() {
-        ?>
-            <div id="yoast-help-center">Loading help center.</div>
-		<?php
+		echo '<div id="yoast-help-center">Loading help center.</div>';
 	}
 
 	/**
@@ -47,9 +45,10 @@ class WPSEO_Help_Center {
 	public static function get_translated_texts() {
 		return array(
 			'translations' => array(
-				'locale' => 'default',
+				'locale' => get_locale(),
 				'translationId' => __( 'Translated sentence', 'wordpress-seo' ),
 			),
+			'plugin_version' => WPSEO_VERSION,
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
 			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
 			'contentLocale' => get_locale(),

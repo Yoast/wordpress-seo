@@ -7,6 +7,21 @@ import { IntlProvider, injectIntl, intlShape, addLocaleData } from "react-intl";
 addLocaleData( wpseoHelpCenter.translations );
 
 class IntlTest extends React.Component {
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			videoUrl: null,
+		};
+
+		window.addEventListener( "hashchange", this.tabChanged.bind( this ) );
+	}
+
+	tabChanged() {
+		const tabId = location.hash.replace( "#top#", "" );
+		this.setState( { videoUrl: this.props.tabData[ tabId ].video_url } );
+	}
+
 	render() {
 		const translation = this.props.intl.formatMessage( {
 			id: "translationId",
@@ -24,9 +39,9 @@ const Test = injectIntl( IntlTest );
 
 ReactDOM.render(
 	<IntlProvider
-		locale="default"
+		locale={ wpseoHelpCenter.translations.locale }
 		messages={ wpseoHelpCenter.translations }>
-    	<Test />
+    	<Test tabData={ window.wpseoOptionTabData } />
 	</IntlProvider>,
-    document.getElementById( "yoast-help-center" ),
+    document.getElementById( "yoast-help-center" )
 );
