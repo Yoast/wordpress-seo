@@ -45,7 +45,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 	 * Get the Yoast SEO capabilities.
 	 * Optionally append them to an existing array.
 	 *
-	 * @param  array $caps
+	 * @param  array $caps Optional existing capability list.
 	 * @return array
 	 */
 	public function get_capabilities( $caps = array() ) {
