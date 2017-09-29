@@ -98,11 +98,11 @@ export default function VideoTutorial( props ) {
 					title={ props.title } />
 			</VideoContainer>
 			<VideoDescriptions>
-				{ props.items.map( item => {
+				{ props.paragraphs.map( paragraph => {
 					return (
 						<VideoDescriptionItem
-							key={ item.link }
-							{ ...item } />
+							key={ paragraph.link }
+							{ ...paragraph } />
 					);
 				} ) }
 			</VideoDescriptions>
@@ -113,7 +113,7 @@ export default function VideoTutorial( props ) {
 VideoTutorial.propTypes = {
 	src: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
-	items: PropTypes.arrayOf(
+	paragraphs: PropTypes.arrayOf(
 		PropTypes.shape(
 			VideoDescriptionItem.propTypes
 		)
