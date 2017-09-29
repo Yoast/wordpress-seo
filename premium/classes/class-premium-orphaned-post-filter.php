@@ -18,6 +18,23 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
+	 * Returns a text explaining this filter.
+	 *
+	 * @return string The explanation.
+	 */
+	protected function get_explanation() {
+		$post_type_object = get_post_type_object( $this->get_current_post_type() );
+
+		return sprintf(
+			/* translators: %2$s expands anchor to knowledge base article, %3$s expands to </a> */
+			__( '\'Orphaned content\' refers to %1$s that have no inbound links, consider adding links towards these %1$s. %2$sLearn more%3$s.', 'wordpress-seo' ),
+			strtolower( $post_type_object->labels->name ),
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1ja' ) . '" target="_blank">',
+			'</a>'
+		);
+	}
+
+	/**
 	 * Modifies the query based on the seo_filter variable in $_GET
 	 *
 	 * @param string $where Query variables.
