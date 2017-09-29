@@ -17,4 +17,9 @@ describe( "splits English sentences into parts", function() {
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is praise due." );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
 	} );
+	it ( "split sentences on stop characters", function() {
+		var sentence = "It is a hands-free, voice-controlled device.";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is a hands-free" );
+		expect( getSentenceParts( sentence ).length ).toBe( 1 );
+	} );
 } );
