@@ -17,7 +17,7 @@ describe( "splits English sentences into parts", function() {
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is praise due." );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
 	} );
-	it ( "correctly splits when matching punctuation after words ending in ing", function() {
+	it ( "correctly splits English sentences when matching punctuation after words ending in ing", function() {
 		var sentence = "(is having)";
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "having)" );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
