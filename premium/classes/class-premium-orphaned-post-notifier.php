@@ -22,7 +22,7 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 	 */
 	public function __construct( array $post_types, Yoast_Notification_Center $notification_center ) {
 		$this->notification_center = $notification_center;
-		$this->post_types = $post_types;
+		$this->post_types          = $post_types;
 	}
 
 	/**
@@ -49,6 +49,7 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 	 */
 	public function notify() {
 		$post_types = $this->format_post_types( $this->post_types );
+
 		// Walks over the posts types and handle the notification.
 		array_walk( $post_types, array( $this, 'notify_for_post_type' ) );
 	}
@@ -110,7 +111,6 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 	 * @return Yoast_Notification The notification.
 	 */
 	protected function get_notification( $notification_id, $post_type ) {
-
 		$total_orphaned = $this->get_count_by_post_type( $post_type->name );
 
 		$message = sprintf(
@@ -123,7 +123,7 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 			),
 			 '<a href="' . $this->get_filter_url( $post_type->name ) . '">',
 			$total_orphaned,
-			strtolower( _n( $post_type->labels->singular_name, $post_type->labels->name, $total_orphaned, 'wordpress-seo-premium' ) ),
+			_n( strtolower( $post_type->labels->singular_name ), strtolower( $post_type->labels->name ), $total_orphaned, 'wordpress-seo-premium' ),
 			'</a>'
 		);
 
