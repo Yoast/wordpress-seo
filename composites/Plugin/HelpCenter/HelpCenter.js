@@ -27,5 +27,5 @@ export default function HelpCenter( props ) {
 }
 
 HelpCenter.propTypes = {
-	items: PropTypes.object.isRequired,
+	items: PropTypes.array.isRequired,
 };

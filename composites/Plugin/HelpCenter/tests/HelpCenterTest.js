@@ -1,17 +1,32 @@
-items={ [
+import React from "react";
+import renderer from "react-test-renderer";
+
+import HelpCenter from "../../../Plugin/HelpCenter/HelpCenter.js"
+
+let tabItems = [
 	{
 		label: "Video tutorial",
 		id: "video_tutorial",
-		content: <VideoTutorial title={ props.video.title } src={ props.video.src } paragraphs={ props.video.paragraphs }/>,
+		content: <h1>VideoTutorial</h1>
 	},
-{
-	label: "Knowledge base",
+	{
+
+		label: "Knowledge base",
 		id: "knowledge_base",
-	content: <AlgoliaSearcher />,
-},
-{
-	label: "Support",
+		content: <h1>KB</h1>
+	},
+	{
+		label: "Support",
 		id: "support",
-	content: <h1>Support</h1>,
-},
-] }
+		content: <h1>Support</h1>
+	},
+];
+
+test( "the HelpCenter matches the snapshot", () => {
+	const component = renderer.create(
+		<HelpCenter items={ tabItems }/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
