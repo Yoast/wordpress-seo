@@ -15,6 +15,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 	public function register_hooks() {
 		add_action( 'wpseo_register_capabilities', array( $this, 'register' ) );
 		add_filter( 'members_get_capabilities', array( $this, 'get_capabilities' ) );
+		add_action( 'members_register_cap_groups', array( $this, 'action_members_register_cap_group' ) );
 	}
 
 	/**
@@ -55,5 +56,25 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		$manager = WPSEO_Capability_Manager_Factory::get();
 
 		return array_merge( $caps, $manager->get_capabilities() );
+	}
+
+	/**
+	 * Add capabilities to its own group in the Members plugin.
+	 *
+	 * @see  members_register_cap_group()
+	 */
+	public function action_members_register_cap_group() {
+		if ( ! function_exists( 'members_register_cap_group' ) ) {
+			return;
+		}
+		// Register the yoast group.
+		members_register_cap_group( 'wordpress-seo',
+			array(
+				'label'      => esc_html__( 'Yoast SEO', 'wordpress-seo' ),
+				'caps'       => $this->get_capabilities(),
+				'icon'       => '', // WPSEO_Utils::get_icon_svg(), SVG not working.
+				'diff_added' => true,
+			)
+		);
 	}
 }
