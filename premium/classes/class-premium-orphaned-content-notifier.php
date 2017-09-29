@@ -61,7 +61,7 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 * @return void
 	 */
 	protected function set_post_type_counts() {
-		$this->post_type_counts  = WPSEO_Premium_Orphaned_Content_Query::get_post_type_counts();
+		$this->post_type_counts  = WPSEO_Premium_Orphaned_Content_Query::get_post_type_counts( $this->get_post_types() );
 	}
 
 	/**

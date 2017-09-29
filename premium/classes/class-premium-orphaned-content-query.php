@@ -11,9 +11,11 @@ class WPSEO_Premium_Orphaned_Content_Query {
 	/**
 	 * Returns the table name where the counts are stored.
 	 *
+	 * @param array $post_types The post types to get the counts for.
+	 *
 	 * @return array The counts for all post types.
 	 */
-	public static function get_post_type_counts() {
+	public static function get_post_type_counts( array $post_types ) {
 		global $wpdb;
 
 		$post_ids = self::get_orphaned_object_ids();
@@ -25,11 +27,12 @@ class WPSEO_Premium_Orphaned_Content_Query {
 				 WHERE 
 				    ID IN( ' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')
 				    AND post_status = "publish"
+				    AND post_type IN( ' . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ')
 				 GROUP BY post_type',
-				$post_ids
+				array_merge( $post_ids, $post_types )
 			)
 		);
-
+		
 		$post_type_counts = array();
 		foreach ( $results as $result ) {
 			$post_type_counts[ $result->post_type ] = $result->total_orphaned;
