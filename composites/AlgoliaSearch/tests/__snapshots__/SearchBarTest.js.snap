@@ -45,7 +45,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
     <button
       className="sc-bwzfXH eeZBlJ sc-bdVaJa bsIiYo"
       onClick={undefined}
-      type="button"
+      type="submit"
     >
       <span>
         Search
@@ -100,7 +100,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
     <button
       className="sc-bwzfXH eeZBlJ sc-bdVaJa bsIiYo"
       onClick={undefined}
-      type="button"
+      type="submit"
     >
       <span>
         Search

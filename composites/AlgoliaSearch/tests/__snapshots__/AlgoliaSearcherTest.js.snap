@@ -48,7 +48,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
       <button
         className="sc-bwzfXH eeZBlJ sc-bdVaJa bsIiYo"
         onClick={undefined}
-        type="button"
+        type="submit"
       >
         <span>
           Search

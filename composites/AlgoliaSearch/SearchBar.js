@@ -120,6 +120,19 @@ class SearchBar extends React.Component {
 	 * @returns {void}
 	 */
 	onSearchChange( event ) {
+		/*
+		 * Manual search: the form already handles the submit event taking the
+		 * search string from the state so the state needs to be updated.
+		 */
+		if ( ! this.props.enableLiveSearch ) {
+			this.setState( { searchString: event.target.value } );
+			return;
+		}
+
+		/*
+		 * Live search "while typing": update the state searchString and
+		 * debounce the form submission.
+		 */
 		event.persist();
 		this.setState( { searchString: event.target.value }, () => {
 			this.doFormSubmission( this.state.searchString );
@@ -172,9 +185,10 @@ class SearchBar extends React.Component {
 						spellCheck="false"
 						placeholder={ placeholderText }
 					/>
-					<YoastButton>
-						{ this.props.intl.formatMessage( messages.buttonText ) }
-					</YoastButton>
+					{ ! this.props.enableLiveSearch && <YoastButton type="submit">
+							{ this.props.intl.formatMessage( messages.buttonText ) }
+						</YoastButton>
+					}
 				</form>
 			</SearchBarWrapper>
 		);
@@ -185,6 +199,7 @@ SearchBar.propTypes = {
 	searchString: PropTypes.string,
 	submitAction: PropTypes.func,
 	intl: intlShape.isRequired,
+	enableLiveSearch: PropTypes.bool,
 };
 
 SearchBar.defaultProps = {

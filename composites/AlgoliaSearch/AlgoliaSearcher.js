@@ -224,6 +224,7 @@ class AlgoliaSearcher extends React.Component {
 			<SearchBar
 				submitAction={ this.onSearch.bind( this ) }
 				searchString={ this.state.searchString }
+				enableLiveSearch={ this.props.enableLiveSearch }
 			/>
 		);
 	}
@@ -354,6 +355,7 @@ AlgoliaSearcher.propTypes = {
 	algoliaIndexName: PropTypes.string,
 	maxWidth: PropTypes.string,
 	intl: intlShape.isRequired,
+	enableLiveSearch: PropTypes.bool,
 };
 
 AlgoliaSearcher.defaultProps = {
@@ -361,6 +363,7 @@ AlgoliaSearcher.defaultProps = {
 	algoliaApiKey: "459903434a7963f83e7d4cd9bfe89c0d",
 	algoliaIndexName: "knowledge_base_all",
 	maxWidth: "800px",
+	enableLiveSearch: false,
 };
 
 export default injectIntl( AlgoliaSearcher );
