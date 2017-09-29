@@ -2,14 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
+import { HelpCenterButton } from "../../Plugin/Shared/components/HelpCenterButton";
+
 import YoastTabs from "../Shared/components/YoastTabs";
 
 export const HelpCenterContainer = styled.div`
-	box-sizing: border-box;
-	padding: 24px 40px;
-	min-height: 432px;
 	width: 100%;
-	background-color: white;
+	min-height: 432px;
+	text-align: center;
+	box-sizing: border-box;
+	padding: 0 40px 24px 40px;
 `;
 
 /**
@@ -22,8 +24,11 @@ export const HelpCenterContainer = styled.div`
 export default function HelpCenter( props ) {
 	return (
 		<HelpCenterContainer>
-			<YoastTabs
-				items={ props.items } />
+				<HelpCenterButton isExpanded={ props.isExpanded }>Need help?</ HelpCenterButton>
+				{ props.isExpanded
+					? <YoastTabs items={ props.items }/>
+					: null
+				}
 		</HelpCenterContainer>
 	);
 }

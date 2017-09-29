@@ -6,7 +6,7 @@ import HelpCenter from "../composites/Plugin/HelpCenter/HelpCenter";
 export const HelpCenterContainer = styled.div`
 	box-sizing: border-box;
 	padding: 16px;
-	min-height: 700px;
+	min-height: 432px;
 	width: 100%;
 	background-color: white;
 `;
@@ -21,7 +21,7 @@ export const HelpCenterContainer = styled.div`
 export default function HelpCenterWrapper( props ) {
 	return (
 		<HelpCenterContainer>
-			<HelpCenter items={ props.items }/>
+			<HelpCenter items={ items }/>
 		</HelpCenterContainer>
 	);
 }
