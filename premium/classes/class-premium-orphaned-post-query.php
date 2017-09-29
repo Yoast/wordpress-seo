@@ -52,6 +52,35 @@ class WPSEO_Premium_Orphaned_Post_Query {
 		$storage = new WPSEO_Meta_Storage();
 		$query   = 'SELECT object_id FROM ' . $storage->get_table_name() . ' WHERE incoming_link_count = 0';
 
-		return $wpdb->get_col( $query );
+		$object_ids = $wpdb->get_col( $query );
+		$object_ids = self::remove_frontpage_id( $object_ids );
+
+		return $object_ids;
+	}
+
+	/**
+	 * Removes the frontpage id from orphaned id's when the frontpage is a static page.
+	 *
+	 * @param array $object_ids The orphaned object ids.
+	 *
+	 * @return array The orphaned object ids, without frontpage id.
+	 */
+	protected static function remove_frontpage_id( $object_ids ) {
+		// When the frontpage is a static page, remove it from the object ids
+		if ( get_option( 'show_on_front' ) !== 'page' ) {
+			return $object_ids;
+		}
+
+		$frontpage_id = get_option( 'page_on_front' );
+		if ( ! in_array( $frontpage_id, $object_ids, true ) ) {
+			return $object_ids;
+		}
+
+		$object_id_key = array_search( $frontpage_id, $object_ids, true );
+		if ( $object_id_key !== false ) {
+			unset( $object_ids[ $object_id_key ] );
+		}
+
+		return $object_ids;
 	}
 }
