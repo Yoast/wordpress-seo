@@ -13,9 +13,11 @@ export const HelpCenterContainer = styled.div`
 `;
 
 /**
- * Returns the ContentAnalysis component.
+ * Returns the HelpCenter component.
  *
- * @returns {ReactElement} The ContentAnalysis component.
+ * @param {Object} props The props to use for the component.
+ *
+ * @returns {ReactElement} The HelpCenter component.
  */
 export default function HelpCenter( props ) {
 	return (

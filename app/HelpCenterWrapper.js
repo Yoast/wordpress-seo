@@ -14,6 +14,8 @@ export const HelpCenterContainer = styled.div`
 /**
  * Returns the HelpCenterWrapper component.
  *
+ * @param {Object} props The props to use for the component.
+ *
  * @returns {ReactElement} The HelpCenterWrapper component.
  */
 export default function HelpCenterWrapper( props ) {
