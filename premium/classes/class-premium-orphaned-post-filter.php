@@ -27,7 +27,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 
 		return sprintf(
 			/* translators: %2$s expands anchor to knowledge base article, %3$s expands to </a> */
-			__( '\'Orphaned content\' refers to %1$s that have no inbound links, consider adding links towards these %1$s. %2$sLearn more%3$s.', 'wordpress-seo' ),
+			__( '\'Orphaned content\' refers to %1$s that have no inbound links, consider adding links towards these %1$s. %2$sLearn more about orphaned content%3$s.', 'wordpress-seo' ),
 			strtolower( $post_type_object->labels->name ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1ja' ) . '" target="_blank">',
 			'</a>'
