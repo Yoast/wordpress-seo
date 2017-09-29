@@ -2,7 +2,7 @@
 
 exports[`the SearchBar component with headingText matches the snapshot 1`] = `
 <div
-  className="sc-bwzfXH hiNZVk"
+  className="sc-bwzfXH ksBSeE"
   role="search"
 >
   <h2
@@ -47,7 +47,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
 
 exports[`the SearchBar component without headingText matches the snapshot 1`] = `
 <div
-  className="sc-bwzfXH hiNZVk"
+  className="sc-bwzfXH ksBSeE"
   role="search"
 >
   <h2
