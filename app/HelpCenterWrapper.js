@@ -12,11 +12,11 @@ export const HelpCenterContainer = styled.div`
 `;
 
 /**
- * Returns the ContentAnalysis component.
+ * Returns the HelpCenterWrapper component.
  *
- * @returns {ReactElement} The ContentAnalysis component.
+ * @returns {ReactElement} The HelpCenterWrapper component.
  */
-export default function HelpCenterWrapper() {
+export default function HelpCenterWrapper( props ) {
 	return (
 		<HelpCenterContainer>
 			<HelpCenter />
