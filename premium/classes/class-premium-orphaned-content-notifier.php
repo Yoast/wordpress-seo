@@ -47,21 +47,12 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 * @return void
 	 */
 	public function notify() {
-		$this->set_post_type_counts();
+		$this->post_type_counts = WPSEO_Premium_Orphaned_Content_Query::get_post_type_counts( $this->get_post_types() );
 
 		// Loops over the posts types and handle the notification.
 		foreach ( $this->get_post_types() as $post_type ) {
-			$this->notify_post_type( get_post_type_object( $post_type ) );
+			$this->notify_for_post_type( get_post_type_object( $post_type ) );
 		}
-	}
-
-	/**
-	 * Sets the counts for the supported post types.
-	 *
-	 * @return void
-	 */
-	protected function set_post_type_counts() {
-		$this->post_type_counts  = WPSEO_Premium_Orphaned_Content_Query::get_post_type_counts( $this->get_post_types() );
 	}
 
 	/**
@@ -71,7 +62,7 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 *
 	 * @return void
 	 */
-	protected function notify_post_type( WP_Post_Type $post_type ) {
+	protected function notify_for_post_type( WP_Post_Type $post_type ) {
 		$notification_id = sprintf( 'wpseo-premium-orphaned-content-%1$s', $post_type->name );
 		$message         = $this->get_notification( $notification_id, $post_type );
 
@@ -85,18 +76,18 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	}
 
 	/**
-	 * Checks if the notification is required.
+	 * Checks if the notification is required for the passed post type.
 	 *
 	 * @param WP_Post_Type $post_type The post type.
 	 *
-	 * @return bool True when notification is required.
+	 * @return bool True if a notification is required.
 	 */
 	protected function requires_notification( WP_Post_Type $post_type ) {
-		return $this->get_post_type_count( $post_type->name ) > 0;
+		return $this->get_count_by_post_type( $post_type->name ) > 0;
 	}
 
 	/**
-	 * Returns the notification.
+	 * Returns the notification for the passed post type.
 	 *
 	 * @param string       $notification_id The id for the notification.
 	 * @param WP_Post_Type $post_type       The post type to generate the message for.
@@ -105,7 +96,7 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 */
 	protected function get_notification( $notification_id, $post_type ) {
 
-		$total_orphaned = $this->get_post_type_count( $post_type->name );
+		$total_orphaned = $this->get_count_by_post_type( $post_type->name );
 
 		$message = sprintf(
 			/* translators: %1$s: Link to the filter page, %2$d: amount of orphaned items, %3$s: plural/singular form of post type, %4$s closing tag.  */
@@ -148,7 +139,7 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	 *
 	 * @return int Total orphaned items.
 	 */
-	protected function get_post_type_count( $post_type_name ) {
+	protected function get_count_by_post_type( $post_type_name ) {
 		if ( array_key_exists( $post_type_name, $this->post_type_counts ) ) {
 			return (int) $this->post_type_counts[ $post_type_name ];
 		}
@@ -157,11 +148,11 @@ class WPSEO_Premium_Orphaned_Content_Notifier implements WPSEO_WordPress_Integra
 	}
 
 	/**
-	 * Returns the url to the page with the filtered items for given post type.
+	 * Returns the URL to the page with the filtered items for the given post type.
 	 *
 	 * @param string $post_type_name The name of the post type.
 	 *
-	 * @return string The url containing the required filter.
+	 * @return string The URL containing the required filter.
 	 */
 	protected function get_filter_url( $post_type_name ) {
 		$query_args = array(

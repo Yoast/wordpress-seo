@@ -9,7 +9,7 @@
 class WPSEO_Premium_Orphaned_Content_Query {
 
 	/**
-	 * Returns the table name where the counts are stored.
+	 * Returns the total number of orphaned items for the given post types.
 	 *
 	 * @param array $post_types The post types to get the counts for.
 	 *
@@ -32,10 +32,10 @@ class WPSEO_Premium_Orphaned_Content_Query {
 				array_merge( $post_ids, $post_types )
 			)
 		);
-		
+
 		$post_type_counts = array();
 		foreach ( $results as $result ) {
-			$post_type_counts[ $result->post_type ] = $result->total_orphaned;
+			$post_type_counts[ $result->post_type ] = (int) $result->total_orphaned;
 		}
 
 		return $post_type_counts;
