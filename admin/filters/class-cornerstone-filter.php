@@ -55,7 +55,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 		$post_type_object = get_post_type_object( $this->get_current_post_type() );
 
 		return sprintf(
-			/* translators: %1$s expands anchor to knowledge base article, %2$s expands to </a> */
+			/* translators: %1$s expands to the posttype label, %2$s expands anchor to knowledge base article, %3$s expands to </a> */
 			__( 'Mark the most important %1$s as \'cornerstone content\' to improve your site structure. %2$sLearn more about cornerstone content%3$s.', 'wordpress-seo' ),
 			strtolower( $post_type_object->labels->name ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1i9' ) . '" target="_blank">',
