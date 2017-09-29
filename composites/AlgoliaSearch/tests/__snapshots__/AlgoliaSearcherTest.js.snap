@@ -5,11 +5,11 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
   className="sc-kgoBCf ijaDUj"
 >
   <div
-    className="sc-bwzfXH hiNZVk"
+    className="sc-htpNat fapeJi"
     role="search"
   >
     <h2
-      className="sc-bxivhb gFAOWL"
+      className="sc-bxivhb dmACtW"
     >
       Search the Yoast knowledge base
     </h2>
@@ -17,7 +17,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
       onSubmit={[Function]}
     >
       <label
-        className="sc-bdVaJa CLHKE"
+        className="sc-ifAKCX cnsSWD"
         htmlFor="kb-search-input"
       >
         <svg
@@ -36,14 +36,24 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
         autoCapitalize="off"
         autoComplete="off"
         autoCorrect="off"
-        className="sc-htpNat fxYYiS"
+        className="sc-EHOje kkUvkd"
         defaultValue=""
         id="kb-search-input"
         name="search-input"
         onChange={[Function]}
+        placeholder="Type here to search the Yoast knowledge Base"
         spellCheck="false"
         type="text"
       />
+      <button
+        className="sc-bwzfXH eeZBlJ sc-bdVaJa bsIiYo"
+        onClick={undefined}
+        type="button"
+      >
+        <span>
+          Search
+        </span>
+      </button>
     </form>
   </div>
 </div>

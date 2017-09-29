@@ -2,11 +2,11 @@
 
 exports[`the SearchBar component with headingText matches the snapshot 1`] = `
 <div
-  className="sc-bwzfXH hiNZVk"
+  className="sc-htpNat fapeJi"
   role="search"
 >
   <h2
-    className="sc-bxivhb gFAOWL"
+    className="sc-bxivhb dmACtW"
   >
     Search the Yoast knowledge base
   </h2>
@@ -14,12 +14,12 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
     onSubmit={[Function]}
   >
     <label
-      className="sc-bdVaJa CLHKE"
+      className="sc-ifAKCX cnsSWD"
       htmlFor="kb-search-input"
     >
       <svg
         aria-hidden="true"
-        className="sc-ifAKCX jmVmZf"
+        className="sc-bZQynM fNWYPv"
         focusable="false"
         role="img"
       />
@@ -33,25 +33,35 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
       autoCapitalize="off"
       autoComplete="off"
       autoCorrect="off"
-      className="sc-htpNat fxYYiS"
+      className="sc-EHOje kkUvkd"
       defaultValue=""
       id="kb-search-input"
       name="search-input"
       onChange={[Function]}
+      placeholder="Type here to search the Yoast knowledge Base"
       spellCheck="false"
       type="text"
     />
+    <button
+      className="sc-bwzfXH eeZBlJ sc-bdVaJa bsIiYo"
+      onClick={undefined}
+      type="button"
+    >
+      <span>
+        Search
+      </span>
+    </button>
   </form>
 </div>
 `;
 
 exports[`the SearchBar component without headingText matches the snapshot 1`] = `
 <div
-  className="sc-bwzfXH hiNZVk"
+  className="sc-htpNat fapeJi"
   role="search"
 >
   <h2
-    className="sc-bxivhb gFAOWL"
+    className="sc-bxivhb dmACtW"
   >
     Search the Yoast knowledge base
   </h2>
@@ -59,12 +69,12 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
     onSubmit={[Function]}
   >
     <label
-      className="sc-bdVaJa CLHKE"
+      className="sc-ifAKCX cnsSWD"
       htmlFor="kb-search-input"
     >
       <svg
         aria-hidden="true"
-        className="sc-EHOje bsqrpZ"
+        className="sc-gzVnrw kpyDKH"
         focusable="false"
         role="img"
       />
@@ -78,14 +88,24 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
       autoCapitalize="off"
       autoComplete="off"
       autoCorrect="off"
-      className="sc-htpNat fxYYiS"
+      className="sc-EHOje kkUvkd"
       defaultValue=""
       id="kb-search-input"
       name="search-input"
       onChange={[Function]}
+      placeholder="Type here to search the Yoast knowledge Base"
       spellCheck="false"
       type="text"
     />
+    <button
+      className="sc-bwzfXH eeZBlJ sc-bdVaJa bsIiYo"
+      onClick={undefined}
+      type="button"
+    >
+      <span>
+        Search
+      </span>
+    </button>
   </form>
 </div>
 `;

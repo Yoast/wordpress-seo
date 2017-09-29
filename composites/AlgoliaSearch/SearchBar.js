@@ -7,43 +7,53 @@ import debounce from "lodash/debounce";
 import colors from "../../style-guide/colors.json";
 import SearchIcon from "../../style-guide/svg/search.svg";
 import { Icon } from "../Plugin/Shared/components/Icon";
+import { YoastButton } from "../Plugin/Shared/components/YoastButton";
 
 const messages = defineMessages( {
 	headingText: {
 		id: "searchBar.headingText",
 		defaultMessage: "Search the Yoast knowledge base",
 	},
+	placeholderText: {
+		id: "searchBar.placeholderText",
+		defaultMessage: "Type here to search the Yoast knowledge Base",
+	},
+	buttonText: {
+		id: "searchBar.buttonText",
+		defaultMessage: "Search",
+	},
 } );
 
-const SearchLabel = styled.label`
-	width: 2em;
-	height: 2em;
-	float: left;
-	margin-top: 0.25em;
-`;
-
 const SearchBarWrapper = styled.div`
-	overflow: hidden;
-	width: 100%;
 	padding: 0 16px;
-	box-sizing: border-box;
-`;
 
-const SearchBarInput = styled.input`
-	box-sizing: border-box;
-	height: 2.5em;
-	width: calc(100% - 2em);
-	box-shadow: inset 0 2px 8px 0px rgba(0,0,0,0.3);
-	background: ${ colors.$color_grey_light };
-	border: 0;
-	font-size: 1em;
-	float: left;
-	padding-left: 16px;
+	form {
+		display: flex;
+	}
 `;
 
 const SearchHeading = styled.h2`
 	font-size: 1em;
-	margin: 0.5em 0;
+	margin: 0.5em 0 0.5em 58px;
+`;
+
+const SearchLabel = styled.label`
+	flex: 0 0 42px;
+	height: 3em;
+	display: inline-flex;
+	align-items: center;
+`;
+
+const SearchBarInput = styled.input`
+	box-sizing: border-box;
+	height: 3em;
+	width: calc(100% - ( 2em + 152px ) );
+	box-shadow: inset 0 2px 8px 0px rgba(0,0,0,0.3);
+	background: ${ colors.$color_grey_light };
+	border: 0;
+	font-size: 1em;
+	margin-right: 24px;
+	padding: 0 8px 0 16px;
 `;
 
 /**
@@ -115,6 +125,8 @@ class SearchBar extends React.Component {
 	 */
 	render() {
 		const headingText = this.props.intl.formatMessage( messages.headingText );
+		const placeholderText = this.props.intl.formatMessage( messages.placeholderText );
+
 		return (
 			<SearchBarWrapper role="search">
 				<SearchHeading>
@@ -137,7 +149,11 @@ class SearchBar extends React.Component {
 						autoCorrect="off"
 						autoCapitalize="off"
 						spellCheck="false"
+						placeholder={ placeholderText }
 					/>
+					<YoastButton>
+						{ this.props.intl.formatMessage( messages.buttonText ) }
+					</YoastButton>
 				</form>
 			</SearchBarWrapper>
 		);
