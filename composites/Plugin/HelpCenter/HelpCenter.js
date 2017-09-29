@@ -21,10 +21,57 @@ export const HelpCenterContainer = styled.div`
  *
  * @returns {ReactElement} The HelpCenter component.
  */
+export class HelpCenter extends React.Component {
+
+	/**
+	 * Constructor for the component.
+	 * @param {Object} props The props to assign to the current component.
+	 *
+	 * @constructor
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			isExpanded: false,
+		};
+	}
+
+	/**
+	 * Handles the onButtonClick event.
+	 *
+	 * @returns {void}
+	 */
+	onButtonClick() {
+		this.setState( { isExpanded: ! this.state.isExpanded } );
+
+	}
+
+	render() {
+		return (
+			<HelpCenterContainer>
+				<HelpCenterButton onClick={ this.onButtonClick.bind( this ) } isExpanded={ this.state.isExpanded }>Need help?</HelpCenterButton>
+				{ this.state.isExpanded
+					? <YoastTabs items={ this.props.items }/>
+					: null
+				}
+			</HelpCenterContainer>
+		);
+	}
+}
+
+/**
+ * Returns the HelpCenter component.
+ *
+ * @param {Object} props The props to use for the component.
+ *
+ * @returns {ReactElement} The HelpCenter component.
+ */
+/*
 export default function HelpCenter( props ) {
 	return (
 		<HelpCenterContainer>
-				<HelpCenterButton isExpanded={ props.isExpanded }>Need help?</ HelpCenterButton>
+				<HelpCenterButton isExpanded={ props.isExpanded }>Need help?</HelpCenterButton>
 				{ props.isExpanded
 					? <YoastTabs items={ props.items }/>
 					: null
@@ -32,7 +79,7 @@ export default function HelpCenter( props ) {
 		</HelpCenterContainer>
 	);
 }
-
+*/
 HelpCenter.propTypes = {
 	items: PropTypes.array.isRequired,
 };
