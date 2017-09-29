@@ -66,16 +66,14 @@ class WPSEO_Premium_Orphaned_Post_Query {
 	 * @return array The orphaned object ids, without frontpage id.
 	 */
 	protected static function remove_frontpage_id( $object_ids ) {
-		// When the frontpage is a static page, remove it from the object ids
+		// When the frontpage is a static page, remove it from the object ids.
 		if ( get_option( 'show_on_front' ) !== 'page' ) {
 			return $object_ids;
 		}
 
 		$frontpage_id = get_option( 'page_on_front' );
-		if ( ! in_array( $frontpage_id, $object_ids, true ) ) {
-			return $object_ids;
-		}
 
+		// If the frontpage ID exists in the list, remove it.
 		$object_id_key = array_search( $frontpage_id, $object_ids, true );
 		if ( $object_id_key !== false ) {
 			unset( $object_ids[ $object_id_key ] );
