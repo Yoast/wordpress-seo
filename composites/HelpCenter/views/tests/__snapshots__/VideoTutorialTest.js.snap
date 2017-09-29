@@ -3,7 +3,7 @@
 exports[`the VideoTutorial component matches the snapshot 1`] = `
 <div>
   <div
-    className="sc-htpNat dsjwIP"
+    className="sc-htpNat gHHcHn"
   >
     <div
       className="sc-bdVaJa fpzLVP"
@@ -19,7 +19,7 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
     </div>
   </div>
   <div
-    className="sc-bxivhb gSasYg"
+    className="sc-bxivhb eMXKFZ"
   >
     <div
       className="sc-ifAKCX gyrham"

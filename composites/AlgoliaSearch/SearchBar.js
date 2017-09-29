@@ -31,12 +31,12 @@ const SearchBarWrapper = styled.div`
 	form {
 		display: flex;
 
-		@media screen and (max-width: ${ breakpoints.mobile } ) {
+		@media screen and ( max-width: ${ breakpoints.mobile } ) {
 			flex-wrap: wrap;
 		}
 	}
 
-	@media screen and (max-width: ${ breakpoints.mobile } ) {
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		button {
 			min-width: 100%;
 			margin-top: 1em;
@@ -48,7 +48,7 @@ const SearchHeading = styled.h2`
 	font-size: 1em;
 	margin: 0.5em 0 0.5em 58px;
 
-	@media screen and (max-width: ${ breakpoints.mobile } ) {
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		margin-left: 0;
 	}
 `;
@@ -56,7 +56,8 @@ const SearchHeading = styled.h2`
 const SearchLabel = styled.label`
 	flex: 0 0 42px;
 	height: 3em;
-	// it's already a flex item, let's make it also a flex container to align the svg icon
+	// This label is already a flex item to be aligned with its siblings.
+	// By making it also a flex container, we can align the SVG icon.
 	display: inline-flex;
 	align-items: center;
 `;
@@ -65,14 +66,14 @@ const SearchBarInput = styled.input`
 	flex: 1 1 auto;
 	box-sizing: border-box;
 	height: 3em;
-	box-shadow: inset 0 2px 8px 0px rgba(0,0,0,0.3);
+	box-shadow: inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 );
 	background: ${ colors.$color_grey_light };
 	border: 0;
 	font-size: 1em;
 	margin-right: 24px;
 	padding: 0 8px 0 16px;
 
-	@media screen and (max-width: ${ breakpoints.mobile } ) {
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		margin-right: 0;
 	}
 `;

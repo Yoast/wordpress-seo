@@ -14,7 +14,7 @@ const VideoContainer = styled.div`
 	float: left;
 	width: ${ VIDEO_WIDTH };
 
-	@media screen and (max-width: ${ breakpoints.mobile } ) {
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		float: none;
 		width: 100%;
 	}
@@ -24,7 +24,7 @@ const VideoDescriptions = styled.div`
 	margin-left: ${ VIDEO_WIDTH };
 	padding: 0 16px;
 
-	@media screen and (max-width: ${ breakpoints.mobile } ) {
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		margin-left: 0;
 		padding: 0;
 	}
