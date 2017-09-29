@@ -1,4 +1,4 @@
-var verbEndingInIngRegex = /\w+ing($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;?:\/»«‹›<>])/ig;
 var ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
 var indices = require( "../../stringProcessing/indices" );
 var getIndicesOfList = indices.getIndicesByWordList;
@@ -27,7 +27,6 @@ var map = require( "lodash/map" );
 var getVerbsEndingInIng = function( sentence ) {
 	// Matches the sentences with words ending in ing.
 	var matches = sentence.match( verbEndingInIngRegex ) || [];
-
 	// Filters out words ending in -ing that aren't verbs.
 	return filter( matches, function( match ) {
 		return ! includes( ingExclusionArray, stripSpaces( match ) );
