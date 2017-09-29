@@ -4,6 +4,7 @@ let getIndicesOfList = indices.getIndicesByWordList;
 let filterIndices = indices.filterIndices;
 let sortIndices = indices.sortIndices;
 let getIndicesByWord = indices.getIndicesByWord;
+let getIndicesByStopCharacterList = indices.getIndicesByStopCharacterList;
 
 describe( "A function to get indices from words in a string." , function( ) {
 	it( "returns a list with a single word and its index", function() {
@@ -23,6 +24,18 @@ describe( "A function to get indices from words in a word list in a string." , f
 	} );
 	it( "returns a list with multiple words and their indices", function() {
 		expect ( getIndicesOfList( [ "string", "test" ], "this is a string to test" ) ).toEqual ( [ { index: 10, match: "string" }, { index: 20, match: "test" } ] );
+	} );
+} );
+
+describe( "A function to get indices of stop characters in a stop character list in a string." , function( ) {
+	it( "returns a list with a single stop character and its index", function() {
+		expect ( getIndicesByStopCharacterList( [ "," ], "this is a string, to test" ) ).toEqual ( [ { index: 16, match: "," } ] );
+	} );
+	it( "returns a list with multiple stop characters and their indices", function() {
+		expect ( getIndicesByStopCharacterList( [ ":" ], "this is a string to test: a very nice string: to test" ) ).toEqual ( [ { index: 24, match: ":" }, { index: 44, match: ":" } ] );
+	} );
+	it( "returns a list with multiple stop characters and their indices", function() {
+		expect ( getIndicesByStopCharacterList( [ ":", "," ], "this is a string to test: a very nice string, to test" ) ).toEqual ( [ { index: 24, match: ":" }, { index: 44, match: "," } ] );
 	} );
 } );
 
