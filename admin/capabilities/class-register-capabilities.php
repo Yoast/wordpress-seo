@@ -14,6 +14,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 		add_action( 'wpseo_register_capabilities', array( $this, 'register' ) );
+		add_filter( 'members_get_capabilities', array( $this, 'get_capabilities' ) );
 	}
 
 	/**
@@ -37,5 +38,22 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		if ( $ms_options['access'] !== 'superadmins' ) {
 			$manager->register( 'wpseo_manage_options', array( 'administrator' ) );
 		}
+	}
+
+	/**
+	 * Get the Yoast SEO capabilities.
+	 * Optionally append them to an existing array.
+	 *
+	 * @param  array $caps
+	 * @return array
+	 */
+	public function get_capabilities( $caps = array() ) {
+		if ( ! did_action( 'wpseo_register_capabilities' ) ) {
+			do_action( 'wpseo_register_capabilities' );
+		}
+
+		$manager = WPSEO_Capability_Manager_Factory::get();
+
+		return array_merge( $caps, $manager->get_capabilities() );
 	}
 }
