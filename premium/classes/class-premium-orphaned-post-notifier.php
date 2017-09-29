@@ -117,8 +117,8 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 		$message = sprintf(
 			/* translators: %1$s: Link to the filter page, %2$d: amount of orphaned items, %3$s: plural/singular form of post type, %4$s closing tag.  */
 			_n(
-				'Yoast SEO detected %1$s%2$d \'orphaned\' %3$s%4$s (no inbound links). Consider adding links to this %3$s.',
-				'Yoast SEO detected %1$s%2$d \'orphaned\' %3$s%4$s (no inbound links). Consider adding links to these %3$s.',
+				'We\'ve detected %1$s%2$d \'orphaned\' %3$s%4$s (no inbound links). Consider adding links towards this %3$s.',
+				'We\'ve detected %1$s%2$d \'orphaned\' %3$s%4$s (no inbound links). Consider adding links towards these %3$s.',
 				$total_orphaned,
 				'wordpress-seo-premium'
 			),
