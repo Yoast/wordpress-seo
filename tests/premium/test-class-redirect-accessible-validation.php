@@ -47,7 +47,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 */
-	public function test_validate_accessible( ) {
+	public function test_validate_accessible() {
 		$this->assertTrue(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', home_url(), 301 )
@@ -61,7 +61,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
-	public function test_validate_not_accessible( ) {
+	public function test_validate_not_accessible() {
 		// Set up fake request response
 		$fake_request_response = array( $this, 'fake_305_request_response' );
 		add_filter( 'pre_http_request', $fake_request_response );
@@ -87,7 +87,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
-	public function test_validate_redirect_to_301( ) {
+	public function test_validate_redirect_to_301() {
 		// Set up fake request response
 		$fake_request_response = array( $this, 'fake_301_request_response' );
 		add_filter( 'pre_http_request', $fake_request_response );
@@ -113,7 +113,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
-	public function test_validate_cannot_resolve( ) {
+	public function test_validate_cannot_resolve() {
 		$this->assertFalse(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', 'fake://domain.com/', 301 )
@@ -131,7 +131,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 */
-	public function test_validate_accessible_410( ) {
+	public function test_validate_accessible_410() {
 		$this->assertTrue(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', '', 410 )
@@ -144,7 +144,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 */
-	public function test_validate_accessible_451( ) {
+	public function test_validate_accessible_451() {
 		$this->assertTrue(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', '', 451 )
@@ -157,7 +157,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 */
-	public function test_validate_accessible_temporary( ) {
+	public function test_validate_accessible_temporary() {
 		$this->assertFalse(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', 'http://httpstat.us/302', 301 )
@@ -178,7 +178,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
 	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
-	public function test_validate_relative( ) {
+	public function test_validate_relative() {
 		$this->assertTrue(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', '/', 301 )
@@ -202,9 +202,17 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
 	 */
-	public function test_validate_with_extension( ) {
+	public function test_validate_with_extension() {
+		$class_instance = $this->getMockBuilder( 'WPSEO_Redirect_Accessible_Validation' )
+			->setMethods( array( 'retrieve_response_code' ) )
+			->getMock();
+
+		$class_instance->expects( $this->once() )
+		               ->method('retrieve_response_code')
+		               ->will($this->returnValue( 200 ) );
+
 		$this->assertTrue(
-			$this->class_instance->run(
+			$class_instance->run(
 				new WPSEO_Redirect( 'accessible_url.pdf', 'https://www.w3.org/2003/01/Consortium.pdf', 301 )
 			)
 		);
@@ -219,7 +227,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
 	 */
-	public function test_parse_target( ) {
+	public function test_parse_target() {
 		$double = new WPSEO_Redirect_Accessible_Validation_Double();
 
 		$this->assertEquals( 'http://www.domain.org/absolute',

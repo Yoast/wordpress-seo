@@ -68,6 +68,10 @@ class DashboardWidget extends React.Component {
 	 */
 	getRyte() {
 		wpseoApi.get( "ryte", ( response ) => {
+			if ( ! response.ryte ) {
+				return;
+			}
+
 			let ryte = {
 				scores: [ {
 					color: DashboardWidget.getColorFromScore( response.ryte.score ),
@@ -86,7 +90,7 @@ class DashboardWidget extends React.Component {
 	 * @returns {void}
 	 */
 	getFeed() {
-		getFeed( "https://yoast.com/feed/", 2 )
+		getFeed( "https://yoast.com/feed/widget/", 2 )
 			.then( ( feed ) => {
 				feed.items = feed.items.map( ( item ) => {
 					item.description = jQuery( `<div>${ item.description }</div>` ).text();

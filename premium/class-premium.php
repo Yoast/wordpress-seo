@@ -23,7 +23,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '5.4';
+	const PLUGIN_VERSION_NAME = '5.5.1';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'http://my.yoast.com';
@@ -95,6 +95,7 @@ class WPSEO_Premium {
 			'redirect-export-manager' => new WPSEO_Premium_Redirect_Export_Manager(),
 			'keyword-export-manager' => new WPSEO_Premium_Keyword_Export_Manager(),
 			'orphaned-filter' => new WPSEO_Premium_Orphaned_Filter(),
+			'orphaned-post-notifier' => new WPSEO_Premium_Orphaned_Post_Notifier( array( 'post', 'page' ), Yoast_Notification_Center::get() ),
 		);
 
 		$this->setup();

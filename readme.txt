@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
-Tested up to: 4.8.1
-Stable tag: 5.4
+Tested up to: 4.8.2
+Stable tag: 5.5.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -125,9 +125,49 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.5.1 =
+
+Release Date: September 28th, 2017
+
+* Bugfixes
+	* Fixes Snippet preview error when Yoast metabox has been removed.
+
+* Changes
+	* Change Yoast Blog feed to new endpoint.
+
+= 5.5.0 =
+
+Release Date: September 26th, 2017
+
+* Enhancements
+	* Updated the Dashboard Widget with a new design.
+	* Added additional explanations to the Configuration wizard.
+	* Added `contentinfo` landmark for assistive technologies to the Configuration wizard page.
+	* Introduces `wpseo_manager` and `wpseo_editor` roles.
+	* Introduces `wpseo_manage_options` capability to control which users have access to all SEO settings.
+	* Introduces `wpseo_edit_advanced_metadata` capability to control which users have access to the advanced SEO settings.
+
+* Bugfixes
+	* Fixed a bug where certain options (`site_type`, `environment_type` and `has_multiple_authors`) would be reset to their default value whenever one of the feature toggles were changed.
+	* Ensured that `has_multiple_authors` gets validated.
+
+= 5.4.2
+
+Release Date: September 21st, 2017
+
+* Bugfixes
+	* Replace unsupported query `prepare` placeholder `%1$d` with `%d` to fix broken queries. Fixes compatibility issue with WordPress 4.8.2.
+
+= 5.4.1
+
+Release Date: September 20th, 2017
+
+* Bugfixes
+	* Replace unsupported query `prepare` placeholder `%1$s` with `%d` to fix broken queries. Fixes compatibility issue with WordPress 4.8.2.
+
 = 5.4.0 =
 
-Release Date: September 6th, 2016
+Release Date: September 6th, 2017
 
 * Enhancements
 	* Added a hook to disabled the twitter card. (Props: @petenelson)
@@ -150,7 +190,7 @@ Release Date: August 28th, 2017
 
 = 5.3.2 =
 
-Release Date: August 23th, 2017
+Release Date: August 23rd, 2017
 
 * Bugfixes
 	* Fixes a bug where an invalid license notification could be shown in certain situations.
@@ -195,61 +235,6 @@ Release Date: August 8th, 2017
 
 * Bugfixes
 	* Removes JQMIGRATE JavaScript warnings.
-
-= 5.1.0 =
-
-Release Date: July 25th, 2017
-
-* Enhancements
-	* Adds the post-type and taxonomy identifiers on the titles and metas settings tab.
-	* Adds support for importing of Jetpack SEO data.
-	* Improves the readability feature for Dutch, English, French, German, Italian and Spanish.
-	* Adds a WordPress SEO Premium motivation box on Yoast SEO settings pages.
-	* Adds a WordPress SEO Premium motivation on the social tabs.
-	* Adds support for third party sitemaps providers to be registered and used.
-	* Changes the column titles in the taxonomy list table to icons.
-	* Adds a subheader on the notification dashboard to clarify problems and issues which are muted.
-	* Improves avatars on the credit page, props [Mike DeHart](https://github.com/mikedehart)
-
-* Bugfixes
-	* Fixes a bug where `remove_meta_if_default` and `dont_save_meta_if_default` don't return the given input value as default.
-	* Fixes a performance issue related to calculating text link counts when saving a post.
-	* Fixes a typo in the readme.txt, props [Raymond Rutjes](https://github.com/rayrutjes)
-
-= 5.0.2 =
-
-Release Date: July 13th, 2017
-
-* Only load babel polyfill if it hasn't been loaded by another plugin yet.
-* Adds a feature toggle to disable the link counter tool & link columns.
-* Fixes a compatibility issue with WordPress 4.6.
-* Fixes an issue where the link columns would disappear after quick-editing a post.
-
-= 5.0.1 =
-
-Release Date: July 6th, 2017
-
-* Fixes a fatal error that could occur when trying to save a post that has `<a>`-tags with invalid URLs in it.
-
-= 5.0.0 =
-
-Release Date: July 6th, 2017
-
-* Bugfixes
-	* Fixes a bug where images via `https` were not working, props [Jannik Zschiesche](https://github.com/apfelbox).
-	* Fixes a bug where the whip notification can be shown multiple times.
-
-* Enhancements
-	* Introduces a module that counts links in the content.
-	* Adds Flesch Reading for Italian.
-	* Changes 'page title' to 'seo title' in the snippet preview.
- 	* Changes recommended maximum sentence length for Italian from 20 to 25 words, based on more in-depth research.
- 	* Implements the extracted version of the Algolia Search which is now present in `yoast-components`.
- 	* Adds a banner for the structured data course.
-
- * Under the hood
- 	* Introduces a database table to keep track of the linking structure. If the table cannot be created, a notification will be shown.
- 	* When there are posts or pages to reindex, a notice will be shown.
 
 = Earlier versions =
 

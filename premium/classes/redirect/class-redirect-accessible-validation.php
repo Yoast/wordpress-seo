@@ -20,14 +20,14 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.
 	 * @param array|null     $redirects Unused.
 	 *
-	 * @return bool
+	 * @return bool Whether or not the target is valid.
 	 */
 	public function run( WPSEO_Redirect $redirect, WPSEO_Redirect $old_redirect = null, array $redirects = null ) {
 
 		// Do the request.
 		$target        = $this->parse_target( $redirect->get_target() );
 		$decoded_url   = rawurldecode( $target );
-		$response      = wp_remote_head( $decoded_url, array( 'sslverify' => false ) );
+		$response      = $this->remote_head( $decoded_url, array( 'sslverify' => false ) );
 
 		if ( is_wp_error( $response ) ) {
 			$this->error = new WPSEO_Validation_Warning(
@@ -38,7 +38,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 			return false;
 		}
 
-		$response_code = wp_remote_retrieve_response_code( $response );
+		$response_code = $this->retrieve_response_code( $response );
 
 		// Check if the target is a temporary location.
 		if ( $this->is_temporary( $response_code ) ) {
@@ -72,6 +72,29 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 		}
 
 		return true;
+	}
+
+	/**
+	 * Retrieves the response code from the response array.
+	 *
+	 * @param array $response The response.
+	 *
+	 * @return int The response code.
+	 */
+	protected function retrieve_response_code( $response ) {
+		return wp_remote_retrieve_response_code( $response );
+	}
+
+	/**
+	 * Sends a HEAD request to the passed remote URL.
+	 *
+	 * @param string $url The URL to send the request to.
+	 * @param array  $options The options to send along with the request.
+	 *
+	 * @return array|WP_Error The response or WP_Error if something goes wrong.
+	 */
+	protected function remote_head( $url, $options = array() ) {
+		return wp_remote_head( $url, $options );
 	}
 
 	/**

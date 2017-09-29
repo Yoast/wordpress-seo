@@ -22,22 +22,23 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 	/**
 	 * Load needed js file
-	 *
-	 * @param string $current_page The page that is opened at the moment.
 	 */
-	public function page_scripts( $current_page ) {
-		if ( ! ( $this->post_redirect_can_be_made( $current_page ) ) ) {
+	public function page_scripts() {
+		global $pagenow;
+
+		if ( ! $this->post_redirect_can_be_made( $pagenow ) ) {
 			return;
 		}
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$version = $asset_manager->flatten_version( WPSEO_VERSION );
 
-		if ( $current_page === 'edit.php' ) {
+		if ( $pagenow === 'edit.php' || $this->is_nested_pages( $pagenow ) ) {
 			wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-quickedit-notification-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 			wp_localize_script( 'wp-seo-premium-quickedit-notification', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
 		}
-		if ( $current_page === 'post.php' ) {
+
+		if ( $pagenow === 'post.php' ) {
 			wp_enqueue_script( 'wp-seo-premium-redirect-notifications', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-redirect-notifications-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 			wp_localize_script( 'wp-seo-premium-redirect-notifications', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
 		}
@@ -357,7 +358,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool True when a redirect can be made on this page.
 	 */
 	protected function post_redirect_can_be_made( $current_page ) {
-		return $this->is_post_page( $current_page ) || $this->is_action_inline_save();
+		return $this->is_post_page( $current_page ) || $this->is_action_inline_save() || $this->is_nested_pages( $current_page );
 	}
 
 	/**
@@ -378,5 +379,16 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	protected function is_action_inline_save() {
 		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && filter_input( INPUT_POST, 'action' ) === 'inline-save' );
+	}
+
+	/**
+	 * Checks if current page is loaded by nested pages.
+	 *
+	 * @param string $current_page The current page.
+	 *
+	 * @return bool True when the current page is nested pages.
+	 */
+	protected function is_nested_pages( $current_page ) {
+		return ( $current_page === 'admin.php' && filter_input( INPUT_GET, 'page' ) === 'nestedpages' );
 	}
 }

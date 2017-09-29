@@ -47,6 +47,20 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
+	 * Returns a text explaining this filter.
+	 *
+	 * @return string The explanation.
+	 */
+	protected function get_explanation() {
+		return sprintf(
+			/* translators: %1$s expands anchor to knowledge base article, %2$s expands to </a> */
+			__( 'You can mark the most important articles or pages on your website as \'cornerstone content\' to improve your site structure. %1$sRead more about cornerstone content%2$s.', 'wordpress-seo' ),
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1i9' ) . '" target="_blank">',
+			'</a>'
+		);
+	}
+
+	/**
 	 * Returns the total amount of articles marked as cornerstone content.
 	 *
 	 * @return integer
@@ -58,8 +72,8 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 			$wpdb->prepare( '
 				SELECT COUNT( 1 )
 				FROM ' . $wpdb->postmeta . '
-				WHERE post_id IN( SELECT ID FROM ' . $wpdb->posts . ' WHERE post_type = "%s" ) && 
-				meta_value = "1" AND meta_key = "%s"
+				WHERE post_id IN( SELECT ID FROM ' . $wpdb->posts . ' WHERE post_type = %s ) &&
+				meta_value = "1" AND meta_key = %s
 				',
 				$this->get_current_post_type(),
 				WPSEO_Cornerstone::META_NAME

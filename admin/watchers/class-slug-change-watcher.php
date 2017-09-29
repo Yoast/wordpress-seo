@@ -58,7 +58,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		}
 
 		// If the post URL wasn't visible before, or isn't visible now, don't advise creating a redirect.
-		if ( ! $this->check_visible_post_status( get_post_status( $post_before->ID ) ) || ! $this->check_visible_post_status( get_post_status( $post->ID ) ) ) {
+		if ( ! $this->check_visible_post_status( $post_before->post_status ) || ! $this->check_visible_post_status( $post->post_status ) ) {
 			return;
 		}
 
