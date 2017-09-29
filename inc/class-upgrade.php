@@ -401,7 +401,14 @@ class WPSEO_Upgrade {
 	 * Updates legacy license page options to the latest version.
 	 */
 	private function upgrade_56() {
+		global $wpdb;
+
+		// Make sure License Server checks are on the latest server version by default.
 		update_option( 'wpseo_license_server_version', WPSEO_License_Page_Manager::VERSION_BACKWARDS_COMPATIBILITY );
+
+		// Make sure incoming link count entries are at least 0, not NULL.
+		$count_storage = new WPSEO_Meta_Storage();
+		$wpdb->query( 'UPDATE ' . $count_storage->get_table_name() . ' SET incoming_link_count = 0 WHERE incoming_link_count IS NULL' );
 	}
 
 
