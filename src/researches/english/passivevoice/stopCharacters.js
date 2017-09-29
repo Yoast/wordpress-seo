@@ -3,7 +3,6 @@ module.exports = function() {
 		"'ll",
 		":",
 		",",
-		"–",
 		"(",
 		")",
 	];

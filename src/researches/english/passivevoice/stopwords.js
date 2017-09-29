@@ -43,7 +43,6 @@ module.exports = function() {
 		"won't",
 		"do",
 		"does",
-		"'ll",
-		":",
+		"–",
 	];
 };
