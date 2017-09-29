@@ -1,4 +1,4 @@
-var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;?:\/»«‹›<>])/ig;
+var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
 var indices = require( "../../stringProcessing/indices" );
 var getIndicesOfList = indices.getIndicesByWordList;
