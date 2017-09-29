@@ -19,7 +19,7 @@ export const HelpCenterContainer = styled.div`
 export default function HelpCenterWrapper( props ) {
 	return (
 		<HelpCenterContainer>
-			<HelpCenter />
+			<HelpCenter items={ props.items }/>
 		</HelpCenterContainer>
 	);
 }
