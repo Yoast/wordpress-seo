@@ -308,6 +308,45 @@ textarea.wpseo-new-metadesc {
 	max-width: 100%;
 }
 
+.wpseotab .extension {
+	float: right;
+	box-sizing: border-box;
+	width: 300px;
+	height: 230px;
+	margin: 10px 0 10px 20px;
+	border: 1px solid #ccc;
+}
+
+.wpseotab .extension p {
+	margin: 0;
+	padding: 10px;
+}
+
+.wpseotab .extension h3 {
+	box-sizing: border-box;
+	height: 110px;
+	margin: 0;
+	padding: 20px 120px 0 10px;
+	border-bottom: 1px solid #ccc;
+	background: #fff no-repeat right 10px;
+	background-size: 130px 100px;
+}
+
+.wpseotab .extension a {
+	text-decoration: none;
+}
+
+.wpseotab .extension button.installed {
+	border-color: #00a000;
+	background-color: #00a000;
+	cursor: default;
+}
+
+/* For the Premium "Site wide analysis" tab. */
+#site-analysis.active ~ .submit {
+	display: none;
+}
+
 /* Titles & Metas: title separator. */
 #separator {
 	margin: 1.5em 0 0.5em;
