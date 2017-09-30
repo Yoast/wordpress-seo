@@ -1,8 +1,8 @@
-/* global wpseoHelpCenter */
+/* global wpseoHelpCenter wpseoHelpCenterData */
 
 import React from "react";
 import ReactDOM from "react-dom";
-import styled from "styled-components";
+import get from "lodash/get";
 import YoastTabs from "yoast-components/composites/Plugin/Shared/components/YoastTabs";
 import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
 import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSearcher";
@@ -10,15 +10,12 @@ import { IntlProvider, injectIntl, intlShape, addLocaleData } from "react-intl";
 
 addLocaleData( wpseoHelpCenter.translations );
 
-const HelpCenterContainer = styled.div`
-`;
-
-class IntlTest extends React.Component {
+class HelpCenter extends React.Component {
 	constructor( props ) {
 		super( props );
 
 		this.state = {
-			videoUrl: null,
+			videoUrl: this.getVideoUrl( props.initialTab ),
 		};
 
 		window.addEventListener( "hashchange", this.tabChanged.bind( this ) );
@@ -26,9 +23,14 @@ class IntlTest extends React.Component {
 
 	tabChanged() {
 		const tabId = location.hash.replace( "#top#", "" );
-		const videoUrl = this.props.tabData[ tabId ].video_url;
+		const videoUrl = this.getVideoUrl( tabId );
 		this.setState( { videoUrl } );
 	}
+
+	getVideoUrl( tabId ) {
+	    console.log( get( this.props.tabs, `${tabId}.videoUrl` ) );
+	    return get( this.props.tabs, `${tabId}.videoUrl` );
+    }
 
 	render() {
         const items= [
@@ -45,10 +47,6 @@ class IntlTest extends React.Component {
                 linkText: "Enroll in the Yoast SEO for WordPress training »",
             },
         ];
-		const translation = this.props.intl.formatMessage( {
-			id: "translationId",
-			defaultMessage: "{ Not translated }",
-		} );
 		return (
 		    <div classID="yoast-help-center">
                 <YoastTabs
@@ -73,17 +71,19 @@ class IntlTest extends React.Component {
 	}
 }
 
-IntlTest.propTypes = {
+HelpCenter.propTypes = {
 	intl: intlShape.isRequired,
 };
 
-const Test = injectIntl( IntlTest );
+const HelpCenterIntl = injectIntl( HelpCenter );
 
 ReactDOM.render(
 	<IntlProvider
 		locale={ wpseoHelpCenter.translations.locale }
 		messages={ wpseoHelpCenter.translations }>
-    	<Test tabData={ window.wpseoOptionTabData } />
+    	<HelpCenterIntl
+            initialTab={ wpseoHelpCenterData.initialTab }
+            tabs={ wpseoHelpCenterData.tabs } />
 	</IntlProvider>,
     document.getElementById( "yoast-help-center" )
 );
