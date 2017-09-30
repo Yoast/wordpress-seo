@@ -100,7 +100,7 @@ class WPSEO_Option_Tabs {
 	 * @param array      $options Options needed in the views.
 	 */
 	public function display( Yoast_Form $yform, $options = array() ) {
-		$localizer = new WPSEO_Option_Tgit statuabs_Data_Localizer();
+		$localizer = new WPSEO_Option_Tabs_Data_Localizer();
 		$localizer->localize( $this );
 
 		$formatter = new WPSEO_Option_Tabs_Formatter();
