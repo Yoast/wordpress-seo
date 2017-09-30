@@ -61,6 +61,7 @@
     "react": "^15.3.1",
     "react-dom": "^15.4.0",
     "sassdash": "^0.8.1",
+    "svg-react-loader": "^0.4.5",
     "time-grunt": "^1.0.0",
     "unminified-webpack-plugin": "^1.2.0",
     "webpack": "^3.4.1"
@@ -80,7 +81,7 @@
     "react-intl": "^2.4.0",
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
-    "yoast-components": "^2.9.3",
+    "yoast-components": "https://github.com/Yoast/yoast-components.git#features/help-center",
     "yoastseo": "https://github.com/Yoast/YoastSEO.js#release/1.21"
   }
 }
