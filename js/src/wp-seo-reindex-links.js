@@ -149,8 +149,8 @@ function init() {
 
 	jQuery( "#noticeRunLinkIndex" ).click( openLinkIndexing );
 
-	if ( window.location.hash.indexOf( "#reIndexLinks" ) !== -1 ) {
-		openLinkIndexing();
+	if ( window.location.href.indexOf( "&reIndexLinks=1" ) !== -1 ) {
+		jQuery( openLinkIndexing );
 	}
 }
 
