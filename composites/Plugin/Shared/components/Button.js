@@ -49,7 +49,7 @@ export function addBaseStyle( component ) {
 		}
 
 		// Only needed for IE 10+.
-		@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+		@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
 			::after {
 				display: inline-block;
 				content: "";

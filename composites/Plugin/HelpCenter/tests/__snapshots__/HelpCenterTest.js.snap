@@ -6,7 +6,7 @@ exports[`the HelpCenter matches the snapshot 1`] = `
 >
   <button
     aria-expanded={false}
-    className="sc-htpNat gBIKzG sc-bwzfXH eeZBlJ sc-bdVaJa bsIiYo"
+    className="sc-htpNat gBIKzG sc-bwzfXH gvXjpH sc-bdVaJa bsIiYo"
     onClick={[Function]}
     type="button"
   >
@@ -35,7 +35,7 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
 >
   <button
     aria-expanded={false}
-    className="sc-htpNat gBIKzG sc-bwzfXH eeZBlJ sc-bdVaJa iWweBU"
+    className="sc-htpNat gBIKzG sc-bwzfXH gvXjpH sc-bdVaJa iWweBU"
     onClick={[Function]}
     type="button"
   >
