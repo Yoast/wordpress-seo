@@ -65,26 +65,6 @@ export class HelpCenter extends React.Component {
 	}
 }
 
-/**
- * Returns the HelpCenter component.
- *
- * @param {Object} props The props to use for the component.
- *
- * @returns {ReactElement} The HelpCenter component.
- */
-/*
-export default function HelpCenter( props ) {
-	return (
-		<HelpCenterContainer>
-				<HelpCenterButton isExpanded={ props.isExpanded }>Need help?</HelpCenterButton>
-				{ props.isExpanded
-					? <YoastTabs items={ props.items }/>
-					: null
-				}
-		</HelpCenterContainer>
-	);
-}
-*/
 HelpCenter.propTypes = {
 	items: PropTypes.array.isRequired,
 };
