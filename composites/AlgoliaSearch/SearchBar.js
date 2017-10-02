@@ -7,43 +7,75 @@ import debounce from "lodash/debounce";
 import colors from "../../style-guide/colors.json";
 import SearchIcon from "../../style-guide/svg/search.svg";
 import { Icon } from "../Plugin/Shared/components/Icon";
+import { YoastButton } from "../Plugin/Shared/components/YoastButton";
+import breakpoints from "../../style-guide/responsive-breakpoints.json";
 
 const messages = defineMessages( {
 	headingText: {
 		id: "searchBar.headingText",
 		defaultMessage: "Search the Yoast knowledge base",
 	},
+	placeholderText: {
+		id: "searchBar.placeholderText",
+		defaultMessage: "Search the knowledge base",
+	},
+	buttonText: {
+		id: "searchBar.buttonText",
+		defaultMessage: "Search",
+	},
 } );
 
-const SearchLabel = styled.label`
-	width: 2em;
-	height: 2em;
-	float: left;
-	margin-top: 0.25em;
-`;
-
 const SearchBarWrapper = styled.div`
-	overflow: hidden;
-	width: 100%;
 	padding: 0 16px;
-	box-sizing: border-box;
-`;
 
-const SearchBarInput = styled.input`
-	box-sizing: border-box;
-	height: 2.5em;
-	width: calc(100% - 2em);
-	box-shadow: inset 0 2px 8px 0px rgba(0,0,0,0.3);
-	background: ${ colors.$color_grey_light };
-	border: 0;
-	font-size: 1em;
-	float: left;
-	padding-left: 16px;
+	form {
+		display: flex;
+
+		@media screen and ( max-width: ${ breakpoints.mobile } ) {
+			flex-wrap: wrap;
+		}
+	}
+
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
+		button {
+			min-width: 100%;
+			margin-top: 1em;
+		}
+	}
 `;
 
 const SearchHeading = styled.h2`
 	font-size: 1em;
-	margin: 0.5em 0;
+	margin: 0.5em 0 0.5em 58px;
+
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
+		margin-left: 0;
+	}
+`;
+
+const SearchLabel = styled.label`
+	flex: 0 0 42px;
+	height: 3em;
+	// This label is already a flex item to be aligned with its siblings.
+	// By making it also a flex container, we can align the SVG icon.
+	display: inline-flex;
+	align-items: center;
+`;
+
+const SearchBarInput = styled.input`
+	flex: 1 1 auto;
+	box-sizing: border-box;
+	height: 3em;
+	box-shadow: inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 );
+	background: ${ colors.$color_grey_light };
+	border: 0;
+	font-size: 1em;
+	margin-right: 24px;
+	padding: 0 8px 0 16px;
+
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
+		margin-right: 0;
+	}
 `;
 
 /**
@@ -89,6 +121,19 @@ class SearchBar extends React.Component {
 	 * @returns {void}
 	 */
 	onSearchChange( event ) {
+		/*
+		 * Manual search: the form already handles the submit event taking the
+		 * search string from the state so the state needs to be updated.
+		 */
+		if ( ! this.props.enableLiveSearch ) {
+			this.setState( { searchString: event.target.value } );
+			return;
+		}
+
+		/*
+		 * Live search "while typing": update the state searchString and
+		 * debounce the form submission.
+		 */
 		event.persist();
 		this.setState( { searchString: event.target.value }, () => {
 			this.doFormSubmission( this.state.searchString );
@@ -115,6 +160,8 @@ class SearchBar extends React.Component {
 	 */
 	render() {
 		const headingText = this.props.intl.formatMessage( messages.headingText );
+		const placeholderText = this.props.intl.formatMessage( messages.placeholderText );
+
 		return (
 			<SearchBarWrapper role="search">
 				<SearchHeading>
@@ -137,7 +184,12 @@ class SearchBar extends React.Component {
 						autoCorrect="off"
 						autoCapitalize="off"
 						spellCheck="false"
+						placeholder={ placeholderText }
 					/>
+					{ ! this.props.enableLiveSearch && <YoastButton type="submit">
+							{ this.props.intl.formatMessage( messages.buttonText ) }
+						</YoastButton>
+					}
 				</form>
 			</SearchBarWrapper>
 		);
@@ -148,6 +200,7 @@ SearchBar.propTypes = {
 	searchString: PropTypes.string,
 	submitAction: PropTypes.func,
 	intl: intlShape.isRequired,
+	enableLiveSearch: PropTypes.bool,
 };
 
 SearchBar.defaultProps = {
