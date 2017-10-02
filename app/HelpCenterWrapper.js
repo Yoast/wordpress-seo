@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { HelpCenter } from "../composites/Plugin/HelpCenter/HelpCenter";
+import colors from "../style-guide/colors.json";
 
 export const HelpCenterContainer = styled.div`
 	padding: 16px;
@@ -18,7 +19,13 @@ export const HelpCenterContainer = styled.div`
 export default function HelpCenterWrapper( props ) {
 	return (
 		<HelpCenterContainer>
-			<HelpCenter items={ props.items }/>
+			<HelpCenter
+				buttonBackgroundColor={ colors.$color_white }
+				buttonTextColor={ colors.$color_red }
+				buttonIconColor={ colors.$color_red }
+				buttonWithTextShadow={ false }
+				items={ props.items }
+			/>
 		</HelpCenterContainer>
 	);
 }

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { HelpCenterButton } from "../../Plugin/Shared/components/HelpCenterButton";
 import Paper from "../../../composites/basic/Paper"
-
+import colors from "../../../style-guide/colors.json";
 import YoastTabs from "../Shared/components/YoastTabs";
 
 export const HelpCenterContainer = styled.div`
@@ -51,7 +51,16 @@ export class HelpCenter extends React.Component {
 	render() {
 		return (
 			<HelpCenterContainer>
-				<HelpCenterButton onClick={ this.onButtonClick.bind( this ) } isExpanded={ this.state.isExpanded }>Need help?</HelpCenterButton>
+				<HelpCenterButton
+					onClick={ this.onButtonClick.bind( this ) }
+					isExpanded={ this.state.isExpanded }
+					backgroundColor={ this.props.buttonBackgroundColor }
+					textColor={ this.props.buttonTextColor }
+					iconColor={ this.props.buttonIconColor }
+					withTextShadow={ this.props.buttonWithTextShadow }
+				>
+					Need help?
+				</HelpCenterButton>
 				{ this.state.isExpanded && <Paper minHeight="432px"><YoastTabs items={ this.props.items }/></Paper> }
 			</HelpCenterContainer>
 		);
@@ -60,4 +69,15 @@ export class HelpCenter extends React.Component {
 
 HelpCenter.propTypes = {
 	items: PropTypes.array.isRequired,
+	buttonBackgroundColor: PropTypes.string,
+	buttonTextColor: PropTypes.string,
+	buttonIconColor: PropTypes.string,
+	buttonWithTextShadow: PropTypes.bool,
+};
+
+HelpCenter.defaultProps = {
+	buttonBackgroundColor: colors.$color_green_medium_light,
+	buttonTextColor: colors.$color_white,
+	buttonIconColor: colors.$color_white,
+	buttonWithTextShadow: true,
 };
