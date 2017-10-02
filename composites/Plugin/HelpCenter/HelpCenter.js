@@ -27,9 +27,9 @@ export const HelpCenterContainer = styled.div`
  * @returns {ReactElement} The HelpCenter component.
  */
 class HelpCenter extends React.Component {
-
 	/**
 	 * Constructor for the component.
+	 *
 	 * @param {Object} props The props to assign to the current component.
 	 *
 	 * @constructor
@@ -69,7 +69,16 @@ class HelpCenter extends React.Component {
 				>
 					{ this.props.intl.formatMessage( messages.buttonText ) }
 				</HelpCenterButton>
-				{ this.state.isExpanded && <Paper minHeight="432px"><YoastTabs items={ this.props.items }/></Paper> }
+				{ this.state.isExpanded && <Paper minHeight="432px">
+					<YoastTabs
+						items={ this.props.items }
+						tabsTextColor={ this.props.tabsTextColor }
+						tabsTextTransform={ this.props.tabsTextTransform }
+						tabsFontSize={ this.props.tabsFontSize }
+						tabsFontWeight={ this.props.tabsFontWeight }
+						tabsBaseWidth={ this.props.tabsBaseWidth }
+					/>
+				</Paper> }
 			</HelpCenterContainer>
 		);
 	}
@@ -82,6 +91,11 @@ HelpCenter.propTypes = {
 	buttonTextColor: PropTypes.string,
 	buttonIconColor: PropTypes.string,
 	buttonWithTextShadow: PropTypes.bool,
+	tabsTextColor: PropTypes.string,
+	tabsTextTransform: PropTypes.string,
+	tabsFontSize: PropTypes.string,
+	tabsFontWeight: PropTypes.string,
+	tabsBaseWidth: PropTypes.string,
 };
 
 HelpCenter.defaultProps = {
@@ -89,6 +103,11 @@ HelpCenter.defaultProps = {
 	buttonTextColor: colors.$color_white,
 	buttonIconColor: colors.$color_white,
 	buttonWithTextShadow: true,
+	tabsTextColor: colors.$color_grey_dark,
+	tabsTextTransform: "none",
+	tabsFontSize: "1.5em",
+	tabsFontWeight: "200",
+	tabsBaseWidth: "200px",
 };
 
 export default injectIntl( HelpCenter );

@@ -28,3 +28,32 @@ exports[`the HelpCenter matches the snapshot 1`] = `
   </button>
 </div>
 `;
+
+exports[`the HelpCenter with props matches the snapshot 1`] = `
+<div
+  className="sc-EHOje lblfxX"
+>
+  <button
+    aria-expanded={false}
+    className="sc-htpNat gBIKzG sc-bwzfXH eeZBlJ sc-bdVaJa iWweBU"
+    onClick={[Function]}
+    type="button"
+  >
+    <span>
+      <svg
+        aria-hidden="true"
+        className="sc-htoDjs aOUzm"
+        focusable="false"
+        role="img"
+      />
+      Need help?
+      <svg
+        aria-hidden="true"
+        className="sc-dnqmqq ljFcTe"
+        focusable="false"
+        role="img"
+      />
+    </span>
+  </button>
+</div>
+`;

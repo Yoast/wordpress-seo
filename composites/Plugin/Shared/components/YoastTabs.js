@@ -5,7 +5,7 @@ import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 
 import colors from "../../../../style-guide/colors.json";
 
-const YoastTabsContainer = styled( Tabs )`
+const YoastTabsContainer = styled.div`
 	font-size: 1em;
 
 	.react-tabs__tab-list {
@@ -19,13 +19,17 @@ const YoastTabsContainer = styled( Tabs )`
 	}
 
 	.react-tabs__tab {
-		flex: 0 1 200px;
+		flex: 0 1 ${ props => props.tabsBaseWidth };
 		text-align: center;
 		margin: 0 16px;
 		padding: 16px 0;
-		color: ${ colors.$color_grey_dark };
 		cursor: pointer;
-		font: 200 1.5em/32px "Open Sans", sans-serif;
+		font-family: "Open Sans", sans-serif;
+		font-size: ${ props => props.tabsFontSize };
+		line-height: 1.33333333;
+		font-weight: ${ props => props.tabsFontWeight };
+		color: ${ props => props.tabsTextColor };
+		text-transform: ${ props => props.tabsTextTransform };
 
 		&.react-tabs__tab--selected {
 			box-shadow: 0 4px 0 0 ${ colors.$color_pink_dark };
@@ -45,6 +49,14 @@ const YoastTabsContainer = styled( Tabs )`
 		}
 	}
 `;
+
+YoastTabsContainer.propTypes = {
+	tabsTextColor: PropTypes.string,
+	tabsTextTransform: PropTypes.string,
+	tabsFontSize: PropTypes.string,
+	tabsFontWeight: PropTypes.string,
+	tabsBaseWidth: PropTypes.string,
+};
 
 /**
  * Creates a Yoast styled ARIA tabs widget.
@@ -85,11 +97,19 @@ class YoastTabs extends React.Component {
 	 */
 	render() {
 		return(
-			<YoastTabsContainer>
-				<TabList>
-					{ this.getTabs() }
-				</TabList>
-				{ this.getTabPanels() }
+			<YoastTabsContainer
+				tabsTextColor={ this.props.tabsTextColor }
+				tabsTextTransform={ this.props.tabsTextTransform }
+				tabsFontSize={ this.props.tabsFontSize }
+				tabsFontWeight={ this.props.tabsFontWeight }
+				tabsBaseWidth={ this.props.tabsBaseWidth }
+			>
+				<Tabs>
+					<TabList>
+						{ this.getTabs() }
+					</TabList>
+					{ this.getTabPanels() }
+				</Tabs>
 			</YoastTabsContainer>
 		);
 	}
@@ -103,10 +123,20 @@ YoastTabs.propTypes = {
 			content: PropTypes.object.isRequired,
 		} )
 	),
+	tabsTextColor: PropTypes.string,
+	tabsTextTransform: PropTypes.string,
+	tabsFontSize: PropTypes.string,
+	tabsFontWeight: PropTypes.string,
+	tabsBaseWidth: PropTypes.string,
 };
 
 YoastTabs.defaultProps = {
 	items: [],
+	tabsTextColor: colors.$color_grey_dark,
+	tabsTextTransform: "none",
+	tabsFontSize: "1.5em",
+	tabsFontWeight: "200",
+	tabsBaseWidth: "200px",
 };
 
 export default YoastTabs;

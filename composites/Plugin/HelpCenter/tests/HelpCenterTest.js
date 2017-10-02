@@ -30,3 +30,23 @@ test( "the HelpCenter matches the snapshot", () => {
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
+
+test( "the HelpCenter with props matches the snapshot", () => {
+	const component = createComponentWithIntl(
+		<HelpCenter
+			buttonBackgroundColor="#c30"
+			buttonTextColor="#fff"
+			buttonIconColor="#fff"
+			buttonWithTextShadow={ false }
+			tabsTextColor="#ff0"
+			tabsFontSize="16px"
+			tabsTextTransform="uppercase"
+			tabsFontWeight="600"
+			tabsBaseWidth="250px"
+			items={ tabItems }
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
