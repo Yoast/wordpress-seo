@@ -83,6 +83,11 @@ class AlgoliaSearcher extends React.Component {
 		if ( searchString === "" ) {
 			return;
 		}
+		let usedQueries = this.addUsedQuery( searchString );
+
+		if ( this.props.onQueryChange ) {
+			this.props.onQueryChange( usedQueries );
+		}
 
 		// Updating the state will re-render the whole component.
 		this.setState( {
@@ -353,6 +358,7 @@ AlgoliaSearcher.propTypes = {
 	algoliaApiKey: PropTypes.string,
 	algoliaIndexName: PropTypes.string,
 	maxWidth: PropTypes.string,
+	onQueryChange: PropTypes.func,
 	intl: intlShape.isRequired,
 };
 
