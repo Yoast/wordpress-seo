@@ -16,7 +16,7 @@ let tabItems = [
 		content: <h1>KB</h1>,
 	},
 	{
-		label: "Support",
+		label: "Get support",
 		id: "support",
 		content: <h1>Support</h1>,
 	},

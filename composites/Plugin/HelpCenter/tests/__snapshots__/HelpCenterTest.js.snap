@@ -2,7 +2,7 @@
 
 exports[`the HelpCenter matches the snapshot 1`] = `
 <div
-  className="sc-ifAKCX gQGwn"
+  className="sc-ifAKCX fioYIS"
 >
   <button
     aria-expanded={false}

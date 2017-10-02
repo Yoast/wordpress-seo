@@ -7,7 +7,6 @@ import { HelpCenterButton } from "../../Plugin/Shared/components/HelpCenterButto
 import YoastTabs from "../Shared/components/YoastTabs";
 
 export const HelpCenterContainer = styled.div`
-	width: 100%;
 	min-height: 432px;
 	text-align: center;
 	box-sizing: border-box;
@@ -55,10 +54,7 @@ export class HelpCenter extends React.Component {
 		return (
 			<HelpCenterContainer>
 				<HelpCenterButton onClick={ this.onButtonClick.bind( this ) } isExpanded={ this.state.isExpanded }>Need help?</HelpCenterButton>
-				{ this.state.isExpanded
-					? <YoastTabs items={ this.props.items }/>
-					: null
-				}
+				{ this.state.isExpanded && <YoastTabs items={ this.props.items }/> }
 			</HelpCenterContainer>
 		);
 	}

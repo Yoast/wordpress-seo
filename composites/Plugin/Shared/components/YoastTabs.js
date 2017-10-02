@@ -15,20 +15,20 @@ const YoastTabsContainer = styled( Tabs )`
 		list-style: none;
 		padding: 0;
 		margin: 0;
-		text-transform: uppercase;
-		border-bottom: 1px solid ${ colors.$color_grey_light };
+		border-bottom: 4px solid ${ colors.$color_grey_light };
 	}
 
 	.react-tabs__tab {
-		display: inline-block;
+		flex: 0 1 200px;
 		text-align: center;
-		margin: 0 30px;
-		padding: 10px;
-		color: ${ colors.$color_pink_dark };
+		margin: 0 16px;
+		padding: 16px 0;
+		color: ${ colors.$color_grey_dark };
 		cursor: pointer;
+		font: 200 1.5em/32px "Open Sans", sans-serif;
 
 		&.react-tabs__tab--selected {
-			box-shadow: inset 0 -5px 0 0 ${ colors.$color_pink_dark };
+			box-shadow: 0 4px 0 0 ${ colors.$color_pink_dark };
 		}
 	}
 

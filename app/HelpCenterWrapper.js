@@ -4,11 +4,8 @@ import styled from "styled-components";
 import { HelpCenter } from "../composites/Plugin/HelpCenter/HelpCenter";
 
 export const HelpCenterContainer = styled.div`
-	box-sizing: border-box;
 	padding: 16px;
-	min-height: 432px;
-	width: 100%;
-	background-color: white;
+	background-color: #f1f1f1;
 `;
 
 /**
