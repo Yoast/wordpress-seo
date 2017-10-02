@@ -44,7 +44,6 @@ export class HelpCenter extends React.Component {
 	 */
 	onButtonClick() {
 		this.setState( { isExpanded: ! this.state.isExpanded } );
-
 	}
 
 	/**
