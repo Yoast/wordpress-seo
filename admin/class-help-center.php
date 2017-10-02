@@ -11,7 +11,9 @@ class WPSEO_Help_Center {
 	private $tabs;
 
 	/** @var string Mount point in the HTML */
-	private $identifier = 'yoast-help-center';
+	private $identifier = 'yoast-help-center-container';
+
+	protected $help_center_items = array();
 
 	/**
 	 * WPSEO_Help_Center constructor.
@@ -26,6 +28,7 @@ class WPSEO_Help_Center {
 	 *
 	 */
 	public function localize_data() {
+		$this->add_contact_support_item();
 		$this->enqueue_localized_data( $this->format_data( $this->tabs->get_tabs() ) );
 	}
 
@@ -72,7 +75,23 @@ class WPSEO_Help_Center {
 			)
 		);
 
+		$formatted_data['extraTabs'] = $this->get_extra_tabs();
+
 		return $formatted_data;
+	}
+
+	protected function get_extra_tabs() {
+		$help_center_items = apply_filters( 'wpseo_help_center_items', $this->help_center_items );
+
+		return array_map( array( $this, 'format_helpcenter_tab' ), $help_center_items );
+	}
+
+	protected function format_helpcenter_tab( WPSEO_Help_Center_Item $item ) {
+		return array(
+			'identifier' => $item->get_identifier(),
+			'label' => $item->get_label(),
+			'content' => $item->get_content(),
+		);
 	}
 
 	/**
@@ -86,7 +105,41 @@ class WPSEO_Help_Center {
 	 * Outputs the help center div.
 	 */
 	public function mount() {
-		echo '<div id="' . esc_attr( $this->identifier ) . '">Loading help center.</div>';
+		echo '<div id="' . esc_attr( $this->identifier ) . '">' . __( 'Loading help center.', 'wordpress-seo' ) . '</div>';
+	}
+
+	/**
+	 * Add the contact support help center item to the help center.
+	 */
+	private function add_contact_support_item() {
+		/* translators: %s: expands to 'Yoast SEO Premium'. */
+		$popup_title = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$popup_content = '<p>' . __( 'Go Premium and our experts will be there for you to answer any questions you might have about the set-up and use of the plug-in!', 'wordpress-seo' ) . '</p>';
+		/* translators: %1$s: expands to 'Yoast SEO Premium'. */
+		$popup_content .= '<p>' . sprintf( __( 'Other benefits of %1$s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
+		$popup_content .= '<ul>';
+		$popup_content .= '<li>' . sprintf(
+			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+				__( '%1$sNo more dead links%2$s: easy redirect manager', 'wordpress-seo' ), '', ''
+			) . '</li>';
+		$popup_content .= '<li>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . sprintf(
+			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+				__( '%1$sSocial media preview%2$s: Facebook &amp; Twitter', 'wordpress-seo' ), '', ''
+			) . '</li>';
+		$popup_content .= '<li>' . __( '24/7 support', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '</ul>';
+		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content );
+		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
+			'contact-support',
+			__( 'Get support', 'wordpress-seo' ),
+			array( 'content' => $premium_popup->get_premium_message( false ) ),
+			'dashicons-email-alt'
+		);
+		array_push( $this->help_center_items, $contact_support_help_center_item );
 	}
 
 	/**
