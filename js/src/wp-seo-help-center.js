@@ -15,7 +15,6 @@ class HelpCenter extends React.Component {
 		super( props );
 
 		const initialTab = this.getTabIdFromHash() || props.initialTab;
-		console.log( initialTab );
 		this.state = {
 			videoUrl: this.getVideoUrl( initialTab ),
 		};
@@ -38,37 +37,25 @@ class HelpCenter extends React.Component {
 	}
 
 	render() {
-		const items = [
-			{
-				title: "Need some help?",
-				description: "Go Premium and our experts will be there for you to answer any questions you might have about the setup and use of the plugin.",
-				link: "#1",
-				linkText: "Get Yoast SEO Premium now »",
-			},
-			{
-				title: "Want to be a Yoast SEO Expert?",
-				description: "Follow our Yoast SEO for WordPress training and become a certified Yoast SEO Expert!",
-				link: "#2",
-				linkText: "Enroll in the Yoast SEO for WordPress training »",
-			},
-		];
+		const formatMessage = this.props.intl.formatMessage;
+		const items = wpseoHelpCenterData.videoDescriptions;
 		return (
 			<div classID="yoast-help-center">
 				<YoastTabs
 					items={ [ {
 						id: "video-tutorial",
-						label: "Video tutorial",
+						label: formatMessage( { id: "videoTutorial" } ),
 						content: <VideoTutorial
 							src={ this.state.videoUrl }
 							title="Learn this"
 							items={ items } />,
 					}, {
 						id: "knowledge-base",
-						label: "Knowledge base",
+						label: formatMessage( { id: "knowledgeBase" } ),
 						content: <AlgoliaSearcher />,
 					}, {
 						id: "support",
-						label: "Support",
+						label: formatMessage( { id: "getSupport" } ),
 						content: <h1>Get support</h1>,
 					} ] }/>
             </div>
