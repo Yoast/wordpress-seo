@@ -1,7 +1,7 @@
 import React from "react";
-import renderer from "react-test-renderer";
 
-import { HelpCenter } from "../../../Plugin/HelpCenter/HelpCenter.js";
+import { createComponentWithIntl } from "../../../../utils/intlProvider";
+import HelpCenter from "../../../Plugin/HelpCenter/HelpCenter.js";
 
 let tabItems = [
 	{
@@ -23,7 +23,7 @@ let tabItems = [
 ];
 
 test( "the HelpCenter matches the snapshot", () => {
-	const component = renderer.create(
+	const component = createComponentWithIntl(
 		<HelpCenter items={ tabItems }/>
 	);
 

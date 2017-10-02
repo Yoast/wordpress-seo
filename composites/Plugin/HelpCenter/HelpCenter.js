@@ -1,11 +1,19 @@
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import { injectIntl, intlShape, defineMessages } from "react-intl";
 
 import { HelpCenterButton } from "../../Plugin/Shared/components/HelpCenterButton";
 import Paper from "../../../composites/basic/Paper"
 import colors from "../../../style-guide/colors.json";
 import YoastTabs from "../Shared/components/YoastTabs";
+
+const messages = defineMessages( {
+	buttonText: {
+		id: "helpCenter.buttonText",
+		defaultMessage: "Need help?",
+	},
+} );
 
 export const HelpCenterContainer = styled.div`
 	margin-bottom: 1em;
@@ -18,7 +26,7 @@ export const HelpCenterContainer = styled.div`
  *
  * @returns {ReactElement} The HelpCenter component.
  */
-export class HelpCenter extends React.Component {
+class HelpCenter extends React.Component {
 
 	/**
 	 * Constructor for the component.
@@ -59,7 +67,7 @@ export class HelpCenter extends React.Component {
 					iconColor={ this.props.buttonIconColor }
 					withTextShadow={ this.props.buttonWithTextShadow }
 				>
-					Need help?
+					{ this.props.intl.formatMessage( messages.buttonText ) }
 				</HelpCenterButton>
 				{ this.state.isExpanded && <Paper minHeight="432px"><YoastTabs items={ this.props.items }/></Paper> }
 			</HelpCenterContainer>
@@ -68,6 +76,7 @@ export class HelpCenter extends React.Component {
 }
 
 HelpCenter.propTypes = {
+	intl: intlShape.isRequired,
 	items: PropTypes.array.isRequired,
 	buttonBackgroundColor: PropTypes.string,
 	buttonTextColor: PropTypes.string,
@@ -81,3 +90,5 @@ HelpCenter.defaultProps = {
 	buttonIconColor: colors.$color_white,
 	buttonWithTextShadow: true,
 };
+
+export default injectIntl( HelpCenter );

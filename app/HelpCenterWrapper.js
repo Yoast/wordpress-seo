@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { HelpCenter } from "../composites/Plugin/HelpCenter/HelpCenter";
+import HelpCenter from "../composites/Plugin/HelpCenter/HelpCenter";
 import colors from "../style-guide/colors.json";
 
 export const HelpCenterContainer = styled.div`
