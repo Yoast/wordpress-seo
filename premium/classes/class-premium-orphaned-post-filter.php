@@ -34,6 +34,21 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	protected function get_explanation() {
 		$post_type_object = get_post_type_object( $this->get_current_post_type() );
 
+		if ( $post_type_object === null ) {
+			return null;
+		}
+
+		// When we can't count orphaned posts.
+		if ( ! WPSEO_Premium_Orphaned_Post_Utils::can_count_orphaned_posts() ) {
+			return sprintf(
+				/* translators: %1$s expands to link to the recalculation option, %2$s: anchor closing. %3$s: plural form of posttype  */
+				__( '%1$sClick here%2$s to index your links, so we can identify orphaned posts.', 'wordpress-seo-premium' ),
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#reIndexLinks' ) ) . '">',
+				'</a>',
+				strtolower( $post_type_object->labels->name )
+			);
+		}
+
 		return sprintf(
 			/* translators: %2$s expands anchor to knowledge base article, %3$s expands to </a> */
 			__( '\'Orphaned content\' refers to %1$s that have no inbound links, consider adding links towards these %1$s. %2$sLearn more about orphaned content%3$s.', 'wordpress-seo' ),
@@ -52,13 +67,26 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	 */
 	public function filter_posts( $where ) {
 		if ( $this->is_filter_active() ) {
-			global $wpdb;
-
-			$post_ids = WPSEO_Premium_Orphaned_Post_Query::get_orphaned_object_ids();
-			$where .= ' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_map( 'intval', $post_ids ) ) . ' ) ';
+			$where .= $this->get_where_filter();
 		}
 
 		return $where;
+	}
+
+	/**
+	 * Returns the where clause to use.
+	 *
+	 * @return string The where clause.
+	 */
+	protected function get_where_filter() {
+		global $wpdb;
+
+		if ( WPSEO_Premium_Orphaned_Post_Utils::can_count_orphaned_posts() ) {
+			$post_ids = WPSEO_Premium_Orphaned_Post_Query::get_orphaned_object_ids();
+			return ' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_map( 'intval', $post_ids ) ) . ' ) ';
+		}
+
+		return 'AND 1 = 0';
 	}
 
 	/**
@@ -83,6 +111,10 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	 */
 	protected function get_post_total() {
 		global $wpdb;
+
+		if ( ! WPSEO_Premium_Orphaned_Post_Utils::can_count_orphaned_posts() ) {
+			return 0;
+		}
 
 		$post_ids = WPSEO_Premium_Orphaned_Post_Query::get_orphaned_object_ids();
 		if ( empty( $post_ids ) ) {
