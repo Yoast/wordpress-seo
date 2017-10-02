@@ -38,11 +38,21 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 			return null;
 		}
 
-		// When we can't count orphaned posts.
-		if ( WPSEO_Premium_Orphaned_Content_Utils::has_unprocessed_content() ) {
+		$unprocessed     = WPSEO_Premium_Orphaned_Content_Utils::has_unprocessed_content();
+		$can_recalculate = WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
+
+		if ( $unprocessed && ! $can_recalculate ) {
 			return sprintf(
-				/* translators: %1$s expands to link to the recalculation option, %2$s: anchor closing. %3$s: plural form of posttype  */
-				__( '%1$sClick here%2$s to index your links, so we can identify orphaned posts.', 'wordpress-seo-premium' ),
+				/* translators: %1$s: plural form of posttype */
+				__( 'Ask your SEO Manager to index your links, so we can identify orphaned %1$s.', 'wordpress-seo-premium' ),
+				strtolower( $post_type_object->labels->name )
+			);
+		}
+
+		if ( $unprocessed ) {
+			return sprintf(
+				/* translators: %1$s expands to link to the recalculation option, %2$s: anchor closing. %3$s: plural form of posttype */
+				__( '%1$sClick here%2$s to index your links, so we can identify orphaned %3$s.', 'wordpress-seo-premium' ),
 				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&reIndexLinks=1' ) ) . '">',
 				'</a>',
 				strtolower( $post_type_object->labels->name )
@@ -114,7 +124,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 		global $wpdb;
 
 		if ( WPSEO_Premium_Orphaned_Content_Utils::has_unprocessed_content() ) {
-			return 0;
+			return '?';
 		}
 
 		$post_ids = WPSEO_Premium_Orphaned_Post_Query::get_orphaned_object_ids();
