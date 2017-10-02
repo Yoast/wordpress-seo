@@ -132,7 +132,7 @@ function wpseo_admin_bar_menu() {
 		'parent' => 'wpseo-kwresearch',
 		'id'     => 'wpseo-adwordsexternal',
 		'title'  => __( 'AdWords External', 'wordpress-seo' ),
-		'href'   => 'http://adwords.google.com/keywordplanner',
+		'href'   => 'https://adwords.google.com/keywordplanner',
 		'meta'   => array( 'target' => '_blank' ),
 	) );
 	$wp_admin_bar->add_menu( array(
