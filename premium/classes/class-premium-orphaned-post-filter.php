@@ -18,6 +18,15 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
+	 * Registers the hooks when the link feature is enabled.
+	 */
+	public function register_hooks() {
+		if ( WPSEO_Premium_Orphaned_Post_Utils::is_link_feature_enabled() ) {
+			parent::register_hooks();
+		}
+	}
+
+	/**
 	 * Returns a text explaining this filter.
 	 *
 	 * @return string The explanation.
