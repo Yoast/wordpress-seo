@@ -47,6 +47,11 @@ export class HelpCenter extends React.Component {
 
 	}
 
+	/**
+	 * Renders the HelpCenter.
+	 *
+	 * @returns {ReactElement} The HelpCenter component.
+	 */
 	render() {
 		return (
 			<HelpCenterContainer>
