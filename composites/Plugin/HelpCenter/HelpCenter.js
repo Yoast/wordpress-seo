@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { injectIntl, intlShape, defineMessages } from "react-intl";
 
 import { HelpCenterButton } from "../../Plugin/Shared/components/HelpCenterButton";
-import Paper from "../../../composites/basic/Paper"
+import Paper from "../../../composites/basic/Paper";
 import colors from "../../../style-guide/colors.json";
 import YoastTabs from "../Shared/components/YoastTabs";
 
