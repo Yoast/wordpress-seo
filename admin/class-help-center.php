@@ -7,32 +7,71 @@
  * Class WPSEO_Help_Center
  */
 class WPSEO_Help_Center {
-	/**
-	 * @var String $group_name
-	 */
-	private $group_name;
-
-	/**
-	 * @var WPSEO_Option_Tab $tab
-	 */
+	/** @var WPSEO_Option_Tab[] $tab */
 	private $tabs;
+
+	/** @var string Mount point in the HTML */
+	private $identifier = 'yoast-help-center';
 
 	/**
 	 * WPSEO_Help_Center constructor.
 	 *
-	 * @param String             $group_name The name of the group of the tab the helpcenter is on.
-	 * @param WPSEO_Option_Tab[] $tabs       Currently displayed tabs.
+	 * @param WPSEO_Option_Tabs $tabs Currently displayed tabs.
 	 */
-	public function __construct( $group_name, $tabs ) {
-		$this->group_name = $group_name;
-		$this->tabs       = $tabs;
+	public function __construct( WPSEO_Option_Tabs $tabs ) {
+		$this->tabs = $tabs;
+	}
+
+	/**
+	 *
+	 */
+	public function localize_data() {
+		$this->enqueue_localized_data( $this->format_data( $this->tabs->get_tabs() ) );
+	}
+
+	/**
+	 * @param WPSEO_Option_Tab[] $tabs
+	 *
+	 * @return array
+	 */
+	protected function format_data( array $tabs ) {
+		$formatted_data = array( 'tabs' => array() );
+
+		foreach ( $tabs as $tab ) {
+			$formatted_data['tabs'][ $tab->get_name() ] = array(
+				'label'    => $tab->get_label(),
+				'videoUrl' => $tab->get_video_url(),
+				'id'       => $tab->get_name(),
+			);
+		}
+
+		$active_tab = $this->tabs->get_active_tab();
+		$active_tab = null === $active_tab ? $tabs[0] : $active_tab;
+
+		$formatted_data['mountId']    = $this->identifier;
+		$formatted_data['initialTab'] = $active_tab->get_name();
+
+		// Will translate to either empty string or "1" in localised script.
+		$formatted_data['isPremium']     = WPSEO_Utils::is_yoast_seo_premium();
+		$formatted_data['pluginVersion'] = WPSEO_VERSION;
+
+		$formatted_data['translations'] = $this::get_translated_texts();
+
+		return $formatted_data;
+	}
+
+	/**
+	 * @param $data
+	 */
+	protected function enqueue_localized_data( $data ) {
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'help-center', 'wpseoHelpCenterData', $data );
 	}
 
 	/**
 	 * Outputs the help center div.
 	 */
-	public function output_help_center() {
-		echo '<div id="yoast-help-center">Loading help center.</div>';
+	public function mount() {
+		echo '<div id="' . esc_attr( $this->identifier ) . '">Loading help center.</div>';
 	}
 
 	/**
@@ -44,29 +83,8 @@ class WPSEO_Help_Center {
 	 */
 	public static function get_translated_texts() {
 		return array(
-			'translations' => array(
-				'locale' => get_locale(),
-				'translationId' => __( 'Translated sentence', 'wordpress-seo' ),
-			),
-			'plugin_version' => WPSEO_VERSION,
-			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
-			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
-			'contentLocale' => get_locale(),
-			'userLocale'    => WPSEO_Utils::get_user_locale(),
-			/* translators: %d: number of knowledge base search results found. */
-			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
-			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),
-			'kb_heading' => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
-			'kb_search_button_text' => __( 'Search', 'wordpress-seo' ),
-			'kb_search_results_heading' => __( 'Search results', 'wordpress-seo' ),
-			'kb_error_message' => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
-			'kb_loading_placeholder' => __( 'Loading...', 'wordpress-seo' ),
-			'kb_search' => __( 'search', 'wordpress-seo' ),
-			'kb_back' => __( 'Back', 'wordpress-seo' ),
-			'kb_back_label' => __( 'Back to search results' , 'wordpress-seo' ),
-			'kb_open' => __( 'Open', 'wordpress-seo' ),
-			'kb_open_label' => __( 'Open the knowledge base article in a new window or read it in the iframe below' , 'wordpress-seo' ),
-			'kb_iframe_title' => __( 'Knowledge base article', 'wordpress-seo' ),
+			'locale'        => get_locale(),
+			'translationId' => __( 'Translated sentence', 'wordpress-seo' ),
 		);
 	}
 }

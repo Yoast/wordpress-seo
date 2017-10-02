@@ -20,8 +20,8 @@ class WPSEO_Option_Tabs_Formatter {
 
 	/**
 	 * @param WPSEO_Option_Tabs $option_tabs Option Tabs to get tabs from.
-	 * @param Yoast_Form        $yform       Yoast Form which is being used in the views.
-	 * @param array             $options     Options which are being used in the views.
+	 * @param Yoast_Form        $yform Yoast Form which is being used in the views.
+	 * @param array             $options Options which are being used in the views.
 	 */
 	public function run( WPSEO_Option_Tabs $option_tabs, Yoast_Form $yform, $options = array() ) {
 
@@ -31,8 +31,9 @@ class WPSEO_Option_Tabs_Formatter {
 		}
 		echo '</h2>';
 
-		$help_center = new WPSEO_Help_Center( $option_tabs->get_base(), $option_tabs->get_tabs() );
-		$help_center->output_help_center();
+		$help_center = new WPSEO_Help_Center( $option_tabs );
+		$help_center->localize_data();
+		$help_center->mount();
 
 		foreach ( $option_tabs->get_tabs() as $tab ) {
 			$identifier = $tab->get_name();

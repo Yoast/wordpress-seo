@@ -80,8 +80,6 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager->enqueue_script( 'admin-script' );
 		$this->asset_manager->enqueue_script( 'help-center' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'help-center', 'wpseoHelpCenter', WPSEO_Help_Center::get_translated_texts() );
-
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
