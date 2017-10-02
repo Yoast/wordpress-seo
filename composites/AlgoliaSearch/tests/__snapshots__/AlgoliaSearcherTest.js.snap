@@ -46,6 +46,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
         type="text"
       />
       <button
+        aria-expanded={undefined}
         className="sc-bwzfXH gvXjpH sc-bdVaJa bsIiYo"
         onClick={undefined}
         type="submit"

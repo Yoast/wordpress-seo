@@ -43,6 +43,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
       type="text"
     />
     <button
+      aria-expanded={undefined}
       className="sc-bwzfXH gvXjpH sc-bdVaJa bsIiYo"
       onClick={undefined}
       type="submit"
@@ -98,6 +99,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
       type="text"
     />
     <button
+      aria-expanded={undefined}
       className="sc-bwzfXH gvXjpH sc-bdVaJa bsIiYo"
       onClick={undefined}
       type="submit"
