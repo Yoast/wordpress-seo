@@ -2,25 +2,25 @@
 
 exports[`the HelpCenter matches the snapshot 1`] = `
 <div
-  className="sc-ifAKCX fioYIS"
+  className="sc-EHOje lblfxX"
 >
   <button
     aria-expanded={false}
-    className="sc-htpNat iPmSkf sc-bwzfXH eeZBlJ sc-bdVaJa bsIiYo"
+    className="sc-htpNat gBIKzG sc-bwzfXH eeZBlJ sc-bdVaJa bsIiYo"
     onClick={[Function]}
     type="button"
   >
     <span>
       <svg
         aria-hidden="true"
-        className="sc-EHOje dYEtoO"
+        className="sc-bZQynM gThpcH"
         focusable="false"
         role="img"
       />
       Need help?
       <svg
         aria-hidden="true"
-        className="sc-bZQynM gThpcH"
+        className="sc-gzVnrw gPgFAM"
         focusable="false"
         role="img"
       />

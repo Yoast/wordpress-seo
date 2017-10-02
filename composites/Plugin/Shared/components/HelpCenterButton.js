@@ -25,6 +25,8 @@ const HelpCenterButtonBase = ( props ) => {
 };
 
 export const HelpCenterButton = styled( HelpCenterButtonBase )`
+	display: flex;
+	margin: 0 auto 1em;
 	min-width: 0;
 	padding: 0 2px;
 

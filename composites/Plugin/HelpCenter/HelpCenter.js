@@ -3,14 +3,12 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import { HelpCenterButton } from "../../Plugin/Shared/components/HelpCenterButton";
+import Paper from "../../../composites/basic/Paper"
 
 import YoastTabs from "../Shared/components/YoastTabs";
 
 export const HelpCenterContainer = styled.div`
-	min-height: 432px;
-	text-align: center;
-	box-sizing: border-box;
-	padding: 0 40px 24px 40px;
+	margin-bottom: 1em;
 `;
 
 /**
@@ -54,7 +52,7 @@ export class HelpCenter extends React.Component {
 		return (
 			<HelpCenterContainer>
 				<HelpCenterButton onClick={ this.onButtonClick.bind( this ) } isExpanded={ this.state.isExpanded }>Need help?</HelpCenterButton>
-				{ this.state.isExpanded && <YoastTabs items={ this.props.items }/> }
+				{ this.state.isExpanded && <Paper minHeight="432px"><YoastTabs items={ this.props.items }/></Paper> }
 			</HelpCenterContainer>
 		);
 	}
