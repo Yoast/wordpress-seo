@@ -21,7 +21,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	 * Registers the hooks when the link feature is enabled.
 	 */
 	public function register_hooks() {
-		if ( WPSEO_Premium_Orphaned_Post_Utils::is_link_feature_enabled() ) {
+		if ( WPSEO_Premium_Orphaned_Content_Utils::is_feature_enabled() ) {
 			parent::register_hooks();
 		}
 	}
@@ -39,7 +39,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 		}
 
 		// When we can't count orphaned posts.
-		if ( ! WPSEO_Premium_Orphaned_Post_Utils::can_count_orphaned_posts() ) {
+		if ( WPSEO_Premium_Orphaned_Content_Utils::has_unprocessed_content() ) {
 			return sprintf(
 				/* translators: %1$s expands to link to the recalculation option, %2$s: anchor closing. %3$s: plural form of posttype  */
 				__( '%1$sClick here%2$s to index your links, so we can identify orphaned posts.', 'wordpress-seo-premium' ),
@@ -81,12 +81,13 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	protected function get_where_filter() {
 		global $wpdb;
 
-		if ( WPSEO_Premium_Orphaned_Post_Utils::can_count_orphaned_posts() ) {
-			$post_ids = WPSEO_Premium_Orphaned_Post_Query::get_orphaned_object_ids();
-			return ' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_map( 'intval', $post_ids ) ) . ' ) ';
+		if ( WPSEO_Premium_Orphaned_Content_Utils::has_unprocessed_content() ) {
+			// Hide all posts, because we cannot tell anything for certain.
+			return 'AND 1 = 0';
 		}
 
-		return 'AND 1 = 0';
+		$post_ids = WPSEO_Premium_Orphaned_Post_Query::get_orphaned_object_ids();
+		return ' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_map( 'intval', $post_ids ) ) . ' ) ';
 	}
 
 	/**
@@ -112,7 +113,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	protected function get_post_total() {
 		global $wpdb;
 
-		if ( ! WPSEO_Premium_Orphaned_Post_Utils::can_count_orphaned_posts() ) {
+		if ( WPSEO_Premium_Orphaned_Content_Utils::has_unprocessed_content() ) {
 			return 0;
 		}
 
