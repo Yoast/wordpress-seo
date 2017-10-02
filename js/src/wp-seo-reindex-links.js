@@ -148,6 +148,10 @@ function init() {
 	} );
 
 	jQuery( "#noticeRunLinkIndex" ).click( openLinkIndexing );
+
+	if ( window.location.hash.indexOf( "#reIndexLinks" ) !== -1 ) {
+		openLinkIndexing();
+	}
 }
 
 jQuery( init );
