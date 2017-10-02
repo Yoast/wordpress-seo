@@ -44,7 +44,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 		if ( $unprocessed && ! $can_recalculate ) {
 			return sprintf(
 				/* translators: %1$s: plural form of posttype */
-				__( 'Ask your SEO Manager to count links in all texts, so we can identify orphaned %1$s.', 'wordpress-seo-premium' ),
+				__( 'Ask your SEO Manager or Site Administrator to count links in all texts, so we can identify orphaned %1$s.', 'wordpress-seo-premium' ),
 				strtolower( $post_type_object->labels->name )
 			);
 		}
