@@ -2,84 +2,33 @@
 
 exports[`the HelpCenterWrapper matches the snapshot 1`] = `
 <div
-  className="sc-htpNat gLRzwq"
+  className="sc-EHOje cYJkPa"
 >
   <div
-    className="sc-bwzfXH eZbNYj"
+    className="sc-ifAKCX gQGwn"
   >
-    <div
-      className="sc-bdVaJa jxZizL"
-      data-tabs={true}
+    <button
+      aria-expanded={false}
+      className="sc-htpNat iPmSkf sc-bwzfXH eeZBlJ sc-bdVaJa bsIiYo"
       onClick={[Function]}
-      onKeyDown={[Function]}
+      type="button"
     >
-      <ul
-        className="react-tabs__tab-list"
-        role="tablist"
-      >
-        <li
-          aria-controls="react-tabs-1"
-          aria-disabled="false"
-          aria-selected="true"
-          className="react-tabs__tab react-tabs__tab--selected"
-          id="react-tabs-0"
-          role="tab"
-          tabIndex="0"
-        >
-          Video tutorial
-        </li>
-        <li
-          aria-controls="react-tabs-3"
-          aria-disabled="false"
-          aria-selected="false"
-          className="react-tabs__tab"
-          id="react-tabs-2"
-          role="tab"
-          tabIndex={null}
-        >
-          Knowledge base
-        </li>
-        <li
-          aria-controls="react-tabs-5"
-          aria-disabled="false"
-          aria-selected="false"
-          className="react-tabs__tab"
-          id="react-tabs-4"
-          role="tab"
-          tabIndex={null}
-        >
-          Support
-        </li>
-      </ul>
-      <div
-        aria-labelledby="react-tabs-0"
-        className="react-tabs__tab-panel react-tabs__tab-panel--selected"
-        id="react-tabs-1"
-        role="tabpanel"
-        style={Object {}}
-        tabIndex="0"
-      >
-        <h1>
-          VideoTutorial
-        </h1>
-      </div>
-      <div
-        aria-labelledby="react-tabs-2"
-        className="react-tabs__tab-panel"
-        id="react-tabs-3"
-        role="tabpanel"
-        style={Object {}}
-        tabIndex="0"
-      />
-      <div
-        aria-labelledby="react-tabs-4"
-        className="react-tabs__tab-panel"
-        id="react-tabs-5"
-        role="tabpanel"
-        style={Object {}}
-        tabIndex="0"
-      />
-    </div>
+      <span>
+        <svg
+          aria-hidden="true"
+          className="sc-bZQynM gThpcH"
+          focusable="false"
+          role="img"
+        />
+        Need help?
+        <svg
+          aria-hidden="true"
+          className="sc-gzVnrw gPgFAM"
+          focusable="false"
+          role="img"
+        />
+      </span>
+    </button>
   </div>
 </div>
 `;

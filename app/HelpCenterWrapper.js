@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import HelpCenter from "../composites/Plugin/HelpCenter/HelpCenter";
+import { HelpCenter } from "../composites/Plugin/HelpCenter/HelpCenter";
 
 export const HelpCenterContainer = styled.div`
 	box-sizing: border-box;
