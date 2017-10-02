@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import HelpCenter from "../../../Plugin/HelpCenter/HelpCenter.js";
+import { HelpCenter } from "../../../Plugin/HelpCenter/HelpCenter.js";
 
 let tabItems = [
 	{
