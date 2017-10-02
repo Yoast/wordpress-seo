@@ -10,6 +10,10 @@ import { makeOutboundLink } from "../../../utils/makeOutboundLink";
 // Used to align the video and the description next to each other.
 const VIDEO_WIDTH = "560px";
 
+const VideoTutorialContainer = styled.div`
+	overflow: hidden;
+`;
+
 const VideoContainer = styled.div`
 	float: left;
 	width: ${ VIDEO_WIDTH };
@@ -93,7 +97,7 @@ VideoDescriptionItem.propTypes = {
  */
 export default function VideoTutorial( props ) {
 	return (
-		<div>
+		<VideoTutorialContainer>
 			<VideoContainer>
 				<YouTubeVideo
 					src={ props.src }
@@ -108,7 +112,7 @@ export default function VideoTutorial( props ) {
 					);
 				} ) }
 			</VideoDescriptions>
-		</div>
+		</VideoTutorialContainer>
 	);
 }
 
