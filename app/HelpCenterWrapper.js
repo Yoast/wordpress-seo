@@ -7,7 +7,6 @@ import AlgoliaSearcher from "../composites/AlgoliaSearch/AlgoliaSearcher";
 import colors from "../style-guide/colors.json";
 
 export const HelpCenterContainer = styled.div`
-	padding: 16px;
 	background-color: #f1f1f1;
 `;
 
