@@ -7889,7 +7889,7 @@ yauzl@^2.2.1:
 
 "yoast-components@https://github.com/Yoast/yoast-components.git#stories/217-help-center":
   version "2.9.3"
-  resolved "https://github.com/Yoast/yoast-components.git#44415589cb6e4a9d0fdc67ce90bf0bb9fdf5a380"
+  resolved "https://github.com/Yoast/yoast-components.git#9fd7bef07a7757cc649fe362da4999aafd372cc6"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     algoliasearch "^3.22.3"
