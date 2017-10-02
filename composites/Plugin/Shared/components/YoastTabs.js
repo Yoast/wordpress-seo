@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 
 import colors from "../../../../style-guide/colors.json";
+import breakpoints from "../../../../style-guide/responsive-breakpoints.json";
 
 const YoastTabsContainer = styled.div`
 	font-size: 1em;
@@ -39,6 +40,10 @@ const YoastTabsContainer = styled.div`
 	.react-tabs__tab-panel {
 		display: none;
 		padding: 24px 40px;
+		
+		@media screen and ( max-width: ${ breakpoints.mobile } ) {
+			padding: 16px 16px;
+		}
 
 		:focus {
 			outline: none;

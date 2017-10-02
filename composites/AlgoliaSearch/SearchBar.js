@@ -26,7 +26,6 @@ const messages = defineMessages( {
 } );
 
 const SearchBarWrapper = styled.div`
-	padding: 0 16px;
 
 	form {
 		display: flex;

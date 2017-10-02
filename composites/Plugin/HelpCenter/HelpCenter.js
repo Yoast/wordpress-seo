@@ -7,6 +7,7 @@ import { HelpCenterButton } from "../../Plugin/Shared/components/HelpCenterButto
 import Paper from "../../../composites/basic/Paper";
 import colors from "../../../style-guide/colors.json";
 import YoastTabs from "../Shared/components/YoastTabs";
+import breakpoints from "../../../style-guide/responsive-breakpoints.json";
 
 const messages = defineMessages( {
 	buttonText: {
@@ -16,7 +17,11 @@ const messages = defineMessages( {
 } );
 
 export const HelpCenterContainer = styled.div`
-	margin-bottom: 1em;
+	margin: 16px 16px 1em;
+	
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
+		margin: 0 0 1em;
+	}
 `;
 
 /**

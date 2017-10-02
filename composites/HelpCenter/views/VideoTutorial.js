@@ -14,18 +14,20 @@ const VideoContainer = styled.div`
 	float: left;
 	width: ${ VIDEO_WIDTH };
 
-	@media screen and ( max-width: ${ breakpoints.mobile } ) {
+	@media screen and ( max-width: ${ breakpoints.tablet } ) {
 		float: none;
-		width: 100%;
+		max-width: 100%;
+		margin: 0 auto;
 	}
 `;
 
 const VideoDescriptions = styled.div`
 	margin-left: ${ VIDEO_WIDTH };
 	padding: 0 16px;
+	max-width: ${ VIDEO_WIDTH };
 
-	@media screen and ( max-width: ${ breakpoints.mobile } ) {
-		margin-left: 0;
+	@media screen and ( max-width: ${ breakpoints.tablet } ) {
+		margin: 0 auto;
 		padding: 0;
 	}
 `;
