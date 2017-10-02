@@ -82,7 +82,7 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 		$notification_id = sprintf( 'wpseo-premium-orphaned-content-%1$s', $post_type->name );
 		$message         = $this->get_notification( $notification_id, $post_type );
 
-		if ( $this->requires_notification( $post_type ) ) {
+		if ( WPSEO_Premium_Orphaned_Post_Utils::is_link_feature_active() && $this->requires_notification( $post_type )  ) {
 			Yoast_Notification_Center::get()->add_notification( $message );
 
 			return;
