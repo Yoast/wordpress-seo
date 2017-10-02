@@ -43,7 +43,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 			return sprintf(
 				/* translators: %1$s expands to link to the recalculation option, %2$s: anchor closing. %3$s: plural form of posttype  */
 				__( '%1$sClick here%2$s to index your links, so we can identify orphaned posts.', 'wordpress-seo-premium' ),
-				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#reIndexLinks' ) ) . '">',
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&reIndexLinks=1' ) ) . '">',
 				'</a>',
 				strtolower( $post_type_object->labels->name )
 			);
