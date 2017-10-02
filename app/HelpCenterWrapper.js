@@ -24,11 +24,6 @@ export default function HelpCenterWrapper( props ) {
 				buttonTextColor={ colors.$color_pink_dark }
 				buttonIconColor={ colors.$color_pink_dark }
 				buttonWithTextShadow={ false }
-				tabsTextColor={ colors.$color_pink_dark }
-				tabsFontSize="1em"
-				tabsTextTransform="uppercase"
-				tabsFontWeight="normal"
-				tabsBaseWidth="200px"
 				items={ props.items }
 			/>
 		</HelpCenterContainer>
