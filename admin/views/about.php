@@ -18,7 +18,7 @@ $version = '3.4';
  */
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
-		echo '<li class="wp-person" id="wp-person-', $username, '">';
+		echo '<li class="wp-person">';
 		echo '<a href="https://github.com/', $username, '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=120" class="gravatar" alt="">', $dev->name, '</a>';
 		echo '<span class="title">', $dev->role, "</span></li>\n";
 	}
