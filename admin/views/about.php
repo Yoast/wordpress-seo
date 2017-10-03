@@ -164,6 +164,11 @@ function wpseo_display_contributors( $contributors ) {
 					'role'     => __( 'QA & Translations Manager', 'wordpress-seo' ),
 					'gravatar' => 'd2d3ecb38cacd521926979b5c678297b',
 				),
+				'benvaassen'   => (object) array(
+					'name'     => 'Ben Vaassen',
+					'role'     => __( 'QA', 'wordpress-seo' ),
+					'gravatar' => 'e186ff6435b02a7bc1c7185dd66b7e64',
+				),
 				'monbauza'     => (object) array(
 					'name'     => 'Ramon Bauza',
 					'role'     => __( 'Tester', 'wordpress-seo' ),
