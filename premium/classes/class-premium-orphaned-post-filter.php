@@ -43,7 +43,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 
 		$learn_more = sprintf(
 			/* translators: %1$s expands to the link to an article to read more about orphaned content, %2$s expands to </a> */
-			__( '%1$sLearn more about orphaned content%2$s.', 'wordpress-seo' ),
+			__( '%1$sLearn more about orphaned content%2$s.', 'wordpress-seo-premium' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1ja' ) . '" target="_blank">',
 			'</a>'
 		);
@@ -70,7 +70,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 
 		return sprintf(
 			/* translators: %1$s: plural form of the current post type, %2$s: a Learn more about link */
-			__( '\'Orphaned content\' refers to %1$s that have no inbound links, consider adding links towards these %1$s. %2$s', 'wordpress-seo' ),
+			__( '\'Orphaned content\' refers to %1$s that have no inbound links, consider adding links towards these %1$s. %2$s', 'wordpress-seo-premium' ),
 			strtolower( $post_type_object->labels->name ),
 			$learn_more
 		);
