@@ -46,7 +46,7 @@ const components = [
 	{
 		id: "help-center",
 		name: "Help center",
-		component: <HelpCenterWrapper items={ [] }/>,
+		component: <HelpCenterWrapper />,
 	},
 ];
 
