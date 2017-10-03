@@ -5,6 +5,36 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.10.0: October 3rd, 2017
+
+### Added
+
+#### Components
+* `Table` component. #219
+* `SearchResultDetail` component. #243
+* `SearchResults` component. #243
+* `YoastLinkButton` component. #284
+* `VideoTutorial` component. #291
+* `YouTubeVideo` component. #291
+* `YoastTabs` component. #303
+* `AllyNotice` component. #306
+* `HelpCenter` component. #310
+* `HelpCenterButton` component. #318
+
+
+##### Other
+* Added translatable label to `SearchBar` component. #243 
+* Added makeOutboundLink util function. #308
+* Added a prop to the `AlgoliaSearcher` component that can be used to enable live search. #323
+* Added a search button and placeholder text to the `AlgoliaSearcher` component. #323
+
+#### Other
+* Improved styling and accessibility of the `SearchBar` component. #243
+* Styling improvements for the Onboarding Wizard. #290
+* Fixed two prop warnings that appeared when switching pages in the Onboarding wizard. #293 and #295
+* Fixed the loading of AMP articles in the iFrame component. #304
+* Improved YoastButton hover and active style. #332
+
 ## 2.9.3: September 26th, 2017
 
 ### Other
