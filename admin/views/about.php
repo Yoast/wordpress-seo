@@ -105,7 +105,7 @@ function wpseo_display_contributors( $contributors ) {
 		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
 			$people = array(
-				'andrea'        => (object) array(
+				'afercia'      => (object) array(
 					'name'     => 'Andrea Fercia',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '074af62ea5ff218b6a6eeab89104f616',
@@ -140,7 +140,7 @@ function wpseo_display_contributors( $contributors ) {
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '59908788f406037240ee011388db29f8',
 				),
-				'irenestr2'      => (object) array(
+				'irenestr'      => (object) array(
 					'name'     => 'Irene Strikkers',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '074d67179d52561e36e57e8e9ea8f8cf',
@@ -169,7 +169,7 @@ function wpseo_display_contributors( $contributors ) {
 					'role'     => __( 'Tester', 'wordpress-seo' ),
 					'gravatar' => 'de09b8491ab1d927e770f7519219cfc9',
 				),
-				'boblinthorst2' => (object) array(
+				'boblinthorst' => (object) array(
 					'name'     => 'Bob Linthorst',
 					'role'     => __( 'Tester', 'wordpress-seo' ),
 					'gravatar' => '8063b1955f54681ef3a2deb21972faa1',
