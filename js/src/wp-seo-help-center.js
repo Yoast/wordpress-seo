@@ -11,13 +11,17 @@ import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSe
 import HelpCenterYC from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
 import colors from "yoast-components/style-guide/colors.json";
 
+// Add react-intl translations
 addLocaleData( wpseoHelpCenterData.translations );
 
+/**
+ * The help center component.
+ */
 class HelpCenter extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		const initialTab = this.getTabIdFromHash() || props.initialTab;
+		const initialTab = this.getTabIdFromUrlHash() || props.initialTab;
 		this.state = {
 			videoUrl: this.getVideoUrl( initialTab ),
 		};
@@ -25,40 +29,109 @@ class HelpCenter extends React.Component {
 		window.addEventListener( "hashchange", this.tabChanged.bind( this ) );
 	}
 
+	/**
+	 * Callback called when the user switches tabs.
+	 *
+	 * @returns {void}
+	 */
 	tabChanged() {
-		const tabId = this.getTabIdFromHash();
+		const tabId = this.getTabIdFromUrlHash();
 		const videoUrl = this.getVideoUrl( tabId );
 		this.setState( { videoUrl } );
 	}
 
+	/**
+	 * Get the video URL based on the given tab id.
+	 *
+	 * @param {string} tabId The tab id.
+	 *
+	 * @returns {string} The video URL.
+	 */
 	getVideoUrl( tabId ) {
-		return get( this.props.tabs, `${tabId}.videoUrl` );
+		return get( this.props.adminTabsData, `${tabId}.videoUrl` );
 	}
 
-	getTabIdFromHash() {
+	/**
+	 * Parses the tab id from the URL hash.
+	 *
+	 * @returns {string} The tab id.
+	 */
+	getTabIdFromUrlHash() {
 		return location.hash.replace( "#top#", "" );
 	}
 
-	render() {
+	/**
+	 * Create a formatted array of tabs for the HelpCenter component.
+	 *
+	 * @returns {Array} Help center tab data.
+	 */
+	getTabs() {
 		const formatMessage = this.props.intl.formatMessage;
-		const items = wpseoHelpCenterData.videoDescriptions;
+		const tabs = [];
 
-		const extraTabs = [];
+		// Video tab
+		if( this.state.videoUrl ) {
+			tabs.push( {
+				id: "video-tutorial",
+				label: formatMessage( { id: "videoTutorial" } ),
+				content: <VideoTutorial
+					src={ this.state.videoUrl }
+					title="Learn this"
+					paragraphs={ this.props.videoTutorialParagraphs } />,
+			} );
+		}
 
-		wpseoHelpCenterData.extraTabs.map( tab => {
+		// Knowledge base
+		tabs.push( {
+			id: "knowledge-base",
+			label: formatMessage( { id: "knowledgeBase" } ),
+			content: <AlgoliaSearcher />
+		} );
+
+		// Additional tabs
+		Array.prototype.push.apply( tabs, this.getAdditionalTabs() );
+
+		return tabs;
+	}
+
+	/**
+	 * Create a formatted array of tabs for all additional tabs passed via props.additionalHelpCenterTabs.
+	 *
+	 * @returns {Array} {Array} Help center tab data.
+	 */
+	getAdditionalTabs() {
+		const additionalTabs = [];
+
+		if( ! this.props.additionalHelpCenterTabs ) {
+			return additionalTabs;
+		}
+
+		this.props.additionalHelpCenterTabs.map( tab => {
 			let content;
-			if( tab.identifier === wpseoHelpCenterData.premiumSupportId ) {
+			if( tab.identifier === this.props.premiumSupportTabId ) {
 				content = () => {
-
+					if( this.props.onPremiumSupport ) {
+						this.props.onPremiumSupport();
+					}
+					return <div />;
 				};
 			}
-			extraTabs.push( {
+			additionalTabs.push( {
 				id: tab.identifier,
 				label: tab.label,
 				content: content || <div dangerouslySetInnerHTML={ { __html: tab.content } } />
 			} );
 		} );
 
+		return additionalTabs;
+	}
+
+	/**
+	 * Renders the HelpCenter.
+	 *
+	 * @returns {ReactElement} The HelpCenter component.
+	 */
+	render() {
 		return (
 			<div classID="yoast-help-center">
 				<HelpCenterYC
@@ -67,18 +140,7 @@ class HelpCenter extends React.Component {
 					buttonIconColor={ colors.$color_pink_dark }
 					buttonWithTextShadow={ false }
 					onHelpCenterToggle={ this.props.onHelpCenterToggle }
-					items={ [ {
-						id: "video-tutorial",
-						label: formatMessage( { id: "videoTutorial" } ),
-						content: <VideoTutorial
-							src={ this.state.videoUrl }
-							title="Learn this"
-							paragraphs={ items } />,
-					}, {
-						id: "knowledge-base",
-						label: formatMessage( { id: "knowledgeBase" } ),
-						content: <AlgoliaSearcher />,
-					}, ...extraTabs ] }/>
+					items={ this.getTabs() }/>
             </div>
 		);
 	}
@@ -87,7 +149,10 @@ class HelpCenter extends React.Component {
 HelpCenter.propTypes = {
 	onHelpCenterToggle: PropTypes.func,
 	onPremiumSupport: PropTypes.func,
-	tabs: PropTypes.object.isRequired,
+	adminTabsData: PropTypes.object.isRequired,
+	additionalHelpCenterTabs: PropTypes.array,
+	videoTutorialParagraphs: PropTypes.object,
+	premiumSupportTabId: PropTypes.string,
 	initialTab: PropTypes.string,
 	intl: intlShape.isRequired,
 };
@@ -102,13 +167,17 @@ const HelpCenterIntl = injectIntl( HelpCenter );
  * @returns {void}
  */
 function onPremiumSupport( usedQueries ) {
-	jQuery( window ).trigger( "YoastSEO:ContactSupport", usedQueries );
+	jQuery( window ).trigger( "YoastSEO:ContactSupport", { usedQueries } );
 }
 
 /**
+ * Toggle the sidebar if it's visible.
  *
+ * @param {bool} expanded Help center state.
+ *
+ * @returns {void}
  */
-function onHelpCenterToggle( expanded ) {
+function toggleSidebar( expanded ) {
 	jQuery( ".wpseo_content_wrapper" ).toggleClass( "yoast-help-center-open", expanded );
 }
 
@@ -117,10 +186,14 @@ ReactDOM.render(
 		locale={ wpseoHelpCenterData.translations.locale }
 		messages={ wpseoHelpCenterData.translations }>
 		<HelpCenterIntl
-			onHelpCenterToggle={ onHelpCenterToggle }
+			onHelpCenterToggle={ toggleSidebar }
 			onPremiumSupport={ onPremiumSupport }
 			initialTab={ wpseoHelpCenterData.initialTab }
-			tabs={ wpseoHelpCenterData.tabs } />
+			adminTabsData={ wpseoHelpCenterData.tabs }
+			additionalHelpCenterTabs={ wpseoHelpCenterData.extraTabs }
+			videoTutorialParagraphs={ wpseoHelpCenterData.videoDescriptions }
+			premiumSupportTabId={ wpseoHelpCenterData.premiumSupportId }
+			/>
 	</IntlProvider>,
     document.getElementById( wpseoHelpCenterData.mountId )
 );
