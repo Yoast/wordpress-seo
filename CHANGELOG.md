@@ -5,6 +5,11 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.22.0 October 3rd, 2017
+* Added typescript support.
+* Add filter for exception words between auxiliary and passive participle.
+* Fixes a bug that caused an error in the passive analysis when certain words ending in ing were followed by a parenthesis.
+
 ## 1.21.0: September 5th, 2017
 * Adds updatedKeywordsResults and updatedContentResults callbacks to app.js.
 
