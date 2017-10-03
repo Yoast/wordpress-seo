@@ -17,9 +17,10 @@ body {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 80%;
+	max-width: 60em;
 	margin: 1rem auto 4rem;
 
-	@media screen and (max-width: 768px) {
+	@media screen and ( max-width: 768px ) {
 		width: auto;
 		margin: 0;
 	}
@@ -34,9 +35,9 @@ body {
 	text-align: left;
 	min-height: 20px;
 	background: $color_white;
-	padding: 3em;
+	padding: 2em;
 
-	@media screen and (max-width: 768px) {
+	@media screen and ( max-width: 768px ) {
 		padding: 1em 1em 2em;
 	}
 
@@ -57,7 +58,7 @@ body {
 			font-weight: normal;
 			padding: 0 8px;
 
-			@media screen and (max-width: 768px) {
+			@media screen and ( max-width: 768px ) {
 				font-size: 1.5em;
 				line-height: 1.25;
 			}
@@ -104,7 +105,7 @@ body {
 
 	&--step {
 		&__active {
-			@media screen and (max-width: 768px) {
+			@media screen and ( max-width: 768px ) {
 				width: 38px;
 				overflow: hidden;
 
@@ -119,11 +120,6 @@ body {
 					padding-right: 99px !important;
 				}
 			}
-
-			svg {
-				color: $color_purple;
-				fill: $color_purple;
-			}
 		}
 
 		&__inactive {
@@ -131,7 +127,7 @@ body {
 				pointer-events: none;
 			}
 
-			@media screen and (max-width: 768px) {
+			@media screen and ( max-width: 768px ) {
 				display: none !important;
 			}
 		}
@@ -144,15 +140,13 @@ body {
 
 		h1 {
 			color: $color_pink_dark;
-			margin-top: 0;
-			margin-bottom: 16px;
-			margin-bottom: 1rem;
-			font-size: 2.75em;
+			margin: 0;
+			font-size: 2.25em;
 			letter-spacing: 0.03em;
 			line-height: 3.68rem;
 			font-weight: 100;
 
-			@media screen and (max-width: 768px) {
+			@media screen and ( max-width: 768px ) {
 				font-size: 2em;
 				line-height: 1.25;
 			}
@@ -161,7 +155,7 @@ body {
 		h2 {
 			color: $color_pink_dark;
 			font-size: 1.375em;
-			font-weight: 400;
+			font-weight: 100;
 		}
 	}
 
@@ -204,7 +198,7 @@ body {
 			}
 		}
 
-		@media screen and (max-width: 768px) {
+		@media screen and ( max-width: 768px ) {
 			box-shadow: none;
 		}
 
@@ -337,7 +331,7 @@ body {
 		padding: 12px;
 		border-left: 4px solid $color_bad;
 		background: #fff;
-		box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+		box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
 	}
 }
 

@@ -5,7 +5,7 @@ import { Row, RowResponsiveWrap } from "../../Table/Row";
 
 test( "the Row component matches the snapshot", () => {
 	const component = renderer.create(
-		<Row />
+		<Row rowHeight="48px"/>
 	);
 
 	let tree = component.toJSON();
