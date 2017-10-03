@@ -7,17 +7,15 @@ import AlgoliaSearcher from "../composites/AlgoliaSearch/AlgoliaSearcher";
 import colors from "../style-guide/colors.json";
 
 export const HelpCenterContainer = styled.div`
-	background-color: #f1f1f1;
+	background-color: ${ colors.$color_grey_light };
 `;
 
 /**
  * Returns the HelpCenterWrapper component.
  *
- * @param {Object} props The props to use for the component.
- *
  * @returns {ReactElement} The HelpCenterWrapper component.
  */
-export default function HelpCenterWrapper( props ) {
+export default function HelpCenterWrapper() {
 	let items = [
 		{
 			label: "Video tutorial",
@@ -29,7 +27,8 @@ export default function HelpCenterWrapper( props ) {
 					[
 						{
 							title: "Need some help?",
-							description: "Go Premium and our experts will be there for you to answer any questions you might have about the setup and use of the plugin.",
+							description: "Go Premium and our experts will be there for you to answer any questions you" +
+							"might have about the setup and use of the plugin.",
 							link: "#1",
 							linkText: "Get Yoast SEO Premium now »",
 						},
