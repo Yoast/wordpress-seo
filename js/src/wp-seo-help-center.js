@@ -15,6 +15,28 @@ import colors from "yoast-components/style-guide/colors.json";
 addLocaleData( wpseoHelpCenterData.translations );
 
 /**
+ * Executes an action with an argument.
+ */
+class Action extends React.Component {
+	componentDidMount() {
+		if( this.props.do ) {
+			this.props.do(
+				this.props.with
+			);
+		}
+	}
+
+	render() {
+		return null;
+	}
+}
+
+Action.propTypes = {
+	"do": PropTypes.func,
+	"with": PropTypes.any,
+};
+
+/**
  * The help center component.
  */
 class HelpCenter extends React.Component {
@@ -103,7 +125,7 @@ class HelpCenter extends React.Component {
 			id: "knowledge-base",
 			label: formatMessage( { id: "knowledgeBase" } ),
 			content: <AlgoliaSearcher
-						onQueryChange={ this.updateUsedQueries.bind( this ) } />
+				onQueryChange={ this.updateUsedQueries.bind( this ) } />
 		} );
 
 		// Additional tabs
@@ -127,17 +149,14 @@ class HelpCenter extends React.Component {
 		this.props.additionalHelpCenterTabs.map( tab => {
 			let content;
 			if( tab.identifier === this.props.premiumSupportTabId ) {
-				content = () => {
-					if( this.props.onPremiumSupport ) {
-						this.props.onPremiumSupport( this.state.usedQueries );
-					}
-					return <div />;
-				};
+				content = <Action
+					do={ this.props.onPremiumSupport }
+					with={ this.state.usedQueries } />;
 			}
 			additionalTabs.push( {
 				id: tab.identifier,
 				label: tab.label,
-				content: content || <div dangerouslySetInnerHTML={ { __html: tab.content } } />
+				content: content ? content : <div dangerouslySetInnerHTML={ { __html: tab.content } } />,
 			} );
 		} );
 
@@ -159,7 +178,7 @@ class HelpCenter extends React.Component {
 					buttonWithTextShadow={ false }
 					onHelpCenterToggle={ this.props.onHelpCenterToggle }
 					items={ this.getTabs() }/>
-            </div>
+			</div>
 		);
 	}
 }
@@ -211,7 +230,7 @@ ReactDOM.render(
 			additionalHelpCenterTabs={ wpseoHelpCenterData.extraTabs }
 			videoTutorialParagraphs={ wpseoHelpCenterData.videoDescriptions }
 			premiumSupportTabId={ wpseoHelpCenterData.premiumSupportId }
-			/>
+		/>
 	</IntlProvider>,
-    document.getElementById( wpseoHelpCenterData.mountId )
+	document.getElementById( wpseoHelpCenterData.mountId )
 );
