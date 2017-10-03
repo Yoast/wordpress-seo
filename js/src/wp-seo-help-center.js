@@ -1,4 +1,4 @@
-/* global wpseoHelpCenterData */
+/* global wpseoHelpCenterData jQuery */
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -46,10 +46,16 @@ class HelpCenter extends React.Component {
 		const extraTabs = [];
 
 		wpseoHelpCenterData.extraTabs.map( tab => {
+			let content;
+			if( tab.identifier === wpseoHelpCenterData.premiumSupportId ) {
+				content = () => {
+
+				};
+			}
 			extraTabs.push( {
 				id: tab.identifier,
 				label: tab.label,
-				content: <div dangerouslySetInnerHTML={ { __html: tab.content } } />
+				content: content || <div dangerouslySetInnerHTML={ { __html: tab.content } } />
 			} );
 		} );
 
@@ -60,6 +66,7 @@ class HelpCenter extends React.Component {
 					buttonTextColor={ colors.$color_pink_dark }
 					buttonIconColor={ colors.$color_pink_dark }
 					buttonWithTextShadow={ false }
+					onHelpCenterToggle={ this.props.onHelpCenterToggle }
 					items={ [ {
 						id: "video-tutorial",
 						label: formatMessage( { id: "videoTutorial" } ),
@@ -78,6 +85,8 @@ class HelpCenter extends React.Component {
 }
 
 HelpCenter.propTypes = {
+	onHelpCenterToggle: PropTypes.func,
+	onPremiumSupport: PropTypes.func,
 	tabs: PropTypes.object.isRequired,
 	initialTab: PropTypes.string,
 	intl: intlShape.isRequired,
@@ -85,11 +94,31 @@ HelpCenter.propTypes = {
 
 const HelpCenterIntl = injectIntl( HelpCenter );
 
+/**
+ * Premium support callback.
+ *
+ * @param {object} usedQueries AlgoliaSearcher queries.
+ *
+ * @returns {void}
+ */
+function onPremiumSupport( usedQueries ) {
+	jQuery( window ).trigger( "YoastSEO:ContactSupport", usedQueries );
+}
+
+/**
+ *
+ */
+function onHelpCenterToggle( expanded ) {
+	jQuery( ".wpseo_content_wrapper" ).toggleClass( "yoast-help-center-open", expanded );
+}
+
 ReactDOM.render(
 	<IntlProvider
 		locale={ wpseoHelpCenterData.translations.locale }
 		messages={ wpseoHelpCenterData.translations }>
 		<HelpCenterIntl
+			onHelpCenterToggle={ onHelpCenterToggle }
+			onPremiumSupport={ onPremiumSupport }
 			initialTab={ wpseoHelpCenterData.initialTab }
 			tabs={ wpseoHelpCenterData.tabs } />
 	</IntlProvider>,

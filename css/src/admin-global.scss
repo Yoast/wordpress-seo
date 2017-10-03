@@ -319,3 +319,12 @@ td.column-wpseo-linked {
 #yoast-help-center-container {
 	padding-top: 8px;
 }
+
+.react-tabs__tab-panel {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+.yoast-help-center-open #sidebar-container {
+	display: none;
+}
