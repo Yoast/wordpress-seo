@@ -150,7 +150,7 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 	protected function get_count_by_post_type( $post_type_name ) {
 		static $post_type_counts;
 
-		if ( ! $post_type_counts ) {
+		if ( ! is_array( $post_type_counts ) ) {
 			$post_type_counts = WPSEO_Premium_Orphaned_Post_Query::get_counts( $this->post_types );
 		}
 
