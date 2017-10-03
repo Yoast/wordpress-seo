@@ -20,22 +20,39 @@ class WPSEO_Premium_Orphaned_Post_Query {
 
 		$post_ids = self::get_orphaned_object_ids();
 
-		$results = $wpdb->get_results(
-			$wpdb->prepare( '
+		$results = array();
+
+		$post_id_count = count( $post_ids );
+		if ( $post_id_count > 0 ) {
+			$results = $wpdb->get_results(
+				$wpdb->prepare( '
 				SELECT COUNT( ID ) as total_orphaned, post_type
 				  FROM ' . $wpdb->posts . '
 				 WHERE 
-				    ID IN( ' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')
+				    ID IN(' . implode( ',', array_fill( 0, $post_id_count, '%d' ) ) . ')
 				    AND post_status = "publish"
-				    AND post_type IN( ' . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ')
+				    AND post_type IN(' . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ')
 				 GROUP BY post_type',
-				array_merge( $post_ids, $post_types )
-			)
-		);
+					array_merge( $post_ids, $post_types )
+				)
+			);
+		}
 
 		$post_type_counts = array();
-		foreach ( $results as $result ) {
-			$post_type_counts[ $result->post_type ] = (int) $result->total_orphaned;
+		foreach ( $post_types as $post_type ) {
+			$count = 0;
+
+			/*
+			 * Search the results for the specific post type.
+			 * This does not have to be present if there are no objecsts for the post type.
+			 */
+			foreach ($results as $result) {
+				if ($result->post_type === $post_type ) {
+					$count = $result->total_orphaned;
+				}
+			}
+
+			$post_type_counts[ $post_type ] = $count;
 		}
 
 		return $post_type_counts;
