@@ -174,6 +174,8 @@ class WPSEO_Help_Center {
 			'searchResult.foundResultsText' => __( 'Number of results found: { resultsCount }', 'wordpress-seo'),
 			'searchResult.searchResultsHeading' => __( 'Search results', 'wordpress-seo'),
 			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo'),
+			'contactSupport.paragraph' => __( 'Click this button to contact support.', 'wordpress-seo' ),
+			'contactSupport.button' => __( 'Get support', 'wordpress-seo' ),
 		);
 	}
 }

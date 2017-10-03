@@ -10,6 +10,7 @@ import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTut
 import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSearcher";
 import HelpCenterYC from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
 import colors from "yoast-components/style-guide/colors.json";
+import { YoastButton } from "yoast-components/composites/Plugin/Shared/components/YoastButton";
 
 // Add react-intl translations
 addLocaleData( wpseoHelpCenterData.translations );
@@ -17,8 +18,12 @@ addLocaleData( wpseoHelpCenterData.translations );
 /**
  * Executes an action with an argument.
  */
-class Action extends React.Component {
+class ContactSupport extends React.Component {
 	componentDidMount() {
+		this.execute();
+	}
+
+	execute() {
 		if( this.props.do ) {
 			this.props.do(
 				this.props.with
@@ -27,11 +32,21 @@ class Action extends React.Component {
 	}
 
 	render() {
-		return null;
+		return (
+			<div className="contact-support-container">
+				<p>{ this.props.paragraph }</p>
+				<YoastButton
+					onClick={ this.execute.bind( this ) }>
+					{ this.props.button }
+				</YoastButton>
+			</div>
+		);
 	}
 }
 
-Action.propTypes = {
+ContactSupport.propTypes = {
+	paragraph: PropTypes.string,
+	button: PropTypes.string,
 	"do": PropTypes.func,
 	"with": PropTypes.any,
 };
@@ -149,7 +164,11 @@ class HelpCenter extends React.Component {
 		this.props.additionalHelpCenterTabs.map( tab => {
 			let content;
 			if( tab.identifier === this.props.premiumSupportTabId ) {
-				content = <Action
+				const supportParagraph = this.props.intl.formatMessage( { id: "contactSupport.paragraph" } );
+				const supportButton = this.props.intl.formatMessage( { id: "contactSupport.button" } );
+				content = <ContactSupport
+					buttonText={ supportButton }
+					paragraph={ supportParagraph }
 					do={ this.props.onPremiumSupport }
 					with={ this.state.usedQueries } />;
 			}
