@@ -67,7 +67,7 @@ class WPSEO_Extensions {
 	 * @return mixed Returns the option.
 	 */
 	protected function get_option( $extension ) {
-		return get_option( $this->get_option_name( $extension ) );
+		return get_site_option( $this->get_option_name( $extension ) );
 	}
 
 	/**
