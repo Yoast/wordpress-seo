@@ -90,8 +90,8 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 var passiveVoiceMarker = function( paper, researcher ) {
 	var passiveVoice = researcher.getResearch( "passiveVoice" );
 	return map( passiveVoice.passives, function( sentence ) {
-		var sentenceStripped = stripTags( sentence );
-		var marked = marker( sentenceStripped );
+		sentence = stripTags( sentence );
+		var marked = marker( sentence );
 		return new Mark( {
 			original: sentence,
 			marked: marked,
