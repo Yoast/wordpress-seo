@@ -24,7 +24,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ##### Other
 * Added translatable label to `SearchBar` component. #243 
-* Added makeOutboundLink util function. #308
+* Added `makeOutboundLink` util function. #308
 * Added a prop to the `AlgoliaSearcher` component that can be used to enable live search. #323
 * Added a search button and placeholder text to the `AlgoliaSearcher` component. #323
 
