@@ -16,6 +16,10 @@ class WPSEO_Premium_Orphaned_Content_Utils {
 	public static function is_feature_enabled() {
 		static $options;
 
+		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+			return false;
+		}
+
 		if ( $options === null ) {
 			$options = WPSEO_Options::get_options( array( 'wpseo' ) );
 		}
