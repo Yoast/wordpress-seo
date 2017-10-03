@@ -53,11 +53,11 @@ class HelpCenter extends React.Component {
 	 * @returns {void}
 	 */
 	onButtonClick() {
-		this.setState( { isExpanded: ! this.state.isExpanded } );
-
-		if ( this.props.onHelpCenterToggle ) {
-			this.props.onHelpCenterToggle( this.state.isExpanded );
-		}
+		this.setState( { isExpanded: ! this.state.isExpanded }, () => {
+			if ( this.props.onHelpCenterToggle ) {
+				this.props.onHelpCenterToggle( this.state.isExpanded );
+			}
+		} );
 	}
 
 	/**
