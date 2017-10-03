@@ -42,10 +42,9 @@ export const makeOutboundLink = ( Component = "a" ) => {
 		}
 	}
 	OutboundLink.propTypes = {
-		children: PropTypes.oneOfType(
-			PropTypes.string,
-			PropTypes.node
-		),
+		children: PropTypes.oneOfType( [
+			PropTypes.node,
+		] ),
 		intl: intlShape.isRequired,
 	};
 	return injectIntl( OutboundLink );

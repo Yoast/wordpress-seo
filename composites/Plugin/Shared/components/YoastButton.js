@@ -42,10 +42,12 @@ export function addButtonStyles( component ) {
 		transition: box-shadow 150ms ease-out;
 
 		&:hover,
-		&:focus {
+		&:focus,
+		&:active {
 			box-shadow:
 				0 4px 10px 0 ${ rgba( colors.$color_black, 0.2 ) },
 				inset 0 0 0 100px ${ rgba( colors.$color_black, 0.1 ) };
+			color: ${ props => props.textColor };
 		}
 
 		&:active {
@@ -53,7 +55,7 @@ export function addButtonStyles( component ) {
 			box-shadow: none;
 		}
 
-		// Only needed for IE 10+.
+		// Only needed for IE 10+. Don't add spaces within brackets for this to work.
 		@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 			::after {
 				display: inline-block;
@@ -74,8 +76,8 @@ export function addButtonStyles( component ) {
  *
  * @returns {ReactElement} The button with inner span.
  */
-const YoastButtonBase = ( { className, onClick, type, children } ) => (
-	<button className={ className } onClick={ onClick } type={ type }>
+const YoastButtonBase = ( { className, onClick, type, children, isExpanded } ) => (
+	<button className={ className } onClick={ onClick } type={ type } aria-expanded={ isExpanded }>
 		<span>
 			{ children }
 		</span>
@@ -86,7 +88,12 @@ YoastButtonBase.propTypes = {
 	className: PropTypes.string,
 	onClick: PropTypes.func,
 	type: PropTypes.string,
-	children: PropTypes.string,
+	isExpanded: PropTypes.bool,
+	children: PropTypes.oneOfType( [
+		PropTypes.arrayOf( PropTypes.node ),
+		PropTypes.node,
+		PropTypes.string,
+	] ),
 };
 
 YoastButtonBase.defaultProps = {

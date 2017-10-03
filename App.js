@@ -1,10 +1,13 @@
 import React from "react";
+import { IntlProvider } from "react-intl";
+
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
 import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
 import ContentAnalysis from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import Wizard from "./app/WizardWrapper";
 import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
+import HelpCenterWrapper from "./app/HelpCenterWrapper";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
@@ -39,7 +42,12 @@ const components = [
 		id: "dashboard-widget",
 		name: "Dashboard Widget",
 		component: <DashboardWidget />,
-	}
+	},
+	{
+		id: "help-center",
+		name: "Help center",
+		component: <HelpCenterWrapper />,
+	},
 ];
 
 class App extends React.Component {
@@ -50,7 +58,7 @@ class App extends React.Component {
 		injectTapEventPlugin();
 
 		this.state = {
-			activeComponent: "content-analysis",
+			activeComponent: "help-center",
 		};
 	}
 
@@ -87,7 +95,6 @@ class App extends React.Component {
 	}
 
 	getMenu() {
-
 		return (
 			<nav style={ { textAlign: "center" } }>
 				{
@@ -105,10 +112,12 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
-				{ this.getMenu() }
-				{ this.getContent() }
-			</div>
+			<IntlProvider locale="en">
+				<div>
+					{ this.getMenu() }
+					{ this.getContent() }
+				</div>
+			</IntlProvider>
 		);
 	}
 }

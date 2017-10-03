@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 /**
  * Creates an IFrame component.
@@ -10,5 +10,5 @@ import * as React from "react";
  * @constructor
  */
 export default function IFrame( props ) {
-	return ( <iframe {...props} />	);
+	return ( <iframe { ...props } /> );
 }
