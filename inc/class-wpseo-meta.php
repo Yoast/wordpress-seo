@@ -1049,23 +1049,37 @@ class WPSEO_Meta {
 			return array();
 		}
 
-		$get_posts = new WP_Query(
-			array(
-				'meta_key'       => '_yoast_wpseo_focuskw',
-				'meta_value'     => $keyword,
-				'post__not_in'   => array( $post_id ),
-				'fields'         => 'ids',
-				'post_type'      => 'any',
+		$query = array(
+			'meta_query'     => array(
+				'relation' => 'OR',
+				array(
+					'key'   => '_yoast_wpseo_focuskw',
+					'value' => $keyword,
+				)
+			),
+			'post__not_in'   => array( $post_id ),
+			'fields'         => 'ids',
+			'post_type'      => 'any',
 
-				/*
-				 * We only need to return zero, one or two results:
-				 * - Zero: keyword hasn't been used before
-				 * - One: Keyword has been used once before
-				 * - Two or more: Keyword has been used twice before
-				 */
-				'posts_per_page' => 2,
-			)
+			/*
+			 * We only need to return zero, one or two results:
+			 * - Zero: keyword hasn't been used before
+			 * - One: Keyword has been used once before
+			 * - Two or more: Keyword has been used twice before
+			 */
+			'posts_per_page' => 2,
 		);
+
+		// If Yoast SEO Premium is active, get the additional keywords as well.
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+			$query['meta_query'][] = array(
+				'key' => '_yoast_wpseo_focuskeywords',
+				'value' => sprintf( '"keyword":"%s"', $keyword ),
+				'compare' => 'LIKE',
+			);
+		}
+
+		$get_posts = new WP_Query( $query );
 
 		return $get_posts->posts;
 	}
