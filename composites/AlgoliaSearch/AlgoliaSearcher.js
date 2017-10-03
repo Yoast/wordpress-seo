@@ -92,7 +92,7 @@ class AlgoliaSearcher extends React.Component {
 		// Updating the state will re-render the whole component.
 		this.setState( {
 			searchString,
-			usedQueries: this.addUsedQuery( searchString ),
+			usedQueries: usedQueries,
 			searching: true,
 		}, this.updateSearchResults );
 	}
