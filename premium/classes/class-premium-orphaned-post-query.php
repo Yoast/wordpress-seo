@@ -49,6 +49,7 @@ class WPSEO_Premium_Orphaned_Post_Query {
 			foreach ($results as $result) {
 				if ($result->post_type === $post_type ) {
 					$count = $result->total_orphaned;
+					break;
 				}
 			}
 
