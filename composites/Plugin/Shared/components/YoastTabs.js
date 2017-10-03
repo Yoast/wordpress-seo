@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 
 import colors from "../../../../style-guide/colors.json";
+import breakpoints from "../../../../style-guide/responsive-breakpoints.json";
 
-const YoastTabsContainer = styled( Tabs )`
+const YoastTabsContainer = styled.div`
 	font-size: 1em;
 
 	.react-tabs__tab-list {
@@ -15,26 +16,34 @@ const YoastTabsContainer = styled( Tabs )`
 		list-style: none;
 		padding: 0;
 		margin: 0;
-		text-transform: uppercase;
-		border-bottom: 1px solid ${ colors.$color_grey_light };
+		border-bottom: 4px solid ${ colors.$color_grey_light };
 	}
 
 	.react-tabs__tab {
-		display: inline-block;
+		flex: 0 1 ${ props => props.tabsBaseWidth };
 		text-align: center;
-		margin: 0 30px;
-		padding: 10px;
-		color: ${ colors.$color_pink_dark };
+		margin: 0 16px;
+		padding: 16px 0;
 		cursor: pointer;
+		font-family: "Open Sans", sans-serif;
+		font-size: ${ props => props.tabsFontSize };
+		line-height: 1.33333333;
+		font-weight: ${ props => props.tabsFontWeight };
+		color: ${ props => props.tabsTextColor };
+		text-transform: ${ props => props.tabsTextTransform };
 
 		&.react-tabs__tab--selected {
-			box-shadow: inset 0 -5px 0 0 ${ colors.$color_pink_dark };
+			box-shadow: 0 4px 0 0 ${ colors.$color_pink_dark };
 		}
 	}
 
 	.react-tabs__tab-panel {
 		display: none;
-		padding: 18px 20px;
+		padding: 24px 40px;
+		
+		@media screen and ( max-width: ${ breakpoints.mobile } ) {
+			padding: 16px 16px;
+		}
 
 		:focus {
 			outline: none;
@@ -45,6 +54,14 @@ const YoastTabsContainer = styled( Tabs )`
 		}
 	}
 `;
+
+YoastTabsContainer.propTypes = {
+	tabsTextColor: PropTypes.string,
+	tabsTextTransform: PropTypes.string,
+	tabsFontSize: PropTypes.string,
+	tabsFontWeight: PropTypes.string,
+	tabsBaseWidth: PropTypes.string,
+};
 
 /**
  * Creates a Yoast styled ARIA tabs widget.
@@ -85,11 +102,19 @@ class YoastTabs extends React.Component {
 	 */
 	render() {
 		return(
-			<YoastTabsContainer>
-				<TabList>
-					{ this.getTabs() }
-				</TabList>
-				{ this.getTabPanels() }
+			<YoastTabsContainer
+				tabsTextColor={ this.props.tabsTextColor }
+				tabsTextTransform={ this.props.tabsTextTransform }
+				tabsFontSize={ this.props.tabsFontSize }
+				tabsFontWeight={ this.props.tabsFontWeight }
+				tabsBaseWidth={ this.props.tabsBaseWidth }
+			>
+				<Tabs>
+					<TabList>
+						{ this.getTabs() }
+					</TabList>
+					{ this.getTabPanels() }
+				</Tabs>
 			</YoastTabsContainer>
 		);
 	}
@@ -103,10 +128,20 @@ YoastTabs.propTypes = {
 			content: PropTypes.object.isRequired,
 		} )
 	),
+	tabsTextColor: PropTypes.string,
+	tabsTextTransform: PropTypes.string,
+	tabsFontSize: PropTypes.string,
+	tabsFontWeight: PropTypes.string,
+	tabsBaseWidth: PropTypes.string,
 };
 
 YoastTabs.defaultProps = {
 	items: [],
+	tabsTextColor: colors.$color_grey_dark,
+	tabsTextTransform: "none",
+	tabsFontSize: "1.5em",
+	tabsFontWeight: "200",
+	tabsBaseWidth: "200px",
 };
 
 export default YoastTabs;

@@ -1,9 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the VideoTutorial component matches the snapshot 1`] = `
-<div>
+<div
+  className="sc-htpNat jdWHiT"
+>
   <div
-    className="sc-htpNat gHHcHn"
+    className="sc-bxivhb dVPPrD"
   >
     <div
       className="sc-bdVaJa fpzLVP"
@@ -19,13 +21,13 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
     </div>
   </div>
   <div
-    className="sc-bxivhb eMXKFZ"
+    className="sc-ifAKCX iimhyI"
   >
     <div
-      className="sc-ifAKCX gyrham"
+      className="sc-EHOje hWqomB"
     >
       <p
-        className="sc-EHOje clbTar"
+        className="sc-bZQynM gSmTMg"
       >
         Need some help?
       </p>
@@ -33,7 +35,7 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
         Go Premium!
       </p>
       <a
-        className="sc-bZQynM jhhMlL"
+        className="sc-gzVnrw fUXSEk"
         href="#1"
         rel="noopener noreferrer"
         target="_blank"
@@ -47,10 +49,10 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
       </a>
     </div>
     <div
-      className="sc-ifAKCX gyrham"
+      className="sc-EHOje hWqomB"
     >
       <p
-        className="sc-EHOje clbTar"
+        className="sc-bZQynM gSmTMg"
       >
         Need some help?
       </p>
@@ -58,7 +60,7 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
         Go Premium!
       </p>
       <a
-        className="sc-bZQynM jhhMlL"
+        className="sc-gzVnrw fUXSEk"
         href="#2"
         rel="noopener noreferrer"
         target="_blank"

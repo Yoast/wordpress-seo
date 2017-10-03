@@ -9,6 +9,7 @@ import { YoastLinkButton } from "../Plugin/Shared/components/YoastLinkButton";
 import { Icon } from "../Plugin/Shared/components/Icon";
 import { angleLeft, angleRight } from "../../style-guide/svg/index";
 import { makeOutboundLink } from "../../utils/makeOutboundLink";
+import breakpoints from "../../style-guide/responsive-breakpoints.json";
 import colors from "../../style-guide/colors.json";
 
 const messages = defineMessages( {
@@ -34,7 +35,11 @@ const messages = defineMessages( {
 	},
 } );
 
-const Detail = styled.section``;
+const Detail = styled.section`
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
+		margin: 0 -16px;
+	}
+`;
 
 const Nav = styled.nav`
 	padding: 8px 16px;

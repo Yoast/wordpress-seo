@@ -8,7 +8,7 @@ test( "the VideoTutorial component matches the snapshot", () => {
 		<VideoTutorial
 			src="https://www.youtube.com/embed/bIgcj_pPIbw"
 			title="Video title"
-			items={[
+			paragraphs={[
 				{
 					title: "Need some help?",
 					description: "Go Premium!",

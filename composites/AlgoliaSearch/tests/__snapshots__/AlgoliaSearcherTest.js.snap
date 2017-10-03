@@ -5,7 +5,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
   className="sc-kgoBCf ijaDUj"
 >
   <div
-    className="sc-htpNat jvMZdx"
+    className="sc-htpNat jAVOHt"
     role="search"
   >
     <h2
@@ -47,7 +47,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
       />
       <button
         aria-expanded={undefined}
-        className="sc-bwzfXH gvXjpH sc-bdVaJa bsIiYo"
+        className="sc-bwzfXH bMXkXR sc-bdVaJa bsIiYo"
         onClick={undefined}
         type="submit"
       >

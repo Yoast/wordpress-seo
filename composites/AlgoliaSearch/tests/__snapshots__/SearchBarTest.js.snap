@@ -2,7 +2,7 @@
 
 exports[`the SearchBar component with headingText matches the snapshot 1`] = `
 <div
-  className="sc-htpNat jvMZdx"
+  className="sc-htpNat jAVOHt"
   role="search"
 >
   <h2
@@ -44,7 +44,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
     />
     <button
       aria-expanded={undefined}
-      className="sc-bwzfXH gvXjpH sc-bdVaJa bsIiYo"
+      className="sc-bwzfXH bMXkXR sc-bdVaJa bsIiYo"
       onClick={undefined}
       type="submit"
     >
@@ -58,7 +58,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
 
 exports[`the SearchBar component without headingText matches the snapshot 1`] = `
 <div
-  className="sc-htpNat jvMZdx"
+  className="sc-htpNat jAVOHt"
   role="search"
 >
   <h2
@@ -100,7 +100,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
     />
     <button
       aria-expanded={undefined}
-      className="sc-bwzfXH gvXjpH sc-bdVaJa bsIiYo"
+      className="sc-bwzfXH bMXkXR sc-bdVaJa bsIiYo"
       onClick={undefined}
       type="submit"
     >
