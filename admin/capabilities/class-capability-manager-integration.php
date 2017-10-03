@@ -4,9 +4,9 @@
  */
 
 /**
- * Integrates Yoast SEO capabilities with Members and other plugins that use the same filter.
+ * Integrates Yoast SEO capabilities with third party role manager plugins.
  */
-class WPSEO_Capability_Members_Integration {
+class WPSEO_Capability_Manager_Integration {
 	/**
 	 * Registers the hooks.
 	 *
