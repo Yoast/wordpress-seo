@@ -32,7 +32,6 @@ We follow [Semantic Versioning](http://semver.org/).
 * Improved styling and accessibility of the `SearchBar` component. #243
 * Styling improvements for the Onboarding Wizard. #290
 * Fixed two prop warnings that appeared when switching pages in the Onboarding wizard. #293 and #295
-* Fixed the loading of AMP articles in the iFrame component. #304
 * Improved YoastButton hover and active style. #332
 
 ## 2.9.3: September 26th, 2017
