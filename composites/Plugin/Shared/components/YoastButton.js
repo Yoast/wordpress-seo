@@ -42,10 +42,12 @@ export function addButtonStyles( component ) {
 		transition: box-shadow 150ms ease-out;
 
 		&:hover,
-		&:focus {
+		&:focus,
+		&:active {
 			box-shadow:
 				0 4px 10px 0 ${ rgba( colors.$color_black, 0.2 ) },
 				inset 0 0 0 100px ${ rgba( colors.$color_black, 0.1 ) };
+			color: ${ props => props.textColor };
 		}
 
 		&:active {
