@@ -2,7 +2,7 @@
 
 exports[`the YoastTabs matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa cWmuva"
+  className="sc-bdVaJa gfkfZp"
 >
   <div
     className="react-tabs"
@@ -87,7 +87,7 @@ exports[`the YoastTabs matches the snapshot 1`] = `
 
 exports[`the YoastTabs with props matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa bQaoTo"
+  className="sc-bdVaJa bIOFWn"
 >
   <div
     className="react-tabs"

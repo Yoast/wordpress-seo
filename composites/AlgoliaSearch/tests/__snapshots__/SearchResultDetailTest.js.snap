@@ -2,7 +2,7 @@
 
 exports[`the SearchResultDetail component matches the snapshot 1`] = `
 <section
-  className="sc-bZQynM bOrPFB"
+  className="sc-bZQynM RDELZ"
 >
   <nav
     className="sc-gzVnrw kJqUwD"
