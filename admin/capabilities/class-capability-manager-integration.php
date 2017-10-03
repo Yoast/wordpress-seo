@@ -60,11 +60,11 @@ class WPSEO_Capability_Manager_Integration {
 	/**
 	 * Add Yoast SEO capability group in the User Role Editor plugin.
 	 *
-	 * @see     URE_Capabilities_Groups_Manager::get_groups_tree()
-	 * @param   array  $groups  Current groups
-	 * @return  array
+	 * @see    URE_Capabilities_Groups_Manager::get_groups_tree()
+	 * @param  array $groups Current groups.
+	 * @return array
 	 */
-	public function filter_ure_capabilities_groups_tree( $groups ) {
+	public function filter_ure_capabilities_groups_tree( $groups = array() ) {
 		$groups = (array) $groups;
 		$groups['wordpress-seo'] = array(
 			'caption' => esc_html__( 'Yoast SEO', 'wordpress-seo' ),
@@ -77,12 +77,12 @@ class WPSEO_Capability_Manager_Integration {
 	/**
 	 * Add capabilities to the Yoast SEO group in the User Role Editor plugin.
 	 *
-	 * @see     URE_Capabilities_Groups_Manager::get_cap_groups()
-	 * @param   array   $groups  Current capability groups
-	 * @param   string  $cap_id  Capability identifier
-	 * @return  array
+	 * @see    URE_Capabilities_Groups_Manager::get_cap_groups()
+	 * @param  array $groups Current capability groups.
+	 * @param  string $cap_id Capability identifier.
+	 * @return array
 	 */
-	public function filter_ure_custom_capability_groups( $groups, $cap_id ) {
+	public function filter_ure_custom_capability_groups( $groups = array(), $cap_id = '' ) {
 		if ( in_array( $cap_id, $this->get_capabilities(), true ) ) {
 			$groups = (array) $groups;
 			$groups[] = 'wordpress-seo';
