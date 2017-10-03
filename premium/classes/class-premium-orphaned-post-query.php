@@ -20,7 +20,7 @@ class WPSEO_Premium_Orphaned_Post_Query {
 
 		$post_ids = self::get_orphaned_object_ids();
 
-		$results = array();
+		$post_type_counts = array_fill_keys( $post_types, 0 );
 
 		$post_id_count = count( $post_ids );
 		if ( $post_id_count > 0 ) {
@@ -36,24 +36,10 @@ class WPSEO_Premium_Orphaned_Post_Query {
 					array_merge( $post_ids, $post_types )
 				)
 			);
-		}
 
-		$post_type_counts = array();
-		foreach ( $post_types as $post_type ) {
-			$count = 0;
-
-			/*
-			 * Search the results for the specific post type.
-			 * This does not have to be present if there are no objecsts for the post type.
-			 */
-			foreach ($results as $result) {
-				if ($result->post_type === $post_type ) {
-					$count = $result->total_orphaned;
-					break;
-				}
+			foreach ($results as $result ) {
+				$post_type_counts[ $result->post_type ] = (int) $result->total_orphaned;
 			}
-
-			$post_type_counts[ $post_type ] = $count;
 		}
 
 		return $post_type_counts;
