@@ -13,5 +13,5 @@ export const ContentAnalysisContainer = styled.div`
  * @returns {ReactElement} The ContentAnalysis component.
  */
 export default function ContentAnalysis() {
-	return <ContentAnalysisContainer />
+	return <ContentAnalysisContainer/>;
 }
