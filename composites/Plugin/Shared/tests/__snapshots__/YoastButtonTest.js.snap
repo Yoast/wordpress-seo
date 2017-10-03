@@ -3,7 +3,7 @@
 exports[`the YoastButton executes callback 1`] = `
 <button
   aria-expanded={undefined}
-  className="sc-bwzfXH bMXkXR sc-bdVaJa bsIiYo"
+  className="sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
   onClick={[Function]}
   type="button"
 >
@@ -16,7 +16,7 @@ exports[`the YoastButton executes callback 1`] = `
 exports[`the YoastButton executes callback 2`] = `
 <button
   aria-expanded={undefined}
-  className="sc-bwzfXH bMXkXR sc-bdVaJa bsIiYo"
+  className="sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
   onClick={[Function]}
   type="button"
 >
@@ -29,7 +29,7 @@ exports[`the YoastButton executes callback 2`] = `
 exports[`the YoastButton matches the snapshot 1`] = `
 <button
   aria-expanded={undefined}
-  className="sc-bwzfXH bMXkXR sc-bdVaJa IFELj"
+  className="sc-bwzfXH jWIihg sc-bdVaJa IFELj"
   onClick={undefined}
   type="button"
 >

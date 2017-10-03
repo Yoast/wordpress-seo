@@ -2,7 +2,7 @@
 
 exports[`the YoastLinkButton matches the snapshot 1`] = `
 <a
-  className="sc-bxivhb bdggRU sc-htpNat czwPQj"
+  className="sc-bxivhb eKOFJS sc-htpNat czwPQj"
 >
   YoastLinkButtonValue
 </a>
