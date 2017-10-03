@@ -12,6 +12,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 // This is to prevent issues with New Relics stupid auto injection of code. It's ugly but I don't want
 // to deal with support requests for other people's wrong code...
 if ( extension_loaded( 'newrelic' ) && function_exists( 'newrelic_disable_autorum' ) ) {
+	if ( ! defined( 'DONOTAUTORUM' ) ) {
+		define( 'DONOTAUTORUM', true ); // Resolves conflict with W3TC's NR extension.
+	}
+
 	newrelic_disable_autorum();
 }
 
