@@ -50,7 +50,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 
 		if ( $unprocessed && ! $can_recalculate ) {
 			return sprintf(
-				/* translators: %1$s: plural form of posttype */
+				/* translators: %1$s: plural form of the current post type, %2$s: a Learn more about link */
 				__( 'Ask your SEO Manager or Site Administrator to count links in all texts, so we can identify orphaned %1$s. %2$s', 'wordpress-seo-premium' ),
 				strtolower( $post_type_object->labels->name ),
 				$learn_more
@@ -59,7 +59,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 
 		if ( $unprocessed ) {
 			return sprintf(
-				/* translators: %1$s expands to link to the recalculation option, %2$s: anchor closing. %3$s: plural form of posttype */
+				/* translators: %1$s expands to link to the recalculation option, %2$s: anchor closing, %3$s: plural form of the current post type, %4$s: a Learn more about link */
 				__( '%1$sClick here%2$s to index your links, so we can identify orphaned %3$s. %4$s', 'wordpress-seo-premium' ),
 				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&reIndexLinks=1' ) ) . '">',
 				'</a>',
@@ -69,7 +69,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 		}
 
 		return sprintf(
-			/* translators: %1$s expands to the name of the active post type, %2$s expands anchor to the read more link */
+			/* translators: %1$s: plural form of the current post type, %2$s: a Learn more about link */
 			__( '\'Orphaned content\' refers to %1$s that have no inbound links, consider adding links towards these %1$s. %2$s', 'wordpress-seo' ),
 			strtolower( $post_type_object->labels->name ),
 			$learn_more
