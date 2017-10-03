@@ -54,9 +54,14 @@ class WPSEO_Help_Center {
 		$formatted_data['mountId']    = $this->identifier;
 		$formatted_data['initialTab'] = $active_tab->get_name();
 
+		$is_premium = WPSEO_Utils::is_yoast_seo_premium();
+
 		// Will translate to either empty string or "1" in localised script.
-		$formatted_data['isPremium']     = WPSEO_Utils::is_yoast_seo_premium();
+		$formatted_data['isPremium']     = $is_premium;
 		$formatted_data['pluginVersion'] = WPSEO_VERSION;
+
+		// Open HelpScout on activating this tab ID:
+		$formatted_data['premiumSupportId'] = $is_premium ? 'contact-support' : '';
 
 		$formatted_data['translations'] = $this::get_translated_texts();
 
