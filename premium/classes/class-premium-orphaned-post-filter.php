@@ -41,30 +41,38 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 		$unprocessed     = WPSEO_Premium_Orphaned_Content_Utils::has_unprocessed_content();
 		$can_recalculate = WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
 
+		$learn_more = sprintf(
+			/* translators: %1$s expands to the link to an article to read more about orphaned content, %2$s expands to </a> */
+			__( '%1$sLearn more about orphaned content%2$s.', 'wordpress-seo' ),
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1ja' ) . '" target="_blank">',
+			'</a>'
+		);
+
 		if ( $unprocessed && ! $can_recalculate ) {
 			return sprintf(
 				/* translators: %1$s: plural form of posttype */
-				__( 'Ask your SEO Manager or Site Administrator to count links in all texts, so we can identify orphaned %1$s.', 'wordpress-seo-premium' ),
-				strtolower( $post_type_object->labels->name )
+				__( 'Ask your SEO Manager or Site Administrator to count links in all texts, so we can identify orphaned %1$s. %2$s', 'wordpress-seo-premium' ),
+				strtolower( $post_type_object->labels->name ),
+				$learn_more
 			);
 		}
 
 		if ( $unprocessed ) {
 			return sprintf(
 				/* translators: %1$s expands to link to the recalculation option, %2$s: anchor closing. %3$s: plural form of posttype */
-				__( '%1$sClick here%2$s to index your links, so we can identify orphaned %3$s.', 'wordpress-seo-premium' ),
+				__( '%1$sClick here%2$s to index your links, so we can identify orphaned %3$s. %4$s', 'wordpress-seo-premium' ),
 				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&reIndexLinks=1' ) ) . '">',
 				'</a>',
-				strtolower( $post_type_object->labels->name )
+				strtolower( $post_type_object->labels->name ),
+				$learn_more
 			);
 		}
 
 		return sprintf(
-			/* translators: %2$s expands anchor to knowledge base article, %3$s expands to </a> */
-			__( '\'Orphaned content\' refers to %1$s that have no inbound links, consider adding links towards these %1$s. %2$sLearn more about orphaned content%3$s.', 'wordpress-seo' ),
+			/* translators: %1$s expands to the name of the active post type, %2$s expands anchor to the read more link */
+			__( '\'Orphaned content\' refers to %1$s that have no inbound links, consider adding links towards these %1$s. %2$s', 'wordpress-seo' ),
 			strtolower( $post_type_object->labels->name ),
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1ja' ) . '" target="_blank">',
-			'</a>'
+			$learn_more
 		);
 	}
 
