@@ -37,7 +37,7 @@ class WPSEO_Premium_Orphaned_Post_Query {
 				)
 			);
 
-			foreach ($results as $result ) {
+			foreach ( $results as $result ) {
 				$post_type_counts[ $result->post_type ] = (int) $result->total_orphaned;
 			}
 		}
