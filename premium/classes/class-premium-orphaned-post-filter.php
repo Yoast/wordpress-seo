@@ -18,6 +18,15 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
+	 * Registers the hooks when the link feature is enabled.
+	 */
+	public function register_hooks() {
+		if ( WPSEO_Premium_Orphaned_Content_Utils::is_feature_enabled() ) {
+			parent::register_hooks();
+		}
+	}
+
+	/**
 	 * Returns a text explaining this filter.
 	 *
 	 * @return string The explanation.
@@ -25,12 +34,45 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	protected function get_explanation() {
 		$post_type_object = get_post_type_object( $this->get_current_post_type() );
 
-		return sprintf(
-			/* translators: %2$s expands anchor to knowledge base article, %3$s expands to </a> */
-			__( '\'Orphaned content\' refers to %1$s that have no inbound links, consider adding links towards these %1$s. %2$sLearn more about orphaned content%3$s.', 'wordpress-seo' ),
-			strtolower( $post_type_object->labels->name ),
+		if ( $post_type_object === null ) {
+			return null;
+		}
+
+		$unprocessed     = WPSEO_Premium_Orphaned_Content_Utils::has_unprocessed_content();
+		$can_recalculate = WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
+
+		$learn_more = sprintf(
+			/* translators: %1$s expands to the link to an article to read more about orphaned content, %2$s expands to </a> */
+			__( '%1$sLearn more about orphaned content%2$s.', 'wordpress-seo' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1ja' ) . '" target="_blank">',
 			'</a>'
+		);
+
+		if ( $unprocessed && ! $can_recalculate ) {
+			return sprintf(
+				/* translators: %1$s: plural form of the current post type, %2$s: a Learn more about link */
+				__( 'Ask your SEO Manager or Site Administrator to count links in all texts, so we can identify orphaned %1$s. %2$s', 'wordpress-seo-premium' ),
+				strtolower( $post_type_object->labels->name ),
+				$learn_more
+			);
+		}
+
+		if ( $unprocessed ) {
+			return sprintf(
+				/* translators: %1$s expands to link to the recalculation option, %2$s: anchor closing, %3$s: plural form of the current post type, %4$s: a Learn more about link */
+				__( '%1$sClick here%2$s to index your links, so we can identify orphaned %3$s. %4$s', 'wordpress-seo-premium' ),
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&reIndexLinks=1' ) ) . '">',
+				'</a>',
+				strtolower( $post_type_object->labels->name ),
+				$learn_more
+			);
+		}
+
+		return sprintf(
+			/* translators: %1$s: plural form of the current post type, %2$s: a Learn more about link */
+			__( '\'Orphaned content\' refers to %1$s that have no inbound links, consider adding links towards these %1$s. %2$s', 'wordpress-seo' ),
+			strtolower( $post_type_object->labels->name ),
+			$learn_more
 		);
 	}
 
@@ -43,13 +85,27 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	 */
 	public function filter_posts( $where ) {
 		if ( $this->is_filter_active() ) {
-			global $wpdb;
-
-			$post_ids = WPSEO_Premium_Orphaned_Post_Query::get_orphaned_object_ids();
-			$where .= ' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_map( 'intval', $post_ids ) ) . ' ) ';
+			$where .= $this->get_where_filter();
 		}
 
 		return $where;
+	}
+
+	/**
+	 * Returns the where clause to use.
+	 *
+	 * @return string The where clause.
+	 */
+	protected function get_where_filter() {
+		global $wpdb;
+
+		if ( WPSEO_Premium_Orphaned_Content_Utils::has_unprocessed_content() ) {
+			// Hide all posts, because we cannot tell anything for certain.
+			return 'AND 1 = 0';
+		}
+
+		$post_ids = WPSEO_Premium_Orphaned_Post_Query::get_orphaned_object_ids();
+		return ' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_map( 'intval', $post_ids ) ) . ' ) ';
 	}
 
 	/**
@@ -74,6 +130,10 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	 */
 	protected function get_post_total() {
 		global $wpdb;
+
+		if ( WPSEO_Premium_Orphaned_Content_Utils::has_unprocessed_content() ) {
+			return '?';
+		}
 
 		$post_ids = WPSEO_Premium_Orphaned_Post_Query::get_orphaned_object_ids();
 		if ( empty( $post_ids ) ) {
