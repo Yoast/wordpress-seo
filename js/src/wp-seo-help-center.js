@@ -24,6 +24,7 @@ class HelpCenter extends React.Component {
 		const initialTab = this.getTabIdFromUrlHash() || props.initialTab;
 		this.state = {
 			videoUrl: this.getVideoUrl( initialTab ),
+			usedQueries: {},
 		};
 
 		window.addEventListener( "hashchange", this.tabChanged.bind( this ) );
@@ -61,6 +62,22 @@ class HelpCenter extends React.Component {
 	}
 
 	/**
+	 * Stores the search queries done by the AlgoliaSearcher in state.
+	 *
+	 * @param {object} usedQueries A key value object containing search queries.
+	 *
+	 * @returns {void}
+	 */
+	updateUsedQueries( usedQueries ) {
+		const queries = Object.assign(
+			{},
+			this.state.usedQueries,
+			usedQueries
+		);
+		this.setState( { usedQueries: queries } );
+	}
+
+	/**
 	 * Create a formatted array of tabs for the HelpCenter component.
 	 *
 	 * @returns {Array} Help center tab data.
@@ -85,7 +102,8 @@ class HelpCenter extends React.Component {
 		tabs.push( {
 			id: "knowledge-base",
 			label: formatMessage( { id: "knowledgeBase" } ),
-			content: <AlgoliaSearcher />
+			content: <AlgoliaSearcher
+						onQueryChange={ this.updateUsedQueries.bind( this ) } />
 		} );
 
 		// Additional tabs
@@ -111,7 +129,7 @@ class HelpCenter extends React.Component {
 			if( tab.identifier === this.props.premiumSupportTabId ) {
 				content = () => {
 					if( this.props.onPremiumSupport ) {
-						this.props.onPremiumSupport();
+						this.props.onPremiumSupport( this.state.usedQueries );
 					}
 					return <div />;
 				};
