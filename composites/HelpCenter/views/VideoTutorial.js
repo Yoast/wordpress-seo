@@ -12,6 +12,8 @@ const VIDEO_WIDTH = "560px";
 
 const VideoTutorialContainer = styled.div`
 	overflow: hidden;
+	max-width: 900px;
+	margin: 0 auto;
 `;
 
 const VideoContainer = styled.div`
@@ -38,7 +40,6 @@ const VideoDescriptions = styled.div`
 
 const VideoDescription = styled.div`
 	padding: 16px 0;
-	box-sizing: border-box;
 
 	:not( :last-child ) {
 		border-bottom: 2px solid ${ colors.$color_grey };

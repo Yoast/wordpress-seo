@@ -5,7 +5,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   className="sc-bZQynM RDELZ"
 >
   <nav
-    className="sc-gzVnrw kJqUwD"
+    className="sc-gzVnrw hdBCBy"
   >
     <button
       aria-expanded={undefined}

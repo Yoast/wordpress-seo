@@ -27,7 +27,7 @@ export default function HelpCenterWrapper() {
 					[
 						{
 							title: "Need some help?",
-							description: "Go Premium and our experts will be there for you to answer any questions you" +
+							description: "Go Premium and our experts will be there for you to answer any questions you " +
 							"might have about the setup and use of the plugin.",
 							link: "#1",
 							linkText: "Get Yoast SEO Premium now »",
