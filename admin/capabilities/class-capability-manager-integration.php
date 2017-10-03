@@ -78,7 +78,7 @@ class WPSEO_Capability_Manager_Integration {
 	 * Add capabilities to the Yoast SEO group in the User Role Editor plugin.
 	 *
 	 * @see    URE_Capabilities_Groups_Manager::get_cap_groups()
-	 * @param  array $groups Current capability groups.
+	 * @param  array  $groups Current capability groups.
 	 * @param  string $cap_id Capability identifier.
 	 * @return array
 	 */
