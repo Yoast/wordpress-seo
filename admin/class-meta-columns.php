@@ -448,9 +448,9 @@ class WPSEO_Meta_Columns {
 	protected function create_readability_score_filter( $low, $high ) {
 		return array(
 			array(
-				'key' => WPSEO_Meta::$meta_prefix . 'content_score',
-				'value' => array( $low, $high ),
-				'type' => 'numeric',
+				'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+				'value'   => array( $low, $high ),
+				'type'    => 'numeric',
 				'compare' => 'BETWEEN',
 			),
 		);
@@ -467,9 +467,9 @@ class WPSEO_Meta_Columns {
 	protected function create_seo_score_filter( $low, $high ) {
 		return array(
 			array(
-				'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-				'value' => array( $low, $high ),
-				'type' => 'numeric',
+				'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+				'value'   => array( $low, $high ),
+				'type'    => 'numeric',
 				'compare' => 'BETWEEN',
 			),
 		);

@@ -38,10 +38,10 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_twitter() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title'  => 'Twitter Test Post',
+				'post_title'   => 'Twitter Test Post',
 				'post_excerpt' => 'Twitter Test Excerpt',
-				'post_type'   => 'post',
-				'post_status' => 'publish',
+				'post_type'    => 'post',
+				'post_status'  => 'publish',
 			)
 		);
 		$this->go_to( get_permalink( $post_id ) );

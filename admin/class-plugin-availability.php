@@ -27,45 +27,45 @@ class WPSEO_Plugin_Availability {
 	protected function register_yoast_plugins() {
 		$this->plugins = array(
 			'yoast-seo-premium' => array(
-				'url'       => 'https://yoast.com/wordpress/plugins/seo-premium/',
-				'title'     => 'Yoast SEO Premium',
+				'url'         => 'https://yoast.com/wordpress/plugins/seo-premium/',
+				'title'       => 'Yoast SEO Premium',
 				/* translators: %1$s expands to Yoast SEO */
 				'description' => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
-				'installed' => false,
-				'slug' => 'wordpress-seo-premium/wp-seo-premium.php',
+				'installed'   => false,
+				'slug'        => 'wordpress-seo-premium/wp-seo-premium.php',
 			),
 
 			'video-seo-for-wordpress-seo-by-yoast' => array(
-				'url'       => 'https://yoast.com/wordpress/plugins/video-seo/',
-				'title'     => 'Video SEO',
+				'url'         => 'https://yoast.com/wordpress/plugins/video-seo/',
+				'title'       => 'Video SEO',
 				'description' => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
-				'installed' => false,
-				'slug' => 'wpseo-video/video-seo.php',
+				'installed'   => false,
+				'slug'        => 'wpseo-video/video-seo.php',
 			),
 
 			'yoast-news-seo' => array(
-				'url'       => 'https://yoast.com/wordpress/plugins/news-seo/',
-				'title'     => 'News SEO',
+				'url'         => 'https://yoast.com/wordpress/plugins/news-seo/',
+				'title'       => 'News SEO',
 				'description' => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
-				'installed' => false,
-				'slug' => 'wpseo-news/wpseo-news.php',
+				'installed'   => false,
+				'slug'        => 'wpseo-news/wpseo-news.php',
 			),
 
 			'local-seo-for-yoast-seo' => array(
-				'url'       => 'https://yoast.com/wordpress/plugins/local-seo/',
-				'title'     => 'Local SEO',
+				'url'         => 'https://yoast.com/wordpress/plugins/local-seo/',
+				'title'       => 'Local SEO',
 				'description' => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
-				'installed' => false,
-				'slug' => 'wordpress-seo-local/local-seo.php',
+				'installed'   => false,
+				'slug'        => 'wordpress-seo-local/local-seo.php',
 			),
 
 			'yoast-woocommerce-seo' => array(
-				'url'       => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/',
-				'title'     => 'Yoast WooCommerce SEO',
+				'url'         => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/',
+				'title'       => 'Yoast WooCommerce SEO',
 				/* translators: %1$s expands to Yoast SEO */
 				'description' => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
-				'installed' => false,
-				'slug' => 'wpseo-woocommerce/wpseo-woocommerce.php',
+				'installed'   => false,
+				'slug'        => 'wpseo-woocommerce/wpseo-woocommerce.php',
 			),
 		);
 	}

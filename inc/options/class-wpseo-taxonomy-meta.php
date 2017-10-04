@@ -41,24 +41,24 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @static
 	 */
 	public static $defaults_per_term = array(
-		'wpseo_title'           => '',
-		'wpseo_desc'            => '',
-		'wpseo_metakey'         => '',
-		'wpseo_canonical'       => '',
-		'wpseo_bctitle'         => '',
-		'wpseo_noindex'         => 'default',
-		'wpseo_sitemap_include' => '-',
-		'wpseo_focuskw'         => '',
-		'wpseo_linkdex'         => '',
-		'wpseo_content_score'   => '',
+		'wpseo_title'                 => '',
+		'wpseo_desc'                  => '',
+		'wpseo_metakey'               => '',
+		'wpseo_canonical'             => '',
+		'wpseo_bctitle'               => '',
+		'wpseo_noindex'               => 'default',
+		'wpseo_sitemap_include'       => '-',
+		'wpseo_focuskw'               => '',
+		'wpseo_linkdex'               => '',
+		'wpseo_content_score'         => '',
 
 		// Social fields.
-		'wpseo_opengraph-title'         => '',
-		'wpseo_opengraph-description'   => '',
-		'wpseo_opengraph-image'         => '',
-		'wpseo_twitter-title'           => '',
-		'wpseo_twitter-description'     => '',
-		'wpseo_twitter-image'           => '',
+		'wpseo_opengraph-title'       => '',
+		'wpseo_opengraph-description' => '',
+		'wpseo_opengraph-image'       => '',
+		'wpseo_twitter-title'         => '',
+		'wpseo_twitter-description'   => '',
+		'wpseo_twitter-image'         => '',
 	);
 
 	/**
