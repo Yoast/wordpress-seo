@@ -13,7 +13,10 @@ echo '<h2>' . esc_html__( 'User sitemap settings', 'wordpress-seo' ) . '</h2>';
 
 $yform->toggle_switch(
 	'disable_author_sitemap',
-	array( 'off' => __( 'Enabled', 'wordpress-seo' ), 'on' => __( 'Disabled', 'wordpress-seo' ) ),
+	array(
+		'off' => __( 'Enabled', 'wordpress-seo' ),
+		'on'  => __( 'Disabled', 'wordpress-seo' ),
+	),
 	__( 'Author / user sitemap', 'wordpress-seo' )
 );
 

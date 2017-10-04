@@ -66,7 +66,13 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	public function test_get_items_to_recalculate_no_focus_keywords() {
 		$response = $this->instance->get_items_to_recalculate( 1 );
 
-		$this->assertEquals( array( 'items' => array(), 'total_items' => 0 ), $response );
+		$this->assertEquals(
+			array(
+				'items'       => array(),
+				'total_items' => 0,
+			),
+			$response
+		);
 	}
 
 	/**

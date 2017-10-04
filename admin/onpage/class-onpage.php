@@ -53,7 +53,10 @@ class WPSEO_OnPage {
 	 * @return array
 	 */
 	public function add_weekly_schedule( array $schedules ) {
-		$schedules['weekly'] = array( 'interval' => WEEK_IN_SECONDS, 'display' => __( 'Once Weekly', 'wordpress-seo' ) );
+		$schedules['weekly'] = array(
+			'interval' => WEEK_IN_SECONDS,
+			'display'  => __( 'Once Weekly', 'wordpress-seo' ),
+		);
 
 		return $schedules;
 	}

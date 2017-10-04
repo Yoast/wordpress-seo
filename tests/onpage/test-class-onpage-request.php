@@ -56,7 +56,13 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 	public function test_get_response() {
 		$request = new WPSEO_OnPage_Request_Double();
 
-		$this->assertEquals( $request->do_request( home_url() ), array( 'is_indexable' => '1', 'passes_juice_to' => '' ) );
+		$this->assertEquals(
+			$request->do_request( home_url() ),
+			array(
+				'is_indexable'    => '1',
+				'passes_juice_to' => '',
+			)
+		);
 	}
 
 	/**
@@ -67,7 +73,13 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 	public function test_get_response_redirected() {
 		$request = new WPSEO_OnPage_Request_Double();
 
-		$this->assertEquals( $request->do_request( 'http:://will-be-redirected.wp' ), array( 'is_indexable' => '1', 'passes_juice_to' => '' ) );
+		$this->assertEquals(
+			$request->do_request( 'http:://will-be-redirected.wp' ),
+			array(
+				'is_indexable'    => '1',
+				'passes_juice_to' => '',
+			)
+		);
 	}
 
 	/**
@@ -78,7 +90,13 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 	public function test_get_response_not_indexable() {
 		$request = new WPSEO_OnPage_Request_Double();
 
-		$this->assertEquals( $request->do_request( 'http://not_indexable.wp' ), array( 'is_indexable' => '0', 'passes_juice_to' => '' ) );
+		$this->assertEquals(
+			$request->do_request( 'http://not_indexable.wp' ),
+			array(
+				'is_indexable'    => '0',
+				'passes_juice_to' => '',
+			)
+		);
 	}
 
 }

@@ -34,7 +34,10 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$post_parent = $this->factory->post->create_and_get();
 		$post = $this->factory->post->create_and_get(
-			array( 'post_type' => 'revision', 'post_parent' => $post_parent->ID )
+			array(
+				'post_type'   => 'revision',
+				'post_parent' => $post_parent->ID,
+			)
 		);
 
 		$processor = $this->get_processor();

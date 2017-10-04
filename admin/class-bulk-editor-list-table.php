@@ -178,7 +178,13 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Used in the constructor to build a reference list of post types the current user can edit.
 	 */
 	protected function populate_editable_post_types() {
-		$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ), 'object' );
+		$post_types = get_post_types(
+			array(
+				'public'              => true,
+				'exclude_from_search' => false,
+			),
+			'object'
+		);
 
 		$this->all_posts = array();
 		$this->own_posts = array();
@@ -351,7 +357,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	public function extra_tablenav( $which ) {
 
 		if ( 'top' === $which ) {
-			$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ) );
+			$post_types = get_post_types(
+				array(
+					'public'              => true,
+					'exclude_from_search' => false,
+				)
+			);
 
 			$instance_type = esc_attr( $this->page_type );
 
@@ -438,8 +449,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			$current_page   = 1;
 			$current_filter = '-1';
 			$current_status = '';
-			$current_order  = array( 'orderby' => 'post_title', 'order' => 'asc' );
-
+			$current_order  = array(
+				'orderby' => 'post_title',
+				'order'   => 'asc',
+			);
 		}
 
 		$_SERVER['REQUEST_URI'] = $request_url;

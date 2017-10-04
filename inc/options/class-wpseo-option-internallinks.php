@@ -82,7 +82,13 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 		// Retrieve all the relevant post type and taxonomy arrays.
 		$post_type_names       = get_post_types( array( 'public' => true ), 'names' );
-		$taxonomy_names_custom = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'names' );
+		$taxonomy_names_custom = get_taxonomies(
+			array(
+				'public'   => true,
+				'_builtin' => false,
+			),
+			'names'
+		);
 
 		if ( $post_type_names !== array() ) {
 			foreach ( $post_type_names as $pt ) {

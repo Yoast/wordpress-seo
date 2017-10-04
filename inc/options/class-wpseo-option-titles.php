@@ -191,7 +191,13 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		// Retrieve all the relevant post type and taxonomy arrays.
 		$post_type_names = get_post_types( array( 'public' => true ), 'names' );
 
-		$post_type_objects_custom = get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' );
+		$post_type_objects_custom = get_post_types(
+			array(
+				'public'   => true,
+				'_builtin' => false,
+			),
+			'objects'
+		);
 
 		$taxonomy_names = get_taxonomies( array( 'public' => true ), 'names' );
 
