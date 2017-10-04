@@ -17,7 +17,7 @@ const messages = defineMessages( {
 } );
 
 export const HelpCenterContainer = styled.div`
-	margin: 16px 16px 1em;
+	margin: 0 16px 1em;
 	
 	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		margin: 0 0 1em;
