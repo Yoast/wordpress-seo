@@ -3,7 +3,7 @@
 exports[`the HelpCenterButton matches the snapshot 1`] = `
 <button
   aria-expanded={false}
-  className="sc-htpNat gBIKzG sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
+  className="sc-htpNat cApEYM sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
   onClick={undefined}
   type="button"
 >

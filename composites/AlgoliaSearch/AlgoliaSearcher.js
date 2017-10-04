@@ -18,7 +18,7 @@ const AlgoliaSearchWrapper = styled.div`
 `;
 
 AlgoliaSearchWrapper.propTypes = {
-	maxWidth: PropTypes.string.isRequired,
+	maxWidth: PropTypes.string,
 };
 
 const messages = defineMessages( {
@@ -368,7 +368,7 @@ AlgoliaSearcher.defaultProps = {
 	algoliaApplicationId: "RC8G2UCWJK",
 	algoliaApiKey: "459903434a7963f83e7d4cd9bfe89c0d",
 	algoliaIndexName: "knowledge_base_all",
-	maxWidth: "800px",
+	maxWidth: "900px",
 	enableLiveSearch: false,
 };
 

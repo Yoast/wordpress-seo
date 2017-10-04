@@ -54,7 +54,7 @@ const SearchHeading = styled.h2`
 
 const SearchLabel = styled.label`
 	flex: 0 0 42px;
-	height: 3em;
+	height: 48px;
 	// This label is already a flex item to be aligned with its siblings.
 	// By making it also a flex container, we can align the SVG icon.
 	display: inline-flex;
@@ -64,7 +64,7 @@ const SearchLabel = styled.label`
 const SearchBarInput = styled.input`
 	flex: 1 1 auto;
 	box-sizing: border-box;
-	height: 3em;
+	height: 48px;
 	box-shadow: inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 );
 	background: ${ colors.$color_grey_light };
 	border: 0;

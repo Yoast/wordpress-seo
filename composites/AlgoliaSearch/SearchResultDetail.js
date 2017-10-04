@@ -42,7 +42,7 @@ const Detail = styled.section`
 `;
 
 const Nav = styled.nav`
-	padding: 8px 16px;
+	padding: 0 16px 16px;
 `;
 
 const RightYoastLinkButton = makeOutboundLink( styled( YoastLinkButton )`

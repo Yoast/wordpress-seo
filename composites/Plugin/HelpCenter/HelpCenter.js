@@ -17,11 +17,15 @@ const messages = defineMessages( {
 } );
 
 export const HelpCenterContainer = styled.div`
-	margin: 16px 16px 1em;
+	margin: 0;
 	
 	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		margin: 0 0 1em;
 	}
+`;
+
+const HelpCenterPaper = styled( Paper )`
+	margin-top: 16px;
 `;
 
 /**
@@ -67,8 +71,10 @@ class HelpCenter extends React.Component {
 	 */
 	render() {
 		return (
-			<HelpCenterContainer>
+			<HelpCenterContainer
+				className={ `${ this.props.className }` }>
 				<HelpCenterButton
+					className={ `${ this.props.className }__button` }
 					onClick={ this.onButtonClick.bind( this ) }
 					isExpanded={ this.state.isExpanded }
 					backgroundColor={ this.props.buttonBackgroundColor }
@@ -78,7 +84,7 @@ class HelpCenter extends React.Component {
 				>
 					{ this.props.intl.formatMessage( messages.buttonText ) }
 				</HelpCenterButton>
-				{ this.state.isExpanded && <Paper minHeight="432px">
+				{ this.state.isExpanded && <HelpCenterPaper minHeight="432px">
 					<YoastTabs
 						items={ this.props.items }
 						tabsTextColor={ this.props.tabsTextColor }
@@ -87,13 +93,14 @@ class HelpCenter extends React.Component {
 						tabsFontWeight={ this.props.tabsFontWeight }
 						tabsBaseWidth={ this.props.tabsBaseWidth }
 					/>
-				</Paper> }
+				</HelpCenterPaper> }
 			</HelpCenterContainer>
 		);
 	}
 }
 
 HelpCenter.propTypes = {
+	className: PropTypes.string,
 	intl: intlShape.isRequired,
 	items: PropTypes.array.isRequired,
 	buttonBackgroundColor: PropTypes.string,
@@ -118,6 +125,7 @@ HelpCenter.defaultProps = {
 	tabsFontSize: "1.5em",
 	tabsFontWeight: "200",
 	tabsBaseWidth: "200px",
+	className: "yoast-help-center",
 };
 
 export default injectIntl( HelpCenter );
