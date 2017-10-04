@@ -24,6 +24,10 @@ export const HelpCenterContainer = styled.div`
 	}
 `;
 
+const HelpCenterPaper = styled( Paper )`
+	margin-top: 16px;
+`;
+
 /**
  * Returns the HelpCenter component.
  *
@@ -78,7 +82,7 @@ class HelpCenter extends React.Component {
 				>
 					{ this.props.intl.formatMessage( messages.buttonText ) }
 				</HelpCenterButton>
-				{ this.state.isExpanded && <Paper minHeight="432px">
+				{ this.state.isExpanded && <HelpCenterPaper minHeight="432px">
 					<YoastTabs
 						items={ this.props.items }
 						tabsTextColor={ this.props.tabsTextColor }
@@ -87,7 +91,7 @@ class HelpCenter extends React.Component {
 						tabsFontWeight={ this.props.tabsFontWeight }
 						tabsBaseWidth={ this.props.tabsBaseWidth }
 					/>
-				</Paper> }
+				</HelpCenterPaper> }
 			</HelpCenterContainer>
 		);
 	}
