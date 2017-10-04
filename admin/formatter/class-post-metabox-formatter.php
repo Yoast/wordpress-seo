@@ -128,7 +128,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return array The keyword usage, including the additional keywords.
 	 */
 	protected function get_premium_keywords( $usage ) {
-
 		$additional_keywords = json_decode( WPSEO_Meta::get_value( 'focuskeywords', $this->post->ID ), true );
 
 		if ( empty( $additional_keywords ) ) {
