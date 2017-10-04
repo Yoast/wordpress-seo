@@ -78,8 +78,7 @@ class WPSEO_Admin_Pages {
 	 */
 	function config_page_scripts() {
 		$this->asset_manager->enqueue_script( 'admin-script' );
-
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
+		$this->asset_manager->enqueue_script( 'help-center' );
 
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
