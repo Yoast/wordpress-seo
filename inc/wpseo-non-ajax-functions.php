@@ -385,8 +385,10 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  * Enqueue CSS to format the Yoast SEO adminbar item.
  */
 function wpseo_admin_bar_style() {
+	
+	$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_ms' ) );
 
-	if ( ! is_admin_bar_showing() ) {
+	if ( ! is_admin_bar_showing() || $options['enable_admin_bar_menu'] !== true ) {
 		return;
 	}
 
