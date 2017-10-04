@@ -140,7 +140,7 @@ class HelpCenter extends React.Component {
 			id: "knowledge-base",
 			label: formatMessage( { id: "knowledgeBase" } ),
 			content: <AlgoliaSearcher
-				onQueryChange={ this.updateUsedQueries.bind( this ) } />
+				onQueryChange={ this.updateUsedQueries.bind( this ) } />,
 		} );
 
 		// Additional tabs
