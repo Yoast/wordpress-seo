@@ -3,7 +3,7 @@
  * @package WPSEO\Unittests
  */
 
-require_once 'class-recalculate-posts-double.php';
+require_once WPSEO_TESTS_PATH . 'recalculate/class-recalculate-posts-double.php';
 
 
 class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {

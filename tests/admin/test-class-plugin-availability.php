@@ -1,6 +1,6 @@
 <?php
 
-require_once 'test-class-wpseo-plugin-availability-double.php';
+require_once WPSEO_TESTS_PATH . 'admin/test-class-wpseo-plugin-availability-double.php';
 
 class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
