@@ -23,6 +23,11 @@ class ContactSupport extends React.Component {
 		this.execute();
 	}
 
+	/**
+	 * Execute the contact support callback.
+	 *
+	 * @returns {void}
+	 */
 	execute() {
 		if( this.props.do ) {
 			this.props.do(
@@ -31,6 +36,11 @@ class ContactSupport extends React.Component {
 		}
 	}
 
+	/**
+	 * Render the component.
+	 *
+	 * @returns {ReactElement} ContactSupport component.
+	 */
 	render() {
 		return (
 			<div className="contact-support-container">
@@ -130,7 +140,7 @@ class HelpCenter extends React.Component {
 				label: formatMessage( { id: "videoTutorial" } ),
 				content: <VideoTutorial
 					src={ this.state.videoUrl }
-					title="Learn this"
+					title=""
 					paragraphs={ this.props.videoTutorialParagraphs } />,
 			} );
 		}

@@ -34,7 +34,7 @@ const entry = {
 	"configuration-wizard": "./configuration-wizard.js",
 	"wp-seo-dashboard-widget": "./wp-seo-dashboard-widget.js",
 	"wp-seo-help-center": "./wp-seo-help-center.js",
-    "wp-seo-metabox": "./wp-seo-metabox.js",
+	"wp-seo-metabox": "./wp-seo-metabox.js",
 };
 
 module.exports = {

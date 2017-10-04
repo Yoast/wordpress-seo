@@ -323,8 +323,14 @@ td.column-wpseo-linked {
 .react-tabs__tab-panel {
 	max-width: 900px;
 	margin: 0 auto;
+
+	li {
+		max-width: initial !important;
+	}
 }
 
 .yoast-help-center-open #sidebar-container {
 	display: none;
 }
+
+
