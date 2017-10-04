@@ -129,13 +129,13 @@ abstract class WPSEO_Option {
 		}
 		elseif ( is_multisite() ) {
 			/*
-			The option validation routines remove the default filters to prevent failing
-			   to insert an option if it's new. Let's add them back afterwards.
-
-			   For site_options, this method is not foolproof as these actions are not fired
-			   on an insert/update failure. Please use the WPSEO_Options::update_site_option() method
-			   for updating site options to make sure the filters are in place.
-			*/
+			 * The option validation routines remove the default filters to prevent failing
+			 * to insert an option if it's new. Let's add them back afterwards.
+			 *
+			 * For site_options, this method is not foolproof as these actions are not fired
+			 * on an insert/update failure. Please use the WPSEO_Options::update_site_option() method
+			 * for updating site options to make sure the filters are in place.
+			 */
 			add_action( 'add_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
 			add_action( 'update_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
 
@@ -143,8 +143,8 @@ abstract class WPSEO_Option {
 
 
 		/*
-		Make sure the option will always get validated, independently of register_setting()
-			   (only available on back-end)
+		 * Make sure the option will always get validated, independently of register_setting()
+		 * (only available on back-end).
 		*/
 		add_filter( 'sanitize_option_' . $this->option_name, array( $this, 'validate' ) );
 
@@ -400,11 +400,11 @@ abstract class WPSEO_Option {
 		$filtered = $this->array_filter_merge( $options );
 
 		/*
-		If the option contains variable option keys, make sure we don't remove those settings
-			   - even if the defaults are not complete yet.
-			   Unfortunately this means we also won't be removing the settings for post types or taxonomies
-			   which are no longer in the WP install, but rather that than the other way around
-		*/
+		 * If the option contains variable option keys, make sure we don't remove those settings
+		 * - even if the defaults are not complete yet.
+		 * Unfortunately this means we also won't be removing the settings for post types or taxonomies
+		 * which are no longer in the WP install, but rather that than the other way around.
+		 */
 		if ( isset( $this->variable_array_key_patterns ) ) {
 			$filtered = $this->retain_variable_keys( $options, $filtered );
 		}
@@ -593,9 +593,9 @@ abstract class WPSEO_Option {
 		}
 
 		/*
-		Save the cleaned value - validation will take care of cleaning out array keys which
-			   should no longer be there
-		*/
+		 * Save the cleaned value - validation will take care of cleaning out array keys which
+		 * should no longer be there.
+		 */
 		if ( $this->multisite_only !== true ) {
 			update_option( $this->option_name, $option_value );
 		}

@@ -144,7 +144,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 
 				case 'blocking_files':
-					/**
+					/*
 					 * @internal [JRF] to really validate this we should also do a file_exists()
 					 * on each array entry and remove files which no longer exist, but that might be overkill
 					 */
@@ -186,8 +186,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				/*
-				Boolean dismiss warnings - not fields - may not be in form
-					   (and don't need to be either as long as the default is false)
+				 * Boolean dismiss warnings - not fields - may not be in form
+				 * (and don't need to be either as long as the default is false).
 				 */
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
@@ -230,13 +230,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				/*
-				Boolean (checkbox) fields
-				*/
+				 * Boolean (checkbox) fields.
+				 */
 
 				/*
-				Covers
-				 * 		'disableadvanced_meta'
-				 * 		'yoast_tracking'
+				 * Covers:
+				 *  'disableadvanced_meta'
+				 *  'yoast_tracking'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );

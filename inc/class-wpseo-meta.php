@@ -709,9 +709,9 @@ class WPSEO_Meta {
 		}
 		else {
 			/*
-			Shouldn't ever happen, means not one of our keys as there will always be a default available
-			   for all our keys
-			*/
+			 * Shouldn't ever happen, means not one of our keys as there will always be a default available
+			 * for all our keys.
+			 */
 			return '';
 		}
 	}
@@ -763,10 +763,10 @@ class WPSEO_Meta {
 		global $wpdb;
 
 		/*
-		Get only those rows where no wpseo meta values exist for the same post
-		   (with the exception of linkdex as that will be set independently of whether the post has been edited)
-		   @internal Query is pretty well optimized this way
-		*/
+		 * Get only those rows where no wpseo meta values exist for the same post
+		 * (with the exception of linkdex as that will be set independently of whether the post has been edited).
+		 * @internal Query is pretty well optimized this way.
+		 */
 		$query  = $wpdb->prepare(
 			"
 				SELECT `a`.*
