@@ -166,8 +166,12 @@ class WPSEO_Admin {
 
 	/**
 	 * Adds contextual help to the titles & metas page.
+	 *
+	 * @deprecated
 	 */
 	public function title_metas_help_tab() {
+		_deprecated_function( __METHOD__, '5.6.0' );
+
 		$screen = get_current_screen();
 
 		$screen->set_help_sidebar( '
