@@ -313,8 +313,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$helpcenter_tab = new WPSEO_Option_Tab( 'metabox', 'Meta box',
 			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ) ) );
 
-		$helpcenter = new WPSEO_Help_Center( 'metabox', $helpcenter_tab );
-		$helpcenter->output_help_center();
+		$option_tabs = new WPSEO_Option_Tabs( '', '' );
+		$option_tabs->add_tab( $helpcenter_tab );
+
+		$help_center = new WPSEO_Help_Center( $option_tabs );
+		$help_center->localize_data();
+		$help_center->mount();
 
 		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 			echo $this->get_buy_premium_link();
@@ -895,6 +899,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'kb-search' );
 
 			$asset_manager->enqueue_script( 'metabox' );
+			$asset_manager->enqueue_script( 'help-center' );
 			$asset_manager->enqueue_script( 'admin-media' );
 
 			$asset_manager->enqueue_script( 'post-scraper' );
