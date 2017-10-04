@@ -63,7 +63,7 @@ class WPSEO_Help_Center {
 		// Open HelpScout on activating this tab ID:
 		$formatted_data['premiumSupportId'] = $is_premium ? 'contact-support' : '';
 
-		$formatted_data['translations'] = $this::get_translated_texts();
+		$formatted_data['translations'] = self::get_translated_texts();
 
 		$formatted_data['videoDescriptions'] = array(
 			array(
