@@ -1013,7 +1013,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return array(
 			'custom_fields' => $this->get_custom_fields_replace_vars( $post ),
 			'custom_taxonomies' => $this->get_custom_taxonomies_replace_vars( $post ),
-		 );
+		);
 	}
 
 	/**
