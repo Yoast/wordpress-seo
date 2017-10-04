@@ -313,15 +313,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$helpcenter_tab = new WPSEO_Option_Tab( 'metabox', 'Meta box',
 			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ) ) );
 
-		$option_tabs = new WPSEO_Option_Tabs( '', '');
+		$option_tabs = new WPSEO_Option_Tabs( '', '' );
 		$option_tabs->add_tab( $helpcenter_tab );
 
 		$help_center = new WPSEO_Help_Center( $option_tabs );
 		$help_center->localize_data();
 		$help_center->mount();
-
-//		$helpcenter = new WPSEO_Help_Center( 'metabox', $helpcenter_tab );
-//		$helpcenter->output_help_center();
 
 		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 			echo $this->get_buy_premium_link();

@@ -13,6 +13,7 @@ class WPSEO_Help_Center {
 	/** @var string Mount point in the HTML */
 	private $identifier = 'yoast-help-center-container';
 
+	/** @var array Additional help center items */
 	protected $help_center_items = array();
 
 	/**
@@ -25,7 +26,7 @@ class WPSEO_Help_Center {
 	}
 
 	/**
-	 *
+	 * Localize data required by the help center component.
 	 */
 	public function localize_data() {
 		$this->add_contact_support_item();
@@ -33,9 +34,11 @@ class WPSEO_Help_Center {
 	}
 
 	/**
-	 * @param WPSEO_Option_Tab[] $tabs
+	 * Format the required data for localized script.
 	 *
-	 * @return array
+	 * @param WPSEO_Option_Tab[] $tabs Yoast admin pages navigational tabs.
+	 *
+	 * @return array Associative array containing data for help center component.
 	 */
 	protected function format_data( array $tabs ) {
 		$formatted_data = array( 'tabs' => array() );
@@ -49,7 +52,7 @@ class WPSEO_Help_Center {
 		}
 
 		$active_tab = $this->tabs->get_active_tab();
-		$active_tab = null === $active_tab ? $tabs[0] : $active_tab;
+		$active_tab = ( null === $active_tab ) ? $tabs[0] : $active_tab;
 
 		$formatted_data['mountId']    = $this->identifier;
 		$formatted_data['initialTab'] = $active_tab->get_name();
@@ -60,8 +63,8 @@ class WPSEO_Help_Center {
 		$formatted_data['isPremium']     = $is_premium;
 		$formatted_data['pluginVersion'] = WPSEO_VERSION;
 
-		// Open HelpScout on activating this tab ID:
-		$formatted_data['premiumSupportId'] = $is_premium ? 'contact-support' : '';
+		// Open HelpScout on activating this tab ID.
+		$formatted_data['premiumSupportId'] = ( $is_premium ) ? 'contact-support' : '';
 
 		$formatted_data['translations'] = self::get_translated_texts();
 
@@ -77,7 +80,7 @@ class WPSEO_Help_Center {
 				'description' => __( 'Follow our Yoast SEO for WordPress training and become a certified Yoast SEO Expert!', 'wordpress-seo' ),
 				'link' => 'https://yoa.st/wordpress-training-vt?utm_content=' . WPSEO_VERSION,
 				'linkText' => __( 'Enroll in the Yoast SEO for WordPress training »', 'wordpress-seo' ),
-			)
+			),
 		);
 
 		$formatted_data['extraTabs'] = $this->get_extra_tabs();
@@ -85,12 +88,24 @@ class WPSEO_Help_Center {
 		return $formatted_data;
 	}
 
+	/**
+	 * Get additional tabs for the help center component.
+	 *
+	 * @return array Additional help center tabs.
+	 */
 	protected function get_extra_tabs() {
 		$help_center_items = apply_filters( 'wpseo_help_center_items', $this->help_center_items );
 
 		return array_map( array( $this, 'format_helpcenter_tab' ), $help_center_items );
 	}
 
+	/**
+	 * Convert WPSEO_Help_Center_Item into help center format.
+	 *
+	 * @param WPSEO_Help_Center_Item $item The item to convert.
+	 *
+	 * @return array Formatted item.
+	 */
 	protected function format_helpcenter_tab( WPSEO_Help_Center_Item $item ) {
 		return array(
 			'identifier' => $item->get_identifier(),
@@ -100,7 +115,9 @@ class WPSEO_Help_Center {
 	}
 
 	/**
-	 * @param $data
+	 * Enqueue localized script for help center component.
+	 *
+	 * @param array $data Data to localize.
 	 */
 	protected function enqueue_localized_data( $data ) {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'help-center', 'wpseoHelpCenterData', $data );
@@ -165,15 +182,15 @@ class WPSEO_Help_Center {
 			'searchBar.headingText' => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
 			'searchBar.placeholderText' => __( 'Search the knowledge base', 'wordpress-seo' ),
 			'searchBar.buttonText' => __( 'Search', 'wordpress-seo' ),
-			'searchResultDetail.openButton' => __( 'View in KB', 'wordpress-seo'),
-			'searchResultDetail.openButtonLabel' => __( 'Open the knowledge base article in a new window or read it in the iframe below', 'wordpress-seo'),
-			'searchResultDetail.backButton' => __( 'Go back', 'wordpress-seo'),
-			'searchResultDetail.backButtonLabel' => __( 'Go back to the search results', 'wordpress-seo'),
-			'searchResultDetail.iframeTitle' => __( 'Knowledge base article', 'wordpress-seo'),
-			'searchResult.noResultsText' => __( 'No results found.', 'wordpress-seo'),
-			'searchResult.foundResultsText' => __( 'Number of results found: { resultsCount }', 'wordpress-seo'),
-			'searchResult.searchResultsHeading' => __( 'Search results', 'wordpress-seo'),
-			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo'),
+			'searchResultDetail.openButton' => __( 'View in KB', 'wordpress-seo' ),
+			'searchResultDetail.openButtonLabel' => __( 'Open the knowledge base article in a new window or read it in the iframe below', 'wordpress-seo' ),
+			'searchResultDetail.backButton' => __( 'Go back', 'wordpress-seo' ),
+			'searchResultDetail.backButtonLabel' => __( 'Go back to the search results', 'wordpress-seo' ),
+			'searchResultDetail.iframeTitle' => __( 'Knowledge base article', 'wordpress-seo' ),
+			'searchResult.noResultsText' => __( 'No results found.', 'wordpress-seo' ),
+			'searchResult.foundResultsText' => __( 'Number of results found: { resultsCount }', 'wordpress-seo' ),
+			'searchResult.searchResultsHeading' => __( 'Search results', 'wordpress-seo' ),
+			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 			'contactSupport.paragraph' => __( 'Click this button to contact support.', 'wordpress-seo' ),
 			'contactSupport.button' => __( 'Get support', 'wordpress-seo' ),
 		);
