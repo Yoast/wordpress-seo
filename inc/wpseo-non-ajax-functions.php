@@ -124,6 +124,12 @@ function wpseo_admin_bar_menu() {
 	}
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wpseo-menu',
+		'id'     => 'wpseo-configuration-wizard',
+		'title'  => __( 'Configuration Wizard', 'wordpress-seo' ),
+		'href'   => admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ),
+	) );
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wpseo-menu',
 		'id'     => 'wpseo-kwresearch',
 		'title'  => __( 'Keyword Research', 'wordpress-seo' ),
 		'meta'   => array( 'tabindex' => '0' ),
