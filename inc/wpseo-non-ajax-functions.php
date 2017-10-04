@@ -485,7 +485,7 @@ function wpseo_translate_score( $val, $css_value = true ) {
  * @deprecated use WPSEO_Utils::allow_system_file_edit()
  * @see        WPSEO_Utils::allow_system_file_edit()
  *
- * @internal   current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.
+ * {@internal  current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.}}
  *
  * @return bool
  */

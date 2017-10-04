@@ -4,8 +4,8 @@
  */
 
 /**
- * @internal Clean routine for 1.5 not needed as values used to be saved as string 'on' and those will convert
- * automatically
+ * {@internal Clean routine for 1.5 not needed as values used to be saved as string 'on'
+ *            and those will convert automatically.}}
  */
 class WPSEO_Option_Permalinks extends WPSEO_Option {
 

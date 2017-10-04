@@ -771,7 +771,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Save the WP SEO metadata for posts.
 	 *
-	 * @internal $_POST parameters are validated via sanitize_post_meta()
+	 * {@internal $_POST parameters are validated via sanitize_post_meta().}}
 	 *
 	 * @param int $post_id Post ID.
 	 *

@@ -178,7 +178,8 @@ abstract class WPSEO_Option {
 
 	/**
 	 * All concrete classes *must* contain the get_instance method
-	 * @internal Unfortunately I can't define it as an abstract as it also *has* to be static....
+	 *
+	 * {@internal Unfortunately I can't define it as an abstract as it also *has* to be static...}}
 	 */
 	// abstract protected static function get_instance();
 
@@ -345,8 +346,8 @@ abstract class WPSEO_Option {
 	 *
 	 * Checks if the concrete class contains an enrich_defaults() method and if so, runs it.
 	 *
-	 * @internal the enrich_defaults method is used to set defaults for variable array keys in an option,
-	 * such as array keys depending on post_types and/or taxonomies
+	 * {@internal The enrich_defaults method is used to set defaults for variable array keys
+	 *            in an option, such as array keys depending on post_types and/or taxonomies.}}
 	 *
 	 * @return  array
 	 */
@@ -523,12 +524,13 @@ abstract class WPSEO_Option {
 	/**
 	 * Update a site_option
 	 *
-	 * @internal This special method is only needed for multisite options, but very needed indeed there.
-	 * The order in which certain functions and hooks are run is different between get_option() and
-	 * get_site_option() which means in practice that the removing of the default filters would be
-	 * done too late and the re-adding of the default filters might not be done at all.
-	 * Aka: use the WPSEO_Options::update_site_option() method (which calls this method) for
-	 * safely adding/updating multisite options.
+	 * {@internal This special method is only needed for multisite options, but very needed indeed there.
+	 *            The order in which certain functions and hooks are run is different between
+	 *            get_option() and get_site_option() which means in practice that the removing
+	 *            of the default filters would be done too late and the re-adding of the default
+	 *            filters might not be done at all.
+	 *            Aka: use the WPSEO_Options::update_site_option() method (which calls this method)
+	 *            for safely adding/updating multisite options.}}
 	 *
 	 * @param mixed $value The new value for the option.
 	 *
@@ -653,8 +655,8 @@ abstract class WPSEO_Option {
 	 * Make sure that any set option values relating to post_types and/or taxonomies are retained,
 	 * even when that post_type or taxonomy may not yet have been registered.
 	 *
-	 * @internal The wpseo_titles concrete class overrules this method. Make sure that any changes
-	 * applied here, also get ported to that version.
+	 * {@internal The wpseo_titles concrete class overrules this method. Make sure that any
+	 *            changes applied here, also get ported to that version.}}
 	 *
 	 * @param  array $dirty Original option as retrieved from the database.
 	 * @param  array $clean Filtered option where any options which shouldn't be in our option

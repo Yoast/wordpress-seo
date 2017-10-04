@@ -10,8 +10,8 @@ if ( ! function_exists( 'add_filter' ) ) {
 }
 
 /**
- * @internal Nobody should be able to overrule the real version number as this can cause serious issues
- * with the options, so no if ( ! defined() )
+ * {@internal Nobody should be able to overrule the real version number as this can cause
+ *            serious issues with the options, so no if ( ! defined() ).}}
  */
 define( 'WPSEO_VERSION', '5.5.1' );
 
@@ -217,8 +217,8 @@ function _wpseo_deactivate() {
  *
  * Will only be called by multisite actions.
  *
- * @internal Unfortunately will fail if the plugin is in the must-use directory
- * @see      https://core.trac.wordpress.org/ticket/24205
+ * {@internal Unfortunately will fail if the plugin is in the must-use directory.
+ *            {@link https://core.trac.wordpress.org/ticket/24205} }}
  *
  * @param int $blog_id Blog ID.
  */
@@ -324,8 +324,8 @@ function wpseo_frontend_init() {
 		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
 		 * there's no reason to have bbPress breadcrumbs as well.
 		 *
-		 * @internal The class itself is only loaded when the template tag is encountered via
-		 * the template tag function in the wpseo-functions.php file
+		 * {@internal The class itself is only loaded when the template tag is encountered
+		 *            via the template tag function in the wpseo-functions.php file.}}
 		 */
 		add_filter( 'bbp_get_breadcrumb', '__return_false' );
 	}

@@ -16,7 +16,8 @@ class WPSEO_Option_RSS extends WPSEO_Option {
 	/**
 	 * @var  array  Array of defaults for the option
 	 *        Shouldn't be requested directly, use $this->get_defaults();
-	 * @internal  Note: Some of the default values are added via the translate_defaults() method
+	 *
+	 * {@internal Note: Some of the default values are added via the translate_defaults() method.}}
 	 */
 	protected $defaults = array(
 		'rssbefore' => '', // Text area.

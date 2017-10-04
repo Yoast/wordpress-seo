@@ -51,7 +51,7 @@ class WPSEO_Utils {
 	/**
 	 * Check whether file editing is allowed for the .htaccess and robots.txt files
 	 *
-	 * @internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.
+	 * {@internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.}}
 	 *
 	 * @static
 	 *

@@ -21,10 +21,11 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	/**
 	 * @var  array  Array of defaults for the option
 	 *        Shouldn't be requested directly, use $this->get_defaults();
-	 * @internal  Important: in contrast to most defaults, the below array format is
-	 *        very bare. The real option is in the format [taxonomy_name][term_id][...]
-	 *        where [...] is any of the $defaults_per_term options shown below.
-	 *        This is of course taken into account in the below methods.
+	 *
+	 * {@internal Important: in contrast to most defaults, the below array format is
+	 *            very bare. The real option is in the format [taxonomy_name][term_id][...]
+	 *            where [...] is any of the $defaults_per_term options shown below.
+	 *            This is of course taken into account in the below methods.}}
 	 */
 	protected $defaults = array();
 
@@ -66,7 +67,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 *
 	 * @static
 	 *
-	 * @internal  Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options()
+	 * {@internal Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options().}}
 	 */
 	public static $no_index_options = array(
 		'default' => '',
@@ -80,7 +81,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 *
 	 * @static
 	 *
-	 * @internal  Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options()
+	 * {@internal Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options().}}
 	 */
 	public static $sitemap_include_options = array(
 		'-'      => '',
@@ -157,9 +158,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			}
 
 			/ *
-			@internal Adding the defaults to all taxonomy terms each time the option is retrieved
-			will be quite inefficient if there are a lot of taxonomy terms
-			As long as taxonomy_meta is only retrieved via methods in this class, we shouldn't need this
+			{@internal Adding the defaults to all taxonomy terms each time the option is retrieved
+			will be quite inefficient if there are a lot of taxonomy terms.
+			As long as taxonomy_meta is only retrieved via methods in this class, we shouldn't need this.}}
 
 			$options  = (array) $options;
 			$filtered = array();
