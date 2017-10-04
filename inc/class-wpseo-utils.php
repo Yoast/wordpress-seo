@@ -984,7 +984,7 @@ class WPSEO_Utils {
 	 */
 	public static function is_api_available( $minimum_version = '2.0' ) {
 		return ( defined( 'REST_API_VERSION' )
-		         && version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
+			&& version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
 	}
 
 	/********************** DEPRECATED METHODS **********************/
