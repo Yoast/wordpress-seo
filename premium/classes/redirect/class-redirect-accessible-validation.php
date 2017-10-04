@@ -24,6 +24,11 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 */
 	public function run( WPSEO_Redirect $redirect, WPSEO_Redirect $old_redirect = null, array $redirects = null ) {
 
+		// When the redirect origin is a regex and the target contains replacements.
+		if ( $this->contain_replacements( $redirect ) ) {
+			return true;
+		}
+
 		// Do the request.
 		$target        = $this->parse_target( $redirect->get_target() );
 		$decoded_url   = rawurldecode( $target );
@@ -141,5 +146,25 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 		}
 
 		return $absolute;
+	}
+
+	/**
+	 * Checks if the string contains regex replacements.
+	 *
+	 * @param WPSEO_Redirect $redirect The redirect to check.
+	 *
+	 * @return bool True when it contains replacements.
+	 */
+	protected function contain_replacements( WPSEO_Redirect $redirect ) {
+		if ( $redirect->get_format() === WPSEO_Redirect::FORMAT_PLAIN  ) {
+			return false;
+		}
+
+
+		if ( strpos( $redirect->get_target(), '$' ) === false ) {
+			return false;
+		}
+
+		return preg_match( '_\${1}\d+_', $redirect->get_target() ) !== 0;
 	}
 }
