@@ -23,7 +23,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'description' => '',
 				'version' => '3.3',
 				'installed' => false,
-				'_dependencies' => array( 'test-plugin' )
+				'_dependencies' => array( 'test-plugin' ),
 			),
 
 			'unavailable-test-plugin' => array(

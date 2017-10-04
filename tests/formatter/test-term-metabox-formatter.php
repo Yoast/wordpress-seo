@@ -102,7 +102,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	public function test_with_taxonomy_term_and_options() {
 		$options  = array(
 			'title-tax-post_tag'    => 'This is a title',
-			'metadesc-tax-post_tag' => 'This is a meta description'
+			'metadesc-tax-post_tag' => 'This is a meta description',
 		);
 		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term, $options );
 		$result   = $instance->get_values();

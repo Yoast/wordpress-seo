@@ -11,7 +11,7 @@ class WPSEO_Primary_Term_Double extends WPSEO_Primary_Term {
 		return array(
 			(object) array(
 				'term_id' => 54,
-			)
+			),
 		);
 	}
 }

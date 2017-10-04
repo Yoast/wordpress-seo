@@ -90,7 +90,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$post = $this->factory->post->create_and_get(
 			array(
-				'post_content' => ''
+				'post_content' => '',
 			));
 
 		$processor = $this->get_processor();
@@ -110,7 +110,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$post = $this->factory->post->create_and_get(
 			array(
-				'post_content' => 'This is content'
+				'post_content' => 'This is content',
 			)
 		);
 
@@ -127,7 +127,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_delete_post() {
 		$post = $this->factory->post->create_and_get(
 			array(
-				'post_content' => 'This is content that will be deleted'
+				'post_content' => 'This is content that will be deleted',
 			)
 		);
 

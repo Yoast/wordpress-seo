@@ -62,7 +62,7 @@ class WPSEO_Configuration_Structure {
 			'mailchimpSignup',
 		), true, true );
 		$this->add_step( 'suggestions', __( 'You might like', 'wordpress-seo' ), array(
-			'suggestions'
+			'suggestions',
 		), true, true );
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), array(
 			'successMessage',

@@ -834,7 +834,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 				'multipage',
 				'more',
 				'numpages',
-				'pagenow'
+				'pagenow',
 			) as $v
 		) {
 			if ( isset( $GLOBALS[ $v ] ) ) {

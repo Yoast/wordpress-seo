@@ -16,7 +16,7 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 		$this->subject =
 			$this
 				->getMockBuilder( 'WPSEO_Frontend_Primary_Category' )
-				->setMethods( array( 'get_category', 'get_primary_category', ) )
+				->setMethods( array( 'get_category', 'get_primary_category' ) )
 				->getMock();
 	}
 
@@ -32,7 +32,7 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( '54' ) );
 
 		$expect = (object) array(
-			'term_id' => 54
+			'term_id' => 54,
 		);
 
 		$this->subject
