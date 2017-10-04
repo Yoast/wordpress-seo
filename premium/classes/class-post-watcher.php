@@ -173,7 +173,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			// Format the message.
 			/* translators: %1$s: Yoast SEO Premium, %2$s: <a href='{undo_redirect_url}'>, %3$s: </a>, %4$s: Slug to post */
 			$message = sprintf(
-				__( '%1$s detected that you restored a post (%4$s) from the trash. %2$sClick here to remove the redirect%3$s', 'wordpress-seo-premium' ),
+				__( '%1$s detected that you restored a post (%4$s) from the trash, for which a redirect was created. %2$sClick here to remove the redirect%3$s', 'wordpress-seo-premium' ),
 				'Yoast SEO Premium',
 				'<button type="button" class="button" onclick=\'' . $this->javascript_undo_redirect( $redirect, $id ) . '\'>',
 				'</button>',
