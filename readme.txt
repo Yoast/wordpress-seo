@@ -130,13 +130,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 Release Date: October 10th, 2017
 
 Enhancements
-	* Removes legacy license page and shows the new license page by default
-	* Changes references from licenses to subscriptions and sites on the extensions submenu page
+	* Removes legacy license page and shows the new license page by default.
+	* Changes references from licenses to subscriptions and sites on the extensions submenu page.
+	* Changes the appearance of the Help Center in line with the new design approach.
 
 Bugfixes
-	* Fixes a bug where hebrew slugs aren't decoded on display in the bulk editor
-	* Fixes a bug where the internal link count is not updated when there are no links to an object
-	* Fixes the Cornerstone Content filter to behave consistently with existing WordPress Filters
+	* Fixes a bug where hebrew slugs aren't decoded on display in the bulk editor.
+	* Fixes a bug where the internal link count is not updated when there are no links to an object.
+	* Fixes the Cornerstone Content filter to behave consistently with existing WordPress Filters.
 
 = 5.5.1 =
 
