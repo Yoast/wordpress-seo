@@ -28,11 +28,11 @@ $tabs->display( $yform, $options );
 $yform->admin_footer();
 
 /**
- * Add help tabs.
+ * Adds help tabs.
  *
  * @param array $tabs Current help center tabs.
  *
- * @return array Array containing all the additional tabs.
+ * @return array List containing all the additional tabs.
  */
 function yoast_add_meta_options_help_center_tabs( $tabs ) {
 
@@ -48,11 +48,11 @@ function yoast_add_meta_options_help_center_tabs( $tabs ) {
 /**
  * Adds template variables to the help center.
  *
- * @return string The tabs for template variables.
+ * @return string The content for the template variables tab.
  */
 function add_template_variables_helpcenter() {
 	$explanation = sprintf(
-	/* translators: %1$s expands to Yoast SEO. */
+		/* translators: %1$s expands to Yoast SEO. */
 		__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ),
 		'Yoast SEO'
 	);
