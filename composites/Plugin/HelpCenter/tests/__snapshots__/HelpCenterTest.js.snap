@@ -2,25 +2,25 @@
 
 exports[`the HelpCenter matches the snapshot 1`] = `
 <div
-  className="sc-EHOje gLNxwO"
+  className="yoast-help-center sc-EHOje gbEnju"
 >
   <button
     aria-expanded={false}
-    className="sc-htpNat gBIKzG sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
+    className="yoast-help-center__button sc-htpNat cApEYM sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
     onClick={[Function]}
     type="button"
   >
     <span>
       <svg
         aria-hidden="true"
-        className="sc-bZQynM gThpcH"
+        className="sc-gzVnrw gPgFAM"
         focusable="false"
         role="img"
       />
       Need help?
       <svg
         aria-hidden="true"
-        className="sc-gzVnrw gPgFAM"
+        className="sc-htoDjs aOUzm"
         focusable="false"
         role="img"
       />
@@ -31,25 +31,25 @@ exports[`the HelpCenter matches the snapshot 1`] = `
 
 exports[`the HelpCenter with props matches the snapshot 1`] = `
 <div
-  className="sc-EHOje gLNxwO"
+  className="yoast-help-center sc-EHOje gbEnju"
 >
   <button
     aria-expanded={false}
-    className="sc-htpNat gBIKzG sc-bwzfXH jWIihg sc-bdVaJa iWweBU"
+    className="yoast-help-center__button sc-htpNat cApEYM sc-bwzfXH jWIihg sc-bdVaJa iWweBU"
     onClick={[Function]}
     type="button"
   >
     <span>
       <svg
         aria-hidden="true"
-        className="sc-htoDjs aOUzm"
+        className="sc-dnqmqq ljFcTe"
         focusable="false"
         role="img"
       />
       Need help?
       <svg
         aria-hidden="true"
-        className="sc-dnqmqq ljFcTe"
+        className="sc-iwsKbI bNSoos"
         focusable="false"
         role="img"
       />
