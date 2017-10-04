@@ -428,7 +428,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @return string|array|false
 	 */
-	static public function get_last_modified_gmt( $post_types, $return_all = false ) {
+	public static function get_last_modified_gmt( $post_types, $return_all = false ) {
 
 		global $wpdb;
 
@@ -558,7 +558,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @return mixed|void
 	 */
-	static public function filter_frequency( $filter, $default, $url ) {
+	public static function filter_frequency( $filter, $default, $url ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
 
 		/**
