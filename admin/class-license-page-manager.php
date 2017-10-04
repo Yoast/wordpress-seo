@@ -102,11 +102,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * @return string The page to use.
 	 */
 	public function get_license_page() {
-		if ( $this->get_version() === self::VERSION_BACKWARDS_COMPATIBILITY ) {
-			return 'licenses';
-		}
-
-		return 'licenses-legacy';
+		return 'licenses';
 	}
 
 	/**

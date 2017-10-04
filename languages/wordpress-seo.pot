@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 5.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-10-04 11:19:29+00:00\n"
+"POT-Creation-Date: 2017-10-04 11:28:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -144,7 +144,6 @@ msgstr ""
 #: admin/banner/class-admin-banner-sidebar.php:206
 #: admin/menu/class-network-admin-menu.php:66
 #: admin/menu/class-network-admin-menu.php:67
-#: admin/views/licenses-legacy.php:112
 msgid "Extensions"
 msgstr ""
 
@@ -769,7 +768,7 @@ msgstr ""
 
 #. translators: %1$s expands to the product name. %2$s expands to a link to My
 #. Yoast
-#: admin/class-license-page-manager.php:197
+#: admin/class-license-page-manager.php:193
 msgid ""
 "You are not receiving updates or support! Fix this problem by adding this "
 "site and enabling %1$s for it in %2$s."
@@ -825,32 +824,27 @@ msgid "Post is set to noindex."
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/class-plugin-availability.php:33 admin/views/licenses-legacy.php:18
-#: admin/views/licenses.php:28
+#: admin/class-plugin-availability.php:33 admin/views/licenses.php:28
 msgid "The premium version of %1$s with more features & support."
 msgstr ""
 
-#: admin/class-plugin-availability.php:41 admin/views/licenses-legacy.php:27
-#: admin/views/licenses.php:42
+#: admin/class-plugin-availability.php:41 admin/views/licenses.php:42
 msgid ""
 "Optimize your videos to show them off in search results and get more clicks!"
 msgstr ""
 
-#: admin/class-plugin-availability.php:49 admin/views/licenses-legacy.php:40
-#: admin/views/licenses.php:60
+#: admin/class-plugin-availability.php:49 admin/views/licenses.php:60
 msgid ""
 "Are you in Google News? Increase your traffic from Google News by optimizing "
 "for it!"
 msgstr ""
 
-#: admin/class-plugin-availability.php:57 admin/views/licenses-legacy.php:53
-#: admin/views/licenses.php:78
+#: admin/class-plugin-availability.php:57 admin/views/licenses.php:78
 msgid "Rank better locally and in Google Maps, without breaking a sweat!"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/class-plugin-availability.php:66 admin/views/licenses-legacy.php:67
-#: admin/views/licenses.php:99
+#: admin/class-plugin-availability.php:66 admin/views/licenses.php:99
 msgid "Seamlessly integrate WooCommerce with %1$s and get extra features!"
 msgstr ""
 
@@ -1773,13 +1767,12 @@ msgstr ""
 msgid "Cornerstone content"
 msgstr ""
 
-#. translators: %1$s expands anchor to knowledge base article, %2$s expands to
-#. </a>
-#: admin/filters/class-cornerstone-filter.php:57
+#. translators: %1$s expands to the posttype label, %2$s expands anchor to blog
+#. post about cornerstone content, %3$s expands to </a>
+#: admin/filters/class-cornerstone-filter.php:59
 msgid ""
-"You can mark the most important articles or pages on your website as "
-"'cornerstone content' to improve your site structure. %1$sRead more about "
-"cornerstone content%2$s."
+"Mark the most important %1$s as 'cornerstone content' to improve your site "
+"structure. %2$sLearn more about cornerstone content%3$s."
 msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:50
@@ -2496,8 +2489,7 @@ msgid ""
 msgstr ""
 
 #: admin/metabox/class-metabox.php:475
-#: admin/taxonomy/class-taxonomy-metabox.php:265
-#: admin/views/licenses-legacy.php:130 admin/views/licenses.php:137
+#: admin/taxonomy/class-taxonomy-metabox.php:265 admin/views/licenses.php:137
 msgid "Redirect manager"
 msgstr ""
 
@@ -2507,8 +2499,7 @@ msgid "Create and manage redirects within your WordPress install."
 msgstr ""
 
 #: admin/metabox/class-metabox.php:477
-#: admin/taxonomy/class-taxonomy-metabox.php:267
-#: admin/views/licenses-legacy.php:134 admin/views/licenses.php:141
+#: admin/taxonomy/class-taxonomy-metabox.php:267 admin/views/licenses.php:141
 msgid "Multiple focus keywords"
 msgstr ""
 
@@ -2528,8 +2519,7 @@ msgid "Check what your Facebook or Twitter post will look like."
 msgstr ""
 
 #: admin/metabox/class-metabox.php:481
-#: admin/taxonomy/class-taxonomy-metabox.php:271
-#: admin/views/licenses-legacy.php:142 admin/views/licenses.php:149
+#: admin/taxonomy/class-taxonomy-metabox.php:271 admin/views/licenses.php:149
 msgid "Premium support"
 msgstr ""
 
@@ -3042,130 +3032,88 @@ msgstr ""
 msgid "Primary %s"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:31 admin/views/licenses.php:45
+#: admin/views/licenses.php:45
 msgid "Show your videos in Google Videos"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:32 admin/views/licenses.php:46
+#: admin/views/licenses.php:46
 msgid "Enhance the experience of sharing posts with videos"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:33 admin/views/licenses.php:47
+#: admin/views/licenses.php:47
 msgid "Make videos responsive through enabling fitvids.js"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:44 admin/views/licenses.php:63
+#: admin/views/licenses.php:63
 msgid "Optimize your site for Google News"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:45 admin/views/licenses.php:64
+#: admin/views/licenses.php:64
 msgid "Immediately pings Google on the publication of a new post"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:46 admin/views/licenses.php:65
+#: admin/views/licenses.php:65
 msgid "Creates XML News Sitemaps"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:57 admin/views/licenses.php:81
+#: admin/views/licenses.php:81
 msgid "Get found by potential clients"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:58 admin/views/licenses.php:82
+#: admin/views/licenses.php:82
 msgid "Easily insert Google Maps, a store locator, opening hours and more"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:59 admin/views/licenses.php:83
+#: admin/views/licenses.php:83
 msgid "Improve the usability of your contact page"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:71 admin/views/licenses.php:102
+#: admin/views/licenses.php:102
 msgid "Improve sharing on Pinterest"
 msgstr ""
 
 #. translators: %1$s expands to Yoast, %2$s expands to WooCommerce
-#: admin/views/licenses-legacy.php:74 admin/views/licenses.php:105
+#: admin/views/licenses.php:105
 msgid "Use %1$s breadcrumbs instead of %2$s ones"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, %2$s expands to WooCommerce
-#: admin/views/licenses-legacy.php:77 admin/views/licenses.php:108
+#: admin/views/licenses.php:108
 msgid "A seamless integration between %1$s and %2$s"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/licenses-legacy.php:108 admin/views/licenses.php:121
+#: admin/views/licenses.php:121
 msgid "%1$s Extensions"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:113
-msgid "Licenses"
-msgstr ""
-
 #. translators: %1$s expands to Yoast SEO Premium
-#: admin/views/licenses-legacy.php:125 admin/views/licenses.php:132
+#: admin/views/licenses.php:132
 msgid "%1$s, take your optimization to the next level!"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:131 admin/views/licenses.php:138
+#: admin/views/licenses.php:138
 msgid "create and manage redirects from within your WordPress install."
 msgstr ""
 
-#: admin/views/licenses-legacy.php:135 admin/views/licenses.php:142
+#: admin/views/licenses.php:142
 msgid "optimize a single post for up to 5 keywords."
 msgstr ""
 
-#: admin/views/licenses-legacy.php:138 admin/views/licenses.php:145
+#: admin/views/licenses.php:145
 msgid "Social previews"
 msgstr ""
 
-#: admin/views/licenses-legacy.php:139 admin/views/licenses.php:146
+#: admin/views/licenses.php:146
 msgid "check what your Facebook or Twitter post will look like."
 msgstr ""
 
-#: admin/views/licenses-legacy.php:143 admin/views/licenses.php:150
+#: admin/views/licenses.php:150
 msgid "gain access to our 24/7 support team."
 msgstr ""
 
-#: admin/views/licenses-legacy.php:148 admin/views/licenses-legacy.php:205
 #: admin/views/licenses.php:155 admin/views/licenses.php:213
 msgid "Installed"
-msgstr ""
-
-#. translators: $1$s expands to Yoast SEO Premium
-#: admin/views/licenses-legacy.php:152 admin/views/licenses.php:171
-msgid "Buy %1$s"
-msgstr ""
-
-#. translators: Text between %1$s and %2$s will only be shown to screen
-#. readers. %3$s expands to the product name.
-#: admin/views/licenses-legacy.php:159 admin/views/licenses-legacy.php:217
-#: admin/views/licenses.php:177 admin/views/licenses.php:231
-msgid "More information %1$sabout %3$s%2$s"
-msgstr ""
-
-#: admin/views/licenses-legacy.php:166 admin/views/licenses.php:184
-msgid "Comes with our 30-day no questions asked money back guarantee"
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO
-#: admin/views/licenses-legacy.php:174 admin/views/licenses.php:192
-msgid "%1$s extensions"
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO extensions
-#: admin/views/licenses-legacy.php:179 admin/views/licenses.php:197
-msgid "%1$s to optimize your site even further"
-msgstr ""
-
-#. translators: %s expands to the product name
-#: admin/views/licenses-legacy.php:210 admin/views/licenses.php:225
-msgid "Buy %s"
-msgstr ""
-
-#: admin/views/licenses-legacy.php:235
-msgid ""
-"This is where you would enter the license keys for one of our premium "
-"plugins, should you activate one."
 msgstr ""
 
 #: admin/views/licenses.php:158 admin/views/licenses.php:216
@@ -3182,6 +3130,36 @@ msgstr ""
 
 #: admin/views/licenses.php:162 admin/views/licenses.php:220
 msgid "Activate your site on My Yoast"
+msgstr ""
+
+#. translators: $1$s expands to Yoast SEO Premium
+#: admin/views/licenses.php:171
+msgid "Buy %1$s"
+msgstr ""
+
+#. translators: Text between %1$s and %2$s will only be shown to screen
+#. readers. %3$s expands to the product name.
+#: admin/views/licenses.php:177 admin/views/licenses.php:231
+msgid "More information %1$sabout %3$s%2$s"
+msgstr ""
+
+#: admin/views/licenses.php:184
+msgid "Comes with our 30-day no questions asked money back guarantee"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/licenses.php:192
+msgid "%1$s extensions"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO extensions
+#: admin/views/licenses.php:197
+msgid "%1$s to optimize your site even further"
+msgstr ""
+
+#. translators: %s expands to the product name
+#: admin/views/licenses.php:225
+msgid "Buy %s"
 msgstr ""
 
 #: admin/views/partial-alerts-errors.php:9
