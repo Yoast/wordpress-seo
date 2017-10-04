@@ -122,12 +122,15 @@ function wpseo_admin_bar_menu() {
 			'meta'   => array( 'tabindex' => $top_level_link_tabindex ),
 		) );
 	}
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'wpseo-menu',
-		'id'     => 'wpseo-configuration-wizard',
-		'title'  => __( 'Configuration Wizard', 'wordpress-seo' ),
-		'href'   => admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ),
-	) );
+
+	if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-menu',
+			'id'     => 'wpseo-configuration-wizard',
+			'title'  => __( 'Configuration Wizard', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ),
+		) );
+	}
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wpseo-menu',
 		'id'     => 'wpseo-kwresearch',
