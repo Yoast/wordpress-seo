@@ -558,3 +558,24 @@ td.column-wpseo-linked {
 		line-height: 1.5;
 	}
 }
+
+#yoast-help-center-container {
+	margin: 16px 0;
+}
+
+.react-tabs__tab-panel {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+.react-tabs__tab-panel li {
+	max-width: initial !important;
+}
+
+.yoast-help-center-open #sidebar-container {
+	display: none;
+}
+
+.contact-premium-support-container {
+	text-align: center;
+}
