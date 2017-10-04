@@ -43,10 +43,10 @@ class ContactSupport extends React.Component {
 	 */
 	render() {
 		return (
-			<div className="contact-support-container">
+			<div className="contact-premium-support-container">
 				<YoastButton
 					onClick={ this.execute.bind( this ) }>
-					{ this.props.button }
+					{ this.props.buttonText }
 				</YoastButton>
 			</div>
 		);
@@ -54,7 +54,7 @@ class ContactSupport extends React.Component {
 }
 
 ContactSupport.propTypes = {
-	button: PropTypes.string,
+	buttonText: PropTypes.string,
 	"do": PropTypes.func,
 	"with": PropTypes.any,
 };
