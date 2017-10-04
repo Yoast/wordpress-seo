@@ -74,7 +74,7 @@ function get_rendered_tab( $table, $id ) {
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" id="title-tab" href="#top#title"><?php _e( 'Title', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="description-tab"
-		   href="#top#description"><?php _e( 'Description', 'wordpress-seo' ); ?></a>
+			href="#top#description"><?php _e( 'Description', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<div class="tabwrapper">
