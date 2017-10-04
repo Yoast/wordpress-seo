@@ -114,7 +114,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 		$this->endpoint->register();
 
 		$endpoints = $wp_rest_server->get_endpoints();
-		
+
 		$this->assertTrue( isset( $endpoints[ '/' . WPSEO_Configuration_Endpoint::REST_NAMESPACE ] ) );
 		$this->assertTrue( isset( $endpoints[ '/' . WPSEO_Configuration_Endpoint::REST_NAMESPACE . '/' . WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE ] ) );
 		$this->assertTrue( isset( $endpoints[ '/' . WPSEO_Configuration_Endpoint::REST_NAMESPACE . '/' . WPSEO_Configuration_Endpoint::ENDPOINT_STORE ] ) );
