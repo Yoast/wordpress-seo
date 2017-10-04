@@ -5,6 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.10.1: October 4th, 2017
+
+### Other
+
+* Changes in the HelpCenter Button and the Help Center container styling. #337
+
 ## 2.10.0: October 3rd, 2017
 
 ### Added
@@ -21,14 +27,13 @@ We follow [Semantic Versioning](http://semver.org/).
 * `HelpCenter` component. #310
 * `HelpCenterButton` component. #318
 
-
-##### Other
+#### Other
 * Added translatable label to `SearchBar` component. #243 
 * Added `makeOutboundLink` util function. #308
 * Added a prop to the `AlgoliaSearcher` component that can be used to enable live search. #323
 * Added a search button and placeholder text to the `SearchBar` component. #323
 
-#### Other
+### Other
 * Improved styling and accessibility of the `SearchBar` component. #243
 * Styling improvements for the Onboarding Wizard. #290
 * Fixed two prop warnings that appeared when switching pages in the Onboarding wizard. #293 and #295
