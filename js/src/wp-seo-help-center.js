@@ -44,7 +44,6 @@ class ContactSupport extends React.Component {
 	render() {
 		return (
 			<div className="contact-support-container">
-				<p>{ this.props.paragraph }</p>
 				<YoastButton
 					onClick={ this.execute.bind( this ) }>
 					{ this.props.button }
@@ -55,7 +54,6 @@ class ContactSupport extends React.Component {
 }
 
 ContactSupport.propTypes = {
-	paragraph: PropTypes.string,
 	button: PropTypes.string,
 	"do": PropTypes.func,
 	"with": PropTypes.any,
@@ -174,11 +172,9 @@ class HelpCenter extends React.Component {
 		this.props.additionalHelpCenterTabs.map( tab => {
 			let content;
 			if( tab.identifier === this.props.premiumSupportTabId ) {
-				const supportParagraph = this.props.intl.formatMessage( { id: "contactSupport.paragraph" } );
 				const supportButton = this.props.intl.formatMessage( { id: "contactSupport.button" } );
 				content = <ContactSupport
 					buttonText={ supportButton }
-					paragraph={ supportParagraph }
 					do={ this.props.onPremiumSupport }
 					with={ this.state.usedQueries } />;
 			}
