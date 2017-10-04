@@ -7,9 +7,13 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## 2.10.1: October 4th, 2017
 
-### Other
+### Added
 
-* Changes in the HelpCenter Button and the Help Center container styling. #337
+#### Other
+* Improved the `HelpCenterButton` and the `HelpCenterContainer` styling. #337
+
+### Other
+* Added class names to the `HelpCenterContainer` and `HelpCenterButton`. #337
 
 ## 2.10.0: October 3rd, 2017
 
