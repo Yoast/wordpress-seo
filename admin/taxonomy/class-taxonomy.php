@@ -270,8 +270,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	public static function is_term_edit( $page ) {
-		return 'term.php' === $page
-		       || 'edit-tags.php' === $page; // After we drop support for <4.5 this can be removed.
+		return 'term.php' === $page;
 	}
 
 	/**
