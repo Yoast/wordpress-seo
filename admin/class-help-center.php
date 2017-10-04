@@ -132,13 +132,13 @@ class WPSEO_Help_Center {
 		$id = sprintf( 'tab-help-center-%s-%s', $this->group_name, $this->tab->get_name() );
 		?>
 		<div class="wpseo-tab-video-container">
-			<button type="button" class="wpseo-tab-video-container__handle" aria-controls="<?php echo $id ?>"
+			<button type="button" class="wpseo-tab-video-container__handle" aria-controls="<?php echo $id; ?>"
 				aria-expanded="false">
 					<span
-						class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ) ?></span>
+						class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ); ?></span>
 				<span class="dashicons dashicons-arrow-down toggle__arrow"></span>
 			</button>
-			<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout hidden">
+			<div id="<?php echo $id; ?>" class="wpseo-tab-video-slideout hidden">
 				<div class="yoast-help-center-tabs">
 					<ul>
 						<?php
@@ -156,7 +156,7 @@ class WPSEO_Help_Center {
 
 							<li id="<?php echo esc_attr( $link_id ); ?>" class="<?php echo $class; ?>">
 								<a href="<?php echo esc_url( "#$panel_id" ); ?>"
-									class="<?php echo $id . ' ' . $dashicon?>"
+									class="<?php echo $id . ' ' . $dashicon; ?>"
 									aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $help_center_item->get_label() ); ?></a>
 							</li>
 							<?php

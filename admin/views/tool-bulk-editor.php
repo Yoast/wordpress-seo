@@ -50,7 +50,7 @@ function render_help_center( $id ) {
  */
 function get_rendered_tab( $table, $id ) {
 	?>
-	<div id="<?php echo $id ?>" class="wpseotab">
+	<div id="<?php echo $id; ?>" class="wpseotab">
 		<?php
 		render_help_center( $id );
 		$table->show_page();
@@ -78,7 +78,7 @@ function get_rendered_tab( $table, $id ) {
 	</h2>
 
 	<div class="tabwrapper">
-		<?php get_rendered_tab( $wpseo_bulk_titles_table, 'title' )?>
-		<?php get_rendered_tab( $wpseo_bulk_description_table, 'description' )?>
+		<?php get_rendered_tab( $wpseo_bulk_titles_table, 'title' ); ?>
+		<?php get_rendered_tab( $wpseo_bulk_description_table, 'description' ); ?>
 	</div>
 </div>
