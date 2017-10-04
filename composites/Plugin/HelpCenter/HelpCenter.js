@@ -71,8 +71,10 @@ class HelpCenter extends React.Component {
 	 */
 	render() {
 		return (
-			<HelpCenterContainer>
+			<HelpCenterContainer
+				className={ `${ this.props.className }` }>
 				<HelpCenterButton
+					className={ `${ this.props.className }__button` }
 					onClick={ this.onButtonClick.bind( this ) }
 					isExpanded={ this.state.isExpanded }
 					backgroundColor={ this.props.buttonBackgroundColor }
@@ -98,6 +100,7 @@ class HelpCenter extends React.Component {
 }
 
 HelpCenter.propTypes = {
+	className: PropTypes.string,
 	intl: intlShape.isRequired,
 	items: PropTypes.array.isRequired,
 	buttonBackgroundColor: PropTypes.string,
@@ -122,6 +125,7 @@ HelpCenter.defaultProps = {
 	tabsFontSize: "1.5em",
 	tabsFontWeight: "200",
 	tabsBaseWidth: "200px",
+	className: "yoast-help-center",
 };
 
 export default injectIntl( HelpCenter );
