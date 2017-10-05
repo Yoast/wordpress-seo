@@ -20,22 +20,22 @@ class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
 		);
 
 		switch ( $target_url ) {
-			case home_url() :
+			case home_url():
 				$remote_data['is_indexable'] = '1';
 				break;
 
-			case 'http:://will-be-redirected.wp' :
+			case 'http:://will-be-redirected.wp':
 				$remote_data = array(
 					'is_indexable'    => '0',
 					'passes_juice_to' => 'http://is-redirected.wp',
 				);
 				break;
 
-			case 'http://is-redirected.wp' :
+			case 'http://is-redirected.wp':
 				$remote_data['is_indexable'] = '1';
 				break;
 
-			case 'http://not_indexable.wp' :
+			case 'http://not_indexable.wp':
 				// Do noting.
 				break;
 		}

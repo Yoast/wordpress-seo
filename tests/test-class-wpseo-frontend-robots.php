@@ -57,7 +57,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '', self::$class_instance->robots() );
 	}
 
-	public function _test_robots_on_private_blog(  ) {
+	public function _test_robots_on_private_blog() {
 		// go to home
 		$this->go_to_home();
 
@@ -70,7 +70,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 	}
 
 
-	public function _test_with_replytocom_attribute(  ) {
+	public function _test_with_replytocom_attribute() {
 		// go to home
 		$this->go_to_home();
 
@@ -95,7 +95,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		set_query_var( 'paged', 0 );
 	}
 
-	public function test_subpages_robots_noindex(  ) {
+	public function test_subpages_robots_noindex() {
 		// go to home
 		$this->go_to_home();
 
@@ -124,7 +124,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 
 
 
-	public function test_post_noindex(  ) {
+	public function test_post_noindex() {
 		// create and go to post
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
@@ -166,7 +166,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
-	public function test_category_noindex(  ) {
+	public function test_category_noindex() {
 		// go to category page
 		$category_id = wp_create_category( 'Category Name' );
 		flush_rewrite_rules();
@@ -186,7 +186,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->options['noindex-tax-category'] = false;
 	}
 
-	public function test_subpages_category_archives(  ) {
+	public function test_subpages_category_archives() {
 
 		// go to category page
 		$category_id = wp_create_category( 'Category Name' );
@@ -222,7 +222,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 
 	}
 
-	public function test_author_archive_noindex(  ) {
+	public function test_author_archive_noindex() {
 
 		// go to author page
 		$user_id = $this->factory->user->create();

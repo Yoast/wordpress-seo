@@ -23,7 +23,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_primary_term_taxonomies' )
-			->will( $this->returnValue( array() ));
+			->will( $this->returnValue( array() ) );
 
 		$this->class_instance
 			->expects( $this->never() )
@@ -39,7 +39,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_wp_footer_INCLUDE_WITH_taxonomies() {
 		$taxonomies = array(
-			'category' => ( object ) array()
+			'category' => (object) array()
 		);
 
 		$this->class_instance
@@ -99,8 +99,8 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 		$pagenow = 'post-new.php';
 
 		$taxonomies = array(
-			'category' => ( object ) array(
-				'labels' => ( object ) array(
+			'category' => (object) array(
+				'labels' => (object) array(
 					'singular_name' => 'Category',
 				),
 				'name' => 'category',
@@ -125,8 +125,8 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_save_primary_terms_CALLS_save_primary_term() {
 		$taxonomies = array(
-			'category' => ( object ) array(
-				'labels' => ( object ) array(
+			'category' => (object) array(
+				'labels' => (object) array(
 					'name' => 'Categories',
 					'singular_name' => 'Category',
 					'search_items' => 'Search Categories',
@@ -160,7 +160,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 				),
 				'query_var' => 'category_name',
 				'_builtin' => true,
-				'cap' => ( object ) array(
+				'cap' => (object) array(
 					'manage_terms' => 'manage_categories',
 					'edit_terms' => 'manage_categories',
 					'delete_terms' => 'manage_categories',

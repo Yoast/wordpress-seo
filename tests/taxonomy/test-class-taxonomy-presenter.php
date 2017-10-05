@@ -9,7 +9,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @var WPSEO_Taxonomy_Fields_Presenter
 	 */
-	private  $class_instance;
+	private $class_instance;
 
 	/**
 	 * @var stdClass The created term.

@@ -9,7 +9,7 @@ class WPSEO_Primary_Term_Double extends WPSEO_Primary_Term {
 	 */
 	protected function get_terms() {
 		return array(
-			( object ) array(
+			(object) array(
 				'term_id' => 54,
 			)
 		);
