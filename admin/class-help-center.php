@@ -133,7 +133,7 @@ class WPSEO_Help_Center {
 		?>
 		<div class="wpseo-tab-video-container">
 			<button type="button" class="wpseo-tab-video-container__handle" aria-controls="<?php echo $id ?>"
-			        aria-expanded="false">
+				aria-expanded="false">
 					<span
 						class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ) ?></span>
 				<span class="dashicons dashicons-arrow-down toggle__arrow"></span>
@@ -156,8 +156,8 @@ class WPSEO_Help_Center {
 
 							<li id="<?php echo esc_attr( $link_id ); ?>" class="<?php echo $class; ?>">
 								<a href="<?php echo esc_url( "#$panel_id" ); ?>"
-								   class="<?php echo $id . ' ' . $dashicon?>"
-								   aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $help_center_item->get_label() ); ?></a>
+									class="<?php echo $id . ' ' . $dashicon?>"
+									aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $help_center_item->get_label() ); ?></a>
 							</li>
 							<?php
 							$class = 'wpseo-help-center-item';

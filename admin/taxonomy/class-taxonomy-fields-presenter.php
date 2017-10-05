@@ -181,7 +181,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Getting the label HTML
 	 *
-	 * @param string $label	     The label value.
+	 * @param string $label      The label value.
 	 * @param string $field_name The target field.
 	 *
 	 * @return string
