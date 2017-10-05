@@ -56,10 +56,10 @@ class WPSEO_Remote_Request {
 	 */
 	public function send( $method = self::METHOD_POST ) {
 		switch ( $method ) {
-			case self::METHOD_POST;
+			case self::METHOD_POST:
 				$response = $this->post();
 				break;
-			case self::METHOD_GET;
+			case self::METHOD_GET:
 				$response = $this->get();
 				break;
 			default :
