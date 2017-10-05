@@ -17,28 +17,28 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 *
 	 * @return string The modified query.
 	 */
-	public abstract function filter_posts( $where );
+	abstract public function filter_posts( $where );
 
 	/**
 	 * Returns the query value this filter uses.
 	 *
 	 * @return string The query value this filter uses.
 	 */
-	public abstract function get_query_val();
+	abstract public function get_query_val();
 
 	/**
 	 * Returns the total number of posts that match this filter.
 	 *
 	 * @return int The total number of posts that match this filter.
 	 */
-	protected abstract function get_post_total();
+	abstract protected function get_post_total();
 
 	/**
 	 * Returns the label for this filter.
 	 *
 	 * @return string The label for this filter.
 	 */
-	protected abstract function get_label();
+	abstract protected function get_label();
 
 	/**
 	 * Registers the hooks.

@@ -133,7 +133,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
 	 */
-	function is_metabox_hidden( $post_type = null ) {
+	public function is_metabox_hidden( $post_type = null ) {
 		if ( ! isset( $post_type ) && ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) ) {
 			$post_type = $GLOBALS['post']->post_type;
 		}
@@ -548,7 +548,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return  string
 	 */
-	function do_meta_box( $meta_field_def, $key = '' ) {
+	public function do_meta_box( $meta_field_def, $key = '' ) {
 		$content      = '';
 		$esc_form_key = esc_attr( self::$form_prefix . $key );
 		$meta_value   = self::get_value( $key, $this->get_metabox_post()->ID );
@@ -777,7 +777,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return  bool|void   Boolean false if invalid save post request
 	 */
-	function save_postdata( $post_id ) {
+	public function save_postdata( $post_id ) {
 		// Bail if this is a multisite installation and the site has been switched.
 		if ( is_multisite() && ms_is_switched() ) {
 			return false;
