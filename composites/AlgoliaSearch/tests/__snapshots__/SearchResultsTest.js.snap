@@ -18,7 +18,7 @@ exports[`the SearchResults component with results matches the snapshot 1`] = `
       onClick={[Function]}
     >
       <a
-        className="sc-ifAKCX iFJkNu"
+        className="sc-ifAKCX hUrDdy"
         href="https://kb.yoast.com/kb/passive-voice/"
         onClick={[Function]}
       >
