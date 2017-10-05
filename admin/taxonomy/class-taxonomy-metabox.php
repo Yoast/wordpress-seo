@@ -169,7 +169,7 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_social_meta_section() {
 		$options = WPSEO_Options::get_option( 'wpseo_social' );
 		$taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
-		$social_admin = new WPSEO_Social_Admin;
+		$social_admin = new WPSEO_Social_Admin();
 
 		$tabs = array();
 		$single = true;

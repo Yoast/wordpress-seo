@@ -21,7 +21,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		self::$class_instance = new WPSEO_Sitemaps_Double;
+		self::$class_instance = new WPSEO_Sitemaps_Double();
 	}
 
 	/**

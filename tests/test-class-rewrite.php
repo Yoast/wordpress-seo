@@ -17,7 +17,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-		self::$class_instance = new WPSEO_Rewrite;
+		self::$class_instance = new WPSEO_Rewrite();
 	}
 
 	/**

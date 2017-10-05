@@ -15,7 +15,7 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== 
 <?php } ?>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<?php echo $platform_tabs = new WPSEO_GSC_Platform_Tabs; ?>
+		<?php echo $platform_tabs = new WPSEO_GSC_Platform_Tabs(); ?>
 	</h2>
 
 <?php
