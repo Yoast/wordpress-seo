@@ -321,7 +321,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Meta_Columns::is_valid_filter()
 	 */
 	public function test_is_valid_filter() {
-		$this->assertTrue(self::$class_instance->is_valid_filter( "needs improvement" ) );
+		$this->assertTrue( self::$class_instance->is_valid_filter( "needs improvement" ) );
 	}
 
 	/**

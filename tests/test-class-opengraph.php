@@ -451,7 +451,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$stub
-			->expects( $this->exactly(2) )
+			->expects( $this->exactly( 2 ) )
 			->method( 'og_tag' )
 			->with( $this->logicalOr( 'og:image', 'og:image:secure_url' ) );
 
@@ -751,7 +751,7 @@ EXPECTED;
 
 		$output = ob_get_clean();
 
-		$this->assertContains( '<meta property="og:image" content="'.home_url( 'custom_twitter_image.png' ). '" />', $output );
+		$this->assertContains( '<meta property="og:image" content="' . home_url( 'custom_twitter_image.png' ) . '" />', $output );
 	}
 
 

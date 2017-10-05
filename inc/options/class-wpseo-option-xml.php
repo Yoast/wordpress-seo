@@ -143,7 +143,6 @@ class WPSEO_Option_XML extends WPSEO_Option {
 			switch ( $switch_key ) {
 				/* integer fields */
 				case 'entries-per-page':
-
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
@@ -185,7 +184,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 					}
 					break;
 
-				case 'excluded-posts' :
+				case 'excluded-posts':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						if ( $filtered_array = filter_var_array( explode( ',', $dirty[ $key ] ), FILTER_VALIDATE_INT ) ) {
 							$clean[ $key ] = implode( ',', array_filter( $filtered_array, 'is_integer' ) );

@@ -56,7 +56,7 @@ class WPSEO_Recalculate_Terms_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Recalculate_Posts::get_items_to_recalculate
 	 */
 	public function test_get_items_to_recalculate() {
-		$response = $this->instance->get_items_to_recalculate(1);
+		$response = $this->instance->get_items_to_recalculate( 1 );
 
 		$this->assertEquals( 4, $response['total_items'] );
 		$this->assertTrue( is_array( $response['items'] ) );

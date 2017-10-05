@@ -33,7 +33,7 @@ $gsc_help_center = new WPSEO_Help_Center( 'google-search-console', $tab );
 $gsc_help_center->output_help_center();
 
 switch ( $platform_tabs->current_tab() ) {
-	case 'settings' :
+	case 'settings':
 		// Check if there is an access token.
 		if ( null === $this->service->get_client()->getAccessToken() ) {
 			// Print auth screen.
@@ -93,7 +93,7 @@ switch ( $platform_tabs->current_tab() ) {
 		}
 		break;
 
-	default :
+	default:
 		$form_action_url = add_query_arg( 'page', esc_attr( filter_input( INPUT_GET, 'page' ) ) );
 
 		get_current_screen()->set_screen_reader_content( array(

@@ -60,9 +60,9 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	}
 
 	protected function register_yoast_plugins_status() {
-		$this->plugins[ 'test-plugin' ]['installed'] = true;
-		$this->plugins[ 'test-plugin-dependency' ]['installed'] = true;
-		$this->plugins[ 'test-plugin-invalid-version' ]['installed'] = true;
+		$this->plugins['test-plugin']['installed'] = true;
+		$this->plugins['test-plugin-dependency']['installed'] = true;
+		$this->plugins['test-plugin-invalid-version']['installed'] = true;
 	}
 
 	public function is_dependency_available( $dependency ) {

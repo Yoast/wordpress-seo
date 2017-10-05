@@ -41,8 +41,8 @@ class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 	public function test_register_overwrite() {
 		$instance = new WPSEO_Capability_Manager_Test();
 
-		$instance->register( 'capability', array(  'role1' ) );
-		$instance->register( 'capability', array(  'role2' ), true );
+		$instance->register( 'capability', array( 'role1' ) );
+		$instance->register( 'capability', array( 'role2' ), true );
 
 		$this->assertContains( 'capability', $instance->get_capabilities() );
 

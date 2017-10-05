@@ -12,7 +12,7 @@ class WPSEO_Configuration_Endpoint_Mock extends WPSEO_Configuration_Endpoint {
 	}
 }
 
-if ( class_exists( 'WP_REST_Server' ) ):
+if ( class_exists( 'WP_REST_Server' ) ) :
 	/**
 	 * Class WPSEO_WP_REST_Server_Mock
 	 */
