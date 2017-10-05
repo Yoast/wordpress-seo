@@ -161,8 +161,8 @@ class WPSEO_Configuration_Page {
 	 * @return array The API endpoint config.
 	 */
 	public function get_config() {
-		$service      = new WPSEO_GSC_Service();
-		$config       = array(
+		$service = new WPSEO_GSC_Service();
+		$config  = array(
 			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
 			'endpoint_retrieve' => WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE,
 			'endpoint_store'    => WPSEO_Configuration_Endpoint::ENDPOINT_STORE,
@@ -224,7 +224,7 @@ class WPSEO_Configuration_Page {
 	 * @return Yoast_Notification
 	 */
 	private static function get_notification() {
-		$message = __( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.', 'wordpress-seo' );
+		$message  = __( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.', 'wordpress-seo' );
 		$message .= '<br/>';
 		$message .= sprintf(
 			/* translators: %1$s resolves to Yoast SEO, %2$s resolves to the starting tag of the link to the wizard, %3$s resolves to the closing link tag */

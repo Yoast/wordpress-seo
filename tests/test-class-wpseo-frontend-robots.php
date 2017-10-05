@@ -181,7 +181,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		$this->go_to( $category_link );
 
 		// test category with noindex-tax-category option
-		$expected                                              = 'noindex,follow';
+		$expected = 'noindex,follow';
 		self::$class_instance->options['noindex-tax-category'] = true;
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
@@ -233,7 +233,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 
 
 		// test author archive with 'noindex-author-wpseo'
-		$expected                                              = 'noindex,follow';
+		$expected = 'noindex,follow';
 		self::$class_instance->options['noindex-author-wpseo'] = true;
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 

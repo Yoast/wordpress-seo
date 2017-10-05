@@ -28,7 +28,7 @@ class Capability_Role_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_get_capabilities() {
-		$instance = new WPSEO_Role_Manager_Mock();
+		$instance     = new WPSEO_Role_Manager_Mock();
 		$capabilities = $instance->get_capabilities( 'administrator' );
 
 		$this->assertNotEmpty( $capabilities );

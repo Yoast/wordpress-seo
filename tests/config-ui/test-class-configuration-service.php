@@ -121,7 +121,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	public function test_get_configuration() {
 		$storage   = $this->getMockBuilder( 'WPSEO_Configuration_Storage' )->setMethods( array( 'retrieve' ) )->getMock();
 		$structure = $this->getMockBuilder( 'WPSEO_Configuration_Structure' )->setMethods( array( 'retrieve' ) )->getMock();
-		$adapter = new WPSEO_Configuration_Options_Adapter();
+		$adapter   = new WPSEO_Configuration_Options_Adapter();
 
 		$storage
 			->expects( $this->once() )

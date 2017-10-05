@@ -225,7 +225,7 @@ class Yoast_Plugin_Conflict {
 		$identifier = $this->get_notification_identifier( $plugin_file );
 
 		$notification_center = Yoast_Notification_Center::get();
-		$notification = $notification_center->get_notification_by_id( 'wpseo-conflict-' . $identifier );
+		$notification        = $notification_center->get_notification_by_id( 'wpseo-conflict-' . $identifier );
 
 		if ( $notification ) {
 			$notification_center->remove_notification( $notification );

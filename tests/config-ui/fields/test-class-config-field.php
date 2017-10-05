@@ -70,7 +70,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_set_requires() {
 		$field_b = 'field_b';
-		$value = 'value';
+		$value   = 'value';
 
 		$expected = array(
 			'field' => $field_b,
@@ -115,7 +115,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Config_Field::to_array()
 	 */
 	public function test_to_array_properties() {
-		$property = 'p';
+		$property       = 'p';
 		$property_value = 'pv';
 
 		$field = new WPSEO_Config_Field( 'a', 'b' );

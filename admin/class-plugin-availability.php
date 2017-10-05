@@ -229,7 +229,7 @@ class WPSEO_Plugin_Availability {
 			return true;
 		}
 
-		$dependencies = $this->get_dependencies( $plugin );
+		$dependencies           = $this->get_dependencies( $plugin );
 		$installed_dependencies = array_filter( $dependencies, array( $this, 'is_dependency_available' ) );
 
 		return count( $installed_dependencies ) === count( $dependencies );

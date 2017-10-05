@@ -12,8 +12,8 @@ class OnPage_Option_Mock extends WPSEO_OnPage_Option {
 	private $can_fetch;
 
 	public function __construct( $enabled, $status, $can_fetch ) {
-		$this->enabled = $enabled;
-		$this->status = $status;
+		$this->enabled   = $enabled;
+		$this->status    = $status;
 		$this->can_fetch = $can_fetch;
 	}
 

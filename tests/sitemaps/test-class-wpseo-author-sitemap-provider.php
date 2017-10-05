@@ -47,6 +47,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 */
 	public function get_user() {
 		static $user_id = 1;
+
 		$user        = new stdClass();
 		$user->roles = array( 'administrator' );
 		$user->ID    = $user_id++;

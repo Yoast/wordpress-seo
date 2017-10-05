@@ -38,7 +38,7 @@ class WPSEO_Taxonomy {
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
-		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
@@ -297,7 +297,8 @@ class WPSEO_Taxonomy {
 	 */
 	private function get_replace_vars() {
 		$term_id = filter_input( INPUT_GET, 'tag_ID' );
-		$term  = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$term    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+
 		$cached_replacement_vars = array();
 
 		$vars_to_cache = array(

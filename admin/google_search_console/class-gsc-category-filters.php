@@ -23,7 +23,7 @@ class WPSEO_GSC_Category_Filters {
 	 *
 	 * @var array
 	 */
-	private $filter_values   = array();
+	private $filter_values = array();
 
 	/**
 	 * The current category
@@ -146,7 +146,7 @@ class WPSEO_GSC_Category_Filters {
 	 * @return string
 	 */
 	private function create_view_link( $category, $count ) {
-		$href  = add_query_arg(
+		$href = add_query_arg(
 			array(
 				'category' => $category,
 				'paged'    => 1,

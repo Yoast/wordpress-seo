@@ -50,7 +50,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 		}
 
 		$extension_list = new WPSEO_Extensions();
-		$extensions = $extension_list->get();
+		$extensions     = $extension_list->get();
 
 		$notification_center = Yoast_Notification_Center::get();
 
@@ -73,7 +73,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 */
 	public function remove_faulty_notifications() {
 		$extension_list = new WPSEO_Extensions();
-		$extensions = $extension_list->get();
+		$extensions     = $extension_list->get();
 
 		$notification_center = Yoast_Notification_Center::get();
 
