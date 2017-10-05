@@ -821,22 +821,23 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// from all over the place (globals, GET, etc), which makes it tricky
 		// to run them more than once without very carefully clearing everything
 		$_GET = $_POST = array();
-		foreach (
-			array(
-				'query_string',
-				'id',
-				'postdata',
-				'authordata',
-				'day',
-				'currentmonth',
-				'page',
-				'pages',
-				'multipage',
-				'more',
-				'numpages',
-				'pagenow',
-			) as $v
-		) {
+
+		$keys = array(
+			'query_string',
+			'id',
+			'postdata',
+			'authordata',
+			'day',
+			'currentmonth',
+			'page',
+			'pages',
+			'multipage',
+			'more',
+			'numpages',
+			'pagenow',
+		);
+
+		foreach ( $keys as $v ) {
 			if ( isset( $GLOBALS[ $v ] ) ) {
 				unset( $GLOBALS[ $v ] );
 			}
