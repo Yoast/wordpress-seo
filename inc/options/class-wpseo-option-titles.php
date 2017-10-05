@@ -16,7 +16,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	/**
 	 * @var  array  Array of defaults for the option
 	 *        Shouldn't be requested directly, use $this->get_defaults();
-	 * @internal  Note: Some of the default values are added via the translate_defaults() method
+	 *
+	 * {@internal Note: Some of the default values are added via the translate_defaults() method.}}
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.
@@ -393,8 +394,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		/*
 		 * Move options from very old option to this one.
-		 * @internal Don't rename to the 'current' names straight away as that would prevent
-		 * the rename/unset combi below from working.
+		 *
+		 * {@internal Don't rename to the 'current' names straight away as that would prevent
+		 *            the rename/unset combi below from working.}}
+		 *
 		 * @todo [JRF] maybe figure out a smarter way to deal with this.
 		 */
 		$old_option = null;
@@ -466,8 +469,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 
 		/**
-		 * @internal This clean-up action can only be done effectively once the taxonomies and post_types
-		 * have been registered, i.e. at the end of the init action.
+		 * {@internal This clean-up action can only be done effectively once the taxonomies
+		 *            and post_types have been registered, i.e. at the end of the init action.}}
 		 */
 		if ( isset( $original ) && current_filter() === 'wpseo_double_clean_titles' || did_action( 'wpseo_double_clean_titles' ) > 0 ) {
 			$rename          = array(
@@ -566,8 +569,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * Make sure that any set option values relating to post_types and/or taxonomies are retained,
 	 * even when that post_type or taxonomy may not yet have been registered.
 	 *
-	 * @internal Overrule the abstract class version of this to make sure one extra renamed variable key
-	 * does not get removed. IMPORTANT: keep this method in line with the parent on which it is based!
+	 * {@internal Overrule the abstract class version of this to make sure one extra renamed
+	 *            variable key does not get removed. IMPORTANT: keep this method in line with
+	 *            the parent on which it is based!}}
 	 *
 	 * @param  array $dirty Original option as retrieved from the database.
 	 * @param  array $clean Filtered option where any options which shouldn't be in our option
