@@ -15,7 +15,7 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		self::$class_instance = new WPSEO_Plugin_Availability_Double;
+		self::$class_instance = new WPSEO_Plugin_Availability_Double();
 	}
 
 	public function test_plugin_existence() {

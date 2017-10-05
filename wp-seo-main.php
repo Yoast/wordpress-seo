@@ -274,11 +274,11 @@ function wpseo_init() {
 	}
 
 	if ( $options['stripcategorybase'] === true ) {
-		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite;
+		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 	}
 
 	if ( $options['enablexmlsitemap'] === true ) {
-		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps;
+		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps();
 	}
 
 	if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
@@ -343,7 +343,7 @@ function wpseo_frontend_head_init() {
 	}
 
 	if ( $options['opengraph'] === true ) {
-		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph;
+		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph();
 	}
 
 }
