@@ -37,7 +37,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 	public function determine_seo_filters_dataprovider() {
 		return array(
-			array( "bad", array(
+			array( 'bad', array(
 				array(
 					'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
 					'value' => array( 1, 40 ),
@@ -45,7 +45,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 					'compare' => 'BETWEEN',
 				)
 			) ),
-			array( "ok", array(
+			array( 'ok', array(
 				array(
 					'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
 					'value' => array( 41, 70 ),
@@ -53,7 +53,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 					'compare' => 'BETWEEN',
 				)
 			) ),
-			array( "good", array(
+			array( 'good', array(
 				array(
 					'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
 					'value' => array( 71, 100 ),
@@ -61,7 +61,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 					'compare' => 'BETWEEN',
 				)
 			) ),
-			array( "na", array(
+			array( 'na', array(
 				array(
 					'key' => '_yoast_wpseo_meta-robots-noindex',
 					'value' => 'needs-a-value-anyway',
@@ -73,7 +73,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 					'compare' => 'NOT EXISTS',
 				),
 			) ),
-			array( "", array(
+			array( '', array(
 				array(
 					'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
 					'value' => array( 1, 40 ),
@@ -81,7 +81,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 					'compare' => 'BETWEEN',
 				)
 			) ),
-			array( "noindex", array(array(
+			array( 'noindex', array(array(
 				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 				'value'   => '1',
 				'compare' => '=',
@@ -91,7 +91,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 	public function determine_readability_filters_dataprovider() {
 		return array(
-			array( "bad", array(
+			array( 'bad', array(
 				array(
 					'key' => WPSEO_Meta::$meta_prefix . 'content_score',
 					'value' => array( 1, 40 ),
@@ -99,7 +99,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 					'compare' => 'BETWEEN',
 				)
 			) ),
-			array( "ok", array(
+			array( 'ok', array(
 				array(
 					'key' => WPSEO_Meta::$meta_prefix . 'content_score',
 					'value' => array( 41, 70 ),
@@ -107,7 +107,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 					'compare' => 'BETWEEN',
 				)
 			) ),
-			array( "good", array(
+			array( 'good', array(
 				array(
 					'key' => WPSEO_Meta::$meta_prefix . 'content_score',
 					'value' => array( 71, 100 ),
@@ -321,14 +321,14 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Meta_Columns::is_valid_filter()
 	 */
 	public function test_is_valid_filter() {
-		$this->assertTrue( self::$class_instance->is_valid_filter( "needs improvement" ) );
+		$this->assertTrue( self::$class_instance->is_valid_filter( 'needs improvement' ) );
 	}
 
 	/**
 	 * @covers WPSEO_Meta_Columns::is_valid_filter()
 	 */
 	public function test_is_invalid_filter() {
-		$this->assertFalse( self::$class_instance->is_valid_filter( "" ) );
+		$this->assertFalse( self::$class_instance->is_valid_filter( '' ) );
 		$this->assertFalse( self::$class_instance->is_valid_filter( null ) );
 		$this->assertFalse( self::$class_instance->is_valid_filter( 0 ) );
 	}
