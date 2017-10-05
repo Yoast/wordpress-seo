@@ -487,8 +487,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						if (
 							( isset( $original[ $old_prefix . $tax ] ) && ! isset( $original[ $new_prefix . $tax ] ) )
 							&& ( ! isset( $option_value[ $new_prefix . $tax ] )
-							     || ( isset( $option_value[ $new_prefix . $tax ] )
-							          && $option_value[ $new_prefix . $tax ] === $defaults[ $new_prefix . $tax ] ) )
+								|| ( isset( $option_value[ $new_prefix . $tax ] )
+									&& $option_value[ $new_prefix . $tax ] === $defaults[ $new_prefix . $tax ] ) )
 						) {
 							$option_value[ $new_prefix . $tax ] = $original[ $old_prefix . $tax ];
 
