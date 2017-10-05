@@ -66,7 +66,7 @@ class Yoast_Form {
 		 *
 		 * @see settings_errors()
 		 */
-		require_once( ABSPATH . 'wp-admin/options-head.php' );
+		require_once ABSPATH . 'wp-admin/options-head.php';
 		?>
 		<h1 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h1>
 		<div class="wpseo_content_wrapper">

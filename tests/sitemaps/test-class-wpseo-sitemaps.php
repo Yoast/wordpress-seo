@@ -3,7 +3,7 @@
  * @package WPSEO\Unittests
  */
 
-require_once 'class-wpseo-sitemaps-double.php';
+require_once WPSEO_TESTS_PATH . 'sitemaps/class-wpseo-sitemaps-double.php';
 
 /**
  * Class WPSEO_Sitemaps_Test
