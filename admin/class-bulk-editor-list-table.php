@@ -217,11 +217,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				<input type="hidden" name="tool" value="bulk-editor"/>
 				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>"/>
 				<input type="hidden" name="orderby"
-				       value="<?php echo esc_attr( filter_input( INPUT_GET, 'orderby' ) ); ?>"/>
+					   value="<?php echo esc_attr( filter_input( INPUT_GET, 'orderby' ) ); ?>"/>
 				<input type="hidden" name="order"
-				       value="<?php echo esc_attr( filter_input( INPUT_GET, 'order' ) ); ?>"/>
+					   value="<?php echo esc_attr( filter_input( INPUT_GET, 'order' ) ); ?>"/>
 				<input type="hidden" name="post_type_filter"
-				       value="<?php echo esc_attr( filter_input( INPUT_GET, 'post_type_filter' ) ); ?>"/>
+					   value="<?php echo esc_attr( filter_input( INPUT_GET, 'post_type_filter' ) ); ?>"/>
 				<?php if ( ! empty( $post_status ) ) { ?>
 					<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>"/>
 				<?php } ?>

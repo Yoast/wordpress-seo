@@ -64,8 +64,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 			array( "na", array(
 				array(
 					'key' => '_yoast_wpseo_meta-robots-noindex',
-	                'value' => 'needs-a-value-anyway',
-	                'compare' => 'NOT EXISTS',
+					'value' => 'needs-a-value-anyway',
+					'compare' => 'NOT EXISTS',
 				),
 				array(
 					'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
@@ -338,7 +338,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @param $expected
 	 *
 	 * @dataProvider determine_seo_filters_dataprovider
- 	 * @covers WPSEO_Meta_Columns::determine_seo_filters()
+	 * @covers WPSEO_Meta_Columns::determine_seo_filters()
 	 */
 	public function test_determine_seo_filters( $filter, $expected ) {
 		$result = self::$class_instance->determine_seo_filters( $filter );
