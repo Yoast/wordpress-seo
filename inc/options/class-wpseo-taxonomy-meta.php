@@ -202,9 +202,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 		/*
-		Prevent complete validation (which can be expensive when there are lots of terms)
-			   if only one item has changed and has already been validated
-		*/
+		 * Prevent complete validation (which can be expensive when there are lots of terms)
+		 * if only one item has changed and has already been validated.
+		 */
 		if ( isset( $dirty['wpseo_already_validated'] ) && $dirty['wpseo_already_validated'] === true ) {
 			unset( $dirty['wpseo_already_validated'] );
 
@@ -446,9 +446,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		$tax_meta = self::get_term_tax_meta( $term_id, $taxonomy );
 
 		/*
-		Either return the complete array or a single value from it or false if the value does not exist
-			   (shouldn't happen after merge with defaults, indicates typo in request)
-		*/
+		 * Either return the complete array or a single value from it or false if the value does not exist
+		 * (shouldn't happen after merge with defaults, indicates typo in request).
+		 */
 		if ( ! isset( $meta ) ) {
 			return $tax_meta;
 		}

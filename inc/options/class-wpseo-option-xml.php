@@ -197,20 +197,20 @@ class WPSEO_Option_XML extends WPSEO_Option {
 					break;
 
 				/*
-				Boolean fields
-				*/
+				 * Boolean fields.
+				 */
 
 				/*
-				Covers:
-				 *		'disable_author_sitemap':
-				 * 		'disable_author_noposts':
-				 * 		'enablexmlsitemap':
-				 * 		'user_role-':
-				 * 		'user_role' . $role_name . '-not_in_sitemap' fields
-				 * 		'post_types-':
-				 * 		'post_types-' . $pt->name . '-not_in_sitemap' fields
-				 * 		'taxonomies-':
-				 *		'taxonomies-' . $tax->name . '-not_in_sitemap' fields
+				 * Covers:
+				 *  'disable_author_sitemap':
+				 *  'disable_author_noposts':
+				 *  'enablexmlsitemap':
+				 *  'user_role-':
+				 *  'user_role' . $role_name . '-not_in_sitemap' fields
+				 *  'post_types-':
+				 *  'post_types-' . $pt->name . '-not_in_sitemap' fields
+				 *  'taxonomies-':
+				 *  'taxonomies-' . $tax->name . '-not_in_sitemap' fields
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -236,9 +236,9 @@ class WPSEO_Option_XML extends WPSEO_Option {
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 		/*
-		Make sure the values of the variable option key options are cleaned as they
-			   may be retained and would not be cleaned/validated then
-		*/
+		 * Make sure the values of the variable option key options are cleaned as they
+		 * may be retained and would not be cleaned/validated then.
+		 */
 		if ( is_array( $option_value ) && $option_value !== array() ) {
 
 			foreach ( $option_value as $key => $value ) {
