@@ -257,12 +257,12 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 */
 	public function fake_305_request_response( $in = false ) {
 		return array(
-			'headers' => array(),
-			'body' => '',
+			'headers'  => array(),
+			'body'     => '',
 			'response' => array(
 				'code' => 305,
 			),
-			'cookies' => '',
+			'cookies'  => '',
 			'filename' => '',
 		);
 	}
@@ -276,12 +276,12 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 */
 	public function fake_301_request_response( $in = false ) {
 		return array(
-			'headers' => array(),
-			'body' => '',
+			'headers'  => array(),
+			'body'     => '',
 			'response' => array(
 				'code' => 301,
 			),
-			'cookies' => '',
+			'cookies'  => '',
 			'filename' => '',
 		);
 	}

@@ -100,8 +100,8 @@ class WPSEO_Premium_Link_Suggestions_Service {
 		return array(
 			array(
 				'taxonomy' => WPSEO_Premium_Prominent_Words_Registration::TERM_NAME,
-				'field' => 'term_id',
-				'terms' => $term_id,
+				'field'    => 'term_id',
+				'terms'    => $term_id,
 			),
 		);
 	}

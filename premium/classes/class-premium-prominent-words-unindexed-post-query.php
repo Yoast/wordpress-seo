@@ -194,9 +194,9 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		_deprecated_function( __METHOD__, 'WPSEO 4.6.0' );
 
 		return array(
-			'post_type' => $post_type,
+			'post_type'   => $post_type,
 			'post_status' => array( 'future', 'draft', 'pending', 'private', 'publish' ),
-			'meta_query' => array(
+			'meta_query'  => array(
 				'relation' => 'OR',
 				array(
 					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,

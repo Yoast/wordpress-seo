@@ -10,9 +10,9 @@ class WPSEO_Multi_Keyword_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			array(
-				'key' => 'value',
+				'key'           => 'value',
 				'focuskeywords' => array(
-					'type' => 'hidden',
+					'type'  => 'hidden',
 					'title' => 'focuskeywords',
 				),
 			),
@@ -32,7 +32,7 @@ class WPSEO_Multi_Keyword_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals(
 			array(
 				'focuskeywords' => array(
-					'type' => 'hidden',
+					'type'  => 'hidden',
 					'title' => 'focuskeywords',
 				),
 			),

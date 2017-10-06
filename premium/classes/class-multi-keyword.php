@@ -24,7 +24,7 @@ class WPSEO_Multi_Keyword {
 	public function add_focus_keywords_input( $field_defs ) {
 		if ( is_array( $field_defs ) ) {
 			$field_defs['focuskeywords'] = array(
-				'type' => 'hidden',
+				'type'  => 'hidden',
 				'title' => 'focuskeywords',
 			);
 		}

@@ -82,8 +82,8 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	public function test_get_sortable_columns() {
 		$this->assertEquals(
 			array(
-				'old' => array( 'old', false ),
-				'new' => array( 'new', false ),
+				'old'  => array( 'old', false ),
+				'new'  => array( 'new', false ),
 				'type' => array( 'type', false ),
 			),
 			$this->class_instance->get_sortable_columns()

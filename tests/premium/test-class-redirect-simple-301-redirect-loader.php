@@ -38,7 +38,7 @@ class WPSEO_Redirect_Simple_301_Redirect_Loader_Test extends WPSEO_UnitTestCase 
 	public function test_wildcard_load() {
 		add_option( '301_redirects_wildcard', true );
 		add_option( '301_redirects', array(
-			'/origin' => '/target',
+			'/origin'    => '/target',
 			'/wildcard*' => '/target',
 		) );
 
