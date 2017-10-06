@@ -149,13 +149,13 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 		);
 
 		$filter_class = new WPSEO_Export_Keywords_Post_Presenter_Test_Filter();
-		add_filter( 'the_title', array( $filter_class, 'filter'), 10, 2 );
+		add_filter( 'the_title', array( $filter_class, 'filter' ), 10, 2 );
 
 		$result = $class_instance->present( $fake_result );
 
 		$this->assertEquals( 'filtered', $result['title'] );
 
-		remove_filter( 'the_title', array( $filter_class, 'filter'), 10 );
+		remove_filter( 'the_title', array( $filter_class, 'filter' ), 10 );
 	}
 
 	/**

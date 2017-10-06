@@ -78,7 +78,7 @@ class WPSEO_Redirect_Ajax {
 		$this->validate( $new_redirect, $current_redirect );
 
 		// The method always returns the added redirect.
-		if (  $this->redirect_manager->update_redirect( $current_redirect, $new_redirect ) ) {
+		if ( $this->redirect_manager->update_redirect( $current_redirect, $new_redirect ) ) {
 			$response = array(
 				'origin' => $new_redirect->get_origin(),
 				'target' => $new_redirect->get_target(),
@@ -136,7 +136,7 @@ class WPSEO_Redirect_Ajax {
 
 		$error = $validator->get_error();
 
-		if (  $error->get_type() === 'error' || ( $error->get_type() === 'warning'  && $ignore_warning === 'false' ) ) {
+		if ( $error->get_type() === 'error' || ( $error->get_type() === 'warning' && $ignore_warning === 'false' ) ) {
 			wp_die(
 				WPSEO_Utils::json_encode( array( 'error' => $error->to_array() ) )
 			);

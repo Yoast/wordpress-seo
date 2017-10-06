@@ -63,7 +63,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		}
 
 		$selected = filter_input( INPUT_GET, 'redirect-type' );
-		if ( ! $selected  ) {
+		if ( ! $selected ) {
 			$selected = 0;
 		}
 
@@ -313,7 +313,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		}
 
 		$redirect_type = (int) filter_input( INPUT_GET, 'redirect-type' );
-		if ( ! empty( $redirect_type )  ) {
+		if ( ! empty( $redirect_type ) ) {
 			$this->filter['redirect_type'] = $redirect_type;
 			$items = array_filter( $items, array( $this, 'filter_by_type' ) );
 		}

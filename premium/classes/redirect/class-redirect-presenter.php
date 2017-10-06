@@ -30,13 +30,13 @@ class WPSEO_Redirect_Presenter {
 	private function get_tab_presenter( $tab_to_display ) {
 		$tab_presenter = null;
 		switch ( $tab_to_display ) {
-			case 'plain' :
-			case 'regex' :
+			case 'plain':
+			case 'regex':
 				$redirect_manager = new WPSEO_Redirect_Manager( $tab_to_display );
 				$tab_presenter    = new WPSEO_Redirect_Table_Presenter( $tab_to_display, $this->get_view_vars() );
 				$tab_presenter->set_table( $redirect_manager->get_redirects() );
 				break;
-			case 'settings' :
+			case 'settings':
 				$tab_presenter = new WPSEO_Redirect_Settings_Presenter( $tab_to_display, $this->get_view_vars() );
 				break;
 		}

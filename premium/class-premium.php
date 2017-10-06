@@ -526,7 +526,7 @@ class WPSEO_Premium {
 		$is_beacon_page = in_array( strtolower( $query_var ), $this->get_beacon_pages(), true );
 
 		// Only add the helpscout beacon on Yoast SEO pages.
-		if ( WPSEO_Metabox::is_post_edit( $GLOBALS['pagenow'] )|| $is_beacon_page ) {
+		if ( WPSEO_Metabox::is_post_edit( $GLOBALS['pagenow'] ) || $is_beacon_page ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_contact_support' ) );
 
 			$beacon = yoast_get_helpscout_beacon( $query_var, 'no_search' );

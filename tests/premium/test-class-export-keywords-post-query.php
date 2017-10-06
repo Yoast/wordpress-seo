@@ -96,7 +96,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	public function test_set_columns_simple() {
 		global $wpdb;
 
-		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title') );
+		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title' ) );
 
 		$this->assertContains( 'posts.ID', $class_instance->get_selects() );
 		$this->assertContains( 'posts.post_title', $class_instance->get_selects() );

@@ -37,7 +37,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 */
-	public function test_validate_end_point( ) {
+	public function test_validate_end_point() {
 		$this->assertTrue(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'end_url', 'ending_point', 301 ),
@@ -52,7 +52,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 */
-	public function test_validate_end_point_410( ) {
+	public function test_validate_end_point_410() {
 		$this->assertTrue(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'end_url', '', 410 ),
@@ -67,7 +67,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 */
-	public function test_validate_end_point_451( ) {
+	public function test_validate_end_point_451() {
 		$this->assertTrue(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'end_url', '', 451 ),
@@ -83,7 +83,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 * @covers WPSEO_Redirect_Endpoint_Validation::get_error
 	 */
-	public function test_validate_end_point_redirect_loop( ) {
+	public function test_validate_end_point_redirect_loop() {
 		$this->assertFalse(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'new_url', 'old_url', 301 ),
@@ -103,7 +103,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 * @covers WPSEO_Redirect_Endpoint_Validation::get_error
 	 */
-	public function test_validate_end_point_direct_redirect( ) {
+	public function test_validate_end_point_direct_redirect() {
 		$this->assertFalse(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'newer_url', 'my_old_url', 301 ),
