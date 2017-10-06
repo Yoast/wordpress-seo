@@ -414,10 +414,6 @@ $register_capabilities->register_hooks();
 $register_capabilities = new WPSEO_Register_Roles();
 $register_capabilities->register_hooks();
 
-// Compatibility with Members.
-$capability_manager_integration = new WPSEO_Capability_Manager_Integration();
-$capability_manager_integration->register_hooks();
-
 /**
  * Wraps for notifications center class.
  */

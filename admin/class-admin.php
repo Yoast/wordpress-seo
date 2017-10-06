@@ -76,6 +76,7 @@ class WPSEO_Admin {
 
 		add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
 
+		WPSEO_Capability_Manager_Integration::register_hooks();
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
