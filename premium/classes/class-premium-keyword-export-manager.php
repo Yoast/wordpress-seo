@@ -176,6 +176,12 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 		do {
 			$results = $export_query->get_data( $page );
 
+			if ( ! is_array( $results ) ) {
+				break;
+			}
+
+			$result_count = count( $results );
+
 			// Present the result.
 			$presented = array_map( array( $presenter, 'present' ), $results );
 
@@ -185,6 +191,6 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 			++$page;
 
 			// If we have the number of items per page, there will be more items ahead.
-		} while ( is_array( $results ) && count( $results ) === $page_size );
+		} while ( $result_count === $page_size );
 	}
 }
