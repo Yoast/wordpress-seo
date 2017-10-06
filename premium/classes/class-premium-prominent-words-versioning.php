@@ -102,7 +102,7 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 		// The meta key has to be private, so prefix it.
 		$wpdb->query(
 			$wpdb->prepare(
-				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = "%s" WHERE meta_key = "yst_prominent_words_version"',
+				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = %s WHERE meta_key = "yst_prominent_words_version"',
 				self::POST_META_NAME
 			)
 		);
@@ -124,7 +124,7 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 		// The remove all post metas.
 		$wpdb->query(
 			$wpdb->prepare(
-				'DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s"',
+				'DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s',
 				self::POST_META_NAME
 			)
 		);
