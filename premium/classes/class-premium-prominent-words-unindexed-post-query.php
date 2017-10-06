@@ -65,13 +65,12 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		// Put the IN-values hard into the SQL, because the prepare method escapes the values horrible.
 		$formatted_post_types = $this->format_post_types( $post_types );
 
-		// @codingStandardsIgnoreStart
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
 				SELECT COUNT( ID ) as total, post_type
-				FROM ' . $wpdb->posts . ' 
+				FROM ' . $wpdb->posts . '
 				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s )
-					AND post_status IN( "future", "draft", "pending", "private", "publish" ) 
+					AND post_status IN( "future", "draft", "pending", "private", "publish" )
 					AND post_type IN( ' . $formatted_post_types . ' )
 				GROUP BY post_type
 				',
@@ -79,7 +78,6 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 				WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER
 			)
 		);
-		// @codingStandardsIgnoreEnd
 
 		$totals = array();
 
@@ -130,13 +128,12 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		// Put the IN-values hard into the SQL, because the prepare method escapes the values horrible.
 		$formatted_post_types = $this->format_post_types( $post_types );
 
-		// @codingStandardsIgnoreStart
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
 				SELECT ID
-				FROM ' . $wpdb->posts . ' 
-				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s ) 
-					AND post_status IN( "future", "draft", "pending", "private", "publish" ) 
+				FROM ' . $wpdb->posts . '
+				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s )
+					AND post_status IN( "future", "draft", "pending", "private", "publish" )
 					AND post_type IN( ' . $formatted_post_types . ' )
 				LIMIT %d',
 				WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
@@ -145,7 +142,6 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 			),
 			ARRAY_A
 		);
-		// @codingStandardsIgnoreEnd
 
 		// Make sure we return a list of IDs.
 		$results = wp_list_pluck( $results, 'ID' );
