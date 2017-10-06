@@ -222,7 +222,12 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'readability_score', 'keywords_score' ) );
 
 		// Create fake data.
-		$fake_post = $this->factory->post->create( array( 'post_title' => 'fake post', 'post_status' => 'draft' ) );
+		$fake_post = $this->factory->post->create(
+			array(
+				'post_title'  => 'fake post',
+				'post_status' => 'draft',
+			)
+		);
 		add_post_meta( $fake_post, '_yoast_wpseo_content_score', '80' );
 		add_post_meta( $fake_post, '_yoast_wpseo_focuskw', 'foo' );
 		add_post_meta( $fake_post, '_yoast_wpseo_linkdex', '10' );

@@ -94,7 +94,13 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $db, array( 'title' ) );
 		$class_instance->get_data( 1 );
 
-		$taxonomies = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'names' );
+		$taxonomies = get_taxonomies(
+			array(
+				'public'  => true,
+				'show_ui' => true,
+			),
+			'names'
+		);
 		$taxonomies_escaped = implode( '", "', array_map( 'esc_sql', $taxonomies ) );
 
 		$this->assertEquals( ARRAY_A, $db->type );
@@ -132,7 +138,13 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $db, array( 'title' ), 1000 );
 		$class_instance->get_data( 2 );
 
-		$taxonomies = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'names' );
+		$taxonomies = get_taxonomies(
+			array(
+				'public'  => true,
+				'show_ui' => true,
+			),
+			'names'
+		);
 		$taxonomies_escaped = implode( '", "', array_map( 'esc_sql', $taxonomies ) );
 
 		$this->assertEquals( ARRAY_A, $db->type );
@@ -156,7 +168,13 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_Term_Query_Double( $db, array( 'foo', true, null, array() ), 1000 );
 		$class_instance->get_data( -999 );
 
-		$taxonomies = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'names' );
+		$taxonomies = get_taxonomies(
+			array(
+				'public'  => true,
+				'show_ui' => true,
+			),
+			'names'
+		);
 		$taxonomies_escaped = implode( '", "', array_map( 'esc_sql', $taxonomies ) );
 
 		$this->assertEquals( ARRAY_A, $db->type );

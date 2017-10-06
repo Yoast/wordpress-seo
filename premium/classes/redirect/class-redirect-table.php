@@ -191,10 +191,30 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function do_reorder( $a, $b ) {
 		// If no sort, default to title.
-		$orderby = filter_input( INPUT_GET, 'orderby', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'old', 'regexp' => '/^(old|new|type)$/' ) ) );
+		$orderby = filter_input(
+			INPUT_GET,
+			'orderby',
+			FILTER_VALIDATE_REGEXP,
+			array(
+				'options' => array(
+					'default' => 'old',
+					'regexp'  => '/^(old|new|type)$/',
+				),
+			)
+		);
 
 		// If no order, default to asc.
-		$order = filter_input( INPUT_GET, 'order', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'asc', 'regexp' => '/^(asc|desc)$/' ) ) );
+		$order = filter_input(
+			INPUT_GET,
+			'order',
+			FILTER_VALIDATE_REGEXP,
+			array(
+				'options' => array(
+					'default' => 'asc',
+					'regexp'  => '/^(asc|desc)$/',
+				),
+			)
+		);
 
 		// Determine sort order.
 		$result   = strcmp( $a[ $orderby ], $b[ $orderby ] );
