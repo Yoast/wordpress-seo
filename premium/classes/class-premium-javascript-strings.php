@@ -30,6 +30,7 @@ class WPSEO_Premium_Javascript_Strings {
 			'enter_new_url'         => __( 'Please enter the new URL for %s', 'wordpress-seo-premium' ),
 			/* translators: variables will be replaced with from and to URLs. */
 			'redirect_saved'           => __( 'Redirect created from %1$s to %2$s!', 'wordpress-seo-premium' ),
+			/* translators: %1$s will be replaced with the from URL. */
 			'redirect_saved_no_target' => __( '410 Redirect created from %1$s!', 'wordpress-seo-premium' ),
 
 			'redirect_added'        => array(
