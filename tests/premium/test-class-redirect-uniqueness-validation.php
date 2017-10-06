@@ -86,7 +86,7 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Uniqueness_Validation::run
 	 */
-	public function test_validate_edit_redirect_equal_origin(  ) {
+	public function test_validate_edit_redirect_equal_origin() {
 		$this->assertTrue(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'old_url' , 'target', 301 ),

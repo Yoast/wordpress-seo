@@ -245,7 +245,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 				$redirect = $this->get_redirect( $url );
 
 				if ( is_a( $redirect, 'WPSEO_Redirect' ) === $should_exist ) {
-					if ( $should_exist === false  ) {
+					if ( $should_exist === false ) {
 						return $url;
 					}
 

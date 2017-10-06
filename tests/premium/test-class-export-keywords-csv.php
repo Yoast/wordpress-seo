@@ -45,13 +45,13 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	public function test_format_csv_column() {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array() );
 
-		$this->assertEquals('"simple value"', $class_instance->return_format_csv_column( 'simple value' ) );
-		$this->assertEquals('"""quotes"""', $class_instance->return_format_csv_column( '"quotes"' ) );
-		$this->assertEquals('"3"', $class_instance->return_format_csv_column( 3 ) );
-		$this->assertEquals('"3.5"', $class_instance->return_format_csv_column( 3.5 ) );
-		$this->assertEquals('"true"', $class_instance->return_format_csv_column( true ) );
-		$this->assertEquals('"new line"', $class_instance->return_format_csv_column( "new\nline" ) );
-		$this->assertEquals('', $class_instance->return_format_csv_column( null ) );
+		$this->assertEquals( '"simple value"', $class_instance->return_format_csv_column( 'simple value' ) );
+		$this->assertEquals( '"""quotes"""', $class_instance->return_format_csv_column( '"quotes"' ) );
+		$this->assertEquals( '"3"', $class_instance->return_format_csv_column( 3 ) );
+		$this->assertEquals( '"3.5"', $class_instance->return_format_csv_column( 3.5 ) );
+		$this->assertEquals( '"true"', $class_instance->return_format_csv_column( true ) );
+		$this->assertEquals( '"new line"', $class_instance->return_format_csv_column( "new\nline" ) );
+		$this->assertEquals( '', $class_instance->return_format_csv_column( null ) );
 	}
 
 	/**

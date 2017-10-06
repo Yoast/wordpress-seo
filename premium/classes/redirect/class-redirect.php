@@ -119,13 +119,13 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	public function offsetGet( $offset ) {
 		switch ( $offset ) {
-			case 'old' :
+			case 'old':
 				return $this->origin;
 				break;
-			case 'url' :
+			case 'url':
 				return $this->target;
 				break;
-			case 'type' :
+			case 'type':
 				return $this->type;
 				break;
 		}
@@ -143,10 +143,10 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	public function offsetSet( $offset, $value ) {
 		switch ( $offset ) {
-			case 'url' :
+			case 'url':
 				$this->target = $value;
 				break;
-			case 'type' :
+			case 'type':
 				$this->type = $value;
 				break;
 		}

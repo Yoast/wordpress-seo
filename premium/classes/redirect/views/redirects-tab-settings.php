@@ -5,7 +5,7 @@
 
 if ( ! empty( $redirect_file ) ) {
 	switch ( $redirect_file ) {
-		case 'apache_include_file' :
+		case 'apache_include_file':
 			?>
 			<div class="notice notice-warning inline">
 				<p>
@@ -15,7 +15,7 @@ if ( ! empty( $redirect_file ) ) {
 			</div>
 			<?php
 			break;
-		case 'cannot_write_htaccess' :
+		case 'cannot_write_htaccess':
 			?>
 			<div class='notice notice-error inline'>
 				<p>
@@ -30,7 +30,7 @@ if ( ! empty( $redirect_file ) ) {
 
 			<?php
 			break;
-		case 'nginx_include_file' :
+		case 'nginx_include_file':
 			?>
 			<div class="notice notice-warning inline">
 				<p>
@@ -40,7 +40,7 @@ if ( ! empty( $redirect_file ) ) {
 			</div>
 			<?php
 			break;
-		case 'cannot_write_file' :
+		case 'cannot_write_file':
 			?>
 			<div class='notice notice-error inline'>
 				<p>

@@ -208,8 +208,8 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$class_instance->expects( $this->once() )
-			->method('retrieve_response_code')
-			->will($this->returnValue( 200 ) );
+			->method( 'retrieve_response_code' )
+			->will( $this->returnValue( 200 ) );
 
 		$this->assertTrue(
 			$class_instance->run(

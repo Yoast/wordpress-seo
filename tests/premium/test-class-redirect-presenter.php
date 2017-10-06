@@ -36,7 +36,7 @@ class WPSEO_Redirect_Presenter_Test extends WPSEO_UnitTestCase {
 
 		// Check if the output contains tabs with only the plain-tab active.
 		$this->assertContains(
-			'<a class="nav-tab nav-tab-active" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=plain' ) .'">Redirects</a><a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=regex' ) . '">Regex Redirects</a><a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=settings' ) . '">Settings</a>',
+			'<a class="nav-tab nav-tab-active" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=plain' ) . '">Redirects</a><a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=regex' ) . '">Regex Redirects</a><a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=settings' ) . '">Settings</a>',
 			$output
 		);
 	}
@@ -55,7 +55,7 @@ class WPSEO_Redirect_Presenter_Test extends WPSEO_UnitTestCase {
 
 		// Check if the output contains tabs with only the plain-tab active.
 		$this->assertContains(
-			'<a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=plain' ) .'">Redirects</a><a class="nav-tab nav-tab-active" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=regex' ) . '">Regex Redirects</a><a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=settings' ) . '">Settings</a>',
+			'<a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=plain' ) . '">Redirects</a><a class="nav-tab nav-tab-active" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=regex' ) . '">Regex Redirects</a><a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=settings' ) . '">Settings</a>',
 			$output
 		);
 	}
@@ -74,7 +74,7 @@ class WPSEO_Redirect_Presenter_Test extends WPSEO_UnitTestCase {
 
 		// Check if the output contains tabs with only the plain-tab active.
 		$this->assertContains(
-			'<a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=plain' ) .'">Redirects</a><a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=regex' ) . '">Regex Redirects</a><a class="nav-tab nav-tab-active" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=settings' ) . '">Settings</a>',
+			'<a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=plain' ) . '">Redirects</a><a class="nav-tab" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=regex' ) . '">Regex Redirects</a><a class="nav-tab nav-tab-active" id="tab-url-tab" href="' . admin_url( 'admin.php?page=wpseo_redirects&tab=settings' ) . '">Settings</a>',
 			$output
 		);
 	}

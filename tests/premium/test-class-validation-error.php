@@ -8,7 +8,7 @@ class WPSEO_Validation_Error_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'This is an error message', $validation_error->get_message() );
 	}
 
-	public function test_get_type(  ) {
+	public function test_get_type() {
 		$validation_error = new WPSEO_Validation_Error( 'This is an error message' );
 
 		$this->assertEquals( 'error', $validation_error->get_type() );

@@ -167,7 +167,7 @@ class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	public function plain_redirect_provider(  ) {
+	public function plain_redirect_provider() {
 		$regex_to_match = '`^Redirect ([0-9]{3}) ([^"\s]+) ([a-z0-9-_+/.:%&?=#\][]+)`im';
 
 		return array(
@@ -208,7 +208,7 @@ class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	public function plain_redirect_provider_with_quotes(  ) {
+	public function plain_redirect_provider_with_quotes() {
 		$regex_to_match = '`^Redirect ([0-9]{3}) "([^"]+)" ([a-z0-9-_+/.:%&?=#\][]+)`im';
 
 		return array(

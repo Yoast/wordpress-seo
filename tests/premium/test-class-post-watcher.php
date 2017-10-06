@@ -32,7 +32,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance
 			->expects( $this->never() )
-			->method('set_undo_slug_notification');
+			->method( 'set_undo_slug_notification' );
 
 
 		$post = (object) array(
@@ -56,12 +56,12 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_old_url' )
-			->will($this->returnValue('/test/'));
+			->will( $this->returnValue( '/test/' ) );
 
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_target_url' )
-			->will( $this->returnValue('/test2/') );
+			->will( $this->returnValue( '/test2/' ) );
 
 		$this->class_instance
 			->expects( $this->once() )
@@ -88,12 +88,12 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_old_url' )
-			->will($this->returnValue('/test/'));
+			->will( $this->returnValue( '/test/' ) );
 
 		$this->class_instance
 			->expects( $this->never() )
 			->method( 'get_target_url' )
-			->will( $this->returnValue('/test2/') );
+			->will( $this->returnValue( '/test2/' ) );
 
 		$this->class_instance
 			->expects( $this->never() )

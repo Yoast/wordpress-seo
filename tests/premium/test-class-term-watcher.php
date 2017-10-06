@@ -57,7 +57,7 @@ class WPSEO_Term_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance->set_old_url_quick_edit();
 
-		$this->assertEquals('', $this->class_instance->old_url);
+		$this->assertEquals( '', $this->class_instance->old_url );
 	}
 
 }
