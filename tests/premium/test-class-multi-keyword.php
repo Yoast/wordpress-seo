@@ -16,7 +16,7 @@ class WPSEO_Multi_Keyword_Test extends WPSEO_UnitTestCase {
 			$multi_keyword->add_focus_keywords_input( array( 'key' => 'value' ) )
 		);
 	}
-	
+
 	public function test_add_focus_keywords_input_WITH_wrong_type_given() {
 		$multi_keyword = new WPSEO_Multi_Keyword();
 
