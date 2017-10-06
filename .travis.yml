@@ -39,6 +39,7 @@ jobs:
     - php: nightly
       env: WP_VERSION=master
     - stage: 🚀 deployment
+      if: branch = deploy # Skip building for general branches because of long duration and no direct use.
       before_script: skip
       script: grunt artifact
       before_install: skip
