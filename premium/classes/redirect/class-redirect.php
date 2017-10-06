@@ -121,13 +121,12 @@ class WPSEO_Redirect implements ArrayAccess {
 		switch ( $offset ) {
 			case 'old':
 				return $this->origin;
-				break;
+
 			case 'url':
 				return $this->target;
-				break;
+
 			case 'type':
 				return $this->type;
-				break;
 		}
 
 		return null;

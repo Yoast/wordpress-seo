@@ -58,7 +58,6 @@ class WPSEO_Redirect_Safe_Redirect_Loader extends WPSEO_Redirect_Abstract_Loader
 			case 403:
 			case 404:
 				return 410;
-				break;
 			default:
 				return (int) $status_code;
 		}
