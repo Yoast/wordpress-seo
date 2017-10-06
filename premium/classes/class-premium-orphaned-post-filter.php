@@ -109,6 +109,10 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 		}
 
 		$post_ids = WPSEO_Premium_Orphaned_Post_Query::get_orphaned_object_ids();
+		if ( empty( $post_ids ) ) {
+			return '';
+		}
+
 		return ' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_map( 'intval', $post_ids ) ) . ' ) ';
 	}
 
