@@ -32,7 +32,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	public function test_get_total() {
 		add_filter( 'wp_die_handler', array( $this, 'set_total_response_no_posts' ) );
 
-		$ajax_nonce        = wp_create_nonce( "wpseo_recalculate" );
+		$ajax_nonce        = wp_create_nonce( 'wpseo_recalculate' );
 		$_REQUEST['nonce'] = $ajax_nonce;
 
 		$this->instance->get_total();
@@ -69,7 +69,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	public function test_get_total_with_posts() {
 		add_filter( 'wp_die_handler', array( $this, 'set_total_response_two_posts' ) );
 
-		$ajax_nonce        = wp_create_nonce( "wpseo_recalculate" );
+		$ajax_nonce        = wp_create_nonce( 'wpseo_recalculate' );
 		$_REQUEST['nonce'] = $ajax_nonce;
 
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );

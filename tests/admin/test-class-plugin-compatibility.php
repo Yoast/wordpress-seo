@@ -31,27 +31,27 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 	public function test_plugin_version_matches() {
 		$expected = array(
 			'test-plugin' => array(
-				'url' => "https://yoast.com/",
-				'title' => "Test Plugin",
-				'description' => "",
-				'version' => "3.3",
+				'url' => 'https://yoast.com/',
+				'title' => 'Test Plugin',
+				'description' => '',
+				'version' => '3.3',
 				'installed' => true,
 				'compatible' => true
 			),
 			'test-plugin-dependency' => array(
-				'url' => "https://yoast.com/",
-				'title' => "Test Plugin With Dependency",
-				'description' => "",
-				'version' => "3.3",
+				'url' => 'https://yoast.com/',
+				'title' => 'Test Plugin With Dependency',
+				'description' => '',
+				'version' => '3.3',
 				'installed' => true,
 				'_dependencies' => array( 'test-plugin' ),
 				'compatible' => true
 			),
 			'test-plugin-invalid-version' => array(
-				'url' => "https://yoast.com/",
-				'title' => "Test Plugin",
-				'description' => "",
-				'version' => "1.3",
+				'url' => 'https://yoast.com/',
+				'title' => 'Test Plugin',
+				'description' => '',
+				'version' => '1.3',
 				'installed' => true,
 				'compatible' => false
 			)
@@ -69,25 +69,25 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 	public function test_get_installed_plugins() {
 		$expected = array(
 			'test-plugin' => array(
-				'url' => "https://yoast.com/",
-				'title' => "Test Plugin",
-				'description' => "",
-				'version' => "3.3",
+				'url' => 'https://yoast.com/',
+				'title' => 'Test Plugin',
+				'description' => '',
+				'version' => '3.3',
 				'installed' => true
 			),
 			'test-plugin-dependency' => array(
-				'url' => "https://yoast.com/",
-				'title' => "Test Plugin With Dependency",
-				'description' => "",
-				'version' => "3.3",
+				'url' => 'https://yoast.com/',
+				'title' => 'Test Plugin With Dependency',
+				'description' => '',
+				'version' => '3.3',
 				'installed' => true,
 				'_dependencies' => array( 'test-plugin' )
 			),
 			'test-plugin-invalid-version' => array(
-				'url' => "https://yoast.com/",
-				'title' => "Test Plugin",
-				'description' => "",
-				'version' => "1.3",
+				'url' => 'https://yoast.com/',
+				'title' => 'Test Plugin',
+				'description' => '',
+				'version' => '1.3',
 				'installed' => true
 			)
 		);
