@@ -125,8 +125,8 @@ class WPSEO_OnPage {
 		return new Yoast_Notification(
 			$notice,
 			array(
-				'type'  => Yoast_Notification::ERROR,
-				'id'    => 'wpseo-dismiss-onpageorg',
+				'type'         => Yoast_Notification::ERROR,
+				'id'           => 'wpseo-dismiss-onpageorg',
 				'capabilities' => 'wpseo_manage_options',
 			)
 		);

@@ -218,11 +218,11 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 
 		$expected = array(
 			$field => array(
-				'componentName'  => $component,
-				'properties' => array(
+				'componentName' => $component,
+				'properties'    => array(
 					$property => $property_value,
 				),
-				'data'       => $data,
+				'data'          => $data,
 			),
 		);
 

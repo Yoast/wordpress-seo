@@ -119,14 +119,14 @@ class WPSEO_Meta {
 				'type'  => 'hidden',
 				'title' => '',
 			),
-			'title'          => array(
+			'title' => array(
 				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
-			'metadesc'       => array(
+			'metadesc' => array(
 				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
@@ -135,26 +135,26 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
-			'linkdex'        => array(
+			'linkdex' => array(
 				'type'          => 'hidden',
 				'title'         => 'linkdex',
 				'default_value' => '0',
 				'description'   => '',
 			),
-			'content_score'  => array(
+			'content_score' => array(
 				'type'          => 'hidden',
 				'title'         => 'content_score',
 				'default_value' => '0',
 				'description'   => '',
 			),
-			'metakeywords'   => array(
+			'metakeywords' => array(
 				'type'          => 'metakeywords',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metakeywords',
 				'description'   => '', // Translation added later.
 			),
-			'pageanalysis'   => array(
+			'pageanalysis' => array(
 				'type'         => 'pageanalysis',
 				'title'        => '', // Translation added later.
 				'help'         => '', // Translation added later.
@@ -1077,8 +1077,8 @@ class WPSEO_Meta {
 		// If Yoast SEO Premium is active, get the additional keywords as well.
 		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
 			$query['meta_query'][] = array(
-				'key' => '_yoast_wpseo_focuskeywords',
-				'value' => sprintf( '"keyword":"%s"', $keyword ),
+				'key'     => '_yoast_wpseo_focuskeywords',
+				'value'   => sprintf( '"keyword":"%s"', $keyword ),
 				'compare' => 'LIKE',
 			);
 		}

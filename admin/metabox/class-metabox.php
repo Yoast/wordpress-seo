@@ -1011,7 +1011,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	private function get_custom_replace_vars( $post ) {
 		return array(
-			'custom_fields' => $this->get_custom_fields_replace_vars( $post ),
+			'custom_fields'     => $this->get_custom_fields_replace_vars( $post ),
 			'custom_taxonomies' => $this->get_custom_taxonomies_replace_vars( $post ),
 		);
 	}
@@ -1039,7 +1039,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 
 			$custom_replace_vars[ $taxonomy_name ] = array(
-				'name' => $taxonomy->name,
+				'name'        => $taxonomy->name,
 				'description' => $taxonomy->description,
 			);
 		}

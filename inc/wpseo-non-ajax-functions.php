@@ -111,7 +111,7 @@ function wpseo_admin_bar_menu() {
 		'id'    => 'wpseo-menu',
 		'title' => $title . $score . $counter . $alert_popup,
 		'href'  => $seo_url,
-		'meta'   => array( 'tabindex' => $top_level_link_tabindex ),
+		'meta'  => array( 'tabindex' => $top_level_link_tabindex ),
 	) );
 	if ( ! empty( $notification_count ) ) {
 		$wp_admin_bar->add_menu( array(

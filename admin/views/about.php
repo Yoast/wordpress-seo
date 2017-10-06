@@ -105,7 +105,7 @@ function wpseo_display_contributors( $contributors ) {
 		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
 			$people = array(
-				'afercia'      => (object) array(
+				'afercia'       => (object) array(
 					'name'     => 'Andrea Fercia',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '074af62ea5ff218b6a6eeab89104f616',

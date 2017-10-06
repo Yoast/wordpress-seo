@@ -63,10 +63,10 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 			->method( 'get_category' );
 
 		$category = (object) array(
-			'term_id' => 1,
-			'name' => 'test',
+			'term_id'          => 1,
+			'name'             => 'test',
 			'term_taxonomy_id' => 1,
-			'cat_ID' => 1,
+			'cat_ID'           => 1,
 		);
 
 		$this->assertEquals( $category, $this->subject->post_link_category( $category ) );
@@ -88,10 +88,10 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 			->method( 'get_category' );
 
 		$category = (object) array(
-			'term_id' => 1,
-			'name' => 'test',
+			'term_id'          => 1,
+			'name'             => 'test',
 			'term_taxonomy_id' => 1,
-			'cat_ID' => 1,
+			'cat_ID'           => 1,
 		);
 
 		$this->assertEquals( $category, $this->subject->post_link_category( $category ) );
