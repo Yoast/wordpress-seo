@@ -74,7 +74,7 @@ abstract class WPSEO_Watcher {
 	 *
 	 * @param string $message           The message that will be added to the notification.
 	 * @param string $notification_type The type of the notification.
-	 * @param string $id 				ID that will be given to the notice.
+	 * @param string $id                ID that will be given to the notice.
 	 */
 	protected function create_notification( $message, $notification_type, $id = null ) {
 		$show_notification = true;

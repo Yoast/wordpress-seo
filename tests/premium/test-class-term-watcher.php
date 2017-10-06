@@ -2,7 +2,7 @@
 
 class WPSEO_Term_Watcher_Double extends WPSEO_Term_Watcher {
 
-    public $old_url;
+	public $old_url;
 
 }
 

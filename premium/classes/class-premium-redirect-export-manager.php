@@ -25,9 +25,9 @@ class WPSEO_Premium_Redirect_Export_Manager implements WPSEO_WordPress_Integrati
 	 */
 	public function redirects_export_header() {
 		if ( current_user_can( 'export' ) ) {
-			echo '<a class="nav-tab" id="export-redirects-tab" href="#top#export-redirects">' .
-			        __( 'Export redirects', 'wordpress-seo-premium' ) .
-			     '</a>';
+			echo '<a class="nav-tab" id="export-redirects-tab" href="#top#export-redirects">'
+				. __( 'Export redirects', 'wordpress-seo-premium' )
+				. '</a>';
 		}
 	}
 
@@ -70,9 +70,9 @@ class WPSEO_Premium_Redirect_Export_Manager implements WPSEO_WordPress_Integrati
 	 * @return bool
 	 */
 	protected function is_valid_csv_export_request() {
-		return filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' &&
-		       filter_input( INPUT_GET, 'tool' ) === 'import-export' &&
-		       filter_input( INPUT_POST, 'export' );
+		return filter_input( INPUT_GET, 'page' ) === 'wpseo_tools'
+			&& filter_input( INPUT_GET, 'tool' ) === 'import-export'
+			&& filter_input( INPUT_POST, 'export' );
 	}
 
 	/**

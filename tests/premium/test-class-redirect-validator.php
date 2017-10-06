@@ -89,18 +89,18 @@ class WPSEO_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 	 */
 	public function faulty_redirect_provider() {
 		return array(
-			array( 'old_url', 'my_old_url', 301, 'oldest_url' ),								// Redirect should be unique.
-			array( 'older_url', 'my_older_url', 301, 'oldest_url' ),    						// Redirect should be unique.
-			array( '', 'not_filled', '', '' ),													// Origin is not filled.
-			array( '', 'not_filled', 410, '' ),													// Origin is not filled.
-			array( '', '', 410, '' ),															// Origin is not filled.
-			array( '', 'not_filled', 451, '' ),													// Origin is not filled.
-			array( '', '', 451, '' ),															// Origin is not filled.
+			array( 'old_url', 'my_old_url', 301, 'oldest_url' ),                                // Redirect should be unique.
+			array( 'older_url', 'my_older_url', 301, 'oldest_url' ),                            // Redirect should be unique.
+			array( '', 'not_filled', '', '' ),                                                  // Origin is not filled.
+			array( '', 'not_filled', 410, '' ),                                                 // Origin is not filled.
+			array( '', '', 410, '' ),                                                           // Origin is not filled.
+			array( '', 'not_filled', 451, '' ),                                                 // Origin is not filled.
+			array( '', '', 451, '' ),                                                           // Origin is not filled.
 			array( 'accessible_url', 'http://example.com/this/path/does/not/exist', 301, '' ),  // Page is not accessible.
 			array( 'accessible_url', 'http://fake-domain.not.exist/', 301, '' ),                // Will give a warning.
-			array( 'newer_url', 'older_url', 301, '' ),											// Will be a redirect loop.
-			array( 'newest_url', 'older_url', 301, '' ),										// Redirect path can be shorter.
-			array( 'end_url', 'ending_point', 301, '' ),										// Is relative - does not exist.
+			array( 'newer_url', 'older_url', 301, '' ),                                         // Will be a redirect loop.
+			array( 'newest_url', 'older_url', 301, '' ),                                        // Redirect path can be shorter.
+			array( 'end_url', 'ending_point', 301, '' ),                                        // Is relative - does not exist.
 		);
 	}
 
