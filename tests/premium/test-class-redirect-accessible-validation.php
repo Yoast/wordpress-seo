@@ -255,7 +255,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array Response array.
 	 */
-	function fake_305_request_response( $in = false ) {
+	public function fake_305_request_response( $in = false ) {
 		return array(
 			'headers' => array(),
 			'body' => '',
@@ -274,7 +274,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array Response array.
 	 */
-	function fake_301_request_response( $in = false ) {
+	public function fake_301_request_response( $in = false ) {
 		return array(
 			'headers' => array(),
 			'body' => '',

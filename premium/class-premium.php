@@ -337,7 +337,7 @@ class WPSEO_Premium {
 	 *
 	 * @return string
 	 */
-	function redirect_canonical_fix( $redirect_url, $requested_url ) {
+	public function redirect_canonical_fix( $redirect_url, $requested_url ) {
 		$redirects = new WPSEO_Redirect_Option( false );
 		$path      = parse_url( $requested_url, PHP_URL_PATH );
 		$redirect     = $redirects->get( $path );
