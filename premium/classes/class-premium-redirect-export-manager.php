@@ -37,7 +37,7 @@ class WPSEO_Premium_Redirect_Export_Manager implements WPSEO_WordPress_Integrati
 	public function add_redirect_export_block() {
 		// Display the forms.
 		if ( current_user_can( 'export' ) ) {
-			require( 'views/export-redirects.php' );
+			require WPSEO_PREMIUM_PATH . 'classes/views/export-redirects.php';
 		}
 	}
 

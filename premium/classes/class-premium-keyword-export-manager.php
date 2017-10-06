@@ -43,7 +43,7 @@ class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integratio
 		// Display the forms.
 		if ( current_user_can( 'export' ) ) {
 			$yform = Yoast_Form::get_instance();
-			require dirname( __FILE__ ) . '/views/export-keywords.php';
+			require WPSEO_PREMIUM_PATH . 'classes/views/export-keywords.php';
 		}
 	}
 

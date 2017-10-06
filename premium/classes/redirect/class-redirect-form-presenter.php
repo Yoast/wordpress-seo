@@ -36,7 +36,7 @@ class WPSEO_Redirect_Form_Presenter {
 		extract( array_merge_recursive( $this->view_vars, $display ) );
 		// @codingStandardsIgnoreEnd
 
-		require( WPSEO_PATH . 'premium/classes/redirect/views/redirects-form.php' );
+		require WPSEO_PREMIUM_PATH . 'classes/redirect/views/redirects-form.php';
 	}
 
 	/**
