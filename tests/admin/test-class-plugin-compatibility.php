@@ -36,7 +36,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'description' => '',
 				'version' => '3.3',
 				'installed' => true,
-				'compatible' => true
+				'compatible' => true,
 			),
 			'test-plugin-dependency' => array(
 				'url' => 'https://yoast.com/',
@@ -45,7 +45,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'version' => '3.3',
 				'installed' => true,
 				'_dependencies' => array( 'test-plugin' ),
-				'compatible' => true
+				'compatible' => true,
 			),
 			'test-plugin-invalid-version' => array(
 				'url' => 'https://yoast.com/',
@@ -53,8 +53,8 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'description' => '',
 				'version' => '1.3',
 				'installed' => true,
-				'compatible' => false
-			)
+				'compatible' => false,
+			),
 		);
 
 		$this->assertEquals( self::$class_instance->get_installed_plugins_compatibility(), $expected );
@@ -73,7 +73,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'title' => 'Test Plugin',
 				'description' => '',
 				'version' => '3.3',
-				'installed' => true
+				'installed' => true,
 			),
 			'test-plugin-dependency' => array(
 				'url' => 'https://yoast.com/',
@@ -81,14 +81,14 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'description' => '',
 				'version' => '3.3',
 				'installed' => true,
-				'_dependencies' => array( 'test-plugin' )
+				'_dependencies' => array( 'test-plugin' ),
 			),
 			'test-plugin-invalid-version' => array(
 				'url' => 'https://yoast.com/',
 				'title' => 'Test Plugin',
 				'description' => '',
 				'version' => '1.3',
-				'installed' => true
+				'installed' => true,
 			)
 		);
 

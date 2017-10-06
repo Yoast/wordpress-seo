@@ -29,7 +29,7 @@ class WPSEO_Role_Manager_Test extends WPSEO_Abstract_Role_Manager {
 		$this->added_roles[] = array(
 			'role' => $role,
 			'display_name' => $display_name,
-			'capabilities' => $capabilities
+			'capabilities' => $capabilities,
 		);
 	}
 

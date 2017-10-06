@@ -39,7 +39,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_wp_footer_INCLUDE_WITH_taxonomies() {
 		$taxonomies = array(
-			'category' => (object) array()
+			'category' => (object) array(),
 		);
 
 		$this->class_instance
@@ -164,7 +164,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 					'manage_terms' => 'manage_categories',
 					'edit_terms' => 'manage_categories',
 					'delete_terms' => 'manage_categories',
-					'assign_terms' => 'edit_posts'
+					'assign_terms' => 'edit_posts',
 				),
 				'name' => 'category',
 				'object_type' => array(

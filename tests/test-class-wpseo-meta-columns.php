@@ -128,7 +128,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 						'value' => array( 1, 40 ),
 						'type' => 'numeric',
 						'compare' => 'BETWEEN',
-					)
+					),
 				),
 				array(
 					'meta_query' => array(
@@ -138,10 +138,10 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 								'value' => array( 1, 40 ),
 								'type' => 'numeric',
 								'compare' => 'BETWEEN',
-							)
+							),
 						),
-					)
-				)
+					),
+				),
 			),
 
 			array(
@@ -158,7 +158,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 						'value' => array( 1, 40 ),
 						'type' => 'numeric',
 						'compare' => 'BETWEEN',
-					)
+					),
 				),
 				array(
 					'meta_query' => array(
@@ -175,16 +175,16 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 								'value' => array( 1, 40 ),
 								'type' => 'numeric',
 								'compare' => 'BETWEEN',
-							)
+							),
 						),
-					)
-				)
+					),
+				),
 			),
 
 			array(
 				array(),
 				array(),
-				array()
+				array(),
 			),
 
 			array(
@@ -201,7 +201,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 						'value' => array( 1, 40 ),
 						'type' => 'numeric',
 						'compare' => 'BETWEEN',
-					)
+					),
 				),
 				array(
 					'm' => 0,
@@ -220,11 +220,11 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 								'value' => array( 1, 40 ),
 								'type' => 'numeric',
 								'compare' => 'BETWEEN',
-							)
+							),
 						),
-					)
-				)
-			)
+					),
+				),
+			),
 		);
 	}
 

@@ -1059,7 +1059,7 @@ class WPSEO_Meta {
 				array(
 					'key'   => '_yoast_wpseo_focuskw',
 					'value' => $keyword,
-				)
+				),
 			),
 			'post__not_in'   => array( $post_id ),
 			'fields'         => 'ids',

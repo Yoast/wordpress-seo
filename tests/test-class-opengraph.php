@@ -311,7 +311,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_image_IS_SINGULAR_and_HAS_open_graph_image_AND_HAS_content_images() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
+				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />',
 			)
 		);
 
@@ -401,7 +401,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_image_get_content_image() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
+				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />',
 			)
 		);
 
