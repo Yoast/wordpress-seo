@@ -113,7 +113,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 * @return bool
 	 */
 	protected function is_temporary( $response_code ) {
-		return in_array( $response_code, array( 302, 307 ) ) || in_array( substr( $response_code, 0, 2 ), array( 40, 50 ) );
+		return in_array( $response_code, array( 302, 307 ), true ) || in_array( substr( $response_code, 0, 2 ), array( '40', '50' ), true );
 	}
 
 	/**
