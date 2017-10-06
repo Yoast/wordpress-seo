@@ -21,14 +21,14 @@ class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 	 * @return string A HTAccess file contents without any redirects.
 	 */
 	private function get_htaccess_base() {
-		return 'AuthName "Under Development"' . PHP_EOL .
-			   'AuthUserFile /web/sitename.com/.htpasswd' . PHP_EOL .
-			   'AuthType basic' . PHP_EOL .
-			   'Require valid-user' . PHP_EOL .
-			   'Order deny,allow' . PHP_EOL .
-			   'Deny from all' . PHP_EOL .
-			   'Allow from 208.113.134.190 w3.org htmlhelp.com googlebot.com' . PHP_EOL .
-			   'Satisfy Any';
+		return 'AuthName "Under Development"' . PHP_EOL
+			. 'AuthUserFile /web/sitename.com/.htpasswd' . PHP_EOL
+			. 'AuthType basic' . PHP_EOL
+			. 'Require valid-user' . PHP_EOL
+			. 'Order deny,allow' . PHP_EOL
+			. 'Deny from all' . PHP_EOL
+			. 'Allow from 208.113.134.190 w3.org htmlhelp.com googlebot.com' . PHP_EOL
+			. 'Satisfy Any';
 	}
 
 	/**

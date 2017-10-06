@@ -67,9 +67,9 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 		}
 
 		// Construct the query.
-		$query = 'SELECT ' . implode( ', ', $this->selects ) . ' FROM ' . $this->wpdb->prefix . 'terms AS terms' .
-				 ' INNER JOIN ' . $this->wpdb->prefix . 'term_taxonomy AS taxonomies' .
-				 ' ON terms.term_id = taxonomies.term_id AND taxonomies.taxonomy IN ("' . $escaped_taxonomies . '")';
+		$query = 'SELECT ' . implode( ', ', $this->selects ) . ' FROM ' . $this->wpdb->prefix . 'terms AS terms'
+			. ' INNER JOIN ' . $this->wpdb->prefix . 'term_taxonomy AS taxonomies'
+			. ' ON terms.term_id = taxonomies.term_id AND taxonomies.taxonomy IN ("' . $escaped_taxonomies . '")';
 
 		// Pages have a starting index of 1, we need to convert to a 0 based offset.
 		$offset_multiplier = max( 0, ( $page - 1 ) );

@@ -64,10 +64,10 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 		}
 
 		// Construct the query.
-		$query = 'SELECT ' . implode( ', ', $this->selects ) .
-				 ' FROM ' . $this->wpdb->prefix . 'posts AS posts '
-				 . implode( ' ', $this->joins ) .
-				 ' WHERE posts.post_status = "publish" AND posts.post_type IN ("' . $escaped_post_types . '")';
+		$query = 'SELECT ' . implode( ', ', $this->selects )
+			. ' FROM ' . $this->wpdb->prefix . 'posts AS posts '
+			. implode( ' ', $this->joins )
+			. ' WHERE posts.post_status = "publish" AND posts.post_type IN ("' . $escaped_post_types . '")';
 
 		// Pages have a starting index of 1, we need to convert to a 0 based offset.
 		$offset_multiplier = max( 0, ( $page - 1 ) );
@@ -147,8 +147,8 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 		$key   = preg_replace( '/[^\w\d]/', '', $key );
 
 		$this->selects[] = $alias . '_join.meta_value AS ' . $alias;
-		$this->joins[]   = 'LEFT OUTER JOIN ' . $this->wpdb->prefix . 'postmeta AS ' . $alias . '_join ' .
-						   'ON ' . $alias . '_join.post_id = posts.ID ' .
-						   'AND ' . $alias . '_join.meta_key = "' . $key . '"';
+		$this->joins[]   = 'LEFT OUTER JOIN ' . $this->wpdb->prefix . 'postmeta AS ' . $alias . '_join '
+			. 'ON ' . $alias . '_join.post_id = posts.ID '
+			. 'AND ' . $alias . '_join.meta_key = "' . $key . '"';
 	}
 }
