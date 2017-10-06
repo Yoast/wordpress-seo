@@ -122,7 +122,7 @@ class WPSEO_Redirect_Ajax {
 	/**
 	 * Run the validation
 	 *
-	 * @param WPSEO_Redirect      $redirect			The redirect to save.
+	 * @param WPSEO_Redirect      $redirect         The redirect to save.
 	 * @param WPSEO_Redirect|null $current_redirect The current redirect.
 	 */
 	private function validate( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {

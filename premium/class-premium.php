@@ -413,7 +413,7 @@ class WPSEO_Premium {
 	 * use the content of it by sticking it to the post_content.
 	 *
 	 * @param array  $wpseo_admin_pages Unused. Array with admin pages.
-	 * @param string $name				The name for the text input field.
+	 * @param string $name              The name for the text input field.
 	 */
 	public function admin_page_meta_post_types_checkboxes( $wpseo_admin_pages, $name ) {
 		echo Yoast_Form::get_instance()->textinput( 'page-analyse-extra-' . $name, __( 'Add custom fields to page analysis', 'wordpress-seo-premium' ) );

@@ -117,7 +117,7 @@ class WPSEO_Redirect_CSV_Exporter_Test extends WPSEO_UnitTestCase {
 	public function test_export_wrong_type() {
 		$class_instance = new WPSEO_Redirect_CSV_Exporter();
 
-		$csv = $class_instance->export(	array('random', 'strings', 'and', 'numbers', 2, 3, 4) );
+		$csv = $class_instance->export( array('random', 'strings', 'and', 'numbers', 2, 3, 4) );
 
 		$this->expectNumberOfCsvValues( $csv, 4 );
 
@@ -171,6 +171,6 @@ class WPSEO_Redirect_CSV_Exporter_Test extends WPSEO_UnitTestCase {
 	 * @param int $rows Number of values expected.
 	 */
 	private function expectNumberOfCsvValues( $csv, $rows ) {
-		$this->assertEquals( $rows,	preg_match_all( $this->csvRegex, $csv, $matches )	);
+		$this->assertEquals( $rows, preg_match_all( $this->csvRegex, $csv, $matches ) );
 	}
 }

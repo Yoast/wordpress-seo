@@ -9,7 +9,7 @@
 class WPSEO_Redirect implements ArrayAccess {
 
 	const PERMANENT   = 301;
-	const FOUND		  = 302;
+	const FOUND       = 302;
 	const TEMPORARY   = 307;
 	const DELETED     = 410;
 	const UNAVAILABLE = 451;
