@@ -21,8 +21,8 @@ class WPSEO_Premium_Orphaned_Post_Query {
 		$post_ids = self::get_orphaned_object_ids();
 
 		$results = $wpdb->get_results(
-			$wpdb->prepare( '
-				SELECT COUNT( ID ) as total_orphaned, post_type
+			$wpdb->prepare( // WPCS: PreparedSQLPlaceholders replacement count OK.
+				'SELECT COUNT( ID ) as total_orphaned, post_type
 				  FROM ' . $wpdb->posts . '
 				 WHERE 
 				    ID IN( ' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')
