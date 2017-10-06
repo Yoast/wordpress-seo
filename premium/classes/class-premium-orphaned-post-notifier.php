@@ -123,7 +123,7 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 				$total_orphaned,
 				'wordpress-seo-premium'
 			),
-			 '<a href="' . $this->get_filter_url( $post_type->name ) . '">',
+			'<a href="' . $this->get_filter_url( $post_type->name ) . '">',
 			$total_orphaned,
 			strtolower( $post_type_value ),
 			'</a>'
