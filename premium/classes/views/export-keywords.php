@@ -7,11 +7,11 @@ $button_label = __( 'Export keywords', 'wordpress-seo-premium' );
 
 ?>
 <div id="keywords-export" class="wpseotab">
-	<h2><?php esc_html_e( 'Export keywords to a CSV file', 'wordpress-seo-premium' ) ?></h2>
+	<h2><?php esc_html_e( 'Export keywords to a CSV file', 'wordpress-seo-premium' ); ?></h2>
 	<p><?php printf(
 			/* translators: %s resolves to the button label translation. */
 			esc_html__( 'If you need a list of all public posts, terms and related keywords, you can generate a CSV file using the %s button below.', 'wordpress-seo-premium' ), sprintf( '<code>%s</code>', $button_label ) ) ?></p>
-	<p><?php esc_html_e( 'You can add or remove columns to be included in the export using the checkboxes below.', 'wordpress-seo-premium' ) ?></p>
+	<p><?php esc_html_e( 'You can add or remove columns to be included in the export using the checkboxes below.', 'wordpress-seo-premium' ); ?></p>
 
 	<form action="" method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 		<?php
@@ -25,12 +25,12 @@ $button_label = __( 'Export keywords', 'wordpress-seo-premium' );
 		$yform->checkbox( 'export-readability-score', __( 'Export readability score', 'wordpress-seo-premium' ) );
 		?>
 		<br class="clear">
-		<input type="submit" class="button button-primary" name="export-posts" value="<?php echo esc_attr( $button_label ) ?>"/>
+		<input type="submit" class="button button-primary" name="export-posts" value="<?php echo esc_attr( $button_label ); ?>"/>
 	</form>
 
-	<p><strong><?php esc_html_e( 'Please note:', 'wordpress-seo-premium' ) ?></strong></p>
+	<p><strong><?php esc_html_e( 'Please note:', 'wordpress-seo-premium' ); ?></strong></p>
 	<ul>
-		<li><?php esc_html_e( 'The first row in this file is the header row. This row should be ignored when parsing or importing the data from the export.', 'wordpress-seo-premium' ) ?></li>
-		<li><?php esc_html_e( 'Exporting data can take a long time when there are many posts, pages, public custom post types or terms.', 'wordpress-seo-premium' ) ?></li>
+		<li><?php esc_html_e( 'The first row in this file is the header row. This row should be ignored when parsing or importing the data from the export.', 'wordpress-seo-premium' ); ?></li>
+		<li><?php esc_html_e( 'Exporting data can take a long time when there are many posts, pages, public custom post types or terms.', 'wordpress-seo-premium' ); ?></li>
 	</ul>
 </div>
