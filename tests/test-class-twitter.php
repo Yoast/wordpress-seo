@@ -184,7 +184,12 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_static_front_page() {
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'front-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 		$this->go_to_home();
@@ -211,11 +216,21 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_static_posts_page() {
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'front-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'blog-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'blog-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
 

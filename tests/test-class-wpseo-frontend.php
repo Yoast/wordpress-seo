@@ -331,7 +331,13 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_adjacent_rel_links_canonical_post_type() {
 		update_option( 'posts_per_page', 1 );
 
-		register_post_type( 'yoast', array( 'public' => true, 'has_archive' => true ) );
+		register_post_type(
+			'yoast',
+			array(
+				'public'      => true,
+				'has_archive' => true,
+			)
+		);
 
 		$this->factory->post->create_many( 3, array( 'post_type' => 'yoast' ) );
 

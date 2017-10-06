@@ -82,10 +82,28 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		$older_date  = '2015-01-01 12:00:00';
 		$newest_date = '2016-01-01 12:00:00';
 
-		register_post_type( 'yoast', array( 'public' => true, 'has_archive' => true ) );
+		register_post_type(
+			'yoast',
+			array(
+				'public'      => true,
+				'has_archive' => true,
+			)
+		);
 
-		$this->factory->post->create( array( 'post_status' => 'publish', 'post_type' => 'yoast', 'post_date' => $newest_date ) );
-		$this->factory->post->create( array( 'post_status' => 'publish', 'post_type' => 'yoast', 'post_date' => $older_date ) );
+		$this->factory->post->create(
+			array(
+				'post_status' => 'publish',
+				'post_type'   => 'yoast',
+				'post_date'   => $newest_date,
+			)
+		);
+		$this->factory->post->create(
+			array(
+				'post_status' => 'publish',
+				'post_type'   => 'yoast',
+				'post_date'   => $older_date,
+			)
+		);
 
 		$this->assertEquals( $newest_date, WPSEO_Sitemaps::get_last_modified_gmt( array( 'yoast' ) ) );
 	}

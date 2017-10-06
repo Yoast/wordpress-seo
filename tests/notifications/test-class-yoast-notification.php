@@ -238,7 +238,13 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 		$capabilities = array( 'caps' );
 		$id           = 'my_id';
 
-		$notification = new Yoast_Notification( 'message', array( 'id' => $id, 'capabilities' => $capabilities ) );
+		$notification = new Yoast_Notification(
+			'message',
+			array(
+				'id'           => $id,
+				'capabilities' => $capabilities,
+			)
+		);
 
 		$this->verify_capability_filter_args = array(
 			$capabilities,
@@ -278,7 +284,13 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 		$capabilities = array( 'caps' );
 		$id           = 'my_id';
 
-		$notification = new Yoast_Notification( 'message', array( 'id' => $id, 'capabilities' => $capabilities ) );
+		$notification = new Yoast_Notification(
+			'message',
+			array(
+				'id'           => $id,
+				'capabilities' => $capabilities,
+			)
+		);
 
 		$this->verify_capability_match_filter_args = array(
 			Yoast_Notification::MATCH_ALL,
@@ -314,7 +326,13 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Invalid filter return value
 	 */
 	public function test_invalid_filter_return_values() {
-		$subject = new Yoast_Notification( 'message', array( 'id' => 'id', 'capabilities' => 'not_an_array' ) );
+		$subject = new Yoast_Notification(
+			'message',
+			array(
+				'id'           => 'id',
+				'capabilities' => 'not_an_array',
+			)
+		);
 		$this->assertFalse( $subject->display_for_current_user() );
 	}
 

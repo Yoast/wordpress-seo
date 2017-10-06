@@ -146,7 +146,12 @@ class WPSEO_GSC_Category_Filters {
 	 * @return string
 	 */
 	private function create_view_link( $category, $count ) {
-		$href  = add_query_arg( array( 'category' => $category, 'paged' => 1 ) );
+		$href  = add_query_arg(
+			array(
+				'category' => $category,
+				'paged'    => 1,
+			)
+		);
 
 		$class = 'gsc_category';
 
