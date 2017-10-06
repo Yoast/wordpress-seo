@@ -23,7 +23,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 			'url',
 			'Old URL',
 			array(
-				new WPSEO_Redirect( 'origin', 'target', 301 )
+				new WPSEO_Redirect( 'origin', 'target', 301 ),
 			)
 		);
 	}

@@ -21,7 +21,7 @@ class WPSEO_Validation_Error_Test extends WPSEO_UnitTestCase {
 			array(
 				'type'    => 'error',
 				'message' => 'This is an error message',
-				'fields'  => array( 'field' => 'value' )
+				'fields'  => array( 'field' => 'value' ),
 			),
 			$validation_error->to_array()
 		);
@@ -34,7 +34,7 @@ class WPSEO_Validation_Error_Test extends WPSEO_UnitTestCase {
 			array(
 				'type'    => 'error',
 				'message' => 'This is an error message',
-				'fields'  => array( 'field' )
+				'fields'  => array( 'field' ),
 			),
 			$validation_error->to_array()
 		);
