@@ -22,7 +22,7 @@ class WPSEO_Export_Keywords_Post_Presenter_Double extends WPSEO_Export_Keywords_
  */
 class WPSEO_Export_Keywords_Post_Presenter_Test_Filter {
 	public function filter( $title, $id ) {
-		return "filtered";
+		return 'filtered';
 	}
 }
 
