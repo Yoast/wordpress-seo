@@ -298,7 +298,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_csv_array_column_from_result() {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array() );
-		$column = $class_instance->return_get_csv_array_column_from_result(
+		$column         = $class_instance->return_get_csv_array_column_from_result(
 			array(
 				'ID'   => 1,
 				'type' => 'post',

@@ -146,7 +146,7 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 	public function test_present() {
 		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score' ) );
 
-		$fake_post = $this->factory->post->create( array( 'title' => 'fake post' ) );
+		$fake_post   = $this->factory->post->create( array( 'title' => 'fake post' ) );
 		$fake_result = array(
 			'ID'                    => var_export( $fake_post, true ),
 			'post_type'             => 'post',
@@ -227,7 +227,7 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 	public function test_present_null() {
 		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score' ) );
 
-		$fake_post = $this->factory->post->create( array( 'title' => 'fake post' ) );
+		$fake_post   = $this->factory->post->create( array( 'title' => 'fake post' ) );
 		$fake_result = array(
 			'ID'                    => var_export( $fake_post, true ),
 			'post_title'            => 'fake post',

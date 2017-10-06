@@ -87,7 +87,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 		$class_instance->run_add_meta_join( 'meta_alias', 'meta_key' );
 
 		$selects = $class_instance->get_selects();
-		$joins = $class_instance->get_joins();
+		$joins   = $class_instance->get_joins();
 
 		$this->assertEquals( 'meta_alias_join.meta_value AS meta_alias', end( $selects ) );
 
@@ -112,7 +112,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 		$class_instance->run_add_meta_join( '; DROP TABLE wp_posts;', '; DROP TABLE wp_posts;' );
 
 		$selects = $class_instance->get_selects();
-		$joins = $class_instance->get_joins();
+		$joins   = $class_instance->get_joins();
 
 		$this->assertNotContains( 'DROP TABLE wp_posts', $selects[0] );
 
@@ -147,7 +147,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'title', 'url', 'keywords', 'readability_score', 'keywords_score' ) );
 
 		$selects = $class_instance->get_selects();
-		$joins = $class_instance->get_joins();
+		$joins   = $class_instance->get_joins();
 
 		$this->assertCount( 7, $selects );
 		$this->assertContains( 'posts.ID', $selects );
@@ -197,7 +197,7 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Export_Keywords_Post_Query_Double( $wpdb, array( 'bla', 'foo', 'DROP TABLE wp_posts;', 2, true ) );
 
 		$selects = $class_instance->get_selects();
-		$joins = $class_instance->get_joins();
+		$joins   = $class_instance->get_joins();
 
 		$this->assertCount( 2, $class_instance->get_selects() );
 		$this->assertEquals( 'posts.ID', $selects[0] );

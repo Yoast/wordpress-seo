@@ -17,6 +17,7 @@ class WPSEO_Redirect_Util_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp() {
 		$this->permalink_structure = get_option( 'permalink_structure' );
+
 		WPSEO_Redirect_Util::$has_permalink_trailing_slash = null;
 	}
 

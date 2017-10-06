@@ -93,7 +93,7 @@ class WPSEO_Premium_Redirect_Export_Manager implements WPSEO_WordPress_Integrati
 	protected function get_csv_contents() {
 		// Grab all our redirects.
 		$redirect_manager = new WPSEO_Redirect_Manager();
-		$redirects = $redirect_manager->get_all_redirects();
+		$redirects        = $redirect_manager->get_all_redirects();
 
 		$csv_exporter = new WPSEO_Redirect_CSV_Exporter();
 		return $csv_exporter->export( $redirects );

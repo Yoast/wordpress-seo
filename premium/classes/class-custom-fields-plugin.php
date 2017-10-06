@@ -21,7 +21,7 @@ class WPSEO_Custom_Fields_Plugin {
 	 */
 	public function enqueue() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$version = $asset_manager->flatten_version( WPSEO_VERSION );
+		$version       = $asset_manager->flatten_version( WPSEO_VERSION );
 
 		wp_enqueue_script( 'wp-seo-premium-custom-fields-plugin', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-custom-fields-plugin-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 		wp_localize_script( 'wp-seo-premium-custom-fields-plugin', 'YoastCustomFieldsPluginL10', $this->localize_script() );
@@ -46,8 +46,8 @@ class WPSEO_Custom_Fields_Plugin {
 	private function get_custom_field_names() {
 		$custom_field_names = array();
 
-		$post          = $this->get_post();
-		$options       = get_option( WPSEO_Options::get_option_instance( 'wpseo_titles' )->option_name, array() );
+		$post    = $this->get_post();
+		$options = get_option( WPSEO_Options::get_option_instance( 'wpseo_titles' )->option_name, array() );
 
 		if ( is_object( $post ) ) {
 			$target_option = 'page-analyse-extra-' . $post->post_type;

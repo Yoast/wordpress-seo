@@ -200,7 +200,7 @@ abstract class WPSEO_Watcher {
 	 * @param WPSEO_Redirect $redirect The old URL to the post.
 	 */
 	protected function set_undo_slug_notification( WPSEO_Redirect $redirect ) {
-		$id = 'wpseo_undo_redirect_' . md5( $redirect->get_origin() );
+		$id      = 'wpseo_undo_redirect_' . md5( $redirect->get_origin() );
 		$old_url = $this->format_redirect_url( $redirect->get_origin() );
 		$new_url = $this->format_redirect_url( $redirect->get_target() );
 

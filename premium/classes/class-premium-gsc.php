@@ -20,7 +20,7 @@ class WPSEO_Premium_GSC implements WPSEO_WordPress_Integration {
 	 */
 	public function enqueue() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$version = $asset_manager->flatten_version( WPSEO_VERSION );
+		$version       = $asset_manager->flatten_version( WPSEO_VERSION );
 
 		$page = filter_input( INPUT_GET, 'page' );
 

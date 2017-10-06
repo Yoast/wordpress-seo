@@ -34,6 +34,7 @@ class WPSEO_Redirect_Redirection_Loader extends WPSEO_Redirect_Abstract_Loader {
 			'FROM ' . $this->wpdb->prefix . 'redirection_items ' .
 			'WHERE `status` = \'enabled\' AND `action_type` = \'url\''
 		);
+
 		$redirects = array();
 
 		foreach ( $items as $item ) {

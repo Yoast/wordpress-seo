@@ -218,7 +218,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		);
 
 		// Determine sort order.
-		$result   = strcmp( $a[ $orderby ], $b[ $orderby ] );
+		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
 
 		// Send final sort direction to usort.
 		return ( $order === 'asc' ) ? $result : ( - $result );
@@ -330,12 +330,14 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
 		if ( $search_string !== '' ) {
 			$this->filter['search_string'] = trim( $search_string, '/' );
+
 			$items = array_filter( $items, array( $this, 'filter_by_search_string' ) );
 		}
 
 		$redirect_type = (int) filter_input( INPUT_GET, 'redirect-type' );
 		if ( ! empty( $redirect_type ) ) {
 			$this->filter['redirect_type'] = $redirect_type;
+
 			$items = array_filter( $items, array( $this, 'filter_by_type' ) );
 		}
 
