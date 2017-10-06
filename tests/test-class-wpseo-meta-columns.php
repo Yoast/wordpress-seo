@@ -37,84 +37,113 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 	public function determine_seo_filters_dataprovider() {
 		return array(
-			array( "bad", array(
+			array(
+				'bad',
 				array(
-					'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'value' => array( 1, 40 ),
-					'type' => 'numeric',
-					'compare' => 'BETWEEN',
-				)
-			) ),
-			array( "ok", array(
-				array(
-					'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'value' => array( 41, 70 ),
-					'type' => 'numeric',
-					'compare' => 'BETWEEN',
-				)
-			) ),
-			array( "good", array(
-				array(
-					'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'value' => array( 71, 100 ),
-					'type' => 'numeric',
-					'compare' => 'BETWEEN',
-				)
-			) ),
-			array( "na", array(
-				array(
-					'key' => '_yoast_wpseo_meta-robots-noindex',
-	                'value' => 'needs-a-value-anyway',
-	                'compare' => 'NOT EXISTS',
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+						'value'   => array( 1, 40 ),
+						'type'    => 'numeric',
+						'compare' => 'BETWEEN',
+					),
 				),
+			),
+			array(
+				'ok',
 				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'value'   => 'needs-a-value-anyway',
-					'compare' => 'NOT EXISTS',
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+						'value'   => array( 41, 70 ),
+						'type'    => 'numeric',
+						'compare' => 'BETWEEN',
+					),
 				),
-			) ),
-			array( "", array(
+			),
+			array(
+				'good',
 				array(
-					'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'value' => array( 1, 40 ),
-					'type' => 'numeric',
-					'compare' => 'BETWEEN',
-				)
-			) ),
-			array( "noindex", array(array(
-				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-				'value'   => '1',
-				'compare' => '=',
-			)) )
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+						'value'   => array( 71, 100 ),
+						'type'    => 'numeric',
+						'compare' => 'BETWEEN',
+					),
+				),
+			),
+			array(
+				'na',
+				array(
+					array(
+						'key'     => '_yoast_wpseo_meta-robots-noindex',
+						'value'   => 'needs-a-value-anyway',
+						'compare' => 'NOT EXISTS',
+					),
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+						'value'   => 'needs-a-value-anyway',
+						'compare' => 'NOT EXISTS',
+					),
+				),
+			),
+			array(
+				'',
+				array(
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+						'value'   => array( 1, 40 ),
+						'type'    => 'numeric',
+						'compare' => 'BETWEEN',
+					),
+				),
+			),
+			array(
+				'noindex',
+				array(
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+						'value'   => '1',
+						'compare' => '=',
+					),
+				),
+			),
 		);
 	}
 
 	public function determine_readability_filters_dataprovider() {
 		return array(
-			array( "bad", array(
+			array(
+				'bad',
 				array(
-					'key' => WPSEO_Meta::$meta_prefix . 'content_score',
-					'value' => array( 1, 40 ),
-					'type' => 'numeric',
-					'compare' => 'BETWEEN',
-				)
-			) ),
-			array( "ok", array(
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+						'value'   => array( 1, 40 ),
+						'type'    => 'numeric',
+						'compare' => 'BETWEEN',
+					),
+				),
+			),
+			array(
+				'ok',
 				array(
-					'key' => WPSEO_Meta::$meta_prefix . 'content_score',
-					'value' => array( 41, 70 ),
-					'type' => 'numeric',
-					'compare' => 'BETWEEN',
-				)
-			) ),
-			array( "good", array(
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+						'value'   => array( 41, 70 ),
+						'type'    => 'numeric',
+						'compare' => 'BETWEEN',
+					),
+				),
+			),
+			array(
+				'good',
 				array(
-					'key' => WPSEO_Meta::$meta_prefix . 'content_score',
-					'value' => array( 71, 100 ),
-					'type' => 'numeric',
-					'compare' => 'BETWEEN',
-				)
-			) )
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+						'value'   => array( 71, 100 ),
+						'type'    => 'numeric',
+						'compare' => 'BETWEEN',
+					),
+				),
+			),
 		);
 	}
 
@@ -124,107 +153,110 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 				array(),
 				array(
 					array(
-						'key' => WPSEO_Meta::$meta_prefix . 'content_score',
-						'value' => array( 1, 40 ),
-						'type' => 'numeric',
+						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+						'value'   => array( 1, 40 ),
+						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					)
+					),
 				),
 				array(
 					'meta_query' => array(
 						array(
 							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'content_score',
-								'value' => array( 1, 40 ),
-								'type' => 'numeric',
+								'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+								'value'   => array( 1, 40 ),
+								'type'    => 'numeric',
 								'compare' => 'BETWEEN',
-							)
+							),
 						),
-					)
-				)
+					),
+				),
 			),
 
 			array(
 				array(),
 				array(
 					array(
-						'key' => WPSEO_Meta::$meta_prefix . 'content_score',
-						'value' => array( 1, 40 ),
-						'type' => 'numeric',
+						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+						'value'   => array( 1, 40 ),
+						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
 					),
 					array(
-						'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-						'value' => array( 1, 40 ),
-						'type' => 'numeric',
+						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+						'value'   => array( 1, 40 ),
+						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					)
+					),
 				),
 				array(
 					'meta_query' => array(
 						array(
 							'relation' => 'AND',
 							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'content_score',
-								'value' => array( 1, 40 ),
-								'type' => 'numeric',
+								'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+								'value'   => array( 1, 40 ),
+								'type'    => 'numeric',
 								'compare' => 'BETWEEN',
 							),
 							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-								'value' => array( 1, 40 ),
-								'type' => 'numeric',
+								'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+								'value'   => array( 1, 40 ),
+								'type'    => 'numeric',
 								'compare' => 'BETWEEN',
-							)
+							),
 						),
-					)
-				)
-			),
-
-			array(
-				array(),
-				array(),
-				array()
-			),
-
-			array(
-				array( 'm' => 0, 'cat' => 0 ),
-				array(
-					array(
-						'key' => WPSEO_Meta::$meta_prefix . 'content_score',
-						'value' => array( 1, 40 ),
-						'type' => 'numeric',
-						'compare' => 'BETWEEN',
 					),
-					array(
-						'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-						'value' => array( 1, 40 ),
-						'type' => 'numeric',
-						'compare' => 'BETWEEN',
-					)
 				),
+			),
+
+			array(
+				array(),
+				array(),
+				array(),
+			),
+
+			array(
 				array(
-					'm' => 0,
+					'm'   => 0,
 					'cat' => 0,
+				),
+				array(
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+						'value'   => array( 1, 40 ),
+						'type'    => 'numeric',
+						'compare' => 'BETWEEN',
+					),
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+						'value'   => array( 1, 40 ),
+						'type'    => 'numeric',
+						'compare' => 'BETWEEN',
+					),
+				),
+				array(
+					'm'          => 0,
+					'cat'        => 0,
 					'meta_query' => array(
 						array(
 							'relation' => 'AND',
 							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'content_score',
-								'value' => array( 1, 40 ),
-								'type' => 'numeric',
+								'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
+								'value'   => array( 1, 40 ),
+								'type'    => 'numeric',
 								'compare' => 'BETWEEN',
 							),
 							array(
-								'key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-								'value' => array( 1, 40 ),
-								'type' => 'numeric',
+								'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+								'value'   => array( 1, 40 ),
+								'type'    => 'numeric',
 								'compare' => 'BETWEEN',
-							)
+							),
 						),
-					)
-				)
-			)
+					),
+				),
+			),
 		);
 	}
 
@@ -321,14 +353,14 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Meta_Columns::is_valid_filter()
 	 */
 	public function test_is_valid_filter() {
-		$this->assertTrue(self::$class_instance->is_valid_filter( "needs improvement" ) );
+		$this->assertTrue( self::$class_instance->is_valid_filter( 'needs improvement' ) );
 	}
 
 	/**
 	 * @covers WPSEO_Meta_Columns::is_valid_filter()
 	 */
 	public function test_is_invalid_filter() {
-		$this->assertFalse( self::$class_instance->is_valid_filter( "" ) );
+		$this->assertFalse( self::$class_instance->is_valid_filter( '' ) );
 		$this->assertFalse( self::$class_instance->is_valid_filter( null ) );
 		$this->assertFalse( self::$class_instance->is_valid_filter( 0 ) );
 	}
@@ -338,7 +370,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @param $expected
 	 *
 	 * @dataProvider determine_seo_filters_dataprovider
- 	 * @covers WPSEO_Meta_Columns::determine_seo_filters()
+	 * @covers WPSEO_Meta_Columns::determine_seo_filters()
 	 */
 	public function test_determine_seo_filters( $filter, $expected ) {
 		$result = self::$class_instance->determine_seo_filters( $filter );

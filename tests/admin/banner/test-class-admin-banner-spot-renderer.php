@@ -8,7 +8,7 @@ class WPSEO_Admin_Banner_Spot_Renderer_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->admin_banner_spot_renderer = new WPSEO_Admin_Banner_Spot_Renderer;
+		$this->admin_banner_spot_renderer = new WPSEO_Admin_Banner_Spot_Renderer();
 	}
 
 	/**

@@ -46,8 +46,9 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 *
 	 * @static
 	 *
-	 * @internal Important: Make sure the options added to the array here are in line with the keys
-	 * for the options set for the select box in the admin/pages/network.php file
+	 * {@internal Important: Make sure the options added to the array here are in line
+	 *            with the keys for the options set for the select box in the
+	 *            admin/pages/network.php file.}}
 	 */
 	public static $allowed_access_options = array(
 		'admin',

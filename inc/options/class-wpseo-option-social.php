@@ -62,8 +62,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 *              While we only have the options summary and summary_large_image in the
 	 *              interface now, we might change that at some point.
 	 *
-	 * @internal Uncomment any of these to allow them in validation *and* automatically add them as a choice
-	 * in the options page
+	 * {@internal Uncomment any of these to allow them in validation *and* automatically
+	 *            add them as a choice in the options page.}}
 	 */
 	public static $twitter_card_types = array(
 		'summary'             => '',

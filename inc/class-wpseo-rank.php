@@ -35,7 +35,7 @@ class WPSEO_Rank {
 			'start' => 0,
 			'end'   => 0,
 		),
-		self::BAD  => array(
+		self::BAD => array(
 			'start' => 1,
 			'end'   => 40,
 		),

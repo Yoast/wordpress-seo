@@ -132,7 +132,7 @@ class WPSEO_Primary_Term_Admin {
 	 * Include templates file
 	 */
 	protected function include_js_templates() {
-		include_once WPSEO_PATH . '/admin/views/js-templates-primary-term.php';
+		include_once WPSEO_PATH . 'admin/views/js-templates-primary-term.php';
 	}
 
 	/**

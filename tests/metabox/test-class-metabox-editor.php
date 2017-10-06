@@ -65,7 +65,12 @@ class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 			'custom_elements' => '~yoastmark',
 		);
 
-		$actual = $this->subject->add_custom_element( array( 'custom_elements' => '', 'other_property' => 'hello world' ) );
+		$actual = $this->subject->add_custom_element(
+			array(
+				'custom_elements' => '',
+				'other_property'  => 'hello world',
+			)
+		);
 
 		$this->assertEquals( $expected, $actual );
 	}

@@ -12,6 +12,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 // This is to prevent issues with New Relics stupid auto injection of code. It's ugly but I don't want
 // to deal with support requests for other people's wrong code...
 if ( extension_loaded( 'newrelic' ) && function_exists( 'newrelic_disable_autorum' ) ) {
+	if ( ! defined( 'DONOTAUTORUM' ) ) {
+		define( 'DONOTAUTORUM', true ); // Resolves conflict with W3TC's NR extension.
+	}
+
 	newrelic_disable_autorum();
 }
 
@@ -19,10 +23,10 @@ if ( extension_loaded( 'newrelic' ) && function_exists( 'newrelic_disable_autoru
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 	<xsl:stylesheet version="2.0"
-	                xmlns:html="http://www.w3.org/TR/REC-html40"
-	                xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-	                xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
-	                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+		xmlns:html="http://www.w3.org/TR/REC-html40"
+		xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+		xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
 	<xsl:template match="/">
 		<html xmlns="http://www.w3.org/1999/xhtml">
@@ -126,7 +130,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 				<p class="expl">
 					This XML Sitemap contains <xsl:value-of select="count(sitemap:urlset/sitemap:url)"/> URLs.
 				</p>
-				<p class="expl"><a href="<?php echo esc_url( home_url( 'sitemap_index.xml' ) ) ?>">&#8593; Sitemap Index</a></p>
+				<p class="expl"><a href="<?php echo esc_url( home_url( 'sitemap_index.xml' ) ); ?>">&#8593; Sitemap Index</a></p>
 				<table id="sitemap" cellpadding="3">
 					<thead>
 					<tr>
@@ -160,8 +164,8 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 				</table>
 			</xsl:if>
 		</div>
-		<script type="text/javascript" src="<?php echo includes_url( 'js/jquery/jquery.js' ) ?>"></script>
-		<script type="text/javascript" src="<?php echo plugins_url( 'js/dist/jquery.tablesorter.min.js', WPSEO_FILE ) ?>"></script>
+		<script type="text/javascript" src="<?php echo includes_url( 'js/jquery/jquery.js' ); ?>"></script>
+		<script type="text/javascript" src="<?php echo plugins_url( 'js/dist/jquery.tablesorter.min.js', WPSEO_FILE ); ?>"></script>
 		<script	type="text/javascript"><![CDATA[
 			jQuery(document).ready(function() {
 				jQuery("#sitemap").tablesorter( { widgets: ['zebra'] } );

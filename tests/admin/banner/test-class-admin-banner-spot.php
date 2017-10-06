@@ -9,7 +9,7 @@ class WPSEO_Admin_Banner_Renderer_Mock extends WPSEO_Admin_Banner_Renderer {
 	 *
 	 * @return string
 	 */
-	public function render( WPSEO_Admin_Banner $banner  ) {
+	public function render( WPSEO_Admin_Banner $banner ) {
 
 		return sprintf(
 			'url:%s|image:%s|width:%i|height:%i|alt:%s',
@@ -52,7 +52,7 @@ class WPSEO_Admin_Banner_Spot_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Admin_Banner_Spot::set_description
 	 */
-	public function test_set_description(   ) {
+	public function test_set_description() {
 		$admin_banner_spot = new WPSEO_Admin_Banner_Spot( 'title' );
 
 		$admin_banner_spot->set_description( 'description' );

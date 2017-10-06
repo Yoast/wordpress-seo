@@ -65,7 +65,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$options  = array(
 			'title-post'    => 'This is the title',
 			'metadesc-post' => 'This is the metadescription',
-			'showdate-post' => true
+			'showdate-post' => true,
 		);
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, $options, '' );
 		$result   = $instance->get_values();
@@ -128,7 +128,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	public function test_with_missing_option() {
 		$options  = array(
 			'title-post'    => 'This is the title',
-			'showdate-post' => true
+			'showdate-post' => true,
 		);
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, $options, '' );
 		$result   = $instance->get_values();

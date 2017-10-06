@@ -115,7 +115,7 @@ class Yoast_Plugin_Conflict {
 	 */
 	public function get_conflicting_plugins_as_string( $plugin_section ) {
 		if ( ! function_exists( 'get_plugin_data' ) ) {
-			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
 		// Getting the active plugins by given section.

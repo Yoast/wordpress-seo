@@ -18,12 +18,13 @@
  *        This method can also retrieve a complete set of WPSEO meta values for one specific post, see
  *        the method documentation for the parameters.
  *
- * @internal   Unfortunately there isn't a filter available to hook into before returning the results
- * for get_post_meta(), get_post_custom() and the likes. That would have been the preferred solution.
+ * {@internal Unfortunately there isn't a filter available to hook into before returning the results
+ *            for get_post_meta(), get_post_custom() and the likes. That would have been the
+ *            preferred solution.}}
  *
- * @internal   all WP native get_meta() results get cached internally, so no need to cache locally.
- * @internal   use $key when the key is the WPSEO internal name (without prefix), $meta_key when it
- *             includes the prefix
+ * {@internal All WP native get_meta() results get cached internally, so no need to cache locally.}}
+ * {@internal Use $key when the key is the WPSEO internal name (without prefix), $meta_key when it
+ *            includes the prefix.}}
  */
 class WPSEO_Meta {
 
@@ -31,8 +32,8 @@ class WPSEO_Meta {
 	 * @var    string    Prefix for all WPSEO meta values in the database
 	 * @static
 	 *
-	 * @internal if at any point this would change, quite apart from an upgrade routine, this also will need to
-	 * be changed in the wpml-config.xml file.
+	 * {@internal If at any point this would change, quite apart from an upgrade routine,
+	 *            this also will need to be changed in the wpml-config.xml file.}}
 	 */
 	public static $meta_prefix = '_yoast_wpseo_';
 
@@ -92,10 +93,10 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @internal
+	 * {@internal
 	 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
 	 *     in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
-	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!
+	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
 	 */
 	public static $meta_fields = array(
 		'general'  => array(
@@ -118,14 +119,14 @@ class WPSEO_Meta {
 				'type'  => 'hidden',
 				'title' => '',
 			),
-			'title'          => array(
+			'title' => array(
 				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
-			'metadesc'       => array(
+			'metadesc' => array(
 				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
@@ -134,26 +135,26 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
-			'linkdex'        => array(
+			'linkdex' => array(
 				'type'          => 'hidden',
 				'title'         => 'linkdex',
 				'default_value' => '0',
 				'description'   => '',
 			),
-			'content_score'  => array(
+			'content_score' => array(
 				'type'          => 'hidden',
 				'title'         => 'content_score',
 				'default_value' => '0',
 				'description'   => '',
 			),
-			'metakeywords'   => array(
+			'metakeywords' => array(
 				'type'          => 'metakeywords',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metakeywords',
 				'description'   => '', // Translation added later.
 			),
-			'pageanalysis'   => array(
+			'pageanalysis' => array(
 				'type'         => 'pageanalysis',
 				'title'        => '', // Translation added later.
 				'help'         => '', // Translation added later.
@@ -658,8 +659,9 @@ class WPSEO_Meta {
 	 * Get a custom post meta value
 	 * Returns the default value if the meta value has not been set
 	 *
-	 * @internal Unfortunately there isn't a filter available to hook into before returning the results
-	 * for get_post_meta(), get_post_custom() and the likes. That would have been the preferred solution.
+	 * {@internal Unfortunately there isn't a filter available to hook into before returning
+	 *            the results for get_post_meta(), get_post_custom() and the likes. That
+	 *            would have been the preferred solution.}}
 	 *
 	 * @static
 	 *
@@ -709,9 +711,9 @@ class WPSEO_Meta {
 		}
 		else {
 			/*
-			Shouldn't ever happen, means not one of our keys as there will always be a default available
-			   for all our keys
-			*/
+			 * Shouldn't ever happen, means not one of our keys as there will always be a default available
+			 * for all our keys.
+			 */
 			return '';
 		}
 	}
@@ -763,10 +765,11 @@ class WPSEO_Meta {
 		global $wpdb;
 
 		/*
-		Get only those rows where no wpseo meta values exist for the same post
-		   (with the exception of linkdex as that will be set independently of whether the post has been edited)
-		   @internal Query is pretty well optimized this way
-		*/
+		 * Get only those rows where no wpseo meta values exist for the same post
+		 * (with the exception of linkdex as that will be set independently of whether the post has been edited).
+		 *
+		 * {@internal Query is pretty well optimized this way.}}
+		 */
 		$query  = $wpdb->prepare(
 			"
 				SELECT `a`.*
@@ -816,7 +819,7 @@ class WPSEO_Meta {
 		 *
 		 * Retrieve all '_yoast_wpseo_meta-robots' meta values and convert if no new values found
 		 *
-		 * @internal Query is pretty well optimized this way
+		 * {@internal Query is pretty well optimized this way.}}
 		 *
 		 * @todo [JRF => Yoast] find out all possible values which the old '_yoast_wpseo_meta-robots' could contain
 		 * to convert the data correctly
@@ -864,14 +867,15 @@ class WPSEO_Meta {
 		 * Remove all default values and (most) invalid option values
 		 * Invalid option values for the multiselect (meta-robots-adv) field will be dealt with seperately
 		 *
-		 * @internal some of the defaults have changed in v1.5, but as the defaults will be removed and
-		 * new defaults will now automatically be passed when no data found, this update is automatic
-		 * (as long as we remove the old values which we do in the below routine)
+		 * {@internal Some of the defaults have changed in v1.5, but as the defaults will
+		 *            be removed and new defaults will now automatically be passed when no
+		 *            data found, this update is automatic (as long as we remove the old
+		 *            values which we do in the below routine).}}
 		 *
-		 * @internal unfortunately we can't use the normal delete_meta() with key/value combination as ''
-		 * (empty string) values will be ignored and would result in all metas with that key being deleted,
-		 * not just the empty fields.
-		 * Still, the below implementation is largely based on the delete_meta() function
+		 * {@internal Unfortunately we can't use the normal delete_meta() with key/value combination
+		 *            as '' (empty string) values will be ignored and would result in all metas
+		 *            with that key being deleted, not just the empty fields.
+		 *            Still, the below implementation is largely based on the delete_meta() function.}}
 		 */
 		$query = array();
 
@@ -986,7 +990,7 @@ class WPSEO_Meta {
 	 *
 	 * Freely based on information found on http://www.php.net/manual/en/function.array-merge-recursive.php
 	 *
-	 * @internal Should be moved to a general utility class
+	 * {@internal Should be moved to a general utility class.}}
 	 *
 	 * @return array
 	 */
@@ -1049,23 +1053,37 @@ class WPSEO_Meta {
 			return array();
 		}
 
-		$get_posts = new WP_Query(
-			array(
-				'meta_key'       => '_yoast_wpseo_focuskw',
-				'meta_value'     => $keyword,
-				'post__not_in'   => array( $post_id ),
-				'fields'         => 'ids',
-				'post_type'      => 'any',
+		$query = array(
+			'meta_query'     => array(
+				'relation' => 'OR',
+				array(
+					'key'   => '_yoast_wpseo_focuskw',
+					'value' => $keyword,
+				),
+			),
+			'post__not_in'   => array( $post_id ),
+			'fields'         => 'ids',
+			'post_type'      => 'any',
 
-				/*
-				 * We only need to return zero, one or two results:
-				 * - Zero: keyword hasn't been used before
-				 * - One: Keyword has been used once before
-				 * - Two or more: Keyword has been used twice before
-				 */
-				'posts_per_page' => 2,
-			)
+			/*
+			 * We only need to return zero, one or two results:
+			 * - Zero: keyword hasn't been used before
+			 * - One: Keyword has been used once before
+			 * - Two or more: Keyword has been used twice before
+			 */
+			'posts_per_page' => 2,
 		);
+
+		// If Yoast SEO Premium is active, get the additional keywords as well.
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+			$query['meta_query'][] = array(
+				'key'     => '_yoast_wpseo_focuskeywords',
+				'value'   => sprintf( '"keyword":"%s"', $keyword ),
+				'compare' => 'LIKE',
+			);
+		}
+
+		$get_posts = new WP_Query( $query );
 
 		return $get_posts->posts;
 	}

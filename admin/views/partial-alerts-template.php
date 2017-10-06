@@ -33,14 +33,14 @@ if ( ! $active ) {
 }
 
 ?>
-<h3><span class="dashicons dashicons-<?php echo $dashicon; ?>"></span> <?php echo $i18n_title ?> (<?php echo $active_total ?>)</h3>
+<h3><span class="dashicons dashicons-<?php echo $dashicon; ?>"></span> <?php echo $i18n_title; ?> (<?php echo $active_total; ?>)</h3>
 
-<div id="yoast-<?php echo $type ?>">
+<div id="yoast-<?php echo $type; ?>">
 
 	<?php if ( $total ) : ?>
 		<p><?php echo ( ! $active ) ? $i18n_no_issues : $i18n_issues; ?></p>
 
-		<div class="container" id="yoast-<?php echo $type ?>-active">
+		<div class="container" id="yoast-<?php echo $type; ?>-active">
 			<?php _yoast_display_alerts( $active, 'active' ); ?>
 		</div>
 
@@ -48,7 +48,7 @@ if ( ! $active ) {
 			<h4 class="yoast-muted-title"><?php echo esc_html( $i18n_muted_issues_title ); ?></h4>
 		<?php endif; ?>
 
-		<div class="container" id="yoast-<?php echo $type ?>-dismissed">
+		<div class="container" id="yoast-<?php echo $type; ?>-dismissed">
 			<?php _yoast_display_alerts( $dismissed, 'dismissed' ); ?>
 		</div>
 

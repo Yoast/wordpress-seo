@@ -51,7 +51,7 @@ class WPSEO_Utils {
 	/**
 	 * Check whether file editing is allowed for the .htaccess and robots.txt files
 	 *
-	 * @internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.
+	 * {@internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.}}
 	 *
 	 * @static
 	 *
@@ -984,7 +984,7 @@ class WPSEO_Utils {
 	 */
 	public static function is_api_available( $minimum_version = '2.0' ) {
 		return ( defined( 'REST_API_VERSION' )
-		         && version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
+			&& version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
 	}
 
 	/********************** DEPRECATED METHODS **********************/

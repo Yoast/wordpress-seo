@@ -48,7 +48,7 @@ function wpseo_admin_bar_menu() {
 		}
 	}
 
-	if ( is_category() || is_tag() || (WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && ! WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) )  || is_tax() ) {
+	if ( is_category() || is_tag() || (WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && ! WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) ) || is_tax() ) {
 		if ( $analysis_seo->is_enabled() ) {
 			$score = wpseo_tax_adminbar_seo_score();
 		}
@@ -111,7 +111,7 @@ function wpseo_admin_bar_menu() {
 		'id'    => 'wpseo-menu',
 		'title' => $title . $score . $counter . $alert_popup,
 		'href'  => $seo_url,
-		'meta'   => array( 'tabindex' => $top_level_link_tabindex ),
+		'meta'  => array( 'tabindex' => $top_level_link_tabindex ),
 	) );
 	if ( ! empty( $notification_count ) ) {
 		$wp_admin_bar->add_menu( array(
@@ -120,6 +120,15 @@ function wpseo_admin_bar_menu() {
 			'title'  => __( 'Notifications', 'wordpress-seo' ) . $counter,
 			'href'   => $seo_url,
 			'meta'   => array( 'tabindex' => $top_level_link_tabindex ),
+		) );
+	}
+
+	if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-menu',
+			'id'     => 'wpseo-configuration-wizard',
+			'title'  => __( 'Configuration Wizard', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ),
 		) );
 	}
 	$wp_admin_bar->add_menu( array(
@@ -132,7 +141,7 @@ function wpseo_admin_bar_menu() {
 		'parent' => 'wpseo-kwresearch',
 		'id'     => 'wpseo-adwordsexternal',
 		'title'  => __( 'AdWords External', 'wordpress-seo' ),
-		'href'   => 'http://adwords.google.com/keywordplanner',
+		'href'   => 'https://adwords.google.com/keywordplanner',
 		'meta'   => array( 'target' => '_blank' ),
 	) );
 	$wp_admin_bar->add_menu( array(
@@ -476,7 +485,7 @@ function wpseo_translate_score( $val, $css_value = true ) {
  * @deprecated use WPSEO_Utils::allow_system_file_edit()
  * @see        WPSEO_Utils::allow_system_file_edit()
  *
- * @internal   current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.
+ * {@internal  current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.}}
  *
  * @return bool
  */

@@ -13,7 +13,10 @@ echo '<h2>' . esc_html__( 'Security setting', 'wordpress-seo' ) . '</h2>';
 
 $yform->toggle_switch(
 	'disableadvanced_meta',
-	array( 'off' => __( 'Enabled', 'wordpress-seo' ), 'on' => __( 'Disabled', 'wordpress-seo' ) ),
+	array(
+		'off' => __( 'Enabled', 'wordpress-seo' ),
+		'on'  => __( 'Disabled', 'wordpress-seo' ),
+	),
 	/* translators: %1$s expands to Yoast SEO */
 	sprintf( __( 'Advanced part of the %1$s meta box', 'wordpress-seo' ), 'Yoast SEO' )
 );

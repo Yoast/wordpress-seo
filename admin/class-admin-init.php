@@ -35,7 +35,7 @@ class WPSEO_Admin_Init {
 	public function __construct() {
 		$this->options = WPSEO_Options::get_option( 'wpseo_xml' );
 
-		$GLOBALS['wpseo_admin'] = new WPSEO_Admin;
+		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
 
 		$this->pagenow = $GLOBALS['pagenow'];
 
@@ -397,7 +397,7 @@ class WPSEO_Admin_Init {
 		 */
 		if ( $is_editor || $is_inline_save || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
 		) {
-			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox;
+			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox();
 			$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
 		}
 	}
@@ -410,7 +410,7 @@ class WPSEO_Admin_Init {
 			WPSEO_Taxonomy::is_term_edit( $this->pagenow )
 			|| WPSEO_Taxonomy::is_term_overview( $this->pagenow )
 		) {
-			new WPSEO_Taxonomy;
+			new WPSEO_Taxonomy();
 		}
 	}
 
@@ -421,7 +421,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function load_admin_user_class() {
 		if ( in_array( $this->pagenow, array( 'user-edit.php', 'profile.php' ) ) && current_user_can( 'edit_users' ) ) {
-			new WPSEO_Admin_User_Profile;
+			new WPSEO_Admin_User_Profile();
 		}
 	}
 
@@ -434,7 +434,7 @@ class WPSEO_Admin_Init {
 
 		if ( $this->on_wpseo_admin_page() ) {
 			// For backwards compatabilty, this still needs a global, for now...
-			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
+			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages();
 
 			// Only register the yoast i18n when the page is a Yoast SEO page.
 			if ( WPSEO_Utils::is_yoast_seo_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
@@ -500,7 +500,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function load_xml_sitemaps_admin() {
 		if ( $this->options['enablexmlsitemap'] === true ) {
-			new WPSEO_Sitemaps_Admin;
+			new WPSEO_Sitemaps_Admin();
 		}
 	}
 

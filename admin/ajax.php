@@ -422,10 +422,10 @@ function wpseo_remove_stopwords_sample_permalink( $permalink, $post_id, $title, 
 add_action( 'get_sample_permalink', 'wpseo_remove_stopwords_sample_permalink', 10, 4 );
 
 // Crawl Issue Manager AJAX hooks.
-new WPSEO_GSC_Ajax;
+new WPSEO_GSC_Ajax();
 
 // SEO Score Recalculations.
-new WPSEO_Recalculate_Scores_Ajax;
+new WPSEO_Recalculate_Scores_Ajax();
 
 new Yoast_Dashboard_Widget();
 

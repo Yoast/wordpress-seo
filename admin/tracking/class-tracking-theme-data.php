@@ -18,10 +18,10 @@ class WPSEO_Tracking_Theme_Data implements WPSEO_Collection {
 
 		return array(
 			'theme' => array(
-				'name'    => $theme->get( 'Name' ),
-				'url'     => $theme->get( 'ThemeURI' ),
-				'version' => $theme->get( 'Version' ),
-				'author'  => array(
+				'name'        => $theme->get( 'Name' ),
+				'url'         => $theme->get( 'ThemeURI' ),
+				'version'     => $theme->get( 'Version' ),
+				'author'      => array(
 					'name' => $theme->get( 'Author' ),
 					'url'  => $theme->get( 'AuthorURI' ),
 				),

@@ -6,8 +6,8 @@
 class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 
 	/**
-	* Provision some options
-	*/
+	 * Provision some options
+	 */
 	public function setUp() {
 		parent::setUp();
 	}

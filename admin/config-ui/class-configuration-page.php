@@ -123,7 +123,7 @@ class WPSEO_Configuration_Page {
 		<body class="wp-admin wp-core-ui">
 		<div id="wizard"></div>
 		<div role="contentinfo" class="yoast-wizard-return-link-container">
-			<a class="button yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
+			<a class="button yoast-wizard-return-link" href="<?php echo $dashboard_url; ?>">
 				<span aria-hidden="true" class="dashicons dashicons-no"></span>
 				<?php
 				printf(

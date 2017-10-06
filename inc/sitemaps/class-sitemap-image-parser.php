@@ -487,7 +487,7 @@ class WPSEO_Sitemap_Image_Parser {
 
 		$args = wp_parse_args( $args, $default_args );
 
-		$get_attachments = new WP_Query;
+		$get_attachments = new WP_Query();
 		return $get_attachments->query( $args );
 	}
 

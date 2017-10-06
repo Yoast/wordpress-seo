@@ -15,7 +15,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		ob_start();
 
 		// create instance of WPSEO_Twitter class
-		require 'framework/class-expose-wpseo-twitter.php';
+		require WPSEO_TESTS_PATH . 'framework/class-expose-wpseo-twitter.php';
 		self::$class_instance = new Expose_WPSEO_Twitter();
 		WPSEO_Frontend::get_instance()->reset();
 		// clean output which was outputted by WPSEO_Twitter constructor
@@ -38,10 +38,10 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_twitter() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title'  => 'Twitter Test Post',
+				'post_title'   => 'Twitter Test Post',
 				'post_excerpt' => 'Twitter Test Excerpt',
-				'post_type'   => 'post',
-				'post_status' => 'publish',
+				'post_type'    => 'post',
+				'post_status'  => 'publish',
 			)
 		);
 		$this->go_to( get_permalink( $post_id ) );
@@ -184,7 +184,12 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_static_front_page() {
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'front-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 		$this->go_to_home();
@@ -211,11 +216,21 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_static_posts_page() {
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'front-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'blog-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'blog-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -421,7 +436,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = $this->metatag( 'card', 'summary_large_image' );
 
 		// Insert image into DB so we have something to test against
-		$filename = "image.jpg";
+		$filename = 'image.jpg';
 		$id       = $this->factory->attachment->create_object( $filename, 0, array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',

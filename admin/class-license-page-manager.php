@@ -88,7 +88,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	public function handle_response( array $response, $request_arguments, $url ) {
 		$response_code = wp_remote_retrieve_response_code( $response );
 
-		if ( $response_code === 200 && $this->is_expected_endpoint( $url )  ) {
+		if ( $response_code === 200 && $this->is_expected_endpoint( $url ) ) {
 			$response_data = $this->parse_response( $response );
 			$this->detect_version( $response_data );
 		}

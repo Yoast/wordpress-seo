@@ -60,7 +60,7 @@ class WPSEO_Help_Center {
 		/* translators: %s: expands to 'Yoast SEO Premium'. */
 		$popup_title = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
 
-		$popup_content = '<p>' . __( 'Go Premium and our experts will be there for you to answer any questions you might have about the set-up and use of the plug-in!', 'wordpress-seo' ) . '</p>';
+		$popup_content = '<p>' . __( 'Go Premium and our experts will be there for you to answer any questions you might have about the setup and use of the plugin.', 'wordpress-seo' ) . '</p>';
 		/* translators: %1$s: expands to 'Yoast SEO Premium'. */
 		$popup_content .= '<p>' . sprintf( __( 'Other benefits of %1$s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
 		$popup_content .= '<ul>';
@@ -132,13 +132,13 @@ class WPSEO_Help_Center {
 		$id = sprintf( 'tab-help-center-%s-%s', $this->group_name, $this->tab->get_name() );
 		?>
 		<div class="wpseo-tab-video-container">
-			<button type="button" class="wpseo-tab-video-container__handle" aria-controls="<?php echo $id ?>"
-			        aria-expanded="false">
+			<button type="button" class="wpseo-tab-video-container__handle" aria-controls="<?php echo $id; ?>"
+				aria-expanded="false">
 					<span
-						class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ) ?></span>
+						class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ); ?></span>
 				<span class="dashicons dashicons-arrow-down toggle__arrow"></span>
 			</button>
-			<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout hidden">
+			<div id="<?php echo $id; ?>" class="wpseo-tab-video-slideout hidden">
 				<div class="yoast-help-center-tabs">
 					<ul>
 						<?php
@@ -156,8 +156,8 @@ class WPSEO_Help_Center {
 
 							<li id="<?php echo esc_attr( $link_id ); ?>" class="<?php echo $class; ?>">
 								<a href="<?php echo esc_url( "#$panel_id" ); ?>"
-								   class="<?php echo $id . ' ' . $dashicon?>"
-								   aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $help_center_item->get_label() ); ?></a>
+									class="<?php echo $id . ' ' . $dashicon; ?>"
+									aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $help_center_item->get_label() ); ?></a>
 							</li>
 							<?php
 							$class = 'wpseo-help-center-item';
@@ -209,23 +209,23 @@ class WPSEO_Help_Center {
 	public static function get_translated_texts() {
 		return array(
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
-			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
-			'contentLocale' => get_locale(),
-			'userLocale'    => WPSEO_Utils::get_user_locale(),
+			'variable_warning'          => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
+			'contentLocale'             => get_locale(),
+			'userLocale'                => WPSEO_Utils::get_user_locale(),
 			/* translators: %d: number of knowledge base search results found. */
-			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
-			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),
-			'kb_heading' => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
-			'kb_search_button_text' => __( 'Search', 'wordpress-seo' ),
+			'kb_found_results'          => __( 'Number of search results: %d', 'wordpress-seo' ),
+			'kb_no_results'             => __( 'No results found.', 'wordpress-seo' ),
+			'kb_heading'                => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
+			'kb_search_button_text'     => __( 'Search', 'wordpress-seo' ),
 			'kb_search_results_heading' => __( 'Search results', 'wordpress-seo' ),
-			'kb_error_message' => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
-			'kb_loading_placeholder' => __( 'Loading...', 'wordpress-seo' ),
-			'kb_search' => __( 'search', 'wordpress-seo' ),
-			'kb_back' => __( 'Back', 'wordpress-seo' ),
-			'kb_back_label' => __( 'Back to search results' , 'wordpress-seo' ),
-			'kb_open' => __( 'Open', 'wordpress-seo' ),
-			'kb_open_label' => __( 'Open the knowledge base article in a new window or read it in the iframe below' , 'wordpress-seo' ),
-			'kb_iframe_title' => __( 'Knowledge base article', 'wordpress-seo' ),
+			'kb_error_message'          => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
+			'kb_loading_placeholder'    => __( 'Loading...', 'wordpress-seo' ),
+			'kb_search'                 => __( 'search', 'wordpress-seo' ),
+			'kb_back'                   => __( 'Back', 'wordpress-seo' ),
+			'kb_back_label'             => __( 'Back to search results' , 'wordpress-seo' ),
+			'kb_open'                   => __( 'Open', 'wordpress-seo' ),
+			'kb_open_label'             => __( 'Open the knowledge base article in a new window or read it in the iframe below' , 'wordpress-seo' ),
+			'kb_iframe_title'           => __( 'Knowledge base article', 'wordpress-seo' ),
 		);
 	}
 }
