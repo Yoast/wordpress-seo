@@ -45,7 +45,7 @@ class WPSEO_Premium {
 	public static function install() {
 
 		// Load the Redirect File Manager.
-		require_once( WPSEO_PREMIUM_PATH . 'classes/redirect/class-redirect-file-util.php' );
+		require_once WPSEO_PREMIUM_PATH . 'classes/redirect/class-redirect-file-util.php';
 
 		// Create the upload directory.
 		WPSEO_Redirect_File_Util::create_upload_dir();
@@ -53,7 +53,7 @@ class WPSEO_Premium {
 		WPSEO_Premium::activate_license();
 
 		// Make sure the notice will be given at install.
-		require_once( WPSEO_PREMIUM_PATH . 'classes/class-premium-prominent-words-recalculation-notifier.php' );
+		require_once WPSEO_PREMIUM_PATH . 'classes/class-premium-prominent-words-recalculation-notifier.php';
 		$recalculation_notifier = new WPSEO_Premium_Prominent_Words_Recalculation_Notifier();
 		$recalculation_notifier->manage_notification();
 	}
@@ -513,7 +513,7 @@ class WPSEO_Premium {
 
 		if ( ! class_exists( 'WPSEO_Premium_Autoloader', false ) ) {
 			// Setup autoloader.
-			require_once( dirname( __FILE__ ) . '/classes/class-premium-autoloader.php' );
+			require_once WPSEO_PREMIUM_PATH . 'classes/class-premium-autoloader.php';
 			$autoloader = new WPSEO_Premium_Autoloader( 'WPSEO_', '' );
 		}
 	}

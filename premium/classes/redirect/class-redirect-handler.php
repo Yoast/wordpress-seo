@@ -303,7 +303,7 @@ class WPSEO_Redirect_Handler {
 		}
 
 		if ( ! function_exists( 'wp_redirect' ) ) {
-			require_once( ABSPATH . 'wp-includes/pluggable.php' );
+			require_once ABSPATH . 'wp-includes/pluggable.php';
 		}
 
 		/**

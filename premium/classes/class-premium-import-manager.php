@@ -75,7 +75,7 @@ class WPSEO_Premium_Import_Manager {
 		);
 
 		// Display the forms.
-		require( 'views/import-redirects.php' );
+		require WPSEO_PREMIUM_PATH . 'classes/views/import-redirects.php';
 	}
 
 	/**
