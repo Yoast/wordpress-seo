@@ -97,7 +97,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$processor
 			->expects( $this->once() )
 			->method( 'process' )
-			->with( $post->ID, "" );
+			->with( $post->ID, '' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
 		$watcher->save_post( $post->ID, $post );
