@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Premium
+ */
 
 class WPSEO_Validation_Error_Test extends WPSEO_UnitTestCase {
 

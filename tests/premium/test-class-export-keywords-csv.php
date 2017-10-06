@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Premium
+ */
 
 class WPSEO_Export_Keywords_CSV_Double extends WPSEO_Export_Keywords_CSV {
 	public function return_get_headers() {

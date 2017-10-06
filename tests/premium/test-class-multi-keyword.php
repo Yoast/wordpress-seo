@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Premium
+ */
 
 class WPSEO_Multi_Keyword_Test extends WPSEO_UnitTestCase {
 

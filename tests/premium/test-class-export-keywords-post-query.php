@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Premium
+ */
 
 class WPSEO_Export_Keywords_Post_Query_Double extends WPSEO_Export_Keywords_Post_Query {
 	public function get_selects() {

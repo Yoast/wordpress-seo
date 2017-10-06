@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Premium
+ */
 
 class WPSEO_Redirect_Util_Test extends \PHPUnit_Framework_TestCase {
 	/**
