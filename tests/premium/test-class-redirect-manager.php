@@ -57,8 +57,8 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '301', $redirect->get_type() );
 
 		/*
-		 Because of PHP 5.2, this can not be done
-		 $this->assertArraySubset( array( 'add_redirect' => array( 'url' => 'added_redirect', 'type' => 301 ) ), $redirects );
+		 * Because of PHP 5.2, this can not be done
+		 * $this->assertArraySubset( array( 'add_redirect' => array( 'url' => 'added_redirect', 'type' => 301 ) ), $redirects );
 		 */
 
 		// This redirect already exists, so it returns false.
@@ -94,8 +94,8 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $this->class_instance->update_redirect( $non_existing_redirect, $redirect ) );
 
 		/*
-		 	When 5.2 support is dropped we can use this fancy testmethod:
-			$this->assertArraySubset( array( '/redirect_update' => array( 'url' => 'updated_redirect', 'type' => 301 ) ), $this->class_instance->get_redirects() );
+		 * When 5.2 support is dropped we can use this fancy testmethod:
+		 * $this->assertArraySubset( array( '/redirect_update' => array( 'url' => 'updated_redirect', 'type' => 301 ) ), $this->class_instance->get_redirects() );
 		 */
 
 	}
