@@ -67,11 +67,11 @@ class WPSEO_Redirect_Page_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'off', $options['separate_file'] );
 
 		/*
-		 Because of PHP 5.2, this can not be done
-	 	 $this->assertArraySubset(
-			array( 'disable_php_redirect' => 'off', 'separate_file' => 'off' ),
-			WPSEO_Redirect_Manager::get_options()
-		);
+		 * Because of PHP 5.2, this can not be done
+		 * $this->assertArraySubset(
+		 *     array( 'disable_php_redirect' => 'off', 'separate_file' => 'off' ),
+		 *     WPSEO_Redirect_Manager::get_options()
+		 * );
 		 */
 	}
 
