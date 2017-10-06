@@ -26,6 +26,9 @@ class WPSEO_Redirect_Self_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 		add_filter( 'home_url', array( $this, 'override_home_url' ) );
 	}
 
+	/**
+	 * Test helper method.
+	 */
 	public function override_home_url() {
 		return $this->home_url;
 	}

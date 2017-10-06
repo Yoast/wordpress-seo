@@ -47,6 +47,9 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( $class_instance->return_validate_result( $fake_result ) );
 	}
 
+	/**
+	 * Tests if validate_result works correctly when passed invalid input.
+	 */
 	public function test_validate_input_false() {
 		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title' ) );
 

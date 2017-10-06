@@ -8,12 +8,18 @@
  */
 class WPSEO_Dublin_Core_Test extends WPSEO_UnitTestCase {
 
+	/**
+	 * Set up for the test.
+	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->go_to_home();
 	}
 
+	/**
+	 * Clean the memory cache.
+	 */
 	public function tearDown() {
 		ob_clean();
 	}

@@ -8,18 +8,27 @@
  */
 class WPSEO_Validation_Warning_Test extends WPSEO_UnitTestCase {
 
+	/**
+	 * Test retrieving of a warning message.
+	 */
 	public function test_get_message() {
 		$validation_error = new WPSEO_Validation_Warning( 'This is a warning' );
 
 		$this->assertEquals( 'This is a warning', $validation_error->get_message() );
 	}
 
+	/**
+	 * Test error type.
+	 */
 	public function test_get_type() {
 		$validation_error = new WPSEO_Validation_Warning( 'This is a warning' );
 
 		$this->assertEquals( 'warning', $validation_error->get_type() );
 	}
 
+	/**
+	 * Test retrieving of warning information as an array.
+	 */
 	public function test_to_array() {
 		$validation_error = new WPSEO_Validation_Warning( 'This is a warning', array( 'field' => 'value' ) );
 
@@ -33,6 +42,9 @@ class WPSEO_Validation_Warning_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
+	/**
+	 * Test retrieving of warning information as an array.
+	 */
 	public function test_to_array_WITH_string_as_fields() {
 		$validation_error = new WPSEO_Validation_Warning( 'This is a warning', 'field' );
 

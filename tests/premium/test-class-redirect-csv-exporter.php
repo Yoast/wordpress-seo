@@ -147,6 +147,11 @@ class WPSEO_Redirect_CSV_Exporter_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '"/origin?q=""1,2""","/target?q=1,2","301","plain"', $lines[1] );
 	}
 
+	/**
+	 * Testing if the export method returns the correct CSV string when passed a regex redirect.
+	 *
+	 * @covers WPSEO_Redirect_CSV_Exporter::export
+	 */
 	public function test_export_regex() {
 		$class_instance = new WPSEO_Redirect_CSV_Exporter();
 
