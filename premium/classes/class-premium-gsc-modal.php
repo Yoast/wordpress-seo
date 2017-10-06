@@ -34,14 +34,19 @@ class WPSEO_Premium_GSC_Modal {
 			return new WPSEO_GSC_Modal(
 				dirname( __FILE__ ) . '/views/gsc-redirect-exists.php',
 				self::EXISTING_REDIRECT_HEIGHT,
-				array( 'redirect' => $redirect ,'url' => $url )
+				array(
+					'redirect' => $redirect,
+					'url'      => $url,
+				)
 			);
 		}
 
 		return new WPSEO_GSC_Modal(
 			dirname( __FILE__ ) . '/views/gsc-redirect-create.php',
 			self::CREATE_REDIRECT_HEIGHT,
-			array( 'url' => $url )
+			array(
+				'url' => $url,
+			)
 		);
 	}
 }

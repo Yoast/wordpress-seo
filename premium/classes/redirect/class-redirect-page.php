@@ -272,7 +272,12 @@ class WPSEO_Redirect_Page {
 				INPUT_GET,
 				'tab',
 				FILTER_VALIDATE_REGEXP,
-				array( 'options' => array( 'default' => 'plain', 'regexp' => '/^(plain|regex|settings)$/' ) )
+				array(
+					'options' => array(
+						'default' => 'plain',
+						'regexp'  => '/^(plain|regex|settings)$/',
+					),
+				)
 			);
 		}
 

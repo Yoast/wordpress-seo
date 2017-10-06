@@ -74,14 +74,20 @@ class WPSEO_Redirect_Export_Option_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_format() {
 		$this->assertEquals(
-			array( 'url' => 'plain_target', 'type' => 301 ),
+			array(
+				'url'  => 'plain_target',
+				'type' => 301,
+			),
 			$this->class_instance->format(
 				new WPSEO_Redirect( 'plain_origin', 'plain_target', 301, WPSEO_Redirect::FORMAT_PLAIN )
 			)
 		);
 
 		$this->assertEquals(
-			array( 'url' => 'regex_target', 'type' => 301 ),
+			array(
+				'url'  => 'regex_target',
+				'type' => 301,
+			),
 			$this->class_instance->format(
 				new WPSEO_Redirect( 'regex_origin', 'regex_target', 301, WPSEO_Redirect::FORMAT_REGEX )
 			)

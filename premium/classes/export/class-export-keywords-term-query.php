@@ -103,8 +103,15 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 		static $escaped = null;
 
 		if ( $escaped === null ) {
-			$taxonomies = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'names' );
-			$escaped    = implode( '", "', array_map( 'esc_sql', $taxonomies ) );
+			$taxonomies = get_taxonomies(
+				array(
+					'public'  => true,
+					'show_ui' => true,
+				),
+				'names'
+			);
+
+			$escaped = implode( '", "', array_map( 'esc_sql', $taxonomies ) );
 		}
 
 		return $escaped;

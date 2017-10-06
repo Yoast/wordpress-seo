@@ -32,7 +32,10 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	public function test_format_row() {
 		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array() );
 
-		$input = array( 'ID' => 1, 'type' => 'post' );
+		$input = array(
+			'ID'   => 1,
+			'type' => 'post',
+		);
 
 		$this->assertEquals( '"1","post"' . PHP_EOL, $class_instance->return_format( $input ) );
 	}
