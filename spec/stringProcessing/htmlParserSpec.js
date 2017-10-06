@@ -20,7 +20,13 @@ describe( "A function to remove the entire HTML style/script tag block.", functi
 		expect( htmlParser( "<code>Test</code>" ) ).toEqual( "" );
 	})
 	it( "filters out all code blocks", function() {
-		expect(htmlParser("Hi, this is a <code>Test</code>test.")).toEqual("Hi, this is a test.");
+		expect( htmlParser( "Hi, this is a <code>Test</code>test." )).toEqual("Hi, this is a test.");
+	} )
+	it( "filters an entire pre block", function() {
+		expect( htmlParser( "<pre>Test</pre>" ) ).toEqual( "" );
+	})
+	it( "filters out all pre blocks", function() {
+		expect( htmlParser( "Hi, this is a <pre>Test</pre>test." )).toEqual("Hi, this is a test.");
 	} )
 	it( "doesn't remove a div block", function() {
 		expect( htmlParser( "<div class='hello'>Hello</div>" ) ).toEqual( "<div class='hello'>Hello</div>" );
