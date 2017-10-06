@@ -180,8 +180,8 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect::sanitize_blog_url
 	 */
 	public function test_blog_url_to_relative_url() {
-		$blogUrl = get_home_url();
-		$redirect = new WPSEO_Redirect( $blogUrl . '/origin', $blogUrl . '/target', 301, 'plain' );
+		$blog_url = get_home_url();
+		$redirect = new WPSEO_Redirect( $blog_url . '/origin', $blog_url . '/target', 301, 'plain' );
 
 		$this->assertEquals( 'origin', $redirect->get_origin() );
 		$this->assertEquals( 'target', $redirect->get_target() );
@@ -194,10 +194,10 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect::sanitize_blog_url
 	 */
 	public function test_subdomain_remains_unaffected() {
-		$blogUrl = 'http://example.org/';
+		$blog_url  = 'http://example.org/';
 		$subdomain = 'http://sub.example.org/';
 
-		$redirect = new WPSEO_Redirect( $blogUrl, $subdomain, 301, 'plain' );
+		$redirect = new WPSEO_Redirect( $blog_url, $subdomain, 301, 'plain' );
 
 		$this->assertEquals( $redirect->get_target(), $subdomain );
 	}

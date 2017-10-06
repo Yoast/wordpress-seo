@@ -8,7 +8,7 @@
  */
 class WPSEO_Redirect_CSV_Exporter_Test extends WPSEO_UnitTestCase {
 
-	private $csvRegex = '/([^,"\n]+|"[^"]*")(,|\n)?+/';
+	private $csv_regex = '/([^,"\n]+|"[^"]*")(,|\n)?+/';
 
 	/**
 	 * Reset WPSEO_Redirect_Util::$has_permalink_trailing_slash so it does not interfere in other tests.
@@ -171,6 +171,6 @@ class WPSEO_Redirect_CSV_Exporter_Test extends WPSEO_UnitTestCase {
 	 * @param int $rows Number of values expected.
 	 */
 	private function expectNumberOfCsvValues( $csv, $rows ) {
-		$this->assertEquals( $rows, preg_match_all( $this->csvRegex, $csv, $matches ) );
+		$this->assertEquals( $rows, preg_match_all( $this->csv_regex, $csv, $matches ) );
 	}
 }
