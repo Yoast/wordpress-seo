@@ -35,7 +35,7 @@ class WPSEO_Redirect_Validator {
 		'accessible' => array(
 			'validation_class' => 'WPSEO_Redirect_Accessible_Validation',
 			'exclude_types'  => array( WPSEO_Redirect::DELETED, WPSEO_Redirect::UNAVAILABLE ),
-			'exclude_format' => array(),
+			'exclude_format' => array( WPSEO_Redirect::FORMAT_REGEX ),
 		),
 		'endpoint'   => array(
 			'validation_class' => 'WPSEO_Redirect_Endpoint_Validation',

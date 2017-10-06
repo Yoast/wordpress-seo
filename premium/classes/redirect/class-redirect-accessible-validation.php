@@ -23,7 +23,6 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 * @return bool Whether or not the target is valid.
 	 */
 	public function run( WPSEO_Redirect $redirect, WPSEO_Redirect $old_redirect = null, array $redirects = null ) {
-
 		// Do the request.
 		$target        = $this->parse_target( $redirect->get_target() );
 		$decoded_url   = rawurldecode( $target );
