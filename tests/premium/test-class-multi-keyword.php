@@ -11,7 +11,7 @@ class WPSEO_Multi_Keyword_Test extends WPSEO_UnitTestCase {
 				'focuskeywords' => array(
 					'type' => 'hidden',
 					'title' => 'focuskeywords',
-				)
+				),
 			),
 			$multi_keyword->add_focus_keywords_input( array( 'key' => 'value' ) )
 		);
@@ -31,7 +31,7 @@ class WPSEO_Multi_Keyword_Test extends WPSEO_UnitTestCase {
 				'focuskeywords' => array(
 					'type' => 'hidden',
 					'title' => 'focuskeywords',
-				)
+				),
 			),
 			$multi_keyword->add_focus_keywords_input( array() )
 		);

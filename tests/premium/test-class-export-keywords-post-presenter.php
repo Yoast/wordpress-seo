@@ -66,7 +66,7 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 		$fake_result = array(
 			'primary_keyword' => 'foo',
 			'primary_keyword_score' => '90',
-			'other_keywords' => '[{"keyword": "bar", "score": "bad"}]'
+			'other_keywords' => '[{"keyword": "bar", "score": "bad"}]',
 		);
 
 		$result = $class_instance->return_convert_result_keywords( $fake_result );
@@ -93,7 +93,7 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 		$fake_result = array(
 			'primary_keyword' => 'foo',
 			'primary_keyword_score' => '90',
-			'other_keywords' => '[{"keyword" => "bar", what_even_is_this?}]'
+			'other_keywords' => '[{"keyword" => "bar", what_even_is_this?}]',
 		);
 
 		$result = $class_instance->return_convert_result_keywords( $fake_result );
@@ -121,7 +121,7 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 			'readability_score' => '50',
 			'primary_keyword' => 'bar',
 			'primary_keyword_score' => '60',
-			'other_keywords' => '[{"keyword": "foo", "score": "good"},{"keyword": "baz", "score": "bad"}]'
+			'other_keywords' => '[{"keyword": "foo", "score": "good"},{"keyword": "baz", "score": "bad"}]',
 		);
 
 		$result = $class_instance->present( $fake_result );
@@ -186,7 +186,7 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 			'readability_score' => null,
 			'primary_keyword' => null,
 			'primary_keyword_score' => null,
-			'other_keywords' => null
+			'other_keywords' => null,
 		);
 
 		$result = $class_instance->present( $fake_result );

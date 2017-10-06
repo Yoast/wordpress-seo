@@ -260,10 +260,10 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 			'headers' => array(),
 			'body' => '',
 			'response' => array(
-				'code' => 305
+				'code' => 305,
 			),
 			'cookies' => '',
-			'filename' => ''
+			'filename' => '',
 		);
 	}
 
@@ -279,10 +279,10 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 			'headers' => array(),
 			'body' => '',
 			'response' => array(
-				'code' => 301
+				'code' => 301,
 			),
 			'cookies' => '',
-			'filename' => ''
+			'filename' => '',
 		);
 	}
 }
