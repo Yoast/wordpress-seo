@@ -308,7 +308,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private function filter_items( array $items ) {
 		$search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
 		if ( $search_string !== '' ) {
-			$this->filter['search_string'] = $search_string;
+			$this->filter['search_string'] = trim( $search_string, '/' );
 			$items = array_filter( $items, array( $this, 'filter_by_search_string' ) );
 		}
 
