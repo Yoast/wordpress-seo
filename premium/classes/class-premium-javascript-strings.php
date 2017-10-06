@@ -26,9 +26,9 @@ class WPSEO_Premium_Javascript_Strings {
 			'error_new_type'        => __( 'New type can\'t be empty.', 'wordpress-seo-premium' ),
 			'unsaved_redirects'     => __( 'You have unsaved redirects, are you sure you want to leave?', 'wordpress-seo-premium' ),
 
-			/* translator note: %s is replaced with the URL that will be deleted */
+			/* translators: %s is replaced with the URL that will be deleted. */
 			'enter_new_url'         => __( 'Please enter the new URL for %s', 'wordpress-seo-premium' ),
-			/* translator note: variables will be replaced with from and to URLs */
+			/* translators: variables will be replaced with from and to URLs. */
 			'redirect_saved'           => __( 'Redirect created from %1$s to %2$s!', 'wordpress-seo-premium' ),
 			'redirect_saved_no_target' => __( '410 Redirect created from %1$s!', 'wordpress-seo-premium' ),
 
