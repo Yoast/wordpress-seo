@@ -50,7 +50,7 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		$popup_content .= '<li><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></li>';
 		$popup_content .= '<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>';
 		$popup_content .= '</ul>';
-		$premium_popup = new WPSEO_Premium_Popup( 'add-keyword', 'h1', $popup_title, $popup_content );
+		$premium_popup = new WPSEO_Premium_Popup( 'add-keyword', 'h1', $popup_title, $popup_content, WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ) );
 		echo $premium_popup->get_premium_message();
 
 		return ob_get_clean();
