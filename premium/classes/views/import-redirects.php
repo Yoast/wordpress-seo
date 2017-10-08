@@ -3,6 +3,19 @@
  * @package WPSEO\Premium\Views
  */
 
+$wpseo_i18n_import_redirects_from = sprintf(
+	/* translators: %s: '.htaccess' file name */
+	__( 'Import redirects from %s', 'wordpress-seo-premium' ),
+	'<code>.htaccess</code>'
+);
+
+$wpseo_i18n_import_redirects_explain = sprintf(
+	/* translators: %1$s: '.htaccess' file name, %2$s plugin name */
+	__( 'You can copy the contents of any %1$s file in here, and it will import the redirects into %2$s.', 'wordpress-seo-premium' ),
+	'<code>.htaccess</code>',
+	'Yoast SEO Premium'
+);
+
 ?>
 <div id="import-htaccess" class="wpseotab">
 	<div>
@@ -31,15 +44,9 @@
 	<br/>
 
 	<div>
-	<h2><?php
-		/* translators: %s: '.htaccess' file name */
-		printf( __( 'Import redirects from %s', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
-	?></h2>
+	<h2><?php echo $wpseo_i18n_import_redirects_from; ?></h2>
 	<p>
-		<?php
-		/* translators: %1$s: '.htaccess' file name, %2$s plugin name */
-		printf( __( 'You can copy the contents of any %1$s file in here, and it will import the redirects into %2$s.', 'wordpress-seo-premium' ), '<code>.htaccess</code>', 'Yoast SEO Premium' );
-		?>
+		<?php echo $wpseo_i18n_import_redirects_explain; ?>
 	</p>
 	<form action="" method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 		<?php wp_nonce_field( 'wpseo-import', '_wpnonce', true ); ?>

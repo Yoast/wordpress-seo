@@ -5,12 +5,19 @@
 
 $button_label = __( 'Export keywords', 'wordpress-seo-premium' );
 
+$wpseo_csv_export_explain = sprintf(
+	/* translators: %s resolves to the button label translation. */
+	esc_html__(
+		'If you need a list of all public posts, terms and related keywords, you can generate a CSV file using the %s button below.',
+		'wordpress-seo-premium'
+	),
+	sprintf( '<code>%s</code>', $button_label )
+);
+
 ?>
 <div id="keywords-export" class="wpseotab">
 	<h2><?php esc_html_e( 'Export keywords to a CSV file', 'wordpress-seo-premium' ); ?></h2>
-	<p><?php printf(
-			/* translators: %s resolves to the button label translation. */
-			esc_html__( 'If you need a list of all public posts, terms and related keywords, you can generate a CSV file using the %s button below.', 'wordpress-seo-premium' ), sprintf( '<code>%s</code>', $button_label ) ) ?></p>
+	<p><?php echo $wpseo_csv_export_explain; ?></p>
 	<p><?php esc_html_e( 'You can add or remove columns to be included in the export using the checkboxes below.', 'wordpress-seo-premium' ); ?></p>
 
 	<form action="" method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
