@@ -328,6 +328,7 @@ class WPSEO_Redirect_Handler {
 	 * @return string
 	 */
 	private function parse_target_url( $target_url ) {
+		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
 		if ( empty( $scheme ) ) {
 			// Add slash to target URL when permalink structure ends with a slash.

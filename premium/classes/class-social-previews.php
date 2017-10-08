@@ -182,6 +182,7 @@ class WPSEO_Social_Previews {
 	 */
 	private function get_website() {
 		// We only want the host part of the URL.
+		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		$website = parse_url( home_url(), PHP_URL_HOST );
 		$website = trim( $website, '/' );
 		$website = strtolower( $website );
