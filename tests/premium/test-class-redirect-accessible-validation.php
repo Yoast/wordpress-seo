@@ -28,18 +28,18 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 
 
 	/**
+	 * Setting the class_instance with an instance of WPSEO_Redirect_Accessible_Validation
+	 */
+	public function setUp() {
+		$this->class_instance = new WPSEO_Redirect_Accessible_Validation();
+	}
+
+	/**
 	 * Reset WPSEO_Redirect_Util::$has_permalink_trailing_slash so it does not interfere in other tests.
 	 */
 	public function tearDown() {
 		WPSEO_Redirect_Util::$has_permalink_trailing_slash = null;
 		parent::tearDown();
-	}
-
-	/**
-	 * Setting the class_instance with an instance of WPSEO_Redirect_Accessible_Validation
-	 */
-	public function setUp() {
-		$this->class_instance = new WPSEO_Redirect_Accessible_Validation();
 	}
 
 	/**

@@ -29,6 +29,16 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Unset the class instance
+	 */
+	public function tearDown() {
+		// Clear the option to be sure there are no redirects.
+		delete_option( WPSEO_Redirect_Option::OPTION );
+
+		$this->class_instance = null;
+	}
+
+	/**
 	 * Check if the redirects are filled
 	 *
 	 * @covers WPSEO_Redirect_Manager::get_redirects
@@ -117,16 +127,6 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 
 		// Cannot remove a redirect that doesn't exists anymore.
 		$this->assertFalse( $this->class_instance->delete_redirects( array( $redirect ) ) );
-	}
-
-	/**
-	 * Unset the class instance
-	 */
-	public function tearDown() {
-		// Clear the option to be sure there are no redirects.
-		delete_option( WPSEO_Redirect_Option::OPTION );
-
-		$this->class_instance = null;
 	}
 
 }

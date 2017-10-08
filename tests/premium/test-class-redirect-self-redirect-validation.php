@@ -27,6 +27,13 @@ class WPSEO_Redirect_Self_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Reset after the test.
+	 */
+	public function tearDown() {
+		remove_filter( 'home_url', 'override_home_url' );
+	}
+
+	/**
 	 * Test helper method.
 	 */
 	public function override_home_url() {
@@ -103,7 +110,4 @@ class WPSEO_Redirect_Self_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
-	public function tearDown() {
-		remove_filter( 'home_url', 'override_home_url' );
-	}
 }
