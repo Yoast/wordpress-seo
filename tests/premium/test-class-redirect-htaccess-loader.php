@@ -144,6 +144,10 @@ class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 	 * Test the plain redirect regex when the redirect origin does not contain quotes.
 	 *
 	 * @dataProvider plain_redirect_provider
+	 *
+	 * @param string $regex    Regular expression.
+	 * @param string $htaccess Content of .htaccess file.
+	 * @param string $expected Expected output.
 	 */
 	public function test_match_plain_redirects_regex_without_quotes( $regex, $htaccess, $expected ) {
 		$instance = new WPSEO_Redirect_HTAccess_Loader_Double( $htaccess );
@@ -156,6 +160,10 @@ class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 	 * Test the plain redirect regex when the redirect origin contain quotes.
 	 *
 	 * @dataProvider plain_redirect_provider_with_quotes
+	 *
+	 * @param string $regex    Regular expression.
+	 * @param string $htaccess Content of .htaccess file.
+	 * @param string $expected Expected output.
 	 */
 	public function test_match_plain_redirects_regex_with_quotes( $regex, $htaccess, $expected ) {
 		$instance = new WPSEO_Redirect_HTAccess_Loader_Double( $htaccess );

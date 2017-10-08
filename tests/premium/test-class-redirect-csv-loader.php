@@ -22,6 +22,8 @@ class WPSEO_Redirect_CSV_Loader_Test extends WPSEO_UnitTestCase {
 	 * Test the validate_item function with valid items.
 	 *
 	 * @dataProvider valid_item_provider
+	 *
+	 * @param array $item Item details.
 	 */
 	public function test_valid_item( $item ) {
 		$instance = new WPSEO_Redirect_CSV_Loader_Double( '' );
@@ -33,6 +35,8 @@ class WPSEO_Redirect_CSV_Loader_Test extends WPSEO_UnitTestCase {
 	 * Test the validate_item function with invalid items.
 	 *
 	 * @dataProvider invalid_item_provider
+	 *
+	 * @param array $item Item details.
 	 */
 	public function test_match_plain_redirects_regex_with_quotes( $item ) {
 		$instance = new WPSEO_Redirect_CSV_Loader_Double( '' );
