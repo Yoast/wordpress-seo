@@ -8,6 +8,9 @@
  */
 class WPSEO_Redirect_CSV_Exporter_Test extends WPSEO_UnitTestCase {
 
+	/**
+	 * @var string
+	 */
 	private $csv_regex = '/([^,"\n]+|"[^"]*")(,|\n)?+/';
 
 	/**

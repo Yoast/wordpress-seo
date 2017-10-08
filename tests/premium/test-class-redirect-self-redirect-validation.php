@@ -15,6 +15,9 @@ class WPSEO_Redirect_Self_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 	 */
 	private $class_instance;
 
+	/**
+	 * @var string
+	 */
 	private $home_url = 'http://example.org';
 
 	/**
