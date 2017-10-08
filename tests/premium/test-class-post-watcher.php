@@ -57,7 +57,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * set_notification should be called when the slug is changed
-	*/
+	 */
 	public function test_detect_slug_change_slug_IS_CHANGED() {
 		$this->class_instance
 			->expects( $this->once() )
