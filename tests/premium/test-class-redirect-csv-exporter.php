@@ -175,8 +175,8 @@ class WPSEO_Redirect_CSV_Exporter_Test extends WPSEO_UnitTestCase {
 	 * Asserts if the CSV string contains the expected number of values.
 	 * Currently using a Regex as str_getcsv requires PHP 5.3 while we still support PHP 5.2.
 	 *
-	 * @param string $csv A string of CSV.
-	 * @param int $rows Number of values expected.
+	 * @param string $csv  A string of CSV.
+	 * @param int    $rows Number of values expected.
 	 */
 	private function expectNumberOfCsvValues( $csv, $rows ) {
 		$this->assertEquals( $rows, preg_match_all( $this->csv_regex, $csv, $matches ) );
