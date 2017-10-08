@@ -153,7 +153,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 				'<code>' . $url . '</code>'
 			);
 
-			$this->create_notification( $message, 'trash' ); // , $id );
+			$this->create_notification( $message, 'trash' );
 		}
 
 	}
