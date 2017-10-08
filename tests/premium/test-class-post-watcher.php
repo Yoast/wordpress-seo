@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Premium
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**

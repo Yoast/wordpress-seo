@@ -22,6 +22,9 @@ class WPSEO_Export_Keywords_Term_Presenter_Double extends WPSEO_Export_Keywords_
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Export_Keywords_Term_Presenter_Test extends WPSEO_UnitTestCase {
 
 	/**

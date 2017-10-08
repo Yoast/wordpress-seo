@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Premium
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Multi_Keyword_Test extends WPSEO_UnitTestCase {
 
 	public function test_add_focus_keywords_input() {

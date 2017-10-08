@@ -3,12 +3,18 @@
  * @package WPSEO\Tests\Premium
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Export_Keywords_Term_Query_Double extends WPSEO_Export_Keywords_Term_Query {
 	public function get_selects() {
 		return $this->selects;
 	}
 }
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Export_Keywords_Term_Query_Database_Mock {
 	public $prefix = 'bamboozled';
 
@@ -22,6 +28,9 @@ class WPSEO_Export_Keywords_Term_Query_Database_Mock {
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests entering a valid page size and retrieving it

@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Premium
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Export_Keywords_CSV_Double extends WPSEO_Export_Keywords_CSV {
 	public function return_get_headers() {
 		return $this->get_headers();
@@ -25,6 +28,9 @@ class WPSEO_Export_Keywords_CSV_Double extends WPSEO_Export_Keywords_CSV {
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 
 	/**

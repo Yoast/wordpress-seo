@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Premium
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Validation_Warning_Test extends WPSEO_UnitTestCase {
 
 	public function test_get_message() {

@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Premium
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Export_Keywords_Post_Query_Double extends WPSEO_Export_Keywords_Post_Query {
 	public function get_selects() {
 		return $this->selects;
@@ -17,6 +20,9 @@ class WPSEO_Export_Keywords_Post_Query_Double extends WPSEO_Export_Keywords_Post
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests entering a valid page size and retrieving it

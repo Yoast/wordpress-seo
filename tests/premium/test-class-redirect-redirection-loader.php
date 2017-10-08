@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Premium
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_RedirectionDatabaseMock {
 	public $prefix = 'bamboozled';
 

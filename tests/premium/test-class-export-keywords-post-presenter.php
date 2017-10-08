@@ -29,6 +29,9 @@ class WPSEO_Export_Keywords_Post_Presenter_Test_Filter {
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if validate_result works with expected input.
