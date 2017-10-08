@@ -145,10 +145,12 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 */
 	protected function get_target_url( $tag, $taxonomy ) {
 		// Use the correct URL path.
-		$url = parse_url( get_term_link( $tag, $taxonomy ) );
-		$url = $url['path'];
+		$url = wp_parse_url( get_term_link( $tag, $taxonomy ) );
+		if ( is_array( $url ) && isset( $url['path'] ) ) {
+			return $url['path'];
+		}
 
-		return $url;
+		return '';
 	}
 
 	/**

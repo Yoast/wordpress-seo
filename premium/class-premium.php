@@ -371,9 +371,9 @@ class WPSEO_Premium {
 		if ( is_404() ) {
 			global $wp, $wp_admin_bar;
 
-			$parsed_url = parse_url( home_url( add_query_arg( null, null ) ) );
+			$parsed_url = wp_parse_url( home_url( add_query_arg( null, null ) ) );
 
-			if ( false !== $parsed_url ) {
+			if ( is_array( $parsed_url ) ) {
 				$old_url = $parsed_url['path'];
 
 				if ( isset( $parsed_url['query'] ) && $parsed_url['query'] != '' ) {
