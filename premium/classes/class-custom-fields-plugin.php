@@ -66,7 +66,8 @@ class WPSEO_Custom_Fields_Plugin {
 	 * @return array|null|WP_Post Returns a post if found, otherwise returns an empty array.
 	 */
 	private function get_post() {
-		if ( $post = filter_input( INPUT_GET, 'post' ) ) {
+		$post = filter_input( INPUT_GET, 'post' );
+		if ( isset( $post ) && $post !== false ) {
 			$post_id = (int) WPSEO_Utils::validate_int( $post );
 
 			return get_post( $post_id );

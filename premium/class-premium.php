@@ -205,7 +205,8 @@ class WPSEO_Premium {
 				add_action( 'admin_init', array( $this, 'init_watchers' ) );
 
 				// Check if we need to display an admin message.
-				if ( $redirect_created = filter_input( INPUT_GET, 'yoast-redirect-created' ) ) {
+				$redirect_created = filter_input( INPUT_GET, 'yoast-redirect-created' );
+				if ( isset( $redirect_created ) && $redirect_created !== false ) {
 
 					// Message object.
 					$message = new WPSEO_Message_Redirect_Created( $redirect_created );
@@ -522,7 +523,11 @@ class WPSEO_Premium {
 	 * Initializes the helpscout support modal for wpseo settings pages
 	 */
 	public function init_helpscout_support() {
-		$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
+		$page      = filter_input( INPUT_GET, 'page' );
+		$query_var = '';
+		if ( isset( $page ) && $page !== false ) {
+			$query_var = $page;
+		}
 		$is_beacon_page = in_array( strtolower( $query_var ), $this->get_beacon_pages(), true );
 
 		// Only add the helpscout beacon on Yoast SEO pages.

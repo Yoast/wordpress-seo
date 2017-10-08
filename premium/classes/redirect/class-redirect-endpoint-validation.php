@@ -79,12 +79,16 @@ class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 	 * @return bool|string
 	 */
 	private function search_end_point( $new_url, $old_url ) {
-		if ( $new_target = $this->find_url( $new_url ) ) {
+		$new_target = $this->find_url( $new_url );
+		if ( $new_target !== false ) {
 			// Unset the redirects, because it was found already.
 			unset( $this->redirects[ $new_url ] );
 
-			if ( $new_url !== $old_url && $traced_target = $this->search_end_point( $new_target, $old_url ) ) {
-				return $traced_target;
+			if ( $new_url !== $old_url ) {
+				$traced_target = $this->search_end_point( $new_target, $old_url );
+				if ( $traced_target !== false ) {
+					return $traced_target;
+				}
 			}
 
 			return $new_target;

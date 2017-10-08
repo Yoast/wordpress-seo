@@ -49,8 +49,11 @@ class WPSEO_Premium_Autoloader {
 	 */
 	public function load( $class ) {
 		// Check & load file.
-		if ( $this->contains_search_pattern( $class ) && $found_file = $this->find_file( $class ) ) {
-			require_once $found_file;
+		if ( $this->contains_search_pattern( $class ) ) {
+			$found_file = $this->find_file( $class );
+			if ( $found_file !== false ) {
+				require_once $found_file;
+			}
 		}
 	}
 

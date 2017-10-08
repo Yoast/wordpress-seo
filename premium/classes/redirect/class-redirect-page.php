@@ -313,7 +313,8 @@ class WPSEO_Redirect_Page {
 				$bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 				$redirects   = array();
 				foreach ( $bulk_delete as $origin ) {
-					if ( $redirect = $this->get_redirect_manager()->get_redirect( $origin ) ) {
+					$redirect = $this->get_redirect_manager()->get_redirect( $origin );
+					if ( $redirect !== false ) {
 						$redirects[] = $redirect;
 					}
 				}
