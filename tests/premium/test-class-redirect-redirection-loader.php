@@ -3,7 +3,7 @@
  * @package WPSEO\Tests\Premium
  */
 
-class RedirectionDatabaseMock {
+class WPSEO_RedirectionDatabaseMock {
 	public $prefix = 'bamboozled';
 
 	private $results;
@@ -27,7 +27,7 @@ class WPSEO_Redirect_Redirection_Loader_Test extends WPSEO_UnitTestCase {
 	 * Tests loading Redirection redirects without regexes.
 	 */
 	public function test_simple_load() {
-		$db = new RedirectionDatabaseMock( array(
+		$db = new WPSEO_RedirectionDatabaseMock( array(
 			(object) array(
 				'url'         => '/origin1',
 				'action_data' => '/target1',
@@ -63,7 +63,7 @@ class WPSEO_Redirect_Redirection_Loader_Test extends WPSEO_UnitTestCase {
 	 * Tests loading Redirection redirects with regexes.
 	 */
 	public function test_regex_load() {
-		$db = new RedirectionDatabaseMock( array(
+		$db = new WPSEO_RedirectionDatabaseMock( array(
 			(object) array(
 				'url'         => '/origin',
 				'action_data' => '/target',
@@ -100,7 +100,7 @@ class WPSEO_Redirect_Redirection_Loader_Test extends WPSEO_UnitTestCase {
 	 * Tests loading Redirection redirects with bad status codes.
 	 */
 	public function test_bad_status_code_load() {
-		$db = new RedirectionDatabaseMock( array(
+		$db = new WPSEO_RedirectionDatabaseMock( array(
 			(object) array(
 				'url'         => '/origin1',
 				'action_data' => '/target1',
