@@ -43,9 +43,11 @@ class WPSEO_Redirect_Self_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Self_Redirect_Validation::get_error
 	 */
 	public function test_validate_redirect_to_self( $old_url, $new_url, $type = 301 ) {
-		$this->assertFalse( $this->class_instance->run(
+		$this->assertFalse(
+			$this->class_instance->run(
 				new WPSEO_Redirect( $old_url, $new_url, $type )
-			) );
+			)
+		);
 
 		$this->assertEquals(
 			new WPSEO_Validation_Error( 'You are attempting to redirect to the same URL as the origin.
@@ -66,9 +68,11 @@ class WPSEO_Redirect_Self_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Self_Redirect_Validation::run
 	 */
 	public function test_validate_not_redirect_to_self( $old_url, $new_url, $type = 301 ) {
-		$this->assertTrue( $this->class_instance->run(
-			new WPSEO_Redirect( $old_url, $new_url, $type )
-		) );
+		$this->assertTrue(
+			$this->class_instance->run(
+				new WPSEO_Redirect( $old_url, $new_url, $type )
+			)
+		);
 	}
 
 	/**

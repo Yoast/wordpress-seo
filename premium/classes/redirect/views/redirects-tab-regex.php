@@ -20,7 +20,7 @@
 			__( 'Regular Expressions (regex) Redirects are extremely powerful redirects. You should only use them if you know what you are doing. %1$sRead more about regex redirects on our knowledge base%2$s.', 'wordpress-seo-premium' ),
 			'<a href="http://kb.yoast.com/article/142-what-are-regex-redirects" target="_blank">',
 			'</a>'
-			)
+		);
 		?>
 	</p>
 

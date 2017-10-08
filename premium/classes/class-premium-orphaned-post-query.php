@@ -26,13 +26,13 @@ class WPSEO_Premium_Orphaned_Post_Query {
 		if ( $post_id_count > 0 ) {
 			$results = $wpdb->get_results(
 				$wpdb->prepare( // WPCS: PreparedSQLPlaceholders replacement count OK.
-				'SELECT COUNT( ID ) as total_orphaned, post_type
-				  FROM ' . $wpdb->posts . '
-				 WHERE 
-				    ID IN(' . implode( ',', array_fill( 0, $post_id_count, '%d' ) ) . ')
-				    AND post_status = "publish"
-				    AND post_type IN(' . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ')
-				 GROUP BY post_type',
+					'SELECT COUNT( ID ) as total_orphaned, post_type
+					FROM ' . $wpdb->posts . '
+					WHERE
+						ID IN(' . implode( ',', array_fill( 0, $post_id_count, '%d' ) ) . ')
+						AND post_status = "publish"
+						AND post_type IN(' . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ')
+					GROUP BY post_type',
 					array_merge( $post_ids, $post_types )
 				)
 			);
