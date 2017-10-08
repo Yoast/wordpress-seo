@@ -52,7 +52,7 @@ class WPSEO_Export_Keywords_Term_Presenter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if validate_result works with expected input.
 	 *
-	 * @cover WPSEO_Export_Keywords_Term_Presenter::validate_result
+	 * @covers WPSEO_Export_Keywords_Term_Presenter::validate_result
 	 */
 	public function test_validate_result() {
 		$class_instance = new WPSEO_Export_Keywords_Term_Presenter_Double( array( 'post_title' ) );
@@ -68,7 +68,7 @@ class WPSEO_Export_Keywords_Term_Presenter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if validate_result works with bad input.
 	 *
-	 * @cover WPSEO_Export_Keywords_Term_Presenter::validate_result
+	 * @covers WPSEO_Export_Keywords_Term_Presenter::validate_result
 	 */
 	public function test_validate_input_false() {
 		$class_instance = new WPSEO_Export_Keywords_Term_Presenter_Double( array( 'title' ) );
