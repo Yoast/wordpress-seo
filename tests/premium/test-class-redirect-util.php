@@ -74,7 +74,7 @@ class WPSEO_Redirect_Util_Test extends PHPUnit_Framework_TestCase {
 
 		$this->assertFalse( WPSEO_Redirect_Util::has_permalink_trailing_slash() );
 
-		// Test the caching
+		// Test the caching.
 		update_option( 'permalink_structure', '/%postname%/' );
 		$this->assertFalse( WPSEO_Redirect_Util::has_permalink_trailing_slash() );
 	}

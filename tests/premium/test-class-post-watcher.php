@@ -27,7 +27,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * set_notification should not be called if slugs stay the same
+	 * Method `set_notification()` should not be called if slugs stay the same.
 	 *
 	 * @covers WPSEO_Post_Watcher::detect_slug_change
 	 */
@@ -56,7 +56,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * set_notification should be called when the slug is changed
+	 * Method `set_notification()` should be called when the slug is changed.
 	 */
 	public function test_detect_slug_change_slug_IS_CHANGED() {
 		$this->class_instance
@@ -88,7 +88,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * get_target_url and set_notification should not be called when post is not published
+	 * Methods `get_target_url()` and `set_notification()` should not be called when post is not published.
 	 */
 	public function test_detect_slug_change_slug_post_IS_NOT_published() {
 		$this->class_instance

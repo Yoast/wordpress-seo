@@ -36,7 +36,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 
 
 	/**
-	 * Setting the class_instance with an instance of WPSEO_Redirect_Accessible_Validation
+	 * Setting the class_instance with an instance of WPSEO_Redirect_Accessible_Validation.
 	 */
 	public function setUp() {
 		$this->class_instance = new WPSEO_Redirect_Accessible_Validation();
@@ -51,7 +51,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the target URL is accessible, in this test it will be the home_url that should be accessible
+	 * Validate if the target URL is accessible, in this test it will be the home_url that should be accessible.
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 */
@@ -64,13 +64,14 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the target URL is accessible, in this test it will be a unexisting url that should give a 305 response.
+	 * Validate if the target URL is accessible, in this test it will be a non-existent url
+	 * that should give a 305 response.
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
 	public function test_validate_not_accessible() {
-		// Set up fake request response
+		// Set up fake request response.
 		$fake_request_response = array( $this, 'fake_305_request_response' );
 		add_filter( 'pre_http_request', $fake_request_response );
 
@@ -80,7 +81,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		// Cleanup
+		// Cleanup.
 		remove_filter( 'pre_http_request', $fake_request_response );
 
 		$this->assertEquals(
@@ -96,7 +97,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
 	public function test_validate_redirect_to_301() {
-		// Set up fake request response
+		// Set up fake request response.
 		$fake_request_response = array( $this, 'fake_301_request_response' );
 		add_filter( 'pre_http_request', $fake_request_response );
 
@@ -106,7 +107,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		// Cleanup
+		// Cleanup.
 		remove_filter( 'pre_http_request', $fake_request_response );
 
 		$this->assertEquals(
@@ -116,7 +117,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the target URL is resolvable, in this test it will be a unexisting url that should give a WP_Error
+	 * Validate if the target URL is resolvable, in this test it will be a unexisting url that should give a WP_Error.
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
@@ -180,7 +181,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 
 
 	/**
-	 * Validate if the target URL is resolvable, in this test it will be a unexisting url that should give a WP_Error
+	 * Validate if the target URL is resolvable, in this test it will be a unexisting url that should give a WP_Error.
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
@@ -206,7 +207,8 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the target URL is resolvable, in this test it will be a url with an extension. It should be accessible.
+	 * Validate if the target URL is resolvable, in this test it will be a url with an extension.
+	 * It should be accessible.
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
 	 */
@@ -267,7 +269,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Fake a 305 request code
+	 * Fake a 305 request code.
 	 *
 	 * @param mixed $in Filter input value.
 	 *
@@ -286,7 +288,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Fake a 301 request code
+	 * Fake a 301 request code.
 	 *
 	 * @param mixed $in Filter input value.
 	 *
