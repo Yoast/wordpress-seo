@@ -80,22 +80,22 @@ class WPSEO_Premium {
 		$link_suggestions_service = new WPSEO_Premium_Link_Suggestions_Service();
 
 		$this->integrations = array(
-			'premium-metabox' => new WPSEO_Premium_Metabox(),
-			'prominent-words-registration' => new WPSEO_Premium_Prominent_Words_Registration(),
-			'prominent-words-endpoint' => new WPSEO_Premium_Prominent_Words_Endpoint( new WPSEO_Premium_Prominent_Words_Service() ),
-			'prominent-words-recalculation' => new WPSEO_Premium_Prominent_Words_Recalculation(),
-			'prominent-words-recalculation-link' => new WPSEO_Premium_Prominent_Words_Link_Endpoint( new WPSEO_Premium_Prominent_Words_Link_Service() ),
+			'premium-metabox'                        => new WPSEO_Premium_Metabox(),
+			'prominent-words-registration'           => new WPSEO_Premium_Prominent_Words_Registration(),
+			'prominent-words-endpoint'               => new WPSEO_Premium_Prominent_Words_Endpoint( new WPSEO_Premium_Prominent_Words_Service() ),
+			'prominent-words-recalculation'          => new WPSEO_Premium_Prominent_Words_Recalculation(),
+			'prominent-words-recalculation-link'     => new WPSEO_Premium_Prominent_Words_Link_Endpoint( new WPSEO_Premium_Prominent_Words_Link_Service() ),
 			'prominent-words-recalculation-notifier' => new WPSEO_Premium_Prominent_Words_Recalculation_Notifier(),
 			'prominent-words-recalculation-endpoint' => new WPSEO_Premium_Prominent_Words_Recalculation_Endpoint( new WPSEO_Premium_Prominent_Words_Recalculation_Service() ),
-			'prominent-words-version' => new WPSEO_Premium_Prominent_Words_Versioning(),
-			'link-suggestions' => new WPSEO_Metabox_Link_Suggestions(),
-			'link-suggestions-endpoint' => new WPSEO_Premium_Link_Suggestions_Endpoint( $link_suggestions_service ),
-			'premium-search-console' => new WPSEO_Premium_GSC(),
-			'redirects-endpoint' => new WPSEO_Premium_Redirect_EndPoint( new WPSEO_Premium_Redirect_Service() ),
-			'redirect-export-manager' => new WPSEO_Premium_Redirect_Export_Manager(),
-			'keyword-export-manager' => new WPSEO_Premium_Keyword_Export_Manager(),
-			'orphaned-post-filter' => new WPSEO_Premium_Orphaned_Post_Filter(),
-			'orphaned-post-notifier' => new WPSEO_Premium_Orphaned_Post_Notifier( array( 'post', 'page' ), Yoast_Notification_Center::get() ),
+			'prominent-words-version'                => new WPSEO_Premium_Prominent_Words_Versioning(),
+			'link-suggestions'                       => new WPSEO_Metabox_Link_Suggestions(),
+			'link-suggestions-endpoint'              => new WPSEO_Premium_Link_Suggestions_Endpoint( $link_suggestions_service ),
+			'premium-search-console'                 => new WPSEO_Premium_GSC(),
+			'redirects-endpoint'                     => new WPSEO_Premium_Redirect_EndPoint( new WPSEO_Premium_Redirect_Service() ),
+			'redirect-export-manager'                => new WPSEO_Premium_Redirect_Export_Manager(),
+			'keyword-export-manager'                 => new WPSEO_Premium_Keyword_Export_Manager(),
+			'orphaned-post-filter'                   => new WPSEO_Premium_Orphaned_Post_Filter(),
+			'orphaned-post-notifier'                 => new WPSEO_Premium_Orphaned_Post_Notifier( array( 'post', 'page' ), Yoast_Notification_Center::get() ),
 		);
 
 		$this->setup();

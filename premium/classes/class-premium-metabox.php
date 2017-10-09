@@ -82,18 +82,18 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 		$post = $this->get_post();
 
 		$data = array(
-			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
-			'postID' => $this->get_post_ID(),
-			'restApi' => array(
-				'available' => WPSEO_Utils::is_api_available(),
+			'insightsEnabled'          => ( $insights_enabled ) ? 'enabled' : 'disabled',
+			'postID'                   => $this->get_post_ID(),
+			'restApi'                  => array(
+				'available'                 => WPSEO_Utils::is_api_available(),
 				'contentEndpointsAvailable' => WPSEO_Utils::are_content_endpoints_available(),
-				'root' => esc_url_raw( rest_url() ),
-				'nonce' => wp_create_nonce( 'wp_rest' ),
+				'root'                      => esc_url_raw( rest_url() ),
+				'nonce'                     => wp_create_nonce( 'wp_rest' ),
 			),
-			'linkSuggestionsEnabled' => ( $link_suggestions_enabled ) ? 'enabled' : 'disabled',
+			'linkSuggestionsEnabled'   => ( $link_suggestions_enabled ) ? 'enabled' : 'disabled',
 			'linkSuggestionsAvailable' => $this->link_suggestions->is_available( $post->post_type ),
 			'linkSuggestionsUnindexed' => $this->link_suggestions->is_site_unindexed() && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ),
-			'linkSuggestions' => $this->link_suggestions->get_js_data(),
+			'linkSuggestions'          => $this->link_suggestions->get_js_data(),
 		);
 
 		// Use an extra level in the array to preserve booleans. WordPress sanitizes scalar values in the first level of the array.

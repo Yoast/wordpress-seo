@@ -39,10 +39,10 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 
 		$post = (object) array(
-			'ID' => 1,
-			'post_name' => '',
+			'ID'          => 1,
+			'post_name'   => '',
 			'post_status' => 'publish',
-			'post_name' => 'Test Post',
+			'post_name'   => 'Test Post',
 		);
 
 		$post_before = (object) array(
@@ -71,10 +71,10 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->method( 'set_undo_slug_notification' );
 
 		$post = (object) array(
-			'ID' => 1,
-			'post_name' => '',
+			'ID'          => 1,
+			'post_name'   => '',
 			'post_status' => 'publish',
-			'post_name' => 'test',
+			'post_name'   => 'test',
 		);
 
 		$post_before = (object) array(
@@ -103,15 +103,15 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->method( 'set_undo_slug_notification' );
 
 		$post = (object) array(
-			'ID' => 1,
-			'post_name' => '',
+			'ID'          => 1,
+			'post_name'   => '',
 			'post_status' => 'draft',
-			'post_name' => 'test',
+			'post_name'   => 'test',
 		);
 
 		$post_before = (object) array(
 			'post_status' => 'draft',
-			'post_name' => 'test2',
+			'post_name'   => 'test2',
 		);
 
 		$this->class_instance->detect_slug_change( 1, $post, $post_before );

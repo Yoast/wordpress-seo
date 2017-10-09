@@ -125,21 +125,21 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 
 		if ( $page === 'wpseo_dashboard' ) {
 			$data = array(
-				'allWords' => get_terms( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME, array( 'fields' => 'ids' ) ),
-				'amount' => array(
+				'allWords'    => get_terms( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME, array( 'fields' => 'ids' ) ),
+				'amount'      => array(
 					'total' => $this->count_unindexed_posts_by_type( 'post' ),
 				),
 				'amountPages' => array(
 					'total' => $this->count_unindexed_posts_by_type( 'page' ),
 				),
-				'restApi' => array(
-					'root' => esc_url_raw( rest_url() ),
+				'restApi'     => array(
+					'root'  => esc_url_raw( rest_url() ),
 					'nonce' => wp_create_nonce( 'wp_rest' ),
 				),
-				'message' => array(
+				'message'     => array(
 					'analysisCompleted' => $this->messageAlreadyIndexed(),
 				),
-				'l10n' => array(
+				'l10n'        => array(
 					'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo-premium' ),
 					'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo-premium' ),
 				),

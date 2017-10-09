@@ -133,8 +133,8 @@ class WPSEO_Social_Previews {
 			'useOtherImage'         => __( 'Use other image', 'wordpress-seo-premium' ),
 			'removeImageButton'     => __( 'Remove image', 'wordpress-seo-premium' ),
 			'facebookDefaultImage'  => $options['og_default_image'],
-			'i18n' => array(
-				'help' => $this->get_help_translations( $social ),
+			'i18n'                  => array(
+				'help'       => $this->get_help_translations( $social ),
 				'helpButton' => array(
 					'facebookTitle'       => __( 'Show information about Facebook title', 'wordpress-seo-premium' ),
 					'facebookDescription' => __( 'Show information about Facebook description', 'wordpress-seo-premium' ),
@@ -143,9 +143,9 @@ class WPSEO_Social_Previews {
 					'twitterDescription'  => __( 'Show information about Twitter description', 'wordpress-seo-premium' ),
 					'twitterImage'        => __( 'Show information about Twitter image', 'wordpress-seo-premium' ),
 				),
-				'library' => $this->get_translations(),
+				'library'    => $this->get_translations(),
 			),
-			'facebookNonce' => wp_create_nonce( 'get_facebook_name' ),
+			'facebookNonce'         => wp_create_nonce( 'get_facebook_name' ),
 		);
 	}
 

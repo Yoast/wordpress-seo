@@ -53,13 +53,13 @@ class WPSEO_Redirect_Presenter {
 	 */
 	private function navigation_tabs( $active_tab ) {
 		return array(
-			'tabs' => array(
+			'tabs'        => array(
 				'plain'    => __( 'Redirects', 'wordpress-seo-premium' ),
 				'regex'    => __( 'Regex Redirects', 'wordpress-seo-premium' ),
 				'settings' => __( 'Settings', 'wordpress-seo-premium' ),
 			),
 			'current_tab' => $active_tab,
-			'page_url' => admin_url( 'admin.php?page=wpseo_redirects&tab=' ),
+			'page_url'    => admin_url( 'admin.php?page=wpseo_redirects&tab=' ),
 		);
 	}
 
