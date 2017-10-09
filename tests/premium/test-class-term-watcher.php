@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Premium
+ */
 
 class WPSEO_Term_Watcher_Double extends WPSEO_Term_Watcher {
 

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Premium
+ */
 
 class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 

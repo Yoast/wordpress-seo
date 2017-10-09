@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Premium
+ */
 
 /**
  * Class WPSEO_Export_Keywords_Presenter_Double\

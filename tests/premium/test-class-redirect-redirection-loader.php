@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Tests/Premium
+ * @package WPSEO\Tests\Premium
  */
 
 class RedirectionDatabaseMock {

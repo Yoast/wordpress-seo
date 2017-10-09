@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Premium
+ */
 
 /**
  * Test double for testing the result of the match_redirects function.
