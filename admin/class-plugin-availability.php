@@ -67,6 +67,27 @@ class WPSEO_Plugin_Availability {
 				'installed'   => false,
 				'slug'        => 'wpseo-woocommerce/wpseo-woocommerce.php',
 			),
+
+			'yoast-acf-analysis' => array(
+				'url'         => 'https://github.com/Yoast/yoast-acf-analysis',
+				'title'       => 'ACF Content Analysis for Yoast SEO',
+				/* translators: %1$s expands to Yoast SEO */
+				'description' => sprintf( __( 'Seamlessly integrate ACF with %1$s for the content analysis!', 'wordpress-seo' ), 'Yoast SEO' ),
+				'installed'   => false,
+				'slug'        => 'yoast-acf-analysis/yoast-acf-analysis.php',
+			),
+
+			'yoastseo-amp' => array(
+				'url'         => 'https://github.com/Yoast/yoastseo-amp',
+				'title'       => 'Yoast SEO AMP Glue',
+				/* translators: %1$s expands to Yoast SEO */
+				'description' => sprintf( __( 'Seamlessly integrate %1$s into your AMP pages!', 'wordpress-seo' ), 'Yoast SEO' ),
+				'installed'   => false,
+				'slug'        => 'yoastseo-amp/yoastseo-amp.php',
+				'_dependencies' => array( 'AMP' => array( 'slug' => 'amp/amp.php' ) )
+			),
+
+
 		);
 	}
 
@@ -236,6 +257,6 @@ class WPSEO_Plugin_Availability {
 	 * @return bool Whether or not the dependency is available.
 	 */
 	public function is_dependency_available( $dependency ) {
-		return class_exists( $dependency );
+		return in_array( $dependency['slug'], get_plugins(), true );
 	}
 }

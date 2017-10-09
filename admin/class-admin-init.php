@@ -48,6 +48,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'page_comments_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'yoast_plugin_compatibility_notification' ), 15 );
+		add_action( 'admin_init', array( $this, 'yoast_plugin_suggestions_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
@@ -270,6 +271,63 @@ class WPSEO_Admin_Init {
 			array(
 				'id'   => 'gawp-compatibility-notice',
 				'type' => Yoast_Notification::ERROR,
+			)
+		);
+	}
+
+	public function yoast_plugin_suggestions_notification() {
+		$availability_checker = new WPSEO_Plugin_Availability();
+		$notification_center = Yoast_Notification_Center::get();
+
+		// Get all Yoast plugins!
+		$plugins = $availability_checker->get_plugins();
+
+		foreach ( $plugins as $plugin_key => $plugin ) {
+			$has_dependencies = $availability_checker->has_dependencies( $plugin );
+
+			if ( ! $has_dependencies ) {
+				continue;
+			}
+
+			$dependencies_are_satisfied = $availability_checker->dependencies_are_satisfied( $plugin_key );
+
+			if ( ! $dependencies_are_satisfied ) {
+				continue;
+			}
+
+			if ( $availability_checker->is_installed( $plugin_key ) ) {
+				continue;
+			}
+
+			$dependency_name = array_keys($plugin['_dependencies'])[0];
+
+			$notification = $this->get_yoast_seo_suggested_plugins_notification( $plugin_key, $plugin, $dependency_name );
+			$notification_center->add_notification( $notification );
+		}
+	}
+
+	/**
+	 * Build Yoast SEO suggested plugins notification
+	 *
+	 * @param string $name The plugin name to use for the unique ID.
+	 * @param array  $plugin The plugin to retrieve the data from.
+	 *
+	 * @return Yoast_Notification
+	 */
+	private function get_yoast_seo_suggested_plugins_notification( $name, $plugin, $dependency_name ) {
+		$info_message = sprintf(
+		/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
+			__( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better.', 'wordpress-seo' ),
+			'Yoast SEO',
+			$dependency_name,
+			sprintf( '<a href="%s">%s</a>', $plugin['url'], $plugin['title'] )
+		);
+
+		return new Yoast_Notification(
+			$info_message,
+			array(
+				'id'   => 'wpseo-suggested-plugin-' . $name,
+				'type' => Yoast_Notification::WARNING,
 			)
 		);
 	}
