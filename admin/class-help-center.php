@@ -19,9 +19,21 @@ class WPSEO_Help_Center {
 	/**
 	 * WPSEO_Help_Center constructor.
 	 *
-	 * @param WPSEO_Option_Tabs $tabs Currently displayed tabs.
+	 * @param string                             $unused      Backwards compatible argument.
+	 * @param WPSEO_Option_Tabs|WPSEO_Option_Tab $tab_or_tabs Currently displayed tabs.
 	 */
-	public function __construct( WPSEO_Option_Tabs $tabs ) {
+	public function __construct( $unused, $tab_or_tabs ) {
+		$tabs = new WPSEO_Option_Tabs( '' );
+
+		if ( $tab_or_tabs instanceof WPSEO_Option_Tabs ) {
+			$tabs = $tab_or_tabs;
+		}
+
+		if ( $tab_or_tabs instanceof WPSEO_Option_Tab ) {
+			$tabs = new WPSEO_Option_Tabs( '', $tab_or_tabs->get_name() );
+			$tabs->add_tab( $tab_or_tabs );
+		}
+
 		$this->tabs = $tabs;
 	}
 
@@ -70,16 +82,16 @@ class WPSEO_Help_Center {
 
 		$formatted_data['videoDescriptions'] = array(
 			array(
-				'title' => __( 'Need some help?', 'wordpress-seo' ),
+				'title'       => __( 'Need some help?', 'wordpress-seo' ),
 				'description' => __( 'Go Premium and our experts will be there for you to answer any questions you might have about the setup and use of the plugin.', 'wordpress-seo' ),
-				'link' => 'https://yoa.st/seo-premium-vt?utm_content=' . WPSEO_VERSION,
-				'linkText' => __( 'Get Yoast SEO Premium now »', 'wordpress-seo' ),
+				'link'        => 'https://yoa.st/seo-premium-vt?utm_content=' . WPSEO_VERSION,
+				'linkText'    => __( 'Get Yoast SEO Premium now »', 'wordpress-seo' ),
 			),
 			array(
-				'title' => __( 'Want to be a Yoast SEO Expert?', 'wordpress-seo' ),
+				'title'       => __( 'Want to be a Yoast SEO Expert?', 'wordpress-seo' ),
 				'description' => __( 'Follow our Yoast SEO for WordPress training and become a certified Yoast SEO Expert!', 'wordpress-seo' ),
-				'link' => 'https://yoa.st/wordpress-training-vt?utm_content=' . WPSEO_VERSION,
-				'linkText' => __( 'Enroll in the Yoast SEO for WordPress training »', 'wordpress-seo' ),
+				'link'        => 'https://yoa.st/wordpress-training-vt?utm_content=' . WPSEO_VERSION,
+				'linkText'    => __( 'Enroll in the Yoast SEO for WordPress training »', 'wordpress-seo' ),
 			),
 		);
 
@@ -109,8 +121,8 @@ class WPSEO_Help_Center {
 	protected function format_helpcenter_tab( WPSEO_Help_Center_Item $item ) {
 		return array(
 			'identifier' => $item->get_identifier(),
-			'label' => $item->get_label(),
-			'content' => $item->get_content(),
+			'label'      => $item->get_label(),
+			'content'    => $item->get_content(),
 		);
 	}
 
@@ -135,25 +147,25 @@ class WPSEO_Help_Center {
 	 */
 	private function add_contact_support_item() {
 		/* translators: %s: expands to 'Yoast SEO Premium'. */
-		$popup_title = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$popup_title   = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
 		$popup_content = '<p>' . __( 'Go Premium and our experts will be there for you to answer any questions you might have about the set-up and use of the plug-in!', 'wordpress-seo' ) . '</p>';
 		/* translators: %1$s: expands to 'Yoast SEO Premium'. */
-		$popup_content .= '<p>' . sprintf( __( 'Other benefits of %1$s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
-		$popup_content .= '<ul>';
-		$popup_content .= '<li>' . sprintf(
+		$popup_content                    .= '<p>' . sprintf( __( 'Other benefits of %1$s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
+		$popup_content                    .= '<ul>';
+		$popup_content                    .= '<li>' . sprintf(
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 				__( '%1$sNo more dead links%2$s: easy redirect manager', 'wordpress-seo' ), '', ''
 			) . '</li>';
-		$popup_content .= '<li>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</li>';
-		$popup_content .= '<li>' . sprintf(
+		$popup_content                    .= '<li>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</li>';
+		$popup_content                    .= '<li>' . sprintf(
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 				__( '%1$sSocial media preview%2$s: Facebook &amp; Twitter', 'wordpress-seo' ), '', ''
 			) . '</li>';
-		$popup_content .= '<li>' . __( '24/7 support', 'wordpress-seo' ) . '</li>';
-		$popup_content .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';
-		$popup_content .= '</ul>';
+		$popup_content                    .= '<li>' . __( '24/7 support', 'wordpress-seo' ) . '</li>';
+		$popup_content                    .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';
+		$popup_content                    .= '</ul>';
 		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content );
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
@@ -173,25 +185,25 @@ class WPSEO_Help_Center {
 	 */
 	public static function get_translated_texts() {
 		return array(
-			'locale' => get_locale(),
-			'videoTutorial' => __( 'Video tutorial', 'wordpress-seo' ),
-			'knowledgeBase' => __( 'Knowledge base', 'wordpress-seo' ),
-			'getSupport' => __( 'Get support' ,'wordpress-seo' ),
+			'locale'                             => get_locale(),
+			'videoTutorial'                      => __( 'Video tutorial', 'wordpress-seo' ),
+			'knowledgeBase'                      => __( 'Knowledge base', 'wordpress-seo' ),
+			'getSupport'                         => __( 'Get support', 'wordpress-seo' ),
 			'algoliaSearcher.loadingPlaceholder' => __( 'Loading...', 'wordpress-seo' ),
-			'algoliaSearcher.errorMessage' => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
-			'searchBar.headingText' => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
-			'searchBar.placeholderText' => __( 'Search the knowledge base', 'wordpress-seo' ),
-			'searchBar.buttonText' => __( 'Search', 'wordpress-seo' ),
-			'searchResultDetail.openButton' => __( 'View in KB', 'wordpress-seo' ),
+			'algoliaSearcher.errorMessage'       => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
+			'searchBar.headingText'              => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
+			'searchBar.placeholderText'          => __( 'Search the knowledge base', 'wordpress-seo' ),
+			'searchBar.buttonText'               => __( 'Search', 'wordpress-seo' ),
+			'searchResultDetail.openButton'      => __( 'View in KB', 'wordpress-seo' ),
 			'searchResultDetail.openButtonLabel' => __( 'Open the knowledge base article in a new window or read it in the iframe below', 'wordpress-seo' ),
-			'searchResultDetail.backButton' => __( 'Go back', 'wordpress-seo' ),
+			'searchResultDetail.backButton'      => __( 'Go back', 'wordpress-seo' ),
 			'searchResultDetail.backButtonLabel' => __( 'Go back to the search results', 'wordpress-seo' ),
-			'searchResultDetail.iframeTitle' => __( 'Knowledge base article', 'wordpress-seo' ),
-			'searchResult.noResultsText' => __( 'No results found.', 'wordpress-seo' ),
-			'searchResult.foundResultsText' => __( 'Number of results found: { resultsCount }', 'wordpress-seo' ),
-			'searchResult.searchResultsHeading' => __( 'Search results', 'wordpress-seo' ),
-			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-			'contactSupport.button' => __( 'Open support form', 'wordpress-seo' ),
+			'searchResultDetail.iframeTitle'     => __( 'Knowledge base article', 'wordpress-seo' ),
+			'searchResult.noResultsText'         => __( 'No results found.', 'wordpress-seo' ),
+			'searchResult.foundResultsText'      => __( 'Number of results found: { resultsCount }', 'wordpress-seo' ),
+			'searchResult.searchResultsHeading'  => __( 'Search results', 'wordpress-seo' ),
+			'a11yNotice.opensInNewTab'           => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
+			'contactSupport.button'              => __( 'Open support form', 'wordpress-seo' ),
 		);
 	}
 
