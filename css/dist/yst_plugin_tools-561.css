@@ -211,7 +211,7 @@ table.yoast_help .yoast-variable-name {
 }
 
 table.yoast_help .yoast-variable-desc {
-	font-weight: 400;
+	min-width: 300px;
 }
 
 /* @todo: check this. */

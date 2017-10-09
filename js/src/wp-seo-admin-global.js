@@ -395,6 +395,20 @@
 		checkMultipleScrollableTablesSize( window.wpseoScrollableTables );
 	} );
 
+	/*
+	 * Generates the scrollable tables markuo when the react tabs are mounted,
+	 * in case a table is in the first tab. Or, generates the markup when a react
+	 * tabs is selected, with a timeout to wait for the HTML injection of the tab content.
+	 */
+	$( window ).on( {
+		"Yoast:YoastTabsMounted": function() {
+			createScrollableTables();
+		},
+		"Yoast:YoastTabsSelected": function() {
+			setTimeout( createScrollableTables, 100 );
+		}
+	} )
+
 	$( document ).ready( function() {
 		showAlertPopup();
 		hookDismissRestoreButtons();

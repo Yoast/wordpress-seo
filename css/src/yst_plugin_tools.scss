@@ -214,7 +214,7 @@ table.yoast_help .yoast-variable-name {
 }
 
 table.yoast_help .yoast-variable-desc {
-	font-weight: 400; // Overrides inheritance from the Help Center tab content.
+	min-width: 300px;
 }
 
 /* @todo: check this. */
