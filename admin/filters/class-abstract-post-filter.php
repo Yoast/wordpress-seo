@@ -130,7 +130,8 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * @return bool Whether or not the filter is active.
 	 */
 	protected function is_filter_active() {
-		return ( $this->is_supported_post_type() && filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === $this->get_query_val() );
+		return ( $this->is_supported_post_type( $this->get_current_post_type() )
+			&& filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === $this->get_query_val() );
 	}
 
 	/**
@@ -156,11 +157,13 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	}
 
 	/**
-	 * Checks if the current opened post type is supported.
+	 * Checks if the post type is supported.
+	 *
+	 * @param string $post_type Post type to check against.
 	 *
 	 * @return bool True when it is supported
 	 */
-	protected function is_supported_post_type() {
-		return in_array( $this->get_current_post_type(), $this->get_post_types(), true );
+	protected function is_supported_post_type( $post_type ) {
+		return in_array( $post_type, $this->get_post_types(), true );
 	}
 }
