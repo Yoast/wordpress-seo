@@ -376,7 +376,7 @@ class WPSEO_Premium {
 			if ( false !== $parsed_url ) {
 				$old_url = $parsed_url['path'];
 
-				if ( isset( $parsed_url['query'] ) && $parsed_url['query'] != '' ) {
+				if ( isset( $parsed_url['query'] ) && $parsed_url['query'] !== '' ) {
 					$old_url .= '?' . $parsed_url['query'];
 				}
 
