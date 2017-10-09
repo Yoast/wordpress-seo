@@ -12,8 +12,6 @@ const VIDEO_WIDTH = "560px";
 
 const VideoTutorialContainer = styled.div`
 	overflow: hidden;
-	max-width: 900px;
-	margin: 0 auto;
 `;
 
 const VideoContainer = styled.div`
