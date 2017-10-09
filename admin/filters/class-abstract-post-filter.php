@@ -158,7 +158,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	/**
 	 * Checks if the current opened post type is supported.
 	 *
-	 * @return bool True when it is supported
+	 * @return bool True when it is supported.
 	 */
 	protected function is_supported_post_type() {
 		return in_array( $this->get_current_post_type(), $this->get_post_types(), true );
