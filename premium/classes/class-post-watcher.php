@@ -143,8 +143,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			$id = 'wpseo_redirect_' . md5( $url );
 
 			// Format the message.
-			/* translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a href=''>, %4$s: </a>, %5$s: Slug to post */
 			$message = sprintf(
+				/* translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a href=''>, %4$s: </a>, %5$s: Slug to post */
 				__( '%1$s detected that you moved a post (%5$s) to the trash. You can either: %2$s Don\'t know what to do? %3$sRead this post%4$s.', 'wordpress-seo-premium' ),
 				'Yoast SEO Premium',
 				$this->get_delete_action_list( $url, $id ),

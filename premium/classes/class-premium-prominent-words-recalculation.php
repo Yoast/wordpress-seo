@@ -72,14 +72,14 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		$total_pages = $this->count_unindexed_posts_by_type( 'page' );
 
 		$progress_posts = sprintf(
-		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
+			/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 			__( 'Post %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
 			'<span id="wpseo_count_posts" class="wpseo-prominent-words-progress-current">0</span>',
 			'<strong id="wpseo_count_posts_total" class="wpseo-prominent-words-progress-total">' . $total_posts . '</strong>'
 		);
 
 		$progress_pages = sprintf(
-		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
+			/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 			__( 'Page %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
 			'<span id="wpseo_count_pages" class="wpseo-prominent-words-progress-current">0</span>',
 			'<strong id="wpseo_count_pages_total" class="wpseo-prominent-words-progress-total">' . $total_pages . '</strong>'
