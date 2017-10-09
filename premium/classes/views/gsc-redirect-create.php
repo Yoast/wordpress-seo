@@ -11,6 +11,13 @@
 
 $unique_id      = md5( $url );
 $redirect_types = new WPSEO_Redirect_Types();
+
+$wpseo_i18n_fixed_in_gsc = sprintf(
+	/* Translators: %1$s: expands to 'Google Search Console'. */
+	__( 'Mark this issue as fixed in %1$s.', 'wordpress-seo-premium' ),
+	'Google Search Console'
+);
+
 ?>
 	<h1 class="wpseo-redirect-url-title"><?php esc_html_e( 'Redirect this broken URL and fix the error', 'wordpress-seo-premium' ); ?></h1>
 
@@ -36,10 +43,7 @@ $redirect_types = new WPSEO_Redirect_Types();
 	<div class='form-field form-required'>
 		<label for='wpseo-mark-as-fixed-<?php echo $unique_id; ?>' class='clear'><?php esc_html_e( 'Mark as fixed:', 'wordpress-seo-premium' ); ?></label>
 		<input type='checkbox' checked value='1' id='wpseo-mark-as-fixed-<?php echo $unique_id; ?>' name='mark_as_fixed' class='clear' aria-describedby='wpseo-mark-as-fixed-desc-<?php echo $unique_id; ?>' />
-		<p id='wpseo-mark-as-fixed-desc-<?php echo $unique_id; ?>'><?php
-			/* Translators: %1$s: expands to 'Google Search Console'. */
-			echo esc_html( sprintf( __( 'Mark this issue as fixed in %1$s.', 'wordpress-seo-premium' ), 'Google Search Console' ) );
-			?></p>
+		<p id='wpseo-mark-as-fixed-desc-<?php echo $unique_id; ?>'><?php echo esc_html( $wpseo_i18n_fixed_in_gsc ); ?></p>
 	</div>
 	<p class='submit'>
 		<input type='button' name='submit' id='submit-<?php echo $unique_id; ?>' class='button button-primary' value='<?php esc_attr_e( 'Create redirect', 'wordpress-seo-premium' ); ?>' onclick='wpseoPostRedirectToGSC( jQuery( this ) );' />
