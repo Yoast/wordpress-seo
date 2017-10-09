@@ -2,7 +2,7 @@
 
 exports[`the HelpCenter matches the snapshot 1`] = `
 <div
-  className="yoast-help-center sc-EHOje gbEnju"
+  className="yoast-help-center sc-EHOje fpSHDe"
 >
   <button
     aria-expanded={false}
@@ -31,7 +31,7 @@ exports[`the HelpCenter matches the snapshot 1`] = `
 
 exports[`the HelpCenter with props matches the snapshot 1`] = `
 <div
-  className="yoast-help-center sc-EHOje gbEnju"
+  className="yoast-help-center sc-EHOje fpSHDe"
 >
   <button
     aria-expanded={false}

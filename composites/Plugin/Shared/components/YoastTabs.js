@@ -5,7 +5,7 @@ import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 
 import colors from "../../../../style-guide/colors.json";
 import breakpoints from "../../../../style-guide/responsive-breakpoints.json";
-import triggerDOMEvent from "../../../../utils/triggerDOMEvent"
+import triggerDOMEvent from "../../../../utils/triggerDOMEvent";
 
 const YoastTabsContainer = styled.div`
 	font-size: 1em;
@@ -110,7 +110,7 @@ class YoastTabs extends React.Component {
 				tabsFontWeight={ this.props.tabsFontWeight }
 				tabsBaseWidth={ this.props.tabsBaseWidth }
 			>
-				<Tabs onSelect={ this.props.onTabSelect } forceRenderTabPanel={ true }>
+				<Tabs onSelect={ this.props.onTabSelect }>
 					<TabList>
 						{ this.getTabs() }
 					</TabList>
@@ -121,13 +121,7 @@ class YoastTabs extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log( "tabs mounted" );
-		triggerDOMEvent( window, "yoast-tabs-mounted" );
-	}
-
-	componentDidUpdate() {
-		console.log( "tabs updated" );
-		triggerDOMEvent( window, "yoast-tabs-updated" );
+		triggerDOMEvent( window, "Yoast:YoastTabsMounted" );
 	}
 }
 
