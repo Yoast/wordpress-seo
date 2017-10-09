@@ -270,7 +270,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 				}
 
 				return "<div class='" . esc_attr( implode( ' ', $classes ) ) . "'>" . esc_html( $new_url ) . '</div>' . $row_actions;
-				break;
+
 			case 'old':
 				$classes = '';
 				if ( $is_regex === true ) {
@@ -278,10 +278,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 				}
 
 				return "<div class='val" . $classes . "'>" . esc_html( $item['old'] ) . '</div>' . $row_actions;
-				break;
+
 			case 'type':
 				return '<div class="val type">' . esc_html( $item['type'] ) . '</div>' . $row_actions;
-				break;
+
 			default:
 				return $item[ $column_name ];
 		}
