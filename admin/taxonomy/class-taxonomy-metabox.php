@@ -43,6 +43,9 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	public function display() {
 
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'help-center' );
+
 		$content_sections = $this->get_content_sections();
 
 		$product_title = 'Yoast SEO';
