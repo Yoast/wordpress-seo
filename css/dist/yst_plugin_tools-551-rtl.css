@@ -170,6 +170,7 @@ table.wpseo th {
 
 /* Template variables table. */
 table.yoast_help {
+	width: 100%; 
 	border-collapse: collapse;
 }
 
