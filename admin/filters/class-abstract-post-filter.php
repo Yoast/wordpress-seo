@@ -161,7 +161,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 *
 	 * @param string $post_type Post type to check against.
 	 *
-	 * @return bool True when it is supported
+	 * @return bool True when it is supported.
 	 */
 	protected function is_supported_post_type( $post_type ) {
 		return in_array( $post_type, $this->get_post_types(), true );
