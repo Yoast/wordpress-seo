@@ -60,7 +60,7 @@ class WPSEO_Redirect_Presence_Validation implements WPSEO_Redirect_Validation {
 	private function allow_empty_target( $redirect_type ) {
 		$allowed_redirect_types = array( WPSEO_Redirect::DELETED, WPSEO_Redirect::UNAVAILABLE );
 
-		return in_array( $redirect_type, $allowed_redirect_types );
+		return in_array( (int) $redirect_type, $allowed_redirect_types, true );
 
 	}
 }

@@ -21,6 +21,6 @@ class WPSEO_Premium_Prominent_Words_Language_Support {
 	 * @return bool Whether the current language is supported for the link suggestions.
 	 */
 	public function is_language_supported( $language ) {
-		return in_array( $language, $this->supported_languages );
+		return in_array( $language, $this->supported_languages, true );
 	}
 }

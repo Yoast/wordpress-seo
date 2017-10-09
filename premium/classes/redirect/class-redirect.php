@@ -105,7 +105,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * The return value will be casted to boolean if non-boolean was returned.
 	 */
 	public function offsetExists( $offset ) {
-		return in_array( $offset, array( 'url', 'type' ) );
+		return in_array( $offset, array( 'url', 'type' ), true );
 	}
 
 	/**

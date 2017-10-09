@@ -105,8 +105,8 @@ class WPSEO_Redirect_Validator {
 	 */
 	protected function get_filtered_validation_rules( array $validations, WPSEO_Redirect $redirect ) {
 		foreach ( $validations as $validation => $validation_rules ) {
-			$exclude_format = in_array( $redirect->get_format(), $validation_rules['exclude_format'] );
-			$exclude_type   = in_array( $redirect->get_type(), $validation_rules['exclude_types'] );
+			$exclude_format = in_array( $redirect->get_format(), $validation_rules['exclude_format'], true );
+			$exclude_type   = in_array( $redirect->get_type(), $validation_rules['exclude_types'], true );
 
 			if ( $exclude_format || $exclude_type ) {
 				$this->remove_rule( $validations, $validation );

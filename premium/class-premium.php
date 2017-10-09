@@ -153,7 +153,7 @@ class WPSEO_Premium {
 
 			// Add custom fields plugin to post and page edit pages.
 			global $pagenow;
-			if ( in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ) ) ) {
+			if ( in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ), true ) ) {
 				new WPSEO_Custom_Fields_Plugin();
 			}
 
@@ -246,7 +246,7 @@ class WPSEO_Premium {
 	private function is_yoast_seo_premium_page( $page ) {
 		$premium_pages = array( 'wpseo_redirects' );
 
-		return in_array( $page, $premium_pages );
+		return in_array( $page, $premium_pages, true );
 	}
 
 	/**
@@ -400,7 +400,7 @@ class WPSEO_Premium {
 	 * @return array
 	 */
 	public function add_variable_array_key_pattern( $patterns ) {
-		if ( true !== in_array( 'page-analyse-extra-', $patterns ) ) {
+		if ( true !== in_array( 'page-analyse-extra-', $patterns, true ) ) {
 			$patterns[] = 'page-analyse-extra-';
 		}
 
@@ -452,7 +452,7 @@ class WPSEO_Premium {
 	 * @returns string[] The new classes for the indicator.
 	 */
 	public function change_premium_indicator( $classes ) {
-		$class_no = array_search( 'wpseo-premium-indicator--no', $classes );
+		$class_no = array_search( 'wpseo-premium-indicator--no', $classes, true );
 
 		if ( false !== $class_no ) {
 			unset( $classes[ $class_no ] );
