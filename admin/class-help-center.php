@@ -139,7 +139,7 @@ class WPSEO_Help_Center {
 		$popup_content = '<p>' . __( 'Go Premium and our experts will be there for you to answer any questions you might have about the set-up and use of the plug-in!', 'wordpress-seo' ) . '</p>';
 		/* translators: %1$s: expands to 'Yoast SEO Premium'. */
 		$popup_content .= '<p>' . sprintf( __( 'Other benefits of %1$s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
-		$popup_content .= '<ul>';
+		$popup_content .= '<ul class="wpseo-premium-advantages-list">';
 		$popup_content .= '<li>' . sprintf(
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */

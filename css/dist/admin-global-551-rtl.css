@@ -560,7 +560,7 @@ td.column-wpseo-linked {
 }
 
 #yoast-help-center-container {
-	margin: 16px 0;
+	margin: 16px 0 24px;
 }
 
 .react-tabs__tab-panel {
@@ -569,7 +569,7 @@ td.column-wpseo-linked {
 }
 
 .react-tabs__tab-panel li {
-	max-width: initial !important;
+	max-width: none !important;
 }
 
 .yoast-help-center-open #sidebar-container {
@@ -578,4 +578,13 @@ td.column-wpseo-linked {
 
 .contact-premium-support-container {
 	text-align: center;
+}
+
+.wpseo-premium-description {
+	margin-top: 0.5em;
+}
+
+.wpseo-premium-advantages-list {
+	padding-right: 1.5em;
+	list-style: disc;
 }
