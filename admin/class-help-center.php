@@ -20,18 +20,18 @@ class WPSEO_Help_Center {
 	 * WPSEO_Help_Center constructor.
 	 *
 	 * @param string                             $unused      Backwards compatible argument.
-	 * @param WPSEO_Option_Tabs|WPSEO_Option_Tab $tab_or_tabs Currently displayed tabs.
+	 * @param WPSEO_Option_Tabs|WPSEO_Option_Tab $option_tabs Currently displayed tabs.
 	 */
-	public function __construct( $unused, $tab_or_tabs ) {
+	public function __construct( $unused, $option_tabs ) {
 		$tabs = new WPSEO_Option_Tabs( '' );
 
-		if ( $tab_or_tabs instanceof WPSEO_Option_Tabs ) {
-			$tabs = $tab_or_tabs;
+		if ( $option_tabs instanceof WPSEO_Option_Tabs ) {
+			$tabs = $option_tabs;
 		}
 
-		if ( $tab_or_tabs instanceof WPSEO_Option_Tab ) {
-			$tabs = new WPSEO_Option_Tabs( '', $tab_or_tabs->get_name() );
-			$tabs->add_tab( $tab_or_tabs );
+		if ( $option_tabs instanceof WPSEO_Option_Tab ) {
+			$tabs = new WPSEO_Option_Tabs( '', $option_tabs->get_name() );
+			$tabs->add_tab( $option_tabs );
 		}
 
 		$this->tabs = $tabs;
