@@ -6,7 +6,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
   role="search"
 >
   <h2
-    className="sc-bxivhb fBtvqs"
+    className="sc-bxivhb fMWLJS"
   >
     Search the Yoast knowledge base
   </h2>
@@ -33,7 +33,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
       autoCapitalize="off"
       autoComplete="off"
       autoCorrect="off"
-      className="sc-EHOje guPefA"
+      className="sc-EHOje hhGWKG"
       defaultValue=""
       id="kb-search-input"
       name="search-input"
@@ -62,7 +62,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
   role="search"
 >
   <h2
-    className="sc-bxivhb fBtvqs"
+    className="sc-bxivhb fMWLJS"
   >
     Search the Yoast knowledge base
   </h2>
@@ -89,7 +89,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
       autoCapitalize="off"
       autoComplete="off"
       autoCorrect="off"
-      className="sc-EHOje guPefA"
+      className="sc-EHOje hhGWKG"
       defaultValue=""
       id="kb-search-input"
       name="search-input"
