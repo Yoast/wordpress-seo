@@ -66,7 +66,7 @@ class WPSEO_Premium_Link_Suggestions_Service {
 		$suggestion_ids = "'" . implode( "', '", $suggestion_ids ) . "'";
 
 		// Find all posts in the list that are cornerstone items.
-		$sql = $wpdb->prepare( 'SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE post_id IN ( ' . $suggestion_ids . ' ) AND meta_key = "%s" AND meta_value = "1"', WPSEO_Cornerstone::META_NAME );
+		$sql = $wpdb->prepare( 'SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE post_id IN ( ' . $suggestion_ids . ' ) AND meta_key = %s AND meta_value = "1"', WPSEO_Cornerstone::META_NAME );
 		$results = $wpdb->get_results( $sql );
 
 		if ( ! is_array( $results ) ) {

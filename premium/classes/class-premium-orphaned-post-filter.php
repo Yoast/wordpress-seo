@@ -140,8 +140,8 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 			return 0;
 		}
 
-		$query = $wpdb->prepare('
-				SELECT COUNT(ID)
+		$query = $wpdb->prepare( // WPCS: PreparedSQLPlaceholders replacement count OK.
+				'SELECT COUNT(ID)
 				  FROM ' . $wpdb->posts . '
 				 WHERE ID IN (' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')
 				   AND post_status = "publish"
