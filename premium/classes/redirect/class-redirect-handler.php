@@ -148,7 +148,8 @@ class WPSEO_Redirect_Handler {
 		}
 
 		// Get the URL and doing the redirect.
-		if ( $redirect_url = $this->find_url( $request_url ) ) {
+		$redirect_url = $this->find_url( $request_url );
+		if ( ! empty( $redirect_url ) ) {
 			$this->do_redirect( $this->redirect_url( $redirect_url['url'] ), $redirect_url['type'] );
 		}
 	}
@@ -221,7 +222,8 @@ class WPSEO_Redirect_Handler {
 	 * @return bool|string
 	 */
 	private function find_url( $url ) {
-		if ( $redirect_url = $this->search( $url ) ) {
+		$redirect_url = $this->search( $url );
+		if ( ! empty( $redirect_url ) ) {
 			return $redirect_url;
 		}
 
@@ -381,7 +383,8 @@ class WPSEO_Redirect_Handler {
 		}
 
 		global $wpdb;
-		if ( $options = $wpdb->get_row( "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'wpseo_redirect'" ) ) {
+		$options = $wpdb->get_row( "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'wpseo_redirect'" );
+		if ( $options instanceof stdClass ) {
 			$options = unserialize( $options->option_value );
 
 			if ( ! empty( $options['disable_php_redirect'] ) && $options['disable_php_redirect'] === 'on' ) {

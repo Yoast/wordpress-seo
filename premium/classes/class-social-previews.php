@@ -196,8 +196,11 @@ class WPSEO_Social_Previews {
 	 */
 	private function get_translations() {
 		$file = plugin_dir_path( WPSEO_FILE ) . 'premium/languages/wordpress-seo-premium-' . WPSEO_Utils::get_user_locale() . '.json';
-		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
-			return json_decode( $file, true );
+		if ( file_exists( $file ) ) {
+			$file = file_get_contents( $file );
+			if ( $file !== false ) {
+				return json_decode( $file, true );
+			}
 		}
 
 		return array();

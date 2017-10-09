@@ -151,7 +151,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			'per_page'    => $per_page,
 		) );
 
-		$current_page = (int) ( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 0 );
+		$paged        = filter_input( INPUT_GET, 'paged' );
+		$current_page = (int) ( ( isset( $paged ) && $paged !== false ) ? $paged : 0 );
 
 		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back.
 		$slice_start = ( $current_page - 1 );

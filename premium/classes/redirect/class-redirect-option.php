@@ -88,7 +88,8 @@ class WPSEO_Redirect_Option {
 	 * @return bool
 	 */
 	public function update( WPSEO_Redirect $current_redirect, WPSEO_Redirect $redirect ) {
-		if ( ( $found = $this->search( $current_redirect->get_origin() ) ) !== false ) {
+		$found = $this->search( $current_redirect->get_origin() );
+		if ( $found !== false ) {
 			$this->redirects[ $found ] = $redirect;
 
 			return true;
@@ -105,7 +106,8 @@ class WPSEO_Redirect_Option {
 	 * @return bool
 	 */
 	public function delete( WPSEO_Redirect $current_redirect ) {
-		if ( ( $found = $this->search( $current_redirect->get_origin() ) ) !== false ) {
+		$found = $this->search( $current_redirect->get_origin() );
+		if ( $found !== false ) {
 			unset( $this->redirects[ $found ] );
 
 			return true;

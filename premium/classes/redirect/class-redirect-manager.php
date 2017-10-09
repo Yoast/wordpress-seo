@@ -32,8 +32,11 @@ class WPSEO_Redirect_Manager {
 		$exporters[] = new WPSEO_Redirect_Option_Exporter();
 
 		$options = WPSEO_Redirect_Page::get_options();
-		if ( 'on' === $options['disable_php_redirect'] && $file_exporter = WPSEO_Redirect_File_Util::get_file_exporter( $options['separate_file'] ) ) {
-			$exporters[] = $file_exporter;
+		if ( 'on' === $options['disable_php_redirect'] ) {
+			$file_exporter = WPSEO_Redirect_File_Util::get_file_exporter( $options['separate_file'] );
+			if ( isset( $file_exporter ) && $file_exporter instanceof WPSEO_Redirect_File_Exporter ) {
+				$exporters[] = $file_exporter;
+			}
 		}
 
 		return $exporters;

@@ -138,7 +138,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_post_trash( $post_id ) {
 
-		if ( $url = $this->check_if_redirect_needed( $post_id ) ) {
+		$url = $this->check_if_redirect_needed( $post_id );
+		if ( ! empty( $url ) ) {
 
 			$id = 'wpseo_redirect_' . md5( $url );
 
@@ -204,7 +205,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		}
 
 		// Is a redirect needed.
-		if ( $url = $this->check_if_redirect_needed( $post_id ) ) {
+		$url = $this->check_if_redirect_needed( $post_id );
+		if ( ! empty( $url ) ) {
 			$this->set_delete_notification( $url );
 		}
 	}
