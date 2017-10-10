@@ -66,6 +66,6 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	}
 
 	public function is_dependency_available( $dependency ) {
-		return in_array( $dependency, $this->available_dependencies );
+		return in_array( $dependency, $this->available_dependencies, true );
 	}
 }

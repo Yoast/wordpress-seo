@@ -226,7 +226,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * @return bool
 	 */
 	private function can_create_redirect() {
-		return in_array( $this->current_view, array( 'soft_404', 'not_found', 'access_denied' ) );
+		return in_array( $this->current_view, array( 'soft_404', 'not_found', 'access_denied' ), true );
 	}
 
 	/**
