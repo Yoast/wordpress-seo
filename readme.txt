@@ -125,6 +125,21 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.6.0 =
+
+Release Date: October 10th, 2017
+
+Enhancements
+	* Removes legacy license page and shows the new license page by default.
+	* Changes references from licenses to subscriptions and sites on the premium submenu page.
+	* Changes the appearance of the Help Center in line with our design approach.
+	* Introduces an explanation bar when the `Cornerstone content` filter is active.
+
+Bugfixes
+	* Fixes a bug where Hebrew slugs aren't decoded on display in the bulk editor.
+	* Fixes a bug where the internal link count is not updated when there are no links to that page or post anymore.
+	* Fixes the `Cornerstone content` filter to behave consistently with existing WordPress filters.
+
 = 5.5.1 =
 
 Release Date: September 28th, 2017

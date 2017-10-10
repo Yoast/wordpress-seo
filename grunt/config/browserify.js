@@ -16,7 +16,6 @@ module.exports = {
 			"js/dist/wp-seo-bulk-editor-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-bulk-editor.js" ],
 			"js/dist/wp-seo-dismissible-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-dismissible.js" ],
 			"js/dist/wp-seo-featured-image-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-featured-image.js" ],
-			"js/dist/wp-seo-metabox-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-metabox.js" ],
 			"js/dist/wp-seo-metabox-category-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-metabox-category.js" ],
 			"js/dist/wp-seo-post-scraper-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-post-scraper.js" ],
 			"js/dist/wp-seo-recalculate-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-recalculate.js" ],
@@ -28,7 +27,7 @@ module.exports = {
 			"js/dist/wp-seo-edit-page-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-edit-page.js" ],
 			"js/dist/wp-seo-quick-edit-handler-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-quick-edit-handler.js" ],
 			"js/dist/wp-seo-api-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-api.js" ],
-			"js/dist/wp-seo-dashboard-widget-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-dashboard-widget.js" ],
+			"js/dist/wp-seo-filter-explanation-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-filter-explanation.js" ],
 		},
 	},
 	"release-es6": {

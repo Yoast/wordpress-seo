@@ -40,7 +40,11 @@
 }
 
 .yoast-alerts > h2:first-child {
-	margin-bottom: 1em;
+	margin: 0;
+	padding: 9px 0 4px 0;
+	font-size: 23px;
+	font-weight: 400;
+	line-height: 29px;
 }
 
 .yoast-alerts .yoast-container h3 {

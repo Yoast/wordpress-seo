@@ -832,7 +832,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			case 'col_page_slug':
 				$permalink    = get_permalink( $rec->ID );
 				$display_slug = str_replace( get_bloginfo( 'url' ), '', $permalink );
-				$column_value = sprintf( '<a href="%2$s" target="_blank">%1$s</a>', stripslashes( $display_slug ), esc_url( $permalink ) );
+				$column_value = sprintf( '<a href="%2$s" target="_blank">%1$s</a>', stripslashes( rawurldecode( $display_slug ) ), esc_url( $permalink ) );
 				break;
 
 			case 'col_post_type':

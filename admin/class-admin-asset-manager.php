@@ -149,6 +149,13 @@ class WPSEO_Admin_Asset_Manager {
 
 		return array(
 			array(
+				'name' => 'help-center',
+				'src'  => 'wp-seo-help-center-' . $flat_version,
+				'deps' => array(
+					'jquery'
+				),
+			),
+			array(
 				'name' => 'admin-script',
 				'src'  => 'wp-seo-admin-' . $flat_version,
 				'deps' => array(
@@ -326,6 +333,11 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 				),
 			),
+			array(
+				'name' => 'filter-explanation',
+				'src'  => 'wp-seo-filter-explanation-' . $flat_version,
+				'deps' => array( 'jquery' ),
+			),
 		);
 	}
 
@@ -418,6 +430,10 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'extensions',
 				'src'  => 'yoast-extensions-' . $flat_version,
+			),
+			array(
+				'name' => 'filter-explanation',
+				'src'  => 'filter-explanation-' . $flat_version,
 			),
 		);
 	}

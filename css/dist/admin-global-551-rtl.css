@@ -258,6 +258,12 @@ button.yoast-tooltip {
 	display: none;
 }
 
+/* General typography */
+.yoast-measure {
+	max-width: 600px;
+}
+
+/* Thickbox */
 #TB_window .wpseo_content_wrapper p {
 	font-size: 14px;
 	font-style: normal;
@@ -270,8 +276,10 @@ button.yoast-tooltip {
 }
 
 .wpseo-premium-popup-title {
-	margin: 1em 0;
-	font-size: 1.3em;
+	margin: 1em 0 !important;
+	padding: 0 !important;
+	font-size: 1.3em !important;
+	font-weight: 600 !important;
 }
 
 .wpseo-premium-popup-icon {
@@ -557,4 +565,35 @@ td.column-wpseo-linked {
 		padding: 7px 10px;
 		line-height: 1.5;
 	}
+}
+
+/* Help Center */
+#yoast-help-center-container {
+	margin: 16px 0 24px;
+}
+
+.react-tabs__tab-panel {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+.react-tabs__tab-panel li {
+	max-width: none !important;
+}
+
+.yoast-help-center-open #sidebar-container {
+	display: none;
+}
+
+.contact-premium-support-container {
+	text-align: center;
+}
+
+.wpseo-premium-description {
+	margin-top: 0.5em;
+}
+
+.wpseo-premium-advantages-list {
+	padding-right: 1.5em;
+	list-style: disc;
 }

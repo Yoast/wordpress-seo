@@ -22,6 +22,7 @@ module.exports = {
 			"css/dist/yoast-extensions-<%= pluginVersionSlug %>.css": [ "css/src/extensions.scss" ],
 			"css/dist/yst_seo_score-<%= pluginVersionSlug %>.css": [ "css/src/yst_seo_score.scss" ],
 			"css/dist/yoast-components-<%= pluginVersionSlug %>.css": [ "css/src/yoast-components.scss" ],
+			"css/dist/filter-explanation-<%= pluginVersionSlug %>.css": [ "css/src/filter-explanation.scss" ],
 		},
 	},
 };

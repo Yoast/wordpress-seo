@@ -170,6 +170,7 @@ table.wpseo th {
 
 /* Template variables table. */
 table.yoast_help {
+	width: 100%; 
 	border-collapse: collapse;
 }
 
@@ -285,9 +286,15 @@ table.yoast_help .yoast-variable-desc {
 /* Debug Information meta box. */
 #wpseo-debug-info {
 	clear: both;
+	margin: 20px 0 0;
+	padding: 20px 20px 0;
+	border: 1px solid #e5e5e5;
+	background-color: #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
-#wpseo-debug-info .hndle {
+#wpseo-debug-info h2 {
+	margin: 0;
 	cursor: auto;
 }
 
