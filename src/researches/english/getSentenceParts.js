@@ -1,8 +1,8 @@
 var verbEndingInIngRegex = /\w+ing($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var stopCharacterRegex = /(?!([a-zA-Z]))([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
 var ingExclusionArray = [ "king", "cling", "ring", "being" ];
 var indices = require( "../../stringProcessing/indices" );
 var getIndicesOfList = indices.getIndicesByWordList;
-var getIndicesOfStopCharacterList = indices.getIndicesByStopCharacterList;
 var filterIndices = indices.filterIndices;
 var sortIndices = indices.sortIndices;
 var stripSpaces = require( "../../stringProcessing/stripSpaces.js" );
@@ -13,7 +13,6 @@ var auxiliaries = require( "./passivevoice/auxiliaries.js" )().all;
 var SentencePart = require( "./SentencePart.js" );
 var auxiliaryRegex = arrayToRegex( auxiliaries );
 var stopwords = require( "./passivevoice/stopwords.js" )();
-var stopCharacters = require( "./passivevoice/stopCharacters.js" )();
 
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -37,6 +36,29 @@ var getVerbsEndingInIng = function( sentence ) {
 };
 
 /**
+ * Gets stop characters to determine sentence breakers.
+ *
+ * @param {string} sentence The sentence to get the stop characters from.
+ * @returns {Array} The array with valid matches.
+ */
+var getStopCharacters = function( sentence ) {
+	var match;
+	var matches = [];
+
+	stopCharacterRegex.lastIndex = 0;
+
+	while ( ( match = stopCharacterRegex.exec( sentence ) ) !== null ) {
+		matches.push(
+			{
+				index: match.index,
+				match: match[ 0 ],
+			}
+		);
+	}
+	return matches;
+};
+
+/**
  * Gets the indexes of sentence breakers (auxiliaries, stopwords and active verbs) to determine sentence parts.
  * Indices are filtered because there could be duplicate matches, like "even though" and "though".
  * In addition, 'having' will be matched both as a -ing verb as well as an auxiliary.
@@ -48,7 +70,7 @@ var getSentenceBreakers = function( sentence ) {
 	sentence = sentence.toLocaleLowerCase();
 	var auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
 	var stopwordIndices = getIndicesOfList( stopwords, sentence );
-	var stopCharacterIndices = getIndicesOfStopCharacterList( stopCharacters, sentence );
+	var stopCharacterIndices = getStopCharacters( sentence );
 
 	var ingVerbs = getVerbsEndingInIng( sentence );
 	var ingVerbsIndices = getIndicesOfList( ingVerbs, sentence );

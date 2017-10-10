@@ -21,5 +21,10 @@ describe( "splits English sentences into parts", function() {
 		var sentence = "It is a hands-free, voice-controlled device.";
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is a hands-free" );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
+		} );
+	it ( "doesn't sentences on stop characters that are not preceded by a word and followed by a space/punctuation", function() {
+		var sentence = "It is a 1,000,000 dollar house.";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is a 1,000,000 dollar house." );
+		expect( getSentenceParts( sentence ).length ).toBe( 1 );
 	} );
 } );

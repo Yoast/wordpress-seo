@@ -27,18 +27,6 @@ describe( "A function to get indices from words in a word list in a string." , f
 	} );
 } );
 
-describe( "A function to get indices of stop characters in a stop character list in a string." , function( ) {
-	it( "returns a list with a single stop character and its index", function() {
-		expect ( getIndicesByStopCharacterList( [ "," ], "this is a string, to test" ) ).toEqual ( [ { index: 16, match: "," } ] );
-	} );
-	it( "returns a list with multiple stop characters and their indices", function() {
-		expect ( getIndicesByStopCharacterList( [ ":" ], "this is a string to test: a very nice string: to test" ) ).toEqual ( [ { index: 24, match: ":" }, { index: 44, match: ":" } ] );
-	} );
-	it( "returns a list with multiple stop characters and their indices", function() {
-		expect ( getIndicesByStopCharacterList( [ ":", "," ], "this is a string to test: a very nice string, to test" ) ).toEqual ( [ { index: 24, match: ":" }, { index: 44, match: "," } ] );
-	} );
-} );
-
 describe( "A function to filter out overlapping matches", function() {
 	it( "removes the overlapping match 'though'", function() {
 		let input = [

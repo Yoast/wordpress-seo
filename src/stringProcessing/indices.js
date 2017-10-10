@@ -8,7 +8,7 @@ var characterInBoundary = require( "../stringProcessing/matchWordInSentence.js" 
  * Returns the indices of a string in a text. If it is found multiple times, it will return multiple indices.
  *
  * @param {string} word The word to find in the text.
- * @param {string} text The text to check for the given word.
+ * @param {string} text The text to check for the given word..
  * @returns {Array} All indices found.
  */
 function getIndicesByWord( word, text ) {
@@ -56,46 +56,6 @@ var getIndicesByWordList = function( words, text ) {
 };
 
 /**
- * Returns the indices of a string in a text. If it is found multiple times, it will return multiple indices.
- *
- * @param {string} stopCharacter The stop character to find in the text.
- * @param {string} text The text to check for the given stop character.
- * @returns {Array} All indices found.
- */
-function getIndicesByStopCharacter( stopCharacter, text ) {
-	var startIndex = 0;
-	var searchStringLength = stopCharacter.length;
-	var index, indices = [];
-	while ( ( index = text.indexOf( stopCharacter, startIndex ) ) > -1 ) {
-		indices.push(
-			{
-				index: index,
-				match: stopCharacter,
-			}
-		);
-		startIndex = index + searchStringLength;
-	}
-	return indices;
-}
-
-/**
- * Matches string with an array, returns the stop character and the index it was found on.
- *
- * @param {Array} stopCharacters The array with strings to match.
- * @param {string} text The text to match the strings from the array to.
- * @returns {Array} The array with stop characters, containing the index of the match and the matched string.
- * Returns an empty array if none are found.
- */
-var getIndicesByStopCharacterList = function( stopCharacters, text ) {
-	var matchedStopCharacters = [];
-
-	forEach( stopCharacters, function( word ) {
-		matchedStopCharacters = matchedStopCharacters.concat( getIndicesByStopCharacter( word, text ) );
-	} );
-	return matchedStopCharacters;
-};
-
-/**
  * Sorts the array on the index property of each entry.
  *
  * @param {Array} indices The array with indices.
@@ -136,5 +96,5 @@ module.exports = {
 	getIndicesByWordList: getIndicesByWordList,
 	filterIndices: filterIndices,
 	sortIndices: sortIndices,
-	getIndicesByStopCharacterList: getIndicesByStopCharacterList,
+	//getIndicesByStopCharacterList: getIndicesByStopCharacterList,
 };
