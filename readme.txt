@@ -132,7 +132,8 @@ Release Date: October 10th, 2017
 Enhancements
 	* Removes legacy license page and shows the new license page by default.
 	* Changes references from licenses to subscriptions and sites on the extensions submenu page.
-	* Changes the appearance of the Help Center in line with the new design approach.
+	* Changes the appearance of the Help Center in line with our design approach.
+	* Introduces an explanation bar when the Cornerstone content filter is active.
 
 Bugfixes
 	* Fixes a bug where hebrew slugs aren't decoded on display in the bulk editor.
