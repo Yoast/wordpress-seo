@@ -44,5 +44,8 @@ module.exports = function() {
 		"do",
 		"does",
 		"–",
+		"and",
+		"but",
+		"or"
 	];
 };
