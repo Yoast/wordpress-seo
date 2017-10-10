@@ -61,6 +61,7 @@ You can also invoke internal components directly to be able to work with the raw
 
 ```js
 var Researcher = require( "yoastseo" ).Researcher;
+var Paper = require( "yoastseo" ).Paper;
 
 var researcher = new Researcher( new Paper( "Text that has been written" ) );
 
