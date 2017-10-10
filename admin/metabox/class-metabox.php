@@ -321,6 +321,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			echo $this->get_buy_premium_link();
 		}
 
+		echo '<div class="wpseo-metabox-content">';
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
@@ -336,6 +337,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		foreach ( $content_sections as $content_section ) {
 			$content_section->display_content();
 		}
+
+		echo '</div>';
 	}
 
 	/**
@@ -444,9 +447,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_buy_premium_section() {
-		$content = sprintf( "<div class='wpseo-metabox-premium-description'>
+		$content = sprintf( "<div class='wpseo-premium-description'>
 			%s
-			<ul class='wpseo-metabox-premium-advantages'>
+			<ul class='wpseo-premium-advantages-list'>
 				<li>
 					<strong>%s</strong> - %s
 				</li>

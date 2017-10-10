@@ -192,15 +192,14 @@ class HelpCenter extends React.Component {
 	 */
 	render() {
 		return (
-			<div classID="yoast-help-center">
-				<HelpCenterYC
-					buttonBackgroundColor={ colors.$color_white }
-					buttonTextColor={ colors.$color_pink_dark }
-					buttonIconColor={ colors.$color_pink_dark }
-					buttonWithTextShadow={ false }
-					onHelpCenterToggle={ this.props.onHelpCenterToggle }
-					items={ this.getTabs() }/>
-			</div>
+			<HelpCenterYC
+				buttonBackgroundColor={ colors.$color_white }
+				buttonTextColor={ colors.$color_pink_dark }
+				buttonIconColor={ colors.$color_pink_dark }
+				buttonWithTextShadow={ false }
+				onHelpCenterToggle={ this.props.onHelpCenterToggle }
+				items={ this.getTabs() }
+			/>
 		);
 	}
 }

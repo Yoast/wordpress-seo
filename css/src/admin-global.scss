@@ -1,6 +1,12 @@
 @import "menu";
 @import "../../node_modules/yoastseo/css/tooltips";
 
+/* General typography */
+.yoast-measure {
+	max-width: 600px;
+}
+
+/* Thickbox */
 #TB_window .wpseo_content_wrapper p {
 	font-size: 14px;
 	font-style: normal;
@@ -13,8 +19,11 @@
 }
 
 .wpseo-premium-popup-title {
-	margin: 1em 0;
-	font-size: 1.3em;
+	// Using !important to override WP styles.
+	margin: 1em 0 !important;
+	padding: 0 !important;
+	font-size: 1.3em !important;
+	font-weight: 600 !important;
 }
 
 .wpseo-premium-popup-icon {
@@ -269,7 +278,6 @@ td.column-wpseo-linked {
 	visibility: visible;
 }
 
-
 @media screen and ( max-width: 782px ) {
 	.yoast-settings {
 		padding-left: 0;
@@ -316,8 +324,9 @@ td.column-wpseo-linked {
 	}
 }
 
+/* Help Center */
 #yoast-help-center-container {
-	margin: 16px 0;
+	margin: 16px 0 24px;
 }
 
 .react-tabs__tab-panel {
@@ -325,7 +334,7 @@ td.column-wpseo-linked {
 	margin: 0 auto;
 
 	li {
-		max-width: initial !important;
+		max-width: none !important;
 	}
 }
 
@@ -335,4 +344,13 @@ td.column-wpseo-linked {
 
 .contact-premium-support-container  {
 	text-align: center;
+}
+
+.wpseo-premium-description {
+	margin-top: 0.5em;
+}
+
+.wpseo-premium-advantages-list {
+	list-style: disc;
+	padding-left: 1.5em;
 }
