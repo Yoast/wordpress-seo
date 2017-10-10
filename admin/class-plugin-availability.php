@@ -75,7 +75,11 @@ class WPSEO_Plugin_Availability {
 				'description' => sprintf( __( 'Seamlessly integrate ACF with %1$s for the content analysis!', 'wordpress-seo' ), 'Yoast SEO' ),
 				'installed'   => false,
 				'slug'        => 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php',
-				'_dependencies' => array( 'Advanced Custom Fields' => array( 'slug' => 'advanced-custom-fields/acf.php' ) )
+				'_dependencies' => array(
+					'Advanced Custom Fields' => array(
+						'slug' => 'advanced-custom-fields/acf.php',
+					),
+				),
 			),
 
 			'yoastseo-amp' => array(
@@ -85,10 +89,12 @@ class WPSEO_Plugin_Availability {
 				'description' => sprintf( __( 'Seamlessly integrate %1$s into your AMP pages!', 'wordpress-seo' ), 'Yoast SEO' ),
 				'installed'   => false,
 				'slug'        => 'glue-for-yoast-seo-amp/yoastseo-amp.php',
-				'_dependencies' => array( 'AMP' => array( 'slug' => 'amp/amp.php' ) )
+				'_dependencies' => array(
+					'AMP' => array(
+						'slug' => 'amp/amp.php',
+					),
+				),
 			),
-
-
 		);
 	}
 
@@ -264,7 +270,7 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Gets the names of the dependencies.
 	 *
-	 * @param $plugin The plugin to get the dependency names from.
+	 * @param array $plugin The plugin to get the dependency names from.
 	 *
 	 * @return array Array containing the names of the associated dependencies.
 	 */
@@ -283,8 +289,7 @@ class WPSEO_Plugin_Availability {
 	 */
 	public function get_plugins_with_dependencies() {
 		return array_filter( $this->plugins, function( $plugin ) {
-			return array_key_exists( '_dependencies', $plugin ) && ! empty( $plugin['_dependencies' ] );
+			return array_key_exists( '_dependencies', $plugin ) && ! empty( $plugin['_dependencies'] );
 		} );
 	}
-
 }
