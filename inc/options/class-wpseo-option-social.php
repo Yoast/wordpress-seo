@@ -237,7 +237,11 @@ class WPSEO_Option_Social extends WPSEO_Option {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
 									'_' . $key, // Suffix-id for the error message box.
-									sprintf( __( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // The error message.
+									sprintf(
+										/* translators: %s expands to a twitter user name. */
+										__( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ),
+										'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
+									), // The error message.
 									'error' // Error type, either 'error' or 'updated'.
 								);
 							}
