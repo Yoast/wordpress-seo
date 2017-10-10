@@ -7,7 +7,7 @@
 $alerts_data = Yoast_Alerts::get_template_variables();
 
 ?>
-<div class="wrap yoast-alerts">
+<div class="yoast-alerts">
 
 	<h2><?php
 		/* translators: %1$s expands to Yoast SEO */

@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
 Tested up to: 4.8.2
-Stable tag: 5.5.1
+Stable tag: 5.6
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -131,13 +131,14 @@ Release Date: October 10th, 2017
 
 Enhancements
 	* Removes legacy license page and shows the new license page by default.
-	* Changes references from licenses to subscriptions and sites on the extensions submenu page.
-	* Changes the appearance of the Help Center in line with the new design approach.
+	* Changes references from licenses to subscriptions and sites on the premium submenu page.
+	* Changes the appearance of the Help Center in line with our design approach.
+	* Introduces an explanation bar when the `Cornerstone content` filter is active.
 
 Bugfixes
-	* Fixes a bug where hebrew slugs aren't decoded on display in the bulk editor.
-	* Fixes a bug where the internal link count is not updated when there are no links to an object.
-	* Fixes the Cornerstone Content filter to behave consistently with existing WordPress Filters.
+	* Fixes a bug where Hebrew slugs aren't decoded on display in the bulk editor.
+	* Fixes a bug where the internal link count is not updated when there are no links to that page or post anymore.
+	* Fixes the `Cornerstone content` filter to behave consistently with existing WordPress filters.
 
 = 5.5.1 =
 
