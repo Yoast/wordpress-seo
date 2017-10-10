@@ -176,6 +176,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	public function translate_defaults() {
 		/* translators: 1: Author name; 2: Site name. */
 		$this->defaults['title-author-wpseo'] = sprintf( __( '%1$s, Author at %2$s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ';
+		/* translators: %s expands to the search phrase. */
 		$this->defaults['title-search-wpseo'] = sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%';
 		$this->defaults['title-404-wpseo']    = __( 'Page not found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%';
 	}
@@ -215,6 +216,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		}
 
 		if ( $post_type_objects_custom !== array() ) {
+			/* translators: %s expands to the name of a post type (plural). */
 			$archive = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
 			foreach ( $post_type_objects_custom as $pt ) {
 				if ( ! $pt->has_archive ) {
@@ -231,6 +233,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		}
 
 		if ( $taxonomy_names !== array() ) {
+			/* translators: %s expands to the variable used for term title. */
 			$archives = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
 			foreach ( $taxonomy_names as $tax ) {
 				$this->defaults[ 'title-tax-' . $tax ]       = $archives . ' %%page%% %%sep%% %%sitename%%'; // Text field.
