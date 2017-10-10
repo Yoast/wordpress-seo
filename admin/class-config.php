@@ -69,8 +69,6 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager->enqueue_style( 'select2' );
 
 		$this->asset_manager->enqueue_style( 'admin-css' );
-
-		$this->asset_manager->enqueue_style( 'kb-search' );
 	}
 
 	/**

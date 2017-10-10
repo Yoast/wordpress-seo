@@ -80,9 +80,10 @@ let bindEventHandlers = ( algoliaSearchers )  => {
 };
 
 /**
- *  Initializes the AlgoliaSearchers (in the knowledge base tabs).
+ * Initializes the AlgoliaSearchers (in the knowledge base tabs).
  *
- *  @returns {void}
+ * @deprecated 5.7 Use yoast-components's AlgoliaSearcher.
+ * @returns {void}
  */
 let initializeAlgoliaSearch = () => {
 	let algoliaSearchers = renderAlgoliaSearchers();
