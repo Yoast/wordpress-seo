@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Recalculate
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Recalculate_Posts_Test_Double extends WPSEO_Recalculate_Posts {
 
 	/**

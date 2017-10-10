@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\OnPage
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_OnPage_Double extends WPSEO_OnPage {
 
 	/**
@@ -29,6 +32,9 @@ class WPSEO_OnPage_Double extends WPSEO_OnPage {
 
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 	/**

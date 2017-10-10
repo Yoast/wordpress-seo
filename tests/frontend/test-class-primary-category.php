@@ -4,6 +4,7 @@
  */
 
 /**
+ * Unit Test Class.
  */
 class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 

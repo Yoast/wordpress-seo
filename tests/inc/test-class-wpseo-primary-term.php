@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Inc
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Primary_Term_Double extends WPSEO_Primary_Term {
 
 	/**
@@ -19,6 +22,9 @@ class WPSEO_Primary_Term_Double extends WPSEO_Primary_Term {
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 
 	/**

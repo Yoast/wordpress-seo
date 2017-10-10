@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Formatter
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 	/**

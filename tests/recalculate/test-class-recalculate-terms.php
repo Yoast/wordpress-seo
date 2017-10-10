@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Recalculate
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Recalculate_Terms_Test extends WPSEO_UnitTestCase {
 
 	/**

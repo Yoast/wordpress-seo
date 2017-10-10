@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Capabilities
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Register_Capabilities_Tests extends PHPUnit_Framework_TestCase {
 	public function test_register() {
 		$manager = WPSEO_Capability_Manager_Factory::get();

@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Admin
  */
 
+/**
+ * Unit Test Class.
+ */
 class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 
 	/**

@@ -3,6 +3,9 @@
  * @package WPSEO\Tests
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 	public function determine_seo_filters( $seo_filter ) {
 		return parent::determine_seo_filters( $seo_filter );
@@ -22,6 +25,9 @@ class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 }
 
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**

@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Admin\Links
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Link_Utils_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Link_Utils::get_public_post_types

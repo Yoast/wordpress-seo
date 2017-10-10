@@ -3,6 +3,9 @@
  * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 
 	protected $class_instance;

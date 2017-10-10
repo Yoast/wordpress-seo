@@ -3,6 +3,9 @@
  * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 
 	/**

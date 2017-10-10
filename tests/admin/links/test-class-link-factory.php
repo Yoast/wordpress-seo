@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Admin\Links
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 
 	/**

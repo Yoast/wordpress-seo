@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Admin
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Stop_WordsTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @var WPSEO_Admin_Stop_Words

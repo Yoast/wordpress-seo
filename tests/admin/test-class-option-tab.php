@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Admin
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Option_Tab_Test extends WPSEO_UnitTestCase {
 
 	public function test_get_name() {

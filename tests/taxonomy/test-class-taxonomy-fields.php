@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Taxonomy
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Taxonomy_Fields_Double extends WPSEO_Taxonomy_Fields {
 
 	/**
@@ -16,6 +19,9 @@ class WPSEO_Taxonomy_Fields_Double extends WPSEO_Taxonomy_Fields {
 
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Taxonomy_Fields_Test extends WPSEO_UnitTestCase {
 
 	public function test_construct_with_options() {

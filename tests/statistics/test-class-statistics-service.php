@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Statistics
  */
 
+/**
+ * Test Helper Class.
+ */
 class Statistics_Mock extends WPSEO_Statistics {
 	private $rank_counts;
 
@@ -19,6 +22,9 @@ class Statistics_Mock extends WPSEO_Statistics {
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 	public function tearDown() {
 		delete_transient( WPSEO_Statistics_Service::CACHE_TRANSIENT_KEY );

@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\OnPage
  */
 
+/**
+ * Test Helper Class.
+ */
 class OnPage_Option_Mock extends WPSEO_OnPage_Option {
 	private $enabled;
 	private $status;
@@ -27,6 +30,9 @@ class OnPage_Option_Mock extends WPSEO_OnPage_Option {
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Ryte_Service_Test extends WPSEO_UnitTestCase {
 	public function test_cannot_view_ryte() {
 		$onpage     = new OnPage_Option_Mock( false, WPSEO_OnPage_Option::IS_INDEXABLE, true );

@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Admin\Banner
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Features_Mock extends WPSEO_Features {
 
 	public function is_free() {
@@ -10,6 +13,10 @@ class WPSEO_Features_Mock extends WPSEO_Features {
 	}
 
 }
+
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 
 	/** @var WPSEO_Admin_Banner_Sidebar */

@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Inc
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Shortlinker_Test extends PHPUnit_Framework_TestCase {
 
 	public function test_build_shortlink() {
