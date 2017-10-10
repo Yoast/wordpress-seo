@@ -8,7 +8,7 @@ var characterInBoundary = require( "../stringProcessing/matchWordInSentence.js" 
  * Returns the indices of a string in a text. If it is found multiple times, it will return multiple indices.
  *
  * @param {string} word The word to find in the text.
- * @param {string} text The text to check for the given word..
+ * @param {string} text The text to check for the given word.
  * @returns {Array} All indices found.
  */
 function getIndicesByWord( word, text ) {
@@ -96,5 +96,4 @@ module.exports = {
 	getIndicesByWordList: getIndicesByWordList,
 	filterIndices: filterIndices,
 	sortIndices: sortIndices,
-	//getIndicesByStopCharacterList: getIndicesByStopCharacterList,
 };
