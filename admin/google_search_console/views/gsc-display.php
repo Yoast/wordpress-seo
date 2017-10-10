@@ -3,8 +3,8 @@
  * @package WPSEO\Admin|Google_Search_Console
  */
 
-	// Admin header.
-	Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpseo_gsc_options' );
+// Admin header.
+Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpseo_gsc_options' );
 
 if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== '' ) { ?>
 	<form action="" method="post" class="wpseo-gsc-reload-crawl-issues-form">
@@ -30,7 +30,8 @@ else {
 
 $tab = new WPSEO_Option_Tab( 'GSC', __( 'Google Search Console', 'wordpress-seo' ), array( 'video_url' => $video_url ) );
 $gsc_help_center = new WPSEO_Help_Center( 'google-search-console', $tab );
-$gsc_help_center->output_help_center();
+$gsc_help_center->localize_data();
+$gsc_help_center->mount();
 
 switch ( $platform_tabs->current_tab() ) {
 	case 'settings' :
