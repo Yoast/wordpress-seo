@@ -80,7 +80,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		// Setup.
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
 
-		// vars.
+		// Vars.
 		$meta_fields = apply_filters( 'wpseo_save_metaboxes', array() );
 		$meta_fields = array_merge(
 			$meta_fields,

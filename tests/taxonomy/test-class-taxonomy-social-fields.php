@@ -19,14 +19,14 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 	private $options = array();
 
 	/**
-	 * Adding a term and set the class instance
+	 * Adding a term and set the class instance.
 	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->term = $this->factory->term->create_and_get();
 
-		// Setting the social networks to true
+		// Setting the social networks to true.
 		$this->options['opengraph'] = true;
 		$this->options['twitter']   = true;
 	}
@@ -57,7 +57,7 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Fetching the fields for the social tab with all networks enabled
+	 * Fetching the fields for the social tab with all networks enabled.
 	 *
 	 * @covers WPSEO_Taxonomy_Social_Fields::get
 	 */
@@ -78,7 +78,7 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Fetching the fields for the social tab with OpenGraph disabled
+	 * Fetching the fields for the social tab with OpenGraph disabled.
 	 *
 	 * @covers WPSEO_Taxonomy_Social_Fields::get
 	 */
@@ -98,7 +98,7 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Fetching the fields for the social tab with twitter disabled
+	 * Fetching the fields for the social tab with twitter disabled.
 	 *
 	 * @covers WPSEO_Taxonomy_Social_Fields::get
 	 */

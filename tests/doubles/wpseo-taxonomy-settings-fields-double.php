@@ -9,9 +9,9 @@
 class WPSEO_Taxonomy_Settings_Fields_Double extends WPSEO_Taxonomy_Settings_Fields {
 
 	/**
-	 * Override an option value
+	 * Override an option value.
 	 *
-	 * @param string $option_name  The target key which will be overwritten
+	 * @param string $option_name  The target key which will be overwritten.
 	 * @param string $option_value The new value for the option.
 	 */
 	public function set_option( $option_name, $option_value ) {

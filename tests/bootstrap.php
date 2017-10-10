@@ -3,7 +3,7 @@
  * @package WPSEO\Tests
  */
 
-// disable xdebug backtrace
+// Disable xdebug backtrace.
 if ( function_exists( 'xdebug_disable' ) ) {
 	xdebug_disable();
 }
@@ -31,5 +31,5 @@ else {
 
 define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
 
-// include unit test base class
+// Include unit test base class.
 require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case.php';

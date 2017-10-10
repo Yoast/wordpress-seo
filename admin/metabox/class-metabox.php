@@ -29,7 +29,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $analysis_readability;
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 */
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
@@ -58,7 +58,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Translate text strings for use in the meta box
+	 * Translate text strings for use in the meta box.
 	 *
 	 * IMPORTANT: if you want to add a new string (option) somewhere, make sure you add that array key to
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
@@ -127,13 +127,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Test whether the metabox should be hidden either by choice of the admin or because
-	 * the post type is not a public post type
+	 * the post type is not a public post type.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param  string $post_type (optional) The post type to test, defaults to the current post post_type.
+	 * @param  string $post_type Optional. The post type to test, defaults to the current post post_type.
 	 *
-	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
+	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden.
 	 */
 	public function is_metabox_hidden( $post_type = null ) {
 		if ( ! isset( $post_type ) && ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) ) {
@@ -232,7 +232,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Pass variables to js for use with the post-scraper
+	 * Pass variables to js for use with the post-scraper.
 	 *
 	 * @return array
 	 */
@@ -292,7 +292,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Output a tab in the Yoast SEO Metabox
+	 * Output a tab in the Yoast SEO Metabox.
 	 *
 	 * @param string $id      CSS ID of the tab.
 	 * @param string $heading Heading for the tab.
@@ -307,7 +307,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Output the meta box
+	 * Output the meta box.
 	 */
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
@@ -545,9 +545,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Adds a line in the meta box
+	 * Adds a line in the meta box.
 	 *
-	 * @todo [JRF] check if $class is added appropriately everywhere
+	 * @todo [JRF] Check if $class is added appropriately everywhere.
 	 *
 	 * @param   array  $meta_field_def Contains the vars based on which output is generated.
 	 * @param   string $key            Internal key (without prefix).
@@ -790,7 +790,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @param int $post_id Post ID.
 	 *
-	 * @return  bool|void   Boolean false if invalid save post request
+	 * @return  bool|void   Boolean false if invalid save post request.
 	 */
 	public function save_postdata( $post_id ) {
 		// Bail if this is a multisite installation and the site has been switched.
@@ -858,7 +858,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Determines if the given meta value key is disabled
+	 * Determines if the given meta value key is disabled.
 	 *
 	 * @param string $key The key of the meta value.
 	 * @return bool Whether the given meta value key is disabled.
@@ -878,7 +878,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Enqueues all the needed JS and CSS.
 	 *
-	 * @todo [JRF => whomever] create css/metabox-mp6.css file and add it to the below allowed colors array when done
+	 * @todo [JRF => whomever] Create css/metabox-mp6.css file and add it to the below allowed colors array when done.
 	 */
 	public function enqueue() {
 		global $pagenow;
@@ -950,7 +950,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Returns post in metabox context
+	 * Returns post in metabox context.
 	 *
 	 * @returns WP_Post|array
 	 */
@@ -1215,7 +1215,7 @@ SVG;
 
 	// @codeCoverageIgnoreStart
 	/**
-	 * Adds the Yoast SEO box
+	 * Adds the Yoast SEO box.
 	 *
 	 * @deprecated 1.4.24
 	 * @deprecated use WPSEO_Metabox::add_meta_box()
@@ -1244,7 +1244,7 @@ SVG;
 	}
 
 	/**
-	 * Pass some variables to js
+	 * Pass some variables to js.
 	 *
 	 * @deprecated 1.5.0
 	 * @deprecated use WPSEO_Meta::localize_script()
@@ -1257,7 +1257,7 @@ SVG;
 	}
 
 	/**
-	 * @deprecated 3.0 Removed, use javascript functions instead
+	 * @deprecated 3.0 Removed, use javascript functions instead.
 	 *
 	 * @param string $string Deprecated.
 	 *
@@ -1335,7 +1335,7 @@ SVG;
 	/**
 	 * @deprecated 3.0 Use WPSEO_Meta_Columns::column_sort instead.
 	 *
-	 * @param array $columns appended with their orderby variable.
+	 * @param array $columns Columns appended with their orderby variable.
 	 *
 	 * @return array
 	 */
@@ -1367,7 +1367,7 @@ SVG;
 	 *
 	 * @param array|false $result The hidden columns.
 	 * @param string      $option The option name used to set which columns should be hidden.
-	 * @param WP_User     $user The User.
+	 * @param WP_User     $user   The User.
 	 *
 	 * @return array|false $result
 	 */
@@ -1671,7 +1671,7 @@ SVG;
 	 *
 	 * Retrieves the title template.
 	 *
-	 * @param object $post metabox post.
+	 * @param object $post Metabox post.
 	 *
 	 * @return string
 	 */
@@ -1686,7 +1686,7 @@ SVG;
 	 *
 	 * Retrieves the metadesc template.
 	 *
-	 * @param object $post metabox post.
+	 * @param object $post Metabox post.
 	 *
 	 * @return string
 	 */
