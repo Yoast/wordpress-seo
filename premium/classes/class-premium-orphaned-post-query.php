@@ -20,22 +20,26 @@ class WPSEO_Premium_Orphaned_Post_Query {
 
 		$post_ids = self::get_orphaned_object_ids();
 
-		$results = $wpdb->get_results(
-			$wpdb->prepare( // WPCS: PreparedSQLPlaceholders replacement count OK.
+		$post_type_counts = array_fill_keys( $post_types, 0 );
+
+		$post_id_count = count( $post_ids );
+		if ( $post_id_count > 0 ) {
+			$results = $wpdb->get_results(
+				$wpdb->prepare( // WPCS: PreparedSQLPlaceholders replacement count OK.
 				'SELECT COUNT( ID ) as total_orphaned, post_type
 				  FROM ' . $wpdb->posts . '
 				 WHERE 
-				    ID IN( ' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')
+				    ID IN(' . implode( ',', array_fill( 0, $post_id_count, '%d' ) ) . ')
 				    AND post_status = "publish"
-				    AND post_type IN( ' . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ')
+				    AND post_type IN(' . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ')
 				 GROUP BY post_type',
-				array_merge( $post_ids, $post_types )
-			)
-		);
+					array_merge( $post_ids, $post_types )
+				)
+			);
 
-		$post_type_counts = array();
-		foreach ( $results as $result ) {
-			$post_type_counts[ $result->post_type ] = (int) $result->total_orphaned;
+			foreach ( $results as $result ) {
+				$post_type_counts[ $result->post_type ] = (int) $result->total_orphaned;
+			}
 		}
 
 		return $post_type_counts;

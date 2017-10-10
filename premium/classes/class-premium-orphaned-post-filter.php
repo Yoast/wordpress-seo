@@ -21,6 +21,10 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	 * Registers the hooks when the link feature is enabled.
 	 */
 	public function register_hooks() {
+		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::check_table_is_accessible() ) {
+			return;
+		}
+
 		if ( WPSEO_Premium_Orphaned_Content_Utils::is_feature_enabled() ) {
 			parent::register_hooks();
 		}
@@ -105,6 +109,10 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 		}
 
 		$post_ids = WPSEO_Premium_Orphaned_Post_Query::get_orphaned_object_ids();
+		if ( empty( $post_ids ) ) {
+			return 'AND 1 = 0';
+		}
+
 		return ' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_map( 'intval', $post_ids ) ) . ' ) ';
 	}
 

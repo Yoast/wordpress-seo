@@ -34,12 +34,17 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
  *
  * @param string $id The id for the tab.
  */
-function render_help_center( $id ) {
-	$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-' . $id, __( 'Bulk editor', 'wordpress-seo' ),
-		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) ) );
+function render_help_center() {
+	$tabs = new WPSEO_Option_Tabs('', '' );
+	$tabs->add_tab( new WPSEO_Option_Tab( 'title', __( 'Bulk editor', 'wordpress-seo' ),
+		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) ) ) );
 
-	$helpcenter = new WPSEO_Help_Center( 'bulk-editor' . $id, $helpcenter_tab );
-	$helpcenter->output_help_center();
+	$tabs->add_tab( new WPSEO_Option_Tab( 'description', __( 'Bulk editor', 'wordpress-seo' ),
+		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) ) ) );
+
+	$helpcenter = new WPSEO_Help_Center( '', $tabs );
+	$helpcenter->localize_data();
+	$helpcenter->mount();
 }
 
 /**
@@ -52,7 +57,6 @@ function get_rendered_tab( $table, $id ) {
 	?>
 	<div id="<?php echo $id ?>" class="wpseotab">
 		<?php
-		render_help_center( $id );
 		$table->show_page();
 		?>
 	</div>
@@ -76,6 +80,8 @@ function get_rendered_tab( $table, $id ) {
 		<a class="nav-tab" id="description-tab"
 		   href="#top#description"><?php _e( 'Description', 'wordpress-seo' ); ?></a>
 	</h2>
+
+	<?php render_help_center(); ?>
 
 	<div class="tabwrapper">
 		<?php get_rendered_tab( $wpseo_bulk_titles_table, 'title' )?>

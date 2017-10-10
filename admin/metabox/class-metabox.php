@@ -313,13 +313,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$helpcenter_tab = new WPSEO_Option_Tab( 'metabox', 'Meta box',
 			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ) ) );
 
-		$helpcenter = new WPSEO_Help_Center( 'metabox', $helpcenter_tab );
-		$helpcenter->output_help_center();
+		$help_center = new WPSEO_Help_Center( '', $helpcenter_tab );
+		$help_center->localize_data();
+		$help_center->mount();
 
 		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 			echo $this->get_buy_premium_link();
 		}
 
+		echo '<div class="wpseo-metabox-content">';
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
@@ -335,6 +337,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		foreach ( $content_sections as $content_section ) {
 			$content_section->display_content();
 		}
+
+		echo '</div>';
 	}
 
 	/**
@@ -443,9 +447,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_buy_premium_section() {
-		$content = sprintf( "<div class='wpseo-metabox-premium-description'>
+		$content = sprintf( "<div class='wpseo-premium-description'>
 			%s
-			<ul class='wpseo-metabox-premium-advantages'>
+			<ul class='wpseo-premium-advantages-list'>
 				<li>
 					<strong>%s</strong> - %s
 				</li>
@@ -895,6 +899,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'kb-search' );
 
 			$asset_manager->enqueue_script( 'metabox' );
+			$asset_manager->enqueue_script( 'help-center' );
 			$asset_manager->enqueue_script( 'admin-media' );
 
 			$asset_manager->enqueue_script( 'post-scraper' );

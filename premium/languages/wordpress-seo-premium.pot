@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-09-28 13:08:37+00:00\n"
+"POT-Creation-Date: 2017-10-10 07:57:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,39 +24,39 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:116
+#: class-premium.php:118
 msgid "Metabox insights"
 msgstr ""
 
-#: class-premium.php:118
+#: class-premium.php:120
 msgid ""
 "The metabox insights section contains insights about your content, like an "
 "overview of the most prominent words in your text."
 msgstr ""
 
-#: class-premium.php:121
+#: class-premium.php:123
 msgid "Link suggestions"
 msgstr ""
 
-#: class-premium.php:123
+#: class-premium.php:125
 msgid ""
 "The link suggestions section contains a list of posts on your blog with "
 "similar content that might be interesting to link to."
 msgstr ""
 
-#: class-premium.php:385
+#: class-premium.php:387
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:417
+#: class-premium.php:419
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:436 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:438 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:470
+#: class-premium.php:472
 msgid "Enabled"
 msgstr ""
 
@@ -67,7 +67,7 @@ msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
 #. href=''>, %4$s: </a>, %5$s: Slug to post
-#: classes/class-post-watcher.php:147
+#: classes/class-post-watcher.php:148
 msgid ""
 "%1$s detected that you moved a post (%5$s) to the trash. You can either: "
 "%2$s Don't know what to do? %3$sRead this post%4$s."
@@ -75,7 +75,7 @@ msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: <a href='{undo_redirect_url}'>,
 #. %3$s: </a>, %4$s: Slug to post
-#: classes/class-post-watcher.php:175
+#: classes/class-post-watcher.php:176
 msgid ""
 "%1$s detected that you restored a post (%4$s) from the trash. %2$sClick here "
 "to remove the redirect%3$s"
@@ -85,7 +85,7 @@ msgstr ""
 #. admin page, %4$s: Old slug of the post, %5$s: New slug of the post, the text
 #. surrounded by %6$s and %7$s is placed in a button that can undo the created
 #. redirect
-#: classes/class-post-watcher.php:333
+#: classes/class-post-watcher.php:334
 msgid ""
 "%1$s created a %2$sredirect%3$s from the old post URL to the new post URL. "
 "%6$sClick here to undo this%7$s <br> Old URL: %4$s <br> New URL: %5$s"
@@ -93,7 +93,7 @@ msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
 #. href='{post_with_explaination.}'>, %4$s: </a>
-#: classes/class-post-watcher.php:346
+#: classes/class-post-watcher.php:347
 msgid ""
 "%1$s detected that you deleted a post. You can either: %2$s Don't know what "
 "to do? %3$sRead this post %4$s."
@@ -254,6 +254,53 @@ msgstr ""
 #: classes/class-premium-link-suggestions-service.php:206
 msgid "(no title)"
 msgstr ""
+
+#. translators: %1$s expands to the link to an article to read more about
+#. orphaned content, %2$s expands to </a>
+#: classes/class-premium-orphaned-post-filter.php:50
+msgid "%1$sLearn more about orphaned content%2$s."
+msgstr ""
+
+#. translators: %1$s: plural form of the current post type, %2$s: a Learn more
+#. about link
+#: classes/class-premium-orphaned-post-filter.php:58
+msgid ""
+"Ask your SEO Manager or Site Administrator to count links in all texts, so "
+"we can identify orphaned %1$s. %2$s"
+msgstr ""
+
+#. translators: %1$s expands to link to the recalculation option, %2$s: anchor
+#. closing, %3$s: plural form of the current post type, %4$s: a Learn more
+#. about link
+#: classes/class-premium-orphaned-post-filter.php:67
+msgid ""
+"%1$sClick here%2$s to index your links, so we can identify orphaned %3$s. "
+"%4$s"
+msgstr ""
+
+#. translators: %1$s: plural form of the current post type, %2$s: a Learn more
+#. about link
+#: classes/class-premium-orphaned-post-filter.php:77
+msgid ""
+"'Orphaned content' refers to %1$s that have no inbound links, consider "
+"adding links towards these %1$s. %2$s"
+msgstr ""
+
+#: classes/class-premium-orphaned-post-filter.php:128
+msgid "Orphaned content"
+msgstr ""
+
+#. translators: %1$s: Link to the filter page, %2$d: amount of orphaned items,
+#. %3$s: plural/singular form of post type, %4$s closing tag.
+#: classes/class-premium-orphaned-post-notifier.php:123
+msgid ""
+"We've detected %1$s%2$d 'orphaned' %3$s%4$s (no inbound links). Consider "
+"adding links towards this %3$s."
+msgid_plural ""
+"We've detected %1$s%2$d 'orphaned' %3$s%4$s (no inbound links). Consider "
+"adding links towards these %3$s."
+msgstr[0] ""
+msgstr[1] ""
 
 #: classes/class-premium-prominent-words-link-service.php:23
 msgid "There is no post found for the given post id."
