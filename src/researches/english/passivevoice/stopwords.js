@@ -46,6 +46,6 @@ module.exports = function() {
 		"–",
 		"and",
 		"but",
-		"or"
+		"or",
 	];
 };
