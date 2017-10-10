@@ -9,7 +9,7 @@
 class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @type WPSEO_Frontend_Primary_Category
+	 * @var WPSEO_Frontend_Primary_Category
 	 */
 	protected $subject;
 
