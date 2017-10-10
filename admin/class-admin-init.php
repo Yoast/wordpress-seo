@@ -275,44 +275,40 @@ class WPSEO_Admin_Init {
 		);
 	}
 
+	/**
+	 * Determines whether a suggested plugins notification needs to be displayed.
+	 *
+	 * @return void
+	 */
 	public function yoast_plugin_suggestions_notification() {
-		$availability_checker = new WPSEO_Plugin_Availability();
+		$checker = new WPSEO_Plugin_Availability();
 		$notification_center = Yoast_Notification_Center::get();
 
-		// Get all Yoast plugins!
-		$plugins = $availability_checker->get_plugins();
+		// Get all Yoast plugins that have dependencies.
+		$plugins = $checker->get_plugins_with_dependencies();
 
-		foreach ( $plugins as $plugin_key => $plugin ) {
-			$has_dependencies = $availability_checker->has_dependencies( $plugin );
+		foreach ( $plugins as $plugin_name => $plugin ) {
+			$dependency_name = $checker->get_dependency_names( $plugin )[0];
+			$notification = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_name );
 
-			if ( ! $has_dependencies ) {
+			if ( $checker->dependencies_are_satisfied( $plugin ) && ! $checker->is_installed( $plugin ) ) {
+				$notification_center->add_notification( $notification );
+
 				continue;
 			}
 
-			$dependencies_are_satisfied = $availability_checker->dependencies_are_satisfied( $plugin_key );
-
-			if ( ! $dependencies_are_satisfied ) {
-				continue;
-			}
-
-			if ( $availability_checker->is_installed( $plugin_key ) ) {
-				continue;
-			}
-
-			$dependency_name = array_keys($plugin['_dependencies'])[0];
-
-			$notification = $this->get_yoast_seo_suggested_plugins_notification( $plugin_key, $plugin, $dependency_name );
-			$notification_center->add_notification( $notification );
+			$notification_center->remove_notification( $notification );
 		}
 	}
 
 	/**
-	 * Build Yoast SEO suggested plugins notification
+	 * Build Yoast SEO suggested plugins notification.
 	 *
-	 * @param string $name The plugin name to use for the unique ID.
+	 * @param string $name   The plugin name to use for the unique ID.
 	 * @param array  $plugin The plugin to retrieve the data from.
+	 * @param string $dependency_name The name of the dependency.
 	 *
-	 * @return Yoast_Notification
+	 * @return Yoast_Notification The notification containing the suggested plugin.
 	 */
 	private function get_yoast_seo_suggested_plugins_notification( $name, $plugin, $dependency_name ) {
 		$info_message = sprintf(
@@ -347,10 +343,11 @@ class WPSEO_Admin_Init {
 
 			if ( $plugin['compatible'] === false ) {
 				$notification_center->add_notification( $notification );
+
+				return;
 			}
-			else {
-				$notification_center->remove_notification( $notification );
-			}
+
+			$notification_center->remove_notification( $notification );
 		}
 	}
 

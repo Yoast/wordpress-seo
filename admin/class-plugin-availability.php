@@ -69,21 +69,22 @@ class WPSEO_Plugin_Availability {
 			),
 
 			'yoast-acf-analysis' => array(
-				'url'         => 'https://github.com/Yoast/yoast-acf-analysis',
+				'url'         => 'https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/',
 				'title'       => 'ACF Content Analysis for Yoast SEO',
 				/* translators: %1$s expands to Yoast SEO */
 				'description' => sprintf( __( 'Seamlessly integrate ACF with %1$s for the content analysis!', 'wordpress-seo' ), 'Yoast SEO' ),
 				'installed'   => false,
-				'slug'        => 'yoast-acf-analysis/yoast-acf-analysis.php',
+				'slug'        => 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php',
+				'_dependencies' => array( 'Advanced Custom Fields' => array( 'slug' => 'advanced-custom-fields/acf.php' ) )
 			),
 
 			'yoastseo-amp' => array(
-				'url'         => 'https://github.com/Yoast/yoastseo-amp',
+				'url'         => 'https://wordpress.org/plugins/glue-for-yoast-seo-amp/',
 				'title'       => 'Yoast SEO AMP Glue',
 				/* translators: %1$s expands to Yoast SEO */
 				'description' => sprintf( __( 'Seamlessly integrate %1$s into your AMP pages!', 'wordpress-seo' ), 'Yoast SEO' ),
 				'installed'   => false,
-				'slug'        => 'yoastseo-amp/yoastseo-amp.php',
+				'slug'        => 'glue-for-yoast-seo-amp/yoastseo-amp.php',
 				'_dependencies' => array( 'AMP' => array( 'slug' => 'amp/amp.php' ) )
 			),
 
@@ -224,7 +225,7 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Gets all installed plugins.
 	 *
-	 * @return array
+	 * @return array The installed plugins.
 	 */
 	public function get_installed_plugins() {
 		$installed = array();
@@ -257,6 +258,33 @@ class WPSEO_Plugin_Availability {
 	 * @return bool Whether or not the dependency is available.
 	 */
 	public function is_dependency_available( $dependency ) {
-		return in_array( $dependency['slug'], get_plugins(), true );
+		return in_array( $dependency['slug'], array_keys( get_plugins() ), true );
 	}
+
+	/**
+	 * Gets the names of the dependencies.
+	 *
+	 * @param $plugin The plugin to get the dependency names from.
+	 *
+	 * @return array Array containing the names of the associated dependencies.
+	 */
+	public function get_dependency_names( $plugin ) {
+		if ( ! $this->has_dependencies( $plugin ) ) {
+			return array();
+		}
+
+		return array_keys( $plugin['_dependencies'] );
+	}
+
+	/**
+	 * Gets an array of plugins that have defined dependencies.
+	 *
+	 * @return array Array of the plugins that have dependencies.
+	 */
+	public function get_plugins_with_dependencies() {
+		return array_filter( $this->plugins, function( $plugin ) {
+			return array_key_exists( '_dependencies', $plugin ) && ! empty( $plugin['_dependencies' ] );
+		} );
+	}
+
 }
