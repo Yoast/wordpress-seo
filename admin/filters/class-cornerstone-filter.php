@@ -54,6 +54,10 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	protected function get_explanation() {
 		$post_type_object = get_post_type_object( $this->get_current_post_type() );
 
+		if ( $post_type_object === null ) {
+			return null;
+		}
+
 		return sprintf(
 			/* translators: %1$s expands to the posttype label, %2$s expands anchor to blog post about cornerstone content, %3$s expands to </a> */
 			__( 'Mark the most important %1$s as \'cornerstone content\' to improve your site structure. %2$sLearn more about cornerstone content%3$s.', 'wordpress-seo' ),

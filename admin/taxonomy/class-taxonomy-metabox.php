@@ -43,6 +43,9 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	public function display() {
 
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'help-center' );
+
 		$content_sections = $this->get_content_sections();
 
 		$product_title = 'Yoast SEO';
@@ -58,7 +61,8 @@ class WPSEO_Taxonomy_Metabox {
 			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-taxonomy-screencast' ) ) );
 
 		$helpcenter = new WPSEO_Help_Center( 'tax-metabox', $helpcenter_tab );
-		$helpcenter->output_help_center();
+		$helpcenter->localize_data();
+		$helpcenter->mount();
 
 		echo '<div id="taxonomy_overall"></div>';
 
@@ -237,9 +241,9 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_buy_premium_section() {
-		$content = sprintf( "<div class='wpseo-metabox-premium-description'>
+		$content = sprintf( "<div class='wpseo-premium-description'>
 			%s
-			<ul class='wpseo-metabox-premium-advantages'>
+			<ul class='wpseo-premium-advantages-list'>
 				<li>
 					<strong>%s</strong> - %s
 				</li>

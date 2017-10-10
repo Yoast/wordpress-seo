@@ -606,16 +606,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	position: absolute;
 	right: 12px;
 	top: 0;
-	padding: 10px 0; /* To have the same height of the `.wpseo-tab-video-container__handle` button. */
-}
-
-.wpseo-metabox-premium-description {
-	margin-top: 0.5em;
-}
-
-ul.wpseo-metabox-premium-advantages {
-	list-style: disc;
-	padding-left: 1.5em;
+	padding: 8px 0; /* To have the same height of the `.yoast-help-center__button` button. */
 }
 
 /* Ensure the snippet preview section has always the proper width whatever the default yoast-section width is. */
@@ -771,5 +762,31 @@ ul.wpseo-metabox-premium-advantages {
 
 	.wpseotab.content {
 		padding: 20px 0;
+	}
+}
+
+.yoast-help-center {
+	.yoast-help-center {
+		&__button {
+			border: none;
+			box-shadow: none;
+			text-transform: none;
+			text-decoration: underline;
+			color: #0073aa;
+			margin: 0;
+			min-height: 0;
+			font: inherit;
+			padding: 8px 0;
+
+			svg {
+				margin: 0 13px;
+			}
+		}
+	}
+}
+
+.wpseo-metabox {
+	#yoast-help-center-container {
+		margin: 8px 0;
 	}
 }

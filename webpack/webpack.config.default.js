@@ -26,6 +26,14 @@ const defaultWebpackConfig = {
 					},
 				],
 			},
+			{
+				test: /.svg$/,
+				use: [
+					{
+						loader: "svg-react-loader",
+					}
+				]
+			}
 		],
 	},
 	plugins: [
