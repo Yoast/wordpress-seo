@@ -1,6 +1,7 @@
 ### 5.6.0: October 10th, 2017
-* Introduces the Orphaned Content filter and notifications
-* Fixes an issue where the 'You are not receiving updates or support!' notification would be wrongfully shown on a sub-site of a multisite installation
+* Introduces the `Orphaned content` filter and notifications.
+* Fixes an issue where the 'You are not receiving updates or support!' notification would be wrongfully shown on a sub-site of a multisite installation.
+* Includes every change in Yoast SEO core 5.6, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 5.5.1: September 28th, 2017
 * Includes every change in Yoast SEO core 5.5.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
