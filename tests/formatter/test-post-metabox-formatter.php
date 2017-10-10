@@ -32,7 +32,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Post_Metabox_Formatter( null, array(), '' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['search_url'],    admin_url( 'edit.php?seo_kw_filter={keyword}' ) );
+		$this->assertEquals( $result['search_url'], admin_url( 'edit.php?seo_kw_filter={keyword}' ) );
 		$this->assertEquals( $result['post_edit_url'], admin_url( 'post.php?post={id}&action=edit' ) );
 		$this->assertEquals( $result['base_url'], WPSEO_Utils::home_url() );
 	}

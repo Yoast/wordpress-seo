@@ -183,7 +183,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	protected function create_notification( $product_name ) {
 		$notification_options = array(
 			'type'         => Yoast_Notification::ERROR,
-			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name,  null, 'save' ),
+			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name, null, 'save' ),
 			'capabilities' => 'wpseo_manage_options',
 		);
 

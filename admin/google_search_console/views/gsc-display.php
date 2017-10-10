@@ -55,7 +55,7 @@ switch ( $platform_tabs->current_tab() ) {
 		else {
 			$reset_button = '<a class="button" href="' . add_query_arg( 'gsc_reset', 1 ) . '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) . '</a>';
 			echo '<h3>',  __( 'Current profile', 'wordpress-seo' ), '</h3>';
-			if ( ($profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
+			if ( ( $profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
 				echo '<p>';
 				echo $profile;
 				echo '</p>';
