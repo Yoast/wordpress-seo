@@ -128,7 +128,7 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Returns the scripts that need to be registered.
 	 *
-	 * @TODO data format is not self-documenting. Needs explanation inline. R.
+	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
 	 * @return array scripts that need to be registered.
 	 */
@@ -344,7 +344,7 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Returns the styles that need to be registered.
 	 *
-	 * @TODO data format is not self-documenting. Needs explanation inline. R.
+	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
 	 * @return array styles that need to be registered.
 	 */
