@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the ArticleContent component  matches the snapshot 1`] = `
+<iframe
+  className="kb-search-content-frame sc-bdVaJa jsOWvL"
+  src="www.example.com/amp/?source=wpseo-kb-search"
+  title="KB article"
+/>
+`;

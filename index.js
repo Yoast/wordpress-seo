@@ -7,6 +7,7 @@ import Section from "./forms/Section";
 import Textarea from "./forms/Textarea";
 import OnboardingWizard from "./composites/OnboardingWizard/OnboardingWizard";
 import AlgoliaSearcher from "./composites/AlgoliaSearch/AlgoliaSearcher";
+import HelpCenter from "./composites/Plugin/HelpCenter/HelpCenter.js";
 import MessageBox from "./composites/OnboardingWizard/MessageBox";
 
 export {
@@ -19,5 +20,6 @@ export {
 	Textarea,
 	OnboardingWizard,
 	AlgoliaSearcher,
-	MessageBox
+	MessageBox,
+	HelpCenter,
 };

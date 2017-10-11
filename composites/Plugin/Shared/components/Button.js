@@ -8,6 +8,57 @@ import colors from "../../../../style-guide/colors.json";
 import { Icon } from "./Icon";
 import { rgba } from "../../../../style-guide/helpers";
 
+const settings = {
+	minHeight: 32,
+	verticalPadding: 4,
+	borderWidth: 1,
+};
+
+const ieMinHeight = settings.minHeight - ( settings.verticalPadding * 2 ) - ( settings.borderWidth * 2 );
+
+/**
+ * Returns a component with applied base button styles.
+ *
+ * @param {ReactElement} component The original component.
+ *
+ * @returns {ReactElement} Component with applied base button styles.
+ */
+export function addBaseStyle( component ) {
+	return styled( component )`
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		vertical-align: middle;
+		border-width: ${ `${ settings.borderWidth }px` };
+		border-style: solid;
+		margin: 0;
+		padding: ${ `${ settings.verticalPadding }px` } 10px;
+		border-radius: 3px;
+		cursor: pointer;
+		box-sizing: border-box;
+		font-size: inherit;
+		font-family: inherit;
+		font-weight: inherit;
+		text-align: left;
+		overflow: visible;
+		min-height: ${ `${ settings.minHeight }px` };
+
+		svg {
+			// Safari 10
+			align-self: center;
+		}
+
+		// Only needed for IE 10+.
+		@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+			::after {
+				display: inline-block;
+				content: "";
+				min-height: ${ `${ ieMinHeight }px` };
+			}
+		}
+	`;
+}
+
 /**
  * Returns a component with applied focus styles.
  *
@@ -65,13 +116,26 @@ export function addActiveStyle( component ) {
 }
 
 /**
+ * Returns a component with applied font size style.
+ *
+ * @param {ReactElement} component The original component.
+ *
+ * @returns {ReactElement} Component with applied font size styles.
+ */
+export function addFontSizeStyles( component ) {
+	return styled( component )`
+		font-size: 0.8rem;
+	`;
+}
+
+/**
  * Returns a component with all button selector styles applied.
  *
  * @param {ReactElement} component The original component.
  *
  * @returns {ReactElement} Component with applied styles.
  */
-export const addButtonStyles = flow( [ addFocusStyle, addHoverStyle, addActiveStyle ] );
+export const addButtonStyles = _flow( [ addBaseStyle, addFocusStyle, addHoverStyle, addActiveStyle ] );
 
 /**
  * Returns a basic styled button.
@@ -83,21 +147,9 @@ export const addButtonStyles = flow( [ addFocusStyle, addHoverStyle, addActiveSt
 export const BaseButton = addButtonStyles(
 	styled.button`
 		color: ${ props => props.textColor };
-		border: 1px solid ${ props => props.borderColor };
+		border-color: ${ props => props.borderColor };
 		background: ${ props => props.backgroundColor };
 		box-shadow: 0 1px 0 ${ props => rgba( props.boxShadowColor, 1 ) };
-		vertical-align: middle;
-		margin: 0;
-		padding: 4px 10px;
-		border-radius: 3px;
-		cursor: pointer;
-		box-sizing: border-box;
-		font-size: inherit;
-		font-family: inherit;
-		font-weight: inherit;
-		text-align: left;
-		outline: none;
-		min-height: 32px;
 	`
 );
 
@@ -123,22 +175,7 @@ BaseButton.defaultProps = {
  *
  * @returns {ReactElement} Styled button.
  */
-export const Button = styled( BaseButton )`
-	font-size: 0.8rem;
-	line-height: 1.4;
-`;
-
-/**
- * Returns a button with inline flex styles.
- *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} Styled component.
- */
-const InlineFlexButton = styled( Button )`
-	display: inline-flex;
-	flex-direction: row;
-`;
+export const Button = addFontSizeStyles( BaseButton );
 
 /**
  * Applies styles to icon for IconButton with text.
@@ -150,8 +187,6 @@ const InlineFlexButton = styled( Button )`
 function addIconTextStyle( icon ) {
 	return styled( icon )`
 		margin: 0 8px 0 0;
-		display: flex;
-		align-self: center;
 		flex-shrink: 0;
 	`;
 }
@@ -167,17 +202,17 @@ export const IconButton = ( props ) => {
 	const { children: text, icon, iconColor } = props;
 
 	let IconComponent = Icon;
-	if( text ) {
+	if ( text ) {
 		IconComponent = addIconTextStyle( IconComponent );
 	}
 
 	const newProps = omit( props, "icon" );
 
 	return (
-		<InlineFlexButton { ...newProps } >
+		<Button { ...newProps }>
 			<IconComponent icon={ icon } color={ iconColor } />
 			{ text }
-		</InlineFlexButton>
+		</Button>
 	);
 };
 

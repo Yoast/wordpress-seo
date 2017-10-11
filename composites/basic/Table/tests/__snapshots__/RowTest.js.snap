@@ -2,12 +2,12 @@
 
 exports[`the Row component matches the snapshot 1`] = `
 <li
-  className="sc-bdVaJa gRzYbk"
+  className="sc-bdVaJa eHMDHE"
 />
 `;
 
 exports[`the RowResponsiveWrap component matches the snapshot 1`] = `
 <li
-  className="sc-bwzfXH hEqAjG sc-bdVaJa gRzYbk"
+  className="sc-bwzfXH hEqAjG sc-bdVaJa kQkJru"
 />
 `;

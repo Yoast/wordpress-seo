@@ -5,6 +5,93 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.10.1: October 4th, 2017
+
+### Added
+
+#### Other
+* Improved the `HelpCenterButton` and the `HelpCenterContainer` styling. #337
+
+### Other
+* Added class names to the `HelpCenterContainer` and `HelpCenterButton`. #337
+
+## 2.10.0: October 3rd, 2017
+
+### Added
+
+#### Components
+* `Table` component. #219
+* `SearchResultDetail` component. #243
+* `SearchResults` component. #243
+* `YoastLinkButton` component. #284
+* `VideoTutorial` component. #291
+* `YouTubeVideo` component. #291
+* `YoastTabs` component. #303
+* `AllyNotice` component. #306
+* `HelpCenter` component. #310
+* `HelpCenterButton` component. #318
+
+#### Other
+* Added translatable label to `SearchBar` component. #243 
+* Added `makeOutboundLink` util function. #308
+* Added a prop to the `AlgoliaSearcher` component that can be used to enable live search. #323
+* Added a search button and placeholder text to the `SearchBar` component. #323
+
+### Other
+* Improved styling and accessibility of the `SearchBar` component. #243
+* Styling improvements for the Onboarding Wizard. #290
+* Fixed two prop warnings that appeared when switching pages in the Onboarding wizard. #293 and #295
+* Improved YoastButton hover and active style. #332
+
+## 2.9.3: September 26th, 2017
+
+### Other
+* Fixed the loading of AMP articles in the Algolia article iFrame. 
+
+
+## 2.9.2: September 25th, 2017
+
+### Other
+* Added trailing slash to knowledge base URL in help center
+
+## 2.9.1: September 19th, 2017
+
+### Added
+
+#### Other
+* Added dashboard widget to development environment.
+* Added class names to `WordpressFeed` and `SeoAssessment` components, and also to their children.
+
+## 2.9.0: September 11th, 2017
+
+### Added
+
+#### Components
+* `Icon` component (using `svg-react-loader`, see `README.md`). #218 
+* `Button`(#173), `IconButton`(##232), `LinkButton`(#262), `YoastButton`(#257) components.
+* `InputField` component (using `DraftJS` ). #204 
+* `ListTable`, `Row` and `Cell` component. #219 
+* `ProgressBar`component. #172 
+* `IFrame` and `ArticleContent` components. #242 
+* `StackedProgressBar` component. #270
+* `SeoScoreAssessment(s)` components. #272
+* `WordpressFeed` component. #273 
+* `SeoAssessment` component. #281 
+
+##### Other
+* Added `getFeed` RSS reader utility function. #267 
+* Added `ContentAnalysis` reducer and actions. #224
+* Added `striptags` utility library. #276 
+* Added various documentation. #239 
+
+### Other
+* Improved development environment. (#238, #174 )
+
+#### Onboarding wizard
+* Added max width for content in Onboarding wizard (#250), and `fullWidth` property for full screen support (#269).
+* Changed Onboarding wizard header. #256  
+* Added paragraph for additional information to Onboard wizard `Choice component`. #254
+
 ## 2.8.0: August 8th, 2017
 
 ### Added

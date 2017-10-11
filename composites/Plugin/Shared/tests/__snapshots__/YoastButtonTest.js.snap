@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the YoastButton executes callback 1`] = `
+<button
+  aria-expanded={undefined}
+  className="sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    ButtonValue
+  </span>
+</button>
+`;
+
+exports[`the YoastButton executes callback 2`] = `
+<button
+  aria-expanded={undefined}
+  className="sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    ButtonValue
+  </span>
+</button>
+`;
+
+exports[`the YoastButton matches the snapshot 1`] = `
+<button
+  aria-expanded={undefined}
+  className="sc-bwzfXH jWIihg sc-bdVaJa IFELj"
+  onClick={undefined}
+  type="button"
+>
+  <span>
+    ButtonValue
+  </span>
+</button>
+`;

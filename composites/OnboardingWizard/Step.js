@@ -254,11 +254,15 @@ class Step extends React.Component {
 	 * @returns {JSX.Element} Rendered Step component.
 	 */
 	render() {
+		let fullWidthClass = this.props.fullWidth ? ` ${ this.props.classPrefix }-content-container__is-full-width` : "";
+
 		return (
-			<div className={`${this.props.classPrefix}--step--container`} ref="stepContainer"
+			<div className={`${ this.props.classPrefix }--step--container`} ref="stepContainer"
 				tabIndex="-1" aria-labelledby="step-title">
 				<h1 id="step-title">{this.props.title}</h1>
-				{ this.getFieldComponents( this.props.fields ) }
+				<div className={ `${ this.props.classPrefix }-content-container${ fullWidthClass }` }>
+					{ this.getFieldComponents( this.props.fields ) }
+				</div>
 			</div>
 		);
 	}
@@ -273,12 +277,14 @@ Step.propTypes = {
 	currentStep: PropTypes.string,
 	classPrefix: PropTypes.string,
 	customComponents: PropTypes.object,
+	fullWidth: PropTypes.bool,
 };
 
 Step.defaultProps = {
 	fields: {},
 	currentStep: "",
 	classPrefix: "yoast-wizard",
+	fullWidth: false,
 };
 
 export default Step;

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the HelpCenterButton matches the snapshot 1`] = `
+<button
+  aria-expanded={false}
+  className="sc-htpNat cApEYM sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
+  onClick={undefined}
+  type="button"
+>
+  <span>
+    <svg
+      aria-hidden="true"
+      className="sc-bxivhb leOCwi"
+      focusable="false"
+      role="img"
+    />
+    Need Help?
+    <svg
+      aria-hidden="true"
+      className="sc-ifAKCX jVpdZB"
+      focusable="false"
+      role="img"
+    />
+  </span>
+</button>
+`;

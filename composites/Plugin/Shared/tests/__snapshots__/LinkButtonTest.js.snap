@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the BaseLinkButton matches the snapshot 1`] = `
+<a
+  className="sc-iwsKbI cKLwUL sc-dnqmqq cbsuMR sc-htoDjs ispJkh sc-gzVnrw eFsQEO sc-bZQynM hUnLvZ"
+>
+  LinkButtonValue
+</a>
+`;
+
+exports[`the LinkButton matches the snapshot 1`] = `
+<a
+  className="sc-gZMcBi hXZHGD sc-iwsKbI cKLwUL sc-dnqmqq cbsuMR sc-htoDjs ispJkh sc-gzVnrw eFsQEO sc-bZQynM hUnLvZ"
+>
+  LinkButtonValue
+</a>
+`;

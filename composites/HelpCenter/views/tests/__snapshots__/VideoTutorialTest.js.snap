@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the VideoTutorial component matches the snapshot 1`] = `
+<div
+  className="sc-htpNat jdWHiT"
+>
+  <div
+    className="sc-bxivhb dVPPrD"
+  >
+    <div
+      className="sc-bdVaJa fpzLVP"
+    >
+      <iframe
+        allowFullScreen={true}
+        frameBorder={0}
+        height={315}
+        src="https://www.youtube.com/embed/bIgcj_pPIbw"
+        title="Video title"
+        width={560}
+      />
+    </div>
+  </div>
+  <div
+    className="sc-ifAKCX iimhyI"
+  >
+    <div
+      className="sc-EHOje cCZqWy"
+    >
+      <p
+        className="sc-bZQynM gSmTMg"
+      >
+        Need some help?
+      </p>
+      <p>
+        Go Premium!
+      </p>
+      <a
+        className="sc-gzVnrw fUXSEk"
+        href="#1"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Get Yoast SEO Premium now »
+        <span
+          className="sc-bwzfXH bGOGuL"
+        >
+          (Opens in a new browser tab)
+        </span>
+      </a>
+    </div>
+    <div
+      className="sc-EHOje cCZqWy"
+    >
+      <p
+        className="sc-bZQynM gSmTMg"
+      >
+        Need some help?
+      </p>
+      <p>
+        Go Premium!
+      </p>
+      <a
+        className="sc-gzVnrw fUXSEk"
+        href="#2"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Get Yoast SEO Premium now »
+        <span
+          className="sc-bwzfXH bGOGuL"
+        >
+          (Opens in a new browser tab)
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+`;

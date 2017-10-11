@@ -64,19 +64,15 @@ class StepIndicator extends React.Component {
 				// Return a custom step button, without a label for non-active steps.
 				let className = this.getStepButtonClass( key, amountOfSteps );
 
-				button = new CustomStepButton( {
-					index: stepNumber,
-					tooltip: currentField.title,
-					ariaLabel: ariaLabel,
-					className,
-					// See github.com/Yoast/wordpress-seo/issues/5530.
-					tooltipStyles: {
-						userSelect: "auto",
-					},
-					onClick: ( evt ) => {
+				button = <CustomStepButton
+					index={ stepNumber.toString() }
+					tooltip={ currentField.title }
+					ariaLabel={ ariaLabel }
+					className={ className }
+					tooltipStyles={ { userSelect: "auto" } }
+					onClick={ ( evt ) => {
 						this.props.onClick( name, evt );
-					},
-				} );
+					} } />;
 			}
 			return React.createElement( Step, { key: "step-indicator-" + key }, button );
 		} );
@@ -89,11 +85,11 @@ class StepIndicator extends React.Component {
 	 */
 	render() {
 		return (
-			<div className="yoast-wizard--stepper">
+			<nav className="yoast-wizard--stepper">
 				<Stepper linear={false} activeStep={this.state.stepIndex}>
 					{this.getStepButtonComponents()}
 				</Stepper>
-			</div>
+			</nav>
 		);
 	}
 

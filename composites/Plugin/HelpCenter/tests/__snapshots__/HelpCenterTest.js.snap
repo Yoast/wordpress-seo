@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the HelpCenter matches the snapshot 1`] = `
+<div
+  className="yoast-help-center sc-EHOje gbEnju"
+>
+  <button
+    aria-expanded={false}
+    className="yoast-help-center__button sc-htpNat cApEYM sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
+    onClick={[Function]}
+    type="button"
+  >
+    <span>
+      <svg
+        aria-hidden="true"
+        className="sc-gzVnrw gPgFAM"
+        focusable="false"
+        role="img"
+      />
+      Need help?
+      <svg
+        aria-hidden="true"
+        className="sc-htoDjs aOUzm"
+        focusable="false"
+        role="img"
+      />
+    </span>
+  </button>
+</div>
+`;
+
+exports[`the HelpCenter with props matches the snapshot 1`] = `
+<div
+  className="yoast-help-center sc-EHOje gbEnju"
+>
+  <button
+    aria-expanded={false}
+    className="yoast-help-center__button sc-htpNat cApEYM sc-bwzfXH jWIihg sc-bdVaJa iWweBU"
+    onClick={[Function]}
+    type="button"
+  >
+    <span>
+      <svg
+        aria-hidden="true"
+        className="sc-dnqmqq ljFcTe"
+        focusable="false"
+        role="img"
+      />
+      Need help?
+      <svg
+        aria-hidden="true"
+        className="sc-iwsKbI bNSoos"
+        focusable="false"
+        role="img"
+      />
+    </span>
+  </button>
+</div>
+`;

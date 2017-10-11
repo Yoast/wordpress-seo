@@ -6,7 +6,7 @@ import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
 import sendStep from "./helpers/ajaxHelper";
 import RaisedButton from "material-ui/RaisedButton";
-import YoastLogo from "../basic/YoastLogo";
+import Header from "./Header";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { localize } from "../../utils/i18n";
 import muiTheme from "./config/yoast-theme";
@@ -297,23 +297,33 @@ class OnboardingWizard extends React.Component {
 			navigation = <div className="yoast-wizard--navigation">{previousButton}{nextButton}</div>;
 		}
 
+		/* Translators: %s expands to "Yoast SEO for WordPress". */
+		let headerTitle = this.props.translate( "%s installation wizard" );
+		headerTitle = headerTitle.replace( "%s", "Yoast SEO for WordPress" );
+
 		return (
 			<MuiThemeProvider muiTheme={muiTheme}>
 				<div className="yoast-wizard-body">
-					<YoastLogo height={93} width={200}/>
+					<Header headerTitle={ headerTitle } />
 					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
 					               onClick={( stepNumber, evt ) => this.postStep( stepNumber, evt )}/>
-					<div className="yoast-wizard-container">
+					<main className="yoast-wizard-container">
 						<div className="yoast-wizard">
 							{ this.renderErrorMessage() }
-							<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
-							      fields={step.fields} customComponents={this.props.customComponents}
-							      nextStep={this.setNextStep}
-							      previousStep={this.setPreviousStep} />
+							<Step
+								ref="step"
+								currentStep={ this.state.currentStepId }
+								title={ step.title }
+								fields={ step.fields }
+								customComponents={ this.props.customComponents }
+								nextStep={ this.setNextStep }
+								previousStep={ this.setPreviousStep }
+								fullWidth={ step.fullWidth }
+							/>
 							{ navigation }
 						</div>
 						{( this.state.isLoading ) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
-					</div>
+					</main>
 				</div>
 			</MuiThemeProvider>
 		);

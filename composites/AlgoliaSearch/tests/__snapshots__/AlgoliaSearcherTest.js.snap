@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`] = `
+<div
+  className="sc-kgoBCf YQFzU"
+>
+  <div
+    className="sc-htpNat jAVOHt"
+    role="search"
+  >
+    <h2
+      className="sc-bxivhb fMWLJS"
+    >
+      Search the Yoast knowledge base
+    </h2>
+    <form
+      onSubmit={[Function]}
+    >
+      <label
+        className="sc-ifAKCX jpZkXH"
+        htmlFor="kb-search-input"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-kGXeez fVArXq"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="screen-reader-text"
+        >
+          Search the Yoast knowledge base
+        </span>
+      </label>
+      <input
+        autoCapitalize="off"
+        autoComplete="off"
+        autoCorrect="off"
+        className="sc-EHOje hhGWKG"
+        defaultValue=""
+        id="kb-search-input"
+        name="search-input"
+        onChange={[Function]}
+        placeholder="Search the knowledge base"
+        spellCheck="false"
+        type="text"
+      />
+      <button
+        aria-expanded={undefined}
+        className="sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
+        onClick={undefined}
+        type="submit"
+      >
+        <span>
+          Search
+        </span>
+      </button>
+    </form>
+  </div>
+</div>
+`;

@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the SearchResultDetail component matches the snapshot 1`] = `
+<section
+  className="sc-bZQynM RDELZ"
+>
+  <nav
+    className="sc-gzVnrw hdBCBy"
+  >
+    <button
+      aria-expanded={undefined}
+      className="sc-htpNat jsmbHK sc-bwzfXH dIZeqH"
+      onClick={[Function]}
+      type="button"
+    >
+      <span>
+        <svg
+          aria-hidden="true"
+          className="sc-dnqmqq UPict"
+          focusable="false"
+          role="img"
+        />
+        Go back
+      </span>
+    </button>
+    <a
+      aria-label="Open the knowledge base article in a new window or read it in the iframe below"
+      className="sc-htoDjs hpJeHy sc-ifAKCX keDKTL sc-bxivhb ccVExY"
+      href="https://kb.yoast.com/kb/passive-voice/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      View in KB
+      <svg
+        aria-hidden="true"
+        className="sc-iwsKbI cCpRGs"
+        focusable="false"
+        role="img"
+      />
+      <span
+        className="sc-EHOje dtuOhP"
+      >
+        (Opens in a new browser tab)
+      </span>
+    </a>
+  </nav>
+  <iframe
+    className="kb-search-content-frame sc-bdVaJa jsOWvL"
+    src="https://kb.yoast.com/kb/passive-voice/amp/?source=wpseo-kb-search"
+    title="Knowledge base article"
+  />
+</section>
+`;
