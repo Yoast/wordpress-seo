@@ -1797,6 +1797,10 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	/* To have the same height of the `.yoast-help-center__button` button. */
 }
 
+.wpseo-metabox-buy-premium .dashicons {
+	text-decoration: none;
+}
+
 /* Ensure the snippet preview section has always the proper width whatever the default yoast-section width is. */
 .wpseosnippet .yoast-section {
 	width: auto;
