@@ -312,7 +312,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function get_yoast_seo_suggested_plugins_notification( $name, $plugin, $dependency_name ) {
 		$info_message = sprintf(
-		/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
 			__( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better.', 'wordpress-seo' ),
 			'Yoast SEO',
 			$dependency_name,
