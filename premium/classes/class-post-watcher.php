@@ -266,10 +266,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	protected function get_target_url( $post_id ) {
 		// Use the correct URL path.
-		$url = parse_url( get_permalink( $post_id ) );
-		$url = $url['path'];
+		$url = wp_parse_url( get_permalink( $post_id ) );
+		if ( is_array( $url ) && isset( $url['path'] ) ) {
+			return $url['path'];
+		}
 
-		return $url;
+		return '';
 	}
 
 	/**

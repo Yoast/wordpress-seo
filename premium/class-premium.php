@@ -340,8 +340,9 @@ class WPSEO_Premium {
 	 */
 	public function redirect_canonical_fix( $redirect_url, $requested_url ) {
 		$redirects = new WPSEO_Redirect_Option( false );
-		$path      = parse_url( $requested_url, PHP_URL_PATH );
-		$redirect     = $redirects->get( $path );
+		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
+		$path     = parse_url( $requested_url, PHP_URL_PATH );
+		$redirect = $redirects->get( $path );
 		if ( $redirect === false ) {
 			return $redirect_url;
 		}
@@ -372,9 +373,9 @@ class WPSEO_Premium {
 		if ( is_404() ) {
 			global $wp, $wp_admin_bar;
 
-			$parsed_url = parse_url( home_url( add_query_arg( null, null ) ) );
+			$parsed_url = wp_parse_url( home_url( add_query_arg( null, null ) ) );
 
-			if ( false !== $parsed_url ) {
+			if ( is_array( $parsed_url ) ) {
 				$old_url = $parsed_url['path'];
 
 				if ( isset( $parsed_url['query'] ) && $parsed_url['query'] !== '' ) {

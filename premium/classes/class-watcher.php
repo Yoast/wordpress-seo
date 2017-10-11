@@ -58,7 +58,7 @@ abstract class WPSEO_Watcher {
 	protected function should_create_redirect( $old_url, $new_url ) {
 
 		// Get the site URL.
-		$site = parse_url( get_site_url() );
+		$site = wp_parse_url( get_site_url() );
 
 		if ( $old_url !== $new_url && $old_url !== '/' && ( ! isset( $site['path'] ) || ( isset( $site['path'] ) && $old_url !== $site['path'] . '/' ) ) ) {
 			return true;

@@ -19,6 +19,7 @@ class WPSEO_Redirect_Util {
 	 * @return bool
 	 */
 	public static function is_relative_url( $url ) {
+		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		$url_scheme = parse_url( $url, PHP_URL_SCHEME );
 
 		return ! $url_scheme;
@@ -62,6 +63,7 @@ class WPSEO_Redirect_Util {
 			return true;
 		}
 
+		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		$fragment = parse_url( $url, PHP_URL_FRAGMENT );
 
 		return ! empty( $fragment );
@@ -75,6 +77,7 @@ class WPSEO_Redirect_Util {
 	 * @return bool Whether or not the given URL has an extension.
 	 */
 	public static function has_extension( $url ) {
+		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		$parsed = parse_url( $url, PHP_URL_PATH );
 
 		return false !== strpos( $parsed, '.' );

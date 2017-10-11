@@ -60,6 +60,7 @@ class WPSEO_Redirect_Url_Formatter {
 	 * @return string
 	 */
 	protected function get_subdirectory( $url ) {
+		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		return $this->sanitize_url( parse_url( $url, PHP_URL_PATH ) );
 	}
 }

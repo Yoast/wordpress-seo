@@ -124,7 +124,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 * @return string
 	 */
 	protected function parse_target( $target ) {
-		$url_parts = parse_url( $target );
+		$url_parts = wp_parse_url( $target );
 
 		// If we have an absolute url return it.
 		if ( ! empty( $url_parts['scheme'] ) ) {
