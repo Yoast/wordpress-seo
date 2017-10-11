@@ -288,8 +288,8 @@ class WPSEO_Admin_Init {
 		$plugins = $checker->get_plugins_with_dependencies();
 
 		foreach ( $plugins as $plugin_name => $plugin ) {
-			$dependency_name = $checker->get_dependency_names( $plugin )[0];
-			$notification = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_name );
+			$dependency_names = $checker->get_dependency_names( $plugin );
+			$notification = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_names[0] );
 
 			if ( $checker->dependencies_are_satisfied( $plugin ) && ! $checker->is_installed( $plugin ) ) {
 				$notification_center->add_notification( $notification );
