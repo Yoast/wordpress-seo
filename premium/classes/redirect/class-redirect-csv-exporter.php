@@ -71,7 +71,7 @@ class WPSEO_Redirect_CSV_Exporter implements WPSEO_Redirect_Exporter {
 				__( 'Origin', 'wordpress-seo-premium' ),
 				__( 'Target', 'wordpress-seo-premium' ),
 				__( 'Type', 'wordpress-seo-premium' ),
-				__( 'Format',  'wordpress-seo-premium' ),
+				__( 'Format', 'wordpress-seo-premium' ),
 			)
 		);
 	}

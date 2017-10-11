@@ -56,7 +56,7 @@ class WPSEO_Term_Watcher_Test extends WPSEO_UnitTestCase {
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_taxonomy_permalink' )
-			->will( $this->returnValue( new WP_Error( 'Test_error',  'Test' ) ) );
+			->will( $this->returnValue( new WP_Error( 'Test_error', 'Test' ) ) );
 
 		$this->class_instance->set_old_url_quick_edit();
 

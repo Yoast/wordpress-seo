@@ -73,7 +73,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s )
 					AND post_status IN( "future", "draft", "pending", "private", "publish" ) 
 					AND post_type IN( ' . $formatted_post_types . ' )
-			    GROUP BY post_type
+				GROUP BY post_type
 				',
 				WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
 				WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER

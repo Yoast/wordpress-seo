@@ -74,7 +74,7 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	public function test_validate_redirect_exists_not_unique( $old_url, $new_url, $type ) {
 		$this->assertTrue(
 			$this->class_instance->run(
-				new WPSEO_Redirect( $old_url , $new_url, $type ),
+				new WPSEO_Redirect( $old_url, $new_url, $type ),
 				null,
 				$this->redirects
 			)
@@ -89,8 +89,8 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	public function test_validate_edit_redirect_equal_origin() {
 		$this->assertTrue(
 			$this->class_instance->run(
-				new WPSEO_Redirect( 'old_url' , 'target', 301 ),
-				new WPSEO_Redirect( 'old_url' , 'target', 301 ),
+				new WPSEO_Redirect( 'old_url', 'target', 301 ),
+				new WPSEO_Redirect( 'old_url', 'target', 301 ),
 				$this->redirects
 			)
 		);

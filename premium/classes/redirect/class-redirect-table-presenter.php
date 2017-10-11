@@ -64,7 +64,7 @@ class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 	 */
 	private function get_first_column_value() {
 		if ( $this->view === 'regex' ) {
-			return  __( 'Regular Expression', 'wordpress-seo-premium' );
+			return __( 'Regular Expression', 'wordpress-seo-premium' );
 		}
 
 		return __( 'Old URL', 'wordpress-seo-premium' );
