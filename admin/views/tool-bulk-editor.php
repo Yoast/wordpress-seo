@@ -31,6 +31,8 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 
 /**
  * Outputs a help center.
+ *
+ * @return void
  */
 function render_help_center() {
 	$tabs = new WPSEO_Option_Tabs( '', '' );
