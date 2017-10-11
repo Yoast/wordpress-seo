@@ -288,8 +288,6 @@ class WPSEO_Plugin_Availability {
 	 * @return array Array of the plugins that have dependencies.
 	 */
 	public function get_plugins_with_dependencies() {
-		return array_filter( $this->plugins, function( $plugin ) {
-			return array_key_exists( '_dependencies', $plugin ) && ! empty( $plugin['_dependencies'] );
-		} );
+		return array_filter( $this->plugins, array( $this, 'has_dependencies' ) );
 	}
 }
