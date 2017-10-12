@@ -741,6 +741,14 @@ class WPSEO_OpenGraph {
 			// We can only show one section here, so we take the first one.
 			$this->og_tag( 'article:section', get_cat_name( $primary_category ) );
 
+			return true;
+		}
+
+		$terms = get_the_category();
+
+		if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
+			// We can only show one section here, so we take the first one.
+			$this->og_tag( 'article:section', $terms[0]->name );
 
 			return true;
 		}
