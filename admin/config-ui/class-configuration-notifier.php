@@ -16,7 +16,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_WordPress_Integration {
 		if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_dashboard' ) {
 			return;
 		}
-		
+
 
 		if ( ! $this->show_notification() ) {
 			return;
