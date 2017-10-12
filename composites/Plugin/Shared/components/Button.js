@@ -135,7 +135,7 @@ export function addFontSizeStyles( component ) {
  *
  * @returns {ReactElement} Component with applied styles.
  */
-export const addButtonStyles = _flow( [ addBaseStyle, addFocusStyle, addHoverStyle, addActiveStyle ] );
+export const addButtonStyles = flow( [ addBaseStyle, addFocusStyle, addHoverStyle, addActiveStyle ] );
 
 /**
  * Returns a basic styled button.
@@ -220,4 +220,87 @@ IconButton.propTypes = {
 	icon: PropTypes.func.isRequired,
 	iconColor: PropTypes.string.isRequired,
 	children: PropTypes.string,
+};
+
+export const ChangingIconButtonBase = ( props ) => {
+	console.log( props.checkedIcon );
+
+	if ( props.checked ) {
+		return <IconButton
+			icon={ props.checkedIcon }
+			iconColor={ props.checkedIconColor }
+			backgroundColor={ props.checkedBackground }
+		/>;
+	}
+	return <IconButton
+		icon={ props.uncheckedIcon }
+		iconColor={ props.uncheckedIconColor }
+		backgroundColor={ props.uncheckedBackground }
+	/>;
+};
+
+ChangingIconButtonBase.propTypes = {
+	checked: PropTypes.bool,
+	uncheckedIcon: PropTypes.string,
+	checkedIcon: PropTypes.string,
+	uncheckedIconColor: PropTypes.string,
+	uncheckedBackground: PropTypes.string,
+	checkedIconColor: PropTypes.string,
+	checkedBackground: PropTypes.string,
+	children: PropTypes.string,
+};
+
+/*
+const ChangingIconButtonBase = styled( IconButton )`
+	box-shadow: ${ props => props.checked
+		? `inset 0 2px 0 ${ rgba( props.checkedBoxShadowColor, 0.7 ) }`
+		: `0 1px 0 ${ rgba( props.uncheckedBoxShadowColor, 0.7 ) }` };
+	height: ${ props => props.checked ? "25px" : "24px" };
+`;
+*/
+export const ChangingIconButton = ( props ) => {
+	return (
+		<ChangingIconButtonBase
+			onClick={ props.onClick }
+			id={ props.id }
+			checked={ props.checked }
+			htmlFor={ props.id }
+			checkedIcon={ props.checkedIcon }
+			checkedIconColor={ props.checkedIconColor }
+			uncheckedIcon={ props.uncheckedIcon }
+			uncheckedIconColor={ props.uncheckedIconColor }
+			uncheckedBoxShadowColor={ props.uncheckedBoxShadowColor }
+			checkedBoxShadowColor={ props.checkedBoxShadowColor }
+			checkedBackground={ props.checkedBackground }
+			uncheckedBackground={ props.uncheckedBackground }
+			aria-label={ props.id }
+			aria-checked={ props.checked }
+		>
+		</ChangingIconButtonBase>
+
+	);
+};
+
+ChangingIconButton.propTypes = {
+	id: PropTypes.string.isRequired,
+	onClick: PropTypes.func.isRequired,
+	boxShadowColor: PropTypes.string,
+	uncheckedBoxShadowColor: PropTypes.string,
+	checkedBoxShadowColor: PropTypes.string,
+	checkedBackground: PropTypes.string,
+	uncheckedBackground: PropTypes.string,
+	checkedIconColor: PropTypes.string,
+	uncheckedIconColor: PropTypes.string,
+	checkedIcon: PropTypes.func.isRequired,
+	uncheckedIcon: PropTypes.func.isRequired,
+	checked: PropTypes.bool.isRequired,
+};
+
+ChangingIconButton.defaultProps = {
+	uncheckedBoxShadowColor: colors.$color_button_border,
+	checkedBoxShadowColor: colors.$color_purple,
+	checkedBackground: colors.$color_pink_dark,
+	uncheckedBackground: colors.$color_button,
+	checkedIconColor: colors.$color_white,
+	uncheckedIconColor: colors.$color_button_text,
 };

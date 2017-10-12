@@ -5,3 +5,5 @@ export { default as angleRight } from "./angle-right.svg";
 export { default as angleUp } from "./angle-up.svg";
 export { default as angleDown } from "./angle-down.svg";
 export { default as questionCircle } from "./question-circle.svg";
+export { default as eye } from "./eye.svg";
+export { default as eyeSlash } from "./eye-slash.svg";

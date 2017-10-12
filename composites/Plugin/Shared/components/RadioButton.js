@@ -22,8 +22,8 @@ export const RadioButtonLabel = styled.label`
 	border: 1px solid ${ colors.$color_button_border };
 	background: ${ props => props.checked ? props.checkedBackground : props.uncheckedBackground };
 	box-shadow: ${ props => props.checked
-	? `inset 0 2px 0 ${ rgba( props.checkedBoxShadowColor, 0.7 ) }`
-	: `0 1px 0 ${ rgba( props.uncheckedBoxShadowColor, 0.7 ) }` };
+		? `inset 0 2px 0 ${ rgba( props.checkedBoxShadowColor, 0.7 ) }`
+		: `0 1px 0 ${ rgba( props.uncheckedBoxShadowColor, 0.7 ) }` };
 	border-radius: 3px;
 	cursor: pointer;
 	outline: none;
@@ -37,8 +37,10 @@ const IconRadioButton = ( props ) => {
 			<RadioButtonBase
 				type="radio"
 				id={ props.id }
-				name={ props.name }/>
+				name={ props.name }
+			/>
 			<RadioButtonLabel
+				onClick={ props.onClick }
 				className="label"
 				checked={ props.checked }
 				htmlFor={ props.id }
@@ -60,6 +62,7 @@ const IconRadioButton = ( props ) => {
 
 IconRadioButton.propTypes = {
 	id: PropTypes.string.isRequired,
+	onClick: PropTypes.func.isRequired,
 	boxShadowColor: PropTypes.string,
 	uncheckedBoxShadowColor: PropTypes.string,
 	checkedBoxShadowColor: PropTypes.string,
