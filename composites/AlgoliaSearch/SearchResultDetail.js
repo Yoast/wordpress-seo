@@ -13,6 +13,10 @@ import breakpoints from "../../style-guide/responsive-breakpoints.json";
 import colors from "../../style-guide/colors.json";
 
 const messages = defineMessages( {
+	searchResult: {
+		id: "searchResultDetail.searchResult",
+		defaultMessage: "Search result",
+	},
 	openButton: {
 		id: "searchResultDetail.openButton",
 		defaultMessage: "View in KB",
@@ -36,6 +40,8 @@ const messages = defineMessages( {
 } );
 
 const Detail = styled.section`
+	outline: none;
+
 	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		margin: 0 -16px;
 	}
@@ -86,13 +92,31 @@ class SearchResultDetail extends React.Component {
 
 	render() {
 		const formatMessage = this.props.intl.formatMessage;
+		const searchResulLabel = formatMessage( messages.searchResult );
 		const iframeTitle = formatMessage( messages.iframeTitle );
 		return (
-			<Detail>
+			<Detail
+				aria-label={ searchResulLabel }
+				tabIndex="-1"
+				innerRef={ ( el ) => {
+					this.detailWrapper = el;
+				} }
+			>
 				{ this.createNavigation() }
 				<ArticleContent post={ this.props.post } title={ iframeTitle }/>
 			</Detail>
 		);
+	}
+
+	/**
+	 * When the component mounts, set focus on the search detail wrapper.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		if ( this.detailWrapper !== null ) {
+			this.detailWrapper.focus();
+		}
 	}
 }
 

@@ -306,7 +306,10 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	getSearchView() {
 		return (
-			<AlgoliaSearchWrapper>
+			<AlgoliaSearchWrapper
+				innerRef={ ( el ) => {
+					this.searchViewWrapper = el;
+				} }>
 				{ this.createSearchBar() }
 				{ this.determineSearchResultsView() }
 			</AlgoliaSearchWrapper>
@@ -331,6 +334,27 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	/**
+	 * Move focus back to the clicked link when going back from Detail to Search view.
+	 *
+	 * Call this function on componentDidUpdate() to avoid it runs on first rendering.
+	 *
+	 * @returns {void}
+	 */
+	moveFocusBackToClickedSearchResult() {
+		let clickedLinkIndex = this.state.currentDetailViewIndex;
+		// When is search view and a search results has been previously clicked.
+		if ( this.state.currentView === "SEARCH" && clickedLinkIndex >= 0 ) {
+			let resultLinks = this.searchViewWrapper.querySelectorAll( "ul a" );
+
+			if ( ! resultLinks.length ) {
+				return;
+			}
+
+			resultLinks[ clickedLinkIndex ].focus();
+		}
+	}
+
+	/**
 	 * Renders the React component.
 	 *
 	 * Called upon each state/props change. Determines and renders the view to render.
@@ -344,6 +368,10 @@ class AlgoliaSearcher extends React.Component {
 			case VIEW.DETAIL:
 				return this.getDetailView();
 		}
+	}
+
+	componentDidUpdate() {
+		this.moveFocusBackToClickedSearchResult();
 	}
 }
 
