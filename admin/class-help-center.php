@@ -22,9 +22,9 @@ class WPSEO_Help_Center {
 	/**
 	 * WPSEO_Help_Center constructor.
 	 *
-	 * @param string                             $unused                     Backwards compatible argument.
-	 * @param WPSEO_Option_Tabs|WPSEO_Option_Tab $option_tabs                Currently displayed tabs.
-	 * @param boolean                            $premium_support (optional) Show premium support tab.
+	 * @param string                             $unused          Backwards compatible argument.
+	 * @param WPSEO_Option_Tabs|WPSEO_Option_Tab $option_tabs     Currently displayed tabs.
+	 * @param boolean                            $premium_support Show premium support tab.
 	 */
 	public function __construct( $unused, $option_tabs, $premium_support = false ) {
 		$this->premium_support = $premium_support;
