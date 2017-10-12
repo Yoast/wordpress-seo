@@ -82,7 +82,7 @@ class WPSEO_Help_Center {
 		$formatted_data['pluginVersion'] = WPSEO_VERSION;
 
 		// Open HelpScout on activating this tab ID.
-		$formatted_data['premiumSupportId'] = ( $this->premium_support ) ? 'contact-support' : '';
+		$formatted_data['shouldDisplayContactForm'] = $this->premium_support;
 
 		$formatted_data['translations'] = self::get_translated_texts();
 
