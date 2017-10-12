@@ -12,6 +12,12 @@ class WPSEO_Configuration_Notifier implements WPSEO_WordPress_Integration {
 	 * Registers all hooks to WordPress
 	 */
 	public function register_hooks() {
+		// Only handle this on the dashboard.
+		if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_dashboard' ) {
+			return;
+		}
+		
+
 		if ( ! $this->show_notification() ) {
 			return;
 		}
