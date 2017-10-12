@@ -16,13 +16,19 @@ class WPSEO_Help_Center {
 	/** @var array Additional help center items */
 	protected $help_center_items = array();
 
+	/** @var bool Show premium support tab */
+	protected $premium_support;
+
 	/**
 	 * WPSEO_Help_Center constructor.
 	 *
-	 * @param string                             $unused      Backwards compatible argument.
-	 * @param WPSEO_Option_Tabs|WPSEO_Option_Tab $option_tabs Currently displayed tabs.
+	 * @param string                             $unused                     Backwards compatible argument.
+	 * @param WPSEO_Option_Tabs|WPSEO_Option_Tab $option_tabs                Currently displayed tabs.
+	 * @param boolean                            $premium_support (optional) Show premium support tab.
 	 */
-	public function __construct( $unused, $option_tabs ) {
+	public function __construct( $unused, $option_tabs, $premium_support = false ) {
+		$this->premium_support = $premium_support;
+
 		$tabs = new WPSEO_Option_Tabs( '' );
 
 		if ( $option_tabs instanceof WPSEO_Option_Tabs ) {
@@ -76,7 +82,7 @@ class WPSEO_Help_Center {
 		$formatted_data['pluginVersion'] = WPSEO_VERSION;
 
 		// Open HelpScout on activating this tab ID.
-		$formatted_data['premiumSupportId'] = ( $is_premium ) ? 'contact-support' : '';
+		$formatted_data['premiumSupportId'] = ( $this->premium_support ) ? 'contact-support' : '';
 
 		$formatted_data['translations'] = self::get_translated_texts();
 

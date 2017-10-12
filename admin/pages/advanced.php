@@ -53,7 +53,7 @@ foreach ( $tabs->get_tabs() as $tab ) {
 }
 echo '</h2>';
 
-$help_center = new WPSEO_Help_Center( '', $tabs );
+$help_center = new WPSEO_Help_Center( '', $tabs, WPSEO_Utils::is_yoast_seo_premium() );
 $help_center->localize_data();
 $help_center->mount();
 
