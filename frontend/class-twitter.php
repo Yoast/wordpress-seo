@@ -351,6 +351,13 @@ class WPSEO_Twitter {
 	 */
 	protected function image() {
 
+		/**
+		 * Filter: wpseo_add_twitter_images - Allow developers to add images to the Twitter tags
+		 *
+		 * @api WPSEO_Twitter The current object.
+		 */
+		do_action( 'wpseo_add_twitter_images', $this );
+		
 		if ( is_category() || is_tax() || is_tag() ) {
 			$this->taxonomy_image_output();
 		}
