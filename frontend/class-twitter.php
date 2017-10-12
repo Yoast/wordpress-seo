@@ -96,7 +96,7 @@ class WPSEO_Twitter {
 	private function determine_card_type() {
 		$this->type = $this->options['twitter_card_type'];
 
-		// TODO this should be reworked to use summary_large_image for any fitting image R.
+		// @todo This should be reworked to use summary_large_image for any fitting image R.
 		if ( is_singular() && has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
 
 			$this->images = get_post_gallery_images();

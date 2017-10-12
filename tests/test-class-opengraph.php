@@ -624,7 +624,7 @@ EXPECTED;
 	 * @covers WPSEO_OpenGraph::site_name
 	 */
 	public function test_site_name() {
-		// TODO empty site name test
+		// @todo Empty site name test.
 	}
 
 	/**

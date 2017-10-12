@@ -79,7 +79,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Rewrite::request
 	 */
 	public function test_request() {
-		// @TODO find method to test redirects
+		// @todo Find method to test redirects.
 	}
 
 	/**
