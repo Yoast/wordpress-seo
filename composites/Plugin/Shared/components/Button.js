@@ -75,11 +75,19 @@ export function addFocusStyle( component ) {
 		&:focus {
 			outline: none;
 			border-color: ${ colors.$color_blue };
-			background-color: ${ colors.$color_white };
+			background-color: ${ props => props.focusBackgroundColor };
 			box-shadow: 0 0 3px ${ rgba( colors.$color_blue_dark, .8 ) };
 		}
 	`;
 }
+
+addFocusStyle.propTypes = {
+	focusBackgroundColor: PropTypes.string,
+};
+
+addFocusStyle.defaultProps = {
+	focusBackgroundColor: colors.$color_white,
+};
 
 /**
  * Returns a component with applied hover styles.
@@ -91,12 +99,22 @@ export function addFocusStyle( component ) {
 export function addHoverStyle( component ) {
 	return styled( component )`
 		&:hover {
-			background: ${ colors.$color_button_hover };
-			border-color: ${ colors.$color_button_border_hover };
+			background-color: ${ props => props.hoverBackgroundColor };
+			border-color: ${ props => props.hoverBorderColor };
 			color: ${ colors.$color_button_text_hover };
 		}
 	`;
 }
+
+addHoverStyle.propTypes = {
+	hoverBackgroundColor: PropTypes.string,
+	hoverBorderColor: PropTypes.string,
+};
+
+addHoverStyle.defaultProps = {
+	hoverBackgroundColor: colors.$color_button_hover,
+	hoverBorderColor: colors.$color_button_border_hover,
+};
 
 /**
  * Returns a component with applied active styles.
@@ -108,12 +126,22 @@ export function addHoverStyle( component ) {
 export function addActiveStyle( component ) {
 	return styled( component )`
 		&:active {
-			background: ${ colors.$color_button };
-			border-color: ${ colors.$color_button_border_hover };
+			background-color: ${ props => props.activeBackgroundColor };
+			border-color: ${ props => props.activeBorderColor };
 			box-shadow: inset 0 2px 5px -3px ${ rgba( colors.$color_button_border_active, 0.5 ) };
 		}
 	`;
 }
+
+addActiveStyle.propTypes = {
+	activeBackgroundColor: PropTypes.string,
+	activeBorderColor: PropTypes.string,
+};
+
+addActiveStyle.defaultProps = {
+	activeBackgroundColor: colors.$color_button,
+	activeBorderColor: colors.$color_button_border_hover,
+};
 
 /**
  * Returns a component with applied font size style.
@@ -223,23 +251,24 @@ IconButton.propTypes = {
 };
 
 export const ChangingIconButtonBase = ( props ) => {
-	console.log( props.checkedIcon );
-
-	if ( props.checked ) {
-		return <IconButton
-			icon={ props.checkedIcon }
-			iconColor={ props.checkedIconColor }
-			backgroundColor={ props.checkedBackground }
-		/>;
-	}
+	let backgroundColor = props.checked ? props.checkedBackground : props.uncheckedBackground;
 	return <IconButton
-		icon={ props.uncheckedIcon }
-		iconColor={ props.uncheckedIconColor }
-		backgroundColor={ props.uncheckedBackground }
+		icon={ props.checked ? props.checkedIcon : props.uncheckedIcon }
+		iconColor={ props.checked ? props.checkedIconColor : props.uncheckedIconColor }
+		backgroundColor={ backgroundColor }
+		hoverBackgroundColor={ backgroundColor }
+		focusBackgroundColor={ backgroundColor }
+		activeBackgroundColor={ backgroundColor }
+		hoverBorderColor={ colors.$color_button_border }
+		focusBorderColor={ colors.$color_button_border }
+		activeBorderColor={ colors.$color_button_border }
+		onClick={ props.onClick }
+		minHeight={ props.checked ? "25px" : "24px" }
 	/>;
 };
 
 ChangingIconButtonBase.propTypes = {
+	onClick: PropTypes.func.isRequired,
 	checked: PropTypes.bool,
 	uncheckedIcon: PropTypes.string,
 	checkedIcon: PropTypes.string,
@@ -262,9 +291,7 @@ export const ChangingIconButton = ( props ) => {
 	return (
 		<ChangingIconButtonBase
 			onClick={ props.onClick }
-			id={ props.id }
 			checked={ props.checked }
-			htmlFor={ props.id }
 			checkedIcon={ props.checkedIcon }
 			checkedIconColor={ props.checkedIconColor }
 			uncheckedIcon={ props.uncheckedIcon }
@@ -273,16 +300,13 @@ export const ChangingIconButton = ( props ) => {
 			checkedBoxShadowColor={ props.checkedBoxShadowColor }
 			checkedBackground={ props.checkedBackground }
 			uncheckedBackground={ props.uncheckedBackground }
-			aria-label={ props.id }
 			aria-checked={ props.checked }
-		>
-		</ChangingIconButtonBase>
-
+			min-height={ props.minHeight }
+		/>
 	);
 };
 
 ChangingIconButton.propTypes = {
-	id: PropTypes.string.isRequired,
 	onClick: PropTypes.func.isRequired,
 	boxShadowColor: PropTypes.string,
 	uncheckedBoxShadowColor: PropTypes.string,
@@ -294,6 +318,7 @@ ChangingIconButton.propTypes = {
 	checkedIcon: PropTypes.func.isRequired,
 	uncheckedIcon: PropTypes.func.isRequired,
 	checked: PropTypes.bool.isRequired,
+	minHeight: PropTypes.string,
 };
 
 ChangingIconButton.defaultProps = {
