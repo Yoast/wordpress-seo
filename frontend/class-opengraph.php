@@ -729,12 +729,17 @@ class WPSEO_OpenGraph {
 			return false;
 		}
 
-		$terms = get_the_category();
+		$post = get_post();
+		if ( ! $post ) {
+			return false;
+		}
 
-		if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
+		$primary_term      = new WPSEO_Primary_Term( 'category', $post->ID );
+		$primary_category = $primary_term->get_primary_term();
 
+		if ( ! $primary_category ) {
 			// We can only show one section here, so we take the first one.
-			$this->og_tag( 'article:section', $terms[0]->name );
+			$this->og_tag( 'article:section', $primary_category );
 
 			return true;
 		}
