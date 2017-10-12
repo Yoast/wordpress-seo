@@ -263,7 +263,8 @@ export const ChangingIconButtonBase = ( props ) => {
 		focusBorderColor={ colors.$color_button_border }
 		activeBorderColor={ colors.$color_button_border }
 		onClick={ props.onClick }
-		minHeight={ props.checked ? "25px" : "24px" }
+		height="24px"
+		min-height="!important 0"
 	/>;
 };
 
@@ -281,12 +282,24 @@ ChangingIconButtonBase.propTypes = {
 
 /*
 const ChangingIconButtonBase = styled( IconButton )`
-	box-shadow: ${ props => props.checked
-		? `inset 0 2px 0 ${ rgba( props.checkedBoxShadowColor, 0.7 ) }`
-		: `0 1px 0 ${ rgba( props.uncheckedBoxShadowColor, 0.7 ) }` };
 	height: ${ props => props.checked ? "25px" : "24px" };
 `;
 */
+
+/**
+ * Returns a component with applied changing icon button styles.
+ *
+ * @param {ReactElement} component The original component.
+ *
+ * @returns {ReactElement} Component with applied changing icon button styles.
+ */
+export function addChangingIconButtonStyles( component ) {
+	return styled( component )`
+		min-height: 0 !important; 
+		height: 24px;
+	`;
+}
+
 export const ChangingIconButton = ( props ) => {
 	return (
 		<ChangingIconButtonBase
@@ -301,7 +314,6 @@ export const ChangingIconButton = ( props ) => {
 			checkedBackground={ props.checkedBackground }
 			uncheckedBackground={ props.uncheckedBackground }
 			aria-checked={ props.checked }
-			min-height={ props.minHeight }
 		/>
 	);
 };
@@ -318,6 +330,7 @@ ChangingIconButton.propTypes = {
 	checkedIcon: PropTypes.func.isRequired,
 	uncheckedIcon: PropTypes.func.isRequired,
 	checked: PropTypes.bool.isRequired,
+	height: PropTypes.string,
 	minHeight: PropTypes.string,
 };
 
@@ -329,3 +342,5 @@ ChangingIconButton.defaultProps = {
 	checkedIconColor: colors.$color_white,
 	uncheckedIconColor: colors.$color_button_text,
 };
+
+export const ChangingIconButton2 = addChangingIconButtonStyles( ChangingIconButton );
