@@ -168,7 +168,7 @@ class HelpCenter extends React.Component {
 
 		this.props.additionalHelpCenterTabs.map( tab => {
 			let content;
-			if( tab.identifier === this.props.premiumSupportTabId ) {
+			if( this.props.shouldDisplayContactForm === "1" ) {
 				const supportButton = this.props.intl.formatMessage( { id: "contactSupport.button" } );
 				content = <ContactSupport
 					buttonText={ supportButton }
@@ -210,7 +210,7 @@ HelpCenter.propTypes = {
 	adminTabsData: PropTypes.object.isRequired,
 	additionalHelpCenterTabs: PropTypes.array,
 	videoTutorialParagraphs: PropTypes.object,
-	premiumSupportTabId: PropTypes.string,
+	shouldDisplayContactForm: PropTypes.string,
 	initialTab: PropTypes.string,
 	intl: intlShape.isRequired,
 };
@@ -254,7 +254,7 @@ if ( window.wpseoHelpCenterData ) {
 				adminTabsData={wpseoHelpCenterData.tabs}
 				additionalHelpCenterTabs={wpseoHelpCenterData.extraTabs}
 				videoTutorialParagraphs={wpseoHelpCenterData.videoDescriptions}
-				premiumSupportTabId={wpseoHelpCenterData.premiumSupportId}
+				shouldDisplayContactForm={wpseoHelpCenterData.shouldDisplayContactForm}
 			/>
 		</IntlProvider>,
 		document.getElementById( wpseoHelpCenterData.mountId )

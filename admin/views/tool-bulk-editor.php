@@ -31,8 +31,6 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 
 /**
  * Outputs a help center.
- *
- * @return void
  */
 function render_help_center() {
 	$tabs = new WPSEO_Option_Tabs( '', '' );
@@ -42,7 +40,7 @@ function render_help_center() {
 	$tabs->add_tab( new WPSEO_Option_Tab( 'description', __( 'Bulk editor', 'wordpress-seo' ),
 		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) ) ) );
 
-	$helpcenter = new WPSEO_Help_Center( '', $tabs );
+	$helpcenter = new WPSEO_Help_Center( '', $tabs, WPSEO_Utils::is_yoast_seo_premium() );
 	$helpcenter->localize_data();
 	$helpcenter->mount();
 }
