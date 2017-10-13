@@ -14,12 +14,11 @@ class WPSEO_Configuration_Structure {
 	/**
 	 * WPSEO_Configuration_Structure constructor.
 	 */
-	public function __construct() {
-
+	public function initialize() {
 		$this->add_step( 'intro', __( 'Welcome!', 'wordpress-seo' ), array(
-			'upsellConfigurationService',
-			'mailchimpSignup',
-		) );
+			'configurationChoices',
+		), false, true );
+
 		$this->add_step( 'environment_type', __( 'Environment', 'wordpress-seo' ), array( 'environment_type' ) );
 		$this->add_step( 'siteType', __( 'Site type', 'wordpress-seo' ), array( 'siteType' ) );
 		$this->add_step( 'publishingEntity', __( 'Company or person', 'wordpress-seo' ), array(
@@ -50,16 +49,24 @@ class WPSEO_Configuration_Structure {
 		$this->add_step( 'postTypeVisibility', __( 'Post type visibility', 'wordpress-seo' ), $fields );
 
 		$this->add_step( 'multipleAuthors', __( 'Multiple authors', 'wordpress-seo' ), array( 'multipleAuthors' ) );
-		$this->add_step( 'connectGoogleSearchConsole', __( 'Google Search Console', 'wordpress-seo' ), array( 'connectGoogleSearchConsole' ) );
+		$this->add_step( 'connectGoogleSearchConsole', __( 'Google Search Console', 'wordpress-seo' ), array(
+			'googleSearchConsoleIntro',
+			'connectGoogleSearchConsole',
+		) );
 		$this->add_step( 'titleTemplate', __( 'Title settings', 'wordpress-seo' ), array(
+			'titleIntro',
 			'siteName',
 			'separator',
 		) );
+		$this->add_step( 'newsletter', __( 'Newsletter', 'wordpress-seo' ), array(
+			'mailchimpSignup',
+		), true, true );
+		$this->add_step( 'suggestions', __( 'You might like', 'wordpress-seo' ), array(
+			'suggestions',
+		), true, true );
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), array(
 			'successMessage',
-			'upsellSiteReview',
-			'mailchimpSignup',
-		) );
+		), true, true );
 	}
 
 	/**
@@ -68,11 +75,15 @@ class WPSEO_Configuration_Structure {
 	 * @param string $identifier Identifier for this step.
 	 * @param string $title      Title to display for this step.
 	 * @param array  $fields     Fields to use on the step.
+	 * @param bool   $navigation Show navigation buttons.
+	 * @param bool   $full_width Wheter the step content is full width or not.
 	 */
-	protected function add_step( $identifier, $title, $fields ) {
+	protected function add_step( $identifier, $title, $fields, $navigation = true, $full_width = false ) {
 		$this->steps[ $identifier ] = array(
-			'title'  => $title,
-			'fields' => $fields,
+			'title'          => $title,
+			'fields'         => $fields,
+			'hideNavigation' => ! (bool) $navigation,
+			'fullWidth'      => $full_width,
 		);
 	}
 

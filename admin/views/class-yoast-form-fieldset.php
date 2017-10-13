@@ -60,7 +60,7 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 		 */
 		extract( $this->get_parts() );
 
-		require( dirname( WPSEO_FILE ) . '/admin/views/form/fieldset.php' );
+		require WPSEO_PATH . 'admin/views/form/fieldset.php';
 	}
 
 	/**

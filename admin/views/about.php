@@ -18,8 +18,8 @@ $version = '3.4';
  */
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
-		echo '<li class="wp-person" id="wp-person-', $username, '">';
-		echo '<a href="https://github.com/', $username, '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="">', $dev->name, '</a>';
+		echo '<li class="wp-person">';
+		echo '<a href="https://github.com/', $username, '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=120" class="gravatar" alt="">', $dev->name, '</a>';
 		echo '<span class="title">', $dev->role, "</span></li>\n";
 	}
 }
@@ -38,7 +38,8 @@ function wpseo_display_contributors( $contributors ) {
 		/* translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO */
 		printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>', 'Yoast SEO' );
 		echo ' ';
-		printf( __( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/wpseocontributionguidelines">', '</a>' );
+		/* translators: 1: link open tag; 2: link close tag. */
+		printf( __( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/wpseocontributionguidelines' ) . '">', '</a>' );
 		?>
 	</p>
 
@@ -104,7 +105,7 @@ function wpseo_display_contributors( $contributors ) {
 		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
 			$people = array(
-				'andrea'        => (object) array(
+				'afercia'       => (object) array(
 					'name'     => 'Andrea Fercia',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '074af62ea5ff218b6a6eeab89104f616',
@@ -139,7 +140,7 @@ function wpseo_display_contributors( $contributors ) {
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '59908788f406037240ee011388db29f8',
 				),
-				'irenestr2'      => (object) array(
+				'irenestr'      => (object) array(
 					'name'     => 'Irene Strikkers',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '074d67179d52561e36e57e8e9ea8f8cf',
@@ -148,11 +149,6 @@ function wpseo_display_contributors( $contributors ) {
 					'name'     => 'Jimmy Comack',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '41073ef9e1f3e01b03cbee75cee33bd4',
-				),
-				'rensw90'       => (object) array(
-					'name'     => 'Rens Weerman',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'b0a3b8fed2b5ac66a082f0e915d4ea6f',
 				),
 			);
 
@@ -168,12 +164,17 @@ function wpseo_display_contributors( $contributors ) {
 					'role'     => __( 'QA & Translations Manager', 'wordpress-seo' ),
 					'gravatar' => 'd2d3ecb38cacd521926979b5c678297b',
 				),
+				'benvaassen'   => (object) array(
+					'name'     => 'Ben Vaassen',
+					'role'     => __( 'QA', 'wordpress-seo' ),
+					'gravatar' => 'e186ff6435b02a7bc1c7185dd66b7e64',
+				),
 				'monbauza'     => (object) array(
 					'name'     => 'Ramon Bauza',
 					'role'     => __( 'Tester', 'wordpress-seo' ),
 					'gravatar' => 'de09b8491ab1d927e770f7519219cfc9',
 				),
-				'boblinthorst2' => (object) array(
+				'boblinthorst' => (object) array(
 					'name'     => 'Bob Linthorst',
 					'role'     => __( 'Tester', 'wordpress-seo' ),
 					'gravatar' => '8063b1955f54681ef3a2deb21972faa1',

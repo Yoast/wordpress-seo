@@ -49,6 +49,16 @@ class WPSEO_Twitter {
 	 * Outputs the Twitter Card code on singular pages.
 	 */
 	public function twitter() {
+
+		/**
+		 * Filter: 'wpseo_output_twitter_card' - Allow disabling of the Twitter card
+		 *
+		 * @api bool $enabled Enabled/disabled flag
+		 */
+		if ( false === apply_filters( 'wpseo_output_twitter_card', true ) ) {
+			return;
+		}
+
 		wp_reset_query();
 
 		$this->type();
@@ -86,7 +96,7 @@ class WPSEO_Twitter {
 	private function determine_card_type() {
 		$this->type = $this->options['twitter_card_type'];
 
-		// TODO this should be reworked to use summary_large_image for any fitting image R.
+		// @todo This should be reworked to use summary_large_image for any fitting image R.
 		if ( is_singular() && has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
 
 			$this->images = get_post_gallery_images();
@@ -474,7 +484,7 @@ class WPSEO_Twitter {
 		$img = apply_filters( 'wpseo_twitter_image', $img );
 
 		if ( WPSEO_Utils::is_url_relative( $img ) === true && $img[0] === '/' ) {
-			$parsed_url = parse_url( home_url() );
+			$parsed_url = wp_parse_url( home_url() );
 			$img        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $img;
 		}
 
@@ -636,6 +646,8 @@ class WPSEO_Twitter {
 	 * Displays the domain tag for the site.
 	 *
 	 * @deprecated 3.0
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function site_domain() {
 		_deprecated_function( __METHOD__, 'WPSEO 3.0' );

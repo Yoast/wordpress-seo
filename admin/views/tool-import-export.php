@@ -9,17 +9,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-/**
- * @todo [JRF => testers] Extensively test the export & import of the (new) settings!
- * If that all works fine, getting testers to export before and after upgrade will make testing easier.
- *
- * @todo [Yoast] The import for the RSS Footer plugin checks for data already entered via Yoast SEO,
- * the other import routines should do that too.
- */
-
 $yform = Yoast_Form::get_instance();
 
 $replace = false;
+$import  = false;
 
 /**
  * The import method is used to dermine if there should be something imported.
@@ -47,13 +40,13 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 		$import->import_headspace();
 	}
 
+	if ( ! empty( $post_wpseo['importjetpackseo'] ) || filter_input( INPUT_GET, 'importjetpackseo' ) ) {
+		$import = new WPSEO_Import_Jetpack_SEO( $replace );
+	}
+
 	if ( ! empty( $post_wpseo['importwpseo'] ) || filter_input( INPUT_GET, 'importwpseo' ) ) {
 		$import = new WPSEO_Import_WPSEO( $replace );
 	}
-
-	// Allow custom import actions.
-	do_action( 'wpseo_handle_import' );
-
 }
 
 if ( isset( $_FILES['settings_import_file'] ) ) {
@@ -62,20 +55,26 @@ if ( isset( $_FILES['settings_import_file'] ) ) {
 	$import = new WPSEO_Import();
 }
 
-if ( isset( $import ) ) {
+/**
+ * Allow custom import actions.
+ *
+ * @api bool|object $import Contains info about the handled import
+ */
+$import = apply_filters( 'wpseo_handle_import', $import );
+
+if ( $import ) {
 	/**
 	 * Allow customization of import&export message
 	 *
 	 * @api  string  $msg  The message.
 	 */
-	$msg = apply_filters( 'wpseo_import_message', $import->msg );
-
-	// Check if we've deleted old data and adjust message to match it.
-	if ( $replace ) {
-		$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
-	}
+	$msg = apply_filters( 'wpseo_import_message', isset( $import->msg ) ? $import->msg : '' );
 
 	if ( $msg != '' ) {
+		// Check if we've deleted old data and adjust message to match it.
+		if ( $replace ) {
+			$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
+		}
 
 		$status = ( $import->success ) ? 'updated' : 'error';
 
@@ -85,16 +84,16 @@ if ( isset( $import ) ) {
 
 $tabs = array(
 	'wpseo-import' => array(
-		'label'                => __( 'Import', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
+		'label'                => __( 'Import settings', 'wordpress-seo' ),
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
 	),
 	'wpseo-export' => array(
-		'label'                => __( 'Export', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
+		'label'                => __( 'Export settings', 'wordpress-seo' ),
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
 	),
 	'import-seo'   => array(
 		'label'                => __( 'Import from other SEO plugins', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
 	),
 );
 
@@ -103,7 +102,7 @@ $tabs = array(
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<?php foreach ( $tabs as $identifier => $tab ) : ?>
-		<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
+			<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
 		<?php endforeach; ?>
 
 		<?php
@@ -115,22 +114,27 @@ $tabs = array(
 	</h2>
 
 <?php
+
+$helpcenter_tabs = new WPSEO_Option_Tabs( '', '' );
+
 foreach ( $tabs as $identifier => $tab ) {
-
-	printf( '<div id="%s" class="wpseotab">', $identifier );
-
 	if ( ! empty( $tab['screencast_video_url'] ) ) {
 		$tab_video_url = $tab['screencast_video_url'];
 
 		$helpcenter_tab = new WPSEO_Option_Tab( $identifier, $tab['label'],
 			array( 'video_url' => $tab['screencast_video_url'] ) );
-
-		$helpcenter = new WPSEO_Help_Center( $identifier, $helpcenter_tab );
-		$helpcenter->output_help_center();
 	}
 
-	require_once WPSEO_PATH . 'admin/views/tabs/tool/' . $identifier . '.php';
+	$helpcenter_tabs->add_tab( $helpcenter_tab );
+}
 
+$helpcenter = new WPSEO_Help_Center( '', $helpcenter_tabs, WPSEO_Utils::is_yoast_seo_premium() );
+$helpcenter->localize_data();
+$helpcenter->mount();
+
+foreach ( $tabs as $identifier => $tab ) {
+	printf( '<div id="%s" class="wpseotab">', $identifier );
+	require_once WPSEO_PATH . 'admin/views/tabs/tool/' . $identifier . '.php';
 	echo '</div>';
 }
 

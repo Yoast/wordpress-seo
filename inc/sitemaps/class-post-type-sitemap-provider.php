@@ -406,7 +406,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$archive_url = get_post_type_archive_link( $post_type );
+		$archive_url = $this->get_post_type_archive_link( $post_type );
 
 		/**
 		 * Filter the URL Yoast SEO uses in the XML sitemap for this post type archive.
@@ -434,6 +434,33 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Get URL for a post type archive.
+	 *
+	 * @since  5.3
+	 *
+	 * @param  string $post_type Post type.
+	 *
+	 * @return string|bool URL or false if it should be excluded.
+	 */
+	protected function get_post_type_archive_link( $post_type ) {
+
+		$options = $this->get_options();
+
+		if ( isset( $options[ 'noindex-ptarchive-' . $post_type ] ) && $options[ 'noindex-ptarchive-' . $post_type ] ) {
+			return false;
+		}
+
+		// Post archive should be excluded if it isn't front page or posts page.
+		if ( $post_type === 'post' && get_option( 'show_on_front' ) !== 'posts' && ! $this->get_page_for_posts_id() ) {
+			return false;
+		}
+
+		$archive_url = get_post_type_archive_link( $post_type );
+
+		return $archive_url;
 	}
 
 	/**
@@ -578,10 +605,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		if ( $canonical !== '' && $canonical !== $url['loc'] ) {
 			/*
-			Let's assume that if a canonical is set for this page and it's different from
-			   the URL of this post, that page is either already in the XML sitemap OR is on
-			   an external site, either way, we shouldn't include it here.
-			*/
+			 * Let's assume that if a canonical is set for this page and it's different from
+			 * the URL of this post, that page is either already in the XML sitemap OR is on
+			 * an external site, either way, we shouldn't include it here.
+			 */
 			return false;
 		}
 		unset( $canonical );
@@ -607,6 +634,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return float|mixed
 	 */
 	private function calculate_priority( $post ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
 
 		$return = 0.6;
 		if ( $post->post_parent == 0 && $post->post_type == 'page' ) {

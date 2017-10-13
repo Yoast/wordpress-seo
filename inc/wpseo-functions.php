@@ -80,50 +80,6 @@ if ( ! function_exists( 'yoast_get_primary_term' ) ) {
 }
 
 /**
- * Add the bulk edit capability to the proper default roles.
- */
-function wpseo_add_capabilities() {
-	$roles = array(
-		'administrator',
-		'editor',
-	);
-
-	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
-
-	foreach ( $roles as $role ) {
-		$r = get_role( $role );
-		if ( $r ) {
-			$r->add_cap( 'wpseo_bulk_edit' );
-		}
-	}
-}
-
-
-/**
- * Remove the bulk edit capability from the proper default roles.
- *
- * Contributor is still removed for legacy reasons.
- */
-function wpseo_remove_capabilities() {
-	$roles = array(
-		'administrator',
-		'editor',
-		'author',
-		'contributor',
-	);
-
-	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
-
-	foreach ( $roles as $role ) {
-		$r = get_role( $role );
-		if ( $r ) {
-			$r->remove_cap( 'wpseo_bulk_edit' );
-		}
-	}
-}
-
-
-/**
  * Replace `%%variable_placeholders%%` with their real value based on the current requested page/post/cpt
  *
  * @param string $string the string to replace the variables in.
@@ -133,7 +89,7 @@ function wpseo_remove_capabilities() {
  * @return string
  */
 function wpseo_replace_vars( $string, $args, $omit = array() ) {
-	$replacer = new WPSEO_Replace_Vars;
+	$replacer = new WPSEO_Replace_Vars();
 
 	return $replacer->replace( $string, $args, $omit );
 }

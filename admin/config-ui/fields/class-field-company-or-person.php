@@ -14,7 +14,10 @@ class WPSEO_Config_Field_Company_Or_Person extends WPSEO_Config_Field_Choice {
 	public function __construct() {
 		parent::__construct( 'publishingEntityType' );
 
-		$this->set_property( 'label', __( 'This data is shown as metadata in your site. It is intended to appear in Google\'s Knowledge Graph. You can be either a company, or a person, choose either:', 'wordpress-seo' ) );
+		$this->set_property( 'label', __( 'Does your site represent a person or company?', 'wordpress-seo' ) );
+
+		$this->set_property( 'description', __( 'This information will be used in Google\'s Knowledge Graph Card, the big
+ block of information you see on the right side of the search results.', 'wordpress-seo' ) );
 
 		$this->add_choice( 'company', __( 'Company', 'wordpress-seo' ) );
 		$this->add_choice( 'person', __( 'Person', 'wordpress-seo' ) );

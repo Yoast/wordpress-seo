@@ -80,21 +80,21 @@ class WPSEO_Taxonomy_Fields_Presenter {
 
 		if ( ! empty( $options['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $field_name . '-desc"';
-			$description = '<p id="' . $field_name . '-desc">' . $options['description'] . '</p>';
+			$description = '<p id="' . $field_name . '-desc" class="yoast-metabox__description">' . $options['description'] . '</p>';
 		}
 
 		switch ( $field_type ) {
-			case 'div' :
+			case 'div':
 				$field .= '<div id="' . $field_name . '"></div>';
 				break;
 
 			case 'snippetpreview':
-				$field .= '<div id="wpseo_snippet" class="wpseosnippet"></div>';
+				$field .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
 				break;
-			case 'pageanalysis' :
+			case 'pageanalysis':
 				$field .= '<div id="pageanalysis">';
 				$field .= '<section class="yoast-section" id="wpseo-pageanalysis-section">';
-				$field .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">' . __( 'Analysis', 'wordpress-seo' ) .'</h3>';
+				$field .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">' . __( 'Analysis', 'wordpress-seo' ) . '</h3>';
 				$field .= '<div id="wpseo_analysis"></div>';
 				$field .= '</section>';
 				$field .= '</div>';
@@ -108,24 +108,24 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				$field .= '</section>';
 				$field .= '</div>';
 				break;
-			case 'text' :
+			case 'text':
 				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" ' . $class . ' type="text" value="' . esc_attr( $field_value ) . '" size="40"' . $aria_describedby . '/>';
 				break;
-			case 'checkbox' :
+			case 'checkbox':
 				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" type="checkbox" ' . checked( $field_value ) . $aria_describedby . '/>';
 				break;
-			case 'textarea' :
+			case 'textarea':
 				$rows = 3;
 				if ( ! empty( $options['rows'] ) ) {
 					$rows = $options['rows'];
 				}
 				$field .= '<textarea class="large-text" rows="' . esc_attr( $rows ) . '" id="' . $field_name . '" name="' . $field_name . '"' . $aria_describedby . '>' . esc_textarea( $field_value ) . '</textarea>';
 				break;
-			case 'upload' :
+			case 'upload':
 				$field .= '<input id="' . $field_name . '" type="text" size="36" name="' . $field_name . '" value="' . esc_attr( $field_value ) . '"' . $aria_describedby . ' />';
 				$field .= '<input id="' . $field_name . '_button" class="wpseo_image_upload_button button" type="button" value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '" />';
 				break;
-			case 'select' :
+			case 'select':
 				if ( is_array( $options ) && $options !== array() ) {
 					$field .= '<select name="' . $field_name . '" id="' . $field_name . '"' . $aria_describedby . '>';
 
@@ -140,7 +140,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 					$field .= '</select>';
 				}
 				break;
-			case 'hidden' :
+			case 'hidden':
 				$field .= '<input name="' . $field_name . '" id="hidden_' . $field_name . '" type="hidden" value="' . esc_attr( $field_value ) . '" />';
 				break;
 		}
@@ -181,7 +181,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Getting the label HTML
 	 *
-	 * @param string $label	     The label value.
+	 * @param string $label      The label value.
 	 * @param string $field_name The target field.
 	 *
 	 * @return string
@@ -205,7 +205,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 */
 	private function parse_row( $label, WPSEO_Admin_Help_Panel $help, $field ) {
 		if ( $label !== '' || $help !== '' ) {
-			return '<tr><th scope="row">' . $label . $help->get_button_html() . '</th><td>' . $help->get_panel_html() . $field . '</td></tr>';
+			return $label . $help->get_button_html() . $help->get_panel_html() . $field;
 		}
 
 		return $field;
@@ -221,10 +221,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 * @return string
 	 */
 	private function parse_section_row( $content, $esc_form_key, WPSEO_Admin_Help_Panel $help ) {
-		$html = '<tr><td>';
-		$html .= $content;
-		$html .= '<div class="wpseo_hidden" id="help-yoast-'. $esc_form_key. '">' . $help->get_button_html() . $help->get_panel_html() . '</div>';
-		$html .= '</td></tr>';
+		$html = $content;
+		$html .= '<div class="wpseo_hidden" id="help-yoast-' . $esc_form_key . '">' . $help->get_button_html() . $help->get_panel_html() . '</div>';
 		return $html;
 	}
 }

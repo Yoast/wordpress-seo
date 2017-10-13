@@ -106,7 +106,10 @@ class WPSEO_Replace_Vars {
 				trigger_error( __( 'A replacement variable can only contain alphanumeric characters, an underscore or a dash. Try renaming your variable.', 'wordpress-seo' ), E_USER_WARNING );
 			}
 			elseif ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
+				// Ignore invalid placeholder detection, there is no (s)printf usage in the following line.
+				// @codingStandardsIgnoreStart
 				trigger_error( __( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
+				// @codingStandardsIgnoreEnd
 			}
 			elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var ) ) {
 				if ( ! isset( self::$external_replacements[ $var ] ) ) {
@@ -115,7 +118,7 @@ class WPSEO_Replace_Vars {
 					$success = true;
 				}
 				else {
-					trigger_error( __( 'A replacement variable with the same name has already been registered. Try making your variable name more unique.', 'wordpress-seo' ), E_USER_WARNING );
+					trigger_error( __( 'A replacement variable with the same name has already been registered. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
 				}
 			}
 			else {
@@ -604,6 +607,9 @@ class WPSEO_Replace_Vars {
 		if ( isset( $wp_query->query_vars['post_type'] ) && ( ( is_string( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== '' ) || ( is_array( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== array() ) ) ) {
 			$post_type = $wp_query->query_vars['post_type'];
 		}
+		elseif ( isset( $this->args->post_type ) && ( is_string( $this->args->post_type ) && $this->args->post_type !== '' ) ) {
+			$post_type = $this->args->post_type;
+		}
 		else {
 			// Make it work in preview mode.
 			$post_type = $wp_query->get_queried_object()->post_type;
@@ -1022,17 +1028,25 @@ class WPSEO_Replace_Vars {
 		}
 
 		$table = '
-			<table class="yoast_help">';
+			<table class="yoast_help yoast-table-scrollable">
+			<thead>
+				<tr>
+					<th scope="col">' . esc_html__( 'Variable', 'wordpress-seo' ) . '</th>
+					<th scope="col">' . esc_html__( 'Description', 'wordpress-seo' ) . '</th>
+				</tr>
+			</thead>
+			<tbody>';
 
 		foreach ( self::$help_texts[ $type ] as $replace => $help_text ) {
 			$table .= '
 				<tr>
-					<th>%%' . esc_html( $replace ) . '%%</th>
-					<td>' . $help_text . '</td>
+					<td class="yoast-variable-name">%%' . esc_html( $replace ) . '%%</td>
+					<td class="yoast-variable-desc">' . $help_text . '</td>
 				</tr>';
 		}
 
 		$table .= '
+			</tbody>
 			</table>';
 
 		return $table;

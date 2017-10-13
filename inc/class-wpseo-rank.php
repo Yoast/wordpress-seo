@@ -35,7 +35,7 @@ class WPSEO_Rank {
 			'start' => 0,
 			'end'   => 0,
 		),
-		self::BAD  => array(
+		self::BAD => array(
 			'start' => 1,
 			'end'   => 40,
 		),
@@ -100,7 +100,7 @@ class WPSEO_Rank {
 		$labels = array(
 			self::NO_FOCUS => __( 'Not available', 'wordpress-seo' ),
 			self::NO_INDEX => __( 'No index', 'wordpress-seo' ),
-			self::BAD      => __( 'Bad', 'wordpress-seo' ),
+			self::BAD      => __( 'Needs improvement', 'wordpress-seo' ),
 			self::OK       => __( 'OK', 'wordpress-seo' ),
 			self::GOOD     => __( 'Good', 'wordpress-seo' ),
 		);
@@ -116,10 +116,25 @@ class WPSEO_Rank {
 	public function get_drop_down_label() {
 		$labels = array(
 			self::NO_FOCUS => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
-			self::BAD      => __( 'SEO: Bad', 'wordpress-seo' ),
+			self::BAD      => __( 'SEO: Needs improvement', 'wordpress-seo' ),
 			self::OK       => __( 'SEO: OK', 'wordpress-seo' ),
 			self::GOOD     => __( 'SEO: Good', 'wordpress-seo' ),
 			self::NO_INDEX => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
+		);
+
+		return $labels[ $this->rank ];
+	}
+
+	/**
+	 * Gets the drop down labels for the readability score.
+	 *
+	 * @return string The readability rank label.
+	 */
+	public function get_drop_down_readability_labels() {
+		$labels = array(
+			self::BAD      => __( 'Readability: Needs improvement', 'wordpress-seo' ),
+			self::OK       => __( 'Readability: OK', 'wordpress-seo' ),
+			self::GOOD     => __( 'Readability: Good', 'wordpress-seo' ),
 		);
 
 		return $labels[ $this->rank ];
@@ -177,6 +192,15 @@ class WPSEO_Rank {
 	 */
 	public static function get_all_ranks() {
 		return array_map( array( 'WPSEO_Rank', 'create_rank' ), self::$ranks );
+	}
+
+	/**
+	 * Returns a list of all possible Readability Ranks
+	 *
+	 * @return WPSEO_Rank[]
+	 */
+	public static function get_all_readability_ranks() {
+		return array_map( array( 'WPSEO_Rank', 'create_rank' ), array( self::BAD, self::OK, self::GOOD ) );
 	}
 
 	/**

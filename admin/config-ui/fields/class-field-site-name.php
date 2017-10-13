@@ -15,6 +15,7 @@ class WPSEO_Config_Field_Site_Name extends WPSEO_Config_Field {
 		parent::__construct( 'siteName', 'Input' );
 
 		$this->set_property( 'label', __( 'Website name', 'wordpress-seo' ) );
+
 		$this->set_property( 'explanation', __( 'Google shows your website\'s name in the search results, if you want to change it, you can do that here.', 'wordpress-seo' ) );
 	}
 
@@ -28,7 +29,8 @@ class WPSEO_Config_Field_Site_Name extends WPSEO_Config_Field {
 			$this->get_identifier(),
 			array( $this, 'get_data' ),
 			array( $this, 'set_data' )
-		);	}
+		);
+	}
 
 	/**
 	 * Get the data from the stored options.

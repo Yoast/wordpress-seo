@@ -91,6 +91,7 @@ class WPSEO_GSC {
 	private function get_profile_notification() {
 		return new Yoast_Notification(
 			sprintf(
+				/* translators: 1: link open tag; 2: link close tag. */
 				__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
 				'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
 				'</a>'
@@ -98,7 +99,7 @@ class WPSEO_GSC {
 			array(
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'wpseo-dismiss-gsc',
-				'capabilities' => 'manage_options',
+				'capabilities' => 'wpseo_manage_options',
 			)
 		);
 	}
@@ -114,7 +115,7 @@ class WPSEO_GSC {
 	 * Function that outputs the redirect page
 	 */
 	public function display() {
-		require_once WPSEO_PATH . '/admin/google_search_console/views/gsc-display.php';
+		require_once WPSEO_PATH . 'admin/google_search_console/views/gsc-display.php';
 	}
 
 	/**
@@ -216,13 +217,23 @@ class WPSEO_GSC {
 	 * Catch the redirects search post and redirect it to a search get
 	 */
 	private function list_table_search_post_to_get() {
-		if ( ( $search_string = filter_input( INPUT_POST, 's' ) ) !== null ) {
-			$url = ( $search_string !== '' ) ? add_query_arg( 's', $search_string ) : remove_query_arg( 's' );
+		$search_string = filter_input( INPUT_POST, 's' );
 
-			// Do the redirect.
-			wp_redirect( $url );
-			exit;
+		if ( $search_string === null ) {
+			return;
 		}
+
+		// When there is nothing being search and there is no search param in the url, break this method.
+		if ( $search_string === '' && filter_input( INPUT_GET, 's' ) === null ) {
+			return;
+		}
+
+		$url = ( $search_string !== '' ) ? add_query_arg( 's', $search_string ) : remove_query_arg( 's' );
+
+		// Do the redirect.
+		wp_redirect( $url );
+		exit;
+
 	}
 
 	/**

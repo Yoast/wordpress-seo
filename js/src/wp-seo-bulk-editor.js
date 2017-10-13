@@ -1,98 +1,110 @@
 /* global ajaxurl */
 /* global JSON */
-/* global wpseo_bulk_editor_nonce */
+/* global wpseoBulkEditorNonce */
 /* jshint -W097 */
 ( function() {
 	"use strict";
-	var bulk_editor = function( current_table ) {
-		var new_class = current_table.find( "[class^=wpseo-new]" ).first().attr( "class" );
-		var new_id = "#" + new_class + "-";
-		var existing_id = new_id.replace( "new", "existing" );
-		var column_value = current_table.find( "th[id^=col_existing_yoast]" ).first().text().replace( "Existing ", "" );
+	var bulkEditor = function( currentTable ) {
+		var newClass = currentTable.find( "[class^=wpseo-new]" ).first().attr( "class" );
+		var newId = "#" + newClass + "-";
+		var existingId = newId.replace( "new", "existing" );
+		var columnValue = currentTable.find( "th[id^=col_existing_yoast]" ).first().text().replace( "Existing ", "" );
 
-		var save_method = new_class.replace( "-new-", "_save_" );
-		var save_all_method = "wpseo_save_all_" + current_table.attr( "class" ).split( "wpseo_bulk_" )[ 1 ];
+		var saveMethod = newClass.replace( "-new-", "_save_" );
+		var saveAllMethod = "wpseo_save_all_" + currentTable.attr( "class" ).split( "wpseo_bulk_" )[ 1 ];
 
-		var bulk_type = save_method.replace( "wpseo_save_", "" );
+		var bulkType = saveMethod.replace( "wpseo_save_", "" );
 
 		var options = {
-			new_class: "." + new_class,
-			new_id: new_id,
-			existing_id: existing_id,
+			newClass: "." + newClass,
+			newId: newId,
+			existingId: existingId,
 		};
 
 		var instance = {
 
 			submit_new: function( id ) {
-				var new_target = options.new_id + id;
-				var existing_target = options.existing_id + id;
+				instance.submitNew( id );
+			},
+			submitNew: function( id ) {
+				var newTarget = options.newId + id;
+				var existingTarget = options.existingId + id;
 
-				var new_value;
-				if ( jQuery( options.new_id + id ).prop( "type" ) === "select-one" ) {
-					new_value = jQuery( new_target ).find( ":selected" ).text();
+				var newValue;
+				if ( jQuery( options.newId + id ).prop( "type" ) === "select-one" ) {
+					newValue = jQuery( newTarget ).find( ":selected" ).text();
 				} else {
-					new_value = jQuery( new_target ).val();
+					newValue = jQuery( newTarget ).val();
 				}
 
-				var current_value = jQuery( existing_target ).html();
+				var currentValue = jQuery( existingTarget ).html();
 
-				if ( new_value === current_value ) {
-					jQuery( new_target ).val( "" );
+				if ( newValue === currentValue ) {
+					jQuery( newTarget ).val( "" );
 				} else {
 					/* eslint-disable no-alert */
-					if ( ( new_value === "" ) && ! window.confirm( "Are you sure you want to remove the existing " + column_value + "?" ) ) {
+					if ( ( newValue === "" ) && ! window.confirm( "Are you sure you want to remove the existing " + columnValue + "?" ) ) {
 						/* eslint-enable no-alert */
-						jQuery( new_target ).val( "" );
+						jQuery( newTarget ).val( "" );
 						return;
 					}
 
+					/* eslint-disable camelcase */
 					var data = {
-						action: save_method,
-						_ajax_nonce: wpseo_bulk_editor_nonce,
+						action: saveMethod,
+						_ajax_nonce: wpseoBulkEditorNonce,
 						wpseo_post_id: id,
-						new_value: new_value,
-						existing_value: current_value,
+						new_value: newValue,
+						existing_value: currentValue,
 					};
+					/* eslint-enable camelcase */
 
-					jQuery.post( ajaxurl, data, instance.handle_response );
+					jQuery.post( ajaxurl, data, instance.handleResponse );
 				}
 			},
 
 			submit_all: function( ev ) {
+				instance.submitAll( ev );
+			},
+			submitAll: function( ev ) {
 				ev.preventDefault();
 
 				var data = {
-					action: save_all_method,
-					_ajax_nonce: wpseo_bulk_editor_nonce,
+					action: saveAllMethod,
+					// eslint-disable-next-line
+					_ajax_nonce: wpseoBulkEditorNonce,
 				};
 
 				data.send = false;
 				data.items = {};
-				data.existing_items = {};
+				data.existingItems = {};
 
-				jQuery( options.new_class ).each( function() {
+				jQuery( options.newClass ).each( function() {
 					var id = jQuery( this ).data( "id" );
 					var value = jQuery( this ).val();
-					var existing_value = jQuery( options.existing_id + id ).html();
+					var existingValue = jQuery( options.existingId + id ).html();
 
 					if ( value !== "" ) {
-						if ( value === existing_value ) {
-							jQuery( options.new_id + id ).val( "" );
+						if ( value === existingValue ) {
+							jQuery( options.newId + id ).val( "" );
 						} else {
 							data.send = true;
 							data.items[ id ] = value;
-							data.existing_items[ id ] = existing_value;
+							data.existingItems[ id ] = existingValue;
 						}
 					}
 				}
 				);
 
 				if ( data.send ) {
-					jQuery.post( ajaxurl, data, instance.handle_responses );
+					jQuery.post( ajaxurl, data, instance.handleResponses );
 				}
 			},
 
 			handle_response: function( response, status ) {
+				instance.handleResponse( response, status );
+			},
+			handleResponse: function( response, status ) {
 				if ( status !== "success" ) {
 					return;
 				}
@@ -104,47 +116,53 @@
 
 				if ( resp instanceof Array ) {
 					jQuery.each( resp, function() {
-						instance.handle_response( this, status );
+						instance.handleResponse( this, status );
 					}
 					);
 				} else {
 					if ( resp.status === "success" ) {
-						var new_value = resp[ "new_" + bulk_type ];
+						var newValue = resp[ "new_" + bulkType ];
 
-						jQuery( options.existing_id + resp.post_id ).html( new_value.replace( /\\(?!\\)/g, "" ) );
-						jQuery( options.new_id + resp.post_id ).val( "" );
+						jQuery( options.existingId + resp.post_id ).html( newValue.replace( /\\(?!\\)/g, "" ) );
+						jQuery( options.newId + resp.post_id ).val( "" );
 					}
 				}
 			},
 
 			handle_responses: function( responses, status ) {
+				instance.handleResponses( responses, status );
+			},
+			handleResponses: function( responses, status ) {
 				var resps = jQuery.parseJSON( responses );
 				jQuery.each( resps, function() {
-					instance.handle_response( this, status );
+					instance.handleResponse( this, status );
 				}
 				);
 			},
 
 			set_events: function() {
+				instance.setEvents();
+			},
+			setEvents: function() {
 				// Save link.
-				current_table.find( ".wpseo-save" ).click( function( event ) {
+				currentTable.find( ".wpseo-save" ).click( function( event ) {
 					var id = jQuery( this ).data( "id" );
 
 					event.preventDefault();
-					instance.submit_new( id, this );
+					instance.submitNew( id, this );
 				}
 				);
 
 				// Save all link.
-				current_table.find( ".wpseo-save-all" ).click( instance.submit_all );
+				currentTable.find( ".wpseo-save-all" ).click( instance.submitAll );
 
 				// Save title and meta description when pressing Enter on respective field and textarea.
-				current_table.find( options.new_class ).keydown(
+				currentTable.find( options.newClass ).keydown(
 					function( ev ) {
 						if ( ev.which === 13 ) {
 							ev.preventDefault();
 							var id = jQuery( this ).data( "id" );
-							instance.submit_new( id, this );
+							instance.submitNew( id, this );
 						}
 					}
 				);
@@ -153,16 +171,18 @@
 
 		return instance;
 	};
-	window.bulk_editor = bulk_editor;
+	// eslint-disable-next-line
+	window.bulk_editor = bulkEditor;
+	window.bulkEditor = bulkEditor;
 
 	jQuery( document ).ready( function() {
-		var parent_tables = jQuery( 'table[class*="wpseo_bulk"]' );
-		parent_tables.each(
-				function( number, parent_table ) {
-					var current_table = jQuery( parent_table );
-					var bulk_edit = bulk_editor( current_table );
+		var parentTables = jQuery( 'table[class*="wpseo_bulk"]' );
+		parentTables.each(
+				function( number, parentTable ) {
+					var currentTable = jQuery( parentTable );
+					var bulkEdit = bulkEditor( currentTable );
 
-					bulk_edit.set_events();
+					bulkEdit.setEvents();
 				}
 			);
 	}

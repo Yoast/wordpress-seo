@@ -16,7 +16,8 @@ class WPSEO_Option_RSS extends WPSEO_Option {
 	/**
 	 * @var  array  Array of defaults for the option
 	 *        Shouldn't be requested directly, use $this->get_defaults();
-	 * @internal  Note: Some of the default values are added via the translate_defaults() method
+	 *
+	 * {@internal Note: Some of the default values are added via the translate_defaults() method.}}
 	 */
 	protected $defaults = array(
 		'rssbefore' => '', // Text area.
@@ -44,7 +45,8 @@ class WPSEO_Option_RSS extends WPSEO_Option {
 	 * @return void
 	 */
 	public function translate_defaults() {
-		$this->defaults['rssafter'] = sprintf( __( 'The post %s appeared first on %s.', 'wordpress-seo' ), '%%POSTLINK%%', '%%BLOGLINK%%' );
+		/* translators: 1: link to post; 2: link to blog. */
+		$this->defaults['rssafter'] = sprintf( __( 'The post %1$s appeared first on %2$s.', 'wordpress-seo' ), '%%POSTLINK%%', '%%BLOGLINK%%' );
 	}
 
 

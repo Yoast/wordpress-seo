@@ -16,7 +16,8 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	public static function setUpBeforeClass() {
-		self::$class_instance = new WPSEO_Rewrite;
+		parent::setUpBeforeClass();
+		self::$class_instance = new WPSEO_Rewrite();
 	}
 
 	/**
@@ -78,7 +79,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Rewrite::request
 	 */
 	public function test_request() {
-		// @TODO find method to test redirects
+		// @todo Find method to test redirects.
 	}
 
 	/**
@@ -95,8 +96,8 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 			$expected = array(
 				'(uncategorized)/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
 				'(uncategorized)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',
-				'(uncategorized)/?$' => 'index.php?category_name=$matches[1]',
-				'$' => 'index.php?wpseo_category_redirect=$matches[1]',
+				'(uncategorized)/?$'                   => 'index.php?category_name=$matches[1]',
+				'$'                                    => 'index.php?wpseo_category_redirect=$matches[1]',
 			);
 		}
 		else {

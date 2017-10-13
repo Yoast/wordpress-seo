@@ -57,7 +57,13 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 }
 echo '<br/>';
 
-$taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'objects' );
+$taxonomies = get_taxonomies(
+	array(
+		'public'   => true,
+		'_builtin' => false,
+	),
+	'objects'
+);
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	echo '<h2>' . __( 'Post type archive to show in breadcrumbs for taxonomies', 'wordpress-seo' ) . '</h2>';
 	foreach ( $taxonomies as $tax ) {
@@ -87,6 +93,6 @@ unset( $taxonomies, $post_types );
 <p>
 	<?php
 	/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
-	printf( __( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ), '<a href="http://yoa.st/breadcrumbs" target="_blank">', '</a>' );
+	printf( __( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ), '<a href="' . WPSEO_Shortlinker::get( 'http://yoa.st/breadcrumbs' ) . '" target="_blank">', '</a>' );
 	?>
 </p>

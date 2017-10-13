@@ -17,7 +17,7 @@ $tabs->add_tab(
 		'breadcrumbs',
 		__( 'Breadcrumbs', 'wordpress-seo' ),
 		array(
-			'video_url' => 'https://yoa.st/screencast-breadcrumbs',
+			'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-breadcrumbs' ),
 			'opt_group' => 'wpseo_internallinks',
 		)
 	)
@@ -27,7 +27,7 @@ $tabs->add_tab(
 		'permalinks',
 		__( 'Permalinks', 'wordpress-seo' ),
 		array(
-			'video_url' => 'https://yoa.st/screencast-permalinks',
+			'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-permalinks' ),
 			'opt_group' => 'wpseo_permalinks',
 		)
 	)
@@ -37,7 +37,7 @@ $tabs->add_tab(
 		'rss',
 		__( 'RSS', 'wordpress-seo' ),
 		array(
-			'video_url' => 'https://yoa.st/screencast-rss',
+			'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-rss' ),
 			'opt_group' => 'wpseo_rss',
 		)
 	)
@@ -53,8 +53,9 @@ foreach ( $tabs->get_tabs() as $tab ) {
 }
 echo '</h2>';
 
-$help_center = new WPSEO_Help_Center( 'advanced', $active_tab );
-$help_center->output_help_center();
+$help_center = new WPSEO_Help_Center( '', $tabs, WPSEO_Utils::is_yoast_seo_premium() );
+$help_center->localize_data();
+$help_center->mount();
 
 require_once WPSEO_PATH . 'admin/views/tabs/advanced/' . $active_tab->get_name() . '.php';
 

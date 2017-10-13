@@ -19,7 +19,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $post_type ) {
 		$name = $post_type->name;
 		echo "<div id='" . esc_attr( $name ) . "-titles-metas'>";
-		echo '<h2 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $post_type->labels->name ) ) . '</h2>';
+		echo '<h2 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $post_type->labels->name ) ) . ' (<code>' . esc_html( $post_type->name ) . '</code>)</h2>';
 		if ( $options['redirectattachment'] === true && $name === 'attachment' ) {
 			// The `inline` CSS class prevents the notice from being moved to the top via JavaScript.
 			echo '<div class="notice notice-error inline"><p>';
@@ -56,7 +56,13 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 }
 unset( $post_types );
 
-$post_types = get_post_types( array( '_builtin' => false, 'has_archive' => true ), 'objects' );
+$post_types = get_post_types(
+	array(
+		'_builtin'    => false,
+		'has_archive' => true,
+	),
+	'objects'
+);
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	echo '<h2>' . esc_html__( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
 	echo '<p>' . __( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';

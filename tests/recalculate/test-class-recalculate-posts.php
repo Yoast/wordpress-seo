@@ -3,7 +3,7 @@
  * @package WPSEO\Unittests
  */
 
-require_once 'class-recalculate-posts-double.php';
+require_once WPSEO_TESTS_PATH . 'recalculate/class-recalculate-posts-double.php';
 
 
 class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
@@ -64,9 +64,15 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Recalculate_Posts::get_items_to_recalculate
 	 */
 	public function test_get_items_to_recalculate_no_focus_keywords() {
-		$response = $this->instance->get_items_to_recalculate(1);
+		$response = $this->instance->get_items_to_recalculate( 1 );
 
-		$this->assertEquals( array( 'items' => array(), 'total_items' => 0 ), $response );
+		$this->assertEquals(
+			array(
+				'items'       => array(),
+				'total_items' => 0,
+			),
+			$response
+		);
 	}
 
 	/**
@@ -79,7 +85,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
 		WPSEO_Meta::set_value( 'focuskw', 'testable', $this->posts[3] );
 
-		$response = $this->instance->get_items_to_recalculate(1);
+		$response = $this->instance->get_items_to_recalculate( 1 );
 
 		$this->assertEquals( 2, $response['total_items'] );
 		$this->assertTrue( is_array( $response['items'] ) );
@@ -94,12 +100,12 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	public function test_add_content() {
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
 
-		$post = get_post($this->posts[1]);
+		$post = get_post( $this->posts[1] );
 		$expected = $this->add_dummy_content( $post->post_content );
 
 		add_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content' ), 10, 2 );
 
-		$response = $this->instance->get_items_to_recalculate(1);
+		$response = $this->instance->get_items_to_recalculate( 1 );
 
 		remove_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content' ) );
 
@@ -114,12 +120,12 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	public function test_add_content_with_shortcode() {
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
 
-		$post = get_post($this->posts[1]);
+		$post = get_post( $this->posts[1] );
 		$expected = do_shortcode( $this->add_dummy_content_with_shortcode( $post->post_content ) );
 
 		add_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content_with_shortcode' ), 10, 2 );
 
-		$response = $this->instance->get_items_to_recalculate(1);
+		$response = $this->instance->get_items_to_recalculate( 1 );
 
 		remove_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content_with_shortcode' ) );
 
@@ -132,19 +138,19 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	public function test_add_featured_image_to_content() {
 		$test_double = new WPSEO_Recalculate_Posts_Test_Double();
 
-		add_filter( "get_post_metadata", array( $this, 'mock_post_metadata' ), 10, 3);
-		add_filter( "post_thumbnail_html", array( $this, 'mock_thumbnail' ), 10, 3);
+		add_filter( 'get_post_metadata', array( $this, 'mock_post_metadata' ), 10, 3 );
+		add_filter( 'post_thumbnail_html', array( $this, 'mock_thumbnail' ), 10, 3 );
 
-		$post = get_post($this->posts[1]);
+		$post = get_post( $this->posts[1] );
 		$expected = $post->post_content . " <img src='' />";
 		$response = $test_double->call_item_to_response( $post );
 
 		$this->assertEquals( $expected, $response['text'] );
 
-		remove_filter( "get_post_metadata", array( $this, 'mock_post_metadata' ), 10, 3);
-		remove_filter( "post_thumbnail_html", array( $this, 'mock_thumbnail' ), 10, 3);
+		remove_filter( 'get_post_metadata', array( $this, 'mock_post_metadata' ), 10, 3 );
+		remove_filter( 'post_thumbnail_html', array( $this, 'mock_thumbnail' ), 10, 3 );
 
-		$post = get_post($this->posts[2]);
+		$post = get_post( $this->posts[2] );
 		$expected = $post->post_content;
 		$response = $test_double->call_item_to_response( $post );
 

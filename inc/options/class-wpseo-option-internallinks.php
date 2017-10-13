@@ -16,7 +16,8 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	/**
 	 * @var  array  Array of defaults for the option
 	 *        Shouldn't be requested directly, use $this->get_defaults();
-	 * @internal  Note: Some of the default values are added via the translate_defaults() method
+	 *
+	 * {@internal Note: Some of the default values are added via the translate_defaults() method.}}
 	 */
 	protected $defaults = array(
 		'breadcrumbs-404crumb'      => '', // Text field.
@@ -81,7 +82,13 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 		// Retrieve all the relevant post type and taxonomy arrays.
 		$post_type_names       = get_post_types( array( 'public' => true ), 'names' );
-		$taxonomy_names_custom = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'names' );
+		$taxonomy_names_custom = get_taxonomies(
+			array(
+				'public'   => true,
+				'_builtin' => false,
+			),
+			'names'
+		);
 
 		if ( $post_type_names !== array() ) {
 			foreach ( $post_type_names as $pt ) {
@@ -238,7 +245,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	 * Retrieve a list of the allowed post types as breadcrumb parent for a taxonomy
 	 * Helper method for validation
 	 *
-	 * @internal don't make static as new types may still be registered
+	 * {@internal Don't make static as new types may still be registered.}}
 	 *
 	 * @return array
 	 */
@@ -285,9 +292,9 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 		}
 
 		/*
-		Make sure the values of the variable option key options are cleaned as they
-			   may be retained and would not be cleaned/validated then
-		*/
+		 * Make sure the values of the variable option key options are cleaned as they
+		 * may be retained and would not be cleaned/validated then.
+		 */
 		if ( is_array( $option_value ) && $option_value !== array() ) {
 
 			$allowed_post_types = $this->get_allowed_post_types();

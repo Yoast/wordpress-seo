@@ -15,6 +15,9 @@ class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 
 		$this->set_property( 'label', __( 'Does, or will, your site have multiple authors?', 'wordpress-seo' ) );
 
+		$this->set_property( 'description', __( 'If you choose no, your author archives will be deactivated to prevent
+ duplicate content issues.', 'wordpress-seo' ) );
+
 		$this->add_choice( 'yes', __( 'Yes', 'wordpress-seo' ) );
 		$this->add_choice( 'no', __( 'No', 'wordpress-seo' ) );
 	}

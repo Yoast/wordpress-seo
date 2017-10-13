@@ -4,26 +4,37 @@
 import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 ( function( $ ) {
-	window.wpseo_init_tabs = function() {
+	// eslint-disable-next-line
+	 function wpseoInitTabs() {
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
-			jQuery( ".wpseo-metabox-tabs" ).on( "click", "a.wpseo_tablink", function( ev ) {
-				ev.preventDefault();
+			jQuery( ".wpseo-metabox-tabs" )
+				.on( "click", "a.wpseo_tablink", function( ev ) {
+					ev.preventDefault();
 
-				jQuery( ".wpseo-meta-section.active .wpseo-metabox-tabs li" ).removeClass( "active" );
-				jQuery( ".wpseo-meta-section.active .wpseotab" ).removeClass( "active" );
+					jQuery( ".wpseo-meta-section.active .wpseo-metabox-tabs li" ).removeClass( "active" );
+					jQuery( ".wpseo-meta-section.active .wpseotab" ).removeClass( "active" );
 
-				var targetElem = jQuery( jQuery( this ).attr( "href" ) );
-				targetElem.addClass( "active" );
-				jQuery( this ).parent( "li" ).addClass( "active" );
+					// Hide the Yoast tooltip when the element gets clicked.
+					jQuery( this ).addClass( "yoast-tooltip-hidden" );
 
-				if ( jQuery( this ).hasClass( "scroll" ) ) {
-					jQuery( "html, body" ).animate( {
-						scrollTop: jQuery( targetElem ).offset().top,
-					}, 500
-						);
-				}
-			}
-			);
+					var targetElem = jQuery( jQuery( this ).attr( "href" ) );
+					targetElem.addClass( "active" );
+					jQuery( this ).parent( "li" ).addClass( "active" );
+
+					if ( jQuery( this ).hasClass( "scroll" ) ) {
+						jQuery( "html, body" ).animate( {
+							scrollTop: jQuery( targetElem ).offset().top,
+						}, 500 );
+					}
+				} )
+				.on( "mouseleave", "a.wpseo_tablink", function() {
+					// The element can still have focus, ensure to hide the tooltip.
+					jQuery( this ).addClass( "yoast-tooltip-hidden" );
+				} )
+				.on( "blur mouseenter", "a.wpseo_tablink", function() {
+					// Make the element tooltip-able again.
+					jQuery( this ).removeClass( "yoast-tooltip-hidden" );
+				} );
 		}
 
 		if ( jQuery( ".wpseo-meta-section" ).length > 0 ) {
@@ -32,26 +43,39 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 				return jQuery( this ).find( ".wpseo-meta-section-link" ).attr( "href" ) === "#wpseo-meta-section-content";
 			} ).addClass( "active" );
 
-			jQuery( "a.wpseo-meta-section-link" ).click( function( ev ) {
-				ev.preventDefault();
+			jQuery( "a.wpseo-meta-section-link" )
+				.on( "click", function( ev ) {
+					ev.preventDefault();
 
-				jQuery( ".wpseo-metabox-sidebar li" ).removeClass( "active" );
-				jQuery( ".wpseo-meta-section" ).removeClass( "active" );
+					jQuery( ".wpseo-metabox-sidebar li" ).removeClass( "active" );
+					jQuery( ".wpseo-meta-section" ).removeClass( "active" );
 
-				var targetElem = jQuery( jQuery( this ).attr( "href" ) );
-				targetElem.addClass( "active" );
+					// Hide the Yoast tooltip when the element gets clicked.
+					jQuery( this ).addClass( "yoast-tooltip-hidden" );
 
-				jQuery( this ).parent( "li" ).addClass( "active" );
-			}
-			);
+					var targetElem = jQuery( jQuery( this ).attr( "href" ) );
+					targetElem.addClass( "active" );
+
+					jQuery( this ).parent( "li" ).addClass( "active" );
+				} )
+				.on( "mouseleave", function() {
+					// The element can still have focus, ensure to hide the tooltip.
+					jQuery( this ).addClass( "yoast-tooltip-hidden" );
+				} )
+				.on( "blur mouseenter", function() {
+					// Make the element tooltip-able again.
+					jQuery( this ).removeClass( "yoast-tooltip-hidden" );
+				} );
 		}
 
-		jQuery( ".wpseo-heading" ).hide();
 		jQuery( ".wpseo-metabox-tabs" ).show();
-		// End Tabs code
+		// End Tabs code.
 
 		initializeAlgoliaSearch();
-	};
+	}
+
+	window.wpseoInitTabs = wpseoInitTabs;
+	window.wpseo_init_tabs = wpseoInitTabs;
 
 	/**
 	 * @summary Adds select2 for selected fields.
@@ -82,7 +106,7 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 		$closeButton = $( "#TB_closeWindowButton" );
 
 		// The container window isn't the correct size, rectify this and also the centering.
-		$popupWindow.css( { width: 680, height: 235, "margin-left": -340 } );
+		$popupWindow.css( { width: 680, height: 350, "margin-left": -340 } );
 
 		// Accessibility improvements.
 		$popupWindow
@@ -132,7 +156,6 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 	 * @returns {void}
 	 */
 	function moveHelpElements() {
-
 		jQuery( "#wpseo-focuskeyword-section" ).find( "h3" ).after(
 			jQuery( "#help-yoast-focuskeyword" ).detach().removeClass( "wpseo_hidden" )
 		);
@@ -142,10 +165,8 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 		);
 
 		var snippetHelp = jQuery( "#help-yoast-snippetpreview" ).detach().removeClass( "wpseo_hidden" );
-		// Post/media meta box.
+		// Post/taxonomy/media meta box.
 		jQuery( "#wpseosnippet" ).find( "h3" ).after( snippetHelp );
-		// Taxonomy meta box.
-		jQuery( "#wpseo_snippet" ).find( "h3" ).after( snippetHelp );
 	}
 
 	jQuery( document ).ready( function() {

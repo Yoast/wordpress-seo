@@ -24,17 +24,18 @@ var termsTmceId = "description";
 	/**
 	 * Gets content from the content field by element id.
 	 *
-	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
-	 * @returns {String}
+	 * @param {String} contentID The (HTML) id attribute for the TinyMCE field.
+	 *
+	 * @returns {String} The tinyMCE content.
 	 */
-	function tinyMCEElementContent( content_id ) {
-		return document.getElementById( content_id ) && document.getElementById( content_id ).value || "";
+	function tinyMCEElementContent( contentID ) {
+		return document.getElementById( contentID ) && document.getElementById( contentID ).value || "";
 	}
 
 	/**
 	 * Returns whether or not the tinyMCE script is available on the page.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} True when tinyMCE is loaded.
 	 */
 	function isTinyMCELoaded() {
 		return (
@@ -42,6 +43,20 @@ var termsTmceId = "description";
 			typeof tinyMCE.editors !== "undefined" &&
 			tinyMCE.editors.length !== 0
 		);
+	}
+
+	/**
+	 * Checks if the TinyMCE iframe is available. TinyMCE needs this for getContent to be working.
+	 * If this element isn't loaded yet, it will let tinyMCE crash when calling getContent. Since tinyMCE
+	 * itself doesn't have a check for this and simply assumes the element is always there, we need
+	 * to do this check ourselves.
+	 *
+	 * @param {string} editorID The ID of the tinyMCE editor.
+	 *
+	 * @returns {boolean} Whether the element is found or not.
+	 */
+	function isTinyMCEBodyAvailable( editorID ) {
+		return document.getElementById( editorID + "_ifr" ) !== null;
 	}
 
 	/**
@@ -77,23 +92,23 @@ var termsTmceId = "description";
 	/**
 	 * Returns the value of the content field via TinyMCE object, or ff tinyMCE isn't initialized via the content element id.
 	 * Also converts 'amp;' to & in the content.
-	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
+	 * @param {String} contentID The (HTML) id attribute for the TinyMCE field.
 	 * @returns {String} Content from the TinyMCE editor.
 	 */
-	function getContentTinyMce( content_id ) {
+	function getContentTinyMce( contentID ) {
 		// if no TinyMce object available
 		var content = "";
-		if ( isTinyMCEAvailable( content_id ) === false ) {
-			content = tinyMCEElementContent( content_id );
+		if ( isTinyMCEAvailable( contentID ) === false || isTinyMCEBodyAvailable( contentID ) === false ) {
+			content = tinyMCEElementContent( contentID );
 		}
 		else {
-			content = tinyMCE.get( content_id ).getContent();
+			content = tinyMCE.get( contentID ).getContent();
 		}
 
 		return convertHtmlEntities( content );
 	}
 	/**
-	 * Adds an event handler to certain tinyMCE events
+	 * Adds an event handler to certain tinyMCE events.
 	 *
 	 * @param {string} editorId The ID for the tinyMCE editor.
 	 * @param {Array<string>} events The events to bind to.
