@@ -152,9 +152,9 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Returns the manage_options cap
+	 * Returns the manage_options capability.
 	 *
-	 * @return string
+	 * @return string The capability to use.
 	 */
 	public function get_manage_options_cap() {
 		/**
