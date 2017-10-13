@@ -28,6 +28,7 @@ exports[`the Notification with props matches the snapshot 1`] = `
       </p>
     </div>
     <button
+      aria-label="Dismiss this notice"
       className="sc-ifAKCX epmtma"
       onClick={[Function]}
       type="button"

@@ -1,10 +1,10 @@
 import React from "react";
-import renderer from "react-test-renderer";
 
+import { createComponentWithIntl } from "../../../utils/intlProvider";
 import Notification from "../Notification.js";
 
 test( "the Notification without props matches the snapshot", () => {
-	const component = renderer.create(
+	const component = createComponentWithIntl(
 		<Notification />
 	);
 
@@ -13,7 +13,7 @@ test( "the Notification without props matches the snapshot", () => {
 } );
 
 test( "the Notification with props matches the snapshot", () => {
-	const component = renderer.create(
+	const component = createComponentWithIntl(
 		<Notification
 			title="New User?"
 			isDismissable={ true }

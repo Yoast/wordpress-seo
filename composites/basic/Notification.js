@@ -1,11 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { injectIntl, intlShape, defineMessages } from "react-intl";
 
 import Paper from "./Paper";
 import colors from "../../style-guide/colors.json";
 import { Icon } from "../../composites/Plugin/Shared/components/Icon";
 import { times } from "../../style-guide/svg";
+
+const messages = defineMessages( {
+	buttonAriaLabel: {
+		id: "notification.buttonAriaLabel",
+		defaultMessage: "Dismiss this notice",
+	},
+} );
 
 const NotificationContainer = styled.div`
 	display: flex;
@@ -54,7 +62,7 @@ const StyledIcon = styled( Icon )`
  *
  * @returns {ReactElement} Styled notification.
  */
-export default function Notification( props ) {
+function Notification( props ) {
 	const Heading = `${ props.headingLevel }`;
 
 	return <Paper>
@@ -72,6 +80,7 @@ export default function Notification( props ) {
 			{ props.isDismissable && <DismissButton
 				onClick={ props.onClick }
 				type="button"
+				aria-label={ props.intl.formatMessage( messages.buttonAriaLabel ) }
 			>
 				<StyledIcon icon={ times } color={ colors.$color_grey_text } size="24px" />
 			</DismissButton> }
@@ -80,6 +89,7 @@ export default function Notification( props ) {
 }
 
 Notification.propTypes = {
+	intl: intlShape.isRequired,
 	imageSrc: PropTypes.string,
 	imageWidth: PropTypes.string,
 	imageHeight: PropTypes.string,
@@ -97,3 +107,5 @@ Notification.defaultProps = {
 	isDismissable: false,
 	headingLevel: "h3",
 };
+
+export default injectIntl( Notification );
