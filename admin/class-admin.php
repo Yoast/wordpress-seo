@@ -79,6 +79,8 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
+		add_action( 'admin_init', array( $this, 'map_manage_options_cap' ) );
+
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
@@ -150,18 +152,28 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Returns the manage_options cap
+	 * Returns the manage_options capability.
 	 *
-	 * @return mixed|void
+	 * @return string The capability to use.
 	 */
-	private function get_manage_options_cap() {
-		// @todo deprecate filter
+	public function get_manage_options_cap() {
 		/**
 		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
 		 *
 		 * @api string unsigned The capability
 		 */
 		return apply_filters( 'wpseo_manage_options_capability', 'wpseo_manage_options' );
+	}
+
+	/**
+	 * Maps the manage_options cap on saving an options page to wpseo_manage_options.
+	 */
+	public function map_manage_options_cap() {
+		$option_page = ! empty( $_POST['option_page'] ) ? $_POST['option_page'] : ''; // WPCS: CSRF ok.
+
+		if ( strpos( $option_page, 'yoast_wpseo' ) === 0 ) {
+			add_filter( 'option_page_capability_' . $option_page, array( $this, 'get_manage_options_cap' ) );
+		}
 	}
 
 	/**

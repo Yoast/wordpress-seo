@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 5.6\n"
+"Project-Id-Version: Yoast SEO 5.6.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-10-10 07:21:56+00:00\n"
+"POT-Creation-Date: 2017-10-13 11:16:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -312,48 +312,48 @@ msgstr ""
 msgid "%s filter/action"
 msgstr ""
 
-#: admin/class-admin.php:178
+#: admin/class-admin.php:190
 msgid "For more information:"
 msgstr ""
 
-#: admin/class-admin.php:179
+#: admin/class-admin.php:191
 msgid "Title optimization"
 msgstr ""
 
-#: admin/class-admin.php:180
+#: admin/class-admin.php:192
 msgid "Why Google won't display the right page title"
 msgstr ""
 
-#: admin/class-admin.php:186 admin/class-admin.php:187 admin/pages/metas.php:41
+#: admin/class-admin.php:198 admin/class-admin.php:199 admin/pages/metas.php:41
 #: admin/pages/metas.php:62
 msgid "Template explanation"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO.
-#: admin/class-admin.php:190
+#: admin/class-admin.php:202
 msgid ""
 "The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
 "tabs on the left explain the available variables."
 msgstr ""
 
-#: admin/class-admin.php:192 admin/pages/metas.php:64
+#: admin/class-admin.php:204 admin/pages/metas.php:64
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:199 admin/class-admin.php:200 admin/pages/metas.php:69
+#: admin/class-admin.php:211 admin/class-admin.php:212 admin/pages/metas.php:69
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:207 admin/class-admin.php:208 admin/pages/metas.php:75
+#: admin/class-admin.php:219 admin/class-admin.php:220 admin/pages/metas.php:75
 msgid "Advanced Variables"
 msgstr ""
 
-#: admin/class-admin.php:223
+#: admin/class-admin.php:235
 msgid "Posts"
 msgstr ""
 
-#: admin/class-admin.php:259
+#: admin/class-admin.php:271
 #: admin/google_search_console/class-gsc-platform-tabs.php:40
 #: admin/taxonomy/class-taxonomy-metabox.php:151
 #: admin/taxonomy/class-taxonomy-metabox.php:159
@@ -361,31 +361,31 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin.php:271
+#: admin/class-admin.php:283
 msgid "Premium Support"
 msgstr ""
 
-#: admin/class-admin.php:275
+#: admin/class-admin.php:287
 msgid "FAQ"
 msgstr ""
 
-#: admin/class-admin.php:310 admin/pages/social.php:20
+#: admin/class-admin.php:322 admin/pages/social.php:20
 msgid "Google+"
 msgstr ""
 
-#: admin/class-admin.php:312
+#: admin/class-admin.php:324
 msgid "Twitter username (without @)"
 msgstr ""
 
-#: admin/class-admin.php:314
+#: admin/class-admin.php:326
 msgid "Facebook profile URL"
 msgstr ""
 
-#: admin/class-admin.php:391
+#: admin/class-admin.php:403
 msgid "Yoast SEO video tutorial"
 msgstr ""
 
-#: admin/class-admin.php:392
+#: admin/class-admin.php:404
 msgid "Scroll to see the table content."
 msgstr ""
 
@@ -2759,8 +2759,8 @@ msgstr ""
 msgid "Pinterest"
 msgstr ""
 
-#: admin/pages/tools.php:21 admin/views/tool-bulk-editor.php:39
-#: admin/views/tool-bulk-editor.php:42
+#: admin/pages/tools.php:21 admin/views/tool-bulk-editor.php:37
+#: admin/views/tool-bulk-editor.php:40
 msgid "Bulk editor"
 msgstr ""
 
@@ -3482,7 +3482,7 @@ msgid "Variable"
 msgstr ""
 
 #: admin/views/tabs/advanced/rss.php:34 admin/views/tabs/social/facebook.php:31
-#: admin/views/tool-bulk-editor.php:81 inc/class-wpseo-replace-vars.php:1035
+#: admin/views/tool-bulk-editor.php:79 inc/class-wpseo-replace-vars.php:1035
 msgid "Description"
 msgstr ""
 
@@ -3878,7 +3878,7 @@ msgid ""
 msgstr ""
 
 #: admin/views/tabs/metas/post-types.php:66
-#: admin/views/tabs/social/facebook.php:30 admin/views/tool-bulk-editor.php:79
+#: admin/views/tabs/social/facebook.php:30 admin/views/tool-bulk-editor.php:77
 msgid "Title"
 msgstr ""
 
