@@ -489,7 +489,22 @@ class WPSEO_Premium {
 	 * Register the premium settings
 	 */
 	public function register_settings() {
-		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect' );
+		$option = 'yoast_wpseo_redirect_options';
+		register_setting( $option, 'wpseo_redirect' );
+		add_filter( 'option_page_capability_' . $option, array( $this, 'get_redirect_capability' ) );
+	}
+
+	/**
+	 * Returns the correct capability to save redirects with.
+	 *
+	 * @return string The capability to check against.
+	 */
+	public function get_redirect_capability() {
+		if ( current_user_can( 'wpseo_manage_options' ) ) {
+			return 'wpseo_manage_options';
+		}
+
+		return 'wpseo_manage_redirects';
 	}
 
 	/**
