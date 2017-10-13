@@ -46,8 +46,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'disable-date'           => false,
 		'disable-post_format'    => false,
 
-		'genesis-element-title'       => '', // Select
-		'genesis-element-description' => '', // Select
+		'genesis-element-title'       => '', // Select.
+		'genesis-element-description' => '', // Select.
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:

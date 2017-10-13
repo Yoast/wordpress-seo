@@ -160,7 +160,7 @@ class WPSEO_Frontend {
 
 		$this->hooks = array( $primary_category, $json_ld );
 
-		if ( 'genesis' == get_template() ) {
+		if ( 'genesis' === get_template() ) {
 			$this->genesis_compat();
 		}
 	}
@@ -1933,23 +1933,35 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Compatibility initializer for Genesis hooks
+	 * Compatibility initializer for Genesis hooks.
 	 */
 	private function genesis_compat() {
 		add_filter( 'genesis_site_title_wrap', array( $this, 'genesis_element_title' ) );
 		add_filter( 'genesis_site_description_wrap', array( $this, 'genesis_element_description' ) );
 	}
 
+	/**
+	 * Title wrapper for Genesis.
+	 *
+	 * @param string $wrap Title wrapper element.
+	 * @return string
+	 */
 	public function genesis_element_title( $wrap ) {
-		// Validate for empty because it can also be false or null
+		// Validate for empty because it can also be false or null.
 		if ( ! empty( $this->options['genesis-element-title'] ) ) {
 			$wrap = (string) $this->options['genesis-element-title'];
 		}
 		return $wrap;
 	}
 
+	/**
+	 * Description wrapper for Genesis.
+	 *
+	 * @param string $wrap Description wrapper element.
+	 * @return string
+	 */
 	public function genesis_element_description( $wrap ) {
-		// Validate for empty because it can also be false or null
+		// Validate for empty because it can also be false or null.
 		if ( ! empty( $this->options['genesis-element-description'] ) ) {
 			$wrap = (string) $this->options['genesis-element-description'];
 		}
