@@ -23,19 +23,26 @@ export const ChangingIconButtonBase = styled.button`
 	outline: none;
 	padding-top: 2px;
 	height: ${ props => props.pressed ? "24px" : "25px" };
-		
+		.secondaryIcon {
+			display: none;
+		}
 		&:hover {
 			// Invert background color on hover.
 			background-color: ${ props => props.pressed ? props.unpressedBackground : props.pressedBackground };
 			box-shadow: ${ props => props.pressed
 				? `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }`
 				: `inset 0 2px 0 ${ rgba( props.pressedBoxShadowColor, 0.7 ) }` };
-			height: ${ props => props.pressed ? "25px" : "24px" };
 		}
 		// Invert icon color on hover.
 		&:hover svg { 
 			fill: ${ props => props.pressed ? props.unpressedIconColor : props.pressedIconColor } 
 		}
+		&:hover .icon {
+				display: none;
+			}
+		&:hover .secondaryIcon {
+				display: inline;
+			}
 `;
 
 const ChangingIconButton = ( props ) => {
@@ -53,8 +60,12 @@ const ChangingIconButton = ( props ) => {
 			pressedIconColor={ props.pressedIconColor }
 		>
 			{ props.pressed
-				? <Icon icon={ props.pressedIcon } color={ props.pressedIconColor } size="18px"/>
-				: <Icon icon={ props.unpressedIcon } color={ props.unpressedIconColor } size="18px"/>
+				? <Icon className="icon" icon={ props.pressedIcon } color={ props.pressedIconColor } size="18px"/>
+				: <Icon className="icon" icon={ props.unpressedIcon } color={ props.unpressedIconColor } size="18px"/>
+			}
+			{ props.pressed
+				? <Icon className="secondaryIcon" icon={ props.unpressedIcon } color={ props.unpressedIconColor } size="18px"/>
+				: <Icon className="secondaryIcon" icon={ props.pressedIcon } color={ props.pressedIconColor } size="18px"/>
 			}
 		</ChangingIconButtonBase>
 	);
