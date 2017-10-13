@@ -31,11 +31,9 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 
 /**
  * Outputs a help center.
- *
- * @param string $id The id for the tab.
  */
 function render_help_center() {
-	$tabs = new WPSEO_Option_Tabs('', '' );
+	$tabs = new WPSEO_Option_Tabs( '', '' );
 	$tabs->add_tab( new WPSEO_Option_Tab( 'title', __( 'Bulk editor', 'wordpress-seo' ),
 		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) ) ) );
 
