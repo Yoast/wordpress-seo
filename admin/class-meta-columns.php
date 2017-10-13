@@ -524,13 +524,12 @@ class WPSEO_Meta_Columns {
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'metadesc',
 					'orderby'  => 'meta_value',
 				);
-				break;
+
 			case 'wpseo-focuskw':
 				return array(
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'focuskw',
 					'orderby'  => 'meta_value',
 				);
-				break;
 		}
 
 		return array();
