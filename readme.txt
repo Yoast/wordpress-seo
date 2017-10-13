@@ -125,6 +125,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.6.1 =
+
+Release Date: October 13th, 2017
+
+Bugfixes
+	* Fixes a bug where the SEO Manager role was not being able to save SEO settings.
+
 = 5.6.0 =
 
 Release Date: October 10th, 2017
