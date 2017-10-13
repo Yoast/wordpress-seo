@@ -1,3 +1,7 @@
+### 5.6.1: October 13th, 2017
+* Fixes a bug where a user with granted `wpseo_manage_redirects` would see settings which should not be shown.
+* Includes every change in Yoast SEO core 5.6.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 5.6.0: October 10th, 2017
 * Introduces the `Orphaned content` filter and notifications.
 * Fixes an issue where the 'You are not receiving updates or support!' notification would be wrongfully shown on a sub-site of a multisite installation.

@@ -37,7 +37,9 @@ class WPSEO_Redirect_Presenter {
 				$tab_presenter->set_table( $redirect_manager->get_redirects() );
 				break;
 			case 'settings':
-				$tab_presenter = new WPSEO_Redirect_Settings_Presenter( $tab_to_display, $this->get_view_vars() );
+				if ( current_user_can( 'wpseo_manage_options' ) ) {
+					$tab_presenter = new WPSEO_Redirect_Settings_Presenter( $tab_to_display, $this->get_view_vars() );
+				}
 				break;
 		}
 
@@ -52,12 +54,17 @@ class WPSEO_Redirect_Presenter {
 	 * @return array
 	 */
 	private function navigation_tabs( $active_tab ) {
-		return array(
-			'tabs'        => array(
+		$tabs = array(
 				'plain'    => __( 'Redirects', 'wordpress-seo-premium' ),
 				'regex'    => __( 'Regex Redirects', 'wordpress-seo-premium' ),
-				'settings' => __( 'Settings', 'wordpress-seo-premium' ),
-			),
+				);
+
+		if ( current_user_can( 'wpseo_manage_options' ) ) {
+			$tabs['settings'] = __( 'Settings', 'wordpress-seo-premium' );
+			}
+
+		return array(
+			'tabs'        => $tabs,
 			'current_tab' => $active_tab,
 			'page_url'    => admin_url( 'admin.php?page=wpseo_redirects&tab=' ),
 		);
