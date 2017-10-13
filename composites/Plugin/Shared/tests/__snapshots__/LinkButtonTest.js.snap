@@ -2,7 +2,7 @@
 
 exports[`the BaseLinkButton matches the snapshot 1`] = `
 <a
-  className="sc-iwsKbI cKLwUL sc-dnqmqq cbsuMR sc-htoDjs ispJkh sc-gzVnrw eFsQEO sc-bZQynM hUnLvZ"
+  className="sc-iwsKbI giSiXQ sc-dnqmqq kaJYpi sc-htoDjs gwrbIm sc-gzVnrw eFsQEO sc-bZQynM hUnLvZ"
 >
   LinkButtonValue
 </a>
@@ -10,7 +10,7 @@ exports[`the BaseLinkButton matches the snapshot 1`] = `
 
 exports[`the LinkButton matches the snapshot 1`] = `
 <a
-  className="sc-gZMcBi hXZHGD sc-iwsKbI cKLwUL sc-dnqmqq cbsuMR sc-htoDjs ispJkh sc-gzVnrw eFsQEO sc-bZQynM hUnLvZ"
+  className="sc-gZMcBi hXZHGD sc-iwsKbI giSiXQ sc-dnqmqq kaJYpi sc-htoDjs gwrbIm sc-gzVnrw eFsQEO sc-bZQynM hUnLvZ"
 >
   LinkButtonValue
 </a>

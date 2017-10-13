@@ -1,22 +1,21 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import IconRadioButton from "../components/ChangingIconButton";
+import ChangingIconButton from "../components/ChangingIconButton";
 import eye from "../../../../style-guide/svg/eye.svg";
-import eyeSlash from "../../../../style-guide/svg/eye-slash.svg";
 
-test( "the unchecked ChangingIconButton matches the snapshot", () => {
+test( "the unpressed ChangingIconButton matches the snapshot", () => {
 	const component = renderer.create(
-		<ChangingIconButton name="group1" id="RadioButton" checkedIcon={ eyeSlash } uncheckedIcon={ eye } checked={ false }/>
+		<ChangingIconButton name="group1" id="RadioButton" icon={ eye } pressed={ false } onClick={ () => {} }/>
 	);
 
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "the checked ChangingIconButton matches the snapshot", () => {
+test( "the unpressed ChangingIconButton matches the snapshot", () => {
 	const component = renderer.create(
-		<ChangingIconButton name="group1" id="RadioButton2" checkedIcon={ eyeSlash } uncheckedIcon={ eye } checked={ true }/>
+		<ChangingIconButton name="group1" id="RadioButton2" icon={ eye } pressed={ true } onClick={ () => {} }/>
 	);
 
 	let tree = component.toJSON();

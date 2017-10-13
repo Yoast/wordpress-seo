@@ -1,47 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the checked ChangingIconButton matches the snapshot 1`] = `
-<span>
-  <input
-    className="sc-bdVaJa jwdLsH"
-    id="RadioButton2"
-    name="group1"
-    type="radio"
+exports[`the unpressed ChangingIconButton matches the snapshot 1`] = `
+<button
+  aria-label="RadioButton"
+  aria-pressed={false}
+  className="sc-bdVaJa kpialo"
+  onClick={[Function]}
+>
+  <svg
+    aria-hidden="true"
+    className="sc-bwzfXH fwYRJu"
+    focusable="false"
+    role="img"
   />
-  <label
-    aria-checked={true}
-    aria-label="RadioButton2"
-    checked={true}
-    className="label sc-bwzfXH byTXON"
-    htmlFor="RadioButton2"
-  >
-    <svg
-      aria-hidden="true"
-      className="sc-bxivhb leOCwi"
-    />
-  </label>
-</span>
+</button>
 `;
 
-exports[`the unchecked ChangingIconButton matches the snapshot 1`] = `
-<span>
-  <input
-    className="sc-bdVaJa jwdLsH"
-    id="RadioButton"
-    name="group1"
-    type="radio"
+exports[`the unpressed ChangingIconButton matches the snapshot 2`] = `
+<button
+  aria-label="RadioButton2"
+  aria-pressed={true}
+  className="sc-bdVaJa lakVWV"
+  onClick={[Function]}
+>
+  <svg
+    aria-hidden="true"
+    className="sc-htpNat hKTWVO"
+    focusable="false"
+    role="img"
   />
-  <label
-    aria-checked={false}
-    aria-label="RadioButton"
-    checked={false}
-    className="label sc-bwzfXH gnevpY"
-    htmlFor="RadioButton"
-  >
-    <svg
-      aria-hidden="true"
-      className="sc-htpNat etIqZE"
-    />
-  </label>
-</span>
+</button>
 `;
