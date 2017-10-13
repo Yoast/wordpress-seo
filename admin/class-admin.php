@@ -154,7 +154,7 @@ class WPSEO_Admin {
 	/**
 	 * Returns the manage_options cap
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	public function get_manage_options_cap() {
 		/**
