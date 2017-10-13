@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-10-10 07:57:12+00:00\n"
+"POT-Creation-Date: 2017-10-13 11:30:05+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:438 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:438 classes/redirect/class-redirect-presenter.php:58
 msgid "Redirects"
 msgstr ""
 
@@ -630,11 +630,11 @@ msgstr ""
 msgid "Not all the required fields are filled."
 msgstr ""
 
-#: classes/redirect/class-redirect-presenter.php:58
+#: classes/redirect/class-redirect-presenter.php:59
 msgid "Regex Redirects"
 msgstr ""
 
-#: classes/redirect/class-redirect-presenter.php:59
+#: classes/redirect/class-redirect-presenter.php:63
 msgid "Settings"
 msgstr ""
 
