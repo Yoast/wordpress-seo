@@ -30,6 +30,7 @@ export const ChangingIconButtonBase = styled.button`
 			box-shadow: ${ props => props.pressed
 				? `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }`
 				: `inset 0 2px 0 ${ rgba( props.pressedBoxShadowColor, 0.7 ) }` };
+			height: ${ props => props.pressed ? "25px" : "24px" };
 		}
 		// Invert icon color on hover.
 		&:hover svg { 
