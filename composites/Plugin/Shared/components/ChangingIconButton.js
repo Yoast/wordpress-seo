@@ -19,22 +19,9 @@ export const ChangingIconButtonBase = styled.button`
 	cursor: pointer;
 	outline: none;
 	height: ${ props => props.pressed ? "24px" : "25px" };
-
-	/* 
-	Each button has an icon and a secondary icon to make it possible to switch icons on hover.
-	The secondary icon is initially not displayed.
-	*/
-	.yoast-changing-icon-button__secondary-icon {
-			display: none;
-	}
 	
-	// Switch icons on hover.
-	&:hover .yoast-changing-icon-button__icon {
-		display: none;
-	}
-
-	&:hover .yoast-changing-icon-button__secondary-icon {
-		display: inline;
+	&:hover {
+		border-color: ${ props => props.hoverBorderColor }
 	}
 `;
 
@@ -51,24 +38,15 @@ const ChangingIconButton = ( props ) => {
 			aria-pressed={ props.pressed }
 			unpressedIconColor={ props.unpressedIconColor }
 			pressedIconColor={ props.pressedIconColor }
+			hoverBorderColor={ props.hoverBorderColor }
 		>
 			{ props.pressed
-				? <Icon className="yoast-changing-icon-button__icon"
-					icon={ props.pressedIcon }
+				? <Icon
+					icon={ props.icon }
 					color={ props.pressedIconColor }
 					size="18px"/>
-				: <Icon className="yoast-changing-icon-button__icon"
-					icon={ props.unpressedIcon }
-					color={ props.unpressedIconColor }
-					size="18px"/>
-			}
-			{ props.pressed
-				? <Icon className="yoast-changing-icon-button__secondary-icon"
-					icon={ props.unpressedIcon }
-					color={ props.pressedIconColor }
-					size="18px"/>
-				: <Icon className="yoast-changing-icon-button__secondary-icon"
-					icon={ props.pressedIcon }
+				: <Icon
+					icon={ props.icon }
 					color={ props.unpressedIconColor }
 					size="18px"/>
 			}
@@ -86,9 +64,9 @@ ChangingIconButton.propTypes = {
 	unpressedBackground: PropTypes.string,
 	pressedIconColor: PropTypes.string,
 	unpressedIconColor: PropTypes.string,
-	pressedIcon: PropTypes.func.isRequired,
-	unpressedIcon: PropTypes.func.isRequired,
+	icon: PropTypes.func.isRequired,
 	pressed: PropTypes.bool.isRequired,
+	hoverBorderColor: PropTypes.string,
 };
 
 ChangingIconButton.defaultProps = {
@@ -98,6 +76,7 @@ ChangingIconButton.defaultProps = {
 	unpressedBackground: colors.$color_button,
 	pressedIconColor: colors.$color_white,
 	unpressedIconColor: colors.$color_button_text,
+	hoverBorderColor: colors.$color_white,
 };
 
 export default ChangingIconButton;
