@@ -22,9 +22,19 @@ describe( "splits English sentences into parts", function() {
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is a hands-free" );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
 		} );
-	it ( "doesn't sentences on stop characters that are not preceded by a word and followed by a space/punctuation mark", function() {
+	it ( "doesn't split sentences on stop characters that are not preceded by a word and followed by a space/punctuation mark", function() {
 		var sentence = "It is a 1,000,000 dollar house.";
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is a 1,000,000 dollar house." );
+		expect( getSentenceParts( sentence ).length ).toBe( 1 );
+	} );
+	it ( "splits sentences on stop characters after words, but not in a number", function() {
+		var sentence = "This is it: a 1,000,000 dollar house.";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is it" );
+		expect( getSentenceParts( sentence ).length ).toBe( 1 );
+	} );
+	it ( "splits sentences on stop characters when followed by a punctuation mark", function() {
+		var sentence = "\"This is it\", he said.";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is it\"" );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
 	} );
 } );
