@@ -500,10 +500,6 @@ class WPSEO_Premium {
 	 * @return string The capability to check against.
 	 */
 	public function get_redirect_capability() {
-		if ( current_user_can( 'wpseo_manage_options' ) ) {
-			return 'wpseo_manage_options';
-		}
-
 		return 'wpseo_manage_redirects';
 	}
 
