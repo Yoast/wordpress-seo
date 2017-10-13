@@ -8,11 +8,8 @@ import { rgba } from "../../../../style-guide/helpers";
 
 export const ChangingIconButtonBase = styled.button`
 	box-sizing: border-box;
-	touch-action: manipulation;
-	-webkit-appearance: none;
 	width: 32px;
 	display: inline-block;
-	text-align: center;
 	border: 1px solid ${ colors.$color_button_border };
 	background-color: ${ props => props.pressed ? props.pressedBackground : props.unpressedBackground };
 	box-shadow: ${ props => props.pressed
@@ -21,28 +18,24 @@ export const ChangingIconButtonBase = styled.button`
 	border-radius: 3px;
 	cursor: pointer;
 	outline: none;
-	padding-top: 2px;
 	height: ${ props => props.pressed ? "24px" : "25px" };
-		.secondaryIcon {
+
+	/* 
+	Each button has an icon and a secondary icon to make it possible to switch icons on hover.
+	The secondary icon is initially not displayed.
+	*/
+	.yoast-changing-icon-button__secondary-icon {
 			display: none;
-		}
-		&:hover {
-			// Invert background color on hover.
-			background-color: ${ props => props.pressed ? props.unpressedBackground : props.pressedBackground };
-			box-shadow: ${ props => props.pressed
-				? `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }`
-				: `inset 0 2px 0 ${ rgba( props.pressedBoxShadowColor, 0.7 ) }` };
-		}
-		// Invert icon color on hover.
-		&:hover svg { 
-			fill: ${ props => props.pressed ? props.unpressedIconColor : props.pressedIconColor } 
-		}
-		&:hover .icon {
-				display: none;
-			}
-		&:hover .secondaryIcon {
-				display: inline;
-			}
+	}
+	
+	// Switch icons on hover.
+	&:hover .yoast-changing-icon-button__icon {
+		display: none;
+	}
+
+	&:hover .yoast-changing-icon-button__secondary-icon {
+		display: inline;
+	}
 `;
 
 const ChangingIconButton = ( props ) => {
@@ -60,12 +53,24 @@ const ChangingIconButton = ( props ) => {
 			pressedIconColor={ props.pressedIconColor }
 		>
 			{ props.pressed
-				? <Icon className="icon" icon={ props.pressedIcon } color={ props.pressedIconColor } size="18px"/>
-				: <Icon className="icon" icon={ props.unpressedIcon } color={ props.unpressedIconColor } size="18px"/>
+				? <Icon className="yoast-changing-icon-button__icon"
+					icon={ props.pressedIcon }
+					color={ props.pressedIconColor }
+					size="18px"/>
+				: <Icon className="yoast-changing-icon-button__icon"
+					icon={ props.unpressedIcon }
+					color={ props.unpressedIconColor }
+					size="18px"/>
 			}
 			{ props.pressed
-				? <Icon className="secondaryIcon" icon={ props.unpressedIcon } color={ props.unpressedIconColor } size="18px"/>
-				: <Icon className="secondaryIcon" icon={ props.pressedIcon } color={ props.pressedIconColor } size="18px"/>
+				? <Icon className="yoast-changing-icon-button__secondary-icon"
+					icon={ props.unpressedIcon }
+					color={ props.pressedIconColor }
+					size="18px"/>
+				: <Icon className="yoast-changing-icon-button__secondary-icon"
+					icon={ props.pressedIcon }
+					color={ props.unpressedIconColor }
+					size="18px"/>
 			}
 		</ChangingIconButtonBase>
 	);
