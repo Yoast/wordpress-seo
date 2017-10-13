@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the Notification with props matches the snapshot 1`] = `
+<div
+  className="sc-bdVaJa djsmUD"
+>
+  <div
+    className="sc-bwzfXH iUHIVU"
+  >
+    <img
+      alt=""
+      className="sc-htpNat ippiPw"
+      src="some-image.png"
+    />
+    <div
+      className="sc-bxivhb cWqORw"
+    >
+      <h3>
+        New User?
+      </h3>
+      <p>
+        Get started with our 
+        <a
+          href="#blabla"
+        >
+          Configuration Wizard!
+        </a>
+      </p>
+    </div>
+    <button
+      className="sc-ifAKCX epmtma"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        className="sc-EHOje kuyEOL sc-bZQynM evVpQn"
+        focusable="false"
+        role="img"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`the Notification without props matches the snapshot 1`] = `
+<div
+  className="sc-bdVaJa djsmUD"
+>
+  <div
+    className="sc-bwzfXH iUHIVU"
+  >
+    <div
+      className="sc-bxivhb cWqORw"
+    >
+      <h3 />
+    </div>
+  </div>
+</div>
+`;
