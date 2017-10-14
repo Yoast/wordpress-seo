@@ -571,11 +571,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
-			    $options = $this->options;
-				$content_analysis_active = $options['content_analysis_active'];
-				$keyword_analysis_active = $options['keyword_analysis_active'];
+				$content_analysis_active = $this->options['content_analysis_active'];
+				$keyword_analysis_active = $this->options['keyword_analysis_active'];
 
-				if($content_analysis_active === false && $keyword_analysis_active === false) {
+				if( $content_analysis_active === false && $keyword_analysis_active === false ) {
 				    break;
                 }
 
