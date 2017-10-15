@@ -343,6 +343,7 @@ class WPSEO_OpenGraph {
 		$fix_locales = array(
 			'ca' => 'ca_ES',
 			'en' => 'en_US',
+			'ie' => 'en_IE',
 			'el' => 'el_GR',
 			'et' => 'et_EE',
 			'ja' => 'ja_JP',
@@ -386,6 +387,7 @@ class WPSEO_OpenGraph {
 			'de_DE', // German.
 			'el_GR', // Greek.
 			'en_GB', // English (UK).
+			'en_IE', // English (Ireland).
 			'en_IN', // English (India).
 			'en_PI', // English (Pirate).
 			'en_UD', // English (Upside Down).
