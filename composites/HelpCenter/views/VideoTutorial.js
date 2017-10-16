@@ -96,13 +96,13 @@ VideoDescriptionItem.propTypes = {
  */
 export default function VideoTutorial( props ) {
 	return (
-		<VideoTutorialContainer>
-			<VideoContainer>
+		<VideoTutorialContainer className="video-tutorial__container">
+			<VideoContainer className="video-tutorial__video">
 				<YouTubeVideo
 					src={ props.src }
 					title={ props.title } />
 			</VideoContainer>
-			<VideoDescriptions>
+			<VideoDescriptions className="video-tutorial__descriptions">
 				{ props.paragraphs.map( paragraph => {
 					return (
 						<VideoDescriptionItem
