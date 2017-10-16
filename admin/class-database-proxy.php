@@ -40,13 +40,10 @@ class WPSEO_Database_Proxy {
 	 */
 	public function table_exists() {
 		$exists = $this->database->get_var(
-			$this->database->prepare(
-				"SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '%s'",
-				$this->get_table_name()
-			)
+			$this->database->prepare( "SHOW TABLES LIKE '%s'", $this->get_table_name() )
 		);
 
-		return $exists === '1';
+		return $exists === $this->get_table_name();
 	}
 
 	/**

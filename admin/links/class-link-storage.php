@@ -45,13 +45,7 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 	 * @return bool True when the table exists.
 	 */
 	public function table_exists() {
-		static $exists;
-
-		if ( $exists === null ) {
-			$exists = $this->database_proxy->table_exists();
-		}
-
-		return $exists;
+		return $this->database_proxy->table_exists();
 	}
 
 	/**
