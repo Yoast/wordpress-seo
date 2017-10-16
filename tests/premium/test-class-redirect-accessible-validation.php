@@ -230,22 +230,32 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	public function test_parse_target() {
 		$double = new WPSEO_Redirect_Accessible_Validation_Double();
 
-		$this->assertEquals( 'http://www.domain.org/absolute',
-			$double->return_parse_target( 'http://www.domain.org/absolute' ) );
+		$this->assertEquals(
+			'http://www.domain.org/absolute',
+			$double->return_parse_target( 'http://www.domain.org/absolute' )
+		);
 
-		$this->assertEquals( 'http://www.domain.org/absolute.pdf',
-			$double->return_parse_target( 'http://www.domain.org/absolute.pdf' ) );
+		$this->assertEquals(
+			'http://www.domain.org/absolute.pdf',
+			$double->return_parse_target( 'http://www.domain.org/absolute.pdf' )
+		);
 
 		WPSEO_Redirect_Util::$has_permalink_trailing_slash = false;
-		$this->assertEquals( 'http://example.org/relative',
-			$double->return_parse_target( '/relative' ) );
+		$this->assertEquals(
+			'http://example.org/relative',
+			$double->return_parse_target( '/relative' )
+		);
 
 		WPSEO_Redirect_Util::$has_permalink_trailing_slash = true;
-		$this->assertEquals( 'http://example.org/relative/',
-			$double->return_parse_target( '/relative' ) );
+		$this->assertEquals(
+			'http://example.org/relative/',
+			$double->return_parse_target( '/relative' )
+		);
 
-		$this->assertEquals( 'http://example.org/relative.pdf',
-			$double->return_parse_target( '/relative.pdf' ) );
+		$this->assertEquals(
+			'http://example.org/relative.pdf',
+			$double->return_parse_target( '/relative.pdf' )
+		);
 	}
 
 	/**

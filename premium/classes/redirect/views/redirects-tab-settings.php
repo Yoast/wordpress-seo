@@ -20,8 +20,9 @@ if ( ! empty( $redirect_file ) ) {
 			<div class='notice notice-error inline'>
 				<p>
 					<?php
-					/* translators: %s: '.htaccess' file name. */
-					printf( __( "We're unable to save the redirects to your %s file. Please make the file writable.", 'wordpress-seo-premium' ),
+					printf(
+						/* translators: %s: '.htaccess' file name. */
+						__( "We're unable to save the redirects to your %s file. Please make the file writable.", 'wordpress-seo-premium' ),
 						'<code>.htaccess</code>'
 					);
 					?>
@@ -45,8 +46,9 @@ if ( ! empty( $redirect_file ) ) {
 			<div class='notice notice-error inline'>
 				<p>
 					<?php
-					/* translators: %s expands to the folder location where the redirects fill will be saved. */
-					printf( __( "We're unable to save the redirect file to %s", 'wordpress-seo-premium' ),
+					printf(
+						/* translators: %s expands to the folder location where the redirects fill will be saved. */
+						__( "We're unable to save the redirect file to %s", 'wordpress-seo-premium' ),
 						$file_path
 					);
 					?>

@@ -65,9 +65,12 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 'meta_alias_join.meta_value AS meta_alias', end( $selects ) );
 
-		$this->assertEquals( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS meta_alias_join '
-			. 'ON meta_alias_join.post_id = posts.ID '
-			. 'AND meta_alias_join.meta_key = "meta_key"', $joins[0] );
+		$this->assertEquals(
+			'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS meta_alias_join '
+				. 'ON meta_alias_join.post_id = posts.ID '
+				. 'AND meta_alias_join.meta_key = "meta_key"',
+			$joins[0]
+		);
 	}
 
 	/**
@@ -130,18 +133,30 @@ class WPSEO_Export_Keywords_Post_Query_Test extends WPSEO_UnitTestCase {
 		$this->assertContains( 'readability_score_join.meta_value AS readability_score', $selects );
 
 		$this->assertCount( 4, $joins );
-		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS primary_keyword_join '
-			. 'ON primary_keyword_join.post_id = posts.ID '
-			. 'AND primary_keyword_join.meta_key = "_yoast_wpseo_focuskw"', $joins );
-		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS primary_keyword_score_join '
-			. 'ON primary_keyword_score_join.post_id = posts.ID '
-			. 'AND primary_keyword_score_join.meta_key = "_yoast_wpseo_linkdex"', $joins );
-		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS readability_score_join '
-			. 'ON readability_score_join.post_id = posts.ID '
-			. 'AND readability_score_join.meta_key = "_yoast_wpseo_content_score"', $joins );
-		$this->assertContains( 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS other_keywords_join '
-			. 'ON other_keywords_join.post_id = posts.ID '
-			. 'AND other_keywords_join.meta_key = "_yoast_wpseo_focuskeywords"', $joins );
+		$this->assertContains(
+			'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS primary_keyword_join '
+				. 'ON primary_keyword_join.post_id = posts.ID '
+				. 'AND primary_keyword_join.meta_key = "_yoast_wpseo_focuskw"',
+			$joins
+		);
+		$this->assertContains(
+			'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS primary_keyword_score_join '
+				. 'ON primary_keyword_score_join.post_id = posts.ID '
+				. 'AND primary_keyword_score_join.meta_key = "_yoast_wpseo_linkdex"',
+			$joins
+		);
+		$this->assertContains(
+			'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS readability_score_join '
+				. 'ON readability_score_join.post_id = posts.ID '
+				. 'AND readability_score_join.meta_key = "_yoast_wpseo_content_score"',
+			$joins
+		);
+		$this->assertContains(
+			'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS other_keywords_join '
+				. 'ON other_keywords_join.post_id = posts.ID '
+				. 'AND other_keywords_join.meta_key = "_yoast_wpseo_focuskeywords"',
+			$joins
+		);
 	}
 
 	/**
