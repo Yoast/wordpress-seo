@@ -734,8 +734,8 @@ class WPSEO_OpenGraph {
 			return false;
 		}
 
-		$primary_term      = new WPSEO_Primary_Term( 'category', $post->ID );
-		$primary_category = $primary_term->get_primary_term();
+		$primary_term		 = new WPSEO_Primary_Term( 'category', $post->ID );
+		$primary_category 	 = $primary_term->get_primary_term();
 
 		if ( $primary_category ) {
 			// We can only show one section here, so we take the first one.
