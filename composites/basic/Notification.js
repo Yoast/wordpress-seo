@@ -7,6 +7,7 @@ import Paper from "./Paper";
 import colors from "../../style-guide/colors.json";
 import { Icon } from "../../composites/Plugin/Shared/components/Icon";
 import { times } from "../../style-guide/svg";
+import breakpoints from "../../style-guide/responsive-breakpoints.json";
 
 const messages = defineMessages( {
 	buttonAriaLabel: {
@@ -24,10 +25,19 @@ const NotificationContainer = styled.div`
 		font-size: 1.4em;
 		line-height: 1;
 		margin: 0 0 4px 0;
+
+		@media screen and ( max-width: ${ breakpoints.mobile } ) {
+			margin-right: 30px;
+		}
 	}
 
 	p:last-child {
 		margin: 0;
+	}
+
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
+		display: block;
+		position: relative;
 	}
 `;
 
@@ -35,6 +45,10 @@ const NotificationImage = styled.img`
 	flex: 0 0 ${ props => props.imageWidth ? props.imageWidth : "auto" };
 	height: ${ props => props.imageHeight ? props.imageHeight : "auto" };
 	margin-right: 18px;
+
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
+		display: none;
+	}
 `;
 
 const NotificationContent = styled.div`
@@ -49,6 +63,14 @@ const DismissButton = styled.button`
 	padding: 0;
 	background: transparent;
 	cursor: pointer;
+
+	@media screen and ( max-width: ${ breakpoints.mobile } ) {
+		width: 40px;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		margin: 0;
+	}
 `;
 
 const StyledIcon = styled( Icon )`
