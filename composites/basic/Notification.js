@@ -27,7 +27,7 @@ const NotificationContainer = styled.div`
 		margin: 0 0 4px 0;
 
 		@media screen and ( max-width: ${ breakpoints.mobile } ) {
-			margin-right: 30px;
+			${ props => props.isDismissable ? "margin-right: 30px;" : "" }
 		}
 	}
 
@@ -88,7 +88,7 @@ function Notification( props ) {
 	const Heading = `${ props.headingLevel }`;
 
 	return <Paper>
-		<NotificationContainer>
+		<NotificationContainer isDismissable={ props.isDismissable }>
 			{ props.imageSrc && <NotificationImage
 				src={ props.imageSrc }
 				imageWidth={ props.imageWidth }
