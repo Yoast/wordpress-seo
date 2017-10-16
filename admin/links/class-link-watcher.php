@@ -24,18 +24,29 @@ class WPSEO_Link_Watcher {
 	 * Registers the hooks
 	 */
 	public function register_hooks() {
-		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
+		add_action( 'transition_post_status', array( $this, 'save_post' ), 10, 3 );
 		add_action( 'delete_post', array( $this, 'delete_post' ) );
 	}
 
 	/**
 	 * Saves the links that are used in the post.
 	 *
-	 * @param int     $post_id The post id to.
-	 * @param WP_Post $post    The post object.
+	 * @param string $new_status The new status.
+	 * @param string $old_status The old status.
+	 * @param WP_Post $post      The post object.
+	 *
+	 * @internal param int $post_id The post id to.
 	 */
-	public function save_post( $post_id, WP_Post $post ) {
-		if ( ! $this->is_processable( $post_id ) ) {
+	public function save_post( $new_status, $old_status, WP_Post $post ) {
+		// When the post is a revision.
+		if ( wp_is_post_revision( $post->ID ) ) {
+			return;
+		}
+
+		if ( ! $this->is_processable( $new_status, $old_status, $post->ID ) ) {
+			// When it is not processable, just remove all references.
+			$this->delete_post( $post->ID );
+
 			return;
 		}
 
@@ -45,7 +56,7 @@ class WPSEO_Link_Watcher {
 		$content = apply_filters( 'the_content', $content );
 		$content = str_replace( ']]>', ']]&gt;', $content );
 
-		$this->content_processor->process( $post_id, $content );
+		$this->content_processor->process( $post->ID, $content );
 	}
 
 	/**
@@ -61,28 +72,26 @@ class WPSEO_Link_Watcher {
 	/**
 	 * Checks if the post is processable.
 	 *
-	 * @param int $post_id The post id.
+	 * @param string $new_status The new status.
+	 * @param string $old_status The old status.
+	 * @param int    $post_id    The post id.
 	 *
 	 * @return bool True when the post is processable.
 	 */
-	protected function is_processable( $post_id ) {
-		// When the post is a revision.
-		if ( wp_is_post_revision( $post_id ) ) {
+	protected function is_processable( $new_status, $old_status, $post_id ) {
+		if ( $new_status === $old_status ) {
 			return false;
 		}
 
 		// When the post status is not publish.
-		if ( get_post_status( $post_id ) !== 'publish' ) {
+		if ( $new_status !== 'publish' ) {
 			return false;
 		}
 
 		// When the post type is not public.
 		$post_type        = get_post_type( $post_id );
 		$post_type_object = get_post_type_object( $post_type );
-		if ( $post_type_object->public === false ) {
-			return false;
-		}
 
-		return true;
+		return ( $post_type_object !== null && $post_type_object->public === true );
 	}
 }
