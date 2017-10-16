@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { intlShape, injectIntl } from "react-intl";
 
 import colors from "../../../../style-guide/colors.json";
 import { Icon } from "./Icon";
