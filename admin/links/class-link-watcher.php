@@ -26,7 +26,7 @@ class WPSEO_Link_Watcher {
 	 * @returns void
 	 */
 	public function register_hooks() {
-		add_action( 'transition_post_status', array( $this, 'save_post' ), 10, 3 );
+		add_action( 'transition_post_status', array( $this, 'post_status_transition' ), 10, 3 );
 		add_action( 'delete_post', array( $this, 'delete_post' ) );
 	}
 
@@ -90,6 +90,8 @@ class WPSEO_Link_Watcher {
 	 * Removes the seo links when the post is deleted.
 	 *
 	 * @param int $post_id The post id.
+	 *
+	 * @return void
 	 */
 	public function delete_post( $post_id ) {
 		$storage = new WPSEO_Link_Storage();
