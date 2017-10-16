@@ -64,12 +64,16 @@ class WPSEO_Link_Watcher {
 	/**
 	 * Saves the links that are used in the post.
 	 *
+	 * @deprecated 5.7
+	 *
 	 * @param int     $post_id The post id to.
 	 * @param WP_Post $post    The post object.
 	 *
 	 * @return void
 	 */
 	public function save_post( $post_id, WP_Post $post ) {
+		_deprecated_function( __METHOD__, '5.7' );
+
 		// When the post is a revision.
 		if ( wp_is_post_revision( $post->ID ) ) {
 			return;
