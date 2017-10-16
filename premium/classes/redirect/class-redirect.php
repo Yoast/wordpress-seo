@@ -51,7 +51,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @param string $format The format of the redirect.
 	 */
 	public function __construct( $origin, $target = '', $type = self::PERMANENT, $format = self::FORMAT_PLAIN ) {
-		$this->origin = ($format === WPSEO_Redirect::FORMAT_PLAIN) ? $this->sanitize_url( $origin ) : $origin;
+		$this->origin = ( $format === WPSEO_Redirect::FORMAT_PLAIN ) ? $this->sanitize_url( $origin ) : $origin;
 		$this->target = $this->sanitize_url( $target );
 		$this->format = $format;
 		$this->type   = (int) $type;

@@ -36,8 +36,8 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	public function test_get_redirects() {
 		$redirects = $this->class_instance->get_redirects();
 
-		$this->assertEquals( 'old',    $redirects[0]->get_origin() );
-		$this->assertEquals( 'older',  $redirects[1]->get_origin() );
+		$this->assertEquals( 'old', $redirects[0]->get_origin() );
+		$this->assertEquals( 'older', $redirects[1]->get_origin() );
 		$this->assertEquals( 'oldest', $redirects[2]->get_origin() );
 	}
 

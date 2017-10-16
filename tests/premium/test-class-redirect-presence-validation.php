@@ -37,7 +37,7 @@ class WPSEO_Redirect_Presence_Validation_Test extends WPSEO_UnitTestCase {
 	public function test_validate_filled_correctly( $old_url, $new_url, $type ) {
 		$this->assertTrue(
 			$this->class_instance->run(
-				new WPSEO_Redirect( $old_url , $new_url, $type )
+				new WPSEO_Redirect( $old_url, $new_url, $type )
 			)
 		);
 	}
@@ -57,7 +57,7 @@ class WPSEO_Redirect_Presence_Validation_Test extends WPSEO_UnitTestCase {
 	public function test_validate_filled( $old_url, $new_url, $type ) {
 		$this->assertFalse(
 			$this->class_instance->run(
-				new WPSEO_Redirect( $old_url , $new_url, $type )
+				new WPSEO_Redirect( $old_url, $new_url, $type )
 			)
 		);
 		$this->assertEquals(

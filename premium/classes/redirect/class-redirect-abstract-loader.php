@@ -47,7 +47,7 @@ abstract class WPSEO_Redirect_Abstract_Loader {
 	 */
 	protected function validate_format( $format ) {
 		$permitted_formats = array( WPSEO_Redirect::FORMAT_PLAIN, WPSEO_Redirect::FORMAT_REGEX );
-		if ( ! in_array( $format, $permitted_formats , true ) ) {
+		if ( ! in_array( $format, $permitted_formats, true ) ) {
 			return false;
 		}
 
