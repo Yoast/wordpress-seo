@@ -81,7 +81,7 @@
     "react-intl": "^2.4.0",
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
-    "yoast-components": "2.10.1",
+    "yoast-components": "2.10.2",
     "yoastseo": "https://github.com/Yoast/YoastSEO.js#release/1.21"
   }
 }
