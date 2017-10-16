@@ -98,7 +98,7 @@ VideoDescriptionItem.propTypes = {
 export default function VideoTutorial( props ) {
 	return (
 		<VideoTutorialContainer className={ `${ props.className }__container` }>
-			<VideoContainer className={ `${ props.className }__video` }>
+			<VideoContainer className={ `${ props.className }__video-container` }>
 				<YouTubeVideo
 					src={ props.src }
 					title={ props.title } />

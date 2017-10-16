@@ -5,7 +5,7 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
   className="yoast-video-tutorial__container sc-htpNat jdWHiT"
 >
   <div
-    className="yoast-video-tutorial__video sc-bxivhb dVPPrD"
+    className="yoast-video-tutorial__video-container sc-bxivhb dVPPrD"
   >
     <div
       className="sc-bdVaJa fpzLVP"
