@@ -33,9 +33,9 @@ class WPSEO_Link_Watcher {
 	/**
 	 * Saves the links from in the post.
 	 *
-	 * @param string $new_status The new status.
-	 * @param string $old_status The old status.
-	 * @param WP_Post $post      The post object.
+	 * @param string  $new_status The new status.
+	 * @param string  $old_status The old status.
+	 * @param WP_Post $post       The post object.
 	 *
 	 * @return void
 	 */
