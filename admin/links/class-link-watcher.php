@@ -21,7 +21,9 @@ class WPSEO_Link_Watcher {
 	}
 
 	/**
-	 * Registers the hooks
+	 * Registers the hooks.
+	 *
+	 * @returns void
 	 */
 	public function register_hooks() {
 		add_action( 'transition_post_status', array( $this, 'save_post' ), 10, 3 );
@@ -29,34 +31,55 @@ class WPSEO_Link_Watcher {
 	}
 
 	/**
-	 * Saves the links that are used in the post.
+	 * Saves the links from in the post.
 	 *
 	 * @param string $new_status The new status.
 	 * @param string $old_status The old status.
 	 * @param WP_Post $post      The post object.
 	 *
-	 * @internal param int $post_id The post id to.
+	 * @return void
 	 */
-	public function save_post( $new_status, $old_status, WP_Post $post ) {
+	public function post_status_transition( $new_status, $old_status, WP_Post $post ) {
 		// When the post is a revision.
 		if ( wp_is_post_revision( $post->ID ) ) {
 			return;
 		}
 
-		if ( ! $this->is_processable( $new_status, $old_status, $post->ID ) ) {
+		// When there isn't a status change.
+		if ( $new_status === $old_status ) {
+			return;
+		}
+
+		// When the post isn't processable, just remove the saved links.
+		if ( ! $this->is_processable( $new_status, $post->ID ) ) {
 			// When it is not processable, just remove all references.
 			$this->delete_post( $post->ID );
 
 			return;
 		}
 
-		$content = $post->post_content;
+		$this->process( $post->ID, $post->post_content );
+	}
 
-		// Apply the filters to have the same content as shown on the frontend.
-		$content = apply_filters( 'the_content', $content );
-		$content = str_replace( ']]>', ']]&gt;', $content );
+	/**
+	 * Saves the links that are used in the post.
+	 *
+	 * @param int     $post_id The post id to.
+	 * @param WP_Post $post    The post object.
+	 *
+	 * @return void
+	 */
+	public function save_post( $post_id, WP_Post $post ) {
+		// When the post is a revision.
+		if ( wp_is_post_revision( $post->ID ) ) {
+			return;
+		}
 
-		$this->content_processor->process( $post->ID, $content );
+		if ( ! $this->is_processable( get_post_status( $post_id ) , $post->ID ) ) {
+			return;
+		}
+
+		$this->process( $post_id, $post->post_content );
 	}
 
 	/**
@@ -72,19 +95,14 @@ class WPSEO_Link_Watcher {
 	/**
 	 * Checks if the post is processable.
 	 *
-	 * @param string $new_status The new status.
-	 * @param string $old_status The old status.
-	 * @param int    $post_id    The post id.
+	 * @param string $post_status The post status status.
+	 * @param int    $post_id     The post id.
 	 *
 	 * @return bool True when the post is processable.
 	 */
-	protected function is_processable( $new_status, $old_status, $post_id ) {
-		if ( $new_status === $old_status ) {
-			return false;
-		}
-
+	protected function is_processable( $post_status, $post_id ) {
 		// When the post status is not publish.
-		if ( $new_status !== 'publish' ) {
+		if ( $post_status !== 'publish' ) {
 			return false;
 		}
 
@@ -93,5 +111,21 @@ class WPSEO_Link_Watcher {
 		$post_type_object = get_post_type_object( $post_type );
 
 		return ( $post_type_object !== null && $post_type_object->public === true );
+	}
+
+	/**
+	 * Processes the content for the given post id.
+	 *
+	 * @param int    $post_id The post id to process.
+	 * @param string $content The content to process.
+	 *
+	 * @return void
+	 */
+	private function process( $post_id, $content ) {
+		// Apply the filters to have the same content as shown on the frontend.
+		$content = apply_filters( 'the_content', $content );
+		$content = str_replace( ']]>', ']]&gt;', $content );
+
+		$this->content_processor->process( $post_id, $content );
 	}
 }
