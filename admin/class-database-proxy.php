@@ -34,6 +34,22 @@ class WPSEO_Database_Proxy {
 	}
 
 	/**
+	 * Checks if the table exists.
+	 *
+	 * @return bool True if table exists.
+	 */
+	public function table_exists() {
+		$exists = $this->database->get_var(
+			$this->database->prepare(
+				"SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '%s'",
+				$this->get_table_name()
+			)
+		);
+
+		return $exists === '1';
+	}
+
+	/**
 	 * Inserts data into the database.
 	 *
 	 * @param array $data   Data to insert.

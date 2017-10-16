@@ -34,6 +34,10 @@ class WPSEO_Link_Content_Processor {
 	 * @param string $content The content to process.
 	 */
 	public function process( $post_id, $content ) {
+		if ( ! $this->storage->table_exists() ) {
+			return;
+		}
+
 		$link_extractor = new WPSEO_Link_Extractor( $content );
 		$link_processor = new WPSEO_Link_Factory(
 			new WPSEO_Link_Type_Classifier( site_url() ),
