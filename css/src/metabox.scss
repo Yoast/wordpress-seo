@@ -785,6 +785,19 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	}
 }
 
+// Override styling on taxonomy pages to disable responsiveness larger than tablet width.
+#edittag {
+	.yoast-video-tutorial__video-container {
+		float: none;
+		max-width: 100%;
+		margin: 0 auto;
+	}
+	.yoast-video-tutorial__descriptions {
+		margin: 0 auto;
+		padding: 0;
+	}
+}
+
 .wpseo-metabox {
 	#yoast-help-center-container {
 		margin: 8px 0;
