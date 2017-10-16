@@ -729,10 +729,24 @@ class WPSEO_OpenGraph {
 			return false;
 		}
 
+		$post = get_post();
+		if ( ! $post ) {
+			return false;
+		}
+
+		$primary_term		 = new WPSEO_Primary_Term( 'category', $post->ID );
+		$primary_category 	 = $primary_term->get_primary_term();
+
+		if ( $primary_category ) {
+			// We can only show one section here, so we take the first one.
+			$this->og_tag( 'article:section', get_cat_name( $primary_category ) );
+
+			return true;
+		}
+
 		$terms = get_the_category();
 
 		if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
-
 			// We can only show one section here, so we take the first one.
 			$this->og_tag( 'article:section', $terms[0]->name );
 
