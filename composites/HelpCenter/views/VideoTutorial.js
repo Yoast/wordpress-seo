@@ -63,7 +63,7 @@ const VideoDescriptionLink = makeOutboundLink( styled.a`
  */
 const VideoDescriptionItem = ( props ) => {
 	return (
-		<VideoDescription>
+		<VideoDescription className={ props.className }>
 			<VideoDescriptionTitle>
 				{ props.title }
 			</VideoDescriptionTitle>
@@ -82,6 +82,7 @@ VideoDescriptionItem.propTypes = {
 	description: PropTypes.string.isRequired,
 	link: PropTypes.string.isRequired,
 	linkText: PropTypes.string.isRequired,
+	className: PropTypes.string.isRequired,
 };
 
 /**
@@ -96,16 +97,16 @@ VideoDescriptionItem.propTypes = {
  */
 export default function VideoTutorial( props ) {
 	return (
-		<VideoTutorialContainer className="video-tutorial__container">
-			<VideoContainer className="video-tutorial__video">
+			<VideoTutorialContainer className={ `${ props.className }__container` }>
+			<VideoContainer className={ `${ props.className }__video` }>
 				<YouTubeVideo
 					src={ props.src }
 					title={ props.title } />
 			</VideoContainer>
-			<VideoDescriptions className="video-tutorial__descriptions">
+			<VideoDescriptions className={ `${ props.className }__descriptions` }>
 				{ props.paragraphs.map( paragraph => {
 					return (
-						<VideoDescriptionItem
+						<VideoDescriptionItem className={ `${ props.className }__description` }
 							key={ paragraph.link }
 							{ ...paragraph } />
 					);
@@ -123,4 +124,9 @@ VideoTutorial.propTypes = {
 			VideoDescriptionItem.propTypes
 		)
 	).isRequired,
+	className: PropTypes.string,
+};
+
+VideoTutorial.defaultProps = {
+	className: "yoast-video-tutorial",
 };
