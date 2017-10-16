@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { intlShape, injectIntl } from "react-intl";
 
 import colors from "../../../../style-guide/colors.json";
 import { Icon } from "./Icon";
 import { rgba } from "../../../../style-guide/helpers";
 
-export const ChangingIconButtonBase = styled.button`
+const ChangingIconButtonBase = styled.button`
 	box-sizing: border-box;
 	width: 32px;
 	display: inline-block;
@@ -17,7 +18,7 @@ export const ChangingIconButtonBase = styled.button`
 		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
 	border-radius: 3px;
 	cursor: pointer;
-	outline: none;
+	padding: 0;
 	height: ${ props => props.pressed ? "24px" : "25px" };
 	
 	&:hover {
@@ -34,7 +35,8 @@ const ChangingIconButton = ( props ) => {
 			pressedBoxShadowColor={ props.pressedBoxShadowColor }
 			pressedBackground={ props.pressedBackground }
 			unpressedBackground={ props.unpressedBackground }
-			aria-label={ props.id }
+			id={ props.id }
+			aria-label={ props.ariaLabel }
 			aria-pressed={ props.pressed }
 			unpressedIconColor={ props.unpressedIconColor }
 			pressedIconColor={ props.pressedIconColor }
@@ -56,6 +58,7 @@ const ChangingIconButton = ( props ) => {
 
 ChangingIconButton.propTypes = {
 	id: PropTypes.string.isRequired,
+	ariaLabel: PropTypes.string.isRequired,
 	onClick: PropTypes.func.isRequired,
 	boxShadowColor: PropTypes.string,
 	unpressedBoxShadowColor: PropTypes.string,
