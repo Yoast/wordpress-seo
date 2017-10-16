@@ -18,14 +18,14 @@ exports[`the Notification with props matches the snapshot 1`] = `
       <h3>
         New User?
       </h3>
-      <p>
-        Get started with our 
-        <a
-          href="#blabla"
-        >
-          Configuration Wizard!
-        </a>
-      </p>
+      <p
+        className="prova"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Get started with our <a href=\\"#blabla\\">Configuration Wizard!</a>",
+          }
+        }
+      />
     </div>
     <button
       aria-label="Dismiss this notice"
@@ -55,6 +55,14 @@ exports[`the Notification without props matches the snapshot 1`] = `
       className="sc-bxivhb cWqORw"
     >
       <h3 />
+      <p
+        className="prova"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": undefined,
+          }
+        }
+      />
     </div>
   </div>
 </div>

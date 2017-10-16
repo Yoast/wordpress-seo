@@ -13,9 +13,12 @@ test( "the Notification without props matches the snapshot", () => {
 } );
 
 test( "the Notification with props matches the snapshot", () => {
+	const html = "Get started with our <a href=\"#blabla\">Configuration Wizard!</a>";
+
 	const component = createComponentWithIntl(
 		<Notification
 			title="New User?"
+			html={ html }
 			isDismissable={ true }
 			imageSrc="some-image.png"
 			imageWidth="40px"
@@ -23,9 +26,7 @@ test( "the Notification with props matches the snapshot", () => {
 			onClick={ () => {
 				return "clicked";
 			} }
-		>
-			<p>Get started with our <a href="#blabla">Configuration Wizard!</a></p>
-		</Notification>
+		/>
 	);
 
 	let tree = component.toJSON();

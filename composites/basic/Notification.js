@@ -75,7 +75,7 @@ function Notification( props ) {
 			/> }
 			<NotificationContent>
 				<Heading>{ props.title }</Heading>
-				{ props.children }
+				<p className="prova" dangerouslySetInnerHTML={ { __html: props.html } }/>
 			</NotificationContent>
 			{ props.isDismissable && <DismissButton
 				onClick={ props.onClick }
@@ -94,10 +94,7 @@ Notification.propTypes = {
 	imageWidth: PropTypes.string,
 	imageHeight: PropTypes.string,
 	title: PropTypes.string,
-	children: PropTypes.oneOfType( [
-		PropTypes.arrayOf( PropTypes.node ),
-		PropTypes.node,
-	] ),
+	html: PropTypes.string,
 	isDismissable: PropTypes.bool,
 	onClick: PropTypes.func,
 	headingLevel: PropTypes.string,
