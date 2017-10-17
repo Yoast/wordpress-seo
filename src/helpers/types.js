@@ -5,29 +5,10 @@
  * @returns {string} The parsed type name.
  */
 var getType = function( subject ) {
-	var rawTypeName = toString.call( subject );
-	var parsedTypeName = "undefined";
-
-	switch( rawTypeName ) {
-		case "[object Array]":
-			parsedTypeName =  "array";
-			break;
-		case "[object Object]":
-			parsedTypeName = "object";
-			break;
-		case "[object String]":
-			parsedTypeName = "string";
-			break;
-		case "[object Number]":
-			parsedTypeName = "number";
-			break;
-		case "[object Boolean]":
-			parsedTypeName = "boolean";
-			break;
-		default:
-			return rawTypeName;
+	if(Array.isArray(subject)){
+		return "array";
 	}
-	return parsedTypeName;
+	return typeof subject;
 };
 
 /**

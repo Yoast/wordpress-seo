@@ -16,8 +16,9 @@
   },
   "scripts": {
     "build": "grunt build:js",
-    "test": "grunt build:js && babel-node ./node_modules/istanbul/lib/cli.js cover jasmine",
-    "check-coverage": "istanbul check-coverage --statements 86 --branches 77 --functions 78 --lines 86"
+    "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
+    "pretest": "npm run lint",
+    "test": "jest"
   },
   "browser": "js/browser.js",
   "devDependencies": {
@@ -42,11 +43,12 @@
     "grunt-postcss": "^0.8.0",
     "grunt-sass": "^2.0.0",
     "grunt-shell": "^2.0.0",
+    "grunt-ts": "^5.5.1",
     "istanbul": "^0.4.0",
     "jasmine": "~2.5.1",
     "load-grunt-config": "^0.19.1",
     "lodash-cli": "^4.14.1",
-    "grunt-ts": "^5.5.1",
+    "ts-jest": "^21.1.2",
     "typescript": "^2.4.2"
   },
   "bugs": {
@@ -55,6 +57,7 @@
   "dependencies": {
     "htmlparser2": "^3.9.2",
     "jed": "^1.1.0",
+    "jest": "^21.2.1",
     "lodash": "^4.14.1",
     "sassdash": "^0.8.1",
     "tokenizer2": "^2.0.0"
@@ -62,6 +65,26 @@
   "browserify": {
     "transform": [
       "babelify"
+    ]
+  },
+  "jest": {
+    "collectCoverage": true,
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "/spec/.*\\.(ts|tsx|js)$",
+    "testEnvironment": "jsdom",
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "testPathIgnorePatterns": [
+      "/spec/helpers/factory.js",
+      "/spec/assessments/textCompetingLinkSpec.js"
     ]
   }
 }
