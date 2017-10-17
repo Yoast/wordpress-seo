@@ -30,6 +30,11 @@ describe( "splits English sentences into parts", function() {
 	it ( "splits sentences on stop characters when followed by a punctuation mark", function() {
 		var sentence = "\"This is it\", he said.";
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is it\"" );
+    expect( getSentenceParts( sentence ).length ).toBe( 1 );
+  } );
+	it ( "correctly splits English sentences when matching punctuation after words ending in ing", function() {
+		var sentence = "(is having)";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "having)" );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
 	} );
 } );
