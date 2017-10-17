@@ -32,8 +32,6 @@ default:
   - build
 # Create folder for npm publishing
 publish:
-  - 'check'
-  # Todo: Add tests
   - 'ts'
   - 'copy:js'
   - 'babel:publish'
