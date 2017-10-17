@@ -62,8 +62,15 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	public function delete_post( $post_id ) {
+		// Fetch links to update related linked objects.
+		$links = $this->content_processor->get_stored_internal_links( $post_id );
+
+		// Update the storage, remove all links for this post.
 		$storage = new WPSEO_Link_Storage();
 		$storage->cleanup( $post_id );
+
+		// Update link counts for object and referenced links.
+		$this->content_processor->update_link_counts( $post_id, 0, $links );
 	}
 
 	/**
