@@ -12,8 +12,6 @@ const VIDEO_WIDTH = "560px";
 
 const VideoTutorialContainer = styled.div`
 	overflow: hidden;
-	max-width: 900px;
-	margin: 0 auto;
 `;
 
 const VideoContainer = styled.div`
@@ -65,7 +63,7 @@ const VideoDescriptionLink = makeOutboundLink( styled.a`
  */
 const VideoDescriptionItem = ( props ) => {
 	return (
-		<VideoDescription>
+		<VideoDescription className={ props.className }>
 			<VideoDescriptionTitle>
 				{ props.title }
 			</VideoDescriptionTitle>
@@ -84,6 +82,7 @@ VideoDescriptionItem.propTypes = {
 	description: PropTypes.string.isRequired,
 	link: PropTypes.string.isRequired,
 	linkText: PropTypes.string.isRequired,
+	className: PropTypes.string.isRequired,
 };
 
 /**
@@ -98,16 +97,16 @@ VideoDescriptionItem.propTypes = {
  */
 export default function VideoTutorial( props ) {
 	return (
-		<VideoTutorialContainer>
-			<VideoContainer>
+		<VideoTutorialContainer className={ `${ props.className }__container` }>
+			<VideoContainer className={ `${ props.className }__video-container` }>
 				<YouTubeVideo
 					src={ props.src }
 					title={ props.title } />
 			</VideoContainer>
-			<VideoDescriptions>
+			<VideoDescriptions className={ `${ props.className }__descriptions` }>
 				{ props.paragraphs.map( paragraph => {
 					return (
-						<VideoDescriptionItem
+						<VideoDescriptionItem className={ `${ props.className }__description` }
 							key={ paragraph.link }
 							{ ...paragraph } />
 					);
@@ -125,4 +124,9 @@ VideoTutorial.propTypes = {
 			VideoDescriptionItem.propTypes
 		)
 	).isRequired,
+	className: PropTypes.string,
+};
+
+VideoTutorial.defaultProps = {
+	className: "yoast-video-tutorial",
 };

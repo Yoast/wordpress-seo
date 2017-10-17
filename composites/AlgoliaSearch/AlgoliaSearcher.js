@@ -12,14 +12,9 @@ import SearchResultDetail from "./SearchResultDetail";
 import SearchResults from "./SearchResults";
 
 const AlgoliaSearchWrapper = styled.div`
-	max-width: ${ props => props.maxWidth };
 	margin: 0 auto 20px auto;
 	box-sizing: border-box;
 `;
-
-AlgoliaSearchWrapper.propTypes = {
-	maxWidth: PropTypes.string,
-};
 
 const messages = defineMessages( {
 	loadingPlaceholder: {
@@ -312,7 +307,9 @@ class AlgoliaSearcher extends React.Component {
 	getSearchView() {
 		return (
 			<AlgoliaSearchWrapper
-				maxWidth={ this.props.maxWidth }>
+				innerRef={ ( el ) => {
+					this.searchViewWrapper = el;
+				} }>
 				{ this.createSearchBar() }
 				{ this.determineSearchResultsView() }
 			</AlgoliaSearchWrapper>
@@ -326,8 +323,7 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	getDetailView() {
 		return (
-			<AlgoliaSearchWrapper
-				maxWidth={ this.props.maxWidth }>
+			<AlgoliaSearchWrapper>
 				<SearchResultDetail
 					{ ...this.props }
 					post={ this.getPostFromResults( this.state.currentDetailViewIndex ) }
@@ -335,6 +331,27 @@ class AlgoliaSearcher extends React.Component {
 				/>
 			</AlgoliaSearchWrapper>
 		);
+	}
+
+	/**
+	 * Move focus back to the clicked link when going back from Detail to Search view.
+	 *
+	 * Call this function on componentDidUpdate() to avoid it runs on first rendering.
+	 *
+	 * @returns {void}
+	 */
+	moveFocusBackToClickedSearchResult() {
+		let clickedLinkIndex = this.state.currentDetailViewIndex;
+		// When is search view and a search results has been previously clicked.
+		if ( this.state.currentView === "SEARCH" && clickedLinkIndex >= 0 ) {
+			let resultLinks = this.searchViewWrapper.querySelectorAll( "ul a" );
+
+			if ( ! resultLinks.length ) {
+				return;
+			}
+
+			resultLinks[ clickedLinkIndex ].focus();
+		}
 	}
 
 	/**
@@ -352,13 +369,16 @@ class AlgoliaSearcher extends React.Component {
 				return this.getDetailView();
 		}
 	}
+
+	componentDidUpdate() {
+		this.moveFocusBackToClickedSearchResult();
+	}
 }
 
 AlgoliaSearcher.propTypes = {
 	algoliaApplicationId: PropTypes.string,
 	algoliaApiKey: PropTypes.string,
 	algoliaIndexName: PropTypes.string,
-	maxWidth: PropTypes.string,
 	onQueryChange: PropTypes.func,
 	intl: intlShape.isRequired,
 	enableLiveSearch: PropTypes.bool,
@@ -368,7 +388,6 @@ AlgoliaSearcher.defaultProps = {
 	algoliaApplicationId: "RC8G2UCWJK",
 	algoliaApiKey: "459903434a7963f83e7d4cd9bfe89c0d",
 	algoliaIndexName: "knowledge_base_all",
-	maxWidth: "900px",
 	enableLiveSearch: false,
 };
 

@@ -44,8 +44,11 @@ const SearchBarWrapper = styled.div`
 `;
 
 const SearchHeading = styled.h2`
-	font-size: 1em;
-	margin: 0.5em 0 0.5em 58px;
+	// !important to override WP rules.
+	font-size: 1em !important;
+	margin: 0.5em 0 0.5em 58px !important;
+	padding: 0 !important;
+	font-weight: 600 !important;
 
 	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		margin-left: 0;
@@ -62,18 +65,27 @@ const SearchLabel = styled.label`
 `;
 
 const SearchBarInput = styled.input`
-	flex: 1 1 auto;
-	box-sizing: border-box;
-	height: 48px;
-	box-shadow: inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 );
-	background: ${ colors.$color_grey_light };
-	border: 0;
-	font-size: 1em;
-	margin-right: 24px;
-	padding: 0 8px 0 16px;
+	// Increase specificity to override WP rules.
+	&& {
+		flex: 1 1 auto;
+		box-sizing: border-box;
+		height: 48px;
+		box-shadow: inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 );
+		background: ${ colors.$color_grey_light };
+		border: 1px solid transparent;
+		font-size: 1em;
+		margin-right: 24px;
+		padding: 0 8px 0 16px;
 
-	@media screen and ( max-width: ${ breakpoints.mobile } ) {
-		margin-right: 0;
+		:focus {
+			box-shadow:
+				inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 ),
+				0 0 2px rgba( 30, 140, 190, 0.8 );
+		}
+
+		@media screen and ( max-width: ${ breakpoints.mobile } ) {
+			margin-right: 0;
+		}
 	}
 `;
 

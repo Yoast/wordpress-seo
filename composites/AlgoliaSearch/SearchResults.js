@@ -38,7 +38,7 @@ const SearchResultTitle = styled.p`
 const SearchResultLink = styled.a`
 	color: ${ colors.$color_black };
 	padding: 8px 16px;
-	
+
 	&:hover, &:focus {
 		color: ${ colors.$color_pink_dark };
 	}
@@ -148,8 +148,10 @@ class SearchResults extends React.Component {
 				rowHeight="32px"
 				key={ result.objectID }
 				post={ result }
+				// Note: this passes the onClick but actually also attaches a click event on the LI element.
 				onClick={ ( event ) => {
 					event.preventDefault();
+					event.stopPropagation();
 					this.props.onClick( index );
 				} }
 			/>;
