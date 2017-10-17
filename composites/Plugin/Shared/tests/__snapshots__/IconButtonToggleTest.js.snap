@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
+<button
+  aria-label="important toggle"
+  aria-pressed={true}
+  className="sc-bdVaJa gQKJzO"
+  id="RadioButton2"
+  onClick={[Function]}
+>
+  <svg
+    aria-hidden="true"
+    className="sc-htpNat hKTWVO"
+    focusable="false"
+    role="img"
+  />
+</button>
+`;
+
+exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
+<button
+  aria-label="important toggle"
+  aria-pressed={false}
+  className="sc-bdVaJa hhyJCM"
+  id="RadioButton"
+  onClick={[Function]}
+>
+  <svg
+    aria-hidden="true"
+    className="sc-bwzfXH fwYRJu"
+    focusable="false"
+    role="img"
+  />
+</button>
+`;

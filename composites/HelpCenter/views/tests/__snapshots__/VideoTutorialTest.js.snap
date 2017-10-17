@@ -2,10 +2,10 @@
 
 exports[`the VideoTutorial component matches the snapshot 1`] = `
 <div
-  className="sc-htpNat jdWHiT"
+  className="yoast-video-tutorial__container sc-htpNat jdWHiT"
 >
   <div
-    className="sc-bxivhb dVPPrD"
+    className="yoast-video-tutorial__video-container sc-bxivhb dVPPrD"
   >
     <div
       className="sc-bdVaJa fpzLVP"
@@ -21,10 +21,10 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
     </div>
   </div>
   <div
-    className="sc-ifAKCX iimhyI"
+    className="yoast-video-tutorial__descriptions sc-ifAKCX iimhyI"
   >
     <div
-      className="sc-EHOje cCZqWy"
+      className="yoast-video-tutorial__description sc-EHOje cCZqWy"
     >
       <p
         className="sc-bZQynM gSmTMg"
@@ -49,7 +49,7 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
       </a>
     </div>
     <div
-      className="sc-EHOje cCZqWy"
+      className="yoast-video-tutorial__description sc-EHOje cCZqWy"
     >
       <p
         className="sc-bZQynM gSmTMg"

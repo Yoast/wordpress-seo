@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import _flow from "lodash/flow";
-import _omit from "lodash/omit";
+import flow from "lodash/flow";
+import omit from "lodash/omit";
 import PropTypes from "prop-types";
 
 import colors from "../../../../style-guide/colors.json";
@@ -75,11 +75,19 @@ export function addFocusStyle( component ) {
 		&:focus {
 			outline: none;
 			border-color: ${ colors.$color_blue };
-			background-color: ${ colors.$color_white };
+			background-color: ${ props => props.focusBackgroundColor };
 			box-shadow: 0 0 3px ${ rgba( colors.$color_blue_dark, .8 ) };
 		}
 	`;
 }
+
+addFocusStyle.propTypes = {
+	focusBackgroundColor: PropTypes.string,
+};
+
+addFocusStyle.defaultProps = {
+	focusBackgroundColor: colors.$color_white,
+};
 
 /**
  * Returns a component with applied hover styles.
@@ -91,12 +99,22 @@ export function addFocusStyle( component ) {
 export function addHoverStyle( component ) {
 	return styled( component )`
 		&:hover {
-			background: ${ colors.$color_button_hover };
-			border-color: ${ colors.$color_button_border_hover };
+			background-color: ${ props => props.hoverBackgroundColor };
+			border-color: ${ props => props.hoverBorderColor };
 			color: ${ colors.$color_button_text_hover };
 		}
 	`;
 }
+
+addHoverStyle.propTypes = {
+	hoverBackgroundColor: PropTypes.string,
+	hoverBorderColor: PropTypes.string,
+};
+
+addHoverStyle.defaultProps = {
+	hoverBackgroundColor: colors.$color_button_hover,
+	hoverBorderColor: colors.$color_button_border_hover,
+};
 
 /**
  * Returns a component with applied active styles.
@@ -108,12 +126,22 @@ export function addHoverStyle( component ) {
 export function addActiveStyle( component ) {
 	return styled( component )`
 		&:active {
-			background: ${ colors.$color_button };
-			border-color: ${ colors.$color_button_border_hover };
+			background-color: ${ props => props.activeBackgroundColor };
+			border-color: ${ props => props.activeBorderColor };
 			box-shadow: inset 0 2px 5px -3px ${ rgba( colors.$color_button_border_active, 0.5 ) };
 		}
 	`;
 }
+
+addActiveStyle.propTypes = {
+	activeBackgroundColor: PropTypes.string,
+	activeBorderColor: PropTypes.string,
+};
+
+addActiveStyle.defaultProps = {
+	activeBackgroundColor: colors.$color_button,
+	activeBorderColor: colors.$color_button_border_hover,
+};
 
 /**
  * Returns a component with applied font size style.
@@ -135,7 +163,7 @@ export function addFontSizeStyles( component ) {
  *
  * @returns {ReactElement} Component with applied styles.
  */
-export const addButtonStyles = _flow( [ addBaseStyle, addFocusStyle, addHoverStyle, addActiveStyle ] );
+export const addButtonStyles = flow( [ addBaseStyle, addFocusStyle, addHoverStyle, addActiveStyle ] );
 
 /**
  * Returns a basic styled button.
@@ -206,7 +234,7 @@ export const IconButton = ( props ) => {
 		IconComponent = addIconTextStyle( IconComponent );
 	}
 
-	const newProps = _omit( props, "icon" );
+	const newProps = omit( props, "icon" );
 
 	return (
 		<Button { ...newProps }>
