@@ -26,12 +26,12 @@ $wpseo_i18n_fixed_in_gsc = sprintf(
 		<input type='text' id='wpseo-current-url-<?php echo $unique_id; ?>' name='current_url' value='<?php echo esc_attr( $url ); ?>' readonly />
 	</div>
 	<div class='form-field form-required'>
-		<label for='wpseo-redirect-type-<?php echo $unique_id; ?>'><?php echo _x( 'Type', 'noun', 'wordpress-seo-premium' ); ?></label>
+		<label for='wpseo-redirect-type-<?php echo $unique_id; ?>'><?php echo esc_html_x( 'Type', 'noun', 'wordpress-seo-premium' ); ?></label>
 		<select name='redirect-type' id='wpseo-redirect-type-<?php echo $unique_id; ?>' class='select'>
 			<?php
 			// Loop through the redirect types.
 			foreach ( $redirect_types->get() as $type => $desc ) {
-				echo '<option value="' . $type . '">' . $desc . '</option>' . PHP_EOL;
+				echo '<option value="' . esc_attr( $type ) . '">' . esc_html( $desc ) . '</option>' . "\n";
 			}
 			?>
 		</select>

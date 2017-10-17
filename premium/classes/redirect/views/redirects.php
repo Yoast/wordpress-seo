@@ -13,7 +13,7 @@
 		if ( $redirect_tabs['current_tab'] === $tab_url ) {
 			$active = ' nav-tab-active';
 		}
-		echo '<a class="nav-tab' . $active . '" id="tab-url-tab" href="' . $redirect_tabs['page_url'] . $tab_url . '">' . $tab_value . '</a>';
+		echo '<a class="nav-tab' . esc_attr( $active ) . '" id="tab-url-tab" href="' . esc_url( $redirect_tabs['page_url'] . $tab_url ) . '">' . esc_html( $tab_value ) . '</a>';
 	endforeach;
 	?>
 </h2>

@@ -17,7 +17,7 @@
 		<?php
 		printf(
 			/* translators: 1: opens a link to a related knowledge base article. 2: closes the link. */
-			__( 'Regular Expressions (regex) Redirects are extremely powerful redirects. You should only use them if you know what you are doing. %1$sRead more about regex redirects on our knowledge base%2$s.', 'wordpress-seo-premium' ),
+			esc_html__( 'Regular Expressions (regex) Redirects are extremely powerful redirects. You should only use them if you know what you are doing. %1$sRead more about regex redirects on our knowledge base%2$s.', 'wordpress-seo-premium' ),
 			'<a href="http://kb.yoast.com/article/142-what-are-regex-redirects" target="_blank">',
 			'</a>'
 		);
@@ -39,7 +39,7 @@ $form_presenter->display(
 );
 ?>
 
-			<button type="button" class="button button-primary"><?php _e( 'Add Redirect', 'wordpress-seo-premium' ); ?></button>
+			<button type="button" class="button button-primary"><?php esc_html_e( 'Add Redirect', 'wordpress-seo-premium' ); ?></button>
 		</div>
 	</form>
 
@@ -55,7 +55,7 @@ $form_presenter->display(
 	?>
 
 	<form id='regex' class='wpseo-redirects-table-form' method='post'>
-		<input type='hidden' class="wpseo_redirects_ajax_nonce" name='wpseo_redirects_ajax_nonce' value='<?php echo $nonce; ?>' />
+		<input type='hidden' class="wpseo_redirects_ajax_nonce" name='wpseo_redirects_ajax_nonce' value='<?php echo esc_attr( $nonce ); ?>' />
 		<?php
 		// The list table.
 		$redirect_table->prepare_items();
