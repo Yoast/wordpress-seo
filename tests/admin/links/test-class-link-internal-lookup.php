@@ -24,7 +24,7 @@ class WPSEO_Link_Internal_Lookup_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			$post->ID,
-			$lookup->lookup( '?p='. $post->ID )
+			$lookup->lookup( '?p=' . $post->ID )
 		);
 	}
 

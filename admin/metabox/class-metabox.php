@@ -94,6 +94,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( '0' == get_option( 'blog_public' ) ) {
 			self::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
 		}
+		/* translators: %s expands to the robots (no)index setting default as set in the site-wide settings.*/
 		self::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for this post type, currently: %s', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = 'index';
 		self::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = 'noindex';
@@ -102,8 +103,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['0'] = 'follow';
 		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['1'] = 'nofollow';
 
-		self::$meta_fields['advanced']['meta-robots-adv']['title']                   = __( 'Meta robots advanced', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-adv']['description']             = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-adv']['title']       = __( 'Meta robots advanced', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-adv']['description'] = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
+		/* translators: %s expands to the advanced robots settings default as set in the site-wide settings.*/
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['-']            = __( 'Site-wide default: %s', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['none']         = __( 'None', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['noimageindex'] = __( 'No Image Index', 'wordpress-seo' );
@@ -133,7 +135,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
 	 */
-	function is_metabox_hidden( $post_type = null ) {
+	public function is_metabox_hidden( $post_type = null ) {
 		if ( ! isset( $post_type ) && ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) ) {
 			$post_type = $GLOBALS['post']->post_type;
 		}
@@ -298,8 +300,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function do_tab( $id, $heading, $content ) {
 		?>
-		<div id="wpseo_<?php echo esc_attr( $id ) ?>" class="wpseotab <?php echo esc_attr( $id ) ?>">
-			<?php echo $content ?>
+		<div id="wpseo_<?php echo esc_attr( $id ); ?>" class="wpseotab <?php echo esc_attr( $id ); ?>">
+			<?php echo $content; ?>
 		</div>
 	<?php
 	}
@@ -313,7 +315,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$helpcenter_tab = new WPSEO_Option_Tab( 'metabox', 'Meta box',
 			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ) ) );
 
-		$help_center = new WPSEO_Help_Center( '', $helpcenter_tab );
+		$help_center = new WPSEO_Help_Center( '', $helpcenter_tab, WPSEO_Utils::is_yoast_seo_premium() );
 		$help_center->localize_data();
 		$help_center->mount();
 
@@ -552,7 +554,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return  string
 	 */
-	function do_meta_box( $meta_field_def, $key = '' ) {
+	public function do_meta_box( $meta_field_def, $key = '' ) {
 		$content      = '';
 		$esc_form_key = esc_attr( self::$form_prefix . $key );
 		$meta_value   = self::get_value( $key, $this->get_metabox_post()->ID );
@@ -594,7 +596,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<div id="wpseofocuskeyword">';
 				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
 				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . esc_html( $meta_field_def['title'] ) . '</h3>';
-			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
+				$content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/>';
 
 				if ( $this->options['enable_cornerstone_content'] ) {
@@ -609,7 +611,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<div id="wpseometakeywords">';
 				$content .= '<section class="yoast-section" id="wpseo-metakeywords-section">';
 				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-edit">' . esc_html( $meta_field_def['title'] ) . '</h3>';
-			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
+				$content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
 				$content .= '<input type="text" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/>';
 				$content .= $description;
 				$content .= '</section>';
@@ -775,13 +777,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Save the WP SEO metadata for posts.
 	 *
-	 * @internal $_POST parameters are validated via sanitize_post_meta()
+	 * {@internal $_POST parameters are validated via sanitize_post_meta().}}
 	 *
 	 * @param int $post_id Post ID.
 	 *
 	 * @return  bool|void   Boolean false if invalid save post request
 	 */
-	function save_postdata( $post_id ) {
+	public function save_postdata( $post_id ) {
 		// Bail if this is a multisite installation and the site has been switched.
 		if ( is_multisite() && ms_is_switched() ) {
 			return false;
@@ -1016,9 +1018,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	private function get_custom_replace_vars( $post ) {
 		return array(
-			'custom_fields' => $this->get_custom_fields_replace_vars( $post ),
+			'custom_fields'     => $this->get_custom_fields_replace_vars( $post ),
 			'custom_taxonomies' => $this->get_custom_taxonomies_replace_vars( $post ),
-		 );
+		);
 	}
 
 	/**
@@ -1044,7 +1046,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 
 			$custom_replace_vars[ $taxonomy_name ] = array(
-				'name' => $taxonomy->name,
+				'name'        => $taxonomy->name,
 				'description' => $taxonomy->description,
 			);
 		}

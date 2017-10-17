@@ -17,7 +17,7 @@ class WPSEO_Link_Column_Count {
 	 * @param array $post_ids The posts to get the count for.
 	 */
 	public function set( $post_ids ) {
-		if ( empty( $post_ids )  ) {
+		if ( empty( $post_ids ) ) {
 			return;
 		}
 

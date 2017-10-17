@@ -40,8 +40,8 @@ $feature_toggles = array(
 	(object) array(
 		'name'    => __( 'Cornerstone content', 'wordpress-seo' ),
 		'setting' => 'enable_cornerstone_content',
-		/* translators: 1: open link tag 2: close link tag */
 		'label'   => sprintf(
+			/* translators: 1: open link tag 2: close link tag */
 			__( 'The Cornerstone content functionality enables you to mark and filter cornerstone content on your website. %1$sRead more about how cornerstone content can help you improve your site structure.%2$s', 'wordpress-seo' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/dashboard-help-cornerstone' ) . '" target="_blank">',
 			'</a>'
@@ -51,6 +51,7 @@ $feature_toggles = array(
 		'name'    => __( 'Text link counter', 'wordpress-seo' ),
 		'setting' => 'enable_text_link_counter',
 		'label'   => sprintf(
+			/* translators: 1: open link tag 2: close link tag */
 			__( 'This feature helps you improve the internal link structure of your site. If you want to know more about the why and how of internal linking, check out the %1$sarticle about internal linking on Yoast.com%2$s.', 'wordpress-seo' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/17g' ) . '" target="_blank">',
 			'</a>'
@@ -69,6 +70,7 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 <h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
 
 <?php echo esc_html( sprintf(
+	/* translators: %1$s expands to Yoast SEO */
 	__( '%1$s comes with a lot of features. You can enable / disable some of them below.', 'wordpress-seo' ),
 	'Yoast SEO'
 ) ) ?>

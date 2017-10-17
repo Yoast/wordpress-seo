@@ -22,7 +22,13 @@ class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_filter_zero_counts() {
-		$statistics = new Statistics_Mock( array( 'ok' => 10, 'na' => 0, 'bad' => 0 ) );
+		$statistics = new Statistics_Mock(
+			array(
+				'ok'  => 10,
+				'na'  => 0,
+				'bad' => 0,
+			)
+		);
 
 		$class_instance = new WPSEO_Statistics_Service( $statistics );
 		$rest_response  = $class_instance->get_statistics();
@@ -32,7 +38,13 @@ class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_seo_score_links() {
-		$statistics = new Statistics_Mock( array( 'ok' => 10, 'na' => 0, 'bad' => 0 ) );
+		$statistics = new Statistics_Mock(
+			array(
+				'ok'  => 10,
+				'na'  => 0,
+				'bad' => 0,
+			)
+		);
 
 		$class_instance = new WPSEO_Statistics_Service( $statistics );
 		$rest_response  = $class_instance->get_statistics();
@@ -48,7 +60,13 @@ class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 		$user = wp_get_current_user();
 		$user->add_cap( 'edit_others_posts' );
 
-		$statistics = new Statistics_Mock( array( 'ok' => 10, 'na' => 0, 'bad' => 0 ) );
+		$statistics = new Statistics_Mock(
+			array(
+				'ok'  => 10,
+				'na'  => 0,
+				'bad' => 0,
+			)
+		);
 
 		$class_instance = new WPSEO_Statistics_Service( $statistics );
 		$rest_response  = $class_instance->get_statistics();
@@ -63,7 +81,13 @@ class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_page_counts() {
-		$statistics = new Statistics_Mock( array( 'ok' => 10, 'na' => 0, 'bad' => 0 ) );
+		$statistics = new Statistics_Mock(
+			array(
+				'ok'  => 10,
+				'na'  => 0,
+				'bad' => 0,
+			)
+		);
 
 		$class_instance = new WPSEO_Statistics_Service( $statistics );
 		$rest_response  = $class_instance->get_statistics();

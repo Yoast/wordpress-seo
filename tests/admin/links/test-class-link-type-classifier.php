@@ -59,7 +59,7 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 		$classifier
 			->expects( $this->once() )
 			->method( 'contains_protocol' )
-			->with( parse_url( 'http://test.com/page' ) )
+			->with( wp_parse_url( 'http://test.com/page' ) )
 			->will( $this->returnValue( true ) );
 
 		$classifier->classify( 'http://test.com/page' );
@@ -79,7 +79,7 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 		$classifier
 			->expects( $this->once() )
 			->method( 'is_external_link' )
-			->with( parse_url( 'http://test.com/page' ) )
+			->with( wp_parse_url( 'http://test.com/page' ) )
 			->will( $this->returnValue( true ) );
 
 		$classifier->classify( 'http://test.com/page' );

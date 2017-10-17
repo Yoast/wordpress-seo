@@ -29,5 +29,7 @@ else {
 	require '../../../../tests/phpunit/includes/bootstrap.php';
 }
 
+define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
+
 // include unit test base class
-require_once dirname( __FILE__ ) . '/framework/class-wpseo-unit-test-case.php';
+require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case.php';

@@ -9,7 +9,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @var WPSEO_Taxonomy_Fields_Presenter
 	 */
-	private  $class_instance;
+	private $class_instance;
 
 	/**
 	 * @var stdClass The created term.
@@ -39,7 +39,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'type'        => 'text',
 					'description' => 'this is a test field',
 					'options'     => '',
-				)
+				),
 			)
 		);
 
@@ -61,8 +61,8 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'label'       => '',
 					'type'        => 'text',
 					'description' => 'this is a test field',
-					'options'     => ''
-				)
+					'options'     => '',
+				),
 			)
 		);
 
@@ -84,8 +84,8 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'label'       => 'test field',
 					'type'        => 'text',
 					'description' => '',
-					'options'     => array()
-				)
+					'options'     => array(),
+				),
 			)
 		);
 
@@ -106,10 +106,10 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'description' => '',
 					'options'     => array(
 						'options' => array(
-							'value' => 'option_value'
-						)
-					)
-				)
+							'value' => 'option_value',
+						),
+					),
+				),
 			)
 		);
 
@@ -130,10 +130,10 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'description' => '',
 					'options'     => array(
 						'options' => array(
-							'value' => 'option_value'
-						)
-					)
-				)
+							'value' => 'option_value',
+						),
+					),
+				),
 			)
 		);
 
@@ -153,7 +153,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'type'        => 'hidden',
 					'description' => '',
 					'options'     => '',
-				)
+				),
 			)
 		);
 
@@ -172,8 +172,8 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'label'       => 'test field',
 					'type'        => 'upload',
 					'description' => '',
-					'options'     => ''
-				)
+					'options'     => '',
+				),
 			)
 		);
 
@@ -193,8 +193,8 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'label'       => 'test field',
 					'type'        => 'upload',
 					'description' => 'description for the field',
-					'options'     => ''
-				)
+					'options'     => '',
+				),
 			)
 		);
 

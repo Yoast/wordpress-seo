@@ -60,7 +60,7 @@ class WPSEO_Taxonomy_Metabox {
 		$helpcenter_tab = new WPSEO_Option_Tab( 'tax-metabox', 'Meta box',
 			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-taxonomy-screencast' ) ) );
 
-		$helpcenter = new WPSEO_Help_Center( 'tax-metabox', $helpcenter_tab );
+		$helpcenter = new WPSEO_Help_Center( 'tax-metabox', $helpcenter_tab, WPSEO_Utils::is_yoast_seo_premium() );
 		$helpcenter->localize_data();
 		$helpcenter->mount();
 
@@ -173,7 +173,7 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_social_meta_section() {
 		$options = WPSEO_Options::get_option( 'wpseo_social' );
 		$taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
-		$social_admin = new WPSEO_Social_Admin;
+		$social_admin = new WPSEO_Social_Admin();
 
 		$tabs = array();
 		$single = true;

@@ -89,7 +89,7 @@ if ( ! function_exists( 'yoast_get_primary_term' ) ) {
  * @return string
  */
 function wpseo_replace_vars( $string, $args, $omit = array() ) {
-	$replacer = new WPSEO_Replace_Vars;
+	$replacer = new WPSEO_Replace_Vars();
 
 	return $replacer->replace( $string, $args, $omit );
 }

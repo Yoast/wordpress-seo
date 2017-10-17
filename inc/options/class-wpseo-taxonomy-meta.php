@@ -21,10 +21,11 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	/**
 	 * @var  array  Array of defaults for the option
 	 *        Shouldn't be requested directly, use $this->get_defaults();
-	 * @internal  Important: in contrast to most defaults, the below array format is
-	 *        very bare. The real option is in the format [taxonomy_name][term_id][...]
-	 *        where [...] is any of the $defaults_per_term options shown below.
-	 *        This is of course taken into account in the below methods.
+	 *
+	 * {@internal Important: in contrast to most defaults, the below array format is
+	 *            very bare. The real option is in the format [taxonomy_name][term_id][...]
+	 *            where [...] is any of the $defaults_per_term options shown below.
+	 *            This is of course taken into account in the below methods.}}
 	 */
 	protected $defaults = array();
 
@@ -40,24 +41,24 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @static
 	 */
 	public static $defaults_per_term = array(
-		'wpseo_title'           => '',
-		'wpseo_desc'            => '',
-		'wpseo_metakey'         => '',
-		'wpseo_canonical'       => '',
-		'wpseo_bctitle'         => '',
-		'wpseo_noindex'         => 'default',
-		'wpseo_sitemap_include' => '-',
-		'wpseo_focuskw'         => '',
-		'wpseo_linkdex'         => '',
-		'wpseo_content_score'   => '',
+		'wpseo_title'                 => '',
+		'wpseo_desc'                  => '',
+		'wpseo_metakey'               => '',
+		'wpseo_canonical'             => '',
+		'wpseo_bctitle'               => '',
+		'wpseo_noindex'               => 'default',
+		'wpseo_sitemap_include'       => '-',
+		'wpseo_focuskw'               => '',
+		'wpseo_linkdex'               => '',
+		'wpseo_content_score'         => '',
 
 		// Social fields.
-		'wpseo_opengraph-title'         => '',
-		'wpseo_opengraph-description'   => '',
-		'wpseo_opengraph-image'         => '',
-		'wpseo_twitter-title'           => '',
-		'wpseo_twitter-description'     => '',
-		'wpseo_twitter-image'           => '',
+		'wpseo_opengraph-title'       => '',
+		'wpseo_opengraph-description' => '',
+		'wpseo_opengraph-image'       => '',
+		'wpseo_twitter-title'         => '',
+		'wpseo_twitter-description'   => '',
+		'wpseo_twitter-image'         => '',
 	);
 
 	/**
@@ -66,7 +67,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 *
 	 * @static
 	 *
-	 * @internal  Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options()
+	 * {@internal Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options().}}
 	 */
 	public static $no_index_options = array(
 		'default' => '',
@@ -80,7 +81,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 *
 	 * @static
 	 *
-	 * @internal  Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options()
+	 * {@internal Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options().}}
 	 */
 	public static $sitemap_include_options = array(
 		'-'      => '',
@@ -157,9 +158,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			}
 
 			/ *
-			@internal Adding the defaults to all taxonomy terms each time the option is retrieved
-			will be quite inefficient if there are a lot of taxonomy terms
-			As long as taxonomy_meta is only retrieved via methods in this class, we shouldn't need this
+			{@internal Adding the defaults to all taxonomy terms each time the option is retrieved
+			will be quite inefficient if there are a lot of taxonomy terms.
+			As long as taxonomy_meta is only retrieved via methods in this class, we shouldn't need this.}}
 
 			$options  = (array) $options;
 			$filtered = array();
@@ -202,9 +203,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 		/*
-		Prevent complete validation (which can be expensive when there are lots of terms)
-			   if only one item has changed and has already been validated
-		*/
+		 * Prevent complete validation (which can be expensive when there are lots of terms)
+		 * if only one item has changed and has already been validated.
+		 */
 		if ( isset( $dirty['wpseo_already_validated'] ) && $dirty['wpseo_already_validated'] === true ) {
 			unset( $dirty['wpseo_already_validated'] );
 
@@ -446,9 +447,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		$tax_meta = self::get_term_tax_meta( $term_id, $taxonomy );
 
 		/*
-		Either return the complete array or a single value from it or false if the value does not exist
-			   (shouldn't happen after merge with defaults, indicates typo in request)
-		*/
+		 * Either return the complete array or a single value from it or false if the value does not exist
+		 * (shouldn't happen after merge with defaults, indicates typo in request).
+		 */
 		if ( ! isset( $meta ) ) {
 			return $tax_meta;
 		}
@@ -510,7 +511,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	/**
 	 * Find the keyword usages in the metas for the taxonomies/terms
 	 *
-	 * @param string $keyword		   The keyword to look for.
+	 * @param string $keyword          The keyword to look for.
 	 * @param string $current_term_id  The current term id.
 	 * @param string $current_taxonomy The current taxonomy name.
 	 *
@@ -521,11 +522,11 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 
 		$found    = array();
-		// Todo check for terms of all taxonomies, not only the current taxonomy.
+		// @todo Check for terms of all taxonomies, not only the current taxonomy.
 		foreach ( $tax_meta as $taxonomy_name => $terms ) {
 			foreach ( $terms as $term_id => $meta_values ) {
 				$is_current = ( $current_taxonomy === $taxonomy_name && (string) $current_term_id === (string) $term_id );
-				if ( ! $is_current  && ! empty( $meta_values['wpseo_focuskw'] ) && $meta_values['wpseo_focuskw'] === $keyword ) {
+				if ( ! $is_current && ! empty( $meta_values['wpseo_focuskw'] ) && $meta_values['wpseo_focuskw'] === $keyword ) {
 					$found[] = $term_id;
 				}
 			}

@@ -70,7 +70,7 @@ class WPSEO_GSC_Bulk_Action {
 	 */
 	private function run_bulk_action( $bulk_action, $issues ) {
 		switch ( $bulk_action ) {
-			case 'mark_as_fixed' :
+			case 'mark_as_fixed':
 				array_map( array( $this, 'action_mark_as_fixed' ), $issues );
 
 				break;

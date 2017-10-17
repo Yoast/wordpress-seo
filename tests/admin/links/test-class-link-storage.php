@@ -69,7 +69,7 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 		$storage->save_links(
 			1,
 			array(
-				new WPSEO_Link( 'page', 0, 'outbound' )
+				new WPSEO_Link( 'page', 0, 'outbound' ),
 			)
 		);
 	}
