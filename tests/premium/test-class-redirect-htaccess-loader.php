@@ -4,27 +4,18 @@
  */
 
 /**
- * Test double for testing the result of the match_redirects function.
- */
-class WPSEO_Redirect_HTAccess_Loader_Double extends WPSEO_Redirect_HTAccess_Loader {
-
-	/**
-	 * Matches the string (containing redirects) for the given regex.
-	 *
-	 * @param string $regex The regular expression to match redirects.
-	 *
-	 * @return mixed;
-	 */
-	public function match_with_given_regex( $regex ) {
-		return $this->match_redirects( $regex );
-	}
-
-}
-
-/**
  * Test class for the WPSEO Redirect HTAccess Loader
  */
 class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'premium/helpers/class-redirect-htaccess-loader-double.php';
+	}
 
 	/**
 	 * Returns a HTAccess base string to include some non-redirect data.

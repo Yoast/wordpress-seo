@@ -4,47 +4,26 @@
  */
 
 /**
- * Test Helper Class.
- */
-class WPSEO_RedirectionDatabaseMock {
-	/** @var string */
-	public $prefix = 'bamboozled';
-
-	/** @var array */
-	private $results;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param array $results Results.
-	 */
-	public function __construct( $results ) {
-		$this->results = $results;
-	}
-
-	/**
-	 * Mock retrieving results.
-	 *
-	 * @param string $query Query.
-	 *
-	 * @return array
-	 */
-	public function get_results( $query ) {
-		return $this->results;
-	}
-}
-
-/**
  * Test class for the redirection loader.
  *
  * @covers WPSEO_Redirect_Redirection_Loader
  */
 class WPSEO_Redirect_Redirection_Loader_Test extends WPSEO_UnitTestCase {
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'premium/helpers/class-redirection-database-mock.php';
+	}
+
 	/**
 	 * Tests loading Redirection redirects without regexes.
 	 */
 	public function test_simple_load() {
-		$db = new WPSEO_RedirectionDatabaseMock( array(
+		$db = new WPSEO_Redirection_Database_Mock( array(
 			(object) array(
 				'url'         => '/origin1',
 				'action_data' => '/target1',
@@ -80,7 +59,7 @@ class WPSEO_Redirect_Redirection_Loader_Test extends WPSEO_UnitTestCase {
 	 * Tests loading Redirection redirects with regexes.
 	 */
 	public function test_regex_load() {
-		$db = new WPSEO_RedirectionDatabaseMock( array(
+		$db = new WPSEO_Redirection_Database_Mock( array(
 			(object) array(
 				'url'         => '/origin',
 				'action_data' => '/target',
@@ -117,7 +96,7 @@ class WPSEO_Redirect_Redirection_Loader_Test extends WPSEO_UnitTestCase {
 	 * Tests loading Redirection redirects with bad status codes.
 	 */
 	public function test_bad_status_code_load() {
-		$db = new WPSEO_RedirectionDatabaseMock( array(
+		$db = new WPSEO_Redirection_Database_Mock( array(
 			(object) array(
 				'url'         => '/origin1',
 				'action_data' => '/target1',
