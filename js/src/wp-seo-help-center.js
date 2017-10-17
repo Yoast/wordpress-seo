@@ -182,7 +182,6 @@ class HelpCenter extends React.Component {
 			} );
 		} );
 
-		console.log( "is html injected", additionalTabs );
 		return additionalTabs;
 	}
 
