@@ -22,6 +22,9 @@ module.exports = {
 	},
 	publish: {
 		files: [ {
+			src: "css/**/*",
+			dest: "dist/",
+		}, {
 			src: "index.js",
 			dest: "dist/",
 		}, {
