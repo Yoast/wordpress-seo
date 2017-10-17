@@ -9,10 +9,25 @@
  * A double for testing protected method.
  */
 class WPSEO_Export_Keywords_Post_Presenter_Double extends WPSEO_Export_Keywords_Post_Presenter {
+
+	/**
+	 * Returns whether a result to present is a valid result.
+	 *
+	 * @param array $result The result to validate.
+	 *
+	 * @return bool True for a value valid result.
+	 */
 	public function return_validate_result( $result ) {
 		return $this->validate_result( $result );
 	}
 
+	/**
+	 * Converts the results of the query from strings and JSON string to keyword arrays.
+	 *
+	 * @param array $result The result to convert.
+	 *
+	 * @return array The converted result.
+	 */
 	public function return_convert_result_keywords( $result ) {
 		return $this->convert_result_keywords( $result );
 	}
@@ -24,11 +39,23 @@ class WPSEO_Export_Keywords_Post_Presenter_Double extends WPSEO_Export_Keywords_
  * Provides a simple filter to test against.
  */
 class WPSEO_Export_Keywords_Post_Presenter_Test_Filter {
+
+	/**
+	 * Mock filter a title.
+	 *
+	 * @param string $title Post title.
+	 * @param int    $id    Post ID.
+	 *
+	 * @return string
+	 */
 	public function filter( $title, $id ) {
 		return 'filtered';
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if validate_result works with expected input.
@@ -44,6 +71,9 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( $class_instance->return_validate_result( $fake_result ) );
 	}
 
+	/**
+	 * Tests if validate_result works correctly when passed invalid input.
+	 */
 	public function test_validate_input_false() {
 		$class_instance = new WPSEO_Export_Keywords_Post_Presenter_Double( array( 'title' ) );
 

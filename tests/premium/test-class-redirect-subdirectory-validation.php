@@ -24,6 +24,13 @@ class WPSEO_Redirect_Subdirectory_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Reset after the test.
+	 */
+	public function tearDown() {
+		remove_filter( 'home_url', 'override_home_url' );
+	}
+
+	/**
 	 * Puts a subdirectory in the home url.
 	 *
 	 * @return string
@@ -114,10 +121,6 @@ class WPSEO_Redirect_Subdirectory_Validation_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue(
 			$this->class_instance->run( new WPSEO_Redirect( '/subdirectory/redirect', 'redirect', 301 ) )
 		);
-	}
-
-	public function tearDown() {
-		remove_filter( 'home_url', 'override_home_url' );
 	}
 
 }

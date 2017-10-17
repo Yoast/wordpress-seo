@@ -3,25 +3,49 @@
  * @package WPSEO\Tests\Premium
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Export_Keywords_Term_Query_Double extends WPSEO_Export_Keywords_Term_Query {
+
+	/**
+	 * Retrieve the database columns to select in the query, an array of strings.
+	 *
+	 * @return array
+	 */
 	public function get_selects() {
 		return $this->selects;
 	}
 }
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Export_Keywords_Term_Query_Database_Mock {
+	/** @var string */
 	public $prefix = 'bamboozled';
 
+	/** @var string */
 	public $query;
 
+	/** @var string */
 	public $type;
 
+	/**
+	 * Set properties.
+	 *
+	 * @param string $query Query.
+	 * @param string $type  Output type.
+	 */
 	public function get_results( $query, $type ) {
 		$this->query = $query;
 		$this->type = $type;
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests entering a valid page size and retrieving it

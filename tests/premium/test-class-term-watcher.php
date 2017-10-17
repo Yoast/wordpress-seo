@@ -3,12 +3,19 @@
  * @package WPSEO\Tests\Premium
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Term_Watcher_Double extends WPSEO_Term_Watcher {
 
+	/** @var string */
 	public $old_url;
 
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Term_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**

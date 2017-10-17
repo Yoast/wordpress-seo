@@ -21,12 +21,22 @@ if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
  */
 class WPSEO_Premium {
 
+	/** @var string */
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
+	/** @var string */
 	const PLUGIN_VERSION_NAME = '5.6.1';
+
+	/** @var string */
 	const PLUGIN_VERSION_CODE = '16';
+
+	/** @var string */
 	const PLUGIN_AUTHOR = 'Yoast';
+
+	/** @var string */
 	const EDD_STORE_URL = 'http://my.yoast.com';
+
+	/** @var string */
 	const EDD_PLUGIN_NAME = 'Yoast SEO Premium';
 
 	/**
