@@ -13,7 +13,10 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		self::$class_instance = new WPSEO_Plugin_Compatibility( '3.3', new WPSEO_Plugin_Availability_Double() );
+		$plugin_availability = new WPSEO_Plugin_Availability_Double();
+		$plugin_availability->register();
+
+		self::$class_instance = new WPSEO_Plugin_Compatibility( '3.3', $plugin_availability);
 	}
 
 	/**
