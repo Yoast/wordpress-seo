@@ -256,14 +256,18 @@ class WPSEO_Redirect_Handler {
 	 * @return bool|string
 	 */
 	private function find_url_fallback( $url ) {
-		// Check if last character is a slash, if so trim it.
-		if ( substr( $url, -1 ) === '/' && $redirect_url = $this->search( rtrim( $url, '/' ) ) ) {
-			return $redirect_url;
-		}
+		$no_trailing_slash = rtrim( $url, '/' );
 
-		// There was no trailing slash, so add this to check.
-		if ( $redirect_url = $this->search( $url . '/' ) ) {
-			return $redirect_url;
+		$checks = array(
+			'no_trailing_slash' => $no_trailing_slash,
+			'trailing_slash'    => $no_trailing_slash . '/',
+		);
+
+		foreach ( $checks as $check ) {
+			$redirect_url = $this->search( $check );
+			if ( ! empty( $redirect_url ) ) {
+				return $redirect_url;
+			}
 		}
 
 		return false;
