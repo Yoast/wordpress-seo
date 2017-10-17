@@ -5,10 +5,17 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.10.2: October 16th, 2017
+## 2.10.3: October 17th, 2017
+
+### Added
+* `IconButtonToggle` component
 
 ### Other
 * Added class names to VideoTutorial component.
+
+## 2.10.2: October 16th, 2017
+
+### Other
 * Improved AlgoliaSearcher focus management between search and detail view.
 * Help center CSS tweaks.
 
