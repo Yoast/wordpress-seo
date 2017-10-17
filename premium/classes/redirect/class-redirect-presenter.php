@@ -55,13 +55,13 @@ class WPSEO_Redirect_Presenter {
 	 */
 	private function navigation_tabs( $active_tab ) {
 		$tabs = array(
-				'plain'    => __( 'Redirects', 'wordpress-seo-premium' ),
-				'regex'    => __( 'Regex Redirects', 'wordpress-seo-premium' ),
-				);
+			'plain'    => __( 'Redirects', 'wordpress-seo-premium' ),
+			'regex'    => __( 'Regex Redirects', 'wordpress-seo-premium' ),
+		);
 
 		if ( current_user_can( 'wpseo_manage_options' ) ) {
 			$tabs['settings'] = __( 'Settings', 'wordpress-seo-premium' );
-			}
+		}
 
 		return array(
 			'tabs'        => $tabs,
