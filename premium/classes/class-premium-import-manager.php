@@ -224,7 +224,7 @@ class WPSEO_Premium_Import_Manager {
 	 *
 	 * @param array $csv_file The file to upload, from the $_FILES object.
 	 *
-	 * @return bool Wether or not the file passes the validation.
+	 * @return bool Whether or not the file passes the validation.
 	 */
 	protected function validate_uploaded_csv_file( $csv_file ) {
 		// If the file upload failed for any reason.

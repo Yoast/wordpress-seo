@@ -421,7 +421,7 @@ class WPSEO_Premium {
 	/**
 	 * This hook will add an input-field for specifying custom fields for page analysis.
 	 *
-	 * The values will be comma-seperated and will target the belonging field in the post_meta. Page analysis will
+	 * The values will be comma-separated and will target the belonging field in the post_meta. Page analysis will
 	 * use the content of it by sticking it to the post_content.
 	 *
 	 * @param array  $wpseo_admin_pages Unused. Array with admin pages.
