@@ -19,7 +19,7 @@ const messages = defineMessages( {
 const NotificationContainer = styled.div`
 	display: flex;
 	align-items: center;
-	padding: 20px;
+	padding: 24px;
 
 	h1, h2, h3, h4, h5, h6 {
 		font-size: 1.4em;
@@ -38,13 +38,14 @@ const NotificationContainer = styled.div`
 	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		display: block;
 		position: relative;
+		padding: 16px;
 	}
 `;
 
 const NotificationImage = styled.img`
 	flex: 0 0 ${ props => props.imageWidth ? props.imageWidth : "auto" };
 	height: ${ props => props.imageHeight ? props.imageHeight : "auto" };
-	margin-right: 18px;
+	margin-right: 24px;
 
 	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		display: none;
@@ -67,8 +68,8 @@ const DismissButton = styled.button`
 	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		width: 40px;
 		position: absolute;
-		top: 10px;
-		right: 10px;
+		top: 5px;
+		right: 5px;
 		margin: 0;
 	}
 `;

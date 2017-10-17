@@ -2,14 +2,14 @@
 
 exports[`the Notification with props matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa djsmUD"
+  className="sc-bdVaJa iXfwAT"
 >
   <div
-    className="sc-bwzfXH hruJbj"
+    className="sc-bwzfXH fBEotv"
   >
     <img
       alt=""
-      className="sc-htpNat DyGFU"
+      className="sc-htpNat cyCXzh"
       src="some-image.png"
     />
     <div
@@ -29,7 +29,7 @@ exports[`the Notification with props matches the snapshot 1`] = `
     </div>
     <button
       aria-label="Dismiss this notice"
-      className="sc-ifAKCX loOPnr"
+      className="sc-ifAKCX RxIFE"
       onClick={[Function]}
       type="button"
     >
@@ -46,10 +46,10 @@ exports[`the Notification with props matches the snapshot 1`] = `
 
 exports[`the Notification without props matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa djsmUD"
+  className="sc-bdVaJa iXfwAT"
 >
   <div
-    className="sc-bwzfXH kZMabL"
+    className="sc-bwzfXH bmgoVW"
   >
     <div
       className="sc-bxivhb cWqORw"
