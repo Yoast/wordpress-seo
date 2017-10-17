@@ -22,7 +22,7 @@ describe( "splits English sentences into parts", function() {
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is a hands-free" );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
 		} );
-	it ( "doesn't split sentences on stop characters that are not preceded by a word and followed by a space/punctuation mark", function() {
+	it ( "doesn't split sentences on stop characters that are not preceded by a word and also not followed by a space/punctuation mark", function() {
 		var sentence = "It is a 1,000,000 dollar house.";
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is a 1,000,000 dollar house." );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
