@@ -9,10 +9,10 @@
 
 ?>
 <div class="redirect_form_row" id="row-wpseo_redirects_type">
-	<label class='textinput' for='wpseo_redirects_type<?php echo $input_suffix; ?>'>
+	<label class='textinput' for='<?php echo esc_attr( 'wpseo_redirects_type' . $input_suffix ); ?>'>
 		<span class="title"><?php echo esc_html_x( 'Type', 'noun', 'wordpress-seo-premium' ); ?></span>
 	</label>
-	<select name='wpseo_redirects_type' id='wpseo_redirects_type<?php echo $input_suffix; ?>' class='select'>
+	<select name='wpseo_redirects_type' id='<?php echo esc_attr( 'wpseo_redirects_type' . $input_suffix ); ?>' class='select'>
 		<?php
 		// Loop through the redirect types.
 		if ( count( $redirect_types ) > 0 ) {
@@ -36,17 +36,17 @@
 </p>
 
 <div class='redirect_form_row' id="row-wpseo_redirects_origin">
-	<label class='textinput' for='wpseo_redirects_origin<?php echo $input_suffix; ?>'>
+	<label class='textinput' for='<?php echo esc_attr( 'wpseo_redirects_origin' . $input_suffix ); ?>'>
 		<span class="title"><?php echo esc_html( $origin_label_value ); ?></span>
 	</label>
-	<input type='text' class='textinput' name='wpseo_redirects_origin' id='wpseo_redirects_origin<?php echo $input_suffix; ?>' value='<?php echo esc_attr( $values['origin'] ); ?>' />
+	<input type='text' class='textinput' name='wpseo_redirects_origin' id='<?php echo esc_attr( 'wpseo_redirects_origin' . $input_suffix ); ?>' value='<?php echo esc_attr( $values['origin'] ); ?>' />
 </div>
 <br class='clear'/>
 
 <div class="redirect_form_row wpseo_redirect_target_holder" id="row-wpseo_redirects_target">
-	<label class='textinput' for='wpseo_redirects_target<?php echo $input_suffix; ?>'>
+	<label class='textinput' for='<?php echo esc_attr( 'wpseo_redirects_target' . $input_suffix ); ?>'>
 		<span class="title"><?php esc_html_e( 'URL', 'wordpress-seo-premium' ); ?></span>
 	</label>
-	<input type='text' class='textinput' name='wpseo_redirects_target' id='wpseo_redirects_target<?php echo $input_suffix; ?>' value='<?php echo esc_attr( $values['target'] ); ?>' />
+	<input type='text' class='textinput' name='wpseo_redirects_target' id='<?php echo esc_attr( 'wpseo_redirects_target' . $input_suffix ); ?>' value='<?php echo esc_attr( $values['target'] ); ?>' />
 </div>
 <br class='clear'/>

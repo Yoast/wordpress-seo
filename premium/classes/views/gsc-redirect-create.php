@@ -22,12 +22,12 @@ $wpseo_i18n_fixed_in_gsc = sprintf(
 	<h1 class="wpseo-redirect-url-title"><?php esc_html_e( 'Redirect this broken URL and fix the error', 'wordpress-seo-premium' ); ?></h1>
 
 	<div class='form-field form-required'>
-		<label for='wpseo-current-url-<?php echo $unique_id; ?>'><?php esc_html_e( 'Old URL:', 'wordpress-seo-premium' ); ?></label>
-		<input type='text' id='wpseo-current-url-<?php echo $unique_id; ?>' name='current_url' value='<?php echo esc_attr( $url ); ?>' readonly />
+		<label for='<?php echo esc_attr( 'wpseo-current-url-' . $unique_id ); ?>'><?php esc_html_e( 'Old URL:', 'wordpress-seo-premium' ); ?></label>
+		<input type='text' id='<?php echo esc_attr( 'wpseo-current-url-' . $unique_id ); ?>' name='current_url' value='<?php echo esc_attr( $url ); ?>' readonly />
 	</div>
 	<div class='form-field form-required'>
-		<label for='wpseo-redirect-type-<?php echo $unique_id; ?>'><?php echo esc_html_x( 'Type', 'noun', 'wordpress-seo-premium' ); ?></label>
-		<select name='redirect-type' id='wpseo-redirect-type-<?php echo $unique_id; ?>' class='select'>
+		<label for='<?php echo esc_attr( 'wpseo-redirect-type-' . $unique_id ); ?>'><?php echo esc_html_x( 'Type', 'noun', 'wordpress-seo-premium' ); ?></label>
+		<select name='redirect-type' id='<?php echo esc_attr( 'wpseo-redirect-type-' . $unique_id ); ?>' class='select'>
 			<?php
 			// Loop through the redirect types.
 			foreach ( $redirect_types->get() as $type => $desc ) {
@@ -37,15 +37,15 @@ $wpseo_i18n_fixed_in_gsc = sprintf(
 		</select>
 	</div>
 	<div class='form-field form-required form-field-target'>
-		<label for='wpseo-new-url-<?php echo $unique_id; ?>'><?php esc_html_e( 'New URL:', 'wordpress-seo-premium' ); ?></label>
-		<input type='text' id='wpseo-new-url-<?php echo $unique_id; ?>' name='new_url' value='' />
+		<label for='<?php echo esc_attr( 'wpseo-new-url-' . $unique_id ); ?>'><?php esc_html_e( 'New URL:', 'wordpress-seo-premium' ); ?></label>
+		<input type='text' id='<?php echo esc_attr( 'wpseo-new-url-' . $unique_id ); ?>' name='new_url' value='' />
 	</div>
 	<div class='form-field form-required'>
-		<label for='wpseo-mark-as-fixed-<?php echo $unique_id; ?>' class='clear'><?php esc_html_e( 'Mark as fixed:', 'wordpress-seo-premium' ); ?></label>
-		<input type='checkbox' checked value='1' id='wpseo-mark-as-fixed-<?php echo $unique_id; ?>' name='mark_as_fixed' class='clear' aria-describedby='wpseo-mark-as-fixed-desc-<?php echo $unique_id; ?>' />
-		<p id='wpseo-mark-as-fixed-desc-<?php echo $unique_id; ?>'><?php echo esc_html( $wpseo_i18n_fixed_in_gsc ); ?></p>
+		<label for='<?php echo esc_attr( 'wpseo-mark-as-fixed-' . $unique_id ); ?>' class='clear'><?php esc_html_e( 'Mark as fixed:', 'wordpress-seo-premium' ); ?></label>
+		<input type='checkbox' checked value='1' id='<?php echo esc_attr( 'wpseo-mark-as-fixed-' . $unique_id ); ?>' name='mark_as_fixed' class='clear' aria-describedby='<?php echo esc_attr( 'wpseo-mark-as-fixed-desc-' . $unique_id ); ?>' />
+		<p id='<?php echo esc_attr( 'wpseo-mark-as-fixed-desc-' . $unique_id ); ?>'><?php echo esc_html( $wpseo_i18n_fixed_in_gsc ); ?></p>
 	</div>
 	<p class='submit'>
-		<input type='button' name='submit' id='submit-<?php echo $unique_id; ?>' class='button button-primary' value='<?php esc_attr_e( 'Create redirect', 'wordpress-seo-premium' ); ?>' onclick='wpseoPostRedirectToGSC( jQuery( this ) );' />
+		<input type='button' name='submit' id='<?php echo esc_attr( 'submit-' . $unique_id ); ?>' class='button button-primary' value='<?php esc_attr_e( 'Create redirect', 'wordpress-seo-premium' ); ?>' onclick='wpseoPostRedirectToGSC( jQuery( this ) );' />
 		<button type="button" class="button wpseo-redirect-close"><?php esc_html_e( 'Cancel', 'wordpress-seo-premium' ); ?></button>
 	</p>
