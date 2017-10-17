@@ -4,7 +4,6 @@ let getIndicesOfList = indices.getIndicesByWordList;
 let filterIndices = indices.filterIndices;
 let sortIndices = indices.sortIndices;
 let getIndicesByWord = indices.getIndicesByWord;
-let getIndicesByStopCharacterList = indices.getIndicesByStopCharacterList;
 
 describe( "A function to get indices from words in a string." , function( ) {
 	it( "returns a list with a single word and its index", function() {

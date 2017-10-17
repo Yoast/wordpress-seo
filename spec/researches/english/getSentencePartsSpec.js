@@ -27,11 +27,6 @@ describe( "splits English sentences into parts", function() {
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is a 1,000,000 dollar house." );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
 	} );
-	it ( "splits sentences on stop characters after words, but not in a number", function() {
-		var sentence = "This is it: a 1,000,000 dollar house.";
-		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is it" );
-		expect( getSentenceParts( sentence ).length ).toBe( 1 );
-	} );
 	it ( "splits sentences on stop characters when followed by a punctuation mark", function() {
 		var sentence = "\"This is it\", he said.";
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is it\"" );
