@@ -44,9 +44,9 @@ $wpseo_i18n_import_redirects_explain = sprintf(
 	<br/>
 
 	<div>
-	<h2><?php echo $wpseo_i18n_import_redirects_from; ?></h2>
+	<h2><?php echo wp_kses( $wpseo_i18n_import_redirects_from, array( 'code' => array() ) ); ?></h2>
 	<p>
-		<?php echo $wpseo_i18n_import_redirects_explain; ?>
+		<?php echo wp_kses( $wpseo_i18n_import_redirects_explain, array( 'code' => array() ) ); ?>
 	</p>
 	<form action="" method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 		<?php wp_nonce_field( 'wpseo-import', '_wpnonce', true ); ?>
