@@ -3,8 +3,8 @@
         "typeRoots": [
             "node_modules/@types"
         ],
-        "module": "es6",
-        "moduleResolution": "node",
+        "module": "commonjs",
+        "moduleResolution": "Node",
         "target": "es6",
         "sourceMap": true,
         "outDir": "js/",
@@ -19,7 +19,8 @@
         "forceConsistentCasingInFileNames": true,
         "noEmitOnError": true,
         "noImplicitAny": true,
-        "pretty": true
+        "pretty": true,
+        "skipLibCheck": true
     },
     "filesGlob": [
         "src/**/*.ts",
