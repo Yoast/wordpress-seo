@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-10-13 11:30:05+00:00\n"
+"POT-Creation-Date: 2017-10-17 12:24:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,39 +24,39 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:118
+#: class-premium.php:128
 msgid "Metabox insights"
 msgstr ""
 
-#: class-premium.php:120
+#: class-premium.php:130
 msgid ""
 "The metabox insights section contains insights about your content, like an "
 "overview of the most prominent words in your text."
 msgstr ""
 
-#: class-premium.php:123
+#: class-premium.php:133
 msgid "Link suggestions"
 msgstr ""
 
-#: class-premium.php:125
+#: class-premium.php:135
 msgid ""
 "The link suggestions section contains a list of posts on your blog with "
 "similar content that might be interesting to link to."
 msgstr ""
 
-#: class-premium.php:387
+#: class-premium.php:399
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:419
+#: class-premium.php:431
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:438 classes/redirect/class-redirect-presenter.php:58
+#: class-premium.php:450 classes/redirect/class-redirect-presenter.php:58
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:472
+#: class-premium.php:484
 msgid "Enabled"
 msgstr ""
 
@@ -67,7 +67,7 @@ msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
 #. href=''>, %4$s: </a>, %5$s: Slug to post
-#: classes/class-post-watcher.php:148
+#: classes/class-post-watcher.php:149
 msgid ""
 "%1$s detected that you moved a post (%5$s) to the trash. You can either: "
 "%2$s Don't know what to do? %3$sRead this post%4$s."
@@ -75,17 +75,17 @@ msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: <a href='{undo_redirect_url}'>,
 #. %3$s: </a>, %4$s: Slug to post
-#: classes/class-post-watcher.php:176
+#: classes/class-post-watcher.php:177
 msgid ""
-"%1$s detected that you restored a post (%4$s) from the trash. %2$sClick here "
-"to remove the redirect%3$s"
+"%1$s detected that you restored a post (%4$s) from the trash, for which a "
+"redirect was created. %2$sClick here to remove the redirect%3$s"
 msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s and %3$s expand to a link to the
 #. admin page, %4$s: Old slug of the post, %5$s: New slug of the post, the text
 #. surrounded by %6$s and %7$s is placed in a button that can undo the created
 #. redirect
-#: classes/class-post-watcher.php:334
+#: classes/class-post-watcher.php:338
 msgid ""
 "%1$s created a %2$sredirect%3$s from the old post URL to the new post URL. "
 "%6$sClick here to undo this%7$s <br> Old URL: %4$s <br> New URL: %5$s"
@@ -93,7 +93,7 @@ msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
 #. href='{post_with_explaination.}'>, %4$s: </a>
-#: classes/class-post-watcher.php:347
+#: classes/class-post-watcher.php:351
 msgid ""
 "%1$s detected that you deleted a post. You can either: %2$s Don't know what "
 "to do? %3$sRead this post %4$s."
@@ -101,7 +101,7 @@ msgstr ""
 
 #. translators: %s: '.htaccess' file name
 #: classes/class-premium-import-manager.php:63
-#: classes/views/import-redirects.php:16
+#: classes/views/import-redirects.php:29
 msgid "Import redirects"
 msgstr ""
 
@@ -172,77 +172,80 @@ msgstr ""
 msgid "You have unsaved redirects, are you sure you want to leave?"
 msgstr ""
 
+#. translators: %s is replaced with the URL that will be deleted.
 #: classes/class-premium-javascript-strings.php:30
 msgid "Please enter the new URL for %s"
 msgstr ""
 
+#. translators: variables will be replaced with from and to URLs.
 #: classes/class-premium-javascript-strings.php:32
 msgid "Redirect created from %1$s to %2$s!"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:33
+#. translators: %1$s will be replaced with the from URL.
+#: classes/class-premium-javascript-strings.php:34
 msgid "410 Redirect created from %1$s!"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:36
+#: classes/class-premium-javascript-strings.php:37
 msgid "Redirect added."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:37
+#: classes/class-premium-javascript-strings.php:38
 msgid "The redirect was added successfully."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:40
+#: classes/class-premium-javascript-strings.php:41
 msgid "Redirect updated."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:41
+#: classes/class-premium-javascript-strings.php:42
 msgid "The redirect was updated successfully."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:44
+#: classes/class-premium-javascript-strings.php:45
 msgid "Redirect deleted."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:45
+#: classes/class-premium-javascript-strings.php:46
 msgid "The redirect was deleted successfully."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:48
+#: classes/class-premium-javascript-strings.php:49
 msgid "OK"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:49
+#: classes/class-premium-javascript-strings.php:50
 #: classes/redirect/views/redirects-quick-edit.php:33
-#: classes/views/gsc-redirect-create.php:46
+#: classes/views/gsc-redirect-create.php:50
 msgid "Cancel"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:50
+#: classes/class-premium-javascript-strings.php:51
 msgid "Save"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:51
+#: classes/class-premium-javascript-strings.php:52
 msgid "Save anyway"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:53
+#: classes/class-premium-javascript-strings.php:54
 #: classes/redirect/views/redirects-quick-edit.php:12
 msgid "Edit redirect"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:54
+#: classes/class-premium-javascript-strings.php:55
 msgid "You are already editing a redirect, please finish this one first"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:56
-#: classes/redirect/class-redirect-table.php:379
+#: classes/class-premium-javascript-strings.php:57
+#: classes/redirect/class-redirect-table.php:400
 msgid "Edit"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:57
-#: classes/redirect/class-redirect-table.php:276
-#: classes/redirect/class-redirect-table.php:380
+#: classes/class-premium-javascript-strings.php:58
+#: classes/redirect/class-redirect-table.php:297
+#: classes/redirect/class-redirect-table.php:401
 msgid "Delete"
 msgstr ""
 
@@ -321,69 +324,69 @@ msgid ""
 "suggestions."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:42
+#: classes/class-premium-prominent-words-recalculation.php:45
 msgid "Internal linking"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:43
+#: classes/class-premium-prominent-words-recalculation.php:46
 msgid ""
 "Want to use our internal linking tool? Analyze all the published posts and "
 "pages to generate internal linking suggestions."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:55
+#: classes/class-premium-prominent-words-recalculation.php:58
 msgid "Generating internal linking suggestions"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:55
+#: classes/class-premium-prominent-words-recalculation.php:58
 msgid "Analyze your content"
 msgstr ""
 
 #. translators: 1: expands to a <span> containing the number of items
 #. recalculated. 2: expands to a <strong> containing the total number of items.
-#: classes/class-premium-prominent-words-recalculation.php:76
+#: classes/class-premium-prominent-words-recalculation.php:79
 msgid "Post %1$s of %2$s analyzed."
 msgstr ""
 
 #. translators: 1: expands to a <span> containing the number of items
 #. recalculated. 2: expands to a <strong> containing the total number of items.
-#: classes/class-premium-prominent-words-recalculation.php:83
+#: classes/class-premium-prominent-words-recalculation.php:86
 msgid "Page %1$s of %2$s analyzed."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:91
+#: classes/class-premium-prominent-words-recalculation.php:94
 msgid "Generating suggestions for posts..."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:96
+#: classes/class-premium-prominent-words-recalculation.php:99
 msgid ""
 "All your posts are already indexed, there is no need to do the recalculation "
 "for them."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:101
+#: classes/class-premium-prominent-words-recalculation.php:104
 msgid "Generating suggestions for pages..."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:106
+#: classes/class-premium-prominent-words-recalculation.php:109
 msgid ""
 "All your pages are already indexed, there is no need to do the recalculation "
 "for them."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:109
+#: classes/class-premium-prominent-words-recalculation.php:112
 msgid "Stop analyzing"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:143
+#: classes/class-premium-prominent-words-recalculation.php:146
 msgid "Calculation in progress..."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:144
+#: classes/class-premium-prominent-words-recalculation.php:147
 msgid "Calculation completed."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:190
+#: classes/class-premium-prominent-words-recalculation.php:193
 msgid "Good job! You've optimized your internal linking suggestions."
 msgstr ""
 
@@ -500,7 +503,7 @@ msgstr ""
 #. admin page, %4$s: Old slug of the term, %5$s: New slug of the term, the text
 #. surrounded by %6$s and %7$s is placed in a button that can undo the created
 #. redirect
-#: classes/class-term-watcher.php:221
+#: classes/class-term-watcher.php:223
 msgid ""
 "%1$s created a %2$sredirect%3$s from the old term URL to the new term URL. "
 "%6$sClick here to undo this%7$s  <br> Old URL: %4$s <br> New URL: %5$s"
@@ -508,7 +511,7 @@ msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
 #. href='{post_with_explaination.}'>, %4$s: </a>
-#: classes/class-term-watcher.php:234
+#: classes/class-term-watcher.php:236
 msgid ""
 "%1$s detected that you deleted a term. You can either: %2$s Don't know what "
 "to do? %3$sRead this post %4$s."
@@ -550,25 +553,25 @@ msgstr ""
 msgid "type"
 msgstr ""
 
-#: classes/redirect/class-redirect-accessible-validation.php:34
+#: classes/redirect/class-redirect-accessible-validation.php:33
 msgid "The URL you entered could not be resolved."
 msgstr ""
 
 #. translators: %1$s expands to the returned http code
-#: classes/redirect/class-redirect-accessible-validation.php:47
+#: classes/redirect/class-redirect-accessible-validation.php:46
 msgid ""
 "The URL you are redirecting to seems to return a %1$s status. You might want "
 "to check if the target can be reached manually before saving."
 msgstr ""
 
-#: classes/redirect/class-redirect-accessible-validation.php:57
+#: classes/redirect/class-redirect-accessible-validation.php:56
 msgid ""
 "You're redirecting to a target that returns a 301 HTTP code (permanently "
 "moved). Make sure the target you specify is directly reachable."
 msgstr ""
 
 #. translators: %1$s expands to the returned http code
-#: classes/redirect/class-redirect-accessible-validation.php:67
+#: classes/redirect/class-redirect-accessible-validation.php:66
 msgid ""
 "The URL you entered returned a HTTP code different than 200(OK). The "
 "received HTTP code is %1$s."
@@ -676,7 +679,7 @@ msgstr ""
 msgid "New URL"
 msgstr ""
 
-#: classes/redirect/class-redirect-table.php:218
+#: classes/redirect/class-redirect-table.php:239
 msgid "Select this redirect"
 msgstr ""
 
@@ -747,13 +750,13 @@ msgid ""
 msgstr ""
 
 #. translators: %s: '.htaccess' file name.
-#: classes/redirect/views/redirects-tab-settings.php:24
+#: classes/redirect/views/redirects-tab-settings.php:25
 msgid ""
 "We're unable to save the redirects to your %s file. Please make the file "
 "writable."
 msgstr ""
 
-#: classes/redirect/views/redirects-tab-settings.php:37
+#: classes/redirect/views/redirects-tab-settings.php:38
 msgid ""
 "As you're on Nginx, you should add the following include to the Nginx config "
 "file:"
@@ -761,29 +764,29 @@ msgstr ""
 
 #. translators: %s expands to the folder location where the redirects fill will
 #. be saved.
-#: classes/redirect/views/redirects-tab-settings.php:49
+#: classes/redirect/views/redirects-tab-settings.php:51
 msgid "We're unable to save the redirect file to %s"
 msgstr ""
 
-#: classes/redirect/views/redirects-tab-settings.php:73
+#: classes/redirect/views/redirects-tab-settings.php:75
 msgid "Web server"
 msgstr ""
 
-#: classes/redirect/views/redirects-tab-settings.php:74
+#: classes/redirect/views/redirects-tab-settings.php:76
 msgid "Redirect method"
 msgstr ""
 
 #. translators: 1: '.htaccess' file name
-#: classes/redirect/views/redirects-tab-settings.php:78
+#: classes/redirect/views/redirects-tab-settings.php:80
 msgid "Write redirects to the %1$s file. Make sure the %1$s file is writable."
 msgstr ""
 
-#: classes/redirect/views/redirects-tab-settings.php:80
+#: classes/redirect/views/redirects-tab-settings.php:82
 msgid "Generate a separate redirect file"
 msgstr ""
 
 #. translators: %s: '.htaccess' file name
-#: classes/redirect/views/redirects-tab-settings.php:83
+#: classes/redirect/views/redirects-tab-settings.php:85
 msgid ""
 "By default we write the redirects to your %s file, check this if you want "
 "the redirects written to a separate file. Only check this option if you know "
@@ -791,61 +794,61 @@ msgid ""
 msgstr ""
 
 #. translators: %s: 'Yoast SEO Premium'
-#: classes/redirect/views/redirects-tab-settings.php:87
+#: classes/redirect/views/redirects-tab-settings.php:89
 msgid ""
 "%s can generate redirect files that can be included in your website web "
 "server configuration. If you choose this option the PHP redirects will be "
 "disabled. Only check this option if you know what you are doing!"
 msgstr ""
 
-#: classes/redirect/views/redirects-tab-settings.php:91
+#: classes/redirect/views/redirects-tab-settings.php:93
 msgid "Save Changes"
 msgstr ""
 
-#: classes/views/export-keywords.php:10
-msgid "Export keywords to a CSV file"
-msgstr ""
-
 #. translators: %s resolves to the button label translation.
-#: classes/views/export-keywords.php:13
+#: classes/views/export-keywords.php:10
 msgid ""
 "If you need a list of all public posts, terms and related keywords, you can "
 "generate a CSV file using the %s button below."
 msgstr ""
 
-#: classes/views/export-keywords.php:14
+#: classes/views/export-keywords.php:19
+msgid "Export keywords to a CSV file"
+msgstr ""
+
+#: classes/views/export-keywords.php:21
 msgid ""
 "You can add or remove columns to be included in the export using the "
 "checkboxes below."
 msgstr ""
 
-#: classes/views/export-keywords.php:20
+#: classes/views/export-keywords.php:27
 msgid "Export keyword scores"
 msgstr ""
 
-#: classes/views/export-keywords.php:22
+#: classes/views/export-keywords.php:29
 msgid "Export URL"
 msgstr ""
 
-#: classes/views/export-keywords.php:24
+#: classes/views/export-keywords.php:31
 msgid "Export title"
 msgstr ""
 
-#: classes/views/export-keywords.php:25
+#: classes/views/export-keywords.php:32
 msgid "Export readability score"
 msgstr ""
 
-#: classes/views/export-keywords.php:31
+#: classes/views/export-keywords.php:38
 msgid "Please note:"
 msgstr ""
 
-#: classes/views/export-keywords.php:33
+#: classes/views/export-keywords.php:40
 msgid ""
 "The first row in this file is the header row. This row should be ignored "
 "when parsing or importing the data from the export."
 msgstr ""
 
-#: classes/views/export-keywords.php:34
+#: classes/views/export-keywords.php:41
 msgid ""
 "Exporting data can take a long time when there are many posts, pages, public "
 "custom post types or terms."
@@ -867,28 +870,28 @@ msgid ""
 "ignored when parsing or importing the data from the export."
 msgstr ""
 
-#: classes/views/gsc-redirect-create.php:15
-msgid "Redirect this broken URL and fix the error"
-msgstr ""
-
-#: classes/views/gsc-redirect-create.php:18
-msgid "Old URL:"
-msgstr ""
-
-#: classes/views/gsc-redirect-create.php:33
-msgid "New URL:"
-msgstr ""
-
-#: classes/views/gsc-redirect-create.php:37
-msgid "Mark as fixed:"
-msgstr ""
-
 #. Translators: %1$s: expands to 'Google Search Console'.
-#: classes/views/gsc-redirect-create.php:41
+#: classes/views/gsc-redirect-create.php:17
 msgid "Mark this issue as fixed in %1$s."
 msgstr ""
 
-#: classes/views/gsc-redirect-create.php:45
+#: classes/views/gsc-redirect-create.php:22
+msgid "Redirect this broken URL and fix the error"
+msgstr ""
+
+#: classes/views/gsc-redirect-create.php:25
+msgid "Old URL:"
+msgstr ""
+
+#: classes/views/gsc-redirect-create.php:40
+msgid "New URL:"
+msgstr ""
+
+#: classes/views/gsc-redirect-create.php:44
+msgid "Mark as fixed:"
+msgstr ""
+
+#: classes/views/gsc-redirect-create.php:49
 msgid "Create redirect"
 msgstr ""
 
@@ -918,39 +921,39 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: classes/views/import-redirects.php:9
-msgid "Import from other redirect plugins"
-msgstr ""
-
-#: classes/views/import-redirects.php:13
-msgid "Import from:"
-msgstr ""
-
-#: classes/views/import-redirects.php:23
-msgid "Import from a CSV file"
-msgstr ""
-
-#: classes/views/import-redirects.php:27
-msgid "Import CSV file"
-msgstr ""
-
 #. translators: %s: '.htaccess' file name
-#: classes/views/import-redirects.php:36
+#: classes/views/import-redirects.php:8
 msgid "Import redirects from %s"
 msgstr ""
 
 #. translators: %1$s: '.htaccess' file name, %2$s plugin name
-#: classes/views/import-redirects.php:41
+#: classes/views/import-redirects.php:14
 msgid ""
 "You can copy the contents of any %1$s file in here, and it will import the "
 "redirects into %2$s."
 msgstr ""
 
-#: classes/views/import-redirects.php:46
+#: classes/views/import-redirects.php:22
+msgid "Import from other redirect plugins"
+msgstr ""
+
+#: classes/views/import-redirects.php:26
+msgid "Import from:"
+msgstr ""
+
+#: classes/views/import-redirects.php:36
+msgid "Import from a CSV file"
+msgstr ""
+
+#: classes/views/import-redirects.php:40
+msgid "Import CSV file"
+msgstr ""
+
+#: classes/views/import-redirects.php:53
 msgid "Enter redirects to import"
 msgstr ""
 
-#: classes/views/import-redirects.php:48
+#: classes/views/import-redirects.php:55
 msgid "Import .htaccess"
 msgstr ""
 
@@ -966,7 +969,7 @@ msgstr ""
 
 #: classes/redirect/class-redirect-table.php:100
 #: classes/redirect/views/redirects-form.php:13
-#: classes/views/gsc-redirect-create.php:22
+#: classes/views/gsc-redirect-create.php:29
 msgctxt "noun"
 msgid "Type"
 msgstr ""
