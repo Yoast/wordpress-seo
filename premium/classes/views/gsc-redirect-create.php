@@ -23,7 +23,7 @@ $wpseo_i18n_fixed_in_gsc = sprintf(
 
 	<div class='form-field form-required'>
 		<label for='<?php echo esc_attr( 'wpseo-current-url-' . $unique_id ); ?>'><?php esc_html_e( 'Old URL:', 'wordpress-seo-premium' ); ?></label>
-		<input type='text' id='<?php echo esc_attr( 'wpseo-current-url-' . $unique_id ); ?>' name='current_url' value='<?php echo esc_attr( $url ); ?>' readonly />
+		<input type='text' id='<?php echo esc_attr( 'wpseo-current-url-' . $unique_id ); ?>' name='current_url' value='<?php echo esc_url( $url ); ?>' readonly />
 	</div>
 	<div class='form-field form-required'>
 		<label for='<?php echo esc_attr( 'wpseo-redirect-type-' . $unique_id ); ?>'><?php echo esc_html_x( 'Type', 'noun', 'wordpress-seo-premium' ); ?></label>
