@@ -288,12 +288,9 @@ function wpseo_init() {
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
 
-	// Initializes the link watcher.
-	$storage           = new WPSEO_Link_Storage();
-	$count_storage     = new WPSEO_Meta_Storage();
-	$content_processor = new WPSEO_Link_Content_Processor( $storage, $count_storage );
-	$link_watcher      = new WPSEO_Link_Watcher( $content_processor );
-	$link_watcher->register_hooks();
+	// Initializes the link watcher for both the front,- and the backend.
+	$link_watcher = new WPSEO_Link_Watcher_Loader();
+	$link_watcher->load();
 }
 
 /**

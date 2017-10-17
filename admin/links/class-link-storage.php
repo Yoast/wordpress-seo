@@ -40,15 +40,6 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 	}
 
 	/**
-	 * Checks if the required table exists.
-	 *
-	 * @return bool True when the table exists.
-	 */
-	public function table_exists() {
-		return $this->database_proxy->table_exists();
-	}
-
-	/**
 	 * Creates the database table.
 	 *
 	 * @return boolean True if the table was created, false if something went wrong.

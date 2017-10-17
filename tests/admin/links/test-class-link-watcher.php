@@ -46,7 +46,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			->method( 'process' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
-		$watcher->post_status_transition( $post->post_status, $post->post_status, $post );
+		$watcher->save_post( $post->ID, $post );
 	}
 
 	/**
@@ -64,7 +64,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			->method( 'process' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
-		$watcher->post_status_transition( $post->post_status, 'auto-draft', $post );
+		$watcher->save_post( $post->ID, $post );
 	}
 
 	/**
@@ -83,7 +83,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			->method( 'process' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
-		$watcher->post_status_transition( $post->post_status, 'draft', $post );
+		$watcher->save_post( $post->ID, $post );
 	}
 
 	/**
@@ -103,8 +103,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			->with( $post->ID, '' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
-		$watcher->post_status_transition( $post->post_status, 'auto-draft', $post );
-
+		$watcher->save_post( $post->ID, $post );
 	}
 
 	/**
@@ -125,7 +124,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			->with( $post->ID, "<p>This is content</p>\n" );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
-		$watcher->post_status_transition( $post->post_status, 'auto-draft', $post );
+		$watcher->save_post( $post->ID, $post );
 	}
 
 	public function test_delete_post() {
