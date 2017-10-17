@@ -61,7 +61,8 @@
     "jest": "^21.2.1",
     "lodash": "^4.14.1",
     "sassdash": "^0.8.1",
-    "tokenizer2": "^2.0.0"
+    "tokenizer2": "^2.0.0",
+    "tslint": "^5.7.0"
   },
   "browserify": {
     "transform": [
