@@ -407,7 +407,7 @@
 		"Yoast:YoastTabsSelected": function() {
 			setTimeout( createScrollableTables, 100 );
 		}
-	} )
+	} );
 
 	$( document ).ready( function() {
 		showAlertPopup();

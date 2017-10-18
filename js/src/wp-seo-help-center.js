@@ -199,6 +199,7 @@ class HelpCenter extends React.Component {
 				buttonWithTextShadow={ false }
 				onHelpCenterToggle={ this.props.onHelpCenterToggle }
 				onTabSelect={ this.props.onTabSelect }
+				onTabsMounted={ this.props.onTabsMounted }
 				items={ this.getTabs() }
 			/>
 		);
@@ -208,6 +209,7 @@ class HelpCenter extends React.Component {
 HelpCenter.propTypes = {
 	onHelpCenterToggle: PropTypes.func,
 	onTabSelect: PropTypes.func,
+	onTabsMounted: PropTypes.func,
 	onPremiumSupport: PropTypes.func,
 	adminTabsData: PropTypes.object.isRequired,
 	additionalHelpCenterTabs: PropTypes.array,
@@ -242,6 +244,19 @@ function toggleSidebar( expanded ) {
 }
 
 /**
+ * Triggers a custom DOM event when the react tabs gets mounted.
+ *
+ * By default only the current active tab panel content will be rendered. The
+ * other tab panels will be empty. If the react-tabs prop `forceRenderTabPanel`
+ * is set to true the content of all the panels will be always rendered.
+ *
+ * @returns {void}
+ */
+function handleTabsMounted() {
+	jQuery( window ).trigger( "Yoast:YoastTabsMounted" );
+}
+
+/**
  * Triggers a custom DOM event when a react tabs gets selected.
  *
  * @returns {void}
@@ -256,16 +271,18 @@ if ( window.wpseoHelpCenterData ) {
 
 	ReactDOM.render(
 		<IntlProvider
-			locale={wpseoHelpCenterData.translations.locale}
-			messages={wpseoHelpCenterData.translations}>
+			locale={ wpseoHelpCenterData.translations.locale }
+			messages={ wpseoHelpCenterData.translations }>
 			<HelpCenterIntl
-				onHelpCenterToggle={toggleSidebar}
-				onPremiumSupport={onPremiumSupport}
-				initialTab={wpseoHelpCenterData.initialTab}
-				adminTabsData={wpseoHelpCenterData.tabs}
-				additionalHelpCenterTabs={wpseoHelpCenterData.extraTabs}
-				videoTutorialParagraphs={wpseoHelpCenterData.videoDescriptions}
-				shouldDisplayContactForm={wpseoHelpCenterData.shouldDisplayContactForm}
+				onHelpCenterToggle={ toggleSidebar }
+				onTabSelect={ handleTabSelect }
+				onTabsMounted={ handleTabsMounted }
+				onPremiumSupport={ onPremiumSupport }
+				initialTab={ wpseoHelpCenterData.initialTab }
+				adminTabsData={ wpseoHelpCenterData.tabs }
+				additionalHelpCenterTabs={ wpseoHelpCenterData.extraTabs }
+				videoTutorialParagraphs={ wpseoHelpCenterData.videoDescriptions }
+				shouldDisplayContactForm={ wpseoHelpCenterData.shouldDisplayContactForm }
 			/>
 		</IntlProvider>,
 		document.getElementById( wpseoHelpCenterData.mountId )
