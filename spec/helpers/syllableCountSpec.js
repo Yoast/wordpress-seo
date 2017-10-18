@@ -15,7 +15,7 @@ describe( "A test for creating a language syllable regex", function() {
 		expect( languageSyllableRegex.countSyllables( "a" ) ).toBe( 1 );
 		expect( languageSyllableRegex.countSyllables( "b" ) ).toBe( 0 );
 
-		expect( "/(a)/gi" ).toMatch( languageSyllableRegex.getRegex() );
+		expect(languageSyllableRegex.getRegex() ).toEqual( /(a)/gi );
 	} );
 
 	it( "creates an language syllable regex with a +1 multiplier", function() {
@@ -26,6 +26,7 @@ describe( "A test for creating a language syllable regex", function() {
 		var languageSyllableRegex = new LanguageSyllableRegex( mockSyllables );
 		expect( languageSyllableRegex.countSyllables( "been seen" ) ).toBe( -4 );
 
-		expect( "/(ee)/gi" ).toMatch( languageSyllableRegex.getRegex() );
+		expect(languageSyllableRegex.getRegex() ).toEqual( /(ee)/gi );
 	} );
 } );
+
