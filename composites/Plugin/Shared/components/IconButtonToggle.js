@@ -8,7 +8,7 @@ import { rgba } from "../../../../style-guide/helpers";
 
 const ChangingIconButtonBase = styled.button`
 	box-sizing: border-box;
-	width: 32px;
+	min-width: 32px;
 	display: inline-block;
 	border: 1px solid ${ colors.$color_button_border };
 	background-color: ${ props => props.pressed ? props.pressedBackground : props.unpressedBackground };

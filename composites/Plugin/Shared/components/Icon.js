@@ -15,6 +15,7 @@ export const Icon = ( props ) => {
 		width: ${ props.size };
 		height: ${ props.size };
 		fill: ${ props.color };
+		flex: none;
 	`;
 
 	// Remove the props that are no longer needed
