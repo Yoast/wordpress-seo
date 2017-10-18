@@ -44,7 +44,7 @@ class WPSEO_Redirect_Handler {
 	private $is_redirected = false;
 
 	/**
-	 * Loads the redirect  handler.
+	 * Loads the redirect handler.
 	 */
 	public function load() {
 		// Only handle the redirect when the option for php redirects is enabled.
