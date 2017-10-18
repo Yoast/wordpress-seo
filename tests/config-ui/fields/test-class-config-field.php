@@ -129,6 +129,6 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 
 		$this->assertArrayHasKey( 'properties', $result );
 		$this->assertArrayHasKey( $property, $result['properties'] );
-		$this->assertEquals( $property_value, $result['properties'][$property] );
+		$this->assertEquals( $property_value, $result['properties'][ $property ] );
 	}
 }

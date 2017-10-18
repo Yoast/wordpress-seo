@@ -5,7 +5,7 @@ class WPSEO_Admin_Banner_Sidebar_Renderer_Test extends WPSEO_UnitTestCase {
 	/** @var  WPSEO_Admin_Banner_Sidebar */
 	protected $sidebar;
 
-	public function setUp(  ) {
+	public function setUp() {
 		parent::setUp();
 		$this->sidebar = new WPSEO_Admin_Banner_Sidebar( 'test_title', new WPSEO_Admin_Banner_Renderer() );
 		$this->sidebar->initialize( new WPSEO_Features() );
@@ -18,7 +18,7 @@ class WPSEO_Admin_Banner_Sidebar_Renderer_Test extends WPSEO_UnitTestCase {
 
 		$sidebar_renderer = new WPSEO_Admin_Banner_Sidebar_Renderer( new WPSEO_Admin_Banner_Spot_Renderer() );
 
-		$output = $sidebar_renderer->render(  $this->sidebar );
+		$output = $sidebar_renderer->render( $this->sidebar );
 
 		$this->stringContains(
 			'<div class="wpseo_content_cell" id="sidebar-container">', $output
@@ -48,7 +48,7 @@ class WPSEO_Admin_Banner_Sidebar_Renderer_Test extends WPSEO_UnitTestCase {
 			->expects( $this->once() )
 			->method( 'render_banner_spots' );
 
-		$mock->render(  $this->sidebar );
+		$mock->render( $this->sidebar );
 	}
 
 

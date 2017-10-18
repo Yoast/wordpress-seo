@@ -154,9 +154,9 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			array(
-				'fields' => array(),
-				'steps'  => array(),
-				'translations' => array()
+				'fields'       => array(),
+				'steps'        => array(),
+				'translations' => array(),
 			),
 			$result
 		);

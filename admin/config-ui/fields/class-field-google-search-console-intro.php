@@ -14,8 +14,8 @@ class WPSEO_Config_Field_Google_Search_Console_Intro extends WPSEO_Config_Field 
 	public function __construct() {
 		parent::__construct( 'googleSearchConsoleIntro', 'HTML' );
 
-		/* translators: %1$s is the plugin name, %2$s is a link start tag to a Yoast help page, %3$s is the link closing tag. */
 		$html = sprintf(
+			/* translators: %1$s is the plugin name, %2$s is a link start tag to a Yoast help page, %3$s is the link closing tag. */
 			__( '%1$s integrates with Google Search Console, a must-have tool for site owners.
  It provides you with information about the health of your site. 
  Don\'t have a Google account or is your site not activated yet?

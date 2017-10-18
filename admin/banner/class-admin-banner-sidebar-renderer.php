@@ -28,7 +28,7 @@ class WPSEO_Admin_Banner_Sidebar_Renderer {
 	 * @return string
 	 */
 	public function render( WPSEO_Admin_Banner_Sidebar $banner_sidebar ) {
-		 return sprintf( '
+		return sprintf( '
 			<div class="wpseo_content_cell" id="sidebar-container">
 				<div id="sidebar">
 					<div class="wpseo_content_cell_title yoast-sidebar__title ">
@@ -37,9 +37,9 @@ class WPSEO_Admin_Banner_Sidebar_Renderer {
 					%2$s
 				</div>
 			</div>',
-			 $banner_sidebar->get_title(),
-			 $this->render_banner_spots( $banner_sidebar->get_banner_spots() )
-		 );
+			$banner_sidebar->get_title(),
+			$this->render_banner_spots( $banner_sidebar->get_banner_spots() )
+		);
 	}
 
 	/**

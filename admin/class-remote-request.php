@@ -56,13 +56,13 @@ class WPSEO_Remote_Request {
 	 */
 	public function send( $method = self::METHOD_POST ) {
 		switch ( $method ) {
-			case self::METHOD_POST;
+			case self::METHOD_POST:
 				$response = $this->post();
 				break;
-			case self::METHOD_GET;
+			case self::METHOD_GET:
 				$response = $this->get();
 				break;
-			default :
+			default:
 				/* translators: %1$s expands to the request method  */
 				$response = new WP_Error( 1, sprintf( __( 'Request method %1$s is not valid.' , 'wordpress-seo' ), $method ) );
 				break;
