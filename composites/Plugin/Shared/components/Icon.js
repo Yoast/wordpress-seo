@@ -47,7 +47,7 @@ export const IconWithAriaLabel = ( props ) => {
 };
 
 IconWithAriaLabel.propTypes = {
-	icon: PropTypes.string.isRequired,
+	icon: PropTypes.func.isRequired,
 	color: PropTypes.string.isRequired,
 	size: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,

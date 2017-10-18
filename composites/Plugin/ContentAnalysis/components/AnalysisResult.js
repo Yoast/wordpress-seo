@@ -1,11 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { injectIntl, intlShape, defineMessages } from "react-intl";
 
 import { circle } from "../../../../style-guide/svg/index";
 import { eye } from "../../../../style-guide/svg/index";
 import { IconWithAriaLabel } from "../../Shared/components/Icon.js";
 import IconButtonToggle from "../../Shared/components/IconButtonToggle.js";
+
+const messages = defineMessages( {
+	SEOScore: {
+		id: "analysis.SEOScore",
+		defaultMessage: "SEO score",
+	},
+} );
 
 /**
  * Returns a AnalysisResultBase component.
@@ -33,7 +41,7 @@ export const AnalysisResult = ( props ) => {
 				icon={ circle }
 				color={ props.bulletColor }
 				size="13px"
-				ariaLabel={ "SEO score " + props.score }
+				ariaLabel={ props.intl.formatMessage( messages.SEOScore ) + " " + props.score }
 			/>
 			<AnalysisResultText>{ props.resultText }</AnalysisResultText>
 			{
@@ -60,6 +68,7 @@ AnalysisResult.propTypes = {
 	ariaLabel: PropTypes.string.isRequired,
 	onButtonClick: PropTypes.func.isRequired,
 	score: PropTypes.string.isRequired,
+	intl: intlShape.isRequired,
 };
 
-export default AnalysisResult;
+export default injectIntl( AnalysisResult );

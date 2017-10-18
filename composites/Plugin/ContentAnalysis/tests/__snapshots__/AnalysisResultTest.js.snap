@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the AnalysisResult component matches the snapshot 1`] = `
+<li
+  className="sc-bwzfXH gqJfBa"
+>
+  <span
+    aria-label="SEO score good"
+    role="img"
+  >
+    <svg
+      aria-hidden="true"
+      className="sc-bxivhb hpJpJA"
+      focusable="false"
+      role="presentation"
+    />
+  </span>
+  <p
+    className="sc-htpNat fgCHJU"
+  >
+    You're doing great!
+  </p>
+  <button
+    aria-label="SEOResult"
+    aria-pressed={true}
+    className="sc-bdVaJa dlGzMO"
+    id="Result button"
+    onClick={[Function]}
+  >
+    <svg
+      aria-hidden="true"
+      className="sc-ifAKCX fzBsVd"
+      focusable="false"
+      role="img"
+    />
+  </button>
+</li>
+`;
