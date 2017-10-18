@@ -45,12 +45,14 @@
     "grunt-sass": "^2.0.0",
     "grunt-shell": "^2.0.0",
     "grunt-ts": "^5.5.1",
+    "grunt-tslint": "^5.0.1",
     "istanbul": "^0.4.0",
     "jasmine": "~2.5.1",
     "load-grunt-config": "^0.19.1",
     "lodash-cli": "^4.14.1",
     "ts-jest": "^21.1.2",
-    "typescript": "^2.4.2"
+    "typescript": "^2.4.2",
+    "tslint": "^5.7.0"
   },
   "bugs": {
     "url": "https://github.com/Yoast/js-text-analysis/issues"
@@ -61,8 +63,7 @@
     "jest": "^21.2.1",
     "lodash": "^4.14.1",
     "sassdash": "^0.8.1",
-    "tokenizer2": "^2.0.0",
-    "tslint": "^5.7.0"
+    "tokenizer2": "^2.0.0"
   },
   "browserify": {
     "transform": [
@@ -91,10 +92,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 77,
-        "functions": 78,
-        "lines": 86,
-        "statements": 86
+        "branches": 76,
+        "functions": 77,
+        "lines": 85,
+        "statements": 85
       }
     }
   }

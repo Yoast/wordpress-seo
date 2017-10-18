@@ -23,7 +23,7 @@ before_script:
 script:
 - yarn test
 - grunt check
-- yarn run check-coverage
+- tslint 'src/**/*.ts?(x)'
 
 after_success:
 - yarn global add codeclimate-test-reporter
