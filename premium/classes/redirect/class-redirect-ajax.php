@@ -37,7 +37,7 @@ class WPSEO_Redirect_Ajax {
 		$this->valid_ajax_check();
 
 		// Save the redirect.
-		$redirect  = $this->get_redirect_from_post( 'redirect' );
+		$redirect = $this->get_redirect_from_post( 'redirect' );
 		$this->validate( $redirect );
 
 		// The method always returns the added redirect.

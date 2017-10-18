@@ -24,9 +24,9 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 */
 	public function run( WPSEO_Redirect $redirect, WPSEO_Redirect $old_redirect = null, array $redirects = null ) {
 		// Do the request.
-		$target        = $this->parse_target( $redirect->get_target() );
-		$decoded_url   = rawurldecode( $target );
-		$response      = $this->remote_head( $decoded_url, array( 'sslverify' => false ) );
+		$target      = $this->parse_target( $redirect->get_target() );
+		$decoded_url = rawurldecode( $target );
+		$response    = $this->remote_head( $decoded_url, array( 'sslverify' => false ) );
 
 		if ( is_wp_error( $response ) ) {
 			$this->error = new WPSEO_Validation_Warning(

@@ -101,7 +101,7 @@ class WPSEO_Redirect_Page {
 	 */
 	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$version = $asset_manager->flatten_version( WPSEO_VERSION );
+		$version       = $asset_manager->flatten_version( WPSEO_VERSION );
 
 		wp_enqueue_script(
 			'wp-seo-premium-admin-redirects',

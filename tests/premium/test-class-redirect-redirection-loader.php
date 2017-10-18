@@ -59,7 +59,7 @@ class WPSEO_Redirect_Redirection_Loader_Test extends WPSEO_UnitTestCase {
 			),
 		) );
 
-		$instance = new WPSEO_Redirect_Redirection_Loader( $db );
+		$instance  = new WPSEO_Redirect_Redirection_Loader( $db );
 		$redirects = $instance->load();
 
 		$this->assertCount( 2, $redirects );
@@ -95,7 +95,7 @@ class WPSEO_Redirect_Redirection_Loader_Test extends WPSEO_UnitTestCase {
 			),
 		) );
 
-		$instance = new WPSEO_Redirect_Redirection_Loader( $db );
+		$instance  = new WPSEO_Redirect_Redirection_Loader( $db );
 		$redirects = $instance->load();
 
 		$this->assertCount( 2, $redirects );
@@ -132,7 +132,7 @@ class WPSEO_Redirect_Redirection_Loader_Test extends WPSEO_UnitTestCase {
 			),
 		) );
 
-		$instance = new WPSEO_Redirect_Redirection_Loader( $db );
+		$instance  = new WPSEO_Redirect_Redirection_Loader( $db );
 		$redirects = $instance->load();
 
 		$this->assertCount( 1, $redirects );

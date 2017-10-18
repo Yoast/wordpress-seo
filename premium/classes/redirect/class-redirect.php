@@ -213,7 +213,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @return string
 	 */
 	private function sanitize_blog_url( $url ) {
-		$blog_url = $this->strip_protocol( get_home_url() );
+		$blog_url     = $this->strip_protocol( get_home_url() );
 		$stripped_url = $this->strip_protocol( $url );
 
 		// Match against the stripped URL for easier matching.

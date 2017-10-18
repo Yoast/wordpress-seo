@@ -41,7 +41,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	 */
 	public function register_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$version = $asset_manager->flatten_version( WPSEO_VERSION );
+		$version       = $asset_manager->flatten_version( WPSEO_VERSION );
 
 		wp_register_script(
 			WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox',
@@ -68,14 +68,14 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	 * Send data to assets by using wp_localize_script.
 	 */
 	public function send_data_to_assets() {
-		$options = WPSEO_Options::get_option( 'wpseo' );
-		$insights_enabled = ( isset( $options['enable_metabox_insights'] ) && $options['enable_metabox_insights'] );
+		$options                  = WPSEO_Options::get_option( 'wpseo' );
+		$insights_enabled         = ( isset( $options['enable_metabox_insights'] ) && $options['enable_metabox_insights'] );
 		$link_suggestions_enabled = ( isset( $options['enable_link_suggestions'] ) && $options['enable_link_suggestions'] );
 
 		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
 
 		if ( ! $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
-			$insights_enabled = false;
+			$insights_enabled         = false;
 			$link_suggestions_enabled = false;
 		}
 

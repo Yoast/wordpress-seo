@@ -16,7 +16,7 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * @var string The option name where the regex redirects are stored.
 	 */
-	private $regex_option_name  = 'wpseo-premium-redirects-export-regex';
+	private $regex_option_name = 'wpseo-premium-redirects-export-regex';
 
 	/**
 	 * @var string The URL that is called at the moment.

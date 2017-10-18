@@ -159,7 +159,7 @@ class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_match_plain_redirects_regex_without_quotes( $regex, $htaccess, $expected ) {
 		$instance = new WPSEO_Redirect_HTAccess_Loader_Double( $htaccess );
-		$match = $instance->match_with_given_regex( $regex );
+		$match    = $instance->match_with_given_regex( $regex );
 
 		$this->assertEquals( $expected, $match[0][3] );
 
@@ -175,7 +175,7 @@ class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_match_plain_redirects_regex_with_quotes( $regex, $htaccess, $expected ) {
 		$instance = new WPSEO_Redirect_HTAccess_Loader_Double( $htaccess );
-		$match = $instance->match_with_given_regex( $regex );
+		$match    = $instance->match_with_given_regex( $regex );
 
 		$this->assertEquals( $expected, $match[0][3] );
 

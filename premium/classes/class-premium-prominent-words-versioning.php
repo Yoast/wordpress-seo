@@ -71,7 +71,7 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 			}
 
 			$prominent_words = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
-			$post_ids = $prominent_words->get_unindexed_post_ids( $args['post_type'], $limit );
+			$post_ids        = $prominent_words->get_unindexed_post_ids( $args['post_type'], $limit );
 
 			// Make sure WP_Query uses our list, especially when it's empty!
 			if ( empty( $post_ids ) ) {
