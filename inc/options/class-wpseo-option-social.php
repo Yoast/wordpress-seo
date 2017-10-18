@@ -38,7 +38,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'plus-publisher'     => '', // Text field.
 		'twitter'            => true,
 		'twitter_site'       => '', // Text field.
-		'twitter_card_type'  => 'summary',
+		'twitter_card_type'  => 'summary_large_image',
 		'youtube_url'        => '',
 		'google_plus_url'    => '',
 		// Form field, but not always available:
