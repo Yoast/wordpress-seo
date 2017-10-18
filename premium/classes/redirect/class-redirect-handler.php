@@ -174,8 +174,13 @@ class WPSEO_Redirect_Handler {
 	 * @param array  $redirect The URL that might be matched with the regex.
 	 */
 	private function match_regex_redirect( $regex, array $redirect ) {
-		// Escape the ` because we use ` to delimit the regex to prevent faulty redirects.
-		$regex = preg_quote( $regex, '`' );
+		/*
+		 * Escape the ` because we use ` to delimit the regex to prevent faulty redirects.
+		 *
+		 * Explicitely chosen not to use `preg_quote` because we need to be able to parse
+		 * user provided regular expression syntax.
+		 */
+		$regex = str_replace( '`', '\\`', $regex );
 
 		// Suppress warning: a faulty redirect will give a warning and not an exception. So we can't catch it.
 		// See issue: https://github.com/Yoast/wordpress-seo-premium/issues/662.
