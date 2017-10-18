@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import colors from "../../../../style-guide/colors.json";
 
 import { circle } from "../../../../style-guide/svg/index";
 import { eye } from "../../../../style-guide/svg/index";
-import { Icon } from "../../Shared/components/Icon.js";
+import { IconWithAriaLabel } from "../../Shared/components/Icon.js";
 import IconButtonToggle from "../../Shared/components/IconButtonToggle.js";
 
 /**
@@ -30,20 +29,18 @@ const AnalysisResultText = styled.p`
 export const AnalysisResult = ( props ) => {
 	return (
 		<AnalysisResultBase { ...props }>
-			<Icon
+			<IconWithAriaLabel
 				icon={ circle }
 				color={ props.bulletColor }
 				size="13px"
-				aria-label={ "SEO score " + props.score }
-				aria-hidden={ false }
-				focusable={ true }
+				ariaLabel={ "SEO score " + props.score }
 			/>
 			<AnalysisResultText>{ props.resultText }</AnalysisResultText>
 			{
 				props.eyeButtonIsActive
 					? <IconButtonToggle
-						onClick={ props.onClick }
-						id={ props.id }
+						onClick={ props.onButtonClick }
+						id={ props.buttonId }
 						icon={ eye }
 						pressed={ props.pressed }
 						ariaLabel={ props.ariaLabel }
@@ -58,10 +55,10 @@ AnalysisResult.propTypes = {
 	resultText: PropTypes.string.isRequired,
 	bulletColor: PropTypes.string.isRequired,
 	eyeButtonIsActive: PropTypes.bool.isRequired,
-	id: PropTypes.string.isRequired,
+	buttonId: PropTypes.string.isRequired,
 	pressed: PropTypes.bool.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
-	onClick: PropTypes.func.isRequired,
+	onButtonClick: PropTypes.func.isRequired,
 	score: PropTypes.string.isRequired,
 };
 
