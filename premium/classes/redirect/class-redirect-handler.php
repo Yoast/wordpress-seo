@@ -177,7 +177,7 @@ class WPSEO_Redirect_Handler {
 		/*
 		 * Escape the ` because we use ` to delimit the regex to prevent faulty redirects.
 		 *
-		 * Explicitely chosen not to use `preg_quote` because we need to be able to parse
+		 * Explicitly chosen not to use `preg_quote` because we need to be able to parse
 		 * user provided regular expression syntax.
 		 */
 		$regex = str_replace( '`', '\\`', $regex );
