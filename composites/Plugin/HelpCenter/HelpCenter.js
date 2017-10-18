@@ -93,6 +93,7 @@ class HelpCenter extends React.Component {
 						tabsFontWeight={ this.props.tabsFontWeight }
 						tabsBaseWidth={ this.props.tabsBaseWidth }
 						onTabSelect={ this.props.onTabSelect }
+						onTabsMounted={ this.props.onTabsMounted }
 					/>
 				</HelpCenterPaper> }
 			</HelpCenterContainer>
@@ -115,6 +116,7 @@ HelpCenter.propTypes = {
 	tabsBaseWidth: PropTypes.string,
 	onHelpCenterToggle: PropTypes.func,
 	onTabSelect: PropTypes.func,
+	onTabsMounted: PropTypes.func,
 };
 
 HelpCenter.defaultProps = {

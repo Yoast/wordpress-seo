@@ -5,7 +5,6 @@ import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 
 import colors from "../../../../style-guide/colors.json";
 import breakpoints from "../../../../style-guide/responsive-breakpoints.json";
-import triggerDOMEvent from "../../../../utils/triggerDOMEvent";
 
 const YoastTabsContainer = styled.div`
 	font-size: 1em;
@@ -121,7 +120,7 @@ class YoastTabs extends React.Component {
 	}
 
 	componentDidMount() {
-		triggerDOMEvent( window, "Yoast:YoastTabsMounted" );
+		this.props.onTabsMounted();
 	}
 }
 
@@ -139,6 +138,7 @@ YoastTabs.propTypes = {
 	tabsFontWeight: PropTypes.string,
 	tabsBaseWidth: PropTypes.string,
 	onTabSelect: PropTypes.func,
+	onTabsMounted: PropTypes.func,
 };
 
 YoastTabs.defaultProps = {
@@ -148,6 +148,7 @@ YoastTabs.defaultProps = {
 	tabsFontSize: "1.5em",
 	tabsFontWeight: "200",
 	tabsBaseWidth: "200px",
+	onTabsMounted: () => {},
 };
 
 export default YoastTabs;
