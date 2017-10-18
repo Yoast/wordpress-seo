@@ -48,7 +48,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->twitter();
 
-		$expected = '<meta name="twitter:card" content="summary" />
+		$expected = '<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:description" content="Twitter Test Excerpt" />
 <meta name="twitter:title" content="Twitter Test Post - Test Blog" />
 ';
