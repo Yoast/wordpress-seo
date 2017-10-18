@@ -4,6 +4,12 @@ import PostDataCollector from "./analysis/PostDataCollector";
 import { tmceId } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 
+import { createStore, compose, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import contentAnalysisReducer from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
+import { setSeoResults, setReadabilityResults } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+
+
 var isUndefined = require( "lodash/isUndefined" );
 
 var getIndicatorForScore = require( "./analysis/getIndicatorForScore" );
@@ -26,8 +32,6 @@ var App = require( "yoastseo" ).App;
 var UsedKeywords = require( "./analysis/usedKeywords" );
 
 ( function( $ ) {
-	"use strict";
-
 	if ( typeof wpseoPostScraperL10n === "undefined" ) {
 		return;
 	}
@@ -41,6 +45,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	var decorator = null;
 
 	var tabManager, postDataCollector;
+
+	var store;
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -249,6 +255,48 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	}
 
 	/**
+	 * Fire when content analysis results are available.
+	 *
+	 * @param {array} results Individual results.
+	 * @param {int} score Content score.
+	 *
+	 * @returns {void}
+	 */
+	function updatedContentResults( results, score ) {
+		const action = setReadabilityResults( results );
+		console.log( "updatedKeywordResults", results );
+		store.dispatch( action );
+	}
+
+	/**
+	 * Fire when content analysis results are available.
+	 *
+	 * @param {array} results Individual results.
+	 * @param {int} score Content score.
+	 *
+	 * @returns {void}
+	 */
+	function updatedKeywordResults( results, score ) {
+		const action = setSeoResults( [
+			{
+				keyword: "keyword",
+				results: results,
+			},
+		] );
+		console.log( "updatedKeywordResults", results );
+		store.dispatch( action );
+	}
+
+	/**
+	 * Initialize redux store for analysis results.
+	 *
+	 * @returns {object} Redux store.
+	 */
+	function initializeReduxStore() {
+		return createStore( contentAnalysisReducer, undefined, applyMiddleware( thunk ) ); // eslint-disable-line no-undefined
+	}
+
+	/**
 	 * Returns the arguments necessary to initialize the app.
 	 *
 	 * @returns {Object} The arguments to initialize the app
@@ -264,9 +312,11 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 				"editable-post-name",
 				"editable-post-name-full",
 			],
-			targets: retrieveTargets(),
+			targets: {}, // retrieveTargets(),
 			callbacks: {
 				getData: postDataCollector.getData.bind( postDataCollector ),
+				updatedContentResults: updatedContentResults,
+				updatedKeywordsResults: updatedKeywordResults,
 			},
 			locale: wpseoPostScraperL10n.contentLocale,
 			marker: getMarker(),
@@ -304,6 +354,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin ) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
+		window.YoastSEO.store = store;
 
 		// Init Plugins.
 		window.YoastSEO.wp = {};
@@ -350,6 +401,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 			return;
 		}
 
+		store = initializeReduxStore();
 		tabManager = initializeTabManager();
 		postDataCollector = initializePostDataCollector();
 		publishBox.initalise();
@@ -401,7 +453,6 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		cornerstoneCheckbox.change( function() {
 			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
 		} );
-
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );
