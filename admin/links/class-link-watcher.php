@@ -45,9 +45,7 @@ class WPSEO_Link_Watcher {
 		}
 
 		// When the post isn't processable, just remove the saved links.
-		if ( ! $this->is_processable( get_post_status( $post_id ) , $post_id ) ) {
-			$this->delete_post( $post_id );
-
+		if ( ! $this->is_processable( $post_id ) ) {
 			return;
 		}
 
@@ -76,17 +74,11 @@ class WPSEO_Link_Watcher {
 	/**
 	 * Checks if the post is processable.
 	 *
-	 * @param string $post_status The post status status.
-	 * @param int    $post_id     The post id.
+	 * @param int $post_id The post id.
 	 *
 	 * @return bool True when the post is processable.
 	 */
-	protected function is_processable( $post_status, $post_id ) {
-		// When the post status is not publish.
-		if ( $post_status !== 'publish' ) {
-			return false;
-		}
-
+	protected function is_processable( $post_id ) {
 		// When the post type is not public.
 		$post_type        = get_post_type( $post_id );
 		$post_type_object = get_post_type_object( $post_type );
