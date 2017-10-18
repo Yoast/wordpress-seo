@@ -44,23 +44,23 @@ class WPSEO_Redirect_Handler {
 	private $is_redirected = false;
 
 	/**
-	 * Constructor
+	 * Loads the redirect  handler.
 	 */
-	public function __construct() {
+	public function load() {
 		// Only handle the redirect when the option for php redirects is enabled.
-		if ( $this->load_php_redirects() ) {
-			// Set the requested URL.
-			$this->set_request_url();
-
-			// Check the normal redirects.
-			$this->handle_normal_redirects();
-
-			// Check the regex redirects.
-			if ( $this->is_redirected === false ) {
-				$this->handle_regex_redirects();
-			}
-
+		if ( ! $this->load_php_redirects() ) {
 			return;
+		}
+
+		// Set the requested URL.
+		$this->set_request_url();
+
+		// Check the normal redirects.
+		$this->handle_normal_redirects();
+
+		// Check the regex redirects.
+		if ( $this->is_redirected === false ) {
+			$this->handle_regex_redirects();
 		}
 	}
 
