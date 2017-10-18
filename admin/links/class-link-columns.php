@@ -8,7 +8,10 @@
  */
 class WPSEO_Link_Columns {
 
+	/** @var string Partial column name. */
 	const COLUMN_LINKED = 'linked';
+
+	/** @var string Partial column name. */
 	const COLUMN_LINKS = 'links';
 
 	/** @var WPSEO_Link_Column_Count */
