@@ -5,7 +5,7 @@ class WPSEO_Admin_Banner_Renderer_Mock extends WPSEO_Admin_Banner_Renderer {
 	/**
 	 * Overrides the render method to get a render method for the test.
 	 *
-	 * @param WPSEO_Admin_Banner $banner
+	 * @param WPSEO_Admin_Banner $banner The mock banner to render.
 	 *
 	 * @return string
 	 */
