@@ -13,6 +13,9 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up a WPSEO_Twitter object.
+	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 		ob_start();
@@ -25,7 +28,9 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		ob_end_clean();
 	}
 
-
+	/**
+	 * Clean up after each test.
+	 */
 	public function tearDown() {
 		parent::tearDown();
 		ob_clean();

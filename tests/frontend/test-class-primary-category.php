@@ -13,6 +13,9 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 	 */
 	protected $subject;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 

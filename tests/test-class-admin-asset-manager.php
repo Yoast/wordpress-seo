@@ -12,6 +12,9 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	private $asset_manager;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -292,6 +295,11 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, $this->asset_manager->flatten_version( $original ) );
 	}
 
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
 	public function flatten_version_provider() {
 		return array(
 			array( '3.0', '300' ),

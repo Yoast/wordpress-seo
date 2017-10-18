@@ -35,6 +35,9 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 		self::$class_instance = new WPSEO_Meta_Columns_Double();

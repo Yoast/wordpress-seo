@@ -33,6 +33,9 @@ class WPSEO_Link_Content_Processor_Test extends WPSEO_UnitTestCase {
 		$wpdb->query( 'DROP TABLE ' . $meta_storage->get_table_name() );
 	}
 
+	/**
+	 * Test link storage.
+	 */
 	public function test_store_links() {
 		/** @var WPSEO_Link_Storage $storage */
 		$storage = $this

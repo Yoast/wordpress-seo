@@ -26,6 +26,10 @@ class Statistics_Mock extends WPSEO_Statistics {
  * Unit Test Class.
  */
 class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
+
+	/**
+	 * Reset after each test.
+	 */
 	public function tearDown() {
 		delete_transient( WPSEO_Statistics_Service::CACHE_TRANSIENT_KEY );
 	}

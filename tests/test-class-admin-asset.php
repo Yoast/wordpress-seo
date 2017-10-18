@@ -24,6 +24,9 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 		) );
 	}
 
+	/**
+	 * Test default values.
+	 */
 	public function test_constructor_default_values() {
 		$asset = new WPSEO_Admin_Asset( array(
 			'name' => 'name',
@@ -39,6 +42,9 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( WPSEO_CSSJS_SUFFIX, $asset->get_suffix() );
 	}
 
+	/**
+	 * Test getters.
+	 */
 	public function test_getters() {
 		$asset = new WPSEO_Admin_Asset( array(
 			'name'      => 'name',
