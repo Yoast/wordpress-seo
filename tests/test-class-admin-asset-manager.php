@@ -290,6 +290,9 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::flatten_version
 	 * @dataProvider flatten_version_provider
+	 *
+	 * @param string $original Version number.
+	 * @param string $expected Expected output.
 	 */
 	public function test_flatten_version( $original, $expected ) {
 		$this->assertEquals( $expected, $this->asset_manager->flatten_version( $original ) );

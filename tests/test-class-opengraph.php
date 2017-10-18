@@ -771,8 +771,8 @@ EXPECTED;
 
 
 	/**
-	 * @param string  $image   path
-	 * @param integer $post_id
+	 * @param string  $image   Path.
+	 * @param integer $post_id Post ID.
 	 *
 	 * @return int
 	 */

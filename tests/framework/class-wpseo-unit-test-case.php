@@ -9,15 +9,15 @@
 class WPSEO_UnitTestCase extends WP_UnitTestCase {
 
 	/**
-	 * @param string $key
-	 * @param mixed  $value
+	 * @param string $key   Key to be used with PHP superglobals.
+	 * @param mixed  $value Value to assign to it.
 	 */
 	protected function set_post( $key, $value ) {
 		$_POST[ $key ] = $_REQUEST[ $key ] = addslashes( $value );
 	}
 
 	/**
-	 * @param string $key
+	 * @param string $key Key as used with PHP superglobal.
 	 */
 	protected function unset_post( $key ) {
 		unset( $_POST[ $key ], $_REQUEST[ $key ] );
@@ -31,7 +31,7 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
-	 * @param string $expected
+	 * @param string $expected Expected output.
 	 */
 	protected function expectOutput( $expected ) {
 		$output = ob_get_contents();
@@ -42,7 +42,7 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
-	 * @param string|array $expected
+	 * @param string|array $expected Expected output.
 	 */
 	protected function expectOutputContains( $expected ) {
 		$output = preg_replace( '|\R|', "\r\n", ob_get_contents() );

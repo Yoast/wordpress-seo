@@ -86,8 +86,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param $name
-	 * @param $value
+	 * @param string $name  Name.
+	 * @param string $value Value.
 	 *
 	 * @return string
 	 */
@@ -317,7 +317,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param $url
+	 * @param string $url URL.
 	 *
 	 * @return string
 	 */
