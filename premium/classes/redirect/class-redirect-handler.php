@@ -173,7 +173,7 @@ class WPSEO_Redirect_Handler {
 	 * @param string $regex    The reqular expression to match.
 	 * @param array  $redirect The URL that might be matched with the regex.
 	 */
-	private function match_regex_redirect( $regex, array $redirect ) {
+	protected function match_regex_redirect( $regex, array $redirect ) {
 		/*
 		 * Escape the ` because we use ` to delimit the regex to prevent faulty redirects.
 		 *
@@ -299,7 +299,7 @@ class WPSEO_Redirect_Handler {
 	 * @param string $redirect_url  The target URL.
 	 * @param string $redirect_type The type of the redirect.
 	 */
-	private function do_redirect( $redirect_url, $redirect_type ) {
+	protected function do_redirect( $redirect_url, $redirect_type ) {
 
 		$this->is_redirected = true;
 
@@ -428,7 +428,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return string
 	 */
-	private function get_request_uri() {
+	protected function get_request_uri() {
 		$options     = array( 'options' => array( 'default' => '' ) );
 		$request_uri = filter_input( INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL, $options );
 
