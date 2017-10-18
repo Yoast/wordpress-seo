@@ -77,7 +77,9 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test helper: mock link type classifier.
 	 *
+	 * @param string $classify_result Outbound or internal.
 	 */
 	protected function getClassifierMock( $classify_result ) {
 		/** @var WPSEO_Link_Type_Classifier $classifier */
@@ -94,6 +96,11 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 		return $classifier;
 	}
 
+	/**
+	 * Test helper: mock internal link lookup.
+	 *
+	 * @param int $lookup_result The post id belongs to given link if link is internal.
+	 */
 	protected function getLookUpMock( $lookup_result ) {
 		$lookup = $this
 			->getMockBuilder( 'WPSEO_Link_Internal_Lookup' )
@@ -107,6 +114,12 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 		return $lookup;
 	}
 
+	/**
+	 * Test helper: mock link filtering.
+	 *
+	 * @param string $current_page  The link that might be filtered.
+	 * @param bool   $filter_result False when url contains a fragment.
+	 */
 	protected function getFilterMock( $current_page, $filter_result ) {
 		$filter = $this
 			->getMockBuilder( 'WPSEO_Link_Filter' )
