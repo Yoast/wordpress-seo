@@ -33,3 +33,22 @@ Icon.propTypes = {
 Icon.defaultProps = {
 	size: "16px",
 };
+
+// Safari doesn't expose the ARIA role set on SVG element to browsers.
+export const IconWithAriaLabel = ( props ) => {
+	return <span role="img" aria-label={ props.ariaLabel }>
+		<Icon
+			icon={ props.icon }
+			color={ props.color }
+			size={ props.size }
+			role="presentation"
+		/>
+	</span>;
+};
+
+IconWithAriaLabel.propTypes = {
+	icon: PropTypes.string.isRequired,
+	color: PropTypes.string.isRequired,
+	size: PropTypes.string.isRequired,
+	ariaLabel: PropTypes.string.isRequired,
+};
