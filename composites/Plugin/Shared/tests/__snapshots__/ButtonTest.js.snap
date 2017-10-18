@@ -56,7 +56,7 @@ exports[`the IconButton matches the snapshot 1`] = `
 >
   <svg
     aria-hidden="true"
-    className="sc-bZQynM gdBXij"
+    className="sc-bZQynM hQwFUP"
     focusable="false"
     role="img"
   />
@@ -70,7 +70,7 @@ exports[`the IconButton with text matches the snapshot 1`] = `
 >
   <svg
     aria-hidden="true"
-    className="sc-gzVnrw kYMwGB sc-htoDjs gKJpvu"
+    className="sc-gzVnrw kYMwGB sc-htoDjs jtQveW"
     focusable="false"
     role="img"
   />
