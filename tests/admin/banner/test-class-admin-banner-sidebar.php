@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Banner
+ */
 
 class WPSEO_Features_Mock extends WPSEO_Features {
 

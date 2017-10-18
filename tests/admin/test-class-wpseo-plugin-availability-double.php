@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin
+ */
 
 /**
  * Class WPSEO_Plugin_Availability_Double

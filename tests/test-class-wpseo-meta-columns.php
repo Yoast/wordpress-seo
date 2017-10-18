@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests
+ */
 
 class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 	public function determine_seo_filters( $seo_filter ) {
@@ -18,10 +21,6 @@ class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 	}
 }
 
-
-/**
- * @package WPSEO\Unittests
- */
 
 class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 

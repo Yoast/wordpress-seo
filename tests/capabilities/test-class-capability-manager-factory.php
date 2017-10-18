@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Capabilities
+ */
 
 class WPSEO_Capability_Manager_Factory_Tests extends PHPUnit_Framework_TestCase {
 	public function test_get() {

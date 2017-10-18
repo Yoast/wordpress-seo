@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Sitemaps
+ */
 
 /**
  * Exposes protected defaults from WPSEO_Option_XML class

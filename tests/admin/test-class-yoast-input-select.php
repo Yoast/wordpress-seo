@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin
+ */
 
 class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 

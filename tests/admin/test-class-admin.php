@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin
+ */
 
 class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 

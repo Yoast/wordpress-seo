@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Statistics
+ */
 
 class Statistics_Mock extends WPSEO_Statistics {
 	private $rank_counts;

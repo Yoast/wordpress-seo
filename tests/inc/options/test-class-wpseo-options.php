@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Inc\Options
+ */
 
 class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 

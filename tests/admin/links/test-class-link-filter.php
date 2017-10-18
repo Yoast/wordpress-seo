@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Links
+ */
 
 class WPSEO_Link_Filter_Test extends WPSEO_UnitTestCase {
 

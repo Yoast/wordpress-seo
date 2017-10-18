@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Links
+ */
 
 class WPSEO_Link_Internal_Lookup_Test extends WPSEO_UnitTestCase {
 

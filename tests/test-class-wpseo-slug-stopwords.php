@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
 class WPSEO_Slug_Stopwords_Test extends WPSEO_UnitTestCase {

@@ -1,8 +1,8 @@
 <?php
-
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests\Recalculate
  */
+
 class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 
 	private $instance;

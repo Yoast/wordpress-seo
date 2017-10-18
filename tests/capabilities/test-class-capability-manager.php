@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Capabilities
+ */
 
 class WPSEO_Capability_Manager_Test extends WPSEO_Abstract_Capability_Manager {
 	/**

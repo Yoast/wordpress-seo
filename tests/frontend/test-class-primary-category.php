@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @package WPSEO\Tests\Frontend
+ */
 
 /**
  */

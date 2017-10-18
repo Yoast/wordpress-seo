@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Banner
+ */
 
 class WPSEO_Admin_Banner_Spot_Renderer_Test extends WPSEO_UnitTestCase {
 

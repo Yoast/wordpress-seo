@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests\OnPage
  */
 
 class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {

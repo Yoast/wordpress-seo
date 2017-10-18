@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Roles
+ */
 
 class WPSEO_Register_Roles_Tests extends PHPUnit_Framework_TestCase {
 	public function test_register() {

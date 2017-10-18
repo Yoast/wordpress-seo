@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Links
+ */
 
 class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 

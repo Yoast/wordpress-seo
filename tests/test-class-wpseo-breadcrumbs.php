@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
 class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {

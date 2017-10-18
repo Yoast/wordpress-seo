@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Roles
+ */
 
 class WPSEO_Role_Manager_Factory_Tests extends PHPUnit_Framework_TestCase {
 	public function test_get() {

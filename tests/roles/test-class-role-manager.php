@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Roles
+ */
 
 class WPSEO_Role_Manager_Test extends WPSEO_Abstract_Role_Manager {
 	public $added_roles = array();

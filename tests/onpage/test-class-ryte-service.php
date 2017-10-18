@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\OnPage
+ */
 
 class OnPage_Option_Mock extends WPSEO_OnPage_Option {
 	private $enabled;

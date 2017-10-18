@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @package WPSEO\Tests\Inc
+ */
 
 class WPSEO_Shortlinker_Test extends PHPUnit_Framework_TestCase {
 
