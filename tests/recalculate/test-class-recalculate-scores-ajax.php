@@ -8,8 +8,10 @@
  */
 class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 
+	/** @var \WPSEO_Recalculate_Scores_Ajax Class instance. */
 	private $instance;
 
+	/** @var array test posts. */
 	private $posts = array();
 
 	/**

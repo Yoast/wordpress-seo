@@ -3,7 +3,6 @@
  * @package WPSEO\Tests\Recalculate
  */
 
-
 /**
  * Unit Test Class.
  */

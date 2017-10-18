@@ -8,6 +8,7 @@
  */
 class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 
+	/** @var WPSEO_Primary_Term_Admin */
 	protected $class_instance;
 
 	public function setUp() {

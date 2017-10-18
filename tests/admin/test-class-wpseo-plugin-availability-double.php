@@ -8,6 +8,7 @@
  */
 class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 
+	/** @var array Mock dependencies. */
 	private $available_dependencies = array( 'test-plugin', 'test-plugin-dependency' );
 
 	public function register_yoast_plugins() {
