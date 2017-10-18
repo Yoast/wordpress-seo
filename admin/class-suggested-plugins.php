@@ -21,6 +21,16 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
+	 */
+	public function register_hooks() {
+		add_action( 'admin_init', array( $this->availability_checker, 'register' ) );
+		add_action( 'admin_init', array( $this, 'add_notifications' ) );
+	}
+
+	/**
 	 * Adds notifications (when necessary).
 	 *
 	 * @return void
@@ -135,15 +145,5 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 			$third_party_plugin['title'],
 			sprintf( '<a href="%s">%s</a>', $activation_url, $suggested_plugin['title'] )
 		);
-	}
-
-	/**
-	 * Registers all hooks to WordPress.
-	 *
-	 * @return void
-	 */
-	public function register_hooks() {
-		add_action( 'admin_init', array( $this->availability_checker, 'register' ) );
-		add_action( 'admin_init', array( $this, 'add_notifications' ) );
 	}
 }

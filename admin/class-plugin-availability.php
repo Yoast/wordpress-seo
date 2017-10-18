@@ -14,11 +14,6 @@ class WPSEO_Plugin_Availability {
 	protected $plugins = array();
 
 	/**
-	 * WPSEO_Plugin_Availability constructor.
-	 */
-	public function __construct() {}
-
-	/**
 	 * Registers the plugins so we can access them.
 	 */
 	public function register() {

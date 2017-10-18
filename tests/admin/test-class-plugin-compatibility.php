@@ -16,7 +16,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 		$plugin_availability = new WPSEO_Plugin_Availability_Double();
 		$plugin_availability->register();
 
-		self::$class_instance = new WPSEO_Plugin_Compatibility( '3.3', $plugin_availability);
+		self::$class_instance = new WPSEO_Plugin_Compatibility( '3.3', $plugin_availability );
 	}
 
 	/**
