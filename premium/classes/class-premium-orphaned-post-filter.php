@@ -151,15 +151,20 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 			return 0;
 		}
 
-		$query = $wpdb->prepare( // WPCS: PreparedSQLPlaceholders replacement count OK.
-				'SELECT COUNT(ID)
-				  FROM ' . $wpdb->posts . '
-				 WHERE ID IN (' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')
-				   AND post_status = "publish"
-				   AND post_type = %s',
-			array_merge( $post_ids, array( $this->get_current_post_type() ) )
+		$replacements   = $post_ids;
+		$replacements[] = $this->get_current_post_type();
+
+		$count = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(ID)
+					FROM `{$wpdb->posts}`
+					WHERE ID IN ( " . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ' )
+					AND post_status = "publish"
+					AND post_type = %s',
+				$replacements
+			)
 		);
 
-		return (int) $wpdb->get_var( $query );
+		return (int) $count;
 	}
 }
