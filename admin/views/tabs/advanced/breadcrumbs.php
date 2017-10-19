@@ -57,7 +57,13 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 }
 echo '<br/>';
 
-$taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'objects' );
+$taxonomies = get_taxonomies(
+	array(
+		'public'   => true,
+		'_builtin' => false,
+	),
+	'objects'
+);
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	echo '<h2>' . __( 'Post type archive to show in breadcrumbs for taxonomies', 'wordpress-seo' ) . '</h2>';
 	foreach ( $taxonomies as $tax ) {

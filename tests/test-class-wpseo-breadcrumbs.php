@@ -17,7 +17,7 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 		$output = WPSEO_Breadcrumbs::breadcrumb( '', '', false );
 		$this->assertSame( $expected, trim( $output ) );
 
-		// todo test actual breadcrumb output..
+		// @todo Test actual breadcrumb output.
 	}*/
 
 
@@ -31,7 +31,7 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 		$expected = 'before';
 		$this->assertStringStartsWith( $expected, $output );
 
-		// todo test actual breadcrumb output..
+		// @todo Test actual breadcrumb output.
 	}
 
 	/**
@@ -44,7 +44,7 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 		$expected = 'after';
 		$this->assertStringEndsWith( $expected, $output );
 
-		// todo test actual breadcrumb output..
+		// @todo Test actual breadcrumb output.
 	}
 
 }

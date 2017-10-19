@@ -53,17 +53,15 @@ class WPSEO_Export_Keywords_CSV {
 	 */
 	protected function get_headers() {
 		$header_columns = array(
-			'title'             => __( 'title', 'wordpress-seo-premium' ),
-			'url'               => __( 'url', 'wordpress-seo-premium' ),
-			'readability_score' => __( 'readability score', 'wordpress-seo-premium' ),
-			'keywords'          => __( 'keyword', 'wordpress-seo-premium' ),
-			'keywords_score'    => __( 'keyword score', 'wordpress-seo-premium' ),
+			'title'             => esc_html__( 'title', 'wordpress-seo-premium' ),
+			'url'               => esc_html__( 'url', 'wordpress-seo-premium' ),
+			'readability_score' => esc_html__( 'readability score', 'wordpress-seo-premium' ),
+			'keywords'          => esc_html__( 'keyword', 'wordpress-seo-premium' ),
+			'keywords_score'    => esc_html__( 'keyword score', 'wordpress-seo-premium' ),
 		);
 
-		$csv = $this->sanitize_csv_column( __( 'ID', 'wordpress-seo-premium' ) );
-
-		/** Translators: type represents the post_type of a post or the taxonomy of a term. */
-		$csv .= ',' . $this->sanitize_csv_column( __( 'type', 'wordpress-seo-premium' ) );
+		$csv  = $this->sanitize_csv_column( esc_html__( 'ID', 'wordpress-seo-premium' ) );
+		$csv .= ',' . $this->sanitize_csv_column( esc_html_x( 'type', 'post_type of a post or the taxonomy of a term', 'wordpress-seo-premium' ) );
 
 		foreach ( $this->columns as $column ) {
 			if ( array_key_exists( $column, $header_columns ) ) {

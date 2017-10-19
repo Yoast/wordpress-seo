@@ -17,28 +17,28 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 *
 	 * @return string The modified query.
 	 */
-	public abstract function filter_posts( $where );
+	abstract public function filter_posts( $where );
 
 	/**
 	 * Returns the query value this filter uses.
 	 *
 	 * @return string The query value this filter uses.
 	 */
-	public abstract function get_query_val();
+	abstract public function get_query_val();
 
 	/**
 	 * Returns the total number of posts that match this filter.
 	 *
 	 * @return int The total number of posts that match this filter.
 	 */
-	protected abstract function get_post_total();
+	abstract protected function get_post_total();
 
 	/**
 	 * Returns the label for this filter.
 	 *
 	 * @return string The label for this filter.
 	 */
-	protected abstract function get_label();
+	abstract protected function get_label();
 
 	/**
 	 * Registers the hooks.
@@ -84,9 +84,9 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 */
 	public function add_filter_link( array $views ) {
 		$views[ 'yoast_' . $this->get_query_val() ] = sprintf(
-			'<a href="%1$s" class="%2$s">%3$s</a> (%4$s)',
+			'<a href="%1$s"%2$s>%3$s</a> (%4$s)',
 			esc_url( $this->get_filter_url() ),
-			( $this->is_filter_active() ) ? 'current' : '',
+			( $this->is_filter_active() ) ? ' class="current" aria-current="page"' : '',
 			$this->get_label(),
 			$this->get_post_total()
 		);
@@ -120,7 +120,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	protected function get_filter_url() {
 		return add_query_arg( array(
 			self::FILTER_QUERY_ARG => $this->get_query_val(),
-			'post_type' => $this->get_current_post_type(),
+			'post_type'            => $this->get_current_post_type(),
 		), 'edit.php' );
 	}
 

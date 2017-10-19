@@ -115,9 +115,9 @@ class WPSEO_Frontend {
 		// Fix the WooThemes woo_title() output.
 		add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
 
-		if ( $this->options['disable-date'] === true ||
-		     $this->options['disable-author'] === true ||
-		     $this->options['disable-post_format'] === true
+		if ( $this->options['disable-date'] === true
+			|| $this->options['disable-author'] === true
+			|| $this->options['disable-post_format'] === true
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
@@ -468,6 +468,7 @@ class WPSEO_Frontend {
 			$title = $this->get_title_from_options( 'title-search-wpseo' );
 
 			if ( ! is_string( $title ) || '' === $title ) {
+				/* translators: %s expands to the search phrase. */
 				$title_part = sprintf( __( 'Search for "%s"', 'wordpress-seo' ), esc_html( get_search_query() ) );
 			}
 		}
@@ -527,12 +528,15 @@ class WPSEO_Frontend {
 			// Replacement would be needed!
 			if ( empty( $title ) ) {
 				if ( is_month() ) {
+					/* translators: %s expands to a time period, i.e. month name, year or specific date. */
 					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
 				}
 				elseif ( is_year() ) {
+					/* translators: %s expands to a time period, i.e. month name, year or specific date. */
 					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
 				}
 				elseif ( is_day() ) {
+					/* translators: %s expands to a time period, i.e. month name, year or specific date. */
 					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
 				}
 				else {
@@ -583,7 +587,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return string
 	 */
-	function force_wp_title() {
+	public function force_wp_title() {
 		global $wp_query;
 		$old_wp_query = null;
 
@@ -775,7 +779,7 @@ class WPSEO_Frontend {
 		$robotsstr = $robots['index'] . ',' . $robots['follow'];
 
 		if ( $robots['other'] !== array() ) {
-			$robots['other'] = array_unique( $robots['other'] ); // TODO Most likely no longer needed, needs testing.
+			$robots['other'] = array_unique( $robots['other'] ); // @todo Most likely no longer needed, needs testing.
 			$robotsstr .= ',' . implode( ',', $robots['other'] );
 		}
 
@@ -1220,7 +1224,7 @@ class WPSEO_Frontend {
 			}
 		}
 
-		$keywords = apply_filters( 'wpseo_metakey', trim( $keywords ) ); // TODO Make deprecated.
+		$keywords = apply_filters( 'wpseo_metakey', trim( $keywords ) ); // @todo Make deprecated.
 
 		/**
 		 * Filter: 'wpseo_metakeywords' - Allow changing the Yoast SEO meta keywords
@@ -1374,7 +1378,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return boolean
 	 */
-	function page_redirect() {
+	public function page_redirect() {
 		if ( is_singular() ) {
 			global $post;
 			if ( ! isset( $post ) || ! is_object( $post ) ) {
@@ -1432,7 +1436,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return boolean False when no redirect was triggered
 	 */
-	function archive_redirect() {
+	public function archive_redirect() {
 		global $wp_query;
 
 		if (
@@ -1454,7 +1458,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return boolean False when no redirect was triggered
 	 */
-	function attachment_redirect() {
+	public function attachment_redirect() {
 		global $post;
 		if ( is_attachment() && ( ( is_object( $post ) && isset( $post->post_parent ) ) && ( is_numeric( $post->post_parent ) && $post->post_parent != 0 ) ) ) {
 			wp_safe_redirect( get_permalink( $post->post_parent ), 301 );
@@ -1474,7 +1478,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return string
 	 */
-	function add_trailingslash( $url, $type ) {
+	public function add_trailingslash( $url, $type ) {
 		if ( 'single' === $type || 'single_paged' === $type ) {
 			return $url;
 		}
@@ -1502,7 +1506,7 @@ class WPSEO_Frontend {
 	 * @since 1.4.13
 	 * @return boolean
 	 */
-	function replytocom_redirect() {
+	public function replytocom_redirect() {
 
 		if ( isset( $_GET['replytocom'] ) && is_singular() ) {
 			$url          = get_permalink( $GLOBALS['post']->ID );
@@ -1684,7 +1688,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return string
 	 */
-	function rss_replace_vars( $content ) {
+	public function rss_replace_vars( $content ) {
 		global $post;
 
 		/**
@@ -1725,7 +1729,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return string
 	 */
-	function embed_rssfooter( $content ) {
+	public function embed_rssfooter( $content ) {
 		return $this->embed_rss( $content, 'full' );
 	}
 
@@ -1736,7 +1740,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return string
 	 */
-	function embed_rssfooter_excerpt( $content ) {
+	public function embed_rssfooter_excerpt( $content ) {
 		return $this->embed_rss( $content, 'excerpt' );
 	}
 
@@ -1750,7 +1754,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return string
 	 */
-	function embed_rss( $content, $context = 'full' ) {
+	public function embed_rss( $content, $context = 'full' ) {
 
 		/**
 		 * Filter: 'wpseo_include_rss_footer' - Allow the RSS footer to be dynamically shown/hidden.
@@ -1789,7 +1793,7 @@ class WPSEO_Frontend {
 	 * Used in the force rewrite functionality this retrieves the output, replaces the title with the proper SEO
 	 * title and then flushes the output.
 	 */
-	function flush_cache() {
+	public function flush_cache() {
 
 		global $wp_query;
 
@@ -1819,7 +1823,7 @@ class WPSEO_Frontend {
 	/**
 	 * Starts the output buffer so it can later be fixed by flush_cache()
 	 */
-	function force_rewrite_output_buffer() {
+	public function force_rewrite_output_buffer() {
 		$this->ob_started = true;
 		ob_start();
 	}
@@ -1831,7 +1835,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return string
 	 */
-	function title_test_helper( $title ) {
+	public function title_test_helper( $title ) {
 		$wpseo_titles = get_option( 'wpseo_titles' );
 
 		$wpseo_titles['title_test'] ++;

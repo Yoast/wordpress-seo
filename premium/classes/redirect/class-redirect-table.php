@@ -79,7 +79,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 					printf( "<option %s value='%s'>%s</option>\n",
 						selected( $selected, $http_code, false ),
 						esc_attr( $http_code ),
-						$redirect_type
+						esc_html( $redirect_type )
 					);
 				}
 				?>

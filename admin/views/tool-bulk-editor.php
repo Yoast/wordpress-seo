@@ -40,7 +40,7 @@ function render_help_center() {
 	$tabs->add_tab( new WPSEO_Option_Tab( 'description', __( 'Bulk editor', 'wordpress-seo' ),
 		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) ) ) );
 
-	$helpcenter = new WPSEO_Help_Center( '', $tabs );
+	$helpcenter = new WPSEO_Help_Center( '', $tabs, WPSEO_Utils::is_yoast_seo_premium() );
 	$helpcenter->localize_data();
 	$helpcenter->mount();
 }
@@ -53,7 +53,7 @@ function render_help_center() {
  */
 function get_rendered_tab( $table, $id ) {
 	?>
-	<div id="<?php echo $id ?>" class="wpseotab">
+	<div id="<?php echo $id; ?>" class="wpseotab">
 		<?php
 		$table->show_page();
 		?>
@@ -76,13 +76,13 @@ function get_rendered_tab( $table, $id ) {
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" id="title-tab" href="#top#title"><?php _e( 'Title', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="description-tab"
-		   href="#top#description"><?php _e( 'Description', 'wordpress-seo' ); ?></a>
+			href="#top#description"><?php _e( 'Description', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<?php render_help_center(); ?>
 
 	<div class="tabwrapper">
-		<?php get_rendered_tab( $wpseo_bulk_titles_table, 'title' )?>
-		<?php get_rendered_tab( $wpseo_bulk_description_table, 'description' )?>
+		<?php get_rendered_tab( $wpseo_bulk_titles_table, 'title' ); ?>
+		<?php get_rendered_tab( $wpseo_bulk_description_table, 'description' ); ?>
 	</div>
 </div>

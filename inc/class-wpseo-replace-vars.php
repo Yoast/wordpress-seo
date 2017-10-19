@@ -106,10 +106,7 @@ class WPSEO_Replace_Vars {
 				trigger_error( __( 'A replacement variable can only contain alphanumeric characters, an underscore or a dash. Try renaming your variable.', 'wordpress-seo' ), E_USER_WARNING );
 			}
 			elseif ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
-				// Ignore invalid placeholder detection, there is no (s)printf usage in the following line.
-				// @codingStandardsIgnoreStart
 				trigger_error( __( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
-				// @codingStandardsIgnoreEnd
 			}
 			elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var ) ) {
 				if ( ! isset( self::$external_replacements[ $var ] ) ) {
@@ -903,6 +900,7 @@ class WPSEO_Replace_Vars {
 		$sep = $this->retrieve_sep();
 
 		if ( $max > 1 && $nr > 1 ) {
+			/* translators: 1: current page number, 2: total number of pages. */
 			$replacement = sprintf( $sep . ' ' . __( 'Page %1$d of %2$d', 'wordpress-seo' ), $nr, $max );
 		}
 

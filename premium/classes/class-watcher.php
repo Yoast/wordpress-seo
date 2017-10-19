@@ -43,7 +43,7 @@ abstract class WPSEO_Watcher {
 	protected function parse_url_field( $url, $type ) {
 
 		// Output the hidden field.
-		return '<input type="hidden" name="wpseo_old_' . $type . '_url" value="' . esc_attr( $url ) . '"/>';
+		return '<input type="hidden" name="' . esc_attr( 'wpseo_old_' . $type . '_url' ) . '" value="' . esc_attr( $url ) . '"/>';
 
 	}
 

@@ -80,9 +80,9 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	public function provider_get_drop_down_label() {
 		return array(
 			array( WPSEO_Rank::NO_FOCUS, 'SEO: No Focus Keyword' ),
-			array( WPSEO_Rank::BAD     , 'SEO: Needs improvement' ),
-			array( WPSEO_Rank::OK      , 'SEO: OK' ),
-			array( WPSEO_Rank::GOOD    , 'SEO: Good' ),
+			array( WPSEO_Rank::BAD, 'SEO: Needs improvement' ),
+			array( WPSEO_Rank::OK, 'SEO: OK' ),
+			array( WPSEO_Rank::GOOD, 'SEO: Good' ),
 			array( WPSEO_Rank::NO_INDEX, 'SEO: Post Noindexed' ),
 		);
 	}
@@ -104,9 +104,9 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 		return array(
 			array( WPSEO_Rank::NO_INDEX, -1 ),
 			array( WPSEO_Rank::NO_FOCUS, 0 ),
-			array( WPSEO_Rank::BAD     , 1 ),
-			array( WPSEO_Rank::OK      , 41 ),
-			array( WPSEO_Rank::GOOD    , 71 ),
+			array( WPSEO_Rank::BAD, 1 ),
+			array( WPSEO_Rank::OK, 41 ),
+			array( WPSEO_Rank::GOOD, 71 ),
 		);
 	}
 
@@ -127,9 +127,9 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 		return array(
 			array( WPSEO_Rank::NO_INDEX, -1 ),
 			array( WPSEO_Rank::NO_FOCUS, 0 ),
-			array( WPSEO_Rank::BAD     , 40 ),
-			array( WPSEO_Rank::OK      , 70 ),
-			array( WPSEO_Rank::GOOD    , 100 ),
+			array( WPSEO_Rank::BAD, 40 ),
+			array( WPSEO_Rank::OK, 70 ),
+			array( WPSEO_Rank::GOOD, 100 ),
 		);
 	}
 

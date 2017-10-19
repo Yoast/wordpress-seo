@@ -26,7 +26,7 @@ class WPSEO_Premium_Redirect_Export_Manager implements WPSEO_WordPress_Integrati
 	public function redirects_export_header() {
 		if ( current_user_can( 'export' ) ) {
 			echo '<a class="nav-tab" id="export-redirects-tab" href="#top#export-redirects">'
-				. __( 'Export redirects', 'wordpress-seo-premium' )
+				. esc_html__( 'Export redirects', 'wordpress-seo-premium' )
 				. '</a>';
 		}
 	}

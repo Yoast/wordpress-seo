@@ -109,7 +109,12 @@ class WPSEO_OnPage_Option {
 	 * @return array
 	 */
 	private function get_option() {
-		return get_option( self::OPTION_NAME, array( self::STATUS => self::NOT_FETCHED, self::LAST_FETCH => 0 ) );
+		$default = array(
+			self::STATUS     => self::NOT_FETCHED,
+			self::LAST_FETCH => 0,
+		);
+
+		return get_option( self::OPTION_NAME, $default );
 	}
 
 	/**

@@ -97,6 +97,7 @@ class Yoast_Social_Facebook {
 			return $matches_full_meta[1];
 		}
 
+		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		return trim( parse_url( $admin_id, PHP_URL_PATH ), '/' );
 	}
 
@@ -152,6 +153,7 @@ class Yoast_Social_Facebook {
 			unset( $this->options['fb_admins'][ $admin_id ] );
 
 			$this->save_options();
+			/* translators: %s expands to the username of the removed Facebook admin. */
 			$this->success_notice( sprintf( __( 'Successfully removed admin %s', 'wordpress-seo' ), $fbadmin ) );
 
 			unset( $fbadmin );

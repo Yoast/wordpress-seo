@@ -125,10 +125,10 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 		$expected = array(
 			'profile'        => 'c',
 			'profileList'    => array(),
-			'hasAccessToken' => false
+			'hasAccessToken' => false,
 		);
 
-		$this->component->set_profile('c');
+		$this->component->set_profile( 'c' );
 
 		$result = $this->component->get_data();
 

@@ -229,7 +229,11 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	if ( ! $post_type_object ) {
 
 		$upsert_results['status']  = 'failure';
-		$upsert_results['results'] = sprintf( __( 'Post has an invalid Post Type: %s.', 'wordpress-seo' ), $the_post->post_type );
+		$upsert_results['results'] = sprintf(
+			/* translators: %s expands to post type. */
+			__( 'Post has an invalid Post Type: %s.', 'wordpress-seo' ),
+			$the_post->post_type
+		);
 
 		return $upsert_results;
 	}
@@ -237,7 +241,11 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
 
 		$upsert_results['status']  = 'failure';
-		$upsert_results['results'] = sprintf( __( 'You can\'t edit %s.', 'wordpress-seo' ), $post_type_object->label );
+		$upsert_results['results'] = sprintf(
+			/* translators: %s expands to post type name. */
+			__( 'You can\'t edit %s.', 'wordpress-seo' ),
+			$post_type_object->label
+		);
 
 		return $upsert_results;
 	}
@@ -245,7 +253,11 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	if ( ! current_user_can( $post_type_object->cap->edit_others_posts ) && $the_post->post_author != get_current_user_id() ) {
 
 		$upsert_results['status']  = 'failure';
-		$upsert_results['results'] = sprintf( __( 'You can\'t edit %s that aren\'t yours.', 'wordpress-seo' ), $post_type_object->label );
+		$upsert_results['results'] = sprintf(
+			/* translators: %s expands to the name of a post type (plural). */
+			__( 'You can\'t edit %s that aren\'t yours.', 'wordpress-seo' ),
+			$post_type_object->label
+		);
 
 		return $upsert_results;
 
@@ -422,10 +434,10 @@ function wpseo_remove_stopwords_sample_permalink( $permalink, $post_id, $title, 
 add_action( 'get_sample_permalink', 'wpseo_remove_stopwords_sample_permalink', 10, 4 );
 
 // Crawl Issue Manager AJAX hooks.
-new WPSEO_GSC_Ajax;
+new WPSEO_GSC_Ajax();
 
 // SEO Score Recalculations.
-new WPSEO_Recalculate_Scores_Ajax;
+new WPSEO_Recalculate_Scores_Ajax();
 
 new Yoast_Dashboard_Widget();
 
