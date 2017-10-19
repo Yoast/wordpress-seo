@@ -65,7 +65,6 @@ class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 					'wpseo-new-metadesc-' . $record->ID,
 					$record->ID
 				);
-				break;
 
 			case 'col_existing_yoast_seo_metadesc':
 				// @todo Inconsistent return/echo behavior R.
