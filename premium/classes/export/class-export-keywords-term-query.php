@@ -61,20 +61,35 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 			return array();
 		}
 
-		$escaped_taxonomies = $this->get_escaped_taxonomies();
-		if ( empty( $escaped_taxonomies ) ) {
+		$taxonomies = get_taxonomies(
+			array(
+				'public'  => true,
+				'show_ui' => true,
+			),
+			'names'
+		);
+
+		if ( empty( $taxonomies ) ) {
 			return array();
 		}
-
-		// Construct the query.
-		$query = 'SELECT ' . implode( ', ', $this->selects ) . ' FROM ' . $this->wpdb->prefix . 'terms AS terms'
-			. ' INNER JOIN ' . $this->wpdb->prefix . 'term_taxonomy AS taxonomies'
-			. ' ON terms.term_id = taxonomies.term_id AND taxonomies.taxonomy IN ("' . $escaped_taxonomies . '")';
 
 		// Pages have a starting index of 1, we need to convert to a 0 based offset.
 		$offset_multiplier = max( 0, ( $page - 1 ) );
 
-		$query .= ' LIMIT ' . $this->page_size . ' OFFSET ' . ( $offset_multiplier * $this->page_size );
+		$replacements   = $taxonomies;
+		$replacements[] = $this->page_size;
+		$replacements[] = ( $offset_multiplier * $this->page_size );
+
+		// Construct the query.
+		$query = $this->wpdb->prepare(
+			'SELECT ' . implode( ', ', $this->selects )
+				. ' FROM ' . $this->wpdb->prefix . 'terms AS terms'
+				. ' INNER JOIN ' . $this->wpdb->prefix . 'term_taxonomy AS taxonomies'
+				. ' ON terms.term_id = taxonomies.term_id AND taxonomies.taxonomy IN ('
+				. implode( ',', array_fill( 0, count( $taxonomies ), '%s' ) ) . ')'
+				. ' LIMIT %d OFFSET %d',
+			$replacements
+		);
 
 		return $this->wpdb->get_results( $query, ARRAY_A );
 	}
@@ -97,9 +112,13 @@ class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 	/**
 	 * Retrieves a list of taxonomies to be used in a query.
 	 *
+	 * @deprecated 5.8.0
+	 *
 	 * @return string List of escaped taxonomies to use in a query.
 	 */
 	protected function get_escaped_taxonomies() {
+		_deprecated_function( __METHOD__, 'WPSEO 5.8.0' );
+
 		static $escaped = null;
 
 		if ( $escaped === null ) {
