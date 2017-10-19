@@ -58,21 +58,28 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 			return array();
 		}
 
-		$escaped_post_types = $this->get_escaped_post_types();
-		if ( empty( $escaped_post_types ) ) {
+		$post_types = get_post_types( array( 'public' => true ), 'names' );
+		if ( empty( $post_types ) ) {
 			return array();
 		}
-
-		// Construct the query.
-		$query = 'SELECT ' . implode( ', ', $this->selects )
-			. ' FROM ' . $this->wpdb->prefix . 'posts AS posts '
-			. implode( ' ', $this->joins )
-			. ' WHERE posts.post_status = "publish" AND posts.post_type IN ("' . $escaped_post_types . '")';
 
 		// Pages have a starting index of 1, we need to convert to a 0 based offset.
 		$offset_multiplier = max( 0, ( $page - 1 ) );
 
-		$query .= ' LIMIT ' . $this->page_size . ' OFFSET ' . ( $offset_multiplier * $this->page_size );
+		$replacements   = $post_types;
+		$replacements[] = $this->page_size;
+		$replacements[] = ( $offset_multiplier * $this->page_size );
+
+		// Construct the query.
+		$query = $this->wpdb->prepare(
+			'SELECT ' . implode( ', ', $this->selects )
+				. ' FROM ' . $this->wpdb->prefix . 'posts AS posts '
+				. implode( ' ', $this->joins )
+				. ' WHERE posts.post_status = "publish" AND posts.post_type IN ('
+				. implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ')'
+				. ' LIMIT %d OFFSET %d',
+			$replacements
+		);
 
 		return $this->wpdb->get_results( $query, ARRAY_A );
 	}
@@ -118,22 +125,6 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 	}
 
 	/**
-	 * Escapes the post types to be used in an SQL list.
-	 *
-	 * @return string Escaped post types.
-	 */
-	protected function get_escaped_post_types() {
-		static $escaped = null;
-
-		if ( $escaped === null ) {
-			// Get all public post types and run esc_sql on them.
-			$escaped = implode( '", "', array_map( 'esc_sql', get_post_types( array( 'public' => true ), 'names' ) ) );
-		}
-
-		return $escaped;
-	}
-
-	/**
 	 * Adds an aliased join to the $wpdb->postmeta table so that multiple meta values can be selected in a single row.
 	 *
 	 * While this function should never be used with user input,
@@ -151,4 +142,25 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 			. 'ON ' . $alias . '_join.post_id = posts.ID '
 			. 'AND ' . $alias . '_join.meta_key = "' . $key . '"';
 	}
+
+	/**
+	 * Escapes the post types to be used in an SQL list.
+	 *
+	 * @deprecated 5.8.0
+	 *
+	 * @return string Escaped post types.
+	 */
+	protected function get_escaped_post_types() {
+		_deprecated_function( __METHOD__, 'WPSEO 5.8.0' );
+
+		static $escaped = null;
+
+		if ( $escaped === null ) {
+			// Get all public post types and run esc_sql on them.
+			$escaped = implode( '", "', array_map( 'esc_sql', get_post_types( array( 'public' => true ), 'names' ) ) );
+		}
+
+		return $escaped;
+	}
+
 }
