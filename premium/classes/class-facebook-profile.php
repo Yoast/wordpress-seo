@@ -38,7 +38,7 @@ class WPSEO_Facebook_Profile {
 
 			// Only try to get the name when the user has a profile set.
 			if ( $facebook_profile !== '' ) {
-				wp_die( $this->get_name( $facebook_profile ) );
+				wp_die( esc_html( $this->get_name( $facebook_profile ) ) );
 			}
 
 			wp_die();

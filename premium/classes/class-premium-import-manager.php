@@ -60,7 +60,7 @@ class WPSEO_Premium_Import_Manager {
 	 */
 	public function redirects_import_header() {
 		/* translators: %s: '.htaccess' file name */
-		echo '<a class="nav-tab" id="import-htaccess-tab" href="#top#import-htaccess">' . __( 'Import redirects', 'wordpress-seo-premium' ) . '</a>';
+		echo '<a class="nav-tab" id="import-htaccess-tab" href="#top#import-htaccess">' . esc_html__( 'Import redirects', 'wordpress-seo-premium' ) . '</a>';
 	}
 
 	/**

@@ -28,7 +28,7 @@ $form_presenter->display(
 );
 ?>
 
-			<button type="button" class="button button-primary"><?php _e( 'Add Redirect', 'wordpress-seo-premium' ); ?></button>
+			<button type="button" class="button button-primary"><?php esc_html_e( 'Add Redirect', 'wordpress-seo-premium' ); ?></button>
 		</div>
 	</form>
 
@@ -44,7 +44,7 @@ $form_presenter->display(
 	?>
 
 	<form id='plain' class='wpseo-redirects-table-form' method='post' action=''>
-		<input type='hidden' class="wpseo_redirects_ajax_nonce" name='wpseo_redirects_ajax_nonce' value='<?php echo $nonce; ?>' />
+		<input type='hidden' class="wpseo_redirects_ajax_nonce" name='wpseo_redirects_ajax_nonce' value='<?php echo esc_attr( $nonce ); ?>' />
 		<?php
 		// The list table.
 		$redirect_table->prepare_items();

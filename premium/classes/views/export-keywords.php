@@ -11,7 +11,7 @@ $wpseo_csv_export_explain = sprintf(
 		'If you need a list of all public posts, terms and related keywords, you can generate a CSV file using the %s button below.',
 		'wordpress-seo-premium'
 	),
-	sprintf( '<code>%s</code>', $button_label )
+	sprintf( '<code>%s</code>', esc_html( $button_label ) )
 );
 
 ?>
