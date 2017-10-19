@@ -113,7 +113,10 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 			return 'AND 1 = 0';
 		}
 
-		return ' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_map( 'intval', $post_ids ) ) . ' ) ';
+		return $wpdb->prepare(
+			' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ' ) ',
+			$post_ids
+		);
 	}
 
 	/**

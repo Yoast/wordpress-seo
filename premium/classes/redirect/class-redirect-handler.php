@@ -368,7 +368,15 @@ class WPSEO_Redirect_Handler {
 		global $wpdb;
 
 		$redirects = array();
-		$results   = $wpdb->get_results( "SELECT option_name, option_value FROM  {$wpdb->options} WHERE option_name = '{$this->normal_option_name}' || option_name = '{$this->regex_option_name}'" );
+		$results   = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT option_name, option_value
+					FROM  {$wpdb->options}
+					WHERE option_name = %s || option_name = %s",
+				$this->normal_option_name,
+				$this->regex_option_name
+			)
+		);
 		foreach ( $results as $result ) {
 			$redirects[ $result->option_name ] = $result->option_value;
 		}
