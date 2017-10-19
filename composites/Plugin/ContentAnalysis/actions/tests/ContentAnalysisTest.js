@@ -11,7 +11,7 @@ import {
 	setSeoResults,
 	removeKeyword,
 	setReadabilityResults,
-	setSeoResultsForKeyword
+	setSeoResultsForKeyword,
 } from "../contentAnalysis";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
