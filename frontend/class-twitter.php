@@ -349,15 +349,7 @@ class WPSEO_Twitter {
 	 *
 	 * Only used when OpenGraph is inactive or Summary Large Image card is chosen.
 	 */
-	protected function image() {
-
-		/**
-		 * Filter: wpseo_add_twitter_images - Allow developers to add images to the Twitter tags
-		 *
-		 * @api WPSEO_Twitter The current object.
-		 */
-		do_action( 'wpseo_add_twitter_images', $this );
-		
+	protected function image() {		
 		if ( is_category() || is_tax() || is_tag() ) {
 			$this->taxonomy_image_output();
 		}
@@ -382,15 +374,19 @@ class WPSEO_Twitter {
 	 * @return bool
 	 */
 	private function taxonomy_image_output() {
+		$img = false;
 		foreach ( array( 'twitter-image', 'opengraph-image' ) as $tag ) {
 			$img = WPSEO_Taxonomy_Meta::get_meta_without_term( $tag );
-			if ( $img !== '' ) {
-				$this->image_output( $img );
-
-				return true;
+			if ( $img && $img !== '' ) {
+				break;
 			}
 		}
-
+		// Filter: 'wpseo_twitter_taxonomy_image' - Allow changing the Twitter taxonomy image.
+		$img = apply_filters( 'wpseo_twitter_taxonomy_image', $img );
+		if ( $img && $img !== '' ) {
+			$this->image_output( $img );
+			return true;
+		}
 		return false;
 	}
 
