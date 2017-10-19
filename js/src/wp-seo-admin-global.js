@@ -344,6 +344,12 @@
 		window.wpseoScrollableTables.each( function() {
 			var table = $( this );
 
+			// Continue if the table already has the necessary markup.
+			if ( table.data( "scrollContainer" ) ) {
+				// jQuery equivalent of `continue` within an `each()` loop.
+				return;
+			}
+
 			/*
 			 * Create an element with a hint message and insert it in the DOM
 			 * before each table.
@@ -397,15 +403,19 @@
 
 	/*
 	 * Generates the scrollable tables markuo when the react tabs are mounted,
-	 * in case a table is in the first tab. Or, generates the markup when a react
-	 * tabs is selected, with a timeout to wait for the HTML injection of the tab content.
+	 * when a table is in the active tab. Or, generates the markup when a react
+	 * tabs is selected. Uses a timeout to wait for the HTML injection of the table.
 	 */
 	$( window ).on( {
 		"Yoast:YoastTabsMounted": function() {
-			createScrollableTables();
+			setTimeout( function() {
+				createScrollableTables();
+			}, 100 );
 		},
 		"Yoast:YoastTabsSelected": function() {
-			setTimeout( createScrollableTables, 100 );
+			setTimeout( function() {
+				createScrollableTables();
+			}, 100 );
 		}
 	} );
 
