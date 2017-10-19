@@ -4,19 +4,18 @@
  */
 
 /**
- * Test Helper Class.
- */
-class WPSEO_Term_Watcher_Double extends WPSEO_Term_Watcher {
-
-	/** @var string */
-	public $old_url;
-
-}
-
-/**
  * Unit Test Class.
  */
 class WPSEO_Term_Watcher_Test extends WPSEO_UnitTestCase {
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'premium/helpers/class-term-watcher-double.php';
+	}
 
 	/**
 	 * This variable is instantiated in setUp() and is a mock object. This is used for future use in the tests

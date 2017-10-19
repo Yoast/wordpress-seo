@@ -4,27 +4,18 @@
  */
 
 /**
- * Test double for testing the result of the match_redirect_regex which is protected in the import manager.
- */
-class WPSEO_Redirect_CSV_Loader_Double extends WPSEO_Redirect_CSV_Loader {
-
-	/**
-	 * Checks if a parsed CSV row is has a valid redirect format.
-	 *
-	 * @param array $item The parsed CSV row.
-	 *
-	 * @return bool Whether or not the parsed CSV row is valid.
-	 */
-	public function return_validate_item( $item ) {
-		return $this->validate_item( $item );
-	}
-
-}
-
-/**
  * Test class for the WPSEO Premium Import Manager
  */
 class WPSEO_Redirect_CSV_Loader_Test extends WPSEO_UnitTestCase {
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'premium/helpers/class-redirect-csv-loader-double.php';
+	}
 
 	/**
 	 * Test the validate_item function with valid items.

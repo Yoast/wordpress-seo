@@ -4,25 +4,6 @@
  */
 
 /**
- * Class WPSEO_Redirect_Accessible_Validation_Double
- *
- * Create double class so we can test against the parse_target function.
- */
-class WPSEO_Redirect_Accessible_Validation_Double extends WPSEO_Redirect_Accessible_Validation {
-
-	/**
-	 * Check if the target is relative, if so just parse a full URL.
-	 *
-	 * @param string $target The target to pars.
-	 *
-	 * @return string
-	 */
-	public function return_parse_target( $target ) {
-		return $this->parse_target( $target );
-	}
-}
-
-/**
  * Test class for testing the accessible validation class
  *
  * @covers WPSEO_Redirect_Accessible_Validation
@@ -34,6 +15,14 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 */
 	private $class_instance;
 
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'premium/helpers/class-redirect-accessible-validation-double.php';
+	}
 
 	/**
 	 * Setting the class_instance with an instance of WPSEO_Redirect_Accessible_Validation.
