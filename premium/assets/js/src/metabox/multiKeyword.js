@@ -1,5 +1,7 @@
 /* global wp, wpseoPostScraperL10n, _, YoastSEO */
 
+import { setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+
 var scoreToRating = require( "yoastseo/js/interpreters/scoreToRating" );
 var indicatorsFactory = require( "yoastseo/js/config/presenter" );
 var Paper = require( "yoastseo/js/values/paper" );
@@ -333,7 +335,9 @@ YoastMultiKeyword.prototype.updateActiveKeywordTab = function( score ) {
 		$( "#yoast_wpseo_linkdex" ).val( score );
 	}
 
-	this.renderKeywordTab( keyword, score, tab, true );
+	let results = YoastSEO.app.seoAssessor.results;
+
+	this.renderKeywordTab( keyword, score, tab, true, results );
 };
 
 /**
@@ -359,15 +363,17 @@ YoastMultiKeyword.prototype.updateInactiveKeywords = _.debounce( function() {
  * @returns {void}
  */
 YoastMultiKeyword.prototype.updateKeywordTab = function( tab ) {
-	var keyword, link, score;
+	var keyword, link;
 
 	tab = $( tab );
 
 	link    = tab.find( ".wpseo_tablink" );
 	keyword = link.data( "keyword" ) + "";
-	score   = this.analyzeKeyword( keyword );
+	let { score, results } = this.analyzeKeyword( keyword );
 
-	this.renderKeywordTab( keyword, score, tab );
+	console.log( 'analyze',  this.analyzeKeyword( keyword ) );
+
+	this.renderKeywordTab( keyword, score, tab, false, results );
 };
 
 /**
@@ -400,10 +406,11 @@ YoastMultiKeyword.prototype.getIndicator = function( score, keyword ) {
  * @param {number}  score The score for this given keyword.
  * @param {Object}  tabElement A DOM Element of a tab.
  * @param {boolean} [active=false] Whether or not the rendered tab should be active.
+ * @param {Array}   [results=[]] The results as retrieved from the assessor.
  *
  * @returns {string} The HTML for the keyword tab.
  */
-YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElement, active ) {
+YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElement, active = false, results = [] ) {
 	var html, templateArgs, label;
 
 	tabElement = $( tabElement );
@@ -438,6 +445,10 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
 	html = keywordTabTemplate( templateArgs );
 
 	tabElement.replaceWith( html );
+
+	if ( results.length !== 0 ) {
+		YoastSEO.store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+	}
 };
 
 /**
@@ -445,7 +456,7 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
  *
  * @param {string} keyword The keyword to analyze.
  *
- * @returns {number} Total score.
+ * @returns {{number, Array}} Total score.
  */
 YoastMultiKeyword.prototype.analyzeKeyword = function( keyword ) {
 	var paper;
@@ -455,7 +466,10 @@ YoastMultiKeyword.prototype.analyzeKeyword = function( keyword ) {
 	currentPaper = YoastSEO.app.paper;
 
 	if ( _isUndefined( currentPaper ) ) {
-		return 0;
+		return {
+			score: 0,
+			results: [],
+		};
 	}
 
 	// Re-use the data already present in the page.
@@ -469,7 +483,10 @@ YoastMultiKeyword.prototype.analyzeKeyword = function( keyword ) {
 
 	assessor.assess( paper );
 
-	return assessor.calculateOverallScore();
+	return {
+		score: assessor.calculateOverallScore(),
+		results: assessor.results,
+	};
 };
 
 /**

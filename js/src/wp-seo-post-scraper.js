@@ -4,7 +4,7 @@ import PostDataCollector from "./analysis/PostDataCollector";
 import { tmceId } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import initializeEdit from "./edit";
-import { setReadabilityResults, setSeoResults } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 var isUndefined = require( "lodash/isUndefined" );
 
@@ -281,11 +281,12 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
-			args.callbacks.updatedKeywordsResults = function( results, score ) {
+			args.callbacks.updatedKeywordsResults = function( results ) {
 				let keyword = tabManager.getKeywordTab().getKeyWord();
-				console.log( keyword );
 
-				store.dispatch( setSeoResults( results ) );
+				if ( tabManager.isMainKeyword( keyword ) ) {
+					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+				}
 			};
 
 		}
@@ -326,6 +327,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 		window.YoastSEO.wp._tabManager = tabManager;
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
+
+		window.YoastSEO.store = store;
 	}
 
 	/**
