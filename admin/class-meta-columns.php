@@ -176,7 +176,7 @@ class WPSEO_Meta_Columns {
 		echo '<label class="screen-reader-text" for="wpseo-filter">' . __( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>';
 		echo '<select name="seo_filter" id="wpseo-filter">';
 
-		echo $this->generate_option( '',  __( 'All SEO Scores', 'wordpress-seo' ) );
+		echo $this->generate_option( '', __( 'All SEO Scores', 'wordpress-seo' ) );
 
 		foreach ( $ranks as $rank ) {
 			$selected = selected( $this->get_current_seo_filter(), $rank->get_rank(), false );
@@ -202,7 +202,7 @@ class WPSEO_Meta_Columns {
 		echo '<label class="screen-reader-text" for="wpseo-readability-filter">' . __( 'Filter by Readability Score', 'wordpress-seo' ) . '</label>';
 		echo '<select name="readability_filter" id="wpseo-readability-filter">';
 
-		echo $this->generate_option( '',  __( 'All Readability Scores', 'wordpress-seo' ) );
+		echo $this->generate_option( '', __( 'All Readability Scores', 'wordpress-seo' ) );
 
 		foreach ( $ranks as $rank ) {
 			$selected = selected( $this->get_current_readability_filter(), $rank->get_rank(), false );
@@ -333,7 +333,7 @@ class WPSEO_Meta_Columns {
 		$collected_filters = $this->collect_filters();
 
 		if ( isset( $vars['orderby'] ) ) {
-			$vars = array_merge( $vars,  $this->filter_order_by( $vars['orderby'] ) );
+			$vars = array_merge( $vars, $this->filter_order_by( $vars['orderby'] ) );
 		}
 
 		return $this->build_filter_query( $vars, $collected_filters );
@@ -520,7 +520,7 @@ class WPSEO_Meta_Columns {
 	private function filter_order_by( $order_by ) {
 		switch ( $order_by ) {
 			case 'wpseo-metadesc':
-				return  array(
+				return array(
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'metadesc',
 					'orderby'  => 'meta_value',
 				);

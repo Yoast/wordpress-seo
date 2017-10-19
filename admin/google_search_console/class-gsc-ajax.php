@@ -12,7 +12,7 @@ class WPSEO_GSC_Ajax {
 	 * Setting the AJAX hooks for GSC
 	 */
 	public function __construct() {
-		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue',  array( $this, 'ajax_mark_as_fixed' ) );
+		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue', array( $this, 'ajax_mark_as_fixed' ) );
 		add_action( 'wp_ajax_wpseo_dismiss_gsc', array( $this, 'dismiss_notice' ) );
 		add_action( 'wp_ajax_wpseo_save_auth_code', array( $this, 'save_auth_code' ) );
 		add_action( 'wp_ajax_wpseo_clear_auth_code', array( $this, 'clear_auth_code' ) );

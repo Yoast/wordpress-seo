@@ -69,12 +69,12 @@ class WPSEO_Plugin_Availability {
 			),
 
 			'yoast-acf-analysis' => array(
-				'url'         => 'https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/',
-				'title'       => 'ACF Content Analysis for Yoast SEO',
+				'url'           => 'https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/',
+				'title'         => 'ACF Content Analysis for Yoast SEO',
 				/* translators: %1$s expands to Yoast SEO */
-				'description' => sprintf( __( 'Seamlessly integrate ACF with %1$s for the content analysis!', 'wordpress-seo' ), 'Yoast SEO' ),
-				'installed'   => false,
-				'slug'        => 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php',
+				'description'   => sprintf( __( 'Seamlessly integrate ACF with %1$s for the content analysis!', 'wordpress-seo' ), 'Yoast SEO' ),
+				'installed'     => false,
+				'slug'          => 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php',
 				'_dependencies' => array(
 					'Advanced Custom Fields' => array(
 						'slug' => 'advanced-custom-fields/acf.php',
@@ -83,12 +83,12 @@ class WPSEO_Plugin_Availability {
 			),
 
 			'yoastseo-amp' => array(
-				'url'         => 'https://wordpress.org/plugins/glue-for-yoast-seo-amp/',
-				'title'       => 'Yoast SEO AMP Glue',
+				'url'           => 'https://wordpress.org/plugins/glue-for-yoast-seo-amp/',
+				'title'         => 'Yoast SEO AMP Glue',
 				/* translators: %1$s expands to Yoast SEO */
-				'description' => sprintf( __( 'Seamlessly integrate %1$s into your AMP pages!', 'wordpress-seo' ), 'Yoast SEO' ),
-				'installed'   => false,
-				'slug'        => 'glue-for-yoast-seo-amp/yoastseo-amp.php',
+				'description'   => sprintf( __( 'Seamlessly integrate %1$s into your AMP pages!', 'wordpress-seo' ), 'Yoast SEO' ),
+				'installed'     => false,
+				'slug'          => 'glue-for-yoast-seo-amp/yoastseo-amp.php',
 				'_dependencies' => array(
 					'AMP' => array(
 						'slug' => 'amp/amp.php',
