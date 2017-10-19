@@ -1,13 +1,20 @@
 <?php
 
-require_once WPSEO_TESTS_PATH . 'admin/test-class-wpseo-plugin-availability-double.php';
-
 class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @var WPSEO_Plugin_Availability
 	 */
 	private static $class_instance;
+
+	/**
+	 * Load the test mock class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'admin/test-class-wpseo-plugin-availability-double.php';
+	}
 
 	/**
 	 * Set up our double class

@@ -3,8 +3,6 @@
  * @package WPSEO\Unittests
  */
 
-require_once WPSEO_TESTS_PATH . 'recalculate/class-recalculate-posts-double.php';
-
 
 class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
@@ -22,6 +20,15 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	 * @var string
 	 */
 	private $mock_image = "<img src='' />";
+
+	/**
+	 * Load the test mock class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'recalculate/class-recalculate-posts-double.php';
+	}
 
 	/**
 	 * Setup the class instance and create some posts
