@@ -4,6 +4,8 @@ import PostDataCollector from "./analysis/PostDataCollector";
 import { tmceId } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 
+import React from "react";
+import ReactDOM from "react-dom";
 import { createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import contentAnalysisReducer from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
@@ -46,6 +48,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 	var tabManager, postDataCollector;
 
+	// Content analysis redux store
 	var store;
 
 	/**
@@ -297,6 +300,28 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	}
 
 	/**
+	 * Renders the content analysis react apps.
+	 *
+	 * @param {object} store Content analysis redux store.
+	 *
+	 * @returns {void}
+	 */
+	function renderContentAnalysis( store ) {
+		const targets = retrieveTargets();
+		const contentAnalysisElement = document.getElementById( targets.contentOutput );
+		const seoAnalysisElement = document.getElementById( targets.output )
+		ReactDOM.render(
+			<h1>Content Analysis</h1>,
+			seoAnalysisElement
+		);
+
+		ReactDOM.render(
+			<h1>Seo Analysis</h1>,
+			contentAnalysisElement
+		);
+	}
+
+	/**
 	 * Returns the arguments necessary to initialize the app.
 	 *
 	 * @returns {Object} The arguments to initialize the app
@@ -349,9 +374,11 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	 * @param {TabManager} tabManager The tab manager to expose globally.
 	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
+	 * @param {object} store Content analysis redux store.
+	 *
 	 * @returns {void}
 	 */
-	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin ) {
+	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin, store ) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 		window.YoastSEO.store = store;
@@ -401,7 +428,10 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 			return;
 		}
 
+		// Initialize react apps for content analysis.
 		store = initializeReduxStore();
+		renderContentAnalysis( store );
+
 		tabManager = initializeTabManager();
 		postDataCollector = initializePostDataCollector();
 		publishBox.initalise();
@@ -420,7 +450,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 			markdownPlugin.register();
 		}
 
-		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
+		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin, store );
 
 		tinyMCEHelper.wpTextViewOnInitCheck();
 
