@@ -5,12 +5,12 @@ class WPSEO_Link_Filter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @dataProvider link_provider
 	 *
-	 * @param string     $currentPage
+	 * @param string     $current_page
 	 * @param WPSEO_Link $link
 	 * @param bool       $expected
 	 */
-	public function test_internal_link_with_fragment_filter( $currentPage, WPSEO_Link $link, $expected ) {
-		$filter = new WPSEO_Link_Filter( $currentPage );
+	public function test_internal_link_with_fragment_filter( $current_page, WPSEO_Link $link, $expected ) {
+		$filter = new WPSEO_Link_Filter( $current_page );
 
 		$this->assertEquals( $expected, $filter->internal_link_with_fragment_filter( $link ) );
 	}
