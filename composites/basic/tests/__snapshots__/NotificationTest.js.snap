@@ -2,7 +2,7 @@
 
 exports[`the Notification with props matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa iXfwAT"
+  className="sc-bdVaJa gPGzjI"
 >
   <div
     className="sc-bwzfXH fBEotv"
@@ -46,7 +46,7 @@ exports[`the Notification with props matches the snapshot 1`] = `
 
 exports[`the Notification without props matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa iXfwAT"
+  className="sc-bdVaJa gPGzjI"
 >
   <div
     className="sc-bwzfXH bmgoVW"
