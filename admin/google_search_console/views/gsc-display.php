@@ -40,7 +40,7 @@ switch ( $platform_tabs->current_tab() ) {
 			// Print auth screen.
 			echo '<p>';
 			/* Translators: %1$s: expands to Yoast SEO, %2$s expands to Google Search Console. */
-			echo sprintf( __( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ), 'Yoast SEO', 'Google Search Console' );
+			printf( __( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ), 'Yoast SEO', 'Google Search Console' );
 			echo "</p>\n";
 			echo '<input type="hidden" id="gsc_auth_url" value="', $this->service->get_client()->createAuthUrl() , '" />';
 			echo "<button type='button' id='gsc_auth_code' class='button'>" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
