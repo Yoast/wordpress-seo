@@ -60,7 +60,7 @@ if ( ! empty( $redirect_file ) ) {
 }
 	?>
 
-<div id="table-settings" class="tab-url redirect-table-tab">strings
+<div id="table-settings" class="tab-url redirect-table-tab">
 <?php echo '<h2>' . esc_html__( 'Redirects settings', 'wordpress-seo-premium' ) . '</h2>'; ?>
 	<form action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>" method="post">
 		<?php
