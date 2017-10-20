@@ -19,12 +19,19 @@ const ChangingIconButtonBase = styled.button`
 	cursor: pointer;
 	padding: 0;
 	height: ${ props => props.pressed ? "24px" : "25px" };
-	
+
 	&:hover {
 		border-color: ${ props => props.hoverBorderColor }
 	}
 `;
 
+/**
+ * Returns the ChangingIconButton component.
+ *
+ * @param {object} props Component props.
+ *
+ * @returns {ReactElement} ChangingIconButton component.
+ */
 const ChangingIconButton = ( props ) => {
 	return (
 		<ChangingIconButtonBase

@@ -18,7 +18,7 @@ export const Icon = ( props ) => {
 		flex: none;
 	`;
 
-	// Remove the props that are no longer needed
+	// Remove the props that are no longer needed.
 	const newProps = _omit( props, [ "icon", "size", "color" ] );
 
 	return <IconComponent role="img" aria-hidden="true" focusable="false" { ...newProps } />;
@@ -34,7 +34,15 @@ Icon.defaultProps = {
 	size: "16px",
 };
 
-// Safari doesn't expose the ARIA role set on SVG element to browsers.
+/**
+ * Returns the IconWithAriaLabel component.
+ *
+ * Safari 11 doesn't expose to browsers the ARIA role set on SVG elements.
+ *
+ * @param {object} props Component props.
+ *
+ * @returns {ReactElement} IconWithAriaLabel component.
+ */
 export const IconWithAriaLabel = ( props ) => {
 	return <span role="img" aria-label={ props.ariaLabel }>
 		<Icon

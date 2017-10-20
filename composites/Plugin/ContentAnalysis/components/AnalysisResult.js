@@ -15,13 +15,6 @@ const messages = defineMessages( {
 	},
 } );
 
-/**
- * Returns a AnalysisResultBase component.
- *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} The rendered AnalysisResultBase component.
- */
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
 	min-height: 24px;
@@ -34,6 +27,13 @@ const AnalysisResultText = styled.p`
 	margin: 0 8px;
 `;
 
+/**
+ * Returns an AnalysisResult component.
+ *
+ * @param {object} props Component props.
+ *
+ * @returns {ReactElement} The rendered AnalysisResult component.
+ */
 export const AnalysisResult = ( props ) => {
 	return (
 		<AnalysisResultBase { ...props }>
