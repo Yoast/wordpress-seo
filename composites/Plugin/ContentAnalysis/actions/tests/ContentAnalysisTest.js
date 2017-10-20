@@ -1,7 +1,38 @@
-import { UPDATE_SEO_RESULT, UPDATE_READABILITY_RESULT, REMOVE_KEYWORD, SET_SEO_RESULTS, SET_READABILITY_RESULTS,
-	updateSeoResult, updateReadabilityResult, replaceKeyword, setSeoResults, removeKeyword, setReadabilityResults } from "../contentAnalysis";
+import {
+	UPDATE_SEO_RESULT,
+	UPDATE_READABILITY_RESULT,
+	REMOVE_KEYWORD,
+	SET_SEO_RESULTS,
+	SET_READABILITY_RESULTS,
+	SET_SEO_RESULTS_FOR_KEYWORD,
+	updateSeoResult,
+	updateReadabilityResult,
+	replaceKeyword,
+	setSeoResults,
+	removeKeyword,
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+} from "../contentAnalysis";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
+
+describe( "setSeoResultsForKeyword action creator", function() {
+	it( "creates the setSeoResultsForKeyword action", function() {
+		let results = [
+			{ id: "result", score: 9, description: "This is a great score!", markingIsActive: true },
+			{ id: "result", score: 3, description: "This is a bad score!", markingIsActive: true },
+		];
+		let keyword = "keyword";
+
+		const expected = {
+			type: SET_SEO_RESULTS_FOR_KEYWORD,
+			keyword: keyword,
+			results: results,
+		};
+		const actual = setSeoResultsForKeyword( "keyword", results );
+		expect( actual ).toEqual( expected );
+	} );
+} );
 
 describe( "updateSeoResult action creator", function() {
 	it( "creates the updateSeoResult action", function() {

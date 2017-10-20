@@ -4,6 +4,7 @@
 const prefix = "CONTENT_ANALYSIS_";
 
 export const SET_SEO_RESULTS = `${ prefix }SET_SEO_RESULTS`;
+export const SET_SEO_RESULTS_FOR_KEYWORD = `${ prefix }SET_SEO_RESULTS_FOR_KEYWORD`;
 export const UPDATE_SEO_RESULT = `${ prefix }UPDATE_SEO_RESULT`;
 export const REMOVE_KEYWORD = `${ prefix }REMOVE_KEYWORD`;
 
@@ -13,6 +14,22 @@ export const UPDATE_READABILITY_RESULT = `${ prefix }UPDATE_READABILITY_RESULT`;
 /*
  * Action creators
  */
+
+/**
+ * An action creator for setting the SEO results for a keyword.
+ *
+ * @param {string} keyword The keyword.
+ * @param {Array} results The SEO results for the keyword.
+ *
+ * @returns {Object} A set SEO results for keyword action.
+ */
+export function setSeoResultsForKeyword( keyword, results ) {
+	return {
+		type: SET_SEO_RESULTS_FOR_KEYWORD,
+		keyword: keyword,
+		results: results,
+	};
+}
 
 /**
  * An action creator for setting the SEO results.
