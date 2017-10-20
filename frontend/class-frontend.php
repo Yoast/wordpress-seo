@@ -468,6 +468,7 @@ class WPSEO_Frontend {
 			$title = $this->get_title_from_options( 'title-search-wpseo' );
 
 			if ( ! is_string( $title ) || '' === $title ) {
+				/* translators: %s expands to the search phrase. */
 				$title_part = sprintf( __( 'Search for "%s"', 'wordpress-seo' ), esc_html( get_search_query() ) );
 			}
 		}
@@ -527,12 +528,15 @@ class WPSEO_Frontend {
 			// Replacement would be needed!
 			if ( empty( $title ) ) {
 				if ( is_month() ) {
+					/* translators: %s expands to a time period, i.e. month name, year or specific date. */
 					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
 				}
 				elseif ( is_year() ) {
+					/* translators: %s expands to a time period, i.e. month name, year or specific date. */
 					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
 				}
 				elseif ( is_day() ) {
+					/* translators: %s expands to a time period, i.e. month name, year or specific date. */
 					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
 				}
 				else {
