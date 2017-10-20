@@ -49,9 +49,24 @@ class WPSEO_Extensions {
 	 * @return bool Returns true when valid.
 	 */
 	public function is_valid( $extension ) {
-		$extension_option = $this->get_option( $extension );
+		$options = array();
 
-		return ( is_array( $extension_option ) && isset( $extension_option['status'] ) && $extension_option['status'] === 'valid' );
+		// On multisite we need to take the network activated state into account.
+		if ( is_multisite() ) {
+			$options[] = $this->get_site_option( $extension );
+		}
+
+		// Fetch the option for the current site.
+		$options[] = $this->get_option( $extension );
+
+		// If the site is either active on multisite level or current site level.
+		foreach ( $options as $extension_option ) {
+			if ( is_array( $extension_option ) && isset( $extension_option['status'] ) && $extension_option['status'] === 'valid' ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -75,7 +90,7 @@ class WPSEO_Extensions {
 	}
 
 	/**
-	 * Convert the extension to an option.
+	 * Retrieves the extension settings form a single site environment.
 	 *
 	 * @param string $extension The extension to get the name for.
 	 *
@@ -83,6 +98,17 @@ class WPSEO_Extensions {
 	 */
 	protected function get_option( $extension ) {
 		return get_option( $this->get_option_name( $extension ) );
+	}
+
+	/**
+	 * Retrieves the extension settings from a multisite environment.
+	 *
+	 * @param string $extension The extension to get the name for.
+	 *
+	 * @return mixed Returns the option.
+	 */
+	protected function get_site_option( $extension ) {
+		return get_site_option( $this->get_option_name( $extension ) );
 	}
 
 	/**
