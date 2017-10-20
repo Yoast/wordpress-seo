@@ -11,24 +11,29 @@ class WPSEO_Extensions {
 	/** @var array Array with the Yoast extensions */
 	protected $extensions = array(
 		'Yoast SEO Premium'     => array(
-			'slug'      => 'yoast-seo-premium',
-			'classname' => 'WPSEO_Premium',
+			'slug'       => 'yoast-seo-premium',
+			'identifier' => 'wordpress-seo-premium',
+			'classname'  => 'WPSEO_Premium',
 		),
 		'News SEO'              => array(
-			'slug'      => 'news-seo',
-			'classname' => 'WPSEO_News',
+			'slug'       => 'news-seo',
+			'identifier' => 'wordpress-seo-news',
+			'classname'  => 'WPSEO_News',
 		),
 		'Yoast WooCommerce SEO' => array(
-			'slug'      => 'woocommerce-yoast-seo',
-			'classname' => 'Yoast_WooCommerce_SEO',
+			'slug'       => 'woocommerce-yoast-seo',
+			'identifier' => 'yoast-woo-seo',
+			'classname'  => 'Yoast_WooCommerce_SEO',
 		),
 		'Video SEO'             => array(
-			'slug'      => 'video-seo-for-wordpress',
-			'classname' => 'WPSEO_Video_Sitemap',
+			'slug'       => 'video-seo-for-wordpress',
+			'identifier' => 'yoast-video-seo',
+			'classname'  => 'WPSEO_Video_Sitemap',
 		),
 		'Local SEO'             => array(
-			'slug'      => 'local-seo-for-wordpress',
-			'classname' => 'WPSEO_Local_Core',
+			'slug'       => 'local-seo-for-wordpress',
+			'identifier' => 'yoast-local-seo',
+			'classname'  => 'WPSEO_Local_Core',
 		),
 	);
 
@@ -49,24 +54,10 @@ class WPSEO_Extensions {
 	 * @return bool Returns true when valid.
 	 */
 	public function is_valid( $extension ) {
-		$options = array();
+		$extensions = new WPSEO_Extension_Manager();
+		$activated  = $extensions->is_activated( $this->extensions[ $extension ]['identifier'] );
 
-		// On multisite we need to take the network activated state into account.
-		if ( is_multisite() ) {
-			$options[] = $this->get_site_option( $extension );
-		}
-
-		// Fetch the option for the current site.
-		$options[] = $this->get_option( $extension );
-
-		// If the site is either active on multisite level or current site level.
-		foreach ( $options as $extension_option ) {
-			if ( is_array( $extension_option ) && isset( $extension_option['status'] ) && $extension_option['status'] === 'valid' ) {
-				return true;
-			}
-		}
-
-		return false;
+		return $activated;
 	}
 
 	/**
@@ -87,28 +78,6 @@ class WPSEO_Extensions {
 	 */
 	public function is_installed( $extension ) {
 		return class_exists( $this->extensions[ $extension ]['classname'] );
-	}
-
-	/**
-	 * Retrieves the extension settings form a single site environment.
-	 *
-	 * @param string $extension The extension to get the name for.
-	 *
-	 * @return mixed Returns the option.
-	 */
-	protected function get_option( $extension ) {
-		return get_option( $this->get_option_name( $extension ) );
-	}
-
-	/**
-	 * Retrieves the extension settings from a multisite environment.
-	 *
-	 * @param string $extension The extension to get the name for.
-	 *
-	 * @return mixed Returns the option.
-	 */
-	protected function get_site_option( $extension ) {
-		return get_site_option( $this->get_option_name( $extension ) );
 	}
 
 	/**
