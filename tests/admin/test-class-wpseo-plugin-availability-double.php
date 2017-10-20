@@ -5,7 +5,7 @@
  */
 class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 
-	private $available_dependencies = array( 'test-plugin', 'test-plugin-dependency' );
+	private $available_dependencies = array( 'test-plugin/test-plugin.php', 'test-plugin-dependency' );
 
 	public function register_yoast_plugins() {
 		$this->plugins = array(
@@ -15,6 +15,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'description' => '',
 				'version'     => '3.3',
 				'installed'   => false,
+				'slug'        => 'test-plugin/test-plugin.php',
 			),
 
 			'test-plugin-dependency' => array(
@@ -23,7 +24,26 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'description'   => '',
 				'version'       => '3.3',
 				'installed'     => false,
-				'_dependencies' => array( 'test-plugin' ),
+				'_dependencies' => array(
+					'test-plugin' => array(
+						'slug' => 'test-plugin/test-plugin.php',
+					),
+				),
+				'slug'        => 'test-plugin-with-dependency/test-plugin-with-dependency.php',
+			),
+
+			'test-plugin-dependency-2' => array(
+				'url'           => 'https://yoast.com/',
+				'title'         => 'Test Plugin With Dependency Part 2',
+				'description'   => '',
+				'version'       => '3.3',
+				'installed'     => false,
+				'_dependencies' => array(
+					'test-plugin' => array(
+						'slug' => 'test-plugin/test-plugin.php',
+					),
+				),
+				'slug'        => 'test-plugin-with-dependency-2/test-plugin-with-dependency-2.php',
 			),
 
 			'unavailable-test-plugin' => array(
@@ -32,14 +52,16 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'description' => '',
 				'version'     => '3.3',
 				'installed'   => false,
+				'slug'        => 'unavailable-test-plugin/unavailable-test-plugin.php',
 			),
 
 			'unavailable-test-plugin-dependency' => array(
 				'url'         => 'https://yoast.com/',
-				'title'       => 'Test Plugin With Dependency',
+				'title'       => 'Test Plugin Without Dependency',
 				'description' => '',
 				'version'     => '3.3',
 				'installed'   => false,
+				'slug'        => 'test-plugin-without-dependency/test-plugin-without-dependency.php',
 			),
 
 			'test-plugin-no-version' => array(
@@ -47,6 +69,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'title'       => 'Test Plugin With No Version',
 				'description' => '',
 				'installed'   => false,
+				'slug'        => 'test-plugin-with-no-version/test-plugin-with-no-version.php',
 			),
 
 			'test-plugin-invalid-version' => array(
@@ -55,6 +78,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'description' => '',
 				'version'     => '1.3',
 				'installed'   => false,
+				'slug'        => 'test-plugin-invalid-version/test-plugin-invalid-version.php',
 			),
 		);
 	}
@@ -66,6 +90,17 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	}
 
 	public function is_dependency_available( $dependency ) {
-		return in_array( $dependency, $this->available_dependencies );
+		return in_array( $dependency['slug'], $this->available_dependencies, true );
+	}
+
+	/**
+	 * Determines whether or not a plugin is active.
+	 *
+	 * @param string $plugin The plugin slug to check.
+	 *
+	 * @return bool Whether or not the plugin is active.
+	 */
+	public function is_active( $plugin ) {
+		return $plugin === 'test-plugin-with-dependency/test-plugin-with-dependency.php';
 	}
 }

@@ -40,6 +40,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'version'     => '3.3',
 				'installed'   => true,
 				'compatible'  => true,
+				'slug'        => 'test-plugin/test-plugin.php',
 			),
 			'test-plugin-dependency' => array(
 				'url'           => 'https://yoast.com/',
@@ -47,8 +48,13 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'description'   => '',
 				'version'       => '3.3',
 				'installed'     => true,
-				'_dependencies' => array( 'test-plugin' ),
+				'_dependencies' => array(
+					'test-plugin' => array(
+						'slug' => 'test-plugin/test-plugin.php',
+					),
+				),
 				'compatible'    => true,
+				'slug'        => 'test-plugin-with-dependency/test-plugin-with-dependency.php',
 			),
 			'test-plugin-invalid-version' => array(
 				'url'         => 'https://yoast.com/',
@@ -57,6 +63,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'version'     => '1.3',
 				'installed'   => true,
 				'compatible'  => false,
+				'slug'        => 'test-plugin-invalid-version/test-plugin-invalid-version.php',
 			),
 		);
 
@@ -77,6 +84,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'description' => '',
 				'version'     => '3.3',
 				'installed'   => true,
+				'slug'        => 'test-plugin/test-plugin.php',
 			),
 			'test-plugin-dependency' => array(
 				'url'           => 'https://yoast.com/',
@@ -84,7 +92,12 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'description'   => '',
 				'version'       => '3.3',
 				'installed'     => true,
-				'_dependencies' => array( 'test-plugin' ),
+				'_dependencies' => array(
+					'test-plugin' => array(
+						'slug' => 'test-plugin/test-plugin.php',
+					),
+				),
+				'slug'        => 'test-plugin-with-dependency/test-plugin-with-dependency.php',
 			),
 			'test-plugin-invalid-version' => array(
 				'url'         => 'https://yoast.com/',
@@ -92,6 +105,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'description' => '',
 				'version'     => '1.3',
 				'installed'   => true,
+				'slug'        => 'test-plugin-invalid-version/test-plugin-invalid-version.php',
 			),
 		);
 

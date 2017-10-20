@@ -28,6 +28,7 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 			'description' => '',
 			'version'     => '3.3',
 			'installed'   => true,
+			'slug'        => 'test-plugin/test-plugin.php',
 		);
 
 		$this->assertEquals( self::$class_instance->get_plugin( 'test-plugin' ), $expected );

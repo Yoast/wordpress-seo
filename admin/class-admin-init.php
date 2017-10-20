@@ -451,7 +451,7 @@ class WPSEO_Admin_Init {
 	 * Loads the plugin suggestions.
 	 */
 	private function load_plugin_suggestions() {
-		$suggestions = new WPSEO_Suggested_Plugins();
+		$suggestions = new WPSEO_Suggested_Plugins( new WPSEO_Plugin_Availability(), Yoast_Notification_Center::get() );
 		$suggestions->register_hooks();
 	}
 
