@@ -55,9 +55,7 @@ class WPSEO_Extensions {
 	 */
 	public function is_valid( $extension ) {
 		$extensions = new WPSEO_Extension_Manager();
-		$activated  = $extensions->is_activated( $this->extensions[ $extension ]['identifier'] );
-
-		return $activated;
+		return $extensions->is_activated( $this->extensions[ $extension ]['identifier'] );
 	}
 
 	/**
