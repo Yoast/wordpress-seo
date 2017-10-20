@@ -1,4 +1,4 @@
-/* global wpseoAdminL10n */
+/* global yoastSiteWideAnalysisData */
 
 import { getRelevantWords } from "yoastseo/js/stringProcessing/relevantWords";
 import ProminentWordStorage from "./ProminentWordStorage";
@@ -140,7 +140,7 @@ class SiteWideCalculation extends EventEmitter {
 	processPost( post ) {
 		let content = post.content.rendered;
 
-		let prominentWords = getRelevantWords( content, wpseoAdminL10n.contentLocale );
+		let prominentWords = getRelevantWords( content, yoastSiteWideAnalysisData.contentLocale );
 
 		return this.saveProminentWords( post, prominentWords );
 	}
