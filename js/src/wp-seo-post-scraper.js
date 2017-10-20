@@ -3,6 +3,8 @@
 import PostDataCollector from "./analysis/PostDataCollector";
 import { tmceId } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
+import initializeEdit from "./edit";
+import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 var isUndefined = require( "lodash/isUndefined" );
 
@@ -41,6 +43,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	var decorator = null;
 
 	var tabManager, postDataCollector;
+
+	let store;
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -277,10 +281,21 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
+			args.callbacks.updatedKeywordsResults = function( results ) {
+				let keyword = tabManager.getKeywordTab().getKeyWord();
+
+				if ( tabManager.isMainKeyword( keyword ) ) {
+					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+				}
+			};
+
 		}
 
 		if ( isContentAnalysisActive() ) {
 			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
+			args.callbacks.updatedContentResults = function( results ) {
+				store.dispatch( setReadabilityResults( results ) );
+			};
 		}
 
 		titleElement = $( "#title" );
@@ -312,6 +327,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 		window.YoastSEO.wp._tabManager = tabManager;
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
+
+		window.YoastSEO.store = store;
 	}
 
 	/**
@@ -343,6 +360,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	 * @returns {void}
 	 */
 	function initializePostAnalysis() {
+		store = initializeEdit().store;
+
 		snippetContainer = $( "#wpseosnippet" );
 
 		// Avoid error when snippet metabox is not rendered.
@@ -401,7 +420,6 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		cornerstoneCheckbox.change( function() {
 			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
 		} );
-
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

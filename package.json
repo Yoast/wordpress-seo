@@ -19,6 +19,11 @@
     "test": "jest",
     "build": "webpack --config ./webpack/webpack.config.prod.js"
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoast-components).+\\.js$"
+    ]
+  },
   "devDependencies": {
     "algoliasearch": "^3.16.0",
     "autoprefixer": "^6.3.1",
@@ -60,6 +65,7 @@
     "load-grunt-config": "^0.19.2",
     "react": "^15.3.1",
     "react-dom": "^15.4.0",
+    "redux-logger": "^3.0.6",
     "sassdash": "^0.8.1",
     "svg-react-loader": "^0.4.5",
     "time-grunt": "^1.0.0",
@@ -81,7 +87,7 @@
     "react-intl": "^2.4.0",
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
-    "yoast-components": "2.10.1",
+    "yoast-components": "https://github.com/Yoast/yoast-components#stories/add-set-seo-results-for-keyword-action",
     "yoastseo": "https://github.com/Yoast/YoastSEO.js#release/1.21"
   }
 }
