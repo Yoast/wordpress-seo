@@ -19,6 +19,11 @@
     "test": "jest",
     "build": "webpack --config ./webpack/webpack.config.prod.js"
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoast-components).+\\.js$"
+    ]
+  },
   "devDependencies": {
     "algoliasearch": "^3.16.0",
     "autoprefixer": "^6.3.1",
