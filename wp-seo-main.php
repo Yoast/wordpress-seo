@@ -288,7 +288,10 @@ function wpseo_init() {
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
 
-	// Initializes the link watcher for both the front,- and the backend.
+	/*
+	 * Initializes the link watcher for both the frontend and backend.
+	 * Required to process scheduled items properly.
+	 */
 	$link_watcher = new WPSEO_Link_Watcher_Loader();
 	$link_watcher->load();
 }
