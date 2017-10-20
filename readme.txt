@@ -136,6 +136,10 @@ Enhancements:
 	* Replaces the link to Google AdWords with the https variant, props [Shane Gray](https://github.com/shane-gray).
 	* Changes to the desired spelling of `plugin` and `setup`, props [Pedro Mendonça](https://github.com/pedro-mendonca).
 
+Bugfixes:
+	* Fixes a bug where the text link counter doesn't count links for scheduled posts when they get published.
+	* Fixes a bug where the internal link count is not updated when a post is removed permanently.
+
 = 5.6.1 =
 
 Release Date: October 13th, 2017
