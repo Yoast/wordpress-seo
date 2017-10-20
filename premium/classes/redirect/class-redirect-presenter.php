@@ -61,7 +61,7 @@ class WPSEO_Redirect_Presenter {
 
 		if ( current_user_can( 'wpseo_manage_options' ) ) {
 			$tabs['settings'] = __( 'Settings', 'wordpress-seo-premium' );
-			}
+		}
 
 		return array(
 			'tabs'        => $tabs,
