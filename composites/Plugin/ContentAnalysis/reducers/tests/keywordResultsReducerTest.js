@@ -45,6 +45,79 @@ describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {
 	} );
 } );
 
+describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {
+	it( "sets seo results for a single keyword in an non-empty state", () => {
+		const state = {
+			thisIsMyKeyword: [
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId2",
+					score: 6,
+					description: "This is a mediocre score!",
+					markingIsActive: false,
+				},
+			],
+		};
+		const action = {
+			type: SET_SEO_RESULTS_FOR_KEYWORD,
+			keyword: "thisIsMySecondKeyword",
+			results: [
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId2",
+					score: 6,
+					description: "This is a mediocre score!",
+					markingIsActive: false,
+				},
+			],
+		};
+		const expected = {
+			thisIsMyKeyword: [
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId2",
+					score: 6,
+					description: "This is a mediocre score!",
+					markingIsActive: false,
+				},
+			],
+			thisIsMySecondKeyword: [
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId2",
+					score: 6,
+					description: "This is a mediocre score!",
+					markingIsActive: false,
+				},
+			],
+		};
+
+		const actual = keywordResultsReducer( state, action );
+
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
 describe( "SET_SEO_RESULTS action", () => {
 	it( "sets seo results for a single keyword in an empty state", () => {
 		const state = {};
