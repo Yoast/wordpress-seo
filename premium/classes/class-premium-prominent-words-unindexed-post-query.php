@@ -62,24 +62,24 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	protected function get_totals( $post_types ) {
 		global $wpdb;
 
-		// Put the IN-values hard into the SQL, because the prepare method escapes the values horrible.
-		$formatted_post_types = $this->format_post_types( $post_types );
+		$replacements = array(
+			WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
+			WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
+		);
+		$replacements = array_merge( $replacements, $post_types );
 
-		// @codingStandardsIgnoreStart
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
 				SELECT COUNT( ID ) as total, post_type
-				FROM ' . $wpdb->posts . ' 
+				FROM ' . $wpdb->posts . '
 				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s )
-					AND post_status IN( "future", "draft", "pending", "private", "publish" ) 
-					AND post_type IN( ' . $formatted_post_types . ' )
+					AND post_status IN( "future", "draft", "pending", "private", "publish" )
+					AND post_type IN( ' . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ' )
 				GROUP BY post_type
 				',
-				WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
-				WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER
+				$replacements
 			)
 		);
-		// @codingStandardsIgnoreEnd
 
 		$totals = array();
 
@@ -100,19 +100,6 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	}
 
 	/**
-	 * Formats the post types for an IN-statement.
-	 *
-	 * @param array $post_types The post types to format.
-	 *
-	 * @return string
-	 */
-	protected function format_post_types( array $post_types ) {
-		$post_types = array_map( array( $this, 'format_post_type' ), $post_types );
-
-		return implode( ',', $post_types );
-	}
-
-	/**
 	 * Gets the Post IDs of un-indexed objects
 	 *
 	 * @param array|string $post_types The post type(s) to fetch.
@@ -127,41 +114,30 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 			$post_types = (array) $post_types;
 		}
 
-		// Put the IN-values hard into the SQL, because the prepare method escapes the values horrible.
-		$formatted_post_types = $this->format_post_types( $post_types );
+		$replacements   = array(
+			WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
+			WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
+		);
+		$replacements   = array_merge( $replacements, $post_types );
+		$replacements[] = $limit;
 
-		// @codingStandardsIgnoreStart
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
 				SELECT ID
-				FROM ' . $wpdb->posts . ' 
-				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s ) 
-					AND post_status IN( "future", "draft", "pending", "private", "publish" ) 
-					AND post_type IN( ' . $formatted_post_types . ' )
+				FROM ' . $wpdb->posts . '
+				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s )
+					AND post_status IN( "future", "draft", "pending", "private", "publish" )
+					AND post_type IN( ' . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ' )
 				LIMIT %d',
-				WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
-				WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
-				$limit
+				$replacements
 			),
 			ARRAY_A
 		);
-		// @codingStandardsIgnoreEnd
 
 		// Make sure we return a list of IDs.
 		$results = wp_list_pluck( $results, 'ID' );
 
 		return $results;
-	}
-
-	/**
-	 * Formats the post type for the IN-statement
-	 *
-	 * @param string $post_type The post type to format.
-	 *
-	 * @return string
-	 */
-	protected function format_post_type( $post_type ) {
-		return '"' . esc_sql( $post_type ) . '"';
 	}
 
 	/**
@@ -210,4 +186,37 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 			),
 		);
 	}
+
+	/**
+	 * Formats the post types for an IN-statement.
+	 *
+	 * @deprecated 5.8.0
+	 *
+	 * @param array $post_types The post types to format.
+	 *
+	 * @return string
+	 */
+	protected function format_post_types( array $post_types ) {
+		_deprecated_function( __METHOD__, 'WPSEO 5.8.0' );
+
+		$post_types = array_map( array( $this, 'format_post_type' ), $post_types );
+
+		return implode( ',', $post_types );
+	}
+
+	/**
+	 * Formats the post type for the IN-statement
+	 *
+	 * @deprecated 5.8.0
+	 *
+	 * @param string $post_type The post type to format.
+	 *
+	 * @return string
+	 */
+	protected function format_post_type( $post_type ) {
+		_deprecated_function( __METHOD__, 'WPSEO 5.8.0' );
+
+		return '"' . esc_sql( $post_type ) . '"';
+	}
+
 }

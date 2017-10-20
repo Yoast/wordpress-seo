@@ -63,11 +63,18 @@ class WPSEO_Premium_Link_Suggestions_Service {
 		// Get the IDs from the suggestions.
 		$suggestion_ids = wp_list_pluck( $suggestions, 'id' );
 
-		$suggestion_ids = "'" . implode( "', '", $suggestion_ids ) . "'";
+		$replacements   = $suggestion_ids;
+		$replacements[] = WPSEO_Cornerstone::META_NAME;
 
 		// Find all posts in the list that are cornerstone items.
-		$sql     = $wpdb->prepare( 'SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE post_id IN ( ' . $suggestion_ids . ' ) AND meta_key = %s AND meta_value = "1"', WPSEO_Cornerstone::META_NAME );
-		$results = $wpdb->get_results( $sql );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT post_id FROM ' . $wpdb->postmeta
+				. ' WHERE post_id IN ( ' . implode( ',', array_fill( 0, count( $suggestion_ids ), '%d' ) ) . ' )
+					AND meta_key = %s AND meta_value = "1"',
+				$replacements
+			)
+		);
 
 		if ( ! is_array( $results ) ) {
 			$results = array();

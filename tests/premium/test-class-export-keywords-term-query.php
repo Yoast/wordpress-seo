@@ -100,14 +100,14 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 			'names'
 		);
 
-		$taxonomies_escaped = implode( '", "', array_map( 'esc_sql', $taxonomies ) );
+		$taxonomies_escaped = implode( "','", array_map( 'esc_sql', $taxonomies ) );
 
 		$this->assertEquals( ARRAY_A, $db->type );
 		$this->assertEquals(
 			'SELECT terms.term_id, taxonomies.taxonomy, terms.name FROM ' .
 			$db->prefix . 'terms AS terms INNER JOIN ' . $db->prefix .
 			'term_taxonomy AS taxonomies ON terms.term_id = taxonomies.term_id ' .
-			'AND taxonomies.taxonomy IN ("' . $taxonomies_escaped . '") LIMIT ' . $class_instance->get_page_size() . ' OFFSET 0',
+			"AND taxonomies.taxonomy IN ('{$taxonomies_escaped}') LIMIT " . $class_instance->get_page_size() . ' OFFSET 0',
 			$db->query
 		);
 	}
@@ -145,14 +145,14 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 			'names'
 		);
 
-		$taxonomies_escaped = implode( '", "', array_map( 'esc_sql', $taxonomies ) );
+		$taxonomies_escaped = implode( "','", array_map( 'esc_sql', $taxonomies ) );
 
 		$this->assertEquals( ARRAY_A, $db->type );
 		$this->assertEquals(
 			'SELECT terms.term_id, taxonomies.taxonomy, terms.name FROM ' .
 			$db->prefix . 'terms AS terms INNER JOIN ' . $db->prefix .
 			'term_taxonomy AS taxonomies ON terms.term_id = taxonomies.term_id ' .
-			'AND taxonomies.taxonomy IN ("' . $taxonomies_escaped . '") LIMIT 1000 OFFSET 1000',
+			"AND taxonomies.taxonomy IN ('{$taxonomies_escaped}') LIMIT 1000 OFFSET 1000",
 			$db->query
 		);
 	}
@@ -176,14 +176,14 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 			'names'
 		);
 
-		$taxonomies_escaped = implode( '", "', array_map( 'esc_sql', $taxonomies ) );
+		$taxonomies_escaped = implode( "','", array_map( 'esc_sql', $taxonomies ) );
 
 		$this->assertEquals( ARRAY_A, $db->type );
 		$this->assertEquals(
 			'SELECT terms.term_id, taxonomies.taxonomy FROM ' .
 			$db->prefix . 'terms AS terms INNER JOIN ' . $db->prefix .
 			'term_taxonomy AS taxonomies ON terms.term_id = taxonomies.term_id ' .
-			'AND taxonomies.taxonomy IN ("' . $taxonomies_escaped . '") LIMIT 1000 OFFSET 0',
+			"AND taxonomies.taxonomy IN ('{$taxonomies_escaped}') LIMIT 1000 OFFSET 0",
 			$db->query
 		);
 	}

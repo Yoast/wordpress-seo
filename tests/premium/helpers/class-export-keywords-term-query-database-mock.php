@@ -26,4 +26,15 @@ class WPSEO_Export_Keywords_Term_Query_Database_Mock {
 		$this->query = $query;
 		$this->type  = $type;
 	}
+
+	public function prepare( $query, $args ) {
+		global $wpdb;
+
+		$args = func_get_args();
+		array_shift( $args );
+		if ( isset( $args[0] ) && is_array($args[0]) ) {
+			$args = $args[0];
+		}
+		return $wpdb->prepare( $query, $args );
+	}
 }
