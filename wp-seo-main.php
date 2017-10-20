@@ -414,12 +414,12 @@ add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 new WPSEO_OnPage();
 
 // Registers SEO capabilities.
-$register_capabilities = new WPSEO_Register_Capabilities();
-$register_capabilities->register_hooks();
+$wpseo_register_capabilities = new WPSEO_Register_Capabilities();
+$wpseo_register_capabilities->register_hooks();
 
 // Registers SEO roles.
-$register_capabilities = new WPSEO_Register_Roles();
-$register_capabilities->register_hooks();
+$wpseo_register_capabilities = new WPSEO_Register_Roles();
+$wpseo_register_capabilities->register_hooks();
 
 /**
  * Wraps for notifications center class.
