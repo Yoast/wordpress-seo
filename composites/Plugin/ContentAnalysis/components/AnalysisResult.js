@@ -15,16 +15,23 @@ const messages = defineMessages( {
 	},
 } );
 
+export const AnalysisResultList = styled.ul`
+	margin: 0;
+	padding: 0;
+	list-style: none;
+`;
+
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
 	min-height: 24px;
-	padding: 4px 4px;
-	display: inline-flex;
-	align-items: center;
+	padding: 4px;
+	display: flex;
+	align-items: flex-start;
 `;
 
 const AnalysisResultText = styled.p`
 	margin: 0 8px;
+	flex: 1 1 auto;
 `;
 
 /**
@@ -45,15 +52,16 @@ export const AnalysisResult = ( props ) => {
 			/>
 			<AnalysisResultText>{ props.resultText }</AnalysisResultText>
 			{
-				props.eyeButtonIsActive
-					? <IconButtonToggle
-						onClick={ props.onButtonClick }
-						id={ props.buttonId }
-						icon={ eye }
-						pressed={ props.pressed }
-						ariaLabel={ props.ariaLabel }
-					/>
-					: null
+				props.eyeButtonIsActive &&
+					<span>
+						<IconButtonToggle
+							onClick={ props.onButtonClick }
+							id={ props.buttonId }
+							icon={ eye }
+							pressed={ props.pressed }
+							ariaLabel={ props.ariaLabel }
+						/>
+					</span>
 			}
 		</AnalysisResultBase>
 	);
