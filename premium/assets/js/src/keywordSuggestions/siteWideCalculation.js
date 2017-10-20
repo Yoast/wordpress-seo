@@ -140,7 +140,7 @@ class SiteWideCalculation extends EventEmitter {
 	processPost( post ) {
 		let content = post.content.rendered;
 
-		let prominentWords = getRelevantWords( content, yoastSiteWideAnalysisData.contentLocale );
+		let prominentWords = getRelevantWords( content, yoastSiteWideAnalysisData.data.l10n.contentLocale );
 
 		return this.saveProminentWords( post, prominentWords );
 	}
