@@ -371,8 +371,6 @@ YoastMultiKeyword.prototype.updateKeywordTab = function( tab ) {
 	keyword = link.data( "keyword" ) + "";
 	let { score, results } = this.analyzeKeyword( keyword );
 
-	console.log( 'analyze',  this.analyzeKeyword( keyword ) );
-
 	this.renderKeywordTab( keyword, score, tab, false, results );
 };
 

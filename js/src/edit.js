@@ -12,7 +12,7 @@ import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducer
  *
  * This can be a post or a term edit screen.
  *
- * @returns {Object} things that need to be exposed, such as the store.
+ * @returns {Object} Things that need to be exposed, such as the store.
  */
 export function initialize() {
 	const middleware = [
