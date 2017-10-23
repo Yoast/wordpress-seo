@@ -9,17 +9,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-/**
- * @todo [JRF => testers] Extensively test the export & import of the (new) settings!
- * If that all works fine, getting testers to export before and after upgrade will make testing easier.
- *
- * @todo [Yoast] The import for the RSS Footer plugin checks for data already entered via Yoast SEO,
- * the other import routines should do that too.
- */
-
 $yform = Yoast_Form::get_instance();
 
 $replace = false;
+$import  = false;
 
 /**
  * The import method is used to dermine if there should be something imported.
@@ -38,7 +31,7 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 		$import = new WPSEO_Import_WooThemes_SEO( $replace );
 	}
 
-	if ( ! empty( $post_wpseo['importaioseo'] )  || filter_input( INPUT_GET, 'importaioseo' ) ) {
+	if ( ! empty( $post_wpseo['importaioseo'] ) || filter_input( INPUT_GET, 'importaioseo' ) ) {
 		$import = new WPSEO_Import_AIOSEO( $replace );
 	}
 
@@ -47,13 +40,13 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 		$import->import_headspace();
 	}
 
-	if ( ! empty( $post_wpseo['importwpseo'] )  || filter_input( INPUT_GET, 'importwpseo' )  ) {
-		$import = new WPSEO_Import_WPSEO( $replace );
+	if ( ! empty( $post_wpseo['importjetpackseo'] ) || filter_input( INPUT_GET, 'importjetpackseo' ) ) {
+		$import = new WPSEO_Import_Jetpack_SEO( $replace );
 	}
 
-	// Allow custom import actions.
-	do_action( 'wpseo_handle_import' );
-
+	if ( ! empty( $post_wpseo['importwpseo'] ) || filter_input( INPUT_GET, 'importwpseo' ) ) {
+		$import = new WPSEO_Import_WPSEO( $replace );
+	}
 }
 
 if ( isset( $_FILES['settings_import_file'] ) ) {
@@ -62,99 +55,90 @@ if ( isset( $_FILES['settings_import_file'] ) ) {
 	$import = new WPSEO_Import();
 }
 
-if ( isset( $import ) ) {
+/**
+ * Allow custom import actions.
+ *
+ * @api bool|object $import Contains info about the handled import
+ */
+$import = apply_filters( 'wpseo_handle_import', $import );
+
+if ( $import ) {
 	/**
 	 * Allow customization of import&export message
+	 *
 	 * @api  string  $msg  The message.
 	 */
-	$msg = apply_filters( 'wpseo_import_message', $import->msg );
-
-	// Check if we've deleted old data and adjust message to match it.
-	if ( $replace ) {
-		$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
-	}
+	$msg = apply_filters( 'wpseo_import_message', isset( $import->msg ) ? $import->msg : '' );
 
 	if ( $msg != '' ) {
-		echo '<div id="message" class="message updated" style="width:94%;"><p>', $msg, '</p></div>';
+		// Check if we've deleted old data and adjust message to match it.
+		if ( $replace ) {
+			$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
+		}
+
+		$status = ( $import->success ) ? 'updated' : 'error';
+
+		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
 	}
 }
 
+$tabs = array(
+	'wpseo-import' => array(
+		'label'                => __( 'Import settings', 'wordpress-seo' ),
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
+	),
+	'wpseo-export' => array(
+		'label'                => __( 'Export settings', 'wordpress-seo' ),
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
+	),
+	'import-seo'   => array(
+		'label'                => __( 'Import from other SEO plugins', 'wordpress-seo' ),
+		'screencast_video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-import-export' ),
+	),
+);
+
 ?>
-<br/><br/>
-<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-	<a class="nav-tab nav-tab-active" id="wpseo-import-tab"
-	   href="#top#wpseo-import"><?php _e( 'Import', 'wordpress-seo' ); ?></a>
-	<a class="nav-tab" id="wpseo-export-tab" href="#top#wpseo-export"><?php _e( 'Export', 'wordpress-seo' ); ?></a>
-	<a class="nav-tab" id="import-seo-tab"
-	   href="#top#import-seo"><?php _e( 'Import from other SEO plugins', 'wordpress-seo' ); ?></a>
-	<?php
-	/**
-	 * Allow adding a custom import tab header
-	 */
-	do_action( 'wpseo_import_tab_header' );
-	?>
-</h2>
+	<br/><br/>
 
-<div id="wpseo-import" class="wpseotab">
-	<p><?php _e( 'Import settings by locating <em>settings.zip</em> and clicking "Import settings"', 'wordpress-seo' ); ?></p>
+	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
+		<?php foreach ( $tabs as $identifier => $tab ) : ?>
+			<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
+		<?php endforeach; ?>
 
-	<form
-		action="<?php echo esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#wpseo-import' ) ); ?>"
-		method="post" enctype="multipart/form-data"
-		accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
-		<?php wp_nonce_field( 'wpseo-import-file', '_wpnonce', true, true ); ?>
-		<input type="file" name="settings_import_file" accept="application/x-zip,application/x-zip-compressed,application/zip" />
-		<input type="hidden" name="action" value="wp_handle_upload"/><br/>
-		<br/>
-		<input type="submit" class="button-primary" value="<?php _e( 'Import settings', 'wordpress-seo' ); ?>"/>
-	</form>
-</div>
-
-<div id="wpseo-export" class="wpseotab">
-	<p><?php
-		/* translators: %1$s expands to Yoast SEO */
-		printf( __( 'Export your %1$s settings here, to import them again later or to import them on another site.', 'wordpress-seo' ), 'Yoast SEO' );
-		?></p>
-	<?php $yform->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) ); ?><br/>
-	<button class="button-primary" id="export-button"><?php
-		/* translators: %1$s expands to Yoast SEO */
-		printf( __( 'Export your %1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
-		?></button>
-	<script>
-		var wpseo_export_nonce = '<?php echo wp_create_nonce( 'wpseo-export' ); ?>';
-	</script>
-</div>
-
-<div id="import-seo" class="wpseotab">
-	<p><?php _e( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ); ?></p>
-
-	<p><?php printf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="https://wordpress.org/plugins/seo-data-transporter/">', '</a>' ); ?></p>
-
-	<form
-		action="<?php echo esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"
-		method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 		<?php
-		wp_nonce_field( 'wpseo-import', '_wpnonce', true, true );
-		$yform->checkbox( 'importheadspace', __( 'Import from HeadSpace2?', 'wordpress-seo' ) );
-		$yform->checkbox( 'importaioseo', __( 'Import from All-in-One SEO?', 'wordpress-seo' ) );
-		$yform->checkbox( 'importwoo', __( 'Import from WooThemes SEO framework?', 'wordpress-seo' ) );
-		$yform->checkbox( 'importwpseo', __( 'Import from wpSEO', 'wordpress-seo' ) );
+		/**
+		 * Allow adding a custom import tab header
+		 */
+		do_action( 'wpseo_import_tab_header' );
 		?>
-		<br/>
-		<?php
-		$yform->checkbox( 'deleteolddata', __( 'Delete the old data after import? (recommended)', 'wordpress-seo' ) );
-		?>
-		<br/>
-		<input type="submit" class="button-primary" name="import"
-		       value="<?php _e( 'Import', 'wordpress-seo' ); ?>"/>
-	</form>
-	<br/>
-	<br/>
-</div>
+	</h2>
 
 <?php
+
+$helpcenter_tabs = new WPSEO_Option_Tabs( '', '' );
+
+foreach ( $tabs as $identifier => $tab ) {
+	if ( ! empty( $tab['screencast_video_url'] ) ) {
+		$tab_video_url = $tab['screencast_video_url'];
+
+		$helpcenter_tab = new WPSEO_Option_Tab( $identifier, $tab['label'],
+			array( 'video_url' => $tab['screencast_video_url'] ) );
+	}
+
+	$helpcenter_tabs->add_tab( $helpcenter_tab );
+}
+
+$helpcenter = new WPSEO_Help_Center( '', $helpcenter_tabs, WPSEO_Utils::is_yoast_seo_premium() );
+$helpcenter->localize_data();
+$helpcenter->mount();
+
+foreach ( $tabs as $identifier => $tab ) {
+	printf( '<div id="%s" class="wpseotab">', $identifier );
+	require_once WPSEO_PATH . 'admin/views/tabs/tool/' . $identifier . '.php';
+	echo '</div>';
+}
+
 /**
  * Allow adding a custom import tab
  */
 do_action( 'wpseo_import_tab_content' );
-

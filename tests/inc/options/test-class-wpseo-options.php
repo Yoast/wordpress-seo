@@ -26,7 +26,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::get_options
 	 */
 	public function test_get_options_IS_EMPTY_with_empty_array() {
-		$result = WPSEO_Options::get_options(array());
+		$result = WPSEO_Options::get_options( array() );
 		$this->assertEmpty( $result );
 	}
 
@@ -36,7 +36,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::get_options
 	 */
 	public function test_get_options_IS_EMPTY_with_invalid_option_names() {
-		$result = WPSEO_Options::get_options( array('nonexistent_option_one', 'nonexistent_option_two') );
+		$result = WPSEO_Options::get_options( array( 'nonexistent_option_one', 'nonexistent_option_two' ) );
 		$this->assertEmpty( $result );
 	}
 
@@ -88,7 +88,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::get_option
 	 */
 	public function test_get_option_IS_VALID_with_valid_option_name() {
-		$result = WPSEO_Options::get_option( 'wpseo'  );
+		$result = WPSEO_Options::get_option( 'wpseo' );
 		$this->assertArrayHasKey( 'website_name', $result );
 	}
 }

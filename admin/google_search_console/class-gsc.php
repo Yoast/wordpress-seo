@@ -62,10 +62,8 @@ class WPSEO_GSC {
 			$this->set_dependencies();
 			$this->request_handler();
 		}
-		elseif ( WPSEO_Utils::is_yoast_seo_page() && current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
-			add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
-		}
 
+		add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 	}
 
@@ -73,18 +71,35 @@ class WPSEO_GSC {
 	 * If the Google Search Console has no credentials, add a notification for the user to give him a heads up. This message is dismissable.
 	 */
 	public function register_gsc_notification() {
-		Yoast_Notification_Center::get()->add_notification(
-			new Yoast_Notification(
-				sprintf(
-					__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
-					'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
-					'</a>'
-				),
-				array(
-					'type'      => 'updated yoast-dismissible',
-					'id'        => 'wpseo-dismiss-gsc',
-					'nonce'     => wp_create_nonce( 'dismiss-gsc-notice' ),
-				)
+
+		$notification        = $this->get_profile_notification();
+		$notification_center = Yoast_Notification_Center::get();
+
+		if ( WPSEO_GSC_Settings::get_profile() === '' ) {
+			$notification_center->add_notification( $notification );
+		}
+		else {
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Builds the notification used when GSC is not connected to a profile
+	 *
+	 * @return Yoast_Notification
+	 */
+	private function get_profile_notification() {
+		return new Yoast_Notification(
+			sprintf(
+				/* translators: 1: link open tag; 2: link close tag. */
+				__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
+				'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
+				'</a>'
+			),
+			array(
+				'type'         => Yoast_Notification::WARNING,
+				'id'           => 'wpseo-dismiss-gsc',
+				'capabilities' => 'wpseo_manage_options',
 			)
 		);
 	}
@@ -100,7 +115,7 @@ class WPSEO_GSC {
 	 * Function that outputs the redirect page
 	 */
 	public function display() {
-		require_once WPSEO_PATH . '/admin/google_search_console/views/gsc-display.php';
+		require_once WPSEO_PATH . 'admin/google_search_console/views/gsc-display.php';
 	}
 
 	/**
@@ -175,7 +190,7 @@ class WPSEO_GSC {
 
 			// Adding notification to the notification center.
 			/* Translators: %1$s: expands to Google Search Console. */
-			$this->add_notification( sprintf( __( 'The %1$s data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'Google Search Console' ), 'updated' );
+			$this->add_notification( sprintf( __( 'The %1$s data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'Google Search Console' ), Yoast_Notification::UPDATED );
 
 			// Directly output the notifications.
 			wp_redirect( remove_query_arg( 'gsc_reset' ) );
@@ -188,7 +203,7 @@ class WPSEO_GSC {
 			WPSEO_GSC_Settings::reload_issues();
 
 			// Adding the notification.
-			$this->add_notification( __( 'The issues have been successfully reloaded!', 'wordpress-seo' ), 'updated' );
+			$this->add_notification( __( 'The issues have been successfully reloaded!', 'wordpress-seo' ), Yoast_Notification::UPDATED );
 
 			// Directly output the notifications.
 			Yoast_Notification_Center::get()->display_notifications();
@@ -202,13 +217,23 @@ class WPSEO_GSC {
 	 * Catch the redirects search post and redirect it to a search get
 	 */
 	private function list_table_search_post_to_get() {
-		if ( ( $search_string = filter_input( INPUT_POST, 's' ) ) !== null ) {
-			$url = ( $search_string !== '' ) ? add_query_arg( 's', $search_string ) : remove_query_arg( 's' );
+		$search_string = filter_input( INPUT_POST, 's' );
 
-			// Do the redirect.
-			wp_redirect( $url );
-			exit;
+		if ( $search_string === null ) {
+			return;
 		}
+
+		// When there is nothing being search and there is no search param in the url, break this method.
+		if ( $search_string === '' && filter_input( INPUT_GET, 's' ) === null ) {
+			return;
+		}
+
+		$url = ( $search_string !== '' ) ? add_query_arg( 's', $search_string ) : remove_query_arg( 's' );
+
+		// Do the redirect.
+		wp_redirect( $url );
+		exit;
+
 	}
 
 	/**
@@ -219,7 +244,7 @@ class WPSEO_GSC {
 		// Catch the authorization code POST.
 		if ( ! empty( $gsc_values['authorization_code'] ) && wp_verify_nonce( $gsc_values['gsc_nonce'], 'wpseo-gsc_nonce' ) ) {
 			if ( ! WPSEO_GSC_Settings::validate_authorization( trim( $gsc_values['authorization_code'] ), $this->service->get_client() ) ) {
-				$this->add_notification( __( 'Incorrect Google Authorization Code.', 'wordpress-seo' ), 'error' );
+				$this->add_notification( __( 'Incorrect Google Authorization Code.', 'wordpress-seo' ), Yoast_Notification::ERROR );
 			}
 
 			// Redirect user to prevent a post resubmission which causes an oauth error.
@@ -277,9 +302,9 @@ class WPSEO_GSC {
 			array(
 				'id'      => 'basic-help',
 				'title'   => __( 'Issue categories', 'wordpress-seo' ),
-				'content' => '<p><strong>' .__( 'Desktop', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that occurred when your site was crawled by Googlebot.', 'wordpress-seo' ) . '</p>'
-							. '<p><strong>' .__( 'Smartphone', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that occurred only when your site was crawled by Googlebot-Mobile (errors didn\'t appear for desktop).', 'wordpress-seo' ) . '</p>'
-							. '<p><strong>' .__( 'Feature phone', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that only occurred when your site was crawled by Googlebot for feature phones (errors didn\'t appear for desktop).', 'wordpress-seo' ) . '</p>',
+				'content' => '<p><strong>' . __( 'Desktop', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that occurred when your site was crawled by Googlebot.', 'wordpress-seo' ) . '</p>'
+							. '<p><strong>' . __( 'Smartphone', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that occurred only when your site was crawled by Googlebot-Mobile (errors didn\'t appear for desktop).', 'wordpress-seo' ) . '</p>'
+							. '<p><strong>' . __( 'Feature phone', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that only occurred when your site was crawled by Googlebot for feature phones (errors didn\'t appear for desktop).', 'wordpress-seo' ) . '</p>',
 			)
 		);
 	}

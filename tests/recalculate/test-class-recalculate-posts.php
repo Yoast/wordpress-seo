@@ -3,6 +3,7 @@
  * @package WPSEO\Unittests
  */
 
+
 class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -14,6 +15,20 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	 * @var WPSEO_Recalculate_Posts
 	 */
 	private $instance;
+
+	/**
+	 * @var string
+	 */
+	private $mock_image = "<img src='' />";
+
+	/**
+	 * Load the test mock class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'recalculate/class-recalculate-posts-double.php';
+	}
 
 	/**
 	 * Setup the class instance and create some posts
@@ -56,9 +71,15 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Recalculate_Posts::get_items_to_recalculate
 	 */
 	public function test_get_items_to_recalculate_no_focus_keywords() {
-		$response = $this->instance->get_items_to_recalculate(1);
+		$response = $this->instance->get_items_to_recalculate( 1 );
 
-		$this->assertEquals( array( 'items' => array(), 'total_items' => 0 ), $response );
+		$this->assertEquals(
+			array(
+				'items'       => array(),
+				'total_items' => 0,
+			),
+			$response
+		);
 	}
 
 	/**
@@ -71,7 +92,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
 		WPSEO_Meta::set_value( 'focuskw', 'testable', $this->posts[3] );
 
-		$response = $this->instance->get_items_to_recalculate(1);
+		$response = $this->instance->get_items_to_recalculate( 1 );
 
 		$this->assertEquals( 2, $response['total_items'] );
 		$this->assertTrue( is_array( $response['items'] ) );
@@ -86,12 +107,12 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	public function test_add_content() {
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
 
-		$post = get_post($this->posts[1]);
+		$post = get_post( $this->posts[1] );
 		$expected = $this->add_dummy_content( $post->post_content );
 
 		add_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content' ), 10, 2 );
 
-		$response = $this->instance->get_items_to_recalculate(1);
+		$response = $this->instance->get_items_to_recalculate( 1 );
 
 		remove_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content' ) );
 
@@ -106,16 +127,71 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	public function test_add_content_with_shortcode() {
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
 
-		$post = get_post($this->posts[1]);
+		$post = get_post( $this->posts[1] );
 		$expected = do_shortcode( $this->add_dummy_content_with_shortcode( $post->post_content ) );
 
 		add_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content_with_shortcode' ), 10, 2 );
 
-		$response = $this->instance->get_items_to_recalculate(1);
+		$response = $this->instance->get_items_to_recalculate( 1 );
 
 		remove_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content_with_shortcode' ) );
 
 		$this->assertEquals( $expected, $response['items'][0]['text'] );
+	}
+
+	/**
+	 * Test whether thumbnail images are properly added to the content, if one exists.
+	 */
+	public function test_add_featured_image_to_content() {
+		$test_double = new WPSEO_Recalculate_Posts_Test_Double();
+
+		add_filter( 'get_post_metadata', array( $this, 'mock_post_metadata' ), 10, 3 );
+		add_filter( 'post_thumbnail_html', array( $this, 'mock_thumbnail' ), 10, 3 );
+
+		$post = get_post( $this->posts[1] );
+		$expected = $post->post_content . " <img src='' />";
+		$response = $test_double->call_item_to_response( $post );
+
+		$this->assertEquals( $expected, $response['text'] );
+
+		remove_filter( 'get_post_metadata', array( $this, 'mock_post_metadata' ), 10, 3 );
+		remove_filter( 'post_thumbnail_html', array( $this, 'mock_thumbnail' ), 10, 3 );
+
+		$post = get_post( $this->posts[2] );
+		$expected = $post->post_content;
+		$response = $test_double->call_item_to_response( $post );
+
+		$this->assertEquals( $expected, $response['text'] );
+	}
+
+	/**
+	 * Mock the post metadata to include a thumbnail
+	 *
+	 * @param string|null $value
+	 * @param integer $object_id
+	 * @param string $meta_key
+	 *
+	 * @return int
+	 */
+	public function mock_post_metadata( $value, $object_id, $meta_key ) {
+		if ( $meta_key === '_thumbnail_id' ) {
+			return 1;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Returns the mock thumbnail
+	 *
+	 * @param string $html
+	 * @param integer $post_id
+	 * @param integer $post_thumbnail_id
+	 *
+	 * @return string
+	 */
+	public function mock_thumbnail( $html, $post_id, $post_thumbnail_id ) {
+		return $this->mock_image;
 	}
 
 	/**

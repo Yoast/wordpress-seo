@@ -1,50 +1,53 @@
 // https://github.com/gruntjs/grunt-contrib-watch
 module.exports = {
 	options: {
-		livereload: true
+		livereload: true,
 	},
 	grunt: {
 		options: {
-			reload: true
+			reload: true,
 		},
 		files: [
-			'<%= files.grunt %>',
-			'<%= files.config %>'
+			"<%= files.grunt %>",
+			"<%= files.config %>",
 		],
 		tasks: [
-			'jshint:grunt',
-			'jsvalidate:grunt',
-			'jscs:grunt'
-		]
+			"eslint:grunt",
+		],
 	},
 	php: {
 		files: [
-			'<%= files.php %>'
+			"<%= files.php %>",
 		],
 		tasks: [
-			'phplint',
-			'phpcs',
-            'checktextdomain'
-		]
+			"phplint",
+			"phpcs",
+			"checktextdomain",
+		],
 	},
 	js: {
 		files: [
-			'<%= files.js %>'
+			"<%= files.js %>",
+			"<%= paths.js %>/**/*.js",
 		],
 		tasks: [
-			'build:js',
-			'jshint:plugin',
-			'jsvalidate:plugin',
-			'jscs:plugin'
-		]
+			"build:js",
+			"eslint:plugin",
+		],
 	},
 	css: {
 		files: [
-			'css/*css',
-			'!css/*.min.css'
+			"css/*css",
+			"!css/*.min.css",
 		],
 		tasks: [
-			'build:css'
-		]
-	}
+			"build:css",
+		],
+	},
+	sass: {
+		files: "<%= paths.sass %>**/*.scss",
+		tasks: [
+			"build:sass",
+		],
+	},
 };

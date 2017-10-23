@@ -9,7 +9,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @var WPSEO_Taxonomy_Fields_Presenter
 	 */
-	private  $class_instance;
+	private $class_instance;
 
 	/**
 	 * @var stdClass The created term.
@@ -38,12 +38,12 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'label'       => 'test field',
 					'type'        => 'text',
 					'description' => 'this is a test field',
-					'options'     => ''
-				)
+					'options'     => '',
+				),
 			)
 		);
 
-		$expected = '<tr><th scope="row"><label for="wpseo_fieldname">test field</label><img src="%s" class="alignright yoast_help" id="wpseo_fieldnamehelp" alt="this is a test field" /></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/></td></tr>';
+		$expected = '<label for="wpseo_fieldname">test field</label><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/><p id="wpseo_fieldname-desc" class="yoast-metabox__description">this is a test field</p>';
 		$expected = sprintf( $expected, plugins_url( 'images/question-mark.png', WPSEO_FILE ) );
 
 		$this->assertEquals( $expected, $output );
@@ -61,12 +61,12 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'label'       => '',
 					'type'        => 'text',
 					'description' => 'this is a test field',
-					'options'     => ''
-				)
+					'options'     => '',
+				),
 			)
 		);
 
-		$expected = '<tr><th scope="row"><img src="%s" class="alignright yoast_help" id="wpseo_fieldnamehelp" alt="this is a test field" /></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/></td></tr>';
+		$expected = '<input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/><p id="wpseo_fieldname-desc" class="yoast-metabox__description">this is a test field</p>';
 		$expected = sprintf( $expected, plugins_url( 'images/question-mark.png', WPSEO_FILE ) );
 
 		$this->assertEquals( $expected, $output );
@@ -84,12 +84,12 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'label'       => 'test field',
 					'type'        => 'text',
 					'description' => '',
-					'options'     => array()
-				)
+					'options'     => array(),
+				),
 			)
 		);
 
-		$this->assertEquals( '<tr><th scope="row"><label for="wpseo_fieldname">test field</label></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/></td></tr>', $output );
+		$this->assertEquals( '<label for="wpseo_fieldname">test field</label><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/>', $output );
 	}
 
 	/**
@@ -106,10 +106,10 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'description' => '',
 					'options'     => array(
 						'options' => array(
-							'value' => 'option_value'
-						)
-					)
-				)
+							'value' => 'option_value',
+						),
+					),
+				),
 			)
 		);
 
@@ -130,10 +130,10 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'description' => '',
 					'options'     => array(
 						'options' => array(
-							'value' => 'option_value'
-						)
-					)
-				)
+							'value' => 'option_value',
+						),
+					),
+				),
 			)
 		);
 
@@ -153,7 +153,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'type'        => 'hidden',
 					'description' => '',
 					'options'     => '',
-				)
+				),
 			)
 		);
 
@@ -172,8 +172,8 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 					'label'       => 'test field',
 					'type'        => 'upload',
 					'description' => '',
-					'options'     => ''
-				)
+					'options'     => '',
+				),
 			)
 		);
 
@@ -192,15 +192,13 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 				'fieldname' => array(
 					'label'       => 'test field',
 					'type'        => 'upload',
-					'description' => '',
-					'options'     => array(
-						'description' => 'description for the field'
-					)
-				)
+					'description' => 'description for the field',
+					'options'     => '',
+				),
 			)
 		);
 
-		$this->assertContains( '<p class="description">description for the field</p>', $output );
+		$this->assertContains( '<p id="wpseo_fieldname-desc" class="yoast-metabox__description">description for the field</p>', $output );
 	}
 
 }

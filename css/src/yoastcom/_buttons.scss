@@ -1,0 +1,268 @@
+.yoast-button {
+	font-family: $font-stack-default;
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	padding: 0.345em 1.5em 0.345em 1em;
+	font-size: 1.1em;
+	background-color: transparent;
+	background-color: $color-orange;
+	color: $color-orange;
+	border: 0;
+	//text-shadow: $text-shadow;
+	text-decoration: none;
+	cursor: pointer;
+
+	@media only screen and (min-width: $page-width-small) {
+		margin-right: 1.36rem;
+		width: auto;
+		max-height: 1.43rem + 1.43rem;
+		&::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: -1.36rem;
+			height: 0;
+			width: 0;
+			border-right: 0;
+			border-left: 1.43rem solid $color-orange;
+			border-top: 1.43rem solid transparent;
+			border-bottom: 1.44rem solid transparent;
+		}
+
+		&.left {
+			&::after {
+				content: none;
+			}
+
+			margin-right: 0;
+			margin-left: 1.36rem;
+			&::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: -1.36rem;
+				height: 0;
+				width: 0;
+				border-left: 0;
+				border-right: 1.43rem solid $color-orange;
+				border-top: 1.43rem solid transparent;
+				border-bottom: 1.44rem solid transparent;
+			}
+		}
+	}
+
+	&.alignleft {
+		margin: 1rem 2.5rem 0 0 !important;
+	}
+
+	.arrow {
+		display: none;
+	}
+
+	& + & {
+		margin-top: 1em;
+		margin-left: $spacing;
+	}
+
+	&--full {
+		width: 100%;
+
+		&::after {
+			content: none;
+		}
+	}
+
+	&.default {
+		color: $color-white;
+		background-color: $color-orange;
+
+		&::after {
+			border-left-color: $color-orange;
+		}
+
+		&::before {
+			border-right-color: $color-orange;
+		}
+	}
+
+	&:hover, a:focus {
+		background-color: $color-orange-hover;
+		color: $color-white;
+		text-decoration: underline;
+		&::after {
+			border-left-color: $color-orange-hover;
+		}
+		&::before {
+			border-right-color: $color-orange-hover;
+		}
+	}
+
+	&.academy {
+		color: $color-white;
+		background-color: $scheme-academy-primary;
+
+		&::after {
+			border-left-color: $scheme-academy-primary;
+		}
+
+		&::before {
+			border-right-color: $scheme-academy-primary;
+		}
+
+		@media only screen and (max-width: $page-width-xsmall) {
+			background-color: $scheme-academy-primary;
+		}
+	}
+
+	&.academy--secondary {
+		color: $color-white;
+		background-color: $scheme-academy-secondary;
+
+		&::after {
+			border-left-color: $scheme-academy-secondary;
+		}
+
+		&::before {
+			border-right-color: $scheme-academy-secondary;
+		}
+
+		@media only screen and (max-width: $page-width-xsmall) {
+			background-color: $scheme-academy-secondary;
+		}
+	}
+
+	&.software {
+		color: $color-white;
+		background-color: $scheme-software-primary;
+
+		&::after {
+			border-left-color: $scheme-software-primary;
+		}
+
+		&::before {
+			border-right-color: $scheme-software-primary;
+		}
+
+		@media only screen and (max-width: $page-width-xsmall) {
+			//background-color: $scheme-software-primary;
+		}
+	}
+
+	&.review {
+		color: $color-white;
+		background-color: $scheme-review-primary;
+
+		&::after {
+			border-left-color: $scheme-review-primary;
+		}
+
+		&::before {
+			border-right-color: $scheme-review-primary;
+		}
+
+		@media only screen and (max-width: $page-width-xsmall) {
+			//background-color: $scheme-review-primary;
+		}
+	}
+
+	&.about {
+		color: $color-white;
+		background-color: $scheme-about-primary;
+
+		&::after {
+			border-left-color: $scheme-about-primary;
+		}
+
+		&::before {
+			border-right-color: $scheme-about-primary;
+		}
+
+		@media only screen and (max-width: $page-width-xsmall) {
+			//background-color: $scheme-about-primary;
+		}
+	}
+
+	.yoast_academy & {
+		color: $color-white;
+		background-color: $color-pink;
+
+		&::after {
+			border-left-color: $color-pink;
+		}
+
+		&::before {
+			border-right-color: $color-pink;
+		}
+
+		&:hover, a:focus {
+			background-color: $color-pink-hover;
+			color: $color-white;
+			text-decoration: underline;
+
+			&::after {
+				border-left-color: $color-pink-hover;
+			}
+
+			&::before {
+				border-right-color: $color-pink-hover;
+			}
+		}
+	}
+
+	body &,
+	.yoast_academy & {
+		&.dimmed {
+			color: $color-grey-text;
+			background-color: $color-grey;
+			//text-shadow: none;
+
+			&::after {
+				border-left-color: $color-grey;
+			}
+
+			&::before {
+				border-right-color: $color-grey;
+			}
+
+			@media only screen and (max-width: $page-width-xsmall) {
+				//background-color: $color-grey;
+			}
+
+			&:hover, a:focus {
+				background-color: $color-grey-hover;
+				color: $color-grey-text;
+				text-decoration: underline;
+				&::after {
+					border-left-color: $color-grey-hover;
+				}
+
+				&:before {
+					border-right-color: $color-grey-hover;
+				}
+			}
+		}
+	}
+
+	&--noarrow {
+		&::after {
+			content: none;
+		}
+	}
+
+	&--naked {
+		border: none;
+		background-color: transparent;
+		padding: 0;
+		//text-shadow: none;
+
+		&::after {
+			content: none;
+		}
+	}
+
+	i.fa {
+		font-size: 140%;
+		margin: 4px 10px 0 0;
+	}
+}

@@ -146,5 +146,4 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 
 		return '';
 	}
-
 }

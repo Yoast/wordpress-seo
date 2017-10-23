@@ -39,7 +39,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_script( WPSEO_Admin_Asset $script ) {
 		wp_register_script(
 			self::PREFIX . $script->get_name(),
-			plugins_url( 'js/dist/' . $script->get_src() . $script->get_suffix() . '.js', WPSEO_FILE ),
+			$script->get_url( WPSEO_Admin_Asset::TYPE_JS, WPSEO_FILE ),
 			$script->get_deps(),
 			$script->get_version(),
 			$script->is_in_footer()
@@ -54,7 +54,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_style( WPSEO_Admin_Asset $style ) {
 		wp_register_style(
 			self::PREFIX . $style->get_name(),
-			plugins_url( 'css/' . $style->get_src() . $style->get_suffix() . '.css', WPSEO_FILE ),
+			$style->get_url( WPSEO_Admin_Asset::TYPE_CSS, WPSEO_FILE ),
 			$style->get_deps(),
 			$style->get_version(),
 			$style->get_media()
@@ -94,138 +94,249 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
+	 * A list of styles that shouldn't be registered but are needed in other locations in the plugin.
+	 *
+	 * @return array
+	 */
+	public function special_styles() {
+		$flat_version = $this->flatten_version( WPSEO_VERSION );
+
+		return array(
+			'inside-editor' => new WPSEO_Admin_Asset( array(
+				'name' => 'inside-editor',
+				'src'  => 'inside-editor-' . $flat_version,
+			) ),
+		);
+	}
+
+	/**
+	 * Flattens a version number for use in a filename
+	 *
+	 * @param string $version The original version number.
+	 * @return string The flattened version number.
+	 */
+	public function flatten_version( $version ) {
+		$parts = explode( '.', $version );
+
+		if ( count( $parts ) === 2 ) {
+			$parts[] = '0';
+		}
+
+		return implode( '', $parts );
+	}
+
+	/**
 	 * Returns the scripts that need to be registered.
 	 *
-	 * @TODO data format is not self-documenting. Needs explanation inline. R.
+	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
 	 * @return array scripts that need to be registered.
 	 */
 	private function scripts_to_be_registered() {
+
+		$select2_language = 'en';
+		$user_locale      = WPSEO_Utils::get_user_locale();
+		$language         = WPSEO_Utils::get_language( $user_locale );
+
+		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$user_locale}.js" ) ) {
+			$select2_language = $user_locale; // Chinese and some others use full locale.
+		}
+		elseif ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$language}.js" ) ) {
+			$select2_language = $language;
+		}
+
+		$flat_version = $this->flatten_version( WPSEO_VERSION );
+
 		return array(
 			array(
+				'name' => 'help-center',
+				'src'  => 'wp-seo-help-center-' . $flat_version,
+				'deps' => array(
+					'jquery'
+				),
+			),
+			array(
 				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-310',
+				'src'  => 'wp-seo-admin-' . $flat_version,
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
 				'name' => 'admin-media',
-				'src'  => 'wp-seo-admin-media-310',
+				'src'  => 'wp-seo-admin-media-' . $flat_version,
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
 				'name' => 'bulk-editor',
-				'src'  => 'wp-seo-bulk-editor-310',
-				'deps' => array( 'jquery' ),
-			),
-			array(
-				'name' => 'export',
-				'src'  => 'wp-seo-export-310',
-				'deps' => array( 'jquery' ),
+				'src'  => 'wp-seo-bulk-editor-' . $flat_version,
+				'deps' => array( 'jquery', self::PREFIX . 'polyfill' ),
 			),
 			array(
 				'name' => 'dismissible',
-				'src'  => 'wp-seo-dismissible-310',
-				'deps' => array( 'jquery' ),
+				'src'  => 'wp-seo-dismissible-' . $flat_version,
+				'deps' => array( 'jquery', self::PREFIX . 'polyfill' ),
 			),
 			array(
 				'name' => 'admin-global-script',
-				'src'  => 'wp-seo-admin-global-310',
-				'deps' => array( 'jquery' ),
+				'src'  => 'wp-seo-admin-global-' . $flat_version,
+				'deps' => array( 'jquery', self::PREFIX . 'polyfill' ),
 			),
 			array(
-				'name'      => 'jquery-qtip',
-				'src'       => 'jquery.qtip',
-				'deps'      => array( 'jquery' ),
-				'version'   => '2.2.1',
-				'suffix'    => '.min',
-				'in_footer' => true,
-			),
-			array(
-				'name' => 'metabox',
-				'src'  => 'wp-seo-metabox-302',
-				'deps' => array(
+				'name'      => 'metabox',
+				'src'       => 'wp-seo-metabox-' . $flat_version,
+				'deps'      => array(
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-autocomplete',
-					self::PREFIX . 'jquery-qtip',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
+					self::PREFIX . 'polyfill',
 				),
 				'in_footer' => false,
 			),
 			array(
 				'name' => 'featured-image',
-				'src'  => 'wp-seo-featured-image-310',
+				'src'  => 'wp-seo-featured-image-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'yoast-seo',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
 				'name'      => 'admin-gsc',
-				'src'       => 'wp-seo-admin-gsc-302',
-				'deps'      => array( self::PREFIX . 'jquery-qtip' ),
+				'src'       => 'wp-seo-admin-gsc-' . $flat_version,
+				'deps'      => array( self::PREFIX . 'polyfill' ),
 				'in_footer' => false,
 			),
 			array(
-				'name'   => 'yoast-seo',
-				'src'    => 'yoast-seo/yoast-seo-310',
-				'suffix' => '.min',
-			),
-			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-311',
+				'src'  => 'wp-seo-post-scraper-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'yoast-seo',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-310',
+				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'yoast-seo',
 					self::PREFIX . 'replacevar-plugin',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
-				'src'  => 'wp-seo-replacevar-plugin-310',
-				'deps' => array(
-					self::PREFIX . 'yoast-seo',
-				),
+				'src'  => 'wp-seo-replacevar-plugin-' . $flat_version,
+				'deps' => array( self::PREFIX . 'polyfill' ),
 			),
 			array(
 				'name' => 'shortcode-plugin',
-				'src'  => 'wp-seo-shortcode-plugin-305',
-				'deps' => array(
-					self::PREFIX . 'yoast-seo',
-				),
+				'src'  => 'wp-seo-shortcode-plugin-' . $flat_version,
+				'deps' => array( self::PREFIX . 'polyfill' ),
 			),
 			array(
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-310',
+				'src'  => 'wp-seo-recalculate-' . $flat_version,
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
-					self::PREFIX . 'yoast-seo',
+					self::PREFIX . 'polyfill',
 				),
 			),
 			array(
 				'name' => 'primary-category',
-				'src'  => 'wp-seo-metabox-category',
+				'src'  => 'wp-seo-metabox-category-' . $flat_version,
 				'deps' => array(
 					'jquery',
 					'wp-util',
+					self::PREFIX . 'polyfill',
 				),
+			),
+			array(
+				'name'    => 'select2',
+				'src'     => 'select2/select2.full',
+				'suffix'  => '.min',
+				'deps'    => array(
+					'jquery',
+				),
+				'version' => '4.0.3',
+			),
+			array(
+				'name'    => 'select2-translations',
+				'src'     => 'select2/i18n/' . $select2_language,
+				'deps'    => array(
+					'jquery',
+					self::PREFIX . 'select2',
+				),
+				'version' => '4.0.3',
+				'suffix'  => '',
+			),
+			array(
+				'name' => 'configuration-wizard',
+				'src'  => 'configuration-wizard-' . $flat_version,
+				'deps' => array(
+					'jquery',
+					self::PREFIX . 'polyfill',
+				),
+			),
+			array(
+				'name' => 'polyfill',
+				'src'  => 'wp-seo-babel-polyfill-' . $flat_version,
+			),
+			array(
+				'name' => 'reindex-links',
+				'src'  => 'wp-seo-reindex-links-' . $flat_version,
+				'deps' => array(
+					'jquery',
+					'jquery-ui-core',
+					'jquery-ui-progressbar',
+				),
+			),
+			array(
+				'name' => 'edit-page-script',
+				'src'  => 'wp-seo-edit-page-' . $flat_version,
+				'deps' => array( 'jquery' ),
+			),
+			array(
+				'name'      => 'quick-edit-handler',
+				'src'       => 'wp-seo-quick-edit-handler-' . $flat_version,
+				'deps'      => array( 'jquery' ),
+				'in_footer' => true,
+			),
+			array(
+				'name' => 'api',
+				'src'  => 'wp-seo-api-' . $flat_version,
+				'deps' => array(
+					'wp-api',
+					'jquery',
+				),
+			),
+			array(
+				'name' => 'dashboard-widget',
+				'src'  => 'wp-seo-dashboard-widget-' . $flat_version,
+				'deps' => array(
+					self::PREFIX . 'api',
+					self::PREFIX . 'polyfill',
+					'jquery',
+				),
+			),
+			array(
+				'name' => 'filter-explanation',
+				'src'  => 'wp-seo-filter-explanation-' . $flat_version,
+				'deps' => array( 'jquery' ),
 			),
 		);
 	}
@@ -233,79 +344,96 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Returns the styles that need to be registered.
 	 *
-	 * @TODO data format is not self-documenting. Needs explanation inline. R.
+	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
 	 * @return array styles that need to be registered.
 	 */
 	private function styles_to_be_registered() {
+		$flat_version = $this->flatten_version( WPSEO_VERSION );
+
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-310',
+				'src'  => 'yst_plugin_tools-' . $flat_version,
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
-			),
-			// TODO minify toggle styles. R.
-			array(
-				'name'    => 'toggle-switch-lib',
-				'src'     => 'toggle-switch/toggle-switch',
-				'version' => '4.0.2',
-				'suffix'  => '',
 			),
 			array(
 				'name'   => 'toggle-switch',
-				'src'    => 'toggle-switch',
-				'deps'   => array( self::PREFIX . 'toggle-switch-lib' ),
-			),
-			array(
-				'name' => 'rtl',
-				'src'  => 'wpseo-rtl',
+				'src'    => 'toggle-switch-' . $flat_version,
 			),
 			array(
 				'name' => 'dismissible',
-				'src'  => 'wpseo-dismissible',
+				'src'  => 'wpseo-dismissible-' . $flat_version,
+			),
+			array(
+				'name' => 'alerts',
+				'src'  => 'alerts-' . $flat_version,
 			),
 			array(
 				'name' => 'edit-page',
-				'src'  => 'edit-page-302',
+				'src'  => 'edit-page-' . $flat_version,
 			),
 			array(
 				'name' => 'featured-image',
-				'src'  => 'featured-image',
-			),
-			array(
-				'name'    => 'jquery-qtip.js',
-				'src'     => 'jquery.qtip',
-				'version' => '2.2.1',
+				'src'  => 'featured-image-' . $flat_version,
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-310',
-				'deps' => array( self::PREFIX . 'jquery-qtip.js' ),
+				'src'  => 'metabox-' . $flat_version,
+				'deps' => array(
+					self::PREFIX . 'select2',
+				),
 			),
 			array(
 				'name' => 'wp-dashboard',
-				'src'  => 'dashboard-305',
+				'src'  => 'dashboard-' . $flat_version,
 			),
 			array(
 				'name' => 'scoring',
-				'src'  => 'yst_seo_score-310',
+				'src'  => 'yst_seo_score-' . $flat_version,
 			),
 			array(
 				'name' => 'snippet',
-				'src'  => 'snippet-310',
-			),
-			array(
-				'name'   => 'yoast-seo',
-				'src'    => 'dist/yoast-seo/yoast-seo-310',
-				'suffix' => '.min',
+				'src'  => 'snippet-' . $flat_version,
 			),
 			array(
 				'name' => 'adminbar',
-				'src'  => 'adminbar-302',
+				'src'  => 'adminbar-' . $flat_version,
 			),
 			array(
 				'name' => 'primary-category',
-				'src'  => 'metabox-primary-category',
+				'src'  => 'metabox-primary-category-' . $flat_version,
+			),
+			array(
+				'name'    => 'select2',
+				'src'     => 'select2/select2',
+				'suffix'  => '.min',
+				'version' => '4.0.1',
+				'rtl'     => false,
+			),
+			array(
+				'name' => 'kb-search',
+				'src'  => 'kb-search-' . $flat_version,
+			),
+			array(
+				'name' => 'help-center',
+				'src'  => 'help-center-' . $flat_version,
+			),
+			array(
+				'name' => 'admin-global',
+				'src'  => 'admin-global-' . $flat_version,
+			),
+			array(
+				'name' => 'yoast-components',
+				'src'  => 'yoast-components-' . $flat_version,
+			),
+			array(
+				'name' => 'extensions',
+				'src'  => 'yoast-extensions-' . $flat_version,
+			),
+			array(
+				'name' => 'filter-explanation',
+				'src'  => 'filter-explanation-' . $flat_version,
 			),
 		);
 	}

@@ -1,6 +1,6 @@
 <?php
 
-class Yoast_Input_Select_Test extends PHPUnit_Framework_TestCase {
+class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Testing with options.
@@ -12,7 +12,15 @@ class Yoast_Input_Select_Test extends PHPUnit_Framework_TestCase {
 	 * @covers Yoast_Input_Select::get_attributes
 	 */
 	public function test_html_with_options() {
-		$select = new Yoast_Input_Select( 'test-id', 'test-field', array( 'foo' => 'bar', 'baz' => 'foo' ), false );
+		$select = new Yoast_Input_Select(
+			'test-id',
+			'test-field',
+			array(
+				'foo' => 'bar',
+				'baz' => 'foo',
+			),
+			false
+		);
 		$html   = $select->get_html();
 
 		$this->assertContains( '<select name="test-field" id="test-id">', $html );
@@ -47,7 +55,15 @@ class Yoast_Input_Select_Test extends PHPUnit_Framework_TestCase {
 	 * @covers Yoast_Input_Select::get_select_values
 	 */
 	public function test_html_with_options_and_one_active() {
-		$select = new Yoast_Input_Select( 'test-id', 'test-field', array( 'foo' => 'bar', 'baz' => 'foo' ), 'baz' );
+		$select = new Yoast_Input_Select(
+			'test-id',
+			'test-field',
+			array(
+				'foo' => 'bar',
+				'baz' => 'foo',
+			),
+			'baz'
+		);
 		$html   = $select->get_html();
 
 		$this->assertContains( '<select name="test-field" id="test-id">', $html );
@@ -102,7 +118,7 @@ class Yoast_Input_Select_Test extends PHPUnit_Framework_TestCase {
 		$select->output_html();
 
 		// Because the output has empty values.
-		$this->expectOutputString( "<select name=\"test-field\" id=\"test-id\">\n\t</select>\n" );
+		$this->expectOutput( "<select name=\"test-field\" id=\"test-id\">\n\t</select>\n" );
 	}
 
 
@@ -118,7 +134,7 @@ class Yoast_Input_Select_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_html_with_adding_attribute() {
 		$select = new Yoast_Input_Select( 'test-id', 'test-field', array( 'foo' => '' ), false );
-		$select->add_attribute( 'class', 'test');
+		$select->add_attribute( 'class', 'test' );
 		$html   = $select->get_html();
 
 		$this->assertContains( '<select class="test" name="test-field" id="test-id">', $html );

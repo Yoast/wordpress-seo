@@ -64,7 +64,7 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 }
 
 if ( isset( $msg ) && ! empty( $msg ) ) {
-	echo '<div id="message" style="width:94%;" class="updated fade"><p>', esc_html( $msg ), '</p></div>';
+	echo '<div id="message" class="updated fade"><p>', esc_html( $msg ), '</p></div>';
 }
 
 if ( is_multisite() ) {
@@ -74,7 +74,16 @@ else {
 	$action_url = admin_url( 'admin.php?page=wpseo_tools&tool=file-editor' );
 }
 
+echo '<br><br>';
+$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-editor', 'Bulk editor',
+	array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-file-editor' ) ) );
+
+$helpcenter = new WPSEO_Help_Center( 'bulk-editor', $helpcenter_tab, WPSEO_Utils::is_yoast_seo_premium() );
+$helpcenter->localize_data();
+$helpcenter->mount();
+
 echo '<h2>', __( 'Robots.txt', 'wordpress-seo' ), '</h2>';
+
 
 if ( ! file_exists( $robots_file ) ) {
 	if ( is_writable( get_home_path() ) ) {
@@ -104,8 +113,8 @@ else {
 	else {
 		echo '<form action="', esc_url( $action_url ), '" method="post" id="robotstxtform">';
 		wp_nonce_field( 'wpseo-robotstxt', '_wpnonce', true, true );
-		echo '<p>', __( 'Edit the content of your robots.txt:', 'wordpress-seo' ), '</p>';
-		echo '<textarea class="large-text code" rows="15" name="robotsnew">', $robots_txt_content, '</textarea><br/>';
+		echo '<p><label for="robotsnew" class="yoast-inline-label">', __( 'Edit the content of your robots.txt:', 'wordpress-seo' ), '</label></p>';
+		echo '<textarea class="large-text code" rows="15" name="robotsnew" id="robotsnew">', $robots_txt_content, '</textarea><br/>';
 		echo '<div class="submit"><input class="button" type="submit" name="submitrobots" value="', __( 'Save changes to Robots.txt', 'wordpress-seo' ), '" /></div>';
 		echo '</form>';
 	}
@@ -130,8 +139,8 @@ if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWAR
 		else {
 			echo '<form action="', esc_url( $action_url ), '" method="post" id="htaccessform">';
 			wp_nonce_field( 'wpseo-htaccess', '_wpnonce', true, true );
-			echo '<p>', __( 'Edit the content of your .htaccess:', 'wordpress-seo' ), '</p>';
-			echo '<textarea class="large-text code" rows="15" name="htaccessnew">', $contentht, '</textarea><br/>';
+			echo '<p><label for="htaccessnew" class="yoast-inline-label">', __( 'Edit the content of your .htaccess:', 'wordpress-seo' ), '</label></p>';
+			echo '<textarea class="large-text code" rows="15" name="htaccessnew" id="htaccessnew">', $contentht, '</textarea><br/>';
 			echo '<div class="submit"><input class="button" type="submit" name="submithtaccess" value="', __( 'Save changes to .htaccess', 'wordpress-seo' ), '" /></div>';
 			echo '</form>';
 		}

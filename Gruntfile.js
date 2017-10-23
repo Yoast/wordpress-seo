@@ -1,60 +1,86 @@
 /* global require, process */
-module.exports = function(grunt) {
-	'use strict';
+var timeGrunt = require( "time-grunt" );
+var path = require( "path" );
+var loadGruntConfig = require( "load-grunt-config" );
 
-	require('time-grunt')(grunt);
+module.exports = function( grunt ) {
+	"use strict";
+
+	timeGrunt( grunt );
+
+	let pluginVersion = "5.6.1";
 
 	// Define project configuration
 	var project = {
+		pluginVersion: pluginVersion,
+		pluginSlug: "wordpress-seo",
+		pluginMainFile: "wp-seo.php",
 		paths: {
 			get config() {
-				return this.grunt + 'config/';
+				return this.grunt + "config/";
 			},
-			css: 'css/',
-			grunt: 'grunt/',
-			images: 'images/',
-			js: 'js/src/',
-			languages: 'languages/',
-			logs: 'logs/'
+			css: "css/dist/",
+			sass: "css/src/",
+			grunt: "grunt/",
+			images: "images/",
+			js: "js/src/",
+			languages: "languages/",
+			logs: "logs/",
 		},
 		files: {
+			sass: [ "<%= paths.sass %>*.scss" ],
 			css: [
-				'css/*.css',
-				'!css/*.min.css'
+				"css/dist/*.css",
+				"!css/dist/*.min.css",
 			],
 			js: [
-				'js/src/*.js'
+				"js/src/**/*.js",
 			],
 			php: [
-				'*.php',
-				'admin/**/*.php',
-				'frontend/**/*.php',
-				'inc/**/*.php'
+				"*.php",
+				"admin/**/*.php",
+				"frontend/**/*.php",
+				"inc/**/*.php",
 			],
-			phptests: 'tests/**/*.php',
+			pot: {
+				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
+				yoastComponents: "<%= paths.languages %>yoast-components.pot",
+
+				php: {
+					yoastseojs: "<%= paths.languages %>yoast-seo-js.php",
+					yoastComponents: "<%= paths.languages %>yoast-components.php",
+				},
+			},
+			phptests: "tests/**/*.php",
 			get config() {
-				return project.paths.config + '*.js';
+				return project.paths.config + "*.js";
 			},
 			get changelog() {
-				return project.paths.theme + 'changelog.txt';
+				return project.paths.theme + "changelog.txt";
 			},
-			grunt: 'Gruntfile.js'
+			grunt: "Gruntfile.js",
 		},
-		pkg: grunt.file.readJSON( 'package.json' )
+		pkg: grunt.file.readJSON( "package.json" ),
 	};
 
+	let versionParts = pluginVersion.split( "." );
+	if ( versionParts.length === 2 ) {
+		versionParts.push( 0 );
+	}
+	project.pluginVersionSlug = versionParts.join( "" );
+
 	// Load Grunt configurations and tasks
-	require( 'load-grunt-config' )(grunt, {
-		configPath: require( 'path' ).join( process.cwd(), project.paths.config ),
+	loadGruntConfig( grunt, {
+		configPath: path.join( process.cwd(), project.paths.config ),
 		data: project,
 		jitGrunt: {
 			staticMappings: {
-				addtextdomain: 'grunt-wp-i18n',
-				makepot: 'grunt-wp-i18n',
-				glotpress_download: 'grunt-glotpress',
-				wpcss: 'grunt-wp-css'
+				addtextdomain: "grunt-wp-i18n",
+				makepot: "grunt-wp-i18n",
+				glotpress_download: "grunt-glotpress",
+				wpcss: "grunt-wp-css",
 			},
-			customTasksDir: 'grunt/custom'
-		}
-	});
+			customTasksDir: "grunt/custom",
+		},
+	} );
 };

@@ -1,11 +1,29 @@
-# Save as .codeclimate.yml (note leading .) in project root directory
-languages:
-  JavaScript: true
-  PHP: true
+---
+engines:
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+      - php
+  fixme:
+    enabled: true
+  phpmd:
+    enabled: true
+    config:
+      rulesets: "phpmd.xml"
+ratings:
+  paths:
+  - "**.css"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.php"
 exclude_paths:
-- "tests/*"
-- "grunt/*"
-- "grunt/**/*"
-- "js/jquery.qtip*"
-- "inc/wpseo-functions-deprecated.php"
-- "js/dist/*"
+- tests/*
+- grunt/*
+- grunt/**/*
+- inc/wpseo-functions-deprecated.php
+- js/dist/*

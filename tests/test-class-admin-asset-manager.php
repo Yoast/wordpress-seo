@@ -7,6 +7,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	private $asset_manager;
 
 	public function setUp() {
+		parent::setUp();
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 	}
 
@@ -127,7 +128,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$result = $wp_styles->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle' ];
 
 		$this->assertEquals( WPSEO_Admin_Asset_Manager::PREFIX . 'handle', $result->handle );
-		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/css/src' . WPSEO_CSSJS_SUFFIX . '.css', $result->src );
+		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/css/dist/src' . WPSEO_CSSJS_SUFFIX . '.css', $result->src );
 		$this->assertEquals( array( 'deps' ), $result->deps );
 		$this->assertEquals( 'version', $result->ver );
 		$this->assertEquals( 'print', $result->args );
@@ -149,16 +150,19 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 
 		$result = $wp_styles->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle2' ];
 
-		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/css/src.suffix.css', $result->src );
+		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/css/dist/src.suffix.css', $result->src );
 	}
 
 	/**
 	 * @covers WPSEO_Admin_Asset_Manager::register_scripts
 	 */
 	public function test_register_scripts() {
+
 		$class_instance =
 			$this
-				->getMock( 'WPSEO_Admin_Asset_Manager', array( 'register_script' ) );
+				->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
+				->setMethods( array( 'register_script' ) )
+				->getMock();
 
 		$class_instance
 			->expects( $this->at( 0 ) )
@@ -204,9 +208,12 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_styles
 	 */
 	public function test_register_styles() {
+
 		$class_instance =
 			$this
-				->getMock( 'WPSEO_Admin_Asset_Manager', array( 'register_style' ) );
+				->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
+				->setMethods( array( 'register_style' ) )
+				->getMock();
 
 		$class_instance
 			->expects( $this->at( 0 ) )
@@ -252,9 +259,12 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_assets
 	 */
 	public function test_register_assets() {
+
 		$class_instance =
 			$this
-				->getMock( 'WPSEO_Admin_Asset_Manager', array( 'register_scripts', 'register_styles' ) );
+				->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
+				->setMethods( array( 'register_scripts', 'register_styles' ) )
+				->getMock();
 
 		$class_instance
 			->expects( $this->once() )
@@ -264,5 +274,26 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			->method( 'register_styles' );
 
 		$class_instance->register_assets();
+	}
+
+	/**
+	 * Tests the flatten_version function
+	 *
+	 * @covers WPSEO_Admin_Asset_Manager::flatten_version
+	 * @dataProvider flatten_version_provider
+	 */
+	public function test_flatten_version( $original, $expected ) {
+		$this->assertEquals( $expected, $this->asset_manager->flatten_version( $original ) );
+	}
+
+	public function flatten_version_provider() {
+		return array(
+			array( '3.0', '300' ),
+			array( '1.4', '140' ),
+			array( '', '' ),
+			array( '3.0.0', '300' ),
+			array( '25.1456.140', '251456140' ),
+			array( '1', '1' ),
+		);
 	}
 }

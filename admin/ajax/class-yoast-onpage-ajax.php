@@ -6,8 +6,8 @@
 /**
  * Class Yoast_OnPage_Ajax
  *
- * This class will catch the request to dismiss the OnPage.org notice and will store the dismiss status as an user meta
- * in the database
+ * This class will catch the request to dismiss the Ryte notice and will store
+ * the dismiss status as an user meta in the database.
  */
 class Yoast_OnPage_Ajax {
 
@@ -30,10 +30,9 @@ class Yoast_OnPage_Ajax {
 	}
 
 	/**
-	 * Storing the the dismissed value as an user option in the database
+	 * Storing the dismissed value as an user option in the database
 	 */
 	private function save_dismissed() {
 		update_user_meta( get_current_user_id(), WPSEO_OnPage::USER_META_KEY, 1 );
 	}
-
 }

@@ -11,7 +11,7 @@ class WPSEO_Taxonomy_Settings_Fields_Double extends WPSEO_Taxonomy_Settings_Fiel
 	 * @param string $option_name  The target key which will be overwritten
 	 * @param string $option_value The new value for the option.
 	 */
-	public function set_option($option_name, $option_value) {
+	public function set_option( $option_name, $option_value ) {
 		$this->options[ $option_name ] = $option_value;
 
 	}
@@ -23,7 +23,7 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @var WPSEO_Taxonomy_Settings_Fields_Double
 	 */
-	private  $class_instance;
+	private $class_instance;
 
 	/**
 	 * @var stdClass The created term.
@@ -93,7 +93,7 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 		$fields_before = $this->class_instance->get();
 
 		$this->assertEquals(
-			'Use ' . $this->term->taxonomy . ' default (Currently: noindex)',
+			'Default for this taxonomy type, currently: noindex',
 			$fields_before['noindex']['options']['options']['default']
 		);
 
@@ -102,8 +102,17 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 
 		$fields_after = $this->class_instance->get();
 		$this->assertEquals(
-			'Use ' . $this->term->taxonomy . ' default (Currently: index)',
+			'Default for this taxonomy type, currently: index',
 			$fields_after['noindex']['options']['options']['default']
 		);
+	}
+
+	public function test_get_noindex_options_ON_non_public_blog() {
+		update_option( 'blog_public', '0' );
+
+		$no_index_options = $this->class_instance->get();
+
+		$this->assertEquals( '<br /><span class="error-message">Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won&#039;t have an effect.</span>', $no_index_options['noindex']['options']['description'] );
+
 	}
 }

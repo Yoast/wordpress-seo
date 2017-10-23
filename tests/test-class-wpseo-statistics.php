@@ -39,11 +39,10 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_filled_statistics_no_focus() {
 		$posts = $this->factory->post->create_many( 2, array(
-			'post_status' => 'publish'
+			'post_status' => 'publish',
 		) );
 
-		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 0 );
-		add_post_meta( $posts[1], '_yoast_wpseo_linkdex', 1 );
+		add_post_meta( $posts[1], '_yoast_wpseo_focuskw', 'focus keyword' );
 
 		$this->assertEquals( 1, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::NO_FOCUS ) ) );
 	}
@@ -55,7 +54,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_filled_statistics_bad() {
 		$posts = $this->factory->post->create_many( 4, array(
-			'post_status' => 'publish'
+			'post_status' => 'publish',
 		) );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 0 ); // not bad
@@ -73,7 +72,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_filled_statistics_ok() {
 		$posts = $this->factory->post->create_many( 4, array(
-			'post_status' => 'publish'
+			'post_status' => 'publish',
 		) );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 40 ); // not ok
@@ -91,7 +90,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_filled_statistics_good() {
 		$posts = $this->factory->post->create_many( 4, array(
-			'post_status' => 'publish'
+			'post_status' => 'publish',
 		) );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 70 ); // not good
@@ -109,13 +108,19 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_all_statistics_published_posts() {
 		$posts = $this->factory->post->create_many( 4, array(
-			'post_status' => 'publish'
+			'post_status' => 'publish',
 		) );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 0 ); // no-focus
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 1 ); // bad
+
 		add_post_meta( $posts[1], '_yoast_wpseo_linkdex', 41 ); // ok
+		add_post_meta( $posts[1], '_yoast_wpseo_focuskw', 'focus keyword' );
+
 		add_post_meta( $posts[2], '_yoast_wpseo_linkdex', 71 ); // good
+		add_post_meta( $posts[2], '_yoast_wpseo_focuskw', 'focus keyword' );
+
+		add_post_meta( $posts[3], '_yoast_wpseo_focuskw', 'focus keyword' );
 
 		$this->assertEquals( 1, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::BAD ) ) );
 		$this->assertEquals( 1, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::OK ) ) );
@@ -130,7 +135,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_only_published_posts() {
 		$posts = $this->factory->post->create_many( 4, array(
-			'post_status' => 'draft'
+			'post_status' => 'draft',
 		) );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 0 ); // no-focus

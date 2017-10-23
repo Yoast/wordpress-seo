@@ -32,9 +32,9 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Post_Metabox_Formatter( null, array(), '' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['search_url'],    admin_url( 'edit.php?seo_kw_filter={keyword}' ) );
+		$this->assertEquals( $result['search_url'], admin_url( 'edit.php?seo_kw_filter={keyword}' ) );
 		$this->assertEquals( $result['post_edit_url'], admin_url( 'post.php?post={id}&action=edit' ) );
-		$this->assertEquals( $result['base_url'], trailingslashit( home_url() ) );
+		$this->assertEquals( $result['base_url'], WPSEO_Utils::home_url() );
 	}
 
 	/**
@@ -65,7 +65,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$options  = array(
 			'title-post'    => 'This is the title',
 			'metadesc-post' => 'This is the metadescription',
-			'showdate-post' => true
+			'showdate-post' => true,
 		);
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, $options, '' );
 		$result   = $instance->get_values();
@@ -88,7 +88,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, array(), '' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['base_url'], trailingslashit( home_url() ) );
+		$this->assertEquals( $result['base_url'], WPSEO_Utils::home_url() );
 
 		unset( $GLOBALS['pagenow'] );
 	}
@@ -116,7 +116,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, array(), '%isnotreplaced%/' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['base_url'], trailingslashit( home_url() ) );
+		$this->assertEquals( $result['base_url'], WPSEO_Utils::home_url() );
 	}
 
 	/**
@@ -128,7 +128,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	public function test_with_missing_option() {
 		$options  = array(
 			'title-post'    => 'This is the title',
-			'showdate-post' => true
+			'showdate-post' => true,
 		);
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, $options, '' );
 		$result   = $instance->get_values();

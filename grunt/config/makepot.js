@@ -2,16 +2,21 @@
 module.exports = {
 	plugin: {
 		options: {
-			domainPath: '<%= paths.languages %>',
-			potFilename: '<%= pkg.plugin.textdomain %>-temp.pot',
+			domainPath: "<%= paths.languages %>",
+			potFilename: "<%= pkg.plugin.textdomain %>-temp.pot",
 			potHeaders: {
 				poedit: true,
-				'report-msgid-bugs-to': '<%= pkg.pot.reportmsgidbugsto %>',
-				'language-team': '<%= pkg.pot.languageteam %>',
-				'last-translator': '<%= pkg.pot.lasttranslator %>'
+				"report-msgid-bugs-to": "<%= pkg.pot.reportmsgidbugsto %>",
+				"language-team": "<%= pkg.pot.languageteam %>",
+				"last-translator": "<%= pkg.pot.lasttranslator %>",
 			},
-			type: 'wp-plugin',
-			exclude: ['premium/.*']
-		}
-	}
+			type: "wp-plugin",
+			exclude: [
+				"premium/.*",
+				"<%= files.pot.php.yoastseojs %>",
+				"<%= files.pot.php.yoastComponents %>",
+				"artifact",
+			],
+		},
+	},
 };

@@ -1,0 +1,95 @@
+%bordered {
+	border: 1px solid $color-grey-line;
+
+	&--fullwidth {
+		border-left: none;
+		border-right: none;
+	}
+
+	&--top {
+		border-left: none;
+		border-right: none;
+		border-bottom: none;
+	}
+
+	&--bottom {
+		border-left: none;
+		border-right: none;
+		border-top: none;
+	}
+
+	.theme-academy & {
+		border-color: $scheme-academy-primary;
+	}
+
+	.theme-academy--secondary & {
+		border-color: $scheme-academy-secondary;
+	}
+
+	.theme-software & {
+		border-color: $scheme-software-primary;
+	}
+
+	.theme-review & {
+		border-color: $scheme-review-primary;
+	}
+
+	.theme-about & {
+		border-color: $scheme-about-primary;
+	}
+
+	.theme-home & {
+		border-color: $scheme-about-primary;
+	}
+
+
+	/* Explicit theming */
+
+	&.theme-academy {
+		border-color: $scheme-academy-primary;
+	}
+
+	&.theme-academy--secondary {
+		border-color: $scheme-academy-secondary;
+	}
+
+	&.theme-software {
+		border-color: $scheme-software-primary;
+	}
+
+	&.theme-software--secondary {
+		border-color: $scheme-software-secondary;
+	}
+
+	&.theme-review {
+		border-color: $scheme-review-primary;
+	}
+
+	&.theme-review--secondary {
+		border-color: $scheme-review-secondary;
+	}
+
+	&.theme-about {
+		border-color: $scheme-about-primary;
+	}
+
+	&.theme-about--secondary {
+		border-color: $scheme-about-secondary;
+	}
+
+	&.link {
+		border-color: $color-orange;
+
+		&::after {
+			@include vendor(filter, drop-shadow(1px 0 0 $color-orange));
+		}
+	}
+
+	&.cta {
+		border-color: $color-orange;
+
+		&::after {
+			@include vendor(filter, drop-shadow(1px 0 0 $color-orange));
+		}
+	}
+}

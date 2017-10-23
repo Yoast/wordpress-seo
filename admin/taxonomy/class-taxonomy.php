@@ -16,6 +16,16 @@ class WPSEO_Taxonomy {
 	private $taxonomy = '';
 
 	/**
+	 * @var WPSEO_Metabox_Analysis_SEO
+	 */
+	private $analysis_seo;
+
+	/**
+	 * @var WPSEO_Metabox_Analysis_Readability
+	 */
+	private $analysis_readability;
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -24,11 +34,16 @@ class WPSEO_Taxonomy {
 		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
+
+		$this->insert_description_field_editor();
+
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
+		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
 	/**
@@ -71,6 +86,7 @@ class WPSEO_Taxonomy {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'scoring' );
 
+
 		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
 		if (
 			self::is_term_edit( $pagenow ) &&
@@ -78,25 +94,27 @@ class WPSEO_Taxonomy {
 		) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
-			$asset_manager->enqueue_style( 'yoast-seo' );
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'snippet' );
 			$asset_manager->enqueue_style( 'scoring' );
-
-			wp_editor( '', 'description' );
-
 			$asset_manager->enqueue_script( 'metabox' );
-			$asset_manager->enqueue_script( 'yoast-seo' );
 			$asset_manager->enqueue_script( 'term-scraper' );
+			$asset_manager->enqueue_style( 'kb-search' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
 
 			$asset_manager->enqueue_script( 'admin-media' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', array(
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			) );
+		}
+
+		if ( self::is_term_overview( $pagenow ) ) {
+			$asset_manager->enqueue_script( 'edit-page-script' );
 		}
 	}
 
@@ -114,11 +132,34 @@ class WPSEO_Taxonomy {
 			if ( $posted_value = filter_input( INPUT_POST, $key ) ) {
 				$new_meta_data[ $key ] = $posted_value;
 			}
+
+			// If analysis is disabled remove that analysis score value from the DB.
+			if ( $this->is_meta_value_disabled( $key ) ) {
+				$new_meta_data[ $key ] = '';
+			}
 		}
 		unset( $key, $default );
 
 		// Saving the values.
 		WPSEO_Taxonomy_Meta::set_values( $term_id, $taxonomy, $new_meta_data );
+	}
+
+	/**
+	 * Determines if the given meta value key is disabled
+	 *
+	 * @param string $key The key of the meta value.
+	 * @return bool Whether the given meta value key is disabled.
+	 */
+	public function is_meta_value_disabled( $key ) {
+		if ( 'wpseo_linkdex' === $key && ! $this->analysis_seo->is_enabled() ) {
+			return true;
+		}
+
+		if ( 'wpseo_content_score' === $key && ! $this->analysis_readability->is_enabled() ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -136,6 +177,18 @@ class WPSEO_Taxonomy {
 			remove_filter( $filter, 'wp_filter_kses' );
 		}
 		remove_filter( 'term_description', 'wp_kses_data' );
+	}
+
+	/**
+	 * Output the WordPress editor.
+	 */
+	public function custom_category_description_editor() {
+
+		if ( ! $this->show_metabox() ) {
+			return;
+		}
+
+		wp_editor( '', 'description' );
 	}
 
 	/**
@@ -178,7 +231,28 @@ class WPSEO_Taxonomy {
 		return array(
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
+			'scope'          => $this->determine_scope(),
 		);
+	}
+
+	/**
+	 * Determines the scope based on the current taxonomy.
+	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
+	 *
+	 * @return string String decribing the current scope.
+	 */
+	private function determine_scope() {
+		$taxonomy = $this->get_taxonomy();
+
+		if ( $taxonomy === 'category' ) {
+			return 'category';
+		}
+
+		if ( $taxonomy === 'post_tag' ) {
+			return 'tag';
+		}
+
+		return 'term';
 	}
 
 	/**
@@ -196,8 +270,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	public static function is_term_edit( $page ) {
-		return 'term.php' === $page
-		       || 'edit-tags.php' === $page; // After we drop support for <4.5 this can be removed.
+		return 'term.php' === $page;
 	}
 
 	/**
@@ -228,8 +301,8 @@ class WPSEO_Taxonomy {
 	 * @return array replace vars.
 	 */
 	private function get_replace_vars() {
-		$term_id                 = filter_input( INPUT_GET, 'tag_ID' );
-		$term                    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$term_id = filter_input( INPUT_GET, 'tag_ID' );
+		$term  = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$cached_replacement_vars = array();
 
 		$vars_to_cache = array(
@@ -258,9 +331,25 @@ class WPSEO_Taxonomy {
 		return $cached_replacement_vars;
 	}
 
+	/**
+	 * Adds custom category description editor.
+	 * Needs a hook that runs before the description field. Prior to WP version 4.5 we need to use edit_form as
+	 * term_edit_form_top was introduced in WP 4.5. This can be removed after <4.5 is no longer supported.
+	 *
+	 * @return {void}
+	 */
+	private function insert_description_field_editor() {
+		if ( version_compare( $GLOBALS['wp_version'], '4.5', '<' ) ) {
+			add_action( "{$this->taxonomy}_edit_form", array( $this, 'custom_category_description_editor' ) );
+			return;
+		}
+
+		add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
+	}
 
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * @deprecated 3.2
 	 *
@@ -271,7 +360,7 @@ class WPSEO_Taxonomy {
 	 * @return string
 	 */
 	public static function get_title_template( $term ) {
-		_deprecated_function( 'WPSEO_Taxonomy::get_title_template', 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_title_template' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_title_template' );
 
 		return '';
 	}
@@ -286,7 +375,7 @@ class WPSEO_Taxonomy {
 	 * @return string
 	 */
 	public static function get_metadesc_template( $term ) {
-		_deprecated_function( 'WPSEO_Taxonomy::get_metadesc_template', 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_metadesc_template' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_metadesc_template' );
 
 		return '';
 	}
@@ -296,11 +385,11 @@ class WPSEO_Taxonomy {
 	 *
 	 * Translate options text strings for use in the select fields
 	 *
-	 * @internal IMPORTANT: if you want to add a new string (option) somewhere, make sure you add
-	 * that array key to the main options definition array in the class WPSEO_Taxonomy_Meta() as well!!!!
+	 * {@internal IMPORTANT: if you want to add a new string (option) somewhere, make sure you add
+	 * that array key to the main options definition array in the class WPSEO_Taxonomy_Meta() as well!!!!}}
 	 */
 	public function translate_meta_options() {
-		_deprecated_function( 'WPSEO_Taxonomy::translate_meta_options', 'WPSEO 3.2', 'WPSEO_Taxonomy_Settings_Fields::translate_meta_options' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Taxonomy_Settings_Fields::translate_meta_options' );
 	}
-
-} /* End of class */
+	// @codeCoverageIgnoreEnd
+}

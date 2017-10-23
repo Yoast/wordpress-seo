@@ -20,13 +20,11 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 		$this->import_taxonomy_metas();
 
 		$this->set_msg(
-			__(
-				sprintf(
-					'wpSEO data successfully imported. Would you like to %sdisable the wpSEO plugin%s?',
-					'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_wpseo=1#top#import-seo' ) ) . '">',
-					'</a>'
-				),
-				'wordpress-seo'
+			sprintf(
+				/* translators: 1: link open tag; 2: link close tag. */
+				__( 'wpSEO data successfully imported. Would you like to %1$sdisable the wpSEO plugin%2$s?', 'wordpress-seo' ),
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_wpseo=1#top#import-seo' ) ) . '">',
+				'</a>'
 			)
 		);
 
@@ -167,12 +165,36 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 			 * @var array
 			 */
 			$robot_values = array(
-				1 => array( 'index' => 2, 'follow' => 0 ), // In wpSEO: index, follow.
-				2 => array( 'index' => 2, 'follow' => 1 ), // In wpSEO: index, nofollow.
-				3 => array( 'index' => 1, 'follow' => 0 ), // In wpSEO: noindex.
-				4 => array( 'index' => 1, 'follow' => 0 ), // In wpSEO: noindex, follow.
-				5 => array( 'index' => 1, 'follow' => 1 ), // In wpSEO: noindex, nofollow.
-				6 => array( 'index' => 2, 'follow' => 0 ), // In wpSEO: index.
+				// In wpSEO: index, follow.
+				1 => array(
+					'index'  => 2,
+					'follow' => 0,
+				),
+				// In wpSEO: index, nofollow.
+				2 => array(
+					'index'  => 2,
+					'follow' => 1,
+				),
+				// In wpSEO: noindex.
+				3 => array(
+					'index'  => 1,
+					'follow' => 0,
+				),
+				// In wpSEO: noindex, follow.
+				4 => array(
+					'index'  => 1,
+					'follow' => 0,
+				),
+				// In wpSEO: noindex, nofollow.
+				5 => array(
+					'index'  => 1,
+					'follow' => 1,
+				),
+				// In wpSEO: index.
+				6 => array(
+					'index'  => 2,
+					'follow' => 0,
+				),
 			);
 		}
 
@@ -180,7 +202,6 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 			return $robot_values[ $wpseo_robots ];
 		}
 
-		return array( 'index' => 2, 'follow' => 0 );
+		return $robot_values[1];
 	}
-
 }

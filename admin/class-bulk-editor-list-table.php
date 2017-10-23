@@ -102,7 +102,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Class constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::__construct( $this->settings );
 
 		$this->request_url    = $_SERVER['REQUEST_URI'];
@@ -130,7 +130,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	private function verify_nonce() {
 		if ( $this->should_verify_nonce() && ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'bulk-editor-table' ) ) {
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( __( 'You are not allowed to access this page.', 'wordpress-seo' ), array( 'type' => 'error' ) ) );
+			Yoast_Notification_Center::get()->add_notification(
+				new Yoast_Notification(
+					__( 'You are not allowed to access this page.', 'wordpress-seo' ),
+					array( 'type' => Yoast_Notification::ERROR )
+				)
+			);
 			Yoast_Notification_Center::get()->display_notifications();
 			die;
 		}
@@ -173,7 +178,13 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Used in the constructor to build a reference list of post types the current user can edit.
 	 */
 	protected function populate_editable_post_types() {
-		$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ), 'object' );
+		$post_types = get_post_types(
+			array(
+				'public'              => true,
+				'exclude_from_search' => false,
+			),
+			'object'
+		);
 
 		$this->all_posts = array();
 		$this->own_posts = array();
@@ -200,7 +211,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * @param string $which Table nav location (such as top).
 	 */
-	function display_tablenav( $which ) {
+	public function display_tablenav( $which ) {
 		$post_status = sanitize_text_field( filter_input( INPUT_GET, 'post_status' ) );
 		?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
@@ -212,11 +223,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				<input type="hidden" name="tool" value="bulk-editor"/>
 				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>"/>
 				<input type="hidden" name="orderby"
-				       value="<?php echo esc_attr( filter_input( INPUT_GET, 'orderby' ) ); ?>"/>
+					value="<?php echo esc_attr( filter_input( INPUT_GET, 'orderby' ) ); ?>"/>
 				<input type="hidden" name="order"
-				       value="<?php echo esc_attr( filter_input( INPUT_GET, 'order' ) ); ?>"/>
+					value="<?php echo esc_attr( filter_input( INPUT_GET, 'order' ) ); ?>"/>
 				<input type="hidden" name="post_type_filter"
-				       value="<?php echo esc_attr( filter_input( INPUT_GET, 'post_type_filter' ) ); ?>"/>
+					value="<?php echo esc_attr( filter_input( INPUT_GET, 'post_type_filter' ) ); ?>"/>
 				<?php if ( ! empty( $post_status ) ) { ?>
 					<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>"/>
 				<?php } ?>
@@ -244,7 +255,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * @return string $subquery The subquery, which should always be used in $wpdb->prepare(), passing the current user_id in as the first parameter.
 	 */
-	function get_base_subquery() {
+	public function get_base_subquery() {
 		global $wpdb;
 
 		$all_posts_string = "'" . implode( "', '", $this->all_posts ) . "'";
@@ -269,7 +280,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * @return array
 	 */
-	function get_views() {
+	public function get_views() {
 		global $wpdb;
 
 		$status_links = array();
@@ -289,9 +300,15 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		);
 
 
-		$post_status         = filter_input( INPUT_GET, 'post_status' );
-		$class               = empty( $post_status ) ? ' class="current"' : '';
-		$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor' . $this->page_url ) ) . '"' . $class . '>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts', 'wordpress-seo' ), number_format_i18n( $total_posts ) ) . '</a>';
+		$post_status    = filter_input( INPUT_GET, 'post_status' );
+		$class          = empty( $post_status ) ? ' class="current"' : '';
+		$localized_text = sprintf(
+			/* translators: %s expands to the number of posts in localized format. */
+			_nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts', 'wordpress-seo' ),
+			number_format_i18n( $total_posts )
+		);
+
+		$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor' . $this->page_url ) ) . '"' . $class . '>' . $localized_text . '</a>';
 
 		$post_stati = get_post_stati( array( 'show_in_admin_all_list' => true ), 'objects' );
 		if ( is_array( $post_stati ) && $post_stati !== array() ) {
@@ -334,7 +351,14 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		if ( 'trash' === $post_status ) {
 			$class = 'class="current"';
 		}
-		$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor&post_status=trash' . $this->page_url ) ) . '"' . $class . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $trashed_posts, 'posts', 'wordpress-seo' ), number_format_i18n( $trashed_posts ) ) . '</a>';
+
+		$localized_text = sprintf(
+			/* translators: %s expands to the number of trashed posts in localized format. */
+			_nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $trashed_posts, 'posts', 'wordpress-seo' ),
+			number_format_i18n( $trashed_posts )
+		);
+
+		$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor&post_status=trash' . $this->page_url ) ) . '"' . $class . '>' . $localized_text . '</a>';
 
 		return $status_links;
 	}
@@ -343,10 +367,17 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * @param string $which Table nav location (such as top).
 	 */
-	function extra_tablenav( $which ) {
+	public function extra_tablenav( $which ) {
 
 		if ( 'top' === $which ) {
-			$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ) );
+			$post_types = get_post_types(
+				array(
+					'public'              => true,
+					'exclude_from_search' => false,
+				)
+			);
+
+			$instance_type = esc_attr( $this->page_type );
 
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				global $wpdb;
@@ -374,7 +405,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$post_type_filter = filter_input( INPUT_GET, 'post_type_filter' );
 				$selected         = ( ! empty( $post_type_filter ) ) ? sanitize_text_field( $post_type_filter ) : '-1';
 
-				$options = '<option value="-1">Show All Post Types</option>';
+				$options = '<option value="-1">' . __( 'Show All Post Types', 'wordpress-seo' ) . '</option>';
 
 				if ( is_array( $post_types ) && $post_types !== array() ) {
 					foreach ( $post_types as $post_type ) {
@@ -383,7 +414,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					}
 				}
 
-				echo sprintf( '<select name="post_type_filter">%1$s</select>', $options );
+				printf(
+					'<label for="%1$s" class="screen-reader-text">%2$s</label>',
+					'post-type-filter-' . $instance_type,
+					__( 'Filter by post type', 'wordpress-seo' )
+				);
+				printf( '<select name="post_type_filter" id="post-type-filter-%2$s">%1$s</select>', $options, $instance_type );
 				submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
 			}
@@ -394,8 +430,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * @return array
 	 */
-	function get_sortable_columns() {
-		return $sortable = array(
+	public function get_sortable_columns() {
+		return array(
 			'col_page_title' => array( 'post_title', true ),
 			'col_post_type'  => array( 'post_type', false ),
 			'col_post_date'  => array( 'post_date', false ),
@@ -405,7 +441,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Sets the correct pagenumber and pageurl for the navigation
 	 */
-	function prepare_page_navigation() {
+	public function prepare_page_navigation() {
 
 		$request_url = $this->request_url . $this->page_url;
 
@@ -426,8 +462,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			$current_page   = 1;
 			$current_filter = '-1';
 			$current_status = '';
-			$current_order  = array( 'orderby' => 'post_title', 'order' => 'asc' );
-
+			$current_order  = array(
+				'orderby' => 'post_title',
+				'order'   => 'asc',
+			);
 		}
 
 		$_SERVER['REQUEST_URI'] = $request_url;
@@ -445,7 +483,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Preparing the requested pagerows and setting the needed variables
 	 */
-	function prepare_items() {
+	public function prepare_items() {
 
 		$post_type_clause = $this->get_post_type_clause();
 		$all_states       = $this->get_all_states();
@@ -674,11 +712,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Based on $this->items and the defined columns, the table rows will be displayed.
 	 */
-	function display_rows() {
+	public function display_rows() {
 
 		$records = $this->items;
 
-		list( $columns, $hidden ) = $this->get_column_info();
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		if ( ( is_array( $records ) && $records !== array() ) && ( is_array( $columns ) && $columns !== array() ) ) {
 
@@ -688,7 +726,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				foreach ( $columns as $column_name => $column_display_name ) {
 
-					$attributes = $this->column_attributes( $column_name, $hidden );
+					$classes = '';
+					if ( $primary === $column_name ) {
+						$classes .= ' has-row-actions column-primary';
+					}
+
+					$attributes = $this->column_attributes( $column_name, $hidden, $classes, $column_display_name );
 
 					$column_value = $this->parse_column( $column_name, $rec );
 
@@ -697,7 +740,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					}
 
 					if ( ! empty( $column_value ) ) {
-						echo sprintf( '<td %2$s>%1$s</td>', $column_value, $attributes );
+						printf( '<td %2$s>%1$s</td>', $column_value, $attributes );
 					}
 				}
 
@@ -709,21 +752,27 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Getting the attributes for each table cell.
 	 *
-	 * @param string $column_name Column name string.
-	 * @param array  $hidden      Set of hidden columns.
+	 * @param string $column_name         Column name string.
+	 * @param array  $hidden              Set of hidden columns.
+	 * @param string $classes             Additional CSS classes.
+	 * @param string $column_display_name Column display name string.
 	 *
 	 * @return string
 	 */
-	protected function column_attributes( $column_name, $hidden ) {
+	protected function column_attributes( $column_name, $hidden, $classes, $column_display_name ) {
 
-		$class = sprintf( 'class="%1$s column-%1$s"', $column_name );
-		$style = '';
+		$attributes = '';
+		$class = array( $column_name, "column-$column_name$classes" );
 
 		if ( in_array( $column_name, $hidden ) ) {
-			$style = ' style="display:none;"';
+			$class[] = 'hidden';
 		}
 
-		$attributes = $class . $style;
+		if ( ! empty( $class ) ) {
+			$attributes = 'class="' . implode( ' ', $class ) . '"';
+		}
+
+		$attributes .= ' data-colname="' . esc_attr( $column_display_name ) . '"';
 
 		return $attributes;
 	}
@@ -737,7 +786,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function parse_page_title_column( $rec ) {
 
-		$return = sprintf( '<strong>%1$s</strong>', stripslashes( wp_strip_all_tags( $rec->post_title ) ) );
+		$title = empty( $rec->post_title ) ? __( '(no title)', 'wordpress-seo' ) : $rec->post_title;
+
+		$return = sprintf( '<strong>%1$s</strong>', stripslashes( wp_strip_all_tags( $title ) ) );
 
 		$post_type_object = get_post_type_object( $rec->post_type );
 		$can_edit_post    = current_user_can( $post_type_object->cap->edit_post, $rec->ID );
@@ -745,17 +796,35 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$actions = array();
 
 		if ( $can_edit_post && 'trash' !== $rec->post_status ) {
-			$actions['edit'] = '<a href="' . esc_url( get_edit_post_link( $rec->ID, true ) ) . '" title="' . esc_attr( __( 'Edit this item', 'wordpress-seo' ) ) . '">' . __( 'Edit', 'wordpress-seo' ) . '</a>';
+			$actions['edit'] = sprintf(
+				'<a href="%s" aria-label="%s">%s</a>',
+				esc_url( get_edit_post_link( $rec->ID, true ) ),
+				/* translators: %s: post title */
+				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
+				__( 'Edit', 'wordpress-seo' )
+			);
 		}
 
 		if ( $post_type_object->public ) {
 			if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
 				if ( $can_edit_post ) {
-					$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '">' . __( 'Preview', 'wordpress-seo' ) . '</a>';
+					$actions['view'] = sprintf(
+						'<a href="%s" aria-label="%s">%s</a>',
+						esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ),
+						/* translators: %s: post title */
+						esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
+						__( 'Preview', 'wordpress-seo' )
+					);
 				}
 			}
 			elseif ( 'trash' !== $rec->post_status ) {
-				$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View', 'wordpress-seo' ) . '</a>';
+				$actions['view'] = sprintf(
+					'<a href="%s" aria-label="%s" rel="bookmark">%s</a>',
+					esc_url( get_permalink( $rec->ID ) ),
+					/* translators: %s: post title */
+					esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
+					__( 'View', 'wordpress-seo' )
+				);
 			}
 		}
 
@@ -789,7 +858,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			case 'col_page_slug':
 				$permalink    = get_permalink( $rec->ID );
 				$display_slug = str_replace( get_bloginfo( 'url' ), '', $permalink );
-				$column_value = sprintf( '<a href="%2$s" target="_blank">%1$s</a>', stripslashes( $display_slug ), esc_url( $permalink ) );
+				$column_value = sprintf( '<a href="%2$s" target="_blank">%1$s</a>', stripslashes( rawurldecode( $display_slug ) ), esc_url( $permalink ) );
 				break;
 
 			case 'col_post_type':
@@ -807,7 +876,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				break;
 
 			case 'col_row_action':
-				$column_value = sprintf( '<a href="#" class="wpseo-save" data-id="%1$s">Save</a> | <a href="#" class="wpseo-save-all">Save All</a>', $rec->ID );
+				$column_value = sprintf(
+					'<a href="#" role="button" class="wpseo-save" data-id="%1$s">%2$s</a> <span aria-hidden="true">|</span> <a href="#" role="button" class="wpseo-save-all">%3$s</a>',
+					$rec->ID,
+					esc_html__( 'Save', 'wordpress-seo' ),
+					esc_html__( 'Save all', 'wordpress-seo' )
+				);
 				break;
 		}
 

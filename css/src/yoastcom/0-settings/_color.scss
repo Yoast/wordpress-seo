@@ -1,0 +1,67 @@
+// Color Palet
+$color-white:					#FFF;
+$color-black:					#000;
+$color-grey:					#DCDCDC;
+
+$color-purple:					#5D237A;
+$color-pink-dark:				#A4286A;
+$color-pink-light:				#D93F69;
+$color-blue:					#0075B3;
+$color-green-blue:				#009288;
+$color-green:					#77B227;
+$color_green_medium:			#008a00;
+$color-orange:					#DC5C04;
+
+$color-shadow-purple:			#5D237A;
+$color-shadow-pink-dark:		#A4286A;
+$color-shadow-pink-light:		#D93F69;
+$color-shadow-blue:				#0075B3;
+$color-shadow-green-blue:		#009288;
+$color-shadow-green:			#77B227;
+$color-shadow-orange:			#DC5C04;
+
+$color-error:					#dc3232;
+
+// Button hovers
+$color-orange-hover:				#F58223;
+$color-grey-hover:					#CDCDCD;
+
+$color-pink: 						#D93F69;
+$color-pink-hover:					darken( $color-pink, 5% );
+
+// Color schemes
+$scheme-home-primary:				$color-pink-light;
+$scheme-home-secondary:				$color-pink-dark;
+$scheme-home-tertiary:				$color-purple;
+$scheme-home-menu-primary:			$color-pink-dark;
+$scheme-home-menu-secondary:		$color-pink-light;
+
+$scheme-academy-primary:			$color-purple;
+$scheme-academy-secondary:			$color-pink-dark;
+$scheme-academy-tertiary:			$color-pink-light;
+$scheme-academy-menu-primary:		$color-pink-dark;
+$scheme-academy-menu-secondary:		$color-purple;
+
+$scheme-software-primary:			$color-blue;
+$scheme-software-secondary:			$color-green-blue;
+$scheme-software-tertiary:			$color-green;
+$scheme-software-menu-primary:		$color-green-blue;
+$scheme-software-menu-secondary:	$color-blue;
+
+$scheme-review-primary:				$color-green-blue;
+$scheme-review-secondary:			$color-green;
+$scheme-review-tertiary:			$color-blue;
+$scheme-review-menu-primary:		$color-green-blue;
+$scheme-review-menu-secondary:		$color-green;
+
+$scheme-about-primary:				$color-pink-light;
+$scheme-about-secondary:			$color-pink-dark;
+$scheme-about-tertiary:				$color-purple;
+$scheme-about-menu-primary:			$color-pink-dark;
+$scheme-about-menu-secondary:		$color-pink-light;
+
+
+$color-grey-cta:				#DCDCDC;
+$color-grey-line:				#E6E6E6;
+$color-grey-quote:				#8C8C8C;
+$color-grey-text:				#646464;

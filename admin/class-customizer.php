@@ -26,7 +26,7 @@ class WPSEO_Customizer {
 	 * @param WP_Customize_Manager $wp_customize Manager class instance.
 	 */
 	public function wpseo_customize_register( $wp_customize ) {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			return;
 		}
 

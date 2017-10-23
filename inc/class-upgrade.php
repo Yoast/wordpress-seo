@@ -24,8 +24,6 @@ class WPSEO_Upgrade {
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
-		$this->init();
-
 		if ( version_compare( $this->options['version'], '1.5.0', '<' ) ) {
 			$this->upgrade_15( $this->options['version'] );
 		}
@@ -50,29 +48,60 @@ class WPSEO_Upgrade {
 			$this->upgrade_30();
 		}
 
+		if ( version_compare( $this->options['version'], '3.3', '<' ) ) {
+			$this->upgrade_33();
+		}
+
+		if ( version_compare( $this->options['version'], '3.6', '<' ) ) {
+			$this->upgrade_36();
+		}
+
+		if ( version_compare( $this->options['version'], '4.0', '<' ) ) {
+			$this->upgrade_40();
+		}
+
+		if ( version_compare( $this->options['version'], '4.4', '<' ) ) {
+			$this->upgrade_44();
+		}
+
+		if ( version_compare( $this->options['version'], '4.7', '<' ) ) {
+			$this->upgrade_47();
+		}
+
+		if ( version_compare( $this->options['version'], '4.9', '<' ) ) {
+			$this->upgrade_49();
+		}
+
+		if ( version_compare( $this->options['version'], '5.0', '<' ) ) {
+			$this->upgrade_50();
+		}
+
+		if ( version_compare( $this->options['version'], '5.0', '>=' )
+			&& version_compare( $this->options['version'], '5.1', '<' )
+		) {
+			$this->upgrade_50_51();
+		}
+
+		if ( version_compare( $this->options['version'], '5.5', '<' ) ) {
+			$this->upgrade_55();
+		}
+
+		if ( version_compare( $this->options['version'], '5.6', '<' ) ) {
+			$this->upgrade_56();
+		}
+
+		// Since 3.7.
+		$upsell_notice = new WPSEO_Product_Upsell_Notice();
+		$upsell_notice->set_upgrade_notice();
+
 		/**
 		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO
-		 *
-		 * @deprecated Since 3.1
 		 *
 		 * @api        string - The current version of Yoast SEO
 		 */
 		do_action( 'wpseo_run_upgrade', $this->options['version'] );
 
 		$this->finish_up();
-	}
-
-	/**
-	 * Run some functions that run when we first run or when we upgrade Yoast SEO from < 1.4.13
-	 */
-	private function init() {
-		if ( $this->options['version'] === '' || version_compare( $this->options['version'], '1.4.13', '<' ) ) {
-			/* Make sure title_test and description_test functions are available */
-			require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
-
-			// Run description test once theme has loaded.
-			add_action( 'init', 'wpseo_description_test' );
-		}
 	}
 
 	/**
@@ -84,9 +113,6 @@ class WPSEO_Upgrade {
 		// Clean up options and meta.
 		WPSEO_Options::clean_up( null, $version );
 		WPSEO_Meta::clean_up();
-
-		// Add new capabilities on upgrade.
-		wpseo_add_capabilities();
 	}
 
 	/**
@@ -183,6 +209,24 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs upgrade functions to Yoast SEO 3.3
+	 */
+	private function upgrade_33() {
+		// Notification dismissals have been moved to User Meta instead of global option.
+		delete_option( Yoast_Notification_Center::STORAGE_KEY );
+	}
+
+	/**
+	 * Performs upgrade functions to Yoast SEO 3.6
+	 */
+	private function upgrade_36() {
+		global $wpdb;
+
+		// Between 3.2 and 3.4 the sitemap options were saved with autoloading enabled.
+		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%" AND autoload = "yes"' );
+	}
+
+	/**
 	 * Move the pinterest verification option from the wpseo option to the wpseo_social option
 	 */
 	private function move_pinterest_option() {
@@ -208,4 +252,165 @@ class WPSEO_Upgrade {
 
 		WPSEO_Options::ensure_options_exist();                              // Make sure all our options always exist - issue #1245.
 	}
+
+	/**
+	 * Removes the about notice when its still in the database.
+	 */
+	private function upgrade_40() {
+		$center       = Yoast_Notification_Center::get();
+		$notification = $center->get_notification_by_id( 'wpseo-dismiss-about' );
+
+		if ( $notification ) {
+			$center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
+	 */
+	private function upgrade_44() {
+		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
+		$option_wpseo = WPSEO_Options::get_option( 'wpseo' );
+
+		if ( isset( $option_titles['content-analysis-active'] ) && isset( $option_titles['keyword-analysis-active'] ) ) {
+			$option_wpseo['content_analysis_active'] = $option_titles['content-analysis-active'];
+			unset( $option_titles['content-analysis-active'] );
+
+			$option_wpseo['keyword_analysis_active'] = $option_titles['keyword-analysis-active'];
+			unset( $option_titles['keyword-analysis-active'] );
+
+			update_option( 'wpseo_titles', $option_titles );
+			update_option( 'wpseo', $option_wpseo );
+		}
+	}
+
+	/**
+	 * Renames the meta name for the cornerstone content. It was a public meta field and it has to be private.
+	 */
+	private function upgrade_47() {
+		global $wpdb;
+
+		// The meta key has to be private, so prefix it.
+		$wpdb->query(
+			$wpdb->prepare(
+				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = %s WHERE meta_key = "yst_is_cornerstone"',
+				WPSEO_Cornerstone::META_NAME
+			)
+		);
+	}
+
+	/**
+	 * Removes the 'wpseo-dismiss-about' notice for every user that still has it.
+	 */
+	private function upgrade_49() {
+		global $wpdb;
+
+		/*
+		 * Using a filter to remove the notification for the current logged in user. The notification center is
+		 * initializing the notifications before the upgrade routine has been executedd and is saving the stored
+		 * notifications on shutdown. This causes the returning notification. By adding this filter the shutdown
+		 * routine on the notification center will remove the notification.
+		 */
+		add_filter( 'yoast_notifications_before_storage', array( $this, 'remove_about_notice' ) );
+
+		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
+
+		$usermetas = $wpdb->get_results(
+			$wpdb->prepare('
+				SELECT user_id, meta_value
+				FROM ' . $wpdb->usermeta . '
+				WHERE meta_key = %s AND meta_value LIKE "%%wpseo-dismiss-about%%"
+				', $meta_key ),
+				ARRAY_A
+		);
+
+		if ( empty( $usermetas ) ) {
+			return;
+		}
+
+		foreach ( $usermetas as $usermeta ) {
+			$notifications = maybe_unserialize( $usermeta['meta_value'] );
+
+			foreach ( $notifications as $notification_key => $notification ) {
+				if ( ! empty( $notification['options']['id'] ) && $notification['options']['id'] === 'wpseo-dismiss-about' ) {
+					unset( $notifications[ $notification_key ] );
+				}
+			}
+
+			update_user_option( $usermeta['user_id'], Yoast_Notification_Center::STORAGE_KEY, array_values( $notifications ) );
+		}
+	}
+
+	/**
+	 * Removes the wpseo-dismiss-about notice from a list of notifications.
+	 *
+	 * @param Yoast_Notification[] $notifications The notifications to filter.
+	 *
+	 * @return Yoast_Notification[] The filtered list of notifications. Excluding the wpseo-dismiss-about notification.
+	 */
+	public function remove_about_notice( $notifications ) {
+		foreach ( $notifications as $notification_key => $notification ) {
+			if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
+				unset( $notifications[ $notification_key ] );
+			}
+		}
+
+		return $notifications;
+	}
+
+	/**
+	 * Adds the yoast_seo_links table to the database.
+	 */
+	private function upgrade_50() {
+		global $wpdb;
+
+		$link_installer = new WPSEO_Link_Installer();
+		$link_installer->install();
+
+		// Trigger reindex notification.
+		$notifier = new WPSEO_Link_Notifier();
+		$notifier->manage_notification();
+
+		// Deletes the post meta value, which might created in the RC.
+		$wpdb->query( 'DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_key = "_yst_content_links_processed"' );
+	}
+
+	/**
+	 * Updates the internal_link_count column to support improved functionality.
+	 */
+	private function upgrade_50_51() {
+		global $wpdb;
+
+		$count_storage = new WPSEO_Meta_Storage();
+		$wpdb->query( 'ALTER TABLE ' . $count_storage->get_table_name() . ' MODIFY internal_link_count int(10) UNSIGNED NULL DEFAULT NULL' );
+	}
+
+	/**
+	 * Register new capabilities and roles
+	 */
+	private function upgrade_55() {
+		// Register roles.
+		do_action( 'wpseo_register_roles' );
+		WPSEO_Role_Manager_Factory::get()->add();
+
+		// Register capabilities.
+		do_action( 'wpseo_register_capabilities' );
+		WPSEO_Capability_Manager_Factory::get()->add();
+	}
+
+	/**
+	 * Updates legacy license page options to the latest version.
+	 */
+	private function upgrade_56() {
+		global $wpdb;
+
+		// Make sure License Server checks are on the latest server version by default.
+		update_option( 'wpseo_license_server_version', WPSEO_License_Page_Manager::VERSION_BACKWARDS_COMPATIBILITY );
+
+		// Make sure incoming link count entries are at least 0, not NULL.
+		$count_storage = new WPSEO_Meta_Storage();
+		$wpdb->query( 'UPDATE ' . $count_storage->get_table_name() . ' SET incoming_link_count = 0 WHERE incoming_link_count IS NULL' );
+	}
+
+
 }

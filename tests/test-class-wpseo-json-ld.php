@@ -17,6 +17,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	 * Instantiate our class
 	 */
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
 		self::$class_instance = new WPSEO_JSON_LD();
 	}
 
@@ -26,11 +27,12 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	public function test_website() {
 		$this->go_to_home();
 
-		$home_url   = trailingslashit( home_url() );
+		$home_url   = WPSEO_Utils::home_url();
 		$search_url = $home_url . '?s={search_term_string}';
-		$json       = WPSEO_Utils::json_encode( array(
+		$json       = wp_json_encode( array(
 			'@context'        => 'http://schema.org',
 			'@type'           => 'WebSite',
+			'@id'             => '#website',
 			'url'             => $home_url,
 			'name'            => get_bloginfo( 'name' ),
 			'potentialAction' => array(
@@ -57,12 +59,13 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 
 		$this->go_to_home();
 
-		$home_url = home_url();
-		$json     = WPSEO_Utils::json_encode( array(
+		$home_url = WPSEO_Utils::home_url();
+		$json     = wp_json_encode( array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'Person',
 			'url'      => $home_url,
 			'sameAs'   => array( $instagram ),
+			'@id'      => '#person',
 			'name'     => $name,
 		) );
 		$expected = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
@@ -85,12 +88,13 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 
 		$this->go_to_home();
 
-		$home_url = home_url();
-		$json     = WPSEO_Utils::json_encode( array(
+		$home_url = WPSEO_Utils::home_url();
+		$json     = wp_json_encode( array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'Organization',
 			'url'      => $home_url,
 			'sameAs'   => array( $instagram, $facebook, $instagram ),
+			'@id'      => '#organization',
 			'name'     => $name,
 			'logo'     => '',
 		) );

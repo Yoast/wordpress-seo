@@ -61,7 +61,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( array_key_exists( 'weekly', $schedules ) );
 		$this->assertEquals( $schedules['weekly']['interval'], WEEK_IN_SECONDS );
-		$this->assertEquals( $schedules['weekly']['display'],  __( 'Once Weekly' ) );
+		$this->assertEquals( $schedules['weekly']['display'], __( 'Once Weekly', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -118,7 +118,9 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 		$class_instance =
 			$this
-				->getMock( 'WPSEO_OnPage_Double', array( 'notify_admins' ) );
+				->getMockBuilder( 'WPSEO_OnPage_Double' )
+				->setMethods( array( 'notify_admins' ) )
+				->getMock();
 
 		$class_instance
 			->expects( $this->once() )

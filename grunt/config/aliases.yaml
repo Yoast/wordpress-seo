@@ -7,40 +7,93 @@ build:
   - 'build:js'
   - 'build:i18n'
 # Build CSS from SCSS to production
+'build:sass':
+  - 'sass:build'
 'build:css':
-  - 'autoprefixer'
+  - 'build:sass'
+  - 'postcss:build'
   - 'wpcss'
+  - 'clean:before-rtlcss'
+  - 'rtlcss'
   - 'cssmin'
 # Optimise images from source to production
 'build:images':
   - 'imagemin'
 # Build JavaScript from assets to production
 'build:js':
-  - 'browserify'
+  - 'copy:dependencies'
+  - 'browserify:build'
   - 'uglify'
+  - 'webpack:buildDev'
+
 # Build internationalisation features
 'build:i18n':
+  - 'build:i18n:potFiles'
+  - 'build:i18n:translations'
+# Create the relevant POT files
+'build:i18n:potFiles':
   - 'makepot'
+  - 'shell:makepot-yoast-components'
+  - 'shell:makepot-yoastseojs'
+  - 'convert-pot-to-wp'
   - 'shell:combine-pot-files'
+# Download and build the latest translations
+'build:i18n:translations':
   - 'glotpress_download'
   - 'po2json'
   - 'i18n-clean-json'
   - 'clean:po-files'
+
 # Check health of the project
 check:
   - 'check:js'
   - 'check:php'
   - 'check:i18n'
 'check:js':
-  - 'jshint'
-  - 'jsonlint'
-  - 'jsvalidate'
-  - 'jscs'
+  - 'eslint'
 'check:php':
   - 'phplint'
   - 'phpcs'
 'check:i18n':
   - 'checktextdomain'
+
+artifact:
+  - 'shell:production-composer-install'
+  # Update the version numbers in the relevant files
+  - 'update-version'
+  # Build like we normally would
+  - 'release'
+  # Remove build folder
+  - 'clean:artifact'
+  # Copy only the relevant files to the folder
+  - 'copy:artifact'
+  # Create a zip file
+  - 'compress:artifact'
+
+# Get the project ready for release
+release:
+  - 'build:images'
+  - 'clean:build-assets'
+  - 'release:css'
+  - 'release:js'
+  - 'build:i18n'
+'release:css':
+  - 'build:css'
+  - 'cssmin'
+'release:js':
+  - 'copy:dependencies'
+  - 'browserify:release-es6'
+  - 'uglify'
+  - 'webpack:buildProd'
+
+'deploy:trunk':
+  - artifact
+  - wp_deploy:trunk
+
+'deploy:master':
+  - artifact
+  - wp_deploy:master
+
 # Default task
 default:
   - build

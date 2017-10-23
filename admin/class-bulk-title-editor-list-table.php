@@ -30,6 +30,7 @@ class WPSEO_Bulk_Title_Editor_List_Table extends WPSEO_Bulk_List_Table {
 
 	/**
 	 * The field in the database where meta field is saved.
+	 *
 	 * @var string
 	 */
 	protected $target_db_field = 'title';
@@ -67,17 +68,16 @@ class WPSEO_Bulk_Title_Editor_List_Table extends WPSEO_Bulk_List_Table {
 
 		switch ( $column_name ) {
 			case 'col_existing_yoast_seo_title':
-				// TODO inconsistent echo/return behavior R.
+				// @todo Inconsistent echo/return behavior R.
 				echo $this->parse_meta_data_field( $record->ID, $attributes );
 				break;
 
 			case 'col_new_yoast_seo_title':
 				return sprintf(
-					'<input type="text" id="%1$s" name="%1$s" class="wpseo-new-title" data-id="%2$s" />',
+					'<input type="text" id="%1$s" name="%1$s" class="wpseo-new-title" data-id="%2$s" aria-labelledby="col_new_yoast_seo_title" />',
 					'wpseo-new-title-' . $record->ID,
 					$record->ID
 				);
-				break;
 		}
 
 		unset( $meta_data );

@@ -37,9 +37,8 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 				'priority'         => 0.5,
 				'data_json'        => array(),
 				'dismissal_key'    => null,
-				'capabilities'     => array(),
+				'capabilities'     => array( 'wpseo_manage_options' ),
 				'capability_check' => 'all',
-				'wpseo_page_only'  => false,
 			),
 			$test['options']
 		);
@@ -91,6 +90,19 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	public function test_type_custom() {
 		$subject = new Yoast_Notification( 'message', array( 'type' => 'bla' ) );
 		$this->assertEquals( 'bla', $subject->get_type() );
+	}
+
+	/**
+	 * Test setting and retrieving JSON
+	 */
+	public function test_json() {
+		$data = array( 'bla' );
+
+		$subject = new Yoast_Notification( 'message', array( 'data_json' => $data ) );
+		$this->assertEquals( $subject->get_json(), wp_json_encode( $data ) );
+
+		$subject = new Yoast_Notification( 'message', array( 'data_json' => '' ) );
+		$this->assertEquals( $subject->get_json(), '' );
 	}
 
 	/**
@@ -226,7 +238,13 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 		$capabilities = array( 'caps' );
 		$id           = 'my_id';
 
-		$notification = new Yoast_Notification( 'message', array( 'id' => $id, 'capabilities' => $capabilities ) );
+		$notification = new Yoast_Notification(
+			'message',
+			array(
+				'id'           => $id,
+				'capabilities' => $capabilities,
+			)
+		);
 
 		$this->verify_capability_filter_args = array(
 			$capabilities,
@@ -266,7 +284,13 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 		$capabilities = array( 'caps' );
 		$id           = 'my_id';
 
-		$notification = new Yoast_Notification( 'message', array( 'id' => $id, 'capabilities' => $capabilities ) );
+		$notification = new Yoast_Notification(
+			'message',
+			array(
+				'id'           => $id,
+				'capabilities' => $capabilities,
+			)
+		);
 
 		$this->verify_capability_match_filter_args = array(
 			Yoast_Notification::MATCH_ALL,
@@ -302,8 +326,14 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Invalid filter return value
 	 */
 	public function test_invalid_filter_return_values() {
-		$subject = new Yoast_Notification( 'message', array( 'id' => 'id', 'capabilities' => 'not_an_array' ) );
-		$this->assertTrue( $subject->display_for_current_user() );
+		$subject = new Yoast_Notification(
+			'message',
+			array(
+				'id'           => 'id',
+				'capabilities' => 'not_an_array',
+			)
+		);
+		$this->assertFalse( $subject->display_for_current_user() );
 	}
 
 	/**

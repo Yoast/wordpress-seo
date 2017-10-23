@@ -104,5 +104,4 @@ abstract class WPSEO_Recalculate {
 
 		return false;
 	}
-
 }

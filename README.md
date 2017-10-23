@@ -10,7 +10,7 @@ Welcome to the Yoast SEO GitHub repository
 
 While the documentation for the [Yoast SEO plugin](https://yoast.com/wordpress/seo/) can be found on [Yoast.com](https://yoast.com/), here
 you can browse the source of the project, find and discuss open issues and even
-[contribute yourself](https://github.com/yoast/wordpress-seo/blob/master/CONTRIBUTING.md).
+[contribute yourself](.github/CONTRIBUTING.md).
 
 Installation
 ------------
@@ -45,7 +45,7 @@ It may help us a lot if you can provide a backtrace of the error encountered. Yo
 Contributions
 -------------
 Anyone is welcome to contribute to Yoast SEO. Please
-[read the guidelines](https://github.com/yoast/wordpress-seo/blob/master/CONTRIBUTING.md) for contributing to this
+[read the guidelines](.github/CONTRIBUTING.md) for contributing to this
 repository.
 
 There are various ways you can contribute:

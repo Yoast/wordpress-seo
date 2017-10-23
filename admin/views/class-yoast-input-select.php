@@ -55,7 +55,7 @@ class Yoast_Input_Select {
 		// Extract it, because we want each value accessible via a variable instead of accessing it as an array.
 		extract( $this->get_select_values() );
 
-		require( dirname( WPSEO_FILE ) . '/admin/views/form/select.php' );
+		require WPSEO_PATH . 'admin/views/form/select.php';
 	}
 
 	/**
@@ -110,7 +110,7 @@ class Yoast_Input_Select {
 		if ( ! empty( $attributes ) ) {
 			array_walk( $attributes, array( $this, 'parse_attribute' ) );
 
-			return implode( ' ', $attributes ). ' ';
+			return implode( ' ', $attributes ) . ' ';
 		}
 
 		return '';
@@ -125,5 +125,4 @@ class Yoast_Input_Select {
 	private function parse_attribute( & $value, $attribute ) {
 		$value = sprintf( '%s="%s"', esc_html( $attribute ), esc_attr( $value ) );
 	}
-
 }

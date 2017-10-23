@@ -101,7 +101,7 @@ class WPSEO_GSC_Issues {
 	private function issue_compare( &$crawl_issues, $issue ) {
 		$issue->pageUrl = WPSEO_Utils::format_url( (string) $issue->pageUrl );
 
-		if ( ! in_array( $issue->pageUrl, $this->current_issues ) ) {
+		if ( ! in_array( $issue->pageUrl, $this->current_issues, true ) ) {
 			array_push(
 				$crawl_issues,
 				$this->get_issue( $this->create_issue( $issue ) )

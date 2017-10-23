@@ -1,0 +1,57 @@
+.yoast {
+	h1, h2, h3, h4, h5, h6,
+	.h1, .h2, .h3, .h4, .h5, .h6 {
+		font-family: $font-stack-default;
+		font-weight: 300;
+		margin-top: 0;
+		display: block;
+	}
+
+	h1, .h1 {
+		font-size: 2.5em;
+		line-height: 3.68rem;
+		margin-bottom: 1.35rem;
+		letter-spacing: normal;
+
+		@media only screen and (min-width: $page-width-small) {
+			font-size: 2.75em;
+		}
+	}
+
+	h2, .h2 {
+		font-size: 1.88em;
+		line-height: 2.5rem;
+		margin-bottom: 1.2rem;
+
+		&.tight {
+			margin-bottom: .6rem;
+		}
+	}
+
+	h3, .h3 {
+		font-size: 1.25em;
+		line-height: 1.88rem;
+		margin-bottom: 0.8rem;
+
+		&.tight {
+			margin-bottom: 0.4rem;
+		}
+
+		@media only screen and (min-width: $page-width-small) {
+			font-size: 1.375em;
+		}
+
+		@media only screen and (min-width: $page-width-medium) {
+			font-size: 1.5em;
+		}
+	}
+
+	h4, .h4,
+	h5, .h5,
+	h6, .h6 {
+		font-size: 1.13em;
+		font-weight: 400;
+		line-height: 1.88rem;
+		margin-bottom: 0.2rem;
+	}
+}

@@ -1,100 +1,136 @@
-/* global wp, jQuery, YoastSEO */
-module.exports = (function() {
-	'use strict';
+/* global wp, jQuery */
+var isUndefined = require( "lodash/isUndefined" );
+var defaultsDeep = require( "lodash/defaultsDeep" );
 
-	/**
-	 * Renders a keyword tab as a jQuery HTML object.
-	 *
-	 * @param {int}    score
-	 * @param {string} keyword
-	 * @param {string} prefix
-	 *
-	 * @returns {HTMLElement}
-	 */
-	function renderKeywordTab( score, keyword, prefix ) {
-		var placeholder = keyword.length > 0 ? keyword : '...';
-		var html = wp.template( 'keyword_tab' )({
-			keyword: keyword,
-			placeholder: placeholder,
-			score: score,
-			hideRemove: true,
-			prefix: prefix + ' ',
-			active: true
-		});
+var GenericTab = require( "./genericTab" );
 
-		return jQuery( html );
-	}
+var defaultArguments = {
+	keyword: "",
+	placeholder: "",
+
+	active: false,
+	hideable: false,
+	prefix: "",
+
+	classes: [ "wpseo_tab", "wpseo_keyword_tab" ],
+
+	onActivate: function() { },
+	afterActivate: function() { },
+};
+
+module.exports = ( function() {
+	/* eslint-disable no-use-before-define */
+	// Extending all the things.
+	KeywordTab.prototype = Object.create( GenericTab.prototype );
+	/* eslint-enable no-use-before-define */
 
 	/**
 	 * Constructor for a keyword tab object
-	 * @param {Object} args
+	 * @param {Object} args The arguments.
 	 * @constructor
 	 */
 	function KeywordTab( args ) {
-		this.keyword = '';
-		this.prefix  = args.prefix || '';
+		defaultsDeep( args, defaultArguments );
+		this.fallback       = args.fallback;
+		this.keyword        = args.keyword;
+		this.placeholder    = args.placeholder;
+		this.prefix         = args.prefix;
 
-		this.setScore( 0 );
+		this.classes        = args.classes;
+
+		this.onActivate     = args.onActivate;
+		this.afterActivate  = args.afterActivate;
 	}
-
-	/**
-	 * Initialize a keyword tab.
-	 *
-	 * @param {HTMLElement} parent
-	 */
-	KeywordTab.prototype.init = function( parent ) {
-		this.setElement( renderKeywordTab( this.score, this.keyword, this.prefix ) );
-
-		jQuery( parent ).append( this.element );
-	};
 
 	/**
 	 * Updates the keyword tabs with new values.
 	 *
-	 * @param {integer} score
-	 * @param {string}  keyword
+	 * @param {string} score   The score to set.
+	 * @param {string} keyword The keyword to set the score for.
+	 *
+	 * @returns {void}
 	 */
-	KeywordTab.prototype.update = function( score, keyword ) {
-		this.keyword = keyword;
-		this.setScore( score );
+	KeywordTab.prototype.updateScore = function( score, keyword ) {
+		if ( ! isUndefined( keyword ) ) {
+			this.keyword = keyword;
+		}
+
+		if ( keyword === "" ) {
+			this.score = "na";
+			this.scoreText = "";
+			this.refresh();
+
+			return;
+		}
+
+		var indicator   = this.getIndicator( score );
+
+		this.score      = indicator.className;
+		this.scoreText  = indicator.screenReaderText;
+
 		this.refresh();
 	};
 
-	/**
-	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
-	 */
-	KeywordTab.prototype.refresh = function() {
-		var newElem = renderKeywordTab( this.score, this.keyword, this.prefix );
-
-		this.element.replaceWith( newElem );
-		this.setElement( newElem );
+	KeywordTab.prototype.hasKeyword = function() {
+		return this.keyword !== "";
 	};
 
-	/**
-	 * Sets the current element
-	 *
-	 * @param {HTMLElement} element
-	 */
-	KeywordTab.prototype.setElement = function( element ) {
-		this.element = jQuery( element );
+	KeywordTab.prototype.getKeyWord = function() {
+		return this.keyword;
 	};
 
-	/**
-	 * Formats the given score and store it in the attribute.
-	 *
-	 * @param {number} score
-	 */
-	KeywordTab.prototype.setScore = function( score ) {
-		score = parseInt( score, 10 );
+	KeywordTab.prototype.hasFallback = function() {
+		return this.fallback !== "";
+	};
 
-		if ( this.keyword === '' ) {
-			score = 'na';
+	KeywordTab.prototype.determinePrefix = function() {
+		if ( ! this.hasKeyword() && this.hasFallback() ) {
+			return "";
 		}
 
-		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
+		return this.prefix;
+	};
 
-		this.score = score;
+	KeywordTab.prototype.determineLabel = function() {
+		if ( ! this.hasKeyword() && this.hasFallback() ) {
+			return this.fallback;
+		}
+
+		return this.hasKeyword() ? this.getKeyWord() : "...";
+	};
+
+	/**
+	 * Renders this keyword tab as a jQuery HTML object
+	 *
+	 * @returns {HTMLElement} jQuery HTML object.
+	 */
+	KeywordTab.prototype.render = function() {
+		var html = wp.template( "keyword_tab" )( {
+			label: this.determineLabel(),
+			keyword: this.getKeyWord(),
+
+			hideable: this.hideable,
+			active: this.active,
+
+			prefix: this.determinePrefix(),
+
+			score: this.score,
+			scoreText: this.scoreText,
+
+			classes: this.addAdditionalClasses(),
+		} );
+
+		return jQuery( html );
+	};
+
+	/**
+	 * Returns the keyword for this keyword tab
+	 *
+	 * @returns {void}
+	 */
+	KeywordTab.prototype.getKeywordFromElement = function() {
+		return this.element.find( ".wpseo_tablink" ).data( "keyword" );
 	};
 
 	return KeywordTab;
-})();
+}() );

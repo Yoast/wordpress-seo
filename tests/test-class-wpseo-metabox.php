@@ -11,7 +11,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	public static function setUpBeforeClass() {
-		self::$class_instance = new WPSEO_Metabox;
+		parent::setUpBeforeClass();
+		self::$class_instance = new WPSEO_Metabox();
 	}
 
 	/**
@@ -71,7 +72,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$post = get_post( $post_id );
 
 		// Setup.
-		$GLOBALS['wpseo_admin'] = new WPSEO_Admin;
+		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
 
 		// vars.
 		$meta_fields = apply_filters( 'wpseo_save_metaboxes', array() );

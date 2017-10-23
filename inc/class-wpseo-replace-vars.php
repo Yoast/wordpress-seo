@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Internals
+ * @package    WPSEO\Internals
  * @since      1.5.4
  */
 
@@ -115,7 +115,7 @@ class WPSEO_Replace_Vars {
 					$success = true;
 				}
 				else {
-					trigger_error( __( 'A replacement variable with the same name has already been registered. Try making your variable name more unique.', 'wordpress-seo' ), E_USER_WARNING );
+					trigger_error( __( 'A replacement variable with the same name has already been registered. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
 				}
 			}
 			else {
@@ -299,18 +299,18 @@ class WPSEO_Replace_Vars {
 	private function retrieve_date() {
 		$replacement = null;
 
-		if ( $this->args->post_date != '' ) {
+		if ( $this->args->post_date !== '' ) {
 			$replacement = mysql2date( get_option( 'date_format' ), $this->args->post_date, true );
 		}
 		else {
-			if ( get_query_var( 'day' ) && get_query_var( 'day' ) != '' ) {
+			if ( get_query_var( 'day' ) && get_query_var( 'day' ) !== '' ) {
 				$replacement = get_the_date();
 			}
 			else {
-				if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) != '' ) {
+				if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) !== '' ) {
 					$replacement = single_month_title( ' ', false );
 				}
-				elseif ( get_query_var( 'year' ) != '' ) {
+				elseif ( get_query_var( 'year' ) !== '' ) {
 					$replacement = get_query_var( 'year' );
 				}
 			}
@@ -367,7 +367,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( ! isset( $replacement ) && ( ( is_singular() || is_admin() ) && isset( $GLOBALS['post'] ) ) ) {
-			if ( isset( $GLOBALS['post']->post_parent ) && 0 != $GLOBALS['post']->post_parent ) {
+			if ( isset( $GLOBALS['post']->post_parent ) && 0 !== $GLOBALS['post']->post_parent ) {
 				$replacement = get_the_title( $GLOBALS['post']->post_parent );
 			}
 		}
@@ -514,6 +514,27 @@ class WPSEO_Replace_Vars {
 		return $replacement;
 	}
 
+	/**
+	 * Retrieve primary category for use as replacement string.
+	 *
+	 * @return bool|int|null
+	 */
+	private function retrieve_primary_category() {
+		$primary_category = null;
+
+		if ( ! empty( $this->args->ID ) ) {
+			$wpseo_primary_category = new WPSEO_Primary_Term( 'category', $this->args->ID );
+
+			$term_id = $wpseo_primary_category->get_primary_term();
+			$term    = get_term( $term_id );
+
+			if ( ! is_wp_error( $term ) && ! empty( $term ) ) {
+				$primary_category = $term->name;
+			}
+		}
+
+		return $primary_category;
+	}
 
 
 	/* *********************** ADVANCED VARIABLES ************************** */
@@ -582,6 +603,9 @@ class WPSEO_Replace_Vars {
 
 		if ( isset( $wp_query->query_vars['post_type'] ) && ( ( is_string( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== '' ) || ( is_array( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== array() ) ) ) {
 			$post_type = $wp_query->query_vars['post_type'];
+		}
+		elseif ( isset( $this->args->post_type ) && ( is_string( $this->args->post_type ) && $this->args->post_type !== '' ) ) {
+			$post_type = $this->args->post_type;
 		}
 		else {
 			// Make it work in preview mode.
@@ -876,6 +900,7 @@ class WPSEO_Replace_Vars {
 		$sep = $this->retrieve_sep();
 
 		if ( $max > 1 && $nr > 1 ) {
+			/* translators: 1: current page number, 2: total number of pages. */
 			$replacement = sprintf( $sep . ' ' . __( 'Page %1$d of %2$d', 'wordpress-seo' ), $nr, $max );
 		}
 
@@ -1001,17 +1026,25 @@ class WPSEO_Replace_Vars {
 		}
 
 		$table = '
-			<table class="yoast_help">';
+			<table class="yoast_help yoast-table-scrollable">
+			<thead>
+				<tr>
+					<th scope="col">' . esc_html__( 'Variable', 'wordpress-seo' ) . '</th>
+					<th scope="col">' . esc_html__( 'Description', 'wordpress-seo' ) . '</th>
+				</tr>
+			</thead>
+			<tbody>';
 
 		foreach ( self::$help_texts[ $type ] as $replace => $help_text ) {
 			$table .= '
 				<tr>
-					<th>%%' . esc_html( $replace ) . '%%</th>
-					<td>' . $help_text . '</td>
+					<td class="yoast-variable-name">%%' . esc_html( $replace ) . '%%</td>
+					<td class="yoast-variable-desc">' . $help_text . '</td>
 				</tr>';
 		}
 
 		$table .= '
+			</tbody>
 			</table>';
 
 		return $table;
@@ -1073,6 +1106,7 @@ class WPSEO_Replace_Vars {
 			'excerpt_only'         => __( 'Replaced with the post/page excerpt (without auto-generation)', 'wordpress-seo' ),
 			'tag'                  => __( 'Replaced with the current tag/tags', 'wordpress-seo' ),
 			'category'             => __( 'Replaced with the post categories (comma separated)', 'wordpress-seo' ),
+			'primary_category'     => __( 'Replaced with the primary category of the post/page', 'wordpress-seo' ),
 			'category_description' => __( 'Replaced with the category description', 'wordpress-seo' ),
 			'tag_description'      => __( 'Replaced with the tag description', 'wordpress-seo' ),
 			'term_description'     => __( 'Replaced with the term description', 'wordpress-seo' ),
@@ -1179,9 +1213,9 @@ class WPSEO_Replace_Vars {
 
 		/**
 		 * Allows filtering of the terms list used to replace %%category%%, %%tag%% and %%ct_<custom-tax-name>%% variables
+		 *
 		 * @api    string    $output    Comma-delimited string containing the terms
 		 */
-
 		return apply_filters( 'wpseo_terms', $output );
 	}
 } /* End of class WPSEO_Replace_Vars */

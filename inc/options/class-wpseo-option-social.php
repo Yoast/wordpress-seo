@@ -33,13 +33,12 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'og_frontpage_desc'  => '', // Text field.
 		'og_frontpage_image' => '', // Text field.
 		'opengraph'          => true,
-		'googleplus'         => false,
 		'pinterest_url'      => '',
 		'pinterestverify'    => '',
 		'plus-publisher'     => '', // Text field.
 		'twitter'            => true,
 		'twitter_site'       => '', // Text field.
-		'twitter_card_type'  => 'summary',
+		'twitter_card_type'  => 'summary_large_image',
 		'youtube_url'        => '',
 		'google_plus_url'    => '',
 		// Form field, but not always available:
@@ -63,8 +62,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 *              While we only have the options summary and summary_large_image in the
 	 *              interface now, we might change that at some point.
 	 *
-	 * @internal Uncomment any of these to allow them in validation *and* automatically add them as a choice
-	 * in the options page
+	 * {@internal Uncomment any of these to allow them in validation *and* automatically
+	 *            add them as a choice in the options page.}}
 	 */
 	public static $twitter_card_types = array(
 		'summary'             => '',
@@ -217,6 +216,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 						 * may exist with longer names.
 						 * A username can only contain alphanumeric characters (letters A-Z, numbers 0-9)
 						 * with the exception of underscores
+						 *
 						 * @link https://support.twitter.com/articles/101299-why-can-t-i-register-certain-usernames
 						 * @link https://dev.twitter.com/docs/platform-objects/users
 						 */
@@ -237,7 +237,11 @@ class WPSEO_Option_Social extends WPSEO_Option {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
 									'_' . $key, // Suffix-id for the error message box.
-									sprintf( __( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // The error message.
+									sprintf(
+										/* translators: %s expands to a twitter user name. */
+										__( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ),
+										'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
+									), // The error message.
 									'error' // Error type, either 'error' or 'updated'.
 								);
 							}
@@ -253,7 +257,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					break;
 
 				/* boolean fields */
-				case 'googleplus':
 				case 'opengraph':
 				case 'twitter':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );

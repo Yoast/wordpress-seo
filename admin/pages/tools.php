@@ -12,7 +12,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $tool_page = (string) filter_input( INPUT_GET, 'tool' );
 
 $yform = Yoast_Form::get_instance();
-
 $yform->admin_header( false );
 
 if ( '' === $tool_page ) {
@@ -20,30 +19,34 @@ if ( '' === $tool_page ) {
 	$tools = array(
 		'bulk-editor' => array(
 			'title' => __( 'Bulk editor', 'wordpress-seo' ),
-			'desc' => __( 'This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page.', 'wordpress-seo' ),
+			'desc'  => __( 'This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page.', 'wordpress-seo' ),
 		),
 		'import-export' => array(
 			'title' => __( 'Import and Export', 'wordpress-seo' ),
-			'desc' => __( 'Import settings from other SEO plugins and export your settings for re-use on (another) blog.', 'wordpress-seo' ),
+			'desc'  => __( 'Import settings from other SEO plugins and export your settings for re-use on (another) blog.', 'wordpress-seo' ),
 		),
 	);
 	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
 		$tools['file-editor'] = array(
 			'title' => __( 'File editor', 'wordpress-seo' ),
-			'desc' => __( 'This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file.', 'wordpress-seo' ),
+			'desc'  => __( 'This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file.', 'wordpress-seo' ),
 		);
 	}
 
-	$tools['recalculate'] = array(
-		'href'    => '#TB_inline?width=300&height=150&inlineId=wpseo_recalculate',
-		'attr'    => "id='wpseo_recalculate_link' class='thickbox'",
-		'title'   => __( 'Recalculate SEO scores', 'wordpress-seo' ),
-		'desc'    => __( 'Recalculate SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ),
-	);
+	/*
+		Temporary disabled. See: https://github.com/Yoast/wordpress-seo/issues/4532
 
-	if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
-		$tools['recalculate']['attr'] .= "data-open='open'";
-	}
+		$tools['recalculate'] = array(
+			'href'    => '#TB_inline?width=300&height=150&inlineId=wpseo_recalculate',
+			'attr'    => "id='wpseo_recalculate_link' class='thickbox'",
+			'title'   => __( 'Recalculate SEO scores', 'wordpress-seo' ),
+			'desc'    => __( 'Recalculate SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ),
+		);
+
+		if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
+			$tools['recalculate']['attr'] .= "data-open='open'";
+		}
+	*/
 
 	/* translators: %1$s expands to Yoast SEO */
 	echo '<p>', sprintf( __( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
@@ -55,7 +58,7 @@ if ( '' === $tool_page ) {
 	$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
 
 	foreach ( $tools as $slug => $tool ) {
-		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg( array( 'tool' => $slug ) , $admin_url );
+		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg( array( 'tool' => $slug ), $admin_url );
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 
 		echo '<li>';

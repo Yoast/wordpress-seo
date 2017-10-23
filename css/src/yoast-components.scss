@@ -1,0 +1,306 @@
+@import "../../node_modules/sassdash/scss/sassdash";
+@import "wp";
+@import "../../node_modules/yoast-components/css/all.scss";
+
+#wizard {
+	overflow: hidden;
+}
+
+.yoast-wizard {
+
+	padding-top: 2em;
+
+	input[type="text"] {
+		min-width: 250px;
+
+		& + div {
+			margin-right: 1em;
+		}
+	}
+
+	#gsc_authorization_code {
+		margin-right: 1em;
+	}
+
+	&-body {
+		max-width: 80em;
+	}
+
+	&--navigation {
+		border-top: 1px solid $color_pink_dark;
+		margin-top: 2em;
+		padding-top: 1em;
+	}
+
+	&-return-link-container {
+		text-align: center;
+	}
+
+	/* Higher specificity to override WP styles. */
+	.wp-core-ui &-return-link.button {
+		display: inline-flex;
+		align-items: center;
+		height: 36px;
+		border-color: transparent;
+		margin: 0 0 1em;
+		padding: 0 16px 0 10px;
+		border-radius: 2px;
+		background: $color_white;
+		color: #646d78;
+		text-align: center;
+		text-transform: uppercase;
+		box-shadow:
+			rgba( $color_black, 0.12 ) 0px 1px 6px,
+			rgba( $color_black, 0.12 ) 0px 1px 4px;
+		transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+
+		&:hover {
+			background: rgb( 235, 235, 235 );
+			border-color: transparent;
+		}
+
+		&:focus {
+			outline: none;
+			box-shadow:
+				0 0 0 1px #5b9dd9,
+				0 0 2px 1px rgba(30, 140, 190, .8);
+		}
+
+		&:active {
+			background: rgb( 235, 235, 235 );
+			box-shadow:
+				rgba( $color_black, 0.16 ) 0px 3px 10px,
+				rgba( $color_black, 0.23 ) 0px 3px 10px;
+			transform: none;
+		}
+
+		.dashicons {
+			margin-right: 8px;
+		}
+	}
+
+	&-mailchimp {
+
+		&-message {
+
+			&-error {
+				color: #dc3232;
+			}
+
+			&-success {
+				color: #008a00;
+			}
+		}
+	}
+
+	&-input {
+		padding-bottom: 0.5em;
+
+		&__select {
+			margin: 1em 0;
+			font-size: 14px;
+		}
+	}
+
+	&-image-upload-container {
+
+		&__image {
+			max-width: 151px;
+		}
+
+		&-buttons {
+			margin-top: 1em;
+
+			&__remove {
+				margin-left: 1em;
+			}
+		}
+		&-description {
+			display: block;
+		}
+	}
+
+	&--emphasis {
+		font-weight: bold;
+	}
+
+	&--navigation {
+		margin-top: 2em;
+		padding-top: 1em;
+		border-top: 1px solid $color_pink_dark;
+	}
+
+	&--rows {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&--columns {
+		display: flex;
+
+		.yoast-wizard-text-input-field {
+			max-width: 100%;
+		}
+
+		&__even {
+			& > div {
+				flex-basis: 50%;
+			}
+		}
+
+		& > div {
+			margin-left: 1em;
+		}
+
+		& > div:first-child {
+			margin-left: 0;
+		}
+
+		.yoast-wizard--heading {
+			margin: 0;
+
+			color: $color_pink_dark;
+		}
+
+		& > .yoast-wizard--column__push_ {
+			&right {
+				order: 2;
+			}
+
+			&left {
+				order: 1;
+				margin-left: 0;
+				margin-right: 1em;
+			}
+		}
+	}
+
+	&--choice {
+		& > .yoast-wizard--rows {
+			height: 100%;
+		}
+
+		& div {
+			align-self: flex-start;
+		}
+
+		p {
+			margin-top: 0.3em;
+			height: 100%;
+		}
+	}
+
+	&--box {
+		border: 1px solid $color_pink_dark;
+		padding: 1em;
+
+		& > div:first-child {
+			flex-basis: 100px;
+		}
+	}
+
+	&-newsletter {
+		&--header {
+			svg {
+				fill: $color_pink_dark;
+				top: 4px;
+				position: relative;
+				margin-right: 6px;
+			}
+		}
+
+		&--decoration {
+			width: 100%;
+			max-width: 490px;
+			img {
+				width: 490px;
+				max-width: 100%;
+				/* Compensate for Header spacing */
+				margin-top: -3em;
+			}
+		}
+	}
+
+	&--video-frame {
+		iframe {
+			border: none;
+		}
+	}
+
+	@media screen and (max-width: 80em) {
+		&--columns {
+			display: block;
+
+			& > div {
+				margin-left: 0;
+			}
+
+			& > .yoast-wizard--column__push_ {
+				&left {
+					margin-right: 0;
+					margin-top: 2em;
+				}
+			}
+		}
+
+		&--box {
+			display: flex;
+			margin-top: 1em;
+
+			&:first-child {
+				margin-top: 0;
+			}
+
+			& > div {
+				margin-left: 1em;
+			}
+		}
+
+		.hide-on-tablet {
+			display: none;
+		}
+	}
+
+	&--suggestion {
+		border-top: 1px solid $color_pink_dark;
+		padding-top: 2em;
+		margin-bottom: 2em;
+		&:first-child {
+			border-top: none;
+			padding-top: 0;
+		}
+	}
+
+	@media screen and (max-width: 50rem) {
+		.hide-on-mobile {
+			display: none;
+		}
+
+		&--box {
+			display: block;
+
+			& > div {
+				margin-left: 0;
+			}
+		}
+
+		&--video-frame {
+			position: relative;
+			padding-bottom: 56.25%; /* 16:9 */
+			height: 0;
+
+			iframe {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+
+}
+
+.ie9 .yoast-wizard--stepper {
+	display: none;
+}

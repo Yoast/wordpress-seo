@@ -11,7 +11,7 @@ class WPSEO_Taxonomy_Content_Fields_Double extends WPSEO_Taxonomy_Content_Fields
 	 * @param string $option_name  The target key which will be overwritten
 	 * @param string $option_value The new value for the option.
 	 */
-	public function set_option($option_name, $option_value) {
+	public function set_option( $option_name, $option_value ) {
 		$this->options[ $option_name ] = $option_value;
 
 	}
@@ -23,7 +23,7 @@ class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @var WPSEO_Taxonomy_Social_Fields_Double
 	 */
-	private  $class_instance;
+	private $class_instance;
 
 	/**
 	 * @var stdClass The created term.
@@ -52,6 +52,6 @@ class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( is_array( $fields ) );
 
 		$this->assertTrue( array_key_exists( 'title', $fields ) );
-		$this->assertEquals( __( 'Snippet Editor', 'wordpress-seo' ), $fields['snippet']['label'] );
+		$this->assertEquals( __( 'Snippet editor', 'wordpress-seo' ), $fields['snippet']['label'] );
 	}
 }

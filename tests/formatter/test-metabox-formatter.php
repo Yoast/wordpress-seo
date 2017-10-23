@@ -23,9 +23,9 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		);
 		$result = $class_instance->get_values();
 
-		$this->assertEquals( 'Content:', $result['contentTab'] );
-		$this->assertTrue( array_key_exists( 'locale' , $result ) );
-		$this->assertTrue( array_key_exists( 'translations' , $result ) );
+		$this->assertEquals( 'Readability', $result['contentTab'] );
+		$this->assertTrue( array_key_exists( 'contentLocale', $result ) );
+		$this->assertTrue( array_key_exists( 'translations', $result ) );
 		$this->assertTrue( is_array( $result['translations'] ) );
 	}
 
@@ -38,7 +38,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox_Formatter::get_translations
 	 */
 	public function test_with_fake_language_file() {
-		$file_name = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		$file_name = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . WPSEO_Utils::get_user_locale() . '.json';
 		file_put_contents(
 			$file_name,
 			json_encode( array( 'key' => 'value' ) )
@@ -53,7 +53,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		);
 		$result = $class_instance->get_values();
 
-		$this->assertTrue( array_key_exists( 'translations' , $result ) );
+		$this->assertTrue( array_key_exists( 'translations', $result ) );
 		$this->assertTrue( is_array( $result['translations'] ) );
 		$this->assertEquals( $result['translations'], array( 'key' => 'value' ) );
 
