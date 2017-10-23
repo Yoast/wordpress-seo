@@ -4,17 +4,12 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 <li
   className="sc-bwzfXH hyoGES"
 >
-  <span
-    aria-label="SEO score good"
+  <svg
+    aria-hidden="true"
+    className="sc-bxivhb hpJpJA"
+    focusable="false"
     role="img"
-  >
-    <svg
-      aria-hidden="true"
-      className="sc-bxivhb hpJpJA"
-      focusable="false"
-      role="presentation"
-    />
-  </span>
+  />
   <p
     className="sc-htpNat gHtmEy"
   >

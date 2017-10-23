@@ -8,17 +8,3 @@ exports[`the Icon matches the snapshot 1`] = `
   role="img"
 />
 `;
-
-exports[`the IconWithAriaLabel matches the snapshot 1`] = `
-<span
-  aria-label="This is an aria label"
-  role="img"
->
-  <svg
-    aria-hidden="true"
-    className="sc-bwzfXH fWnAvQ"
-    focusable="false"
-    role="presentation"
-  />
-</span>
-`;

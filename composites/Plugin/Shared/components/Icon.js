@@ -33,30 +33,3 @@ Icon.propTypes = {
 Icon.defaultProps = {
 	size: "16px",
 };
-
-/**
- * Returns the IconWithAriaLabel component.
- *
- * Safari 11 doesn't expose to browsers the ARIA role set on SVG elements.
- *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} IconWithAriaLabel component.
- */
-export const IconWithAriaLabel = ( props ) => {
-	return <span role="img" aria-label={ props.ariaLabel }>
-		<Icon
-			icon={ props.icon }
-			color={ props.color }
-			size={ props.size }
-			role="presentation"
-		/>
-	</span>;
-};
-
-IconWithAriaLabel.propTypes = {
-	icon: PropTypes.func.isRequired,
-	color: PropTypes.string.isRequired,
-	size: PropTypes.string.isRequired,
-	ariaLabel: PropTypes.string.isRequired,
-};
