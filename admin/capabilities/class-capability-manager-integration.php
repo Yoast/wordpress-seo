@@ -64,8 +64,8 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 		members_register_cap_group( 'wordpress-seo',
 			array(
 				'label'      => esc_html__( 'Yoast SEO', 'wordpress-seo' ),
-				'caps'       => self::get_capabilities(),
-				'icon'       => '', // WPSEO_Utils::get_icon_svg(), SVG not working.
+				'caps'       => $this->get_capabilities(),
+				'icon'       => 'dashicons-admin-plugins',
 				'diff_added' => true,
 			)
 		);
