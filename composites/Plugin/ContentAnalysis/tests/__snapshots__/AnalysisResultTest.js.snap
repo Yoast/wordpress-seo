@@ -18,7 +18,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa bHNsnL"
+    className="sc-bdVaJa VNVFd"
     id="Result button"
     onClick={[Function]}
   >

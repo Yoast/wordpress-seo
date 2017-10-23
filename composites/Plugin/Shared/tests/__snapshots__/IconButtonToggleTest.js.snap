@@ -4,7 +4,7 @@ exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
 <button
   aria-label="important toggle"
   aria-pressed={true}
-  className="sc-bdVaJa bHNsnL"
+  className="sc-bdVaJa VNVFd"
   id="RadioButton2"
   onClick={[Function]}
 >
@@ -21,7 +21,7 @@ exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
 <button
   aria-label="important toggle"
   aria-pressed={false}
-  className="sc-bdVaJa iNXwdx"
+  className="sc-bdVaJa inADYO"
   id="RadioButton"
   onClick={[Function]}
 >

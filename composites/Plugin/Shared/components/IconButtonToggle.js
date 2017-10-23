@@ -18,7 +18,7 @@ const ChangingIconButtonBase = styled.button`
 	border-radius: 3px;
 	cursor: pointer;
 	padding: 0;
-	height: ${ props => props.pressed ? "24px" : "25px" };
+	height: ${ props => props.pressed ? "23px" : "24px" };
 
 	&:hover {
 		border-color: ${ props => props.hoverBorderColor }
