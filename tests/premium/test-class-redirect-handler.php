@@ -4,30 +4,23 @@
  */
 
 /**
- * Class double for overriding the method visibility.
- */
-class WPSEO_Redirect_Handler_Double extends WPSEO_Redirect_Handler {
-
-	/**
-	 * Check if request URL matches one of the regex redirects
-	 *
-	 * @param string $regex    The reqular expression to match.
-	 * @param array  $redirect The URL that might be matched with the regex.
-	 */
-	public function match_regex_redirect( $regex, array $redirect ) {
-		parent::match_regex_redirect( $regex, $redirect );
-	}
-}
-
-/**
- * Test class for testing the redirect handler
- *
- * @covers WPSEO_Redirect_Handler
+ * Test class for testing the redirect handler.
  */
 class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Includes the test double.
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		require_once 'doubles/class-redirect-handler-double.php';
+	}
+
+	/**
 	 * Testing a regex redirect that will match the request uri.
+	 *
+	 * @covers WPSEO_Redirect_Handler::match_regex_redirect()
 	 */
 	public function test_a_regex_redirect_that_will_match_the_request_uri() {
 		$class_instance = $this
@@ -50,6 +43,8 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Testing the regex redirect that will not match the request uri.
+	 *
+	 * @covers WPSEO_Redirect_Handler::match_regex_redirect()
 	 */
 	public function test_a_regex_redirect_that_will_not_match_the_request_uri() {
 		$class_instance = $this

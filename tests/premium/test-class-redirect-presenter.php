@@ -108,6 +108,4 @@ class WPSEO_Redirect_Presenter_Test extends WPSEO_UnitTestCase {
 
 		return $capabilities;
 	}
-
-
 }
