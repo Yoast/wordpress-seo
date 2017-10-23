@@ -15,9 +15,10 @@ export const Icon = ( props ) => {
 		width: ${ props.size };
 		height: ${ props.size };
 		fill: ${ props.color };
+		flex: none;
 	`;
 
-	// Remove the props that are no longer needed
+	// Remove the props that are no longer needed.
 	const newProps = _omit( props, [ "icon", "size", "color" ] );
 
 	return <IconComponent role="img" aria-hidden="true" focusable="false" { ...newProps } />;

@@ -19,7 +19,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
     >
       <svg
         aria-hidden="true"
-        className="sc-bZQynM fNWYPv"
+        className="sc-bZQynM iEGQbI"
         focusable="false"
         role="img"
       />
@@ -75,7 +75,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
     >
       <svg
         aria-hidden="true"
-        className="sc-gzVnrw kpyDKH"
+        className="sc-gzVnrw hnODFy"
         focusable="false"
         role="img"
       />
