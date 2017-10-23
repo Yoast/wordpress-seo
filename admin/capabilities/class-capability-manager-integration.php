@@ -7,6 +7,19 @@
  * Integrates Yoast SEO capabilities with third party role manager plugins.
  */
 class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integration {
+
+	/**
+	 * @var WPSEO_Capability_Manager
+	 */
+	public $manager = null;
+
+	/**
+	 * WPSEO_Capability_Manager_Integration constructor.
+	 */
+	public function __construct() {
+		$this->manager = WPSEO_Capability_Manager_Factory::get();
+	}
+
 	/**
 	 * Registers the hooks.
 	 *
@@ -32,9 +45,7 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 			do_action( 'wpseo_register_capabilities' );
 		}
 
-		$manager = WPSEO_Capability_Manager_Factory::get();
-
-		return array_merge( $caps, $manager->get_capabilities() );
+		return array_merge( $caps, $this->manager->get_capabilities() );
 	}
 
 	/**
