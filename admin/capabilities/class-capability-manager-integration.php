@@ -84,7 +84,7 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 		$groups = (array) $groups;
 
 		$groups['wordpress-seo'] = array(
-			'caption' => esc_html__( 'Yoast SEO', 'wordpress-seo' ),
+			'caption' => 'Yoast SEO',
 			'parent'  => 'custom',
 			'level'   => 3,
 		);
