@@ -85,6 +85,11 @@ class WPSEO_Plugin_Compatibility {
 		$plugin = $this->availability_checker->get_plugin( $plugin );
 		$plugin_version = $this->availability_checker->get_version( $plugin );
 
+		// If we are not syncing versions, we are always compatible.
+		if ( $plugin['version_sync'] === false ) {
+			return true;
+		}
+
 		return $this->get_major_minor_version( $plugin_version ) === $this->current_wpseo_version;
 	}
 
