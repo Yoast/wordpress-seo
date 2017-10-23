@@ -792,7 +792,7 @@ class WPSEO_OpenGraph_Image {
 	private $images = array();
 
 	/**
-	 * @TODO This needs to be refactored since we only hold one set of dimensions for multiple images. R.
+	 * @todo This needs to be refactored since we only hold one set of dimensions for multiple images. R.
 	 * @var array $dimensions Holds image dimensions, if determined.
 	 */
 	protected $dimensions = array();

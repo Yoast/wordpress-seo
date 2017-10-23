@@ -53,8 +53,9 @@ foreach ( $tabs->get_tabs() as $tab ) {
 }
 echo '</h2>';
 
-$help_center = new WPSEO_Help_Center( 'advanced', $active_tab );
-$help_center->output_help_center();
+$help_center = new WPSEO_Help_Center( '', $tabs, WPSEO_Utils::is_yoast_seo_premium() );
+$help_center->localize_data();
+$help_center->mount();
 
 require_once WPSEO_PATH . 'admin/views/tabs/advanced/' . $active_tab->get_name() . '.php';
 

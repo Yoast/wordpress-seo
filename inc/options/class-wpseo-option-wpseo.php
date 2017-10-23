@@ -145,8 +145,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 				case 'blocking_files':
 					/*
-					 * @internal [JRF] to really validate this we should also do a file_exists()
-					 * on each array entry and remove files which no longer exist, but that might be overkill
+					 * {@internal [JRF] To really validate this we should also do a file_exists()
+					 * on each array entry and remove files which no longer exist, but that might be overkill.}}
 					 */
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
 						$clean[ $key ] = array_unique( $dirty[ $key ] );

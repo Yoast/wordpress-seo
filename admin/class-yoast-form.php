@@ -162,18 +162,16 @@ class Yoast_Form {
 		if ( ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) ) {
 			$xdebug = ( extension_loaded( 'xdebug' ) ? true : false );
 			echo '
-			<div id="poststuff">
-			<div id="wpseo-debug-info" class="postbox">
+			<div id="wpseo-debug-info" class="yoast-container">
 
-				<h2 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h2>
-				<div class="inside">
+				<h2>' . __( 'Debug Information', 'wordpress-seo' ) . '</h2>
+				<div>
 					<h3 class="wpseo-debug-heading">' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->option_name ) . '</span></h3>
 					' . ( ( $xdebug ) ? '' : '<pre>' );
 			var_dump( $this->get_option() );
 			echo '
 					' . ( ( $xdebug ) ? '' : '</pre>' ) . '
 				</div>
-			</div>
 			</div>';
 		}
 
