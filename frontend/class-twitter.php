@@ -349,8 +349,7 @@ class WPSEO_Twitter {
 	 *
 	 * Only used when OpenGraph is inactive or Summary Large Image card is chosen.
 	 */
-	protected function image() {
-
+	protected function image() {		
 		if ( is_category() || is_tax() || is_tag() ) {
 			$this->taxonomy_image_output();
 		}
@@ -377,13 +376,23 @@ class WPSEO_Twitter {
 	private function taxonomy_image_output() {
 		foreach ( array( 'twitter-image', 'opengraph-image' ) as $tag ) {
 			$img = WPSEO_Taxonomy_Meta::get_meta_without_term( $tag );
-			if ( $img !== '' ) {
+			if ( $img && $img !== '' ) {
 				$this->image_output( $img );
-
 				return true;
 			}
 		}
-
+		/**
+		  * Filter: wpseo_twitter_taxonomy_image - Allow developers to set a custom Twitter image for taxonomies.
+		  *
+		  * @api bool False by default if there is no taxonomy image
+		  * 
+		  * @returns false|string A string when an image should be outputted. False if not.
+	    */
+		$img = apply_filters( 'wpseo_twitter_taxonomy_image', false );
+		if ( $img && $img !== '' ) {
+			$this->image_output( $img );
+			return true;
+		}
 		return false;
 	}
 
