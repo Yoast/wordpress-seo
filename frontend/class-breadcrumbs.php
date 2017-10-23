@@ -661,7 +661,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function get_link_info_for_id( $id ) {
 
-		$link 	= array();
+		$link         = array();
 		$link['url']  = get_permalink( $id );
 		$link['text'] = WPSEO_Meta::get_value( 'bctitle', $id );
 

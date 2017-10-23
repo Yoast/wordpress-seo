@@ -388,19 +388,25 @@ class WPSEO_Admin_Init {
 		// WordPress hooks that have been deprecated in Yoast SEO 3.0.
 		$deprecated_filters = array(
 			'wpseo_pre_analysis_post_content' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
-			'wpseo_metadesc_length' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
-			'wpseo_metadesc_length_reason' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
-			'wpseo_body_length_score' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
-			'wpseo_linkdex_results' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
-			'wpseo_snippet' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
-			'wp_seo_get_bc_title' => array( 'version' => '3.3', 'alternative' => 'wpseo_breadcrumb_single_link_info' ),
+			'wpseo_metadesc_length'           => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_metadesc_length_reason'    => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_body_length_score'         => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_linkdex_results'           => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_snippet'                   => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wp_seo_get_bc_title' => array(
+				'version'     => '3.3',
+				'alternative' => 'wpseo_breadcrumb_single_link_info'
+			),
 		);
 
 		foreach ( $deprecated_filters as $deprecated_filter => $deprecation_info ) {
 			if ( array_key_exists( $deprecated_filter, $wp_filter ) ) {
-				/* translators: %s expands to the actual filter/action that has been used. */
 				_deprecated_function(
-					sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ),
+					sprintf(
+						/* translators: %s expands to the deprecated filter or action that has been registered. */
+						__( '%s filter/action', 'wordpress-seo' ),
+						$deprecated_filter
+					),
 					'WPSEO ' . $deprecation_info['version'],
 					$deprecation_info['alternative']
 				);
@@ -418,6 +424,4 @@ class WPSEO_Admin_Init {
 	private function dismiss_notice( $notice_name ) {
 		return filter_input( INPUT_GET, $notice_name ) === '1' && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), $notice_name );
 	}
-
-
 }
