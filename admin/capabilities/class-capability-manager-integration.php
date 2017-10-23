@@ -6,7 +6,7 @@
 /**
  * Integrates Yoast SEO capabilities with third party role manager plugins.
  */
-class WPSEO_Capability_Manager_Integration {
+class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers the hooks.
 	 *
