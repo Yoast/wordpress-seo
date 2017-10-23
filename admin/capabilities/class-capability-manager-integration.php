@@ -5,16 +5,18 @@
 
 /**
  * Integrates Yoast SEO capabilities with third party role manager plugins.
+ *
+ * Integrates with: Members
+ * Integrates with: User Role Editor
  */
 class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integration {
 
-	/**
-	 * @var WPSEO_Capability_Manager
-	 */
-	public $manager = null;
+	/** @var WPSEO_Capability_Manager Capability manager to use. */
+	public $manager;
 
 	/**
 	 * WPSEO_Capability_Manager_Integration constructor.
+	 *
 	 * @param WPSEO_Capability_Manager $manager The capability manager to use.
 	 */
 	public function __construct( WPSEO_Capability_Manager $manager ) {
@@ -70,29 +72,35 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 	}
 
 	/**
-	 * Add Yoast SEO capability group in the User Role Editor plugin.
+	 * Adds Yoast SEO capability group in the User Role Editor plugin.
 	 *
 	 * @see    URE_Capabilities_Groups_Manager::get_groups_tree()
+	 *
 	 * @param  array $groups Current groups.
-	 * @return array
+	 *
+	 * @return array Filtered list of capabilty groups.
 	 */
 	public function filter_ure_capabilities_groups_tree( $groups = array() ) {
 		$groups = (array) $groups;
+
 		$groups['wordpress-seo'] = array(
 			'caption' => esc_html__( 'Yoast SEO', 'wordpress-seo' ),
 			'parent'  => 'custom',
 			'level'   => 3,
 		);
+
 		return $groups;
 	}
 
 	/**
-	 * Add capabilities to the Yoast SEO group in the User Role Editor plugin.
+	 * Adds capabilities to the Yoast SEO group in the User Role Editor plugin.
 	 *
 	 * @see    URE_Capabilities_Groups_Manager::get_cap_groups()
+	 *
 	 * @param  array  $groups Current capability groups.
 	 * @param  string $cap_id Capability identifier.
-	 * @return array
+	 *
+	 * @return array List of filtered groups.
 	 */
 	public function filter_ure_custom_capability_groups( $groups = array(), $cap_id = '' ) {
 		if ( in_array( $cap_id, self::get_capabilities(), true ) ) {
