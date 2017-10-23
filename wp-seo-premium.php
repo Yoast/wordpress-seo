@@ -48,7 +48,8 @@ if ( ! is_admin() ) {
 	require_once $wpseo_premium_dir . 'classes/redirect/class-redirect-util.php';
 	require_once $wpseo_premium_dir . 'classes/redirect/class-redirect-handler.php';
 
-	new WPSEO_Redirect_Handler();
+	$redirect_handler = new WPSEO_Redirect_Handler();
+	$redirect_handler->load();
 }
 
 /**
