@@ -43,7 +43,7 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 	 * @param  array $caps Optional existing capability list.
 	 * @return array
 	 */
-	public function get_capabilities( $caps = array() ) {
+	public function get_capabilities( array $caps = array() ) {
 		if ( ! did_action( 'wpseo_register_capabilities' ) ) {
 			do_action( 'wpseo_register_capabilities' );
 		}
