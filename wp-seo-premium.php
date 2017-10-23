@@ -74,8 +74,8 @@ require_once $wpseo_premium_dir . 'class-premium.php';
 
 WPSEO_Premium::autoloader();
 
-$capabilities = new WPSEO_Premium_Register_Capabilities();
-$capabilities->register_hooks();
+$wpseo_premium_capabilities = new WPSEO_Premium_Register_Capabilities();
+$wpseo_premium_capabilities->register_hooks();
 
 /**
  * Run the upgrade for Yoast SEO Premium.
