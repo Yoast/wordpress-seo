@@ -15,6 +15,10 @@ const AnalysisResultBase = styled.li`
 	align-items: flex-start;
 `;
 
+const ScoreIcon = styled( Icon )`
+	margin-top: 4px;
+`;
+
 const AnalysisResultText = styled.p`
 	margin: 0 8px;
 	flex: 1 1 auto;
@@ -30,7 +34,7 @@ const AnalysisResultText = styled.p`
 export const AnalysisResult = ( props ) => {
 	return (
 		<AnalysisResultBase { ...props }>
-			<Icon
+			<ScoreIcon
 				icon={ circle }
 				color={ props.bulletColor }
 				size="13px"

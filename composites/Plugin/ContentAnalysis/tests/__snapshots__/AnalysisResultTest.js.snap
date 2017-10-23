@@ -6,12 +6,12 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 >
   <svg
     aria-hidden="true"
-    className="sc-bxivhb hpJpJA"
+    className="sc-htpNat gvyGHY sc-ifAKCX gIfmeR"
     focusable="false"
     role="img"
   />
   <p
-    className="sc-htpNat gHtmEy"
+    className="sc-bxivhb ejHQXZ"
   >
     You're doing great!
   </p>
@@ -24,7 +24,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   >
     <svg
       aria-hidden="true"
-      className="sc-ifAKCX fzBsVd"
+      className="sc-EHOje cEzfCV"
       focusable="false"
       role="img"
     />
