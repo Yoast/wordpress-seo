@@ -15,9 +15,10 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 
 	/**
 	 * WPSEO_Capability_Manager_Integration constructor.
+	 * @param WPSEO_Capability_Manager $manager The capability manager to use.
 	 */
-	public function __construct() {
-		$this->manager = WPSEO_Capability_Manager_Factory::get();
+	public function __construct( WPSEO_Capability_Manager $manager ) {
+		$this->manager = $manager;
 	}
 
 	/**
