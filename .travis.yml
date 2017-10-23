@@ -23,7 +23,7 @@ before_script:
 script:
 - yarn test
 - grunt check
-- tslint 'src/**/*.ts?(x)'
+- tslint -c tslint.json 'src/**/*.{ts,tsx}'
 
 after_success:
 - yarn global add codeclimate-test-reporter

@@ -88,8 +88,7 @@
       "node_modules"
     ],
     "testPathIgnorePatterns": [
-      "/spec/helpers/factory.js",
-      "/spec/assessments/textCompetingLinkSpec.js"
+      "/spec/helpers/factory.js"
     ],
     "coverageThreshold": {
       "global": {
