@@ -18,7 +18,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing a regex redirect that will match the request uri.
+	 * Testing a regex redirect that will match the request URI.
 	 *
 	 * @covers WPSEO_Redirect_Handler::match_regex_redirect()
 	 */
@@ -42,7 +42,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing the regex redirect that will not match the request uri.
+	 * Testing the regex redirect that will not match the request URI.
 	 *
 	 * @covers WPSEO_Redirect_Handler::match_regex_redirect()
 	 */
