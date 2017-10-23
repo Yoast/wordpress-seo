@@ -9,9 +9,9 @@ test( "the AnalysisResult component matches the snapshot", () => {
 			bulletColor="blue"
 			buttonId="Result button"
 			pressed={ true }
-			eyeButtonIsActive={ true }
+			hasMarksButton={ true }
 			onButtonClick={ () => {} }
-			resultText={ "You're doing great!" }
+			text={ "You're doing great!" }
 			score="good"
 		/>
 	);

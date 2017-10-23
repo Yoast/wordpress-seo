@@ -39,9 +39,9 @@ export const AnalysisResult = ( props ) => {
 				color={ props.bulletColor }
 				size="13px"
 			/>
-			<AnalysisResultText>{ props.resultText }</AnalysisResultText>
+			<AnalysisResultText>{ props.text }</AnalysisResultText>
 			{
-				props.eyeButtonIsActive &&
+				props.hasMarksButton &&
 					<IconButtonToggle
 						onClick={ props.onButtonClick }
 						id={ props.buttonId }
@@ -55,14 +55,13 @@ export const AnalysisResult = ( props ) => {
 };
 
 AnalysisResult.propTypes = {
-	resultText: PropTypes.string.isRequired,
+	text: PropTypes.string.isRequired,
 	bulletColor: PropTypes.string.isRequired,
-	eyeButtonIsActive: PropTypes.bool.isRequired,
+	hasMarksButton: PropTypes.bool.isRequired,
 	buttonId: PropTypes.string.isRequired,
 	pressed: PropTypes.bool.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
 	onButtonClick: PropTypes.func.isRequired,
-	score: PropTypes.string.isRequired,
 };
 
 export default AnalysisResult;
