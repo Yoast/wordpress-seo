@@ -2,7 +2,7 @@
 
 exports[`the AnalysisResult component matches the snapshot 1`] = `
 <li
-  className="sc-htpNat bpCQfD"
+  className="sc-bwzfXH hyoGES"
 >
   <span
     aria-label="SEO score good"
@@ -10,31 +10,29 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   >
     <svg
       aria-hidden="true"
-      className="sc-ifAKCX gIfmeR"
+      className="sc-bxivhb hpJpJA"
       focusable="false"
       role="presentation"
     />
   </span>
   <p
-    className="sc-bxivhb ejHQXZ"
+    className="sc-htpNat gHtmEy"
   >
     You're doing great!
   </p>
-  <span>
-    <button
-      aria-label="SEOResult"
-      aria-pressed={true}
-      className="sc-bdVaJa bHNsnL"
-      id="Result button"
-      onClick={[Function]}
-    >
-      <svg
-        aria-hidden="true"
-        className="sc-EHOje cEzfCV"
-        focusable="false"
-        role="img"
-      />
-    </button>
-  </span>
+  <button
+    aria-label="SEOResult"
+    aria-pressed={true}
+    className="sc-bdVaJa bHNsnL"
+    id="Result button"
+    onClick={[Function]}
+  >
+    <svg
+      aria-hidden="true"
+      className="sc-ifAKCX fzBsVd"
+      focusable="false"
+      role="img"
+    />
+  </button>
 </li>
 `;

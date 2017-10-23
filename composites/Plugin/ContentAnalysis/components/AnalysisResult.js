@@ -15,12 +15,6 @@ const messages = defineMessages( {
 	},
 } );
 
-export const AnalysisResultList = styled.ul`
-	margin: 0;
-	padding: 0;
-	list-style: none;
-`;
-
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
 	min-height: 24px;
@@ -53,15 +47,13 @@ export const AnalysisResult = ( props ) => {
 			<AnalysisResultText>{ props.resultText }</AnalysisResultText>
 			{
 				props.eyeButtonIsActive &&
-					<span>
-						<IconButtonToggle
-							onClick={ props.onButtonClick }
-							id={ props.buttonId }
-							icon={ eye }
-							pressed={ props.pressed }
-							ariaLabel={ props.ariaLabel }
-						/>
-					</span>
+					<IconButtonToggle
+						onClick={ props.onButtonClick }
+						id={ props.buttonId }
+						icon={ eye }
+						pressed={ props.pressed }
+						ariaLabel={ props.ariaLabel }
+					/>
 			}
 		</AnalysisResultBase>
 	);
