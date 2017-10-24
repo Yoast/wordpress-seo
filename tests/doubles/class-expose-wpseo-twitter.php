@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Tests\Framework
+ * @package WPSEO\Tests\Doubles
  */
 
 /**

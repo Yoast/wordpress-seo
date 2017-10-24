@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Tests\Sitemaps
+ * @package WPSEO\Tests\Doubles
  */
 
 /**

@@ -20,11 +20,11 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		parent::setUpBeforeClass();
 		ob_start();
 
-		// create instance of WPSEO_Twitter class
-		require_once WPSEO_TESTS_PATH . 'framework/class-expose-wpseo-twitter.php';
+		// Create instance of WPSEO_Twitter class.
+		require_once WPSEO_TESTS_PATH . 'doubles/class-expose-wpseo-twitter.php';
 		self::$class_instance = new Expose_WPSEO_Twitter();
 		WPSEO_Frontend::get_instance()->reset();
-		// clean output which was outputted by WPSEO_Twitter constructor
+		// Clean output which was outputted by WPSEO_Twitter constructor.
 		ob_end_clean();
 	}
 
