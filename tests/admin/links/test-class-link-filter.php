@@ -1,13 +1,19 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Links
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Link_Filter_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @dataProvider link_provider
 	 *
-	 * @param string     $current_page
-	 * @param WPSEO_Link $link
-	 * @param bool       $expected
+	 * @param string     $current_page Current page.
+	 * @param WPSEO_Link $link         Link object.
+	 * @param bool       $expected     Expected output.
 	 */
 	public function test_internal_link_with_fragment_filter( $current_page, WPSEO_Link $link, $expected ) {
 		$filter = new WPSEO_Link_Filter( $current_page );

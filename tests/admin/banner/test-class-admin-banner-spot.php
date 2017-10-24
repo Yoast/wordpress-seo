@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Banner
+ */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Admin_Banner_Renderer_Mock extends WPSEO_Admin_Banner_Renderer {
 
 	/**
@@ -23,6 +29,9 @@ class WPSEO_Admin_Banner_Renderer_Mock extends WPSEO_Admin_Banner_Renderer {
 
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Banner_Spot_Test extends WPSEO_UnitTestCase {
 
 	/**

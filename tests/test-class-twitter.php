@@ -1,8 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -10,6 +13,9 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up a WPSEO_Twitter object.
+	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 		ob_start();
@@ -22,7 +28,9 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		ob_end_clean();
 	}
 
-
+	/**
+	 * Clean up after each test.
+	 */
 	public function tearDown() {
 		parent::tearDown();
 		ob_clean();
@@ -78,8 +86,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param $name
-	 * @param $value
+	 * @param string $name  Name.
+	 * @param string $value Value.
 	 *
 	 * @return string
 	 */
@@ -309,7 +317,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param $url
+	 * @param string $url URL.
 	 *
 	 * @return string
 	 */

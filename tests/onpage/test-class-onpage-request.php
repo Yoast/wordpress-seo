@@ -1,8 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests\OnPage
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
 
 	/**
@@ -46,6 +49,9 @@ class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
 
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 
 	/**

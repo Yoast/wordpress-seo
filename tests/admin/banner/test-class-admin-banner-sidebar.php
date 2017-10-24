@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Banner
+ */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Features_Mock extends WPSEO_Features {
 
 	/**
@@ -12,11 +18,18 @@ class WPSEO_Features_Mock extends WPSEO_Features {
 	}
 
 }
+
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 
 	/** @var WPSEO_Admin_Banner_Sidebar */
 	protected $admin_banner_sidebar;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 

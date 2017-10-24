@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Links
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -130,6 +136,9 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$watcher->save_post( $post->ID, $post );
 	}
 
+	/**
+	 * Test deleting links when a post is deleted.
+	 */
 	public function test_delete_post() {
 		$post = $this->factory->post->create_and_get(
 			array(

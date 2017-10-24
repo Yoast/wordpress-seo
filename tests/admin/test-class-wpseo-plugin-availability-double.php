@@ -1,10 +1,14 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin
+ */
 
 /**
  * Class WPSEO_Plugin_Availability_Double
  */
 class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 
+	/** @var array Mock dependencies. */
 	private $available_dependencies = array( 'test-plugin', 'test-plugin-dependency' );
 
 	/**
