@@ -132,7 +132,7 @@ Release Date: October 24th, 2017
 Enhancements:
 	* Adds notifications when we detect certain plugins are installed to suggest our AMP and ACF glue plugins.
 	* Adds the ability to start the configuration wizard from the admin bar menu.
-	* Adds better responsiveness styling for the video tabs in the Help Center
+	* Adds better responsive styling for the video tabs in the Help Center.
 	* Replaces the link to Google AdWords with the https variant, props [Shane Gray](https://github.com/shane-gray).
 	* Changes to the desired spelling of `plugin` and `setup`, props [Pedro Mendonça](https://github.com/pedro-mendonca).
 
