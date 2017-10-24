@@ -43,7 +43,13 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 			->method( 'do_redirect' );
 
 		$class_instance->load();
-		$class_instance->match_regex_redirect( 'page.*', array( 'url' => 'page-hi', 'type' => 301 ) );
+		$class_instance->match_regex_redirect(
+			'page.*',
+			array(
+				'url'  => 'page-hi',
+				'type' => 301,
+			)
+		);
 	}
 
 	/**
@@ -72,7 +78,13 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 			->method( 'do_redirect' );
 
 		$class_instance->load();
-		$class_instance->match_regex_redirect( 'paige.*', array( 'url' => 'page-hi', 'type' => 301 ) );
+		$class_instance->match_regex_redirect(
+			'paige.*',
+			array(
+				'url'  => 'page-hi',
+				'type' => 301,
+			)
+		);
 	}
 
 }

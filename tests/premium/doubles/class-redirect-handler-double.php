@@ -9,7 +9,10 @@
 class WPSEO_Redirect_Handler_Double extends WPSEO_Redirect_Handler {
 
 	/**
-	 * {@inheritDoc}
+	 * Check if request URL matches one of the regex redirects
+	 *
+	 * @param string $regex    The reqular expression to match.
+	 * @param array  $redirect The URL that might be matched with the regex.
 	 */
 	public function match_regex_redirect( $regex, array $redirect ) {
 		parent::match_regex_redirect( $regex, $redirect );
