@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Admin
+ */
 
+/**
+ * Represents the post type utils.
+ */
 class WPSEO_Post_Type {
 
 
