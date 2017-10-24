@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 597);
+/******/ 	return __webpack_require__(__webpack_require__.s = 598);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -8267,7 +8267,7 @@ if (false) {
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(458)();
+  module.exports = __webpack_require__(459)();
 }
 
 /***/ }),
@@ -16038,6 +16038,15 @@ Object.defineProperty(exports, "questionCircle", {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_questionCircle).default;
+  }
+});
+
+var _eye = __webpack_require__(448);
+
+Object.defineProperty(exports, "eye", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_eye).default;
   }
 });
 
@@ -30057,7 +30066,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactIntl = __webpack_require__(36);
 
-var _A11yNotice = __webpack_require__(448);
+var _A11yNotice = __webpack_require__(449);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31481,7 +31490,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(["\n\tmax-width: ", ";\n\tmargin: 0 auto 20px auto;\n\tbox-sizing: border-box;\n"], ["\n\tmax-width: ", ";\n\tmargin: 0 auto 20px auto;\n\tbox-sizing: border-box;\n"]);
+var _templateObject = _taggedTemplateLiteral(["\n\tmargin: 0 auto 20px auto;\n\tbox-sizing: border-box;\n"], ["\n\tmargin: 0 auto 20px auto;\n\tbox-sizing: border-box;\n"]);
 
 var _react = __webpack_require__(0);
 
@@ -31521,7 +31530,7 @@ var _SearchResultDetail = __webpack_require__(439);
 
 var _SearchResultDetail2 = _interopRequireDefault(_SearchResultDetail);
 
-var _SearchResults = __webpack_require__(449);
+var _SearchResults = __webpack_require__(450);
 
 var _SearchResults2 = _interopRequireDefault(_SearchResults);
 
@@ -31535,13 +31544,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var AlgoliaSearchWrapper = _styledComponents2.default.div(_templateObject, function (props) {
-	return props.maxWidth;
-});
-
-AlgoliaSearchWrapper.propTypes = {
-	maxWidth: _propTypes2.default.string
-};
+var AlgoliaSearchWrapper = _styledComponents2.default.div(_templateObject);
 
 var messages = (0, _reactIntl.defineMessages)({
 	loadingPlaceholder: {
@@ -31888,10 +31891,14 @@ var AlgoliaSearcher = function (_React$Component) {
 	}, {
 		key: "getSearchView",
 		value: function getSearchView() {
+			var _this3 = this;
+
 			return _react2.default.createElement(
 				AlgoliaSearchWrapper,
 				{
-					maxWidth: this.props.maxWidth },
+					innerRef: function innerRef(el) {
+						_this3.searchViewWrapper = el;
+					} },
 				this.createSearchBar(),
 				this.determineSearchResultsView()
 			);
@@ -31908,13 +31915,36 @@ var AlgoliaSearcher = function (_React$Component) {
 		value: function getDetailView() {
 			return _react2.default.createElement(
 				AlgoliaSearchWrapper,
-				{
-					maxWidth: this.props.maxWidth },
+				null,
 				_react2.default.createElement(_SearchResultDetail2.default, _extends({}, this.props, {
 					post: this.getPostFromResults(this.state.currentDetailViewIndex),
 					onBackButtonClicked: this.hideDetailView.bind(this)
 				}))
 			);
+		}
+
+		/**
+   * Move focus back to the clicked link when going back from Detail to Search view.
+   *
+   * Call this function on componentDidUpdate() to avoid it runs on first rendering.
+   *
+   * @returns {void}
+   */
+
+	}, {
+		key: "moveFocusBackToClickedSearchResult",
+		value: function moveFocusBackToClickedSearchResult() {
+			var clickedLinkIndex = this.state.currentDetailViewIndex;
+			// When is search view and a search results has been previously clicked.
+			if (this.state.currentView === "SEARCH" && clickedLinkIndex >= 0) {
+				var resultLinks = this.searchViewWrapper.querySelectorAll("ul a");
+
+				if (!resultLinks.length) {
+					return;
+				}
+
+				resultLinks[clickedLinkIndex].focus();
+			}
 		}
 
 		/**
@@ -31935,6 +31965,11 @@ var AlgoliaSearcher = function (_React$Component) {
 					return this.getDetailView();
 			}
 		}
+	}, {
+		key: "componentDidUpdate",
+		value: function componentDidUpdate() {
+			this.moveFocusBackToClickedSearchResult();
+		}
 	}]);
 
 	return AlgoliaSearcher;
@@ -31944,7 +31979,6 @@ AlgoliaSearcher.propTypes = {
 	algoliaApplicationId: _propTypes2.default.string,
 	algoliaApiKey: _propTypes2.default.string,
 	algoliaIndexName: _propTypes2.default.string,
-	maxWidth: _propTypes2.default.string,
 	onQueryChange: _propTypes2.default.func,
 	intl: _reactIntl.intlShape.isRequired,
 	enableLiveSearch: _propTypes2.default.bool
@@ -31954,7 +31988,6 @@ AlgoliaSearcher.defaultProps = {
 	algoliaApplicationId: "RC8G2UCWJK",
 	algoliaApiKey: "459903434a7963f83e7d4cd9bfe89c0d",
 	algoliaIndexName: "knowledge_base_all",
-	maxWidth: "900px",
 	enableLiveSearch: false
 };
 
@@ -39900,9 +39933,9 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(["\n\n\tform {\n\t\tdisplay: flex;\n\n\t\t@media screen and ( max-width: ", " ) {\n\t\t\tflex-wrap: wrap;\n\t\t}\n\t}\n\n\t@media screen and ( max-width: ", " ) {\n\t\tbutton {\n\t\t\tmin-width: 100%;\n\t\t\tmargin-top: 1em;\n\t\t}\n\t}\n"], ["\n\n\tform {\n\t\tdisplay: flex;\n\n\t\t@media screen and ( max-width: ", " ) {\n\t\t\tflex-wrap: wrap;\n\t\t}\n\t}\n\n\t@media screen and ( max-width: ", " ) {\n\t\tbutton {\n\t\t\tmin-width: 100%;\n\t\t\tmargin-top: 1em;\n\t\t}\n\t}\n"]),
-    _templateObject2 = _taggedTemplateLiteral(["\n\tfont-size: 1em;\n\tmargin: 0.5em 0 0.5em 58px;\n\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin-left: 0;\n\t}\n"], ["\n\tfont-size: 1em;\n\tmargin: 0.5em 0 0.5em 58px;\n\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin-left: 0;\n\t}\n"]),
+    _templateObject2 = _taggedTemplateLiteral(["\n\t// !important to override WP rules.\n\tfont-size: 1em !important;\n\tmargin: 0.5em 0 0.5em 58px !important;\n\tpadding: 0 !important;\n\tfont-weight: 600 !important;\n\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin-left: 0;\n\t}\n"], ["\n\t// !important to override WP rules.\n\tfont-size: 1em !important;\n\tmargin: 0.5em 0 0.5em 58px !important;\n\tpadding: 0 !important;\n\tfont-weight: 600 !important;\n\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin-left: 0;\n\t}\n"]),
     _templateObject3 = _taggedTemplateLiteral(["\n\tflex: 0 0 42px;\n\theight: 48px;\n\t// This label is already a flex item to be aligned with its siblings.\n\t// By making it also a flex container, we can align the SVG icon.\n\tdisplay: inline-flex;\n\talign-items: center;\n"], ["\n\tflex: 0 0 42px;\n\theight: 48px;\n\t// This label is already a flex item to be aligned with its siblings.\n\t// By making it also a flex container, we can align the SVG icon.\n\tdisplay: inline-flex;\n\talign-items: center;\n"]),
-    _templateObject4 = _taggedTemplateLiteral(["\n\tflex: 1 1 auto;\n\tbox-sizing: border-box;\n\theight: 48px;\n\tbox-shadow: inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 );\n\tbackground: ", ";\n\tborder: 0;\n\tfont-size: 1em;\n\tmargin-right: 24px;\n\tpadding: 0 8px 0 16px;\n\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin-right: 0;\n\t}\n"], ["\n\tflex: 1 1 auto;\n\tbox-sizing: border-box;\n\theight: 48px;\n\tbox-shadow: inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 );\n\tbackground: ", ";\n\tborder: 0;\n\tfont-size: 1em;\n\tmargin-right: 24px;\n\tpadding: 0 8px 0 16px;\n\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin-right: 0;\n\t}\n"]);
+    _templateObject4 = _taggedTemplateLiteral(["\n\t// Increase specificity to override WP rules.\n\t&& {\n\t\tflex: 1 1 auto;\n\t\tbox-sizing: border-box;\n\t\theight: 48px;\n\t\tbox-shadow: inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 );\n\t\tbackground: ", ";\n\t\tborder: 1px solid transparent;\n\t\tfont-size: 1em;\n\t\tmargin-right: 24px;\n\t\tpadding: 0 8px 0 16px;\n\n\t\t:focus {\n\t\t\tbox-shadow:\n\t\t\t\tinset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 ),\n\t\t\t\t0 0 2px rgba( 30, 140, 190, 0.8 );\n\t\t}\n\n\t\t@media screen and ( max-width: ", " ) {\n\t\t\tmargin-right: 0;\n\t\t}\n\t}\n"], ["\n\t// Increase specificity to override WP rules.\n\t&& {\n\t\tflex: 1 1 auto;\n\t\tbox-sizing: border-box;\n\t\theight: 48px;\n\t\tbox-shadow: inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 );\n\t\tbackground: ", ";\n\t\tborder: 1px solid transparent;\n\t\tfont-size: 1em;\n\t\tmargin-right: 24px;\n\t\tpadding: 0 8px 0 16px;\n\n\t\t:focus {\n\t\t\tbox-shadow:\n\t\t\t\tinset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 ),\n\t\t\t\t0 0 2px rgba( 30, 140, 190, 0.8 );\n\t\t}\n\n\t\t@media screen and ( max-width: ", " ) {\n\t\t\tmargin-right: 0;\n\t\t}\n\t}\n"]);
 
 var _react = __webpack_require__(0);
 
@@ -41910,7 +41943,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(["\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin: 0 -16px;\n\t}\n"], ["\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin: 0 -16px;\n\t}\n"]),
+var _templateObject = _taggedTemplateLiteral(["\n\toutline: none;\n\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin: 0 -16px;\n\t}\n"], ["\n\toutline: none;\n\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin: 0 -16px;\n\t}\n"]),
     _templateObject2 = _taggedTemplateLiteral(["\n\tpadding: 0 16px 16px;\n"], ["\n\tpadding: 0 16px 16px;\n"]),
     _templateObject3 = _taggedTemplateLiteral(["\n\tfloat: right;\n"], ["\n\tfloat: right;\n"]);
 
@@ -41961,6 +41994,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 var messages = (0, _reactIntl.defineMessages)({
+	searchResult: {
+		id: "searchResultDetail.searchResult",
+		defaultMessage: "Search result"
+	},
 	openButton: {
 		id: "searchResultDetail.openButton",
 		defaultMessage: "View in KB"
@@ -42040,14 +42077,37 @@ var SearchResultDetail = function (_React$Component) {
 	}, {
 		key: "render",
 		value: function render() {
+			var _this2 = this;
+
 			var formatMessage = this.props.intl.formatMessage;
+			var searchResulLabel = formatMessage(messages.searchResult);
 			var iframeTitle = formatMessage(messages.iframeTitle);
 			return _react2.default.createElement(
 				Detail,
-				null,
+				{
+					"aria-label": searchResulLabel,
+					tabIndex: "-1",
+					innerRef: function innerRef(el) {
+						_this2.detailWrapper = el;
+					}
+				},
 				this.createNavigation(),
 				_react2.default.createElement(_ArticleContent2.default, { post: this.props.post, title: iframeTitle })
 			);
+		}
+
+		/**
+   * When the component mounts, set focus on the search detail wrapper.
+   *
+   * @returns {void}
+   */
+
+	}, {
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			if (this.detailWrapper !== null) {
+				this.detailWrapper.focus();
+			}
 		}
 	}]);
 
@@ -42328,6 +42388,25 @@ QuestionCircle.default = QuestionCircle;
 /* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var React = __webpack_require__(0);
+
+function Eye (props) {
+    return React.createElement("svg",props,React.createElement("path",{"d":"M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"}));
+}
+
+Eye.displayName = "Eye";
+
+Eye.defaultProps = {"fill":"#000","width":"1792","height":"1792","viewBox":"0 0 1792 1792"};
+
+module.exports = Eye;
+
+Eye.default = Eye;
+
+
+/***/ }),
+/* 449 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -42354,7 +42433,7 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 var A11yNotice = exports.A11yNotice = _styledComponents2.default.span(_templateObject);
 
 /***/ }),
-/* 449 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42367,7 +42446,7 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(["\n\tmargin: 0;\n\tfont-size: 1em;\n\tfont-weight: normal;\n"], ["\n\tmargin: 0;\n\tfont-size: 1em;\n\tfont-weight: normal;\n"]),
-    _templateObject2 = _taggedTemplateLiteral(["\n\tcolor: ", ";\n\tpadding: 8px 16px;\n\t\n\t&:hover, &:focus {\n\t\tcolor: ", ";\n\t}\n"], ["\n\tcolor: ", ";\n\tpadding: 8px 16px;\n\t\n\t&:hover, &:focus {\n\t\tcolor: ", ";\n\t}\n"]),
+    _templateObject2 = _taggedTemplateLiteral(["\n\tcolor: ", ";\n\tpadding: 8px 16px;\n\n\t&:hover, &:focus {\n\t\tcolor: ", ";\n\t}\n"], ["\n\tcolor: ", ";\n\tpadding: 8px 16px;\n\n\t&:hover, &:focus {\n\t\tcolor: ", ";\n\t}\n"]),
     _templateObject3 = _taggedTemplateLiteral(["\n\tmargin-top: 20px;\n\tclear: both;\n"], ["\n\tmargin-top: 20px;\n\tclear: both;\n"]),
     _templateObject4 = _taggedTemplateLiteral(["\n\tmargin-left: 10px;\n"], ["\n\tmargin-left: 10px;\n"]);
 
@@ -42391,9 +42470,9 @@ var _styledComponents = __webpack_require__(8);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _ListTable = __webpack_require__(450);
+var _ListTable = __webpack_require__(451);
 
-var _Row = __webpack_require__(451);
+var _Row = __webpack_require__(452);
 
 var _colors = __webpack_require__(11);
 
@@ -42556,9 +42635,11 @@ var SearchResults = function (_React$Component) {
 				return _react2.default.createElement(SearchResult, {
 					rowHeight: "32px",
 					key: result.objectID,
-					post: result,
-					onClick: function onClick(event) {
+					post: result
+					// Note: this passes the onClick but actually also attaches a click event on the LI element.
+					, onClick: function onClick(event) {
 						event.preventDefault();
+						event.stopPropagation();
 						_this2.props.onClick(index);
 					}
 				});
@@ -42622,7 +42703,7 @@ SearchResults.defaultProps = {
 exports.default = (0, _reactIntl.injectIntl)(SearchResults);
 
 /***/ }),
-/* 450 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42812,7 +42893,7 @@ exports.ListTable = ListTable;
 exports.ZebrafiedListTable = ZebrafiedListTable;
 
 /***/ }),
-/* 451 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42870,7 +42951,7 @@ var RowResponsiveWrap = exports.RowResponsiveWrap = (0, _styledComponents2.defau
 });
 
 /***/ }),
-/* 452 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42900,9 +42981,9 @@ var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
 var _reactIntl = __webpack_require__(36);
 
-var _HelpCenterButton = __webpack_require__(453);
+var _HelpCenterButton = __webpack_require__(454);
 
-var _Paper = __webpack_require__(454);
+var _Paper = __webpack_require__(455);
 
 var _Paper2 = _interopRequireDefault(_Paper);
 
@@ -42910,7 +42991,7 @@ var _colors = __webpack_require__(11);
 
 var _colors2 = _interopRequireDefault(_colors);
 
-var _YoastTabs = __webpack_require__(455);
+var _YoastTabs = __webpack_require__(456);
 
 var _YoastTabs2 = _interopRequireDefault(_YoastTabs);
 
@@ -43064,7 +43145,7 @@ HelpCenter.defaultProps = {
 exports.default = (0, _reactIntl.injectIntl)(HelpCenter);
 
 /***/ }),
-/* 453 */
+/* 454 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43134,7 +43215,7 @@ HelpCenterButtonBase.defaultProps = {
 };
 
 /***/ }),
-/* 454 */
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43188,7 +43269,7 @@ Paper.defaultProps = {
 exports.default = Paper;
 
 /***/ }),
-/* 455 */
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43214,7 +43295,7 @@ var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactTabs = __webpack_require__(456);
+var _reactTabs = __webpack_require__(457);
 
 var _colors = __webpack_require__(11);
 
@@ -43365,7 +43446,7 @@ YoastTabs.defaultProps = {
 exports.default = YoastTabs;
 
 /***/ }),
-/* 456 */
+/* 457 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43374,19 +43455,19 @@ exports.default = YoastTabs;
 exports.__esModule = true;
 exports.resetIdCounter = exports.Tabs = exports.TabPanel = exports.TabList = exports.Tab = undefined;
 
-var _Tabs = __webpack_require__(457);
+var _Tabs = __webpack_require__(458);
 
 var _Tabs2 = _interopRequireDefault(_Tabs);
 
-var _TabList = __webpack_require__(463);
+var _TabList = __webpack_require__(464);
 
 var _TabList2 = _interopRequireDefault(_TabList);
 
-var _Tab = __webpack_require__(464);
+var _Tab = __webpack_require__(465);
 
 var _Tab2 = _interopRequireDefault(_Tab);
 
-var _TabPanel = __webpack_require__(465);
+var _TabPanel = __webpack_require__(466);
 
 var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -43403,7 +43484,7 @@ exports.Tabs = _Tabs2.default;
 exports.resetIdCounter = _uuid.reset;
 
 /***/ }),
-/* 457 */
+/* 458 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43423,7 +43504,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _propTypes3 = __webpack_require__(162);
 
-var _UncontrolledTabs = __webpack_require__(462);
+var _UncontrolledTabs = __webpack_require__(463);
 
 var _UncontrolledTabs2 = _interopRequireDefault(_UncontrolledTabs);
 
@@ -43572,7 +43653,7 @@ Tabs.propTypes =  false ? {
 Tabs.tabsRole = 'Tabs';
 
 /***/ }),
-/* 458 */
+/* 459 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43585,9 +43666,9 @@ Tabs.tabsRole = 'Tabs';
 
 
 
-var emptyFunction = __webpack_require__(459);
-var invariant = __webpack_require__(460);
-var ReactPropTypesSecret = __webpack_require__(461);
+var emptyFunction = __webpack_require__(460);
+var invariant = __webpack_require__(461);
+var ReactPropTypesSecret = __webpack_require__(462);
 
 module.exports = function () {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -43631,7 +43712,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 459 */
+/* 460 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43673,7 +43754,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 module.exports = emptyFunction;
 
 /***/ }),
-/* 460 */
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43732,7 +43813,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 /***/ }),
-/* 461 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43750,7 +43831,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 462 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44112,7 +44193,7 @@ UncontrolledTabs.propTypes =  false ? {
 } : {};
 
 /***/ }),
-/* 463 */
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44205,7 +44286,7 @@ TabList.propTypes =  false ? {
 TabList.tabsRole = 'TabList';
 
 /***/ }),
-/* 464 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44351,7 +44432,7 @@ Tab.propTypes =  false ? {
 Tab.tabsRole = 'Tab';
 
 /***/ }),
-/* 465 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44466,7 +44547,6 @@ TabPanel.propTypes =  false ? {
 TabPanel.tabsRole = 'TabPanel';
 
 /***/ }),
-/* 466 */,
 /* 467 */,
 /* 468 */,
 /* 469 */,
@@ -44597,7 +44677,8 @@ TabPanel.tabsRole = 'TabPanel';
 /* 594 */,
 /* 595 */,
 /* 596 */,
-/* 597 */
+/* 597 */,
+/* 598 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44617,13 +44698,13 @@ var _reactDom = __webpack_require__(41);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _get = __webpack_require__(598);
+var _get = __webpack_require__(599);
 
 var _get2 = _interopRequireDefault(_get);
 
 var _reactIntl = __webpack_require__(36);
 
-var _VideoTutorial = __webpack_require__(599);
+var _VideoTutorial = __webpack_require__(600);
 
 var _VideoTutorial2 = _interopRequireDefault(_VideoTutorial);
 
@@ -44631,7 +44712,7 @@ var _AlgoliaSearcher = __webpack_require__(350);
 
 var _AlgoliaSearcher2 = _interopRequireDefault(_AlgoliaSearcher);
 
-var _HelpCenter = __webpack_require__(452);
+var _HelpCenter = __webpack_require__(453);
 
 var _HelpCenter2 = _interopRequireDefault(_HelpCenter);
 
@@ -44847,7 +44928,7 @@ var HelpCenter = function (_React$Component2) {
 
 			this.props.additionalHelpCenterTabs.map(function (tab) {
 				var content = void 0;
-				if (tab.identifier === _this3.props.premiumSupportTabId) {
+				if (_this3.props.shouldDisplayContactForm === "1") {
 					var supportButton = _this3.props.intl.formatMessage({ id: "contactSupport.button" });
 					content = _react2.default.createElement(ContactSupport, {
 						buttonText: supportButton,
@@ -44893,7 +44974,7 @@ HelpCenter.propTypes = {
 	adminTabsData: _propTypes2.default.object.isRequired,
 	additionalHelpCenterTabs: _propTypes2.default.array,
 	videoTutorialParagraphs: _propTypes2.default.object,
-	premiumSupportTabId: _propTypes2.default.string,
+	shouldDisplayContactForm: _propTypes2.default.string,
 	initialTab: _propTypes2.default.string,
 	intl: _reactIntl.intlShape.isRequired
 };
@@ -44938,13 +45019,13 @@ if (window.wpseoHelpCenterData) {
 			adminTabsData: wpseoHelpCenterData.tabs,
 			additionalHelpCenterTabs: wpseoHelpCenterData.extraTabs,
 			videoTutorialParagraphs: wpseoHelpCenterData.videoDescriptions,
-			premiumSupportTabId: wpseoHelpCenterData.premiumSupportId
+			shouldDisplayContactForm: wpseoHelpCenterData.shouldDisplayContactForm
 		})
 	), document.getElementById(wpseoHelpCenterData.mountId));
 }
 
 /***/ }),
-/* 598 */
+/* 599 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44985,7 +45066,7 @@ function get(object, path, defaultValue) {
 module.exports = get;
 
 /***/ }),
-/* 599 */
+/* 600 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44997,7 +45078,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _templateObject = _taggedTemplateLiteral(["\n\toverflow: hidden;\n\tmax-width: 900px;\n\tmargin: 0 auto;\n"], ["\n\toverflow: hidden;\n\tmax-width: 900px;\n\tmargin: 0 auto;\n"]),
+var _templateObject = _taggedTemplateLiteral(["\n\toverflow: hidden;\n"], ["\n\toverflow: hidden;\n"]),
     _templateObject2 = _taggedTemplateLiteral(["\n\tfloat: left;\n\twidth: ", ";\n\n\t@media screen and ( max-width: ", " ) {\n\t\tfloat: none;\n\t\tmax-width: 100%;\n\t\tmargin: 0 auto;\n\t}\n"], ["\n\tfloat: left;\n\twidth: ", ";\n\n\t@media screen and ( max-width: ", " ) {\n\t\tfloat: none;\n\t\tmax-width: 100%;\n\t\tmargin: 0 auto;\n\t}\n"]),
     _templateObject3 = _taggedTemplateLiteral(["\n\tmargin-left: ", ";\n\tpadding: 0 16px;\n\tmax-width: ", ";\n\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin: 0 auto;\n\t\tpadding: 0;\n\t}\n"], ["\n\tmargin-left: ", ";\n\tpadding: 0 16px;\n\tmax-width: ", ";\n\n\t@media screen and ( max-width: ", " ) {\n\t\tmargin: 0 auto;\n\t\tpadding: 0;\n\t}\n"]),
     _templateObject4 = _taggedTemplateLiteral(["\n\tpadding: 16px 0;\n\n\t:not( :last-child ) {\n\t\tborder-bottom: 2px solid ", ";\n\t\tpadding-bottom: 16px;\n\t}\n"], ["\n\tpadding: 16px 0;\n\n\t:not( :last-child ) {\n\t\tborder-bottom: 2px solid ", ";\n\t\tpadding-bottom: 16px;\n\t}\n"]),
@@ -45018,7 +45099,7 @@ var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _YouTubeVideo = __webpack_require__(600);
+var _YouTubeVideo = __webpack_require__(601);
 
 var _YouTubeVideo2 = _interopRequireDefault(_YouTubeVideo);
 
@@ -45061,7 +45142,7 @@ var VideoDescriptionLink = (0, _makeOutboundLink.makeOutboundLink)(_styledCompon
 var VideoDescriptionItem = function VideoDescriptionItem(props) {
 	return _react2.default.createElement(
 		VideoDescription,
-		null,
+		{ className: props.className },
 		_react2.default.createElement(
 			VideoDescriptionTitle,
 			null,
@@ -45084,7 +45165,8 @@ VideoDescriptionItem.propTypes = {
 	title: _propTypes2.default.string.isRequired,
 	description: _propTypes2.default.string.isRequired,
 	link: _propTypes2.default.string.isRequired,
-	linkText: _propTypes2.default.string.isRequired
+	linkText: _propTypes2.default.string.isRequired,
+	className: _propTypes2.default.string.isRequired
 };
 
 /**
@@ -45100,19 +45182,19 @@ VideoDescriptionItem.propTypes = {
 function VideoTutorial(props) {
 	return _react2.default.createElement(
 		VideoTutorialContainer,
-		null,
+		{ className: props.className + "__container" },
 		_react2.default.createElement(
 			VideoContainer,
-			null,
+			{ className: props.className + "__video-container" },
 			_react2.default.createElement(_YouTubeVideo2.default, {
 				src: props.src,
 				title: props.title })
 		),
 		_react2.default.createElement(
 			VideoDescriptions,
-			null,
+			{ className: props.className + "__descriptions" },
 			props.paragraphs.map(function (paragraph) {
-				return _react2.default.createElement(VideoDescriptionItem, _extends({
+				return _react2.default.createElement(VideoDescriptionItem, _extends({ className: props.className + "__description",
 					key: paragraph.link
 				}, paragraph));
 			})
@@ -45123,11 +45205,16 @@ function VideoTutorial(props) {
 VideoTutorial.propTypes = {
 	src: _propTypes2.default.string.isRequired,
 	title: _propTypes2.default.string.isRequired,
-	paragraphs: _propTypes2.default.arrayOf(_propTypes2.default.shape(VideoDescriptionItem.propTypes)).isRequired
+	paragraphs: _propTypes2.default.arrayOf(_propTypes2.default.shape(VideoDescriptionItem.propTypes)).isRequired,
+	className: _propTypes2.default.string
+};
+
+VideoTutorial.defaultProps = {
+	className: "yoast-video-tutorial"
 };
 
 /***/ }),
-/* 600 */
+/* 601 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

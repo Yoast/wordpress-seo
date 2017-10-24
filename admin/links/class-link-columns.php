@@ -211,7 +211,9 @@ class WPSEO_Link_Columns {
 				echo $this->link_count->get( $post_id, 'internal_link_count' );
 				break;
 			case 'wpseo-' . self::COLUMN_LINKED:
-				echo $this->link_count->get( $post_id, 'incoming_link_count' );
+				if ( get_post_status( $post_id ) === 'publish' ) {
+					echo $this->link_count->get( $post_id, 'incoming_link_count' );
+				}
 				break;
 		}
 	}

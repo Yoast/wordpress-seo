@@ -5,8 +5,6 @@
 
 /**
  * Test class for testing the URL formatter class
- *
- * @group test
  */
 class WPSEO_Redirect_Url_Formatter_Test extends WPSEO_UnitTestCase {
 

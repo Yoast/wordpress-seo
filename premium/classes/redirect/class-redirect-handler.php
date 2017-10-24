@@ -44,23 +44,23 @@ class WPSEO_Redirect_Handler {
 	private $is_redirected = false;
 
 	/**
-	 * Constructor
+	 * Loads the redirect handler.
 	 */
-	public function __construct() {
+	public function load() {
 		// Only handle the redirect when the option for php redirects is enabled.
-		if ( $this->load_php_redirects() ) {
-			// Set the requested URL.
-			$this->set_request_url();
-
-			// Check the normal redirects.
-			$this->handle_normal_redirects();
-
-			// Check the regex redirects.
-			if ( $this->is_redirected === false ) {
-				$this->handle_regex_redirects();
-			}
-
+		if ( ! $this->load_php_redirects() ) {
 			return;
+		}
+
+		// Set the requested URL.
+		$this->set_request_url();
+
+		// Check the normal redirects.
+		$this->handle_normal_redirects();
+
+		// Check the regex redirects.
+		if ( $this->is_redirected === false ) {
+			$this->handle_regex_redirects();
 		}
 	}
 
@@ -173,9 +173,14 @@ class WPSEO_Redirect_Handler {
 	 * @param string $regex    The reqular expression to match.
 	 * @param array  $redirect The URL that might be matched with the regex.
 	 */
-	private function match_regex_redirect( $regex, array $redirect ) {
-		// Escape the ` because we use ` to delimit the regex to prevent faulty redirects.
-		$regex = preg_quote( $regex, '`' );
+	protected function match_regex_redirect( $regex, array $redirect ) {
+		/*
+		 * Escape the ` because we use ` to delimit the regex to prevent faulty redirects.
+		 *
+		 * Explicitly chosen not to use `preg_quote` because we need to be able to parse
+		 * user provided regular expression syntax.
+		 */
+		$regex = str_replace( '`', '\\`', $regex );
 
 		// Suppress warning: a faulty redirect will give a warning and not an exception. So we can't catch it.
 		// See issue: https://github.com/Yoast/wordpress-seo-premium/issues/662.
@@ -294,7 +299,7 @@ class WPSEO_Redirect_Handler {
 	 * @param string $redirect_url  The target URL.
 	 * @param string $redirect_type The type of the redirect.
 	 */
-	private function do_redirect( $redirect_url, $redirect_type ) {
+	protected function do_redirect( $redirect_url, $redirect_type ) {
 
 		$this->is_redirected = true;
 
@@ -429,7 +434,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return string
 	 */
-	private function get_request_uri() {
+	protected function get_request_uri() {
 		$options     = array( 'options' => array( 'default' => '' ) );
 		$request_uri = filter_input( INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL, $options );
 

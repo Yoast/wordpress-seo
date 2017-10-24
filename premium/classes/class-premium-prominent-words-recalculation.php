@@ -145,6 +145,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 				'l10n'        => array(
 					'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo-premium' ),
 					'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo-premium' ),
+					'contentLocale'         => get_locale(),
 				),
 			);
 
