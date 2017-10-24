@@ -10,11 +10,31 @@ class WPSEO_Extensions {
 
 	/** @var array Array with the Yoast extensions */
 	protected $extensions = array(
-		'Yoast SEO Premium'     => array( 'slug' => 'yoast-seo-premium', 'classname' => 'WPSEO_Premium' ),
-		'News SEO'              => array( 'slug' => 'news-seo', 'classname' => 'WPSEO_News' ),
-		'Yoast WooCommerce SEO' => array( 'slug' => 'woocommerce-yoast-seo', 'classname' => 'Yoast_WooCommerce_SEO' ),
-		'Video SEO'             => array( 'slug' => 'video-seo-for-wordpress', 'classname' => 'WPSEO_Video_Sitemap' ),
-		'Local SEO'             => array( 'slug' => 'local-seo-for-wordpress', 'classname' => 'WPSEO_Local_Core' ),
+		'Yoast SEO Premium'     => array(
+			'slug'       => 'yoast-seo-premium',
+			'identifier' => 'wordpress-seo-premium',
+			'classname'  => 'WPSEO_Premium',
+		),
+		'News SEO'              => array(
+			'slug'       => 'news-seo',
+			'identifier' => 'wordpress-seo-news',
+			'classname'  => 'WPSEO_News',
+		),
+		'Yoast WooCommerce SEO' => array(
+			'slug'       => 'woocommerce-yoast-seo',
+			'identifier' => 'yoast-woo-seo',
+			'classname'  => 'Yoast_WooCommerce_SEO',
+		),
+		'Video SEO'             => array(
+			'slug'       => 'video-seo-for-wordpress',
+			'identifier' => 'yoast-video-seo',
+			'classname'  => 'WPSEO_Video_Sitemap',
+		),
+		'Local SEO'             => array(
+			'slug'       => 'local-seo-for-wordpress',
+			'identifier' => 'yoast-local-seo',
+			'classname'  => 'WPSEO_Local_Core',
+		),
 	);
 
 	/**
@@ -34,9 +54,8 @@ class WPSEO_Extensions {
 	 * @return bool Returns true when valid.
 	 */
 	public function is_valid( $extension ) {
-		$extension_option = $this->get_option( $extension );
-
-		return ( is_array( $extension_option ) && isset( $extension_option['status'] ) && $extension_option['status'] === 'valid' );
+		$extensions = new WPSEO_Extension_Manager();
+		return $extensions->is_activated( $this->extensions[ $extension ]['identifier'] );
 	}
 
 	/**
@@ -57,17 +76,6 @@ class WPSEO_Extensions {
 	 */
 	public function is_installed( $extension ) {
 		return class_exists( $this->extensions[ $extension ]['classname'] );
-	}
-
-	/**
-	 * Convert the extension to an option.
-	 *
-	 * @param string $extension The extension to get the name for.
-	 *
-	 * @return mixed Returns the option.
-	 */
-	protected function get_option( $extension ) {
-		return get_option( $this->get_option_name( $extension ) );
 	}
 
 	/**

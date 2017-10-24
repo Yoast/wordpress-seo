@@ -42,8 +42,8 @@ class WPSEO_Config_Component_Configuration_Choices implements WPSEO_Config_Compo
 				'Yoast SEO'
 			),
 			array(
-				'type'  => 'primary',
-				'label' => sprintf(
+				'type'   => 'primary',
+				'label'  => sprintf(
 					/* translators: %s expands to 'Yoast SEO'. */
 					__( 'Configure %s', 'wordpress-seo' ), 'Yoast SEO'
 				),

@@ -6,8 +6,8 @@
 class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 
 	/**
-	* Provision some options
-	*/
+	 * Provision some options
+	 */
 	public function setUp() {
 		parent::setUp();
 	}
@@ -45,9 +45,9 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, $output );
 
 		/*
-			TODO
-			- Test all Basic Variables
-			- Test all Advanced Variables
+		 * @todo
+		 *  - Test all Basic Variables.
+		 *  - Test all Advanced Variables.
 		 */
 	}
 }

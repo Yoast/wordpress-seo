@@ -88,7 +88,7 @@ class WPSEO_Admin {
 		}
 
 		if ( WPSEO_Utils::is_api_available() ) {
-			$configuration = new WPSEO_Configuration_Page;
+			$configuration = new WPSEO_Configuration_Page();
 			$configuration->set_hooks();
 			$configuration->catch_configuration_request();
 		}
@@ -508,14 +508,7 @@ class WPSEO_Admin {
 
 		$link_table_accessible_notifier->remove_notification();
 
-		$storage       = new WPSEO_Link_Storage();
-		$count_storage = new WPSEO_Meta_Storage();
-
-		$integrations[] = new WPSEO_Link_Watcher(
-			new WPSEO_Link_Content_Processor( $storage, $count_storage )
-		);
-
-		$integrations[] = new WPSEO_Link_Columns( $count_storage );
+		$integrations[] = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
 		$integrations[] = new WPSEO_Link_Reindex_Dashboard();
 		$integrations[] = new WPSEO_Link_Notifier();
 

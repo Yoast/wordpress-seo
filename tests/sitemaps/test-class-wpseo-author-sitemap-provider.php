@@ -25,7 +25,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-		self::$class_instance = new WPSEO_Author_Sitemap_Provider;
+		self::$class_instance = new WPSEO_Author_Sitemap_Provider();
 	}
 
 	/**

@@ -36,5 +36,5 @@ printf( __( 'If you\'ve used another SEO plugin, try the %1$sSEO Data Transporte
 	?>
 	<br/>
 	<input type="submit" class="button button-primary" name="import"
-	       value="<?php _e( 'Import', 'wordpress-seo' ); ?>"/>
+		value="<?php _e( 'Import', 'wordpress-seo' ); ?>"/>
 </form>

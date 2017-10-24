@@ -35,7 +35,7 @@ class WPSEO_Admin_Init {
 	public function __construct() {
 		$this->options = WPSEO_Options::get_option( 'wpseo_xml' );
 
-		$GLOBALS['wpseo_admin'] = new WPSEO_Admin;
+		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
 
 		$this->pagenow = $GLOBALS['pagenow'];
 
@@ -48,6 +48,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'page_comments_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'yoast_plugin_compatibility_notification' ), 15 );
+		add_action( 'admin_init', array( $this, 'yoast_plugin_suggestions_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
@@ -275,6 +276,59 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Determines whether a suggested plugins notification needs to be displayed.
+	 *
+	 * @return void
+	 */
+	public function yoast_plugin_suggestions_notification() {
+		$checker = new WPSEO_Plugin_Availability();
+		$notification_center = Yoast_Notification_Center::get();
+
+		// Get all Yoast plugins that have dependencies.
+		$plugins = $checker->get_plugins_with_dependencies();
+
+		foreach ( $plugins as $plugin_name => $plugin ) {
+			$dependency_names = $checker->get_dependency_names( $plugin );
+			$notification = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_names[0] );
+
+			if ( $checker->dependencies_are_satisfied( $plugin ) && ! $checker->is_installed( $plugin ) ) {
+				$notification_center->add_notification( $notification );
+
+				continue;
+			}
+
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Build Yoast SEO suggested plugins notification.
+	 *
+	 * @param string $name   The plugin name to use for the unique ID.
+	 * @param array  $plugin The plugin to retrieve the data from.
+	 * @param string $dependency_name The name of the dependency.
+	 *
+	 * @return Yoast_Notification The notification containing the suggested plugin.
+	 */
+	private function get_yoast_seo_suggested_plugins_notification( $name, $plugin, $dependency_name ) {
+		$info_message = sprintf(
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
+			__( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better.', 'wordpress-seo' ),
+			'Yoast SEO',
+			$dependency_name,
+			sprintf( '<a href="%s">%s</a>', $plugin['url'], $plugin['title'] )
+		);
+
+		return new Yoast_Notification(
+			$info_message,
+			array(
+				'id'   => 'wpseo-suggested-plugin-' . $name,
+				'type' => Yoast_Notification::WARNING,
+			)
+		);
+	}
+
+	/**
 	 * Add an alert if outdated versions of Yoast SEO plugins are running.
 	 */
 	public function yoast_plugin_compatibility_notification() {
@@ -289,10 +343,11 @@ class WPSEO_Admin_Init {
 
 			if ( $plugin['compatible'] === false ) {
 				$notification_center->add_notification( $notification );
+
+				continue;
 			}
-			else {
-				$notification_center->remove_notification( $notification );
-			}
+
+			$notification_center->remove_notification( $notification );
 		}
 	}
 
@@ -397,7 +452,7 @@ class WPSEO_Admin_Init {
 		 */
 		if ( $is_editor || $is_inline_save || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
 		) {
-			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox;
+			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox();
 			$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
 		}
 	}
@@ -410,7 +465,7 @@ class WPSEO_Admin_Init {
 			WPSEO_Taxonomy::is_term_edit( $this->pagenow )
 			|| WPSEO_Taxonomy::is_term_overview( $this->pagenow )
 		) {
-			new WPSEO_Taxonomy;
+			new WPSEO_Taxonomy();
 		}
 	}
 
@@ -421,7 +476,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function load_admin_user_class() {
 		if ( in_array( $this->pagenow, array( 'user-edit.php', 'profile.php' ) ) && current_user_can( 'edit_users' ) ) {
-			new WPSEO_Admin_User_Profile;
+			new WPSEO_Admin_User_Profile();
 		}
 	}
 
@@ -434,7 +489,7 @@ class WPSEO_Admin_Init {
 
 		if ( $this->on_wpseo_admin_page() ) {
 			// For backwards compatabilty, this still needs a global, for now...
-			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
+			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages();
 
 			// Only register the yoast i18n when the page is a Yoast SEO page.
 			if ( WPSEO_Utils::is_yoast_seo_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
@@ -500,7 +555,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function load_xml_sitemaps_admin() {
 		if ( $this->options['enablexmlsitemap'] === true ) {
-			new WPSEO_Sitemaps_Admin;
+			new WPSEO_Sitemaps_Admin();
 		}
 	}
 

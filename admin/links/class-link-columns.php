@@ -207,11 +207,13 @@ class WPSEO_Link_Columns {
 	 */
 	public function column_content( $column_name, $post_id ) {
 		switch ( $column_name ) {
-			case 'wpseo-' . self::COLUMN_LINKS :
+			case 'wpseo-' . self::COLUMN_LINKS:
 				echo $this->link_count->get( $post_id, 'internal_link_count' );
 				break;
-			case 'wpseo-' . self::COLUMN_LINKED :
-				echo $this->link_count->get( $post_id, 'incoming_link_count' );
+			case 'wpseo-' . self::COLUMN_LINKED:
+				if ( get_post_status( $post_id ) === 'publish' ) {
+					echo $this->link_count->get( $post_id, 'incoming_link_count' );
+				}
 				break;
 		}
 	}

@@ -10,8 +10,8 @@ if ( ! function_exists( 'add_filter' ) ) {
 }
 
 /**
- * @internal Nobody should be able to overrule the real version number as this can cause serious issues
- * with the options, so no if ( ! defined() )
+ * {@internal Nobody should be able to overrule the real version number as this can cause
+ *            serious issues with the options, so no if ( ! defined() ).}}
  */
 define( 'WPSEO_VERSION', '5.6.1' );
 
@@ -46,12 +46,12 @@ function wpseo_auto_load( $class ) {
 	$cn = strtolower( $class );
 
 	if ( ! class_exists( $class ) && isset( $classes[ $cn ] ) ) {
-		require_once( $classes[ $cn ] );
+		require_once $classes[ $cn ];
 	}
 }
 
-if ( file_exists( WPSEO_PATH . '/vendor/autoload_52.php' ) ) {
-	require WPSEO_PATH . '/vendor/autoload_52.php';
+if ( file_exists( WPSEO_PATH . 'vendor/autoload_52.php' ) ) {
+	require WPSEO_PATH . 'vendor/autoload_52.php';
 }
 elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be site-level autoload R.
 	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
@@ -141,8 +141,8 @@ function wpseo_network_activate_deactivate( $activate = true ) {
  * Runs on activation of the plugin.
  */
 function _wpseo_activate() {
-	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
-	require_once( WPSEO_PATH . 'inc/class-wpseo-installation.php' );
+	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
+	require_once WPSEO_PATH . 'inc/class-wpseo-installation.php';
 
 	wpseo_load_textdomain(); // Make sure we have our translations available for the defaults.
 
@@ -188,7 +188,7 @@ function _wpseo_activate() {
  * On deactivation, flush the rewrite rules so XML sitemaps stop working.
  */
 function _wpseo_deactivate() {
-	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
+	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 
 	if ( is_multisite() && ms_is_switched() ) {
 		delete_option( 'rewrite_rules' );
@@ -217,14 +217,14 @@ function _wpseo_deactivate() {
  *
  * Will only be called by multisite actions.
  *
- * @internal Unfortunately will fail if the plugin is in the must-use directory
- * @see      https://core.trac.wordpress.org/ticket/24205
+ * {@internal Unfortunately will fail if the plugin is in the must-use directory.
+ *            {@link https://core.trac.wordpress.org/ticket/24205} }}
  *
  * @param int $blog_id Blog ID.
  */
 function wpseo_on_activate_blog( $blog_id ) {
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
-		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	}
 
 	if ( is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
@@ -259,8 +259,8 @@ add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
  * On plugins_loaded: load the minimum amount of essential files for this plugin
  */
 function wpseo_init() {
-	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
-	require_once( WPSEO_PATH . 'inc/wpseo-functions-deprecated.php' );
+	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
+	require_once WPSEO_PATH . 'inc/wpseo-functions-deprecated.php';
 
 	// Make sure our option and meta value validation routines and default values are always registered and available.
 	WPSEO_Options::get_instance();
@@ -274,19 +274,26 @@ function wpseo_init() {
 	}
 
 	if ( $options['stripcategorybase'] === true ) {
-		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite;
+		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 	}
 
 	if ( $options['enablexmlsitemap'] === true ) {
-		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps;
+		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps();
 	}
 
 	if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
-		require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
+		require_once WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php';
 	}
 
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
+
+	/*
+	 * Initializes the link watcher for both the frontend and backend.
+	 * Required to process scheduled items properly.
+	 */
+	$link_watcher = new WPSEO_Link_Watcher_Loader();
+	$link_watcher->load();
 }
 
 /**
@@ -324,8 +331,8 @@ function wpseo_frontend_init() {
 		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
 		 * there's no reason to have bbPress breadcrumbs as well.
 		 *
-		 * @internal The class itself is only loaded when the template tag is encountered via
-		 * the template tag function in the wpseo-functions.php file
+		 * {@internal The class itself is only loaded when the template tag is encountered
+		 *            via the template tag function in the wpseo-functions.php file.}}
 		 */
 		add_filter( 'bbp_get_breadcrumb', '__return_false' );
 	}
@@ -343,7 +350,7 @@ function wpseo_frontend_head_init() {
 	}
 
 	if ( $options['opengraph'] === true ) {
-		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph;
+		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph();
 	}
 
 }
@@ -377,7 +384,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 		new Yoast_Alerts();
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			require_once( WPSEO_PATH . 'admin/ajax.php' );
+			require_once WPSEO_PATH . 'admin/ajax.php';
 
 			// Plugin conflict ajax hooks.
 			new Yoast_Plugin_Conflict_Ajax();
@@ -407,12 +414,12 @@ add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 new WPSEO_OnPage();
 
 // Registers SEO capabilities.
-$register_capabilities = new WPSEO_Register_Capabilities();
-$register_capabilities->register_hooks();
+$wpseo_register_capabilities = new WPSEO_Register_Capabilities();
+$wpseo_register_capabilities->register_hooks();
 
 // Registers SEO roles.
-$register_capabilities = new WPSEO_Register_Roles();
-$register_capabilities->register_hooks();
+$wpseo_register_capabilities = new WPSEO_Register_Roles();
+$wpseo_register_capabilities->register_hooks();
 
 /**
  * Wraps for notifications center class.

@@ -105,16 +105,53 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	}
 
 	/**
-	 * Counting the number of given keyword used for other posts than given post_id
+	 * Counts the number of given keywords used for other posts other than the given post_id.
 	 *
-	 * @return array
+	 * @return array The keyword and the associated posts that use it.
 	 */
 	private function get_focus_keyword_usage() {
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $this->post->ID );
+		$usage   = array( $keyword => $this->get_keyword_usage_for_current_post( $keyword ) );
 
-		return array(
-			$keyword => WPSEO_Meta::keyword_usage( $keyword, $this->post->ID ),
-		);
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+			return $this->get_premium_keywords( $usage );
+		}
+
+		return $usage;
+	}
+
+	/**
+	 * Retrieves the additional keywords from Premium, that are associated with the post.
+	 *
+	 * @param array $usage The original keyword usage for the main keyword.
+	 *
+	 * @return array The keyword usage, including the additional keywords.
+	 */
+	protected function get_premium_keywords( $usage ) {
+		$additional_keywords = json_decode( WPSEO_Meta::get_value( 'focuskeywords', $this->post->ID ), true );
+
+		if ( empty( $additional_keywords ) ) {
+			return $usage;
+		}
+
+		foreach ( $additional_keywords as $additional_keyword ) {
+			$keyword = $additional_keyword['keyword'];
+
+			$usage[ $keyword ] = $this->get_keyword_usage_for_current_post( $keyword );
+		}
+
+		return $usage;
+	}
+
+	/**
+	 * Gets the keyword usage for the current post and the specified keyword.
+	 *
+	 * @param string $keyword The keyword to check the usage of.
+	 *
+	 * @return array The post IDs which use the passed keyword.
+	 */
+	protected function get_keyword_usage_for_current_post( $keyword ) {
+		return WPSEO_Meta::keyword_usage( $keyword, $this->post->ID );
 	}
 
 	/**

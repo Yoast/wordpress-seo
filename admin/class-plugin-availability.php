@@ -27,45 +27,93 @@ class WPSEO_Plugin_Availability {
 	protected function register_yoast_plugins() {
 		$this->plugins = array(
 			'yoast-seo-premium' => array(
-				'url'       => 'https://yoast.com/wordpress/plugins/seo-premium/',
-				'title'     => 'Yoast SEO Premium',
-				/* translators: %1$s expands to Yoast SEO */
-				'description' => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
-				'installed' => false,
-				'slug' => 'wordpress-seo-premium/wp-seo-premium.php',
+				'url'          => 'https://yoast.com/wordpress/plugins/seo-premium/',
+				'title'        => 'Yoast SEO Premium',
+				'description'  => sprintf(
+					/* translators: %1$s expands to Yoast SEO */
+					__( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ),
+					'Yoast SEO'
+				),
+				'installed'    => false,
+				'slug'         => 'wordpress-seo-premium/wp-seo-premium.php',
+				'version_sync' => true,
 			),
 
 			'video-seo-for-wordpress-seo-by-yoast' => array(
-				'url'       => 'https://yoast.com/wordpress/plugins/video-seo/',
-				'title'     => 'Video SEO',
-				'description' => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
-				'installed' => false,
-				'slug' => 'wpseo-video/video-seo.php',
+				'url'          => 'https://yoast.com/wordpress/plugins/video-seo/',
+				'title'        => 'Video SEO',
+				'description'  => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
+				'installed'    => false,
+				'slug'         => 'wpseo-video/video-seo.php',
+				'version_sync' => true,
 			),
 
 			'yoast-news-seo' => array(
-				'url'       => 'https://yoast.com/wordpress/plugins/news-seo/',
-				'title'     => 'News SEO',
-				'description' => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
-				'installed' => false,
-				'slug' => 'wpseo-news/wpseo-news.php',
+				'url'          => 'https://yoast.com/wordpress/plugins/news-seo/',
+				'title'        => 'News SEO',
+				'description'  => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
+				'installed'    => false,
+				'slug'         => 'wpseo-news/wpseo-news.php',
+				'version_sync' => true,
 			),
 
 			'local-seo-for-yoast-seo' => array(
-				'url'       => 'https://yoast.com/wordpress/plugins/local-seo/',
-				'title'     => 'Local SEO',
-				'description' => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
-				'installed' => false,
-				'slug' => 'wordpress-seo-local/local-seo.php',
+				'url'          => 'https://yoast.com/wordpress/plugins/local-seo/',
+				'title'        => 'Local SEO',
+				'description'  => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
+				'installed'    => false,
+				'slug'         => 'wordpress-seo-local/local-seo.php',
+				'version_sync' => true,
 			),
 
 			'yoast-woocommerce-seo' => array(
-				'url'       => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/',
-				'title'     => 'Yoast WooCommerce SEO',
-				/* translators: %1$s expands to Yoast SEO */
-				'description' => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
-				'installed' => false,
-				'slug' => 'wpseo-woocommerce/wpseo-woocommerce.php',
+				'url'          => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/',
+				'title'        => 'Yoast WooCommerce SEO',
+				'description'  => sprintf(
+					/* translators: %1$s expands to Yoast SEO */
+					__( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ),
+					'Yoast SEO'
+				),
+				'installed'    => false,
+				'slug'         => 'wpseo-woocommerce/wpseo-woocommerce.php',
+				'version_sync' => true,
+			),
+
+			'yoast-acf-analysis' => array(
+				'url'           => 'https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/',
+				'title'         => 'ACF Content Analysis for Yoast SEO',
+				'description'   => sprintf(
+					/* translators: %1$s expands to Yoast SEO, %2$s expands to Advanced Custom Fields */
+					__( 'Seamlessly integrate %2$s with %1$s for the content analysis!', 'wordpress-seo' ),
+					'Yoast SEO',
+					'Advanced Custom Fields'
+				),
+				'installed'     => false,
+				'slug'          => 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php',
+				'_dependencies' => array(
+					'Advanced Custom Fields' => array(
+						'slug' => 'advanced-custom-fields/acf.php',
+					),
+				),
+				'version_sync'  => false,
+			),
+
+			'yoastseo-amp' => array(
+				'url'           => 'https://wordpress.org/plugins/glue-for-yoast-seo-amp/',
+				'title'         => 'Yoast SEO AMP Glue',
+				'description'   => sprintf(
+					/* translators: %1$s expands to Yoast SEO */
+					__( 'Seamlessly integrate %1$s into your AMP pages!', 'wordpress-seo' ),
+					'Yoast SEO'
+				),
+				'installed'     => false,
+				'slug'          => 'glue-for-yoast-seo-amp/yoastseo-amp.php',
+				'_dependencies' => array(
+					'AMP' => array(
+						'slug' => 'amp/amp.php',
+					),
+				),
+				'version_sync'  => false,
 			),
 		);
 	}
@@ -203,7 +251,7 @@ class WPSEO_Plugin_Availability {
 	/**
 	 * Gets all installed plugins.
 	 *
-	 * @return array
+	 * @return array The installed plugins.
 	 */
 	public function get_installed_plugins() {
 		$installed = array();
@@ -236,6 +284,30 @@ class WPSEO_Plugin_Availability {
 	 * @return bool Whether or not the dependency is available.
 	 */
 	public function is_dependency_available( $dependency ) {
-		return class_exists( $dependency );
+		return in_array( $dependency['slug'], array_keys( get_plugins() ), true );
+	}
+
+	/**
+	 * Gets the names of the dependencies.
+	 *
+	 * @param array $plugin The plugin to get the dependency names from.
+	 *
+	 * @return array Array containing the names of the associated dependencies.
+	 */
+	public function get_dependency_names( $plugin ) {
+		if ( ! $this->has_dependencies( $plugin ) ) {
+			return array();
+		}
+
+		return array_keys( $plugin['_dependencies'] );
+	}
+
+	/**
+	 * Gets an array of plugins that have defined dependencies.
+	 *
+	 * @return array Array of the plugins that have dependencies.
+	 */
+	public function get_plugins_with_dependencies() {
+		return array_filter( $this->plugins, array( $this, 'has_dependencies' ) );
 	}
 }

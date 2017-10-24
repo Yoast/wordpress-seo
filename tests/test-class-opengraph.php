@@ -17,7 +17,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		self::$class_instance = new WPSEO_OpenGraph;
+		self::$class_instance = new WPSEO_OpenGraph();
 	}
 
 	/**
@@ -311,7 +311,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_image_IS_SINGULAR_and_HAS_open_graph_image_AND_HAS_content_images() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
+				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />',
 			)
 		);
 
@@ -401,7 +401,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_image_get_content_image() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
+				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />',
 			)
 		);
 
@@ -451,7 +451,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$stub
-			->expects( $this->exactly(2) )
+			->expects( $this->exactly( 2 ) )
 			->method( 'og_tag' )
 			->with( $this->logicalOr( 'og:image', 'og:image:secure_url' ) );
 
@@ -477,7 +477,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_static_front_page() {
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'front-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 		$this->go_to_home();
@@ -504,11 +509,21 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_static_posts_page() {
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'front-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'blog-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'blog-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -609,7 +624,7 @@ EXPECTED;
 	 * @covers WPSEO_OpenGraph::site_name
 	 */
 	public function test_site_name() {
-		// TODO empty site name test
+		// @todo Empty site name test.
 	}
 
 	/**
@@ -751,7 +766,7 @@ EXPECTED;
 
 		$output = ob_get_clean();
 
-		$this->assertContains( '<meta property="og:image" content="'.home_url( 'custom_twitter_image.png' ). '" />', $output );
+		$this->assertContains( '<meta property="og:image" content="' . home_url( 'custom_twitter_image.png' ) . '" />', $output );
 	}
 
 

@@ -68,7 +68,7 @@ class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 				break;
 
 			case 'col_existing_yoast_seo_metadesc':
-				// TODO inconsistent return/echo behavior R.
+				// @todo Inconsistent return/echo behavior R.
 				echo $this->parse_meta_data_field( $record->ID, $attributes );
 				break;
 		}

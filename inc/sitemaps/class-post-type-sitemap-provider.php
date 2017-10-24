@@ -555,7 +555,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$where_clause = "
 		{$join}
 		WHERE {$status}
-			AND {$wpdb->posts}.post_type = '%s'
+			AND {$wpdb->posts}.post_type = %s
 			AND {$wpdb->posts}.post_password = ''
 			AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
 		";
@@ -605,10 +605,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		if ( $canonical !== '' && $canonical !== $url['loc'] ) {
 			/*
-			Let's assume that if a canonical is set for this page and it's different from
-			   the URL of this post, that page is either already in the XML sitemap OR is on
-			   an external site, either way, we shouldn't include it here.
-			*/
+			 * Let's assume that if a canonical is set for this page and it's different from
+			 * the URL of this post, that page is either already in the XML sitemap OR is on
+			 * an external site, either way, we shouldn't include it here.
+			 */
 			return false;
 		}
 		unset( $canonical );

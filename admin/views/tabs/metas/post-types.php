@@ -56,7 +56,13 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 }
 unset( $post_types );
 
-$post_types = get_post_types( array( '_builtin' => false, 'has_archive' => true ), 'objects' );
+$post_types = get_post_types(
+	array(
+		'_builtin'    => false,
+		'has_archive' => true,
+	),
+	'objects'
+);
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	echo '<h2>' . esc_html__( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
 	echo '<p>' . __( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';

@@ -129,13 +129,13 @@ abstract class WPSEO_Option {
 		}
 		elseif ( is_multisite() ) {
 			/*
-			The option validation routines remove the default filters to prevent failing
-			   to insert an option if it's new. Let's add them back afterwards.
-
-			   For site_options, this method is not foolproof as these actions are not fired
-			   on an insert/update failure. Please use the WPSEO_Options::update_site_option() method
-			   for updating site options to make sure the filters are in place.
-			*/
+			 * The option validation routines remove the default filters to prevent failing
+			 * to insert an option if it's new. Let's add them back afterwards.
+			 *
+			 * For site_options, this method is not foolproof as these actions are not fired
+			 * on an insert/update failure. Please use the WPSEO_Options::update_site_option() method
+			 * for updating site options to make sure the filters are in place.
+			 */
 			add_action( 'add_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
 			add_action( 'update_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
 
@@ -143,8 +143,8 @@ abstract class WPSEO_Option {
 
 
 		/*
-		Make sure the option will always get validated, independently of register_setting()
-			   (only available on back-end)
+		 * Make sure the option will always get validated, independently of register_setting()
+		 * (only available on back-end).
 		*/
 		add_filter( 'sanitize_option_' . $this->option_name, array( $this, 'validate' ) );
 
@@ -178,7 +178,8 @@ abstract class WPSEO_Option {
 
 	/**
 	 * All concrete classes *must* contain the get_instance method
-	 * @internal Unfortunately I can't define it as an abstract as it also *has* to be static....
+	 *
+	 * {@internal Unfortunately I can't define it as an abstract as it also *has* to be static...}}
 	 */
 	// abstract protected static function get_instance();
 
@@ -321,7 +322,11 @@ abstract class WPSEO_Option {
 					add_settings_error(
 						$this->group_name, // Slug title of the setting.
 						'_' . $key, // Suffix-id for the error message box.
-						sprintf( __( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $url ) . '</strong>' ), // The error message.
+						sprintf(
+							/* translators: %s expands to an invalid URL. */
+							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
+							'<strong>' . esc_html( $url ) . '</strong>'
+						), // The error message.
 						'error' // Error type, either 'error' or 'updated'.
 					);
 				}
@@ -345,8 +350,8 @@ abstract class WPSEO_Option {
 	 *
 	 * Checks if the concrete class contains an enrich_defaults() method and if so, runs it.
 	 *
-	 * @internal the enrich_defaults method is used to set defaults for variable array keys in an option,
-	 * such as array keys depending on post_types and/or taxonomies
+	 * {@internal The enrich_defaults method is used to set defaults for variable array keys
+	 *            in an option, such as array keys depending on post_types and/or taxonomies.}}
 	 *
 	 * @return  array
 	 */
@@ -400,11 +405,11 @@ abstract class WPSEO_Option {
 		$filtered = $this->array_filter_merge( $options );
 
 		/*
-		If the option contains variable option keys, make sure we don't remove those settings
-			   - even if the defaults are not complete yet.
-			   Unfortunately this means we also won't be removing the settings for post types or taxonomies
-			   which are no longer in the WP install, but rather that than the other way around
-		*/
+		 * If the option contains variable option keys, make sure we don't remove those settings
+		 * - even if the defaults are not complete yet.
+		 * Unfortunately this means we also won't be removing the settings for post types or taxonomies
+		 * which are no longer in the WP install, but rather that than the other way around.
+		 */
 		if ( isset( $this->variable_array_key_patterns ) ) {
 			$filtered = $this->retain_variable_keys( $options, $filtered );
 		}
@@ -523,12 +528,13 @@ abstract class WPSEO_Option {
 	/**
 	 * Update a site_option
 	 *
-	 * @internal This special method is only needed for multisite options, but very needed indeed there.
-	 * The order in which certain functions and hooks are run is different between get_option() and
-	 * get_site_option() which means in practice that the removing of the default filters would be
-	 * done too late and the re-adding of the default filters might not be done at all.
-	 * Aka: use the WPSEO_Options::update_site_option() method (which calls this method) for
-	 * safely adding/updating multisite options.
+	 * {@internal This special method is only needed for multisite options, but very needed indeed there.
+	 *            The order in which certain functions and hooks are run is different between
+	 *            get_option() and get_site_option() which means in practice that the removing
+	 *            of the default filters would be done too late and the re-adding of the default
+	 *            filters might not be done at all.
+	 *            Aka: use the WPSEO_Options::update_site_option() method (which calls this method)
+	 *            for safely adding/updating multisite options.}}
 	 *
 	 * @param mixed $value The new value for the option.
 	 *
@@ -593,9 +599,9 @@ abstract class WPSEO_Option {
 		}
 
 		/*
-		Save the cleaned value - validation will take care of cleaning out array keys which
-			   should no longer be there
-		*/
+		 * Save the cleaned value - validation will take care of cleaning out array keys which
+		 * should no longer be there.
+		 */
 		if ( $this->multisite_only !== true ) {
 			update_option( $this->option_name, $option_value );
 		}
@@ -653,8 +659,8 @@ abstract class WPSEO_Option {
 	 * Make sure that any set option values relating to post_types and/or taxonomies are retained,
 	 * even when that post_type or taxonomy may not yet have been registered.
 	 *
-	 * @internal The wpseo_titles concrete class overrules this method. Make sure that any changes
-	 * applied here, also get ported to that version.
+	 * {@internal The wpseo_titles concrete class overrules this method. Make sure that any
+	 *            changes applied here, also get ported to that version.}}
 	 *
 	 * @param  array $dirty Original option as retrieved from the database.
 	 * @param  array $clean Filtered option where any options which shouldn't be in our option

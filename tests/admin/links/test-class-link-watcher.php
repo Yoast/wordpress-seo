@@ -34,7 +34,10 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$post_parent = $this->factory->post->create_and_get();
 		$post = $this->factory->post->create_and_get(
-			array( 'post_type' => 'revision', 'post_parent' => $post_parent->ID )
+			array(
+				'post_type'   => 'revision',
+				'post_parent' => $post_parent->ID,
+			)
 		);
 
 		$processor = $this->get_processor();
@@ -47,7 +50,10 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with a
+	 * Test with a draft post.
+	 *
+	 * This should be processed, but will not be displayed.
+	 * See https://github.com/Yoast/wordpress-seo/pull/8068#issuecomment-338146035
 	 */
 	public function test_is_processable_draft() {
 
@@ -57,7 +63,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$processor = $this->get_processor();
 		$processor
-			->expects( $this->never() )
+			->expects( $this->once() )
 			->method( 'process' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
@@ -90,14 +96,14 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$post = $this->factory->post->create_and_get(
 			array(
-				'post_content' => ''
+				'post_content' => '',
 			));
 
 		$processor = $this->get_processor();
 		$processor
 			->expects( $this->once() )
 			->method( 'process' )
-			->with( $post->ID, "" );
+			->with( $post->ID, '' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
 		$watcher->save_post( $post->ID, $post );
@@ -110,7 +116,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$post = $this->factory->post->create_and_get(
 			array(
-				'post_content' => 'This is content'
+				'post_content' => 'This is content',
 			)
 		);
 
@@ -127,7 +133,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_delete_post() {
 		$post = $this->factory->post->create_and_get(
 			array(
-				'post_content' => 'This is content that will be deleted'
+				'post_content' => 'This is content that will be deleted',
 			)
 		);
 
