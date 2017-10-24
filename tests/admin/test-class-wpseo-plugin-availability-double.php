@@ -5,8 +5,16 @@
  */
 class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 
-	private $available_dependencies = array( 'test-plugin/test-plugin.php', 'test-plugin-dependency' );
+	/**
+	 * @var array Array containing fake dependency slugs.
+	 */
+	private $available_dependencies = array( 'test-plugin/test-plugin.php' );
 
+	/**
+	 * Registers a variety of fake plugins to test against.
+	 *
+	 * @return void
+	 */
 	public function register_yoast_plugins() {
 		$this->plugins = array(
 			'test-plugin' => array(
@@ -83,12 +91,22 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 		);
 	}
 
+	/**
+	 * Registers the fake installation status of a few of the test plugins.
+	 */
 	protected function register_yoast_plugins_status() {
 		$this->plugins['test-plugin']['installed'] = true;
 		$this->plugins['test-plugin-dependency']['installed'] = true;
 		$this->plugins['test-plugin-invalid-version']['installed'] = true;
 	}
 
+	/**
+	 * Checks whether a dependency is available.
+	 *
+	 * @param {string} $dependency The dependency to look for.
+	 *
+	 * @return bool Whether or not the dependency is available.
+	 */
 	public function is_dependency_available( $dependency ) {
 		return in_array( $dependency['slug'], $this->available_dependencies, true );
 	}

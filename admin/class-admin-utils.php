@@ -7,8 +7,9 @@
  * Represents the utils for the admin.
  */
 class WPSEO_Admin_Utils {
+
 	/**
-	 * Gets the istall URL for the passed plugin slug.
+	 * Gets the install URL for the passed plugin slug.
 	 *
 	 * @param string $slug The slug to create an install link for.
 	 *

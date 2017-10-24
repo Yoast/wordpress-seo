@@ -9,10 +9,13 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 	 */
 	protected $class_instance;
 
+	/**
+	 * @var Yoast_Notification_Center_Double
+	 */
 	protected $notification_center;
 
 	/**
-	 * Set up our double class
+	 * Set up our double class.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -45,6 +48,4 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance->add_notifications();
 	}
-
-
 }
