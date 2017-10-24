@@ -26,7 +26,7 @@ describe( "checks type", function() {
 	} );
 	it( "returns the default type - function", function(){
 		var func = function(){};
-		expect( getType( func ) ).toBe( "[object Function]" );
+		expect( getType( func ) ).toBe( "function" );
 	});
 
 } );

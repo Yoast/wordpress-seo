@@ -12,12 +12,17 @@ module.exports = {
 		} ],
 	},
 	js: {
-		files: [ {
-			expand: true,
-			cwd: "src/",
-			src: "**/*.json",
-			dest: "js",
-		},
+		files: [
+			{
+				expand: true,
+				cwd: "src/",
+				src: "**/*.json",
+				dest: "js",
+			},
+			{
+				src: [ "src/templates.js" ],
+				dest: "js/templates.js",
+			},
 		],
 	},
 };

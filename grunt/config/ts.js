@@ -1,5 +1,7 @@
 module.exports = {
-	"default": {
-		tsconfig: true,
+	build: {
+		tsconfig: {
+			passThrough: true,
+		},
 	},
 };
