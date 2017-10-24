@@ -17,4 +17,4 @@ $total = $alerts_data['metrics']['warnings'];
 $active = $alerts_data['warnings']['active'];
 $dismissed = $alerts_data['warnings']['dismissed'];
 
-include WPSEO_PATH . 'admin/views/partial-alerts-template.php';
+require WPSEO_PATH . 'admin/views/partial-alerts-template.php';
