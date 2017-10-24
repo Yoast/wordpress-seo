@@ -411,6 +411,7 @@ module.exports = function() {
 		"evilhearted",
 		"evilminded",
 		"exceed",
+		"excited",
 		"exemplified",
 		"exponentiated",
 		"expurgated",
