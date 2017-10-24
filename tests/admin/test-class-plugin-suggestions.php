@@ -1,7 +1,5 @@
 <?php
 
-require_once WPSEO_TESTS_PATH . 'admin/test-class-wpseo-suggested-plugins-double.php';
-
 class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -19,6 +17,8 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+
+		require_once WPSEO_TESTS_PATH . 'admin/class-wpseo-suggested-plugins-double.php';
 
 		$plugin_availability = new WPSEO_Plugin_Availability_Double();
 
