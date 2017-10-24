@@ -21,9 +21,9 @@ before_script:
 - grunt build:jst
 
 script:
+- yarn lint
 - yarn test
 - grunt check
-- tslint -c tslint.json 'src/**/*.{ts,tsx}'
 
 after_success:
 - yarn global add codeclimate-test-reporter
