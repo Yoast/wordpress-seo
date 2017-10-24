@@ -4,36 +4,19 @@
  */
 
 /**
- * Test Helper Class.
- */
-class OnPage_Option_Mock extends WPSEO_OnPage_Option {
-	private $enabled;
-	private $status;
-	private $can_fetch;
-
-	public function __construct( $enabled, $status, $can_fetch ) {
-		$this->enabled = $enabled;
-		$this->status = $status;
-		$this->can_fetch = $can_fetch;
-	}
-
-	public function is_enabled() {
-		return $this->enabled;
-	}
-
-	public function get_status() {
-		return $this->status;
-	}
-
-	public function should_be_fetched() {
-		return $this->can_fetch;
-	}
-}
-
-/**
  * Unit Test Class.
  */
 class WPSEO_Ryte_Service_Test extends WPSEO_UnitTestCase {
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/onpage-option-mock.php';
+	}
+
 	public function test_cannot_view_ryte() {
 		$onpage     = new OnPage_Option_Mock( false, WPSEO_OnPage_Option::IS_INDEXABLE, true );
 
