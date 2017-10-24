@@ -4,7 +4,7 @@ import colors from "../../../../style-guide/colors.json";
 import PropTypes from "prop-types";
 import util from "util";
 
-import { FormattedMessage, injectIntl, intlShape, defineMessages } from "react-intl";
+import { injectIntl, intlShape, defineMessages } from "react-intl";
 import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 import AnalysisResult from "../components/AnalysisResult.js";
 import AnalysisCollapsible from "../components/AnalysisCollapsible.js";
