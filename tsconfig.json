@@ -23,5 +23,8 @@
     },
     "include": [
         "src/**/*"
+    ],
+    "exclude": [
+        "src/templates.js"
     ]
 }
