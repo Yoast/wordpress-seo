@@ -21,12 +21,7 @@
         "noImplicitAny": true,
         "pretty": true
     },
-    "filesGlob": [
-        "src/**/*.ts",
-        "src/**/*.js",
-        "src/**/*.tsx",
-        "src/**/*.jsx"
-    ],
-    "files": [
+    "include": [
+        "src/**/*"
     ]
 }

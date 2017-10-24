@@ -5,5 +5,7 @@ node_modules/
 out/
 coverage/
 dist/yoast-seo*
+/js
+.tscache
 
 /examples/browserified/example-browserified.js
