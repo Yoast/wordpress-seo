@@ -1,8 +1,11 @@
 <?php
 /**
-* @package WPSEO\Unittests
-*/
+ * @package WPSEO\Tests\OnPage
+ */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_OnPage_Double extends WPSEO_OnPage {
 
 	/**
@@ -21,7 +24,7 @@ class WPSEO_OnPage_Double extends WPSEO_OnPage {
 	/**
 	 * Overwrite the method because is has a dependency.
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	protected function notify_admins() {
 
@@ -29,6 +32,9 @@ class WPSEO_OnPage_Double extends WPSEO_OnPage {
 
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -61,7 +67,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( array_key_exists( 'weekly', $schedules ) );
 		$this->assertEquals( $schedules['weekly']['interval'], WEEK_IN_SECONDS );
-		$this->assertEquals( $schedules['weekly']['display'],  __( 'Once Weekly' ) );
+		$this->assertEquals( $schedules['weekly']['display'], __( 'Once Weekly', 'wordpress-seo' ) );
 	}
 
 	/**

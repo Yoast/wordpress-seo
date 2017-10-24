@@ -22,7 +22,7 @@
 .snippet-editor__view-toggle {
 	display: inline-block;
 	margin-top: 10px;
-	margin-left: 20px;
+	margin-right: 20px;
 	border: 1px solid #dbdbdb;
 	border-radius: 4px;
 	/* Contain floated children and margins do not collapse. */
@@ -31,7 +31,7 @@
 }
 
 .snippet-editor__view-icon {
-	float: left;
+	float: right;
 	/* To match the Edit snippet button height. */
 	width: 31px;
 	height: 31px;
@@ -128,10 +128,10 @@
 .snippet-editor__view .snippet_container .down_arrow {
 	display: inline-block;
 	margin-top: 6px;
-	margin-left: 6px;
+	margin-right: 6px;
 	border-top: 5px solid #006621;
-	border-right: 4px solid transparent;
 	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
 	vertical-align: top;
 }
 
@@ -214,7 +214,7 @@
 
 .snippet-editor__is-scrollable-hint:before {
 	display: inline-block;
-	margin-right: 10px;
+	margin-left: 10px;
 	font-size: 20px;
 	line-height: inherit;
 	vertical-align: text-top;
@@ -244,10 +244,10 @@
 }
 
 .snippet-editor__heading-icon {
-	padding-left: 45px;
+	padding-right: 45px;
 	background-repeat: no-repeat;
 	/* rtlcss needs this as separate property */
-	background-position: left 20px top 0.6em;
+	background-position: right 20px top 0.6em;
 	background-size: 16px;
 }
 
@@ -259,7 +259,7 @@
 	display: block;
 	position: absolute;
 	top: -3px;
-	left: -22px;
+	right: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23bfbfbf%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -272,7 +272,7 @@
 	display: block;
 	position: absolute;
 	top: -3px;
-	left: -22px;
+	right: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -306,10 +306,10 @@
 	/* Margins do not collapse. */
 	box-sizing: border-box;
 	margin-top: 10px; 
-	padding-left: 32px;
+	padding-right: 32px;
 	background: #f7f7f7 url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M491%201536l91%2D91%2D235%2D235%2D91%2091v107h128v128h107zm523%2D928q0%2D22%2D22%2D22%2D10%200%2D17%207l%2D542%20542q%2D7%207%2D7%2017%200%2022%2022%2022%2010%200%2017%2D7l542%2D542q7%2D7%207%2D17zm%2D54%2D192l416%20416%2D832%20832h%2D416v%2D416zm683%2096q0%2053%2D37%2090l%2D166%20166%2D416%2D416%20166%2D165q36%2D38%2090%2D38%2053%200%2091%2038l235%20234q37%2039%2037%2091z%22%20%2F%3E%3C%2Fsvg%3E") no-repeat;
 	/* rtlcss needs this as separate property */
-	background-position: left 8px top 50%;
+	background-position: right 8px top 50%;
 	background-size: 16px;
 }
 
@@ -331,7 +331,7 @@
 	position: absolute;
 	top: -3px;
 	top: 20px; 
-	left: -22px;
+	right: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23bfbfbf%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -343,7 +343,7 @@
 	position: absolute;
 	top: -3px;
 	top: 20px; 
-	left: -22px;
+	right: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231074a8%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -482,7 +482,7 @@
 
 .yoast-measurement-elements-holder {
 	position: absolute;
-	left: -9999em;
+	right: -9999em;
 }
 
 .snippet-editor__progress--bad[value] {
@@ -529,11 +529,11 @@
 
 /* css for analyzer */
 .wpseoanalysis {
-	padding-right: 0;
+	padding-left: 0;
 }
 
 .wpseo-score-text {
-	float: left;
+	float: right;
 	width: 86%;
 	/* make room for score and mark icons, consider to use a better layout model */
 	width: calc( 100% - 56px);
@@ -541,10 +541,10 @@
 
 /* needs higher specificity than other score icons */
 .assessment-results .wpseo-score-icon {
-	float: left;
+	float: right;
 	width: 12px;
 	height: 12px;
-	margin: 3px 10px 0 0;
+	margin: 3px 0 0 10px;
 	border-radius: 50%;
 	background: #888;
 }
@@ -594,7 +594,7 @@ li.score:after {
 .assessment-results__mark.icon-eye-inactive,
 .assessment-results__mark.icon-eye-active,
 .assessment-results__mark.icon-eye-disabled {
-	float: left;
+	float: right;
 	width: 28px;
 	height: 28px;
 	margin: -5px 3px 0 3px;
@@ -622,7 +622,7 @@ li.score:after {
 }
 .assessment-results__mark-container {
 	display: inline-block;
-	float: right;
+	float: left;
 	width: 33px;
 	min-height: 1px;
 }
@@ -635,10 +635,10 @@ li.score:after {
 
 @keyframes animatedBackground {
 	from {
-		background-position: 0 0;
+		background-position: 100% 0;
 	}
 	to {
-		background-position: 100% 0;
+		background-position: 0% 0;
 	}
 }
 
@@ -649,8 +649,8 @@ li.score:after {
 	margin: 10px 0 10px 0;
 	border: 1px solid #dfdfdf;
 	/*multiple background definitions for the sake of browsercompatibility*/
-	background-image: linear-gradient(to left, #fff, #0063ff, #fff, #0063ff);
-	background-position: 0 0;
+	background-image: linear-gradient(to right, #fff, #0063ff, #fff, #0063ff);
+	background-position: 100% 0;
 	background-size: 300% 100%;
 	animation: animatedBackground 5s linear infinite;
 }
@@ -753,7 +753,7 @@ button.yoast-tooltip {
 .yoast-tooltip-se::after,
 .yoast-tooltip-sw::after {
 	top: 100%;
-	right: 50%;
+	left: 50%;
 	margin-top: 5px;
 }
 
@@ -761,26 +761,26 @@ button.yoast-tooltip {
 .yoast-tooltip-se::before,
 .yoast-tooltip-sw::before {
 	top: auto;
-	right: 50%;
+	left: 50%;
 	bottom: -5px;
-	margin-right: -5px;
+	margin-left: -5px;
 	border-bottom-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-se::after {
-	right: auto;
-	left: 50%;
-	margin-left: -15px;
+	left: auto;
+	right: 50%;
+	margin-right: -15px;
 }
 
 .yoast-tooltip-sw::after {
-	margin-right: -15px;
+	margin-left: -15px;
 }
 
 .yoast-tooltip-n::after,
 .yoast-tooltip-ne::after,
 .yoast-tooltip-nw::after {
-	right: 50%;
+	left: 50%;
 	bottom: 100%;
 	margin-bottom: 5px;
 }
@@ -789,32 +789,32 @@ button.yoast-tooltip {
 .yoast-tooltip-ne::before,
 .yoast-tooltip-nw::before {
 	top: -5px;
-	right: 50%;
+	left: 50%;
 	bottom: auto;
-	margin-right: -5px;
+	margin-left: -5px;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-ne::after {
-	right: auto;
-	left: 50%;
-	margin-left: -15px;
+	left: auto;
+	right: 50%;
+	margin-right: -15px;
 }
 
 .yoast-tooltip-nw::after {
-	margin-right: -15px;
+	margin-left: -15px;
 }
 
 .yoast-tooltip-s::after,
 .yoast-tooltip-n::after {
-	-ms-transform: translateX(50%);
-	transform: translateX(50%);
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
 }
 
 .yoast-tooltip-w::after {
-	right: 100%;
+	left: 100%;
 	bottom: 50%;
-	margin-right: 5px;
+	margin-left: 5px;
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
@@ -822,25 +822,25 @@ button.yoast-tooltip {
 .yoast-tooltip-w::before {
 	top: 50%;
 	bottom: 50%;
-	left: -5px;
+	right: -5px;
 	margin-top: -5px;
-	border-left-color: rgba(0, 0, 0, 0.8);
+	border-right-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-e::after {
 	bottom: 50%;
-	left: 100%;
-	margin-left: 5px;
+	right: 100%;
+	margin-right: 5px;
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
 
 .yoast-tooltip-e::before {
 	top: 50%;
-	right: -5px;
+	left: -5px;
 	bottom: 50%;
 	margin-top: -5px;
-	border-right-color: rgba(0, 0, 0, 0.8);
+	border-left-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-multiline::after {
@@ -859,15 +859,15 @@ button.yoast-tooltip {
 
 .yoast-tooltip-multiline.yoast-tooltip-s::after,
 .yoast-tooltip-multiline.yoast-tooltip-n::after {
-	right: auto;
-	left: 50%;
-	-ms-transform: translateX(-50%);
-	transform: translateX(-50%);
+	left: auto;
+	right: 50%;
+	-ms-transform: translateX(50%);
+	transform: translateX(50%);
 }
 
 .yoast-tooltip-multiline.yoast-tooltip-w::after,
 .yoast-tooltip-multiline.yoast-tooltip-e::after {
-	right: 100%;
+	left: 100%;
 }
 
 @media screen and (min-width: 0\0) {
@@ -887,7 +887,7 @@ button.yoast-tooltip {
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
 	.yoast-tooltip-w::after {
-		margin-right: 4.5px;
+		margin-left: 4.5px;
 	}
 }
 
@@ -907,8 +907,8 @@ button.yoast-tooltip {
 }
 
 .postbox .wpseo-tab-video-container {
-	margin-right: -12px;
 	margin-left: -12px;
+	margin-right: -12px;
 }
 
 .wpseo-tab-video-container__handle {
@@ -920,7 +920,7 @@ button.yoast-tooltip {
 	color: #a4286a;
 	background: none;
 	line-height: 19px;
-	text-align: left;
+	text-align: right;
 	cursor: pointer;
 }
 
@@ -930,7 +930,7 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-container__handle .dashicons-before:before {
-	margin-right: 5px;
+	margin-left: 5px;
 }
 
 .wpseo-tab-video-container__handle .toggle__arrow {
@@ -1005,7 +1005,7 @@ button.yoast-tooltip {
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
 	max-width: 560px;
-	margin-right: 12px;
+	margin-left: 12px;
 	padding-bottom: 12px;
 
 	-ms-flex: 0 1 560px;
@@ -1029,7 +1029,7 @@ button.yoast-tooltip {
 	padding: 15px 15px 5px;
 	border: 1px solid #fff;
 	border-radius: 30px;
-	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 	color: #fff;
 	background-color: #a4286a;
 }
@@ -1088,7 +1088,7 @@ button.yoast-tooltip {
 }
 
 .wpseo-help-center-item a.dashicons-before:before {
-	margin-right: 3px;
+	margin-left: 3px;
 	text-decoration: none;
 }
 
@@ -1099,13 +1099,13 @@ button.yoast-tooltip {
 
 @media screen and (max-width: 1280px) {
 	.columns-2 .wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
-		margin-right: 0;
+		margin-left: 0;
 	}
 }
 
 @media screen and (max-width: 1024px) {
 	.wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
-		margin-right: 0;
+		margin-left: 0;
 
 		flex-basis: 100%;
 		-ms-flex-preferred-size: 100%;
@@ -1121,8 +1121,8 @@ button.yoast-tooltip {
 
 	.columns-2 .wpseo-tab-video-slideout .yoast-help-center-tabs {
 		width: auto;
-		padding-right: 12px;
 		padding-left: 12px;
+		padding-right: 12px;
 	}
 
 	.columns-2 .wpseo-tab-video-slideout .yoast-help-tab-content.active.yoast-help-tab-content-video {
@@ -1141,7 +1141,7 @@ button.yoast-tooltip {
 
 	.columns-2 .wpseo-help-center-item a {
 		display: inline-block;
-		margin: 0 4px 8px 0;
+		margin: 0 0 8px 4px;
 		border: 1px solid rgba(255, 255, 255, 0.5);
 	}
 }
@@ -1153,8 +1153,8 @@ button.yoast-tooltip {
 
 	.wpseo-tab-video-slideout .yoast-help-center-tabs {
 		width: auto;
-		padding-right: 12px;
 		padding-left: 12px;
+		padding-right: 12px;
 	}
 
 	.wpseo-tab-video-slideout .yoast-help-tab-content.active.yoast-help-tab-content-video {
@@ -1173,7 +1173,7 @@ button.yoast-tooltip {
 
 	.wpseo-help-center-item a {
 		display: inline-block;
-		margin: 0 4px 8px 0;
+		margin: 0 0 8px 4px;
 		border: 1px solid rgba(255, 255, 255, 0.5);
 	}
 
@@ -1199,9 +1199,9 @@ button.yoast-tooltip {
 }
 
 .yoast-section__heading-icon {
-	padding-left: 45px;
+	padding-right: 45px;
 	background-repeat: no-repeat;
-	background-position: left 20px top 0.6em;
+	background-position: right 20px top 0.6em;
 	background-size: 16px;
 }
 
@@ -1273,7 +1273,7 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-sidebar {
-	float: left;
+	float: right;
 	width: 50px;
 	padding: 0;
 	background-color: #fff;
@@ -1300,10 +1300,10 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-sidebar li span {
-	margin: 3px 0 0 -5px;
-	padding: 0 2px 0 5px;
+	margin: 3px -5px 0 0;
+	padding: 0 5px 0 2px;
 	border: 0 solid transparent;
-	border-left-width: 3px;
+	border-right-width: 3px;
 	border-radius: 3px;
 }
 .wpseo-metabox-sidebar li span.wpseo-buy-premium {
@@ -1328,8 +1328,8 @@ ul.wpseo-metabox-tabs li.active {
 
 /* Floated to reset white space between list items */
 ul.wpseo-metabox-tabs li {
-	float: left;
-	margin-right: 5px;
+	float: right;
+	margin-left: 5px;
 	margin-bottom: -1px;
 	padding: 0;
 	border: 1px solid #dfdfdf;
@@ -1352,7 +1352,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 	background-color: #fdfdfd;
 }
 .wpseotab .wpseo-cornerstone-checkbox {
-	margin-right: 0.5em;
+	margin-left: 0.5em;
 }
 
 .wpseotab.content {
@@ -1381,11 +1381,11 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 /* Bigger right padding only for the content tab and the main keyword tabs */
 .wpseo-metabox-tabs .wpseo_content_tab a,
 .wpseo-metabox-tabs .wpseo_content_tab + .wpseo_keyword_tab a {
-	padding-right: 12px;
+	padding-left: 12px;
 }
 
 .wpseo-metabox-tabs .wpseo-score-icon {
-	margin-left: 0;
+	margin-right: 0;
 }
 
 #wpseo-meta-section-social .wpseo-metabox-tabs .wpseo_tablink {
@@ -1478,7 +1478,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 .wpseotab input[type="radio"] + label {
-	margin: 0 1em 0 0;
+	margin: 0 0 0 1em;
 }
 
 /* Descriptions and error messages below the fields. */
@@ -1494,7 +1494,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 .wpseotab .wpseo_image_upload_button {
-	margin-left: 3px;
+	margin-right: 3px;
 }
 
 .good,
@@ -1530,7 +1530,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 #focuskwresults li {
-	margin: 0 0 0 20px;
+	margin: 0 20px 0 0;
 	list-style-type: disc;
 }
 
@@ -1552,7 +1552,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseo-tab-add-keyword .wpseo-add-keyword.button {
 	height: auto;
-	padding: 5px 12px 5px 10px;
+	padding: 5px 10px 5px 12px;
 	background: none;
 	box-shadow: none;
 	font-size: inherit;
@@ -1573,7 +1573,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseo-add-keyword-plus {
 	display: inline-block;
-	margin: -1px 3px 0 0;
+	margin: -1px 0 0 3px;
 	font-size: 20px; 
 	vertical-align: top;
 }
@@ -1615,7 +1615,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .wpseotab .yoast_help.yoast-help-button {
-	float: right;
+	float: left;
 }
 
 .wpseotab.content .yoast_help.yoast-help-button {
@@ -1623,13 +1623,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .wpseo-admin-page .yoast_help.yoast-help-button {
-	margin-right: 6px;
+	margin-left: 6px;
 }
 
 .yoast_help.yoast-help-button:before {
 	position: absolute;
 	top: 0;
-	left: 0;
+	right: 0;
 	padding: 4px;
 	content: "\f223";
 }
@@ -1659,7 +1659,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .yoast-seo-help-container {
-	float: left;
+	float: right;
 	width: 100%;
 	max-width: none;
 }
@@ -1693,7 +1693,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .yst-traffic-light {
 	width: 19px;
 	height: 30px;
-	margin: 0 0 0 5px;
+	margin: 0 5px 0 0;
 }
 
 .yst-traffic-light .traffic-light-color {
@@ -1724,18 +1724,18 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
  * Traffic light in publish box
  */
 #wpseo-score {
-	float: left;
-	margin: 0 5px 0 -5px;
+	float: right;
+	margin: 0 -5px 0 5px;
 }
 
 /**
 * Content and SEO score in publish bar
 */
 .yoast-seo-score .yoast-logo.svg {
-	float: left;
+	float: right;
 	width: 18px;
 	height: 18px;
-	margin-right: 5px;
+	margin-left: 5px;
 	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23999%22%20d%3D%22M403%20218h691l%2D26%2072h%2D665q%2D110%200%2D188%2E5%2079t%2D78%2E5%20189v771q0%2095%2060%2E5%20169%2E5t153%2E5%2093%2E5q23%205%2098%205v72h%2D45q%2D140%200%2D239%2E5%2D100t%2D99%2E5%2D240v%2D771q0%2D140%2099%2E5%2D240t239%2E5%2D100zm851%2D218h247l%2D482%201294q%2D23%2061%2D40%2E5%20103%2E5t%2D45%2098%2D54%2093%2E5%2D64%2E5%2078%2E5%2D79%2E5%2065%2D95%2E5%2041%2D116%2018%2E5v%2D195q163%2D26%20220%2D182%2020%2D52%2020%2D105%200%2D54%2D20%2D106l%2D285%2D733h228l187%20585zm474%20558v1111h%2D795q37%2D55%2045%2D73h678v%2D1038q0%2D85%2D49%2E5%2D155t%2D129%2E5%2D99l25%2D67q101%2034%20163%2E5%20123%2E5t62%2E5%20197%2E5z%22%2F%3E%3C%2Fsvg%3E") no-repeat;
 	background-size: 18px;
 }
@@ -1769,14 +1769,14 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .wpseo-buy-premium {
-	padding-right: 5px; 
+	padding-left: 5px; 
 	color: #a4286a;
 }
 
 .wpseo-metabox-go-to::after {
 	position: static;
 	top: auto;
-	right: auto;
+	left: auto;
 	width: auto;
 	height: auto;
 	border: none; 
@@ -1792,7 +1792,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .wpseo-metabox-buy-premium {
 	position: absolute;
 	top: 0;
-	right: 12px;
+	left: 12px;
 	padding: 8px 0;
 	/* To have the same height of the `.yoast-help-center__button` button. */
 }
@@ -1819,7 +1819,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	list-style: none;
 }
 #TB_window #TB_ajaxContent li::before {
-	margin: 0 10px 0 0;
+	margin: 0 0 0 10px;
 	font-weight: bold; 
 	content: "+";
 }
@@ -1848,7 +1848,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .yoast-notice-go-premium {
-	border-left-color: #a4286a;
+	border-right-color: #a4286a;
 	background: #f1f1f1;
 }
 
@@ -1858,7 +1858,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 		float: none;
 		/* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
 		width: auto;
-		margin: 0 0 10px -5px;
+		margin: 0 -5px 10px 0;
 		padding: 0;
 		vertical-align: top;
 	}
@@ -1875,7 +1875,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	}
 
 	.wpseo-metabox-sidebar li {
-		float: left;
+		float: right;
 		text-align: center;
 	}
 
@@ -1893,7 +1893,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 		margin: 0;
 		padding: 5px 0 2px;
 		border-bottom-width: 3px;
-		border-left-width: 0;
+		border-right-width: 0;
 	}
 
 /* Traffic light svg and CSS generated dashicons. */
@@ -1905,7 +1905,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 /* The "advanced" dashicon (the gear) is not perfectly centered and needs to be adjusted. */
 	.wpseo-meta-section-link .dashicons-admin-generic:before {
 		position: relative;
-		left: 1px;
+		right: 1px;
 	}
 
 /* The Go Premium dashicon must stay unchanged in the responsive view. */
@@ -1960,6 +1960,30 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .yoast-help-center .yoast-help-center__button svg {
 	margin: 0 13px;
+}
+
+#edittag .yoast-video-tutorial__video-container {
+	float: none;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+#edittag .yoast-video-tutorial__descriptions {
+	margin: 0 auto;
+	padding: 0;
+}
+
+@media screen and (max-width: 1480px) {
+	#poststuff .yoast-video-tutorial__video-container {
+		float: none;
+		max-width: 100%;
+		margin: 0 auto;
+	}
+
+	#poststuff .yoast-video-tutorial__descriptions {
+		margin: 0 auto;
+		padding: 0;
+	}
 }
 
 .wpseo-metabox #yoast-help-center-container {

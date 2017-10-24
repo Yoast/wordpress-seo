@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Roles
+ */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Role_Manager_Test extends WPSEO_Abstract_Role_Manager {
 	public $added_roles = array();
 	public $removed_roles = array();
@@ -45,6 +51,9 @@ class WPSEO_Role_Manager_Test extends WPSEO_Abstract_Role_Manager {
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class Capability_Role_Tests extends PHPUnit_Framework_TestCase {
 	public function test_register() {
 		$instance = new WPSEO_Role_Manager_Test();

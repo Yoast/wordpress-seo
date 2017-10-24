@@ -1,9 +1,7 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests\Sitemaps
  */
-
-require_once WPSEO_TESTS_PATH . 'sitemaps/class-wpseo-sitemaps-double.php';
 
 /**
  * Class WPSEO_Sitemaps_Test
@@ -14,6 +12,15 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 * @var WPSEO_Sitemaps
 	 */
 	private static $class_instance;
+
+	/**
+	 * Load the test mock class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'sitemaps/class-wpseo-sitemaps-double.php';
+	}
 
 	/**
 	 * Set up our double class

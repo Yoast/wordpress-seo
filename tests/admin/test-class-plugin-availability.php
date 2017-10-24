@@ -1,11 +1,26 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @var WPSEO_Plugin_Availability
 	 */
 	private static $class_instance;
+
+	/**
+	 * Load the test mock class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'admin/class-wpseo-plugin-availability-double.php';
+	}
 
 	/**
 	 * Set up our double class
@@ -23,12 +38,13 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
 	public function test_plugin_existence() {
 		$expected = array(
-			'url'         => 'https://yoast.com/',
-			'title'       => 'Test Plugin',
-			'description' => '',
-			'version'     => '3.3',
-			'installed'   => true,
+			'url'          => 'https://yoast.com/',
+			'title'        => 'Test Plugin',
+			'description'  => '',
+			'version'      => '3.3',
+			'installed'    => true,
 			'slug'        => 'test-plugin/test-plugin.php',
+			'version_sync' => true,
 		);
 
 		$this->assertEquals( self::$class_instance->get_plugin( 'test-plugin' ), $expected );
