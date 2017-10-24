@@ -17,6 +17,7 @@
   "scripts": {
     "build": "grunt build:js",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
+    "pretest": "grunt build:test",
     "test": "jest"
   },
   "browser": "js/browser.js",
