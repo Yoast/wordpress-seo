@@ -344,7 +344,7 @@ class WPSEO_Admin_Init {
 			if ( $plugin['compatible'] === false ) {
 				$notification_center->add_notification( $notification );
 
-				return;
+				continue;
 			}
 
 			$notification_center->remove_notification( $notification );
