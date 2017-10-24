@@ -14,8 +14,8 @@ class WPSEO_Export_Keywords_Term_Query_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'premium/helpers/class-export-keywords-term-query-double.php';
-		require_once WPSEO_TESTS_PATH . 'premium/helpers/class-export-keywords-term-query-database-mock.php';
+		require_once WPSEO_TESTS_PATH . 'premium/doubles/class-export-keywords-term-query-double.php';
+		require_once WPSEO_TESTS_PATH . 'premium/doubles/class-export-keywords-term-query-database-mock.php';
 	}
 
 	/**

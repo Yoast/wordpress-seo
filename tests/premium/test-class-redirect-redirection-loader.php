@@ -16,7 +16,7 @@ class WPSEO_Redirect_Redirection_Loader_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'premium/helpers/class-redirection-database-mock.php';
+		require_once WPSEO_TESTS_PATH . 'premium/doubles/class-redirection-database-mock.php';
 	}
 
 	/**
