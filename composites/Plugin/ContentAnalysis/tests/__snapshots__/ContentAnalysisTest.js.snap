@@ -1,0 +1,190 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the AnalysisResult component matches the snapshot 1`] = `
+<div
+  className="sc-fjdhpX ekEfiG"
+>
+  <div
+    className="sc-jzJRlG kTKuEa"
+  >
+    Your site language is set to English.
+    <a
+      className="sc-cSHVUG fzxnjC"
+      href="#"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Change language
+      <span
+        className="sc-bdVaJa hrXKaN"
+      >
+        (Opens in a new browser tab)
+      </span>
+    </a>
+  </div>
+  <div
+    className="sc-gZMcBi liHqSy"
+  >
+    <button
+      aria-expanded={true}
+      className="sc-gqjmRU nPXTt sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        className="sc-kAzzGY ibpeNC sc-chPdSV coNTRN"
+        focusable="false"
+        role="img"
+      />
+      <span
+        className="sc-VigVT bGMrIs"
+      >
+        Errors (1)
+      </span>
+    </button>
+    <ul
+      className="sc-jTzLTM cTbfwU"
+      role="list"
+    >
+      <li
+        className="sc-htpNat gcbOOr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb icogks sc-kgoBCf hlIUOu"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX cHWEpb"
+        >
+          Error: Analysis not loaded
+        </p>
+      </li>
+    </ul>
+  </div>
+  <div
+    className="sc-gZMcBi liHqSy"
+  >
+    <button
+      aria-expanded={true}
+      className="sc-gqjmRU nPXTt sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        className="sc-kGXeez jtnyJj sc-kpOJdX hmYSjx"
+        focusable="false"
+        role="img"
+      />
+      <span
+        className="sc-VigVT bGMrIs"
+      >
+        Problems (1)
+      </span>
+    </button>
+    <ul
+      className="sc-jTzLTM cTbfwU"
+      role="list"
+    >
+      <li
+        className="sc-htpNat gcbOOr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb icogks sc-dxgOiQ ctIQJE"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX cHWEpb"
+        >
+          Your text is bad, and you should feel bad.
+        </p>
+        <button
+          aria-label="highlight this result in the text"
+          aria-pressed={true}
+          className="sc-bwzfXH fRSVfl"
+          id="1"
+          onClick={[Function]}
+        >
+          <svg
+            aria-hidden="true"
+            className="sc-ckVGcZ bEepzL"
+            focusable="false"
+            role="img"
+          />
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div
+    className="sc-gZMcBi liHqSy"
+  >
+    <button
+      aria-expanded={false}
+      className="sc-gqjmRU nPXTt sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        className="sc-jKJlTe fTuuZL sc-eNQAEJ bmrIlx"
+        focusable="false"
+        role="img"
+      />
+      <span
+        className="sc-VigVT bGMrIs"
+      >
+        Improvements (1)
+      </span>
+    </button>
+  </div>
+  <div
+    className="sc-gZMcBi liHqSy"
+  >
+    <button
+      aria-expanded={false}
+      className="sc-gqjmRU nPXTt sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        className="sc-hMqMXs gteQSO sc-kEYyzF kVGrFb"
+        focusable="false"
+        role="img"
+      />
+      <span
+        className="sc-VigVT bGMrIs"
+      >
+        Considerations (1)
+      </span>
+    </button>
+  </div>
+  <div
+    className="sc-gZMcBi liHqSy"
+  >
+    <button
+      aria-expanded={false}
+      className="sc-gqjmRU nPXTt sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        className="sc-kkGfuU bhfWur sc-iAyFgw eGHSYb"
+        focusable="false"
+        role="img"
+      />
+      <span
+        className="sc-VigVT bGMrIs"
+      >
+        Good (2)
+      </span>
+    </button>
+  </div>
+</div>
+`;

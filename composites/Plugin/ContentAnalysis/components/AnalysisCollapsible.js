@@ -11,7 +11,7 @@ import { IconButton } from "../../Shared/components/Button";
  * Container for the Collapsible header and its content.
  */
 const AnalysisHeaderContainer = styled.div`
-	margin: 8px 0;
+	margin: 4px 0 8px 0;
 	background-color: ${ colors.$color_white };
 `;
 
@@ -25,21 +25,24 @@ const AnalysisHeaderButton = styled( IconButton )`
 	border-color: transparent;
 	border-radius: 0;
 	outline: none;
+	justify-content: left;
 	box-shadow: none;
 	// When clicking, the button text disappears in Safari 10 because of color: activebuttontext.
 	color: ${ colors.$color_blue };
 
 	:hover {
 		border-color: transparent;
+		color: ${ colors.$color_blue };
 	}
 
 	:active {
 		box-shadow: none;
 		background-color: ${ colors.$color_white };
+		color: ${ colors.$color_blue };
 	}
 
 	svg {
-		margin: 0 10px;
+		margin: 0 8px;
 		width: 20px;
 		height: 20px;
 	}
@@ -61,7 +64,7 @@ const AnalysisTitle = styled.span`
 const AnalysisList = styled.ul`
 	margin: 0;
 	list-style: none;
-	padding: 8px 16px;
+	padding: 0 16px 0 13px;
 `;
 
 /**

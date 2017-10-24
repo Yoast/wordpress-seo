@@ -1,13 +1,8 @@
 import React from "react";
+import { createComponentWithIntl } from "../../../../utils/intlProvider";
+import ContentAnalysis from "../components/ContentAnalysis.js";
 
-import ContentAnalysis from "../composites/Plugin/ContentAnalysis/components/ContentAnalysis";
-
-/**
- * Returns the HelpCenterWrapper component.
- *
- * @returns {ReactElement} The HelpCenterWrapper component.
- */
-export default function HelpCenterWrapper() {
+test( "the AnalysisResult component matches the snapshot", () => {
 	const problemsResults = [
 		{
 			text: "Your text is bad, and you should feel bad.",
@@ -59,7 +54,7 @@ export default function HelpCenterWrapper() {
 		},
 	];
 
-	return (
+	const component = createComponentWithIntl(
 		<ContentAnalysis
 			problemsResults={ problemsResults }
 			improvementsResults={ improvementsResults }
@@ -70,4 +65,7 @@ export default function HelpCenterWrapper() {
 			language="English"
 		/>
 	);
-}
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );

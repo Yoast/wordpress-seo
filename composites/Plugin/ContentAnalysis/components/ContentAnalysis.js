@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import colors from "../../../../style-guide/colors.json";
+import PropTypes from "prop-types";
+import util from "util";
 
+import { FormattedMessage, injectIntl, intlShape, defineMessages } from "react-intl";
+import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 import AnalysisResult from "../components/AnalysisResult.js";
 import AnalysisCollapsible from "../components/AnalysisCollapsible.js";
 
@@ -13,17 +17,60 @@ export const ContentAnalysisContainer = styled.div`
 	margin: 0 auto;
 `;
 
+const LanguageNotice = styled.div`
+	height: 24px;
+	width: 100%;
+	padding-top: 8px;
+	margin-left: 36px;
+`;
+
+const ChangeLanguageLink = makeOutboundLink( styled.a`
+	color: ${ colors.$color_blue };
+	margin-left: 4px;
+` );
+
+const messages = defineMessages( {
+	languageNotice: {
+		id: "content-analysis.language-notice",
+		defaultMessage: "Your site language is set to %s.",
+	},
+	languageNoticeLink: {
+		id: "content-analysis.language-notice-link",
+		defaultMessage:	"Change language",
+	},
+	errorsHeader: {
+		id: "content-analysis.errors",
+		defaultMessage: "Errors",
+	},
+	problemsHeader: {
+		id: "content-analysis.problems",
+		defaultMessage: "Problems",
+	},
+	improvementsHeader: {
+		id: "content-analysis.improvements",
+		defaultMessage: "Improvements",
+	},
+	considerationsHeader: {
+		id: "content-analysis.considerations",
+		defaultMessage: "Considerations",
+	},
+	goodHeader: {
+		id: "content-analysis.good",
+		defaultMessage: "Good",
+	},
+} );
+
 /**
  * Returns the ContentAnalysis component.
  *
  * @returns {ReactElement} The ContentAnalysis component.
  */
-export default class ContentAnalysis extends React.Component {
+class ContentAnalysis extends React.Component {
 	constructor( props ) {
 		super( props );
 
 		this.state = {
-			checked: "2",
+			checked: "1",
 		};
 	}
 
@@ -56,7 +103,6 @@ export default class ContentAnalysis extends React.Component {
 	getResults( results ) {
 		return results.map( ( result ) => {
 			let color = this.getColor( result.rating );
-
 			return <AnalysisResult
 				key={ result.id }
 				text={ result.text }
@@ -71,24 +117,68 @@ export default class ContentAnalysis extends React.Component {
 	}
 
 	render() {
+		let problemsResults = this.props.problemsResults;
+		let improvementsResults = this.props.improvementsResults;
+		let goodResults = this.props.goodResults;
+		let considerationsResults = this.props.considerationsResults;
+		let errorsResults = this.props.errorsResults;
+
+		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
-				{ this.props.problemsResults.results.length > 0 ? <AnalysisCollapsible initialIsOpen={ this.props.problemsResults.initialIsOpen } title= { this.props.problemsResults.heading }>
-					{ this.getResults( this.props.problemsResults.results ) }
-				</AnalysisCollapsible> : null }
-				{ this.props.improvementsResults.results.length > 0 ? <AnalysisCollapsible initialIsOpen={ this.props.improvementsResults.initialIsOpen } title= { this.props.improvementsResults.heading }>
-					{ this.getResults( this.props.improvementsResults.results ) }
-				</AnalysisCollapsible> : null }
-				{ this.props.goodResults.results.length > 0 ? <AnalysisCollapsible initialIsOpen={ this.props.goodResults.initialIsOpen } title= { this.props.goodResults.heading }>
-					{ this.getResults( this.props.goodResults.results ) }
-				</AnalysisCollapsible> : null }
-				{ this.props.considerationsResults.results.length > 0 ? <AnalysisCollapsible initialIsOpen={ this.props.considerationsResults.initialIsOpen } title= { this.props.considerationsResults.heading }>
-					{ this.getResults( this.props.considerationsResults.results ) }
-				</AnalysisCollapsible> : null }
-				{ this.props.errorsResults.results.length > 0 ? <AnalysisCollapsible initialIsOpen={ this.props.errorsResults.initialIsOpen } title= { this.props.errorsResults.heading }>
-					{ this.getResults( this.props.errorsResults.results ) }
-				</AnalysisCollapsible> : null }
+				<LanguageNotice>
+					{ util.format( this.props.intl.formatMessage( messages.languageNotice ), this.props.language ) }
+					<ChangeLanguageLink href={ this.props.changeLanguageLink }>
+						{ this.props.intl.formatMessage( messages.languageNoticeLink ) }
+					</ChangeLanguageLink>
+				</LanguageNotice>
+				{ errorsResults.length > 0
+					? <AnalysisCollapsible initialIsOpen={ true } title={ this.props.intl.formatMessage( messages.errorsHeader ) }>
+						{ this.getResults( errorsResults ) }
+					</AnalysisCollapsible>
+					: null }
+				{ problemsResults.length > 0
+					? <AnalysisCollapsible initialIsOpen={ true } title={ this.props.intl.formatMessage( messages.problemsHeader ) }>
+						{ this.getResults( problemsResults ) }
+					</AnalysisCollapsible>
+					: null }
+				{ improvementsResults.length > 0
+					? <AnalysisCollapsible title= { this.props.intl.formatMessage( messages.improvementsHeader ) }>
+						{ this.getResults( improvementsResults ) }
+					</AnalysisCollapsible>
+					: null }
+				{ considerationsResults.length > 0
+					? <AnalysisCollapsible title= { this.props.intl.formatMessage( messages.considerationsHeader ) }>
+						{ this.getResults( considerationsResults ) }
+					</AnalysisCollapsible>
+					: null }
+				{ goodResults.length > 0
+					? <AnalysisCollapsible title= {this.props.intl.formatMessage( messages.goodHeader ) }>
+						{ this.getResults( goodResults ) }
+					</AnalysisCollapsible>
+					: null }
 			</ContentAnalysisContainer>
 		);
 	}
 }
+
+ContentAnalysis.propTypes = {
+	problemsResults: PropTypes.array,
+	improvementsResults: PropTypes.array,
+	goodResults: PropTypes.array,
+	considerationsResults: PropTypes.array,
+	errorsResults: PropTypes.array,
+	changeLanguageLink: PropTypes.string.isRequired,
+	language: PropTypes.string.isRequired,
+	intl: intlShape.isRequired,
+};
+
+ContentAnalysis.defaultProps = {
+	problemsResults: [],
+	improvementsResults: [],
+	goodResults: false,
+	considerationsResults: false,
+	errorsResults: false,
+};
+
+export default injectIntl( ContentAnalysis );

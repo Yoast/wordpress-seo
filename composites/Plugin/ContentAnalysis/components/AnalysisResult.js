@@ -10,7 +10,7 @@ import IconButtonToggle from "../../Shared/components/IconButtonToggle.js";
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
 	min-height: 24px;
-	padding: 4px;
+	padding: 8px 4px 8px 0;
 	display: flex;
 	align-items: flex-start;
 `;
@@ -20,7 +20,7 @@ const ScoreIcon = styled( Icon )`
 `;
 
 const AnalysisResultText = styled.p`
-	margin: 0 8px;
+	margin: 0 10px;
 	flex: 1 1 auto;
 `;
 
