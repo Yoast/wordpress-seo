@@ -8,16 +8,29 @@
  */
 class WPSEO_Link_Columns {
 
+	/**
+	 * @var string Partial column name.
+	 */
 	const COLUMN_LINKED = 'linked';
+
+	/**
+	 * @var string Partial column name.
+	 */
 	const COLUMN_LINKS = 'links';
 
-	/** @var WPSEO_Link_Column_Count */
+	/**
+	 * @var WPSEO_Link_Column_Count
+	 */
 	protected $link_count;
 
-	/** @var WPSEO_Meta_Storage Storage to use. */
+	/**
+	 * @var WPSEO_Meta_Storage Storage to use.
+	 */
 	protected $storage;
 
-	/** @var array List of public post types. */
+	/**
+	 * @var array List of public post types.
+	 */
 	protected $public_post_types = array();
 
 	/**
