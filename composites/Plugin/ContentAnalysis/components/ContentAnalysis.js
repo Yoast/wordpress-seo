@@ -70,14 +70,14 @@ class ContentAnalysis extends React.Component {
 		super( props );
 
 		this.state = {
-			checked: "1",
+			checked: "",
 		};
 	}
 
 	handleClick( id ) {
 		if ( id === this.state.checked ) {
 			this.setState( {
-				checked: "-1",
+				checked: "",
 			} );
 			return;
 		}
