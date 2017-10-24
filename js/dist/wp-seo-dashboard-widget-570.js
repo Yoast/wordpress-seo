@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 592);
+/******/ 	return __webpack_require__(__webpack_require__.s = 593);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -25207,7 +25207,8 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 /* 570 */,
 /* 571 */,
 /* 572 */,
-/* 573 */
+/* 573 */,
+/* 574 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25318,7 +25319,6 @@ ScoreAssessments.defaultProps = {
 exports.default = ScoreAssessments;
 
 /***/ }),
-/* 574 */,
 /* 575 */,
 /* 576 */,
 /* 577 */,
@@ -25336,7 +25336,8 @@ exports.default = ScoreAssessments;
 /* 589 */,
 /* 590 */,
 /* 591 */,
-/* 592 */
+/* 592 */,
+/* 593 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25352,19 +25353,19 @@ var _reactDom = __webpack_require__(41);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _SeoAssessment = __webpack_require__(593);
+var _SeoAssessment = __webpack_require__(594);
 
 var _SeoAssessment2 = _interopRequireDefault(_SeoAssessment);
 
-var _ScoreAssessments = __webpack_require__(573);
+var _ScoreAssessments = __webpack_require__(574);
 
 var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
 
-var _getFeed2 = __webpack_require__(595);
+var _getFeed2 = __webpack_require__(596);
 
 var _getFeed3 = _interopRequireDefault(_getFeed2);
 
-var _WordpressFeed = __webpack_require__(596);
+var _WordpressFeed = __webpack_require__(597);
 
 var _WordpressFeed2 = _interopRequireDefault(_WordpressFeed);
 
@@ -25609,7 +25610,7 @@ var DashboardWidget = function (_React$Component) {
 _reactDom2.default.render(_react2.default.createElement(DashboardWidget, null), document.getElementById("yoast-seo-dashboard-widget"));
 
 /***/ }),
-/* 593 */
+/* 594 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25634,11 +25635,11 @@ var _styledComponents = __webpack_require__(8);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _StackedProgressBar = __webpack_require__(594);
+var _StackedProgressBar = __webpack_require__(595);
 
 var _StackedProgressBar2 = _interopRequireDefault(_StackedProgressBar);
 
-var _ScoreAssessments = __webpack_require__(573);
+var _ScoreAssessments = __webpack_require__(574);
 
 var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
 
@@ -25703,7 +25704,7 @@ SeoAssessment.defaultProps = {
 exports.default = SeoAssessment;
 
 /***/ }),
-/* 594 */
+/* 595 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25790,7 +25791,7 @@ StackedProgressBar.defaultProps = {
 exports.default = StackedProgressBar;
 
 /***/ }),
-/* 595 */
+/* 596 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25970,7 +25971,7 @@ function getFeed(url) {
 }
 
 /***/ }),
-/* 596 */
+/* 597 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

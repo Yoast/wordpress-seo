@@ -7891,9 +7891,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-yoast-components@2.10.1:
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.10.1.tgz#a27dab6755dd189d9d6426478355ed00da8c9ab0"
+yoast-components@2.10.3:
+  version "2.10.3"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.10.3.tgz#9bdd92cb95a37915febf844ca86f82b8e5c997a1"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     algoliasearch "^3.22.3"
