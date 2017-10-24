@@ -80,8 +80,8 @@ class WPSEO_Extension_Manager {
 				self::$active_extensions = get_transient( self::TRANSIENT_CACHE_KEY );
 			}
 
-			if ( empty( self::$active_extensions ) ) {
-				self::$active_extensions = apply_filters( 'yoast-active-extensions', array() );
+			if ( ! is_array( self::$active_extensions ) ) {
+				self::$active_extensions = (array) apply_filters( 'yoast-active-extensions', array() );
 				set_transient( self::TRANSIENT_CACHE_KEY, self::$active_extensions, DAY_IN_SECONDS );
 			}
 		}
