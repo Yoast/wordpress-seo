@@ -1,8 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -45,9 +48,9 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, $output );
 
 		/*
-			TODO
-			- Test all Basic Variables
-			- Test all Advanced Variables
+		 * @todo
+		 *  - Test all Basic Variables.
+		 *  - Test all Advanced Variables.
 		 */
 	}
 }

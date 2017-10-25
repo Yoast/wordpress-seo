@@ -114,22 +114,27 @@ $tabs = array(
 	</h2>
 
 <?php
+
+$helpcenter_tabs = new WPSEO_Option_Tabs( '', '' );
+
 foreach ( $tabs as $identifier => $tab ) {
-
-	printf( '<div id="%s" class="wpseotab">', $identifier );
-
 	if ( ! empty( $tab['screencast_video_url'] ) ) {
 		$tab_video_url = $tab['screencast_video_url'];
 
 		$helpcenter_tab = new WPSEO_Option_Tab( $identifier, $tab['label'],
 			array( 'video_url' => $tab['screencast_video_url'] ) );
-
-		$helpcenter = new WPSEO_Help_Center( $identifier, $helpcenter_tab );
-		$helpcenter->output_help_center();
 	}
 
-	require_once WPSEO_PATH . 'admin/views/tabs/tool/' . $identifier . '.php';
+	$helpcenter_tabs->add_tab( $helpcenter_tab );
+}
 
+$helpcenter = new WPSEO_Help_Center( '', $helpcenter_tabs, WPSEO_Utils::is_yoast_seo_premium() );
+$helpcenter->localize_data();
+$helpcenter->mount();
+
+foreach ( $tabs as $identifier => $tab ) {
+	printf( '<div id="%s" class="wpseotab">', $identifier );
+	require_once WPSEO_PATH . 'admin/views/tabs/tool/' . $identifier . '.php';
 	echo '</div>';
 }
 

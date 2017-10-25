@@ -3,8 +3,8 @@
  * @package WPSEO\Admin|Google_Search_Console
  */
 
-	// Admin header.
-	Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpseo_gsc_options' );
+// Admin header.
+Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpseo_gsc_options' );
 
 if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== '' ) { ?>
 	<form action="" method="post" class="wpseo-gsc-reload-crawl-issues-form">
@@ -29,8 +29,9 @@ else {
 }
 
 $tab = new WPSEO_Option_Tab( 'GSC', __( 'Google Search Console', 'wordpress-seo' ), array( 'video_url' => $video_url ) );
-$gsc_help_center = new WPSEO_Help_Center( 'google-search-console', $tab );
-$gsc_help_center->output_help_center();
+$gsc_help_center = new WPSEO_Help_Center( 'google-search-console', $tab, WPSEO_Utils::is_yoast_seo_premium() );
+$gsc_help_center->localize_data();
+$gsc_help_center->mount();
 
 switch ( $platform_tabs->current_tab() ) {
 	case 'settings':
@@ -39,7 +40,7 @@ switch ( $platform_tabs->current_tab() ) {
 			// Print auth screen.
 			echo '<p>';
 			/* Translators: %1$s: expands to Yoast SEO, %2$s expands to Google Search Console. */
-			echo sprintf( __( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ), 'Yoast SEO', 'Google Search Console' );
+			printf( __( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ), 'Yoast SEO', 'Google Search Console' );
 			echo "</p>\n";
 			echo '<input type="hidden" id="gsc_auth_url" value="', $this->service->get_client()->createAuthUrl() , '" />';
 			echo "<button type='button' id='gsc_auth_code' class='button'>" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
@@ -54,7 +55,7 @@ switch ( $platform_tabs->current_tab() ) {
 		else {
 			$reset_button = '<a class="button" href="' . add_query_arg( 'gsc_reset', 1 ) . '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) . '</a>';
 			echo '<h3>',  __( 'Current profile', 'wordpress-seo' ), '</h3>';
-			if ( ($profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
+			if ( ( $profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
 				echo '<p>';
 				echo $profile;
 				echo '</p>';

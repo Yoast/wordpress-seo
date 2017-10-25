@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\UnitTests
+ * @package WPSEO\Tests\ConfigUI\Fields
  */
 
 /**
@@ -9,7 +9,7 @@
 class WPSEO_Config_Field_ extends WPSEO_Config_Field {
 
 	/**
-	 * @param $data
+	 * @param array|mixed $data Value of this field.
 	 */
 	public function set_data( $data ) {
 		$this->data = $data;

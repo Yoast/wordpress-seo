@@ -171,7 +171,13 @@ class WPSEO_Option_MS extends WPSEO_Option {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
 									'_' . $key, // Suffix-id for the error message box.
-									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . sprintf( esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // The error message.
+									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' )
+										. '<br>'
+										. sprintf(
+											/* translators: %s is the ID number of a blog. */
+											esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ),
+											'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
+										), // The error message.
 									'error' // Error type, either 'error' or 'updated'.
 								);
 							}

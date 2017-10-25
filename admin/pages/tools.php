@@ -58,7 +58,7 @@ if ( '' === $tool_page ) {
 	$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
 
 	foreach ( $tools as $slug => $tool ) {
-		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg( array( 'tool' => $slug ) , $admin_url );
+		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg( array( 'tool' => $slug ), $admin_url );
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 
 		echo '<li>';
@@ -80,7 +80,7 @@ else {
 		$tool_pages[] = 'file-editor';
 	}
 
-	if ( in_array( $tool_page, $tool_pages ) ) {
+	if ( in_array( $tool_page, $tool_pages, true ) ) {
 		require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
 	}
 }

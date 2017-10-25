@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '5.5.1' );
+define( 'WPSEO_VERSION', '5.7' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -287,6 +287,13 @@ function wpseo_init() {
 
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
+
+	/*
+	 * Initializes the link watcher for both the frontend and backend.
+	 * Required to process scheduled items properly.
+	 */
+	$link_watcher = new WPSEO_Link_Watcher_Loader();
+	$link_watcher->load();
 }
 
 /**
@@ -407,12 +414,12 @@ add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 new WPSEO_OnPage();
 
 // Registers SEO capabilities.
-$register_capabilities = new WPSEO_Register_Capabilities();
-$register_capabilities->register_hooks();
+$wpseo_register_capabilities = new WPSEO_Register_Capabilities();
+$wpseo_register_capabilities->register_hooks();
 
 // Registers SEO roles.
-$register_capabilities = new WPSEO_Register_Roles();
-$register_capabilities->register_hooks();
+$wpseo_register_capabilities = new WPSEO_Register_Roles();
+$wpseo_register_capabilities->register_hooks();
 
 /**
  * Wraps for notifications center class.

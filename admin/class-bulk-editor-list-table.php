@@ -300,9 +300,15 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		);
 
 
-		$post_status         = filter_input( INPUT_GET, 'post_status' );
-		$class               = empty( $post_status ) ? ' class="current"' : '';
-		$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor' . $this->page_url ) ) . '"' . $class . '>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts', 'wordpress-seo' ), number_format_i18n( $total_posts ) ) . '</a>';
+		$post_status    = filter_input( INPUT_GET, 'post_status' );
+		$class          = empty( $post_status ) ? ' class="current"' : '';
+		$localized_text = sprintf(
+			/* translators: %s expands to the number of posts in localized format. */
+			_nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts', 'wordpress-seo' ),
+			number_format_i18n( $total_posts )
+		);
+
+		$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor' . $this->page_url ) ) . '"' . $class . '>' . $localized_text . '</a>';
 
 		$post_stati = get_post_stati( array( 'show_in_admin_all_list' => true ), 'objects' );
 		if ( is_array( $post_stati ) && $post_stati !== array() ) {
@@ -345,7 +351,14 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		if ( 'trash' === $post_status ) {
 			$class = 'class="current"';
 		}
-		$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor&post_status=trash' . $this->page_url ) ) . '"' . $class . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $trashed_posts, 'posts', 'wordpress-seo' ), number_format_i18n( $trashed_posts ) ) . '</a>';
+
+		$localized_text = sprintf(
+			/* translators: %s expands to the number of trashed posts in localized format. */
+			_nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $trashed_posts, 'posts', 'wordpress-seo' ),
+			number_format_i18n( $trashed_posts )
+		);
+
+		$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor&post_status=trash' . $this->page_url ) ) . '"' . $class . '>' . $localized_text . '</a>';
 
 		return $status_links;
 	}
@@ -406,7 +419,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					'post-type-filter-' . $instance_type,
 					__( 'Filter by post type', 'wordpress-seo' )
 				);
-				echo sprintf( '<select name="post_type_filter" id="post-type-filter-%2$s">%1$s</select>', $options, $instance_type );
+				printf( '<select name="post_type_filter" id="post-type-filter-%2$s">%1$s</select>', $options, $instance_type );
 				submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
 			}
@@ -634,7 +647,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			'post_date',
 		);
 
-		if ( in_array( $orderby, $valid_column_names ) ) {
+		if ( in_array( $orderby, $valid_column_names, true ) ) {
 			return $orderby;
 		}
 
@@ -649,7 +662,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return string $order SQL order string (ASC, DESC).
 	 */
 	protected function sanitize_order( $order ) {
-		if ( in_array( strtoupper( $order ), array( 'ASC', 'DESC' ) ) ) {
+		if ( in_array( strtoupper( $order ), array( 'ASC', 'DESC' ), true ) ) {
 			return $order;
 		}
 
@@ -684,7 +697,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		if ( ! empty( $_GET['post_status'] ) ) {
 			$requested_state = sanitize_text_field( $_GET['post_status'] );
-			if ( in_array( $requested_state, $states ) ) {
+			if ( in_array( $requested_state, $states, true ) ) {
 				$states = array( $requested_state );
 			}
 		}
@@ -727,7 +740,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					}
 
 					if ( ! empty( $column_value ) ) {
-						echo sprintf( '<td %2$s>%1$s</td>', $column_value, $attributes );
+						printf( '<td %2$s>%1$s</td>', $column_value, $attributes );
 					}
 				}
 
@@ -751,7 +764,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$attributes = '';
 		$class = array( $column_name, "column-$column_name$classes" );
 
-		if ( in_array( $column_name, $hidden ) ) {
+		if ( in_array( $column_name, $hidden, true ) ) {
 			$class[] = 'hidden';
 		}
 
@@ -793,7 +806,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		}
 
 		if ( $post_type_object->public ) {
-			if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
+			if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ), true ) ) {
 				if ( $can_edit_post ) {
 					$actions['view'] = sprintf(
 						'<a href="%s" aria-label="%s">%s</a>',

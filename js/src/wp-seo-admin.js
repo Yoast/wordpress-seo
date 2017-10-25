@@ -1,6 +1,5 @@
 /* global wpseoAdminL10n, ajaxurl, tb_remove, wpseoSelect2Locale */
 
-import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 import a11ySpeak from "a11y-speak";
 
 ( function() {
@@ -261,8 +260,6 @@ import a11ySpeak from "a11y-speak";
 		 * When the hash changes, get the base url from the action and then add the current hash.
 		 */
 		wpseoSetTabHash();
-
-		initializeAlgoliaSearch();
 
 		// Toggle the XML sitemap section.
 		jQuery( "#enablexmlsitemap" ).change( function() {

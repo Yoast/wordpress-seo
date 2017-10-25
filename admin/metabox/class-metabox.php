@@ -94,6 +94,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( '0' == get_option( 'blog_public' ) ) {
 			self::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
 		}
+		/* translators: %s expands to the robots (no)index setting default as set in the site-wide settings.*/
 		self::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for this post type, currently: %s', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = 'index';
 		self::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = 'noindex';
@@ -102,8 +103,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['0'] = 'follow';
 		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['1'] = 'nofollow';
 
-		self::$meta_fields['advanced']['meta-robots-adv']['title']                   = __( 'Meta robots advanced', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-adv']['description']             = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-adv']['title']       = __( 'Meta robots advanced', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-adv']['description'] = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
+		/* translators: %s expands to the advanced robots settings default as set in the site-wide settings.*/
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['-']            = __( 'Site-wide default: %s', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['none']         = __( 'None', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['noimageindex'] = __( 'No Image Index', 'wordpress-seo' );
@@ -143,7 +145,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$cpts    = get_post_types( array( 'public' => true ), 'names' );
 			$options = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts ) === false );
+			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts, true ) === false );
 		}
 		return false;
 	}
@@ -313,13 +315,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$helpcenter_tab = new WPSEO_Option_Tab( 'metabox', 'Meta box',
 			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ) ) );
 
-		$helpcenter = new WPSEO_Help_Center( 'metabox', $helpcenter_tab );
-		$helpcenter->output_help_center();
+		$help_center = new WPSEO_Help_Center( '', $helpcenter_tab, WPSEO_Utils::is_yoast_seo_premium() );
+		$help_center->localize_data();
+		$help_center->mount();
 
 		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 			echo $this->get_buy_premium_link();
 		}
 
+		echo '<div class="wpseo-metabox-content">';
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
@@ -335,6 +339,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		foreach ( $content_sections as $content_section ) {
 			$content_section->display_content();
 		}
+
+		echo '</div>';
 	}
 
 	/**
@@ -443,9 +449,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_buy_premium_section() {
-		$content = sprintf( "<div class='wpseo-metabox-premium-description'>
+		$content = sprintf( "<div class='wpseo-premium-description'>
 			%s
-			<ul class='wpseo-metabox-premium-advantages'>
+			<ul class='wpseo-premium-advantages-list'>
 				<li>
 					<strong>%s</strong> - %s
 				</li>
@@ -895,6 +901,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'kb-search' );
 
 			$asset_manager->enqueue_script( 'metabox' );
+			$asset_manager->enqueue_script( 'help-center' );
 			$asset_manager->enqueue_script( 'admin-media' );
 
 			$asset_manager->enqueue_script( 'post-scraper' );

@@ -128,7 +128,7 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Returns the scripts that need to be registered.
 	 *
-	 * @TODO data format is not self-documenting. Needs explanation inline. R.
+	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
 	 * @return array scripts that need to be registered.
 	 */
@@ -148,6 +148,13 @@ class WPSEO_Admin_Asset_Manager {
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
 		return array(
+			array(
+				'name' => 'help-center',
+				'src'  => 'wp-seo-help-center-' . $flat_version,
+				'deps' => array(
+					'jquery'
+				),
+			),
 			array(
 				'name' => 'admin-script',
 				'src'  => 'wp-seo-admin-' . $flat_version,
@@ -337,7 +344,7 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Returns the styles that need to be registered.
 	 *
-	 * @TODO data format is not self-documenting. Needs explanation inline. R.
+	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
 	 * @return array styles that need to be registered.
 	 */

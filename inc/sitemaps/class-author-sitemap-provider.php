@@ -33,7 +33,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return array();
 		}
 
-		// TODO Consider doing this less often / when necessary. R.
+		// @todo Consider doing this less often / when necessary. R.
 		$this->update_user_meta();
 
 		$has_exclude_filter = has_filter( 'wpseo_sitemap_exclude_author' );
@@ -92,7 +92,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$options = WPSEO_Options::get_all();
 
 		$defaults = array(
-			// TODO re-enable after plugin requirements raised to WP 4.6 with the fix.
+			// @todo Re-enable after plugin requirements raised to WP 4.6 with the fix.
 			// 'who'        => 'authors', Breaks meta keys, see https://core.trac.wordpress.org/ticket/36724#ticket R.
 			'meta_key'   => '_yoast_wpseo_profile_updated',
 			'orderby'    => 'meta_value_num',

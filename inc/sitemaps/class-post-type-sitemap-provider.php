@@ -305,7 +305,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		if ( ! in_array( $post_type, get_post_types( array( 'public' => true ) ) ) ) {
+		if ( ! in_array( $post_type, get_post_types( array( 'public' => true ), 'names' ), true ) ) {
 			return false;
 		}
 
@@ -555,7 +555,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$where_clause = "
 		{$join}
 		WHERE {$status}
-			AND {$wpdb->posts}.post_type = '%s'
+			AND {$wpdb->posts}.post_type = %s
 			AND {$wpdb->posts}.post_password = ''
 			AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
 		";

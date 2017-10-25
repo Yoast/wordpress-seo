@@ -126,7 +126,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 		$wpseo_robots = get_option( 'wpseo_' . $taxonomy . '_' . $term_id . '_robots', false );
 		if ( $wpseo_robots !== false ) {
 			// The value 1, 2 and 6 are the index values in wpSEO.
-			$new_robot_value = ( in_array( $wpseo_robots, array( 1, 2, 6 ) ) ) ? 'index' : 'noindex';
+			$new_robot_value = ( in_array( (int) $wpseo_robots, array( 1, 2, 6 ), true ) ) ? 'index' : 'noindex';
 
 			$tax_meta[ $taxonomy ][ $term_id ]['wpseo_noindex'] = $new_robot_value;
 		}

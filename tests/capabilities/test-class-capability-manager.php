@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Capabilities
+ */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Capability_Manager_Test extends WPSEO_Abstract_Capability_Manager {
 	/**
 	 * Adds the registerd capabilities to the system.
@@ -24,6 +30,9 @@ class WPSEO_Capability_Manager_Test extends WPSEO_Abstract_Capability_Manager {
 	}
 }
 
+/**
+ * Unit Test Class.
+ */
 class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 	public function test_register() {
 		$instance = new WPSEO_Capability_Manager_Test();

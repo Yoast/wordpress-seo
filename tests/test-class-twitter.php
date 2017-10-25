@@ -1,8 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -10,19 +13,24 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up a WPSEO_Twitter object.
+	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 		ob_start();
 
 		// create instance of WPSEO_Twitter class
-		require WPSEO_TESTS_PATH . 'framework/class-expose-wpseo-twitter.php';
+		require_once WPSEO_TESTS_PATH . 'framework/class-expose-wpseo-twitter.php';
 		self::$class_instance = new Expose_WPSEO_Twitter();
 		WPSEO_Frontend::get_instance()->reset();
 		// clean output which was outputted by WPSEO_Twitter constructor
 		ob_end_clean();
 	}
 
-
+	/**
+	 * Clean up after each test.
+	 */
 	public function tearDown() {
 		parent::tearDown();
 		ob_clean();
@@ -48,7 +56,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->twitter();
 
-		$expected = '<meta name="twitter:card" content="summary" />
+		$expected = '<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:description" content="Twitter Test Excerpt" />
 <meta name="twitter:title" content="Twitter Test Post - Test Blog" />
 ';
@@ -78,8 +86,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param $name
-	 * @param $value
+	 * @param string $name  Name.
+	 * @param string $value Value.
 	 *
 	 * @return string
 	 */
@@ -309,7 +317,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param $url
+	 * @param string $url URL.
 	 *
 	 * @return string
 	 */

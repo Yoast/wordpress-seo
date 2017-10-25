@@ -56,7 +56,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
 		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $help_content );
 
-		if ( in_array( $field_configuration['type'], array( 'focuskeyword', 'pageanalysis', 'snippetpreview' ) ) ) {
+		if ( in_array( $field_configuration['type'], array( 'focuskeyword', 'pageanalysis', 'snippetpreview' ), true ) ) {
 			return $this->parse_section_row( $field, $field_configuration['type'], $help );
 		}
 

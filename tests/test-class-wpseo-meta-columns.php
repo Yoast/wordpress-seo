@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests
+ */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 	public function determine_seo_filters( $seo_filter ) {
 		return parent::determine_seo_filters( $seo_filter );
@@ -20,9 +26,8 @@ class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 
 
 /**
- * @package WPSEO\Unittests
+ * Unit Test Class.
  */
-
 class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -30,6 +35,9 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 		self::$class_instance = new WPSEO_Meta_Columns_Double();

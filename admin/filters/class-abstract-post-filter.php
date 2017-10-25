@@ -54,7 +54,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 			add_action( 'restrict_manage_posts', array( $this, 'render_hidden_input' ) );
 		}
 
-		if ( $this->get_explanation() !== null && $this->is_filter_active() ) {
+		if ( $this->is_filter_active() && $this->get_explanation() !== null ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_explanation_assets' ) );
 		}
 	}
@@ -84,9 +84,9 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 */
 	public function add_filter_link( array $views ) {
 		$views[ 'yoast_' . $this->get_query_val() ] = sprintf(
-			'<a href="%1$s" class="%2$s">%3$s</a> (%4$s)',
+			'<a href="%1$s"%2$s>%3$s</a> (%4$s)',
 			esc_url( $this->get_filter_url() ),
-			( $this->is_filter_active() ) ? 'current' : '',
+			( $this->is_filter_active() ) ? ' class="current" aria-current="page"' : '',
 			$this->get_label(),
 			$this->get_post_total()
 		);
@@ -130,7 +130,8 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * @return bool Whether or not the filter is active.
 	 */
 	protected function is_filter_active() {
-		return ( filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === $this->get_query_val() );
+		return ( $this->is_supported_post_type( $this->get_current_post_type() )
+			&& filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === $this->get_query_val() );
 	}
 
 	/**
@@ -153,5 +154,16 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 */
 	protected function get_post_types() {
 		return array( 'post', 'page' );
+	}
+
+	/**
+	 * Checks if the post type is supported.
+	 *
+	 * @param string $post_type Post type to check against.
+	 *
+	 * @return bool True when it is supported.
+	 */
+	protected function is_supported_post_type( $post_type ) {
+		return in_array( $post_type, $this->get_post_types(), true );
 	}
 }

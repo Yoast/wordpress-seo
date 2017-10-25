@@ -1,15 +1,18 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests\OnPage
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
 
 	/**
 	 * Overwrite the get_remote method, because this is a dependency.
 	 *
-	 * @param string $target_url
-	 * @param array  $parameters
+	 * @param string $target_url The home url.
+	 * @param array  $parameters Array of extra parameters.
 	 *
 	 * @return array
 	 */
@@ -46,6 +49,9 @@ class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
 
 }
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 
 	/**
