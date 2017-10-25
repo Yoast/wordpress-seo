@@ -36,7 +36,7 @@ class WPSEO_Premium_Popup {
 	private $content = '';
 
 	/**
-	 * The URL for where the button should link to
+	 * The URL for where the button should link to.
 	 *
 	 * @var String
 	 */
