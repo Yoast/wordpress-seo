@@ -25,7 +25,7 @@ const AnalysisHeaderButton = styled( IconButton )`
 	border-color: transparent;
 	border-radius: 0;
 	outline: none;
-	justify-content: left;
+	justify-content: flex-start;
 	box-shadow: none;
 	// When clicking, the button text disappears in Safari 10 because of color: activebuttontext.
 	color: ${ colors.$color_blue };

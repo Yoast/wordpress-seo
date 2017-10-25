@@ -4,7 +4,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
 <div
   className="sc-fjdhpX ekEfiG"
 >
-  <div
+  <p
     className="sc-jzJRlG klMrMa"
   >
     <span>
@@ -27,13 +27,13 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
         (Opens in a new browser tab)
       </span>
     </a>
-  </div>
+  </p>
   <div
     className="sc-gZMcBi liHqSy"
   >
     <button
       aria-expanded={true}
-      className="sc-gqjmRU nPXTt sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+      className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
       onClick={[Function]}
       type="button"
     >
@@ -75,7 +75,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
   >
     <button
       aria-expanded={true}
-      className="sc-gqjmRU nPXTt sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+      className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
       onClick={[Function]}
       type="button"
     >
@@ -110,7 +110,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
           Your text is bad, and you should feel bad.
         </p>
         <button
-          aria-label="highlight this result in the text"
+          aria-label="Highlight this result in the text"
           aria-pressed={false}
           className="sc-bwzfXH iSOXYD"
           id="1"
@@ -131,7 +131,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
   >
     <button
       aria-expanded={false}
-      className="sc-gqjmRU nPXTt sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+      className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
       onClick={[Function]}
       type="button"
     >
@@ -153,7 +153,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
   >
     <button
       aria-expanded={false}
-      className="sc-gqjmRU nPXTt sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+      className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
       onClick={[Function]}
       type="button"
     >
@@ -175,7 +175,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
   >
     <button
       aria-expanded={false}
-      className="sc-gqjmRU nPXTt sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+      className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
       onClick={[Function]}
       type="button"
     >

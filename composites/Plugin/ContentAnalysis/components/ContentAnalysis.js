@@ -16,7 +16,7 @@ export const ContentAnalysisContainer = styled.div`
 	margin: 0 auto;
 `;
 
-const LanguageNotice = styled.div`
+const LanguageNotice = styled.p`
 	min-height: 24px;
 	padding-top: 8px;
 	margin-left: 36px;
@@ -51,6 +51,10 @@ const messages = defineMessages( {
 	goodHeader: {
 		id: "content-analysis.good",
 		defaultMessage: "Good",
+	},
+	highlight: {
+		id: "content-analysis.highlight",
+		defaultMessage: "Highlight this result in the text",
 	},
 } );
 
@@ -130,7 +134,7 @@ class ContentAnalysis extends React.Component {
 				text={ result.text }
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
-				ariaLabel="highlight this result in the text"
+				ariaLabel={ this.props.intl.formatMessage( messages.highlight ) }
 				pressed={ result.id === this.state.checked }
 				buttonId={ result.id }
 				onButtonClick={ this.handleClick.bind( this, result.id ) }
