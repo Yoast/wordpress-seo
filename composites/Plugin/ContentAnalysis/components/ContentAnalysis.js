@@ -18,7 +18,6 @@ export const ContentAnalysisContainer = styled.div`
 
 const LanguageNotice = styled.div`
 	min-height: 24px;
-	width: calc(100% - 48px);
 	padding-top: 8px;
 	margin-left: 36px;
 `;
