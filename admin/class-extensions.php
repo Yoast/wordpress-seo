@@ -17,22 +17,22 @@ class WPSEO_Extensions {
 		),
 		'News SEO'              => array(
 			'slug'       => 'news-seo',
-			'identifier' => 'wordpress-seo-news',
+			'identifier' => 'wpseo-news',
 			'classname'  => 'WPSEO_News',
 		),
 		'Yoast WooCommerce SEO' => array(
 			'slug'       => 'woocommerce-yoast-seo',
-			'identifier' => 'yoast-woo-seo',
+			'identifier' => 'wpseo-woocommerce',
 			'classname'  => 'Yoast_WooCommerce_SEO',
 		),
 		'Video SEO'             => array(
 			'slug'       => 'video-seo-for-wordpress',
-			'identifier' => 'yoast-video-seo',
+			'identifier' => 'wpseo-video',
 			'classname'  => 'WPSEO_Video_Sitemap',
 		),
 		'Local SEO'             => array(
 			'slug'       => 'local-seo-for-wordpress',
-			'identifier' => 'yoast-local-seo',
+			'identifier' => 'wpseo-local-woocommerce',
 			'classname'  => 'WPSEO_Local_Core',
 		),
 	);
