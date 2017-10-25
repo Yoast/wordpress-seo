@@ -10,7 +10,6 @@ module.exports = {
 			"css/dist/dashboard-<%= pluginVersionSlug %>.css": [ "css/src/dashboard.scss" ],
 			"css/dist/edit-page-<%= pluginVersionSlug %>.css": [ "css/src/edit-page.scss" ],
 			"css/dist/featured-image-<%= pluginVersionSlug %>.css": [ " css/src/featured-image.scss" ],
-			"css/dist/help-center-<%= pluginVersionSlug %>.css": [ "css/src/help-center.scss" ],
 			"css/dist/inside-editor-<%= pluginVersionSlug %>.css": [ "css/src/inside-editor.scss" ],
 			"css/dist/metabox-<%= pluginVersionSlug %>.css": [ "css/src/metabox.scss" ],
 			"css/dist/metabox-primary-category-<%= pluginVersionSlug %>.css": [ "css/src/metabox-primary-category.scss" ],
