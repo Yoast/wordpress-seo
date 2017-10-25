@@ -80,7 +80,7 @@ else {
 		$tool_pages[] = 'file-editor';
 	}
 
-	if ( in_array( $tool_page, $tool_pages ) ) {
+	if ( in_array( $tool_page, $tool_pages, true ) ) {
 		require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
 	}
 }

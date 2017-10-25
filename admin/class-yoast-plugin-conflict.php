@@ -93,7 +93,7 @@ class Yoast_Plugin_Conflict {
 			$sections_checked = array();
 		}
 
-		if ( ! in_array( $plugin_section, $sections_checked ) ) {
+		if ( ! in_array( $plugin_section, $sections_checked, true ) ) {
 			$sections_checked[] = $plugin_section;
 			$has_conflicts      = ( ! empty( $this->active_plugins[ $plugin_section ] ) );
 
@@ -266,7 +266,7 @@ class Yoast_Plugin_Conflict {
 	 * @return bool
 	 */
 	protected function check_plugin_is_active( $plugin ) {
-		return in_array( $plugin, $this->all_active_plugins );
+		return in_array( $plugin, $this->all_active_plugins, true );
 	}
 
 	/**
@@ -284,7 +284,7 @@ class Yoast_Plugin_Conflict {
 			$this->active_plugins[ $plugin_section ] = array();
 		}
 
-		if ( ! in_array( $plugin, $this->active_plugins[ $plugin_section ] ) ) {
+		if ( ! in_array( $plugin, $this->active_plugins[ $plugin_section ], true ) ) {
 			$this->active_plugins[ $plugin_section ][] = $plugin;
 		}
 	}
@@ -301,7 +301,7 @@ class Yoast_Plugin_Conflict {
 	protected function find_plugin_category( $plugin ) {
 
 		foreach ( $this->plugins as $plugin_section => $plugins ) {
-			if ( in_array( $plugin, $plugins ) ) {
+			if ( in_array( $plugin, $plugins, true ) ) {
 				return $plugin_section;
 			}
 		}
@@ -313,7 +313,7 @@ class Yoast_Plugin_Conflict {
 	 */
 	private function remove_deactivated_plugin() {
 		$deactivated_plugin = filter_input( INPUT_GET, 'plugin' );
-		$key_to_remove      = array_search( $deactivated_plugin, $this->all_active_plugins );
+		$key_to_remove      = array_search( $deactivated_plugin, $this->all_active_plugins, true );
 
 		if ( $key_to_remove !== false ) {
 			unset( $this->all_active_plugins[ $key_to_remove ] );

@@ -145,7 +145,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$cpts    = get_post_types( array( 'public' => true ), 'names' );
 			$options = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts ) === false );
+			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts, true ) === false );
 		}
 		return false;
 	}

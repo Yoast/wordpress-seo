@@ -238,7 +238,7 @@ class WPSEO_Taxonomy_Columns {
 			$custom_taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 			$options           = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options[ 'hideeditbox-tax-' . $taxonomy ] ) && $options[ 'hideeditbox-tax-' . $taxonomy ] === true ) || in_array( $taxonomy, $custom_taxonomies ) === false );
+			return ( ( isset( $options[ 'hideeditbox-tax-' . $taxonomy ] ) && $options[ 'hideeditbox-tax-' . $taxonomy ] === true ) || in_array( $taxonomy, $custom_taxonomies, true ) === false );
 		}
 
 		return false;
