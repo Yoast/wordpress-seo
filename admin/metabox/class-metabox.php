@@ -569,7 +569,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$placeholder = $meta_field_def['placeholder'];
 		}
 
-		$aria_describedby = $description = '';
+		$aria_describedby = '';
+		$description      = '';
 		if ( isset( $meta_field_def['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $esc_form_key . '-desc"';
 			$description      = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
@@ -725,7 +726,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$label = '<label for="' . $esc_form_key . '">' . $title . '</label>';
 
 			// Set the inline help and help panel, if any.
-			$help_button = $help_panel = '';
+			$help_button = '';
+			$help_panel  = '';
 			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
 				$help        = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
 				$help_button = $help->get_button_html();

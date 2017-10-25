@@ -159,7 +159,8 @@ class WPSEO_GSC_Category_Filters {
 			$class .= ' current';
 		}
 
-		$help_button = $help_panel = '';
+		$help_button = '';
+		$help_panel  = '';
 		if ( $this->filter_values[ $category ]['description'] !== '' ) {
 			$help        = new WPSEO_Admin_Help_Panel( $category, $this->filter_values[ $category ]['help-button'], $this->filter_values[ $category ]['description'], 'has-wrapper' );
 			$help_button = $help->get_button_html();
