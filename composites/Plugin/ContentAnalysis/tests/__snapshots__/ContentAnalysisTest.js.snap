@@ -7,7 +7,13 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
   <div
     className="sc-jzJRlG ibMVYq"
   >
-    Your site language is set to English.
+    <span>
+      Your site language is set to 
+      <strong>
+        English
+      </strong>
+      .
+    </span>
     <a
       className="sc-cSHVUG fzxnjC"
       href="#"
