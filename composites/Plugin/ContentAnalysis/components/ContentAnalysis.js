@@ -179,17 +179,17 @@ class ContentAnalysis extends React.Component {
 					</AnalysisCollapsible>
 					: null }
 				{ improvementsResults.length > 0
-					? <AnalysisCollapsible title= { this.props.intl.formatMessage( messages.improvementsHeader ) }>
+					? <AnalysisCollapsible title={ this.props.intl.formatMessage( messages.improvementsHeader ) }>
 						{ this.getResults( improvementsResults ) }
 					</AnalysisCollapsible>
 					: null }
 				{ considerationsResults.length > 0
-					? <AnalysisCollapsible title= { this.props.intl.formatMessage( messages.considerationsHeader ) }>
+					? <AnalysisCollapsible title={ this.props.intl.formatMessage( messages.considerationsHeader ) }>
 						{ this.getResults( considerationsResults ) }
 					</AnalysisCollapsible>
 					: null }
 				{ goodResults.length > 0
-					? <AnalysisCollapsible title= {this.props.intl.formatMessage( messages.goodHeader ) }>
+					? <AnalysisCollapsible title={this.props.intl.formatMessage( messages.goodHeader ) }>
 						{ this.getResults( goodResults ) }
 					</AnalysisCollapsible>
 					: null }
@@ -212,9 +212,9 @@ ContentAnalysis.propTypes = {
 ContentAnalysis.defaultProps = {
 	problemsResults: [],
 	improvementsResults: [],
-	goodResults: false,
-	considerationsResults: false,
-	errorsResults: false,
+	goodResults: [],
+	considerationsResults: [],
+	errorsResults: [],
 };
 
 export default injectIntl( ContentAnalysis );
