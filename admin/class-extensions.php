@@ -64,7 +64,7 @@ class WPSEO_Extensions {
 	 * @param string $extension The extension to invalidate.
 	 */
 	public function invalidate( $extension ) {
-		delete_option( $this->get_option_name( $extension ) );
+		delete_site_option( $this->get_option_name( $extension ) );
 	}
 
 	/**
