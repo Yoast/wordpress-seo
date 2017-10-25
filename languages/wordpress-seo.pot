@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 5.7\n"
+"Project-Id-Version: Yoast SEO 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-10-24 09:51:59+00:00\n"
+"POT-Creation-Date: 2017-10-25 13:35:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -862,12 +862,12 @@ msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, %2$s expands to Advanced Custom
 #. Fields
-#: admin/class-plugin-availability.php:87
+#: admin/class-plugin-availability.php:92
 msgid "Seamlessly integrate %2$s with %1$s for the content analysis!"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/class-plugin-availability.php:106
+#: admin/class-plugin-availability.php:111
 msgid "Seamlessly integrate %1$s into your AMP pages!"
 msgstr ""
 
