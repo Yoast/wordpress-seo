@@ -32,7 +32,7 @@ class WPSEO_Extensions {
 		),
 		'Local SEO'             => array(
 			'slug'       => 'local-seo-for-wordpress',
-			'identifier' => 'wpseo-local-woocommerce',
+			'identifier' => 'wpseo-local',
 			'classname'  => 'WPSEO_Local_Core',
 		),
 	);
