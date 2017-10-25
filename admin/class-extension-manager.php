@@ -64,7 +64,7 @@ class WPSEO_Extension_Manager {
 
 	/**
 	 * Checks if the plugin is activated.
-
+	 *
 	 * @param string $extension_name The extension name to check.
 	 *
 	 * @return bool True when the plugin is activated.
