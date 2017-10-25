@@ -580,7 +580,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content_analysis_active = $this->options['content_analysis_active'];
 				$keyword_analysis_active = $this->options['keyword_analysis_active'];
 
-				if( $content_analysis_active === false && $keyword_analysis_active === false ) {
+				if ( $content_analysis_active === false && $keyword_analysis_active === false ) {
 				    break;
                 }
 
