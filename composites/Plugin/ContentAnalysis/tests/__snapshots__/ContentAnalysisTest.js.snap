@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the AnalysisResult component matches the snapshot 1`] = `
+exports[`the ContentAnalysis component matches the snapshot 1`] = `
 <div
   className="sc-fjdhpX ekEfiG"
 >
   <div
-    className="sc-jzJRlG kTKuEa"
+    className="sc-jzJRlG ibMVYq"
   >
     Your site language is set to English.
     <a

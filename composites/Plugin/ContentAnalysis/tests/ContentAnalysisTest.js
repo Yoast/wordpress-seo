@@ -2,7 +2,7 @@ import React from "react";
 import { createComponentWithIntl } from "../../../../utils/intlProvider";
 import ContentAnalysis from "../components/ContentAnalysis.js";
 
-test( "the AnalysisResult component matches the snapshot", () => {
+test( "the ContentAnalysis component matches the snapshot", () => {
 	const problemsResults = [
 		{
 			text: "Your text is bad, and you should feel bad.",
