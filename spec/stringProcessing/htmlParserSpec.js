@@ -16,12 +16,6 @@ describe( "A function to remove the entire HTML style/script tag block.", functi
 	it( "removes the script block when there is a type", function() {
 		expect( htmlParser( "<script type='text/javascript'>test</script>") ).toEqual("");
 	} )
-	it( "filters an entire code block", function() {
-		expect( htmlParser( "<code>Test</code>" ) ).toEqual( "" );
-	})
-	it( "filters out all code blocks", function() {
-		expect(htmlParser("Hi, this is a <code>Test</code>test.")).toEqual("Hi, this is a test.");
-	} )
 	it( "doesn't remove a div block", function() {
 		expect( htmlParser( "<div class='hello'>Hello</div>" ) ).toEqual( "<div class='hello'>Hello</div>" );
 	} )
