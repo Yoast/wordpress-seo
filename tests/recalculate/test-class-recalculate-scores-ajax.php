@@ -1,12 +1,17 @@
 <?php
+/**
+ * @package WPSEO\Tests\Recalculate
+ */
 
 /**
- * @package WPSEO\Unittests
+ * Unit Test Class.
  */
 class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 
+	/** @var \WPSEO_Recalculate_Scores_Ajax Class instance. */
 	private $instance;
 
+	/** @var array test posts. */
 	private $posts = array();
 
 	/**
@@ -43,7 +48,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Override die handler for test_get_total()
 	 *
-	 * @param $response
+	 * @param mixed $response Fake response.
 	 *
 	 * @return array Callable handler for wp_die
 	 */
@@ -83,7 +88,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Override die handler for test_get_total_with_posts()
 	 *
-	 * @param $response
+	 * @param mixed $response Fake response.
 	 *
 	 * @return array Callable handler for wp_die
 	 */

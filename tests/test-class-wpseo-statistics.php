@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
 /**
@@ -13,6 +13,9 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 */
 	protected $instance;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 

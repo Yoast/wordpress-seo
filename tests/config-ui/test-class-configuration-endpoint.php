@@ -1,30 +1,7 @@
 <?php
 /**
- * @package WPSEO\UnitTests
+ * @package WPSEO\Tests\ConfigUI
  */
-
-/**
- * Class WPSEO_Configuration_Endpoint_Mock
- */
-class WPSEO_Configuration_Endpoint_Mock extends WPSEO_Configuration_Endpoint {
-	public function get_service() {
-		return $this->service;
-	}
-}
-
-if ( class_exists( 'WP_REST_Server' ) ) :
-	/**
-	 * Class WPSEO_WP_REST_Server_Mock
-	 */
-	class WPSEO_WP_REST_Server_Mock extends WP_REST_Server {
-		/**
-		 * @return array
-		 */
-		public function get_endpoints() {
-			return $this->endpoints;
-		}
-	}
-endif;
 
 /**
  * Class WPSEO_Configuration_Endpoint_Test
@@ -32,6 +9,16 @@ endif;
 class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	/** @var WPSEO_Configuration_Endpoint_Mock */
 	protected $endpoint;
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-endpoint-mock.php';
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-wp-rest-server-mock.php';
+	}
 
 	/**
 	 * Set up

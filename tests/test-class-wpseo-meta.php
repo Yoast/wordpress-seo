@@ -1,8 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -30,9 +33,9 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 'test_get_value_value', WPSEO_Meta::get_value( 'test_get_value_key' ) );
 
-		// TODO test for defaults
+		// @todo Test for defaults.
 
-		// TODO test if non-existing keys return an empty string
+		// @todo Test if non-existing keys return an empty string.
 	}
 
 	/**
@@ -93,19 +96,19 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_array_merge_recursive_distinct() {
 
-		$inputArray1 = array(
+		$input_array1 = array(
 			'one' => array(
 				'one-one' => array(),
 			),
 		);
 
-		$inputArray2 = array(
+		$input_array2 = array(
 			'one' => array(
 				'one-one' => 'string',
 			),
 		);
 
-		$output = WPSEO_Meta::array_merge_recursive_distinct( $inputArray1, $inputArray2 );
+		$output = WPSEO_Meta::array_merge_recursive_distinct( $input_array1, $input_array2 );
 		$this->assertEquals( $output['one']['one-one'], 'string' );
 	}
 

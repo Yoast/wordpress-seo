@@ -1,25 +1,7 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests\ConfigUI
  */
-
-/**
- * Class WPSEO_Configuration_Service_Mock
- */
-class WPSEO_Configuration_Service_Mock extends WPSEO_Configuration_Service {
-	/**
-	 * @param string $item Property to get.
-	 *
-	 * @return null|mixed
-	 */
-	public function get( $item ) {
-		if ( isset( $this->{$item} ) ) {
-			return $this->{$item};
-		}
-
-		return null;
-	}
-}
 
 /**
  * Class WPSEO_Configuration_Service_Test
@@ -28,6 +10,15 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 
 	/** @var WPSEO_Configuration_Service instance */
 	protected $configuration_service;
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-service-mock.php';
+	}
 
 	/**
 	 * Preparation

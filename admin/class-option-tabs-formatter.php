@@ -31,7 +31,7 @@ class WPSEO_Option_Tabs_Formatter {
 		}
 		echo '</h2>';
 
-		$help_center = new WPSEO_Help_Center( '', $option_tabs );
+		$help_center = new WPSEO_Help_Center( '', $option_tabs, WPSEO_Utils::is_yoast_seo_premium() );
 		$help_center->localize_data();
 		$help_center->mount();
 
