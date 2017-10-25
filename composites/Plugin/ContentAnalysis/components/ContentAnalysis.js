@@ -4,7 +4,7 @@ import colors from "../../../../style-guide/colors.json";
 import PropTypes from "prop-types";
 import util from "util";
 
-import { injectIntl, intlShape, defineMessages } from "react-intl";
+import { injectIntl, intlShape, defineMessages, FormattedMessage } from "react-intl";
 import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 import AnalysisResult from "../components/AnalysisResult.js";
 import AnalysisCollapsible from "../components/AnalysisCollapsible.js";
@@ -32,7 +32,7 @@ const ChangeLanguageLink = makeOutboundLink( styled.a`
 const messages = defineMessages( {
 	languageNotice: {
 		id: "content-analysis.language-notice",
-		defaultMessage: "Your site language is set to %s.",
+		defaultMessage: "Your site language is set to {language}.",
 	},
 	languageNoticeLink: {
 		id: "content-analysis.language-notice-link",
@@ -160,7 +160,10 @@ class ContentAnalysis extends React.Component {
 		return (
 			<ContentAnalysisContainer>
 				<LanguageNotice>
-					{ util.format( this.props.intl.formatMessage( messages.languageNotice ), this.props.language ) }
+					<FormattedMessage
+						id={ messages.languageNotice.id }
+						defaultMessage={ messages.languageNotice.defaultMessage }
+						values={ { language: <strong>{ this.props.language }</strong> } }/>
 					<ChangeLanguageLink href={ this.props.changeLanguageLink }>
 						{ this.props.intl.formatMessage( messages.languageNoticeLink ) }
 					</ChangeLanguageLink>
