@@ -35,10 +35,6 @@ class WPSEO_Taxonomy {
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 
-		$this->insert_description_field_editor();
-
-		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
-
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
@@ -56,6 +52,10 @@ class WPSEO_Taxonomy {
 		if ( empty( $taxonomy ) || empty( $taxonomy->public ) || ! $this->show_metabox() ) {
 			return;
 		}
+
+		$this->insert_description_field_editor();
+
+		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 
 		add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -182,11 +182,6 @@ class WPSEO_Taxonomy {
 	 * Output the WordPress editor.
 	 */
 	public function custom_category_description_editor() {
-
-		if ( ! $this->show_metabox() ) {
-			return;
-		}
-
 		wp_editor( '', 'description' );
 	}
 
