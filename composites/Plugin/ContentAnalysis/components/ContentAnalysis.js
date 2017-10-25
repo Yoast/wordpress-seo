@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import colors from "../../../../style-guide/colors.json";
 import PropTypes from "prop-types";
-import util from "util";
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from "react-intl";
 import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
