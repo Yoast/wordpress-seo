@@ -67,7 +67,7 @@ class WPSEO_Plugin_Availability {
 			),
 
 			'yoast-woocommerce-seo' => array(
-				'url'          => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/',
+				'url'          => WPSEO_Shortlinker::get( 'https://yoa.st/1o0' ),
 				'title'        => 'Yoast WooCommerce SEO',
 				'description'  => sprintf(
 					/* translators: %1$s expands to Yoast SEO */
