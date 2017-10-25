@@ -158,7 +158,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 				case 'company_or_person':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-						if ( in_array( $dirty[ $key ], array( 'company', 'person' ) ) ) {
+						if ( in_array( $dirty[ $key ], array( 'company', 'person' ), true ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 					}

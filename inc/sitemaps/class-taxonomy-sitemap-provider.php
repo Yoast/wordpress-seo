@@ -253,7 +253,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		if ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu' ) ) ) {
+		if ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu' ), true ) ) {
 			return false;
 		}
 
