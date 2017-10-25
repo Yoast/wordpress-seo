@@ -64,6 +64,16 @@ class WPSEO_Extensions {
 	 * @param string $extension The extension to invalidate.
 	 */
 	public function invalidate( $extension ) {
+		/*
+		 * Make sure we clear the current site and multisite options.
+		 *
+		 * Because plugins can be site-activated or multi-site activated we need to clear
+		 * all possible options.
+		 *
+		 * If we knew here that the extension in question was network activated
+		 * we could do this a lot more easily.
+		 */
+		delete_option( $this->get_option_name( $extension ) );
 		delete_site_option( $this->get_option_name( $extension ) );
 	}
 
