@@ -1,4 +1,7 @@
-### 5.7.0: October 24th, 2017 
+### 5.7.1: October 25th, 2017
+* Prefixes `$redirect_handler` as `$wpseo_redirect_handler` as this is globally available.
+
+### 5.7.0: October 24th, 2017
 * Improved the copy of the notice that will be displayed when a post has been stored from the trash.
 * Fixes a bug by removing the accessibility check of a redirect target for regular expression redirects because these are likely to be dynamic.
 * Fixes a bug in the redirect search where the search string that starts or ends with a slash doesn't match with an expected result.
