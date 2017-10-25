@@ -66,6 +66,13 @@ const messages = defineMessages( {
  * @returns {ReactElement} The ContentAnalysis component.
  */
 class ContentAnalysis extends React.Component {
+	/**
+	 * The constructor
+	 *
+	 * @param {object} props The component props.
+	 *
+	 * @returns {void}
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -74,6 +81,13 @@ class ContentAnalysis extends React.Component {
 		};
 	}
 
+	/**
+	 * Handles button clicks. Makes sure no more than one button can be active at the same time.
+	 *
+	 * @param {string} id The button id.
+	 *
+	 * @returns {void}
+	 */
 	handleClick( id ) {
 		if ( id === this.state.checked ) {
 			this.setState( {
@@ -87,6 +101,13 @@ class ContentAnalysis extends React.Component {
 		} );
 	}
 
+	/**
+	 * Gets the color for the bullet, based on the rating.
+	 *
+	 * @param {string} rating The rating of the result.
+	 *
+	 * @returns {string} The color for the bullet.
+	 */
 	getColor( rating ) {
 		switch ( rating ) {
 			case "good":
@@ -100,6 +121,13 @@ class ContentAnalysis extends React.Component {
 		}
 	}
 
+	/**
+	 * Returns an AnalysisResult component for each result.
+	 *
+	 * @param {array} results The analysis results.
+	 *
+	 * @returns {array} A list of AnalysisResult components.
+	 */
 	getResults( results ) {
 		return results.map( ( result ) => {
 			let color = this.getColor( result.rating );
@@ -116,6 +144,11 @@ class ContentAnalysis extends React.Component {
 		} );
 	}
 
+	/**
+	 * Renders a ContentAnalysis component.
+	 *
+	 * @returns {ReactElement} The rendered ContentAnalysis component.
+	 */
 	render() {
 		let problemsResults = this.props.problemsResults;
 		let improvementsResults = this.props.improvementsResults;

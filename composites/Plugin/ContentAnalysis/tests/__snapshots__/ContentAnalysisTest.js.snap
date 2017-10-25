@@ -105,14 +105,14 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
         </p>
         <button
           aria-label="highlight this result in the text"
-          aria-pressed={true}
-          className="sc-bwzfXH fRSVfl"
+          aria-pressed={false}
+          className="sc-bwzfXH iSOXYD"
           id="1"
           onClick={[Function]}
         >
           <svg
             aria-hidden="true"
-            className="sc-ckVGcZ bEepzL"
+            className="sc-ckVGcZ fSBahx"
             focusable="false"
             role="img"
           />
