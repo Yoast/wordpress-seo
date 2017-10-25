@@ -2,6 +2,7 @@ let getSentences = require( "../stringProcessing/getSentences.js" );
 let getWords = require( "../stringProcessing/getWords.js" );
 let stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 let stripTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
+var stripTagsPlusContent = require ( "../stringProcessing/stripHTMLTags.js" ).stripTagsPlusContent;
 let getFirstWordExceptions = require( "../helpers/getFirstWordExceptions.js" );
 
 let isEmpty = require( "lodash/isEmpty" );
@@ -96,7 +97,9 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
  * @returns {Object} The object containing the first word of each sentence and the corresponding counts.
  */
 module.exports = function( paper ) {
-	let sentences = getSentences( paper.getText() );
+	let text = paper.getText();
+	text = stripTagsPlusContent( text );
+	let sentences = getSentences( text );
 	let firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
 
 	let sentenceBeginnings = sentences.map( function( sentence ) {

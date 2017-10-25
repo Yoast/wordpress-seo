@@ -1,5 +1,6 @@
 var getSentences = require( "../stringProcessing/getSentences" );
 var sentencesLength = require( "./../stringProcessing/sentencesLength.js" );
+var stripTagsPlusContent = require( "./../stringProcessing/stripHTMLTags.js" ).stripTagsPlusContent;
 
 /**
  * Count sentences in the text.
@@ -7,6 +8,8 @@ var sentencesLength = require( "./../stringProcessing/sentencesLength.js" );
  * @returns {Array} The sentences from the text.
  */
 module.exports = function( paper ) {
-	var sentences = getSentences( paper.getText() );
+	var text = paper.getText();
+	text = stripTagsPlusContent( text );
+	var sentences = getSentences( text );
 	return sentencesLength( sentences );
 };
