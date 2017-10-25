@@ -577,6 +577,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
+				$content_analysis_active = $this->options['content_analysis_active'];
+				$keyword_analysis_active = $this->options['keyword_analysis_active'];
+
+				if( $content_analysis_active === false && $keyword_analysis_active === false ) {
+				    break;
+                }
+
 				$content .= '<div id="pageanalysis">';
 				$content .= '<section class="yoast-section" id="wpseo-pageanalysis-section">';
 				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">' . __( 'Analysis', 'wordpress-seo' ) . '</h3>';
