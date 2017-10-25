@@ -74,6 +74,11 @@ class WPSEO_Plugin_Availability {
 					__( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ),
 					'Yoast SEO'
 				),
+				'_dependencies' => array(
+					'WooCommerce' => array(
+						'slug' => 'woocommerce/woocommerce.php',
+					),
+				),
 				'installed'    => false,
 				'slug'         => 'wpseo-woocommerce/wpseo-woocommerce.php',
 				'version_sync' => true,
