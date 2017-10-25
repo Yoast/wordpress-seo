@@ -215,12 +215,14 @@ function wpseo_display_contributors( $contributors ) {
 		</p>
 
 		<ol>
-			<li><a target="_blank" href="https://wordpress.org/plugins/yoast-seo-acf-analysis/">Yoast ACF
-					Integration</a> - an integration built by <a href="https://forsberg.ax">Marcus Forsberg</a> and Team
-				Yoast
+			<li><a href="https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/" target="_blank" rel="noreferrer noopener">Yoast ACF
+					Integration</a> - an integration built by <a href="https://forsberg.ax" target="_blank" rel="noreferrer noopener">Marcus Forsberg</a>,
+				<a href="http://kraftner.com/" target="_blank" rel="noreferrer noopener">Thomas Kräftner</a>,
+				<a href="https://angrycreative.se/" target="_blank" rel="noreferrer noopener">Angry Creative</a>
+				and Team Yoast
 			</li>
-			<li><a target="_blank" href="https://www.elegantthemes.com/plugins/divi-builder/">Divi Builder</a></li>
-			<li><a target="_blank" href="https://vc.wpbakery.com/">Visual Composer</a></li>
+			<li><a href="https://www.elegantthemes.com/plugins/divi-builder/" target="_blank" rel="noreferrer noopener">Divi Builder</a></li>
+			<li><a href="https://vc.wpbakery.com/" target="_blank" rel="noreferrer noopener">Visual Composer</a></li>
 		</ol>
 
 		<h3>Other integrations</h3>
@@ -229,13 +231,9 @@ function wpseo_display_contributors( $contributors ) {
 		</p>
 
 		<ol>
-			<li><a target="_blank" href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/">Glue for Yoast SEO &amp;
-					AMP</a> - an integration between <a href="https://wordpress.org/plugins/amp/">the WordPress AMP
+			<li><a href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/" target="_blank" rel="noreferrer noopener">Glue for Yoast SEO &amp;
+					AMP</a> - an integration between <a href="https://wordpress.org/plugins/amp/" target="_blank" rel="noreferrer noopener">the WordPress AMP
 					plugin</a> and Yoast SEO.
-			</li>
-			<li>
-				<a target="_blank" href="https://wordpress.org/plugins/fb-instant-articles/">Instant Articles for WP</a>
-				- Enable Instant Articles for Facebook on your WordPress site and integrates with Yoast SEO.
 			</li>
 		</ol>
 	</div>
