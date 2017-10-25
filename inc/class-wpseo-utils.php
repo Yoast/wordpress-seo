@@ -836,7 +836,7 @@ class WPSEO_Utils {
 			'wpseo_licenses',
 		);
 
-		return in_array( $current_page, $yoast_seo_free_pages );
+		return in_array( $current_page, $yoast_seo_free_pages, true );
 	}
 
 	/**

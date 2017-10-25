@@ -1,32 +1,24 @@
 <?php
+/**
+ * @package WPSEO\Tests\Capabilities
+ */
 
-class WPSEO_Capability_Manager_Test extends WPSEO_Abstract_Capability_Manager {
-	/**
-	 * Adds the registerd capabilities to the system.
-	 */
-	public function add() {
-
-	}
-
-	/**
-	 * Removes the registered capabilities from the system
-	 */
-	public function remove() {
-
-	}
-
-	public function get_registered_capabilities() {
-		return $this->capabilities;
-	}
-
-	public function filter_roles( $capability, array $roles ) {
-		return parent::filter_roles( $capability, $roles );
-	}
-}
-
+/**
+ * Unit Test Class.
+ */
 class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-capability-manager-double.php';
+	}
+
 	public function test_register() {
-		$instance = new WPSEO_Capability_Manager_Test();
+		$instance = new WPSEO_Capability_Manager_Double();
 
 		$this->assertNotContains( 'capability', $instance->get_capabilities() );
 
@@ -39,7 +31,7 @@ class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_register_overwrite() {
-		$instance = new WPSEO_Capability_Manager_Test();
+		$instance = new WPSEO_Capability_Manager_Double();
 
 		$instance->register( 'capability', array( 'role1' ) );
 		$instance->register( 'capability', array( 'role2' ), true );
@@ -52,7 +44,7 @@ class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_register_add() {
-		$instance = new WPSEO_Capability_Manager_Test();
+		$instance = new WPSEO_Capability_Manager_Double();
 
 		$instance->register( 'capability', array( 'role1' ) );
 		$instance->register( 'capability', array( 'role2' ) );
@@ -65,7 +57,7 @@ class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_filter_roles() {
-		$instance = new WPSEO_Capability_Manager_Test();
+		$instance = new WPSEO_Capability_Manager_Double();
 
 		add_filter( 'capability_roles', array( $this, 'do_filter_roles' ) );
 

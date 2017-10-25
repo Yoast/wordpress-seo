@@ -210,6 +210,7 @@ ul.wpseo-metabox-tabs li {
 
 #wpseo_meta .inside {
 	margin: 0;
+	overflow: hidden;
 }
 
 #wpseo_meta .postbox .inside .wpseotab {
@@ -781,6 +782,34 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 			svg {
 				margin: 0 13px;
 			}
+		}
+	}
+}
+
+// Override styling on taxonomy pages to disable responsiveness larger than tablet width.
+#edittag {
+	.yoast-video-tutorial__video-container {
+		float: none;
+		max-width: 100%;
+		margin: 0 auto;
+	}
+	.yoast-video-tutorial__descriptions {
+		margin: 0 auto;
+		padding: 0;
+	}
+}
+
+// Override styling on post edit page, to extend min-width because of sidebar.
+#poststuff {
+	@media screen and (max-width: 1480px) {
+		.yoast-video-tutorial__video-container {
+			float: none;
+			max-width: 100%;
+			margin: 0 auto;
+		}
+		.yoast-video-tutorial__descriptions {
+			margin: 0 auto;
+			padding: 0;
 		}
 	}
 }

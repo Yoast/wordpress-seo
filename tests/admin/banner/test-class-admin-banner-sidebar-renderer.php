@@ -1,10 +1,19 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Banner
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Banner_Sidebar_Renderer_Test extends WPSEO_UnitTestCase {
 
 	/** @var  WPSEO_Admin_Banner_Sidebar */
 	protected $sidebar;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->sidebar = new WPSEO_Admin_Banner_Sidebar( 'test_title', new WPSEO_Admin_Banner_Renderer() );
@@ -12,7 +21,7 @@ class WPSEO_Admin_Banner_Sidebar_Renderer_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 *
+	 * Test Banner rendering.
 	 */
 	public function test_render() {
 

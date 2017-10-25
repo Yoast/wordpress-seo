@@ -102,6 +102,7 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();
 		$integrations[] = new WPSEO_Slug_Change_Watcher();
+		$integrations[] = new WPSEO_Capability_Manager_Integration( WPSEO_Capability_Manager_Factory::get() );
 		$integrations = array_merge( $integrations, $this->initialize_seo_links() );
 
 		/** @var WPSEO_WordPress_Integration $integration */
@@ -508,14 +509,7 @@ class WPSEO_Admin {
 
 		$link_table_accessible_notifier->remove_notification();
 
-		$storage       = new WPSEO_Link_Storage();
-		$count_storage = new WPSEO_Meta_Storage();
-
-		$integrations[] = new WPSEO_Link_Watcher(
-			new WPSEO_Link_Content_Processor( $storage, $count_storage )
-		);
-
-		$integrations[] = new WPSEO_Link_Columns( $count_storage );
+		$integrations[] = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
 		$integrations[] = new WPSEO_Link_Reindex_Dashboard();
 		$integrations[] = new WPSEO_Link_Notifier();
 

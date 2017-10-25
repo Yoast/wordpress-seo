@@ -3172,6 +3172,10 @@ growly@^1.2.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
 
+grunt-babel@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/grunt-babel/-/grunt-babel-7.0.0.tgz#13c90c01f154dec214e0eeb5d66ac7c70cedf2d3"
+
 grunt-browserify@^5.0.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/grunt-browserify/-/grunt-browserify-5.2.0.tgz#37ae44fbdc75f7d81e9725264e11b05e62537c46"
@@ -7897,9 +7901,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-"yoast-components@https://github.com/Yoast/yoast-components#stories/add-set-seo-results-for-keyword-action":
+yoast-components@2.10.3:
   version "2.10.3"
-  resolved "https://github.com/Yoast/yoast-components#e20143f5b55ff37784d74d5a30f4c6c120aafd72"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.10.3.tgz#9bdd92cb95a37915febf844ca86f82b8e5c997a1"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     algoliasearch "^3.22.3"
@@ -7921,10 +7925,12 @@ yauzl@^2.2.1:
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-"yoastseo@https://github.com/Yoast/YoastSEO.js#release/1.21":
-  version "1.20.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#b9385ae7d01e1070b23de88d72c22e25a88a9fc8"
+yoastseo@^1.22.4:
+  version "1.22.4"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.22.4.tgz#adafee55ed3b88bd1997e22faab760c492e9f37e"
   dependencies:
+    babel-core "^6.26.0"
+    grunt-babel "^7.0.0"
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
     lodash "^4.14.1"

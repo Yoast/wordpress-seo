@@ -118,7 +118,9 @@ h4 {
 }
 
 .yoast .search-box,
-.wpseo_content_wrapper .notice p {
+.wpseo_content_wrapper .notice p,
+.yoast-container .container,
+.yoast-alert p {
 	max-width: none;
 }
 

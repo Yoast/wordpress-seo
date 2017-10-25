@@ -344,7 +344,7 @@ class WPSEO_Admin_Init {
 			if ( $plugin['compatible'] === false ) {
 				$notification_center->add_notification( $notification );
 
-				return;
+				continue;
 			}
 
 			$notification_center->remove_notification( $notification );
@@ -475,7 +475,7 @@ class WPSEO_Admin_Init {
 	 * Loads admin page class for all admin pages starting with `wpseo_`.
 	 */
 	private function load_admin_user_class() {
-		if ( in_array( $this->pagenow, array( 'user-edit.php', 'profile.php' ) ) && current_user_can( 'edit_users' ) ) {
+		if ( in_array( $this->pagenow, array( 'user-edit.php', 'profile.php' ), true ) && current_user_can( 'edit_users' ) ) {
 			new WPSEO_Admin_User_Profile();
 		}
 	}

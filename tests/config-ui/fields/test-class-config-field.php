@@ -1,25 +1,21 @@
 <?php
 /**
- * @package WPSEO\UnitTests
+ * @package WPSEO\Tests\ConfigUI\Fields
  */
-
-/**
- * Class WPSEO_Config_Field_
- */
-class WPSEO_Config_Field_ extends WPSEO_Config_Field {
-
-	/**
-	 * @param $data
-	 */
-	public function set_data( $data ) {
-		$this->data = $data;
-	}
-}
 
 /**
  * Class WPSEO_Config_Field_Test
  */
 class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-config-field-double.php';
+	}
 
 	/**
 	 * @covers WPSEO_Config_Field::__construct()
@@ -31,7 +27,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 		$identifier = 'i';
 		$component  = 'c';
 
-		$field = new WPSEO_Config_Field_( $identifier, $component );
+		$field = new WPSEO_Config_Field_Double( $identifier, $component );
 
 		$this->assertEquals( $identifier, $field->get_identifier() );
 		$this->assertEquals( $component, $field->get_component() );
@@ -45,7 +41,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 		$property       = 'p';
 		$property_value = 'pv';
 
-		$field = new WPSEO_Config_Field_( 'a', 'b' );
+		$field = new WPSEO_Config_Field_Double( 'a', 'b' );
 		$field->set_property( $property, $property_value );
 
 		$properties = $field->get_properties();
@@ -62,7 +58,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	public function test_get_data() {
 		$data = 'test';
 
-		$field = new WPSEO_Config_Field_( 'a', 'b' );
+		$field = new WPSEO_Config_Field_Double( 'a', 'b' );
 		$field->set_data( $data );
 
 		$this->assertEquals( $data, $field->get_data() );

@@ -173,8 +173,7 @@ class WPSEO_Help_Center {
 		$popup_content .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '</ul>';
 
-		$premium_popup = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content );
-
+		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content, WPSEO_Shortlinker::get( 'https://yoa.st/contact-support' ) );
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
 			__( 'Get support', 'wordpress-seo' ),
