@@ -29,10 +29,6 @@ const ChangeLanguageLink = makeOutboundLink( styled.a`
 ` );
 
 const messages = defineMessages( {
-	languageNotice: {
-		id: "content-analysis.language-notice",
-		defaultMessage: "Your site language is set to {language}.",
-	},
 	languageNoticeLink: {
 		id: "content-analysis.language-notice-link",
 		defaultMessage:	"Change language",
@@ -160,9 +156,9 @@ class ContentAnalysis extends React.Component {
 			<ContentAnalysisContainer>
 				<LanguageNotice>
 					<FormattedMessage
-						id={ messages.languageNotice.id }
-						defaultMessage={ messages.languageNotice.defaultMessage }
-						values={ { language: <strong>{ this.props.language }</strong> } }/>
+						id="content-analysis.language-notice"
+						defaultMessage="Your site language is set to {language}."
+						values={ { language: <strong>{ this.props.language }</strong> } } />
 					<ChangeLanguageLink href={ this.props.changeLanguageLink }>
 						{ this.props.intl.formatMessage( messages.languageNoticeLink ) }
 					</ChangeLanguageLink>
