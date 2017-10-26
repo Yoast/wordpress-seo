@@ -2,17 +2,17 @@
 
 exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
 <div
-  className="sc-bZQynM fwTBJs"
+  className="sc-bZQynM iXyxsW"
 >
   <button
     aria-expanded={true}
-    className="sc-gzVnrw dLFwSb sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+    className="sc-gzVnrw ixBHgh sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
     onClick={[Function]}
     type="button"
   >
     <svg
       aria-hidden="true"
-      className="sc-gqjmRU dRmBjb sc-VigVT hHVnzr"
+      className="sc-fjdhpX fadKJT sc-jzJRlG bTTrWz"
       focusable="false"
       role="img"
     />
@@ -23,7 +23,7 @@ exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
     </span>
   </button>
   <ul
-    className="sc-dnqmqq fMZGyT"
+    className="sc-dnqmqq gRQMRU"
     role="list"
   >
     <li>
@@ -42,13 +42,42 @@ exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
 </div>
 `;
 
+exports[`the AnalysisCollapsible with a heading matches the snapshot 1`] = `
+<div
+  className="sc-bZQynM iXyxsW"
+>
+  <h2
+    className="sc-gqjmRU kWAqZI"
+  >
+    <button
+      aria-expanded={false}
+      className="sc-gzVnrw ixBHgh sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        className="sc-VigVT errXbw sc-jTzLTM haBLZ"
+        focusable="false"
+        role="img"
+      />
+      <span
+        className="sc-htoDjs grDYmx"
+      >
+        Problems (4)
+      </span>
+    </button>
+  </h2>
+</div>
+`;
+
 exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
 <div
-  className="sc-bZQynM fwTBJs"
+  className="sc-bZQynM iXyxsW"
 >
   <button
     aria-expanded={false}
-    className="sc-gzVnrw dLFwSb sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+    className="sc-gzVnrw ixBHgh sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
     onClick={[Function]}
     type="button"
   >

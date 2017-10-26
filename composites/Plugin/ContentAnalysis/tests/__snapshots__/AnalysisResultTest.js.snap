@@ -2,7 +2,7 @@
 
 exports[`the AnalysisResult component matches the snapshot 1`] = `
 <li
-  className="sc-bwzfXH hyoGES"
+  className="sc-bwzfXH kGIHaC"
 >
   <svg
     aria-hidden="true"
@@ -11,7 +11,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
     role="img"
   />
   <p
-    className="sc-bxivhb ejHQXZ"
+    className="sc-bxivhb aWDuI"
   >
     You're doing great!
   </p>
