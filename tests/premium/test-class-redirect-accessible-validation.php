@@ -21,7 +21,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'premium/helpers/class-redirect-accessible-validation-double.php';
+		require_once WPSEO_TESTS_PATH . 'premium/doubles/class-redirect-accessible-validation-double.php';
 	}
 
 	/**

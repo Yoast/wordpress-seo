@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Tests\Premium\Helpers
+ * @package WPSEO\Tests\Premium\Doubles
  */
 
 /**
