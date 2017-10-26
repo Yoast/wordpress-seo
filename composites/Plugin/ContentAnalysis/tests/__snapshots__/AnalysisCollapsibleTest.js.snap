@@ -46,24 +46,28 @@ exports[`the AnalysisCollapsible with a heading matches the snapshot 1`] = `
 <div
   className="sc-bZQynM iXyxsW"
 >
-  <button
-    aria-expanded={false}
-    className="sc-gzVnrw ixBHgh sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
-    onClick={[Function]}
-    type="button"
+  <h2
+    className="sc-VigVT ehrPw"
   >
-    <svg
-      aria-hidden="true"
-      className="sc-jTzLTM hwiuqB sc-fjdhpX YZzdr"
-      focusable="false"
-      role="img"
-    />
-    <span
-      className="sc-htoDjs grDYmx"
+    <button
+      aria-expanded={false}
+      className="sc-gzVnrw ixBHgh sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+      onClick={[Function]}
+      type="button"
     >
-      Problems (4)
-    </span>
-  </button>
+      <svg
+        aria-hidden="true"
+        className="sc-jTzLTM hwiuqB sc-fjdhpX YZzdr"
+        focusable="false"
+        role="img"
+      />
+      <span
+        className="sc-htoDjs grDYmx"
+      >
+        Problems (4)
+      </span>
+    </button>
+  </h2>
 </div>
 `;
 

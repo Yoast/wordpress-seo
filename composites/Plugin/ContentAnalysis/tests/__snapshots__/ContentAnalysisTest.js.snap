@@ -31,24 +31,28 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
   <div
     className="sc-gZMcBi liHqSy"
   >
-    <button
-      aria-expanded={true}
-      className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-      onClick={[Function]}
-      type="button"
+    <h2
+      className="sc-kAzzGY jfssM"
     >
-      <svg
-        aria-hidden="true"
-        className="sc-chPdSV hbfLss sc-kgoBCf ePqMlV"
-        focusable="false"
-        role="img"
-      />
-      <span
-        className="sc-VigVT bGMrIs"
+      <button
+        aria-expanded={true}
+        className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
       >
-        Errors (1)
-      </span>
-    </button>
+        <svg
+          aria-hidden="true"
+          className="sc-chPdSV hbfLss sc-kgoBCf ePqMlV"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Errors (1)
+        </span>
+      </button>
+    </h2>
     <ul
       className="sc-jTzLTM cTbfwU"
       role="list"
@@ -73,24 +77,28 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
   <div
     className="sc-gZMcBi liHqSy"
   >
-    <button
-      aria-expanded={true}
-      className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-      onClick={[Function]}
-      type="button"
+    <h2
+      className="sc-kpOJdX frsbin"
     >
-      <svg
-        aria-hidden="true"
-        className="sc-dxgOiQ kJTTdB sc-ckVGcZ kpGfBi"
-        focusable="false"
-        role="img"
-      />
-      <span
-        className="sc-VigVT bGMrIs"
+      <button
+        aria-expanded={true}
+        className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
       >
-        Problems (1)
-      </span>
-    </button>
+        <svg
+          aria-hidden="true"
+          className="sc-dxgOiQ kJTTdB sc-ckVGcZ kpGfBi"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Problems (1)
+        </span>
+      </button>
+    </h2>
     <ul
       className="sc-jTzLTM cTbfwU"
       role="list"
@@ -129,68 +137,80 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
   <div
     className="sc-gZMcBi liHqSy"
   >
-    <button
-      aria-expanded={false}
-      className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-      onClick={[Function]}
-      type="button"
+    <h2
+      className="sc-hMqMXs cGcDev"
     >
-      <svg
-        aria-hidden="true"
-        className="sc-kEYyzF jvMdMW sc-kkGfuU hUQWkd"
-        focusable="false"
-        role="img"
-      />
-      <span
-        className="sc-VigVT bGMrIs"
+      <button
+        aria-expanded={false}
+        className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
       >
-        Improvements (1)
-      </span>
-    </button>
+        <svg
+          aria-hidden="true"
+          className="sc-kEYyzF jvMdMW sc-kkGfuU hUQWkd"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Improvements (1)
+        </span>
+      </button>
+    </h2>
   </div>
   <div
     className="sc-gZMcBi liHqSy"
   >
-    <button
-      aria-expanded={false}
-      className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-      onClick={[Function]}
-      type="button"
+    <h2
+      className="sc-iAyFgw edUwHZ"
     >
-      <svg
-        aria-hidden="true"
-        className="sc-hSdWYo kTOVeH sc-eHgmQL gJqaLD"
-        focusable="false"
-        role="img"
-      />
-      <span
-        className="sc-VigVT bGMrIs"
+      <button
+        aria-expanded={false}
+        className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
       >
-        Considerations (1)
-      </span>
-    </button>
+        <svg
+          aria-hidden="true"
+          className="sc-hSdWYo kTOVeH sc-eHgmQL gJqaLD"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Considerations (1)
+        </span>
+      </button>
+    </h2>
   </div>
   <div
     className="sc-gZMcBi liHqSy"
   >
-    <button
-      aria-expanded={false}
-      className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-      onClick={[Function]}
-      type="button"
+    <h2
+      className="sc-cvbbAY jRiSTg"
     >
-      <svg
-        aria-hidden="true"
-        className="sc-jWBwVP fFdKzu sc-brqgnP bdBJhJ"
-        focusable="false"
-        role="img"
-      />
-      <span
-        className="sc-VigVT bGMrIs"
+      <button
+        aria-expanded={false}
+        className="sc-gqjmRU bTKIiF sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
       >
-        Good (2)
-      </span>
-    </button>
+        <svg
+          aria-hidden="true"
+          className="sc-jWBwVP fFdKzu sc-brqgnP bdBJhJ"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Good (2)
+        </span>
+      </button>
+    </h2>
   </div>
 </div>
 `;

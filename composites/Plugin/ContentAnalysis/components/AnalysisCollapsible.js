@@ -78,7 +78,7 @@ const AnalysisList = styled.ul`
 export const AnalysisCollapsibleStateless = ( props ) => {
 	let title = props.title;
 	let count = getChildrenCount( props.children );
-	const Heading = `h${ props.headerLevel }`;
+	const Heading = `h${ props.headingLevel }`;
 
 	const StyledHeading = styled( Heading )`
 		margin: 0;
@@ -118,7 +118,7 @@ AnalysisCollapsibleStateless.propTypes = {
 	title: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	hasHeading: PropTypes.bool,
-	headerLevel: PropTypes.string,
+	headingLevel: PropTypes.number,
 	onToggle: PropTypes.func.isRequired,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
@@ -128,7 +128,7 @@ AnalysisCollapsibleStateless.propTypes = {
 
 AnalysisCollapsibleStateless.defaultProps = {
 	hasHeading: false,
-	headerLevel: 2,
+	headingLevel: 2,
 };
 
 export class AnalysisCollapsible extends React.Component {
@@ -169,8 +169,8 @@ export class AnalysisCollapsible extends React.Component {
 				title={ this.props.title }
 				onToggle={ this.toggleOpen.bind( this ) }
 				isOpen={ this.state.isOpen }
-				needsHeaderTag={ this.props.hasHeading }
-				headerLevel={ this.props.headingLevel }
+				hasHeading={ this.props.hasHeading }
+				headingLevel={ this.props.headingLevel }
 			>
 				{ this.props.children }
 			</AnalysisCollapsibleStateless>
@@ -182,7 +182,7 @@ AnalysisCollapsible.propTypes = {
 	title: PropTypes.string.isRequired,
 	initialIsOpen: PropTypes.bool,
 	hasHeading: PropTypes.bool,
-	headingLevel: PropTypes.string,
+	headingLevel: PropTypes.number,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
