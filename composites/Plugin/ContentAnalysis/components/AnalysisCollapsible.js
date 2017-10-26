@@ -68,6 +68,28 @@ const AnalysisList = styled.ul`
 `;
 
 /**
+ * @param Component
+ * @param headingLevel
+ * @returns {XML}
+ */
+function wrapInHeading( Component, headingLevel ) {
+	const Heading = `h${ headingLevel }`;
+	const StyledHeading = styled( Heading )`
+		margin: 0;
+		font-weight: normal;
+    `;
+
+	return function Wrapped( props ) {
+		return (
+			<StyledHeading>
+				<Component { ...props } />
+			</StyledHeading>
+		);
+	};
+}
+
+
+/**
  * A collapsible header used to show sets of analysis results. Expects list items as children.
  * Optionally has a heading around the button.
  *
@@ -78,33 +100,18 @@ const AnalysisList = styled.ul`
 export const AnalysisCollapsibleStateless = ( props ) => {
 	let title = props.title;
 	let count = getChildrenCount( props.children );
-	const Heading = `h${ props.headingLevel }`;
 
-	const StyledHeading = styled( Heading )`
-		margin: 0;
-		font-weight: normal;
-    `;
+	const Button = props.hasHeading ? wrapInHeading( AnalysisHeaderButton, 2 ) : AnalysisHeaderButton;
 
 	return (
 		<AnalysisHeaderContainer>
-			{ props.hasHeading
-				? <StyledHeading><AnalysisHeaderButton
-					aria-expanded={ props.isOpen }
-					onClick={ props.onToggle }
-					icon={ props.isOpen ? angleUp : angleDown }
-					iconColor={ colors.$color_grey_dark }
-				>
-					<AnalysisTitle>{ `${ title } (${ count })` }</AnalysisTitle>
-				</AnalysisHeaderButton></StyledHeading>
-				: <AnalysisHeaderButton
-					aria-expanded={ props.isOpen }
-					onClick={ props.onToggle }
-					icon={ props.isOpen ? angleUp : angleDown }
-					iconColor={ colors.$color_grey_dark }
-				>
-					<AnalysisTitle>{ `${ title } (${ count })` }</AnalysisTitle>
-				</AnalysisHeaderButton>
-			}
+			<Button
+				aria-expanded={ props.isOpen }
+				onClick={ props.onToggle }
+				icon={ props.isOpen ? angleUp : angleDown }
+				iconColor={ colors.$color_grey_dark } >
+				<AnalysisTitle>{ `${ title } (${ count })` }</AnalysisTitle>
+			</Button>
 			{
 				props.isOpen && props.children
 					? <AnalysisList role="list">{ props.children }</AnalysisList>

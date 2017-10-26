@@ -12,7 +12,7 @@ exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
   >
     <svg
       aria-hidden="true"
-      className="sc-cSHVUG jEEyiP sc-kAzzGY gDMXWb"
+      className="sc-fjdhpX fadKJT sc-jzJRlG bTTrWz"
       focusable="false"
       role="img"
     />
@@ -47,7 +47,7 @@ exports[`the AnalysisCollapsible with a heading matches the snapshot 1`] = `
   className="sc-bZQynM iXyxsW"
 >
   <h2
-    className="sc-VigVT ehrPw"
+    className="sc-gqjmRU ksuUKe"
   >
     <button
       aria-expanded={false}
@@ -57,7 +57,7 @@ exports[`the AnalysisCollapsible with a heading matches the snapshot 1`] = `
     >
       <svg
         aria-hidden="true"
-        className="sc-jTzLTM hwiuqB sc-fjdhpX YZzdr"
+        className="sc-VigVT errXbw sc-jTzLTM haBLZ"
         focusable="false"
         role="img"
       />
@@ -83,7 +83,7 @@ exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
   >
     <svg
       aria-hidden="true"
-      className="sc-gZMcBi gxyQpB sc-gqjmRU gfvlk"
+      className="sc-iwsKbI iENOxB sc-gZMcBi eILSAm"
       focusable="false"
       role="img"
     />
