@@ -44,7 +44,8 @@ class WPSEO_GSC_Mapper {
 	 * @return mixed
 	 */
 	public static function get_current_platform( $platform ) {
-		if ( $current_platform = filter_input( INPUT_GET, $platform ) ) {
+		$current_platform = filter_input( INPUT_GET, $platform );
+		if ( ! empty( $current_platform ) ) {
 			return $current_platform;
 		}
 

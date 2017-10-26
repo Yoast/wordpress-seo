@@ -54,7 +54,8 @@ class WPSEO_GSC_Bulk_Action {
 	 * @return array
 	 */
 	private function posted_issues() {
-		if ( $issues = filter_input( INPUT_POST, 'wpseo_crawl_issues', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) {
+		$issues = filter_input( INPUT_POST, 'wpseo_crawl_issues', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if ( ! empty( $issues ) ) {
 			return $issues;
 		}
 

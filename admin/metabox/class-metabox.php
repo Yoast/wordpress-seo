@@ -955,7 +955,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @returns WP_Post|array
 	 */
 	protected function get_metabox_post() {
-		if ( $post = filter_input( INPUT_GET, 'post' ) ) {
+		$post = filter_input( INPUT_GET, 'post' );
+		if ( ! empty( $post ) ) {
 			$post_id = (int) WPSEO_Utils::validate_int( $post );
 
 			return get_post( $post_id );

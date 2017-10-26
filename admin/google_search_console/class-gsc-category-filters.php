@@ -80,7 +80,8 @@ class WPSEO_GSC_Category_Filters {
 	 * Getting the current view
 	 */
 	private function get_current_category() {
-		if ( $current_category = filter_input( INPUT_GET, 'category' ) ) {
+		$current_category = filter_input( INPUT_GET, 'category' );
+		if ( ! empty( $current_category ) ) {
 			return $current_category;
 		}
 
