@@ -39,7 +39,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
     >
       <svg
         aria-hidden="true"
-        className="sc-kAzzGY ibpeNC sc-chPdSV coNTRN"
+        className="sc-chPdSV hbfLss sc-kgoBCf ePqMlV"
         focusable="false"
         role="img"
       />
@@ -58,7 +58,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
       >
         <svg
           aria-hidden="true"
-          className="sc-bxivhb icogks sc-kgoBCf hlIUOu"
+          className="sc-bxivhb icogks sc-kGXeez dycyvO"
           focusable="false"
           role="img"
         />
@@ -81,7 +81,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
     >
       <svg
         aria-hidden="true"
-        className="sc-kGXeez jtnyJj sc-kpOJdX hmYSjx"
+        className="sc-dxgOiQ kJTTdB sc-ckVGcZ kpGfBi"
         focusable="false"
         role="img"
       />
@@ -100,7 +100,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
       >
         <svg
           aria-hidden="true"
-          className="sc-bxivhb icogks sc-dxgOiQ ctIQJE"
+          className="sc-bxivhb icogks sc-jKJlTe iWijFp"
           focusable="false"
           role="img"
         />
@@ -118,7 +118,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
         >
           <svg
             aria-hidden="true"
-            className="sc-ckVGcZ fSBahx"
+            className="sc-eNQAEJ hrsyaF"
             focusable="false"
             role="img"
           />
@@ -137,7 +137,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
     >
       <svg
         aria-hidden="true"
-        className="sc-jKJlTe fTuuZL sc-eNQAEJ bmrIlx"
+        className="sc-kEYyzF jvMdMW sc-kkGfuU hUQWkd"
         focusable="false"
         role="img"
       />
@@ -159,7 +159,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
     >
       <svg
         aria-hidden="true"
-        className="sc-hMqMXs gteQSO sc-kEYyzF kVGrFb"
+        className="sc-hSdWYo kTOVeH sc-eHgmQL gJqaLD"
         focusable="false"
         role="img"
       />
@@ -181,7 +181,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
     >
       <svg
         aria-hidden="true"
-        className="sc-kkGfuU bhfWur sc-iAyFgw eGHSYb"
+        className="sc-jWBwVP fFdKzu sc-brqgnP bdBJhJ"
         focusable="false"
         role="img"
       />

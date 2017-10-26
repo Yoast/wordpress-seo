@@ -59,16 +59,6 @@ const AnalysisTitle = styled.span`
 `;
 
 /**
- * The analysis H2 text.
- */
-const AnalysisTitleH2 = styled.h2`
-	margin: 8px 0;
-	word-wrap: break-word;
-	font-size: 1.25em;
-	line-height: 1.25;
-`;
-
-/**
  * Analysis items list.
  */
 const AnalysisList = styled.ul`
@@ -79,6 +69,7 @@ const AnalysisList = styled.ul`
 
 /**
  * A collapsible header used to show sets of analysis results. Expects list items as children.
+ * Optionally has a heading around the button.
  *
  * @param {object} props The properties for the component.
  *
@@ -89,17 +80,22 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 	let count = getChildrenCount( props.children );
 	const Heading = `h${ props.headerLevel }`;
 
+	const StyledHeading = styled( Heading )`
+		margin: 0;
+		font-weight: normal;
+    `;
+
 	return (
 		<AnalysisHeaderContainer>
-			{ props.needsHeaderTag
-				? <Heading><AnalysisHeaderButton
+			{ props.hasHeading
+				? <StyledHeading><AnalysisHeaderButton
 					aria-expanded={ props.isOpen }
 					onClick={ props.onToggle }
 					icon={ props.isOpen ? angleUp : angleDown }
 					iconColor={ colors.$color_grey_dark }
 				>
 					<AnalysisTitle>{ `${ title } (${ count })` }</AnalysisTitle>
-				</AnalysisHeaderButton></Heading>
+				</AnalysisHeaderButton></StyledHeading>
 				: <AnalysisHeaderButton
 					aria-expanded={ props.isOpen }
 					onClick={ props.onToggle }
@@ -121,7 +117,7 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 AnalysisCollapsibleStateless.propTypes = {
 	title: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
-	needsHeaderTag: PropTypes.bool,
+	hasHeading: PropTypes.bool,
 	headerLevel: PropTypes.string,
 	onToggle: PropTypes.func.isRequired,
 	children: PropTypes.oneOfType( [
@@ -131,8 +127,8 @@ AnalysisCollapsibleStateless.propTypes = {
 };
 
 AnalysisCollapsibleStateless.defaultProps = {
-	needsHeaderTag: false,
-	headerLevel: "H2",
+	hasHeading: false,
+	headerLevel: 2,
 };
 
 export class AnalysisCollapsible extends React.Component {
@@ -173,8 +169,8 @@ export class AnalysisCollapsible extends React.Component {
 				title={ this.props.title }
 				onToggle={ this.toggleOpen.bind( this ) }
 				isOpen={ this.state.isOpen }
-				needsHeaderTag={ this.props.needsHeaderTag }
-				headerLevel={ this.props.headerLevel }
+				needsHeaderTag={ this.props.hasHeading }
+				headerLevel={ this.props.headingLevel }
 			>
 				{ this.props.children }
 			</AnalysisCollapsibleStateless>
@@ -185,8 +181,8 @@ export class AnalysisCollapsible extends React.Component {
 AnalysisCollapsible.propTypes = {
 	title: PropTypes.string.isRequired,
 	initialIsOpen: PropTypes.bool,
-	needsHeaderTag: PropTypes.bool,
-	headerLevel: PropTypes.string,
+	hasHeading: PropTypes.bool,
+	headingLevel: PropTypes.string,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
@@ -195,8 +191,8 @@ AnalysisCollapsible.propTypes = {
 
 AnalysisCollapsible.defaultProps = {
 	initialIsOpen: false,
-	needsHeaderTag: false,
-	headerLevel: "H2",
+	hasHeading: false,
+	headingLevel: 2,
 };
 
 export default AnalysisCollapsible;

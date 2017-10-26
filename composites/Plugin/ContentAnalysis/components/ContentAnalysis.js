@@ -167,27 +167,49 @@ class ContentAnalysis extends React.Component {
 					</ChangeLanguageLink>
 				</LanguageNotice>
 				{ errorsResults.length > 0
-					? <AnalysisCollapsible needsHeaderTag={ true } headerLevel={ 2 } initialIsOpen={ true } title={ this.props.intl.formatMessage( messages.errorsHeader ) }>
+					? <AnalysisCollapsible
+						hasHeading={ true }
+						headingLevel={ 2 }
+						initialIsOpen={ true }
+						title={ this.props.intl.formatMessage( messages.errorsHeader ) }
+					>
 						{ this.getResults( errorsResults ) }
 					</AnalysisCollapsible>
 					: null }
 				{ problemsResults.length > 0
-					? <AnalysisCollapsible needsHeaderTag={ true } headerLevel={ 2 } initialIsOpen={ true } title={ this.props.intl.formatMessage( messages.problemsHeader ) }>
+					? <AnalysisCollapsible
+						hasHeading={ true }
+						headingLevel={ 2 }
+						initialIsOpen={ true }
+						title={ this.props.intl.formatMessage( messages.problemsHeader ) }
+					>
 						{ this.getResults( problemsResults ) }
 					</AnalysisCollapsible>
 					: null }
 				{ improvementsResults.length > 0
-					? <AnalysisCollapsible needsHeaderTag={ true } headerLevel={ 2 } title={ this.props.intl.formatMessage( messages.improvementsHeader ) }>
+					? <AnalysisCollapsible
+						hasHeading={ true }
+						headingLevel={ 2 }
+						title={ this.props.intl.formatMessage( messages.improvementsHeader ) }
+					>
 						{ this.getResults( improvementsResults ) }
 					</AnalysisCollapsible>
 					: null }
 				{ considerationsResults.length > 0
-					? <AnalysisCollapsible needsHeaderTag={ true } headerLevel={ 2 } title={ this.props.intl.formatMessage( messages.considerationsHeader ) }>
+					? <AnalysisCollapsible
+						hasHeading={ true }
+						headingLevel={ 2 }
+						title={ this.props.intl.formatMessage( messages.considerationsHeader ) }
+					>
 						{ this.getResults( considerationsResults ) }
 					</AnalysisCollapsible>
 					: null }
 				{ goodResults.length > 0
-					? <AnalysisCollapsible needsHeaderTag={ true } headerLevel={ 2 } title={this.props.intl.formatMessage( messages.goodHeader ) }>
+					? <AnalysisCollapsible
+						hasHeading={ true }
+						headingLevel={ 2 }
+						title={this.props.intl.formatMessage( messages.goodHeader ) }
+					>
 						{ this.getResults( goodResults ) }
 					</AnalysisCollapsible>
 					: null }
