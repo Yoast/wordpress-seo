@@ -104,7 +104,7 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 	let title = props.title;
 	let count = getChildrenCount( props.children );
 
-	const Button = props.hasHeading ? wrapInHeading( AnalysisHeaderButton, 2 ) : AnalysisHeaderButton;
+	const Button = props.hasHeading ? wrapInHeading( AnalysisHeaderButton, props.headingLevel ) : AnalysisHeaderButton;
 
 	return (
 		<AnalysisHeaderContainer>
