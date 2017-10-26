@@ -352,7 +352,7 @@ class WPSEO_Breadcrumbs {
 				}
 			}
 			elseif ( is_author() ) {
-				$user = $wp_query->get_queried_object();
+				$user         = $wp_query->get_queried_object();
 				$display_name = get_the_author_meta( 'display_name', $user->ID );
 				$this->add_predefined_crumb(
 					$this->options['breadcrumbs-archiveprefix'] . ' ' . $display_name,

@@ -102,7 +102,7 @@ class WPSEO_Link_Reindex_Dashboard {
 				sprintf( '<strong id="wpseo_count_total">%d</strong>', $this->unprocessed )
 			);
 
-			$inner_text = '<div id="wpseo_index_links_progressbar" class="wpseo-progressbar"></div>';
+			$inner_text  = '<div id="wpseo_index_links_progressbar" class="wpseo-progressbar"></div>';
 			$inner_text .= sprintf( '<p>%s</p>', $progress );
 		}
 

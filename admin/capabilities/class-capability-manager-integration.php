@@ -104,7 +104,7 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 	 */
 	public function filter_ure_custom_capability_groups( $groups = array(), $cap_id = '' ) {
 		if ( in_array( $cap_id, $this->get_capabilities(), true ) ) {
-			$groups = (array) $groups;
+			$groups   = (array) $groups;
 			$groups[] = 'wordpress-seo';
 		}
 

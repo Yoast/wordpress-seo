@@ -25,7 +25,7 @@ class WPSEO_Frontend_Primary_Category {
 	 * @return array|null|object|WP_Error The category we want to use for the post link.
 	 */
 	public function post_link_category( $category, $categories = null, $post = null ) {
-		$post = get_post( $post );
+		$post             = get_post( $post );
 		$primary_category = $this->get_primary_category( $post );
 
 		if ( false !== $primary_category && $primary_category !== $category->cat_ID ) {

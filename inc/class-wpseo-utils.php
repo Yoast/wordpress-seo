@@ -373,7 +373,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function emulate_filter_bool( $value ) {
-		$true  = array(
+		$true = array(
 			'1',
 			'true',
 			'True',

@@ -180,6 +180,7 @@ class WPSEO_Help_Center {
 			array( 'content' => $premium_popup->get_premium_message( false ) ),
 			'dashicons-email-alt'
 		);
+
 		$this->help_center_items[] = $contact_support_help_center_item;
 	}
 

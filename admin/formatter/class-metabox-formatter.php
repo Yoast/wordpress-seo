@@ -40,7 +40,7 @@ class WPSEO_Metabox_Formatter {
 	 * @return array
 	 */
 	private function get_defaults() {
-		$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		return array(

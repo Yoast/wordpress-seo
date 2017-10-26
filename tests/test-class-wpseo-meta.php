@@ -136,7 +136,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Meta::get_post_value
 	 */
 	public function test_get_post_value() {
-		$key = 'my_test_key';
+		$key   = 'my_test_key';
 		$value = 'my_test_key_value';
 		$this->set_post( $key, $value );
 

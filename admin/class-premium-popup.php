@@ -76,7 +76,7 @@ class WPSEO_Premium_Popup {
 
 		/* translators: %s expands to Yoast SEO Premium */
 		$cta_text = sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' );
-		$classes = '';
+		$classes  = '';
 		if ( $popup ) {
 			$classes = ' hidden';
 		}

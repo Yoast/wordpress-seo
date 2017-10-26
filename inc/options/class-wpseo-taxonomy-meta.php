@@ -485,8 +485,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 */
 	public static function set_values( $term_id, $taxonomy, array $meta_values ) {
 		/* Validate the post values */
-		$old      = self::get_term_meta( $term_id, $taxonomy );
-		$clean    = self::validate_term_meta_data( $meta_values, $old );
+		$old   = self::get_term_meta( $term_id, $taxonomy );
+		$clean = self::validate_term_meta_data( $meta_values, $old );
 
 		self::save_clean_values( $term_id, $taxonomy, $clean );
 	}
@@ -521,7 +521,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		$tax_meta = self::get_tax_meta();
 
 
-		$found    = array();
+		$found = array();
 		// @todo Check for terms of all taxonomies, not only the current taxonomy.
 		foreach ( $tax_meta as $taxonomy_name => $terms ) {
 			foreach ( $terms as $term_id => $meta_values ) {
