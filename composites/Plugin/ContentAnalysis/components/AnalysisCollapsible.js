@@ -68,9 +68,12 @@ const AnalysisList = styled.ul`
 `;
 
 /**
- * @param Component
- * @param headingLevel
- * @returns {XML}
+ * Wrap a component in a header element with a defined heading level.
+ *
+ * @param {ReactElement} Component The component to wrap.
+ * @param {int} headingLevel       The heading level.
+ *
+ * @returns {ReactElement} The wrapped component.
  */
 function wrapInHeading( Component, headingLevel ) {
 	const Heading = `h${ headingLevel }`;
