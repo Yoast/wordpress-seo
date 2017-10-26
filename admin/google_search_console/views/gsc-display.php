@@ -6,6 +6,8 @@
 // Admin header.
 Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpseo_gsc_options' );
 
+$platform_tabs = new WPSEO_GSC_Platform_Tabs();
+
 if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== '' ) { ?>
 	<form action="" method="post" class="wpseo-gsc-reload-crawl-issues-form">
 		<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo wp_create_nonce( 'reload-crawl-issues' ); ?>' />
@@ -15,7 +17,7 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== 
 <?php } ?>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<?php echo $platform_tabs = new WPSEO_GSC_Platform_Tabs(); ?>
+		<?php echo $platform_tabs; ?>
 	</h2>
 
 <?php
