@@ -137,9 +137,12 @@ class WPSEO_Upgrade {
 		if ( ! empty( $taxonomies ) ) {
 			foreach ( $taxonomies as $taxonomy => $tax_metas ) {
 				foreach ( $tax_metas as $term_id => $tax_meta ) {
-					if ( function_exists( 'wp_get_split_term' ) && $new_term_id = wp_get_split_term( $term_id, $taxonomy ) ) {
-						$taxonomies[ $taxonomy ][ $new_term_id ] = $taxonomies[ $taxonomy ][ $term_id ];
-						unset( $taxonomies[ $taxonomy ][ $term_id ] );
+					if ( function_exists( 'wp_get_split_term' ) ) {
+						$new_term_id = wp_get_split_term( $term_id, $taxonomy );
+						if ( $new_term_id !== false ) {
+							$taxonomies[ $taxonomy ][ $new_term_id ] = $taxonomies[ $taxonomy ][ $term_id ];
+							unset( $taxonomies[ $taxonomy ][ $term_id ] );
+						}
 					}
 				}
 			}
