@@ -6,6 +6,8 @@ branches:
   only:
     - master
     - trunk
+    - /^release\/\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
 
 addons:
   apt:
