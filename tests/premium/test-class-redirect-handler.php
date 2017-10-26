@@ -25,8 +25,13 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	public function test_a_regex_redirect_that_will_match_the_request_uri() {
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
-			->setMethods( array( 'get_request_uri', 'do_redirect' ) )
+			->setMethods( array( 'load_php_redirects', 'get_request_uri', 'do_redirect' ) )
 			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'load_php_redirects' )
+			->will( $this->returnValue( true ) );
 
 		$class_instance
 			->expects( $this->once() )
@@ -49,8 +54,13 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	public function test_a_regex_redirect_that_will_not_match_the_request_uri() {
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
-			->setMethods( array( 'get_request_uri', 'do_redirect' ) )
+			->setMethods( array( 'load_php_redirects', 'get_request_uri', 'do_redirect' ) )
 			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'load_php_redirects' )
+			->will( $this->returnValue( true ) );
 
 		$class_instance
 			->expects( $this->once() )
