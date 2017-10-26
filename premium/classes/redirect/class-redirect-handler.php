@@ -401,7 +401,12 @@ class WPSEO_Redirect_Handler {
 		}
 
 		global $wpdb;
+
 		$options = $wpdb->get_row( "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'wpseo_redirect'" );
+		if ( ! is_object( $options ) ) {
+			return false;
+		}
+
 		$options = maybe_unserialize( $options->option_value );
 
 		if ( ! empty( $options['disable_php_redirect'] ) && $options['disable_php_redirect'] === 'on' ) {
