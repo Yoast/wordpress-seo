@@ -123,7 +123,8 @@ class Yoast_Plugin_Conflict {
 
 		$plugin_names = array();
 		foreach ( $plugins as $plugin ) {
-			if ( $name = WPSEO_Utils::get_plugin_name( $plugin ) ) {
+			$name = WPSEO_Utils::get_plugin_name( $plugin );
+			if ( ! empty( $name ) ) {
 				$plugin_names[] = '<em>' . $name . '</em>';
 			}
 		}

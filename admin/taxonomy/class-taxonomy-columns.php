@@ -196,7 +196,8 @@ class WPSEO_Taxonomy_Columns {
 	 * @return string
 	 */
 	private function get_focus_keyword( $term ) {
-		if ( $focus_keyword = WPSEO_Taxonomy_Meta::get_term_meta( 'focuskw', $term->term_id, $term->taxonomy ) ) {
+		$focus_keyword = WPSEO_Taxonomy_Meta::get_term_meta( 'focuskw', $term->term_id, $term->taxonomy );
+		if ( $focus_keyword !== false ) {
 			return $focus_keyword;
 		}
 
