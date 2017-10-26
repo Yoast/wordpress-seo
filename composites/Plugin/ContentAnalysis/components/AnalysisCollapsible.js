@@ -7,17 +7,11 @@ import { angleUp, angleDown } from "../../../../style-guide/svg";
 import colors from "../../../../style-guide/colors.json";
 import { IconButton } from "../../Shared/components/Button";
 
-/**
- * Container for the Collapsible header and its content.
- */
 const AnalysisHeaderContainer = styled.div`
 	margin: 4px 0 8px 0;
 	background-color: ${ colors.$color_white };
 `;
 
-/**
- * The clickable component of the analysis header.
- */
 const AnalysisHeaderButton = styled( IconButton )`
 	width: 100%;
 	background-color: ${ colors.$color_white };
@@ -48,9 +42,6 @@ const AnalysisHeaderButton = styled( IconButton )`
 	}
 `;
 
-/**
- * The analysis header text.
- */
 const AnalysisTitle = styled.span`
 	margin: 8px 0;
 	word-wrap: break-word;
@@ -58,9 +49,6 @@ const AnalysisTitle = styled.span`
 	line-height: 1.25;
 `;
 
-/**
- * Analysis items list.
- */
 const AnalysisList = styled.ul`
 	margin: 0;
 	list-style: none;
@@ -68,10 +56,10 @@ const AnalysisList = styled.ul`
 `;
 
 /**
- * Wrap a component in a header element with a defined heading level.
+ * Wraps a component in a heading element with a defined heading level.
  *
- * @param {ReactElement} Component The component to wrap.
- * @param {int} headingLevel       The heading level.
+ * @param {ReactElement} Component    The component to wrap.
+ * @param {int}          headingLevel The heading level.
  *
  * @returns {ReactElement} The wrapped component.
  */
@@ -80,7 +68,7 @@ function wrapInHeading( Component, headingLevel ) {
 	const StyledHeading = styled( Heading )`
 		margin: 0;
 		font-weight: normal;
-    `;
+	`;
 
 	return function Wrapped( props ) {
 		return (
@@ -90,7 +78,6 @@ function wrapInHeading( Component, headingLevel ) {
 		);
 	};
 }
-
 
 /**
  * A collapsible header used to show sets of analysis results. Expects list items as children.

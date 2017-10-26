@@ -47,7 +47,7 @@ exports[`the AnalysisCollapsible with a heading matches the snapshot 1`] = `
   className="sc-bZQynM iXyxsW"
 >
   <h2
-    className="sc-gqjmRU ksuUKe"
+    className="sc-gqjmRU kWAqZI"
   >
     <button
       aria-expanded={false}

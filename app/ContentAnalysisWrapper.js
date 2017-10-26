@@ -66,7 +66,7 @@ export default function HelpCenterWrapper() {
 			goodResults={ goodResults }
 			considerationsResults={ considerationsResults }
 			errorsResults={ errorsResults }
-			changeLanguageLink={ "#" }
+			changeLanguageLink="#"
 			language="English"
 		/>
 	);

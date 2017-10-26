@@ -32,7 +32,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
     className="sc-gZMcBi liHqSy"
   >
     <h2
-      className="sc-kAzzGY jfssM"
+      className="sc-kAzzGY cJSrb"
     >
       <button
         aria-expanded={true}
@@ -78,7 +78,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
     className="sc-gZMcBi liHqSy"
   >
     <h2
-      className="sc-kpOJdX frsbin"
+      className="sc-kpOJdX iIoguF"
     >
       <button
         aria-expanded={true}
@@ -138,7 +138,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
     className="sc-gZMcBi liHqSy"
   >
     <h2
-      className="sc-hMqMXs cGcDev"
+      className="sc-hMqMXs ecLisl"
     >
       <button
         aria-expanded={false}
@@ -164,7 +164,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
     className="sc-gZMcBi liHqSy"
   >
     <h2
-      className="sc-iAyFgw edUwHZ"
+      className="sc-iAyFgw hdFflt"
     >
       <button
         aria-expanded={false}
@@ -190,7 +190,7 @@ exports[`the ContentAnalysis component matches the snapshot 1`] = `
     className="sc-gZMcBi liHqSy"
   >
     <h2
-      className="sc-cvbbAY jRiSTg"
+      className="sc-cvbbAY gpNEXt"
     >
       <button
         aria-expanded={false}

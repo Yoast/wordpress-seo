@@ -65,7 +65,7 @@ const messages = defineMessages( {
  */
 class ContentAnalysis extends React.Component {
 	/**
-	 * The constructor
+	 * The constructor.
 	 *
 	 * @param {object} props The component props.
 	 *
@@ -200,7 +200,7 @@ class ContentAnalysis extends React.Component {
 					>
 						{ this.getResults( considerationsResults ) }
 					</AnalysisCollapsible> }
-				{ goodResults.length > 0  &&
+				{ goodResults.length > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
 						headingLevel={ 2 }
