@@ -77,16 +77,19 @@
   },
   "dependencies": {
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
-    "babel-polyfill": "^6.13.0",
+    "babel-polyfill": "^6.26.0",
     "grunt-wp-deploy": "^1.2.1",
     "jed": "^1.1.1",
-    "lodash": "^4.7.0",
+    "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "material-ui": "^0.15.4",
     "prop-types": "^15.5.10",
     "react-intl": "^2.4.0",
-    "react-tap-event-plugin": "^2.0.0",
-    "select2": "^4.0.3",
+    "react-redux": "^5.0.6",
+    "react-tap-event-plugin": "^2.0.1",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "select2": "^4.0.5",
     "yoast-components": "2.10.3",
     "yoastseo": "^1.22.4"
   }

@@ -6,6 +6,7 @@ import { tmceId } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 
 import initializeEdit from "./edit";
+import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
@@ -410,6 +411,13 @@ import UsedKeywords from "./analysis/usedKeywords";
 		cornerstoneCheckbox.change( function() {
 			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
 		} );
+
+		// Hack needed to make sure Publish box and traffic light are still updated.
+		app.seoAssessorPresenter.render = function() {};
+		app.contentAssessorPresenter.render = function() {};
+
+		// Set initial keyword
+		store.dispatch( setActiveKeyword( tabManager.getKeywordTab().getKeyWord() ) );
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );
