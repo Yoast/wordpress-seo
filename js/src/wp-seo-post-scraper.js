@@ -4,6 +4,9 @@ import isUndefined from "lodash/isUndefined";
 
 import { tmceId } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
+
+import initializeEdit from "./edit";
+import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
 
@@ -30,6 +33,8 @@ import UsedKeywords from "./analysis/usedKeywords";
 	let app, snippetPreview;
 	let decorator = null;
 	let tabManager, postDataCollector;
+
+	let store;
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -266,10 +271,21 @@ import UsedKeywords from "./analysis/usedKeywords";
 
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
+			args.callbacks.updatedKeywordsResults = function( results ) {
+				let keyword = tabManager.getKeywordTab().getKeyWord();
+
+				if ( tabManager.isMainKeyword( keyword ) ) {
+					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+				}
+			};
+
 		}
 
 		if ( isContentAnalysisActive() ) {
 			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
+			args.callbacks.updatedContentResults = function( results ) {
+				store.dispatch( setReadabilityResults( results ) );
+			};
 		}
 
 		titleElement = $( "#title" );
@@ -301,6 +317,8 @@ import UsedKeywords from "./analysis/usedKeywords";
 
 		window.YoastSEO.wp._tabManager = tabManager;
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
+
+		window.YoastSEO.store = store;
 	}
 
 	/**
@@ -332,6 +350,8 @@ import UsedKeywords from "./analysis/usedKeywords";
 	 * @returns {void}
 	 */
 	function initializePostAnalysis() {
+		store = initializeEdit().store;
+
 		snippetContainer = $( "#wpseosnippet" );
 
 		// Avoid error when snippet metabox is not rendered.

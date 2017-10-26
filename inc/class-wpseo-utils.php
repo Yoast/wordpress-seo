@@ -836,7 +836,7 @@ class WPSEO_Utils {
 			'wpseo_licenses',
 		);
 
-		return in_array( $current_page, $yoast_seo_free_pages );
+		return in_array( $current_page, $yoast_seo_free_pages, true );
 	}
 
 	/**
@@ -896,6 +896,7 @@ class WPSEO_Utils {
 			return $home_url;
 		}
 
+		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		$home_path = parse_url( $home_url, PHP_URL_PATH );
 
 		if ( '/' === $home_path ) { // Home at site root, already slashed.

@@ -175,6 +175,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 							}
 
 							$error_message = sprintf(
+								/* translators: %s expands to a number. */
 								__( '"Max entries per sitemap page" should be a positive number, which %s is not. Please correct.', 'wordpress-seo' ),
 								'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
 							);

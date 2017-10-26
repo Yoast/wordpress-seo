@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
 /**
@@ -624,7 +624,7 @@ EXPECTED;
 	 * @covers WPSEO_OpenGraph::site_name
 	 */
 	public function test_site_name() {
-		// TODO empty site name test
+		// @todo Empty site name test.
 	}
 
 	/**
@@ -771,8 +771,8 @@ EXPECTED;
 
 
 	/**
-	 * @param string  $image   path
-	 * @param integer $post_id
+	 * @param string  $image   Path.
+	 * @param integer $post_id Post ID.
 	 *
 	 * @return int
 	 */

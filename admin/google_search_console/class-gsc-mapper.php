@@ -73,7 +73,7 @@ class WPSEO_GSC_Mapper {
 	 * @return string
 	 */
 	public static function platform_from_api( $platform ) {
-		if ( ! empty( $platform ) && $platform = array_search( $platform, self::$platforms ) ) {
+		if ( ! empty( $platform ) && $platform = array_search( $platform, self::$platforms, true ) ) {
 			return $platform;
 		}
 
@@ -103,7 +103,7 @@ class WPSEO_GSC_Mapper {
 	 * @return string
 	 */
 	public static function category_from_api( $category ) {
-		if ( ! empty( $category ) && $category = array_search( $category, self::$categories ) ) {
+		if ( ! empty( $category ) && $category = array_search( $category, self::$categories, true ) ) {
 			return $category;
 		}
 

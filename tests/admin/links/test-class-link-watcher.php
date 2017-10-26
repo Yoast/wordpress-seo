@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Links
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -50,7 +56,10 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with a
+	 * Test with a draft post.
+	 *
+	 * This should be processed, but will not be displayed.
+	 * See https://github.com/Yoast/wordpress-seo/pull/8068#issuecomment-338146035
 	 */
 	public function test_is_processable_draft() {
 
@@ -60,7 +69,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$processor = $this->get_processor();
 		$processor
-			->expects( $this->never() )
+			->expects( $this->once() )
 			->method( 'process' );
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
@@ -127,6 +136,9 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$watcher->save_post( $post->ID, $post );
 	}
 
+	/**
+	 * Test deleting links when a post is deleted.
+	 */
 	public function test_delete_post() {
 		$post = $this->factory->post->create_and_get(
 			array(

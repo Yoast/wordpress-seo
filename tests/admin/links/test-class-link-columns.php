@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Links
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -27,6 +33,9 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 		$wpdb->query( 'DROP TABLE ' . $meta_storage->get_table_name() );
 	}
 
+	/**
+	 * Set up.
+	 */
 	public function setUp() {
 		parent::setUp();
 

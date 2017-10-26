@@ -8,7 +8,14 @@
  */
 class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 
+	/**
+	 * @var string Version number for License Page Manager.
+	 */
 	const VERSION_LEGACY = '1';
+
+	/**
+	 * @var string Version number for License Page Manager.
+	 */
 	const VERSION_BACKWARDS_COMPATIBILITY = '2';
 
 	/**
@@ -183,13 +190,13 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	protected function create_notification( $product_name ) {
 		$notification_options = array(
 			'type'         => Yoast_Notification::ERROR,
-			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name,  null, 'save' ),
+			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name, null, 'save' ),
 			'capabilities' => 'wpseo_manage_options',
 		);
 
 		$notification = new Yoast_Notification(
-		/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
 			sprintf(
+				/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
 				__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
 				$product_name,
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/13j' ) . '" target="_blank">My Yoast</a>'

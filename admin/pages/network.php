@@ -32,9 +32,11 @@ if ( isset( $_POST['wpseo_restore_blog'] ) ) {
 
 		if ( $blog ) {
 			WPSEO_Options::reset_ms_blog( $restoreblog );
+			/* translators: %s expands to the name of a blog within a multi-site network. */
 			add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $blog->blogname ) ), 'updated' );
 		}
 		else {
+			/* translators: %s expands to the ID of a blog within a multi-site network. */
 			add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( 'Blog %s not found.', 'wordpress-seo' ), esc_html( $restoreblog ) ), 'error' );
 		}
 		unset( $restoreblog, $blog );

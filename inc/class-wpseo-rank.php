@@ -58,7 +58,7 @@ class WPSEO_Rank {
 	 * @param int $rank The actual rank.
 	 */
 	public function __construct( $rank ) {
-		if ( ! in_array( $rank, self::$ranks ) ) {
+		if ( ! in_array( $rank, self::$ranks, true ) ) {
 			$rank = self::BAD;
 		}
 

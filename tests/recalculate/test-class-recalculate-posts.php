@@ -1,11 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests\Recalculate
  */
 
-require_once WPSEO_TESTS_PATH . 'recalculate/class-recalculate-posts-double.php';
-
-
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -22,6 +22,15 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	 * @var string
 	 */
 	private $mock_image = "<img src='' />";
+
+	/**
+	 * Load the test mock class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/class-recalculate-posts-double.php';
+	}
 
 	/**
 	 * Setup the class instance and create some posts
@@ -160,9 +169,9 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Mock the post metadata to include a thumbnail
 	 *
-	 * @param string|null $value
-	 * @param integer $object_id
-	 * @param string $meta_key
+	 * @param string|null $value     Metadata value.
+	 * @param integer     $object_id Post object ID.
+	 * @param string      $meta_key  Metadata key.
 	 *
 	 * @return int
 	 */
@@ -177,9 +186,9 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Returns the mock thumbnail
 	 *
-	 * @param string $html
-	 * @param integer $post_id
-	 * @param integer $post_thumbnail_id
+	 * @param string  $html              HTML.
+	 * @param integer $post_id           Post ID.
+	 * @param integer $post_thumbnail_id Post Thumbnail ID.
 	 *
 	 * @return string
 	 */
@@ -190,8 +199,8 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Provide filter dummy data
 	 *
-	 * @param string $content
-	 * @param WP_Post|null $post
+	 * @param string       $content Content to add.
+	 * @param WP_Post|null $post    Post object.
 	 *
 	 * @return string
 	 */
@@ -202,8 +211,8 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Provide filer dummy data with shortcode
 	 *
-	 * @param $content
-	 * @param WP_Post|null $post
+	 * @param string       $content Content to add.
+	 * @param WP_Post|null $post    Post object.
 	 *
 	 * @return string
 	 */

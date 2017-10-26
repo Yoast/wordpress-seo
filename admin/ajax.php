@@ -229,7 +229,11 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	if ( ! $post_type_object ) {
 
 		$upsert_results['status']  = 'failure';
-		$upsert_results['results'] = sprintf( __( 'Post has an invalid Post Type: %s.', 'wordpress-seo' ), $the_post->post_type );
+		$upsert_results['results'] = sprintf(
+			/* translators: %s expands to post type. */
+			__( 'Post has an invalid Post Type: %s.', 'wordpress-seo' ),
+			$the_post->post_type
+		);
 
 		return $upsert_results;
 	}
@@ -237,7 +241,11 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
 
 		$upsert_results['status']  = 'failure';
-		$upsert_results['results'] = sprintf( __( 'You can\'t edit %s.', 'wordpress-seo' ), $post_type_object->label );
+		$upsert_results['results'] = sprintf(
+			/* translators: %s expands to post type name. */
+			__( 'You can\'t edit %s.', 'wordpress-seo' ),
+			$post_type_object->label
+		);
 
 		return $upsert_results;
 	}
@@ -245,7 +253,11 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	if ( ! current_user_can( $post_type_object->cap->edit_others_posts ) && $the_post->post_author != get_current_user_id() ) {
 
 		$upsert_results['status']  = 'failure';
-		$upsert_results['results'] = sprintf( __( 'You can\'t edit %s that aren\'t yours.', 'wordpress-seo' ), $post_type_object->label );
+		$upsert_results['results'] = sprintf(
+			/* translators: %s expands to the name of a post type (plural). */
+			__( 'You can\'t edit %s that aren\'t yours.', 'wordpress-seo' ),
+			$post_type_object->label
+		);
 
 		return $upsert_results;
 
@@ -356,7 +368,7 @@ function ajax_get_keyword_usage() {
 	);
 }
 
-add_action( 'wp_ajax_get_focus_keyword_usage',  'ajax_get_keyword_usage' );
+add_action( 'wp_ajax_get_focus_keyword_usage', 'ajax_get_keyword_usage' );
 
 /**
  * Retrieves the keyword for the keyword doubles of the termpages.
@@ -386,7 +398,7 @@ function ajax_get_term_keyword_usage() {
 	);
 }
 
-add_action( 'wp_ajax_get_term_keyword_usage',  'ajax_get_term_keyword_usage' );
+add_action( 'wp_ajax_get_term_keyword_usage', 'ajax_get_term_keyword_usage' );
 
 /**
  * Removes stopword from the sample permalink that is generated in an AJAX request

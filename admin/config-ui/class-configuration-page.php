@@ -55,7 +55,7 @@ class WPSEO_Configuration_Page {
 	}
 
 	/**
-	 * Renders the wizard page and exits to prevent the wordpress UI from loading.
+	 * Renders the wizard page and exits to prevent the WordPress UI from loading.
 	 */
 	public function render_wizard_page() {
 		$this->show_wizard();

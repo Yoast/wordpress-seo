@@ -48,7 +48,7 @@ function wpseo_admin_bar_menu() {
 		}
 	}
 
-	if ( is_category() || is_tag() || (WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && ! WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) ) || is_tax() ) {
+	if ( is_category() || is_tag() || ( WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && ! WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) ) || is_tax() ) {
 		if ( $analysis_seo->is_enabled() ) {
 			$score = wpseo_tax_adminbar_seo_score();
 		}
@@ -394,8 +394,9 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  * Enqueue CSS to format the Yoast SEO adminbar item.
  */
 function wpseo_admin_bar_style() {
+	$options = WPSEO_Options::get_option( 'wpseo' );
 
-	if ( ! is_admin_bar_showing() ) {
+	if ( ! is_admin_bar_showing() || $options['enable_admin_bar_menu'] !== true ) {
 		return;
 	}
 
@@ -422,7 +423,7 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 	// $args[3] holds the custom field.
 	// Make sure the request is to edit or add a post meta (this is usually also the second value in $cap,
 	// but this is safer to check).
-	if ( in_array( $args[0], array( 'edit_post_meta', 'add_post_meta' ) ) ) {
+	if ( in_array( $args[0], array( 'edit_post_meta', 'add_post_meta' ), true ) ) {
 		// Only allow editing rights for users who have the rights to edit this post and make sure
 		// the meta value starts with _yoast_wpseo (WPSEO_Meta::$meta_prefix).
 		if ( ( isset( $args[2] ) && current_user_can( 'edit_post', $args[2] ) ) && ( ( isset( $args[3] ) && $args[3] !== '' ) && strpos( $args[3], WPSEO_Meta::$meta_prefix ) === 0 ) ) {

@@ -1,7 +1,10 @@
 <?php
+/**
+ * @package WPSEO\Tests
+ */
 
 /**
- * @package WPSEO\Unittests
+ * Unit Test Class.
  */
 class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
@@ -186,7 +189,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::get_default_title
 	 */
 	public function test_get_default_title() {
-		// TODO
+		// @todo
 	}
 
 	/**
