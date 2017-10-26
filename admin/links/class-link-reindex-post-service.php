@@ -14,6 +14,19 @@ class WPSEO_Link_Reindex_Post_Service {
 	 * @return WP_REST_Response The response object.
 	 */
 	public function reindex() {
+		return new WP_REST_Response( $this->get_total_posts() );
+	}
+
+	/**
+	 * Returns the posts.
+	 *
+	 * @return int The total amount of unprocessed posts.
+	 */
+	protected function get_total_posts() {
+		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+			return 0;
+		}
+
 		$content_processor = new WPSEO_Link_Content_Processor( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
 
 		$posts = WPSEO_Link_Query::get_unprocessed_posts( WPSEO_Link_Utils::get_public_post_types() );
@@ -25,6 +38,6 @@ class WPSEO_Link_Reindex_Post_Service {
 			$content_processor->process( $post->ID, $content );
 		}
 
-		return new WP_REST_Response( count( $posts ) );
+		return count( $posts );
 	}
 }

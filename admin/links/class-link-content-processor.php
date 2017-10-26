@@ -34,10 +34,6 @@ class WPSEO_Link_Content_Processor {
 	 * @param string $content The content to process.
 	 */
 	public function process( $post_id, $content ) {
-		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
-			return;
-		}
-
 		$link_extractor = new WPSEO_Link_Extractor( $content );
 		$link_processor = new WPSEO_Link_Factory(
 			new WPSEO_Link_Type_Classifier( site_url() ),
@@ -66,10 +62,6 @@ class WPSEO_Link_Content_Processor {
 	 * @param array    $links   Links to process for incoming link count update.
 	 */
 	public function update_link_counts( $post_id, $count, array $links ) {
-		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
-			return;
-		}
-
 		$this->store_internal_link_count( $post_id, $count );
 		$this->update_incoming_links( $post_id, $links );
 	}
@@ -82,10 +74,6 @@ class WPSEO_Link_Content_Processor {
 	 * @return WPSEO_Link[] List of internal links connected to the post.
 	 */
 	public function get_stored_internal_links( $post_id ) {
-		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() ) {
-			return array();
-		}
-
 		$links = $this->storage->get_links( $post_id );
 		return array_filter( $links, array( $this, 'filter_internal_link' ) );
 	}
