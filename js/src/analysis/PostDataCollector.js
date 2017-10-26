@@ -10,6 +10,8 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar }from "../ui/adminBar";
 
 import publishBox from "../ui/publishBox";
+import _isUndefined from "lodash/isUndefined";
+import _get from "lodash/get";
 
 let $ = jQuery;
 let currentKeyword = "";
@@ -37,10 +39,16 @@ let PostDataCollector = function( args ) {
  * @returns {void}
  */
 PostDataCollector.prototype.getData = function() {
+	let text = this.getText();
+	let gutenbergContent = _get( window, 'parent._wpGutenbergPost.content.rendered', '' );
+	if ( gutenbergContent !== '' ) {
+		text = gutenbergContent;
+	}
+
 	return {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		meta: this.getMeta(),
-		text: this.getText(),
+		text,
 		title: this.getTitle(),
 		url: this.getUrl(),
 		excerpt: this.getExcerpt(),
