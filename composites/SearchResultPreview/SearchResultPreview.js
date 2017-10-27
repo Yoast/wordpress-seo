@@ -9,7 +9,6 @@ import Button from "../../forms/Button";
  * The SearchResultPreview component.
  */
 class SearchResultPreview extends React.Component {
-
 	/**
 	 * Constructs the SearchResultPreview.
 	 *
@@ -82,7 +81,7 @@ class SearchResultPreview extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		this.props.measureTitle( this.getFieldWidthByReference( "previewTitle" ) );
+		this.props.measureTitle( this.getPreviewTitleWidth() );
 		this.props.measureDescription( this.props.description.length );
 	}
 
@@ -96,7 +95,7 @@ class SearchResultPreview extends React.Component {
 	componentDidUpdate( prevProps ) {
 		if ( this.props.title !== prevProps.title ) {
 			// Recalculate width
-			this.props.measureTitle( this.getFieldWidthByReference( "previewTitle" ) );
+			this.props.measureTitle( this.getPreviewTitleWidth() );
 		}
 
 		if ( this.props.description !== prevProps.description ) {
@@ -106,13 +105,12 @@ class SearchResultPreview extends React.Component {
 	}
 
 	/**
-	 * Gets the width of a specific, referred element.
+	 * Gets the width of the preview title element.
 	 *
-	 * @param {string} reference The reference to look up an element by.
 	 * @returns {number} The width of the referenced element or 0 if nothing was found.
 	 */
-	getFieldWidthByReference( reference ) {
-		return this.refs[ reference ].getBoundingClientRect().width || 0;
+	getPreviewTitleWidth() {
+		return this.previewTitle.getBoundingClientRect().width || 0;
 	}
 
 	/**
@@ -159,33 +157,40 @@ class SearchResultPreview extends React.Component {
 		let translations = this.getTranslations();
 
 		return (
-			<Section level={3}
-			         headingText={translations.previewTitle}
-			         headingClassName={this.classNames.sectionHeading}
-			         className={this.classNames.section}>
+			<Section
+				level={3}
+				headingText={translations.previewTitle}
+				headingClassName={this.classNames.sectionHeading}
+				className={this.classNames.section}>
 				<p className={this.classNames.screenReaderText}>{translations.previewDescription}</p>
 
-				<div ref="previewTitleContainer"
-				     className={this.setClassNameForField( "previewTitleContainer" )}
-				     {...this.mouseEventHandlers( "previewTitleContainer", "formTitle" )}>
+				<div
+					className={this.setClassNameForField( "previewTitleContainer" )}
+					{...this.mouseEventHandlers( "previewTitleContainer", "formTitle" )}>
 					<span className={this.classNames.screenReaderText}>{translations.titleLabel}</span>
-                    <span ref="previewTitle" className={this.classNames.title}>{translations.title}</span>
+					<span
+						ref={ previewTitle => {
+							this.previewTitle = previewTitle;
+						} }
+						className={this.classNames.title}>
+						{translations.title}
+					</span>
 				</div>
 
-				<div ref="previewUrlContainer"
-	                 className={this.setClassNameForField( "previewUrlContainer" )}
-	                 {...this.mouseEventHandlers( "previewUrlContainer", "formSlug" )}>
+				<div
+					className={this.setClassNameForField( "previewUrlContainer" )}
+					{...this.mouseEventHandlers( "previewUrlContainer", "formSlug" )}>
 					<span className={this.classNames.screenReaderText}>{translations.urlLabel}</span>
-					<span ref="previewUrl" className={this.classNames.url}>{this.props.url}</span>
+					<span className={this.classNames.url}>{this.props.url}</span>
 				</div>
 
-				<div ref="previewDescriptionContainer"
-	                 className={this.setClassNameForField( "previewDescriptionContainer" )}
-	                 {...this.mouseEventHandlers( "previewDescriptionContainer", "formDescription" )}>
+				<div
+					className={this.setClassNameForField( "previewDescriptionContainer" )}
+					{...this.mouseEventHandlers( "previewDescriptionContainer", "formDescription" )}>
 					<span className={this.classNames.screenReaderText}>{translations.descriptionLabel}</span>
 					{ this.renderDate() }
-					<span ref="previewDescription"
-					      className={this.classNames.description}>{translations.description.substr( 0, 156 )}</span>
+					<span
+						className={this.classNames.description}>{translations.description.substr( 0, 156 )}</span>
 				</div>
 
 				{ this.renderEditButton() }

@@ -35,7 +35,9 @@ export default class InputField extends React.Component {
 					handlePastedText= { this.handlePastedText.bind( this ) }
 					onChange={ this.onChange.bind( this ) }
 					placeholder={ this.props.placeholder }
-					ref="editor"
+					ref={ editor => {
+						this.editor = editor;
+					} }
 					handleReturn={ () => "handled" }
 				/>
 			</InputFieldContainer>
@@ -47,7 +49,7 @@ export default class InputField extends React.Component {
 	}
 
 	focus() {
-		this.refs.editor.focus();
+		this.editor.focus();
 	}
 
 	handlePastedText( text ) {
