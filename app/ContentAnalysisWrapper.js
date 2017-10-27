@@ -68,6 +68,7 @@ export default function HelpCenterWrapper() {
 			errorsResults={ errorsResults }
 			changeLanguageLink="#"
 			language="English"
+			isOnReadabilityTab={ true }
 		/>
 	);
 }
