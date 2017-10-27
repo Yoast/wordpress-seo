@@ -80,7 +80,7 @@ test( "the ContentAnalysis component with language notice matches the snapshot",
 			errorsResults={ errorsResults }
 			changeLanguageLink={ "#" }
 			language="English"
-			isOnReadabilityTab={ true }
+			showLanguageNotice={ true }
 		/>
 	);
 
