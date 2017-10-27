@@ -615,7 +615,8 @@ class WPSEO_Frontend {
 	 */
 	public function debug_mark( $echo = true ) {
 		$marker = sprintf(
-			'<!-- This site is optimized with the ' . $this->head_product_name() . '%1$s - https://yoast.com/wordpress/plugins/seo/ -->',
+			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
+			esc_html( $this->head_product_name() ),
 			/**
 			 * Filter: 'wpseo_hide_version' - can be used to hide the Yoast SEO version in the debug marker (only available in Yoast SEO Premium)
 			 *
