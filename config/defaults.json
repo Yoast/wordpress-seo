@@ -1,0 +1,11 @@
+{
+  "css": {
+    "breakpoint": {
+      "tablet": 1355,
+      "mobile": 800
+    },
+    "inputField": {
+      "height": "3em"
+    }
+  }
+}

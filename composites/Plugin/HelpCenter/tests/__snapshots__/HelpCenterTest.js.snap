@@ -13,14 +13,14 @@ exports[`the HelpCenter matches the snapshot 1`] = `
     <span>
       <svg
         aria-hidden="true"
-        className="sc-gzVnrw gPgFAM"
+        className="sc-gzVnrw giPTtE"
         focusable="false"
         role="img"
       />
       Need help?
       <svg
         aria-hidden="true"
-        className="sc-htoDjs aOUzm"
+        className="sc-htoDjs qsGWH"
         focusable="false"
         role="img"
       />
@@ -42,14 +42,14 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
     <span>
       <svg
         aria-hidden="true"
-        className="sc-dnqmqq ljFcTe"
+        className="sc-dnqmqq epCumD"
         focusable="false"
         role="img"
       />
       Need help?
       <svg
         aria-hidden="true"
-        className="sc-iwsKbI bNSoos"
+        className="sc-iwsKbI ijGefo"
         focusable="false"
         role="img"
       />

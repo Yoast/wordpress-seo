@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
+<div
+  className="sc-bZQynM iXyxsW"
+>
+  <button
+    aria-expanded={true}
+    className="sc-gzVnrw ixBHgh sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden="true"
+      className="sc-fjdhpX fadKJT sc-jzJRlG bTTrWz"
+      focusable="false"
+      role="img"
+    />
+    <span
+      className="sc-htoDjs grDYmx"
+    >
+      Problems (4)
+    </span>
+  </button>
+  <ul
+    className="sc-dnqmqq gRQMRU"
+    role="list"
+  >
+    <li>
+       First item 
+    </li>
+    <li>
+       Second item 
+    </li>
+    <li>
+       Third item 
+    </li>
+    <li>
+       Fourth item 
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`the AnalysisCollapsible with a heading matches the snapshot 1`] = `
+<div
+  className="sc-bZQynM iXyxsW"
+>
+  <h2
+    className="sc-gqjmRU kWAqZI"
+  >
+    <button
+      aria-expanded={false}
+      className="sc-gzVnrw ixBHgh sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        className="sc-VigVT errXbw sc-jTzLTM haBLZ"
+        focusable="false"
+        role="img"
+      />
+      <span
+        className="sc-htoDjs grDYmx"
+      >
+        Problems (4)
+      </span>
+    </button>
+  </h2>
+</div>
+`;
+
+exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
+<div
+  className="sc-bZQynM iXyxsW"
+>
+  <button
+    aria-expanded={false}
+    className="sc-gzVnrw ixBHgh sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden="true"
+      className="sc-iwsKbI iENOxB sc-gZMcBi eILSAm"
+      focusable="false"
+      role="img"
+    />
+    <span
+      className="sc-htoDjs grDYmx"
+    >
+      Problems (4)
+    </span>
+  </button>
+</div>
+`;
