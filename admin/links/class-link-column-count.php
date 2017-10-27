@@ -30,7 +30,8 @@ class WPSEO_Link_Column_Count {
 	 * @param int    $post_id      The post id.
 	 * @param string $target_field The field to show.
 	 *
-	 * @return int The total amount of links.
+	 * @return int|null The total amount of links or null if the target field
+	 *                  does not exist for the given post id.
 	 */
 	public function get( $post_id, $target_field = 'internal_link_count' ) {
 		if ( array_key_exists( $post_id, $this->count ) && array_key_exists( $target_field, $this->count[ $post_id ] ) ) {
