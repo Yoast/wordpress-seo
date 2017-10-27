@@ -82,7 +82,11 @@ VideoDescriptionItem.propTypes = {
 	description: PropTypes.string.isRequired,
 	link: PropTypes.string.isRequired,
 	linkText: PropTypes.string.isRequired,
-	className: PropTypes.string.isRequired,
+	className: PropTypes.string,
+};
+
+VideoDescriptionItem.defaultProps = {
+	className: "yoast-video-tutorial",
 };
 
 /**

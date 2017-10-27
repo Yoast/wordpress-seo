@@ -1,4 +1,4 @@
-import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD } from "../../actions/contentAnalysis";
+import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD } from "../../actions/contentAnalysis";
 import findIndex from "lodash/findIndex";
 import omit from "lodash/omit";
 
@@ -32,16 +32,17 @@ function replaceResult( state, action ) {
 }
 
 /**
- * Sets a result for a new keyword.
+ * Sets results for a new keyword.
  *
  * @param {Object} state The state.
- * @param {Object} action The action.
+ * @param {Object} keyword The keyword.
+ * @param {Array} results The SEO analysis results.
  *
  * @returns {Object} The new results.
  */
-function setResultForNewKeyword( state, action ) {
+function setResultsForNewKeyword( state, keyword, results ) {
 	return Object.assign( {}, state, {
-		[ action.keyword ]: [ action.result ],
+		[ keyword ]: results,
 	} );
 }
 
@@ -55,7 +56,7 @@ function setResultForNewKeyword( state, action ) {
  */
 function updateSeoResult( state, action ) {
 	if( ! state[ action.keyword ] ) {
-		return setResultForNewKeyword( state, action );
+		return setResultsForNewKeyword( state, action.keyword, [ action.result ] );
 	}
 
 	let resultIndex = findIndex( state[ action.keyword ], { id: action.result.id } );
@@ -65,6 +66,24 @@ function updateSeoResult( state, action ) {
 
 	return Object.assign( {}, state, {
 		[ action.keyword ]: [ ...state[ action.keyword ], action.result ],
+	} );
+}
+
+/**
+ * Updates all SEO results for a keyword. Adds a keyword if it doesn't exist yet and updates it otherwise.
+ *
+ * @param {Object} state The state.
+ * @param {Object} action The action.
+ *
+ * @returns {Object} The updated results.
+ */
+function updateSeoResultsForKeyword( state, action ) {
+	if( ! state[ action.keyword ] ) {
+		return setResultsForNewKeyword( state, action.keyword, action.results );
+	}
+
+	return Object.assign( {}, state, {
+		[ action.keyword ]: action.results,
 	} );
 }
 
@@ -101,6 +120,8 @@ export function keywordResultsReducer( state = initialState, action ) {
 			return updateSeoResult( state, action );
 		case REMOVE_KEYWORD:
 			return omit( state, action.keyword );
+		case SET_SEO_RESULTS_FOR_KEYWORD:
+			return updateSeoResultsForKeyword( state, action );
 		default:
 			return state;
 	}

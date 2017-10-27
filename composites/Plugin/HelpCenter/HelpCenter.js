@@ -18,7 +18,7 @@ const messages = defineMessages( {
 
 export const HelpCenterContainer = styled.div`
 	margin: 0;
-	
+
 	@media screen and ( max-width: ${ breakpoints.mobile } ) {
 		margin: 0 0 1em;
 	}
@@ -92,6 +92,8 @@ class HelpCenter extends React.Component {
 						tabsFontSize={ this.props.tabsFontSize }
 						tabsFontWeight={ this.props.tabsFontWeight }
 						tabsBaseWidth={ this.props.tabsBaseWidth }
+						onTabSelect={ this.props.onTabSelect }
+						onTabsMounted={ this.props.onTabsMounted }
 					/>
 				</HelpCenterPaper> }
 			</HelpCenterContainer>
@@ -113,6 +115,8 @@ HelpCenter.propTypes = {
 	tabsFontWeight: PropTypes.string,
 	tabsBaseWidth: PropTypes.string,
 	onHelpCenterToggle: PropTypes.func,
+	onTabSelect: PropTypes.func,
+	onTabsMounted: PropTypes.func,
 };
 
 HelpCenter.defaultProps = {
