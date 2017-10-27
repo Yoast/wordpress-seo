@@ -10,14 +10,14 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
   <span>
     <svg
       aria-hidden="true"
-      className="sc-bxivhb leOCwi"
+      className="sc-bxivhb ksUJoA"
       focusable="false"
       role="img"
     />
     Need Help?
     <svg
       aria-hidden="true"
-      className="sc-ifAKCX jVpdZB"
+      className="sc-ifAKCX IXWUE"
       focusable="false"
       role="img"
     />

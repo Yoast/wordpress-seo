@@ -3,7 +3,7 @@ import { IntlProvider } from "react-intl";
 
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
 import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
-import ContentAnalysis from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
+import ContentAnalysis from "./app/ContentAnalysisWrapper";
 import Wizard from "./app/WizardWrapper";
 import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
@@ -58,7 +58,7 @@ class App extends React.Component {
 		injectTapEventPlugin();
 
 		this.state = {
-			activeComponent: "help-center",
+			activeComponent: "content-analysis",
 		};
 	}
 
@@ -71,7 +71,7 @@ class App extends React.Component {
 		}
 	}
 
-	navigate( activeComponent, event ) {
+	navigate( activeComponent ) {
 		this.setState( {
 			activeComponent: activeComponent,
 		} );

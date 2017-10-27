@@ -39,6 +39,12 @@ test( "the YoastTabs with props matches the snapshot", () => {
 			tabsFontWeight="600"
 			tabsBaseWidth="300px"
 			items={ items }
+			onTabsMounted={ () => {
+				return "mounted";
+			} }
+			onTabSelect={ () => {
+				return "selected";
+			} }
 		/>
 	);
 

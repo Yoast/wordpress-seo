@@ -2,12 +2,12 @@
 
 exports[`the Paper with props matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa ijlzeq"
+  className="sc-bdVaJa cEwrIE"
 />
 `;
 
 exports[`the Paper without props matches the snapshot 1`] = `
 <div
-  className="sc-bdVaJa djsmUD"
+  className="sc-bdVaJa gPGzjI"
 />
 `;

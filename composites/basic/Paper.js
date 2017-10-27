@@ -11,7 +11,7 @@ import colors from "../../style-guide/colors.json";
  * @returns {ReactElement} The paper-styled div.
  */
 const Paper = styled.div`
-	box-shadow: 0 2px 0.8em 0 rgba(0,0,0,0.2);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	background-color: ${ props => props.backgroundColor };
 	min-height: ${ props => props.minHeight };
 `;

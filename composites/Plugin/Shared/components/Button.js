@@ -247,5 +247,9 @@ export const IconButton = ( props ) => {
 IconButton.propTypes = {
 	icon: PropTypes.func.isRequired,
 	iconColor: PropTypes.string.isRequired,
-	children: PropTypes.string,
+	children: PropTypes.oneOfType( [
+		PropTypes.arrayOf( PropTypes.node ),
+		PropTypes.node,
+		PropTypes.string,
+	] ),
 };

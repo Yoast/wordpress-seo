@@ -40,7 +40,7 @@ const YoastTabsContainer = styled.div`
 	.react-tabs__tab-panel {
 		display: none;
 		padding: 24px 40px;
-		
+
 		@media screen and ( max-width: ${ breakpoints.mobile } ) {
 			padding: 16px 16px;
 		}
@@ -109,7 +109,7 @@ class YoastTabs extends React.Component {
 				tabsFontWeight={ this.props.tabsFontWeight }
 				tabsBaseWidth={ this.props.tabsBaseWidth }
 			>
-				<Tabs>
+				<Tabs onSelect={ this.props.onTabSelect }>
 					<TabList>
 						{ this.getTabs() }
 					</TabList>
@@ -117,6 +117,10 @@ class YoastTabs extends React.Component {
 				</Tabs>
 			</YoastTabsContainer>
 		);
+	}
+
+	componentDidMount() {
+		this.props.onTabsMounted();
 	}
 }
 
@@ -133,6 +137,8 @@ YoastTabs.propTypes = {
 	tabsFontSize: PropTypes.string,
 	tabsFontWeight: PropTypes.string,
 	tabsBaseWidth: PropTypes.string,
+	onTabSelect: PropTypes.func,
+	onTabsMounted: PropTypes.func,
 };
 
 YoastTabs.defaultProps = {
@@ -142,6 +148,7 @@ YoastTabs.defaultProps = {
 	tabsFontSize: "1.5em",
 	tabsFontWeight: "200",
 	tabsBaseWidth: "200px",
+	onTabsMounted: () => {},
 };
 
 export default YoastTabs;

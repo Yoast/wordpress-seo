@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the Notification with props matches the snapshot 1`] = `
+<div
+  className="sc-bdVaJa gPGzjI"
+>
+  <div
+    className="sc-bwzfXH fBEotv"
+  >
+    <img
+      alt=""
+      className="sc-htpNat cyCXzh"
+      src="some-image.png"
+    />
+    <div
+      className="sc-bxivhb cWqORw"
+    >
+      <h3>
+        New User?
+      </h3>
+      <p
+        className="prova"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Get started with our <a href=\\"#blabla\\">Configuration Wizard!</a>",
+          }
+        }
+      />
+    </div>
+    <button
+      aria-label="Dismiss this notice"
+      className="sc-ifAKCX RxIFE"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        className="sc-EHOje kuyEOL sc-bZQynM iUFeFB"
+        focusable="false"
+        role="img"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`the Notification without props matches the snapshot 1`] = `
+<div
+  className="sc-bdVaJa gPGzjI"
+>
+  <div
+    className="sc-bwzfXH bmgoVW"
+  >
+    <div
+      className="sc-bxivhb cWqORw"
+    >
+      <h3 />
+      <p
+        className="prova"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": undefined,
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

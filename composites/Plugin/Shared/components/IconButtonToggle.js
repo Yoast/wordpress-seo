@@ -8,7 +8,7 @@ import { rgba } from "../../../../style-guide/helpers";
 
 const ChangingIconButtonBase = styled.button`
 	box-sizing: border-box;
-	width: 32px;
+	min-width: 32px;
 	display: inline-block;
 	border: 1px solid ${ colors.$color_button_border };
 	background-color: ${ props => props.pressed ? props.pressedBackground : props.unpressedBackground };
@@ -18,13 +18,20 @@ const ChangingIconButtonBase = styled.button`
 	border-radius: 3px;
 	cursor: pointer;
 	padding: 0;
-	height: ${ props => props.pressed ? "24px" : "25px" };
-	
+	height: ${ props => props.pressed ? "23px" : "24px" };
+
 	&:hover {
 		border-color: ${ props => props.hoverBorderColor }
 	}
 `;
 
+/**
+ * Returns the ChangingIconButton component.
+ *
+ * @param {object} props Component props.
+ *
+ * @returns {ReactElement} ChangingIconButton component.
+ */
 const ChangingIconButton = ( props ) => {
 	return (
 		<ChangingIconButtonBase

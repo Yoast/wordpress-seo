@@ -5,6 +5,20 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.11: October 27th, 2017
+
+### Added
+
+#### Components
+* `Notification` component. #348
+* `AnalysisResult` component. #352
+* `ContentAnalysis` component. #359
+
+#### Other additions
+* Added callbacks to notify tab switch in `YoastTabs`. #346
+* `setSeoResultsForKeyword` action and reducer implementation. #355
+* Added default `className` to `VideoDescriptionItem` component. #358
+
 ## 2.10.3: October 17th, 2017
 
 ### Added
