@@ -10,7 +10,6 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar }from "../ui/adminBar";
 
 import publishBox from "../ui/publishBox";
-import _isUndefined from "lodash/isUndefined";
 import _get from "lodash/get";
 
 let $ = jQuery;
@@ -46,8 +45,8 @@ PostDataCollector.prototype.getData = function() {
 	 * Gutenberg then exposes a global on that window. Which is `_wpGutenbergPost`. The post has two content
 	 * properties: `rendered` and `raw`. For the content analysis we are interested in the rendered content.
 	 */
-	let gutenbergContent = _get( window, 'parent._wpGutenbergPost.content.rendered', '' );
-	if ( gutenbergContent !== '' ) {
+	let gutenbergContent = _get( window, "parent._wpGutenbergPost.content.rendered", "" );
+	if ( gutenbergContent !== "" ) {
 		text = gutenbergContent;
 	}
 
