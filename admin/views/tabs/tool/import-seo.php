@@ -18,7 +18,7 @@ printf( __( 'If you\'ve used another SEO plugin, try the %1$sSEO Data Transporte
 ?></p>
 
 <form
-	action="<?php echo esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"
+	action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"
 	method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 	<?php
 	wp_nonce_field( 'wpseo-import', '_wpnonce', true, true );
