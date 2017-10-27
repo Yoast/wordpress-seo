@@ -114,7 +114,7 @@ class WPSEO_Link_Reindex_Dashboard {
 		<div id="wpseo_index_links_wrapper" class="hidden">
 			<?php echo implode( '<hr />', $blocks ); ?>
 			<button onclick="tb_remove();" type="button"
-					class="button"><?php _e( 'Stop counting', 'wordpress-seo' ); ?></button>
+					class="button"><?php esc_html_e( 'Stop counting', 'wordpress-seo' ); ?></button>
 		</div>
 		<?php
 	}

@@ -145,7 +145,7 @@ class WPSEO_Help_Center {
 	 * Outputs the help center div.
 	 */
 	public function mount() {
-		echo '<div id="' . esc_attr( $this->identifier ) . '">' . __( 'Loading help center.', 'wordpress-seo' ) . '</div>';
+		echo '<div id="' . esc_attr( $this->identifier ) . '">' . esc_html__( 'Loading help center.', 'wordpress-seo' ) . '</div>';
 	}
 
 	/**

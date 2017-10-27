@@ -19,7 +19,7 @@ $version = '3.4';
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
 		echo '<li class="wp-person">';
-		echo '<a href="https://github.com/', $username, '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=120" class="gravatar" alt="">', $dev->name, '</a>';
+		echo '<a href="', esc_url( 'https://github.com/' . $username ), '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=120" class="gravatar" alt="">', $dev->name, '</a>';
 		echo '<span class="title">', $dev->role, "</span></li>\n";
 	}
 }
@@ -46,14 +46,14 @@ function wpseo_display_contributors( $contributors ) {
 	<div class="wp-badge"></div>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" href="#top#integrations" id="integrations-tab"><?php _e( 'Integrations', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" href="#top#integrations" id="integrations-tab"><?php esc_html_e( 'Integrations', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<div id="credits" class="wpseotab">
 		<h2 class="screen-reader-text"><?php esc_html_e( 'Team and contributors', 'wordpress-seo' ); ?></h2>
 
-		<h3 class="wp-people-group"><?php _e( 'Product Management', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Product Management', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-project-leaders">
 			<?php
 			$people = array(
@@ -77,7 +77,7 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h3 class="wp-people-group"><?php _e( 'Development Leaders', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Development Leaders', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-development-leaders">
 			<?php
 			$people = array(
@@ -101,7 +101,7 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h3 class="wp-people-group"><?php _e( 'Yoast Developers', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Yoast Developers', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
 			$people = array(
@@ -155,7 +155,7 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h3 class="wp-people-group"><?php _e( 'Quality Assurance & Testing', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Quality Assurance & Testing', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-qa-testing">
 			<?php
 			$people = array(
@@ -194,7 +194,7 @@ function wpseo_display_contributors( $contributors ) {
 				$version
 			);
 			?>
-			<h3 class="wp-people-group"><?php _e( 'Community contributors', 'wordpress-seo' ); ?></h3>
+			<h3 class="wp-people-group"><?php esc_html_e( 'Community contributors', 'wordpress-seo' ); ?></h3>
 			<p><?php echo $call_to_contribute; ?></p>
 			<ul class="ul-square">
 				<?php

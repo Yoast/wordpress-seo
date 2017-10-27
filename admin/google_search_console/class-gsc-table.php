@@ -361,8 +361,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * @param string $platform Platform (desktop, mobile, feature phone).
 	 */
 	private function show_fields( $platform ) {
-		echo "<input type='hidden' name='wpseo_gsc_nonce' value='" . wp_create_nonce( 'wpseo_gsc_nonce' ) . "' />";
-		echo "<input id='field_platform' type='hidden' name='platform' value='{$platform}' />";
-		echo "<input id='field_category' type='hidden' name='category' value='{$this->current_view}' />";
+		echo '<input type="hidden" name="wpseo_gsc_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_gsc_nonce' ) ) . '" />';
+		echo '<input id="field_platform" type="hidden" name="platform" value="' . esc_attr( $platform ) . '" />';
+		echo '<input id="field_category" type="hidden" name="category" value="' . esc_attr( $this->current_view ) . '" />';
 	}
 }
