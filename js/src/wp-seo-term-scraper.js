@@ -18,7 +18,8 @@ var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
 var UsedKeywords = require( "./analysis/usedKeywords" );
 
 import TermDataCollector from "./analysis/TermDataCollector";
-import { termsTmceId as tmceId } from "./wp-seo-tinymce";
+import { termsTmceId as tmceId } from "./wp-seo-tinymce"
+import initializeEdit from "./edit";
 
 window.yoastHideMarkers = true;
 
@@ -32,6 +33,8 @@ window.yoastHideMarkers = true;
 	var termSlugInput;
 
 	var tabManager;
+
+	let store;
 
 	/**
 	 * Get the editor created via wp_editor() and append it to the term-description-wrap
@@ -164,6 +167,8 @@ window.yoastHideMarkers = true;
 	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
+		store = initializeEdit().store;
+
 		snippetContainer = $( "#wpseosnippet" );
 
 		insertTinyMCE();
@@ -217,6 +222,7 @@ window.yoastHideMarkers = true;
 
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
+		window.YoastSEO.store = store;
 
 		termScraper.initKeywordTabTemplate();
 
