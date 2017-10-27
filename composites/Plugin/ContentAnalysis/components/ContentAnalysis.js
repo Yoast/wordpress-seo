@@ -153,11 +153,12 @@ class ContentAnalysis extends React.Component {
 		let goodResults = this.props.goodResults;
 		let considerationsResults = this.props.considerationsResults;
 		let errorsResults = this.props.errorsResults;
+		let showLanguageNotice = this.props.showLanguageNotice;
 
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
-				<LanguageNotice>
+				{ showLanguageNotice && <LanguageNotice>
 					<FormattedMessage
 						id="content-analysis.language-notice"
 						defaultMessage="Your site language is set to {language}."
@@ -165,7 +166,7 @@ class ContentAnalysis extends React.Component {
 					<ChangeLanguageLink href={ this.props.changeLanguageLink }>
 						{ this.props.intl.formatMessage( messages.languageNoticeLink ) }
 					</ChangeLanguageLink>
-				</LanguageNotice>
+				</LanguageNotice> }
 				{ errorsResults.length > 0 &&
 				<AnalysisCollapsible
 					hasHeading={ true }
@@ -221,6 +222,7 @@ ContentAnalysis.propTypes = {
 	errorsResults: PropTypes.array,
 	changeLanguageLink: PropTypes.string.isRequired,
 	language: PropTypes.string.isRequired,
+	showLanguageNotice: PropTypes.bool,
 	intl: intlShape.isRequired,
 };
 
@@ -230,6 +232,7 @@ ContentAnalysis.defaultProps = {
 	goodResults: [],
 	considerationsResults: [],
 	errorsResults: [],
+	showLanguageNotice: false,
 };
 
 export default injectIntl( ContentAnalysis );
