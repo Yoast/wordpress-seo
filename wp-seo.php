@@ -45,3 +45,6 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 
 // Load the Yoast SEO plugin.
 require_once dirname( WPSEO_FILE ) . '/wp-seo-main.php';
+some updates will be required
+improve the latest Google SEO updates
+improve the focus keyword multiple time use in article
