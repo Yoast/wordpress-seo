@@ -91,7 +91,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'version'     => '1.3',
 				'installed'   => false,
 				'slug'        => 'test-plugin-invalid-version/test-plugin-invalid-version.php',
-//				'compatible'  => false,
+				'compatible'  => false,
 				'version_sync' => true,
 			),
 
@@ -102,7 +102,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'version'      => '1.3',
 				'installed'    => true,
 				'version_sync' => false,
-//				'compatible'   => true,
+				'compatible'   => true,
 			),
 		);
 	}

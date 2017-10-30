@@ -129,6 +129,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'installed'   => true,
 				'slug'        => 'test-plugin-invalid-version/test-plugin-invalid-version.php',
 				'version_sync' => true,
+				'compatible' => false,
 			),
 			'test-plugin-non-version-synced' => array(
 				'url'          => 'https://yoast.com/',
@@ -137,6 +138,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'version'      => '1.3',
 				'installed'    => true,
 				'version_sync' => false,
+				'compatible' => true,
 			),
 		);
 
