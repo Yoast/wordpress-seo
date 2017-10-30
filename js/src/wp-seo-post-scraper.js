@@ -415,6 +415,15 @@ import UsedKeywords from "./analysis/usedKeywords";
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		app.seoAssessorPresenter.render = function() {};
 		app.contentAssessorPresenter.render = function() {};
+		app.contentAssessorPresenter.renderIndividualRatings = function() {};
+		let originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
+		app.initAssessorPresenters = function() {
+			originalInitAssessorPresenters();
+
+			app.seoAssessorPresenter.render = function() {};
+			app.contentAssessorPresenter.render = function() {};
+			app.contentAssessorPresenter.renderIndividualRatings = function() {};
+		};
 
 		// Set initial keyword
 		store.dispatch( setActiveKeyword( tabManager.getKeywordTab().getKeyWord() ) );
