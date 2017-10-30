@@ -31,13 +31,6 @@ var stripBlockTagsAtStartEnd = function( text ) {
 	return text;
 };
 
-var stripTagsPlusContent = function( text ) {
-	text = text.replace( /<code>( (.|\n|\r|\u2028|\u2029) )*?<\/code>/ig, " " );
-	text = text.replace( /(<code>)/ig, " " );
-	text = text.replace( /(<\/code>)/ig, " " );
-	return text;
-};
-
 /**
  * Strip HTML-tags from text
  *
@@ -45,7 +38,6 @@ var stripTagsPlusContent = function( text ) {
  * @returns {String} The text without HTML-tags.
  */
 var stripFullTags = function( text ) {
-	text = stripTagsPlusContent( text );
 	text = text.replace( /(<([^>]+)>)/ig, " " );
 	text = stripSpaces( text );
 	return text;
@@ -55,5 +47,4 @@ module.exports = {
 	stripFullTags: stripFullTags,
 	stripIncompleteTags: stripIncompleteTags,
 	stripBlockTagsAtStartEnd: stripBlockTagsAtStartEnd,
-	stripTagsPlusContent: stripTagsPlusContent,
 };
