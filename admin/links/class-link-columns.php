@@ -219,15 +219,21 @@ class WPSEO_Link_Columns {
 	 * @param int    $post_id     Post to display the column content for.
 	 */
 	public function column_content( $column_name, $post_id ) {
+		$link_count = null;
+
 		switch ( $column_name ) {
 			case 'wpseo-' . self::COLUMN_LINKS:
-				echo $this->link_count->get( $post_id, 'internal_link_count' );
+				$link_count = $this->link_count->get( $post_id, 'internal_link_count' );
 				break;
 			case 'wpseo-' . self::COLUMN_LINKED:
 				if ( get_post_status( $post_id ) === 'publish' ) {
-					echo $this->link_count->get( $post_id, 'incoming_link_count' );
+					$link_count = $this->link_count->get( $post_id, 'incoming_link_count' );
 				}
 				break;
+		}
+
+		if ( isset( $link_count ) ) {
+			echo (int) $link_count;
 		}
 	}
 
