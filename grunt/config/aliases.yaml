@@ -16,6 +16,9 @@ build:
   - 'copy:js'
   - 'browserify'
   - 'exorcise'
+'build:test':
+  - 'ts'
+  - 'copy:js'
 # Build CSS
 'build:css':
   - 'copy'

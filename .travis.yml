@@ -13,6 +13,7 @@ install:
 - yarn global add grunt-cli
 - yarn install
 script:
+- yarn lint
 - yarn test
 - grunt check
 - yarn run check-coverage
