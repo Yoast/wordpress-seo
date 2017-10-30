@@ -20,7 +20,7 @@ test( "the AnalysisResult component matches the snapshot", () => {
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "the AnalysisResult component matches the snapshot", () => {
+test( "the AnalysisResult component with html in the text matches the snapshot", () => {
 	const component = createComponentWithIntl(
 		<AnalysisResult
 			ariaLabel="SEOResult"
