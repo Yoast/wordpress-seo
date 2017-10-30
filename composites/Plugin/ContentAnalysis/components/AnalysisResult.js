@@ -39,7 +39,7 @@ export const AnalysisResult = ( props ) => {
 				color={ props.bulletColor }
 				size="13px"
 			/>
-			<AnalysisResultText>{ props.text }</AnalysisResultText>
+			<AnalysisResultText dangerouslySetInnerHTML={ { __html: props.text } } />
 			{
 				props.hasMarksButton &&
 					<IconButtonToggle
