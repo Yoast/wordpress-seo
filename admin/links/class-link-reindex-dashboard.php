@@ -65,7 +65,7 @@ class WPSEO_Link_Reindex_Dashboard {
 			$html .= sprintf(
 				'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%2$s</a>',
 				175,
-				esc_attr( __( 'Count links in your texts', 'wordpress-seo' ) )
+				esc_attr__( 'Count links in your texts', 'wordpress-seo' )
 			);
 			$html .= '</p>';
 		}
@@ -90,7 +90,7 @@ class WPSEO_Link_Reindex_Dashboard {
 
 		if ( $this->unprocessed === 0 ) {
 			$inner_text = sprintf( '<p>%s</p>',
-				esc_html( __( 'All your texts are already counted, there is no need to count them again.', 'wordpress-seo' ) )
+				esc_html__( 'All your texts are already counted, there is no need to count them again.', 'wordpress-seo' )
 			);
 		}
 
@@ -107,7 +107,7 @@ class WPSEO_Link_Reindex_Dashboard {
 		}
 
 		$blocks[] = sprintf( '<div><p>%s</p>%s</div>',
-			esc_html( __( 'Counting links in your texts', 'wordpress-seo' ) ),
+			esc_html__( 'Counting links in your texts', 'wordpress-seo' ),
 			$inner_text
 		);
 		?>
