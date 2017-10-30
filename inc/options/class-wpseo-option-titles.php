@@ -482,7 +482,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 *            and post_types have been registered, i.e. at the end of the init action.}}
 		 */
 		if ( isset( $original ) && current_filter() === 'wpseo_double_clean_titles' || did_action( 'wpseo_double_clean_titles' ) > 0 ) {
-			$rename          = array(
+			$rename = array(
 				'title-'           => 'title-tax-',
 				'metadesc-'        => 'metadesc-tax-',
 				'metakey-'         => 'metakey-tax-',

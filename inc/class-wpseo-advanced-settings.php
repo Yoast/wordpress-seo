@@ -42,7 +42,7 @@ class WPSEO_Advanced_Settings {
 	 * @returns void
 	 */
 	public static function add_advanced_page( $page ) {
-		if ( ! in_array( $page, self::$default_advanced_pages ) && ! in_array( $page, self::$additional_advanced_pages ) ) {
+		if ( ! in_array( $page, self::$default_advanced_pages, true ) && ! in_array( $page, self::$additional_advanced_pages, true ) ) {
 			self::$additional_advanced_pages[] = $page;
 		}
 	}
@@ -56,7 +56,7 @@ class WPSEO_Advanced_Settings {
 	 */
 	public static function is_advanced_settings_page( $page ) {
 		if ( is_string( $page ) ) {
-			return in_array( $page, self::$default_advanced_pages ) || in_array( $page, self::$additional_advanced_pages );
+			return in_array( $page, self::$default_advanced_pages, true ) || in_array( $page, self::$additional_advanced_pages, true );
 		}
 
 		return false;

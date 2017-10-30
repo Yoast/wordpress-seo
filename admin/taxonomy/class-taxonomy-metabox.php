@@ -114,7 +114,7 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	private function get_content_meta_section() {
 		$taxonomy_content_fields = new WPSEO_Taxonomy_Content_Fields( $this->term );
-		$content = $this->taxonomy_tab_content->html( $taxonomy_content_fields->get() );
+		$content                 = $this->taxonomy_tab_content->html( $taxonomy_content_fields->get() );
 
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'content',
@@ -143,7 +143,7 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	private function get_settings_meta_section() {
 		$taxonomy_settings_fields = new WPSEO_Taxonomy_Settings_Fields( $this->term );
-		$content = $this->taxonomy_tab_content->html( $taxonomy_settings_fields->get() );
+		$content                  = $this->taxonomy_tab_content->html( $taxonomy_settings_fields->get() );
 
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'settings',
@@ -171,11 +171,11 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_social_meta_section() {
-		$options = WPSEO_Options::get_option( 'wpseo_social' );
+		$options                = WPSEO_Options::get_option( 'wpseo_social' );
 		$taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
-		$social_admin = new WPSEO_Social_Admin();
+		$social_admin           = new WPSEO_Social_Admin();
 
-		$tabs = array();
+		$tabs   = array();
 		$single = true;
 
 		if ( $options['opengraph'] === true && $options['twitter'] === true ) {

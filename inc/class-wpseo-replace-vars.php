@@ -618,7 +618,8 @@ class WPSEO_Replace_Vars {
 
 		if ( $post_type !== '' ) {
 			$pt        = get_post_type_object( $post_type );
-			$pt_plural = $pt_single = $pt->name;
+			$pt_single = $pt->name;
+			$pt_plural = $pt->name;
 			if ( isset( $pt->labels->singular_name ) ) {
 				$pt_single = $pt->labels->singular_name;
 			}

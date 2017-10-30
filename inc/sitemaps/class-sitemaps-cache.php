@@ -198,7 +198,7 @@ class WPSEO_Sitemaps_Cache {
 			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
 		}
 
-		if ( ! in_array( 'subscriber', $user->roles ) ) {
+		if ( ! in_array( 'subscriber', $user->roles, true ) ) {
 			self::invalidate( 'author' );
 		}
 	}

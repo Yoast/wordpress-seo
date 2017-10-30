@@ -1,7 +1,16 @@
 <?php
+/**
+ * @package WPSEO\Tests\Inc\Options
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 		WPSEO_Options::get_instance();

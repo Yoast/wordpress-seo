@@ -1,24 +1,7 @@
 <?php
 /**
- * @package WPSEO\UnitTests
+ * @package WPSEO\Tests\ConfigUI
  */
-
-/**
- * Class WPSEO_Configuration_Storage_Mock
- */
-class WPSEO_Configuration_Storage_Mock extends WPSEO_Configuration_Storage {
-	public function get_fields() {
-		return $this->fields;
-	}
-
-	public function is_not_null( $input ) {
-		return parent::is_not_null( $input );
-	}
-
-	public function get_field_data( WPSEO_Config_Field $field ) {
-		return parent::get_field_data( $field );
-	}
-}
 
 /**
  * Class WPSEO_Configuration_Storage_Test
@@ -26,6 +9,15 @@ class WPSEO_Configuration_Storage_Mock extends WPSEO_Configuration_Storage {
 class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	/** @var WPSEO_Configuration_Storage_Mock */
 	protected $storage;
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-storage-mock.php';
+	}
 
 	/**
 	 * Set up

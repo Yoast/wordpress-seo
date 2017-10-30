@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
 Tested up to: 4.8.2
-Stable tag: 5.6.1
+Stable tag: 5.7
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -132,9 +132,13 @@ Release Date: October 24th, 2017
 Enhancements:
 	* Adds notifications when we detect certain plugins are installed to suggest our AMP and ACF glue plugins.
 	* Adds the ability to start the configuration wizard from the admin bar menu.
-	* Adds better responsiveness styling for the video tabs in the Help Center
+	* Adds better responsive styling for the video tabs in the Help Center.
 	* Replaces the link to Google AdWords with the https variant, props [Shane Gray](https://github.com/shane-gray).
 	* Changes to the desired spelling of `plugin` and `setup`, props [Pedro Mendonça](https://github.com/pedro-mendonca).
+
+Bugfixes:
+	* Fixes a bug where the text link counter doesn't count links for scheduled posts when they get published.
+	* Fixes a bug where the internal link count is not updated when a post is removed permanently.
 
 = 5.6.1 =
 

@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Links
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 
 	/** @var WPSEO_Link_Type_Classifier */
@@ -18,9 +24,9 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @dataProvider provider_urls
 	 *
-	 * @param string $base_url
-	 * @param string $url_to_classify
-	 * @param string $expected
+	 * @param string $base_url        URL.
+	 * @param string $url_to_classify URL to classify.
+	 * @param string $expected        Expected output.
 	 */
 	public function test_classify( $base_url, $url_to_classify, $expected ) {
 		$classifier = new WPSEO_Link_Type_Classifier( $base_url );

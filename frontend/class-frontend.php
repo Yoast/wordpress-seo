@@ -681,8 +681,6 @@ class WPSEO_Frontend {
 			$GLOBALS['wp_query'] = $old_wp_query;
 			unset( $old_wp_query );
 		}
-
-		return;
 	}
 
 
@@ -780,7 +778,7 @@ class WPSEO_Frontend {
 
 		if ( $robots['other'] !== array() ) {
 			$robots['other'] = array_unique( $robots['other'] ); // @todo Most likely no longer needed, needs testing.
-			$robotsstr .= ',' . implode( ',', $robots['other'] );
+			$robotsstr      .= ',' . implode( ',', $robots['other'] );
 		}
 
 		$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );
