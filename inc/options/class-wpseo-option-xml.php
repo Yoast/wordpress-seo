@@ -189,7 +189,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$filtered_array = filter_var_array( explode( ',', $dirty[ $key ] ), FILTER_VALIDATE_INT );
 						if ( is_array( $filtered_array ) ) {
-							$clean[ $key ]  = implode( ',', array_filter( $filtered_array, 'is_integer' ) );
+							$clean[ $key ] = implode( ',', array_filter( $filtered_array, 'is_integer' ) );
 						}
 						unset( $filtered_array );
 					}
