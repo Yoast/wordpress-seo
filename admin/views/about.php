@@ -207,35 +207,72 @@ function wpseo_display_contributors( $contributors ) {
 	</div>
 
 	<div id="integrations" class="wpseotab">
-		<h2>Yoast SEO Integrations</h2>
+		<h2>
+			<?php
+			printf(
+				/* translators: %1$s expands to Yoast SEO */
+				esc_html__( '%1$s Integrations', 'wordpress-seo' ),
+				'Yoast SEO'
+			);
+			?>
+		</h2>
 		<p class="about-description">
-			Yoast SEO 3.0 brought a way for theme builders and custom field plugins to integrate with Yoast SEO. These
-			integrations make sure that <em>all</em> the data on your page is used for the content analysis. On this
-			page, we highlight the frameworks that have nicely working integrations.
+			<?php
+			printf(
+				/* translators: 1: expands to "Yoast SEO"; 2: emphasis open tag; 3: emphasis close tag. */
+				esc_html__( '%1$s 3.0 brought a way for theme builders and custom field plugins to integrate with %1$s. These integrations make sure that %2$sall%3$s the data on your page is used for the content analysis. On this page, we highlight the frameworks that have nicely working integrations.', 'wordpress-seo' ),
+				'Yoast SEO',
+				'<em>',
+				'</em>'
+			);
+			?>
 		</p>
 
 		<ol>
-			<li><a target="_blank" href="https://wordpress.org/plugins/yoast-seo-acf-analysis/">Yoast ACF
-					Integration</a> - an integration built by <a href="https://forsberg.ax">Marcus Forsberg</a> and Team
-				Yoast
+			<li>
+				<?php
+				printf(
+					/* translators: 1: link open tag; 2: link close tag; 3: Yoast; 4: linked developer name. */
+					esc_html__( '%1$s%3$s ACF Integration%2$s - an integration built by %4$s and Team %3$s', 'wordpress-seo' ),
+					'<a target="_blank" href="https://wordpress.org/plugins/yoast-seo-acf-analysis/">',
+					'</a>',
+					'Yoast',
+					'<a target="_blank" href="https://forsberg.ax">Marcus Forsberg</a>'
+				);
+				?>
 			</li>
 			<li><a target="_blank" href="https://www.elegantthemes.com/plugins/divi-builder/">Divi Builder</a></li>
 			<li><a target="_blank" href="https://vc.wpbakery.com/">Visual Composer</a></li>
 		</ol>
 
-		<h3>Other integrations</h3>
+		<h3><?php esc_html_e( 'Other integrations', 'wordpress-seo' ); ?></h3>
 		<p class="about-description">
-			We've got another integration we'd like to tell you about:
+			<?php esc_html_e( 'We\'ve got other integrations we\'d like to tell you about:', 'wordpress-seo' ); ?>
 		</p>
 
 		<ol>
-			<li><a target="_blank" href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/">Glue for Yoast SEO &amp;
-					AMP</a> - an integration between <a href="https://wordpress.org/plugins/amp/">the WordPress AMP
-					plugin</a> and Yoast SEO.
+			<li>
+				<?php
+				printf(
+					/* translators: 1,2: link open tag; 3: link close tag; 4: Yoast SEO. */
+					esc_html__( '%1$sGlue for %4$s &amp; AMP%3$s - an integration between %2$sthe WordPress AMP plugin%3$s and %4$s.', 'wordpress-seo' ),
+					'<a target="_blank" href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/">',
+					'<a target="_blank" href="https://wordpress.org/plugins/amp/">',
+					'</a>',
+					'Yoast SEO'
+				);
+				?>
 			</li>
 			<li>
-				<a target="_blank" href="https://wordpress.org/plugins/fb-instant-articles/">Instant Articles for WP</a>
-				- Enable Instant Articles for Facebook on your WordPress site and integrates with Yoast SEO.
+				<?php
+				printf(
+					/* translators: 1: link open tag; 2: link close tag; 3: Yoast SEO. */
+					esc_html__( '%1$sInstant Articles for WP%2$s - Enable Instant Articles for Facebook on your WordPress site and integrates with %3$s.', 'wordpress-seo' ),
+					'<a target="_blank" href="https://wordpress.org/plugins/fb-instant-articles/">',
+					'</a>',
+					'Yoast SEO'
+				);
+				?>
 			</li>
 		</ol>
 	</div>
