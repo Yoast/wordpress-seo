@@ -42,7 +42,7 @@ class WPSEO_Link_Watcher {
 		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			return;
 		}
-		
+
 		// When the post is a revision.
 		if ( wp_is_post_revision( $post->ID ) ) {
 			return;
