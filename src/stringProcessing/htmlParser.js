@@ -11,7 +11,7 @@ let textArray;
 let inScriptBlock = false;
 
 // The blocks we filter out of the text that needs to be parsed.
-let inlineTags = [ "script", "style", "code", "pre" ];
+let inlineTags = [ "script", "style", "code" ];
 
 /**
  * Parses the text.
