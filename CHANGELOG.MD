@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.11.1: October 30th, 2017
+
+* Allows `AnalysisResult` text to be HTML. #366
+
 ## 2.11: October 27th, 2017
 
 ### Added
