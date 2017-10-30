@@ -27,7 +27,7 @@ class WPSEO_Statistics_Service {
 	 */
 	public function __construct( WPSEO_Statistics $statistics ) {
 		$this->statistics = $statistics;
-		$this->labels = $this->labels();
+		$this->labels     = $this->labels();
 	}
 
 	/**

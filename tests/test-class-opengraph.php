@@ -283,8 +283,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::image
 	 */
 	public function test_image_IS_SINGULAR_and_HAS_open_graph_image() {
-		$post_id   = $this->factory->post->create();
-		$image = get_site_url() . '/wp-content/plugins/wordpress-seo/tests/assets/small.png';
+		$post_id = $this->factory->post->create();
+		$image   = get_site_url() . '/wp-content/plugins/wordpress-seo/tests/assets/small.png';
 
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -356,7 +356,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_clean();
 
-		list( $src ) = wp_get_attachment_image_src( $attach_id, 'full' );
+		list( $src )     = wp_get_attachment_image_src( $attach_id, 'full' );
 		$expected_output = '<meta property="og:image" content="' . $src . '" />';
 
 		wp_delete_attachment( $attach_id, true );
@@ -385,7 +385,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_clean();
 
-		list( $src ) = wp_get_attachment_image_src( $attach_id, 'full' );
+		list( $src )     = wp_get_attachment_image_src( $attach_id, 'full' );
 		$expected_output = '<meta property="og:image" content="' . $src . '" />';
 
 		wp_delete_attachment( $attach_id, true );
@@ -600,7 +600,7 @@ EXPECTED;
 
 		// Checking with the excerpt
 		$expected = get_the_excerpt();
-		$excerpt = self::$class_instance->description( false );
+		$excerpt  = self::$class_instance->description( false );
 
 		$this->assertEquals( $expected, $excerpt );
 	}
@@ -644,7 +644,7 @@ EXPECTED;
 
 		// add tags to post
 		wp_set_post_tags( $post_id, 'Tag1, Tag2' );
-		$expected_tags = '<meta property="article:tag" content="Tag1" />' . "\n";
+		$expected_tags  = '<meta property="article:tag" content="Tag1" />' . "\n";
 		$expected_tags .= '<meta property="article:tag" content="Tag2" />' . "\n";
 
 		// test again, this time with tags

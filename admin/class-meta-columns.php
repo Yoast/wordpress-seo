@@ -26,7 +26,7 @@ class WPSEO_Meta_Columns {
 			add_action( 'admin_init', array( $this, 'setup_hooks' ) );
 		}
 
-		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
@@ -73,7 +73,7 @@ class WPSEO_Meta_Columns {
 		$added_columns['wpseo-metadesc'] = __( 'Meta Desc.', 'wordpress-seo' );
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			$added_columns['wpseo-focuskw']  = __( 'Focus KW', 'wordpress-seo' );
+			$added_columns['wpseo-focuskw'] = __( 'Focus KW', 'wordpress-seo' );
 		}
 
 		return array_merge( $columns, $added_columns );
@@ -102,12 +102,12 @@ class WPSEO_Meta_Columns {
 				break;
 			case 'wpseo-metadesc':
 				$metadesc_val = apply_filters( 'wpseo_metadesc', wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) );
-				$metadesc = ( '' === $metadesc_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( 'Meta description not set.', 'wordpress-seo' ) . '</span>' : esc_html( $metadesc_val );
+				$metadesc     = ( '' === $metadesc_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( 'Meta description not set.', 'wordpress-seo' ) . '</span>' : esc_html( $metadesc_val );
 				echo $metadesc;
 				break;
 			case 'wpseo-focuskw':
 				$focuskw_val = WPSEO_Meta::get_value( 'focuskw', $post_id );
-				$focuskw = ( '' === $focuskw_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( 'Focus keyword not set.', 'wordpress-seo' ) . '</span>' : esc_html( $focuskw_val );
+				$focuskw     = ( '' === $focuskw_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( 'Focus keyword not set.', 'wordpress-seo' ) . '</span>' : esc_html( $focuskw_val );
 				echo $focuskw;
 				break;
 		}
@@ -294,8 +294,8 @@ class WPSEO_Meta_Columns {
 	protected function collect_filters() {
 		$active_filters = array();
 
-		$seo_filter = $this->get_current_seo_filter();
-		$readability_filter = $this->get_current_readability_filter();
+		$seo_filter             = $this->get_current_seo_filter();
+		$readability_filter     = $this->get_current_readability_filter();
 		$current_keyword_filter = $this->get_current_keyword_filter();
 
 		if ( $this->is_valid_filter( $seo_filter ) ) {
@@ -424,7 +424,7 @@ class WPSEO_Meta_Columns {
 			return $vars;
 		}
 
-		$result = array( 'meta_query' => array() );
+		$result               = array( 'meta_query' => array() );
 		$result['meta_query'] = array_merge( $result['meta_query'], array( $this->determine_score_filters( $filters ) ) );
 
 		$current_seo_filter = $this->get_current_seo_filter();
@@ -575,7 +575,7 @@ class WPSEO_Meta_Columns {
 	 */
 	private function parse_column_score_readability( $post_id ) {
 		$score = (int) WPSEO_Meta::get_value( 'content_score', $post_id );
-		$rank = WPSEO_Rank::from_numeric_score( $score );
+		$rank  = WPSEO_Rank::from_numeric_score( $score );
 
 		return $this->render_score_indicator( $rank );
 	}
@@ -640,7 +640,7 @@ class WPSEO_Meta_Columns {
 			$cpts    = get_post_types( array( 'public' => true ), 'names' );
 			$options = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts ) === false );
+			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts, true ) === false );
 		}
 
 		return false;

@@ -103,7 +103,7 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Statistic_Integration();
 		$integrations[] = new WPSEO_Slug_Change_Watcher();
 		$integrations[] = new WPSEO_Capability_Manager_Integration( WPSEO_Capability_Manager_Factory::get() );
-		$integrations = array_merge( $integrations, $this->initialize_seo_links() );
+		$integrations   = array_merge( $integrations, $this->initialize_seo_links() );
 
 		/** @var WPSEO_WordPress_Integration $integration */
 		foreach ( $integrations as $integration ) {

@@ -56,7 +56,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
 		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $help_content );
 
-		if ( in_array( $field_configuration['type'], array( 'focuskeyword', 'pageanalysis', 'snippetpreview' ) ) ) {
+		if ( in_array( $field_configuration['type'], array( 'focuskeyword', 'pageanalysis', 'snippetpreview' ), true ) ) {
 			return $this->parse_section_row( $field, $field_configuration['type'], $help );
 		}
 
@@ -80,7 +80,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 
 		if ( ! empty( $options['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $field_name . '-desc"';
-			$description = '<p id="' . $field_name . '-desc" class="yoast-metabox__description">' . $options['description'] . '</p>';
+			$description      = '<p id="' . $field_name . '-desc" class="yoast-metabox__description">' . $options['description'] . '</p>';
 		}
 
 		switch ( $field_type ) {
@@ -133,7 +133,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 
 					foreach ( $select_options as $option => $option_label ) {
 						$selected = selected( $option, $field_value, false );
-						$field .= '<option ' . $selected . ' value="' . esc_attr( $option ) . '">' . esc_html( $option_label ) . '</option>';
+						$field   .= '<option ' . $selected . ' value="' . esc_attr( $option ) . '">' . esc_html( $option_label ) . '</option>';
 					}
 					unset( $option, $option_label, $selected );
 
@@ -221,7 +221,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 * @return string
 	 */
 	private function parse_section_row( $content, $esc_form_key, WPSEO_Admin_Help_Panel $help ) {
-		$html = $content;
+		$html  = $content;
 		$html .= '<div class="wpseo_hidden" id="help-yoast-' . $esc_form_key . '">' . $help->get_button_html() . $help->get_panel_html() . '</div>';
 		return $html;
 	}

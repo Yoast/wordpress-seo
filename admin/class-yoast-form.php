@@ -242,6 +242,7 @@ class Yoast_Form {
 				'class' => '',
 			)
 		);
+
 		$id = ( '' === $attr['id'] ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
 		echo '<legend class="yoast-form-legend ' . $attr['class'] . '"' . $id . '>' . $text . '</legend>';
 	}
@@ -304,7 +305,7 @@ class Yoast_Form {
 			$this->options[ $var ] = 'on';
 		}
 
-		$class = 'switch-light switch-candy switch-yoast-seo';
+		$class           = 'switch-light switch-candy switch-yoast-seo';
 		$aria_labelledby = esc_attr( $var ) . '-label';
 
 		if ( $reverse ) {

@@ -40,7 +40,7 @@ class WPSEO_Metabox_Formatter {
 	 * @return array
 	 */
 	private function get_defaults() {
-		$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		return array(
@@ -109,7 +109,7 @@ class WPSEO_Metabox_Formatter {
 		if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'get_active_modules' ) ) {
 			$active_modules = Jetpack::get_active_modules();
 
-			return in_array( 'markdown', $active_modules );
+			return in_array( 'markdown', $active_modules, true );
 		}
 
 		return false;

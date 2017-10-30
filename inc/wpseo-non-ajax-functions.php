@@ -33,7 +33,7 @@ function wpseo_admin_bar_menu() {
 	// By default, make the no-link top level menu item focusable.
 	$top_level_link_tabindex = '0';
 
-	$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+	$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 	$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 	if ( ( is_singular() || ( is_admin() && WPSEO_Metabox::is_post_edit( $GLOBALS['pagenow'] ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
@@ -83,6 +83,7 @@ function wpseo_admin_bar_menu() {
 				// Always show Alerts page when clicking on the main link.
 				/* translators: %s: number of notifications */
 				$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count, 'wordpress-seo' ), number_format_i18n( $notification_count ) );
+
 				$counter = sprintf( ' <div class="wp-core-ui wp-ui-notification yoast-issue-counter"><span aria-hidden="true">%d</span><span class="screen-reader-text">%s</span></div>', $notification_count, $counter_screen_reader_text );
 			}
 
@@ -423,7 +424,7 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 	// $args[3] holds the custom field.
 	// Make sure the request is to edit or add a post meta (this is usually also the second value in $cap,
 	// but this is safer to check).
-	if ( in_array( $args[0], array( 'edit_post_meta', 'add_post_meta' ) ) ) {
+	if ( in_array( $args[0], array( 'edit_post_meta', 'add_post_meta' ), true ) ) {
 		// Only allow editing rights for users who have the rights to edit this post and make sure
 		// the meta value starts with _yoast_wpseo (WPSEO_Meta::$meta_prefix).
 		if ( ( isset( $args[2] ) && current_user_can( 'edit_post', $args[2] ) ) && ( ( isset( $args[3] ) && $args[3] !== '' ) && strpos( $args[3], WPSEO_Meta::$meta_prefix ) === 0 ) ) {

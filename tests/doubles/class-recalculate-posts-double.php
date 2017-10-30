@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Tests\Recalculate
+ * @package WPSEO\Tests\Doubles
  */
 
 /**

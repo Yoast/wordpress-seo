@@ -4,16 +4,6 @@
  */
 
 /**
- * Exposes protected defaults from WPSEO_Option_XML class
- */
-class WPSEO_Option_XML_Double extends WPSEO_Option_XML {
-	public function get_defaults() {
-		return $this->defaults;
-	}
-}
-
-
-/**
  * Class Test_WPSEO_Author_Sitemap_Provider
  */
 class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
@@ -28,6 +18,9 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-option-xml-double.php';
+
 		self::$class_instance = new WPSEO_Author_Sitemap_Provider();
 	}
 
@@ -54,6 +47,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 */
 	public function get_user() {
 		static $user_id = 1;
+
 		$user        = new stdClass();
 		$user->roles = array( 'administrator' );
 		$user->ID    = $user_id++;

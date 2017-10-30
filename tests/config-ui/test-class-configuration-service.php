@@ -4,30 +4,21 @@
  */
 
 /**
- * Class WPSEO_Configuration_Service_Mock
- */
-class WPSEO_Configuration_Service_Mock extends WPSEO_Configuration_Service {
-	/**
-	 * @param string $item Property to get.
-	 *
-	 * @return null|mixed
-	 */
-	public function get( $item ) {
-		if ( isset( $this->{$item} ) ) {
-			return $this->{$item};
-		}
-
-		return null;
-	}
-}
-
-/**
  * Class WPSEO_Configuration_Service_Test
  */
 class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 
 	/** @var WPSEO_Configuration_Service instance */
 	protected $configuration_service;
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-service-mock.php';
+	}
 
 	/**
 	 * Preparation
@@ -130,7 +121,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	public function test_get_configuration() {
 		$storage   = $this->getMockBuilder( 'WPSEO_Configuration_Storage' )->setMethods( array( 'retrieve' ) )->getMock();
 		$structure = $this->getMockBuilder( 'WPSEO_Configuration_Structure' )->setMethods( array( 'retrieve' ) )->getMock();
-		$adapter = new WPSEO_Configuration_Options_Adapter();
+		$adapter   = new WPSEO_Configuration_Options_Adapter();
 
 		$storage
 			->expects( $this->once() )

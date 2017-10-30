@@ -4,28 +4,21 @@
  */
 
 /**
- * Test Helper Class.
- */
-class WPSEO_Features_Mock extends WPSEO_Features {
-
-	/**
-	 * Checks if using the free version of the plugin.
-	 *
-	 * @return bool
-	 */
-	public function is_free() {
-		return false;
-	}
-
-}
-
-/**
  * Unit Test Class.
  */
 class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 
 	/** @var WPSEO_Admin_Banner_Sidebar */
 	protected $admin_banner_sidebar;
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-features-mock.php';
+	}
 
 	/**
 	 * Set up the class which will be tested.

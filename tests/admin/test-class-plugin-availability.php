@@ -19,7 +19,7 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'admin/class-wpseo-plugin-availability-double.php';
+		require_once WPSEO_TESTS_PATH . 'doubles/class-wpseo-plugin-availability-double.php';
 	}
 
 	/**
@@ -50,37 +50,37 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_plugin_availability() {
-		$plugin     = self::$class_instance->get_plugin( 'test-plugin' );
-		$available  = self::$class_instance->is_available( $plugin );
+		$plugin    = self::$class_instance->get_plugin( 'test-plugin' );
+		$available = self::$class_instance->is_available( $plugin );
 
 		$this->assertTrue( $available );
 
-		$plugin     = self::$class_instance->get_plugin( 'unavailable-test-plugin' );
-		$available  = self::$class_instance->is_available( $plugin );
+		$plugin    = self::$class_instance->get_plugin( 'unavailable-test-plugin' );
+		$available = self::$class_instance->is_available( $plugin );
 
 		$this->assertFalse( $available );
 	}
 
 	public function test_plugin_is_installed() {
-		$plugin     = self::$class_instance->get_plugin( 'test-plugin' );
-		$installed  = self::$class_instance->is_installed( $plugin );
+		$plugin    = self::$class_instance->get_plugin( 'test-plugin' );
+		$installed = self::$class_instance->is_installed( $plugin );
 
 		$this->assertTrue( $installed );
 
-		$plugin     = self::$class_instance->get_plugin( 'unavailable-test-plugin' );
-		$installed  = self::$class_instance->is_installed( $plugin );
+		$plugin    = self::$class_instance->get_plugin( 'unavailable-test-plugin' );
+		$installed = self::$class_instance->is_installed( $plugin );
 
 		$this->assertFalse( $installed );
 	}
 
 	public function test_plugin_version() {
-		$plugin     = self::$class_instance->get_plugin( 'test-plugin' );
-		$version    = self::$class_instance->get_version( $plugin );
+		$plugin  = self::$class_instance->get_plugin( 'test-plugin' );
+		$version = self::$class_instance->get_version( $plugin );
 
 		$this->assertEquals( $version, '3.3' );
 
-		$plugin     = self::$class_instance->get_plugin( 'test-plugin-no-version' );
-		$version    = self::$class_instance->get_version( $plugin );
+		$plugin  = self::$class_instance->get_plugin( 'test-plugin-no-version' );
+		$version = self::$class_instance->get_version( $plugin );
 
 		$this->assertEquals( $version, '' );
 	}

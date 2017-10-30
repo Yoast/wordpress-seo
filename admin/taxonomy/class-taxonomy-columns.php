@@ -25,7 +25,7 @@ class WPSEO_Taxonomy_Columns {
 			add_filter( 'manage_' . $this->taxonomy . '_custom_column', array( $this, 'parse_column' ), 10, 3 );
 		}
 
-		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
@@ -137,7 +137,7 @@ class WPSEO_Taxonomy_Columns {
 	 */
 	private function get_score_readability_value( $term_id ) {
 		$score = (int) WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'content_score' );
-		$rank = WPSEO_Rank::from_numeric_score( $score );
+		$rank  = WPSEO_Rank::from_numeric_score( $score );
 
 		return $this->create_score_icon( $rank );
 	}
@@ -238,7 +238,7 @@ class WPSEO_Taxonomy_Columns {
 			$custom_taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 			$options           = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options[ 'hideeditbox-tax-' . $taxonomy ] ) && $options[ 'hideeditbox-tax-' . $taxonomy ] === true ) || in_array( $taxonomy, $custom_taxonomies ) === false );
+			return ( ( isset( $options[ 'hideeditbox-tax-' . $taxonomy ] ) && $options[ 'hideeditbox-tax-' . $taxonomy ] === true ) || in_array( $taxonomy, $custom_taxonomies, true ) === false );
 		}
 
 		return false;

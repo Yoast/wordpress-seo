@@ -141,7 +141,7 @@ class WPSEO_Link_Columns {
 
 		$table = $this->storage->get_table_name();
 
-		$pieces['join']    .= " LEFT JOIN $table AS yst_links ON yst_links.object_id = {$wpdb->posts}.ID ";
+		$pieces['join']   .= " LEFT JOIN $table AS yst_links ON yst_links.object_id = {$wpdb->posts}.ID ";
 		$pieces['orderby'] = "{$field} $order, FIELD( {$wpdb->posts}.post_status, 'publish' ) $order, {$pieces['orderby']}";
 
 		return $pieces;

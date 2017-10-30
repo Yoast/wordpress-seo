@@ -373,7 +373,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function emulate_filter_bool( $value ) {
-		$true  = array(
+		$true = array(
 			'1',
 			'true',
 			'True',
@@ -836,7 +836,7 @@ class WPSEO_Utils {
 			'wpseo_licenses',
 		);
 
-		return in_array( $current_page, $yoast_seo_free_pages );
+		return in_array( $current_page, $yoast_seo_free_pages, true );
 	}
 
 	/**

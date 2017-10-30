@@ -4,31 +4,21 @@
  */
 
 /**
- * Class WPSEO_Configuration_Structure_Mock
- */
-class WPSEO_Configuration_Structure_Mock extends WPSEO_Configuration_Structure {
-
-	/**
-	 * Make add_step public
-	 *
-	 * @param string $identifier Identifier for this step.
-	 * @param string $title      Title to display for this step.
-	 * @param array  $fields     Fields to use on the step.
-	 * @param bool   $navigation Show navigation buttons.
-	 * @param bool   $full_width Wheter the step content is full width or not.
-	 */
-	public function add_step_mock( $identifier, $title, $fields, $navigation = true, $full_width = false ) {
-		$this->add_step( $identifier, $title, $fields, $navigation, $full_width );
-	}
-}
-
-/**
  * Class WPSEO_Configuration_Structure_Test
  */
 class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 	/** @var WPSEO_Configuration_Service_Mock Mock holder */
 	protected $structure;
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-structure-mock.php';
+	}
 
 	/**
 	 * Set up

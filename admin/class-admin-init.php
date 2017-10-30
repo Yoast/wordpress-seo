@@ -86,8 +86,8 @@ class WPSEO_Admin_Init {
 	 */
 	public function tagline_notice() {
 
-		$current_url = ( is_ssl() ? 'https://' : 'http://' );
-		$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
+		$current_url   = ( is_ssl() ? 'https://' : 'http://' );
+		$current_url  .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 		$customize_url = add_query_arg( array(
 			'url' => urlencode( $current_url ),
 		), wp_customize_url() );
@@ -121,7 +121,7 @@ class WPSEO_Admin_Init {
 	 */
 	public function blog_public_notice() {
 
-		$info_message = '<strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ';
+		$info_message  = '<strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ';
 		$info_message .= sprintf(
 			/* translators: %1$s resolves to the opening tag of the link to the reading settings, %1$s resolves to the closing tag for the link */
 			__( 'You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
@@ -152,7 +152,7 @@ class WPSEO_Admin_Init {
 	 */
 	public function page_comments_notice() {
 
-		$info_message = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
+		$info_message  = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
 		$info_message .= '<br/>';
 
 		$info_message .= sprintf(
@@ -185,8 +185,8 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	public function has_default_tagline() {
-		$blog_description = get_bloginfo( 'description' );
-		$default_blog_description    = 'Just another WordPress site';
+		$blog_description         = get_bloginfo( 'description' );
+		$default_blog_description = 'Just another WordPress site';
 
 		// We are checking against the WordPress internal translation.
 		// @codingStandardsIgnoreLine
@@ -200,7 +200,7 @@ class WPSEO_Admin_Init {
 	 */
 	public function permalink_notice() {
 
-		$info_message = __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' );
+		$info_message  = __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' );
 		$info_message .= '<br/>';
 		$info_message .= sprintf(
 			/* translators: %1$s resolves to the starting tag of the link to the permalink settings page, %2$s resolves to the closing tag of the link */
@@ -277,16 +277,69 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Determines whether a suggested plugins notification needs to be displayed.
+	 *
+	 * @return void
+	 */
+	public function yoast_plugin_suggestions_notification() {
+		$checker             = new WPSEO_Plugin_Availability();
+		$notification_center = Yoast_Notification_Center::get();
+
+		// Get all Yoast plugins that have dependencies.
+		$plugins = $checker->get_plugins_with_dependencies();
+
+		foreach ( $plugins as $plugin_name => $plugin ) {
+			$dependency_names = $checker->get_dependency_names( $plugin );
+			$notification     = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_names[0] );
+
+			if ( $checker->dependencies_are_satisfied( $plugin ) && ! $checker->is_installed( $plugin ) ) {
+				$notification_center->add_notification( $notification );
+
+				continue;
+			}
+
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Build Yoast SEO suggested plugins notification.
+	 *
+	 * @param string $name   The plugin name to use for the unique ID.
+	 * @param array  $plugin The plugin to retrieve the data from.
+	 * @param string $dependency_name The name of the dependency.
+	 *
+	 * @return Yoast_Notification The notification containing the suggested plugin.
+	 */
+	private function get_yoast_seo_suggested_plugins_notification( $name, $plugin, $dependency_name ) {
+		$info_message = sprintf(
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
+			__( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better.', 'wordpress-seo' ),
+			'Yoast SEO',
+			$dependency_name,
+			sprintf( '<a href="%s">%s</a>', $plugin['url'], $plugin['title'] )
+		);
+
+		return new Yoast_Notification(
+			$info_message,
+			array(
+				'id'   => 'wpseo-suggested-plugin-' . $name,
+				'type' => Yoast_Notification::WARNING,
+			)
+		);
+	}
+
+	/**
 	 * Add an alert if outdated versions of Yoast SEO plugins are running.
 	 */
 	public function yoast_plugin_compatibility_notification() {
 		$compatibility_checker = new WPSEO_Plugin_Compatibility( WPSEO_VERSION );
-		$plugins = $compatibility_checker->get_installed_plugins_compatibility();
+		$plugins               = $compatibility_checker->get_installed_plugins_compatibility();
 
 		$notification_center = Yoast_Notification_Center::get();
 
 		foreach ( $plugins as $name => $plugin ) {
-			$type = ( $plugin['active'] ) ? Yoast_Notification::ERROR : Yoast_Notification::WARNING;
+			$type         = ( $plugin['active'] ) ? Yoast_Notification::ERROR : Yoast_Notification::WARNING;
 			$notification = $this->get_yoast_seo_compatibility_notification( $name, $plugin, $type );
 
 			if ( $plugin['compatible'] === false ) {
@@ -423,7 +476,7 @@ class WPSEO_Admin_Init {
 	 * Loads admin page class for all admin pages starting with `wpseo_`.
 	 */
 	private function load_admin_user_class() {
-		if ( in_array( $this->pagenow, array( 'user-edit.php', 'profile.php' ) ) && current_user_can( 'edit_users' ) ) {
+		if ( in_array( $this->pagenow, array( 'user-edit.php', 'profile.php' ), true ) && current_user_can( 'edit_users' ) ) {
 			new WPSEO_Admin_User_Profile();
 		}
 	}
