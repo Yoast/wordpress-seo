@@ -631,8 +631,11 @@ class WPSEO_Meta_Columns {
 	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
 	 */
 	private function is_metabox_hidden( $post_type = null ) {
-		if ( ! isset( $post_type ) && $current_post_type = $this->get_current_post_type() ) {
-			$post_type = sanitize_text_field( $current_post_type );
+		if ( ! isset( $post_type ) ) {
+			$current_post_type = $this->get_current_post_type();
+			if ( ! empty( $current_post_type ) ) {
+				$post_type = sanitize_text_field( $current_post_type );
+			}
 		}
 
 		if ( isset( $post_type ) ) {

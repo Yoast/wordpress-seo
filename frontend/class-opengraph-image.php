@@ -198,7 +198,8 @@ class WPSEO_OpenGraph_Image {
 	 * Check if taxonomy has an image and add this image
 	 */
 	private function get_opengraph_image_taxonomy() {
-		if ( ( $ogimg = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-image' ) ) !== '' ) {
+		$ogimg = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-image' );
+		if ( $ogimg !== '' ) {
 			$this->add_image( $ogimg );
 		}
 	}

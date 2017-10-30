@@ -129,7 +129,8 @@ class WPSEO_Taxonomy {
 		/* Create post array with only our values */
 		$new_meta_data = array();
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
-			if ( $posted_value = filter_input( INPUT_POST, $key ) ) {
+			$posted_value = filter_input( INPUT_POST, $key );
+			if ( isset( $posted_value ) && $posted_value !== false ) {
 				$new_meta_data[ $key ] = $posted_value;
 			}
 

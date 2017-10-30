@@ -199,7 +199,9 @@ class WPSEO_Admin_Asset {
 	 * @return string
 	 */
 	protected function get_relative_path( $type, $force_suffix = null ) {
-		$relative_path = $rtl_path = $rtl_suffix = '';
+		$relative_path = '';
+		$rtl_path      = '';
+		$rtl_suffix    = '';
 
 		$suffix = ( is_null( $force_suffix ) ) ? $this->get_suffix() : $force_suffix;
 
