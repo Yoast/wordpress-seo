@@ -34,3 +34,38 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   </button>
 </li>
 `;
+
+exports[`the AnalysisResult component matches the snapshot 2`] = `
+<li
+  className="sc-bwzfXH kGIHaC"
+>
+  <svg
+    aria-hidden="true"
+    className="sc-htpNat gvyGHY sc-bZQynM jbcHwk"
+    focusable="false"
+    role="img"
+  />
+  <p
+    className="sc-bxivhb aWDuI"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "You're doing <b>great!</b>",
+      }
+    }
+  />
+  <button
+    aria-label="SEOResult"
+    aria-pressed={true}
+    className="sc-bdVaJa VNVFd"
+    id="Result button"
+    onClick={[Function]}
+  >
+    <svg
+      aria-hidden="true"
+      className="sc-gzVnrw dJVhwI"
+      focusable="false"
+      role="img"
+    />
+  </button>
+</li>
+`;

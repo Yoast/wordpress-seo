@@ -19,3 +19,21 @@ test( "the AnalysisResult component matches the snapshot", () => {
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
+
+test( "the AnalysisResult component matches the snapshot", () => {
+	const component = createComponentWithIntl(
+		<AnalysisResult
+			ariaLabel="SEOResult"
+			bulletColor="blue"
+			buttonId="Result button"
+			pressed={ true }
+			hasMarksButton={ true }
+			onButtonClick={ () => {} }
+			text={ "You're doing <b>great!</b>" }
+			score="good"
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
