@@ -19,7 +19,7 @@ export default function HelpCenterWrapper() {
 
 	const goodResults = [
 		{
-			text: "You're doing great!",
+			text: "You're doing <strong>great!</strong>",
 			id: "2",
 			rating: "good",
 			hasMarks: false,
@@ -43,7 +43,7 @@ export default function HelpCenterWrapper() {
 
 	const errorsResults = [
 		{
-			text: "Error: Analysis not loaded",
+			text: "<span style=\"color: red;\">Error: Analysis not loaded</span>",
 			id: "5",
 			rating: "feedback",
 			hasMarks: false,
