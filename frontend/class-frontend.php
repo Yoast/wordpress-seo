@@ -622,7 +622,7 @@ class WPSEO_Frontend {
 			 *
 			 * @api bool
 			 */
-			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION )
+			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : 'v' . WPSEO_VERSION )
 		);
 
 		if ( $echo === false ) {
@@ -676,7 +676,10 @@ class WPSEO_Frontend {
 		 */
 		do_action( 'wpseo_head' );
 
-		echo '<!-- / ', $this->head_product_name(), ". -->\n\n";
+		printf(
+			"<!-- / %s. -->\n\n",
+			esc_html( $this->head_product_name() )
+		);
 
 		if ( ! empty( $old_wp_query ) ) {
 			$GLOBALS['wp_query'] = $old_wp_query;
