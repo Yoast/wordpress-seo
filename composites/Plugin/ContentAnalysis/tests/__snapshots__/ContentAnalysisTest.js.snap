@@ -68,9 +68,12 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
         />
         <p
           className="sc-ifAKCX cHWEpb"
-        >
-          Error: Analysis not loaded
-        </p>
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Error: Analysis not loaded",
+            }
+          }
+        />
       </li>
     </ul>
   </div>
@@ -114,9 +117,12 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
         />
         <p
           className="sc-ifAKCX cHWEpb"
-        >
-          Your text is bad, and you should feel bad.
-        </p>
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Your text is bad, and you should feel bad.",
+            }
+          }
+        />
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
@@ -259,9 +265,12 @@ exports[`the ContentAnalysis component without language notice matches the snaps
         />
         <p
           className="sc-ifAKCX cHWEpb"
-        >
-          Error: Analysis not loaded
-        </p>
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Error: Analysis not loaded",
+            }
+          }
+        />
       </li>
     </ul>
   </div>
@@ -305,9 +314,12 @@ exports[`the ContentAnalysis component without language notice matches the snaps
         />
         <p
           className="sc-ifAKCX cHWEpb"
-        >
-          Your text is bad, and you should feel bad.
-        </p>
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Your text is bad, and you should feel bad.",
+            }
+          }
+        />
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}

@@ -12,9 +12,12 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   />
   <p
     className="sc-bxivhb aWDuI"
-  >
-    You're doing great!
-  </p>
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "You're doing great!",
+      }
+    }
+  />
   <button
     aria-label="SEOResult"
     aria-pressed={true}
