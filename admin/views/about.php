@@ -207,12 +207,21 @@ function wpseo_display_contributors( $contributors ) {
 	</div>
 
 	<div id="integrations" class="wpseotab">
-		<h2><?php esc_html_e( 'Yoast SEO Integrations', 'wordpress-seo' ); ?></h2>
+		<h2>
+			<?php
+			printf(
+				/* translators: %1$s expands to Yoast SEO */
+				esc_html__( '%1$s Integrations', 'wordpress-seo' ),
+				'Yoast SEO'
+			);
+			?>
+		</h2>
 		<p class="about-description">
 			<?php
 			printf(
-				/* translators: 1: emphasis open tag; 2: emphasis close tag. */
-				esc_html__( 'Yoast SEO 3.0 brought a way for theme builders and custom field plugins to integrate with Yoast SEO. These integrations make sure that %1$sall%2$s the data on your page is used for the content analysis. On this page, we highlight the frameworks that have nicely working integrations.', 'wordpress-seo' ),
+				/* translators: 1: expands to "Yoast SEO"; 2: emphasis open tag; 3: emphasis close tag. */
+				esc_html__( '%1$s 3.0 brought a way for theme builders and custom field plugins to integrate with %1$s. These integrations make sure that %2$sall%3$s the data on your page is used for the content analysis. On this page, we highlight the frameworks that have nicely working integrations.', 'wordpress-seo' ),
+				'Yoast SEO',
 				'<em>',
 				'</em>'
 			);
@@ -223,10 +232,11 @@ function wpseo_display_contributors( $contributors ) {
 			<li>
 				<?php
 				printf(
-					/* translators: 1: link open tag; 2: link close tag; 3: linked developer name. */
-					esc_html__( '%1$sYoast ACF Integration%2$s - an integration built by %3$s and Team Yoast', 'wordpress-seo' ),
+					/* translators: 1: link open tag; 2: link close tag; 3: Yoast; 4: linked developer name. */
+					esc_html__( '%1$s%3$s ACF Integration%2$s - an integration built by %4$s and Team %3$s', 'wordpress-seo' ),
 					'<a target="_blank" href="https://wordpress.org/plugins/yoast-seo-acf-analysis/">',
 					'</a>',
+					'Yoast',
 					'<a target="_blank" href="https://forsberg.ax">Marcus Forsberg</a>'
 				);
 				?>
@@ -244,21 +254,23 @@ function wpseo_display_contributors( $contributors ) {
 			<li>
 				<?php
 				printf(
-					/* translators: 1,2: link open tag; 3: link close tag. */
-					esc_html__( '%1$sGlue for Yoast SEO &amp; AMP%3$s - an integration between %2$sthe WordPress AMP plugin%3$s and Yoast SEO.', 'wordpress-seo' ),
+					/* translators: 1,2: link open tag; 3: link close tag; 4: Yoast SEO. */
+					esc_html__( '%1$sGlue for %4$s &amp; AMP%3$s - an integration between %2$sthe WordPress AMP plugin%3$s and %4$s.', 'wordpress-seo' ),
 					'<a target="_blank" href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/">',
 					'<a target="_blank" href="https://wordpress.org/plugins/amp/">',
-					'</a>'
+					'</a>',
+					'Yoast SEO'
 				);
 				?>
 			</li>
 			<li>
 				<?php
 				printf(
-					/* translators: 1: link open tag; 2: link close tag. */
-					esc_html__( '%1$sInstant Articles for WP%2$s - Enable Instant Articles for Facebook on your WordPress site and integrates with Yoast SEO.', 'wordpress-seo' ),
+					/* translators: 1: link open tag; 2: link close tag; 3: Yoast SEO. */
+					esc_html__( '%1$sInstant Articles for WP%2$s - Enable Instant Articles for Facebook on your WordPress site and integrates with %3$s.', 'wordpress-seo' ),
 					'<a target="_blank" href="https://wordpress.org/plugins/fb-instant-articles/">',
-					'</a>'
+					'</a>',
+					'Yoast SEO'
 				);
 				?>
 			</li>
