@@ -14,7 +14,7 @@ class WPSEO_Link_Reindex_Post_Service {
 	 * @return WP_REST_Response The response object.
 	 */
 	public function reindex() {
-		return new WP_REST_Response( $this->get_total_posts() );
+		return new WP_REST_Response( $this->process_posts() );
 	}
 
 	/**
@@ -22,7 +22,7 @@ class WPSEO_Link_Reindex_Post_Service {
 	 *
 	 * @return int The total amount of unprocessed posts.
 	 */
-	protected function get_total_posts() {
+	protected function process_posts() {
 		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			return 0;
 		}
