@@ -138,10 +138,10 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Hides the SEO title, meta description and focus keyword columns if the user hasn't chosen which columns to hide.
 	 *
-	 * @param array            $result The hidden columns.
-	 * @param string|WP_Screen $screen Current screen object or null when screen not defined.
+	 * @param array            $hidden The hidden columns.
+	 * @param string|WP_Screen $screen Current screen object.
 	 *
-	 * @return array           $result Array containing the columns to hide.
+	 * @return array           $hidden Array containing the columns to hide.
 	 */
 	public function column_hidden( $hidden, $screen ) {
 		array_push( $hidden, 'wpseo-title', 'wpseo-metadesc' );
