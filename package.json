@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.22.0",
+  "version": "1.22.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/YoastSEO.js"
@@ -52,17 +52,20 @@
     "load-grunt-config": "^0.19.1",
     "lodash-cli": "^4.14.1",
     "ts-jest": "^21.1.2",
-    "typescript": "^2.4.2",
-    "tslint": "^5.7.0"
+    "tslint": "^5.7.0",
+    "typescript": "^2.4.2"
   },
   "bugs": {
     "url": "https://github.com/Yoast/js-text-analysis/issues"
   },
   "dependencies": {
+    "babel-core": "^6.26.0",
+    "grunt-babel": "^7.0.0",
     "htmlparser2": "^3.9.2",
     "jed": "^1.1.0",
     "jest": "^21.2.1",
     "lodash": "^4.14.1",
+    "node-sass": "^4.5.3",
     "sassdash": "^0.8.1",
     "tokenizer2": "^2.0.0"
   },
