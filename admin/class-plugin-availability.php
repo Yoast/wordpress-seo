@@ -14,9 +14,9 @@ class WPSEO_Plugin_Availability {
 	protected $plugins = array();
 
 	/**
-	 * WPSEO_Plugin_Availability constructor.
+	 * Registers the plugins so we can access them.
 	 */
-	public function __construct() {
+	public function register() {
 		$this->register_yoast_plugins();
 		$this->register_yoast_plugins_status();
 	}
@@ -247,9 +247,7 @@ class WPSEO_Plugin_Availability {
 			return false;
 		}
 
-		$dependencies_are_satisfied = $this->dependencies_are_satisfied( $plugin );
-
-		return $dependencies_are_satisfied && $this->is_available( $plugin );
+		return $this->is_available( $plugin );
 	}
 
 	/**
@@ -313,5 +311,16 @@ class WPSEO_Plugin_Availability {
 	 */
 	public function get_plugins_with_dependencies() {
 		return array_filter( $this->plugins, array( $this, 'has_dependencies' ) );
+	}
+
+	/**
+	 * Determines whether or not a plugin is active.
+	 *
+	 * @param string $plugin The plugin slug to check.
+	 *
+	 * @return bool Whether or not the plugin is active.
+	 */
+	public function is_active( $plugin ) {
+		return is_plugin_active( $plugin );
 	}
 }

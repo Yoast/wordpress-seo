@@ -59,6 +59,7 @@ class WPSEO_Admin_Init {
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
+		$this->load_plugin_suggestions();
 	}
 
 	/**
@@ -497,6 +498,14 @@ class WPSEO_Admin_Init {
 				$this->register_premium_upsell_admin_block();
 			}
 		}
+	}
+
+	/**
+	 * Loads the plugin suggestions.
+	 */
+	private function load_plugin_suggestions() {
+		$suggestions = new WPSEO_Suggested_Plugins( new WPSEO_Plugin_Availability(), Yoast_Notification_Center::get() );
+		$suggestions->register_hooks();
 	}
 
 	/**
