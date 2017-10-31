@@ -26,7 +26,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	 */
 	public function __construct( WPSEO_Plugin_Availability $availability_checker, Yoast_Notification_Center $notification_center ) {
 		$this->availability_checker = $availability_checker;
-		$this->notification_center = $notification_center;
+		$this->notification_center  = $notification_center;
 	}
 
 	/**
@@ -56,7 +56,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 			}
 
 			$dependency_names = $checker->get_dependency_names( $plugin );
-			$notification = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_names[0] );
+			$notification     = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_names[0] );
 
 			if ( ! $checker->is_installed( $plugin ) || ! $checker->is_active( $plugin['slug'] ) ) {
 				$this->notification_center->add_notification( $notification );
@@ -87,8 +87,8 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 		return new Yoast_Notification(
 			$message,
 			array(
-				'id'   => 'wpseo-suggested-plugin-' . $name,
-				'type' => Yoast_Notification::WARNING,
+				'id'           => 'wpseo-suggested-plugin-' . $name,
+				'type'         => Yoast_Notification::WARNING,
 				'capabilities' => array( 'install_plugins' ),
 			)
 		);
@@ -104,7 +104,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	 */
 	protected function create_install_suggested_plugin_message( $suggested_plugin, $third_party_plugin ) {
 		/* translators: %1$s expands to Yoast SEO, %2$s expands to the dependency name, %3$s expands to the install link, %4$s expands to the more info link. */
-		$message = __( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better. %4$s.', 'wordpress-seo' );
+		$message     = __( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better. %4$s.', 'wordpress-seo' );
 		$install_url = WPSEO_Admin_Utils::get_install_url( $suggested_plugin['slug'] );
 
 		return sprintf(
@@ -144,7 +144,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	 */
 	protected function create_activate_suggested_plugin_message( $suggested_plugin, $third_party_plugin ) {
 		/* translators: %1$s expands to Yoast SEO, %2$s expands to the dependency name, %3$s expands to activation link. */
-		$message = __( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please activate %3$s to make your life better.', 'wordpress-seo' );
+		$message        = __( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please activate %3$s to make your life better.', 'wordpress-seo' );
 		$activation_url = WPSEO_Admin_Utils::get_activation_url( $suggested_plugin['slug'] );
 
 		return sprintf(

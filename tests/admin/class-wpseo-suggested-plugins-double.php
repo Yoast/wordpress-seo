@@ -13,7 +13,7 @@ class WPSEO_Suggested_Plugins_Double extends WPSEO_Suggested_Plugins {
 	 */
 	public function __construct( WPSEO_Plugin_Availability $availability_checker, Yoast_Notification_Center $notification_center ) {
 		$this->availability_checker = $availability_checker;
-		$this->notification_center = $notification_center;
+		$this->notification_center  = $notification_center;
 		$this->register_hooks();
 	}
 
