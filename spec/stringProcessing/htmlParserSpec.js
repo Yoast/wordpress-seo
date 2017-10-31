@@ -28,4 +28,10 @@ describe( "A function to remove the entire HTML style/script tag block.", functi
 	it( "filters out all code blocks", function() {
 		expect(htmlParser("Hi, this is a <code>Test</code>test.")).toEqual("Hi, this is a test.");
 	} )
+  it( "filters an entire pre block", function() {
+		expect( htmlParser( "<pre>Test</pre>" ) ).toEqual( "" );
+	})
+	it( "filters out all pre blocks", function() {
+		expect( htmlParser( "Hi, this is a <pre>Test</pre>test." )).toEqual("Hi, this is a test.");
+	} )
 })
