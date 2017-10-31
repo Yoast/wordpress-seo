@@ -237,12 +237,14 @@ function wpseo_display_contributors( $contributors ) {
 					'<a target="_blank" href="https://wordpress.org/plugins/yoast-seo-acf-analysis/">',
 					'</a>',
 					'Yoast',
-					'<a target="_blank" href="https://forsberg.ax">Marcus Forsberg</a>'
+					'<a href="https://forsberg.ax" target="_blank" rel="noreferrer noopener">Marcus Forsberg</a>, ' .
+					'<a href="http://kraftner.com/" target="_blank" rel="noreferrer noopener">Thomas Kräftner</a>, ' .
+					'<a href="https://angrycreative.se/" target="_blank" rel="noreferrer noopener">Angry Creative</a>'
 				);
 				?>
 			</li>
-			<li><a target="_blank" href="https://www.elegantthemes.com/plugins/divi-builder/">Divi Builder</a></li>
-			<li><a target="_blank" href="https://vc.wpbakery.com/">Visual Composer</a></li>
+			<li><a href="https://www.elegantthemes.com/plugins/divi-builder/" target="_blank" rel="noreferrer noopener">Divi Builder</a></li>
+			<li><a href="https://vc.wpbakery.com/" target="_blank" rel="noreferrer noopener">Visual Composer</a></li>
 		</ol>
 
 		<h3><?php esc_html_e( 'Other integrations', 'wordpress-seo' ); ?></h3>
@@ -256,19 +258,8 @@ function wpseo_display_contributors( $contributors ) {
 				printf(
 					/* translators: 1,2: link open tag; 3: link close tag; 4: Yoast SEO. */
 					esc_html__( '%1$sGlue for %4$s &amp; AMP%3$s - an integration between %2$sthe WordPress AMP plugin%3$s and %4$s.', 'wordpress-seo' ),
-					'<a target="_blank" href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/">',
-					'<a target="_blank" href="https://wordpress.org/plugins/amp/">',
-					'</a>',
-					'Yoast SEO'
-				);
-				?>
-			</li>
-			<li>
-				<?php
-				printf(
-					/* translators: 1: link open tag; 2: link close tag; 3: Yoast SEO. */
-					esc_html__( '%1$sInstant Articles for WP%2$s - Enable Instant Articles for Facebook on your WordPress site and integrates with %3$s.', 'wordpress-seo' ),
-					'<a target="_blank" href="https://wordpress.org/plugins/fb-instant-articles/">',
+					'<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/">',
+					'<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/amp/">',
 					'</a>',
 					'Yoast SEO'
 				);
