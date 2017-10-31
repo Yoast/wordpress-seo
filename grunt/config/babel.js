@@ -7,6 +7,7 @@ module.exports = {
 		} ],
 		options: {
 			sourceMap: true,
+			comments: true,
 		},
 	},
 };
