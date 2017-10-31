@@ -5,7 +5,7 @@
 
 /**
  * Plugin Name: Yoast SEO Premium
- * Version: 5.7
+ * Version: 5.7.1
  * Plugin URI: https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
  * Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
  * Author: Team Yoast
@@ -48,8 +48,8 @@ if ( ! is_admin() ) {
 	require_once $wpseo_premium_dir . 'classes/redirect/class-redirect-util.php';
 	require_once $wpseo_premium_dir . 'classes/redirect/class-redirect-handler.php';
 
-	$redirect_handler = new WPSEO_Redirect_Handler();
-	$redirect_handler->load();
+	$wpseo_redirect_handler = new WPSEO_Redirect_Handler();
+	$wpseo_redirect_handler->load();
 }
 
 /**
