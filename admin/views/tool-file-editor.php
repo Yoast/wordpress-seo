@@ -14,7 +14,7 @@ $ht_access_file = get_home_path() . '.htaccess';
 
 if ( isset( $_POST['create_robots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
-		$die_msg = sprintf
+		$die_msg = sprintf(
 			/* translators: %s expands to robots.txt. */
 			__( 'You cannot create a %s file.', 'wordpress-seo' ),
 			'robots.txt'
@@ -35,7 +35,7 @@ if ( isset( $_POST['create_robots'] ) ) {
 
 if ( isset( $_POST['submitrobots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
-		$die_msg = sprintf
+		$die_msg = sprintf(
 			/* translators: %s expands to robots.txt. */
 			__( 'You cannot edit the %s file.', 'wordpress-seo' ),
 			'robots.txt'
@@ -62,7 +62,7 @@ if ( isset( $_POST['submitrobots'] ) ) {
 
 if ( isset( $_POST['submithtaccess'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
-		$die_msg = sprintf
+		$die_msg = sprintf(
 			/* translators: %s expands to ".htaccess". */
 			__( 'You cannot edit the %s file.', 'wordpress-seo' ),
 			'.htaccess'
