@@ -10,7 +10,16 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 ?>
-<p><?php esc_html_e( 'Import settings by locating <em>settings.zip</em> and clicking "Import settings"', 'wordpress-seo' ); ?></p>
+<p>
+	<?php
+	printf(
+		/* translators: 1: emphasis opener; 2: emphasis closer. */
+		esc_html_e( 'Import settings by locating %1$ssettings.zip%2$s and clicking "Import settings"', 'wordpress-seo' ),
+		'<em>',
+		'</em>'
+	);
+	?>
+</p>
 
 <form
 	action="<?php echo esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#wpseo-import' ) ); ?>"
