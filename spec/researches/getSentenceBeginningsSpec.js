@@ -205,6 +205,6 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 
 	it( "returns matching sentences if there is an 'empty' sentence", function() {
 		let mockPaper = new Paper( "\"A sentence with multiple terminators!\"). Test one. Test two. Test three." );
-		expect( sentenceBeginnings( mockPaper ) ).toContain( { word: 'test', count: 3, sentences: [ "Test one.", "Test two.", "Test three."] } );
+		expect( sentenceBeginnings( mockPaper ) ).toContainEqual( { word: 'test', count: 3, sentences: [ "Test one.", "Test two.", "Test three."] } );
 	} );
 } );

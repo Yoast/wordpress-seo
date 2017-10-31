@@ -5,7 +5,7 @@ module.exports = {
 	},
 	build: {
 		files: {
-			"dist/yoast-seo.min.css": "css/analyzer.scss",
+			"examples/shared/yoast-seo.min.css": "css/analyzer.scss",
 		},
 	},
 	example: {

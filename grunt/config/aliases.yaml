@@ -16,6 +16,9 @@ build:
   - 'copy:js'
   - 'browserify'
   - 'exorcise'
+'build:test':
+  - 'ts'
+  - 'copy:js'
 # Build CSS
 'build:css':
   - 'copy'
@@ -30,3 +33,9 @@ check:
 default:
   - check
   - build
+# Create folder for npm publishing
+publish:
+  - 'ts'
+  - 'copy:js'
+  - 'babel:publish'
+  - 'copy:publish'

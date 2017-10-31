@@ -4,6 +4,8 @@ temp-spec/
 node_modules/
 out/
 coverage/
-dist/yoast-seo*
+dist/
+js/
+.tscache/
 
 /examples/browserified/example-browserified.js

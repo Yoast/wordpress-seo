@@ -1,4 +1,5 @@
-var verbEndingInIngRegex = /\w+ing($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var stopCharacterRegex = /(?!([a-zA-Z]))([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
 var ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
 var indices = require( "../../stringProcessing/indices" );
 var getIndicesOfList = indices.getIndicesByWordList;
@@ -27,11 +28,33 @@ var map = require( "lodash/map" );
 var getVerbsEndingInIng = function( sentence ) {
 	// Matches the sentences with words ending in ing.
 	var matches = sentence.match( verbEndingInIngRegex ) || [];
-
 	// Filters out words ending in -ing that aren't verbs.
 	return filter( matches, function( match ) {
 		return ! includes( ingExclusionArray, stripSpaces( match ) );
 	} );
+};
+
+/**
+ * Gets stop characters to determine sentence breakers.
+ *
+ * @param {string} sentence The sentence to get the stop characters from.
+ * @returns {Array} The array with valid matches.
+ */
+var getStopCharacters = function( sentence ) {
+	var match;
+	var matches = [];
+
+	stopCharacterRegex.lastIndex = 0;
+
+	while ( ( match = stopCharacterRegex.exec( sentence ) ) !== null ) {
+		matches.push(
+			{
+				index: match.index,
+				match: match[ 0 ],
+			}
+		);
+	}
+	return matches;
 };
 
 /**
@@ -46,12 +69,13 @@ var getSentenceBreakers = function( sentence ) {
 	sentence = sentence.toLocaleLowerCase();
 	var auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
 	var stopwordIndices = getIndicesOfList( stopwords, sentence );
+	var stopCharacterIndices = getStopCharacters( sentence );
 
 	var ingVerbs = getVerbsEndingInIng( sentence );
 	var ingVerbsIndices = getIndicesOfList( ingVerbs, sentence );
 
 	// Concat all indices arrays, filter them and sort them.
-	var indices = [].concat( auxiliaryIndices, stopwordIndices, ingVerbsIndices );
+	var indices = [].concat( auxiliaryIndices, stopwordIndices, ingVerbsIndices, stopCharacterIndices );
 	indices = filterIndices( indices );
 	return sortIndices( indices );
 };

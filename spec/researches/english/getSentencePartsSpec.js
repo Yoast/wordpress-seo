@@ -17,4 +17,24 @@ describe( "splits English sentences into parts", function() {
 		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is praise due." );
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
 	} );
+	it ( "splits sentences on stop characters", function() {
+		var sentence = "It is a hands-free, voice-controlled device.";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is a hands-free" );
+		expect( getSentenceParts( sentence ).length ).toBe( 1 );
+		} );
+	it ( "doesn't split sentences on stop characters that are not preceded by a word and also not followed by a space/punctuation mark", function() {
+		var sentence = "It is a 1,000,000 dollar house.";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is a 1,000,000 dollar house." );
+		expect( getSentenceParts( sentence ).length ).toBe( 1 );
+	} );
+	it ( "splits sentences on stop characters when followed by a punctuation mark", function() {
+		var sentence = "\"This is it\", he said.";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "is it\"" );
+    expect( getSentenceParts( sentence ).length ).toBe( 1 );
+  } );
+	it ( "correctly splits English sentences when matching punctuation after words ending in ing", function() {
+		var sentence = "(is having)";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "having)" );
+		expect( getSentenceParts( sentence ).length ).toBe( 1 );
+	} );
 } );
