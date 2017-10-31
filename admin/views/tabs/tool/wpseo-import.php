@@ -14,7 +14,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	<?php
 	printf(
 		/* translators: 1: emphasis opener; 2: emphasis closer. */
-		esc_html( 'Import settings by locating %1$ssettings.zip%2$s and clicking "Import settings"', 'wordpress-seo' ),
+		esc_html__( 'Import settings by locating %1$ssettings.zip%2$s and clicking "Import settings"', 'wordpress-seo' ),
 		'<em>',
 		'</em>'
 	);
