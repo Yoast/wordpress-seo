@@ -829,7 +829,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// note: the WP and WP_Query classes like to silently fetch parameters
 		// from all over the place (globals, GET, etc), which makes it tricky
 		// to run them more than once without very carefully clearing everything
-		$_GET = $_POST = array();
+		$_GET  = array();
+		$_POST = array();
 
 		$keys = array(
 			'query_string',

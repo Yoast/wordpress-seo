@@ -84,7 +84,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	public function prepare_items() {
 		// Get variables needed for pagination.
 		$this->per_page     = $this->get_items_per_page( 'errors_per_page', $this->per_page );
-		$this->current_page = intval( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 1 );
+		$paged              = filter_input( INPUT_GET, 'paged' );
+		$this->current_page = intval( ( ! empty( $paged ) ) ? $paged : 1 );
 
 		$this->setup_columns();
 		$this->views();
@@ -308,11 +309,14 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * @return int
 	 */
 	private function do_reorder( $a, $b ) {
+		$orderby = filter_input( INPUT_GET, 'orderby' );
+		$order   = filter_input( INPUT_GET, 'order' );
+
 		// If no sort, default to title.
-		$orderby = ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) ? $orderby : 'url';
+		$orderby = ( ! empty( $orderby ) ) ? $orderby : 'url';
 
 		// If no order, default to asc.
-		$order = ( $order = filter_input( INPUT_GET, 'order' ) ) ? $order : 'asc';
+		$order = ( ! empty( $order ) ) ? $order : 'asc';
 
 		// When there is a raw field of it, sort by this field.
 		if ( array_key_exists( $orderby . '_raw', $a ) && array_key_exists( $orderby . '_raw', $b ) ) {

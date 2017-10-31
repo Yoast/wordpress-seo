@@ -615,13 +615,14 @@ class WPSEO_Frontend {
 	 */
 	public function debug_mark( $echo = true ) {
 		$marker = sprintf(
-			'<!-- This site is optimized with the ' . $this->head_product_name() . '%1$s - https://yoast.com/wordpress/plugins/seo/ -->',
+			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
+			esc_html( $this->head_product_name() ),
 			/**
 			 * Filter: 'wpseo_hide_version' - can be used to hide the Yoast SEO version in the debug marker (only available in Yoast SEO Premium)
 			 *
 			 * @api bool
 			 */
-			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION )
+			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : 'v' . WPSEO_VERSION )
 		);
 
 		if ( $echo === false ) {
@@ -675,7 +676,10 @@ class WPSEO_Frontend {
 		 */
 		do_action( 'wpseo_head' );
 
-		echo '<!-- / ', $this->head_product_name(), ". -->\n\n";
+		printf(
+			"<!-- / %s. -->\n\n",
+			esc_html( $this->head_product_name() )
+		);
 
 		if ( ! empty( $old_wp_query ) ) {
 			$GLOBALS['wp_query'] = $old_wp_query;

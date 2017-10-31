@@ -42,16 +42,16 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 	public function test_plugin_version_matches() {
 		$expected = array(
 			'test-plugin' => array(
-				'url'         => 'https://yoast.com/',
-				'title'       => 'Test Plugin',
-				'description' => '',
-				'version'     => '3.3',
-				'installed'   => true,
-				'compatible'  => true,
-				'slug'        => 'test-plugin/test-plugin.php',
+				'url'          => 'https://yoast.com/',
+				'title'        => 'Test Plugin',
+				'description'  => '',
+				'version'      => '3.3',
+				'installed'    => true,
 				'version_sync' => true,
+				'compatible'   => true,
+				'slug'         => 'test-plugin/test-plugin.php',
 			),
-			'test-plugin-dependency'      => array(
+			'test-plugin-dependency' => array(
 				'url'           => 'https://yoast.com/',
 				'title'         => 'Test Plugin With Dependency',
 				'description'   => '',
