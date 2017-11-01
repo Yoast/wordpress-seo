@@ -596,7 +596,7 @@ class WPSEO_Admin_Init {
 			'wpseo_snippet'                => array( 'version' => '3.0', 'alternative' => 'javascript' ),
 			'wp_seo_get_bc_title'          => array(
 				'version'     => '5.8',
-				'alternative' => 'wpseo_breadcrumb_single_link_info'
+				'alternative' => 'wpseo_breadcrumb_single_link_info',
 			),
 		);
 
