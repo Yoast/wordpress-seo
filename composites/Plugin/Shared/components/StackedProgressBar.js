@@ -60,7 +60,7 @@ StackedProgressBar.propTypes = {
 
 StackedProgressBar.defaultProps = {
 	className: "stacked-progress-bar",
-	barHeight: "40px",
+	barHeight: "24px",
 };
 
 export default StackedProgressBar;
