@@ -678,12 +678,12 @@ class WPSEO_Breadcrumbs {
 		/**
 		 * Filter: 'wp_seo_get_bc_title' - Allow developer to filter the Yoast SEO Breadcrumb title.
 		 *
-		 * @deprecated 3.3
+		 * @deprecated 5.8
 		 * @api string $link_text The Breadcrumb title text
 		 *
 		 * @param int $link_id The post ID
 		 */
-		$link['text'] = apply_filters_deprecated( 'wp_seo_get_bc_title', array( $link['text'], $id ), 'WPSEO 3.3', 'wpseo_breadcrumb_single_link_info' );
+		$link['text'] = apply_filters_deprecated( 'wp_seo_get_bc_title', array( $link['text'], $id ), 'WPSEO 5.8', 'wpseo_breadcrumb_single_link_info' );
 
 		return $link;
 	}
