@@ -1,8 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests\Formatter
+ * @package WPSEO\Tests\Formatter
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -21,6 +24,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 				''
 			)
 		);
+
 		$result = $class_instance->get_values();
 
 		$this->assertEquals( 'Readability', $result['contentTab'] );
@@ -51,6 +55,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 				''
 			)
 		);
+
 		$result = $class_instance->get_values();
 
 		$this->assertTrue( array_key_exists( 'translations', $result ) );

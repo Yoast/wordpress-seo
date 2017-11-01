@@ -31,13 +31,16 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 */
 	public static function translate_meta_boxes() {
 		/* translators: %s expands to the social network's name */
-		$title_text       = __( 'If you don\'t want to use the post title for sharing the post on %s but instead want another title there, write it here.', 'wordpress-seo' );
+		$title_text = __( 'If you don\'t want to use the post title for sharing the post on %s but instead want another title there, write it here.', 'wordpress-seo' );
+
 		/* translators: %s expands to the social network's name */
 		$description_text = __( 'If you don\'t want to use the meta description for sharing the post on %s but want another description there, write it here.', 'wordpress-seo' );
+
 		/* translators: %s expands to the social network's name */
-		$image_text       = __( 'If you want to override the image used on %s for this post, upload / choose an image or add the URL here.', 'wordpress-seo' );
+		$image_text = __( 'If you want to override the image used on %s for this post, upload / choose an image or add the URL here.', 'wordpress-seo' );
+
 		/* translators: %1$s expands to the social network, %2$s to the recommended image size */
-		$image_size_text  = __( 'The recommended image size for %1$s is %2$s pixels.', 'wordpress-seo' );
+		$image_size_text = __( 'The recommended image size for %1$s is %2$s pixels.', 'wordpress-seo' );
 
 		$options = WPSEO_Options::get_option( 'wpseo_social' );
 
@@ -77,9 +80,9 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @return WPSEO_Metabox_Tab_Section
 	 */
 	public function get_meta_section() {
-		$tabs = array();
+		$tabs               = array();
 		$social_meta_fields = $this->get_meta_field_defs( 'social' );
-		$single = true;
+		$single             = true;
 
 		if ( $this->options['opengraph'] === true && $this->options['twitter'] === true ) {
 			$single = null;

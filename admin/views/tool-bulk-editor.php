@@ -53,7 +53,7 @@ function render_help_center() {
  */
 function get_rendered_tab( $table, $id ) {
 	?>
-	<div id="<?php echo $id; ?>" class="wpseotab">
+	<div id="<?php echo esc_attr( $id ); ?>" class="wpseotab">
 		<?php
 		$table->show_page();
 		?>
@@ -74,9 +74,9 @@ function get_rendered_tab( $table, $id ) {
 <div class="wpseo_table_page">
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab" id="title-tab" href="#top#title"><?php _e( 'Title', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="title-tab" href="#top#title"><?php esc_html_e( 'Title', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="description-tab"
-			href="#top#description"><?php _e( 'Description', 'wordpress-seo' ); ?></a>
+			href="#top#description"><?php esc_html_e( 'Description', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<?php render_help_center(); ?>

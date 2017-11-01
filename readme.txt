@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
 Tested up to: 4.8.2
-Stable tag: 5.6.1
+Stable tag: 5.7.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -125,6 +125,32 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.7.1 =
+
+Release Date: October 25th, 2017
+
+Bugfixes:
+	* Fixes a bug where the message "You are not receiving updates or support!" is shown incorrectly.
+	* Changes the reference to the correct ACF Content Analysis for Yoast SEO plugin.
+
+Enhancements:
+	* Adds a plugin suggestion for WooCommerce SEO when WooCommerce is installed.
+
+= 5.7.0 =
+
+Release Date: October 24th, 2017
+
+Enhancements:
+	* Adds notifications when we detect certain plugins are installed to suggest our AMP and ACF glue plugins.
+	* Adds the ability to start the configuration wizard from the admin bar menu.
+	* Adds better responsive styling for the video tabs in the Help Center.
+	* Replaces the link to Google AdWords with the https variant, props [Shane Gray](https://github.com/shane-gray).
+	* Changes to the desired spelling of `plugin` and `setup`, props [Pedro Mendonça](https://github.com/pedro-mendonca).
+
+Bugfixes:
+	* Fixes a bug where the text link counter doesn't count links for scheduled posts when they get published.
+	* Fixes a bug where the internal link count is not updated when a post is removed permanently.
+
 = 5.6.1 =
 
 Release Date: October 13th, 2017
@@ -172,91 +198,6 @@ Release Date: September 26th, 2017
 * Bugfixes
 	* Fixed a bug where certain options (`site_type`, `environment_type` and `has_multiple_authors`) would be reset to their default value whenever one of the feature toggles were changed.
 	* Ensured that `has_multiple_authors` gets validated.
-
-= 5.4.2
-
-Release Date: September 21st, 2017
-
-* Bugfixes
-	* Replace unsupported query `prepare` placeholder `%1$d` with `%d` to fix broken queries. Fixes compatibility issue with WordPress 4.8.2.
-
-= 5.4.1
-
-Release Date: September 20th, 2017
-
-* Bugfixes
-	* Replace unsupported query `prepare` placeholder `%1$s` with `%d` to fix broken queries. Fixes compatibility issue with WordPress 4.8.2.
-
-= 5.4.0 =
-
-Release Date: September 6th, 2017
-
-* Enhancements
-	* Added a hook to disabled the twitter card. (Props: @petenelson)
-
-* Performance
-	* Replaced the use of `get_posts` and `get_children` by `WP_Query`.
-
-* Bugfixes
-	* Archive pages are excluded from the sitemap based on the noindex setting. (Props: @stodorovic)
-	* Prevent the throwing of an error when `wpseoPostScraperL10n` is not defined.
-	* Escapes all input when generating links for the RSS feed.
-	* Apply the `wp_get_attachment_url` filter to Sitemap images.
-
-= 5.3.3 =
-
-Release Date: August 28th, 2017
-
-* Bugfixes
-	* Fixes a bug where table listings were not giving expected content, props [Kyle B. Johnson](https://github.com/kjohnson).
-
-= 5.3.2 =
-
-Release Date: August 23rd, 2017
-
-* Bugfixes
-	* Fixes a bug where an invalid license notification could be shown in certain situations.
-
-= 5.3.1 =
-
-Release Date: August 22nd, 2017
-
-* Bugfixes
-	* Fixes a bug where "mark as fixed" on the search console page didn't work.
-	* Fixes a bug where the configuration wizard JavaScript file was too large.
-
-= 5.3.0 =
-
-Release Date: August 22nd, 2017
-
-* Enhancements
-	* Adds missing I18n function call to make a string translatable
-	* Adds XML schema for image sitemap, props: [stodorovic](https://github.com/stodorovic)
-	* Adds schema.org meta-data on every page, instead of only on the homepage
-	* Adds the possibility to filter posts by readability score.
-	* Exposes tinyMCEHelper as window.YoastSEO.wp._tinyMCEHelper in JavaScript
-	* Exposes the ReplaceVar class in YoastReplaceVarPlugin as window.YoastReplaceVarPlugin.ReplaceVar in JavaScript
-
-* Bugfixes
-	* Adds sanitization for the Twitter Image meta field
-	* Fixes use of `register_meta` for usage in WordPress 4.6 and higher
-	* Initialize the providers on hook `after_theme_setup` to make sure custom providers are added properly, props: [stodorovic](https://github.com/stodorovic)
-	* Changes the label of the "Bad" score to "Needs improvement" while filtering on SEO or readability scores.
-
-= 5.2.0 =
-
-Release Date: August 8th, 2017
-
-* Enhancements
-	* Added wpseo_pre_adjacent_rel_links filter to bypass built-in rel prev/next functionality.
-	* Introduces classes to allow collecting data in the Premium plugin.
-	* Renamed OnPage.org to Ryte.
-	* Allow WordPress WHIP messages to be dismissed for a period of 4 weeks.
-	* Adds a filter for word combinations that consist of a single one-character word.
-	* Adds aria-current to the onboarding wizard active step.
-
-* Bugfixes
-	* Removes JQMIGRATE JavaScript warnings.
 
 = Earlier versions =
 

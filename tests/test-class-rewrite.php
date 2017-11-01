@@ -1,8 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -15,6 +18,9 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 		self::$class_instance = new WPSEO_Rewrite();
@@ -89,7 +95,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 		$c = self::$class_instance;
 
-		$categories = get_categories( array( 'hide_empty' => false ) );
+		$categories          = get_categories( array( 'hide_empty' => false ) );
 		$permalink_structure = get_option( 'permalink_structure' );
 
 		if ( ! ( is_multisite() && 0 === strpos( $permalink_structure, '/blog/' ) ) ) {

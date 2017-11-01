@@ -53,7 +53,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->editor = new WPSEO_Metabox_Editor();
 		$this->editor->register_hooks();
 
-		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
@@ -64,28 +64,28 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 */
 	public static function translate_meta_boxes() {
-		self::$meta_fields['general']['snippetpreview']['title']       = __( 'Snippet editor', 'wordpress-seo' );
+		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet editor', 'wordpress-seo' );
 		/* translators: 1: link open tag; 2: link close tag. */
 		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %1$sLearn more about the Snippet Preview%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/snippet-preview' ) . '">', '</a>' );
 		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
 
-		self::$meta_fields['general']['pageanalysis']['title']       = __( 'Analysis', 'wordpress-seo' );
+		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Analysis', 'wordpress-seo' );
 		/* translators: 1: link open tag; 2: link close tag. */
 		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. %1$sLearn more about the Content Analysis Tool%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/content-analysis' ) . '">', '</a>' );
 		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
 
-		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus keyword', 'wordpress-seo' );
-		self::$meta_fields['general']['focuskw_text_input']['label']       = __( 'Enter a focus keyword', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw_text_input']['title'] = __( 'Focus keyword', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw_text_input']['label'] = __( 'Enter a focus keyword', 'wordpress-seo' );
 		/* translators: 1: link open tag; 2: link close tag. */
 		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %1$sLearn more about the Focus Keyword%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/focus-keyword' ) . '">', '</a>' );
 		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
 
-		self::$meta_fields['general']['title']['title']              = __( 'SEO title', 'wordpress-seo' );
+		self::$meta_fields['general']['title']['title'] = __( 'SEO title', 'wordpress-seo' );
 
-		self::$meta_fields['general']['metadesc']['title']           = __( 'Meta description', 'wordpress-seo' );
+		self::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
 
-		self::$meta_fields['general']['metakeywords']['title']       = __( 'Meta keywords', 'wordpress-seo' );
-		self::$meta_fields['general']['metakeywords']['label']       = __( 'Enter the meta keywords', 'wordpress-seo' );
+		self::$meta_fields['general']['metakeywords']['title'] = __( 'Meta keywords', 'wordpress-seo' );
+		self::$meta_fields['general']['metakeywords']['label'] = __( 'Enter the meta keywords', 'wordpress-seo' );
 		/* translators: 1: link open tag; 2: link close tag. */
 		self::$meta_fields['general']['metakeywords']['description'] = __( 'If you type something above it will override your %1$smeta keywords template%2$s.', 'wordpress-seo' );
 
@@ -115,7 +115,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['advanced']['bctitle']['title']       = __( 'Breadcrumbs Title', 'wordpress-seo' );
 		self::$meta_fields['advanced']['bctitle']['description'] = __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' );
 
-		self::$meta_fields['advanced']['canonical']['title']       = __( 'Canonical URL', 'wordpress-seo' );
+		self::$meta_fields['advanced']['canonical']['title'] = __( 'Canonical URL', 'wordpress-seo' );
 		/* translators: 1: link open tag; 2: link close tag. */
 		self::$meta_fields['advanced']['canonical']['description'] = sprintf( __( 'The canonical URL that this page should point to, leave empty to default to permalink. %1$sCross domain canonical%2$s supported too.', 'wordpress-seo' ), '<a target="_blank" href="http://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html">', '</a>' );
 
@@ -145,7 +145,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$cpts    = get_post_types( array( 'public' => true ), 'names' );
 			$options = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts ) === false );
+			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts, true ) === false );
 		}
 		return false;
 	}
@@ -569,14 +569,22 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$placeholder = $meta_field_def['placeholder'];
 		}
 
-		$aria_describedby = $description = '';
+		$aria_describedby = '';
+		$description      = '';
 		if ( isset( $meta_field_def['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $esc_form_key . '-desc"';
-			$description = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
+			$description      = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
 		}
 
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
+				$content_analysis_active = $this->options['content_analysis_active'];
+				$keyword_analysis_active = $this->options['keyword_analysis_active'];
+
+				if ( $content_analysis_active === false && $keyword_analysis_active === false ) {
+					break;
+				}
+
 				$content .= '<div id="pageanalysis">';
 				$content .= '<section class="yoast-section" id="wpseo-pageanalysis-section">';
 				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">' . __( 'Analysis', 'wordpress-seo' ) . '</h3>';
@@ -683,8 +691,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'checkbox':
-				$checked = checked( $meta_value, 'on', false );
-				$expl    = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
+				$checked  = checked( $meta_value, 'on', false );
+				$expl     = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
 				$content .= '<input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"' . $aria_describedby . '/> <label for="' . $esc_form_key . '">' . $expl . '</label>';
 				unset( $checked, $expl );
 				break;
@@ -692,7 +700,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			case 'radio':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 					foreach ( $meta_field_def['options'] as $val => $option ) {
-						$checked = checked( $meta_value, $val, false );
+						$checked  = checked( $meta_value, $val, false );
 						$content .= '<input type="radio" ' . $checked . ' id="' . $esc_form_key . '_' . esc_attr( $val ) . '" name="' . $esc_form_key . '" value="' . esc_attr( $val ) . '"/> <label for="' . $esc_form_key . '_' . esc_attr( $val ) . '">' . esc_html( $option ) . '</label> ';
 					}
 					unset( $val, $option, $checked );
@@ -718,9 +726,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$label = '<label for="' . $esc_form_key . '">' . $title . '</label>';
 
 			// Set the inline help and help panel, if any.
-			$help_button = $help_panel = '';
+			$help_button = '';
+			$help_panel  = '';
 			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
-				$help = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
+				$help        = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
 				$help_button = $help->get_button_html();
 				$help_panel  = $help->get_panel_html();
 			}
@@ -769,7 +778,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	private function create_content_box( $content, $hidden_help_name, $help_button, $help_panel ) {
-		$html = $content;
+		$html  = $content;
 		$html .= '<div class="wpseo_hidden" id="help-yoast-' . $hidden_help_name . '">' . $help_button . $help_panel . '</div>';
 		return $html;
 	}
@@ -946,7 +955,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @returns WP_Post|array
 	 */
 	protected function get_metabox_post() {
-		if ( $post = filter_input( INPUT_GET, 'post' ) ) {
+		$post = filter_input( INPUT_GET, 'post' );
+		if ( ! empty( $post ) ) {
 			$post_id = (int) WPSEO_Utils::validate_int( $post );
 
 			return get_post( $post_id );
@@ -1031,7 +1041,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array Array containing all the replacement variables.
 	 */
 	private function get_custom_taxonomies_replace_vars( $post ) {
-		$taxonomies = get_object_taxonomies( $post, 'objects' );
+		$taxonomies          = get_object_taxonomies( $post, 'objects' );
 		$custom_replace_vars = array();
 
 		foreach ( $taxonomies as $taxonomy_name => $taxonomy ) {
@@ -1254,7 +1264,7 @@ SVG;
 	 * @return string
 	 */
 	public function strtolower_utf8( $string ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead.', 'wordpress-seo' ) );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', esc_html__( 'Use javascript instead.', 'wordpress-seo' ) );
 
 		return $string;
 	}
@@ -1276,7 +1286,7 @@ SVG;
 	 * @return string
 	 */
 	public function snippet() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead.', 'wordpress-seo' ) );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', esc_html__( 'Use javascript instead.', 'wordpress-seo' ) );
 
 		return '';
 	}

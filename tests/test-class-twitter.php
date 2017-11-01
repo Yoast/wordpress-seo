@@ -1,8 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -10,19 +13,24 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up a WPSEO_Twitter object.
+	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 		ob_start();
 
-		// create instance of WPSEO_Twitter class
-		require_once WPSEO_TESTS_PATH . 'framework/class-expose-wpseo-twitter.php';
+		// Create instance of WPSEO_Twitter class.
+		require_once WPSEO_TESTS_PATH . 'doubles/class-expose-wpseo-twitter.php';
 		self::$class_instance = new Expose_WPSEO_Twitter();
 		WPSEO_Frontend::get_instance()->reset();
-		// clean output which was outputted by WPSEO_Twitter constructor
+		// Clean output which was outputted by WPSEO_Twitter constructor.
 		ob_end_clean();
 	}
 
-
+	/**
+	 * Clean up after each test.
+	 */
 	public function tearDown() {
 		parent::tearDown();
 		ob_clean();
@@ -62,14 +70,14 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		// test invalid option, should default to summary
 		self::$class_instance->options['twitter_card_type'] = 'something_invalid';
-		$expected                                           = $this->metatag( 'card', 'summary' );
+		$expected = $this->metatag( 'card', 'summary' );
 
 		self::$class_instance->type();
 		$this->expectOutput( $expected );
 
 		// test valid option
 		self::$class_instance->options['twitter_card_type'] = 'summary_large_image';
-		$expected                                           = $this->metatag( 'card', 'summary_large_image' );
+		$expected = $this->metatag( 'card', 'summary_large_image' );
 
 		self::$class_instance->type();
 		$this->expectOutput( $expected );
@@ -78,8 +86,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param $name
-	 * @param $value
+	 * @param string $name  Name.
+	 * @param string $value Value.
 	 *
 	 * @return string
 	 */
@@ -302,14 +310,14 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$image_url = 'http://url-default-image.jpg';
 
 		self::$class_instance->options['og_default_image'] = $image_url;
-		$expected                                          = $this->get_expected_image_output( $image_url );
+		$expected = $this->get_expected_image_output( $image_url );
 
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
 	}
 
 	/**
-	 * @param $url
+	 * @param string $url URL.
 	 *
 	 * @return string
 	 */
@@ -347,8 +355,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::image()
 	 */
 	public function test_post_thumbnail_image() {
-		$post_id = $this->factory->post->create();
-		$filename = 'post-thumbnail.jpg';
+		$post_id       = $this->factory->post->create();
+		$filename      = 'post-thumbnail.jpg';
 		$attachment_id = $this->factory->attachment->create_object( $filename, 0, array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',
@@ -367,7 +375,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::image()
 	 */
 	public function test_post_content_image() {
-		$url = 'http://example.com/example.jpg';
+		$url     = 'http://example.com/example.jpg';
 		$post_id = $this->factory->post->create( array( 'post_content' => "Bla <img src='$url'/> bla" ) );
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -436,8 +444,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = $this->metatag( 'card', 'summary_large_image' );
 
 		// Insert image into DB so we have something to test against
-		$filename = 'image.jpg';
-		$id       = $this->factory->attachment->create_object( $filename, 0, array(
+		$filename  = 'image.jpg';
+		$id        = $this->factory->attachment->create_object( $filename, 0, array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',
 		) );

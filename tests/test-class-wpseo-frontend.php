@@ -1,12 +1,15 @@
 <?php
+/**
+ * @package WPSEO\Tests
+ */
 
 /**
- * @package WPSEO\Unittests
+ * Unit Test Class.
  */
 class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Frontend
+	 * @var WPSEO_Frontend_Double
 	 */
 	private static $class_instance;
 
@@ -16,7 +19,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		self::$class_instance = WPSEO_Frontend::get_instance();
+		require_once WPSEO_TESTS_PATH . 'doubles/frontend-double.php';
+
+		self::$class_instance = WPSEO_Frontend_Double::get_instance();
 	}
 
 	/**
@@ -509,20 +514,73 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests for attachment redirect an attachment page with parent.
+	 *
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect() {
+		// Create parent post ID.
+		$parent_post_id = $this->factory->post->create();
 
-		// should not redirect on home page
-		$this->go_to_home();
-		$this->assertFalse( self::$class_instance->attachment_redirect() );
+		// Create an attachment with parent.
+		$post_id = $this->factory->post->create( array(
+			'post_type' => 'attachment',
+			'post_parent' => $parent_post_id
+		));
+		$this->go_to( get_permalink( $post_id ) );
 
+		// Make sure the redirect is applied.
+		$this->assertTrue( self::$class_instance->attachment_redirect() );
+	}
+
+	/**
+	 * Tests for attachment redirect on a non-attachment page.
+	 *
+	 * @covers WPSEO_Frontend::attachment_redirect
+	 */
+	public function test_attachment_redirect_no_attachment() {
 		// create and go to post
-		$post_id = $this->factory->post->create();
+		$post_id = $this->factory->post->create( array(
+			'post_type' => 'post'
+		));
 		$this->go_to( get_permalink( $post_id ) );
 
 		// should not redirect on regular post pages
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
+	}
+
+	/**
+	 * Tests for a request without a valid post object.
+	 *
+	 * @covers WPSEO_Frontend::attachment_redirect
+	 */
+	public function test_attachment_redirect_no_post_object() {
+		global $post;
+
+		$saved_post = $post;
+		$post = null;
+
+		$this->assertFalse( self::$class_instance->attachment_redirect() );
+
+		// Restore global Post.
+		$post = $saved_post;
+	}
+
+	/**
+	 * Tests for a request without a parent on an attachment.
+	 *
+	 * @covers WPSEO_Frontend::attachment_redirect
+	 */
+	public function test_attachment_redirect_no_parent() {
+		// create and go to post
+		$post_id = $this->factory->post->create( array(
+			'post_type' => 'attachment',
+			'post_parent' => 0,
+		));
+		$this->go_to( get_permalink( $post_id ) );
+
+		$this->assertFalse( self::$class_instance->attachment_redirect() );
+		$this->assertEquals( 1, did_action( 'wpseo_redirect_orphan_attachment' ) );
 	}
 
 	/**
@@ -572,10 +630,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $c->replytocom_redirect() );
 
 		$_GET['replytocom'] = 123;
+		$_SERVER['QUERY_STRING'] = '';
 
-		// the following call should redirect
-		// @todo figure out a way to test this
-		// $this->assertTrue( $c->replytocom_redirect() );
+		// The following call should redirect.
+		$this->assertTrue( $c->replytocom_redirect() );
 
 		// go to home / move away from singular page
 		$this->go_to_home();
@@ -747,6 +805,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// @todo
 	}
 
+
+
 	/**
 	 * @param string $initial_url
 	 *
@@ -826,7 +886,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// note: the WP and WP_Query classes like to silently fetch parameters
 		// from all over the place (globals, GET, etc), which makes it tricky
 		// to run them more than once without very carefully clearing everything
-		$_GET = $_POST = array();
+		$_GET  = array();
+		$_POST = array();
 
 		$keys = array(
 			'query_string',

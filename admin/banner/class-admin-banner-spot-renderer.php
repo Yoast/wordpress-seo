@@ -16,7 +16,7 @@ class WPSEO_Admin_Banner_Spot_Renderer {
 	 * @return string
 	 */
 	public function render( WPSEO_Admin_Banner_Spot $banner_spot ) {
-		$output  = '<div class="yoast-sidebar__spot">';
+		$output = '<div class="yoast-sidebar__spot">';
 		if ( $banner_spot->get_title() !== '' ) {
 			$output .= '<strong>' . $banner_spot->get_title() . '</strong>';
 		}

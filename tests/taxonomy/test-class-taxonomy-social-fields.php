@@ -1,8 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests\Taxonomy
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -21,11 +24,11 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->term           = $this->factory->term->create_and_get();
+		$this->term = $this->factory->term->create_and_get();
 
 		// Setting the social networks to true
 		$this->options['opengraph'] = true;
-		$this->options['twitter'] = true;
+		$this->options['twitter']   = true;
 	}
 
 	public function get_class_instance() {
@@ -48,7 +51,7 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_show_social_hidden() {
 		$this->options['opengraph'] = false;
-		$this->options['twitter'] = false;
+		$this->options['twitter']   = false;
 
 		$this->assertFalse( $this->get_class_instance()->show_social() );
 	}

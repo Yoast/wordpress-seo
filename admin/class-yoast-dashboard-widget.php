@@ -28,7 +28,7 @@ class Yoast_Dashboard_Widget {
 			$statistics = new WPSEO_Statistics();
 		}
 
-		$this->statistics = $statistics;
+		$this->statistics    = $statistics;
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_assets' ) );

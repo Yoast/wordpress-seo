@@ -1,34 +1,11 @@
 <?php
 /**
-* @package WPSEO\Unittests
-*/
+ * @package WPSEO\Tests\OnPage
+ */
 
-class WPSEO_OnPage_Double extends WPSEO_OnPage {
-
-	/**
-	 * Overwrite the request_indexibility method, because it uses a dependency
-	 *
-	 * @return int
-	 */
-	protected function request_indexability() {
-		if ( home_url() === 'http://example.org' ) {
-			return 1;
-		}
-
-		return 0;
-	}
-
-	/**
-	 * Overwrite the method because is has a dependency.
-	 *
-	 * @return bool
-	 */
-	protected function notify_admins() {
-
-	}
-
-}
-
+/**
+ * Unit Test Class.
+ */
 class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -40,6 +17,15 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	 * @var WPSEO_OnPage_Option
 	 */
 	private $option_instance;
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-onpage-double.php';
+	}
 
 	/**
 	 * Setup the class instance

@@ -59,6 +59,7 @@ class WPSEO_Admin_Init {
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
+		$this->load_plugin_suggestions();
 	}
 
 	/**
@@ -85,8 +86,8 @@ class WPSEO_Admin_Init {
 	 */
 	public function tagline_notice() {
 
-		$current_url = ( is_ssl() ? 'https://' : 'http://' );
-		$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
+		$current_url   = ( is_ssl() ? 'https://' : 'http://' );
+		$current_url  .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 		$customize_url = add_query_arg( array(
 			'url' => urlencode( $current_url ),
 		), wp_customize_url() );
@@ -120,7 +121,7 @@ class WPSEO_Admin_Init {
 	 */
 	public function blog_public_notice() {
 
-		$info_message = '<strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ';
+		$info_message  = '<strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ';
 		$info_message .= sprintf(
 			/* translators: %1$s resolves to the opening tag of the link to the reading settings, %1$s resolves to the closing tag for the link */
 			__( 'You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
@@ -151,7 +152,7 @@ class WPSEO_Admin_Init {
 	 */
 	public function page_comments_notice() {
 
-		$info_message = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
+		$info_message  = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
 		$info_message .= '<br/>';
 
 		$info_message .= sprintf(
@@ -184,8 +185,8 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	public function has_default_tagline() {
-		$blog_description = get_bloginfo( 'description' );
-		$default_blog_description    = 'Just another WordPress site';
+		$blog_description         = get_bloginfo( 'description' );
+		$default_blog_description = 'Just another WordPress site';
 
 		// We are checking against the WordPress internal translation.
 		// @codingStandardsIgnoreLine
@@ -199,7 +200,7 @@ class WPSEO_Admin_Init {
 	 */
 	public function permalink_notice() {
 
-		$info_message = __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' );
+		$info_message  = __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' );
 		$info_message .= '<br/>';
 		$info_message .= sprintf(
 			/* translators: %1$s resolves to the starting tag of the link to the permalink settings page, %2$s resolves to the closing tag of the link */
@@ -281,7 +282,7 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	public function yoast_plugin_suggestions_notification() {
-		$checker = new WPSEO_Plugin_Availability();
+		$checker             = new WPSEO_Plugin_Availability();
 		$notification_center = Yoast_Notification_Center::get();
 
 		// Get all Yoast plugins that have dependencies.
@@ -289,7 +290,7 @@ class WPSEO_Admin_Init {
 
 		foreach ( $plugins as $plugin_name => $plugin ) {
 			$dependency_names = $checker->get_dependency_names( $plugin );
-			$notification = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_names[0] );
+			$notification     = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_names[0] );
 
 			if ( $checker->dependencies_are_satisfied( $plugin ) && ! $checker->is_installed( $plugin ) ) {
 				$notification_center->add_notification( $notification );
@@ -333,18 +334,18 @@ class WPSEO_Admin_Init {
 	 */
 	public function yoast_plugin_compatibility_notification() {
 		$compatibility_checker = new WPSEO_Plugin_Compatibility( WPSEO_VERSION );
-		$plugins = $compatibility_checker->get_installed_plugins_compatibility();
+		$plugins               = $compatibility_checker->get_installed_plugins_compatibility();
 
 		$notification_center = Yoast_Notification_Center::get();
 
 		foreach ( $plugins as $name => $plugin ) {
-			$type = ( $plugin['active'] ) ? Yoast_Notification::ERROR : Yoast_Notification::WARNING;
+			$type         = ( $plugin['active'] ) ? Yoast_Notification::ERROR : Yoast_Notification::WARNING;
 			$notification = $this->get_yoast_seo_compatibility_notification( $name, $plugin, $type );
 
 			if ( $plugin['compatible'] === false ) {
 				$notification_center->add_notification( $notification );
 
-				return;
+				continue;
 			}
 
 			$notification_center->remove_notification( $notification );
@@ -475,7 +476,7 @@ class WPSEO_Admin_Init {
 	 * Loads admin page class for all admin pages starting with `wpseo_`.
 	 */
 	private function load_admin_user_class() {
-		if ( in_array( $this->pagenow, array( 'user-edit.php', 'profile.php' ) ) && current_user_can( 'edit_users' ) ) {
+		if ( in_array( $this->pagenow, array( 'user-edit.php', 'profile.php' ), true ) && current_user_can( 'edit_users' ) ) {
 			new WPSEO_Admin_User_Profile();
 		}
 	}
@@ -497,6 +498,14 @@ class WPSEO_Admin_Init {
 				$this->register_premium_upsell_admin_block();
 			}
 		}
+	}
+
+	/**
+	 * Loads the plugin suggestions.
+	 */
+	private function load_plugin_suggestions() {
+		$suggestions = new WPSEO_Suggested_Plugins( new WPSEO_Plugin_Availability(), Yoast_Notification_Center::get() );
+		$suggestions->register_hooks();
 	}
 
 	/**
@@ -591,18 +600,21 @@ class WPSEO_Admin_Init {
 			),
 		);
 
+		$deprecated_notices = array_intersect(
+			array_keys( $deprecated_filters ),
+			array_keys( $wp_filter )
+		);
+
 		foreach ( $deprecated_filters as $deprecated_filter => $deprecation_info ) {
-			if ( array_key_exists( $deprecated_filter, $wp_filter ) ) {
-				_deprecated_function(
-					sprintf(
-						/* translators: %s expands to the deprecated filter or action that has been registered. */
-						__( '%s filter/action', 'wordpress-seo' ),
-						$deprecated_filter
-					),
-					'WPSEO ' . $deprecation_info['version'],
-					$deprecation_info['alternative']
-				);
-			}
+			_deprecated_function(
+				esc_html( sprintf(
+					/* translators: %s expands to the deprecated filter or action that has been registered. */
+					__( '%s filter/action', 'wordpress-seo' ),
+					$deprecated_filter
+				) ),
+				'WPSEO ' . $deprecation_info['version'],
+				$deprecation_info['alternative']
+			);
 		}
 	}
 
