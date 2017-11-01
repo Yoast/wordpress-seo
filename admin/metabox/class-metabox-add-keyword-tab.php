@@ -23,7 +23,7 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		<li class="wpseo-tab-add-keyword">
 			<button type="button" class="wpseo-add-keyword button button-link">
 				<span class="wpseo-add-keyword-plus" aria-hidden="true">+</span>
-				<?php _e( 'Add keyword', 'wordpress-seo' ); ?>
+				<?php esc_html_e( 'Add keyword', 'wordpress-seo' ); ?>
 			</button>
 		</li>
 

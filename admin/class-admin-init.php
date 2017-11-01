@@ -59,6 +59,7 @@ class WPSEO_Admin_Init {
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
+		$this->load_plugin_suggestions();
 	}
 
 	/**
@@ -500,6 +501,14 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Loads the plugin suggestions.
+	 */
+	private function load_plugin_suggestions() {
+		$suggestions = new WPSEO_Suggested_Plugins( new WPSEO_Plugin_Availability(), Yoast_Notification_Center::get() );
+		$suggestions->register_hooks();
+	}
+
+	/**
 	 * Registers the Premium Upsell Admin Block.
 	 *
 	 * @return void
@@ -595,7 +604,7 @@ class WPSEO_Admin_Init {
 		foreach ( $deprecated_notices as $deprecated_filter ) {
 			_deprecated_function(
 				/* translators: %s expands to the actual filter/action that has been used. */
-				sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ),
+				esc_html( sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ) ),
 				'WPSEO 3.0',
 				'javascript'
 			);

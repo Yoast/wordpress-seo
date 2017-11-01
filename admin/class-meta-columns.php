@@ -102,12 +102,12 @@ class WPSEO_Meta_Columns {
 				break;
 			case 'wpseo-metadesc':
 				$metadesc_val = apply_filters( 'wpseo_metadesc', wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) );
-				$metadesc     = ( '' === $metadesc_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( 'Meta description not set.', 'wordpress-seo' ) . '</span>' : esc_html( $metadesc_val );
+				$metadesc     = ( '' === $metadesc_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . esc_html__( 'Meta description not set.', 'wordpress-seo' ) . '</span>' : esc_html( $metadesc_val );
 				echo $metadesc;
 				break;
 			case 'wpseo-focuskw':
 				$focuskw_val = WPSEO_Meta::get_value( 'focuskw', $post_id );
-				$focuskw     = ( '' === $focuskw_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( 'Focus keyword not set.', 'wordpress-seo' ) . '</span>' : esc_html( $focuskw_val );
+				$focuskw     = ( '' === $focuskw_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . esc_html__( 'Focus keyword not set.', 'wordpress-seo' ) . '</span>' : esc_html( $focuskw_val );
 				echo $focuskw;
 				break;
 		}
@@ -173,7 +173,7 @@ class WPSEO_Meta_Columns {
 
 		$ranks = WPSEO_Rank::get_all_ranks();
 
-		echo '<label class="screen-reader-text" for="wpseo-filter">' . __( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>';
+		echo '<label class="screen-reader-text" for="wpseo-filter">' . esc_html__( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>';
 		echo '<select name="seo_filter" id="wpseo-filter">';
 
 		echo $this->generate_option( '', __( 'All SEO Scores', 'wordpress-seo' ) );
@@ -199,7 +199,7 @@ class WPSEO_Meta_Columns {
 
 		$ranks = WPSEO_Rank::get_all_readability_ranks();
 
-		echo '<label class="screen-reader-text" for="wpseo-readability-filter">' . __( 'Filter by Readability Score', 'wordpress-seo' ) . '</label>';
+		echo '<label class="screen-reader-text" for="wpseo-readability-filter">' . esc_html__( 'Filter by Readability Score', 'wordpress-seo' ) . '</label>';
 		echo '<select name="readability_filter" id="wpseo-readability-filter">';
 
 		echo $this->generate_option( '', __( 'All Readability Scores', 'wordpress-seo' ) );

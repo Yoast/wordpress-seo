@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '5.7' );
+define( 'WPSEO_VERSION', '5.7.1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -505,7 +505,7 @@ function yoast_wpseo_missing_filter_notice() {
  * @param string $message Message string.
  */
 function yoast_wpseo_activation_failed_notice( $message ) {
-	echo '<div class="error"><p>' . __( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';
+	echo '<div class="error"><p>' . esc_html__( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';
 }
 
 /**
