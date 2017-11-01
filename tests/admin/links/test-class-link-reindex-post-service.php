@@ -38,7 +38,9 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 			->method( 'is_processable' )
 			->will( $this->returnValue( false ) );
 
-		$this->assertEquals( new WP_REST_Response( 0 ), $class_instance->reindex() );
+		$response = $class_instance->reindex();
+
+		$this->assertEquals( new WP_REST_Response( 0 ), $response );
 	}
 
 	/**
@@ -61,21 +63,27 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Link_Reindex_Post_Service' )
-			->setMethods( array( 'get_unprocessed_posts', 'get_content_processor' ) )
+			->setMethods( array( 'is_processable', 'get_unprocessed_posts', 'get_content_processor' ) )
 			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'is_processable' )
+			->will( $this->returnValue( true ) );
 
 		$class_instance
 			->expects( $this->once() )
 			->method( 'get_unprocessed_posts' )
 			->will( $this->returnValue( array( $post ) ) );
 
-
 		$class_instance
 			->expects( $this->once() )
 			->method( 'get_content_processor' )
 			->will( $this->returnValue( $content_processor ) );
 
-		$this->assertEquals( new WP_REST_Response( 1 ), $class_instance->reindex() );
+		$response = $class_instance->reindex();
+
+		$this->assertEquals( new WP_REST_Response( 1 ), $response );
 	}
 
 	/**
@@ -92,8 +100,13 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Link_Reindex_Post_Service' )
-			->setMethods( array( 'get_unprocessed_posts', 'get_content_processor' ) )
+			->setMethods( array( 'is_processable', 'get_unprocessed_posts', 'get_content_processor' ) )
 			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'is_processable' )
+			->will( $this->returnValue( true ) );
 
 		$class_instance
 			->expects( $this->once() )
@@ -105,7 +118,9 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 			->method( 'get_content_processor' )
 			->will( $this->returnValue( $content_processor ) );
 
-		$this->assertEquals( new WP_REST_Response( 0 ), $class_instance->reindex() );
+		$response = $class_instance->reindex();
+
+		$this->assertEquals( new WP_REST_Response( 0 ), $response );
 	}
 
 	/**
