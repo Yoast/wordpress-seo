@@ -163,7 +163,7 @@ add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
  *
  * @param string $text Input string that might contain shortcodes.
  *
- * @return string $text String without shortcodes
+ * @return string $text String without shortcodes.
  */
 function wpseo_strip_shortcode( $text ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::strip_shortcode()' );

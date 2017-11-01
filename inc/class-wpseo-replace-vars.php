@@ -1019,7 +1019,7 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @param    string $type Either 'basic' or 'advanced'.
 	 *
-	 * @return   string Help text table
+	 * @return   string Help text table.
 	 */
 	private static function create_variable_help_table( $type ) {
 		if ( ! in_array( $type, array( 'basic', 'advanced' ), true ) ) {
