@@ -632,7 +632,7 @@ class WPSEO_Breadcrumbs {
 			return;
 		}
 
-		foreach ( $this->crumbs as $i => $crumb ) {
+		foreach ( $this->crumbs as $index => $crumb ) {
 			$link_info = $crumb; // Keep pre-set url/text combis.
 
 			if ( isset( $crumb['id'] ) ) {
@@ -650,11 +650,12 @@ class WPSEO_Breadcrumbs {
 			 *
 			 * @api array $link_info The breadcrumb link information.
 			 *
-			 * @param array $crumb The breadcrumb the information belongs to.
+			 * @param int $index The index of the breadcrumb in the list.
+			 * @param array $crumbs The complete list of breadcrumbs.
 			 */
-			$link_info = apply_filters( 'wpseo_breadcrumb_single_link_info', $link_info, $crumb );
+			$link_info = apply_filters( 'wpseo_breadcrumb_single_link_info', $link_info, $index, $this->crumbs );
 
-			$this->links[] = $this->crumb_to_link( $link_info, $i );
+			$this->links[] = $this->crumb_to_link( $link_info, $index );
 		}
 	}
 
