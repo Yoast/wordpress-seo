@@ -646,11 +646,11 @@ class WPSEO_Breadcrumbs {
 			}
 
 			/**
-			 * Filter: 'wpseo_breadcrumb_single_link_info' - Allow developer to filter the Yoast SEO Breadcrumb link information.
+			 * Filter: 'wpseo_breadcrumb_single_link_info' - Allow developers to filter the Yoast SEO Breadcrumb link information.
 			 *
-			 * @api array $link_info The Breadcrumb link information
+			 * @api array $link_info The breadcrumb link information.
 			 *
-			 * @param array $crumb The crumb
+			 * @param array $crumb The breadcrumb the information belongs to.
 			 */
 			$link_info = apply_filters( 'wpseo_breadcrumb_single_link_info', $link_info, $crumb );
 
