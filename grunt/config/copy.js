@@ -44,6 +44,9 @@ module.exports = {
 		}, {
 			src: "LICENSE",
 			dest: "dist/",
+		}, {
+			src: "js/config/syllables/**/*.json",
+			dest: "dist/",
 		} ],
 	},
 };
