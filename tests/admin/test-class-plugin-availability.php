@@ -41,7 +41,7 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 			'description'  => '',
 			'version'      => '3.3',
 			'installed'    => true,
-			'slug'        => 'test-plugin/test-plugin.php',
+			'slug'         => 'test-plugin/test-plugin.php',
 			'version_sync' => true,
 		);
 

@@ -96,7 +96,7 @@ class WPSEO_Link_Reindex_Dashboard {
 
 		if ( $this->unprocessed > 0 ) {
 			$progress = sprintf(
-			/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
+				/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 				__( 'Text %1$s of %2$s processed.', 'wordpress-seo' ),
 				'<span id="wpseo_count_index_links">0</span>',
 				sprintf( '<strong id="wpseo_count_total">%d</strong>', $this->unprocessed )

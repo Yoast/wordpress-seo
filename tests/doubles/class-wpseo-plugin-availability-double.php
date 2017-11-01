@@ -21,12 +21,12 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	public function register_yoast_plugins() {
 		$this->plugins = array(
 			'test-plugin' => array(
-				'url'         => 'https://yoast.com/',
-				'title'       => 'Test Plugin',
-				'description' => '',
-				'version'     => '3.3',
-				'installed'   => true,
-				'slug'        => 'test-plugin/test-plugin.php',
+				'url'          => 'https://yoast.com/',
+				'title'        => 'Test Plugin',
+				'description'  => '',
+				'version'      => '3.3',
+				'installed'    => true,
+				'slug'         => 'test-plugin/test-plugin.php',
 				'version_sync' => true,
 			),
 
@@ -41,7 +41,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 						'slug' => 'test-plugin/test-plugin.php',
 					),
 				),
-				'slug'        => 'test-plugin-with-dependency/test-plugin-with-dependency.php',
+				'slug'          => 'test-plugin-with-dependency/test-plugin-with-dependency.php',
 			),
 
 			'test-plugin-dependency-2' => array(
@@ -55,7 +55,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 						'slug' => 'test-plugin/test-plugin.php',
 					),
 				),
-				'slug'        => 'test-plugin-with-dependency-2/test-plugin-with-dependency-2.php',
+				'slug'          => 'test-plugin-with-dependency-2/test-plugin-with-dependency-2.php',
 			),
 
 			'unavailable-test-plugin' => array(
@@ -85,13 +85,13 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 			),
 
 			'test-plugin-invalid-version' => array(
-				'url'         => 'https://yoast.com/',
-				'title'       => 'Test Plugin',
-				'description' => '',
-				'version'     => '1.3',
-				'installed'   => false,
-				'slug'        => 'test-plugin-invalid-version/test-plugin-invalid-version.php',
-				'compatible'  => false,
+				'url'          => 'https://yoast.com/',
+				'title'        => 'Test Plugin',
+				'description'  => '',
+				'version'      => '1.3',
+				'installed'    => false,
+				'slug'         => 'test-plugin-invalid-version/test-plugin-invalid-version.php',
+				'compatible'   => false,
 				'version_sync' => true,
 			),
 
@@ -111,8 +111,8 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	 * Registers the fake installation status of a few of the test plugins.
 	 */
 	protected function register_yoast_plugins_status() {
-		$this->plugins['test-plugin']['installed'] = true;
-		$this->plugins['test-plugin-dependency']['installed'] = true;
+		$this->plugins['test-plugin']['installed']                 = true;
+		$this->plugins['test-plugin-dependency']['installed']      = true;
 		$this->plugins['test-plugin-invalid-version']['installed'] = true;
 	}
 
