@@ -587,7 +587,7 @@ class WPSEO_Admin_Init {
 			return false;
 		}
 
-		// WordPress hooks that have been deprecated in Yoast SEO 3.0.
+		// WordPress hooks that have been deprecated since a Yoast SEO version.
 		$deprecated_filters = array(
 			'wpseo_metadesc_length'        => array( 'version' => '3.0', 'alternative' => 'javascript' ),
 			'wpseo_metadesc_length_reason' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
@@ -600,18 +600,17 @@ class WPSEO_Admin_Init {
 			),
 		);
 
+		// Determine which filters have been registered.
 		$deprecated_notices = array_intersect(
 			array_keys( $deprecated_filters ),
 			array_keys( $wp_filter )
 		);
 
-		foreach ( $deprecated_filters as $deprecated_filter => $deprecation_info ) {
-			_deprecated_function(
-				esc_html( sprintf(
-					/* translators: %s expands to the deprecated filter or action that has been registered. */
-					__( '%s filter/action', 'wordpress-seo' ),
-					$deprecated_filter
-				) ),
+		// Show notice for each deprecated filter or action that has been registered.
+		foreach ( $deprecated_notices as $deprecated_filter ) {
+			$deprecation_info = $deprecated_filters[ $deprecated_filter ];
+			_deprecated_hook(
+				$deprecated_filter,
 				'WPSEO ' . $deprecation_info['version'],
 				$deprecation_info['alternative']
 			);
