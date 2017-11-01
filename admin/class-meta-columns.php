@@ -45,6 +45,7 @@ class WPSEO_Meta_Columns {
 		}
 
 		add_filter( 'request', array( $this, 'column_sort_orderby' ) );
+		add_filter( 'default_hidden_columns', array( $this, 'column_hidden' ), 10, 2 );
 	}
 
 	/**
@@ -137,30 +138,19 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Hides the SEO title, meta description and focus keyword columns if the user hasn't chosen which columns to hide.
 	 *
-	 * @param array|false $result The hidden columns.
-	 * @param string      $option The option name used to set which columns should be hidden.
-	 * @param WP_User     $user The User.
+	 * @param array            $hidden The hidden columns.
+	 * @param string|WP_Screen $screen Current screen object.
 	 *
-	 * @return array      $result Array containing the columns to hide.
+	 * @return array           $hidden Array containing the columns to hide.
 	 */
-	public function column_hidden( $result, $option, $user ) {
-		global $wpdb;
-
-		if ( $user->has_prop( $wpdb->get_blog_prefix() . $option ) || $user->has_prop( $option ) ) {
-			return $result;
-		}
-
-		if ( ! is_array( $result ) ) {
-			$result = array();
-		}
-
-		array_push( $result, 'wpseo-title', 'wpseo-metadesc' );
+	public function column_hidden( $hidden, $screen ) {
+		array_push( $hidden, 'wpseo-title', 'wpseo-metadesc' );
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			array_push( $result, 'wpseo-focuskw' );
+			array_push( $hidden, 'wpseo-focuskw' );
 		}
 
-		return $result;
+		return $hidden;
 	}
 
 	/**
@@ -599,21 +589,6 @@ class WPSEO_Meta_Columns {
 						$this,
 						'column_sort',
 					), 10, 2 );
-
-					/*
-					 * Use the `get_user_option_{$option}` filter to change the output of the get_user_option
-					 * function for the `manage{$screen}columnshidden` option, which is based on the current
-					 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
-					 */
-					$filter = sprintf(
-						'get_user_option_%s',
-						sprintf(
-							'manage%scolumnshidden',
-							'edit-' . $post_type
-						)
-					);
-
-					add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
 				}
 			}
 			unset( $post_type );
