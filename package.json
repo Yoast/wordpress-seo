@@ -94,6 +94,9 @@
     "testPathIgnorePatterns": [
       "/spec/helpers/factory.js"
     ],
+    "coveragePathIgnorePatterns": [
+      "js/templates.js"
+    ],
     "coverageThreshold": {
       "global": {
         "branches": 76,
