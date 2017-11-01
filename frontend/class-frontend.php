@@ -1462,10 +1462,24 @@ class WPSEO_Frontend {
 	 */
 	public function attachment_redirect() {
 		global $post;
-		if ( is_attachment() && ( ( is_object( $post ) && isset( $post->post_parent ) ) && ( is_numeric( $post->post_parent ) && $post->post_parent != 0 ) ) ) {
-			wp_safe_redirect( get_permalink( $post->post_parent ), 301 );
-			exit;
+
+		if ( ! is_object( $post ) || ! is_attachment() ) {
+			return false;
 		}
+
+		$attachment = $post;
+
+		if ( (int) $attachment->post_parent !== 0 ) {
+			$this->redirect( get_permalink( $attachment->post_parent ), 301 );
+			return true;
+		}
+
+		/**
+		 * Filter: 'wpseo_redirect_orphan_attachment' - Allows for orphaned attachment to be redirected.
+		 *
+		 * @api WP_Post $attachment The attachment which misses a parent post.
+		 */
+		do_action( 'wpseo_redirect_orphan_attachment', $attachment );
 
 		return false;
 	}
@@ -1518,8 +1532,9 @@ class WPSEO_Frontend {
 				$url .= '?' . $query_string;
 			}
 			$url .= '#comment-' . $hash;
-			wp_safe_redirect( $url, 301 );
-			exit;
+
+			$this->redirect( $url, 301 );
+			return true;
 		}
 
 		return false;
@@ -1678,8 +1693,7 @@ class WPSEO_Frontend {
 		unset( $get );
 
 		if ( ! empty( $properurl ) && $cururl != $properurl ) {
-			wp_safe_redirect( $properurl, 301 );
-			exit;
+			$this->redirect( $properurl, 301 );
 		}
 	}
 
@@ -1934,6 +1948,17 @@ class WPSEO_Frontend {
 		return count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
 	}
 
+	/**
+	 * Wraps wp_safe_redirect to allow testing for redirects.
+	 *
+	 * @param string $location The path to redirect to.
+	 * @param int    $status   Status code to use.
+	 */
+	protected function redirect( $location, $status = 302 ) {
+		wp_safe_redirect( $location, $status );
+		exit;
+	}
+
 	/** Deprecated functions */
 	// @codeCoverageIgnoreStart
 	/**
@@ -1947,6 +1972,5 @@ class WPSEO_Frontend {
 	public function debug_marker( $echo = false ) {
 		return $this->debug_mark( $echo );
 	}
-
 	// @codeCoverageIgnoreEnd
 }
