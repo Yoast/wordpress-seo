@@ -7,11 +7,11 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.23.0 October 31st, 2017
 * Errors now give a score of -1. `ScoreToRating` interpreter will convert `-1` to `error`. #1272
-* Added `Excited` to exception -ed verbs. #1269
-* Changed testing framework to `jest`. #1266
-* Added `release` script in `.travis.yml` for publishing to npm. #1265
-* Added `code` tags to filter. #1250
-* Added `pre` tags to filter, props [chrisboo](https://github.com/chrisboo). #1258
+* Adds `Excited` to exception -ed verbs. #1269
+* Adds `release` script in `.travis.yml` for publishing to npm. #1265
+* Adds `code` tags to filter. #1250
+* Adds `pre` tags to filter, props [chrisboo](https://github.com/chrisboo). #1258
+* Switched testing framework to `jest`. #1266
 
 ## 1.22.0 October 3rd, 2017
 * Added typescript support.
