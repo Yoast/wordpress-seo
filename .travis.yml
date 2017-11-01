@@ -16,7 +16,6 @@ script:
 - yarn lint
 - yarn test --coverage
 - grunt check
-after_script:
 - grunt publish
 after_success:
 - yarn global add codeclimate-test-reporter
