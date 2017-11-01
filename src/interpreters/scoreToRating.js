@@ -4,7 +4,11 @@
  * @param {Number} score The score to interpreter.
  * @returns {string} The rating, given based on the score.
  */
-var ScoreToRating = function( score ) {
+let ScoreToRating = function( score ) {
+	if ( score === -1 ) {
+		return "error";
+	}
+
 	if ( score === 0 ) {
 		return "feedback";
 	}

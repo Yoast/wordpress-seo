@@ -1,3 +1,4 @@
+/* eslint-disable */
 ;(function() {
   var undefined;
 
@@ -349,9 +350,9 @@
 
   templates['assessmentPresenterResult'] =   function(obj) {
     obj || (obj = {});
+    const { scores, markerButtonsDisabled, i18n, activeMarker } = obj;
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
-    with (obj) {
     __p += '<ul class="wpseoanalysis assessment-results">\n    ';
      for (var i in scores) {
     __p += '\n        <li class="score">\n            <span class="assessment-results__mark-container">\n                ';
@@ -410,16 +411,14 @@
     '</span>\n        </li>\n    ';
      }
     __p += '\n</ul>\n';
-
-    }
     return __p
   };
 
   templates['hiddenSpan'] =   function(obj) {
     obj || (obj = {});
+    const { whiteSpace, width } = obj;
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
-    with (obj) {
     __p += '<span aria-hidden="true" style="width: ' +
     __e( width ) +
     '; height: auto; position: absolute; visibility: hidden; ';
@@ -428,16 +427,14 @@
     __e(whiteSpace );
        }
     __p += '">\n\n</span>\n';
-
-    }
     return __p
   };
 
   templates['relevantWords'] =   function(obj) {
     obj || (obj = {});
+    const { words } = obj;
     var __t, __p = '', __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
-    with (obj) {
     __p += '<table>\n    <tr>\n        <th>Word</th>\n        <th>Density</th>\n        <th>Occurrences</th>\n        <th>Length</th>\n        <th>Relevant word percentage</th>\n        <th>Length bonus</th>\n        <th>Multiplier</th>\n        <th>Relevance</th>\n    </tr>\n    ';
      for (var i in words) {
     __p += '\n        <tr>\n            <td>' +
@@ -459,16 +456,14 @@
     '</td>\n        </tr>\n    ';
      }
     __p += '\n</table>\n';
-
-    }
     return __p
   };
 
   templates['snippetEditor'] =   function(obj) {
     obj || (obj = {});
+    const { i18n, rendered, metaDescriptionDate, raw, placeholder } = obj;
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
-    with (obj) {
     __p += '<div id="snippet_preview" class="yoast-section">\n	<section class="snippet-editor__preview">\n		<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
     '</h3>\n	<p class="screen-reader-text">' +
@@ -522,8 +517,6 @@
     '</textarea>\n		</label>\n		<progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description" aria-hidden="true">\n			<div class="snippet-editor__progress-bar"></div>\n		</progress>\n\n		<button class="snippet-editor__submit snippet-editor__button" type="button">' +
     __e( i18n.save ) +
     '</button>\n	</div>\n</div>\n';
-
-    }
     return __p
   };
 
