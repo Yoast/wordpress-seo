@@ -587,26 +587,32 @@ class WPSEO_Admin_Init {
 			return false;
 		}
 
-		// WordPress hooks that have been deprecated in Yoast SEO 3.0.
-		$deprecated_30 = array(
-			'wpseo_metadesc_length',
-			'wpseo_metadesc_length_reason',
-			'wpseo_body_length_score',
-			'wpseo_linkdex_results',
-			'wpseo_snippet',
+		// WordPress hooks that have been deprecated since a Yoast SEO version.
+		$deprecated_filters = array(
+			'wpseo_metadesc_length'        => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_metadesc_length_reason' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_body_length_score'      => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_linkdex_results'        => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_snippet'                => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wp_seo_get_bc_title'          => array(
+				'version'     => '5.8',
+				'alternative' => 'wpseo_breadcrumb_single_link_info',
+			),
 		);
 
+		// Determine which filters have been registered.
 		$deprecated_notices = array_intersect(
-			$deprecated_30,
+			array_keys( $deprecated_filters ),
 			array_keys( $wp_filter )
 		);
 
+		// Show notice for each deprecated filter or action that has been registered.
 		foreach ( $deprecated_notices as $deprecated_filter ) {
-			_deprecated_function(
-				/* translators: %s expands to the actual filter/action that has been used. */
-				esc_html( sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ) ),
-				'WPSEO 3.0',
-				'javascript'
+			$deprecation_info = $deprecated_filters[ $deprecated_filter ];
+			_deprecated_hook(
+				$deprecated_filter,
+				'WPSEO ' . $deprecation_info['version'],
+				$deprecation_info['alternative']
 			);
 		}
 	}
