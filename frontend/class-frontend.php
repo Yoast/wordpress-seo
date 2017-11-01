@@ -1462,9 +1462,18 @@ class WPSEO_Frontend {
 	 */
 	public function attachment_redirect() {
 		global $post;
-		if ( is_attachment() && ( ( is_object( $post ) && isset( $post->post_parent ) ) && ( is_numeric( $post->post_parent ) && $post->post_parent != 0 ) ) ) {
-			wp_safe_redirect( get_permalink( $post->post_parent ), 301 );
-			exit;
+		if ( is_attachment() ) {
+			if ( ( is_object( $post ) && isset( $post->post_parent ) ) && ( is_numeric( $post->post_parent ) && $post->post_parent != 0 ) ) {
+				wp_safe_redirect( get_permalink( $post->post_parent ), 301 );
+				exit;
+			}
+
+			/**
+			 * Filter: 'wpseo_attachment_redirect_orphan' - Give a chance to orphaned attachements to be redirected.
+			 *
+			 * @api WP_Post|null $post The attachment post.
+			 */
+			do_action( 'wpseo_attachment_redirect_orphan', $post );
 		}
 
 		return false;
