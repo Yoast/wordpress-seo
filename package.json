@@ -91,7 +91,8 @@
       "node_modules"
     ],
     "testPathIgnorePatterns": [
-      "/spec/helpers/factory.js"
+      "/spec/helpers/factory.js",
+      "/spec/specHelpers/paperChanger.js"
     ],
     "coverageThreshold": {
       "global": {

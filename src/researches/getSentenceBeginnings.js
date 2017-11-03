@@ -1,4 +1,3 @@
-let getSentences = require( "../stringProcessing/getSentences.js" );
 let getWords = require( "../stringProcessing/getWords.js" );
 let stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 let stripTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
@@ -95,8 +94,8 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
  * @param {Paper} paper The Paper object to get the text from.
  * @returns {Object} The object containing the first word of each sentence and the corresponding counts.
  */
-module.exports = function( paper ) {
-	let sentences = getSentences( paper.getText() );
+module.exports = function( paper, researcher ) {
+	let sentences = researcher.getResearch( "sentences" );
 	let firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
 
 	let sentenceBeginnings = sentences.map( function( sentence ) {
