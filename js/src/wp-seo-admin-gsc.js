@@ -4,6 +4,15 @@
 jQuery( function() {
 	"use strict";
 
+	jQuery( ".subsubsub .yoast_help" ).on(
+		"click active",
+		function() {
+			let targetElementID = "#" + jQuery( this ).attr( "aria-controls" );
+			jQuery( ".yoast-help-panel" ).not( targetElementID ).hide();
+		}
+	);
+
+
 	// Store the control that opened the modal dialog for later use.
 	var $gscModalFocusedBefore;
 
