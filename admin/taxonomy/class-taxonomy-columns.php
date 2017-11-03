@@ -62,9 +62,9 @@ class WPSEO_Taxonomy_Columns {
 	/**
 	 * Parses the column.
 	 *
-	 * @param string  $content The current content of the column.
+	 * @param string  $content     The current content of the column.
 	 * @param string  $column_name The name of the column.
-	 * @param integer $term_id ID of requested taxonomy.
+	 * @param integer $term_id     ID of requested taxonomy.
 	 *
 	 * @return string
 	 */
@@ -216,9 +216,9 @@ class WPSEO_Taxonomy_Columns {
 	 *
 	 * @since 3.1
 	 *
-	 * @param  string $taxonomy (optional) The post type to test, defaults to the current post post_type.
+	 * @param  string $taxonomy Optional. The post type to test, defaults to the current post post_type.
 	 *
-	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
+	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden.
 	 */
 	private function is_metabox_hidden( $taxonomy = null ) {
 		$get_taxonomy_type = filter_input( $this->get_taxonomy_input_type(), 'taxonomy' );

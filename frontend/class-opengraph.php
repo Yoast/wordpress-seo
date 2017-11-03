@@ -9,7 +9,7 @@
 class WPSEO_OpenGraph {
 
 	/**
-	 * @var array $options Options for the OpenGraph Settings
+	 * @var array $options Options for the OpenGraph Settings.
 	 */
 	public $options = array();
 
@@ -70,7 +70,7 @@ class WPSEO_OpenGraph {
 		/**
 		 * Filter: 'wpseo_og_' . $og_property - Allow developers to change the content of specific OG meta tags.
 		 *
-		 * @api string $content The content of the property
+		 * @api string $content The content of the property.
 		 */
 		$content = apply_filters( 'wpseo_og_' . $og_property, $content );
 		if ( empty( $content ) ) {
@@ -83,9 +83,9 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Filter the Facebook plugins metadata
+	 * Filter the Facebook plugins metadata.
 	 *
-	 * @param array $meta_tags the array to fix.
+	 * @param array $meta_tags The array to fix.
 	 *
 	 * @return array $meta_tags
 	 */
@@ -160,9 +160,9 @@ class WPSEO_OpenGraph {
 		}
 
 		/**
-		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the Yoast SEO post authors facebook profile URL
+		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the Yoast SEO post authors facebook profile URL.
 		 *
-		 * @api bool|string $unsigned The Facebook author URL, return false to disable
+		 * @api bool|string $unsigned The Facebook author URL, return false to disable.
 		 */
 		$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $GLOBALS['post']->post_author ) );
 
@@ -194,7 +194,7 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Outputs the site owner
+	 * Outputs the site owner.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 * @return boolean
@@ -208,7 +208,7 @@ class WPSEO_OpenGraph {
 		elseif ( isset( $this->options['fb_admins'] ) && is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 			$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
 			/**
-			 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by Yoast SEO
+			 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by Yoast SEO.
 			 *
 			 * @api string $adminstr The admin string
 			 */
@@ -274,9 +274,9 @@ class WPSEO_OpenGraph {
 		}
 
 		/**
-		 * Filter: 'wpseo_opengraph_title' - Allow changing the title specifically for OpenGraph
+		 * Filter: 'wpseo_opengraph_title' - Allow changing the title specifically for OpenGraph.
 		 *
-		 * @api string $unsigned The title string
+		 * @api string $unsigned The title string.
 		 */
 		$title = trim( apply_filters( 'wpseo_opengraph_title', $title ) );
 
@@ -303,9 +303,9 @@ class WPSEO_OpenGraph {
 	 */
 	public function url() {
 		/**
-		 * Filter: 'wpseo_opengraph_url' - Allow changing the OpenGraph URL
+		 * Filter: 'wpseo_opengraph_url' - Allow changing the OpenGraph URL.
 		 *
-		 * @api string $unsigned Canonical URL
+		 * @api string $unsigned Canonical URL.
 		 */
 		$url = apply_filters( 'wpseo_opengraph_url', WPSEO_Frontend::get_instance()->canonical( false ) );
 
@@ -333,9 +333,9 @@ class WPSEO_OpenGraph {
 	 */
 	public function locale( $echo = true ) {
 		/**
-		 * Filter: 'wpseo_locale' - Allow changing the locale output
+		 * Filter: 'wpseo_locale' - Allow changing the locale output.
 		 *
-		 * @api string $unsigned Locale string
+		 * @api string $unsigned Locale string.
 		 */
 		$locale = apply_filters( 'wpseo_locale', get_locale() );
 
@@ -549,7 +549,7 @@ class WPSEO_OpenGraph {
 		}
 
 		/**
-		 * Filter: 'wpseo_opengraph_type' - Allow changing the OpenGraph type of the page
+		 * Filter: 'wpseo_opengraph_type' - Allow changing the OpenGraph type of the page.
 		 *
 		 * @api string $type The OpenGraph type string.
 		 */
@@ -568,7 +568,7 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image
+	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image.
 	 *
 	 * @param string|boolean $image Optional image URL.
 	 */
@@ -595,7 +595,7 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Fallback method for plugins using image_output
+	 * Fallback method for plugins using image_output.
 	 *
 	 * @param string $image Image URL.
 	 */
@@ -663,7 +663,7 @@ class WPSEO_OpenGraph {
 		$ogdesc = strip_shortcodes( $ogdesc );
 
 		/**
-		 * Filter: 'wpseo_opengraph_desc' - Allow changing the OpenGraph description
+		 * Filter: 'wpseo_opengraph_desc' - Allow changing the OpenGraph description.
 		 *
 		 * @api string $ogdesc The description string.
 		 */
@@ -683,9 +683,9 @@ class WPSEO_OpenGraph {
 	 */
 	public function site_name() {
 		/**
-		 * Filter: 'wpseo_opengraph_site_name' - Allow changing the OpenGraph site name
+		 * Filter: 'wpseo_opengraph_site_name' - Allow changing the OpenGraph site name.
 		 *
-		 * @api string $unsigned Blog name string
+		 * @api string $unsigned Blog name string.
 		 */
 		$name = apply_filters( 'wpseo_opengraph_site_name', get_bloginfo( 'name' ) );
 		if ( is_string( $name ) && $name !== '' ) {
@@ -757,7 +757,7 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Output the article publish and last modification date
+	 * Output the article publish and last modification date.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 * @return boolean;
@@ -766,9 +766,9 @@ class WPSEO_OpenGraph {
 
 		if ( ! is_singular( 'post' ) ) {
 			/**
-			 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types
+			 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types.
 			 *
-			 * @api bool $unsigned Whether or not to show publish date
+			 * @api bool $unsigned Whether or not to show publish date.
 			 *
 			 * @param string $post_type The current URL's post type.
 			 */

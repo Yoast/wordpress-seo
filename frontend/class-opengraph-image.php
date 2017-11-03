@@ -9,7 +9,7 @@
 class WPSEO_OpenGraph_Image {
 
 	/**
-	 * @var array $options Holds options passed to the constructor
+	 * @var array $options Holds options passed to the constructor.
 	 */
 	private $options;
 
@@ -25,7 +25,7 @@ class WPSEO_OpenGraph_Image {
 	protected $dimensions = array();
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @param array          $options Options set.
 	 * @param string|boolean $image   Optional image URL.
@@ -40,7 +40,7 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Return the images array
+	 * Return the images array.
 	 *
 	 * @return array
 	 */
@@ -58,9 +58,9 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Display an OpenGraph image tag
+	 * Display an OpenGraph image tag.
 	 *
-	 * @param string $img - Source URL to the image.
+	 * @param string $img Source URL to the image.
 	 *
 	 * @return bool
 	 */
@@ -97,7 +97,7 @@ class WPSEO_OpenGraph_Image {
 	private function set_images() {
 
 		/**
-		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags
+		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags.
 		 *
 		 * @api WPSEO_OpenGraph_Image The current object.
 		 */
@@ -122,7 +122,7 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * If the frontpage image exists, call add_image
+	 * If the frontpage image exists, call add_image.
 	 */
 	private function get_front_page_image() {
 		if ( $this->options['og_frontpage_image'] !== '' ) {
@@ -168,7 +168,7 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Get default image and call add_image
+	 * Get default image and call add_image.
 	 */
 	private function get_default_image() {
 		if ( count( $this->images ) === 0 && isset( $this->options['og_default_image'] ) && $this->options['og_default_image'] !== '' ) {
@@ -195,7 +195,7 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Check if taxonomy has an image and add this image
+	 * Check if taxonomy has an image and add this image.
 	 */
 	private function get_opengraph_image_taxonomy() {
 		$ogimg = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-image' );
@@ -205,7 +205,7 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * If there is a featured image, check image size. If image size is correct, call add_image and return true
+	 * If there is a featured image, check image size. If image size is correct, call add_image and return true.
 	 *
 	 * @param int $post_id The post ID.
 	 *
@@ -215,9 +215,9 @@ class WPSEO_OpenGraph_Image {
 
 		if ( has_post_thumbnail( $post_id ) ) {
 			/**
-			 * Filter: 'wpseo_opengraph_image_size' - Allow changing the image size used for OpenGraph sharing
+			 * Filter: 'wpseo_opengraph_image_size' - Allow changing the image size used for OpenGraph sharing.
 			 *
-			 * @api string $unsigned Size string
+			 * @api string $unsigned Size string.
 			 */
 			$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
 
@@ -234,7 +234,7 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * If this is an attachment page, call add_image with the attachment and return true
+	 * If this is an attachment page, call add_image with the attachment and return true.
 	 *
 	 * @param int $post_id The post ID.
 	 *
@@ -255,11 +255,11 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
+	 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis.
 	 *
-	 * @api string $post_content The Post content string
+	 * @api string $post_content The Post content string.
 	 *
-	 * @param object $post - The post object.
+	 * @param object $post The post object.
 	 */
 	private function get_content_images( $post ) {
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
@@ -274,9 +274,9 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Check size of featured image. If image is too small, return false, else return true
+	 * Check size of featured image. If image is too small, return false, else return true.
 	 *
-	 * @param array $img_data wp_get_attachment_image_src: url, width, height, icon.
+	 * @param array $img_data Image info from wp_get_attachment_image_src: url, width, height, icon.
 	 *
 	 * @return bool
 	 */
@@ -295,7 +295,7 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Get the relative path of the image
+	 * Get the relative path of the image.
 	 *
 	 * @param array $img Image data array.
 	 *

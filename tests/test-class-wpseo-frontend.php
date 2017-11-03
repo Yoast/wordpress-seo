@@ -14,7 +14,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	/**
-	 * Setting up
+	 * Setting up.
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
@@ -25,7 +25,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Reset after running a test
+	 * Reset after running a test.
 	 */
 	public function tearDown() {
 		parent::tearDown();
@@ -58,27 +58,27 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_is_home_static_page() {
 
-		// on front page
+		// On front page.
 		$this->go_to_home();
 		$this->assertFalse( self::$class_instance->is_home_static_page() );
 
-		// on front page and show_on_front = page
+		// On front page and show_on_front = page.
 		update_option( 'show_on_front', 'page' );
 		$this->assertFalse( self::$class_instance->is_home_static_page() );
 
-		// create page and set it as front page
+		// Create page and set it as front page.
 		$post_id = $this->factory->post->create( array( 'post_type' => 'page' ) );
 		update_option( 'page_on_front', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
 
-		// on front page, show_on_front = page and on static page
+		// On front page, show_on_front = page and on static page.
 		$this->assertTrue( self::$class_instance->is_home_static_page() );
 
-		// go to differen post but preserve previous options
+		// Go to differen post but preserve previous options.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		// options set but not on front page, should return false
+		// Options set but not on front page, should return false.
 		$this->assertFalse( self::$class_instance->is_home_static_page() );
 	}
 
@@ -87,16 +87,16 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_is_posts_page() {
 
-		// on home with show_on_front != page
+		// On home with show_on_front != page.
 		update_option( 'show_on_front', 'something' );
 		$this->go_to_home();
 		$this->assertFalse( self::$class_instance->is_posts_page() );
 
-		// on home with show_on_front = page
+		// On home with show_on_front = page.
 		update_option( 'show_on_front', 'page' );
 		$this->assertTrue( self::$class_instance->is_posts_page() );
 
-		// go to different post but preserve previous options
+		// Go to different post but preserve previous options.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 		$this->assertFalse( self::$class_instance->is_posts_page() );
@@ -107,16 +107,16 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_content_title() {
 
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 		$this->assertFalse( self::$class_instance->is_home_posts_page() );
 
-		// test title according to format
+		// Test title according to format.
 		$expected_title = self::$class_instance->get_title_from_options( 'title-post', get_queried_object() );
 		$this->assertEquals( $expected_title, self::$class_instance->get_content_title() );
 
-		// test explicit post title
+		// Test explicit post title.
 		$explicit_title = 'WPSEO Post Title %%sitename%%';
 		WPSEO_Meta::set_value( 'title', $explicit_title, $post_id );
 
@@ -130,18 +130,18 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_taxonomy_title() {
 
-		// create and go to cat archive
+		// Create and go to cat archive.
 		$category_id = wp_create_category( 'Category Name' );
 		flush_rewrite_rules();
 
 		$this->go_to( get_category_link( $category_id ) );
 
-		// test title according to format
+		// Test title according to format.
 		$expected_title = self::$class_instance->get_title_from_options( 'title-tax-category', (array) get_queried_object() );
 		$this->assertEquals( $expected_title, self::$class_instance->get_taxonomy_title() );
 
-		// @todo add test for an explicit wpseo title format
-		// we need an easy way to set taxonomy meta though...
+		// @todo Add test for an explicit wpseo title format.
+		// We need an easy way to set taxonomy meta though...
 	}
 
 	/**
@@ -149,19 +149,19 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_author_title() {
 
-		// create and go to author
+		// Create and go to author.
 		$user_id = $this->factory->user->create();
 		$this->go_to( get_author_posts_url( $user_id ) );
 
-		// test general author title
+		// Test general author title.
 		$expected_title = self::$class_instance->get_title_from_options( 'title-author-wpseo' );
 		$this->assertEquals( $expected_title, self::$class_instance->get_author_title() );
 
-		// add explicit title to author meta
+		// Add explicit title to author meta.
 		$explicit_title = 'WPSEO Author Title %%sitename%%';
 		add_user_meta( $user_id, 'wpseo_title', $explicit_title );
 
-		// test explicit title
+		// Test explicit title.
 		$expected_title = wpseo_replace_vars( 'WPSEO Author Title %%sitename%%', array() );
 		$this->assertEquals( $expected_title, self::$class_instance->get_author_title() );
 	}
@@ -170,10 +170,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::get_title_from_options
 	 */
 	public function test_get_title_from_options() {
-		// should return an empty string
+		// Should return an empty string.
 		$this->assertEmpty( self::$class_instance->get_title_from_options( '__not-existing-index' ) );
 
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -181,7 +181,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$expected_title = wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
 		$this->assertEquals( $expected_title, self::$class_instance->get_title_from_options( '__not-existing-index', $var_source ) );
 
-		// test with an option that exists
+		// Test with an option that exists.
 		$index          = 'title-post';
 		$expected_title = wpseo_replace_vars( self::$class_instance->options[ $index ], $var_source );
 		$this->assertEquals( $expected_title, self::$class_instance->get_title_from_options( $index, $var_source ) );
@@ -200,11 +200,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_add_paging_to_title() {
 		$input = 'Initial title';
 
-		// test without paged query var set
+		// Test without paged query var set.
 		$expected = $input;
 		$this->assertEquals( $input, self::$class_instance->add_paging_to_title( '', '', $input ) );
 
-		// test with paged set
+		// Test with paged set.
 		set_query_var( 'paged', 2 );
 		global $wp_query;
 		$expected = self::$class_instance->add_to_title( '', '', $input, $wp_query->query_vars['paged'] . '/' . $wp_query->max_num_pages );
@@ -245,7 +245,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::debug_mark
 	 */
 	public function test_debug_mark() {
-		// test if the version number is shown in the debug marker
+		// Test if the version number is shown in the debug marker.
 		$version_found = ( stristr( self::$class_instance->debug_mark( false ), WPSEO_VERSION ) !== false );
 		$this->assertTrue( $version_found );
 	}
@@ -286,19 +286,19 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_canonical_single_post_override() {
 
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 
-		// test default canonical
+		// Test default canonical.
 		$expected = get_permalink( $post_id );
 
-		// test manual override while using no override
+		// Test manual override while using no override.
 		$meta_canon = 'http://canonic.al';
 		WPSEO_Meta::set_value( 'canonical', $meta_canon, $post_id );
 		$this->go_to( get_permalink( $post_id ) );
 		$this->assertEquals( $expected, self::$class_instance->canonical( false, false, true ) );
 
-		// test manual override
+		// Test manual override.
 		$this->assertEquals( $meta_canon, self::$class_instance->canonical( false ) );
 	}
 
@@ -323,7 +323,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$this->factory->post->create_many( 3, array( 'post_title' => 'sample post %d' ) );
 
-		// test search
+		// Test search.
 		$search_link = get_search_link( 'sample post' );
 
 		$this->run_test_on_consecutive_pages( $search_link );
@@ -379,7 +379,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$this->factory->post->create_many( 3 );
 
-		$date_link = get_day_link( false, false, false );  // Having three times false generates a link for today, which is what we need
+		$date_link = get_day_link( false, false, false );  // Having three times false generates a link for today, which is what we need.
 		$this->run_test_on_consecutive_pages( $date_link );
 	}
 
@@ -390,7 +390,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_adjacent_rel_links_canonical_category() {
 		update_option( 'posts_per_page', 1 );
 
-		// create a category, add 26 posts to it, go to page 2 of its archives
+		// Create a category, add 26 posts to it, go to page 2 of its archives.
 		$category_id = wp_create_category( 'Yoast SEO Plugins' );
 		$this->factory->post->create_many( 3, array( 'post_category' => array( $category_id ) ) );
 
@@ -418,7 +418,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Used to test the workings of canonical
+	 * Used to test the workings of canonical.
 	 *
 	 * @return string
 	 */
@@ -431,13 +431,13 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_publisher() {
 
-		// no publisher set
+		// No publisher set.
 		$this->assertFalse( self::$class_instance->publisher() );
 
-		// set publisher option
+		// Set publisher option.
 		self::$class_instance->options['plus-publisher'] = 'https://plus.google.com/+JoostdeValk';
 
-		// publisher set, should echo
+		// Publisher set, should echo.
 		$expected = '<link rel="publisher" href="' . esc_url( self::$class_instance->options['plus-publisher'] ) . '"/>' . "\n";
 
 		$this->assertTrue( self::$class_instance->publisher() );
@@ -462,15 +462,15 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::page_redirect
 	 */
 	public function test_page_redirect() {
-		// should not redirect on home pages
+		// Should not redirect on home pages.
 		$this->go_to_home();
 		$this->assertFalse( self::$class_instance->page_redirect() );
 
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		// should not redirect when no redirect URL was set
+		// Should not redirect when no redirect URL was set.
 		$this->assertFalse( self::$class_instance->page_redirect() );
 	}
 
@@ -492,22 +492,22 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$c = self::$class_instance;
 
-		// test on author, authors enabled -> false
+		// Test on author, authors enabled -> false.
 		$wp_query->is_author          = true;
 		$c->options['disable-author'] = false;
 		$this->assertFalse( $c->archive_redirect() );
 
-		// test not on author, authors disabled -> false
+		// Test not on author, authors disabled -> false.
 		$wp_query->is_author          = false;
 		$c->options['disable-author'] = true;
 		$this->assertFalse( $c->archive_redirect() );
 
-		// test on date, dates enabled -> false
+		// Test on date, dates enabled -> false.
 		$wp_query->is_date          = true;
 		$c->options['disable-date'] = false;
 		$this->assertFalse( $c->archive_redirect() );
 
-		// test not on date, dates disabled -> false
+		// Test not on date, dates disabled -> false.
 		$wp_query->is_date          = false;
 		$c->options['disable-date'] = true;
 		$this->assertFalse( $c->archive_redirect() );
@@ -539,13 +539,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect_no_attachment() {
-		// create and go to post
 		$post_id = $this->factory->post->create( array(
 			'post_type' => 'post'
 		));
 		$this->go_to( get_permalink( $post_id ) );
 
-		// should not redirect on regular post pages
+		// Should not redirect on regular post pages.
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
 	}
 
@@ -589,11 +588,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_add_trailingslash() {
 		$url = 'http://yoast.com/post';
 
-		// test single pages
+		// Test single pages.
 		$expected = $url;
 		$this->assertEquals( $expected, self::$class_instance->add_trailingslash( $url, 'single' ) );
 
-		// test other
+		// Test other.
 		$expected = trailingslashit( $url );
 		$this->assertEquals( $expected, self::$class_instance->add_trailingslash( $url, 'other' ) );
 	}
@@ -615,18 +614,18 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_replytocom_redirect() {
 		$c = self::$class_instance;
 
-		// test with cleanreplytocom set to false
+		// Test with cleanreplytocom set to false.
 		$c->options['cleanreplytocom'] = false;
 		$this->assertFalse( $c->replytocom_redirect() );
 
-		// enable clean replytocom
+		// Enable clean replytocom.
 		$c->options['cleanreplytocom'] = true;
 
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		// test with no replytocom set in $_GET
+		// Test with no replytocom set in $_GET.
 		$this->assertFalse( $c->replytocom_redirect() );
 
 		$_GET['replytocom'] = 123;
@@ -635,10 +634,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// The following call should redirect.
 		$this->assertTrue( $c->replytocom_redirect() );
 
-		// go to home / move away from singular page
+		// Go to home / move away from singular page.
 		$this->go_to_home();
 
-		// test while not on singular page
+		// Test while not on singular page.
 		$this->assertFalse( $c->replytocom_redirect() );
 	}
 
@@ -649,7 +648,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$c = self::$class_instance;
 
-		// test requests to the robots file
+		// Test requests to the robots file.
 		$this->go_to( add_query_arg( array( 'robots' => 1 ), home_url( '/' ) ) );
 		$this->assertFalse( $c->clean_permalink() );
 
@@ -668,14 +667,14 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$c = self::$class_instance;
 
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		// input
+		// Input.
 		$text = 'Some text with some RSS Variables. Written by %%AUTHORLINK%%, the post is %%POSTLINK%% on the blog %%BLOGLINK%%. %%BLOGDESCLINK%%.';
 
-		// generate expected output
+		// Generate expected output.
 		$post           = get_post( $post_id );
 		$author_link    = '<a rel="nofollow" href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . get_the_author() . '</a>';
 		$post_link      = '<a rel="nofollow" href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';
@@ -688,7 +687,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 			$expected
 		);
 
-		// run test
+		// Run test.
 		$this->assertEquals( $expected, $c->rss_replace_vars( $text ) );
 	}
 
@@ -699,17 +698,17 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$input = 'Some content';
 
-		// go to home (non-feed)
+		// Go to home (non-feed).
 		$this->go_to_home();
 
-		// test if input was unchanged
+		// Test if input was unchanged.
 		$expected = $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rssfooter( $input ) );
 
-		// go to feed
+		// Go to feed.
 		$this->go_to( get_bloginfo( 'rss2_url' ) );
 
-		// test if input was changed
+		// Test if input was changed.
 		$expected = self::$class_instance->embed_rss( $input, 'full' );
 		$this->assertEquals( $expected, self::$class_instance->embed_rssfooter( $input ) );
 	}
@@ -721,17 +720,17 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$input = 'Some content';
 
-		// go to home (non-feed)
+		// Go to home (non-feed).
 		$this->go_to_home();
 
-		// test if input was unchanged
+		// Test if input was unchanged.
 		$expected = $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rssfooter_excerpt( $input ) );
 
-		// go to feed
+		// Go to feed.
 		$this->go_to( get_bloginfo( 'rss2_url' ) );
 
-		// test if input was changed
+		// Test if input was changed.
 		$expected = self::$class_instance->embed_rss( $input, 'excerpt' );
 		$this->assertEquals( $expected, self::$class_instance->embed_rssfooter_excerpt( $input ) );
 	}
@@ -742,17 +741,17 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_embed_rss() {
 		$input = 'Some other content';
 
-		// go to home (non-feed)
+		// Go to home (non-feed).
 		$this->go_to_home();
 
-		// test if input was unchanged
+		// Test if input was unchanged.
 		$expected = $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input ) );
 
-		// go to feed
+		// Go to feed.
 		$this->go_to( get_bloginfo( 'rss2_url' ) );
 
-		// test if input was changed
+		// Test if input was changed.
 		self::$class_instance->options['rssbefore'] = 'Some RSS before text';
 		self::$class_instance->options['rssafter']  = '';
 		$expected                                   = wpautop( self::$class_instance->options['rssbefore'] ) . $input;
@@ -766,25 +765,25 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$c = self::$class_instance;
 
-		// should not run when output buffering is not turned on
+		// Should not run when output buffering is not turned on.
 		$this->assertFalse( self::$class_instance->flush_cache() );
 
-		// turn on output buffering
+		// Turn on output buffering.
 		self::$class_instance->force_rewrite_output_buffer();
 
 		$content = '<!DOCTYPE><html><head><title>TITLETOBEREPLACED</title>' . self::$class_instance->debug_mark( false ) . '</head><body>Some body content. Should remain unchanged.</body></html>';
 
-		// create expected output
+		// Create expected output.
 		global $sep;
 		$title    = self::$class_instance->title( '', $sep );
 		$expected = preg_replace( '/<title(.*)\/title>/i', '', $content );
 		$expected = str_replace( $c->debug_mark( false ), $c->debug_mark( false ) . "\n" . '<title>' . $title . '</title>', $expected );
 		echo $content;
 
-		// run function
+		// Run function.
 		$result = self::$class_instance->flush_cache();
 
-		// run assertions
+		// Run assertions.
 		$this->expectOutput( $expected, $result );
 		$this->assertTrue( $result );
 	}
@@ -813,7 +812,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @return void
 	 */
 	private function run_test_on_consecutive_pages( $initial_url ) {
-		// Test page 1 of the post type archives, should have just a rel=next and a canonical
+		// Test page 1 of the post type archives, should have just a rel=next and a canonical.
 		$this->go_to( $initial_url );
 
 		$page_2_link = get_pagenum_link( 2, false );
@@ -824,7 +823,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( $expected );
 
 
-		// Test page 2 of the post type archives, should have a rel=next and rel=prev and a canonical
+		// Test page 2 of the post type archives, should have a rel=next and rel=prev and a canonical.
 		self::$class_instance->reset();
 		$this->go_to( $page_2_link );
 
@@ -835,7 +834,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $page_2_link, self::$class_instance->canonical( false ) );
 		$this->expectOutput( $expected );
 
-		// Test page 3 of the author archives, should have just a rel=prev and a canonical
+		// Test page 3 of the author archives, should have just a rel=prev and a canonical.
 		self::$class_instance->reset();
 		$this->go_to( $page_3_link );
 
@@ -883,9 +882,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @param string $url
 	 */
 	public function go_to( $url ) {
-		// note: the WP and WP_Query classes like to silently fetch parameters
+		// Note: the WP and WP_Query classes like to silently fetch parameters
 		// from all over the place (globals, GET, etc), which makes it tricky
-		// to run them more than once without very carefully clearing everything
+		// to run them more than once without very carefully clearing everything.
 		$_GET  = array();
 		$_POST = array();
 
@@ -914,7 +913,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 			$req = isset( $parts['path'] ) ? $parts['path'] : '';
 			if ( isset( $parts['query'] ) ) {
 				$req .= '?' . $parts['query'];
-				// parse the url query vars into $_GET
+				// Parse the url query vars into $_GET.
 				parse_str( $parts['query'], $_GET );
 			}
 		}
