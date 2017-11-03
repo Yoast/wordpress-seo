@@ -1,10 +1,10 @@
 import Paper from "../../src/values/Paper";
 
 /**
+ * A factory for changing the paper on a living researcher. Niceness around `researcher.setPaper`.
  *
- *
- * @param researcher
- * @returns {function()}
+ * @param {Researcher} researcher The researcher to update the paper for.
+ * @returns {function(object)} An updater function that accepts arguments for a paper.
  */
 export default function( researcher ) {
 	return ( { text, locale } ) => {
