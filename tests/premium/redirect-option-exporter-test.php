@@ -4,9 +4,9 @@
  */
 
 /**
- * Test class for testing WPSEO_Redirect
+ * Test class for testing WPSEO_Redirect_Option_Exporter
  */
-class WPSEO_Redirect_Export_Option_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_Option_Exporter_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @var WPSEO_Redirect_Option_Exporter

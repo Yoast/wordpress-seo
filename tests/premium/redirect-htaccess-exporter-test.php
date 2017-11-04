@@ -4,9 +4,9 @@
  */
 
 /**
- * Test class for testing WPSEO_Redirect_Export_Htaccess
+ * Test class for testing WPSEO_Redirect_Htaccess_Exporter
  */
-class WPSEO_Redirect_Export_Htaccess_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_Htaccess_Exporter_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Testing if the export method will be called and returns true
