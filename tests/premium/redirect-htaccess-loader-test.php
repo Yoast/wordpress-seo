@@ -14,7 +14,7 @@ class WPSEO_Redirect_HTAccess_Loader_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'premium/doubles/class-redirect-htaccess-loader-double.php';
+		require_once WPSEO_TESTS_PATH . 'premium/doubles/redirect-htaccess-loader-double.php';
 	}
 
 	/**

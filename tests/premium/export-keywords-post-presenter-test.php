@@ -14,8 +14,8 @@ class WPSEO_Export_Keywords_Post_Presenter_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'premium/doubles/class-export-keywords-post-presenter-double.php';
-		require_once WPSEO_TESTS_PATH . 'premium/doubles/class-export-keywords-post-presenter-test-filter.php';
+		require_once WPSEO_TESTS_PATH . 'premium/doubles/export-keywords-post-presenter-double.php';
+		require_once WPSEO_TESTS_PATH . 'premium/doubles/export-keywords-post-presenter-test-filter.php';
 	}
 
 	/**

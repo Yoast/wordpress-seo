@@ -33,6 +33,6 @@ module.exports = {
 			preVersionMatch: "$1$2",
 			postVersionMatch: "$5",
 		},
-		src: "class-premium.php",
+		src: "premium.php",
 	},
 };

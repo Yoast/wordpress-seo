@@ -13,7 +13,7 @@ module.exports = {
 				cwd: "..",
 				src: [
 					"wp-seo-premium.php",
-					"premium/class-premium.php",
+					"premium/premium.php",
 
 					"premium/classes/**",
 					"premium/languages/**",
