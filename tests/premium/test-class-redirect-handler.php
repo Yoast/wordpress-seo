@@ -14,7 +14,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		require_once 'doubles/class-redirect-handler-double.php';
+		require_once WPSEO_TESTS_PATH . 'premium/doubles/class-redirect-handler-double.php';
 	}
 
 	/**
