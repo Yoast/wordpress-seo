@@ -85,10 +85,16 @@ class WPSEO_Premium_Autoloader {
 		// Full file path.
 		$class_path = dirname( __FILE__ ) . '/';
 
-		// Append file name to clas path.
+		// Append file name to class path.
 		$full_path = $class_path . $this->directory . $file_name;
 
 		// Check & load file.
+		if ( file_exists( $full_path ) ) {
+			return $full_path;
+		}
+
+		// This might be an interface.
+		$full_path = str_replace( '.php', '-interface.php', $full_path );
 		if ( file_exists( $full_path ) ) {
 			return $full_path;
 		}
@@ -105,6 +111,6 @@ class WPSEO_Premium_Autoloader {
 	 * @return string
 	 */
 	private function get_file_name( $class ) {
-		return 'class-' . str_ireplace( '_', '-', str_ireplace( $this->file_replace, '', $class ) ) . '.php';
+		return str_ireplace( '_', '-', str_ireplace( $this->file_replace, '', $class ) ) . '.php';
 	}
 }
