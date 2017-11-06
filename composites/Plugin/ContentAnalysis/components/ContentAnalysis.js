@@ -83,10 +83,11 @@ class ContentAnalysis extends React.Component {
 	 * Handles button clicks. Makes sure no more than one button can be active at the same time.
 	 *
 	 * @param {string} id The button id.
+	 * @param {Object} marker TinyMCE marker object.
 	 *
 	 * @returns {void}
 	 */
-	handleClick( id ) {
+	handleClick( id, marker ) {
 		if ( id === this.state.checked ) {
 			this.setState( {
 				checked: "",
@@ -97,6 +98,8 @@ class ContentAnalysis extends React.Component {
 		this.setState( {
 			checked: id,
 		} );
+
+		this.props.onMarkButtonClick( id, marker );
 	}
 
 	/**
@@ -137,7 +140,7 @@ class ContentAnalysis extends React.Component {
 				ariaLabel={ this.props.intl.formatMessage( messages.highlight ) }
 				pressed={ result.id === this.state.checked }
 				buttonId={ result.id }
-				onButtonClick={ this.handleClick.bind( this, result.id ) }
+				onButtonClick={ this.handleClick.bind( this, result.id, result.marker ) }
 			/>;
 		} );
 	}
@@ -215,6 +218,7 @@ class ContentAnalysis extends React.Component {
 }
 
 ContentAnalysis.propTypes = {
+	onMarkButtonClick: PropTypes.func,
 	problemsResults: PropTypes.array,
 	improvementsResults: PropTypes.array,
 	goodResults: PropTypes.array,
@@ -227,6 +231,7 @@ ContentAnalysis.propTypes = {
 };
 
 ContentAnalysis.defaultProps = {
+	onMarkButtonClick: () => {},
 	problemsResults: [],
 	improvementsResults: [],
 	goodResults: [],
