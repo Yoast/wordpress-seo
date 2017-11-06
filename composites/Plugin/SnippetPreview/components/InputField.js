@@ -32,7 +32,7 @@ export default class InputField extends React.Component {
 			<InputFieldContainer onClick={ this.focus.bind( this ) }>
 				<Editor
 					editorState={ this.state.editorState }
-					handlePastedText= { this.handlePastedText.bind( this ) }
+					handlePastedText={ this.handlePastedText.bind( this ) }
 					onChange={ this.onChange.bind( this ) }
 					placeholder={ this.props.placeholder }
 					ref={ editor => {

@@ -107,7 +107,7 @@ class SearchResultPreview extends React.Component {
 	/**
 	 * Gets the width of the preview title element.
 	 *
-	 * @returns {number} The width of the referenced element or 0 if nothing was found.
+	 * @returns {number} The width of the preview title element or 0 if nothing was found.
 	 */
 	getPreviewTitleWidth() {
 		return this.previewTitle.getBoundingClientRect().width || 0;
@@ -158,39 +158,39 @@ class SearchResultPreview extends React.Component {
 
 		return (
 			<Section
-				level={3}
-				headingText={translations.previewTitle}
-				headingClassName={this.classNames.sectionHeading}
-				className={this.classNames.section}>
-				<p className={this.classNames.screenReaderText}>{translations.previewDescription}</p>
+				level={ 3 }
+				headingText={ translations.previewTitle }
+				headingClassName={ this.classNames.sectionHeading }
+				className={ this.classNames.section }>
+				<p className={ this.classNames.screenReaderText }>{ translations.previewDescription }</p>
 
 				<div
-					className={this.setClassNameForField( "previewTitleContainer" )}
-					{...this.mouseEventHandlers( "previewTitleContainer", "formTitle" )}>
-					<span className={this.classNames.screenReaderText}>{translations.titleLabel}</span>
+					className={ this.setClassNameForField( "previewTitleContainer" ) }
+					{ ...this.mouseEventHandlers( "previewTitleContainer", "formTitle" ) }>
+					<span className={ this.classNames.screenReaderText }>{ translations.titleLabel }</span>
 					<span
 						ref={ previewTitle => {
 							this.previewTitle = previewTitle;
 						} }
-						className={this.classNames.title}>
-						{translations.title}
+						className={ this.classNames.title }>
+						{ translations.title }
 					</span>
 				</div>
 
 				<div
-					className={this.setClassNameForField( "previewUrlContainer" )}
-					{...this.mouseEventHandlers( "previewUrlContainer", "formSlug" )}>
-					<span className={this.classNames.screenReaderText}>{translations.urlLabel}</span>
-					<span className={this.classNames.url}>{this.props.url}</span>
+					className={ this.setClassNameForField( "previewUrlContainer" ) }
+					{ ...this.mouseEventHandlers( "previewUrlContainer", "formSlug" ) }>
+					<span className={ this.classNames.screenReaderText }>{ translations.urlLabel }</span>
+					<span className={ this.classNames.url }>{ this.props.url }</span>
 				</div>
 
 				<div
-					className={this.setClassNameForField( "previewDescriptionContainer" )}
-					{...this.mouseEventHandlers( "previewDescriptionContainer", "formDescription" )}>
-					<span className={this.classNames.screenReaderText}>{translations.descriptionLabel}</span>
+					className={ this.setClassNameForField( "previewDescriptionContainer" ) }
+					{ ...this.mouseEventHandlers( "previewDescriptionContainer", "formDescription" ) }>
+					<span className={ this.classNames.screenReaderText }>{ translations.descriptionLabel }</span>
 					{ this.renderDate() }
 					<span
-						className={this.classNames.description}>{translations.description.substr( 0, 156 )}</span>
+						className={ this.classNames.description }>{ translations.description.substr( 0, 156 ) }</span>
 				</div>
 
 				{ this.renderEditButton() }
@@ -231,4 +231,3 @@ SearchResultPreview.defaultProps = {
 };
 
 export default localize( SearchResultPreview );
-

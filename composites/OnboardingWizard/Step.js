@@ -258,7 +258,7 @@ class Step extends React.Component {
 
 		return (
 			<div
-				className={`${ this.props.classPrefix }--step--container`}
+				className={ `${ this.props.classPrefix }--step--container` }
 				ref={ stepContainer => {
 					this.stepContainer = stepContainer;
 				} }
