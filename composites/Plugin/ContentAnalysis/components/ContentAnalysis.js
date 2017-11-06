@@ -9,7 +9,6 @@ import AnalysisResult from "../components/AnalysisResult.js";
 import AnalysisCollapsible from "../components/AnalysisCollapsible.js";
 
 export const ContentAnalysisContainer = styled.div`
-	min-height: 700px;
 	width: 100%;
 	background-color: white;
 	max-width: 800px;
