@@ -278,7 +278,6 @@ class OnboardingWizard extends React.Component {
 				onClick: this.setPreviousStep,
 				disableFocusRipple: true,
 				disableTouchRipple: true,
-				disableKeyboardFocus: true,
 				icon: <ArrowBackwardIcon viewBox="0 0 28 28" />,
 			}, step, "yoast-wizard--button yoast-wizard--button__previous" );
 
@@ -289,7 +288,6 @@ class OnboardingWizard extends React.Component {
 				onClick: this.setNextStep,
 				disableFocusRipple: true,
 				disableTouchRipple: true,
-				disableKeyboardFocus: true,
 				labelPosition: "before",
 				icon: <ArrowForwardIcon viewBox="0 0 28 28" />,
 			}, step, "yoast-wizard--button yoast-wizard--button__next" );
