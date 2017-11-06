@@ -36,7 +36,7 @@ class WPSEO_Link_Reindex_Post_Service {
 	/**
 	 * Returns all unprocessed posts.
 	 *
-	 * @return array
+	 * @return array The unprocessed posts.
 	 */
 	protected function get_unprocessed_posts() {
 		return WPSEO_Link_Query::get_unprocessed_posts( WPSEO_Link_Utils::get_public_post_types() );
