@@ -164,9 +164,9 @@ class Yoast_Form {
 			echo '
 			<div id="wpseo-debug-info" class="yoast-container">
 
-				<h2>' . __( 'Debug Information', 'wordpress-seo' ) . '</h2>
+				<h2>' . esc_html__( 'Debug Information', 'wordpress-seo' ) . '</h2>
 				<div>
-					<h3 class="wpseo-debug-heading">' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->option_name ) . '</span></h3>
+					<h3 class="wpseo-debug-heading">' . esc_html__( 'Current option:', 'wordpress-seo' ) . ' <span class="wpseo-debug">' . esc_html( $this->option_name ) . '</span></h3>
 					' . ( ( $xdebug ) ? '' : '<pre>' );
 			var_dump( $this->get_option() );
 			echo '
@@ -222,7 +222,7 @@ class Yoast_Form {
 				'for'   => '',
 			)
 		);
-		echo "<label class='" . $attr['class'] . "' for='" . esc_attr( $attr['for'] ) . "'>$text";
+		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
 		}
@@ -242,8 +242,9 @@ class Yoast_Form {
 				'class' => '',
 			)
 		);
+
 		$id = ( '' === $attr['id'] ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
-		echo '<legend class="yoast-form-legend ' . $attr['class'] . '"' . $id . '>' . $text . '</legend>';
+		echo '<legend class="yoast-form-legend ' . esc_attr( $attr['class'] ) . '"' . $id . '>' . $text . '</legend>';
 	}
 
 	/**
@@ -304,7 +305,7 @@ class Yoast_Form {
 			$this->options[ $var ] = 'on';
 		}
 
-		$class = 'switch-light switch-candy switch-yoast-seo';
+		$class           = 'switch-light switch-candy switch-yoast-seo';
 		$aria_labelledby = esc_attr( $var ) . '-label';
 
 		if ( $reverse ) {

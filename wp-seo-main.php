@@ -309,12 +309,12 @@ function wpseo_init_rest_api() {
 		$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
 		$link_reindex_endpoint->register();
 
-		$statistics_service = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
+		$statistics_service  = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 		$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
 		$statistics_endpoint->register();
 
 		$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
-		$ryte_endpoint = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
+		$ryte_endpoint         = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
 		$ryte_endpoint->register();
 	}
 }
@@ -505,7 +505,7 @@ function yoast_wpseo_missing_filter_notice() {
  * @param string $message Message string.
  */
 function yoast_wpseo_activation_failed_notice( $message ) {
-	echo '<div class="error"><p>' . __( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';
+	echo '<div class="error"><p>' . esc_html__( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';
 }
 
 /**

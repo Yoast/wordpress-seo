@@ -46,7 +46,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 	 * Importing the robot values from WPSEO plugin. These have to be converted to the Yoast format.
 	 */
 	private function import_post_robots() {
-		$query_posts  = new WP_Query( 'post_type=any&meta_key=_wpseo_edit_robots&order=ASC' );
+		$query_posts = new WP_Query( 'post_type=any&meta_key=_wpseo_edit_robots&order=ASC' );
 
 		if ( ! empty( $query_posts->posts ) ) {
 			foreach ( $query_posts->posts as $post ) {
@@ -62,13 +62,11 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 	 */
 	private function import_post_robot( $post_id ) {
 		$wpseo_robots = get_post_meta( $post_id, '_wpseo_edit_robots', true );
+		$robot_value  = $this->get_robot_value( $wpseo_robots );
 
-		// Does the value exists in our mapping.
-		if ( $robot_value = $this->get_robot_value( $wpseo_robots ) ) {
-			// Saving the new meta values for Yoast SEO.
-			WPSEO_Meta::set_value( $robot_value['index'], 'meta-robots-noindex', $post_id );
-			WPSEO_Meta::set_value( $robot_value['follow'], 'meta-robots-nofollow', $post_id );
-		}
+		// Saving the new meta values for Yoast SEO.
+		WPSEO_Meta::set_value( $robot_value['index'], 'meta-robots-noindex', $post_id );
+		WPSEO_Meta::set_value( $robot_value['follow'], 'meta-robots-nofollow', $post_id );
 
 		$this->delete_post_robot( $post_id );
 	}
@@ -126,7 +124,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 		$wpseo_robots = get_option( 'wpseo_' . $taxonomy . '_' . $term_id . '_robots', false );
 		if ( $wpseo_robots !== false ) {
 			// The value 1, 2 and 6 are the index values in wpSEO.
-			$new_robot_value = ( in_array( $wpseo_robots, array( 1, 2, 6 ) ) ) ? 'index' : 'noindex';
+			$new_robot_value = ( in_array( (int) $wpseo_robots, array( 1, 2, 6 ), true ) ) ? 'index' : 'noindex';
 
 			$tax_meta[ $taxonomy ][ $term_id ]['wpseo_noindex'] = $new_robot_value;
 		}

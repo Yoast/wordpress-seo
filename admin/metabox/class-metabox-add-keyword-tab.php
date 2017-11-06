@@ -23,14 +23,14 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		<li class="wpseo-tab-add-keyword">
 			<button type="button" class="wpseo-add-keyword button button-link">
 				<span class="wpseo-add-keyword-plus" aria-hidden="true">+</span>
-				<?php _e( 'Add keyword', 'wordpress-seo' ); ?>
+				<?php esc_html_e( 'Add keyword', 'wordpress-seo' ); ?>
 			</button>
 		</li>
 
 		<?php
 		$popup_title = __( 'Want to add more than one keyword?', 'wordpress-seo' );
 		/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-		$popup_content = '<p>' . sprintf( __( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
+		$popup_content  = '<p>' . sprintf( __( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ) . '">Yoast SEO Premium</a>'
 				) . '</p>';
 		$popup_content .= '<p>' . sprintf(
@@ -50,7 +50,7 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		$popup_content .= '<li><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></li>';
 		$popup_content .= '<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>';
 		$popup_content .= '</ul>';
-		$premium_popup = new WPSEO_Premium_Popup( 'add-keyword', 'h1', $popup_title, $popup_content );
+		$premium_popup  = new WPSEO_Premium_Popup( 'add-keyword', 'h1', $popup_title, $popup_content, WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ) );
 		echo $premium_popup->get_premium_message();
 
 		return ob_get_clean();

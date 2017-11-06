@@ -19,7 +19,7 @@ $version = '3.4';
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
 		echo '<li class="wp-person">';
-		echo '<a href="https://github.com/', $username, '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=120" class="gravatar" alt="">', $dev->name, '</a>';
+		echo '<a href="', esc_url( 'https://github.com/' . $username ), '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=120" class="gravatar" alt="">', $dev->name, '</a>';
 		echo '<span class="title">', $dev->role, "</span></li>\n";
 	}
 }
@@ -46,14 +46,14 @@ function wpseo_display_contributors( $contributors ) {
 	<div class="wp-badge"></div>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" href="#top#integrations" id="integrations-tab"><?php _e( 'Integrations', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" href="#top#integrations" id="integrations-tab"><?php esc_html_e( 'Integrations', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<div id="credits" class="wpseotab">
 		<h2 class="screen-reader-text"><?php esc_html_e( 'Team and contributors', 'wordpress-seo' ); ?></h2>
 
-		<h3 class="wp-people-group"><?php _e( 'Product Management', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Product Management', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-project-leaders">
 			<?php
 			$people = array(
@@ -77,7 +77,7 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h3 class="wp-people-group"><?php _e( 'Development Leaders', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Development Leaders', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-development-leaders">
 			<?php
 			$people = array(
@@ -101,7 +101,7 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h3 class="wp-people-group"><?php _e( 'Yoast Developers', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Yoast Developers', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
 			$people = array(
@@ -155,7 +155,7 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h3 class="wp-people-group"><?php _e( 'Quality Assurance & Testing', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Quality Assurance & Testing', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-qa-testing">
 			<?php
 			$people = array(
@@ -194,7 +194,7 @@ function wpseo_display_contributors( $contributors ) {
 				$version
 			);
 			?>
-			<h3 class="wp-people-group"><?php _e( 'Community contributors', 'wordpress-seo' ); ?></h3>
+			<h3 class="wp-people-group"><?php esc_html_e( 'Community contributors', 'wordpress-seo' ); ?></h3>
 			<p><?php echo $call_to_contribute; ?></p>
 			<ul class="ul-square">
 				<?php
@@ -207,33 +207,63 @@ function wpseo_display_contributors( $contributors ) {
 	</div>
 
 	<div id="integrations" class="wpseotab">
-		<h2>Yoast SEO Integrations</h2>
+		<h2>
+			<?php
+			printf(
+				/* translators: %1$s expands to Yoast SEO */
+				esc_html__( '%1$s Integrations', 'wordpress-seo' ),
+				'Yoast SEO'
+			);
+			?>
+		</h2>
 		<p class="about-description">
-			Yoast SEO 3.0 brought a way for theme builders and custom field plugins to integrate with Yoast SEO. These
-			integrations make sure that <em>all</em> the data on your page is used for the content analysis. On this
-			page, we highlight the frameworks that have nicely working integrations.
+			<?php
+			printf(
+				/* translators: 1: expands to "Yoast SEO"; 2: emphasis open tag; 3: emphasis close tag. */
+				esc_html__( '%1$s 3.0 brought a way for theme builders and custom field plugins to integrate with %1$s. These integrations make sure that %2$sall%3$s the data on your page is used for the content analysis. On this page, we highlight the frameworks that have nicely working integrations.', 'wordpress-seo' ),
+				'Yoast SEO',
+				'<em>',
+				'</em>'
+			);
+			?>
 		</p>
 
 		<ol>
-			<li><a href="https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/" target="_blank" rel="noreferrer noopener">Yoast ACF
-					Integration</a> - an integration built by <a href="https://forsberg.ax" target="_blank" rel="noreferrer noopener">Marcus Forsberg</a>,
-				<a href="http://kraftner.com/" target="_blank" rel="noreferrer noopener">Thomas Kräftner</a>,
-				<a href="https://angrycreative.se/" target="_blank" rel="noreferrer noopener">Angry Creative</a>
-				and Team Yoast
+			<li>
+				<?php
+				printf(
+					/* translators: 1: link open tag; 2: link close tag; 3: Yoast; 4: linked developer name. */
+					esc_html__( '%1$s%3$s ACF Integration%2$s - an integration built by %4$s and Team %3$s', 'wordpress-seo' ),
+					'<a target="_blank" href="https://wordpress.org/plugins/yoast-seo-acf-analysis/">',
+					'</a>',
+					'Yoast',
+					'<a href="https://forsberg.ax" target="_blank" rel="noreferrer noopener">Marcus Forsberg</a>, ' .
+					'<a href="http://kraftner.com/" target="_blank" rel="noreferrer noopener">Thomas Kräftner</a>, ' .
+					'<a href="https://angrycreative.se/" target="_blank" rel="noreferrer noopener">Angry Creative</a>'
+				);
+				?>
 			</li>
 			<li><a href="https://www.elegantthemes.com/plugins/divi-builder/" target="_blank" rel="noreferrer noopener">Divi Builder</a></li>
 			<li><a href="https://vc.wpbakery.com/" target="_blank" rel="noreferrer noopener">Visual Composer</a></li>
 		</ol>
 
-		<h3>Other integrations</h3>
+		<h3><?php esc_html_e( 'Other integrations', 'wordpress-seo' ); ?></h3>
 		<p class="about-description">
-			We've got another integration we'd like to tell you about:
+			<?php esc_html_e( 'We\'ve got other integrations we\'d like to tell you about:', 'wordpress-seo' ); ?>
 		</p>
 
 		<ol>
-			<li><a href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/" target="_blank" rel="noreferrer noopener">Glue for Yoast SEO &amp;
-					AMP</a> - an integration between <a href="https://wordpress.org/plugins/amp/" target="_blank" rel="noreferrer noopener">the WordPress AMP
-					plugin</a> and Yoast SEO.
+			<li>
+				<?php
+				printf(
+					/* translators: 1,2: link open tag; 3: link close tag; 4: Yoast SEO. */
+					esc_html__( '%1$sGlue for %4$s &amp; AMP%3$s - an integration between %2$sthe WordPress AMP plugin%3$s and %4$s.', 'wordpress-seo' ),
+					'<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/">',
+					'<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/amp/">',
+					'</a>',
+					'Yoast SEO'
+				);
+				?>
 			</li>
 		</ol>
 	</div>

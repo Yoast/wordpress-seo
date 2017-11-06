@@ -133,7 +133,7 @@ $helpcenter->localize_data();
 $helpcenter->mount();
 
 foreach ( $tabs as $identifier => $tab ) {
-	printf( '<div id="%s" class="wpseotab">', $identifier );
+	printf( '<div id="%s" class="wpseotab">', esc_attr( $identifier ) );
 	require_once WPSEO_PATH . 'admin/views/tabs/tool/' . $identifier . '.php';
 	echo '</div>';
 }

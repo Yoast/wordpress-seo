@@ -6,16 +6,18 @@
 // Admin header.
 Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpseo_gsc_options' );
 
+$platform_tabs = new WPSEO_GSC_Platform_Tabs();
+
 if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== '' ) { ?>
 	<form action="" method="post" class="wpseo-gsc-reload-crawl-issues-form">
-		<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo wp_create_nonce( 'reload-crawl-issues' ); ?>' />
+		<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo esc_attr( wp_create_nonce( 'reload-crawl-issues' ) ); ?>' />
 		<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button button-primary alignright"
-			value="<?php _e( 'Reload crawl issues', 'wordpress-seo' ); ?>">
+			value="<?php esc_attr_e( 'Reload crawl issues', 'wordpress-seo' ); ?>">
 	</form>
 <?php } ?>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<?php echo $platform_tabs = new WPSEO_GSC_Platform_Tabs(); ?>
+		<?php echo $platform_tabs; ?>
 	</h2>
 
 <?php
@@ -28,7 +30,7 @@ else {
 	$video_url = WPSEO_Shortlinker::get( 'https://yoa.st/screencast-connect-search-console' );
 }
 
-$tab = new WPSEO_Option_Tab( 'GSC', __( 'Google Search Console', 'wordpress-seo' ), array( 'video_url' => $video_url ) );
+$tab             = new WPSEO_Option_Tab( 'GSC', __( 'Google Search Console', 'wordpress-seo' ), array( 'video_url' => $video_url ) );
 $gsc_help_center = new WPSEO_Help_Center( 'google-search-console', $tab, WPSEO_Utils::is_yoast_seo_premium() );
 $gsc_help_center->localize_data();
 $gsc_help_center->mount();
@@ -40,22 +42,23 @@ switch ( $platform_tabs->current_tab() ) {
 			// Print auth screen.
 			echo '<p>';
 			/* Translators: %1$s: expands to Yoast SEO, %2$s expands to Google Search Console. */
-			echo sprintf( __( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ), 'Yoast SEO', 'Google Search Console' );
+			printf( __( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ), 'Yoast SEO', 'Google Search Console' );
 			echo "</p>\n";
-			echo '<input type="hidden" id="gsc_auth_url" value="', $this->service->get_client()->createAuthUrl() , '" />';
-			echo "<button type='button' id='gsc_auth_code' class='button'>" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
+			echo '<input type="hidden" id="gsc_auth_url" value="', esc_url( $this->service->get_client()->createAuthUrl() ) , '" />';
+			echo "<button type='button' id='gsc_auth_code' class='button'>" , esc_html__( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
 
-			echo '<p id="gsc-enter-code-label">' . __( 'Enter your Google Authorization Code and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
-			echo "<form action='" . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . "' method='post'>\n";
+			echo '<p id="gsc-enter-code-label">' . esc_html__( 'Enter your Google Authorization Code and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
+			echo "<form action='" . esc_url( admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) ) . "' method='post'>\n";
 			echo "<input type='text' name='gsc[authorization_code]' value='' class='textinput' aria-labelledby='gsc-enter-code-label' />";
-			echo "<input type='hidden' name='gsc[gsc_nonce]' value='" . wp_create_nonce( 'wpseo-gsc_nonce' ) . "' />";
-			echo "<input type='submit' name='gsc[Submit]' value='" . __( 'Authenticate', 'wordpress-seo' ) . "' class='button button-primary' />";
+			echo "<input type='hidden' name='gsc[gsc_nonce]' value='" . esc_attr( wp_create_nonce( 'wpseo-gsc_nonce' ) ) . "' />";
+			echo "<input type='submit' name='gsc[Submit]' value='" . esc_attr__( 'Authenticate', 'wordpress-seo' ) . "' class='button button-primary' />";
 			echo "</form>\n";
 		}
 		else {
-			$reset_button = '<a class="button" href="' . add_query_arg( 'gsc_reset', 1 ) . '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) . '</a>';
-			echo '<h3>',  __( 'Current profile', 'wordpress-seo' ), '</h3>';
-			if ( ($profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
+			$reset_button = '<a class="button" href="' . esc_url( add_query_arg( 'gsc_reset', 1 ) ) . '">' . esc_html__( 'Reauthenticate with Google ', 'wordpress-seo' ) . '</a>';
+			echo '<h3>', esc_html__( 'Current profile', 'wordpress-seo' ), '</h3>';
+			$profile = WPSEO_GSC_Settings::get_profile();
+			if ( $profile !== '' ) {
 				echo '<p>';
 				echo $profile;
 				echo '</p>';
@@ -66,26 +69,27 @@ switch ( $platform_tabs->current_tab() ) {
 
 			}
 			else {
-				echo "<form action='" . admin_url( 'options.php' ) . "' method='post'>";
+				echo "<form action='" . esc_url( admin_url( 'options.php' ) ) . "' method='post'>";
 
 				settings_fields( 'yoast_wpseo_gsc_options' );
 				Yoast_Form::get_instance()->set_option( 'wpseo-gsc' );
 
 				echo '<p>';
-				if ( $profiles = $this->service->get_sites() ) {
+				$profiles = $this->service->get_sites();
+				if ( ! empty( $profiles ) ) {
 					$show_save = true;
 					echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $profiles );
 				}
 				else {
 					$show_save = false;
-					echo __( 'There were no profiles found', 'wordpress-seo' );
+					esc_html_e( 'There were no profiles found', 'wordpress-seo' );
 				}
 				echo '</p>';
 
 				echo '<p>';
 
 				if ( $show_save ) {
-					echo '<input type="submit" name="submit" id="submit" class="button button-primary wpseo-gsc-save-profile" value="' . __( 'Save Profile', 'wordpress-seo' ) . '" /> ' . __( 'or', 'wordpress-seo' ) , ' ';
+					echo '<input type="submit" name="submit" id="submit" class="button button-primary wpseo-gsc-save-profile" value="' . esc_attr__( 'Save Profile', 'wordpress-seo' ) . '" /> ' . __( 'or', 'wordpress-seo' ) , ' ';
 				}
 				echo $reset_button;
 				echo '</p>';
@@ -105,10 +109,10 @@ switch ( $platform_tabs->current_tab() ) {
 		) );
 
 		// Open <form>.
-		echo "<form id='wpseo-crawl-issues-table-form' action='" . $form_action_url . "' method='post'>\n";
+		echo "<form id='wpseo-crawl-issues-table-form' action='" . esc_url( $form_action_url ) . "' method='post'>\n";
 
 		// AJAX nonce.
-		echo "<input type='hidden' class='wpseo-gsc-ajax-security' value='" . wp_create_nonce( 'wpseo-gsc-ajax-security' ) . "' />\n";
+		echo "<input type='hidden' class='wpseo-gsc-ajax-security' value='" . esc_attr( wp_create_nonce( 'wpseo-gsc-ajax-security' ) ) . "' />\n";
 
 		$this->display_table();
 

@@ -1,29 +1,21 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Banner
+ */
 
-class WPSEO_Admin_Banner_Renderer_Mock extends WPSEO_Admin_Banner_Renderer {
+/**
+ * Unit Test Class.
+ */
+class WPSEO_Admin_Banner_Spot_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Overrides the render method to get a render method for the test.
-	 *
-	 * @param WPSEO_Admin_Banner $banner
-	 *
-	 * @return string
+	 * Include helper class.
 	 */
-	public function render( WPSEO_Admin_Banner $banner ) {
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
 
-		return sprintf(
-			'url:%s|image:%s|width:%i|height:%i|alt:%s',
-			$banner->get_url(),
-			$banner->get_image(),
-			$banner->get_width(),
-			$banner->get_height(),
-			$banner->get_alt()
-		);
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-admin-banner-renderer-mock.php';
 	}
-
-}
-
-class WPSEO_Admin_Banner_Spot_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the url getter.

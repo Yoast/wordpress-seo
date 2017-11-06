@@ -94,7 +94,7 @@ class Yoast_Notification_Center {
 		$user_id       = ( ! is_null( $user_id ) ? $user_id : get_current_user_id() );
 		$dismissal_key = $notification->get_dismissal_key();
 
-		$current_value = get_user_meta( $user_id, $dismissal_key, $single = true );
+		$current_value = get_user_meta( $user_id, $dismissal_key, true );
 
 		return ! empty( $current_value );
 	}
@@ -169,7 +169,7 @@ class Yoast_Notification_Center {
 		}
 
 		// Remove notification dismissal for all users.
-		$deleted = delete_metadata( 'user', $user_id = 0, $dismissal_key, $meta_value = '', $delete_all = true );
+		$deleted = delete_metadata( 'user', 0, $dismissal_key, '', true );
 
 		return $deleted;
 	}
@@ -239,7 +239,7 @@ class Yoast_Notification_Center {
 		}
 
 		$sorted_notifications = $this->get_sorted_notifications();
-		$notifications = array_filter( $sorted_notifications, array( $this, 'is_notification_persistent' ) );
+		$notifications        = array_filter( $sorted_notifications, array( $this, 'is_notification_persistent' ) );
 
 		if ( empty( $notifications ) ) {
 			return;

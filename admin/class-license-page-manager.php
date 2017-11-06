@@ -8,7 +8,14 @@
  */
 class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 
+	/**
+	 * @var string Version number for License Page Manager.
+	 */
 	const VERSION_LEGACY = '1';
+
+	/**
+	 * @var string Version number for License Page Manager.
+	 */
 	const VERSION_BACKWARDS_COMPATIBILITY = '2';
 
 	/**
@@ -43,7 +50,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 		}
 
 		$extension_list = new WPSEO_Extensions();
-		$extensions = $extension_list->get();
+		$extensions     = $extension_list->get();
 
 		$notification_center = Yoast_Notification_Center::get();
 
@@ -66,7 +73,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 */
 	public function remove_faulty_notifications() {
 		$extension_list = new WPSEO_Extensions();
-		$extensions = $extension_list->get();
+		$extensions     = $extension_list->get();
 
 		$notification_center = Yoast_Notification_Center::get();
 
@@ -183,7 +190,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	protected function create_notification( $product_name ) {
 		$notification_options = array(
 			'type'         => Yoast_Notification::ERROR,
-			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name,  null, 'save' ),
+			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name, null, 'save' ),
 			'capabilities' => 'wpseo_manage_options',
 		);
 

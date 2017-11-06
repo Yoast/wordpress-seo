@@ -1,9 +1,9 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
-// disable xdebug backtrace
+// Disable xdebug backtrace.
 if ( function_exists( 'xdebug_disable' ) ) {
 	xdebug_disable();
 }
@@ -23,13 +23,13 @@ $GLOBALS['wp_tests_options'] = array(
 );
 
 if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
-	require getenv( 'WP_DEVELOP_DIR' ) . 'tests/phpunit/includes/bootstrap.php';
+	require_once getenv( 'WP_DEVELOP_DIR' ) . 'tests/phpunit/includes/bootstrap.php';
 }
 else {
-	require '../../../../tests/phpunit/includes/bootstrap.php';
+	require_once '../../../../tests/phpunit/includes/bootstrap.php';
 }
 
 define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
 
-// include unit test base class
+// Include unit test base class.
 require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case.php';

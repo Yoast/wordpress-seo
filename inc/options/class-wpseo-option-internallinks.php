@@ -4,17 +4,17 @@
  */
 
 /**
- * Option: wpseo_internallinks
+ * Option: wpseo_internallinks.
  */
 class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 	/**
-	 * @var  string  option name
+	 * @var  string  Option name.
 	 */
 	public $option_name = 'wpseo_internallinks';
 
 	/**
-	 * @var  array  Array of defaults for the option
+	 * @var  array  Array of defaults for the option.
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 *
 	 * {@internal Note: Some of the default values are added via the translate_defaults() method.}}
@@ -38,7 +38,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	);
 
 	/**
-	 * @var  array  Array of variable option name patterns for the option
+	 * @var  array  Array of variable option name patterns for the option.
 	 */
 	protected $variable_array_key_patterns = array(
 		'post_types-',
@@ -47,7 +47,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 
 	/**
-	 * Get the singleton instance of this class
+	 * Get the singleton instance of this class.
 	 *
 	 * @return object
 	 */
@@ -61,7 +61,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 
 	/**
-	 * Translate strings used in the option defaults
+	 * Translate strings used in the option defaults.
 	 *
 	 * @return void
 	 */
@@ -74,7 +74,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 
 	/**
-	 * Add dynamically created default options based on available post types and taxonomies
+	 * Add dynamically created default options based on available post types and taxonomies.
 	 *
 	 * @return  void
 	 */
@@ -111,13 +111,13 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 
 	/**
-	 * Validate the option
+	 * Validate the option.
 	 *
 	 * @param  array $dirty New value for the option.
 	 * @param  array $clean Clean value for the option, normally the defaults.
 	 * @param  array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database
+	 * @return  array      Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 
@@ -128,7 +128,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 			$switch_key = $this->get_switch_key( $key );
 
 			switch ( $switch_key ) {
-				/* text fields */
+				/* Text fields. */
 				case 'breadcrumbs-404crumb':
 				case 'breadcrumbs-archiveprefix':
 				case 'breadcrumbs-home':
@@ -141,7 +141,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 					break;
 
 
-				/* 'post_types-' . $pt->name . '-maintax' fields */
+				/* 'post_types-' . $pt->name . '-maintax' fields. */
 				case 'post_types-':
 					$post_type  = str_replace( array( 'post_types-', '-maintax' ), '', $key );
 					$taxonomies = get_object_taxonomies( $post_type, 'names' );
@@ -183,7 +183,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 					break;
 
 
-				/* 'taxonomy-' . $tax->name . '-ptparent' fields */
+				/* 'taxonomy-' . $tax->name . '-ptparent' fields. */
 				case 'taxonomy-':
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $allowed_post_types !== array() && in_array( $dirty[ $key ], $allowed_post_types, true ) ) {
@@ -224,7 +224,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 
 				/*
-				Boolean fields
+				Boolean fields.
 				*/
 
 				/*
@@ -244,8 +244,8 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 
 	/**
-	 * Retrieve a list of the allowed post types as breadcrumb parent for a taxonomy
-	 * Helper method for validation
+	 * Retrieve a list of the allowed post types as breadcrumb parent for a taxonomy.
+	 * Helper method for validation.
 	 *
 	 * {@internal Don't make static as new types may still be registered.}}
 	 *
@@ -273,20 +273,20 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 
 	/**
-	 * Clean a given option value
+	 * Clean a given option value.
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
 	 *                                       clean according to the rules for this option.
-	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
+	 * @param  string $current_version       Optional. Version from which to upgrade, if not set,
 	 *                                       version specific upgrades will be disregarded.
-	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
+	 * @param  array  $all_old_option_values Optional. Only used when importing old options to have
 	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
-	 * @return  array            Cleaned option
+	 * @return  array Cleaned option.
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
-		/* Make sure the old fall-back defaults for empty option keys are now added to the option */
+		/* Make sure the old fall-back defaults for empty option keys are now added to the option .*/
 		if ( isset( $current_version ) && version_compare( $current_version, '1.5.2.3', '<' ) ) {
 			if ( has_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ) ) === false ) {
 				add_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ), 3 );
@@ -306,7 +306,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 				// Similar to validation routine - any changes made there should be made here too.
 				switch ( $switch_key ) {
-					/* 'post_types-' . $pt->name . '-maintax' fields */
+					/* 'post_types-' . $pt->name . '-maintax' fields. */
 					case 'post_types-':
 						$post_type  = str_replace( array( 'post_types-', '-maintax' ), '', $key );
 						$taxonomies = get_object_taxonomies( $post_type, 'names' );
@@ -325,7 +325,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 						break;
 
 
-					/* 'taxonomy-' . $tax->name . '-ptparent' fields */
+					/* 'taxonomy-' . $tax->name . '-ptparent' fields. */
 					case 'taxonomy-':
 						if ( $allowed_post_types !== array() && in_array( $value, $allowed_post_types, true ) ) {
 							$option_value[ $key ] = $value;
