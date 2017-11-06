@@ -4,6 +4,7 @@ import logger from "redux-logger";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { IntlProvider } from "react-intl";
 
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
@@ -44,20 +45,24 @@ function configureStore() {
  * @returns {void}
  */
 function renderReactApps( store ) {
-	const contentAnalysisElement = document.getElementById( "wpseo-pageanalysis" );
-	const seoAnalysisElement = document.getElementById( "yoast-seo-content-analysis" );
+	const contentAnalysisElement = document.getElementById( "yoast-seo-content-analysis" );
+	const seoAnalysisElement = document.getElementById( "wpseo-pageanalysis" );
 
 	ReactDOM.render(
-		<Provider store={ store } >
-			<ContentAnalysis />
-		</Provider>,
+		<IntlProvider>
+			<Provider store={ store } >
+				<ContentAnalysis />
+			</Provider>
+		</IntlProvider>,
 		contentAnalysisElement
 	);
 
 	ReactDOM.render(
-		<Provider store={ store } >
-			<SeoAnalysis />
-		</Provider>,
+		<IntlProvider>
+			<Provider store={ store } >
+				<SeoAnalysis />
+			</Provider>
+		</IntlProvider>,
 		seoAnalysisElement
 	);
 }

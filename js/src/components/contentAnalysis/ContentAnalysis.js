@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import Results from "./Results";
+
 class ContentAnalysis extends React.Component {
 	render() {
-		console.log( "Rendering ContentAnalysis", this.props.results );
-		return <h1>Content Analysis</h1>;
+		return <Results results={ this.props.results }/>
 	}
 }
 

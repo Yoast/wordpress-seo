@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import Results from "./Results";
+
 class SeoAnalysis extends React.Component {
 	render() {
-		console.log( "Rendering SeoAnalysis", this.props.results );
-		return <h1>Seo Analysis</h1>;
+		return <Results results={ this.props.results }/>
 	}
 }
 
@@ -21,10 +22,10 @@ SeoAnalysis.propTypes = {
  * @returns {Object} Props that should be passed to SeoAnalysis.
  */
 function mapStateToProps( state ) {
-	if( state.activeKeyword ) {
+	if( state.activeKeyword && state.analysis.seo[ state.activeKeyword ] ) {
 		return {
-			results: state.analysis.seo[ state.activeKeyword ],
-		};
+			results: state.analysis.seo[ state.activeKeyword ]
+		}
 	}
 	return { results: null };
 }
