@@ -39,7 +39,10 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Import the Google Analytics settings
+	 * Import the Google Analytics settings.
+	 *
+	 * These values are used in Google Analytics for WordPress by MonsterInsights and will be converted in the plugin
+	 * to usable settings when a user installs the Google Analytics plugin for the first time.
 	 */
 	private function import_ga() {
 		if ( isset( $this->aioseo_options['aiosp_google_analytics_id'] ) ) {
