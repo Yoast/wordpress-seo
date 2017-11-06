@@ -82,6 +82,6 @@
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
     "yoast-components": "2.11.0",
-    "yoastseo": "^1.22.4"
+    "yoastseo": "^1.23.0"
   }
 }
