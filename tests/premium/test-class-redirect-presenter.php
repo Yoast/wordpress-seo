@@ -66,7 +66,7 @@ class WPSEO_Redirect_Presenter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Presenter::display
 	 */
 	public function test_display_settings() {
-		add_filter( 'user_has_cap', array( $this , 'add_capability' ) );
+		add_filter( 'user_has_cap', array( $this, 'add_capability' ) );
 
 		ob_start();
 
@@ -80,7 +80,7 @@ class WPSEO_Redirect_Presenter_Test extends WPSEO_UnitTestCase {
 			$output
 		);
 
-		remove_filter( 'user_has_cap', array( $this , 'add_capability' ) );
+		remove_filter( 'user_has_cap', array( $this, 'add_capability' ) );
 	}
 
 	/**
