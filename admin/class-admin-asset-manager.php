@@ -412,6 +412,10 @@ class WPSEO_Admin_Asset_Manager {
 				'rtl'     => false,
 			),
 			array(
+				'name' => 'kb-search',
+				'src'  => 'kb-search-' . $flat_version,
+			),
+			array(
 				'name' => 'help-center',
 				'src'  => 'help-center-' . $flat_version,
 			),

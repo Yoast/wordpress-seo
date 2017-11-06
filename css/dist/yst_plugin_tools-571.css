@@ -529,6 +529,12 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 }
 
+@media screen and (max-width: 1024px) {
+	.wpseo-tab-video-slideout .yoast-table-scrollable {
+		width: 120%;
+	}
+}
+
 .page-wpseo_rss .yoast-variable-desc {
 	min-width: 300px;
 }

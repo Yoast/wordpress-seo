@@ -1,5 +1,5 @@
 @import "yoastseo";
-@import "help-center-metabox";
+@import "help-center";
 @import "../../node_modules/yoast-components/forms/StyledSection/StyledSection";
 
 @function svg-icon-list($color) {
@@ -610,10 +610,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	padding: 8px 0; /* To have the same height of the `.yoast-help-center__button` button. */
 }
 
-.wpseo-metabox-buy-premium .dashicons {
-	text-decoration: none;
-}
-
 /* Ensure the snippet preview section has always the proper width whatever the default yoast-section width is. */
 .wpseosnippet .yoast-section {
 	width: auto;
@@ -767,5 +763,59 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 	.wpseotab.content {
 		padding: 20px 0;
+	}
+}
+
+.yoast-help-center {
+	.yoast-help-center {
+		&__button {
+			border: none;
+			box-shadow: none;
+			text-transform: none;
+			text-decoration: underline;
+			color: #0073aa;
+			margin: 0;
+			min-height: 0;
+			font: inherit;
+			padding: 8px 0;
+
+			svg {
+				margin: 0 13px;
+			}
+		}
+	}
+}
+
+// Override styling on taxonomy pages to disable responsiveness larger than tablet width.
+#edittag {
+	.yoast-video-tutorial__video-container {
+		float: none;
+		max-width: 100%;
+		margin: 0 auto;
+	}
+	.yoast-video-tutorial__descriptions {
+		margin: 0 auto;
+		padding: 0;
+	}
+}
+
+// Override styling on post edit page, to extend min-width because of sidebar.
+#poststuff {
+	@media screen and (max-width: 1480px) {
+		.yoast-video-tutorial__video-container {
+			float: none;
+			max-width: 100%;
+			margin: 0 auto;
+		}
+		.yoast-video-tutorial__descriptions {
+			margin: 0 auto;
+			padding: 0;
+		}
+	}
+}
+
+.wpseo-metabox {
+	#yoast-help-center-container {
+		margin: 8px 0;
 	}
 }

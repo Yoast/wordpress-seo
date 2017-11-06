@@ -565,6 +565,13 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 // allow the table to shrink. The table cells use `box-sizing: border-box` to
 // make setting the `min-width` easier.
 
+// Variables tables in the Help Center are inside flexbox and need a special treatment.
+@media screen and ( max-width: 1024px ) {
+	.wpseo-tab-video-slideout .yoast-table-scrollable {
+		width: 120%;
+	}
+}
+
 // Variables table in the Advanced > RSS page.
 .page-wpseo_rss .yoast-variable-desc {
 	min-width: 300px;

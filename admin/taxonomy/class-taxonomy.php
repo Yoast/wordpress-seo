@@ -99,6 +99,7 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'term-scraper' );
+			$asset_manager->enqueue_style( 'kb-search' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
