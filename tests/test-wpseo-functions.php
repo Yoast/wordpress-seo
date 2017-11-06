@@ -9,7 +9,7 @@
 class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Provision some options
+	 * Provision some options.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -20,7 +20,7 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_wpseo_replace_vars() {
 
-		// create author
+		// Create author.
 		$user_id = $this->factory->user->create(
 			array(
 				'user_login'   => 'User_Login',
@@ -28,7 +28,7 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		// create post
+		// Create post.
 		$post_id = $this->factory->post->create(
 			array(
 				'post_title'   => 'Post_Title',
@@ -39,7 +39,7 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		// get post
+		// Get post.
 		$post = get_post( $post_id );
 
 		$input    = '%%title%% %%excerpt%% %%date%% %%name%%';

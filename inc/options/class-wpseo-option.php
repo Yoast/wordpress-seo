@@ -51,8 +51,8 @@
  * - If an option needs specific actions different from defined in this abstract class, you can just overrule
  *    a method by defining it in the concrete class.
  *
- * @todo       - [JRF => testers] double check that validation will not cause errors when called
- *               from upgrade routine (some of the WP functions may not yet be available)
+ * @todo       - [JRF => testers] Double check that validation will not cause errors when called
+ *               from upgrade routine (some of the WP functions may not yet be available).
  */
 abstract class WPSEO_Option {
 
@@ -89,17 +89,17 @@ abstract class WPSEO_Option {
 	/**
 	 * @var  array  Array of variable option name patterns for the option - if any -
 	 *              Set this when the option contains array keys which vary based on post_type
-	 *              or taxonomy
+	 *              or taxonomy.
 	 */
 	protected $variable_array_key_patterns;
 
 	/**
-	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults
+	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults.
 	 */
 	public $ms_exclude = array();
 
 	/**
-	 * @var  object  Instance of this class
+	 * @var  object  Instance of this class.
 	 */
 	protected static $instance;
 
@@ -107,13 +107,13 @@ abstract class WPSEO_Option {
 	/* *********** INSTANTIATION METHODS *********** */
 
 	/**
-	 * Add all the actions and filters for the option
+	 * Add all the actions and filters for the option.
 	 *
 	 * @return \WPSEO_Option
 	 */
 	protected function __construct() {
 
-		/* Add filters which get applied to the get_options() results */
+		/* Add filters which get applied to the get_options() results. */
 		$this->add_default_filters(); // Return defaults if option not set.
 		$this->add_option_filters(); // Merge with defaults if option *is* set.
 
@@ -157,7 +157,7 @@ abstract class WPSEO_Option {
 			$this->group_name = 'yoast_' . $this->option_name . '_options';
 		}
 
-		/* Translate some defaults as early as possible - textdomain is loaded in init on priority 1 */
+		/* Translate some defaults as early as possible - textdomain is loaded in init on priority 1. */
 		if ( method_exists( $this, 'translate_defaults' ) ) {
 			add_action( 'init', array( $this, 'translate_defaults' ), 2 );
 		}
@@ -166,8 +166,8 @@ abstract class WPSEO_Option {
 		 * Enrich defaults once custom post types and taxonomies have been registered
 		 * which is normally done on the init action.
 		 *
-		 * @todo - [JRF/testers] verify that none of the options which are only available after
-		 * enrichment are used before the enriching
+		 * @todo - [JRF/testers] Verify that none of the options which are only available after
+		 * enrichment are used before the enriching.
 		 */
 		if ( method_exists( $this, 'enrich_defaults' ) ) {
 			add_action( 'init', array( $this, 'enrich_defaults' ), 99 );
@@ -177,7 +177,7 @@ abstract class WPSEO_Option {
 // @codingStandardsIgnoreStart
 
 	/**
-	 * All concrete classes *must* contain the get_instance method
+	 * All concrete classes *must* contain the get_instance method.
 	 *
 	 * {@internal Unfortunately I can't define it as an abstract as it also *has* to be static...}}
 	 */
@@ -185,21 +185,21 @@ abstract class WPSEO_Option {
 
 
 	/**
-	 * Concrete classes *may* contain a translate_defaults method
+	 * Concrete classes *may* contain a translate_defaults method.
 	 */
 	// abstract public function translate_defaults();
 
 
 	/**
 	 * Concrete classes *may* contain a enrich_defaults method to add additional defaults once
-	 * all post_types and taxonomies have been registered
+	 * all post_types and taxonomies have been registered.
 	 */
 	// abstract public function enrich_defaults();
 
 	/* *********** METHODS INFLUENCING get_option() *********** */
 
 	/**
-	 * Add filters to make sure that the option default is returned if the option is not set
+	 * Add filters to make sure that the option default is returned if the option is not set.
 	 *
 	 * @return  void
 	 */
@@ -212,8 +212,8 @@ abstract class WPSEO_Option {
 
 	// @codingStandardsIgnoreStart
 	/**
-	 * Abusing a filter to re-add our default filters
-	 * WP 3.7 specific as update_option action hook was in the wrong place temporarily
+	 * Abusing a filter to re-add our default filters.
+	 * WP 3.7 specific as update_option action hook was in the wrong place temporarily.
 	 *
 	 * @see http://core.trac.wordpress.org/ticket/25705
 	 *
@@ -234,7 +234,7 @@ abstract class WPSEO_Option {
 	}
 
 	/**
-	 * Validate webmaster tools & Pinterest verification strings
+	 * Validate webmaster tools & Pinterest verification strings.
 	 *
 	 * @param string $key   Key to check, by type of service.
 	 * @param array  $dirty Dirty data.
@@ -336,7 +336,7 @@ abstract class WPSEO_Option {
 
 	/**
 	 * Remove the default filters.
-	 * Called from the validate() method to prevent failure to add new options
+	 * Called from the validate() method to prevent failure to add new options.
 	 *
 	 * @return  void
 	 */
@@ -346,7 +346,7 @@ abstract class WPSEO_Option {
 
 
 	/**
-	 * Get the enriched default value for an option
+	 * Get the enriched default value for an option.
 	 *
 	 * Checks if the concrete class contains an enrich_defaults() method and if so, runs it.
 	 *
@@ -369,7 +369,7 @@ abstract class WPSEO_Option {
 
 
 	/**
-	 * Add filters to make sure that the option is merged with its defaults before being returned
+	 * Add filters to make sure that the option is merged with its defaults before being returned.
 	 *
 	 * @return  void
 	 */
@@ -383,7 +383,7 @@ abstract class WPSEO_Option {
 
 	/**
 	 * Remove the option filters.
-	 * Called from the clean_up methods to make sure we retrieve the original old option
+	 * Called from the clean_up methods to make sure we retrieve the original old option.
 	 *
 	 * @return  void
 	 */
@@ -393,13 +393,13 @@ abstract class WPSEO_Option {
 
 
 	/**
-	 * Merge an option with its default values
+	 * Merge an option with its default values.
 	 *
-	 * This method should *not* be called directly!!! It is only meant to filter the get_option() results
+	 * This method should *not* be called directly!!! It is only meant to filter the get_option() results.
 	 *
 	 * @param   mixed $options Option value.
 	 *
-	 * @return  mixed        Option merged with the defaults for that option
+	 * @return  mixed        Option merged with the defaults for that option.
 	 */
 	public function get_option( $options = null ) {
 		$filtered = $this->array_filter_merge( $options );
@@ -418,7 +418,7 @@ abstract class WPSEO_Option {
 	}
 
 
-	/* *********** METHODS influencing add_uption(), update_option() and saving from admin pages *********** */
+	/* *********** METHODS influencing add_uption(), update_option() and saving from admin pages. *********** */
 
 	/**
 	 * Register (whitelist) the option for the configuration pages.
@@ -439,12 +439,12 @@ abstract class WPSEO_Option {
 	 *
 	 * @param  mixed $option_value The unvalidated new value for the option.
 	 *
-	 * @return  array          Validated new value for the option
+	 * @return  array          Validated new value for the option.
 	 */
 	public function validate( $option_value ) {
 		$clean = $this->get_defaults();
 
-		/* Return the defaults if the new value is empty */
+		/* Return the defaults if the new value is empty. */
 		if ( ! is_array( $option_value ) || $option_value === array() ) {
 			return $clean;
 		}
@@ -459,7 +459,7 @@ abstract class WPSEO_Option {
 		}
 		$clean = $this->validate_option( $option_value, $clean, $old );
 
-		/* Retain the values for variable array keys even when the post type/taxonomy is not yet registered */
+		/* Retain the values for variable array keys even when the post type/taxonomy is not yet registered. */
 		if ( isset( $this->variable_array_key_patterns ) ) {
 			$clean = $this->retain_variable_keys( $option_value, $clean );
 		}
@@ -472,7 +472,7 @@ abstract class WPSEO_Option {
 
 	/**
 	 * All concrete classes must contain a validate_option() method which validates all
-	 * values within the option
+	 * values within the option.
 	 *
 	 * @param  array $dirty New value for the option.
 	 * @param  array $clean Clean value for the option, normally the defaults.
@@ -481,12 +481,12 @@ abstract class WPSEO_Option {
 	abstract protected function validate_option( $dirty, $clean, $old );
 
 
-	/* *********** METHODS for ADDING/UPDATING/UPGRADING the option *********** */
+	/* *********** METHODS for ADDING/UPDATING/UPGRADING the option. *********** */
 
 	/**
-	 * Retrieve the real old value (unmerged with defaults)
+	 * Retrieve the real old value (unmerged with defaults).
 	 *
-	 * @return array|bool the original option value (which can be false if the option doesn't exist)
+	 * @return array|bool The original option value (which can be false if the option doesn't exist).
 	 */
 	protected function get_original_option() {
 		$this->remove_default_filters();
@@ -507,7 +507,7 @@ abstract class WPSEO_Option {
 	}
 
 	/**
-	 * Add the option if it doesn't exist for some strange reason
+	 * Add the option if it doesn't exist for some strange reason.
 	 *
 	 * @uses WPSEO_Option::get_original_option()
 	 *
@@ -526,7 +526,7 @@ abstract class WPSEO_Option {
 
 
 	/**
-	 * Update a site_option
+	 * Update a site_option.
 	 *
 	 * {@internal This special method is only needed for multisite options, but very needed indeed there.
 	 *            The order in which certain functions and hooks are run is different between
@@ -538,7 +538,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @param mixed $value The new value for the option.
 	 *
-	 * @return bool whether the update was succesfull
+	 * @return bool Whether the update was succesfull.
 	 */
 	public function update_site_option( $value ) {
 		if ( $this->multisite_only === true && is_multisite() ) {
@@ -555,12 +555,12 @@ abstract class WPSEO_Option {
 
 
 	/**
-	 * Retrieve the real old value (unmerged with defaults), clean and re-save the option
+	 * Retrieve the real old value (unmerged with defaults), clean and re-save the option.
 	 *
 	 * @uses WPSEO_Option::get_original_option()
 	 * @uses WPSEO_Option::import()
 	 *
-	 * @param  string $current_version (optional) Version from which to upgrade, if not set, version specific upgrades will be disregarded.
+	 * @param  string $current_version Optional. Version from which to upgrade, if not set, version specific upgrades will be disregarded.
 	 *
 	 * @return void
 	 */
@@ -571,9 +571,9 @@ abstract class WPSEO_Option {
 
 
 	/**
-	 * Clean and re-save the option
+	 * Clean and re-save the option.
 	 *
-	 * @uses clean_option() method from concrete class if it exists
+	 * @uses clean_option() method from concrete class if it exists.
 	 *
 	 * @todo [JRF/whomever] Figure out a way to show settings error during/after the upgrade - maybe
 	 * something along the lines of:
@@ -585,8 +585,8 @@ abstract class WPSEO_Option {
 	 * Important: all validation routines which add_settings_errors would need to be changed for this to work
 	 *
 	 * @param  array  $option_value          Option value to be imported.
-	 * @param  string $current_version       (optional) Version from which to upgrade, if not set, version specific upgrades will be disregarded.
-	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have access to the real old values, in contrast to the saved ones.
+	 * @param  string $current_version       Optional. Version from which to upgrade, if not set, version specific upgrades will be disregarded.
+	 * @param  array  $all_old_option_values Optional. Only used when importing old options to have access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return void
 	 */
@@ -613,19 +613,19 @@ abstract class WPSEO_Option {
 
 	/**
 	 * Concrete classes *may* contain a clean_option method which will clean out old/renamed
-	 * values within the option
+	 * values within the option.
 	 */
 	// abstract public function clean_option( $option_value, $current_version = null, $all_old_option_values = null );
-	/* *********** HELPER METHODS for internal use *********** */
+	/* *********** HELPER METHODS for internal use. *********** */
 
 	/**
 	 * Helper method - Combines a fixed array of default values with an options array
 	 * while filtering out any keys which are not in the defaults array.
 	 *
 	 * @todo [JRF] - shouldn't this be a straight array merge ? at the end of the day, the validation
-	 * removes any invalid keys on save
+	 * removes any invalid keys on save.
 	 *
-	 * @param  array $options (Optional) Current options. If not set, the option defaults for the $option_key will be returned.
+	 * @param  array $options Optional. Current options. If not set, the option defaults for the $option_key will be returned.
 	 *
 	 * @return  array  Combined and filtered options array.
 	 */
@@ -693,14 +693,14 @@ abstract class WPSEO_Option {
 
 
 	/**
-	 * Check whether a given array key conforms to one of the variable array key patterns for this option
+	 * Check whether a given array key conforms to one of the variable array key patterns for this option.
 	 *
-	 * @usedby validate_option() methods for options with variable array keys
+	 * @usedby validate_option() methods for options with variable array keys.
 	 *
 	 * @param  string $key Array key to check.
 	 *
 	 * @return string      Pattern if it conforms, original array key if it doesn't or if the option
-	 *              does not have variable array keys
+	 *              does not have variable array keys.
 	 */
 	protected function get_switch_key( $key ) {
 		if ( ! isset( $this->variable_array_key_patterns ) || ( ! is_array( $this->variable_array_key_patterns ) || $this->variable_array_key_patterns === array() ) ) {
@@ -722,7 +722,7 @@ abstract class WPSEO_Option {
 	// @codeCoverageIgnoreStart
 
 	/**
-	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way
+	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way.
 	 *
 	 * @see        https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
 	 *
@@ -742,8 +742,8 @@ abstract class WPSEO_Option {
 
 
 	/**
-	 * Sanitize a url for saving to the database
-	 * Not to be confused with the old native WP function
+	 * Sanitize a url for saving to the database.
+	 * Not to be confused with the old native WP function.
 	 *
 	 * @deprecated 1.5.6.1
 	 * @deprecated use WPSEO_Utils::sanitize_url()
@@ -761,7 +761,7 @@ abstract class WPSEO_Option {
 	}
 
 	/**
-	 * Validate a value as boolean
+	 * Validate a value as boolean.
 	 *
 	 * @deprecated 1.5.6.1
 	 * @deprecated use WPSEO_Utils::validate_bool()
@@ -780,7 +780,7 @@ abstract class WPSEO_Option {
 	}
 
 	/**
-	 * Cast a value to bool
+	 * Cast a value to bool.
 	 *
 	 * @deprecated 1.5.6.1
 	 * @deprecated use WPSEO_Utils::emulate_filter_bool()
@@ -800,7 +800,7 @@ abstract class WPSEO_Option {
 
 
 	/**
-	 * Validate a value as integer
+	 * Validate a value as integer.
 	 *
 	 * @deprecated 1.5.6.1
 	 * @deprecated use WPSEO_Utils::validate_int()
@@ -817,7 +817,7 @@ abstract class WPSEO_Option {
 	}
 
 	/**
-	 * Cast a value to integer
+	 * Cast a value to integer.
 	 *
 	 * @deprecated 1.5.6.1
 	 * @deprecated use WPSEO_Utils::emulate_filter_int()
@@ -837,8 +837,8 @@ abstract class WPSEO_Option {
 
 
 	/**
-	 * Recursively trim whitespace round a string value or of string values within an array
-	 * Only trims strings to avoid typecasting a variable (to string)
+	 * Recursively trim whitespace round a string value or of string values within an array.
+	 * Only trims strings to avoid typecasting a variable (to string).
 	 *
 	 * @deprecated 1.5.6.1
 	 * @deprecated use WPSEO_Utils::trim_recursive()
@@ -848,7 +848,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @param   mixed $value Value to trim or array of values to trim.
 	 *
-	 * @return  mixed      Trimmed value or array of trimmed values
+	 * @return  mixed      Trimmed value or array of trimmed values.
 	 */
 	public static function trim_recursive( $value ) {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::trim_recursive()' );

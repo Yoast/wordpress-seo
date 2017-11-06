@@ -24,7 +24,7 @@ class WPSEO_Metabox_Editor {
 	 */
 	public function add_css_inside_editor( $css_files ) {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$styles = $asset_manager->special_styles();
+		$styles        = $asset_manager->special_styles();
 		/** @var WPSEO_Admin_Asset $inside_editor */
 		$inside_editor = $styles['inside-editor'];
 

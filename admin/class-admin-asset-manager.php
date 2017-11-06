@@ -152,7 +152,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'help-center',
 				'src'  => 'wp-seo-help-center-' . $flat_version,
 				'deps' => array(
-					'jquery'
+					'jquery',
 				),
 			),
 			array(

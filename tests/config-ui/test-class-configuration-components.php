@@ -35,8 +35,8 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	public function test_constructor() {
 		$components = new WPSEO_Configuration_Components_Mock();
 		$components->initialize();
-		$list       = $components->get_components();
 
+		$list = $components->get_components();
 		$this->assertEquals( 4, count( $list ) );
 	}
 

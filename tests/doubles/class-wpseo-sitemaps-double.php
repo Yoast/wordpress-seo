@@ -29,6 +29,6 @@ class WPSEO_Sitemaps_Double extends WPSEO_Sitemaps {
 	 */
 	public function reset() {
 		$this->bad_sitemap = false;
-		$this->sitemap = '';
+		$this->sitemap     = '';
 	}
 }

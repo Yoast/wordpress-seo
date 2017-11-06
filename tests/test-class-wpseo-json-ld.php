@@ -51,8 +51,8 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	 * Test having person markup and one social profile
 	 */
 	public function test_person() {
-		$name                                               = 'Joost de Valk';
-		$instagram                                          = 'http://instagram.com/yoast';
+		$name      = 'Joost de Valk';
+		$instagram = 'http://instagram.com/yoast';
 		self::$class_instance->options['company_or_person'] = 'person';
 		self::$class_instance->options['person_name']       = $name;
 		self::$class_instance->options['instagram_url']     = $instagram;
@@ -78,9 +78,9 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	 * Test having organization markup and two social profiles
 	 */
 	public function test_organization() {
-		$name                                               = 'Yoast';
-		$facebook                                           = 'https://www.facebook.com/Yoast';
-		$instagram                                          = 'http://instagram.com/yoast';
+		$name      = 'Yoast';
+		$facebook  = 'https://www.facebook.com/Yoast';
+		$instagram = 'http://instagram.com/yoast';
 		self::$class_instance->options['company_or_person'] = 'company';
 		self::$class_instance->options['company_name']      = $name;
 		self::$class_instance->options['facebook_site']     = $facebook;

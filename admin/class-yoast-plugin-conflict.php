@@ -123,7 +123,8 @@ class Yoast_Plugin_Conflict {
 
 		$plugin_names = array();
 		foreach ( $plugins as $plugin ) {
-			if ( $name = WPSEO_Utils::get_plugin_name( $plugin ) ) {
+			$name = WPSEO_Utils::get_plugin_name( $plugin );
+			if ( ! empty( $name ) ) {
 				$plugin_names[] = '<em>' . $name . '</em>';
 			}
 		}
@@ -225,7 +226,7 @@ class Yoast_Plugin_Conflict {
 		$identifier = $this->get_notification_identifier( $plugin_file );
 
 		$notification_center = Yoast_Notification_Center::get();
-		$notification = $notification_center->get_notification_by_id( 'wpseo-conflict-' . $identifier );
+		$notification        = $notification_center->get_notification_by_id( 'wpseo-conflict-' . $identifier );
 
 		if ( $notification ) {
 			$notification_center->remove_notification( $notification );

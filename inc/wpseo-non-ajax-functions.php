@@ -33,7 +33,7 @@ function wpseo_admin_bar_menu() {
 	// By default, make the no-link top level menu item focusable.
 	$top_level_link_tabindex = '0';
 
-	$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+	$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 	$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 	if ( ( is_singular() || ( is_admin() && WPSEO_Metabox::is_post_edit( $GLOBALS['pagenow'] ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
@@ -58,7 +58,8 @@ function wpseo_admin_bar_menu() {
 	}
 
 	// Never display notifications for network admin.
-	$counter = $alert_popup = '';
+	$counter     = '';
+	$alert_popup = '';
 
 	// Determine is user is admin or network admin.
 	$can_manage_seo = WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
@@ -83,6 +84,7 @@ function wpseo_admin_bar_menu() {
 				// Always show Alerts page when clicking on the main link.
 				/* translators: %s: number of notifications */
 				$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count, 'wordpress-seo' ), number_format_i18n( $notification_count ) );
+
 				$counter = sprintf( ' <div class="wp-core-ui wp-ui-notification yoast-issue-counter"><span aria-hidden="true">%d</span><span class="screen-reader-text">%s</span></div>', $notification_count, $counter_screen_reader_text );
 			}
 

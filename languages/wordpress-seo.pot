@@ -2,7 +2,7 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 5.7\n"
+"Project-Id-Version: Yoast SEO 5.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
 "POT-Creation-Date: 2017-10-25 11:51:35+00:00\n"
 "MIME-Version: 1.0\n"

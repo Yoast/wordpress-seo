@@ -109,7 +109,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	public function test_add_content() {
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
 
-		$post = get_post( $this->posts[1] );
+		$post     = get_post( $this->posts[1] );
 		$expected = $this->add_dummy_content( $post->post_content );
 
 		add_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content' ), 10, 2 );
@@ -129,7 +129,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	public function test_add_content_with_shortcode() {
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
 
-		$post = get_post( $this->posts[1] );
+		$post     = get_post( $this->posts[1] );
 		$expected = do_shortcode( $this->add_dummy_content_with_shortcode( $post->post_content ) );
 
 		add_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content_with_shortcode' ), 10, 2 );
@@ -150,7 +150,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 		add_filter( 'get_post_metadata', array( $this, 'mock_post_metadata' ), 10, 3 );
 		add_filter( 'post_thumbnail_html', array( $this, 'mock_thumbnail' ), 10, 3 );
 
-		$post = get_post( $this->posts[1] );
+		$post     = get_post( $this->posts[1] );
 		$expected = $post->post_content . " <img src='' />";
 		$response = $test_double->call_item_to_response( $post );
 
@@ -159,7 +159,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 		remove_filter( 'get_post_metadata', array( $this, 'mock_post_metadata' ), 10, 3 );
 		remove_filter( 'post_thumbnail_html', array( $this, 'mock_thumbnail' ), 10, 3 );
 
-		$post = get_post( $this->posts[2] );
+		$post     = get_post( $this->posts[2] );
 		$expected = $post->post_content;
 		$response = $test_double->call_item_to_response( $post );
 
@@ -209,7 +209,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provide filer dummy data with shortcode
+	 * Provide filler dummy data with shortcode
 	 *
 	 * @param string       $content Content to add.
 	 * @param WP_Post|null $post    Post object.
