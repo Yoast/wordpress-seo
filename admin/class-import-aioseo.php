@@ -76,17 +76,17 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 	 */
 	private function determine_ga_settings() {
 		$ga_universal = 0;
-		if ( $this->aioseo_options['aiosp_ga_use_universal_analytics'] == 'on' ) {
+		if ( $this->aioseo_options['aiosp_ga_use_universal_analytics'] === 'on' ) {
 			$ga_universal = 1;
 		}
 
 		$ga_track_outbound = 0;
-		if ( $this->aioseo_options['aiosp_ga_track_outbound_links'] == 'on' ) {
+		if ( $this->aioseo_options['aiosp_ga_track_outbound_links'] === 'on' ) {
 			$ga_track_outbound = 1;
 		}
 
 		$ga_anonymize_ip = 0;
-		if ( $this->aioseo_options['aiosp_ga_anonymize_ip'] == 'on' ) {
+		if ( $this->aioseo_options['aiosp_ga_anonymize_ip'] === 'on' ) {
 			$ga_anonymize_ip = 1;
 		}
 
