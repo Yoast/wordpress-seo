@@ -44,7 +44,8 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the reindexing functionality with one 'unprocessed' post
+	 * Tests the reindexing functionality with one 'unprocessed' post.
+	 *
 	 * @covers WPSEO_Link_Reindex_Post_Service::reindex()
 	 * @covers WPSEO_Link_Reindex_Post_Service::process_posts()
 	 * @covers WPSEO_Link_Reindex_Post_Service::is_processable()
