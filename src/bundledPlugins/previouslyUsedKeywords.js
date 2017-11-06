@@ -80,7 +80,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 		};
 	}
 	if ( count > 1 ) {
-		url = "<a href='" + this.searchUrl.replace( "{keyword}", paper.getKeyword() ) + "' target='_blank'>";
+		url = "<a href='" + this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) ) + "' target='_blank'>";
 		return {
 			/* Translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
 			 keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com about cornerstone content */
