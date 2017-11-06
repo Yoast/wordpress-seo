@@ -4,9 +4,7 @@
  */
 
 /**
- * Class WPSEO_Import_WooThemes_SEO
- *
- * Class with functionality to import Yoast SEO settings from WooThemes SEO
+ * Class with functionality to import Yoast SEO settings from All In One SEO.
  */
 class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 
@@ -30,7 +28,7 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Import All In One SEO meta values
+	 * Import All In One SEO meta values.
 	 */
 	private function import_metas() {
 		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $this->replace );
@@ -72,9 +70,9 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Determine the appropriate GA settings for this site
+	 * Determine the appropriate GA settings for this site.
 	 *
-	 * @return array $ga_settings
+	 * @return array $ga_settings The imported settings.
 	 */
 	private function determine_ga_settings() {
 		$ga_universal = 0;
