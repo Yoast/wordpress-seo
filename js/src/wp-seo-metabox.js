@@ -1,6 +1,8 @@
 /* browser:true */
 /* global tb_show, wpseoSelect2Locale */
 
+import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
+
 ( function( $ ) {
 	// eslint-disable-next-line
 	 function wpseoInitTabs() {
@@ -69,6 +71,7 @@
 		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code.
 
+		initializeAlgoliaSearch();
 	}
 
 	window.wpseoInitTabs = wpseoInitTabs;

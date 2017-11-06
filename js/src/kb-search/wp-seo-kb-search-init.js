@@ -28,14 +28,13 @@ let getTranslations = () => {
 	};
 	return translations;
 };
-
 /**
- * Renders the AlgoliaSearchers into their containers.
+ * Renders the the AlgoliaSearchers into their containers.
  *
  * @returns {array} The rendered AlgoliaSearchers.
  */
 let renderAlgoliaSearchers = () => {
-	// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
+// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
 	let mountingPoints = jQuery( ".wpseo-kb-search" );
 	let algoliaSearchers = [];
 
@@ -59,7 +58,7 @@ let renderAlgoliaSearchers = () => {
  *
  * @returns {void}
  */
-let bindEventHandlers = ( algoliaSearchers ) => {
+let bindEventHandlers = ( algoliaSearchers )  => {
 	// Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data.
 	jQuery( ".contact-support" ).on( "click", () => {
 		let activeTabName = jQuery( ".wpseotab.active" ).attr( "id" );
@@ -81,10 +80,9 @@ let bindEventHandlers = ( algoliaSearchers ) => {
 };
 
 /**
- * Initializes the AlgoliaSearchers (in the knowledge base tabs).
+ *  Initializes the AlgoliaSearchers (in the knowledge base tabs).
  *
- * @deprecated 5.7 Use yoast-components's AlgoliaSearcher.
- * @returns {void}
+ *  @returns {void}
  */
 let initializeAlgoliaSearch = () => {
 	let algoliaSearchers = renderAlgoliaSearchers();
