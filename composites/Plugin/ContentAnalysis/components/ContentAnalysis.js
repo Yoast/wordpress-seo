@@ -82,23 +82,24 @@ class ContentAnalysis extends React.Component {
 	 * Handles button clicks. Makes sure no more than one button can be active at the same time.
 	 *
 	 * @param {string} id The button id.
-	 * @param {Object} marker TinyMCE marker object.
+	 * @param {function} marker Function to apply marker to the editor.
 	 *
 	 * @returns {void}
 	 */
 	handleClick( id, marker ) {
+		let checkedId = id;
+
+		// Uncheck if button is deactivated
 		if ( id === this.state.checked ) {
-			this.setState( {
-				checked: "",
-			} );
-			return;
+			checkedId = "";
 		}
 
+		// Set state and call onMarkButtonClick callback
 		this.setState( {
-			checked: id,
+			checked: checkedId,
+		}, () => {
+			this.props.onMarkButtonClick( this.state.checked, marker );
 		} );
-
-		this.props.onMarkButtonClick( id, marker );
 	}
 
 	/**
