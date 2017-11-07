@@ -59,9 +59,15 @@ class WPSEO_Link_Reindex_Post_Service {
 	 * @return void
 	 */
 	protected function process_post( $post ) {
+
+		// Some plugins might output data, so let's buffer this to prevent wrong responses.
+		ob_start();
+
 		// Apply the filters to have the same content as shown on the frontend.
 		$content = apply_filters( 'the_content', $post->post_content );
 		$content = str_replace( ']]>', ']]&gt;', $content );
+
+		ob_end_clean();
 
 		$content_processor = $this->get_content_processor();
 		$content_processor->process( $post->ID, $content );
