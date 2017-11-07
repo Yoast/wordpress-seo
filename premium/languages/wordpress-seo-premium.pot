@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-10-25 14:02:17+00:00\n"
+"POT-Creation-Date: 2017-11-07 10:52:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -239,13 +239,13 @@ msgid "You are already editing a redirect, please finish this one first"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:57
-#: classes/redirect/class-redirect-table.php:400
+#: classes/redirect/class-redirect-table.php:402
 msgid "Edit"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:58
 #: classes/redirect/class-redirect-table.php:297
-#: classes/redirect/class-redirect-table.php:401
+#: classes/redirect/class-redirect-table.php:403
 msgid "Delete"
 msgstr ""
 
@@ -254,7 +254,7 @@ msgstr ""
 msgid "Export keywords"
 msgstr ""
 
-#: classes/class-premium-link-suggestions-service.php:206
+#: classes/class-premium-link-suggestions-service.php:213
 msgid "(no title)"
 msgstr ""
 
@@ -289,7 +289,7 @@ msgid ""
 "adding links towards these %1$s. %2$s"
 msgstr ""
 
-#: classes/class-premium-orphaned-post-filter.php:128
+#: classes/class-premium-orphaned-post-filter.php:131
 msgid "Orphaned content"
 msgstr ""
 
@@ -463,39 +463,39 @@ msgstr ""
 msgid "Export redirects"
 msgstr ""
 
-#: classes/class-social-previews.php:132
+#: classes/class-social-previews.php:142
 msgid "Upload image"
 msgstr ""
 
-#: classes/class-social-previews.php:133
+#: classes/class-social-previews.php:143
 msgid "Use other image"
 msgstr ""
 
-#: classes/class-social-previews.php:134
+#: classes/class-social-previews.php:144
 msgid "Remove image"
 msgstr ""
 
-#: classes/class-social-previews.php:139
+#: classes/class-social-previews.php:149
 msgid "Show information about Facebook title"
 msgstr ""
 
-#: classes/class-social-previews.php:140
+#: classes/class-social-previews.php:150
 msgid "Show information about Facebook description"
 msgstr ""
 
-#: classes/class-social-previews.php:141
+#: classes/class-social-previews.php:151
 msgid "Show information about Facebook image"
 msgstr ""
 
-#: classes/class-social-previews.php:142
+#: classes/class-social-previews.php:152
 msgid "Show information about Twitter title"
 msgstr ""
 
-#: classes/class-social-previews.php:143
+#: classes/class-social-previews.php:153
 msgid "Show information about Twitter description"
 msgstr ""
 
-#: classes/class-social-previews.php:144
+#: classes/class-social-previews.php:154
 msgid "Show information about Twitter image"
 msgstr ""
 
@@ -547,10 +547,6 @@ msgstr ""
 
 #: classes/export/class-export-keywords-csv.php:63
 msgid "ID"
-msgstr ""
-
-#: classes/export/class-export-keywords-csv.php:66
-msgid "type"
 msgstr ""
 
 #: classes/redirect/class-redirect-accessible-validation.php:33
@@ -724,6 +720,10 @@ msgstr ""
 msgid "Update Redirect"
 msgstr ""
 
+#: classes/redirect/views/redirects-tab-plain.php:15
+msgid "Plain redirects"
+msgstr ""
+
 #: classes/redirect/views/redirects-tab-plain.php:31
 #: classes/redirect/views/redirects-tab-regex.php:42
 msgid "Add Redirect"
@@ -732,6 +732,10 @@ msgstr ""
 #: classes/redirect/views/redirects-tab-plain.php:51
 #: classes/redirect/views/redirects-tab-regex.php:62
 msgid "Search"
+msgstr ""
+
+#: classes/redirect/views/redirects-tab-regex.php:15
+msgid "Regular Expressions redirects"
 msgstr ""
 
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
@@ -766,6 +770,10 @@ msgstr ""
 #. be saved.
 #: classes/redirect/views/redirects-tab-settings.php:51
 msgid "We're unable to save the redirect file to %s"
+msgstr ""
+
+#: classes/redirect/views/redirects-tab-settings.php:64
+msgid "Redirects settings"
 msgstr ""
 
 #: classes/redirect/views/redirects-tab-settings.php:75
@@ -967,6 +975,11 @@ msgctxt "Taxonomy Singular Name"
 msgid "Prominent word"
 msgstr ""
 
+#: classes/export/class-export-keywords-csv.php:64
+msgctxt "post_type of a post or the taxonomy of a term"
+msgid "type"
+msgstr ""
+
 #: classes/redirect/class-redirect-table.php:100
 #: classes/redirect/views/redirects-form.php:13
 #: classes/views/gsc-redirect-create.php:29
@@ -983,7 +996,6 @@ msgstr ""
 #. translators: %1$s expands to Twitter
 #: node_modules/yoast-social-previews/js/facebookPreview.js:139
 #: node_modules/yoast-social-previews/js/twitterPreview.js:132
-#, javascript-format
 msgid "Modify your %1$s description by editing it right here"
 msgstr ""
 
@@ -991,7 +1003,6 @@ msgstr ""
 #. translators: %1$s expands to Twitter
 #: node_modules/yoast-social-previews/js/facebookPreview.js:214
 #: node_modules/yoast-social-previews/js/twitterPreview.js:207
-#, javascript-format
 msgid "Edit %1$s preview"
 msgstr ""
 
@@ -999,7 +1010,6 @@ msgstr ""
 #. translators: %1$s expands to Twitter
 #: node_modules/yoast-social-previews/js/facebookPreview.js:216
 #: node_modules/yoast-social-previews/js/twitterPreview.js:209
-#, javascript-format
 msgid "%1$s preview"
 msgstr ""
 
@@ -1007,7 +1017,6 @@ msgstr ""
 #. translators: %1$s expands to Twitter
 #: node_modules/yoast-social-previews/js/facebookPreview.js:218
 #: node_modules/yoast-social-previews/js/twitterPreview.js:211
-#, javascript-format
 msgid "%1$s editor"
 msgstr ""
 
@@ -1015,7 +1024,6 @@ msgstr ""
 #. translators: %1$s expands to Twitter
 #: node_modules/yoast-social-previews/js/facebookPreview.js:275
 #: node_modules/yoast-social-previews/js/twitterPreview.js:269
-#, javascript-format
 msgid "%1$s title"
 msgstr ""
 
@@ -1023,7 +1031,6 @@ msgstr ""
 #. translators: %1$s expands to Twitter
 #: node_modules/yoast-social-previews/js/facebookPreview.js:284
 #: node_modules/yoast-social-previews/js/twitterPreview.js:281
-#, javascript-format
 msgid "%1$s description"
 msgstr ""
 
@@ -1031,7 +1038,6 @@ msgstr ""
 #. translators: %1$s expands to Twitter
 #: node_modules/yoast-social-previews/js/facebookPreview.js:293
 #: node_modules/yoast-social-previews/js/twitterPreview.js:293
-#, javascript-format
 msgid "%1$s image"
 msgstr ""
 
@@ -1039,7 +1045,6 @@ msgstr ""
 #. translators: %1$s expands to Twitter
 #: node_modules/yoast-social-previews/js/facebookPreview.js:316
 #: node_modules/yoast-social-previews/js/twitterPreview.js:318
-#, javascript-format
 msgid "Please provide a %1$s title by editing the snippet below."
 msgstr ""
 
@@ -1047,7 +1052,6 @@ msgstr ""
 #. translators: %1$s expands to Twitter
 #: node_modules/yoast-social-previews/js/facebookPreview.js:330
 #: node_modules/yoast-social-previews/js/twitterPreview.js:332
-#, javascript-format
 msgid "Please provide a %1$s description by editing the snippet below."
 msgstr ""
 
@@ -1057,7 +1061,6 @@ msgstr ""
 
 #. translators: %1$s expands to Facebook
 #: node_modules/yoast-social-previews/js/facebookPreview.js:477
-#, javascript-format
 msgid ""
 "We are unable to detect an image in your post that is large enough to be "
 "displayed on Facebook. We advise you to select a %1$s image that fits the "
@@ -1066,7 +1069,6 @@ msgstr ""
 
 #. translators: %1$s expands to Facebook
 #: node_modules/yoast-social-previews/js/facebookPreview.js:485
-#, javascript-format
 msgid "The image you selected is too small for %1$s"
 msgstr ""
 
