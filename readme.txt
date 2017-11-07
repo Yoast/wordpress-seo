@@ -135,12 +135,24 @@ Bugfixes:
     * Fixes a bug where an error would be thrown if a particular database table was missing.
     * Fixes a bug where the layout of the metabox would break if not a lot of content was present. Props to [shane-gray](https://github.com/shane-gray).
     * Fixes a bug where the WP editor was being displayed for custom, private taxonomies. Props to [stodorovic](https://github.com/stodorovic).
+    * Fixes a bug where the analysis heading is shown when readability and keyword analysis has been turned off. Props to [daim2k5](https://github.com/daim2k5).
+    * Fixes a bug where possibly output on filter calling (the_content) results in wrong AJAX requests.
 
 Enhancements:
     * Introduce wpseo_redirect_orphan_attachment action to allow unattached attachment pages to be redirected in tune with the relevant setting. Props to [soulseekah](https://github.com/soulseekah).
     * Enhances integration with most role/capability manager plugins using the members_get_capabilities filter. Props to [JoryHogeveen](https://github.com/JoryHogeveen).
     * Adds a Yoast group to the Members and User Role Editor pages to easily find the wpseo caps. Props to [JoryHogeveen](https://github.com/JoryHogeveen).
     * Made link for Premium buy button changeable. Props to [leesto](https://github.com/leesto).
+    * Removes the max-width on alerts to present a better UI that is not so compact. Props to [timnolte](https://github.com/timnolte).
+    * Sets default Twitter Card option to 'Summary with large image'.  Props to [pattonwebz](https://github.com/pattonwebz).
+    * Makes the scrollable tables work in the react tabs.
+    * Improves the messages and adds installation / activation links when appropriate.
+    * Use Gutenberg content if it is available.
+    * Makes sure a the required tables are accessible.
+
+Maintenance:
+    * Cleaned up codebase, by removing old kb-search code.
+    * Improve the codebase to make it comply with the WordPress Coding Standards.
 
 = 5.7.1 =
 
