@@ -89,12 +89,12 @@ class ContentAnalysis extends React.Component {
 	handleClick( id, marker ) {
 		let checkedId = id;
 
-		// Uncheck if button is deactivated
+		// Uncheck if button is deactivated.
 		if ( id === this.state.checked ) {
 			checkedId = "";
 		}
 
-		// Set state and call onMarkButtonClick callback
+		// Set state and call onMarkButtonClick callback.
 		this.setState( {
 			checked: checkedId,
 		}, () => {
