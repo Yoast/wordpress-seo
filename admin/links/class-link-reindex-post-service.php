@@ -59,7 +59,6 @@ class WPSEO_Link_Reindex_Post_Service {
 	 * @return void
 	 */
 	protected function process_post( $post ) {
-
 		// Some plugins might output data, so let's buffer this to prevent wrong responses.
 		ob_start();
 
