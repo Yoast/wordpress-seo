@@ -1,3 +1,5 @@
+import sentences from "./researches/sentences";
+
 var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
@@ -72,6 +74,7 @@ var Researcher = function( paper ) {
 		passiveVoice: passiveVoice,
 		getSentenceBeginnings: getSentenceBeginnings,
 		relevantWords: relevantWords,
+		sentences,
 	};
 
 	this.customResearches = {};
