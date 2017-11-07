@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
-Tested up to: 4.8.2
-Stable tag: 5.7.1
+Tested up to: 4.8.3
+Stable tag: 5.8.0
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -124,6 +124,23 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 6. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 5.8.0 =
+
+Release Date: November 15th, 2017
+
+Bugfixes:
+    * Fixes a bug where inactive suggested plugins weren't displaying a notification.
+    * Fixes a bug where private pages were being linked in the breadcrumbs. Props to [slushman](https://github.com/slushman).
+    * Fixes a bug where an error would be thrown if a particular database table was missing.
+    * Fixes a bug where the layout of the metabox would break if not a lot of content was present. Props to [shane-gray](https://github.com/shane-gray).
+    * Fixes a bug where the WP editor was being displayed for custom, private taxonomies. Props to [stodorovic](https://github.com/stodorovic).
+
+Enhancements:
+    * Introduce wpseo_redirect_orphan_attachment action to allow unattached attachment pages to be redirected in tune with the relevant setting. Props to [soulseekah](https://github.com/soulseekah).
+    * Enhances integration with most role/capability manager plugins using the members_get_capabilities filter. Props to [JoryHogeveen](https://github.com/JoryHogeveen).
+    * Adds a Yoast group to the Members and User Role Editor pages to easily find the wpseo caps. Props to [JoryHogeveen](https://github.com/JoryHogeveen).
+    * Made link for Premium buy button changeable. Props to [leesto](https://github.com/leesto).
 
 = 5.7.1 =
 
