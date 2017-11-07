@@ -5,6 +5,14 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.11.2: November 7th, 2017
+
+### Added
+* Adds a callback to the mark button in the `ContentAnalysis` component. #372
+
+### Other
+* Removes min height from the `ContentAnalysis` component. #373
+
 ## 2.11.1: October 30th, 2017
 
 * Allows `AnalysisResult` text to be HTML. #366

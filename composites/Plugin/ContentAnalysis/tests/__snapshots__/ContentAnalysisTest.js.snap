@@ -2,7 +2,7 @@
 
 exports[`the ContentAnalysis component with language notice matches the snapshot 1`] = `
 <div
-  className="sc-fjdhpX ekEfiG"
+  className="sc-fjdhpX dMpTuU"
 >
   <p
     className="sc-jzJRlG klMrMa"
@@ -223,7 +223,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 
 exports[`the ContentAnalysis component without language notice matches the snapshot 1`] = `
 <div
-  className="sc-fjdhpX ekEfiG"
+  className="sc-fjdhpX dMpTuU"
 >
   <div
     className="sc-gZMcBi liHqSy"
