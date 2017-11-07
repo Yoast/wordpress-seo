@@ -33,6 +33,12 @@ describe( "checks for keyword doubles", function(){
 		expect( plugin.scoreAssessment( {id: 0, count: 0}, paper, i18n ).score ).toBe( 9 );
 		expect( plugin.scoreAssessment( {id: 0, count: 0}, paper, i18n ).text ).toBe( "You've never used this focus keyword before, very good." );
 	});
+
+	it("escapes the keyword's special characters in the url", function(){
+		var paper = new Paper( "text", { keyword: "keyword/bla"} );
+		var plugin = new PreviouslyUsedKeywords( app, args, i18n );
+		expect( plugin.scoreAssessment({id: 1, count: 2 }, paper, i18n ).text ).toBe( "You've used this focus keyword <a href='http://search?keyword%2Fbla' target='_blank'>2 times before</a>, it's probably a good idea to read <a href='https://yoast.com/cornerstone-content-rank/' target='_blank'>this post on cornerstone content</a> and improve your keyword strategy." );
+	});
 });
 
 describe( "checks for keyword doubles", function(){
