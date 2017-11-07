@@ -16,11 +16,10 @@ script:
 - yarn lint
 - yarn test --coverage
 - grunt check
-after_script:
-- grunt publish
 after_success:
 - yarn global add codeclimate-test-reporter
 - codeclimate-test-reporter < coverage/lcov.info
+- grunt publish # Builds in dist folder
 # Deploy from dist folder, because this has the built version of YoastSEO.js
 before_deploy:
 - cd dist
@@ -28,6 +27,7 @@ notifications:
   slack:
     secure: W3StABr+AdcdQawTObK4nbsnn5nLrTTtZfVpD/GEN6gvSOQcykbGEC5+ceYg0jn5b4StDyCiTo5blEsrpVICFpYKc44+ogah+qaGRUfVRS/rpOvn4AueXTWn4JxhZzuxqKMiTmyW+MQG0uYM7sk7Q5S+15jj6ilkj4QATaBVNbY=
 deploy:
+  skip_cleanup: true
   provider: npm
   email: webmaster@yoast.com
   on:

@@ -1,7 +1,4 @@
 {
   "presets": [ "es2015" ],
-  "ignore": [
-    "js/templates.js",
-    "src/templates.js"
-  ]
+  "plugins": [ "transform-object-rest-spread" ],
 }
