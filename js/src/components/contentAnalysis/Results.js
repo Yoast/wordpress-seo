@@ -5,6 +5,29 @@ import mapResults from "./mapResults";
 import ContentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 
 class Results extends React.Component {
+	constructor( props ) {
+		super( props );
+
+		this.registerResults();
+	}
+
+	registerResults() {
+		if( ! this.props.results ) {
+			return;
+		}
+
+		this.results = {};
+
+		for( let i = 0; i < this.props.results.length; i++ ) {
+			const result = this.props.results[ i ];
+			this.results[ result.id ] = result;
+		}
+	}
+
+	createMark( id, marker ) {
+		console.log( "createMark called", id, marker );
+	}
+
 	render() {
 		const mappedResults = mapResults( this.props.results );
 		const {
@@ -23,7 +46,7 @@ class Results extends React.Component {
 				goodResults={ goodResults }
 				changeLanguageLink="#"
 				language="English"
-			/>
+				onMarkButtonClick={ this.createMark.bind( this ) } />
 		);
 	}
 }

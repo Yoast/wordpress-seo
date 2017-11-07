@@ -90,7 +90,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
-    "yoast-components": "2.11.1",
+    "yoast-components": "2.11.2",
     "yoastseo": "^1.23.0"
   }
 }
