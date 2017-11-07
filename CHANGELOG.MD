@@ -8,10 +8,10 @@ We follow [Semantic Versioning](http://semver.org/).
 ## 2.11.2: November 7th, 2017
 
 ### Added
-* Removes min height from the `ContentAnalysis` component. #373
+* Adds a callback to the mark button in the `ContentAnalysis` component. #372
 
 ### Other
-* Adds a callback to the mark button in the `ContentAnalysis` component. #372
+* Removes min height from the `ContentAnalysis` component. #373
 
 ## 2.11.1: October 30th, 2017
 
