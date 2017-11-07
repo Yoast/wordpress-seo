@@ -58,7 +58,7 @@ class WPSEO_Link_Reindex_Post_Service {
 	 *
 	 * @return void
 	 */
-	protected function process_post( WP_Post $post ) {
+	protected function process_post( $post ) {
 		// Apply the filters to have the same content as shown on the frontend.
 		$content = apply_filters( 'the_content', $post->post_content );
 		$content = str_replace( ']]>', ']]&gt;', $content );
