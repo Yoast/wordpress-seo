@@ -34,10 +34,6 @@ class WPSEO_Link_Content_Processor {
 	 * @param string $content The content to process.
 	 */
 	public function process( $post_id, $content ) {
-		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
-			return;
-		}
-
 		$link_extractor = new WPSEO_Link_Extractor( $content );
 		$link_processor = new WPSEO_Link_Factory(
 			new WPSEO_Link_Type_Classifier( site_url() ),

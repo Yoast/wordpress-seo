@@ -39,6 +39,10 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	public function save_post( $post_id, WP_Post $post ) {
+		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+			return;
+		}
+
 		// When the post is a revision.
 		if ( wp_is_post_revision( $post->ID ) ) {
 			return;
@@ -60,6 +64,10 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	public function delete_post( $post_id ) {
+		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+			return;
+		}
+
 		// Fetch links to update related linked objects.
 		$links = $this->content_processor->get_stored_internal_links( $post_id );
 
