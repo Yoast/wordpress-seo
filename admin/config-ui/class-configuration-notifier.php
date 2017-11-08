@@ -6,34 +6,27 @@
 /**
  * Represents the logic for showing the notification.
  */
-class WPSEO_Configuration_Notifier implements WPSEO_WordPress_Integration {
+class WPSEO_Configuration_Notifier {
 
 	/**
-	 * Registers all hooks to WordPress
-	 */
-	public function register_hooks() {
-		// Only handle this on the dashboard.
-		if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_dashboard' ) {
-			return;
-		}
-
-
-		if ( ! $this->show_notification() ) {
-			return;
-		}
-
-		// @todo Register the things that are required to render the notification.
-	}
-
-	/**
-	 * Checks if the notification should be added.
+	 * Returns the content of the notification.
 	 *
-	 * @return bool True when the notification should be visible.
+	 * @return string
 	 */
-	public function show_notification() {
-		$options           = WPSEO_Options::get_options( array( 'wpseo' ) );
-		$show_notification = $options['show_onboarding_notice'] === true;
+	public function notify() {
+		$notification  = '<div class="yoast-container yoast-container__configuration-wizard">';
+		$notification .= '<a href="/wp-admin/admin.php?page=wpseo_dashboard&amp;yoast_promo_hide_premium_upsell_admin_block=1" style="" class="alignright"><span class="screen-reader-text">Dismiss this item.</span><span class="dashicons dashicons-no-alt"></span></a>';
+		$notification .= '<h3>' . esc_html__( 'First-time SEO configuration', 'wordpress-seo' ) . '</h3>';
+		$notification .= '<p>';
+		$notification .= sprintf(
+			esc_html__( 'Get started quickly with the %1$s %2$sconfiguration wizard%3$s!', 'wordpress-seo' ),
+			'Yoast SEO',
+			'<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '">',
+			'</a>'
+		);
+		$notification .= '</p>';
+		$notification .= '</div>';
 
-		return $show_notification && WPSEO_Configuration_Notification::is_dismissed( get_current_user_id() );
+		return $notification;
 	}
 }
