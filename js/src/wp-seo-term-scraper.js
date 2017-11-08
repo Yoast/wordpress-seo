@@ -213,6 +213,10 @@ window.yoastHideMarkers = true;
 				let keyword = tabManager.getKeywordTab().getKeyWord();
 
 				if ( tabManager.isMainKeyword( keyword ) ) {
+
+					if ( keyword === '' ) {
+						keyword = termScraper.getName();
+					}
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
 					store.dispatch( setActiveKeyword( keyword) );
 				}

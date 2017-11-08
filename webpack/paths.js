@@ -18,12 +18,10 @@ const entryAll = {
 	"wp-seo-featured-image": "./wp-seo-featured-image.js",
 	"wp-seo-metabox-category": "./wp-seo-metabox-category.js",
 	"wp-seo-metabox": "./wp-seo-metabox.js",
-
 	"wp-seo-recalculate": "./wp-seo-recalculate.js",
 	"wp-seo-reindex-links": "./wp-seo-reindex-links.js",
 	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
 	"wp-seo-shortcode-plugin": "./wp-seo-shortcode-plugin.js",
-	"wp-seo-term-scraper": "./wp-seo-term-scraper.js",
 	"wp-seo-api": "./wp-seo-api.js",
 	"wp-seo-dashboard-widget": "./wp-seo-dashboard-widget.js",
 	"wp-seo-filter-explanation": "./wp-seo-filter-explanation.js",
@@ -36,6 +34,7 @@ const entry = {
 	"wp-seo-help-center": "./wp-seo-help-center.js",
 	"wp-seo-metabox": "./wp-seo-metabox.js",
 	"wp-seo-post-scraper": "./wp-seo-post-scraper.js",
+	"wp-seo-term-scraper": "./wp-seo-term-scraper.js",
 };
 
 module.exports = {
