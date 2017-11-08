@@ -1,4 +1,4 @@
-import Paper from "../../src/values/Paper";
+import Paper from "../../js/values/Paper";
 
 /**
  * A factory for changing the paper on a living researcher. Niceness around `researcher.setPaper`.
