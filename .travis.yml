@@ -14,7 +14,7 @@ install:
 - yarn install
 script:
 - yarn lint
-- yarn test --coverage
+- yarn test --coverage --runInBand
 after_success:
 - yarn global add codeclimate-test-reporter
 - codeclimate-test-reporter < coverage/lcov.info
