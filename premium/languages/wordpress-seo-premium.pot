@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-11-07 10:52:56+00:00\n"
+"POT-Creation-Date: 2017-11-08 08:35:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -735,14 +735,14 @@ msgid "Search"
 msgstr ""
 
 #: classes/redirect/views/redirects-tab-regex.php:15
-msgid "Regular Expressions redirects"
+msgid "Regular Expression redirects"
 msgstr ""
 
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
 #. the link.
 #: classes/redirect/views/redirects-tab-regex.php:20
 msgid ""
-"Regular Expressions (regex) Redirects are extremely powerful redirects. You "
+"Regular Expression (regex) Redirects are extremely powerful redirects. You "
 "should only use them if you know what you are doing. %1$sRead more about "
 "regex redirects on our knowledge base%2$s."
 msgstr ""

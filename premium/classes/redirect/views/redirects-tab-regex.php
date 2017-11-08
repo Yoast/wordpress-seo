@@ -12,12 +12,12 @@
 ?>
 
 <div id="table-regex" class="tab-url redirect-table-tab">
-<?php echo '<h2>' . esc_html__( 'Regular Expressions redirects', 'wordpress-seo-premium' ) . '</h2>'; ?>
+<?php echo '<h2>' . esc_html__( 'Regular Expression redirects', 'wordpress-seo-premium' ) . '</h2>'; ?>
 	<p>
 		<?php
 		printf(
 			/* translators: 1: opens a link to a related knowledge base article. 2: closes the link. */
-			esc_html__( 'Regular Expressions (regex) Redirects are extremely powerful redirects. You should only use them if you know what you are doing. %1$sRead more about regex redirects on our knowledge base%2$s.', 'wordpress-seo-premium' ),
+			esc_html__( 'Regular Expression (regex) Redirects are extremely powerful redirects. You should only use them if you know what you are doing. %1$sRead more about regex redirects on our knowledge base%2$s.', 'wordpress-seo-premium' ),
 			'<a href="http://kb.yoast.com/article/142-what-are-regex-redirects" target="_blank">',
 			'</a>'
 		);
