@@ -13,7 +13,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 <script type="text/html" id="tmpl-primary-term-input">
 	<input type="hidden" class="yoast-wpseo-primary-term"
 		id="yoast-wpseo-primary-{{data.taxonomy.name}}"
-		name="<?php echo WPSEO_Meta::$form_prefix; ?>primary_{{data.taxonomy.name}}_term"
+		name="<?php echo esc_attr( WPSEO_Meta::$form_prefix ); ?>primary_{{data.taxonomy.name}}_term"
 		value="{{data.taxonomy.primary}}">
 
 	<?php wp_nonce_field( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_{{data.taxonomy.name}}_nonce' ); ?>
@@ -33,14 +33,14 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		);
 		?>
 
-	<span class="wpseo-is-primary-term" aria-hidden="true"><?php _e( 'Primary', 'wordpress-seo' ); ?></span>
+	<span class="wpseo-is-primary-term" aria-hidden="true"><?php esc_html_e( 'Primary', 'wordpress-seo' ); ?></span>
 </script>
 
 <script type="text/html" id="tmpl-primary-term-screen-reader">
 	<span class="screen-reader-text wpseo-primary-category-label"><?php
 		printf(
 			/* translators: %s is the taxonomy title. This will be shown to screenreaders */
-			'(' . __( 'Primary %s', 'wordpress-seo' ) . ')',
+			'(' . esc_html__( 'Primary %s', 'wordpress-seo' ) . ')',
 			'{{data.taxonomy.title}}'
 		);
 		?></span>

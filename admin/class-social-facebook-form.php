@@ -102,16 +102,16 @@ class Yoast_Social_Facebook_Form {
 		printf( __( 'If you don\'t know where to find the needed ID, see %1$sthis knowledge base article%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/facebook-insights' ) . '">', '</a>' );
 		echo '</p>';
 		echo '<div class="form-field form-required">';
-		echo '<label for="fb_admin_name">' . __( 'Admin\'s name:', 'wordpress-seo' ) . '</label>';
+		echo '<label for="fb_admin_name">' . esc_html__( 'Admin\'s name:', 'wordpress-seo' ) . '</label>';
 		echo '<input type="text" id="fb_admin_name" name="fb_admin_name" value="" maxlength="255" />';
 		echo '</div>';
 		echo '<div class="form-field form-required">';
-		echo '<label for="fb_admin_id">' . __( 'Admin\'s Facebook user ID:', 'wordpress-seo' ) . '</label>';
+		echo '<label for="fb_admin_id">' . esc_html__( 'Admin\'s Facebook user ID:', 'wordpress-seo' ) . '</label>';
 		echo '<input type="text" id="fb_admin_id" name="fb_admin_id" value="" maxlength="255"  />';
 		echo '</div>';
 		echo "<p class='submit'>";
-		echo '<input type="hidden" name="fb_admin_nonce" value="' . wp_create_nonce( 'wpseo_fb_admin_nonce' ) . '" />';
-		echo '<input type="submit" value="' . __( 'Add Facebook admin', 'wordpress-seo' ) . '" class="button button-primary" onclick="javascript:wpseo_add_fb_admin();" />';
+		echo '<input type="hidden" name="fb_admin_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_fb_admin_nonce' ) ) . '" />';
+		echo '<input type="submit" value="' . esc_attr__( 'Add Facebook admin', 'wordpress-seo' ) . '" class="button button-primary" onclick="javascript:wpseo_add_fb_admin();" />';
 		echo '</p>';
 		echo '</div>';
 		echo '</div>';
@@ -136,7 +136,7 @@ class Yoast_Social_Facebook_Form {
 		}
 
 		echo "<div id='connected_fb_admins'{$class_attr}>";
-		echo '<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
+		echo '<p>' . esc_html__( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
 		echo '<ul id="user_admin">';
 		$this->show_user_admins( $nonce );
 		echo '</ul>';

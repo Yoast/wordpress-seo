@@ -45,7 +45,8 @@ class WPSEO_Plugin_Compatibility {
 	 */
 	private function retrieve_availability_checker( $checker ) {
 		if ( is_null( $checker ) || ! is_object( $checker ) ) {
-			return new WPSEO_Plugin_Availability();
+			$checker = new WPSEO_Plugin_Availability();
+			$checker->register();
 		}
 
 		return $checker;

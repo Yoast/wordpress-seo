@@ -48,7 +48,7 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Adds the column headings for the SEO plugin for edit posts / pages overview
+	 * Adds the column headings for the SEO plugin for edit posts / pages overview.
 	 *
 	 * @param array $columns Already existing columns.
 	 *
@@ -102,12 +102,12 @@ class WPSEO_Meta_Columns {
 				break;
 			case 'wpseo-metadesc':
 				$metadesc_val = apply_filters( 'wpseo_metadesc', wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) );
-				$metadesc     = ( '' === $metadesc_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( 'Meta description not set.', 'wordpress-seo' ) . '</span>' : esc_html( $metadesc_val );
+				$metadesc     = ( '' === $metadesc_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . esc_html__( 'Meta description not set.', 'wordpress-seo' ) . '</span>' : esc_html( $metadesc_val );
 				echo $metadesc;
 				break;
 			case 'wpseo-focuskw':
 				$focuskw_val = WPSEO_Meta::get_value( 'focuskw', $post_id );
-				$focuskw     = ( '' === $focuskw_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( 'Focus keyword not set.', 'wordpress-seo' ) . '</span>' : esc_html( $focuskw_val );
+				$focuskw     = ( '' === $focuskw_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . esc_html__( 'Focus keyword not set.', 'wordpress-seo' ) . '</span>' : esc_html( $focuskw_val );
 				echo $focuskw;
 				break;
 		}
@@ -116,7 +116,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Indicates which of the SEO columns are sortable.
 	 *
-	 * @param array $columns appended with their orderby variable.
+	 * @param array $columns Appended with their orderby variable.
 	 *
 	 * @return array Array containing the sortable columns.
 	 */
@@ -139,7 +139,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @param array|false $result The hidden columns.
 	 * @param string      $option The option name used to set which columns should be hidden.
-	 * @param WP_User     $user The User.
+	 * @param WP_User     $user   The User.
 	 *
 	 * @return array      $result Array containing the columns to hide.
 	 */
@@ -173,7 +173,7 @@ class WPSEO_Meta_Columns {
 
 		$ranks = WPSEO_Rank::get_all_ranks();
 
-		echo '<label class="screen-reader-text" for="wpseo-filter">' . __( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>';
+		echo '<label class="screen-reader-text" for="wpseo-filter">' . esc_html__( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>';
 		echo '<select name="seo_filter" id="wpseo-filter">';
 
 		echo $this->generate_option( '', __( 'All SEO Scores', 'wordpress-seo' ) );
@@ -199,7 +199,7 @@ class WPSEO_Meta_Columns {
 
 		$ranks = WPSEO_Rank::get_all_readability_ranks();
 
-		echo '<label class="screen-reader-text" for="wpseo-readability-filter">' . __( 'Filter by Readability Score', 'wordpress-seo' ) . '</label>';
+		echo '<label class="screen-reader-text" for="wpseo-readability-filter">' . esc_html__( 'Filter by Readability Score', 'wordpress-seo' ) . '</label>';
 		echo '<select name="readability_filter" id="wpseo-readability-filter">';
 
 		echo $this->generate_option( '', __( 'All Readability Scores', 'wordpress-seo' ) );
@@ -511,7 +511,7 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Returns filters when $order_by is matched in the if-statement
+	 * Returns filters when $order_by is matched in the if-statement.
 	 *
 	 * @param string $order_by The ID of the column by which to order the posts.
 	 *
@@ -622,17 +622,20 @@ class WPSEO_Meta_Columns {
 
 	/**
 	 * Test whether the metabox should be hidden either by choice of the admin or because
-	 * the post type is not a public post type
+	 * the post type is not a public post type.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param  string $post_type (optional) The post type to test, defaults to the current post post_type.
+	 * @param  string $post_type Optional. The post type to test, defaults to the current post post_type.
 	 *
-	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
+	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden.
 	 */
 	private function is_metabox_hidden( $post_type = null ) {
-		if ( ! isset( $post_type ) && $current_post_type = $this->get_current_post_type() ) {
-			$post_type = sanitize_text_field( $current_post_type );
+		if ( ! isset( $post_type ) ) {
+			$current_post_type = $this->get_current_post_type();
+			if ( ! empty( $current_post_type ) ) {
+				$post_type = sanitize_text_field( $current_post_type );
+			}
 		}
 
 		if ( isset( $post_type ) ) {
@@ -673,7 +676,7 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * @param WPSEO_Rank $rank The rank this indicator should have.
+	 * @param WPSEO_Rank $rank  The rank this indicator should have.
 	 * @param string     $title Optional. The title for this rank, defaults to the title of the rank.
 	 *
 	 * @return string The HTML for a score indicator.

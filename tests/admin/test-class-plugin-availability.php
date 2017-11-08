@@ -19,7 +19,7 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'doubles/test-class-wpseo-plugin-availability-double.php';
+		require_once WPSEO_TESTS_PATH . 'doubles/class-wpseo-plugin-availability-double.php';
 	}
 
 	/**
@@ -28,7 +28,10 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		self::$class_instance = new WPSEO_Plugin_Availability_Double();
+		$plugin_availability = new WPSEO_Plugin_Availability_Double();
+		$plugin_availability->register();
+
+		self::$class_instance = $plugin_availability;
 	}
 
 	public function test_plugin_existence() {
@@ -38,6 +41,7 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 			'description'  => '',
 			'version'      => '3.3',
 			'installed'    => true,
+			'slug'         => 'test-plugin/test-plugin.php',
 			'version_sync' => true,
 		);
 

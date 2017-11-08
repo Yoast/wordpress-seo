@@ -86,9 +86,9 @@
     "prop-types": "^15.5.10",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
-    "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
+    "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.5",
     "yoast-components": "2.11.2",
     "yoastseo": "^1.23.0"

@@ -75,8 +75,10 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 */
 	private function get_field( $field_type, $field_name, $field_value, array $options ) {
 
-		$class = $this->get_class( $options );
-		$field = $description = $aria_describedby = '';
+		$class            = $this->get_class( $options );
+		$field            = '';
+		$description      = '';
+		$aria_describedby = '';
 
 		if ( ! empty( $options['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $field_name . '-desc"';

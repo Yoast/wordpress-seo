@@ -58,7 +58,8 @@ function wpseo_admin_bar_menu() {
 	}
 
 	// Never display notifications for network admin.
-	$counter = $alert_popup = '';
+	$counter     = '';
+	$alert_popup = '';
 
 	// Determine is user is admin or network admin.
 	$can_manage_seo = WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
