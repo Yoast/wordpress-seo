@@ -41,12 +41,13 @@ function configureStore() {
  * Render the react apps.
  *
  * @param {Object} store Redux store.
+ * @param {Object} args Arguments.
  *
  * @returns {void}
  */
-function renderReactApps( store ) {
-	const contentAnalysisElement = document.getElementById( "yoast-seo-content-analysis" );
-	const seoAnalysisElement = document.getElementById( "wpseo-pageanalysis" );
+function renderReactApps( store, args ) {
+	const contentAnalysisElement = document.getElementById( args.readabilityTarget );
+	const seoAnalysisElement = document.getElementById( args.seoTarget );
 
 	ReactDOM.render(
 		<IntlProvider>
@@ -73,12 +74,16 @@ function renderReactApps( store ) {
  *
  * This can be a post or a term edit screen.
  *
+ * @param {Object} args Edit initialize arguments.
+ * @param {string} args.seoTarget Target to render the seo analysis.
+ * @param {string} args.readabilityTarget Target to render the readability analysis.
+ *
  * @returns {Object} things that need to be exposed, such as the store.
  */
-export function initialize() {
+export function initialize( args ) {
 	const store = configureStore();
 
-	renderReactApps( store );
+	renderReactApps( store, args );
 
 	return {
 		store,

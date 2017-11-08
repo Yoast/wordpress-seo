@@ -24,8 +24,18 @@ class Results extends React.Component {
 		}
 	}
 
-	createMark( id, marker ) {
-		console.log( "createMark called", id, marker );
+	handleMarkButtonClick( id, marker ) {
+		if( id ) {
+			marker();
+		} else {
+			this.removeMarkers();
+		}
+	}
+
+	removeMarkers() {
+		const assessor = window.YoastSEO.app.contentAssessor;
+		const marker = assessor.getSpecificMarker();
+		marker( assessor.getPaper(), [] );
 	}
 
 	render() {
@@ -46,7 +56,7 @@ class Results extends React.Component {
 				goodResults={ goodResults }
 				changeLanguageLink="#"
 				language="English"
-				onMarkButtonClick={ this.createMark.bind( this ) } />
+				onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) } />
 		);
 	}
 }

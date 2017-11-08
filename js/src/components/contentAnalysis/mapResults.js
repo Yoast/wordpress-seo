@@ -34,6 +34,9 @@ export default function mapResults( results ) {
 			continue;
 		}
 		result.rating = scoreToRating( result.score );
+		result.hasMarks = result._hasMarks;
+		result.marker = result._marker;
+		result.id = result._identifier;
 		switch ( result.rating ) {
 			case "error":
 				mappedResults.errorsResults.push( result );

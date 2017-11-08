@@ -277,6 +277,7 @@ import UsedKeywords from "./analysis/usedKeywords";
 
 				if ( tabManager.isMainKeyword( keyword ) ) {
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+					store.dispatch( setActiveKeyword( keyword ) );
 				}
 			};
 
@@ -351,7 +352,11 @@ import UsedKeywords from "./analysis/usedKeywords";
 	 * @returns {void}
 	 */
 	function initializePostAnalysis() {
-		store = initializeEdit().store;
+		const editArgs = {
+			readabilityTarget: "yoast-seo-content-analysis",
+			seoTarget: "wpseo-pageanalysis",
+		};
+		store = initializeEdit( editArgs ).store;
 
 		snippetContainer = $( "#wpseosnippet" );
 
