@@ -14,7 +14,7 @@ install:
 - yarn install
 script:
 - yarn lint
-- yarn test --coverage
+- yarn test --coverage --runInBand
 - grunt check
 after_success:
 - yarn global add codeclimate-test-reporter
