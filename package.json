@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.22.4",
+  "version": "1.23.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/YoastSEO.js"
@@ -30,6 +30,9 @@
     "babel-jest": "^21.2.0",
     "babel-preset-es2015": "^6.16.0",
     "babel-register": "^6.16.3",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "grunt-babel": "^7.0.0",
     "babelify": "^7.3.0",
     "console.table": "^0.9.1",
     "eslint-config-yoast": "^2.0.2",
@@ -61,8 +64,6 @@
     "url": "https://github.com/Yoast/js-text-analysis/issues"
   },
   "dependencies": {
-    "babel-core": "^6.26.0",
-    "grunt-babel": "^7.0.0",
     "htmlparser2": "^3.9.2",
     "jed": "^1.1.0",
     "jest": "^21.2.1",
@@ -95,6 +96,9 @@
     "testPathIgnorePatterns": [
       "/spec/helpers/factory.js",
       "/spec/specHelpers/paperChanger.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "js/templates.js"
     ],
     "coverageThreshold": {
       "global": {
