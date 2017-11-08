@@ -17,6 +17,7 @@
   "scripts": {
     "build": "grunt build:js",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
+    "postlint": "grunt check",
     "pretest": "grunt build:test",
     "test": "jest"
   },
@@ -30,6 +31,7 @@
     "babel-preset-es2015": "^6.16.0",
     "babel-register": "^6.16.3",
     "babelify": "^7.3.0",
+    "console.table": "^0.9.1",
     "eslint-config-yoast": "^2.0.2",
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-yoast": "^1.0.1",

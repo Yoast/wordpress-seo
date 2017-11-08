@@ -15,7 +15,6 @@ install:
 script:
 - yarn lint
 - yarn test --coverage
-- grunt check
 after_script:
 - grunt publish
 after_success:
