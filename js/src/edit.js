@@ -50,24 +50,33 @@ function renderReactApps( store, args ) {
 	const seoAnalysisElement = document.getElementById( args.seoTarget );
 
 	ReactDOM.render(
-		<IntlProvider>
-			<Provider store={ store } >
-				<ContentAnalysis />
-			</Provider>
-		</IntlProvider>,
+		wrapInTopLevelComponents( ContentAnalysis, store ),
 		contentAnalysisElement
 	);
 
 	ReactDOM.render(
-		<IntlProvider>
-			<Provider store={ store } >
-				<SeoAnalysis />
-			</Provider>
-		</IntlProvider>,
+		wrapInTopLevelComponents( SeoAnalysis, store ),
 		seoAnalysisElement
 	);
 }
 
+/**
+ * Wrap a component in the required top level components.
+ *
+ * @param {ReactElement} Component The component to be wrapped.
+ * @param {Object} store Redux store.
+ *
+ * @returns {ReactElement} The wrapped component.
+ */
+function wrapInTopLevelComponents( Component, store ) {
+	return (
+		<IntlProvider>
+			<Provider store={ store } >
+				<Component />
+			</Provider>
+		</IntlProvider>
+	);
+}
 
 /**
  * Initializes all functionality on the edit screen.

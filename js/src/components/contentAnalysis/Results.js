@@ -55,7 +55,8 @@ class Results extends React.Component {
 				considerationsResults={ considerationsResults }
 				goodResults={ goodResults }
 				changeLanguageLink="#"
-				language="English"
+				language={ this.props.language }
+				showLanguageNotice={ this.props.showLanguageNotice }
 				onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) } />
 		);
 	}
@@ -63,6 +64,12 @@ class Results extends React.Component {
 
 Results.propTypes = {
 	results: PropTypes.array,
+	language: PropTypes.string,
+	showLanguageNotice: PropTypes.bool.isRequired,
+};
+
+Results.defaultProps = {
+	language: "",
 };
 
 export default Results;

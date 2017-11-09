@@ -6,7 +6,10 @@ import Results from "./Results";
 
 class ContentAnalysis extends React.Component {
 	render() {
-		return <Results results={ this.props.results }/>
+		return <Results
+			showLanguageNotice={ true }
+			language={ wpseoPostScraperL10n.language }
+			results={ this.props.results }/>
 	}
 }
 

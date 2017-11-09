@@ -6,7 +6,9 @@ import Results from "./Results";
 
 class SeoAnalysis extends React.Component {
 	render() {
-		return <Results results={ this.props.results }/>
+		return <Results
+			showLanguageNotice={ false }
+			results={ this.props.results }/>
 	}
 }
 
