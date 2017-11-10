@@ -58,6 +58,5 @@ export default function mapResults( results ) {
 				console.log( "Unmapped score" );
 		}
 	}
-	console.log( mappedResults );
 	return mappedResults;
 }
