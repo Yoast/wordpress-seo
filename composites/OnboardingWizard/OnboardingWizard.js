@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ReactDOM from "react-dom";
 import Step from "./Step";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
@@ -118,12 +117,11 @@ class OnboardingWizard extends React.Component {
 		sendStep(
 			this.props.endpoint.url,
 			{
-				data: this.refs.step.state.fieldValues[ this.state.currentStepId ],
+				data: this.step.state.fieldValues[ this.state.currentStepId ],
 				headers: this.props.endpoint.headers,
-			}
-		)
-		.then( this.handleSuccessful.bind( this, step ) )
-		.catch( this.handleFailure.bind( this ) );
+			} )
+			.then( this.handleSuccessful.bind( this, step ) )
+			.catch( this.handleFailure.bind( this ) );
 	}
 
 	/**
@@ -150,12 +148,10 @@ class OnboardingWizard extends React.Component {
 			currentStepId: step,
 		} );
 
-		/* eslint-disable react/no-find-dom-node */
 		// Set focus on the main content but not when clicking the step buttons.
 		if ( -1 === this.clickedButton.className.indexOf( "step" ) ) {
-			ReactDOM.findDOMNode( this.refs.step.refs.stepContainer ).focus();
+			this.step.stepContainer.focus();
 		}
-		/* eslint-enable react/no-find-dom-node */
 	}
 
 	/**
@@ -311,7 +307,9 @@ class OnboardingWizard extends React.Component {
 						<div className="yoast-wizard">
 							{ this.renderErrorMessage() }
 							<Step
-								ref="step"
+								ref={ step => {
+									this.step = step;
+								} }
 								currentStep={ this.state.currentStepId }
 								title={ step.title }
 								fields={ step.fields }

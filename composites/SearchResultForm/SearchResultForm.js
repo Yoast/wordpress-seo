@@ -114,7 +114,6 @@ class SearchResultForm extends React.Component {
 
 				<Textfield
 					name="title"
-					ref="formTitle"
 					label="SEO Title"
 					value={this.props.title}
 					onChange={ this.props.onTitleChange }
@@ -137,7 +136,6 @@ class SearchResultForm extends React.Component {
 
 				<Textfield
 					name="slug"
-					ref="formSlug"
 					label="Slug"
 					value={slug}
 					onChange={ this.props.onSlugChange }
@@ -151,7 +149,6 @@ class SearchResultForm extends React.Component {
 
 				<Textfield
 					name="description"
-					ref="formDescription"
 					label="Description"
 					value={this.props.description}
 					onChange={ this.props.onDescriptionChange }

@@ -257,8 +257,13 @@ class Step extends React.Component {
 		let fullWidthClass = this.props.fullWidth ? ` ${ this.props.classPrefix }-content-container__is-full-width` : "";
 
 		return (
-			<div className={`${ this.props.classPrefix }--step--container`} ref="stepContainer"
-				tabIndex="-1" aria-labelledby="step-title">
+			<div
+				className={ `${ this.props.classPrefix }--step--container` }
+				ref={ stepContainer => {
+					this.stepContainer = stepContainer;
+				} }
+				tabIndex="-1"
+				aria-labelledby="step-title">
 				<h1 id="step-title">{this.props.title}</h1>
 				<div className={ `${ this.props.classPrefix }-content-container${ fullWidthClass }` }>
 					{ this.getFieldComponents( this.props.fields ) }
