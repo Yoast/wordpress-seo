@@ -3,7 +3,7 @@
 
 ( function( $ ) {
 	// eslint-disable-next-line
-	 function wpseoInitTabs() {
+	function wpseoInitTabs() {
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
 			jQuery( ".wpseo-metabox-tabs" )
 				.on( "click", "a.wpseo_tablink", function( ev ) {
@@ -43,6 +43,10 @@
 
 			jQuery( "a.wpseo-meta-section-link" )
 				.on( "click", function( ev ) {
+					var targetTab = jQuery( this ).attr( "href" ),
+						targetTabElement = jQuery( targetTab ),
+						helpCenterToggleButton = jQuery( ".yoast-help-center__button" );
+
 					ev.preventDefault();
 
 					jQuery( ".wpseo-metabox-sidebar li" ).removeClass( "active" );
@@ -51,8 +55,14 @@
 					// Hide the Yoast tooltip when the element gets clicked.
 					jQuery( this ).addClass( "yoast-tooltip-hidden" );
 
-					var targetElem = jQuery( jQuery( this ).attr( "href" ) );
-					targetElem.addClass( "active" );
+					targetTabElement.addClass( "active" );
+
+					// Close the Help Center when clicking on the Go Premium link.
+					if ( targetTab === "#wpseo-meta-section-premium" ) {
+						if ( "true" === helpCenterToggleButton.attr( "aria-expanded" ) ) {
+							helpCenterToggleButton.click();
+						}
+					}
 
 					jQuery( this ).parent( "li" ).addClass( "active" );
 				} )
