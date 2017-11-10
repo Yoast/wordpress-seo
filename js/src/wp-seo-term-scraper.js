@@ -18,7 +18,7 @@ var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
 var UsedKeywords = require( "./analysis/usedKeywords" );
 
 import TermDataCollector from "./analysis/TermDataCollector";
-import { termsTmceId as tmceId } from "./wp-seo-tinymce"
+import { termsTmceId as tmceId } from "./wp-seo-tinymce";
 import initializeEdit from "./edit";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
@@ -26,8 +26,6 @@ import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components
 window.yoastHideMarkers = true;
 
 ( function( $, window ) {
-	"use strict";
-
 	var snippetContainer;
 
 	var app, snippetPreview;
@@ -212,8 +210,7 @@ window.yoastHideMarkers = true;
 				let keyword = tabManager.getKeywordTab().getKeyWord();
 
 				if ( tabManager.isMainKeyword( keyword ) ) {
-
-					if ( keyword === '' ) {
+					if ( keyword === "" ) {
 						keyword = termScraper.getName();
 					}
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );

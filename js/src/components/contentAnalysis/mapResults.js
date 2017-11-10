@@ -23,7 +23,10 @@ import scoreToRating from "yoastseo/js/interpreters/scoreToRating";
 
 /**
  * Maps a single results to a result that can be interpreted by yoast-component's ContentAnalysis.
- * @param result
+ *
+ * @param {object} result Result provided by YoastSEO.js.
+ *
+ * @returns {MappedResult} The mapped result.
  */
 function mapResult( result ) {
 	const mappedResult = {

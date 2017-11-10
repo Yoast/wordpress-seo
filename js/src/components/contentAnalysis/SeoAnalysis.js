@@ -6,9 +6,11 @@ import Results from "./Results";
 
 class SeoAnalysis extends React.Component {
 	render() {
-		return <Results
+		return (
+			<Results
 			showLanguageNotice={ false }
-			results={ this.props.results }/>
+			results={ this.props.results } />
+		);
 	}
 }
 
@@ -26,8 +28,8 @@ SeoAnalysis.propTypes = {
 function mapStateToProps( state ) {
 	if( state.activeKeyword && state.analysis.seo[ state.activeKeyword ] ) {
 		return {
-			results: state.analysis.seo[ state.activeKeyword ]
-		}
+			results: state.analysis.seo[ state.activeKeyword ],
+		};
 	}
 	return { results: null };
 }

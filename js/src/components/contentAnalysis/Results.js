@@ -44,7 +44,7 @@ class Results extends React.Component {
 			improvementsResults,
 			goodResults,
 			considerationsResults,
-			problemsResults
+			problemsResults,
 		} = mappedResults;
 		return(
 			<ContentAnalysis

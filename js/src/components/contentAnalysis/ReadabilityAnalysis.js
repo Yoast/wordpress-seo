@@ -8,11 +8,13 @@ import Results from "./Results";
 
 class ContentAnalysis extends React.Component {
 	render() {
-		return <Results
+		return (
+			<Results
 			showLanguageNotice={ true }
 			changeLanguageLink={ wpseoPostScraperL10n.settings_link }
 			language={ wpseoPostScraperL10n.language }
 			results={ this.props.results }/>
+		);
 	}
 }
 

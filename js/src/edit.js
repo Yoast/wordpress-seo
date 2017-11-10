@@ -6,7 +6,7 @@ import logger from "redux-logger";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { IntlProvider, injectIntl, intlShape, addLocaleData } from "react-intl";
+import { IntlProvider, addLocaleData } from "react-intl";
 
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
@@ -16,8 +16,6 @@ import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 /**
  * This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
  */
-
-
 
 /**
  * Creates a redux store.
@@ -42,6 +40,26 @@ function configureStore() {
 }
 
 /**
+ * Wrap a component in the required top level components.
+ *
+ * @param {ReactElement} Component The component to be wrapped.
+ * @param {Object} store Redux store.
+ *
+ * @returns {ReactElement} The wrapped component.
+ */
+function wrapInTopLevelComponents( Component, store ) {
+	return (
+		<IntlProvider
+			locale={ wpseoPostScraperL10n.intl.locale }
+			messages={ wpseoPostScraperL10n.intl } >
+			<Provider store={ store } >
+				<Component />
+			</Provider>
+		</IntlProvider>
+	);
+}
+
+/**
  * Render the react apps.
  *
  * @param {Object} store Redux store.
@@ -55,7 +73,7 @@ function renderReactApps( store, args ) {
 
 	if( window.wpseoPostScraperL10n.intl ) {
 		// Add react-intl translations
-		addLocaleData( wpseoHelpCenterData.translations );
+		addLocaleData( wpseoPostScraperL10n.translations );
 	}
 
 	ReactDOM.render(
@@ -66,26 +84,6 @@ function renderReactApps( store, args ) {
 	ReactDOM.render(
 		wrapInTopLevelComponents( SeoAnalysis, store ),
 		seoAnalysisElement
-	);
-}
-
-/**
- * Wrap a component in the required top level components.
- *
- * @param {ReactElement} Component The component to be wrapped.
- * @param {Object} store Redux store.
- *
- * @returns {ReactElement} The wrapped component.
- */
-function wrapInTopLevelComponents( Component, store ) {
-	return (
-		<IntlProvider
-			locale={ window.wpseoPostScraperL10n.intl.locale }
-			messages={ window.wpseoPostScraperL10n.intl } >
-			<Provider store={ store } >
-				<Component />
-			</Provider>
-		</IntlProvider>
 	);
 }
 
