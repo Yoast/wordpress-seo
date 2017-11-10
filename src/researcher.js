@@ -145,7 +145,7 @@ Researcher.prototype.getResearch = function( name ) {
 		return false;
 	}
 
-	return this.getAvailableResearches()[ name ]( this.paper );
+	return this.getAvailableResearches()[ name ]( this.paper, this );
 };
 
 module.exports = Researcher;
