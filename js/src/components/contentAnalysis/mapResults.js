@@ -1,21 +1,57 @@
 import scoreToRating from "yoastseo/js/interpreters/scoreToRating";
 
 /**
- * Mapped results definition
- * @typedef {Object} MappedResults
- * @property {Array} errorsResults
- * @property {Array} problemsResults
- * @property {Array} improvementsResults
- * @property {Array} goodResults
- * @property {Array} considerationsResults
+ * Mapped result definition.
+ * @typedef {Object} MappedResult
+ * @property {string} rating
+ * @property {bool} hasMarks
+ * @property {string} text
+ * @property {string} id
+ * @property {func} marker
+ * @property {number} score
  */
+
+/**
+ * Mapped results definition.
+ * @typedef {Object} MappedResults
+ * @property {Array<MappedResult>} errorsResults
+ * @property {Array<MappedResult>} problemsResults
+ * @property {Array<MappedResult>} improvementsResults
+ * @property {Array<MappedResult>} goodResults
+ * @property {Array<MappedResult>} considerationsResults
+ */
+
+/**
+ * Maps a single results to a result that can be interpreted by yoast-component's ContentAnalysis.
+ * @param result
+ */
+function mapResult( result ) {
+	const mappedResult = {
+		score: result.score,
+		rating: scoreToRating( result.score ),
+		hasMarks: result._hasMarks,
+		marker: result._marker,
+		id: result._identifier,
+		text: result.text,
+	};
+
+	// Because of inconsistency between YoastSEO and yoast-components.
+	if( mappedResult.rating === "ok" ) {
+		mappedResult.rating = "OK";
+	}
+
+	return mappedResult;
+}
 
 /**
  * Maps results to object, to be used by the ContentAnalysis component.
  *
- * @param {object} results Results returned by YoastSEO.js
+ * Takes in the YoastSEO.js results and maps them to the appropriate objects, so they can be used by the
+ * ContentAnalysis component from yoast-components.
  *
- * @returns {MappedResults}
+ * @param {object} results Results provided by YoastSEO.js
+ *
+ * @returns {MappedResults} The mapped results.
  */
 export default function mapResults( results ) {
 	const mappedResults = {
@@ -33,26 +69,22 @@ export default function mapResults( results ) {
 		if( ! result.text ) {
 			continue;
 		}
-		result.rating = scoreToRating( result.score );
-		result.hasMarks = result._hasMarks;
-		result.marker = result._marker;
-		result.id = result._identifier;
-		switch ( result.rating ) {
+		const mappedResult = mapResult( results );
+		switch ( mappedResult.rating ) {
 			case "error":
-				mappedResults.errorsResults.push( result );
+				mappedResults.errorsResults.push( mappedResult );
 				break;
 			case "feedback":
-				mappedResults.considerationsResults.push( result );
+				mappedResults.considerationsResults.push( mappedResult );
 				break;
 			case "bad":
-				mappedResults.problemsResults.push( result );
+				mappedResults.problemsResults.push( mappedResult );
 				break;
-			case "ok":
-				result.rating = "OK";
-				mappedResults.improvementsResults.push( result );
+			case "OK":
+				mappedResults.improvementsResults.push( mappedResult );
 				break;
 			case "good":
-				mappedResults.goodResults.push( result );
+				mappedResults.goodResults.push( mappedResult );
 				break;
 			default:
 				console.log( "Unmapped score" );
