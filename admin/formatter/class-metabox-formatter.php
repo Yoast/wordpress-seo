@@ -50,6 +50,7 @@ class WPSEO_Metabox_Formatter {
 
 		return array(
 			'language'              => $language,
+			'settings_link'         => admin_url( 'options-general.php' ),
 			'search_url'            => '',
 			'post_edit_url'         => '',
 			'base_url'              => '',
