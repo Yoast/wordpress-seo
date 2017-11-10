@@ -23,7 +23,6 @@ import initializeEdit from "./edit";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
-
 window.yoastHideMarkers = true;
 
 ( function( $, window ) {
@@ -218,7 +217,7 @@ window.yoastHideMarkers = true;
 						keyword = termScraper.getName();
 					}
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-					store.dispatch( setActiveKeyword( keyword) );
+					store.dispatch( setActiveKeyword( keyword ) );
 				}
 			};
 		}
