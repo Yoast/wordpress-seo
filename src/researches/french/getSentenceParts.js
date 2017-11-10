@@ -1,88 +1,95 @@
-var stopwords = require( "./passivevoice/stopwords.js" )();
-var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
+var indices = require( "../../stringProcessing/indices" );
+var getIndicesOfList = indices.getIndicesByWordList;
+var filterIndices = indices.filterIndices;
+var sortIndices = indices.sortIndices;
 var stripSpaces = require( "../../stringProcessing/stripSpaces.js" );
-var SentencePart = require( "./SentencePart.js" );
-var auxiliaries = require( "./passivevoice/auxiliaries.js" )().allAuxiliaries;
+var normalizeSingleQuotes = require( "../../stringProcessing/quotes.js" ).normalizeSingle;
+var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 
-var forEach = require( "lodash/forEach" );
-var isEmpty = require( "lodash/isEmpty" );
+var auxiliaries = require( "./passivevoice/auxiliaries.js" )().auxiliaries;
+var SentencePart = require( "./SentencePart.js" );
+var auxiliaryRegex = arrayToRegex( auxiliaries );
+var stopwords = require( "./passivevoice/stopwords.js" )();
+
+var filter = require( "lodash/filter" );
+var isUndefined = require( "lodash/isUndefined" );
+var includes = require( "lodash/includes" );
 var map = require( "lodash/map" );
 
-var stopwordRegex = arrayToRegex( stopwords );
-var auxiliaryRegex = arrayToRegex( auxiliaries );
-
 /**
- * Strips spaces from the auxiliary matches.
+ * Gets the indexes of sentence breakers (auxiliaries, stopwords and active verbs) to determine sentence parts.
+ * Indices are filtered because there could be duplicate matches, like "even though" and "though".
+ * In addition, 'having' will be matched both as a -ing verb as well as an auxiliary.
  *
- * @param {Array} matches A list with matches of auxiliaries.
- * @returns {Array} A list with matches with spaces removed.
+ * @param {string} sentence The sentence to check for indices of auxiliaries, stopwords and active verbs.
+ * @returns {Array} The array with valid indices to use for determining sentence parts.
  */
-function sanitizeMatches( matches ) {
-	return map( matches, function( match ) {
-		return stripSpaces( match );
-	} );
-}
+var getSentenceBreakers = function( sentence ) {
+	sentence = sentence.toLocaleLowerCase();
+	var auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
+	var stopwordIndices = getIndicesOfList( stopwords, sentence );
 
-/**
- * Splits sentences into sentence parts based on stopwords.
- *
- * @param {string} sentence The sentence to split.
- * @param {Array} stopwords The array with matched stopwords.
- * @returns {Array} The array with sentence parts.
- */
-function splitOnWords( sentence, stopwords ) {
-	var splitSentences = [];
-
-	// Split the sentence on each found stopword and push this part in an array.
-	forEach( stopwords, function( stopword ) {
-		var splitSentence = sentence.split( stopword );
-		if ( ! isEmpty( splitSentence[ 0 ] ) ) {
-			splitSentences.push( splitSentence[ 0 ] );
-		}
-		var startIndex = sentence.indexOf( stopword );
-		var endIndex = sentence.length;
-		sentence = stripSpaces( sentence.substr( startIndex, endIndex ) );
-	} );
-
-	// Push the remainder of the sentence in the sentence parts array.
-	splitSentences.push( sentence );
-	return splitSentences;
-}
-
-/**
- * Creates sentence parts based on split sentences.
- *
- * @param {Array} sentences The array with split sentences.
- * @returns {Array} The array with sentence parts.
- */
-function createSentenceParts( sentences ) {
-	var sentenceParts = [];
-	forEach( sentences, function( part ) {
-		var foundAuxiliaries = sanitizeMatches( part.match( auxiliaryRegex || [] ) );
-		sentenceParts.push( new SentencePart( part, foundAuxiliaries,  "fr_FR" ) );
-	} );
-	return sentenceParts;
-}
-
-/**
- * Splits the sentence into sentence parts based on stopwords.
- *
- * @param {string} sentence The text to split into sentence parts.
- * @returns {Array} The array with sentence parts.
- */
-function splitSentence( sentence ) {
-	var stopwords = sentence.match( stopwordRegex ) || [];
-	var splitSentences = splitOnWords( sentence, stopwords );
-	return createSentenceParts( splitSentences );
-}
-
-/**
- * Splits up the sentence in parts based on French stopwords.
- *
- * @param {string} sentence The sentence to split up in parts.
- * @returns {Array} The array with the sentence parts.
- */
-module.exports = function( sentence ) {
-	return splitSentence( sentence );
+	// Concat all indices arrays, filter them and sort them.
+	var indices = [].concat( auxiliaryIndices, stopwordIndices );
+	indices = filterIndices( indices );
+	return sortIndices( indices );
 };
 
+/**
+ * Gets the matches with the auxiliaries in the sentence.
+ *
+ * @param {string} sentencePart The part of the sentence to match for auxiliaries.
+ * @returns {Array} All formatted matches from the sentence part.
+ */
+var getAuxiliaryMatches = function( sentencePart ) {
+	var auxiliaryMatches = sentencePart.match( auxiliaryRegex ) || [];
+
+	return map( auxiliaryMatches, function( auxiliaryMatch ) {
+		return stripSpaces( auxiliaryMatch );
+	} );
+};
+
+/**
+ * Gets the sentence parts from a sentence by determining sentence breakers.
+ *
+ * @param {string} sentence The sentence to split up in sentence parts.
+ * @returns {Array} The array with all parts of a sentence that have an auxiliary.
+ */
+var getSentenceParts = function( sentence ) {
+	var sentenceParts = [];
+	sentence = normalizeSingleQuotes( sentence );
+
+	// First check if there is an auxiliary in the sentence.
+	if ( sentence.match( auxiliaryRegex ) === null ) {
+		return sentenceParts;
+	}
+
+	var indices = getSentenceBreakers( sentence );
+	// Get the words after the found auxiliary.
+	for ( var i = 0; i < indices.length; i++ ) {
+		var endIndex = sentence.length;
+		if ( ! isUndefined( indices[ i + 1 ] ) ) {
+			endIndex = indices[ i + 1 ].index;
+		}
+
+		// Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
+		var sentencePart = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
+
+		var auxiliaryMatches = getAuxiliaryMatches(  sentencePart );
+		// If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
+		if ( auxiliaryMatches.length !== 0 ) {
+			sentenceParts.push( new SentencePart( sentencePart, auxiliaryMatches ) );
+		}
+	}
+	return sentenceParts;
+};
+
+/**
+ * Split the sentence in sentence parts based on auxiliaries.
+ *
+ * @param {string} sentence The sentence to split in parts.
+ * @returns {Array} A list with sentence parts.
+ */
+module.exports = function( sentence ) {
+	return getSentenceParts( sentence );
+};

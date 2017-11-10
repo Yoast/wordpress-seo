@@ -11,5 +11,6 @@ var determineSentencePartIsPassive =  require( "../passivevoice/determineSentenc
  */
 module.exports = function( sentencePart, auxiliaries ) {
 	var participles = getParticiples( sentencePart, auxiliaries );
+	console.log( "x" );
 	return determineSentencePartIsPassive( participles );
 };

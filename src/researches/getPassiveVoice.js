@@ -11,6 +11,11 @@ var determinePassivesEnglish = require( "./english/determinePassives.js" );
 var getSentencePartsGerman = require( "./german/getSentenceParts.js" );
 var determinePassivesGerman = require( "./german/determinePassives.js" );
 
+// French.
+var getSentencePartsFrench = require( "./french/getSentenceParts.js" );
+var determinePassivesFrench = require( "./french/determinePassives.js" );
+
+
 var forEach = require( "lodash/forEach" );
 
 /**
@@ -27,11 +32,15 @@ var getSentenceParts = function( sentence, language ) {
 		case "de":
 			sentenceParts = getSentencePartsGerman( sentence );
 			break;
+		case "fr":
+			sentenceParts = getSentencePartsFrench( sentence );
+			break;
 		case "en":
 		default:
 			sentenceParts = getSentencePartsEnglish( sentence );
 			break;
 	}
+	console.log(sentenceParts);
 	return sentenceParts;
 };
 
@@ -46,6 +55,9 @@ var determinePassives = function( sentencePart, language ) {
 	switch( language ) {
 		case "de":
 			sentencePart.setPassive( determinePassivesGerman( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries() ) );
+			break;
+		case "fr":
+			sentencePart.setPassive( determinePassivesFrench( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries() ) );
 			break;
 		case "en":
 		default:

@@ -2,7 +2,7 @@ var getWords = require( "../../../stringProcessing/getWords.js" );
 
 var regexFunction = require( "../../../researches/french/passivevoice/matchParticiples" )();
 var regularParticiples = regexFunction.regularParticiples;
-// var irregularParticiples = regexFunction.irregularParticiples;
+var irregularParticiples = regexFunction.irregularParticiples;
 
 var FrenchParticiple = require( "../FrenchParticiple.js" );
 
@@ -24,9 +24,9 @@ module.exports = function( sentencePartText, auxiliaries ) {
 		if( regularParticiples( word ).length !== 0 ) {
 			type = "regular";
 		}
-		// if( irregularParticiples( word ).length !== 0 ) {
-		//	type = "irregular";
-		// }
+		if( irregularParticiples( word ).length !== 0 ) {
+			type = "irregular";
+		}
 		if ( type !== "" ) {
 			foundParticiples.push( new FrenchParticiple( word, sentencePartText,
 				{ auxiliaries: auxiliaries, type: type } ) );

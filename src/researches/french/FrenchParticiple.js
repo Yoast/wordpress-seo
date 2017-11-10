@@ -11,7 +11,9 @@ var Participle = require( "../../values/Participle.js" );
  */
 var FrenchParticiple = function(  participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
-	this.setSentencePartPassiveness( this.isPassive() );
+	this.setSentencePartPassiveness( true );
 };
 
 require( "util" ).inherits( FrenchParticiple, Participle );
+
+module.exports = FrenchParticiple;
