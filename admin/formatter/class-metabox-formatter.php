@@ -43,13 +43,8 @@ class WPSEO_Metabox_Formatter {
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
-		require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
-		$translations = wp_get_available_translations();
-		$locale       = get_locale();
-		$language     = isset( $translations[ $locale ] ) ? $translations[ $locale ]['native_name'] : 'English (US)';
-
 		return array(
-			'language'              => $language,
+			'language'              => WPSEO_Utils::get_language_name(),
 			'settings_link'         => admin_url( 'options-general.php' ),
 			'search_url'            => '',
 			'post_edit_url'         => '',
