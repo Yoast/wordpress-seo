@@ -974,6 +974,23 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Returns the full name for the user's language.
+	 *
+	 * @since 5.9
+	 *
+	 * @returns string The language name.
+	 */
+	public static function get_language_name() {
+		require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+
+		$translations = wp_get_available_translations();
+		$locale = WPSEO_Utils::get_user_locale();
+		$language = isset( $translations[ $locale ] ) ? $translations[ $locale ]['native_name'] : 'English (US)';
+
+		return $language;
+	}
+
+	/**
 	 * Checks if the WP-REST-API is available.
 	 *
 	 * @since 3.6
