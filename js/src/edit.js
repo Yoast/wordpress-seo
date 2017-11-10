@@ -10,7 +10,7 @@ import { IntlProvider, injectIntl, intlShape, addLocaleData } from "react-intl";
 
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
-import ContentAnalysis from "./components/contentAnalysis/ContentAnalysis";
+import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 
 /**

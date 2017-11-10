@@ -5,25 +5,14 @@ import mapResults from "./mapResults";
 import ContentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 
 class Results extends React.Component {
-	constructor( props ) {
-		super( props );
-
-		this.registerResults();
-	}
-
-	registerResults() {
-		if( ! this.props.results ) {
-			return;
-		}
-
-		this.results = {};
-
-		for( let i = 0; i < this.props.results.length; i++ ) {
-			const result = this.props.results[ i ];
-			this.results[ result.id ] = result;
-		}
-	}
-
+	/**
+	 * Handles a click on a marker button, to mark the text in the editor.
+	 *
+	 * @param {string} id Result id, empty if a marker is deselected.
+	 * @param {object} marker The marker function.
+	 *
+	 * @returns {void}
+	 */
 	handleMarkButtonClick( id, marker ) {
 		if( id ) {
 			marker();
@@ -32,12 +21,22 @@ class Results extends React.Component {
 		}
 	}
 
+	/**
+	 * Remove all markers.
+	 *
+	 * @returns {void}
+	 */
 	removeMarkers() {
 		const assessor = window.YoastSEO.app.contentAssessor;
 		const marker = assessor.getSpecificMarker();
 		marker( assessor.getPaper(), [] );
 	}
 
+	/**
+	 * Render the Results component
+	 *
+	 * @returns {ReactElement} The react element.
+	 */
 	render() {
 		const mappedResults = mapResults( this.props.results );
 		const {
