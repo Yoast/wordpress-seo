@@ -167,29 +167,25 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 
 
 	it( "returns an object with English sentence beginnings in lists", function() {
-		changePaper({ text: "<ul><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ul>" })
-;
+		changePaper({ text: "<ul><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ul>" });
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "item", { locale: 'en_US'} );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 4 );
 	});
 
 	it( "returns an object with English sentence beginnings in tables", function() {
-		changePaper({ text: "<table><td><tr>Sentence 1.</tr><tr>Sentence 2 that is longer.</tr><tr>Sentence 3 is shorter.</tr><tr>Sentence 4.</tr></td></table>" })
-;
+		changePaper({ text: "<table><td><tr>Sentence 1.</tr><tr>Sentence 2 that is longer.</tr><tr>Sentence 3 is shorter.</tr><tr>Sentence 4.</tr></td></table>" });
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "sentence", { locale: 'en_US'} );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 4 );
 	});
 
 	it( "returns an object with English sentence beginnings with paragraph tags - it should match over paragraphs", function() {
-		changePaper({ text: "<p>Sentence 1. Sentence 2.</p><p>Sentence 3.</p>" })
-;
+		changePaper({ text: "<p>Sentence 1. Sentence 2.</p><p>Sentence 3.</p>" });
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "sentence", { locale: 'en_US'} );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	});
 
 	it( "returns an object with English sentence beginnings in different capitalizations", function() {
-		changePaper({ text: "Sentence 1. SENTENCE 2. Sentence 3." })
-;
+		changePaper({ text: "Sentence 1. SENTENCE 2. Sentence 3." });
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "sentence", { locale: 'en_US'} );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	});
