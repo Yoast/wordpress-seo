@@ -12,7 +12,7 @@ var includes = require( "lodash/includes" );
 var map = require( "lodash/map" );
 
 /**
- * Creates an Participle object for the English language.
+ * Creates an Participle object for the German language.
  *
  * @param {string} participle The participle.
  * @param {string} sentencePart The sentence part that contains the participle.
