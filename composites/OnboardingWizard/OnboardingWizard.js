@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ReactDOM from "react-dom";
 import Step from "./Step";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
@@ -149,12 +148,10 @@ class OnboardingWizard extends React.Component {
 			currentStepId: step,
 		} );
 
-		/* eslint-disable react/no-find-dom-node */
 		// Set focus on the main content but not when clicking the step buttons.
 		if ( -1 === this.clickedButton.className.indexOf( "step" ) ) {
-			ReactDOM.findDOMNode( this.step.stepContainer ).focus();
+			this.step.stepContainer.focus();
 		}
-		/* eslint-enable react/no-find-dom-node */
 	}
 
 	/**
