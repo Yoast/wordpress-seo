@@ -1,10 +1,12 @@
+/* global wpseoPostScraperL10n */
+
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { IntlProvider } from "react-intl";
+import { IntlProvider, injectIntl, intlShape, addLocaleData } from "react-intl";
 
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
@@ -14,6 +16,8 @@ import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 /**
  * This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
  */
+
+
 
 /**
  * Creates a redux store.
@@ -49,6 +53,11 @@ function renderReactApps( store, args ) {
 	const contentAnalysisElement = document.getElementById( args.readabilityTarget );
 	const seoAnalysisElement = document.getElementById( args.seoTarget );
 
+	if( window.wpseoPostScraperL10n.intl ) {
+		// Add react-intl translations
+		addLocaleData( wpseoHelpCenterData.translations );
+	}
+
 	ReactDOM.render(
 		wrapInTopLevelComponents( ContentAnalysis, store ),
 		contentAnalysisElement
@@ -70,7 +79,9 @@ function renderReactApps( store, args ) {
  */
 function wrapInTopLevelComponents( Component, store ) {
 	return (
-		<IntlProvider>
+		<IntlProvider
+			locale={ window.wpseoPostScraperL10n.intl.locale }
+			messages={ window.wpseoPostScraperL10n.intl } >
 			<Provider store={ store } >
 				<Component />
 			</Provider>

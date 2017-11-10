@@ -61,7 +61,7 @@ class WPSEO_Metabox_Formatter {
 			'metadesc_template'     => '',
 			'contentAnalysisActive' => $analysis_readability->is_enabled() ? 1 : 0,
 			'keywordAnalysisActive' => $analysis_seo->is_enabled() ? 1 : 0,
-
+			'intl'                  => $this->get_intl_translations(),
 			/**
 			 * Filter to determine if the markers should be enabled or not.
 			 *
@@ -83,6 +83,24 @@ class WPSEO_Metabox_Formatter {
 			'markdownEnabled'       => $this->is_markdown_enabled(),
 		);
 
+	}
+
+	/**
+	 * Returns required yoast-component translations.
+	 *
+	 * @return array
+	 */
+	private function get_intl_translations() {
+		return array(
+			'locale' => WPSEO_Utils::get_user_locale(),
+			'content-analysis.language-notice-link' => __( 'Change language', 'wordpress-seo' ),
+			'content-analysis.errors' => __( 'Errors', 'wordpress-seo' ),
+			'content-analysis.problems' => __( 'Problems', 'wordpress-seo' ),
+			'content-analysis.improvements' => __( 'Change language', 'wordpress-seo' ),
+			'content-analysis.considerations' => __( 'Considerations', 'wordpress-seo' ),
+			'content-analysis.good' => __( 'Good', 'wordpress-seo' ),
+			'content-analysis.highlight' => __( 'Highlight this result in the text', 'wordpress-seo' ),
+		);
 	}
 
 	/**
