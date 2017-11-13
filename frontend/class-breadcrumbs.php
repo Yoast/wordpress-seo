@@ -667,9 +667,8 @@ class WPSEO_Breadcrumbs {
 	 * @return array Array of link text and url
 	 */
 	private function get_link_info_for_id( $id ) {
-
 		$link         = array();
-		$link['url']  = get_permalink( $id );
+		$link['url']  = $this->get_link_url_for_id( $id );
 		$link['text'] = WPSEO_Meta::get_value( 'bctitle', $id );
 
 		if ( $link['text'] === '' ) {
@@ -877,6 +876,26 @@ class WPSEO_Breadcrumbs {
 		return $class;
 	}
 
+	/**
+	 * Returns the link url for a single id.
+	 *
+	 * When the target is private and the user isn't allowed to access it, just return an empty string.
+	 *
+	 * @param int $id The target id.
+	 *
+	 * @return string Empty string when post isn't accessible. An URL if accessible.
+	 */
+	private function get_link_url_for_id( $id ) {
+		$status = get_post_status( $id );
+		$cpt 	= get_post_type( $id );
+
+		// Don't link if item is private and user does't have capability to read it.
+		if ( $status === 'private' && ! current_user_can( 'read_private_' . $cpt ) ) {
+			return '';
+		}
+
+		return (string) get_permalink( $id );
+	}
 
 	/********************** DEPRECATED METHODS **********************/
 
