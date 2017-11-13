@@ -114,7 +114,7 @@ class WPSEO_Breadcrumbs {
 	 * @param string $after   Optional string to append.
 	 * @param bool   $display Echo or return flag.
 	 *
-	 * @return object
+	 * @return string Returns the breadcrumbs as a string.
 	 */
 	public static function breadcrumb( $before = '', $after = '', $display = true ) {
 		if ( ! ( self::$instance instanceof self ) ) {
@@ -129,11 +129,10 @@ class WPSEO_Breadcrumbs {
 		if ( $display === true ) {
 			echo $output;
 
-			return true;
+			return '';
 		}
-		else {
-			return $output;
-		}
+
+		return $output;
 	}
 
 	/**
