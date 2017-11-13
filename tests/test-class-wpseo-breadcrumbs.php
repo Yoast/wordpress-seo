@@ -13,7 +13,6 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-		ob_start();
 
 		// Requires the test double.
 		require_once WPSEO_TESTS_PATH . 'doubles/class-breadcrumbs-double.php';
@@ -93,7 +92,7 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 	public function test_getting_url_of_a_non_existing_post() {
 		$breadcrumbs = new WPSEO_Breadcrumbs_Double();
 
-		$this->assertEquals( '', $breadcrumbs->get_link_url_for_id( 500000 ) );
+		$this->assertEquals( '', $breadcrumbs->get_link_url_for_id( 0 ) );
 	}
 
 }

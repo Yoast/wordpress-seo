@@ -154,12 +154,16 @@ class WPSEO_Breadcrumbs {
 	 * @return string Empty string when post isn't accessible. An URL if accessible.
 	 */
 	protected function get_link_url_for_id( $id ) {
-		$status = get_post_status( $id );
-		$cpt 	= get_post_type( $id );
-		$url    = get_permalink( $id );
+		$post_status = get_post_status( $id );
+		$post_type   = get_post_type( $id );
 
 		// Don't link if item is private and user does't have capability to read it.
-		if ( $url === false || ( $status === 'private' && ! current_user_can( 'read_private_' . $cpt ) ) ) {
+		if ( $post_status === 'private' && ! current_user_can( 'read_private_' . $post_type ) ) {
+			return '';
+		}
+
+		$url = get_permalink( $id );
+		if( $url === false ) {
 			return '';
 		}
 
