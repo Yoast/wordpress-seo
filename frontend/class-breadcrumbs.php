@@ -91,7 +91,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Create the breadcrumb
 	 */
-	private function __construct() {
+	protected function __construct() {
 		$this->options        = WPSEO_Options::get_options( array( 'wpseo_titles', 'wpseo_internallinks', 'wpseo_xml' ) );
 		$this->post           = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
 		$this->show_on_front  = get_option( 'show_on_front' );
@@ -142,6 +142,28 @@ class WPSEO_Breadcrumbs {
 	 */
 	public function __toString() {
 		return self::$before . $this->output . self::$after;
+	}
+
+	/**
+	 * Returns the link url for a single id.
+	 *
+	 * When the target is private and the user isn't allowed to access it, just return an empty string.
+	 *
+	 * @param int $id The target id.
+	 *
+	 * @return string Empty string when post isn't accessible. An URL if accessible.
+	 */
+	protected function get_link_url_for_id( $id ) {
+		$status = get_post_status( $id );
+		$cpt 	= get_post_type( $id );
+		$url    = get_permalink( $id );
+
+		// Don't link if item is private and user does't have capability to read it.
+		if ( $url === false || ( $status === 'private' && ! current_user_can( 'read_private_' . $cpt ) ) ) {
+			return '';
+		}
+
+		return $url;
 	}
 
 
@@ -873,27 +895,6 @@ class WPSEO_Breadcrumbs {
 		}
 
 		return $class;
-	}
-
-	/**
-	 * Returns the link url for a single id.
-	 *
-	 * When the target is private and the user isn't allowed to access it, just return an empty string.
-	 *
-	 * @param int $id The target id.
-	 *
-	 * @return string Empty string when post isn't accessible. An URL if accessible.
-	 */
-	private function get_link_url_for_id( $id ) {
-		$status = get_post_status( $id );
-		$cpt 	= get_post_type( $id );
-
-		// Don't link if item is private and user does't have capability to read it.
-		if ( $status === 'private' && ! current_user_can( 'read_private_' . $cpt ) ) {
-			return '';
-		}
-
-		return (string) get_permalink( $id );
 	}
 
 	/********************** DEPRECATED METHODS **********************/
