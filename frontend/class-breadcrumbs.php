@@ -163,7 +163,7 @@ class WPSEO_Breadcrumbs {
 		}
 
 		$url = get_permalink( $id );
-		if( $url === false ) {
+		if ( $url === false ) {
 			return '';
 		}
 
