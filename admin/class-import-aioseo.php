@@ -4,9 +4,7 @@
  */
 
 /**
- * Class WPSEO_Import_WooThemes_SEO
- *
- * Class with functionality to import Yoast SEO settings from WooThemes SEO
+ * Class with functionality to import Yoast SEO settings from All In One SEO.
  */
 class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 
@@ -30,7 +28,7 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Import All In One SEO meta values
+	 * Import All In One SEO meta values.
 	 */
 	private function import_metas() {
 		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $this->replace );
@@ -39,53 +37,56 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Import the Google Analytics settings
+	 * Import the Google Analytics settings.
+	 *
+	 * These values are used in Google Analytics for WordPress by MonsterInsights and will be converted in the plugin
+	 * to usable settings when a user installs the Google Analytics plugin for the first time.
 	 */
 	private function import_ga() {
-		if ( isset( $this->aioseo_options['aiosp_google_analytics_id'] ) ) {
-
-			if ( get_option( 'yst_ga' ) === false ) {
-				update_option( 'yst_ga', $this->determine_ga_settings() );
-			}
-
-			$plugin_install_nonce = wp_create_nonce( 'install-plugin_google-analytics-for-wordpress' ); // Use the old name because that's the WordPress.org repo.
-
+		if ( ! isset( $this->aioseo_options['aiosp_google_analytics_id'] ) ) {
 			$this->set_msg( sprintf(
-				/* translators: 1,2: link open tag; 3: link close tag. */
-				__( 'All in One SEO data successfully imported. Would you like to %1$sdisable the All in One SEO plugin%3$s? You\'ve had Google Analytics enabled in All in One SEO, would you like to install our %2$sGoogle Analytics plugin%3$s?', 'wordpress-seo' ),
-				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_aioseo=1#top#import-seo' ) ) . '">',
-				'<a href="' . esc_url( admin_url( 'update.php?action=install-plugin&plugin=google-analytics-for-wordpress&_wpnonce=' . $plugin_install_nonce ) ) . '">',
-				'</a>'
-			) );
-		}
-		else {
-			$this->set_msg( sprintf(
-				/* translators: 1: link open tag; 2: link close tag. */
+			/* translators: 1: link open tag; 2: link close tag. */
 				__( 'All in One SEO data successfully imported. Would you like to %1$sdisable the All in One SEO plugin%2$s?', 'wordpress-seo' ),
 				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_aioseo=1#top#import-seo' ) ) . '">',
 				'</a>'
 			) );
+
+			return;
 		}
+
+		if ( get_option( 'yst_ga' ) === false ) {
+			update_option( 'yst_ga', $this->determine_ga_settings() );
+		}
+
+		$plugin_install_nonce = wp_create_nonce( 'install-plugin_google-analytics-for-wordpress' ); // Use the old name because that's the WordPress.org repo.
+
+		$this->set_msg( sprintf(
+			/* translators: 1,2: link open tag; 3: link close tag. */
+			__( 'All in One SEO data successfully imported. Would you like to %1$sdisable the All in One SEO plugin%3$s? You\'ve had Google Analytics enabled in All in One SEO, would you like to install the %2$sGoogle Analytics plugin%3$s?', 'wordpress-seo' ),
+			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_aioseo=1#top#import-seo' ) ) . '">',
+			'<a href="' . esc_url( admin_url( 'update.php?action=install-plugin&plugin=google-analytics-for-wordpress&_wpnonce=' . $plugin_install_nonce ) ) . '">',
+			'</a>'
+		) );
 	}
 
 	/**
-	 * Determine the appropriate GA settings for this site
+	 * Determine the appropriate GA settings for this site.
 	 *
-	 * @return array $ga_settings
+	 * @return array $ga_settings The imported settings.
 	 */
 	private function determine_ga_settings() {
 		$ga_universal = 0;
-		if ( $this->aioseo_options['aiosp_ga_use_universal_analytics'] == 'on' ) {
+		if ( $this->aioseo_options['aiosp_ga_use_universal_analytics'] === 'on' ) {
 			$ga_universal = 1;
 		}
 
 		$ga_track_outbound = 0;
-		if ( $this->aioseo_options['aiosp_ga_track_outbound_links'] == 'on' ) {
+		if ( $this->aioseo_options['aiosp_ga_track_outbound_links'] === 'on' ) {
 			$ga_track_outbound = 1;
 		}
 
 		$ga_anonymize_ip = 0;
-		if ( $this->aioseo_options['aiosp_ga_anonymize_ip'] == 'on' ) {
+		if ( $this->aioseo_options['aiosp_ga_anonymize_ip'] === 'on' ) {
 			$ga_anonymize_ip = 1;
 		}
 
