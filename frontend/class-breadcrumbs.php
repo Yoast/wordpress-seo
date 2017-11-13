@@ -155,10 +155,10 @@ class WPSEO_Breadcrumbs {
 	 */
 	protected function get_link_url_for_id( $id ) {
 		$post_status = get_post_status( $id );
-		$post_type   = get_post_type( $id );
+		$post_type   = get_post_type_object( get_post_type( $id ) );
 
 		// Don't link if item is private and user does't have capability to read it.
-		if ( $post_status === 'private' && ! current_user_can( 'read_private_' . $post_type ) ) {
+		if ( $post_status === 'private' && $post_type !== null  && ! current_user_can( $post_type->cap->read_private_posts ) ) {
 			return '';
 		}
 
