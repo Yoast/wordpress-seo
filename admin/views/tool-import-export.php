@@ -128,12 +128,12 @@ foreach ( $tabs as $identifier => $tab ) {
 	$helpcenter_tabs->add_tab( $helpcenter_tab );
 }
 
-$helpcenter = new WPSEO_Help_Center( '', $helpcenter_tabs );
+$helpcenter = new WPSEO_Help_Center( '', $helpcenter_tabs, WPSEO_Utils::is_yoast_seo_premium() );
 $helpcenter->localize_data();
 $helpcenter->mount();
 
 foreach ( $tabs as $identifier => $tab ) {
-	printf( '<div id="%s" class="wpseotab">', $identifier );
+	printf( '<div id="%s" class="wpseotab">', esc_attr( $identifier ) );
 	require_once WPSEO_PATH . 'admin/views/tabs/tool/' . $identifier . '.php';
 	echo '</div>';
 }

@@ -11,7 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $extension_list = new WPSEO_Extensions();
-$extensions = $extension_list->get();
+$extensions     = $extension_list->get();
 
 // First invalidate all licenses.
 array_map( array( $extension_list, 'invalidate' ), $extensions );
@@ -134,32 +134,32 @@ if ( class_exists( 'Woocommerce' ) ) {
 
 			<ul class="yoast-seo-premium-benefits yoast-list--usp">
 				<li class="yoast-seo-premium-benefits__item">
-					<span class="yoast-seo-premium-benefits__title"><?php _e( 'Redirect manager', 'wordpress-seo' ); ?></span>
-					<span class="yoast-seo-premium-benefits__description"><?php _e( 'create and manage redirects from within your WordPress install.', 'wordpress-seo' ); ?></span>
+					<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Redirect manager', 'wordpress-seo' ); ?></span>
+					<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'create and manage redirects from within your WordPress install.', 'wordpress-seo' ); ?></span>
 				</li>
 				<li class="yoast-seo-premium-benefits__item">
-					<span class="yoast-seo-premium-benefits__title"><?php _e( 'Multiple focus keywords', 'wordpress-seo' ); ?></span>
-					<span class="yoast-seo-premium-benefits__description"><?php _e( 'optimize a single post for up to 5 keywords.', 'wordpress-seo' ); ?></span>
+					<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Multiple focus keywords', 'wordpress-seo' ); ?></span>
+					<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'optimize a single post for up to 5 keywords.', 'wordpress-seo' ); ?></span>
 				</li>
 				<li class="yoast-seo-premium-benefits__item">
-					<span class="yoast-seo-premium-benefits__title"><?php _e( 'Social previews', 'wordpress-seo' ); ?></span>
-					<span class="yoast-seo-premium-benefits__description"><?php _e( 'check what your Facebook or Twitter post will look like.', 'wordpress-seo' ); ?></span>
+					<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Social previews', 'wordpress-seo' ); ?></span>
+					<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'check what your Facebook or Twitter post will look like.', 'wordpress-seo' ); ?></span>
 				</li>
 				<li class="yoast-seo-premium-benefits__item">
-					<span class="yoast-seo-premium-benefits__title"><?php _e( 'Premium support', 'wordpress-seo' ); ?></span>
-					<span class="yoast-seo-premium-benefits__description"><?php _e( 'gain access to our 24/7 support team.', 'wordpress-seo' ); ?></span>
+					<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Premium support', 'wordpress-seo' ); ?></span>
+					<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'gain access to our 24/7 support team.', 'wordpress-seo' ); ?></span>
 				</li>
 			</ul>
 
 			<?php if ( $extension_list->is_installed( $extension->get_title() ) ) : ?>
-				<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
+				<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
 				<?php if ( $extensions->is_activated( 'wordpress-seo-premium' ) ) : ?>
-					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php _e( 'Activated', 'wordpress-seo' ); ?></div>
-					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>" class="yoast-link--license"><?php _e( 'Manage your subscription on My Yoast', 'wordpress-seo' ); ?></a>
+					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
+					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>" class="yoast-link--license"><?php esc_html_e( 'Manage your subscription on My Yoast', 'wordpress-seo' ); ?></a>
 				<?php else : ?>
-					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-not-activated"><?php _e( 'Not activated', 'wordpress-seo' ); ?></div>
-					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license"><?php _e( 'Activate your site on My Yoast', 'wordpress-seo' ); ?></a>
+					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
+					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license"><?php esc_html_e( 'Activate your site on My Yoast', 'wordpress-seo' ); ?></a>
 				<?php endif; ?>
 				</a>
 
@@ -181,7 +181,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 					?></a>
 			<?php endif; ?>
 
-			<p><small class="yoast-money-back-guarantee"><?php _e( 'Comes with our 30-day no questions asked money back guarantee', 'wordpress-seo' ); ?></small></p>
+			<p><small class="yoast-money-back-guarantee"><?php esc_html_e( 'Comes with our 30-day no questions asked money back guarantee', 'wordpress-seo' ); ?></small></p>
 		</section>
 
 		<hr class="yoast-hr" aria-hidden="true" />
@@ -210,14 +210,14 @@ if ( class_exists( 'Woocommerce' ) ) {
 
 					<div class="yoast-button-container">
 						<?php if ( $extension_list->is_installed( $extension->get_title() ) ) : ?>
-							<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
+							<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
 							<?php if ( $extensions->is_activated( $id ) ) : ?>
-								<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php _e( 'Activated', 'wordpress-seo' ); ?></div>
-								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>" class="yoast-link--license"><?php _e( 'Manage your subscription on My Yoast', 'wordpress-seo' ); ?></a>
+								<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
+								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>" class="yoast-link--license"><?php esc_html_e( 'Manage your subscription on My Yoast', 'wordpress-seo' ); ?></a>
 							<?php else : ?>
-								<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-not-activated"><?php _e( 'Not activated', 'wordpress-seo' ); ?></div>
-								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license"><?php _e( 'Activate your site on My Yoast', 'wordpress-seo' ); ?></a>
+								<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
+								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license"><?php esc_html_e( 'Activate your site on My Yoast', 'wordpress-seo' ); ?></a>
 							<?php endif; ?>
 						<?php else : ?>
 							<a target="_blank" class="yoast-button yoast-button--noarrow yoast-button-go-to  yoast-button--extension yoast-button--extension-buy" href="<?php echo esc_url( $extension->get_buy_url() ); ?>">

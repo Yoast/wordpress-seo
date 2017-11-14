@@ -28,15 +28,15 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 		$server_data = array();
 
 		// Validate if the server address is a valid IP-address.
-		$ipaddress = filter_input( INPUT_SERVER , 'SERVER_ADDR', FILTER_VALIDATE_IP );
+		$ipaddress = filter_input( INPUT_SERVER, 'SERVER_ADDR', FILTER_VALIDATE_IP );
 		if ( $ipaddress ) {
-			$server_data['ip']   = $ipaddress;
+			$server_data['ip']       = $ipaddress;
 			$server_data['Hostname'] = gethostbyaddr( $ipaddress );
 		}
 
-		$server_data['os']          = php_uname( 's r' );
-		$server_data['PhpVersion']  = PHP_VERSION;
-		$server_data['CurlVersion'] = $this->get_curl_info();
+		$server_data['os']            = php_uname( 's r' );
+		$server_data['PhpVersion']    = PHP_VERSION;
+		$server_data['CurlVersion']   = $this->get_curl_info();
 		$server_data['PhpExtensions'] = $this->get_php_extensions();
 
 		return $server_data;

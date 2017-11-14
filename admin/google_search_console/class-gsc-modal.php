@@ -25,8 +25,8 @@ class WPSEO_GSC_Modal {
 	 * @param array  $view_vars The attributes to use in the view.
 	 */
 	public function __construct( $view, $height, array $view_vars = array() ) {
-		$this->view   = $view;
-		$this->height = $height;
+		$this->view      = $view;
+		$this->height    = $height;
 		$this->view_vars = $view_vars;
 	}
 

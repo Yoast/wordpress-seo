@@ -78,7 +78,6 @@ class WPSEO_Bulk_Title_Editor_List_Table extends WPSEO_Bulk_List_Table {
 					'wpseo-new-title-' . $record->ID,
 					$record->ID
 				);
-				break;
 		}
 
 		unset( $meta_data );

@@ -84,9 +84,9 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 */
 	public function add_filter_link( array $views ) {
 		$views[ 'yoast_' . $this->get_query_val() ] = sprintf(
-			'<a href="%1$s" class="%2$s">%3$s</a> (%4$s)',
+			'<a href="%1$s"%2$s>%3$s</a> (%4$s)',
 			esc_url( $this->get_filter_url() ),
-			( $this->is_filter_active() ) ? 'current' : '',
+			( $this->is_filter_active() ) ? ' class="current" aria-current="page"' : '',
 			$this->get_label(),
 			$this->get_post_total()
 		);
@@ -109,7 +109,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * @return void
 	 */
 	public function render_hidden_input() {
-		echo '<input type="hidden" name="' . self::FILTER_QUERY_ARG . '" value="' . $this->get_query_val() . '">';
+		echo '<input type="hidden" name="' . esc_attr( self::FILTER_QUERY_ARG ) . '" value="' . esc_attr( $this->get_query_val() ) . '">';
 	}
 
 	/**

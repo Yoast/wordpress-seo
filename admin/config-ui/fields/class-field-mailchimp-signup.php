@@ -15,9 +15,9 @@ class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 		parent::__construct( 'mailchimpSignup', 'MailchimpSignup' );
 
 		$current_user = wp_get_current_user();
-		$user_email = ( $current_user->ID > 0 ) ? $current_user->user_email : '';
+		$user_email   = ( $current_user->ID > 0 ) ? $current_user->user_email : '';
 
-		$this->set_property( 'title' , __( 'Stay up-to-date', 'wordpress-seo' ) );
+		$this->set_property( 'title', __( 'Stay up-to-date', 'wordpress-seo' ) );
 		$this->set_property(
 			'label',
 			sprintf(

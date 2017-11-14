@@ -20,11 +20,11 @@ $notifier->listen();
 	<?php echo $notifier->notify(); ?>
 
 	<div class="yoast-container yoast-container__alert">
-		<?php include WPSEO_PATH . 'admin/views/partial-alerts-errors.php'; ?>
+		<?php require WPSEO_PATH . 'admin/views/partial-alerts-errors.php'; ?>
 	</div>
 
 	<div class="yoast-container yoast-container__warning">
-		<?php include WPSEO_PATH . 'admin/views/partial-alerts-warnings.php'; ?>
+		<?php require WPSEO_PATH . 'admin/views/partial-alerts-warnings.php'; ?>
 	</div>
 
 </div>

@@ -54,14 +54,19 @@ class Premium_Upsell_Admin_Block {
 
 		$class = $this->get_html_class();
 
-		echo '<div class="' . $class . '">';
-		echo '<a href="' . esc_url( add_query_arg( array( $this->get_query_variable_name() => 1 ) ) ) . '" style="" class="alignright ' . $class . '--close" aria-label="' . esc_attr( sprintf( __( 'Dismiss %s upgrade motivation', 'wordpress-seo' ), 'Yoast SEO Premium' ) ) . '">X</a>';
+		/* translators: %s expands to "Yoast SEO Premium". */
+		$dismiss_msg = sprintf( __( 'Dismiss %s upgrade motivation', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		/* translators: %s expands to "Yoast SEO Premium". */
+		$upgrade_msg = sprintf( __( 'Find out why you should upgrade to %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' );
+
+		echo '<div class="' . esc_attr( $class ) . '">';
+		echo '<a href="' . esc_url( add_query_arg( array( $this->get_query_variable_name() => 1 ) ) ) . '" style="" class="alignright ' . $class . '--close" aria-label="' . esc_attr( $dismiss_msg ) . '">X</a>';
 
 		echo '<div>';
-		echo '<h2 class="' . $class . '--header">' . __( 'Go premium!', 'wordpress-seo' ) . '</h2>';
+		echo '<h2 class="' . $class . '--header">' . esc_html__( 'Go premium!', 'wordpress-seo' ) . '</h2>';
 		echo '<ul class="' . $class . '--motivation">' . $arguments_html . '</ul>';
 
-		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . sprintf( __( 'Find out why you should upgrade to %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br />';
+		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . esc_html( $upgrade_msg ) . '</a><br />';
 		echo '</div>';
 
 		echo '</div>';

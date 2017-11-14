@@ -31,13 +31,13 @@ class WPSEO_Option_Tabs_Formatter {
 		}
 		echo '</h2>';
 
-		$help_center = new WPSEO_Help_Center( '', $option_tabs );
+		$help_center = new WPSEO_Help_Center( '', $option_tabs, WPSEO_Utils::is_yoast_seo_premium() );
 		$help_center->localize_data();
 		$help_center->mount();
 
 		foreach ( $option_tabs->get_tabs() as $tab ) {
 			$identifier = $tab->get_name();
-			printf( '<div id="%s" class="wpseotab">', $identifier );
+			printf( '<div id="%s" class="wpseotab">', esc_attr( $identifier ) );
 
 			// Output the settings view for all tabs.
 			$tab_view = $this->get_tab_view( $option_tabs, $tab );

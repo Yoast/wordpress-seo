@@ -6,7 +6,7 @@
  * @deprecated 3.0 Class inside file is removed.
  */
 
-_deprecated_file( __FILE__, 'WPSEO 3.0', null, __( 'Use javascript instead.', 'wordpress-seo' ) );
+_deprecated_file( __FILE__, 'WPSEO 3.0', null, esc_html__( 'Use javascript instead.', 'wordpress-seo' ) );
 
 /**
  * Class WPSEO_Snippet_Preview
@@ -96,7 +96,7 @@ class WPSEO_Snippet_Preview {
 	 * @deprecated 3.0 Removed, use javascript instead.
 	 */
 	public function get_content() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead.', 'wordpress-seo' ) );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', esc_html__( 'Use javascript instead.', 'wordpress-seo' ) );
 		return $this->content;
 	}
 
@@ -106,7 +106,7 @@ class WPSEO_Snippet_Preview {
 	 * @deprecated 3.0 Removed, use javascript instead.
 	 */
 	protected function set_date() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead.', 'wordpress-seo' ) );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', esc_html__( 'Use javascript instead.', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -117,7 +117,7 @@ class WPSEO_Snippet_Preview {
 	 * @deprecated 3.0 Removed, use javascript instead.
 	 */
 	protected function get_post_date() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead.', 'wordpress-seo' ) );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', esc_html__( 'Use javascript instead.', 'wordpress-seo' ) );
 		return '';
 	}
 
@@ -127,7 +127,7 @@ class WPSEO_Snippet_Preview {
 	 * @deprecated 3.0 Removed, use javascript instead.
 	 */
 	protected function set_url() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead.', 'wordpress-seo' ) );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', esc_html__( 'Use javascript instead.', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -138,7 +138,7 @@ class WPSEO_Snippet_Preview {
 	 * @deprecated 3.0 Removed, use javascript instead.
 	 */
 	protected function set_slug() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead.', 'wordpress-seo' ) );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', esc_html__( 'Use javascript instead.', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -147,7 +147,7 @@ class WPSEO_Snippet_Preview {
 	 * @deprecated 3.0 Removed, use javascript instead.
 	 */
 	protected function set_content() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead.', 'wordpress-seo' ) );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', esc_html__( 'Use javascript instead.', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -158,6 +158,6 @@ class WPSEO_Snippet_Preview {
 	 * @deprecated 3.0 Removed, use javascript instead.
 	 */
 	protected function set_content_through_filter( $content ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead.', 'wordpress-seo' ) );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', esc_html__( 'Use javascript instead.', 'wordpress-seo' ) );
 	}
 }

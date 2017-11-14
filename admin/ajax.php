@@ -60,8 +60,8 @@ function wpseo_set_ignore() {
 	check_ajax_referer( 'wpseo-ignore' );
 
 	$ignore_key = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
+	$options    = get_option( 'wpseo' );
 
-	$options                          = get_option( 'wpseo' );
 	$options[ 'ignore_' . $ignore_key ] = true;
 	update_option( 'wpseo', $options );
 
@@ -147,8 +147,9 @@ function wpseo_ajax_replace_vars() {
 
 	$post = get_post( intval( filter_input( INPUT_POST, 'post_id' ) ) );
 	global $wp_query;
-	$wp_query->queried_object = $post;
+	$wp_query->queried_object    = $post;
 	$wp_query->queried_object_id = $post->ID;
+
 	$omit = array( 'excerpt', 'excerpt_only', 'title' );
 	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
 	die;
@@ -229,7 +230,11 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	if ( ! $post_type_object ) {
 
 		$upsert_results['status']  = 'failure';
-		$upsert_results['results'] = sprintf( __( 'Post has an invalid Post Type: %s.', 'wordpress-seo' ), $the_post->post_type );
+		$upsert_results['results'] = sprintf(
+			/* translators: %s expands to post type. */
+			__( 'Post has an invalid Post Type: %s.', 'wordpress-seo' ),
+			$the_post->post_type
+		);
 
 		return $upsert_results;
 	}
@@ -237,7 +242,11 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
 
 		$upsert_results['status']  = 'failure';
-		$upsert_results['results'] = sprintf( __( 'You can\'t edit %s.', 'wordpress-seo' ), $post_type_object->label );
+		$upsert_results['results'] = sprintf(
+			/* translators: %s expands to post type name. */
+			__( 'You can\'t edit %s.', 'wordpress-seo' ),
+			$post_type_object->label
+		);
 
 		return $upsert_results;
 	}
@@ -245,7 +254,11 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	if ( ! current_user_can( $post_type_object->cap->edit_others_posts ) && $the_post->post_author != get_current_user_id() ) {
 
 		$upsert_results['status']  = 'failure';
-		$upsert_results['results'] = sprintf( __( 'You can\'t edit %s that aren\'t yours.', 'wordpress-seo' ), $post_type_object->label );
+		$upsert_results['results'] = sprintf(
+			/* translators: %s expands to the name of a post type (plural). */
+			__( 'You can\'t edit %s that aren\'t yours.', 'wordpress-seo' ),
+			$post_type_object->label
+		);
 
 		return $upsert_results;
 
@@ -356,14 +369,14 @@ function ajax_get_keyword_usage() {
 	);
 }
 
-add_action( 'wp_ajax_get_focus_keyword_usage',  'ajax_get_keyword_usage' );
+add_action( 'wp_ajax_get_focus_keyword_usage', 'ajax_get_keyword_usage' );
 
 /**
  * Retrieves the keyword for the keyword doubles of the termpages.
  */
 function ajax_get_term_keyword_usage() {
-	$post_id = filter_input( INPUT_POST, 'post_id' );
-	$keyword = filter_input( INPUT_POST, 'keyword' );
+	$post_id       = filter_input( INPUT_POST, 'post_id' );
+	$keyword       = filter_input( INPUT_POST, 'keyword' );
 	$taxonomy_name = filter_input( INPUT_POST, 'taxonomy' );
 
 	$taxonomy = get_taxonomy( $taxonomy_name );
@@ -386,7 +399,7 @@ function ajax_get_term_keyword_usage() {
 	);
 }
 
-add_action( 'wp_ajax_get_term_keyword_usage',  'ajax_get_term_keyword_usage' );
+add_action( 'wp_ajax_get_term_keyword_usage', 'ajax_get_term_keyword_usage' );
 
 /**
  * Removes stopword from the sample permalink that is generated in an AJAX request

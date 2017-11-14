@@ -120,7 +120,7 @@ class WPSEO_Rewrite {
 
 		$category_rewrite = array();
 
-		$taxonomy = get_taxonomy( 'category' );
+		$taxonomy            = get_taxonomy( 'category' );
 		$permalink_structure = get_option( 'permalink_structure' );
 
 		$blog_prefix = '';
@@ -146,7 +146,7 @@ class WPSEO_Rewrite {
 
 				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' ]                = 'index.php?category_name=$matches[1]&feed=$matches[2]';
 				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$' ] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
-				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/?$' ]                                                   = 'index.php?category_name=$matches[1]';
+				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/?$' ] = 'index.php?category_name=$matches[1]';
 			}
 			unset( $categories, $category, $category_nicename );
 		}
