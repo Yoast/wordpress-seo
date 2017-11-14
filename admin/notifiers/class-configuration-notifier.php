@@ -8,12 +8,31 @@
  */
 class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 
+	const META_NAME  = 'wpseo-dismiss-configuration-notice';
+	const META_VALUE = 'yes';
+
+	/** @var bool */
+	protected $show_notification;
+
+	/**
+	 * Checks if the notification should be shown.
+	 *
+	 * @param array $options The array with options.
+	 */
+	public function __construct( $options ) {
+		$this->show_notification = ! $this->is_dismissed() && ! empty( $options['show_onboarding_notice'] );
+	}
+
 	/**
 	 * Returns the content of the notification.
 	 *
-	 * @return string
+	 * @return string A string with the notification HTML, or empty string when no notification is needed.
 	 */
 	public function notify() {
+		if ( ! $this->show_notification ) {
+			return '';
+		}
+
 		$notification  = '<div class="yoast-container yoast-container__configuration-wizard">';
 		$notification .= sprintf(
 			'<img src="%1$s" height="%2$s" width="%3$d"  />',
@@ -48,11 +67,15 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @return void
 	 */
 	public function listen() {
+		if ( ! $this->show_notification ) {
+			return;
+		}
+
 		if ( ! $this->is_triggered()  ) {
 			return;
 		}
 
-		WPSEO_Configuration_Notification::set_dismissed( get_current_user_id() );
+		$this->set_dismissed();
 	}
 
 	/**
@@ -62,5 +85,23 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 */
 	protected function is_triggered() {
 		return filter_input( INPUT_GET, 'dismiss_get_started' ) !== '1';
+	}
+
+	/**
+	 * Checks if the current user has dismissed the notification.
+	 *
+	 * @return bool True when the notification has been dismissed.
+	 */
+	protected function is_dismissed() {
+		return get_user_meta( get_current_user_id(), self::META_NAME, true ) === self::META_VALUE;
+	}
+
+	/**
+	 * Sets the dismissed state for the current user.
+	 *
+	 * @return void
+	 */
+	protected function set_dismissed() {
+		update_user_meta( get_current_user_id(), self::META_NAME, self::META_VALUE );
 	}
 }
