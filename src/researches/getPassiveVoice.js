@@ -40,7 +40,6 @@ var getSentenceParts = function( sentence, language ) {
 			sentenceParts = getSentencePartsEnglish( sentence );
 			break;
 	}
-	console.log(sentenceParts);
 	return sentenceParts;
 };
 

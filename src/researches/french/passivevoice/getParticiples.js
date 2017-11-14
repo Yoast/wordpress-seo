@@ -32,5 +32,6 @@ module.exports = function( sentencePartText, auxiliaries ) {
 				{ auxiliaries: auxiliaries, type: type } ) );
 		}
 	} );
+	
 	return foundParticiples;
 };
