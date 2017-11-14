@@ -36,7 +36,7 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
 	public function test_plugin_existence() {
 		$expected = array(
-			'url'          => 'https://yoast.com/',
+			'url'          => 'http://example.com/',
 			'title'        => 'Test Plugin',
 			'description'  => '',
 			'version'      => '3.3',

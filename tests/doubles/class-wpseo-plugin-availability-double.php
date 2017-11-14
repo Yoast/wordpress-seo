@@ -21,7 +21,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	public function register_yoast_plugins() {
 		$this->plugins = array(
 			'test-plugin' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '3.3',
@@ -31,7 +31,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 			),
 
 			'test-plugin-dependency' => array(
-				'url'           => 'https://yoast.com/',
+				'url'           => 'http://example.com/',
 				'title'         => 'Test Plugin With Dependency',
 				'description'   => '',
 				'version'       => '3.3',
@@ -45,7 +45,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 			),
 
 			'test-plugin-dependency-2' => array(
-				'url'           => 'https://yoast.com/',
+				'url'           => 'http://example.com/',
 				'title'         => 'Test Plugin With Dependency Part 2',
 				'description'   => '',
 				'version'       => '3.3',
@@ -59,7 +59,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 			),
 
 			'unavailable-test-plugin' => array(
-				'url'         => 'https://yoast.com/',
+				'url'         => 'http://example.com/',
 				'title'       => 'Unavailable Test Plugin',
 				'description' => '',
 				'version'     => '3.3',
@@ -68,7 +68,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 			),
 
 			'unavailable-test-plugin-dependency' => array(
-				'url'         => 'https://yoast.com/',
+				'url'         => 'http://example.com/',
 				'title'       => 'Test Plugin Without Dependency',
 				'description' => '',
 				'version'     => '3.3',
@@ -77,7 +77,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 			),
 
 			'test-plugin-no-version' => array(
-				'url'         => 'https://yoast.com/',
+				'url'         => 'http://example.com/',
 				'title'       => 'Test Plugin With No Version',
 				'description' => '',
 				'installed'   => false,
@@ -85,7 +85,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 			),
 
 			'test-plugin-invalid-version' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '1.3',
@@ -96,7 +96,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 			),
 
 			'test-plugin-non-version-synced' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '1.3',
