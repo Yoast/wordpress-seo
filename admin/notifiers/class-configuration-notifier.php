@@ -20,7 +20,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @param array $options The array with options.
 	 */
 	public function __construct( $options ) {
-		$this->show_notification = ! $this->is_dismissed() && ! empty( $options['show_onboarding_notice'] );
+		$this->show_notification = ! empty( $options['show_onboarding_notice'] );
 	}
 
 	/**
@@ -29,7 +29,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @return string A string with the notification HTML, or empty string when no notification is needed.
 	 */
 	public function notify() {
-		if ( ! $this->show_notification ) {
+		if ( ! $this->show_notification() ) {
 			return '';
 		}
 
@@ -67,11 +67,11 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @return void
 	 */
 	public function listen() {
-		if ( ! $this->show_notification ) {
+		if ( ! $this->show_notification() ) {
 			return;
 		}
 
-		if ( ! $this->is_triggered()  ) {
+		if ( ! $this->dismissal_is_triggered()  ) {
 			return;
 		}
 
@@ -83,7 +83,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 *
 	 * @return bool True when action has been triggered.
 	 */
-	protected function is_triggered() {
+	protected function dismissal_is_triggered() {
 		return filter_input( INPUT_GET, 'dismiss_get_started' ) !== '1';
 	}
 
@@ -103,5 +103,14 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 */
 	protected function set_dismissed() {
 		update_user_meta( get_current_user_id(), self::META_NAME, self::META_VALUE );
+	}
+
+	/**
+	 * Returns the value of show notification.
+	 *
+	 * @return bool True when notification should be shown.
+	 */
+	protected function show_notification() {
+		return $this->show_notification && ! $this->is_dismissed();
 	}
 }
