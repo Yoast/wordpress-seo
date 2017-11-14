@@ -61,12 +61,12 @@ class WPSEO_Cornerstone_Test extends WPSEO_UnitTestCase {
 
 		$cornerstone = $this
 			->getMockBuilder( 'WPSEO_Cornerstone' )
-			->setMethods( array( 'get_cornerstone_checkbox_value', 'delete_meta' ) )
+			->setMethods( array( 'is_cornerstone_checkbox', 'delete_meta' ) )
 			->getMock();
 
 		$cornerstone
 			->expects( $this->once() )
-			->method( 'get_cornerstone_checkbox_value' )
+			->method( 'is_cornerstone_checkbox' )
 			->will( $this->returnValue( false ) );
 
 		$cornerstone
@@ -90,12 +90,12 @@ class WPSEO_Cornerstone_Test extends WPSEO_UnitTestCase {
 
 		$cornerstone = $this
 			->getMockBuilder( 'WPSEO_Cornerstone' )
-			->setMethods( array( 'get_cornerstone_checkbox_value', 'update_meta' ) )
+			->setMethods( array( 'is_cornerstone_checkbox', 'update_meta' ) )
 			->getMock();
 
 		$cornerstone
 			->expects( $this->once() )
-			->method( 'get_cornerstone_checkbox_value' )
+			->method( 'is_cornerstone_checkbox' )
 			->will( $this->returnValue( true ) );
 
 		$cornerstone

@@ -29,7 +29,7 @@ class WPSEO_Cornerstone {
 	 * @param int $post_id The post id to save the meta value for.
 	 */
 	public function save_meta_value( $post_id ) {
-		$is_cornerstone = $this->get_cornerstone_checkbox_value();
+		$is_cornerstone = $this->is_cornerstone_checkbox();
 
 		if ( $is_cornerstone ) {
 			$this->update_meta( $post_id, $is_cornerstone );
@@ -45,7 +45,7 @@ class WPSEO_Cornerstone {
 	 *
 	 * @return bool True when checkbox is checked.
 	 */
-	protected function get_cornerstone_checkbox_value() {
+	protected function is_cornerstone_checkbox() {
 		return filter_input( INPUT_POST, self::META_NAME ) === '1';
 	}
 
