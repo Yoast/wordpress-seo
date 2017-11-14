@@ -14,6 +14,12 @@ class WPSEO_Cornerstone {
 	 * Registers the hooks.
 	 */
 	public function register_hooks() {
+		global $pagenow;
+
+		if ( ! in_array( $pagenow, array( 'post-new.php', 'post.php' ), true ) ) {
+			return;
+		}
+
 		add_action( 'save_post', array( $this, 'save_meta_value' ) );
 	}
 
