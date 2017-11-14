@@ -164,8 +164,8 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 				</table>
 			</xsl:if>
 		</div>
-		<script type="text/javascript" src="<?php echo includes_url( 'js/jquery/jquery.js' ); ?>"></script>
-		<script type="text/javascript" src="<?php echo plugins_url( 'js/dist/jquery.tablesorter.min.js', WPSEO_FILE ); ?>"></script>
+		<script type="text/javascript" src="<?php echo esc_url( includes_url( 'js/jquery/jquery.js' ) ); ?>"></script>
+		<script type="text/javascript" src="<?php echo esc_url( plugins_url( 'js/dist/jquery.tablesorter.min.js', WPSEO_FILE ) ); ?>"></script>
 		<script	type="text/javascript"><![CDATA[
 			jQuery(document).ready(function() {
 				jQuery("#sitemap").tablesorter( { widgets: ['zebra'] } );

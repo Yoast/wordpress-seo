@@ -4,17 +4,17 @@
  */
 
 /**
- * Option: wpseo_social
+ * Option: wpseo_social.
  */
 class WPSEO_Option_Social extends WPSEO_Option {
 
 	/**
-	 * @var  string  option name
+	 * @var  string  Option name.
 	 */
 	public $option_name = 'wpseo_social';
 
 	/**
-	 * @var  array  Array of defaults for the option
+	 * @var  array  Array of defaults for the option.
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 */
 	protected $defaults = array(
@@ -23,7 +23,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 		// Non-form field, set via translate_defaults() and validate_option() methods.
 		'fbconnectkey'       => '',
-		// Form fields:
+		// Form fields.
 		'facebook_site'      => '', // Text field.
 		'instagram_url'      => '',
 		'linkedin_url'       => '',
@@ -38,18 +38,18 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'plus-publisher'     => '', // Text field.
 		'twitter'            => true,
 		'twitter_site'       => '', // Text field.
-		'twitter_card_type'  => 'summary',
+		'twitter_card_type'  => 'summary_large_image',
 		'youtube_url'        => '',
 		'google_plus_url'    => '',
-		// Form field, but not always available:
+		// Form field, but not always available.
 		'fbadminapp'         => '', // Facebook app ID.
 	);
 
 	/**
-	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults
+	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults.
 	 */
 	public $ms_exclude = array(
-		/* privacy */
+		/* Privacy. */
 		'fb_admins',
 		'fbconnectkey',
 		'fbadminapp',
@@ -58,7 +58,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 
 	/**
-	 * @var  array  Array of allowed twitter card types
+	 * @var  array  Array of allowed twitter card types.
 	 *              While we only have the options summary and summary_large_image in the
 	 *              interface now, we might change that at some point.
 	 *
@@ -77,7 +77,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 
 	/**
-	 * Get the singleton instance of this class
+	 * Get the singleton instance of this class.
 	 *
 	 * @return object
 	 */
@@ -91,12 +91,12 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 
 	/**
-	 * Translate/set strings used in the option defaults
+	 * Translate/set strings used in the option defaults.
 	 *
 	 * @return void
 	 */
 	public function translate_defaults() {
-		/* Auto-magically set the fb connect key */
+		/* Auto-magically set the fb connect key. */
 		$this->defaults['fbconnectkey'] = self::get_fbconnectkey();
 
 		self::$twitter_card_types['summary']             = __( 'Summary', 'wordpress-seo' );
@@ -105,7 +105,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 
 	/**
-	 * Get a Facebook connect key for the blog
+	 * Get a Facebook connect key for the blog.
 	 *
 	 * @static
 	 * @return string
@@ -116,19 +116,19 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 
 	/**
-	 * Validate the option
+	 * Validate the option.
 	 *
 	 * @param  array $dirty New value for the option.
 	 * @param  array $clean Clean value for the option, normally the defaults.
 	 * @param  array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database
+	 * @return  array      Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 
 		foreach ( $clean as $key => $value ) {
 			switch ( $key ) {
-				/* Automagic Facebook connect key */
+				/* Automagic Facebook connect key. */
 				case 'fbconnectkey':
 					if ( ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) && preg_match( '`^[a-f0-9]{32}$`', $old[ $key ] ) > 0 ) {
 						$clean[ $key ] = $old[ $key ];
@@ -139,7 +139,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					break;
 
 
-				/* Will not always exist in form */
+				/* Will not always exist in form. */
 				case 'fb_admins':
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === array() ) {
@@ -150,7 +150,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 								/*
 								 * @todo [JRF/JRF => Yoast/whomever] add user_id validation -
 								 * are these WP user-ids or FB user-ids ? Probably FB user-ids,
-								 * if so, find out the rules for FB user-ids
+								 * if so, find out the rules for FB user-ids.
 								 */
 								if ( is_array( $fb_array ) && $fb_array !== array() ) {
 									foreach ( $fb_array as $fb_key => $fb_value ) {
@@ -158,7 +158,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 											case 'name':
 												/**
 												 * @todo [JRF => whomever] add validation for name based
-												 * on rules if there are any
+												 * on rules if there are any.
 												 * Input comes from: $_GET['userrealname']
 												 */
 												$clean[ $key ][ $user_id ][ $fb_key ] = sanitize_text_field( $fb_value );
@@ -188,7 +188,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					break;
 
 
-				/* url text fields - no ftp allowed */
+				/* URL text fields - no ftp allowed. */
 				case 'facebook_site':
 				case 'instagram_url':
 				case 'linkedin_url':
@@ -215,7 +215,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 						 * Typically a maximum of 15 characters long, but some historical accounts
 						 * may exist with longer names.
 						 * A username can only contain alphanumeric characters (letters A-Z, numbers 0-9)
-						 * with the exception of underscores
+						 * with the exception of underscores.
 						 *
 						 * @link https://support.twitter.com/articles/101299-why-can-t-i-register-certain-usernames
 						 * @link https://dev.twitter.com/docs/platform-objects/users
@@ -277,20 +277,20 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 
 	/**
-	 * Clean a given option value
+	 * Clean a given option value.
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
 	 *                                       clean according to the rules for this option.
-	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
+	 * @param  string $current_version       Optional. Version from which to upgrade, if not set,
 	 *                                       version specific upgrades will be disregarded.
-	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
+	 * @param  array  $all_old_option_values Optional. Only used when importing old options to have
 	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
-	 * @return  array            Cleaned option
+	 * @return  array Cleaned option.
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
-		/* Move options from very old option to this one */
+		/* Move options from very old option to this one. */
 		$old_option = null;
 		if ( isset( $all_old_option_values ) ) {
 			// Ok, we have an import.

@@ -28,9 +28,9 @@ class WPSEO_Link {
 	 * @param string $type           The url type: internal or outbound.
 	 */
 	public function __construct( $url, $target_post_id, $type ) {
-		$this->url = $url;
+		$this->url            = $url;
 		$this->target_post_id = $target_post_id;
-		$this->type = $type;
+		$this->type           = $type;
 	}
 
 	/**

@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Links
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -20,13 +26,16 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
 		global $wpdb;
 
-		$storage = new WPSEO_Link_Storage();
+		$storage      = new WPSEO_Link_Storage();
 		$meta_storage = new WPSEO_Meta_Storage();
 
 		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
 		$wpdb->query( 'DROP TABLE ' . $meta_storage->get_table_name() );
 	}
 
+	/**
+	 * Set up.
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -70,7 +79,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_post_columns() {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
-		$expected = array(
+		$expected     = array(
 			'wpseo-links'  => '<span class="yoast-linked-to yoast-column-header-has-tooltip" data-label="Number of internal links in this post. See &quot;Yoast Columns&quot; text in the help tab for more info."><span class="screen-reader-text"># links in post</span></span>',
 			'wpseo-linked' => '<span class="yoast-linked-from yoast-column-header-has-tooltip" data-label="Number of internal links linking to this post. See &quot;Yoast Columns&quot; text in the help tab for more info."><span class="screen-reader-text"># internal links to</span></span>',
 		);

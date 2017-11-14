@@ -26,7 +26,7 @@ class WPSEO_Link_Extractor {
 	 * @return array All the extracted links
 	 */
 	public function extract() {
-		$links  = array();
+		$links = array();
 
 		if ( strpos( $this->content, 'href' ) === false ) {
 			return $links;

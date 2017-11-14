@@ -189,7 +189,7 @@ class WPSEO_Sitemaps_Renderer {
 
 		$url['loc'] = htmlspecialchars( $url['loc'] );
 
-		$output = "\t<sitemap>\n";
+		$output  = "\t<sitemap>\n";
 		$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
 		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date ) . "</lastmod>\n";
 		$output .= "\t</sitemap>\n";
@@ -218,7 +218,7 @@ class WPSEO_Sitemaps_Renderer {
 
 		$url['loc'] = htmlspecialchars( $url['loc'] );
 
-		$output = "\t<url>\n";
+		$output  = "\t<url>\n";
 		$output .= "\t\t<loc>" . $this->encode_url_rfc3986( $url['loc'] ) . "</loc>\n";
 		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date ) . "</lastmod>\n";
 
@@ -243,7 +243,7 @@ class WPSEO_Sitemaps_Renderer {
 					$title = mb_convert_encoding( $title, $this->output_charset, $this->charset );
 				}
 
-				$title = _wp_specialchars( html_entity_decode( $title, ENT_QUOTES, $this->output_charset ) );
+				$title   = _wp_specialchars( html_entity_decode( $title, ENT_QUOTES, $this->output_charset ) );
 				$output .= "\t\t\t<image:title><![CDATA[{$title}]]></image:title>\n";
 			}
 
@@ -255,7 +255,7 @@ class WPSEO_Sitemaps_Renderer {
 					$alt = mb_convert_encoding( $alt, $this->output_charset, $this->charset );
 				}
 
-				$alt = _wp_specialchars( html_entity_decode( $alt, ENT_QUOTES, $this->output_charset ) );
+				$alt     = _wp_specialchars( html_entity_decode( $alt, ENT_QUOTES, $this->output_charset ) );
 				$output .= "\t\t\t<image:caption><![CDATA[{$alt}]]></image:caption>\n";
 			}
 

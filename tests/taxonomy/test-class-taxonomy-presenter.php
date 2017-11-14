@@ -1,8 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests\Taxonomy
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 
 

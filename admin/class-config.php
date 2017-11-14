@@ -69,8 +69,6 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager->enqueue_style( 'select2' );
 
 		$this->asset_manager->enqueue_style( 'admin-css' );
-
-		$this->asset_manager->enqueue_style( 'kb-search' );
 	}
 
 	/**
@@ -87,7 +85,7 @@ class WPSEO_Admin_Pages {
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
 
-		if ( in_array( $page, array( 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER ) ) ) {
+		if ( in_array( $page, array( 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER ), true ) ) {
 			wp_enqueue_media();
 
 			$this->asset_manager->enqueue_script( 'admin-media' );

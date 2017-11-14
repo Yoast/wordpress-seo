@@ -142,7 +142,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			if ( $max_pages > 1 ) {
 
-				$sql       = "
+				$sql = "
 				SELECT post_modified_gmt
 				    FROM ( SELECT @rownum:=0 ) init 
 				    JOIN {$wpdb->posts} USE INDEX( type_status_date )
@@ -305,7 +305,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		if ( ! in_array( $post_type, get_post_types( array( 'public' => true ) ) ) ) {
+		if ( ! in_array( $post_type, get_post_types( array( 'public' => true ), 'names' ), true ) ) {
 			return false;
 		}
 
@@ -351,7 +351,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$where = $this->get_sql_where_clause( $post_type );
 
-		$sql   = "
+		$sql = "
 			SELECT COUNT({$wpdb->posts}.ID)
 			FROM {$wpdb->posts}
 			{$join_filter}

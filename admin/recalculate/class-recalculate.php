@@ -54,7 +54,7 @@ abstract class WPSEO_Recalculate {
 	public function get_items_to_recalculate( $paged ) {
 		$return = array();
 
-		$paged = abs( $paged );
+		$paged         = abs( $paged );
 		$this->options = WPSEO_Options::get_all();
 
 		$items = $this->get_items( $paged );

@@ -6,19 +6,14 @@ branches:
   only:
     - master
     - trunk
-
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
+    - /^release\/\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
 
 jobs:
   fast_finish: true
   include:
     - php: 7.0
-      env: WP_VERSION=4.8 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 COVERAGE=1 TRAVIS_NODE_VERSION=node CXX=g++-4.8
+      env: WP_VERSION=4.8 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 COVERAGE=1 TRAVIS_NODE_VERSION=node
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
@@ -79,7 +74,7 @@ before_install:
 install:
 - if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local 5.6.13; fi
 - composer selfupdate 1.0.0 --no-interaction
-- if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then composer require --dev phpunit/phpunit ^5.7; fi
+- if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then composer require --dev phpunit/phpunit 5.7.23; fi
 - composer install --no-interaction
 - composer config-yoastcs
 - if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local --unset; fi

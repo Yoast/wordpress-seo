@@ -1,9 +1,7 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests\Sitemaps
  */
-
-require_once WPSEO_TESTS_PATH . 'sitemaps/class-wpseo-sitemaps-double.php';
 
 /**
  * Class WPSEO_Sitemaps_Test
@@ -16,7 +14,16 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	/**
-	 * Set up our double class
+	 * Load the test mock class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/class-wpseo-sitemaps-double.php';
+	}
+
+	/**
+	 * Set up our double class.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -41,7 +48,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the main sitemap and also tests the transient cache
+	 * Tests the main sitemap and also tests the transient cache.
 	 *
 	 * @covers WPSEO_Sitemaps::redirect
 	 */
@@ -52,7 +59,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		$this->factory->post->create();
 
-		// Go to the XML sitemap twice, see if transient cache is set
+		// Go to the XML sitemap twice, see if transient cache is set.
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
 		$this->expectOutputContains( array(
 			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -73,7 +80,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test for last modified date
+	 * Test for last modified date.
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
 	 */
@@ -109,7 +116,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test for last modified date with invalid post types
+	 * Test for last modified date with invalid post types.
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
 	 */

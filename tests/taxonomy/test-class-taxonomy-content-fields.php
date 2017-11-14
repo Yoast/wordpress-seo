@@ -1,23 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests\Taxonomy
  */
 
-class WPSEO_Taxonomy_Content_Fields_Double extends WPSEO_Taxonomy_Content_Fields {
-
-	/**
-	 * Override an option value
-	 *
-	 * @param string $option_name  The target key which will be overwritten
-	 * @param string $option_value The new value for the option.
-	 */
-	public function set_option( $option_name, $option_value ) {
-		$this->options[ $option_name ] = $option_value;
-
-	}
-
-}
-
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -29,6 +17,15 @@ class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 	 * @var stdClass The created term.
 	 */
 	private $term;
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-taxonomy-content-fields-double.php';
+	}
 
 	/**
 	 * Adding a term and set the class instance

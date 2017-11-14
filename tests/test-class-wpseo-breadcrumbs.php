@@ -1,16 +1,19 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Placeholder test to prevent PHPUnit from throwing errors
+	 * Placeholder test to prevent PHPUnit from throwing errors.
 	 */
 	/*public function test_breadcrumb_home() {
 
-		// test for home breadcrumb
+		// Test for home breadcrumb.
 		$expected = '<span prefix="v: http://rdf.data-vocabulary.org/#">
 			<span typeof="v:Breadcrumb"><span class="breadcrumb_last" property="v:title">Home</span></span>
 		</span>';
@@ -22,11 +25,11 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 
 
 	/**
-	 * Placeholder test to prevent PHPUnit from throwing errors
+	 * Placeholder test to prevent PHPUnit from throwing errors.
 	 */
 	public function test_breadcrumb_before() {
 
-		// test before argument
+		// Test before argument.
 		$output   = WPSEO_Breadcrumbs::breadcrumb( 'before', '', false );
 		$expected = 'before';
 		$this->assertStringStartsWith( $expected, $output );
@@ -35,11 +38,11 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Placeholder test to prevent PHPUnit from throwing errors
+	 * Placeholder test to prevent PHPUnit from throwing errors.
 	 */
 	public function test_breadcrumb_after() {
 
-		// test after argument
+		// Test after argument.
 		$output   = WPSEO_Breadcrumbs::breadcrumb( '', 'after', false );
 		$expected = 'after';
 		$this->assertStringEndsWith( $expected, $output );
