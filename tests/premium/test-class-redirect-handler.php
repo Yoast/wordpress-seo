@@ -87,4 +87,43 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
+	/**
+	 * Test load PHP redirects for non-existing option.
+	 *
+	 * @covers WPSEO_Redirect_Handler::load_php_redirects()
+	 */
+	public function test_load_php_redirects() {
+		delete_option( 'wpseo_redirect' );
+
+		$class_instance = new WPSEO_Redirect_Handler_Double();
+		$this->assertTrue( $class_instance->load_php_redirects() );
+	}
+
+	/**
+	 * Test load PHP redirects for existing option with redirects not disabled.
+	 *
+	 * @covers WPSEO_Redirect_Handler::load_php_redirects()
+	 */
+	public function test_load_php_redirects_option_set_not_disabled() {
+		update_option( 'wpseo_redirect', array( 'disable_php_redirect' => 'off' ) );
+
+		$class_instance = new WPSEO_Redirect_Handler_Double();
+		$this->assertTrue( $class_instance->load_php_redirects() );
+
+		delete_option( 'wpseo_redirect' );
+	}
+
+	/**
+	 * Test load PHP redirects for existing option with PHP redirects disabled.
+	 *
+	 * @covers WPSEO_Redirect_Handler::load_php_redirects()
+	 */
+	public function test_load_php_redirects_option_set_disabled() {
+		update_option( 'wpseo_redirect', array( 'disable_php_redirect' => 'on' ) );
+
+		$class_instance = new WPSEO_Redirect_Handler_Double();
+		$this->assertFalse( $class_instance->load_php_redirects() );
+
+		delete_option( 'wpseo_redirect' );
+	}
 }
