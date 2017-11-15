@@ -1,4 +1,7 @@
-// This is a list of irregular participles used in French.
+/* This is a list of irregular participles used in French.
+The following participles were excluded because they are intransitive verbs that cannot be passive:
+ apparu, réapparu, devenu, redevenu, intervenu, mort, parti, parvenu, provenu, resurvenu, revenu, survenu, venu
+*/
 module.exports = function() {
 	return [
 		"abâtardi",
