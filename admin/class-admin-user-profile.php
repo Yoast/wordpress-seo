@@ -9,7 +9,7 @@
  */
 class WPSEO_Admin_User_Profile {
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 */
 	public function __construct() {
 		add_action( 'show_user_profile', array( $this, 'user_profile' ) );
@@ -21,7 +21,7 @@ class WPSEO_Admin_User_Profile {
 	}
 
 	/**
-	 * Clear author sitemap cache when settings are changed
+	 * Clear author sitemap cache when settings are changed.
 	 *
 	 * @since 3.1
 	 *
@@ -53,7 +53,7 @@ class WPSEO_Admin_User_Profile {
 	/**
 	 * Updates the user metas that (might) have been set on the user profile page.
 	 *
-	 * @param    int $user_id of the updated user.
+	 * @param int $user_id User ID of the updated user.
 	 */
 	public function process_user_option_update( $user_id ) {
 		update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
@@ -75,12 +75,12 @@ class WPSEO_Admin_User_Profile {
 	}
 
 	/**
-	 * Add the inputs needed for SEO values to the User Profile page
+	 * Add the inputs needed for SEO values to the User Profile page.
 	 *
 	 * @param WP_User $user User instance to output for.
 	 */
 	public function user_profile( $user ) {
-		$options = WPSEO_Options::get_option( 'wpseo' );
+		$options        = WPSEO_Options::get_option( 'wpseo' );
 		$options_titles = WPSEO_Options::get_option( 'wpseo_titles' );
 
 		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );

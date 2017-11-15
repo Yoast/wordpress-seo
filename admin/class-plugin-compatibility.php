@@ -32,8 +32,8 @@ class WPSEO_Plugin_Compatibility {
 	public function __construct( $version, $availability_checker = null ) {
 		// We trim off the patch version, as this shouldn't break the comparison.
 		$this->current_wpseo_version = $this->get_major_minor_version( $version );
-		$this->availability_checker = $this->retrieve_availability_checker( $availability_checker );
-		$this->installed_plugins = $this->availability_checker->get_installed_plugins();
+		$this->availability_checker  = $this->retrieve_availability_checker( $availability_checker );
+		$this->installed_plugins     = $this->availability_checker->get_installed_plugins();
 	}
 
 	/**
@@ -45,7 +45,8 @@ class WPSEO_Plugin_Compatibility {
 	 */
 	private function retrieve_availability_checker( $checker ) {
 		if ( is_null( $checker ) || ! is_object( $checker ) ) {
-			return new WPSEO_Plugin_Availability();
+			$checker = new WPSEO_Plugin_Availability();
+			$checker->register();
 		}
 
 		return $checker;
@@ -83,8 +84,13 @@ class WPSEO_Plugin_Compatibility {
 	 */
 	public function is_compatible( $plugin ) {
 		$plugin = $this->availability_checker->get_plugin( $plugin );
-		$plugin_version = $this->availability_checker->get_version( $plugin );
 
+		// If we are not syncing versions, we are always compatible.
+		if ( ! isset( $plugin['version_sync'] ) || $plugin['version_sync'] !== true ) {
+			return true;
+		}
+
+		$plugin_version = $this->availability_checker->get_version( $plugin );
 		return $this->get_major_minor_version( $plugin_version ) === $this->current_wpseo_version;
 	}
 

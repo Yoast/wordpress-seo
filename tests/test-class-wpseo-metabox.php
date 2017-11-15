@@ -1,8 +1,11 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -10,6 +13,9 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 		self::$class_instance = new WPSEO_Metabox();
@@ -74,7 +80,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		// Setup.
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
 
-		// vars.
+		// Vars.
 		$meta_fields = apply_filters( 'wpseo_save_metaboxes', array() );
 		$meta_fields = array_merge(
 			$meta_fields,

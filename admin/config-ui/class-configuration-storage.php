@@ -47,7 +47,7 @@ class WPSEO_Configuration_Storage {
 		);
 
 		$post_type_factory = new WPSEO_Config_Factory_Post_Type();
-		$fields = array_merge( $fields, $post_type_factory->get_fields() );
+		$fields            = array_merge( $fields, $post_type_factory->get_fields() );
 
 		foreach ( $fields as $field ) {
 			$this->add_field( $field );

@@ -16,9 +16,9 @@ echo ' ';
 /* translators: %s expands to <code>noindex, follow</code> */
 printf( __( 'If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn\'t show up in the search results.', 'wordpress-seo' ), '<code>noindex,follow</code>' );
 echo ' ';
-echo __( 'Note that links to archives might be still output by your theme and you would need to remove them separately.', 'wordpress-seo' );
+echo esc_html__( 'Note that links to archives might be still output by your theme and you would need to remove them separately.', 'wordpress-seo' );
 echo ' ';
-_e( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
+esc_html_e( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
 echo '</p>';
 
 echo "<div id='author-archives-titles-metas'>";
@@ -63,7 +63,7 @@ echo '<p>' . sprintf( __( 'These pages will be %s by default, so they will never
 echo '<p><strong>' . __( 'Search pages', 'wordpress-seo' ) . '</strong><br/>';
 $yform->textinput( 'title-search-wpseo', __( 'Title template', 'wordpress-seo' ), 'template search-template' );
 echo '</p>';
-echo '<p><strong>' . __( '404 pages', 'wordpress-seo' ) . '</strong><br/>';
+echo '<p><strong>' . esc_html__( '404 pages', 'wordpress-seo' ) . '</strong><br/>';
 $yform->textinput( 'title-404-wpseo', __( 'Title template', 'wordpress-seo' ), 'template error404-template' );
 echo '</p>';
 echo '</div>';

@@ -1,28 +1,7 @@
 <?php
 /**
- * @package WPSEO\UnitTests
+ * @package WPSEO\Tests\ConfigUI
  */
-
-/**
- * Class WPSEO_Configuration_Options_Adapter_Mock
- */
-class WPSEO_Configuration_Options_Adapter_Mock extends WPSEO_Configuration_Options_Adapter {
-	public function get_lookups() {
-		return $this->lookup;
-	}
-
-	public function add_lookup( $class_name, $type, $option ) {
-		return parent::add_lookup( $class_name, $type, $option );
-	}
-
-	public function get_option_type( $class_name ) {
-		return parent::get_option_type( $class_name );
-	}
-
-	public function get_option( $class_name ) {
-		return parent::get_option( $class_name );
-	}
-}
 
 /**
  * Class WPSEO_Configuration_Options_Adapter_Test
@@ -31,6 +10,15 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 	/** @var WPSEO_Configuration_Options_Adapter_Mock */
 	protected $adapter;
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-options-adapter-mock.php';
+	}
 
 	/**
 	 * Set up

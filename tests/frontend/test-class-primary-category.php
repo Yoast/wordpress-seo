@@ -1,15 +1,21 @@
 <?php
-
+/**
+ * @package WPSEO\Tests\Frontend
+ */
 
 /**
+ * Unit Test Class.
  */
 class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @type WPSEO_Frontend_Primary_Category
+	 * @var WPSEO_Frontend_Primary_Category
 	 */
 	protected $subject;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 

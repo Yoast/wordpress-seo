@@ -1,6 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Metabox
+ */
 
-
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 
 	/**
@@ -8,6 +13,9 @@ class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 	 */
 	protected $subject;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->subject = new WPSEO_Metabox_Editor();

@@ -20,7 +20,7 @@ $taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomi
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	foreach ( $taxonomies as $tax ) {
 		// Explicitly hide all the core taxonomies we never want in our sitemap.
-		if ( in_array( $tax->name, array( 'link_category', 'nav_menu' ) ) ) {
+		if ( in_array( $tax->name, array( 'link_category', 'nav_menu' ), true ) ) {
 			continue;
 		}
 
