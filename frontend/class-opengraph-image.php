@@ -118,6 +118,13 @@ class WPSEO_OpenGraph_Image {
 			$this->get_opengraph_image_taxonomy();
 		}
 
+		/**
+		 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the OpenGraph tags.
+		 *
+		 * @api WPSEO_OpenGraph_Image The current object.
+		 */
+		do_action( 'wpseo_add_opengraph_additional_images', $this );
+
 		$this->get_default_image();
 	}
 
