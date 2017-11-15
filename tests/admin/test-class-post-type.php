@@ -103,6 +103,17 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the situation where a post type will be filter by use of the 'wpseo_accessible_post_types' filter.
+	 */
+	public function test_get_accessible_post_types_with_a_filter_hook_that_returns_wrong_type() {
+		add_filter( 'wpseo_accessible_post_types', '__return_true' );
+
+		$this->assertEquals( array(), WPSEO_Post_Type::get_accessible_post_types() );
+
+		remove_filter( 'wpseo_accessible_post_types', '__return_true' );
+	}
+
+	/**
 	 * Tests the situation with a post type that isn't set to robots noindex.
 	 *
 	 * @covers WPSEO_Post_Type::is_post_type_indexable()

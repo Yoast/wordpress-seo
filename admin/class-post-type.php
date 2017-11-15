@@ -26,6 +26,11 @@ class WPSEO_Post_Type {
 		 */
 		$post_types = apply_filters( 'wpseo_accessible_post_types', $post_types );
 
+		// When the array gets messed up somewhere.
+		if ( ! is_array( $post_types ) ) {
+			return array();
+		}
+
 		return $post_types;
 	}
 
