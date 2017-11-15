@@ -390,9 +390,11 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Check if we should load the php redirects.
+	 * Check if we should load the PHP redirects.
 	 *
-	 * @return bool
+	 * If Apache or NginX configuration is selected, don't load PHP redirects.
+	 *
+	 * @return bool True if PHP redirects should be loaded and used.
 	 */
 	protected function load_php_redirects() {
 
@@ -403,16 +405,19 @@ class WPSEO_Redirect_Handler {
 		global $wpdb;
 
 		$options = $wpdb->get_row( "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'wpseo_redirect'" );
-		if ( ! is_object( $options ) ) {
-			return false;
+		// If the option is not set, load the PHP redirects.
+		if ( $options === null ) {
+			return true;
 		}
 
 		$options = maybe_unserialize( $options->option_value );
 
+		// If the PHP redirects are disabled intentionally, return false.
 		if ( ! empty( $options['disable_php_redirect'] ) && $options['disable_php_redirect'] === 'on' ) {
 			return false;
 		}
 
+		// PHP redirects are the enabled method of redirecting.
 		return true;
 	}
 

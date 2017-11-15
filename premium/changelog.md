@@ -1,3 +1,6 @@
+### 5.8.0: November 15th, 2017
+* Includes every change in Yoast SEO core 5.8.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 5.7.1: October 25th, 2017
 * Prefixes `$redirect_handler` as `$wpseo_redirect_handler` as this is globally available.
 
