@@ -1,25 +1,7 @@
 <?php
 /**
- * @package WPSEO\UnitTests
+ * @package WPSEO\Tests\ConfigUI
  */
-
-/**
- * Class WPSEO_Configuration_Structure_Mock
- */
-class WPSEO_Configuration_Structure_Mock extends WPSEO_Configuration_Structure {
-
-	/**
-	 * Make add_step public
-	 *
-	 * @param string $identifier
-	 * @param string $title
-	 * @param array  $fields
-	 * @param bool   $navigation
-	 */
-	public function add_step_mock( $identifier, $title, $fields, $navigation = true ) {
-		$this->add_step( $identifier, $title, $fields, $navigation );
-	}
-}
 
 /**
  * Class WPSEO_Configuration_Structure_Test
@@ -28,6 +10,15 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 	/** @var WPSEO_Configuration_Service_Mock Mock holder */
 	protected $structure;
+
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-structure-mock.php';
+	}
 
 	/**
 	 * Set up

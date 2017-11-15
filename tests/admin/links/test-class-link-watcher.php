@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Links
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -20,7 +26,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		global $wpdb;
 
-		$storage = new WPSEO_Link_Storage();
+		$storage      = new WPSEO_Link_Storage();
 		$meta_storage = new WPSEO_Meta_Storage();
 
 		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
@@ -33,7 +39,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_is_processable_post_revision() {
 
 		$post_parent = $this->factory->post->create_and_get();
-		$post = $this->factory->post->create_and_get(
+		$post        = $this->factory->post->create_and_get(
 			array(
 				'post_type'   => 'revision',
 				'post_parent' => $post_parent->ID,
@@ -130,6 +136,9 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$watcher->save_post( $post->ID, $post );
 	}
 
+	/**
+	 * Test deleting links when a post is deleted.
+	 */
 	public function test_delete_post() {
 		$post = $this->factory->post->create_and_get(
 			array(

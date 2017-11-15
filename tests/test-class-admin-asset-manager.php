@@ -1,11 +1,20 @@
 <?php
+/**
+ * @package WPSEO\Tests
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	private $asset_manager;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -281,11 +290,19 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::flatten_version
 	 * @dataProvider flatten_version_provider
+	 *
+	 * @param string $original Version number.
+	 * @param string $expected Expected output.
 	 */
 	public function test_flatten_version( $original, $expected ) {
 		$this->assertEquals( $expected, $this->asset_manager->flatten_version( $original ) );
 	}
 
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
 	public function flatten_version_provider() {
 		return array(
 			array( '3.0', '300' ),

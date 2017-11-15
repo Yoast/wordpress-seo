@@ -64,6 +64,7 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 			'link_aria_label' => '',
 			'single'          => false,
 		);
+
 		$options = array_merge( $default_options, $options );
 
 		$this->name            = $name;

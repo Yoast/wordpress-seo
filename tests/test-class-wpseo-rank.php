@@ -1,6 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests
+ */
 
-
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 
 	/**

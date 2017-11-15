@@ -91,7 +91,7 @@ class WPSEO_Sitemaps {
 	 */
 	public function init_sitemaps_providers() {
 
-		$this->providers   = array(
+		$this->providers = array(
 			new WPSEO_Post_Type_Sitemap_Provider(),
 			new WPSEO_Taxonomy_Sitemap_Provider(),
 			new WPSEO_Author_Sitemap_Provider(),
@@ -118,7 +118,7 @@ class WPSEO_Sitemaps {
 		$request_uri = $_SERVER['REQUEST_URI'];
 		$extension   = substr( $request_uri, -4 );
 
-		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, array( '.xml', '.xsl' ) ) ) {
+		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, array( '.xml', '.xsl' ), true ) ) {
 			remove_all_actions( 'widgets_init' );
 		}
 	}
@@ -577,7 +577,7 @@ class WPSEO_Sitemaps {
 			'monthly',
 			'yearly',
 			'never',
-		) )
+		), true )
 		) {
 			$change_freq = $default;
 		}

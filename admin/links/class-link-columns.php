@@ -8,16 +8,29 @@
  */
 class WPSEO_Link_Columns {
 
+	/**
+	 * @var string Partial column name.
+	 */
 	const COLUMN_LINKED = 'linked';
+
+	/**
+	 * @var string Partial column name.
+	 */
 	const COLUMN_LINKS = 'links';
 
-	/** @var WPSEO_Link_Column_Count */
+	/**
+	 * @var WPSEO_Link_Column_Count
+	 */
 	protected $link_count;
 
-	/** @var WPSEO_Meta_Storage Storage to use. */
+	/**
+	 * @var WPSEO_Meta_Storage Storage to use.
+	 */
 	protected $storage;
 
-	/** @var array List of public post types. */
+	/**
+	 * @var array List of public post types.
+	 */
 	protected $public_post_types = array();
 
 	/**
@@ -128,7 +141,7 @@ class WPSEO_Link_Columns {
 
 		$table = $this->storage->get_table_name();
 
-		$pieces['join']    .= " LEFT JOIN $table AS yst_links ON yst_links.object_id = {$wpdb->posts}.ID ";
+		$pieces['join']   .= " LEFT JOIN $table AS yst_links ON yst_links.object_id = {$wpdb->posts}.ID ";
 		$pieces['orderby'] = "{$field} $order, FIELD( {$wpdb->posts}.post_status, 'publish' ) $order, {$pieces['orderby']}";
 
 		return $pieces;
@@ -206,15 +219,21 @@ class WPSEO_Link_Columns {
 	 * @param int    $post_id     Post to display the column content for.
 	 */
 	public function column_content( $column_name, $post_id ) {
+		$link_count = null;
+
 		switch ( $column_name ) {
 			case 'wpseo-' . self::COLUMN_LINKS:
-				echo $this->link_count->get( $post_id, 'internal_link_count' );
+				$link_count = $this->link_count->get( $post_id, 'internal_link_count' );
 				break;
 			case 'wpseo-' . self::COLUMN_LINKED:
 				if ( get_post_status( $post_id ) === 'publish' ) {
-					echo $this->link_count->get( $post_id, 'incoming_link_count' );
+					$link_count = $this->link_count->get( $post_id, 'incoming_link_count' );
 				}
 				break;
+		}
+
+		if ( isset( $link_count ) ) {
+			echo (int) $link_count;
 		}
 	}
 

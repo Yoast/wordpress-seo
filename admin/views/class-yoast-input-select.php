@@ -42,10 +42,10 @@ class Yoast_Input_Select {
 	 * @param string $selected_option The current selected option.
 	 */
 	public function __construct( $select_id, $select_name, array $select_options, $selected_option ) {
-		$this->select_id         = $select_id;
-		$this->select_name       = $select_name;
-		$this->select_options    = $select_options;
-		$this->selected_option   = $selected_option;
+		$this->select_id       = $select_id;
+		$this->select_name     = $select_name;
+		$this->select_options  = $select_options;
+		$this->selected_option = $selected_option;
 	}
 
 	/**

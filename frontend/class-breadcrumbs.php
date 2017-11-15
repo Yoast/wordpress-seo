@@ -91,7 +91,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Create the breadcrumb
 	 */
-	private function __construct() {
+	protected function __construct() {
 		$this->options        = WPSEO_Options::get_options( array( 'wpseo_titles', 'wpseo_internallinks', 'wpseo_xml' ) );
 		$this->post           = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
 		$this->show_on_front  = get_option( 'show_on_front' );
@@ -114,7 +114,7 @@ class WPSEO_Breadcrumbs {
 	 * @param string $after   Optional string to append.
 	 * @param bool   $display Echo or return flag.
 	 *
-	 * @return object
+	 * @return string Returns the breadcrumbs as a string.
 	 */
 	public static function breadcrumb( $before = '', $after = '', $display = true ) {
 		if ( ! ( self::$instance instanceof self ) ) {
@@ -129,11 +129,10 @@ class WPSEO_Breadcrumbs {
 		if ( $display === true ) {
 			echo $output;
 
-			return true;
+			return '';
 		}
-		else {
-			return $output;
-		}
+
+		return $output;
 	}
 
 	/**
@@ -143,6 +142,32 @@ class WPSEO_Breadcrumbs {
 	 */
 	public function __toString() {
 		return self::$before . $this->output . self::$after;
+	}
+
+	/**
+	 * Returns the link url for a single id.
+	 *
+	 * When the target is private and the user isn't allowed to access it, just return an empty string.
+	 *
+	 * @param int $id The target id.
+	 *
+	 * @return string Empty string when post isn't accessible. An URL if accessible.
+	 */
+	protected function get_link_url_for_id( $id ) {
+		$post_status = get_post_status( $id );
+		$post_type   = get_post_type_object( get_post_type( $id ) );
+
+		// Don't link if item is private and user does't have capability to read it.
+		if ( $post_status === 'private' && $post_type !== null  && ! current_user_can( $post_type->cap->read_private_posts ) ) {
+			return '';
+		}
+
+		$url = get_permalink( $id );
+		if ( $url === false ) {
+			return '';
+		}
+
+		return $url;
 	}
 
 
@@ -352,7 +377,7 @@ class WPSEO_Breadcrumbs {
 				}
 			}
 			elseif ( is_author() ) {
-				$user = $wp_query->get_queried_object();
+				$user         = $wp_query->get_queried_object();
 				$display_name = get_the_author_meta( 'display_name', $user->ID );
 				$this->add_predefined_crumb(
 					$this->options['breadcrumbs-archiveprefix'] . ' ' . $display_name,
@@ -632,7 +657,7 @@ class WPSEO_Breadcrumbs {
 			return;
 		}
 
-		foreach ( $this->crumbs as $i => $crumb ) {
+		foreach ( $this->crumbs as $index => $crumb ) {
 			$link_info = $crumb; // Keep pre-set url/text combis.
 
 			if ( isset( $crumb['id'] ) ) {
@@ -645,7 +670,17 @@ class WPSEO_Breadcrumbs {
 				$link_info = $this->get_link_info_for_ptarchive( $crumb['ptarchive'] );
 			}
 
-			$this->links[] = $this->crumb_to_link( $link_info, $i );
+			/**
+			 * Filter: 'wpseo_breadcrumb_single_link_info' - Allow developers to filter the Yoast SEO Breadcrumb link information.
+			 *
+			 * @api array $link_info The breadcrumb link information.
+			 *
+			 * @param int $index The index of the breadcrumb in the list.
+			 * @param array $crumbs The complete list of breadcrumbs.
+			 */
+			$link_info = apply_filters( 'wpseo_breadcrumb_single_link_info', $link_info, $index, $this->crumbs );
+
+			$this->links[] = $this->crumb_to_link( $link_info, $index );
 		}
 	}
 
@@ -657,10 +692,10 @@ class WPSEO_Breadcrumbs {
 	 * @return array Array of link text and url
 	 */
 	private function get_link_info_for_id( $id ) {
-		$link = array();
-
-		$link['url']  = get_permalink( $id );
+		$link         = array();
+		$link['url']  = $this->get_link_url_for_id( $id );
 		$link['text'] = WPSEO_Meta::get_value( 'bctitle', $id );
+
 		if ( $link['text'] === '' ) {
 			$link['text'] = strip_tags( get_the_title( $id ) );
 		}
@@ -668,11 +703,12 @@ class WPSEO_Breadcrumbs {
 		/**
 		 * Filter: 'wp_seo_get_bc_title' - Allow developer to filter the Yoast SEO Breadcrumb title.
 		 *
+		 * @deprecated 5.8
 		 * @api string $link_text The Breadcrumb title text
 		 *
 		 * @param int $link_id The post ID
 		 */
-		$link['text'] = apply_filters( 'wp_seo_get_bc_title', $link['text'], $id );
+		$link['text'] = apply_filters_deprecated( 'wp_seo_get_bc_title', array( $link['text'], $id ), 'WPSEO 5.8', 'wpseo_breadcrumb_single_link_info' );
 
 		return $link;
 	}
@@ -864,7 +900,6 @@ class WPSEO_Breadcrumbs {
 
 		return $class;
 	}
-
 
 	/********************** DEPRECATED METHODS **********************/
 

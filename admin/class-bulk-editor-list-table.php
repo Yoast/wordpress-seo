@@ -218,7 +218,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 			<?php if ( 'top' === $which ) { ?>
 			<form id="posts-filter" action="" method="get">
-				<input type="hidden" name="nonce" value="<?php echo $this->nonce; ?>"/>
+				<input type="hidden" name="nonce" value="<?php echo esc_attr( $this->nonce ); ?>"/>
 				<input type="hidden" name="page" value="wpseo_tools"/>
 				<input type="hidden" name="tool" value="bulk-editor"/>
 				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>"/>
@@ -409,17 +409,17 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				if ( is_array( $post_types ) && $post_types !== array() ) {
 					foreach ( $post_types as $post_type ) {
-						$obj = get_post_type_object( $post_type->post_type );
+						$obj      = get_post_type_object( $post_type->post_type );
 						$options .= sprintf( '<option value="%2$s" %3$s>%1$s</option>', $obj->labels->name, $post_type->post_type, selected( $selected, $post_type->post_type, false ) );
 					}
 				}
 
 				printf(
 					'<label for="%1$s" class="screen-reader-text">%2$s</label>',
-					'post-type-filter-' . $instance_type,
-					__( 'Filter by post type', 'wordpress-seo' )
+					esc_attr( 'post-type-filter-' . $instance_type ),
+					esc_html__( 'Filter by post type', 'wordpress-seo' )
 				);
-				echo sprintf( '<select name="post_type_filter" id="post-type-filter-%2$s">%1$s</select>', $options, $instance_type );
+				printf( '<select name="post_type_filter" id="post-type-filter-%2$s">%1$s</select>', $options, $instance_type );
 				submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
 			}
@@ -647,7 +647,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			'post_date',
 		);
 
-		if ( in_array( $orderby, $valid_column_names ) ) {
+		if ( in_array( $orderby, $valid_column_names, true ) ) {
 			return $orderby;
 		}
 
@@ -662,7 +662,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return string $order SQL order string (ASC, DESC).
 	 */
 	protected function sanitize_order( $order ) {
-		if ( in_array( strtoupper( $order ), array( 'ASC', 'DESC' ) ) ) {
+		if ( in_array( strtoupper( $order ), array( 'ASC', 'DESC' ), true ) ) {
 			return $order;
 		}
 
@@ -697,7 +697,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		if ( ! empty( $_GET['post_status'] ) ) {
 			$requested_state = sanitize_text_field( $_GET['post_status'] );
-			if ( in_array( $requested_state, $states ) ) {
+			if ( in_array( $requested_state, $states, true ) ) {
 				$states = array( $requested_state );
 			}
 		}
@@ -740,7 +740,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					}
 
 					if ( ! empty( $column_value ) ) {
-						echo sprintf( '<td %2$s>%1$s</td>', $column_value, $attributes );
+						printf( '<td %2$s>%1$s</td>', $column_value, $attributes );
 					}
 				}
 
@@ -762,9 +762,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected function column_attributes( $column_name, $hidden, $classes, $column_display_name ) {
 
 		$attributes = '';
-		$class = array( $column_name, "column-$column_name$classes" );
+		$class      = array( $column_name, "column-$column_name$classes" );
 
-		if ( in_array( $column_name, $hidden ) ) {
+		if ( in_array( $column_name, $hidden, true ) ) {
 			$class[] = 'hidden';
 		}
 
@@ -806,7 +806,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		}
 
 		if ( $post_type_object->public ) {
-			if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
+			if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ), true ) ) {
 				if ( $can_edit_post ) {
 					$actions['view'] = sprintf(
 						'<a href="%s" aria-label="%s">%s</a>',

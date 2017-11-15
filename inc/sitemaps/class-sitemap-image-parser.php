@@ -91,8 +91,8 @@ class WPSEO_Sitemap_Image_Parser {
 
 		if ( 'attachment' === $post->post_type && wp_attachment_is_image( $post ) ) {
 
-			$src      = $this->get_absolute_url( $this->image_url( $post->ID ) );
-			$alt      = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
+			$src = $this->get_absolute_url( $this->image_url( $post->ID ) );
+			$alt = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
 
 			$images[] = $this->get_image_item( $post, $src, $post->post_title, $alt );
 		}

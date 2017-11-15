@@ -168,7 +168,7 @@ class HelpCenter extends React.Component {
 
 		this.props.additionalHelpCenterTabs.map( tab => {
 			let content;
-			if( this.props.shouldDisplayContactForm === "1" ) {
+			if ( this.props.shouldDisplayContactForm === "1" && tab.identifier === "contact-support" ) {
 				const supportButton = this.props.intl.formatMessage( { id: "contactSupport.button" } );
 				content = <ContactSupport
 					buttonText={ supportButton }
@@ -198,6 +198,8 @@ class HelpCenter extends React.Component {
 				buttonIconColor={ colors.$color_pink_dark }
 				buttonWithTextShadow={ false }
 				onHelpCenterToggle={ this.props.onHelpCenterToggle }
+				onTabSelect={ this.props.onTabSelect }
+				onTabsMounted={ this.props.onTabsMounted }
 				items={ this.getTabs() }
 			/>
 		);
@@ -206,6 +208,8 @@ class HelpCenter extends React.Component {
 
 HelpCenter.propTypes = {
 	onHelpCenterToggle: PropTypes.func,
+	onTabSelect: PropTypes.func,
+	onTabsMounted: PropTypes.func,
 	onPremiumSupport: PropTypes.func,
 	adminTabsData: PropTypes.object.isRequired,
 	additionalHelpCenterTabs: PropTypes.array,
@@ -239,22 +243,46 @@ function toggleSidebar( expanded ) {
 	jQuery( ".wpseo_content_wrapper" ).toggleClass( "yoast-help-center-open", expanded );
 }
 
+/**
+ * Triggers a custom DOM event when the react tabs gets mounted.
+ *
+ * By default only the current active tab panel content will be rendered. The
+ * other tab panels will be empty. If the react-tabs prop `forceRenderTabPanel`
+ * is set to true the content of all the panels will be always rendered.
+ *
+ * @returns {void}
+ */
+function handleTabsMounted() {
+	jQuery( window ).trigger( "Yoast:YoastTabsMounted" );
+}
+
+/**
+ * Triggers a custom DOM event when a react tabs gets selected.
+ *
+ * @returns {void}
+ */
+function handleTabSelect() {
+	jQuery( window ).trigger( "Yoast:YoastTabsSelected" );
+}
+
 if ( window.wpseoHelpCenterData ) {
 	// Add react-intl translations
 	addLocaleData( wpseoHelpCenterData.translations );
 
 	ReactDOM.render(
 		<IntlProvider
-			locale={wpseoHelpCenterData.translations.locale}
-			messages={wpseoHelpCenterData.translations}>
+			locale={ wpseoHelpCenterData.translations.locale }
+			messages={ wpseoHelpCenterData.translations }>
 			<HelpCenterIntl
-				onHelpCenterToggle={toggleSidebar}
-				onPremiumSupport={onPremiumSupport}
-				initialTab={wpseoHelpCenterData.initialTab}
-				adminTabsData={wpseoHelpCenterData.tabs}
-				additionalHelpCenterTabs={wpseoHelpCenterData.extraTabs}
-				videoTutorialParagraphs={wpseoHelpCenterData.videoDescriptions}
-				shouldDisplayContactForm={wpseoHelpCenterData.shouldDisplayContactForm}
+				onHelpCenterToggle={ toggleSidebar }
+				onTabSelect={ handleTabSelect }
+				onTabsMounted={ handleTabsMounted }
+				onPremiumSupport={ onPremiumSupport }
+				initialTab={ wpseoHelpCenterData.initialTab }
+				adminTabsData={ wpseoHelpCenterData.tabs }
+				additionalHelpCenterTabs={ wpseoHelpCenterData.extraTabs }
+				videoTutorialParagraphs={ wpseoHelpCenterData.videoDescriptions }
+				shouldDisplayContactForm={ wpseoHelpCenterData.shouldDisplayContactForm }
 			/>
 		</IntlProvider>,
 		document.getElementById( wpseoHelpCenterData.mountId )

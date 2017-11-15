@@ -109,7 +109,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * @return void
 	 */
 	public function render_hidden_input() {
-		echo '<input type="hidden" name="' . self::FILTER_QUERY_ARG . '" value="' . $this->get_query_val() . '">';
+		echo '<input type="hidden" name="' . esc_attr( self::FILTER_QUERY_ARG ) . '" value="' . esc_attr( $this->get_query_val() ) . '">';
 	}
 
 	/**

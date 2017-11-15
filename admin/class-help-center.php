@@ -145,7 +145,7 @@ class WPSEO_Help_Center {
 	 * Outputs the help center div.
 	 */
 	public function mount() {
-		echo '<div id="' . esc_attr( $this->identifier ) . '">' . __( 'Loading help center.', 'wordpress-seo' ) . '</div>';
+		echo '<div id="' . esc_attr( $this->identifier ) . '">' . esc_html__( 'Loading help center.', 'wordpress-seo' ) . '</div>';
 	}
 
 	/**
@@ -173,14 +173,14 @@ class WPSEO_Help_Center {
 		$popup_content .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '</ul>';
 
-		$premium_popup = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content );
-
+		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content, WPSEO_Shortlinker::get( 'https://yoa.st/contact-support' ) );
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
 			__( 'Get support', 'wordpress-seo' ),
 			array( 'content' => $premium_popup->get_premium_message( false ) ),
 			'dashicons-email-alt'
 		);
+
 		$this->help_center_items[] = $contact_support_help_center_item;
 	}
 

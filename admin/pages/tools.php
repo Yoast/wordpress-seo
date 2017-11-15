@@ -58,7 +58,7 @@ if ( '' === $tool_page ) {
 	$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
 
 	foreach ( $tools as $slug => $tool ) {
-		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg( array( 'tool' => $slug ) , $admin_url );
+		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg( array( 'tool' => $slug ), $admin_url );
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 
 		echo '<li>';
@@ -68,11 +68,11 @@ if ( '' === $tool_page ) {
 	}
 	echo '</ul>';
 
-	echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . wp_create_nonce( 'wpseo_recalculate' ) . '" />';
+	echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_recalculate' ) ) . '" />';
 
 }
 else {
-	echo '<a href="', admin_url( 'admin.php?page=wpseo_tools' ), '">', __( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
+	echo '<a href="', esc_url( admin_url( 'admin.php?page=wpseo_tools' ) ), '">', esc_html__( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
 
 	$tool_pages = array( 'bulk-editor', 'import-export' );
 
@@ -80,7 +80,7 @@ else {
 		$tool_pages[] = 'file-editor';
 	}
 
-	if ( in_array( $tool_page, $tool_pages ) ) {
+	if ( in_array( $tool_page, $tool_pages, true ) ) {
 		require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
 	}
 }

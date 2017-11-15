@@ -17,14 +17,14 @@ class WPSEO_Admin {
 	private $options;
 
 	/**
-	 * Array of classes that add admin functionality
+	 * Array of classes that add admin functionality.
 	 *
 	 * @var array
 	 */
 	protected $admin_features;
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 */
 	public function __construct() {
 		$integrations = array();
@@ -102,7 +102,8 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();
 		$integrations[] = new WPSEO_Slug_Change_Watcher();
-		$integrations = array_merge( $integrations, $this->initialize_seo_links() );
+		$integrations[] = new WPSEO_Capability_Manager_Integration( WPSEO_Capability_Manager_Factory::get() );
+		$integrations   = array_merge( $integrations, $this->initialize_seo_links() );
 
 		/** @var WPSEO_WordPress_Integration $integration */
 		foreach ( $integrations as $integration ) {
@@ -112,7 +113,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Setting the hooks for importing data from other plugins
+	 * Setting the hooks for importing data from other plugins.
 	 */
 	public function import_plugin_hooks() {
 		if ( current_user_can( $this->get_manage_options_cap() ) ) {
@@ -124,14 +125,14 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Schedules a rewrite flush to happen at shutdown
+	 * Schedules a rewrite flush to happen at shutdown.
 	 */
 	public function schedule_rewrite_flush() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
 	/**
-	 * Returns all the classes for the admin features
+	 * Returns all the classes for the admin features.
 	 *
 	 * @return array
 	 */
@@ -140,13 +141,11 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Register assets needed on admin pages
+	 * Register assets needed on admin pages.
 	 */
 	public function enqueue_assets() {
-		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_style( 'help-center' );
-
 		if ( 'wpseo_licenses' === filter_input( INPUT_GET, 'page' ) ) {
+			$asset_manager = new WPSEO_Admin_Asset_Manager();
 			$asset_manager->enqueue_style( 'extensions' );
 		}
 	}
@@ -158,9 +157,9 @@ class WPSEO_Admin {
 	 */
 	public function get_manage_options_cap() {
 		/**
-		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
+		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages.
 		 *
-		 * @api string unsigned The capability
+		 * @api string unsigned The capability.
 		 */
 		return apply_filters( 'wpseo_manage_options_capability', 'wpseo_manage_options' );
 	}
@@ -257,12 +256,12 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Add a link to the settings page to the plugins list
+	 * Add a link to the settings page to the plugins list.
 	 *
-	 * @staticvar string $this_plugin holds the directory & filename for the plugin
+	 * @staticvar string $this_plugin Holds the directory & filename for the plugin.
 	 *
-	 * @param array  $links array of links for the plugins, adapted when the current plugin is found.
-	 * @param string $file  the filename for the current plugin, which the filter loops through.
+	 * @param array  $links Array of links for the plugins, adapted when the current plugin is found.
+	 * @param string $file  The filename for the current plugin, which the filter loops through.
 	 *
 	 * @return array $links
 	 */
@@ -313,7 +312,7 @@ class WPSEO_Admin {
 	 *
 	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
 	 *
-	 * @param array $contactmethods currently set contactmethods.
+	 * @param array $contactmethods Currently set contactmethods.
 	 *
 	 * @return array $contactmethods with added contactmethods.
 	 */
@@ -333,7 +332,7 @@ class WPSEO_Admin {
 	 *
 	 * @since 1.1.7
 	 *
-	 * @param string $slug if this isn't empty, the function will return an unaltered slug.
+	 * @param string $slug If this isn't empty, the function will return an unaltered slug.
 	 *
 	 * @return string $clean_slug cleaned slug
 	 */
@@ -380,7 +379,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Log the updated timestamp for user profiles when theme is changed
+	 * Log the updated timestamp for user profiles when theme is changed.
 	 */
 	public function switch_theme() {
 		$users = get_users( array( 'who' => 'authors' ) );
@@ -457,7 +456,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Loads the cornerstone filter
+	 * Loads the cornerstone filter.
 	 */
 	protected function initialize_cornerstone_content() {
 		if ( ! $this->options['enable_cornerstone_content'] ) {
@@ -546,7 +545,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Clears the cache
+	 * Clears the cache.
 	 *
 	 * @deprecated 1.5.0
 	 * @deprecated use WPSEO_Utils::clear_cache()
@@ -558,7 +557,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Clear rewrites
+	 * Clear rewrites.
 	 *
 	 * @deprecated 1.5.0
 	 * @deprecated use WPSEO_Utils::clear_rewrites()
@@ -599,7 +598,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Load the form for a WPSEO admin page
+	 * Load the form for a WPSEO admin page.
 	 *
 	 * @deprecated 5.5
 	 */
@@ -647,12 +646,12 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Returns the stopwords for the current language
+	 * Returns the stopwords for the current language.
 	 *
 	 * @since 1.1.7
 	 * @deprecated 3.1 Use WPSEO_Admin_Stop_Words::list_stop_words() instead.
 	 *
-	 * @return array $stopwords array of stop words to check and / or remove from slug
+	 * @return array $stopwords Array of stop words to check and / or remove from slug.
 	 */
 	public function stopwords() {
 		_deprecated_function( __METHOD__, 'WPSEO 3.1', 'WPSEO_Admin_Stop_Words::list_stop_words' );
@@ -662,7 +661,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Check whether the stopword appears in the string
+	 * Check whether the stopword appears in the string.
 	 *
 	 * @deprecated 3.1
 	 *

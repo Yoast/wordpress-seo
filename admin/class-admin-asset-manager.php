@@ -152,7 +152,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'help-center',
 				'src'  => 'wp-seo-help-center-' . $flat_version,
 				'deps' => array(
-					'jquery'
+					'jquery',
 				),
 			),
 			array(
@@ -410,14 +410,6 @@ class WPSEO_Admin_Asset_Manager {
 				'suffix'  => '.min',
 				'version' => '4.0.1',
 				'rtl'     => false,
-			),
-			array(
-				'name' => 'kb-search',
-				'src'  => 'kb-search-' . $flat_version,
-			),
-			array(
-				'name' => 'help-center',
-				'src'  => 'help-center-' . $flat_version,
 			),
 			array(
 				'name' => 'admin-global',

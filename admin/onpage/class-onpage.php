@@ -67,26 +67,29 @@ class WPSEO_OnPage {
 	 * @return bool
 	 */
 	public function fetch_from_onpage() {
-		if ( $this->onpage_option->should_be_fetched() && false !== ( $new_status = $this->request_indexability() ) ) {
+		if ( $this->onpage_option->should_be_fetched() ) {
+			$new_status = $this->request_indexability();
+			if ( false !== $new_status ) {
 
-			// Updates the timestamp in the option.
-			$this->onpage_option->set_last_fetch( time() );
+				// Updates the timestamp in the option.
+				$this->onpage_option->set_last_fetch( time() );
 
-			// The currently indexability status.
-			$old_status = $this->onpage_option->get_status();
+				// The currently indexability status.
+				$old_status = $this->onpage_option->get_status();
 
-			// Saving the new status.
-			$this->onpage_option->set_status( $new_status );
+				// Saving the new status.
+				$this->onpage_option->set_status( $new_status );
 
-			// Saving the option.
-			$this->onpage_option->save_option();
+				// Saving the option.
+				$this->onpage_option->save_option();
 
-			// Check if the status has been changed.
-			if ( $old_status !== $new_status && $new_status !== WPSEO_OnPage_Option::CANNOT_FETCH ) {
-				$this->notify_admins();
+				// Check if the status has been changed.
+				if ( $old_status !== $new_status && $new_status !== WPSEO_OnPage_Option::CANNOT_FETCH ) {
+					$this->notify_admins();
+				}
+
+				return true;
 			}
-
-			return true;
 		}
 
 		return false;
