@@ -9,6 +9,16 @@
 class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Remove the custom post type after each test.
+	 */
+	public function tearDown() {
+		parent::tearDown();
+
+		// Remove possibly set post type.
+		unregister_post_type( 'custom-post-type' );
+	}
+
+	/**
 	 * Tests the default situation with no custom post types being added.
 	 *
 	 * @covers WPSEO_Post_Type::get_accessible_post_types()
