@@ -1,4 +1,3 @@
-var find = require( "lodash/find" );
 var forEach = require( "lodash/forEach" );
 var memoize = require( "lodash/memoize" );
 
@@ -37,7 +36,7 @@ var irregularParticiples = function( word ) {
 
 module.exports = function() {
 	return {
-		regularParticiples: memoize(regularParticiples),
-		irregularParticiples: memoize(irregularParticiples),
+		regularParticiples: memoize( regularParticiples ),
+		irregularParticiples: memoize( irregularParticiples ),
 	};
 };
