@@ -15,6 +15,7 @@ class WPSEO_Cornerstone {
 	 */
 	public function register_hooks() {
 		add_action( 'save_post', array( $this, 'save_meta_value' ) );
+		add_filter( 'wpseo_cornerstone_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
 	}
 
 	/**

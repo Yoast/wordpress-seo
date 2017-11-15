@@ -87,4 +87,13 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 			)
 		);
 	}
+
+	/**
+	 * Returns the post types to which this filter should be added.
+	 *
+	 * @return array The post types to which this filter should be added.
+	 */
+	protected function get_post_types() {
+		return (array) apply_filters( 'wpseo_cornerstone_post_types', parent::get_post_types() );
+	}
 }

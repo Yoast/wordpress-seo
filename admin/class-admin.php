@@ -462,6 +462,9 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Link_Reindex_Dashboard();
 		$integrations[] = new WPSEO_Link_Notifier();
 
+		// Adds a filter to exclude the attachments from the link count.
+		add_filter( 'wpseo_link_count_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
+
 		return $integrations;
 	}
 
