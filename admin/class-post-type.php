@@ -42,7 +42,7 @@ class WPSEO_Post_Type {
 		if ( ! array_key_exists( 'noindex-' . $post_type_name, $option ) ) {
 			return false;
 		}
-		
+
 		return empty( $option[ 'noindex-' . $post_type_name ] );
 	}
 }
