@@ -57,7 +57,7 @@ class WPSEO_Cornerstone {
 	 * @return bool True when the page contains the cornerstone field.
 	 */
 	protected function page_contains_cornerstone_field( $page ) {
-		return in_array( $page, array( 'post-new.php', 'post.php' ), true );
+		return WPSEO_Metabox::is_post_edit( $page );
 	}
 
 	/**
