@@ -89,6 +89,20 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the situation where a post type will be filter by use of the 'wpseo_accessible_post_types filter'.
+	 */
+	public function test_get_accessible_post_types_with_a_filter_hook() {
+		unregister_post_type( 'custom-post-type' );
+
+		add_filter( 'wpseo_accessible_post_types', array( $this, 'filter_attachment' ) );
+
+		$this->assertEquals(
+			array( 'post' => 'post', 'page' => 'page' ),
+			WPSEO_Post_Type::get_accessible_post_types()
+		);
+	}
+
+	/**
 	 * Tests the situation with a post type that isn't set to robots noindex.
 	 *
 	 * @covers WPSEO_Post_Type::is_post_type_indexable()
@@ -129,5 +143,18 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_is_post_type_indexable_with_non_existing_post_type() {
 		$this->assertFalse( WPSEO_Post_Type::is_post_type_indexable( 'non-existing-custom-post-type' ) );
+	}
+
+	/**
+	 * Callback for the 'wpseo_accessible_post_types' filter, used in 'test_get_accessible_post_types_with_a_filter_hook'
+	 *
+	 * @param array $post_types The post types to filter.
+	 *
+	 * @return array The filtered post_types.
+	 */
+	public function filter_attachment( array $post_types ) {
+		unset( $post_types['attachment'] );
+
+		return $post_types;
 	}
 }
