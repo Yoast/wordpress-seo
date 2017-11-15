@@ -8,7 +8,6 @@
  */
 class WPSEO_Post_Type {
 
-
 	/**
 	 * Returns an array with the accessible post types.
 	 *
@@ -38,24 +37,12 @@ class WPSEO_Post_Type {
 	 * @return bool True when post type is set to index.
 	 */
 	public static function is_post_type_indexable( $post_type_name ) {
-		$option = self::get_option();
+		$option = WPSEO_Options::get_option( 'wpseo_titles' );
 
-		return empty( $option[ 'noindex-' . $post_type_name ] );
-	}
-
-	/**
-	 * Returns the value for option wpseo_titles.
-	 *
-	 *
-	 * @return array The value of the option.
-	 */
-	private static function get_option() {
-		static $option;
-
-		if ( $option === null ) {
-			$option = WPSEO_Options::get_option( 'wpseo_titles' );
+		if ( ! array_key_exists( 'noindex-' . $post_type_name, $option ) ) {
+			return false;
 		}
-
-		return $option;
+		
+		return empty( $option[ 'noindex-' . $post_type_name ] );
 	}
 }
