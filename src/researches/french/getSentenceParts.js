@@ -11,9 +11,7 @@ var SentencePart = require( "./SentencePart.js" );
 var auxiliaryRegex = arrayToRegex( auxiliaries );
 var stopwords = require( "./passivevoice/stopwords.js" )();
 
-var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
-var includes = require( "lodash/includes" );
 var map = require( "lodash/map" );
 
 /**

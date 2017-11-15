@@ -42,8 +42,6 @@ FrenchParticiple.prototype.checkException = function() {
  * @returns {boolean} Returns true if no exception is found.
  */
 FrenchParticiple.prototype.isPassive = function() {
-	let sentencePart = this.getSentencePart();
-	let participleIndex = sentencePart.indexOf( this.getParticiple() );
 	return 	! this.isOnParticipleExceptionList();
 };
 

@@ -10,7 +10,7 @@ module.exports = function() {
 		"resté",
 		"retombé",
 		"tombé",
-		//The following words are non-participles ending in é.
+		// The following words are non-participles ending in é.
 		"à-côté",
 		"abbé",
 		"absurdité",
