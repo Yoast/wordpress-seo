@@ -1,10 +1,12 @@
 <?php
 /**
- * @package WPSEO\Tests\Admin
+ * @package WPSEO\Tests
  */
 
 /**
  * Unit Test Class.
+ *
+ * @group test
  */
 class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 
