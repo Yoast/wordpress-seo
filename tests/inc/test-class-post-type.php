@@ -1,12 +1,10 @@
 <?php
 /**
- * @package WPSEO\Tests
+ * @package WPSEO\Tests\Inc
  */
 
 /**
  * Unit Test Class.
- *
- * @group test
  */
 class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 
@@ -166,6 +164,18 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_is_post_type_indexable_with_non_existing_post_type() {
 		$this->assertFalse( WPSEO_Post_Type::is_post_type_indexable( 'non-existing-custom-post-type' ) );
+	}
+
+	/**
+	 * Test the situation where the attachment post type will be filtered.
+	 *
+	 * @covers WPSEO_Post_Type::filter_attachment_post_type()
+	 */
+	public function test_filter_attachment_post_type() {
+		$this->assertEquals(
+			array( 'post' => 'post' ),
+			WPSEO_Post_Type::filter_attachment_post_type( array( 'post' => 'post', 'attachment' => 'attachment' ) )
+		);
 	}
 
 	/**

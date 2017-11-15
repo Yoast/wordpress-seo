@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Admin
+ * @package WPSEO\Inc
  */
 
 /**
@@ -49,5 +49,18 @@ class WPSEO_Post_Type {
 		}
 
 		return empty( $option[ 'noindex-' . $post_type_name ] );
+	}
+
+	/**
+	 * Filters the attachment post type from an array with post_types.
+	 *
+	 * @param array $post_types The array to filter the attachment post type from.
+	 *
+	 * @return array The filtered array.
+	 */
+	public static function filter_attachment_post_type( array $post_types ) {
+		unset( $post_types['attachment'] );
+
+		return $post_types;
 	}
 }
