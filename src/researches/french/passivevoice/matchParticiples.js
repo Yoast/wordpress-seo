@@ -1,6 +1,6 @@
 var find = require( "lodash/find" );
-var forEach = require ( "lodash/forEach" );
-
+var forEach = require( "lodash/forEach" );
+var memoize = require( "lodash/memoize" );
 var irregulars = require( "./irregulars" )();
 
 /**
@@ -26,17 +26,17 @@ var regularParticiples = function( word ) {
  */
 var irregularParticiples = function( word ) {
 	var matches = [];
-	forEach (irregulars , function ( irregular ) {
-		var irregularParticiplesRegex = new RegExp( "^" + irregular + "(e|s|es)?$", "ig");
+	forEach( irregulars, function( irregular ) {
+		var irregularParticiplesRegex = new RegExp( "^" + irregular + "(e|s|es)?$", "ig" );
 		matches.push( word.match( irregularParticiplesRegex ) || [] );
 	} );
-	matches = [].concat.apply([], matches);
+	matches = [].concat.apply( [], matches );
 	return matches;
 };
 
 module.exports = function() {
 	return {
-		regularParticiples: regularParticiples,
-		irregularParticiples: irregularParticiples,
+		regularParticiples: memoize(regularParticiples),
+		irregularParticiples: memoize(irregularParticiples),
 	};
 };
