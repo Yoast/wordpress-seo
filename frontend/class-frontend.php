@@ -702,10 +702,8 @@ class WPSEO_Frontend {
 		$robots['other']  = array();
 
 		if ( is_singular() && is_object( $post ) ) {
-
-			$option_name = 'noindex-' . $post->post_type;
-			$noindex     = isset( $this->options[ $option_name ] ) && $this->options[ $option_name ] === true;
-			$private     = 'private' === $post->post_status;
+			$private = 'private' === $post->post_status;
+			$noindex = ! WPSEO_Post_Type::is_post_type_indexable( $post->post_type );
 
 			if ( $noindex || $private ) {
 				$robots['index'] = 'noindex';
