@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 5.7.1\n"
+"Project-Id-Version: Yoast SEO 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-11-08 14:25:26+00:00\n"
+"POT-Creation-Date: 2017-11-16 10:36:44+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -322,48 +322,11 @@ msgid ""
 "for all posts and pages."
 msgstr ""
 
-#: admin/class-admin.php:191
-msgid "For more information:"
-msgstr ""
-
-#: admin/class-admin.php:192
-msgid "Title optimization"
-msgstr ""
-
-#: admin/class-admin.php:193
-msgid "Why Google won't display the right page title"
-msgstr ""
-
-#: admin/class-admin.php:199 admin/class-admin.php:200 admin/pages/metas.php:41
-#: admin/pages/metas.php:62
-msgid "Template explanation"
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO.
-#: admin/class-admin.php:203
-msgid ""
-"The title &amp; metas settings for %1$s are made up of variables that are "
-"replaced by specific values from the page when the page is displayed. The "
-"tabs on the left explain the available variables."
-msgstr ""
-
-#: admin/class-admin.php:205 admin/pages/metas.php:64
-msgid "Note that not all variables can be used in every template."
-msgstr ""
-
-#: admin/class-admin.php:212 admin/class-admin.php:213 admin/pages/metas.php:69
-msgid "Basic Variables"
-msgstr ""
-
-#: admin/class-admin.php:220 admin/class-admin.php:221 admin/pages/metas.php:75
-msgid "Advanced Variables"
-msgstr ""
-
-#: admin/class-admin.php:236
+#: admin/class-admin.php:185
 msgid "Posts"
 msgstr ""
 
-#: admin/class-admin.php:272
+#: admin/class-admin.php:221
 #: admin/google_search_console/class-gsc-platform-tabs.php:40
 #: admin/taxonomy/class-taxonomy-metabox.php:151
 #: admin/taxonomy/class-taxonomy-metabox.php:159
@@ -371,32 +334,69 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin.php:284
+#: admin/class-admin.php:233
 msgid "Premium Support"
 msgstr ""
 
-#: admin/class-admin.php:288
+#: admin/class-admin.php:237
 msgid "FAQ"
 msgstr ""
 
-#: admin/class-admin.php:323 admin/pages/social.php:20
+#: admin/class-admin.php:272 admin/pages/social.php:20
 msgid "Google+"
 msgstr ""
 
-#: admin/class-admin.php:325
+#: admin/class-admin.php:274
 msgid "Twitter username (without @)"
 msgstr ""
 
-#: admin/class-admin.php:327
+#: admin/class-admin.php:276
 msgid "Facebook profile URL"
 msgstr ""
 
-#: admin/class-admin.php:404
+#: admin/class-admin.php:353
 msgid "Yoast SEO video tutorial"
 msgstr ""
 
-#: admin/class-admin.php:405
+#: admin/class-admin.php:354
 msgid "Scroll to see the table content."
+msgstr ""
+
+#: admin/class-admin.php:659
+msgid "For more information:"
+msgstr ""
+
+#: admin/class-admin.php:660
+msgid "Title optimization"
+msgstr ""
+
+#: admin/class-admin.php:661
+msgid "Why Google won't display the right page title"
+msgstr ""
+
+#: admin/class-admin.php:667 admin/class-admin.php:668 admin/pages/metas.php:41
+#: admin/pages/metas.php:62
+msgid "Template explanation"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO.
+#: admin/class-admin.php:671
+msgid ""
+"The title &amp; metas settings for %1$s are made up of variables that are "
+"replaced by specific values from the page when the page is displayed. The "
+"tabs on the left explain the available variables."
+msgstr ""
+
+#: admin/class-admin.php:673 admin/pages/metas.php:64
+msgid "Note that not all variables can be used in every template."
+msgstr ""
+
+#: admin/class-admin.php:680 admin/class-admin.php:681 admin/pages/metas.php:69
+msgid "Basic Variables"
+msgstr ""
+
+#: admin/class-admin.php:688 admin/class-admin.php:689 admin/pages/metas.php:75
+msgid "Advanced Variables"
 msgstr ""
 
 #. translators: %1$s resolves to https:github.com/Yoast/wordpress-seo
@@ -715,19 +715,19 @@ msgstr ""
 msgid "Open support form"
 msgstr ""
 
-#. translators: 1,2: link open tag; 3: link close tag.
-#: admin/class-import-aioseo.php:55
-msgid ""
-"All in One SEO data successfully imported. Would you like to %1$sdisable the "
-"All in One SEO plugin%3$s? You've had Google Analytics enabled in All in One "
-"SEO, would you like to install our %2$sGoogle Analytics plugin%3$s?"
-msgstr ""
-
 #. translators: 1: link open tag; 2: link close tag.
-#: admin/class-import-aioseo.php:64
+#: admin/class-import-aioseo.php:49
 msgid ""
 "All in One SEO data successfully imported. Would you like to %1$sdisable the "
 "All in One SEO plugin%2$s?"
+msgstr ""
+
+#. translators: 1,2: link open tag; 3: link close tag.
+#: admin/class-import-aioseo.php:65
+msgid ""
+"All in One SEO data successfully imported. Would you like to %1$sdisable the "
+"All in One SEO plugin%3$s? You've had Google Analytics enabled in All in One "
+"SEO, would you like to install the %2$sGoogle Analytics plugin%3$s?"
 msgstr ""
 
 #: admin/class-import-external.php:103
@@ -1832,44 +1832,67 @@ msgid ""
 "structure. %2$sLearn more about cornerstone content%3$s."
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:50
-#: admin/formatter/class-metabox-formatter.php:71
+#: admin/formatter/class-metabox-formatter.php:52
+#: admin/formatter/class-metabox-formatter.php:73
 msgid "Readability"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:51
+#: admin/formatter/class-metabox-formatter.php:53
 msgid "Keyword:"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:52
+#: admin/formatter/class-metabox-formatter.php:54
 msgid "Enter your focus keyword"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:53
+#: admin/formatter/class-metabox-formatter.php:55
 msgid "Remove keyword"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:72
+#: admin/formatter/class-metabox-formatter.php:74
 #: admin/menu/class-admin-menu.php:47
 #: admin/menu/class-network-admin-menu.php:46
 #: inc/wpseo-non-ajax-functions.php:110
 msgid "SEO"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:75 inc/class-wpseo-rank.php:101
+#: admin/formatter/class-metabox-formatter.php:77 inc/class-wpseo-rank.php:101
 msgid "Not available"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:76 inc/class-wpseo-rank.php:103
+#: admin/formatter/class-metabox-formatter.php:78 inc/class-wpseo-rank.php:103
 msgid "Needs improvement"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:77 inc/class-wpseo-rank.php:104
+#: admin/formatter/class-metabox-formatter.php:79 inc/class-wpseo-rank.php:104
 msgid "OK"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:78 inc/class-wpseo-rank.php:105
+#: admin/formatter/class-metabox-formatter.php:80
+#: admin/formatter/class-metabox-formatter.php:101 inc/class-wpseo-rank.php:105
 msgid "Good"
+msgstr ""
+
+#: admin/formatter/class-metabox-formatter.php:96
+#: admin/formatter/class-metabox-formatter.php:99
+msgid "Change language"
+msgstr ""
+
+#: admin/formatter/class-metabox-formatter.php:97
+msgid "Errors"
+msgstr ""
+
+#: admin/formatter/class-metabox-formatter.php:98
+#: admin/views/partial-alerts-errors.php:9
+msgid "Problems"
+msgstr ""
+
+#: admin/formatter/class-metabox-formatter.php:100
+msgid "Considerations"
+msgstr ""
+
+#: admin/formatter/class-metabox-formatter.php:102
+msgid "Highlight this result in the text"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:114
@@ -3275,10 +3298,6 @@ msgstr ""
 #. translators: %s expands to the product name
 #: admin/views/licenses.php:225
 msgid "Buy %s"
-msgstr ""
-
-#: admin/views/partial-alerts-errors.php:9
-msgid "Problems"
 msgstr ""
 
 #: admin/views/partial-alerts-errors.php:10

@@ -168,7 +168,7 @@ class HelpCenter extends React.Component {
 
 		this.props.additionalHelpCenterTabs.map( tab => {
 			let content;
-			if( this.props.shouldDisplayContactForm === "1" ) {
+			if ( this.props.shouldDisplayContactForm === "1" && tab.identifier === "contact-support" ) {
 				const supportButton = this.props.intl.formatMessage( { id: "contactSupport.button" } );
 				content = <ContactSupport
 					buttonText={ supportButton }
