@@ -54,7 +54,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 		$input         = 'http://yoast.com/cat/link/';
 		$category_base = get_option( 'category_base' );
 
-		if ( '' == $category_base ) {
+		if ( empty( $category_base ) ) {
 			$category_base = 'category';
 		}
 

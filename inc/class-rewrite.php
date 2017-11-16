@@ -61,7 +61,7 @@ class WPSEO_Rewrite {
 	public function no_category_base( $link ) {
 		$category_base = get_option( 'category_base' );
 
-		if ( '' == $category_base ) {
+		if ( empty( $category_base ) ) {
 			$category_base = 'category';
 		}
 

@@ -559,7 +559,7 @@ class WPSEO_Replace_Vars {
 				$page_number = 1;
 			}
 
-			if ( isset( $wp_query->max_num_pages ) && ( $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 ) ) {
+			if ( ! empty( $wp_query->max_num_pages ) ) {
 				$max_num_pages = $wp_query->max_num_pages;
 			}
 		}
