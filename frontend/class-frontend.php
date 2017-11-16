@@ -177,7 +177,7 @@ class WPSEO_Frontend {
 	 */
 	public function reset() {
 		foreach ( get_class_vars( __CLASS__ ) as $name => $default ) {
-			if ( $name == 'instance' ) {
+			if ( $name === 'instance' ) {
 				self::$instance = null;
 			}
 			else {
@@ -217,7 +217,7 @@ class WPSEO_Frontend {
 	 * @return bool
 	 */
 	public function is_home_posts_page() {
-		return ( is_home() && 'posts' == get_option( 'show_on_front' ) );
+		return ( is_home() && 'posts' === get_option( 'show_on_front' ) );
 	}
 
 	/**
@@ -226,7 +226,7 @@ class WPSEO_Frontend {
 	 * @return bool
 	 */
 	public function is_home_static_page() {
-		return ( is_front_page() && 'page' == get_option( 'show_on_front' ) && is_page( get_option( 'page_on_front' ) ) );
+		return ( is_front_page() && 'page' === get_option( 'show_on_front' ) && is_page( get_option( 'page_on_front' ) ) );
 	}
 
 	/**
@@ -235,7 +235,7 @@ class WPSEO_Frontend {
 	 * @return bool
 	 */
 	public function is_posts_page() {
-		return ( is_home() && 'page' == get_option( 'show_on_front' ) );
+		return ( is_home() && 'page' === get_option( 'show_on_front' ) );
 	}
 
 	/**
@@ -338,7 +338,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_default_title( $sep, $seplocation, $title = '' ) {
-		if ( 'right' == $seplocation ) {
+		if ( 'right' === $seplocation ) {
 			$regex = '`\s*' . preg_quote( trim( $sep ), '`' ) . '\s*`u';
 		}
 		else {
@@ -1559,7 +1559,7 @@ class WPSEO_Frontend {
 		}
 		$cururl .= '://';
 
-		if ( $_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443' ) {
+		if ( $_SERVER['SERVER_PORT'] !== '80' && $_SERVER['SERVER_PORT'] !== '443' ) {
 			$cururl .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
 		}
 		else {
@@ -1621,7 +1621,7 @@ class WPSEO_Frontend {
 		}
 		elseif ( is_404() ) {
 			if ( is_multisite() && ! is_subdomain_install() && is_main_site() ) {
-				if ( $cururl == get_bloginfo( 'url' ) . '/blog/' || $cururl == get_bloginfo( 'url' ) . '/blog' ) {
+				if ( $cururl === get_bloginfo( 'url' ) . '/blog/' || $cururl === get_bloginfo( 'url' ) . '/blog' ) {
 					if ( $this->is_home_static_page() ) {
 						$properurl = get_permalink( get_option( 'page_for_posts' ) );
 					}

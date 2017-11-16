@@ -109,7 +109,7 @@ class WPSEO_Sitemap_Timezone {
 	 * @return string
 	 */
 	private function get_timezone_string() {
-		if ( '' == $this->timezone_string ) {
+		if ( '' === $this->timezone_string ) {
 			$this->timezone_string = $this->determine_timezone_string();
 		}
 

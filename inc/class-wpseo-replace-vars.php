@@ -881,7 +881,7 @@ class WPSEO_Replace_Vars {
 
 		$user_id     = $this->retrieve_userid();
 		$description = get_the_author_meta( 'description', $user_id );
-		if ( $description != '' ) {
+		if ( $description !== '' ) {
 			$replacement = $description;
 		}
 
