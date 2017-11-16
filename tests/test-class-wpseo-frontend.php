@@ -523,10 +523,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$parent_post_id = $this->factory->post->create();
 
 		// Create an attachment with parent.
-		$post_id = $this->factory->post->create( array(
-			'post_type' => 'attachment',
-			'post_parent' => $parent_post_id
-		));
+		$post_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_parent' => $parent_post_id,
+			)
+		);
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Make sure the redirect is applied.
@@ -539,9 +541,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect_no_attachment() {
-		$post_id = $this->factory->post->create( array(
-			'post_type' => 'post'
-		));
+		$post_id = $this->factory->post->create( array( 'post_type' => 'post' ) );
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Should not redirect on regular post pages.
@@ -557,7 +557,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		global $post;
 
 		$saved_post = $post;
-		$post = null;
+		$post       = null;
 
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
 
@@ -572,10 +572,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_attachment_redirect_no_parent() {
 		// Create and go to post.
-		$post_id = $this->factory->post->create( array(
-			'post_type' => 'attachment',
-			'post_parent' => 0,
-		));
+		$post_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_parent' => 0,
+			)
+		);
 		$this->go_to( get_permalink( $post_id ) );
 
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
@@ -628,7 +630,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// Test with no replytocom set in $_GET.
 		$this->assertFalse( $c->replytocom_redirect() );
 
-		$_GET['replytocom'] = 123;
+		$_GET['replytocom']      = 123;
 		$_SERVER['QUERY_STRING'] = '';
 
 		// The following call should redirect.

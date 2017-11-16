@@ -68,7 +68,7 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 	public function test_getting_url_of_private_post() {
 		$breadcrumbs = new WPSEO_Breadcrumbs_Double();
 
-		$post = $this->factory()->post->create_and_get( array( 'post_status' => 'private' ));
+		$post = $this->factory()->post->create_and_get( array( 'post_status' => 'private' ) );
 		$this->assertEquals( '', $breadcrumbs->get_link_url_for_id( $post->ID ) );
 	}
 

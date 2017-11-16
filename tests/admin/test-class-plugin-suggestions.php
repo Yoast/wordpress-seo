@@ -36,8 +36,8 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 		$plugin_availability = new WPSEO_Plugin_Availability_Double();
 
 		$notification_center_mock = $this->getMockBuilder( 'Yoast_Notification_Center_Double' )
-										 ->setMethods( array( 'add_notification', 'remove_notification' ) )
-										 ->getMock();
+			->setMethods( array( 'add_notification', 'remove_notification' ) )
+			->getMock();
 
 		$this->class_instance = new WPSEO_Suggested_Plugins_Double( $plugin_availability, $notification_center_mock );
 
