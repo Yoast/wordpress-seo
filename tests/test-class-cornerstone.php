@@ -12,41 +12,44 @@ class WPSEO_Cornerstone_Test extends WPSEO_UnitTestCase {
 	 * Checks the registering of the hooks on the admin.php page. No hooks should be registered.
 	 *
 	 * @covers WPSEO_Cornerstone::register_hooks()
-	 * @covers WPSEO_Cornerstone::page_contains_cornerstone_field()
+	 * @covers WPSEO_Cornerstone::page_contains_cornerstone_content_field()
 	 */
 	public function test_register_hooks_on_admin_page() {
-		global $pagenow;
+		$cornerstone = $this
+			->getMockBuilder( 'WPSEO_Cornerstone' )
+			->setMethods( array( 'page_contains_cornerstone_content_field' ) )
+			->getMock();
 
-		$current_pagenow = $pagenow;
+		$cornerstone
+			->expects( $this->once() )
+			->method( 'page_contains_cornerstone_content_field' )
+			->will( $this->returnValue( false ) );
 
-		$pagenow = 'admin.php';
-
-		$cornerstone = new WPSEO_Cornerstone();
 		$cornerstone->register_hooks();
 
 		$this->assertFalse( has_action( 'save_post', array( $cornerstone, 'save_meta_value' ) ) );
-
-		$pagenow = $current_pagenow;
 	}
 
 	/**
 	 * Checks the registering of the hooks on the post-new.php page. The hooks should be registered.
 	 *
 	 * @covers WPSEO_Cornerstone::register_hooks()
-	 * @covers WPSEO_Cornerstone::page_contains_cornerstone_field()
+	 * @covers WPSEO_Cornerstone::page_contains_cornerstone_content_field()
 	 */
 	public function test_register_hooks_on_post_new_page() {
-		global $pagenow;
+		$cornerstone = $this
+			->getMockBuilder( 'WPSEO_Cornerstone' )
+			->setMethods( array( 'page_contains_cornerstone_content_field' ) )
+			->getMock();
 
-		$current_pagenow = $pagenow;
-
-		$pagenow = 'post-new.php';
-
-		$cornerstone = new WPSEO_Cornerstone();
+		$cornerstone
+			->expects( $this->once() )
+			->method( 'page_contains_cornerstone_content_field' )
+			->will( $this->returnValue( true ) );
+		
 		$cornerstone->register_hooks();
 
 		$this->assertEquals( 10, has_action( 'save_post', array( $cornerstone, 'save_meta_value' ) ) );
-		$pagenow = $current_pagenow;
 	}
 
 	/**
@@ -61,19 +64,18 @@ class WPSEO_Cornerstone_Test extends WPSEO_UnitTestCase {
 
 		$cornerstone = $this
 			->getMockBuilder( 'WPSEO_Cornerstone' )
-			->setMethods( array( 'is_cornerstone_checkbox', 'delete_meta' ) )
+			->setMethods( array( 'is_cornerstone_content', 'delete_meta' ) )
 			->getMock();
 
 		$cornerstone
 			->expects( $this->once() )
-			->method( 'is_cornerstone_checkbox' )
+			->method( 'is_cornerstone_content' )
 			->will( $this->returnValue( false ) );
 
 		$cornerstone
 			->expects( $this->once() )
 			->method( 'delete_meta' )
 			->with( $post->ID );
-
 
 		$cornerstone->save_meta_value( $post->ID );
 	}
@@ -90,12 +92,12 @@ class WPSEO_Cornerstone_Test extends WPSEO_UnitTestCase {
 
 		$cornerstone = $this
 			->getMockBuilder( 'WPSEO_Cornerstone' )
-			->setMethods( array( 'is_cornerstone_checkbox', 'update_meta' ) )
+			->setMethods( array( 'is_cornerstone_content', 'update_meta' ) )
 			->getMock();
 
 		$cornerstone
 			->expects( $this->once() )
-			->method( 'is_cornerstone_checkbox' )
+			->method( 'is_cornerstone_content' )
 			->will( $this->returnValue( true ) );
 
 		$cornerstone

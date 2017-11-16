@@ -12,11 +12,13 @@ class WPSEO_Cornerstone {
 
 	/**
 	 * Registers the hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		global $pagenow;
 
-		if ( ! $this->page_contains_cornerstone_field( $pagenow ) ) {
+		if ( ! $this->page_contains_cornerstone_content_field( $pagenow ) ) {
 			return;
 		}
 
@@ -27,12 +29,14 @@ class WPSEO_Cornerstone {
 	 * Saves the meta value to the database.
 	 *
 	 * @param int $post_id The post id to save the meta value for.
+	 *
+	 * @return void
 	 */
 	public function save_meta_value( $post_id ) {
-		$is_cornerstone = $this->is_cornerstone_checkbox();
+		$is_cornerstone_content = $this->is_cornerstone_content();
 
-		if ( $is_cornerstone ) {
-			$this->update_meta( $post_id, $is_cornerstone );
+		if ( $is_cornerstone_content ) {
+			$this->update_meta( $post_id, $is_cornerstone_content );
 
 			return;
 		}
@@ -41,11 +45,11 @@ class WPSEO_Cornerstone {
 	}
 
 	/**
-	 * Returns the result of the cornerstone checkbox.
+	 * Returns the result of the cornerstone content checkbox.
 	 *
 	 * @return bool True when checkbox is checked.
 	 */
-	protected function is_cornerstone_checkbox() {
+	protected function is_cornerstone_content() {
 		return filter_input( INPUT_POST, self::META_NAME ) === '1';
 	}
 
@@ -54,28 +58,28 @@ class WPSEO_Cornerstone {
 	 *
 	 * @param string $page The page to check.
 	 *
-	 * @return bool True when the page contains the cornerstone field.
+	 * @return bool True when the page contains the cornerstone content field.
 	 */
-	protected function page_contains_cornerstone_field( $page ) {
+	protected function page_contains_cornerstone_content_field( $page ) {
 		return WPSEO_Metabox::is_post_edit( $page );
 	}
 
 	/**
-	 * Updates the post meta with the given value.
+	 * Updates the cornerstone content post meta with the given cornerstone content value.
 	 *
-	 * @param int  $post_id        The post id to save the meta value for.
-	 * @param bool $is_cornerstone The value for the post meta.
+	 * @param int  $post_id                The post id to save the meta value for.
+	 * @param bool $is_cornerstone_content Whether or not the post should be considered to be cornerstone content.
 	 *
 	 * @return void
 	 */
-	protected function update_meta( $post_id, $is_cornerstone ) {
-		update_post_meta( $post_id, self::META_NAME, $is_cornerstone );
+	protected function update_meta( $post_id, $is_cornerstone_content ) {
+		update_post_meta( $post_id, self::META_NAME, $is_cornerstone_content );
 	}
 
 	/**
-	 * Deletes the post meta for the given post id.
+	 * Deletes the cornerstone content post meta for the given post id.
 	 *
-	 * @param int $post_id The post id to delete the meta value for.
+	 * @param int $post_id The post id to delete the cornerstone content meta value for..
 	 *
 	 * @return void
 	 */
