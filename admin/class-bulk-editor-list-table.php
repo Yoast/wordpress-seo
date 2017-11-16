@@ -846,7 +846,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		static $date_format;
 
-		if ( $date_format == null ) {
+		if ( ! isset( $date_format ) ) {
 			$date_format = get_option( 'date_format' );
 		}
 
