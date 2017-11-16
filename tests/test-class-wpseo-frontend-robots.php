@@ -133,7 +133,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Test noindex-post option.
-		self::$class_instance->options['noindex-post'] = true;
+		WPSEO_Options::save_option( 'wpseo_titles', 'noindex-post', true );
 		$this->assertEquals( 'noindex,follow', self::$class_instance->robots() );
 
 		// clean-up
