@@ -412,10 +412,6 @@ class WPSEO_Admin_Asset_Manager {
 				'rtl'     => false,
 			),
 			array(
-				'name' => 'help-center',
-				'src'  => 'help-center-' . $flat_version,
-			),
-			array(
 				'name' => 'admin-global',
 				'src'  => 'admin-global-' . $flat_version,
 			),

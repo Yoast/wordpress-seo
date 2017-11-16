@@ -91,7 +91,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Create the breadcrumb
 	 */
-	private function __construct() {
+	protected function __construct() {
 		$this->options        = WPSEO_Options::get_options( array( 'wpseo_titles', 'wpseo_internallinks', 'wpseo_xml' ) );
 		$this->post           = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
 		$this->show_on_front  = get_option( 'show_on_front' );
@@ -114,7 +114,7 @@ class WPSEO_Breadcrumbs {
 	 * @param string $after   Optional string to append.
 	 * @param bool   $display Echo or return flag.
 	 *
-	 * @return object
+	 * @return string Returns the breadcrumbs as a string.
 	 */
 	public static function breadcrumb( $before = '', $after = '', $display = true ) {
 		if ( ! ( self::$instance instanceof self ) ) {
@@ -129,11 +129,10 @@ class WPSEO_Breadcrumbs {
 		if ( $display === true ) {
 			echo $output;
 
-			return true;
+			return '';
 		}
-		else {
-			return $output;
-		}
+
+		return $output;
 	}
 
 	/**
@@ -143,6 +142,32 @@ class WPSEO_Breadcrumbs {
 	 */
 	public function __toString() {
 		return self::$before . $this->output . self::$after;
+	}
+
+	/**
+	 * Returns the link url for a single id.
+	 *
+	 * When the target is private and the user isn't allowed to access it, just return an empty string.
+	 *
+	 * @param int $id The target id.
+	 *
+	 * @return string Empty string when post isn't accessible. An URL if accessible.
+	 */
+	protected function get_link_url_for_id( $id ) {
+		$post_status = get_post_status( $id );
+		$post_type   = get_post_type_object( get_post_type( $id ) );
+
+		// Don't link if item is private and user does't have capability to read it.
+		if ( $post_status === 'private' && $post_type !== null  && ! current_user_can( $post_type->cap->read_private_posts ) ) {
+			return '';
+		}
+
+		$url = get_permalink( $id );
+		if ( $url === false ) {
+			return '';
+		}
+
+		return $url;
 	}
 
 
@@ -667,9 +692,8 @@ class WPSEO_Breadcrumbs {
 	 * @return array Array of link text and url
 	 */
 	private function get_link_info_for_id( $id ) {
-
 		$link         = array();
-		$link['url']  = get_permalink( $id );
+		$link['url']  = $this->get_link_url_for_id( $id );
 		$link['text'] = WPSEO_Meta::get_value( 'bctitle', $id );
 
 		if ( $link['text'] === '' ) {
@@ -876,7 +900,6 @@ class WPSEO_Breadcrumbs {
 
 		return $class;
 	}
-
 
 	/********************** DEPRECATED METHODS **********************/
 
