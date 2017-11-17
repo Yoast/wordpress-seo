@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -13,12 +19,19 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 	protected $notification_center;
 
 	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/class-wpseo-suggested-plugins-double.php';
+	}
+
+	/**
 	 * Set up our double class.
 	 */
 	public function setUp() {
 		parent::setUp();
-
-		require_once WPSEO_TESTS_PATH . 'admin/class-wpseo-suggested-plugins-double.php';
 
 		$plugin_availability = new WPSEO_Plugin_Availability_Double();
 
