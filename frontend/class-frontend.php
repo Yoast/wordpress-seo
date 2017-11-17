@@ -773,7 +773,7 @@ class WPSEO_Frontend {
 		}
 
 		// Force override to respect the WP settings.
-		if ( '0' == get_option( 'blog_public' ) || isset( $_GET['replytocom'] ) ) {
+		if ( '0' === (string) get_option( 'blog_public' ) || isset( $_GET['replytocom'] ) ) {
 			$robots['index'] = 'noindex';
 		}
 
