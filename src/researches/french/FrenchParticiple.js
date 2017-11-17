@@ -56,10 +56,9 @@ FrenchParticiple.prototype.isPassive = function() {
  * @returns {array} Returns an array with all adjective and verb participle exceptions.
  */
 var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
-let exceptionsParticiplesAdjectivesVerbsRegexes = [];
-forEach( exceptionsParticiplesAdjectivesVerbs, function( exceptionParticipleAdjectiveVerb )
-	{
-		exceptionsParticiplesAdjectivesVerbsRegexes.push(new RegExp("^" + exceptionParticipleAdjectiveVerb + "(e|s|es)?$", "ig" ));
+	let exceptionsParticiplesAdjectivesVerbsRegexes = [];
+	forEach( exceptionsParticiplesAdjectivesVerbs, function( exceptionParticipleAdjectiveVerb ) {
+		exceptionsParticiplesAdjectivesVerbsRegexes.push( new RegExp( "^" + exceptionParticipleAdjectiveVerb + "(e|s|es)?$", "ig" ) );
 	} );
 	return exceptionsParticiplesAdjectivesVerbsRegexes;
 } );
@@ -72,7 +71,7 @@ forEach( exceptionsParticiplesAdjectivesVerbs, function( exceptionParticipleAdje
 var getExceptionsParticiplesNouns = memoize( function() {
 	let exceptionsParticiplesNounsRegexes = [];
 	forEach( exceptionsParticiplesNouns, function( exceptionParticipleNoun ) {
-		exceptionsParticiplesNounsRegexes.push( new RegExp( "^" + exceptionParticipleNoun + "(s)?$", "ig" ));
+		exceptionsParticiplesNounsRegexes.push( new RegExp( "^" + exceptionParticipleNoun + "(s)?$", "ig" ) );
 	} );
 	return exceptionsParticiplesNounsRegexes;
 } );
@@ -96,7 +95,7 @@ FrenchParticiple.prototype.isOnParticipleExceptionList = function() {
 
 	// Check exception words that can get e/s/es as suffix.
 	forEach( exceptionParticiplesAdjectivesVerbs, function( exceptionParticipleAdjectiveVerb ) {
-	matches.push( participle.match(exceptionParticipleAdjectiveVerb ) || [] );
+		matches.push( participle.match( exceptionParticipleAdjectiveVerb ) || [] );
 	} );
 	matches = [].concat.apply( [], matches );
 	if( matches.length > 0 ) {
@@ -105,7 +104,7 @@ FrenchParticiple.prototype.isOnParticipleExceptionList = function() {
 
 	// Check exception words that can get s as suffix.
 	forEach( exceptionsParticiplesNouns, function( exceptionParticipleNoun ) {
-				matches.push( participle.match( exceptionParticipleNoun ) || [] );
+		matches.push( participle.match( exceptionParticipleNoun ) || [] );
 	} );
 	matches = [].concat.apply( [], matches );
 	if( matches.length > 0 ) {

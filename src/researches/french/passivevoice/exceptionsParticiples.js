@@ -337,7 +337,7 @@ var adjectivesVerbs = [
 	"vertébré",
 	"vitaminé",
 	"vulcanisé",
-	"zélé"
+	"zélé",
 ];
 
 // These words need to be checked with s suffixes.
@@ -1298,7 +1298,7 @@ var nouns = [
 	"vulgarité",
 	"vulnérabilité",
 	"yé-yé",
-	"yéyé"
+	"yéyé",
 ];
 
 // These words do not need to be checked with any suffixes.
@@ -1315,7 +1315,7 @@ var others = [
 	"ohé",
 	"olé",
 	"ollé",
-	"sacrédié"
+	"sacrédié",
 ];
 
 

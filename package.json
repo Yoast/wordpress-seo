@@ -17,6 +17,7 @@
   "scripts": {
     "build": "grunt build:js",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
+    "postlint": "grunt check",
     "pretest": "grunt build:test",
     "test": "jest"
   },
@@ -33,6 +34,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "grunt-babel": "^7.0.0",
     "babelify": "^7.3.0",
+    "console.table": "^0.9.1",
     "eslint-config-yoast": "^2.0.2",
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-yoast": "^1.0.1",
@@ -92,7 +94,8 @@
       "node_modules"
     ],
     "testPathIgnorePatterns": [
-      "/spec/helpers/factory.js"
+      "/spec/helpers/factory.js",
+      "/spec/specHelpers/paperChanger.js"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"
