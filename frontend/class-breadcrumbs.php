@@ -158,7 +158,7 @@ class WPSEO_Breadcrumbs {
 		$post_type   = get_post_type_object( get_post_type( $id ) );
 
 		// Don't link if item is private and user does't have capability to read it.
-		if ( $post_status === 'private' && $post_type !== null  && ! current_user_can( $post_type->cap->read_private_posts ) ) {
+		if ( $post_status === 'private' && $post_type !== null && ! current_user_can( $post_type->cap->read_private_posts ) ) {
 			return '';
 		}
 
