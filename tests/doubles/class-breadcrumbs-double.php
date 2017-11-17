@@ -3,6 +3,9 @@
  * @package WPSEO\Tests\Doubles
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Breadcrumbs_Double extends WPSEO_Breadcrumbs {
 
 	/**
@@ -15,7 +18,7 @@ class WPSEO_Breadcrumbs_Double extends WPSEO_Breadcrumbs {
 	/**
 	 * Returns the link url for the id.
 	 *
-	 * @param int $id
+	 * @param int $id ID.
 	 *
 	 * @return string
 	 */

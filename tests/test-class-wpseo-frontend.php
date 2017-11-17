@@ -571,7 +571,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect_no_parent() {
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create( array(
 			'post_type' => 'attachment',
 			'post_parent' => 0,
@@ -807,7 +807,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 
 	/**
-	 * @param string $initial_url
+	 * @param string $initial_url URL to start off from.
 	 *
 	 * @return void
 	 */
@@ -845,7 +845,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param string $name
+	 * @param string $name Option name.
 	 *
 	 * @return string
 	 */
@@ -854,8 +854,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param string $option_name
-	 * @param string $expected
+	 * @param string $option_name Option name.
+	 * @param string $expected    Expected output.
 	 *
 	 * @return void
 	 */
@@ -866,7 +866,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param string $expected
+	 * @param string $expected Expected output.
 	 *
 	 * @return void
 	 */
@@ -879,7 +879,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 *
 	 * Can be removed when https://core.trac.wordpress.org/ticket/31417 is fixed and in all releases we're testing (so when 4.2 is the lowest common denominator).
 	 *
-	 * @param string $url
+	 * @param string $url URL.
 	 */
 	public function go_to( $url ) {
 		// Note: the WP and WP_Query classes like to silently fetch parameters
