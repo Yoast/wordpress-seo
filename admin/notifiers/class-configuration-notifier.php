@@ -81,7 +81,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @return bool True when action has been triggered.
 	 */
 	protected function dismissal_is_triggered() {
-		return filter_input( INPUT_GET, 'dismiss_get_started' ) !== '1';
+		return filter_input( INPUT_GET, 'dismiss_get_started' ) === '1';
 	}
 
 	/**
