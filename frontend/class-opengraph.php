@@ -781,7 +781,7 @@ class WPSEO_OpenGraph {
 		$this->og_tag( 'article:published_time', $pub );
 
 		$mod = get_the_modified_date( DATE_W3C );
-		if ( $mod != $pub ) {
+		if ( $mod !== $pub ) {
 			$this->og_tag( 'article:modified_time', $mod );
 			$this->og_tag( 'og:updated_time', $mod );
 		}

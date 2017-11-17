@@ -508,7 +508,7 @@ class WPSEO_Breadcrumbs {
 	 * Add taxonomy crumbs to the crumbs property for a single post
 	 */
 	private function maybe_add_taxonomy_crumbs_for_post() {
-		if ( isset( $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ] ) && $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ] != '0' ) {
+		if ( isset( $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ] ) && (string) $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ] !== '0' ) {
 			$main_tax = $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ];
 			if ( isset( $this->post->ID ) ) {
 				$terms = get_the_terms( $this->post, $main_tax );
@@ -568,7 +568,7 @@ class WPSEO_Breadcrumbs {
 	 * @param object $term Term data object.
 	 */
 	private function maybe_add_preferred_term_parent_crumb( $term ) {
-		if ( isset( $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] ) && $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] != '0' ) {
+		if ( isset( $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] ) && (string) $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] !== '0' ) {
 			if ( 'post' === $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] && $this->show_on_front === 'page' ) {
 				if ( $this->page_for_posts ) {
 					$this->add_blog_crumb();

@@ -1692,7 +1692,7 @@ class WPSEO_Frontend {
 		}
 		unset( $get );
 
-		if ( ! empty( $properurl ) && $cururl != $properurl ) {
+		if ( ! empty( $properurl ) && $cururl !== $properurl ) {
 			$this->redirect( $properurl, 301 );
 		}
 	}
