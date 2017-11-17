@@ -32,9 +32,9 @@ function mapResult( result ) {
 	const mappedResult = {
 		score: result.score,
 		rating: scoreToRating( result.score ),
-		hasMarks: result._hasMarks,
-		marker: result._marker,
-		id: result._identifier,
+		hasMarks: result.hasMarks(),
+		marker: result.getMarker(),
+		id: result.getIdentifier(),
 		text: result.text,
 	};
 
@@ -72,7 +72,7 @@ export default function mapResults( results ) {
 		if( ! result.text ) {
 			continue;
 		}
-		const mappedResult = mapResult( results );
+		const mappedResult = mapResult( result );
 		switch ( mappedResult.rating ) {
 			case "error":
 				mappedResults.errorsResults.push( mappedResult );
