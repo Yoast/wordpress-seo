@@ -91,7 +91,8 @@ class WPSEO_Sitemap_Timezone {
 		}
 
 		// Last try, guess timezone string manually.
-		foreach ( timezone_abbreviations_list() as $abbr ) {
+		$timezone_list = timezone_abbreviations_list();
+		foreach ( $timezone_list as $abbr ) {
 			foreach ( $abbr as $city ) {
 				if ( $city['offset'] === $utc_offset ) {
 					return $city['timezone_id'];
