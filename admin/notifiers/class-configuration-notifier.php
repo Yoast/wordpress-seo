@@ -15,7 +15,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	protected $show_notification;
 
 	/**
-	 * Checks if the notification should be shown.
+	 * Constructs the object by setting the show notification property based the given options.
 	 *
 	 * @param array $options The array with options.
 	 */
@@ -44,6 +44,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 		$notification .= '<h3>' . esc_html__( 'First-time SEO configuration', 'wordpress-seo' ) . '</h3>';
 		$notification .= '<p>';
 		$notification .= sprintf(
+			/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the Onboarding Wizard, %3$s is the link closing tag. */
 			esc_html__( 'Get started quickly with the %1$s %2$sconfiguration wizard%3$s!', 'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '">',
@@ -62,16 +63,12 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	}
 
 	/**
-	 * Listens to an argument in the request URL, when triggered just set the notification to dismissed.
+	 * Listens to an argument in the request URL. When triggered just set the notification to dismissed.
 	 *
 	 * @return void
 	 */
 	public function listen() {
-		if ( ! $this->show_notification() ) {
-			return;
-		}
-
-		if ( ! $this->dismissal_is_triggered()  ) {
+		if ( ! $this->show_notification() || ! $this->dismissal_is_triggered() ) {
 			return;
 		}
 
@@ -79,7 +76,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	}
 
 	/**
-	 * Checks if the request url contains the required argument.
+	 * Checks if the dismissal should be triggered.
 	 *
 	 * @return bool True when action has been triggered.
 	 */
@@ -106,7 +103,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	}
 
 	/**
-	 * Returns the value of show notification.
+	 * Checks if the notification should be shown.
 	 *
 	 * @return bool True when notification should be shown.
 	 */
