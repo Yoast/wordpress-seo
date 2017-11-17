@@ -637,7 +637,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
 
 		$return = 0.6;
-		if ( $post->post_parent == 0 && $post->post_type === 'page' ) {
+		if ( $post->post_parent === 0 && $post->post_type === 'page' ) {
 			$return = 0.8;
 		}
 

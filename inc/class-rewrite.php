@@ -136,7 +136,7 @@ class WPSEO_Rewrite {
 					// Recursive recursion.
 					$category->parent = 0;
 				}
-				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
+				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent !== 0 ) {
 					$parents = get_category_parents( $category->parent, false, '/', true );
 					if ( ! is_wp_error( $parents ) ) {
 						$category_nicename = $parents . $category_nicename;

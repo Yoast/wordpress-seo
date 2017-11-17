@@ -214,7 +214,7 @@ class WPSEO_Breadcrumbs {
 	private function get_term_parents( $term ) {
 		$tax     = $term->taxonomy;
 		$parents = array();
-		while ( $term->parent != 0 ) {
+		while ( $term->parent !== 0 ) {
 			$term      = get_term( $term->parent, $tax );
 			$parents[] = $term;
 		}
@@ -265,7 +265,7 @@ class WPSEO_Breadcrumbs {
 
 				$parent_order = 9999; // Set default order.
 				foreach ( $parents as $parent ) {
-					if ( $parent->parent == 0 && isset( $parent->term_order ) ) {
+					if ( $parent->parent === 0 && isset( $parent->term_order ) ) {
 						$parent_order = $parent->term_order;
 					}
 				}
@@ -342,7 +342,7 @@ class WPSEO_Breadcrumbs {
 		elseif ( is_singular() ) {
 			$this->maybe_add_pt_archive_crumb_for_post();
 
-			if ( isset( $this->post->post_parent ) && 0 == $this->post->post_parent ) {
+			if ( isset( $this->post->post_parent ) && 0 === $this->post->post_parent ) {
 				$this->maybe_add_taxonomy_crumbs_for_post();
 			}
 			else {
@@ -523,7 +523,7 @@ class WPSEO_Breadcrumbs {
 						$breadcrumb_term = $this->find_deepest_term( $terms );
 					}
 
-					if ( is_taxonomy_hierarchical( $main_tax ) && $breadcrumb_term->parent != 0 ) {
+					if ( is_taxonomy_hierarchical( $main_tax ) && $breadcrumb_term->parent !== 0 ) {
 						$parent_terms = $this->get_term_parents( $breadcrumb_term );
 						foreach ( $parent_terms as $parent_term ) {
 							$this->add_term_crumb( $parent_term );
@@ -586,7 +586,7 @@ class WPSEO_Breadcrumbs {
 	 * @param object $term Term data object.
 	 */
 	private function maybe_add_term_parent_crumbs( $term ) {
-		if ( is_taxonomy_hierarchical( $term->taxonomy ) && $term->parent != 0 ) {
+		if ( is_taxonomy_hierarchical( $term->taxonomy ) && $term->parent !== 0 ) {
 			foreach ( $this->get_term_parents( $term ) as $parent_term ) {
 				$this->add_term_crumb( $parent_term );
 			}

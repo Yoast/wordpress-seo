@@ -357,7 +357,7 @@ class WPSEO_OpenGraph {
 		}
 
 		// Convert locales like "es" to "es_ES", in case that works for the given locale (sometimes it does).
-		if ( strlen( $locale ) == 2 ) {
+		if ( strlen( $locale ) === 2 ) {
 			$locale = strtolower( $locale ) . '_' . strtoupper( $locale );
 		}
 

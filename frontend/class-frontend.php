@@ -1056,11 +1056,11 @@ class WPSEO_Frontend {
 			if ( is_string( $url ) && $url !== '' ) {
 				$paged = get_query_var( 'paged' );
 
-				if ( 0 == $paged ) {
+				if ( 0 === $paged ) {
 					$paged = 1;
 				}
 
-				if ( $paged == 2 ) {
+				if ( $paged === 2 ) {
 					$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ), true );
 				}
 
@@ -1632,7 +1632,7 @@ class WPSEO_Frontend {
 			}
 		}
 
-		if ( ! empty( $properurl ) && $wp_query->query_vars['paged'] != 0 && $wp_query->post_count != 0 ) {
+		if ( ! empty( $properurl ) && $wp_query->query_vars['paged'] !== 0 && $wp_query->post_count !== 0 ) {
 			if ( is_search() && ! empty( $s ) ) {
 				$properurl = get_bloginfo( 'url' ) . '/page/' . $wp_query->query_vars['paged'] . '/?s=' . $s;
 			}

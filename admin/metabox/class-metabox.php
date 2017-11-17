@@ -899,7 +899,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		else {
 
-			if ( 0 != get_queried_object_id() ) {
+			if ( 0 !== get_queried_object_id() ) {
 				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
 			}
 
