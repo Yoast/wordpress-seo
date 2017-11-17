@@ -1554,7 +1554,7 @@ class WPSEO_Frontend {
 
 		// Recreate current URL.
 		$cururl = 'http';
-		if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) {
+		if ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) {
 			$cururl .= 's';
 		}
 		$cururl .= '://';
