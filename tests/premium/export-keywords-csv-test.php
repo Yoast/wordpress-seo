@@ -14,7 +14,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'premium/doubles/class-export-keywords-csv-double.php';
+		require_once WPSEO_TESTS_PATH . 'premium/doubles/export-keywords-csv-double.php';
 	}
 
 	/**

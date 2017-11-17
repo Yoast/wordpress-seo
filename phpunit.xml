@@ -16,14 +16,14 @@
 	>
 	<testsuites>
 		<testsuite>
-			<directory prefix="test-" suffix=".php">./tests/premium/</directory>
+			<directory suffix="-test.php">./tests/premium/</directory>
 		</testsuite>
 	</testsuites>
 
 	<filter>
 		<whitelist>
 			<directory>./premium/classes</directory>
-			<file>./premium/class-premium.php</file>
+			<file>./premium/premium.php</file>
 			<file>./wp-seo-premium.php</file>
 		</whitelist>
 	</filter>
