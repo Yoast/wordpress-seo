@@ -2,7 +2,7 @@ var FrenchParticiple = require( "../../../js/researches/french/FrenchParticiple.
 
 describe( "A test for checking the French participle", function() {
 	it( "checks the properties of the French participle object  a passive", function() {
-		var mockParticiple = new FrenchParticiple( "créée", "Cette fut créée par moi.", { auxiliaries: [ "fut" ], type: "regular" } );
+		var mockParticiple = new FrenchParticiple( "créée", "Cette association fut créée par moi.", { auxiliaries: [ "fut" ], type: "regular" } );
 		expect( mockParticiple.getParticiple() ).toBe( "créée" );
 		expect( mockParticiple.isOnParticipleExceptionList() ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
@@ -14,7 +14,6 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.isOnParticipleExceptionList() ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
-
 
 	it( "checks the properties of the French participle object with an adjective or verb exception ending in é plus suffix", function() {
 		let mockParticiple = new FrenchParticiple( "aînée", "Elle est la sœur aînée.", { auxiliaries: [ "est" ], type: "regular" } );
@@ -43,5 +42,4 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.isOnParticipleExceptionList() ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
-
 });

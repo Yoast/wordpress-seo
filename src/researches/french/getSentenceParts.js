@@ -15,7 +15,7 @@ var isUndefined = require( "lodash/isUndefined" );
 var map = require( "lodash/map" );
 
 /**
- * Gets the indexes of sentence breakers (auxiliaries, stopwords and active verbs) to determine sentence parts.
+ * Gets the indexes of sentence breakers (auxiliaries and stopwords) to determine sentence parts.
  * Indices are filtered because there could be duplicate matches, like "even though" and "though".
  * In addition, 'having' will be matched both as a -ing verb as well as an auxiliary.
  *

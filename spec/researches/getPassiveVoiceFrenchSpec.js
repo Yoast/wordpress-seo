@@ -20,13 +20,11 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length).toBe( 1 );
 	});
 
-	/*
 	it( "returns passive voice (présent) with an irregular feminine participle", function () {
 		// Passive: est lu.
 		var paper = new Paper("Une voiture est vendue par moi." , { locale: "fr_FR" } );
 		expect( passiveVoice( paper ).passives.length).toBe( 1 );
 	});
-	*/
 
 	it( "returns active voice (futur)", function () {
 		var paper = new Paper("Je mangera une pomme." , { locale: "fr_FR" } );
@@ -55,13 +53,11 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	});
 
-	/*
 	it( "returns passive voice (passé composé)", function () {
 	 	// Passive: a été mangée.
 		var paper = new Paper("Une pomme a été mangée par moi." , { locale: "fr_FR" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
-*/
 
 	it( "returns active voice (imparfait)", function () {
 		var paper = new Paper("Je mangeais une pomme." , { locale: "fr_FR" } );
@@ -79,11 +75,9 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	});
 
-	/*
 	it( "returns passive voice (plus-que-parfait)", function () {
 		// Passive: avait été mangée.
 		var paper = new Paper("Une pomme avait été mangée par moi." , { locale: "fr_FR" } );
 		expect( passiveVoice( paper ).passives.length).toBe( 1 );
 	});
-	*/
 } );

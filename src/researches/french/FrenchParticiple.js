@@ -8,6 +8,7 @@ var exceptionsParticiplesOthers = require( "./passivevoice/exceptionsParticiples
 var includes = require( "lodash/includes" );
 var isEmpty = require( "lodash/isEmpty" );
 var forEach = require( "lodash/forEach" );
+var memoize = require ( "lodash/memoize" );
 
 /**
  * Creates an Participle object for the French language.
@@ -50,6 +51,33 @@ FrenchParticiple.prototype.isPassive = function() {
 };
 
 /**
+ * Creates regexes to match adjective and verb participle exceptions and memoizes them.
+ *
+ * @returns {array} Returns an array with all adjective and verb participle exceptions.
+ */
+var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
+let exceptionsParticiplesAdjectivesVerbsRegexes = [];
+forEach( exceptionsParticiplesAdjectivesVerbs, function( exceptionParticipleAdjectiveVerb )
+	{
+		exceptionsParticiplesAdjectivesVerbsRegexes.push(new RegExp("^" + exceptionParticipleAdjectiveVerb + "(e|s|es)?$", "ig" ));
+	} );
+	return exceptionsParticiplesAdjectivesVerbsRegexes;
+} );
+
+/**
+ * Creates regexes to match noun participle exceptions and memoizes them.
+ *
+ * @returns {array} Returns an array with all noun participle exceptions.
+ */
+var getExceptionsParticiplesNouns = memoize( function() {
+	let exceptionsParticiplesNounsRegexes = [];
+	forEach( exceptionsParticiplesNouns, function( exceptionParticipleNoun ) {
+		exceptionsParticiplesNounsRegexes.push( new RegExp( "^" + exceptionParticipleNoun + "(s)?$", "ig" ));
+	} );
+	return exceptionsParticiplesNounsRegexes;
+} );
+
+/**
  * Checks whether a found participle is in the exceptionsParticiples list.
  * If a word is in the exceptionsParticiples list, it isn't a participle.
  * Irregular participles do not end in -é, and therefore cannot be in the exceptionsParticiples list.
@@ -63,11 +91,12 @@ FrenchParticiple.prototype.isOnParticipleExceptionList = function() {
 
 	var participle = this.getParticiple();
 	var matches = [];
+	var exceptionParticiplesAdjectivesVerbs = getExceptionsParticiplesAdjectivesVerbsRegexes();
+	var exceptionsParticiplesNouns = getExceptionsParticiplesNouns();
 
 	// Check exception words that can get e/s/es as suffix.
-	forEach( exceptionsParticiplesAdjectivesVerbs, function( exceptionParticiple ) {
-		var exceptionsParticiplesRegex = new RegExp( "^" + exceptionParticiple + "(e|s|es)?$", "ig" );
-		matches.push( participle.match( exceptionsParticiplesRegex ) || [] );
+	forEach( exceptionParticiplesAdjectivesVerbs, function( exceptionParticipleAdjectiveVerb ) {
+	matches.push( participle.match(exceptionParticipleAdjectiveVerb ) || [] );
 	} );
 	matches = [].concat.apply( [], matches );
 	if( matches.length > 0 ) {
@@ -75,9 +104,8 @@ FrenchParticiple.prototype.isOnParticipleExceptionList = function() {
 	}
 
 	// Check exception words that can get s as suffix.
-	forEach( exceptionsParticiplesNouns, function( exceptionParticiple ) {
-		var exceptionsParticiplesRegex = new RegExp( "^" + exceptionParticiple + "(s)?$", "ig" );
-		matches.push( participle.match( exceptionsParticiplesRegex ) || [] );
+	forEach( exceptionsParticiplesNouns, function( exceptionParticipleNoun ) {
+				matches.push( participle.match( exceptionParticipleNoun ) || [] );
 	} );
 	matches = [].concat.apply( [], matches );
 	if( matches.length > 0 ) {
