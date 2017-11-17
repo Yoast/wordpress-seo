@@ -93,7 +93,7 @@ class WPSEO_Sitemap_Timezone {
 		// Last try, guess timezone string manually.
 		foreach ( timezone_abbreviations_list() as $abbr ) {
 			foreach ( $abbr as $city ) {
-				if ( $city['offset'] == $utc_offset ) {
+				if ( $city['offset'] === $utc_offset ) {
 					return $city['timezone_id'];
 				}
 			}
@@ -109,7 +109,7 @@ class WPSEO_Sitemap_Timezone {
 	 * @return string
 	 */
 	private function get_timezone_string() {
-		if ( '' == $this->timezone_string ) {
+		if ( '' === $this->timezone_string ) {
 			$this->timezone_string = $this->determine_timezone_string();
 		}
 

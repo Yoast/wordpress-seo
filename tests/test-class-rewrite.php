@@ -31,7 +31,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_schedule_flush() {
 		self::$class_instance->schedule_flush();
-		$this->assertTrue( get_option( $this->flush_option_name ) == true );
+		$this->assertTrue( get_option( $this->flush_option_name ) === 1 );
 	}
 
 	/**
@@ -54,12 +54,12 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 		$input         = 'http://yoast.com/cat/link/';
 		$category_base = get_option( 'category_base' );
 
-		if ( '' == $category_base ) {
+		if ( empty( $category_base ) ) {
 			$category_base = 'category';
 		}
 
 		// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash).
-		if ( '/' == substr( $category_base, 0, 1 ) ) {
+		if ( '/' === substr( $category_base, 0, 1 ) ) {
 			$category_base = substr( $category_base, 1 );
 		}
 

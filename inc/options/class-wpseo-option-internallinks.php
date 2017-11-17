@@ -256,7 +256,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 		$post_types = get_post_types( array( 'public' => true ), 'objects' );
 
-		if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
+		if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) > 0 ) {
 			$allowed_post_types[] = 'post';
 		}
 

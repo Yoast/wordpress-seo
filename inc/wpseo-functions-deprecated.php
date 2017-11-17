@@ -324,7 +324,7 @@ function wpseo_xml_redirect_sitemap() {
 	$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
 	// Must be 'sitemap.xml' and must be 404.
-	if ( home_url( '/sitemap.xml' ) == $current_url && $GLOBALS['wp_query']->is_404 ) {
+	if ( home_url( '/sitemap.xml' ) === $current_url && $GLOBALS['wp_query']->is_404 ) {
 		wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
 		exit;
 	}

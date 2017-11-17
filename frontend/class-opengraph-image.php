@@ -309,7 +309,7 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool|string
 	 */
 	private function get_relative_path( $img ) {
-		if ( $img[0] != '/' ) {
+		if ( $img[0] !== '/' ) {
 			return false;
 		}
 

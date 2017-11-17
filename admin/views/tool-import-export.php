@@ -70,7 +70,7 @@ if ( $import ) {
 	 */
 	$msg = apply_filters( 'wpseo_import_message', isset( $import->msg ) ? $import->msg : '' );
 
-	if ( $msg != '' ) {
+	if ( ! empty( $msg ) ) {
 		// Check if we've deleted old data and adjust message to match it.
 		if ( $replace ) {
 			$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
