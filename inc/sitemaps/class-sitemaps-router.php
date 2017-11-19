@@ -94,6 +94,6 @@ class WPSEO_Sitemaps_Router {
 
 		// Get the scheme from the configured home url instead of letting WordPress determine the scheme based on the requested URI.
 		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		return home_url( $base . $page, parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
+		return home_url( $base . $page );
 	}
 }
