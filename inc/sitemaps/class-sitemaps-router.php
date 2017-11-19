@@ -91,9 +91,7 @@ class WPSEO_Sitemaps_Router {
 		 * @param string $base The string that should be added to home_url() to make the full base URL.
 		 */
 		$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
-
-		// Get the scheme from the configured home url instead of letting WordPress determine the scheme based on the requested URI.
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
+		
 		return home_url( $base . $page );
 	}
 }
