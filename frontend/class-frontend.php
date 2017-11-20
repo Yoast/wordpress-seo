@@ -624,15 +624,13 @@ class WPSEO_Frontend {
 		if ( $echo === false ) {
 			return $marker;
 		}
-		else {
-			echo "\n${marker}\n";
-		}
+		echo "\n${marker}\n";
 	}
 
 	/**
 	 * Outputs or returns the closing debug marker.
 	 *
-	 * @param bool $echo
+	 * @param bool $echo Whether or not to echo the debug marker.
 	 *
 	 * @return string
 	 */
@@ -642,9 +640,7 @@ class WPSEO_Frontend {
 		if ( $echo === false ) {
 			return $marker;
 		}
-		else {
-			echo "${marker}\n\n";
-		}
+		echo "${marker}\n\n";
 	}
 
 	/**
