@@ -603,12 +603,10 @@ class WPSEO_Frontend {
 		return $title;
 	}
 
-
-
 	/**
 	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
 	 *
-	 * @param bool $echo Whether or not to echo the debug marker.
+	 * @param bool $echo Deprecated. Since 5.9. Whether or not to echo the debug marker.
 	 *
 	 * @return string The marker that will be echoed.
 	 */
