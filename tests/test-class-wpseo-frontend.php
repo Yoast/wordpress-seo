@@ -814,7 +814,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 			->method( 'is_premium' )
 			->will( $this->returnValue( true ) );
 
-		$this->assertTrue( stripos( $frontend->get_debug_mark(), 'Premium' ) !== false );
+		$this->assertNotFalse( stripos( $frontend->get_debug_mark(), 'Premium' ) );
 	}
 
 	/**
