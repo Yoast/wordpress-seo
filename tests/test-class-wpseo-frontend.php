@@ -761,11 +761,44 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the situation for flush cash when the debug_mark is not being hooked.
+	 *
 	 * @covers WPSEO_Frontend::flush_cache
 	 */
-	public function test_flush_cache() {
+	public function test_flush_cache_with_debug_mark_hook_not_being_set() {
 
 		$c = self::$class_instance;
+
+		// Should not run when output buffering is not turned on.
+		$this->assertFalse( self::$class_instance->flush_cache() );
+
+		// Turn on output buffering.
+		self::$class_instance->force_rewrite_output_buffer();
+
+		$content = '<!DOCTYPE><html><head><title>TITLETOBEREPLACED</title>' . self::$class_instance->debug_mark( false ) . '</head><body>Some body content. Should remain unchanged.</body></html>';
+
+		// Create expected output.
+		$expected = $content;
+		echo $content;
+
+		// Run function.
+		$result = self::$class_instance->flush_cache();
+
+		// Run assertions.
+		$this->expectOutput( $expected, $result );
+		$this->assertTrue( $result );
+	}
+
+
+	/**
+	 * Tests the situation for flush cash when the debug_mark is being hooked.
+	 *
+	 * @covers WPSEO_Frontend::flush_cache
+	 */
+	public function test_flush_cache_with_debug_mark_hook_being_set() {
+
+		$c = self::$class_instance;
+		add_action( 'wpseo_head', array( $c, 'debug_mark' ) );
 
 		// Should not run when output buffering is not turned on.
 		$this->assertFalse( self::$class_instance->flush_cache() );
