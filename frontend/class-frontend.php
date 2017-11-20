@@ -1828,7 +1828,7 @@ class WPSEO_Frontend {
 		wp_reset_query();
 
 		// Only replace the debug marker when it is hooked.
-		if ( $this->has_debug_mark_action() ) {
+		if ( $this->show_debug_marker() ) {
 			$title = $this->title( '' );
 
 			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
@@ -1970,7 +1970,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return bool True when the action exists.
 	 */
-	protected function has_debug_mark_action() {
+	protected function show_debug_marker() {
 		return has_action( 'wpseo_head', array( $this, 'debug_mark' ) ) !== false;
 	}
 
@@ -1980,7 +1980,7 @@ class WPSEO_Frontend {
 	 * @return string The closing debug mark comment.
 	 */
 	protected function show_closing_debug_mark() {
-		if ( ! $this->has_debug_mark_action() ) {
+		if ( ! $this->show_debug_marker() ) {
 			return '';
 		}
 

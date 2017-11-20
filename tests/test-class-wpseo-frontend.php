@@ -781,7 +781,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'has_debug_mark_action', 'get_debug_mark' ) )
+			->setMethods( array( 'show_debug_marker', 'get_debug_mark' ) )
 			->getMock();
 
 		$frontend
@@ -790,7 +790,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$frontend
 			->expects( $this->once() )
-			->method( 'has_debug_mark_action' )
+			->method( 'show_debug_marker' )
 			->will( $this->returnValue( false ) );
 
 		// Enables the output buffering.
@@ -851,12 +851,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'has_debug_mark_action', 'get_debug_mark' ) )
+			->setMethods( array( 'show_debug_marker', 'get_debug_mark' ) )
 			->getMock();
 
 		$frontend
 			->expects( $this->once() )
-			->method( 'has_debug_mark_action' )
+			->method( 'show_debug_marker' )
 			->will( $this->returnValue( true ) );
 
 		$frontend
@@ -882,12 +882,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'has_debug_mark_action' ) )
+			->setMethods( array( 'show_debug_marker' ) )
 			->getMock();
 
 		$frontend
 			->expects( $this->once() )
-			->method( 'has_debug_mark_action' )
+			->method( 'show_debug_marker' )
 			->will( $this->returnValue( true ) );
 
 		$frontend->head();
@@ -904,12 +904,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'has_debug_mark_action' ) )
+			->setMethods( array( 'show_debug_marker' ) )
 			->getMock();
 
 		$frontend
 			->expects( $this->once() )
-			->method( 'has_debug_mark_action' )
+			->method( 'show_debug_marker' )
 			->will( $this->returnValue( false ) );
 
 		$frontend->head();
