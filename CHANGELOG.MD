@@ -16,6 +16,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Changed `onMarkButtonClick` callback in `ContentAnalysis` to return empty string when marker is deselected. #375
 * Made Onboarding Wizard's `previousButton` and `nextButton` focusable. #369
 * Replaced old react string refs with callbacks. #365
+* Remove unnecessary whitespace between `AnalysisResult`s and between `AnalysisCollapsible`s. #382
 
 ## 2.11.2: November 7th, 2017
 
