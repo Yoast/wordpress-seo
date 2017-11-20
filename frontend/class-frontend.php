@@ -85,6 +85,7 @@ class WPSEO_Frontend {
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
 		add_action( 'wpseo_head', array( $this, 'debug_mark' ), 2 );
+		add_action( 'wpseo_head', array( $this, 'debug_mark_end' ), 9999 );
 		add_action( 'wpseo_head', array( $this, 'metadesc' ), 6 );
 		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
 		add_action( 'wpseo_head', array( $this, 'metakeywords' ), 11 );
@@ -629,6 +630,24 @@ class WPSEO_Frontend {
 	}
 
 	/**
+	 * Outputs or returns the closing debug marker.
+	 *
+	 * @param bool $echo
+	 *
+	 * @return string
+	 */
+	public function debug_mark_end( $echo = true ) {
+		$marker = '<!-- / ' . $this->head_product_name() . ". -->";
+
+		if ( $echo === false ) {
+			return $marker;
+		}
+		else {
+			echo "${marker}\n\n";
+		}
+	}
+
+	/**
 	 * Output Webmaster Tools authentication strings
 	 */
 	public function webmaster_tools_authentication() {
@@ -670,8 +689,6 @@ class WPSEO_Frontend {
 		 * Action: 'wpseo_head' - Allow other plugins to output inside the Yoast SEO section of the head section.
 		 */
 		do_action( 'wpseo_head' );
-
-		echo '<!-- / ', $this->head_product_name(), ". -->\n\n";
 
 		if ( ! empty( $old_wp_query ) ) {
 			$GLOBALS['wp_query'] = $old_wp_query;
