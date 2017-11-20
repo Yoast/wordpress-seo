@@ -35,6 +35,7 @@ const ChangingIconButtonBase = styled.button`
 const ChangingIconButton = ( props ) => {
 	return (
 		<ChangingIconButtonBase
+			type="button"
 			onClick={ props.onClick }
 			pressed={ props.pressed }
 			unpressedBoxShadowColor={ props.unpressedBoxShadowColor }

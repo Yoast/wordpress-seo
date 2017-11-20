@@ -129,6 +129,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
           className="sc-bwzfXH iSOXYD"
           id="1"
           onClick={[Function]}
+          type="button"
         >
           <svg
             aria-hidden="true"
@@ -326,6 +327,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
           className="sc-bwzfXH iSOXYD"
           id="1"
           onClick={[Function]}
+          type="button"
         >
           <svg
             aria-hidden="true"
