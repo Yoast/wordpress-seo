@@ -1970,6 +1970,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function debug_marker( $echo = false ) {
+		_deprecated_function( 'WPSEO_Frontend::debug_marker', '4.4', 'WPSEO_Frontend::debug_mark' );
 		return $this->debug_mark( $echo );
 	}
 	// @codeCoverageIgnoreEnd
