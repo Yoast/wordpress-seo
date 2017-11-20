@@ -1823,11 +1823,14 @@ class WPSEO_Frontend {
 
 		wp_reset_query();
 
-		$title = $this->title( '' );
+		// Only replace the debug marker when it is hooked.
+		if ( has_action( 'wpseo_head', array( $this, 'debug_mark' ) ) ) {
+			$title   = $this->title( '' );
 
-		// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
-		$content = preg_replace( '/<title.*?\/title>/i', '', $content );
-		$content = str_replace( $this->debug_mark( false ), $this->debug_mark( false ) . "\n" . '<title>' . $title . '</title>', $content );
+			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
+			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
+			$content = str_replace( $this->debug_mark( false ), $this->debug_mark( false ) . "\n" . '<title>' . $title . '</title>', $content );
+		}
 
 		$GLOBALS['wp_query'] = $old_wp_query;
 
