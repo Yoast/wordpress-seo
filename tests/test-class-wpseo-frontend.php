@@ -242,11 +242,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::debug_mark
+	 * @covers WPSEO_Frontend::get_debug_mark
 	 */
 	public function test_debug_mark() {
 		// Test if the version number is shown in the debug marker.
-		$version_found = ( stristr( self::$class_instance->debug_mark( false ), WPSEO_VERSION ) !== false );
+		$version_found = ( stripos( self::$class_instance->get_debug_mark(), WPSEO_VERSION ) !== false );
 		$this->assertTrue( $version_found );
 	}
 
@@ -761,65 +761,103 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the situation for flush cash when the debug_mark is not being hooked.
+	 * Tests the situation for flush cache when the debug_mark is not being hooked.
+	 *
+	 * @covers WPSEO_Frontend::flush_cache
+	 */
+	public function test_flush_cache_with_output_buffering_not_turned_on() {
+		// Should not run when output buffering is not turned on.
+		$this->assertFalse( self::$class_instance->flush_cache() );
+	}
+
+	/**
+	 * Tests the situation for flush cache when the debug_mark is not being hooked.
 	 *
 	 * @covers WPSEO_Frontend::flush_cache
 	 */
 	public function test_flush_cache_with_debug_mark_hook_not_being_set() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'get_debug_mark' ) )
+			->getMock();
 
-		$c = self::$class_instance;
+		$frontend
+			->expects( $this->never() )
+			->method( 'get_debug_mark' );
 
-		// Should not run when output buffering is not turned on.
-		$this->assertFalse( self::$class_instance->flush_cache() );
+		// First remove the action
+		remove_action( 'wpseo_head', array( $frontend, 'show_debug_mark' ), 2 );
 
-		// Turn on output buffering.
-		self::$class_instance->force_rewrite_output_buffer();
-
-		$content = '<!DOCTYPE><html><head><title>TITLETOBEREPLACED</title>' . self::$class_instance->debug_mark( false ) . '</head><body>Some body content. Should remain unchanged.</body></html>';
-
-		// Create expected output.
-		$expected = $content;
-		echo $content;
+		// Enables the output buffering.
+		$frontend->force_rewrite_output_buffer();
 
 		// Run function.
-		$result = self::$class_instance->flush_cache();
+		$result = $frontend->flush_cache();
 
 		// Run assertions.
-		$this->expectOutput( $expected, $result );
 		$this->assertTrue( $result );
 	}
 
+	/**
+	 * @covers WPSEO_Frontend::head_product_name()
+	 */
+	public function test_head_get_debug_mark_for_premium() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'is_premium' ) )
+			->getMock();
+
+		$frontend
+			->expects( $this->once() )
+			->method( 'is_premium' )
+			->will( $this->returnValue( true ) );
+
+		$this->assertNotFalse( stripos( $frontend->get_debug_mark(), 'Premium' ) );
+	}
 
 	/**
-	 * Tests the situation for flush cash when the debug_mark is being hooked.
+	 * @covers WPSEO_Frontend::head_product_name()
+	 */
+	public function test_head_get_debug_mark_for_free() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'is_premium' ) )
+			->getMock();
+
+		$frontend
+			->expects( $this->once() )
+			->method( 'is_premium' )
+			->will( $this->returnValue( false ) );
+
+		$this->assertFalse( stripos( $frontend->get_debug_mark(), 'Premium' ) );
+	}
+
+	/**
+	 * Tests the situation for flush cache when the debug_mark is being hooked.
 	 *
 	 * @covers WPSEO_Frontend::flush_cache
 	 */
 	public function test_flush_cache_with_debug_mark_hook_being_set() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'get_debug_mark' ) )
+			->getMock();
 
-		$c = self::$class_instance;
-		add_action( 'wpseo_head', array( $c, 'debug_mark' ) );
+		$frontend
+			->expects( $this->exactly(2) )
+			->method( 'get_debug_mark' );
 
-		// Should not run when output buffering is not turned on.
-		$this->assertFalse( self::$class_instance->flush_cache() );
-
-		// Turn on output buffering.
-		self::$class_instance->force_rewrite_output_buffer();
-
-		$content = '<!DOCTYPE><html><head><title>TITLETOBEREPLACED</title>' . self::$class_instance->debug_mark( false ) . '</head><body>Some body content. Should remain unchanged.</body></html>';
-
-		// Create expected output.
-		global $sep;
-		$title    = self::$class_instance->title( '', $sep );
-		$expected = preg_replace( '/<title(.*)\/title>/i', '', $content );
-		$expected = str_replace( $c->debug_mark( false ), $c->debug_mark( false ) . "\n" . '<title>' . $title . '</title>', $expected );
-		echo $content;
+		// Enables the output buffering.
+		$frontend->force_rewrite_output_buffer();
 
 		// Run function.
-		$result = self::$class_instance->flush_cache();
+		$result = $frontend->flush_cache();
 
 		// Run assertions.
-		$this->expectOutput( $expected, $result );
 		$this->assertTrue( $result );
 	}
 
