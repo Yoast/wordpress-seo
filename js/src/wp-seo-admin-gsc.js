@@ -1,8 +1,14 @@
-/* jshint unused:false */
 /* global ajaxurl */
 /* global tb_click */
 jQuery( function() {
-	"use strict";
+	jQuery( ".subsubsub .yoast_help" ).on(
+		"click active",
+		function() {
+			let targetElementID = "#" + jQuery( this ).attr( "aria-controls" );
+			jQuery( ".yoast-help-panel" ).not( targetElementID ).hide();
+		}
+	);
+
 
 	// Store the control that opened the modal dialog for later use.
 	var $gscModalFocusedBefore;
@@ -14,7 +20,12 @@ jQuery( function() {
 				h = 500,
 				left = ( screen.width / 2 ) - ( w / 2 ),
 				top = ( screen.height / 2 ) - ( h / 2 );
-			return window.open( authUrl, "wpseogscauthcode", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left );
+			return window.open(
+				authUrl,
+				"wpseogscauthcode",
+				"toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, " +
+				"copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left
+			);
 		}
 	);
 
@@ -91,8 +102,6 @@ jQuery( function() {
  * @returns {void}
  */
 function wpseoUpdateCategoryCount( category ) {
-	"use strict";
-
 	var countElement = jQuery( "#gsc_count_" + category + "" );
 	var newCount     = parseInt( countElement.text(), 10 ) - 1;
 	if( newCount < 0 ) {
@@ -140,8 +149,6 @@ function wpseoSendMarkAsFixed( nonce, platform, category, url ) {
  * @returns {void}
  */
 function wpseoMarkAsFixed( url ) {
-	"use strict";
-
 	wpseoSendMarkAsFixed(
 		jQuery( ".wpseo-gsc-ajax-security" ).val(),
 		jQuery( "#field_platform" ).val(),

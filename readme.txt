@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
-Tested up to: 4.8.2
-Stable tag: 5.7.1
+Tested up to: 4.9
+Stable tag: 5.8
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -124,6 +124,38 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 6. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 5.8.0 =
+
+Release Date: November 15th, 2017
+
+Security:
+    * Fixes an XSS vulnerability in the Google Search Console configuration page, when connected to any profile.
+
+Bugfixes:
+    * Fixes a bug where inactive suggested plugins weren't displaying a notification.
+    * Fixes a bug where an error would be thrown if a Yoast SEO custom database table was missing.
+    * Fixes a bug where the layout of the metabox would break if too little content was present. Props to [shane-gray](https://github.com/shane-gray).
+    * Fixes a bug where the WordPress editor was being displayed for custom, private taxonomies. Props to [stodorovic](https://github.com/stodorovic).
+    * Fixes a bug where the analysis heading is shown when readability and keyword analysis has been turned off. Props to [daim2k5](https://github.com/daim2k5).
+    * Fixes a bug where outputting on `the_content` filter calls could result in faulty AJAX requests.
+
+Enhancements:
+	* Introduces `wpseo_breadcrumb_single_link_info` filter for modifying breadcrumb data. Props to [slushman](https://github.com/slushman) and [forsvunnet](https://github.com/forsvunnet).
+    * Introduces `wpseo_redirect_orphan_attachment` action to allow unattached attachment pages to be redirected in tune with the relevant setting. Props to [soulseekah](https://github.com/soulseekah).
+    * Enhances integration with most role/capability manager plugins using the `members_get_capabilities` filter. Props to [JoryHogeveen](https://github.com/JoryHogeveen).
+    * Adds a Yoast group to the Members and User Role Editor plugins to easily find the Yoast SEO capabilities. Props to [JoryHogeveen](https://github.com/JoryHogeveen).
+    * Made link for Premium buy button changeable. Props to [leesto](https://github.com/leesto).
+    * Removes the max-width on alerts to present a better UI. Props to [timnolte](https://github.com/timnolte).
+    * Sets default Twitter Card option to 'Summary with large image'. Props to [pattonwebz](https://github.com/pattonwebz).
+    * Makes the content accessible by adding scroll functionality in the help center tabs.
+    * Improves the suggested plugins messages and adds installation and activation links when appropriate.
+    * Makes sure that the `yoast_seo_links` table is accessible before attempting to run a query against it.
+    * Uses Gutenberg content if it is available.
+
+Maintenance:
+    * Cleaned up codebase by removing old Knowledge Base Search code.
+    * Improved the codebase to make it comply with the latest WordPress Coding Standards.
 
 = 5.7.1 =
 

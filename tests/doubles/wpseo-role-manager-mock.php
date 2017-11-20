@@ -7,17 +7,43 @@
  * Test Helper Class.
  */
 class WPSEO_Role_Manager_Mock extends WPSEO_Abstract_Role_Manager {
+
+	/** @var array Added roles. */
 	public $added_roles = array();
+
+	/** @var array Removed roles. */
 	public $removed_roles = array();
 
+	/**
+	 * Get registered roles.
+	 *
+	 * @return array
+	 */
 	public function get_registered_roles() {
 		return $this->roles;
 	}
 
+	/**
+	 * Filters out capabilities that are already set for the role.
+	 *
+	 * This makes sure we don't override configurations that have been previously set.
+	 *
+	 * @param string $role         The role to check against.
+	 * @param array  $capabilities The capabilities that should be set.
+	 *
+	 * @return array Capabilties that can be safely set.
+	 */
 	public function filter_existing_capabilties( $role, array $capabilities ) {
 		return parent::filter_existing_capabilities( $role, $capabilities );
 	}
 
+	/**
+	 * Returns the capabilities for the specified role.
+	 *
+	 * @param string $role Role to fetch capabilities from.
+	 *
+	 * @return array List of capabilities.
+	 */
 	public function get_capabilities( $role ) {
 		return parent::get_capabilities( $role );
 	}

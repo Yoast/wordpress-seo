@@ -205,7 +205,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		// Check if post data is available, if post_id is set and if original post_status is publish.
 		// @codingStandardsIgnoreStart
 		if (
-			! empty( $_POST ) && ! empty( $post->ID ) && $post->post_status == 'publish' &&
+			! empty( $_POST ) && ! empty( $post->ID ) && $post->post_status === 'publish' &&
 			isset( $_POST['original_post_status'] ) && $_POST['original_post_status'] === 'publish'
 		) {
 			// @codingStandardsIgnoreEnd
