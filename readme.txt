@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
-Tested up to: 4.8.3
+Tested up to: 4.9
 Stable tag: 5.8
 Requires PHP: 5.2.4
 
@@ -128,6 +128,9 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 = 5.8.0 =
 
 Release Date: November 15th, 2017
+
+Security:
+    * Fixes an XSS vulnerability in the Google Search Console configuration page, when connected to any profile.
 
 Bugfixes:
     * Fixes a bug where inactive suggested plugins weren't displaying a notification.
