@@ -516,6 +516,25 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the situation where the archive redirect has been redirected.
+	 *
+	 * @covers WPSEO_Frontend::archive_redirect()
+	 */
+	public function test_archive_redirect_being_redirected() {
+		global $wp_query;
+
+		$frontend = self::$class_instance;
+
+		$wp_query->is_author                 = true;
+		$frontend->options['disable-author'] = true;
+		$this->assertTrue( $frontend->archive_redirect() );
+
+		$wp_query->is_date                 = true;
+		$frontend->options['disable-date'] = true;
+		$this->assertTrue( $frontend->archive_redirect() );
+	}
+
+	/**
 	 * Tests for attachment redirect an attachment page with parent.
 	 *
 	 * @covers WPSEO_Frontend::attachment_redirect

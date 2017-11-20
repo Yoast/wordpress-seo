@@ -1450,8 +1450,8 @@ class WPSEO_Frontend {
 			( $this->options['disable-author'] === true && $wp_query->is_author ) ||
 			( $this->options['disable-post_format'] === true && $wp_query->is_tax( 'post_format' ) )
 		) {
-			wp_safe_redirect( get_bloginfo( 'url' ), 301 );
-			exit;
+			$this->redirect( get_bloginfo( 'url' ), 301 );
+			return true;
 		}
 
 		return false;
