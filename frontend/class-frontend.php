@@ -1833,8 +1833,8 @@ class WPSEO_Frontend {
 		wp_reset_query();
 
 		// Only replace the debug marker when it is hooked.
-		if ( has_action( 'wpseo_head', array( $this, 'debug_mark' ) ) ) {
-			$title   = $this->title( '' );
+		if ( $this->has_debug_mark_action() ) {
+			$title = $this->title( '' );
 
 			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
 			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
@@ -1968,6 +1968,15 @@ class WPSEO_Frontend {
 	protected function redirect( $location, $status = 302 ) {
 		wp_safe_redirect( $location, $status );
 		exit;
+	}
+
+	/**
+	 * Checks if the debug mark action has been added.
+	 *
+	 * @return bool True when the action exists.
+	 */
+	protected function has_debug_mark_action() {
+		return has_action( 'wpseo_head', array( $this, 'debug_mark' ) ) !== false;
 	}
 
 	/** Deprecated functions */
