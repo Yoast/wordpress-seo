@@ -12,7 +12,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Added flag to run tests sequentially. #376
 * Changed `StackedProgressBar` height to `24px`. #367
 * Changed `onMarkButtonClick` callback in `ContentAnalysis` to return empty string when marker is deselected. #375
-* Add `type="button"` attribute to `IconButtonToggle`. #378
+* Added `type="button"` attribute to `IconButtonToggle`. #378
 
 ## 2.11.2: November 7th, 2017
 
