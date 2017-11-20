@@ -5,6 +5,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @group test
  */
 class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
@@ -779,15 +781,17 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_debug_mark' ) )
+			->setMethods( array( 'has_debug_mark_action', 'get_debug_mark' ) )
 			->getMock();
 
 		$frontend
 			->expects( $this->never() )
 			->method( 'get_debug_mark' );
 
-		// First remove the action
-		remove_action( 'wpseo_head', array( $frontend, 'debug_mark' ), 2 );
+		$frontend
+			->expects( $this->once() )
+			->method( 'has_debug_mark_action' )
+			->will( $this->returnValue( false ) );
 
 		// Enables the output buffering.
 		$frontend->force_rewrite_output_buffer();
@@ -800,6 +804,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Checks the value of the debug mark getter when the premium version is 'active'.
 	 * @covers WPSEO_Frontend::head_product_name()
 	 */
 	public function test_head_get_debug_mark_for_premium() {
@@ -818,6 +823,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Checks the value of the debug mark getter when the free version is 'active'.
+	 *
 	 * @covers WPSEO_Frontend::head_product_name()
 	 */
 	public function test_head_get_debug_mark_for_free() {
@@ -844,8 +851,13 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_debug_mark' ) )
+			->setMethods( array( 'has_debug_mark_action', 'get_debug_mark' ) )
 			->getMock();
+
+		$frontend
+			->expects( $this->once() )
+			->method( 'has_debug_mark_action' )
+			->will( $this->returnValue( true ) );
 
 		$frontend
 			->expects( $this->exactly(2) )
@@ -859,6 +871,52 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// Run assertions.
 		$this->assertTrue( $result );
+	}
+
+	/**
+	 * Tests the situation where the closing debug mark should be shown.
+	 *
+	 * @covers WPSEO_Frontend::show_closing_debug_mark
+	 */
+	public function test_show_closing_debug_mark_with_debug_mark_hook_being_set() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'has_debug_mark_action' ) )
+			->getMock();
+
+		$frontend
+			->expects( $this->once() )
+			->method( 'has_debug_mark_action' )
+			->will( $this->returnValue( true ) );
+
+		$frontend->head();
+
+		$this->expectOutputContains( '<!-- / Yoast SEO plugin. -->'  );
+	}
+
+	/**
+	 * Tests the situation where the closing debug mark shouldn't be shown.
+	 *
+	 * @covers WPSEO_Frontend::show_closing_debug_mark
+	 */
+	public function test_show_closing_debug_mark_with_debug_mark_hook_not_being_set() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'has_debug_mark_action' ) )
+			->getMock();
+
+		$frontend
+			->expects( $this->once() )
+			->method( 'has_debug_mark_action' )
+			->will( $this->returnValue( false ) );
+
+		$frontend->head();
+
+		$output = $this->getActualOutput();
+
+		$this->assertFalse( stripos( $output, '<!-- / Yoast SEO plugin. -->' )  );
 	}
 
 	/**
