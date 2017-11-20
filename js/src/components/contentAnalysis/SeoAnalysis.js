@@ -26,7 +26,7 @@ SeoAnalysis.propTypes = {
  * @returns {Object} Props that should be passed to SeoAnalysis.
  */
 function mapStateToProps( state ) {
-	if( state.activeKeyword && state.analysis.seo[ state.activeKeyword ] ) {
+	if( state.analysis.seo[ state.activeKeyword ] ) {
 		return {
 			results: state.analysis.seo[ state.activeKeyword ],
 		};
