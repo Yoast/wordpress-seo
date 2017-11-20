@@ -256,12 +256,6 @@ class WPSEO_Breadcrumbs {
 
 			if ( count( $parents ) >= $parents_count ) {
 
-				// If higher count.
-				if ( count( $parents ) > $parents_count ) {
-					// Reset order.
-					$term_order = 9999;
-				}
-
 				$parents_count = count( $parents );
 
 				$parent_order = 9999; // Set default order.
