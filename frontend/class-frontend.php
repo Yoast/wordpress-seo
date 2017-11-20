@@ -683,12 +683,7 @@ class WPSEO_Frontend {
 		 */
 		do_action( 'wpseo_head' );
 
-		if ( has_action( 'wpseo_head', array( $this, 'debug_mark' ) ) ) {
-			printf(
-				"<!-- / %s. -->\n\n",
-				esc_html( $this->head_product_name() )
-			);
-		}
+		echo $this->show_closing_debug_mark();
 
 		if ( ! empty( $old_wp_query ) ) {
 			$GLOBALS['wp_query'] = $old_wp_query;
@@ -1977,6 +1972,22 @@ class WPSEO_Frontend {
 	 */
 	protected function has_debug_mark_action() {
 		return has_action( 'wpseo_head', array( $this, 'debug_mark' ) ) !== false;
+	}
+
+	/**
+	 * Show the closing debug mark.
+	 *
+	 * @return string The closing debug mark comment.
+	 */
+	protected function show_closing_debug_mark() {
+		if ( ! $this->has_debug_mark_action() ) {
+			return '';
+		}
+
+		return sprintf(
+			"<!-- / %s. -->\n\n",
+			esc_html( $this->head_product_name() )
+		);
 	}
 
 	/** Deprecated functions */
