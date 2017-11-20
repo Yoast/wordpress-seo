@@ -7,6 +7,13 @@
  * Test Helper Class.
  */
 class WPSEO_Frontend_Double extends WPSEO_Frontend {
+
+	/**
+	 * Exposes the constructor to the public.
+	 */
+	public function __construct() {
+		parent::__construct();
+	}
 	/**
 	 * Get the singleton instance of this class
 	 *
