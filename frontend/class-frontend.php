@@ -673,10 +673,12 @@ class WPSEO_Frontend {
 		 */
 		do_action( 'wpseo_head' );
 
-		printf(
-			"<!-- / %s. -->\n\n",
-			esc_html( $this->head_product_name() )
-		);
+		if ( has_action( 'wpseo_head', array( $this, 'debug_mark' ) ) ) {
+			printf(
+				"<!-- / %s. -->\n\n",
+				esc_html( $this->head_product_name() )
+			);
+		}
 
 		if ( ! empty( $old_wp_query ) ) {
 			$GLOBALS['wp_query'] = $old_wp_query;
