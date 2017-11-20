@@ -1975,7 +1975,7 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Show the closing debug mark.
+	 * Shows the closing debug mark.
 	 *
 	 * @return string The closing debug mark comment.
 	 */
