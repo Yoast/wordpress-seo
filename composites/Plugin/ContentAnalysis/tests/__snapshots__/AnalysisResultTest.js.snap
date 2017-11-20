@@ -2,7 +2,7 @@
 
 exports[`the AnalysisResult component matches the snapshot 1`] = `
 <li
-  className="sc-bwzfXH kGIHaC"
+  className="sc-bwzfXH kaQsFW"
 >
   <svg
     aria-hidden="true"
@@ -38,7 +38,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 
 exports[`the AnalysisResult component with html in the text matches the snapshot 1`] = `
 <li
-  className="sc-bwzfXH kGIHaC"
+  className="sc-bwzfXH kaQsFW"
 >
   <svg
     aria-hidden="true"
