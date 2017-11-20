@@ -20,7 +20,7 @@ class WPSEO_Frontend {
 	public $options = array();
 
 	/**
-	 * @var boolean Boolean indicating wether output buffering has been started.
+	 * @var boolean Boolean indicating whether output buffering has been started.
 	 */
 	private $ob_started = false;
 
@@ -250,19 +250,19 @@ class WPSEO_Frontend {
 			$object = $GLOBALS['wp_query']->get_queried_object();
 		}
 
-		if ( is_object( $object ) ) {
-			$title = WPSEO_Meta::get_value( 'title', $object->ID );
-
-			if ( $title !== '' ) {
-				return wpseo_replace_vars( $title, $object );
-			}
-
-			$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
-
-			return $this->get_title_from_options( 'title-' . $post_type, $object );
+		if ( ! is_object( $object ) ) {
+			return $this->get_title_from_options( 'title-404-wpseo' );
 		}
 
-		return $this->get_title_from_options( 'title-404-wpseo' );
+		$title = WPSEO_Meta::get_value( 'title', $object->ID );
+
+		if ( $title !== '' ) {
+			return wpseo_replace_vars( $title, $object );
+		}
+
+		$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
+
+		return $this->get_title_from_options( 'title-' . $post_type, $object );
 	}
 
 	/**
@@ -278,9 +278,8 @@ class WPSEO_Frontend {
 		if ( is_string( $title ) && $title !== '' ) {
 			return wpseo_replace_vars( $title, $object );
 		}
-		else {
-			return $this->get_title_from_options( 'title-tax-' . $object->taxonomy, $object );
-		}
+
+		return $this->get_title_from_options( 'title-tax-' . $object->taxonomy, $object );
 	}
 
 	/**
@@ -314,13 +313,11 @@ class WPSEO_Frontend {
 			if ( is_singular() ) {
 				return wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
 			}
-			else {
-				return '';
-			}
+
+			return '';
 		}
-		else {
-			return wpseo_replace_vars( $this->options[ $index ], $var_source );
-		}
+
+		return wpseo_replace_vars( $this->options[ $index ], $var_source );
 	}
 
 	/**
@@ -611,7 +608,7 @@ class WPSEO_Frontend {
 	 *
 	 * @param bool $echo Whether or not to echo the debug marker.
 	 *
-	 * @return string
+	 * @return string The marker that will be echoed.
 	 */
 	public function debug_mark( $echo = true ) {
 		$marker = sprintf(
@@ -628,9 +625,9 @@ class WPSEO_Frontend {
 		if ( $echo === false ) {
 			return $marker;
 		}
-		else {
-			echo "\n${marker}\n";
-		}
+
+		echo "\n${marker}\n";
+		return '';
 	}
 
 	/**
@@ -701,7 +698,7 @@ class WPSEO_Frontend {
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		if ( is_singular() && is_object( $post ) ) {
+		if ( is_object( $post ) && is_singular() ) {
 
 			$option_name = 'noindex-' . $post->post_type;
 			$noindex     = isset( $this->options[ $option_name ] ) && $this->options[ $option_name ] === true;
