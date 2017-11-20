@@ -787,7 +787,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 			->method( 'get_debug_mark' );
 
 		// First remove the action
-		remove_action( 'wpseo_head', array( $frontend, 'show_debug_mark' ), 2 );
+		remove_action( 'wpseo_head', array( $frontend, 'debug_mark' ), 2 );
 
 		// Enables the output buffering.
 		$frontend->force_rewrite_output_buffer();
