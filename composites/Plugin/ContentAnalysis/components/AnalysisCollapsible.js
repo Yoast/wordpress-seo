@@ -65,7 +65,6 @@ const AnalysisList = styled.ul`
 function wrapInHeading( Component, headingLevel ) {
 	const Heading = `h${ headingLevel }`;
 	const StyledHeading = styled( Heading )`
-		padding: 0;
 		margin: 0;
 		font-weight: normal;
 	`;
