@@ -1897,9 +1897,8 @@ class WPSEO_Frontend {
 		if ( $this->is_premium() ) {
 			return 'Yoast SEO Premium plugin';
 		}
-		else {
-			return 'Yoast SEO plugin';
-		}
+
+		return 'Yoast SEO plugin';
 	}
 
 	/**
