@@ -1906,8 +1906,8 @@ class WPSEO_Frontend {
 	 *
 	 * @return bool
 	 */
-	private function is_premium() {
-		return file_exists( WPSEO_PATH . 'premium/' );
+	protected function is_premium() {
+		return WPSEO_Utils::is_yoast_seo_premium();
 	}
 
 	/**
