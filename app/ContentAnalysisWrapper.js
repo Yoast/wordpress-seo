@@ -14,6 +14,7 @@ export default function HelpCenterWrapper() {
 			id: "1",
 			rating: "bad",
 			hasMarks: true,
+			marker: { data: "marker" },
 		},
 	];
 
@@ -29,6 +30,7 @@ export default function HelpCenterWrapper() {
 			id: "3",
 			rating: "good",
 			hasMarks: true,
+			marker: { data: "marker" },
 		},
 	];
 
@@ -69,6 +71,9 @@ export default function HelpCenterWrapper() {
 			changeLanguageLink="#"
 			language="English"
 			showLanguageNotice={ true }
+			onMarkButtonClick={ ( id, marker ) => {
+				console.log( "Marker button clicked", id, marker );
+			} }
 		/>
 	);
 }

@@ -10,7 +10,7 @@ import IconButtonToggle from "../../Shared/components/IconButtonToggle.js";
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
 	min-height: 24px;
-	padding: 8px 4px 8px 0;
+	padding: 0 4px 0 0;
 	display: flex;
 	align-items: flex-start;
 `;
