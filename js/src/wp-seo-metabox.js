@@ -59,7 +59,7 @@
 
 					// Close the Help Center when clicking on the Go Premium link.
 					if ( targetTab === "#wpseo-meta-section-premium" ) {
-						if ( "true" === helpCenterToggleButton.attr( "aria-expanded" ) ) {
+						if ( helpCenterToggleButton.attr( "aria-expanded" ) === "true" ) {
 							helpCenterToggleButton.click();
 						}
 					}
