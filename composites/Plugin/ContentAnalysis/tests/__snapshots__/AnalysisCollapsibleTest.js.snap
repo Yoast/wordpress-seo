@@ -2,7 +2,7 @@
 
 exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
 <div
-  className="sc-bZQynM iXyxsW"
+  className="sc-bZQynM iUmxxL"
 >
   <button
     aria-expanded={true}
@@ -44,7 +44,7 @@ exports[`the AnalysisCollapsible in opened state matches the snapshot 1`] = `
 
 exports[`the AnalysisCollapsible with a heading matches the snapshot 1`] = `
 <div
-  className="sc-bZQynM iXyxsW"
+  className="sc-bZQynM iUmxxL"
 >
   <h2
     className="sc-gqjmRU kWAqZI"
@@ -73,7 +73,7 @@ exports[`the AnalysisCollapsible with a heading matches the snapshot 1`] = `
 
 exports[`the default AnalysisCollapsible matches the snapshot 1`] = `
 <div
-  className="sc-bZQynM iXyxsW"
+  className="sc-bZQynM iUmxxL"
 >
   <button
     aria-expanded={false}
