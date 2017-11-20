@@ -1,3 +1,4 @@
+var stopCharacterRegex = /(?!([a-zA-Z]))(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
 var indices = require( "../../stringProcessing/indices" );
 var getIndicesOfList = indices.getIndicesByWordList;
 var filterIndices = indices.filterIndices;
@@ -15,6 +16,29 @@ var isUndefined = require( "lodash/isUndefined" );
 var map = require( "lodash/map" );
 
 /**
+ * Gets stop characters to determine sentence breakers.
+ *
+ * @param {string} sentence The sentence to get the stop characters from.
+ * @returns {Array} The array with valid matches.
+ */
+var getStopCharacters = function( sentence ) {
+	var match;
+	var matches = [];
+
+	stopCharacterRegex.lastIndex = 0;
+
+	while ( ( match = stopCharacterRegex.exec( sentence ) ) !== null ) {
+		matches.push(
+			{
+				index: match.index,
+				match: match[ 0 ],
+			}
+		);
+	}
+	return matches;
+};
+
+/**
  * Gets the indexes of sentence breakers (auxiliaries and stopwords) to determine sentence parts.
  * Indices are filtered because there could be duplicate matches, like "even though" and "though".
  * In addition, 'having' will be matched both as a -ing verb as well as an auxiliary.
@@ -26,9 +50,11 @@ var getSentenceBreakers = function( sentence ) {
 	sentence = sentence.toLocaleLowerCase();
 	var auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
 	var stopwordIndices = getIndicesOfList( stopwords, sentence );
+	var stopCharacterIndices = getStopCharacters( sentence );
+
 
 	// Concat all indices arrays, filter them and sort them.
-	var indices = [].concat( auxiliaryIndices, stopwordIndices );
+	var indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 	indices = filterIndices( indices );
 	return sortIndices( indices );
 };

@@ -92,7 +92,7 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	});
 
-	it( "ensures that the sentence part is set to passive if the participle is empty.", function() {
+	it( "ensures that the sentence part is not set to passive if the participle is empty.", function() {
 		let mockParticiple = new EnglishParticiple( "cooked", "It is cooked by him", { auxiliaries: [ "is" ], type: "regular" } );
 		mockParticiple._participle = null;
 		mockParticiple.checkException();

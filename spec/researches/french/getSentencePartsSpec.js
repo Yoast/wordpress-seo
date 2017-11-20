@@ -20,4 +20,15 @@ describe( "splits French sentences into parts", function() {
 		expect( getSentenceParts( sentence ).length ).toBe( 1 );
 	} );
 
+	it ( "splits sentences on stop characters", function() {
+		var sentence = "C'est en particulier et principalement une question d'argent, a résumé le Premier ministre néerlandais Mark Rutte.";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "C'est en particulier et principalement une question d'argent" );
+		expect( getSentenceParts( sentence ).length ).toBe( 1 );
+	} );
+
+	it ( "doesn't split sentences on stop characters that are not preceded by a word and also not followed by a space/punctuation mark", function() {
+		var sentence = "La branche était déficitaire de 1,5 milliard.";
+		expect( getSentenceParts( sentence )[ 0 ].getSentencePartText() ).toBe( "était déficitaire de 1,5 milliard." );
+		expect( getSentenceParts( sentence ).length ).toBe( 1 );
+	} );
 } );

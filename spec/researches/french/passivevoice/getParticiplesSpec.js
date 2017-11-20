@@ -14,6 +14,21 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 
+	it("returns matched regular participles and filtered exceptions; exceptions don't set the sentence part passive.", function(){
+		var mockSentence = new sentencePart( "Elle a été remarquée par un agent de théâtre.", [ "été" ] );
+		var sentencePartText = mockSentence.getSentencePartText();
+		var auxiliaries = mockSentence.getAuxiliaries();
+		var foundParticiples = getParticiples( sentencePartText, auxiliaries );
+		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "été" );
+		expect( foundParticiples[ 1 ].getParticiple() ).toEqual( "remarquée" );
+		expect( foundParticiples[ 0 ].getType() ).toEqual( "regular" );
+		expect( foundParticiples[ 1 ].getType() ).toEqual( "regular" );
+		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "Elle a été remarquée par un agent de théâtre." );
+		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "été" ] );
+		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( false );
+		expect( foundParticiples[ 1 ].determinesSentencePartIsPassive() ).toEqual( true );
+	});
+
 	it("returns matched irregular participles.", function(){
 		var mockSentence = new sentencePart( "Cela fut dit sans malice.", [ "fut" ] );
 		var sentencePartText = mockSentence.getSentencePartText();

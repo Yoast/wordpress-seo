@@ -42,4 +42,11 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.isOnParticipleExceptionList() ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
+
+	it( "ensures that the sentence part is not set to passive if the participle is empty.", function() {
+		let mockParticiple = new FrenchParticiple( "cuisiné", "Ça a été cuisiné par lui.", { auxiliaries: [ "été" ], type: "regular" } );
+		mockParticiple._participle = null;
+		mockParticiple.checkException();
+		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	});
 });

@@ -68,5 +68,6 @@ module.exports = function() {
 		"qui",
 		"où",
 		"d'où",
+		":",
 	];
 };
