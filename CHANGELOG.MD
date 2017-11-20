@@ -7,12 +7,15 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## 2.11.3: November 20th, 2017
 
-* Made Onboarding Wizard's `previousButton` and `nextButton` focusable. #369
-* Replaced old react string refs with callbacks. #365
+### Added
 * Added flag to run tests sequentially. #376
+* Added `type="button"` attribute to `IconButtonToggle`. #378
+
+### Other
 * Changed `StackedProgressBar` height to `24px`. #367
 * Changed `onMarkButtonClick` callback in `ContentAnalysis` to return empty string when marker is deselected. #375
-* Added `type="button"` attribute to `IconButtonToggle`. #378
+* Made Onboarding Wizard's `previousButton` and `nextButton` focusable. #369
+* Replaced old react string refs with callbacks. #365
 
 ## 2.11.2: November 7th, 2017
 
