@@ -54,8 +54,8 @@ class WPSEO_Language_Utils {
 		require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 
 		$translations = wp_get_available_translations();
-		$locale = get_locale();
-		$language = isset( $translations[ $locale ] ) ? $translations[ $locale ]['native_name'] : 'English (US)';
+		$locale       = get_locale();
+		$language     = isset( $translations[ $locale ] ) ? $translations[ $locale ]['native_name'] : 'English (US)';
 
 		return $language;
 	}
