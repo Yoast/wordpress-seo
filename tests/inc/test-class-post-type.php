@@ -158,7 +158,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the situation with a post type that isn't set to robots noindex.
+	 * Tests the situation with a post type that isn't indexable because it does not exist.
 	 *
 	 * @covers WPSEO_Post_Type::is_post_type_indexable()
 	 */
