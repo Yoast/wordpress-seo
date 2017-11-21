@@ -280,7 +280,6 @@ import UsedKeywords from "./analysis/usedKeywords";
 					store.dispatch( setActiveKeyword( keyword ) );
 				}
 			};
-
 		}
 
 		if ( isContentAnalysisActive() ) {

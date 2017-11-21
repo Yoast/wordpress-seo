@@ -58,7 +58,7 @@ function wrapInTopLevelComponents( Component, store ) {
 }
 
 /**
- * Render the react apps.
+ * Renders the react apps.
  *
  * @param {Object} store Redux store.
  * @param {Object} args Arguments.
@@ -94,7 +94,7 @@ function renderReactApps( store, args ) {
  * @param {string} args.seoTarget Target to render the seo analysis.
  * @param {string} args.readabilityTarget Target to render the readability analysis.
  *
- * @returns {Object} things that need to be exposed, such as the store.
+ * @returns {Object} Things that need to be exposed, such as the store.
  */
 export function initialize( args ) {
 	const store = configureStore();
