@@ -390,7 +390,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			)
 		);
 
-		$tabs[] = new Metabox_Add_Keyword_Tab();
+		$tabs[] = new WPSEO_Metabox_Add_Keyword_Tab();
 
 		return new WPSEO_Metabox_Tab_Section(
 			'content',

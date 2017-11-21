@@ -6,7 +6,7 @@
 /**
  * Tab to add a keyword to analyze
  */
-class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
+class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 
 	/**
 	 * Returns a button because a link is inappropriate here
