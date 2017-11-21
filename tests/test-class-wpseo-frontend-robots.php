@@ -60,7 +60,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '', self::$class_instance->robots() );
 	}
 
-	public function _test_robots_on_private_blog() {
+	public function test_robots_on_private_blog() {
 		// Go to home.
 		$this->go_to_home();
 
@@ -73,7 +73,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 	}
 
 
-	public function _test_with_replytocom_attribute() {
+	public function test_with_replytocom_attribute() {
 		// Go to home.
 		$this->go_to_home();
 

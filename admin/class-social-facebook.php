@@ -211,7 +211,7 @@ class Yoast_Social_Facebook {
 	 * @param string $nonce_name Nonce name string.
 	 */
 	private function verify_nonce( $nonce_name ) {
-		if ( wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), $nonce_name ) != 1 ) {
+		if ( wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), $nonce_name ) !== 1 ) {
 			die( "I don't think that's really nice of you!." );
 		}
 	}

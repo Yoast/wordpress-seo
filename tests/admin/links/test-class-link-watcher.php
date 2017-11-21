@@ -103,7 +103,8 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$post = $this->factory->post->create_and_get(
 			array(
 				'post_content' => '',
-			));
+			)
+		);
 
 		$processor = $this->get_processor();
 		$processor

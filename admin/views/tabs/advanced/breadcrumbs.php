@@ -26,7 +26,7 @@ $yform->textinput( 'breadcrumbs-archiveprefix', __( 'Prefix for Archive breadcru
 $yform->textinput( 'breadcrumbs-searchprefix', __( 'Prefix for Search Page breadcrumbs', 'wordpress-seo' ) );
 $yform->textinput( 'breadcrumbs-404crumb', __( 'Breadcrumb for 404 Page', 'wordpress-seo' ) );
 echo '<br/>';
-if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
+if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) > 0 ) {
 	$yform->toggle_switch( 'breadcrumbs-blog-remove', array(
 		'off' => __( 'Show', 'wordpress-seo' ),
 		'on'  => __( 'Hide', 'wordpress-seo' ),
@@ -68,7 +68,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	echo '<h2>' . esc_html__( 'Post type archive to show in breadcrumbs for taxonomies', 'wordpress-seo' ) . '</h2>';
 	foreach ( $taxonomies as $tax ) {
 		$values = array( 0 => __( 'None', 'wordpress-seo' ) );
-		if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
+		if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) > 0 ) {
 			$values['post'] = __( 'Blog', 'wordpress-seo' );
 		}
 
