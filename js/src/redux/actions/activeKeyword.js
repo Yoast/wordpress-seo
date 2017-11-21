@@ -12,6 +12,6 @@ export const SET_ACTIVE_KEYWORD = `${ PREFIX }SET_ACTIVE_KEYWORD`;
 export const setActiveKeyword = function( keyword ) {
 	return {
 		type: SET_ACTIVE_KEYWORD,
-		payload: keyword,
+		keyword: keyword,
 	};
 };

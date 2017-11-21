@@ -430,7 +430,7 @@ import UsedKeywords from "./analysis/usedKeywords";
 			app.contentAssessorPresenter.renderIndividualRatings = function() {};
 		};
 
-		// Set initial keyword
+		// Set initial keyword.
 		store.dispatch( setActiveKeyword( tabManager.getKeywordTab().getKeyWord() ) );
 	}
 

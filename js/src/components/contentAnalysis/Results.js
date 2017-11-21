@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import mapResults from "./mapResults";
 import ContentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 
+/**
+ * Wrapper to provide functionality to the ContentAnalysis component.
+ */
 class Results extends React.Component {
 	/**
 	 * Handles a click on a marker button, to mark the text in the editor.
@@ -14,7 +17,7 @@ class Results extends React.Component {
 	 * @returns {void}
 	 */
 	handleMarkButtonClick( id, marker ) {
-		if( id ) {
+		if ( id ) {
 			marker();
 		} else {
 			this.removeMarkers();
@@ -22,7 +25,7 @@ class Results extends React.Component {
 	}
 
 	/**
-	 * Remove all markers.
+	 * Removes all markers.
 	 *
 	 * @returns {void}
 	 */
@@ -33,7 +36,7 @@ class Results extends React.Component {
 	}
 
 	/**
-	 * Render the Results component
+	 * Renders the Results component.
 	 *
 	 * @returns {ReactElement} The react element.
 	 */

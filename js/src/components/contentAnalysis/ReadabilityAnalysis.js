@@ -6,24 +6,27 @@ import { connect } from "react-redux";
 
 import Results from "./Results";
 
-class ContentAnalysis extends React.Component {
+/**
+ * Redux container for the readability analysis.
+ */
+class ReadabilityAnalysis extends React.Component {
 	render() {
 		return (
 			<Results
-			showLanguageNotice={ true }
-			changeLanguageLink={ wpseoPostScraperL10n.settings_link }
-			language={ wpseoPostScraperL10n.language }
-			results={ this.props.results }/>
+				showLanguageNotice={ ! ( wpseoPostScraperL10n.settings_link === "" ) }
+				changeLanguageLink={ wpseoPostScraperL10n.settings_link }
+				language={ wpseoPostScraperL10n.language }
+				results={ this.props.results } />
 		);
 	}
 }
 
-ContentAnalysis.propTypes = {
+ReadabilityAnalysis.propTypes = {
 	results: PropTypes.array,
 };
 
 /**
- * Map redux state to ContentAnalysis props.
+ * Maps redux state to ContentAnalysis props.
  *
  * @param {Object} state The redux state.
  *
@@ -35,4 +38,4 @@ function mapStateToProps( state ) {
 	};
 }
 
-export default connect( mapStateToProps )( ContentAnalysis );
+export default connect( mapStateToProps )( ReadabilityAnalysis );

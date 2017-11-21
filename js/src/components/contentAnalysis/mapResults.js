@@ -39,7 +39,7 @@ function mapResult( result ) {
 	};
 
 	// Because of inconsistency between YoastSEO and yoast-components.
-	if( mappedResult.rating === "ok" ) {
+	if ( mappedResult.rating === "ok" ) {
 		mappedResult.rating = "OK";
 	}
 
@@ -52,7 +52,7 @@ function mapResult( result ) {
  * Takes in the YoastSEO.js results and maps them to the appropriate objects, so they can be used by the
  * ContentAnalysis component from yoast-components.
  *
- * @param {object} results Results provided by YoastSEO.js
+ * @param {object} results Results provided by YoastSEO.js.
  *
  * @returns {MappedResults} The mapped results.
  */
@@ -64,10 +64,10 @@ export default function mapResults( results ) {
 		goodResults: [],
 		considerationsResults: [],
 	};
-	if( ! results ) {
+	if ( ! results ) {
 		return mappedResults;
 	}
-	for( let i = 0; i < results.length; i++ ) {
+	for ( let i = 0; i < results.length; i++ ) {
 		const result = results[ i ];
 		if( ! result.text ) {
 			continue;

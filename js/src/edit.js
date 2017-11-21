@@ -13,9 +13,7 @@ import activeKeyword from "./redux/reducers/activeKeyword";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 
-/**
- * This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
- */
+// This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 
 /**
  * Creates a redux store.
@@ -40,7 +38,7 @@ function configureStore() {
 }
 
 /**
- * Wrap a component in the required top level components.
+ * Wraps a component in the required top level components.
  *
  * @param {ReactElement} Component The component to be wrapped.
  * @param {Object} store Redux store.
@@ -71,9 +69,9 @@ function renderReactApps( store, args ) {
 	const contentAnalysisElement = document.getElementById( args.readabilityTarget );
 	const seoAnalysisElement = document.getElementById( args.seoTarget );
 
-	if( window.wpseoPostScraperL10n.intl ) {
+	if ( window.wpseoPostScraperL10n.intl ) {
 		// Add react-intl translations
-		addLocaleData( wpseoPostScraperL10n.translations );
+		addLocaleData( window.wpseoPostScraperL10n.intl );
 	}
 
 	ReactDOM.render(

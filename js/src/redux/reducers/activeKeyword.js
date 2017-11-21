@@ -13,7 +13,7 @@ const INITIAL_STATE = null;
 function activeKeywordReducer( state = INITIAL_STATE, action ) {
 	switch( action.type ) {
 		case SET_ACTIVE_KEYWORD:
-			return action.payload;
+			return action.keyword;
 		default:
 			return state;
 	}
