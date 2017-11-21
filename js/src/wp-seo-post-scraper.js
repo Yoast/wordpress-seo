@@ -25,6 +25,7 @@ import snippetPreviewHelpers from "./analysis/snippetPreview";
 import UsedKeywords from "./analysis/usedKeywords";
 
 ( function( $ ) {
+	"use strict"; // eslint-disable-line
 	if ( typeof wpseoPostScraperL10n === "undefined" ) {
 		return;
 	}
