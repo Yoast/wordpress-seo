@@ -115,7 +115,10 @@ class WPSEO_Link_Notifier {
 	 * @return bool True when the threshold is exceeded.
 	 */
 	protected function requires_notification() {
-		$post_types = (array) apply_filters( 'wpseo_link_count_post_types', WPSEO_Post_Type::get_accessible_post_types() );
+		$post_types = apply_filters( 'wpseo_link_count_post_types', WPSEO_Post_Type::get_accessible_post_types() );
+		if ( ! is_array( $post_types ) ) {
+			return false;
+		}
 
 		return WPSEO_Link_Query::has_unprocessed_posts( $post_types );
 	}

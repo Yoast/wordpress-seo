@@ -11,9 +11,9 @@ class WPSEO_Post_Type {
 	/**
 	 * Returns an array with the accessible post types.
 	 *
-	 * An accessible post type is a post type that is public and isn't set as no-index (robots)
+	 * An accessible post type is a post type that is public and isn't set as no-index (robots).
 	 *
-	 * @return array
+	 * @return array Array with all the accessible post_types.
 	 */
 	public static function get_accessible_post_types() {
 		$post_types = get_post_types( array( 'public' => true ) );
@@ -35,7 +35,7 @@ class WPSEO_Post_Type {
 	}
 
 	/**
-	 * Checks if the request post type is public indexable.
+	 * Checks if the request post type is public and indexable.
 	 *
 	 * @param string $post_type_name The name of the post type to lookup.
 	 *
