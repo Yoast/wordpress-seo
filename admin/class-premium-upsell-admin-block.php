@@ -4,9 +4,9 @@
  */
 
 /**
- * Class Premium_Upsell_Admin_Block
+ * Class WPSEO_Premium_Upsell_Admin_Block
  */
-class Premium_Upsell_Admin_Block {
+class WPSEO_Premium_Upsell_Admin_Block {
 	/** @var string Hook to display the block on. */
 	protected $hook;
 
