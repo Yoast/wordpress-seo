@@ -1,13 +1,5 @@
 import scoreToRating from "yoastseo/js/interpreters/scoreToRating";
 
-const DEFAULT_MAPPED_RESULTS = {
-	errorsResults: [],
-	problemsResults: [],
-	improvementsResults: [],
-	goodResults: [],
-	considerationsResults: [],
-};
-
 /**
  * Mapped result definition.
  * @typedef {Object} MappedResult
@@ -96,7 +88,13 @@ function processResult( mappedResult, mappedResults ) {
  * @returns {MappedResults} The mapped results.
  */
 export default function mapResults( results ) {
-	let mappedResults = DEFAULT_MAPPED_RESULTS;
+	let mappedResults = {
+		errorsResults: [],
+		problemsResults: [],
+		improvementsResults: [],
+		goodResults: [],
+		considerationsResults: [],
+	};
 	if ( ! results ) {
 		return mappedResults;
 	}
