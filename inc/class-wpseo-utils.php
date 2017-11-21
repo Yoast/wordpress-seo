@@ -731,7 +731,7 @@ class WPSEO_Utils {
 		}
 
 		// Append 'query' string if it exists.
-		if ( isset( $parsed_url['query'] ) && '' != $parsed_url['query'] ) {
+		if ( ! empty( $parsed_url['query'] ) ) {
 			$formatted_url .= '?' . $parsed_url['query'];
 		}
 
@@ -751,7 +751,7 @@ class WPSEO_Utils {
 	public static function get_plugin_name( $plugin ) {
 		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
 
-		if ( $plugin_details['Name'] != '' ) {
+		if ( $plugin_details['Name'] !== '' ) {
 			return $plugin_details['Name'];
 		}
 

@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( 'posts' == get_option( 'show_on_front' ) ) {
+if ( 'posts' === get_option( 'show_on_front' ) ) {
 	echo '<div id="homepage-titles-metas">';
 	echo '<h2>', esc_html__( 'Homepage', 'wordpress-seo' ), '</h2>';
 	$yform->textinput( 'title-home-wpseo', __( 'Title template', 'wordpress-seo' ), 'template homepage-template' );

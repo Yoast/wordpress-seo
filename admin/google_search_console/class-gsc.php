@@ -159,7 +159,7 @@ class WPSEO_GSC {
 	 * @return mixed
 	 */
 	public function set_screen_option( $status, $option, $value ) {
-		if ( 'errors_per_page' == $option ) {
+		if ( 'errors_per_page' === $option ) {
 			return $value;
 		}
 	}

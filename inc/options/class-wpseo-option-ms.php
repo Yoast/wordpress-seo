@@ -164,7 +164,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 						if ( $int !== false && $int > 0 ) {
 							// Check if a valid blog number has been received.
 							$exists = get_blog_details( $int, false );
-							if ( $exists && $exists->deleted == 0 ) {
+							if ( $exists && $exists->deleted === '0' ) {
 								$clean[ $key ] = $int;
 							}
 							elseif ( function_exists( 'add_settings_error' ) ) {

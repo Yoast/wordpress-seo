@@ -61,12 +61,12 @@ class WPSEO_Rewrite {
 	public function no_category_base( $link ) {
 		$category_base = get_option( 'category_base' );
 
-		if ( '' == $category_base ) {
+		if ( empty( $category_base ) ) {
 			$category_base = 'category';
 		}
 
 		// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash).
-		if ( '/' == substr( $category_base, 0, 1 ) ) {
+		if ( '/' === substr( $category_base, 0, 1 ) ) {
 			$category_base = substr( $category_base, 1 );
 		}
 
@@ -136,7 +136,7 @@ class WPSEO_Rewrite {
 					// Recursive recursion.
 					$category->parent = 0;
 				}
-				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
+				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent !== 0 ) {
 					$parents = get_category_parents( $category->parent, false, '/', true );
 					if ( ! is_wp_error( $parents ) ) {
 						$category_nicename = $parents . $category_nicename;
