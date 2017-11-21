@@ -44,7 +44,7 @@ class WPSEO_Metabox_Formatter {
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		return array(
-			'language'              => WPSEO_Utils::get_site_language_name(),
+			'language'              => WPSEO_Language_Utils::get_site_language_name(),
 			'settings_link'         => $this->get_settings_link(),
 			'search_url'            => '',
 			'post_edit_url'         => '',
