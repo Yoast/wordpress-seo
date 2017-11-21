@@ -61,7 +61,7 @@ class WPSEO_Metabox_Formatter {
 			'metadesc_template'     => '',
 			'contentAnalysisActive' => $analysis_readability->is_enabled() ? 1 : 0,
 			'keywordAnalysisActive' => $analysis_seo->is_enabled() ? 1 : 0,
-			'intl'                  => $this->get_intl_translations(),
+			'intl'                  => $this->get_content_analysis_component_translations(),
 			/**
 			 * Filter to determine if the markers should be enabled or not.
 			 *
@@ -103,7 +103,7 @@ class WPSEO_Metabox_Formatter {
 	 *
 	 * @return array
 	 */
-	private function get_intl_translations() {
+	private function get_content_analysis_component_translations() {
 		return array(
 			'locale'                                => WPSEO_Utils::get_user_locale(),
 			'content-analysis.language-notice-link' => __( 'Change language', 'wordpress-seo' ),
