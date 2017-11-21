@@ -1,5 +1,13 @@
 import scoreToRating from "yoastseo/js/interpreters/scoreToRating";
 
+const DEFAULT_MAPPED_RESULTS = {
+	errorsResults: [],
+	problemsResults: [],
+	improvementsResults: [],
+	goodResults: [],
+	considerationsResults: [],
+};
+
 /**
  * Mapped result definition.
  * @typedef {Object} MappedResult
@@ -47,6 +55,37 @@ function mapResult( result ) {
 }
 
 /**
+ * Adds a mapped results to the appropriate array in the mapped results object.
+ *
+ * @param {MappedResult} mappedResult The mapped result.
+ * @param {MappedResults} mappedResults The mapped results.
+ *
+ * @returns {MappedResults} The mapped results object with the added result.
+ */
+function processResult( mappedResult, mappedResults ) {
+	switch ( mappedResult.rating ) {
+		case "error":
+			mappedResults.errorsResults.push( mappedResult );
+			break;
+		case "feedback":
+			mappedResults.considerationsResults.push( mappedResult );
+			break;
+		case "bad":
+			mappedResults.problemsResults.push( mappedResult );
+			break;
+		case "OK":
+			mappedResults.improvementsResults.push( mappedResult );
+			break;
+		case "good":
+			mappedResults.goodResults.push( mappedResult );
+			break;
+		default:
+			console.log( "Unmapped score" );
+	}
+	return mappedResults;
+}
+
+/**
  * Maps results to object, to be used by the ContentAnalysis component.
  *
  * Takes in the YoastSEO.js results and maps them to the appropriate objects, so they can be used by the
@@ -57,13 +96,7 @@ function mapResult( result ) {
  * @returns {MappedResults} The mapped results.
  */
 export default function mapResults( results ) {
-	const mappedResults = {
-		errorsResults: [],
-		problemsResults: [],
-		improvementsResults: [],
-		goodResults: [],
-		considerationsResults: [],
-	};
+	let mappedResults = DEFAULT_MAPPED_RESULTS;
 	if ( ! results ) {
 		return mappedResults;
 	}
@@ -73,25 +106,7 @@ export default function mapResults( results ) {
 			continue;
 		}
 		const mappedResult = mapResult( result );
-		switch ( mappedResult.rating ) {
-			case "error":
-				mappedResults.errorsResults.push( mappedResult );
-				break;
-			case "feedback":
-				mappedResults.considerationsResults.push( mappedResult );
-				break;
-			case "bad":
-				mappedResults.problemsResults.push( mappedResult );
-				break;
-			case "OK":
-				mappedResults.improvementsResults.push( mappedResult );
-				break;
-			case "good":
-				mappedResults.goodResults.push( mappedResult );
-				break;
-			default:
-				console.log( "Unmapped score" );
-		}
+		mappedResults = processResult( mappedResult, mappedResults );
 	}
 	return mappedResults;
 }
