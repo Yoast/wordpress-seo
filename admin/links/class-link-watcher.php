@@ -48,6 +48,11 @@ class WPSEO_Link_Watcher {
 			return;
 		}
 
+		// When the post status is auto-draft.
+		if ( $post->post_status === 'auto-draft' ) {
+			return;
+		}
+
 		// When the post isn't processable, just remove the saved links.
 		if ( ! $this->is_processable( $post_id ) ) {
 			return;
