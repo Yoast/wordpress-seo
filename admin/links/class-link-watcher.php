@@ -66,7 +66,7 @@ class WPSEO_Link_Watcher {
 
 		$this->process( $post_id, $post->post_content );
 
-		// Re-hook `save_post` if we were hooked when starting the processing.
+		// Only re-hook `save_post` if we were hooked when starting the processing.
 		if ( $is_hooked ) {
 			$this->hook_save_post();
 		}
