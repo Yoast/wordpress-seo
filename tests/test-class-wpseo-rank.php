@@ -28,8 +28,8 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @dataProvider provider_get_css_class
 	 *
-	 * @param int    $rank
-	 * @param string $expected
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected CSS class.
 	 */
 	public function test_get_css_class( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -37,6 +37,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, $rank->get_css_class() );
 	}
 
+	/**
+	 * Data provider for test_get_css_class().
+	 *
+	 * @return array
+	 */
 	public function provider_get_css_class() {
 		return array(
 			array( WPSEO_Rank::BAD, 'bad' ),
@@ -50,8 +55,8 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @dataProvider provider_get_label
 	 *
-	 * @param int    $rank
-	 * @param string $expected
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected label.
 	 */
 	public function test_get_label( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -59,6 +64,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, $rank->get_label() );
 	}
 
+	/**
+	 * Data provider for test_get_label().
+	 *
+	 * @return array
+	 */
 	public function provider_get_label() {
 		return array(
 			array( WPSEO_Rank::NO_FOCUS, 'Not available' ),
@@ -72,8 +82,8 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @dataProvider provider_get_drop_down_label
 	 *
-	 * @param int    $rank
-	 * @param string $expected
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected drop-down label.
 	 */
 	public function test_get_drop_down_label( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -82,6 +92,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 
 	}
 
+	/**
+	 * Data provider for test_get_drop_down_label().
+	 *
+	 * @return array
+	 */
 	public function provider_get_drop_down_label() {
 		return array(
 			array( WPSEO_Rank::NO_FOCUS, 'SEO: No Focus Keyword' ),
@@ -95,8 +110,8 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @dataProvider provider_get_starting_score
 	 *
-	 * @param int    $rank
-	 * @param string $expected
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected start score.
 	 */
 	public function test_get_starting_score( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -105,6 +120,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 
 	}
 
+	/**
+	 * Data provider for test_get_starting_score().
+	 *
+	 * @return array
+	 */
 	public function provider_get_starting_score() {
 		return array(
 			array( WPSEO_Rank::NO_INDEX, -1 ),
@@ -118,8 +138,8 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @dataProvider provider_get_end_score
 	 *
-	 * @param int    $rank
-	 * @param string $expected
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected end score.
 	 */
 	public function test_get_end_score( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -128,6 +148,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 
 	}
 
+	/**
+	 * Data provider for test_get_end_score().
+	 *
+	 * @return array
+	 */
 	public function provider_get_end_score() {
 		return array(
 			array( WPSEO_Rank::NO_INDEX, -1 ),
@@ -141,8 +166,8 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @dataProvider provider_from_numeric_score
 	 *
-	 * @param int $score
-	 * @param int $expected
+	 * @param int $score    Numeric score.
+	 * @param int $expected Expected ranking.
 	 */
 	public function test_from_numeric_score( $score, $expected ) {
 		$rank = WPSEO_Rank::from_numeric_score( $score );
@@ -150,6 +175,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, $rank->get_rank() );
 	}
 
+	/**
+	 * Data provider for test_from_numeric_score().
+	 *
+	 * @return array
+	 */
 	public function provider_from_numeric_score() {
 		return array(
 			array( 0, WPSEO_Rank::NO_FOCUS ),

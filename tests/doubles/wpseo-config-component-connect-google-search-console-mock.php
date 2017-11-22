@@ -15,6 +15,8 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Mock extends WPSEO_Co
 
 	/**
 	 * WPSEO_Config_Component_Connect_Google_Search_Console_Mock constructor.
+	 *
+	 * @param \WPSEO_Config_Component_Connect_Google_Search_Console_Test $test Test object.
 	 */
 	public function __construct( $test ) {
 		$this->test = $test;
