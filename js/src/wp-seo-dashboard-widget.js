@@ -162,7 +162,7 @@ class DashboardWidget extends React.Component {
 			key="yoast-seo-blog-feed"
 			title={ wpseoDashboardWidgetL10n.feed_header }
 			feed={ this.state.feed }
-			footerHtml={ wpseoDashboardWidgetL10n.feed_footer }/>;
+			footerHtml={ wpseoDashboardWidgetL10n.feed_footer } />;
 	}
 
 	/**

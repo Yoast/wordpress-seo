@@ -1,10 +1,18 @@
-/* global wpseoPostScraperL10n */
+/* global wpseoPostScraperL10n wpseoTermScraperL10n */
 
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import Results from "./Results";
+
+let localizedData = {};
+if( window.wpseoPostScraperL10n ) {
+	localizedData = wpseoPostScraperL10n;
+} else if ( window.wpseoTermScraperL10n ) {
+	localizedData = wpseoTermScraperL10n;
+}
+
 
 /**
  * Redux container for the readability analysis.
@@ -13,9 +21,9 @@ class ReadabilityAnalysis extends React.Component {
 	render() {
 		return (
 			<Results
-				showLanguageNotice={ ! ( wpseoPostScraperL10n.settings_link === "" ) }
-				changeLanguageLink={ wpseoPostScraperL10n.settings_link }
-				language={ wpseoPostScraperL10n.language }
+				showLanguageNotice={ ! ( localizedData.settings_link === "" ) }
+				changeLanguageLink={ localizedData.settings_link }
+				language={ localizedData.language }
 				results={ this.props.results } />
 		);
 	}

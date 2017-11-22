@@ -1,4 +1,4 @@
-/* global wpseoPostScraperL10n */
+/* global window wpseoPostScraperL10n wpseoTermScraperL10n process */
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
@@ -14,6 +14,13 @@ import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
+
+let localizedData = {};
+if( window.wpseoPostScraperL10n ) {
+	localizedData = wpseoPostScraperL10n;
+} else if ( window.wpseoTermScraperL10n ) {
+	localizedData = wpseoTermScraperL10n;
+}
 
 /**
  * Creates a redux store.
@@ -48,8 +55,8 @@ function configureStore() {
 function wrapInTopLevelComponents( Component, store ) {
 	return (
 		<IntlProvider
-			locale={ wpseoPostScraperL10n.intl.locale }
-			messages={ wpseoPostScraperL10n.intl } >
+			locale={ localizedData.intl.locale }
+			messages={ localizedData.intl } >
 			<Provider store={ store } >
 				<Component />
 			</Provider>
@@ -85,9 +92,9 @@ function renderReactApp( target, component, store ) {
  * @returns {void}
  */
 function renderReactApps( store, args ) {
-	if ( window.wpseoPostScraperL10n.intl ) {
+	if ( localizedData.intl ) {
 		// Add react-intl translations
-		addLocaleData( window.wpseoPostScraperL10n.intl );
+		addLocaleData( localizedData.intl );
 	}
 
 	renderReactApp( args.readabilityTarget, ContentAnalysis, store );
