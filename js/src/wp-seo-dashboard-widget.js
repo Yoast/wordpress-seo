@@ -185,4 +185,8 @@ class DashboardWidget extends React.Component {
 	}
 }
 
-ReactDOM.render( <DashboardWidget/>, document.getElementById( "yoast-seo-dashboard-widget" ) );
+const element = document.getElementById( "yoast-seo-dashboard-widget" );
+
+if( element ) {
+	ReactDOM.render( <DashboardWidget/>, element );
+}

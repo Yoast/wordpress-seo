@@ -339,6 +339,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'api',
 					self::PREFIX . 'polyfill',
 					'jquery',
+					self::PREFIX . 'webpack-commons',
 				),
 			),
 			array(
