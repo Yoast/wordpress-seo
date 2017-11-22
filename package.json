@@ -19,6 +19,15 @@
     "test": "jest",
     "build": "webpack --config ./webpack/webpack.config.prod.js"
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoast-components).+\\.js$"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/js/tests/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    }
+  },
   "devDependencies": {
     "algoliasearch": "^3.16.0",
     "autoprefixer": "^6.3.1",
@@ -60,6 +69,7 @@
     "load-grunt-config": "^0.19.2",
     "react": "^15.3.1",
     "react-dom": "^15.4.0",
+    "redux-logger": "^3.0.6",
     "sassdash": "^0.8.1",
     "svg-react-loader": "^0.4.5",
     "time-grunt": "^1.0.0",
@@ -71,17 +81,20 @@
   },
   "dependencies": {
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
-    "babel-polyfill": "^6.13.0",
+    "babel-polyfill": "^6.26.0",
     "grunt-wp-deploy": "^1.2.1",
     "jed": "^1.1.1",
-    "lodash": "^4.7.0",
+    "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "material-ui": "^0.15.4",
     "prop-types": "^15.5.10",
     "react-intl": "^2.4.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
     "react-tap-event-plugin": "^2.0.0",
-    "select2": "^4.0.3",
-    "yoast-components": "^2.11.2",
+    "select2": "^4.0.5",
+    "yoast-components": "2.11.3",
     "yoastseo": "^1.23.1"
   }
 }
