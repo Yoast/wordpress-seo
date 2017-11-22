@@ -92,17 +92,51 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			->setMethods( array( 'tables_accessible', 'process' ) )
 			->getMock();
 
+		// Force the return value to be true.
 		$watcher_mock
 			->expects( $this->once() )
 			->method( 'tables_accessible' )
 			->will( $this->returnValue( true ) );
 
+		// This method should only be called when the tables are accessible.
 		$content_processor
 			->expects( $this->never() )
 			->method( 'get_stored_internal_links' );
 
-
 		$watcher_mock->save_post( $post->ID, $post );
+	}
+
+	/**
+	 * Makes sure in-accessible tables result in function calls not being executed.
+	 *
+	 * @covers WPSEO_Link_Watcher::delete_post()
+	 */
+	public function test_tables_not_accessible_delete_post() {
+		$post = $this->factory->post->create_and_get();
+
+		$content_processor = $this
+			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
+			->setConstructorArgs( array( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() ) )
+			->setMethods( array( 'get_stored_internal_links' ) )
+			->getMock();
+
+		$watcher_mock = $this
+			->getMockBuilder( 'WPSEO_Link_Watcher' )
+			->setConstructorArgs( array( $content_processor ) )
+			->setMethods( array( 'tables_accessible', 'process' ) )
+			->getMock();
+
+		$watcher_mock
+			->expects( $this->once() )
+			->method( 'tables_accessible' )
+			->will( $this->returnValue( false ) );
+
+
+		$content_processor
+			->expects( $this->never() )
+			->method( 'get_stored_internal_links' );
+
+		$watcher_mock->delete_post( $post->ID, $post );
 	}
 
 	/**
@@ -140,40 +174,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Makes sure in-accessible tables result in function calls not being executed.
-	 *
-	 * @covers WPSEO_Link_Watcher::delete_post()
-	 */
-	public function test_tables_not_accessible_delete_post() {
-		$post = $this->factory->post->create_and_get();
-
-		$content_processor = $this
-			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
-			->setConstructorArgs( array( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() ) )
-			->setMethods( array( 'get_stored_internal_links' ) )
-			->getMock();
-
-		$watcher_mock = $this
-			->getMockBuilder( 'WPSEO_Link_Watcher' )
-			->setConstructorArgs( array( $content_processor ) )
-			->setMethods( array( 'tables_accessible', 'process' ) )
-			->getMock();
-
-		$watcher_mock
-			->expects( $this->once() )
-			->method( 'tables_accessible' )
-			->will( $this->returnValue( false ) );
-
-
-		$content_processor
-			->expects( $this->never() )
-			->method( 'get_stored_internal_links' );
-
-		$watcher_mock->delete_post( $post->ID, $post );
-	}
-
-	/**
-	 * Test the is processable
+	 * Makes sure revisions are not processed.
 	 *
 	 * @covers WPSEO_Link_Watcher::save_post()
 	 */
@@ -225,11 +226,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Link_Watcher::save_post()
 	 */
 	public function test_no_save_post_hooked() {
-		$post = $this->factory->post->create_and_get(
-			array(
-				'post_type' => 'post',
-			)
-		);
+		$post = $this->factory->post->create_and_get();
 
 		$watcher_mock = $this
 			->getMockBuilder( 'WPSEO_Link_Watcher' )
@@ -237,19 +234,23 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			->setMethods( array( 'hook_save_post', 'unhook_save_post', 'process', 'is_save_post_hooked' ) )
 			->getMock();
 
+		// Pretend save post is hooked.
 		$watcher_mock
 			->expects( $this->once() )
 			->method( 'is_save_post_hooked' )
 			->will( $this->returnValue( true ) );
 
+		// Expect the hook method to be called.
 		$watcher_mock
 			->expects( $this->once() )
 			->method( 'hook_save_post' );
 
+		// Expect the post to be processed.
 		$watcher_mock
 			->expects( $this->once() )
 			->method( 'process' );
 
+		// Expect unhook method to be called.
 		$watcher_mock
 			->expects( $this->once() )
 			->method( 'unhook_save_post' );
@@ -292,12 +293,14 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with a draft post.
+	 * Makes sure draft posts are processed as well.
 	 *
 	 * This should be processed, but will not be displayed.
 	 * See https://github.com/Yoast/wordpress-seo/pull/8068#issuecomment-338146035
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
 	 */
-	public function test_is_processable_draft() {
+	public function test_draft_is_processed() {
 
 		$post = $this->factory->post->create_and_get(
 			array( 'post_status' => 'draft' )
@@ -313,7 +316,9 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with a none public posttype.
+	 * Makes sure non-public post types are not processed.
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
 	 */
 	public function test_is_processable_none_public_posttype() {
 		register_post_type( 'hidden', array( 'public' => false ) );
@@ -333,6 +338,8 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test with a post not containing content.
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
 	 */
 	public function test_is_processable_without_content() {
 
@@ -353,7 +360,9 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with a post with content..
+	 * Test with a post with content.
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
 	 */
 	public function test_is_processable_with_content() {
 
@@ -375,6 +384,8 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test deleting links when a post is deleted.
+	 *
+	 * @covers WPSEO_Link_Watcher::delete_post()
 	 */
 	public function test_delete_post() {
 		$post = $this->factory->post->create_and_get(
@@ -399,7 +410,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Returns an 'instance' of the content processor.
 	 *
-	 * @return PHPUnit_Framework_MockObject_MockObject
+	 * @return PHPUnit_Framework_Mock
 	 */
 	protected function get_processor() {
 		return $this
