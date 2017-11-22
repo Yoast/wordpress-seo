@@ -47,11 +47,13 @@ FrenchParticiple.prototype.checkException = function() {
  * @returns {boolean} Returns true if no exception is found.
  */
 FrenchParticiple.prototype.isPassive = function() {
-	return 	! this.isOnParticipleExceptionList();
+	return 	! this.isOnAdjectivesVerbsExceptionList() &&
+				! this.isOnNounsExceptionList() &&
+				! this.isOnOthersExceptionList();
 };
 
 /**
- * Creates regexes to match adjective and verb participle exceptions and memoizes them.
+ * Creates regexes to match adjective and verb participle exceptions (including suffixes) and memoizes them.
  *
  * @returns {array} Returns an array with all adjective and verb participle exceptions.
  */
@@ -64,7 +66,7 @@ var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
 } );
 
 /**
- * Creates regexes to match noun participle exceptions and memoizes them.
+ * Creates regexes to match noun participle exceptions (including suffixes) and memoizes them.
  *
  * @returns {array} Returns an array with all noun participle exceptions.
  */
@@ -77,13 +79,13 @@ var getExceptionsParticiplesNouns = memoize( function() {
 } );
 
 /**
- * Checks whether a found participle is in the exceptionsParticiples list.
- * If a word is in the exceptionsParticiples list, it isn't a participle.
- * Irregular participles do not end in -é, and therefore cannot be in the exceptionsParticiples list.
+ * Checks whether a found participle is in the exception list of adjectives and verbs.
+ * If a word is on the list, it isn't a participle.
+ * Irregular participles do not end in -é and therefore can't be on the list.
  *
- * @returns {boolean} Returns true if it is in the exceptionsParticiples list, otherwise returns false.
+ * @returns {boolean} Returns true if it is in the exception list of adjectives and verbs, otherwise returns false.
  */
-FrenchParticiple.prototype.isOnParticipleExceptionList = function() {
+FrenchParticiple.prototype.isOnAdjectivesVerbsExceptionList = function() {
 	if ( this.getType() === "irregular" ) {
 		return false;
 	}
@@ -91,7 +93,6 @@ FrenchParticiple.prototype.isOnParticipleExceptionList = function() {
 	var participle = this.getParticiple();
 	var matches = [];
 	var exceptionParticiplesAdjectivesVerbs = getExceptionsParticiplesAdjectivesVerbsRegexes();
-	var exceptionsParticiplesNouns = getExceptionsParticiplesNouns();
 
 	// Check exception words that can get e/s/es as suffix.
 	forEach( exceptionParticiplesAdjectivesVerbs, function( exceptionParticipleAdjectiveVerb ) {
@@ -102,6 +103,25 @@ FrenchParticiple.prototype.isOnParticipleExceptionList = function() {
 		return true;
 	}
 
+	return false;
+};
+
+/**
+ * Checks whether a found participle is in the exception list of nouns.
+ * If a word is on the list, it isn't a participle.
+ * Irregular participles do not end in -é and therefore can't be on the list.
+ *
+ * @returns {boolean} Returns true if it is in the exception list of nouns, otherwise returns false.
+ */
+FrenchParticiple.prototype.isOnNounsExceptionList = function() {
+	if ( this.getType() === "irregular" ) {
+		return false;
+	}
+
+	var participle = this.getParticiple();
+	var matches = [];
+	var exceptionsParticiplesNouns = getExceptionsParticiplesNouns();
+
 	// Check exception words that can get s as suffix.
 	forEach( exceptionsParticiplesNouns, function( exceptionParticipleNoun ) {
 		matches.push( participle.match( exceptionParticipleNoun ) || [] );
@@ -111,13 +131,22 @@ FrenchParticiple.prototype.isOnParticipleExceptionList = function() {
 		return true;
 	}
 
-	// Check exception words that can't have a suffix.
-	if( includes( exceptionsParticiplesOthers, this.getParticiple() ) ) {
-		return true;
-	}
-
 	return false;
 };
 
+/**
+ * Checks whether a found participle is in the exception list in the 'other' category.
+ * If a word is on the list, it isn't a participle.
+ * Irregular participles do not end in -é and therefore can't be on the list.
+ *
+ * @returns {boolean} Returns true if it is in the exception list of nouns, otherwise returns false.
+ */
+FrenchParticiple.prototype.isOnOthersExceptionList = function() {
+	if ( this.getType() === "irregular" ) {
+		return false;
+	}
+
+	return includes( exceptionsParticiplesOthers, this.getParticiple() );
+};
 
 module.exports = FrenchParticiple;
