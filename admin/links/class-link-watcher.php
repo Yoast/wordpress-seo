@@ -39,7 +39,7 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	public function save_post( $post_id, WP_Post $post ) {
-		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+		if ( ! $this->tables_accessible() ) {
 			return;
 		}
 
@@ -80,7 +80,7 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	public function delete_post( $post_id ) {
-		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+		if ( ! $this->tables_accessible() ) {
 			return;
 		}
 
@@ -118,7 +118,7 @@ class WPSEO_Link_Watcher {
 	 *
 	 * @return void
 	 */
-	private function process( $post_id, $content ) {
+	protected function process( $post_id, $content ) {
 		// Apply the filters to have the same content as shown on the frontend.
 		$content = apply_filters( 'the_content', $content );
 		$content = str_replace( ']]>', ']]&gt;', $content );
@@ -151,5 +151,14 @@ class WPSEO_Link_Watcher {
 	 */
 	protected function is_save_post_hooked() {
 		return ( false !== has_action( 'save_post', array( $this, 'save_post' ) ) );
+	}
+
+	/**
+	 * Checks if the required tables are accessible.
+	 *
+	 * @return bool True if all tables are present and usable.
+	 */
+	protected function tables_accessible() {
+		return WPSEO_Link_Table_Accessible::check_table_is_accessible() && WPSEO_Meta_Table_Accessible::is_accessible();
 	}
 }
