@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Tests\Doubles
+ */
 
 /**
  * Class WPSEO_Suggested_Plugins_Double

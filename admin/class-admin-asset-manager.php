@@ -149,10 +149,15 @@ class WPSEO_Admin_Asset_Manager {
 
 		return array(
 			array(
+				'name' => 'webpack-commons',
+				'src'  => 'commons-' . $flat_version,
+			),
+			array(
 				'name' => 'help-center',
 				'src'  => 'wp-seo-help-center-' . $flat_version,
 				'deps' => array(
 					'jquery',
+					self::PREFIX . 'webpack-commons',
 				),
 			),
 			array(
@@ -201,6 +206,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
 					self::PREFIX . 'polyfill',
+					self::PREFIX . 'webpack-commons',
 				),
 				'in_footer' => false,
 			),
@@ -226,6 +232,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
 					self::PREFIX . 'polyfill',
+					self::PREFIX . 'webpack-commons',
 				),
 			),
 			array(
@@ -234,6 +241,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'polyfill',
+					self::PREFIX . 'webpack-commons',
 				),
 			),
 			array(
@@ -331,6 +339,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'api',
 					self::PREFIX . 'polyfill',
 					'jquery',
+					self::PREFIX . 'webpack-commons',
 				),
 			),
 			array(

@@ -5,6 +5,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @group test
  */
 class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
@@ -242,11 +244,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::debug_mark
+	 * @covers WPSEO_Frontend::get_debug_mark
 	 */
 	public function test_debug_mark() {
 		// Test if the version number is shown in the debug marker.
-		$version_found = ( stristr( self::$class_instance->debug_mark( false ), WPSEO_VERSION ) !== false );
+		$version_found = ( stripos( self::$class_instance->get_debug_mark(), WPSEO_VERSION ) !== false );
 		$this->assertTrue( $version_found );
 	}
 
@@ -514,6 +516,25 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the situation where the archive redirect has been redirected.
+	 *
+	 * @covers WPSEO_Frontend::archive_redirect()
+	 */
+	public function test_archive_redirect_being_redirected() {
+		global $wp_query;
+
+		$frontend = self::$class_instance;
+
+		$wp_query->is_author                 = true;
+		$frontend->options['disable-author'] = true;
+		$this->assertTrue( $frontend->archive_redirect() );
+
+		$wp_query->is_date                 = true;
+		$frontend->options['disable-date'] = true;
+		$this->assertTrue( $frontend->archive_redirect() );
+	}
+
+	/**
 	 * Tests for attachment redirect an attachment page with parent.
 	 *
 	 * @covers WPSEO_Frontend::attachment_redirect
@@ -523,10 +544,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$parent_post_id = $this->factory->post->create();
 
 		// Create an attachment with parent.
-		$post_id = $this->factory->post->create( array(
-			'post_type' => 'attachment',
-			'post_parent' => $parent_post_id
-		));
+		$post_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_parent' => $parent_post_id,
+			)
+		);
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Make sure the redirect is applied.
@@ -539,9 +562,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect_no_attachment() {
-		$post_id = $this->factory->post->create( array(
-			'post_type' => 'post'
-		));
+		$post_id = $this->factory->post->create( array( 'post_type' => 'post' ) );
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Should not redirect on regular post pages.
@@ -557,7 +578,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		global $post;
 
 		$saved_post = $post;
-		$post = null;
+		$post       = null;
 
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
 
@@ -571,11 +592,13 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect_no_parent() {
-		// create and go to post
-		$post_id = $this->factory->post->create( array(
-			'post_type' => 'attachment',
-			'post_parent' => 0,
-		));
+		// Create and go to post.
+		$post_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_parent' => 0,
+			)
+		);
 		$this->go_to( get_permalink( $post_id ) );
 
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
@@ -628,7 +651,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// Test with no replytocom set in $_GET.
 		$this->assertFalse( $c->replytocom_redirect() );
 
-		$_GET['replytocom'] = 123;
+		$_GET['replytocom']      = 123;
 		$_SERVER['QUERY_STRING'] = '';
 
 		// The following call should redirect.
@@ -759,33 +782,160 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the situation for flush cache when the debug_mark is not being hooked.
+	 *
 	 * @covers WPSEO_Frontend::flush_cache
 	 */
-	public function test_flush_cache() {
-
-		$c = self::$class_instance;
-
+	public function test_flush_cache_with_output_buffering_not_turned_on() {
 		// Should not run when output buffering is not turned on.
 		$this->assertFalse( self::$class_instance->flush_cache() );
+	}
 
-		// Turn on output buffering.
-		self::$class_instance->force_rewrite_output_buffer();
+	/**
+	 * Tests the situation for flush cache when the debug_mark is not being hooked.
+	 *
+	 * @covers WPSEO_Frontend::flush_cache
+	 */
+	public function test_flush_cache_with_debug_mark_hook_not_being_set() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'show_debug_marker', 'get_debug_mark' ) )
+			->getMock();
 
-		$content = '<!DOCTYPE><html><head><title>TITLETOBEREPLACED</title>' . self::$class_instance->debug_mark( false ) . '</head><body>Some body content. Should remain unchanged.</body></html>';
+		$frontend
+			->expects( $this->never() )
+			->method( 'get_debug_mark' );
 
-		// Create expected output.
-		global $sep;
-		$title    = self::$class_instance->title( '', $sep );
-		$expected = preg_replace( '/<title(.*)\/title>/i', '', $content );
-		$expected = str_replace( $c->debug_mark( false ), $c->debug_mark( false ) . "\n" . '<title>' . $title . '</title>', $expected );
-		echo $content;
+		$frontend
+			->expects( $this->once() )
+			->method( 'show_debug_marker' )
+			->will( $this->returnValue( false ) );
+
+		// Enables the output buffering.
+		$frontend->force_rewrite_output_buffer();
 
 		// Run function.
-		$result = self::$class_instance->flush_cache();
+		$result = $frontend->flush_cache();
 
 		// Run assertions.
-		$this->expectOutput( $expected, $result );
 		$this->assertTrue( $result );
+	}
+
+	/**
+	 * Checks the value of the debug mark getter when the premium version is 'active'.
+	 * @covers WPSEO_Frontend::head_product_name()
+	 */
+	public function test_head_get_debug_mark_for_premium() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'is_premium' ) )
+			->getMock();
+
+		$frontend
+			->expects( $this->once() )
+			->method( 'is_premium' )
+			->will( $this->returnValue( true ) );
+
+		$this->assertNotFalse( stripos( $frontend->get_debug_mark(), 'Premium' ) );
+	}
+
+	/**
+	 * Checks the value of the debug mark getter when the free version is 'active'.
+	 *
+	 * @covers WPSEO_Frontend::head_product_name()
+	 */
+	public function test_head_get_debug_mark_for_free() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'is_premium' ) )
+			->getMock();
+
+		$frontend
+			->expects( $this->once() )
+			->method( 'is_premium' )
+			->will( $this->returnValue( false ) );
+
+		$this->assertFalse( stripos( $frontend->get_debug_mark(), 'Premium' ) );
+	}
+
+	/**
+	 * Tests the situation for flush cache when the debug_mark is being hooked.
+	 *
+	 * @covers WPSEO_Frontend::flush_cache
+	 */
+	public function test_flush_cache_with_debug_mark_hook_being_set() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'show_debug_marker', 'get_debug_mark' ) )
+			->getMock();
+
+		$frontend
+			->expects( $this->once() )
+			->method( 'show_debug_marker' )
+			->will( $this->returnValue( true ) );
+
+		$frontend
+			->expects( $this->exactly(2) )
+			->method( 'get_debug_mark' );
+
+		// Enables the output buffering.
+		$frontend->force_rewrite_output_buffer();
+
+		// Run function.
+		$result = $frontend->flush_cache();
+
+		// Run assertions.
+		$this->assertTrue( $result );
+	}
+
+	/**
+	 * Tests the situation where the closing debug mark should be shown.
+	 *
+	 * @covers WPSEO_Frontend::show_closing_debug_mark
+	 */
+	public function test_show_closing_debug_mark_with_debug_mark_hook_being_set() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'show_debug_marker' ) )
+			->getMock();
+
+		$frontend
+			->expects( $this->once() )
+			->method( 'show_debug_marker' )
+			->will( $this->returnValue( true ) );
+
+		$frontend->head();
+
+		$this->expectOutputContains( '<!-- / Yoast SEO plugin. -->'  );
+	}
+
+	/**
+	 * Tests the situation where the closing debug mark shouldn't be shown.
+	 *
+	 * @covers WPSEO_Frontend::show_closing_debug_mark
+	 */
+	public function test_show_closing_debug_mark_with_debug_mark_hook_not_being_set() {
+		/** @var $frontend WPSEO_Frontend_Double */
+		$frontend = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'show_debug_marker' ) )
+			->getMock();
+
+		$frontend
+			->expects( $this->once() )
+			->method( 'show_debug_marker' )
+			->will( $this->returnValue( false ) );
+
+		$frontend->head();
+
+		$output = $this->getActualOutput();
+
+		$this->assertFalse( stripos( $output, '<!-- / Yoast SEO plugin. -->' )  );
 	}
 
 	/**
@@ -807,7 +957,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 
 	/**
-	 * @param string $initial_url
+	 * @param string $initial_url URL to start off from.
 	 *
 	 * @return void
 	 */
@@ -845,7 +995,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param string $name
+	 * @param string $name Option name.
 	 *
 	 * @return string
 	 */
@@ -854,8 +1004,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param string $option_name
-	 * @param string $expected
+	 * @param string $option_name Option name.
+	 * @param string $expected    Expected output.
 	 *
 	 * @return void
 	 */
@@ -866,7 +1016,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param string $expected
+	 * @param string $expected Expected output.
 	 *
 	 * @return void
 	 */
@@ -879,7 +1029,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 *
 	 * Can be removed when https://core.trac.wordpress.org/ticket/31417 is fixed and in all releases we're testing (so when 4.2 is the lowest common denominator).
 	 *
-	 * @param string $url
+	 * @param string $url URL.
 	 */
 	public function go_to( $url ) {
 		// Note: the WP and WP_Query classes like to silently fetch parameters

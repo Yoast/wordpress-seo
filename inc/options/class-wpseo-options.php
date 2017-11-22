@@ -374,7 +374,7 @@ class WPSEO_Options {
 
 			if ( is_array( $option_names ) && $option_names !== array() ) {
 				$base_blog_id = $blog_id;
-				if ( $options['defaultblog'] !== '' && $options['defaultblog'] != 0 ) {
+				if ( $options['defaultblog'] !== '' && $options['defaultblog'] !== 0 ) {
 					$base_blog_id = $options['defaultblog'];
 				}
 

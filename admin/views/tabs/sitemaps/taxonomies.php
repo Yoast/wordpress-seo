@@ -30,7 +30,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			continue;
 		}
 
-		if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
+		if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) !== '' ) {
 			$yform->toggle_switch(
 				'taxonomies-' . $tax->name . '-not_in_sitemap',
 				$switch_values,

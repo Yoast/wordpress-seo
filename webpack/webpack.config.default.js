@@ -31,9 +31,9 @@ const defaultWebpackConfig = {
 				use: [
 					{
 						loader: "svg-react-loader",
-					}
-				]
-			}
+					},
+				],
+			},
 		],
 	},
 	plugins: [
@@ -45,6 +45,10 @@ const defaultWebpackConfig = {
 		new webpack.optimize.UglifyJsPlugin(),
 		new UnminifiedWebpackPlugin(),
 		new webpack.optimize.AggressiveMergingPlugin(),
+		new webpack.optimize.CommonsChunkPlugin( {
+			name: "vendor",
+			filename: "commons-<%= pluginVersionSlug %>.min.js",
+		} ),
 	],
 };
 
