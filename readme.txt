@@ -140,6 +140,8 @@ Enhancements
 * Makes it easier to unhook the logic for adding the debug marker.
 * Implements new reactified content analysis.
 * Introduced wpseo_add_opengraph_additional_images to allow adding OpenGraph Images which should complement any Facebook Image or Featured image set on a post/page.
+* Changes the dashboard widget progress bar height to 24px.
+* Makes the 'Next' and 'Back' buttons in the Onboarding Wizard focusable.
 
 
 = 5.8.0 =
