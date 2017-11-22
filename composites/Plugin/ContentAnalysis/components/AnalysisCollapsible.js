@@ -90,21 +90,20 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 	let title = props.title;
 	let count = getChildrenCount( props.children );
 
-	const Button = props.hasHeading ? wrapInHeading( AnalysisHeaderButton, props.headingLevel ) : AnalysisHeaderButton;
+	const MaybeWrappedButton = props.element;
 
 	return (
 		<AnalysisHeaderContainer>
-			<Button
+			<MaybeWrappedButton
 				aria-expanded={ props.isOpen }
 				onClick={ props.onToggle }
 				icon={ props.isOpen ? angleUp : angleDown }
 				iconColor={ colors.$color_grey_dark } >
 				<AnalysisTitle>{ `${ title } (${ count })` }</AnalysisTitle>
-			</Button>
+			</MaybeWrappedButton>
 			{
-				props.isOpen && props.children
-					? <AnalysisList role="list">{ props.children }</AnalysisList>
-					: null
+				props.isOpen && props.children &&
+					<AnalysisList role="list">{ props.children }</AnalysisList>
 			}
 		</AnalysisHeaderContainer>
 	);
@@ -120,6 +119,7 @@ AnalysisCollapsibleStateless.propTypes = {
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
 	] ),
+	element: PropTypes.func,
 };
 
 AnalysisCollapsibleStateless.defaultProps = {
@@ -141,6 +141,13 @@ export class AnalysisCollapsible extends React.Component {
 		};
 
 		this.toggleOpen = this.toggleOpen.bind( this );
+
+		/*
+		 * Evaluate if the button should be wrapped in a heading in this constructor
+		 * instead of doing it in the AnalysisCollapsibleStateless component to
+		 * avoid a full re-render of the button, which is bad for accessibility.
+		 */
+		this.element = props.hasHeading ? wrapInHeading( AnalysisHeaderButton, props.headingLevel ) : AnalysisHeaderButton;
 	}
 
 	/**
@@ -167,6 +174,7 @@ export class AnalysisCollapsible extends React.Component {
 				isOpen={ this.state.isOpen }
 				hasHeading={ this.props.hasHeading }
 				headingLevel={ this.props.headingLevel }
+				element={ this.element }
 			>
 				{ this.props.children }
 			</AnalysisCollapsibleStateless>
