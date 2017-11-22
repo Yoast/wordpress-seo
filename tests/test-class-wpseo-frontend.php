@@ -5,8 +5,6 @@
 
 /**
  * Unit Test Class.
- *
- * @group test
  */
 class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
