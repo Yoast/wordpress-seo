@@ -3,8 +3,10 @@ var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullT
 var getLanguage = require( "../helpers/getLanguage.js" );
 var Sentence = require( "../values/Sentence.js" );
 
+// English and French.
+var getSentencePartsFunction = require( "./passivevoice/getSentenceParts.js" );
+
 // English.
-var getSentencePartsEnglish = require( "./english/getSentenceParts.js" );
 var determinePassivesEnglish = require( "./english/determinePassives.js" );
 
 // German.
@@ -12,7 +14,6 @@ var getSentencePartsGerman = require( "./german/getSentenceParts.js" );
 var determinePassivesGerman = require( "./german/determinePassives.js" );
 
 // French.
-var getSentencePartsFrench = require( "./french/getSentenceParts.js" );
 var determinePassivesFrench = require( "./french/determinePassives.js" );
 
 
@@ -33,11 +34,11 @@ var getSentenceParts = function( sentence, language ) {
 			sentenceParts = getSentencePartsGerman( sentence );
 			break;
 		case "fr":
-			sentenceParts = getSentencePartsFrench( sentence );
+			sentenceParts = getSentencePartsFunction( sentence, "fr" );
 			break;
 		case "en":
 		default:
-			sentenceParts = getSentencePartsEnglish( sentence );
+			sentenceParts = getSentencePartsFunction( sentence, "en" );
 			break;
 	}
 	return sentenceParts;
