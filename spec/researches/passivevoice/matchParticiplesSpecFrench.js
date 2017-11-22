@@ -1,4 +1,4 @@
-var participleRegexes = require( "../../../js/researches/french/passivevoice/matchParticiples" )();
+var participleRegexes = require( "../../../js/researches/passivevoice/matchParticiples" )();
 
 describe( "a test for matching regular participles.", function() {
 	it( "matches a regular participle", function() {
@@ -14,7 +14,7 @@ describe( "a test for matching regular participles.", function() {
 	} );
 
 	it( "does not match an empty string", function() {
-		expect( participleRegexes.regularParticiples( "" ) ).toEqual( [] );
+		expect( participleRegexes.regularParticiples( "", "fr" ) ).toEqual( [] );
 	} );
 } );
 
