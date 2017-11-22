@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 5.8\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-11-16 10:36:44+00:00\n"
+"POT-Creation-Date: 2017-11-22 11:49:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -387,15 +387,15 @@ msgid ""
 "tabs on the left explain the available variables."
 msgstr ""
 
-#: admin/class-admin.php:673 admin/pages/metas.php:64
+#: admin/class-admin.php:674 admin/pages/metas.php:64
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:680 admin/class-admin.php:681 admin/pages/metas.php:69
+#: admin/class-admin.php:681 admin/class-admin.php:682 admin/pages/metas.php:69
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:688 admin/class-admin.php:689 admin/pages/metas.php:75
+#: admin/class-admin.php:689 admin/class-admin.php:690 admin/pages/metas.php:75
 msgid "Advanced Variables"
 msgstr ""
 
@@ -1869,29 +1869,32 @@ msgid "OK"
 msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:80
-#: admin/formatter/class-metabox-formatter.php:101 inc/class-wpseo-rank.php:105
+#: admin/formatter/class-metabox-formatter.php:114 inc/class-wpseo-rank.php:105
 msgid "Good"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:96
-#: admin/formatter/class-metabox-formatter.php:99
+#: admin/formatter/class-metabox-formatter.php:109
 msgid "Change language"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:97
+#: admin/formatter/class-metabox-formatter.php:110
 msgid "Errors"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:98
+#: admin/formatter/class-metabox-formatter.php:111
 #: admin/views/partial-alerts-errors.php:9
 msgid "Problems"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:100
+#: admin/formatter/class-metabox-formatter.php:112
+msgid "Improvements"
+msgstr ""
+
+#: admin/formatter/class-metabox-formatter.php:113
 msgid "Considerations"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:102
+#: admin/formatter/class-metabox-formatter.php:115
 msgid "Highlight this result in the text"
 msgstr ""
 
@@ -2639,6 +2642,21 @@ msgstr ""
 msgid "Use javascript instead."
 msgstr ""
 
+#: admin/notifiers/class-configuration-notifier.php:44
+msgid "First-time SEO configuration"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the
+#. Onboarding Wizard, %3$s is the link closing tag.
+#: admin/notifiers/class-configuration-notifier.php:48
+msgid "Get started quickly with the %1$s %2$sconfiguration wizard%3$s!"
+msgstr ""
+
+#: admin/notifiers/class-configuration-notifier.php:58
+#: admin/views/partial-alerts-template.php:18
+msgid "Dismiss this item."
+msgstr ""
+
 #: admin/onpage/class-onpage.php:58 tests/onpage/test-class-onpage.php:50
 msgid "Once Weekly"
 msgstr ""
@@ -2731,7 +2749,7 @@ msgstr ""
 msgid "Taxonomies"
 msgstr ""
 
-#: admin/pages/metas.php:24 frontend/class-frontend.php:543
+#: admin/pages/metas.php:24 frontend/class-frontend.php:540
 msgid "Archives"
 msgstr ""
 
@@ -3312,10 +3330,6 @@ msgstr ""
 msgid "Muted problems:"
 msgstr ""
 
-#: admin/views/partial-alerts-template.php:18
-msgid "Dismiss this item."
-msgstr ""
-
 #: admin/views/partial-alerts-template.php:22
 msgid "Restore this item."
 msgstr ""
@@ -3608,7 +3622,7 @@ msgid ""
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/tabs/dashboard/dashboard.php:14
+#: admin/views/tabs/dashboard/dashboard.php:17
 msgid "%1$s Dashboard"
 msgstr ""
 
@@ -4398,25 +4412,25 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to the search phrase.
-#: frontend/class-frontend.php:472
+#: frontend/class-frontend.php:469
 msgid "Search for \"%s\""
 msgstr ""
 
 #. translators: %s expands to a time period, i.e. month name, year or specific
 #. date.
 #. translators: %s expands to the variable used for term title.
-#: frontend/class-frontend.php:532 frontend/class-frontend.php:536
-#: frontend/class-frontend.php:540
+#: frontend/class-frontend.php:529 frontend/class-frontend.php:533
+#: frontend/class-frontend.php:537
 #: inc/options/class-wpseo-option-titles.php:237
 msgid "%s Archives"
 msgstr ""
 
-#: frontend/class-frontend.php:555
+#: frontend/class-frontend.php:552
 #: inc/options/class-wpseo-option-titles.php:181
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1260
+#: frontend/class-frontend.php:1264
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -5797,15 +5811,15 @@ msgstr ""
 msgid "Content optimization: Good SEO score"
 msgstr ""
 
-#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:306
+#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:307
 msgid "Marks are disabled in current view"
 msgstr ""
 
-#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:307
+#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:308
 msgid "Mark this result in the text"
 msgstr ""
 
-#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:308
+#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:309
 msgid "Remove marks in the text"
 msgstr ""
 
@@ -5862,31 +5876,31 @@ msgstr ""
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:301
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:295
 msgid "%s installation wizard"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:287
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:282
 msgid "Next step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:286
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:281
 msgid "Next"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:277
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:273
 msgid "Previous step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:276
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:272
 msgid "Previous"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:246
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:242
 msgid "Close the Wizard"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:171
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:167
 msgid ""
 "A problem occurred when saving the current step, {{link}}please file a bug "
 "report{{/link}} describing what step you are on and which changes you want "
@@ -5906,7 +5920,7 @@ msgid "Please provide a meta description by editing it here."
 msgstr ""
 
 #: yoast-components/composites/SearchResultForm/SearchResultForm.js:46
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:45
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:44
 msgid "Meta description preview: "
 msgstr ""
 
@@ -5915,12 +5929,12 @@ msgid "Slug preview: "
 msgstr ""
 
 #: yoast-components/composites/SearchResultForm/SearchResultForm.js:44
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:43
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:42
 msgid "This is an example title - edit by clicking here"
 msgstr ""
 
 #: yoast-components/composites/SearchResultForm/SearchResultForm.js:43
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:42
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:41
 msgid "SEO title preview: "
 msgstr ""
 
@@ -5928,11 +5942,11 @@ msgstr ""
 msgid "Search Result Form"
 msgstr ""
 
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:44
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:43
 msgid "URL preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:40
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:39
 msgid "Search Result Preview"
 msgstr ""
 

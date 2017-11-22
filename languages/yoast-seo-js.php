@@ -343,13 +343,13 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/config/presenter.js:32
 	__( 'Good', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:306
+	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:307
 	__( 'Marks are disabled in current view', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:307
+	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:308
 	__( 'Mark this result in the text', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:308
+	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:309
 	__( 'Remove marks in the text', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/snippetPreview.js:323
