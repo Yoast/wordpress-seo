@@ -53,7 +53,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 		$notification .= '</p>';
 		$notification .= '</div>';
 		$notification .= sprintf(
-			'<a href="%1$s" style="" class="yoast-container__configuration-wizard--dismiss alignright"><span class="screen-reader-text">%2$s</span><span class="dashicons dashicons-no-alt"></span></a>',
+			'<a href="%1$s" style="" class="button dismiss yoast-container__configuration-wizard--dismiss"><span class="screen-reader-text">%2$s</span><span class="dashicons dashicons-no-alt"></span></a>',
 			esc_url( admin_url( 'admin.php?page=wpseo_dashboard&amp;dismiss_get_started=1' ) ),
 			esc_html__( 'Dismiss this item.', 'wordpress-seo' )
 		);

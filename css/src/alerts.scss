@@ -202,12 +202,7 @@ h3 .dashicons-warning {
 			}
 
 			&--dismiss {
-				flex:       0 0 20px;
-				border:     0;
-				margin:     0 0 0 10px;
-				padding:    0;
-				background: transparent;
-				cursor:     pointer;
+				text-align: center;
 
 				@media screen and ( max-width: $breakpoint_mobile ) {
 					width: 40px;
@@ -218,9 +213,8 @@ h3 .dashicons-warning {
 				}
 
 				.dashicons {
-					font-size: 26px;
-					color: $color_black;
 					text-decoration: none;
+					margin-top: 11px;
 				}
 			}
 		}
