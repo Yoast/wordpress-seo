@@ -34,7 +34,148 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Makes sure the expected actions are hooked.
+	 *
+	 * @covers WPSEO_Link_Watcher::register_hooks()
+	 */
+	public function test_register_hooks() {
+		$link_watcher = new WPSEO_Link_Watcher( $this->get_processor() );
+		$link_watcher->register_hooks();
+
+		$this->assertNotFalse( has_action( 'save_post', array( $link_watcher, 'save_post' ) ) );
+		$this->assertNotFalse( has_action( 'delete_post', array( $link_watcher, 'delete_post' ) ) );
+	}
+
+	/**
+	 * Makes sure in-accessible table result in expected function calls.
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
+	 */
+	public function test_tables_not_accessible_save_post() {
+		$post = $this->factory->post->create_and_get();
+
+		$watcher_mock = $this
+			->getMockBuilder( 'WPSEO_Link_Watcher' )
+			->setConstructorArgs( array( $this->get_processor() ) )
+			->setMethods( array( 'tables_accessible', 'process' ) )
+			->getMock();
+
+		$watcher_mock
+			->expects( $this->once() )
+			->method( 'tables_accessible' )
+			->will( $this->returnValue( false ) );
+
+		$watcher_mock
+			->expects( $this->never() )
+			->method( 'process' );
+
+		$watcher_mock->save_post( $post->ID, $post );
+	}
+
+	/**
+	 * Makes sure accessible table result in expected function calls.
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
+	 */
+	public function test_tables_accessible_save_post() {
+		$post = $this->factory->post->create_and_get();
+
+		$content_processor = $this
+			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
+			->setConstructorArgs( array( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() ) )
+			->setMethods( array( 'get_stored_internal_links' ) )
+			->getMock();
+
+		$watcher_mock = $this
+			->getMockBuilder( 'WPSEO_Link_Watcher' )
+			->setConstructorArgs( array( $content_processor ) )
+			->setMethods( array( 'tables_accessible', 'process' ) )
+			->getMock();
+
+		$watcher_mock
+			->expects( $this->once() )
+			->method( 'tables_accessible' )
+			->will( $this->returnValue( true ) );
+
+		$content_processor
+			->expects( $this->never() )
+			->method( 'get_stored_internal_links' );
+
+
+		$watcher_mock->save_post( $post->ID, $post );
+	}
+
+	/**
+	 * Makes sure accessible tables result in expected function calls.
+	 *
+	 * @covers WPSEO_Link_Watcher::delete_post()
+	 */
+	public function test_tables_accessible_delete_post() {
+		$post = $this->factory->post->create_and_get();
+
+		$content_processor = $this
+			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
+			->setConstructorArgs( array( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() ) )
+			->setMethods( array( 'get_stored_internal_links' ) )
+			->getMock();
+
+		$watcher_mock = $this
+			->getMockBuilder( 'WPSEO_Link_Watcher' )
+			->setConstructorArgs( array( $content_processor ) )
+			->setMethods( array( 'tables_accessible', 'process' ) )
+			->getMock();
+
+		$watcher_mock
+			->expects( $this->once() )
+			->method( 'tables_accessible' )
+			->will( $this->returnValue( true ) );
+
+
+		$content_processor
+			->expects( $this->once() )
+			->method( 'get_stored_internal_links' )
+			->will( $this->returnValue( array() ) );
+
+		$watcher_mock->delete_post( $post->ID, $post );
+	}
+
+	/**
+	 * Makes sure in-accessible tables result in function calls not being executed.
+	 *
+	 * @covers WPSEO_Link_Watcher::delete_post()
+	 */
+	public function test_tables_not_accessible_delete_post() {
+		$post = $this->factory->post->create_and_get();
+
+		$content_processor = $this
+			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
+			->setConstructorArgs( array( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() ) )
+			->setMethods( array( 'get_stored_internal_links' ) )
+			->getMock();
+
+		$watcher_mock = $this
+			->getMockBuilder( 'WPSEO_Link_Watcher' )
+			->setConstructorArgs( array( $content_processor ) )
+			->setMethods( array( 'tables_accessible', 'process' ) )
+			->getMock();
+
+		$watcher_mock
+			->expects( $this->once() )
+			->method( 'tables_accessible' )
+			->will( $this->returnValue( false ) );
+
+
+		$content_processor
+			->expects( $this->never() )
+			->method( 'get_stored_internal_links' );
+
+		$watcher_mock->delete_post( $post->ID, $post );
+	}
+
+	/**
 	 * Test the is processable
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
 	 */
 	public function test_is_processable_post_revision() {
 
@@ -53,6 +194,101 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$watcher = new WPSEO_Link_Watcher( $processor );
 		$watcher->save_post( $post->ID, $post );
+	}
+
+	/**
+	 * Makes sure `auto-draft` objects are not processed.
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
+	 */
+	public function test_is_processable_post_auto_draft() {
+
+		$post = $this->factory->post->create_and_get(
+			array(
+				'post_status' => 'auto-draft',
+				'post_type'   => 'post',
+			)
+		);
+
+		$processor = $this->get_processor();
+		$processor
+			->expects( $this->never() )
+			->method( 'process' );
+
+		$watcher = new WPSEO_Link_Watcher( $processor );
+		$watcher->save_post( $post->ID, $post );
+	}
+
+	/**
+	 * Makes sure the `save_post` hook is unhooked when it is currently hooked.
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
+	 */
+	public function test_no_save_post_hooked() {
+		$post = $this->factory->post->create_and_get(
+			array(
+				'post_type' => 'post',
+			)
+		);
+
+		$watcher_mock = $this
+			->getMockBuilder( 'WPSEO_Link_Watcher' )
+			->setConstructorArgs( array( $this->get_processor() ) )
+			->setMethods( array( 'hook_save_post', 'unhook_save_post', 'process', 'is_save_post_hooked' ) )
+			->getMock();
+
+		$watcher_mock
+			->expects( $this->once() )
+			->method( 'is_save_post_hooked' )
+			->will( $this->returnValue( true ) );
+
+		$watcher_mock
+			->expects( $this->once() )
+			->method( 'hook_save_post' );
+
+		$watcher_mock
+			->expects( $this->once() )
+			->method( 'process' );
+
+		$watcher_mock
+			->expects( $this->once() )
+			->method( 'unhook_save_post' );
+
+		$watcher_mock->save_post( $post->ID, $post );
+	}
+
+	/**
+	 * Makes sure the hooks are not touched when already unhooked.
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
+	 */
+	public function test_no_save_post_not_hooked() {
+		$post = $this->factory->post->create_and_get();
+
+		$watcher_mock = $this
+			->getMockBuilder( 'WPSEO_Link_Watcher' )
+			->setConstructorArgs( array( $this->get_processor() ) )
+			->setMethods( array( 'hook_save_post', 'unhook_save_post', 'process', 'is_save_post_hooked' ) )
+			->getMock();
+
+		$watcher_mock
+			->expects( $this->once() )
+			->method( 'is_save_post_hooked' )
+			->will( $this->returnValue( false ) );
+
+		$watcher_mock
+			->expects( $this->never() )
+			->method( 'hook_save_post' );
+
+		$watcher_mock
+			->expects( $this->once() )
+			->method( 'process' );
+
+		$watcher_mock
+			->expects( $this->never() )
+			->method( 'unhook_save_post' );
+
+		$watcher_mock->save_post( $post->ID, $post );
 	}
 
 	/**
