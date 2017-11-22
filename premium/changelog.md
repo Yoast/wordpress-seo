@@ -1,3 +1,6 @@
+### 5.9.0: 
+* Includes every change in Yoast SEO core 5.9.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 5.8.0: November 15th, 2017
 * Includes every change in Yoast SEO core 5.8.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
