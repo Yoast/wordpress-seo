@@ -1,4 +1,4 @@
-var getParticiples = require( "./passivevoice/getParticiples.js" );
+var getParticiples = require( "../passivevoice/getParticiples.js" );
 
 var determineSentencePartIsPassive =  require( "../passivevoice/determineSentencePartIsPassive.js" );
 
@@ -7,9 +7,10 @@ var determineSentencePartIsPassive =  require( "../passivevoice/determineSentenc
  *
  * @param {string} sentencePart The sentence part to determine voice for.
  * @param {Array} auxiliaries The auxiliaries to be used for creating SentenceParts.
+ * @param {string} language The language to determine voice for.
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
-module.exports = function( sentencePart, auxiliaries ) {
-	var participles = getParticiples( sentencePart, auxiliaries );
+module.exports = function( sentencePart, auxiliaries, language ) {
+	var participles = getParticiples( sentencePart, auxiliaries, language );
 	return determineSentencePartIsPassive( participles );
 };

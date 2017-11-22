@@ -1,6 +1,6 @@
 var SentencePart = require( "../../values/SentencePart.js" );
 
-var getParticiples = require( "./passivevoice/getParticiples.js" );
+var getParticiples = require( "../passivevoice/getParticiples.js" );
 
 /**
  * Creates a French specific sentence part.
@@ -21,7 +21,7 @@ require( "util" ).inherits( FrenchSentencePart, SentencePart );
  * @returns {Array} The array of Participle Objects.
  */
 FrenchSentencePart.prototype.getParticiples = function() {
-	return getParticiples( this.getSentencePartText(), this.getAuxiliaries() );
+	return getParticiples( this.getSentencePartText(), this.getAuxiliaries(), "fr" );
 };
 
 module.exports = FrenchSentencePart;

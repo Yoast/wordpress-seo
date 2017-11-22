@@ -1,5 +1,5 @@
 var SentencePart = require( "../../values/SentencePart.js" );
-var getParticiples = require( "./passivevoice/getParticiples.js" );
+var getParticiples = require( "../passivevoice/getParticiples.js" );
 
 /**
  * Creates a English specific sentence part.
@@ -21,7 +21,7 @@ require( "util" ).inherits( EnglishSentencePart, SentencePart );
  */
 
 EnglishSentencePart.prototype.getParticiples = function() {
-	return getParticiples( this.getSentencePartText(), this.getAuxiliaries() );
+	return getParticiples( this.getSentencePartText(), this.getAuxiliaries(), "en" );
 };
 
 module.exports = EnglishSentencePart;
