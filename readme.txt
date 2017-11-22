@@ -125,6 +125,23 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.9.0 =
+Release Date:
+
+Bugfixes:
+* Fixes a bug where the title isn't added back to the HTML, when the debug marker has been disabled.
+* Fixes a bug where multiple help panels show up when clicking on different help buttons.
+* Close the Help Center when clicking the Go Premium link.
+* Fixes a bug where the cornerstone setting for a post will be lost on quick edit that post.
+* Exclude a newly created post from link counting to prevent MySQL errors Props to [stodorovic](https://github.com/stodorovic).
+
+Enhancements
+* Show a notice for opening Onboarding Wizard when the plugin is installed for the first time.
+* Makes it easier to unhook the logic for adding the debug marker.
+* Implements new reactified content analysis.
+* Introduced wpseo_add_opengraph_additional_images to allow adding OpenGraph Images which should complement any Facebook Image or Featured image set on a post/page.
+
+
 = 5.8.0 =
 
 Release Date: November 15th, 2017
@@ -182,54 +199,6 @@ Enhancements:
 Bugfixes:
 	* Fixes a bug where the text link counter doesn't count links for scheduled posts when they get published.
 	* Fixes a bug where the internal link count is not updated when a post is removed permanently.
-
-= 5.6.1 =
-
-Release Date: October 13th, 2017
-
-Bugfixes
-	* Fixes a bug where the SEO Manager role was not being able to save SEO settings.
-
-= 5.6.0 =
-
-Release Date: October 10th, 2017
-
-Enhancements
-	* Removes legacy license page and shows the new license page by default.
-	* Changes references from licenses to subscriptions and sites on the premium submenu page.
-	* Changes the appearance of the Help Center in line with our design approach.
-	* Introduces an explanation bar when the `Cornerstone content` filter is active.
-
-Bugfixes
-	* Fixes a bug where Hebrew slugs aren't decoded on display in the bulk editor.
-	* Fixes a bug where the internal link count is not updated when there are no links to that page or post anymore.
-	* Fixes the `Cornerstone content` filter to behave consistently with existing WordPress filters.
-
-= 5.5.1 =
-
-Release Date: September 28th, 2017
-
-* Bugfixes
-	* Fixes Snippet preview error when Yoast metabox has been removed.
-
-* Changes
-	* Change Yoast Blog feed to new endpoint.
-
-= 5.5.0 =
-
-Release Date: September 26th, 2017
-
-* Enhancements
-	* Updated the Dashboard Widget with a new design.
-	* Added additional explanations to the Configuration wizard.
-	* Added `contentinfo` landmark for assistive technologies to the Configuration wizard page.
-	* Introduces `wpseo_manager` and `wpseo_editor` roles.
-	* Introduces `wpseo_manage_options` capability to control which users have access to all SEO settings.
-	* Introduces `wpseo_edit_advanced_metadata` capability to control which users have access to the advanced SEO settings.
-
-* Bugfixes
-	* Fixed a bug where certain options (`site_type`, `environment_type` and `has_multiple_authors`) would be reset to their default value whenever one of the feature toggles were changed.
-	* Ensured that `has_multiple_authors` gets validated.
 
 = Earlier versions =
 
