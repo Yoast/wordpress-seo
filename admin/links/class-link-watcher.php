@@ -26,7 +26,7 @@ class WPSEO_Link_Watcher {
 	 * @returns void
 	 */
 	public function register_hooks() {
-		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
+		$this->hook_save_post();
 		add_action( 'delete_post', array( $this, 'delete_post' ) );
 	}
 
@@ -39,7 +39,7 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	public function save_post( $post_id, WP_Post $post ) {
-		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+		if ( ! $this->tables_accessible() ) {
 			return;
 		}
 
@@ -54,11 +54,22 @@ class WPSEO_Link_Watcher {
 		}
 
 		// When the post isn't processable, just remove the saved links.
-		if ( ! $this->is_processable( $post_id ) ) {
+		if ( ! $this->is_processable( $post ) ) {
 			return;
 		}
 
+		$is_hooked = $this->is_save_post_hooked();
+		// Unhook from `save_post` if we are hooked, to prevent recursion.
+		if ( $is_hooked ) {
+			$this->unhook_save_post();
+		}
+
 		$this->process( $post_id, $post->post_content );
+
+		// Only re-hook `save_post` if we were hooked when starting the processing.
+		if ( $is_hooked ) {
+			$this->hook_save_post();
+		}
 	}
 
 	/**
@@ -69,7 +80,7 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	public function delete_post( $post_id ) {
-		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+		if ( ! $this->tables_accessible() ) {
 			return;
 		}
 
@@ -87,13 +98,13 @@ class WPSEO_Link_Watcher {
 	/**
 	 * Checks if the post is processable.
 	 *
-	 * @param int $post_id The post id.
+	 * @param WP_Post $post The post.
 	 *
 	 * @return bool True when the post is processable.
 	 */
-	protected function is_processable( $post_id ) {
+	protected function is_processable( WP_Post $post ) {
 		// When the post type is not public.
-		$post_type        = get_post_type( $post_id );
+		$post_type        = get_post_type( $post );
 		$post_type_object = get_post_type_object( $post_type );
 
 		return ( $post_type_object !== null && $post_type_object->public === true );
@@ -107,11 +118,47 @@ class WPSEO_Link_Watcher {
 	 *
 	 * @return void
 	 */
-	private function process( $post_id, $content ) {
+	protected function process( $post_id, $content ) {
 		// Apply the filters to have the same content as shown on the frontend.
 		$content = apply_filters( 'the_content', $content );
 		$content = str_replace( ']]>', ']]&gt;', $content );
 
 		$this->content_processor->process( $post_id, $content );
+	}
+
+	/**
+	 * Hooks the `save_post` action to process internal links.
+	 *
+	 * @return void
+	 */
+	protected function hook_save_post() {
+		add_action( 'save_post', array( $this, 'save_post' ), PHP_INT_MAX, 2 );
+	}
+
+	/**
+	 * Unhooks the `save_post` action to avoid recursive calls.
+	 *
+	 * @return void
+	 */
+	protected function unhook_save_post() {
+		remove_action( 'save_post', array( $this, 'save_post' ) );
+	}
+
+	/**
+	 * Returns if we are hooked on the `save_post` action or not.
+	 *
+	 * @return bool True if `save_post` is hooked.
+	 */
+	protected function is_save_post_hooked() {
+		return ( false !== has_action( 'save_post', array( $this, 'save_post' ) ) );
+	}
+
+	/**
+	 * Checks if the required tables are accessible.
+	 *
+	 * @return bool True if all tables are present and usable.
+	 */
+	protected function tables_accessible() {
+		return WPSEO_Link_Table_Accessible::check_table_is_accessible() && WPSEO_Meta_Table_Accessible::is_accessible();
 	}
 }
