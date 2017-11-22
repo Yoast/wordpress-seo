@@ -18,7 +18,7 @@ class WPSEO_Cornerstone_Field {
 	public function get_html( $post ) {
 
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
-		if ( ! is_array( $post_types ) ||  ! isset( $post_types[ get_post_type( $post ) ] ) ) {
+		if ( ! is_array( $post_types ) || ! isset( $post_types[ get_post_type( $post ) ] ) ) {
 			return '';
 		}
 
