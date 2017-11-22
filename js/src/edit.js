@@ -58,6 +58,25 @@ function wrapInTopLevelComponents( Component, store ) {
 }
 
 /**
+ * Render a react app to a target element.
+ *
+ * @param {string} target Target element id.
+ * @param {ReactElement} component The component to render.
+ * @param {Object} store Redux store.
+ *
+ * @returns {void}
+ */
+function renderReactApp( target, component, store ) {
+	const targetElement = document.getElementById( target );
+	if( targetElement ) {
+		ReactDOM.render(
+			wrapInTopLevelComponents( component, store ),
+			targetElement
+		);
+	}
+}
+
+/**
  * Renders the react apps.
  *
  * @param {Object} store Redux store.
@@ -66,23 +85,13 @@ function wrapInTopLevelComponents( Component, store ) {
  * @returns {void}
  */
 function renderReactApps( store, args ) {
-	const contentAnalysisElement = document.getElementById( args.readabilityTarget );
-	const seoAnalysisElement = document.getElementById( args.seoTarget );
-
 	if ( window.wpseoPostScraperL10n.intl ) {
 		// Add react-intl translations
 		addLocaleData( window.wpseoPostScraperL10n.intl );
 	}
 
-	ReactDOM.render(
-		wrapInTopLevelComponents( ContentAnalysis, store ),
-		contentAnalysisElement
-	);
-
-	ReactDOM.render(
-		wrapInTopLevelComponents( SeoAnalysis, store ),
-		seoAnalysisElement
-	);
+	renderReactApp( args.readabilityTarget, ContentAnalysis, store );
+	renderReactApp( args.seoTarget, SeoAnalysis, store );
 }
 
 /**

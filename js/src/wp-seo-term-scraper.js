@@ -164,6 +164,23 @@ window.yoastHideMarkers = true;
 		updateAdminBar( indicator );
 	}
 
+	/**
+	 * Overwrites YoastSEO.js' app renderers.
+	 *
+	 * @param {Object} app YoastSEO.js app.
+	 *
+	 * @returns {void}
+	 */
+	function disableYoastSEORenderers( app ) {
+		if( ! isUndefined( app.seoAssessorPresenter ) ) {
+			app.seoAssessorPresenter.render = function() {};
+		}
+		if( ! isUndefined( app.contentAssessorPresenter ) ) {
+			app.contentAssessorPresenter.render = function() {};
+			app.contentAssessorPresenter.renderIndividualRatings = function() {};
+		}
+	}
+
 	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
@@ -270,16 +287,11 @@ window.yoastHideMarkers = true;
 		jQuery( window ).trigger( "YoastSEO:ready" );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
-		app.seoAssessorPresenter.render = function() {};
-		app.contentAssessorPresenter.render = function() {};
-		app.contentAssessorPresenter.renderIndividualRatings = function() {};
+		disableYoastSEORenderers( app );
 		let originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
 		app.initAssessorPresenters = function() {
 			originalInitAssessorPresenters();
-
-			app.seoAssessorPresenter.render = function() {};
-			app.contentAssessorPresenter.render = function() {};
-			app.contentAssessorPresenter.renderIndividualRatings = function() {};
+			disableYoastSEORenderers( app );
 		};
 
 		/*
