@@ -300,7 +300,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function do_tab( $id, $heading, $content ) {
 		?>
-		<div id="wpseo_<?php echo esc_attr( $id ); ?>" class="wpseotab <?php echo esc_attr( $id ); ?>">
+		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab <?php echo esc_attr( $id ); ?>">
 			<?php echo $content; ?>
 		</div>
 	<?php
