@@ -179,8 +179,7 @@ class ContentAnalysis extends React.Component {
 				{ " " }
 				<FormattedMessage
 					id="content-analysis.language-notice-contact-admin"
-					defaultMessage="Contact your site administrator, if this is not correct."
-					values={ { language: <strong>{ this.props.language }</strong> } } />
+					defaultMessage="Contact your site administrator, if this is not correct." />
 			</LanguageNotice>
 		);
 	}
