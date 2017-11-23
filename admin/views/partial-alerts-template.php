@@ -23,7 +23,14 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 					break;
 			}
 
-			printf( '<div class="yoast-alert-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>', $notification->get_id(), $notification->get_nonce(), $notification->get_json(), $notification, $button );
+			printf(
+				'<div class="yoast-alert-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>',
+				esc_attr( $notification->get_id() ),
+				esc_attr( $notification->get_nonce() ),
+				esc_attr( $notification->get_json() ),
+				$notification,
+				$button
+			);
 		}
 	}
 }
