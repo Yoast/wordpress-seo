@@ -96,9 +96,9 @@ class WPSEO_Taxonomy_Fields_Presenter {
 			case 'pageanalysis':
 				$options = WPSEO_Options::get_option( 'wpseo' );
 
- 				if ( $options['content_analysis_active'] === false && $options['keyword_analysis_active'] === false ) {
- 					break;
-			    }
+				if ( $options['content_analysis_active'] === false && $options['keyword_analysis_active'] === false ) {
+					break;
+				}
 
 				$field .= '<div id="pageanalysis">';
 				$field .= '<section class="yoast-section" id="wpseo-pageanalysis-section">';
