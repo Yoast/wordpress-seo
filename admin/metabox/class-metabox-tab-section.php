@@ -86,12 +86,18 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 	 */
 	public function display_content() {
 		if ( $this->has_tabs() ) {
-			$html  = '<div id="wpseo-meta-section-%1$s" class="wpseo-meta-section">';
+			$html  = '<div id="%1$s" class="wpseo-meta-section">';
 			$html .= '<div class="wpseo-metabox-tabs-div">';
-			$html .= '<ul class="wpseo-metabox-tabs wpseo-metabox-tab-%1$s">%2$s</ul>%3$s';
+			$html .= '<ul class="wpseo-metabox-tabs %2$s">%3$s</ul>%4$s';
 			$html .= '</div></div>';
 
-			printf( $html, esc_attr( $this->name ), $this->tab_links(), $this->tab_content() );
+			printf(
+				$html,
+				esc_attr( 'wpseo-meta-section-' . $this->name ),
+				esc_attr( 'wpseo-metabox-tab-' . $this->name ),
+				$this->tab_links(),
+				$this->tab_content()
+			);
 		}
 	}
 
