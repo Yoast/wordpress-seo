@@ -105,14 +105,16 @@ class WPSEO_Metabox_Formatter {
 	 */
 	private function get_content_analysis_component_translations() {
 		return array(
-			'locale'                                => WPSEO_Utils::get_user_locale(),
-			'content-analysis.language-notice-link' => __( 'Change language', 'wordpress-seo' ),
-			'content-analysis.errors'               => __( 'Errors', 'wordpress-seo' ),
-			'content-analysis.problems'             => __( 'Problems', 'wordpress-seo' ),
-			'content-analysis.improvements'         => __( 'Improvements', 'wordpress-seo' ),
-			'content-analysis.considerations'       => __( 'Considerations', 'wordpress-seo' ),
-			'content-analysis.good'                 => __( 'Good', 'wordpress-seo' ),
-			'content-analysis.highlight'            => __( 'Highlight this result in the text', 'wordpress-seo' ),
+			'locale'                                         => WPSEO_Utils::get_user_locale(),
+			'content-analysis.language-notice-link'          => __( 'Change language', 'wordpress-seo' ),
+			'content-analysis.errors'                        => __( 'Errors', 'wordpress-seo' ),
+			'content-analysis.problems'                      => __( 'Problems', 'wordpress-seo' ),
+			'content-analysis.improvements'                  => __( 'Improvements', 'wordpress-seo' ),
+			'content-analysis.considerations'                => __( 'Considerations', 'wordpress-seo' ),
+			'content-analysis.good'                          => __( 'Good', 'wordpress-seo' ),
+			'content-analysis.highlight'                     => __( 'Highlight this result in the text', 'wordpress-seo' ),
+			'content-analysis.language-notice'               => __( 'Your site language is set to {language}.', 'wordpress-seo' ),
+			'content-analysis.language-notice-contact-admin' => __( 'Contact your site administrator, if this is not correct.', 'wordpress-seo' ),
 		);
 	}
 
