@@ -18,7 +18,7 @@ $index_switch_values = array(
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $post_type ) {
 		$name = $post_type->name;
-		echo "<div id='" . esc_attr( $name ) . "-titles-metas'>";
+		echo '<div id="' . esc_attr( $name . '-titles-metas' ) . '">';
 		echo '<h2 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $post_type->labels->name ) ) . ' (<code>' . esc_html( $post_type->name ) . '</code>)</h2>';
 		if ( $options['redirectattachment'] === true && $name === 'attachment' ) {
 			// The `inline` CSS class prevents the notice from being moved to the top via JavaScript.
