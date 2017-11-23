@@ -1,4 +1,5 @@
 var Participle = require( "../../values/Participle.js" );
+var checkException = require ( "../passivevoice/checkException.js" );
 
 var nonVerbsEndingEd = require( "./passivevoice/non-verb-ending-ed.js" )();
 var getWordIndices = require( "./passivevoice/getIndicesWithRegex.js" );
@@ -82,24 +83,10 @@ var precedesIndex = function( precedingWords, participleIndex ) {
  */
 var EnglishParticiple = function( participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
-	this.checkException();
+	checkException.call( this );
 };
 
 require( "util" ).inherits( EnglishParticiple, Participle );
-
-/**
- * Sets sentence part passiveness to passive if there is no exception.
- *
- * @returns {void}
- */
-EnglishParticiple.prototype.checkException = function() {
-	if ( isEmpty( this.getParticiple() ) ) {
-		this.setSentencePartPassiveness( false );
-		return;
-	}
-
-	this.setSentencePartPassiveness( this.isPassive() );
-};
 
 /**
  * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.

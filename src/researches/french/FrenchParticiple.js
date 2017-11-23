@@ -1,12 +1,11 @@
 var Participle = require( "../../values/Participle.js" );
+var checkException = require ( "../passivevoice/checkException.js" );
 
 var exceptionsParticiplesAdjectivesVerbs = require( "./passivevoice/exceptionsParticiples.js" )().adjectivesVerbs;
 var exceptionsParticiplesNouns = require( "./passivevoice/exceptionsParticiples.js" )().nouns;
 var exceptionsParticiplesOthers = require( "./passivevoice/exceptionsParticiples.js" )().others;
 
-
 var includes = require( "lodash/includes" );
-var isEmpty = require( "lodash/isEmpty" );
 var forEach = require( "lodash/forEach" );
 var memoize = require ( "lodash/memoize" );
 
@@ -21,24 +20,10 @@ var memoize = require ( "lodash/memoize" );
  */
 var FrenchParticiple = function(  participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
-	this.checkException();
+	checkException.call( this );
 };
 
 require( "util" ).inherits( FrenchParticiple, Participle );
-
-/**
- * Sets sentence part passiveness to passive if there is no exception.
- *
- * @returns {void}
- */
-FrenchParticiple.prototype.checkException = function() {
-	if ( isEmpty( this.getParticiple() ) ) {
-		this.setSentencePartPassiveness( false );
-		return;
-	}
-
-	this.setSentencePartPassiveness( this.isPassive() );
-};
 
 /**
  * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
@@ -79,6 +64,17 @@ var getExceptionsParticiplesNouns = memoize( function() {
 } );
 
 /**
+ * Checks whether the type of the participle is an irregular.
+ *
+ * @returns {boolean} Returns false if the passive is an irregular.
+ */
+var checkIrregular = function() {
+	if ( this.getType() === "irregular" ) {
+		return false;
+	}
+};
+
+/**
  * Checks whether a found participle is in the exception list of adjectives and verbs.
  * If a word is on the list, it isn't a participle.
  * Irregular participles do not end in -é and therefore can't be on the list.
@@ -86,9 +82,7 @@ var getExceptionsParticiplesNouns = memoize( function() {
  * @returns {boolean} Returns true if it is in the exception list of adjectives and verbs, otherwise returns false.
  */
 FrenchParticiple.prototype.isOnAdjectivesVerbsExceptionList = function() {
-	if ( this.getType() === "irregular" ) {
-		return false;
-	}
+	checkIrregular.call( this );
 
 	var participle = this.getParticiple();
 	var matches = [];
@@ -114,9 +108,7 @@ FrenchParticiple.prototype.isOnAdjectivesVerbsExceptionList = function() {
  * @returns {boolean} Returns true if it is in the exception list of nouns, otherwise returns false.
  */
 FrenchParticiple.prototype.isOnNounsExceptionList = function() {
-	if ( this.getType() === "irregular" ) {
-		return false;
-	}
+	checkIrregular.call( this );
 
 	var participle = this.getParticiple();
 	var matches = [];
@@ -142,9 +134,7 @@ FrenchParticiple.prototype.isOnNounsExceptionList = function() {
  * @returns {boolean} Returns true if it is in the exception list of nouns, otherwise returns false.
  */
 FrenchParticiple.prototype.isOnOthersExceptionList = function() {
-	if ( this.getType() === "irregular" ) {
-		return false;
-	}
+	checkIrregular.call( this );
 
 	return includes( exceptionsParticiplesOthers, this.getParticiple() );
 };

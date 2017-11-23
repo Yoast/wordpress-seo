@@ -1,4 +1,5 @@
 var FrenchParticiple = require( "../../../js/researches/french/FrenchParticiple.js" );
+var checkException = require ( "../../../js/researches/passivevoice/checkException.js" );
 
 describe( "A test for checking the French participle", function() {
 	it( "checks the properties of the French participle object  a passive", function() {
@@ -55,10 +56,11 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
+
 	it( "ensures that the sentence part is not set to passive if the participle is empty.", function() {
 		let mockParticiple = new FrenchParticiple( "cuisiné", "Ça a été cuisiné par lui.", { auxiliaries: [ "été" ], type: "regular" } );
 		mockParticiple._participle = null;
-		mockParticiple.checkException();
+		checkException.call( mockParticiple );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 });

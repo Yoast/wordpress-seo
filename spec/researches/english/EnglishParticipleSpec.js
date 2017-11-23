@@ -1,4 +1,5 @@
 let EnglishParticiple = require( "../../../js/researches/english/EnglishParticiple.js" );
+var checkException = require ( "../../../js/researches/passivevoice/checkException.js" );
 
 describe( "A test for checking the English Participle", function() {
 
@@ -95,7 +96,7 @@ describe( "A test for checking the English Participle", function() {
 	it( "ensures that the sentence part is not set to passive if the participle is empty.", function() {
 		let mockParticiple = new EnglishParticiple( "cooked", "It is cooked by him", { auxiliaries: [ "is" ], type: "regular" } );
 		mockParticiple._participle = null;
-		mockParticiple.checkException();
+		checkException.call( mockParticiple );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
