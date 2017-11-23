@@ -75,7 +75,7 @@ class WPSEO_Link_Columns {
 	 * Register hooks that require to be registered after `init`.
 	 */
 	public function register_init_hooks() {
-		$this->public_post_types = WPSEO_Link_Utils::get_public_post_types();
+		$this->public_post_types = apply_filters( 'wpseo_link_count_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 
 		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
 			array_walk( $this->public_post_types, array( $this, 'set_post_type_hooks' ) );
