@@ -90,17 +90,17 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 	let title = props.title;
 	let count = getChildrenCount( props.children );
 
-	const MaybeWrappedButton = props.element;
+	const Button = props.element;
 
 	return (
 		<AnalysisHeaderContainer>
-			<MaybeWrappedButton
+			<Button
 				aria-expanded={ props.isOpen }
 				onClick={ props.onToggle }
 				icon={ props.isOpen ? angleUp : angleDown }
 				iconColor={ colors.$color_grey_dark } >
 				<AnalysisTitle>{ `${ title } (${ count })` }</AnalysisTitle>
-			</MaybeWrappedButton>
+			</Button>
 			{
 				props.isOpen && props.children &&
 					<AnalysisList role="list">{ props.children }</AnalysisList>
