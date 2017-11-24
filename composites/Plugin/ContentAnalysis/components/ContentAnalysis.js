@@ -146,18 +146,18 @@ class ContentAnalysis extends React.Component {
 	}
 
 	/**
-	 * Render the language notice. Provides a link to a setting page in case of administrator, a notice to contact an
-	 * administrator otherwise.
+	 * Renders the language notice. Provides a link to a setting page in case of
+	 * administrator, a notice to contact an administrator otherwise.
 	 *
 	 * @returns {ReactElement} The rendered language notice.
 	 */
 	renderLanguageNotice() {
 		let showLanguageNotice = this.props.showLanguageNotice;
 		let canChangeLanguage = this.props.canChangeLanguage;
-		if( ! showLanguageNotice ) {
+		if ( ! showLanguageNotice ) {
 			return null;
 		}
-		if( canChangeLanguage ) {
+		if ( canChangeLanguage ) {
 			return (
 				<LanguageNotice>
 					<FormattedMessage
