@@ -16,7 +16,7 @@
 		color: $color_grey_dark;
 
 		&-icon {
-			padding-left: 45px;
+			padding-left: 44px; // 44 - 20 = 24 for the 8px grid
 			background-repeat: no-repeat;
 			background-position: left 20px top 0.6em;
 			background-size: 16px;
