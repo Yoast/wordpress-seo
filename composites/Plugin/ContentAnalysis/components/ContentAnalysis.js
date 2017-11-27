@@ -17,8 +17,8 @@ export const ContentAnalysisContainer = styled.div`
 
 const LanguageNotice = styled.p`
 	min-height: 24px;
-	padding-top: 8px;
-	margin-left: 36px;
+	margin-bottom: 8px;
+	margin-left: 24px;
 `;
 
 const ChangeLanguageLink = makeOutboundLink( styled.a`

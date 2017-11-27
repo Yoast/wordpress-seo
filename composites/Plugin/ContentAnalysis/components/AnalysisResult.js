@@ -16,11 +16,13 @@ const AnalysisResultBase = styled.li`
 `;
 
 const ScoreIcon = styled( Icon )`
-	margin-top: 4px;
+	margin-top: 3px;
+	position: relative;
+	left: -1px;
 `;
 
 const AnalysisResultText = styled.p`
-	margin: 0 10px;
+	margin: 0 8px 0 11px; // icon 13 + 11 = 24 for the 8px grid.
 	flex: 1 1 auto;
 `;
 

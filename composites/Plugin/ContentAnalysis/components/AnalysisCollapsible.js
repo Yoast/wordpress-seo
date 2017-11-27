@@ -35,7 +35,7 @@ const AnalysisHeaderButton = styled( IconButton )`
 	}
 
 	svg {
-		margin: 0 8px;
+		margin: 0 8px 0 -5px; // (icon 20 + button border 1) - 5 = 16 for the 8px grid
 		width: 20px;
 		height: 20px;
 	}
@@ -51,7 +51,7 @@ const AnalysisTitle = styled.span`
 const AnalysisList = styled.ul`
 	margin: 0;
 	list-style: none;
-	padding: 0 16px 0 13px;
+	padding: 0 16px 0 0;
 `;
 
 /**
