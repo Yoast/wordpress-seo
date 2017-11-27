@@ -70,6 +70,24 @@ test( "the ContentAnalysis component without language notice matches the snapsho
 	expect( tree ).toMatchSnapshot();
 } );
 
+test( "the ContentAnalysis component with specified header level matches the snapshot", () => {
+	const component = createComponentWithIntl(
+		<ContentAnalysis
+			headingLevel={ 3 }
+			problemsResults={ problemsResults }
+			improvementsResults={ improvementsResults }
+			goodResults={ goodResults }
+			considerationsResults={ considerationsResults }
+			errorsResults={ errorsResults }
+			changeLanguageLink={ "#" }
+			language="English"
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
 test( "the ContentAnalysis component with language notice matches the snapshot", () => {
 	const component = createComponentWithIntl(
 		<ContentAnalysis

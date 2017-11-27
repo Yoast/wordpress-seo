@@ -35,7 +35,7 @@ const AnalysisHeaderButton = styled( IconButton )`
 	}
 
 	svg {
-		margin: 0 8px;
+		margin: 0 8px 0 -5px; // (icon 20 + button border 1) - 5 = 16 for the 8px grid
 		width: 20px;
 		height: 20px;
 	}
@@ -51,7 +51,7 @@ const AnalysisTitle = styled.span`
 const AnalysisList = styled.ul`
 	margin: 0;
 	list-style: none;
-	padding: 0 16px 0 13px;
+	padding: 0 16px 0 0;
 `;
 
 /**
@@ -90,7 +90,7 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 	let title = props.title;
 	let count = getChildrenCount( props.children );
 
-	const Button = props.hasHeading ? wrapInHeading( AnalysisHeaderButton, props.headingLevel ) : AnalysisHeaderButton;
+	const Button = props.element;
 
 	return (
 		<AnalysisHeaderContainer>
@@ -102,9 +102,8 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 				<AnalysisTitle>{ `${ title } (${ count })` }</AnalysisTitle>
 			</Button>
 			{
-				props.isOpen && props.children
-					? <AnalysisList role="list">{ props.children }</AnalysisList>
-					: null
+				props.isOpen && props.children &&
+					<AnalysisList role="list">{ props.children }</AnalysisList>
 			}
 		</AnalysisHeaderContainer>
 	);
@@ -120,6 +119,7 @@ AnalysisCollapsibleStateless.propTypes = {
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
 	] ),
+	element: PropTypes.func,
 };
 
 AnalysisCollapsibleStateless.defaultProps = {
@@ -141,6 +141,13 @@ export class AnalysisCollapsible extends React.Component {
 		};
 
 		this.toggleOpen = this.toggleOpen.bind( this );
+
+		/*
+		 * Evaluate if the button should be wrapped in a heading in this constructor
+		 * instead of doing it in the AnalysisCollapsibleStateless component to
+		 * avoid a full re-render of the button, which is bad for accessibility.
+		 */
+		this.element = props.hasHeading ? wrapInHeading( AnalysisHeaderButton, props.headingLevel ) : AnalysisHeaderButton;
 	}
 
 	/**
@@ -167,6 +174,7 @@ export class AnalysisCollapsible extends React.Component {
 				isOpen={ this.state.isOpen }
 				hasHeading={ this.props.hasHeading }
 				headingLevel={ this.props.headingLevel }
+				element={ this.element }
 			>
 				{ this.props.children }
 			</AnalysisCollapsibleStateless>

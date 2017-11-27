@@ -17,8 +17,8 @@ export const ContentAnalysisContainer = styled.div`
 
 const LanguageNotice = styled.p`
 	min-height: 24px;
-	padding-top: 8px;
-	margin-left: 36px;
+	margin-bottom: 8px;
+	margin-left: 24px;
 `;
 
 const ChangeLanguageLink = makeOutboundLink( styled.a`
@@ -191,7 +191,7 @@ class ContentAnalysis extends React.Component {
 		let goodResults = this.props.goodResults;
 		let considerationsResults = this.props.considerationsResults;
 		let errorsResults = this.props.errorsResults;
-
+		let headingLevel = this.props.headingLevel;
 
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
@@ -200,7 +200,7 @@ class ContentAnalysis extends React.Component {
 				{ errorsResults.length > 0 &&
 				<AnalysisCollapsible
 					hasHeading={ true }
-					headingLevel={ 2 }
+					headingLevel={ headingLevel }
 					initialIsOpen={ true }
 					title={ this.props.intl.formatMessage( messages.errorsHeader ) }
 				>
@@ -209,7 +209,7 @@ class ContentAnalysis extends React.Component {
 				{ problemsResults.length > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
-						headingLevel={ 2 }
+						headingLevel={ headingLevel }
 						initialIsOpen={ true }
 						title={ this.props.intl.formatMessage( messages.problemsHeader ) }
 					>
@@ -218,7 +218,7 @@ class ContentAnalysis extends React.Component {
 				{ improvementsResults.length > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
-						headingLevel={ 2 }
+						headingLevel={ headingLevel }
 						title={ this.props.intl.formatMessage( messages.improvementsHeader ) }
 					>
 						{ this.getResults( improvementsResults ) }
@@ -226,7 +226,7 @@ class ContentAnalysis extends React.Component {
 				{ considerationsResults.length > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
-						headingLevel={ 2 }
+						headingLevel={ headingLevel }
 						title={ this.props.intl.formatMessage( messages.considerationsHeader ) }
 					>
 						{ this.getResults( considerationsResults ) }
@@ -234,7 +234,7 @@ class ContentAnalysis extends React.Component {
 				{ goodResults.length > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
-						headingLevel={ 2 }
+						headingLevel={ headingLevel }
 						title={this.props.intl.formatMessage( messages.goodHeader ) }
 					>
 						{ this.getResults( goodResults ) }
@@ -255,6 +255,7 @@ ContentAnalysis.propTypes = {
 	canChangeLanguage: PropTypes.bool,
 	language: PropTypes.string.isRequired,
 	showLanguageNotice: PropTypes.bool,
+	headingLevel: PropTypes.number,
 	intl: intlShape.isRequired,
 };
 
@@ -267,6 +268,7 @@ ContentAnalysis.defaultProps = {
 	errorsResults: [],
 	showLanguageNotice: false,
 	canChangeLanguage: false,
+	headingLevel: 4,
 };
 
 export default injectIntl( ContentAnalysis );
