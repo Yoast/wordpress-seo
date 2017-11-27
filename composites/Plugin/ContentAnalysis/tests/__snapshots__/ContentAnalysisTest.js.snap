@@ -12,11 +12,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
       <strong>
         English
       </strong>
-      .
-    </span>
-     
-    <span>
-      Contact your site administrator, if this is not correct.
+      . Contact your site administrator, if this is not correct.
     </span>
   </p>
   <div

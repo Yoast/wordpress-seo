@@ -173,13 +173,9 @@ class ContentAnalysis extends React.Component {
 		return (
 			<LanguageNotice>
 				<FormattedMessage
-					id="content-analysis.language-notice"
-					defaultMessage="Your site language is set to {language}."
-					values={ { language: <strong>{ this.props.language }</strong> } } />
-				{ " " }
-				<FormattedMessage
 					id="content-analysis.language-notice-contact-admin"
-					defaultMessage="Contact your site administrator, if this is not correct." />
+					defaultMessage="Your site language is set to {language}. Contact your site administrator, if this is not correct."
+					values={ { language: <strong>{ this.props.language }</strong> } } />
 			</LanguageNotice>
 		);
 	}
