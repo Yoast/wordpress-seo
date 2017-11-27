@@ -59,6 +59,7 @@ class Results extends React.Component {
 				changeLanguageLink={ this.props.changeLanguageLink }
 				language={ this.props.language }
 				showLanguageNotice={ this.props.showLanguageNotice }
+				canChangeLanguage={ this.props.canChangeLanguage }
 				onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) } />
 		);
 	}
@@ -69,11 +70,13 @@ Results.propTypes = {
 	language: PropTypes.string,
 	changeLanguageLink: PropTypes.string,
 	showLanguageNotice: PropTypes.bool.isRequired,
+	canChangeLanguage: PropTypes.bool,
 };
 
 Results.defaultProps = {
 	language: "",
 	changeLanguageLink: "#",
+	canChangeLanguage: false,
 };
 
 export default Results;
