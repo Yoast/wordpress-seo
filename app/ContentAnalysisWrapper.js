@@ -71,6 +71,7 @@ export default function HelpCenterWrapper() {
 			changeLanguageLink="#"
 			language="English"
 			showLanguageNotice={ true }
+			canChangeLanguage={ true }
 			onMarkButtonClick={ ( id, marker ) => {
 				console.log( "Marker button clicked", id, marker );
 			} }

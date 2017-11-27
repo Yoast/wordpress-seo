@@ -146,6 +146,41 @@ class ContentAnalysis extends React.Component {
 	}
 
 	/**
+	 * Renders the language notice. Provides a link to a setting page in case of
+	 * administrator, a notice to contact an administrator otherwise.
+	 *
+	 * @returns {ReactElement} The rendered language notice.
+	 */
+	renderLanguageNotice() {
+		let showLanguageNotice = this.props.showLanguageNotice;
+		let canChangeLanguage = this.props.canChangeLanguage;
+		if ( ! showLanguageNotice ) {
+			return null;
+		}
+		if ( canChangeLanguage ) {
+			return (
+				<LanguageNotice>
+					<FormattedMessage
+						id="content-analysis.language-notice"
+						defaultMessage="Your site language is set to {language}."
+						values={ { language: <strong>{ this.props.language }</strong> } } />
+					<ChangeLanguageLink href={ this.props.changeLanguageLink }>
+						{ this.props.intl.formatMessage( messages.languageNoticeLink ) }
+					</ChangeLanguageLink>
+				</LanguageNotice>
+			);
+		}
+		return (
+			<LanguageNotice>
+				<FormattedMessage
+					id="content-analysis.language-notice-contact-admin"
+					defaultMessage="Your site language is set to {language}. If this is not correct, contact your site administrator."
+					values={ { language: <strong>{ this.props.language }</strong> } } />
+			</LanguageNotice>
+		);
+	}
+
+	/**
 	 * Renders a ContentAnalysis component.
 	 *
 	 * @returns {ReactElement} The rendered ContentAnalysis component.
@@ -156,21 +191,12 @@ class ContentAnalysis extends React.Component {
 		let goodResults = this.props.goodResults;
 		let considerationsResults = this.props.considerationsResults;
 		let errorsResults = this.props.errorsResults;
-		let showLanguageNotice = this.props.showLanguageNotice;
 		let headingLevel = this.props.headingLevel;
 
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
-				{ showLanguageNotice && <LanguageNotice>
-					<FormattedMessage
-						id="content-analysis.language-notice"
-						defaultMessage="Your site language is set to {language}."
-						values={ { language: <strong>{ this.props.language }</strong> } } />
-					<ChangeLanguageLink href={ this.props.changeLanguageLink }>
-						{ this.props.intl.formatMessage( messages.languageNoticeLink ) }
-					</ChangeLanguageLink>
-				</LanguageNotice> }
+				{ this.renderLanguageNotice() }
 				{ errorsResults.length > 0 &&
 				<AnalysisCollapsible
 					hasHeading={ true }
@@ -226,6 +252,7 @@ ContentAnalysis.propTypes = {
 	considerationsResults: PropTypes.array,
 	errorsResults: PropTypes.array,
 	changeLanguageLink: PropTypes.string.isRequired,
+	canChangeLanguage: PropTypes.bool,
 	language: PropTypes.string.isRequired,
 	showLanguageNotice: PropTypes.bool,
 	headingLevel: PropTypes.number,
@@ -240,6 +267,7 @@ ContentAnalysis.defaultProps = {
 	considerationsResults: [],
 	errorsResults: [],
 	showLanguageNotice: false,
+	canChangeLanguage: false,
 	headingLevel: 4,
 };
 
