@@ -17,8 +17,8 @@ export const ContentAnalysisContainer = styled.div`
 
 const LanguageNotice = styled.p`
 	min-height: 24px;
-	padding-top: 8px;
-	margin-left: 36px;
+	margin-bottom: 8px;
+	margin-left: 24px;
 `;
 
 const ChangeLanguageLink = makeOutboundLink( styled.a`
@@ -146,6 +146,41 @@ class ContentAnalysis extends React.Component {
 	}
 
 	/**
+	 * Renders the language notice. Provides a link to a setting page in case of
+	 * administrator, a notice to contact an administrator otherwise.
+	 *
+	 * @returns {ReactElement} The rendered language notice.
+	 */
+	renderLanguageNotice() {
+		let showLanguageNotice = this.props.showLanguageNotice;
+		let canChangeLanguage = this.props.canChangeLanguage;
+		if ( ! showLanguageNotice ) {
+			return null;
+		}
+		if ( canChangeLanguage ) {
+			return (
+				<LanguageNotice>
+					<FormattedMessage
+						id="content-analysis.language-notice"
+						defaultMessage="Your site language is set to {language}."
+						values={ { language: <strong>{ this.props.language }</strong> } } />
+					<ChangeLanguageLink href={ this.props.changeLanguageLink }>
+						{ this.props.intl.formatMessage( messages.languageNoticeLink ) }
+					</ChangeLanguageLink>
+				</LanguageNotice>
+			);
+		}
+		return (
+			<LanguageNotice>
+				<FormattedMessage
+					id="content-analysis.language-notice-contact-admin"
+					defaultMessage="Your site language is set to {language}. If this is not correct, contact your site administrator."
+					values={ { language: <strong>{ this.props.language }</strong> } } />
+			</LanguageNotice>
+		);
+	}
+
+	/**
 	 * Renders a ContentAnalysis component.
 	 *
 	 * @returns {ReactElement} The rendered ContentAnalysis component.
@@ -156,24 +191,16 @@ class ContentAnalysis extends React.Component {
 		let goodResults = this.props.goodResults;
 		let considerationsResults = this.props.considerationsResults;
 		let errorsResults = this.props.errorsResults;
-		let showLanguageNotice = this.props.showLanguageNotice;
+		let headingLevel = this.props.headingLevel;
 
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
-				{ showLanguageNotice && <LanguageNotice>
-					<FormattedMessage
-						id="content-analysis.language-notice"
-						defaultMessage="Your site language is set to {language}."
-						values={ { language: <strong>{ this.props.language }</strong> } } />
-					<ChangeLanguageLink href={ this.props.changeLanguageLink }>
-						{ this.props.intl.formatMessage( messages.languageNoticeLink ) }
-					</ChangeLanguageLink>
-				</LanguageNotice> }
+				{ this.renderLanguageNotice() }
 				{ errorsResults.length > 0 &&
 				<AnalysisCollapsible
 					hasHeading={ true }
-					headingLevel={ 2 }
+					headingLevel={ headingLevel }
 					initialIsOpen={ true }
 					title={ this.props.intl.formatMessage( messages.errorsHeader ) }
 				>
@@ -182,7 +209,7 @@ class ContentAnalysis extends React.Component {
 				{ problemsResults.length > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
-						headingLevel={ 2 }
+						headingLevel={ headingLevel }
 						initialIsOpen={ true }
 						title={ this.props.intl.formatMessage( messages.problemsHeader ) }
 					>
@@ -191,7 +218,7 @@ class ContentAnalysis extends React.Component {
 				{ improvementsResults.length > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
-						headingLevel={ 2 }
+						headingLevel={ headingLevel }
 						title={ this.props.intl.formatMessage( messages.improvementsHeader ) }
 					>
 						{ this.getResults( improvementsResults ) }
@@ -199,7 +226,7 @@ class ContentAnalysis extends React.Component {
 				{ considerationsResults.length > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
-						headingLevel={ 2 }
+						headingLevel={ headingLevel }
 						title={ this.props.intl.formatMessage( messages.considerationsHeader ) }
 					>
 						{ this.getResults( considerationsResults ) }
@@ -207,7 +234,7 @@ class ContentAnalysis extends React.Component {
 				{ goodResults.length > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
-						headingLevel={ 2 }
+						headingLevel={ headingLevel }
 						title={this.props.intl.formatMessage( messages.goodHeader ) }
 					>
 						{ this.getResults( goodResults ) }
@@ -225,8 +252,10 @@ ContentAnalysis.propTypes = {
 	considerationsResults: PropTypes.array,
 	errorsResults: PropTypes.array,
 	changeLanguageLink: PropTypes.string.isRequired,
+	canChangeLanguage: PropTypes.bool,
 	language: PropTypes.string.isRequired,
 	showLanguageNotice: PropTypes.bool,
+	headingLevel: PropTypes.number,
 	intl: intlShape.isRequired,
 };
 
@@ -238,6 +267,8 @@ ContentAnalysis.defaultProps = {
 	considerationsResults: [],
 	errorsResults: [],
 	showLanguageNotice: false,
+	canChangeLanguage: false,
+	headingLevel: 4,
 };
 
 export default injectIntl( ContentAnalysis );

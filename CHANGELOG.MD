@@ -5,6 +5,16 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.11.4: November 27th, 2017
+
+### Added
+* Made it possible to pass the heading level of the `analysisCollapsible`s as a prop to the `ContentAnalysis`. #388
+* Added a language notice in the content analysis for non-admin users that cannot change the language. #389
+
+### Fixed
+- Avoid to fully re-render the `AnalyisisCollapsible` component to improve accessibility #386
+- Fixed alignment of icons and text in the `ContentAnalysis` component. #390
+
 ## 2.11.3: November 20th, 2017
 
 ### Added

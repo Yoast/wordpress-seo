@@ -6,12 +6,12 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 >
   <svg
     aria-hidden="true"
-    className="sc-htpNat gvyGHY sc-ifAKCX gIfmeR"
+    className="sc-htpNat kcPZvN sc-ifAKCX gIfmeR"
     focusable="false"
     role="img"
   />
   <p
-    className="sc-bxivhb aWDuI"
+    className="sc-bxivhb eBerdq"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -42,12 +42,12 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
 >
   <svg
     aria-hidden="true"
-    className="sc-htpNat gvyGHY sc-bZQynM jbcHwk"
+    className="sc-htpNat kcPZvN sc-bZQynM jbcHwk"
     focusable="false"
     role="img"
   />
   <p
-    className="sc-bxivhb aWDuI"
+    className="sc-bxivhb eBerdq"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing <b>great!</b>",
