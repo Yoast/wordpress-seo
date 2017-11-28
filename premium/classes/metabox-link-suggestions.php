@@ -61,8 +61,7 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	 * @return boolean Whether the link suggestions are available for the given post type.
 	 */
 	public function is_available( $post_type ) {
-		// Consider applying a filter here, REST endpoint should be available though!
-		$allowed_post_types = array( 'post', 'page' );
+		$allowed_post_types = $this->get_post_types();
 
 		return in_array( $post_type, $allowed_post_types, true );
 	}
@@ -80,13 +79,9 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	 * @return array
 	 */
 	protected function get_post_types() {
-		$post_types = get_post_types( array( 'public' => true ) );
+		$prominent_words_support = new WPSEO_Premium_Prominent_Words_Support();
 
-		if ( is_array( $post_types ) && $post_types !== array() ) {
-			return $post_types;
-		}
-
-		return array();
+		return $prominent_words_support->get_supported_post_types();
 	}
 
 	/**
