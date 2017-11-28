@@ -1,7 +1,7 @@
 var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
 var reflexivePronounsFrench = [ "se", "me", "te", "nous nous", "vous vous" ];
-var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
+
 var indices = require( "../../stringProcessing/indices" );
 var getIndicesOfList = indices.getIndicesByWordList;
 var filterIndices = indices.filterIndices;
@@ -11,6 +11,8 @@ var normalizeSingleQuotes = require( "../../stringProcessing/quotes.js" ).normal
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 var getWordIndices = require( "../english/passivevoice/getIndicesWithRegex.js" );
 var includesIndex = require ( "../../stringProcessing/includesIndex" );
+
+var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
 
 var auxiliariesFrench = require( "../french/passivevoice/auxiliaries.js" )();
 var auxiliariesEnglish = require( "../english/passivevoice/auxiliaries.js" )().all;
