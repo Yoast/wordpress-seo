@@ -1,5 +1,6 @@
 var Participle = require( "../../values/Participle.js" );
 var checkException = require ( "../passivevoice/checkException.js" );
+var includesIndex = require ( "../../stringProcessing/includesIndex" );
 
 var nonVerbsEndingEd = require( "./passivevoice/non-verb-ending-ed.js" )();
 var getWordIndices = require( "./passivevoice/getIndicesWithRegex.js" );
@@ -15,29 +16,6 @@ var intersection = require( "lodash/intersection" );
 var directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticiple );
 var precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticiple );
 var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
-
-/**
- * Checks whether a participle is directly preceded by a given word.
- *
- * @param {Array} precedingWords The array of objects with matches and indices.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
- */
-var includesIndex = function( precedingWords, participleIndex ) {
-	if ( isEmpty( precedingWords ) ) {
-		return false;
-	}
-
-	var precedingWordsEndIndices = [];
-	forEach( precedingWords, function( precedingWord ) {
-		// + 1 because the end word boundary is not included in the match.
-		var precedingWordsEndIndex = precedingWord.index + precedingWord.match.length + 1;
-		precedingWordsEndIndices.push( precedingWordsEndIndex );
-	} );
-
-	return includes( precedingWordsEndIndices, participleIndex );
-};
 
 /**
  * Checks whether a given word precedes a participle directly or indirectly.

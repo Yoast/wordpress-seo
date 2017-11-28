@@ -31,4 +31,16 @@ describe( "splits French sentences into parts", function() {
 		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "était déficitaire de 1,5 milliard." );
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
 	} );
+
+	it ( "doesn't split sentences when an auxiliary is preceded by a reflexive pronoun", function() {
+		var sentence = "Ils se sont lavés.";
+		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 0 );
+	} );
+
+	it ( "filters the sentence part when it is included because of a non-auxiliary sentence breaker but contains an auxiliary preceded by a reflexive pronoun", function() {
+		var sentence = "Nous sommes arrivés, nous nous sommes lavés, et puis nous nous sommes couchés.";
+		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "sommes arrivés" );
+		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
+	} );
+
 } );

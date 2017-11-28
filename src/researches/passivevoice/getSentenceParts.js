@@ -1,5 +1,7 @@
 var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
+var reflexivePronounsFrench = [ "se", "me", "te", "nous nous", "vous vous" ];
+var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
 var indices = require( "../../stringProcessing/indices" );
 var getIndicesOfList = indices.getIndicesByWordList;
 var filterIndices = indices.filterIndices;
@@ -7,6 +9,8 @@ var sortIndices = indices.sortIndices;
 var stripSpaces = require( "../../stringProcessing/stripSpaces.js" );
 var normalizeSingleQuotes = require( "../../stringProcessing/quotes.js" ).normalizeSingle;
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
+var getWordIndices = require( "../english/passivevoice/getIndicesWithRegex.js" );
+var includesIndex = require ( "../../stringProcessing/includesIndex" );
 
 var auxiliariesFrench = require( "../french/passivevoice/auxiliaries.js" )();
 var auxiliariesEnglish = require( "../english/passivevoice/auxiliaries.js" )().all;
@@ -21,6 +25,7 @@ var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
 var includes = require( "lodash/includes" );
 var map = require( "lodash/map" );
+var forEach = require( "lodash/forEach" );
 
 // The language-specific variables.
 var languageVariables = {
@@ -81,6 +86,27 @@ var getStopCharacters = function( sentence, language ) {
 };
 
 /**
+ * 	Filters auxiliaries preceded by a reflexive pronoun.
+
+ * @param {string} text The text part in which to check.
+ * @param {Array} indices The auxiliary indices for which to check.
+ * @returns {Array} The filtered list of auxiliary indices.
+ */
+var auxiliaryPrecedenceException = function( text, indices ) {
+	var directPrecedenceExceptionMatches = getWordIndices( text, directPrecedenceExceptionRegex );
+
+	forEach ( indices, function( index ) {
+		if ( includesIndex ( directPrecedenceExceptionMatches, index.index ) ) {
+			indices = indices.filter( function( auxiliaryObject ) {
+				return auxiliaryObject.index !== index.index;
+			} );
+		}
+	} );
+
+	return indices;
+};
+
+/**
  * Gets the indexes of sentence breakers (auxiliaries, stopwords and stop characters;
  * in English also active verbs) to determine sentence parts.
  * Indices are filtered because there could be duplicate matches, like "even though" and "though".
@@ -94,7 +120,6 @@ var getSentenceBreakers = function( sentence, language ) {
 	sentence = sentence.toLocaleLowerCase();
 	var stopwords = languageVariables[ language ].stopwords;
 	var auxiliaries = languageVariables[ language ].auxiliaries;
-
 	var auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
 	var stopwordIndices = getIndicesOfList( stopwords, sentence );
 	var stopCharacterIndices = getStopCharacters( sentence, language );
@@ -103,6 +128,7 @@ var getSentenceBreakers = function( sentence, language ) {
 	// Concat all indices arrays, filter them and sort them.
 	switch( language ) {
 		case "fr":
+			auxiliaryIndices = auxiliaryPrecedenceException( sentence, auxiliaryIndices );
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 			break;
 		case "en":
@@ -125,12 +151,27 @@ var getSentenceBreakers = function( sentence, language ) {
  */
 var getAuxiliaryMatches = function( sentencePart, language ) {
 	var auxiliaryRegex = languageVariables[ language ].auxiliaryRegex;
-
 	var auxiliaryMatches = sentencePart.match( auxiliaryRegex ) || [];
 
-	return map( auxiliaryMatches, function( auxiliaryMatch ) {
-		return stripSpaces( auxiliaryMatch );
-	} );
+	switch( language ) {
+		case "fr":
+			var auxiliaryMatchesOutput = [];
+			var auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
+			auxiliaryMatchIndices = auxiliaryPrecedenceException( sentencePart, auxiliaryMatchIndices );
+
+			forEach ( auxiliaryMatchIndices, function( auxiliaryMatchIndex ) {
+				auxiliaryMatchesOutput.push( auxiliaryMatchIndex.match );
+			} );
+
+			return map( auxiliaryMatchesOutput, function( auxiliaryMatch ) {
+				return stripSpaces( auxiliaryMatch );
+			} );
+		case "en":
+		default:
+			return map( auxiliaryMatches, function( auxiliaryMatch ) {
+				return stripSpaces( auxiliaryMatch );
+			} );
+	}
 };
 
 /**
