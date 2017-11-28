@@ -4,9 +4,9 @@ Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.6
+Requires at least: 4.8
 Tested up to: 4.9
-Stable tag: 5.8
+Stable tag: 5.9
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -129,21 +129,23 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 Release Date:
 
 Bugfixes:
-* Fixes a bug where the title isn't added back to the HTML, when the debug marker has been disabled.
-* Fixes a bug where multiple help panels show up when clicking on different help buttons.
-* Close the Help Center when clicking the Go Premium link.
-* Fixes a bug where the cornerstone setting for a post will be lost on quick edit that post.
-* Exclude a newly created post from link counting to prevent MySQL errors Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the title isn't added back to the HTML when the debug marker has been disabled.
+* Fixes a bug where multiple help panels showed up when clicking on different help buttons.
+* Fixes a bug where the Help Center wouldn't be closed when clicking the Go Premium link.
+* Fixes a bug where the cornerstone setting for a post would be lost when quick editing the post.
+* Fixes a bug where newly created posts were taken into account for the link count, resulting in MySQL errors. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where Premium were being linked to in 'suggested plugin' notifications, resulting in download errors.
+* Fixes a bug where an empty div is visible when both Content and Readability analysis are disabled.
 
 Enhancements
-* Show a notice for opening Onboarding Wizard when the plugin is installed for the first time.
+* Shows a notice regarding opening the Onboarding Wizard when the plugin is installed for the first time.
 * Makes it easier to unhook the logic for adding the debug marker.
-* Implements new reactified content analysis.
-* Introduced wpseo_add_opengraph_additional_images to allow adding OpenGraph Images which should complement any Facebook Image or Featured image set on a post/page.
-* Changes the dashboard widget progress bar height to 24px.
+* Implements the new, Reactified content analysis.
+* Introduces the `wpseo_add_opengraph_additional_images` filter to allow additional OpenGraph Images to be added at a low priority.
+* Changes the Dashboard widget's progress bar height to 24px.
 * Makes the 'Next' and 'Back' buttons in the Onboarding Wizard focusable.
-* Implements the content analysis in React.
-* Groups content analysis feedback together in the following categories: 'good', 'needs improvement', 'problems', 'considerations', and 'errors'.
+* Adds grouping of feedback within the content analysis, in the following categories: 'good', 'needs improvement', 'problems', 'considerations', and 'errors'.
+
 
 = 5.8.0 =
 
@@ -176,32 +178,6 @@ Enhancements:
 Maintenance:
     * Cleaned up codebase by removing old Knowledge Base Search code.
     * Improved the codebase to make it comply with the latest WordPress Coding Standards.
-
-= 5.7.1 =
-
-Release Date: October 25th, 2017
-
-Bugfixes:
-	* Fixes a bug where the message "You are not receiving updates or support!" is shown incorrectly.
-	* Changes the reference to the correct ACF Content Analysis for Yoast SEO plugin.
-
-Enhancements:
-	* Adds a plugin suggestion for WooCommerce SEO when WooCommerce is installed.
-
-= 5.7.0 =
-
-Release Date: October 24th, 2017
-
-Enhancements:
-	* Adds notifications when we detect certain plugins are installed to suggest our AMP and ACF glue plugins.
-	* Adds the ability to start the configuration wizard from the admin bar menu.
-	* Adds better responsive styling for the video tabs in the Help Center.
-	* Replaces the link to Google AdWords with the https variant, props [Shane Gray](https://github.com/shane-gray).
-	* Changes to the desired spelling of `plugin` and `setup`, props [Pedro Mendonça](https://github.com/pedro-mendonca).
-
-Bugfixes:
-	* Fixes a bug where the text link counter doesn't count links for scheduled posts when they get published.
-	* Fixes a bug where the internal link count is not updated when a post is removed permanently.
 
 = Earlier versions =
 
