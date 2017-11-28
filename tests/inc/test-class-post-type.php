@@ -25,7 +25,11 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_accessible_post_types() {
 		$this->assertEquals(
-			array( 'post' => 'post', 'page' => 'page', 'attachment' => 'attachment' ),
+			array(
+				'post'       => 'post',
+				'page'       => 'page',
+				'attachment' => 'attachment',
+			),
 			WPSEO_Post_Type::get_accessible_post_types()
 		);
 	}
@@ -39,7 +43,12 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 		register_post_type( 'custom-post-type', array( 'public' => true ) );
 
 		$this->assertEquals(
-			array( 'post' => 'post', 'page' => 'page', 'attachment' => 'attachment', 'custom-post-type' => 'custom-post-type' ),
+			array(
+				'post'             => 'post',
+				'page'             => 'page',
+				'attachment'       => 'attachment',
+				'custom-post-type' => 'custom-post-type',
+			),
 			WPSEO_Post_Type::get_accessible_post_types()
 		);
 	}
@@ -53,7 +62,11 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 		register_post_type( 'custom-post-type', array( 'public' => false ) );
 
 		$this->assertEquals(
-			array( 'post' => 'post', 'page' => 'page', 'attachment' => 'attachment' ),
+			array(
+				'post'       => 'post',
+				'page'       => 'page',
+				'attachment' => 'attachment',
+			),
 			WPSEO_Post_Type::get_accessible_post_types()
 		);
 	}
@@ -73,7 +86,11 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			array( 'post' => 'post', 'page' => 'page', 'attachment' => 'attachment' ),
+			array(
+				'post'       => 'post',
+				'page'       => 'page',
+				'attachment' => 'attachment',
+			),
 			WPSEO_Post_Type::get_accessible_post_types()
 		);
 	}
@@ -93,7 +110,12 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			array( 'post' => 'post', 'page' => 'page', 'attachment' => 'attachment', 'custom-post-type' => 'custom-post-type' ),
+			array(
+				'post'             => 'post',
+				'page'             => 'page',
+				'attachment'       => 'attachment',
+				'custom-post-type' => 'custom-post-type',
+			),
 			WPSEO_Post_Type::get_accessible_post_types()
 		);
 	}
@@ -105,7 +127,10 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 		add_filter( 'wpseo_accessible_post_types', array( $this, 'filter_attachment' ) );
 
 		$this->assertEquals(
-			array( 'post' => 'post', 'page' => 'page' ),
+			array(
+				'post' => 'post',
+				'page' => 'page',
+			),
 			WPSEO_Post_Type::get_accessible_post_types()
 		);
 
@@ -174,7 +199,12 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	public function test_filter_attachment_post_type() {
 		$this->assertEquals(
 			array( 'post' => 'post' ),
-			WPSEO_Post_Type::filter_attachment_post_type( array( 'post' => 'post', 'attachment' => 'attachment' ) )
+			WPSEO_Post_Type::filter_attachment_post_type(
+				array(
+					'post'       => 'post',
+					'attachment' => 'attachment',
+				)
+			)
 		);
 	}
 
