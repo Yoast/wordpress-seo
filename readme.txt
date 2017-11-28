@@ -126,7 +126,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 == Changelog ==
 
 = 5.9.0 =
-Release Date:
+Release Date: December 5th, 2017
 
 Bugfixes:
 * Fixes a bug where the title isn't added back to the HTML when the debug marker has been disabled.
