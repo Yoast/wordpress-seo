@@ -34,7 +34,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	 * @return void
 	 */
 	public function calculate_unprocessed() {
-		$this->public_post_types = WPSEO_Link_Utils::get_public_post_types();
+		$this->public_post_types = apply_filters( 'wpseo_link_count_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 
 		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
 			$this->unprocessed = WPSEO_Link_Query::get_unprocessed_count( $this->public_post_types );
