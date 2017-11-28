@@ -346,7 +346,7 @@
 
 			// Continue if the table already has the necessary markup.
 			if ( table.data( "scrollContainer" ) ) {
-				// jQuery equivalent of `continue` within an `each()` loop.
+				// This is a jQuery equivalent of `continue` within an `each()` loop.
 				return;
 			}
 
@@ -393,8 +393,11 @@
 	 * we just run the check on both `wp-window-resized` and `orientationchange`.
 	 */
 	$( window ).on( "wp-window-resized orientationchange", function() {
-		// Bail if there are no tables.
-		if ( ! window.wpseoScrollableTables.length ) {
+		/*
+		 * Bail if there are no tables. Check also for the jQuery object itself,
+		 * see https://github.com/Yoast/wordpress-seo/issues/8214
+		 */
+		if ( ! window.wpseoScrollableTables || ! window.wpseoScrollableTables.length ) {
 			return;
 		}
 
@@ -416,7 +419,7 @@
 			setTimeout( function() {
 				createScrollableTables();
 			}, 100 );
-		}
+		},
 	} );
 
 	$( document ).ready( function() {
@@ -425,5 +428,4 @@
 		setPremiumIndicatorColor();
 		createScrollableTables();
 	} );
-
 }( jQuery ) );
