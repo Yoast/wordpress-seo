@@ -142,7 +142,8 @@ Enhancements
 * Introduced wpseo_add_opengraph_additional_images to allow adding OpenGraph Images which should complement any Facebook Image or Featured image set on a post/page.
 * Changes the dashboard widget progress bar height to 24px.
 * Makes the 'Next' and 'Back' buttons in the Onboarding Wizard focusable.
-
+* Implements the content analysis in React.
+* Groups content analysis feedback together in the following categories: 'good', 'needs improvement', 'problems', 'considerations', and 'errors'.
 
 = 5.8.0 =
 
