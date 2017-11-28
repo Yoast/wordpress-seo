@@ -8,6 +8,18 @@
  */
 class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 
+	/** @var array */
+	protected $post_types;
+
+	/**
+	 * Sets the supported post types.
+	 *
+	 * @param array $post_types The post types to support.
+	 */
+	public function __construct( $post_types ) {
+		$this->post_types = $post_types;
+	}
+
 	/**
 	 * Returns the query value this filter uses.
 	 *
@@ -166,5 +178,14 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 		);
 
 		return (int) $count;
+	}
+
+	/**
+	 * Returns the post types to which this filter should be added.
+	 *
+	 * @return array The post types to which this filter should be added.
+	 */
+	protected function get_post_types() {
+		return $this->post_types;
 	}
 }
