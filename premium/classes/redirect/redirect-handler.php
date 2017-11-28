@@ -144,7 +144,7 @@ class WPSEO_Redirect_Handler {
 	 */
 	protected function handle_normal_redirects( $request_url ) {
 		// Setting the redirects.
-		$redirects = $this->get_redirects( $this->normal_option_name );
+		$redirects       = $this->get_redirects( $this->normal_option_name );
 		$this->redirects = $this->normalize_redirects( $redirects );
 
 		// Trim the slashes, to match the variants of a request URL (Like: url, /url, /url/, url/).
