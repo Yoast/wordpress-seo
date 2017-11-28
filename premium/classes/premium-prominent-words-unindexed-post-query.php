@@ -100,7 +100,9 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 * @return array The supported posttypes.
 	 */
 	protected function get_post_types() {
-		return array( 'post', 'page' );
+		$prominent_words_support = new WPSEO_Premium_Prominent_Words_Support();
+
+		return $prominent_words_support->get_supported_post_types();
 	}
 
 	/**
