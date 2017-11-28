@@ -62,6 +62,10 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	protected function get_totals( $post_types ) {
 		global $wpdb;
 
+		if ( $post_types === array() ) {
+			return array();
+		}
+
 		$replacements = array(
 			WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
 			WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
@@ -112,6 +116,10 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 
 		if ( is_string( $post_types ) ) {
 			$post_types = (array) $post_types;
+		}
+
+		if ( $post_types === array() ) {
+			return array();
 		}
 
 		$replacements   = array(
