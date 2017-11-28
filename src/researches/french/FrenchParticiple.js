@@ -1,5 +1,5 @@
 var Participle = require( "../../values/Participle.js" );
-var checkException = require ( "../passivevoice/checkException.js" );
+var checkException = require( "../passivevoice/checkException.js" );
 
 var exceptionsParticiplesAdjectivesVerbs = require( "./passivevoice/exceptionsParticiples.js" )().adjectivesVerbs;
 var exceptionsParticiplesNouns = require( "./passivevoice/exceptionsParticiples.js" )().nouns;
@@ -7,7 +7,7 @@ var exceptionsParticiplesOthers = require( "./passivevoice/exceptionsParticiples
 
 var includes = require( "lodash/includes" );
 var forEach = require( "lodash/forEach" );
-var memoize = require ( "lodash/memoize" );
+var memoize = require( "lodash/memoize" );
 
 /**
  * Creates an Participle object for the French language.
@@ -18,7 +18,7 @@ var memoize = require ( "lodash/memoize" );
  *
  * @constructor
  */
-var FrenchParticiple = function(  participle, sentencePart, attributes ) {
+var FrenchParticiple = function( participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
 	checkException.call( this );
 };

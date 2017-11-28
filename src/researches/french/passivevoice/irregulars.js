@@ -190,7 +190,7 @@ module.exports = function() {
 		"empreint",
 		"empuanti",
 		"ému",
-		// enceint removed because it also means pregnant
+		// Enceint removed because it also means pregnant
 		"enchéri",
 		"encouru",
 		"endolori",

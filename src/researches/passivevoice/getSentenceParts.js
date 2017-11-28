@@ -10,7 +10,7 @@ var stripSpaces = require( "../../stringProcessing/stripSpaces.js" );
 var normalizeSingleQuotes = require( "../../stringProcessing/quotes.js" ).normalizeSingle;
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 var getWordIndices = require( "../english/passivevoice/getIndicesWithRegex.js" );
-var includesIndex = require ( "../../stringProcessing/includesIndex" );
+var includesIndex = require( "../../stringProcessing/includesIndex" );
 
 var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
 
@@ -97,8 +97,8 @@ var getStopCharacters = function( sentence, language ) {
 var auxiliaryPrecedenceException = function( text, indices ) {
 	var directPrecedenceExceptionMatches = getWordIndices( text, directPrecedenceExceptionRegex );
 
-	forEach ( indices, function( index ) {
-		if ( includesIndex ( directPrecedenceExceptionMatches, index.index ) ) {
+	forEach( indices, function( index ) {
+		if ( includesIndex( directPrecedenceExceptionMatches, index.index ) ) {
 			indices = indices.filter( function( auxiliaryObject ) {
 				return auxiliaryObject.index !== index.index;
 			} );
@@ -161,7 +161,7 @@ var getAuxiliaryMatches = function( sentencePart, language ) {
 			var auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
 			auxiliaryMatchIndices = auxiliaryPrecedenceException( sentencePart, auxiliaryMatchIndices );
 
-			forEach ( auxiliaryMatchIndices, function( auxiliaryMatchIndex ) {
+			forEach( auxiliaryMatchIndices, function( auxiliaryMatchIndex ) {
 				auxiliaryMatchesOutput.push( auxiliaryMatchIndex.match );
 			} );
 
