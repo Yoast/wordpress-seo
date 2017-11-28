@@ -111,7 +111,7 @@ class WPSEO_Export {
 	 */
 	private function export_header() {
 		/* translators: %1$s expands to Yoast SEO */
-		$this->write_line( '; ' . sprintf( __( 'This is a settings export file for the %1$s plugin by Yoast.com', 'wordpress-seo' ), 'Yoast SEO' ) . ' - https://yoast.com/wordpress/plugins/seo/' );
+		$this->write_line( '; ' . sprintf( __( 'This is a settings export file for the %1$s plugin by Yoast.com', 'wordpress-seo' ), 'Yoast SEO' ) . ' - ' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yd' ) ) );
 		if ( $this->include_taxonomy ) {
 			$this->write_line( '; ' . __( 'This export includes taxonomy metadata', 'wordpress-seo' ) );
 		}

@@ -7,10 +7,10 @@ Before filing a bug report or a feature request, be sure to read the contributio
 We use GitHub exclusively for well-documented bugs, feature requests and code contributions. 
 
 To receive free support for WordPress SEO we have the following channels:
-* [Yoast Knowledge base](http://kb.yoast.com)
+* [Yoast Knowledge base](https://yoa.st/1y0)
 * [Support forums](https://wordpress.org/support/plugin/wordpress-seo) on WordPress.org
 
-If you have purchased one of [our premium plugins](https://yoast.com/wordpress/plugins/), we will give you personal support via email, please see your purchase email for details.
+If you have purchased one of [our premium plugins](https://yoa.st/1y1), we will give you personal support via email, please see your purchase email for details.
 
 
 Thanks for your understanding.
@@ -22,9 +22,9 @@ Please do not report security issues here. Instead, email them to security at yo
 Before opening a new issue, please:
 * update to the newest versions of WordPress and the Yoast SEO plugins.
 * search for duplicate issues to prevent opening a duplicate issue. If there is already an open existing issue, please comment on that issue.
-* check our [knowledge base](http://kb.yoast.com) for your issue. There are a lot of common errors documented there with possible solutions.
-* check for [plugin and theme conflicts](https://kb.yoast.com/kb/how-to-check-for-plugin-conflicts/). Please report your findings in the issue.
-* check for [JavaScript errors with your browser's console](https://kb.yoast.com/kb/how-to-find-javascript-errors-with-your-browsers-console/). Please report your findings in the issue.
+* check our [knowledge base](https://yoa.st/1y0) for your issue. There are a lot of common errors documented there with possible solutions.
+* check for [plugin and theme conflicts](https://yoa.st/1y2). Please report your findings in the issue.
+* check for [JavaScript errors with your browser's console](https://yoa.st/1y3). Please report your findings in the issue.
 * add as much information as possible. For example: add screenshots, relevant links, step by step guides etc.
 
 ## I have a feature request
@@ -54,6 +54,6 @@ We will review your pull request and merge when everything is in order. We will 
 Some issues are labeled 'patch-welcome'. This means we see the value in the particular enhancement being suggested but have decided for now not to prioritize it. If you however decide to write a patch for it, we'll gladly include it after some code review.
 
 #### Additional Resources
-* [Yoast SEO API](https://yoast.com/wordpress/plugins/seo/api/)
+* [Yoast SEO API](https://yoa.st/1y4)
 * [General GitHub Documentation](http://help.github.com/)
 * [GitHub Pull Request documentation](http://help.github.com/send-pull-requests/)

@@ -27,10 +27,10 @@ class WPSEO_Plugin_Availability {
 	protected function register_yoast_plugins() {
 		$this->plugins = array(
 			'yoast-seo-premium' => array(
-				'url'          => 'https://yoast.com/wordpress/plugins/seo-premium/',
+				'url'          => WPSEO_Shortlinker::get( 'https://yoa.st/1y7' ),
 				'title'        => 'Yoast SEO Premium',
 				'description'  => sprintf(
-					/* translators: %1$s expands to Yoast SEO */
+				/* translators: %1$s expands to Yoast SEO */
 					__( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ),
 					'Yoast SEO'
 				),
@@ -40,7 +40,7 @@ class WPSEO_Plugin_Availability {
 			),
 
 			'video-seo-for-wordpress-seo-by-yoast' => array(
-				'url'          => 'https://yoast.com/wordpress/plugins/video-seo/',
+				'url'          => WPSEO_Shortlinker::get( 'https://yoa.st/1y8' ),
 				'title'        => 'Video SEO',
 				'description'  => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
 				'installed'    => false,
@@ -49,7 +49,7 @@ class WPSEO_Plugin_Availability {
 			),
 
 			'yoast-news-seo' => array(
-				'url'          => 'https://yoast.com/wordpress/plugins/news-seo/',
+				'url'          => WPSEO_Shortlinker::get( 'https://yoa.st/1y9' ),
 				'title'        => 'News SEO',
 				'description'  => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
 				'installed'    => false,
@@ -58,7 +58,7 @@ class WPSEO_Plugin_Availability {
 			),
 
 			'local-seo-for-yoast-seo' => array(
-				'url'          => 'https://yoast.com/wordpress/plugins/local-seo/',
+				'url'          => WPSEO_Shortlinker::get( 'https://yoa.st/1ya' ),
 				'title'        => 'Local SEO',
 				'description'  => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
 				'installed'    => false,
@@ -70,7 +70,7 @@ class WPSEO_Plugin_Availability {
 				'url'           => WPSEO_Shortlinker::get( 'https://yoa.st/1o0' ),
 				'title'         => 'Yoast WooCommerce SEO',
 				'description'   => sprintf(
-					/* translators: %1$s expands to Yoast SEO */
+				/* translators: %1$s expands to Yoast SEO */
 					__( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ),
 					'Yoast SEO'
 				),
@@ -88,7 +88,7 @@ class WPSEO_Plugin_Availability {
 				'url'           => 'https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/',
 				'title'         => 'ACF Content Analysis for Yoast SEO',
 				'description'   => sprintf(
-					/* translators: %1$s expands to Yoast SEO, %2$s expands to Advanced Custom Fields */
+				/* translators: %1$s expands to Yoast SEO, %2$s expands to Advanced Custom Fields */
 					__( 'Seamlessly integrate %2$s with %1$s for the content analysis!', 'wordpress-seo' ),
 					'Yoast SEO',
 					'Advanced Custom Fields'
@@ -107,7 +107,7 @@ class WPSEO_Plugin_Availability {
 				'url'           => 'https://wordpress.org/plugins/glue-for-yoast-seo-amp/',
 				'title'         => 'Yoast SEO AMP Glue',
 				'description'   => sprintf(
-					/* translators: %1$s expands to Yoast SEO */
+				/* translators: %1$s expands to Yoast SEO */
 					__( 'Seamlessly integrate %1$s into your AMP pages!', 'wordpress-seo' ), 'Yoast SEO'
 				),
 				'installed'     => false,
