@@ -47,6 +47,11 @@
 			"deprecated/"
 		]
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"Yoast\\Tests\\": "tests/src/"
+		}
+	},
 	"scripts": {
 		"config-yoastcs": [
 			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
