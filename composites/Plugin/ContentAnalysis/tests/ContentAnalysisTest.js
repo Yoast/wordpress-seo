@@ -70,6 +70,74 @@ test( "the ContentAnalysis component without language notice matches the snapsho
 	expect( tree ).toMatchSnapshot();
 } );
 
+test( "the ContentAnalysis component without problems matches the snapshot", () => {
+	const component = createComponentWithIntl(
+		<ContentAnalysis
+			problemsResults={ [] }
+			improvementsResults={ improvementsResults }
+			goodResults={ goodResults }
+			considerationsResults={ considerationsResults }
+			errorsResults={ errorsResults }
+			changeLanguageLink={ "#" }
+			language="English"
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
+test( "the ContentAnalysis component without problems and improvements matches the snapshot", () => {
+	const component = createComponentWithIntl(
+		<ContentAnalysis
+			problemsResults={ [] }
+			improvementsResults={ [] }
+			goodResults={ goodResults }
+			considerationsResults={ considerationsResults }
+			errorsResults={ errorsResults }
+			changeLanguageLink={ "#" }
+			language="English"
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
+test( "the ContentAnalysis component without problems, improvements and considerations matches the snapshot", () => {
+	const component = createComponentWithIntl(
+		<ContentAnalysis
+			problemsResults={ [] }
+			improvementsResults={ [] }
+			goodResults={ goodResults }
+			considerationsResults={ [] }
+			errorsResults={ errorsResults }
+			changeLanguageLink={ "#" }
+			language="English"
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
+test( "the ContentAnalysis component without problems and considerations, but with improvements and good matches the snapshot", () => {
+	const component = createComponentWithIntl(
+		<ContentAnalysis
+			problemsResults={ [] }
+			improvementsResults={ improvementsResults }
+			goodResults={ goodResults }
+			considerationsResults={ [] }
+			errorsResults={ errorsResults }
+			changeLanguageLink={ "#" }
+			language="English"
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
 test( "the ContentAnalysis component with specified header level matches the snapshot", () => {
 	const component = createComponentWithIntl(
 		<ContentAnalysis
