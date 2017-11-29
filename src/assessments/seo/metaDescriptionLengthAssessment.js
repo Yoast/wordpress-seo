@@ -103,7 +103,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 		}
 
 		if ( descriptionLength >= this._config.recommendedMaximumLength && descriptionLength <= this._config.maximumLength ) {
-			return i18n.dgettext( "js-text-analysis", "The length of the meta description is sufficient." );
+			return i18n.dgettext( "js-text-analysis", "The meta description has a nice length." );
 		}
 	}
 
