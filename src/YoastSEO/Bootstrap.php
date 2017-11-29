@@ -3,6 +3,8 @@
 namespace Yoast\YoastSEO;
 
 use Yoast\WordPress\Integration;
+use Yoast\YoastSEO\Services\Database;
+use Yoast\YoastSEO\Services\Indexable;
 
 class Bootstrap implements Integration {
 
@@ -27,7 +29,8 @@ class Bootstrap implements Integration {
 	 * Loads services.
 	 */
 	public function load_services() {
-		$this->add_service( new Meta_Service() );
+		$this->add_service( new Indexable() );
+		$this->add_service( new Database() );
 	}
 
 	/**
