@@ -3,7 +3,7 @@ var checkException = require( "../passivevoice/checkException.js" );
 var includesIndex = require( "../../stringProcessing/includesIndex" );
 
 var nonVerbsEndingEd = require( "./passivevoice/non-verb-ending-ed.js" )();
-var getWordIndices = require( "./passivevoice/getIndicesWithRegex.js" );
+var getWordIndices = require( "../passivevoice/getIndicesWithRegex.js" );
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 var cannotDirectlyPrecedePassiveParticiple = require( "./functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 var cannotBeBetweenAuxiliaryAndParticiple = require( "./functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;

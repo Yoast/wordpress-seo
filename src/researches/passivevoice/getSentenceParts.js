@@ -9,7 +9,7 @@ var sortIndices = indices.sortIndices;
 var stripSpaces = require( "../../stringProcessing/stripSpaces.js" );
 var normalizeSingleQuotes = require( "../../stringProcessing/quotes.js" ).normalizeSingle;
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
-var getWordIndices = require( "../english/passivevoice/getIndicesWithRegex.js" );
+var getWordIndices = require( "./getIndicesWithRegex.js" );
 var includesIndex = require( "../../stringProcessing/includesIndex" );
 
 var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
