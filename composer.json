@@ -27,7 +27,10 @@
 		"yoast/i18n-module": "^3.0",
 		"yoast/api-libs": "^2.0",
 		"xrstf/composer-php52": "^1.0.20",
-		"yoast/whip": "^1.1.0"
+		"yoast/whip": "^1.1.0",
+		"davedevelopment/phpmig": "^1.4",
+		"j4mie/paris": "^1.5",
+		"pimple/pimple": "^3.2"
 	},
 	"require-dev": {
 		"codeclimate/php-test-reporter": "dev-master",
