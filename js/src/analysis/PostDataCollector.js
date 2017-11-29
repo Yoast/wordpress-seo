@@ -41,11 +41,10 @@ PostDataCollector.prototype.getData = function() {
 	let text = this.getText();
 
 	/*
-	 * We are put into an iframe with Gutenberg. So we need to get the content of the parent.
-	 * Gutenberg then exposes a global on that window. Which is `_wpGutenbergPost`. The post has two content
+	 * Gutenberg exposes a global on the window. Which is `_wpGutenbergPost`. The post has two content
 	 * properties: `rendered` and `raw`. For the content analysis we are interested in the rendered content.
 	 */
-	let gutenbergContent = _get( window, "parent._wpGutenbergPost.content.rendered", "" );
+	let gutenbergContent = _get( window, "_wpGutenbergPost.content.rendered", "" );
 	if ( gutenbergContent !== "" ) {
 		text = gutenbergContent;
 	}
