@@ -27,7 +27,6 @@ module.exports = function() {
 		"quoiqu'on",
 		"quoiqu'un",
 		"quoiqu'une",
-		"que",
 		"qu'elle",
 		"qu'il",
 		"qu'ils",

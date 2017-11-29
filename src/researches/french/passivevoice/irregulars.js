@@ -190,7 +190,6 @@ module.exports = function() {
 		"empreint",
 		"empuanti",
 		"ému",
-		// Enceint removed because it also means pregnant
 		"enchéri",
 		"encouru",
 		"endolori",
@@ -319,7 +318,6 @@ module.exports = function() {
 		"perverti",
 		"pétri",
 		"plaint",
-		"plu",
 		"portrait",
 		"pourfendu",
 		"pourri",
