@@ -193,7 +193,10 @@ class ContentAnalysis extends React.Component {
 		let errorsResults = this.props.errorsResults;
 		let headingLevel = this.props.headingLevel;
 
-		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
+		/*
+		Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
+
+		 */
 		return (
 			<ContentAnalysisContainer>
 				{ this.renderLanguageNotice() }
@@ -219,6 +222,8 @@ class ContentAnalysis extends React.Component {
 					<AnalysisCollapsible
 						hasHeading={ true }
 						headingLevel={ headingLevel }
+						// eslint-disable-next-line no-inline-comments
+						initialIsOpen={ problemsResults.length <= 0 } /* Only open when there are no problems to be solved */
 						title={ this.props.intl.formatMessage( messages.improvementsHeader ) }
 					>
 						{ this.getResults( improvementsResults ) }
@@ -227,6 +232,8 @@ class ContentAnalysis extends React.Component {
 					<AnalysisCollapsible
 						hasHeading={ true }
 						headingLevel={ headingLevel }
+						// eslint-disable-next-line no-inline-comments
+						initialIsOpen={ problemsResults.length <= 0 && improvementsResults.length <= 0 } /* Open when no problems and improvements */
 						title={ this.props.intl.formatMessage( messages.considerationsHeader ) }
 					>
 						{ this.getResults( considerationsResults ) }
@@ -235,6 +242,12 @@ class ContentAnalysis extends React.Component {
 					<AnalysisCollapsible
 						hasHeading={ true }
 						headingLevel={ headingLevel }
+						// eslint-disable-next-line no-inline-comments
+						initialIsOpen={ /* Open when no problems, improvements and considerations */
+							problemsResults.length <= 0 &&
+							improvementsResults.length <= 0 &&
+							considerationsResults.length <= 0
+						}
 						title={this.props.intl.formatMessage( messages.goodHeader ) }
 					>
 						{ this.getResults( goodResults ) }
