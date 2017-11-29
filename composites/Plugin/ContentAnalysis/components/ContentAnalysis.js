@@ -193,10 +193,7 @@ class ContentAnalysis extends React.Component {
 		let errorsResults = this.props.errorsResults;
 		let headingLevel = this.props.headingLevel;
 
-		/*
-		Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
-
-		 */
+		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
 				{ this.renderLanguageNotice() }
