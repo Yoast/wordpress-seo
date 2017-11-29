@@ -85,6 +85,16 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'version_sync' => false,
 				'compatible'   => true,
 			),
+			'test-premium-plugin' => array(
+				'url'          => 'https://yoast.com/',
+				'title'        => 'Test Plugin',
+				'description'  => '',
+				'version'      => '1.3',
+				'installed'    => true,
+				'version_sync' => false,
+				'compatible'   => true,
+				'premium'      => true,
+			),
 		);
 
 		$this->assertEquals( self::$class_instance->get_installed_plugins_compatibility(), $expected );
@@ -140,10 +150,18 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'version_sync' => false,
 				'compatible'   => true,
 			),
+			'test-premium-plugin' => array(
+				'url'          => 'https://yoast.com/',
+				'title'        => 'Test Plugin',
+				'description'  => '',
+				'version'      => '1.3',
+				'installed'    => true,
+				'version_sync' => false,
+				'compatible'   => true,
+				'premium'      => true,
+			),
 		);
 
 		$this->assertEquals( $expected, self::$class_instance->get_installed_plugins() );
 	}
-
-
 }
