@@ -77,8 +77,12 @@ class Yoast_Social_Facebook_Form {
 			'</a>'
 		);
 		echo ' ';
-		/* translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base */
-		printf( __( 'More info can be found %1$son our knowledge base%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/facebook-insights' ) . '">', '</a>' );
+		printf(
+			/* translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base */
+			esc_html__( 'More info can be found %1$son our knowledge base%2$s.', 'wordpress-seo' ),
+			'<a target="_blank" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/facebook-insights' ) ) . '">',
+			'</a>'
+		);
 		echo '</p>';
 
 		return $this;
@@ -94,12 +98,20 @@ class Yoast_Social_Facebook_Form {
 		echo '<div id="add_facebook_admin" class="hidden">';
 		echo "<div class='form-wrap wpseo_content_wrapper wpseo-add-fb-admin-form-wrap'>";
 		echo '<p>';
-		/* translators: %1$s and %2$s expand to a link to Facebook Insights */
-		printf( __( 'To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification.', 'wordpress-seo' ), '<a target="_blank" href="https://www.facebook.com/insights">', '</a>' );
+		printf(
+			/* translators: %1$s and %2$s expand to a link to Facebook Insights */
+			esc_html__( 'To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification.', 'wordpress-seo' ),
+			'<a target="_blank" href="https://www.facebook.com/insights">',
+			'</a>'
+		);
 		echo '</p>';
 		echo '<p>';
-		/* translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base */
-		printf( __( 'If you don\'t know where to find the needed ID, see %1$sthis knowledge base article%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/facebook-insights' ) . '">', '</a>' );
+		printf(
+			/* translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base */
+			esc_html__( 'If you don\'t know where to find the needed ID, see %1$sthis knowledge base article%2$s.', 'wordpress-seo' ),
+			'<a target="_blank" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/facebook-insights' ) ) . '">',
+			'</a>'
+		);
 		echo '</p>';
 		echo '<div class="form-field form-required">';
 		echo '<label for="fb_admin_name">' . esc_html__( 'Admin\'s name:', 'wordpress-seo' ) . '</label>';
