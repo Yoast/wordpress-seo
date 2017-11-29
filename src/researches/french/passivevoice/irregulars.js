@@ -286,6 +286,7 @@ var irregularsRegular = [
 	"médit",
 	"menti",
 	"minci",
+	"mis",
 	"moisi",
 	"moiti",
 	"molli",
