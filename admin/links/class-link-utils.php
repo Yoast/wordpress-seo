@@ -14,9 +14,9 @@ class WPSEO_Link_Utils {
 	 * @return array The supported public post types.
 	 */
 	public static function get_public_post_types() {
-		$public_post_types = get_post_types( array( 'public' => true ) );
+		_deprecated_function( __METHOD__, '5.9', 'WPSEO_Post_Type::get_accessible_post_types' );
 
-		return array_filter( $public_post_types, array( __CLASS__, 'filter_post_types' ) );
+		return WPSEO_Post_Type::filter_attachment_post_type( WPSEO_Post_Type::get_accessible_post_types() );
 	}
 
 	/**
@@ -35,16 +35,5 @@ class WPSEO_Link_Utils {
 		}
 
 		return '';
-	}
-
-	/**
-	 * Filters the post types to remove unwanted items.
-	 *
-	 * @param string $public_post_type The post type to filter.
-	 *
-	 * @return bool Returns true if it is kept, false if removed.
-	 */
-	protected static function filter_post_types( $public_post_type ) {
-		return ! ( $public_post_type === 'attachment' );
 	}
 }

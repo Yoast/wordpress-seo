@@ -55,7 +55,7 @@ function configureStore() {
 function wrapInTopLevelComponents( Component, store ) {
 	return (
 		<IntlProvider
-			locale={ localizedData.intl.locale }
+			locale={ localizedData.intl.locale.substr( 0, 2 ).toLowerCase() }
 			messages={ localizedData.intl } >
 			<Provider store={ store } >
 				<Component />

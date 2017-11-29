@@ -43,4 +43,26 @@ class WPSEO_Admin_Utils {
 			'activate-plugin_' . $slug
 		);
 	}
+
+	/**
+	 * Creates a link if the passed plugin is deemend a directly-installable plugin.
+	 *
+	 * @param array $plugin The plugin to create the link for.
+	 *
+	 * @return string The link to the plugin install. Returns the title if the plugin is deemed a Premium product.
+	 */
+	public static function get_install_link( $plugin ) {
+		$install_url = WPSEO_Admin_Utils::get_install_url( $plugin['slug'] );
+
+		if ( $install_url === '' || ( isset( $plugin['premium'] ) && $plugin['premium'] === true ) ) {
+			return $plugin['title'];
+		}
+
+		return sprintf(
+			'<a href="%s">%s</a>',
+			$install_url,
+			$plugin['title']
+		);
+
+	}
 }
