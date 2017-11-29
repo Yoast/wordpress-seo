@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.23.1 November 29th, 2017
+### Changed
+* Changes the feedback string for a good meta description length from `The length of the meta description is sufficient.` to `The meta description has a nice length.` #1307
+
 ## 1.23.1 November 7th, 2017
 ### Added
 * Adds a sentence research. #1278
