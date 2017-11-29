@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\YoastSEO;
+namespace Yoast;
 
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -89,7 +89,7 @@ class Fake_Input implements InputInterface {
 	 */
 	public function getArgument( $name ) {
 		if ( ! isset( $this->arguments[ $name ] ) ) {
-			throw new \InvalidArgumentException( 'Argument ' . $name . ' does not exist.' );
+			return null;
 		}
 
 		return $this->arguments[ $name ];
@@ -138,7 +138,7 @@ class Fake_Input implements InputInterface {
 	 */
 	public function getOption( $name ) {
 		if ( ! $this->hasOption( $name ) ) {
-			throw new \InvalidArgumentException( 'Option ' . $name . ' does not exist.' );
+			return null;
 		}
 
 		return $this->options[ $name ];

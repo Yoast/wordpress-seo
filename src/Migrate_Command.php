@@ -1,12 +1,13 @@
 <?php
 
-namespace Yoast\YoastSEO;
+namespace Yoast;
 
 use ORM;
 use Phpmig\Adapter;
+use Phpmig\Console\Command\MigrateCommand;
 use Pimple\Container;
 
-class MigrateCommand extends \Phpmig\Console\Command\MigrateCommand {
+class Migrate_Command extends MigrateCommand {
 	/**
 	 * @param string $filename
 	 *

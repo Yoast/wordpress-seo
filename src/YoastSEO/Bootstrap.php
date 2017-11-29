@@ -3,8 +3,9 @@
 namespace Yoast\YoastSEO;
 
 use Yoast\WordPress\Integration;
-use Yoast\YoastSEO\Services\Database;
+use Yoast\YoastSEO\Services\Idiorm_Database;
 use Yoast\YoastSEO\Services\Indexable;
+use Yoast\YoastSEO\Services\PHPMig_Migration;
 
 class Bootstrap implements Integration {
 
@@ -30,7 +31,7 @@ class Bootstrap implements Integration {
 	 */
 	public function load_services() {
 		$this->add_service( new Indexable() );
-		$this->add_service( new Database() );
+		$this->add_service( new Idiorm_Database( new PHPMig_Migration()) );
 	}
 
 	/**
