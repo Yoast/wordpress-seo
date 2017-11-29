@@ -38,7 +38,7 @@ class Indexable implements Integration {
 		$post_meta = \get_post_meta( $id );
 
 		$model->post_date_gmt          = $post->post_date_gmt;
-		$model->post_modified_date_gmt = $post->post_modified_date_gmt;
+		$model->post_modified_date_gmt = $post->post_modified_gmt;
 
 		$model->permalink = get_permalink( $id );
 
