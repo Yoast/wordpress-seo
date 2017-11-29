@@ -15,6 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  */
 define( 'WPSEO_VERSION', '5.8' );
 
+
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
 }
@@ -22,6 +23,15 @@ if ( ! defined( 'WPSEO_PATH' ) ) {
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
 }
+
+if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
+	if ( PHP_VERSION_ID >= 50300 ) {
+		define( 'WPSEO_NAMESPACES', true );
+	} else {
+		define( 'WPSEO_NAMESPACES', false );
+	}
+}
+
 
 /* ***************************** CLASS AUTOLOADING *************************** */
 
@@ -50,8 +60,14 @@ function wpseo_auto_load( $class ) {
 	}
 }
 
-if ( file_exists( WPSEO_PATH . 'vendor/autoload_52.php' ) ) {
-	require WPSEO_PATH . 'vendor/autoload_52.php';
+if ( WPSEO_NAMESPACES ) {
+	$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload.php';
+} else {
+	$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload_52.php';
+}
+
+if ( is_readable( $yoast_autoload_file ) ) {
+	require $yoast_autoload_file;
 }
 elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be site-level autoload R.
 	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
@@ -294,6 +310,12 @@ function wpseo_init() {
 	 */
 	$link_watcher = new WPSEO_Link_Watcher_Loader();
 	$link_watcher->load();
+
+	if ( WPSEO_NAMESPACES && class_exists( '\\Yoast\\YoastSEO\\Bootstrap' ) ) {
+		$bootstrap = new \Yoast\YoastSEO\Bootstrap();
+		$bootstrap->load_services();
+		$bootstrap->register_hooks();
+	}
 }
 
 /**
