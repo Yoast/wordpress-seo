@@ -86,9 +86,13 @@ class Fake_Input implements InputInterface {
 	 *
 	 * @return mixed The argument value
 	 *
-	 * @throws InvalidArgumentException When argument given doesn't exist
+	 * @throws \InvalidArgumentException When argument given doesn't exist
 	 */
 	public function getArgument( $name ) {
+		if ( ! isset( $this->arguments[ $name ] ) ) {
+			throw new \InvalidArgumentException( 'Argument ' . $name . ' does not exist.' );
+		}
+
 		return $this->arguments[ $name ];
 	}
 
@@ -98,7 +102,7 @@ class Fake_Input implements InputInterface {
 	 * @param string $name  The argument name
 	 * @param string $value The argument value
 	 *
-	 * @throws InvalidArgumentException When argument given doesn't exist
+	 * @throws \InvalidArgumentException When argument given doesn't exist
 	 */
 	public function setArgument( $name, $value ) {
 		$this->arguments[ $name ] = $value;
@@ -131,9 +135,13 @@ class Fake_Input implements InputInterface {
 	 *
 	 * @return mixed The option value
 	 *
-	 * @throws InvalidArgumentException When option given doesn't exist
+	 * @throws \InvalidArgumentException When option given doesn't exist
 	 */
 	public function getOption( $name ) {
+		if ( ! $this->hasOption( $name ) ) {
+			throw new \InvalidArgumentException( 'Option ' . $name . ' does not exist.' );
+		}
+
 		return $this->options[ $name ];
 	}
 
@@ -143,7 +151,7 @@ class Fake_Input implements InputInterface {
 	 * @param string      $name  The option name
 	 * @param string|bool $value The option value
 	 *
-	 * @throws InvalidArgumentException When option given doesn't exist
+	 * @throws \InvalidArgumentException When option given doesn't exist
 	 */
 	public function setOption( $name, $value ) {
 		$this->options[ $name ] = $value;
