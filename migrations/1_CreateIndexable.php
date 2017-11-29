@@ -1,16 +1,13 @@
 <?php
 
-namespace Yoast\YoastSEO\Migrations;
-
 use Phpmig\Migration\Migration;
 
-class Create_Indexable extends Migration {
+class CreateIndexable extends Migration {
 	protected $table;
 
 	protected function get_table() {
-		$table_prefix = \Model::$auto_prefix_models;
-
-		return $table_prefix . 'indexable';
+		global $wpdb;
+		return $wpdb->prefix . 'yoast_indexable';
 	}
 
 	/**
@@ -26,8 +23,8 @@ CREATE TABLE IF NOT EXISTS %1$s (
 	object_id int(11) unsigned DEFAULT NULL,
 	object_type varchar(16) NOT NULL DEFAULT \'\',
 	object_sub_type varchar(16) DEFAULT NULL,
-	post_modified_date_gmt date DEFAULT NULL,
-	post_date_gmt date DEFAULT NULL,
+	`post_modified_date_gmt` datetime DEFAULT NULL,
+	`post_date_gmt` datetime DEFAULT NULL,
 	permalink varchar(255) DEFAULT NULL,
 	canonical varchar(255) DEFAULT NULL,
 	title varchar(255) NOT NULL DEFAULT \'\',
@@ -47,7 +44,7 @@ CREATE TABLE IF NOT EXISTS %1$s (
 	content_score int(5) DEFAULT NULL,
 	cornerstone tinyint(1) NOT NULL DEFAULT \'0\',
 	internal_link_count int(11) unsigned DEFAULT NULL,
-	external_link_count int(11) unsigned DEFAULT NULL,
+	incoming_link_count int(11) unsigned DEFAULT NULL,
 	PRIMARY KEY (id),
 	KEY object (object_id,object_type,object_sub_type),
 	KEY modified (post_modified_date_gmt),
@@ -59,9 +56,6 @@ CREATE TABLE IF NOT EXISTS %1$s (
 			$this->get_table(),
 			$container['db.charset']
 		);
-
-		var_dump( $sql );
-		exit;
 
 		$container['db']->query( $sql );
 	}
