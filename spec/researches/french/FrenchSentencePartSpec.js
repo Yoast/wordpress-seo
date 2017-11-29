@@ -22,6 +22,13 @@ describe( "creates a French sentence part", function() {
 		expect( mockPart.getParticiples()[ 0 ].determinesSentencePartIsPassive() ).toBe( true );
 	} );
 
+	it ( "returns a irregular participle with irregular conjugation pattern for an French sentence part", function() {
+		var mockPart = new FrenchSentencePart( "Il était mû par un désir puissant.", [ "fut" ], "fr_FR" );
+		expect( mockPart.getParticiples()[ 0 ].getParticiple() ).toBe( "mû" );
+		expect( mockPart.getParticiples()[ 0 ].getType() ).toBe( "irregular" );
+		expect( mockPart.getParticiples()[ 0 ].determinesSentencePartIsPassive() ).toBe( true );
+	} );
+
 	it ( "returns a regular participle for an French sentence part", function() {
 		var mockPart = new FrenchSentencePart( "Le texte fut corrigé.", [ "fut" ], "fr_FR" );
 		expect( mockPart.getParticiples()[ 0 ].getParticiple() ).toBe( "corrigé" );

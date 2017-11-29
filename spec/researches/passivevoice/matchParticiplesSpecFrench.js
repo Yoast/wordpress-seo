@@ -31,6 +31,10 @@ describe( "a test for matching irregular participles.", function() {
 		expect( participleRegexes.irregularParticiples( "pomme", "fr" ) ).toEqual( [] );
 	} );
 
+	it( "matches an irregular participle with an irregular conjugation pattern", function() {
+		expect( participleRegexes.irregularParticiples( "mû", "fr" ) ).toEqual( [ "mû" ] );
+	} );
+
 	it( "does not match an empty string", function() {
 		expect( participleRegexes.irregularParticiples( "", "fr" ) ).toEqual( [] );
 	} );

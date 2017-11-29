@@ -3,7 +3,8 @@ var forEach = require( "lodash/forEach" );
 var memoize = require( "lodash/memoize" );
 
 var irregularsEnglish = require( "../english/passivevoice/irregulars" )();
-var irregularsFrench = require( "../french/passivevoice/irregulars" )();
+var irregularsRegularFrench = require( "../french/passivevoice/irregulars" )().irregularsRegular;
+var irregularsIrregularFrench = require( "../french/passivevoice/irregulars" )().irregularsIrregular;
 
 // The language-specific variables.
 var languageVariables = {
@@ -42,11 +43,16 @@ var irregularParticiples = function( word, language ) {
 	var matches = [];
 	switch ( language ) {
 		case "fr":
-			forEach( irregularsFrench, function( irregular ) {
+			forEach( irregularsRegularFrench, function( irregular ) {
 				var irregularParticiplesRegex = new RegExp( "^" + irregular + "(e|s|es)?$", "ig" );
 				matches.push( word.match( irregularParticiplesRegex ) || [] );
 			} );
 			matches = [].concat.apply( [], matches );
+			find( irregularsIrregularFrench, function( currentWord ) {
+				if( currentWord === word ) {
+					matches.push( currentWord );
+				}
+			} );
 			break;
 		case "en":
 		default:

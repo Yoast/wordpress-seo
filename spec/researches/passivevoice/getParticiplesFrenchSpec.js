@@ -41,6 +41,18 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 
+	it("returns matched irregular participles with irregular conjugation pattern.", function(){
+		var mockSentence = new sentencePart( "Il était mû par un désir puissant.", [ "était" ], "fr" );
+		var sentencePartText = mockSentence.getSentencePartText();
+		var auxiliaries = mockSentence.getAuxiliaries();
+		var foundParticiples = getParticiples( sentencePartText, auxiliaries, "fr" );
+		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "mû" );
+		expect( foundParticiples[ 0 ].getType() ).toEqual( "irregular" );
+		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "Il était mû par un désir puissant." );
+		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "était" ] );
+		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
+	});
+
 	it("returns an empty array when there is no participle", function(){
 		var mockSentence = new sentencePart( " Je voulais vous demander pardon.", [], "fr" );
 		var sentencePartText = mockSentence.getSentencePartText();
