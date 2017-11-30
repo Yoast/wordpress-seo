@@ -34,8 +34,10 @@ use Model;
  * @property string $twitter_image_url
  * @property string $twitter_description
  *
-	 * @property int $internal_link_count
+ * @property int $internal_link_count
  * @property int $incoming_link_count
+ *
+ * @property int $sitemap_exclude
  */
 class Indexable extends Model {
 	public static $_table;

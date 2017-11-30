@@ -1,5 +1,20 @@
 ## Todo
 
+## Watchers
+- Split up post/term/user watchers
+- Implement `deletion` / cleanup data.
+
+
+## Terms
+- wpseo_sitemap_include
+- focus keyword(s)
+- internal link count
+- incoming link count
+
+## Posts
+- focus keyword(s)
+
+
 ### prefix modules
 * j4mie/paris
 * j4mie/idiorm

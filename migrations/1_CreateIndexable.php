@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS %1$s (
 	robots_advanced varchar(32) NOT NULL,
 	content_score int(5) DEFAULT NULL,
 	cornerstone tinyint(1) NOT NULL DEFAULT \'0\',
+	sitemap_exclude tinyint(1) unsigned DEFAULT NULL,
 	internal_link_count int(11) unsigned DEFAULT NULL,
 	incoming_link_count int(11) unsigned DEFAULT NULL,
 	PRIMARY KEY (id),
@@ -49,7 +50,8 @@ CREATE TABLE IF NOT EXISTS %1$s (
 	KEY modified (modified_date_gmt),
 	KEY score (content_score,object_sub_type,object_type),
 	KEY cornerstone (cornerstone,object_type,object_sub_type),
-	KEY orphaned (internal_link_count,object_type,object_sub_type)
+	KEY orphaned (internal_link_count,object_type,object_sub_type),
+	KEY sitemap (object_id,object_type,object_sub_type,sitemap_exclude)
 	) %2$s;
 );',
 			$this->get_table(),
