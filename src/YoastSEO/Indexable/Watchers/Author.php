@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\YoastSEO\Watchers;
+namespace Yoast\YoastSEO\Indexable\Watchers;
 
 use Yoast\WordPress\Integration;
 use Yoast\Yoast_Model;
@@ -10,7 +10,7 @@ class Author implements Integration {
 	/**
 	 * Registers all hooks to WordPress.
 	 */
-	public function register_hooks() {
+	public function initialize() {
 		add_action( 'profile_update', array( $this, 'save_meta' ), PHP_INT_MAX, 2 );
 		add_action( 'deleted_user', array( $this, 'delete_meta' ) );
 	}

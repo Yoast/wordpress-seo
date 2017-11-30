@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\YoastSEO\Models;
+namespace Yoast\YoastSEO\Database\Models;
 
-use Model;
+use Yoast\Yoast_Model;
 
 /**
  * @property int    $id
@@ -39,6 +39,5 @@ use Model;
  *
  * @property int $sitemap_exclude
  */
-class Indexable extends Model {
-	public static $_table;
+class Indexable extends Yoast_Model {
 }

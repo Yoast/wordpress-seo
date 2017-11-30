@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\YoastSEO;
+namespace Yoast\YoastSEO\Indexable;
 
 use Yoast\WordPress\Integration;
 use Yoast\WordPress\Integration_Group;
@@ -12,8 +12,9 @@ class Bootstrap extends Integration_Group {
 	 */
 	protected function get_integrations() {
 		return array(
-			new Database\Bootstrap(),
-			new Indexable\Bootstrap()
+			new Watchers\Post(),
+			new Watchers\Term(),
+			new Watchers\Author()
 		);
 	}
 }

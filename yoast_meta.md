@@ -2,21 +2,28 @@
 
 ## Tests
 Add tests
-- Watchers
-    - post
-    - term
-    - user
-- Services
-    - indexable
 
 ## Terms
-- wpseo_sitemap_include
 - focus keyword(s)
 - internal link count
 - incoming link count
 
 ## Posts
 - focus keyword(s)
+- primary category
+
+
+## Primary taxonomy
+
+Concent:
+
+{table} wp_yoast_indexable_relation
+id [ autoincrement ]
+source_indexable_id
+target_indexable_id
+type [ varchar ]
+[ KEY ] source + target + type
+
 
 
 ### prefix modules
