@@ -70,8 +70,6 @@ class Indexable implements Integration {
 		$model->modified_date_gmt = gmdate( 'Y-m-d H:i:s' );
 
 		$model->save();
-
-		exit;
 	}
 
 	/**
