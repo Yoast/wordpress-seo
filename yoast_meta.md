@@ -1,9 +1,13 @@
 ## Todo
 
-## Watchers
-- Split up post/term/user watchers
-- Implement `deletion` / cleanup data.
-
+## Tests
+Add tests
+- Watchers
+    - post
+    - term
+    - user
+- Services
+    - indexable
 
 ## Terms
 - wpseo_sitemap_include
