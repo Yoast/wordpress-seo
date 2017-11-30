@@ -9,5 +9,5 @@ interface Integration {
 	/**
 	 * Registers all hooks to WordPress.
 	 */
-	public function register_hooks();
+	public function initialize();
 }

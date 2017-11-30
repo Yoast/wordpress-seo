@@ -5,6 +5,8 @@ namespace Yoast;
 use Model;
 
 class Yoast_Model extends Model {
+	public static $_table;
+
 	/**
 	 * Hacks around the Model to provide WordPress prefix to tables.
 	 *

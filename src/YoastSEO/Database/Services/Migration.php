@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\YoastSEO\Services;
+namespace Yoast\YoastSEO\Database\Services;
 
 use Symfony\Component\Console\Output\NullOutput;
 use Yoast\Fake_Input;
 use Yoast\Migrate_Command;
+use Yoast\WordPress\Integration;
 
-class Migration {
-	public function migrate() {
-
+class Migration implements Integration {
+	public function initialize() {
 		try {
 			$input = new Fake_Input();
 			$input->setArgument( 'command', 'migrate' );

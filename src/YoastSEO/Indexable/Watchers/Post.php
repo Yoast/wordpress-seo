@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\YoastSEO\Watchers;
+namespace Yoast\YoastSEO\Indexable\Watchers;
 
 use Yoast\WordPress\Integration;
 use Yoast\Yoast_Model;
@@ -10,7 +10,7 @@ class Post implements Integration {
 	/**
 	 * Registers all hooks to WordPress.
 	 */
-	public function register_hooks() {
+	public function initialize() {
 		add_action( 'wp_insert_post', array( $this, 'save_meta' ), PHP_INT_MAX, 1 );
 		add_action( 'delete_post', array( $this, 'delete_meta' ) );
 	}
