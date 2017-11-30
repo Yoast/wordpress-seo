@@ -12,7 +12,9 @@ class Indexable implements Integration {
 	 */
 	public function register_hooks() {
 		add_action( 'wp_insert_post', array( $this, 'save_post_meta' ), PHP_INT_MAX, 2 );
-		add_action( 'edit_term', array( $this, 'save_term_meta' ), PHP_INT_MAX, 3 );
+
+		add_action( 'created_term', array( $this, 'save_term_meta' ), PHP_INT_MAX, 3 );
+		add_action( 'edited_term', array( $this, 'save_term_meta' ), PHP_INT_MAX, 3 );
 	}
 
 	/**
