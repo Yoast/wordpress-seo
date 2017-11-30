@@ -30,7 +30,12 @@ class Bootstrap implements Integration {
 	 * Loads services.
 	 */
 	public function load_services() {
-		$this->add_service( new Indexable() );
+		$indexable_service = new Indexable();
+		$indexable_service->add_watcher( new Watchers\Post() );
+		$indexable_service->add_watcher( new Watchers\Term() );
+		$indexable_service->add_watcher( new Watchers\Author() );
+
+		$this->add_service( $indexable_service );
 		$this->add_service( new Idiorm_Database( new Migration()) );
 	}
 
