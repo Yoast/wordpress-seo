@@ -32,7 +32,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-fYxtnH cOCfqQ"
+      className="sc-kTUwUJ hbbYoK"
     >
       <button
         aria-expanded={true}
@@ -42,7 +42,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
       >
         <svg
           aria-hidden="true"
-          className="sc-tilXH CKShc sc-hEsumM blMsna"
+          className="sc-dqBHgY fnSVst sc-gxMtzJ jHoGsX"
           focusable="false"
           role="img"
         />
@@ -62,7 +62,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
       >
         <svg
           aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-ktHwxA gTKtuR"
+          className="sc-bxivhb gapdhR sc-dfVpRl joibKz"
           focusable="false"
           role="img"
         />
@@ -81,7 +81,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-cIShpX gxljmv"
+      className="sc-gzOgki lhoBbt"
     >
       <button
         aria-expanded={true}
@@ -91,7 +91,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
       >
         <svg
           aria-hidden="true"
-          className="sc-kafWEX fMEhcL sc-feJyhm bjCXMF"
+          className="sc-iyvyFf fGKCic sc-hwwEjo kWQDMK"
           focusable="false"
           role="img"
         />
@@ -111,7 +111,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
       >
         <svg
           aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-iELTvK FVyID"
+          className="sc-bxivhb gapdhR sc-kPVwWT cTtTFX"
           focusable="false"
           role="img"
         />
@@ -133,7 +133,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
         >
           <svg
             aria-hidden="true"
-            className="sc-cmTdod kpVTCn"
+            className="sc-kfGgVZ USTBC"
             focusable="false"
             role="img"
           />
@@ -145,17 +145,17 @@ exports[`the ContentAnalysis component with language notice for someone who can 
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-jwKygS leIywW"
+      className="sc-esjQYD jgVmwH"
     >
       <button
-        aria-expanded={false}
+        aria-expanded={true}
         className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden="true"
-          className="sc-btzYZH jTuqhu sc-lhVmIH euTYlD"
+          className="sc-kIPQKe hUCTyR sc-eXEjpC ljKTKY"
           focusable="false"
           role="img"
         />
@@ -166,22 +166,45 @@ exports[`the ContentAnalysis component with language notice for someone who can 
         </span>
       </button>
     </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-ibxdXY bDOEXW"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "I know you can do better! You can do it!",
+            }
+          }
+        />
+      </li>
+    </ul>
   </div>
   <div
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-bYSBpT mYigY"
+      className="sc-RefOD jWfKiF"
     >
       <button
-        aria-expanded={false}
+        aria-expanded={true}
         className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden="true"
-          className="sc-elJkPf jqChEN sc-jtRfpW kBPOKP"
+          className="sc-iQKALj qURpL sc-bwCtUz dFdpYU"
           focusable="false"
           role="img"
         />
@@ -192,22 +215,45 @@ exports[`the ContentAnalysis component with language notice for someone who can 
         </span>
       </button>
     </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-hrWEMg fqHZyB"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Maybe you should change this...",
+            }
+          }
+        />
+      </li>
+    </ul>
   </div>
   <div
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-kTUwUJ hbbYoK"
+      className="sc-eTuwsz MXQEn"
     >
       <button
-        aria-expanded={false}
+        aria-expanded={true}
         className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden="true"
-          className="sc-dqBHgY fnSVst sc-gxMtzJ jHoGsX"
+          className="sc-gwVKww ihApjs sc-hXRMBi dXdfhR"
           focusable="false"
           role="img"
         />
@@ -218,6 +264,62 @@ exports[`the ContentAnalysis component with language notice for someone who can 
         </span>
       </button>
     </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-epnACN feJwfE"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "You're doing great!",
+            }
+          }
+        />
+      </li>
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-iQNlJl IYAbM"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Woohoo!",
+            }
+          }
+        />
+        <button
+          aria-label="Highlight this result in the text"
+          aria-pressed={false}
+          className="sc-bwzfXH iSOXYD"
+          id="3"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="sc-bsbRJL goLRJk"
+            focusable="false"
+            role="img"
+          />
+        </button>
+      </li>
+    </ul>
   </div>
 </div>
 `;
@@ -254,7 +356,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-dfVpRl fPVKwp"
+      className="sc-hZSUBg jxTZbJ"
     >
       <button
         aria-expanded={true}
@@ -264,7 +366,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
       >
         <svg
           aria-hidden="true"
-          className="sc-gzOgki jyTVxZ sc-iyvyFf kwbrjN"
+          className="sc-cMhqgX cHLsZS sc-iuJeZd fBrmaE"
           focusable="false"
           role="img"
         />
@@ -284,7 +386,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
       >
         <svg
           aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-hwwEjo dkWBvN"
+          className="sc-bxivhb gapdhR sc-esOvli gbGmFB"
           focusable="false"
           role="img"
         />
@@ -303,7 +405,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-kPVwWT cFySkN"
+      className="sc-cmthru kwCHnT"
     >
       <button
         aria-expanded={true}
@@ -313,7 +415,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
       >
         <svg
           aria-hidden="true"
-          className="sc-kfGgVZ jApNfA sc-esjQYD hCjWch"
+          className="sc-hMFtBS EZLtK sc-cLQEGU buqZAj"
           focusable="false"
           role="img"
         />
@@ -333,7 +435,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
       >
         <svg
           aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-kIPQKe ePUvaL"
+          className="sc-bxivhb gapdhR sc-gqPbQI hcLboy"
           focusable="false"
           role="img"
         />
@@ -355,7 +457,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
         >
           <svg
             aria-hidden="true"
-            className="sc-eXEjpC bHtDbG"
+            className="sc-hORach kABKUF"
             focusable="false"
             role="img"
           />
@@ -367,17 +469,17 @@ exports[`the ContentAnalysis component with language notice for someone who cann
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-ibxdXY kVEkcs"
+      className="sc-bMVAic bPYuue"
     >
       <button
-        aria-expanded={false}
+        aria-expanded={true}
         className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden="true"
-          className="sc-RefOD kKXWzb sc-iQKALj iLbqZv"
+          className="sc-bAeIUo ixmeCE sc-iujRgT hBLdJf"
           focusable="false"
           role="img"
         />
@@ -388,22 +490,45 @@ exports[`the ContentAnalysis component with language notice for someone who cann
         </span>
       </button>
     </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-GMQeP fnYfQC"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "I know you can do better! You can do it!",
+            }
+          }
+        />
+      </li>
+    </ul>
   </div>
   <div
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-bwCtUz iLdoQJ"
+      className="sc-exAgwC jkFcTv"
     >
       <button
-        aria-expanded={false}
+        aria-expanded={true}
         className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden="true"
-          className="sc-hrWEMg fEjgUi sc-eTuwsz lbtJKE"
+          className="sc-cQFLBn fByWXk sc-gojNiO jsQwwt"
           focusable="false"
           role="img"
         />
@@ -414,22 +539,45 @@ exports[`the ContentAnalysis component with language notice for someone who cann
         </span>
       </button>
     </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-daURTG jtFlNO"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Maybe you should change this...",
+            }
+          }
+        />
+      </li>
+    </ul>
   </div>
   <div
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-gwVKww euvOxv"
+      className="sc-bXGyLb gHhYoN"
     >
       <button
-        aria-expanded={false}
+        aria-expanded={true}
         className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden="true"
-          className="sc-hXRMBi hASSxB sc-epnACN lhAoDt"
+          className="sc-lkqHmb lmawnj sc-eLExRp dHJRpL"
           focusable="false"
           role="img"
         />
@@ -440,6 +588,62 @@ exports[`the ContentAnalysis component with language notice for someone who cann
         </span>
       </button>
     </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-cbkKFq gkKnoP"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "You're doing great!",
+            }
+          }
+        />
+      </li>
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-krvtoX LLlRw"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Woohoo!",
+            }
+          }
+        />
+        <button
+          aria-label="Highlight this result in the text"
+          aria-pressed={false}
+          className="sc-bwzfXH iSOXYD"
+          id="3"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="sc-fYiAbW bylkbv"
+            focusable="false"
+            role="img"
+          />
+        </button>
+      </li>
+    </ul>
   </div>
 </div>
 `;
@@ -463,6 +667,468 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
     className="sc-gZMcBi klyNBW"
   >
     <h4
+      className="sc-hqyNC kMqGrs"
+    >
+      <button
+        aria-expanded={true}
+        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-jbKcbu iZapoO sc-dNLxif hAyoXz"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Errors (1)
+        </span>
+      </button>
+    </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-jqCOkK eEjZuO"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Error: Analysis not loaded",
+            }
+          }
+        />
+      </li>
+    </ul>
+  </div>
+  <div
+    className="sc-gZMcBi klyNBW"
+  >
+    <h4
+      className="sc-uJMKN cjUNDK"
+    >
+      <button
+        aria-expanded={true}
+        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bbmXgH hrqJxu sc-gGBfsJ hMVvyu"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Problems (1)
+        </span>
+      </button>
+    </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-jnlKLf Kefbd"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Your text is bad, and you should feel bad.",
+            }
+          }
+        />
+        <button
+          aria-label="Highlight this result in the text"
+          aria-pressed={false}
+          className="sc-bwzfXH iSOXYD"
+          id="1"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="sc-fYxtnH HNNIH"
+            focusable="false"
+            role="img"
+          />
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div
+    className="sc-gZMcBi klyNBW"
+  >
+    <h4
+      className="sc-tilXH iyYVPY"
+    >
+      <button
+        aria-expanded={true}
+        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-hEsumM bqMptW sc-ktHwxA eHMPWL"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Improvements (1)
+        </span>
+      </button>
+    </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-cIShpX fIsfSe"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "I know you can do better! You can do it!",
+            }
+          }
+        />
+      </li>
+    </ul>
+  </div>
+  <div
+    className="sc-gZMcBi klyNBW"
+  >
+    <h4
+      className="sc-kafWEX isaqBb"
+    >
+      <button
+        aria-expanded={true}
+        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-feJyhm dGQxDd sc-iELTvK dDAyMs"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Considerations (1)
+        </span>
+      </button>
+    </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-cmTdod hNIDYx"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Maybe you should change this...",
+            }
+          }
+        />
+      </li>
+    </ul>
+  </div>
+  <div
+    className="sc-gZMcBi klyNBW"
+  >
+    <h4
+      className="sc-jwKygS leIywW"
+    >
+      <button
+        aria-expanded={true}
+        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-btzYZH jTuqhu sc-lhVmIH euTYlD"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Good (2)
+        </span>
+      </button>
+    </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-bYSBpT dtQOZM"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "You're doing great!",
+            }
+          }
+        />
+      </li>
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-elJkPf iugJdn"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Woohoo!",
+            }
+          }
+        />
+        <button
+          aria-label="Highlight this result in the text"
+          aria-pressed={false}
+          className="sc-bwzfXH iSOXYD"
+          id="3"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="sc-jtRfpW kwQWwL"
+            focusable="false"
+            role="img"
+          />
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`the ContentAnalysis component with specified header level matches the snapshot 1`] = `
+<div
+  className="sc-fjdhpX dMpTuU"
+>
+  <div
+    className="sc-gZMcBi klyNBW"
+  >
+    <h3
+      className="sc-jlyJG lbRNhQ"
+    >
+      <button
+        aria-expanded={true}
+        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-gipzik hZOojH sc-csuQGl kPWfBQ"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Errors (1)
+        </span>
+      </button>
+    </h3>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-Rmtcm jnrAfY"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Error: Analysis not loaded",
+            }
+          }
+        />
+      </li>
+    </ul>
+  </div>
+  <div
+    className="sc-gZMcBi klyNBW"
+  >
+    <h3
+      className="sc-bRBYWo fDCyos"
+    >
+      <button
+        aria-expanded={true}
+        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-hzDkRC igquTG sc-jhAzac eVPDcq"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Problems (1)
+        </span>
+      </button>
+    </h3>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-fBuWsC fmNFRY"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Your text is bad, and you should feel bad.",
+            }
+          }
+        />
+        <button
+          aria-label="Highlight this result in the text"
+          aria-pressed={false}
+          className="sc-bwzfXH iSOXYD"
+          id="1"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="sc-fMiknA QAork"
+            focusable="false"
+            role="img"
+          />
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div
+    className="sc-gZMcBi klyNBW"
+  >
+    <h3
+      className="sc-dVhcbM jqYANl"
+    >
+      <button
+        aria-expanded={true}
+        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-eqIVtm eWdMXk sc-fAjcbJ dLmCwH"
+          focusable="false"
+          role="img"
+        />
+        <span
+          className="sc-VigVT bGMrIs"
+        >
+          Improvements (1)
+        </span>
+      </button>
+    </h3>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-caSCKo gRLUbH"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "I know you can do better! You can do it!",
+            }
+          }
+        />
+      </li>
+    </ul>
+  </div>
+  <div
+    className="sc-gZMcBi klyNBW"
+  >
+    <h3
       className="sc-gisBJw gjHRrX"
     >
       <button
@@ -480,10 +1146,10 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
         <span
           className="sc-VigVT bGMrIs"
         >
-          Errors (1)
+          Considerations (1)
         </span>
       </button>
-    </h4>
+    </h3>
     <ul
       className="sc-jTzLTM fYcrfm"
       role="list"
@@ -501,7 +1167,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
           className="sc-ifAKCX jLpTt"
           dangerouslySetInnerHTML={
             Object {
-              "__html": "Error: Analysis not loaded",
+              "__html": "Maybe you should change this...",
             }
           }
         />
@@ -511,7 +1177,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
   <div
     className="sc-gZMcBi klyNBW"
   >
-    <h4
+    <h3
       className="sc-kgAjT lcGLGs"
     >
       <button
@@ -529,10 +1195,10 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
         <span
           className="sc-VigVT bGMrIs"
         >
-          Problems (1)
+          Good (2)
         </span>
       </button>
-    </h4>
+    </h3>
     <ul
       className="sc-jTzLTM fYcrfm"
       role="list"
@@ -542,7 +1208,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
       >
         <svg
           aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-hmzhuo nzXUb"
+          className="sc-bxivhb gapdhR sc-hmzhuo dBIhGk"
           focusable="false"
           role="img"
         />
@@ -550,7 +1216,25 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
           className="sc-ifAKCX jLpTt"
           dangerouslySetInnerHTML={
             Object {
-              "__html": "Your text is bad, and you should feel bad.",
+              "__html": "You're doing great!",
+            }
+          }
+        />
+      </li>
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-frDJqD lgjFPt"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Woohoo!",
             }
           }
         />
@@ -558,295 +1242,19 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
           aria-label="Highlight this result in the text"
           aria-pressed={false}
           className="sc-bwzfXH iSOXYD"
-          id="1"
+          id="3"
           onClick={[Function]}
           type="button"
         >
           <svg
             aria-hidden="true"
-            className="sc-frDJqD jRAxvE"
+            className="sc-kvZOFW lmfjVP"
             focusable="false"
             role="img"
           />
         </button>
       </li>
     </ul>
-  </div>
-  <div
-    className="sc-gZMcBi klyNBW"
-  >
-    <h4
-      className="sc-kvZOFW eHDdzS"
-    >
-      <button
-        aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          className="sc-hqyNC dmUauZ sc-jbKcbu eTKehD"
-          focusable="false"
-          role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
-        >
-          Improvements (1)
-        </span>
-      </button>
-    </h4>
-  </div>
-  <div
-    className="sc-gZMcBi klyNBW"
-  >
-    <h4
-      className="sc-dNLxif hUTTak"
-    >
-      <button
-        aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          className="sc-jqCOkK ffMQYZ sc-uJMKN kRQmrS"
-          focusable="false"
-          role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
-        >
-          Considerations (1)
-        </span>
-      </button>
-    </h4>
-  </div>
-  <div
-    className="sc-gZMcBi klyNBW"
-  >
-    <h4
-      className="sc-bbmXgH vDOUb"
-    >
-      <button
-        aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          className="sc-gGBfsJ bSITWg sc-jnlKLf dWfYLC"
-          focusable="false"
-          role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
-        >
-          Good (2)
-        </span>
-      </button>
-    </h4>
-  </div>
-</div>
-`;
-
-exports[`the ContentAnalysis component with specified header level matches the snapshot 1`] = `
-<div
-  className="sc-fjdhpX dMpTuU"
->
-  <div
-    className="sc-gZMcBi klyNBW"
-  >
-    <h3
-      className="sc-cMljjf jlRxCV"
-    >
-      <button
-        aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          className="sc-jAaTju ddypFD sc-jDwBTQ eRTBth"
-          focusable="false"
-          role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
-        >
-          Errors (1)
-        </span>
-      </button>
-    </h3>
-    <ul
-      className="sc-jTzLTM fYcrfm"
-      role="list"
-    >
-      <li
-        className="sc-htpNat hLKTNr"
-      >
-        <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-gPEVay jQuIte"
-          focusable="false"
-          role="img"
-        />
-        <p
-          className="sc-ifAKCX jLpTt"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Error: Analysis not loaded",
-            }
-          }
-        />
-      </li>
-    </ul>
-  </div>
-  <div
-    className="sc-gZMcBi klyNBW"
-  >
-    <h3
-      className="sc-iRbamj hvszbL"
-    >
-      <button
-        aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          className="sc-jlyJG ftIqAq sc-gipzik cQeibe"
-          focusable="false"
-          role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
-        >
-          Problems (1)
-        </span>
-      </button>
-    </h3>
-    <ul
-      className="sc-jTzLTM fYcrfm"
-      role="list"
-    >
-      <li
-        className="sc-htpNat hLKTNr"
-      >
-        <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-csuQGl jjxMfa"
-          focusable="false"
-          role="img"
-        />
-        <p
-          className="sc-ifAKCX jLpTt"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Your text is bad, and you should feel bad.",
-            }
-          }
-        />
-        <button
-          aria-label="Highlight this result in the text"
-          aria-pressed={false}
-          className="sc-bwzfXH iSOXYD"
-          id="1"
-          onClick={[Function]}
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            className="sc-Rmtcm emaYGG"
-            focusable="false"
-            role="img"
-          />
-        </button>
-      </li>
-    </ul>
-  </div>
-  <div
-    className="sc-gZMcBi klyNBW"
-  >
-    <h3
-      className="sc-bRBYWo fDCyos"
-    >
-      <button
-        aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          className="sc-hzDkRC igquTG sc-jhAzac eVPDcq"
-          focusable="false"
-          role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
-        >
-          Improvements (1)
-        </span>
-      </button>
-    </h3>
-  </div>
-  <div
-    className="sc-gZMcBi klyNBW"
-  >
-    <h3
-      className="sc-fBuWsC lopjZx"
-    >
-      <button
-        aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          className="sc-fMiknA fbbUOU sc-dVhcbM fDerkZ"
-          focusable="false"
-          role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
-        >
-          Considerations (1)
-        </span>
-      </button>
-    </h3>
-  </div>
-  <div
-    className="sc-gZMcBi klyNBW"
-  >
-    <h3
-      className="sc-eqIVtm fCubKM"
-    >
-      <button
-        aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          className="sc-fAjcbJ jLejrw sc-caSCKo gQFVKG"
-          focusable="false"
-          role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
-        >
-          Good (2)
-        </span>
-      </button>
-    </h3>
   </div>
 </div>
 `;
@@ -975,7 +1383,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
       className="sc-hMqMXs ecLisl"
     >
       <button
-        aria-expanded={false}
+        aria-expanded={true}
         className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
         onClick={[Function]}
         type="button"
@@ -993,22 +1401,45 @@ exports[`the ContentAnalysis component without language notice matches the snaps
         </span>
       </button>
     </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-iAyFgw dxsVcu"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "I know you can do better! You can do it!",
+            }
+          }
+        />
+      </li>
+    </ul>
   </div>
   <div
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-iAyFgw hdFflt"
+      className="sc-hSdWYo bKTvCY"
     >
       <button
-        aria-expanded={false}
+        aria-expanded={true}
         className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden="true"
-          className="sc-hSdWYo kTOVeH sc-eHgmQL gJqaLD"
+          className="sc-eHgmQL ekrFhI sc-cvbbAY cgvJhm"
           focusable="false"
           role="img"
         />
@@ -1019,22 +1450,45 @@ exports[`the ContentAnalysis component without language notice matches the snaps
         </span>
       </button>
     </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-jWBwVP iWOFgF"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Maybe you should change this...",
+            }
+          }
+        />
+      </li>
+    </ul>
   </div>
   <div
     className="sc-gZMcBi klyNBW"
   >
     <h4
-      className="sc-cvbbAY gpNEXt"
+      className="sc-brqgnP ejPAly"
     >
       <button
-        aria-expanded={false}
+        aria-expanded={true}
         className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden="true"
-          className="sc-jWBwVP fFdKzu sc-brqgnP bdBJhJ"
+          className="sc-cMljjf bwytmp sc-jAaTju giCts"
           focusable="false"
           role="img"
         />
@@ -1045,6 +1499,62 @@ exports[`the ContentAnalysis component without language notice matches the snaps
         </span>
       </button>
     </h4>
+    <ul
+      className="sc-jTzLTM fYcrfm"
+      role="list"
+    >
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-jDwBTQ dwCWgf"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "You're doing great!",
+            }
+          }
+        />
+      </li>
+      <li
+        className="sc-htpNat hLKTNr"
+      >
+        <svg
+          aria-hidden="true"
+          className="sc-bxivhb gapdhR sc-gPEVay dDkdyd"
+          focusable="false"
+          role="img"
+        />
+        <p
+          className="sc-ifAKCX jLpTt"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Woohoo!",
+            }
+          }
+        />
+        <button
+          aria-label="Highlight this result in the text"
+          aria-pressed={false}
+          className="sc-bwzfXH iSOXYD"
+          id="3"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="sc-iRbamj jVMxpg"
+            focusable="false"
+            role="img"
+          />
+        </button>
+      </li>
+    </ul>
   </div>
 </div>
 `;
