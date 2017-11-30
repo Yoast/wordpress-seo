@@ -192,7 +192,6 @@ class ContentAnalysis extends React.Component {
 		let considerationsResults = this.props.considerationsResults;
 		let errorsResults = this.props.errorsResults;
 		let headingLevel = this.props.headingLevel;
-
 		let errorsFound = errorsResults.length;
 		let problemsFound = problemsResults.length;
 		let improvementsFound = improvementsResults.length;
