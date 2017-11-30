@@ -23,8 +23,7 @@ CREATE TABLE IF NOT EXISTS %1$s (
 	object_id int(11) unsigned DEFAULT NULL,
 	object_type varchar(16) NOT NULL DEFAULT \'\',
 	object_sub_type varchar(16) DEFAULT NULL,
-	`post_modified_date_gmt` datetime DEFAULT NULL,
-	`post_date_gmt` datetime DEFAULT NULL,
+	modified_date_gmt datetime DEFAULT NULL,
 	permalink varchar(255) DEFAULT NULL,
 	canonical varchar(255) DEFAULT NULL,
 	title varchar(255) NOT NULL DEFAULT \'\',
@@ -47,7 +46,7 @@ CREATE TABLE IF NOT EXISTS %1$s (
 	incoming_link_count int(11) unsigned DEFAULT NULL,
 	PRIMARY KEY (id),
 	KEY object (object_id,object_type,object_sub_type),
-	KEY modified (post_modified_date_gmt),
+	KEY modified (modified_date_gmt),
 	KEY score (content_score,object_sub_type,object_type),
 	KEY cornerstone (cornerstone,object_type,object_sub_type),
 	KEY orphaned (internal_link_count,object_type,object_sub_type)
