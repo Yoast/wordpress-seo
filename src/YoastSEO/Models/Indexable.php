@@ -10,8 +10,7 @@ use Model;
  * @property string $object_type
  * @property string $object_sub_type
  *
- * @property string $post_date_gmt
- * @property string $post_modified_date_gmt
+ * @property string $modified_date_gmt
  *
  * @property string $permalink
  * @property string $canonical
