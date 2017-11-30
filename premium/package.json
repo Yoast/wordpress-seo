@@ -61,7 +61,7 @@
     "sassdash": "^0.8.2",
     "yoast-premium-components": "git+ssh://git@github.com/yoast/yoast-premium-components.git#1.3.0",
     "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews#1.4.2",
-    "yoast-components": "^2.11.4",
+    "yoast-components": "^2.11.5",
     "yoastseo": "^1.23.1"
   }
 }
