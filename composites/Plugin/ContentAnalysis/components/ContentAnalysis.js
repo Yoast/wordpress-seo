@@ -219,6 +219,7 @@ class ContentAnalysis extends React.Component {
 					<AnalysisCollapsible
 						hasHeading={ true }
 						headingLevel={ headingLevel }
+						initialIsOpen={ true }
 						title={ this.props.intl.formatMessage( messages.improvementsHeader ) }
 					>
 						{ this.getResults( improvementsResults ) }
@@ -227,6 +228,7 @@ class ContentAnalysis extends React.Component {
 					<AnalysisCollapsible
 						hasHeading={ true }
 						headingLevel={ headingLevel }
+						initialIsOpen={ true }
 						title={ this.props.intl.formatMessage( messages.considerationsHeader ) }
 					>
 						{ this.getResults( considerationsResults ) }
@@ -235,6 +237,7 @@ class ContentAnalysis extends React.Component {
 					<AnalysisCollapsible
 						hasHeading={ true }
 						headingLevel={ headingLevel }
+						initialIsOpen={ true }
 						title={this.props.intl.formatMessage( messages.goodHeader ) }
 					>
 						{ this.getResults( goodResults ) }
