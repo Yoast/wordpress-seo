@@ -7289,9 +7289,9 @@ yoast-components@^2.11.5:
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-"yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#1.4.0":
-  version "1.2.0"
-  resolved "git+ssh://git@github.com/yoast/yoast-premium-components.git#f0cb49c0246be023d1baab2e52cc6c0079907b5f"
+"yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#1.4.1":
+  version "1.4.1"
+  resolved "git+ssh://git@github.com/yoast/yoast-premium-components.git#c86b25fbc5f344ebb1841ce5af228e9f1142b27a"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     babel-core "^6.11.4"
