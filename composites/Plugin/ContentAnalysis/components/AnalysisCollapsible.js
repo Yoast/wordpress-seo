@@ -156,9 +156,16 @@ export class AnalysisCollapsible extends React.Component {
 	 * @returns {void}
 	 */
 	toggleOpen() {
+		if ( this.state.isOpen === null && this.props.initialIsOpen ) {
+			this.setState( {
+				isOpen: !! this.state.isOpen,
+			} );
+		}
 		this.setState( {
 			isOpen: ! this.state.isOpen,
 		} );
+		console.log("this", this);
+		console.log("this.state", this.state);
 	}
 
 	/**
@@ -171,7 +178,6 @@ export class AnalysisCollapsible extends React.Component {
 		if ( this.state.isOpen === null ) {
 			return this.props.initialIsOpen;
 		}
-
 		return this.state.isOpen === true;
 	}
 
@@ -200,6 +206,7 @@ AnalysisCollapsible.propTypes = {
 	title: PropTypes.string.isRequired,
 	initialIsOpen: PropTypes.bool,
 	hasHeading: PropTypes.bool,
+	isOpen: PropTypes.bool,
 	headingLevel: PropTypes.number,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
