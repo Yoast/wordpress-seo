@@ -5,6 +5,11 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.11.5 November 30th, 2017
+
+###Other
+* Expands all `AnalysisCollapsibles` in the `ContentAnalysis` by default. #393
+
 ## 2.11.4: November 27th, 2017
 
 ### Added
