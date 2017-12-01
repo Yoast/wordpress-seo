@@ -178,6 +178,7 @@ export class AnalysisCollapsible extends React.Component {
 		if ( this.state.isOpen === null ) {
 			return this.props.initialIsOpen;
 		}
+		
 		return this.state.isOpen === true;
 	}
 
@@ -206,7 +207,6 @@ AnalysisCollapsible.propTypes = {
 	title: PropTypes.string.isRequired,
 	initialIsOpen: PropTypes.bool,
 	hasHeading: PropTypes.bool,
-	isOpen: PropTypes.bool,
 	headingLevel: PropTypes.number,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
