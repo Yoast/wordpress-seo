@@ -1,5 +1,6 @@
 ### 5.9.0: 
 * Includes every change in Yoast SEO core 5.9.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+* Insights are now shown in a separate section below the text analysis.
 
 ### 5.8.0: November 15th, 2017
 * Includes every change in Yoast SEO core 5.8.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).

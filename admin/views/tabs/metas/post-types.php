@@ -9,6 +9,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+/*
+ * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
+ * Otherwise setting a post-type to `noindex` will remove it from the list,
+ * making it very hard to restore the setting again.
+ */
 $post_types          = get_post_types( array( 'public' => true ), 'objects' );
 $index_switch_values = array(
 	'off' => '<code>index</code>',
