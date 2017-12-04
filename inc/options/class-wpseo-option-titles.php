@@ -188,7 +188,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @return  void
 	 */
 	public function enrich_defaults() {
-
 		/*
 		 * Retrieve all the relevant post type and taxonomy arrays.
 		 *
