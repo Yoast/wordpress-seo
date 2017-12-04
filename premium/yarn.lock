@@ -7265,9 +7265,9 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yoast-components@^2.11.5:
-  version "2.11.5"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.11.5.tgz#29ae8725e37b0490b703fa01145995a051086491"
+yoast-components@^2.11.6:
+  version "2.11.6"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.11.6.tgz#f81fd708973537d21f9b3829f5d21609caf5bc4b"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     algoliasearch "^3.22.3"
@@ -7289,9 +7289,9 @@ yoast-components@^2.11.5:
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-"yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#1.4.1":
-  version "1.4.1"
-  resolved "git+ssh://git@github.com/yoast/yoast-premium-components.git#c86b25fbc5f344ebb1841ce5af228e9f1142b27a"
+"yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#1.5.0":
+  version "1.5.0"
+  resolved "git+ssh://git@github.com/yoast/yoast-premium-components.git#f272a632bcea2ac9115c5e80dcfe8a9a7336d5b3"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     babel-core "^6.11.4"
@@ -7303,7 +7303,7 @@ yoast-components@^2.11.5:
     interpolate-components "^1.1.0"
     react "^15.3.0"
     react-dom "^15.3.0"
-    yoast-components "^2.11.5"
+    yoast-components "^2.11.6"
 
 "yoast-social-previews@git+ssh://git@github.com/Yoast/yoast-social-previews#1.4.2":
   version "1.4.1"
