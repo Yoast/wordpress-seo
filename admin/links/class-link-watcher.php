@@ -92,6 +92,10 @@ class WPSEO_Link_Watcher {
 	 * @return bool True when the post is processable.
 	 */
 	protected function is_processable( $post_id ) {
+		/*
+		 * Do not use the `wpseo_link_count_post_types` because we want to always count the links,
+		 * even if we don't show them.
+		 */
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 
 		return isset( $post_types[ get_post_type( $post_id ) ] );

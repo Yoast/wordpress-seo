@@ -188,8 +188,12 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @return  void
 	 */
 	public function enrich_defaults() {
-
-		// Retrieve all the relevant post type and taxonomy arrays.
+		/*
+		 * Retrieve all the relevant post type and taxonomy arrays.
+		 *
+		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
+		 * These are the defaults and can be prepared for any public post type.
+		 */
 		$post_type_names = get_post_types( array( 'public' => true ), 'names' );
 
 		$post_type_objects_custom = get_post_types(
