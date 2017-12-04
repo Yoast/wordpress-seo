@@ -26,4 +26,15 @@ class WPSEO_Premium_Prominent_Words_Support {
 
 		return $prominent_words_post_types;
 	}
+
+	/**
+	 * Checks if the post type is supported.
+	 *
+	 * @param string $post_type The post type to look up.
+	 *
+	 * @return bool True when post type is supported.
+	 */
+	public function is_post_type_supported( $post_type ) {
+		return in_array( $post_type, $this->get_supported_post_types(), true );
+	}
 }
