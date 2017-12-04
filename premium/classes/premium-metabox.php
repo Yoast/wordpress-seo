@@ -81,6 +81,11 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 
 		$post = $this->get_post();
 
+		$post_type_support = new WPSEO_Premium_Prominent_Words_Support();
+		if ( ! in_array( get_post_type( $post ), $post_type_support->get_supported_post_types(), true ) ) {
+			$insights_enabled = false;
+		}
+
 		$data = array(
 			'insightsEnabled'          => ( $insights_enabled ) ? 'enabled' : 'disabled',
 			'postID'                   => $this->get_post_ID(),
