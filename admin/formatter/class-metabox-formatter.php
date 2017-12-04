@@ -113,8 +113,10 @@ class WPSEO_Metabox_Formatter {
 			'content-analysis.considerations'                => __( 'Considerations', 'wordpress-seo' ),
 			'content-analysis.good'                          => __( 'Good', 'wordpress-seo' ),
 			'content-analysis.highlight'                     => __( 'Highlight this result in the text', 'wordpress-seo' ),
-			'content-analysis.language-notice'               => __( 'Your site language is set to {language}.', 'wordpress-seo' ),
-			'content-analysis.language-notice-contact-admin' => __( 'Your site language is set to {language}. If this is not correct, contact your site administrator.', 'wordpress-seo' ),
+            /* translators: %s expands to the site language. */
+            'content-analysis.language-notice'               => sprintf(__( 'Your site language is set to %s.', 'wordpress-seo' ), '{language}' ),
+            /* translators: %s expands to the site language. */
+			'content-analysis.language-notice-contact-admin' => sprintf(__( 'Your site language is set to %s. If this is not correct, contact your site administrator.', 'wordpress-seo' ), '{language}'),
 		);
 	}
 
