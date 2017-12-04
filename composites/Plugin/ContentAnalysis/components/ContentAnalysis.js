@@ -192,12 +192,17 @@ class ContentAnalysis extends React.Component {
 		let considerationsResults = this.props.considerationsResults;
 		let errorsResults = this.props.errorsResults;
 		let headingLevel = this.props.headingLevel;
+		let errorsFound = errorsResults.length;
+		let problemsFound = problemsResults.length;
+		let improvementsFound = improvementsResults.length;
+		let considerationsFound = considerationsResults.length;
+		let goodResultsFound = goodResults.length;
 
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
 				{ this.renderLanguageNotice() }
-				{ errorsResults.length > 0 &&
+				{ errorsFound > 0 &&
 				<AnalysisCollapsible
 					hasHeading={ true }
 					headingLevel={ headingLevel }
@@ -206,7 +211,7 @@ class ContentAnalysis extends React.Component {
 				>
 					{ this.getResults( errorsResults ) }
 				</AnalysisCollapsible> }
-				{ problemsResults.length > 0 &&
+				{ problemsFound > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
 						headingLevel={ headingLevel }
@@ -215,29 +220,29 @@ class ContentAnalysis extends React.Component {
 					>
 						{ this.getResults( problemsResults ) }
 					</AnalysisCollapsible> }
-				{ improvementsResults.length > 0 &&
+				{ improvementsFound > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
 						headingLevel={ headingLevel }
-						initialIsOpen={ true }
+						initialIsOpen={ problemsFound === 0 }
 						title={ this.props.intl.formatMessage( messages.improvementsHeader ) }
 					>
 						{ this.getResults( improvementsResults ) }
 					</AnalysisCollapsible> }
-				{ considerationsResults.length > 0 &&
+				{ considerationsFound > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
 						headingLevel={ headingLevel }
-						initialIsOpen={ true }
+						initialIsOpen={ problemsFound === 0 && improvementsFound === 0 }
 						title={ this.props.intl.formatMessage( messages.considerationsHeader ) }
 					>
 						{ this.getResults( considerationsResults ) }
 					</AnalysisCollapsible> }
-				{ goodResults.length > 0 &&
+				{ goodResultsFound > 0 &&
 					<AnalysisCollapsible
 						hasHeading={ true }
 						headingLevel={ headingLevel }
-						initialIsOpen={ true }
+						initialIsOpen= { problemsFound === 0 && improvementsFound === 0 && considerationsFound === 0 }
 						title={this.props.intl.formatMessage( messages.goodHeader ) }
 					>
 						{ this.getResults( goodResults ) }
