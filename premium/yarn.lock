@@ -7265,6 +7265,30 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
+yoast-components@2.11.2:
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.11.2.tgz#3916d44a82337f940834023026ecab7bfe635ce2"
+  dependencies:
+    a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
+    algoliasearch "^3.22.3"
+    debug "^3.0.0"
+    draft-js "^0.10.1"
+    interpolate-components "^1.1.0"
+    jed "^1.1.1"
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+    react-intl "^2.4.0"
+    react-redux "^5.0.6"
+    react-tabs "^2.0.0"
+    redux "^3.7.2"
+    redux-thunk "^2.2.0"
+    striptags "^3.1.0"
+    styled-components "^2.1.2"
+    svg-url-loader "^2.1.1"
+    whatwg-fetch "^1.0.0"
+  optionalDependencies:
+    grunt-scss-to-json "^1.0.1"
+
 yoast-components@^2.11.6:
   version "2.11.6"
   resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.11.6.tgz#f81fd708973537d21f9b3829f5d21609caf5bc4b"
