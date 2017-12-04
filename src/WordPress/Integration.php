@@ -7,7 +7,9 @@ namespace Yoast\WordPress;
  */
 interface Integration {
 	/**
-	 * Registers all hooks to WordPress.
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
 	 */
 	public function initialize();
 }
