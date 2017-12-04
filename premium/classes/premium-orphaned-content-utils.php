@@ -36,7 +36,7 @@ class WPSEO_Premium_Orphaned_Content_Utils {
 		static $has_unprocessed_posts;
 
 		if ( $has_unprocessed_posts === null ) {
-			$has_unprocessed_posts = WPSEO_Link_Query::has_unprocessed_posts( WPSEO_Link_Utils::get_public_post_types() );
+			$has_unprocessed_posts = WPSEO_Link_Query::has_unprocessed_posts( WPSEO_Post_Type::get_accessible_post_types() );
 		}
 
 		return $has_unprocessed_posts;
