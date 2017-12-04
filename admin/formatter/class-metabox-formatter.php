@@ -113,12 +113,16 @@ class WPSEO_Metabox_Formatter {
 			'content-analysis.considerations'                => __( 'Considerations', 'wordpress-seo' ),
 			'content-analysis.good'                          => __( 'Good', 'wordpress-seo' ),
 			'content-analysis.highlight'                     => __( 'Highlight this result in the text', 'wordpress-seo' ),
-            /* translators: %s expands to the site language. */
-            'content-analysis.language-notice'               => sprintf( esc_html__( 'Your site language is set to %s.', 'wordpress-seo' ),
-                                                            '{language}' ),
-            /* translators: %s expands to the site language. */
-			'content-analysis.language-notice-contact-admin' => sprintf( esc_html__( 'Your site language is set to %s. If this is not correct, contact your site administrator.', 'wordpress-seo' ),
-                                                            '{language}'),
+			/* translators: %s expands to the site language. */
+			'content-analysis.language-notice'				 => sprintf(
+																	esc_html__( 'Your site language is set to %s.', 'wordpress-seo' ),
+																	'{language}'
+																),
+			/* translators: %s expands to the site language. */
+			'content-analysis.language-notice-contact-admin' => sprintf(
+																	esc_html__( 'Your site language is set to %s. If this is not correct, contact your site administrator.', 'wordpress-seo' ),
+																	'{language}'
+																),
 		);
 	}
 

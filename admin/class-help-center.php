@@ -208,9 +208,11 @@ class WPSEO_Help_Center {
 			'searchResultDetail.backButtonLabel' => __( 'Go back to the search results', 'wordpress-seo' ),
 			'searchResultDetail.iframeTitle'     => __( 'Knowledge base article', 'wordpress-seo' ),
 			'searchResult.noResultsText'         => __( 'No results found.', 'wordpress-seo' ),
-            /* translators: %d expands to the number of results found . */
-			'searchResult.foundResultsText'      => sprintf( esc_html__( 'Number of results found: %s', 'wordpress-seo' ),
-                                                    '{ resultsCount }' ),
+			/* translators: %d expands to the number of results found . */
+			'searchResult.foundResultsText'      => sprintf(
+														esc_html__( 'Number of results found: %s', 'wordpress-seo' ),
+														'{ resultsCount }'
+													),
 			'searchResult.searchResultsHeading'  => __( 'Search results', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab'           => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 			'contactSupport.button'              => __( 'Open support form', 'wordpress-seo' ),
