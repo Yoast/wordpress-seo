@@ -192,7 +192,7 @@ class WPSEO_Help_Center {
 	 * @return  array Translated text strings for the help center.
 	 */
 	public static function get_translated_texts() {
-		// Esc_html is not needed because React already handles HTMl in the (translations of) these strings.
+		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
 		return array(
 			'locale'                             => get_locale(),
 			'videoTutorial'                      => __( 'Video tutorial', 'wordpress-seo' ),
@@ -210,7 +210,7 @@ class WPSEO_Help_Center {
 			'searchResultDetail.iframeTitle'     => __( 'Knowledge base article', 'wordpress-seo' ),
 			'searchResult.noResultsText'         => __( 'No results found.', 'wordpress-seo' ),
 			'searchResult.foundResultsText'      => sprintf(
-														/* translators: %d expands to the number of results found . */
+														/* translators: %s expands to the number of results found . */
 														__( 'Number of results found: %s', 'wordpress-seo' ),
 														'{ resultsCount }'
 													),

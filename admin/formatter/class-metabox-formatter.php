@@ -104,7 +104,7 @@ class WPSEO_Metabox_Formatter {
 	 * @return array
 	 */
 	private function get_content_analysis_component_translations() {
-		// Esc_html is not needed because React already handles HTMl in the (translations of) these strings.
+		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
 		return array(
 			'locale'                                         => WPSEO_Utils::get_user_locale(),
 			'content-analysis.language-notice-link'          => __( 'Change language', 'wordpress-seo' ),
