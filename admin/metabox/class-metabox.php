@@ -142,10 +142,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( isset( $post_type ) ) {
 			// Don't make static as post_types may still be added during the run.
-			$cpts    = WPSEO_Post_Type::get_accessible_post_types();
-			$options = get_option( 'wpseo_titles' );
+			$post_types = WPSEO_Post_Type::get_accessible_post_types();
+			$options    = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts, true ) === false );
+			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $post_types, true ) === false );
 		}
 		return false;
 	}
