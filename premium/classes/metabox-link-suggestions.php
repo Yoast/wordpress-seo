@@ -10,6 +10,8 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Sets the hooks for adding the metaboxes.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
@@ -47,6 +49,8 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Adds a meta for each public post type.
+	 *
+	 * @return void
 	 */
 	public function add_meta_boxes() {
 		$post_types = $this->get_post_types();
@@ -58,6 +62,7 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	 * Returns whether the link suggestions are available for the given post type.
 	 *
 	 * @param string $post_type The post type for which to check if the link suggestions are available.
+	 *
 	 * @return boolean Whether the link suggestions are available for the given post type.
 	 */
 	public function is_available( $post_type ) {
@@ -68,6 +73,8 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Renders the content for the metabox. We leave this empty because we render with React.
+	 *
+	 * @return void
 	 */
 	public function render_metabox_content() {
 		echo '';
@@ -76,7 +83,7 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns all the public post types.
 	 *
-	 * @return array
+	 * @return array The supported post types.
 	 */
 	protected function get_post_types() {
 		$prominent_words_support = new WPSEO_Premium_Prominent_Words_Support();

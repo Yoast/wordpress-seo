@@ -4,7 +4,7 @@
  */
 
 /**
- * Represents the functionality for the premium words support.
+ * Represents the functionality for the prominent words support.
  */
 class WPSEO_Premium_Prominent_Words_Support {
 

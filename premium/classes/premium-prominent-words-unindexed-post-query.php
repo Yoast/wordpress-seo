@@ -63,7 +63,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		global $wpdb;
 
 		if ( $post_types === array() ) {
-			return array();
+			return $post_types;
 		}
 
 		$replacements = array(
@@ -121,7 +121,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		}
 
 		if ( $post_types === array() ) {
-			return array();
+			return $post_types;
 		}
 
 		$replacements   = array(
