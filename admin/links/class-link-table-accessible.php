@@ -8,6 +8,9 @@
  */
 class WPSEO_Link_Table_Accessible {
 
+	const ACCESSIBLE = '0';
+	const INACCESSBILE = '1';
+
 	/**
 	 * Checks if the given table name exists.
 	 *
@@ -17,25 +20,31 @@ class WPSEO_Link_Table_Accessible {
 		$value = get_transient( self::transient_name() );
 
 		// If the value is not set, check the table.
-		if ( null === $value ) {
+		if ( false === $value ) {
 			return self::check_table();
 		}
 
-		return $value === 0;
+		return $value === self::ACCESSIBLE;
 	}
 
 	/**
 	 * Sets the transient value to 1, to indicate the table is not accessible.
 	 */
 	public static function set_inaccessible() {
-		set_transient( self::transient_name(), 1, HOUR_IN_SECONDS );
+		set_transient( self::transient_name(), self::INACCESSBILE, HOUR_IN_SECONDS );
 	}
 
 	/**
 	 * Sets the transient value to 0, to indicate the table is accessbile.
 	 */
 	protected static function set_accessible() {
-		set_transient( self::transient_name(), 0 );
+		/*
+		 * Prefer to set a 0 timeout, but if the timeout was set before WordPress will not delete the transient
+		 * correctly when overridden with a zero value.
+		 *
+		 * Setting a YEAR_IN_SECONDS instead.
+		 */
+		set_transient( self::transient_name(), self::ACCESSIBLE, YEAR_IN_SECONDS );
 	}
 
 	/**
