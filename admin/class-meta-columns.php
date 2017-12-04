@@ -584,7 +584,7 @@ class WPSEO_Meta_Columns {
 	 * Sets up the hooks for the post_types.
 	 */
 	private function set_post_type_hooks() {
-		$post_types = get_post_types( array( 'public' => true ), 'names' );
+		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $post_type ) {
@@ -640,7 +640,7 @@ class WPSEO_Meta_Columns {
 
 		if ( isset( $post_type ) ) {
 			// Don't make static as post_types may still be added during the run.
-			$cpts    = get_post_types( array( 'public' => true ), 'names' );
+			$cpts    = WPSEO_Post_Type::get_accessible_post_types();
 			$options = get_option( 'wpseo_titles' );
 
 			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts, true ) === false );
