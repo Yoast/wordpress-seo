@@ -192,6 +192,7 @@ class WPSEO_Help_Center {
 	 * @return  array Translated text strings for the help center.
 	 */
 	public static function get_translated_texts() {
+		// Esc_html is not needed because React already handles HTMl in the (translations of) these strings.
 		return array(
 			'locale'                             => get_locale(),
 			'videoTutorial'                      => __( 'Video tutorial', 'wordpress-seo' ),
