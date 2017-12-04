@@ -725,6 +725,19 @@ class WPSEO_Meta_Columns {
 	 * @return bool Whether or the current page can display the filter drop downs.
 	 */
 	public function can_display_filter() {
-		return $GLOBALS['pagenow'] !== 'upload.php' && $this->is_metabox_hidden() === false;
+		if ( $GLOBALS['pagenow'] === 'upload.php' ) {
+			return false;
+		}
+
+		if ( $this->is_metabox_hidden() !== false ) {
+			return false;
+		}
+
+		$screen = get_current_screen();
+		if ( null === $screen ) {
+			return false;
+		}
+
+		return in_array( $screen->post_type, WPSEO_Post_Type::get_accessible_post_types(), true );
 	}
 }
