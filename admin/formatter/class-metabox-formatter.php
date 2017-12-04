@@ -104,6 +104,7 @@ class WPSEO_Metabox_Formatter {
 	 * @return array
 	 */
 	private function get_content_analysis_component_translations() {
+		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
 		return array(
 			'locale'                                         => WPSEO_Utils::get_user_locale(),
 			'content-analysis.language-notice-link'          => __( 'Change language', 'wordpress-seo' ),
@@ -113,8 +114,16 @@ class WPSEO_Metabox_Formatter {
 			'content-analysis.considerations'                => __( 'Considerations', 'wordpress-seo' ),
 			'content-analysis.good'                          => __( 'Good', 'wordpress-seo' ),
 			'content-analysis.highlight'                     => __( 'Highlight this result in the text', 'wordpress-seo' ),
-			'content-analysis.language-notice'               => __( 'Your site language is set to {language}.', 'wordpress-seo' ),
-			'content-analysis.language-notice-contact-admin' => __( 'Your site language is set to {language}. If this is not correct, contact your site administrator.', 'wordpress-seo' ),
+			'content-analysis.language-notice'				 => sprintf(
+																	/* translators: %s expands to the site language. */
+																	__( 'Your site language is set to %s.', 'wordpress-seo' ),
+																	'{language}'
+																),
+			'content-analysis.language-notice-contact-admin' => sprintf(
+																	/* translators: %s expands to the site language. */
+																	__( 'Your site language is set to %s. If this is not correct, contact your site administrator.', 'wordpress-seo' ),
+																	'{language}'
+																),
 		);
 	}
 
