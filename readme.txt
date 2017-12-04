@@ -144,7 +144,7 @@ Enhancements
 * Introduces the `wpseo_add_opengraph_additional_images` filter to allow additional OpenGraph Images to be added at a low priority.
 * Changes the Dashboard widget's progress bar height to 24px.
 * Makes the 'Next' and 'Back' buttons in the Onboarding Wizard focusable.
-* Adds grouping of feedback within the content analysis, in the following categories: 'good', 'needs improvement', 'problems', 'considerations', and 'errors'. The most urgent category is always expanded.
+* Adds grouping of feedback within the content analysis, in the following categories: 'errors', 'problems', 'needs improvement', 'considerations', and 'good'. Each category can be expanded or collapsed.
 
 
 = 5.8.0 =
