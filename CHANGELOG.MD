@@ -5,6 +5,11 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.11.6 December 4th, 2017
+
+### Other
+* Expands the `AnalysisCollapsible` that is currently the most urgent in the `ContentAnalysis`. #391
+
 ## 2.11.5 November 30th, 2017
 
 ### Other

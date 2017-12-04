@@ -137,7 +137,7 @@ export class AnalysisCollapsible extends React.Component {
 		super( props );
 
 		this.state = {
-			isOpen: this.props.initialIsOpen,
+			isOpen: null,
 		};
 
 		this.toggleOpen = this.toggleOpen.bind( this );
@@ -157,8 +157,22 @@ export class AnalysisCollapsible extends React.Component {
 	 */
 	toggleOpen() {
 		this.setState( {
-			isOpen: ! this.state.isOpen,
+			isOpen: ! this.isOpen(),
 		} );
+	}
+
+	/**
+	 * Returns whether or not the collapsible should be rendered open or closed.
+	 *
+	 * @returns {boolean} Whether or not this component is open.
+	 */
+	isOpen() {
+		// When `isOpen` is null then the user has never opened or closed the collapsible.
+		if ( this.state.isOpen === null ) {
+			return this.props.initialIsOpen;
+		}
+
+		return this.state.isOpen === true;
 	}
 
 	/**
@@ -171,7 +185,7 @@ export class AnalysisCollapsible extends React.Component {
 			<AnalysisCollapsibleStateless
 				title={ this.props.title }
 				onToggle={ this.toggleOpen.bind( this ) }
-				isOpen={ this.state.isOpen }
+				isOpen={ this.isOpen() }
 				hasHeading={ this.props.hasHeading }
 				headingLevel={ this.props.headingLevel }
 				element={ this.element }
