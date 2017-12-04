@@ -11,7 +11,7 @@ abstract class Integration_Group implements Integration {
 	abstract protected function get_integrations();
 
 	/**
-	 * Registers all hooks to WordPress.
+	 * Initializes all registered integrations.
 	 */
 	public function initialize() {
 		$integrations = $this->get_integrations();
