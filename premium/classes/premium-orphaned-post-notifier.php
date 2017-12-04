@@ -11,18 +11,14 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 	/** @var Yoast_Notification_Center */
 	protected $notification_center;
 
-	/** @var array Post types to use. */
-	protected $post_types = array();
-
 	/**
 	 * WPSEO_Premium_Orphaned_Content_Notifier constructor.
 	 *
-	 * @param array                     $post_types          The supported post types.
+	 * @param array                     $post_types          Unused. The supported post types.
 	 * @param Yoast_Notification_Center $notification_center The notification center object.
 	 */
 	public function __construct( array $post_types, Yoast_Notification_Center $notification_center ) {
 		$this->notification_center = $notification_center;
-		$this->post_types          = $post_types;
 	}
 
 	/**
@@ -51,10 +47,23 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 		WPSEO_Link_Table_Accessible::check_table_is_accessible();
 		WPSEO_Meta_Table_Accessible::check_table_is_accessible();
 
-		$post_types = $this->format_post_types( $this->post_types );
+		$post_types = $this->get_post_types();
+		$post_types = $this->format_post_types( $post_types );
 
 		// Walks over the posts types and handle the notification.
 		array_walk( $post_types, array( $this, 'notify_for_post_type' ) );
+	}
+
+
+	/**
+	 * Returns the post types to which this filter should be added.
+	 *
+	 * @return array The post types to which this filter should be added.
+	 */
+	protected function get_post_types() {
+		$orphaned_content_support = new WPSEO_Premium_Orphaned_Content_Support();
+
+		return $orphaned_content_support->get_supported_post_types();
 	}
 
 	/**
@@ -154,7 +163,7 @@ class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integratio
 		static $post_type_counts;
 
 		if ( ! is_array( $post_type_counts ) ) {
-			$post_type_counts = WPSEO_Premium_Orphaned_Post_Query::get_counts( $this->post_types );
+			$post_type_counts = WPSEO_Premium_Orphaned_Post_Query::get_counts( $this->get_post_types() );
 		}
 
 		if ( array_key_exists( $post_type_name, $post_type_counts ) ) {

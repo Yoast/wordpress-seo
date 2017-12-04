@@ -22,11 +22,12 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 			return;
 		}
 
-		foreach ( array( 'post', 'page' ) as $post_type ) {
+		foreach ( $this->get_post_types() as $post_type ) {
 			add_filter( 'rest_' . $post_type . '_query', array( $this, 'rest_add_query_args' ), 10, 2 );
 			add_filter( 'rest_' . $post_type . '_collection_params', array( $this, 'rest_register_collection_param' ) );
 		}
 	}
+
 
 	/**
 	 * Saves the version number as a meta.
@@ -128,5 +129,16 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 				self::POST_META_NAME
 			)
 		);
+	}
+
+	/**
+	 * Returns a list of supported post types.
+	 *
+	 * @return array The supported post types.
+	 */
+	private function get_post_types() {
+		$prominent_words_support = new WPSEO_Premium_Prominent_Words_Support();
+
+		return $prominent_words_support->get_supported_post_types();
 	}
 }

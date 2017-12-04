@@ -58,7 +58,7 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 			return array();
 		}
 
-		$post_types = get_post_types( array( 'public' => true ), 'names' );
+		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 		if ( empty( $post_types ) ) {
 			return array();
 		}
@@ -157,7 +157,7 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 
 		if ( $escaped === null ) {
 			// Get all public post types and run esc_sql on them.
-			$escaped = implode( '", "', array_map( 'esc_sql', get_post_types( array( 'public' => true ), 'names' ) ) );
+			$escaped = implode( '", "', array_map( 'esc_sql', WPSEO_Post_Type::get_accessible_post_types() ) );
 		}
 
 		return $escaped;
