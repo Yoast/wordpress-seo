@@ -210,7 +210,7 @@ class WPSEO_Help_Center {
 			'searchResult.noResultsText'         => __( 'No results found.', 'wordpress-seo' ),
 			'searchResult.foundResultsText'      => sprintf(
 														/* translators: %d expands to the number of results found . */
-														esc_html__( 'Number of results found: %s', 'wordpress-seo' ),
+														__( 'Number of results found: %s', 'wordpress-seo' ),
 														'{ resultsCount }'
 													),
 			'searchResult.searchResultsHeading'  => __( 'Search results', 'wordpress-seo' ),
