@@ -104,18 +104,9 @@ class WPSEO_Premium {
 			'redirects-endpoint'                     => new WPSEO_Premium_Redirect_EndPoint( new WPSEO_Premium_Redirect_Service() ),
 			'redirect-export-manager'                => new WPSEO_Premium_Redirect_Export_Manager(),
 			'keyword-export-manager'                 => new WPSEO_Premium_Keyword_Export_Manager(),
+			'orphaned-post-filter'                   => new WPSEO_Premium_Orphaned_Post_Filter(),
+			'orphaned-post-notifier'                 => new WPSEO_Premium_Orphaned_Post_Notifier( array( 'post', 'page' ), Yoast_Notification_Center::get() ),
 		);
-
-		/**
-		 * Filter: 'wpseo_orphaned_post_types' - Allows changes for the accessible post types.
-		 *
-		 * @api array The accessible post types.
-		 */
-		$orphaned_post_types = apply_filters( 'wpseo_orphaned_post_types', WPSEO_Post_Type::get_accessible_post_types() );
-		if ( is_array( $orphaned_post_types ) && ! empty( $orphaned_post_types ) ) {
-			$this->integrations['orphaned-post-filter']   = new WPSEO_Premium_Orphaned_Post_Filter( $orphaned_post_types );
-			$this->integrations['orphaned-post-notifier'] = new WPSEO_Premium_Orphaned_Post_Notifier( $orphaned_post_types, Yoast_Notification_Center::get() );
-		}
 
 		$this->setup();
 	}
