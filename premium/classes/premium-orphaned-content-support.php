@@ -20,7 +20,7 @@ class WPSEO_Premium_Orphaned_Content_Support {
 		 * @api array The accessible post types.
 		 */
 		$orphaned_post_types = apply_filters( 'wpseo_orphaned_post_types', WPSEO_Post_Type::get_accessible_post_types() );
-		if ( ! is_array( $orphaned_post_types ) ||  empty( $orphaned_post_types ) ) {
+		if ( ! is_array( $orphaned_post_types ) || empty( $orphaned_post_types ) ) {
 			$orphaned_post_types = array();
 		}
 
