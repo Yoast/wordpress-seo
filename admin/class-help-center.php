@@ -208,8 +208,8 @@ class WPSEO_Help_Center {
 			'searchResultDetail.backButtonLabel' => __( 'Go back to the search results', 'wordpress-seo' ),
 			'searchResultDetail.iframeTitle'     => __( 'Knowledge base article', 'wordpress-seo' ),
 			'searchResult.noResultsText'         => __( 'No results found.', 'wordpress-seo' ),
-			/* translators: %d expands to the number of results found . */
 			'searchResult.foundResultsText'      => sprintf(
+														/* translators: %d expands to the number of results found . */
 														esc_html__( 'Number of results found: %s', 'wordpress-seo' ),
 														'{ resultsCount }'
 													),
