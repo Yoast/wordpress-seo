@@ -33,6 +33,24 @@ var regularParticiples = function( word, language ) {
 };
 
 /**
+ * Returns an array of matches of irregular participles with suffixes.
+ *
+ * @param {string} word The word to match on.
+ * @param {Array} irregulars The list of irregulars to match.
+ * @param {string} suffixes The suffixes to match the word with.
+ * @param {Array} matches The array into which to push the matches.
+ * @returns {Array} A list with matched irregular participles.
+ */
+var matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes, matches ) {
+	forEach( irregulars, function( irregular ) {
+		var irregularParticiplesRegex = new RegExp( "^" + irregular + suffixes + "?$", "ig" );
+		matches.push( word.match( irregularParticiplesRegex ) || [] );
+	} );
+	matches = [].concat.apply( [], matches );
+	return matches;
+};
+
+/**
  * Returns the matches for a word in the list of irregulars.
  *
  * @param {string} word The word to match in the list.
@@ -44,15 +62,10 @@ var irregularParticiples = function( word, language ) {
 	var matches = [];
 	switch ( language ) {
 		case "fr":
-			forEach( irregularsRegularFrench, function( irregular ) {
-				var irregularParticiplesRegex = new RegExp( "^" + irregular + "(e|s|es)?$", "ig" );
-				matches.push( word.match( irregularParticiplesRegex ) || [] );
-			} );
-			forEach( irregularsEndingInSFrench, function( irregular ) {
-				var irregularParticiplesEndingInSRegex = new RegExp( "^" + irregular + "(e|es)?$", "ig" );
-				matches.push( word.match( irregularParticiplesEndingInSRegex ) || [] );
-			} );
-			matches = [].concat.apply( [], matches );
+			// Match different classes of participles with suffixes.
+			matches = matchFrenchParticipleWithSuffix( word, irregularsRegularFrench, "(e|s|es)", matches );
+			matches = matchFrenchParticipleWithSuffix( word, irregularsEndingInSFrench, "(e|es)", matches );
+			// Match irregular participles that don't require adding a suffix.
 			find( irregularsIrregularFrench, function( currentWord ) {
 				if( currentWord === word ) {
 					matches.push( currentWord );
