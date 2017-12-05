@@ -34,7 +34,6 @@ class WPSEO_Premium_Prominent_Words_Support_Test extends WPSEO_UnitTestCase {
 			),
 			$this->class_instance->get_supported_post_types()
 		);
-
 	}
 
 	/**
@@ -88,7 +87,6 @@ class WPSEO_Premium_Prominent_Words_Support_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_attachment_post_type_is_supported_attachment_with_hook_that_filters_the_attachment() {
 		add_filter( 'wpseo_prominent_words_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
-
 
 		$this->assertFalse( $this->class_instance->is_post_type_supported( 'attachment' ) );
 
