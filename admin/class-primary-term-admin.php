@@ -28,7 +28,7 @@ class WPSEO_Primary_Term_Admin {
 	 * @return integer The post ID.
 	 */
 	protected function get_current_id() {
-		return filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+		return $GLOBALS['post_ID'];
 	}
 
 	/**
