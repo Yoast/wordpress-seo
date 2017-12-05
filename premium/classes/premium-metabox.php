@@ -46,7 +46,12 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 		wp_register_script(
 			WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox',
 			plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-' . $version . WPSEO_CSSJS_SUFFIX . '.js',
-			array( 'jquery', 'wp-util', 'underscore' ),
+			array(
+				'jquery',
+				'wp-util',
+				'underscore',
+				WPSEO_Admin_Asset_Manager::PREFIX . 'webpack-commons'
+			),
 			WPSEO_VERSION
 		);
 		wp_register_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-metabox-' . $version . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
