@@ -150,10 +150,14 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	translateScore( score, tooLongTexts, i18n ) {
 		if ( score === 2 ) {
-			return i18n.dgettext(
-				"js-text-analysis",
-				"The text does not contain any subheadings. Add at least one subheading."
-			);
+            return i18n.sprintf(
+                i18n.dgettext(
+                	"js-text-analysis",
+					"The text does not contain any %1$ssubheadings%2$s. Add at least one subheading."
+				),
+				"<a href='https://yoa.st/headings' target='_blank'>",
+				"</a>"
+            );
 		}
 
 		if ( score >= 7 ) {

@@ -23,7 +23,7 @@ describe( "An assessment for scoring too long text fragments following a subhead
 	it ( "returns score 2 for no subheadings", function() {
 		let assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [] ), i18n );
 		expect( assessment.getScore() ).toBe( 2 );
-		expect( assessment.getText() ).toBe( "The text does not contain any subheadings. Add at least one subheading." );
+		expect( assessment.getText() ).toBe( "The text does not contain any <a href='https://yoa.st/headings' target='_blank'>subheadings</a>. Add at least one subheading." );
 	} );
 	it ( "returns score 3 for a text fragment over 350 words", function() {
 		let assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ {text: "", wordCount: 60},  {text: "", wordCount: 400}, {text: "", wordCount: 300} ] ), i18n );
