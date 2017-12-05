@@ -298,6 +298,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					self::PREFIX . 'polyfill',
+					self::PREFIX . 'webpack-commons',
 				),
 			),
 			array(
