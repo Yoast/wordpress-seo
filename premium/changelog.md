@@ -1,3 +1,6 @@
+### 5.9.1: December 5th, 2017
+* Fixes a bug where the configuration wizard could not be loaded, caused by a missing JavaScript dependency.
+
 ### 5.9.0: December 5th, 2017
 * Insights are now shown in a separate section below the text analysis.
 * Includes every change in Yoast SEO core 5.9.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
