@@ -50,7 +50,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 				'jquery',
 				'wp-util',
 				'underscore',
-				WPSEO_Admin_Asset_Manager::PREFIX . 'webpack-commons'
+				WPSEO_Admin_Asset_Manager::PREFIX . 'webpack-commons',
 			),
 			WPSEO_VERSION
 		);
