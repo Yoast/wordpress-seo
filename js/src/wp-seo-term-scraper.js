@@ -19,12 +19,13 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 import TermDataCollector from "./analysis/TermDataCollector";
 import { termsTmceId as tmceId } from "./wp-seo-tinymce";
+import initializeEdit from "./edit";
+import { setActiveKeyword } from "./redux/actions/activeKeyword";
+import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 window.yoastHideMarkers = true;
 
-( function( $ ) {
-	"use strict";
-
+( function( $, window ) {
 	var snippetContainer;
 
 	var app, snippetPreview;
@@ -32,6 +33,8 @@ window.yoastHideMarkers = true;
 	var termSlugInput;
 
 	var tabManager;
+
+	let store;
 
 	/**
 	 * Get the editor created via wp_editor() and append it to the term-description-wrap
@@ -161,14 +164,37 @@ window.yoastHideMarkers = true;
 		updateAdminBar( indicator );
 	}
 
+	/**
+	 * Overwrites YoastSEO.js' app renderers.
+	 *
+	 * @param {Object} app YoastSEO.js app.
+	 *
+	 * @returns {void}
+	 */
+	function disableYoastSEORenderers( app ) {
+		if( ! isUndefined( app.seoAssessorPresenter ) ) {
+			app.seoAssessorPresenter.render = function() {};
+		}
+		if( ! isUndefined( app.contentAssessorPresenter ) ) {
+			app.contentAssessorPresenter.render = function() {};
+			app.contentAssessorPresenter.renderIndividualRatings = function() {};
+		}
+	}
+
 	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
+
+		$( "#wpseo_analysis" ).after( '<div id="yoast-seo-content-analysis"></div>' );
+
+		const editArgs = {
+			readabilityTarget: "yoast-seo-content-analysis",
+			seoTarget: "wpseo_analysis",
+		};
+		store = initializeEdit( editArgs ).store;
 
 		snippetContainer = $( "#wpseosnippet" );
 
 		insertTinyMCE();
-
-		$( "#wpseo_analysis" ).after( '<div id="yoast-seo-content-analysis"></div>' );
 
 		tabManager = new TabManager( {
 			strings: wpseoTermScraperL10n,
@@ -197,10 +223,24 @@ window.yoastHideMarkers = true;
 
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
+			args.callbacks.updatedKeywordsResults = function( results ) {
+				let keyword = tabManager.getKeywordTab().getKeyWord();
+
+				if ( tabManager.isMainKeyword( keyword ) ) {
+					if ( keyword === "" ) {
+						keyword = termScraper.getName();
+					}
+					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+					store.dispatch( setActiveKeyword( keyword ) );
+				}
+			};
 		}
 
 		if ( isContentAnalysisActive() ) {
 			args.callbacks.saveContentScore = termScraper.saveContentScore.bind( termScraper );
+			args.callbacks.updatedContentResults = function( results ) {
+				store.dispatch( setReadabilityResults( results ) );
+			};
 		}
 
 		translations = getTranslations();
@@ -217,6 +257,7 @@ window.yoastHideMarkers = true;
 
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
+		window.YoastSEO.store = store;
 
 		termScraper.initKeywordTabTemplate();
 
@@ -245,6 +286,14 @@ window.yoastHideMarkers = true;
 
 		jQuery( window ).trigger( "YoastSEO:ready" );
 
+		// Hack needed to make sure Publish box and traffic light are still updated.
+		disableYoastSEORenderers( app );
+		let originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
+		app.initAssessorPresenters = function() {
+			originalInitAssessorPresenters();
+			disableYoastSEORenderers( app );
+		};
+
 		/*
 		 * Checks the snippet preview size and toggles views when the WP admin menu state changes.
 		 * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
@@ -254,4 +303,4 @@ window.yoastHideMarkers = true;
 			app.snippetPreview.handleWindowResizing();
 		} );
 	} );
-}( jQuery ) );
+}( jQuery, window ) );

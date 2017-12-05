@@ -176,55 +176,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Adds contextual help to the titles & metas page.
-	 *
-	 * @deprecated
-	 */
-	public function title_metas_help_tab() {
-		_deprecated_function( __METHOD__, '5.6.0' );
-
-		$screen = get_current_screen();
-
-		$screen->set_help_sidebar( '
-			<p><strong>' . __( 'For more information:', 'wordpress-seo' ) . '</strong></p>
-			<p><a target="_blank" href="https://yoast.com/wordpress-seo/#titles">' . __( 'Title optimization', 'wordpress-seo' ) . '</a></p>
-			<p><a target="_blank" href="https://yoast.com/google-page-title/">' . __( 'Why Google won\'t display the right page title', 'wordpress-seo' ) . '</a></p>'
-		);
-
-		$screen->add_help_tab(
-			array(
-				'id'      => 'basic-help',
-				'title'   => __( 'Template explanation', 'wordpress-seo' ),
-				'content' => "\n\t\t<h2>" . __( 'Template explanation', 'wordpress-seo' ) . "</h2>\n\t\t" . '<p>' .
-					sprintf(
-						/* translators: %1$s expands to Yoast SEO. */
-						__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ),
-						'Yoast SEO' ) .
-					'</p><p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
-			)
-		);
-
-		$screen->add_help_tab(
-			array(
-				'id'      => 'title-vars',
-				'title'   => __( 'Basic Variables', 'wordpress-seo' ),
-				'content' => "\n\t\t<h2>" . __( 'Basic Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_basic_help_texts(),
-			)
-		);
-
-		$screen->add_help_tab(
-			array(
-				'id'      => 'title-vars-advanced',
-				'title'   => __( 'Advanced Variables', 'wordpress-seo' ),
-				'content' => "\n\t\t<h2>" . __( 'Advanced Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_advanced_help_texts(),
-			)
-		);
-	}
-
-
-
-
-	/**
 	 * Adds the ability to choose how many posts are displayed per page
 	 * on the bulk edit pages.
 	 */
@@ -511,6 +462,9 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Link_Reindex_Dashboard();
 		$integrations[] = new WPSEO_Link_Notifier();
 
+		// Adds a filter to exclude the attachments from the link count.
+		add_filter( 'wpseo_link_count_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
+
 		return $integrations;
 	}
 
@@ -692,6 +646,53 @@ class WPSEO_Admin {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Adds contextual help to the titles & metas page.
+	 *
+	 * @deprecated 5.6.0
+	 */
+	public function title_metas_help_tab() {
+		_deprecated_function( __METHOD__, '5.6.0' );
+
+		$screen = get_current_screen();
+
+		$screen->set_help_sidebar( '
+			<p><strong>' . __( 'For more information:', 'wordpress-seo' ) . '</strong></p>
+			<p><a target="_blank" href="https://yoast.com/wordpress-seo/#titles">' . __( 'Title optimization', 'wordpress-seo' ) . '</a></p>
+			<p><a target="_blank" href="https://yoast.com/google-page-title/">' . __( 'Why Google won\'t display the right page title', 'wordpress-seo' ) . '</a></p>'
+		);
+
+		$screen->add_help_tab(
+			array(
+				'id'      => 'basic-help',
+				'title'   => __( 'Template explanation', 'wordpress-seo' ),
+				'content' => "\n\t\t<h2>" . __( 'Template explanation', 'wordpress-seo' ) . "</h2>\n\t\t" . '<p>' .
+					sprintf(
+						/* translators: %1$s expands to Yoast SEO. */
+						__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ),
+						'Yoast SEO'
+					) .
+					'</p><p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
+			)
+		);
+
+		$screen->add_help_tab(
+			array(
+				'id'      => 'title-vars',
+				'title'   => __( 'Basic Variables', 'wordpress-seo' ),
+				'content' => "\n\t\t<h2>" . __( 'Basic Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_basic_help_texts(),
+			)
+		);
+
+		$screen->add_help_tab(
+			array(
+				'id'      => 'title-vars-advanced',
+				'title'   => __( 'Advanced Variables', 'wordpress-seo' ),
+				'content' => "\n\t\t<h2>" . __( 'Advanced Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_advanced_help_texts(),
+			)
+		);
 	}
 
 	// @codeCoverageIgnoreEnd

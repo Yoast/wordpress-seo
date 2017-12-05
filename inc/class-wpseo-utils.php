@@ -731,7 +731,7 @@ class WPSEO_Utils {
 		}
 
 		// Append 'query' string if it exists.
-		if ( isset( $parsed_url['query'] ) && '' != $parsed_url['query'] ) {
+		if ( ! empty( $parsed_url['query'] ) ) {
 			$formatted_url .= '?' . $parsed_url['query'];
 		}
 
@@ -751,7 +751,7 @@ class WPSEO_Utils {
 	public static function get_plugin_name( $plugin ) {
 		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
 
-		if ( $plugin_details['Name'] != '' ) {
+		if ( $plugin_details['Name'] !== '' ) {
 			return $plugin_details['Name'];
 		}
 
@@ -934,46 +934,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
-	 *
-	 * @since 3.4
-	 *
-	 * @param string $locale The locale to get the language of.
-	 *
-	 * @returns string The language part of the locale.
-	 */
-	public static function get_language( $locale ) {
-		$language = 'en';
-
-		if ( ! empty( $locale ) && strlen( $locale ) >= 2 ) {
-			$language = substr( $locale, 0, 2 );
-		}
-
-		return $language;
-	}
-
-	/**
-	 * Returns the user locale for the language to be used in the admin.
-	 *
-	 * WordPress 4.7 introduced the ability for users to specify an Admin language
-	 * different from the language used on the front end. This checks if the feature
-	 * is available and returns the user's language, with a fallback to the site's language.
-	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
-	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
-	 *
-	 * @since 4.1
-	 *
-	 * @returns string The locale.
-	 */
-	public static function get_user_locale() {
-		if ( function_exists( 'get_user_locale' ) ) {
-			return get_user_locale();
-		}
-
-		return get_locale();
-	}
-
-	/**
 	 * Checks if the WP-REST-API is available.
 	 *
 	 * @since 3.6
@@ -989,6 +949,40 @@ class WPSEO_Utils {
 	}
 
 	/********************** DEPRECATED METHODS **********************/
+
+	/**
+	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
+	 *
+	 * @see        WPSEO_Language_Utils::get_language()
+	 *
+	 * @since      3.4
+	 *
+	 * @param string $locale The locale to get the language of.
+	 *
+	 * @returns string The language part of the locale.
+	 */
+	public static function get_language( $locale ) {
+		return WPSEO_Language_Utils::get_language( $locale );
+	}
+
+	/**
+	 * Returns the user locale for the language to be used in the admin.
+	 *
+	 * WordPress 4.7 introduced the ability for users to specify an Admin language
+	 * different from the language used on the front end. This checks if the feature
+	 * is available and returns the user's language, with a fallback to the site's language.
+	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
+	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
+	 *
+	 * @see        WPSEO_Language_Utils::get_user_locale()
+	 *
+	 * @since      4.1
+	 *
+	 * @returns string The locale.
+	 */
+	public static function get_user_locale() {
+		return WPSEO_Language_Utils::get_user_locale();
+	}
 
 	// @codeCoverageIgnoreStart
 	/**

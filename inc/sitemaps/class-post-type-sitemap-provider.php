@@ -119,6 +119,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
+		// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
 		$post_types          = get_post_types( array( 'public' => true ) );
 		$post_types          = array_filter( $post_types, array( $this, 'is_valid_post_type' ) );
 		$last_modified_times = WPSEO_Sitemaps::get_last_modified_gmt( $post_types, true );
@@ -305,6 +306,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
+		// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
 		if ( ! in_array( $post_type, get_post_types( array( 'public' => true ), 'names' ), true ) ) {
 			return false;
 		}
@@ -375,7 +377,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$needs_archive = true;
 
-		if ( ! $this->get_page_on_front_id() && ( $post_type == 'post' || $post_type == 'page' ) ) {
+		if ( ! $this->get_page_on_front_id() && ( $post_type === 'post' || $post_type === 'page' ) ) {
 
 			$links[] = array(
 				'loc' => $this->get_home_url(),
@@ -637,7 +639,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
 
 		$return = 0.6;
-		if ( $post->post_parent == 0 && $post->post_type == 'page' ) {
+		if ( $post->post_parent === 0 && $post->post_type === 'page' ) {
 			$return = 0.8;
 		}
 

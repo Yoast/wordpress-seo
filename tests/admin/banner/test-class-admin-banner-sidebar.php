@@ -32,7 +32,7 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Returns a mock from the WPSEO_Admin_Banner_Sidebar.
 	 *
-	 * @param array $methods_to_mock
+	 * @param array $methods_to_mock Array of method names.
 	 *
 	 * @return WPSEO_Admin_Banner_Sidebar
 	 */

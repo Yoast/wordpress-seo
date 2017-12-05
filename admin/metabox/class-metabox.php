@@ -91,7 +91,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 
 		self::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Meta robots index', 'wordpress-seo' );
-		if ( '0' == get_option( 'blog_public' ) ) {
+		if ( '0' === (string) get_option( 'blog_public' ) ) {
 			self::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
 		}
 		/* translators: %s expands to the robots (no)index setting default as set in the site-wide settings.*/
@@ -142,10 +142,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( isset( $post_type ) ) {
 			// Don't make static as post_types may still be added during the run.
-			$cpts    = get_post_types( array( 'public' => true ), 'names' );
-			$options = get_option( 'wpseo_titles' );
+			$post_types = WPSEO_Post_Type::get_accessible_post_types();
+			$options    = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts, true ) === false );
+			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $post_types, true ) === false );
 		}
 		return false;
 	}
@@ -195,7 +195,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * attachment, and custom post types pages.
 	 */
 	public function add_meta_box() {
-		$post_types = get_post_types( array( 'public' => true ) );
+		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $post_type ) {
@@ -899,7 +899,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		else {
 
-			if ( 0 != get_queried_object_id() ) {
+			if ( 0 !== get_queried_object_id() ) {
 				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
 			}
 

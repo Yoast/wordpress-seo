@@ -251,7 +251,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 		return $upsert_results;
 	}
 
-	if ( ! current_user_can( $post_type_object->cap->edit_others_posts ) && $the_post->post_author != get_current_user_id() ) {
+	if ( ! current_user_can( $post_type_object->cap->edit_others_posts ) && (int) $the_post->post_author !== get_current_user_id() ) {
 
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = sprintf(

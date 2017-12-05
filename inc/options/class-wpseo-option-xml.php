@@ -95,6 +95,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 		}
 		unset( $user_roles, $filtered_user_roles );
 
+		// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
 		$post_type_names     = get_post_types( array( 'public' => true ), 'names' );
 		$filtered_post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', $post_type_names );
 
@@ -115,7 +116,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 		$filtered_taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', $taxonomy_objects );
 		if ( is_array( $filtered_taxonomies ) && $filtered_taxonomies !== array() ) {
 			foreach ( $filtered_taxonomies as $tax ) {
-				if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
+				if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) !== '' ) {
 					$this->defaults[ 'taxonomies-' . $tax->name . '-not_in_sitemap' ] = false;
 				}
 			}

@@ -20,7 +20,7 @@ class WPSEO_Frontend {
 	public $options = array();
 
 	/**
-	 * @var boolean Boolean indicating wether output buffering has been started.
+	 * @var boolean Boolean indicating whether output buffering has been started.
 	 */
 	private $ob_started = false;
 
@@ -143,7 +143,7 @@ class WPSEO_Frontend {
 		add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
 
 		// For WordPress functions below 4.4.
-		if ( ! current_theme_supports( 'title-tag' ) && $this->options['forcerewritetitle'] === true ) {
+		if ( $this->options['forcerewritetitle'] === true && ! current_theme_supports( 'title-tag' ) ) {
 			add_action( 'template_redirect', array( $this, 'force_rewrite_output_buffer' ), 99999 );
 			add_action( 'wp_footer', array( $this, 'flush_cache' ), - 1 );
 		}
@@ -177,7 +177,7 @@ class WPSEO_Frontend {
 	 */
 	public function reset() {
 		foreach ( get_class_vars( __CLASS__ ) as $name => $default ) {
-			if ( $name == 'instance' ) {
+			if ( $name === 'instance' ) {
 				self::$instance = null;
 			}
 			else {
@@ -217,7 +217,7 @@ class WPSEO_Frontend {
 	 * @return bool
 	 */
 	public function is_home_posts_page() {
-		return ( is_home() && 'posts' == get_option( 'show_on_front' ) );
+		return ( is_home() && 'posts' === get_option( 'show_on_front' ) );
 	}
 
 	/**
@@ -226,7 +226,7 @@ class WPSEO_Frontend {
 	 * @return bool
 	 */
 	public function is_home_static_page() {
-		return ( is_front_page() && 'page' == get_option( 'show_on_front' ) && is_page( get_option( 'page_on_front' ) ) );
+		return ( is_front_page() && 'page' === get_option( 'show_on_front' ) && is_page( get_option( 'page_on_front' ) ) );
 	}
 
 	/**
@@ -235,7 +235,7 @@ class WPSEO_Frontend {
 	 * @return bool
 	 */
 	public function is_posts_page() {
-		return ( is_home() && 'page' == get_option( 'show_on_front' ) );
+		return ( is_home() && 'page' === get_option( 'show_on_front' ) );
 	}
 
 	/**
@@ -250,19 +250,19 @@ class WPSEO_Frontend {
 			$object = $GLOBALS['wp_query']->get_queried_object();
 		}
 
-		if ( is_object( $object ) ) {
-			$title = WPSEO_Meta::get_value( 'title', $object->ID );
-
-			if ( $title !== '' ) {
-				return wpseo_replace_vars( $title, $object );
-			}
-
-			$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
-
-			return $this->get_title_from_options( 'title-' . $post_type, $object );
+		if ( ! is_object( $object ) ) {
+			return $this->get_title_from_options( 'title-404-wpseo' );
 		}
 
-		return $this->get_title_from_options( 'title-404-wpseo' );
+		$title = WPSEO_Meta::get_value( 'title', $object->ID );
+
+		if ( $title !== '' ) {
+			return wpseo_replace_vars( $title, $object );
+		}
+
+		$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
+
+		return $this->get_title_from_options( 'title-' . $post_type, $object );
 	}
 
 	/**
@@ -278,9 +278,8 @@ class WPSEO_Frontend {
 		if ( is_string( $title ) && $title !== '' ) {
 			return wpseo_replace_vars( $title, $object );
 		}
-		else {
-			return $this->get_title_from_options( 'title-tax-' . $object->taxonomy, $object );
-		}
+
+		return $this->get_title_from_options( 'title-tax-' . $object->taxonomy, $object );
 	}
 
 	/**
@@ -314,13 +313,11 @@ class WPSEO_Frontend {
 			if ( is_singular() ) {
 				return wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
 			}
-			else {
-				return '';
-			}
+
+			return '';
 		}
-		else {
-			return wpseo_replace_vars( $this->options[ $index ], $var_source );
-		}
+
+		return wpseo_replace_vars( $this->options[ $index ], $var_source );
 	}
 
 	/**
@@ -338,7 +335,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_default_title( $sep, $seplocation, $title = '' ) {
-		if ( 'right' == $seplocation ) {
+		if ( 'right' === $seplocation ) {
 			$regex = '`\s*' . preg_quote( trim( $sep ), '`' ) . '\s*`u';
 		}
 		else {
@@ -609,12 +606,29 @@ class WPSEO_Frontend {
 	/**
 	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
 	 *
-	 * @param bool $echo Whether or not to echo the debug marker.
+	 * @param bool $echo Deprecated. Since 5.9. Whether or not to echo the debug marker.
 	 *
-	 * @return string
+	 * @return string The marker that will be echoed.
 	 */
 	public function debug_mark( $echo = true ) {
-		$marker = sprintf(
+		$marker = $this->get_debug_mark();
+		if ( $echo === false ) {
+			_deprecated_argument( 'WPSEO_Frontend::debug_mark', '5.9', 'WPSEO_Frontend::get_debug_mark' );
+
+			return $marker;
+		}
+
+		echo "\n${marker}\n";
+		return '';
+	}
+
+	/**
+	 * Returns the debug marker, which is also used for title replacement when force rewrite is active.
+	 *
+	 * @return string The generated marker.
+	 */
+	public function get_debug_mark() {
+		return sprintf(
 			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
 			esc_html( $this->head_product_name() ),
 			/**
@@ -624,13 +638,6 @@ class WPSEO_Frontend {
 			 */
 			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : 'v' . WPSEO_VERSION )
 		);
-
-		if ( $echo === false ) {
-			return $marker;
-		}
-		else {
-			echo "\n${marker}\n";
-		}
 	}
 
 	/**
@@ -676,10 +683,7 @@ class WPSEO_Frontend {
 		 */
 		do_action( 'wpseo_head' );
 
-		printf(
-			"<!-- / %s. -->\n\n",
-			esc_html( $this->head_product_name() )
-		);
+		echo $this->show_closing_debug_mark();
 
 		if ( ! empty( $old_wp_query ) ) {
 			$GLOBALS['wp_query'] = $old_wp_query;
@@ -701,11 +705,9 @@ class WPSEO_Frontend {
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		if ( is_singular() && is_object( $post ) ) {
-
-			$option_name = 'noindex-' . $post->post_type;
-			$noindex     = isset( $this->options[ $option_name ] ) && $this->options[ $option_name ] === true;
-			$private     = 'private' === $post->post_status;
+		if ( is_object( $post ) && is_singular() ) {
+			$private = 'private' === $post->post_status;
+			$noindex = ! WPSEO_Post_Type::is_post_type_indexable( $post->post_type );
 
 			if ( $noindex || $private ) {
 				$robots['index'] = 'noindex';
@@ -773,7 +775,7 @@ class WPSEO_Frontend {
 		}
 
 		// Force override to respect the WP settings.
-		if ( '0' == get_option( 'blog_public' ) || isset( $_GET['replytocom'] ) ) {
+		if ( '0' === (string) get_option( 'blog_public' ) || isset( $_GET['replytocom'] ) ) {
 			$robots['index'] = 'noindex';
 		}
 
@@ -1056,11 +1058,11 @@ class WPSEO_Frontend {
 			if ( is_string( $url ) && $url !== '' ) {
 				$paged = get_query_var( 'paged' );
 
-				if ( 0 == $paged ) {
+				if ( 0 === $paged ) {
 					$paged = 1;
 				}
 
-				if ( $paged == 2 ) {
+				if ( $paged === 2 ) {
 					$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ), true );
 				}
 
@@ -1446,8 +1448,8 @@ class WPSEO_Frontend {
 			( $this->options['disable-author'] === true && $wp_query->is_author ) ||
 			( $this->options['disable-post_format'] === true && $wp_query->is_tax( 'post_format' ) )
 		) {
-			wp_safe_redirect( get_bloginfo( 'url' ), 301 );
-			exit;
+			$this->redirect( get_bloginfo( 'url' ), 301 );
+			return true;
 		}
 
 		return false;
@@ -1554,12 +1556,12 @@ class WPSEO_Frontend {
 
 		// Recreate current URL.
 		$cururl = 'http';
-		if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) {
+		if ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) {
 			$cururl .= 's';
 		}
 		$cururl .= '://';
 
-		if ( $_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443' ) {
+		if ( $_SERVER['SERVER_PORT'] !== '80' && $_SERVER['SERVER_PORT'] !== '443' ) {
 			$cururl .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
 		}
 		else {
@@ -1621,7 +1623,7 @@ class WPSEO_Frontend {
 		}
 		elseif ( is_404() ) {
 			if ( is_multisite() && ! is_subdomain_install() && is_main_site() ) {
-				if ( $cururl == get_bloginfo( 'url' ) . '/blog/' || $cururl == get_bloginfo( 'url' ) . '/blog' ) {
+				if ( $cururl === get_bloginfo( 'url' ) . '/blog/' || $cururl === get_bloginfo( 'url' ) . '/blog' ) {
 					if ( $this->is_home_static_page() ) {
 						$properurl = get_permalink( get_option( 'page_for_posts' ) );
 					}
@@ -1632,7 +1634,7 @@ class WPSEO_Frontend {
 			}
 		}
 
-		if ( ! empty( $properurl ) && $wp_query->query_vars['paged'] != 0 && $wp_query->post_count != 0 ) {
+		if ( ! empty( $properurl ) && $wp_query->query_vars['paged'] !== 0 && $wp_query->post_count !== 0 ) {
 			if ( is_search() && ! empty( $s ) ) {
 				$properurl = get_bloginfo( 'url' ) . '/page/' . $wp_query->query_vars['paged'] . '/?s=' . $s;
 			}
@@ -1692,7 +1694,7 @@ class WPSEO_Frontend {
 		}
 		unset( $get );
 
-		if ( ! empty( $properurl ) && $cururl != $properurl ) {
+		if ( ! empty( $properurl ) && $cururl !== $properurl ) {
 			$this->redirect( $properurl, 301 );
 		}
 	}
@@ -1823,11 +1825,14 @@ class WPSEO_Frontend {
 
 		wp_reset_query();
 
-		$title = $this->title( '' );
+		// Only replace the debug marker when it is hooked.
+		if ( $this->show_debug_marker() ) {
+			$title = $this->title( '' );
 
-		// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
-		$content = preg_replace( '/<title.*?\/title>/i', '', $content );
-		$content = str_replace( $this->debug_mark( false ), $this->debug_mark( false ) . "\n" . '<title>' . $title . '</title>', $content );
+			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
+			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
+			$content = str_replace( $this->get_debug_mark(), $this->get_debug_mark() . "\n" . '<title>' . $title . '</title>', $content );
+		}
 
 		$GLOBALS['wp_query'] = $old_wp_query;
 
@@ -1893,9 +1898,8 @@ class WPSEO_Frontend {
 		if ( $this->is_premium() ) {
 			return 'Yoast SEO Premium plugin';
 		}
-		else {
-			return 'Yoast SEO plugin';
-		}
+
+		return 'Yoast SEO plugin';
 	}
 
 	/**
@@ -1903,8 +1907,8 @@ class WPSEO_Frontend {
 	 *
 	 * @return bool
 	 */
-	private function is_premium() {
-		return file_exists( WPSEO_PATH . 'premium/' );
+	protected function is_premium() {
+		return WPSEO_Utils::is_yoast_seo_premium();
 	}
 
 	/**
@@ -1959,6 +1963,31 @@ class WPSEO_Frontend {
 		exit;
 	}
 
+	/**
+	 * Checks if the debug mark action has been added.
+	 *
+	 * @return bool True when the action exists.
+	 */
+	protected function show_debug_marker() {
+		return has_action( 'wpseo_head', array( $this, 'debug_mark' ) ) !== false;
+	}
+
+	/**
+	 * Shows the closing debug mark.
+	 *
+	 * @return string The closing debug mark comment.
+	 */
+	protected function show_closing_debug_mark() {
+		if ( ! $this->show_debug_marker() ) {
+			return '';
+		}
+
+		return sprintf(
+			"<!-- / %s. -->\n\n",
+			esc_html( $this->head_product_name() )
+		);
+	}
+
 	/** Deprecated functions */
 	// @codeCoverageIgnoreStart
 	/**
@@ -1970,6 +1999,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function debug_marker( $echo = false ) {
+		_deprecated_function( 'WPSEO_Frontend::debug_marker', '4.4', 'WPSEO_Frontend::debug_mark' );
 		return $this->debug_mark( $echo );
 	}
 	// @codeCoverageIgnoreEnd
