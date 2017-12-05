@@ -53,6 +53,21 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 
+	it("returns matched irregular participles ending in -s.", function(){
+		var mockSentence = new sentencePart( "Une réponse a été promise à maintes reprises.", [ "été" ], "fr" );
+		var sentencePartText = mockSentence.getSentencePartText();
+		var auxiliaries = mockSentence.getAuxiliaries();
+		var foundParticiples = getParticiples( sentencePartText, auxiliaries, "fr" );
+		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "été" );
+		expect( foundParticiples[ 1 ].getParticiple() ).toEqual( "promise" );
+		expect( foundParticiples[ 0 ].getType() ).toEqual( "regular" );
+		expect( foundParticiples[ 1 ].getType() ).toEqual( "irregular" );
+		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "Une réponse a été promise à maintes reprises." );
+		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "été" ] );
+		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( false );
+		expect( foundParticiples[ 1 ].determinesSentencePartIsPassive() ).toEqual( true );
+	});
+
 	it("returns an empty array when there is no participle", function(){
 		var mockSentence = new sentencePart( " Je voulais vous demander pardon.", [], "fr" );
 		var sentencePartText = mockSentence.getSentencePartText();

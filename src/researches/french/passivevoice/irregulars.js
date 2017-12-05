@@ -286,7 +286,6 @@ var irregularsRegular = [
 	"médit",
 	"menti",
 	"minci",
-	"mis",
 	"moisi",
 	"moiti",
 	"molli",
@@ -522,9 +521,49 @@ var irregularsIrregular = [
 	"mues",
 ];
 
+// These participles have the same form in the masculine singular and plural.
+var irregularsEndingInS = [
+	"repris",
+	"démis",
+	"omis",
+	"dépris",
+	"retransmis",
+	"assis",
+	"promis",
+	"circoncis",
+	"permis",
+	"compris",
+	"mépris",
+	"inclus",
+	"soumis",
+	"rassis",
+	"sursis",
+	"enclos",
+	"acquis",
+	"compromis",
+	"commis",
+	"désappris",
+	"appris",
+	"conquis",
+	"transmis",
+	"remis",
+	"surpris",
+	"reconquis",
+	"mis",
+	"enquis",
+	"pris",
+	"admis",
+	"clos",
+	"émis",
+	"entrepris",
+	"épris",
+	"requis",
+];
+
 module.exports = function() {
 	return {
 		irregularsRegular: irregularsRegular,
 		irregularsIrregular: irregularsIrregular,
+		irregularsEndingInS: irregularsEndingInS,
 	};
 };

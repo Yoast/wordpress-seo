@@ -35,6 +35,14 @@ describe( "a test for matching irregular participles.", function() {
 		expect( participleRegexes.irregularParticiples( "mû", "fr" ) ).toEqual( [ "mû" ] );
 	} );
 
+	it( "matches an irregular participle ending in -s", function() {
+		expect( participleRegexes.irregularParticiples( "promise", "fr" ) ).toEqual( [ "promise" ] );
+	} );
+
+	it( "does not match an irregular participle ending in -s with an additional -s suffix", function() {
+		expect( participleRegexes.irregularParticiples( "miss", "fr" ) ).toEqual( [] );
+	} );
+
 	it( "does not match an empty string", function() {
 		expect( participleRegexes.irregularParticiples( "", "fr" ) ).toEqual( [] );
 	} );
