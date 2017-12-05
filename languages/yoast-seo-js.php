@@ -178,7 +178,7 @@ $generated_i18n_strings = array(
 	__( 'The meta description is over %1$d characters. Reducing the length will ensure the entire description will be visible.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js:116
-	__( 'The length of the meta description is sufficient.', 'wordpress-seo' ),
+	__( 'The meta description has a nice length.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/seo/outboundLinksAssessment.js:121
 	__( 'No outbound links appear in this page, consider adding some as appropriate.', 'wordpress-seo' ),
