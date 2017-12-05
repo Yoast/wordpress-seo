@@ -125,6 +125,12 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.9.1 =
+Release Date: December 5th, 2017
+
+Bugfixes:
+    * Fixes a bug where the configuration wizard could not be loaded, caused by a missing JavaScript dependency.
+
 = 5.9.0 =
 Release Date: December 5th, 2017
 
