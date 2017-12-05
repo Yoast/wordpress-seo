@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 5.8\n"
+"Project-Id-Version: Yoast SEO 5.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-11-16 10:36:44+00:00\n"
+"POT-Creation-Date: 2017-12-05 11:18:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -362,40 +362,40 @@ msgstr ""
 msgid "Scroll to see the table content."
 msgstr ""
 
-#: admin/class-admin.php:659
+#: admin/class-admin.php:662
 msgid "For more information:"
 msgstr ""
 
-#: admin/class-admin.php:660
+#: admin/class-admin.php:663
 msgid "Title optimization"
 msgstr ""
 
-#: admin/class-admin.php:661
+#: admin/class-admin.php:664
 msgid "Why Google won't display the right page title"
 msgstr ""
 
-#: admin/class-admin.php:667 admin/class-admin.php:668 admin/pages/metas.php:41
+#: admin/class-admin.php:670 admin/class-admin.php:671 admin/pages/metas.php:41
 #: admin/pages/metas.php:62
 msgid "Template explanation"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO.
-#: admin/class-admin.php:671
+#: admin/class-admin.php:674
 msgid ""
 "The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
 "tabs on the left explain the available variables."
 msgstr ""
 
-#: admin/class-admin.php:673 admin/pages/metas.php:64
+#: admin/class-admin.php:677 admin/pages/metas.php:64
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:680 admin/class-admin.php:681 admin/pages/metas.php:69
+#: admin/class-admin.php:684 admin/class-admin.php:685 admin/pages/metas.php:69
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:688 admin/class-admin.php:689 admin/pages/metas.php:75
+#: admin/class-admin.php:692 admin/class-admin.php:693 admin/pages/metas.php:75
 msgid "Advanced Variables"
 msgstr ""
 
@@ -510,7 +510,7 @@ msgid "Use Image"
 msgstr ""
 
 #. translators: 1: link open tag; 2: link close tag.
-#: admin/class-cornerstone-field.php:30
+#: admin/class-cornerstone-field.php:36
 msgid "This article is %1$scornerstone content%2$s"
 msgstr ""
 
@@ -640,78 +640,79 @@ msgstr ""
 msgid "%1$sSocial media preview%2$s: Facebook &amp; Twitter"
 msgstr ""
 
-#: admin/class-help-center.php:179 admin/class-help-center.php:199
+#: admin/class-help-center.php:179 admin/class-help-center.php:200
 msgid "Get support"
 msgstr ""
 
-#: admin/class-help-center.php:197
+#: admin/class-help-center.php:198
 msgid "Video tutorial"
 msgstr ""
 
-#: admin/class-help-center.php:198
+#: admin/class-help-center.php:199
 msgid "Knowledge base"
 msgstr ""
 
-#: admin/class-help-center.php:200
+#: admin/class-help-center.php:201
 msgid "Loading..."
 msgstr ""
 
-#: admin/class-help-center.php:201
+#: admin/class-help-center.php:202
 msgid "Something went wrong. Please try again later."
 msgstr ""
 
-#: admin/class-help-center.php:202
+#: admin/class-help-center.php:203
 msgid "Search the Yoast knowledge base"
 msgstr ""
 
-#: admin/class-help-center.php:203
+#: admin/class-help-center.php:204
 msgid "Search the knowledge base"
 msgstr ""
 
-#: admin/class-help-center.php:204
+#: admin/class-help-center.php:205
 #: admin/google_search_console/class-gsc.php:133
 msgid "Search"
 msgstr ""
 
-#: admin/class-help-center.php:205
+#: admin/class-help-center.php:206
 msgid "View in KB"
 msgstr ""
 
-#: admin/class-help-center.php:206
+#: admin/class-help-center.php:207
 msgid ""
 "Open the knowledge base article in a new window or read it in the iframe "
 "below"
 msgstr ""
 
-#: admin/class-help-center.php:207
+#: admin/class-help-center.php:208
 msgid "Go back"
 msgstr ""
 
-#: admin/class-help-center.php:208
+#: admin/class-help-center.php:209
 msgid "Go back to the search results"
 msgstr ""
 
-#: admin/class-help-center.php:209
+#: admin/class-help-center.php:210
 msgid "Knowledge base article"
 msgstr ""
 
-#: admin/class-help-center.php:210
+#: admin/class-help-center.php:211
 msgid "No results found."
 msgstr ""
 
-#: admin/class-help-center.php:211
-msgid "Number of results found: { resultsCount }"
+#. translators: %s expands to the number of results found .
+#: admin/class-help-center.php:214
+msgid "Number of results found: %s"
 msgstr ""
 
-#: admin/class-help-center.php:212
+#: admin/class-help-center.php:217
 msgid "Search results"
 msgstr ""
 
-#: admin/class-help-center.php:213
+#: admin/class-help-center.php:218
 msgid "(Opens in a new browser tab)"
 msgstr ""
 
-#: admin/class-help-center.php:214
+#: admin/class-help-center.php:219
 msgid "Open support form"
 msgstr ""
 
@@ -838,34 +839,34 @@ msgstr ""
 msgid "The premium version of %1$s with more features & support."
 msgstr ""
 
-#: admin/class-plugin-availability.php:45 admin/views/licenses.php:42
+#: admin/class-plugin-availability.php:46 admin/views/licenses.php:42
 msgid ""
 "Optimize your videos to show them off in search results and get more clicks!"
 msgstr ""
 
-#: admin/class-plugin-availability.php:54 admin/views/licenses.php:60
+#: admin/class-plugin-availability.php:56 admin/views/licenses.php:60
 msgid ""
 "Are you in Google News? Increase your traffic from Google News by optimizing "
 "for it!"
 msgstr ""
 
-#: admin/class-plugin-availability.php:63 admin/views/licenses.php:78
+#: admin/class-plugin-availability.php:66 admin/views/licenses.php:78
 msgid "Rank better locally and in Google Maps, without breaking a sweat!"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/class-plugin-availability.php:74 admin/views/licenses.php:99
+#: admin/class-plugin-availability.php:78 admin/views/licenses.php:99
 msgid "Seamlessly integrate WooCommerce with %1$s and get extra features!"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, %2$s expands to Advanced Custom
 #. Fields
-#: admin/class-plugin-availability.php:92
+#: admin/class-plugin-availability.php:97
 msgid "Seamlessly integrate %2$s with %1$s for the content analysis!"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/class-plugin-availability.php:111
+#: admin/class-plugin-availability.php:116
 msgid "Seamlessly integrate %1$s into your AMP pages!"
 msgstr ""
 
@@ -1279,7 +1280,7 @@ msgid "Enabled"
 msgstr ""
 
 #: admin/class-yoast-form.php:508 admin/metabox/class-metabox.php:712
-#: admin/taxonomy/class-taxonomy-fields-presenter.php:128
+#: admin/taxonomy/class-taxonomy-fields-presenter.php:134
 msgid "Upload Image"
 msgstr ""
 
@@ -1475,7 +1476,7 @@ msgid ""
 "to improve the usability of your contact page."
 msgstr ""
 
-#: admin/config-ui/factories/class-factory-post-type.php:49
+#: admin/config-ui/factories/class-factory-post-type.php:50
 msgid ""
 "WordPress automatically generates an URL for each media item in the library. "
 "Enabling this will allow for google to index the generated URL."
@@ -1869,30 +1870,45 @@ msgid "OK"
 msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:80
-#: admin/formatter/class-metabox-formatter.php:101 inc/class-wpseo-rank.php:105
+#: admin/formatter/class-metabox-formatter.php:115 inc/class-wpseo-rank.php:105
 msgid "Good"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:96
-#: admin/formatter/class-metabox-formatter.php:99
+#: admin/formatter/class-metabox-formatter.php:110
 msgid "Change language"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:97
+#: admin/formatter/class-metabox-formatter.php:111
 msgid "Errors"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:98
+#: admin/formatter/class-metabox-formatter.php:112
 #: admin/views/partial-alerts-errors.php:9
 msgid "Problems"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:100
+#: admin/formatter/class-metabox-formatter.php:113
+msgid "Improvements"
+msgstr ""
+
+#: admin/formatter/class-metabox-formatter.php:114
 msgid "Considerations"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:102
+#: admin/formatter/class-metabox-formatter.php:116
 msgid "Highlight this result in the text"
+msgstr ""
+
+#. translators: %s expands to the site language.
+#: admin/formatter/class-metabox-formatter.php:119
+msgid "Your site language is set to %s."
+msgstr ""
+
+#. translators: %s expands to the site language.
+#: admin/formatter/class-metabox-formatter.php:124
+msgid ""
+"Your site language is set to %s. If this is not correct, contact your site "
+"administrator."
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:114
@@ -2395,7 +2411,7 @@ msgstr ""
 
 #: admin/metabox/class-metabox.php:72 admin/metabox/class-metabox.php:590
 #: admin/taxonomy/class-taxonomy-content-fields.php:39
-#: admin/taxonomy/class-taxonomy-fields-presenter.php:99
+#: admin/taxonomy/class-taxonomy-fields-presenter.php:105
 msgid "Analysis"
 msgstr ""
 
@@ -2414,12 +2430,12 @@ msgstr ""
 
 #: admin/metabox/class-metabox.php:77
 #: admin/taxonomy/class-taxonomy-content-fields.php:29
-#: admin/taxonomy/class-taxonomy-fields-presenter.php:107
+#: admin/taxonomy/class-taxonomy-fields-presenter.php:113
 msgid "Focus keyword"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:78
-#: admin/taxonomy/class-taxonomy-fields-presenter.php:108
+#: admin/taxonomy/class-taxonomy-fields-presenter.php:114
 msgid "Enter a focus keyword"
 msgstr ""
 
@@ -2440,13 +2456,13 @@ msgstr ""
 msgid "SEO title"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:85 admin/views/tabs/metas/post-types.php:73
+#: admin/metabox/class-metabox.php:85 admin/views/tabs/metas/post-types.php:78
 msgid "Meta description"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:87
 #: admin/taxonomy/class-taxonomy-settings-fields.php:37
-#: admin/views/tabs/metas/post-types.php:75
+#: admin/views/tabs/metas/post-types.php:80
 msgid "Meta keywords"
 msgstr ""
 
@@ -2499,8 +2515,8 @@ msgid "Site-wide default: %s"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:110 admin/pages/network.php:62
-#: admin/views/tabs/advanced/breadcrumbs.php:47
-#: admin/views/tabs/advanced/breadcrumbs.php:70 inc/class-wpseo-meta.php:405
+#: admin/views/tabs/advanced/breadcrumbs.php:51
+#: admin/views/tabs/advanced/breadcrumbs.php:74 inc/class-wpseo-meta.php:405
 msgid "None"
 msgstr ""
 
@@ -2639,6 +2655,21 @@ msgstr ""
 msgid "Use javascript instead."
 msgstr ""
 
+#: admin/notifiers/class-configuration-notifier.php:44
+msgid "First-time SEO configuration"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the
+#. Onboarding Wizard, %3$s is the link closing tag.
+#: admin/notifiers/class-configuration-notifier.php:48
+msgid "Get started quickly with the %1$s %2$sconfiguration wizard%3$s!"
+msgstr ""
+
+#: admin/notifiers/class-configuration-notifier.php:58
+#: admin/views/partial-alerts-template.php:18
+msgid "Dismiss this item."
+msgstr ""
+
 #: admin/onpage/class-onpage.php:58 tests/onpage/test-class-onpage.php:50
 msgid "Once Weekly"
 msgstr ""
@@ -2731,7 +2762,7 @@ msgstr ""
 msgid "Taxonomies"
 msgstr ""
 
-#: admin/pages/metas.php:24 frontend/class-frontend.php:543
+#: admin/pages/metas.php:24 frontend/class-frontend.php:540
 msgid "Archives"
 msgstr ""
 
@@ -3312,10 +3343,6 @@ msgstr ""
 msgid "Muted problems:"
 msgstr ""
 
-#: admin/views/partial-alerts-template.php:18
-msgid "Dismiss this item."
-msgstr ""
-
 #: admin/views/partial-alerts-template.php:22
 msgid "Restore this item."
 msgstr ""
@@ -3367,15 +3394,15 @@ msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
 #: admin/views/tabs/advanced/breadcrumbs.php:31
-#: admin/views/tabs/metas/post-types.php:37
-#: admin/views/tabs/metas/post-types.php:41
+#: admin/views/tabs/metas/post-types.php:42
+#: admin/views/tabs/metas/post-types.php:46
 #: admin/views/tabs/metas/taxonomies.php:40
 msgid "Show"
 msgstr ""
 
 #: admin/views/tabs/advanced/breadcrumbs.php:32
-#: admin/views/tabs/metas/post-types.php:38
-#: admin/views/tabs/metas/post-types.php:42
+#: admin/views/tabs/metas/post-types.php:43
+#: admin/views/tabs/metas/post-types.php:47
 #: admin/views/tabs/metas/taxonomies.php:41
 msgid "Hide"
 msgstr ""
@@ -3396,25 +3423,25 @@ msgstr ""
 msgid "Bold the last page"
 msgstr ""
 
-#: admin/views/tabs/advanced/breadcrumbs.php:43
+#: admin/views/tabs/advanced/breadcrumbs.php:47
 msgid "Taxonomy to show in breadcrumbs for post types"
 msgstr ""
 
-#: admin/views/tabs/advanced/breadcrumbs.php:68
+#: admin/views/tabs/advanced/breadcrumbs.php:72
 msgid "Post type archive to show in breadcrumbs for taxonomies"
 msgstr ""
 
-#: admin/views/tabs/advanced/breadcrumbs.php:72
+#: admin/views/tabs/advanced/breadcrumbs.php:76
 msgid "Blog"
 msgstr ""
 
-#: admin/views/tabs/advanced/breadcrumbs.php:92
+#: admin/views/tabs/advanced/breadcrumbs.php:96
 msgid "How to insert breadcrumbs in your theme"
 msgstr ""
 
 #. translators: %1$s / %2$s: links to the breadcrumbs implementation page on
 #. the Yoast knowledgebase
-#: admin/views/tabs/advanced/breadcrumbs.php:96
+#: admin/views/tabs/advanced/breadcrumbs.php:100
 msgid ""
 "Usage of this breadcrumbs feature is explained in %1$sour knowledge-base "
 "article on breadcrumbs implementation%2$s."
@@ -3608,7 +3635,7 @@ msgid ""
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/tabs/dashboard/dashboard.php:14
+#: admin/views/tabs/dashboard/dashboard.php:17
 msgid "%1$s Dashboard"
 msgstr ""
 
@@ -3831,28 +3858,28 @@ msgstr ""
 #: admin/views/tabs/metas/archives.php:51
 #: admin/views/tabs/metas/archives.php:64
 #: admin/views/tabs/metas/archives.php:67 admin/views/tabs/metas/home.php:15
-#: admin/views/tabs/metas/post-types.php:30
+#: admin/views/tabs/metas/post-types.php:35
 #: admin/views/tabs/metas/taxonomies.php:30
 msgid "Title template"
 msgstr ""
 
 #: admin/views/tabs/metas/archives.php:33
 #: admin/views/tabs/metas/archives.php:52 admin/views/tabs/metas/home.php:16
-#: admin/views/tabs/metas/post-types.php:31
+#: admin/views/tabs/metas/post-types.php:36
 #: admin/views/tabs/metas/taxonomies.php:31
 msgid "Meta description template"
 msgstr ""
 
 #: admin/views/tabs/metas/archives.php:35 admin/views/tabs/metas/home.php:18
-#: admin/views/tabs/metas/post-types.php:33
+#: admin/views/tabs/metas/post-types.php:38
 #: admin/views/tabs/metas/taxonomies.php:33
 msgid "Meta keywords template"
 msgstr ""
 
 #: admin/views/tabs/metas/archives.php:37
 #: admin/views/tabs/metas/archives.php:53
-#: admin/views/tabs/metas/post-types.php:35
-#: admin/views/tabs/metas/post-types.php:80
+#: admin/views/tabs/metas/post-types.php:40
+#: admin/views/tabs/metas/post-types.php:85
 #: admin/views/tabs/metas/taxonomies.php:35
 msgid "Meta Robots"
 msgstr ""
@@ -3954,7 +3981,7 @@ msgstr ""
 
 #. translators: %1$s and %2$s expand to a link to the SEO Permalinks settings
 #. page.
-#: admin/views/tabs/metas/post-types.php:27
+#: admin/views/tabs/metas/post-types.php:32
 msgid ""
 "As you are redirecting attachment URLs to parent post URLs, these settings "
 "will currently only have an effect on unattached media items! So remember: "
@@ -3962,32 +3989,32 @@ msgid ""
 "below settings will take effect for *all* media items."
 msgstr ""
 
-#: admin/views/tabs/metas/post-types.php:39
+#: admin/views/tabs/metas/post-types.php:44
 msgid "Date in Snippet Preview"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/tabs/metas/post-types.php:44
+#: admin/views/tabs/metas/post-types.php:49
 #: admin/views/tabs/metas/taxonomies.php:43
 msgid "%1$s Meta Box"
 msgstr ""
 
-#: admin/views/tabs/metas/post-types.php:67
+#: admin/views/tabs/metas/post-types.php:72
 msgid "Custom Post Type Archives"
 msgstr ""
 
-#: admin/views/tabs/metas/post-types.php:68
+#: admin/views/tabs/metas/post-types.php:73
 msgid ""
 "Note: instead of templates these are the actual titles and meta descriptions "
 "for these custom post type archive pages."
 msgstr ""
 
-#: admin/views/tabs/metas/post-types.php:72
+#: admin/views/tabs/metas/post-types.php:77
 #: admin/views/tabs/social/facebook.php:30 admin/views/tool-bulk-editor.php:77
 msgid "Title"
 msgstr ""
 
-#: admin/views/tabs/metas/post-types.php:78
+#: admin/views/tabs/metas/post-types.php:83
 msgid "Breadcrumbs title"
 msgstr ""
 
@@ -4398,25 +4425,25 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to the search phrase.
-#: frontend/class-frontend.php:472
+#: frontend/class-frontend.php:469
 msgid "Search for \"%s\""
 msgstr ""
 
 #. translators: %s expands to a time period, i.e. month name, year or specific
 #. date.
 #. translators: %s expands to the variable used for term title.
-#: frontend/class-frontend.php:532 frontend/class-frontend.php:536
-#: frontend/class-frontend.php:540
-#: inc/options/class-wpseo-option-titles.php:237
+#: frontend/class-frontend.php:529 frontend/class-frontend.php:533
+#: frontend/class-frontend.php:537
+#: inc/options/class-wpseo-option-titles.php:241
 msgid "%s Archives"
 msgstr ""
 
-#: frontend/class-frontend.php:555
+#: frontend/class-frontend.php:552
 #: inc/options/class-wpseo-option-titles.php:181
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1260
+#: frontend/class-frontend.php:1262
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -4657,12 +4684,12 @@ msgid "You searched for"
 msgstr ""
 
 #. translators: %s expands to a post type.
-#: inc/options/class-wpseo-option-internallinks.php:173
+#: inc/options/class-wpseo-option-internallinks.php:176
 msgid "Please select a valid taxonomy for post type \"%s\""
 msgstr ""
 
 #. translators: %s expands to a taxonomy slug.
-#: inc/options/class-wpseo-option-internallinks.php:213
+#: inc/options/class-wpseo-option-internallinks.php:216
 msgid "Please select a valid post type for taxonomy \"%s\""
 msgstr ""
 
@@ -4720,19 +4747,19 @@ msgid "You searched for %s"
 msgstr ""
 
 #. translators: %s expands to the name of a post type (plural).
-#: inc/options/class-wpseo-option-titles.php:220
+#: inc/options/class-wpseo-option-titles.php:224
 msgid "%s Archive"
 msgstr ""
 
 #. translators: 1: number; 2: number received from user.
-#: inc/options/class-wpseo-option-xml.php:156
+#: inc/options/class-wpseo-option-xml.php:157
 msgid ""
 "\"Max entries per sitemap page\" should be below %1$s to meet Google's "
 "requirements, which %2$s is not."
 msgstr ""
 
 #. translators: %s expands to a number.
-#: inc/options/class-wpseo-option-xml.php:179
+#: inc/options/class-wpseo-option-xml.php:180
 msgid ""
 "\"Max entries per sitemap page\" should be a positive number, which %s is "
 "not. Please correct."
@@ -5534,7 +5561,7 @@ msgid ""
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js:116
-msgid "The length of the meta description is sufficient."
+msgid "The meta description has a nice length."
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/outboundLinksAssessment.js:121
@@ -5797,15 +5824,15 @@ msgstr ""
 msgid "Content optimization: Good SEO score"
 msgstr ""
 
-#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:306
+#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:307
 msgid "Marks are disabled in current view"
 msgstr ""
 
-#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:307
+#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:308
 msgid "Mark this result in the text"
 msgstr ""
 
-#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:308
+#: node_modules/yoastseo/js/renderers/AssessorPresenter.js:309
 msgid "Remove marks in the text"
 msgstr ""
 
@@ -5862,31 +5889,31 @@ msgstr ""
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:301
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:295
 msgid "%s installation wizard"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:287
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:282
 msgid "Next step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:286
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:281
 msgid "Next"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:277
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:273
 msgid "Previous step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:276
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:272
 msgid "Previous"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:246
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:242
 msgid "Close the Wizard"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:171
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:167
 msgid ""
 "A problem occurred when saving the current step, {{link}}please file a bug "
 "report{{/link}} describing what step you are on and which changes you want "
@@ -5906,7 +5933,7 @@ msgid "Please provide a meta description by editing it here."
 msgstr ""
 
 #: yoast-components/composites/SearchResultForm/SearchResultForm.js:46
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:45
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:44
 msgid "Meta description preview: "
 msgstr ""
 
@@ -5915,12 +5942,12 @@ msgid "Slug preview: "
 msgstr ""
 
 #: yoast-components/composites/SearchResultForm/SearchResultForm.js:44
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:43
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:42
 msgid "This is an example title - edit by clicking here"
 msgstr ""
 
 #: yoast-components/composites/SearchResultForm/SearchResultForm.js:43
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:42
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:41
 msgid "SEO title preview: "
 msgstr ""
 
@@ -5928,11 +5955,11 @@ msgstr ""
 msgid "Search Result Form"
 msgstr ""
 
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:44
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:43
 msgid "URL preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:40
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:39
 msgid "Search Result Preview"
 msgstr ""
 

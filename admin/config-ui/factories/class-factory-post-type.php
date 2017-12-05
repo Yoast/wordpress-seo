@@ -20,6 +20,7 @@ class WPSEO_Config_Factory_Post_Type {
 
 			$fields = array();
 
+			// WPSEO_Post_type::get_accessible_post_types() should *not* be used to get a similar experience from the settings.
 			$post_types = get_post_types( array( 'public' => true ), 'objects' );
 			if ( ! empty( $post_types ) ) {
 				foreach ( $post_types as $post_type => $post_type_object ) {

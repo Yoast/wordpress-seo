@@ -178,7 +178,7 @@ $generated_i18n_strings = array(
 	__( 'The meta description is over %1$d characters. Reducing the length will ensure the entire description will be visible.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js:116
-	__( 'The length of the meta description is sufficient.', 'wordpress-seo' ),
+	__( 'The meta description has a nice length.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/seo/outboundLinksAssessment.js:121
 	__( 'No outbound links appear in this page, consider adding some as appropriate.', 'wordpress-seo' ),
@@ -343,13 +343,13 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/config/presenter.js:32
 	__( 'Good', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:306
+	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:307
 	__( 'Marks are disabled in current view', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:307
+	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:308
 	__( 'Mark this result in the text', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:308
+	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:309
 	__( 'Remove marks in the text', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/snippetPreview.js:323
