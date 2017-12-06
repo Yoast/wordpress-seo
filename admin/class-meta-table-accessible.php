@@ -8,7 +8,7 @@
  */
 class WPSEO_Meta_Table_Accessible {
 
-	const ACCESSIBLE = '0';
+	const ACCESSIBLE   = '0';
 	const INACCESSBILE = '1';
 
 	/**
