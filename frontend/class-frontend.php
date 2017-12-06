@@ -125,7 +125,7 @@ class WPSEO_Frontend {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
 
-		$canonical = WPSEO_Frontend_Canonical::get_instance();
+		$canonical = WPSEO_Canonical::get_instance();
 
 		$primary_category = new WPSEO_Frontend_Primary_Category();
 		$primary_category->register_hooks();

@@ -43,7 +43,7 @@ class WPSEO_Canonical {
 	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles' );
 
 	/**
-	 * WPSEO_Frontend_Canonical constructor
+	 * WPSEO_Canonical constructor
 	 */
 	protected function __construct() {
 		$this->options = WPSEO_Options::get_options( $this->required_options );
