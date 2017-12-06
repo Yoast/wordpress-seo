@@ -7,6 +7,7 @@
  * Implements SEO Title and Meta Description for WooCommerce Shop page.
  */
 class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
+
 	/** @var WPSEO_Frontend Frontend class. */
 	protected $frontend;
 
@@ -40,7 +41,7 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 			return $title;
 		}
 
-		return $this->frontend->get_content_title( get_post( $this->get_shop_id() ) );
+		return $this->frontend->get_content_title( get_post( $this->get_shop_page_id() ) );
 	}
 
 	/**
@@ -58,12 +59,9 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 			return $description;
 		}
 
-		$post_type = '';
-		if ( is_object( $post ) && ( isset( $post->post_type ) && $post->post_type !== '' ) ) {
-			$post_type = $post->post_type;
-		}
+		$post_type = $this->get_post_type( $post );
 
-		$metadesc = WPSEO_Meta::get_value( 'metadesc', $this->get_shop_id() );
+		$metadesc = WPSEO_Meta::get_value( 'metadesc', $this->get_shop_page_id() );
 		if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->frontend->options[ 'metadesc-' . $post_type ] ) ) {
 			$metadesc = $this->frontend->options[ 'metadesc-' . $post_type ];
 
@@ -90,7 +88,22 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	 *
 	 * @return int The Page ID of the shop.
 	 */
-	protected function get_shop_id() {
+	protected function get_shop_page_id() {
 		return wc_get_page_id( 'shop' );
+	}
+
+	/**
+	 * Gets the post type of the supplied post.
+	 *
+	 * @param WP_Post|null $post Post to retrieve post type from.
+	 *
+	 * @return string Post type of the post if applicable.
+	 */
+	protected function get_post_type( $post ) {
+		if ( is_object( $post ) && ! empty( $post->post_type ) ) {
+			return $post->post_type;
+		}
+
+		return '';
 	}
 }
