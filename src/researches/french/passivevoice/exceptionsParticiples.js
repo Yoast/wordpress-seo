@@ -341,7 +341,7 @@ var adjectivesVerbs = [
 
 /*
 The following words are nouns ending in -é or -ée
-These words need to be checked with s suffixes.
+These words need to be checked with s suffixes and l' and d' prefixes.
  */
 var nouns = [
 	"à-côté",

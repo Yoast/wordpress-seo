@@ -58,7 +58,7 @@ var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
 var getExceptionsParticiplesNouns = memoize( function() {
 	let exceptionsParticiplesNounsRegexes = [];
 	forEach( exceptionsParticiplesNouns, function( exceptionParticipleNoun ) {
-		exceptionsParticiplesNounsRegexes.push( new RegExp( "^" + exceptionParticipleNoun + "(s)?$", "ig" ) );
+		exceptionsParticiplesNounsRegexes.push( new RegExp( "^(l'|d')?" + exceptionParticipleNoun + "(s)?$", "ig" ) );
 	} );
 	return exceptionsParticiplesNounsRegexes;
 } );

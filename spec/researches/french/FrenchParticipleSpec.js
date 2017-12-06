@@ -38,6 +38,15 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
+	it( "checks the properties of the French participle object with a noun exception ending in é and beginning with a contracted article", function() {
+		let mockParticiple = new FrenchParticiple( "l'intégrité", "Est-ce que la création de cet outil contribuera à améliorer l’intégrité scientifique ?", { auxiliaries: [ "est-ce" ], type: "regular" } );
+		expect( mockParticiple.getParticiple() ).toBe( "l'intégrité" );
+		expect( mockParticiple.isOnAdjectivesVerbsExceptionList() ).toBe( false );
+		expect( mockParticiple.isOnNounsExceptionList() ).toBe( true );
+		expect( mockParticiple.isOnOthersExceptionList() ).toBe( false );
+		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	});
+
 	it( "checks the properties of the French participle object with a noun exception ending in é plus suffix", function() {
 		let mockParticiple = new FrenchParticiple( "cafés", "Les seuls endroits où l'on pouvait se divertir étaient les deux cafés du village.", { auxiliaries: [ "j'étais" ], type: "regular" } );
 		expect( mockParticiple.getParticiple() ).toBe( "cafés" );
