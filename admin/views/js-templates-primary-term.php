@@ -21,17 +21,17 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 <script type="text/html" id="tmpl-primary-term-ui">
 	<?php
-		printf(
-			'<button type="button" class="wpseo-make-primary-term" aria-label="%1$s">%2$s</button>',
-			esc_attr( sprintf(
-				/* translators: accessibility text. %1$s expands to the term title, %2$s to the taxonomy title. */
-				__( 'Make %1$s primary %2$s', 'wordpress-seo' ),
-				'{{data.term}}',
-				'{{data.taxonomy.title}}'
-			) ),
-			__( 'Make primary', 'wordpress-seo' )
-		);
-		?>
+	printf(
+		'<button type="button" class="wpseo-make-primary-term" aria-label="%1$s">%2$s</button>',
+		esc_attr( sprintf(
+			/* translators: accessibility text. %1$s expands to the term title, %2$s to the taxonomy title. */
+			__( 'Make %1$s primary %2$s', 'wordpress-seo' ),
+			'{{data.term}}',
+			'{{data.taxonomy.title}}'
+		) ),
+		esc_html__( 'Make primary', 'wordpress-seo' )
+	);
+	?>
 
 	<span class="wpseo-is-primary-term" aria-hidden="true"><?php esc_html_e( 'Primary', 'wordpress-seo' ); ?></span>
 </script>

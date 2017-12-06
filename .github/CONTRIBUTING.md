@@ -4,7 +4,7 @@
 Before filing a bug report or a feature request, be sure to read the contribution guidelines.
 
 ## How to use GitHub
-We use GitHub exclusively for well-documented bugs, feature requests and code contributions. 
+We use GitHub exclusively for well-documented bugs, feature requests and code contributions. Communication is always done in English.
 
 To receive free support for WordPress SEO we have the following channels:
 * [Yoast Knowledge base](https://yoa.st/1y0)

@@ -23,7 +23,7 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Set up our double class
+	 * Set up our double class.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -34,6 +34,9 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 		self::$class_instance = $plugin_availability;
 	}
 
+	/**
+	 * Tests whether or not a plugin exists.
+	 */
 	public function test_plugin_existence() {
 		$expected = array(
 			'url'          => 'http://example.com/',
@@ -49,6 +52,9 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( self::$class_instance->get_plugin( 'non-exisiting-test-plugin' ), array() );
 	}
 
+	/**
+	 * Tests whether or not plugins are available.
+	 */
 	public function test_plugin_availability() {
 		$plugin    = self::$class_instance->get_plugin( 'test-plugin' );
 		$available = self::$class_instance->is_available( $plugin );
@@ -61,6 +67,9 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $available );
 	}
 
+	/**
+	 * Tests whether or not plugins are installed.
+	 */
 	public function test_plugin_is_installed() {
 		$plugin    = self::$class_instance->get_plugin( 'test-plugin' );
 		$installed = self::$class_instance->is_installed( $plugin );
@@ -73,6 +82,9 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $installed );
 	}
 
+	/**
+	 * Tests for the plugin version.
+	 */
 	public function test_plugin_version() {
 		$plugin  = self::$class_instance->get_plugin( 'test-plugin' );
 		$version = self::$class_instance->get_version( $plugin );
@@ -85,4 +97,16 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $version, '' );
 	}
 
+	/**
+	 * Tests for the detection of Premium plugins.
+	 */
+	public function test_plugin_is_premium() {
+		$is_premium_plugin  = self::$class_instance->is_premium( self::$class_instance->get_plugin( 'test-plugin' ) );
+
+		$this->assertFalse( $is_premium_plugin );
+
+		$is_premium_plugin  = self::$class_instance->is_premium( self::$class_instance->get_plugin( 'test-premium-plugin' ) );
+
+		$this->assertTrue( $is_premium_plugin );
+	}
 }

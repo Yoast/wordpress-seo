@@ -79,8 +79,11 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	 * @return  void
 	 */
 	public function enrich_defaults() {
-
-		// Retrieve all the relevant post type and taxonomy arrays.
+		/*
+		 * Retrieve all the relevant post type and taxonomy arrays.
+		 *
+		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
+		 */
 		$post_type_names       = get_post_types( array( 'public' => true ), 'names' );
 		$taxonomy_names_custom = get_taxonomies(
 			array(
@@ -254,9 +257,12 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	protected function get_allowed_post_types() {
 		$allowed_post_types = array();
 
+		/*
+		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
+		 */
 		$post_types = get_post_types( array( 'public' => true ), 'objects' );
 
-		if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
+		if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) > 0 ) {
 			$allowed_post_types[] = 'post';
 		}
 

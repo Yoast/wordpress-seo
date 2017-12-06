@@ -13,9 +13,13 @@ echo '<h2>' . esc_html__( 'Twitter settings', 'wordpress-seo' ) . '</h2>';
 
 $yform->light_switch( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) );
 
-/* translators: %s expands to <code>&lt;head&gt;</code> */
-$p = sprintf( __( 'Add Twitter card meta data to your site\'s %s section.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
-printf( '<p>%s</p>', $p );
+echo '<p>';
+printf(
+	/* translators: %s expands to <code>&lt;head&gt;</code> */
+	esc_html__( 'Add Twitter card meta data to your site\'s %s section.', 'wordpress-seo' ),
+	'<code>&lt;head&gt;</code>'
+);
+echo '</p>';
 
 echo '<br />';
 

@@ -104,14 +104,14 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	 */
 	protected function create_install_suggested_plugin_message( $suggested_plugin, $third_party_plugin ) {
 		/* translators: %1$s expands to Yoast SEO, %2$s expands to the dependency name, %3$s expands to the install link, %4$s expands to the more info link. */
-		$message     = __( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better. %4$s.', 'wordpress-seo' );
-		$install_url = WPSEO_Admin_Utils::get_install_url( $suggested_plugin['slug'] );
+		$message      = __( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better. %4$s.', 'wordpress-seo' );
+		$install_link = WPSEO_Admin_Utils::get_install_link( $suggested_plugin );
 
 		return sprintf(
 			$message,
 			'Yoast SEO',
 			$third_party_plugin,
-			sprintf( '<a href="%s">%s</a>', $install_url, $suggested_plugin['title'] ),
+			$install_link,
 			$this->create_more_information_link( $suggested_plugin['url'], $suggested_plugin['title'] )
 		);
 	}

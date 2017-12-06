@@ -104,6 +104,16 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'version_sync' => false,
 				'compatible'   => true,
 			),
+			'test-premium-plugin' => array(
+				'url'          => 'https://yoast.com/',
+				'title'        => 'Test Plugin',
+				'description'  => '',
+				'version'      => '1.3',
+				'installed'    => true,
+				'version_sync' => false,
+				'compatible'   => true,
+				'premium'      => true,
+			),
 		);
 	}
 

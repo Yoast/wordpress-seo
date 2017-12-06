@@ -58,7 +58,7 @@ class Yoast_Form {
 			$option_long_name = WPSEO_Options::get_group_name( $option );
 		}
 		?>
-		<div class="wrap yoast wpseo-admin-page page-<?php echo $option; ?>">
+		<div class="wrap yoast wpseo-admin-page <?php echo esc_attr( 'page-' . $option ); ?>">
 		<?php
 		/**
 		 * Display the updated/error messages

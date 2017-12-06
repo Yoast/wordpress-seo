@@ -16,13 +16,16 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 ?>
 	<p>
 		<?php
-		/* translators: %s expands to <code>&lt;head&gt;</code> */
-		printf( __( 'Add Open Graph meta data to your site\'s %s section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
+		printf(
+			/* translators: %s expands to <code>&lt;head&gt;</code> */
+			esc_html__( 'Add Open Graph meta data to your site\'s %s section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ),
+			'<code>&lt;head&gt;</code>'
+		);
 		?>
 	</p>
 
 <?php
-if ( 'posts' == get_option( 'show_on_front' ) ) {
+if ( 'posts' === get_option( 'show_on_front' ) ) {
 	echo '<h2>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h2>';
 	echo '<p>' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
 

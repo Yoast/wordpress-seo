@@ -44,9 +44,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * Registers the hooks.
 	 */
 	public function register_hooks() {
-		foreach ( $this->get_post_types() as $post_type ) {
-			add_filter( 'views_edit-' . $post_type, array( $this, 'add_filter_link' ) );
-		}
+		add_action( 'admin_init', array( $this, 'add_filter_links' ), 11 );
 
 		add_filter( 'posts_where', array( $this, 'filter_posts' ) );
 
@@ -56,6 +54,17 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 
 		if ( $this->is_filter_active() && $this->get_explanation() !== null ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_explanation_assets' ) );
+		}
+	}
+
+	/**
+	 * Adds the filter links to the view_edit screens to give the user a filter link.
+	 *
+	 * @return void
+	 */
+	public function add_filter_links() {
+		foreach ( $this->get_post_types() as $post_type ) {
+			add_filter( 'views_edit-' . $post_type, array( $this, 'add_filter_link' ) );
 		}
 	}
 
@@ -153,7 +162,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * @return array The post types to which this filter should be added.
 	 */
 	protected function get_post_types() {
-		return array( 'post', 'page' );
+		return WPSEO_Post_Type::get_accessible_post_types();
 	}
 
 	/**

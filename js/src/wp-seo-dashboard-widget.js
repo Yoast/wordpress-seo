@@ -163,7 +163,7 @@ class DashboardWidget extends React.Component {
 			key="yoast-seo-blog-feed"
 			title={ wpseoDashboardWidgetL10n.feed_header }
 			feed={ this.state.feed }
-			footerHtml={ wpseoDashboardWidgetL10n.feed_footer }/>;
+			footerHtml={ wpseoDashboardWidgetL10n.feed_footer } />;
 	}
 
 	/**
@@ -186,4 +186,8 @@ class DashboardWidget extends React.Component {
 	}
 }
 
-ReactDOM.render( <DashboardWidget/>, document.getElementById( "yoast-seo-dashboard-widget" ) );
+const element = document.getElementById( "yoast-seo-dashboard-widget" );
+
+if( element ) {
+	ReactDOM.render( <DashboardWidget/>, element );
+}

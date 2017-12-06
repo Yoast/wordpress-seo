@@ -70,7 +70,7 @@ if ( $import ) {
 	 */
 	$msg = apply_filters( 'wpseo_import_message', isset( $import->msg ) ? $import->msg : '' );
 
-	if ( $msg != '' ) {
+	if ( ! empty( $msg ) ) {
 		// Check if we've deleted old data and adjust message to match it.
 		if ( $replace ) {
 			$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
@@ -102,7 +102,7 @@ $tabs = array(
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<?php foreach ( $tabs as $identifier => $tab ) : ?>
-			<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
+			<a class="nav-tab" id="<?php echo esc_attr( $identifier . '-tab' ); ?>" href="<?php echo esc_url( '#top#' . $identifier ); ?>"><?php echo $tab['label']; ?></a>
 		<?php endforeach; ?>
 
 		<?php
