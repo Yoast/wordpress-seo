@@ -67,11 +67,6 @@ class WPSEO_Frontend {
 	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles' );
 
 	/**
-	 * @var array
-	 */
-	private $hooks;
-
-	/**
 	 * Class constructor.
 	 *
 	 * Adds and removes a lot of filters.
@@ -152,13 +147,15 @@ class WPSEO_Frontend {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
 
-		$primary_category = new WPSEO_Frontend_Primary_Category();
-		$primary_category->register_hooks();
+		$integrations = array(
+			new WPSEO_Frontend_Primary_Category(),
+			new WPSEO_JSON_LD(),
+			new WPSEO_Frontend_WooCommerce_Shop_Page( $this ),
+		);
 
-		$json_ld = new WPSEO_JSON_LD();
-		$json_ld->register_hooks();
-
-		$this->hooks = array( $primary_category, $json_ld );
+		foreach ( $integrations as $integration ) {
+			$integration->register_hooks();
+		}
 	}
 
 	/**
@@ -236,19 +233,6 @@ class WPSEO_Frontend {
 	 */
 	public function is_posts_page() {
 		return ( is_home() && 'page' === get_option( 'show_on_front' ) );
-	}
-
-	/**
-	 * Determine whether this is the WooCommerce shop page.
-	 *
-	 * @return bool
-	 */
-	public function is_wc_shop_page() {
-		if ( function_exists( 'is_shop' ) && function_exists( 'wc_get_page_id' ) ) {
-			return is_shop();
-		}
-
-		return false;
 	}
 
 	/**
@@ -466,9 +450,6 @@ class WPSEO_Frontend {
 		}
 		elseif ( $this->is_posts_page() ) {
 			$title = $this->get_content_title( get_post( get_option( 'page_for_posts' ) ) );
-		}
-		elseif ( $this->is_wc_shop_page() ) {
-			$title = $this->get_content_title( get_post( wc_get_page_id( 'shop' ) ) );
 		}
 		elseif ( is_singular() ) {
 			$title = $this->get_content_title();
@@ -1327,12 +1308,6 @@ class WPSEO_Frontend {
 			}
 			elseif ( $this->is_home_static_page() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
-				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
-					$template = $this->options[ 'metadesc-' . $post_type ];
-				}
-			}
-			elseif ( $this->is_wc_shop_page() ) {
-				$metadesc = WPSEO_Meta::get_value( 'metadesc', wc_get_page_id( 'shop' ) );
 				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
 					$template = $this->options[ 'metadesc-' . $post_type ];
 				}
