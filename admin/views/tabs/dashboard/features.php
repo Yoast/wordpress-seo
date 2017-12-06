@@ -51,10 +51,11 @@ $feature_toggles = array(
 		'name'    => __( 'Text link counter', 'wordpress-seo' ),
 		'setting' => 'enable_text_link_counter',
 		'label'   => sprintf(
-			/* translators: 1: open link tag 2: close link tag */
-			__( 'This feature helps you improve the internal link structure of your site. If you want to know more about the why and how of internal linking, check out the %1$sarticle about internal linking on Yoast.com%2$s.', 'wordpress-seo' ),
+			/* translators: 1: open link tag 2: close link tag, 3: Yoast.com */
+			__( 'This feature helps you improve the internal link structure of your site. If you want to know more about the why and how of internal linking, check out the %1$sarticle about internal linking on %3$s%2$s.', 'wordpress-seo' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/17g' ) . '" target="_blank">',
-			'</a>'
+			'</a>',
+			'Yoast.com'
 		),
 	),
 );
