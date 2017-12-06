@@ -14,6 +14,18 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 
+	it("returns matched regular participles in question sentences with inverted auxiliaries.", function(){
+		var mockSentence = new sentencePart( "Le jury de thèse de Mme Randerson était-il informé de cela ?", [ "était-il" ], "fr" );
+		var sentencePartText = mockSentence.getSentencePartText();
+		var auxiliaries = mockSentence.getAuxiliaries();
+		var foundParticiples = getParticiples( sentencePartText, auxiliaries, "fr" );
+		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "informé" );
+		expect( foundParticiples[ 0 ].getType() ).toEqual( "regular" );
+		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "Le jury de thèse de Mme Randerson était-il informé de cela ?" );
+		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "était-il" ] );
+		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
+	});
+
 	it("returns matched regular participles and filtered exceptions; exceptions don't set the sentence part passive.", function(){
 		var mockSentence = new sentencePart( "Elle a été remarquée par un agent de théâtre.", [ "été" ], "fr" );
 		var sentencePartText = mockSentence.getSentencePartText();
