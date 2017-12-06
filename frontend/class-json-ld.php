@@ -161,7 +161,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$this->data = array(
 			'@context' => 'http://schema.org',
 			'@type'    => '',
-			'url'      => WPSEO_Frontend::get_instance()->canonical( false, true ),
+			'url'      => WPSEO_Canonical::get_instance()->canonical( false, true ),
 			'sameAs'   => $this->profiles,
 		);
 	}
