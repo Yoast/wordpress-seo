@@ -239,6 +239,19 @@ class WPSEO_Frontend {
 	}
 
 	/**
+	 * Determine whether this is the WooCommerce shop page.
+	 *
+	 * @return bool
+	 */
+	public function is_wc_shop_page() {
+		if ( function_exists( 'is_shop' ) && function_exists( 'wc_get_page_id' ) ) {
+			return is_shop();
+		}
+
+		return false;
+	}
+
+	/**
 	 * Used for static home and posts pages as well as singular titles.
 	 *
 	 * @param object|null $object If filled, object to get the title for.
@@ -453,6 +466,9 @@ class WPSEO_Frontend {
 		}
 		elseif ( $this->is_posts_page() ) {
 			$title = $this->get_content_title( get_post( get_option( 'page_for_posts' ) ) );
+		}
+		elseif ( $this->is_wc_shop_page() ) {
+			$title = $this->get_content_title( get_post( wc_get_page_id( 'shop' ) ) );
 		}
 		elseif ( is_singular() ) {
 			$title = $this->get_content_title();
@@ -1311,6 +1327,12 @@ class WPSEO_Frontend {
 			}
 			elseif ( $this->is_home_static_page() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
+				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
+					$template = $this->options[ 'metadesc-' . $post_type ];
+				}
+			}
+			elseif ( $this->is_wc_shop_page() ) {
+				$metadesc = WPSEO_Meta::get_value( 'metadesc', wc_get_page_id( 'shop' ) );
 				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
 					$template = $this->options[ 'metadesc-' . $post_type ];
 				}
