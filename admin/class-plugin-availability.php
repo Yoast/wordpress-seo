@@ -30,7 +30,7 @@ class WPSEO_Plugin_Availability {
 				'url'          => WPSEO_Shortlinker::get( 'https://yoa.st/1y7' ),
 				'title'        => 'Yoast SEO Premium',
 				'description'  => sprintf(
-				/* translators: %1$s expands to Yoast SEO */
+					/* translators: %1$s expands to Yoast SEO */
 					__( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ),
 					'Yoast SEO'
 				),
@@ -70,7 +70,7 @@ class WPSEO_Plugin_Availability {
 				'url'           => WPSEO_Shortlinker::get( 'https://yoa.st/1o0' ),
 				'title'         => 'Yoast WooCommerce SEO',
 				'description'   => sprintf(
-				/* translators: %1$s expands to Yoast SEO */
+					/* translators: %1$s expands to Yoast SEO */
 					__( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ),
 					'Yoast SEO'
 				),
@@ -88,7 +88,7 @@ class WPSEO_Plugin_Availability {
 				'url'           => 'https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/',
 				'title'         => 'ACF Content Analysis for Yoast SEO',
 				'description'   => sprintf(
-				/* translators: %1$s expands to Yoast SEO, %2$s expands to Advanced Custom Fields */
+					/* translators: %1$s expands to Yoast SEO, %2$s expands to Advanced Custom Fields */
 					__( 'Seamlessly integrate %2$s with %1$s for the content analysis!', 'wordpress-seo' ),
 					'Yoast SEO',
 					'Advanced Custom Fields'
@@ -107,7 +107,7 @@ class WPSEO_Plugin_Availability {
 				'url'           => 'https://wordpress.org/plugins/glue-for-yoast-seo-amp/',
 				'title'         => 'Yoast SEO AMP Glue',
 				'description'   => sprintf(
-				/* translators: %1$s expands to Yoast SEO */
+					/* translators: %1$s expands to Yoast SEO */
 					__( 'Seamlessly integrate %1$s into your AMP pages!', 'wordpress-seo' ), 'Yoast SEO'
 				),
 				'installed'     => false,
