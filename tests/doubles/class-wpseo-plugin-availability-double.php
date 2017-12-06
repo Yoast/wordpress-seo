@@ -105,7 +105,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'compatible'   => true,
 			),
 			'test-premium-plugin' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'https://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '1.3',

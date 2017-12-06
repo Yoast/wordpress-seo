@@ -86,7 +86,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'compatible'   => true,
 			),
 			'test-premium-plugin' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'https://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '1.3',
@@ -151,7 +151,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'compatible'   => true,
 			),
 			'test-premium-plugin' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'https://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '1.3',
