@@ -24,9 +24,12 @@ echo '<h2>' . esc_html__( 'Company or person', 'wordpress-seo' ) . '</h2>';
 ?>
 <p>
 	<?php
-	/* translators: %1$s and %2$s link to the KB article for Google's Knowledge Graph */
-	printf( __( 'This data is shown as metadata in your site. It is intended to appear in %1$sGoogle\'s Knowledge Graph%2$s. You can be either a company, or a person, choose either:', 'wordpress-seo' ),
-	'<a href="' . esc_url('https://yoast.com/google-knowledge-graph/') . '" target="_blank" title="Google\'s Knowledge Graph">', '</a>' );
+	printf(
+		/* translators: %1$s opens the link to the Yoast.com article about Google's Knowledge Graph, %2$s closes the link */
+		esc_html__( 'This data is shown as metadata in your site. It is intended to appear in %1$sGoogle\'s Knowledge Graph%2$s. You can be either a company, or a person, choose either:', 'wordpress-seo' ),
+		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1-p' ) ) . '" target="_blank" rel="noopener noreferer">',
+		'</a>'
+	);
 	?>
 </p>
 <?php
