@@ -9,6 +9,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+/*
+ * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
+ * Otherwise setting a post-type to `noindex` will remove it from the list,
+ * making it very hard to restore the setting again.
+ */
 $post_types          = get_post_types( array( 'public' => true ), 'objects' );
 $index_switch_values = array(
 	'off' => '<code>index</code>',
@@ -18,13 +23,17 @@ $index_switch_values = array(
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $post_type ) {
 		$name = $post_type->name;
-		echo "<div id='" . esc_attr( $name ) . "-titles-metas'>";
+		echo '<div id="' . esc_attr( $name . '-titles-metas' ) . '">';
 		echo '<h2 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $post_type->labels->name ) ) . ' (<code>' . esc_html( $post_type->name ) . '</code>)</h2>';
 		if ( $options['redirectattachment'] === true && $name === 'attachment' ) {
 			// The `inline` CSS class prevents the notice from being moved to the top via JavaScript.
 			echo '<div class="notice notice-error inline"><p>';
-			/* translators: %1$s and %2$s expand to a link to the SEO Permalinks settings page. */
-			printf( __( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on unattached media items! So remember: If you change the %1$sattachment redirection setting%2$s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_advanced&tab=permalinks' ) ) . '">', '</a>' );
+			printf(
+				/* translators: %1$s and %2$s expand to a link to the SEO Permalinks settings page. */
+				esc_html__( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on unattached media items! So remember: If you change the %1$sattachment redirection setting%2$s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ),
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_advanced&tab=permalinks' ) ) . '">',
+				'</a>'
+			);
 			echo '</p></div>';
 		}
 		$yform->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ), 'template posttype-template' );

@@ -41,8 +41,12 @@ switch ( $platform_tabs->current_tab() ) {
 		if ( null === $this->service->get_client()->getAccessToken() ) {
 			// Print auth screen.
 			echo '<p>';
-			/* Translators: %1$s: expands to Yoast SEO, %2$s expands to Google Search Console. */
-			printf( __( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ), 'Yoast SEO', 'Google Search Console' );
+			printf(
+				/* Translators: %1$s: expands to Yoast SEO, %2$s expands to Google Search Console. */
+				esc_html__( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ),
+				'Yoast SEO',
+				'Google Search Console'
+			);
 			echo "</p>\n";
 			echo '<input type="hidden" id="gsc_auth_url" value="', esc_url( $this->service->get_client()->createAuthUrl() ) , '" />';
 			echo "<button type='button' id='gsc_auth_code' class='button'>" , esc_html__( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
@@ -127,8 +131,11 @@ switch ( $platform_tabs->current_tab() ) {
 	echo '<p>';
 
 	printf(
-	/* translators: %1$s expands anchor to knowledge base article, %2$s expands to </a> */
-	__( 'Please refer to %1$sour article about how to connect your website to Google Search Console%2$s if you need assistance.', 'wordpress-seo' ), '<a href="https://kb.yoast.com/kb/how-to-connect-and-retrieve-crawl-issues/" target="_blank">', '</a>' );
+		/* translators: %1$s expands anchor to knowledge base article, %2$s expands to </a> */
+		esc_html__( 'Please refer to %1$sour article about how to connect your website to Google Search Console%2$s if you need assistance.', 'wordpress-seo' ),
+		'<a href="https://kb.yoast.com/kb/how-to-connect-and-retrieve-crawl-issues/" target="_blank">',
+		'</a>'
+	);
 
 	echo '</p>';
 ?>
