@@ -150,6 +150,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	translateScore( score, tooLongTexts, i18n ) {
 		if ( score === 2 ) {
+			// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 			return i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
