@@ -8,33 +8,34 @@
  * Class that handles all canonical and related code for Yoast SEO.
  */
 class WPSEO_Canonical {
-
 	/**
 	 * @var    object    Instance of this class.
 	 */
 	public static $instance;
-
 	/**
 	 * Holds the canonical URL for the current page.
 	 *
 	 * @var string
 	 */
 	private $canonical = null;
-
+	/**
+	 * Holds the canonical URL for the current page.
+	 *
+	 * @var string
+	 */
+	private $canonical_override = null;
 	/**
 	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input.
 	 *
 	 * @var string
 	 */
 	private $canonical_no_override = null;
-
 	/**
 	 * Holds the canonical URL for the current page without pagination.
 	 *
 	 * @var string
 	 */
 	private $canonical_unpaged = null;
-
 	/**
 	 * Holds the names of the required options.
 	 *
@@ -59,7 +60,6 @@ class WPSEO_Canonical {
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
 	}
-
 
 	/**
 	 * Get the singleton instance of this class.
@@ -93,8 +93,7 @@ class WPSEO_Canonical {
 
 		if ( $un_paged ) {
 			$canonical = $this->canonical_unpaged;
-		}
-		elseif ( $no_override ) {
+		} elseif ( $no_override ) {
 			$canonical = $this->canonical_no_override;
 		}
 
@@ -114,120 +113,42 @@ class WPSEO_Canonical {
 	 * @return void
 	 */
 	private function generate_canonical() {
-		$canonical          = false;
-		$canonical_override = false;
-
 		// Set decent canonicals for homepage, singulars and taxonomy pages.
 		if ( is_singular() ) {
-			$obj       = get_queried_object();
-			$canonical = get_permalink( $obj->ID );
-
-			$this->canonical_unpaged = $canonical;
-
-			$canonical_override = WPSEO_Meta::get_value( 'canonical' );
-
-			// Fix paginated pages canonical, but only if the page is truly paginated.
-			if ( get_query_var( 'page' ) > 1 ) {
-				$num_pages = ( substr_count( $obj->post_content, '<!--nextpage-->' ) + 1 );
-				if ( $num_pages && get_query_var( 'page' ) <= $num_pages ) {
-					if ( ! $GLOBALS['wp_rewrite']->using_permalinks() ) {
-						$canonical = add_query_arg( 'page', get_query_var( 'page' ), $canonical );
-					}
-					else {
-						$canonical = user_trailingslashit( trailingslashit( $canonical ) . get_query_var( 'page' ) );
-					}
-				}
-			}
-		}
-		else {
+			$this->generate_canonical_singular();
+		} else {
 			if ( is_search() ) {
-				$search_query = get_search_query();
-
-				// Regex catches case when /search/page/N without search term is itself mistaken for search term. R.
-				if ( ! empty( $search_query ) && ! preg_match( '|^page/\d+$|', $search_query ) ) {
-					$canonical = get_search_link();
-				}
-			}
-			elseif ( is_front_page() ) {
-				$canonical = WPSEO_Utils::home_url();
-			}
-			elseif ( $this->is_posts_page() ) {
-
-				$posts_page_id = get_option( 'page_for_posts' );
-				$canonical     = WPSEO_Meta::get_value( 'canonical', $posts_page_id );
-
-				if ( empty( $canonical ) ) {
-					$canonical = get_permalink( $posts_page_id );
-				}
-			}
-			elseif ( is_tax() || is_tag() || is_category() ) {
-
-				$term = get_queried_object();
-
-				if ( ! empty( $term ) && ! $this->is_multiple_terms_query() ) {
-
-					$canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
-					$term_link          = get_term_link( $term, $term->taxonomy );
-
-					if ( ! is_wp_error( $term_link ) ) {
-						$canonical = $term_link;
-					}
-				}
-			}
-			elseif ( is_post_type_archive() ) {
-				$post_type = get_query_var( 'post_type' );
-				if ( is_array( $post_type ) ) {
-					$post_type = reset( $post_type );
-				}
-				$canonical = get_post_type_archive_link( $post_type );
-			}
-			elseif ( is_author() ) {
-				$canonical = get_author_posts_url( get_query_var( 'author' ), get_query_var( 'author_name' ) );
-			}
-			elseif ( is_archive() ) {
-				if ( is_date() ) {
-					if ( is_day() ) {
-						$canonical = get_day_link( get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
-					}
-					elseif ( is_month() ) {
-						$canonical = get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) );
-					}
-					elseif ( is_year() ) {
-						$canonical = get_year_link( get_query_var( 'year' ) );
-					}
-				}
+				$this->generate_canonical_search();
+			} elseif ( is_front_page() ) {
+				$this->generate_canonical_front_page();
+			} elseif ( $this->is_posts_page() ) {
+				$this->generate_canonical_posts_page();
+			} elseif ( is_tax() || is_tag() || is_category() ) {
+				$this->generate_canonical_taxonomy();
+			} elseif ( is_post_type_archive() ) {
+				$this->generate_canonical_post_type_archive();
+			} elseif ( is_author() ) {
+				$this->generate_canonical_author();
+			} elseif ( is_archive() ) {
+				$this->generate_canonical_date();
 			}
 
-			$this->canonical_unpaged = $canonical;
+			$this->canonical = $this->canonical_unpaged;
 
-			if ( $canonical && get_query_var( 'paged' ) > 1 ) {
-				global $wp_rewrite;
-				if ( ! $wp_rewrite->using_permalinks() ) {
-					if ( is_front_page() ) {
-						$canonical = trailingslashit( $canonical );
-					}
-					$canonical = add_query_arg( 'paged', get_query_var( 'paged' ), $canonical );
-				}
-				else {
-					if ( is_front_page() ) {
-						$canonical = WPSEO_Sitemaps_Router::get_base_url( '' );
-					}
-					$canonical = user_trailingslashit( trailingslashit( $canonical ) . trailingslashit( $wp_rewrite->pagination_base ) . get_query_var( 'paged' ) );
-				}
-			}
+			$this->paginate_canonical();
 		}
 
-		$this->canonical_no_override = $canonical;
+		$this->canonical_no_override = $this->canonical;
 
-		if ( is_string( $canonical ) && $canonical !== '' ) {
+		if ( is_string( $this->canonical ) && $this->canonical !== '' ) {
 			// Force canonical links to be absolute, relative is NOT an option.
-			if ( WPSEO_Utils::is_url_relative( $canonical ) === true ) {
-				$canonical = $this->base_url( $canonical );
+			if ( WPSEO_Utils::is_url_relative( $this->canonical ) === true ) {
+				$this->canonical = $this->base_url( $this->canonical );
 			}
 		}
 
-		if ( is_string( $canonical_override ) && $canonical_override !== '' ) {
-			$canonical = $canonical_override;
+		if ( is_string( $this->canonical_override ) && $this->canonical_override !== '' ) {
+			$this->canonical = $this->canonical_override;
 		}
 
 		/**
@@ -235,7 +156,7 @@ class WPSEO_Canonical {
 		 *
 		 * @api string $canonical The canonical URL.
 		 */
-		$this->canonical = apply_filters( 'wpseo_canonical', $canonical );
+		$this->canonical = apply_filters( 'wpseo_canonical', $this->canonical );
 	}
 
 	/**
@@ -314,8 +235,7 @@ class WPSEO_Canonical {
 					$this->adjacent_rel_link( 'next', $url, ( $paged + 1 ), true );
 				}
 			}
-		}
-		else {
+		} else {
 			$numpages = 0;
 			if ( isset( $wp_query->post->post_content ) ) {
 				$numpages = ( substr_count( $wp_query->post->post_content, '<!--nextpage-->' ) + 1 );
@@ -331,8 +251,7 @@ class WPSEO_Canonical {
 				// If the current page is the frontpage, pagination should use /base/.
 				if ( $this->is_home_static_page() ) {
 					$usebase = true;
-				}
-				else {
+				} else {
 					$usebase = false;
 				}
 
@@ -364,8 +283,7 @@ class WPSEO_Canonical {
 			if ( $page > 1 ) {
 				$url = add_query_arg( 'paged', $page, $url );
 			}
-		}
-		else {
+		} else {
 			if ( $page > 1 ) {
 				$base = '';
 				if ( $incl_pagination_base ) {
@@ -383,6 +301,125 @@ class WPSEO_Canonical {
 
 		if ( is_string( $link ) && $link !== '' ) {
 			echo $link;
+		}
+	}
+
+	/**
+	 * Generates the canonical for a singular URL.
+	 */
+	private function generate_canonical_singular() {
+		$obj             = get_queried_object();
+		$this->canonical = get_permalink( $obj->ID );
+
+		$this->canonical_unpaged = $this->canonical;
+
+		$this->canonical_override = WPSEO_Meta::get_value( 'canonical' );
+
+		// Fix paginated pages canonical, but only if the page is truly paginated.
+		if ( get_query_var( 'page' ) > 1 ) {
+			$num_pages = ( substr_count( $obj->post_content, '<!--nextpage-->' ) + 1 );
+			if ( $num_pages && get_query_var( 'page' ) <= $num_pages ) {
+				if ( ! $GLOBALS['wp_rewrite']->using_permalinks() ) {
+					$this->canonical = add_query_arg( 'page', get_query_var( 'page' ), $this->canonical );
+				} else {
+					$this->canonical = user_trailingslashit( trailingslashit( $this->canonical ) . get_query_var( 'page' ) );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Generates the canonical URL for search results.
+	 */
+	private function generate_canonical_search() {
+		$search_query = get_search_query();
+
+		// Regex catches case when /search/page/N without search term is itself mistaken for search term. R.
+		if ( ! empty( $search_query ) ) {
+			$this->canonical_unpaged = get_search_link();
+		}
+	}
+
+	/**
+	 * Generates the canonical URL for the posts page.
+	 */
+	private function generate_canonical_posts_page() {
+		$posts_page_id   = get_option( 'page_for_posts' );
+		$this->canonical = WPSEO_Meta::get_value( 'canonical', $posts_page_id );
+
+		if ( empty( $this->canonical ) ) {
+			$this->canonical = get_permalink( $posts_page_id );
+		}
+	}
+
+	/**
+	 * Generates the canonical URL for taxonomy archives.
+	 */
+	private function generate_canonical_taxonomy() {
+		$term = get_queried_object();
+
+		if ( ! empty( $term ) && ! $this->is_multiple_terms_query() ) {
+
+			$this->canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+			$term_link                = get_term_link( $term, $term->taxonomy );
+
+			if ( ! is_wp_error( $term_link ) ) {
+				$this->canonical_unpaged = $term_link;
+			}
+		}
+	}
+
+	/**
+	 * Generates the canonical URL for post type archives.
+	 */
+	private function generate_canonical_post_type_archive() {
+		$post_type = get_query_var( 'post_type' );
+		if ( is_array( $post_type ) ) {
+			$post_type = reset( $post_type );
+		}
+		$this->canonical_unpaged = get_post_type_archive_link( $post_type );
+	}
+
+	/**
+	 * Generates the canonical URL for author archives.
+	 */
+	private function generate_canonical_author() {
+		$this->canonical_unpaged = get_author_posts_url( get_query_var( 'author' ), get_query_var( 'author_name' ) );
+	}
+
+	/**
+	 * Generate the canonical URL for date archives.
+	 */
+	private function generate_canonical_date() {
+		if ( is_date() ) {
+			if ( is_day() ) {
+				$this->canonical_unpaged = get_day_link( get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+			} elseif ( is_month() ) {
+				$this->canonical_unpaged = get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) );
+			} elseif ( is_year() ) {
+				$this->canonical_unpaged = get_year_link( get_query_var( 'year' ) );
+			}
+		}
+	}
+
+	/**
+	 * Generates the canonical URL for the front page.
+	 */
+	private function generate_canonical_front_page() {
+		$this->canonical_unpaged = trailingslashit( WPSEO_Utils::home_url() );
+	}
+
+	/**
+	 * Check if the query is paginated and if so, paginate the canonical.
+	 */
+	private function paginate_canonical() {
+		global $wp_rewrite;
+		if ( $this->canonical_unpaged && get_query_var( 'paged' ) > 1 ) {
+			if ( ! $wp_rewrite->using_permalinks() ) {
+				$this->canonical = add_query_arg( 'paged', get_query_var( 'paged' ), $this->canonical );
+			} else {
+				$this->canonical = user_trailingslashit( trailingslashit( $this->canonical ) . trailingslashit( $wp_rewrite->pagination_base ) . get_query_var( 'paged' ) );
+			}
 		}
 	}
 }
