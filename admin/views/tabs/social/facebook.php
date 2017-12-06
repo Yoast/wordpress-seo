@@ -16,8 +16,11 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 ?>
 	<p>
 		<?php
-		/* translators: %s expands to <code>&lt;head&gt;</code> */
-		printf( __( 'Add Open Graph meta data to your site\'s %s section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
+		printf(
+			/* translators: %s expands to <code>&lt;head&gt;</code> */
+			esc_html__( 'Add Open Graph meta data to your site\'s %s section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ),
+			'<code>&lt;head&gt;</code>'
+		);
 		?>
 	</p>
 
