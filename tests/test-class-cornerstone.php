@@ -46,7 +46,7 @@ class WPSEO_Cornerstone_Test extends WPSEO_UnitTestCase {
 			->expects( $this->once() )
 			->method( 'page_contains_cornerstone_content_field' )
 			->will( $this->returnValue( true ) );
-		
+
 		$cornerstone->register_hooks();
 
 		$this->assertEquals( 10, has_action( 'save_post', array( $cornerstone, 'save_meta_value' ) ) );

@@ -824,6 +824,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Checks the value of the debug mark getter when the premium version is 'active'.
+	 *
 	 * @covers WPSEO_Frontend::head_product_name()
 	 */
 	public function test_head_get_debug_mark_for_premium() {
@@ -879,7 +880,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( true ) );
 
 		$frontend
-			->expects( $this->exactly(2) )
+			->expects( $this->exactly( 2 ) )
 			->method( 'get_debug_mark' );
 
 		// Enables the output buffering.
@@ -911,7 +912,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$frontend->head();
 
-		$this->expectOutputContains( '<!-- / Yoast SEO plugin. -->'  );
+		$this->expectOutputContains( '<!-- / Yoast SEO plugin. -->' );
 	}
 
 	/**
@@ -935,7 +936,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$output = $this->getActualOutput();
 
-		$this->assertFalse( stripos( $output, '<!-- / Yoast SEO plugin. -->' )  );
+		$this->assertFalse( stripos( $output, '<!-- / Yoast SEO plugin. -->' ) );
 	}
 
 	/**
