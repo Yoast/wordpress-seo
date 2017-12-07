@@ -129,7 +129,7 @@ class WPSEO_Canonical {
 				$this->generate_canonical_search();
 			} elseif ( is_front_page() ) {
 				$this->generate_canonical_front_page();
-			} elseif ( WPSEO_Frontend::is_posts_page() ) {
+			} elseif ( WPSEO_Query::is_posts_page() ) {
 				$this->generate_canonical_posts_page();
 			} elseif ( is_tax() || is_tag() || is_category() ) {
 				$this->generate_canonical_taxonomy();
@@ -366,7 +366,7 @@ class WPSEO_Canonical {
 	private function generate_canonical_taxonomy() {
 		$term = get_queried_object();
 
-		if ( ! empty( $term ) && ! WPSEO_Frontend::is_multiple_terms_query() ) {
+		if ( ! empty( $term ) && ! WPSEO_Query::is_multiple_terms_query() ) {
 
 			$this->canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
 			$term_link                = get_term_link( $term, $term->taxonomy );

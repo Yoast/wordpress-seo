@@ -187,33 +187,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Determine whether this is the homepage and shows posts.
-	 *
-	 * @return bool
-	 */
-	public static function is_home_posts_page() {
-		return ( is_home() && 'posts' === get_option( 'show_on_front' ) );
-	}
-
-	/**
-	 * Determine whether the this is the static frontpage.
-	 *
-	 * @return bool
-	 */
-	public static function is_home_static_page() {
-		return ( is_front_page() && 'page' === get_option( 'show_on_front' ) && is_page( get_option( 'page_on_front' ) ) );
-	}
-
-	/**
-	 * Determine whether this is the posts page, when it's not the frontpage.
-	 *
-	 * @return bool
-	 */
-	public static function is_posts_page() {
-		return ( is_home() && 'page' === get_option( 'show_on_front' ) );
-	}
-
-	/**
 	 * Used for static home and posts pages as well as singular titles.
 	 *
 	 * @param object|null $object If filled, object to get the title for.
@@ -420,13 +393,13 @@ class WPSEO_Frontend {
 		// that is used to generate default titles.
 		$title_part = '';
 
-		if ( self::is_home_static_page() ) {
+		if ( WPSEO_Query::is_home_static_page() ) {
 			$title = $this->get_content_title();
 		}
-		elseif ( self::is_home_posts_page() ) {
+		elseif ( WPSEO_Query::is_home_posts_page() ) {
 			$title = $this->get_title_from_options( 'title-home-wpseo' );
 		}
-		elseif ( self::is_posts_page() ) {
+		elseif ( WPSEO_Query::is_posts_page() ) {
 			$title = $this->get_content_title( get_post( get_option( 'page_for_posts' ) ) );
 		}
 		elseif ( is_singular() ) {
@@ -707,7 +680,7 @@ class WPSEO_Frontend {
 					$robots['index'] = $term_meta;
 				}
 
-				if ( self::is_multiple_terms_query() ) {
+				if ( WPSEO_Query::is_multiple_terms_query() ) {
 					$robots['index'] = 'noindex';
 				}
 			}
@@ -956,7 +929,7 @@ class WPSEO_Frontend {
 			if ( is_search() ) {
 				$metadesc = '';
 			}
-			elseif ( $this->is_home_posts_page() ) {
+			elseif ( WPSEO_Query::is_home_posts_page() ) {
 				$template = $this->options['metadesc-home-wpseo'];
 				$term     = array();
 
@@ -964,7 +937,7 @@ class WPSEO_Frontend {
 					$template = get_bloginfo( 'description' );
 				}
 			}
-			elseif ( self::is_posts_page() ) {
+			elseif ( WPSEO_Query::is_posts_page() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc', get_option( 'page_for_posts' ) );
 				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
 					$page     = get_post( get_option( 'page_for_posts' ) );
@@ -972,7 +945,7 @@ class WPSEO_Frontend {
 					$term     = $page;
 				}
 			}
-			elseif ( self::is_home_static_page() ) {
+			elseif ( WPSEO_Query::is_home_static_page() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
 				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
 					$template = $this->options[ 'metadesc-' . $post_type ];
@@ -1590,29 +1563,6 @@ class WPSEO_Frontend {
 		}
 
 		return $keywords;
-	}
-
-	/**
-	 * Check if term archive query is for multiple terms (/term-1,term2/ or /term-1+term-2/).
-	 *
-	 * @return bool
-	 */
-	public static function is_multiple_terms_query() {
-
-		global $wp_query;
-
-		if ( ! is_tax() && ! is_tag() && ! is_category() ) {
-			return false;
-		}
-
-		$term          = get_queried_object();
-		$queried_terms = $wp_query->tax_query->queried_terms;
-
-		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
-			return false;
-		}
-
-		return count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
 	}
 
 	/**

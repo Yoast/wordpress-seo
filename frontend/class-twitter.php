@@ -165,7 +165,7 @@ class WPSEO_Twitter {
 		if ( is_singular() ) {
 			$meta_desc = $this->single_description();
 		}
-		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
+		elseif ( WPSEO_Query::is_posts_page() ) {
 			$meta_desc = $this->single_description( get_option( 'page_for_posts' ) );
 		}
 		elseif ( is_category() || is_tax() || is_tag() ) {
@@ -247,7 +247,7 @@ class WPSEO_Twitter {
 		if ( is_singular() ) {
 			$title = $this->single_title();
 		}
-		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
+		elseif ( WPSEO_Query::is_posts_page() ) {
 			$title = $this->single_title( get_option( 'page_for_posts' ) );
 		}
 		elseif ( is_category() || is_tax() || is_tag() ) {
