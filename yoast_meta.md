@@ -24,6 +24,7 @@ target_indexable_id
 type [ varchar ]
 [ KEY ] source + target + type
 
+- external links ? where?
 
 
 ### prefix modules
