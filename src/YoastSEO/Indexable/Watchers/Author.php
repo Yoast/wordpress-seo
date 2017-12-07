@@ -4,6 +4,7 @@ namespace Yoast\YoastSEO\Indexable\Watchers;
 
 use Yoast\WordPress\Integration;
 use Yoast\Yoast_Model;
+use Yoast\YoastSEO\Database\Models\Indexable;
 
 class Author implements Integration {
 
@@ -21,7 +22,7 @@ class Author implements Integration {
 	 * @param $user_id
 	 */
 	public function delete_meta( $user_id ) {
-		/** @var \Yoast\YoastSEO\Models\Indexable $model */
+		/** @var Indexable $model */
 		$model = Yoast_Model::factory( 'Indexable' )
 							->where( 'object_id', $user_id )
 							->where( 'object_type', 'user' )
@@ -38,7 +39,7 @@ class Author implements Integration {
 	 * @param int $user_id User ID.
 	 */
 	public function save_meta( $user_id ) {
-		/** @var \Yoast\YoastSEO\Models\Indexable $model */
+		/** @var Indexable $model */
 		$model = Yoast_Model::factory( 'Indexable' )
 							->where( 'object_id', $user_id )
 							->where( 'object_type', 'user' )

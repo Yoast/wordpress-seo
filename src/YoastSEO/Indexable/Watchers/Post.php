@@ -4,6 +4,7 @@ namespace Yoast\YoastSEO\Indexable\Watchers;
 
 use Yoast\WordPress\Integration;
 use Yoast\Yoast_Model;
+use Yoast\YoastSEO\Database\Models\Indexable;
 
 class Post implements Integration {
 
@@ -23,7 +24,7 @@ class Post implements Integration {
 	public function delete_meta( $post_id ) {
 		$post_type = get_post_type( $post_id );
 
-		/** @var \Yoast\YoastSEO\Models\Indexable $model */
+		/** @var Indexable $model */
 		$model = Yoast_Model::factory( 'Indexable' )
 							->where( 'object_id', $post_id )
 							->where( 'object_type', 'post' )
@@ -45,7 +46,7 @@ class Post implements Integration {
 
 		$post_type = get_post_type( $post_id );
 
-		/** @var \Yoast\YoastSEO\Models\Indexable $model */
+		/** @var Indexable $model */
 		$model = Yoast_Model::factory( 'Indexable' )
 							->where( 'object_id', $post_id )
 							->where( 'object_type', 'post' )
