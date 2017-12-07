@@ -34,7 +34,7 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	 * Registers the hooks if it's WC shop page.
 	 */
 	public function register_hooks_shop_page() {
-		if ( ! $this->is_wc_shop_page() ) {
+		if ( ! $this->is_shop_page() && $this->get_shop_page_id() === -1 ) {
 			return;
 		}
 
@@ -62,15 +62,7 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	 * @return string Meta description of the shop page.
 	 */
 	public function apply_shop_page_metadesc( $description ) {
-		$post_type = $this->get_post_type( $GLOBALS['post'] );
-
-		$metadesc = WPSEO_Meta::get_value( 'metadesc', $this->get_shop_page_id() );
-		if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->frontend->options[ 'metadesc-' . $post_type ] ) ) {
-			$metadesc = $this->frontend->options[ 'metadesc-' . $post_type ];
-
-		}
-
-		return trim( wpseo_replace_vars( $metadesc, get_queried_object() ) );
+		return $this->get_meta_value( 'metadesc', 'metadesc' );
 	}
 
 	/**
@@ -81,15 +73,29 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	 * @return string Meta keywords of the shop page.
 	 */
 	public function apply_shop_page_metakeywords( $keywords ) {
+		return $this->get_meta_value( 'metakeywords', 'metakey' );
+	}
+
+	/**
+	 * Returns the meta value.
+	 *
+	 * @param string meta_key   Meta key.
+	 * @param string option_key Option key.
+	 *
+	 * @return string Meta value.
+	 */
+	protected function get_meta_value( $meta_key, $option_key ) {
 		$post_type = $this->get_post_type( $GLOBALS['post'] );
 
-		$keywords = WPSEO_Meta::get_value( 'metakeywords', $this->get_shop_page_id() );
-		if ( ( $keywords === '' && $post_type !== '' ) && isset( $this->frontend->options[ 'metakey-' . $post_type ] ) ) {
-			$keywords = $this->frontend->options[ 'metakey-' . $post_type ];
-
+		$meta_value = WPSEO_Meta::get_value( $meta_key, $this->get_shop_page_id() );
+		if ( $meta_value === ''
+			&& $post_type !== ''
+			&& isset( $this->frontend->options[ $option_key . '-' . $post_type ] )
+		) {
+			$meta_value = $this->frontend->options[ $option_key . '-' . $post_type ];
 		}
 
-		return trim( wpseo_replace_vars( $keywords, get_queried_object() ) );
+		return trim( wpseo_replace_vars( $meta_value, get_queried_object() ) );
 	}
 
 	/**
@@ -97,7 +103,7 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	 *
 	 * @return bool True if we are on a shop page.
 	 */
-	protected function is_wc_shop_page() {
+	protected function is_shop_page() {
 		if ( function_exists( 'is_shop' ) && function_exists( 'wc_get_page_id' ) ) {
 			return is_shop() && ! is_search();
 		}
@@ -112,7 +118,7 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	 */
 	protected function get_shop_page_id() {
 		if ( is_null( $this->shop_page_id ) ) {
-			$this->shop_page_id = wc_get_page_id( 'shop' );
+			$this->shop_page_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : -1;
 		}
 
 		return $this->shop_page_id;
