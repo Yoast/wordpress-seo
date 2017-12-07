@@ -162,7 +162,7 @@ function wpseo_admin_bar_menu() {
 	) );
 
 	if ( ! is_admin() ) {
-		$url = WPSEO_Frontend::get_instance()->canonical( false );
+		$url = WPSEO_Canonical::get_instance()->canonical( false );
 
 		if ( is_string( $url ) ) {
 			$wp_admin_bar->add_menu( array(
