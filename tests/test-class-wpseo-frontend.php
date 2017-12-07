@@ -800,55 +800,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// @todo
 	}
 
-
-
-	/**
-	 * @param string $initial_url URL to start off from.
-	 *
-	 * @return void
-	 */
-	private function run_test_on_consecutive_pages( $initial_url ) {
-		// Test page 1 of the post type archives, should have just a rel=next and a canonical.
-		$this->go_to( $initial_url );
-
-		$page_2_link = get_pagenum_link( 2, false );
-		$expected    = '<link rel="next" href="' . esc_url( $page_2_link ) . '" />' . "\n";
-
-		self::$class_instance->adjacent_rel_links();
-		$this->assertEquals( $initial_url, self::$class_instance->canonical( false ) );
-		$this->expectOutput( $expected );
-
-
-		// Test page 2 of the post type archives, should have a rel=next and rel=prev and a canonical.
-		self::$class_instance->reset();
-		$this->go_to( $page_2_link );
-
-		$page_3_link = get_pagenum_link( 3, false );
-		$expected    = '<link rel="prev" href="' . esc_url( $initial_url ) . '" />' . "\n" . '<link rel="next" href="' . esc_url( $page_3_link ) . '" />' . "\n";
-
-		self::$class_instance->adjacent_rel_links();
-		$this->assertEquals( $page_2_link, self::$class_instance->canonical( false ) );
-		$this->expectOutput( $expected );
-
-		// Test page 3 of the author archives, should have just a rel=prev and a canonical.
-		self::$class_instance->reset();
-		$this->go_to( $page_3_link );
-
-		$expected = '<link rel="prev" href="' . esc_url( $page_2_link ) . '" />' . "\n";
-		self::$class_instance->adjacent_rel_links();
-		$this->assertEquals( $page_3_link, self::$class_instance->canonical( false ) );
-		$this->expectOutput( $expected );
-	}
-
-	/**
-	 * @param string $name Option name.
-	 *
-	 * @return string
-	 */
-	private function get_option( $name ) {
-		return self::$class_instance->options[ $name ];
-	}
-
 	/**
 	 * @param string $option_name Option name.
 	 * @param string $expected    Expected output.
