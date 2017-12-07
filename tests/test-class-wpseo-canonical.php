@@ -10,7 +10,7 @@
  */
 class WPSEO_Canonical_Test extends WPSEO_UnitTestCase {
 	/**
-	 * @var WPSEO_Frontend_Double
+	 * @var WPSEO_Canonical_Double
 	 */
 	private static $class_instance;
 
@@ -26,7 +26,16 @@ class WPSEO_Canonical_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::canonical
+	 * Reset after running a test.
+	 */
+	public function tearDown() {
+		parent::tearDown();
+
+		self::$class_instance->reset();
+	}
+
+	/**
+	 * @covers WPSEO_Canonical::canonical
 	 */
 	public function test_canonical_single_post() {
 		$post_id = $this->factory->post->create();
@@ -36,7 +45,7 @@ class WPSEO_Canonical_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::canonical
+	 * @covers WPSEO_Canonical::canonical
 	 */
 	public function test_canonical_single_post_override() {
 
@@ -57,7 +66,7 @@ class WPSEO_Canonical_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::canonical
+	 * @covers WPSEO_Canonical::canonical
 	 */
 	public function test_canonical_home() {
 		update_option( 'posts_per_page', 1 );
@@ -108,7 +117,7 @@ class WPSEO_Canonical_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::canonical
+	 * @covers WPSEO_Canonical::canonical
 	 */
 	public function test_canonical_search() {
 		update_option( 'posts_per_page', 1 );
@@ -122,8 +131,8 @@ class WPSEO_Canonical_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::adjacent_rel_links
-	 * @covers WPSEO_Frontend::canonical
+	 * @covers WPSEO_Canonical::adjacent_rel_links
+	 * @covers WPSEO_Canonical::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_post_type() {
 		update_option( 'posts_per_page', 1 );
@@ -146,8 +155,8 @@ class WPSEO_Canonical_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::adjacent_rel_links
-	 * @covers WPSEO_Frontend::canonical
+	 * @covers WPSEO_Canonical::adjacent_rel_links
+	 * @covers WPSEO_Canonical::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_author() {
 		update_option( 'posts_per_page', 1 );
@@ -163,8 +172,8 @@ class WPSEO_Canonical_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::adjacent_rel_links
-	 * @covers WPSEO_Frontend::canonical
+	 * @covers WPSEO_Canonical::adjacent_rel_links
+	 * @covers WPSEO_Canonical::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_date_archive() {
 		update_option( 'posts_per_page', 1 );
@@ -176,8 +185,8 @@ class WPSEO_Canonical_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::adjacent_rel_links
-	 * @covers WPSEO_Frontend::canonical
+	 * @covers WPSEO_Canonical::adjacent_rel_links
+	 * @covers WPSEO_Canonical::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_category() {
 		update_option( 'posts_per_page', 1 );
@@ -195,7 +204,7 @@ class WPSEO_Canonical_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::canonical
+	 * @covers WPSEO_Canonical::canonical
 	 */
 	public function test_canonical_filter() {
 		add_filter( 'wpseo_canonical', '__return_false' );

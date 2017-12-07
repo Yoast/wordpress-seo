@@ -191,7 +191,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return bool
 	 */
-	public function is_home_posts_page() {
+	public static function is_home_posts_page() {
 		return ( is_home() && 'posts' === get_option( 'show_on_front' ) );
 	}
 
@@ -200,7 +200,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return bool
 	 */
-	public function is_home_static_page() {
+	public static function is_home_static_page() {
 		return ( is_front_page() && 'page' === get_option( 'show_on_front' ) && is_page( get_option( 'page_on_front' ) ) );
 	}
 
@@ -209,7 +209,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return bool
 	 */
-	public function is_posts_page() {
+	public static function is_posts_page() {
 		return ( is_home() && 'page' === get_option( 'show_on_front' ) );
 	}
 
@@ -420,13 +420,13 @@ class WPSEO_Frontend {
 		// that is used to generate default titles.
 		$title_part = '';
 
-		if ( $this->is_home_static_page() ) {
+		if ( self::is_home_static_page() ) {
 			$title = $this->get_content_title();
 		}
-		elseif ( $this->is_home_posts_page() ) {
+		elseif ( self::is_home_posts_page() ) {
 			$title = $this->get_title_from_options( 'title-home-wpseo' );
 		}
-		elseif ( $this->is_posts_page() ) {
+		elseif ( self::is_posts_page() ) {
 			$title = $this->get_content_title( get_post( get_option( 'page_for_posts' ) ) );
 		}
 		elseif ( is_singular() ) {
@@ -707,7 +707,7 @@ class WPSEO_Frontend {
 					$robots['index'] = $term_meta;
 				}
 
-				if ( $this->is_multiple_terms_query() ) {
+				if ( self::is_multiple_terms_query() ) {
 					$robots['index'] = 'noindex';
 				}
 			}
@@ -964,7 +964,7 @@ class WPSEO_Frontend {
 					$template = get_bloginfo( 'description' );
 				}
 			}
-			elseif ( $this->is_posts_page() ) {
+			elseif ( self::is_posts_page() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc', get_option( 'page_for_posts' ) );
 				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
 					$page     = get_post( get_option( 'page_for_posts' ) );
@@ -972,7 +972,7 @@ class WPSEO_Frontend {
 					$term     = $page;
 				}
 			}
-			elseif ( $this->is_home_static_page() ) {
+			elseif ( self::is_home_static_page() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
 				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
 					$template = $this->options[ 'metadesc-' . $post_type ];
@@ -1597,7 +1597,7 @@ class WPSEO_Frontend {
 	 *
 	 * @return bool
 	 */
-	protected function is_multiple_terms_query() {
+	public static function is_multiple_terms_query() {
 
 		global $wp_query;
 

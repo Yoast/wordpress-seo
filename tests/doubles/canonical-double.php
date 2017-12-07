@@ -14,6 +14,7 @@ class WPSEO_Canonical_Double extends WPSEO_Canonical {
 	public function __construct() {
 		parent::__construct();
 	}
+
 	/**
 	 * Get the singleton instance of this class
 	 *
