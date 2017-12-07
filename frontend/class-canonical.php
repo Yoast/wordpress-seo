@@ -11,28 +11,24 @@ class WPSEO_Canonical {
 	 * @var    object    Instance of this class.
 	 */
 	public static $instance;
-
 	/**
 	 * Holds the canonical URL for the current page.
 	 *
 	 * @var string
 	 */
 	private $canonical = null;
-
 	/**
 	 * Holds the canonical URL for the current page.
 	 *
 	 * @var string
 	 */
 	private $canonical_override = null;
-
 	/**
 	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input.
 	 *
 	 * @var string
 	 */
 	private $canonical_no_override = null;
-
 	/**
 	 * Holds the canonical URL for the current page without pagination.
 	 *
@@ -76,7 +72,8 @@ class WPSEO_Canonical {
 		foreach ( get_class_vars( __CLASS__ ) as $name => $default ) {
 			if ( $name === 'instance' ) {
 				self::$instance = null;
-			} else {
+			}
+			else {
 				$this->$name = $default;
 			}
 		}
@@ -101,7 +98,8 @@ class WPSEO_Canonical {
 
 		if ( $un_paged ) {
 			$canonical = $this->canonical_unpaged;
-		} else if ( $no_override ) {
+		}
+		else if ( $no_override ) {
 			$canonical = $this->canonical_no_override;
 		}
 
@@ -124,20 +122,27 @@ class WPSEO_Canonical {
 		// Set decent canonicals for homepage, singulars and taxonomy pages.
 		if ( is_singular() ) {
 			$this->generate_canonical_singular();
-		} else {
+		}
+		else {
 			if ( is_search() ) {
 				$this->generate_canonical_search();
-			} elseif ( is_front_page() ) {
+			}
+			elseif ( is_front_page() ) {
 				$this->generate_canonical_front_page();
-			} elseif ( WPSEO_Query::is_posts_page() ) {
+			}
+			elseif ( WPSEO_Query::is_posts_page() ) {
 				$this->generate_canonical_posts_page();
-			} elseif ( is_tax() || is_tag() || is_category() ) {
+			}
+			elseif ( is_tax() || is_tag() || is_category() ) {
 				$this->generate_canonical_taxonomy();
-			} elseif ( is_post_type_archive() ) {
+			}
+			elseif ( is_post_type_archive() ) {
 				$this->generate_canonical_post_type_archive();
-			} elseif ( is_author() ) {
+			}
+			elseif ( is_author() ) {
 				$this->generate_canonical_author();
-			} elseif ( is_archive() ) {
+			}
+			elseif ( is_archive() ) {
 				$this->generate_canonical_date();
 			}
 
@@ -148,15 +153,15 @@ class WPSEO_Canonical {
 
 		$this->canonical_no_override = $this->canonical;
 
+		if ( is_string( $this->canonical_override ) && $this->canonical_override !== '' ) {
+			$this->canonical = $this->canonical_override;
+		}
+
 		if ( is_string( $this->canonical ) && $this->canonical !== '' ) {
 			// Force canonical links to be absolute, relative is NOT an option.
 			if ( WPSEO_Utils::is_url_relative( $this->canonical ) === true ) {
 				$this->canonical = $this->base_url( $this->canonical );
 			}
-		}
-
-		if ( is_string( $this->canonical_override ) && $this->canonical_override !== '' ) {
-			$this->canonical = $this->canonical_override;
 		}
 
 		/**
@@ -243,7 +248,8 @@ class WPSEO_Canonical {
 					$this->adjacent_rel_link( 'next', $url, ( $paged + 1 ), true );
 				}
 			}
-		} else {
+		}
+		else {
 			$numpages = 0;
 			if ( isset( $wp_query->post->post_content ) ) {
 				$numpages = ( substr_count( $wp_query->post->post_content, '<!--nextpage-->' ) + 1 );
@@ -259,7 +265,8 @@ class WPSEO_Canonical {
 				// If the current page is the frontpage, pagination should use /base/.
 				if ( $this->is_home_static_page() ) {
 					$usebase = true;
-				} else {
+				}
+				else {
 					$usebase = false;
 				}
 
@@ -291,7 +298,8 @@ class WPSEO_Canonical {
 			if ( $page > 1 ) {
 				$url = add_query_arg( 'paged', $page, $url );
 			}
-		} else {
+		}
+		else {
 			if ( $page > 1 ) {
 				$base = '';
 				if ( $incl_pagination_base ) {
@@ -329,7 +337,8 @@ class WPSEO_Canonical {
 			if ( $num_pages && get_query_var( 'page' ) <= $num_pages ) {
 				if ( ! $GLOBALS['wp_rewrite']->using_permalinks() ) {
 					$this->canonical = add_query_arg( 'page', get_query_var( 'page' ), $this->canonical );
-				} else {
+				}
+				else {
 					$this->canonical = user_trailingslashit( trailingslashit( $this->canonical ) . get_query_var( 'page' ) );
 				}
 			}
@@ -402,9 +411,11 @@ class WPSEO_Canonical {
 		if ( is_date() ) {
 			if ( is_day() ) {
 				$this->canonical_unpaged = get_day_link( get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
-			} else if ( is_month() ) {
+			}
+			else if ( is_month() ) {
 				$this->canonical_unpaged = get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) );
-			} else if ( is_year() ) {
+			}
+			else if ( is_year() ) {
 				$this->canonical_unpaged = get_year_link( get_query_var( 'year' ) );
 			}
 		}
@@ -425,7 +436,8 @@ class WPSEO_Canonical {
 		if ( $this->canonical_unpaged && get_query_var( 'paged' ) > 1 ) {
 			if ( ! $wp_rewrite->using_permalinks() ) {
 				$this->canonical = add_query_arg( 'paged', get_query_var( 'paged' ), $this->canonical );
-			} else {
+			}
+			else {
 				$this->canonical = user_trailingslashit( trailingslashit( $this->canonical ) . trailingslashit( $wp_rewrite->pagination_base ) . get_query_var( 'paged' ) );
 			}
 		}
