@@ -20,6 +20,8 @@ class WPSEO_Canonical_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
+		require_once WPSEO_TESTS_PATH . 'doubles/canonical-double.php';
+
 		self::$class_instance = WPSEO_Canonical_Double::get_instance();
 	}
 
