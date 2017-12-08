@@ -335,7 +335,7 @@ babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
-babel-core@^6.0.0, babel-core@^6.0.14, babel-core@^6.18.0, babel-core@^6.24.1, babel-core@^6.26.0:
+babel-core@^6.0.0, babel-core@^6.18.0, babel-core@^6.24.1, babel-core@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.26.0.tgz#af32f78b31a6fcef119c87b0fd8d9753f03a0bb8"
   dependencies:
@@ -841,12 +841,9 @@ babel-types@^6.24.1, babel-types@^6.26.0:
     lodash "^4.17.4"
     to-fast-properties "^1.0.3"
 
-babelify@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/babelify/-/babelify-7.3.0.tgz#aa56aede7067fd7bd549666ee16dc285087e88e5"
-  dependencies:
-    babel-core "^6.0.14"
-    object-assign "^4.0.0"
+babelify@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/babelify/-/babelify-8.0.0.tgz#6f60f5f062bfe7695754ef2403b842014a580ed3"
 
 babylon@^6.11.0:
   version "6.15.0"
@@ -1254,6 +1251,10 @@ cliui@^3.2.0:
     strip-ansi "^3.0.1"
     wrap-ansi "^2.0.0"
 
+clone@^1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.3.tgz#298d7e2231660f40c003c2ed3140decf3f53085f"
+
 closure-compiler@0.2.12:
   version "0.2.12"
   resolved "https://registry.yarnpkg.com/closure-compiler/-/closure-compiler-0.2.12.tgz#6c3087cad12742c79e47f0ce50e87af91cf8e171"
@@ -1336,6 +1337,12 @@ console-browserify@^1.1.0:
 console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
+
+console.table@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/console.table/-/console.table-0.9.1.tgz#4b01fd0a6b56fffb79092783e56a9bb90678728c"
+  dependencies:
+    easy-table "1.1.0"
 
 constants-browserify@~1.0.0:
   version "1.0.0"
@@ -1538,6 +1545,12 @@ default-require-extensions@^1.0.0:
   dependencies:
     strip-bom "^2.0.0"
 
+defaults@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/defaults/-/defaults-1.0.3.tgz#c656051e9817d9ff08ed881477f3fe4019f3ef7d"
+  dependencies:
+    clone "^1.0.2"
+
 define-properties@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/define-properties/-/define-properties-1.1.2.tgz#83a73f2fea569898fb737193c8f873caf6d45c94"
@@ -1676,6 +1689,12 @@ eachr@^3.2.0:
   dependencies:
     editions "^1.1.1"
     typechecker "^4.3.0"
+
+easy-table@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/easy-table/-/easy-table-1.1.0.tgz#86f9ab4c102f0371b7297b92a651d5824bc8cb73"
+  optionalDependencies:
+    wcwidth ">=1.0.1"
 
 ecc-jsbn@~0.1.1:
   version "0.1.1"
@@ -4003,7 +4022,7 @@ oauth-sign@~0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
-object-assign@^4.0.0, object-assign@^4.0.1, object-assign@^4.1.0:
+object-assign@^4.0.1, object-assign@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
 
@@ -5476,6 +5495,12 @@ watchify@^3.6.1:
     outpipe "^1.1.0"
     through2 "^2.0.0"
     xtend "^4.0.0"
+
+wcwidth@>=1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/wcwidth/-/wcwidth-1.0.1.tgz#f0b0dcf915bc5ff1528afadb2c0e17b532da2fe8"
+  dependencies:
+    defaults "^1.0.3"
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
