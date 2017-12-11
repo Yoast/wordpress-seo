@@ -19,8 +19,12 @@ class WPSEO_Language_Utils {
 	public static function get_language( $locale = null ) {
 		$language = 'en';
 
-		if ( ! empty( $locale ) && strlen( $locale ) >= 2 ) {
-			$language = substr( $locale, 0, 2 );
+		if ( ! empty( $locale ) ) {
+			if ( strpos( $locale, '_' ) !== false ) {
+				list( $language, $territory ) = explode( '_', $locale );
+			} else {
+				$language = $locale;
+			}
 		}
 
 		return $language;
