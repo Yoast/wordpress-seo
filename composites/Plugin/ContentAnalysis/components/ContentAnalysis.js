@@ -144,9 +144,9 @@ class ContentAnalysis extends React.Component {
 			let ariaLabel = "";
 			if ( this.props.buttonsDisabled ) {
 				ariaLabel = this.props.intl.formatMessage( messages.disabledButton );
-			} else if ( ! this.props.buttonsDisabled && isPressed ) {
+			} else if ( isPressed ) {
 				ariaLabel = this.props.intl.formatMessage( messages.noHighlight );
-			} else if ( ! this.props.buttonsDisabled && ! isPressed ) {
+			} else {
 				ariaLabel = this.props.intl.formatMessage( messages.highlight );
 			}
 			return <AnalysisResult
