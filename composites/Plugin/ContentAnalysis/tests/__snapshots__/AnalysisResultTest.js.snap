@@ -21,7 +21,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa bimAMX"
+    className="sc-bdVaJa jgsRfK"
     disabled={false}
     id="Result button"
     onClick={[Function]}
@@ -58,7 +58,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa bimAMX"
+    className="sc-bdVaJa jgsRfK"
     disabled={true}
     id="Result button"
     onClick={[Function]}
@@ -95,7 +95,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa bimAMX"
+    className="sc-bdVaJa jgsRfK"
     disabled={false}
     id="Result button"
     onClick={[Function]}

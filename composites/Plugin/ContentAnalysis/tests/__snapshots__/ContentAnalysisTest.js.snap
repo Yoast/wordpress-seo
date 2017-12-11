@@ -111,9 +111,9 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
           }
         />
         <button
-          aria-label="Highlight this result in the text"
+          aria-label="Marks are disabled in current view"
           aria-pressed={false}
-          className="sc-bwzfXH eUCgZO"
+          className="sc-bwzfXH dQxpDv"
           disabled={true}
           id="1"
           onClick={[Function]}
@@ -336,7 +336,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH eUCgZO"
+          className="sc-bwzfXH dQxpDv"
           disabled={false}
           id="1"
           onClick={[Function]}
@@ -559,7 +559,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH eUCgZO"
+          className="sc-bwzfXH dQxpDv"
           disabled={false}
           id="1"
           onClick={[Function]}
@@ -769,7 +769,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH eUCgZO"
+          className="sc-bwzfXH dQxpDv"
           disabled={false}
           id="1"
           onClick={[Function]}
@@ -968,7 +968,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH eUCgZO"
+          className="sc-bwzfXH dQxpDv"
           disabled={false}
           id="1"
           onClick={[Function]}
@@ -1167,7 +1167,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH eUCgZO"
+          className="sc-bwzfXH dQxpDv"
           disabled={false}
           id="1"
           onClick={[Function]}
@@ -1803,7 +1803,7 @@ exports[`the ContentAnalysis component without problems, improvements and consid
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH eUCgZO"
+          className="sc-bwzfXH dQxpDv"
           disabled={false}
           id="3"
           onClick={[Function]}

@@ -4,7 +4,7 @@ exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
 <button
   aria-label="important toggle"
   aria-pressed={false}
-  className="sc-bdVaJa gwTboi"
+  className="sc-bdVaJa chrcxo"
   disabled={true}
   id="RadioButton2"
   onClick={[Function]}
@@ -23,7 +23,7 @@ exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
 <button
   aria-label="important toggle"
   aria-pressed={true}
-  className="sc-bdVaJa bimAMX"
+  className="sc-bdVaJa jgsRfK"
   disabled={false}
   id="RadioButton2"
   onClick={[Function]}
@@ -42,7 +42,7 @@ exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
 <button
   aria-label="important toggle"
   aria-pressed={false}
-  className="sc-bdVaJa gwTboi"
+  className="sc-bdVaJa chrcxo"
   disabled={false}
   id="RadioButton"
   onClick={[Function]}
