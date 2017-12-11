@@ -125,6 +125,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.9.3 =
+
+Release Date: December 11th, 2017
+
+Security:
+
+* Fixes an issue where a part of the excerpt would be leaked on password protected posts when used as a replacement variable. Such as `%%excerpt%%` and `%%excerpt_only%%`. Props to [Rolands Umbrovskis](https://profiles.wordpress.org/rolandinsh) for reporting this issue to us.
+
 = 5.9.2 =
 Release Date: December 11th, 2017
 
