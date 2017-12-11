@@ -37,6 +37,15 @@ class WPSEO_Link_Table_Accessible {
 	}
 
 	/**
+	 * Removes the transient.
+	 *
+	 * @return void
+	 */
+	public static function cleanup() {
+		delete_transient( self::transient_name() );
+	}
+
+	/**
 	 * Sets the transient value to 0, to indicate the table is accessible.
 	 *
 	 * @return void
@@ -67,15 +76,6 @@ class WPSEO_Link_Table_Accessible {
 
 		self::set_accessible();
 		return true;
-	}
-
-	/**
-	 * Removes the transient.
-	 *
-	 * @return void
-	 */
-	public static function cleanup() {
-		delete_transient( self::transient_name() );
 	}
 
 	/**
