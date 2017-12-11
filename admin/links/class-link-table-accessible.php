@@ -29,13 +29,26 @@ class WPSEO_Link_Table_Accessible {
 
 	/**
 	 * Sets the transient value to 1, to indicate the table is not accessible.
+	 *
+	 * @return void
 	 */
 	public static function set_inaccessible() {
 		set_transient( self::transient_name(), self::INACCESSBILE, HOUR_IN_SECONDS );
 	}
 
 	/**
-	 * Sets the transient value to 0, to indicate the table is accessbile.
+	 * Removes the transient.
+	 *
+	 * @return void
+	 */
+	public static function cleanup() {
+		delete_transient( self::transient_name() );
+	}
+
+	/**
+	 * Sets the transient value to 0, to indicate the table is accessible.
+	 *
+	 * @return void
 	 */
 	protected static function set_accessible() {
 		/*
@@ -50,19 +63,7 @@ class WPSEO_Link_Table_Accessible {
 	/**
 	 * Checks if the table exists if not, set the transient to indicate the inaccessible table.
 	 *
-	 * @deprecated 6.0
-	 *
 	 * @return bool True if table is accessible.
-	 */
-	public static function check_table_is_accessible() {
-		_deprecated_function( __FUNCTION__, '6.0', __CLASS__ . '::is_accessible' );
-		return self::is_accessible();
-	}
-
-	/**
-	 * Checks if the table exists if not, set the transient to indicate the inaccessible table.
-	 *
-	 * @return bool
 	 */
 	protected static function check_table() {
 		global $wpdb;
@@ -78,20 +79,23 @@ class WPSEO_Link_Table_Accessible {
 	}
 
 	/**
-	 * Removes the transient.
-	 *
-	 * @return void
-	 */
-	public static function cleanup() {
-		delete_transient( self::transient_name() );
-	}
-
-	/**
 	 * Returns the name of the transient.
 	 *
 	 * @return string The name of the transient to use.
 	 */
 	protected static function transient_name() {
 		return 'wpseo_link_table_inaccessible';
+	}
+
+	/**
+	 * Checks if the table exists if not, set the transient to indicate the inaccessible table.
+	 *
+	 * @deprecated 6.0
+	 *
+	 * @return bool True if table is accessible.
+	 */
+	public static function check_table_is_accessible() {
+		_deprecated_function( __FUNCTION__, '6.0', __CLASS__ . '::is_accessible' );
+		return self::is_accessible();
 	}
 }
