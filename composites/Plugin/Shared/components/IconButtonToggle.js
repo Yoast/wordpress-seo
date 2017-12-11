@@ -6,7 +6,7 @@ import colors from "../../../../style-guide/colors.json";
 import { Icon } from "./Icon";
 import { rgba } from "../../../../style-guide/helpers";
 
-const ChangingIconButtonBase = styled.button`
+const IconButtonBase = styled.button`
 	box-sizing: border-box;
 	min-width: 32px;
 	display: inline-block;
@@ -23,6 +23,11 @@ const ChangingIconButtonBase = styled.button`
 	&:hover {
 		border-color: ${ props => props.hoverBorderColor }
 	}
+	&:disabled {
+		box-shadow: 0;
+		border: none;
+		cursor: auto;
+	}
 `;
 
 /**
@@ -34,7 +39,8 @@ const ChangingIconButtonBase = styled.button`
  */
 const ChangingIconButton = ( props ) => {
 	return (
-		<ChangingIconButtonBase
+		<IconButtonBase
+			disabled={ props.buttonsDisabled }
 			type="button"
 			onClick={ props.onClick }
 			pressed={ props.pressed }
@@ -45,21 +51,29 @@ const ChangingIconButton = ( props ) => {
 			id={ props.id }
 			aria-label={ props.ariaLabel }
 			aria-pressed={ props.pressed }
-			unpressedIconColor={ props.unpressedIconColor }
+			unpressedIconColor={ props.buttonsDisabled ? props.disabledIconColor : props.unpressedIconColor }
 			pressedIconColor={ props.pressedIconColor }
 			hoverBorderColor={ props.hoverBorderColor }
 		>
-			{ props.pressed
-				? <Icon
+			{ ! props.pressed && props.buttonsDisabled &&
+				<Icon
 					icon={ props.icon }
-					color={ props.pressedIconColor }
+					color={ props.disabledIconColor }
 					size="18px"/>
-				: <Icon
+			}
+			{ ! props.pressed && ! props.buttonsDisabled &&
+				<Icon
 					icon={ props.icon }
 					color={ props.unpressedIconColor }
 					size="18px"/>
 			}
-		</ChangingIconButtonBase>
+			{ props.pressed &&
+				<Icon
+					icon={ props.icon }
+					color={ props.pressedIconColor }
+					size="18px"/>
+			}
+		</IconButtonBase>
 	);
 };
 
@@ -77,6 +91,8 @@ ChangingIconButton.propTypes = {
 	icon: PropTypes.func.isRequired,
 	pressed: PropTypes.bool.isRequired,
 	hoverBorderColor: PropTypes.string,
+	buttonsDisabled: PropTypes.bool,
+	disabledIconColor: PropTypes.string,
 };
 
 ChangingIconButton.defaultProps = {
@@ -87,6 +103,8 @@ ChangingIconButton.defaultProps = {
 	pressedIconColor: colors.$color_white,
 	unpressedIconColor: colors.$color_button_text,
 	hoverBorderColor: colors.$color_white,
+	buttonsDisabled: false,
+	disabledIconColor: colors.$color_grey,
 };
 
 export default ChangingIconButton;
