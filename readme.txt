@@ -125,6 +125,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 5.9.2 =
+Release Date: December 11th, 2017
+
+Bugfixes:
+	* Fixes a bug where older browsers couldn't load the content analysis. This applies to Internet Explorer (10 and lower) and Safari (9.1 and lower).
+	* Fixes a bug where the Yoast Metabox wouldn't be shown for posts set to `noindex`, therefore making it impossible to change it back to `index`, view Readability scores and not being able to optimize a post, before allowing it to be indexed.
+	* Fixes a bug where translations wouldn't be applied in the Yoast SEO Metabox for SEO and Readability scores.
+
 = 5.9.1 =
 Release Date: December 5th, 2017
 

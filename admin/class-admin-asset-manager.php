@@ -65,6 +65,16 @@ class WPSEO_Admin_Asset_Manager {
 	 * Calls the functions that register scripts and styles with the scripts and styles to be registered as arguments.
 	 */
 	public function register_assets() {
+		$locale = get_locale();
+		list( $language, $territory ) = explode( '_', $locale );
+
+		wp_register_script(
+			self::PREFIX . 'intl-polyfill',
+			sprintf( 'https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.%s', $language ),
+			array(),
+			WPSEO_VERSION
+		);
+
 		$this->register_scripts( $this->scripts_to_be_registered() );
 		$this->register_styles( $this->styles_to_be_registered() );
 	}
@@ -149,15 +159,20 @@ class WPSEO_Admin_Asset_Manager {
 
 		return array(
 			array(
-				'name' => 'webpack-commons',
+				'name' => 'react-dependencies',
+				// Load webpack-commons for bundle support.
 				'src'  => 'commons-' . $flat_version,
+				'deps' => array(
+					self::PREFIX . 'intl-polyfill',
+					self::PREFIX . 'babel-polyfill',
+				),
 			),
 			array(
 				'name' => 'help-center',
 				'src'  => 'wp-seo-help-center-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'webpack-commons',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
@@ -169,7 +184,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-progressbar',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
-					self::PREFIX . 'polyfill',
+					self::PREFIX . 'babel-polyfill',
 				),
 			),
 			array(
@@ -178,23 +193,23 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
-					self::PREFIX . 'polyfill',
+					self::PREFIX . 'babel-polyfill',
 				),
 			),
 			array(
 				'name' => 'bulk-editor',
 				'src'  => 'wp-seo-bulk-editor-' . $flat_version,
-				'deps' => array( 'jquery', self::PREFIX . 'polyfill' ),
+				'deps' => array( 'jquery', self::PREFIX . 'babel-polyfill' ),
 			),
 			array(
 				'name' => 'dismissible',
 				'src'  => 'wp-seo-dismissible-' . $flat_version,
-				'deps' => array( 'jquery', self::PREFIX . 'polyfill' ),
+				'deps' => array( 'jquery', self::PREFIX . 'babel-polyfill' ),
 			),
 			array(
 				'name' => 'admin-global-script',
 				'src'  => 'wp-seo-admin-global-' . $flat_version,
-				'deps' => array( 'jquery', self::PREFIX . 'polyfill' ),
+				'deps' => array( 'jquery', self::PREFIX . 'babel-polyfill' ),
 			),
 			array(
 				'name'      => 'metabox',
@@ -205,8 +220,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-autocomplete',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
-					self::PREFIX . 'polyfill',
-					self::PREFIX . 'webpack-commons',
+					self::PREFIX . 'react-dependencies',
 				),
 				'in_footer' => false,
 			),
@@ -215,13 +229,13 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-featured-image-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'polyfill',
+					self::PREFIX . 'babel-polyfill',
 				),
 			),
 			array(
 				'name'      => 'admin-gsc',
 				'src'       => 'wp-seo-admin-gsc-' . $flat_version,
-				'deps'      => array( self::PREFIX . 'polyfill' ),
+				'deps'      => array( self::PREFIX . 'babel-polyfill' ),
 				'in_footer' => false,
 			),
 			array(
@@ -231,8 +245,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
-					self::PREFIX . 'polyfill',
-					self::PREFIX . 'webpack-commons',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
@@ -240,19 +253,22 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
-					self::PREFIX . 'polyfill',
-					self::PREFIX . 'webpack-commons',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
 				'src'  => 'wp-seo-replacevar-plugin-' . $flat_version,
-				'deps' => array( self::PREFIX . 'polyfill' ),
+				'deps' => array(
+					self::PREFIX . 'babel-polyfill',
+				),
 			),
 			array(
 				'name' => 'shortcode-plugin',
 				'src'  => 'wp-seo-shortcode-plugin-' . $flat_version,
-				'deps' => array( self::PREFIX . 'polyfill' ),
+				'deps' => array(
+					self::PREFIX . 'babel-polyfill',
+				),
 			),
 			array(
 				'name' => 'recalculate',
@@ -261,7 +277,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
-					self::PREFIX . 'polyfill',
+					self::PREFIX . 'babel-polyfill',
 				),
 			),
 			array(
@@ -270,7 +286,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					'wp-util',
-					self::PREFIX . 'polyfill',
+					self::PREFIX . 'babel-polyfill',
 				),
 			),
 			array(
@@ -297,12 +313,16 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'configuration-wizard-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'polyfill',
-					self::PREFIX . 'webpack-commons',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
+			// Register for backwards-compatiblity.
 			array(
 				'name' => 'polyfill',
+				'src'  => 'wp-seo-babel-polyfill-' . $flat_version,
+			),
+			array(
+				'name' => 'babel-polyfill',
 				'src'  => 'wp-seo-babel-polyfill-' . $flat_version,
 			),
 			array(
@@ -338,9 +358,8 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-dashboard-widget-' . $flat_version,
 				'deps' => array(
 					self::PREFIX . 'api',
-					self::PREFIX . 'polyfill',
 					'jquery',
-					self::PREFIX . 'webpack-commons',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
