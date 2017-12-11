@@ -21,10 +21,11 @@ const IconButtonBase = styled.button`
 	height: ${ props => props.pressed ? "23px" : "24px" };
 
 	&:hover {
-		border-color: ${ props => props.hoverBorderColor }
+		border-color: ${ props => props.hoverBorderColor };
 	}
 	&:disabled {
-		box-shadow: 0;
+		background-color: ${ props => props.unpressedBackground };
+		box-shadow: none;
 		border: none;
 		cursor: auto;
 	}
@@ -55,7 +56,7 @@ const ChangingIconButton = ( props ) => {
 			pressedIconColor={ props.pressedIconColor }
 			hoverBorderColor={ props.hoverBorderColor }
 		>
-			{ ! props.pressed && props.buttonsDisabled &&
+			{ props.buttonsDisabled &&
 				<Icon
 					icon={ props.icon }
 					color={ props.disabledIconColor }
@@ -67,7 +68,7 @@ const ChangingIconButton = ( props ) => {
 					color={ props.unpressedIconColor }
 					size="18px"/>
 			}
-			{ props.pressed &&
+			{ props.pressed && ! props.buttonsDisabled &&
 				<Icon
 					icon={ props.icon }
 					color={ props.pressedIconColor }
