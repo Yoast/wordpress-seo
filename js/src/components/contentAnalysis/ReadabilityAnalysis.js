@@ -25,7 +25,10 @@ class ReadabilityAnalysis extends React.Component {
 				showLanguageNotice={ true }
 				changeLanguageLink={ localizedData.settings_link }
 				language={ localizedData.language }
-				results={ this.props.results } />
+				results={ this.props.results }
+				markButtonClassName="yoast-tooltip yoast-tooltip-s"
+				buttonsDisabled={ false }
+			/>
 		);
 	}
 }
