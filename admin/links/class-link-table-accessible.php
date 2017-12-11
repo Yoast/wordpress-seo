@@ -29,6 +29,8 @@ class WPSEO_Link_Table_Accessible {
 
 	/**
 	 * Sets the transient value to 1, to indicate the table is not accessible.
+	 *
+	 * @return void
 	 */
 	public static function set_inaccessible() {
 		set_transient( self::transient_name(), self::INACCESSBILE, HOUR_IN_SECONDS );
@@ -36,6 +38,8 @@ class WPSEO_Link_Table_Accessible {
 
 	/**
 	 * Sets the transient value to 0, to indicate the table is accessible.
+	 *
+	 * @return void
 	 */
 	protected static function set_accessible() {
 		/*
@@ -62,7 +66,7 @@ class WPSEO_Link_Table_Accessible {
 	/**
 	 * Checks if the table exists if not, set the transient to indicate the inaccessible table.
 	 *
-	 * @return bool
+	 * @return bool True if table is accessible.
 	 */
 	protected static function check_table() {
 		global $wpdb;
