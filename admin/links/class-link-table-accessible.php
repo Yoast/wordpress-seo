@@ -35,7 +35,7 @@ class WPSEO_Link_Table_Accessible {
 	}
 
 	/**
-	 * Sets the transient value to 0, to indicate the table is accessbile.
+	 * Sets the transient value to 0, to indicate the table is accessible.
 	 */
 	protected static function set_accessible() {
 		/*
