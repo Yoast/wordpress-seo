@@ -59,6 +59,10 @@ const messages = defineMessages( {
 		id: "content-analysis.nohighlight",
 		defaultMessage: "Remove highlight from the text",
 	},
+	disabledButton: {
+		id: "content-analysis.disabledButton",
+		defaultMessage: "Marks are disabled in current view",
+	},
 } );
 
 /**
@@ -137,12 +141,20 @@ class ContentAnalysis extends React.Component {
 		return results.map( ( result ) => {
 			let color = this.getColor( result.rating );
 			let isPressed = result.id === this.state.checked;
+			let ariaLabel = "";
+			if ( this.props.buttonsDisabled ) {
+				ariaLabel = this.props.intl.formatMessage( messages.buttonsDisabled );
+			} else if ( ! this.props.buttonsDisabled && isPressed ) {
+				ariaLabel = this.props.intl.formatMessage( messages.noHighlight );
+			} else if ( ! this.props.buttonsDisabled && ! isPressed ) {
+				ariaLabel = this.props.intl.formatMessage( messages.highlight );
+			}
 			return <AnalysisResult
 				key={ result.id }
 				text={ result.text }
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
-				ariaLabel={ isPressed ? this.props.intl.formatMessage( messages.noHighlight ) : this.props.intl.formatMessage( messages.highlight ) }
+				ariaLabel={ ariaLabel }
 				pressed={ isPressed }
 				buttonId={ result.id }
 				onButtonClick={ this.handleClick.bind( this, result.id, result.marker ) }
