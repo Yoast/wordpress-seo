@@ -1,3 +1,6 @@
+### 5.9.2: December 11th, 2017
+* Includes every change in Yoast SEO core 5.9.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 5.9.1: December 5th, 2017
 * Fixes a bug where the configuration wizard could not be loaded, caused by a missing JavaScript dependency.
 
