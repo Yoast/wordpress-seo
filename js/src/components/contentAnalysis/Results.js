@@ -62,7 +62,7 @@ class Results extends React.Component {
 				canChangeLanguage={ this.props.canChangeLanguage }
 				onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
 				markButtonClassName={ this.props.markButtonClassName }
-				buttonsDisabled={ false }
+				buttonsDisabled={ this.props.buttonsDisabled }
 			/>
 		);
 	}
