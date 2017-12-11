@@ -9,7 +9,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Added
 * Adds a link to the subheadings article in the readability analysis to better explain the advantages of using subheadings in your text. #1317
 
-## 1.23.1 November 29th, 2017
+## 1.24 November 29th, 2017
 ### Changed
 * Changes the feedback string for a good meta description length from `The length of the meta description is sufficient.` to `The meta description has a nice length.` #1307
 
