@@ -128,7 +128,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 				WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis',
 				plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-' . $version . WPSEO_CSSJS_SUFFIX . '.js',
 				array(
-					WPSEO_Admin_Asset_Manager::PREFIX . 'webpack-commons'
+					WPSEO_Admin_Asset_Manager::PREFIX . 'react-dependencies'
 				),
 				WPSEO_VERSION,
 				true
