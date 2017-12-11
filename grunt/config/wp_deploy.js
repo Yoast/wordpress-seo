@@ -8,8 +8,8 @@ module.exports = {
 			plugin_main_file: "<%= pluginMainFile %>",
 			deploy_trunk: true,
 			deploy_tag: false,
-			// Equals about 3MB.
-			max_buffer: 3000 * 1024,
+			// Equals about 10MB.
+			max_buffer: 10000 * 1024,
 		},
 	},
 	master: {
@@ -19,7 +19,7 @@ module.exports = {
 			plugin_main_file: "<%= pluginMainFile %>",
 			deploy_trunk: true,
 			deploy_tag: true,
-			max_buffer: 3000 * 1024,
+			max_buffer: 10000 * 1024,
 		},
 	},
 };
