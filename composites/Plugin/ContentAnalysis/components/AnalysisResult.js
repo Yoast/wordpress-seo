@@ -46,6 +46,7 @@ export const AnalysisResult = ( props ) => {
 				props.hasMarksButton &&
 					<IconButtonToggle
 						buttonsDisabled={ props.buttonsDisabled }
+						className={ props.markButtonClassName }
 						onClick={ props.onButtonClick }
 						id={ props.buttonId }
 						icon={ eye }
@@ -66,6 +67,7 @@ AnalysisResult.propTypes = {
 	ariaLabel: PropTypes.string.isRequired,
 	onButtonClick: PropTypes.func.isRequired,
 	buttonsDisabled: PropTypes.bool,
+	markButtonClassName: PropTypes.string,
 };
 
 AnalysisResult.defaultProps = {

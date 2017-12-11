@@ -27,7 +27,7 @@ const IconButtonBase = styled.button`
 		background-color: ${ props => props.unpressedBackground };
 		box-shadow: none;
 		border: none;
-		cursor: auto;
+		cursor: default;
 	}
 `;
 
@@ -55,6 +55,7 @@ const ChangingIconButton = ( props ) => {
 			unpressedIconColor={ props.buttonsDisabled ? props.disabledIconColor : props.unpressedIconColor }
 			pressedIconColor={ props.pressedIconColor }
 			hoverBorderColor={ props.hoverBorderColor }
+			className={ props.className }
 		>
 			{ props.buttonsDisabled &&
 				<Icon
@@ -94,6 +95,7 @@ ChangingIconButton.propTypes = {
 	hoverBorderColor: PropTypes.string,
 	buttonsDisabled: PropTypes.bool,
 	disabledIconColor: PropTypes.string,
+	className: PropTypes.string,
 };
 
 ChangingIconButton.defaultProps = {

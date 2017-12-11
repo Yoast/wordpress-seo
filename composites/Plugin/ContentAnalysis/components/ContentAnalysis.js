@@ -55,6 +55,10 @@ const messages = defineMessages( {
 		id: "content-analysis.highlight",
 		defaultMessage: "Highlight this result in the text",
 	},
+	noHighlight: {
+		id: "content-analysis.nohighlight",
+		defaultMessage: "Remove highlight from the text",
+	},
 } );
 
 /**
@@ -132,15 +136,17 @@ class ContentAnalysis extends React.Component {
 	getResults( results ) {
 		return results.map( ( result ) => {
 			let color = this.getColor( result.rating );
+			let isPressed = result.id === this.state.checked;
 			return <AnalysisResult
 				key={ result.id }
 				text={ result.text }
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
-				ariaLabel={ this.props.intl.formatMessage( messages.highlight ) }
-				pressed={ result.id === this.state.checked }
+				ariaLabel={ isPressed ? this.props.intl.formatMessage( messages.noHighlight ) : this.props.intl.formatMessage( messages.highlight ) }
+				pressed={ isPressed }
 				buttonId={ result.id }
 				onButtonClick={ this.handleClick.bind( this, result.id, result.marker ) }
+				markButtonClassName={ this.props.markButtonClassName }
 				buttonsDisabled={ this.props.buttonsDisabled }
 			/>;
 		} );
@@ -266,6 +272,7 @@ ContentAnalysis.propTypes = {
 	showLanguageNotice: PropTypes.bool,
 	headingLevel: PropTypes.number,
 	buttonsDisabled: PropTypes.bool,
+	markButtonClassName: PropTypes.string,
 	intl: intlShape.isRequired,
 };
 
