@@ -1,4 +1,4 @@
-webpackJsonp([0],[
+webpackJsonp([1],[
 /* 0 */,
 /* 1 */,
 /* 2 */
@@ -43265,7 +43265,7 @@ function wrapInTopLevelComponents(Component, store) {
 	return _react2.default.createElement(
 		_reactIntl.IntlProvider,
 		{
-			locale: localizedData.intl.locale.substr(0, 2).toLowerCase(),
+			locale: localizedData.intl.locale,
 			messages: localizedData.intl },
 		_react2.default.createElement(
 			_reactRedux.Provider,
@@ -47840,110 +47840,7 @@ module.exports = UsedKeywords;
 /* 825 */,
 /* 826 */,
 /* 827 */,
-/* 828 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/* global wpseoPostScraperL10n */
-
-var scoreDescriptionClass = "score-text";
-var imageScoreClass = "image yoast-logo svg";
-
-(function ($) {
-	/* eslint-disable no-extend-native */
-	/**
-  * Converts the first letter to uppercase in a string.
-  *
-  * @returns {string} The string with the first letter uppercased.
-  */
-	String.prototype.ucfirst = function () {
-		return this.charAt(0).toUpperCase() + this.substr(1);
-	};
-	/* eslint-enable no-extend-native */
-
-	/**
-  * Creates a text with the label and description for a seo score.
-  *
-  * @param {String} scoreType The type of score, this is used for the label.
-  * @param {String} status The status for the score, this is the descriptive status text.
-  * @returns {String} A string with label and description with correct text decoration.
-  */
-	function createSEOScoreLabel(scoreType, status) {
-		var label = wpseoPostScraperL10n.publish_box.labels[scoreType] || "";
-		status = wpseoPostScraperL10n.publish_box.statuses[status] || "";
-
-		return label + ": <strong>" + status + "</strong>";
-	}
-
-	/**
-  * Updates a score type in the publish box.
-  *
-  * @param {String} type The score type to update (content or seo).
-  * @param {String} status The status is the class name that is used to update the image.
-  *
-  * @returns {void}
-  */
-	function updateScoreInPublishBox(type, status) {
-		var publishSection = $("#" + type + "-score");
-
-		var imageClass = imageScoreClass + " " + status;
-		publishSection.children(".image").attr("class", imageClass);
-
-		var text = createSEOScoreLabel(type, status);
-		publishSection.children("." + scoreDescriptionClass).html(text);
-	}
-
-	/**
-  * Creates a new item in the publish box for an yoast-seo score.
-  *
-  * @param {String} type The score type, for example content score or keyword score.
-  * @param {String} status The status for the score initialisation.
-  *
-  * @returns {void}
-  */
-	function createScoresInPublishBox(type, status) {
-		var publishSection = $("<div />", {
-			"class": "misc-pub-section yoast yoast-seo-score " + type + "-score",
-			"id": type + "-score"
-		});
-
-		var spanElem = $("<span />", {
-			"class": scoreDescriptionClass,
-			"html": createSEOScoreLabel(type, status)
-		});
-
-		var imgElem = $("<span>").attr("class", imageScoreClass + " na");
-
-		publishSection.append(imgElem).append(spanElem);
-		$("#misc-publishing-actions").append(publishSection);
-	}
-
-	/**
-  * Initializes the publish box score indicators.
-  *
-  * @returns {void}
-  */
-	function initialise() {
-		var notAvailableStatus = "na";
-
-		if (wpseoPostScraperL10n.contentAnalysisActive === "1") {
-			createScoresInPublishBox("content", notAvailableStatus);
-		}
-
-		if (wpseoPostScraperL10n.keywordAnalysisActive === "1") {
-			createScoresInPublishBox("keyword", notAvailableStatus);
-		}
-	}
-
-	module.exports = {
-		initalise: initialise,
-		updateScore: updateScoreInPublishBox
-	};
-})(jQuery);
-
-/***/ }),
+/* 828 */,
 /* 829 */,
 /* 830 */,
 /* 831 */,
@@ -48162,25 +48059,21 @@ var imageScoreClass = "image yoast-logo svg";
 /* 1044 */,
 /* 1045 */,
 /* 1046 */,
-/* 1047 */
+/* 1047 */,
+/* 1048 */,
+/* 1049 */,
+/* 1050 */,
+/* 1051 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _yoastseo = __webpack_require__(161);
+var _TermDataCollector = __webpack_require__(1052);
 
-var _isUndefined = __webpack_require__(3);
-
-var _isUndefined2 = _interopRequireDefault(_isUndefined);
+var _TermDataCollector2 = _interopRequireDefault(_TermDataCollector);
 
 var _wpSeoTinymce = __webpack_require__(421);
-
-var _wpSeoTinymce2 = _interopRequireDefault(_wpSeoTinymce);
-
-var _wpSeoMarkdownPlugin = __webpack_require__(1048);
-
-var _wpSeoMarkdownPlugin2 = _interopRequireDefault(_wpSeoMarkdownPlugin);
 
 var _edit = __webpack_require__(725);
 
@@ -48190,212 +48083,112 @@ var _activeKeyword = __webpack_require__(430);
 
 var _contentAnalysis = __webpack_require__(306);
 
-var _tinyMCE = __webpack_require__(332);
-
-var _publishBox = __webpack_require__(828);
-
-var _publishBox2 = _interopRequireDefault(_publishBox);
-
-var _trafficLight = __webpack_require__(434);
-
-var _adminBar = __webpack_require__(435);
-
-var _PostDataCollector = __webpack_require__(1050);
-
-var _PostDataCollector2 = _interopRequireDefault(_PostDataCollector);
-
-var _getIndicatorForScore = __webpack_require__(310);
-
-var _getIndicatorForScore2 = _interopRequireDefault(_getIndicatorForScore);
-
-var _tabManager = __webpack_require__(772);
-
-var _tabManager2 = _interopRequireDefault(_tabManager);
-
-var _getTranslations = __webpack_require__(438);
-
-var _getTranslations2 = _interopRequireDefault(_getTranslations);
-
-var _isKeywordAnalysisActive = __webpack_require__(436);
-
-var _isKeywordAnalysisActive2 = _interopRequireDefault(_isKeywordAnalysisActive);
-
-var _isContentAnalysisActive = __webpack_require__(774);
-
-var _isContentAnalysisActive2 = _interopRequireDefault(_isContentAnalysisActive);
-
-var _snippetPreview = __webpack_require__(775);
-
-var _snippetPreview2 = _interopRequireDefault(_snippetPreview);
-
-var _usedKeywords = __webpack_require__(779);
-
-var _usedKeywords2 = _interopRequireDefault(_usedKeywords);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
-(function ($) {
-	"use strict"; // eslint-disable-line
+/* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
-	if (typeof wpseoPostScraperL10n === "undefined") {
-		return;
-	}
+var isUndefined = __webpack_require__(3);
 
-	var snippetContainer = void 0;
-	var titleElement = void 0;
-	var app = void 0,
-	    snippetPreview = void 0;
-	var decorator = null;
-	var tabManager = void 0,
-	    postDataCollector = void 0;
+var getIndicatorForScore = __webpack_require__(310);
+var TabManager = __webpack_require__(772);
+
+var updateTrafficLight = __webpack_require__(434).update;
+var updateAdminBar = __webpack_require__(435).update;
+
+var getTranslations = __webpack_require__(438);
+var isKeywordAnalysisActive = __webpack_require__(436);
+var isContentAnalysisActive = __webpack_require__(774);
+var snippetPreviewHelpers = __webpack_require__(775);
+
+var App = __webpack_require__(161).App;
+var TaxonomyAssessor = __webpack_require__(1053);
+var UsedKeywords = __webpack_require__(779);
+
+window.yoastHideMarkers = true;
+
+(function ($, window) {
+	var snippetContainer;
+
+	var app, snippetPreview;
+
+	var termSlugInput;
+
+	var tabManager;
 
 	var store = void 0;
 
 	/**
-  * Retrieves either a generated slug or the page title as slug for the preview.
+  * Get the editor created via wp_editor() and append it to the term-description-wrap
+  * table cell. This way we can use the wp tinyMCE editor on the description field.
   *
-  * @param {Object} response The AJAX response object.
-  *
-  * @returns {String} The url path.
+  * @returns {void}
   */
-	function getUrlPathFromResponse(response) {
-		if (response.responseText === "") {
-			return titleElement.val();
-		}
-		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
-		return jQuery("<div>" + response.responseText + "</div>").find("#editable-post-name-full").text();
-	}
+	var insertTinyMCE = function insertTinyMCE() {
+		// Get the table cell that contains the description textarea.
+		var descriptionTd = jQuery(".term-description-wrap").find("td");
 
-	/**
-  * Binds to the WordPress jQuery function to put the permalink on the page.
-  * If the response matches with permalink string, the snippet can be rendered.
-  */
-	jQuery(document).on("ajaxComplete", function (ev, response, ajaxOptions) {
-		var ajaxEndPoint = "/admin-ajax.php";
-		if (ajaxEndPoint !== ajaxOptions.url.substr(0 - ajaxEndPoint.length)) {
-			return;
-		}
+		// Get the description textarea label.
+		var descriptionLabel = jQuery(".term-description-wrap").find("label");
 
-		if ("string" === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf("action=sample-permalink")) {
-			/*
-    * WordPress do not update post name for auto-generated slug, so we should leave this field untouched.
-    */
-			postDataCollector.leavePostNameUntouched = true;
+		// Get the textNode from the original textarea.
+		var textNode = descriptionTd.find("textarea").val();
 
-			app.snippetPreview.setUrlPath(getUrlPathFromResponse(response));
-		}
-	});
+		// Get the editor container.
+		var newEditor = document.getElementById("wp-description-wrap");
+
+		// Get the description help text below the textarea.
+		var text = descriptionTd.find("p");
+
+		// Empty the TD with the old description textarea.
+		descriptionTd.html("");
+
+		/*
+   * The editor is printed out via PHP as child of the form and initially
+   * hidden with a child `>` CSS selector. We now move the editor and the
+   * help text in a new position so the previous CSS rule won't apply any
+   * longer and the editor will be visible.
+   */
+		descriptionTd.append(newEditor).append(text);
+
+		// Populate the editor textarea with the original content,
+		document.getElementById("description").value = textNode;
+
+		// Make the description textarea label plain text removing the label tag.
+		descriptionLabel.replaceWith(descriptionLabel.html());
+	};
 
 	/**
   * Initializes the snippet preview.
   *
-  * @param {PostDataCollector} postScraper Object for getting post data.
+  * @param {TermDataCollector} termScraper Object for getting term data.
   *
-  * @returns {SnippetPreview} The created snippetpreview element.
+  * @returns {SnippetPreview} Instance of snippetpreview.
   */
-	function initSnippetPreview(postScraper) {
-		return _snippetPreview2.default.create(snippetContainer, {
-			title: postScraper.getSnippetTitle(),
-			urlPath: postScraper.getSnippetCite(),
-			metaDesc: postScraper.getSnippetMeta()
-		}, postScraper.saveSnippetData.bind(postScraper));
-	}
-	/**
-  * Determines if markers should be shown.
-  *
-  * @returns {boolean} True when markers should be shown.
-  */
-	function displayMarkers() {
-		return wpseoPostScraperL10n.show_markers === "1";
+	function initSnippetPreview(termScraper) {
+		return snippetPreviewHelpers.create(snippetContainer, {
+			title: termScraper.getSnippetTitle(),
+			urlPath: termScraper.getSnippetCite(),
+			metaDesc: termScraper.getSnippetMeta()
+		}, termScraper.saveSnippetData.bind(termScraper));
 	}
 
 	/**
-  * Returns the marker callback method for the assessor.
-  *
-  * @returns {*|bool} False when tinyMCE is undefined or when there are no markers.
-  */
-	function getMarker() {
-		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
-		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
-		if (typeof tinyMCE === "undefined" || !displayMarkers()) {
-			return false;
-		}
-
-		return function (paper, marks) {
-			if (_wpSeoTinymce2.default.isTinyMCEAvailable(_wpSeoTinymce.tmceId)) {
-				if (null === decorator) {
-					decorator = (0, _tinyMCE.tinyMCEDecorator)(tinyMCE.get(_wpSeoTinymce.tmceId));
-				}
-
-				decorator(paper, marks);
-			}
-		};
-	}
-
-	/**
-  * Initializes keyword analysis.
-  *
-  * @param {App} app                       The App object.
-  * @param {PostDataCollector} postScraper The post scraper object.
-  * @param {Object} publishBox             The publish box object.
+  * Function to handle when the user updates the term slug
   *
   * @returns {void}
   */
-	function initializeKeywordAnalysis(app, postScraper, publishBox) {
-		var savedKeywordScore = $("#yoast_wpseo_linkdex").val();
-		var usedKeywords = new _usedKeywords2.default("#yoast_wpseo_focuskw_text_input", "get_focus_keyword_usage", wpseoPostScraperL10n, app);
-
-		usedKeywords.init();
-		postScraper.initKeywordTabTemplate();
-
-		var indicator = (0, _getIndicatorForScore2.default)(savedKeywordScore);
-
-		(0, _trafficLight.update)(indicator);
-		(0, _adminBar.update)(indicator);
-
-		publishBox.updateScore("keyword", indicator.className);
+	function updatedTermSlug() {
+		snippetPreview.setUrlPath(termSlugInput.val());
 	}
 
 	/**
-  * Initializes content analysis
-  *
-  * @param {Object} publishBox The publish box object.
+  * Adds a watcher on the term slug input field
   *
   * @returns {void}
   */
-	function initializeContentAnalysis(publishBox) {
-		var savedContentScore = $("#yoast_wpseo_content_score").val();
-
-		var indicator = (0, _getIndicatorForScore2.default)(savedContentScore);
-
-		(0, _adminBar.update)(indicator);
-
-		publishBox.updateScore("content", indicator.className);
-	}
-
-	/**
-  * Makes sure the hidden focus keyword field is filled with the correct keyword.
-  *
-  * @returns {void}
-  */
-	function keywordElementSubmitHandler() {
-		if ((0, _isKeywordAnalysisActive2.default)() && !YoastSEO.multiKeyword) {
-			/*
-    * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
-    * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
-    * onsubmit event that is copying the focus keyword, this should be solved.
-    */
-			$("#post").on("submit", function () {
-				var hiddenKeyword = $("#yoast_wpseo_focuskw");
-				var hiddenKeywordValue = hiddenKeyword.val();
-				var visibleKeywordValue = tabManager.getKeywordTab().getKeywordFromElement();
-
-				if (hiddenKeywordValue !== visibleKeywordValue) {
-					hiddenKeyword.val(visibleKeywordValue);
-				}
-			});
-		}
+	function initTermSlugWatcher() {
+		termSlugInput = $("#slug");
+		termSlugInput.on("change", updatedTermSlug);
 	}
 
 	/**
@@ -48406,11 +48199,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	function retrieveTargets() {
 		var targets = {};
 
-		if ((0, _isKeywordAnalysisActive2.default)()) {
-			targets.output = "wpseo-pageanalysis";
+		if (isKeywordAnalysisActive()) {
+			targets.output = "wpseo_analysis";
 		}
 
-		if ((0, _isContentAnalysisActive2.default)()) {
+		if (isContentAnalysisActive()) {
 			targets.contentOutput = "yoast-seo-content-analysis";
 		}
 
@@ -48418,137 +48211,38 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	}
 
 	/**
-  * Hides the add keyword button.
+  * Initializes keyword analysis.
+  *
+  * @param {App} app The App object.
+  * @param {TermDataCollector} termScraper The post scraper object.
   *
   * @returns {void}
   */
-	function hideAddKeywordButton() {
-		$(".wpseo-tab-add-keyword").hide();
+	function initializeKeywordAnalysis(app, termScraper) {
+		var savedKeywordScore = $("#hidden_wpseo_linkdex").val();
+		var usedKeywords = new UsedKeywords("#wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app);
+
+		usedKeywords.init();
+		termScraper.initKeywordTabTemplate();
+
+		var indicator = getIndicatorForScore(savedKeywordScore);
+
+		updateTrafficLight(indicator);
+		updateAdminBar(indicator);
 	}
 
 	/**
-  * Initializes tab manager.
+  * Initializes content analysis
   *
-  * @returns {TabManager} The initialized tab manager.
-  */
-	function initializeTabManager() {
-		var tabManager = new _tabManager2.default({
-			strings: wpseoPostScraperL10n,
-			contentAnalysisActive: (0, _isContentAnalysisActive2.default)(),
-			keywordAnalysisActive: (0, _isKeywordAnalysisActive2.default)()
-		});
-		tabManager.init();
-
-		return tabManager;
-	}
-
-	/**
-  * Initializes post data collector.
-  *
-  * @returns {PostDataCollector} The initialized post data collector.
-  */
-	function initializePostDataCollector() {
-		var postDataCollector = new _PostDataCollector2.default({
-			tabManager: tabManager
-		});
-		postDataCollector.leavePostNameUntouched = false;
-
-		return postDataCollector;
-	}
-
-	/**
-  * Returns the arguments necessary to initialize the app.
-  *
-  * @returns {Object} The arguments to initialize the app
-  */
-	function getAppArgs() {
-		var args = {
-			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [_wpSeoTinymce.tmceId, "yoast_wpseo_focuskw_text_input", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full"],
-			targets: retrieveTargets(),
-			callbacks: {
-				getData: postDataCollector.getData.bind(postDataCollector)
-			},
-			locale: wpseoPostScraperL10n.contentLocale,
-			marker: getMarker(),
-			contentAnalysisActive: (0, _isContentAnalysisActive2.default)(),
-			keywordAnalysisActive: (0, _isKeywordAnalysisActive2.default)(),
-			snippetPreview: snippetPreview
-		};
-
-		if ((0, _isKeywordAnalysisActive2.default)()) {
-			args.callbacks.saveScores = postDataCollector.saveScores.bind(postDataCollector);
-			args.callbacks.updatedKeywordsResults = function (results) {
-				var keyword = tabManager.getKeywordTab().getKeyWord();
-
-				if (tabManager.isMainKeyword(keyword)) {
-					store.dispatch((0, _contentAnalysis.setSeoResultsForKeyword)(keyword, results));
-					store.dispatch((0, _activeKeyword.setActiveKeyword)(keyword));
-				}
-			};
-		}
-
-		if ((0, _isContentAnalysisActive2.default)()) {
-			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind(postDataCollector);
-			args.callbacks.updatedContentResults = function (results) {
-				store.dispatch((0, _contentAnalysis.setReadabilityResults)(results));
-			};
-		}
-
-		titleElement = $("#title");
-
-		var translations = (0, _getTranslations2.default)();
-		if (!(0, _isUndefined2.default)(translations) && !(0, _isUndefined2.default)(translations.domain)) {
-			args.translations = translations;
-		}
-		return args;
-	}
-
-	/**
-  * Exposes globals necessary for functionality of plugins integrating.
-  *
-  * @param {App} app The app to expose globally.
-  * @param {TabManager} tabManager The tab manager to expose globally.
-  * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
-  * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
   * @returns {void}
   */
-	function exposeGlobals(app, tabManager, replaceVarsPlugin, shortcodePlugin) {
-		window.YoastSEO = {};
-		window.YoastSEO.app = app;
+	function initializeContentAnalysis() {
+		var savedContentScore = $("#hidden_wpseo_content_score").val();
 
-		// Init Plugins.
-		window.YoastSEO.wp = {};
-		window.YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
-		window.YoastSEO.wp.shortcodePlugin = shortcodePlugin;
+		var indicator = getIndicatorForScore(savedContentScore);
 
-		window.YoastSEO.wp._tabManager = tabManager;
-		window.YoastSEO.wp._tinyMCEHelper = _wpSeoTinymce2.default;
-
-		window.YoastSEO.store = store;
-	}
-
-	/**
-  * Activates the correct analysis and tab based on which analyses are enabled.
-  *
-  * @param {TabManager} tabManager The tab manager to use to activate tabs.
-  * @returns {void}
-  */
-	function activateEnabledAnalysis(tabManager) {
-		if ((0, _isKeywordAnalysisActive2.default)()) {
-			initializeKeywordAnalysis(app, postDataCollector, _publishBox2.default);
-			tabManager.getKeywordTab().activate();
-		} else {
-			hideAddKeywordButton();
-		}
-
-		if ((0, _isContentAnalysisActive2.default)()) {
-			initializeContentAnalysis(_publishBox2.default);
-		}
-
-		if (!(0, _isKeywordAnalysisActive2.default)() && (0, _isContentAnalysisActive2.default)()) {
-			tabManager.getContentTab().activate();
-		}
+		updateTrafficLight(indicator);
+		updateAdminBar(indicator);
 	}
 
 	/**
@@ -48559,85 +48253,119 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   * @returns {void}
   */
 	function disableYoastSEORenderers(app) {
-		if (!(0, _isUndefined2.default)(app.seoAssessorPresenter)) {
+		if (!isUndefined(app.seoAssessorPresenter)) {
 			app.seoAssessorPresenter.render = function () {};
 		}
-		if (!(0, _isUndefined2.default)(app.contentAssessorPresenter)) {
+		if (!isUndefined(app.contentAssessorPresenter)) {
 			app.contentAssessorPresenter.render = function () {};
 			app.contentAssessorPresenter.renderIndividualRatings = function () {};
 		}
 	}
 
-	/**
-  * Initializes analysis for the post edit screen.
-  *
-  * @returns {void}
-  */
-	function initializePostAnalysis() {
+	jQuery(document).ready(function () {
+		var args, termScraper, translations;
+
+		$("#wpseo_analysis").after('<div id="yoast-seo-content-analysis"></div>');
+
 		var editArgs = {
 			readabilityTarget: "yoast-seo-content-analysis",
-			seoTarget: "wpseo-pageanalysis"
+			seoTarget: "wpseo_analysis"
 		};
 		store = (0, _edit2.default)(editArgs).store;
 
 		snippetContainer = $("#wpseosnippet");
 
-		// Avoid error when snippet metabox is not rendered.
-		if (snippetContainer.length === 0) {
-			return;
+		insertTinyMCE();
+
+		tabManager = new TabManager({
+			strings: wpseoTermScraperL10n,
+			focusKeywordField: "#wpseo_focuskw",
+			contentAnalysisActive: isContentAnalysisActive(),
+			keywordAnalysisActive: isKeywordAnalysisActive()
+		});
+
+		tabManager.init();
+
+		termScraper = new _TermDataCollector2.default({ tabManager: tabManager });
+		snippetPreview = initSnippetPreview(termScraper);
+
+		args = {
+			// ID's of elements that need to trigger updating the analyzer.
+			elementTarget: [_wpSeoTinymce.termsTmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full"],
+			targets: retrieveTargets(),
+			callbacks: {
+				getData: termScraper.getData.bind(termScraper)
+			},
+			locale: wpseoTermScraperL10n.contentLocale,
+			contentAnalysisActive: isContentAnalysisActive(),
+			keywordAnalysisActive: isKeywordAnalysisActive(),
+			snippetPreview: snippetPreview
+		};
+
+		if (isKeywordAnalysisActive()) {
+			args.callbacks.saveScores = termScraper.saveScores.bind(termScraper);
+			args.callbacks.updatedKeywordsResults = function (results) {
+				var keyword = tabManager.getKeywordTab().getKeyWord();
+
+				if (tabManager.isMainKeyword(keyword)) {
+					if (keyword === "") {
+						keyword = termScraper.getName();
+					}
+					store.dispatch((0, _contentAnalysis.setSeoResultsForKeyword)(keyword, results));
+					store.dispatch((0, _activeKeyword.setActiveKeyword)(keyword));
+				}
+			};
 		}
 
-		tabManager = initializeTabManager();
-		postDataCollector = initializePostDataCollector();
-		_publishBox2.default.initalise();
-		snippetPreview = initSnippetPreview(postDataCollector);
-
-		var appArgs = getAppArgs();
-		app = new _yoastseo.App(appArgs);
-
-		postDataCollector.app = app;
-
-		var replaceVarsPlugin = new YoastReplaceVarPlugin(app);
-		var shortcodePlugin = new YoastShortcodePlugin(app);
-
-		if (wpseoPostScraperL10n.markdownEnabled) {
-			var markdownPlugin = new _wpSeoMarkdownPlugin2.default(app);
-			markdownPlugin.register();
+		if (isContentAnalysisActive()) {
+			args.callbacks.saveContentScore = termScraper.saveContentScore.bind(termScraper);
+			args.callbacks.updatedContentResults = function (results) {
+				store.dispatch((0, _contentAnalysis.setReadabilityResults)(results));
+			};
 		}
 
-		exposeGlobals(app, tabManager, replaceVarsPlugin, shortcodePlugin);
+		translations = getTranslations();
+		if (!isUndefined(translations) && !isUndefined(translations.domain)) {
+			args.translations = translations;
+		}
 
-		_wpSeoTinymce2.default.wpTextViewOnInitCheck();
+		app = new App(args);
 
-		activateEnabledAnalysis(tabManager);
+		if (isKeywordAnalysisActive()) {
+			app.seoAssessor = new TaxonomyAssessor(app.i18n);
+			app.seoAssessorPresenter.assessor = app.seoAssessor;
+		}
+
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
+		window.YoastSEO.store = store;
+
+		termScraper.initKeywordTabTemplate();
+
+		// Init Plugins.
+		YoastSEO.wp = {};
+		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin(app);
+
+		// For backwards compatibility.
+		YoastSEO.analyzerArgs = args;
+
+		initTermSlugWatcher();
+		termScraper.bindElementEvents(app);
+
+		if (isKeywordAnalysisActive()) {
+			initializeKeywordAnalysis(app, termScraper);
+			tabManager.getKeywordTab().activate();
+		} else if (isContentAnalysisActive()) {
+			tabManager.getContentTab().activate();
+		} else {
+			snippetPreviewHelpers.isolate(snippetContainer);
+		}
+
+		if (isContentAnalysisActive()) {
+			initializeContentAnalysis();
+		}
 
 		jQuery(window).trigger("YoastSEO:ready");
-
-		/*
-   * Checks the snippet preview size and toggles views when the WP admin menu state changes.
-   * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
-   * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
-   */
-		jQuery(document).on("wp-collapse-menu wp-menu-state-set", function () {
-			app.snippetPreview.handleWindowResizing();
-		});
-
-		// Backwards compatibility.
-		YoastSEO.analyzerArgs = appArgs;
-
-		keywordElementSubmitHandler();
-		postDataCollector.bindElementEvents(app);
-
-		if (!(0, _isKeywordAnalysisActive2.default)() && !(0, _isContentAnalysisActive2.default)()) {
-			_snippetPreview2.default.isolate(snippetContainer);
-		}
-
-		// Switch between assessors when checkbox has been checked.
-		var cornerstoneCheckbox = jQuery("#_yst_is_cornerstone");
-		app.switchAssessors(cornerstoneCheckbox.is(":checked"));
-		cornerstoneCheckbox.change(function () {
-			app.switchAssessors(cornerstoneCheckbox.is(":checked"));
-		});
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers(app);
@@ -48647,1366 +48375,95 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			disableYoastSEORenderers(app);
 		};
 
-		// Set initial keyword.
-		store.dispatch((0, _activeKeyword.setActiveKeyword)(tabManager.getKeywordTab().getKeyWord()));
-	}
-
-	jQuery(document).ready(initializePostAnalysis);
-})(jQuery);
+		/*
+   * Checks the snippet preview size and toggles views when the WP admin menu state changes.
+   * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
+   * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
+   */
+		jQuery(document).on("wp-collapse-menu wp-menu-state-set", function () {
+			app.snippetPreview.handleWindowResizing();
+		});
+	});
+})(jQuery, window);
 
 /***/ }),
-/* 1048 */
+/* 1052 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _marked = __webpack_require__(1049);
-
-var _marked2 = _interopRequireDefault(_marked);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * Plugin to parse markdown in the content before it is analyzed.
- */
-var YoastMarkdownPlugin = function () {
-	function YoastMarkdownPlugin(app) {
-		_classCallCheck(this, YoastMarkdownPlugin);
-
-		this._app = app;
-	}
-
-	/**
-  * Registers the plugin and modification with YoastSEO.js
-  *
-  * @returns {void}
-  */
-
-
-	_createClass(YoastMarkdownPlugin, [{
-		key: "register",
-		value: function register() {
-			this._app.registerPlugin("YoastMarkdownPlugin", { status: "ready" });
-			this._app.registerModification("content", this.parseMarkdown.bind(this), "YoastMarkdownPlugin", 1);
-		}
-
-		/**
-   * The modification that parses the markdown in the content.
-   *
-   * @param {string} content The content to parse.
-   *
-  	 * @returns {string} The parsed content
-   */
-
-	}, {
-		key: "parseMarkdown",
-		value: function parseMarkdown(content) {
-			return (0, _marked2.default)(content);
-		}
-	}]);
-
-	return YoastMarkdownPlugin;
-}();
-
-exports.default = YoastMarkdownPlugin;
-
-/***/ }),
-/* 1049 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_RESULT__;
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/**
- * marked - a markdown parser
- * Copyright (c) 2011-2014, Christopher Jeffrey. (MIT Licensed)
- * https://github.com/chjj/marked
- */
-
-;(function () {
-
-  /**
-   * Block-Level Grammar
-   */
-
-  var block = {
-    newline: /^\n+/,
-    code: /^( {4}[^\n]+\n*)+/,
-    fences: noop,
-    hr: /^( *[-*_]){3,} *(?:\n+|$)/,
-    heading: /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/,
-    nptable: noop,
-    lheading: /^([^\n]+)\n *(=|-){2,} *(?:\n+|$)/,
-    blockquote: /^( *>[^\n]+(\n(?!def)[^\n]+)*\n*)+/,
-    list: /^( *)(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?!\1bull )\n*|\s*$)/,
-    html: /^ *(?:comment *(?:\n|\s*$)|closed *(?:\n{2,}|\s*$)|closing *(?:\n{2,}|\s*$))/,
-    def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +["(]([^\n]+)[")])? *(?:\n+|$)/,
-    table: noop,
-    paragraph: /^((?:[^\n]+\n?(?!hr|heading|lheading|blockquote|tag|def))+)\n*/,
-    text: /^[^\n]+/
-  };
-
-  block.bullet = /(?:[*+-]|\d+\.)/;
-  block.item = /^( *)(bull) [^\n]*(?:\n(?!\1bull )[^\n]*)*/;
-  block.item = replace(block.item, 'gm')(/bull/g, block.bullet)();
-
-  block.list = replace(block.list)(/bull/g, block.bullet)('hr', '\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))')('def', '\\n+(?=' + block.def.source + ')')();
-
-  block.blockquote = replace(block.blockquote)('def', block.def)();
-
-  block._tag = '(?!(?:' + 'a|em|strong|small|s|cite|q|dfn|abbr|data|time|code' + '|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo' + '|span|br|wbr|ins|del|img)\\b)\\w+(?!:/|[^\\w\\s@]*@)\\b';
-
-  block.html = replace(block.html)('comment', /<!--[\s\S]*?-->/)('closed', /<(tag)[\s\S]+?<\/\1>/)('closing', /<tag(?:"[^"]*"|'[^']*'|[^'">])*?>/)(/tag/g, block._tag)();
-
-  block.paragraph = replace(block.paragraph)('hr', block.hr)('heading', block.heading)('lheading', block.lheading)('blockquote', block.blockquote)('tag', '<' + block._tag)('def', block.def)();
-
-  /**
-   * Normal Block Grammar
-   */
-
-  block.normal = merge({}, block);
-
-  /**
-   * GFM Block Grammar
-   */
-
-  block.gfm = merge({}, block.normal, {
-    fences: /^ *(`{3,}|~{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/,
-    paragraph: /^/,
-    heading: /^ *(#{1,6}) +([^\n]+?) *#* *(?:\n+|$)/
-  });
-
-  block.gfm.paragraph = replace(block.paragraph)('(?!', '(?!' + block.gfm.fences.source.replace('\\1', '\\2') + '|' + block.list.source.replace('\\1', '\\3') + '|')();
-
-  /**
-   * GFM + Tables Block Grammar
-   */
-
-  block.tables = merge({}, block.gfm, {
-    nptable: /^ *(\S.*\|.*)\n *([-:]+ *\|[-| :]*)\n((?:.*\|.*(?:\n|$))*)\n*/,
-    table: /^ *\|(.+)\n *\|( *[-:]+[-| :]*)\n((?: *\|.*(?:\n|$))*)\n*/
-  });
-
-  /**
-   * Block Lexer
-   */
-
-  function Lexer(options) {
-    this.tokens = [];
-    this.tokens.links = {};
-    this.options = options || marked.defaults;
-    this.rules = block.normal;
-
-    if (this.options.gfm) {
-      if (this.options.tables) {
-        this.rules = block.tables;
-      } else {
-        this.rules = block.gfm;
-      }
-    }
-  }
-
-  /**
-   * Expose Block Rules
-   */
-
-  Lexer.rules = block;
-
-  /**
-   * Static Lex Method
-   */
-
-  Lexer.lex = function (src, options) {
-    var lexer = new Lexer(options);
-    return lexer.lex(src);
-  };
-
-  /**
-   * Preprocessing
-   */
-
-  Lexer.prototype.lex = function (src) {
-    src = src.replace(/\r\n|\r/g, '\n').replace(/\t/g, '    ').replace(/\u00a0/g, ' ').replace(/\u2424/g, '\n');
-
-    return this.token(src, true);
-  };
-
-  /**
-   * Lexing
-   */
-
-  Lexer.prototype.token = function (src, top, bq) {
-    var src = src.replace(/^ +$/gm, ''),
-        next,
-        loose,
-        cap,
-        bull,
-        b,
-        item,
-        space,
-        i,
-        l;
-
-    while (src) {
-      // newline
-      if (cap = this.rules.newline.exec(src)) {
-        src = src.substring(cap[0].length);
-        if (cap[0].length > 1) {
-          this.tokens.push({
-            type: 'space'
-          });
-        }
-      }
-
-      // code
-      if (cap = this.rules.code.exec(src)) {
-        src = src.substring(cap[0].length);
-        cap = cap[0].replace(/^ {4}/gm, '');
-        this.tokens.push({
-          type: 'code',
-          text: !this.options.pedantic ? cap.replace(/\n+$/, '') : cap
-        });
-        continue;
-      }
-
-      // fences (gfm)
-      if (cap = this.rules.fences.exec(src)) {
-        src = src.substring(cap[0].length);
-        this.tokens.push({
-          type: 'code',
-          lang: cap[2],
-          text: cap[3] || ''
-        });
-        continue;
-      }
-
-      // heading
-      if (cap = this.rules.heading.exec(src)) {
-        src = src.substring(cap[0].length);
-        this.tokens.push({
-          type: 'heading',
-          depth: cap[1].length,
-          text: cap[2]
-        });
-        continue;
-      }
-
-      // table no leading pipe (gfm)
-      if (top && (cap = this.rules.nptable.exec(src))) {
-        src = src.substring(cap[0].length);
-
-        item = {
-          type: 'table',
-          header: cap[1].replace(/^ *| *\| *$/g, '').split(/ *\| */),
-          align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
-          cells: cap[3].replace(/\n$/, '').split('\n')
-        };
-
-        for (i = 0; i < item.align.length; i++) {
-          if (/^ *-+: *$/.test(item.align[i])) {
-            item.align[i] = 'right';
-          } else if (/^ *:-+: *$/.test(item.align[i])) {
-            item.align[i] = 'center';
-          } else if (/^ *:-+ *$/.test(item.align[i])) {
-            item.align[i] = 'left';
-          } else {
-            item.align[i] = null;
-          }
-        }
-
-        for (i = 0; i < item.cells.length; i++) {
-          item.cells[i] = item.cells[i].split(/ *\| */);
-        }
-
-        this.tokens.push(item);
-
-        continue;
-      }
-
-      // lheading
-      if (cap = this.rules.lheading.exec(src)) {
-        src = src.substring(cap[0].length);
-        this.tokens.push({
-          type: 'heading',
-          depth: cap[2] === '=' ? 1 : 2,
-          text: cap[1]
-        });
-        continue;
-      }
-
-      // hr
-      if (cap = this.rules.hr.exec(src)) {
-        src = src.substring(cap[0].length);
-        this.tokens.push({
-          type: 'hr'
-        });
-        continue;
-      }
-
-      // blockquote
-      if (cap = this.rules.blockquote.exec(src)) {
-        src = src.substring(cap[0].length);
-
-        this.tokens.push({
-          type: 'blockquote_start'
-        });
-
-        cap = cap[0].replace(/^ *> ?/gm, '');
-
-        // Pass `top` to keep the current
-        // "toplevel" state. This is exactly
-        // how markdown.pl works.
-        this.token(cap, top, true);
-
-        this.tokens.push({
-          type: 'blockquote_end'
-        });
-
-        continue;
-      }
-
-      // list
-      if (cap = this.rules.list.exec(src)) {
-        src = src.substring(cap[0].length);
-        bull = cap[2];
-
-        this.tokens.push({
-          type: 'list_start',
-          ordered: bull.length > 1
-        });
-
-        // Get each top-level item.
-        cap = cap[0].match(this.rules.item);
-
-        next = false;
-        l = cap.length;
-        i = 0;
-
-        for (; i < l; i++) {
-          item = cap[i];
-
-          // Remove the list item's bullet
-          // so it is seen as the next token.
-          space = item.length;
-          item = item.replace(/^ *([*+-]|\d+\.) +/, '');
-
-          // Outdent whatever the
-          // list item contains. Hacky.
-          if (~item.indexOf('\n ')) {
-            space -= item.length;
-            item = !this.options.pedantic ? item.replace(new RegExp('^ {1,' + space + '}', 'gm'), '') : item.replace(/^ {1,4}/gm, '');
-          }
-
-          // Determine whether the next list item belongs here.
-          // Backpedal if it does not belong in this list.
-          if (this.options.smartLists && i !== l - 1) {
-            b = block.bullet.exec(cap[i + 1])[0];
-            if (bull !== b && !(bull.length > 1 && b.length > 1)) {
-              src = cap.slice(i + 1).join('\n') + src;
-              i = l - 1;
-            }
-          }
-
-          // Determine whether item is loose or not.
-          // Use: /(^|\n)(?! )[^\n]+\n\n(?!\s*$)/
-          // for discount behavior.
-          loose = next || /\n\n(?!\s*$)/.test(item);
-          if (i !== l - 1) {
-            next = item.charAt(item.length - 1) === '\n';
-            if (!loose) loose = next;
-          }
-
-          this.tokens.push({
-            type: loose ? 'loose_item_start' : 'list_item_start'
-          });
-
-          // Recurse.
-          this.token(item, false, bq);
-
-          this.tokens.push({
-            type: 'list_item_end'
-          });
-        }
-
-        this.tokens.push({
-          type: 'list_end'
-        });
-
-        continue;
-      }
-
-      // html
-      if (cap = this.rules.html.exec(src)) {
-        src = src.substring(cap[0].length);
-        this.tokens.push({
-          type: this.options.sanitize ? 'paragraph' : 'html',
-          pre: !this.options.sanitizer && (cap[1] === 'pre' || cap[1] === 'script' || cap[1] === 'style'),
-          text: cap[0]
-        });
-        continue;
-      }
-
-      // def
-      if (!bq && top && (cap = this.rules.def.exec(src))) {
-        src = src.substring(cap[0].length);
-        this.tokens.links[cap[1].toLowerCase()] = {
-          href: cap[2],
-          title: cap[3]
-        };
-        continue;
-      }
-
-      // table (gfm)
-      if (top && (cap = this.rules.table.exec(src))) {
-        src = src.substring(cap[0].length);
-
-        item = {
-          type: 'table',
-          header: cap[1].replace(/^ *| *\| *$/g, '').split(/ *\| */),
-          align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
-          cells: cap[3].replace(/(?: *\| *)?\n$/, '').split('\n')
-        };
-
-        for (i = 0; i < item.align.length; i++) {
-          if (/^ *-+: *$/.test(item.align[i])) {
-            item.align[i] = 'right';
-          } else if (/^ *:-+: *$/.test(item.align[i])) {
-            item.align[i] = 'center';
-          } else if (/^ *:-+ *$/.test(item.align[i])) {
-            item.align[i] = 'left';
-          } else {
-            item.align[i] = null;
-          }
-        }
-
-        for (i = 0; i < item.cells.length; i++) {
-          item.cells[i] = item.cells[i].replace(/^ *\| *| *\| *$/g, '').split(/ *\| */);
-        }
-
-        this.tokens.push(item);
-
-        continue;
-      }
-
-      // top-level paragraph
-      if (top && (cap = this.rules.paragraph.exec(src))) {
-        src = src.substring(cap[0].length);
-        this.tokens.push({
-          type: 'paragraph',
-          text: cap[1].charAt(cap[1].length - 1) === '\n' ? cap[1].slice(0, -1) : cap[1]
-        });
-        continue;
-      }
-
-      // text
-      if (cap = this.rules.text.exec(src)) {
-        // Top-level should never reach here.
-        src = src.substring(cap[0].length);
-        this.tokens.push({
-          type: 'text',
-          text: cap[0]
-        });
-        continue;
-      }
-
-      if (src) {
-        throw new Error('Infinite loop on byte: ' + src.charCodeAt(0));
-      }
-    }
-
-    return this.tokens;
-  };
-
-  /**
-   * Inline-Level Grammar
-   */
-
-  var inline = {
-    escape: /^\\([\\`*{}\[\]()#+\-.!_>])/,
-    autolink: /^<([^ >]+(@|:\/)[^ >]+)>/,
-    url: noop,
-    tag: /^<!--[\s\S]*?-->|^<\/?\w+(?:"[^"]*"|'[^']*'|[^'">])*?>/,
-    link: /^!?\[(inside)\]\(href\)/,
-    reflink: /^!?\[(inside)\]\s*\[([^\]]*)\]/,
-    nolink: /^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/,
-    strong: /^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/,
-    em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
-    code: /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/,
-    br: /^ {2,}\n(?!\s*$)/,
-    del: noop,
-    text: /^[\s\S]+?(?=[\\<!\[_*`]| {2,}\n|$)/
-  };
-
-  inline._inside = /(?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*/;
-  inline._href = /\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*/;
-
-  inline.link = replace(inline.link)('inside', inline._inside)('href', inline._href)();
-
-  inline.reflink = replace(inline.reflink)('inside', inline._inside)();
-
-  /**
-   * Normal Inline Grammar
-   */
-
-  inline.normal = merge({}, inline);
-
-  /**
-   * Pedantic Inline Grammar
-   */
-
-  inline.pedantic = merge({}, inline.normal, {
-    strong: /^__(?=\S)([\s\S]*?\S)__(?!_)|^\*\*(?=\S)([\s\S]*?\S)\*\*(?!\*)/,
-    em: /^_(?=\S)([\s\S]*?\S)_(?!_)|^\*(?=\S)([\s\S]*?\S)\*(?!\*)/
-  });
-
-  /**
-   * GFM Inline Grammar
-   */
-
-  inline.gfm = merge({}, inline.normal, {
-    escape: replace(inline.escape)('])', '~|])')(),
-    url: /^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/,
-    del: /^~~(?=\S)([\s\S]*?\S)~~/,
-    text: replace(inline.text)(']|', '~]|')('|', '|https?://|')()
-  });
-
-  /**
-   * GFM + Line Breaks Inline Grammar
-   */
-
-  inline.breaks = merge({}, inline.gfm, {
-    br: replace(inline.br)('{2,}', '*')(),
-    text: replace(inline.gfm.text)('{2,}', '*')()
-  });
-
-  /**
-   * Inline Lexer & Compiler
-   */
-
-  function InlineLexer(links, options) {
-    this.options = options || marked.defaults;
-    this.links = links;
-    this.rules = inline.normal;
-    this.renderer = this.options.renderer || new Renderer();
-    this.renderer.options = this.options;
-
-    if (!this.links) {
-      throw new Error('Tokens array requires a `links` property.');
-    }
-
-    if (this.options.gfm) {
-      if (this.options.breaks) {
-        this.rules = inline.breaks;
-      } else {
-        this.rules = inline.gfm;
-      }
-    } else if (this.options.pedantic) {
-      this.rules = inline.pedantic;
-    }
-  }
-
-  /**
-   * Expose Inline Rules
-   */
-
-  InlineLexer.rules = inline;
-
-  /**
-   * Static Lexing/Compiling Method
-   */
-
-  InlineLexer.output = function (src, links, options) {
-    var inline = new InlineLexer(links, options);
-    return inline.output(src);
-  };
-
-  /**
-   * Lexing/Compiling
-   */
-
-  InlineLexer.prototype.output = function (src) {
-    var out = '',
-        link,
-        text,
-        href,
-        cap;
-
-    while (src) {
-      // escape
-      if (cap = this.rules.escape.exec(src)) {
-        src = src.substring(cap[0].length);
-        out += cap[1];
-        continue;
-      }
-
-      // autolink
-      if (cap = this.rules.autolink.exec(src)) {
-        src = src.substring(cap[0].length);
-        if (cap[2] === '@') {
-          text = cap[1].charAt(6) === ':' ? this.mangle(cap[1].substring(7)) : this.mangle(cap[1]);
-          href = this.mangle('mailto:') + text;
-        } else {
-          text = escape(cap[1]);
-          href = text;
-        }
-        out += this.renderer.link(href, null, text);
-        continue;
-      }
-
-      // url (gfm)
-      if (!this.inLink && (cap = this.rules.url.exec(src))) {
-        src = src.substring(cap[0].length);
-        text = escape(cap[1]);
-        href = text;
-        out += this.renderer.link(href, null, text);
-        continue;
-      }
-
-      // tag
-      if (cap = this.rules.tag.exec(src)) {
-        if (!this.inLink && /^<a /i.test(cap[0])) {
-          this.inLink = true;
-        } else if (this.inLink && /^<\/a>/i.test(cap[0])) {
-          this.inLink = false;
-        }
-        src = src.substring(cap[0].length);
-        out += this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape(cap[0]) : cap[0];
-        continue;
-      }
-
-      // link
-      if (cap = this.rules.link.exec(src)) {
-        src = src.substring(cap[0].length);
-        this.inLink = true;
-        out += this.outputLink(cap, {
-          href: cap[2],
-          title: cap[3]
-        });
-        this.inLink = false;
-        continue;
-      }
-
-      // reflink, nolink
-      if ((cap = this.rules.reflink.exec(src)) || (cap = this.rules.nolink.exec(src))) {
-        src = src.substring(cap[0].length);
-        link = (cap[2] || cap[1]).replace(/\s+/g, ' ');
-        link = this.links[link.toLowerCase()];
-        if (!link || !link.href) {
-          out += cap[0].charAt(0);
-          src = cap[0].substring(1) + src;
-          continue;
-        }
-        this.inLink = true;
-        out += this.outputLink(cap, link);
-        this.inLink = false;
-        continue;
-      }
-
-      // strong
-      if (cap = this.rules.strong.exec(src)) {
-        src = src.substring(cap[0].length);
-        out += this.renderer.strong(this.output(cap[2] || cap[1]));
-        continue;
-      }
-
-      // em
-      if (cap = this.rules.em.exec(src)) {
-        src = src.substring(cap[0].length);
-        out += this.renderer.em(this.output(cap[2] || cap[1]));
-        continue;
-      }
-
-      // code
-      if (cap = this.rules.code.exec(src)) {
-        src = src.substring(cap[0].length);
-        out += this.renderer.codespan(escape(cap[2], true));
-        continue;
-      }
-
-      // br
-      if (cap = this.rules.br.exec(src)) {
-        src = src.substring(cap[0].length);
-        out += this.renderer.br();
-        continue;
-      }
-
-      // del (gfm)
-      if (cap = this.rules.del.exec(src)) {
-        src = src.substring(cap[0].length);
-        out += this.renderer.del(this.output(cap[1]));
-        continue;
-      }
-
-      // text
-      if (cap = this.rules.text.exec(src)) {
-        src = src.substring(cap[0].length);
-        out += this.renderer.text(escape(this.smartypants(cap[0])));
-        continue;
-      }
-
-      if (src) {
-        throw new Error('Infinite loop on byte: ' + src.charCodeAt(0));
-      }
-    }
-
-    return out;
-  };
-
-  /**
-   * Compile Link
-   */
-
-  InlineLexer.prototype.outputLink = function (cap, link) {
-    var href = escape(link.href),
-        title = link.title ? escape(link.title) : null;
-
-    return cap[0].charAt(0) !== '!' ? this.renderer.link(href, title, this.output(cap[1])) : this.renderer.image(href, title, escape(cap[1]));
-  };
-
-  /**
-   * Smartypants Transformations
-   */
-
-  InlineLexer.prototype.smartypants = function (text) {
-    if (!this.options.smartypants) return text;
-    return text
-    // em-dashes
-    .replace(/---/g, '\u2014')
-    // en-dashes
-    .replace(/--/g, '\u2013')
-    // opening singles
-    .replace(/(^|[-\u2014/(\[{"\s])'/g, '$1\u2018')
-    // closing singles & apostrophes
-    .replace(/'/g, '\u2019')
-    // opening doubles
-    .replace(/(^|[-\u2014/(\[{\u2018\s])"/g, '$1\u201C')
-    // closing doubles
-    .replace(/"/g, '\u201D')
-    // ellipses
-    .replace(/\.{3}/g, '\u2026');
-  };
-
-  /**
-   * Mangle Links
-   */
-
-  InlineLexer.prototype.mangle = function (text) {
-    if (!this.options.mangle) return text;
-    var out = '',
-        l = text.length,
-        i = 0,
-        ch;
-
-    for (; i < l; i++) {
-      ch = text.charCodeAt(i);
-      if (Math.random() > 0.5) {
-        ch = 'x' + ch.toString(16);
-      }
-      out += '&#' + ch + ';';
-    }
-
-    return out;
-  };
-
-  /**
-   * Renderer
-   */
-
-  function Renderer(options) {
-    this.options = options || {};
-  }
-
-  Renderer.prototype.code = function (code, lang, escaped) {
-    if (this.options.highlight) {
-      var out = this.options.highlight(code, lang);
-      if (out != null && out !== code) {
-        escaped = true;
-        code = out;
-      }
-    }
-
-    if (!lang) {
-      return '<pre><code>' + (escaped ? code : escape(code, true)) + '\n</code></pre>';
-    }
-
-    return '<pre><code class="' + this.options.langPrefix + escape(lang, true) + '">' + (escaped ? code : escape(code, true)) + '\n</code></pre>\n';
-  };
-
-  Renderer.prototype.blockquote = function (quote) {
-    return '<blockquote>\n' + quote + '</blockquote>\n';
-  };
-
-  Renderer.prototype.html = function (html) {
-    return html;
-  };
-
-  Renderer.prototype.heading = function (text, level, raw) {
-    return '<h' + level + ' id="' + this.options.headerPrefix + raw.toLowerCase().replace(/[^\w]+/g, '-') + '">' + text + '</h' + level + '>\n';
-  };
-
-  Renderer.prototype.hr = function () {
-    return this.options.xhtml ? '<hr/>\n' : '<hr>\n';
-  };
-
-  Renderer.prototype.list = function (body, ordered) {
-    var type = ordered ? 'ol' : 'ul';
-    return '<' + type + '>\n' + body + '</' + type + '>\n';
-  };
-
-  Renderer.prototype.listitem = function (text) {
-    return '<li>' + text + '</li>\n';
-  };
-
-  Renderer.prototype.paragraph = function (text) {
-    return '<p>' + text + '</p>\n';
-  };
-
-  Renderer.prototype.table = function (header, body) {
-    return '<table>\n' + '<thead>\n' + header + '</thead>\n' + '<tbody>\n' + body + '</tbody>\n' + '</table>\n';
-  };
-
-  Renderer.prototype.tablerow = function (content) {
-    return '<tr>\n' + content + '</tr>\n';
-  };
-
-  Renderer.prototype.tablecell = function (content, flags) {
-    var type = flags.header ? 'th' : 'td';
-    var tag = flags.align ? '<' + type + ' style="text-align:' + flags.align + '">' : '<' + type + '>';
-    return tag + content + '</' + type + '>\n';
-  };
-
-  // span level renderer
-  Renderer.prototype.strong = function (text) {
-    return '<strong>' + text + '</strong>';
-  };
-
-  Renderer.prototype.em = function (text) {
-    return '<em>' + text + '</em>';
-  };
-
-  Renderer.prototype.codespan = function (text) {
-    return '<code>' + text + '</code>';
-  };
-
-  Renderer.prototype.br = function () {
-    return this.options.xhtml ? '<br/>' : '<br>';
-  };
-
-  Renderer.prototype.del = function (text) {
-    return '<del>' + text + '</del>';
-  };
-
-  Renderer.prototype.link = function (href, title, text) {
-    if (this.options.sanitize) {
-      try {
-        var prot = decodeURIComponent(unescape(href)).replace(/[^\w:]/g, '').toLowerCase();
-      } catch (e) {
-        return '';
-      }
-      if (prot.indexOf('javascript:') === 0 || prot.indexOf('vbscript:') === 0) {
-        return '';
-      }
-    }
-    var out = '<a href="' + href + '"';
-    if (title) {
-      out += ' title="' + title + '"';
-    }
-    out += '>' + text + '</a>';
-    return out;
-  };
-
-  Renderer.prototype.image = function (href, title, text) {
-    var out = '<img src="' + href + '" alt="' + text + '"';
-    if (title) {
-      out += ' title="' + title + '"';
-    }
-    out += this.options.xhtml ? '/>' : '>';
-    return out;
-  };
-
-  Renderer.prototype.text = function (text) {
-    return text;
-  };
-
-  /**
-   * Parsing & Compiling
-   */
-
-  function Parser(options) {
-    this.tokens = [];
-    this.token = null;
-    this.options = options || marked.defaults;
-    this.options.renderer = this.options.renderer || new Renderer();
-    this.renderer = this.options.renderer;
-    this.renderer.options = this.options;
-  }
-
-  /**
-   * Static Parse Method
-   */
-
-  Parser.parse = function (src, options, renderer) {
-    var parser = new Parser(options, renderer);
-    return parser.parse(src);
-  };
-
-  /**
-   * Parse Loop
-   */
-
-  Parser.prototype.parse = function (src) {
-    this.inline = new InlineLexer(src.links, this.options, this.renderer);
-    this.tokens = src.reverse();
-
-    var out = '';
-    while (this.next()) {
-      out += this.tok();
-    }
-
-    return out;
-  };
-
-  /**
-   * Next Token
-   */
-
-  Parser.prototype.next = function () {
-    return this.token = this.tokens.pop();
-  };
-
-  /**
-   * Preview Next Token
-   */
-
-  Parser.prototype.peek = function () {
-    return this.tokens[this.tokens.length - 1] || 0;
-  };
-
-  /**
-   * Parse Text Tokens
-   */
-
-  Parser.prototype.parseText = function () {
-    var body = this.token.text;
-
-    while (this.peek().type === 'text') {
-      body += '\n' + this.next().text;
-    }
-
-    return this.inline.output(body);
-  };
-
-  /**
-   * Parse Current Token
-   */
-
-  Parser.prototype.tok = function () {
-    switch (this.token.type) {
-      case 'space':
-        {
-          return '';
-        }
-      case 'hr':
-        {
-          return this.renderer.hr();
-        }
-      case 'heading':
-        {
-          return this.renderer.heading(this.inline.output(this.token.text), this.token.depth, this.token.text);
-        }
-      case 'code':
-        {
-          return this.renderer.code(this.token.text, this.token.lang, this.token.escaped);
-        }
-      case 'table':
-        {
-          var header = '',
-              body = '',
-              i,
-              row,
-              cell,
-              flags,
-              j;
-
-          // header
-          cell = '';
-          for (i = 0; i < this.token.header.length; i++) {
-            flags = { header: true, align: this.token.align[i] };
-            cell += this.renderer.tablecell(this.inline.output(this.token.header[i]), { header: true, align: this.token.align[i] });
-          }
-          header += this.renderer.tablerow(cell);
-
-          for (i = 0; i < this.token.cells.length; i++) {
-            row = this.token.cells[i];
-
-            cell = '';
-            for (j = 0; j < row.length; j++) {
-              cell += this.renderer.tablecell(this.inline.output(row[j]), { header: false, align: this.token.align[j] });
-            }
-
-            body += this.renderer.tablerow(cell);
-          }
-          return this.renderer.table(header, body);
-        }
-      case 'blockquote_start':
-        {
-          var body = '';
-
-          while (this.next().type !== 'blockquote_end') {
-            body += this.tok();
-          }
-
-          return this.renderer.blockquote(body);
-        }
-      case 'list_start':
-        {
-          var body = '',
-              ordered = this.token.ordered;
-
-          while (this.next().type !== 'list_end') {
-            body += this.tok();
-          }
-
-          return this.renderer.list(body, ordered);
-        }
-      case 'list_item_start':
-        {
-          var body = '';
-
-          while (this.next().type !== 'list_item_end') {
-            body += this.token.type === 'text' ? this.parseText() : this.tok();
-          }
-
-          return this.renderer.listitem(body);
-        }
-      case 'loose_item_start':
-        {
-          var body = '';
-
-          while (this.next().type !== 'list_item_end') {
-            body += this.tok();
-          }
-
-          return this.renderer.listitem(body);
-        }
-      case 'html':
-        {
-          var html = !this.token.pre && !this.options.pedantic ? this.inline.output(this.token.text) : this.token.text;
-          return this.renderer.html(html);
-        }
-      case 'paragraph':
-        {
-          return this.renderer.paragraph(this.inline.output(this.token.text));
-        }
-      case 'text':
-        {
-          return this.renderer.paragraph(this.parseText());
-        }
-    }
-  };
-
-  /**
-   * Helpers
-   */
-
-  function escape(html, encode) {
-    return html.replace(!encode ? /&(?!#?\w+;)/g : /&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-  }
-
-  function unescape(html) {
-    // explicitly match decimal, hex, and named HTML entities 
-    return html.replace(/&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/g, function (_, n) {
-      n = n.toLowerCase();
-      if (n === 'colon') return ':';
-      if (n.charAt(0) === '#') {
-        return n.charAt(1) === 'x' ? String.fromCharCode(parseInt(n.substring(2), 16)) : String.fromCharCode(+n.substring(1));
-      }
-      return '';
-    });
-  }
-
-  function replace(regex, opt) {
-    regex = regex.source;
-    opt = opt || '';
-    return function self(name, val) {
-      if (!name) return new RegExp(regex, opt);
-      val = val.source || val;
-      val = val.replace(/(^|[^\[])\^/g, '$1');
-      regex = regex.replace(name, val);
-      return self;
-    };
-  }
-
-  function noop() {}
-  noop.exec = noop;
-
-  function merge(obj) {
-    var i = 1,
-        target,
-        key;
-
-    for (; i < arguments.length; i++) {
-      target = arguments[i];
-      for (key in target) {
-        if (Object.prototype.hasOwnProperty.call(target, key)) {
-          obj[key] = target[key];
-        }
-      }
-    }
-
-    return obj;
-  }
-
-  /**
-   * Marked
-   */
-
-  function marked(src, opt, callback) {
-    if (callback || typeof opt === 'function') {
-      if (!callback) {
-        callback = opt;
-        opt = null;
-      }
-
-      opt = merge({}, marked.defaults, opt || {});
-
-      var highlight = opt.highlight,
-          tokens,
-          pending,
-          i = 0;
-
-      try {
-        tokens = Lexer.lex(src, opt);
-      } catch (e) {
-        return callback(e);
-      }
-
-      pending = tokens.length;
-
-      var done = function done(err) {
-        if (err) {
-          opt.highlight = highlight;
-          return callback(err);
-        }
-
-        var out;
-
-        try {
-          out = Parser.parse(tokens, opt);
-        } catch (e) {
-          err = e;
-        }
-
-        opt.highlight = highlight;
-
-        return err ? callback(err) : callback(null, out);
-      };
-
-      if (!highlight || highlight.length < 3) {
-        return done();
-      }
-
-      delete opt.highlight;
-
-      if (!pending) return done();
-
-      for (; i < tokens.length; i++) {
-        (function (token) {
-          if (token.type !== 'code') {
-            return --pending || done();
-          }
-          return highlight(token.text, token.lang, function (err, code) {
-            if (err) return done(err);
-            if (code == null || code === token.text) {
-              return --pending || done();
-            }
-            token.text = code;
-            token.escaped = true;
-            --pending || done();
-          });
-        })(tokens[i]);
-      }
-
-      return;
-    }
-    try {
-      if (opt) opt = merge({}, marked.defaults, opt);
-      return Parser.parse(Lexer.lex(src, opt), opt);
-    } catch (e) {
-      e.message += '\nPlease report this to https://github.com/chjj/marked.';
-      if ((opt || marked.defaults).silent) {
-        return '<p>An error occured:</p><pre>' + escape(e.message + '', true) + '</pre>';
-      }
-      throw e;
-    }
-  }
-
-  /**
-   * Options
-   */
-
-  marked.options = marked.setOptions = function (opt) {
-    merge(marked.defaults, opt);
-    return marked;
-  };
-
-  marked.defaults = {
-    gfm: true,
-    tables: true,
-    breaks: false,
-    pedantic: false,
-    sanitize: false,
-    sanitizer: null,
-    mangle: true,
-    smartLists: false,
-    silent: false,
-    highlight: null,
-    langPrefix: 'lang-',
-    smartypants: false,
-    headerPrefix: '',
-    renderer: new Renderer(),
-    xhtml: false
-  };
-
-  /**
-   * Expose
-   */
-
-  marked.Parser = Parser;
-  marked.parser = Parser.parse;
-
-  marked.Renderer = Renderer;
-
-  marked.Lexer = Lexer;
-  marked.lexer = Lexer.lex;
-
-  marked.InlineLexer = InlineLexer;
-  marked.inlineLexer = InlineLexer.output;
-
-  marked.parse = marked;
-
-  if (typeof module !== 'undefined' && ( false ? 'undefined' : _typeof(exports)) === 'object') {
-    module.exports = marked;
-  } else if (true) {
-    !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
-      return marked;
-    }.call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else {
-    this.marked = marked;
-  }
-}).call(function () {
-  return this || (typeof window !== 'undefined' ? window : global);
-}());
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
-
-/***/ }),
-/* 1050 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /* global jQuery, YoastSEO, wpseoPostScraperL10n */
-
-var _isKeywordAnalysisActive = __webpack_require__(436);
-
-var _isKeywordAnalysisActive2 = _interopRequireDefault(_isKeywordAnalysisActive);
-
-var _removeMarks = __webpack_require__(450);
-
-var _removeMarks2 = _interopRequireDefault(_removeMarks);
-
-var _wpSeoTinymce = __webpack_require__(421);
-
-var _wpSeoTinymce2 = _interopRequireDefault(_wpSeoTinymce);
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /* global jQuery, wpseoTermScraperL10n */
 
 var _getIndicatorForScore = __webpack_require__(310);
 
 var _getIndicatorForScore2 = _interopRequireDefault(_getIndicatorForScore);
 
+var _wpSeoTinymce = __webpack_require__(421);
+
+var _wpSeoTinymce2 = _interopRequireDefault(_wpSeoTinymce);
+
 var _trafficLight = __webpack_require__(434);
 
 var _adminBar = __webpack_require__(435);
 
-var _publishBox = __webpack_require__(828);
+var _isKeywordAnalysisActive = __webpack_require__(436);
 
-var _publishBox2 = _interopRequireDefault(_publishBox);
-
-var _get2 = __webpack_require__(319);
-
-var _get3 = _interopRequireDefault(_get2);
+var _isKeywordAnalysisActive2 = _interopRequireDefault(_isKeywordAnalysisActive);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var $ = jQuery;
-var currentKeyword = "";
 
 /**
- * Show warning in console when the unsupported CkEditor is used
+ * Show warning in console when the unsupported CkEditor is used.
  *
  * @param {Object} args The arguments for the post scraper.
  * @param {TabManager} args.tabManager The tab manager for this post.
  *
  * @constructor
  */
-var PostDataCollector = function PostDataCollector(args) {
-	if ((typeof CKEDITOR === "undefined" ? "undefined" : _typeof(CKEDITOR)) === "object") {
-		console.warn("YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.");
-	}
+var TermDataCollector = function TermDataCollector(args) {
+  if ((typeof CKEDITOR === "undefined" ? "undefined" : _typeof(CKEDITOR)) === "object") {
+    console.warn("YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.");
+  }
 
-	this._tabManager = args.tabManager;
+  this._tabManager = args.tabManager;
 };
 
 /**
- * Get data from input fields and store them in an analyzerData object. This object will be used to fill
- * the analyzer and the snippet preview.
+ * Returns data fetched from input fields.
  *
- * @returns {void}
+ * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}} The object with data.
  */
-PostDataCollector.prototype.getData = function () {
-	var text = this.getText();
+TermDataCollector.prototype.getData = function () {
+  return {
+    title: this.getTitle(),
+    keyword: (0, _isKeywordAnalysisActive2.default)() ? this.getKeyword() : "",
+    text: this.getText(),
+    meta: this.getMeta(),
+    url: this.getUrl(),
+    permalink: this.getPermalink(),
+    snippetCite: this.getSnippetCite(),
+    snippetTitle: this.getSnippetTitle(),
+    snippetMeta: this.getSnippetMeta(),
+    name: this.getName(),
+    baseUrl: this.getBaseUrl(),
+    pageTitle: this.getPageTitle()
+  };
+};
 
-	/*
-  * We are put into an iframe with Gutenberg. So we need to get the content of the parent.
-  * Gutenberg then exposes a global on that window. Which is `_wpGutenbergPost`. The post has two content
-  * properties: `rendered` and `raw`. For the content analysis we are interested in the rendered content.
-  */
-	var gutenbergContent = (0, _get3.default)(window, "parent._wpGutenbergPost.content.rendered", "");
-	if (gutenbergContent !== "") {
-		text = gutenbergContent;
-	}
-
-	return {
-		keyword: (0, _isKeywordAnalysisActive2.default)() ? this.getKeyword() : "",
-		meta: this.getMeta(),
-		text: text,
-		title: this.getTitle(),
-		url: this.getUrl(),
-		excerpt: this.getExcerpt(),
-		snippetTitle: this.getSnippetTitle(),
-		snippetMeta: this.getSnippetMeta(),
-		snippetCite: this.getSnippetCite(),
-		primaryCategory: this.getPrimaryCategory(),
-		searchUrl: this.getSearchUrl(),
-		postUrl: this.getPostUrl(),
-		permalink: this.getPermalink()
-	};
+/**
+ * Returns the title from the DOM.
+ *
+ * @returns {string} The title.
+ */
+TermDataCollector.prototype.getTitle = function () {
+  return document.getElementById("hidden_wpseo_title").value;
 };
 
 /**
@@ -50014,209 +48471,147 @@ PostDataCollector.prototype.getData = function () {
  *
  * @returns {string} The keyword.
  */
-PostDataCollector.prototype.getKeyword = function () {
-	var val = document.getElementById("yoast_wpseo_focuskw_text_input") && document.getElementById("yoast_wpseo_focuskw_text_input").value || "";
-	currentKeyword = val;
+TermDataCollector.prototype.getKeyword = function () {
+  var elem, val;
 
-	return val;
+  elem = document.getElementById("wpseo_focuskw");
+  val = elem.value;
+  if (val === "") {
+    val = document.getElementById("name").value;
+    elem.placeholder = val;
+  }
+
+  return val;
 };
 
 /**
- * Returns the Meta from the DOM.
- *
- * @returns {string} The meta description.
- */
-PostDataCollector.prototype.getMeta = function () {
-	return document.getElementById("yoast_wpseo_metadesc") && document.getElementById("yoast_wpseo_metadesc").value || "";
-};
-
-/**
- * Returns the Text from the DOM.
+ * Returns the text from the DOM.
  *
  * @returns {string} The text.
  */
-PostDataCollector.prototype.getText = function () {
-	return (0, _removeMarks2.default)(_wpSeoTinymce2.default.getContentTinyMce(_wpSeoTinymce.tmceId));
+TermDataCollector.prototype.getText = function () {
+  return _wpSeoTinymce2.default.getContentTinyMce(_wpSeoTinymce.termsTmceId);
 };
 
 /**
- * Returns the Title from the DOM.
+ * Returns the meta description from the DOM.
  *
- * @returns {string} The title.
+ * @returns {string} The meta.
  */
-PostDataCollector.prototype.getTitle = function () {
-	return document.getElementById("title") && document.getElementById("title").value || "";
+TermDataCollector.prototype.getMeta = function () {
+  var val = "";
+
+  var elem = document.getElementById("hidden_wpseo_desc");
+  if (elem !== null) {
+    val = elem.value;
+  }
+
+  return val;
 };
 
 /**
- * Returns the Url from the DOM.
+ * Returns the url from the DOM.
  *
  * @returns {string} The url.
  */
-PostDataCollector.prototype.getUrl = function () {
-	var url = "";
-
-	var newPostSlug = $("#new-post-slug");
-	if (0 < newPostSlug.length) {
-		url = newPostSlug.val();
-	} else if (document.getElementById("editable-post-name-full") !== null) {
-		url = document.getElementById("editable-post-name-full").textContent;
-	}
-
-	return url;
+TermDataCollector.prototype.getUrl = function () {
+  return document.getElementById("slug").value;
 };
 
 /**
- * Returns the Excerpt from the DOM.
- *
- * @returns {string} The excerpt.
- */
-PostDataCollector.prototype.getExcerpt = function () {
-	var val = "";
-
-	if (document.getElementById("excerpt") !== null) {
-		val = document.getElementById("excerpt") && document.getElementById("excerpt").value || "";
-	}
-
-	return val;
-};
-
-/**
- * Returns the SnippetTitle from the DOM.
- *
- * @returns {string} The snippet title.
- */
-PostDataCollector.prototype.getSnippetTitle = function () {
-	return document.getElementById("yoast_wpseo_title") && document.getElementById("yoast_wpseo_title").value || "";
-};
-
-/**
- * Returns the SnippetMeta from the DOM.
- *
- * @returns {string} The snippet meta.
- */
-PostDataCollector.prototype.getSnippetMeta = function () {
-	return document.getElementById("yoast_wpseo_metadesc") && document.getElementById("yoast_wpseo_metadesc").value || "";
-};
-
-/**
- * Returns the SnippetCite from the DOM.
- *
- * @returns {string} The snippet cite.
- */
-PostDataCollector.prototype.getSnippetCite = function () {
-	return this.getUrl();
-};
-
-/**
- * Returns the PrimaryCategory from the DOM.
- *
- * @returns {string} The primary category.
- */
-PostDataCollector.prototype.getPrimaryCategory = function () {
-	var val = "";
-	var categoryBase = $("#category-all").find("ul.categorychecklist");
-
-	// If only one is visible than that item is the primary category.
-	var checked = categoryBase.find("li input:checked");
-
-	if (checked.length === 1) {
-		val = this.getCategoryName(checked.parent());
-
-		return val;
-	}
-
-	var primaryTerm = categoryBase.find(".wpseo-primary-term > label");
-
-	if (primaryTerm.length) {
-		val = this.getCategoryName(primaryTerm);
-
-		return val;
-	}
-
-	return val;
-};
-
-/**
- * Returns the SearchUrl from the DOM.
- *
- * @returns {string} The search url.
- */
-PostDataCollector.prototype.getSearchUrl = function () {
-	return wpseoPostScraperL10n.search_url;
-};
-
-/**
- * Returns the PostUrl from the DOM.
- *
- * @returns {string} The post url.
- */
-PostDataCollector.prototype.getPostUrl = function () {
-	return wpseoPostScraperL10n.post_edit_url;
-};
-
-/**
- * Returns the Permalink from the DOM.
+ * Returns the permalink from the DOM.
  *
  * @returns {string} The permalink.
  */
-PostDataCollector.prototype.getPermalink = function () {
-	var url = this.getUrl();
+TermDataCollector.prototype.getPermalink = function () {
+  var url = this.getUrl();
 
-	return wpseoPostScraperL10n.base_url + url;
+  return this.getBaseUrl() + url + "/";
 };
 
 /**
- * Get the category name from the list item.
+ * Returns the snippet cite from the DOM.
  *
- * @param {Object} li Item which contains the category.
- *
- * @returns {String}  Name of the category.
+ * @returns {string} The snippet cite.
  */
-PostDataCollector.prototype.getCategoryName = function (li) {
-	var clone = li.clone();
-	clone.children().remove();
-	return $.trim(clone.text());
+TermDataCollector.prototype.getSnippetCite = function () {
+  return this.getUrl();
+};
+
+/**
+ * Returns the snippet title from the DOM.
+ *
+ * @returns {string} The snippet title.
+ */
+TermDataCollector.prototype.getSnippetTitle = function () {
+  return document.getElementById("hidden_wpseo_title").value;
+};
+
+/**
+ * Returns the snippet meta from the DOM.
+ *
+ * @returns {string} The snippet meta.
+ */
+TermDataCollector.prototype.getSnippetMeta = function () {
+  var val = "";
+
+  var elem = document.getElementById("hidden_wpseo_desc");
+  if (elem !== null) {
+    val = elem.value;
+  }
+
+  return val;
+};
+
+/**
+ * Returns the name from the DOM.
+ *
+ * @returns {string} The name.
+ */
+TermDataCollector.prototype.getName = function () {
+  return document.getElementById("name").value;
+};
+
+/**
+ * Returns the base url from the DOM.
+ *
+ * @returns {string} The base url.
+ */
+TermDataCollector.prototype.getBaseUrl = function () {
+  return wpseoTermScraperL10n.base_url;
+};
+
+/**
+ * Returns the page title from the DOM.
+ *
+ * @returns {string} The page title.
+ */
+TermDataCollector.prototype.getPageTitle = function () {
+  return document.getElementById("hidden_wpseo_title").value;
 };
 
 /**
  * When the snippet is updated, update the (hidden) fields on the page.
  *
- * @param {Object} value The value to set.
- * @param {String} type  The type to set the value for.
+ * @param {Object} value Value for the data to set.
+ * @param {String} type The field(type) that the data is set for.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.setDataFromSnippet = function (value, type) {
-	switch (type) {
-		case "snippet_meta":
-			document.getElementById("yoast_wpseo_metadesc").value = value;
-			break;
-		case "snippet_cite":
-
-			/*
-    * WordPress leaves the post name empty to signify that it should be generated from the title once the
-    * post is saved. So when we receive an auto generated slug from WordPress we should be
-    * able to not save this to the UI. This conditional makes that possible.
-    */
-			if (this.leavePostNameUntouched) {
-				this.leavePostNameUntouched = false;
-				return;
-			}
-			if (document.getElementById("post_name") !== null) {
-				document.getElementById("post_name").value = value;
-			}
-			if (document.getElementById("editable-post-name") !== null && document.getElementById("editable-post-name-full") !== null) {
-				document.getElementById("editable-post-name").textContent = value;
-				document.getElementById("editable-post-name-full").textContent = value;
-			}
-			break;
-		case "snippet_title":
-			document.getElementById("yoast_wpseo_title").value = value;
-			break;
-		default:
-			break;
-	}
+TermDataCollector.prototype.setDataFromSnippet = function (value, type) {
+  switch (type) {
+    case "snippet_meta":
+      document.getElementById("hidden_wpseo_desc").value = value;
+      break;
+    case "snippet_cite":
+      document.getElementById("slug").value = value;
+      break;
+    case "snippet_title":
+      document.getElementById("hidden_wpseo_title").value = value;
+      break;
+    default:
+      break;
+  }
 };
 
 /**
@@ -50229,146 +48624,222 @@ PostDataCollector.prototype.setDataFromSnippet = function (value, type) {
  *
  * @returns {void}
  */
-PostDataCollector.prototype.saveSnippetData = function (data) {
-	this.setDataFromSnippet(data.title, "snippet_title");
-	this.setDataFromSnippet(data.urlPath, "snippet_cite");
-	this.setDataFromSnippet(data.metaDesc, "snippet_meta");
+TermDataCollector.prototype.saveSnippetData = function (data) {
+  this.setDataFromSnippet(data.title, "snippet_title");
+  this.setDataFromSnippet(data.urlPath, "snippet_cite");
+  this.setDataFromSnippet(data.metaDesc, "snippet_meta");
 };
 
 /**
- * Calls the event binders.
+ * Binds TermDataCollector events to elements.
  *
  * @param {app} app The app object.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.bindElementEvents = function (app) {
-	this.inputElementEventBinder(app);
-	this.changeElementEventBinder(app);
+TermDataCollector.prototype.bindElementEvents = function (app) {
+  this.inputElementEventBinder(app);
 };
 
 /**
- * Binds the reanalyze timer on change of dom element.
+ * Binds the renewData function on the change of inputelements.
  *
  * @param {app} app The app object.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.changeElementEventBinder = function (app) {
-	var elems = ["#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]'];
-	for (var i = 0; i < elems.length; i++) {
-		$(elems[i]).on("change", app.refresh.bind(app));
-	}
+TermDataCollector.prototype.inputElementEventBinder = function (app) {
+  var elems = ["name", _wpSeoTinymce.termsTmceId, "slug", "wpseo_focuskw"];
+  for (var i = 0; i < elems.length; i++) {
+    var elem = document.getElementById(elems[i]);
+    if (elem !== null) {
+      document.getElementById(elems[i]).addEventListener("input", app.refresh.bind(app));
+    }
+  }
+  _wpSeoTinymce2.default.tinyMceEventBinder(app, _wpSeoTinymce.termsTmceId);
 };
 
 /**
- * Binds the renewData function on the change of input elements.
+ * Creates SVG for the overall score.
  *
- * @param {app} app The app object.
- *
- * @returns {void}
- */
-PostDataCollector.prototype.inputElementEventBinder = function (app) {
-	var elems = ["excerpt", "content", "yoast_wpseo_focuskw_text_input", "title"];
-	for (var i = 0; i < elems.length; i++) {
-		var elem = document.getElementById(elems[i]);
-		if (elem !== null) {
-			document.getElementById(elems[i]).addEventListener("input", app.refresh.bind(app));
-		}
-	}
-
-	_wpSeoTinymce2.default.tinyMceEventBinder(app, _wpSeoTinymce.tmceId);
-
-	document.getElementById("yoast_wpseo_focuskw_text_input").addEventListener("blur", this.resetQueue.bind(this));
-};
-
-/**
- * Resets the current queue if focus keyword is changed and not empty.
+ * @param {number} score Score to save.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.resetQueue = function () {
-	if (this.app.rawData.keyword !== "") {
-		this.app.runAnalyzer(this.rawData);
-	}
-};
+TermDataCollector.prototype.saveScores = function (score) {
+  var indicator = (0, _getIndicatorForScore2.default)(score);
+  var keyword = this.getKeyword();
 
-/**
- * Saves the score to the linkdex.
- * Outputs the score in the overall target.
- *
- * @param {string} score The score to save.
- *
- * @returns {void}
- */
-PostDataCollector.prototype.saveScores = function (score) {
-	var indicator = (0, _getIndicatorForScore2.default)(score);
+  document.getElementById("hidden_wpseo_linkdex").value = score;
+  jQuery(window).trigger("YoastSEO:numericScore", score);
 
-	// If multi keyword isn't available we need to update the first tab (content).
-	if (!YoastSEO.multiKeyword) {
-		this._tabManager.updateKeywordTab(score, currentKeyword);
-		_publishBox2.default.updateScore("content", indicator.className);
+  this._tabManager.updateKeywordTab(score, keyword);
 
-		// Updates the input with the currentKeyword value.
-		$("#yoast_wpseo_focuskw").val(currentKeyword);
-	}
-
-	if (this._tabManager.isMainKeyword(currentKeyword)) {
-		document.getElementById("yoast_wpseo_linkdex").value = score;
-
-		if ("" === currentKeyword) {
-			indicator.className = "na";
-			indicator.screenReaderText = this.app.i18n.dgettext("js-text-analysis", "Enter a focus keyword to calculate the SEO score");
-			indicator.fullText = this.app.i18n.dgettext("js-text-analysis", "Content optimization: Enter a focus keyword to calculate the SEO score");
-		}
-
-		this._tabManager.updateKeywordTab(score, currentKeyword);
-
-		(0, _trafficLight.update)(indicator);
-		(0, _adminBar.update)(indicator);
-
-		_publishBox2.default.updateScore("keyword", indicator.className);
-	}
-
-	jQuery(window).trigger("YoastSEO:numericScore", score);
+  (0, _trafficLight.update)(indicator);
+  (0, _adminBar.update)(indicator);
 };
 
 /**
  * Saves the content score to a hidden field.
  *
- * @param {number} score The score to save.
+ * @param {number} score The score calculated by the content assessor.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.saveContentScore = function (score) {
-	this._tabManager.updateContentTab(score);
-	var indicator = (0, _getIndicatorForScore2.default)(score);
-	_publishBox2.default.updateScore("content", indicator.className);
+TermDataCollector.prototype.saveContentScore = function (score) {
+  var indicator = (0, _getIndicatorForScore2.default)(score);
 
-	if (!(0, _isKeywordAnalysisActive2.default)()) {
-		(0, _trafficLight.update)(indicator);
-		(0, _adminBar.update)(indicator);
-	}
+  this._tabManager.updateContentTab(score);
 
-	$("#yoast_wpseo_content_score").val(score);
+  if (!(0, _isKeywordAnalysisActive2.default)()) {
+    (0, _trafficLight.update)(indicator);
+    (0, _adminBar.update)(indicator);
+  }
+
+  $("#hidden_wpseo_content_score").val(score);
 };
 
 /**
- * Initializes keyword tab with the correct template if multi keyword isn't available.
+ * Initializes keyword tab with the correct template.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.initKeywordTabTemplate = function () {
-	// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
-	if (YoastSEO.multiKeyword) {
-		return;
-	}
-
-	var keyword = $("#yoast_wpseo_focuskw").val();
-	$("#yoast_wpseo_focuskw_text_input").val(keyword);
+TermDataCollector.prototype.initKeywordTabTemplate = function () {
+  // Remove default functionality to prevent scrolling to top.
+  $(".wpseo-metabox-tabs").on("click", ".wpseo_tablink", function (ev) {
+    ev.preventDefault();
+  });
 };
 
-exports.default = PostDataCollector;
+exports.default = TermDataCollector;
+
+/***/ }),
+/* 1053 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Assessor = __webpack_require__(97);
+
+var introductionKeyword = __webpack_require__(320);
+var keyphraseLength = __webpack_require__(321);
+var keywordDensity = __webpack_require__(322);
+var keywordStopWords = __webpack_require__(323);
+var metaDescriptionKeyword = __webpack_require__(324);
+var MetaDescriptionLength = __webpack_require__(325);
+var titleKeyword = __webpack_require__(327);
+var TitleWidth = __webpack_require__(328);
+var UrlKeyword = __webpack_require__(329);
+var UrlLength = __webpack_require__(330);
+var urlStopWords = __webpack_require__(331);
+var taxonomyTextLength = __webpack_require__(1054);
+
+/**
+ * Creates the Assessor
+ *
+ * @param {object} i18n The i18n object used for translations.
+ * @constructor
+ */
+var TaxonomyAssessor = function TaxonomyAssessor(i18n) {
+	Assessor.call(this, i18n);
+
+	this._assessments = [introductionKeyword, keyphraseLength, keywordDensity, keywordStopWords, metaDescriptionKeyword, new MetaDescriptionLength(), taxonomyTextLength, titleKeyword, new TitleWidth(), new UrlKeyword(), new UrlLength(), urlStopWords];
+};
+
+module.exports = TaxonomyAssessor;
+
+__webpack_require__(33).inherits(module.exports, Assessor);
+
+/***/ }),
+/* 1054 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var AssessmentResult = __webpack_require__(4);
+var inRange = __webpack_require__(326);
+var recommendedMinimum = 150;
+/**
+ * Calculate the score based on the current word count.
+ * @param {number} wordCount The amount of words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateWordCountResult = function calculateWordCountResult(wordCount, i18n) {
+    if (wordCount >= 150) {
+        return {
+            score: 9,
+            text: i18n.dngettext("js-text-analysis",
+            /* Translators: %1$d expands to the number of words in the text. */
+            "The text contains %1$d word.", "The text contains %1$d words.", wordCount) + " " + i18n.dngettext("js-text-analysis",
+            /* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
+            "This is more than or equal to the recommended minimum of %2$d word.", "This is more than or equal to the recommended minimum of %2$d words.", recommendedMinimum)
+        };
+    }
+    if (inRange(wordCount, 125, 150)) {
+        return {
+            score: 7,
+            text: i18n.dngettext("js-text-analysis",
+            /* Translators: %1$d expands to the number of words in the text. */
+            "The text contains %1$d word.", "The text contains %1$d words.", wordCount) + " " + i18n.dngettext("js-text-analysis",
+            /* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
+            "This is slightly below the recommended minimum of %2$d word. Add a bit more copy.", "This is slightly below the recommended minimum of %2$d words. Add a bit more copy.", recommendedMinimum)
+        };
+    }
+    if (inRange(wordCount, 100, 125)) {
+        return {
+            score: 5,
+            text: i18n.dngettext("js-text-analysis",
+            /* Translators: %1$d expands to the number of words in the text. */
+            "The text contains %1$d word.", "The text contains %1$d words.", wordCount) + " " + i18n.dngettext("js-text-analysis",
+            /* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
+            "This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.", "This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.", recommendedMinimum)
+        };
+    }
+    if (inRange(wordCount, 50, 100)) {
+        return {
+            score: -10,
+            text: i18n.dngettext("js-text-analysis",
+            /* Translators: %1$d expands to the number of words in the text. */
+            "The text contains %1$d word.", "The text contains %1$d words.", wordCount) + " " + i18n.dngettext("js-text-analysis",
+            /* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
+            "This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.", "This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.", recommendedMinimum)
+        };
+    }
+    if (inRange(wordCount, 0, 50)) {
+        return {
+            score: -20,
+            text: i18n.dngettext("js-text-analysis",
+            /* Translators: %1$d expands to the number of words in the text. */
+            "The text contains %1$d word.", "The text contains %1$d words.", wordCount) + " " + i18n.dngettext("js-text-analysis",
+            /* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
+            "This is far below the recommended minimum of %2$d word. Add more content that is relevant for the topic.", "This is far below the recommended minimum of %2$d words. Add more content that is relevant for the topic.", recommendedMinimum)
+        };
+    }
+};
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var taxonomyTextLengthAssessment = function taxonomyTextLengthAssessment(paper, researcher, i18n) {
+    var wordCount = researcher.getResearch("wordCountInText");
+    var wordCountResult = calculateWordCountResult(wordCount, i18n);
+    var assessmentResult = new AssessmentResult();
+    assessmentResult.setScore(wordCountResult.score);
+    assessmentResult.setText(i18n.sprintf(wordCountResult.text, wordCount, recommendedMinimum));
+    return assessmentResult;
+};
+module.exports = {
+    identifier: "taxonomyTextLength",
+    getResult: taxonomyTextLengthAssessment
+};
+//# sourceMappingURL=taxonomyTextLengthAssessment.js.map
+//# sourceMappingURL=taxonomyTextLengthAssessment.js.map
 
 /***/ })
-],[1047]);
+],[1051]);
