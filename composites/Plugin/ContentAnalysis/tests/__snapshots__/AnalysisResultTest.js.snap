@@ -21,7 +21,8 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa VNVFd"
+    className="sc-bdVaJa bimAMX"
+    disabled={false}
     id="Result button"
     onClick={[Function]}
     type="button"
@@ -29,6 +30,43 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
     <svg
       aria-hidden="true"
       className="sc-EHOje cEzfCV"
+      focusable="false"
+      role="img"
+    />
+  </button>
+</li>
+`;
+
+exports[`the AnalysisResult component with disabled buttons matches the snapshot 1`] = `
+<li
+  className="sc-bwzfXH kaQsFW"
+>
+  <svg
+    aria-hidden="true"
+    className="sc-htpNat kcPZvN sc-htoDjs hFWmva"
+    focusable="false"
+    role="img"
+  />
+  <p
+    className="sc-bxivhb eBerdq"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "You're doing great!",
+      }
+    }
+  />
+  <button
+    aria-label="SEOResult"
+    aria-pressed={true}
+    className="sc-bdVaJa bimAMX"
+    disabled={true}
+    id="Result button"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden="true"
+      className="sc-dnqmqq haxLBt"
       focusable="false"
       role="img"
     />
@@ -57,7 +95,8 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa VNVFd"
+    className="sc-bdVaJa bimAMX"
+    disabled={false}
     id="Result button"
     onClick={[Function]}
     type="button"

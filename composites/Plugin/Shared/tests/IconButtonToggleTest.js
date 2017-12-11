@@ -6,7 +6,13 @@ import eye from "../../../../style-guide/svg/eye.svg";
 
 test( "the unpressed IconButtonToggle matches the snapshot", () => {
 	const component = renderer.create(
-		<IconButtonToggle name="group1" id="RadioButton" ariaLabel="important toggle" icon={ eye } pressed={ false } onClick={ () => {} }/>
+		<IconButtonToggle
+			name="group1"
+			id="RadioButton"
+			ariaLabel="important toggle"
+			icon={ eye }
+			pressed={ false }
+			onClick={ () => {} }/>
 	);
 
 	let tree = component.toJSON();
@@ -15,7 +21,29 @@ test( "the unpressed IconButtonToggle matches the snapshot", () => {
 
 test( "the pressed IconButtonToggle matches the snapshot", () => {
 	const component = renderer.create(
-		<IconButtonToggle name="group1" id="RadioButton2" ariaLabel="important toggle" icon={ eye } pressed={ true } onClick={ () => {} }/>
+		<IconButtonToggle
+			name="group1"
+			id="RadioButton2"
+			ariaLabel="important toggle"
+			icon={ eye }
+			pressed={ true }
+			onClick={ () => {} }/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
+test( "the disabled IconButtonToggle matches the snapshot", () => {
+	const component = renderer.create(
+		<IconButtonToggle
+			name="group1"
+			id="RadioButton2"
+			ariaLabel="important toggle"
+			icon={ eye }
+			pressed={ false }
+			onClick={ () => {} }
+			buttonsDisabled={ true }/>
 	);
 
 	let tree = component.toJSON();
