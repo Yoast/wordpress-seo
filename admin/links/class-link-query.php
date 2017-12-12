@@ -94,12 +94,16 @@ class WPSEO_Link_Query {
 			 		ON yoast_meta.object_id = posts.ID
 				 WHERE posts.post_status = "publish"
 				   AND posts.post_type IN ( ' . $post_types . ' )
-				   AND (  
-				         posts.ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s )
-				         OR yoast_meta.internal_link_count IS NULL
-				       )      
-			     LIMIT %d
 	   ';
+
+		$query .= ' AND ( yoast_meta.internal_link_count IS NULL';
+
+		if ( self::requires_indexing() ) {
+			$query .= ' OR posts.ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s )';
+		}
+
+		$query .= ')';
+		$query .= 'LIMIT %d';
 		// @codingStandardsIgnoreEnd
 
 		$results = $wpdb->get_results(
@@ -138,11 +142,17 @@ class WPSEO_Link_Query {
 		 LEFT JOIN ' . $count_table . ' AS yoast_meta
 				ON yoast_meta.object_id = posts.ID
 			 WHERE posts.post_status = "publish"
-			   AND posts.post_type IN ( ' . $post_types . ' )
-			   AND (  
-				      posts.ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s )
-				      OR yoast_meta.internal_link_count IS NULL
-				   )';
+			   AND posts.post_type IN ( ' . $post_types . ' )';
+
+
+		$query .= ' AND ( yoast_meta.internal_link_count IS NULL';
+
+		if ( self::requires_indexing() ) {
+			$query .= ' OR posts.ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s )';
+		}
+
+		$query .= ')';
+
 		// @codingStandardsIgnoreEnd
 
 		return (int) $wpdb->get_var(
@@ -154,6 +164,16 @@ class WPSEO_Link_Query {
 		);
 	}
 
+	/**
+	 * Checks if indexing is required.
+	 *
+	 * @return bool True when indexing is required.
+	 */
+	protected static function requires_indexing() {
+		// Version 1 is the situation where the site_url isn't equal to the site url.
+		return self::VERSION_NUMBER === 1 && site_url() !== home_url();
+	}
+	
 	/**
 	 * Returns the table name where the counts are stored.
 	 *
