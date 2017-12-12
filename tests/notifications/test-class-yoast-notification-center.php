@@ -385,7 +385,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$this->assertInternalType( 'array', $notifications );
 
-		$this->assertNotEquals( $notifications[0]->get_nonce(), $old_nonce );
+		$notification = array_shift( $notifications );
+
+		$this->assertNotEquals( $notification->get_nonce(), $old_nonce );
 	}
 
 	/**
