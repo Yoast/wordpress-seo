@@ -8,6 +8,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { IntlProvider, addLocaleData } from "react-intl";
 
+import markerStatus from "./redux/reducers/markerButtons";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
@@ -37,6 +38,7 @@ function configureStore() {
 	}
 
 	const rootReducer = combineReducers( {
+		markerStatus: markerStatus,
 		analysis: analysis,
 		activeKeyword: activeKeyword,
 	} );

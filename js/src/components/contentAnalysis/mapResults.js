@@ -106,5 +106,6 @@ export default function mapResults( results ) {
 		const mappedResult = mapResult( result );
 		mappedResults = processResult( mappedResult, mappedResults );
 	}
+	console.log(mappedResults)
 	return mappedResults;
 }

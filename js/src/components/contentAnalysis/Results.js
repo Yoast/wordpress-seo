@@ -63,6 +63,7 @@ class Results extends React.Component {
 				onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
 				markButtonClassName={ this.props.markButtonClassName }
 				buttonsDisabled={ this.props.buttonsDisabled }
+				buttonsHidden={ this.props.buttonsHidden }
 			/>
 		);
 	}
@@ -75,12 +76,16 @@ Results.propTypes = {
 	showLanguageNotice: PropTypes.bool.isRequired,
 	canChangeLanguage: PropTypes.bool,
 	markButtonClassName: PropTypes.string,
+	buttonsDisabled: PropTypes.bool,
+	buttonsHidden: PropTypes.bool,
 };
 
 Results.defaultProps = {
 	language: "",
 	changeLanguageLink: "#",
 	canChangeLanguage: false,
+	buttonsDisabled: false,
+	buttonsHidden: false,
 };
 
 export default Results;

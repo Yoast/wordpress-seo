@@ -2,7 +2,7 @@
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 
-import { tmceId } from "./wp-seo-tinymce";
+import { tmceId, setStore } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 
 import initializeEdit from "./edit";
@@ -23,6 +23,7 @@ import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetPreviewHelpers from "./analysis/snippetPreview";
 import UsedKeywords from "./analysis/usedKeywords";
+import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
@@ -95,7 +96,7 @@ import UsedKeywords from "./analysis/usedKeywords";
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return wpseoPostScraperL10n.show_markers === "1";
+		return wpseoPostScraperL10n.show_markers === "0";
 	}
 
 	/**
@@ -107,6 +108,10 @@ import UsedKeywords from "./analysis/usedKeywords";
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
 		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
+			if ( ! isUndefined( store ) ) {
+				store.dispatch( setMarkerStatus( "hidden" ) );
+				console.log(store.getState())
+			}
 			return false;
 		}
 
@@ -402,6 +407,7 @@ import UsedKeywords from "./analysis/usedKeywords";
 
 		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
 
+		setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
 
 		activateEnabledAnalysis( tabManager );
