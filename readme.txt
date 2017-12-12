@@ -125,6 +125,18 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 6.0.0 =
+Release Date: December 19th, 2017
+
+Bugfixes:
+
+* Fixes a bug where Yoast SEO would no longer properly work with Gutenberg.
+
+Enhancements:
+
+* Adds support for custom page titles and meta descriptions on the WooCommerce shop page. Props [Caleb Burks](https://github.com/WPprodigy).
+* Adds a link to the Google Knowledge Graph article on Yoast.com. Props [Raaj Trambadia](https://github.com/raajtram).
+
 = 5.9.2 =
 Release Date: December 11th, 2017
 
