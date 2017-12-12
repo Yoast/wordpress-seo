@@ -25,8 +25,8 @@ jobs:
     - php: 5.6
       env: WP_VERSION=4.6
     # WP >= 4.8 is needed for PHP 7.1
-    - php: 7.1
-      env: WP_VERSION=4.8
+    - php: 7.2
+      env: WP_VERSION=4.9
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
