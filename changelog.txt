@@ -1046,7 +1046,7 @@ Release Date: July 22nd, 2015
 Release Date: July 21st, 2015
 
 * Features:
-	* Adds full integration with Google Search Console (formerly: Google Webmaster Tools). It is now possible to see all errors from Google straight in your WordPress install. If you have [Yoast SEO Premium](https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=changelog), you'll even be able to fix those errors by redirecting the broken urls.
+	* Adds full integration with Google Search Console (formerly: Google Webmaster Tools). It is now possible to see all errors from Google straight in your WordPress install. If you have [Yoast SEO Premium](https://yoa.st/1yh), you'll even be able to fix those errors by redirecting the broken urls.
 	* Adds a dashboard widget showing published posts' SEO scores. Thanks [Brandon Hubbard](https://github.com/bhubbard) for the idea!
 	* Adds a customizer panel for Yoast SEO Breadcrumbs if breadcrumbs are enabled or the active theme has declared theme support for it. Props again to [Brandon Hubbard](https://github.com/bhubbard) for his awesome contribution.
 
@@ -1337,7 +1337,7 @@ This update removes more code than it adds, because Google stopped support for r
 	* Improved the onboarding tour to be more in line with the current status of the plugin.
 
 * Other:
-	* Removed all code to do with `rel=author` as Google has stopped that "experiment", see [this blog post](https://yoast.com/ten-blue-links/) for more info.
+	* Removed all code to do with `rel=author` as Google has stopped that "experiment", see [this blog post](https://yoa.st/1yj) for more info.
 
 * i18n
 	* Updated da_DK, fa_IR, fr_FR, hr, hu_HU, nl_NL, pt_BR and tr_RK
@@ -2475,7 +2475,7 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
 	* Added a filter for the meta keywords, `wpseo_metakey`.
 	* Added a filter to allow disabling `rel="next"` and `rel="prev"` links, use `wpseo_<prev|next>_rel_link`.
 	* Added a filter `wpseo_xml_sitemap_img_src` to allow changing the hostname of images, most common use case is to force them to the CDN.
-	* See the new [WordPress SEO API docs](http://yoast.com/wordpress/seo/api-docs/).
+	* See the new [WordPress SEO API docs](https://yoa.st/1yi).
 
 = 1.1.9 =
 
@@ -2541,7 +2541,7 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
 = 1.1.3 =
 
 * Fix for the blog homepage title, description etc.
-* Added several filters for use in the soon to be released [Video SEO module](http://yoast.com/wordpress/seo/video-seo/).
+* Added several filters for use in the soon to be released [Video SEO module](https://yoa.st/1yl).
 * Change to XSL for XML Sitemaps.
 * Non-canonical hostnames (like example.com when site setting is www.example.com) now 301 redirect to canonical hostname.
 * Static frontpages now added to XML sitemap *with* images if it has them, same for interior blog pages.
