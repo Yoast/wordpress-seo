@@ -73,17 +73,20 @@ For more info, check out the following articles:
 == Installation ==
 
 === From within WordPress ===
+
 1. Visit 'Plugins > Add New'
 1. Search for 'Yoast SEO'
 1. Activate Yoast SEO from your Plugins page.
 1. Go to "after activation" below.
 
 === Manually ===
+
 1. Upload the `wordpress-seo` folder to the `/wp-content/plugins/` directory
 1. Activate the Yoast SEO plugin through the 'Plugins' menu in WordPress
 1. Go to "after activation" below.
 
 === After activation ===
+
 1. You should see (a notice to start) the Yoast SEO configuration wizard.
 1. Go through the configuration wizard and set up the plugin for your site.
 1. You're done!
