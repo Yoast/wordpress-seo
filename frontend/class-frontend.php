@@ -67,11 +67,6 @@ class WPSEO_Frontend {
 	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles' );
 
 	/**
-	 * @var array
-	 */
-	private $hooks;
-
-	/**
 	 * Class constructor.
 	 *
 	 * Adds and removes a lot of filters.
@@ -152,13 +147,15 @@ class WPSEO_Frontend {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
 
-		$primary_category = new WPSEO_Frontend_Primary_Category();
-		$primary_category->register_hooks();
+		$integrations = array(
+			new WPSEO_Frontend_Primary_Category(),
+			new WPSEO_JSON_LD(),
+			new WPSEO_Frontend_WooCommerce_Shop_Page( $this ),
+		);
 
-		$json_ld = new WPSEO_JSON_LD();
-		$json_ld->register_hooks();
-
-		$this->hooks = array( $primary_category, $json_ld );
+		foreach ( $integrations as $integration ) {
+			$integration->register_hooks();
+		}
 	}
 
 	/**
