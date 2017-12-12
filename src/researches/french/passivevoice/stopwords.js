@@ -52,7 +52,6 @@ module.exports = function() {
 		"sinon",
 		"une fois",
 		"sitôt",
-		"pourquoi",
 		"dont",
 		"lequel",
 		"laquelle",

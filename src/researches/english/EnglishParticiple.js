@@ -1,54 +1,15 @@
 var Participle = require( "../../values/Participle.js" );
 var checkException = require( "../passivevoice/checkException.js" );
-var includesIndex = require( "../../stringProcessing/includesIndex" );
 
 var nonVerbsEndingEd = require( "./passivevoice/non-verb-ending-ed.js" )();
-var getWordIndices = require( "../passivevoice/getIndicesWithRegex.js" );
-var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
-var cannotDirectlyPrecedePassiveParticiple = require( "./functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
-var cannotBeBetweenAuxiliaryAndParticiple = require( "./functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+var directPrecedenceException = require( "../../stringProcessing/directPrecedenceException" );
+var precedenceException = require( "../../stringProcessing/precedenceException" );
 
-var forEach = require( "lodash/forEach" );
 var includes = require( "lodash/includes" );
 var isEmpty = require( "lodash/isEmpty" );
 var intersection = require( "lodash/intersection" );
 
-var directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticiple );
-var precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticiple );
 var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
-
-/**
- * Checks whether a given word precedes a participle directly or indirectly.
- *
- * @param {Array} precedingWords The array of objects with matches and indices.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
- */
-var precedesIndex = function( precedingWords, participleIndex ) {
-	if ( isEmpty( precedingWords ) ) {
-		return false;
-	}
-
-	var precedingWordsIndices = [];
-	forEach( precedingWords, function( precedingWord ) {
-		var precedingWordsIndex = precedingWord.index;
-		precedingWordsIndices.push( precedingWordsIndex );
-	} );
-
-	var matches = [];
-	forEach( precedingWordsIndices, function( precedingWordsIndex ) {
-		// + 1 because the beginning word boundary is not included in the passive participle match
-		if ( precedingWordsIndex + 1 < participleIndex ) {
-			matches.push( precedingWordsIndex );
-		}
-	} );
-
-	if ( matches.length ) {
-		return true;
-	}
-	return false;
-};
 
 /**
  * Creates an Participle object for the English language.
@@ -110,35 +71,8 @@ EnglishParticiple.prototype.hasRidException = function() {
 	return false;
 };
 
-/**
- * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
- * If this is the case, the sentence part is not passive.
- *
- * @param {string} sentencePart The sentence part that contains the participle.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if a word from the direct precedence exception list is directly preceding
- * the participle, otherwise returns false.
- */
-EnglishParticiple.prototype.directPrecedenceException = function( sentencePart, participleIndex ) {
-	var directPrecedenceExceptionMatch = getWordIndices( sentencePart, directPrecedenceExceptionRegex );
-	return includesIndex( directPrecedenceExceptionMatch, participleIndex );
-};
+EnglishParticiple.prototype.directPrecedenceException = directPrecedenceException;
 
-/**
- * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
- * If this is the case, the sentence part is not passive.
- *
- * @param {string} sentencePart The sentence part that contains the participle.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
- * sentence part before the participle, otherwise returns false.
- */
-EnglishParticiple.prototype.precedenceException = function( sentencePart, participleIndex ) {
-	var precedenceExceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
-	return precedesIndex( precedenceExceptionMatch, participleIndex );
-};
-
+EnglishParticiple.prototype.precedenceException = precedenceException;
 
 module.exports = EnglishParticiple;

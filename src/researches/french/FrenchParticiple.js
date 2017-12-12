@@ -1,5 +1,7 @@
 var Participle = require( "../../values/Participle.js" );
 var checkException = require( "../passivevoice/checkException.js" );
+var directPrecedenceException = require( "../../stringProcessing/directPrecedenceException" );
+var precedenceException = require( "../../stringProcessing/precedenceException" );
 
 var exceptionsParticiplesAdjectivesVerbs = require( "./passivevoice/exceptionsParticiples.js" )().adjectivesVerbs;
 var exceptionsParticiplesNouns = require( "./passivevoice/exceptionsParticiples.js" )().nouns;
@@ -32,9 +34,13 @@ require( "util" ).inherits( FrenchParticiple, Participle );
  * @returns {boolean} Returns true if no exception is found.
  */
 FrenchParticiple.prototype.isPassive = function() {
+	let sentencePart = this.getSentencePart();
+	let participleIndex = sentencePart.indexOf( this.getParticiple() );
 	return 	! this.isOnAdjectivesVerbsExceptionList() &&
 				! this.isOnNounsExceptionList() &&
-				! this.isOnOthersExceptionList();
+				! this.isOnOthersExceptionList() &&
+				! this.directPrecedenceException( sentencePart, participleIndex ) &&
+				! this.precedenceException( sentencePart, participleIndex );
 };
 
 /**
@@ -138,5 +144,9 @@ FrenchParticiple.prototype.isOnOthersExceptionList = function() {
 
 	return includes( exceptionsParticiplesOthers, this.getParticiple() );
 };
+
+FrenchParticiple.prototype.directPrecedenceException = directPrecedenceException;
+
+FrenchParticiple.prototype.precedenceException = precedenceException;
 
 module.exports = FrenchParticiple;
