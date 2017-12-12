@@ -1,3 +1,6 @@
+### 6.0.0: December 19th, 2017
+* Includes every change in Yoast SEO core 6.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 5.9.2: December 11th, 2017
 * Includes every change in Yoast SEO core 5.9.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
