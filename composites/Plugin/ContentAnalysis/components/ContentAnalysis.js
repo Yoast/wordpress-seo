@@ -160,6 +160,7 @@ class ContentAnalysis extends React.Component {
 				onButtonClick={ this.handleClick.bind( this, result.id, result.marker ) }
 				markButtonClassName={ this.props.markButtonClassName }
 				buttonsDisabled={ this.props.buttonsDisabled }
+				buttonsHidden={ this.props.buttonsHidden }
 			/>;
 		} );
 	}
@@ -284,6 +285,7 @@ ContentAnalysis.propTypes = {
 	showLanguageNotice: PropTypes.bool,
 	headingLevel: PropTypes.number,
 	buttonsDisabled: PropTypes.bool,
+	buttonsHidden: PropTypes.bool,
 	markButtonClassName: PropTypes.string,
 	intl: intlShape.isRequired,
 };
@@ -299,6 +301,7 @@ ContentAnalysis.defaultProps = {
 	canChangeLanguage: false,
 	headingLevel: 4,
 	buttonsDisabled: false,
+	buttonsHidden: false,
 };
 
 export default injectIntl( ContentAnalysis );

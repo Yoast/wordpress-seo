@@ -43,7 +43,7 @@ export const AnalysisResult = ( props ) => {
 			/>
 			<AnalysisResultText dangerouslySetInnerHTML={ { __html: props.text } } />
 			{
-				props.hasMarksButton &&
+				props.hasMarksButton && ! props.buttonsHidden &&
 					<IconButtonToggle
 						buttonsDisabled={ props.buttonsDisabled }
 						className={ props.markButtonClassName }
@@ -66,12 +66,14 @@ AnalysisResult.propTypes = {
 	pressed: PropTypes.bool.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
 	onButtonClick: PropTypes.func.isRequired,
+	buttonsHidden: PropTypes.bool,
 	buttonsDisabled: PropTypes.bool,
 	markButtonClassName: PropTypes.string,
 };
 
 AnalysisResult.defaultProps = {
 	buttonsDisabled: false,
+	buttonsHidden: false,
 };
 
 export default AnalysisResult;
