@@ -21,5 +21,10 @@ $yform->toggle_switch(
 	sprintf( __( 'Advanced part of the %1$s meta box', 'wordpress-seo' ), 'Yoast SEO' )
 );
 
-/* translators: %1$s expands to Yoast SEO */
-echo '<p>', sprintf( __( 'The advanced section of the %1$s meta box allows a user to noindex posts or change the canonical. These are things you might not want if you don\'t trust your authors, so by default, only administrators can do this. Enabling the advanced box allows all users to change these settings.', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
+echo '<p>';
+printf(
+	/* translators: %1$s expands to Yoast SEO */
+	esc_html__( 'The advanced section of the %1$s meta box allows a user to noindex posts or change the canonical. These are things you might not want if you don\'t trust your authors, so by default, only administrators can do this. Enabling the advanced box allows all users to change these settings.', 'wordpress-seo' ),
+	'Yoast SEO'
+);
+echo '</p>';
