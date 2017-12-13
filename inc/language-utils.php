@@ -27,6 +27,27 @@ class WPSEO_Language_Utils {
 	}
 
 	/**
+	 * Returns the region part of a given locale, defaults to english US when the $locale is empty.
+	 * When the locale doesn't have a region it will return the language (first two characters) in uppercase.
+	 *
+	 * @param string $locale The locale to get the language of.
+	 *
+	 * @returns string The language part of the locale.
+	 */
+	public static function get_language_region( $locale = null ) {
+		$region = 'US';
+
+		if ( ! empty( $locale ) && strlen( $locale ) >= 2 ) {
+			$region = substr( $locale, 0, 2 );
+			if ( strlen( $locale ) >= 5 ) {
+				$region = substr( $locale, 3, 2 );
+			}
+		}
+
+		return strtoupper( $region );
+	}
+
+	/**
 	 * Returns the user locale for the language to be used in the admin.
 	 *
 	 * WordPress 4.7 introduced the ability for users to specify an Admin language
