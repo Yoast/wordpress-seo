@@ -8,7 +8,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ## 1.26.0 December 13th, 2017
 ### Changed
 
-* Updates the copy for the previouslyUsedKeywords assessment by referring to a new blogpost on why it might be a bad idea to use the same keyword more than once.
+* Updates the copy for the `previouslyUsedKeywords` assessment by referring to a new blogpost on why it might be a bad idea to use the same keyword more than once.
 
 ## 1.25.0 December 11th, 2017
 ### Added
