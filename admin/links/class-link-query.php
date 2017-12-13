@@ -96,26 +96,13 @@ class WPSEO_Link_Query {
 				   AND posts.post_type IN ( ' . $post_types . ' )
 	   ';
 
-		$query .= ' AND ( yoast_meta.internal_link_count IS NULL';
-
-		if ( self::requires_indexing() ) {
-			$query .= ' OR posts.ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s )';
-		}
-
-		$query .= ')';
-		$query .= 'LIMIT %d';
+		$query .= sprintf( ' AND ( %s ) ', self::get_non_indexed_posts() );
+		$query .= ' LIMIT %d';
 		// @codingStandardsIgnoreEnd
 
-		$results = $wpdb->get_results(
-			$wpdb->prepare(
-				$query,
-				self::POST_META_NAME,
-				self::VERSION_NUMBER,
-				$limit
-			)
+		return $wpdb->get_results(
+			$wpdb->prepare( $query, $limit )
 		);
-
-		return $results;
 	}
 
 	/**
@@ -144,24 +131,32 @@ class WPSEO_Link_Query {
 			 WHERE posts.post_status = "publish"
 			   AND posts.post_type IN ( ' . $post_types . ' )';
 
-
-		$query .= ' AND ( yoast_meta.internal_link_count IS NULL';
-
-		if ( self::requires_indexing() ) {
-			$query .= ' OR posts.ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s AND meta_value = %s )';
-		}
-
-		$query .= ')';
-
+		$query .= sprintf( ' AND ( %s ) ', self::get_non_indexed_posts() );
 		// @codingStandardsIgnoreEnd
 
-		return (int) $wpdb->get_var(
-			$wpdb->prepare(
-				$query,
-				self::POST_META_NAME,
-				self::VERSION_NUMBER
-			)
-		);
+		return (int) $wpdb->get_var( $query );
+	}
+
+	/**
+	 * Returns the subquery for selecting the non indexed posts.
+	 *
+	 * @return string The subquery.
+	 */
+	protected static function get_non_indexed_posts() {
+		global $wpdb;
+
+		$query = 'yoast_meta.internal_link_count IS NULL';
+
+		if ( self::requires_indexing() ) {
+			$query .= sprintf(
+				" OR posts.ID NOT IN( SELECT post_id FROM %s WHERE meta_key = '%s' AND meta_value = '%s' )",
+				$wpdb->postmeta,
+				esc_sql( self::POST_META_NAME ),
+				esc_sql( self::VERSION_NUMBER )
+			);
+		}
+
+		return $query;
 	}
 
 	/**
@@ -173,7 +168,7 @@ class WPSEO_Link_Query {
 		// Version 1 is the situation where the site_url isn't equal to the site url.
 		return self::VERSION_NUMBER === 1 && site_url() !== home_url();
 	}
-	
+
 	/**
 	 * Returns the table name where the counts are stored.
 	 *
