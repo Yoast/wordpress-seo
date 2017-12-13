@@ -8,7 +8,7 @@ var includes = require( "lodash/includes" );
  * @param {Array} precedingWords The array of objects with matches and indices.
  * @param {number} matchIndex The index of the word for which to check whether it's preceded by one of the other words.
  *
- * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
+ * @returns {boolean} Returns true if the match is preceded by a given word, otherwise returns false.
  */
 
 module.exports = function( precedingWords, matchIndex ) {

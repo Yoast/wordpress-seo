@@ -43,4 +43,9 @@ describe( "splits French sentences into parts", function() {
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
 	} );
 
+	it ( "doesn't split sentences when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
+		var sentence = "C'est le film le plus vu.";
+		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 0 );
+	} );
+
 } );

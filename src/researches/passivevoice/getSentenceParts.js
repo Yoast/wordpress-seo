@@ -11,8 +11,11 @@ var normalizeSingleQuotes = require( "../../stringProcessing/quotes.js" ).normal
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 var getWordIndices = require( "./getIndicesWithRegex.js" );
 var includesIndex = require( "../../stringProcessing/includesIndex" );
+var followsIndex = require( "../../stringProcessing/followsIndex" );
 
 var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
+var followingAuxiliaryExceptionWords = require( "../french/functionWords.js" )().cannotFollowPassiveAuxiliary;
+var followingAuxiliaryExceptionRegex = arrayToRegex( followingAuxiliaryExceptionWords );
 
 var auxiliariesFrench = require( "../french/passivevoice/auxiliaries.js" )();
 var auxiliariesEnglish = require( "../english/passivevoice/auxiliaries.js" )().all;
@@ -89,23 +92,44 @@ var getStopCharacters = function( sentence, language ) {
 
 /**
  * 	Filters auxiliaries preceded by a reflexive pronoun.
-
+ *
  * @param {string} text The text part in which to check.
- * @param {Array} indices The auxiliary indices for which to check.
+ * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
  * @returns {Array} The filtered list of auxiliary indices.
  */
-var auxiliaryPrecedenceException = function( text, indices ) {
+var auxiliaryPrecedenceException = function( text, auxiliaryMatches ) {
 	var directPrecedenceExceptionMatches = getWordIndices( text, directPrecedenceExceptionRegex );
 
-	forEach( indices, function( index ) {
-		if ( includesIndex( directPrecedenceExceptionMatches, index.index ) ) {
-			indices = indices.filter( function( auxiliaryObject ) {
-				return auxiliaryObject.index !== index.index;
+	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
+		if ( includesIndex( directPrecedenceExceptionMatches, auxiliaryMatch.index ) ) {
+			auxiliaryMatches = auxiliaryMatches.filter( function( auxiliaryObject ) {
+				return auxiliaryObject.index !== auxiliaryMatch.index;
 			} );
 		}
 	} );
 
-	return indices;
+	return auxiliaryMatches;
+};
+
+/**
+ * 	Filters auxiliaries followed by a word on the followingAuxiliaryExceptionWords list
+ *
+ * @param {string} text The text part in which to check.
+ * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
+ * @returns {Array} The filtered list of auxiliary indices.
+ */
+var followingAuxiliaryException = function( text, auxiliaryMatches ) {
+	var followingAuxiliaryExceptionMatches = getWordIndices( text, followingAuxiliaryExceptionRegex );
+
+	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
+		if ( followsIndex( followingAuxiliaryExceptionMatches, auxiliaryMatch ) ) {
+			auxiliaryMatches = auxiliaryMatches.filter( function( auxiliaryObject ) {
+				return auxiliaryObject.index !== auxiliaryMatch.index;
+			} );
+		}
+	} );
+
+	return auxiliaryMatches;
 };
 
 /**
@@ -131,6 +155,7 @@ var getSentenceBreakers = function( sentence, language ) {
 	switch( language ) {
 		case "fr":
 			auxiliaryIndices = auxiliaryPrecedenceException( sentence, auxiliaryIndices );
+
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 			break;
 		case "en":
@@ -160,6 +185,7 @@ var getAuxiliaryMatches = function( sentencePart, language ) {
 			var auxiliaryMatchesOutput = [];
 			var auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
 			auxiliaryMatchIndices = auxiliaryPrecedenceException( sentencePart, auxiliaryMatchIndices );
+			auxiliaryMatchIndices = followingAuxiliaryException( sentencePart, auxiliaryMatchIndices );
 
 			forEach( auxiliaryMatchIndices, function( auxiliaryMatchIndex ) {
 				auxiliaryMatchesOutput.push( auxiliaryMatchIndex.match );

@@ -26,7 +26,7 @@ var languageVariables = {
  * @returns {Array} A list with the matches.
  */
 var regularParticiples = function( word, language ) {
-	// Matches all words ending in ed.
+	// Matches all words with a language-specific participle suffix.
 	var regularParticiplesRegex = languageVariables[ language ].regularParticiplesRegex;
 
 	return word.match( regularParticiplesRegex ) || [];
