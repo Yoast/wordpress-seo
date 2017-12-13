@@ -36,7 +36,7 @@ class WPSEO_Frontend_Page_Type {
 			return true;
 		}
 
-		if ( $this->woocommerce_shop_page->is_shop_page_active() ) {
+		if ( $this->woocommerce_shop_page->is_shop_page() ) {
 			return true;
 		}
 
@@ -57,7 +57,7 @@ class WPSEO_Frontend_Page_Type {
 			return get_option( 'page_for_posts' );
 		}
 
-		if ( $this->woocommerce_shop_page->is_shop_page_active() ) {
+		if ( $this->woocommerce_shop_page->is_shop_page() ) {
 			return $this->woocommerce_shop_page->get_page_id();
 		}
 
