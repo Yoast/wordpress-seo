@@ -82,8 +82,9 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	if ( count > 1 ) {
 		url = "<a href='" + this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) ) + "' target='_blank'>";
 		return {
-			/* Translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
-			 keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com about why you should not use a keyword more than once. */
+			/* Translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number
+			of times this focus keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com
+			about why you should not use a keyword more than once. */
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$s%2$d times before%3$s. " +
 				"It’s probably a good idea to read %4$sthis post%5$s about why you should not use your focus keyword more than once." ),
 				url, count, "</a>", "<a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>", "</a>" ),
