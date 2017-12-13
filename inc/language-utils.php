@@ -32,7 +32,7 @@ class WPSEO_Language_Utils {
 	 *
 	 * @param string $locale The locale to get the language of.
 	 *
-	 * @returns string The language part of the locale.
+	 * @returns string The region part of the locale.
 	 */
 	public static function get_language_region( $locale = null ) {
 		$region = 'US';
