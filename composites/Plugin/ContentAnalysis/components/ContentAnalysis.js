@@ -142,7 +142,7 @@ class ContentAnalysis extends React.Component {
 			let color = this.getColor( result.rating );
 			let isPressed = result.id === this.state.checked;
 			let ariaLabel = "";
-			if ( this.props.buttonStatus === "disabled" ) {
+			if ( this.props.marksButtonStatus === "disabled" ) {
 				ariaLabel = this.props.intl.formatMessage( messages.disabledButton );
 			} else if ( isPressed ) {
 				ariaLabel = this.props.intl.formatMessage( messages.noHighlight );
@@ -158,8 +158,8 @@ class ContentAnalysis extends React.Component {
 				pressed={ isPressed }
 				buttonId={ result.id }
 				onButtonClick={ this.handleClick.bind( this, result.id, result.marker ) }
-				markButtonClassName={ this.props.markButtonClassName }
-				buttonStatus={ this.props.buttonStatus }
+				marksButtonClassName={ this.props.marksButtonClassName }
+				marksButtonStatus={ this.props.marksButtonStatus }
 			/>;
 		} );
 	}
@@ -283,8 +283,8 @@ ContentAnalysis.propTypes = {
 	language: PropTypes.string.isRequired,
 	showLanguageNotice: PropTypes.bool,
 	headingLevel: PropTypes.number,
-	buttonStatus: PropTypes.string,
-	markButtonClassName: PropTypes.string,
+	marksButtonStatus: PropTypes.string,
+	marksButtonClassName: PropTypes.string,
 	intl: intlShape.isRequired,
 };
 
@@ -298,7 +298,7 @@ ContentAnalysis.defaultProps = {
 	showLanguageNotice: false,
 	canChangeLanguage: false,
 	headingLevel: 4,
-	buttonStatus: "enabled",
+	marksButtonStatus: "enabled",
 };
 
 export default injectIntl( ContentAnalysis );

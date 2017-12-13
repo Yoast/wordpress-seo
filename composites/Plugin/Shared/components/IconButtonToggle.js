@@ -32,9 +32,9 @@ const IconButtonBase = styled.button`
 `;
 
 let areButtonsDisabled = function( props ) {
-	if ( props.buttonStatus === "disabled" ) {
+	if ( props.marksButtonStatus === "disabled" ) {
 		return true;
-	} else if ( props.buttonStatus === "enabled" ) {
+	} else if ( props.marksButtonStatus === "enabled" ) {
 		return false;
 	}
 };
@@ -101,7 +101,7 @@ ChangingIconButton.propTypes = {
 	icon: PropTypes.func.isRequired,
 	pressed: PropTypes.bool.isRequired,
 	hoverBorderColor: PropTypes.string,
-	buttonStatus: PropTypes.string,
+	marksButtonStatus: PropTypes.string,
 	disabledIconColor: PropTypes.string,
 	className: PropTypes.string,
 };
@@ -114,7 +114,7 @@ ChangingIconButton.defaultProps = {
 	pressedIconColor: colors.$color_white,
 	unpressedIconColor: colors.$color_button_text,
 	hoverBorderColor: colors.$color_white,
-	buttonStatus: "enabled",
+	marksButtonStatus: "enabled",
 	disabledIconColor: colors.$color_grey,
 };
 

@@ -27,7 +27,7 @@ const AnalysisResultText = styled.p`
 `;
 
 let areButtonsHidden = function( props ) {
-	if ( props.buttonStatus === "hidden" ) {
+	if ( props.marksButtonStatus === "hidden" ) {
 		return true;
 	}
 };
@@ -51,8 +51,8 @@ export const AnalysisResult = ( props ) => {
 			{
 				props.hasMarksButton && ! areButtonsHidden( props ) &&
 					<IconButtonToggle
-						buttonStatus={ props.buttonStatus }
-						className={ props.markButtonClassName }
+						marksButtonStatus={ props.marksButtonStatus }
+						className={ props.marksButtonClassName }
 						onClick={ props.onButtonClick }
 						id={ props.buttonId }
 						icon={ eye }
@@ -72,12 +72,12 @@ AnalysisResult.propTypes = {
 	pressed: PropTypes.bool.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
 	onButtonClick: PropTypes.func.isRequired,
-	buttonStatus: PropTypes.string,
-	markButtonClassName: PropTypes.string,
+	marksButtonStatus: PropTypes.string,
+	marksButtonClassName: PropTypes.string,
 };
 
 AnalysisResult.defaultProps = {
-	buttonStatus: "enabled",
+	marksButtonStatus: "enabled",
 };
 
 export default AnalysisResult;
