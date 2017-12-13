@@ -61,12 +61,12 @@ class WPSEO_Rewrite {
 	public function no_category_base( $link ) {
 		$category_base = get_option( 'category_base' );
 
-		if ( '' == $category_base ) {
+		if ( empty( $category_base ) ) {
 			$category_base = 'category';
 		}
 
 		// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash).
-		if ( '/' == substr( $category_base, 0, 1 ) ) {
+		if ( '/' === substr( $category_base, 0, 1 ) ) {
 			$category_base = substr( $category_base, 1 );
 		}
 
@@ -120,7 +120,7 @@ class WPSEO_Rewrite {
 
 		$category_rewrite = array();
 
-		$taxonomy = get_taxonomy( 'category' );
+		$taxonomy            = get_taxonomy( 'category' );
 		$permalink_structure = get_option( 'permalink_structure' );
 
 		$blog_prefix = '';
@@ -136,7 +136,7 @@ class WPSEO_Rewrite {
 					// Recursive recursion.
 					$category->parent = 0;
 				}
-				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
+				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent !== 0 ) {
 					$parents = get_category_parents( $category->parent, false, '/', true );
 					if ( ! is_wp_error( $parents ) ) {
 						$category_nicename = $parents . $category_nicename;
@@ -146,7 +146,7 @@ class WPSEO_Rewrite {
 
 				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' ]                = 'index.php?category_name=$matches[1]&feed=$matches[2]';
 				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$' ] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
-				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/?$' ]                                                   = 'index.php?category_name=$matches[1]';
+				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/?$' ] = 'index.php?category_name=$matches[1]';
 			}
 			unset( $categories, $category, $category_nicename );
 		}

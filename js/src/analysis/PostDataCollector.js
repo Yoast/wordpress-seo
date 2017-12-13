@@ -10,6 +10,7 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar }from "../ui/adminBar";
 
 import publishBox from "../ui/publishBox";
+import _get from "lodash/get";
 
 let $ = jQuery;
 let currentKeyword = "";
@@ -37,10 +38,21 @@ let PostDataCollector = function( args ) {
  * @returns {void}
  */
 PostDataCollector.prototype.getData = function() {
+	let text = this.getText();
+
+	/*
+	 * Gutenberg exposes a global on the window. Which is `_wpGutenbergPost`. The post has two content
+	 * properties: `rendered` and `raw`. For the content analysis we are interested in the rendered content.
+	 */
+	let gutenbergContent = _get( window, "_wpGutenbergPost.content.rendered", "" );
+	if ( gutenbergContent !== "" ) {
+		text = gutenbergContent;
+	}
+
 	return {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		meta: this.getMeta(),
-		text: this.getText(),
+		text,
 		title: this.getTitle(),
 		url: this.getUrl(),
 		excerpt: this.getExcerpt(),

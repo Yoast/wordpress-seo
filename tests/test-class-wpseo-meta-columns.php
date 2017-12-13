@@ -1,28 +1,11 @@
 <?php
-
-class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
-	public function determine_seo_filters( $seo_filter ) {
-		return parent::determine_seo_filters( $seo_filter );
-	}
-
-	public function determine_readability_filters( $readability_filter ) {
-		return parent::determine_readability_filters( $readability_filter );
-	}
-
-	public function is_valid_filter( $filter ) {
-		return parent::is_valid_filter( $filter );
-	}
-
-	public function build_filter_query( $vars, $filter ) {
-		return parent::build_filter_query( $vars, $filter );
-	}
-}
-
-
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -30,8 +13,14 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-meta-columns-double.php';
+
 		self::$class_instance = new WPSEO_Meta_Columns_Double();
 	}
 
@@ -366,8 +355,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param $filter
-	 * @param $expected
+	 * @param string $filter   SEO filter.
+	 * @param array  $expected The resulting SEO score filter.
 	 *
 	 * @dataProvider determine_seo_filters_dataprovider
 	 * @covers WPSEO_Meta_Columns::determine_seo_filters()
@@ -379,8 +368,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param $filter
-	 * @param $expected
+	 * @param string $filter   The Readability filter to use to determine what further filter to apply.
+	 * @param array  $expected The Readability score filter.
 	 *
 	 * @dataProvider determine_readability_filters_dataprovider
 	 * @covers WPSEO_Meta_Columns::determine_readability_filters()
@@ -392,9 +381,9 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param $vars
-	 * @param $filters
-	 * @param $expected
+	 * @param array $vars     Array containing the variables that will be used in the meta query.
+	 * @param array $filters  Array containing the filters that we need to apply in the meta query.
+	 * @param array $expected Array containing the complete filter query.
 	 *
 	 * @dataProvider build_filter_query_dataprovider
 	 * @covers WPSEO_Meta_Columns::build_filter_query()

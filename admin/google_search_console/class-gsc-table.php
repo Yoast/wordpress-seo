@@ -84,7 +84,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	public function prepare_items() {
 		// Get variables needed for pagination.
 		$this->per_page     = $this->get_items_per_page( 'errors_per_page', $this->per_page );
-		$this->current_page = intval( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 1 );
+		$paged              = filter_input( INPUT_GET, 'paged' );
+		$this->current_page = intval( ( ! empty( $paged ) ) ? $paged : 1 );
 
 		$this->setup_columns();
 		$this->views();
@@ -226,7 +227,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * @return bool
 	 */
 	private function can_create_redirect() {
-		return in_array( $this->current_view, array( 'soft_404', 'not_found', 'access_denied' ) );
+		return in_array( $this->current_view, array( 'soft_404', 'not_found', 'access_denied' ), true );
 	}
 
 	/**
@@ -308,11 +309,14 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * @return int
 	 */
 	private function do_reorder( $a, $b ) {
+		$orderby = filter_input( INPUT_GET, 'orderby' );
+		$order   = filter_input( INPUT_GET, 'order' );
+
 		// If no sort, default to title.
-		$orderby = ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) ? $orderby : 'url';
+		$orderby = ( ! empty( $orderby ) ) ? $orderby : 'url';
 
 		// If no order, default to asc.
-		$order = ( $order = filter_input( INPUT_GET, 'order' ) ) ? $order : 'asc';
+		$order = ( ! empty( $order ) ) ? $order : 'asc';
 
 		// When there is a raw field of it, sort by this field.
 		if ( array_key_exists( $orderby . '_raw', $a ) && array_key_exists( $orderby . '_raw', $b ) ) {
@@ -357,8 +361,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * @param string $platform Platform (desktop, mobile, feature phone).
 	 */
 	private function show_fields( $platform ) {
-		echo "<input type='hidden' name='wpseo_gsc_nonce' value='" . wp_create_nonce( 'wpseo_gsc_nonce' ) . "' />";
-		echo "<input id='field_platform' type='hidden' name='platform' value='{$platform}' />";
-		echo "<input id='field_category' type='hidden' name='category' value='{$this->current_view}' />";
+		echo '<input type="hidden" name="wpseo_gsc_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_gsc_nonce' ) ) . '" />';
+		echo '<input id="field_platform" type="hidden" name="platform" value="' . esc_attr( $platform ) . '" />';
+		echo '<input id="field_category" type="hidden" name="category" value="' . esc_attr( $this->current_view ) . '" />';
 	}
 }

@@ -85,7 +85,7 @@ class WPSEO_Link_Notifier {
 	protected function get_notification() {
 		return new Yoast_Notification(
 			sprintf(
-			/* translators: 1: link to yoast.com post about internal linking suggestion. 2: is anchor closing. 3: button to the recalculation option. 4: closing button */
+				/* translators: 1: link to yoast.com post about internal linking suggestion. 2: is anchor closing. 3: button to the recalculation option. 4: closing button */
 				__(
 					'To make sure all the links in your texts are counted, we need to analyze all your texts.
 					All you have to do is press the following button and we\'ll go through all your texts for you.
@@ -115,6 +115,11 @@ class WPSEO_Link_Notifier {
 	 * @return bool True when the threshold is exceeded.
 	 */
 	protected function requires_notification() {
-		return WPSEO_Link_Query::has_unprocessed_posts( WPSEO_Link_Utils::get_public_post_types() );
+		$post_types = apply_filters( 'wpseo_link_count_post_types', WPSEO_Post_Type::get_accessible_post_types() );
+		if ( ! is_array( $post_types ) ) {
+			return false;
+		}
+
+		return WPSEO_Link_Query::has_unprocessed_posts( $post_types );
 	}
 }

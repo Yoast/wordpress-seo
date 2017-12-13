@@ -23,7 +23,7 @@ class WPSEO_GSC_Category_Filters {
 	 *
 	 * @var array
 	 */
-	private $filter_values   = array();
+	private $filter_values = array();
 
 	/**
 	 * The current category
@@ -80,7 +80,8 @@ class WPSEO_GSC_Category_Filters {
 	 * Getting the current view
 	 */
 	private function get_current_category() {
-		if ( $current_category = filter_input( INPUT_GET, 'category' ) ) {
+		$current_category = filter_input( INPUT_GET, 'category' );
+		if ( ! empty( $current_category ) ) {
 			return $current_category;
 		}
 
@@ -146,7 +147,7 @@ class WPSEO_GSC_Category_Filters {
 	 * @return string
 	 */
 	private function create_view_link( $category, $count ) {
-		$href  = add_query_arg(
+		$href = add_query_arg(
 			array(
 				'category' => $category,
 				'paged'    => 1,
@@ -159,7 +160,8 @@ class WPSEO_GSC_Category_Filters {
 			$class .= ' current';
 		}
 
-		$help_button = $help_panel = '';
+		$help_button = '';
+		$help_panel  = '';
 		if ( $this->filter_values[ $category ]['description'] !== '' ) {
 			$help        = new WPSEO_Admin_Help_Panel( $category, $this->filter_values[ $category ]['help-button'], $this->filter_values[ $category ]['description'], 'has-wrapper' );
 			$help_button = $help->get_button_html();

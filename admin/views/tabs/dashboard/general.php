@@ -14,8 +14,11 @@ if ( WPSEO_Utils::is_api_available() && current_user_can( WPSEO_Configuration_En
 	?>
 	<p>
 		<?php
+		printf(
 			/* translators: %1$s expands to Yoast SEO */
-			printf( __( 'Need help determining your settings? Configure %1$s step-by-step.', 'wordpress-seo' ), 'Yoast SEO' );
+			esc_html__( 'Need help determining your settings? Configure %1$s step-by-step.', 'wordpress-seo' ),
+			'Yoast SEO'
+		);
 		?>
 	</p>
 <p>
@@ -36,8 +39,11 @@ echo '<h2>' . esc_html__( 'Credits', 'wordpress-seo' ) . '</h2>';
 ?>
 <p>
 	<?php
+	printf(
 		/* translators: %1$s expands to Yoast SEO */
-		printf( __( 'Take a look at the people that create %1$s.', 'wordpress-seo' ), 'Yoast SEO' );
+		esc_html__( 'Take a look at the people that create %1$s.', 'wordpress-seo' ),
+		'Yoast SEO'
+	);
 	?>
 </p>
 
@@ -51,8 +57,11 @@ echo '<h2>' . esc_html__( 'Restore default settings', 'wordpress-seo' ) . '</h2>
 ?>
 <p>
 	<?php
-	/* translators: %s expands to Yoast SEO. */
-	printf( __( 'If you want to restore a site to the default %s settings, press this button.', 'wordpress-seo' ), 'Yoast SEO' );
+	printf(
+		/* translators: %s expands to Yoast SEO. */
+		esc_html__( 'If you want to restore a site to the default %s settings, press this button.', 'wordpress-seo' ),
+		'Yoast SEO'
+	);
 	?>
 </p>
 

@@ -25,7 +25,7 @@ if ( $options['enablexmlsitemap'] === true ) {
 	echo '</p>';
 }
 else {
-	echo '<p>', __( 'Save your settings to activate your XML Sitemap.', 'wordpress-seo' ), '</p>';
+	echo '<p>', esc_html__( 'Save your settings to activate your XML Sitemap.', 'wordpress-seo' ), '</p>';
 }
 
 echo '<h2>' . esc_html__( 'Entries per sitemap page', 'wordpress-seo' ) . '</h2>';
@@ -33,9 +33,9 @@ echo '<h2>' . esc_html__( 'Entries per sitemap page', 'wordpress-seo' ) . '</h2>
 	<p>
 		<?php
 		printf(
-			/* translators: %s expands to default number of entries per sitemap. */
-			__( 'Please enter the maximum number of entries per sitemap page (defaults to %s, you might want to lower this to prevent memory issues on some installs):', 'wordpress-seo' ),
-			WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' )
+			/* translators: %d expands to default number of entries per sitemap. */
+			esc_html__( 'Please enter the maximum number of entries per sitemap page (defaults to %d, you might want to lower this to prevent memory issues on some installs):', 'wordpress-seo' ),
+			(int) WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' )
 		);
 		?>
 	</p>

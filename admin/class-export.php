@@ -74,11 +74,13 @@ class WPSEO_Export {
 	 * Sets the error hook, to display the error to the user.
 	 */
 	public function set_error_hook() {
-		$class = 'notice notice-error';
 		/* translators: %1$s expands to Yoast SEO */
 		$message = sprintf( __( 'Error creating %1$s export: ', 'wordpress-seo' ), 'Yoast SEO' ) . $this->error;
 
-		printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+		printf(
+			'<div class="notice notice-error"><p>%1$s</p></div>',
+			$message
+		);
 	}
 
 	/**
@@ -110,8 +112,12 @@ class WPSEO_Export {
 	 * Writes the header of the export file.
 	 */
 	private function export_header() {
-		/* translators: %1$s expands to Yoast SEO */
-		$this->write_line( '; ' . sprintf( __( 'This is a settings export file for the %1$s plugin by Yoast.com', 'wordpress-seo' ), 'Yoast SEO' ) . ' - https://yoast.com/wordpress/plugins/seo/' );
+		$this->write_line( '; ' . sprintf(
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to Yoast.com */
+			__( 'This is a settings export file for the %1$s plugin by %2$s', 'wordpress-seo' ),
+			'Yoast SEO',
+			'Yoast.com'
+			) . ' - ' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yd' ) ) );
 		if ( $this->include_taxonomy ) {
 			$this->write_line( '; ' . __( 'This export includes taxonomy metadata', 'wordpress-seo' ) );
 		}

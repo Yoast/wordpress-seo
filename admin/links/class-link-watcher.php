@@ -21,7 +21,9 @@ class WPSEO_Link_Watcher {
 	}
 
 	/**
-	 * Registers the hooks
+	 * Registers the hooks.
+	 *
+	 * @returns void
 	 */
 	public function register_hooks() {
 		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
@@ -33,29 +35,53 @@ class WPSEO_Link_Watcher {
 	 *
 	 * @param int     $post_id The post id to.
 	 * @param WP_Post $post    The post object.
+	 *
+	 * @return void
 	 */
 	public function save_post( $post_id, WP_Post $post ) {
+		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+			return;
+		}
+
+		// When the post is a revision.
+		if ( wp_is_post_revision( $post->ID ) ) {
+			return;
+		}
+
+		// When the post status is auto-draft.
+		if ( $post->post_status === 'auto-draft' ) {
+			return;
+		}
+
+		// When the post isn't processable, just remove the saved links.
 		if ( ! $this->is_processable( $post_id ) ) {
 			return;
 		}
 
-		$content = $post->post_content;
-
-		// Apply the filters to have the same content as shown on the frontend.
-		$content = apply_filters( 'the_content', $content );
-		$content = str_replace( ']]>', ']]&gt;', $content );
-
-		$this->content_processor->process( $post_id, $content );
+		$this->process( $post_id, $post->post_content );
 	}
 
 	/**
 	 * Removes the seo links when the post is deleted.
 	 *
 	 * @param int $post_id The post id.
+	 *
+	 * @return void
 	 */
 	public function delete_post( $post_id ) {
+		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+			return;
+		}
+
+		// Fetch links to update related linked objects.
+		$links = $this->content_processor->get_stored_internal_links( $post_id );
+
+		// Update the storage, remove all links for this post.
 		$storage = new WPSEO_Link_Storage();
 		$storage->cleanup( $post_id );
+
+		// Update link counts for object and referenced links.
+		$this->content_processor->update_link_counts( $post_id, 0, $links );
 	}
 
 	/**
@@ -66,23 +92,28 @@ class WPSEO_Link_Watcher {
 	 * @return bool True when the post is processable.
 	 */
 	protected function is_processable( $post_id ) {
-		// When the post is a revision.
-		if ( wp_is_post_revision( $post_id ) ) {
-			return false;
-		}
+		/*
+		 * Do not use the `wpseo_link_count_post_types` because we want to always count the links,
+		 * even if we don't show them.
+		 */
+		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 
-		// When the post status is not publish.
-		if ( get_post_status( $post_id ) !== 'publish' ) {
-			return false;
-		}
+		return isset( $post_types[ get_post_type( $post_id ) ] );
+	}
 
-		// When the post type is not public.
-		$post_type        = get_post_type( $post_id );
-		$post_type_object = get_post_type_object( $post_type );
-		if ( $post_type_object->public === false ) {
-			return false;
-		}
+	/**
+	 * Processes the content for the given post id.
+	 *
+	 * @param int    $post_id The post id to process.
+	 * @param string $content The content to process.
+	 *
+	 * @return void
+	 */
+	private function process( $post_id, $content ) {
+		// Apply the filters to have the same content as shown on the frontend.
+		$content = apply_filters( 'the_content', $content );
+		$content = str_replace( ']]>', ']]&gt;', $content );
 
-		return true;
+		$this->content_processor->process( $post_id, $content );
 	}
 }

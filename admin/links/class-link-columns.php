@@ -8,16 +8,29 @@
  */
 class WPSEO_Link_Columns {
 
+	/**
+	 * @var string Partial column name.
+	 */
 	const COLUMN_LINKED = 'linked';
+
+	/**
+	 * @var string Partial column name.
+	 */
 	const COLUMN_LINKS = 'links';
 
-	/** @var WPSEO_Link_Column_Count */
+	/**
+	 * @var WPSEO_Link_Column_Count
+	 */
 	protected $link_count;
 
-	/** @var WPSEO_Meta_Storage Storage to use. */
+	/**
+	 * @var WPSEO_Meta_Storage Storage to use.
+	 */
 	protected $storage;
 
-	/** @var array List of public post types. */
+	/**
+	 * @var array List of public post types.
+	 */
 	protected $public_post_types = array();
 
 	/**
@@ -62,7 +75,7 @@ class WPSEO_Link_Columns {
 	 * Register hooks that require to be registered after `init`.
 	 */
 	public function register_init_hooks() {
-		$this->public_post_types = WPSEO_Link_Utils::get_public_post_types();
+		$this->public_post_types = apply_filters( 'wpseo_link_count_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 
 		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
 			array_walk( $this->public_post_types, array( $this, 'set_post_type_hooks' ) );
@@ -128,7 +141,7 @@ class WPSEO_Link_Columns {
 
 		$table = $this->storage->get_table_name();
 
-		$pieces['join']    .= " LEFT JOIN $table AS yst_links ON yst_links.object_id = {$wpdb->posts}.ID ";
+		$pieces['join']   .= " LEFT JOIN $table AS yst_links ON yst_links.object_id = {$wpdb->posts}.ID ";
 		$pieces['orderby'] = "{$field} $order, FIELD( {$wpdb->posts}.post_status, 'publish' ) $order, {$pieces['orderby']}";
 
 		return $pieces;
@@ -206,13 +219,21 @@ class WPSEO_Link_Columns {
 	 * @param int    $post_id     Post to display the column content for.
 	 */
 	public function column_content( $column_name, $post_id ) {
+		$link_count = null;
+
 		switch ( $column_name ) {
 			case 'wpseo-' . self::COLUMN_LINKS:
-				echo $this->link_count->get( $post_id, 'internal_link_count' );
+				$link_count = $this->link_count->get( $post_id, 'internal_link_count' );
 				break;
 			case 'wpseo-' . self::COLUMN_LINKED:
-				echo $this->link_count->get( $post_id, 'incoming_link_count' );
+				if ( get_post_status( $post_id ) === 'publish' ) {
+					$link_count = $this->link_count->get( $post_id, 'incoming_link_count' );
+				}
 				break;
+		}
+
+		if ( isset( $link_count ) ) {
+			echo (int) $link_count;
 		}
 	}
 

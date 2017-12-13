@@ -5,20 +5,20 @@
  */
 
 /**
- * Group of utility methods for use by WPSEO
+ * Group of utility methods for use by WPSEO.
  * All methods are static, this is just a sort of namespacing class wrapper.
  */
 class WPSEO_Utils {
 
 	/**
-	 * @var bool $has_filters Whether the PHP filter extension is enabled
+	 * @var bool $has_filters Whether the PHP filter extension is enabled.
 	 * @static
 	 * @since 1.8.0
 	 */
 	public static $has_filters;
 
 	/**
-	 * @var array notifications to be shown in the JavaScript console
+	 * @var array Notifications to be shown in the JavaScript console.
 	 * @static
 	 * @since 3.3.2
 	 */
@@ -34,7 +34,7 @@ class WPSEO_Utils {
 	 * @return boolean
 	 */
 	public static function grant_access() {
-		// @todo add deprecation warning
+		// @todo Add deprecation warning.
 		if ( ! is_multisite() ) {
 			return true;
 		}
@@ -49,7 +49,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Check whether file editing is allowed for the .htaccess and robots.txt files
+	 * Check whether file editing is allowed for the .htaccess and robots.txt files.
 	 *
 	 * {@internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.}}
 	 *
@@ -68,16 +68,16 @@ class WPSEO_Utils {
 
 		/**
 		 * Filter: 'wpseo_allow_system_file_edit' - Allow developers to change whether the editing of
-		 * .htaccess and robots.txt is allowed
+		 * .htaccess and robots.txt is allowed.
 		 *
-		 * @api bool $allowed Whether file editing is allowed
+		 * @api bool $allowed Whether file editing is allowed.
 		 */
 
 		return apply_filters( 'wpseo_allow_system_file_edit', $allowed );
 	}
 
 	/**
-	 * Check if the web server is running on Apache
+	 * Check if the web server is running on Apache.
 	 *
 	 * @static
 	 *
@@ -94,7 +94,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Check if the web server is running on Nginx
+	 * Check if the web server is running on Nginx.
 	 *
 	 * @static
 	 *
@@ -111,7 +111,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Register a notification to be shown in the JavaScript console
+	 * Register a notification to be shown in the JavaScript console.
 	 *
 	 * @since 3.3.2
 	 *
@@ -141,7 +141,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Localize the console notifications to JavaScript
+	 * Localize the console notifications to JavaScript.
 	 *
 	 * @since 3.3.2
 	 */
@@ -154,7 +154,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Check whether a url is relative
+	 * Check whether a url is relative.
 	 *
 	 * @since 1.8.0
 	 *
@@ -167,7 +167,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * List all the available user roles
+	 * List all the available user roles.
 	 *
 	 * @since 1.8.0
 	 *
@@ -188,7 +188,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Standardize whitespace in a string
+	 * Standardize whitespace in a string.
 	 *
 	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
 	 *
@@ -212,15 +212,15 @@ class WPSEO_Utils {
 	 *
 	 * @param string $text Input string that might contain shortcodes.
 	 *
-	 * @return string $text string without shortcodes
+	 * @return string $text String without shortcodes.
 	 */
 	public static function strip_shortcode( $text ) {
 		return preg_replace( '`\[[^\]]+\]`s', '', strip_shortcodes( $text ) );
 	}
 
 	/**
-	 * Recursively trim whitespace round a string value or of string values within an array
-	 * Only trims strings to avoid typecasting a variable (to string)
+	 * Recursively trim whitespace round a string value or of string values within an array.
+	 * Only trims strings to avoid typecasting a variable (to string).
 	 *
 	 * @static
 	 *
@@ -228,7 +228,7 @@ class WPSEO_Utils {
 	 *
 	 * @param mixed $value Value to trim or array of values to trim.
 	 *
-	 * @return mixed Trimmed value or array of trimmed values
+	 * @return mixed Trimmed value or array of trimmed values.
 	 */
 	public static function trim_recursive( $value ) {
 		if ( is_string( $value ) ) {
@@ -264,17 +264,17 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way
+	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way.
 	 *
 	 * @see   https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
 	 *
-	 * Sanitize a string from user input or from the db
+	 * Sanitize a string from user input or from the db.
 	 *
-	 * check for invalid UTF-8,
-	 * Convert single < characters to entity,
-	 * strip all tags,
-	 * remove line breaks, tabs and extra white space,
-	 * strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
+	 * - Check for invalid UTF-8,
+	 * - Convert single < characters to entity,
+	 * - Strip all tags,
+	 * - Remove line breaks, tabs and extra white space,
+	 * - Strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
 	 *
 	 * @static
 	 *
@@ -321,10 +321,10 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Sanitize a url for saving to the database
-	 * Not to be confused with the old native WP function
+	 * Sanitize a url for saving to the database.
+	 * Not to be confused with the old native WP function.
 	 *
-	 * @todo  [JRF => whomever] check/improve url verification
+	 * @todo  [JRF => whomever] Check/improve url verification.
 	 *
 	 * @since 1.8.0
 	 *
@@ -338,7 +338,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Validate a value as boolean
+	 * Validate a value as boolean.
 	 *
 	 * @static
 	 *
@@ -362,7 +362,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Cast a value to bool
+	 * Cast a value to bool.
 	 *
 	 * @static
 	 *
@@ -373,7 +373,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function emulate_filter_bool( $value ) {
-		$true  = array(
+		$true = array(
 			'1',
 			'true',
 			'True',
@@ -429,7 +429,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Validate a value as integer
+	 * Validate a value as integer.
 	 *
 	 * @static
 	 *
@@ -437,7 +437,7 @@ class WPSEO_Utils {
 	 *
 	 * @param mixed $value Value to validate.
 	 *
-	 * @return int|bool int or false in case of failure to convert to int
+	 * @return int|bool Int or false in case of failure to convert to int.
 	 */
 	public static function validate_int( $value ) {
 		if ( ! isset( self::$has_filters ) ) {
@@ -453,7 +453,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Cast a value to integer
+	 * Cast a value to integer.
 	 *
 	 * @static
 	 *
@@ -495,7 +495,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Clears the WP or W3TC cache depending on which is used
+	 * Clears the WP or W3TC cache depending on which is used.
 	 *
 	 * @static
 	 *
@@ -511,7 +511,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Flush W3TC cache after succesfull update/add of taxonomy meta option
+	 * Flush W3TC cache after succesfull update/add of taxonomy meta option.
 	 *
 	 * @static
 	 *
@@ -524,7 +524,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Clear rewrite rules
+	 * Clear rewrite rules.
 	 *
 	 * @static
 	 *
@@ -535,12 +535,12 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Do simple reliable math calculations without the risk of wrong results
+	 * Do simple reliable math calculations without the risk of wrong results.
 	 *
 	 * @see   http://floating-point-gui.de/
 	 * @see   the big red warning on http://php.net/language.types.float.php
 	 *
-	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results
+	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results.
 	 *
 	 * @static
 	 *
@@ -562,10 +562,10 @@ class WPSEO_Utils {
 	 * @param int    $precision   Calculation precision. Defaults to 10.
 	 *
 	 * @return mixed            Calculation Result or false if either or the numbers isn't scalar or
-	 *                          an invalid operation was passed
-	 *                          - for compare the result will always be an integer
+	 *                          an invalid operation was passed.
+	 *                          - for compare the result will always be an integer.
 	 *                          - for all other operations, the result will either be an integer (preferred)
-	 *                            or a float
+	 *                            or a float.
 	 */
 	public static function calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 		static $bc;
@@ -668,7 +668,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Trim whitespace and NBSP (Non-breaking space) from string
+	 * Trim whitespace and NBSP (Non-breaking space) from string.
 	 *
 	 * @since 2.0.0
 	 *
@@ -685,7 +685,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Check if a string is a valid datetime
+	 * Check if a string is a valid datetime.
 	 *
 	 * @since 2.0.0
 	 *
@@ -731,7 +731,7 @@ class WPSEO_Utils {
 		}
 
 		// Append 'query' string if it exists.
-		if ( isset( $parsed_url['query'] ) && '' != $parsed_url['query'] ) {
+		if ( ! empty( $parsed_url['query'] ) ) {
 			$formatted_url .= '?' . $parsed_url['query'];
 		}
 
@@ -740,7 +740,7 @@ class WPSEO_Utils {
 
 
 	/**
-	 * Get plugin name from file
+	 * Get plugin name from file.
 	 *
 	 * @since 2.3.3
 	 *
@@ -751,7 +751,7 @@ class WPSEO_Utils {
 	public static function get_plugin_name( $plugin ) {
 		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
 
-		if ( $plugin_details['Name'] != '' ) {
+		if ( $plugin_details['Name'] !== '' ) {
 			return $plugin_details['Name'];
 		}
 
@@ -790,9 +790,9 @@ class WPSEO_Utils {
 		}
 
 		/**
-		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s)
+		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s).
 		 *
-		 * @api string $replacement The current separator
+		 * @api string $replacement The current separator.
 		 */
 		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
 	}
@@ -820,7 +820,7 @@ class WPSEO_Utils {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string $current_page the current page the user is on.
+	 * @param string $current_page The current page the user is on.
 	 *
 	 * @return bool
 	 */
@@ -836,7 +836,7 @@ class WPSEO_Utils {
 			'wpseo_licenses',
 		);
 
-		return in_array( $current_page, $yoast_seo_free_pages );
+		return in_array( $current_page, $yoast_seo_free_pages, true );
 	}
 
 	/**
@@ -915,7 +915,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Returns a base64 URL for the svg for use in the menu
+	 * Returns a base64 URL for the svg for use in the menu.
 	 *
 	 * @since 3.3.0
 	 *
@@ -934,46 +934,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Returns the language part of a given locale, defaults to english when the $locale is empty
-	 *
-	 * @since 3.4
-	 *
-	 * @param string $locale The locale to get the language of.
-	 *
-	 * @returns string The language part of the locale.
-	 */
-	public static function get_language( $locale ) {
-		$language = 'en';
-
-		if ( ! empty( $locale ) && strlen( $locale ) >= 2 ) {
-			$language = substr( $locale, 0, 2 );
-		}
-
-		return $language;
-	}
-
-	/**
-	 * Returns the user locale for the language to be used in the admin.
-	 *
-	 * WordPress 4.7 introduced the ability for users to specify an Admin language
-	 * different from the language used on the front end. This checks if the feature
-	 * is available and returns the user's language, with a fallback to the site's language.
-	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
-	 * of WordPress get_user_locale() that already fallbacks to the site’s locale.
-	 *
-	 * @since 4.1
-	 *
-	 * @returns string The locale.
-	 */
-	public static function get_user_locale() {
-		if ( function_exists( 'get_user_locale' ) ) {
-			return get_user_locale();
-		}
-
-		return get_locale();
-	}
-
-	/**
 	 * Checks if the WP-REST-API is available.
 	 *
 	 * @since 3.6
@@ -989,6 +949,40 @@ class WPSEO_Utils {
 	}
 
 	/********************** DEPRECATED METHODS **********************/
+
+	/**
+	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
+	 *
+	 * @see        WPSEO_Language_Utils::get_language()
+	 *
+	 * @since      3.4
+	 *
+	 * @param string $locale The locale to get the language of.
+	 *
+	 * @returns string The language part of the locale.
+	 */
+	public static function get_language( $locale ) {
+		return WPSEO_Language_Utils::get_language( $locale );
+	}
+
+	/**
+	 * Returns the user locale for the language to be used in the admin.
+	 *
+	 * WordPress 4.7 introduced the ability for users to specify an Admin language
+	 * different from the language used on the front end. This checks if the feature
+	 * is available and returns the user's language, with a fallback to the site's language.
+	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
+	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
+	 *
+	 * @see        WPSEO_Language_Utils::get_user_locale()
+	 *
+	 * @since      4.1
+	 *
+	 * @returns string The locale.
+	 */
+	public static function get_user_locale() {
+		return WPSEO_Language_Utils::get_user_locale();
+	}
 
 	// @codeCoverageIgnoreStart
 	/**
@@ -1014,7 +1008,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared
+	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared.
 	 *
 	 * @since      2.2.0
 	 *
@@ -1030,7 +1024,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Clears the transient cache when a given option is updated, if that option has been registered before
+	 * Clears the transient cache when a given option is updated, if that option has been registered before.
 	 *
 	 * @since      2.2.0
 	 *
@@ -1045,7 +1039,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Clear entire XML sitemap cache
+	 * Clear entire XML sitemap cache.
 	 *
 	 * @since      1.8.0
 	 *

@@ -69,8 +69,6 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager->enqueue_style( 'select2' );
 
 		$this->asset_manager->enqueue_style( 'admin-css' );
-
-		$this->asset_manager->enqueue_style( 'kb-search' );
 	}
 
 	/**
@@ -87,7 +85,7 @@ class WPSEO_Admin_Pages {
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
 
-		if ( in_array( $page, array( 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER ) ) ) {
+		if ( in_array( $page, array( 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER ), true ) ) {
 			wp_enqueue_media();
 
 			$this->asset_manager->enqueue_script( 'admin-media' );
@@ -402,13 +400,13 @@ class WPSEO_Admin_Pages {
 		$content = '<table class="form-table">';
 		foreach ( $rows as $row ) {
 			$content .= '<tr><th scope="row">';
-			if ( isset( $row['id'] ) && $row['id'] != '' ) {
+			if ( ! empty( $row['id'] ) ) {
 				$content .= '<label for="' . esc_attr( $row['id'] ) . '">' . esc_html( $row['label'] ) . ':</label>';
 			}
 			else {
 				$content .= esc_html( $row['label'] );
 			}
-			if ( isset( $row['desc'] ) && $row['desc'] != '' ) {
+			if ( ! empty( $row['desc'] ) ) {
 				$content .= '<br/><small>' . esc_html( $row['desc'] ) . '</small>';
 			}
 			$content .= '</th><td>';

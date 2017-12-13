@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin
+ */
 
+/**
+ * Unit Test Class.
+ */
 class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -135,7 +141,7 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 	public function test_html_with_adding_attribute() {
 		$select = new Yoast_Input_Select( 'test-id', 'test-field', array( 'foo' => '' ), false );
 		$select->add_attribute( 'class', 'test' );
-		$html   = $select->get_html();
+		$html = $select->get_html();
 
 		$this->assertContains( '<select class="test" name="test-field" id="test-id">', $html );
 	}

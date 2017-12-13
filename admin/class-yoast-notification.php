@@ -9,11 +9,29 @@
  */
 class Yoast_Notification {
 
+	/**
+	 * @var string Type of capability check.
+	 */
 	const MATCH_ALL = 'all';
+
+	/**
+	 * @var string Type of capability check.
+	 */
 	const MATCH_ANY = 'any';
 
+	/**
+	 * @var string Notification type.
+	 */
 	const ERROR = 'error';
+
+	/**
+	 * @var string Notification type.
+	 */
 	const WARNING = 'warning';
+
+	/**
+	 * @var string Notification type.
+	 */
 	const UPDATED = 'updated';
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Unittests\Sitemaps
+ * @package WPSEO\Tests\Sitemaps
  */
 
 /**

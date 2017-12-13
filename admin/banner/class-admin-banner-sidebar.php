@@ -24,7 +24,7 @@ class WPSEO_Admin_Banner_Sidebar {
 	 * @param WPSEO_Admin_Banner_Renderer $banner_renderer The render class for banners.
 	 */
 	public function __construct( $title, WPSEO_Admin_Banner_Renderer $banner_renderer ) {
-		$this->title = $title;
+		$this->title           = $title;
 		$this->banner_renderer = $banner_renderer;
 	}
 

@@ -1,17 +1,28 @@
 <?php
+/**
+ * @package WPSEO\Tests\Admin\Banner
+ */
 
-class WPSEO_Features_Mock extends WPSEO_Features {
-
-	public function is_free() {
-		return false;
-	}
-
-}
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 
 	/** @var WPSEO_Admin_Banner_Sidebar */
 	protected $admin_banner_sidebar;
 
+	/**
+	 * Include helper class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-features-mock.php';
+	}
+
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -21,7 +32,7 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Returns a mock from the WPSEO_Admin_Banner_Sidebar.
 	 *
-	 * @param array $methods_to_mock
+	 * @param array $methods_to_mock Array of method names.
 	 *
 	 * @return WPSEO_Admin_Banner_Sidebar
 	 */

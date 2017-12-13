@@ -159,7 +159,7 @@ class WPSEO_GSC {
 	 * @return mixed
 	 */
 	public function set_screen_option( $status, $option, $value ) {
-		if ( 'errors_per_page' == $option ) {
+		if ( 'errors_per_page' === $option ) {
 			return $value;
 		}
 	}
@@ -270,20 +270,20 @@ class WPSEO_GSC {
 	 */
 	private function set_dependencies() {
 		// Setting the service object.
-		$this->service         = new WPSEO_GSC_Service( WPSEO_GSC_Settings::get_profile() );
+		$this->service = new WPSEO_GSC_Service( WPSEO_GSC_Settings::get_profile() );
 
 		// Setting the platform.
-		$this->platform        = WPSEO_GSC_Mapper::get_current_platform( 'tab' );
+		$this->platform = WPSEO_GSC_Mapper::get_current_platform( 'tab' );
 
 		// Loading the issue counter.
-		$issue_count           = new WPSEO_GSC_Count( $this->service );
+		$issue_count = new WPSEO_GSC_Count( $this->service );
 		$issue_count->fetch_counts();
 
 		// Loading the category filters.
 		$this->category_filter = new WPSEO_GSC_Category_Filters( $issue_count->get_platform_counts( $this->platform ) );
 
 		// Setting the current category.
-		$this->category        = $this->category_filter->get_category();
+		$this->category = $this->category_filter->get_category();
 
 		// Listing the issues.
 		$issue_count->list_issues( $this->platform, $this->category );

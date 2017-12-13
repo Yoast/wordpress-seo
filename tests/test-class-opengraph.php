@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Tests
  */
 
 /**
@@ -12,7 +12,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	/**
-	 * Set up class instance
+	 * Set up class instance.
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
@@ -21,19 +21,19 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provision tests
+	 * Provision tests.
 	 */
 	public function setUp() {
 		parent::setUp();
 		WPSEO_Frontend::get_instance()->reset();
 		remove_all_actions( 'wpseo_opengraph' );
 
-		// start each test on the home page
+		// Start each test on the home page.
 		$this->go_to_home();
 	}
 
 	/**
-	 * Clean output buffer after each test
+	 * Clean output buffer after each test.
 	 */
 	public function tearDown() {
 		parent::tearDown();
@@ -62,15 +62,15 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_og_tag() {
 
-		// there should be no output when $content is empty
+		// There should be no output when $content is empty.
 		$this->assertFalse( self::$class_instance->og_tag( 'property', '' ) );
 		$this->expectOutput( '' );
 
-		// true when $content is not empty
+		// Expect true when $content is not empty.
 		$this->assertTrue( self::$class_instance->og_tag( 'property', 'content' ) );
 		$this->expectOutput( '<meta property="property" content="content" />' . "\n" );
 
-		// test escaping
+		// Test escaping.
 		$this->assertTrue( self::$class_instance->og_tag( 'property "with quotes"', 'content "with quotes"' ) );
 		$this->expectOutput( '<meta property="property &quot;with quotes&quot;" content="content &quot;with quotes&quot;" />' . "\n" );
 	}
@@ -86,13 +86,13 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$c      = self::$class_instance;
 		$result = $c->facebook_filter( array() );
 
-		// test if values were filtered
+		// Test if values were filtered.
 		$this->assertArrayHasKey( 'http://ogp.me/ns#type', $result );
 		$this->assertArrayHasKey( 'http://ogp.me/ns#title', $result );
 		$this->assertArrayHasKey( 'http://ogp.me/ns#locale', $result );
 		$this->assertArrayHasKey( 'http://ogp.me/ns#description', $result );
 
-		// test filter values
+		// Test filter values.
 		$this->assertEquals( $result['http://ogp.me/ns#type'], $c->type( false ) );
 		$this->assertEquals( $result['http://ogp.me/ns#title'], $c->og_title( false ) );
 		$this->assertEquals( $result['http://ogp.me/ns#locale'], $c->locale( false ) );
@@ -113,23 +113,23 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_article_author_facebook() {
 
-		// test not on singular page
+		// Test not on singular page.
 		$this->assertFalse( self::$class_instance->article_author_facebook() );
 
-		// create post with author
+		// Create post with author.
 		$author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		$post_id   = $this->factory->post->create( array( 'post_author' => $author_id ) );
 		$this->go_to( get_permalink( $post_id ) );
 
-		// on post page but facebook meta not set.
+		// On post page but facebook meta not set.
 		$this->assertFalse( self::$class_instance->article_author_facebook() );
 
-		// add facebook meta to post author
+		// Add facebook meta to post author.
 		$post   = get_post( $post_id );
 		$author = $post->post_author;
 		add_user_meta( $author, 'facebook', 'facebook_author' );
 
-		// test final output
+		// Test final output.
 		$this->assertTrue( self::$class_instance->article_author_facebook() );
 		$this->expectOutput( '<meta property="article:author" content="facebook_author" />' . "\n" );
 	}
@@ -169,7 +169,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_og_title() {
 
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -188,7 +188,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_url() {
 
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$url     = get_permalink( $post_id );
 		$this->go_to( $url );
@@ -227,14 +227,14 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_category_link( $category_id ) );
 		$this->assertEquals( 'object', self::$class_instance->type( false ) );
 
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 		$this->assertEquals( 'article', self::$class_instance->type( false ) );
 	}
 
 	/**
-	 * Test if the function og_tag gets called when there is a front page image
+	 * Test if the function og_tag gets called when there is a front page image.
 	 *
 	 * @covers WPSEO_OpenGraph::image
 	 */
@@ -258,7 +258,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the function og_tag does not get called when there is no front page image
+	 * Test if the function og_tag does not get called when there is no front page image.
 	 *
 	 * @covers WPSEO_OpenGraph::image
 	 */
@@ -278,13 +278,13 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the opengraph-image (Facebook Image) is added to opengraph
+	 * Test if the opengraph-image (Facebook Image) is added to opengraph.
 	 *
 	 * @covers WPSEO_OpenGraph::image
 	 */
 	public function test_image_IS_SINGULAR_and_HAS_open_graph_image() {
-		$post_id   = $this->factory->post->create();
-		$image = get_site_url() . '/wp-content/plugins/wordpress-seo/tests/assets/small.png';
+		$post_id = $this->factory->post->create();
+		$image   = get_site_url() . '/wp-content/plugins/wordpress-seo/tests/assets/small.png';
 
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -304,7 +304,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the content image does not get added to opengraph when there is an opengraph-image (Facebook Image)
+	 * Test if the content image does not get added to opengraph when there is an opengraph-image (Facebook Image).
 	 *
 	 * @covers WPSEO_OpenGraph::image
 	 */
@@ -356,7 +356,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_clean();
 
-		list( $src ) = wp_get_attachment_image_src( $attach_id, 'full' );
+		list( $src )     = wp_get_attachment_image_src( $attach_id, 'full' );
 		$expected_output = '<meta property="og:image" content="' . $src . '" />';
 
 		wp_delete_attachment( $attach_id, true );
@@ -385,7 +385,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_clean();
 
-		list( $src ) = wp_get_attachment_image_src( $attach_id, 'full' );
+		list( $src )     = wp_get_attachment_image_src( $attach_id, 'full' );
 		$expected_output = '<meta property="og:image" content="' . $src . '" />';
 
 		wp_delete_attachment( $attach_id, true );
@@ -394,7 +394,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if image in content is added to open graph
+	 * Test if image in content is added to open graph.
 	 *
 	 * @covers WPSEO_OpenGraph::image
 	 */
@@ -423,7 +423,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 
 	/**
-	 * Tests whether the correct OG tag for an image via HTTP is generated
+	 * Tests whether the correct OG tag for an image via HTTP is generated.
 	 */
 	public function test_image_insecure_url() {
 		$stub = $this
@@ -442,7 +442,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 
 	/**
-	 * Tests whether the correct OG tag for an image via HTTPS is generated
+	 * Tests whether the correct OG tag for an image via HTTPS is generated.
 	 */
 	public function test_image_secure_url() {
 		$stub = $this
@@ -473,7 +473,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests static page set as front page
+	 * Tests static page set as front page.
 	 */
 	public function test_static_front_page() {
 
@@ -505,7 +505,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests static page set as posts page
+	 * Tests static page set as posts page.
 	 */
 	public function test_static_posts_page() {
 
@@ -560,12 +560,12 @@ EXPECTED;
 	public function test_description_single_post_opengraph_description() {
 		$expected_opengraph_description = 'This is with a opengraph-description';
 
-		// Creates the post
+		// Creates the post.
 		$post_id = $this->factory->post->create();
 
 		$this->go_to( get_permalink( $post_id ) );
 
-		// Checking opengraph-description and after obtaining its value, reset the meta value for it
+		// Checking opengraph-description and after obtaining its value, reset the meta value for it.
 		WPSEO_Meta::set_value( 'opengraph-description', $expected_opengraph_description, $post_id );
 		$opengraph_description = self::$class_instance->description( false );
 		WPSEO_Meta::set_value( 'opengraph-description', '', $post_id );
@@ -578,14 +578,14 @@ EXPECTED;
 	public function test_description_single_post_metadesc() {
 		$expected_meta_description = 'This is with a meta-description';
 
-		// Creates the post
+		// Creates the post.
 		$post_id = $this->factory->post->create();
 
 		WPSEO_Meta::set_value( 'metadesc', $expected_meta_description, $post_id );
 
 		$this->go_to( get_permalink( $post_id ) );
 
-		// Checking meta-description and after obtaining its value, reset the meta value for it
+		// Checking meta-description and after obtaining its value, reset the meta value for it.
 		$meta_description = self::$class_instance->description( false );
 		$this->assertEquals( $expected_meta_description, $meta_description );
 	}
@@ -594,13 +594,13 @@ EXPECTED;
 	 * Test description from excerpt.
 	 */
 	public function test_description_single_post_excerpt() {
-		// Creates the post
+		// Creates the post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		// Checking with the excerpt
+		// Checking with the excerpt.
 		$expected = get_the_excerpt();
-		$excerpt = self::$class_instance->description( false );
+		$excerpt  = self::$class_instance->description( false );
 
 		$this->assertEquals( $expected, $excerpt );
 	}
@@ -615,7 +615,7 @@ EXPECTED;
 		$category_id = wp_create_category( 'Yoast SEO' );
 		$this->go_to( get_category_link( $category_id ) );
 
-		// Checking meta-description and after obtaining its value, reset the meta value for it
+		// Checking meta-description and after obtaining its value, reset the meta value for it.
 		$meta_description = self::$class_instance->description( false );
 		$this->assertEquals( $expected_meta_description, $meta_description );
 	}
@@ -632,22 +632,22 @@ EXPECTED;
 	 */
 	public function test_tags() {
 
-		// not singular, return false
+		// Not singular, return false.
 		$this->assertFalse( self::$class_instance->tags() );
 
-		// create post, without tags
+		// Create post, without tags.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		// no tags, should return false
+		// No tags, should return false.
 		$this->assertFalse( self::$class_instance->tags() );
 
-		// add tags to post
+		// Add tags to post.
 		wp_set_post_tags( $post_id, 'Tag1, Tag2' );
-		$expected_tags = '<meta property="article:tag" content="Tag1" />' . "\n";
+		$expected_tags  = '<meta property="article:tag" content="Tag1" />' . "\n";
 		$expected_tags .= '<meta property="article:tag" content="Tag2" />' . "\n";
 
-		// test again, this time with tags
+		// Test again, this time with tags.
 		$this->assertTrue( self::$class_instance->tags() );
 		$this->expectOutput( $expected_tags );
 	}
@@ -657,7 +657,7 @@ EXPECTED;
 	 */
 	public function test_category() {
 
-		// not singular, should return false
+		// Not singular, should return false.
 		$this->assertFalse( self::$class_instance->category() );
 
 		// Create post in category, go to post.
@@ -674,26 +674,26 @@ EXPECTED;
 	 */
 	public function test_publish_date() {
 
-		// not on singular, should return false
+		// Not on singular, should return false.
 		$this->assertFalse( self::$class_instance->publish_date() );
 
-		// create post, without tags
+		// Create post, without tags.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		// test published_time tags output
+		// Test published_time tags output.
 		$published_time   = get_the_date( DATE_W3C );
 		$published_output = '<meta property="article:published_time" content="' . $published_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output );
 
-		// modify post time
+		// Modify post time.
 		global $post;
 		$post                    = get_post( $post_id );
 		$post->post_modified     = gmdate( 'Y-m-d H:i:s', ( time() + 1 ) );
 		$post->post_modified_gmt = gmdate( 'Y-m-d H:i:s', ( time() + 1 + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
 
-		// test modified tags output
+		// Test modified tags output.
 		$modified_time   = get_the_modified_date( DATE_W3C );
 		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
@@ -701,7 +701,7 @@ EXPECTED;
 	}
 
 	/**
-	 * Testing with an Open Graph title for the taxonomy
+	 * Testing with an Open Graph title for the taxonomy.
 	 *
 	 * @covers WPSEO_OpenGraph::opengraph
 	 */
@@ -724,7 +724,7 @@ EXPECTED;
 	}
 
 	/**
-	 * Testing with an Open Graph meta description for the taxonomy
+	 * Testing with an Open Graph meta description for the taxonomy.
 	 *
 	 * @covers WPSEO_OpenGraph::description
 	 */
@@ -747,7 +747,7 @@ EXPECTED;
 	}
 
 	/**
-	 * Testing with an Open Graph meta image for the taxonomy
+	 * Testing with an Open Graph meta image for the taxonomy.
 	 *
 	 * @covers WPSEO_OpenGraph::image
 	 */
@@ -771,8 +771,8 @@ EXPECTED;
 
 
 	/**
-	 * @param string  $image   path
-	 * @param integer $post_id
+	 * @param string  $image   Path.
+	 * @param integer $post_id Post ID.
 	 *
 	 * @return int
 	 */
@@ -783,7 +783,7 @@ EXPECTED;
 		$source_image   = dirname( __FILE__ ) . $image;
 		$featured_image = $upload_dir['path'] . '/' . $basename;
 
-		copy( $source_image, $featured_image ); // prevent original from deletion
+		copy( $source_image, $featured_image ); // Prevent original from deletion.
 
 		$file_array = array(
 			'name'     => $basename,

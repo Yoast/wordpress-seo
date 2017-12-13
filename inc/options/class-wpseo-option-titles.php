@@ -4,17 +4,17 @@
  */
 
 /**
- * Option: wpseo_titles
+ * Option: wpseo_titles.
  */
 class WPSEO_Option_Titles extends WPSEO_Option {
 
 	/**
-	 * @var  string  option name
+	 * @var  string  Option name.
 	 */
 	public $option_name = 'wpseo_titles';
 
 	/**
-	 * @var  array  Array of defaults for the option
+	 * @var  array  Array of defaults for the option.
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 *
 	 * {@internal Note: Some of the default values are added via the translate_defaults() method.}}
@@ -70,7 +70,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	);
 
 	/**
-	 * @var  array  Array of variable option name patterns for the option
+	 * @var  array  Array of variable option name patterns for the option.
 	 */
 	protected $variable_array_key_patterns = array(
 		'title-',
@@ -83,7 +83,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	);
 
 	/**
-	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults
+	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults.
 	 */
 	public $ms_exclude = array(
 		/* theme dependent */
@@ -92,7 +92,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	);
 
 	/**
-	 * @var array Array of the separator options. To get these options use WPSEO_Option_Titles::get_instance()->get_separator_options()
+	 * @var array Array of the separator options. To get these options use WPSEO_Option_Titles::get_instance()->get_separator_options().
 	 */
 	private $separator_options = array(
 		'sc-dash'   => '-',
@@ -111,11 +111,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	);
 
 	/**
-	 * Add the actions and filters for the option
+	 * Add the actions and filters for the option.
 	 *
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
 	 * is updated early on and if so, change the call to schedule these for a later action on add/update
-	 * instead of running them straight away
+	 * instead of running them straight away.
 	 *
 	 * @return \WPSEO_Option_Titles
 	 */
@@ -127,14 +127,14 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 
 	/**
-	 * Make sure we can recognize the right action for the double cleaning
+	 * Make sure we can recognize the right action for the double cleaning.
 	 */
 	public function end_of_init() {
 		do_action( 'wpseo_double_clean_titles' );
 	}
 
 	/**
-	 * Get the singleton instance of this class
+	 * Get the singleton instance of this class.
 	 *
 	 * @return object
 	 */
@@ -147,7 +147,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	}
 
 	/**
-	 * Get the available separator options
+	 * Get the available separator options.
 	 *
 	 * @return array
 	 */
@@ -155,9 +155,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		$separators = $this->separator_options;
 
 		/**
-		 * Allow altering the array with separator options
+		 * Allow altering the array with separator options.
 		 *
-		 * @api  array  $separator_options  Array with the separator options
+		 * @api  array  $separator_options  Array with the separator options.
 		 */
 		$filtered_separators = apply_filters( 'wpseo_separator_options', $separators );
 
@@ -169,7 +169,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	}
 
 	/**
-	 * Translate strings used in the option defaults
+	 * Translate strings used in the option defaults.
 	 *
 	 * @return void
 	 */
@@ -183,13 +183,17 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 
 	/**
-	 * Add dynamically created default options based on available post types and taxonomies
+	 * Add dynamically created default options based on available post types and taxonomies.
 	 *
 	 * @return  void
 	 */
 	public function enrich_defaults() {
-
-		// Retrieve all the relevant post type and taxonomy arrays.
+		/*
+		 * Retrieve all the relevant post type and taxonomy arrays.
+		 *
+		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
+		 * These are the defaults and can be prepared for any public post type.
+		 */
 		$post_type_names = get_post_types( array( 'public' => true ), 'names' );
 
 		$post_type_objects_custom = get_post_types(
@@ -254,13 +258,13 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 
 	/**
-	 * Validate the option
+	 * Validate the option.
 	 *
 	 * @param  array $dirty New value for the option.
 	 * @param  array $clean Clean value for the option, normally the defaults.
 	 * @param  array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database
+	 * @return  array      Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 		foreach ( $clean as $key => $value ) {
@@ -377,16 +381,16 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 
 	/**
-	 * Clean a given option value
+	 * Clean a given option value.
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
 	 *                                       clean according to the rules for this option.
-	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
+	 * @param  string $current_version       Optional. Version from which to upgrade, if not set,
 	 *                                       version specific upgrades will be disregarded.
-	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
+	 * @param  array  $all_old_option_values Optional. Only used when importing old options to have
 	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
-	 * @return  array            Cleaned option
+	 * @return  array            Cleaned option.
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 		static $original = null;
@@ -482,7 +486,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 *            and post_types have been registered, i.e. at the end of the init action.}}
 		 */
 		if ( isset( $original ) && current_filter() === 'wpseo_double_clean_titles' || did_action( 'wpseo_double_clean_titles' ) > 0 ) {
-			$rename          = array(
+			$rename = array(
 				'title-'           => 'title-tax-',
 				'metadesc-'        => 'metadesc-tax-',
 				'metakey-'         => 'metakey-tax-',
@@ -597,9 +601,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			$patterns[] = 'tax-hideeditbox-';
 
 			/**
-			 * Allow altering the array with variable array key patterns
+			 * Allow altering the array with variable array key patterns.
 			 *
-			 * @api  array  $patterns  Array with the variable array key patterns
+			 * @api  array  $patterns  Array with the variable array key patterns.
 			 */
 			$patterns = apply_filters( 'wpseo_option_titles_variable_array_key_patterns', $patterns );
 

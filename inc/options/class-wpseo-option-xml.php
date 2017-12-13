@@ -4,22 +4,22 @@
  */
 
 /**
- * Option: wpseo_xml
+ * Option: wpseo_xml.
  */
 class WPSEO_Option_XML extends WPSEO_Option {
 
 	/**
-	 * @var  string  option name
+	 * @var  string  Option name.
 	 */
 	public $option_name = 'wpseo_xml';
 
 	/**
-	 * @var  string  option group name for use in settings forms
+	 * @var  string  Option group name for use in settings forms.
 	 */
 	public $group_name = 'yoast_wpseo_xml_sitemap_options';
 
 	/**
-	 * @var  array  Array of defaults for the option
+	 * @var  array  Array of defaults for the option.
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 */
 	protected $defaults = array(
@@ -38,7 +38,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 	);
 
 	/**
-	 * @var  array  Array of variable option name patterns for the option
+	 * @var  array  Array of variable option name patterns for the option.
 	 */
 	protected $variable_array_key_patterns = array(
 		'user_role-',
@@ -48,11 +48,11 @@ class WPSEO_Option_XML extends WPSEO_Option {
 
 
 	/**
-	 * Add the actions and filters for the option
+	 * Add the actions and filters for the option.
 	 *
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
 	 *       is updated early on and if so, change the call to schedule these for a later action on add/update
-	 *       instead of running them straight away
+	 *       instead of running them straight away.
 	 *
 	 * @return \WPSEO_Option_XML
 	 */
@@ -64,7 +64,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 
 
 	/**
-	 * Get the singleton instance of this class
+	 * Get the singleton instance of this class.
 	 *
 	 * @return object
 	 */
@@ -77,7 +77,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 	}
 
 	/**
-	 * Add dynamically created default options based on available post types and taxonomies
+	 * Add dynamically created default options based on available post types and taxonomies.
 	 *
 	 * @return  void
 	 */
@@ -95,6 +95,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 		}
 		unset( $user_roles, $filtered_user_roles );
 
+		// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
 		$post_type_names     = get_post_types( array( 'public' => true ), 'names' );
 		$filtered_post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', $post_type_names );
 
@@ -115,7 +116,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 		$filtered_taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', $taxonomy_objects );
 		if ( is_array( $filtered_taxonomies ) && $filtered_taxonomies !== array() ) {
 			foreach ( $filtered_taxonomies as $tax ) {
-				if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
+				if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) !== '' ) {
 					$this->defaults[ 'taxonomies-' . $tax->name . '-not_in_sitemap' ] = false;
 				}
 			}
@@ -127,13 +128,13 @@ class WPSEO_Option_XML extends WPSEO_Option {
 
 
 	/**
-	 * Validate the option
+	 * Validate the option.
 	 *
 	 * @param  array $dirty New value for the option.
 	 * @param  array $clean Clean value for the option, normally the defaults.
 	 * @param  array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database
+	 * @return  array      Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 
@@ -141,7 +142,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 			$switch_key = $this->get_switch_key( $key );
 
 			switch ( $switch_key ) {
-				/* integer fields */
+				/* Integer fields */
 				case 'entries-per-page':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 
@@ -187,11 +188,11 @@ class WPSEO_Option_XML extends WPSEO_Option {
 
 				case 'excluded-posts':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-						if ( $filtered_array = filter_var_array( explode( ',', $dirty[ $key ] ), FILTER_VALIDATE_INT ) ) {
+						$filtered_array = filter_var_array( explode( ',', $dirty[ $key ] ), FILTER_VALIDATE_INT );
+						if ( is_array( $filtered_array ) ) {
 							$clean[ $key ] = implode( ',', array_filter( $filtered_array, 'is_integer' ) );
-
-							unset( $filtered_array );
 						}
+						unset( $filtered_array );
 					}
 
 					break;
@@ -223,13 +224,13 @@ class WPSEO_Option_XML extends WPSEO_Option {
 
 
 	/**
-	 * Clean a given option value
+	 * Clean a given option value.
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
 	 *                                       clean according to the rules for this option.
-	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
+	 * @param  string $current_version       Optional. Version from which to upgrade, if not set,
 	 *                                       version specific upgrades will be disregarded.
-	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
+	 * @param  array  $all_old_option_values Optional. Only used when importing old options to have
 	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return  array            Cleaned option
@@ -246,9 +247,9 @@ class WPSEO_Option_XML extends WPSEO_Option {
 
 				// Similar to validation routine - any changes made there should be made here too.
 				switch ( $switch_key ) {
-					case 'user_role-': /* 'user_role-' . $role_name. '-not_in_sitemap' fields */
-					case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */
-					case 'taxonomies-': /* 'taxonomies-' . $tax->name . '-not_in_sitemap' fields */
+					case 'user_role-': /* 'user_role-' . $role_name. '-not_in_sitemap' fields. */
+					case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields. */
+					case 'taxonomies-': /* 'taxonomies-' . $tax->name . '-not_in_sitemap' fields. */
 						$option_value[ $key ] = WPSEO_Utils::validate_bool( $value );
 						break;
 				}

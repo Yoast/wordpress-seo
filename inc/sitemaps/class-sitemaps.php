@@ -91,7 +91,7 @@ class WPSEO_Sitemaps {
 	 */
 	public function init_sitemaps_providers() {
 
-		$this->providers   = array(
+		$this->providers = array(
 			new WPSEO_Post_Type_Sitemap_Provider(),
 			new WPSEO_Taxonomy_Sitemap_Provider(),
 			new WPSEO_Author_Sitemap_Provider(),
@@ -118,7 +118,7 @@ class WPSEO_Sitemaps {
 		$request_uri = $_SERVER['REQUEST_URI'];
 		$extension   = substr( $request_uri, -4 );
 
-		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, array( '.xml', '.xsl' ) ) ) {
+		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, array( '.xml', '.xsl' ), true ) ) {
 			remove_all_actions( 'widgets_init' );
 		}
 	}
@@ -447,26 +447,30 @@ class WPSEO_Sitemaps {
 
 		if ( is_null( $post_type_dates ) ) {
 
-			$sql = "
+			$post_type_dates = array();
+
+			// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
+			$post_type_names = get_post_types( array( 'public' => true ) );
+
+			if ( ! empty( $post_type_names ) ) {
+				$sql = "
 				SELECT post_type, MAX(post_modified_gmt) AS date
 				FROM $wpdb->posts
 				WHERE post_status IN ('publish','inherit')
-					AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "')
+					AND post_type IN ('" . implode( "','", $post_type_names ) . "')
 				GROUP BY post_type
 				ORDER BY post_modified_gmt DESC
 			";
 
-			$post_type_dates = array();
-
-			foreach ( $wpdb->get_results( $sql ) as $obj ) {
-				$post_type_dates[ $obj->post_type ] = $obj->date;
+				foreach ( $wpdb->get_results( $sql ) as $obj ) {
+					$post_type_dates[ $obj->post_type ] = $obj->date;
+				}
 			}
 		}
 
 		$dates = array_intersect_key( $post_type_dates, array_flip( $post_types ) );
 
 		if ( count( $dates ) > 0 ) {
-
 			if ( $return_all ) {
 				return $dates;
 			}
@@ -577,7 +581,7 @@ class WPSEO_Sitemaps {
 			'monthly',
 			'yearly',
 			'never',
-		) )
+		), true )
 		) {
 			$change_freq = $default;
 		}

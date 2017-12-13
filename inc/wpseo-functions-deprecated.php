@@ -4,7 +4,7 @@
  */
 
 /**
- * Get the value from the post custom values
+ * Get the value from the post custom values.
  *
  * @deprecated 1.5.0
  * @deprecated use WPSEO_Meta::get_value()
@@ -22,7 +22,7 @@ function wpseo_get_value( $val, $postid = 0 ) {
 }
 
 /**
- * Save a custom meta value
+ * Save a custom meta value.
  *
  * @deprecated 1.5.0
  * @deprecated use WPSEO_Meta::set_value() or just use update_post_meta()
@@ -62,7 +62,7 @@ function get_wpseo_options_arr() {
  * @deprecated use WPSEO_Options::get_all()
  * @see        WPSEO_Options::get_all()
  *
- * @return array of options
+ * @return array Array of options.
  */
 function get_wpseo_options() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::get_all()' );
@@ -72,7 +72,7 @@ function get_wpseo_options() {
 
 /**
  * Used for imports, both in dashboard and import settings pages, this functions either copies
- * $old_metakey into $new_metakey or just plain replaces $old_metakey with $new_metakey
+ * $old_metakey into $new_metakey or just plain replaces $old_metakey with $new_metakey.
  *
  * @deprecated 1.5.0
  * @deprecated use WPSEO_Meta::replace_meta()
@@ -106,7 +106,7 @@ function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
 }
 
 /**
- * Throw a notice about an invalid custom taxonomy used
+ * Throw a notice about an invalid custom taxonomy used.
  *
  * @since      1.4.14
  * @deprecated 1.5.4 (removed)
@@ -126,7 +126,7 @@ function wpseo_invalid_custom_taxonomy() {
  * @param string $taxonomy      The taxonomy to get the terms for this post from.
  * @param bool   $return_single If true, return the first term.
  *
- * @return string either a single term or a comma delimited string of terms.
+ * @return string Either a single term or a comma delimited string of terms.
  */
 function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::get_terms()' );
@@ -136,7 +136,7 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 }
 
 /**
- * Generate an HTML sitemap
+ * Generate an HTML sitemap.
  *
  * @deprecated 1.5.5.4
  * @deprecated use plugin Yoast SEO Premium
@@ -163,7 +163,7 @@ add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
  *
  * @param string $text Input string that might contain shortcodes.
  *
- * @return string $text string without shortcodes
+ * @return string $text String without shortcodes.
  */
 function wpseo_strip_shortcode( $text ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::strip_shortcode()' );
@@ -172,16 +172,16 @@ function wpseo_strip_shortcode( $text ) {
 }
 
 /**
- * Do simple reliable math calculations without the risk of wrong results
+ * Do simple reliable math calculations without the risk of wrong results.
  *
  * @see        http://floating-point-gui.de/
- * @see        the big red warning on http://php.net/language.types.float.php
+ * @see        The big red warning on http://php.net/language.types.float.php .
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::calc()
  * @see        WPSEO_Utils::calc()
  *
- * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results
+ * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results.
  *
  * @since      1.5.0
  *
@@ -193,7 +193,7 @@ function wpseo_strip_shortcode( $text ) {
  * @param    int    $precision Calculation precision. Defaults to 10.
  *
  * @return    mixed                Calculation Result or false if either or the numbers isn't scalar or
- *                                an invalid operation was passed
+ *                                an invalid operation was passed.
  */
 function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::calc()' );
@@ -202,7 +202,7 @@ function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0,
 }
 
 /**
- * Check if the web server is running on Apache
+ * Check if the web server is running on Apache.
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_apache()
@@ -217,7 +217,7 @@ function wpseo_is_apache() {
 }
 
 /**
- * Check if the web service is running on Nginx
+ * Check if the web service is running on Nginx.
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_nginx()
@@ -247,7 +247,7 @@ function wpseo_get_roles() {
 }
 
 /**
- * Check whether a url is relative
+ * Check whether a url is relative.
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_url_relative()
@@ -264,7 +264,7 @@ function wpseo_is_url_relative( $url ) {
 }
 
 /**
- * Standardize whitespace in a string
+ * Standardize whitespace in a string.
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::standardize_whitespace()
@@ -283,7 +283,7 @@ function wpseo_standardize_whitespace( $string ) {
 }
 
 /**
- * Initialize sitemaps. Add sitemap & XSL rewrite rules and query vars
+ * Initialize sitemaps. Add sitemap & XSL rewrite rules and query vars.
  *
  * @deprecated 2.4
  * @see WPSEO_Sitemaps_Router
@@ -312,7 +312,7 @@ function wpseo_xml_sitemaps_init() {
 }
 
 /**
- * Redirect /sitemap.xml to /sitemap_index.xml
+ * Redirect /sitemap.xml to /sitemap_index.xml.
  *
  * @deprecated 2.4
  * @see WPSEO_Sitemaps_Router
@@ -320,11 +320,11 @@ function wpseo_xml_sitemaps_init() {
 function wpseo_xml_redirect_sitemap() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 2.4', 'WPSEO_Sitemaps_Router' );
 
-	$current_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
+	$current_url  = ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) ? 'https://' : 'http://';
 	$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
 	// Must be 'sitemap.xml' and must be 404.
-	if ( home_url( '/sitemap.xml' ) == $current_url && $GLOBALS['wp_query']->is_404 ) {
+	if ( home_url( '/sitemap.xml' ) === $current_url && $GLOBALS['wp_query']->is_404 ) {
 		wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
 		exit;
 	}
@@ -347,7 +347,7 @@ function wpseo_invalidate_sitemap_cache( $type ) {
 }
 
 /**
- * Invalidate XML sitemap cache for taxonomy / term actions
+ * Invalidate XML sitemap cache for taxonomy / term actions.
  *
  * @since      1.5.4
  * @deprecated 3.2
@@ -364,7 +364,7 @@ function wpseo_invalidate_sitemap_cache_terms( $unused, $type ) {
 }
 
 /**
- * Invalidate the XML sitemap cache for a post type when publishing or updating a post
+ * Invalidate the XML sitemap cache for a post type when publishing or updating a post.
  *
  * @since      1.5.4
  * @deprecated 3.2
@@ -395,7 +395,7 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 }
 
 /**
- * Create base URL for the sitemaps and applies filters
+ * Create base URL for the sitemaps and applies filters.
  *
  * @since 1.5.7
  *
@@ -403,9 +403,9 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
  * @deprecated use WPSEO_Sitemaps_Router::get_base_url()
  * @see        WPSEO_Sitemaps_Router::get_base_url()
  *
- * @param string $page page to append to the base URL.
+ * @param string $page Page to append to the base URL.
  *
- * @return string base URL (incl page) for the sitemaps
+ * @return string Base URL (incl page) for the sitemaps.
  */
 function wpseo_xml_sitemaps_base_url( $page ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 3.2.0', 'WPSEO_Sitemaps_Router::get_base_url()' );

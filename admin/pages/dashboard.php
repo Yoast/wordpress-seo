@@ -20,7 +20,7 @@ if ( filter_input( INPUT_GET, 'intro' ) ) {
 $options = get_option( 'wpseo' );
 
 if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tracking', 'nonce' ) ) {
-	$options['yoast_tracking'] = ( $_GET['allow_tracking'] == 'yes' );
+	$options['yoast_tracking'] = ( $_GET['allow_tracking'] === 'yes' );
 	update_option( 'wpseo', $options );
 
 	if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
@@ -42,14 +42,14 @@ if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files']
 		echo '<div class="notice notice-error inline yoast-notice-blocking-files"><p id="blocking_files">';
 		printf(
 			/* translators: %1$s expands to Yoast SEO */
-			_n( 'The following file is blocking your XML sitemaps from working properly. Either delete it (this can be done with the "Fix it" button) or disable %1$s XML sitemaps.', 'The following files are blocking your XML sitemaps from working properly. Either delete them (this can be done with the "Fix it" button) or disable %1$s XML sitemaps.', count( $options['blocking_files'] ), 'wordpress-seo' ),
+			esc_html( _n( 'The following file is blocking your XML sitemaps from working properly. Either delete it (this can be done with the "Fix it" button) or disable %1$s XML sitemaps.', 'The following files are blocking your XML sitemaps from working properly. Either delete them (this can be done with the "Fix it" button) or disable %1$s XML sitemaps.', count( $options['blocking_files'] ), 'wordpress-seo' ) ),
 			'Yoast SEO'
 		);
 		foreach ( $options['blocking_files'] as $file ) {
 			echo '<br/>', '<code>', esc_html( $file ), '</code>';
 		}
 		unset( $file );
-		echo '<br><button type="button" data-nonce="', esc_js( wp_create_nonce( 'wpseo-blocking-files' ) ), '" class="button">', __( 'Fix it', 'wordpress-seo' ), '</button>';
+		echo '<br><button type="button" data-nonce="', esc_js( wp_create_nonce( 'wpseo-blocking-files' ) ), '" class="button">', esc_html__( 'Fix it', 'wordpress-seo' ), '</button>';
 		echo '</p></div>';
 	}
 }
