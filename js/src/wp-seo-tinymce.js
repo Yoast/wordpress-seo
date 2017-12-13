@@ -153,7 +153,6 @@ var termsTmceId = "description";
 	function disableMarkerButtons() {
 		if ( ! isUndefined( store ) ) {
 			store.dispatch( setMarkerStatus( "disabled" ) );
-			console.log(store.getState())
 		}
 	}
 
@@ -165,7 +164,6 @@ var termsTmceId = "description";
 	function enableMarkerButtons() {
 		if ( ! isUndefined( store ) ) {
 			store.dispatch( setMarkerStatus( "enabled" ) );
-			console.log(store.getState())
 		}
 	}
 

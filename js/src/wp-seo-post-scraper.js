@@ -96,7 +96,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return wpseoPostScraperL10n.show_markers === "0";
+		return wpseoPostScraperL10n.show_markers === "1";
 	}
 
 	/**
@@ -110,7 +110,6 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
 			if ( ! isUndefined( store ) ) {
 				store.dispatch( setMarkerStatus( "hidden" ) );
-				console.log(store.getState())
 			}
 			return false;
 		}

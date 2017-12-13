@@ -1,17 +1,17 @@
-const PREFIX = "WPSEO_";
 
-export const SET_MARKER_STATUS = `${ PREFIX }SET_MARKER_STATUS`;
+
+export const SET_MARKER_STATUS = `WPSEO_SET_MARKER_STATUS`;
 
 /**
- * An action creator for setting the marker button status.
+ * An action creator for setting the marks button status.
  *
- * @param {string} markerStatus The markerStatus.
+ * @param {string} marksButtonStatus The marksButtonStatus.
  *
- * @returns {Object} The setting marker button state action.
+ * @returns {Object} The setting marks button state action.
  */
-export const setMarkerStatus = function( markerStatus ) {
+export const setMarkerStatus = function( marksButtonStatus ) {
 	return {
 		type: SET_MARKER_STATUS,
-		markerStatus: markerStatus,
+		marksButtonStatus: marksButtonStatus,
 	};
 };

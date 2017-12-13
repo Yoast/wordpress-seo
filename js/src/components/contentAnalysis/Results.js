@@ -61,9 +61,8 @@ class Results extends React.Component {
 				showLanguageNotice={ this.props.showLanguageNotice }
 				canChangeLanguage={ this.props.canChangeLanguage }
 				onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
-				markButtonClassName={ this.props.markButtonClassName }
-				buttonsDisabled={ this.props.buttonsDisabled }
-				buttonsHidden={ this.props.buttonsHidden }
+				marksButtonClassName={ this.props.marksButtonClassName }
+				marksButtonStatus={ this.props.marksButtonStatus }
 			/>
 		);
 	}
@@ -75,17 +74,14 @@ Results.propTypes = {
 	changeLanguageLink: PropTypes.string,
 	showLanguageNotice: PropTypes.bool.isRequired,
 	canChangeLanguage: PropTypes.bool,
-	markButtonClassName: PropTypes.string,
-	buttonsDisabled: PropTypes.bool,
-	buttonsHidden: PropTypes.bool,
+	marksButtonClassName: PropTypes.string,
+	marksButtonStatus: PropTypes.string.isRequired,
 };
 
 Results.defaultProps = {
 	language: "",
 	changeLanguageLink: "#",
 	canChangeLanguage: false,
-	buttonsDisabled: false,
-	buttonsHidden: false,
 };
 
 export default Results;

@@ -11,7 +11,7 @@ const INITIAL_STATE = null;
  * @returns {Object} The SEO results per keyword.
  */
 function setMarkerStatus( state, action ) {
-	return action.markerStatus
+	return action.marksButtonStatus;
 }
 
 /**

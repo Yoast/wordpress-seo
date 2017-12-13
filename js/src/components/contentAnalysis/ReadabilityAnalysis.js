@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import Results from "./Results";
-import { setStore } from "../../wp-seo-tinymce";
 
 let localizedData = {};
 if( window.wpseoPostScraperL10n ) {
@@ -18,22 +17,6 @@ if( window.wpseoPostScraperL10n ) {
  * Redux container for the readability analysis.
  */
 class ReadabilityAnalysis extends React.Component {
-	setButtonsDisabled() {
-		if ( this.props.markerStatus === "disabled" ) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	setButtonsHidden() {
-		if ( this.props.markerStatus === "hidden" ) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	render() {
 		return (
 			<Results
@@ -42,9 +25,8 @@ class ReadabilityAnalysis extends React.Component {
 				changeLanguageLink={ localizedData.settings_link }
 				language={ localizedData.language }
 				results={ this.props.results }
-				markButtonClassName="yoast-tooltip yoast-tooltip-s"
-				buttonsDisabled={ this.setButtonsDisabled() }
-				buttonsHidden={ this.setButtonsHidden() }
+				marksButtonClassName="yoast-tooltip yoast-tooltip-s"
+				marksButtonStatus={ this.props.marksButtonStatus }
 			/>
 		);
 	}
@@ -52,20 +34,27 @@ class ReadabilityAnalysis extends React.Component {
 
 ReadabilityAnalysis.propTypes = {
 	results: PropTypes.array,
-	markerStatus: PropTypes.string,
+	marksButtonStatus: PropTypes.string,
 };
 
 /**
  * Maps redux state to ContentAnalysis props.
  *
  * @param {Object} state The redux state.
+ * @param {Object} ownProps The components own props.
  *
  * @returns {Object} Props that should be passed to ContentAnalysis.
  */
-function mapStateToProps( state ) {
+function mapStateToProps( state, ownProps ) {
+	let marksButtonStatus = state.marksButtonStatus;
+
+	if ( ownProps.hideMarksButtons ) {
+		marksButtonStatus = "hidden";
+	}
+
 	return {
 		results: state.analysis.readability,
-		markerStatus: state.markerStatus,
+		marksButtonStatus: marksButtonStatus,
 	};
 }
 
