@@ -210,6 +210,9 @@ YoastMultiKeyword.prototype.bindKeywordField = function() {
 		var currentTabLink, focusKeyword;
 
 		focusKeyword = $( ev.currentTarget ).val();
+
+		YoastSEO.store.dispatch( setActiveKeyword( focusKeyword ) );
+
 		currentTabLink = $( "li.active > .wpseo_tablink" );
 		currentTabLink.data( "keyword", focusKeyword );
 		currentTabLink.find( "span.wpseo_keyword" ).text( focusKeyword || wpseoPostScraperL10n.enterFocusKeyword );
