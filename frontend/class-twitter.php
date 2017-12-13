@@ -30,6 +30,9 @@ class WPSEO_Twitter {
 	 */
 	public $options;
 
+	/** @var WPSEO_Frontend_Page_Type */
+	protected $frontend_page_type;
+
 	/**
 	 * Will hold the Twitter card type being created
 	 *
@@ -42,6 +45,10 @@ class WPSEO_Twitter {
 	 */
 	public function __construct() {
 		$this->options = WPSEO_Options::get_option( 'wpseo_social' );
+
+		// Class for determine the current page type.
+		$this->frontend_page_type = new WPSEO_Frontend_Page_Type( new WPSEO_WooCommerce_Shop_Page() );
+
 		$this->twitter();
 	}
 
@@ -244,11 +251,8 @@ class WPSEO_Twitter {
 	 * Only used when OpenGraph is inactive.
 	 */
 	protected function title() {
-		if ( is_singular() ) {
-			$title = $this->single_title();
-		}
-		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
-			$title = $this->single_title( get_option( 'page_for_posts' ) );
+		if ( $this->frontend_page_type->is_singular() ) {
+			$title = $this->single_title( $this->frontend_page_type->get_singular_id() );
 		}
 		elseif ( is_category() || is_tax() || is_tag() ) {
 			$title = $this->taxonomy_title();
@@ -409,8 +413,10 @@ class WPSEO_Twitter {
 			return;
 		}
 
-		if ( is_singular() ) {
-			if ( $this->image_from_meta_values_output() ) {
+		if ( $this->frontend_page_type->is_singular() ) {
+			$post_id = $this->frontend_page_type->get_singular_id();
+
+			if ( $this->image_from_meta_values_output( $post_id ) ) {
 				return;
 			}
 
@@ -419,14 +425,14 @@ class WPSEO_Twitter {
 			if ( $this->image_of_attachment_page_output( $post_id ) ) {
 				return;
 			}
-			if ( $this->image_thumbnail_output() ) {
+			if ( $this->image_thumbnail_output( $post_id ) ) {
 				return;
 			}
 			if ( count( $this->images ) > 0 ) {
 				$this->gallery_images_output();
 				return;
 			}
-			if ( $this->image_from_content_output() ) {
+			if ( $this->image_from_content_output( $post_id ) ) {
 				return;
 			}
 		}
@@ -591,9 +597,11 @@ class WPSEO_Twitter {
 	/**
 	 * Retrieve the image from the content
 	 *
+	 * @param int $post_id The post id to extract the images from.
+	 *
 	 * @return bool
 	 */
-	private function image_from_content_output() {
+	private function image_from_content_output( $post_id ) {
 		/**
 		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
 		 *
@@ -601,7 +609,7 @@ class WPSEO_Twitter {
 		 *
 		 * @param object $post - The post object.
 		 */
-		global $post;
+		$post    = get_post( $post_id );
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 
 		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
