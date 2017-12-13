@@ -53,7 +53,7 @@ class WPSEO_Frontend_Page_Type {
 			return get_the_ID();
 		}
 
-		if ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
+		if ( is_home() && 'page' === get_option( 'show_on_front' ) ) {
 			return get_option( 'page_for_posts' );
 		}
 
