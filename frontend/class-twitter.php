@@ -169,11 +169,8 @@ class WPSEO_Twitter {
 	 * Only used when OpenGraph is inactive.
 	 */
 	protected function description() {
-		if ( is_singular() ) {
-			$meta_desc = $this->single_description();
-		}
-		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
-			$meta_desc = $this->single_description( get_option( 'page_for_posts' ) );
+		if ( $this->frontend_page_type->is_singular() ) {
+			$meta_desc = $this->single_description( $this->frontend_page_type->get_singular_id() );
 		}
 		elseif ( is_category() || is_tax() || is_tag() ) {
 			$meta_desc = $this->taxonomy_description();
