@@ -38,7 +38,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'plus-publisher'     => '', // Text field.
 		'twitter'            => true,
 		'twitter_site'       => '', // Text field.
-		'twitter_card_type'  => 'summary',
+		'twitter_card_type'  => 'summary_large_image',
 		'youtube_url'        => '',
 		'google_plus_url'    => '',
 		// Form field, but not always available:
@@ -62,8 +62,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 *              While we only have the options summary and summary_large_image in the
 	 *              interface now, we might change that at some point.
 	 *
-	 * @internal Uncomment any of these to allow them in validation *and* automatically add them as a choice
-	 * in the options page
+	 * {@internal Uncomment any of these to allow them in validation *and* automatically
+	 *            add them as a choice in the options page.}}
 	 */
 	public static $twitter_card_types = array(
 		'summary'             => '',
@@ -237,7 +237,11 @@ class WPSEO_Option_Social extends WPSEO_Option {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
 									'_' . $key, // Suffix-id for the error message box.
-									sprintf( __( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // The error message.
+									sprintf(
+										/* translators: %s expands to a twitter user name. */
+										__( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ),
+										'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
+									), // The error message.
 									'error' // Error type, either 'error' or 'updated'.
 								);
 							}

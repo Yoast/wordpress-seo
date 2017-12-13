@@ -25,7 +25,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-		self::$class_instance = new WPSEO_Author_Sitemap_Provider;
+		self::$class_instance = new WPSEO_Author_Sitemap_Provider();
 	}
 
 	/**
@@ -50,10 +50,10 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 * @return stdClass
 	 */
 	public function get_user() {
-		static $userID = 1;
+		static $user_id = 1;
 		$user        = new stdClass();
 		$user->roles = array( 'administrator' );
-		$user->ID    = $userID ++;
+		$user->ID    = $user_id++;
 
 		return $user;
 	}

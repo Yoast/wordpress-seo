@@ -55,7 +55,7 @@ class WPSEO_Configuration_Page {
 	}
 
 	/**
-	 * Renders the wizard page and exits to prevent the wordpress UI from loading.
+	 * Renders the wizard page and exits to prevent the WordPress UI from loading.
 	 */
 	public function render_wizard_page() {
 		$this->show_wizard();
@@ -123,7 +123,7 @@ class WPSEO_Configuration_Page {
 		<body class="wp-admin wp-core-ui">
 		<div id="wizard"></div>
 		<div role="contentinfo" class="yoast-wizard-return-link-container">
-			<a class="button yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
+			<a class="button yoast-wizard-return-link" href="<?php echo $dashboard_url; ?>">
 				<span aria-hidden="true" class="dashicons dashicons-no"></span>
 				<?php
 				printf(

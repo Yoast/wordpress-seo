@@ -74,11 +74,8 @@ class WPSEO_Taxonomy_Columns {
 			case 'wpseo-score':
 				return $this->get_score_value( $term_id );
 
-				break;
-
 			case 'wpseo-score-readability':
 				return $this->get_score_readability_value( $term_id );
-				break;
 		}
 
 		return $content;

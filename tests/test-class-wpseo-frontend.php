@@ -186,7 +186,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::get_default_title
 	 */
 	public function test_get_default_title() {
-		// TODO
+		// @todo
 	}
 
 	/**
@@ -331,7 +331,13 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_adjacent_rel_links_canonical_post_type() {
 		update_option( 'posts_per_page', 1 );
 
-		register_post_type( 'yoast', array( 'public' => true, 'has_archive' => true ) );
+		register_post_type(
+			'yoast',
+			array(
+				'public'      => true,
+				'has_archive' => true,
+			)
+		);
 
 		$this->factory->post->create_many( 3, array( 'post_type' => 'yoast' ) );
 
@@ -821,22 +827,23 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// from all over the place (globals, GET, etc), which makes it tricky
 		// to run them more than once without very carefully clearing everything
 		$_GET = $_POST = array();
-		foreach (
-			array(
-				'query_string',
-				'id',
-				'postdata',
-				'authordata',
-				'day',
-				'currentmonth',
-				'page',
-				'pages',
-				'multipage',
-				'more',
-				'numpages',
-				'pagenow'
-			) as $v
-		) {
+
+		$keys = array(
+			'query_string',
+			'id',
+			'postdata',
+			'authordata',
+			'day',
+			'currentmonth',
+			'page',
+			'pages',
+			'multipage',
+			'more',
+			'numpages',
+			'pagenow',
+		);
+
+		foreach ( $keys as $v ) {
 			if ( isset( $GLOBALS[ $v ] ) ) {
 				unset( $GLOBALS[ $v ] );
 			}

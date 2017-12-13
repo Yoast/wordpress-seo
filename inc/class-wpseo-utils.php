@@ -51,7 +51,7 @@ class WPSEO_Utils {
 	/**
 	 * Check whether file editing is allowed for the .htaccess and robots.txt files
 	 *
-	 * @internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.
+	 * {@internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.}}
 	 *
 	 * @static
 	 *
@@ -896,6 +896,7 @@ class WPSEO_Utils {
 			return $home_url;
 		}
 
+		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		$home_path = parse_url( $home_url, PHP_URL_PATH );
 
 		if ( '/' === $home_path ) { // Home at site root, already slashed.
@@ -984,7 +985,7 @@ class WPSEO_Utils {
 	 */
 	public static function is_api_available( $minimum_version = '2.0' ) {
 		return ( defined( 'REST_API_VERSION' )
-		         && version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
+			&& version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
 	}
 
 	/********************** DEPRECATED METHODS **********************/

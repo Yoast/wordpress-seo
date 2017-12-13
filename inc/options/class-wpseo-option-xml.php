@@ -143,7 +143,6 @@ class WPSEO_Option_XML extends WPSEO_Option {
 			switch ( $switch_key ) {
 				/* integer fields */
 				case 'entries-per-page':
-
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
@@ -176,6 +175,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 							}
 
 							$error_message = sprintf(
+								/* translators: %s expands to a number. */
 								__( '"Max entries per sitemap page" should be a positive number, which %s is not. Please correct.', 'wordpress-seo' ),
 								'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
 							);
@@ -185,7 +185,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 					}
 					break;
 
-				case 'excluded-posts' :
+				case 'excluded-posts':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						if ( $filtered_array = filter_var_array( explode( ',', $dirty[ $key ] ), FILTER_VALIDATE_INT ) ) {
 							$clean[ $key ] = implode( ',', array_filter( $filtered_array, 'is_integer' ) );
@@ -197,20 +197,20 @@ class WPSEO_Option_XML extends WPSEO_Option {
 					break;
 
 				/*
-				Boolean fields
-				*/
+				 * Boolean fields.
+				 */
 
 				/*
-				Covers:
-				 *		'disable_author_sitemap':
-				 * 		'disable_author_noposts':
-				 * 		'enablexmlsitemap':
-				 * 		'user_role-':
-				 * 		'user_role' . $role_name . '-not_in_sitemap' fields
-				 * 		'post_types-':
-				 * 		'post_types-' . $pt->name . '-not_in_sitemap' fields
-				 * 		'taxonomies-':
-				 *		'taxonomies-' . $tax->name . '-not_in_sitemap' fields
+				 * Covers:
+				 *  'disable_author_sitemap':
+				 *  'disable_author_noposts':
+				 *  'enablexmlsitemap':
+				 *  'user_role-':
+				 *  'user_role' . $role_name . '-not_in_sitemap' fields
+				 *  'post_types-':
+				 *  'post_types-' . $pt->name . '-not_in_sitemap' fields
+				 *  'taxonomies-':
+				 *  'taxonomies-' . $tax->name . '-not_in_sitemap' fields
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -236,9 +236,9 @@ class WPSEO_Option_XML extends WPSEO_Option {
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 		/*
-		Make sure the values of the variable option key options are cleaned as they
-			   may be retained and would not be cleaned/validated then
-		*/
+		 * Make sure the values of the variable option key options are cleaned as they
+		 * may be retained and would not be cleaned/validated then.
+		 */
 		if ( is_array( $option_value ) && $option_value !== array() ) {
 
 			foreach ( $option_value as $key => $value ) {

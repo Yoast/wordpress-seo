@@ -1,7 +1,5 @@
 <?php
 
-require_once 'test-class-wpseo-plugin-availability-double.php';
-
 class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -10,21 +8,30 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	/**
+	 * Load the test mock class.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once WPSEO_TESTS_PATH . 'admin/test-class-wpseo-plugin-availability-double.php';
+	}
+
+	/**
 	 * Set up our double class
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		self::$class_instance = new WPSEO_Plugin_Availability_Double;
+		self::$class_instance = new WPSEO_Plugin_Availability_Double();
 	}
 
 	public function test_plugin_existence() {
 		$expected = array(
-			'url' => 'https://yoast.com/',
-			'title' => 'Test Plugin',
+			'url'         => 'https://yoast.com/',
+			'title'       => 'Test Plugin',
 			'description' => '',
-			'version' => '3.3',
-			'installed' => true
+			'version'     => '3.3',
+			'installed'   => true,
 		);
 
 		$this->assertEquals( self::$class_instance->get_plugin( 'test-plugin' ), $expected );

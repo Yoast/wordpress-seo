@@ -10,11 +10,26 @@ class WPSEO_Extensions {
 
 	/** @var array Array with the Yoast extensions */
 	protected $extensions = array(
-		'Yoast SEO Premium'     => array( 'slug' => 'yoast-seo-premium', 'classname' => 'WPSEO_Premium' ),
-		'News SEO'              => array( 'slug' => 'news-seo', 'classname' => 'WPSEO_News' ),
-		'Yoast WooCommerce SEO' => array( 'slug' => 'woocommerce-yoast-seo', 'classname' => 'Yoast_WooCommerce_SEO' ),
-		'Video SEO'             => array( 'slug' => 'video-seo-for-wordpress', 'classname' => 'WPSEO_Video_Sitemap' ),
-		'Local SEO'             => array( 'slug' => 'local-seo-for-wordpress', 'classname' => 'WPSEO_Local_Core' ),
+		'Yoast SEO Premium'     => array(
+			'slug'      => 'yoast-seo-premium',
+			'classname' => 'WPSEO_Premium',
+		),
+		'News SEO'              => array(
+			'slug'      => 'news-seo',
+			'classname' => 'WPSEO_News',
+		),
+		'Yoast WooCommerce SEO' => array(
+			'slug'      => 'woocommerce-yoast-seo',
+			'classname' => 'Yoast_WooCommerce_SEO',
+		),
+		'Video SEO'             => array(
+			'slug'      => 'video-seo-for-wordpress',
+			'classname' => 'WPSEO_Video_Sitemap',
+		),
+		'Local SEO'             => array(
+			'slug'      => 'local-seo-for-wordpress',
+			'classname' => 'WPSEO_Local_Core',
+		),
 	);
 
 	/**

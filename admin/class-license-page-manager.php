@@ -88,7 +88,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	public function handle_response( array $response, $request_arguments, $url ) {
 		$response_code = wp_remote_retrieve_response_code( $response );
 
-		if ( $response_code === 200 && $this->is_expected_endpoint( $url )  ) {
+		if ( $response_code === 200 && $this->is_expected_endpoint( $url ) ) {
 			$response_data = $this->parse_response( $response );
 			$this->detect_version( $response_data );
 		}
@@ -183,13 +183,13 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	protected function create_notification( $product_name ) {
 		$notification_options = array(
 			'type'         => Yoast_Notification::ERROR,
-			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name,  null, 'save' ),
+			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name, null, 'save' ),
 			'capabilities' => 'wpseo_manage_options',
 		);
 
 		$notification = new Yoast_Notification(
-		/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
 			sprintf(
+				/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
 				__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
 				$product_name,
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/13j' ) . '" target="_blank">My Yoast</a>'

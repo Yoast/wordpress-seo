@@ -95,8 +95,15 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 
 		$results = $wpdb->get_results( $query );
 
+		$post_ids_non_zero = array();
 		foreach ( $results as $result ) {
 			$this->save_meta_data( $result->post_id, array( 'incoming_link_count' => $result->incoming ) );
+			$post_ids_non_zero[] = $result->post_id;
+		}
+
+		$post_ids_zero = array_diff( $post_ids, $post_ids_non_zero );
+		foreach ( $post_ids_zero as $post_id ) {
+			$this->save_meta_data( $post_id, array( 'incoming_link_count' => 0 ) );
 		}
 	}
 }

@@ -11,7 +11,7 @@ class WPSEO_Rewrite {
 	/**
 	 * Class constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		add_filter( 'query_vars', array( $this, 'query_vars' ) );
 		add_filter( 'category_link', array( $this, 'no_category_base' ) );
 		add_filter( 'request', array( $this, 'request' ) );
@@ -29,7 +29,7 @@ class WPSEO_Rewrite {
 	 *
 	 * @since 1.2.8
 	 */
-	function schedule_flush() {
+	public function schedule_flush() {
 		update_option( 'wpseo_flush_rewrite', 1 );
 	}
 
@@ -39,7 +39,7 @@ class WPSEO_Rewrite {
 	 * @since 1.2.8
 	 * @return bool
 	 */
-	function flush() {
+	public function flush() {
 		if ( get_option( 'wpseo_flush_rewrite' ) ) {
 
 			add_action( 'shutdown', 'flush_rewrite_rules' );
@@ -58,7 +58,7 @@ class WPSEO_Rewrite {
 	 *
 	 * @return string
 	 */
-	function no_category_base( $link ) {
+	public function no_category_base( $link ) {
 		$category_base = get_option( 'category_base' );
 
 		if ( '' == $category_base ) {
@@ -82,7 +82,7 @@ class WPSEO_Rewrite {
 	 *
 	 * @return array
 	 */
-	function query_vars( $query_vars ) {
+	public function query_vars( $query_vars ) {
 		$options = WPSEO_Options::get_option( 'wpseo_permalinks' );
 
 		if ( $options['stripcategorybase'] === true ) {
@@ -99,7 +99,7 @@ class WPSEO_Rewrite {
 	 *
 	 * @return array
 	 */
-	function request( $query_vars ) {
+	public function request( $query_vars ) {
 		if ( isset( $query_vars['wpseo_category_redirect'] ) ) {
 			$catlink = trailingslashit( get_option( 'home' ) ) . user_trailingslashit( $query_vars['wpseo_category_redirect'], 'category' );
 
@@ -115,7 +115,7 @@ class WPSEO_Rewrite {
 	 *
 	 * @return array
 	 */
-	function category_rewrite_rules() {
+	public function category_rewrite_rules() {
 		global $wp_rewrite;
 
 		$category_rewrite = array();

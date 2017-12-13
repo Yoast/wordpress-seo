@@ -29,7 +29,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	public function enqueue_assets() {
 		global $pagenow;
 
-		if ( ! in_array( $pagenow, array( 'edit.php' ), true )  ) {
+		if ( ! in_array( $pagenow, array( 'edit.php' ), true ) ) {
 			return;
 		}
 

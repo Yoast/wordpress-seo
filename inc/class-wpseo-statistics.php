@@ -26,7 +26,7 @@ class WPSEO_Statistics {
 						'key'     => WPSEO_Meta::$meta_prefix . 'focuskw',
 						'value'   => 'needs-a-value-anyway',
 						'compare' => 'NOT EXISTS',
-					)
+					),
 				),
 			);
 		}

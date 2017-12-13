@@ -42,7 +42,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'content_analysis_active'         => true,
 		'keyword_analysis_active'         => true,
 		'enable_setting_pages'            => true,
-		'enable_admin_bar_menu'			  => true,
+		'enable_admin_bar_menu'           => true,
 		'enable_cornerstone_content'      => true,
 		'enable_text_link_counter'        => true,
 		'show_onboarding_notice'          => false,
@@ -144,9 +144,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 
 				case 'blocking_files':
-					/**
-					 * @internal [JRF] to really validate this we should also do a file_exists()
-					 * on each array entry and remove files which no longer exist, but that might be overkill
+					/*
+					 * {@internal [JRF] To really validate this we should also do a file_exists()
+					 * on each array entry and remove files which no longer exist, but that might be overkill.}}
 					 */
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
 						$clean[ $key ] = array_unique( $dirty[ $key ] );
@@ -186,8 +186,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				/*
-				Boolean dismiss warnings - not fields - may not be in form
-					   (and don't need to be either as long as the default is false)
+				 * Boolean dismiss warnings - not fields - may not be in form
+				 * (and don't need to be either as long as the default is false).
 				 */
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
@@ -220,7 +220,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 					break;
 
-				case 'first_activated_on' :
+				case 'first_activated_on':
 					$clean[ $key ] = false;
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
@@ -230,13 +230,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				/*
-				Boolean (checkbox) fields
-				*/
+				 * Boolean (checkbox) fields.
+				 */
 
 				/*
-				Covers
-				 * 		'disableadvanced_meta'
-				 * 		'yoast_tracking'
+				 * Covers:
+				 *  'disableadvanced_meta'
+				 *  'yoast_tracking'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
