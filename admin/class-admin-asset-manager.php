@@ -66,7 +66,10 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	public function register_assets() {
 		$locale = get_locale();
-		list( $language, $territory ) = explode( '_', $locale );
+		$locale_parts = explode( '_', $locale );
+		$language = $locale_parts[0];
+		// Not used, keep logic for possible use in future.
+		//$territory = ( ! empty( $locale_parts[1] ) ) ? $locale_parts[1] : strtoupper( $language );
 
 		wp_register_script(
 			self::PREFIX . 'intl-polyfill',
