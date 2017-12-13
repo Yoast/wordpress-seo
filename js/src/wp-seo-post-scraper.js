@@ -276,9 +276,13 @@ import UsedKeywords from "./analysis/usedKeywords";
 			args.callbacks.updatedKeywordsResults = function( results ) {
 				let keyword = tabManager.getKeywordTab().getKeyWord();
 
+				/*
+				 * The results from the main App callback are always for the first keyword. So
+				 * we ignore these results unless the current active keyword is the main
+				 * keyword.
+				 */
 				if ( tabManager.isMainKeyword( keyword ) ) {
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-					store.dispatch( setActiveKeyword( keyword ) );
 				}
 			};
 		}
