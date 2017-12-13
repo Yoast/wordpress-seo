@@ -176,7 +176,7 @@ class WPSEO_OpenGraph_Image {
 			return;
 		}
 
-		$this->get_content_images( $post_id );
+		$this->get_content_images( get_post( $post_id ) );
 	}
 
 	/**

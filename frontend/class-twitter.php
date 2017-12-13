@@ -343,9 +343,8 @@ class WPSEO_Twitter {
 		if ( preg_match( '`([A-Za-z0-9_]{1,25})$`', $id, $match ) ) {
 			return $match[1];
 		}
-		else {
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -409,7 +408,8 @@ class WPSEO_Twitter {
 		if ( $this->homepage_image_output() ) {
 			return;
 		}
-		elseif ( $this->posts_page_image_output() ) { // Posts page, which won't be caught by is_singular() below.
+
+		if ( $this->posts_page_image_output() ) { // Posts page, which won't be caught by is_singular() below.
 			return;
 		}
 
@@ -641,10 +641,8 @@ class WPSEO_Twitter {
 		if ( is_string( $twitter ) && $twitter !== '' ) {
 			$this->output_metatag( 'creator', '@' . $twitter );
 		}
-		elseif ( $this->options['twitter_site'] !== '' ) {
-			if ( is_string( $this->options['twitter_site'] ) && $this->options['twitter_site'] !== '' ) {
-				$this->output_metatag( 'creator', '@' . $this->options['twitter_site'] );
-			}
+		elseif ( $this->options['twitter_site'] !== '' && is_string( $this->options['twitter_site'] ) ) {
+			$this->output_metatag( 'creator', '@' . $this->options['twitter_site'] );
 		}
 	}
 
