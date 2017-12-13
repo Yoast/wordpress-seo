@@ -31,6 +31,14 @@ const IconButtonBase = styled.button`
 	}
 `;
 
+let areButtonsDisabled = function( props ) {
+	if ( props.buttonStatus === "disabled" ) {
+		return true;
+	} else if ( props.buttonStatus === "enabled" ) {
+		return false;
+	}
+};
+
 /**
  * Returns the ChangingIconButton component.
  *
@@ -41,7 +49,7 @@ const IconButtonBase = styled.button`
 const ChangingIconButton = ( props ) => {
 	return (
 		<IconButtonBase
-			disabled={ props.buttonsDisabled }
+			disabled={ areButtonsDisabled( props ) }
 			type="button"
 			onClick={ props.onClick }
 			pressed={ props.pressed }
@@ -52,24 +60,24 @@ const ChangingIconButton = ( props ) => {
 			id={ props.id }
 			aria-label={ props.ariaLabel }
 			aria-pressed={ props.pressed }
-			unpressedIconColor={ props.buttonsDisabled ? props.disabledIconColor : props.unpressedIconColor }
+			unpressedIconColor={ areButtonsDisabled( props ) ? props.disabledIconColor : props.unpressedIconColor }
 			pressedIconColor={ props.pressedIconColor }
 			hoverBorderColor={ props.hoverBorderColor }
 			className={ props.className }
 		>
-			{ props.buttonsDisabled &&
+			{ areButtonsDisabled( props ) &&
 				<Icon
 					icon={ props.icon }
 					color={ props.disabledIconColor }
 					size="18px"/>
 			}
-			{ ! props.pressed && ! props.buttonsDisabled &&
+			{ ! props.pressed && ! areButtonsDisabled( props ) &&
 				<Icon
 					icon={ props.icon }
 					color={ props.unpressedIconColor }
 					size="18px"/>
 			}
-			{ props.pressed && ! props.buttonsDisabled &&
+			{ props.pressed && ! areButtonsDisabled( props ) &&
 				<Icon
 					icon={ props.icon }
 					color={ props.pressedIconColor }
@@ -93,7 +101,7 @@ ChangingIconButton.propTypes = {
 	icon: PropTypes.func.isRequired,
 	pressed: PropTypes.bool.isRequired,
 	hoverBorderColor: PropTypes.string,
-	buttonsDisabled: PropTypes.bool,
+	buttonStatus: PropTypes.string,
 	disabledIconColor: PropTypes.string,
 	className: PropTypes.string,
 };
@@ -106,7 +114,7 @@ ChangingIconButton.defaultProps = {
 	pressedIconColor: colors.$color_white,
 	unpressedIconColor: colors.$color_button_text,
 	hoverBorderColor: colors.$color_white,
-	buttonsDisabled: false,
+	buttonStatus: "enabled",
 	disabledIconColor: colors.$color_grey,
 };
 

@@ -26,6 +26,12 @@ const AnalysisResultText = styled.p`
 	flex: 1 1 auto;
 `;
 
+let areButtonsHidden = function( props ) {
+	if ( props.buttonStatus === "hidden" ) {
+		return true;
+	}
+};
+
 /**
  * Returns an AnalysisResult component.
  *
@@ -43,9 +49,9 @@ export const AnalysisResult = ( props ) => {
 			/>
 			<AnalysisResultText dangerouslySetInnerHTML={ { __html: props.text } } />
 			{
-				props.hasMarksButton && ! props.buttonsHidden &&
+				props.hasMarksButton && ! areButtonsHidden( props ) &&
 					<IconButtonToggle
-						buttonsDisabled={ props.buttonsDisabled }
+						buttonStatus={ props.buttonStatus }
 						className={ props.markButtonClassName }
 						onClick={ props.onButtonClick }
 						id={ props.buttonId }
@@ -66,14 +72,12 @@ AnalysisResult.propTypes = {
 	pressed: PropTypes.bool.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
 	onButtonClick: PropTypes.func.isRequired,
-	buttonsHidden: PropTypes.bool,
-	buttonsDisabled: PropTypes.bool,
+	buttonStatus: PropTypes.string,
 	markButtonClassName: PropTypes.string,
 };
 
 AnalysisResult.defaultProps = {
-	buttonsDisabled: false,
-	buttonsHidden: false,
+	buttonStatus: "enabled",
 };
 
 export default AnalysisResult;

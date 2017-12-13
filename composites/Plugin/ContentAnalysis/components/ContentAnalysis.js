@@ -142,7 +142,7 @@ class ContentAnalysis extends React.Component {
 			let color = this.getColor( result.rating );
 			let isPressed = result.id === this.state.checked;
 			let ariaLabel = "";
-			if ( this.props.buttonsDisabled ) {
+			if ( this.props.buttonStatus === "disabled" ) {
 				ariaLabel = this.props.intl.formatMessage( messages.disabledButton );
 			} else if ( isPressed ) {
 				ariaLabel = this.props.intl.formatMessage( messages.noHighlight );
@@ -159,8 +159,7 @@ class ContentAnalysis extends React.Component {
 				buttonId={ result.id }
 				onButtonClick={ this.handleClick.bind( this, result.id, result.marker ) }
 				markButtonClassName={ this.props.markButtonClassName }
-				buttonsDisabled={ this.props.buttonsDisabled }
-				buttonsHidden={ this.props.buttonsHidden }
+				buttonStatus={ this.props.buttonStatus }
 			/>;
 		} );
 	}
@@ -284,8 +283,7 @@ ContentAnalysis.propTypes = {
 	language: PropTypes.string.isRequired,
 	showLanguageNotice: PropTypes.bool,
 	headingLevel: PropTypes.number,
-	buttonsDisabled: PropTypes.bool,
-	buttonsHidden: PropTypes.bool,
+	buttonStatus: PropTypes.string,
 	markButtonClassName: PropTypes.string,
 	intl: intlShape.isRequired,
 };
@@ -300,8 +298,7 @@ ContentAnalysis.defaultProps = {
 	showLanguageNotice: false,
 	canChangeLanguage: false,
 	headingLevel: 4,
-	buttonsDisabled: false,
-	buttonsHidden: false,
+	buttonStatus: "enabled",
 };
 
 export default injectIntl( ContentAnalysis );
