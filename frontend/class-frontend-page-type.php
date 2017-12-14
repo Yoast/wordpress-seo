@@ -63,6 +63,4 @@ class WPSEO_Frontend_Page_Type {
 
 		return 0;
 	}
-
-
 }
