@@ -150,6 +150,7 @@ class WPSEO_Frontend {
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
 			new WPSEO_JSON_LD(),
+			new WPSEO_WooCommerce_Shop_Page(),
 			new WPSEO_Frontend_WooCommerce_Shop_Page( $this ),
 		);
 
