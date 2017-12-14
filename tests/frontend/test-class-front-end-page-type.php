@@ -57,7 +57,7 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 		$current_page_for_posts = get_option( 'page_for_posts' );
 		$current_show_on_front  = get_option( 'show_on_front' );
 
-		$home_page = $this->factory()->post->create_and_get( [ 'post_type' => 'page' ] );
+		$home_page = $this->factory()->post->create_and_get( array( 'post_type' => 'page' ) );
 
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_for_posts', $home_page->ID );
