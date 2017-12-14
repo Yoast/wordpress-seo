@@ -4,51 +4,25 @@
  */
 
 /**
- * Represents the classifier for determine the current opened page type.
+ * Represents the classifier for determine the type of the currently opened page.
  */
 class WPSEO_Frontend_Page_Type {
 
 	/**
-	 * @var WPSEO_WooCommerce_Shop_Page
-	 */
-	protected $woocommerce_shop_page;
-
-	/**
-	 * Sets the WooCommmerce shop page object.
+	 * Checks if the currently opened page is a simple page.
 	 *
-	 * @param WPSEO_WooCommerce_Shop_Page $woocommerce_shop_page The woocommerce shop page object.
+	 * @return bool Whether the currently opened page is a simple page.
 	 */
-	public function __construct( WPSEO_WooCommerce_Shop_Page $woocommerce_shop_page ) {
-		$this->woocommerce_shop_page = $woocommerce_shop_page;
+	public function is_simple_page() {
+		return $this->get_simple_page_id() !== 0;
 	}
 
 	/**
-	 * Checks if the current opened page is singular.
+	 * Returns the id of the currently opened page.
 	 *
-	 * @return bool True when singular.
+	 * @return int The id of the currently opened page.
 	 */
-	public function is_singular() {
-		if ( is_singular() ) {
-			return true;
-		}
-
-		if ( is_home() && 'page' === get_option( 'show_on_front' ) ) {
-			return true;
-		}
-
-		if ( $this->woocommerce_shop_page->is_shop_page() ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Returns the id of the current opened page.
-	 *
-	 * @return int The id of the current opened page.
-	 */
-	public function get_singular_id() {
+	public function get_simple_page_id() {
 		if ( is_singular() ) {
 			return get_the_ID();
 		}
@@ -57,10 +31,11 @@ class WPSEO_Frontend_Page_Type {
 			return get_option( 'page_for_posts' );
 		}
 
-		if ( $this->woocommerce_shop_page->is_shop_page() ) {
-			return $this->woocommerce_shop_page->get_page_id();
-		}
-
-		return 0;
+		/**
+		 * Filter: Allow changing the default page id.
+		 *
+		 * @api int $page_id The default page id.
+		 */
+		return apply_filters( 'wpseo_frontend_page_type_simple_page_id', 0 );
 	}
 }

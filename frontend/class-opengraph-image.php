@@ -110,9 +110,9 @@ class WPSEO_OpenGraph_Image {
 			$this->get_posts_page_image();
 		}
 
-		$frontend_page_type = new WPSEO_Frontend_Page_Type( new WPSEO_WooCommerce_Shop_Page() );
-		if ( $frontend_page_type->is_singular() ) {
-			$this->get_singular_image( $frontend_page_type->get_singular_id() );
+		$frontend_page_type = new WPSEO_Frontend_Page_Type();
+		if ( $frontend_page_type->is_simple_page() ) {
+			$this->get_singular_image( $frontend_page_type->get_simple_page_id() );
 		}
 
 		if ( is_category() || is_tax() || is_tag() ) {
