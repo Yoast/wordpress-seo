@@ -39,7 +39,7 @@ class WPSEO_WooCommerce_Shop_Page {
 	 */
 	protected function is_current_shop_page() {
 		if ( function_exists( 'is_shop' ) && function_exists( 'wc_get_page_id' ) ) {
-			return is_shop();
+			return is_shop() && ! is_search();
 		}
 
 		return false;
