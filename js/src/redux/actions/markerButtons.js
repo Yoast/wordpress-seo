@@ -1,6 +1,6 @@
 
 
-export const SET_MARKER_STATUS = `WPSEO_SET_MARKER_STATUS`;
+export const SET_MARKER_STATUS = "WPSEO_SET_MARKER_STATUS";
 
 /**
  * An action creator for setting the marks button status.

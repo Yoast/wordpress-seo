@@ -107,12 +107,11 @@ var termsTmceId = "description";
 	 * @returns {String} Content from the TinyMCE editor.
 	 */
 	function getContentTinyMce( contentID ) {
-		// if no TinyMce object available
+		// If no TinyMce object available
 		var content = "";
 		if ( isTinyMCEAvailable( contentID ) === false || isTinyMCEBodyAvailable( contentID ) === false ) {
 			content = tinyMCEElementContent( contentID );
-		}
-		else {
+		} else {
 			content = tinyMCE.get( contentID ).getContent();
 		}
 
