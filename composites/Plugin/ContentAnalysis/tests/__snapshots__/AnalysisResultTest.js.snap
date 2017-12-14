@@ -74,6 +74,27 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 </li>
 `;
 
+exports[`the AnalysisResult component with hidden buttons matches the snapshot 1`] = `
+<li
+  className="sc-bwzfXH kaQsFW"
+>
+  <svg
+    aria-hidden="true"
+    className="sc-htpNat kcPZvN sc-iwsKbI kbxVcT"
+    focusable="false"
+    role="img"
+  />
+  <p
+    className="sc-bxivhb eBerdq"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "You're doing great!",
+      }
+    }
+  />
+</li>
+`;
+
 exports[`the AnalysisResult component with html in the text matches the snapshot 1`] = `
 <li
   className="sc-bwzfXH kaQsFW"

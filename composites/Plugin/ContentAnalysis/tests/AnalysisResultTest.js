@@ -49,7 +49,26 @@ test( "the AnalysisResult component with disabled buttons matches the snapshot",
 			onButtonClick={ () => {} }
 			text={ "You're doing great!" }
 			score="good"
-			buttonsDisabled={ true }
+			marksButtonStatus={ "disabled" }
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
+test( "the AnalysisResult component with hidden buttons matches the snapshot", () => {
+	const component = createComponentWithIntl(
+		<AnalysisResult
+			ariaLabel="SEOResult"
+			bulletColor="blue"
+			buttonId="Result button"
+			pressed={ true }
+			hasMarksButton={ true }
+			onButtonClick={ () => {} }
+			text={ "You're doing great!" }
+			score="good"
+			marksButtonStatus={ "hidden" }
 		/>
 	);
 

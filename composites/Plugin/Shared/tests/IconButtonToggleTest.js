@@ -43,7 +43,7 @@ test( "the disabled IconButtonToggle matches the snapshot", () => {
 			icon={ eye }
 			pressed={ false }
 			onClick={ () => {} }
-			buttonsDisabled={ true }/>
+			marksButtonStatus={ "disabled" }/>
 	);
 
 	let tree = component.toJSON();
