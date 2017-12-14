@@ -14,7 +14,7 @@ class WPSEO_Frontend_Page_Type {
 	 * @return bool Whether the currently opened page is a simple page.
 	 */
 	public function is_simple_page() {
-		return $this->get_simple_page_id() !== 0;
+		return $this->get_simple_page_id() > 0;
 	}
 
 	/**
