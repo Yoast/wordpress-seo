@@ -145,7 +145,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$sql = "
 				SELECT post_modified_gmt
-				    FROM ( SELECT @rownum:=0 ) init
+				    FROM ( SELECT @rownum:=0 ) init 
 				    JOIN {$wpdb->posts} USE INDEX( type_status_date )
 				    WHERE post_status IN ( 'publish', 'inherit' )
 				      AND post_type = %s
