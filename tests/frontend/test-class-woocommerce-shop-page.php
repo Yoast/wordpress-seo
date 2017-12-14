@@ -75,6 +75,6 @@ class WPSEO_WooCommerce_Shop_Page_Test extends WPSEO_UnitTestCase {
 			->method( 'is_shop_page' )
 			->will( $this->returnValue( true ) );
 
-		$this->assertEquals( 0, $woocommerce_shop_page->get_page_id( 100 ) );
+		$this->assertEquals( -1, $woocommerce_shop_page->get_page_id( 100 ) );
 	}
 }
