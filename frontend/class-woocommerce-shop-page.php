@@ -6,7 +6,7 @@
 /**
  * Represents the logic to determine if the current page is a WooCommerce shop page.
  */
-class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration  {
+class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Registers the hooks
@@ -38,7 +38,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration  {
 	 * @return bool Whether the current page is the WooCommerce shop page.
 	 */
 	protected function is_shop_page() {
-		if (  function_exists( 'is_shop' ) && function_exists( 'wc_get_page_id' ) ) {
+		if ( function_exists( 'is_shop' ) && function_exists( 'wc_get_page_id' ) ) {
 			return is_shop() && ! is_search();
 		}
 
