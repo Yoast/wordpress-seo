@@ -14,7 +14,7 @@ var includesIndex = require( "../../stringProcessing/includesIndex" );
 var followsIndex = require( "../../stringProcessing/followsIndex" );
 
 var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
-var followingAuxiliaryExceptionWords = require( "../french/functionWords.js" )().cannotFollowPassiveAuxiliary;
+var followingAuxiliaryExceptionWords = [ "le", "la", "les", "une", "l'un", "l'une" ];
 var followingAuxiliaryExceptionRegex = arrayToRegex( followingAuxiliaryExceptionWords );
 
 var auxiliariesFrench = require( "../french/passivevoice/auxiliaries.js" )();

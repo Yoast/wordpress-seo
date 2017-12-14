@@ -244,8 +244,6 @@ module.exports = function() {
 		// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
 		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, otherAuxiliariesInfinitive ),
 
-		cannotFollowPassiveAuxiliary: articles,
-
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,
