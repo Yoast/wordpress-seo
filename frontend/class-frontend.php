@@ -77,7 +77,7 @@ class WPSEO_Frontend {
 	protected function __construct() {
 
 		$this->options = WPSEO_Options::get_options( $this->required_options );
-		
+
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
 
