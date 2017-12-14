@@ -19,7 +19,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 
 		let defaultConfig = {
 			recommendedMaximumLength: 120,
-			maximumLength: 156,
+			maximumLength: 330,
 			scores: {
 				noMetaDescription: 1,
 				tooLong: 6,

@@ -35,7 +35,7 @@ describe( "The SnippetPreview format functions", function(){
 			rawData: {
 				snippetTitle: "<span>snippetTitle keyword</span>",
 				snippetCite: "homeurl",
-				snippetMeta: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies placerat nisl, in tempor ligula. Pellentesque in risus non quam maximus maximus sed a dui. In sed.",
+				snippetMeta: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia eget neque ut porttitor. Quisque semper ligula leo. Nullam convallis ligula et dapibus dictum. Duis imperdiet nisl id orci hendrerit imperdiet. Praesent commodo ornare ante vitae placerat. Aliquam leo justo, imperdiet ut purus at, pharetra semper eros. In cursus faucibus efficitur.",
 				keyword: "keyword"
 			},
 			pluggable: {
@@ -50,7 +50,7 @@ describe( "The SnippetPreview format functions", function(){
 		});
 
 		expect( snippetPreview.formatTitle() ).toBe( "snippetTitle keyword" );
-		expect( snippetPreview.formatMeta() ).toBe( "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies placerat nisl, in tempor ligula. Pellentesque in risus non quam maximus maximus sed " );
+		expect( snippetPreview.formatMeta() ).toBe( "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia eget neque ut porttitor. Quisque semper ligula leo. Nullam convallis ligula et dapibus dictum. Duis imperdiet nisl id orci hendrerit imperdiet. Praesent commodo ornare ante vitae placerat. Aliquam leo justo, imperdiet ut purus at, pharetra semper eros. In" );
 		expect( snippetPreview.formatCite() ).toBe( "homeurl/" );
 		expect( snippetPreview.formatKeyword( "a string with keyword" ) ).toBe( "a string with<strong> keyword</strong>" );
 
