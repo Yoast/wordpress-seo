@@ -54,7 +54,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 		static $shop_page_id;
 
 		if ( ! $shop_page_id ) {
-			$shop_page_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : 0;
+			$shop_page_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : -1;
 		}
 
 		return $shop_page_id;
