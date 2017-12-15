@@ -55,6 +55,14 @@ const messages = defineMessages( {
 		id: "content-analysis.highlight",
 		defaultMessage: "Highlight this result in the text",
 	},
+	noHighlight: {
+		id: "content-analysis.nohighlight",
+		defaultMessage: "Remove highlight from the text",
+	},
+	disabledButton: {
+		id: "content-analysis.disabledButton",
+		defaultMessage: "Marks are disabled in current view",
+	},
 } );
 
 /**
@@ -132,15 +140,26 @@ class ContentAnalysis extends React.Component {
 	getResults( results ) {
 		return results.map( ( result ) => {
 			let color = this.getColor( result.rating );
+			let isPressed = result.id === this.state.checked;
+			let ariaLabel = "";
+			if ( this.props.marksButtonStatus === "disabled" ) {
+				ariaLabel = this.props.intl.formatMessage( messages.disabledButton );
+			} else if ( isPressed ) {
+				ariaLabel = this.props.intl.formatMessage( messages.noHighlight );
+			} else {
+				ariaLabel = this.props.intl.formatMessage( messages.highlight );
+			}
 			return <AnalysisResult
 				key={ result.id }
 				text={ result.text }
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
-				ariaLabel={ this.props.intl.formatMessage( messages.highlight ) }
-				pressed={ result.id === this.state.checked }
+				ariaLabel={ ariaLabel }
+				pressed={ isPressed }
 				buttonId={ result.id }
 				onButtonClick={ this.handleClick.bind( this, result.id, result.marker ) }
+				marksButtonClassName={ this.props.marksButtonClassName }
+				marksButtonStatus={ this.props.marksButtonStatus }
 			/>;
 		} );
 	}
@@ -264,6 +283,8 @@ ContentAnalysis.propTypes = {
 	language: PropTypes.string.isRequired,
 	showLanguageNotice: PropTypes.bool,
 	headingLevel: PropTypes.number,
+	marksButtonStatus: PropTypes.string,
+	marksButtonClassName: PropTypes.string,
 	intl: intlShape.isRequired,
 };
 
@@ -277,6 +298,7 @@ ContentAnalysis.defaultProps = {
 	showLanguageNotice: false,
 	canChangeLanguage: false,
 	headingLevel: 4,
+	marksButtonStatus: "enabled",
 };
 
 export default injectIntl( ContentAnalysis );

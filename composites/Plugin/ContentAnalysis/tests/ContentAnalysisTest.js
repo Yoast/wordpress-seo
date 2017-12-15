@@ -211,3 +211,41 @@ test( "the ContentAnalysis component with language notice for someone who cannot
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
+
+test( "the ContentAnalysis component with disabled buttons matches the snapshot", () => {
+	const component = createComponentWithIntl(
+		<ContentAnalysis
+			problemsResults={ problemsResults }
+			improvementsResults={ improvementsResults }
+			goodResults={ goodResults }
+			considerationsResults={ considerationsResults }
+			errorsResults={ errorsResults }
+			changeLanguageLink={ "#" }
+			language="English"
+			showLanguageNotice={ true }
+			marksButtonStatus={ "disabled" }
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
+test( "the ContentAnalysis component with hidden buttons matches the snapshot", () => {
+	const component = createComponentWithIntl(
+		<ContentAnalysis
+			problemsResults={ problemsResults }
+			improvementsResults={ improvementsResults }
+			goodResults={ goodResults }
+			considerationsResults={ considerationsResults }
+			errorsResults={ errorsResults }
+			changeLanguageLink={ "#" }
+			language="English"
+			showLanguageNotice={ true }
+			marksButtonStatus={ "hidden" }
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );

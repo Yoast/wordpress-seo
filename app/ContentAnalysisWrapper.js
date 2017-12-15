@@ -75,6 +75,7 @@ export default function HelpCenterWrapper() {
 			onMarkButtonClick={ ( id, marker ) => {
 				console.log( "Marker button clicked", id, marker );
 			} }
+			marksButtonStatus={ "enabled" }
 		/>
 	);
 }
