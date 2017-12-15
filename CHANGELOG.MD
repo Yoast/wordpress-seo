@@ -7,7 +7,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## 2.11.7 December 15th, 2017
 
-### Other
+### Added
 * Adds a `marksButtonStatus` prop to the `ContentAnalysis` to disable or hide the eye buttons. #409
 * Adds a `marksButtonClassName` prop to the `ContentAnalysis` to use for the tooltips in `wordpress-seo`. #409
 
