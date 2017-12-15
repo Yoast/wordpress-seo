@@ -116,8 +116,7 @@ PostDataCollector.prototype.getUrl = function() {
 	var newPostSlug = $( "#new-post-slug" );
 	if ( 0 < newPostSlug.length ) {
 		url = newPostSlug.val();
-	}
-	else if ( document.getElementById( "editable-post-name-full" ) !== null ) {
+	} else if ( document.getElementById( "editable-post-name-full" ) !== null ) {
 		url = document.getElementById( "editable-post-name-full" ).textContent;
 	}
 
@@ -378,8 +377,14 @@ PostDataCollector.prototype.saveScores = function( score ) {
 
 		if ( "" === currentKeyword ) {
 			indicator.className = "na";
-			indicator.screenReaderText = this.app.i18n.dgettext( "js-text-analysis", "Enter a focus keyword to calculate the SEO score" );
-			indicator.fullText = this.app.i18n.dgettext( "js-text-analysis", "Content optimization: Enter a focus keyword to calculate the SEO score" );
+			indicator.screenReaderText = this.app.i18n.dgettext(
+				"js-text-analysis",
+				"Enter a focus keyword to calculate the SEO score"
+			);
+			indicator.fullText = this.app.i18n.dgettext(
+				"js-text-analysis",
+				"Content optimization: Enter a focus keyword to calculate the SEO score"
+			);
 		}
 
 		this._tabManager.updateKeywordTab( score, currentKeyword );
