@@ -48,7 +48,7 @@ var defaults = {
 };
 
 var titleMaxLength = 600;
-var metadescriptionMaxLength = 156;
+var metadescriptionMaxLength = 320;
 
 var inputPreviewBindings = [
 	{
@@ -177,12 +177,12 @@ function rateMetaDescLength( metaDescLength ) {
 	var rating;
 
 	switch ( true ) {
-		case metaDescLength > 0 && metaDescLength <= 120:
-		case metaDescLength >= 157:
+		case metaDescLength > 0 && metaDescLength < 120:
+		case metaDescLength > 320:
 			rating = "ok";
 			break;
 
-		case metaDescLength >= 120 && metaDescLength <= 157:
+		case metaDescLength >= 120 && metaDescLength <= 320:
 			rating = "good";
 			break;
 
@@ -679,7 +679,7 @@ SnippetPreview.prototype.formatMeta = function() {
 
 /**
  * Generates a meta description with an educated guess based on the passed text and excerpt. It uses the keyword to
- * select an appropriate part of the text. If the keyword isn't present it takes the first 156 characters of the text.
+ * select an appropriate part of the text. If the keyword isn't present it takes the first 320 characters of the text.
  * If both the keyword, text and excerpt are empty this function returns the sample text.
  *
  * @returns {string} A generated meta description.
