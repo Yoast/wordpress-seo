@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.1
-Stable tag: 5.9.2
+Stable tag: 5.9.3
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -134,6 +134,14 @@ Enhancements:
 * Adds a link to the Google Knowledge Graph article on Yoast.com. Props [Raaj Trambadia](https://github.com/raajtram).
 * Adds a link to an article on Yoast.com on why it might be a bad idea to use the same keyword more than once.
 * The meta description length has been changed from 156 to 320 characters.
+
+= 5.9.3 =
+
+Release Date: December 11th, 2017
+
+Security:
+
+* Fixes an issue where a part of the excerpt would be leaked on password protected posts when used as a replacement variable. Such as `%%excerpt%%` and `%%excerpt_only%%`. Props to [Rolands Umbrovskis](https://profiles.wordpress.org/rolandinsh) for reporting this issue to us.
 
 = 5.9.2 =
 Release Date: December 11th, 2017
