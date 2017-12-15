@@ -113,9 +113,11 @@ class WPSEO_Metabox_Formatter {
 			'content-analysis.improvements'         => __( 'Improvements', 'wordpress-seo' ),
 			'content-analysis.considerations'       => __( 'Considerations', 'wordpress-seo' ),
 			'content-analysis.good'                 => __( 'Good', 'wordpress-seo' ),
-			'content-analysis.highlight'            => __( 'Highlight this result in the text', 'wordpress-seo' ),
 			'content-analysis.language-notice'      => __( 'Your site language is set to {language}.', 'wordpress-seo' ),
 			'content-analysis.language-notice-contact-admin' => __( 'Your site language is set to {language}. If this is not correct, contact your site administrator.', 'wordpress-seo' ),
+			'content-analysis.highlight'            => __( 'Highlight this result in the text', 'wordpress-seo' ),
+			'content-analysis.nohighlight'          => __( 'Remove highlight from the text', 'wordpress-seo' ),
+			'content-analysis.disabledButton'       => __( 'Marks are disabled in current view', 'wordpress-seo' ),
 		);
 	}
 
