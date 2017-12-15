@@ -1,5 +1,3 @@
-
-
 export const SET_MARKER_STATUS = "WPSEO_SET_MARKER_STATUS";
 
 /**
