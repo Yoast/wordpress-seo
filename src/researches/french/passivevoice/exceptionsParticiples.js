@@ -205,6 +205,7 @@ var adjectivesVerbs = [
 	"laryngé",
 	"léopardé",
 	"lettré",
+	"lié",
 	"lifté",
 	"losangé",
 	"luné",
