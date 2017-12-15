@@ -38,13 +38,7 @@ const IconButtonBase = styled.button`
  * @returns {boolean} True if the buttons should be disabled.
  */
 let areButtonsDisabled = function( props ) {
-	if ( props.marksButtonStatus === "disabled" ) {
-		return true;
-	}
-	if ( props.marksButtonStatus === "enabled" ) {
-		return false;
-	}
-	return true;
+	return props.marksButtonStatus === "disabled";
 };
 
 /**
