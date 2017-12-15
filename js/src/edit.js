@@ -59,7 +59,7 @@ function wrapInTopLevelComponents( Component, store ) {
 			locale={ localizedData.intl.locale }
 			messages={ localizedData.intl } >
 			<Provider store={ store } >
-				<Component hideMarksButtons={ localizedData.show_marker !== "1" } />
+				<Component hideMarksButtons={ localizedData.show_markers !== "1" } />
 			</Provider>
 		</IntlProvider>
 	);
