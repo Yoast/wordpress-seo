@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.27.0 December 15th, 2017
+### Changed
+* The upper boundary of the meta description length has been changed from 156 to 320 characters.
+
 ## 1.26.0 December 13th, 2017
 ### Changed
 
