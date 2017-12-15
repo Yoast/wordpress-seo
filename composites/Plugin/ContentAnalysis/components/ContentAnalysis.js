@@ -138,15 +138,17 @@ class ContentAnalysis extends React.Component {
 	 * @returns {array} A list of AnalysisResult components.
 	 */
 	getResults( results ) {
+		let defaultAriaLabel = "";
+		if ( this.props.marksButtonStatus === "disabled" ) {
+			defaultAriaLabel = this.props.intl.formatMessage( messages.disabledButton );
+		}
 		return results.map( ( result ) => {
 			let color = this.getColor( result.rating );
 			let isPressed = result.id === this.state.checked;
-			let ariaLabel = "";
-			if ( this.props.marksButtonStatus === "disabled" ) {
-				ariaLabel = this.props.intl.formatMessage( messages.disabledButton );
-			} else if ( isPressed ) {
+			let ariaLabel = defaultAriaLabel;
+			if ( isPressed ) {
 				ariaLabel = this.props.intl.formatMessage( messages.noHighlight );
-			} else {
+			}  else {
 				ariaLabel = this.props.intl.formatMessage( messages.highlight );
 			}
 			return <AnalysisResult

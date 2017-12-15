@@ -26,10 +26,14 @@ const AnalysisResultText = styled.p`
 	flex: 1 1 auto;
 `;
 
+/**
+ * Determines whether the buttons should be hidden.
+ *
+ * @param {Object} props The component's props.
+ * @returns {boolean} True if buttons should be hidden.
+ */
 let areButtonsHidden = function( props ) {
-	if ( props.marksButtonStatus === "hidden" ) {
-		return true;
-	}
+	return props.marksButtonStatus === "hidden";
 };
 
 /**
