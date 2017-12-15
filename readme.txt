@@ -132,6 +132,8 @@ Enhancements:
 
 * Adds support for custom page titles and meta descriptions on the WooCommerce shop page. Props [Caleb Burks](https://github.com/WPprodigy).
 * Adds a link to the Google Knowledge Graph article on Yoast.com. Props [Raaj Trambadia](https://github.com/raajtram).
+* Adds a link to an article on Yoast.com on why it might be a bad idea to use the same keyword more than once.
+* The meta description length has been changed from 156 to 320 characters.
 
 = 5.9.2 =
 Release Date: December 11th, 2017
