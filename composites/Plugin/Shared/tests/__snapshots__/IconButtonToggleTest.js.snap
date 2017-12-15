@@ -1,10 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
+<button
+  aria-label="important toggle"
+  aria-pressed={false}
+  className="sc-bdVaJa chrcxo"
+  disabled={true}
+  id="RadioButton2"
+  onClick={[Function]}
+  type="button"
+>
+  <svg
+    aria-hidden="true"
+    className="sc-bxivhb kWWPTV"
+    focusable="false"
+    role="img"
+  />
+</button>
+`;
+
 exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
 <button
   aria-label="important toggle"
   aria-pressed={true}
-  className="sc-bdVaJa VNVFd"
+  className="sc-bdVaJa jgsRfK"
+  disabled={false}
   id="RadioButton2"
   onClick={[Function]}
   type="button"
@@ -22,7 +42,8 @@ exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
 <button
   aria-label="important toggle"
   aria-pressed={false}
-  className="sc-bdVaJa inADYO"
+  className="sc-bdVaJa chrcxo"
+  disabled={false}
   id="RadioButton"
   onClick={[Function]}
   type="button"

@@ -5,6 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.11.7 December 15th, 2017
+
+### Added
+* Adds a `marksButtonStatus` prop to the `ContentAnalysis` to disable or hide the eye buttons. #409
+* Adds a `marksButtonClassName` prop to the `ContentAnalysis` to use for the tooltips in `wordpress-seo`. #409
+
 ## 2.11.6 December 4th, 2017
 
 ### Other
