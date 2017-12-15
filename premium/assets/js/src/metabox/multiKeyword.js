@@ -1,6 +1,7 @@
 /* global wp, wpseoPostScraperL10n, _, YoastSEO */
 
 import { setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { setActiveKeyword } from "../../../../../js/src/redux/actions/activeKeyword";
 
 var scoreToRating = require( "yoastseo/js/interpreters/scoreToRating" );
 var indicatorsFactory = require( "yoastseo/js/config/presenter" );
@@ -160,8 +161,11 @@ YoastMultiKeyword.prototype.bindKeywordTab = function() {
 		var $this = $( this );
 
 		// Convert to string to prevent errors if the keyword is "null".
-		var keyword = $this.data( "keyword" ) + "";
-		$( "#yoast_wpseo_focuskw_text_input" ).val( keyword ).focus();
+		const activeKeyword = $this.data( "keyword" ) + "";
+
+		YoastSEO.store.dispatch( setActiveKeyword( activeKeyword ) );
+
+		$( "#yoast_wpseo_focuskw_text_input" ).val( activeKeyword ).focus();
 
 		tabManager.showKeywordAnalysis();
 
@@ -206,6 +210,9 @@ YoastMultiKeyword.prototype.bindKeywordField = function() {
 		var currentTabLink, focusKeyword;
 
 		focusKeyword = $( ev.currentTarget ).val();
+
+		YoastSEO.store.dispatch( setActiveKeyword( focusKeyword ) );
+
 		currentTabLink = $( "li.active > .wpseo_tablink" );
 		currentTabLink.data( "keyword", focusKeyword );
 		currentTabLink.find( "span.wpseo_keyword" ).text( focusKeyword || wpseoPostScraperL10n.enterFocusKeyword );

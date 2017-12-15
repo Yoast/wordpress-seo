@@ -1,6 +1,12 @@
 ### 6.0.0: December 19th, 2017
 * Includes every change in Yoast SEO core 6.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
+### 5.9.4: December 13th, 2017
+* Fixes an issue where any keyword except the first keyword would show the results of the first keyword.
+ 
+### 5.9.3: December 11th, 2017
+* Includes every change in Yoast SEO core 5.9.3, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 5.9.2: December 11th, 2017
 * Includes every change in Yoast SEO core 5.9.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
