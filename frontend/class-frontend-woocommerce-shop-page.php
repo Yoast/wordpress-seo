@@ -11,6 +11,9 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	/** @var WPSEO_Frontend Frontend class. */
 	protected $frontend;
 
+	/** @var int WC shop page id. */
+	protected $shop_page_id = null;
+
 	/**
 	 * Initializes the class.
 	 *
@@ -24,8 +27,20 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	 * Registers the hooks.
 	 */
 	public function register_hooks() {
+		add_action( 'wp', array( $this, 'register_hooks_shop_page' ) );
+	}
+
+	/**
+	 * Registers the hooks if it's WC shop page.
+	 */
+	public function register_hooks_shop_page() {
+		if ( ! $this->is_shop_page() && $this->get_shop_page_id() === -1 ) {
+			return;
+		}
+
 		add_filter( 'wpseo_title', array( $this, 'apply_shop_page_title' ) );
 		add_filter( 'wpseo_metadesc', array( $this, 'apply_shop_page_metadesc' ) );
+		add_filter( 'wpseo_metakeywords', array( $this, 'apply_shop_page_metakeywords' ) );
 	}
 
 	/**
@@ -36,11 +51,6 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	 * @return string Title of the shop page if applicable.
 	 */
 	public function apply_shop_page_title( $title ) {
-		// This check must be done in the filter, as the function is not present when registering hooks.
-		if ( ! $this->is_wc_shop_page() ) {
-			return $title;
-		}
-
 		return $this->frontend->get_content_title( get_post( $this->get_shop_page_id() ) );
 	}
 
@@ -49,25 +59,43 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	 *
 	 * @param string $description The current meta description.
 	 *
-	 * @return string Meta description of the shop page if applicable.
+	 * @return string Meta description of the shop page.
 	 */
 	public function apply_shop_page_metadesc( $description ) {
-		global $post;
+		return $this->get_meta_value( 'metadesc', 'metadesc' );
+	}
 
-		// This check must be done in the filter, as the function is not present when registering hooks.
-		if ( ! $this->is_wc_shop_page() ) {
-			return $description;
+	/**
+	 * Overrides the meta keywords.
+	 *
+	 * @param string $keywords The current meta keywords.
+	 *
+	 * @return string Meta keywords of the shop page.
+	 */
+	public function apply_shop_page_metakeywords( $keywords ) {
+		return $this->get_meta_value( 'metakeywords', 'metakey' );
+	}
+
+	/**
+	 * Returns the meta value.
+	 *
+	 * @param string meta_key   Meta key.
+	 * @param string option_key Option key.
+	 *
+	 * @return string Meta value.
+	 */
+	protected function get_meta_value( $meta_key, $option_key ) {
+		$post_type = $this->get_post_type( $GLOBALS['post'] );
+
+		$meta_value = WPSEO_Meta::get_value( $meta_key, $this->get_shop_page_id() );
+		if ( $meta_value === ''
+			&& $post_type !== ''
+			&& isset( $this->frontend->options[ $option_key . '-' . $post_type ] )
+		) {
+			$meta_value = $this->frontend->options[ $option_key . '-' . $post_type ];
 		}
 
-		$post_type = $this->get_post_type( $post );
-
-		$metadesc = WPSEO_Meta::get_value( 'metadesc', $this->get_shop_page_id() );
-		if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->frontend->options[ 'metadesc-' . $post_type ] ) ) {
-			$metadesc = $this->frontend->options[ 'metadesc-' . $post_type ];
-
-		}
-
-		return trim( wpseo_replace_vars( $metadesc, get_queried_object() ) );
+		return trim( wpseo_replace_vars( $meta_value, get_queried_object() ) );
 	}
 
 	/**
@@ -75,9 +103,9 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	 *
 	 * @return bool True if we are on a shop page.
 	 */
-	protected function is_wc_shop_page() {
+	protected function is_shop_page() {
 		if ( function_exists( 'is_shop' ) && function_exists( 'wc_get_page_id' ) ) {
-			return is_shop();
+			return is_shop() && ! is_search();
 		}
 
 		return false;
@@ -89,7 +117,11 @@ class WPSEO_Frontend_WooCommerce_Shop_Page implements WPSEO_WordPress_Integratio
 	 * @return int The Page ID of the shop.
 	 */
 	protected function get_shop_page_id() {
-		return wc_get_page_id( 'shop' );
+		if ( is_null( $this->shop_page_id ) ) {
+			$this->shop_page_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : -1;
+		}
+
+		return $this->shop_page_id;
 	}
 
 	/**
