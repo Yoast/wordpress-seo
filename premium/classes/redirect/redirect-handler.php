@@ -59,7 +59,7 @@ class WPSEO_Redirect_Handler {
 		$this->handle_normal_redirects();
 
 		// Check the regex redirects.
-		if ( $this->is_redirected === false ) {
+		if ( ! $this->is_redirected() ) {
 			$this->handle_regex_redirects();
 		}
 	}
@@ -329,6 +329,15 @@ class WPSEO_Redirect_Handler {
 
 		wp_redirect( $this->parse_target_url( $redirect_url ), $redirect_type );
 		exit;
+	}
+
+	/**
+	 * Checks if a redirect has been executed.
+	 *
+	 * @return bool Whether a redirect has been executed.
+	 */
+	protected function is_redirected() {
+		return $this->is_redirected === true;
 	}
 
 	/**
