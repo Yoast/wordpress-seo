@@ -7265,9 +7265,9 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yoast-components@2.11.2:
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.11.2.tgz#3916d44a82337f940834023026ecab7bfe635ce2"
+yoast-components@2.11.9:
+  version "2.11.9"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.11.9.tgz#933bfcff3157c7e609327d8724191ca05e239a3b"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     algoliasearch "^3.22.3"
@@ -7337,9 +7337,9 @@ yoast-components@^2.11.6:
     lodash "^3.10.1"
     yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#master"
 
-yoastseo@^1.24:
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.24.0.tgz#64237c4ca7666efc9e0832a66819528b81c7b128"
+yoastseo@^1.27:
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.27.0.tgz#f316824223858fbd10dbc6cbe25bdcc7e693d1bb"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
