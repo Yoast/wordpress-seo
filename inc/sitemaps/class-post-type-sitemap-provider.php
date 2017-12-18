@@ -380,7 +380,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		if ( ! $this->get_page_on_front_id() && ( $post_type === 'post' || $post_type === 'page' ) ) {
 
 			$links[] = array(
-				'loc' => $this->home_url(),
+				'loc' => home_url(),
 
 				// Deprecated, kept for backwards data compat. R.
 				'chf' => 'daily',
