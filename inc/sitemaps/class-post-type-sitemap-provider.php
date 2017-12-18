@@ -8,8 +8,8 @@
  */
 class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
-	/** @var string $home_url Holds the home_url() value to speed up loops. */
-	protected static $home_url;
+	/** @var string $home_proto_rel_url Holds home protocol-relative url value to speed up loops. */
+	protected static $home_proto_rel_url;
 
 	/** @var array $options All of plugin options. */
 	protected static $options;
@@ -70,19 +70,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get Home URL
+	 * Get Home protocol relative URL
 	 *
 	 * This has been moved from the constructor because wp_rewrite is not available on plugins_loaded in multisite.
 	 * It will now be requested on need and not on initialization.
 	 *
 	 * @return string
 	 */
-	protected function get_home_url() {
-		if ( ! isset( self::$home_url ) ) {
-			self::$home_url = WPSEO_Utils::home_url();
+	protected function get_home_proto_rel_url() {
+		if ( ! isset( self::$home_proto_rel_url ) ) {
+			self::$home_proto_rel_url = preg_replace( '`^(https?:)`', '', WPSEO_Utils::home_url() );
 		}
 
-		return self::$home_url;
+		return self::$home_proto_rel_url;
 	}
 
 	/**
@@ -380,7 +380,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		if ( ! $this->get_page_on_front_id() && ( $post_type === 'post' || $post_type === 'page' ) ) {
 
 			$links[] = array(
-				'loc' => $this->get_home_url(),
+				'loc' => $this->home_url(),
 
 				// Deprecated, kept for backwards data compat. R.
 				'chf' => 'daily',
@@ -591,7 +591,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 *
 		 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 		 */
-		if ( false === strpos( $url['loc'], $this->get_home_url() ) ) {
+		if ( false === strpos( $url['loc'], $this->get_home_proto_rel_url() ) ) {
 			return false;
 		}
 
