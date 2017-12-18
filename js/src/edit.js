@@ -22,9 +22,6 @@ if( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
 
-let language = localizedData.intl.locale.substr( 0, 2 ).toLowerCase();
-let localeData = require( `react-intl/locale-data/${ language }` );
-
 /**
  * Creates a redux store.
  *
@@ -59,7 +56,7 @@ function configureStore() {
 function wrapInTopLevelComponents( Component, store ) {
 	return (
 		<IntlProvider
-			locale={ language }
+			locale={ localizedData.intl.locale }
 			messages={ localizedData.intl } >
 			<Provider store={ store } >
 				<Component hideMarksButtons={ localizedData.show_markers !== "1" } />
@@ -98,7 +95,7 @@ function renderReactApp( target, component, store ) {
 function renderReactApps( store, args ) {
 	if ( localizedData.intl ) {
 		// Add react-intl translations
-		addLocaleData( localeData );
+		addLocaleData( localizedData.intl );
 	}
 
 	renderReactApp( args.readabilityTarget, ContentAnalysis, store );

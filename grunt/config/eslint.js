@@ -3,7 +3,7 @@ module.exports = {
 	plugin: {
 		src: [ "<%= files.js %>" ],
 		options: {
-			maxWarnings: 112,
+			maxWarnings: 106,
 		},
 	},
 	grunt: {
