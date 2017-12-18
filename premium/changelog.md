@@ -1,4 +1,5 @@
 ### 6.0.0: December 19th, 2017
+* Converts the list of post types to a format which is compatible with the REST API format.
 * Includes every change in Yoast SEO core 6.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 5.9.4: December 13th, 2017
