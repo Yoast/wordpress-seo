@@ -5,19 +5,17 @@ import { intlShape, injectIntl, defineMessages } from "react-intl";
 import debounce from "lodash/debounce";
 
 import colors from "../../style-guide/colors.json";
-import SearchIcon from "../../style-guide/svg/search.svg";
-import { Icon } from "../Plugin/Shared/components/Icon";
 import { YoastButton } from "../Plugin/Shared/components/YoastButton";
 import breakpoints from "../../style-guide/responsive-breakpoints.json";
 
 const messages = defineMessages( {
 	headingText: {
 		id: "searchBar.headingText",
-		defaultMessage: "Search the Yoast knowledge base",
+		defaultMessage: "Search the Yoast Knowledge Base for answers to your questions:",
 	},
 	placeholderText: {
 		id: "searchBar.placeholderText",
-		defaultMessage: "Search the knowledge base",
+		defaultMessage: "Type here to search...",
 	},
 	buttonText: {
 		id: "searchBar.buttonText",
@@ -26,13 +24,9 @@ const messages = defineMessages( {
 } );
 
 const SearchBarWrapper = styled.div`
-
 	form {
 		display: flex;
-
-		@media screen and ( max-width: ${ breakpoints.mobile } ) {
-			flex-wrap: wrap;
-		}
+		flex-wrap: wrap;
 	}
 
 	@media screen and ( max-width: ${ breakpoints.mobile } ) {
@@ -43,25 +37,11 @@ const SearchBarWrapper = styled.div`
 	}
 `;
 
-const SearchHeading = styled.h2`
-	// !important to override WP rules.
-	font-size: 1em !important;
-	margin: 0.5em 0 0.5em 58px !important;
-	padding: 0 !important;
-	font-weight: 600 !important;
-
-	@media screen and ( max-width: ${ breakpoints.mobile } ) {
-		margin-left: 0;
-	}
-`;
-
 const SearchLabel = styled.label`
-	flex: 0 0 42px;
-	height: 48px;
-	// This label is already a flex item to be aligned with its siblings.
-	// By making it also a flex container, we can align the SVG icon.
-	display: inline-flex;
-	align-items: center;
+	flex: 0 1 100%;
+	font-size: 1em;
+	margin: 0.5em 16px;
+	font-weight: 600;
 `;
 
 const SearchBarInput = styled.input`
@@ -75,7 +55,7 @@ const SearchBarInput = styled.input`
 		border: 1px solid transparent;
 		font-size: 1em;
 		margin-right: 24px;
-		padding: 0 8px 0 16px;
+		padding: 0 8px 0 15px; // 15 + border 1 = 16 for the 8px grid
 
 		:focus {
 			box-shadow:
@@ -175,15 +155,9 @@ class SearchBar extends React.Component {
 
 		return (
 			<SearchBarWrapper role="search">
-				<SearchHeading>
-					{ headingText }
-				</SearchHeading>
 				<form onSubmit={ this.onSubmit.bind( this ) }>
 					<SearchLabel htmlFor="kb-search-input">
-						<Icon icon={ SearchIcon } color="inherit" size="30px" />
-						<span className="screen-reader-text">
-							{ headingText }
-						</span>
+						{ headingText }
 					</SearchLabel>
 					<SearchBarInput
 						onChange={ this.onSearchChange.bind( this ) }
@@ -193,7 +167,7 @@ class SearchBar extends React.Component {
 						defaultValue={ this.props.searchString }
 						autoComplete="off"
 						autoCorrect="off"
-						autoCapitalize="off"
+						autoCapitalize="none"
 						spellCheck="false"
 						placeholder={ placeholderText }
 					/>
