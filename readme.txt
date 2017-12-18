@@ -135,6 +135,9 @@ Enhancements:
 * Adds a link to an article on Yoast.com on why it might be a bad idea to use the same keyword more than once.
 * The meta description length has been changed from 156 to 320 characters.
 
+Bugfixes:
+* Disables the mark buttons of the content analysis when in text view, and hides them when there is no TinyMCE or has_marks is false.
+
 = 5.9.3 =
 
 Release Date: December 11th, 2017
