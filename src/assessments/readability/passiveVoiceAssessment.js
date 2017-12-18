@@ -9,7 +9,7 @@ var marker = require( "../../markers/addMark.js" );
 var map = require( "lodash/map" );
 
 var getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
-var availableLanguages = [ "en", "de", "fr" ];
+var availableLanguages = [ "en", "de" ];
 
 /**
  * Calculates the result based on the number of sentences and passives.
