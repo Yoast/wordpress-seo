@@ -18,6 +18,73 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the handling of normal redirects.
+	 *
+	 * @dataProvider normal_redirect_provider
+	 *
+	 * @param string         $request_uri The requested uri.
+	 * @param WPSEO_Redirect $redirect    The redirect object.
+	 * @group test
+	 */
+	public function test_redirect_handling( $request_uri, WPSEO_Redirect $redirect ) {
+		$redirects = array(
+			$redirect->get_origin() => array(
+				'url'  => $redirect->get_target(),
+				'type' => $redirect->get_type(),
+			),
+		);
+
+		$class_instance = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'load_php_redirects', 'get_request_uri', 'get_redirects', 'do_redirect', 'is_redirected' ) )
+			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'load_php_redirects' )
+			->will( $this->returnValue( true ) );
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'get_request_uri' )
+			->will( $this->returnValue( $request_uri ) );
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'do_redirect' );
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'get_redirects' )
+			->will( $this->returnValue( $redirects ) );
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'is_redirected' )
+			->will( $this->returnValue( true ) );
+
+		$class_instance->load();
+	}
+
+	/**
+	 * Provider for the default redirects.
+	 *
+	 * @returns array List with redirects.
+	 */
+	public function normal_redirect_provider() {
+		return array(
+			array(
+				'file with spaces to.pdf',
+				new WPSEO_Redirect( 'file with spaces to.pdf', 'http://example.com', 301 )
+			),
+			array(
+				'file with spaces to.pdf',
+				new WPSEO_Redirect( rawurlencode( 'file with spaces to.pdf' ), 'http://example.com', 301 )
+			),
+		);
+	}
+
+	/**
 	 * Testing a regex redirect that will match the request URI.
 	 *
 	 * @covers WPSEO_Redirect_Handler::match_regex_redirect()
@@ -126,4 +193,6 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 		delete_option( 'wpseo_redirect' );
 	}
+
+
 }
