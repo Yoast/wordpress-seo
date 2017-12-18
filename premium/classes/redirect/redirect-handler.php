@@ -205,7 +205,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return array
 	 */
-	private function get_redirects( $option ) {
+	protected function get_redirects( $option ) {
 		static $redirects;
 
 		if ( $redirects === null ) {
