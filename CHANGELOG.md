@@ -7,8 +7,8 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.28.0 December 18th, 2017
 ### Changed
-* Include the link to the post about using your focus keyword multiple times also to the feedback text that is shown when using a focus keyword twice. 
-* Change the anchor text of the link to the post about using your focus keyword multiple times to a more accessible one.
+* Includes the link to the post about using your focus keyword multiple times also to the feedback text that is shown when using a focus keyword twice. 
+* Changes the anchor text of the link to the post about using your focus keyword multiple times to a more accessible one.
 
 ## 1.27.0 December 15th, 2017
 ### Changed
