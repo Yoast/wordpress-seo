@@ -12,6 +12,10 @@ import HelpCenterYC from "yoast-components/composites/Plugin/HelpCenter/HelpCent
 import colors from "yoast-components/style-guide/colors.json";
 import { YoastButton } from "yoast-components/composites/Plugin/Shared/components/YoastButton";
 
+const locale = window.wpseoHelpCenterData.translations.locale;
+const language = locale.substr( 0, 2 ).toLowerCase();
+const localeData = require( `react-intl/locale-data/${ language }` );
+
 /**
  * Executes an action with an argument.
  */
@@ -213,7 +217,7 @@ HelpCenter.propTypes = {
 	onPremiumSupport: PropTypes.func,
 	adminTabsData: PropTypes.object.isRequired,
 	additionalHelpCenterTabs: PropTypes.array,
-	videoTutorialParagraphs: PropTypes.object,
+	videoTutorialParagraphs: PropTypes.array,
 	shouldDisplayContactForm: PropTypes.string,
 	initialTab: PropTypes.string,
 	intl: intlShape.isRequired,
@@ -267,11 +271,11 @@ function handleTabSelect() {
 
 if ( window.wpseoHelpCenterData ) {
 	// Add react-intl translations
-	addLocaleData( wpseoHelpCenterData.translations );
+	addLocaleData( localeData );
 
 	ReactDOM.render(
 		<IntlProvider
-			locale={ wpseoHelpCenterData.translations.locale }
+			locale={ language }
 			messages={ wpseoHelpCenterData.translations }>
 			<HelpCenterIntl
 				onHelpCenterToggle={ toggleSidebar }
