@@ -264,8 +264,10 @@ class WPSEO_Redirect_Handler {
 		$no_trailing_slash = rtrim( $url, '/' );
 
 		$checks = array(
-			'no_trailing_slash' => $no_trailing_slash,
-			'trailing_slash'    => $no_trailing_slash . '/',
+			'no_trailing_slash'            => $no_trailing_slash,
+			'trailing_slash'               => $no_trailing_slash . '/',
+			'urlencode_trailing_slash'     => rawurlencode( $no_trailing_slash ) . '/',
+			'urlencoded_no_trailing_slash' => rawurlencode( $no_trailing_slash ),
 		);
 
 		foreach ( $checks as $check ) {
