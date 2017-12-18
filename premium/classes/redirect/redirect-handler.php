@@ -56,7 +56,7 @@ class WPSEO_Redirect_Handler {
 		$this->set_request_url();
 
 		// Check the normal redirects.
-		$this->handle_normal_redirects();
+		$this->handle_normal_redirects( $this->request_url );
 
 		// Check the regex redirects.
 		if ( ! $this->is_redirected() ) {
@@ -136,13 +136,15 @@ class WPSEO_Redirect_Handler {
 
 	/**
 	 * Checking if current URL matches a normal redirect
+	 *
+	 * @param string $request_url The request url to look for.
 	 */
-	private function handle_normal_redirects() {
+	protected function handle_normal_redirects( $request_url ) {
 		// Setting the redirects.
-		$this->redirects = $this->get_redirects( $this->normal_option_name );
+		$redirects = $this->get_redirects( $this->normal_option_name );
+		$this->redirects = $this->normalize_redirects( $redirects );
 
 		// Trim the slashes, to match the variants of a request URL (Like: url, /url, /url/, url/).
-		$request_url = $this->request_url;
 		if ( $request_url !== '/' ) {
 			$request_url = trim( $request_url, '/' );
 		}
@@ -264,10 +266,8 @@ class WPSEO_Redirect_Handler {
 		$no_trailing_slash = rtrim( $url, '/' );
 
 		$checks = array(
-			'no_trailing_slash'            => $no_trailing_slash,
-			'trailing_slash'               => $no_trailing_slash . '/',
-			'urlencode_trailing_slash'     => rawurlencode( $no_trailing_slash ) . '/',
-			'urlencoded_no_trailing_slash' => rawurlencode( $no_trailing_slash ),
+			'no_trailing_slash' => $no_trailing_slash,
+			'trailing_slash'    => $no_trailing_slash . '/',
 		);
 
 		foreach ( $checks as $check ) {
@@ -288,7 +288,7 @@ class WPSEO_Redirect_Handler {
 	 * @return string
 	 */
 	private function redirect_url( $redirect_url ) {
-		if ( '/' === substr( $redirect_url, 0, 1 ) ) {
+		if ( '/' === $redirect_url[0] ) {
 			$redirect_url = home_url( $redirect_url );
 		}
 
@@ -465,5 +465,22 @@ class WPSEO_Redirect_Handler {
 		}
 
 		return rawurldecode( $request_uri );
+	}
+
+	/**
+	 * Normalizes the redirects by raw url decoding the origin.
+	 *
+	 * @param array $redirects The redirects to normalize.
+	 *
+	 * @return array The normalized redirects.
+	 */
+	protected function normalize_redirects( $redirects ) {
+		$normalized_redirects = array();
+
+		foreach( $redirects as $origin => $redirect ) {
+			$normalized_redirects[ rawurldecode( $origin ) ] = $redirect;
+		}
+
+		return $normalized_redirects;
 	}
 }

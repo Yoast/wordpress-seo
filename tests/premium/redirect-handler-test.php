@@ -24,7 +24,8 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @param string         $request_uri The requested uri.
 	 * @param WPSEO_Redirect $redirect    The redirect object.
-	 * @group test
+	 *
+	 * @covers WPSEO_Redirect_Handler::handle_normal_redirects
 	 */
 	public function test_redirect_handling( $request_uri, WPSEO_Redirect $redirect ) {
 		$redirects = array(
@@ -34,24 +35,11 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 			),
 		);
 
+		/** @var WPSEO_Redirect_Handler_Double $class_instance */
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
-			->setMethods( array( 'load_php_redirects', 'get_request_uri', 'get_redirects', 'do_redirect', 'is_redirected' ) )
+			->setMethods( array( 'get_redirects', 'do_redirect' ) )
 			->getMock();
-
-		$class_instance
-			->expects( $this->once() )
-			->method( 'load_php_redirects' )
-			->will( $this->returnValue( true ) );
-
-		$class_instance
-			->expects( $this->once() )
-			->method( 'get_request_uri' )
-			->will( $this->returnValue( $request_uri ) );
-
-		$class_instance
-			->expects( $this->once() )
-			->method( 'do_redirect' );
 
 		$class_instance
 			->expects( $this->once() )
@@ -60,10 +48,9 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 		$class_instance
 			->expects( $this->once() )
-			->method( 'is_redirected' )
-			->will( $this->returnValue( true ) );
+			->method( 'do_redirect' );
 
-		$class_instance->load();
+		$class_instance->handle_normal_redirects( rawurldecode( $request_uri ) );
 	}
 
 	/**
@@ -74,12 +61,36 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	public function normal_redirect_provider() {
 		return array(
 			array(
-				'file with spaces to.pdf',
-				new WPSEO_Redirect( 'file with spaces to.pdf', 'http://example.com', 301 )
+				'example-page',
+				new WPSEO_Redirect( 'example-page', '/', 301 )
 			),
 			array(
-				'file with spaces to.pdf',
-				new WPSEO_Redirect( rawurlencode( 'file with spaces to.pdf' ), 'http://example.com', 301 )
+				'some url with spaces',
+				new WPSEO_Redirect( 'some url with spaces', '/', 301 )
+			),
+
+			array(
+				'דף לדוגמה',
+				new WPSEO_Redirect( 'דף לדוגמה', '/', 301 )
+			),
+
+			// For reference, see: https://github.com/Yoast/wordpress-seo-premium/issues/1451.
+	       array(
+		       'Cellgevity%20support',
+		       new WPSEO_Redirect( 'Cellgevity support', '/', 301 )
+	       ),
+			array(
+				'Cellgevity support',
+				new WPSEO_Redirect( 'Cellgevity%20support', '/', 301 )
+			),
+			// For reference, see: https://github.com/Yoast/wordpress-seo-premium/issues/758.
+			array(
+				'jaarverslagen/2009/Jaarverslag%202009.pdf',
+				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag 2009.pdf', '/', 301 )
+			),
+			array(
+				'jaarverslagen/2009/Jaarverslag%202009.pdf',
+				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag 2009.pdf', '/', 301 )
 			),
 		);
 	}
