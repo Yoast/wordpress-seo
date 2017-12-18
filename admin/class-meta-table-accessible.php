@@ -68,7 +68,7 @@ class WPSEO_Meta_Table_Accessible {
 	protected static function check_table() {
 		global $wpdb;
 
-		$storage = new WPSEO_Link_Storage();
+		$storage = new WPSEO_Meta_Storage();
 		if ( $wpdb->get_var( 'SHOW TABLES LIKE "' . $storage->get_table_name() . '"' ) !== $storage->get_table_name() ) {
 			self::set_inaccessible();
 			return false;
