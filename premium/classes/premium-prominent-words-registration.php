@@ -24,7 +24,14 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 		$prominent_words_support    = new WPSEO_Premium_Prominent_Words_Support();
 		$prominent_words_post_types = $prominent_words_support->get_supported_post_types();
 
-		register_taxonomy( self::TERM_NAME, $prominent_words_post_types, $this->get_args() );
+		if ( $prominent_words_post_types === array() ) {
+			return;
+		}
+
+		// REST API expects a numbered list of post types.
+		$post_types = array_values( $prominent_words_post_types );
+
+		register_taxonomy( self::TERM_NAME, $post_types, $this->get_args() );
 	}
 
 	/**
