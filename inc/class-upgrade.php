@@ -434,9 +434,9 @@ class WPSEO_Upgrade {
 		global $wpdb;
 
 		$link_storage = new WPSEO_Link_Storage();
-		$wpdb->query('DELETE FROM ' . $link_storage->get_table_name() );
+		$wpdb->query( 'DELETE FROM ' . $link_storage->get_table_name() );
 
 		$meta_storage = new WPSEO_Meta_Storage();
-		$wpdb->query('DELETE FROM ' . $meta_storage->get_table_name() );
+		$wpdb->query( 'DELETE FROM ' . $meta_storage->get_table_name() );
 	}
 }
