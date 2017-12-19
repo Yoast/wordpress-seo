@@ -713,7 +713,7 @@ App.prototype.modifyData = function( data ) {
 App.prototype.pluginsLoaded = function() {
 	this.getData();
 	this.removeLoadingDialog();
-	this.runAnalyzer();
+	this.refresh();
 };
 
 /**
