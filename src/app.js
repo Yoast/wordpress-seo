@@ -492,6 +492,11 @@ App.prototype.getData = function() {
  * @returns {void}
  */
 App.prototype.refresh = function() {
+	// Until all plugins are loaded, do not trigger a refresh.
+	if ( ! this.pluggable.loaded ) {
+		return;
+	}
+
 	this._pureRefresh();
 };
 
