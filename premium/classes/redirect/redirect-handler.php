@@ -134,15 +134,6 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Sets the request URL and sanitize the slashes for it.
-	 *
-	 * @return void
-	 */
-	private function set_request_url() {
-		$this->request_url = $this->get_request_uri();
-	}
-
-	/**
 	 * Checks if the current URL matches a normal redirect.
 	 *
 	 * @param string $request_url The request url to look for.
@@ -163,21 +154,6 @@ class WPSEO_Redirect_Handler {
 		$redirect_url = $this->find_url( $request_url );
 		if ( ! empty( $redirect_url ) ) {
 			$this->do_redirect( $this->redirect_url( $redirect_url['url'] ), $redirect_url['type'] );
-		}
-	}
-
-	/**
-	 * Checks if the current URL matches a regex.
-	 *
-	 * @return void
-	 */
-	private function handle_regex_redirects() {
-		// Setting the redirects.
-		$this->redirects = $this->get_redirects( $this->regex_option_name );
-
-		foreach ( $this->redirects as $regex => $redirect ) {
-			// Check if the URL matches the $regex.
-			$this->match_regex_redirect( $regex, $redirect );
 		}
 	}
 
@@ -233,6 +209,145 @@ class WPSEO_Redirect_Handler {
 		}
 
 		return array();
+	}
+
+	/**
+	 * Perform the redirect.
+	 *
+	 * @param string $redirect_url  The target URL.
+	 * @param string $redirect_type The type of the redirect.
+	 *
+	 * @return void
+	 */
+	protected function do_redirect( $redirect_url, $redirect_type ) {
+
+		$this->is_redirected = true;
+
+		if ( 410 === $redirect_type ) {
+			add_action( 'wp', array( $this, 'do_410' ) );
+			return;
+		}
+
+		if ( 451 === $redirect_type ) {
+			add_action( 'wp', array( $this, 'do_451' ) );
+			return;
+		}
+
+		if ( ! function_exists( 'wp_redirect' ) ) {
+			require_once ABSPATH . 'wp-includes/pluggable.php';
+		}
+
+		/**
+		 * Filter: 'wpseo_add_x_redirect' - can be used to remove the X-Redirect-By header Yoast SEO creates
+		 * (only available in Yoast SEO Premium, defaults to true, which is adding it)
+		 *
+		 * @api bool
+		 */
+		if ( apply_filters( 'wpseo_add_x_redirect', true ) === true ) {
+			header( 'X-Redirect-By: Yoast SEO Premium' );
+		}
+
+		wp_redirect( $this->parse_target_url( $redirect_url ), $redirect_type );
+		exit;
+	}
+
+	/**
+	 * Checks if a redirect has been executed.
+	 *
+	 * @return bool Whether a redirect has been executed.
+	 */
+	protected function is_redirected() {
+		return $this->is_redirected === true;
+	}
+
+	/**
+	 * Check if we should load the PHP redirects.
+	 *
+	 * If Apache or NginX configuration is selected, don't load PHP redirects.
+	 *
+	 * @return bool True if PHP redirects should be loaded and used.
+	 */
+	protected function load_php_redirects() {
+
+		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
+			return false;
+		}
+
+		global $wpdb;
+
+		$options = $wpdb->get_row( "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'wpseo_redirect'" );
+		// If the option is not set, load the PHP redirects.
+		if ( $options === null ) {
+			return true;
+		}
+
+		$options = maybe_unserialize( $options->option_value );
+
+		// If the PHP redirects are disabled intentionally, return false.
+		if ( ! empty( $options['disable_php_redirect'] ) && $options['disable_php_redirect'] === 'on' ) {
+			return false;
+		}
+
+		// PHP redirects are the enabled method of redirecting.
+		return true;
+	}
+
+	/**
+	 * Gets the quest uri, with fallback for super global
+	 *
+	 * @return string
+	 */
+	protected function get_request_uri() {
+		$options     = array( 'options' => array( 'default' => '' ) );
+		$request_uri = filter_input( INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL, $options );
+
+		// Because there isn't an usable value, try the fallback.
+		if ( empty( $request_uri ) && isset( $_SERVER['REQUEST_URI'] ) ) {
+			$request_uri = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL, $options );
+		}
+
+		return rawurldecode( $request_uri );
+	}
+
+	/**
+	 * Normalizes the redirects by raw url decoding the origin.
+	 *
+	 * @param array $redirects The redirects to normalize.
+	 *
+	 * @return array The normalized redirects.
+	 */
+	protected function normalize_redirects( $redirects ) {
+		$normalized_redirects = array();
+
+		foreach ( $redirects as $origin => $redirect ) {
+			$normalized_redirects[ rawurldecode( $origin ) ] = $redirect;
+		}
+
+		return $normalized_redirects;
+	}
+
+	/**
+	 * Sets the request URL and sanitize the slashes for it.
+	 *
+	 * @return void
+	 */
+	private function set_request_url() {
+		$this->request_url = $this->get_request_uri();
+	}
+
+	/**
+	 * Checks if the current URL matches a regex.
+	 *
+	 * @return void
+	 */
+	private function handle_regex_redirects() {
+		// Setting the redirects.
+		$this->redirects = $this->get_redirects( $this->regex_option_name );
+
+		foreach ( $this->redirects as $regex => $redirect ) {
+			// Check if the URL matches the $regex.
+			$this->match_regex_redirect( $regex, $redirect );
+		}
 	}
 
 	/**
@@ -311,55 +426,6 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Perform the redirect.
-	 *
-	 * @param string $redirect_url  The target URL.
-	 * @param string $redirect_type The type of the redirect.
-	 *
-	 * @return void
-	 */
-	protected function do_redirect( $redirect_url, $redirect_type ) {
-
-		$this->is_redirected = true;
-
-		if ( 410 === $redirect_type ) {
-			add_action( 'wp', array( $this, 'do_410' ) );
-			return;
-		}
-
-		if ( 451 === $redirect_type ) {
-			add_action( 'wp', array( $this, 'do_451' ) );
-			return;
-		}
-
-		if ( ! function_exists( 'wp_redirect' ) ) {
-			require_once ABSPATH . 'wp-includes/pluggable.php';
-		}
-
-		/**
-		 * Filter: 'wpseo_add_x_redirect' - can be used to remove the X-Redirect-By header Yoast SEO creates
-		 * (only available in Yoast SEO Premium, defaults to true, which is adding it)
-		 *
-		 * @api bool
-		 */
-		if ( apply_filters( 'wpseo_add_x_redirect', true ) === true ) {
-			header( 'X-Redirect-By: Yoast SEO Premium' );
-		}
-
-		wp_redirect( $this->parse_target_url( $redirect_url ), $redirect_type );
-		exit;
-	}
-
-	/**
-	 * Checks if a redirect has been executed.
-	 *
-	 * @return bool Whether a redirect has been executed.
-	 */
-	protected function is_redirected() {
-		return $this->is_redirected === true;
-	}
-
-	/**
 	 * Parses the target URL.
 	 *
 	 * @param string $target_url The URL to parse. When there isn't found a scheme, just parse it based on the home URL.
@@ -419,38 +485,6 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Check if we should load the PHP redirects.
-	 *
-	 * If Apache or NginX configuration is selected, don't load PHP redirects.
-	 *
-	 * @return bool True if PHP redirects should be loaded and used.
-	 */
-	protected function load_php_redirects() {
-
-		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
-			return false;
-		}
-
-		global $wpdb;
-
-		$options = $wpdb->get_row( "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'wpseo_redirect'" );
-		// If the option is not set, load the PHP redirects.
-		if ( $options === null ) {
-			return true;
-		}
-
-		$options = maybe_unserialize( $options->option_value );
-
-		// If the PHP redirects are disabled intentionally, return false.
-		if ( ! empty( $options['disable_php_redirect'] ) && $options['disable_php_redirect'] === 'on' ) {
-			return false;
-		}
-
-		// PHP redirects are the enabled method of redirecting.
-		return true;
-	}
-
-	/**
 	 * Sets the hook for setting the template include. This is the file that we want to show.
 	 *
 	 * @param string $template_to_set The template to look for..
@@ -466,39 +500,5 @@ class WPSEO_Redirect_Handler {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Gets the quest uri, with fallback for super global
-	 *
-	 * @return string
-	 */
-	protected function get_request_uri() {
-		$options     = array( 'options' => array( 'default' => '' ) );
-		$request_uri = filter_input( INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL, $options );
-
-		// Because there isn't an usable value, try the fallback.
-		if ( empty( $request_uri ) && isset( $_SERVER['REQUEST_URI'] ) ) {
-			$request_uri = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL, $options );
-		}
-
-		return rawurldecode( $request_uri );
-	}
-
-	/**
-	 * Normalizes the redirects by raw url decoding the origin.
-	 *
-	 * @param array $redirects The redirects to normalize.
-	 *
-	 * @return array The normalized redirects.
-	 */
-	protected function normalize_redirects( $redirects ) {
-		$normalized_redirects = array();
-
-		foreach ( $redirects as $origin => $redirect ) {
-			$normalized_redirects[ rawurldecode( $origin ) ] = $redirect;
-		}
-
-		return $normalized_redirects;
 	}
 }
