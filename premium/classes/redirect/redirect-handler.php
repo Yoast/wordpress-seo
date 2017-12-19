@@ -45,6 +45,8 @@ class WPSEO_Redirect_Handler {
 
 	/**
 	 * Loads the redirect handler.
+	 *
+	 * @return void
 	 */
 	public function load() {
 		// Only handle the redirect when the option for php redirects is enabled.
@@ -59,13 +61,15 @@ class WPSEO_Redirect_Handler {
 		$this->handle_normal_redirects( $this->request_url );
 
 		// Check the regex redirects.
-		if ( ! $this->is_redirected() ) {
+		if ( $this->is_redirected() !== false ) {
 			$this->handle_regex_redirects();
 		}
 	}
 
 	/**
-	 * Handle the 410 status code
+	 * Handles the 410 status code.
+	 *
+	 * @return void
 	 */
 	public function do_410() {
 		$this->set_404();
@@ -73,7 +77,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Handle the 451 status code
+	 * Handles the 451 status code.
 	 */
 	public function do_451() {
 		$is_include_hook_set = $this->set_template_include_hook( '451' );
@@ -89,7 +93,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @param string $template The template that will included before executing hook.
 	 *
-	 * @return string
+	 * @return string Returns the template that should be included.
 	 */
 	public function set_template_include( $template ) {
 		if ( ! empty( $this->template_include ) ) {
@@ -100,11 +104,11 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Replace the $regex vars with URL matches
+	 * Replaces the $regex vars with URL matches.
 	 *
 	 * @param array $matches Array with the matches from the matching redirect.
 	 *
-	 * @return string
+	 * @return string The replaced URL.
 	 */
 	public function format_regex_redirect_url( $matches ) {
 		$arr_key = substr( $matches[0], 1 );
@@ -117,7 +121,9 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Sets the wp_query to 404 when this is an object
+	 * Sets the wp_query to 404 when this is an object.
+	 *
+	 * @return void
 	 */
 	public function set_404() {
 		global $wp_query;
@@ -129,15 +135,19 @@ class WPSEO_Redirect_Handler {
 
 	/**
 	 * Sets the request URL and sanitize the slashes for it.
+	 *
+	 * @return void
 	 */
 	private function set_request_url() {
 		$this->request_url = $this->get_request_uri();
 	}
 
 	/**
-	 * Checking if current URL matches a normal redirect
+	 * Checks if the current URL matches a normal redirect.
 	 *
 	 * @param string $request_url The request url to look for.
+	 *
+	 * @return void
 	 */
 	protected function handle_normal_redirects( $request_url ) {
 		// Setting the redirects.
@@ -157,7 +167,9 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Check if current URL matches a regex redirect
+	 * Checks if the current URL matches a regex.
+	 *
+	 * @return void
 	 */
 	private function handle_regex_redirects() {
 		// Setting the redirects.
@@ -170,10 +182,12 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Check if request URL matches one of the regex redirects
+	 * Check if request URL matches one of the regex redirects.
 	 *
 	 * @param string $regex    The reqular expression to match.
 	 * @param array  $redirect The URL that might be matched with the regex.
+	 *
+	 * @return void
 	 */
 	protected function match_regex_redirect( $regex, array $redirect ) {
 		/*
@@ -201,11 +215,11 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Getting the redirects from the options
+	 * Gets the redirects from the options.
 	 *
 	 * @param string $option The option name that wil be fetched.
 	 *
-	 * @return array
+	 * @return array Returns the redirects for the given option.
 	 */
 	protected function get_redirects( $option ) {
 		static $redirects;
@@ -226,7 +240,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @param string $url The needed URL.
 	 *
-	 * @return bool|string
+	 * @return bool|string The found url or false if not found.
 	 */
 	private function find_url( $url ) {
 		$redirect_url = $this->search( $url );
@@ -242,7 +256,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @param string $url The URL to search for.
 	 *
-	 * @return string|bool
+	 * @return string|bool The found url or false if not found.
 	 */
 	private function search( $url ) {
 		if ( ! empty( $this->redirects[ $url ] ) ) {
@@ -253,14 +267,15 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Fallback if requested URL isn't found. This will add a slash if there isn't a slash or it will remove a
-	 * trailing slash when there isn't one.
+	 * Searches for alternatives with slashes if requested URL isn't found.
+	 *
+	 * This will add a slash if there isn't a slash or it will remove a trailing slash when there isn't one.
 	 *
 	 * @discuss: Maybe we should add slashes to all the values we handle instead of using a fallback
 	 *
 	 * @param string $url The URL that have to be matched.
 	 *
-	 * @return bool|string
+	 * @return bool|string The found url or false if not found.
 	 */
 	private function find_url_fallback( $url ) {
 		$no_trailing_slash = rtrim( $url, '/' );
@@ -281,14 +296,14 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Getting the redirect URL by given $url
+	 * Gets the redirect URL by given $url
 	 *
 	 * @param string $redirect_url The URL that has to be redirected.
 	 *
-	 * @return string
+	 * @return string The redirect url.
 	 */
 	private function redirect_url( $redirect_url ) {
-		if ( '/' === $redirect_url[0] ) {
+		if ( $redirect_url[0] === '/' ) {
 			$redirect_url = home_url( $redirect_url );
 		}
 
@@ -296,10 +311,12 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Perform the redirect
+	 * Perform the redirect.
 	 *
 	 * @param string $redirect_url  The target URL.
 	 * @param string $redirect_type The type of the redirect.
+	 *
+	 * @return void
 	 */
 	protected function do_redirect( $redirect_url, $redirect_type ) {
 
@@ -347,11 +364,12 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @param string $target_url The URL to parse. When there isn't found a scheme, just parse it based on the home URL.
 	 *
-	 * @return string
+	 * @return string The parsed url.
 	 */
 	private function parse_target_url( $target_url ) {
 		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
+
 		if ( empty( $scheme ) ) {
 			// Add slash to target URL when permalink structure ends with a slash.
 			if ( WPSEO_Redirect_Util::requires_trailing_slash( $target_url ) ) {
@@ -376,9 +394,9 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Getting the redirects from the option table in the database.
+	 * Returns the redirects from the option table in the database.
 	 *
-	 * @return array
+	 * @return array The stored redirects.
 	 */
 	private function get_redirects_from_options() {
 		global $wpdb;

@@ -29,11 +29,12 @@ class WPSEO_Redirect_Handler_Double extends WPSEO_Redirect_Handler {
 		return parent::load_php_redirects();
 	}
 
-
 	/**
-	 * Checking if current URL matches a normal redirect
+	 * Checks if the current URL matches a normal redirect.
 	 *
 	 * @param string $request_url The request url to look for.
+	 *
+	 * @returns void
 	 */
 	public function handle_normal_redirects( $request_url ) {
 		parent::handle_normal_redirects( $request_url );
