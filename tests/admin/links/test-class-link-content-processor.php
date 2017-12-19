@@ -40,7 +40,7 @@ class WPSEO_Link_Content_Processor_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Link_Storage $storage */
 		$storage = $this
 			->getMockBuilder( 'WPSEO_Link_Storage' )
-			->setMethods( array( 'cleanup', 'save_links', 'update_link_index_version' ) )
+			->setMethods( array( 'cleanup', 'save_links' ) )
 			->getMock();
 
 		$storage
@@ -56,17 +56,7 @@ class WPSEO_Link_Content_Processor_Test extends WPSEO_UnitTestCase {
 				array( new WPSEO_Link( 'http://example.org/post', 0, 'internal' ) )
 			);
 
-		/** @var WPSEO_Link_Content_Processor $storage */
-		$processor = $this
-			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
-			->setConstructorArgs( array( $storage, new WPSEO_Meta_Storage() ) )
-			->setMethods( array( 'update_link_index_version' ) )
-			->getMock();
-
-		$processor
-			->expects( $this->once() )
-			->method( 'update_link_index_version' );
-
+		$processor = new WPSEO_Link_Content_Processor( $storage, new WPSEO_Meta_Storage() );
 		$processor->process( 1, "<a href='http://example.org/post'>example post</a>" );
 	}
 }
