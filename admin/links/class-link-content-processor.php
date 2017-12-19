@@ -52,9 +52,6 @@ class WPSEO_Link_Content_Processor {
 		$this->storage->save_links( $post_id, $links );
 
 		$this->update_link_counts( $post_id, count( $internal_links ), array_merge( $stored_links, $internal_links ) );
-
-		// Updates the link index version.
-		$this->update_link_index_version( $post_id );
 	}
 
 	/**
@@ -132,16 +129,5 @@ class WPSEO_Link_Content_Processor {
 		}
 
 		return array_filter( $post_ids );
-	}
-
-	/**
-	 * Updates the link index version.
-	 *
-	 * @param int $post_id The post id to set the version for.
-	 *
-	 * @return void
-	 */
-	protected function update_link_index_version( $post_id ) {
-		update_post_meta( $post_id, WPSEO_Link_Query::POST_META_NAME, WPSEO_Link_Query::VERSION_NUMBER );
 	}
 }
