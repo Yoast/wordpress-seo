@@ -281,8 +281,6 @@ var App = function( args ) {
 	}
 	this.initSnippetPreview();
 	this.initAssessorPresenters();
-
-	this.refresh();
 };
 
 /**
