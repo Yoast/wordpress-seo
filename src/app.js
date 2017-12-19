@@ -714,7 +714,6 @@ App.prototype.modifyData = function( data ) {
  * @returns {void}
  */
 App.prototype.pluginsLoaded = function() {
-	this.getData();
 	this.removeLoadingDialog();
 	this.refresh();
 };
