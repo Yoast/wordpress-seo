@@ -22,6 +22,11 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 
 	var percentage = ( passiveVoice.passives.length / passiveVoice.total ) * 100;
 	percentage = formatNumber( percentage );
+
+	if( isNaN( percentage ) ) {
+		throw "Percentage is not a valid number!";
+	}
+
 	var recommendedValue = 10;
 	var passiveVoiceURL = "<a href='https://yoa.st/passive-voice' target='_blank'>";
 	var hasMarks = ( percentage > 0 );
