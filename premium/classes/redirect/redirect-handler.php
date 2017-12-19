@@ -477,7 +477,7 @@ class WPSEO_Redirect_Handler {
 	protected function normalize_redirects( $redirects ) {
 		$normalized_redirects = array();
 
-		foreach( $redirects as $origin => $redirect ) {
+		foreach ( $redirects as $origin => $redirect ) {
 			$normalized_redirects[ rawurldecode( $origin ) ] = $redirect;
 		}
 

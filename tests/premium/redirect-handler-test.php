@@ -85,8 +85,8 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 			),
 			// For reference, see: https://github.com/Yoast/wordpress-seo-premium/issues/758.
 			array(
-				'jaarverslagen/2009/Jaarverslag%202009.pdf',
-				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag 2009.pdf', '/', 301 )
+				'jaarverslagen/2009/Jaarverslag 2009.pdf',
+				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag%202009.pdf', '/', 301 )
 			),
 			array(
 				'jaarverslagen/2009/Jaarverslag%202009.pdf',
@@ -204,6 +204,4 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 		delete_option( 'wpseo_redirect' );
 	}
-
-
 }
