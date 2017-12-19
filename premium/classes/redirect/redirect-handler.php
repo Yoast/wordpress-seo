@@ -78,6 +78,8 @@ class WPSEO_Redirect_Handler {
 
 	/**
 	 * Handles the 451 status code.
+	 *
+	 * @return void
 	 */
 	public function do_451() {
 		$is_include_hook_set = $this->set_template_include_hook( '451' );
@@ -212,7 +214,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Perform the redirect.
+	 * Performs the redirect.
 	 *
 	 * @param string $redirect_url  The target URL.
 	 * @param string $redirect_type The type of the redirect.
@@ -261,7 +263,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Check if we should load the PHP redirects.
+	 * Checks if we should load the PHP redirects.
 	 *
 	 * If Apache or NginX configuration is selected, don't load PHP redirects.
 	 *
@@ -351,7 +353,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Check if URL exists in the redirects.
+	 * Finds the URL in the redirects.
 	 *
 	 * @param string $url The needed URL.
 	 *
@@ -367,7 +369,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Search for the given URL in the redirects array.
+	 * Searches for the given URL in the redirects array.
 	 *
 	 * @param string $url The URL to search for.
 	 *
@@ -411,7 +413,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Gets the redirect URL by given $url
+	 * Gets the redirect URL by given URL.
 	 *
 	 * @param string $redirect_url The URL that has to be redirected.
 	 *
@@ -489,7 +491,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @param string $template_to_set The template to look for..
 	 *
-	 * @return bool
+	 * @return bool True when template should be included.
 	 */
 	private function set_template_include_hook( $template_to_set ) {
 		$this->template_include = get_query_template( $template_to_set );
