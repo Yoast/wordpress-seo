@@ -90,6 +90,7 @@ class DashboardWidget extends React.Component {
 	 * @returns {void}
 	 */
 	getFeed() {
+		// Developer note: this link should -not- be converted to a shortlink.
 		getFeed( "https://yoast.com/feed/widget/", 2 )
 			.then( ( feed ) => {
 				feed.items = feed.items.map( ( item ) => {

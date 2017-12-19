@@ -210,7 +210,12 @@ ul.wpseo-metabox-tabs li {
 
 #wpseo_meta .inside {
 	margin: 0;
-	overflow: hidden;
+
+	&::after {
+		content: "";
+		display: table;
+		clear: both;
+	}
 }
 
 #wpseo_meta .postbox .inside .wpseotab {

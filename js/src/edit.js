@@ -7,6 +7,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { IntlProvider, addLocaleData } from "react-intl";
+import flowRight from "lodash/flowRight";
 
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
@@ -29,11 +30,19 @@ if( window.wpseoPostScraperL10n ) {
  */
 function configureStore() {
 	const middleware = [
-		thunk,
+		thunk
 	];
 
 	if ( process.env.NODE_ENV !== "production" ) {
 		middleware.push( logger );
+	}
+
+	const enhancers = [
+		applyMiddleware( ...middleware )
+	];
+
+	if ( window.__REDUX_DEVTOOLS_EXTENSION__ ) {
+		enhancers.push( window.__REDUX_DEVTOOLS_EXTENSION__() );
 	}
 
 	const rootReducer = combineReducers( {
@@ -41,7 +50,7 @@ function configureStore() {
 		activeKeyword: activeKeyword,
 	} );
 
-	return createStore( rootReducer, {}, applyMiddleware( ...middleware ) );
+	return createStore( rootReducer, {}, flowRight( enhancers ) );
 }
 
 /**

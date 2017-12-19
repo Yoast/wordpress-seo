@@ -103,7 +103,11 @@ class Yoast_Dashboard_Widget {
 	 */
 	public function localize_dashboard_script() {
 		return array(
-			'feed_header'      => __( 'Latest blogposts on Yoast.com', 'wordpress-seo' ),
+			'feed_header'      => sprintf(
+				/* translators: %1$s resolves to Yoast.com */
+				__( 'Latest blogposts on %1$s', 'wordpress-seo' ),
+				'Yoast.com'
+			),
 			'feed_footer'      => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),
 			'ryte_header'      => sprintf(
 				/* translators: %1$s expands to Ryte. */

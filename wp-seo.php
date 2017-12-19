@@ -5,11 +5,11 @@
 
 /**
  * Plugin Name: Yoast SEO
- * Version: 5.9.2
- * Plugin URI: https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
+ * Version: 5.9.3
+ * Plugin URI: https://yoa.st/1uj
  * Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
  * Author: Team Yoast
- * Author URI: https://yoast.com/
+ * Author URI: https://yoa.st/1uk
  * Text Domain: wordpress-seo
  * Domain Path: /languages/
  * License: GPL v3
