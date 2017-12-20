@@ -1170,8 +1170,12 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 #wpseo_meta .inside {
-	overflow: hidden; 
 	margin: 0;
+}
+#wpseo_meta .inside::after {
+	display: table;
+	clear: both; 
+	content: "";
 }
 
 #wpseo_meta .postbox .inside .wpseotab {
