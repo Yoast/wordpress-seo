@@ -23,7 +23,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	var percentage = ( passiveVoice.passives.length / passiveVoice.total ) * 100;
 	percentage = formatNumber( percentage );
 
-	if( isNaN( percentage ) ) {
+	if ( isNaN( percentage ) ) {
 		throw "Percentage is not a valid number!";
 	}
 
