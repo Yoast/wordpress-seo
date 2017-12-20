@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-12-11 13:41:45+00:00\n"
+"POT-Creation-Date: 2017-12-20 08:36:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -377,67 +377,67 @@ msgstr ""
 msgid "Good job! You've optimized your internal linking suggestions."
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:39
+#: classes/premium-prominent-words-registration.php:46
 msgid "Prominent words"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:40
+#: classes/premium-prominent-words-registration.php:47
 msgid "All prominent words"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:41
+#: classes/premium-prominent-words-registration.php:48
 msgid "New prominent word"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:42
+#: classes/premium-prominent-words-registration.php:49
 msgid "Add new prominent word"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:43
+#: classes/premium-prominent-words-registration.php:50
 msgid "Edit prominent word"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:44
+#: classes/premium-prominent-words-registration.php:51
 msgid "Update prominent word"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:45
+#: classes/premium-prominent-words-registration.php:52
 msgid "View prominent word"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:46
+#: classes/premium-prominent-words-registration.php:53
 msgid "Separate prominent words with commas"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:47
+#: classes/premium-prominent-words-registration.php:54
 msgid "Add or remove prominent words"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:48
+#: classes/premium-prominent-words-registration.php:55
 msgid "Choose from the most used"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:49
+#: classes/premium-prominent-words-registration.php:56
 msgid "Popular prominent words"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:50
+#: classes/premium-prominent-words-registration.php:57
 msgid "Search prominent words"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:51
+#: classes/premium-prominent-words-registration.php:58
 msgid "Not Found"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:52
+#: classes/premium-prominent-words-registration.php:59
 msgid "No prominent words"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:53
+#: classes/premium-prominent-words-registration.php:60
 msgid "Prominent words list"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:54
+#: classes/premium-prominent-words-registration.php:61
 msgid "Prominent words list navigation"
 msgstr ""
 
@@ -969,12 +969,12 @@ msgctxt "post_type of a post or the taxonomy of a term"
 msgid "type"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:37
+#: classes/premium-prominent-words-registration.php:44
 msgctxt "Taxonomy General Name"
 msgid "Prominent words"
 msgstr ""
 
-#: classes/premium-prominent-words-registration.php:38
+#: classes/premium-prominent-words-registration.php:45
 msgctxt "Taxonomy Singular Name"
 msgid "Prominent word"
 msgstr ""
