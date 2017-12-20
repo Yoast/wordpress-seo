@@ -126,7 +126,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 == Changelog ==
 
 = 6.0.0 =
-Release Date: December 19th, 2017
+Release Date: December 20th, 2017
 
 Enhancements:
 
@@ -134,10 +134,13 @@ Enhancements:
 * Adds support for custom page social titles and descriptions on the WooCommerce shop page.
 * Adds a link to the Google Knowledge Graph article on Yoast.com. Props [Raaj Trambadia](https://github.com/raajtram).
 * Adds a link to an article on Yoast.com on why it might be a bad idea to use the same keyword more than once.
-* The meta description length has been changed from 156 to 320 characters.
+* Changed the meta description maximum recommended length from 156 to 320 characters.
 
 Bugfixes:
-* Disables the mark buttons of the content analysis when in text view, and hides them when there is no TinyMCE or has_marks is false.
+
+* Disables the mark buttons of the content analysis when switched to text view.
+* Hides the mark buttons when the WYSIWYG editor is not loaded or the filter `wpseo_enable_assessment_markers` returns false.
+* Security hardening through stricter code checks.
 
 = 5.9.3 =
 
