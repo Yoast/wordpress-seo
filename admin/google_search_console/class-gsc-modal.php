@@ -47,7 +47,7 @@ class WPSEO_GSC_Modal {
 	public function load_view( $unique_id ) {
 		extract( $this->view_vars );
 
-		echo '<div id="redirect-' . $unique_id . '" class="hidden">';
+		echo '<div id="' . esc_attr( 'redirect-' . $unique_id ) . '" class="hidden">';
 		echo '<div class="form-wrap wpseo_content_wrapper">';
 		require $this->view;
 		echo '</div>';

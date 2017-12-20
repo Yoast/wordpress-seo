@@ -35,11 +35,20 @@ function wpseo_display_contributors( $contributors ) {
 
 	<p class="about-text">
 		<?php
-		/* translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO */
-		printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>', 'Yoast SEO' );
+		printf(
+			/* translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO */
+			esc_html__( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team.', 'wordpress-seo' ),
+			'<a target="_blank" href="https://yoast.com/">',
+			'</a>',
+			'Yoast SEO'
+		);
 		echo ' ';
-		/* translators: 1: link open tag; 2: link close tag. */
-		printf( __( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/wpseocontributionguidelines' ) . '">', '</a>' );
+		printf(
+			/* translators: 1: link open tag; 2: link close tag. */
+			esc_html__( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ),
+			'<a target="_blank" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/wpseocontributionguidelines' ) ) . '">',
+			'</a>'
+		);
 		?>
 	</p>
 

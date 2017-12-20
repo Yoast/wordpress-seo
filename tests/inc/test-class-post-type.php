@@ -25,7 +25,11 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_accessible_post_types() {
 		$this->assertEquals(
-			array( 'post' => 'post', 'page' => 'page', 'attachment' => 'attachment' ),
+			array(
+				'post'       => 'post',
+				'page'       => 'page',
+				'attachment' => 'attachment',
+			),
 			WPSEO_Post_Type::get_accessible_post_types()
 		);
 	}
@@ -162,7 +166,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 			'attachment',
 			WPSEO_Post_Type::filter_attachment_post_type(
 				array(
-					'post' => 'post',
+					'post'       => 'post',
 					'attachment' => 'attachment',
 				)
 			)

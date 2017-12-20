@@ -48,8 +48,13 @@ if ( '' === $tool_page ) {
 		}
 	*/
 
-	/* translators: %1$s expands to Yoast SEO */
-	echo '<p>', sprintf( __( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
+	echo '<p>';
+	printf(
+		/* translators: %1$s expands to Yoast SEO */
+		esc_html__( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ),
+		'Yoast SEO'
+	);
+	echo '</p>';
 
 	asort( $tools );
 

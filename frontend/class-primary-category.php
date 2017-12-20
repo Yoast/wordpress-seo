@@ -6,7 +6,7 @@
 /**
  * Adds customizations to the front end for the primary category.
  */
-class WPSEO_Frontend_Primary_Category {
+class WPSEO_Frontend_Primary_Category implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Registers the hooks necessary for correct primary category behaviour.

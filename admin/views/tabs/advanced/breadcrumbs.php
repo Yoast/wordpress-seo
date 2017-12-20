@@ -96,7 +96,11 @@ unset( $taxonomies, $post_types );
 <h2><?php esc_html_e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></h2>
 <p>
 	<?php
-	/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
-	printf( __( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ), '<a href="' . WPSEO_Shortlinker::get( 'http://yoa.st/breadcrumbs' ) . '" target="_blank">', '</a>' );
+	printf(
+		/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
+		esc_html__( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ),
+		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'http://yoa.st/breadcrumbs' ) ) . '" target="_blank">',
+		'</a>'
+	);
 	?>
 </p>

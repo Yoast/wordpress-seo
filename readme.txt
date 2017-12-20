@@ -125,6 +125,23 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 6.0.0 =
+Release Date: December 20th, 2017
+
+Enhancements:
+
+* Adds support for custom page titles and meta descriptions on the WooCommerce shop page. Props [Caleb Burks](https://github.com/WPprodigy).
+* Adds support for custom page social titles and descriptions on the WooCommerce shop page.
+* Adds a link to the Google Knowledge Graph article on Yoast.com. Props [Raaj Trambadia](https://github.com/raajtram).
+* Adds a link to an article on Yoast.com on why it might be a bad idea to use the same keyword more than once.
+* Changed the meta description maximum recommended length from 156 to 320 characters.
+
+Bugfixes:
+
+* Disables the mark buttons of the content analysis when switched to text view.
+* Hides the mark buttons when the WYSIWYG editor is not loaded or the filter `wpseo_enable_assessment_markers` returns false.
+* Security hardening through stricter code checks.
+
 = 5.9.3 =
 
 Release Date: December 11th, 2017
@@ -171,42 +188,6 @@ Enhancements
 * Changes the Dashboard widget's progress bar height to 24px.
 * Makes the 'Next' and 'Back' buttons in the Onboarding Wizard focusable.
 * Adds grouping of feedback within the content analysis, in the following categories: 'errors', 'problems', 'needs improvement', 'considerations', and 'good'. Each category can be expanded and collapsed.
-
-= 5.8.0 =
-
-Release Date: November 15th, 2017
-
-Security:
-
-* Fixes an XSS vulnerability in the Google Search Console configuration page, when connected to any profile. Thanks [Dimopoulos Elias](https://twitter.com/dimopouloselias) for discovering and responsibly disclosing this issue.
-
-Bugfixes:
-
-* Fixes a bug where inactive suggested plugins weren't displaying a notification.
-* Fixes a bug where an error would be thrown if a Yoast SEO custom database table was missing.
-* Fixes a bug where the layout of the metabox would break if too little content was present. Props to [shane-gray](https://github.com/shane-gray).
-* Fixes a bug where the WordPress editor was being displayed for custom, private taxonomies. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where the analysis heading is shown when readability and keyword analysis has been turned off. Props to [daim2k5](https://github.com/daim2k5).
-* Fixes a bug where outputting on `the_content` filter calls could result in faulty AJAX requests.
-
-Enhancements:
-
-* Introduces `wpseo_breadcrumb_single_link_info` filter for modifying breadcrumb data. Props to [slushman](https://github.com/slushman) and [forsvunnet](https://github.com/forsvunnet).
-* Introduces `wpseo_redirect_orphan_attachment` action to allow unattached attachment pages to be redirected in tune with the relevant setting. Props to [soulseekah](https://github.com/soulseekah).
-* Enhances integration with most role/capability manager plugins using the `members_get_capabilities` filter. Props to [JoryHogeveen](https://github.com/JoryHogeveen).
-* Adds a Yoast group to the Members and User Role Editor plugins to easily find the Yoast SEO capabilities. Props to [JoryHogeveen](https://github.com/JoryHogeveen).
-* Made link for Premium buy button changeable. Props to [leesto](https://github.com/leesto).
-* Removes the max-width on alerts to present a better UI. Props to [timnolte](https://github.com/timnolte).
-* Sets default Twitter Card option to 'Summary with large image'. Props to [pattonwebz](https://github.com/pattonwebz).
-* Makes the content accessible by adding scroll functionality in the help center tabs.
-* Improves the suggested plugins messages and adds installation and activation links when appropriate.
-* Makes sure that the `yoast_seo_links` table is accessible before attempting to run a query against it.
-* Uses Gutenberg content if it is available.
-
-Maintenance:
-
-* Cleaned up codebase by removing old Knowledge Base Search code.
-* Improved the codebase to make it comply with the latest WordPress Coding Standards.
 
 = Earlier versions =
 

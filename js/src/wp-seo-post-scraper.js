@@ -2,7 +2,7 @@
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 
-import { tmceId } from "./wp-seo-tinymce";
+import { tmceId, setStore } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 
 import initializeEdit from "./edit";
@@ -23,6 +23,7 @@ import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetPreviewHelpers from "./analysis/snippetPreview";
 import UsedKeywords from "./analysis/usedKeywords";
+import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
@@ -107,6 +108,9 @@ import UsedKeywords from "./analysis/usedKeywords";
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
 		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
+			if ( ! isUndefined( store ) ) {
+				store.dispatch( setMarkerStatus( "hidden" ) );
+			}
 			return false;
 		}
 
@@ -276,9 +280,13 @@ import UsedKeywords from "./analysis/usedKeywords";
 			args.callbacks.updatedKeywordsResults = function( results ) {
 				let keyword = tabManager.getKeywordTab().getKeyWord();
 
+				/*
+				 * The results from the main App callback are always for the first keyword. So
+				 * we ignore these results unless the current active keyword is the main
+				 * keyword.
+				 */
 				if ( tabManager.isMainKeyword( keyword ) ) {
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-					store.dispatch( setActiveKeyword( keyword ) );
 				}
 			};
 		}
@@ -402,6 +410,7 @@ import UsedKeywords from "./analysis/usedKeywords";
 
 		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
 
+		setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
 
 		activateEnabledAnalysis( tabManager );
