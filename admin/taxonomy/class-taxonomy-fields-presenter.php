@@ -102,7 +102,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 
 				$field .= '<div id="pageanalysis">';
 				$field .= '<section class="yoast-section" id="wpseo-pageanalysis-section">';
-				$field .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">' . __( 'Analysis', 'wordpress-seo' ) . '</h3>';
+				$field .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">' . __( 'Analysis results', 'wordpress-seo' ) . '</h3>';
 				$field .= '<div id="wpseo_analysis"></div>';
 				$field .= '</section>';
 				$field .= '</div>';
