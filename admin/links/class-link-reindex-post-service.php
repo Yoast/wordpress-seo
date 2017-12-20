@@ -52,7 +52,7 @@ class WPSEO_Link_Reindex_Post_Service {
 	 * @return bool True when the tables are accessible.
 	 */
 	protected function is_processable() {
-		return WPSEO_Link_Table_Accessible::check_table_is_accessible() && WPSEO_Meta_Table_Accessible::is_accessible();
+		return WPSEO_Link_Table_Accessible::is_accessible() && WPSEO_Meta_Table_Accessible::is_accessible();
 	}
 
 	/**
