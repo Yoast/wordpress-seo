@@ -8507,9 +8507,9 @@ yoast-components@^2.11.9:
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoastseo@^1.24:
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.24.0.tgz#64237c4ca7666efc9e0832a66819528b81c7b128"
+yoastseo@^1.28:
+  version "1.28.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.28.0.tgz#c242a30d41405f46be7fc9bd9881a76beb9fe81d"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
