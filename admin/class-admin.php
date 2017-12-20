@@ -450,6 +450,14 @@ class WPSEO_Admin {
 		$link_table_compatibility_notifier->remove_notification();
 
 		// When the table doesn't exists, just add the notification and return early.
+		if ( ! WPSEO_Link_Table_Accessible::is_accessible() ) {
+			WPSEO_Link_Table_Accessible::cleanup();
+		}
+
+		if ( ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
+			WPSEO_Meta_Table_Accessible::cleanup();
+		}
+
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			$link_table_accessible_notifier->add_notification();
 
