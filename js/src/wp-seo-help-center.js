@@ -213,7 +213,7 @@ HelpCenter.propTypes = {
 	onPremiumSupport: PropTypes.func,
 	adminTabsData: PropTypes.object.isRequired,
 	additionalHelpCenterTabs: PropTypes.array,
-	videoTutorialParagraphs: PropTypes.object,
+	videoTutorialParagraphs: PropTypes.array,
 	shouldDisplayContactForm: PropTypes.string,
 	initialTab: PropTypes.string,
 	intl: intlShape.isRequired,

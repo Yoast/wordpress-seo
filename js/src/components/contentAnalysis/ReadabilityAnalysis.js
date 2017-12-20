@@ -13,7 +13,6 @@ if( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
 
-
 /**
  * Redux container for the readability analysis.
  */
@@ -25,25 +24,37 @@ class ReadabilityAnalysis extends React.Component {
 				showLanguageNotice={ true }
 				changeLanguageLink={ localizedData.settings_link }
 				language={ localizedData.language }
-				results={ this.props.results } />
+				results={ this.props.results }
+				marksButtonClassName="yoast-tooltip yoast-tooltip-s"
+				marksButtonStatus={ this.props.marksButtonStatus }
+			/>
 		);
 	}
 }
 
 ReadabilityAnalysis.propTypes = {
 	results: PropTypes.array,
+	marksButtonStatus: PropTypes.string,
 };
 
 /**
  * Maps redux state to ContentAnalysis props.
  *
  * @param {Object} state The redux state.
+ * @param {Object} ownProps The components own props.
  *
  * @returns {Object} Props that should be passed to ContentAnalysis.
  */
-function mapStateToProps( state ) {
+function mapStateToProps( state, ownProps ) {
+	let marksButtonStatus = state.marksButtonStatus;
+
+	if ( ownProps.hideMarksButtons ) {
+		marksButtonStatus = "hidden";
+	}
+
 	return {
 		results: state.analysis.readability,
+		marksButtonStatus: marksButtonStatus,
 	};
 }
 

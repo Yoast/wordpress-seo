@@ -71,8 +71,6 @@ function processResult( mappedResult, mappedResults ) {
 		case "good":
 			mappedResults.goodResults.push( mappedResult );
 			break;
-		default:
-			console.log( "Unmapped score" );
 	}
 	return mappedResults;
 }

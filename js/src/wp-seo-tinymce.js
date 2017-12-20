@@ -4,6 +4,8 @@ var forEach = require( "lodash/forEach" );
 var isUndefined = require( "lodash/isUndefined" );
 var editorHasMarks = require( "./decorator/tinyMCE" ).editorHasMarks;
 var editorRemoveMarks = require( "./decorator/tinyMCE" ).editorRemoveMarks;
+import { setMarkerStatus } from "./redux/actions/markerButtons";
+let store;
 
 /**
  * The HTML 'id' attribute for the TinyMCE editor.
@@ -20,6 +22,15 @@ var tmceId = "content";
 var termsTmceId = "description";
 
 ( function() {
+	/**
+	 * Sets the store.
+	 *
+	 * @param {Object} newStore The store to set.
+	 * @returns {void}
+	 */
+	function setStore( newStore ) {
+		store = newStore;
+	}
 
 	/**
 	 * Gets content from the content field by element id.
@@ -96,12 +107,11 @@ var termsTmceId = "description";
 	 * @returns {String} Content from the TinyMCE editor.
 	 */
 	function getContentTinyMce( contentID ) {
-		// if no TinyMce object available
+		// If no TinyMCE object available
 		var content = "";
 		if ( isTinyMCEAvailable( contentID ) === false || isTinyMCEBodyAvailable( contentID ) === false ) {
 			content = tinyMCEElementContent( contentID );
-		}
-		else {
+		} else {
 			content = tinyMCE.get( contentID ).getContent();
 		}
 
@@ -140,12 +150,8 @@ var termsTmceId = "description";
 	 * @returns {void}
 	 */
 	function disableMarkerButtons() {
-		if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
-			YoastSEO.app.contentAssessorPresenter.disableMarkerButtons();
-		}
-
-		if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
-			YoastSEO.app.seoAssessorPresenter.disableMarkerButtons();
+		if ( ! isUndefined( store ) ) {
+			store.dispatch( setMarkerStatus( "disabled" ) );
 		}
 	}
 
@@ -155,12 +161,8 @@ var termsTmceId = "description";
 	 * @returns {void}
 	 */
 	function enableMarkerButtons() {
-		if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
-			YoastSEO.app.contentAssessorPresenter.enableMarkerButtons();
-		}
-
-		if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
-			YoastSEO.app.seoAssessorPresenter.enableMarkerButtons();
+		if ( ! isUndefined( store ) ) {
+			store.dispatch( setMarkerStatus( "enabled" ) );
 		}
 	}
 
@@ -174,14 +176,7 @@ var termsTmceId = "description";
 		// If #wp-content-wrap has the 'html-active' class, text view is enabled in WordPress.
 		// TMCE is not available, the text cannot be marked and so the marker buttons are disabled.
 		if ( jQuery( "#wp-content-wrap" ).hasClass( "html-active" ) ) {
-			// The enable/disable marker functions are not called here,
-			// because the render function(in yoastseo lib) doesn't have to be called.
-			if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
-				YoastSEO.app.contentAssessorPresenter._disableMarkerButtons = true;
-			}
-			if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
-				YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
-			}
+			disableMarkerButtons();
 
 			if( isTinyMCELoaded() ) {
 				tinyMCE.on( "AddEditor", function() {
@@ -227,5 +222,6 @@ var termsTmceId = "description";
 		wpTextViewOnInitCheck: wpTextViewOnInitCheck,
 		tmceId,
 		termsTmceId,
+		setStore,
 	};
 }( jQuery ) );
