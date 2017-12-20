@@ -18,6 +18,84 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the handling of normal redirects.
+	 *
+	 * @dataProvider normal_redirect_provider
+	 *
+	 * @param string         $request_uri The requested uri.
+	 * @param WPSEO_Redirect $redirect    The redirect object.
+	 *
+	 * @covers WPSEO_Redirect_Handler::handle_normal_redirects
+	 */
+	public function test_redirect_handling( $request_uri, WPSEO_Redirect $redirect ) {
+		$redirects = array(
+			$redirect->get_origin() => array(
+				'url'  => $redirect->get_target(),
+				'type' => $redirect->get_type(),
+			),
+		);
+
+		/** @var WPSEO_Redirect_Handler_Double $class_instance */
+		$class_instance = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'get_redirects', 'do_redirect' ) )
+			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'get_redirects' )
+			->will( $this->returnValue( $redirects ) );
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'do_redirect' );
+
+		$class_instance->handle_normal_redirects( rawurldecode( $request_uri ) );
+	}
+
+	/**
+	 * Provider for the default redirects.
+	 *
+	 * @returns array List with redirects.
+	 */
+	public function normal_redirect_provider() {
+		return array(
+			array(
+				'example-page',
+				new WPSEO_Redirect( 'example-page', '/', 301 )
+			),
+			array(
+				'some url with spaces',
+				new WPSEO_Redirect( 'some url with spaces', '/', 301 )
+			),
+
+			array(
+				'דף לדוגמה',
+				new WPSEO_Redirect( 'דף לדוגמה', '/', 301 )
+			),
+
+			// For reference, see: https://github.com/Yoast/wordpress-seo-premium/issues/1451.
+	       array(
+		       'Cellgevity%20support',
+		       new WPSEO_Redirect( 'Cellgevity support', '/', 301 )
+	       ),
+			array(
+				'Cellgevity support',
+				new WPSEO_Redirect( 'Cellgevity%20support', '/', 301 )
+			),
+			// For reference, see: https://github.com/Yoast/wordpress-seo-premium/issues/758.
+			array(
+				'jaarverslagen/2009/Jaarverslag 2009.pdf',
+				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag%202009.pdf', '/', 301 )
+			),
+			array(
+				'jaarverslagen/2009/Jaarverslag%202009.pdf',
+				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag 2009.pdf', '/', 301 )
+			),
+		);
+	}
+
+	/**
 	 * Testing a regex redirect that will match the request URI.
 	 *
 	 * @covers WPSEO_Redirect_Handler::match_regex_redirect()
