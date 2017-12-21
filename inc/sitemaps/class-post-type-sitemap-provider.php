@@ -11,19 +11,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/** @var string $home_url Holds the home_url() value. */
 	protected static $home_url;
 
-	/** @var string $home_proto_rel_url Holds home protocol-relative url value to speed up loops. */
-	protected static $home_proto_rel_url;
-
 	/** @var array $options All of plugin options. */
 	protected static $options;
 
 	/** @var WPSEO_Sitemap_Image_Parser $image_parser Holds image parser instance. */
 	protected static $image_parser;
 
-	/** @var int $page_on_front_id Static front page ID.  */
+	/** @var object $classifier Holds instance of classifier for a link. */
+	protected static $classifier;
+
+	/** @var int $page_on_front_id Static front page ID. */
 	protected static $page_on_front_id;
 
-	/** @var int $page_for_posts_id Posts page ID.  */
+	/** @var int $page_for_posts_id Posts page ID. */
 	protected static $page_for_posts_id;
 
 	/**
@@ -73,6 +73,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Get the Classifier for a link
+	 *
+	 * @return WPSEO_Link_Type_Classifier
+	 */
+	protected function get_classifier() {
+		if ( ! isset( self::$classifier ) ) {
+			self::$classifier = new WPSEO_Link_Type_Classifier( $this->get_home_url() );
+		}
+
+		return self::$classifier;
+	}
+
+	/**
 	 * Get Home URL
 	 *
 	 * This has been moved from the constructor because wp_rewrite is not available on plugins_loaded in multisite.
@@ -86,21 +99,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return self::$home_url;
-	}
-
-	/**
-	 * Get Home protocol relative URL
-	 *
-	 * It will be used for validating URLs to keep both protocols (http or https) in sitemaps.
-	 *
-	 * @return string
-	 */
-	protected function get_home_proto_rel_url() {
-		if ( ! isset( self::$home_proto_rel_url ) ) {
-			self::$home_proto_rel_url = preg_replace( '`^(https?:)`', '', $this->get_home_url() );
-		}
-
-		return self::$home_proto_rel_url;
 	}
 
 	/**
@@ -609,7 +607,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 *
 		 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 		 */
-		if ( false === strpos( $url['loc'], $this->get_home_proto_rel_url() ) ) {
+		if ( $this->get_classifier()->classify( $url['loc'] ) === WPSEO_Link::TYPE_EXTERNAL ) {
 			return false;
 		}
 
