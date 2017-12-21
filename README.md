@@ -16,7 +16,7 @@ Also included is a preview of the Google search results which can be assessed us
 You can install YoastSEO.js using npm:
 
 ```bash
-npm install https://github.com/Yoast/YoastSEO.js#develop
+npm install yoastseo
 ```
 
 ## Usage
