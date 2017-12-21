@@ -590,8 +590,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * Do not include external URLs.
 		 *
 		 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
+		 *
+		 * Replace to http so even when the home_url protocol is not not the same is the $url['loc'] protocol, it doesn't fail here.
+		 * @see https://github.com/Yoast/wordpress-seo/issues/8488
 		 */
-		if ( false === strpos( $url['loc'], $this->get_home_url() ) ) {
+		$compare_uri_1 = str_replace("https://", "http://", $url['loc'] );
+		$compare_uri_2 = str_replace("https://", "http://", $this->get_home_url() );
+		if ( false === strpos($compare_uri_1, $compare_uri_2) ) {
 			return false;
 		}
 
