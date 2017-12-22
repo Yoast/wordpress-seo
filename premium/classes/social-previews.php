@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Premium
+ * @package WPSEO\Premium
  */
 
 /**
