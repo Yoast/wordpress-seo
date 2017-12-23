@@ -85,7 +85,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 */
 	public function website() {
 		$this->data = array(
-			'@context' => 'http://schema.org',
+			'@context' => 'https://schema.org',
 			'@type'    => 'WebSite',
 			'@id'      => '#website',
 			'url'      => $this->get_home_url(),
@@ -159,7 +159,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$this->fetch_social_profiles();
 
 		$this->data = array(
-			'@context' => 'http://schema.org',
+			'@context' => 'https://schema.org',
 			'@type'    => '',
 			'url'      => WPSEO_Frontend::get_instance()->canonical( false, true ),
 			'sameAs'   => $this->profiles,
