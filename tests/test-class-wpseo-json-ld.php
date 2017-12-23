@@ -30,7 +30,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		$home_url   = WPSEO_Utils::home_url();
 		$search_url = $home_url . '?s={search_term_string}';
 		$json       = wp_json_encode( array(
-			'@context'        => 'http://schema.org',
+			'@context'        => 'https://schema.org',
 			'@type'           => 'WebSite',
 			'@id'             => '#website',
 			'url'             => $home_url,
@@ -61,7 +61,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 
 		$home_url = WPSEO_Utils::home_url();
 		$json     = wp_json_encode( array(
-			'@context' => 'http://schema.org',
+			'@context' => 'https://schema.org',
 			'@type'    => 'Person',
 			'url'      => $home_url,
 			'sameAs'   => array( $instagram ),
