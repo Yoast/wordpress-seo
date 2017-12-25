@@ -1,23 +1,23 @@
 <?php
 /**
- * @package WPSEO\Main
- */
-
-/**
+ * Yoast SEO Plugin.
+ *
+ * WPSEO Premium plugin file.
+ *
+ * @package   WPSEO\Main
+ * @copyright Copyright (C) 2008-2016, Yoast BV - support@yoast.com
+ * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
+ *
+ * @wordpress-plugin
  * Plugin Name: Yoast SEO Premium
- * Version: 6.1.2
- * Plugin URI: https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
+ * Version:     6.1.2
+ * Plugin URI:  https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
  * Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
- * Author: Team Yoast
- * Author URI: https://yoast.com/
+ * Author:      Team Yoast
+ * Author URI:  https://yoast.com/
  * Text Domain: wordpress-seo
  * Domain Path: /languages/
- * License: GPL v3
- */
-
-/**
- * Yoast SEO Plugin
- * Copyright (C) 2008-2016, Yoast BV - support@yoast.com
+ * License:     GPL v3
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
