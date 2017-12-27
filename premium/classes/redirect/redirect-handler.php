@@ -401,8 +401,7 @@ class WPSEO_Redirect_Handler {
 	protected function parse_target_url( $target_url ) {
 		$target_url = $this->format_target( $target_url );
 
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
+		$scheme = wp_parse_url( $target_url, PHP_URL_SCHEME );
 
 		if ( ! empty( $scheme ) ) {
 			return $target_url;
