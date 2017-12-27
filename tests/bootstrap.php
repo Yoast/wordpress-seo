@@ -34,6 +34,7 @@ define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
 // Load autoloader.
 if ( PHP_VERSION_ID <= 53000 ) {
 	require_once dirname( WPSEO_TESTS_PATH ) . '/vendor/autoload_52.php';
-} else {
+}
+else {
 	require_once dirname( WPSEO_TESTS_PATH ) . '/vendor/autoload.php';
 }

@@ -64,7 +64,7 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 					'get_active_extensions',
 					'set_cached_extensions',
 					'get_cached_extensions',
-					'retrieve_active_extensions'
+					'retrieve_active_extensions',
 				)
 			)
 			->getMock();

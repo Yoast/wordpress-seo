@@ -77,6 +77,7 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 			'name' => 'name',
 			'src'  => 'src',
 		) );
+
 		$default_location = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
 
 		$this->expectDeprecated();

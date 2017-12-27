@@ -29,7 +29,7 @@ class WPSEO_Metabox_Editor {
 		$inside_editor = $styles['inside-editor'];
 
 		$asset_location = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
-		$url = $asset_location->get_url( $inside_editor, WPSEO_Admin_Asset::TYPE_CSS );
+		$url            = $asset_location->get_url( $inside_editor, WPSEO_Admin_Asset::TYPE_CSS );
 
 		if ( '' === $css_files ) {
 			$css_files = $url;
