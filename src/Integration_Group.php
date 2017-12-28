@@ -1,4 +1,5 @@
 <?php
+
 namespace Yoast\WordPress;
 
 class Integration_Group implements Integration {
@@ -11,7 +12,7 @@ class Integration_Group implements Integration {
 	 * @param Integration[] $integrations List of integrations to load.
 	 */
 	public function __construct( array $integrations ) {
-		$this->integrations = $integrations;
+		$this->integrations = $this->ensure_integration( $integrations );
 	}
 
 	/**
@@ -24,5 +25,16 @@ class Integration_Group implements Integration {
 			},
 			$this->integrations
 		);
+	}
+
+	/**
+	 * @param $integrations
+	 *
+	 * @return array
+	 */
+	protected function ensure_integration( $integrations ) {
+		return array_filter( $integrations, function( $integration ) {
+			return $integration instanceof Integration;
+		} );
 	}
 }
