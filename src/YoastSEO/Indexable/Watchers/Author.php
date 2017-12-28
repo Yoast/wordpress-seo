@@ -11,7 +11,7 @@ class Author implements Integration {
 	/**
 	 * Registers all hooks to WordPress.
 	 */
-	public function initialize() {
+	public function add_hooks() {
 		add_action( 'profile_update', array( $this, 'save_meta' ), PHP_INT_MAX, 2 );
 		add_action( 'deleted_user', array( $this, 'delete_meta' ) );
 	}

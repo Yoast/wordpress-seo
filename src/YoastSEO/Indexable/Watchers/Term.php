@@ -10,7 +10,7 @@ class Term implements Integration {
 	/**
 	 * Registers all hooks to WordPress.
 	 */
-	public function initialize() {
+	public function add_hooks() {
 		add_action( 'created_term', array( $this, 'save_meta' ), PHP_INT_MAX, 3 );
 		add_action( 'edited_term', array( $this, 'save_meta' ), PHP_INT_MAX, 3 );
 

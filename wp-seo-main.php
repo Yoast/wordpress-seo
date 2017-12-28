@@ -314,7 +314,7 @@ function wpseo_init() {
 	if ( WPSEO_NAMESPACES && class_exists( '\\Yoast\\Bootstrap' ) ) {
 		$bootstrap = new \Yoast\Bootstrap();
 		$bootstrap->load_integrations();
-		$bootstrap->initialize();
+		$bootstrap->add_hooks();
 	}
 }
 

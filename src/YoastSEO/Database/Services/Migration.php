@@ -8,7 +8,7 @@ use Yoast\Migrate_Command;
 use Yoast\WordPress\Integration;
 
 class Migration implements Integration {
-	public function initialize() {
+	public function add_hooks() {
 		try {
 			$input = new Fake_Input();
 			$input->setArgument( 'command', 'migrate' );

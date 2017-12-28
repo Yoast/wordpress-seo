@@ -11,7 +11,7 @@ class Database implements Integration {
 	 * Registers all hooks to WordPress.
 	 * @throws \Exception
 	 */
-	public function initialize() {
+	public function add_hooks() {
 		ORM::configure( 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME );
 		ORM::configure( 'username', DB_USER );
 		ORM::configure( 'password', DB_PASSWORD );
