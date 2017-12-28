@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WordPress;
+namespace Yoast\YoastSEO\WordPress;
 
 /**
  * An interface for registering integrations with WordPress
@@ -11,5 +11,5 @@ interface Integration {
 	 *
 	 * This is the place to register hooks and filters.
 	 */
-	public function add_hooks();
+	public function register_hooks();
 }

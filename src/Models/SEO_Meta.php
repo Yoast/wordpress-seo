@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\YoastSEO\Database\Models;
+namespace Yoast\YoastSEO\Models;
 
-use Yoast\Yoast_Model;
+use Yoast\YoastSEO\Yoast_Model;
 
 /**
  * @property int $object_id

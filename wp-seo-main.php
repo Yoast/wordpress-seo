@@ -311,10 +311,10 @@ function wpseo_init() {
 	$link_watcher = new WPSEO_Link_Watcher_Loader();
 	$link_watcher->load();
 
-	if ( WPSEO_NAMESPACES && class_exists( '\\Yoast\\Bootstrap' ) ) {
-		$bootstrap = new \Yoast\Bootstrap();
-		$bootstrap->load_integrations();
-		$bootstrap->add_hooks();
+	if ( WPSEO_NAMESPACES && class_exists( '\\Yoast\\YoastSEO\\Config\\Plugin' ) ) {
+		$bootstrap = new \Yoast\YoastSEO\Config\Plugin();
+		$bootstrap->initialize();
+		$bootstrap->register_hooks();
 	}
 }
 

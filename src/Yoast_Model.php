@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast;
+namespace Yoast\YoastSEO;
 
 use Model;
 
@@ -15,7 +15,7 @@ class Yoast_Model extends Model {
 	 *
 	 * @return \ORMWrapper
 	 */
-	public static function factory($class_name, $connection_name = null) {
+	public static function of_type( $class_name, $connection_name = null ) {
 		global $wpdb;
 
 		// Prepend namespace to the class name.

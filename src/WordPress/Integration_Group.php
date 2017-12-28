@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WordPress;
+namespace Yoast\YoastSEO\WordPress;
 
 class Integration_Group implements Integration {
 	/** @var Integration[] List of integrations. */
@@ -18,10 +18,10 @@ class Integration_Group implements Integration {
 	/**
 	 * Initializes all registered integrations.
 	 */
-	public function add_hooks() {
+	public function register_hooks() {
 		array_map(
 			function( Integration $integration ) {
-				$integration->add_hooks();
+				$integration->register_hooks();
 			},
 			$this->integrations
 		);
