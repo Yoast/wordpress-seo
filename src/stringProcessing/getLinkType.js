@@ -1,6 +1,6 @@
 /** @module stringProcess/getLinkType */
 
-var urlHelper = require( "./url" );
+const urlHelper = require( "./url" );
 
 /**
  * Determines the type of link.
@@ -11,17 +11,20 @@ var urlHelper = require( "./url" );
  */
 
 module.exports = function( text, url ) {
-	var linkType = "other";
+	let linkType = "other";
 
-	var anchorUrl = urlHelper.getFromAnchorTag( text );
+	const anchorUrl = urlHelper.getFromAnchorTag( text );
+	const protocol = urlHelper.getProtocol( anchorUrl );
 
 	// Matches all links that start with http:// and https://, case insensitive and global
-	if ( anchorUrl.match( /https?:\/\//ig ) !== null ) {
+	if ( protocol === "http://" || protocol === "https://" ) {
 		linkType = "external";
 
 		if ( urlHelper.getHostname( anchorUrl ) === urlHelper.getHostname( url ) ) {
 			linkType = "internal";
 		}
+	} else if ( protocol === null ) {
+		linkType = "internal";
 	}
 
 	return linkType;

@@ -81,6 +81,21 @@ function getHostname( url ) {
 	return url.hostname;
 }
 
+/**
+ * Returns the protocol of a URL.
+ *
+ * @param {string} url The URL to retrieve the protocol of.
+ * @returns {string|null} The protocol of the URL.
+ */
+function getProtocol( url ) {
+	const protocolMatcher = /^(?:[a-z]+:)?\/\//i;
+	const protocolMatch = protocolMatcher.exec( url );
+	if ( ! protocolMatch ) {
+		return null;
+	}
+	return protocolMatch[ 0 ];
+}
+
 module.exports = {
 	removeHash: removeHash,
 	removeQueryArgs: removeQueryArgs,
@@ -89,4 +104,5 @@ module.exports = {
 	getFromAnchorTag: getFromAnchorTag,
 	areEqual: areEqual,
 	getHostname: getHostname,
+	getProtocol: getProtocol,
 };

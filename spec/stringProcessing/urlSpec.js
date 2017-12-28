@@ -141,4 +141,23 @@ describe( "A URL helper", function() {
 			expect( actual ).toBe( expected );
 		});
 	});
+
+	describe( "getProtocol", function() {
+		it( "should return the protocol of the URL", function() {
+			const urlA = "http://ww.google.nl";
+			const expected = "http://";
+
+			const actual = url.getProtocol( urlA );
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "should return null when passing a relative URL", function() {
+			const urlA = "/relative/url";
+
+			const actual = url.getProtocol( urlA );
+
+			expect( actual ).toBeNull();
+		} );
+	} );
 });
