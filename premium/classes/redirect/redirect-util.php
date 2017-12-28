@@ -91,8 +91,7 @@ class WPSEO_Redirect_Util {
 	 * @return bool
 	 */
 	public static function requires_trailing_slash( $target_url ) {
-		return
-			'/' !== $target_url &&
+		return '/' !== $target_url &&
 			self::has_permalink_trailing_slash() &&
 			self::is_relative_url( $target_url ) &&
 			! self::has_query_parameters( $target_url ) &&
