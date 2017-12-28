@@ -29,7 +29,8 @@
 		"xrstf/composer-php52": "^1.0.20",
 		"yoast/whip": "^1.1.0",
 		"j4mie/paris": "^1.5",
-		"pimple/pimple": "^3.2"
+		"pimple/pimple": "^3.2",
+		"ruckusing/ruckusing-migrations": "^1.1"
 	},
 	"require-dev": {
 		"codeclimate/php-test-reporter": "dev-master",
