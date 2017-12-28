@@ -3,18 +3,22 @@
 namespace Yoast\YoastSEO\Indexable;
 
 use Yoast\WordPress\Integration;
-use Yoast\WordPress\Integration_Group;
 
-class Bootstrap extends Integration_Group {
+class Bootstrap implements Integration {
 
 	/**
-	 * @return Integration[] List of registered services.
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
 	 */
-	protected function get_integrations() {
-		return array(
-			new Watchers\Post(),
-			new Watchers\Term(),
-			new Watchers\Author()
+	public function add_hooks() {
+		$integration_group = new Integration_Group(
+			array(
+				new Watchers\Post(),
+				new Watchers\Term(),
+				new Watchers\Author(),
+			)
 		);
+		$integration_group->initialize();
 	}
 }

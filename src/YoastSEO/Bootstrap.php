@@ -5,15 +5,20 @@ namespace Yoast\YoastSEO;
 use Yoast\WordPress\Integration;
 use Yoast\WordPress\Integration_Group;
 
-class Bootstrap extends Integration_Group {
+class Bootstrap implements Integration {
 
 	/**
-	 * @return Integration[] List of registered services.
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
 	 */
-	protected function get_integrations() {
-		return array(
-			new Database\Bootstrap(),
-			new Indexable\Bootstrap()
+	public function add_hooks() {
+		$integration_group = new Integration_Group(
+			array(
+				new Database\Bootstrap(),
+				new Indexable\Bootstrap(),
+			)
 		);
+		$integration_group->add_hooks();
 	}
 }

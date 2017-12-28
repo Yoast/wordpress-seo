@@ -11,5 +11,5 @@ interface Integration {
 	 *
 	 * This is the place to register hooks and filters.
 	 */
-	public function initialize();
+	public function add_hooks();
 }
