@@ -1591,7 +1591,7 @@ class WPSEO_Frontend {
 			unset( $matches );
 
 			// Prevent cleaning out posts & page previews for people capable of viewing them.
-			if ( isset( $_GET['preview'], $_GET['preview_nonce'] ) && current_user_can( 'edit_post' ) ) {
+			if ( isset( $_GET['preview'], $_GET['preview_nonce'] ) && current_user_can( 'edit_post', $post->ID ) ) {
 				$properurl = '';
 			}
 		}
