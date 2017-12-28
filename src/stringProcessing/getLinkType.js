@@ -23,7 +23,7 @@ module.exports = function( text, url ) {
 		if ( urlHelper.getHostname( anchorUrl ) === urlHelper.getHostname( url ) ) {
 			linkType = "internal";
 		}
-	} else if ( protocol === null ) {
+	} else if ( protocol === null && anchorUrl.charAt( 0 ) !== "#" ) {
 		linkType = "internal";
 	}
 
