@@ -6,7 +6,7 @@ use Ruckusing_FrameworkRunner;
 use Yoast\YoastSEO\Migration_Null_Logger;
 use Yoast\YoastSEO\Yoast_Model;
 
-class Migrations {
+class Database_Migration {
 	/** @var \wpdb WPDB instance */
 	protected $wpdb;
 
@@ -23,6 +23,10 @@ class Migrations {
 	 * Initializes the migrations.
 	 */
 	public function initialize() {
+		if ( '1' === get_transient('yoast_migration_problem' ) ) {
+			return false;
+		}
+
 		// @todo evaluate prefixing approach for global constants.
 		define( 'RUCKUSING_BASE', WPSEO_PATH . '/vendor/ruckusing/ruckusing-migrations' );
 		define( 'RUCKUSING_TS_SCHEMA_TBL_NAME', Yoast_Model::get_table_name( 'migrations' ) );
@@ -31,7 +35,6 @@ class Migrations {
 			'db:migrate',
 			'env=production'
 		), new Migration_Null_Logger() );
-		$main->execute();
 
 		/*
 		 * As the Ruckusing_FrameworkRunner is setting its own error and exception handlers,
@@ -39,6 +42,18 @@ class Migrations {
 		 */
 		restore_error_handler();
 		restore_exception_handler();
+
+		try {
+			$main->execute();
+		} catch( \Exception $exception ) {
+			// Something went wrong...
+			// Disable functionality?
+			// Set transient.. try again later.
+			set_transient( 'yoast_migration_problem', 1, DAY_IN_SECONDS );
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

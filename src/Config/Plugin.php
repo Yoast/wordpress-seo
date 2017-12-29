@@ -8,7 +8,11 @@ use Model;
 use ORM;
 
 class Plugin implements Integration {
+	/** @var array List of integrations. */
 	protected $integrations = array();
+
+	/** @var bool Flag to allow booting or not. */
+	protected $initialize_success = false;
 
 	/**
 	 * Adds an integration to the stack
@@ -29,14 +33,18 @@ class Plugin implements Integration {
 
 		Model::$auto_prefix_models = '\\Yoast\\YoastSEO\\Models\\';
 
-		$migration = new Migrations( $GLOBALS['wpdb'] );
-		$migration->initialize();
+		$migration = new Database_Migration( $GLOBALS['wpdb'] );
+		$this->initialize_success = $migration->initialize();
 	}
 
 	/**
 	 * Registers the hooks for all registered integrations.
 	 */
 	public function register_hooks() {
+		if ( ! $this->initialize_success ) {
+			return;
+		}
+
 		if ( is_admin() ) {
 			$this->add_integration( new Admin() );
 		}
