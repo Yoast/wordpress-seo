@@ -16,9 +16,10 @@ class Admin implements Integration {
 	public function register_hooks() {
 		$integration_group = new Integration_Group(
 			array(
-				new Watchers\Post(),
-				new Watchers\Term(),
-				new Watchers\Author(),
+				new Watchers\Indexable_Post(),
+				new Watchers\Indexable_Term(),
+				new Watchers\Indexable_Author(),
+				new Watchers\Primary_Term(),
 			)
 		);
 		$integration_group->register_hooks();
