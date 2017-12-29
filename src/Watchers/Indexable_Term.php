@@ -6,7 +6,7 @@ use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
 
-class Term implements Integration {
+class Indexable_Term implements Integration {
 
 	/**
 	 * Registers all hooks to WordPress.
