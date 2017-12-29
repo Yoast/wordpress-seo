@@ -28,8 +28,10 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 	}
 }
 
+$wpseo_i18n_summary = $i18n_issues;
 if ( ! $active ) {
-	$dashicon = 'yes';
+	$dashicon           = 'yes';
+	$wpseo_i18n_summary = $i18n_no_issues;
 }
 
 ?>
@@ -38,7 +40,7 @@ if ( ! $active ) {
 <div id="<?php echo esc_attr( 'yoast-' . $type ); ?>">
 
 	<?php if ( $total ) : ?>
-		<p><?php echo ( ! $active ) ? $i18n_no_issues : $i18n_issues; ?></p>
+		<p><?php echo esc_html( $wpseo_i18n_summary ); ?></p>
 
 		<div class="container" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
 			<?php _yoast_display_alerts( $active, 'active' ); ?>
