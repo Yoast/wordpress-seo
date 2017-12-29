@@ -35,7 +35,7 @@ if ( ! $active ) {
 }
 
 ?>
-<h3><span class="dashicons <?php echo esc_attr( 'dashicons-' . $dashicon ); ?>"></span> <?php echo $i18n_title; ?> (<?php echo $active_total; ?>)</h3>
+<h3><span class="dashicons <?php echo esc_attr( 'dashicons-' . $dashicon ); ?>"></span> <?php echo esc_html( $i18n_title ); ?> (<?php echo (int) $active_total; ?>)</h3>
 
 <div id="<?php echo esc_attr( 'yoast-' . $type ); ?>">
 
@@ -56,7 +56,7 @@ if ( ! $active ) {
 
 	<?php else : ?>
 
-		<p><?php echo $i18n_no_issues; ?></p>
+		<p><?php echo esc_html( $i18n_no_issues ); ?></p>
 
 	<?php endif; ?>
 </div>
