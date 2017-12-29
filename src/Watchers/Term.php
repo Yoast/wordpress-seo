@@ -61,7 +61,7 @@ class Term implements Integration {
 			$indexable->object_sub_type = $taxonomy;
 		}
 
-		$indexable->modified_date_gmt = gmdate( 'Y-m-d H:i:s' );
+		$indexable->updated_at = gmdate( 'Y-m-d H:i:s' );
 
 		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
 
@@ -76,23 +76,23 @@ class Term implements Integration {
 
 		$indexable->og_title       = $term_meta['wpseo_opengraph-title'];
 		$indexable->og_description = $term_meta['wpseo_opengraph-description'];
-		$indexable->og_image_url   = $term_meta['wpseo_opengraph-image'];
+		$indexable->og_image       = $term_meta['wpseo_opengraph-image'];
 
 		$indexable->twitter_title       = $term_meta['wpseo_twitter-title'];
 		$indexable->twitter_description = $term_meta['wpseo_twitter-description'];
-		$indexable->twitter_image_url   = $term_meta['wpseo_twitter-image'];
+		$indexable->twitter_image       = $term_meta['wpseo_twitter-image'];
 
 		$indexable->robots_noindex = $term_meta['wpseo_noindex'];
 
 		switch ( $term_meta['wpseo_sitemap_include'] ) {
 			case 'always':
-				$indexable->sitemap_exclude = 0;
+				$indexable->include_in_sitemap = 0;
 				break;
 			case 'never':
-				$indexable->sitemap_exclude = 1;
+				$indexable->include_in_sitemap = 1;
 				break;
 			default:
-				$indexable->sitemap_exclude = null;
+				$indexable->include_in_sitemap = null;
 				break;
 		}
 

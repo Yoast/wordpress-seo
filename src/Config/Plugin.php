@@ -26,6 +26,9 @@ class Plugin implements Integration {
 		ORM::configure( 'password', DB_PASSWORD );
 
 		Model::$auto_prefix_models = '\\Yoast\\YoastSEO\\Models\\';
+
+		$migration = new Migrations( $GLOBALS['wpdb'] );
+		$migration->initialize();
 	}
 
 	/**

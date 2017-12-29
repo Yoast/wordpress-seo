@@ -64,7 +64,7 @@ class Post implements Integration {
 		// Implement filling of meta values.
 		$post_meta = \get_post_meta( $post_id );
 
-		$indexable->modified_date_gmt = gmdate( 'Y-m-d H:i:s' );
+		$indexable->updated_at = gmdate( 'Y-m-d H:i:s' );
 
 		$indexable->permalink = get_permalink( $post_id );
 
@@ -90,7 +90,7 @@ class Post implements Integration {
 		$this->set_meta_value( $indexable, $post_meta, 'twitter_image_url', '_yoast_wpseo_twitter-image' );
 		$this->set_meta_value( $indexable, $post_meta, 'twitter_description', '_yoast_wpseo_twitter-description' );
 
-		$indexable->sitemap_exclude = null;
+		$indexable->include_in_sitemap = null;
 
 		try {
 			$seo_meta = Yoast_Model::of_type( 'SEO_Meta' )

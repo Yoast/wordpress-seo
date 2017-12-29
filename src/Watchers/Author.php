@@ -51,11 +51,11 @@ class Author implements Integration {
 			$model->object_type = 'user';
 		}
 
-		$model->modified_date_gmt = gmdate( 'Y-m-d H:i:s' );
+		$model->updated_at = gmdate( 'Y-m-d H:i:s' );
 
-		$model->title           = get_the_author_meta( 'wpseo_title', $user_id );
-		$model->description     = get_the_author_meta( 'wpseo_metadesc', $user_id );
-		$model->sitemap_exclude = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user_id ) === 'on';
+		$model->title              = get_the_author_meta( 'wpseo_title', $user_id );
+		$model->description        = get_the_author_meta( 'wpseo_metadesc', $user_id );
+		$model->include_in_sitemap = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user_id ) === 'on';
 
 		$model->permalink = get_author_posts_url( $user_id );
 
