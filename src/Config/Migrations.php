@@ -3,6 +3,7 @@
 namespace Yoast\YoastSEO\Config;
 
 use Ruckusing_FrameworkRunner;
+use Yoast\YoastSEO\Migration_Null_Logger;
 use Yoast\YoastSEO\Yoast_Model;
 
 class Migrations {
@@ -26,7 +27,7 @@ class Migrations {
 		define( 'RUCKUSING_BASE', WPSEO_PATH . '/vendor/ruckusing/ruckusing-migrations' );
 		define( 'RUCKUSING_TS_SCHEMA_TBL_NAME', Yoast_Model::get_table_name( 'migrations' ) );
 
-		$main = new Ruckusing_FrameworkRunner( $this->get_configuration(), array( 'db:migrate', 'env=development' ) );
+		$main = new Ruckusing_FrameworkRunner( $this->get_configuration(), array( 'db:migrate', 'env=development' ), new Migration_Null_Logger() );
 		$main->execute();
 
 		restore_error_handler();
