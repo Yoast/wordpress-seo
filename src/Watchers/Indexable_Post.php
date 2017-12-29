@@ -39,6 +39,8 @@ class Indexable_Post implements Integration {
 	}
 
 	/**
+	 * Saves post meta.
+	 *
 	 * @param int $post_id Post ID.
 	 */
 	public function save_meta( $post_id ) {
@@ -64,17 +66,32 @@ class Indexable_Post implements Integration {
 		// Implement filling of meta values.
 		$post_meta = \get_post_meta( $post_id );
 
-		$indexable->updated_at = gmdate( 'Y-m-d H:i:s' );
-
 		$indexable->permalink = get_permalink( $post_id );
 
 		$this->set_meta_value( $indexable, $post_meta, 'canonical', '_yoast_wpseo_canonical' );
-
 		$this->set_meta_value( $indexable, $post_meta, 'content_score', '_yoast_wpseo_content_score' );
 
-		$this->set_meta_value( $indexable, $post_meta, 'robots_advanced', '_yoast_wpseo_meta-robots-adv' );
-		$this->set_meta_value( $indexable, $post_meta, 'robots_noindex', '_yoast_wpseo_meta-robots-noindex' );
-		$this->set_meta_value( $indexable, $post_meta, 'robots_nofollow', '_yoast_wpseo_meta-robots-nofollow' );
+		$noindex = (int) $post_meta['_yoast_wpseo_meta-robots-noindex'][0];
+		switch ($noindex) {
+			case 0:
+				$indexable->robots_noindex = null;
+				break;
+			case 1:
+				$indexable->robots_noindex = 1;
+				break;
+			case 2:
+				$indexable->robots_noindex = 0;
+				break;
+		}
+
+		$this->set_meta_value( $indexable, $post_meta, 'robots_nofollow', '_yoast_wpseo_meta-robots-nofollow', null );
+
+		// Set additional meta-robots values.
+		$meta_robots_options = array( 'noimageindex', 'noarchive', 'nosnippet' );
+		$meta_robots = explode(',', $post_meta['_yoast_wpseo_meta-robots-adv'][0]);
+		foreach ( $meta_robots_options as $meta_robots_option ) {
+			$indexable->{'robots_' . $meta_robots_option} = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
+		}
 
 		$this->set_meta_value( $indexable, $post_meta, 'title', '_yoast_wpseo_title' );
 		$this->set_meta_value( $indexable, $post_meta, 'description', '_yoast_wpseo_metadesc' );
@@ -83,11 +100,11 @@ class Indexable_Post implements Integration {
 		$this->set_meta_value( $indexable, $post_meta, 'cornerstone', '_yst_is_cornerstone' );
 
 		$this->set_meta_value( $indexable, $post_meta, 'og_title', '_yoast_wpseo_opengraph-title' );
-		$this->set_meta_value( $indexable, $post_meta, 'og_image_url', '_yoast_wpseo_opengraph-image' );
+		$this->set_meta_value( $indexable, $post_meta, 'og_image', '_yoast_wpseo_opengraph-image' );
 		$this->set_meta_value( $indexable, $post_meta, 'og_description', '_yoast_wpseo_opengraph-description' );
 
 		$this->set_meta_value( $indexable, $post_meta, 'twitter_title', '_yoast_wpseo_twitter-title' );
-		$this->set_meta_value( $indexable, $post_meta, 'twitter_image_url', '_yoast_wpseo_twitter-image' );
+		$this->set_meta_value( $indexable, $post_meta, 'twitter_image', '_yoast_wpseo_twitter-image' );
 		$this->set_meta_value( $indexable, $post_meta, 'twitter_description', '_yoast_wpseo_twitter-description' );
 
 		$indexable->include_in_sitemap = null;
@@ -118,8 +135,9 @@ class Indexable_Post implements Integration {
 	 * @param $target
 	 * @param $source
 	 */
-	protected function set_meta_value( $model, $post_meta, $target, $source ) {
+	protected function set_meta_value( $model, $post_meta, $target, $source, $default = null ) {
 		if ( ! isset( $post_meta[ $source ] ) ) {
+			$model->{$target} = $default;
 			return;
 		}
 
