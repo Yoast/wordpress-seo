@@ -44,7 +44,13 @@ class Indexable_Post implements Integration {
 	 * @param int $post_id Post ID.
 	 */
 	public function save_meta( $post_id ) {
-		// @todo Don't run for auto-draft or revision.
+		if ( wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		if ( wp_is_post_autosave( $post_id ) ) {
+			return;
+		}
 
 		$post_type = get_post_type( $post_id );
 
@@ -72,7 +78,7 @@ class Indexable_Post implements Integration {
 		$this->set_meta_value( $indexable, $post_meta, 'content_score', '_yoast_wpseo_content_score' );
 
 		$noindex = (int) $post_meta['_yoast_wpseo_meta-robots-noindex'][0];
-		switch ($noindex) {
+		switch ( $noindex ) {
 			case 0:
 				$indexable->robots_noindex = null;
 				break;
@@ -88,7 +94,7 @@ class Indexable_Post implements Integration {
 
 		// Set additional meta-robots values.
 		$meta_robots_options = array( 'noimageindex', 'noarchive', 'nosnippet' );
-		$meta_robots = explode(',', $post_meta['_yoast_wpseo_meta-robots-adv'][0]);
+		$meta_robots         = explode( ',', $post_meta['_yoast_wpseo_meta-robots-adv'][0] );
 		foreach ( $meta_robots_options as $meta_robots_option ) {
 			$indexable->{'robots_' . $meta_robots_option} = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
@@ -138,6 +144,7 @@ class Indexable_Post implements Integration {
 	protected function set_meta_value( $model, $post_meta, $target, $source, $default = null ) {
 		if ( ! isset( $post_meta[ $source ] ) ) {
 			$model->{$target} = $default;
+
 			return;
 		}
 
