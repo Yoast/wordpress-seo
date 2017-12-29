@@ -90,7 +90,7 @@ class Indexable_Post implements Integration {
 				break;
 		}
 
-		$this->set_meta_value( $indexable, $post_meta, 'robots_nofollow', '_yoast_wpseo_meta-robots-nofollow', null );
+		$this->set_meta_value( $indexable, $post_meta, 'robots_nofollow', '_yoast_wpseo_meta-robots-nofollow' );
 
 		// Set additional meta-robots values.
 		$meta_robots_options = array( 'noimageindex', 'noarchive', 'nosnippet' );
@@ -136,10 +136,11 @@ class Indexable_Post implements Integration {
 	 *
 	 * @todo convert to something prettier.
 	 *
-	 * @param $model
-	 * @param $post_meta
-	 * @param $target
-	 * @param $source
+	 * @param Yoast_Model $model     Model.
+	 * @param array       $post_meta Meta list.
+	 * @param string      $target    Property to fill on the model.
+	 * @param string      $source    Meta key from the list.
+	 * @param null        $default   Default value if not set in meta data.
 	 */
 	protected function set_meta_value( $model, $post_meta, $target, $source, $default = null ) {
 		if ( ! isset( $post_meta[ $source ] ) ) {
