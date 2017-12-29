@@ -1,24 +1,37 @@
 # Todo
 
 ## Terms
-- internal link count [functionality]
-- incoming link count [functionality]
+- internal link count [functionality] 2nd iteration
+- incoming link count [functionality] 2nd iteration
 
 ---- Tables ----
 
-## Links
+## Links - 2nd iteration
 - [id] UUID? Integer
 - [source_id] Indexable
 - [target_id] Indexable (NULL)
 - [URL] the used URL in the copy
 - [type] (internal/external)
 
-## Keywords
+## Keywords - 2nd iteration?
 - [id] UUID? Integer
 - [indexable_id] UUID? Integer
 - [keyword] String
 - [score] Integer
 - [order] Integer
+
+---- Initial data ----
+
+Do we want to pre-fill data (upgrade script)
+- Primary Term
+- Indexable
+
+- Links
+- Keywords
+
+Sync to table?
+
+Create Model for wp_posts table -> load items.
 
 ---- Tests -----
 
@@ -32,6 +45,12 @@ Create `/tests/unittests/` for unittests.
 
 Evaluate prefixing of global constants like `RUCKUSING_WORKING_BASE`
 
+### prefix modules
+* j4mie/paris
+* j4mie/idiorm
+* ruckusing/ruckusing-migrations
+
+
 ## UUID
 - Can we use UUID?
 - MySQL minimal version requirements?
@@ -40,12 +59,7 @@ Evaluate prefixing of global constants like `RUCKUSING_WORKING_BASE`
 
 ---- ORM does not support it out of the box, will need custom SQL implementation if we want to use the `UUID()` method of MySQL.
 
-### prefix modules
-* j4mie/paris
-* j4mie/idiorm
-* ruckusing/ruckusing-migrations
-
-**Hacks implemented to make things work:**
+# Hacks
 - [Yoast_Model](https://github.com/Yoast/wordpress-seo/blob/yoast-meta/src/Yoast_Model.php#L7) to inject WordPress database table prefix the table names
 
 
