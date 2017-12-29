@@ -102,13 +102,21 @@ class WPSEO_Meta_Columns {
 				break;
 			case 'wpseo-metadesc':
 				$metadesc_val = apply_filters( 'wpseo_metadesc', wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) );
-				$metadesc     = ( '' === $metadesc_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . esc_html__( 'Meta description not set.', 'wordpress-seo' ) . '</span>' : esc_html( $metadesc_val );
-				echo $metadesc;
+				if ( '' === $metadesc_val ) {
+					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . esc_html__( 'Meta description not set.', 'wordpress-seo' ) . '</span>';
+				}
+				else {
+					echo esc_html( $metadesc_val );
+				}
 				break;
 			case 'wpseo-focuskw':
 				$focuskw_val = WPSEO_Meta::get_value( 'focuskw', $post_id );
-				$focuskw     = ( '' === $focuskw_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . esc_html__( 'Focus keyword not set.', 'wordpress-seo' ) . '</span>' : esc_html( $focuskw_val );
-				echo $focuskw;
+				if ( '' === $focuskw_val ) {
+					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . esc_html__( 'Focus keyword not set.', 'wordpress-seo' ) . '</span>';
+				}
+				else {
+					echo esc_html( $focuskw_val );
+				}
 				break;
 		}
 	}
