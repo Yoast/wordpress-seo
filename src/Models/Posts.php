@@ -5,7 +5,7 @@ namespace Yoast\YoastSEO\Models;
 use Yoast\YoastSEO\Yoast_Model;
 
 /**
- * @property int $ID
+ * @property int    $ID
  * @property string post_author
  * @property string post_date
  * @property string post_date_gmt

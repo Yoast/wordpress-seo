@@ -11,14 +11,16 @@ class Plugin implements Integration {
 	protected $integrations = array();
 
 	/**
-	 * @param Integration $integration
+	 * Adds an integration to the stack
+	 *
+	 * @param Integration $integration Integration to add.
 	 */
 	public function add_integration( Integration $integration ) {
 		$this->integrations[] = $integration;
 	}
 
 	/**
-	 *
+	 * Initializes the plugin.
 	 */
 	public function initialize() {
 		ORM::configure( 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME );
@@ -32,7 +34,7 @@ class Plugin implements Integration {
 	}
 
 	/**
-	 *
+	 * Registers the hooks for all registered integrations.
 	 */
 	public function register_hooks() {
 		if ( is_admin() ) {

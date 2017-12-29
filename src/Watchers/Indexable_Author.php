@@ -36,6 +36,8 @@ class Indexable_Author implements Integration {
 	}
 
 	/**
+	 * Saves user meta.
+	 *
 	 * @param int $user_id User ID.
 	 */
 	public function save_meta( $user_id ) {
