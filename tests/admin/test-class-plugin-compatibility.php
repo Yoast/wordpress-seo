@@ -42,7 +42,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 	public function test_plugin_version_matches() {
 		$expected = array(
 			'test-plugin' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '3.3',
@@ -52,7 +52,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'slug'         => 'test-plugin/test-plugin.php',
 			),
 			'test-plugin-dependency' => array(
-				'url'           => 'https://yoast.com/',
+				'url'           => 'http://example.com/',
 				'title'         => 'Test Plugin With Dependency',
 				'description'   => '',
 				'version'       => '3.3',
@@ -66,7 +66,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'slug'          => 'test-plugin-with-dependency/test-plugin-with-dependency.php',
 			),
 			'test-plugin-invalid-version' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '1.3',
@@ -77,7 +77,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 			),
 
 			'test-plugin-non-version-synced' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '1.3',
@@ -86,7 +86,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'compatible'   => true,
 			),
 			'test-premium-plugin' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'https://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '1.3',
@@ -110,7 +110,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 	public function test_get_installed_plugins() {
 		$expected = array(
 			'test-plugin' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '3.3',
@@ -119,7 +119,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'version_sync' => true,
 			),
 			'test-plugin-dependency'         => array(
-				'url'           => 'https://yoast.com/',
+				'url'           => 'http://example.com/',
 				'title'         => 'Test Plugin With Dependency',
 				'description'   => '',
 				'version'       => '3.3',
@@ -132,7 +132,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'slug'          => 'test-plugin-with-dependency/test-plugin-with-dependency.php',
 			),
 			'test-plugin-invalid-version' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '1.3',
@@ -142,7 +142,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'compatible'   => false,
 			),
 			'test-plugin-non-version-synced' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '1.3',
@@ -151,7 +151,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 				'compatible'   => true,
 			),
 			'test-premium-plugin' => array(
-				'url'          => 'https://yoast.com/',
+				'url'          => 'https://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
 				'version'      => '1.3',
