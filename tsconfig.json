@@ -3,7 +3,7 @@
         "typeRoots": [
             "node_modules/@types"
         ],
-        "module": "es6",
+        "module": "commonjs",
         "moduleResolution": "node",
         "target": "es6",
         "sourceMap": true,
