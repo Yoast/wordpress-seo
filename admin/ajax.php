@@ -151,8 +151,7 @@ function wpseo_ajax_replace_vars() {
 	$wp_query->queried_object_id = $post->ID;
 
 	$omit = array( 'excerpt', 'excerpt_only', 'title' );
-	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
-	die;
+	wpseo_ajax_json_echo_die( wp_strip_all_tags( wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit ) ) );
 }
 
 add_action( 'wp_ajax_wpseo_replace_vars', 'wpseo_ajax_replace_vars' );
