@@ -112,14 +112,15 @@ if ( class_exists( 'Woocommerce' ) ) {
 		)
 	);
 }
+
+/* translators: %1$s expands to Yoast SEO. */
+$wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
+
 ?>
 
 <div class="wrap yoast wpseo_table_page">
 
-	<h1 id="wpseo-title" class="yoast-h1"><?php
-		/* translators: %1$s expands to Yoast SEO */
-		printf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
-		?></h1>
+	<h1 id="wpseo-title" class="yoast-h1"><?php echo esc_html( $wpseo_extensions_header ); ?></h1>
 
 	<div id="extensions">
 		<section class="yoast-seo-premium-extension">
