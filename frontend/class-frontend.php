@@ -1822,11 +1822,12 @@ class WPSEO_Frontend {
 
 		// Only replace the debug marker when it is hooked.
 		if ( $this->show_debug_marker() ) {
-			$title = $this->title( '' );
+			$title      = $this->title( '' );
+			$debug_mark = $this->get_debug_mark();
 
 			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
 			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
-			$content = str_replace( $this->get_debug_mark(), $this->get_debug_mark() . "\n" . '<title>' . $title . '</title>', $content );
+			$content = str_replace( $debug_mark, $debug_mark . "\n" . '<title>' . esc_html( $title ) . '</title>', $content );
 		}
 
 		$GLOBALS['wp_query'] = $old_wp_query;
