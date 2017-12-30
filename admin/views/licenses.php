@@ -128,10 +128,15 @@ $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Y
 			$extension = $extensions->get( 'wordpress-seo-premium' );
 			$extensions->remove( 'wordpress-seo-premium' );
 			?>
-			<h2><?php
-				/* translators: %1$s expands to Yoast SEO Premium */
-				printf( __( '%1$s, take your optimization to the next level!', 'wordpress-seo' ), '<span class="yoast-heading-highlight">' . $extension->get_title() . '</span>' );
-				?></h2>
+			<h2>
+				<?php
+				printf(
+					/* translators: %1$s expands to Yoast SEO Premium */
+					esc_html__( '%1$s, take your optimization to the next level!', 'wordpress-seo' ),
+					'<span class="yoast-heading-highlight">' . $extension->get_title() . '</span>'
+				);
+				?>
+			</h2>
 
 			<ul class="yoast-seo-premium-benefits yoast-list--usp">
 				<li class="yoast-seo-premium-benefits__item">
