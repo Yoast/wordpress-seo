@@ -1,3 +1,7 @@
+### 6.1.0: January 9th, 2017
+* Fixes a bug in the redirects where an url decoded origin isn't found when the request uri isn't decoded.
+* Includes every change in Yoast SEO core 6.1.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 6.0.0: December 20th, 2017
 * Converts the list of post types to a format which is compatible with the REST API format.
 * Includes every change in Yoast SEO core 6.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
