@@ -38,8 +38,8 @@ class WPSEO_Redirect_Page {
 	 * A redirect-type filter.
 	 */
 	public function list_table_search() {
-		$options     = array( 'options' => array( 'default' => '' ) );
-		$url = filter_input( INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL, $options );
+		$options = array( 'options' => array( 'default' => '' ) );
+		$url     = filter_input( INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL, $options );
 
 		if ( empty( $url ) && isset( $_SERVER['REQUEST_URI'] ) ) {
 			$url = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL, $options );
