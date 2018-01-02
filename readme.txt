@@ -126,7 +126,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 6.1.0 =
-Release Date: January 9th, 2017
+Release Date: January 9th, 2018
 
 Enhancements:
 
