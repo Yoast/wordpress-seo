@@ -193,26 +193,6 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<?php
-		$patches_from = array();
-		if ( ! empty( $patches_from ) ) :
-			$call_to_contribute = sprintf(
-				/* translators: %1$s expands to Yoast SEO, %2$s to the version number of the plugin. */
-				__( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ),
-				'Yoast SEO',
-				$version
-			);
-			?>
-			<h3 class="wp-people-group"><?php esc_html_e( 'Community contributors', 'wordpress-seo' ); ?></h3>
-			<p><?php echo $call_to_contribute; ?></p>
-			<ul class="ul-square">
-				<?php
-				foreach ( $patches_from as $patcher => $link ) {
-					echo '<li><a href="', esc_url( $link ), '">', $patcher, '</a></li>';
-				}
-				?>
-			</ul>
-		<?php endif; ?>
 	</div>
 
 	<div id="integrations" class="wpseotab">
