@@ -125,6 +125,22 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 6.1.0 =
+Release Date: January 9th, 2017
+
+Enhancements:
+
+* Allows more strings to be translated.
+* Replaces any Yoast domain URLs with shortlink alternatives.
+
+Bugfixes:
+
+* Fixes a bug where the internal links aren't recognized when the `site_url` is not the same as the `home_url`
+* Removes unsupported PHP 5.2 arguments in an `array_unique` call in the Term image sitemap.
+* Removes unsupported PHP 5.3 arguments in a `json_encode` call in the notification functionality.
+* Added support for locales without territory (examples: et, fi)
+* Added support support for 3-letter language codes (example: rhg)
+
 = 6.0.0 =
 Release Date: December 20th, 2017
 
