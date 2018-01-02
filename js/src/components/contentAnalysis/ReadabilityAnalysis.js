@@ -35,6 +35,7 @@ class ReadabilityAnalysis extends React.Component {
 ReadabilityAnalysis.propTypes = {
 	results: PropTypes.array,
 	marksButtonStatus: PropTypes.string,
+	hideMarksButtons: PropTypes.bool,
 };
 
 /**
@@ -46,10 +47,11 @@ ReadabilityAnalysis.propTypes = {
  * @returns {Object} Props that should be passed to ContentAnalysis.
  */
 function mapStateToProps( state, ownProps ) {
-	let marksButtonStatus = state.marksButtonStatus;
-
+	let marksButtonStatus;
 	if ( ownProps.hideMarksButtons ) {
 		marksButtonStatus = "hidden";
+	} else {
+		marksButtonStatus = "enabled";
 	}
 
 	return {
