@@ -12,17 +12,17 @@ const urlHelper = require( "./url" );
 
 module.exports = function( text, url ) {
 	const anchorUrl = urlHelper.getFromAnchorTag( text );
-	const protocol = urlHelper.getProtocol( anchorUrl );
 
 	/**
 	 * A link is "Other" if:
 	 * - The protocol is not null, not http or https.
 	 * - The link is a relative fragment URL (starts with #).
 	 */
-	if( ( protocol !== null && protocol !== "http:" && protocol !== "https:" ) ||
-		anchorUrl.indexOf( "#" ) === 0 ) {
+	if ( ! urlHelper.protocolIsHttpScheme( urlHelper.getProtocol( anchorUrl ) ) ||
+		urlHelper.isRelativeFragmentURL( anchorUrl ) ) {
 		return "other";
 	}
+
 	if ( urlHelper.isInternalLink( anchorUrl, urlHelper.getHostname( url ) ) ) {
 		return "internal";
 	}

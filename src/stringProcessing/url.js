@@ -98,23 +98,53 @@ function getProtocol( url ) {
  *
  * @param {string} url The URL to test.
  * @param {string} host The current host.
+ *
  * @returns {boolean} Whether or not the URL is internal.
  */
 function isInternalLink( url, host ) {
 	const parsedUrl = urlMethods.parse( url, false, true );
-	// Check if the URL starts with a singe slash
-	if( url.indexOf( "//" ) === -1 && url.indexOf( "/" ) === 0 ) {
+	// Check if the URL starts with a singe slash.
+	if ( url.indexOf( "//" ) === -1 && url.indexOf( "/" ) === 0 ) {
 		return true;
 	}
-	// Check if the URL starts with a # indicating a fragment
-	if( url.indexOf( "#" ) === 0 ) {
+
+	// Check if the URL starts with a # indicating a fragment.
+	if ( url.indexOf( "#" ) === 0 ) {
 		return false;
 	}
-	// No host indicates a internal link
-	if( ! parsedUrl.host ) {
+
+	// No host indicates a internal link.
+	if ( ! parsedUrl.host ) {
 		return true;
 	}
+
 	return parsedUrl.host === host;
+}
+
+/**
+ * Checks whether the protocol is either HTTP: or HTTPS:
+ *
+ * @param {string} protocol The protocol to test.
+ *
+ * @returns {boolean} Whether the protocol is http(s):.
+ */
+function protocolIsHttpScheme( protocol ) {
+	if ( ! protocol ) {
+		return false;
+	}
+
+	return ( protocol === "http:" || protocol === "https:" );
+}
+
+/**
+ * Determines whther the link is a relative fragment URL.
+ *
+ * @param {string} url The protocol to test.
+ *
+ * @returns {boolean} Whether the link is a relative fragment URL.
+ */
+function isRelativeFragmentURL( url ) {
+	return url.indexOf( "#" ) === 0;
 }
 
 module.exports = {
@@ -127,4 +157,6 @@ module.exports = {
 	getHostname: getHostname,
 	getProtocol: getProtocol,
 	isInternalLink: isInternalLink,
+	protocolIsHttpScheme: protocolIsHttpScheme,
+	isRelativeFragmentURL: isRelativeFragmentURL,
 };
