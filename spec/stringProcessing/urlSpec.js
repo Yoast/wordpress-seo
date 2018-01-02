@@ -202,4 +202,33 @@ describe( "A URL helper", function() {
 			expect( actual ).toBe( expected );
 		} );
 	} );
+
+	describe( "isRelativeFragmentURL", function() {
+		it( "recognizes a relative fragment URL", function() {
+			const urlA = "#relative-fragment-url";
+			const expected = true;
+
+			const actual = url.isRelativeFragmentURL( urlA );
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "returns false on a non-relative fragment url", function() {
+			const urlA = "http://www.google.nl/#relative-fragment-url";
+			const expected = false;
+
+			const actual = url.isRelativeFragmentURL( urlA );
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "returns false on a regular url", function() {
+			const urlA = "http://www.google.nl/";
+			const expected = false;
+
+			const actual = url.isRelativeFragmentURL( urlA );
+
+			expect( actual ).toBe( expected );
+		} );
+	} );
 });
