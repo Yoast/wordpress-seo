@@ -231,4 +231,23 @@ describe( "A URL helper", function() {
 			expect( actual ).toBe( expected );
 		} );
 	} );
+
+	describe( "protocolIsHttpScheme", function() {
+		it( "recognizes http as a http scheme protocol", function() {
+			const protocol = "http:";
+			const expected = true;
+
+			const actual = url.protocolIsHttpScheme( protocol );
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "returns false when no protocol is passed", function() {
+			const expected = false;
+
+			const actual = url.protocolIsHttpScheme( null );
+
+			expect( actual ).toBe( expected );
+		} );
+	} );
 });
