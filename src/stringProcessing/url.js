@@ -84,16 +84,37 @@ function getHostname( url ) {
 /**
  * Returns the protocol of a URL.
  *
+ * Note that the colon (http:) is also part of the protocol.
+ *
  * @param {string} url The URL to retrieve the protocol of.
  * @returns {string|null} The protocol of the URL.
  */
 function getProtocol( url ) {
-	const protocolMatcher = /^(?:[a-z]+:)?\/\//i;
-	const protocolMatch = protocolMatcher.exec( url );
-	if ( ! protocolMatch ) {
-		return null;
+	return urlMethods.parse( url ).protocol;
+}
+
+/**
+ * Determine whether a URL is internal.
+ *
+ * @param {string} url The URL to test.
+ * @param {string} host The current host.
+ * @returns {boolean} Whether or not the URL is internal.
+ */
+function isInternalLink( url, host ) {
+	const parsedUrl = urlMethods.parse( url, false, true );
+	// Check if the URL starts with a singe slash
+	if( url.indexOf( "//" ) === -1 && url.indexOf( "/" ) === 0 ) {
+		return true;
 	}
-	return protocolMatch[ 0 ];
+	// Check if the URL starts with a # indicating a fragment
+	if( url.indexOf( "#" ) === 0 ) {
+		return false;
+	}
+	// No host indicates a internal link
+	if( ! parsedUrl.host ) {
+		return true;
+	}
+	return parsedUrl.host === host;
 }
 
 module.exports = {
@@ -105,4 +126,5 @@ module.exports = {
 	areEqual: areEqual,
 	getHostname: getHostname,
 	getProtocol: getProtocol,
+	isInternalLink: isInternalLink,
 };

@@ -11,21 +11,21 @@ const urlHelper = require( "./url" );
  */
 
 module.exports = function( text, url ) {
-	let linkType = "other";
-
 	const anchorUrl = urlHelper.getFromAnchorTag( text );
 	const protocol = urlHelper.getProtocol( anchorUrl );
 
-	// Matches all links that start with http:// and https://, case insensitive and global
-	if ( protocol === "http://" || protocol === "https://" ) {
-		linkType = "external";
-
-		if ( urlHelper.getHostname( anchorUrl ) === urlHelper.getHostname( url ) ) {
-			linkType = "internal";
-		}
-	} else if ( protocol === null && anchorUrl.charAt( 0 ) !== "#" ) {
-		linkType = "internal";
+	/**
+	 * A link is "Other" if:
+	 * - The protocol is not null, not http or https.
+	 * - The link is a relative fragment URL (starts with #).
+	 */
+	if( ( protocol !== null && protocol !== "http:" && protocol !== "https:" ) ||
+		anchorUrl.indexOf( "#" ) === 0 ) {
+		return "other";
+	}
+	if ( urlHelper.isInternalLink( anchorUrl, urlHelper.getHostname( url ) ) ) {
+		return "internal";
 	}
 
-	return linkType;
+	return "external";
 };

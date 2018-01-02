@@ -1,4 +1,4 @@
-var url = require( "../../js/stringProcessing/url" );
+var url = require( "../../src/stringProcessing/url" );
 
 describe( "A URL helper", function() {
 	describe( "removeHash", function() {
@@ -142,22 +142,64 @@ describe( "A URL helper", function() {
 		});
 	});
 
-	describe( "getProtocol", function() {
-		it( "should return the protocol of the URL", function() {
-			const urlA = "http://ww.google.nl";
-			const expected = "http://";
+	describe( "isInternalLink", function() {
+		it( "should identify an absolute internal link with host", function() {
+			const urlA = "http://www.google.nl";
+			const host = "www.google.nl";
+			const expected = true;
 
-			const actual = url.getProtocol( urlA );
+			const actual = url.isInternalLink( urlA, host );
 
 			expect( actual ).toBe( expected );
 		} );
 
+		it( "should identify an absolute internal link without host", function() {
+			const urlA = "/test/abc";
+			const host = "www.google.nl";
+			const expected = true;
+
+			const actual = url.isInternalLink( urlA, host );
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "should identify a relative url", function() {
+			const urlA = "test/abc";
+			const host = "www.google.nl";
+			const expected = true;
+
+			const actual = url.isInternalLink( urlA, host );
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "should identify a link as external with host", function() {
+			const urlA = "http://www.google.nl";
+			const host = "www.abc.nl";
+			const expected = false;
+
+			const actual = url.isInternalLink( urlA, host );
+
+			expect( actual ).toBe( expected );
+		} );
+	} );
+
+	describe( "getProtocol", function() {
 		it( "should return null when passing a relative URL", function() {
-			const urlA = "/relative/url";
+			const urlA = "relative/url";
 
 			const actual = url.getProtocol( urlA );
 
 			expect( actual ).toBeNull();
+		} );
+
+		it( "should return the correct protocol", function() {
+			const urlA = "http://www.google.nl";
+			const expected = "http:";
+
+			const actual = url.getProtocol( urlA );
+
+			expect( actual ).toBe( expected );
 		} );
 	} );
 });
