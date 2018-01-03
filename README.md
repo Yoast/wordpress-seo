@@ -72,7 +72,7 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 |                     | English | German | Dutch | French | Spanish | Italian | Japanese |
 |---------------------|---------|--------|-------|--------|---------|---------|----------|
 | Transition words    | ✅      | ✅     | ✅    | ✅      | ✅       | ✅       |          |
-| Flesh reading ease  | ✅      | ✅     | ✅    |        |         |         | ❌<sup>2</sup>        |
+| Flesch reading ease  | ✅      | ✅     | ✅    |        |         |         | ❌<sup>2</sup>        |
 | Passive voice       | ✅      | ✅     |       |       |         |         | ❌<sup>2</sup>        |
 | Sentence beginnings | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       | ❌<sup>2</sup>        |
 | Sentence length<sup>1</sup>     | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       |          |
@@ -83,7 +83,7 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 
 The following readability assessments are available for all languages: 
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
-- too long paragraphs
+- paragraph length
 - subheading distribution
 
 ## Change log
