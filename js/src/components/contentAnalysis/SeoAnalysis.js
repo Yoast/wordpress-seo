@@ -29,21 +29,12 @@ SeoAnalysis.propTypes = {
  * Maps redux state to SeoAnalysis props.
  *
  * @param {Object} state The redux state.
- * @param {Object} ownProps The components own props.
  *
  * @returns {Object} Props that should be passed to SeoAnalysis.
  */
-function mapStateToProps( state, ownProps ) {
-	let marksButtonStatus;
-	if ( ownProps.hideMarksButtons ) {
-		marksButtonStatus = "hidden";
-	} else {
-		marksButtonStatus = "enabled";
-	}
-
+function mapStateToProps( state ) {
 	return {
 		results: state.analysis.seo[ state.activeKeyword ] || null,
-		marksButtonStatus: marksButtonStatus,
 	};
 }
 

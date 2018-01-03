@@ -42,21 +42,12 @@ ReadabilityAnalysis.propTypes = {
  * Maps redux state to ContentAnalysis props.
  *
  * @param {Object} state The redux state.
- * @param {Object} ownProps The components own props.
  *
  * @returns {Object} Props that should be passed to ContentAnalysis.
  */
-function mapStateToProps( state, ownProps ) {
-	let marksButtonStatus;
-	if ( ownProps.hideMarksButtons ) {
-		marksButtonStatus = "hidden";
-	} else {
-		marksButtonStatus = "enabled";
-	}
-
+function mapStateToProps( state ) {
 	return {
 		results: state.analysis.readability,
-		marksButtonStatus: marksButtonStatus,
 	};
 }
 
