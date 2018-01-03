@@ -47,9 +47,11 @@ ReadabilityAnalysis.propTypes = {
  * @returns {Object} Props that should be passed to ContentAnalysis.
  */
 function mapStateToProps( state, ownProps ) {
+	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
+
 	return {
 		results: state.analysis.readability,
-		marksButtonStatus: ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus,
+		marksButtonStatus: marksButtonStatus,
 	};
 }
 
