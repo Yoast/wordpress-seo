@@ -72,13 +72,14 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 |                     | English | German | Dutch | French | Spanish | Italian | Japanese |
 |---------------------|---------|--------|-------|--------|---------|---------|----------|
 | Transition words    | ✅      | ✅     | ✅    | ✅      | ✅       | ✅       |          |
-| Flesh reading ease  | ✅      | ✅     | ✅    |        |         |         | ❌        |
-| Passive voice       | ✅      | ✅     |       |       |         |         | ❌        |
-| Sentence beginnings<sup>1</sup> | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       | ❌        |
+| Flesh reading ease  | ✅      | ✅     | ✅    |        |         |         | ❌<sup>2</sup>        |
+| Passive voice       | ✅      | ✅     |       |       |         |         | ❌<sup>2</sup>        |
+| Sentence beginnings<sup>1</sup> | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       | ❌<sup>2</sup>        |
 | Sentence length     | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       |          |
 | Function words (for Internal linking and insights)      | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       |          |
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
+<sup>2</sup> This means that this feature doesn't make sense for the specific language.
 
 The following readability assessments are available for all languages: 
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
