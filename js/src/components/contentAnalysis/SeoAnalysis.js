@@ -34,9 +34,11 @@ SeoAnalysis.propTypes = {
  * @returns {Object} Props that should be passed to SeoAnalysis.
  */
 function mapStateToProps( state, ownProps ) {
+	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
+
 	return {
 		results: state.analysis.seo[ state.activeKeyword ] || null,
-		marksButtonStatus: ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus,
+		marksButtonStatus: marksButtonStatus,
 	};
 }
 
