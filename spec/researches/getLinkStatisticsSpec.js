@@ -40,6 +40,102 @@ describe("Tests a string for anchors and analyzes these", function() {
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 	} );
 
+	it("should detect nofollow suffixed with some other argument in the rel tag", function () {
+		var attributes = {
+			keyword: "link",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com"
+		};
+
+		var mockPaper = new Paper("string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel='nofollow noreferrer'>link</a>", attributes);
+		foundLinks = linkCount(mockPaper);
+		expect(foundLinks.total).toBe(2);
+		expect(foundLinks.otherTotal).toBe(1);
+		expect(foundLinks.externalNofollow).toBe(1);
+
+		var mockPaper = new Paper("string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel='nofollow noreferrer noopener'>link</a>", attributes);
+		foundLinks = linkCount(mockPaper);
+		expect(foundLinks.total).toBe(2);
+		expect(foundLinks.otherTotal).toBe(1);
+		expect(foundLinks.externalNofollow).toBe(1);
+	});
+
+	it("should detect nofollow prefixed with some other argument in the rel tag", function () {
+		var attributes = {
+			keyword: "link",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com"
+		};
+
+		var mockPaper = new Paper("string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel=\"noreferrer nofollow\">link</a>", attributes);
+		foundLinks = linkCount(mockPaper);
+		expect(foundLinks.total).toBe(2);
+		expect(foundLinks.otherTotal).toBe(1);
+		expect(foundLinks.externalNofollow).toBe(1);
+
+		var mockPaper = new Paper("string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel=\"noopener noreferrer nofollow\">link</a>", attributes);
+		foundLinks = linkCount(mockPaper);
+		expect(foundLinks.total).toBe(2);
+		expect(foundLinks.otherTotal).toBe(1);
+		expect(foundLinks.externalNofollow).toBe(1);
+	});
+
+	it("should detect nofollow prefixed and suffixed with some other argument in the rel tag", function () {
+		var attributes = {
+			keyword: "link",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com"
+		};
+
+		var mockPaper = new Paper("string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel='external nofollow noreferrer'>link</a>", attributes);
+		foundLinks = linkCount(mockPaper);
+		expect(foundLinks.total).toBe(2);
+		expect(foundLinks.otherTotal).toBe(1);
+		expect(foundLinks.externalNofollow).toBe(1);
+	});
+
+	it("should allow nofollow as single argument without quotes", function () {
+		var attributes = {
+			keyword: "link",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com"
+		};
+
+		var mockPaper = new Paper("string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel=nofollow>link</a>", attributes);
+		foundLinks = linkCount(mockPaper);
+		expect(foundLinks.total).toBe(2);
+		expect(foundLinks.otherTotal).toBe(1);
+		expect(foundLinks.externalNofollow).toBe(1);
+	});
+
+	it("should ignore nofollow outside of rel tag", function () {
+		var attributes = {
+			keyword: "link",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com"
+		};
+
+		var mockPaper = new Paper("string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel=\"\" nofollow>link</a>", attributes);
+		foundLinks = linkCount(mockPaper);
+		expect(foundLinks.total).toBe(2);
+		expect(foundLinks.otherTotal).toBe(1);
+		expect(foundLinks.externalNofollow).toBe(0);
+	});
+
+	it("should ignore malformed rel tag", function () {
+		var attributes = {
+			keyword: "link",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com"
+		};
+
+		var mockPaper = new Paper("string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel=\"nofollow'>link</a>", attributes);
+		foundLinks = linkCount(mockPaper);
+		expect(foundLinks.total).toBe(2);
+		expect(foundLinks.otherTotal).toBe(1);
+		expect(foundLinks.externalNofollow).toBe(0);
+	});
+
 	it( "should return all special types", function () {
 		var attributes = {
 			keyword: "keyword",
