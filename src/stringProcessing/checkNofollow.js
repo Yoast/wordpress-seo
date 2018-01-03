@@ -10,8 +10,9 @@ module.exports = function( text ) {
 	var linkFollow = "Dofollow";
 
 	// Matches all nofollow links, case insensitive and global
-	if ( text.match( /rel=(\'|\")([^\1]+\s)?nofollow(\s[^\1]+)?\1|rel=nofollow/ig ) !== null ) {
+	if ( text.match( /\srel=(nofollow(\s|\/>|>)|(\'|\")([^\3]+\s)?nofollow(\s[^\3]+)?\3)/ig ) !== null ) {
 		linkFollow = "Nofollow";
 	}
+
 	return linkFollow;
 };

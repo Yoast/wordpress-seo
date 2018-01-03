@@ -108,6 +108,34 @@ describe("Tests a string for anchors and analyzes these", function() {
 		expect(foundLinks.externalNofollow).toBe(1);
 	});
 
+	it("should ignore single argument without quotes when starting with nofollow", function () {
+		var attributes = {
+			keyword: "link",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com"
+		};
+
+		var mockPaper = new Paper("string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel=nofollowmoretext>link</a>", attributes);
+		foundLinks = linkCount(mockPaper);
+		expect(foundLinks.total).toBe(2);
+		expect(foundLinks.otherTotal).toBe(1);
+		expect(foundLinks.externalNofollow).toBe(0);
+	});
+
+	it("should ignore tags ending in rel", function () {
+		var attributes = {
+			keyword: "link",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com"
+		};
+
+		var mockPaper = new Paper("string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' horel=\"nofollow\">link</a>", attributes);
+		foundLinks = linkCount(mockPaper);
+		expect(foundLinks.total).toBe(2);
+		expect(foundLinks.otherTotal).toBe(1);
+		expect(foundLinks.externalNofollow).toBe(0);
+	});
+
 	it("should ignore nofollow outside of rel tag", function () {
 		var attributes = {
 			keyword: "link",
