@@ -31,14 +31,27 @@ describe("Tests a string for anchors and analyzes these", function() {
 		expect( foundLinks.internalTotal ).toBe( 1 );
 		expect( foundLinks.externalTotal ).toBe( 1 );
 		expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+	} );
 
+	it( "should detect nofollow as rel attribute", function() {
+		var attributes = {
+			keyword: "link",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com"
+		};
 
-		mockPaper = new Paper( "string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel='nofollow'>link</a>", attributes );
+		var mockPaper = new Paper( "string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel='nofollow'>link</a>", attributes );
 		foundLinks = linkCount( mockPaper );
 		expect( foundLinks.total ).toBe( 2 );
 		expect( foundLinks.otherTotal ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
-	} );
+
+		var mockPaper = new Paper( "string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel=' nofollow '>link</a>", attributes );
+		foundLinks = linkCount( mockPaper );
+		expect( foundLinks.total ).toBe( 2 );
+		expect( foundLinks.otherTotal ).toBe( 1 );
+		expect( foundLinks.externalNofollow ).toBe( 1 );
+	});
 
 	it("should detect nofollow suffixed with some other argument in the rel tag", function () {
 		var attributes = {
