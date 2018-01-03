@@ -94,7 +94,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	translateScore( score, subHeadings, i18n ) {
 		if ( score === this._config.scores.multipleMatches || score === this._config.scores.oneMatch ) {
 			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears only in %2$d (out of %1$d) subheadings in your copy." ),
+				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy." ),
 					subHeadings.count, subHeadings.matches
 			);
 		}
