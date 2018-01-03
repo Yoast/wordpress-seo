@@ -1,5 +1,8 @@
 /** @module stringProcessing/checkNofollow */
 
+// Regular Expression to detect "nofollow" in the rel attribute.
+const noFollowExpression = /\srel=(nofollow(\s|\/>|>)|(\'|\")([^\3]*\s)?nofollow(\s[^\3]*)?\3)/ig;
+
 /**
  * Checks if a links has a nofollow attribute. If it has, returns Nofollow, otherwise Dofollow.
  *
@@ -10,7 +13,7 @@ module.exports = function( text ) {
 	var linkFollow = "Dofollow";
 
 	// Matches all nofollow links, case insensitive and global
-	if ( text.match( /\srel=(nofollow(\s|\/>|>)|(\'|\")([^\3]*\s)?nofollow(\s[^\3]*)?\3)/ig ) !== null ) {
+	if ( text.match( noFollowExpression ) !== null ) {
 		linkFollow = "Nofollow";
 	}
 
