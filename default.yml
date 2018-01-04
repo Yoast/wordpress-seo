@@ -102,6 +102,7 @@ rules:
   no-unused-expressions: 2
   no-useless-call: 2
   no-useless-concat: 2
+  no-useless-escape: 1
   no-void: 2
   no-warning-comments: [ 1, { "terms": [ "todo" ], "location": "anywhere" } ]
   no-with: 2
@@ -152,7 +153,7 @@ rules:
   func-style: 0
   id-length: 0
   id-match: 0
-  indent: [2, tab, {"SwitchCase": 1}]
+  indent: [1, tab, {"SwitchCase": 1}]
   jsx-quotes: 0
   key-spacing: [1, {"beforeColon": false, "afterColon": true}]
   linebreak-style: [2, unix]
@@ -188,7 +189,7 @@ rules:
   one-var: 0
   operator-assignment: 0
   operator-linebreak: 2
-  padded-blocks: [2, "never"]
+  padded-blocks: [1, "never"]
   quote-props: [2, "as-needed", {"keywords": true}]
   quotes: [2, double, avoid-escape]
   require-jsdoc: [2, {"require": {"MethodDefinition": true}}]
