@@ -202,7 +202,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
         <span
           className="sc-VigVT bGMrIs"
         >
-          Good (2)
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -396,7 +396,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
         <span
           className="sc-VigVT bGMrIs"
         >
-          Good (2)
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -619,7 +619,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
         <span
           className="sc-VigVT bGMrIs"
         >
-          Good (2)
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -842,7 +842,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
         <span
           className="sc-VigVT bGMrIs"
         >
-          Good (2)
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -1052,7 +1052,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
         <span
           className="sc-VigVT bGMrIs"
         >
-          Good (2)
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -1251,7 +1251,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
         <span
           className="sc-VigVT bGMrIs"
         >
-          Good (2)
+          Good results (2)
         </span>
       </button>
     </h3>
@@ -1450,7 +1450,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
         <span
           className="sc-VigVT bGMrIs"
         >
-          Good (2)
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -1581,7 +1581,7 @@ exports[`the ContentAnalysis component without problems and considerations, but 
         <span
           className="sc-VigVT bGMrIs"
         >
-          Good (2)
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -1712,7 +1712,7 @@ exports[`the ContentAnalysis component without problems and improvements matches
         <span
           className="sc-VigVT bGMrIs"
         >
-          Good (2)
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -1869,7 +1869,7 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
         <span
           className="sc-VigVT bGMrIs"
         >
-          Good (2)
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -1951,7 +1951,7 @@ exports[`the ContentAnalysis component without problems, improvements and consid
         <span
           className="sc-VigVT bGMrIs"
         >
-          Good (2)
+          Good results (2)
         </span>
       </button>
     </h4>
