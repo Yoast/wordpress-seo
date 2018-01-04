@@ -12,6 +12,7 @@ const defaultWebpackConfig = {
 	output: {
 		path: paths.jsDist,
 		filename: outputFilename,
+		jsonpFunction: "yoastJsonp",
 	},
 	resolve: {
 		extensions: [ ".js", ".jsx" ],
