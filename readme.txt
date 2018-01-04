@@ -141,7 +141,7 @@ Bugfixes:
 * Removes unsupported PHP 5.3 arguments in a `json_encode` call in the notification functionality.
 * Added support for locales without territory (examples: et, fi) - Props [Peeter Marvet](https://github.com/petskratt).
 * Added support support for 3-letter language codes (example: rhg) - Props [Peeter Marvet](https://github.com/petskratt).
-* Fixes a JavaScript compatibility issue by prefixing the webpack jsonP function with `yoast`.
+* Fixes a JavaScript compatibility issue by prefixing the webpack jsonP function with `yoast` - Props [Raitis Sevelis from Visual Composer](https://visualcomposer.io/).
 
 = 6.0.0 =
 Release Date: December 20th, 2017
