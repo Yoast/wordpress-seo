@@ -135,11 +135,13 @@ Enhancements:
 
 Bugfixes:
 
-* Fixes a bug where the internal links aren't recognized when the `site_url` is not the same as the `home_url`
+* Fixes a bug where the internal links aren't recognized when the `site_url` is not the same as the `home_url`.
+* Fixes a bug where the user locale is not used for the Help Center when it is different from the site locale.
 * Removes unsupported PHP 5.2 arguments in an `array_unique` call in the Term image sitemap.
 * Removes unsupported PHP 5.3 arguments in a `json_encode` call in the notification functionality.
-* Added support for locales without territory (examples: et, fi) - Props [Peeter Marvet](https://github.com/petskratt)
-* Added support support for 3-letter language codes (example: rhg) - Props [Peeter Marvet](https://github.com/petskratt)
+* Added support for locales without territory (examples: et, fi) - Props [Peeter Marvet](https://github.com/petskratt).
+* Added support support for 3-letter language codes (example: rhg) - Props [Peeter Marvet](https://github.com/petskratt).
+* Fixes a JavaScript compatibility issue by prefixing the webpack jsonP function with `yoast`.
 
 = 6.0.0 =
 Release Date: December 20th, 2017
