@@ -84,7 +84,7 @@ function getHostname( url ) {
 /**
  * Returns the protocol of a URL.
  *
- * Note that the colon (http:) is also part of the protocol.
+ * Note that the colon (http:) is also part of the protocol, conform to node's url.parse api.
  *
  * @param {string} url The URL to retrieve the protocol of.
  * @returns {string|null} The protocol of the URL.
@@ -137,7 +137,7 @@ function protocolIsHttpScheme( protocol ) {
 }
 
 /**
- * Determines whther the link is a relative fragment URL.
+ * Determines whether the link is a relative fragment URL.
  *
  * @param {string} url The protocol to test.
  *

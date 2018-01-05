@@ -163,7 +163,7 @@ describe( "A URL helper", function() {
 			expect( actual ).toBe( expected );
 		} );
 
-		it( "should identify a relative url", function() {
+		it( "should identify a relative url as an internal link", function() {
 			const urlA = "test/abc";
 			const host = "www.google.nl";
 			const expected = true;
@@ -173,7 +173,7 @@ describe( "A URL helper", function() {
 			expect( actual ).toBe( expected );
 		} );
 
-		it( "should identify a link as external with host", function() {
+		it( "should identify a link as external when it contains a different origin", function() {
 			const urlA = "http://www.google.nl";
 			const host = "www.abc.nl";
 			const expected = false;

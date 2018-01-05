@@ -16,7 +16,7 @@ module.exports = function( text, url ) {
 	/**
 	 * A link is "Other" if:
 	 * - The protocol is neither null, nor http, nor https.
-	 * - The link is a relative fragment URL (starts with #).
+	 * - The link is a relative fragment URL (starts with #), because it won't navigate to another page.
 	 */
 	if ( ! urlHelper.protocolIsHttpScheme( urlHelper.getProtocol( anchorUrl ) ) ||
 		urlHelper.isRelativeFragmentURL( anchorUrl ) ) {
