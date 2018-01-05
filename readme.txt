@@ -77,7 +77,7 @@ Should you have a need to import from another SEO plugin to Yoast SEO, or from a
 Read [this migration guide](https://yoa.st/1v4) if you still have questions about migrating from another SEO plugin to Yoast SEO.
 
 = Yoast SEO Plugin in your Language! =
-Currently a huge translation project is underway, translating Yoast SEO in as much as 24 languages. So far, the translations for French and Dutch are complete, but we still need help on a lot of other languages, so if you're good at translating, please join us at [translate.yoast.com](https://yoa.st/1v5).
+Currently a huge translation project is underway, translating Yoast SEO in as much as 24 languages. So far, the translations for French and Dutch are complete, but we still need help on a lot of other languages, so if you're good at translating, please join us at [translate.wordpress.org](https://yoa.st/1v5).
 
 = News SEO =
 Be sure to also check out the premium [News SEO module](https://yoa.st/1uv) if you need Google News Sitemaps. It tightly integrates with Yoast SEO to give you the combined power of News Sitemaps and full Search Engine Optimization.
