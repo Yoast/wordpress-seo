@@ -26,7 +26,7 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 
-	it("returns matched regular participles and filtered exceptions; exceptions don't set the sentence part passive.", function(){
+	it("returns matched regular participles and filtered exceptions; exceptions don't mark the sentence part as passive.", function(){
 		var mockSentence = new sentencePart( "été remarquée par un agent de théâtre.", [ "été" ], "fr" );
 		var sentencePartText = mockSentence.getSentencePartText();
 		var auxiliaries = mockSentence.getAuxiliaries();

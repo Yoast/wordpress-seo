@@ -15,6 +15,7 @@ describe( "splits French sentences into parts", function() {
 	} );
 
 	it ( "doesn't split on sentence breakers within words", function() {
+		// Sentence breaker: 'es' in 'responsable', 'tes' and 'actes'.
 		var sentence = "Désormais tu es responsable de tes actes.";
 		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "es responsable de tes actes." );
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
@@ -37,13 +38,14 @@ describe( "splits French sentences into parts", function() {
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 0 );
 	} );
 
-	it ( "filters the sentence part when it is included because of a non-auxiliary sentence breaker but contains an auxiliary preceded by a reflexive pronoun", function() {
+	it ( "doesn't return a sentence part when it is initally included because of a non-auxiliary sentence breaker (comma) but contains an auxiliary preceded by a reflexive pronoun", function() {
 		var sentence = "Nous sommes arrivés, nous nous sommes lavés, et puis nous nous sommes couchés.";
 		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "sommes arrivés" );
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
 	} );
 
 	it ( "doesn't split sentences when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
+		// Exception word after auxiliary: le.
 		var sentence = "C'est le film le plus vu.";
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 0 );
 	} );

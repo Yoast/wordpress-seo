@@ -13,6 +13,7 @@ describe( "splits English sentences into parts", function() {
 		expect( getSentenceParts( sentence, "en" ).length ).toBe( 1 );
 	} );
 	it ( "doesn't split on sentence breakers within words", function() {
+		// Sentence breaker: 'is' in 'praise'.
 		var sentence = "Commented is praise due.";
 		expect( getSentenceParts( sentence, "en" )[ 0 ].getSentencePartText() ).toBe( "is praise due." );
 		expect( getSentenceParts( sentence, "en" ).length ).toBe( 1 );

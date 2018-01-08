@@ -16,7 +16,7 @@ var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
  *
  * @param {string} participle The participle.
  * @param {string} sentencePart The sentence part that contains the participle.
- * @param {object} attributes  The attributes object.
+ * @param {Object} attributes  The attributes object.
  *
  * @constructor
  */
@@ -37,9 +37,9 @@ EnglishParticiple.prototype.isPassive = function() {
 	let sentencePart = this.getSentencePart();
 	let participleIndex = sentencePart.indexOf( this.getParticiple() );
 	return 	! this.isNonVerbEndingEd() &&
-				! this.hasRidException() &&
-				! this.directPrecedenceException( sentencePart, participleIndex ) &&
-				! this.precedenceException( sentencePart, participleIndex );
+		! this.hasRidException() &&
+		! this.directPrecedenceException( sentencePart, participleIndex ) &&
+		! this.precedenceException( sentencePart, participleIndex );
 };
 
 /**

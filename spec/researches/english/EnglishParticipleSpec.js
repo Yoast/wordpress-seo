@@ -2,7 +2,6 @@ let EnglishParticiple = require( "../../../js/researches/english/EnglishParticip
 var checkException = require ( "../../../js/researches/passivevoice/checkException.js" );
 
 describe( "A test for checking the English Participle", function() {
-
 	it( "checks the properties of the English participle object with a passive", function() {
 		let mockParticiple = new EnglishParticiple( "fired", "He was fired", { auxiliaries: [ "was" ], type: "regular" } );
 		expect( mockParticiple.getParticiple() ).toBe( "fired" );

@@ -36,6 +36,10 @@ describe( "a test for matching irregular participles.", function() {
 	} );
 
 	it( "matches an irregular participle ending in -s", function() {
+		expect( participleRegexes.irregularParticiples( "promis", "fr" ) ).toEqual( [ "promis" ] );
+	} );
+
+	it( "matches an irregular participle ending in -s with a suffix", function() {
 		expect( participleRegexes.irregularParticiples( "promise", "fr" ) ).toEqual( [ "promise" ] );
 	} );
 

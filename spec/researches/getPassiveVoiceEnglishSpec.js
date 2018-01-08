@@ -3,25 +3,25 @@ var Paper = require( "../../js/values/Paper.js" );
 
 // Tests inspired by the examples on http://www.englishpage.com/verbpage/activepassive.html
 describe( "detecting passive voice in sentences", function() {
-	it( "returns active voice (Simple Present)", function () {
-		var paper = new Paper("Once a week, Tom cleans the house.");
+	it( "returns active voice (Simple Present)", function() {
+		var paper = new Paper( "Once a week, Tom cleans the house." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	});
 
-	it( "returns passive voice (Simple Present)", function () {
+	it( "returns passive voice (Simple Present)", function() {
 		// Passive: is cleaned.
-		var paper = new Paper("Once a week, the house is cleaned by Tom.");
+		var paper = new Paper( "Once a week, the house is cleaned by Tom." );
 		expect( passiveVoice( paper ).passives.length).toBe( 1 );
 	});
 
-	it( "returns active voice (Present Continuous)", function () {
-		var paper = new Paper("Right now, Sarah is writing the letter.");
+	it( "returns active voice (Present Continuous)", function() {
+		var paper = new Paper( "Right now, Sarah is writing the letter." );
 		expect(passiveVoice( paper ).passives.length).toBe( 0 );
 	});
 
-	it( "returns passive voice (Present Continuous)", function () {
+	it( "returns passive voice (Present Continuous)", function() {
 		// Passive: (is) being written.
-		var paper = new Paper("Right now, the letter is being written by Sarah.");
+		var paper = new Paper( "Right now, the letter is being written by Sarah." );
 		expect(passiveVoice( paper ).passives.length).toBe( 1 );
 	});
 
@@ -314,15 +314,15 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
-	it( "returns the passive sentences with multiple passive subsentences", function () {
+	it( "returns the passive sentences with multiple passive subsentences", function() {
 		// Passive: is cleaned, is cleaned (2 times).
-		var paper = new Paper("Once a week, the house is cleaned by Tom where the house is cleaned by Jane.");
+		var paper = new Paper( "Once a week, the house is cleaned by Tom where the house is cleaned by Jane." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
-	it( "returns the passive sentences with more subsentences and only the first subsentence is passive", function () {
+	it( "returns the passive sentences with more subsentences and only the first subsentence is passive", function() {
 		// Passive: is cleaned.
-		var paper = new Paper("Once a week, the house is cleaned by Tom where the house is Jane.");
+		var paper = new Paper( "Once a week, the house is cleaned by Tom where the house is Jane." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
@@ -365,13 +365,13 @@ describe( "detecting passive voice in sentences", function() {
 		} );
 	});
 
-	it( "returns no passive sentence when the subsentence has no auxiliary, when the auxiliary is used multiple times", function () {
+	it( "returns no passive sentence when the subsentence has no auxiliary, when the auxiliary is used multiple times", function() {
 		// Passive: no passive, auxiliary: was
 		var paper = new Paper( "He thought she was the one who knew about the six buried in his back yard, but he was wrong." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	});
 
-	it( "returns no passive sentence when there is an exception with 'rid'", function () {
+	it( "returns no passive sentence when there is an exception with 'rid'", function() {
 		// Passive: no passive, auxiliary: got
 		var paper = new Paper( "He got rid of it" );
 		expect( passiveVoice( paper ) ).toEqual( {
