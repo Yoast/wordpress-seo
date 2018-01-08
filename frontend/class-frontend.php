@@ -344,9 +344,9 @@ class WPSEO_Frontend {
 		$title = preg_replace( $regex, '', $title );
 
 		if ( ! is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
-			$title = get_bloginfo( 'name' );
+			$title = WPSEO_Utils::get_site_name();
 			$title = $this->add_paging_to_title( $sep, $seplocation, $title );
-			$title = $this->add_to_title( $sep, $seplocation, $title, wp_strip_all_tags( get_bloginfo( 'description' ) ) );
+			$title = $this->add_to_title( $sep, $seplocation, $title, wp_strip_all_tags( get_bloginfo( 'description' ), true ) );
 
 			return $title;
 		}
