@@ -92,8 +92,8 @@ $extensions->add(
 	'wpseo-local-woocommerce',
 	new WPSEO_Extension(
 		array(
-			'buyUrl'    => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
-			'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
+			'buyUrl'    => WPSEO_Shortlinker::get( 'https://yoa.st/272' ),
+			'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/273' ),
 			'title'     => 'Local SEO for WooCommerce',
 			'desc'      => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
 			'image'     => plugins_url( 'images/extensions-local-for-woocommerce.png', WPSEO_FILE ),
