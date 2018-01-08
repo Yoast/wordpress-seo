@@ -108,6 +108,14 @@ describe( "Tests a string for anchors and its attributes", function() {
 		expect( foundLinks.externalDofollow ).toBe( 0 );
 	} );
 
+	it( "should detect nofollow with capitals", function() {
+		var mockPaper = new Paper( "string <A HREF='http://example.com' REL='NOFOLLOW'>link</A>", paperAttributes );
+		foundLinks = linkCount( mockPaper );
+		expect( foundLinks.total ).toBe( 1 );
+		expect( foundLinks.externalNofollow ).toBe( 1 );
+		expect( foundLinks.externalDofollow ).toBe( 0 );
+	});
+
 	it( "should detect nofollow suffixed with some other argument in the rel tag", function() {
 		var attributes = {
 			keyword: "link",
