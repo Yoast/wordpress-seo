@@ -2,7 +2,8 @@
 
 namespace Yoast\YoastSEO;
 
-use Model;
+use YoastSEO_Vendor\Model;
+use YoastSEO_Vendor\ORMWrapper;
 
 class Yoast_Model extends Model {
 	public static $_table;
@@ -13,7 +14,7 @@ class Yoast_Model extends Model {
 	 * @param string $class_name
 	 * @param bool   $yoast_prefix Optional. True to prefix the table name with the Yoast prefix.
 	 *
-	 * @return \ORMWrapper
+	 * @return ORMWrapper
 	 */
 	public static function of_type( $class_name, $yoast_prefix = true ) {
 		// Prepend namespace to the class name.
