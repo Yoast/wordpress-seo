@@ -653,7 +653,7 @@ class WPSEO_OpenGraph {
 			}
 
 			if ( $ogdesc === '' ) {
-				$ogdesc = trim( wp_strip_all_tags( term_description() ) );
+				$ogdesc = wp_strip_all_tags( term_description() );
 			}
 
 			if ( $ogdesc === '' ) {

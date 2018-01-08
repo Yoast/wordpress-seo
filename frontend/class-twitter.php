@@ -229,7 +229,7 @@ class WPSEO_Twitter {
 			return $meta_desc;
 		}
 
-		return trim( wp_strip_all_tags( term_description() ) );
+		return wp_strip_all_tags( term_description() );
 
 	}
 

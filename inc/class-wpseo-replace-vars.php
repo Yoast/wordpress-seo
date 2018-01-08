@@ -413,7 +413,7 @@ class WPSEO_Replace_Vars {
 		static $replacement;
 
 		if ( ! isset( $replacement ) ) {
-			$description = trim( wp_strip_all_tags( get_bloginfo( 'description' ) ) );
+			$description = wp_strip_all_tags( get_bloginfo( 'description' ) );
 			if ( $description !== '' ) {
 				$replacement = $description;
 			}
@@ -479,7 +479,7 @@ class WPSEO_Replace_Vars {
 		if ( isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
 			$term_desc = get_term_field( 'description', $this->args->term_id, $this->args->taxonomy );
 			if ( $term_desc !== '' ) {
-				$replacement = trim( wp_strip_all_tags( $term_desc ) );
+				$replacement = wp_strip_all_tags( $term_desc );
 			}
 		}
 
@@ -724,7 +724,7 @@ class WPSEO_Replace_Vars {
 					$term      = current( $terms );
 					$term_desc = get_term_field( 'description', $term->term_id, $tax );
 					if ( $term_desc !== '' ) {
-						$replacement = trim( wp_strip_all_tags( $term_desc ) );
+						$replacement = wp_strip_all_tags( $term_desc );
 					}
 				}
 			}
