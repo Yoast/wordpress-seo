@@ -15,8 +15,7 @@ module.exports = function( text ) {
 
 	let parser = new htmlparser.Parser( {
 		/**
-		 * Handles the opening tag. If the opening tag is included in the inlineTags array, set inScriptBlock to true.
-		 * If the opening tag is not included in the inlineTags array, push the tag to the textArray.
+		 * Detects if there is a `nofollow` argument in the `rel` attribute of a link.
 		 *
 		 * @param {string} tagName The tag name.
 		 * @param {object} nodeValue The attribute with the keys and values of the tag.
