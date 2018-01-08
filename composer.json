@@ -49,7 +49,7 @@
 			"frontend/",
 			"inc/",
 			"deprecated/",
-			"prefixed/ruckusing/"
+			"vendor_prefixed/"
 		]
 	},
 	"autoload-dev": {
@@ -70,6 +70,24 @@
 		],
 		"fix-cs": [
 			"\"vendor/bin/phpcbf\""
+		],
+		"prefix-dependencies": [
+			"composer prefix-ruckusing",
+			"composer prefix-idiorm",
+			"composer prefix-paris",
+			"composer du"
+		],
+		"prefix-ruckusing": [
+			"rm -rf ./prefixed/ruckusing",
+			"./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./vendor_prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php --force"
+		],
+		"prefix-idiorm": [
+			"rm -rf ./prefixed/j4mie/idiorm",
+			"./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./vendor_prefixed/j4mie/idiorm --config=config/php-scoper/idiorm.inc.php --force"
+		],
+		"prefix-paris": [
+			"rm -rf ./prefixed/j4mie/paris",
+			"./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./vendor_prefixed/j4mie/paris --config=config/php-scoper/paris.inc.php --force"
 		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"
