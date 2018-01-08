@@ -22,11 +22,7 @@ module.exports = function( text ) {
 		 * @returns {void}
 		 */
 		onopentag: function( tagName, nodeValue ) {
-			if ( tagName.toLowerCase() !== "a" ) {
-				return;
-			}
-
-			if ( ! isString( nodeValue.rel ) ) {
+			if ( tagName.toLowerCase() !== "a" || ! isString( nodeValue.rel ) ) {
 				return;
 			}
 
