@@ -42,7 +42,7 @@ function addTrailingSlash( url ) {
 }
 
 /**
- * Retrieves the URL from an anchor tag
+ * Retrieves the URL from an anchor tag.
  *
  * @param {string} anchorTag An anchor tag.
  * @returns {string} The URL in the anchor tag.
@@ -54,7 +54,7 @@ function getFromAnchorTag( anchorTag ) {
 }
 
 /**
- * Returns whether or not the given URLs are equal
+ * Returns whether or not the given URLs are equal.
  *
  * @param {string} urlA The first URL to compare.
  * @param {string} urlB The second URL to compare.
@@ -70,7 +70,7 @@ function areEqual( urlA, urlB ) {
 }
 
 /**
- * Returns the domain name of a URL
+ * Returns the domain name of a URL.
  *
  * @param {string} url The URL to retrieve the domain name of.
  * @returns {string} The domain name of the URL.
@@ -103,7 +103,7 @@ function getProtocol( url ) {
  */
 function isInternalLink( url, host ) {
 	const parsedUrl = urlMethods.parse( url, false, true );
-	// Check if the URL starts with a singe slash.
+	// Check if the URL starts with a single slash.
 	if ( url.indexOf( "//" ) === -1 && url.indexOf( "/" ) === 0 ) {
 		return true;
 	}
@@ -113,7 +113,7 @@ function isInternalLink( url, host ) {
 		return false;
 	}
 
-	// No host indicates a internal link.
+	// No host indicates an internal link.
 	if ( ! parsedUrl.host ) {
 		return true;
 	}
@@ -122,7 +122,7 @@ function isInternalLink( url, host ) {
 }
 
 /**
- * Checks whether the protocol is either HTTP: or HTTPS:
+ * Checks whether the protocol is either HTTP: or HTTPS:.
  *
  * @param {string} protocol The protocol to test.
  *
@@ -139,7 +139,7 @@ function protocolIsHttpScheme( protocol ) {
 /**
  * Determines whether the link is a relative fragment URL.
  *
- * @param {string} url The protocol to test.
+ * @param {string} url The URL to test.
  *
  * @returns {boolean} Whether the link is a relative fragment URL.
  */

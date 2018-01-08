@@ -6,7 +6,7 @@ const urlHelper = require( "./url" );
  * Determines the type of link.
  *
  * @param {string} text String with anchor tag.
- * @param {string} url Url to match against.
+ * @param {string} url URL to match against.
  * @returns {string} The link type (other, external or internal).
  */
 
