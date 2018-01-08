@@ -12,6 +12,15 @@ import HelpCenterWrapper from "./app/HelpCenterWrapper";
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
 
+const snippetData = {
+	title: "Welcome to the Gutenberg Editor - Local WordPress Dev. Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title",
+	url: "local.wordpress.test/welcome-to-the-gutenberg-editor-2/",
+	description: "Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of",
+	keyword: "editor",
+	isDescriptionGenerated: true,
+	locale: "en_US",
+};
+
 const components = [
 	{
 		id: "search-results-editor",
@@ -21,7 +30,7 @@ const components = [
 	{
 		id: "snippet-preview",
 		name: "Snippet preview",
-		component: <SnippetPreview />,
+		component: <SnippetPreview {...snippetData}/>,
 	},
 	{
 		id: "wizard",
@@ -58,7 +67,7 @@ class App extends React.Component {
 		injectTapEventPlugin();
 
 		this.state = {
-			activeComponent: "content-analysis",
+			activeComponent: "snippet-preview",
 		};
 	}
 
