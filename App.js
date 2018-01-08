@@ -17,8 +17,10 @@ const snippetData = {
 	url: "local.wordpress.test/welcome-to-the-gutenberg-editor-2/",
 	description: "Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of",
 	keyword: "editor",
-	isDescriptionGenerated: true,
 	locale: "en_US",
+	onClick( type ) {
+		console.log( type );
+	},
 };
 
 const components = [

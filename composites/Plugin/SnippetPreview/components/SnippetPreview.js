@@ -37,6 +37,7 @@ export const TitleContainer = styled.div`
 	max-width: ${ maxWidth }px;
 	vertical-align: top;
 	text-overflow: ellipsis;
+	cursor: pointer;
 `;
 
 export const TitleUnbounded = styled.span`
@@ -46,12 +47,14 @@ export const TitleUnbounded = styled.span`
 export const Url = styled.div`
 	display: inline-block;
 	color: ${colorUrl};
+	cursor: pointer;
 `;
 
 export const Description = styled.div.attrs( {
 	color: ( props ) => props.isDescriptionGenerated ? colorGeneratedDescription : colorDescription,
 } )`
-	color: ${ props => props.color }
+	color: ${ props => props.color };
+	cursor: pointer;
 `;
 
 export const UrlDownArrow = styled.div`
@@ -108,23 +111,23 @@ function highlightKeyword( locale, keyword, text ) {
  *
  * @returns {ReactElement} The SnippetPreview component.
  */
-export default function SnippetPreview( { title, url, description, keyword, isDescriptionGenerated, locale } ) {
+export default function SnippetPreview( { title, url, description, keyword, isDescriptionGenerated, locale, onClick } ) {
 	return (
 		<section>
 			<Container>
 				<ScreenReaderText>SEO title preview:</ScreenReaderText>
-				<TitleContainer>
+				<TitleContainer onClick={ onClick.bind( null, "title" ) }>
 					<TitleUnbounded>
 						{ title }
 					</TitleUnbounded>
 				</TitleContainer>
 				<ScreenReaderText>Slug preview:</ScreenReaderText>
-				<Url>
+				<Url onClick={ onClick.bind( null, "url" ) }>
 					{ highlightKeyword( locale, keyword, url ) }
 				</Url>
 				<UrlDownArrow />
 				<ScreenReaderText>Meta description preview:</ScreenReaderText>
-				<Description isDescriptionGenerated={ isDescriptionGenerated }>
+				<Description isDescriptionGenerated={ isDescriptionGenerated } onClick={ onClick.bind( null, "description" ) }>
 					{ highlightKeyword( locale, keyword, truncate( description, { length: DESCRIPTION_LIMIT, omission: "" } ) ) }
 				</Description>
 			</Container>
@@ -136,6 +139,7 @@ SnippetPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
+	onClick: PropTypes.func.isRequired,
 	keyword: PropTypes.string,
 	isDescriptionGenerated: PropTypes.bool,
 	locale: PropTypes.string,
