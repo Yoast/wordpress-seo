@@ -88,20 +88,17 @@ var getExceptionsParticiplesNounsRegexes = memoize( function() {
 } );
 
 /**
- * Checks whether a found participle is in the exception list of adjectives and verbs.
- * If a word is on the list, it isn't a participle.
- * Irregular participles do not end in -é and therefore can't be on the list.
+ * Checks whether a given participle matches a list of regex exceptions.
  *
- * @returns {boolean} Returns true if it is in the exception list of adjectives and verbs, otherwise returns false.
+ * @param {Array} participleExceptionRegexes The array of regexes to check.
+ * @returns {boolean} Returns true if the participle matches a regex.
  */
-FrenchParticiple.prototype.isOnAdjectivesVerbsExceptionList = function() {
+var checkParticipleExceptionRegexes = function( participleExceptionRegexes ) {
 	var participle = this.getParticiple();
 	var match = [];
-	var exceptionParticiplesAdjectivesVerbs = getExceptionsParticiplesAdjectivesVerbsRegexes();
 
-	// Check exception words that can get e/s/es as suffix.
-	forEach( exceptionParticiplesAdjectivesVerbs, function( exceptionParticipleAdjectiveVerb ) {
-		var exceptionMatch = participle.match( exceptionParticipleAdjectiveVerb );
+	forEach( participleExceptionRegexes, function( participleExceptionRegex ) {
+		var exceptionMatch = participle.match( participleExceptionRegex );
 		if ( exceptionMatch ) {
 			match.push( exceptionMatch[ 0 ] );
 		}
@@ -115,30 +112,27 @@ FrenchParticiple.prototype.isOnAdjectivesVerbsExceptionList = function() {
 };
 
 /**
- * Checks whether a found participle is in the exception list of nouns.
+ * Checks whether a found participle is in the exception list of adjectives and verbs.
+ * These words are checked with e/s/es as possible suffixes.
  * If a word is on the list, it isn't a participle.
- * Irregular participles do not end in -é and therefore can't be on the list.
+ *
+ * @returns {boolean} Returns true if it is in the exception list of adjectives and verbs, otherwise returns false.
+ */
+FrenchParticiple.prototype.isOnAdjectivesVerbsExceptionList = function() {
+	var exceptionParticiplesAdjectivesVerbs = getExceptionsParticiplesAdjectivesVerbsRegexes();
+	return checkParticipleExceptionRegexes.call( this, exceptionParticiplesAdjectivesVerbs );
+};
+
+/**
+ * Checks whether a found participle is in the exception list of nouns.
+ * These words are checked with s as a possible suffix.
+ * If a word is on the list, it isn't a participle.
  *
  * @returns {boolean} Returns true if it is in the exception list of nouns, otherwise returns false.
  */
 FrenchParticiple.prototype.isOnNounsExceptionList = function() {
-	var participle = this.getParticiple();
-	var match = [];
 	var exceptionsParticiplesNouns = getExceptionsParticiplesNounsRegexes();
-
-	// Check exception words that can get s as suffix.
-	forEach( exceptionsParticiplesNouns, function( exceptionParticipleNoun ) {
-		var exceptionMatch = participle.match( exceptionParticipleNoun );
-		if ( exceptionMatch ) {
-			match.push( exceptionMatch[ 0 ] );
-		}
-	} );
-
-	if( match.length > 0 ) {
-		return true;
-	}
-
-	return false;
+	return checkParticipleExceptionRegexes.call( this, exceptionsParticiplesNouns );
 };
 
 /**
@@ -149,7 +143,6 @@ FrenchParticiple.prototype.isOnNounsExceptionList = function() {
  * @returns {boolean} Returns true if it is in the exception list of nouns, otherwise returns false.
  */
 FrenchParticiple.prototype.isOnOthersExceptionList = function() {
-
 	return includes( exceptionsParticiplesOthers, this.getParticiple() );
 };
 

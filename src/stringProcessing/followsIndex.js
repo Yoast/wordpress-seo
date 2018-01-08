@@ -3,6 +3,7 @@ var forEach = require( "lodash/forEach" );
 var includes = require( "lodash/includes" );
 
 /**
+ * Checks whether a given word is followed by any word from a given list.
  *
  * @param {Array} followingWords The array of objects with matches and indices.
  * @param {Object} match The object with the match and index to test the following words for.

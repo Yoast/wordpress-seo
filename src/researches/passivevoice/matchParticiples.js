@@ -7,7 +7,7 @@ var irregularsRegularFrench = require( "../french/passivevoice/irregulars" )().i
 var irregularsIrregularFrench = require( "../french/passivevoice/irregulars" )().irregularsIrregular;
 var irregularsEndingInSFrench = require( "../french/passivevoice/irregulars" )().irregularsEndingInS;
 
-// The language-specific variables.
+// The language-specific participle regexes.
 var languageVariables = {
 	en: {
 		regularParticiplesRegex: /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig,
@@ -20,7 +20,7 @@ var languageVariables = {
 /**
  * Returns words that have been determined to be a regular participle.
  *
- * @param {string} word The word to check
+ * @param {string} word The word to check.
  * @param {string} language The language in which to match.
  *
  * @returns {Array} A list with the matches.
@@ -41,12 +41,15 @@ var regularParticiples = function( word, language ) {
  * @param {Array} matches The array into which to push the matches.
  * @returns {Array} A list with matched irregular participles.
  */
-var matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes, matches ) {
+var matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes ) {
+	var matches = [];
 	forEach( irregulars, function( irregular ) {
 		var irregularParticiplesRegex = new RegExp( "^" + irregular + suffixes + "?$", "ig" );
-		matches.push( word.match( irregularParticiplesRegex ) || [] );
+		var participleMatch = word.match( irregularParticiplesRegex );
+		if ( participleMatch ) {
+			matches.push( participleMatch[ 0 ] );
+		}
 	} );
-	matches = [].concat.apply( [], matches );
 	return matches;
 };
 
@@ -60,23 +63,25 @@ var matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes, matc
  */
 var irregularParticiples = function( word, language ) {
 	var matches = [];
+
 	switch ( language ) {
 		case "fr":
 			// Match different classes of participles with suffixes.
-			matches = matchFrenchParticipleWithSuffix( word, irregularsRegularFrench, "(e|s|es)", matches );
-			matches = matchFrenchParticipleWithSuffix( word, irregularsEndingInSFrench, "(e|es)", matches );
+			matches = matches.concat( matchFrenchParticipleWithSuffix( word, irregularsRegularFrench, "(e|s|es)" ) );
+			matches = matches.concat( matchFrenchParticipleWithSuffix( word, irregularsEndingInSFrench, "(e|es)" ) );
+
 			// Match irregular participles that don't require adding a suffix.
-			find( irregularsIrregularFrench, function( currentWord ) {
-				if( currentWord === word ) {
-					matches.push( currentWord );
+			find( irregularsIrregularFrench, function( irregularParticiple ) {
+				if( irregularParticiple === word ) {
+					matches.push( irregularParticiple );
 				}
 			} );
 			break;
 		case "en":
 		default:
-			find( irregularsEnglish, function( currentWord ) {
-				if( currentWord === word ) {
-					matches.push( currentWord );
+			find( irregularsEnglish, function( irregularParticiple ) {
+				if( irregularParticiple === word ) {
+					matches.push( irregularParticiple );
 				}
 			} );
 			break;

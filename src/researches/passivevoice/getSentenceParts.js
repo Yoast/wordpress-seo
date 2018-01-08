@@ -1,7 +1,3 @@
-var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-var ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
-var reflexivePronounsFrench = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];
-
 var indices = require( "../../stringProcessing/indices" );
 var getIndicesOfList = indices.getIndicesByWordList;
 var filterIndices = indices.filterIndices;
@@ -13,40 +9,45 @@ var getWordIndices = require( "./getIndicesWithRegex.js" );
 var includesIndex = require( "../../stringProcessing/includesIndex" );
 var followsIndex = require( "../../stringProcessing/followsIndex" );
 
-var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
-var followingAuxiliaryExceptionWords = [ "le", "la", "les", "une", "l'un", "l'une" ];
-var followingAuxiliaryExceptionRegex = arrayToRegex( followingAuxiliaryExceptionWords );
-
-var auxiliariesFrench = require( "../french/passivevoice/auxiliaries.js" )();
-var auxiliariesEnglish = require( "../english/passivevoice/auxiliaries.js" )().all;
-
-var stopwordsFrench = require( "../french/passivevoice/stopwords.js" )();
-var stopwordsEnglish = require( "../english/passivevoice/stopwords.js" )();
-
-var SentencePartEnglish = require( "../english/SentencePart" );
-var SentencePartFrench = require( "../french/SentencePart" );
-
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
 var includes = require( "lodash/includes" );
 var map = require( "lodash/map" );
 var forEach = require( "lodash/forEach" );
 
-// The language-specific variables.
+// English-specific variables and imports.
+var SentencePartEnglish = require( "../english/SentencePart" );
+var auxiliariesEnglish = require( "../english/passivevoice/auxiliaries.js" )().all;
+var stopwordsEnglish = require( "../english/passivevoice/stopwords.js" )();
+var stopCharacterRegexEnglish = /(?!([a-zA-Z]))([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
+
+// French-specific variables and imports.
+var SentencePartFrench = require( "../french/SentencePart" );
+var auxiliariesFrench = require( "../french/passivevoice/auxiliaries.js" )();
+var stopwordsFrench = require( "../french/passivevoice/stopwords.js" )();
+var stopCharacterRegexFrench = /(?!([a-zA-Z]))(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+var followingAuxiliaryExceptionWords = [ "le", "la", "les", "une", "l'un", "l'une" ];
+var followingAuxiliaryExceptionRegex = arrayToRegex( followingAuxiliaryExceptionWords );
+var reflexivePronounsFrench = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];
+var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
+
+// The language-specific variables used to split sentences into sentence parts.
 var languageVariables = {
 	en: {
 		stopwords: stopwordsEnglish,
 		auxiliaryRegex: arrayToRegex( auxiliariesEnglish ),
 		SentencePart: SentencePartEnglish,
 		auxiliaries: auxiliariesEnglish,
-		stopCharacterRegex: /(?!([a-zA-Z]))([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig,
+		stopCharacterRegex: stopCharacterRegexEnglish,
 	},
 	fr: {
 		stopwords: stopwordsFrench,
 		auxiliaryRegex: arrayToRegex( auxiliariesFrench ),
 		SentencePart: SentencePartFrench,
 		auxiliaries: auxiliariesFrench,
-		stopCharacterRegex: /(?!([a-zA-Z]))(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig,
+		stopCharacterRegex: stopCharacterRegexFrench,
 	},
 };
 
@@ -70,7 +71,7 @@ var getVerbsEndingInIng = function( sentence ) {
  *
  * @param {string} sentence The sentence to get the stop characters from.
  * @param {string} language The language for which to get the stop characters.
- * @returns {Array} The array with valid matches.
+ * @returns {Array} The array with stop characters.
  */
 var getStopCharacters = function( sentence, language ) {
 	var stopCharacterRegex = languageVariables[ language ].stopCharacterRegex;
@@ -91,13 +92,13 @@ var getStopCharacters = function( sentence, language ) {
 };
 
 /**
- * 	Filters auxiliaries preceded by a reflexive pronoun.
+ * Filters auxiliaries preceded by a reflexive pronoun.
  *
  * @param {string} text The text part in which to check.
  * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
  * @returns {Array} The filtered list of auxiliary indices.
  */
-var auxiliaryPrecedenceException = function( text, auxiliaryMatches ) {
+var auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches ) {
 	var directPrecedenceExceptionMatches = getWordIndices( text, directPrecedenceExceptionRegex );
 
 	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
@@ -112,13 +113,13 @@ var auxiliaryPrecedenceException = function( text, auxiliaryMatches ) {
 };
 
 /**
- * 	Filters auxiliaries followed by a word on the followingAuxiliaryExceptionWords list
+ * Filters auxiliaries followed by a word on the followingAuxiliaryExceptionWords list.
  *
  * @param {string} text The text part in which to check.
  * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
  * @returns {Array} The filtered list of auxiliary indices.
  */
-var followingAuxiliaryException = function( text, auxiliaryMatches ) {
+var followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
 	var followingAuxiliaryExceptionMatches = getWordIndices( text, followingAuxiliaryExceptionRegex );
 
 	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
@@ -154,7 +155,8 @@ var getSentenceBreakers = function( sentence, language ) {
 	// Concat all indices arrays, filter them and sort them.
 	switch( language ) {
 		case "fr":
-			auxiliaryIndices = auxiliaryPrecedenceException( sentence, auxiliaryIndices );
+			// Filters auxiliaries matched in the sentence based on a precedence exception filter.
+			auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices );
 
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 			break;
@@ -170,7 +172,7 @@ var getSentenceBreakers = function( sentence, language ) {
 };
 
 /**
- * Gets the matches with the auxiliaries in the sentence.
+ * Gets the auxiliaries from a sentence.
  *
  * @param {string} sentencePart The part of the sentence to match for auxiliaries.
  * @param {string} language The language for which to match the auxiliaries.
@@ -182,16 +184,22 @@ var getAuxiliaryMatches = function( sentencePart, language ) {
 
 	switch( language ) {
 		case "fr":
-			var auxiliaryMatchesOutput = [];
+
+			// An array with the matched auxiliaries and their indices.
 			var auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
-			auxiliaryMatchIndices = auxiliaryPrecedenceException( sentencePart, auxiliaryMatchIndices );
-			auxiliaryMatchIndices = followingAuxiliaryException( sentencePart, auxiliaryMatchIndices );
+			// Filters auxiliaries matched in the sentence part based on a precedence exception filter.
+			auxiliaryMatchIndices = auxiliaryPrecedenceExceptionFilter( sentencePart, auxiliaryMatchIndices );
+			// Filters auxiliaries matched in the sentence part based on a exception filter for words following the auxiliary.
+			auxiliaryMatchIndices = followingAuxiliaryExceptionFilter( sentencePart, auxiliaryMatchIndices );
+
+			// An array with the matched auxiliary verbs (without indices).
+			var auxiliaryMatchWords = [];
 
 			forEach( auxiliaryMatchIndices, function( auxiliaryMatchIndex ) {
-				auxiliaryMatchesOutput.push( auxiliaryMatchIndex.match );
+				auxiliaryMatchWords.push( auxiliaryMatchIndex.match );
 			} );
 
-			return map( auxiliaryMatchesOutput, function( auxiliaryMatch ) {
+			return map( auxiliaryMatchWords, function( auxiliaryMatch ) {
 				return stripSpaces( auxiliaryMatch );
 			} );
 		case "en":

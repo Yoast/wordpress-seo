@@ -4,8 +4,8 @@ var getLanguage = require( "../helpers/getLanguage.js" );
 var Sentence = require( "../values/Sentence.js" );
 
 // English and French.
-var getSentencePartsFunction = require( "./passivevoice/getSentenceParts.js" );
-var determinePassivesFunction = require( "./passivevoice/determinePassives" );
+var getSentencePartsDefault = require( "./passivevoice/getSentenceParts.js" );
+var determinePassivesDefault = require( "./passivevoice/determinePassives" );
 
 // German.
 var getSentencePartsGerman = require( "./german/getSentenceParts.js" );
@@ -28,11 +28,11 @@ var getSentenceParts = function( sentence, language ) {
 			sentenceParts = getSentencePartsGerman( sentence );
 			break;
 		case "fr":
-			sentenceParts = getSentencePartsFunction( sentence, "fr" );
+			sentenceParts = getSentencePartsDefault( sentence, "fr" );
 			break;
 		case "en":
 		default:
-			sentenceParts = getSentencePartsFunction( sentence, "en" );
+			sentenceParts = getSentencePartsDefault( sentence, "en" );
 			break;
 	}
 	return sentenceParts;
@@ -51,11 +51,11 @@ var determinePassives = function( sentencePart, language ) {
 			sentencePart.setPassive( determinePassivesGerman( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries() ) );
 			break;
 		case "fr":
-			sentencePart.setPassive( determinePassivesFunction( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "fr" ) );
+			sentencePart.setPassive( determinePassivesDefault( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "fr" ) );
 			break;
 		case "en":
 		default:
-			sentencePart.setPassive( determinePassivesFunction( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "en" ) );
+			sentencePart.setPassive( determinePassivesDefault( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "en" ) );
 			break;
 	}
 };

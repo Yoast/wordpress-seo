@@ -1,6 +1,6 @@
 /**
- * Returns lists with auxiliaries for the French passive voice assessment.
- * @returns {Array} The lists with auxiliaries.
+ * Returns a list with auxiliaries for the French passive voice assessment.
+ * @returns {Array} The list with auxiliaries.
  */
 module.exports = function() {
 	return [

@@ -28,7 +28,7 @@ module.exports = function( precedingWords, participleIndex ) {
 		}
 	} );
 
-	if ( matches.length ) {
+	if ( matches.length > 0 ) {
 		return true;
 	}
 	return false;

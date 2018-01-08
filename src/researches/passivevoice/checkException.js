@@ -1,7 +1,7 @@
 var isEmpty = require( "lodash/isEmpty" );
 
 /**
- * Sets sentence part passiveness to passive if there is no exception.
+ * Sets sentence part passiveness to passive if no exception rules for the participle apply.
  *
  * @returns {void}
  */
