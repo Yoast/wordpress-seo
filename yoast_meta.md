@@ -51,11 +51,15 @@ Create `/tests/unittests/` for unittests.
 
 ## Prefixing
 
-`./vendor/bin/php-scoper add-prefix vendor/ruckusing -p YoastSEO_Vendor -o ./prefixed/ruckusing`
+`./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php`
+`./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./prefixed/j4mie/idiorm --config=config/php-scoper/idiorm.inc.php`
+`./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./prefixed/j4mie/paris --config=config/php-scoper/paris.inc.php`
+
+These commands have been moved to `composer.json` and can be run using: `composer prefix-dependencies`.
+
 
 Prefixing
 
-- Move `scoper.inc.php` to configuration folder.
 - Evaluate prefixing of global constants like `RUCKUSING_WORKING_BASE`
 
 ### prefix modules
