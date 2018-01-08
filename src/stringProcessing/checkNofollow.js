@@ -29,7 +29,7 @@ module.exports = function( text ) {
 			if ( nodeValue.rel.toLowerCase().split( /\s/ ).includes( "nofollow" ) ) {
 				linkFollow = "Nofollow";
 			}
-		}
+		},
 	} );
 
 	parser.write( text );
