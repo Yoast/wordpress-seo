@@ -2,7 +2,9 @@
 
 namespace Yoast\YoastSEO;
 
-class Migration_Null_Logger extends \Ruckusing_Util_Logger {
+use YoastSEO_Vendor\Ruckusing_Util_Logger;
+
+class Migration_Null_Logger extends Ruckusing_Util_Logger {
 	/**
 	 * Creates an instance of Ruckusing_Util_Logger
 	 */

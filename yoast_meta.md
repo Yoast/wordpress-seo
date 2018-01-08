@@ -51,7 +51,12 @@ Create `/tests/unittests/` for unittests.
 
 ## Prefixing
 
-Evaluate prefixing of global constants like `RUCKUSING_WORKING_BASE`
+`./vendor/bin/php-scoper add-prefix vendor/ruckusing -p YoastSEO_Vendor -o ./prefixed/ruckusing`
+
+Prefixing
+
+- Move `scoper.inc.php` to configuration folder.
+- Evaluate prefixing of global constants like `RUCKUSING_WORKING_BASE`
 
 ### prefix modules
 * j4mie/paris

@@ -311,7 +311,7 @@ function wpseo_init() {
 	$link_watcher = new WPSEO_Link_Watcher_Loader();
 	$link_watcher->load();
 
-	if ( WPSEO_NAMESPACES && class_exists( '\\Yoast\\YoastSEO\\Config\\Plugin' ) ) {
+	if ( WPSEO_NAMESPACES ) {
 		$bootstrap = new \Yoast\YoastSEO\Config\Plugin();
 		$bootstrap->initialize();
 		$bootstrap->register_hooks();

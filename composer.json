@@ -35,7 +35,8 @@
 	"require-dev": {
 		"codeclimate/php-test-reporter": "dev-master",
 		"yoast/php-development-environment": "^1.0",
-		"yoast/yoastcs": "~0.4.3"
+		"yoast/yoastcs": "~0.4.3",
+		"humbug/php-scoper": "^0.5.1"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -47,7 +48,8 @@
 			"admin/",
 			"frontend/",
 			"inc/",
-			"deprecated/"
+			"deprecated/",
+			"prefixed/ruckusing/"
 		]
 	},
 	"autoload-dev": {

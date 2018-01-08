@@ -2,7 +2,7 @@
 
 namespace Yoast\YoastSEO\Config;
 
-use Ruckusing_FrameworkRunner;
+use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 use Yoast\YoastSEO\Migration_Null_Logger;
 use Yoast\YoastSEO\Yoast_Model;
 
@@ -28,7 +28,8 @@ class Database_Migration {
 		}
 
 		// @todo evaluate prefixing approach for global constants.
-		define( 'RUCKUSING_BASE', WPSEO_PATH . '/vendor/ruckusing/ruckusing-migrations' );
+		// @todo handle already defined constant, throw exception/error message?
+		define( 'RUCKUSING_BASE', WPSEO_PATH . '/prefixed/ruckusing' );
 		define( 'RUCKUSING_TS_SCHEMA_TBL_NAME', Yoast_Model::get_table_name( 'migrations' ) );
 
 		$main = new Ruckusing_FrameworkRunner( $this->get_configuration(), array(
