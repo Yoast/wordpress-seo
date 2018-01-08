@@ -11,7 +11,7 @@ let isString = require( "lodash/isString" );
  * @returns {string} Returns Dofollow or Nofollow.
  */
 module.exports = function( text ) {
-	let linkFollow = 'Dofollow';
+	let linkFollow = "Dofollow";
 
 	let parser = new htmlparser.Parser( {
 		/**
@@ -22,7 +22,7 @@ module.exports = function( text ) {
 		 * @returns {void}
 		 */
 		onopentag: function( tagName, nodeValue ) {
-			if ( tagName.toLowerCase() !== 'a' ) {
+			if ( tagName.toLowerCase() !== "a" ) {
 				return;
 			}
 
@@ -30,13 +30,13 @@ module.exports = function( text ) {
 				return;
 			}
 
-			if ( nodeValue.rel.toLowerCase().split(/\s/).includes('nofollow') ) {
-				linkFollow = 'Nofollow';
+			if ( nodeValue.rel.toLowerCase().split( /\s/ ).includes( "nofollow" ) ) {
+				linkFollow = "Nofollow";
 			}
 		}
-	});
+	} );
 
-	parser.write(text);
+	parser.write( text );
 
 	return linkFollow;
 };
