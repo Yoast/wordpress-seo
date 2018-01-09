@@ -4,7 +4,8 @@ var directPrecedenceException = require( "../../stringProcessing/directPrecedenc
 var precedenceException = require( "../../stringProcessing/precedenceException" );
 
 var exceptionsParticiplesAdjectivesVerbs = require( "./passivevoice/exceptionsParticiples.js" )().adjectivesVerbs;
-var exceptionsParticiplesNouns = require( "./passivevoice/exceptionsParticiples.js" )().nouns;
+var exceptionsParticiplesNounsVowel = require( "./passivevoice/exceptionsParticiples.js" )().nounsStartingWithVowel;
+var exceptionsParticiplesNounsConsonant = require( "./passivevoice/exceptionsParticiples.js" )().nounsStartingWithConsonant;
 var exceptionsParticiplesOthers = require( "./passivevoice/exceptionsParticiples.js" )().others;
 
 var includes = require( "lodash/includes" );
@@ -81,9 +82,16 @@ var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
  */
 var getExceptionsParticiplesNounsRegexes = memoize( function() {
 	let exceptionsParticiplesNounsRegexes = [];
-	forEach( exceptionsParticiplesNouns, function( exceptionParticipleNoun ) {
-		exceptionsParticiplesNounsRegexes.push( new RegExp( "^(l'|d')?" + exceptionParticipleNoun + "(s)?$", "ig" ) );
+
+	// Nouns starting with a vowel are checked with -s suffix and l' and d' prefixes.
+	forEach( exceptionsParticiplesNounsVowel, function( exceptionParticipleNounVowel ) {
+		exceptionsParticiplesNounsRegexes.push( new RegExp( "^(l'|d')?" + exceptionParticipleNounVowel + "(s)?$", "ig" ) );
 	} );
+	// Nouns starting with a consonant are checked with -s suffix.
+	forEach( exceptionsParticiplesNounsConsonant, function( exceptionParticipleNounConsonant ) {
+		exceptionsParticiplesNounsRegexes.push( new RegExp( "^" + exceptionParticipleNounConsonant + "(s)?$", "ig" ) );
+	} );
+
 	return exceptionsParticiplesNounsRegexes;
 } );
 

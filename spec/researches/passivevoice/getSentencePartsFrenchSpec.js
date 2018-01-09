@@ -14,37 +14,37 @@ describe( "splits French sentences into parts", function() {
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
 	} );
 
-	it ( "doesn't split on sentence breakers within words", function() {
+	it ( "doesn't return sentence parts when there is a sentence breaker within a word", function() {
 		// Sentence breaker: 'es' in 'responsable', 'tes' and 'actes'.
 		var sentence = "Désormais tu es responsable de tes actes.";
 		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "es responsable de tes actes." );
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
 	} );
 
-	it ( "splits sentences on stop characters", function() {
+	it ( "returns sentence parts when there is a stop characters followed by a space/punctuation mark", function() {
 		var sentence = "C'est en particulier et principalement une question d'argent, a résumé le Premier ministre néerlandais Mark Rutte.";
 		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "C'est en particulier et principalement une question d'argent" );
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
 	} );
 
-	it ( "doesn't split sentences on stop characters that are not preceded by a word and also not followed by a space/punctuation mark", function() {
+	it ( "doesn't return sentence parts when there is a stop characters that is not followed by a space/punctuation mark", function() {
 		var sentence = "La branche était déficitaire de 1,5 milliard.";
 		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "était déficitaire de 1,5 milliard." );
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
 	} );
 
-	it ( "doesn't split sentences when an auxiliary is preceded by a reflexive pronoun", function() {
+	it ( "doesn't return sentence parts when an auxiliary is preceded by a reflexive pronoun", function() {
 		var sentence = "Ils se sont lavés.";
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 0 );
 	} );
 
-	it ( "doesn't return a sentence part when it is initally included because of a non-auxiliary sentence breaker (comma) but contains an auxiliary preceded by a reflexive pronoun", function() {
+	it ( "doesn't return a sentence part when there is a non-auxiliary sentence breaker (comma) but the auxiliary is preceded by a reflexive pronoun", function() {
 		var sentence = "Nous sommes arrivés, nous nous sommes lavés, et puis nous nous sommes couchés.";
 		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "sommes arrivés" );
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
 	} );
 
-	it ( "doesn't split sentences when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
+	it ( "doesn't return sentence parts when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
 		// Exception word after auxiliary: le.
 		var sentence = "C'est le film le plus vu.";
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 0 );
