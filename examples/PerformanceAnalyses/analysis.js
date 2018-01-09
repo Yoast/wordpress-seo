@@ -1,6 +1,6 @@
 const Paper = require( "../../js/values/Paper" );
 const Researcher = require( "../../js/researcher" );
-const researches = [ "urlLength", "wordCountInText", "findKeywordInPageTitle", "calculateFleschReading", "getLinkStatistics", "getLinks", "linkCount", "imageCount", "altTagCount", "matchKeywordInSubheadings", "getKeywordDensity", "stopWordsInKeyword", "metaDescriptionLength", "getKeywordDensity", "stopWordsInKeyword", "stopWordsInUrl", "metaDescriptionLength", "keyphraseLength", "keywordCountInUrl", "firstParagraph", "metaDescriptionKeyword", "pageTitleWidth", "getParagraphLength", "countSentencesFromText", "countSentencesFromDescription", "getSubheadingTextLengths", "findTransitionWords", "passiveVoice", "getSentenceBeginnings", "relevantWords" ];
+const researches = [ "urlLength", "wordCountInText", "findKeywordInPageTitle", "calculateFleschReading", "getLinkStatistics", "getLinks", "linkCount", "imageCount", "altTagCount", "matchKeywordInSubheadings", "stopWordsInKeyword", "getKeywordDensity", "stopWordsInKeyword", "stopWordsInUrl", "metaDescriptionLength", "keyphraseLength", "keywordCountInUrl", "firstParagraph", "metaDescriptionKeyword", "pageTitleWidth", "getParagraphLength", "countSentencesFromText", "countSentencesFromDescription", "getSubheadingTextLengths", "findTransitionWords", "passiveVoice", "getSentenceBeginnings", "relevantWords" ];
 var fs = require( "fs" );
 
 require( "console.table" );
@@ -81,7 +81,7 @@ module.exports = {
 		}
 
 		const text = fs.readFileSync( filepath, { encoding: "utf-8" } );
-		const paper = new Paper( text );
+		const paper = new Paper( text, { "locale": locale } );
 		paper.title = "The 100 Best U.S. Colleges and universities by State | The best schools";
 		paper.description = "" +
 			"The best colleges and universities list includes a full-fledged " +
