@@ -32,10 +32,7 @@ class Plugin implements Integration {
 	 * @return void
 	 */
 	public function initialize() {
-
-		$prefix = new Prefix_Dependencies( YOAST_VENDOR_NS_PREFIX );
-		$orm_classes = new ClassAliases\ORM();
-		$prefix->prefix( $orm_classes->get_classes() );
+		$this->prefix_dependencies();
 
 		ORM::configure( 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME );
 		ORM::configure( 'username', DB_USER );
@@ -70,5 +67,17 @@ class Plugin implements Integration {
 
 		$integration_group = new Integration_Group( $this->integrations );
 		$integration_group->register_hooks();
+	}
+
+	/**
+	 * Prefixes the dependencies.
+	 *
+	 * @return void
+	 */
+	protected function prefix_dependencies() {
+		// Makes sure the dependencies are available with the expected prefix.
+		$prefix      = new Prefix_Dependencies( YOAST_VENDOR_NS_PREFIX );
+		$orm_classes = new ClassAliases\ORM();
+		$prefix->prefix( $orm_classes->get_classes() );
 	}
 }
