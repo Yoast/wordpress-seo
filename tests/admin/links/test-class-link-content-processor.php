@@ -31,6 +31,9 @@ class WPSEO_Link_Content_Processor_Test extends WPSEO_UnitTestCase {
 
 		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
 		$wpdb->query( 'DROP TABLE ' . $meta_storage->get_table_name() );
+
+		delete_transient( 'wpseo_link_table_inaccessible' );
+		delete_transient( 'wpseo_meta_table_inaccessible' );
 	}
 
 	/**

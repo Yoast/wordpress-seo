@@ -3,14 +3,14 @@
  * @package WPSEO\Admin
  */
 
+/* translators: %1$s expands to Yoast SEO */
+$wpseo_up_settings_header = sprintf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
+
 ?>
 
 <div class="yoast yoast-settings">
 
-	<h2 id="wordpress-seo"><?php
-		/* translators: %1$s expands to Yoast SEO */
-		printf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
-		?></h2>
+	<h2 id="wordpress-seo"><?php echo esc_html( $wpseo_up_settings_header ); ?></h2>
 
 	<label for="wpseo_author_title"><?php esc_html_e( 'Title to use for Author page', 'wordpress-seo' ); ?></label>
 	<input class="yoast-settings__text regular-text" type="text" id="wpseo_author_title" name="wpseo_author_title"

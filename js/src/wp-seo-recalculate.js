@@ -9,8 +9,6 @@ var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
 var isUndefined = require( "lodash/isUndefined" );
 
 ( function( $ ) {
-	"use strict";
-
 	var i18n = new Jed( {
 		domain: "js-text-analysis",
 		locale_data: {
@@ -192,11 +190,10 @@ var isUndefined = require( "lodash/isUndefined" );
 				this.updateProgressBar( response.total_items );
 			}
 
-			if ( ! isUndefined( response.next_page ) ) {
-				this.getItemsToRecalculate( response.next_page );
-			}
-			else {
+			if ( isUndefined( response.next_page ) ) {
 				this.onCompleteRequest();
+			} else {
+				this.getItemsToRecalculate( response.next_page );
 			}
 
 			return true;

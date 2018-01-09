@@ -5,8 +5,6 @@ var isUndefined = require( "lodash/isUndefined" );
 var ReplaceVar = require( "./values/replaceVar" );
 
 ( function() {
-	"use strict";
-
 	var modifiableFields = [
 		"content",
 		"title",

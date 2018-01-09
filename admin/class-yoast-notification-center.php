@@ -253,7 +253,7 @@ class Yoast_Notification_Center {
 				$notification_json[] = $notification->render();
 			}
 
-			echo json_encode( $notification_json, ( JSON_HEX_QUOT | JSON_HEX_TAG ) );
+			echo json_encode( $notification_json );
 
 			return;
 		}

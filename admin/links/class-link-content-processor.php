@@ -36,7 +36,7 @@ class WPSEO_Link_Content_Processor {
 	public function process( $post_id, $content ) {
 		$link_extractor = new WPSEO_Link_Extractor( $content );
 		$link_processor = new WPSEO_Link_Factory(
-			new WPSEO_Link_Type_Classifier( site_url() ),
+			new WPSEO_Link_Type_Classifier( home_url() ),
 			new WPSEO_Link_Internal_Lookup(),
 			new WPSEO_Link_Filter( get_permalink( $post_id ) )
 		);

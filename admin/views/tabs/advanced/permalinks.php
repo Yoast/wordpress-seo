@@ -33,7 +33,14 @@ echo '<p>' . esc_html__( 'This helps you to create cleaner URLs by automatically
 
 /* translators: %s expands to <code>?replytocom</code> */
 $yform->light_switch( 'cleanreplytocom', sprintf( __( 'Remove the %s variables.', 'wordpress-seo' ), '<code>?replytocom</code>' ), $remove_buttons, false );
-echo '<p>' . __( 'This prevents threaded replies from working when the user has JavaScript disabled, but on a large site can mean a <em>huge</em> improvement in crawl efficiency for search engines when you have a lot of comments.', 'wordpress-seo' ) . '</p>';
+echo '<p>';
+printf(
+	/* translators: 1: emphasis open tag; 2: emphasis close tag. */
+	esc_html__( 'This prevents threaded replies from working when the user has JavaScript disabled, but on a large site can mean a %1$shuge%2$s improvement in crawl efficiency for search engines when you have a lot of comments.', 'wordpress-seo' ),
+	'<em>',
+	'</em>'
+);
+echo '</p>';
 
 $options = WPSEO_Options::get_all();
 if ( substr( get_option( 'permalink_structure' ), -1 ) !== '/' && $options['trailingslash'] ) {

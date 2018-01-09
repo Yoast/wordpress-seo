@@ -21,7 +21,12 @@ if ( $options['enablexmlsitemap'] === true ) {
 	);
 	echo '<br/>';
 	echo '<br/>';
-	_e( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' );
+	printf(
+		/* translators: 1: <strong> open tag; 2: close tag. */
+		esc_html__( 'You do %1$snot%2$s need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' ),
+		'<strong>',
+		'</strong>'
+	);
 	echo '</p>';
 }
 else {
