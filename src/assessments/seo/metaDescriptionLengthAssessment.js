@@ -19,7 +19,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 
 		let defaultConfig = {
 			recommendedMaximumLength: 120,
-			maximumLength: 156,
+			maximumLength: 320,
 			scores: {
 				noMetaDescription: 1,
 				tooLong: 6,
@@ -103,7 +103,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 		}
 
 		if ( descriptionLength >= this._config.recommendedMaximumLength && descriptionLength <= this._config.maximumLength ) {
-			return i18n.dgettext( "js-text-analysis", "The length of the meta description is sufficient." );
+			return i18n.dgettext( "js-text-analysis", "The meta description has a nice length." );
 		}
 	}
 

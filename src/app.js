@@ -281,8 +281,6 @@ var App = function( args ) {
 	}
 	this.initSnippetPreview();
 	this.initAssessorPresenters();
-
-	this.refresh();
 };
 
 /**
@@ -492,6 +490,11 @@ App.prototype.getData = function() {
  * @returns {void}
  */
 App.prototype.refresh = function() {
+	// Until all plugins are loaded, do not trigger a refresh.
+	if ( ! this.pluggable.loaded ) {
+		return;
+	}
+
 	this._pureRefresh();
 };
 
@@ -711,9 +714,8 @@ App.prototype.modifyData = function( data ) {
  * @returns {void}
  */
 App.prototype.pluginsLoaded = function() {
-	this.getData();
 	this.removeLoadingDialog();
-	this.runAnalyzer();
+	this.refresh();
 };
 
 /**

@@ -5,6 +5,27 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.28.0 December 18th, 2017
+### Changed
+* Includes the link to the post about using your focus keyword multiple times also to the feedback text that is shown when using a focus keyword twice. 
+* Changes the anchor text of the link to the post about using your focus keyword multiple times to a more accessible one.
+
+## 1.27.0 December 15th, 2017
+### Changed
+* The upper boundary of the meta description length has been changed from 156 to 320 characters.
+
+## 1.26.0 December 13th, 2017
+### Changed
+* Updates the copy for the `previouslyUsedKeywords` assessment by referring to a new blogpost on why it might be a bad idea to use the same keyword more than once.
+
+## 1.25.0 December 11th, 2017
+### Added
+* Adds a link to the subheadings article in the readability analysis to better explain the advantages of using subheadings in your text. #1317
+
+## 1.24 November 29th, 2017
+### Changed
+* Changes the feedback string for a good meta description length from `The length of the meta description is sufficient.` to `The meta description has a nice length.` #1307
+
 ## 1.23.1 November 7th, 2017
 ### Added
 * Adds a sentence research. #1278

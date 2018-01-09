@@ -303,7 +303,7 @@ msgid ""
 msgstr ""
 
 #: js/assessments/seo/metaDescriptionLengthAssessment.js:56
-msgid "The length of the meta description is sufficient."
+msgid "The meta description has a nice length."
 msgstr ""
 
 #: js/assessments/seo/outboundLinksAssessment.js:48
