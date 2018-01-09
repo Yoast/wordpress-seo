@@ -37,7 +37,7 @@ class Prefix_Dependencies {
 	 * @return void
 	 */
 	public function ensure_alias( $base_class, $alias ) {
-		if ( $this->needs_alias( $alias ) ) {
+		if ( ! $this->needs_alias( $alias ) ) {
 			return;
 		}
 
