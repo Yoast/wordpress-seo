@@ -58,6 +58,7 @@ check:
   - 'checktextdomain'
 
 artifact:
+  - 'shell:production-prefix-dependencies'
   - 'shell:production-composer-install'
   # Update the version numbers in the relevant files
   - 'update-version'
