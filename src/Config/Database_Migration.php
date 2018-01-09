@@ -30,16 +30,19 @@ class Database_Migration {
 
 		// @todo evaluate prefixing approach for global constants.
 		// @todo handle already defined constant, throw exception/error message?
+
+		$table_name = Yoast_Model::get_table_name( 'migrations' );
+
 		if ( is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing' ) ) {
-			define( 'RUCKUSING_BASE', WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing' );
+			define( YOAST_VENDOR_DEFINE_PREFIX . 'RUCKUSING_BASE', WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing' );
+			define( YOAST_VENDOR_DEFINE_PREFIX . 'RUCKUSING_TS_SCHEMA_TBL_NAME', $table_name );
 		} else {
 			define( 'RUCKUSING_BASE', WPSEO_PATH . 'vendor/ruckusing/ruckusing-migrations' );
+			define( 'RUCKUSING_TS_SCHEMA_TBL_NAME', $table_name );
 		}
 
-		define( 'RUCKUSING_TS_SCHEMA_TBL_NAME', Yoast_Model::get_table_name( 'migrations' ) );
-
 		$ruckusing_classes = new ClassAliases\Ruckusing();
-		$prefix            = new Prefix_Dependencies( YOAST_VENDOR_PREFIX );
+		$prefix            = new Prefix_Dependencies( YOAST_VENDOR_NS_PREFIX );
 		$prefix->prefix( $ruckusing_classes->get_classes() );
 
 		$main = new Ruckusing_FrameworkRunner( $this->get_configuration(), array(
