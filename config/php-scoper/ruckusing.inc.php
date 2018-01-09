@@ -21,8 +21,11 @@ return array(
 	//
 	// For more see: https://github.com/humbug/php-scoper#patchers
 	'patchers'                   => array(
-		function( string $filePath, string $prefix, string $content ): string {
-			if ( substr( $filePath, -33) !== 'lib/Ruckusing/FrameworkRunner.php' ) {
+		/**
+		 * Replaces the Adapter string references with the prefixed versions.
+		 */
+		function( $filePath, $prefix, $content ) {
+			if ( substr( $filePath, -33 ) !== 'lib/Ruckusing/FrameworkRunner.php' ) {
 				return $content;
 			}
 
@@ -34,8 +37,12 @@ return array(
 
 			return $replaced;
 		},
-		function( string $filePath, string $prefix, string $content ): string {
-			if ( substr( $filePath, -27) !== 'Ruckusing/Util/Migrator.php' ) {
+
+		/**
+		 * Replaces a string reference to a class with the prefixed version.
+		 */
+		function( $filePath, $prefix, $content ) {
+			if ( substr( $filePath, -27 ) !== 'Ruckusing/Util/Migrator.php' ) {
 				return $content;
 			}
 
@@ -47,8 +54,12 @@ return array(
 
 			return $replaced;
 		},
-		function( string $filePath, string $prefix, string $content ): string {
-			if ( substr( $filePath, -25) !== 'Ruckusing/Util/Naming.php' ) {
+
+		/**
+		 * Prefixes the Namespace prefix define.
+		 */
+		function( $filePath, $prefix, $content ) {
+			if ( substr( $filePath, -25 ) !== 'Ruckusing/Util/Naming.php' ) {
 				return $content;
 			}
 
@@ -61,8 +72,11 @@ return array(
 			return $replaced;
 		},
 
-		function( string $filePath, string $prefix, string $content ): string {
-			if ( substr( $filePath, -25) !== 'Ruckusing/Util/Naming.php' ) {
+		/**
+		 * Escapes the namespace for use in a regex match.
+		 */
+		function( $filePath, $prefix, $content ) {
+			if ( substr( $filePath, -25 ) !== 'Ruckusing/Util/Naming.php' ) {
 				return $content;
 			}
 
