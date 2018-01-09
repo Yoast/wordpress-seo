@@ -1,4 +1,4 @@
-var getSentenceParts = require( "../../../../js/researches/german/getSentenceParts.js");
+var getSentenceParts = require( "../../../../js/researches/german/passiveVoice/getSentenceParts.js");
 
 describe( "splits German sentences into parts", function() {
 	it ( "returns all sentence parts", function() {

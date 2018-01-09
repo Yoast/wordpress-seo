@@ -1,4 +1,4 @@
-let EnglishParticiple = require( "../../../../js/researches/english/EnglishParticiple.js" );
+let EnglishParticiple = require( "../../../../js/researches/english/passiveVoice/EnglishParticiple.js" );
 var checkException = require ( "../../../../js/researches/passiveVoice/checkException.js" );
 
 describe( "A test for checking the English Participle", function() {
