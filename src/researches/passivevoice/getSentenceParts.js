@@ -19,7 +19,7 @@ var forEach = require( "lodash/forEach" );
 var SentencePartEnglish = require( "../english/SentencePart" );
 var auxiliariesEnglish = require( "../english/passivevoice/auxiliaries.js" )().all;
 var stopwordsEnglish = require( "../english/passivevoice/stopwords.js" )();
-var stopCharacterRegexEnglish = /(?!([a-zA-Z]))([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+var stopCharacterRegexEnglish = /([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
 var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
 
@@ -27,7 +27,7 @@ var ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something"
 var SentencePartFrench = require( "../french/SentencePart" );
 var auxiliariesFrench = require( "../french/passivevoice/auxiliaries.js" )();
 var stopwordsFrench = require( "../french/passivevoice/stopwords.js" )();
-var stopCharacterRegexFrench = /(?!([a-zA-Z]))(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+var stopCharacterRegexFrench = /(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
 var followingAuxiliaryExceptionWords = [ "le", "la", "les", "une", "l'un", "l'une" ];
 var followingAuxiliaryExceptionRegex = arrayToRegex( followingAuxiliaryExceptionWords );
 var reflexivePronounsFrench = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];

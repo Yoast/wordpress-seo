@@ -19,12 +19,6 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length).toBe( 1 );
 	});
 
-	it( "returns passive voice (présent) with an irregular feminine participle", function() {
-		// Passive: est vendue.
-		var paper = new Paper( "Une voiture est vendue par moi.", { locale: "fr_FR" } );
-		expect( passiveVoice( paper ).passives.length).toBe( 1 );
-	});
-
 	it( "returns active voice (futur)", function() {
 		var paper = new Paper( "Je mangera une pomme.", { locale: "fr_FR" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );

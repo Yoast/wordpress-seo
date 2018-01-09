@@ -42,5 +42,4 @@ describe( "creates a French sentence part", function() {
 		expect( mockPart.getParticiples()[ 0 ].getType() ).toBe( "regular" );
 		expect( mockPart.getParticiples()[ 0 ].determinesSentencePartIsPassive() ).toBe( true );
 	} );
-
 } );
