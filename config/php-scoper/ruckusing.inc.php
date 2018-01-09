@@ -74,6 +74,56 @@ return array(
 
 			return $replaced;
 		},
+
+		/**
+		 * Prefix specific RUCKUSING_TASK_DIR only found in one specific file.
+		 */
+		function( $filePath, $prefix, $content ) {
+			if ( substr( $filePath, -26 ) !== 'Ruckusing/Task/Manager.php' ) {
+				return $content;
+			}
+
+			$prefix = str_replace( '\\', '_', $prefix );
+			$prefix = strtoupper( $prefix );
+			$prefix .= '__';
+
+			$replaced = str_replace(
+				'RUCKUSING_TASK_DIR',
+				$prefix . 'RUCKUSING_TASK_DIR',
+				$content
+			);
+
+			return $replaced;
+		},
+
+		/**
+		 * Prefix generally used defines.
+		 */
+		function( $filePath, $prefix, $content ) {
+			$prefix = str_replace( '\\', '_', $prefix );
+			$prefix = strtoupper( $prefix );
+			$prefix .= '__';
+
+			$content = str_replace(
+				array(
+					'RUCKUSING_BASE',
+					'RUCKUSING_TS_SCHEMA_TBL_NAME',
+					'RUCKUSING_SCHEMA_TBL_NAME',
+					'RUCKUSING_VERSION',
+					'RUCKUSING_WORKING_BASE'
+				),
+				array(
+					$prefix . 'RUCKUSING_BASE',
+					$prefix . 'RUCKUSING_TS_SCHEMA_TBL_NAME',
+					$prefix . 'RUCKUSING_SCHEMA_TBL_NAME',
+					$prefix . 'RUCKUSING_VERSION',
+					$prefix . 'RUCKUSING_WORKING_BASE'
+				),
+				$content
+			);
+
+			return $content;
+		},
 	),
 
 	// By default, PHP-Scoper only prefixes code where the namespace is non-global. In other words, non-namespaced
