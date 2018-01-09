@@ -27,7 +27,8 @@ if ( ! defined( 'WPSEO_BASENAME' ) ) {
  * {@internal The prefix constants are used to build prefixed versions of dependencies.
  *            These should not be changed on run-time, thus missing the ! defined() check.}}
  */
-define( 'YOAST_VENDOR_PREFIX', 'YoastSEO_Vendor' );
+define( 'YOAST_VENDOR_NS_PREFIX', 'YoastSEO_Vendor' );
+define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
