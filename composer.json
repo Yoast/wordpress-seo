@@ -36,7 +36,7 @@
 		"codeclimate/php-test-reporter": "dev-master",
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "~0.4.3",
-		"humbug/php-scoper": "^0.5.1"
+		"humbug/php-scoper": "dev-master"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,

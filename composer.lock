@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a3914c52846151dd8415db881e2950d",
+    "content-hash": "ba675485a5bb73bff41ef4bc4f1b2704",
     "packages": [
         {
             "name": "composer/installers",
@@ -816,16 +816,16 @@
         },
         {
             "name": "humbug/php-scoper",
-            "version": "0.5.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/humbug/php-scoper.git",
-                "reference": "600abecf9bd8ed8c02807c64529b9be4129b8b1e"
+                "reference": "674e24d2b9e90b2f629dab7f30d5070e4d49d815"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humbug/php-scoper/zipball/600abecf9bd8ed8c02807c64529b9be4129b8b1e",
-                "reference": "600abecf9bd8ed8c02807c64529b9be4129b8b1e",
+                "url": "https://api.github.com/repos/humbug/php-scoper/zipball/674e24d2b9e90b2f629dab7f30d5070e4d49d815",
+                "reference": "674e24d2b9e90b2f629dab7f30d5070e4d49d815",
                 "shasum": ""
             },
             "require": {
@@ -882,7 +882,7 @@
                 }
             ],
             "description": "Prefixes all PHP namespaces in a file or directory.",
-            "time": "2017-11-01T13:17:15+00:00"
+            "time": "2018-01-08T09:16:44+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2135,7 +2135,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "codeclimate/php-test-reporter": 20
+        "codeclimate/php-test-reporter": 20,
+        "humbug/php-scoper": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
