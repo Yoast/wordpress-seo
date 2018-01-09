@@ -1,5 +1,11 @@
 # Todo
 
+---- Tests -----
+
+## Tests
+Move all existing tests to `/tests/integrations/`.
+Create `/tests/unittests/` for unittests.
+
 ## Terms
 - internal link count [functionality] 2nd iteration
 - incoming link count [functionality] 2nd iteration
@@ -39,13 +45,6 @@ Model for `wp_posts` -> load items.
 - Disable functionality
 - Provide feature to downgrade all migrations so restart will be attempted?
 - Provide error logging for better debug (support)
-
-
----- Tests -----
-
-## Tests
-Move all existing tests to `/tests/integrations/`.
-Create `/tests/unittests/` for unittests.
 
 ---- Other -----
 
