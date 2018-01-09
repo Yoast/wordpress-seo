@@ -4,12 +4,12 @@ var getLanguage = require( "../helpers/getLanguage.js" );
 var Sentence = require( "../values/Sentence.js" );
 
 // English and French.
-var getSentencePartsDefault = require( "./passivevoice/getSentenceParts.js" );
-var determinePassivesDefault = require( "./passivevoice/determinePassives" );
+var getSentencePartsDefault = require( "./passiveVoice/getSentenceParts.js" );
+var determinePassivesDefault = require( "./passiveVoice/determinePassives" );
 
 // German.
-var getSentencePartsGerman = require( "./german/getSentenceParts.js" );
-var determinePassivesGerman = require( "./german/determinePassives.js" );
+var getSentencePartsGerman = require( "./german/passiveVoice/getSentenceParts.js" );
+var determinePassivesGerman = require( "./german/passiveVoice/determinePassives.js" );
 
 var forEach = require( "lodash/forEach" );
 

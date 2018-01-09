@@ -1,5 +1,5 @@
-let filteredPassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().filteredAuxiliaries;
-let passiveAuxiliariesInfinitive = require( "./passivevoice/auxiliaries.js" )().infinitiveAuxiliaries;
+let filteredPassiveAuxiliaries = require( "./passiveVoice/auxiliaries.js" )().filteredAuxiliaries;
+let passiveAuxiliariesInfinitive = require( "./passiveVoice/auxiliaries.js" )().infinitiveAuxiliaries;
 let transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
