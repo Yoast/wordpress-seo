@@ -8,14 +8,14 @@ Yoast SEO
 Welcome to the Yoast SEO GitHub repository
 ----------------------------------------------
 
-While the documentation for the [Yoast SEO plugin](https://yoast.com/wordpress/seo/) can be found on [Yoast.com](https://yoast.com/), here
+While the documentation for the [Yoast SEO plugin](https://yoa.st/1ul) can be found on [Yoast.com](https://yoa.st/1um), here
 you can browse the source of the project, find and discuss open issues and even
 [contribute yourself](.github/CONTRIBUTING.md).
 
 Installation
 ------------
 
-Here's a [guide on how to install Yoast SEO in your WordPress site](https://yoast.com/wordpress/seo/installation/).
+Here's a [guide on how to install Yoast SEO in your WordPress site](https://yoa.st/1un).
 
 If you want to run the Git version for development though, you can set it up with [Composer](https://getcomposer.org/):
 
@@ -38,7 +38,7 @@ Reporting bugs
 We try to fix as many bugs we can, this is a graph of our recent activity:
 [![Throughput Graph](https://graphs.waffle.io/yoast/wordpress-seo/throughput.svg)](https://waffle.io/yoast/wordpress-seo/metrics)
 
-If you find an issue, [let us know here](https://github.com/yoast/wordpress-seo/issues/new)! Please follow [how to write a good bug report?](http://kb.yoast.com/article/180-how-to-write-a-good-bug-report) guidelines.
+If you find an issue, [let us know here](https://github.com/yoast/wordpress-seo/issues/new)! Please follow [how to write a good bug report?](https://yoa.st/1uo) guidelines.
 
 It may help us a lot if you can provide a backtrace of the error encountered. You can use [code in this gist](https://gist.github.com/jrfnl/5925642) to enable the backtrace in your website's configuration.
 

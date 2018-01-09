@@ -5,13 +5,13 @@
 		"wordpress",
 		"seo"
 	],
-	"homepage": "https://yoast.com/wordpress/plugins/seo/",
+	"homepage": "https://yoa.st/1ui",
 	"license": "GPL-2.0+",
 	"authors": [
 		{
 			"name": "Team Yoast",
 			"email": "support@yoast.com",
-			"homepage": "https://yoast.com"
+			"homepage": "https://yoa.st/1--"
 		}
 	],
 	"type": "wordpress-plugin",

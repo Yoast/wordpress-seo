@@ -194,14 +194,14 @@ class WPSEO_Help_Center {
 	public static function get_translated_texts() {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
 		return array(
-			'locale'                             => get_locale(),
+			'locale'                             => WPSEO_Utils::get_user_locale(),
 			'videoTutorial'                      => __( 'Video tutorial', 'wordpress-seo' ),
 			'knowledgeBase'                      => __( 'Knowledge base', 'wordpress-seo' ),
 			'getSupport'                         => __( 'Get support', 'wordpress-seo' ),
 			'algoliaSearcher.loadingPlaceholder' => __( 'Loading...', 'wordpress-seo' ),
 			'algoliaSearcher.errorMessage'       => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
-			'searchBar.headingText'              => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
-			'searchBar.placeholderText'          => __( 'Search the knowledge base', 'wordpress-seo' ),
+			'searchBar.headingText'              => __( 'Search the Yoast Knowledge Base for answers to your questions:', 'wordpress-seo' ),
+			'searchBar.placeholderText'          => __( 'Type here to search...', 'wordpress-seo' ),
 			'searchBar.buttonText'               => __( 'Search', 'wordpress-seo' ),
 			'searchResultDetail.openButton'      => __( 'View in KB', 'wordpress-seo' ),
 			'searchResultDetail.openButtonLabel' => __( 'Open the knowledge base article in a new window or read it in the iframe below', 'wordpress-seo' ),
@@ -217,6 +217,7 @@ class WPSEO_Help_Center {
 			'searchResult.searchResultsHeading'  => __( 'Search results', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab'           => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 			'contactSupport.button'              => __( 'Open support form', 'wordpress-seo' ),
+			'helpCenter.buttonText'              => __( 'Need help?', 'wordpress-seo' ),
 		);
 	}
 
