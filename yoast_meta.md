@@ -31,7 +31,7 @@ Do we want to pre-fill data (upgrade script)
 
 Sync to table?
 
-Create Model for wp_posts table -> load items.
+Model for `wp_posts` -> load items.
 
 ---- Failure handling ----
 
@@ -51,21 +51,14 @@ Create `/tests/unittests/` for unittests.
 
 ## Prefixing
 
-`./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php`
-`./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./prefixed/j4mie/idiorm --config=config/php-scoper/idiorm.inc.php`
-`./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./prefixed/j4mie/paris --config=config/php-scoper/paris.inc.php`
-
-These commands have been moved to `composer.json` and can be run using: `composer prefix-dependencies`.
-
+The commands have been placed in `composer.json` and can be run using: `composer prefix-dependencies`.
 
 Prefixing
 
-- Evaluate prefixing of global constants like `RUCKUSING_WORKING_BASE`
-
 ### prefix modules
-* j4mie/paris
-* j4mie/idiorm
-* ruckusing/ruckusing-migrations
+* [x] j4mie/paris
+* [x] j4mie/idiorm
+* [x] ruckusing/ruckusing-migrations
 
 
 ## UUID
@@ -78,7 +71,6 @@ Prefixing
 
 # Hacks
 - [Yoast_Model](https://github.com/Yoast/wordpress-seo/blob/yoast-meta/src/Yoast_Model.php#L7) to inject WordPress database table prefix the table names
-
 
 # Final todo
 Remove this file from the repository.
