@@ -36,7 +36,7 @@ class Primary_Term implements Integration {
 		$term_id = filter_input( INPUT_POST, \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
 
 		// We accept an empty string here because we need to save that if no terms are selected.
-		if ( null === $term_id && check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' ) ) {
+		if ( null === $term_id && check_admin_referer( 'save-primary-term', \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' ) ) {
 			return;
 		}
 
