@@ -1,5 +1,6 @@
 <?php
 
+use YoastSEO_Vendor\Ruckusing_Migration_Base;
 use Yoast\YoastSEO\Yoast_Model;
 
 class WpYoastPrimaryTerm extends Ruckusing_Migration_Base {
