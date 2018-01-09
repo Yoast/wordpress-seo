@@ -18,7 +18,8 @@ module.exports = function( text, url ) {
 	 * - The protocol is neither null, nor http, nor https.
 	 * - The link is a relative fragment URL (starts with #), because it won't navigate to another page.
 	 */
-	if ( ! urlHelper.protocolIsHttpScheme( urlHelper.getProtocol( anchorUrl ) ) ||
+	const protocol = urlHelper.getProtocol( anchorUrl );
+	if ( protocol && ! urlHelper.protocolIsHttpScheme( protocol ) ||
 		urlHelper.isRelativeFragmentURL( anchorUrl ) ) {
 		return "other";
 	}

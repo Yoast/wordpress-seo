@@ -90,7 +90,7 @@ function getHostname( url ) {
  * @returns {string|null} The protocol of the URL.
  */
 function getProtocol( url ) {
-	return urlMethods.parse( url ).protocol;
+	return urlMethods.parse(url).protocol;
 }
 
 /**
