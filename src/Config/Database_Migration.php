@@ -28,7 +28,7 @@ class Database_Migration {
 	 * @return bool
 	 */
 	public function initialize() {
-		if ( '1' === get_transient( 'yoast_migration_problem' ) ) {
+		if ( get_transient( 'yoast_migration_problem' ) === '1' ) {
 			return false;
 		}
 
