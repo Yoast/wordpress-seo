@@ -35,22 +35,19 @@ class ReadabilityAnalysis extends React.Component {
 ReadabilityAnalysis.propTypes = {
 	results: PropTypes.array,
 	marksButtonStatus: PropTypes.string,
+	hideMarksButtons: PropTypes.bool,
 };
 
 /**
  * Maps redux state to ContentAnalysis props.
  *
  * @param {Object} state The redux state.
- * @param {Object} ownProps The components own props.
+ * @param {Object} ownProps The component's props.
  *
  * @returns {Object} Props that should be passed to ContentAnalysis.
  */
 function mapStateToProps( state, ownProps ) {
-	let marksButtonStatus = state.marksButtonStatus;
-
-	if ( ownProps.hideMarksButtons ) {
-		marksButtonStatus = "hidden";
-	}
+	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
 
 	return {
 		results: state.analysis.readability,
