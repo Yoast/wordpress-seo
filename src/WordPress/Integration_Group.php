@@ -10,6 +10,8 @@ class Integration_Group implements Integration {
 	 * Integration_Group constructor.
 	 *
 	 * @param Integration[] $integrations List of integrations to load.
+	 *
+	 * @return void
 	 */
 	public function __construct( array $integrations ) {
 		$this->integrations = $this->ensure_integration( $integrations );
@@ -17,6 +19,8 @@ class Integration_Group implements Integration {
 
 	/**
 	 * Initializes all registered integrations.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		array_map(
@@ -28,11 +32,13 @@ class Integration_Group implements Integration {
 	}
 
 	/**
-	 * @param $integrations
+	 * Ensures the list of Integrations are loaded.
 	 *
-	 * @return array
+	 * @param array $integrations List of Integrations to load.
+	 *
+	 * @return array List of Integrations.
 	 */
-	protected function ensure_integration( $integrations ) {
+	protected function ensure_integration( array $integrations ) {
 		return array_filter( $integrations, function( $integration ) {
 			return $integration instanceof Integration;
 		} );

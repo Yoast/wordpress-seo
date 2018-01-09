@@ -11,13 +11,20 @@ class Primary_Term implements Integration {
 	 * Initializes the integration.
 	 *
 	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'save_post', array( $this, 'save_primary_terms' ) );
+		// @todo add delete
 	}
 
 	/**
-	 * @param int $post_id
+	 * Saves the primary terms for a post.
+	 *
+	 * @param int $post_id Post ID to save the primary terms for.
+	 *
+	 * @return void
 	 */
 	public function save_primary_terms( $post_id ) {
 		$taxonomies = $this->get_primary_term_taxonomies( $post_id );
@@ -31,6 +38,8 @@ class Primary_Term implements Integration {
 	 *
 	 * @param int    $post_id  Post ID to save primary term for.
 	 * @param string $taxonomy Taxonomy to save primary term for.
+	 *
+	 * @return void
 	 */
 	protected function save_primary_term( $post_id, $taxonomy ) {
 		$term_id = filter_input( INPUT_POST, \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
@@ -120,7 +129,7 @@ class Primary_Term implements Integration {
 	/**
 	 * Returns whether or not a taxonomy is hierarchical
 	 *
-	 * @param stdClass $taxonomy Taxonomy object.
+	 * @param \stdClass $taxonomy Taxonomy object.
 	 *
 	 * @return bool
 	 */

@@ -10,6 +10,8 @@ class Indexable_Author implements Integration {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'profile_update', array( $this, 'save_meta' ), PHP_INT_MAX, 2 );
@@ -19,7 +21,9 @@ class Indexable_Author implements Integration {
 	/**
 	 * Deletes user meta.
 	 *
-	 * @param $user_id
+	 * @param int $user_id User ID to delete the metadata of.
+	 *
+	 * @return void
 	 */
 	public function delete_meta( $user_id ) {
 		/** @var Indexable $model */
@@ -39,6 +43,8 @@ class Indexable_Author implements Integration {
 	 * Saves user meta.
 	 *
 	 * @param int $user_id User ID.
+	 *
+	 * @return void
 	 */
 	public function save_meta( $user_id ) {
 		/** @var Indexable $model */

@@ -12,15 +12,19 @@ class Migration_Null_Logger extends Ruckusing_Util_Logger {
 	}
 
 	/**
-	 * Log a message
+	 * Logs a message
 	 *
 	 * @param string $msg message to log
+	 *
+	 * @return void
 	 */
 	public function log( $msg ) {
 	}
 
 	/**
 	 * Close the log file handler
+	 *
+	 * @return void
 	 */
 	public function close() {
 	}

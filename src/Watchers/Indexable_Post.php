@@ -10,6 +10,8 @@ class Indexable_Post implements Integration {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'wp_insert_post', array( $this, 'save_meta' ), PHP_INT_MAX, 1 );
@@ -20,6 +22,8 @@ class Indexable_Post implements Integration {
 	 * Deletes the meta when a post is deleted.
 	 *
 	 * @param int $post_id Post ID.
+	 *
+	 * @return void
 	 */
 	public function delete_meta( $post_id ) {
 		$post_type = get_post_type( $post_id );
@@ -42,6 +46,8 @@ class Indexable_Post implements Integration {
 	 * Saves post meta.
 	 *
 	 * @param int $post_id Post ID.
+	 *
+	 * @return void
 	 */
 	public function save_meta( $post_id ) {
 		if ( wp_is_post_revision( $post_id ) ) {
@@ -141,6 +147,8 @@ class Indexable_Post implements Integration {
 	 * @param string      $target    Property to fill on the model.
 	 * @param string      $source    Meta key from the list.
 	 * @param null        $default   Default value if not set in meta data.
+	 *
+	 * @return void
 	 */
 	protected function set_meta_value( $model, $post_meta, $target, $source, $default = null ) {
 		if ( ! isset( $post_meta[ $source ] ) ) {

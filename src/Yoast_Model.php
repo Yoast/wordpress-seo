@@ -11,7 +11,7 @@ class Yoast_Model extends Model {
 	/**
 	 * Hacks around the Model to provide WordPress prefix to tables.
 	 *
-	 * @param string $class_name
+	 * @param string $class_name   Type of Model to load.
 	 * @param bool   $yoast_prefix Optional. True to prefix the table name with the Yoast prefix.
 	 *
 	 * @return ORMWrapper
@@ -26,6 +26,13 @@ class Yoast_Model extends Model {
 		return parent::factory( $class_name, null );
 	}
 
+	/**
+	 * Creates a model without the Yoast prefix.
+	 *
+	 * @param string $class_name Type of Model to load.
+	 *
+	 * @return ORMWrapper
+	 */
 	public static function of_wp_type( $class_name ) {
 		return self::of_type( $class_name, false );
 	}

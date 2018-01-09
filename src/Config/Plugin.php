@@ -19,6 +19,8 @@ class Plugin implements Integration {
 	 * Adds an integration to the stack
 	 *
 	 * @param Integration $integration Integration to add.
+	 *
+	 * @return void
 	 */
 	public function add_integration( Integration $integration ) {
 		$this->integrations[] = $integration;
@@ -26,6 +28,8 @@ class Plugin implements Integration {
 
 	/**
 	 * Initializes the plugin.
+	 *
+	 * @return void
 	 */
 	public function initialize() {
 
@@ -39,12 +43,14 @@ class Plugin implements Integration {
 
 		Model::$auto_prefix_models = '\\Yoast\\YoastSEO\\Models\\';
 
-		$migration = new Database_Migration( $GLOBALS['wpdb'] );
+		$migration                = new Database_Migration( $GLOBALS['wpdb'] );
 		$this->initialize_success = $migration->initialize();
 	}
 
 	/**
 	 * Registers the hooks for all registered integrations.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		if ( ! $this->initialize_success ) {
@@ -59,6 +65,7 @@ class Plugin implements Integration {
 			$this->add_integration( new Frontend() );
 		}
 
+		// @todo document filter.
 		do_action( 'wpseo_load_integrations', $this );
 
 		$integration_group = new Integration_Group( $this->integrations );

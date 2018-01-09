@@ -10,6 +10,8 @@ class Indexable_Term implements Integration {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'created_term', array( $this, 'save_meta' ), PHP_INT_MAX, 3 );
@@ -19,9 +21,13 @@ class Indexable_Term implements Integration {
 	}
 
 	/**
-	 * @param $term_id
-	 * @param $taxonomy_term_id
-	 * @param $taxonomy
+	 * Deletes a term from the index.
+	 *
+	 * @param int    $term_id          The Term ID to delete.
+	 * @param int    $taxonomy_term_id The Taxonomy ID the Term belonged to.
+	 * @param string $taxonomy         The taxonomy name the Term belonged to.
+	 *
+	 * @return void
 	 */
 	public function delete_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
 		/** @var Indexable $indexable */
@@ -44,6 +50,8 @@ class Indexable_Term implements Integration {
 	 * @param int    $term_id          ID of the term to save data for.
 	 * @param int    $taxonomy_term_id The taxonomy_term_id for the term.
 	 * @param string $taxonomy         The taxonomy the term belongs to.
+	 *
+	 * @return void
 	 */
 	public function save_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
 		/** @var Indexable $indexable */

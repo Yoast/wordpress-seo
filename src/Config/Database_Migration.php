@@ -15,6 +15,8 @@ class Database_Migration {
 	 * Migrations constructor.
 	 *
 	 * @param \wpdb $wpdb
+	 *
+	 * @return void
 	 */
 	public function __construct( $wpdb ) {
 		$this->wpdb = $wpdb;
@@ -22,6 +24,8 @@ class Database_Migration {
 
 	/**
 	 * Initializes the migrations.
+	 *
+	 * @return bool
 	 */
 	public function initialize() {
 		if ( '1' === get_transient('yoast_migration_problem' ) ) {
