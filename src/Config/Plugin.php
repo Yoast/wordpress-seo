@@ -29,7 +29,7 @@ class Plugin implements Integration {
 	 */
 	public function initialize() {
 
-		$prefix = new Prefix_Dependencies( YOAST_VENDOR_PREFIX );
+		$prefix = new Prefix_Dependencies( YOAST_VENDOR_NS_PREFIX );
 		$orm_classes = new ClassAliases\ORM();
 		$prefix->prefix( $orm_classes->get_classes() );
 
