@@ -178,7 +178,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			),
 			WPSEO_Shortlinker::get( 'https://yoa.st/179' ),
 			/* translators: %s expands to Yoast SEO Premium. */
-			sprintf( 'Find out why you should upgrade to %s', 'Yoast SEO Premium' )
+			sprintf( esc_html__( 'Find out why you should upgrade to %s', 'wordpress-seo' ), 'Yoast SEO Premium' )
 		);
 	}
 

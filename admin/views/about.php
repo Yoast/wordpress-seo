@@ -24,14 +24,14 @@ function wpseo_display_contributors( $contributors ) {
 	}
 }
 
+/* translators: %1$s expands to Yoast SEO */
+$wpseo_thanks_for_updating = sprintf( __( 'Thank you for updating %1$s!', 'wordpress-seo' ), 'Yoast SEO' );
+
 ?>
 
 <div class="wrap about-wrap">
 
-	<h1><?php
-		/* translators: %1$s expands to Yoast SEO */
-		printf( __( 'Thank you for updating %1$s!', 'wordpress-seo' ), 'Yoast SEO' );
-		?></h1>
+	<h1><?php echo esc_html( $wpseo_thanks_for_updating ); ?></h1>
 
 	<p class="about-text">
 		<?php
