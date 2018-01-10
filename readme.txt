@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.1
-Stable tag: 6.1
+Stable tag: 6.1.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -105,6 +105,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 6.1.1 =
+Release Date: January 10th, 2018
+
+Bugfixes:
+
+* Fixes a bug where sitemaps could not be generated when there one or more galleries in the content.
 
 = 6.1.0 =
 Release Date: January 9th, 2018
