@@ -58,7 +58,7 @@ class Yoast_Social_Facebook_Form {
 		}
 
 		$return  = '<li><a target="_blank" href="' . esc_url( $admin['link'] ) . '">' . esc_html( $admin['name'] ) . '</a>';
-		$return .= ' - <strong><a href="' . $this->admin_delete_link( $admin_id, $nonce ) . '">X</a></strong></li>';
+		$return .= ' - <strong><a href="' . esc_url( $this->admin_delete_link( $admin_id, $nonce ) ) . '">X</a></strong></li>';
 
 		return $return;
 	}
@@ -200,14 +200,12 @@ class Yoast_Social_Facebook_Form {
 	 * @return string
 	 */
 	private function admin_delete_link( $admin_id, $nonce ) {
-		return esc_url(
-			add_query_arg(
-				array(
-					'delfbadmin' => esc_attr( $admin_id ),
-					'nonce'      => $nonce,
-				),
-				admin_url( $this->admin_url . '#top#facebook' )
-			)
+		return add_query_arg(
+			array(
+				'delfbadmin' => esc_attr( $admin_id ),
+				'nonce'      => $nonce,
+			),
+			admin_url( $this->admin_url . '#top#facebook' )
 		);
 	}
 
