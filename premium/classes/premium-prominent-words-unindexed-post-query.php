@@ -59,7 +59,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 *
 	 * @return array Array with the totals for the requested posttypes.
 	 */
-	protected function get_totals( $post_types ) {
+	public function get_totals( $post_types ) {
 		global $wpdb;
 
 		if ( $post_types === array() ) {
@@ -88,10 +88,27 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		$totals = array();
 
 		foreach ( $results as $result ) {
-			$totals[ $result->post_type ] = (int) $result->total;
+			$totals[ $this->determine_rest_endpoint_for_post_type( $result->post_type ) ] = (int) $result->total;
 		}
 
 		return $totals;
+	}
+
+	/**
+	 * Determines the REST endpoint for the given post type.
+	 *
+	 * @param string $post_type The post type to determine the endpoint for.
+	 *
+	 * @return string The endpoint.
+	 */
+	protected function determine_rest_endpoint_for_post_type( $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
+
+		if ( isset( $post_type_object->rest_base ) ) {
+			return $post_type_object->rest_base;
+		}
+
+		return $post_type_object->name;
 	}
 
 	/**

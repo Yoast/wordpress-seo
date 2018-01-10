@@ -13,102 +13,122 @@ let prominentWordCache;
 let prominentWordsCalculated = false;
 
 /**
- * Recalculates posts
+ * Recalculates all unindexed posts, pages and custom post types.
  *
- * @returns {Promise} Resolves when we have recalculated posts.
+ * @returns {Promise} Promise containing the resolved calculation Promises.
  */
-function recalculatePosts() {
-	let progressElement = jQuery( "#wpseo_count_posts" );
-	let progress = jQuery( "#wpseo_internal_links_posts_progressbar" ).progressbar( { value: 0 } );
-	let rootUrl = settings.restApi.root;
+function recalculateUnindexed() {
+	let progressElement = jQuery( "#wpseo_count_items" );
+	let progress        = jQuery( "#wpseo_internal_links_unindexed_progressbar" ).progressbar( { value: 0 } );
 
-	return new Promise( ( resolve ) => {
-		let postsCalculation = new ProminentWordCalculation( {
-			totalPosts: settings.amount.total,
-			recalculateAll: true,
-			rootUrl: rootUrl,
-			nonce: settings.restApi.nonce,
-			allProminentWordIds: settings.allWords,
-			listEndpoint: rootUrl + "wp/v2/posts/",
-			prominentWordCache,
+	let calculations    = [];
+	let processed       = {};
+	let totalProcessed  = 0;
+
+	Object.keys( settings.allItems ).forEach( ( key ) => {
+		let postTypeItems = settings.allItems[key];
+
+		settings.totalPostTypeItems = postTypeItems;
+
+		let calculationPromise = new Promise( ( resolve ) => {
+			let prominentWordsCalculation = createProminentWordsCalculation( settings, key );
+
+			prominentWordsCalculation.on( "processedPost", ( postCount, total, postType ) => {
+				// Increment the total processed for the current postType.
+				processed[postType] = postCount;
+
+				totalProcessed = sumValues( processed );
+
+				// Update the progress bar.
+				updateProgress( progress, progressElement, totalProcessed, settings.totalItems );
+			} );
+
+			prominentWordsCalculation.start();
+
+			// Free up the variable to start another recalculation.
+			prominentWordsCalculation.on( "complete", resolve );
 		} );
 
-		postsCalculation.on( "processedPost", ( postCount ) => {
-			let newWidth = postCount * ( 100 / settings.amount.total );
+		calculations.push( calculationPromise );
+	} );
 
-			progress.progressbar( "value", Math.round( newWidth ) );
+	return Promise.all( calculations );
+}
 
-			progressElement.html( postCount );
-		} );
+/**
+ * Sums up the values of the passed object.
+ *
+ * @param {Object} values The values to sum up.
+ *
+ * @returns {Number} The total sum of the object values.
+ */
+function sumValues( values ) {
+	return Object.values( values ).reduce( ( a, b ) => a + b );
+}
 
-		postsCalculation.start();
-
-		// Free up the variable to start another recalculation.
-		postsCalculation.on( "complete", resolve );
+/**
+ * Creates a new ProminentWordCalculation object.
+ *
+ * @param {Object} settings The settings to use for the calculation.
+ * @param {string} postTypeRestBase The endpoint to use for the REST API request.
+ *
+ * @returns {SiteWideCalculation} The SiteWideCalculation object.
+ */
+function createProminentWordsCalculation( settings, postTypeRestBase ) {
+	return new ProminentWordCalculation( {
+		nonce:                  settings.restApi.nonce,
+		rootUrl:                settings.restApi.root,
+		totalPosts:             settings.totalPostTypeItems,
+		listEndpoint:           settings.restApi.root + "wp/v2/" + postTypeRestBase,
+		postTypeRestBase:       postTypeRestBase,
+		recalculateAll:         true,
+		allProminentWordIds:    settings.allWords,
+		prominentWordCache,
 	} );
 }
 
 /**
- * Recalculates pages
+ * Updates the progressbar and progress counter.
  *
- * @returns {Promise} Resolves when we have recalculated pages.
+ * @param {HTMLElement} bar     The progress bar element.
+ * @param {HTMLElement} counter The progress counter element.
+ * @param {Number}      current The current progress value.
+ * @param {Number}      total   The total amount of items.
+ *
+ * @returns {void}
  */
-function recalculatePages() {
-	let progressElement = jQuery( "#wpseo_count_pages" );
-	let progress = jQuery( "#wpseo_internal_links_pages_progressbar" ).progressbar( { value: 0 } );
-	let rootUrl = settings.restApi.root;
+function updateProgress( bar, counter, current, total ) {
+	let barWidth = current * ( 100 / total );
 
-	return new Promise( ( resolve ) => {
-		let pagesCalculation = new ProminentWordCalculation( {
-			totalPosts: settings.amountPages.total,
-			recalculateAll: true,
-			rootUrl: rootUrl,
-			nonce: settings.restApi.nonce,
-			allProminentWordIds: settings.allWords,
-			listEndpoint: rootUrl + "wp/v2/pages/",
-			prominentWordCache,
-		} );
+	bar.progressbar( "value", Math.round( barWidth ) );
 
-		pagesCalculation.on( "processedPost", ( pageCount ) => {
-			let newWidth = pageCount * ( 100 / settings.amountPages.total );
-
-			progress.progressbar( "value", Math.round( newWidth ) );
-			progressElement.html( pageCount );
-		} );
-
-		pagesCalculation.start();
-
-		// Free up the variable to start another recalculation.
-		pagesCalculation.on( "complete", resolve );
-	} );
+	counter.html( current );
 }
 
 /**
- * Shows completion to the user
+ * Shows the recalculation completion to the user.
  *
  * @returns {void}
  */
 function showCompletion() {
 	a11ySpeak( settings.l10n.calculationCompleted );
 
-	jQuery.get(
-		{
-			url: settings.restApi.root + "yoast/v1/complete_recalculation/",
-			beforeSend: ( xhr ) => {
-				xhr.setRequestHeader( "X-WP-Nonce", settings.restApi.nonce );
-			},
-			success: function() {
-				prominentWordsCalculated = true;
-				jQuery( "#internalLinksCalculation" ).html( settings.message.analysisCompleted );
+	jQuery.get( {
+		url: settings.restApi.root + "yoast/v1/complete_recalculation/",
+		beforeSend: ( xhr ) => {
+			xhr.setRequestHeader( "X-WP-Nonce", settings.restApi.nonce );
+		},
+		success: function() {
+			prominentWordsCalculated = true;
+			jQuery( "#internalLinksCalculation" ).html( settings.message.analysisCompleted );
 
-				tb_remove();
-			},
-		}
-	);
+			tb_remove();
+		},
+	} );
 }
 
 /**
- * Start recalculating.
+ * Starts the recalculating process.
  *
  * @returns {void}
  */
@@ -121,8 +141,7 @@ function startRecalculating() {
 	let populator       = new ProminentWordCachePopulator( { cache: prominentWordCache, restApi: restApi } );
 
 	populator.populate()
-		.then( recalculatePosts )
-		.then( recalculatePages )
+		.then( recalculateUnindexed )
 		.then( showCompletion );
 }
 
@@ -147,7 +166,7 @@ function openInternalLinkCalculation() {
 function init() {
 	let recalculating = false;
 	jQuery( ".yoast-js-calculate-prominent-words--all" ).on( "click", function() {
-		if( recalculating === false ) {
+		if ( recalculating === false ) {
 			startRecalculating();
 
 			recalculating = true;
