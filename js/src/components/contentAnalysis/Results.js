@@ -75,13 +75,14 @@ Results.propTypes = {
 	showLanguageNotice: PropTypes.bool.isRequired,
 	canChangeLanguage: PropTypes.bool,
 	marksButtonClassName: PropTypes.string,
-	marksButtonStatus: PropTypes.string.isRequired,
+	marksButtonStatus: PropTypes.string,
 };
 
 Results.defaultProps = {
 	language: "",
 	changeLanguageLink: "#",
 	canChangeLanguage: false,
+	marksButtonStatus: "enabled",
 };
 
 export default Results;

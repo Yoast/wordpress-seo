@@ -201,7 +201,7 @@ class WPSEO_Replace_Vars {
 		// Remove superfluous whitespace.
 		$string = WPSEO_Utils::standardize_whitespace( $string );
 
-		return trim( $string );
+		return $string;
 	}
 
 

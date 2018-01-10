@@ -194,7 +194,7 @@ class WPSEO_Help_Center {
 	public static function get_translated_texts() {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
 		return array(
-			'locale'                             => get_locale(),
+			'locale'                             => WPSEO_Utils::get_user_locale(),
 			'videoTutorial'                      => __( 'Video tutorial', 'wordpress-seo' ),
 			'knowledgeBase'                      => __( 'Knowledge base', 'wordpress-seo' ),
 			'getSupport'                         => __( 'Get support', 'wordpress-seo' ),
