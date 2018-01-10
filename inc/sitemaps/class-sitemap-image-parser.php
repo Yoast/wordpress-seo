@@ -212,7 +212,7 @@ class WPSEO_Sitemap_Image_Parser {
 	 *
 	 * @return array Set of attachment objects.
 	 */
-	private function parse_galleries( $content, $post_id = 0 ) {
+	protected function parse_galleries( $content, $post_id = 0 ) {
 
 		$attachments = array();
 		$galleries   = $this->get_content_galleries( $content );
