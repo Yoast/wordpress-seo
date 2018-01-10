@@ -1,3 +1,6 @@
+### 6.1.1: January 10th, 2018
+* Includes every change in Yoast SEO core 6.1.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 6.1.0: January 9th, 2018
 * Fixes a bug in the redirects where an url decoded origin isn't found when the request uri isn't decoded.
 * Fixes a bug where on certain servers (using FastCGI) redirects could not be filtered. 
