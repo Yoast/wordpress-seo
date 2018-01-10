@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "algoliasearch": "^3.16.0",
-    "autoprefixer": "^6.3.1",
+    "autoprefixer": "^7.0.0",
     "babel-jest": "^18.0.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-react-jsx": "^6.8.0",
