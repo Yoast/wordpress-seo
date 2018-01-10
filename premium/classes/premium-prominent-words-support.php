@@ -51,6 +51,10 @@ class WPSEO_Premium_Prominent_Words_Support {
 	public function is_rest_enabled( $post_type ) {
 		$post_type_object = get_post_type_object( $post_type );
 
+		if ( is_null( $post_type_object ) ) {
+			return false;
+		}
+
 		return $post_type_object->show_in_rest === true;
 	}
 }

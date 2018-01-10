@@ -41,6 +41,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	public function register_hooks() {
 		// When the language isn't supported, stop adding hooks.
 		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
+
 		if ( ! $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
 			return;
 		}
@@ -62,7 +63,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		$total_items = $this->post_query->get_totals( $this->prominent_words_support->get_supported_post_types() );
 
 		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
-		echo '<p>' . esc_html__( 'Want to use our internal linking tool? Analyze all the published posts and pages to generate internal linking suggestions.', 'wordpress-seo-premium' ) . '</p>';
+		echo '<p>' . esc_html__( 'Want to use our internal linking tool? Analyze all the published posts, pages and custom post types to generate internal linking suggestions.', 'wordpress-seo-premium' ) . '</p>';
 
 		if ( count( $total_items ) === 0 ) {
 			printf( '<p>%s</p>', $this->messageAlreadyIndexed() );
@@ -76,6 +77,40 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	}
 
 	/**
+	 * Takes an array of post types and converts it to a textual list of post types.
+	 *
+	 * @param array $post_types The post types to retrieve the labels for.
+	 *
+	 * @return string A textual representation of all the supported post types.
+	 */
+	protected function get_indexable_post_type_labels( $post_types ) {
+		if ( ! is_array( $post_types ) ) {
+			return '';
+		}
+
+		$post_type_labels = array_map( array( $this, 'retrieve_post_type_label' ), $post_types );
+
+		return implode( ', ', $post_type_labels );
+	}
+
+	/**
+	 * Retrieves the label for the passed post type.
+	 *
+	 * @param string $post_type The post type to retrieve the label for.
+	 *
+	 * @return string The post type's label. Defaults to the post type itself if no label could be retrieved.
+	 */
+	protected function retrieve_post_type_label( $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
+
+		if ( is_null( $post_type_object ) ) {
+			return $post_type;
+		}
+
+		return $post_type_object->labels->name;
+	}
+
+	/**
 	 * Generates the HTML interface for the recalculation.
 	 *
 	 * @param int $height The height to apply to the recalculation interface.
@@ -86,7 +121,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		return sprintf(
 			'<p id="internalLinksCalculation"><a id="openInternalLinksCalculation" href="%s" title="%s" class="%s">%s</a></p><br />',
 			esc_url( '#TB_inline?width=600&height=' . $height . '&inlineId=wpseo_recalculate_internal_links_wrapper' ),
-			esc_attr__( 'Generating internal linking suggestions', 'wordpress-seo-premium' ),
+			esc_attr__( 'Generate internal linking suggestions', 'wordpress-seo-premium' ),
 			'btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox',
 			esc_html__( 'Analyze your content', 'wordpress-seo-premium' )
 		);
@@ -101,11 +136,12 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		// Adding the thickbox.
 		add_thickbox();
 
-		$supported_post_types = $this->prominent_words_support->get_supported_post_types();
-		$total_items          = $this->post_query->get_totals( $supported_post_types );
+		$supported_post_types       = $this->prominent_words_support->get_supported_post_types();
+		$total_items                = $this->post_query->get_totals( $supported_post_types );
+		$supported_post_type_labels = $this->get_indexable_post_type_labels( $supported_post_types );
 
 		$progress = sprintf(
-		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
+			/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 			esc_html__( 'Item %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
 			'<span id="wpseo_count_items" class="wpseo-prominent-words-progress-current">0</span>',
 			'<strong id="wpseo_count_items_total" class="wpseo-prominent-words-progress-total">' . array_sum( $total_items ) . '</strong>'
@@ -114,7 +150,17 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		?>
 		<div id="wpseo_recalculate_internal_links_wrapper" class="hidden">
 			<div id="wpseo_recalculate_internal_links">
-				<p><?php esc_html_e( 'Generating suggestions for everything...', 'wordpress-seo-premium' ); ?></p>
+				<p>
+					<?php
+
+					printf(
+						/* translators: 1: expands to a list of supported post type labels that are being recalculated. */
+						esc_html__( 'Generating suggestions for %1$s...', 'wordpress-seo-premium' ),
+						$supported_post_type_labels
+					);
+
+					?>
+				</p>
 				<?php if ( $total_items > 0 ) : ?>
 					<div id="wpseo_internal_links_unindexed_progressbar" class="wpseo-progressbar"></div>
 					<p><?php echo $progress; ?></p>
