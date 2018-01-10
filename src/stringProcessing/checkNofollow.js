@@ -5,24 +5,24 @@ let htmlparser = require( "htmlparser2" );
 let isString = require( "lodash/isString" );
 
 /**
- * Checks if a links has a nofollow attribute. If it has, returns Nofollow, otherwise Dofollow.
+ * Checks if a links has a nofollow attribute value. If it has, returns Nofollow, otherwise Dofollow.
  *
- * @param {string} text The text to check against.
+ * @param {string} anchorHTML The anchor HTML to check against.
  * @returns {string} Returns Dofollow or Nofollow.
  */
-module.exports = function( text ) {
+module.exports = function( anchorHTML ) {
 	let linkFollow = "Dofollow";
 
 	let parser = new htmlparser.Parser( {
 		/**
-		 * Detects if there is a `nofollow` argument in the `rel` attribute of a link.
+		 * Detects if there is a `nofollow` argument value in the `rel` argument of a link.
 		 *
 		 * @param {string} tagName The tag name.
-		 * @param {object} nodeValue The attribute with the keys and values of the tag.
+		 * @param {object} node The attribute with the keys and values of the tag.
 		 * @returns {void}
 		 */
 		onopentag: function( tagName, nodeValue ) {
-			if ( tagName.toLowerCase() !== "a" || ! isString( nodeValue.rel ) ) {
+			if ( tagName !== "a" || ! isString( nodeValue.rel ) ) {
 				return;
 			}
 
@@ -32,7 +32,8 @@ module.exports = function( text ) {
 		},
 	} );
 
-	parser.write( text );
+	parser.write( anchorHTML );
+	parser.end();
 
 	return linkFollow;
 };
