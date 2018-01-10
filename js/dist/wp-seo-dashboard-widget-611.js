@@ -1,6 +1,6 @@
 yoastWebpackJsonp([4],{
 
-/***/ 1043:
+/***/ 1042:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16,7 +16,7 @@ var _reactDom = __webpack_require__(98);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _SeoAssessment = __webpack_require__(1044);
+var _SeoAssessment = __webpack_require__(1043);
 
 var _SeoAssessment2 = _interopRequireDefault(_SeoAssessment);
 
@@ -24,11 +24,11 @@ var _ScoreAssessments = __webpack_require__(830);
 
 var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
 
-var _getFeed2 = __webpack_require__(1046);
+var _getFeed2 = __webpack_require__(1045);
 
 var _getFeed3 = _interopRequireDefault(_getFeed2);
 
-var _WordpressFeed = __webpack_require__(1047);
+var _WordpressFeed = __webpack_require__(1046);
 
 var _WordpressFeed2 = _interopRequireDefault(_WordpressFeed);
 
@@ -279,7 +279,7 @@ if (element) {
 
 /***/ }),
 
-/***/ 1044:
+/***/ 1043:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -304,7 +304,7 @@ var _styledComponents = __webpack_require__(7);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _StackedProgressBar = __webpack_require__(1045);
+var _StackedProgressBar = __webpack_require__(1044);
 
 var _StackedProgressBar2 = _interopRequireDefault(_StackedProgressBar);
 
@@ -374,7 +374,7 @@ exports.default = SeoAssessment;
 
 /***/ }),
 
-/***/ 1045:
+/***/ 1044:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -462,7 +462,7 @@ exports.default = StackedProgressBar;
 
 /***/ }),
 
-/***/ 1046:
+/***/ 1045:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -643,7 +643,7 @@ function getFeed(url) {
 
 /***/ }),
 
-/***/ 1047:
+/***/ 1046:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -928,4 +928,4 @@ exports.default = ScoreAssessments;
 
 /***/ })
 
-},[1043]);
+},[1042]);
