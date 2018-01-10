@@ -373,7 +373,7 @@ async@~0.1.22:
   version "0.1.22"
   resolved "https://registry.yarnpkg.com/async/-/async-0.1.22.tgz#0fc1aaa088a0e3ef0ebe2d8831bab0dcf8845061"
 
-async@~0.2.6, async@~0.2.8:
+async@~0.2.8:
   version "0.2.10"
   resolved "https://registry.yarnpkg.com/async/-/async-0.2.10.tgz#b6bbe0b0674b9d719708ca38de8c237cb526c3d1"
 
@@ -1334,13 +1334,14 @@ bytes@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.4.0.tgz#7d97196f9d5baf7f6935e25985549edd2a6c2339"
 
-cache-swap@~0.0.2:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/cache-swap/-/cache-swap-0.0.6.tgz#17cdf835e6c301fd158090b03d1cc36f467b1695"
+cache-swap@~0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/cache-swap/-/cache-swap-0.3.0.tgz#1c541aa108a50106f630bdd98fe1dec8ba133f51"
   dependencies:
-    async "~0.2.6"
-    lodash "~1.1.0"
-    rimraf "~2.1.4"
+    graceful-fs "^4.1.2"
+    mkdirp "^0.5.1"
+    object-assign "^4.0.1"
+    rimraf "^2.4.0"
 
 cached-path-relative@^1.0.0:
   version "1.0.1"
@@ -3268,7 +3269,7 @@ graceful-fs@^4.0.0, graceful-fs@^4.1.0, graceful-fs@^4.1.11, graceful-fs@^4.1.2,
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-graceful-fs@~1, graceful-fs@~1.2.0:
+graceful-fs@~1.2.0:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-1.2.3.tgz#15a4806a57547cb2d2dbf27f42e89a8c3451b364"
 
@@ -3456,11 +3457,11 @@ grunt-phpcs@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/grunt-phpcs/-/grunt-phpcs-0.4.0.tgz#a08d625fc64465e453b2bd93f810b2a81e94bdaa"
 
-grunt-phplint@0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/grunt-phplint/-/grunt-phplint-0.0.8.tgz#c127aa28ff77d239c14a01f050cc7b7159ce90c0"
+grunt-phplint@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/grunt-phplint/-/grunt-phplint-0.1.0.tgz#6dbe2e6aec53aa229cfac0ad9a7c99e24184848d"
   dependencies:
-    cache-swap "~0.0.2"
+    cache-swap "~0.3.0"
     grunt "~0.4.1"
 
 "grunt-po2json@git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471":
@@ -5360,10 +5361,6 @@ lodash@~0.9.2:
   version "0.9.2"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-0.9.2.tgz#8f3499c5245d346d682e5b0d3b40767e09f1a92c"
 
-lodash@~1.1.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-1.1.1.tgz#41a2b2e9a00e64d6d1999f143ff6b0755f6bbb24"
-
 lodash@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-1.2.1.tgz#ed47b16e46f06b2b40309b68e9163c17e93ea304"
@@ -7010,17 +7007,11 @@ right-align@^0.1.1:
   dependencies:
     align-text "^0.1.1"
 
-rimraf@2, rimraf@^2.2.6, rimraf@^2.2.8, rimraf@^2.5.1, rimraf@^2.5.4, rimraf@^2.6.1:
+rimraf@2, rimraf@^2.2.6, rimraf@^2.2.8, rimraf@^2.4.0, rimraf@^2.5.1, rimraf@^2.5.4, rimraf@^2.6.1:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.2.tgz#2ed8150d24a16ea8651e6d6ef0f47c4158ce7a36"
   dependencies:
     glob "^7.0.5"
-
-rimraf@~2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.1.4.tgz#5a6eb62eeda068f51ede50f29b3e5cd22f3d9bb2"
-  optionalDependencies:
-    graceful-fs "~1"
 
 rimraf@~2.2.8:
   version "2.2.8"
