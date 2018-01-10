@@ -48347,14 +48347,13 @@ module.exports = UsedKeywords;
 /* 1052 */,
 /* 1053 */,
 /* 1054 */,
-/* 1055 */,
-/* 1056 */
+/* 1055 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _TermDataCollector = __webpack_require__(1057);
+var _TermDataCollector = __webpack_require__(1056);
 
 var _TermDataCollector2 = _interopRequireDefault(_TermDataCollector);
 
@@ -48386,7 +48385,7 @@ var isContentAnalysisActive = __webpack_require__(777);
 var snippetPreviewHelpers = __webpack_require__(778);
 
 var App = __webpack_require__(161).App;
-var TaxonomyAssessor = __webpack_require__(1058);
+var TaxonomyAssessor = __webpack_require__(1057);
 var UsedKeywords = __webpack_require__(782);
 
 window.yoastHideMarkers = true;
@@ -48672,7 +48671,7 @@ window.yoastHideMarkers = true;
 })(jQuery, window);
 
 /***/ }),
-/* 1057 */
+/* 1056 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48999,7 +48998,7 @@ TermDataCollector.prototype.initKeywordTabTemplate = function () {
 exports.default = TermDataCollector;
 
 /***/ }),
-/* 1058 */
+/* 1057 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49018,7 +49017,7 @@ var TitleWidth = __webpack_require__(328);
 var UrlKeyword = __webpack_require__(329);
 var UrlLength = __webpack_require__(330);
 var urlStopWords = __webpack_require__(331);
-var taxonomyTextLength = __webpack_require__(1059);
+var taxonomyTextLength = __webpack_require__(1058);
 
 /**
  * Creates the Assessor
@@ -49037,7 +49036,7 @@ module.exports = TaxonomyAssessor;
 __webpack_require__(33).inherits(module.exports, Assessor);
 
 /***/ }),
-/* 1059 */
+/* 1058 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49127,4 +49126,4 @@ module.exports = {
 //# sourceMappingURL=taxonomyTextLengthAssessment.js.map
 
 /***/ })
-],[1056]);
+],[1055]);
