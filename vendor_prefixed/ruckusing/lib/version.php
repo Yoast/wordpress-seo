@@ -1,0 +1,3 @@
+<?php
+
+\define('YOASTSEO_VENDOR__RUCKUSING_VERSION', '1.1.0');
