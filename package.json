@@ -51,7 +51,7 @@
     "grunt-contrib-cssmin": "^1.0.1",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-eslint": "^19.0.0",
+    "grunt-eslint": "^20.0.0",
     "grunt-glotpress": "git+https://github.com/markoheijnen/grunt-glotpress.git#05a38906b357d5a4785bc57e6287fb6479e674b7",
     "grunt-phpcs": "^0.4.0",
     "grunt-phplint": "0.0.8",
