@@ -111,7 +111,7 @@ Release Date: January 10th, 2018
 
 Bugfixes:
 
-* Fixes a bug where sitemaps could not be generated when there are galleries in the content.
+* Fixes a bug where sitemaps could not be generated when there one or more galleries in the content.
 
 = 6.1.0 =
 Release Date: January 9th, 2018
