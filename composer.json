@@ -72,6 +72,7 @@
 			"\"vendor/bin/phpcbf\""
 		],
 		"prefix-dependencies": [
+			"composer install",
 			"composer prefix-ruckusing",
 			"composer prefix-idiorm",
 			"composer prefix-paris",
