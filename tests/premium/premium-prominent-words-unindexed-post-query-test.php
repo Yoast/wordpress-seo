@@ -60,7 +60,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 	 * Tests get_total without any posts present.
 	 */
 	public function test_get_total_without_any_posts() {
-		$this->assertEquals( 0, $this->class_instance->get_total( 'post' ) );
+		$this->assertEquals( 0, $this->class_instance->get_total( 'posts' ) );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 			delete_post_meta( $post_id, WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME );
 		}
 
-		$this->assertEquals( 10, $this->class_instance->get_total( 'post' ) );
+		$this->assertEquals( 10, $this->class_instance->get_total( 'posts' ) );
 	}
 
 	/**
@@ -87,7 +87,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 			delete_post_meta( $post_id, WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME );
 		}
 
-		$this->assertEquals( 10, $this->class_instance->get_total( 'post' ) );
-		$this->assertEquals( 8, $this->class_instance->get_total( 'page' ) );
+		$this->assertEquals( 10, $this->class_instance->get_total( 'posts' ) );
+		$this->assertEquals( 8, $this->class_instance->get_total( 'pages' ) );
 	}
 }
