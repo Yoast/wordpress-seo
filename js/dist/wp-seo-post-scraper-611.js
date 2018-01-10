@@ -48446,8 +48446,7 @@ var imageScoreClass = "image yoast-logo svg";
 /* 1048 */,
 /* 1049 */,
 /* 1050 */,
-/* 1051 */,
-/* 1052 */
+/* 1051 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48463,7 +48462,7 @@ var _wpSeoTinymce = __webpack_require__(423);
 
 var _wpSeoTinymce2 = _interopRequireDefault(_wpSeoTinymce);
 
-var _wpSeoMarkdownPlugin = __webpack_require__(1053);
+var _wpSeoMarkdownPlugin = __webpack_require__(1052);
 
 var _wpSeoMarkdownPlugin2 = _interopRequireDefault(_wpSeoMarkdownPlugin);
 
@@ -48485,7 +48484,7 @@ var _trafficLight = __webpack_require__(437);
 
 var _adminBar = __webpack_require__(438);
 
-var _PostDataCollector = __webpack_require__(1055);
+var _PostDataCollector = __webpack_require__(1054);
 
 var _PostDataCollector2 = _interopRequireDefault(_PostDataCollector);
 
@@ -48949,7 +48948,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 })(jQuery); /* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
 /***/ }),
-/* 1053 */
+/* 1052 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48961,7 +48960,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _marked = __webpack_require__(1054);
+var _marked = __webpack_require__(1053);
 
 var _marked2 = _interopRequireDefault(_marked);
 
@@ -49014,7 +49013,7 @@ var YoastMarkdownPlugin = function () {
 exports.default = YoastMarkdownPlugin;
 
 /***/ }),
-/* 1054 */
+/* 1053 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49029,6 +49028,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  */
 
 ;(function () {
+  'use strict';
 
   /**
    * Block-Level Grammar
@@ -49428,21 +49428,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   var inline = {
     escape: /^\\([\\`*{}\[\]()#+\-.!_>])/,
-    autolink: /^<([^ >]+(@|:\/)[^ >]+)>/,
+    autolink: /^<([^ <>]+(@|:\/)[^ <>]+)>/,
     url: noop,
-    tag: /^<!--[\s\S]*?-->|^<\/?\w+(?:"[^"]*"|'[^']*'|[^'">])*?>/,
+    tag: /^<!--[\s\S]*?-->|^<\/?\w+(?:"[^"]*"|'[^']*'|[^<'">])*?>/,
     link: /^!?\[(inside)\]\(href\)/,
     reflink: /^!?\[(inside)\]\s*\[([^\]]*)\]/,
     nolink: /^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/,
     strong: /^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/,
     em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
-    code: /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/,
+    code: /^(`+)([\s\S]*?[^`])\1(?!`)/,
     br: /^ {2,}\n(?!\s*$)/,
     del: noop,
     text: /^[\s\S]+?(?=[\\<!\[_*`]| {2,}\n|$)/
   };
 
-  inline._inside = /(?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*/;
+  inline._inside = /(?:\[[^\]]*\]|\\[\[\]]|[^\[\]]|\](?=[^\[]*\]))*/;
   inline._href = /\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*/;
 
   inline.link = replace(inline.link)('inside', inline._inside)('href', inline._href)();
@@ -49548,7 +49548,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       if (cap = this.rules.autolink.exec(src)) {
         src = src.substring(cap[0].length);
         if (cap[2] === '@') {
-          text = cap[1].charAt(6) === ':' ? this.mangle(cap[1].substring(7)) : this.mangle(cap[1]);
+          text = escape(cap[1].charAt(6) === ':' ? this.mangle(cap[1].substring(7)) : this.mangle(cap[1]));
           href = this.mangle('mailto:') + text;
         } else {
           text = escape(cap[1]);
@@ -49624,7 +49624,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       // code
       if (cap = this.rules.code.exec(src)) {
         src = src.substring(cap[0].length);
-        out += this.renderer.codespan(escape(cap[2], true));
+        out += this.renderer.codespan(escape(cap[2].trim(), true));
         continue;
       }
 
@@ -49806,11 +49806,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       try {
         var prot = decodeURIComponent(unescape(href)).replace(/[^\w:]/g, '').toLowerCase();
       } catch (e) {
-        return '';
+        return text;
       }
       if (prot.indexOf('javascript:') === 0 || prot.indexOf('vbscript:') === 0 || prot.indexOf('data:') === 0) {
-        return '';
+        return text;
       }
+    }
+    if (this.options.baseUrl && !originIndependentUrl.test(href)) {
+      href = resolveUrl(this.options.baseUrl, href);
     }
     var out = '<a href="' + href + '"';
     if (title) {
@@ -49821,6 +49824,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   };
 
   Renderer.prototype.image = function (href, title, text) {
+    if (this.options.baseUrl && !originIndependentUrl.test(href)) {
+      href = resolveUrl(this.options.baseUrl, href);
+    }
     var out = '<img src="' + href + '" alt="' + text + '"';
     if (title) {
       out += ' title="' + title + '"';
@@ -50019,8 +50025,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }
 
   function unescape(html) {
-    // explicitly match decimal, hex, and named HTML entities 
-    return html.replace(/&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/g, function (_, n) {
+    // explicitly match decimal, hex, and named HTML entities
+    return html.replace(/&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/ig, function (_, n) {
       n = n.toLowerCase();
       if (n === 'colon') return ':';
       if (n.charAt(0) === '#') {
@@ -50041,6 +50047,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       return self;
     };
   }
+
+  function resolveUrl(base, href) {
+    if (!baseUrls[' ' + base]) {
+      // we can ignore everything in base after the last slash of its path component,
+      // but we might need to add _that_
+      // https://tools.ietf.org/html/rfc3986#section-3
+      if (/^[^:]+:\/*[^/]*$/.test(base)) {
+        baseUrls[' ' + base] = base + '/';
+      } else {
+        baseUrls[' ' + base] = base.replace(/[^/]*$/, '');
+      }
+    }
+    base = baseUrls[' ' + base];
+
+    if (href.slice(0, 2) === '//') {
+      return base.replace(/:[\s\S]*/, ':') + href;
+    } else if (href.charAt(0) === '/') {
+      return base.replace(/(:\/*[^/]*)[\s\S]*/, '$1') + href;
+    } else {
+      return base + href;
+    }
+  }
+  var baseUrls = {};
+  var originIndependentUrl = /^$|^[a-z][a-z0-9+.-]*:|^[?#]/i;
 
   function noop() {}
   noop.exec = noop;
@@ -50140,7 +50170,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     } catch (e) {
       e.message += '\nPlease report this to https://github.com/chjj/marked.';
       if ((opt || marked.defaults).silent) {
-        return '<p>An error occured:</p><pre>' + escape(e.message + '', true) + '</pre>';
+        return '<p>An error occurred:</p><pre>' + escape(e.message + '', true) + '</pre>';
       }
       throw e;
     }
@@ -50170,7 +50200,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     smartypants: false,
     headerPrefix: '',
     renderer: new Renderer(),
-    xhtml: false
+    xhtml: false,
+    baseUrl: null
   };
 
   /**
@@ -50206,7 +50237,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 1055 */
+/* 1054 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50664,4 +50695,4 @@ PostDataCollector.prototype.initKeywordTabTemplate = function () {
 exports.default = PostDataCollector;
 
 /***/ })
-],[1052]);
+],[1051]);
