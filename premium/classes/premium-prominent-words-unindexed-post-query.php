@@ -99,12 +99,16 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 *
 	 * @param string $post_type The post type to determine the endpoint for.
 	 *
-	 * @return string The endpoint.
+	 * @return string The endpoint. Returns empty string if post type doesn't exist.
 	 */
 	protected function determine_rest_endpoint_for_post_type( $post_type ) {
 		$post_type_object = get_post_type_object( $post_type );
 
-		if ( isset( $post_type_object->rest_base ) ) {
+		if ( is_null( $post_type_object ) ) {
+			return '';
+		}
+
+		if ( isset( $post_type_object->rest_base ) && $post_type_object->rest_base !== false ) {
 			return $post_type_object->rest_base;
 		}
 

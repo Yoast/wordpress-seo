@@ -25,16 +25,16 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	/**
 	 * WPSEO_Premium_Prominent_Words_Recalculation constructor.
 	 *
-	 * @param WPSEO_Premium_Prominent_Words_Unindexed_Post_Query $post_query The post query class to retrieve the unindexed posts with.
+	 * @param WPSEO_Premium_Prominent_Words_Unindexed_Post_Query $post_query              The post query class to retrieve the unindexed posts with.
 	 * @param WPSEO_Premium_Prominent_Words_Support              $prominent_words_support The prominent words support class to determine supported posts types to index.
 	 */
 	public function __construct( WPSEO_Premium_Prominent_Words_Unindexed_Post_Query $post_query, WPSEO_Premium_Prominent_Words_Support $prominent_words_support ) {
-		$this->post_query               = $post_query;
-		$this->prominent_words_support  = $prominent_words_support;
+		$this->post_query              = $post_query;
+		$this->prominent_words_support = $prominent_words_support;
 	}
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
 	 *
 	 * @return void
 	 */
@@ -118,7 +118,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			'<p id="internalLinksCalculation"><a id="openInternalLinksCalculation" href="%s" title="%s" class="%s">%s</a></p><br />',
 			esc_url( '#TB_inline?width=600&height=' . ( self::MODAL_DIALOG_HEIGHT_BASE + self::PROGRESS_BAR_HEIGHT ) . '&inlineId=wpseo_recalculate_internal_links_wrapper' ),
 			esc_attr__( 'Generate internal linking suggestions', 'wordpress-seo-premium' ),
-			'btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox',
+			esc_attr( 'btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox' ),
 			esc_html__( 'Analyze your content', 'wordpress-seo-premium' )
 		);
 	}
@@ -221,17 +221,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 
 		wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis' );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', 'yoastSiteWideAnalysisData', array( 'data' => $data ) );
-	}
-
-	/**
-	 * Counts posts that have no prominent words.
-	 *
-	 * @param string $post_type The post type to count.
-	 *
-	 * @return int The amount of posts.
-	 */
-	protected function count_unindexed_posts_by_type( $post_type ) {
-		return $this->post_query->get_total( $post_type );
 	}
 
 	/**

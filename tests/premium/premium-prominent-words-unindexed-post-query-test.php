@@ -8,7 +8,7 @@
  */
 class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Premium_Prominent_Words_Unindexed_Post_Query */
+	/** @var WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Double */
 	protected $class_instance;
 
 	/**
@@ -17,7 +17,19 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 	public function setUp() {
 		parent::setUp();
 
-		$this->class_instance = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
+		require_once WPSEO_TESTS_PATH . '/premium/doubles/premium-prominent-words-unindexed-post-query-double.php';
+
+		$this->class_instance = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Double();
+	}
+
+	/**
+	 * Remove the custom post type after each test.
+	 */
+	public function tearDown() {
+		parent::tearDown();
+
+		// Remove possibly set post type.
+		unregister_post_type( 'custom-post-type' );
 	}
 
 	/**
@@ -90,4 +102,67 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 		$this->assertEquals( 10, $this->class_instance->get_total( 'posts' ) );
 		$this->assertEquals( 8, $this->class_instance->get_total( 'pages' ) );
 	}
+
+	/**
+	 * Tests get_totals with a couple of posts present.
+	 */
+	public function test_totals() {
+		$this->factory()->post->create_many( 10 );
+		$this->factory()->post->create_many( 8, array( 'post_type' => 'page' ) );
+
+		$this->assertEquals( array( 'posts' => 10, 'pages' => 8 ), $this->class_instance->get_totals( array( 'post', 'page' ) ) );
+	}
+
+	/**
+	 * Tests determine_rest_endpoint_for_post_type.
+	 */
+	public function test_determine_rest_endpoint_default_types() {
+		$this->assertEquals( 'posts', $this->class_instance->determine_rest_endpoint_for_post_type( 'post' ) );
+		$this->assertEquals( 'pages', $this->class_instance->determine_rest_endpoint_for_post_type( 'page' ) );
+	}
+
+	public function test_determine_rest_endpoint_faulty_post_type() {
+		$this->assertEquals( '', $this->class_instance->determine_rest_endpoint_for_post_type( 'unknown' ) );
+	}
+
+	/**
+	 * Tests determine_rest_endpoint_for_post_type.
+	 */
+	public function test_determine_rest_endpoint_custom_types_without_base_set() {
+		register_post_type( 'custom-post-type',
+			array(
+				'public' => true,
+				'labels' => array( 'name' => 'custom-post-type'	),
+				'show_in_rest' => true,
+			)
+		);
+
+		$this->assertEquals( 'custom-post-type', $this->class_instance->determine_rest_endpoint_for_post_type( 'custom-post-type' ) );
+	}
+
+	/**
+	 * Tests determine_rest_endpoint_for_post_type.
+	 */
+	public function test_determine_rest_endpoint_custom_types_without_base_and_name_set() {
+		register_post_type( 'custom-post-type',	array( 'public' => true, 'show_in_rest' => true ) );
+
+		$this->assertEquals( 'custom-post-type', $this->class_instance->determine_rest_endpoint_for_post_type( 'custom-post-type' ) );
+	}
+
+	/**
+	 * Tests determine_rest_endpoint_for_post_type.
+	 */
+	public function test_determine_rest_endpoint_custom_types_with_base_set() {
+		register_post_type( 'custom-post-type',
+			array(
+				'public' => true,
+				'name' => 'custom-post-type',
+				'rest_base' => 'custom',
+				'show_in_rest' => true,
+			)
+		);
+
+		$this->assertEquals( 'custom', $this->class_instance->determine_rest_endpoint_for_post_type( 'custom-post-type' ) );
+	}
+
 }

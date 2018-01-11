@@ -69,20 +69,20 @@ function sumValues( values ) {
 /**
  * Creates a new ProminentWordCalculation object.
  *
- * @param {Object} settings The settings to use for the calculation.
+ * @param {Object} settings         The settings to use for the calculation.
  * @param {string} postTypeRestBase The endpoint to use for the REST API request.
  *
  * @returns {SiteWideCalculation} The SiteWideCalculation object.
  */
 function createProminentWordsCalculation( settings, postTypeRestBase ) {
 	return new ProminentWordCalculation( {
-		nonce:                  settings.restApi.nonce,
-		rootUrl:                settings.restApi.root,
-		totalPosts:             settings.totalPostTypeItems,
-		listEndpoint:           settings.restApi.root + "wp/v2/" + postTypeRestBase,
-		postTypeRestBase:       postTypeRestBase,
-		recalculateAll:         true,
-		allProminentWordIds:    settings.allWords,
+		nonce: settings.restApi.nonce,
+		rootUrl: settings.restApi.root,
+		totalPosts: settings.totalPostTypeItems,
+		listEndpoint: settings.restApi.root + "wp/v2/" + postTypeRestBase,
+		postTypeRestBase: postTypeRestBase,
+		recalculateAll: true,
+		allProminentWordIds: settings.allWords,
 		prominentWordCache,
 	} );
 }
