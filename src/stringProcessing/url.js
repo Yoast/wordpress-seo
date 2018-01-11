@@ -87,7 +87,7 @@ function getHostname( url ) {
  * Note that the colon (http:) is also part of the protocol, conform to node's url.parse api.
  *
  * @param {string} url The URL to retrieve the protocol of.
- * @returns {string|null} The protocol of the URL.
+ * @returns {string|null} The protocol of the URL or null if no protocol is present.
  */
 function getProtocol( url ) {
 	return urlMethods.parse( url ).protocol;
