@@ -878,7 +878,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( true ) );
 
 		$frontend
-			->expects( $this->exactly( 2 ) )
+			->expects( $this->exactly( 1 ) )
 			->method( 'get_debug_mark' );
 
 		// Enables the output buffering.
