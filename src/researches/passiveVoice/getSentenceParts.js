@@ -32,6 +32,8 @@ var followingAuxiliaryExceptionWords = [ "le", "la", "les", "une", "l'un", "l'un
 var followingAuxiliaryExceptionRegex = arrayToRegex( followingAuxiliaryExceptionWords );
 var reflexivePronounsFrench = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];
 var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
+var elisionAuxiliaryExceptionWords = [ "c'", "s'", "peut-" ];
+var elisionAuxiliaryExceptionRegex = arrayToRegex( elisionAuxiliaryExceptionWords, true );
 
 // The language-specific variables used to split sentences into sentence parts.
 var languageVariables = {
@@ -134,6 +136,27 @@ var followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
 };
 
 /**
+ * Filters auxiliaries preceded by an elided word (e.g., s') on the elisionAuxiliaryExceptionWords list.
+ *
+ * @param {string} text The text part in which to check.
+ * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
+ * @returns {Array} The filtered list of auxiliary indices.
+ */
+var elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
+	var elisionAuxiliaryExceptionMatches = getWordIndices( text, elisionAuxiliaryExceptionRegex );
+
+	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
+		if ( includesIndex( elisionAuxiliaryExceptionMatches, auxiliaryMatch.index, false ) ) {
+			auxiliaryMatches = auxiliaryMatches.filter( function( auxiliaryObject ) {
+				return auxiliaryObject.index !== auxiliaryMatch.index;
+			} );
+		}
+	} );
+
+	return auxiliaryMatches;
+};
+
+/**
  * Gets the indexes of sentence breakers (auxiliaries, stopwords and stop characters;
  * in English also active verbs) to determine sentence parts.
  * Indices are filtered because there could be duplicate matches, like "even though" and "though".
@@ -157,6 +180,8 @@ var getSentenceBreakers = function( sentence, language ) {
 		case "fr":
 			// Filters auxiliaries matched in the sentence based on a precedence exception filter.
 			auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices );
+			// Filters auxiliaries matched in the sentence based on a elision exception filter.
+			auxiliaryIndices = elisionAuxiliaryExceptionFilter( sentence, auxiliaryIndices );
 
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 			break;

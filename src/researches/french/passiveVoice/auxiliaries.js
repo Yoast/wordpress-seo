@@ -12,7 +12,6 @@ module.exports = function() {
 		"sommes",
 		"êtes",
 		"sont",
-		"c'est",
 		"n'est",
 		"n'es",
 		"n'êtes",

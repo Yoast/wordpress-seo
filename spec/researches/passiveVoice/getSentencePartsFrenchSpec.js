@@ -22,8 +22,8 @@ describe( "splits French sentences into parts", function() {
 	} );
 
 	it ( "returns sentence parts when there is a stop characters followed by a space/punctuation mark", function() {
-		var sentence = "C'est en particulier et principalement une question d'argent, a résumé le Premier ministre néerlandais Mark Rutte.";
-		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "C'est en particulier et principalement une question d'argent" );
+		var sentence = "Cela est en particulier et principalement une question d'argent, a résumé le Premier ministre néerlandais Mark Rutte.";
+		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "est en particulier et principalement une question d'argent" );
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
 	} );
 
@@ -35,6 +35,11 @@ describe( "splits French sentences into parts", function() {
 
 	it ( "doesn't return sentence parts when an auxiliary is preceded by a reflexive pronoun", function() {
 		var sentence = "Ils se sont lavés.";
+		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 0 );
+	} );
+
+	it ( "doesn't return sentence parts when an auxiliary is preceded by an elided reflexive pronoun (s')", function() {
+		var sentence = "L’emballement s'est prolongé mardi 9 janvier.";
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 0 );
 	} );
 
