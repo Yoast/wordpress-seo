@@ -6,6 +6,22 @@ describe( "getLinkType", function(){
 		expect( linkTypeFunction( "<a href='another-path'>Internal</a>", "http://example.org" ) ).toBe( "internal" );
 	} );
 
+	it( "should classify relative links with double-dot notation as internal", function () {
+		expect( linkTypeFunction( "<a href='../another-path'>Internal</a>", "http://example.org" ) ).toBe( "internal" );
+	} );
+
+	it( "should classify relative links with single-dot notation as internal", function () {
+		expect( linkTypeFunction( "<a href='./another-path'>Internal</a>", "http://example.org" ) ).toBe( "internal" );
+	} );
+
+	it( "should classify relative links with multiple directories as internal", function() {
+		expect( linkTypeFunction( "<a href='another-path/directory'>Internal</a>", "http://example.org" ) ).toBe( "internal" );
+	} );
+
+	it( "should classify relative links with double-dot notation and multiple directories as internal", function() {
+		expect( linkTypeFunction( "<a href='../another-path/directory'>Internal</a>", "http://example.org" ) ).toBe( "internal" );
+	} );
+
 	it( "should classify relative links with query params as internal", function() {
 		expect( linkTypeFunction( "<a href='another-path?test=123&another=abc'>Internal</a>", "http://example.org" ) ).toBe( "internal" );
 	} );
@@ -46,7 +62,7 @@ describe( "getLinkType", function(){
 		expect( linkTypeFunction( "<a href='ftp://yoast.com'>Internal</a>", "http://yoast.com" ) ).toBe( "other" );
 	});
 
-	it( "should classify absolute relative fragment URLs as other", function() {
+	it( "should classify relative fragment URLs as other", function() {
 		expect( linkTypeFunction( "<a href='#subheader'>Internal</a>", "http://yoast.com" ) ).toBe( "other" );
 	});
 });

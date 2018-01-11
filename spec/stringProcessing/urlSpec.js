@@ -173,6 +173,16 @@ describe( "A URL helper", function() {
 			expect( actual ).toBe( expected );
 		} );
 
+		it( "should identify a relative url with double-dot notation as an internal link", function() {
+			const urlA = "../test/abc";
+			const host = "www.google.nl";
+			const expected = true;
+
+			const actual = url.isInternalLink( urlA, host );
+
+			expect( actual ).toBe( expected );
+		} );
+
 		it( "should identify a link as external when it contains a different origin", function() {
 			const urlA = "http://www.google.nl";
 			const host = "www.abc.nl";
