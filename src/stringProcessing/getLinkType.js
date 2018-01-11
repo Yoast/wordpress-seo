@@ -1,28 +1,32 @@
 /** @module stringProcess/getLinkType */
 
-var urlHelper = require( "./url" );
+const urlHelper = require( "./url" );
 
 /**
  * Determines the type of link.
  *
  * @param {string} text String with anchor tag.
- * @param {string} url Url to match against.
+ * @param {string} url URL to match against.
  * @returns {string} The link type (other, external or internal).
  */
 
 module.exports = function( text, url ) {
-	var linkType = "other";
+	const anchorUrl = urlHelper.getFromAnchorTag( text );
 
-	var anchorUrl = urlHelper.getFromAnchorTag( text );
-
-	// Matches all links that start with http:// and https://, case insensitive and global
-	if ( anchorUrl.match( /https?:\/\//ig ) !== null ) {
-		linkType = "external";
-
-		if ( urlHelper.getHostname( anchorUrl ) === urlHelper.getHostname( url ) ) {
-			linkType = "internal";
-		}
+	/**
+	 * A link is "Other" if:
+	 * - The protocol is neither null, nor http, nor https.
+	 * - The link is a relative fragment URL (starts with #), because it won't navigate to another page.
+	 */
+	const protocol = urlHelper.getProtocol( anchorUrl );
+	if ( protocol && ! urlHelper.protocolIsHttpScheme( protocol ) ||
+		urlHelper.isRelativeFragmentURL( anchorUrl ) ) {
+		return "other";
 	}
 
-	return linkType;
+	if ( urlHelper.isInternalLink( anchorUrl, urlHelper.getHostname( url ) ) ) {
+		return "internal";
+	}
+
+	return "external";
 };
