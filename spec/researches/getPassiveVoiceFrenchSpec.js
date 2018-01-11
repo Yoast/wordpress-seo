@@ -207,7 +207,7 @@ describe( "detecting passive voice in sentences", function() {
 	});
 
 	it( "returns active voice with an être-auxiliary that's marked as non-passive by an elision precedence exception.", function() {
-		// Elision precedence exception word: 's.
+		// Elision precedence exception word: s'.
 		var paper = new Paper( "Il s'est lavé.", { locale: "fr_FR" } );
 		expect( passiveVoice( paper ).passives.length).toBe( 0 );
 	});

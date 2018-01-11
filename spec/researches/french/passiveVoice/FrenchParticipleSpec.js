@@ -80,6 +80,7 @@ describe( "A test for checking the French participle", function() {
 	});
 
 	it( "checks the properties of the French participle object with a direct precedence exception", function() {
+		// Direct precedence exception word: en.
 		let mockParticiple = new FrenchParticiple( "vue", "C'est en vue.", { auxiliaries: [ "c'est" ], type: "irregular" } );
 		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 9 ) ).toBe( true );
 		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 9 ) ).toBe( false );
@@ -87,6 +88,7 @@ describe( "A test for checking the French participle", function() {
 	});
 
 	it( "checks the properties of the French participle object with a precedence exception (indirectly preceding)", function() {
+		// Precedence exception word: avoir (in between "n'est" and "vu").
 		let mockParticiple = new FrenchParticiple( "vu", "n'est pas possible de l'avoir déjà vu.", { auxiliaries: [ "n'est" ], type: "irregular" } );
 		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 35 ) ).toBe( false );
 		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 35 ) ).toBe( true );
@@ -94,6 +96,7 @@ describe( "A test for checking the French participle", function() {
 	});
 
 	it( "checks the properties of the French participle object with a precedence exception (directly preceding)", function() {
+		// Precedence exception word: avoir (in between "n'est" and "vu").
 		let mockParticiple = new FrenchParticiple( "vu", "n'est pas nécessaire d'avoir vu le premier film", { auxiliaries: [ "n'est" ], type: "irregular" } );
 		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 29 ) ).toBe( false );
 		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 29 ) ).toBe( true );
