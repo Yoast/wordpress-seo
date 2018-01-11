@@ -394,7 +394,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the parsing of the target url.
 	 *
-	 * @param string $unformatted_target The unformatted (given) target
+	 * @param string $unformatted_target The unformatted (given) target.
 	 * @param string $formatted_target   The formatted (expected) target.
 	 *
 	 * @dataProvider target_url_provider
@@ -845,7 +845,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $class_instance->load_php_redirects() );
 	}
 
-	/********************** Data Providers **********************/
+	/* ********************* Data Providers ********************* */
 
 	/**
 	 * Provider for the default (normal) redirects.
