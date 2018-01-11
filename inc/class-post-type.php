@@ -62,4 +62,21 @@ class WPSEO_Post_Type {
 
 		return $post_types;
 	}
+
+	/**
+	 * Checks if the post type is enabled in the REST API.
+	 *
+	 * @param string $post_type The post type to check.
+	 *
+	 * @return bool Whether or not the post type is available in the REST API.
+	 */
+	public static function is_rest_enabled( $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
+
+		if ( is_null( $post_type_object ) ) {
+			return false;
+		}
+
+		return $post_type_object->show_in_rest === true;
+	}
 }
