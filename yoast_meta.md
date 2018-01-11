@@ -1,5 +1,9 @@
 # Todo
 
+Does the `vendor_prefixed` content need to be committed in the repository?
+It -does- need to be shipped in the artifact.
+the `vendor_prefixed` folder should exist for the autoloader to be able to run without running prefix-depedencenies first.
+
 ---- Tests -----
 
 ## Tests
