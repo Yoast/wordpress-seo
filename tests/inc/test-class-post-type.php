@@ -188,7 +188,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests whether or not a (custom) post types are enabled in the REST API.
+	 * Tests whether or (custom) post types are enabled in the REST API.
 	 *
 	 * @covers WPSEO_Post_Type::is_rest_enabled()
 	 */
