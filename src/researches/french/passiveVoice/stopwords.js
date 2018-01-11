@@ -1,5 +1,7 @@
 module.exports = function() {
 	return [
+		"et",
+		"ou",
 		"car",
 		"or",
 		"puisque",

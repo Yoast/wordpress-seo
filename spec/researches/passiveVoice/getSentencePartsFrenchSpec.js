@@ -22,8 +22,8 @@ describe( "splits French sentences into parts", function() {
 	} );
 
 	it ( "returns sentence parts when there is a stop characters followed by a space/punctuation mark", function() {
-		var sentence = "Cela est en particulier et principalement une question d'argent, a résumé le Premier ministre néerlandais Mark Rutte.";
-		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "est en particulier et principalement une question d'argent" );
+		var sentence = "Cela est en particulier une question d'argent, a résumé le Premier ministre néerlandais Mark Rutte.";
+		expect( getSentenceParts( sentence, "fr" )[ 0 ].getSentencePartText() ).toBe( "est en particulier une question d'argent" );
 		expect( getSentenceParts( sentence, "fr" ).length ).toBe( 1 );
 	} );
 
