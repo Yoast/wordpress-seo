@@ -766,7 +766,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function get_site_name() {
-		return trim( strip_tags( get_bloginfo( 'name' ) ) );
+		return wp_strip_all_tags( get_bloginfo( 'name' ), true );
 	}
 
 	/**
