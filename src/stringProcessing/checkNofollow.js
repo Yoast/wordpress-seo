@@ -17,7 +17,7 @@ module.exports = function( anchorHTML ) {
 		 * Detects if there is a `nofollow` argument value in the `rel` argument of a link.
 		 *
 		 * @param {string} tagName The tag name.
-		 * @param {object} attributes  The attribute with the keys and values of the tag.
+		 * @param {object} attributes The attribute with the keys and values of the tag.
 		 * @returns {void}
 		 */
 		onopentag: function( tagName, attributes ) {
