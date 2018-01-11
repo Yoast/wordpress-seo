@@ -344,15 +344,15 @@ class WPSEO_Frontend {
 		$title = preg_replace( $regex, '', $title );
 
 		if ( ! is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
-			$title = get_bloginfo( 'name' );
+			$title = WPSEO_Utils::get_site_name();
 			$title = $this->add_paging_to_title( $sep, $seplocation, $title );
-			$title = $this->add_to_title( $sep, $seplocation, $title, strip_tags( get_bloginfo( 'description' ) ) );
+			$title = $this->add_to_title( $sep, $seplocation, $title, wp_strip_all_tags( get_bloginfo( 'description' ), true ) );
 
 			return $title;
 		}
 
 		$title = $this->add_paging_to_title( $sep, $seplocation, $title );
-		$title = $this->add_to_title( $sep, $seplocation, $title, strip_tags( get_bloginfo( 'name' ) ) );
+		$title = $this->add_to_title( $sep, $seplocation, $title, wp_strip_all_tags( get_bloginfo( 'name' ), true ) );
 
 		return $title;
 	}
@@ -574,7 +574,7 @@ class WPSEO_Frontend {
 		 * @api string $title The page title being put out.
 		 */
 
-		return esc_html( strip_tags( stripslashes( apply_filters( 'wpseo_title', $title ) ) ) );
+		return esc_html( wp_strip_all_tags( stripslashes( apply_filters( 'wpseo_title', $title ) ), true ) );
 	}
 
 	/**
@@ -1237,7 +1237,7 @@ class WPSEO_Frontend {
 		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // More appropriately named.
 
 		if ( is_string( $keywords ) && $keywords !== '' ) {
-			echo '<meta name="keywords" content="', esc_attr( strip_tags( stripslashes( $keywords ) ) ), '"/>', "\n";
+			echo '<meta name="keywords" content="', esc_attr( wp_strip_all_tags( stripslashes( $keywords ), true ) ), '"/>', "\n";
 		}
 	}
 
@@ -1255,7 +1255,7 @@ class WPSEO_Frontend {
 
 		if ( $echo !== false ) {
 			if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
-				echo '<meta name="description" content="', esc_attr( strip_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
+				echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
 			}
 			elseif ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
 				echo '<!-- ', esc_html__( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
@@ -1822,11 +1822,12 @@ class WPSEO_Frontend {
 
 		// Only replace the debug marker when it is hooked.
 		if ( $this->show_debug_marker() ) {
-			$title = $this->title( '' );
+			$title      = $this->title( '' );
+			$debug_mark = $this->get_debug_mark();
 
 			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
 			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
-			$content = str_replace( $this->get_debug_mark(), $this->get_debug_mark() . "\n" . '<title>' . $title . '</title>', $content );
+			$content = str_replace( $debug_mark, $debug_mark . "\n" . '<title>' . esc_html( $title ) . '</title>', $content );
 		}
 
 		$GLOBALS['wp_query'] = $old_wp_query;
