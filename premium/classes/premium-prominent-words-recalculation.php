@@ -71,9 +71,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			return;
 		}
 
-		$height = $this->get_modal_height( count( $total_items ) );
-
-		echo $this->generate_internal_link_calculation_interface( $height );
+		echo $this->generate_internal_link_calculation_interface();
 	}
 
 	/**
@@ -113,14 +111,12 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	/**
 	 * Generates the HTML interface for the recalculation.
 	 *
-	 * @param int $height The height to apply to the recalculation interface.
-	 *
 	 * @return string The HTML representation of the interface.
 	 */
-	protected function generate_internal_link_calculation_interface( $height ) {
+	protected function generate_internal_link_calculation_interface() {
 		return sprintf(
 			'<p id="internalLinksCalculation"><a id="openInternalLinksCalculation" href="%s" title="%s" class="%s">%s</a></p><br />',
-			esc_url( '#TB_inline?width=600&height=' . $height . '&inlineId=wpseo_recalculate_internal_links_wrapper' ),
+			esc_url( '#TB_inline?width=600&height=' . ( self::MODAL_DIALOG_HEIGHT_BASE + self::PROGRESS_BAR_HEIGHT ) . '&inlineId=wpseo_recalculate_internal_links_wrapper' ),
 			esc_attr__( 'Generate internal linking suggestions', 'wordpress-seo-premium' ),
 			'btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox',
 			esc_html__( 'Analyze your content', 'wordpress-seo-premium' )
@@ -165,7 +161,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					<div id="wpseo_internal_links_unindexed_progressbar" class="wpseo-progressbar"></div>
 					<p><?php echo $progress; ?></p>
 				<?php else : ?>
-					<p><?php esc_html_e( 'Everything is already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
+					<p><?php esc_html_e( 'Everything is already indexed. There is no need to recalculate anything.', 'wordpress-seo-premium' ); ?></p>
 				<?php endif; ?>
 			</div>
 
@@ -208,18 +204,18 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		$all_items = $this->post_query->get_totals( $this->prominent_words_support->get_supported_post_types() );
 
 		$data = array(
-			'allWords' => get_terms( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME, array( 'fields' => 'ids' ) ),
-			'allItems' => $all_items,
-			'totalItems' => array_sum( $all_items ),
-			'restApi' => array(
-				'root' => esc_url_raw( rest_url() ),
+			'allWords'      => get_terms( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME, array( 'fields' => 'ids' ) ),
+			'allItems'      => $all_items,
+			'totalItems'    => array_sum( $all_items ),
+			'message'       => array( 'analysisCompleted' => $this->messageAlreadyIndexed() ),
+			'restApi'       => array(
+				'root'  => esc_url_raw( rest_url() ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 			),
-			'message' => array( 'analysisCompleted' => $this->messageAlreadyIndexed() ),
-			'l10n' => array(
+			'l10n'          => array(
 				'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo-premium' ),
-				'calculationCompleted' => __( 'Calculation completed.', 'wordpress-seo-premium' ),
-				'contentLocale' => get_locale(),
+				'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo-premium' ),
+				'contentLocale'         => get_locale(),
 			),
 		);
 
@@ -236,21 +232,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 */
 	protected function count_unindexed_posts_by_type( $post_type ) {
 		return $this->post_query->get_total( $post_type );
-	}
-
-	/**
-	 * Calculates the total height of the modal.
-	 *
-	 * @param int $total_items The total amount of items.
-	 *
-	 * @return int The calculated height.
-	 */
-	protected function get_modal_height( $total_items ) {
-		if ( $total_items > 0 ) {
-			return ( self::MODAL_DIALOG_HEIGHT_BASE + self::PROGRESS_BAR_HEIGHT );
-		}
-
-		return self::MODAL_DIALOG_HEIGHT_BASE;
 	}
 
 	/**
