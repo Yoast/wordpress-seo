@@ -3,13 +3,13 @@ var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullT
 var getLanguage = require( "../helpers/getLanguage.js" );
 var Sentence = require( "../values/Sentence.js" );
 
-// English.
-var getSentencePartsEnglish = require( "./english/getSentenceParts.js" );
-var determinePassivesEnglish = require( "./english/determinePassives.js" );
+// English and French.
+var getSentencePartsDefault = require( "./passiveVoice/getSentenceParts.js" );
+var determinePassivesDefault = require( "./passiveVoice/determinePassives" );
 
 // German.
-var getSentencePartsGerman = require( "./german/getSentenceParts.js" );
-var determinePassivesGerman = require( "./german/determinePassives.js" );
+var getSentencePartsGerman = require( "./german/passiveVoice/getSentenceParts.js" );
+var determinePassivesGerman = require( "./german/passiveVoice/determinePassives.js" );
 
 var forEach = require( "lodash/forEach" );
 
@@ -27,9 +27,12 @@ var getSentenceParts = function( sentence, language ) {
 		case "de":
 			sentenceParts = getSentencePartsGerman( sentence );
 			break;
+		case "fr":
+			sentenceParts = getSentencePartsDefault( sentence, "fr" );
+			break;
 		case "en":
 		default:
-			sentenceParts = getSentencePartsEnglish( sentence );
+			sentenceParts = getSentencePartsDefault( sentence, "en" );
 			break;
 	}
 	return sentenceParts;
@@ -47,9 +50,12 @@ var determinePassives = function( sentencePart, language ) {
 		case "de":
 			sentencePart.setPassive( determinePassivesGerman( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries() ) );
 			break;
+		case "fr":
+			sentencePart.setPassive( determinePassivesDefault( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "fr" ) );
+			break;
 		case "en":
 		default:
-			sentencePart.setPassive( determinePassivesEnglish( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries() ) );
+			sentencePart.setPassive( determinePassivesDefault( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "en" ) );
 			break;
 	}
 };
