@@ -114,19 +114,28 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 	}
 
 	/**
-	 * Tests determine_rest_endpoint_for_post_type.
+	 * Tests determine_rest_endpoint_for_post_type for default types.
+	 *
+	 * @covers WPSEO_Premium_Prominent_Words_Unindexed_Post_Query::determine_rest_endpoint_for_post_type()
 	 */
 	public function test_determine_rest_endpoint_default_types() {
 		$this->assertEquals( 'posts', $this->class_instance->determine_rest_endpoint_for_post_type( 'post' ) );
 		$this->assertEquals( 'pages', $this->class_instance->determine_rest_endpoint_for_post_type( 'page' ) );
 	}
 
+	/**
+	 * Tests determine_rest_endpoint_for_post_type for unknown types.
+	 *
+	 * @covers WPSEO_Premium_Prominent_Words_Unindexed_Post_Query::determine_rest_endpoint_for_post_type()
+	 */
 	public function test_determine_rest_endpoint_faulty_post_type() {
 		$this->assertEquals( '', $this->class_instance->determine_rest_endpoint_for_post_type( 'unknown' ) );
 	}
 
 	/**
-	 * Tests determine_rest_endpoint_for_post_type.
+	 * Tests determine_rest_endpoint_for_post_type for custom type without a rest_base being set.
+	 *
+	 * @covers WPSEO_Premium_Prominent_Words_Unindexed_Post_Query::determine_rest_endpoint_for_post_type()
 	 */
 	public function test_determine_rest_endpoint_custom_types_without_base_set() {
 		register_post_type( 'custom-post-type',
@@ -141,7 +150,9 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 	}
 
 	/**
-	 * Tests determine_rest_endpoint_for_post_type.
+	 * Tests determine_rest_endpoint_for_post_type for custom type where no rest_base and name is set.
+	 *
+	 * @covers WPSEO_Premium_Prominent_Words_Unindexed_Post_Query::determine_rest_endpoint_for_post_type()
 	 */
 	public function test_determine_rest_endpoint_custom_types_without_base_and_name_set() {
 		register_post_type( 'custom-post-type',	array( 'public' => true, 'show_in_rest' => true ) );
@@ -150,7 +161,9 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 	}
 
 	/**
-	 * Tests determine_rest_endpoint_for_post_type.
+	 * Tests determine_rest_endpoint_for_post_type for custom types where the rest_base is set.
+	 *
+	 * @covers WPSEO_Premium_Prominent_Words_Unindexed_Post_Query::determine_rest_endpoint_for_post_type()
 	 */
 	public function test_determine_rest_endpoint_custom_types_with_base_set() {
 		register_post_type( 'custom-post-type',
