@@ -32,4 +32,10 @@ describe( "splits Spanish sentences into parts", function() {
 		expect( getSentenceParts( sentence, "es" )[ 0 ].getSentencePartText() ).toBe( "será Navidad en 2,5 semanas." );
 		expect( getSentenceParts( sentence, "es" ).length ).toBe( 1 );
 	} );
+
+	it ( "doesn't return sentence parts when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
+		// Exception word after auxiliary: el.
+		var sentence = "Es el capítulo preferido de varios miembros del equipo de producción";
+		expect( getSentenceParts( sentence, "es" ).length ).toBe( 0 );
+	} );
 } );
