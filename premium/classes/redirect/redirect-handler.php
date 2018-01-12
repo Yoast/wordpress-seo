@@ -154,7 +154,7 @@ class WPSEO_Redirect_Handler {
 		$redirect_url = $this->find_url( $request_url );
 		if ( ! empty( $redirect_url ) ) {
 			$this->is_redirected = true;
-			$this->do_redirect( $this->redirect_url( $redirect_url['url'] ), $redirect_url['type'] );
+			$this->do_redirect( $redirect_url['url'], $redirect_url['type'] );
 		}
 	}
 
@@ -199,7 +199,8 @@ class WPSEO_Redirect_Handler {
 				$this,
 				'format_regex_redirect_url',
 			), $redirect['url'] );
-			$this->do_redirect( $this->redirect_url( $redirect_url ), $redirect['type'] );
+
+			$this->do_redirect( $redirect_url, $redirect['type'] );
 		}
 
 		// Reset url_matches.
