@@ -336,7 +336,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return bool|string The found url or false if not found.
 	 */
-	private function find_url( $url ) {
+	protected function find_url( $url ) {
 		$redirect_url = $this->search( $url );
 		if ( ! empty( $redirect_url ) ) {
 			return $redirect_url;
@@ -352,7 +352,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return string|bool The found url or false if not found.
 	 */
-	private function search( $url ) {
+	protected function search( $url ) {
 		if ( ! empty( $this->redirects[ $url ] ) ) {
 			return $this->redirects[ $url ];
 		}
@@ -371,7 +371,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return bool|string The found url or false if not found.
 	 */
-	private function find_url_fallback( $url ) {
+	protected function find_url_fallback( $url ) {
 		$no_trailing_slash = rtrim( $url, '/' );
 
 		$checks = array(
