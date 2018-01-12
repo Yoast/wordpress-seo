@@ -195,48 +195,6 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provider for the default redirects.
-	 *
-	 * @returns array List with redirects.
-	 */
-	public function normal_redirect_provider() {
-		return array(
-			array(
-				'example-page',
-				new WPSEO_Redirect( 'example-page', '/', 301 ),
-			),
-			array(
-				'some url with spaces',
-				new WPSEO_Redirect( 'some url with spaces', '/', 301 ),
-			),
-
-			array(
-				'דף לדוגמה',
-				new WPSEO_Redirect( 'דף לדוגמה', '/', 301 ),
-			),
-
-			// For reference, see: https://github.com/Yoast/wordpress-seo-premium/issues/1451.
-			array(
-				'Cellgevity%20support',
-				new WPSEO_Redirect( 'Cellgevity support', '/', 301 ),
-			),
-			array(
-				'Cellgevity support',
-				new WPSEO_Redirect( 'Cellgevity%20support', '/', 301 ),
-			),
-			// For reference, see: https://github.com/Yoast/wordpress-seo-premium/issues/758.
-			array(
-				'jaarverslagen/2009/Jaarverslag 2009.pdf',
-				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag%202009.pdf', '/', 301 ),
-			),
-			array(
-				'jaarverslagen/2009/Jaarverslag%202009.pdf',
-				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag 2009.pdf', '/', 301 ),
-			),
-		);
-	}
-
-	/**
 	 * Testing a regex redirect that will match the request URI.
 	 *
 	 * @covers WPSEO_Redirect_Handler::match_regex_redirect()
@@ -345,4 +303,47 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 		delete_option( 'wpseo_redirect' );
 	}
+
+	/**
+	 * Provider for the default (normal) redirects.
+	 *
+	 * @returns array List with redirects.
+	 */
+	public function normal_redirect_provider() {
+		return array(
+			array(
+				'example-page',
+				new WPSEO_Redirect( 'example-page', '/', 301 ),
+			),
+			array(
+				'some url with spaces',
+				new WPSEO_Redirect( 'some url with spaces', '/', 301 ),
+			),
+
+			array(
+				'דף לדוגמה',
+				new WPSEO_Redirect( 'דף לדוגמה', '/', 301 ),
+			),
+
+			// For reference, see: https://github.com/Yoast/wordpress-seo-premium/issues/1451.
+			array(
+				'Cellgevity%20support',
+				new WPSEO_Redirect( 'Cellgevity support', '/', 301 ),
+			),
+			array(
+				'Cellgevity support',
+				new WPSEO_Redirect( 'Cellgevity%20support', '/', 301 ),
+			),
+			// For reference, see: https://github.com/Yoast/wordpress-seo-premium/issues/758.
+			array(
+				'jaarverslagen/2009/Jaarverslag 2009.pdf',
+				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag%202009.pdf', '/', 301 ),
+			),
+			array(
+				'jaarverslagen/2009/Jaarverslag%202009.pdf',
+				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag 2009.pdf', '/', 301 ),
+			),
+		);
+	}
+
 }
