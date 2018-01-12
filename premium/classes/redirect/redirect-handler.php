@@ -9,6 +9,16 @@
 class WPSEO_Redirect_Handler {
 
 	/**
+	 * @var array Array where there redirects will stored.
+	 */
+	protected $redirects;
+
+	/**
+	 * @var array The matches parts of the URL in case of a matched regex redirect.
+	 */
+	protected $url_matches = array();
+
+	/**
 	 * @var string The options where the URL redirects are stored.
 	 */
 	private $normal_option_name = 'wpseo-premium-redirects-export-plain';
@@ -22,16 +32,6 @@ class WPSEO_Redirect_Handler {
 	 * @var string The URL that is called at the moment.
 	 */
 	private $request_url = '';
-
-	/**
-	 * @var array Array where there redirects will stored.
-	 */
-	private $redirects;
-
-	/**
-	 * @var array The matches parts of the URL in case of a matched regex redirect.
-	 */
-	private $url_matches = array();
 
 	/**
 	 * @var string Sets the error template to include.
@@ -155,6 +155,7 @@ class WPSEO_Redirect_Handler {
 		// Get the URL and doing the redirect.
 		$redirect_url = $this->find_url( $request_url );
 		if ( ! empty( $redirect_url ) ) {
+			$this->is_redirected = true;
 			$this->do_redirect( $this->redirect_url( $redirect_url['url'] ), $redirect_url['type'] );
 		}
 	}
@@ -222,8 +223,6 @@ class WPSEO_Redirect_Handler {
 	 * @return void
 	 */
 	protected function do_redirect( $redirect_url, $redirect_type ) {
-
-		$this->is_redirected = true;
 
 		if ( 410 === $redirect_type ) {
 			add_action( 'wp', array( $this, 'do_410' ) );
@@ -333,7 +332,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return void
 	 */
-	private function set_request_url() {
+	protected function set_request_url() {
 		$this->request_url = $this->get_request_uri();
 	}
 
