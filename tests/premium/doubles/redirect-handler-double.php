@@ -66,4 +66,38 @@ class WPSEO_Redirect_Handler_Double extends WPSEO_Redirect_Handler {
 	public function set_url_matches( array $matches ) {
 		$this->url_matches = $matches;
 	}
+
+	/**
+	 * Gets the redirects from the options.
+	 *
+	 * @param string $option The option name that wil be fetched.
+	 *
+	 * @return array Returns the redirects for the given option.
+	 */
+	public function get_redirects( $option ) {
+		return parent::get_redirects( $option );
+	}
+
+	/**
+	 * Parses the target URL.
+	 *
+	 * @param string $target_url The URL to parse. When there isn't found a scheme, just parse it based on the home URL.
+	 *
+	 * @return string The parsed url.
+	 */
+	public function parse_target_url( $target_url ) {
+		return parent::parse_target_url( $target_url );
+	}
+
+	/**
+	 * Performs the redirect.
+	 *
+	 * @param string $redirect_url  The target URL.
+	 * @param string $redirect_type The type of the redirect.
+	 *
+	 * @return void
+	 */
+	public function do_redirect( $redirect_url, $redirect_type ) {
+		parent::do_redirect( $redirect_url, $redirect_type );
+	}
 }

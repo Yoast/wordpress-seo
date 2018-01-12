@@ -5,6 +5,7 @@
 
 /**
  * Test class for testing the redirect handler.
+ * @group redirects
  */
 class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
@@ -127,6 +128,206 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if the 410 page is loaded correctly.
+	 *
+	 * @covers WPSEO_Redirect_Handler::do_410()
+	 */
+	public function test_do_410() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler' )
+			->setMethods( array( 'set_404', 'status_header' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'set_404' );
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'status_header' )
+			->with( $this->identicalTo( 410 ) );
+
+		/** @var WPSEO_Redirect_Handler $redirect_handler */
+		$redirect_handler->do_410();
+	}
+
+	/**
+	 * Tests if the 451 is loaded correctly, with a template file being present.
+	 *
+	 * @covers WPSEO_Redirect_Handler::do_451()
+	 */
+	public function test_do_451() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler' )
+			->setMethods( array( 'set_404', 'set_template_include_hook', 'status_header' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'set_template_include_hook' )
+			->will( $this->returnValue( true ) );
+
+		$redirect_handler
+			->expects( $this->never() )
+			->method( 'set_404' );
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'status_header' )
+			->with( $this->identicalTo( 451, 'Unavailable For Legal Reasons' ) );
+
+		/** @var WPSEO_Redirect_Handler $redirect_handler */
+		$redirect_handler->do_451();
+	}
+
+	/**
+	 * Tests if the 451 is loaded correctly, without a template file being present.
+	 *
+	 * @covers WPSEO_Redirect_Handler::do_451()
+	 */
+	public function test_do_451_without_a() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler' )
+			->setMethods( array( 'set_404', 'set_template_include_hook', 'status_header' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'set_template_include_hook' )
+			->will( $this->returnValue( false ) );
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'set_404' );
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'status_header' )
+			->with( $this->identicalTo( 451, 'Unavailable For Legal Reasons' ) );
+
+		/** @var WPSEO_Redirect_Handler $redirect_handler */
+		$redirect_handler->do_451();
+	}
+
+	/**
+	 * Tests setting the page as a 404 one.
+	 *
+	 * @covers WPSEO_Redirect_Handler::set_404()
+	 */
+	public function test_set_404() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler' )
+			->setMethods( array( 'get_wp_query' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'get_wp_query' )
+			->will( $this->returnValue( new stdClass() ) );
+
+		/** @var WPSEO_Redirect_Handler $redirect_handler */
+		$redirect_handler->set_404();
+	}
+
+	/**
+	 * @group test
+	 *
+	 * @covers WPSEO_Redirect_Handler::get_redirects()
+	 */
+	public function test_get_redirects(  ) {
+		$redirects = array(
+			'wpseo-premium-redirects-export-plain' => array(
+				'normal/redirect/' => array(
+					'url'  => '/',
+					'type' => 403,
+				),
+			),
+			'wpseo-premium-redirects-export-regex' => array(
+				'(regex)/redirect/' => array(
+					'url'  => '/',
+					'type' => 403,
+				),
+			),
+		);
+
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'get_redirects_from_options' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->exactly( 3 ) )
+			->method( 'get_redirects_from_options' )
+			->will( $this->returnValue( $redirects ) );
+
+		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
+		$this->assertEquals(
+			$redirects['wpseo-premium-redirects-export-plain'],
+			$redirect_handler->get_redirects( 'wpseo-premium-redirects-export-plain' )
+		);
+
+		$this->assertEquals(
+			$redirects['wpseo-premium-redirects-export-regex'],
+			$redirect_handler->get_redirects( 'wpseo-premium-redirects-export-regex' )
+		);
+
+		$this->assertEquals(
+			array(),
+			$redirect_handler->get_redirects( 'wpseo-premium-redirects-export-non-existing' )
+		);
+	}
+
+	/**
+	 * Provides an array with target urls to test.
+	 *
+	 * Format:
+	 * [0] string Unformatted target
+	 * [1] string Formatted target
+	 *
+	 * @return array
+	 */
+	public function target_url_provider() {
+		$home_url = home_url();
+
+		return array(
+			array( '/test/page' , $home_url . '/test/page' ),
+			array( 'http://external.org/' , 'http://external.org/' ),
+			array( 'no-slash' , 'no-slash' ),
+		);
+	}
+
+	/**
+	 * Tests the parsing of the target url.
+	 *
+	 * @param string $unformatted_target The unformatted (given) target
+	 * @param string $formatted_target   The formatted (expected) target.
+	 *
+	 * @dataProvider target_url_provider
+	 *
+	 * @covers WPSEO_Redirect_Handler::parse_target_url()
+	 */
+	public function test_parse_target_url( $unformatted_target, $formatted_target ) {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'maybe_trailingslashit', 'maybe_format_for_multisite' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->any() )
+			->method( 'maybe_trailingslashit' )
+			->will( $this->returnArgument( 0 ) );
+
+		$redirect_handler
+			->expects( $this->any() )
+			->method( 'maybe_format_for_multisite' )
+			->will( $this->returnArgument( 0 ) );
+
+		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
+		$this->assertEquals( $formatted_target, $redirect_handler->parse_target_url( $unformatted_target ) );
+	}
+
+
+	/**
 	 * Tests the formatting of a regex redirect url with an actual match.
 	 *
 	 * @covers WPSEO_Redirect_Handler::format_regex_redirect_url()
@@ -237,6 +438,46 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Redirect_Handler_Double $class_instance */
 		$class_instance->set_request_url();
 		$class_instance->handle_regex_redirects();
+	}
+
+	/**
+     * @covers WPSEO_Redirect_Handler::do_redirect()
+	 */
+	public function test_do_redirect_for_a_451_redirect() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'handle_targetless_redirect', 'add_redirect_by_header', 'redirect' ) )
+			->getMock();
+
+		$redirect_handler->expects( $this->once() )->method( 'handle_targetless_redirect' );
+		$redirect_handler->expects( $this->never() )->method( 'add_redirect_by_header' );
+		$redirect_handler->expects( $this->never() )->method( 'redirect' );
+
+		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
+		$redirect_handler->do_redirect( 'target', 451 );
+	}
+	/**
+     * @covers WPSEO_Redirect_Handler::do_redirect()
+	 */
+	public function test_do_redirect_for_a_redirect_with_target() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'add_redirect_by_header', 'redirect', 'parse_target_url' ) )
+			->getMock();
+
+		$redirect_handler->expects( $this->once() )->method( 'add_redirect_by_header' );
+		$redirect_handler
+			->expects( $this->once() )
+			->will( $this->returnArgument( 0 ) )
+			->method( 'parse_target_url' );
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'redirect' )
+			->with( $this->identicalTo( 'target' ), $this->identicalTo( 301 ) );
+
+		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
+		$redirect_handler->do_redirect( 'target', 301 );
 	}
 
 	/**
