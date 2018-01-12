@@ -214,14 +214,10 @@ class WPSEO_Redirect_Handler {
 	 * @return array Returns the redirects for the given option.
 	 */
 	protected function get_redirects( $option ) {
-		static $redirects;
-
-		if ( $redirects === null ) {
-			$redirects = $this->get_redirects_from_options();
-		}
+		$redirects = $this->get_redirects_from_options();
 
 		if ( ! empty( $redirects[ $option ] ) ) {
-			return maybe_unserialize( $redirects[ $option ] );
+			return $redirects[ $option ];
 		}
 
 		return array();
@@ -480,7 +476,13 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return array The stored redirects.
 	 */
-	private function get_redirects_from_options() {
+	protected function get_redirects_from_options() {
+		static $redirects;
+
+		if ( $redirects !== null ) {
+			return $redirects;
+		}
+
 		global $wpdb;
 
 		$redirects = array();
@@ -494,7 +496,7 @@ class WPSEO_Redirect_Handler {
 			)
 		);
 		foreach ( $results as $result ) {
-			$redirects[ $result->option_name ] = $result->option_value;
+			$redirects[ $result->option_name ] = maybe_unserialize( $result->option_value );
 		}
 
 		return $redirects;
