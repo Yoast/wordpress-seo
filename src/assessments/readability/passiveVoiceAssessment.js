@@ -19,17 +19,15 @@ var availableLanguages = [ "en", "de" ];
  */
 var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	var score;
-
-	var percentage = ( passiveVoice.passives.length / passiveVoice.total ) * 100;
-	percentage = formatNumber( percentage );
-
-	if ( isNaN( percentage ) ) {
-		throw "Percentage is not a valid number!";
-	}
-
+	var percentage = 0;
 	var recommendedValue = 10;
 	var passiveVoiceURL = "<a href='https://yoa.st/passive-voice' target='_blank'>";
 	var hasMarks = ( percentage > 0 );
+
+	// Prevent division by zero errors.
+	if ( passiveVoice.total !== 0 ) {
+		percentage = formatNumber( ( passiveVoice.passives.length / passiveVoice.total ) * 100 );
+	}
 
 	if ( percentage <= 10 ) {
 		// Green indicator.
