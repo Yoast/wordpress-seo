@@ -234,7 +234,7 @@ class WPSEO_Redirect_Handler {
 	 */
 	protected function do_redirect( $redirect_url, $redirect_type ) {
 		$targetless_redirects = array( 410, 451 );
-		if ( in_array(  $redirect_type, $targetless_redirects, true ) ) {
+		if ( in_array( $redirect_type, $targetless_redirects, true ) ) {
 			$this->handle_targetless_redirect( $redirect_type );
 
 			return;
@@ -590,7 +590,7 @@ class WPSEO_Redirect_Handler {
 			require_once ABSPATH . 'wp-includes/pluggable.php';
 		}
 
-		wp_redirect( $location, $status);
+		wp_redirect( $location, $status );
 		exit;
 	}
 }

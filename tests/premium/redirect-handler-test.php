@@ -444,7 +444,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
 		$redirect_handler->do_redirect( 'target', 451 );
 	}
-	
+
 	/**
 	 * Tests the formatting of a regex redirect url with an actual match.
 	 *
