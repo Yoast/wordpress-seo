@@ -5,7 +5,9 @@
 
 /**
  * Test class for testing the redirect handler.
+ *
  * @group redirects
+ * @group 5.3
  */
 class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
@@ -185,7 +187,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Handler::do_451()
 	 */
-	public function test_do_451_without_a() {
+	public function test_do_451_without_a_template_file() {
 		$redirect_handler = $this
 			->getMockBuilder( 'WPSEO_Redirect_Handler' )
 			->setMethods( array( 'set_404', 'set_template_include_hook', 'status_header' ) )
@@ -230,11 +232,49 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @group test
+	 * Tests the normalization of the redirects.
+	 *
+	 * @covers WPSEO_Redirect_Handler::normalize_redirects()
+	 */
+	public function test_normalize_redirects() {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+
+		$redirects = array(
+			'normal/redirect/' => array(
+				'url'  => '/',
+				'type' => 403,
+			)
+		);
+
+		$this->assertEquals( $redirects, $redirect_handler->normalize_redirects( $redirects ) );
+	}
+
+	/**
+	 * Tests the setting of request url.
+	 *
+	 * @covers WPSEO_Redirect_Handler::set_request_url()
+	 */
+	public function test_set_request_url() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'get_request_uri' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'get_request_uri' )
+			->will( $this->returnValue( 'request_uri' ) );
+
+		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
+		$redirect_handler->set_request_url();
+	}
+
+	/**
+	 * Tests the getting of the redirects.
 	 *
 	 * @covers WPSEO_Redirect_Handler::get_redirects()
 	 */
-	public function test_get_redirects(  ) {
+	public function test_get_redirects() {
 		$redirects = array(
 			'wpseo-premium-redirects-export-plain' => array(
 				'normal/redirect/' => array(
@@ -278,25 +318,6 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provides an array with target urls to test.
-	 *
-	 * Format:
-	 * [0] string Unformatted target
-	 * [1] string Formatted target
-	 *
-	 * @return array
-	 */
-	public function target_url_provider() {
-		$home_url = home_url();
-
-		return array(
-			array( '/test/page' , $home_url . '/test/page' ),
-			array( 'http://external.org/' , 'http://external.org/' ),
-			array( 'no-slash' , 'no-slash' ),
-		);
-	}
-
-	/**
 	 * Tests the parsing of the target url.
 	 *
 	 * @param string $unformatted_target The unformatted (given) target
@@ -324,39 +345,6 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
 		$this->assertEquals( $formatted_target, $redirect_handler->parse_target_url( $unformatted_target ) );
-	}
-
-
-	/**
-	 * Tests the formatting of a regex redirect url with an actual match.
-	 *
-	 * @covers WPSEO_Redirect_Handler::format_regex_redirect_url()
-	 */
-	public function test_format_regex_redirect_url_with_a_match() {
-		$class_instance = new WPSEO_Redirect_Handler_Double();
-
-		$class_instance->set_url_matches(
-			array(
-				'page/redirect/me',
-				'redirect',
-				'me',
-			)
-		);
-
-		$this->assertEquals( 'redirect', $class_instance->format_regex_redirect_url( array( '$1' ) ) );
-	}
-
-	/**
-	 * Tests the formatting of a regex redirect url without an actual match.
-	 *
-	 * @covers WPSEO_Redirect_Handler::format_regex_redirect_url()
-	 *
-	 * @group test
-	 */
-	public function test_format_regex_redirect_url_without_a_match() {
-		$class_instance = new WPSEO_Redirect_Handler();
-
-		$this->assertEquals( '', $class_instance->format_regex_redirect_url( array( '$1' ) ) );
 	}
 
 	/**
@@ -456,7 +444,40 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
 		$redirect_handler->do_redirect( 'target', 451 );
 	}
+	
 	/**
+	 * Tests the formatting of a regex redirect url with an actual match.
+	 *
+	 * @covers WPSEO_Redirect_Handler::format_regex_redirect_url()
+	 */
+	public function test_format_regex_redirect_url_with_a_match() {
+		$class_instance = new WPSEO_Redirect_Handler_Double();
+
+		$class_instance->set_url_matches(
+			array(
+				'page/redirect/me',
+				'redirect',
+				'me',
+			)
+		);
+
+		$this->assertEquals( 'redirect', $class_instance->format_regex_redirect_url( array( '$1' ) ) );
+	}
+
+	/**
+	 * Tests the formatting of a regex redirect url without an actual match.
+	 *
+	 * @covers WPSEO_Redirect_Handler::format_regex_redirect_url()
+	 */
+	public function test_format_regex_redirect_url_without_a_match() {
+		$class_instance = new WPSEO_Redirect_Handler();
+
+		$this->assertEquals( '', $class_instance->format_regex_redirect_url( array( '$1' ) ) );
+	}
+
+	/**
+	 * Tests the situation where the redirect has a target.
+	 *
      * @covers WPSEO_Redirect_Handler::do_redirect()
 	 */
 	public function test_do_redirect_for_a_redirect_with_target() {
@@ -485,7 +506,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Handler::match_regex_redirect()
 	 */
-	public function test_a_regex_redirect_that_will_not_match_the_request_uri() {
+	public function _test_a_regex_redirect_that_will_not_match_the_request_uri() {
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
 			->setMethods( array( 'load_php_redirects', 'get_request_uri', 'do_redirect' ) )
@@ -505,7 +526,6 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 			->expects( $this->never() )
 			->method( 'do_redirect' );
 
-		$class_instance->load();
 		$class_instance->match_regex_redirect(
 			'paige.*',
 			array(
@@ -513,6 +533,36 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 				'type' => 301,
 			)
 		);
+	}
+
+	/**
+	 * Tests the situation where search for an existing redirect.
+	 *
+	 * @param string       $search_needle The redirect to search for.
+	 * @param string|false $expected      The expected result.
+	 *
+	 * @covers       WPSEO_Redirect_Handler::find_url()
+	 * @covers       WPSEO_Redirect_Handler::search()
+	 * @covers       WPSEO_Redirect_Handler::find_url_fallback()
+	 *
+	 * @dataProvider url_search_provider
+	 */
+	public function test_find_url( $search_needle, $expected ) {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+		$redirect_handler->set_redirects(
+			array(
+				'normal/redirect/' => array(
+					'url'  => '/',
+					'type' => 403,
+				),
+				'noslash' => array(
+					'url'  => '/',
+					'type' => 403,
+				),
+			)
+		);
+
+		$this->assertEquals( $expected, $redirect_handler->find_url( $search_needle ) );
 	}
 
 	/**
@@ -554,6 +604,20 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 		delete_option( 'wpseo_redirect' );
 	}
+
+	/**
+	 * Tests the loading of the PHP Redirect with the constant having set.
+	 *
+	 * @covers WPSEO_Redirect_Handler::load_php_redirects()
+	 */
+	public function test_load_php_redirects_with_constant() {
+		define( 'WPSEO_DISABLE_PHP_REDIRECTS', true );
+
+		$class_instance = new WPSEO_Redirect_Handler_Double();
+		$this->assertFalse( $class_instance->load_php_redirects() );
+	}
+
+	/********************** Data Providers **********************/
 
 	/**
 	 * Provider for the default (normal) redirects.
@@ -601,6 +665,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
+
 	/**
 	 * Provider for the default (normal) redirects.
 	 *
@@ -629,6 +694,45 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 				'page-hi'
 
 			)
+		);
+	}
+
+	/**
+	 * Provider for searching redirects.
+	 *
+	 * Format:
+	 * [0] string:       Search needle.
+	 * [1] string|false: Expected result.
+	 *
+	 * @return array
+	 */
+	public function url_search_provider() {
+		return array(
+			array( 'normal/redirect/', array( 'url'  => '/', 'type' => 403, ) ),
+			array( 'normal/redirect', array( 'url'  => '/', 'type' => 403, ) ),
+			array( 'noslash', array( 'url'  => '/', 'type' => 403, ) ),
+			array( 'noslash/', array( 'url'  => '/', 'type' => 403, ) ),
+			array( 'non/existing', false ),
+			array( 'non/existing/', false ),
+		);
+	}
+
+	/**
+	 * Provides an array with target urls to test.
+	 *
+	 * Format:
+	 * [0] string Unformatted target.
+	 * [1] string Formatted target.
+	 *
+	 * @return array List with redirects.
+	 */
+	public function target_url_provider() {
+		$home_url = home_url();
+
+		return array(
+			array( '/test/page' , $home_url . '/test/page' ),
+			array( 'http://external.org/' , 'http://external.org/' ),
+			array( 'no-slash' , 'no-slash' ),
 		);
 	}
 
