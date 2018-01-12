@@ -18,6 +18,115 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the situation where the php redirects are disabled.
+	 *
+	 * @covers WPSEO_Redirect_Handler::load()
+	 */
+	public function test_load_with_php_redirects_disabled() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler' )
+			->setMethods( array( 'load_php_redirects' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'load_php_redirects' )
+			->will( $this->returnValue( false ) );
+
+		/** @var WPSEO_Redirect_Handler $redirect_handler */
+		$redirect_handler->load();
+	}
+
+	/**
+	 * Tests the situation where a normal redirect has been matched.
+	 *
+	 * @covers WPSEO_Redirect_Handler::load()
+	 */
+	public function test_load_with_a_matching_normal_redirect() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler' )
+			->setMethods( array( 'load_php_redirects', 'get_request_uri', 'do_redirect', 'get_redirects' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'get_request_uri' )
+			->will( $this->returnValue( '/normal/redirect' ) );
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'load_php_redirects' )
+			->will( $this->returnValue( true ) );
+
+		$redirect_handler->expects( $this->once() )->method( 'do_redirect' );
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'get_redirects' )
+			->will(
+				$this->returnValue(
+					array(
+						'normal/redirect/' => array(
+							'url'  => '/',
+							'type' => 403,
+						)
+					)
+				)
+			);
+
+		$redirect_handler->load();
+	}
+
+	/**
+	 * Tests the situation where a regex redirect is matched.
+	 *
+	 * @covers WPSEO_Redirect_Handler::load()
+	 *
+	 * @group redirects
+	 */
+	public function test_load_with_a_matching_regex_redirect() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler' )
+			->setMethods( array( 'load_php_redirects', 'get_request_uri', 'do_redirect', 'get_redirects' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'get_request_uri' )
+			->will( $this->returnValue( 'regex/redirect' ) );
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'load_php_redirects' )
+			->will( $this->returnValue( true ) );
+
+		$redirect_handler->expects( $this->once() )->method( 'do_redirect' );
+
+		$redirect_handler
+			->expects( $this->exactly( 2 ) )
+			->method( 'get_redirects' )
+			->will(
+				$this->onConsecutiveCalls(
+					array(
+						'normal/redirect/' => array(
+							'url'  => '/',
+							'type' => 403,
+						)
+					),
+					array(
+						'(reg)ex/redirect' => array(
+							'url'  => '/',
+							'type' => 403,
+						)
+					)
+				)
+			);
+
+		/** @var WPSEO_Redirect_Handler $redirect_handler */
+		$redirect_handler->load();
+	}
+
+	/**
 	 * Tests the handling of normal redirects.
 	 *
 	 * @dataProvider normal_redirect_provider
