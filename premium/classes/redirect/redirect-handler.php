@@ -232,33 +232,16 @@ class WPSEO_Redirect_Handler {
 	 * @return void
 	 */
 	protected function do_redirect( $redirect_url, $redirect_type ) {
+		$targetless_redirects = array( 410, 451 );
+		if ( in_array(  $redirect_type, $targetless_redirects, true ) ) {
+			$this->handle_targetless_redirect( $redirect_type );
 
-		if ( 410 === $redirect_type ) {
-			add_action( 'wp', array( $this, 'do_410' ) );
 			return;
 		}
 
-		if ( 451 === $redirect_type ) {
-			add_action( 'wp', array( $this, 'do_451' ) );
-			return;
-		}
+		$this->add_redirect_by_header();
 
-		if ( ! function_exists( 'wp_redirect' ) ) {
-			require_once ABSPATH . 'wp-includes/pluggable.php';
-		}
-
-		/**
-		 * Filter: 'wpseo_add_x_redirect' - can be used to remove the X-Redirect-By header Yoast SEO creates
-		 * (only available in Yoast SEO Premium, defaults to true, which is adding it)
-		 *
-		 * @api bool
-		 */
-		if ( apply_filters( 'wpseo_add_x_redirect', true ) === true ) {
-			header( 'X-Redirect-By: Yoast SEO Premium' );
-		}
-
-		wp_redirect( $this->parse_target_url( $redirect_url ), $redirect_type );
-		exit;
+		$this->redirect( $this->parse_target_url( $redirect_url ), $redirect_type );
 	}
 
 	/**
@@ -406,21 +389,6 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Gets the redirect URL by given URL.
-	 *
-	 * @param string $redirect_url The URL that has to be redirected.
-	 *
-	 * @return string The redirect url.
-	 */
-	private function format_target( $redirect_url ) {
-		if ( $redirect_url[0] === '/' ) {
-			$redirect_url = home_url( $redirect_url );
-		}
-
-		return $redirect_url;
-	}
-
-	/**
 	 * Parses the target URL.
 	 *
 	 * @param string $target_url The URL to parse. When there isn't found a scheme, just parse it based on the home URL.
@@ -481,6 +449,21 @@ class WPSEO_Redirect_Handler {
 		}
 
 		return $target_url;
+	}
+
+	/**
+	 * Gets the redirect URL by given URL.
+	 *
+	 * @param string $redirect_url The URL that has to be redirected.
+	 *
+	 * @return string The redirect url.
+	 */
+	protected function format_target( $redirect_url ) {
+		if ( $redirect_url[0] === '/' ) {
+			$redirect_url = home_url( $redirect_url );
+		}
+
+		return $redirect_url;
 	}
 
 	/**
@@ -557,5 +540,56 @@ class WPSEO_Redirect_Handler {
 		}
 
 		return new WP_Query();
+	}
+
+	/**
+	 * Handles the redirects without a target by setting the needed hooks.
+	 *
+	 * @param string $redirect_type The type of the redirect.
+	 *
+	 * @return void
+	 */
+	protected function handle_targetless_redirect( $redirect_type ) {
+		if ( 410 === $redirect_type ) {
+			add_action( 'wp', array( $this, 'do_410' ) );
+		}
+
+		if ( 451 === $redirect_type ) {
+			add_action( 'wp', array( $this, 'do_451' ) );
+		}
+	}
+
+	/**
+	 * Adds a X-Redirect-By hook if needed.
+	 *
+	 * @return void
+	 */
+	protected function add_redirect_by_header() {
+		/**
+		 * Filter: 'wpseo_add_x_redirect' - can be used to remove the X-Redirect-By header Yoast SEO creates
+		 * (only available in Yoast SEO Premium, defaults to true, which is adding it)
+		 *
+		 * @api bool
+		 */
+		if ( apply_filters( 'wpseo_add_x_redirect', true ) === true ) {
+			header( 'X-Redirect-By: Yoast SEO Premium' );
+		}
+	}
+
+	/**
+	 * Wrapper method for doing the actual redirect.
+	 *
+	 * @param string $location The path to redirect to.
+	 * @param int    $status   Status code to use.
+	 *
+	 * @return void
+	 */
+	protected function redirect( $location, $status = 302 ) {
+		if ( ! function_exists( 'wp_redirect' ) ) {
+			require_once ABSPATH . 'wp-includes/pluggable.php';
+		}
+
+		wp_redirect( $location, $status);
+		exit;
 	}
 }
