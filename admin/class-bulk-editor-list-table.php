@@ -286,7 +286,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$status_links = array();
 
 		$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
-		$states['trash'] = 'trash';
 		$states          = esc_sql( $states );
 		$all_states      = "'" . implode( "', '", $states ) . "'";
 
