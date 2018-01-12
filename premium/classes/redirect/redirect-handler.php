@@ -431,31 +431,48 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return string The parsed url.
 	 */
-	private function parse_target_url( $target_url ) {
+	protected function parse_target_url( $target_url ) {
+		$target_url = $this->format_target( $target_url );
+
 		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
 
-		if ( empty( $scheme ) ) {
-			// Add slash to target URL when permalink structure ends with a slash.
-			if ( WPSEO_Redirect_Util::requires_trailing_slash( $target_url ) ) {
-				$target_url = trailingslashit( $target_url );
-			}
+		if ( ! empty( $scheme ) ) {
+			return $target_url;
+		}
 
-			if ( is_multisite() ) {
-				$blog_details = get_blog_details();
-				if ( $blog_details && ! empty( $blog_details->path ) ) {
-					$blog_path = ltrim( $blog_details->path, '/' );
-					if ( ! empty( $blog_path ) && 0 === strpos( $target_url, $blog_path ) ) {
-						$target_url = substr( $target_url, strlen( $blog_path ) );
-					}
-				}
-			}
+		// Add slash to target URL when permalink structure ends with a slash.
+		if ( WPSEO_Redirect_Util::requires_trailing_slash( $target_url ) ) {
+			$target_url = trailingslashit( $target_url );
+		}
 
-			$target_url = home_url( $target_url );
+		$target_url = $this->maybe_format_for_multisite( $target_url );
+		$target_url = $this->format_target( $target_url );
+
+		return $target_url;
+	}
+
+	/**
+	 * Formats the target url for the multisite if needed.
+	 *
+	 * @param string $target_url The url to format.
+	 *
+	 * @return string The formatted url.
+	 */
+	protected function maybe_format_for_multisite( $target_url ) {
+		if ( ! is_multisite() ) {
+			return $target_url;
+		}
+
+		$blog_details = get_blog_details();
+		if ( $blog_details && ! empty( $blog_details->path ) ) {
+			$blog_path = ltrim( $blog_details->path, '/' );
+			if ( ! empty( $blog_path ) && 0 === strpos( $target_url, $blog_path ) ) {
+				$target_url = substr( $target_url, strlen( $blog_path ) );
+			}
 		}
 
 		return $target_url;
-
 	}
 
 	/**
