@@ -1,3 +1,6 @@
+### 6.1.2: January 12th, 2018
+* Fixes a bug where the Regex redirects don't work anymore.
+
 ### 6.1.1: January 10th, 2018
 * Includes every change in Yoast SEO core 6.1.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
