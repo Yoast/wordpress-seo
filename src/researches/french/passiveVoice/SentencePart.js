@@ -3,7 +3,7 @@ var SentencePart = require( "../../../values/SentencePart.js" );
 var getParticiples = require( "../../passiveVoice/getParticiples.js" );
 
 /**
- * Creates a French specific sentence part.
+ * Creates a French-specific sentence part.
  *
  * @param {string} sentencePartText The text from the sentence part.
  * @param {Array} auxiliaries The list with auxiliaries.

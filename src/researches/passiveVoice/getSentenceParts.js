@@ -35,6 +35,12 @@ var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
 var elisionAuxiliaryExceptionWords = [ "c'", "s'", "peut-" ];
 var elisionAuxiliaryExceptionRegex = arrayToRegex( elisionAuxiliaryExceptionWords, true );
 
+// Spanish-specific variables and imports.
+var SentencePartSpanish = require( "../spanish/passiveVoice/SentencePart" );
+var auxiliariesSpanish = require( "../spanish/passiveVoice/auxiliaries.js" )();
+var stopwordsSpanish = require( "../spanish/passiveVoice/stopwords.js" )();
+var stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+
 // The language-specific variables used to split sentences into sentence parts.
 var languageVariables = {
 	en: {
@@ -50,6 +56,13 @@ var languageVariables = {
 		SentencePart: SentencePartFrench,
 		auxiliaries: auxiliariesFrench,
 		stopCharacterRegex: stopCharacterRegexFrench,
+	},
+	es: {
+		stopwords: stopwordsSpanish,
+		auxiliaryRegex: arrayToRegex( auxiliariesSpanish ),
+		SentencePart: SentencePartSpanish,
+		auxiliaries: auxiliariesSpanish,
+		stopCharacterRegex: stopCharacterRegexSpanish,
 	},
 };
 
@@ -185,6 +198,9 @@ var getSentenceBreakers = function( sentence, language ) {
 
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 			break;
+		case "es":
+			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
+			break;
 		case "en":
 		default:
 			var ingVerbs = getVerbsEndingInIng( sentence );
@@ -227,6 +243,7 @@ var getAuxiliaryMatches = function( sentencePart, language ) {
 			return map( auxiliaryMatchWords, function( auxiliaryMatch ) {
 				return stripSpaces( auxiliaryMatch );
 			} );
+		case "es":
 		case "en":
 		default:
 			return map( auxiliaryMatches, function( auxiliaryMatch ) {

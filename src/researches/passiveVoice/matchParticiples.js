@@ -1,11 +1,13 @@
 var find = require( "lodash/find" );
 var forEach = require( "lodash/forEach" );
 var memoize = require( "lodash/memoize" );
+var includes = require( "lodash/includes" );
 
 var irregularsEnglish = require( "../english/passiveVoice/irregulars" )();
 var irregularsRegularFrench = require( "../french/passiveVoice/irregulars" )().irregularsRegular;
 var irregularsIrregularFrench = require( "../french/passiveVoice/irregulars" )().irregularsIrregular;
 var irregularsEndingInSFrench = require( "../french/passiveVoice/irregulars" )().irregularsEndingInS;
+var spanishParticiples = require( "../spanish/passiveVoice/participles" )();
 
 // The language-specific participle regexes.
 var languageVariables = {
@@ -26,6 +28,11 @@ var languageVariables = {
  * @returns {Array} A list with the matches.
  */
 var regularParticiples = function( word, language ) {
+	// In Spanish we don't match participles with a regular regex pattern.
+	if ( language === "es" ) {
+		return [];
+	}
+
 	// Matches all words with a language-specific participle suffix.
 	var regularParticiplesRegex = languageVariables[ language ].regularParticiplesRegex;
 
@@ -76,6 +83,11 @@ var irregularParticiples = function( word, language ) {
 					matches.push( irregularParticiple );
 				}
 			} );
+			break;
+		case "es":
+			if ( includes( spanishParticiples, word ) ) {
+				matches.push( word );
+			}
 			break;
 		case "en":
 		default:

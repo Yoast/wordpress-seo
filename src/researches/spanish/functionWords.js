@@ -274,6 +274,9 @@ module.exports = function() {
 			indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns,
 			interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, recipeWords, timeWords, vagueNouns ),
 
+		// These word categories cannot directly precede a passive participle.
+		cannotDirectlyPrecedePassiveParticiple: [].concat( articles ),
+
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional,
