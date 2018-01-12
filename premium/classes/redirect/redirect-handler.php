@@ -61,7 +61,7 @@ class WPSEO_Redirect_Handler {
 		$this->handle_normal_redirects( $this->request_url );
 
 		// Check the regex redirects.
-		if ( $this->is_redirected() !== false ) {
+		if ( $this->is_redirected() === false ) {
 			$this->handle_regex_redirects();
 		}
 	}
