@@ -437,13 +437,25 @@ class WPSEO_Redirect_Handler {
 			return $target_url;
 		}
 
-		// Add slash to target URL when permalink structure ends with a slash.
-		if ( WPSEO_Redirect_Util::requires_trailing_slash( $target_url ) ) {
-			$target_url = trailingslashit( $target_url );
-		}
-
+		$target_url = $this->maybe_trailingslashit( $target_url );
 		$target_url = $this->maybe_format_for_multisite( $target_url );
 		$target_url = $this->format_target( $target_url );
+
+		return $target_url;
+	}
+
+	/**
+	 * Formats the target url by adding a trailingslash at the end of it.
+	 *
+	 * @param string $target_url The url to format.
+	 *
+	 * @return string The altered target url/
+	 */
+	protected function maybe_trailingslashit( $target_url ) {
+		// Adds slash to target URL when permalink structure ends with a slash.
+		if ( WPSEO_Redirect_Util::requires_trailing_slash( $target_url ) ) {
+			return trailingslashit( $target_url );
+		}
 
 		return $target_url;
 	}
