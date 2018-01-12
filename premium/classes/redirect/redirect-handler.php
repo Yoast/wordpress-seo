@@ -161,6 +161,21 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
+	 * Checks if the current URL matches a regex.
+	 *
+	 * @return void
+	 */
+	protected function handle_regex_redirects() {
+		// Setting the redirects.
+		$this->redirects = $this->get_redirects( $this->regex_option_name );
+
+		foreach ( $this->redirects as $regex => $redirect ) {
+			// Check if the URL matches the $regex.
+			$this->match_regex_redirect( $regex, $redirect );
+		}
+	}
+
+	/**
 	 * Check if request URL matches one of the regex redirects.
 	 *
 	 * @param string $regex    The reqular expression to match.
@@ -334,21 +349,6 @@ class WPSEO_Redirect_Handler {
 	 */
 	protected function set_request_url() {
 		$this->request_url = $this->get_request_uri();
-	}
-
-	/**
-	 * Checks if the current URL matches a regex.
-	 *
-	 * @return void
-	 */
-	private function handle_regex_redirects() {
-		// Setting the redirects.
-		$this->redirects = $this->get_redirects( $this->regex_option_name );
-
-		foreach ( $this->redirects as $regex => $redirect ) {
-			// Check if the URL matches the $regex.
-			$this->match_regex_redirect( $regex, $redirect );
-		}
 	}
 
 	/**
