@@ -73,7 +73,7 @@ class WPSEO_Redirect_Handler {
 	 */
 	public function do_410() {
 		$this->set_404();
-		status_header( 410 );
+		$this->status_header( 410 );
 	}
 
 	/**
@@ -87,7 +87,8 @@ class WPSEO_Redirect_Handler {
 		if ( ! $is_include_hook_set ) {
 			$this->set_404();
 		}
-		status_header( 451, 'Unavailable For Legal Reasons' );
+
+		$this->status_header( 451, 'Unavailable For Legal Reasons' );
 	}
 
 	/**
@@ -128,11 +129,8 @@ class WPSEO_Redirect_Handler {
 	 * @return void
 	 */
 	public function set_404() {
-		global $wp_query;
-
-		if ( is_object( $wp_query ) ) {
-			$wp_query->is_404 = true;
-		}
+		$wp_query = $this->get_wp_query();
+		$wp_query->is_404 = true;
 	}
 
 	/**
@@ -418,7 +416,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return string The redirect url.
 	 */
-	private function redirect_url( $redirect_url ) {
+	private function format_target( $redirect_url ) {
 		if ( $redirect_url[0] === '/' ) {
 			$redirect_url = home_url( $redirect_url );
 		}
@@ -492,7 +490,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return bool True when template should be included.
 	 */
-	private function set_template_include_hook( $template_to_set ) {
+	protected function set_template_include_hook( $template_to_set ) {
 		$this->template_include = get_query_template( $template_to_set );
 		if ( ! empty( $this->template_include ) ) {
 			add_filter( 'template_include', array( $this, 'set_template_include' ) );
@@ -501,5 +499,32 @@ class WPSEO_Redirect_Handler {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Wraps the WordPress status_header function.
+	 *
+	 * @param int    $code        HTTP status code.
+	 * @param string $description Optional. A custom description for the HTTP status.
+	 *
+	 * @return void
+	 */
+	protected function status_header( $code, $description = '' ) {
+		status_header( $code, $description );
+	}
+
+	/**
+	 * Returns instance of WP_Query.
+	 *
+	 * @return WP_Query Instance of WP_Query.
+	 */
+	protected function get_wp_query() {
+		global $wp_query;
+
+		if ( is_object( $wp_query ) ) {
+			return $wp_query;
+		}
+
+		return new WP_Query();
 	}
 }
