@@ -42,7 +42,7 @@ function addTrailingSlash( url ) {
 }
 
 /**
- * Retrieves the URL from an anchor tag
+ * Retrieves the URL from an anchor tag.
  *
  * @param {string} anchorTag An anchor tag.
  * @returns {string} The URL in the anchor tag.
@@ -54,7 +54,7 @@ function getFromAnchorTag( anchorTag ) {
 }
 
 /**
- * Returns whether or not the given URLs are equal
+ * Returns whether or not the given URLs are equal.
  *
  * @param {string} urlA The first URL to compare.
  * @param {string} urlB The second URL to compare.
@@ -70,7 +70,7 @@ function areEqual( urlA, urlB ) {
 }
 
 /**
- * Returns the domain name of a URL
+ * Returns the domain name of a URL.
  *
  * @param {string} url The URL to retrieve the domain name of.
  * @returns {string} The domain name of the URL.
@@ -81,6 +81,72 @@ function getHostname( url ) {
 	return url.hostname;
 }
 
+/**
+ * Returns the protocol of a URL.
+ *
+ * Note that the colon (http:) is also part of the protocol, conform to node's url.parse api.
+ *
+ * @param {string} url The URL to retrieve the protocol of.
+ * @returns {string|null} The protocol of the URL or null if no protocol is present.
+ */
+function getProtocol( url ) {
+	return urlMethods.parse( url ).protocol;
+}
+
+/**
+ * Determine whether a URL is internal.
+ *
+ * @param {string} url The URL to test.
+ * @param {string} host The current host.
+ *
+ * @returns {boolean} Whether or not the URL is internal.
+ */
+function isInternalLink( url, host ) {
+	const parsedUrl = urlMethods.parse( url, false, true );
+	// Check if the URL starts with a single slash.
+	if ( url.indexOf( "//" ) === -1 && url.indexOf( "/" ) === 0 ) {
+		return true;
+	}
+
+	// Check if the URL starts with a # indicating a fragment.
+	if ( url.indexOf( "#" ) === 0 ) {
+		return false;
+	}
+
+	// No host indicates an internal link.
+	if ( ! parsedUrl.host ) {
+		return true;
+	}
+
+	return parsedUrl.host === host;
+}
+
+/**
+ * Checks whether the protocol is either HTTP: or HTTPS:.
+ *
+ * @param {string} protocol The protocol to test.
+ *
+ * @returns {boolean} Whether the protocol is http(s):.
+ */
+function protocolIsHttpScheme( protocol ) {
+	if ( ! protocol ) {
+		return false;
+	}
+
+	return ( protocol === "http:" || protocol === "https:" );
+}
+
+/**
+ * Determines whether the link is a relative fragment URL.
+ *
+ * @param {string} url The URL to test.
+ *
+ * @returns {boolean} Whether the link is a relative fragment URL.
+ */
+function isRelativeFragmentURL( url ) {
+	return url.indexOf( "#" ) === 0;
+}
+
 module.exports = {
 	removeHash: removeHash,
 	removeQueryArgs: removeQueryArgs,
@@ -89,4 +155,8 @@ module.exports = {
 	getFromAnchorTag: getFromAnchorTag,
 	areEqual: areEqual,
 	getHostname: getHostname,
+	getProtocol: getProtocol,
+	isInternalLink: isInternalLink,
+	protocolIsHttpScheme: protocolIsHttpScheme,
+	isRelativeFragmentURL: isRelativeFragmentURL,
 };

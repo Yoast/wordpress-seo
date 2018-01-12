@@ -25,7 +25,7 @@ var isWordInSentence = function( word, sentence ) {
 	sentence = sentence.toLocaleLowerCase();
 
 	var wordWithBoundaries = addWordBoundary( word );
-	var occurrenceStart = sentence.search( new RegExp ( wordWithBoundaries, "ig" ) );
+	var occurrenceStart = sentence.search( new RegExp( wordWithBoundaries, "ig" ) );
 	// Return false if no match has been found.
 	if ( occurrenceStart === -1 ) {
 		return false;
