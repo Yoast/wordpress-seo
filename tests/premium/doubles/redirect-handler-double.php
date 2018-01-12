@@ -39,4 +39,22 @@ class WPSEO_Redirect_Handler_Double extends WPSEO_Redirect_Handler {
 	public function handle_normal_redirects( $request_url ) {
 		parent::handle_normal_redirects( $request_url );
 	}
+
+	/**
+	 * Sets the request URL and sanitize the slashes for it.
+	 *
+	 * @return void
+	 */
+	public function set_request_url() {
+		parent::set_request_url();
+	}
+
+	/**
+	 * Sets the url matches.
+	 *
+	 * @param array $matches The matches.
+	 */
+	public function set_url_matches( array $matches ) {
+		$this->url_matches = $matches;
+	}
 }

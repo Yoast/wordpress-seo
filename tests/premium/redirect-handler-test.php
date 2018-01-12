@@ -127,6 +127,38 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the formatting of a regex redirect url with an actual match.
+	 *
+	 * @covers WPSEO_Redirect_Handler::format_regex_redirect_url()
+	 */
+	public function test_format_regex_redirect_url_with_a_match() {
+		$class_instance = new WPSEO_Redirect_Handler_Double();
+
+		$class_instance->set_url_matches(
+			array(
+				'page/redirect/me',
+				'redirect',
+				'me',
+			)
+		);
+
+		$this->assertEquals( 'redirect', $class_instance->format_regex_redirect_url( array( '$1' ) ) );
+	}
+
+	/**
+	 * Tests the formatting of a regex redirect url without an actual match.
+	 *
+	 * @covers WPSEO_Redirect_Handler::format_regex_redirect_url()
+	 *
+	 * @group test
+	 */
+	public function test_format_regex_redirect_url_without_a_match() {
+		$class_instance = new WPSEO_Redirect_Handler();
+
+		$this->assertEquals( '', $class_instance->format_regex_redirect_url( array( '$1' ) ) );
+	}
+
+	/**
 	 * Tests the handling of normal redirects.
 	 *
 	 * @dataProvider normal_redirect_provider
