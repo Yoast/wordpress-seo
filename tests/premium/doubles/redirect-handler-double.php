@@ -41,6 +41,15 @@ class WPSEO_Redirect_Handler_Double extends WPSEO_Redirect_Handler {
 	}
 
 	/**
+	 * Checks if the current URL matches a regex.
+	 *
+	 * @return void
+	 */
+	public function handle_regex_redirects() {
+		parent::handle_regex_redirects();
+	}
+
+	/**
 	 * Sets the request URL and sanitize the slashes for it.
 	 *
 	 * @return void

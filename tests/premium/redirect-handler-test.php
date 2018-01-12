@@ -168,7 +168,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Handler::handle_normal_redirects
 	 */
-	public function test_redirect_handling( $request_uri, WPSEO_Redirect $redirect ) {
+	public function test_handle_normal_redirects( $request_uri, WPSEO_Redirect $redirect ) {
 		$redirects = array(
 			$redirect->get_origin() => array(
 				'url'  => $redirect->get_target(),
@@ -189,44 +189,54 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 		$class_instance
 			->expects( $this->once() )
-			->method( 'do_redirect' );
+			->method( 'do_redirect' )
+			->with( $this->identicalTo( $redirect->get_target() ), $this->identicalTo( $redirect->get_type() ) );
 
 		$class_instance->handle_normal_redirects( rawurldecode( $request_uri ) );
 	}
 
 	/**
-	 * Testing a regex redirect that will match the request URI.
+	 * Tests the handling of regex redirects.
 	 *
+	 * @dataProvider regex_redirect_provider
+	 *
+	 * @param string         $request_uri  The requested uri.
+	 * @param WPSEO_Redirect $redirect     The redirect object.
+	 * @param string         $final_target The final target.
+	 *
+	 * @covers WPSEO_Redirect_Handler::handle_regex_redirects()
 	 * @covers WPSEO_Redirect_Handler::match_regex_redirect()
 	 */
-	public function test_a_regex_redirect_that_will_match_the_request_uri() {
+	public function test_handle_regex_redirects( $request_uri, WPSEO_Redirect $redirect, $final_target ) {
+		$redirects = array(
+			$redirect->get_origin() => array(
+				'url'  => $redirect->get_target(),
+				'type' => $redirect->get_type(),
+			),
+		);
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
-			->setMethods( array( 'load_php_redirects', 'get_request_uri', 'do_redirect' ) )
+			->setMethods( array( 'get_request_uri', 'get_redirects', 'do_redirect' ) )
 			->getMock();
 
 		$class_instance
 			->expects( $this->once() )
-			->method( 'load_php_redirects' )
-			->will( $this->returnValue( true ) );
-
-		$class_instance
-			->expects( $this->once() )
 			->method( 'get_request_uri' )
-			->will( $this->returnValue( 'http://example.com/page/get/it' ) );
+			->will( $this->returnValue( rawurldecode( $request_uri ) ) );
 
 		$class_instance
 			->expects( $this->once() )
-			->method( 'do_redirect' );
+			->method( 'get_redirects' )
+			->will( $this->returnValue( $redirects ) );
 
-		$class_instance->load();
-		$class_instance->match_regex_redirect(
-			'page.*',
-			array(
-				'url'  => 'page-hi',
-				'type' => 301,
-			)
-		);
+		$class_instance
+			->expects( $this->once() )
+			->method( 'do_redirect' )
+			->with( $this->identicalTo( $final_target ), $this->identicalTo( $redirect->get_type() ) );
+
+		/** @var WPSEO_Redirect_Handler_Double $class_instance */
+		$class_instance->set_request_url();
+		$class_instance->handle_regex_redirects();
 	}
 
 	/**
@@ -307,6 +317,10 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Provider for the default (normal) redirects.
 	 *
+	 * The format for each record is:
+	 * [0] string:         The request url.
+	 * [1] WPSEO_Redirect: The redirect object.
+	 *
 	 * @returns array List with redirects.
 	 */
 	public function normal_redirect_provider() {
@@ -343,6 +357,37 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 				'jaarverslagen/2009/Jaarverslag%202009.pdf',
 				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag 2009.pdf', '/', 301 ),
 			),
+		);
+	}
+
+	/**
+	 * Provider for the default (normal) redirects.
+	 *
+	 * The format for each record is:
+	 * [0] string:         The request url.
+	 * [1] WPSEO_Redirect: The redirect object.
+	 * [2] string:         The target with the replaced values.
+	 *
+	 * @returns array List with redirects.
+	 */
+	public function regex_redirect_provider() {
+		return array(
+			array(
+				'page/get/me',
+				new WPSEO_Redirect( 'page/(get|redirect)/(me)', 'page-$1-$2', 301 ),
+				'page-get-me',
+			),
+			array(
+				'page/redirect/me',
+				new WPSEO_Redirect( 'page/(get|redirect)/(me)', 'page-$1-$2', 301 ),
+				'page-redirect-me',
+			),
+			array(
+				'page/get/it',
+				new WPSEO_Redirect( 'page/.*', 'page-hi', 301 ),
+				'page-hi'
+
+			)
 		);
 	}
 
