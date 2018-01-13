@@ -68,7 +68,7 @@ module.exports = function( grunt ) {
 		},
 
 		"production-prefix-dependencies": {
-			command: "composer install && composer prefix-dependencies",
+			command: "composer install",
 		},
 	};
 };
