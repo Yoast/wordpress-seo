@@ -22,6 +22,7 @@
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
 	"require": {
+		"php": "^5.3.2||^7.0",
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^3.0",
@@ -33,6 +34,7 @@
 		"ruckusing/ruckusing-migrations": "^1.1"
 	},
 	"require-dev": {
+		"php": "^7.0",
 		"codeclimate/php-test-reporter": "dev-master",
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "~0.4.3",
@@ -72,23 +74,19 @@
 			"\"vendor/bin/phpcbf\""
 		],
 		"prefix-dependencies": [
-			"composer install",
 			"composer prefix-ruckusing",
 			"composer prefix-idiorm",
 			"composer prefix-paris",
 			"composer du"
 		],
 		"prefix-ruckusing": [
-			"rm -rf ./prefixed/ruckusing",
-			"./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./vendor_prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php --force"
+			"./vendor/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php --force --quiet"
 		],
 		"prefix-idiorm": [
-			"rm -rf ./prefixed/j4mie/idiorm",
-			"./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./vendor_prefixed/j4mie/idiorm --config=config/php-scoper/idiorm.inc.php --force"
+			"./vendor/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/j4mie/idiorm --config=config/php-scoper/idiorm.inc.php --force --quiet"
 		],
 		"prefix-paris": [
-			"rm -rf ./prefixed/j4mie/paris",
-			"./vendor/bin/php-scoper add-prefix -p YoastSEO_Vendor -o ./vendor_prefixed/j4mie/paris --config=config/php-scoper/paris.inc.php --force"
+			"./vendor/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/j4mie/paris --config=config/php-scoper/paris.inc.php --force --quiet"
 		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"
