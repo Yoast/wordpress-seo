@@ -4,6 +4,19 @@ Does the `vendor_prefixed` content need to be committed in the repository?
 It -does- need to be shipped in the artifact.
 the `vendor_prefixed` folder should exist for the autoloader to be able to run without running prefix-depedencenies first.
 
+- Class alias -> dynamisch via autoloader?
+  - Unittest die verifieerd dat class aliasses worden aangemaakt
+- Een lijst met classes bijhouden en die gebruiken?
+
+Ensure Prefixed is used in code
+- Travis configuratie om Prefix classes te gebruiken
+
+Watchers -> Map functie voor data transformatie
+Lookup table voor 1op1 overzetten van data
+
+- Composer post-install script (--dev afhankelijk prefixen)
+
+
 ---- Tests -----
 
 ## Tests
@@ -71,6 +84,7 @@ Prefixing
 - Can the ORM handle these?
 
 > ORM does not support it out of the box, will need custom SQL implementation if we want to use the `UUID()` method of MySQL.
+Callback on missing field data?
 
 # Hacks
 - [Yoast_Model](https://github.com/Yoast/wordpress-seo/blob/yoast-meta/src/Yoast_Model.php#L7) to inject WordPress database table prefix the table names
