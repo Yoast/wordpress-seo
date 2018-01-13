@@ -50,11 +50,7 @@ class Indexable_Post implements Integration {
 	 * @return void
 	 */
 	public function save_meta( $post_id ) {
-		if ( wp_is_post_revision( $post_id ) ) {
-			return;
-		}
-
-		if ( wp_is_post_autosave( $post_id ) ) {
+		if ( ! $this->is_post_indexable( $post_id ) ) {
 			return;
 		}
 
@@ -158,5 +154,22 @@ class Indexable_Post implements Integration {
 		}
 
 		$model->{$target} = $post_meta[ $source ][0];
+	}
+
+	/**
+	 * @param $post_id
+	 *
+	 * @return bool
+	 */
+	protected function is_post_indexable( $post_id ) {
+		if ( wp_is_post_revision( $post_id ) ) {
+			return false;
+		}
+
+		if ( wp_is_post_autosave( $post_id ) ) {
+			return false;
+		}
+
+		return true;
 	}
 }
