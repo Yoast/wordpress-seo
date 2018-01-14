@@ -106,6 +106,9 @@ script:
 # assume that PHPUnit is in the vendor directory.
 - if [[ "$COVERAGE" == "1" ]]; then vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; fi
 - if [[ "$CHECKJS" == "1" ]]; then yarn test; fi
+# Validate the composer.json file.
+# @link https://getcomposer.org/doc/03-cli.md#validate
+- if [[ $TRAVIS_PHP_VERSION == "5.3" || $TRAVIS_PHP_VERSION == "7.2" ]]; then composer validate --no-check-all; fi
 
 after_success:
 - if [[ "$COVERAGE" == "1" ]]; then vendor/bin/test-reporter; fi
