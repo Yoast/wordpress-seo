@@ -85,6 +85,7 @@ var irregularParticiples = function( word, language ) {
 			} );
 			break;
 		case "es":
+			// In Spanish, we only match passives from a word list.
 			if ( includes( spanishParticiples, word ) ) {
 				matches.push( word );
 			}

@@ -39,7 +39,7 @@ var SentencePartSpanish = require( "../spanish/passiveVoice/SentencePart" );
 var auxiliariesSpanish = require( "../spanish/passiveVoice/auxiliaries.js" )();
 var stopwordsSpanish = require( "../spanish/passiveVoice/stopwords.js" )();
 var stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
-var followingAuxiliaryExceptionWordsSpanish = [ "el", "la", "los", "las" ];
+var followingAuxiliaryExceptionWordsSpanish = [ "el", "la", "los", "las", "una" ];
 
 
 // The language-specific variables used to split sentences into sentence parts.

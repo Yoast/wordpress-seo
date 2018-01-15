@@ -8,7 +8,7 @@ describe( "detecting passive voice in sentences", function() {
 	});
 
 	it( "returns passive voice (presente)", function() {
-		// Passive: es comida
+		// Passive: es comida.
 		var paper = new Paper( "Una manzana es comida por mí.", { locale: "es_ES" } );
 		expect( passiveVoice( paper ).passives.length).toBe( 1 );
 	});
@@ -74,7 +74,7 @@ describe( "detecting passive voice in sentences", function() {
 	});
 
 	it( "returns passive voice (conditional)", function() {
-		// Passive: sería comida
+		// Passive: sería comida.
 		var paper = new Paper( "Una manzana sería comida por mí.", { locale: "es_ES" } );
 		expect( passiveVoice( paper ).passives.length).toBe( 1 );
 	});
