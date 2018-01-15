@@ -713,7 +713,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			if ( $requested_state !== 'trash' ) {
 				unset( $states['trash'] );
 			}
-
 		}
 
 		$states     = esc_sql( $states );
