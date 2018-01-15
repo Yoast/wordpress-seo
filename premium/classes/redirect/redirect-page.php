@@ -318,7 +318,6 @@ class WPSEO_Redirect_Page {
 		if ( wp_verify_nonce( filter_input( INPUT_POST, 'wpseo_redirects_ajax_nonce' ), 'wpseo-redirects-ajax-security' ) ) {
 			if ( filter_input( INPUT_POST, 'action' ) === 'delete' || filter_input( INPUT_POST, 'action2' ) === 'delete' ) {
 				$bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-
 				$redirects   = array();
 				foreach ( $bulk_delete as $origin ) {
 					$redirect = $this->get_redirect_manager()->get_redirect( $origin );
