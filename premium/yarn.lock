@@ -11,7 +11,6 @@ JSONStream@^1.0.3:
 
 "a11y-speak@git+https://github.com/Yoast/a11y-speak.git#master":
   version "0.0.1"
-  uid "4e772809a2fed1a54ba29176ada175b15436e977"
   resolved "git+https://github.com/Yoast/a11y-speak.git#4e772809a2fed1a54ba29176ada175b15436e977"
 
 "a11y-speak@github:yoast/a11y-speak":
@@ -7234,7 +7233,19 @@ yoast-components@2.11.9, yoast-components@^2.11.6:
     lodash "^3.10.1"
     yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#master"
 
-yoastseo@^1.28, "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#master":
+yoastseo@^1.29:
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.29.0.tgz#296de8f08c677d8a25fb776ed3f77e2ce26d461c"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    jest "^21.2.1"
+    lodash "^4.14.1"
+    node-sass "^4.5.3"
+    sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"
+
+"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#master":
   version "1.28.0"
   resolved "git+https://github.com/Yoast/YoastSEO.js.git#0c20c9149b9e50ffb8c57ecba789b51968c76112"
   dependencies:
