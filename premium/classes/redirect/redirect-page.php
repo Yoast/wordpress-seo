@@ -236,8 +236,6 @@ class WPSEO_Redirect_Page {
 	 * Initialize admin hooks.
 	 */
 	private function initialize_admin() {
-		$this->fetch_bulk_action();
-
 		// Check if we need to save files after updating options.
 		add_action( 'update_option_wpseo_redirect', array( $this, 'save_redirect_files' ), 10, 2 );
 
@@ -246,6 +244,7 @@ class WPSEO_Redirect_Page {
 			$upgrade_manager = new WPSEO_Upgrade_Manager();
 			$upgrade_manager->retry_upgrade_31();
 
+			add_action( 'admin_init', array( $this, 'fetch_bulk_action' ) );
 			add_action( 'admin_init', array( $this, 'list_table_search' ) );
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
@@ -311,11 +310,14 @@ class WPSEO_Redirect_Page {
 
 	/**
 	 * Fetches the bulk action for removing redirects.
+	 *
+	 * @return void
 	 */
-	private function fetch_bulk_action() {
+	public function fetch_bulk_action() {
 		if ( wp_verify_nonce( filter_input( INPUT_POST, 'wpseo_redirects_ajax_nonce' ), 'wpseo-redirects-ajax-security' ) ) {
 			if ( filter_input( INPUT_POST, 'action' ) === 'delete' || filter_input( INPUT_POST, 'action2' ) === 'delete' ) {
 				$bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+
 				$redirects   = array();
 				foreach ( $bulk_delete as $origin ) {
 					$redirect = $this->get_redirect_manager()->get_redirect( $origin );
