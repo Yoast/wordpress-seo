@@ -7,7 +7,6 @@
  * Test class for testing the redirect handler.
  *
  * @group redirects
- * @group 5.3
  */
 class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
@@ -125,6 +124,35 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 				)
 			);
 
+		/** @var WPSEO_Redirect_Handler $redirect_handler */
+		$redirect_handler->load();
+	}
+
+	/**
+	 * Testing the regex redirect that will not match the request URI.
+	 *
+	 * @covers WPSEO_Redirect_Handler::load()
+	 */
+	public function test_load_with_no_matching_redirect() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler' )
+			->setMethods( array( 'load_php_redirects', 'get_request_uri', 'do_redirect' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'get_request_uri' )
+			->will( $this->returnValue( 'no-matching/redirect' ) );
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'load_php_redirects' )
+			->will( $this->returnValue( true ) );
+
+		$redirect_handler
+			->expects( $this->never() )
+			->method( 'do_redirect' );
+		
 		/** @var WPSEO_Redirect_Handler $redirect_handler */
 		$redirect_handler->load();
 	}
@@ -506,16 +534,11 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Handler::match_regex_redirect()
 	 */
-	public function _test_a_regex_redirect_that_will_not_match_the_request_uri() {
+	public function test_a_regex_redirect_that_will_not_match_the_request_uri() {
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
-			->setMethods( array( 'load_php_redirects', 'get_request_uri', 'do_redirect' ) )
+			->setMethods( array( 'get_request_uri', 'do_redirect' ) )
 			->getMock();
-
-		$class_instance
-			->expects( $this->once() )
-			->method( 'load_php_redirects' )
-			->will( $this->returnValue( true ) );
 
 		$class_instance
 			->expects( $this->once() )
@@ -526,6 +549,8 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 			->expects( $this->never() )
 			->method( 'do_redirect' );
 
+		/** @var WPSEO_Redirect_Handler_Double $class_instance */
+		$class_instance->set_request_url();
 		$class_instance->match_regex_redirect(
 			'paige.*',
 			array(
