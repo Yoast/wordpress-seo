@@ -6,7 +6,7 @@
 		"seo"
 	],
 	"homepage": "https://yoa.st/1ui",
-	"license": "GPL-2.0+",
+	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Team Yoast",
