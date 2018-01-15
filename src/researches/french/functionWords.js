@@ -236,6 +236,14 @@ module.exports = function() {
 			indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeAdjectives, relativePronouns,
 			locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns ),
 
+		// These word categories cannot directly precede a passive participle.
+		cannotDirectlyPrecedePassiveParticiple: [].concat( articles, prepositions, personalPronounsStressed,
+			personalPronounsAccusative, possessivePronouns, reflexivePronouns, indefinitePronouns, interrogativeProAdverbs,
+			interrogativeAdjectives, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, interviewVerbs, delexicalizedVerbsInfinitive ),
+
+		// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
+		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, otherAuxiliariesInfinitive ),
+
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,
