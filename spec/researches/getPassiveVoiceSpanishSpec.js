@@ -100,4 +100,16 @@ describe( "detecting passive voice in sentences", function() {
 		var paper = new Paper( "Una manzana debe ser comida por mí.", { locale: "es_ES" } );
 		expect( passiveVoice( paper ).passives.length).toBe( 1 );
 	});
+
+	it( "doesn't return passive voice if an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
+		// Exception word: "el" after "es".
+		var paper = new Paper( "Es el capítulo preferido de varios miembros del equipo de producción.", { locale: "es_ES" } );
+		expect( passiveVoice( paper ).passives.length).toBe( 0 );
+	});
+
+	it( "doesn't return passive voice if a participle is marked as non-passive by a precedence exception (directly preceding).", function() {
+		// Exception word: "un" before "sentido".
+		var paper = new Paper( "Fue un sentido monumental y grandilocuente.", { locale: "es_ES" } );
+		expect( passiveVoice( paper ).passives.length).toBe( 0 );
+	});
 } );
