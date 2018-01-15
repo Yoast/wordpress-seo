@@ -4,7 +4,7 @@
 let htmlparser = require( "htmlparser2" );
 
 /**
- * Checks if a links has a nofollow attribute value. If it has, returns Nofollow, otherwise Dofollow.
+ * Checks if a link has a `rel` attribute with a `nofollow` value. If it has, returns Nofollow, otherwise Dofollow.
  *
  * @param {string} anchorHTML The anchor HTML to check against.
  * @returns {string} Returns Dofollow or Nofollow.
@@ -14,10 +14,10 @@ module.exports = function( anchorHTML ) {
 
 	let parser = new htmlparser.Parser( {
 		/**
-		 * Detects if there is a `nofollow` argument value in the `rel` argument of a link.
+		 * Detects if there is a `nofollow` value in the `rel` attribute of a link.
 		 *
 		 * @param {string} tagName The tag name.
-		 * @param {object} attributes The attribute with the keys and values of the tag.
+		 * @param {object} attributes The tag attributes with the names and values of each attribute found.
 		 * @returns {void}
 		 */
 		onopentag: function( tagName, attributes ) {
