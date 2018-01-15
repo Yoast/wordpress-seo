@@ -387,6 +387,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$post_types = "'" . implode( "', '", $post_types ) . "'";
 
 				$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
+				$states['trash'] = 'trash';
 				$states          = esc_sql( $states );
 				$all_states      = "'" . implode( "', '", $states ) . "'";
 
@@ -701,12 +702,18 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function get_all_states() {
 		$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
+		$states['trash'] = 'trash';
 
 		if ( ! empty( $_GET['post_status'] ) ) {
 			$requested_state = sanitize_text_field( $_GET['post_status'] );
 			if ( in_array( $requested_state, $states, true ) ) {
 				$states = array( $requested_state );
 			}
+
+			if ( $requested_state !== 'trash') {
+				unset( $states['trash'] );
+			}
+
 		}
 
 		$states     = esc_sql( $states );
