@@ -710,7 +710,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$states = array( $requested_state );
 			}
 
-			if ( $requested_state !== 'trash') {
+			if ( $requested_state !== 'trash' ) {
 				unset( $states['trash'] );
 			}
 
@@ -721,7 +721,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		return $all_states;
 	}
-
 
 	/**
 	 * Based on $this->items and the defined columns, the table rows will be displayed.
