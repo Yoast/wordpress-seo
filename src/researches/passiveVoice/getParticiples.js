@@ -6,6 +6,7 @@ var irregularParticipleRegex = matchParticiples.irregularParticiples;
 
 var EnglishParticiple = require( "../english/passiveVoice/EnglishParticiple.js" );
 var FrenchParticiple = require( "../french/passiveVoice/FrenchParticiple.js" );
+var SpanishParticiple = require( "../spanish/passiveVoice/SpanishParticiple.js" );
 
 var forEach = require( "lodash/forEach" );
 
@@ -33,6 +34,10 @@ module.exports = function( sentencePartText, auxiliaries, language ) {
 			switch ( language ) {
 				case "fr":
 					foundParticiples.push( new FrenchParticiple( word, sentencePartText,
+						{ auxiliaries: auxiliaries, type: type } ) );
+					break;
+				case "es":
+					foundParticiples.push( new SpanishParticiple( word, sentencePartText,
 						{ auxiliaries: auxiliaries, type: type } ) );
 					break;
 				case "en":

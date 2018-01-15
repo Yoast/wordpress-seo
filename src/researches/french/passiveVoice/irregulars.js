@@ -1,8 +1,9 @@
-/* This is a list of irregular participles used in French.
+/*
+This is a list of irregular participles used in French.
 These participles have an irregular stem but follow a regular conjugation pattern for feminine and plural forms (adding -e, -es, -s).
 The following participles were excluded because they are intransitive verbs that cannot be passive:
- apparu, réapparu, devenu, redevenu, intervenu, mort, parti, parvenu, provenu, resurvenu, revenu, survenu, venu.
-*/
+apparu, réapparu, devenu, redevenu, intervenu, mort, parti, parvenu, provenu, resurvenu, revenu, survenu, venu.
+ */
 var irregularsRegular = [
 	"abâtardi",
 	"abattu",
@@ -496,8 +497,9 @@ var irregularsRegular = [
 	"vu",
 ];
 
-/* This is a list of irregular participles used in French.
- These participles have an irregular stem and follow an irregular conjugation pattern. Therefore all forms are included in the list.
+/*
+This is a list of irregular participles used in French.
+These participles have an irregular stem and follow an irregular conjugation pattern. Therefore all forms are included in the list.
  */
 var irregularsIrregular = [
 	"absous",
@@ -519,9 +521,10 @@ var irregularsIrregular = [
 	"mues",
 ];
 
-/* This is a list of irregular participles used in French.
- These participles have an irregular stem ending in -s. They have the same form in the masculine singular and plural.
- For feminine singular and feminine plural forms -e and -es are added.
+/*
+This is a list of irregular participles used in French.
+These participles have an irregular stem ending in -s. They have the same form in the masculine singular and plural.
+For feminine singular and feminine plural forms -e and -es are added.
  */
 var irregularsEndingInS = [
 	"repris",

@@ -28,12 +28,19 @@ var SentencePartFrench = require( "../french/passiveVoice/SentencePart" );
 var auxiliariesFrench = require( "../french/passiveVoice/auxiliaries.js" )();
 var stopwordsFrench = require( "../french/passiveVoice/stopwords.js" )();
 var stopCharacterRegexFrench = /(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
-var followingAuxiliaryExceptionWords = [ "le", "la", "les", "une", "l'un", "l'une" ];
-var followingAuxiliaryExceptionRegex = arrayToRegex( followingAuxiliaryExceptionWords );
+var followingAuxiliaryExceptionWordsFrench = [ "le", "la", "les", "une", "l'un", "l'une" ];
 var reflexivePronounsFrench = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];
 var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
 var elisionAuxiliaryExceptionWords = [ "c'", "s'", "peut-" ];
 var elisionAuxiliaryExceptionRegex = arrayToRegex( elisionAuxiliaryExceptionWords, true );
+
+// Spanish-specific variables and imports.
+var SentencePartSpanish = require( "../spanish/passiveVoice/SentencePart" );
+var auxiliariesSpanish = require( "../spanish/passiveVoice/auxiliaries.js" )();
+var stopwordsSpanish = require( "../spanish/passiveVoice/stopwords.js" )();
+var stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+var followingAuxiliaryExceptionWordsSpanish = [ "el", "la", "los", "las", "una" ];
+
 
 // The language-specific variables used to split sentences into sentence parts.
 var languageVariables = {
@@ -50,6 +57,15 @@ var languageVariables = {
 		SentencePart: SentencePartFrench,
 		auxiliaries: auxiliariesFrench,
 		stopCharacterRegex: stopCharacterRegexFrench,
+		followingAuxiliaryExceptionRegex: arrayToRegex( followingAuxiliaryExceptionWordsFrench ),
+	},
+	es: {
+		stopwords: stopwordsSpanish,
+		auxiliaryRegex: arrayToRegex( auxiliariesSpanish ),
+		SentencePart: SentencePartSpanish,
+		auxiliaries: auxiliariesSpanish,
+		stopCharacterRegex: stopCharacterRegexSpanish,
+		followingAuxiliaryExceptionRegex: arrayToRegex( followingAuxiliaryExceptionWordsSpanish ),
 	},
 };
 
@@ -119,9 +135,11 @@ var auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches ) {
  *
  * @param {string} text The text part in which to check.
  * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
+ * @param {string} language The language for which to filter the auxiliaries.
  * @returns {Array} The filtered list of auxiliary indices.
  */
-var followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
+var followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, language ) {
+	var followingAuxiliaryExceptionRegex = languageVariables[ language ].followingAuxiliaryExceptionRegex;
 	var followingAuxiliaryExceptionMatches = getWordIndices( text, followingAuxiliaryExceptionRegex );
 
 	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
@@ -185,6 +203,9 @@ var getSentenceBreakers = function( sentence, language ) {
 
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 			break;
+		case "es":
+			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
+			break;
 		case "en":
 		default:
 			var ingVerbs = getVerbsEndingInIng( sentence );
@@ -209,13 +230,16 @@ var getAuxiliaryMatches = function( sentencePart, language ) {
 
 	switch( language ) {
 		case "fr":
-
+		case "es":
 			// An array with the matched auxiliaries and their indices.
 			var auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
-			// Filters auxiliaries matched in the sentence part based on a precedence exception filter.
-			auxiliaryMatchIndices = auxiliaryPrecedenceExceptionFilter( sentencePart, auxiliaryMatchIndices );
+
+			if( language === "fr" ) {
+				// Filters auxiliaries matched in the sentence part based on a precedence exception filter.
+				auxiliaryMatchIndices = auxiliaryPrecedenceExceptionFilter( sentencePart, auxiliaryMatchIndices );
+			}
 			// Filters auxiliaries matched in the sentence part based on a exception filter for words following the auxiliary.
-			auxiliaryMatchIndices = followingAuxiliaryExceptionFilter( sentencePart, auxiliaryMatchIndices );
+			auxiliaryMatchIndices = followingAuxiliaryExceptionFilter( sentencePart, auxiliaryMatchIndices, language );
 
 			// An array with the matched auxiliary verbs (without indices).
 			var auxiliaryMatchWords = [];
