@@ -233,9 +233,9 @@ class WPSEO_Redirect_Handler {
 	 * @return void
 	 */
 	protected function do_redirect( $redirect_url, $redirect_type ) {
-		$targetless_redirects = array( 410, 451 );
-		if ( in_array( $redirect_type, $targetless_redirects, true ) ) {
-			$this->handle_targetless_redirect( $redirect_type );
+		$redirect_types_without_target = array( 410, 451 );
+		if ( in_array( $redirect_type, $redirect_types_without_target, true ) ) {
+			$this->handle_redirect_without_target( $redirect_type );
 
 			return;
 		}
@@ -406,8 +406,8 @@ class WPSEO_Redirect_Handler {
 			return $target_url;
 		}
 
-		$target_url = $this->maybe_trailingslashit( $target_url );
-		$target_url = $this->maybe_format_for_multisite( $target_url );
+		$target_url = $this->trailingslashit( $target_url );
+		$target_url = $this->format_for_multisite( $target_url );
 		$target_url = $this->format_target( $target_url );
 
 		return $target_url;
@@ -420,7 +420,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return string The altered target url/
 	 */
-	protected function maybe_trailingslashit( $target_url ) {
+	protected function trailingslashit( $target_url ) {
 		// Adds slash to target URL when permalink structure ends with a slash.
 		if ( WPSEO_Redirect_Util::requires_trailing_slash( $target_url ) ) {
 			return trailingslashit( $target_url );
@@ -436,7 +436,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return string The formatted url.
 	 */
-	protected function maybe_format_for_multisite( $target_url ) {
+	protected function format_for_multisite( $target_url ) {
 		if ( ! is_multisite() ) {
 			return $target_url;
 		}
@@ -550,7 +550,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return void
 	 */
-	protected function handle_targetless_redirect( $redirect_type ) {
+	protected function handle_redirect_without_target( $redirect_type ) {
 		if ( 410 === $redirect_type ) {
 			add_action( 'wp', array( $this, 'do_410' ) );
 		}

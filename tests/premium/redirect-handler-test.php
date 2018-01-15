@@ -152,7 +152,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		$redirect_handler
 			->expects( $this->never() )
 			->method( 'do_redirect' );
-		
+
 		/** @var WPSEO_Redirect_Handler $redirect_handler */
 		$redirect_handler->load();
 	}
@@ -358,17 +358,17 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	public function test_parse_target_url( $unformatted_target, $formatted_target ) {
 		$redirect_handler = $this
 			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
-			->setMethods( array( 'maybe_trailingslashit', 'maybe_format_for_multisite' ) )
+			->setMethods( array( 'trailingslashit', 'format_for_multisite' ) )
 			->getMock();
 
 		$redirect_handler
 			->expects( $this->any() )
-			->method( 'maybe_trailingslashit' )
+			->method( 'trailingslashit' )
 			->will( $this->returnArgument( 0 ) );
 
 		$redirect_handler
 			->expects( $this->any() )
-			->method( 'maybe_format_for_multisite' )
+			->method( 'format_for_multisite' )
 			->will( $this->returnArgument( 0 ) );
 
 		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
@@ -462,10 +462,10 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	public function test_do_redirect_for_a_451_redirect() {
 		$redirect_handler = $this
 			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
-			->setMethods( array( 'handle_targetless_redirect', 'add_redirect_by_header', 'redirect' ) )
+			->setMethods( array( 'handle_redirect_without_target', 'add_redirect_by_header', 'redirect' ) )
 			->getMock();
 
-		$redirect_handler->expects( $this->once() )->method( 'handle_targetless_redirect' );
+		$redirect_handler->expects( $this->once() )->method( 'handle_redirect_without_target' );
 		$redirect_handler->expects( $this->never() )->method( 'add_redirect_by_header' );
 		$redirect_handler->expects( $this->never() )->method( 'redirect' );
 
