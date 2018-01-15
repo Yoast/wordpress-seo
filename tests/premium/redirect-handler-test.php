@@ -665,7 +665,6 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
-
 	/**
 	 * Provider for the default (normal) redirects.
 	 *
@@ -692,8 +691,12 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 				'page/get/it',
 				new WPSEO_Redirect( 'page/.*', 'page-hi', 301 ),
 				'page-hi'
-
-			)
+			),
+			array(
+				'/a/page/to/amp',
+				new WPSEO_Redirect( '/a/page/([^/]+)/amp', '/a/page/$1', 301 ),
+				'a/page/to'
+			),
 		);
 	}
 
