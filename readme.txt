@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.1
-Stable tag: 6.1.1
+Stable tag: 6.2.0
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -112,10 +112,15 @@ Release Date: January 23rd, 2018
 Enhancements:
 
 * Allows more strings to be translated.
+* Adds the passive voice assessment for French.
+* Adds the passive voice assessment for Spanish.
+* Simplifies the feedback message for the assessment that checks whether subheadings contain the keyword.
 
 Bugfixes:
 
 * Security hardening through stricter code checks.
+* Reduces the number of times the content analysis is refreshed on page load.
+* Fixes a bug where relative URLs were not counted as internal links in the internal link assessment.
 
 = 6.1.1 =
 Release Date: January 10th, 2018
