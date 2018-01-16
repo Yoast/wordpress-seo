@@ -106,6 +106,18 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 6.2 =
+Release Date:
+
+Enhancement:
+* Adds the passive voice assessment for French.
+* Adds the passive voice assessment for Spanish.
+* Simplifies the message for the SubheadingsKeywordAssessment.
+
+Bugfixes:
+* Reduces the number of times the content analysis is refreshed on page load.
+* Fixes a bug where relative URLs were not counted as internal links in the internal link assessment.
+
 = 6.1.1 =
 Release Date: January 10th, 2018
 
