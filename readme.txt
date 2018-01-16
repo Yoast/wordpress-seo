@@ -112,7 +112,7 @@ Release Date:
 Enhancement:
 * Adds the passive voice assessment for French.
 * Adds the passive voice assessment for Spanish.
-* Simplifies the message for the SubheadingsKeywordAssessment.
+* Simplifies the feedback message for the assessment that checks whether subheadings contain the keyword.
 
 Bugfixes:
 * Reduces the number of times the content analysis is refreshed on page load.
