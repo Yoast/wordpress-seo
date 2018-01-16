@@ -3,7 +3,10 @@ const webpack = require( "webpack" );
 const UnminifiedWebpackPlugin = require( "unminified-webpack-plugin" );
 
 const paths = require( "./paths" );
-const outputFilename = "[name]-<%= pluginVersionSlug %>.min.js";
+const pkg = require( "../package.json" );
+
+const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
+const outputFilename = "[name]-" + pluginVersionSlug + ".min.js";
 
 const defaultWebpackConfig = {
 	devtool: "eval",
@@ -47,7 +50,7 @@ const defaultWebpackConfig = {
 		new webpack.optimize.AggressiveMergingPlugin(),
 		new webpack.optimize.CommonsChunkPlugin( {
 			name: "vendor",
-			filename: "commons-<%= pluginVersionSlug %>.min.js",
+			filename: "commons-" + pluginVersionSlug + ".min.js",
 		} ),
 	],
 };
