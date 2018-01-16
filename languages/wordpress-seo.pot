@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 6.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-01-10 10:46:51+00:00\n"
+"POT-Creation-Date: 2018-01-16 08:31:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -422,75 +422,75 @@ msgstr ""
 msgid "Show All Post Types"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:420
+#: admin/class-bulk-editor-list-table.php:425
 msgid "Filter by post type"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:428
+#: admin/class-bulk-editor-list-table.php:433
 msgid "Filter"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:794
+#: admin/class-bulk-editor-list-table.php:799
 msgid "(no title)"
 msgstr ""
 
 #. translators: %s: post title
-#: admin/class-bulk-editor-list-table.php:808
+#: admin/class-bulk-editor-list-table.php:813
 msgid "Edit &#8220;%s&#8221;"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:809
+#: admin/class-bulk-editor-list-table.php:814
 msgid "Edit"
 msgstr ""
 
 #. translators: %s: post title
-#: admin/class-bulk-editor-list-table.php:820
+#: admin/class-bulk-editor-list-table.php:825
 msgid "Preview &#8220;%s&#8221;"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:821
+#: admin/class-bulk-editor-list-table.php:826
 msgid "Preview"
 msgstr ""
 
 #. translators: %s: post title
-#: admin/class-bulk-editor-list-table.php:830
+#: admin/class-bulk-editor-list-table.php:835
 msgid "View &#8220;%s&#8221;"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:831
+#: admin/class-bulk-editor-list-table.php:836
 #: admin/google_search_console/class-gsc-table.php:207
 msgid "View"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:887
+#: admin/class-bulk-editor-list-table.php:892
 msgid "Save"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:888
+#: admin/class-bulk-editor-list-table.php:893
 msgid "Save all"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:999
+#: admin/class-bulk-editor-list-table.php:1004
 msgid "WP Page Title"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:1000
+#: admin/class-bulk-editor-list-table.php:1005
 msgid "Post Type"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:1001
+#: admin/class-bulk-editor-list-table.php:1006
 msgid "Post Status"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:1002
+#: admin/class-bulk-editor-list-table.php:1007
 msgid "Publication date"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:1003
+#: admin/class-bulk-editor-list-table.php:1008
 msgid "Page URL/Slug"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:1008
+#: admin/class-bulk-editor-list-table.php:1013
 msgid "Action"
 msgstr ""
 
@@ -1079,6 +1079,11 @@ msgid ""
 "%1$s? You can, with %2$s."
 msgstr ""
 
+#. translators: %s expands to Yoast SEO Premium.
+#: admin/class-social-admin.php:181
+msgid "Find out why you should upgrade to %s"
+msgstr ""
+
 #: admin/class-social-facebook-form.php:72
 msgid "Facebook Insights and Admins"
 msgstr ""
@@ -1135,7 +1140,7 @@ msgstr ""
 msgid "Facebook App ID"
 msgstr ""
 
-#: admin/class-social-facebook-form.php:246
+#: admin/class-social-facebook-form.php:244
 msgid "Clear all Facebook Data"
 msgstr ""
 
@@ -2605,7 +2610,7 @@ msgid ""
 msgstr ""
 
 #: admin/metabox/class-metabox.php:477
-#: admin/taxonomy/class-taxonomy-metabox.php:269 admin/views/licenses.php:137
+#: admin/taxonomy/class-taxonomy-metabox.php:269 admin/views/licenses.php:143
 msgid "Redirect manager"
 msgstr ""
 
@@ -2615,7 +2620,7 @@ msgid "Create and manage redirects within your WordPress install."
 msgstr ""
 
 #: admin/metabox/class-metabox.php:479
-#: admin/taxonomy/class-taxonomy-metabox.php:271 admin/views/licenses.php:141
+#: admin/taxonomy/class-taxonomy-metabox.php:271 admin/views/licenses.php:147
 msgid "Multiple focus keywords"
 msgstr ""
 
@@ -2635,7 +2640,7 @@ msgid "Check what your Facebook or Twitter post will look like."
 msgstr ""
 
 #: admin/metabox/class-metabox.php:483
-#: admin/taxonomy/class-taxonomy-metabox.php:275 admin/views/licenses.php:149
+#: admin/taxonomy/class-taxonomy-metabox.php:275 admin/views/licenses.php:155
 msgid "Premium support"
 msgstr ""
 
@@ -3065,7 +3070,7 @@ msgid ""
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/about.php:33
+#: admin/views/about.php:28
 msgid "Thank you for updating %1$s!"
 msgstr ""
 
@@ -3267,83 +3272,83 @@ msgstr ""
 msgid "A seamless integration between %1$s and %2$s"
 msgstr ""
 
-#. translators: %1$s expands to Yoast SEO
-#: admin/views/licenses.php:121
+#. translators: %1$s expands to Yoast SEO.
+#: admin/views/licenses.php:117
 msgid "%1$s Extensions"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO Premium
-#: admin/views/licenses.php:132
+#: admin/views/licenses.php:135
 msgid "%1$s, take your optimization to the next level!"
 msgstr ""
 
-#: admin/views/licenses.php:138
+#: admin/views/licenses.php:144
 msgid "create and manage redirects from within your WordPress install."
 msgstr ""
 
-#: admin/views/licenses.php:142
+#: admin/views/licenses.php:148
 msgid "optimize a single post for up to 5 keywords."
 msgstr ""
 
-#: admin/views/licenses.php:145
+#: admin/views/licenses.php:151
 msgid "Social previews"
 msgstr ""
 
-#: admin/views/licenses.php:146
+#: admin/views/licenses.php:152
 msgid "check what your Facebook or Twitter post will look like."
 msgstr ""
 
-#: admin/views/licenses.php:150
+#: admin/views/licenses.php:156
 msgid "gain access to our 24/7 support team."
 msgstr ""
 
-#: admin/views/licenses.php:155 admin/views/licenses.php:213
+#: admin/views/licenses.php:161 admin/views/licenses.php:219
 msgid "Installed"
 msgstr ""
 
-#: admin/views/licenses.php:158 admin/views/licenses.php:216
+#: admin/views/licenses.php:164 admin/views/licenses.php:222
 msgid "Activated"
 msgstr ""
 
-#: admin/views/licenses.php:159 admin/views/licenses.php:217
+#: admin/views/licenses.php:165 admin/views/licenses.php:223
 msgid "Manage your subscription on My Yoast"
 msgstr ""
 
-#: admin/views/licenses.php:161 admin/views/licenses.php:219
+#: admin/views/licenses.php:167 admin/views/licenses.php:225
 msgid "Not activated"
 msgstr ""
 
-#: admin/views/licenses.php:162 admin/views/licenses.php:220
+#: admin/views/licenses.php:168 admin/views/licenses.php:226
 msgid "Activate your site on My Yoast"
 msgstr ""
 
 #. translators: $1$s expands to Yoast SEO Premium
-#: admin/views/licenses.php:171
+#: admin/views/licenses.php:177
 msgid "Buy %1$s"
 msgstr ""
 
 #. translators: Text between %1$s and %2$s will only be shown to screen
 #. readers. %3$s expands to the product name.
-#: admin/views/licenses.php:177 admin/views/licenses.php:231
+#: admin/views/licenses.php:183 admin/views/licenses.php:237
 msgid "More information %1$sabout %3$s%2$s"
 msgstr ""
 
-#: admin/views/licenses.php:184
+#: admin/views/licenses.php:190
 msgid "Comes with our 30-day no questions asked money back guarantee"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/licenses.php:192
+#: admin/views/licenses.php:198
 msgid "%1$s extensions"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO extensions
-#: admin/views/licenses.php:197
+#: admin/views/licenses.php:203
 msgid "%1$s to optimize your site even further"
 msgstr ""
 
 #. translators: %s expands to the product name
-#: admin/views/licenses.php:225
+#: admin/views/licenses.php:231
 msgid "Buy %s"
 msgstr ""
 
@@ -3518,18 +3523,19 @@ msgstr ""
 msgid "Remove the %s variables."
 msgstr ""
 
-#: admin/views/tabs/advanced/permalinks.php:36
+#. translators: 1: emphasis open tag; 2: emphasis close tag.
+#: admin/views/tabs/advanced/permalinks.php:39
 msgid ""
 "This prevents threaded replies from working when the user has JavaScript "
-"disabled, but on a large site can mean a <em>huge</em> improvement in crawl "
+"disabled, but on a large site can mean a %1$shuge%2$s improvement in crawl "
 "efficiency for search engines when you have a lot of comments."
 msgstr ""
 
-#: admin/views/tabs/advanced/permalinks.php:40
+#: admin/views/tabs/advanced/permalinks.php:47
 msgid "Enforce a trailing slash on all category and tag URLs"
 msgstr ""
 
-#: admin/views/tabs/advanced/permalinks.php:41
+#: admin/views/tabs/advanced/permalinks.php:48
 msgid ""
 "Note: this feature has been deprecated, as the SEO value is close to 0 these "
 "days. If you disable it you will not be able to put it back on."
@@ -3537,19 +3543,19 @@ msgstr ""
 
 #. translators: %1$s expands to <code>.html</code>, %2$s expands to
 #. <code>/</code>
-#: admin/views/tabs/advanced/permalinks.php:45
+#: admin/views/tabs/advanced/permalinks.php:52
 msgid ""
 "If you choose a permalink for your posts with %1$s, or anything else but a "
 "%2$s at the end, this will force WordPress to add a trailing slash to non-"
 "post pages nonetheless."
 msgstr ""
 
-#: admin/views/tabs/advanced/permalinks.php:52
+#: admin/views/tabs/advanced/permalinks.php:59
 msgid ""
 "Redirect ugly URLs to clean permalinks. (Not recommended in many cases!)"
 msgstr ""
 
-#: admin/views/tabs/advanced/permalinks.php:53
+#: admin/views/tabs/advanced/permalinks.php:60
 msgid ""
 "People make mistakes in their links towards you sometimes, or unwanted "
 "parameters are added to the end of your URLs, this allows you to redirect "
@@ -3559,34 +3565,34 @@ msgid ""
 "this plugin."
 msgstr ""
 
-#: admin/views/tabs/advanced/permalinks.php:56
+#: admin/views/tabs/advanced/permalinks.php:63
 msgid "Prevent cleaning out Google Site Search URLs."
 msgstr ""
 
-#: admin/views/tabs/advanced/permalinks.php:57
+#: admin/views/tabs/advanced/permalinks.php:64
 msgid ""
 "Google Site Search URLs look weird, and ugly, but if you're using Google "
 "Site Search, you probably do not want them cleaned out."
 msgstr ""
 
-#: admin/views/tabs/advanced/permalinks.php:59
+#: admin/views/tabs/advanced/permalinks.php:66
 msgid ""
 "Prevent cleaning out Google Analytics Campaign & Google AdWords Parameters."
 msgstr ""
 
 #. translators: %s expands to <code>?utm_</code>
-#: admin/views/tabs/advanced/permalinks.php:63
+#: admin/views/tabs/advanced/permalinks.php:70
 msgid ""
 "If you use Google Analytics campaign parameters starting with %s, check this "
 "box. However, you're advised not to use these. Instead, use the version with "
 "a hash."
 msgstr ""
 
-#: admin/views/tabs/advanced/permalinks.php:68
+#: admin/views/tabs/advanced/permalinks.php:75
 msgid "Other variables not to clean"
 msgstr ""
 
-#: admin/views/tabs/advanced/permalinks.php:69
+#: admin/views/tabs/advanced/permalinks.php:76
 msgid ""
 "You might have extra variables you want to prevent from cleaning out, add "
 "them here, comma separated."
@@ -3650,8 +3656,8 @@ msgid ""
 "A link to your site, with your site's name and description as anchor text."
 msgstr ""
 
-#. translators: %1$s expands to Yoast SEO
-#: admin/views/tabs/dashboard/dashboard.php:17
+#. translators: %1$s expands to Yoast SEO.
+#: admin/views/tabs/dashboard/dashboard.php:14
 msgid "%1$s Dashboard"
 msgstr ""
 
@@ -4065,28 +4071,29 @@ msgstr ""
 msgid "You can find your XML Sitemap here: %1$sXML Sitemap%2$s"
 msgstr ""
 
-#: admin/views/tabs/sitemaps/general.php:24
+#. translators: 1: <strong> open tag; 2: close tag.
+#: admin/views/tabs/sitemaps/general.php:26
 msgid ""
-"You do <strong>not</strong> need to generate the XML sitemap, nor will it "
-"take up time to generate after publishing a post."
+"You do %1$snot%2$s need to generate the XML sitemap, nor will it take up "
+"time to generate after publishing a post."
 msgstr ""
 
-#: admin/views/tabs/sitemaps/general.php:28
+#: admin/views/tabs/sitemaps/general.php:33
 msgid "Save your settings to activate your XML Sitemap."
 msgstr ""
 
-#: admin/views/tabs/sitemaps/general.php:31
+#: admin/views/tabs/sitemaps/general.php:36
 msgid "Entries per sitemap page"
 msgstr ""
 
 #. translators: %d expands to default number of entries per sitemap.
-#: admin/views/tabs/sitemaps/general.php:37
+#: admin/views/tabs/sitemaps/general.php:42
 msgid ""
 "Please enter the maximum number of entries per sitemap page (defaults to %d, "
 "you might want to lower this to prevent memory issues on some installs):"
 msgstr ""
 
-#: admin/views/tabs/sitemaps/general.php:44
+#: admin/views/tabs/sitemaps/general.php:49
 msgid "Max entries per sitemap"
 msgstr ""
 
@@ -4253,37 +4260,37 @@ msgid ""
 msgstr ""
 
 #. translators: 1: link open tag; 2: link close tag.
-#: admin/views/tabs/tool/import-seo.php:17
+#: admin/views/tabs/tool/import-seo.php:19
 msgid ""
 "If you've used another SEO plugin, try the %1$sSEO Data Transporter%2$s "
 "plugin to move your data into this plugin, it rocks!"
 msgstr ""
 
-#: admin/views/tabs/tool/import-seo.php:25
+#: admin/views/tabs/tool/import-seo.php:31
 msgid "Import from HeadSpace2"
 msgstr ""
 
-#: admin/views/tabs/tool/import-seo.php:26
+#: admin/views/tabs/tool/import-seo.php:32
 msgid "Import from All-in-One SEO"
 msgstr ""
 
-#: admin/views/tabs/tool/import-seo.php:27
+#: admin/views/tabs/tool/import-seo.php:33
 msgid "Import from Jetpack SEO"
 msgstr ""
 
-#: admin/views/tabs/tool/import-seo.php:28
+#: admin/views/tabs/tool/import-seo.php:34
 msgid "Import from WooThemes SEO framework"
 msgstr ""
 
-#: admin/views/tabs/tool/import-seo.php:29
+#: admin/views/tabs/tool/import-seo.php:35
 msgid "Import from wpSEO"
 msgstr ""
 
-#: admin/views/tabs/tool/import-seo.php:35
+#: admin/views/tabs/tool/import-seo.php:41
 msgid "Delete the old data after import? (recommended)"
 msgstr ""
 
-#: admin/views/tabs/tool/import-seo.php:39
+#: admin/views/tabs/tool/import-seo.php:45
 msgid "Import"
 msgstr ""
 
@@ -4299,7 +4306,7 @@ msgid ""
 "on another site."
 msgstr ""
 
-#: admin/views/tabs/tool/wpseo-export.php:23
+#: admin/views/tabs/tool/wpseo-export.php:27
 msgid "Include Taxonomy Metadata"
 msgstr ""
 
@@ -4399,7 +4406,7 @@ msgid "Import from other SEO plugins"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/user-profile.php:12
+#: admin/views/user-profile.php:7
 msgid "%1$s settings"
 msgstr ""
 
