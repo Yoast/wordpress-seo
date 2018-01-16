@@ -405,12 +405,17 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$post_type_filter = filter_input( INPUT_GET, 'post_type_filter' );
 				$selected         = ( ! empty( $post_type_filter ) ) ? sanitize_text_field( $post_type_filter ) : '-1';
 
-				$options = '<option value="-1">' . __( 'Show All Post Types', 'wordpress-seo' ) . '</option>';
+				$options = '<option value="-1">' . esc_html__( 'Show All Post Types', 'wordpress-seo' ) . '</option>';
 
 				if ( is_array( $post_types ) && $post_types !== array() ) {
 					foreach ( $post_types as $post_type ) {
 						$obj      = get_post_type_object( $post_type->post_type );
-						$options .= sprintf( '<option value="%2$s" %3$s>%1$s</option>', $obj->labels->name, $post_type->post_type, selected( $selected, $post_type->post_type, false ) );
+						$options .= sprintf(
+							'<option value="%2$s" %3$s>%1$s</option>',
+							esc_html( $obj->labels->name ),
+							esc_attr( $post_type->post_type ),
+							selected( $selected, $post_type->post_type, false )
+						);
 					}
 				}
 

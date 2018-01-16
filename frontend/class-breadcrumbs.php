@@ -692,7 +692,7 @@ class WPSEO_Breadcrumbs {
 		$link['text'] = WPSEO_Meta::get_value( 'bctitle', $id );
 
 		if ( $link['text'] === '' ) {
-			$link['text'] = strip_tags( get_the_title( $id ) );
+			$link['text'] = wp_strip_all_tags( get_the_title( $id ), true );
 		}
 
 		/**

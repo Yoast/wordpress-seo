@@ -19,8 +19,8 @@ $version = '3.4';
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
 		echo '<li class="wp-person">';
-		echo '<a href="', esc_url( 'https://github.com/' . $username ), '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=120" class="gravatar" alt="">', $dev->name, '</a>';
-		echo '<span class="title">', $dev->role, "</span></li>\n";
+		echo '<a href="', esc_url( 'https://github.com/' . $username ), '" class="web"><img src="//gravatar.com/avatar/', rawurlencode( $dev->gravatar ), '?s=120" class="gravatar" alt="">', esc_html( $dev->name ), '</a>';
+		echo '<span class="title">', esc_html( $dev->role ), "</span></li>\n";
 	}
 }
 
