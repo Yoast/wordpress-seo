@@ -69,6 +69,9 @@ class WPSEO_Frontend {
 	/** @var WPSEO_Frontend_Page_Type */
 	protected $frontend_page_type;
 
+	/** @var WPSEO_WooCommerce_Shop_Page */
+	protected $woocommerce_shop_page;
+
 	/**
 	 * Class constructor.
 	 *
@@ -150,10 +153,12 @@ class WPSEO_Frontend {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
 
+		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
+
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
 			new WPSEO_JSON_LD(),
-			new WPSEO_WooCommerce_Shop_Page(),
+			$this->woocommerce_shop_page,
 		);
 
 		foreach ( $integrations as $integration ) {
@@ -246,7 +251,27 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_content_title( $object = null ) {
-		if ( is_null( $object ) ) {
+		if ( $object === null ) {
+			$object = $GLOBALS['wp_query']->get_queried_object();
+		}
+
+		$title = $this->get_seo_title( $object );
+		if ( $title !== '' ) {
+			return $title;
+		}
+
+		$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
+
+		return $this->get_title_from_options( 'title-' . $post_type, $object );
+	}
+
+	/**
+	 * @param null $object
+	 *
+	 * @return string
+	 */
+	public function get_seo_title( $object = null ) {
+		if ( $object === null ) {
 			$object = $GLOBALS['wp_query']->get_queried_object();
 		}
 
@@ -260,9 +285,7 @@ class WPSEO_Frontend {
 			return wpseo_replace_vars( $title, $object );
 		}
 
-		$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
-
-		return $this->get_title_from_options( 'title-' . $post_type, $object );
+		return $title;
 	}
 
 	/**
@@ -451,6 +474,14 @@ class WPSEO_Frontend {
 		elseif ( $this->is_home_posts_page() ) {
 			$title = $this->get_title_from_options( 'title-home-wpseo' );
 		}
+		elseif( $this->woocommerce_shop_page->is_shop_page() ) {
+			$post  = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
+			$title = $this->get_seo_title( $post );
+
+			if ( ! is_string( $title ) || $title === '' ) {
+				$title = $this->get_post_type_archive_title( $separator, $separator_location );
+			}
+		}
 		elseif ( $this->get_frontend_page_type()->is_simple_page() ) {
 			$post  = get_post( $this->get_frontend_page_type()->get_simple_page_id() );
 			$title = $this->get_content_title( $post );
@@ -494,26 +525,7 @@ class WPSEO_Frontend {
 			}
 		}
 		elseif ( is_post_type_archive() ) {
-			$post_type = get_query_var( 'post_type' );
-
-			if ( is_array( $post_type ) ) {
-				$post_type = reset( $post_type );
-			}
-
-			$title = $this->get_title_from_options( 'title-ptarchive-' . $post_type );
-
-			if ( ! is_string( $title ) || '' === $title ) {
-				$post_type_obj = get_post_type_object( $post_type );
-				if ( isset( $post_type_obj->labels->menu_name ) ) {
-					$title_part = $post_type_obj->labels->menu_name;
-				}
-				elseif ( isset( $post_type_obj->name ) ) {
-					$title_part = $post_type_obj->name;
-				}
-				else {
-					$title_part = ''; // To be determined what this should be.
-				}
-			}
+			$title = $this->get_post_type_archive_title( $separator, $separator_location );
 		}
 		elseif ( is_archive() ) {
 			$title = $this->get_title_from_options( 'title-archive-wpseo' );
@@ -754,11 +766,7 @@ class WPSEO_Frontend {
 
 			}
 			elseif ( is_post_type_archive() ) {
-				$post_type = get_query_var( 'post_type' );
-
-				if ( is_array( $post_type ) ) {
-					$post_type = reset( $post_type );
-				}
+				$post_type = $this->get_queried_post_type();
 
 				if ( isset( $this->options[ 'noindex-ptarchive-' . $post_type ] ) && $this->options[ 'noindex-ptarchive-' . $post_type ] === true ) {
 					$robots['index'] = 'noindex';
@@ -939,10 +947,7 @@ class WPSEO_Frontend {
 				}
 			}
 			elseif ( is_post_type_archive() ) {
-				$post_type = get_query_var( 'post_type' );
-				if ( is_array( $post_type ) ) {
-					$post_type = reset( $post_type );
-				}
+				$post_type = $this->get_queried_post_type();
 				$canonical = get_post_type_archive_link( $post_type );
 			}
 			elseif ( is_author() ) {
@@ -1217,10 +1222,7 @@ class WPSEO_Frontend {
 				}
 			}
 			elseif ( is_post_type_archive() ) {
-				$post_type = get_query_var( 'post_type' );
-				if ( is_array( $post_type ) ) {
-					$post_type = reset( $post_type );
-				}
+				$post_type = $this->get_queried_post_type();
 				if ( isset( $this->options[ 'metakey-ptarchive-' . $post_type ] ) && $this->options[ 'metakey-ptarchive-' . $post_type ] !== '' ) {
 					$keywords = wpseo_replace_vars( $this->options[ 'metakey-ptarchive-' . $post_type ], $wp_query->get_queried_object() );
 				}
@@ -1281,7 +1283,17 @@ class WPSEO_Frontend {
 			$post_type = $post->post_type;
 		}
 
-		if ( $this->get_frontend_page_type()->is_simple_page() ) {
+		if( $this->woocommerce_shop_page->is_shop_page() ) {
+			$post      = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
+			$post_type = $this->get_queried_post_type();
+
+			$option_key = 'metadesc-ptarchive-' . $post_type;
+			if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ $option_key ] ) ) {
+				$template = $this->options[ 'metadesc-ptarchive-' . $post_type ];
+				$term     = $post;
+			}
+			$metadesc_override = WPSEO_Meta::get_value( 'metadesc', $post->ID );
+		} elseif ( $this->get_frontend_page_type()->is_simple_page() ) {
 			$post      = get_post( $this->get_frontend_page_type()->get_simple_page_id() );
 			$post_type = $post->post_type;
 
@@ -1325,10 +1337,7 @@ class WPSEO_Frontend {
 				}
 			}
 			elseif ( is_post_type_archive() ) {
-				$post_type = get_query_var( 'post_type' );
-				if ( is_array( $post_type ) ) {
-					$post_type = reset( $post_type );
-				}
+				$post_type = $this->get_queried_post_type();
 				if ( isset( $this->options[ 'metadesc-ptarchive-' . $post_type ] ) ) {
 					$template = $this->options[ 'metadesc-ptarchive-' . $post_type ];
 				}
@@ -2012,4 +2021,48 @@ class WPSEO_Frontend {
 		return $this->debug_mark( $echo );
 	}
 	// @codeCoverageIgnoreEnd
+
+	/**
+	 * Builds the title for a post type archive.
+	 *
+	 * @param string $separator          The title separator.
+	 * @param string $separator_location The location of the title separator.
+	 *
+	 * @return string The title to use on a post type archive.
+	 */
+	protected function get_post_type_archive_title( $separator, $separator_location ) {
+		$post_type = $this->get_queried_post_type();
+
+		$title = $this->get_title_from_options( 'title-ptarchive-' . $post_type );
+
+		if ( ! is_string( $title ) || '' === $title ) {
+			$post_type_obj = get_post_type_object( $post_type );
+			if ( isset( $post_type_obj->labels->menu_name ) ) {
+				$title_part = $post_type_obj->labels->menu_name;
+			} elseif ( isset( $post_type_obj->name ) ) {
+				$title_part = $post_type_obj->name;
+			} else {
+				$title_part = ''; // To be determined what this should be.
+			}
+
+			$title = $this->get_default_title( $separator, $separator_location, $title_part );
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Retrieves the queried post type.
+	 *
+	 * @return string The queried post type.
+	 */
+	protected function get_queried_post_type() {
+		$post_type = get_query_var( 'post_type' );
+		if ( is_array( $post_type ) ) {
+			$post_type = reset( $post_type );
+		}
+
+		return $post_type;
+	}
+
 }
