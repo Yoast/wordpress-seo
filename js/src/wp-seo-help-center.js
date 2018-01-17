@@ -4,7 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import get from "lodash/get";
-import { injectIntl, intlShape, addLocaleData } from "react-intl";
+import { injectIntl, intlShape } from "react-intl";
 import getIntlProvider from "./components/higher-order/IntlProviderWaitForLocaleData";
 
 import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
