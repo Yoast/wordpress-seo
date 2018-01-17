@@ -2064,5 +2064,4 @@ class WPSEO_Frontend {
 
 		return $post_type;
 	}
-
 }
