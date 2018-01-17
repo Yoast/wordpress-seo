@@ -1,6 +1,11 @@
 <?php
+/**
+ * @package WPSEO|Admin
+ */
 
-
+/**
+ * Determines the location of an asset within the SEO plugin.
+ */
 final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location {
 
 	/**

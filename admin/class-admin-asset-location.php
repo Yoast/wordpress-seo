@@ -3,6 +3,9 @@
  * @package WPSEO|Admin
  */
 
+/**
+ * Represents a way to determine an assets location.
+ */
 interface WPSEO_Admin_Asset_Location {
 
 	/**
