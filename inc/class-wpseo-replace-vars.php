@@ -334,9 +334,9 @@ class WPSEO_Replace_Vars {
 				$replacement = wp_strip_all_tags( $this->args->post_excerpt );
 			}
 			elseif ( $this->args->post_content !== '' ) {
-                $replacement = wp_html_excerpt( strip_shortcodes( $this->args->post_content ), 320 );
-                // trim the auto-generated string to a word boundary
-                $replacement = substr($replacement, 0, strrpos($replacement, ' '));
+				$replacement = wp_html_excerpt( strip_shortcodes( $this->args->post_content ), 320 );
+				// Trim the auto-generated string to a word boundary.
+				$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
 			}
 		}
 
