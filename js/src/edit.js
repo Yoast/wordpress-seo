@@ -6,9 +6,9 @@ import logger from "redux-logger";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { IntlProvider, addLocaleData } from "react-intl";
 import flowRight from "lodash/flowRight";
 
+import getIntlProvider from "./components/higher-order/IntlProviderWaitForLocaleData";
 import markerStatusReducer from "./redux/reducers/markerButtons";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
@@ -23,22 +23,8 @@ if( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
 
-
-const locale = localizedData.intl.locale ?
-	localizedData.intl.locale.split( "_" )[ 0 ] : "en";
-
-function loadLocaleData() {
-	console.log( "Loading locale data!" );
-	return import(
-		`react-intl/locale-data/${ locale }`
-	).then( localeData => {
-		addLocaleData( localeData );
-	} ).catch( error => {
-		console.error(`Error loading locale data for locale: ${ locale }\n\r${ error }`);
-	} );
-}
-
-const loadLocaleDataPromise = loadLocaleData();
+const locale = localizedData.intl.locale ? localizedData.intl.locale : "en";
+const IntlProvider = getIntlProvider( locale );
 
 /**
  * Creates a redux store.
@@ -47,7 +33,7 @@ const loadLocaleDataPromise = loadLocaleData();
  */
 function configureStore() {
 	const middleware = [
-		thunk
+		thunk,
 	];
 
 	if ( process.env.NODE_ENV !== "production" ) {
@@ -55,7 +41,7 @@ function configureStore() {
 	}
 
 	const enhancers = [
-		applyMiddleware( ...middleware )
+		applyMiddleware( ...middleware ),
 	];
 
 	if ( window.__REDUX_DEVTOOLS_EXTENSION__ ) {
@@ -137,12 +123,7 @@ function renderReactApps( store, args ) {
 export function initialize( args ) {
 	const store = configureStore();
 
-	loadLocaleDataPromise.then( () => {
-		console.log( "Loaded locale data" );
-		renderReactApps( store, args );
-	} ).catch( () => {
-		renderReactApps( store, args );
-	} );
+	renderReactApps( store, args );
 
 	return {
 		store,

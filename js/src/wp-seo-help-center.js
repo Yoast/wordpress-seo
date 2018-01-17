@@ -4,7 +4,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import get from "lodash/get";
-import { IntlProvider, injectIntl, intlShape, addLocaleData } from "react-intl";
+import { injectIntl, intlShape, addLocaleData } from "react-intl";
+import getIntlProvider from "./components/higher-order/IntlProviderWaitForLocaleData";
 
 import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
 import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSearcher";
@@ -219,6 +220,7 @@ HelpCenter.propTypes = {
 	intl: intlShape.isRequired,
 };
 
+const IntlProvider = getIntlProvider( wpseoHelpCenterData ? wpseoHelpCenterData.translations.locale : "en" );
 const HelpCenterIntl = injectIntl( HelpCenter );
 
 /**
@@ -266,9 +268,6 @@ function handleTabSelect() {
 }
 
 if ( window.wpseoHelpCenterData ) {
-	// Add react-intl translations
-	addLocaleData( wpseoHelpCenterData.translations );
-
 	ReactDOM.render(
 		<IntlProvider
 			locale={ wpseoHelpCenterData.translations.locale }
