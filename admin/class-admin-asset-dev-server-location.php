@@ -47,7 +47,8 @@ final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_L
 			return $this->get_default_url( $asset, $type );
 		}
 
-		$flat_version        = ( new WPSEO_Admin_Asset_Manager() )->flatten_version( WPSEO_VERSION );
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$flat_version        = $asset_manager->flatten_version( WPSEO_VERSION );
 		$version_less_source = str_replace( '-' . $flat_version, '', $asset->get_src() );
 
 		if ( ! in_array( $version_less_source, self::$dev_server_script, true ) ) {
@@ -68,6 +69,8 @@ final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_L
 	 * @return string The URL of the asset file.
 	 */
 	public function get_default_url( WPSEO_Admin_Asset $asset, $type ) {
-		return ( new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE ) )->get_url( $asset, $type );
+		$default_location = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
+
+		return $default_location->get_url( $asset, $type );
 	}
 }
