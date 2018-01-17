@@ -58,7 +58,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Test extends WPSEO_UnitTestCas
 	 * Provider for the post type labels.
 	 *
 	 * Format:
-	 * [0] Expected value
+	 * [0] Expected value.
 	 * [1] Post types to get the labels for.
 	 *
 	 * @return array
