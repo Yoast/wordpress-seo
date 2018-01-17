@@ -9,7 +9,7 @@
 class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Integration {
 
 	/** @var int */
-	const MODAL_DIALOG_HEIGHT_BASE = 282;
+	const MODAL_DIALOG_HEIGHT_BASE = 150;
 
 	/** @var int */
 	const PROGRESS_BAR_HEIGHT = 32;
