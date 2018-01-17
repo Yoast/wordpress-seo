@@ -23,6 +23,23 @@ if( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
 
+
+const locale = localizedData.intl.locale ?
+	localizedData.intl.locale.split( "_" )[ 0 ] : "en";
+
+function loadLocaleData() {
+	console.log( "Loading locale data!" );
+	return import(
+		`react-intl/locale-data/${ locale }`
+	).then( localeData => {
+		addLocaleData( localeData );
+	} ).catch( error => {
+		console.error(`Error loading locale data for locale: ${ locale }\n\r${ error }`);
+	} );
+}
+
+const loadLocaleDataPromise = loadLocaleData();
+
 /**
  * Creates a redux store.
  *
@@ -65,7 +82,7 @@ function configureStore() {
 function wrapInTopLevelComponents( Component, store ) {
 	return (
 		<IntlProvider
-			locale={ localizedData.intl.locale }
+			locale={ locale }
 			messages={ localizedData.intl } >
 			<Provider store={ store } >
 				<Component hideMarksButtons={ localizedData.show_markers !== "1" } />
@@ -102,11 +119,6 @@ function renderReactApp( target, component, store ) {
  * @returns {void}
  */
 function renderReactApps( store, args ) {
-	if ( localizedData.intl ) {
-		// Add react-intl translations
-		addLocaleData( localizedData.intl );
-	}
-
 	renderReactApp( args.readabilityTarget, ContentAnalysis, store );
 	renderReactApp( args.seoTarget, SeoAnalysis, store );
 }
@@ -125,7 +137,12 @@ function renderReactApps( store, args ) {
 export function initialize( args ) {
 	const store = configureStore();
 
-	renderReactApps( store, args );
+	loadLocaleDataPromise.then( () => {
+		console.log( "Loaded locale data" );
+		renderReactApps( store, args );
+	} ).catch( () => {
+		renderReactApps( store, args );
+	} );
 
 	return {
 		store,

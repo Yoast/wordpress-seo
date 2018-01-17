@@ -1,4 +1,5 @@
 {
   "presets": ["es2015"],
-  "plugins": ["transform-react-jsx"]
+  "plugins": ["transform-react-jsx", "syntax-dynamic-import"],
+  "comments": true
 }

@@ -13,6 +13,8 @@ const defaultWebpackConfig = {
 		path: paths.jsDist,
 		filename: outputFilename,
 		jsonpFunction: "yoastWebpackJsonp",
+		chunkFilename: "chunks/[name].js",
+		publicPath: "/wp-content/plugins/wordpress-seo/js/dist/",
 	},
 	resolve: {
 		extensions: [ ".js", ".jsx" ],
