@@ -66,7 +66,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		echo '<p>' . esc_html__( 'Want to use our internal linking tool? Analyze all the published posts, pages and custom post types to generate internal linking suggestions.', 'wordpress-seo-premium' ) . '</p>';
 
 		if ( count( $total_items ) === 0 ) {
-			printf( '<p>%s</p>', $this->messageAlreadyIndexed() );
+			printf( '<p>%s</p><br>', $this->messageAlreadyIndexed() );
 
 			return;
 		}
