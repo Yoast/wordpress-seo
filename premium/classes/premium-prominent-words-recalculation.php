@@ -60,7 +60,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @return void
 	 */
 	public function add_internal_linking_interface() {
-		$total_items = $this->post_query->get_totals( $this->prominent_words_support->get_supported_post_types() );
+		$total_items = $this->post_query->get_totals( $this->get_post_types() );
 
 		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
 		echo '<p>' . esc_html__( 'Want to use our internal linking tool? Analyze all the published posts, pages and custom post types to generate internal linking suggestions.', 'wordpress-seo-premium' ) . '</p>';
@@ -132,7 +132,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		// Adding the thickbox.
 		add_thickbox();
 
-		$supported_post_types       = $this->prominent_words_support->get_supported_post_types();
+		$supported_post_types       = $this->get_post_types();
 		$total_items                = $this->post_query->get_totals( $supported_post_types );
 		$supported_post_type_labels = $this->get_indexable_post_type_labels( $supported_post_types );
 
@@ -201,7 +201,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @return void
 	 */
 	protected function enqueue_dashboard_assets() {
-		$all_items = $this->post_query->get_totals( $this->prominent_words_support->get_supported_post_types() );
+		$all_items = $this->post_query->get_totals( $this->get_post_types() );
 
 		$data = array(
 			'allWords'      => get_terms( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME, array( 'fields' => 'ids' ) ),
@@ -221,6 +221,15 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 
 		wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis' );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', 'yoastSiteWideAnalysisData', array( 'data' => $data ) );
+	}
+
+	/**
+	 * Returns the rest enabled post types.
+	 *
+	 * @return array Array with rest enabled post types.
+	 */
+	protected function get_post_types() {
+		return array_filter( $this->prominent_words_support->get_supported_post_types(), array( 'WPSEO_Post_Type', 'is_rest_enabled' ) );
 	}
 
 	/**
