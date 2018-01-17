@@ -8,7 +8,11 @@
  */
 final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_Location {
 	const DEFAULT_URL = 'http://localhost:8080';
-	const DEV_SERVER_SCRIPTS = array(
+
+	/**
+	 * @var array
+	 */
+	private static $dev_server_script = array(
 		'commons',
 		'configuration-wizard',
 		'wp-seo-dashboard-widget',
@@ -46,7 +50,7 @@ final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_L
 		$flat_version        = ( new WPSEO_Admin_Asset_Manager() )->flatten_version( WPSEO_VERSION );
 		$version_less_source = str_replace( '-' . $flat_version, '', $asset->get_src() );
 
-		if ( ! in_array( $version_less_source, self::DEV_SERVER_SCRIPTS, true ) ) {
+		if ( ! in_array( $version_less_source, self::$dev_server_script, true ) ) {
 			return $this->get_default_url( $asset, $type );
 		}
 
