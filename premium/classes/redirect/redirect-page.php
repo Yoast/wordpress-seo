@@ -311,6 +311,8 @@ class WPSEO_Redirect_Page {
 
 	/**
 	 * Fetches the bulk action for removing redirects.
+	 *
+	 * @return void
 	 */
 	private function fetch_bulk_action() {
 		if ( wp_verify_nonce( filter_input( INPUT_POST, 'wpseo_redirects_ajax_nonce' ), 'wpseo-redirects-ajax-security' ) ) {
