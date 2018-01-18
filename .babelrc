@@ -1,5 +1,9 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["transform-react-jsx", "syntax-dynamic-import"],
+  "presets": [ [ "env", {
+    "targets": {
+      "browsers": ["last 2 versions"]
+    }
+  } ] ],
+  "plugins": ["transform-react-jsx", "dynamic-import-webpack"],
   "comments": true
 }

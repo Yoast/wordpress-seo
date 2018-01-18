@@ -14,6 +14,11 @@ let promise;
  */
 function loadLocaleData( locale ) {
 	const parsedLocale = isString( locale ) ? locale.split( "_" )[ 0 ] : "en";
+
+	if( process.env.NODE_ENV === "test" ) {
+		return new Promise( ( resolve ) => resolve() );
+	}
+
 	return import(
 		`react-intl/locale-data/${ parsedLocale }`
 		).then( localeData => {

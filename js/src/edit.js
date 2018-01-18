@@ -16,7 +16,7 @@ import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
-let localizedData = {};
+let localizedData = { intl: {} };
 if( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoPostScraperL10n;
 } else if ( window.wpseoTermScraperL10n ) {
