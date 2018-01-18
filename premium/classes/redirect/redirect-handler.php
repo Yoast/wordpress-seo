@@ -19,6 +19,11 @@ class WPSEO_Redirect_Handler {
 	protected $url_matches = array();
 
 	/**
+	 * @var bool Is the current page being redirected.
+	 */
+	protected $is_redirected = false;
+
+	/**
 	 * @var string The options where the URL redirects are stored.
 	 */
 	private $normal_option_name = 'wpseo-premium-redirects-export-plain';
@@ -36,12 +41,7 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * @var string Sets the error template to include.
 	 */
-	private $template_include;
-
-	/**
-	 * @var bool Is the current page being redirected.
-	 */
-	private $is_redirected = false;
+	protected $template_file_path;
 
 	/**
 	 * Loads the redirect handler.
@@ -99,8 +99,8 @@ class WPSEO_Redirect_Handler {
 	 * @return string Returns the template that should be included.
 	 */
 	public function set_template_include( $template ) {
-		if ( ! empty( $this->template_include ) ) {
-			return $this->template_include;
+		if ( ! empty( $this->template_file_path ) ) {
+			return $this->template_file_path;
 		}
 
 		return $template;
@@ -422,7 +422,7 @@ class WPSEO_Redirect_Handler {
 	 */
 	protected function trailingslashit( $target_url ) {
 		// Adds slash to target URL when permalink structure ends with a slash.
-		if ( WPSEO_Redirect_Util::requires_trailing_slash( $target_url ) ) {
+		if ( $this->requires_trailing_slash( $target_url ) ) {
 			return trailingslashit( $target_url );
 		}
 
@@ -501,13 +501,13 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Sets the hook for setting the template include. This is the file that we want to show.
 	 *
-	 * @param string $template_to_set The template to look for..
+	 * @param string $template_to_set The template to look for.
 	 *
 	 * @return bool True when template should be included.
 	 */
 	protected function set_template_include_hook( $template_to_set ) {
-		$this->template_include = get_query_template( $template_to_set );
-		if ( ! empty( $this->template_include ) ) {
+		$this->template_file_path = $this->get_query_template( $template_to_set );
+		if ( ! empty( $this->template_file_path ) ) {
 			add_filter( 'template_include', array( $this, 'set_template_include' ) );
 
 			return true;
@@ -592,5 +592,26 @@ class WPSEO_Redirect_Handler {
 
 		wp_redirect( $location, $status );
 		exit;
+	}
+
+	/**
+	 * Returns whether or not a target URL requires a trailing slash
+	 *
+	 * @param string $target_url The target URL to check.
+	 *
+	 * @return bool True when trailing slash is required.
+	 */
+	protected function requires_trailing_slash( $target_url ) {
+		return WPSEO_Redirect_Util::requires_trailing_slash( $target_url );
+	}
+
+	/**
+	 * Returns the query template
+	 * @param string type
+	 *
+	 * @return string
+	 */
+	protected function get_query_template( $type ) {
+		return get_query_template( $type );
 	}
 }

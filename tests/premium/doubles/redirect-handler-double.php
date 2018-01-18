@@ -96,6 +96,81 @@ class WPSEO_Redirect_Handler_Double extends WPSEO_Redirect_Handler {
 	 */
 	public function find_url( $url ) {
 		return parent::find_url( $url );
+	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function trailingslashit( $target_url ) {
+		return parent::trailingslashit( $target_url );
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function requires_trailing_slash( $target_url ) {
+		return parent::requires_trailing_slash( $target_url );
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function format_for_multisite( $target_url ) {
+		return parent::format_for_multisite( $target_url );
+	}
+
+	/**
+	 * Sets the template file path.
+	 *
+	 * @param string $template_file_path The file path to set.
+	 *
+	 * @return void
+	 */
+	public function set_template_filepath( $template_file_path ) {
+		$this->template_file_path = $template_file_path;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function is_redirected() {
+		return parent::is_redirected();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function format_target( $redirect_url ) {
+		return parent::format_target( $redirect_url );
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function set_template_include_hook( $template_to_set ) {
+		return parent::set_template_include_hook( $template_to_set );
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function get_wp_query() {
+		return parent::get_wp_query();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function handle_redirect_without_target( $redirect_type ) {
+		parent::handle_redirect_without_target( $redirect_type );
+	}
+
+	/**
+	 * Sets the is_redirected value.
+	 *
+	 * @return void
+	 */
+	public function set_is_redirected() {
+		$this->is_redirected = true;
 	}
 }

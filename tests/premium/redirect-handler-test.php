@@ -260,6 +260,52 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the set tempplate include without a class property being set.
+	 *
+	 * @covers WPSEO_Redirect_Handler::set_template_include()
+	 */
+	public function test_set_template_include_without_class_property_set() {
+		$redirect_handler = new WPSEO_Redirect_Handler();
+
+		$this->assertEquals( 'default', $redirect_handler->set_template_include( 'default' ) );
+	}
+
+	/**
+	 * Tests the set tempplate include with a set class property set.
+	 *
+	 * @covers WPSEO_Redirect_Handler::set_template_include()
+	 */
+	public function test_set_template_include_with_class_property_set() {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+		$redirect_handler->set_template_filepath( 'from-property' );
+
+		$this->assertEquals( 'from-property', $redirect_handler->set_template_include( 'default' ) );
+	}
+
+	/**
+	 * Tests the is_redirected method on default state
+	 *
+	 * @covers WPSEO_Redirect_Handler::is_redirected()
+	 */
+	public function test_is_redirected() {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+
+		$this->assertFalse( $redirect_handler->is_redirected() );
+	}
+
+	/**
+	 * Tests the is_redirected method on default state
+	 *
+	 * @covers WPSEO_Redirect_Handler::is_redirected()
+	 */
+	public function test_is_redirected_with_set_value() {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+		$redirect_handler->set_is_redirected( true );
+
+		$this->assertTrue( $redirect_handler->is_redirected() );
+	}
+
+	/**
 	 * Tests the normalization of the redirects.
 	 *
 	 * @covers WPSEO_Redirect_Handler::normalize_redirects()
@@ -373,6 +419,158 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
 		$this->assertEquals( $formatted_target, $redirect_handler->parse_target_url( $unformatted_target ) );
+	}
+
+	/**
+	 * Tests the situation where the target url doesn't get a trailing slash.
+	 *
+	 * @covers WPSEO_Redirect_Handler::trailingslashit()
+	 */
+	public function test_set_trailingslashit_with_no_trailing_slash_required() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'requires_trailing_slash' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->any() )
+			->method( 'requires_trailing_slash' )
+			->will( $this->returnValue( false ) );
+
+		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
+		$this->assertEquals( 'redirect', $redirect_handler->trailingslashit( 'redirect' ) );
+	}
+
+	/**
+	 * Tests the situation where the target url will get a trailing slash.
+	 *
+	 * @covers WPSEO_Redirect_Handler::trailingslashit()
+	 */
+	public function test_set_trailingslashit_with_trailing_slash_required() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'requires_trailing_slash' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->any() )
+			->method( 'requires_trailing_slash' )
+			->will( $this->returnValue( true ) );
+
+		/** @var WPSEO_Redirect_Handler_Double $redirect_handler */
+		$this->assertEquals( 'redirect/', $redirect_handler->trailingslashit( 'redirect' ) );
+	}
+
+	/**
+	 * Tests the default situation when on single site.
+	 *
+	 * @covers WPSEO_Redirect_Handler::format_for_multisite()
+	 */
+	public function test_format_for_multisite_on_single_site(  ) {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+
+		$this->assertEquals( 'redirect', $redirect_handler->format_for_multisite( 'redirect' ) );
+	}
+
+	/**
+	 * Tests the situation where the redirect url doesn't start with a slash.
+	 *
+	 * @covers WPSEO_Redirect_Handler::format_target()
+	 */
+	public function test_format_target_with_no_start_slash() {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+
+		$this->assertEquals( 'redirect', $redirect_handler->format_target( 'redirect' ) );
+	}
+
+	/**
+	 * Tests the situation where the redirect url starts with a slash.
+	 *
+	 * @covers WPSEO_Redirect_Handler::format_target()
+	 */
+	public function test_format_target_with_start_slash() {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+
+		$this->assertEquals( 'http://example.org/redirect', $redirect_handler->format_target( '/redirect' ) );
+	}
+
+	/**
+	 * Tests the default situation where the template file path isn't set.
+	 *
+	 * @covers WPSEO_Redirect_Handler::set_template_include_hook()
+	 */
+	public function test_set_template_include_hook() {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+
+		$this->assertFalse(  $redirect_handler->set_template_include_hook( 'test' ) );
+	}
+
+	/**
+	 * Tests the default situation where the template file path isn't set.
+	 *
+	 * @covers WPSEO_Redirect_Handler::set_template_include_hook()
+	 */
+	public function test_set_template_include_hook_with_template() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'get_query_template' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->any() )
+			->method( 'get_query_template' )
+			->will( $this->returnValue( 'template-file' ) );
+
+		$this->assertTrue(  $redirect_handler->set_template_include_hook( 'test' ) );
+		$this->assertEquals( 10, has_filter( 'template_include', array( $redirect_handler, 'set_template_include' ) ) );
+	}
+
+	/**
+	 * Tests if return value is a wp_query.
+	 *
+	 * @covers WPSEO_Redirect_Handler::get_wp_query()
+	 */
+	public function test_get_wp_query() {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+
+		$this->assertTrue( is_a( $redirect_handler->get_wp_query(), 'WP_Query' ) );
+	}
+
+	/**
+	 * Tests if return value is a wp_query.
+	 *
+	 * @covers WPSEO_Redirect_Handler::get_wp_query()
+	 */
+	public function test_get_wp_query_not_an_object() {
+		$GLOBALS['wp_query'] = false;
+
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+
+		$this->assertTrue( is_a( $redirect_handler->get_wp_query(), 'WP_Query' ) );
+	}
+
+	/**
+	 * Tests the handling of a 410 redirect without a target.
+	 *
+	 * @covers WPSEO_Redirect_Handler::handle_redirect_without_target()
+	 */
+	public function test_handle_410_redirect_without_target() {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+		$redirect_handler->handle_redirect_without_target( 410 );
+
+		$this->assertEquals( 10, has_action( 'wp', array( $redirect_handler, 'do_410' ) ) );
+	}
+
+	/**
+	 * Tests the handling of a 451 redirect without a target.
+	 *
+	 * @covers WPSEO_Redirect_Handler::handle_redirect_without_target()
+	 */
+	public function test_handle_451_redirect_without_target() {
+		$redirect_handler = new WPSEO_Redirect_Handler_Double();
+		$redirect_handler->handle_redirect_without_target( 451 );
+
+		$this->assertEquals( 10, has_action( 'wp', array( $redirect_handler, 'do_451' ) ) );
 	}
 
 	/**
