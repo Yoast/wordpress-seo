@@ -606,12 +606,13 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Returns the query template
-	 * @param string type
+	 * Returns the query template.
 	 *
-	 * @return string
+	 * @param string $filename Filename without extension.
+	 *
+	 * @return string Full path to template file.
 	 */
-	protected function get_query_template( $type ) {
-		return get_query_template( $type );
+	protected function get_query_template( $filename ) {
+		return get_query_template( $filename );
 	}
 }
