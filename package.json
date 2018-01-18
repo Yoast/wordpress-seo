@@ -31,6 +31,7 @@
   "devDependencies": {
     "algoliasearch": "^3.16.0",
     "autoprefixer": "^6.3.1",
+    "babel-eslint": "^8.2.1",
     "babel-jest": "^18.0.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
