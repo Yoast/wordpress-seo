@@ -18,7 +18,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the  ID of the WooCommerce shop page when the currently opened page is the shop page.
+	 * Returns the ID of the WooCommerce shop page when the currently opened page is the shop page.
 	 *
 	 * @param int $page_id The page id.
 	 *
