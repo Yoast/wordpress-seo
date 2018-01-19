@@ -89,7 +89,8 @@
 			"./vendor/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/j4mie/paris --config=config/php-scoper/paris.inc.php --force --quiet"
 		],
 		"post-install-cmd": [
-			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+			"xrstf\\Composer52\\Generator::onPostInstallCmd",
+			"Yoast\\YoastSEO\\Composer::prefixDependencies"
 		],
 		"post-update-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"

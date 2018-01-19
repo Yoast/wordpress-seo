@@ -14,9 +14,6 @@ Ensure Prefixed is used in code
 Watchers -> Map functie voor data transformatie
 Lookup table voor 1op1 overzetten van data
 
-- Composer post-install script (--dev afhankelijk prefixen)
-
-
 ---- Tests -----
 
 ## Tests
