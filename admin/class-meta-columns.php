@@ -218,12 +218,12 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @param string $value       The option's value.
 	 * @param string $label       The option's label.
-	 * @param bool   $selected    Whether or not the option should be selected.
+	 * @param string $selected    HTML selected attribute for an option.
 	 *
 	 * @return string The generated <option> element.
 	 */
-	protected function generate_option( $value, $label, $selected = false ) {
-		return '<option ' . $selected . ' value="' . $value . '">' . $label . '</option>';
+	protected function generate_option( $value, $label, $selected = '' ) {
+		return '<option ' . $selected . ' value="' . esc_attr( $value ) . '">' . esc_html( $label ) . '</option>';
 	}
 
 	/**

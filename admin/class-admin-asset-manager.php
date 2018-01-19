@@ -65,8 +65,9 @@ class WPSEO_Admin_Asset_Manager {
 	 * Calls the functions that register scripts and styles with the scripts and styles to be registered as arguments.
 	 */
 	public function register_assets() {
-		$locale = get_locale();
-		list( $language, $territory ) = explode( '_', $locale );
+
+		$user_locale = WPSEO_Utils::get_user_locale();
+		$language    = WPSEO_Utils::get_language( $user_locale );
 
 		wp_register_script(
 			self::PREFIX . 'intl-polyfill',

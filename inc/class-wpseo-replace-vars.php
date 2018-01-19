@@ -139,7 +139,7 @@ class WPSEO_Replace_Vars {
 	 */
 	public function replace( $string, $args, $omit = array() ) {
 
-		$string = strip_tags( $string );
+		$string = wp_strip_all_tags( $string );
 
 		// Let's see if we can bail super early.
 		if ( strpos( $string, '%%' ) === false ) {
@@ -201,7 +201,7 @@ class WPSEO_Replace_Vars {
 		// Remove superfluous whitespace.
 		$string = WPSEO_Utils::standardize_whitespace( $string );
 
-		return trim( $string );
+		return $string;
 	}
 
 
@@ -331,7 +331,7 @@ class WPSEO_Replace_Vars {
 		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
 		if ( ! empty( $this->args->ID ) && ! post_password_required( $this->args->ID ) ) {
 			if ( $this->args->post_excerpt !== '' ) {
-				$replacement = strip_tags( $this->args->post_excerpt );
+				$replacement = wp_strip_all_tags( $this->args->post_excerpt );
 			}
 			elseif ( $this->args->post_content !== '' ) {
 				$replacement = wp_html_excerpt( strip_shortcodes( $this->args->post_content ), 155 );
@@ -351,7 +351,7 @@ class WPSEO_Replace_Vars {
 
 		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
 		if ( ! empty( $this->args->ID ) && $this->args->post_excerpt !== ''  && ! post_password_required( $this->args->ID ) ) {
-			$replacement = strip_tags( $this->args->post_excerpt );
+			$replacement = wp_strip_all_tags( $this->args->post_excerpt );
 		}
 
 		return $replacement;
@@ -413,7 +413,7 @@ class WPSEO_Replace_Vars {
 		static $replacement;
 
 		if ( ! isset( $replacement ) ) {
-			$description = trim( strip_tags( get_bloginfo( 'description' ) ) );
+			$description = wp_strip_all_tags( get_bloginfo( 'description' ) );
 			if ( $description !== '' ) {
 				$replacement = $description;
 			}
@@ -479,7 +479,7 @@ class WPSEO_Replace_Vars {
 		if ( isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
 			$term_desc = get_term_field( 'description', $this->args->term_id, $this->args->taxonomy );
 			if ( $term_desc !== '' ) {
-				$replacement = trim( strip_tags( $term_desc ) );
+				$replacement = wp_strip_all_tags( $term_desc );
 			}
 		}
 
@@ -724,7 +724,7 @@ class WPSEO_Replace_Vars {
 					$term      = current( $terms );
 					$term_desc = get_term_field( 'description', $term->term_id, $tax );
 					if ( $term_desc !== '' ) {
-						$replacement = trim( strip_tags( $term_desc ) );
+						$replacement = wp_strip_all_tags( $term_desc );
 					}
 				}
 			}

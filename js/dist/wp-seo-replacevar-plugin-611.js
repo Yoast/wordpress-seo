@@ -134,8 +134,6 @@ var isUndefined = require("lodash/isUndefined");
 var ReplaceVar = require("./values/replaceVar");
 
 (function () {
-	"use strict";
-
 	var modifiableFields = ["content", "title", "snippet_title", "snippet_meta", "primary_category", "data_page_title", "data_meta_desc"];
 
 	var placeholders = {};

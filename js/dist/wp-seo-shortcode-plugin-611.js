@@ -16,10 +16,9 @@ var shortcodeStartRegex = new RegExp("\\[" + shortcodeNameMatcher + shortcodeAtt
 var shortcodeEndRegex = new RegExp("\\[/" + shortcodeNameMatcher + "\\]", "g");
 
 (function () {
-	"use strict";
-
 	/**
-  * The Yoast Shortcode plugin parses the shortcodes in a given piece of text. It analyzes multiple input fields for shortcodes which it will preload using AJAX.
+  * The Yoast Shortcode plugin parses the shortcodes in a given piece of text. It analyzes multiple input fields for
+  * shortcodes which it will preload using AJAX.
   *
   * @constructor
   * @property {RegExp} keywordRegex Used to match a given string for valid shortcode keywords.
@@ -29,7 +28,6 @@ var shortcodeEndRegex = new RegExp("\\[/" + shortcodeNameMatcher + "\\]", "g");
   *
   * @param {app} app The app object.
   */
-
 	var YoastShortcodePlugin = function YoastShortcodePlugin(app) {
 		this._app = app;
 

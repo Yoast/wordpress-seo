@@ -642,7 +642,7 @@ class WPSEO_OpenGraph {
 
 			// Tag og:description is still blank so grab it from get_the_excerpt().
 			if ( ! is_string( $ogdesc ) || ( is_string( $ogdesc ) && $ogdesc === '' ) ) {
-				$ogdesc = str_replace( '[&hellip;]', '&hellip;', strip_tags( get_the_excerpt() ) );
+				$ogdesc = str_replace( '[&hellip;]', '&hellip;', wp_strip_all_tags( get_the_excerpt() ) );
 			}
 		}
 
@@ -653,7 +653,7 @@ class WPSEO_OpenGraph {
 			}
 
 			if ( $ogdesc === '' ) {
-				$ogdesc = trim( strip_tags( term_description() ) );
+				$ogdesc = wp_strip_all_tags( term_description() );
 			}
 
 			if ( $ogdesc === '' ) {
