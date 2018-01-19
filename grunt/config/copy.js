@@ -14,12 +14,6 @@ module.exports = {
 				src: [ "select2.min.css" ],
 				dest: "css/dist/select2",
 			},
-			{
-				expand: true,
-				cwd: "node_modules/react-intl/locale-data/",
-				src: "*",
-				dest: "js/dist/react-intl-locale-data",
-			},
 		],
 	},
 	artifact: {
@@ -45,7 +39,6 @@ module.exports = {
 					"wp-seo.php",
 					"wp-seo-main.php",
 					"wpml-config.xml",
-
 					"!languages/wordpress-seo.pot",
 					"!vendor/bin",
 					"!vendor/composer/installed.json",
