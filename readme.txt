@@ -121,6 +121,8 @@ Bugfixes:
 * Security hardening through stricter code checks.
 * Reduces the number of times the content analysis is refreshed on page load.
 * Fixes a bug where relative URLs were not counted as internal links in the internal link assessment.
+* Fixes a bug where Premium users would be shown ads when following a certain path through the SEO menu.
+* Fixes a bug where the method of setting the title and meta description templates for the WooCommerce shop page would not work anymore.
 
 = 6.1.1 =
 Release Date: January 10th, 2018
