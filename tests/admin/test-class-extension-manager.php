@@ -19,7 +19,7 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		// Create instance of WPSEO_Twitter class.
+		// Create instance of WPSEO_Extension_Manager class.
 		require_once WPSEO_TESTS_PATH . 'doubles/class-extension-manager-double.php';
 	}
 
