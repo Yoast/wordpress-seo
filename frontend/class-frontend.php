@@ -278,9 +278,11 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * @param null $object
+	 * Retrieves the SEO title set in the SEO widget.
 	 *
-	 * @return string
+	 * @param null $object Object to retrieve the title from.
+	 *
+	 * @return string The SEO title for the specified object, or queried object if not supplied.
 	 */
 	public function get_seo_title( $object = null ) {
 		if ( $object === null ) {
@@ -486,7 +488,7 @@ class WPSEO_Frontend {
 		elseif ( $this->is_home_posts_page() ) {
 			$title = $this->get_title_from_options( 'title-home-wpseo' );
 		}
-		elseif( $this->woocommerce_shop_page->is_shop_page() ) {
+		elseif ( $this->woocommerce_shop_page->is_shop_page() ) {
 			$post  = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
 			$title = $this->get_seo_title( $post );
 
@@ -1295,7 +1297,7 @@ class WPSEO_Frontend {
 			$post_type = $post->post_type;
 		}
 
-		if( $this->woocommerce_shop_page->is_shop_page() ) {
+		if ( $this->woocommerce_shop_page->is_shop_page() ) {
 			$post      = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
 			$post_type = $this->get_queried_post_type();
 
@@ -1305,7 +1307,8 @@ class WPSEO_Frontend {
 				$term     = $post;
 			}
 			$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
-		} elseif ( $this->frontend_page_type->is_simple_page() ) {
+		}
+		elseif ( $this->frontend_page_type->is_simple_page() ) {
 			$post      = get_post( $this->frontend_page_type->get_simple_page_id() );
 			$post_type = $post->post_type;
 
@@ -2024,7 +2027,8 @@ class WPSEO_Frontend {
 
 			if ( isset( $post_type_obj->labels->menu_name ) ) {
 				$title_part = $post_type_obj->labels->menu_name;
-			} elseif ( isset( $post_type_obj->name ) ) {
+			}
+			elseif ( isset( $post_type_obj->name ) ) {
 				$title_part = $post_type_obj->name;
 			}
 
@@ -2061,12 +2065,14 @@ class WPSEO_Frontend {
 	}
 
 	/**
+	 * Replaces the dynamic variables in a string.
 	 *
-	 * @param string       $string
-	 * @param array|object $args
-	 * @param array        $omit
+	 * @param string $string The string to replace the variables in.
+	 * @param array  $args   The object some of the replacement values might come from,
+	 *                       could be a post, taxonomy or term.
+	 * @param array  $omit   Variables that should not be replaced by this function.
 	 *
-	 * @return string
+	 * @return string The replaced string.
 	 */
 	protected function replace_vars( $string, $args, $omit = array() ) {
 		$replacer = new WPSEO_Replace_Vars();
