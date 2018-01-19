@@ -8182,10 +8182,6 @@ unique-stream@^2.0.2:
     json-stable-stringify "^1.0.0"
     through2-filter "^2.0.0"
 
-unminified-webpack-plugin@^1.2.0:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/unminified-webpack-plugin/-/unminified-webpack-plugin-1.4.2.tgz#2cf5294abe7827bb874354e30ee3e0c5ae0e8743"
-
 unpipe@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"

@@ -37,6 +37,7 @@
     "babel-plugin-dynamic-import-webpack": "^1.0.2",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
@@ -76,7 +77,6 @@
     "sassdash": "^0.8.1",
     "svg-react-loader": "^0.4.5",
     "time-grunt": "^1.0.0",
-    "unminified-webpack-plugin": "^1.2.0",
     "webpack": "^3.4.1"
   },
   "optionalDependencies": {
@@ -85,7 +85,6 @@
   "dependencies": {
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
     "grunt-wp-deploy": "^1.2.1",
     "jed": "^1.1.1",
     "lodash": "^4.17.4",
