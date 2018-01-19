@@ -7,7 +7,7 @@ import isString from "lodash/isString";
 let promise;
 
 /**
- * Retrieves the locale data and return a promise, based on the user's locale.
+ * Retrieves the locale data and returns a promise, based on the user's locale.
  *
  * @param {string} locale The user locale.
  * @returns {Promise} The promise for retrieving the locale-data.
@@ -15,7 +15,7 @@ let promise;
 function loadLocaleData( locale ) {
 	const parsedLocale = isString( locale ) ? locale.split( "_" )[ 0 ] : "en";
 
-	if( process.env.NODE_ENV === "test" ) {
+	if ( process.env.NODE_ENV === "test" ) {
 		return new Promise( ( resolve ) => resolve() );
 	}
 
@@ -95,7 +95,7 @@ function IntlProviderHOC( { locale, messages, children } ) {
 		<IntlProviderWaitForLocaleData
 			promise={ promise }
 			locale={ parsedLocale }
-			messages={ messages } >
+			messages={ messages }>
 			{ children }
 		</IntlProviderWaitForLocaleData>
 	);
@@ -108,7 +108,7 @@ IntlProviderHOC.propTypes = {
 };
 
 export default ( locale ) => {
-	if( ! promise ) {
+	if ( ! promise ) {
 		promise = loadLocaleData( locale );
 	}
 	return IntlProviderHOC;
