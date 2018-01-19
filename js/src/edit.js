@@ -14,6 +14,7 @@ import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducer
 import activeKeyword from "./redux/reducers/activeKeyword";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
+import {registerEllipsisMenuItem} from "../../../gutenberg/editor/api/ellipsis-menu";
 
 const { Panel, PanelBody } = wp.components;
 
@@ -129,19 +130,11 @@ export function initialize( args ) {
 
 	renderReactApps( store, args );
 
-	const { registerSidebar } = wp.editor;
-	registerSidebar( "yoast/analysis", {
+	const { registerEllipsisMenuItem } = wp.editor;
+
+	registerEllipsisMenuItem( "yoast/analysis", {
 		title: "Yoast SEO",
-		render: function YoastSEOSidebar() {
-			return <Panel>
-				<PanelBody>
-					<h2>SEO analysis</h2>
-					{ wrapInTopLevelComponents( SeoAnalysis, store ) }
-					<h2>Readability analysis</h2>
-					{ wrapInTopLevelComponents( ContentAnalysis, store ) }
-				</PanelBody>
-			</Panel>;
-		},
+		callback: () => console.log( "test"),
 	} );
 
 	return {
