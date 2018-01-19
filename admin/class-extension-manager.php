@@ -88,13 +88,22 @@ class WPSEO_Extension_Manager {
 
 			// If the active extensions is still NULL, we need to set it.
 			if ( ! is_array( self::$active_extensions ) ) {
-				self::$active_extensions = (array) apply_filters( 'yoast-active-extensions', array() );
-			}
+				self::$active_extensions = $this->retrieve_active_extensions();
 
-			$this->set_cached_extensions( self::$active_extensions );
+				$this->set_cached_extensions( self::$active_extensions );
+			}
 		}
 
 		return in_array( $extension_name, self::$active_extensions, true );
+	}
+
+	/**
+	 * Retrieves the active extensions via an external request.
+	 *
+	 * @return array Array containing the active extensions.
+	 */
+	protected function retrieve_active_extensions() {
+		return (array) apply_filters( 'yoast-active-extensions', array() );
 	}
 
 	/**
@@ -116,7 +125,7 @@ class WPSEO_Extension_Manager {
 	}
 
 	/**
-	 * Adds the active extensions to the cache for the set duration.
+	 * Sets the active extensions transient for the set duration.
 	 *
 	 * @param array $extensions The extensions to add.
 	 * @param int   $duration   The duration that the list of extensions needs to remain cached.
