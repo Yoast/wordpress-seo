@@ -90,7 +90,7 @@
 		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd",
-			"Yoast\\YoastSEO\\Config\\Dependency_Management::prefixDependencies"
+			"Yoast\\YoastSEO\\Config\\Dependency_Management::prefix_dependencies"
 		],
 		"post-update-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"
