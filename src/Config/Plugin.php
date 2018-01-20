@@ -44,7 +44,7 @@ class Plugin implements Integration {
 
 		Model::$auto_prefix_models = '\\Yoast\\YoastSEO\\Models\\';
 
-		$migration                = new Database_Migration( $GLOBALS['wpdb'] );
+		$migration                = new Database_Migration( $GLOBALS['wpdb'], $dependency_management );
 		$this->initialize_success = $migration->initialize();
 	}
 

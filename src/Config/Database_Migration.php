@@ -3,7 +3,6 @@
 namespace Yoast\YoastSEO\Config;
 
 use Yoast\YoastSEO\Migration_Null_Logger;
-use Yoast\YoastSEO\Prefix_Dependencies;
 use Yoast\YoastSEO\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 
@@ -11,15 +10,18 @@ class Database_Migration {
 	/** @var \wpdb WPDB instance */
 	protected $wpdb;
 
+	/** @var Dependency_Management */
+	protected $dependency_management;
+
 	/**
 	 * Migrations constructor.
 	 *
-	 * @param \wpdb $wpdb
-	 *
-	 * @return void
+	 * @param \wpdb                 $wpdb
+	 * @param Dependency_Management $dependency_management
 	 */
-	public function __construct( $wpdb ) {
+	public function __construct( $wpdb, Dependency_Management $dependency_management ) {
 		$this->wpdb = $wpdb;
+		$this->dependency_management = $dependency_management;
 	}
 
 	/**
@@ -111,7 +113,7 @@ class Database_Migration {
 	 * @return bool
 	 */
 	protected function set_defines( $table_name ) {
-		if ( $this->prefixed_available() ) {
+		if ( $this->dependency_management->prefixed_available() ) {
 			define( YOAST_VENDOR_DEFINE_PREFIX . 'RUCKUSING_BASE', WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing' );
 			define( YOAST_VENDOR_DEFINE_PREFIX . 'RUCKUSING_TS_SCHEMA_TBL_NAME', $table_name );
 
@@ -126,13 +128,6 @@ class Database_Migration {
 		}
 
 		return false;
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function prefixed_available() {
-		return is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing' );
 	}
 
 	/**
