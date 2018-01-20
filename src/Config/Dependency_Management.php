@@ -13,7 +13,7 @@ class Dependency_Management {
 	 */
 	public function initialize() {
 		// Prepend the autoloader to the stack, allowing for discovery of prefixed classes.
-		spl_autoload_register( array( $this, 'ensureClassAlias' ), true, true );
+		spl_autoload_register( array( $this, 'ensure_class_alias' ), true, true );
 	}
 
 	/**
@@ -23,9 +23,9 @@ class Dependency_Management {
 	 *
 	 * @return void
 	 */
-	public function ensureClassAlias( $class ) {
+	public function ensure_class_alias( $class ) {
 		// If the namespace beings with the dependency class prefix, make an alias for regular class.
-		if ( strpos( $class, YOAST_VENDOR_NS_PREFIX ) !== 0 ) {
+		if ( strpos( $class, YOAST_VENDOR_NS_PREFIX ) !== 0 || $this->prefixed_available() ) {
 			return;
 		}
 
@@ -38,6 +38,21 @@ class Dependency_Management {
 	}
 
 	/**
+	 * Checks if the prefixes are available.
+	 *
+	 * @return bool
+	 */
+	public function prefixed_available() {
+		static $available = null;
+
+		if ( $available === null ) {
+			$available = is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing' );
+		}
+
+		return $available;
+	}
+
+	/**
 	 * Prefixes dependencies if composer install is ran with dev mode.
 	 *
 	 * Used in composer in the post-install script hook.
@@ -46,7 +61,7 @@ class Dependency_Management {
 	 *
 	 * @return void
 	 */
-	public static function prefixDependencies( Event $event ) {
+	public static function prefix_dependencies( Event $event ) {
 		$io = $event->getIO();
 
 		if ( ! $event->isDevMode() ) {
