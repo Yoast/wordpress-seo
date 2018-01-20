@@ -1,18 +1,13 @@
 # Todo
 
-Does the `vendor_prefixed` content need to be committed in the repository?
-It -does- need to be shipped in the artifact.
-the `vendor_prefixed` folder should exist for the autoloader to be able to run without running prefix-depedencenies first.
-
 - Class alias -> dynamisch via autoloader?
   - Unittest die verifieerd dat class aliasses worden aangemaakt
-- Een lijst met classes bijhouden en die gebruiken?
 
 Ensure Prefixed is used in code
 - Travis configuratie om Prefix classes te gebruiken
 
 Watchers -> Map functie voor data transformatie
-Lookup table voor 1op1 overzetten van data
+Lookup table voor 1-op-1 overzetten van data
 
 ---- Tests -----
 

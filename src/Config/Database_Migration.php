@@ -39,8 +39,6 @@ class Database_Migration {
 			return false;
 		}
 
-		$this->prefix_dependencies();
-
 		$main = new Ruckusing_FrameworkRunner(
 			$this->get_configuration(),
 			array(
@@ -105,17 +103,6 @@ class Database_Migration {
 	 */
 	protected function get_charset() {
 		return $this->wpdb->charset;
-	}
-
-	/**
-	 * Prefixes the dependencies.
-	 *
-	 * @return void
-	 */
-	protected function prefix_dependencies() {
-		$ruckusing_classes = new ClassAliases\Ruckusing();
-		$prefix            = new Prefix_Dependencies( YOAST_VENDOR_NS_PREFIX );
-		$prefix->prefix( $ruckusing_classes->get_classes() );
 	}
 
 	/**

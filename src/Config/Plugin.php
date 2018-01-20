@@ -15,6 +15,9 @@ class Plugin implements Integration {
 	/** @var bool Flag to allow booting or not. */
 	protected $initialize_success = false;
 
+	/** @var Dependency_Management */
+	protected $dependency_management;
+
 	/**
 	 * Adds an integration to the stack
 	 *
@@ -32,7 +35,8 @@ class Plugin implements Integration {
 	 * @return void
 	 */
 	public function initialize() {
-		$this->prefix_dependencies();
+		$dependency_management = $this->get_dependency_management();
+		$dependency_management->initialize();
 
 		ORM::configure( 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME );
 		ORM::configure( 'username', DB_USER );
@@ -74,14 +78,24 @@ class Plugin implements Integration {
 	}
 
 	/**
-	 * Prefixes the dependencies.
-	 *
-	 * @return void
+	 * @param Dependency_Management $dependency_management
 	 */
-	protected function prefix_dependencies() {
-		// Makes sure the dependencies are available with the expected prefix.
-		$prefix      = new Prefix_Dependencies( YOAST_VENDOR_NS_PREFIX );
-		$orm_classes = new ClassAliases\ORM();
-		$prefix->prefix( $orm_classes->get_classes() );
+	public function set_dependecy_management( Dependency_Management $dependency_management = null ) {
+		if ( $dependency_management === null ) {
+			$dependency_management = new Dependency_Management();
+		}
+
+		$this->dependency_management = $dependency_management;
+	}
+
+	/**
+	 * @return Dependency_Management
+	 */
+	protected function get_dependency_management() {
+		if ( $this->dependency_management === null ) {
+			$this->set_dependecy_management();
+		}
+
+		return $this->dependency_management;
 	}
 }
