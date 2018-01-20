@@ -66,7 +66,7 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
-- if [[ $TRAVIS_PHP_VERSION != "nightly" && "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini; fi
+- if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
 - if [[ "$CHECKJS" == "1" ]]; then nvm install $TRAVIS_NODE_VERSION; fi
 - if [[ "$CHECKJS" == "1" ]]; then curl -o- -L https://yarnpkg.com/install.sh | bash; fi
 - if [[ "$CHECKJS" == "1" ]]; then export PATH=$HOME/.yarn/bin:$PATH; fi
