@@ -1,8 +1,10 @@
 <?php
 /**
- * @package WPSEO\Admin|Google_Search_Console
+ * WPSEO Premium plugin file.
  *
  * This is the view for the modal box, when the url is already redirected.
+ *
+ * @package WPSEO\Admin|Google_Search_Console
  */
 
 /**

@@ -1,12 +1,15 @@
 <?php
 /**
- * @package WPSEO\Premium\Views
+ * WPSEO Premium plugin file.
  *
+ * @package WPSEO\Premium\Views
+ */
+
+/*
  * @var array  $redirect_types
  * @var string $old_url
  * @var string $origin_label_value
  */
-
 ?>
 <div class="redirect_form_row" id="row-wpseo_redirects_type">
 	<label class='textinput' for='<?php echo esc_attr( 'wpseo_redirects_type' . $input_suffix ); ?>'>
