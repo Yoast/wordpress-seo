@@ -13,8 +13,8 @@ class Indexable_Post implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'wp_insert_post', array( $this, 'save_meta' ), PHP_INT_MAX, 1 );
-		add_action( 'delete_post', array( $this, 'delete_meta' ) );
+		\add_action( 'wp_insert_post', array( $this, 'save_meta' ), PHP_INT_MAX, 1 );
+		\add_action( 'delete_post', array( $this, 'delete_meta' ) );
 	}
 
 	/**
@@ -44,11 +44,10 @@ class Indexable_Post implements Integration {
 		}
 
 		$indexable = $this->get_indexable( $post_id );
+		$indexable->permalink = $this->get_permalink( $post_id );
 
 		// Implement filling of meta values.
-		$post_meta = \get_post_meta( $post_id );
-
-		$indexable->permalink = \get_permalink( $post_id );
+		$post_meta = $this->get_meta_data( $post_id );
 
 		$meta_to_indexable = array(
 			'_yoast_wpseo_canonical'            => 'canonical',
@@ -81,17 +80,7 @@ class Indexable_Post implements Integration {
 			$indexable->{'robots_' . $meta_robots_option} = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
 
-		try {
-			$seo_meta = Yoast_Model::of_type( 'SEO_Meta' )
-								   ->where( 'object_id', $post_id )
-								   ->find_one();
-
-			if ( $seo_meta ) {
-				$indexable->internal_link_count = $seo_meta->internal_link_count;
-				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
-			}
-		} catch ( \Exception $exception ) {
-		}
+		$this->set_link_count( $post_id, $indexable );
 
 		$indexable->save();
 	}
@@ -119,11 +108,11 @@ class Indexable_Post implements Integration {
 	 * @return bool
 	 */
 	protected function is_post_indexable( $post_id ) {
-		if ( wp_is_post_revision( $post_id ) ) {
+		if ( \wp_is_post_revision( $post_id ) ) {
 			return false;
 		}
 
-		if ( wp_is_post_autosave( $post_id ) ) {
+		if ( \wp_is_post_autosave( $post_id ) ) {
 			return false;
 		}
 
@@ -139,7 +128,7 @@ class Indexable_Post implements Integration {
 	 * @return bool|Indexable
 	 */
 	protected function get_indexable( $post_id, $auto_create = true ) {
-		$post_type = get_post_type( $post_id );
+		$post_type = $this->get_post_type( $post_id );
 		$indexable = Yoast_Model::of_type( 'Indexable' )
 								->where( 'object_id', $post_id )
 								->where( 'object_type', 'post' )
@@ -173,5 +162,50 @@ class Indexable_Post implements Integration {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param $post_id
+	 *
+	 * @return mixed
+	 */
+	protected function get_meta_data( $post_id ) {
+		return \get_post_meta( $post_id );
+	}
+
+	/**
+	 * @param $post_id
+	 *
+	 * @return false|string
+	 */
+	protected function get_permalink( $post_id ) {
+		return \get_permalink( $post_id );
+	}
+
+	/**
+	 * @param $post_id
+	 * @param $indexable
+	 */
+	protected function set_link_count( $post_id, $indexable ) {
+		try {
+			$seo_meta = Yoast_Model::of_type( 'SEO_Meta' )
+								   ->where( 'object_id', $post_id )
+								   ->find_one();
+
+			if ( $seo_meta ) {
+				$indexable->internal_link_count = $seo_meta->internal_link_count;
+				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
+			}
+		} catch ( \Exception $exception ) {
+		}
+	}
+
+	/**
+	 * @param $post_id
+	 *
+	 * @return false|string
+	 */
+	protected function get_post_type( $post_id ) {
+		return \get_post_type( $post_id );
 	}
 }

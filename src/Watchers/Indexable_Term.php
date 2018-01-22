@@ -14,9 +14,9 @@ class Indexable_Term implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'created_term', array( $this, 'save_meta' ), PHP_INT_MAX, 3 );
-		add_action( 'edited_term', array( $this, 'save_meta' ), PHP_INT_MAX, 3 );
-		add_action( 'deleted_term', array( $this, 'delete_meta' ), PHP_INT_MAX, 3 );
+		\add_action( 'created_term', array( $this, 'save_meta' ), PHP_INT_MAX, 3 );
+		\add_action( 'edited_term', array( $this, 'save_meta' ), PHP_INT_MAX, 3 );
+		\add_action( 'deleted_term', array( $this, 'delete_meta' ), PHP_INT_MAX, 3 );
 	}
 
 	/**
@@ -47,12 +47,9 @@ class Indexable_Term implements Integration {
 	public function save_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
 		/** @var Indexable $indexable */
 		$indexable = $this->get_indexable( $term_id, $taxonomy );
+		$indexable->permalink = $this->get_permalink( $term_id, $taxonomy );
 
-		$indexable->updated_at = gmdate( 'Y-m-d H:i:s' );
-
-		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
-
-		$indexable->permalink = get_term_link( $term_id, $taxonomy );
+		$term_meta = $this->get_meta_data( $term_id, $taxonomy );
 
 		$meta_to_indexable = array(
 			'wpseo_canonical' => 'canonical',
@@ -132,5 +129,25 @@ class Indexable_Term implements Integration {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param $term_id
+	 * @param $taxonomy
+	 *
+	 * @return bool|mixed
+	 */
+	protected function get_meta_data( $term_id, $taxonomy ) {
+		return \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
+	}
+
+	/**
+	 * @param $term_id
+	 * @param $taxonomy
+	 *
+	 * @return string|\WP_Error
+	 */
+	protected function get_permalink( $term_id, $taxonomy ) {
+		return \get_term_link( $term_id, $taxonomy );
 	}
 }

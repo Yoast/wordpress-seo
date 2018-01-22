@@ -14,8 +14,8 @@ class Indexable_Author implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'profile_update', array( $this, 'save_meta' ), PHP_INT_MAX, 2 );
-		add_action( 'deleted_user', array( $this, 'delete_meta' ) );
+		\add_action( 'profile_update', array( $this, 'save_meta' ), PHP_INT_MAX, 2 );
+		\add_action( 'deleted_user', array( $this, 'delete_meta' ) );
 	}
 
 	/**
@@ -40,16 +40,38 @@ class Indexable_Author implements Integration {
 	 * @return void
 	 */
 	public function save_meta( $user_id ) {
-		$model = $this->get_indexable( $user_id );
+		$model            = $this->get_indexable( $user_id );
+		$model->permalink = $this->get_permalink( $user_id );
 
-		$model->updated_at = gmdate( 'Y-m-d H:i:s' );
-		$model->permalink = get_author_posts_url( $user_id );
+		$meta_data = $this->get_meta_data( $user_id );
 
-		$model->title              = get_the_author_meta( 'wpseo_title', $user_id );
-		$model->description        = get_the_author_meta( 'wpseo_metadesc', $user_id );
-		$model->include_in_sitemap = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user_id ) === 'on';
+		$model->title              = $meta_data['wpseo_title'];
+		$model->description        = $meta_data['wpseo_metadesc'];
+		$model->include_in_sitemap = $this->get_sitemap_include_value( $meta_data['wpseo_excludeauthorsitemap'] );
 
 		$model->save();
+	}
+
+	/**
+	 * Retrieves the meta data for this indexable.
+	 *
+	 * @param int $user_id The user to fetch meta data for.
+	 *
+	 * @return array List of meta entries.
+	 */
+	protected function get_meta_data( $user_id ) {
+		$keys = array(
+			'wpseo_title',
+			'wpseo_metadesc',
+			'wpseo_excludeauthorsitemap'
+		);
+
+		$output = array();
+		foreach ( $keys as $key ) {
+			$output[ $key ] = $this->get_author_meta( $user_id, $key );
+		}
+
+		return $output;
 	}
 
 	/**
@@ -73,5 +95,37 @@ class Indexable_Author implements Integration {
 		}
 
 		return $indexable;
+	}
+
+	/**
+	 * Retrieves the permalink of a user.
+	 *
+	 * @param int $user_id The user to fetch the permalink of.
+	 *
+	 * @return string The permalink.
+	 */
+	protected function get_permalink( $user_id ) {
+		return \get_author_posts_url( $user_id );
+	}
+
+	/**
+	 * @param $user_id
+	 * @param $key
+	 *
+	 * @return string
+	 */
+	protected function get_author_meta( $user_id, $key ) {
+		return \get_the_author_meta( $key, $user_id );
+	}
+
+	/**
+	 * Converts the sitemap exclude meta value to the indexable value.
+	 *
+	 * @param string $meta_value Current meta value.
+	 *
+	 * @return bool Value to use in the indexable.
+	 */
+	protected function get_sitemap_include_value( $meta_value ) {
+		return $meta_value !== 'on';
 	}
 }
