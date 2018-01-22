@@ -6,9 +6,6 @@
 Ensure Prefixed is used in code
 - Travis configuratie om Prefix classes te gebruiken
 
-Watchers -> Map functie voor data transformatie
-Lookup table voor 1-op-1 overzetten van data
-
 ---- Tests -----
 
 ## Tests
