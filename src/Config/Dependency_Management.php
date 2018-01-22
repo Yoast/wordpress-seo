@@ -9,11 +9,11 @@ class Dependency_Management {
 	/**
 	 * Registers the autoloader to create class aliases when needed.
 	 *
-	 * @return void
+	 * @return bool True on success, false on failure.
 	 */
 	public function initialize() {
 		// Prepend the autoloader to the stack, allowing for discovery of prefixed classes.
-		spl_autoload_register( array( $this, 'ensure_class_alias' ), true, true );
+		return \spl_autoload_register( array( $this, 'ensure_class_alias' ), true, true );
 	}
 
 	/**

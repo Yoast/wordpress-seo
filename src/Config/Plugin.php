@@ -2,7 +2,6 @@
 
 namespace Yoast\YoastSEO\Config;
 
-use Yoast\YoastSEO\Prefix_Dependencies;
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\WordPress\Integration_Group;
 use YoastSEO_Vendor\Model;
@@ -17,6 +16,28 @@ class Plugin implements Integration {
 
 	/** @var Dependency_Management */
 	protected $dependency_management;
+
+	/** @var Database_Migration */
+	protected $database_migration;
+
+	/**
+	 * Creates a new plugin instance.
+	 *
+	 * @param Dependency_Management|null $dependency_management Class to manage dependency prefixing.
+	 * @param Database_Migration|null    $database_migration    Class to manage database migrations.
+	 */
+	public function __construct( Dependency_Management $dependency_management = null, Database_Migration $database_migration = null ) {
+		if ( $dependency_management === null ) {
+			$dependency_management = new Dependency_Management();
+		}
+
+		if ( $database_migration === null ) {
+			$database_migration = new Database_Migration( $GLOBALS['wpdb'], $dependency_management );
+		}
+
+		$this->dependency_management = $dependency_management;
+		$this->database_migration    = $database_migration;
+	}
 
 	/**
 	 * Adds an integration to the stack
@@ -35,17 +56,17 @@ class Plugin implements Integration {
 	 * @return void
 	 */
 	public function initialize() {
-		$dependency_management = $this->get_dependency_management();
-		$dependency_management->initialize();
+		$dependency_success = $this->dependency_management->initialize();
 
-		ORM::configure( 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME );
-		ORM::configure( 'username', DB_USER );
-		ORM::configure( 'password', DB_PASSWORD );
+		// ORM can only be configured after dependency management is loaded.
+		if ( ! $dependency_success ) {
+			return;
+		}
 
-		Model::$auto_prefix_models = '\\Yoast\\YoastSEO\\Models\\';
+		$this->configure_orm();
 
-		$migration                = new Database_Migration( $GLOBALS['wpdb'], $dependency_management );
-		$this->initialize_success = $migration->initialize();
+		// Everything is loaded, set initialize state.
+		$this->initialize_success = $this->database_migration->initialize();
 	}
 
 	/**
@@ -58,12 +79,12 @@ class Plugin implements Integration {
 			return;
 		}
 
-		if ( is_admin() ) {
-			$this->add_integration( new Admin() );
+		if ( $this->is_admin() ) {
+			$this->add_admin_integrations();
 		}
 
-		if ( ! is_admin() ) {
-			$this->add_integration( new Frontend() );
+		if ( $this->is_frontend() ) {
+			$this->add_frontend_integrations();
 		}
 
 		/**
@@ -73,29 +94,57 @@ class Plugin implements Integration {
 		 */
 		do_action( 'wpseo_load_integrations', $this );
 
-		$integration_group = new Integration_Group( $this->integrations );
+		$integration_group = $this->get_integration_group( $this->integrations );
 		$integration_group->register_hooks();
 	}
 
 	/**
-	 * @param Dependency_Management $dependency_management
+	 * @return bool
 	 */
-	public function set_dependecy_management( Dependency_Management $dependency_management = null ) {
-		if ( $dependency_management === null ) {
-			$dependency_management = new Dependency_Management();
-		}
-
-		$this->dependency_management = $dependency_management;
+	protected function is_admin() {
+		return is_admin();
 	}
 
 	/**
-	 * @return Dependency_Management
+	 * @return bool
 	 */
-	protected function get_dependency_management() {
-		if ( $this->dependency_management === null ) {
-			$this->set_dependecy_management();
-		}
+	protected function is_frontend() {
+		return ! is_admin();
+	}
 
-		return $this->dependency_management;
+	/**
+	 * @return void
+	 */
+	protected function add_frontend_integrations() {
+		$this->add_integration( new Frontend() );
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function add_admin_integrations() {
+		$this->add_integration( new Admin() );
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function configure_orm() {
+		ORM::configure( 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME );
+		ORM::configure( 'username', DB_USER );
+		ORM::configure( 'password', DB_PASSWORD );
+
+		Model::$auto_prefix_models = '\\Yoast\\YoastSEO\\Models\\';
+	}
+
+	/**
+	 * Retrieves an integration group.
+	 *
+	 * @param array $integrations
+	 *
+	 * @return Integration_Group
+	 */
+	protected function get_integration_group( array $integrations = array() ) {
+		return new Integration_Group( $integrations );
 	}
 }
