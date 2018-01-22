@@ -16,7 +16,6 @@ class Indexable_Term implements Integration {
 	public function register_hooks() {
 		add_action( 'created_term', array( $this, 'save_meta' ), PHP_INT_MAX, 3 );
 		add_action( 'edited_term', array( $this, 'save_meta' ), PHP_INT_MAX, 3 );
-
 		add_action( 'deleted_term', array( $this, 'delete_meta' ), PHP_INT_MAX, 3 );
 	}
 
@@ -30,18 +29,10 @@ class Indexable_Term implements Integration {
 	 * @return void
 	 */
 	public function delete_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
-		/** @var Indexable $indexable */
-		$indexable = Yoast_Model::of_type( 'Indexable' )
-								->where( 'object_id', $term_id )
-								->where( 'object_type', 'term' )
-								->where( 'object_sub_type', $taxonomy )
-								->find_one();
-
-		if ( ! $indexable ) {
-			return;
+		$indexable = $this->get_indexable( $term_id, $taxonomy, false );
+		if ( $indexable ) {
+			$indexable->delete();
 		}
-
-		$indexable->delete();
 	}
 
 	/**
@@ -55,54 +46,39 @@ class Indexable_Term implements Integration {
 	 */
 	public function save_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
 		/** @var Indexable $indexable */
-		$indexable = Yoast_Model::of_type( 'Indexable' )
-								->where( 'object_id', $term_id )
-								->where( 'object_type', 'term' )
-								->where( 'object_sub_type', $taxonomy )
-								->find_one();
-
-		if ( ! $indexable ) {
-			/** @var Indexable $indexable */
-			$indexable                  = Yoast_Model::of_type( 'Indexable' )->create();
-			$indexable->object_id       = $term_id;
-			$indexable->object_type     = 'term';
-			$indexable->object_sub_type = $taxonomy;
-		}
+		$indexable = $this->get_indexable( $term_id, $taxonomy );
 
 		$indexable->updated_at = gmdate( 'Y-m-d H:i:s' );
 
 		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
 
 		$indexable->permalink = get_term_link( $term_id, $taxonomy );
-		$indexable->canonical = $term_meta['wpseo_canonical'];
 
-		$indexable->title         = $term_meta['wpseo_title'];
-		$indexable->description   = $term_meta['wpseo_desc'];
-		$indexable->content_score = $term_meta['wpseo_content_score'];
+		$meta_to_indexable = array(
+			'wpseo_canonical' => 'canonical',
 
-		$indexable->breadcrumb_title = $term_meta['wpseo_bctitle'];
+			'wpseo_title'         => 'title',
+			'wpseo_desc'          => 'description',
+			'wpseo_content_score' => 'content_score',
 
-		$indexable->og_title       = $term_meta['wpseo_opengraph-title'];
-		$indexable->og_description = $term_meta['wpseo_opengraph-description'];
-		$indexable->og_image       = $term_meta['wpseo_opengraph-image'];
+			'wpseo_bctitle' => 'breadcrumb_title',
 
-		$indexable->twitter_title       = $term_meta['wpseo_twitter-title'];
-		$indexable->twitter_description = $term_meta['wpseo_twitter-description'];
-		$indexable->twitter_image       = $term_meta['wpseo_twitter-image'];
+			'wpseo_opengraph-title'       => 'og_title',
+			'wpseo_opengraph-description' => 'og_description',
+			'wpseo_opengraph-image'       => 'og_image',
 
-		$indexable->robots_noindex = $term_meta['wpseo_noindex'];
+			'wpseo_twitter-title'       => 'twitter_title',
+			'wpseo_twitter-description' => 'twitter_description',
+			'wpseo_twitter-image'       => 'twitter_image',
 
-		switch ( $term_meta['wpseo_sitemap_include'] ) {
-			case 'always':
-				$indexable->include_in_sitemap = 0;
-				break;
-			case 'never':
-				$indexable->include_in_sitemap = 1;
-				break;
-			default:
-				$indexable->include_in_sitemap = null;
-				break;
+			'wpseo_noindex' => 'robots_noindex',
+		);
+
+		foreach ( $meta_to_indexable as $meta_key => $indexable_key ) {
+			$indexable->{$indexable_key} = $term_meta[ $meta_key ];
 		}
+
+		$indexable->include_in_sitemap = $this->get_sitemap_include_value( $term_meta['wpseo_sitemap_include'] );
 
 		// Not implemented yet.
 		$indexable->cornerstone     = 0;
@@ -111,5 +87,50 @@ class Indexable_Term implements Integration {
 		// $model->incoming_link_count = null;
 
 		$indexable->save();
+	}
+
+	/**
+	 * Retrieves an indexable for a term.
+	 *
+	 * @param int    $term_id     The term the indexable is based upon.
+	 * @param string $taxonomy    The taxonomy the indexable belongs to.
+	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
+	 *
+	 * @return bool|Indexable
+	 */
+	protected function get_indexable( $term_id, $taxonomy, $auto_create = true ) {
+		$indexable = Yoast_Model::of_type( 'Indexable' )
+								->where( 'object_id', $term_id )
+								->where( 'object_type', 'term' )
+								->where( 'object_sub_type', $taxonomy )
+								->find_one();
+
+		if ( $auto_create && ! $indexable ) {
+			/** @var Indexable $indexable */
+			$indexable                  = Yoast_Model::of_type( 'Indexable' )->create();
+			$indexable->object_id       = $term_id;
+			$indexable->object_type     = 'term';
+			$indexable->object_sub_type = $taxonomy;
+		}
+
+		return $indexable;
+	}
+
+	/**
+	 * Converts the meta sitemap include value to the indexable value.
+	 *
+	 * @param string $meta_value Term meta to base the value on.
+	 *
+	 * @return bool|null
+	 */
+	protected function get_sitemap_include_value( $meta_value ) {
+		switch ( $meta_value ) {
+			case 'always':
+				return false;
+			case 'never':
+				return true;
+		}
+
+		return null;
 	}
 }
