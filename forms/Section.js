@@ -1,20 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import Heading from "../composites/basic/Heading";
+
 /**
- * Represents the section HTML element.
+ * Represents a HTML section element.
  *
  * @param {Object} props The properties to use.
- * @returns {JSX} A representation of the section HTML element based on the passed props.
- * @constructor
+ * @returns {ReactElement} The rendered component.
  */
 const Section = ( props ) => {
-	const Heading = `h${props.level}`;
-
 	return (
-		<section className={props.className}>
-			<Heading className={props.headingClassName}>{props.headingText}</Heading>
-			{props.children}
+		<section className={ props.className }>
+			{ ! props.styled &&
+				<Heading level={ props.headingLevel } className={ props.headingClassName }>
+					{ props.headingText }
+				</Heading>
+			}
+			{ props.children }
 		</section>
 	);
 };
@@ -25,9 +28,10 @@ const Section = ( props ) => {
  * @type {{level: number, headingText: string, headingClassName: string}}
  */
 Section.propTypes = {
-	level: PropTypes.number.isRequired,
-	headingText: PropTypes.string,
+	headingLevel: PropTypes.number,
 	headingClassName: PropTypes.string,
+	headingIcon: PropTypes.string,
+	headingText: PropTypes.string,
 	className: PropTypes.string,
 	children: PropTypes.any,
 };

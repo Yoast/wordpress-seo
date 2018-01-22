@@ -26,7 +26,7 @@ export const Icon = ( props ) => {
 
 Icon.propTypes = {
 	icon: PropTypes.func.isRequired,
-	color: PropTypes.string.isRequired,
+	color: PropTypes.string,
 	size: PropTypes.string,
 };
 
