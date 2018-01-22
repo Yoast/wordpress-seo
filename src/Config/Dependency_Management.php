@@ -30,11 +30,11 @@ class Dependency_Management {
 		}
 
 		$base = substr( $class, strlen( YOAST_VENDOR_NS_PREFIX ) + 1 );
-		if ( ! class_exists( $base ) ) {
+		if ( ! $this->class_exists( $base ) ) {
 			return;
 		}
 
-		class_alias( $base, $class );
+		$this->class_alias( $base, $class );
 	}
 
 	/**
@@ -47,7 +47,7 @@ class Dependency_Management {
 
 		if ( $available === null ) {
 			// @todo determine if this is the best way to check for existing prefixed dependencies.
-			$available = is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/dependencies-prefixed.txt' );
+			$available = is_file( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/dependencies-prefixed.txt' );
 		}
 
 		return $available;
@@ -75,5 +75,24 @@ class Dependency_Management {
 
 		$event_dispatcher = $event->getComposer()->getEventDispatcher();
 		$event_dispatcher->dispatchScript( 'prefix-dependencies', $event->isDevMode() );
+	}
+
+	/**
+	 * @param $base
+	 *
+	 * @return bool
+	 */
+	protected function class_exists( $base ) {
+		return class_exists( $base );
+	}
+
+	/**
+	 * @param string $base
+	 * @param string $alias
+	 *
+	 * @return bool
+	 */
+	protected function class_alias( $base, $alias ) {
+		return class_alias( $base, $alias );
 	}
 }

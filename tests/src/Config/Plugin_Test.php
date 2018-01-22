@@ -14,7 +14,14 @@ use Yoast\YoastSEO\WordPress\Integration_Group;
  *
  * @package Yoast\Tests\Config
  */
-class Plugin_Test extends \WPSEO_UnitTestCase {
+class Plugin_Test extends \PHPUnit_Framework_TestCase {
+	/**
+	 * Tests if the class is based upon the Integration interface
+	 */
+	public function test_class_instance() {
+		$this->assertInstanceOf( '\Yoast\YoastSEO\WordPress\Integration', new Plugin_Double() );
+	}
+
 	/**
 	 * Tests adding an integration
 	 *
@@ -146,7 +153,8 @@ class Plugin_Test extends \WPSEO_UnitTestCase {
 							 'is_frontend',
 							 'add_admin_integrations',
 							 'add_frontend_integrations',
-							 'get_integration_group'
+							 'get_integration_group',
+							 'trigger_integration_hook'
 						 ) )
 						 ->getMock();
 
@@ -164,6 +172,9 @@ class Plugin_Test extends \WPSEO_UnitTestCase {
 		$instance->expects( $this->once() )
 				 ->method( 'add_frontend_integrations' );
 
+		$instance->expects( $this->once() )
+				 ->method( 'trigger_integration_hook' );
+
 		$integration_group = $this->get_integration_group_mock();
 		$integration_group->expects( $this->once() )
 						  ->method( 'register_hooks' );
@@ -175,19 +186,6 @@ class Plugin_Test extends \WPSEO_UnitTestCase {
 		$instance->set_initialize_success( true );
 
 		$instance->register_hooks();
-	}
-
-	/**
-	 * Tests if the WordPress action is triggered on register hooks
-	 *
-	 * @covers \Yoast\YoastSEO\Config\Plugin::register_hooks()
-	 */
-	public function test_register_hooks_call_hook() {
-		$instance = new Plugin_Double();
-		$instance->set_initialize_success( true );
-		$instance->register_hooks();
-
-		$this->assertEquals( 1, did_action( 'wpseo_load_integrations' ) );
 	}
 
 	/**

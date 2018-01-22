@@ -87,12 +87,7 @@ class Plugin implements Integration {
 			$this->add_frontend_integrations();
 		}
 
-		/**
-		 * Action: 'wpseo_load_integrations' - Hook to register additional Yoast SEO Integrations.
-		 *
-		 * @api \Yoast\YoastSEO\Config\Plugin The Plugin object to register integrations on.
-		 */
-		do_action( 'wpseo_load_integrations', $this );
+		$this->trigger_integration_hook();
 
 		$integration_group = $this->get_integration_group( $this->integrations );
 		$integration_group->register_hooks();
@@ -146,5 +141,19 @@ class Plugin implements Integration {
 	 */
 	protected function get_integration_group( array $integrations = array() ) {
 		return new Integration_Group( $integrations );
+	}
+
+	/**
+	 * Triggers a WordPress action to allow integrations to register themselves.
+	 *
+	 * @return void
+	 */
+	protected function trigger_integration_hook() {
+		/**
+		 * Action: 'wpseo_load_integrations' - Hook to register additional Yoast SEO Integrations.
+		 *
+		 * @api \Yoast\YoastSEO\Config\Plugin The Plugin object to register integrations on.
+		 */
+		do_action( 'wpseo_load_integrations', $this );
 	}
 }
