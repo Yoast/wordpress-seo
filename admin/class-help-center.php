@@ -219,7 +219,6 @@ class WPSEO_Help_Center {
 			'a11yNotice.opensInNewTab'           => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 			'contactSupport.button'              => __( 'Open support form', 'wordpress-seo' ),
 			'helpCenter.buttonText'              => __( 'Need help?', 'wordpress-seo' ),
-
 		);
 	}
 
