@@ -177,7 +177,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @covers \Yoast\YoastSEO\Config\Database_Migration::set_defines()
 	 */
-	public function test_set_defines() {
+	public function test_set_define_success() {
 		$instance = $this->getMockBuilder( '\Yoast\Tests\Doubles\Database_Migration' )
 						 ->setConstructorArgs( array(
 							 null,
@@ -197,7 +197,33 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 				 ->with( 'my_define', 'define_value' )
 				 ->will( $this->returnValue( true ) );
 
-		$instance->set_defines( 'table_name' );
+		$this->assertTrue( $instance->set_defines( 'table_name' ) );
+	}
+
+	/**
+	 * @covers \Yoast\YoastSEO\Config\Database_Migration::set_defines()
+	 */
+	public function test_set_define_failed() {
+		$instance = $this->getMockBuilder( '\Yoast\Tests\Doubles\Database_Migration' )
+						 ->setConstructorArgs( array(
+							 null,
+							 new Dependency_Management()
+						 ) )
+						 ->setMethods(
+							 array( 'set_define', 'get_defines' )
+						 )
+						 ->getMock();
+
+		$instance->expects( $this->once() )
+				 ->method( 'get_defines' )
+				 ->will( $this->returnValue( array( 'my_define' => 'define_value' ) ) );
+
+		$instance->expects( $this->once() )
+				 ->method( 'set_define' )
+				 ->with( 'my_define', 'define_value' )
+				 ->will( $this->returnValue( false ) );
+
+		$this->assertFalse( $instance->set_defines( 'table_name' ) );
 	}
 
 	/**

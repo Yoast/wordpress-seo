@@ -83,7 +83,7 @@ class Database_Migration {
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
