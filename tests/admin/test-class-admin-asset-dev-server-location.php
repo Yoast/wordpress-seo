@@ -1,7 +1,13 @@
 <?php
 
-class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestCase {
+/**
+ * Tests WPSEO_Admin_Asset_Dev_Server_Location
+ */
+final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestCase {
 
+	/**
+	 * Basic get_url test.
+	 */
 	public function test_get_url() {
 		$asset = new WPSEO_Admin_Asset( array(
 			'name' => 'commons',
@@ -14,6 +20,9 @@ class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( 'http://localhost:8080/commons' . WPSEO_CSSJS_SUFFIX . '.js', $actual );
 	}
 
+	/**
+	 * Tests that the constructor accepts a different dev server URL.
+	 */
 	public function test_get_url_different_url() {
 		$asset = new WPSEO_Admin_Asset( array(
 			'name' => 'commons',
@@ -26,6 +35,9 @@ class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( 'https://localhost:8081/commons' . WPSEO_CSSJS_SUFFIX . '.js', $actual );
 	}
 
+	/**
+	 * Tests that the dev server falls back to the default asset if it isn't on the dev server.
+	 */
 	public function test_get_url_default() {
 		$asset = new WPSEO_Admin_Asset( array(
 			'name' => 'commons',
@@ -40,6 +52,9 @@ class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( $expected, $actual );
 	}
 
+	/**
+	 * Tests that the dev server falls back to the default asset if it isn't on the dev server.
+	 */
 	public function test_get_url_default_2() {
 		$asset = new WPSEO_Admin_Asset( array(
 			'name' => 'other',

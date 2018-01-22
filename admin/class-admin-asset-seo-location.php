@@ -23,10 +23,12 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 	}
 
 	/**
-	 * @param WPSEO_Admin_Asset $asset The asset to determine the URL for.
-	 * @param string            $type  The type of asset.
+	 * Determines the URL of the asset on the dev server.
 	 *
-	 * @return string The URL of the asset file.
+	 * @param WPSEO_Admin_Asset $asset The asset to determine the URL for.
+	 * @param string            $type  The type of asset. Usually JS or CSS.
+	 *
+	 * @return string The URL of the asset.
 	 */
 	public function get_url( WPSEO_Admin_Asset $asset, $type ) {
 		$path = $this->get_path( $asset, $type );
@@ -34,7 +36,7 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 			return '';
 		}
 
-		if ( 'development' !== YOAST_ENVIRONMENT && ! $asset->get_suffix() ) {
+		if ( YOAST_ENVIRONMENT !== 'development' && ! $asset->get_suffix() ) {
 			$plugin_path = plugin_dir_path( $this->plugin_file );
 			if ( ! file_exists( $plugin_path . $path ) ) {
 
@@ -43,7 +45,7 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 					'Development Files',
 					sprintf(
 					/* translators: %1$s resolves to https://github.com/Yoast/wordpress-seo */
-						__( 'You are trying to load non-minified files, these are only available in our development package. Check out %1$s to see all the source files.', 'wordpress-seo' ),
+						__( 'You are trying to load non-minified files. These are only available in our development package. Check out %1$s to see all the source files.', 'wordpress-seo' ),
 						'https://github.com/Yoast/wordpress-seo'
 					),
 					true
@@ -58,6 +60,8 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 	}
 
 	/**
+	 * Determines the path relative to the plugin folder of an asset.
+	 *
 	 * @param WPSEO_Admin_Asset $asset        The asset to determine the path
 	 *                                        for.
 	 * @param string            $type         The type of asset.

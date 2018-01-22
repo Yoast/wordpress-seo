@@ -42,16 +42,16 @@ final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_L
 	 * Determines the URL of the asset on the dev server.
 	 *
 	 * @param WPSEO_Admin_Asset $asset The asset to determine the URL for.
-	 * @param string            $type  The type of asset.
+	 * @param string            $type  The type of asset. Usually JS or CSS.
 	 *
-	 * @return string The URL of the asset file.
+	 * @return string The URL of the asset.
 	 */
 	public function get_url( WPSEO_Admin_Asset $asset, $type ) {
 		if ( WPSEO_Admin_Asset::TYPE_CSS === $type ) {
 			return $this->get_default_url( $asset, $type );
 		}
 
-		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager       = new WPSEO_Admin_Asset_Manager();
 		$flat_version        = $asset_manager->flatten_version( WPSEO_VERSION );
 		$version_less_source = str_replace( '-' . $flat_version, '', $asset->get_src() );
 

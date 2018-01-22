@@ -19,6 +19,8 @@ class WPSEO_Admin_Asset_Manager {
 	const PREFIX = 'yoast-seo-';
 
 	/**
+	 * Constructs a manager of assets. Needs a location to know where to register assets at.
+	 *
 	 * @param WPSEO_Admin_Asset_Location $asset_location The provider of the asset location.
 	 */
 	public function __construct( WPSEO_Admin_Asset_Location $asset_location = null ) {
