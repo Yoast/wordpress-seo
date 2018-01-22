@@ -7,7 +7,6 @@ use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
 
 class Indexable_Post implements Integration {
-
 	/**
 	 * Registers all hooks to WordPress.
 	 *
@@ -26,20 +25,10 @@ class Indexable_Post implements Integration {
 	 * @return void
 	 */
 	public function delete_meta( $post_id ) {
-		$post_type = get_post_type( $post_id );
-
-		/** @var Indexable $indexable */
-		$indexable = Yoast_Model::of_type( 'Indexable' )
-								->where( 'object_id', $post_id )
-								->where( 'object_type', 'post' )
-								->where( 'object_sub_type', $post_type )
-								->find_one();
-
-		if ( ! $indexable ) {
-			return;
+		$indexable = $this->get_indexable( $post_id, false );
+		if ( $indexable ) {
+			$indexable->delete();
 		}
-
-		$indexable->delete();
 	}
 
 	/**
@@ -54,68 +43,43 @@ class Indexable_Post implements Integration {
 			return;
 		}
 
-		$post_type = get_post_type( $post_id );
-
-		/** @var Indexable $indexable */
-		$indexable = Yoast_Model::of_type( 'Indexable' )
-								->where( 'object_id', $post_id )
-								->where( 'object_type', 'post' )
-								->where( 'object_sub_type', $post_type )
-								->find_one();
-
-		if ( ! $indexable ) {
-			/** @var Indexable $indexable */
-			$indexable                  = Yoast_Model::of_type( 'Indexable' )->create();
-			$indexable->object_id       = $post_id;
-			$indexable->object_type     = 'post';
-			$indexable->object_sub_type = get_post_type( $post_id );
-		}
+		$indexable = $this->get_indexable( $post_id );
 
 		// Implement filling of meta values.
 		$post_meta = \get_post_meta( $post_id );
 
-		$indexable->permalink = get_permalink( $post_id );
+		$indexable->permalink = \get_permalink( $post_id );
 
-		$this->set_meta_value( $indexable, $post_meta, 'canonical', '_yoast_wpseo_canonical' );
-		$this->set_meta_value( $indexable, $post_meta, 'content_score', '_yoast_wpseo_content_score' );
+		$meta_to_indexable = array(
+			'_yoast_wpseo_canonical'            => 'canonical',
+			'_yoast_wpseo_content_score'        => 'content_score',
+			'_yoast_wpseo_meta-robots-nofollow' => 'robots_nofollow',
+			'_yoast_wpseo_title'                => 'title',
+			'_yoast_wpseo_metadesc'             => 'description',
+			'_yoast_wpseo_bctitle'              => 'breadcrumb_title',
 
-		$noindex = (int) $post_meta['_yoast_wpseo_meta-robots-noindex'][0];
-		switch ( $noindex ) {
-			case 0:
-				$indexable->robots_noindex = null;
-				break;
-			case 1:
-				$indexable->robots_noindex = 1;
-				break;
-			case 2:
-				$indexable->robots_noindex = 0;
-				break;
+			'_yst_is_cornerstone' => 'cornerstone',
+
+			'_yoast_wpseo_opengraph-title'       => 'og_title',
+			'_yoast_wpseo_opengraph-image'       => 'og_image',
+			'_yoast_wpseo_opengraph-description' => 'og_description',
+
+			'_yoast_wpseo_twitter-title'       => 'twitter_title',
+			'_yoast_wpseo_twitter-image'       => 'twitter_image',
+			'_yoast_wpseo_twitter-description' => 'twitter_description',
+		);
+
+		foreach ( $meta_to_indexable as $meta_key => $indexable_key ) {
+			$indexable->{$indexable_key} = $this->get_meta_value( $post_meta, $meta_key );
 		}
 
-		$this->set_meta_value( $indexable, $post_meta, 'robots_nofollow', '_yoast_wpseo_meta-robots-nofollow' );
+		$indexable->robots_noindex = $this->get_robots_noindex( (int) $post_meta['_yoast_wpseo_meta-robots-noindex'][0] );
 
 		// Set additional meta-robots values.
-		$meta_robots_options = array( 'noimageindex', 'noarchive', 'nosnippet' );
-		$meta_robots         = explode( ',', $post_meta['_yoast_wpseo_meta-robots-adv'][0] );
-		foreach ( $meta_robots_options as $meta_robots_option ) {
+		$meta_robots = explode( ',', $post_meta['_yoast_wpseo_meta-robots-adv'][0] );
+		foreach ( array( 'noimageindex', 'noarchive', 'nosnippet' ) as $meta_robots_option ) {
 			$indexable->{'robots_' . $meta_robots_option} = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
-
-		$this->set_meta_value( $indexable, $post_meta, 'title', '_yoast_wpseo_title' );
-		$this->set_meta_value( $indexable, $post_meta, 'description', '_yoast_wpseo_metadesc' );
-		$this->set_meta_value( $indexable, $post_meta, 'breadcrumb_title', '_yoast_wpseo_bctitle' );
-
-		$this->set_meta_value( $indexable, $post_meta, 'cornerstone', '_yst_is_cornerstone' );
-
-		$this->set_meta_value( $indexable, $post_meta, 'og_title', '_yoast_wpseo_opengraph-title' );
-		$this->set_meta_value( $indexable, $post_meta, 'og_image', '_yoast_wpseo_opengraph-image' );
-		$this->set_meta_value( $indexable, $post_meta, 'og_description', '_yoast_wpseo_opengraph-description' );
-
-		$this->set_meta_value( $indexable, $post_meta, 'twitter_title', '_yoast_wpseo_twitter-title' );
-		$this->set_meta_value( $indexable, $post_meta, 'twitter_image', '_yoast_wpseo_twitter-image' );
-		$this->set_meta_value( $indexable, $post_meta, 'twitter_description', '_yoast_wpseo_twitter-description' );
-
-		$indexable->include_in_sitemap = null;
 
 		try {
 			$seo_meta = Yoast_Model::of_type( 'SEO_Meta' )
@@ -127,33 +91,26 @@ class Indexable_Post implements Integration {
 				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
 			}
 		} catch ( \Exception $exception ) {
-
 		}
 
 		$indexable->save();
 	}
 
 	/**
-	 * Helper function
+	 * Determines the value to use for the indexable.
 	 *
-	 * @todo convert to something prettier.
+	 * @param array  $post_meta Meta list.
+	 * @param string $source    Meta key from the list.
+	 * @param null   $default   Default value if not set in meta data.
 	 *
-	 * @param Yoast_Model $model     Model.
-	 * @param array       $post_meta Meta list.
-	 * @param string      $target    Property to fill on the model.
-	 * @param string      $source    Meta key from the list.
-	 * @param null        $default   Default value if not set in meta data.
-	 *
-	 * @return void
+	 * @return mixed The value of the indexable entry to use.
 	 */
-	protected function set_meta_value( $model, $post_meta, $target, $source, $default = null ) {
+	protected function get_meta_value( $post_meta, $source, $default = null ) {
 		if ( ! isset( $post_meta[ $source ] ) ) {
-			$model->{$target} = $default;
-
-			return;
+			return $default;
 		}
 
-		$model->{$target} = $post_meta[ $source ][0];
+		return $post_meta[ $source ][0];
 	}
 
 	/**
@@ -171,5 +128,50 @@ class Indexable_Post implements Integration {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Fetches the indexable for a post.
+	 *
+	 * @param int  $post_id     Post to fetch indexable for.
+	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
+	 *
+	 * @return bool|Indexable
+	 */
+	protected function get_indexable( $post_id, $auto_create = true ) {
+		$post_type = get_post_type( $post_id );
+		$indexable = Yoast_Model::of_type( 'Indexable' )
+								->where( 'object_id', $post_id )
+								->where( 'object_type', 'post' )
+								->where( 'object_sub_type', $post_type )
+								->find_one();
+
+		if ( $auto_create && ! $indexable ) {
+			/** @var Indexable $indexable */
+			$indexable                  = Yoast_Model::of_type( 'Indexable' )->create();
+			$indexable->object_id       = $post_id;
+			$indexable->object_type     = 'post';
+			$indexable->object_sub_type = $post_type;
+		}
+
+		return $indexable;
+	}
+
+	/**
+	 * Converts the meta robots noindex value to the indexable value.
+	 *
+	 * @param int $value Meta value to convert.
+	 *
+	 * @return bool|null True for noindex, false for index, null for default of parent/type.
+	 */
+	protected function get_robots_noindex( $value ) {
+		switch ( $value ) {
+			case 1:
+				return true;
+			case 2:
+				return false;
+		}
+
+		return null;
 	}
 }
