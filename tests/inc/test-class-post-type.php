@@ -193,12 +193,13 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type::is_rest_enabled()
 	 */
 	public function test_rest_enabled_post_types() {
-		register_post_type( 'custom-post-type', array( 'public' => true ) );
 		$this->assertTrue( WPSEO_Post_Type::is_rest_enabled( 'post' ) );
 		$this->assertFalse( WPSEO_Post_Type::is_rest_enabled( 'invalid_post_type' ) );
 
 		register_post_type( 'custom-post-type-api', array( 'public' => true, 'show_in_rest' => true ) );
 		$this->assertTrue( WPSEO_Post_Type::is_rest_enabled( 'custom-post-type-api' ) );
+
+		register_post_type( 'custom-post-type', array( 'public' => true ) );
 		$this->assertFalse( WPSEO_Post_Type::is_rest_enabled( 'custom-post-type' ) );
 	}
 }
