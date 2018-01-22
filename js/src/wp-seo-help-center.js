@@ -16,17 +16,13 @@ import { YoastButton } from "yoast-components/composites/Plugin/Shared/component
  * Executes an action with an argument.
  */
 class ContactSupport extends React.Component {
-	componentDidMount() {
-		this.execute();
-	}
-
 	/**
 	 * Execute the contact support callback.
 	 *
 	 * @returns {void}
 	 */
 	execute() {
-		if( this.props.do ) {
+		if ( this.props.do ) {
 			this.props.do(
 				this.props.with
 			);
@@ -40,8 +36,18 @@ class ContactSupport extends React.Component {
 	 */
 	render() {
 		return (
-			<div className="contact-premium-support-container">
+			<div className="contact-premium-support">
+				{ this.props.paragraphs.map( ( paragraph, index ) => {
+					const { image, content } = paragraph;
+					return (
+						<p key={ index } className="contact-premium-support__content">
+							{ image ? <img src={ image.src } width={ image.width } height={ image.height } alt={ image.alt } /> : null }
+							{ content }
+						</p>
+					);
+				} ) }
 				<YoastButton
+					className="contact-premium-support__button"
 					onClick={ this.execute.bind( this ) }>
 					{ this.props.buttonText }
 				</YoastButton>
@@ -54,6 +60,7 @@ ContactSupport.propTypes = {
 	buttonText: PropTypes.string,
 	"do": PropTypes.func,
 	"with": PropTypes.any,
+	paragraphs: PropTypes.array.isRequired,
 };
 
 /**
@@ -129,7 +136,7 @@ class HelpCenter extends React.Component {
 		const tabs = [];
 
 		// Video tab
-		if( this.state.videoUrl ) {
+		if ( this.state.videoUrl ) {
 			tabs.push( {
 				id: "video-tutorial",
 				label: formatMessage( { id: "videoTutorial" } ),
@@ -162,7 +169,7 @@ class HelpCenter extends React.Component {
 	getAdditionalTabs() {
 		const additionalTabs = [];
 
-		if( ! this.props.additionalHelpCenterTabs ) {
+		if ( ! this.props.additionalHelpCenterTabs ) {
 			return additionalTabs;
 		}
 
@@ -171,6 +178,7 @@ class HelpCenter extends React.Component {
 			if ( this.props.shouldDisplayContactForm === "1" && tab.identifier === "contact-support" ) {
 				const supportButton = this.props.intl.formatMessage( { id: "contactSupport.button" } );
 				content = <ContactSupport
+					paragraphs={ this.props.contactFormParagraphs }
 					buttonText={ supportButton }
 					do={ this.props.onPremiumSupport }
 					with={ this.state.usedQueries } />;
@@ -215,6 +223,7 @@ HelpCenter.propTypes = {
 	additionalHelpCenterTabs: PropTypes.array,
 	videoTutorialParagraphs: PropTypes.array,
 	shouldDisplayContactForm: PropTypes.string,
+	contactFormParagraphs: PropTypes.array,
 	initialTab: PropTypes.string,
 	intl: intlShape.isRequired,
 };
@@ -283,6 +292,7 @@ if ( window.wpseoHelpCenterData ) {
 				additionalHelpCenterTabs={ wpseoHelpCenterData.extraTabs }
 				videoTutorialParagraphs={ wpseoHelpCenterData.videoDescriptions }
 				shouldDisplayContactForm={ wpseoHelpCenterData.shouldDisplayContactForm }
+				contactFormParagraphs={ wpseoHelpCenterData.contactSupportParagraphs }
 			/>
 		</IntlProvider>,
 		document.getElementById( wpseoHelpCenterData.mountId )
