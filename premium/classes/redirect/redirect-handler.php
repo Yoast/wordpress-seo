@@ -414,7 +414,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Determines whether the target URL ends with a slash and adds it if necessary.
+	 * Determines whether the target URL ends with a slash and adds one if necessary.
 	 *
 	 * @param string $target_url The url to format.
 	 *
