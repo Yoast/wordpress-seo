@@ -59,6 +59,7 @@ class Database_Migration {
 
 		try {
 			$main->execute();
+			$this->set_success_state();
 		} catch ( \Exception $exception ) {
 			// Something went wrong...
 			// Disable functionality?
@@ -139,6 +140,13 @@ class Database_Migration {
 	 */
 	protected function set_failed_state( $message ) {
 		// @todo do something with the message.
-		set_transient( 'yoast_migration_problem', 1, DAY_IN_SECONDS );
+		\set_transient( 'yoast_migration_problem', 1, DAY_IN_SECONDS );
+	}
+
+	/**
+	 * Removes the problem state from the system.
+	 */
+	protected function set_success_state() {
+		\delete_transient( 'yoast_migration_problem' );
 	}
 }
