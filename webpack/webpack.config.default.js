@@ -1,5 +1,7 @@
 const _defaultsDeep = require( "lodash/defaultsDeep" );
 const webpack = require( "webpack" );
+const UnminifiedWebpackPlugin = require( "unminified-webpack-plugin" );
+const path = require( "path" );
 
 const paths = require( "./paths" );
 const outputFilename = "[name]-<%= pluginVersionSlug %>.min.js";
@@ -44,6 +46,7 @@ const defaultWebpackConfig = {
 				NODE_ENV: JSON.stringify( "production" ),
 			},
 		} ),
+		new UnminifiedWebpackPlugin(),
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.optimize.AggressiveMergingPlugin(),
 		new webpack.optimize.CommonsChunkPlugin( {

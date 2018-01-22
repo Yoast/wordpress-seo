@@ -8,7 +8,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import flowRight from "lodash/flowRight";
 
-import getIntlProvider from "./components/higher-order/IntlProviderWaitForLocaleData";
+import getIntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
@@ -24,6 +24,7 @@ if( window.wpseoPostScraperL10n ) {
 }
 
 const locale = localizedData.intl.locale ? localizedData.intl.locale : "en";
+
 const IntlProvider = getIntlProvider( locale );
 
 /**
@@ -68,7 +69,6 @@ function configureStore() {
 function wrapInTopLevelComponents( Component, store ) {
 	return (
 		<IntlProvider
-			locale={ locale }
 			messages={ localizedData.intl } >
 			<Provider store={ store } >
 				<Component hideMarksButtons={ localizedData.show_markers !== "1" } />

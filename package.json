@@ -77,6 +77,7 @@
     "sassdash": "^0.8.1",
     "svg-react-loader": "^0.4.5",
     "time-grunt": "^1.0.0",
+    "unminified-webpack-plugin": "^1.4.2",
     "webpack": "^3.4.1"
   },
   "optionalDependencies": {

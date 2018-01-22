@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import get from "lodash/get";
 import { injectIntl, intlShape } from "react-intl";
-import getIntlProvider from "./components/higher-order/IntlProviderWaitForLocaleData";
+import getIntlProvider from "./components/IntlProvider";
 
 import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
 import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSearcher";
@@ -270,7 +270,6 @@ function handleTabSelect() {
 if ( window.wpseoHelpCenterData ) {
 	ReactDOM.render(
 		<IntlProvider
-			locale={ wpseoHelpCenterData.translations.locale }
 			messages={ wpseoHelpCenterData.translations }>
 			<HelpCenterIntl
 				onHelpCenterToggle={ toggleSidebar }

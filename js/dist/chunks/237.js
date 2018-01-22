@@ -1,1 +1,1 @@
-yoastWebpackJsonp([237],{1022:function(n,o){}});
+yoastWebpackJsonp([237],{1025:function(module,exports){eval("/* (ignored) */\n\n//////////////////\n// WEBPACK FOOTER\n// ./index (ignored)\n// module id = 1025\n// module chunks = 237\n\n//# sourceURL=webpack:///./index_(ignored)?")}});
