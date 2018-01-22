@@ -83,8 +83,6 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 * Tests the situation where a regex redirect is matched.
 	 *
 	 * @covers WPSEO_Redirect_Handler::load()
-	 *
-	 * @group redirects
 	 */
 	public function test_load_with_a_matching_regex_redirect() {
 		$redirect_handler = $this
@@ -271,7 +269,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the set tempplate include with a set class property set.
+	 * Tests the set template include with a set class property set.
 	 *
 	 * @covers WPSEO_Redirect_Handler::set_template_include()
 	 */
@@ -466,7 +464,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Handler::format_for_multisite()
 	 */
-	public function test_format_for_multisite_on_single_site(  ) {
+	public function test_format_for_multisite_on_single_site() {
 		$redirect_handler = new WPSEO_Redirect_Handler_Double();
 
 		$this->assertEquals( 'redirect', $redirect_handler->format_for_multisite( 'redirect' ) );
@@ -534,6 +532,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		$redirect_handler = new WPSEO_Redirect_Handler_Double();
 
 		$this->assertTrue( is_a( $redirect_handler->get_wp_query(), 'WP_Query' ) );
+		$this->assertEquals( $GLOBALS['wp_query'], $redirect_handler->get_wp_query() );
 	}
 
 	/**
@@ -655,7 +654,9 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-     * @covers WPSEO_Redirect_Handler::do_redirect()
+	 * Tests the execution of a 451 redirect.
+	 *
+	 * @covers WPSEO_Redirect_Handler::do_redirect()
 	 */
 	public function test_do_redirect_for_a_451_redirect() {
 		$redirect_handler = $this
@@ -704,7 +705,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation where the redirect has a target.
 	 *
-     * @covers WPSEO_Redirect_Handler::do_redirect()
+	 * @covers WPSEO_Redirect_Handler::do_redirect()
 	 */
 	public function test_do_redirect_for_a_redirect_with_target() {
 		$redirect_handler = $this
@@ -830,6 +831,8 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the loading of the PHP Redirect with the constant having set.
+	 *
+	 * @runInSeparateProcess
 	 *
 	 * @covers WPSEO_Redirect_Handler::load_php_redirects()
 	 */

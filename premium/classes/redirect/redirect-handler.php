@@ -414,11 +414,11 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Formats the target url by adding a trailingslash at the end of it.
+	 * Formats the target url by making sure it ends with a slash.
 	 *
 	 * @param string $target_url The url to format.
 	 *
-	 * @return string The altered target url/
+	 * @return string The url with trailing slash.
 	 */
 	protected function trailingslashit( $target_url ) {
 		// Adds slash to target URL when permalink structure ends with a slash.
