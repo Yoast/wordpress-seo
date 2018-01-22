@@ -77,6 +77,7 @@
 			"composer prefix-ruckusing",
 			"composer prefix-idiorm",
 			"composer prefix-paris",
+			"touch ./vendor_prefixed/dependencies-prefixed.txt",
 			"composer du"
 		],
 		"prefix-ruckusing": [

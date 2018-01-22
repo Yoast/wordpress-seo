@@ -46,7 +46,8 @@ class Dependency_Management {
 		static $available = null;
 
 		if ( $available === null ) {
-			$available = is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing' );
+			// @todo determine if this is the best way to check for existing prefixed dependencies.
+			$available = is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/dependencies-prefixed.txt' );
 		}
 
 		return $available;
