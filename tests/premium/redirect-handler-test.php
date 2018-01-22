@@ -258,7 +258,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the set tempplate include without a class property being set.
+	 * Tests the set_template_include method without the corresponding class property having set.
 	 *
 	 * @covers WPSEO_Redirect_Handler::set_template_include()
 	 */
@@ -269,7 +269,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the set template include with a set class property set.
+	 * Tests the set_template_include method with the corresponding class property having set.
 	 *
 	 * @covers WPSEO_Redirect_Handler::set_template_include()
 	 */
