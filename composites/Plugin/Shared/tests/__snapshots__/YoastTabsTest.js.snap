@@ -53,7 +53,6 @@ exports[`the YoastTabs matches the snapshot 1`] = `
       className="react-tabs__tab-panel react-tabs__tab-panel--selected"
       id="react-tabs-1"
       role="tabpanel"
-      style={Object {}}
       tabIndex="0"
     >
       <p>
@@ -70,7 +69,6 @@ exports[`the YoastTabs matches the snapshot 1`] = `
       className="react-tabs__tab-panel"
       id="react-tabs-3"
       role="tabpanel"
-      style={Object {}}
       tabIndex="0"
     />
     <div
@@ -78,7 +76,6 @@ exports[`the YoastTabs matches the snapshot 1`] = `
       className="react-tabs__tab-panel"
       id="react-tabs-5"
       role="tabpanel"
-      style={Object {}}
       tabIndex="0"
     />
   </div>
@@ -138,7 +135,6 @@ exports[`the YoastTabs with props matches the snapshot 1`] = `
       className="react-tabs__tab-panel react-tabs__tab-panel--selected"
       id="react-tabs-7"
       role="tabpanel"
-      style={Object {}}
       tabIndex="0"
     >
       <p>
@@ -155,7 +151,6 @@ exports[`the YoastTabs with props matches the snapshot 1`] = `
       className="react-tabs__tab-panel"
       id="react-tabs-9"
       role="tabpanel"
-      style={Object {}}
       tabIndex="0"
     />
     <div
@@ -163,7 +158,6 @@ exports[`the YoastTabs with props matches the snapshot 1`] = `
       className="react-tabs__tab-panel"
       id="react-tabs-11"
       role="tabpanel"
-      style={Object {}}
       tabIndex="0"
     />
   </div>
