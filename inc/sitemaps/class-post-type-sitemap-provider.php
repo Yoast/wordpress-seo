@@ -232,7 +232,17 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$posts_to_exclude = explode( ',', $options['excluded-posts'] );
+			$excluded_posts   = explode( ',', $options['excluded-posts'] );
+
+            /**
+             * Filter: 'wpseo_posts_to_exclude' - Allow extending and modifying the posts to exclude.
+             *
+             * @api array $posts_to_exclude The posts to exclude.
+             */
+			$posts_to_exclude = apply_filters( 'wpseo_posts_to_exclude', $excluded_posts );
+			if ( ! is_array( $posts_to_exclude ) ) {
+			    $posts_to_exclude = $excluded_posts;
+			}
 
 			foreach ( $posts as $post ) {
 
