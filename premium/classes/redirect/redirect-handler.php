@@ -11,6 +11,21 @@
 class WPSEO_Redirect_Handler {
 
 	/**
+	 * @var array Array where there redirects will stored.
+	 */
+	protected $redirects;
+
+	/**
+	 * @var array The matches parts of the URL in case of a matched regex redirect.
+	 */
+	protected $url_matches = array();
+
+	/**
+	 * @var bool Is the current page being redirected.
+	 */
+	protected $is_redirected = false;
+
+	/**
 	 * @var string The options where the URL redirects are stored.
 	 */
 	private $normal_option_name = 'wpseo-premium-redirects-export-plain';
@@ -26,24 +41,9 @@ class WPSEO_Redirect_Handler {
 	private $request_url = '';
 
 	/**
-	 * @var array Array where there redirects will stored.
-	 */
-	private $redirects;
-
-	/**
-	 * @var array The matches parts of the URL in case of a matched regex redirect.
-	 */
-	private $url_matches = array();
-
-	/**
 	 * @var string Sets the error template to include.
 	 */
-	private $template_include;
-
-	/**
-	 * @var bool Is the current page being redirected.
-	 */
-	private $is_redirected = false;
+	protected $template_file_path;
 
 	/**
 	 * Loads the redirect handler.
@@ -75,7 +75,7 @@ class WPSEO_Redirect_Handler {
 	 */
 	public function do_410() {
 		$this->set_404();
-		status_header( 410 );
+		$this->status_header( 410 );
 	}
 
 	/**
@@ -89,7 +89,8 @@ class WPSEO_Redirect_Handler {
 		if ( ! $is_include_hook_set ) {
 			$this->set_404();
 		}
-		status_header( 451, 'Unavailable For Legal Reasons' );
+
+		$this->status_header( 451, 'Unavailable For Legal Reasons' );
 	}
 
 	/**
@@ -100,8 +101,8 @@ class WPSEO_Redirect_Handler {
 	 * @return string Returns the template that should be included.
 	 */
 	public function set_template_include( $template ) {
-		if ( ! empty( $this->template_include ) ) {
-			return $this->template_include;
+		if ( ! empty( $this->template_file_path ) ) {
+			return $this->template_file_path;
 		}
 
 		return $template;
@@ -130,11 +131,8 @@ class WPSEO_Redirect_Handler {
 	 * @return void
 	 */
 	public function set_404() {
-		global $wp_query;
-
-		if ( is_object( $wp_query ) ) {
-			$wp_query->is_404 = true;
-		}
+		$wp_query = $this->get_wp_query();
+		$wp_query->is_404 = true;
 	}
 
 	/**
@@ -157,7 +155,23 @@ class WPSEO_Redirect_Handler {
 		// Get the URL and doing the redirect.
 		$redirect_url = $this->find_url( $request_url );
 		if ( ! empty( $redirect_url ) ) {
-			$this->do_redirect( $this->redirect_url( $redirect_url['url'] ), $redirect_url['type'] );
+			$this->is_redirected = true;
+			$this->do_redirect( $redirect_url['url'], $redirect_url['type'] );
+		}
+	}
+
+	/**
+	 * Checks if the current URL matches a regex.
+	 *
+	 * @return void
+	 */
+	protected function handle_regex_redirects() {
+		// Setting the redirects.
+		$this->redirects = $this->get_redirects( $this->regex_option_name );
+
+		foreach ( $this->redirects as $regex => $redirect ) {
+			// Check if the URL matches the $regex.
+			$this->match_regex_redirect( $regex, $redirect );
 		}
 	}
 
@@ -187,7 +201,8 @@ class WPSEO_Redirect_Handler {
 				$this,
 				'format_regex_redirect_url',
 			), $redirect['url'] );
-			$this->do_redirect( $this->redirect_url( $redirect_url ), $redirect['type'] );
+
+			$this->do_redirect( $redirect_url, $redirect['type'] );
 		}
 
 		// Reset url_matches.
@@ -202,14 +217,10 @@ class WPSEO_Redirect_Handler {
 	 * @return array Returns the redirects for the given option.
 	 */
 	protected function get_redirects( $option ) {
-		static $redirects;
-
-		if ( $redirects === null ) {
-			$redirects = $this->get_redirects_from_options();
-		}
+		$redirects = $this->get_redirects_from_options();
 
 		if ( ! empty( $redirects[ $option ] ) ) {
-			return maybe_unserialize( $redirects[ $option ] );
+			return $redirects[ $option ];
 		}
 
 		return array();
@@ -224,35 +235,16 @@ class WPSEO_Redirect_Handler {
 	 * @return void
 	 */
 	protected function do_redirect( $redirect_url, $redirect_type ) {
+		$redirect_types_without_target = array( 410, 451 );
+		if ( in_array( $redirect_type, $redirect_types_without_target, true ) ) {
+			$this->handle_redirect_without_target( $redirect_type );
 
-		$this->is_redirected = true;
-
-		if ( 410 === $redirect_type ) {
-			add_action( 'wp', array( $this, 'do_410' ) );
 			return;
 		}
 
-		if ( 451 === $redirect_type ) {
-			add_action( 'wp', array( $this, 'do_451' ) );
-			return;
-		}
+		$this->add_redirect_by_header();
 
-		if ( ! function_exists( 'wp_redirect' ) ) {
-			require_once ABSPATH . 'wp-includes/pluggable.php';
-		}
-
-		/**
-		 * Filter: 'wpseo_add_x_redirect' - can be used to remove the X-Redirect-By header Yoast SEO creates
-		 * (only available in Yoast SEO Premium, defaults to true, which is adding it)
-		 *
-		 * @api bool
-		 */
-		if ( apply_filters( 'wpseo_add_x_redirect', true ) === true ) {
-			header( 'X-Redirect-By: Yoast SEO Premium' );
-		}
-
-		wp_redirect( $this->parse_target_url( $redirect_url ), $redirect_type );
-		exit;
+		$this->redirect( $this->parse_target_url( $redirect_url ), $redirect_type );
 	}
 
 	/**
@@ -335,23 +327,8 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return void
 	 */
-	private function set_request_url() {
+	protected function set_request_url() {
 		$this->request_url = $this->get_request_uri();
-	}
-
-	/**
-	 * Checks if the current URL matches a regex.
-	 *
-	 * @return void
-	 */
-	private function handle_regex_redirects() {
-		// Setting the redirects.
-		$this->redirects = $this->get_redirects( $this->regex_option_name );
-
-		foreach ( $this->redirects as $regex => $redirect ) {
-			// Check if the URL matches the $regex.
-			$this->match_regex_redirect( $regex, $redirect );
-		}
 	}
 
 	/**
@@ -361,7 +338,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return bool|string The found url or false if not found.
 	 */
-	private function find_url( $url ) {
+	protected function find_url( $url ) {
 		$redirect_url = $this->search( $url );
 		if ( ! empty( $redirect_url ) ) {
 			return $redirect_url;
@@ -377,7 +354,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return string|bool The found url or false if not found.
 	 */
-	private function search( $url ) {
+	protected function search( $url ) {
 		if ( ! empty( $this->redirects[ $url ] ) ) {
 			return $this->redirects[ $url ];
 		}
@@ -396,7 +373,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return bool|string The found url or false if not found.
 	 */
-	private function find_url_fallback( $url ) {
+	protected function find_url_fallback( $url ) {
 		$no_trailing_slash = rtrim( $url, '/' );
 
 		$checks = array(
@@ -415,13 +392,76 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
+	 * Parses the target URL.
+	 *
+	 * @param string $target_url The URL to parse. When there isn't found a scheme, just parse it based on the home URL.
+	 *
+	 * @return string The parsed url.
+	 */
+	protected function parse_target_url( $target_url ) {
+		$target_url = $this->format_target( $target_url );
+
+		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
+		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
+
+		if ( ! empty( $scheme ) ) {
+			return $target_url;
+		}
+
+		$target_url = $this->trailingslashit( $target_url );
+		$target_url = $this->format_for_multisite( $target_url );
+		$target_url = $this->format_target( $target_url );
+
+		return $target_url;
+	}
+
+	/**
+	 * Determines whether the target URL ends with a slash and adds one if necessary.
+	 *
+	 * @param string $target_url The url to format.
+	 *
+	 * @return string The url with trailing slash.
+	 */
+	protected function trailingslashit( $target_url ) {
+		// Adds slash to target URL when permalink structure ends with a slash.
+		if ( $this->requires_trailing_slash( $target_url ) ) {
+			return trailingslashit( $target_url );
+		}
+
+		return $target_url;
+	}
+
+	/**
+	 * Formats the target url for the multisite if needed.
+	 *
+	 * @param string $target_url The url to format.
+	 *
+	 * @return string The formatted url.
+	 */
+	protected function format_for_multisite( $target_url ) {
+		if ( ! is_multisite() ) {
+			return $target_url;
+		}
+
+		$blog_details = get_blog_details();
+		if ( $blog_details && ! empty( $blog_details->path ) ) {
+			$blog_path = ltrim( $blog_details->path, '/' );
+			if ( ! empty( $blog_path ) && 0 === strpos( $target_url, $blog_path ) ) {
+				$target_url = substr( $target_url, strlen( $blog_path ) );
+			}
+		}
+
+		return $target_url;
+	}
+
+	/**
 	 * Gets the redirect URL by given URL.
 	 *
 	 * @param string $redirect_url The URL that has to be redirected.
 	 *
 	 * @return string The redirect url.
 	 */
-	private function redirect_url( $redirect_url ) {
+	protected function format_target( $redirect_url ) {
 		if ( $redirect_url[0] === '/' ) {
 			$redirect_url = home_url( $redirect_url );
 		}
@@ -430,45 +470,17 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Parses the target URL.
-	 *
-	 * @param string $target_url The URL to parse. When there isn't found a scheme, just parse it based on the home URL.
-	 *
-	 * @return string The parsed url.
-	 */
-	private function parse_target_url( $target_url ) {
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
-
-		if ( empty( $scheme ) ) {
-			// Add slash to target URL when permalink structure ends with a slash.
-			if ( WPSEO_Redirect_Util::requires_trailing_slash( $target_url ) ) {
-				$target_url = trailingslashit( $target_url );
-			}
-
-			if ( is_multisite() ) {
-				$blog_details = get_blog_details();
-				if ( $blog_details && ! empty( $blog_details->path ) ) {
-					$blog_path = ltrim( $blog_details->path, '/' );
-					if ( ! empty( $blog_path ) && 0 === strpos( $target_url, $blog_path ) ) {
-						$target_url = substr( $target_url, strlen( $blog_path ) );
-					}
-				}
-			}
-
-			$target_url = home_url( $target_url );
-		}
-
-		return $target_url;
-
-	}
-
-	/**
 	 * Returns the redirects from the option table in the database.
 	 *
 	 * @return array The stored redirects.
 	 */
-	private function get_redirects_from_options() {
+	protected function get_redirects_from_options() {
+		static $redirects;
+
+		if ( $redirects !== null ) {
+			return $redirects;
+		}
+
 		global $wpdb;
 
 		$redirects = array();
@@ -482,7 +494,7 @@ class WPSEO_Redirect_Handler {
 			)
 		);
 		foreach ( $results as $result ) {
-			$redirects[ $result->option_name ] = $result->option_value;
+			$redirects[ $result->option_name ] = maybe_unserialize( $result->option_value );
 		}
 
 		return $redirects;
@@ -491,18 +503,118 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Sets the hook for setting the template include. This is the file that we want to show.
 	 *
-	 * @param string $template_to_set The template to look for..
+	 * @param string $template_to_set The template to look for.
 	 *
 	 * @return bool True when template should be included.
 	 */
-	private function set_template_include_hook( $template_to_set ) {
-		$this->template_include = get_query_template( $template_to_set );
-		if ( ! empty( $this->template_include ) ) {
+	protected function set_template_include_hook( $template_to_set ) {
+		$this->template_file_path = $this->get_query_template( $template_to_set );
+		if ( ! empty( $this->template_file_path ) ) {
 			add_filter( 'template_include', array( $this, 'set_template_include' ) );
 
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Wraps the WordPress status_header function.
+	 *
+	 * @param int    $code        HTTP status code.
+	 * @param string $description Optional. A custom description for the HTTP status.
+	 *
+	 * @return void
+	 */
+	protected function status_header( $code, $description = '' ) {
+		status_header( $code, $description );
+	}
+
+	/**
+	 * Returns instance of WP_Query.
+	 *
+	 * @return WP_Query Instance of WP_Query.
+	 */
+	protected function get_wp_query() {
+		global $wp_query;
+
+		if ( is_object( $wp_query ) ) {
+			return $wp_query;
+		}
+
+		return new WP_Query();
+	}
+
+	/**
+	 * Handles the redirects without a target by setting the needed hooks.
+	 *
+	 * @param string $redirect_type The type of the redirect.
+	 *
+	 * @return void
+	 */
+	protected function handle_redirect_without_target( $redirect_type ) {
+		if ( 410 === $redirect_type ) {
+			add_action( 'wp', array( $this, 'do_410' ) );
+		}
+
+		if ( 451 === $redirect_type ) {
+			add_action( 'wp', array( $this, 'do_451' ) );
+		}
+	}
+
+	/**
+	 * Adds a X-Redirect-By hook if needed.
+	 *
+	 * @return void
+	 */
+	protected function add_redirect_by_header() {
+		/**
+		 * Filter: 'wpseo_add_x_redirect' - can be used to remove the X-Redirect-By header Yoast SEO creates
+		 * (only available in Yoast SEO Premium, defaults to true, which is adding it)
+		 *
+		 * @api bool
+		 */
+		if ( apply_filters( 'wpseo_add_x_redirect', true ) === true ) {
+			header( 'X-Redirect-By: Yoast SEO Premium' );
+		}
+	}
+
+	/**
+	 * Wrapper method for doing the actual redirect.
+	 *
+	 * @param string $location The path to redirect to.
+	 * @param int    $status   Status code to use.
+	 *
+	 * @return void
+	 */
+	protected function redirect( $location, $status = 302 ) {
+		if ( ! function_exists( 'wp_redirect' ) ) {
+			require_once ABSPATH . 'wp-includes/pluggable.php';
+		}
+
+		wp_redirect( $location, $status );
+		exit;
+	}
+
+	/**
+	 * Returns whether or not a target URL requires a trailing slash
+	 *
+	 * @param string $target_url The target URL to check.
+	 *
+	 * @return bool True when trailing slash is required.
+	 */
+	protected function requires_trailing_slash( $target_url ) {
+		return WPSEO_Redirect_Util::requires_trailing_slash( $target_url );
+	}
+
+	/**
+	 * Returns the query template.
+	 *
+	 * @param string $filename Filename without extension.
+	 *
+	 * @return string Full path to template file.
+	 */
+	protected function get_query_template( $filename ) {
+		return get_query_template( $filename );
 	}
 }
