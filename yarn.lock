@@ -3308,9 +3308,9 @@ grunt-cli@~1.2.0:
     nopt "~3.0.6"
     resolve "~1.1.0"
 
-grunt-contrib-clean@~1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/grunt-contrib-clean/-/grunt-contrib-clean-1.0.0.tgz#6b2ed94117e2c7ffe32ee04578c96fe4625a9b6d"
+grunt-contrib-clean@~1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/grunt-contrib-clean/-/grunt-contrib-clean-1.1.0.tgz#564abf2d0378a983a15b9e3f30ee75b738c40638"
   dependencies:
     async "^1.5.2"
     rimraf "^2.5.1"
