@@ -7,6 +7,55 @@ yoastWebpackJsonp([0],[
 "use strict";
 
 
+var arrayEach = __webpack_require__(151),
+    baseEach = __webpack_require__(124),
+    castFunction = __webpack_require__(549),
+    isArray = __webpack_require__(3);
+
+/**
+ * Iterates over elements of `collection` and invokes `iteratee` for each element.
+ * The iteratee is invoked with three arguments: (value, index|key, collection).
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * **Note:** As with other "Collections" methods, objects with a "length"
+ * property are iterated like arrays. To avoid this behavior use `_.forIn`
+ * or `_.forOwn` for object iteration.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @alias each
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ * @see _.forEachRight
+ * @example
+ *
+ * _.forEach([1, 2], function(value) {
+ *   console.log(value);
+ * });
+ * // => Logs `1` then `2`.
+ *
+ * _.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
+ *   console.log(key);
+ * });
+ * // => Logs 'a' then 'b' (iteration order is not guaranteed).
+ */
+function forEach(collection, iteratee) {
+  var func = isArray(collection) ? arrayEach : baseEach;
+  return func(collection, castFunction(iteratee));
+}
+
+module.exports = forEach;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 /**
  * Checks if `value` is classified as an `Array` object.
  *
@@ -35,7 +84,7 @@ var isArray = Array.isArray;
 module.exports = isArray;
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -65,14 +114,14 @@ function isUndefined(value) {
 module.exports = isUndefined;
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isUndefined = __webpack_require__(3);
-var isNumber = __webpack_require__(277);
+var isUndefined = __webpack_require__(4);
+var isNumber = __webpack_require__(281);
 /**
  * A function that only returns an empty that can be used as an empty marker
  *
@@ -219,55 +268,6 @@ module.exports = AssessmentResult;
 //# sourceMappingURL=AssessmentResult.js.map
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var arrayEach = __webpack_require__(151),
-    baseEach = __webpack_require__(123),
-    castFunction = __webpack_require__(540),
-    isArray = __webpack_require__(2);
-
-/**
- * Iterates over elements of `collection` and invokes `iteratee` for each element.
- * The iteratee is invoked with three arguments: (value, index|key, collection).
- * Iteratee functions may exit iteration early by explicitly returning `false`.
- *
- * **Note:** As with other "Collections" methods, objects with a "length"
- * property are iterated like arrays. To avoid this behavior use `_.forIn`
- * or `_.forOwn` for object iteration.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @alias each
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @returns {Array|Object} Returns `collection`.
- * @see _.forEachRight
- * @example
- *
- * _.forEach([1, 2], function(value) {
- *   console.log(value);
- * });
- * // => Logs `1` then `2`.
- *
- * _.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
- *   console.log(key);
- * });
- * // => Logs 'a' then 'b' (iteration order is not guaranteed).
- */
-function forEach(collection, iteratee) {
-  var func = isArray(collection) ? arrayEach : baseEach;
-  return func(collection, castFunction(iteratee));
-}
-
-module.exports = forEach;
-
-/***/ }),
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -318,7 +318,7 @@ module.exports = isObject;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var freeGlobal = __webpack_require__(101);
+var freeGlobal = __webpack_require__(102);
 
 /** Detect free variable `self`. */
 var freeSelf = (typeof self === 'undefined' ? 'undefined' : _typeof(self)) == 'object' && self && self.Object === Object && self;
@@ -335,10 +335,10 @@ module.exports = root;
 "use strict";
 
 
-var arrayMap = __webpack_require__(30),
-    baseIteratee = __webpack_require__(47),
-    baseMap = __webpack_require__(356),
-    isArray = __webpack_require__(2);
+var arrayMap = __webpack_require__(31),
+    baseIteratee = __webpack_require__(49),
+    baseMap = __webpack_require__(365),
+    isArray = __webpack_require__(3);
 
 /**
  * Creates an array of values by running each element in `collection` thru
@@ -503,279 +503,13 @@ if (typeof Object.create === 'function') {
 "use strict";
 
 
-var baseIsNative = __webpack_require__(179),
-    getValue = __webpack_require__(184);
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = getValue(object, key);
-  return baseIsNative(value) ? value : undefined;
-}
-
-module.exports = getNative;
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _Symbol = __webpack_require__(22),
-    getRawTag = __webpack_require__(180),
-    objectToString = __webpack_require__(181);
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag = _Symbol ? _Symbol.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-    if (value == null) {
-        return value === undefined ? undefinedTag : nullTag;
-    }
-    return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
-}
-
-module.exports = baseGetTag;
-
-/***/ }),
-/* 17 */,
-/* 18 */,
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var assignValue = __webpack_require__(75),
-    baseAssignValue = __webpack_require__(76);
-
-/**
- * Copies properties of `source` to `object`.
- *
- * @private
- * @param {Object} source The object to copy properties from.
- * @param {Array} props The property identifiers to copy.
- * @param {Object} [object={}] The object to copy properties to.
- * @param {Function} [customizer] The function to customize copied values.
- * @returns {Object} Returns `object`.
- */
-function copyObject(source, props, object, customizer) {
-  var isNew = !object;
-  object || (object = {});
-
-  var index = -1,
-      length = props.length;
-
-  while (++index < length) {
-    var key = props[index];
-
-    var newValue = customizer ? customizer(object[key], source[key], key, object, source) : undefined;
-
-    if (newValue === undefined) {
-      newValue = source[key];
-    }
-    if (isNew) {
-      baseAssignValue(object, key, newValue);
-    } else {
-      assignValue(object, key, newValue);
-    }
-  }
-  return object;
-}
-
-module.exports = copyObject;
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var arrayFilter = __webpack_require__(112),
-    baseFilter = __webpack_require__(357),
-    baseIteratee = __webpack_require__(47),
-    isArray = __webpack_require__(2);
-
-/**
- * Iterates over elements of `collection`, returning an array of all elements
- * `predicate` returns truthy for. The predicate is invoked with three
- * arguments: (value, index|key, collection).
- *
- * **Note:** Unlike `_.remove`, this method returns a new array.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} [predicate=_.identity] The function invoked per iteration.
- * @returns {Array} Returns the new filtered array.
- * @see _.reject
- * @example
- *
- * var users = [
- *   { 'user': 'barney', 'age': 36, 'active': true },
- *   { 'user': 'fred',   'age': 40, 'active': false }
- * ];
- *
- * _.filter(users, function(o) { return !o.active; });
- * // => objects for ['fred']
- *
- * // The `_.matches` iteratee shorthand.
- * _.filter(users, { 'age': 36, 'active': true });
- * // => objects for ['barney']
- *
- * // The `_.matchesProperty` iteratee shorthand.
- * _.filter(users, ['active', false]);
- * // => objects for ['fred']
- *
- * // The `_.property` iteratee shorthand.
- * _.filter(users, 'active');
- * // => objects for ['barney']
- */
-function filter(collection, predicate) {
-  var func = isArray(collection) ? arrayFilter : baseFilter;
-  return func(collection, baseIteratee(predicate, 3));
-}
-
-module.exports = filter;
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var isFunction = __webpack_require__(57),
-    isLength = __webpack_require__(81);
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike(value) {
-  return value != null && isLength(value.length) && !isFunction(value);
-}
-
-module.exports = isArrayLike;
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var root = __webpack_require__(8);
-
-/** Built-in value references. */
-var _Symbol = root.Symbol;
-
-module.exports = _Symbol;
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseMerge = __webpack_require__(143),
-    createAssigner = __webpack_require__(132);
-
-/**
- * This method is like `_.assign` except that it recursively merges own and
- * inherited enumerable string keyed properties of source objects into the
- * destination object. Source properties that resolve to `undefined` are
- * skipped if a destination value exists. Array and plain object properties
- * are merged recursively. Other objects and value types are overridden by
- * assignment. Source objects are applied from left to right. Subsequent
- * sources overwrite property assignments of previous sources.
- *
- * **Note:** This method mutates `object`.
- *
- * @static
- * @memberOf _
- * @since 0.5.0
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} [sources] The source objects.
- * @returns {Object} Returns `object`.
- * @example
- *
- * var object = {
- *   'a': [{ 'b': 2 }, { 'd': 4 }]
- * };
- *
- * var other = {
- *   'a': [{ 'c': 3 }, { 'e': 5 }]
- * };
- *
- * _.merge(object, other);
- * // => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }
- */
-var merge = createAssigner(function (object, source, srcIndex) {
-  baseMerge(object, source, srcIndex);
-});
-
-module.exports = merge;
-
-/***/ }),
-/* 24 */,
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 var baseKeys = __webpack_require__(142),
-    getTag = __webpack_require__(117),
-    isArguments = __webpack_require__(51),
-    isArray = __webpack_require__(2),
-    isArrayLike = __webpack_require__(21),
-    isBuffer = __webpack_require__(52),
-    isPrototype = __webpack_require__(50),
+    getTag = __webpack_require__(118),
+    isArguments = __webpack_require__(53),
+    isArray = __webpack_require__(3),
+    isArrayLike = __webpack_require__(23),
+    isBuffer = __webpack_require__(54),
+    isPrototype = __webpack_require__(52),
     isTypedArray = __webpack_require__(78);
 
 /** `Object#toString` result references. */
@@ -846,15 +580,836 @@ function isEmpty(value) {
 module.exports = isEmpty;
 
 /***/ }),
-/* 26 */
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseIsNative = __webpack_require__(183),
+    getValue = __webpack_require__(188);
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+module.exports = getNative;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _Symbol = __webpack_require__(24),
+    getRawTag = __webpack_require__(184),
+    objectToString = __webpack_require__(185);
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = _Symbol ? _Symbol.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+    if (value == null) {
+        return value === undefined ? undefinedTag : nullTag;
+    }
+    return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+}
+
+module.exports = baseGetTag;
+
+/***/ }),
+/* 18 */,
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global, process) {
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var formatRegExp = /%[sdj%]/g;
+exports.format = function (f) {
+  if (!isString(f)) {
+    var objects = [];
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function (x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+    switch (x) {
+      case '%s':
+        return String(args[i++]);
+      case '%d':
+        return Number(args[i++]);
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+      default:
+        return x;
+    }
+  });
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (isNull(x) || !isObject(x)) {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+  return str;
+};
+
+// Mark that a method should not be used.
+// Returns a modified function which warns once by default.
+// If --no-deprecation is set, then it is a no-op.
+exports.deprecate = function (fn, msg) {
+  // Allow for deprecating things in the process of starting up.
+  if (isUndefined(global.process)) {
+    return function () {
+      return exports.deprecate(fn, msg).apply(this, arguments);
+    };
+  }
+
+  if (process.noDeprecation === true) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (process.throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+var debugs = {};
+var debugEnviron;
+exports.debuglog = function (set) {
+  if (isUndefined(debugEnviron)) debugEnviron = Object({"NODE_ENV":"production"}).NODE_DEBUG || '';
+  set = set.toUpperCase();
+  if (!debugs[set]) {
+    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+      var pid = process.pid;
+      debugs[set] = function () {
+        var msg = exports.format.apply(exports, arguments);
+        console.error('%s %d: %s', set, pid, msg);
+      };
+    } else {
+      debugs[set] = function () {};
+    }
+  }
+  return debugs[set];
+};
+
+/**
+ * Echos the value of a value. Trys to print the value out
+ * in the best way possible given the different types.
+ *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
+ */
+/* legacy: obj, showHidden, depth, colors*/
+function inspect(obj, opts) {
+  // default options
+  var ctx = {
+    seen: [],
+    stylize: stylizeNoColor
+  };
+  // legacy...
+  if (arguments.length >= 3) ctx.depth = arguments[2];
+  if (arguments.length >= 4) ctx.colors = arguments[3];
+  if (isBoolean(opts)) {
+    // legacy...
+    ctx.showHidden = opts;
+  } else if (opts) {
+    // got an "options" object
+    exports._extend(ctx, opts);
+  }
+  // set default options
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+  if (isUndefined(ctx.depth)) ctx.depth = 2;
+  if (isUndefined(ctx.colors)) ctx.colors = false;
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+  if (ctx.colors) ctx.stylize = stylizeWithColor;
+  return formatValue(ctx, obj, ctx.depth);
+}
+exports.inspect = inspect;
+
+// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+inspect.colors = {
+  'bold': [1, 22],
+  'italic': [3, 23],
+  'underline': [4, 24],
+  'inverse': [7, 27],
+  'white': [37, 39],
+  'grey': [90, 39],
+  'black': [30, 39],
+  'blue': [34, 39],
+  'cyan': [36, 39],
+  'green': [32, 39],
+  'magenta': [35, 39],
+  'red': [31, 39],
+  'yellow': [33, 39]
+};
+
+// Don't use 'blue' not visible on cmd.exe
+inspect.styles = {
+  'special': 'cyan',
+  'number': 'yellow',
+  'boolean': 'yellow',
+  'undefined': 'grey',
+  'null': 'bold',
+  'string': 'green',
+  'date': 'magenta',
+  // "name": intentionally not styling
+  'regexp': 'red'
+};
+
+function stylizeWithColor(str, styleType) {
+  var style = inspect.styles[styleType];
+
+  if (style) {
+    return '\x1B[' + inspect.colors[style][0] + 'm' + str + '\x1B[' + inspect.colors[style][1] + 'm';
+  } else {
+    return str;
+  }
+}
+
+function stylizeNoColor(str, styleType) {
+  return str;
+}
+
+function arrayToHash(array) {
+  var hash = {};
+
+  array.forEach(function (val, idx) {
+    hash[val] = true;
+  });
+
+  return hash;
+}
+
+function formatValue(ctx, value, recurseTimes) {
+  // Provide a hook for user-specified inspect functions.
+  // Check that value is an object with an inspect function on it
+  if (ctx.customInspect && value && isFunction(value.inspect) &&
+  // Filter out the util module, it's inspect function is special
+  value.inspect !== exports.inspect &&
+  // Also filter out any prototype objects using the circular check.
+  !(value.constructor && value.constructor.prototype === value)) {
+    var ret = value.inspect(recurseTimes, ctx);
+    if (!isString(ret)) {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+    return ret;
+  }
+
+  // Primitive types cannot have properties
+  var primitive = formatPrimitive(ctx, value);
+  if (primitive) {
+    return primitive;
+  }
+
+  // Look up the keys of the object.
+  var keys = Object.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = Object.getOwnPropertyNames(value);
+  }
+
+  // IE doesn't make error fields non-enumerable
+  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+  if (isError(value) && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
+  }
+
+  // Some type of object without properties can be shortcutted.
+  if (keys.length === 0) {
+    if (isFunction(value)) {
+      var name = value.name ? ': ' + value.name : '';
+      return ctx.stylize('[Function' + name + ']', 'special');
+    }
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    }
+    if (isDate(value)) {
+      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+    }
+    if (isError(value)) {
+      return formatError(value);
+    }
+  }
+
+  var base = '',
+      array = false,
+      braces = ['{', '}'];
+
+  // Make Array say that they are Array
+  if (isArray(value)) {
+    array = true;
+    braces = ['[', ']'];
+  }
+
+  // Make functions say that they are functions
+  if (isFunction(value)) {
+    var n = value.name ? ': ' + value.name : '';
+    base = ' [Function' + n + ']';
+  }
+
+  // Make RegExps say that they are RegExps
+  if (isRegExp(value)) {
+    base = ' ' + RegExp.prototype.toString.call(value);
+  }
+
+  // Make dates with properties first say the date
+  if (isDate(value)) {
+    base = ' ' + Date.prototype.toUTCString.call(value);
+  }
+
+  // Make error with message first say the error
+  if (isError(value)) {
+    base = ' ' + formatError(value);
+  }
+
+  if (keys.length === 0 && (!array || value.length == 0)) {
+    return braces[0] + base + braces[1];
+  }
+
+  if (recurseTimes < 0) {
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    } else {
+      return ctx.stylize('[Object]', 'special');
+    }
+  }
+
+  ctx.seen.push(value);
+
+  var output;
+  if (array) {
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+  } else {
+    output = keys.map(function (key) {
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    });
+  }
+
+  ctx.seen.pop();
+
+  return reduceToSingleString(output, base, braces);
+}
+
+function formatPrimitive(ctx, value) {
+  if (isUndefined(value)) return ctx.stylize('undefined', 'undefined');
+  if (isString(value)) {
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '').replace(/'/g, "\\'").replace(/\\"/g, '"') + '\'';
+    return ctx.stylize(simple, 'string');
+  }
+  if (isNumber(value)) return ctx.stylize('' + value, 'number');
+  if (isBoolean(value)) return ctx.stylize('' + value, 'boolean');
+  // For some reason typeof null is "object", so special case here.
+  if (isNull(value)) return ctx.stylize('null', 'null');
+}
+
+function formatError(value) {
+  return '[' + Error.prototype.toString.call(value) + ']';
+}
+
+function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+  var output = [];
+  for (var i = 0, l = value.length; i < l; ++i) {
+    if (hasOwnProperty(value, String(i))) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, String(i), true));
+    } else {
+      output.push('');
+    }
+  }
+  keys.forEach(function (key) {
+    if (!key.match(/^\d+$/)) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, key, true));
+    }
+  });
+  return output;
+}
+
+function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+  var name, str, desc;
+  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  if (desc.get) {
+    if (desc.set) {
+      str = ctx.stylize('[Getter/Setter]', 'special');
+    } else {
+      str = ctx.stylize('[Getter]', 'special');
+    }
+  } else {
+    if (desc.set) {
+      str = ctx.stylize('[Setter]', 'special');
+    }
+  }
+  if (!hasOwnProperty(visibleKeys, key)) {
+    name = '[' + key + ']';
+  }
+  if (!str) {
+    if (ctx.seen.indexOf(desc.value) < 0) {
+      if (isNull(recurseTimes)) {
+        str = formatValue(ctx, desc.value, null);
+      } else {
+        str = formatValue(ctx, desc.value, recurseTimes - 1);
+      }
+      if (str.indexOf('\n') > -1) {
+        if (array) {
+          str = str.split('\n').map(function (line) {
+            return '  ' + line;
+          }).join('\n').substr(2);
+        } else {
+          str = '\n' + str.split('\n').map(function (line) {
+            return '   ' + line;
+          }).join('\n');
+        }
+      }
+    } else {
+      str = ctx.stylize('[Circular]', 'special');
+    }
+  }
+  if (isUndefined(name)) {
+    if (array && key.match(/^\d+$/)) {
+      return str;
+    }
+    name = JSON.stringify('' + key);
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+      name = name.substr(1, name.length - 2);
+      name = ctx.stylize(name, 'name');
+    } else {
+      name = name.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'");
+      name = ctx.stylize(name, 'string');
+    }
+  }
+
+  return name + ': ' + str;
+}
+
+function reduceToSingleString(output, base, braces) {
+  var numLinesEst = 0;
+  var length = output.reduce(function (prev, cur) {
+    numLinesEst++;
+    if (cur.indexOf('\n') >= 0) numLinesEst++;
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+  }, 0);
+
+  if (length > 60) {
+    return braces[0] + (base === '' ? '' : base + '\n ') + ' ' + output.join(',\n  ') + ' ' + braces[1];
+  }
+
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+}
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+function isArray(ar) {
+  return Array.isArray(ar);
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return isObject(re) && objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return isObject(d) && objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return isObject(e) && (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'symbol' || // ES6 symbol
+  typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = __webpack_require__(530);
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// 26 Feb 16:19:34
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()), pad(d.getMinutes()), pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+}
+
+// log is just a thin wrapper to console.log that prepends a timestamp
+exports.log = function () {
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+};
+
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
+exports.inherits = __webpack_require__(531);
+
+exports._extend = function (origin, add) {
+  // Don't do anything if add isn't an object
+  if (!add || !isObject(add)) return origin;
+
+  var keys = Object.keys(add);
+  var i = keys.length;
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+  return origin;
+};
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(57)))
+
+/***/ }),
+/* 20 */,
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var assignValue = __webpack_require__(75),
+    baseAssignValue = __webpack_require__(76);
+
+/**
+ * Copies properties of `source` to `object`.
+ *
+ * @private
+ * @param {Object} source The object to copy properties from.
+ * @param {Array} props The property identifiers to copy.
+ * @param {Object} [object={}] The object to copy properties to.
+ * @param {Function} [customizer] The function to customize copied values.
+ * @returns {Object} Returns `object`.
+ */
+function copyObject(source, props, object, customizer) {
+  var isNew = !object;
+  object || (object = {});
+
+  var index = -1,
+      length = props.length;
+
+  while (++index < length) {
+    var key = props[index];
+
+    var newValue = customizer ? customizer(object[key], source[key], key, object, source) : undefined;
+
+    if (newValue === undefined) {
+      newValue = source[key];
+    }
+    if (isNew) {
+      baseAssignValue(object, key, newValue);
+    } else {
+      assignValue(object, key, newValue);
+    }
+  }
+  return object;
+}
+
+module.exports = copyObject;
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var arrayFilter = __webpack_require__(113),
+    baseFilter = __webpack_require__(366),
+    baseIteratee = __webpack_require__(49),
+    isArray = __webpack_require__(3);
+
+/**
+ * Iterates over elements of `collection`, returning an array of all elements
+ * `predicate` returns truthy for. The predicate is invoked with three
+ * arguments: (value, index|key, collection).
+ *
+ * **Note:** Unlike `_.remove`, this method returns a new array.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} [predicate=_.identity] The function invoked per iteration.
+ * @returns {Array} Returns the new filtered array.
+ * @see _.reject
+ * @example
+ *
+ * var users = [
+ *   { 'user': 'barney', 'age': 36, 'active': true },
+ *   { 'user': 'fred',   'age': 40, 'active': false }
+ * ];
+ *
+ * _.filter(users, function(o) { return !o.active; });
+ * // => objects for ['fred']
+ *
+ * // The `_.matches` iteratee shorthand.
+ * _.filter(users, { 'age': 36, 'active': true });
+ * // => objects for ['barney']
+ *
+ * // The `_.matchesProperty` iteratee shorthand.
+ * _.filter(users, ['active', false]);
+ * // => objects for ['fred']
+ *
+ * // The `_.property` iteratee shorthand.
+ * _.filter(users, 'active');
+ * // => objects for ['barney']
+ */
+function filter(collection, predicate) {
+  var func = isArray(collection) ? arrayFilter : baseFilter;
+  return func(collection, baseIteratee(predicate, 3));
+}
+
+module.exports = filter;
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isFunction = __webpack_require__(58),
+    isLength = __webpack_require__(81);
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(value.length) && !isFunction(value);
+}
+
+module.exports = isArrayLike;
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var root = __webpack_require__(8);
+
+/** Built-in value references. */
+var _Symbol = root.Symbol;
+
+module.exports = _Symbol;
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseMerge = __webpack_require__(143),
+    createAssigner = __webpack_require__(132);
+
+/**
+ * This method is like `_.assign` except that it recursively merges own and
+ * inherited enumerable string keyed properties of source objects into the
+ * destination object. Source properties that resolve to `undefined` are
+ * skipped if a destination value exists. Array and plain object properties
+ * are merged recursively. Other objects and value types are overridden by
+ * assignment. Source objects are applied from left to right. Subsequent
+ * sources overwrite property assignments of previous sources.
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.5.0
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} [sources] The source objects.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * var object = {
+ *   'a': [{ 'b': 2 }, { 'd': 4 }]
+ * };
+ *
+ * var other = {
+ *   'a': [{ 'c': 3 }, { 'e': 5 }]
+ * };
+ *
+ * _.merge(object, other);
+ * // => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }
+ */
+var merge = createAssigner(function (object, source, srcIndex) {
+  baseMerge(object, source, srcIndex);
+});
+
+module.exports = merge;
+
+/***/ }),
+/* 26 */,
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/stripHTMLTags */
 
-var stripSpaces = __webpack_require__(27);
-var blockElements = __webpack_require__(279).blockElements;
+var stripSpaces = __webpack_require__(28);
+var blockElements = __webpack_require__(283).blockElements;
 var blockElementStartRegex = new RegExp("^<(" + blockElements.join("|") + ")[^>]*?>", "i");
 var blockElementEndRegex = new RegExp("</(" + blockElements.join("|") + ")[^>]*?>$", "i");
 /**
@@ -899,7 +1454,7 @@ module.exports = {
 //# sourceMappingURL=stripHTMLTags.js.map
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -925,16 +1480,16 @@ module.exports = function (text) {
 //# sourceMappingURL=stripSpaces.js.map
 
 /***/ }),
-/* 28 */,
-/* 29 */
+/* 29 */,
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayLikeKeys = __webpack_require__(104),
+var arrayLikeKeys = __webpack_require__(105),
     baseKeys = __webpack_require__(142),
-    isArrayLike = __webpack_require__(21);
+    isArrayLike = __webpack_require__(23);
 
 /**
  * Creates an array of the own enumerable property names of `object`.
@@ -971,7 +1526,7 @@ function keys(object) {
 module.exports = keys;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1000,13 +1555,13 @@ function arrayMap(array, iteratee) {
 module.exports = arrayMap;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var toString = __webpack_require__(119);
+var toString = __webpack_require__(120);
 
 /**
  * Used to match `RegExp`
@@ -1038,7 +1593,66 @@ function escapeRegExp(string) {
 module.exports = escapeRegExp;
 
 /***/ }),
-/* 32 */
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseIndexOf = __webpack_require__(288),
+    isArrayLike = __webpack_require__(23),
+    isString = __webpack_require__(289),
+    toInteger = __webpack_require__(169),
+    values = __webpack_require__(392);
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * Checks if `value` is in `collection`. If `collection` is a string, it's
+ * checked for a substring of `value`, otherwise
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * is used for equality comparisons. If `fromIndex` is negative, it's used as
+ * the offset from the end of `collection`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Collection
+ * @param {Array|Object|string} collection The collection to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} [fromIndex=0] The index to search from.
+ * @param- {Object} [guard] Enables use as an iteratee for methods like `_.reduce`.
+ * @returns {boolean} Returns `true` if `value` is found, else `false`.
+ * @example
+ *
+ * _.includes([1, 2, 3], 1);
+ * // => true
+ *
+ * _.includes([1, 2, 3], 1, 2);
+ * // => false
+ *
+ * _.includes({ 'a': 1, 'b': 2 }, 1);
+ * // => true
+ *
+ * _.includes('abcd', 'bc');
+ * // => true
+ */
+function includes(collection, value, fromIndex, guard) {
+  collection = isArrayLike(collection) ? collection : values(collection);
+  fromIndex = fromIndex && !guard ? toInteger(fromIndex) : 0;
+
+  var length = collection.length;
+  if (fromIndex < 0) {
+    fromIndex = nativeMax(length + fromIndex, 0);
+  }
+  return isString(collection) ? fromIndex <= length && collection.indexOf(value, fromIndex) > -1 : !!length && baseIndexOf(collection, value, fromIndex) > -1;
+}
+
+module.exports = includes;
+
+/***/ }),
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1055,15 +1669,15 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                                                                                                                                                                                                                                                                                 * See the accompanying LICENSE file for terms.
                                                                                                                                                                                                                                                                                 */
 
-var _index = __webpack_require__(223);
+var _index = __webpack_require__(227);
 
 var _index2 = _interopRequireDefault(_index);
 
-var _intlMessageformat = __webpack_require__(108);
+var _intlMessageformat = __webpack_require__(109);
 
 var _intlMessageformat2 = _interopRequireDefault(_intlMessageformat);
 
-var _intlRelativeformat = __webpack_require__(232);
+var _intlRelativeformat = __webpack_require__(236);
 
 var _intlRelativeformat2 = _interopRequireDefault(_intlRelativeformat);
 
@@ -1079,7 +1693,7 @@ var _invariant = __webpack_require__(148);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
-var _intlFormatCache = __webpack_require__(239);
+var _intlFormatCache = __webpack_require__(243);
 
 var _intlFormatCache2 = _interopRequireDefault(_intlFormatCache);
 
@@ -2645,563 +3259,8 @@ exports.FormattedMessage = FormattedMessage;
 exports.FormattedHTMLMessage = FormattedHTMLMessage;
 
 /***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global, process) {
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-var formatRegExp = /%[sdj%]/g;
-exports.format = function (f) {
-  if (!isString(f)) {
-    var objects = [];
-    for (var i = 0; i < arguments.length; i++) {
-      objects.push(inspect(arguments[i]));
-    }
-    return objects.join(' ');
-  }
-
-  var i = 1;
-  var args = arguments;
-  var len = args.length;
-  var str = String(f).replace(formatRegExp, function (x) {
-    if (x === '%%') return '%';
-    if (i >= len) return x;
-    switch (x) {
-      case '%s':
-        return String(args[i++]);
-      case '%d':
-        return Number(args[i++]);
-      case '%j':
-        try {
-          return JSON.stringify(args[i++]);
-        } catch (_) {
-          return '[Circular]';
-        }
-      default:
-        return x;
-    }
-  });
-  for (var x = args[i]; i < len; x = args[++i]) {
-    if (isNull(x) || !isObject(x)) {
-      str += ' ' + x;
-    } else {
-      str += ' ' + inspect(x);
-    }
-  }
-  return str;
-};
-
-// Mark that a method should not be used.
-// Returns a modified function which warns once by default.
-// If --no-deprecation is set, then it is a no-op.
-exports.deprecate = function (fn, msg) {
-  // Allow for deprecating things in the process of starting up.
-  if (isUndefined(global.process)) {
-    return function () {
-      return exports.deprecate(fn, msg).apply(this, arguments);
-    };
-  }
-
-  if (process.noDeprecation === true) {
-    return fn;
-  }
-
-  var warned = false;
-  function deprecated() {
-    if (!warned) {
-      if (process.throwDeprecation) {
-        throw new Error(msg);
-      } else if (process.traceDeprecation) {
-        console.trace(msg);
-      } else {
-        console.error(msg);
-      }
-      warned = true;
-    }
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
-};
-
-var debugs = {};
-var debugEnviron;
-exports.debuglog = function (set) {
-  if (isUndefined(debugEnviron)) debugEnviron = Object({"NODE_ENV":"production"}).NODE_DEBUG || '';
-  set = set.toUpperCase();
-  if (!debugs[set]) {
-    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-      var pid = process.pid;
-      debugs[set] = function () {
-        var msg = exports.format.apply(exports, arguments);
-        console.error('%s %d: %s', set, pid, msg);
-      };
-    } else {
-      debugs[set] = function () {};
-    }
-  }
-  return debugs[set];
-};
-
-/**
- * Echos the value of a value. Trys to print the value out
- * in the best way possible given the different types.
- *
- * @param {Object} obj The object to print out.
- * @param {Object} opts Optional options object that alters the output.
- */
-/* legacy: obj, showHidden, depth, colors*/
-function inspect(obj, opts) {
-  // default options
-  var ctx = {
-    seen: [],
-    stylize: stylizeNoColor
-  };
-  // legacy...
-  if (arguments.length >= 3) ctx.depth = arguments[2];
-  if (arguments.length >= 4) ctx.colors = arguments[3];
-  if (isBoolean(opts)) {
-    // legacy...
-    ctx.showHidden = opts;
-  } else if (opts) {
-    // got an "options" object
-    exports._extend(ctx, opts);
-  }
-  // set default options
-  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-  if (isUndefined(ctx.depth)) ctx.depth = 2;
-  if (isUndefined(ctx.colors)) ctx.colors = false;
-  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-  if (ctx.colors) ctx.stylize = stylizeWithColor;
-  return formatValue(ctx, obj, ctx.depth);
-}
-exports.inspect = inspect;
-
-// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-inspect.colors = {
-  'bold': [1, 22],
-  'italic': [3, 23],
-  'underline': [4, 24],
-  'inverse': [7, 27],
-  'white': [37, 39],
-  'grey': [90, 39],
-  'black': [30, 39],
-  'blue': [34, 39],
-  'cyan': [36, 39],
-  'green': [32, 39],
-  'magenta': [35, 39],
-  'red': [31, 39],
-  'yellow': [33, 39]
-};
-
-// Don't use 'blue' not visible on cmd.exe
-inspect.styles = {
-  'special': 'cyan',
-  'number': 'yellow',
-  'boolean': 'yellow',
-  'undefined': 'grey',
-  'null': 'bold',
-  'string': 'green',
-  'date': 'magenta',
-  // "name": intentionally not styling
-  'regexp': 'red'
-};
-
-function stylizeWithColor(str, styleType) {
-  var style = inspect.styles[styleType];
-
-  if (style) {
-    return '\x1B[' + inspect.colors[style][0] + 'm' + str + '\x1B[' + inspect.colors[style][1] + 'm';
-  } else {
-    return str;
-  }
-}
-
-function stylizeNoColor(str, styleType) {
-  return str;
-}
-
-function arrayToHash(array) {
-  var hash = {};
-
-  array.forEach(function (val, idx) {
-    hash[val] = true;
-  });
-
-  return hash;
-}
-
-function formatValue(ctx, value, recurseTimes) {
-  // Provide a hook for user-specified inspect functions.
-  // Check that value is an object with an inspect function on it
-  if (ctx.customInspect && value && isFunction(value.inspect) &&
-  // Filter out the util module, it's inspect function is special
-  value.inspect !== exports.inspect &&
-  // Also filter out any prototype objects using the circular check.
-  !(value.constructor && value.constructor.prototype === value)) {
-    var ret = value.inspect(recurseTimes, ctx);
-    if (!isString(ret)) {
-      ret = formatValue(ctx, ret, recurseTimes);
-    }
-    return ret;
-  }
-
-  // Primitive types cannot have properties
-  var primitive = formatPrimitive(ctx, value);
-  if (primitive) {
-    return primitive;
-  }
-
-  // Look up the keys of the object.
-  var keys = Object.keys(value);
-  var visibleKeys = arrayToHash(keys);
-
-  if (ctx.showHidden) {
-    keys = Object.getOwnPropertyNames(value);
-  }
-
-  // IE doesn't make error fields non-enumerable
-  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
-  if (isError(value) && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-    return formatError(value);
-  }
-
-  // Some type of object without properties can be shortcutted.
-  if (keys.length === 0) {
-    if (isFunction(value)) {
-      var name = value.name ? ': ' + value.name : '';
-      return ctx.stylize('[Function' + name + ']', 'special');
-    }
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    }
-    if (isDate(value)) {
-      return ctx.stylize(Date.prototype.toString.call(value), 'date');
-    }
-    if (isError(value)) {
-      return formatError(value);
-    }
-  }
-
-  var base = '',
-      array = false,
-      braces = ['{', '}'];
-
-  // Make Array say that they are Array
-  if (isArray(value)) {
-    array = true;
-    braces = ['[', ']'];
-  }
-
-  // Make functions say that they are functions
-  if (isFunction(value)) {
-    var n = value.name ? ': ' + value.name : '';
-    base = ' [Function' + n + ']';
-  }
-
-  // Make RegExps say that they are RegExps
-  if (isRegExp(value)) {
-    base = ' ' + RegExp.prototype.toString.call(value);
-  }
-
-  // Make dates with properties first say the date
-  if (isDate(value)) {
-    base = ' ' + Date.prototype.toUTCString.call(value);
-  }
-
-  // Make error with message first say the error
-  if (isError(value)) {
-    base = ' ' + formatError(value);
-  }
-
-  if (keys.length === 0 && (!array || value.length == 0)) {
-    return braces[0] + base + braces[1];
-  }
-
-  if (recurseTimes < 0) {
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    } else {
-      return ctx.stylize('[Object]', 'special');
-    }
-  }
-
-  ctx.seen.push(value);
-
-  var output;
-  if (array) {
-    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
-  } else {
-    output = keys.map(function (key) {
-      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-    });
-  }
-
-  ctx.seen.pop();
-
-  return reduceToSingleString(output, base, braces);
-}
-
-function formatPrimitive(ctx, value) {
-  if (isUndefined(value)) return ctx.stylize('undefined', 'undefined');
-  if (isString(value)) {
-    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '').replace(/'/g, "\\'").replace(/\\"/g, '"') + '\'';
-    return ctx.stylize(simple, 'string');
-  }
-  if (isNumber(value)) return ctx.stylize('' + value, 'number');
-  if (isBoolean(value)) return ctx.stylize('' + value, 'boolean');
-  // For some reason typeof null is "object", so special case here.
-  if (isNull(value)) return ctx.stylize('null', 'null');
-}
-
-function formatError(value) {
-  return '[' + Error.prototype.toString.call(value) + ']';
-}
-
-function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-  var output = [];
-  for (var i = 0, l = value.length; i < l; ++i) {
-    if (hasOwnProperty(value, String(i))) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, String(i), true));
-    } else {
-      output.push('');
-    }
-  }
-  keys.forEach(function (key) {
-    if (!key.match(/^\d+$/)) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, key, true));
-    }
-  });
-  return output;
-}
-
-function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-  var name, str, desc;
-  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
-  if (desc.get) {
-    if (desc.set) {
-      str = ctx.stylize('[Getter/Setter]', 'special');
-    } else {
-      str = ctx.stylize('[Getter]', 'special');
-    }
-  } else {
-    if (desc.set) {
-      str = ctx.stylize('[Setter]', 'special');
-    }
-  }
-  if (!hasOwnProperty(visibleKeys, key)) {
-    name = '[' + key + ']';
-  }
-  if (!str) {
-    if (ctx.seen.indexOf(desc.value) < 0) {
-      if (isNull(recurseTimes)) {
-        str = formatValue(ctx, desc.value, null);
-      } else {
-        str = formatValue(ctx, desc.value, recurseTimes - 1);
-      }
-      if (str.indexOf('\n') > -1) {
-        if (array) {
-          str = str.split('\n').map(function (line) {
-            return '  ' + line;
-          }).join('\n').substr(2);
-        } else {
-          str = '\n' + str.split('\n').map(function (line) {
-            return '   ' + line;
-          }).join('\n');
-        }
-      }
-    } else {
-      str = ctx.stylize('[Circular]', 'special');
-    }
-  }
-  if (isUndefined(name)) {
-    if (array && key.match(/^\d+$/)) {
-      return str;
-    }
-    name = JSON.stringify('' + key);
-    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-      name = name.substr(1, name.length - 2);
-      name = ctx.stylize(name, 'name');
-    } else {
-      name = name.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'");
-      name = ctx.stylize(name, 'string');
-    }
-  }
-
-  return name + ': ' + str;
-}
-
-function reduceToSingleString(output, base, braces) {
-  var numLinesEst = 0;
-  var length = output.reduce(function (prev, cur) {
-    numLinesEst++;
-    if (cur.indexOf('\n') >= 0) numLinesEst++;
-    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-  }, 0);
-
-  if (length > 60) {
-    return braces[0] + (base === '' ? '' : base + '\n ') + ' ' + output.join(',\n  ') + ' ' + braces[1];
-  }
-
-  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
-}
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-function isArray(ar) {
-  return Array.isArray(ar);
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return isObject(re) && objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return isObject(d) && objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return isObject(e) && (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'symbol' || // ES6 symbol
-  typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = __webpack_require__(521);
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-function pad(n) {
-  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-}
-
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-// 26 Feb 16:19:34
-function timestamp() {
-  var d = new Date();
-  var time = [pad(d.getHours()), pad(d.getMinutes()), pad(d.getSeconds())].join(':');
-  return [d.getDate(), months[d.getMonth()], time].join(' ');
-}
-
-// log is just a thin wrapper to console.log that prepends a timestamp
-exports.log = function () {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-};
-
-/**
- * Inherit the prototype methods from one constructor into another.
- *
- * The Function.prototype.inherits from lang.js rewritten as a standalone
- * function (not on Function.prototype). NOTE: If this file is to be loaded
- * during bootstrapping this function needs to be rewritten using some native
- * functions as prototype setup using normal JavaScript does not work as
- * expected during bootstrapping (see mirror.js in r114903).
- *
- * @param {function} ctor Constructor function which needs to inherit the
- *     prototype.
- * @param {function} superCtor Constructor function to inherit prototype from.
- */
-exports.inherits = __webpack_require__(522);
-
-exports._extend = function (origin, add) {
-  // Don't do anything if add isn't an object
-  if (!add || !isObject(add)) return origin;
-
-  var keys = Object.keys(add);
-  var i = keys.length;
-  while (i--) {
-    origin[keys[i]] = add[keys[i]];
-  }
-  return origin;
-};
-
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(56)))
-
-/***/ }),
-/* 34 */,
-/* 35 */
+/* 35 */,
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3246,7 +3305,7 @@ function eq(value, other) {
 module.exports = eq;
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3254,7 +3313,7 @@ module.exports = eq;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var baseGetTag = __webpack_require__(16),
+var baseGetTag = __webpack_require__(17),
     isObjectLike = __webpack_require__(13);
 
 /** `Object#toString` result references. */
@@ -3284,16 +3343,16 @@ function isSymbol(value) {
 module.exports = isSymbol;
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isArray = __webpack_require__(2),
-    isKey = __webpack_require__(118),
-    stringToPath = __webpack_require__(259),
-    toString = __webpack_require__(119);
+var isArray = __webpack_require__(3),
+    isKey = __webpack_require__(119),
+    stringToPath = __webpack_require__(263),
+    toString = __webpack_require__(120);
 
 /**
  * Casts `value` to a path array if it's not one.
@@ -3313,462 +3372,7 @@ function castPath(value, object) {
 module.exports = castPath;
 
 /***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/* eslint-disable no-unused-vars */
-/**
- * Represents the defaults of an assessment.
- */
-
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-  };
-}();
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-var Assessment = function () {
-  function Assessment() {
-    _classCallCheck(this, Assessment);
-  }
-
-  _createClass(Assessment, [{
-    key: "getResult",
-
-    /**
-     * Executes the assessment and return its result.
-     *
-     * @param {Paper} paper The paper to run this assessment on.
-     * @param {Researcher} researcher The researcher used for the assessment.
-     * @param {object} i18n The i18n-object used for parsing translations.
-     *
-     * @returns {AssessmentResult} The result of the assessment.
-     */
-    value: function getResult(paper, researcher, i18n) {
-      throw "The method getResult is not implemented";
-    }
-    /**
-     * Checks whether the assessment is applicable
-     *
-     * @param {Paper} paper The paper to use for the assessment.
-     *
-     * @returns {boolean} True.
-     */
-
-  }, {
-    key: "isApplicable",
-    value: function isApplicable(paper) {
-      return true;
-    }
-  }]);
-
-  return Assessment;
-}();
-/* eslint-enable no-unused-vars */
-
-module.exports = Assessment;
-//# sourceMappingURL=assessment.js.map
-//# sourceMappingURL=assessment.js.map
-
-/***/ }),
-/* 39 */,
-/* 40 */,
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var listCacheClear = __webpack_require__(195),
-    listCacheDelete = __webpack_require__(196),
-    listCacheGet = __webpack_require__(197),
-    listCacheHas = __webpack_require__(198),
-    listCacheSet = __webpack_require__(199);
-
-/**
- * Creates an list cache object.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function ListCache(entries) {
-    var index = -1,
-        length = entries == null ? 0 : entries.length;
-
-    this.clear();
-    while (++index < length) {
-        var entry = entries[index];
-        this.set(entry[0], entry[1]);
-    }
-}
-
-// Add methods to `ListCache`.
-ListCache.prototype.clear = listCacheClear;
-ListCache.prototype['delete'] = listCacheDelete;
-ListCache.prototype.get = listCacheGet;
-ListCache.prototype.has = listCacheHas;
-ListCache.prototype.set = listCacheSet;
-
-module.exports = ListCache;
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var eq = __webpack_require__(35);
-
-/**
- * Gets the index at which the `key` is found in `array` of key-value pairs.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} key The key to search for.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function assocIndexOf(array, key) {
-  var length = array.length;
-  while (length--) {
-    if (eq(array[length][0], key)) {
-      return length;
-    }
-  }
-  return -1;
-}
-
-module.exports = assocIndexOf;
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var getNative = __webpack_require__(15);
-
-/* Built-in method references that are verified to be native. */
-var nativeCreate = getNative(Object, 'create');
-
-module.exports = nativeCreate;
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var isKeyable = __webpack_require__(213);
-
-/**
- * Gets the data for `map`.
- *
- * @private
- * @param {Object} map The map to query.
- * @param {string} key The reference key.
- * @returns {*} Returns the map data.
- */
-function getMapData(map, key) {
-  var data = map.__data__;
-  return isKeyable(key) ? data[typeof key == 'string' ? 'string' : 'hash'] : data.map;
-}
-
-module.exports = getMapData;
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var arrayLikeKeys = __webpack_require__(104),
-    baseKeysIn = __webpack_require__(218),
-    isArrayLike = __webpack_require__(21);
-
-/**
- * Creates an array of the own and inherited enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keysIn(new Foo);
- * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
- */
-function keysIn(object) {
-  return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
-}
-
-module.exports = keysIn;
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var isSymbol = __webpack_require__(36);
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/**
- * Converts `value` to a string key if it's not a string or symbol.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {string|symbol} Returns the key.
- */
-function toKey(value) {
-  if (typeof value == 'string' || isSymbol(value)) {
-    return value;
-  }
-  var result = value + '';
-  return result == '0' && 1 / value == -INFINITY ? '-0' : result;
-}
-
-module.exports = toKey;
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var baseMatches = __webpack_require__(524),
-    baseMatchesProperty = __webpack_require__(533),
-    identity = __webpack_require__(49),
-    isArray = __webpack_require__(2),
-    property = __webpack_require__(535);
-
-/**
- * The base implementation of `_.iteratee`.
- *
- * @private
- * @param {*} [value=_.identity] The value to convert to an iteratee.
- * @returns {Function} Returns the iteratee.
- */
-function baseIteratee(value) {
-  // Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
-  // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
-  if (typeof value == 'function') {
-    return value;
-  }
-  if (value == null) {
-    return identity;
-  }
-  if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object') {
-    return isArray(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value);
-  }
-  return property(value);
-}
-
-module.exports = baseIteratee;
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/**
- * The function getting the language part of the locale.
- *
- * @param {string} locale The locale.
- * @returns {string} The language part of the locale.
- */
-
-module.exports = function (locale) {
-  return locale.split("_")[0];
-};
-//# sourceMappingURL=getLanguage.js.map
-//# sourceMappingURL=getLanguage.js.map
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */
-function identity(value) {
-  return value;
-}
-
-module.exports = identity;
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Checks if `value` is likely a prototype object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
- */
-function isPrototype(value) {
-  var Ctor = value && value.constructor,
-      proto = typeof Ctor == 'function' && Ctor.prototype || objectProto;
-
-  return value === proto;
-}
-
-module.exports = isPrototype;
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseIsArguments = __webpack_require__(190),
-    isObjectLike = __webpack_require__(13);
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Built-in value references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/**
- * Checks if `value` is likely an `arguments` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an `arguments` object,
- *  else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-var isArguments = baseIsArguments(function () {
-    return arguments;
-}()) ? baseIsArguments : function (value) {
-    return isObjectLike(value) && hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
-};
-
-module.exports = isArguments;
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(module) {
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var root = __webpack_require__(8),
-    stubFalse = __webpack_require__(191);
-
-/** Detect free variable `exports`. */
-var freeExports = ( false ? 'undefined' : _typeof(exports)) == 'object' && exports && !exports.nodeType && exports;
-
-/** Detect free variable `module`. */
-var freeModule = freeExports && ( false ? 'undefined' : _typeof(module)) == 'object' && module && !module.nodeType && module;
-
-/** Detect the popular CommonJS extension `module.exports`. */
-var moduleExports = freeModule && freeModule.exports === freeExports;
-
-/** Built-in value references. */
-var Buffer = moduleExports ? root.Buffer : undefined;
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
-
-/**
- * Checks if `value` is a buffer.
- *
- * @static
- * @memberOf _
- * @since 4.3.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
- * @example
- *
- * _.isBuffer(new Buffer(2));
- * // => true
- *
- * _.isBuffer(new Uint8Array(2));
- * // => false
- */
-var isBuffer = nativeIsBuffer || stubFalse;
-
-module.exports = isBuffer;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module)))
-
-/***/ }),
-/* 53 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3849,25 +3453,480 @@ memoize.Cache = MapCache;
 module.exports = memoize;
 
 /***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/* eslint-disable no-unused-vars */
+/**
+ * Represents the defaults of an assessment.
+ */
+
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+var Assessment = function () {
+  function Assessment() {
+    _classCallCheck(this, Assessment);
+  }
+
+  _createClass(Assessment, [{
+    key: "getResult",
+
+    /**
+     * Executes the assessment and return its result.
+     *
+     * @param {Paper} paper The paper to run this assessment on.
+     * @param {Researcher} researcher The researcher used for the assessment.
+     * @param {object} i18n The i18n-object used for parsing translations.
+     *
+     * @returns {AssessmentResult} The result of the assessment.
+     */
+    value: function getResult(paper, researcher, i18n) {
+      throw "The method getResult is not implemented";
+    }
+    /**
+     * Checks whether the assessment is applicable
+     *
+     * @param {Paper} paper The paper to use for the assessment.
+     *
+     * @returns {boolean} True.
+     */
+
+  }, {
+    key: "isApplicable",
+    value: function isApplicable(paper) {
+      return true;
+    }
+  }]);
+
+  return Assessment;
+}();
+/* eslint-enable no-unused-vars */
+
+module.exports = Assessment;
+//# sourceMappingURL=assessment.js.map
+//# sourceMappingURL=assessment.js.map
+
+/***/ }),
+/* 41 */,
+/* 42 */,
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var listCacheClear = __webpack_require__(199),
+    listCacheDelete = __webpack_require__(200),
+    listCacheGet = __webpack_require__(201),
+    listCacheHas = __webpack_require__(202),
+    listCacheSet = __webpack_require__(203);
+
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function ListCache(entries) {
+    var index = -1,
+        length = entries == null ? 0 : entries.length;
+
+    this.clear();
+    while (++index < length) {
+        var entry = entries[index];
+        this.set(entry[0], entry[1]);
+    }
+}
+
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+module.exports = ListCache;
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var eq = __webpack_require__(36);
+
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+module.exports = assocIndexOf;
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getNative = __webpack_require__(16);
+
+/* Built-in method references that are verified to be native. */
+var nativeCreate = getNative(Object, 'create');
+
+module.exports = nativeCreate;
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isKeyable = __webpack_require__(217);
+
+/**
+ * Gets the data for `map`.
+ *
+ * @private
+ * @param {Object} map The map to query.
+ * @param {string} key The reference key.
+ * @returns {*} Returns the map data.
+ */
+function getMapData(map, key) {
+  var data = map.__data__;
+  return isKeyable(key) ? data[typeof key == 'string' ? 'string' : 'hash'] : data.map;
+}
+
+module.exports = getMapData;
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var arrayLikeKeys = __webpack_require__(105),
+    baseKeysIn = __webpack_require__(222),
+    isArrayLike = __webpack_require__(23);
+
+/**
+ * Creates an array of the own and inherited enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keysIn(new Foo);
+ * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+ */
+function keysIn(object) {
+  return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
+}
+
+module.exports = keysIn;
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isSymbol = __webpack_require__(37);
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0;
+
+/**
+ * Converts `value` to a string key if it's not a string or symbol.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {string|symbol} Returns the key.
+ */
+function toKey(value) {
+  if (typeof value == 'string' || isSymbol(value)) {
+    return value;
+  }
+  var result = value + '';
+  return result == '0' && 1 / value == -INFINITY ? '-0' : result;
+}
+
+module.exports = toKey;
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var baseMatches = __webpack_require__(533),
+    baseMatchesProperty = __webpack_require__(542),
+    identity = __webpack_require__(51),
+    isArray = __webpack_require__(3),
+    property = __webpack_require__(544);
+
+/**
+ * The base implementation of `_.iteratee`.
+ *
+ * @private
+ * @param {*} [value=_.identity] The value to convert to an iteratee.
+ * @returns {Function} Returns the iteratee.
+ */
+function baseIteratee(value) {
+  // Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
+  // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
+  if (typeof value == 'function') {
+    return value;
+  }
+  if (value == null) {
+    return identity;
+  }
+  if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object') {
+    return isArray(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value);
+  }
+  return property(value);
+}
+
+module.exports = baseIteratee;
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * The function getting the language part of the locale.
+ *
+ * @param {string} locale The locale.
+ * @returns {string} The language part of the locale.
+ */
+
+module.exports = function (locale) {
+  return locale.split("_")[0];
+};
+//# sourceMappingURL=getLanguage.js.map
+//# sourceMappingURL=getLanguage.js.map
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * This method returns the first argument it receives.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ *
+ * console.log(_.identity(object) === object);
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+module.exports = identity;
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = typeof Ctor == 'function' && Ctor.prototype || objectProto;
+
+  return value === proto;
+}
+
+module.exports = isPrototype;
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseIsArguments = __webpack_require__(194),
+    isObjectLike = __webpack_require__(13);
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+var isArguments = baseIsArguments(function () {
+    return arguments;
+}()) ? baseIsArguments : function (value) {
+    return isObjectLike(value) && hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+};
+
+module.exports = isArguments;
+
+/***/ }),
 /* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var root = __webpack_require__(8),
+    stubFalse = __webpack_require__(195);
+
+/** Detect free variable `exports`. */
+var freeExports = ( false ? 'undefined' : _typeof(exports)) == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && ( false ? 'undefined' : _typeof(module)) == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Built-in value references. */
+var Buffer = moduleExports ? root.Buffer : undefined;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
+
+/**
+ * Checks if `value` is a buffer.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+ * @example
+ *
+ * _.isBuffer(new Buffer(2));
+ * // => true
+ *
+ * _.isBuffer(new Uint8Array(2));
+ * // => false
+ */
+var isBuffer = nativeIsBuffer || stubFalse;
+
+module.exports = isBuffer;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42)(module)))
+
+/***/ }),
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var map = __webpack_require__(9);
-var isUndefined = __webpack_require__(3);
-var forEach = __webpack_require__(5);
-var isNaN = __webpack_require__(541);
-var filter = __webpack_require__(20);
+var isUndefined = __webpack_require__(4);
+var forEach = __webpack_require__(2);
+var isNaN = __webpack_require__(550);
+var filter = __webpack_require__(22);
 var flatMap = __webpack_require__(166);
-var isEmpty = __webpack_require__(25);
-var negate = __webpack_require__(358);
-var memoize = __webpack_require__(53);
-var core = __webpack_require__(359);
-var getBlocks = __webpack_require__(279).getBlocks;
+var isEmpty = __webpack_require__(15);
+var negate = __webpack_require__(367);
+var memoize = __webpack_require__(39);
+var core = __webpack_require__(368);
+var getBlocks = __webpack_require__(283).getBlocks;
 var normalizeQuotes = __webpack_require__(167).normalize;
-var unifyWhitespace = __webpack_require__(360).unifyNonBreakingSpace;
+var unifyWhitespace = __webpack_require__(369).unifyNonBreakingSpace;
 // All characters that indicate a sentence delimiter.
 var fullStop = ".";
 // The \u2026 character is an ellipsis
@@ -4127,14 +4186,14 @@ module.exports = function (text) {
 //# sourceMappingURL=getSentences.js.map
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/countWords */
 
-var getWords = __webpack_require__(66);
+var getWords = __webpack_require__(67);
 /**
  * Calculates the wordcount of a certain text.
  *
@@ -4148,14 +4207,14 @@ module.exports = function (text) {
 //# sourceMappingURL=countWords.js.map
 
 /***/ }),
-/* 56 */,
-/* 57 */
+/* 57 */,
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetTag = __webpack_require__(16),
+var baseGetTag = __webpack_require__(17),
     isObject = __webpack_require__(6);
 
 /** `Object#toString` result references. */
@@ -4194,13 +4253,13 @@ function isFunction(value) {
 module.exports = isFunction;
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var identity = __webpack_require__(49),
+var identity = __webpack_require__(51),
     overRest = __webpack_require__(133),
     setToString = __webpack_require__(134);
 
@@ -4219,13 +4278,13 @@ function baseRest(func, start) {
 module.exports = baseRest;
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getNative = __webpack_require__(15),
+var getNative = __webpack_require__(16),
     root = __webpack_require__(8);
 
 /* Built-in method references that are verified to be native. */
@@ -4234,7 +4293,7 @@ var Map = getNative(root, 'Map');
 module.exports = Map;
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4258,13 +4317,13 @@ function cloneArrayBuffer(arrayBuffer) {
 module.exports = cloneArrayBuffer;
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var overArg = __webpack_require__(105);
+var overArg = __webpack_require__(106);
 
 /** Built-in value references. */
 var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -4272,8 +4331,8 @@ var getPrototype = overArg(Object.getPrototypeOf, Object);
 module.exports = getPrototype;
 
 /***/ }),
-/* 62 */,
-/* 63 */
+/* 63 */,
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4300,7 +4359,7 @@ var _styledComponents = __webpack_require__(7);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _omit2 = __webpack_require__(111);
+var _omit2 = __webpack_require__(112);
 
 var _omit3 = _interopRequireDefault(_omit2);
 
@@ -4335,14 +4394,14 @@ Icon.defaultProps = {
 };
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayFilter = __webpack_require__(112),
-    stubArray = __webpack_require__(113);
+var arrayFilter = __webpack_require__(113),
+    stubArray = __webpack_require__(114);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -4373,7 +4432,7 @@ var getSymbols = !nativeGetSymbols ? stubArray : function (object) {
 module.exports = getSymbols;
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4401,18 +4460,18 @@ function arrayPush(array, values) {
 module.exports = arrayPush;
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/countWords */
 
-var stripTags = __webpack_require__(26).stripFullTags;
-var stripSpaces = __webpack_require__(27);
-var removePunctuation = __webpack_require__(543);
+var stripTags = __webpack_require__(27).stripFullTags;
+var stripSpaces = __webpack_require__(28);
+var removePunctuation = __webpack_require__(552);
 var map = __webpack_require__(9);
-var filter = __webpack_require__(20);
+var filter = __webpack_require__(22);
 /**
  * Returns an array with words used in the text.
  *
@@ -4436,16 +4495,16 @@ module.exports = function (text) {
 //# sourceMappingURL=getWords.js.map
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/matchTextWithWord */
 
-var stripSomeTags = __webpack_require__(365);
-var unifyWhitespace = __webpack_require__(360).unifyAllSpaces;
-var matchStringWithTransliteration = __webpack_require__(280);
+var stripSomeTags = __webpack_require__(374);
+var unifyWhitespace = __webpack_require__(369).unifyAllSpaces;
+var matchStringWithTransliteration = __webpack_require__(284);
 /**
  * Returns the number of matches in a given string
  *
@@ -4463,65 +4522,6 @@ module.exports = function (text, wordToMatch, locale, extraBoundary) {
 };
 //# sourceMappingURL=matchTextWithWord.js.map
 //# sourceMappingURL=matchTextWithWord.js.map
-
-/***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseIndexOf = __webpack_require__(284),
-    isArrayLike = __webpack_require__(21),
-    isString = __webpack_require__(285),
-    toInteger = __webpack_require__(169),
-    values = __webpack_require__(383);
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
-
-/**
- * Checks if `value` is in `collection`. If `collection` is a string, it's
- * checked for a substring of `value`, otherwise
- * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
- * is used for equality comparisons. If `fromIndex` is negative, it's used as
- * the offset from the end of `collection`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object|string} collection The collection to inspect.
- * @param {*} value The value to search for.
- * @param {number} [fromIndex=0] The index to search from.
- * @param- {Object} [guard] Enables use as an iteratee for methods like `_.reduce`.
- * @returns {boolean} Returns `true` if `value` is found, else `false`.
- * @example
- *
- * _.includes([1, 2, 3], 1);
- * // => true
- *
- * _.includes([1, 2, 3], 1, 2);
- * // => false
- *
- * _.includes({ 'a': 1, 'b': 2 }, 1);
- * // => true
- *
- * _.includes('abcd', 'bc');
- * // => true
- */
-function includes(collection, value, fromIndex, guard) {
-  collection = isArrayLike(collection) ? collection : values(collection);
-  fromIndex = fromIndex && !guard ? toInteger(fromIndex) : 0;
-
-  var length = collection.length;
-  if (fromIndex < 0) {
-    fromIndex = nativeMax(length + fromIndex, 0);
-  }
-  return isString(collection) ? fromIndex <= length && collection.indexOf(value, fromIndex) > -1 : !!length && baseIndexOf(collection, value, fromIndex) > -1;
-}
-
-module.exports = includes;
 
 /***/ }),
 /* 69 */
@@ -4579,7 +4579,7 @@ module.exports = {
 "use strict";
 
 
-var defaults = __webpack_require__(288);
+var defaults = __webpack_require__(293);
 /**
  * Represents a marked piece of text
  *
@@ -4676,7 +4676,7 @@ module.exports = function (text) {
 
 /*<replacement>*/
 
-var processNextTick = __webpack_require__(170);
+var processNextTick = __webpack_require__(174);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -4695,8 +4695,8 @@ var util = __webpack_require__(130);
 util.inherits = __webpack_require__(14);
 /*</replacement>*/
 
-var Readable = __webpack_require__(418);
-var Writable = __webpack_require__(300);
+var Readable = __webpack_require__(427);
+var Writable = __webpack_require__(309);
 
 util.inherits(Duplex, Readable);
 
@@ -4781,7 +4781,7 @@ function forEach(xs, f) {
 
 
 var baseAssignValue = __webpack_require__(76),
-    eq = __webpack_require__(35);
+    eq = __webpack_require__(36);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -4815,7 +4815,7 @@ module.exports = assignValue;
 "use strict";
 
 
-var defineProperty = __webpack_require__(100);
+var defineProperty = __webpack_require__(101);
 
 /**
  * The base implementation of `assignValue` and `assignMergeValue` without
@@ -4876,9 +4876,9 @@ module.exports = isIndex;
 "use strict";
 
 
-var baseIsTypedArray = __webpack_require__(192),
+var baseIsTypedArray = __webpack_require__(196),
     baseUnary = __webpack_require__(82),
-    nodeUtil = __webpack_require__(193);
+    nodeUtil = __webpack_require__(197);
 
 /* Node.js helper references. */
 var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
@@ -4911,12 +4911,12 @@ module.exports = isTypedArray;
 "use strict";
 
 
-var ListCache = __webpack_require__(41),
-    stackClear = __webpack_require__(200),
-    stackDelete = __webpack_require__(201),
-    stackGet = __webpack_require__(202),
-    stackHas = __webpack_require__(203),
-    stackSet = __webpack_require__(204);
+var ListCache = __webpack_require__(43),
+    stackClear = __webpack_require__(204),
+    stackDelete = __webpack_require__(205),
+    stackGet = __webpack_require__(206),
+    stackHas = __webpack_require__(207),
+    stackSet = __webpack_require__(208);
 
 /**
  * Creates a stack cache object to store key-value pairs.
@@ -4946,8 +4946,8 @@ module.exports = Stack;
 "use strict";
 
 
-var castPath = __webpack_require__(37),
-    toKey = __webpack_require__(46);
+var castPath = __webpack_require__(38),
+    toKey = __webpack_require__(48);
 
 /**
  * The base implementation of `_.get` without support for default values.
@@ -5042,11 +5042,11 @@ module.exports = baseUnary;
 "use strict";
 
 
-var mapCacheClear = __webpack_require__(205),
-    mapCacheDelete = __webpack_require__(212),
-    mapCacheGet = __webpack_require__(214),
-    mapCacheHas = __webpack_require__(215),
-    mapCacheSet = __webpack_require__(216);
+var mapCacheClear = __webpack_require__(209),
+    mapCacheDelete = __webpack_require__(216),
+    mapCacheGet = __webpack_require__(218),
+    mapCacheHas = __webpack_require__(219),
+    mapCacheSet = __webpack_require__(220);
 
 /**
  * Creates a map cache object to store key-value pairs.
@@ -5364,8 +5364,8 @@ function isUndefined(arg) {
 
 
 var isObject = __webpack_require__(6),
-    now = __webpack_require__(242),
-    toNumber = __webpack_require__(110);
+    now = __webpack_require__(246),
+    toNumber = __webpack_require__(111);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -5618,8 +5618,8 @@ module.exports = setToArray;
 "use strict";
 
 
-var arrayPush = __webpack_require__(65),
-    isFlattenable = __webpack_require__(265);
+var arrayPush = __webpack_require__(66),
+    isFlattenable = __webpack_require__(269);
 
 /**
  * The base implementation of `_.flatten` with support for restricting flattening.
@@ -5663,9 +5663,41 @@ module.exports = baseFlatten;
 
 "use strict";
 
+/** @module stringProcessing/createRegexFromArray */
 
-var indexOf = __webpack_require__(660);
-var getLanguage = __webpack_require__(48);
+var addWordBoundary = __webpack_require__(125);
+var map = __webpack_require__(9);
+/**
+ * Creates a regex of combined strings from the input array.
+ *
+ * @param {array} array The array with strings
+ * @param {boolean} [disableWordBoundary] Boolean indicating whether or not to disable word boundaries
+ * @returns {RegExp} regex The regex created from the array.
+ */
+module.exports = function (array, disableWordBoundary) {
+    var regexString;
+    var _disableWordBoundary = disableWordBoundary || false;
+    var boundedArray = map(array, function (string) {
+        if (_disableWordBoundary) {
+            return string;
+        }
+        return addWordBoundary(string, true);
+    });
+    regexString = "(" + boundedArray.join(")|(") + ")";
+    return new RegExp(regexString, "ig");
+};
+//# sourceMappingURL=createRegexFromArray.js.map
+//# sourceMappingURL=createRegexFromArray.js.map
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var indexOf = __webpack_require__(677);
+var getLanguage = __webpack_require__(50);
 /**
  * Checks whether the language of the locale is available.
  *
@@ -5681,16 +5713,16 @@ module.exports = function (locale, languages) {
 //# sourceMappingURL=getLanguageAvailability.js.map
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var apply = __webpack_require__(103),
-    baseRest = __webpack_require__(58),
-    customDefaultsMerge = __webpack_require__(675),
-    mergeWith = __webpack_require__(676);
+var apply = __webpack_require__(104),
+    baseRest = __webpack_require__(59),
+    customDefaultsMerge = __webpack_require__(692),
+    mergeWith = __webpack_require__(693);
 
 /**
  * This method is like `_.defaults` except that it recursively assigns
@@ -5719,13 +5751,13 @@ var defaultsDeep = baseRest(function (args) {
 module.exports = defaultsDeep;
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isUndefined = __webpack_require__(3);
+var isUndefined = __webpack_require__(4);
 
 /**
  * Returns the l10n object for the current page, either term or post.
@@ -5747,8 +5779,8 @@ function getL10nObject() {
 module.exports = getL10nObject;
 
 /***/ }),
-/* 94 */,
-/* 95 */
+/* 95 */,
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5776,14 +5808,14 @@ function copyArray(source, array) {
 module.exports = copyArray;
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetTag = __webpack_require__(16),
-    getPrototype = __webpack_require__(61),
+var baseGetTag = __webpack_require__(17),
+    getPrototype = __webpack_require__(62),
     isObjectLike = __webpack_require__(13);
 
 /** `Object#toString` result references. */
@@ -5845,24 +5877,24 @@ function isPlainObject(value) {
 module.exports = isPlainObject;
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Researcher = __webpack_require__(278);
+var Researcher = __webpack_require__(282);
 var MissingArgument = __webpack_require__(162);
-var removeDuplicateMarks = __webpack_require__(655);
-var AssessmentResult = __webpack_require__(4);
-var showTrace = __webpack_require__(659).showTrace;
-var isUndefined = __webpack_require__(3);
-var isFunction = __webpack_require__(57);
-var forEach = __webpack_require__(5);
-var filter = __webpack_require__(20);
+var removeDuplicateMarks = __webpack_require__(672);
+var AssessmentResult = __webpack_require__(5);
+var showTrace = __webpack_require__(676).showTrace;
+var isUndefined = __webpack_require__(4);
+var isFunction = __webpack_require__(58);
+var forEach = __webpack_require__(2);
+var filter = __webpack_require__(22);
 var map = __webpack_require__(9);
 var findIndex = __webpack_require__(168);
-var find = __webpack_require__(282);
+var find = __webpack_require__(286);
 var ScoreRating = 9;
 /**
  * Creates the Assessor.
@@ -6106,15 +6138,15 @@ module.exports = Assessor;
 //# sourceMappingURL=assessor.js.map
 
 /***/ }),
-/* 98 */,
 /* 99 */,
-/* 100 */
+/* 100 */,
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getNative = __webpack_require__(15);
+var getNative = __webpack_require__(16);
 
 var defineProperty = function () {
   try {
@@ -6127,7 +6159,7 @@ var defineProperty = function () {
 module.exports = defineProperty;
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6142,7 +6174,7 @@ module.exports = freeGlobal;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6176,7 +6208,7 @@ function toSource(func) {
 module.exports = toSource;
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6209,16 +6241,16 @@ function apply(func, thisArg, args) {
 module.exports = apply;
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseTimes = __webpack_require__(189),
-    isArguments = __webpack_require__(51),
-    isArray = __webpack_require__(2),
-    isBuffer = __webpack_require__(52),
+var baseTimes = __webpack_require__(193),
+    isArguments = __webpack_require__(53),
+    isArray = __webpack_require__(3),
+    isBuffer = __webpack_require__(54),
     isIndex = __webpack_require__(77),
     isTypedArray = __webpack_require__(78);
 
@@ -6264,7 +6296,7 @@ function arrayLikeKeys(value, inherited) {
 module.exports = arrayLikeKeys;
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6287,7 +6319,7 @@ function overArg(func, transform) {
 module.exports = overArg;
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6325,8 +6357,8 @@ var baseCreate = function () {
 module.exports = baseCreate;
 
 /***/ }),
-/* 107 */,
-/* 108 */
+/* 108 */,
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6334,11 +6366,11 @@ module.exports = baseCreate;
 
 
 
-var IntlMessageFormat = __webpack_require__(224)['default'];
+var IntlMessageFormat = __webpack_require__(228)['default'];
 
 // Add all locale data to `IntlMessageFormat`. This module will be ignored when
 // bundling for the browser with Browserify/Webpack.
-__webpack_require__(231);
+__webpack_require__(235);
 
 // Re-export `IntlMessageFormat` as the CommonJS default exports with all the
 // locale data registered, and with English set as the default locale. Define
@@ -6347,7 +6379,7 @@ exports = module.exports = IntlMessageFormat;
 exports['default'] = exports;
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6391,14 +6423,14 @@ exports.hop = hop;
 //# sourceMappingURL=utils.js.map
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var isObject = __webpack_require__(6),
-    isSymbol = __webpack_require__(36);
+    isSymbol = __webpack_require__(37);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -6463,20 +6495,20 @@ function toNumber(value) {
 module.exports = toNumber;
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayMap = __webpack_require__(30),
+var arrayMap = __webpack_require__(31),
     baseClone = __webpack_require__(150),
-    baseUnset = __webpack_require__(258),
-    castPath = __webpack_require__(37),
-    copyObject = __webpack_require__(19),
-    customOmitClone = __webpack_require__(264),
-    flatRest = __webpack_require__(120),
-    getAllKeysIn = __webpack_require__(116);
+    baseUnset = __webpack_require__(262),
+    castPath = __webpack_require__(38),
+    copyObject = __webpack_require__(21),
+    customOmitClone = __webpack_require__(268),
+    flatRest = __webpack_require__(121),
+    getAllKeysIn = __webpack_require__(117);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1,
@@ -6528,7 +6560,7 @@ var omit = flatRest(function (object, paths) {
 module.exports = omit;
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6561,7 +6593,7 @@ function arrayFilter(array, predicate) {
 module.exports = arrayFilter;
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6592,16 +6624,16 @@ function stubArray() {
 module.exports = stubArray;
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayPush = __webpack_require__(65),
-    getPrototype = __webpack_require__(61),
-    getSymbols = __webpack_require__(64),
-    stubArray = __webpack_require__(113);
+var arrayPush = __webpack_require__(66),
+    getPrototype = __webpack_require__(62),
+    getSymbols = __webpack_require__(65),
+    stubArray = __webpack_require__(114);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeGetSymbols = Object.getOwnPropertySymbols;
@@ -6625,14 +6657,14 @@ var getSymbolsIn = !nativeGetSymbols ? stubArray : function (object) {
 module.exports = getSymbolsIn;
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayPush = __webpack_require__(65),
-    isArray = __webpack_require__(2);
+var arrayPush = __webpack_require__(66),
+    isArray = __webpack_require__(3);
 
 /**
  * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
@@ -6653,15 +6685,15 @@ function baseGetAllKeys(object, keysFunc, symbolsFunc) {
 module.exports = baseGetAllKeys;
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetAllKeys = __webpack_require__(115),
-    getSymbolsIn = __webpack_require__(114),
-    keysIn = __webpack_require__(45);
+var baseGetAllKeys = __webpack_require__(116),
+    getSymbolsIn = __webpack_require__(115),
+    keysIn = __webpack_require__(47);
 
 /**
  * Creates an array of own and inherited enumerable property names and
@@ -6678,19 +6710,19 @@ function getAllKeysIn(object) {
 module.exports = getAllKeysIn;
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var DataView = __webpack_require__(247),
-    Map = __webpack_require__(59),
-    Promise = __webpack_require__(248),
+var DataView = __webpack_require__(251),
+    Map = __webpack_require__(60),
+    Promise = __webpack_require__(252),
     Set = __webpack_require__(153),
     WeakMap = __webpack_require__(154),
-    baseGetTag = __webpack_require__(16),
-    toSource = __webpack_require__(102);
+    baseGetTag = __webpack_require__(17),
+    toSource = __webpack_require__(103);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -6745,7 +6777,7 @@ if (DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag || Map &
 module.exports = getTag;
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6753,8 +6785,8 @@ module.exports = getTag;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var isArray = __webpack_require__(2),
-    isSymbol = __webpack_require__(36);
+var isArray = __webpack_require__(3),
+    isSymbol = __webpack_require__(37);
 
 /** Used to match property names within property paths. */
 var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
@@ -6782,13 +6814,13 @@ function isKey(value, object) {
 module.exports = isKey;
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseToString = __webpack_require__(261);
+var baseToString = __webpack_require__(265);
 
 /**
  * Converts `value` to a string. An empty string is returned for `null`
@@ -6818,7 +6850,7 @@ function toString(value) {
 module.exports = toString;
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6842,7 +6874,7 @@ function flatRest(func) {
 module.exports = flatRest;
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6852,7 +6884,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _edit = __webpack_require__(266);
+var _edit = __webpack_require__(270);
 
 Object.defineProperty(exports, "edit", {
   enumerable: true,
@@ -6870,7 +6902,7 @@ Object.defineProperty(exports, "search", {
   }
 });
 
-var _angleLeft = __webpack_require__(267);
+var _angleLeft = __webpack_require__(271);
 
 Object.defineProperty(exports, "angleLeft", {
   enumerable: true,
@@ -6879,7 +6911,7 @@ Object.defineProperty(exports, "angleLeft", {
   }
 });
 
-var _angleRight = __webpack_require__(268);
+var _angleRight = __webpack_require__(272);
 
 Object.defineProperty(exports, "angleRight", {
   enumerable: true,
@@ -6888,7 +6920,7 @@ Object.defineProperty(exports, "angleRight", {
   }
 });
 
-var _angleUp = __webpack_require__(269);
+var _angleUp = __webpack_require__(273);
 
 Object.defineProperty(exports, "angleUp", {
   enumerable: true,
@@ -6897,7 +6929,7 @@ Object.defineProperty(exports, "angleUp", {
   }
 });
 
-var _angleDown = __webpack_require__(270);
+var _angleDown = __webpack_require__(274);
 
 Object.defineProperty(exports, "angleDown", {
   enumerable: true,
@@ -6906,7 +6938,7 @@ Object.defineProperty(exports, "angleDown", {
   }
 });
 
-var _questionCircle = __webpack_require__(271);
+var _questionCircle = __webpack_require__(275);
 
 Object.defineProperty(exports, "questionCircle", {
   enumerable: true,
@@ -6915,7 +6947,7 @@ Object.defineProperty(exports, "questionCircle", {
   }
 });
 
-var _times = __webpack_require__(272);
+var _times = __webpack_require__(276);
 
 Object.defineProperty(exports, "times", {
   enumerable: true,
@@ -6924,7 +6956,7 @@ Object.defineProperty(exports, "times", {
   }
 });
 
-var _eye = __webpack_require__(273);
+var _eye = __webpack_require__(277);
 
 Object.defineProperty(exports, "eye", {
   enumerable: true,
@@ -6933,7 +6965,7 @@ Object.defineProperty(exports, "eye", {
   }
 });
 
-var _circle = __webpack_require__(274);
+var _circle = __webpack_require__(278);
 
 Object.defineProperty(exports, "circle", {
   enumerable: true,
@@ -6945,7 +6977,7 @@ Object.defineProperty(exports, "circle", {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -6954,14 +6986,14 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseForOwn = __webpack_require__(538),
-    createBaseEach = __webpack_require__(539);
+var baseForOwn = __webpack_require__(547),
+    createBaseEach = __webpack_require__(548);
 
 /**
  * The base implementation of `_.forEach` without support for iteratee shorthands.
@@ -6976,7 +7008,7 @@ var baseEach = createBaseEach(baseForOwn);
 module.exports = baseEach;
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7007,38 +7039,6 @@ module.exports = function (matchString) {
 };
 //# sourceMappingURL=addWordboundary.js.map
 //# sourceMappingURL=addWordboundary.js.map
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/** @module stringProcessing/createRegexFromArray */
-
-var addWordBoundary = __webpack_require__(124);
-var map = __webpack_require__(9);
-/**
- * Creates a regex of combined strings from the input array.
- *
- * @param {array} array The array with strings
- * @param {boolean} [disableWordBoundary] Boolean indicating whether or not to disable word boundaries
- * @returns {RegExp} regex The regex created from the array.
- */
-module.exports = function (array, disableWordBoundary) {
-    var regexString;
-    var _disableWordBoundary = disableWordBoundary || false;
-    var boundedArray = map(array, function (string) {
-        if (_disableWordBoundary) {
-            return string;
-        }
-        return addWordBoundary(string, true);
-    });
-    regexString = "(" + boundedArray.join(")|(") + ")";
-    return new RegExp(regexString, "ig");
-};
-//# sourceMappingURL=createRegexFromArray.js.map
-//# sourceMappingURL=createRegexFromArray.js.map
 
 /***/ }),
 /* 126 */
@@ -7099,8 +7099,8 @@ module.exports = function () {
 "use strict";
 
 
-var Parser = __webpack_require__(412),
-    DomHandler = __webpack_require__(695);
+var Parser = __webpack_require__(421),
+    DomHandler = __webpack_require__(712);
 
 function defineProp(name, value) {
 	delete module.exports[name];
@@ -7110,26 +7110,26 @@ function defineProp(name, value) {
 
 module.exports = {
 	Parser: Parser,
-	Tokenizer: __webpack_require__(413),
+	Tokenizer: __webpack_require__(422),
 	ElementType: __webpack_require__(129),
 	DomHandler: DomHandler,
 	get FeedHandler() {
-		return defineProp("FeedHandler", __webpack_require__(697));
+		return defineProp("FeedHandler", __webpack_require__(714));
 	},
 	get Stream() {
-		return defineProp("Stream", __webpack_require__(698));
+		return defineProp("Stream", __webpack_require__(715));
 	},
 	get WritableStream() {
-		return defineProp("WritableStream", __webpack_require__(417));
+		return defineProp("WritableStream", __webpack_require__(426));
 	},
 	get ProxyHandler() {
-		return defineProp("ProxyHandler", __webpack_require__(713));
+		return defineProp("ProxyHandler", __webpack_require__(730));
 	},
 	get DomUtils() {
-		return defineProp("DomUtils", __webpack_require__(714));
+		return defineProp("DomUtils", __webpack_require__(731));
 	},
 	get CollectingHandler() {
-		return defineProp("CollectingHandler", __webpack_require__(726));
+		return defineProp("CollectingHandler", __webpack_require__(743));
 	},
 	// For legacy support
 	DefaultHandler: DomHandler,
@@ -7303,7 +7303,7 @@ exports.isBuffer = Buffer.isBuffer;
 function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(299).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(308).Buffer))
 
 /***/ }),
 /* 131 */,
@@ -7313,8 +7313,8 @@ function objectToString(o) {
 "use strict";
 
 
-var baseRest = __webpack_require__(58),
-    isIterateeCall = __webpack_require__(188);
+var baseRest = __webpack_require__(59),
+    isIterateeCall = __webpack_require__(192);
 
 /**
  * Creates a function like `_.assign`.
@@ -7356,7 +7356,7 @@ module.exports = createAssigner;
 "use strict";
 
 
-var apply = __webpack_require__(103);
+var apply = __webpack_require__(104);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max;
@@ -7400,8 +7400,8 @@ module.exports = overRest;
 "use strict";
 
 
-var baseSetToString = __webpack_require__(185),
-    shortOut = __webpack_require__(187);
+var baseSetToString = __webpack_require__(189),
+    shortOut = __webpack_require__(191);
 
 /**
  * Sets the `toString` method of `func` to return `string`.
@@ -7459,7 +7459,7 @@ function cloneBuffer(buffer, isDeep) {
 }
 
 module.exports = cloneBuffer;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42)(module)))
 
 /***/ }),
 /* 136 */
@@ -7468,7 +7468,7 @@ module.exports = cloneBuffer;
 "use strict";
 
 
-var cloneArrayBuffer = __webpack_require__(60);
+var cloneArrayBuffer = __webpack_require__(61);
 
 /**
  * Creates a clone of `typedArray`.
@@ -7492,9 +7492,9 @@ module.exports = cloneTypedArray;
 "use strict";
 
 
-var baseCreate = __webpack_require__(106),
-    getPrototype = __webpack_require__(61),
-    isPrototype = __webpack_require__(50);
+var baseCreate = __webpack_require__(107),
+    getPrototype = __webpack_require__(62),
+    isPrototype = __webpack_require__(52);
 
 /**
  * Initializes an object clone.
@@ -7520,8 +7520,8 @@ module.exports = initCloneObject;
 "use strict";
 
 
-var isPrototype = __webpack_require__(50),
-    nativeKeys = __webpack_require__(194);
+var isPrototype = __webpack_require__(52),
+    nativeKeys = __webpack_require__(198);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -7559,11 +7559,11 @@ module.exports = baseKeys;
 
 
 var Stack = __webpack_require__(79),
-    assignMergeValue = __webpack_require__(173),
-    baseFor = __webpack_require__(217),
-    baseMergeDeep = __webpack_require__(340),
+    assignMergeValue = __webpack_require__(177),
+    baseFor = __webpack_require__(221),
+    baseMergeDeep = __webpack_require__(349),
     isObject = __webpack_require__(6),
-    keysIn = __webpack_require__(45);
+    keysIn = __webpack_require__(47);
 
 /**
  * The base implementation of `_.merge` without support for multiple sources.
@@ -7618,7 +7618,7 @@ module.exports = Uint8Array;
 "use strict";
 
 
-var isArrayLike = __webpack_require__(21),
+var isArrayLike = __webpack_require__(23),
     isObjectLike = __webpack_require__(13);
 
 /**
@@ -7737,22 +7737,22 @@ Search.default = Search;
 var Stack = __webpack_require__(79),
     arrayEach = __webpack_require__(151),
     assignValue = __webpack_require__(75),
-    baseAssign = __webpack_require__(243),
-    baseAssignIn = __webpack_require__(244),
+    baseAssign = __webpack_require__(247),
+    baseAssignIn = __webpack_require__(248),
     cloneBuffer = __webpack_require__(135),
-    copyArray = __webpack_require__(95),
-    copySymbols = __webpack_require__(245),
-    copySymbolsIn = __webpack_require__(246),
+    copyArray = __webpack_require__(96),
+    copySymbols = __webpack_require__(249),
+    copySymbolsIn = __webpack_require__(250),
     getAllKeys = __webpack_require__(152),
-    getAllKeysIn = __webpack_require__(116),
-    getTag = __webpack_require__(117),
-    initCloneArray = __webpack_require__(249),
-    initCloneByTag = __webpack_require__(250),
+    getAllKeysIn = __webpack_require__(117),
+    getTag = __webpack_require__(118),
+    initCloneArray = __webpack_require__(253),
+    initCloneByTag = __webpack_require__(254),
     initCloneObject = __webpack_require__(137),
-    isArray = __webpack_require__(2),
-    isBuffer = __webpack_require__(52),
+    isArray = __webpack_require__(3),
+    isBuffer = __webpack_require__(54),
     isObject = __webpack_require__(6),
-    keys = __webpack_require__(29);
+    keys = __webpack_require__(30);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1,
@@ -7910,9 +7910,9 @@ module.exports = arrayEach;
 "use strict";
 
 
-var baseGetAllKeys = __webpack_require__(115),
-    getSymbols = __webpack_require__(64),
-    keys = __webpack_require__(29);
+var baseGetAllKeys = __webpack_require__(116),
+    getSymbols = __webpack_require__(65),
+    keys = __webpack_require__(30);
 
 /**
  * Creates an array of own enumerable property names and symbols of `object`.
@@ -7934,7 +7934,7 @@ module.exports = getAllKeys;
 "use strict";
 
 
-var getNative = __webpack_require__(15),
+var getNative = __webpack_require__(16),
     root = __webpack_require__(8);
 
 /* Built-in method references that are verified to be native. */
@@ -7949,7 +7949,7 @@ module.exports = Set;
 "use strict";
 
 
-var getNative = __webpack_require__(15),
+var getNative = __webpack_require__(16),
     root = __webpack_require__(8);
 
 /* Built-in method references that are verified to be native. */
@@ -8111,7 +8111,7 @@ function rgba(hexColor, alpha) {
 
 
 var plugins = {
-	usedKeywords: __webpack_require__(520)
+	usedKeywords: __webpack_require__(529)
 };
 
 var helpers = {
@@ -8119,16 +8119,16 @@ var helpers = {
 };
 
 module.exports = {
-	Assessor: __webpack_require__(97),
-	SEOAssessor: __webpack_require__(293),
-	ContentAssessor: __webpack_require__(294),
-	App: __webpack_require__(679),
-	Pluggable: __webpack_require__(410),
-	Researcher: __webpack_require__(278),
-	SnippetPreview: __webpack_require__(407),
+	Assessor: __webpack_require__(98),
+	SEOAssessor: __webpack_require__(302),
+	ContentAssessor: __webpack_require__(303),
+	App: __webpack_require__(696),
+	Pluggable: __webpack_require__(419),
+	Researcher: __webpack_require__(282),
+	SnippetPreview: __webpack_require__(416),
 
-	Paper: __webpack_require__(411),
-	AssessmentResult: __webpack_require__(4),
+	Paper: __webpack_require__(420),
+	AssessmentResult: __webpack_require__(5),
 
 	bundledPlugins: plugins,
 	helpers: helpers
@@ -8146,7 +8146,7 @@ module.exports = function MissingArgumentError(message) {
     this.name = this.constructor.name;
     this.message = message;
 };
-__webpack_require__(33).inherits(module.exports, Error);
+__webpack_require__(19).inherits(module.exports, Error);
 //# sourceMappingURL=missingArgument.js.map
 //# sourceMappingURL=missingArgument.js.map
 
@@ -8193,8 +8193,8 @@ module.exports = ScoreToRating;
 
 
 var MapCache = __webpack_require__(83),
-    setCacheAdd = __webpack_require__(527),
-    setCacheHas = __webpack_require__(528);
+    setCacheAdd = __webpack_require__(536),
+    setCacheHas = __webpack_require__(537);
 
 /**
  *
@@ -8327,8 +8327,8 @@ module.exports = {
 "use strict";
 
 
-var baseFindIndex = __webpack_require__(371),
-    baseIteratee = __webpack_require__(47),
+var baseFindIndex = __webpack_require__(380),
+    baseIteratee = __webpack_require__(49),
     toInteger = __webpack_require__(169);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
@@ -8390,7 +8390,7 @@ module.exports = findIndex;
 "use strict";
 
 
-var toFinite = __webpack_require__(372);
+var toFinite = __webpack_require__(381);
 
 /**
  * Converts `value` to an integer.
@@ -8429,6 +8429,286 @@ module.exports = toInteger;
 
 /***/ }),
 /* 170 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * Constructs a sentence part object.
+ *
+ * @param {string} sentencePartText The text in the sentence part.
+ * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
+ * @param {string} locale The locale used for this sentence part.
+ *
+ * @constructor
+ */
+
+var SentencePart = function SentencePart(sentencePartText, auxiliaries, locale) {
+  this._sentencePartText = sentencePartText;
+  this._auxiliaries = auxiliaries;
+  this._locale = locale;
+  this._isPassive = false;
+};
+/**
+ * Returns the sentence part string.
+ *
+ * @returns {string} The sentence part.
+ */
+SentencePart.prototype.getSentencePartText = function () {
+  return this._sentencePartText;
+};
+/**
+ * Returns the passiveness of a sentence part.
+ *
+ * @returns {boolean} returns true if passive, otherwise returns false.
+ */
+SentencePart.prototype.isPassive = function () {
+  return this._isPassive;
+};
+/**
+ * Returns the list of auxiliaries from a sentence part.
+ *
+ * @returns {Array} The list of auxiliaries.
+ */
+SentencePart.prototype.getAuxiliaries = function () {
+  return this._auxiliaries;
+};
+/**
+ * Returns the locale of the sentence part.
+ *
+ * @returns {string} The locale of the sentence part.
+ */
+SentencePart.prototype.getLocale = function () {
+  return this._locale;
+};
+/**
+ * Sets the passiveness of the sentence part.
+ *
+ * @param {boolean} passive Whether the sentence part is passive or not.
+ * @returns {void}
+ */
+SentencePart.prototype.setPassive = function (passive) {
+  this._isPassive = passive;
+};
+module.exports = SentencePart;
+//# sourceMappingURL=SentencePart.js.map
+//# sourceMappingURL=SentencePart.js.map
+
+/***/ }),
+/* 171 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getWords = __webpack_require__(67);
+var matchParticiples = __webpack_require__(628)();
+var regularParticipleRegex = matchParticiples.regularParticiples;
+var irregularParticipleRegex = matchParticiples.irregularParticiples;
+var EnglishParticiple = __webpack_require__(631);
+var FrenchParticiple = __webpack_require__(638);
+var SpanishParticiple = __webpack_require__(639);
+var forEach = __webpack_require__(2);
+/**
+ * Creates participle objects for the participles found in a sentence part.
+ *
+ * @param {string} sentencePartText The sentence part to find participles in.
+ * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
+ * @param {string} language The language to find the participles for.
+ * @returns {Array} The list with participle objects.
+ */
+module.exports = function (sentencePartText, auxiliaries, language) {
+    var words = getWords(sentencePartText);
+    var foundParticiples = [];
+    forEach(words, function (word) {
+        var type = "";
+        if (regularParticipleRegex(word, language).length !== 0) {
+            type = "regular";
+        }
+        if (irregularParticipleRegex(word, language).length !== 0) {
+            type = "irregular";
+        }
+        if (type !== "") {
+            switch (language) {
+                case "fr":
+                    foundParticiples.push(new FrenchParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: type }));
+                    break;
+                case "es":
+                    foundParticiples.push(new SpanishParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: type }));
+                    break;
+                case "en":
+                default:
+                    foundParticiples.push(new EnglishParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: type }));
+                    break;
+            }
+        }
+    });
+    return foundParticiples;
+};
+//# sourceMappingURL=getParticiples.js.map
+//# sourceMappingURL=getParticiples.js.map
+
+/***/ }),
+/* 172 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getType = __webpack_require__(394).getType;
+var isSameType = __webpack_require__(394).isSameType;
+var defaults = __webpack_require__(293);
+var forEach = __webpack_require__(2);
+/**
+ * Default attributes to be used by the Participle if they are left undefined.
+ * @type { { auxiliaries: array, type: string } }
+ */
+var defaultAttributes = {
+    auxiliaries: [],
+    type: ""
+};
+/**
+ * Validates the type of all attributes. Throws an error if the type is invalid.
+ *
+ * @param {object} attributes The object containing all attributes.
+ * @returns {void}
+ */
+var validateAttributes = function validateAttributes(attributes) {
+    forEach(attributes, function (attributeValue, attributeName) {
+        var expectedType = getType(defaultAttributes[attributeName]);
+        if (isSameType(attributeValue, expectedType) === false) {
+            throw Error("Attribute " + attributeName + " has invalid type. Expected " + expectedType + ", got " + getType(attributeValue) + ".");
+        }
+    });
+};
+/**
+ * Construct the Participle object and set the participle, sentence part, auxiliary and type.
+ *
+ * @param {string} participle The participle.
+ * @param {string} sentencePart The sentence part where the participle is from.
+ * @param {object} attributes The object containing all attributes.
+ * @constructor
+ */
+var Participle = function Participle(participle, sentencePart, attributes) {
+    this.setParticiple(participle);
+    this.setSentencePart(sentencePart);
+    this._determinesSentencePartIsPassive = false;
+    attributes = attributes || {};
+    defaults(attributes, defaultAttributes);
+    validateAttributes(attributes);
+    this._attributes = attributes;
+};
+/**
+ * Sets the participle.
+ * @param {string} participle The participle.
+ * @returns {void}.
+ */
+Participle.prototype.setParticiple = function (participle) {
+    if (participle === "") {
+        throw Error("The participle should not be empty.");
+    }
+    this._participle = participle;
+};
+/**
+ * Returns the participle.
+ * @returns {String} The participle.
+ */
+Participle.prototype.getParticiple = function () {
+    return this._participle;
+};
+/**
+ * Sets the SentencePart.
+ *
+ * @param {string} sentencePart The sentence part.
+ * @returns {void}.
+ */
+Participle.prototype.setSentencePart = function (sentencePart) {
+    if (sentencePart === "") {
+        throw Error("The sentence part should not be empty.");
+    }
+    this._sentencePart = sentencePart;
+};
+/**
+ * Returns the sentence part.
+ * @returns {String} The sentence part.
+ */
+Participle.prototype.getSentencePart = function () {
+    return this._sentencePart;
+};
+/**
+ * Returns the type.
+ * @returns {String} The type.
+ */
+Participle.prototype.getType = function () {
+    return this._attributes.type;
+};
+/**
+ * Returns the auxiliaries.
+ * @returns {String} The auxiliaries.
+ */
+Participle.prototype.getAuxiliaries = function () {
+    return this._attributes.auxiliaries;
+};
+/**
+ * Returns if the participle is passive or not.
+ * @returns {boolean} True if it is passive.
+ */
+Participle.prototype.determinesSentencePartIsPassive = function () {
+    return this._determinesSentencePartIsPassive;
+};
+/**
+ * Determines if the sentence is passive or not.
+ * @param {boolean} passive Whether the sentence part is passive.
+ * @returns {void}
+ */
+Participle.prototype.setSentencePartPassiveness = function (passive) {
+    if (!isSameType(passive, "boolean")) {
+        throw Error("Passiveness had invalid type. Expected boolean, got " + getType(passive) + ".");
+    }
+    this._determinesSentencePartIsPassive = passive;
+};
+module.exports = Participle;
+//# sourceMappingURL=Participle.js.map
+//# sourceMappingURL=Participle.js.map
+
+/***/ }),
+/* 173 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// These word need to be checked with s/e/es suffixes.
+
+var adjectivesVerbs = [
+// The following words are participles of verbs that cannot be passives.
+"allé", "arrivé", "décédé", "demeuré", "entré", "été", "né", "resté", "retombé", "tombé",
+// The following words are non-participles ending in é.
+"achalandé", "aéroporté", "affilé", "affixé", "âgé", "aîné", "aisé", "aligoté", "alizé", "alliacé", "alluré", "alphabétisé", "alvéolé", "aminé", "ammoniaqué", "ampoulé", "archi-prouvé", "archi-usé", "asexué", "autoguidé", "autopropulsé", "aviné", "baleiné", "barbelé", "baryté", "bien-aimé", "bisexué", "bouqueté", "brioché", "burkinabé", "cagoulé", "calamistré", "cannelé", "carabiné", "carboné", "caréné", "carié", "carminé", "carné", "carpé", "censé", "cérusé", "charançonné", "chenillé", "chocolaté", "chtarbé", "citronné", "cofondé", "contrecollé", "côtelé", "courbaturé", "crawlé", "crossé", "crustacé", "cutané", "damasquiné", "damassé", "décavé", "déguenillé", "demi-paralysé", "denté", "dépenaillé", "désenchanté", "désodé", "diapré", "ébranché", "écervelé", "effréné", "effronté", "éhonté", "embourgeoisé", "embroussaillé", "embruiné", "émerillonné", "encalminé", "encaustiqué", "encorné", "endiablé", "endiamanté", "enfoiré", "enfouraillé", "ensellé", "entrelardé", "éploré", "ergoté", "erroné", "étagé", "éthéré", "éversé", "éwé", "ex-associé", "exorbité", "expansé", "famé", "férié", "fibré", "filoguidé", "flammé", "fleurdelisé", "fliqué", "flûté", "forcené", "fortuné", "foulbé", "frelaté", "friqué", "futé", "gazonné", "gracieusé", "gradé", "granulé", "herminé", "hiérarchisé", "huppé", "hydrogéné", "igné", "illettré", "illimité", "imbriqué", "immaculé", "immérité", "immodéré", "immunodéprimé", "impayé", "impensé", "impollué", "imprononcé", "inaccoutumé", "inachevé", "inactivé", "inadapté", "inaltéré", "inanimé", "inapproprié", "inarticulé", "inavoué", "inchangé", "inconditionné", "inconsidéré", "inconsolé", "incontesté", "incontrôlé", "incréé", "indéfriché", "indéterminé", "indifférencié", "indiscipliné", "indiscuté", "indivisé", "indompté", "inébranlé", "inemployé", "inentamé", "inespéré", "inexpérimenté", "inexpliqué", "inexploité", "inexploré", "inexprimé", "infondé", "informulé", "infortuné", "inhabité", "inimité", "injustifié", "inné", "innommé", "inoccupé", "inopiné", "inorganisé", "inoublié", "insensé", "insoupçonné", "instantané", "insubordonné", "insurpassé", "intentionné", "interallié", "intouché", "inusité", "inutilisé", "invertébré", "inviolé", "iodé", "irraisonné", "irréalisé", "lacté", "lamé", "lamifié", "larvé", "laryngé", "léopardé", "lettré", "lié", "lifté", "losangé", "luné", "lunetté", "madré", "maillé", "malaisé", "malavisé", "maléficié", "malfamé", "malformé", "malintentionné", "mendé", "ménopausé", "mentholé", "mi-accablé", "mi-allongé", "mi-café", "mi-consterné", "mi-enterré", "mi-étonné", "mi-pincé", "mi-terrorisé", "miellé", "millimétré", "miraculé", "momentané", "monoclé", "mordoré", "mort-né", "névrosé", "nitré", "non-initié", "nouveau-né", "olé-olé", "ongulé", "paillé", "palé", "papilionacé", "paqueté", "paraffiné", "pasteurisé", "patenté", "paysagé", "pédonculé", "pestiféré", "platiné", "pocheté", "polychromé", "poplité", "potelé", "pourpré", "praliné", "précité", "prédigéré", "préencollé", "préfabriqué", "prématuré", "premier-né", "préprogrammé", "prostré", "protéiné", "pyramidé", "quadrilobé", "racé", "re-café", "re-rêvé", "re-vérifié", "rebarré", "redécoré", "relargué", "résiné", "réticulé", "revérifié", "revivifié", "rose-thé", "safrané", "satiné", "saumoné", "sébacé", "sensé", "sexué", "sigillé", "silicosé", "simultané", "sinistré", "soufré", "sous-cutané", "sous-développé", "sous-qualifié", "soussigné", "spiralé", "spontané", "stratifié", "sulfaté", "sulfuré", "sulfurisé", "suractivé", "suranné", "surbooké", "surbrodé", "surdéveloppé", "surdimensionné", "surdoué", "surentraîné", "suroxygéné", "surpeuplé", "surqualifié", "susmentionné", "susnommé", "systématisé", "tarabiscoté", "taupé", "thrombosé", "tiercé", "timoré", "tiqueté", "transcutané", "triphasé", "usagé", "usité", "vallonné", "vanillé", "vascularisé", "veinulé", "venté", "vergé", "vert-de-grisé", "vertébré", "vitaminé", "vulcanisé", "zélé"];
+/*
+The following words are nouns ending in -é or -ée and starting with a vowel.
+These words need to be checked with -s suffixes and l' and d' prefixes.
+ */
+var nounsStartingWithVowel = ["à-côté", "abbé", "absurdité", "accessibilité", "acerbité", "acidité", "acmé", "acné", "âcreté", "activité", "actualité", "acuité", "adaptabilité", "adiposité", "admissibilité", "adversité", "affabilité", "affectivité", "affidé", "affinité", "agilité", "agressivité", "alacrité", "alcalinité", "altérité", "amabilité", "ambiguïté", "amé", "aménité", "américanité", "amirauté", "amitié", "amoralité", "ancestralité", "ancienneté", "anfractuosité", "angulosité", "animalité", "animosité", "anormalité", "anti-acné", "anti-cité", "anti-criminalité", "anti-gravité", "anti-intimité", "anti-société", "antigravité", "antiquité", "anxiété", "aparté", "applicabilité", "âpreté", "archevêché", "aridité", "artificialité", "asexualité", "asociabilité", "aspérité", "assiduité", "astarté", "atrocité", "austérité", "authenticité", "autodafé", "autorité", "avé", "aveugle-né", "avidité", "ébriété", "effectivité", "efficacité", "égalité", "élasticité", "électricité", "élément-clé", "élémentarité", "éligibilité", "émotivité", "empaffé", "énormité", "entièreté", "entité", "enviandé", "épitomé", "équanimité", "équité", "étanchéité", "éternité", "ethnicité", "étrangéité", "étrangeté", "euromarché", "évêché", "éventualité", "ex-abbé", "ex-fiancé", "excentricité", "exclusivité", "exemplarité", "exhaustivité", "exiguïté", "extériorité", "externalité", "exterritorialité", "extrémité", "idée-clé", "identité", "illégalité", "illégitimité", "imbécillité", "immatérialité", "immaturité", "immédiateté", "immensité", "immobilité", "immoralité", "immortalité", "immuabilité", "immunité", "immutabilité", "impalpabilité", "impartialité", "impassibilité", "impeccabilité", "impécuniosité", "impénétrabilité", "imperméabilité", "impersonnalité", "impétuosité", "impiété", "implacabilité", "impopularité", "impossibilité", "impraticabilité", "imprévisibilité", "improbabilité", "impudicité", "impulsivité", "impunité", "impureté", "inaccessibilité", "inactivité", "inanité", "inauthenticité", "incapacité", "incommodité", "incommunicabilité", "incompatibilité", "incongruité", "incorruptibilité", "incrédibilité", "incrédulité", "incuriosité", "indemnité", "indestructibilité", "indignité", "indisponibilité", "individualité", "indivisibilité", "indocilité", "industrie-clé", "inefficacité", "inégalité", "inéligibilité", "inéluctabilité", "inévitabilité", "inexorabilité", "infaillibilité", "infécondité", "infériorité", "infertilité", "infidélité", "infinité", "infirmité", "inflammabilité", "inflexibilité", "ingéniosité", "ingénuité", "inhospitalité", "inhumanité", "inimitié", "iniquité", "innocuité", "inopportunité", "insalubrité", "insanité", "insécurité", "insensibilité", "inséparabilité", "insincérité", "insipidité", "insonorité", "instabilité", "instantanéité", "insularité", "intangibilité", "intégralité", "intégrité", "intelligibilité", "intemporalité", "intensité", "intentionnalité", "interactivité", "intériorité", "intimité", "intrépidité", "inusabilité", "inutilité", "invalidité", "inventivité", "invincibilité", "inviolabilité", "invisibilité", "invulnérabilité", "irrationalité", "irréalité", "irrecevabilité", "irrégularité", "irréligiosité", "irresponsabilité", "irréversibilité", "irrévocabilité", "irritabilité", "obésité", "objectivité", "obliquité", "obscénité", "obscurité", "obséquiosité", "officialité", "oiseau-clé", "oisiveté", "okoumé", "onctuosité", "opacité", "opiniâtreté", "opportunité", "oralité", "originalité", "ubiquité", "ukulélé", "unanimité", "unicité", "uniformité", "unilatéralité", "unité", "universalité", "université", "urbanité", "utilité", "yé-yé", "yéyé", "achillée", "almée", "aménorrhée", "année", "anti-nausée", "apnée", "apogée", "araignée", "arrière-pensée", "assiettée", "athénée", "auloffée", "aveugle-née", "avrillée", "azalée", "échauffourée", "écuellée", "élysée", "embardée", "empyrée", "épée", "épopée", "étuvée", "ex-allée", "ex-dulcinée", "ex-fiancée", "ex-lycée", "idée", "ipomée", "odyssée", "onomatopée", "orchidée", "orée", "orphée", "urée"];
+/*
+The following words are nouns ending in -é or -ée and starting with a consonant.
+These words need to be checked with -s suffixes.
+*/
+var nounsStartingWithConsonant = ["banalité", "bas-côté", "beaupré", "beauté", "bébé", "bédé", "bénédicité", "bénignité", "bestialité", "bien-fondé", "biodiversité", "bipolarité", "bisexualité", "blé", "bonté", "bout-rimé", "bovidé", "brièveté", "brutalité", "caducité", "café", "callosité", "camélidé", "canapé", "capacité", "capillarité", "captivité", "carte-clé", "caté", "catholicité", "causalité", "causticité", "cavité", "cécité", "célébrité", "célérité", "cérébralité", "cétacé", "charité", "chassé-croisé", "chasteté", "cherté", "chétivité", "chimpanzé", "chrétienté", "ciné", "cinéma-vérité", "circularité", "citoyenneté", "civilité", "clandé", "clandestinité", "clarté", "clé", "clergé", "co-propriété", "coaccusé", "cochonceté", "code-clé", "collectivité", "collégialité", "combativité", "comestibilité", "comité", "commodité", "communauté", "communicabilité", "compacité", "comparabilité", "compatibilité", "compétitivité", "complémentarité", "complexité", "complicité", "comptabilité", "comté", "concavité", "condé", "conductibilité", "conductivité", "confidentialité", "conformité", "confraternité", "congé", "conjugalité", "connectivité", "consanguinité", "constitutionnalité", "contiguïté", "continuité", "contrariété", "contre-gré", "contre-plaqué", "contre-vérité", "contreplaqué", "contrevérité", "convexité", "convivialité", "coopé", "copropriété", "cordialité", "coré", "coriacité", "corporalité", "côté", "créativité", "crédibilité", "crédulité", "crétacé", "criminalité", "cruauté", "crudité", "culpabilité", "cupidité", "curiosité", "cybercafé", "cyprinidé", "dangerosité", "daphné", "dé", "débotté", "décimalité", "décision-clé", "déclivité", "déductibilité", "défectuosité", "degré", "déité", "déloyauté", "demi-clarté", "demi-degré", "demi-liberté", "demi-obscurité", "demi-vérité", "dénatalité", "densité", "député", "dératé", "dernier-né", "désirabilité", "dextérité", "difficulté", "difformité", "dignité", "discontinuité", "disparité", "disponibilité", "diversité", "divinité", "docilité", "domesticité", "doyenné", "dualité", "duché", "duplicité", "durabilité", "dureté", "faculté", "faillibilité", "faisabilité", "familiarité", "fatalité", "fatuité", "fausseté", "fébrilité", "fécondité", "félidé", "félinité", "féminité", "féodalité", "fermeté", "férocité", "ferté", "fertilité", "festivité", "fétidité", "fiabilité", "fibrillé", "fidélité", "fierté", "finalité", "fiscalité", "fixité", "flaccidité", "flatuosité", "flexibilité", "flexuosité", "flottabilité", "fluidité", "fonctionnalité", "formalité", "fossé", "fragilité", "francité", "fraternité", "friabilité", "frigidité", "frilosité", "fringillidé", "frivolité", "frugalité", "fugacité", "furtivité", "futilité", "gaieté", "gaîté", "gallinacé", "gémellité", "généralité", "générosité", "génialité", "génitalité", "germanité", "gibbosité", "globalité", "godemiché", "gracieuseté", "gracilité", "grand-duché", "granité", "gratuité", "gravidité", "gré", "grossièreté", "habileté", "habitabilité", "haute-fidélité", "henné", "hérédité", "hétérogénéité", "hétérosexualité", "hilarité", "histocompatibilité", "historicité", "homme-clé", "homogénéité", "homosexualité", "honnêteté", "honorabilité", "horizontalité", "hospitalité", "hostilité", "humanité", "humidité", "humilité", "hyperacidité", "hyperactivité", "hypercoagulabilité", "hyperémotivité", "hypermarché", "hyperréactivité", "hypersensibilité", "jovialité", "joyeuseté", "jubé", "judaïcité", "judaïté", "judéité", "juvénilité", "karaoké", "karaté", "karité", "kiné", "koré", "lâcheté", "laïcité", "lamedé", "lascivité", "latéralité", "latinité", "laubé", "laxité", "lé", "légalité", "légèreté", "légitimité", "lèse-majesté", "létalité", "lettre-clé", "libéralité", "liberté", "licéité", "limpidité", "liquidité", "lisibilité", "littéralité", "lividité", "localité", "longanimité", "longévité", "loquacité", "loyauté", "lubricité", "lucidité", "luminosité", "macramé", "magnanimité", "majesté", "majorité", "mal-aimé", "mal-baisé", "malhonnêteté", "malignité", "malinké", "malléabilité", "malpropreté", "maniabilité", "manoeuvrabilité", "marginalité", "masculinité", "maskinongé", "massivité", "matérialité", "maternité", "matité", "maturité", "mauvaiseté", "méchanceté", "médiocrité", "médiumnité", "mémé", "mémorabilité", "mendicité", "mensualité", "mentalité", "merveillosité", "méticulosité", "mi-capacité", "mi-été", "mi-meublé", "mi-porté", "mi-réalité", "mi-résigné", "miché", "microgravité", "minorité", "mitoyenneté", "mixité", "mobilité", "mocheté", "modalité", "modernité", "modicité", "moment-clé", "mondanité", "monstruosité", "mont-de-piété", "monumentalité", "mooré", "moralité", "morbidité", "morosité", "mortalité", "mot-clé", "motilité", "motricité", "mousmé", "mucosité", "multiplicité", "multipropriété", "municipalité", "musicalité", "mutabilité", "mutité", "mutualité", "naïveté", "narghilé", "narguilé", "natalité", "nationalité", "nativité", "navigabilité", "nébulosité", "négativité", "néné", "nervosité", "nescafé", "netteté", "neutralité", "névé", "niakoué", "niébé", "nocivité", "non-conformité", "non-culpabilité", "nordicité", "normalité", "notabilité", "notoriété", "nouveauté", "nouvelleté", "nubilité", "nudité", "nue-propriété", "nullité", "nuptialité", "papauté", "papé", "parenté", "parité", "partialité", "particularité", "passiveté", "passivité", "pâté", "paternité", "pause-café", "pauses-café", "pauvreté", "pédé", "pédégé", "pénalité", "pépé", "pérennité", "perfectibilité", "périodicité", "perméabilité", "permissivité", "péroné", "perpétuité", "perplexité", "perré", "personnage-clé", "personnalité", "perspicacité", "perversité", "pèse-bébé", "petit-salé", "photosensibilité", "phrase-clé", "pilosité", "pisé", "pitié", "placidité", "plasticité", "plausibilité", "pluralité", "pluviosité", "point-clé", "poiré", "poire-vérité", "polarité", "polycopié", "polytonalité", "ponctualité", "pongé", "popularité", "porosité", "portabilité", "porte-bébé", "porte-clé", "position-clé", "positivité", "possessivité", "possibilité", "poste-clé", "postérité", "potentialité", "pousse-café", "pré", "pré-salé", "précarité", "préciosité", "précocité", "prématurité", "prévisibilité", "prévôté", "prieuré", "primauté", "principauté", "priorité", "privauté", "probabilité", "probité", "prodigalité", "productivité", "profitabilité", "prolixité", "promiscuité", "proportionnalité", "propreté", "propriété", "prospérité", "proximité", "psyché", "puberté", "publicité", "pudicité", "puérilité", "pugnacité", "puîné", "pureté", "pusillanimité", "qualité", "quantité", "quarté", "quasi-impossibilité", "quasi-impunité", "quasi-nudité", "quasi-totalité", "quasi-unanimité", "question-clé", "quinté", "quotidienneté", "quotité", "radioactivité", "raisiné", "rapacité", "raphé", "rapidité", "rareté", "rationalité", "raucité", "ré", "réactivité", "réalité", "récépissé", "réceptivité", "recevabilité", "réciprocité", "récré", "régularité", "relativité", "religiosité", "rentabilité", "reportage-vérité", "respectabilité", "responsabilité", "réversibilité", "rigidité", "risibilité", "rivalité", "romanité", "rotondité", "roulé-boulé", "royauté", "rugosité", "rusticité", "sagacité", "saint-honoré", "sainteté", "saké", "salacité", "saleté", "salinité", "salmonidé", "salubrité", "santé", "sapidité", "satiété", "sauveté", "scène-clé", "scientificité", "scissiparité", "scolarité", "scrupulosité", "sécurité", "sédentarité", "sélectivité", "semi-liberté", "séné", "sénevé", "sénilité", "sensibilité", "sensorialité", "sensualité", "sentimentalité", "septicité", "sérénité", "sergé", "séropositivité", "sérosité", "serviabilité", "servilité", "sévérité", "sexualité", "similarité", "simplicité", "simultanéité", "sincérité", "singularité", "sinuosité", "sobriété", "sociabilité", "société", "solennité", "solidarité", "solidité", "solubilité", "soluté", "solvabilité", "sommité", "somptuosité", "sonorité", "sordidité", "sororité", "soudaineté", "sous-comité", "sous-humanité", "souveraineté", "spasticité", "spécialité", "spécificité", "sphéricité", "spiritualité", "spontanéité", "sportivité", "spumosité", "stabilité", "sténopé", "stérilité", "stupidité", "suavité", "subjectivité", "sublimité", "subtilité", "succédané", "suggestibilité", "suggestivité", "superficialité", "superfluité", "supériorité", "supermarché", "supraconductivité", "suractivité", "surcapacité", "surdité", "sûreté", "surgé", "surhumanité", "surintensité", "surréalité", "susceptibilité", "suzeraineté", "synthé", "taboulé", "taciturnité", "tamouré", "tangibilité", "tarpé", "technicité", "télé", "témérité", "témoin-clé", "temporalité", "ténacité", "tendreté", "ténébrionidé", "ténuité", "territorialité", "tévé", "thé", "théâtralité", "tiaré", "timidité", "tollé", "tonalité", "tonicité", "totalité", "toxicité", "traçabilité", "tranquillité", "translucidité", "transsexualité", "trinité", "trivialité", "tsé-tsé", "tubérosité", "turbé", "vacuité", "vahiné", "validité", "vanité", "variabilité", "variété", "vassalité", "vastité", "velléité", "vélocité", "vénalité", "vénusté", "véracité", "verbosité", "vérité", "versatilité", "verticalité", "vétusté", "viabilité", "vicinalité", "vicomté", "viduité", "virginité", "virilité", "virtualité", "virtuosité", "viscosité", "visibilité", "vitalité", "vivacité", "volatilité", "volonté", "volubilité", "volupté", "voracité", "vulgarité", "vulnérabilité", "batée", "becquée", "billevesée", "bolée", "bondrée", "borée", "bouée", "bougainvillée", "brouettée", "buée", "caducée", "canne-épée", "casserolée", "cavée", "centaurée", "cépée", "céphalée", "charretée", "chaudronnée", "chicorée", "chorée", "cochlée", "cochonnée", "colée", "contre-allée", "contre-plongée", "corvée", "coryphée", "cucurbitacée", "cuillerée", "culée", "cylindrée", "demi-journée", "demi-volée", "denrée", "dernière-née", "diarrhée", "diatomée", "dionée", "dragée", "dulcinée", "dysménorrhée", "dyspnée", "fée", "feuillée", "flopée", "fournée", "fricassée", "friselée", "galathée", "galée", "giboulée", "giroflée", "gonorrhée", "goulée", "graminée", "guinée", "gynécée", "haquenée", "hottée", "hyménée", "hyperborée", "hypogée", "journée", "lance-fusée", "litée", "logorrhée", "lycée", "macchabée", "mainlevée", "maisonnée", "mal-aimée", "mal-baisée", "maréchaussée", "marée", "mausolée", "mélopée", "mi-effrontée", "mi-journée", "miellée", "mijaurée", "mosquée", "moteur-fusée", "muflée", "nausée", "nuée", "nuitée", "panacée", "pâtée", "peignée", "pelletée", "pépée", "périgée", "périnée", "pharmacopée", "pipée", "platée", "pochetée", "pochetée", "poignée", "poirée", "poisson-épée", "porte-épée", "potée", "poupée", "première-née", "prérentrée", "presse-purée", "prytanée", "purée", "quasi-fiancée", "ramée", "raz-de-marée", "resucée", "rétrofusée", "rez-de-chaussée", "risée", "ruchée", "scarabée", "séborrhée", "sigisbée", "simagrée", "singe-araignée", "soirée", "solanacée", "tablée", "tinée", "trachée", "trâlée", "transfusée", "travée", "trépanée", "trochée", "trophée", "vallée", "ventrée", "vesprée"];
+// These words do not need to be checked with any suffixes.
+var others = ["bé", "cré", "crédié", "é", "loucedé", "eussé", "hé", "malgré", "moitié-moitié", "ohé", "olé", "ollé", "sacrédié", "d'emblée", "quasi-instantanée"];
+module.exports = function () {
+    return {
+        adjectivesVerbs: adjectivesVerbs,
+        nounsStartingWithVowel: nounsStartingWithVowel,
+        nounsStartingWithConsonant: nounsStartingWithConsonant,
+        others: others
+    };
+};
+//# sourceMappingURL=exceptionsParticiples.js.map
+//# sourceMappingURL=exceptionsParticiples.js.map
+
+/***/ }),
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8473,17 +8753,17 @@ function nextTick(fn, arg1, arg2, arg3) {
       });
   }
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(56)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(57)))
 
 /***/ }),
-/* 171 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 /* eslint-disable node/no-deprecated-api */
-var buffer = __webpack_require__(299);
+var buffer = __webpack_require__(308);
 var Buffer = buffer.Buffer;
 
 // alternative to using Object.keys for old browsers
@@ -8546,15 +8826,15 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 };
 
 /***/ }),
-/* 172 */,
-/* 173 */
+/* 176 */,
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var baseAssignValue = __webpack_require__(76),
-    eq = __webpack_require__(35);
+    eq = __webpack_require__(36);
 
 /**
  * This function is like `assignValue` except that it doesn't assign
@@ -8574,7 +8854,7 @@ function assignMergeValue(object, key, value) {
 module.exports = assignMergeValue;
 
 /***/ }),
-/* 174 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8595,9 +8875,9 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactIntl = __webpack_require__(32);
+var _reactIntl = __webpack_require__(34);
 
-var _A11yNotice = __webpack_require__(275);
+var _A11yNotice = __webpack_require__(279);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8656,10 +8936,10 @@ var makeOutboundLink = exports.makeOutboundLink = function makeOutboundLink() {
 };
 
 /***/ }),
-/* 175 */,
-/* 176 */,
-/* 177 */,
-/* 178 */
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9737,16 +10017,16 @@ in order to offer easy upgrades -- jsgettext.berlios.de
 })(undefined);
 
 /***/ }),
-/* 179 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isFunction = __webpack_require__(57),
-    isMasked = __webpack_require__(182),
+var isFunction = __webpack_require__(58),
+    isMasked = __webpack_require__(186),
     isObject = __webpack_require__(6),
-    toSource = __webpack_require__(102);
+    toSource = __webpack_require__(103);
 
 /**
  * Used to match `RegExp`
@@ -9789,13 +10069,13 @@ function baseIsNative(value) {
 module.exports = baseIsNative;
 
 /***/ }),
-/* 180 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Symbol = __webpack_require__(22);
+var _Symbol = __webpack_require__(24);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -9843,7 +10123,7 @@ function getRawTag(value) {
 module.exports = getRawTag;
 
 /***/ }),
-/* 181 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9873,13 +10153,13 @@ function objectToString(value) {
 module.exports = objectToString;
 
 /***/ }),
-/* 182 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var coreJsData = __webpack_require__(183);
+var coreJsData = __webpack_require__(187);
 
 /** Used to detect methods masquerading as native. */
 var maskSrcKey = function () {
@@ -9901,7 +10181,7 @@ function isMasked(func) {
 module.exports = isMasked;
 
 /***/ }),
-/* 183 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9915,7 +10195,7 @@ var coreJsData = root['__core-js_shared__'];
 module.exports = coreJsData;
 
 /***/ }),
-/* 184 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9936,15 +10216,15 @@ function getValue(object, key) {
 module.exports = getValue;
 
 /***/ }),
-/* 185 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var constant = __webpack_require__(186),
-    defineProperty = __webpack_require__(100),
-    identity = __webpack_require__(49);
+var constant = __webpack_require__(190),
+    defineProperty = __webpack_require__(101),
+    identity = __webpack_require__(51);
 
 /**
  * The base implementation of `setToString` without support for hot loop shorting.
@@ -9966,7 +10246,7 @@ var baseSetToString = !defineProperty ? identity : function (func, string) {
 module.exports = baseSetToString;
 
 /***/ }),
-/* 186 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10000,7 +10280,7 @@ function constant(value) {
 module.exports = constant;
 
 /***/ }),
-/* 187 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10045,7 +10325,7 @@ function shortOut(func) {
 module.exports = shortOut;
 
 /***/ }),
-/* 188 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10053,8 +10333,8 @@ module.exports = shortOut;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var eq = __webpack_require__(35),
-    isArrayLike = __webpack_require__(21),
+var eq = __webpack_require__(36),
+    isArrayLike = __webpack_require__(23),
     isIndex = __webpack_require__(77),
     isObject = __webpack_require__(6);
 
@@ -10082,7 +10362,7 @@ function isIterateeCall(value, index, object) {
 module.exports = isIterateeCall;
 
 /***/ }),
-/* 189 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10110,13 +10390,13 @@ function baseTimes(n, iteratee) {
 module.exports = baseTimes;
 
 /***/ }),
-/* 190 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetTag = __webpack_require__(16),
+var baseGetTag = __webpack_require__(17),
     isObjectLike = __webpack_require__(13);
 
 /** `Object#toString` result references. */
@@ -10136,7 +10416,7 @@ function baseIsArguments(value) {
 module.exports = baseIsArguments;
 
 /***/ }),
-/* 191 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10162,13 +10442,13 @@ function stubFalse() {
 module.exports = stubFalse;
 
 /***/ }),
-/* 192 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetTag = __webpack_require__(16),
+var baseGetTag = __webpack_require__(17),
     isLength = __webpack_require__(81),
     isObjectLike = __webpack_require__(13);
 
@@ -10218,7 +10498,7 @@ function baseIsTypedArray(value) {
 module.exports = baseIsTypedArray;
 
 /***/ }),
-/* 193 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10226,7 +10506,7 @@ module.exports = baseIsTypedArray;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var freeGlobal = __webpack_require__(101);
+var freeGlobal = __webpack_require__(102);
 
 /** Detect free variable `exports`. */
 var freeExports = ( false ? 'undefined' : _typeof(exports)) == 'object' && exports && !exports.nodeType && exports;
@@ -10248,16 +10528,16 @@ var nodeUtil = function () {
 }();
 
 module.exports = nodeUtil;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42)(module)))
 
 /***/ }),
-/* 194 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var overArg = __webpack_require__(105);
+var overArg = __webpack_require__(106);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = overArg(Object.keys, Object);
@@ -10265,7 +10545,7 @@ var nativeKeys = overArg(Object.keys, Object);
 module.exports = nativeKeys;
 
 /***/ }),
-/* 195 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10286,13 +10566,13 @@ function listCacheClear() {
 module.exports = listCacheClear;
 
 /***/ }),
-/* 196 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assocIndexOf = __webpack_require__(42);
+var assocIndexOf = __webpack_require__(44);
 
 /** Used for built-in method references. */
 var arrayProto = Array.prototype;
@@ -10329,13 +10609,13 @@ function listCacheDelete(key) {
 module.exports = listCacheDelete;
 
 /***/ }),
-/* 197 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assocIndexOf = __webpack_require__(42);
+var assocIndexOf = __webpack_require__(44);
 
 /**
  * Gets the list cache value for `key`.
@@ -10356,13 +10636,13 @@ function listCacheGet(key) {
 module.exports = listCacheGet;
 
 /***/ }),
-/* 198 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assocIndexOf = __webpack_require__(42);
+var assocIndexOf = __webpack_require__(44);
 
 /**
  * Checks if a list cache value for `key` exists.
@@ -10380,13 +10660,13 @@ function listCacheHas(key) {
 module.exports = listCacheHas;
 
 /***/ }),
-/* 199 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assocIndexOf = __webpack_require__(42);
+var assocIndexOf = __webpack_require__(44);
 
 /**
  * Sets the list cache `key` to `value`.
@@ -10414,13 +10694,13 @@ function listCacheSet(key, value) {
 module.exports = listCacheSet;
 
 /***/ }),
-/* 200 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var ListCache = __webpack_require__(41);
+var ListCache = __webpack_require__(43);
 
 /**
  * Removes all key-value entries from the stack.
@@ -10437,7 +10717,7 @@ function stackClear() {
 module.exports = stackClear;
 
 /***/ }),
-/* 201 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10463,7 +10743,7 @@ function stackDelete(key) {
 module.exports = stackDelete;
 
 /***/ }),
-/* 202 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10485,7 +10765,7 @@ function stackGet(key) {
 module.exports = stackGet;
 
 /***/ }),
-/* 203 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10507,14 +10787,14 @@ function stackHas(key) {
 module.exports = stackHas;
 
 /***/ }),
-/* 204 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var ListCache = __webpack_require__(41),
-    Map = __webpack_require__(59),
+var ListCache = __webpack_require__(43),
+    Map = __webpack_require__(60),
     MapCache = __webpack_require__(83);
 
 /** Used as the size to enable large array optimizations. */
@@ -10549,15 +10829,15 @@ function stackSet(key, value) {
 module.exports = stackSet;
 
 /***/ }),
-/* 205 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Hash = __webpack_require__(206),
-    ListCache = __webpack_require__(41),
-    Map = __webpack_require__(59);
+var Hash = __webpack_require__(210),
+    ListCache = __webpack_require__(43),
+    Map = __webpack_require__(60);
 
 /**
  * Removes all key-value entries from the map.
@@ -10578,17 +10858,17 @@ function mapCacheClear() {
 module.exports = mapCacheClear;
 
 /***/ }),
-/* 206 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var hashClear = __webpack_require__(207),
-    hashDelete = __webpack_require__(208),
-    hashGet = __webpack_require__(209),
-    hashHas = __webpack_require__(210),
-    hashSet = __webpack_require__(211);
+var hashClear = __webpack_require__(211),
+    hashDelete = __webpack_require__(212),
+    hashGet = __webpack_require__(213),
+    hashHas = __webpack_require__(214),
+    hashSet = __webpack_require__(215);
 
 /**
  * Creates a hash object.
@@ -10618,13 +10898,13 @@ Hash.prototype.set = hashSet;
 module.exports = Hash;
 
 /***/ }),
-/* 207 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var nativeCreate = __webpack_require__(43);
+var nativeCreate = __webpack_require__(45);
 
 /**
  * Removes all key-value entries from the hash.
@@ -10641,7 +10921,7 @@ function hashClear() {
 module.exports = hashClear;
 
 /***/ }),
-/* 208 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10666,13 +10946,13 @@ function hashDelete(key) {
 module.exports = hashDelete;
 
 /***/ }),
-/* 209 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var nativeCreate = __webpack_require__(43);
+var nativeCreate = __webpack_require__(45);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -10704,13 +10984,13 @@ function hashGet(key) {
 module.exports = hashGet;
 
 /***/ }),
-/* 210 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var nativeCreate = __webpack_require__(43);
+var nativeCreate = __webpack_require__(45);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -10735,13 +11015,13 @@ function hashHas(key) {
 module.exports = hashHas;
 
 /***/ }),
-/* 211 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var nativeCreate = __webpack_require__(43);
+var nativeCreate = __webpack_require__(45);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -10766,13 +11046,13 @@ function hashSet(key, value) {
 module.exports = hashSet;
 
 /***/ }),
-/* 212 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getMapData = __webpack_require__(44);
+var getMapData = __webpack_require__(46);
 
 /**
  * Removes `key` and its value from the map.
@@ -10792,7 +11072,7 @@ function mapCacheDelete(key) {
 module.exports = mapCacheDelete;
 
 /***/ }),
-/* 213 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10815,13 +11095,13 @@ function isKeyable(value) {
 module.exports = isKeyable;
 
 /***/ }),
-/* 214 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getMapData = __webpack_require__(44);
+var getMapData = __webpack_require__(46);
 
 /**
  * Gets the map value for `key`.
@@ -10839,13 +11119,13 @@ function mapCacheGet(key) {
 module.exports = mapCacheGet;
 
 /***/ }),
-/* 215 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getMapData = __webpack_require__(44);
+var getMapData = __webpack_require__(46);
 
 /**
  * Checks if a map value for `key` exists.
@@ -10863,13 +11143,13 @@ function mapCacheHas(key) {
 module.exports = mapCacheHas;
 
 /***/ }),
-/* 216 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getMapData = __webpack_require__(44);
+var getMapData = __webpack_require__(46);
 
 /**
  * Sets the map `key` to `value`.
@@ -10893,13 +11173,13 @@ function mapCacheSet(key, value) {
 module.exports = mapCacheSet;
 
 /***/ }),
-/* 217 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createBaseFor = __webpack_require__(339);
+var createBaseFor = __webpack_require__(348);
 
 /**
  * The base implementation of `baseForOwn` which iterates over `object`
@@ -10917,15 +11197,15 @@ var baseFor = createBaseFor();
 module.exports = baseFor;
 
 /***/ }),
-/* 218 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var isObject = __webpack_require__(6),
-    isPrototype = __webpack_require__(50),
-    nativeKeysIn = __webpack_require__(219);
+    isPrototype = __webpack_require__(52),
+    nativeKeysIn = __webpack_require__(223);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -10958,7 +11238,7 @@ function baseKeysIn(object) {
 module.exports = baseKeysIn;
 
 /***/ }),
-/* 219 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10986,9 +11266,9 @@ function nativeKeysIn(object) {
 module.exports = nativeKeysIn;
 
 /***/ }),
-/* 220 */,
-/* 221 */,
-/* 222 */
+/* 224 */,
+/* 225 */,
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11079,13 +11359,13 @@ var objectKeys = Object.keys || function (obj) {
 };
 
 /***/ }),
-/* 223 */
+/* 227 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 224 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11093,8 +11373,8 @@ var objectKeys = Object.keys || function (obj) {
 
 
 
-var src$core$$ = __webpack_require__(225),
-    src$en$$ = __webpack_require__(230);
+var src$core$$ = __webpack_require__(229),
+    src$en$$ = __webpack_require__(234);
 
 src$core$$["default"].__addLocaleData(src$en$$["default"]);
 src$core$$["default"].defaultLocale = 'en';
@@ -11104,7 +11384,7 @@ exports["default"] = src$core$$["default"];
 //# sourceMappingURL=main.js.map
 
 /***/ }),
-/* 225 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11118,10 +11398,10 @@ See the accompanying LICENSE file for terms.
 
 
 
-var src$utils$$ = __webpack_require__(109),
-    src$es5$$ = __webpack_require__(226),
-    src$compiler$$ = __webpack_require__(227),
-    intl$messageformat$parser$$ = __webpack_require__(228);
+var src$utils$$ = __webpack_require__(110),
+    src$es5$$ = __webpack_require__(230),
+    src$compiler$$ = __webpack_require__(231),
+    intl$messageformat$parser$$ = __webpack_require__(232);
 exports["default"] = MessageFormat;
 
 // -- MessageFormat --------------------------------------------------------
@@ -11386,7 +11666,7 @@ MessageFormat.prototype._resolveLocale = function (locales) {
 //# sourceMappingURL=core.js.map
 
 /***/ }),
-/* 226 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11400,7 +11680,7 @@ See the accompanying LICENSE file for terms.
 
 
 
-var src$utils$$ = __webpack_require__(109);
+var src$utils$$ = __webpack_require__(110);
 
 // Purposely using the same implementation as the Intl.js `Intl` polyfill.
 // Copyright 2013 Andy Earnshaw, MIT License
@@ -11445,7 +11725,7 @@ exports.defineProperty = defineProperty, exports.objCreate = objCreate;
 //# sourceMappingURL=es5.js.map
 
 /***/ }),
-/* 227 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11652,17 +11932,17 @@ SelectFormat.prototype.getOption = function (value) {
 //# sourceMappingURL=compiler.js.map
 
 /***/ }),
-/* 228 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports = module.exports = __webpack_require__(229)['default'];
+exports = module.exports = __webpack_require__(233)['default'];
 exports['default'] = exports;
 
 /***/ }),
-/* 229 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13126,7 +13406,7 @@ exports["default"] = function () {
 //# sourceMappingURL=parser.js.map
 
 /***/ }),
-/* 230 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13144,13 +13424,13 @@ exports["default"] = { "locale": "en", "pluralRuleFunction": function pluralRule
 //# sourceMappingURL=en.js.map
 
 /***/ }),
-/* 231 */
+/* 235 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 232 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13158,11 +13438,11 @@ exports["default"] = { "locale": "en", "pluralRuleFunction": function pluralRule
 
 
 
-var IntlRelativeFormat = __webpack_require__(233)['default'];
+var IntlRelativeFormat = __webpack_require__(237)['default'];
 
 // Add all locale data to `IntlRelativeFormat`. This module will be ignored when
 // bundling for the browser with Browserify/Webpack.
-__webpack_require__(238);
+__webpack_require__(242);
 
 // Re-export `IntlRelativeFormat` as the CommonJS default exports with all the
 // locale data registered, and with English set as the default locale. Define
@@ -13171,7 +13451,7 @@ exports = module.exports = IntlRelativeFormat;
 exports['default'] = exports;
 
 /***/ }),
-/* 233 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13179,8 +13459,8 @@ exports['default'] = exports;
 
 
 
-var src$core$$ = __webpack_require__(234),
-    src$en$$ = __webpack_require__(237);
+var src$core$$ = __webpack_require__(238),
+    src$en$$ = __webpack_require__(241);
 
 src$core$$["default"].__addLocaleData(src$en$$["default"]);
 src$core$$["default"].defaultLocale = 'en';
@@ -13190,7 +13470,7 @@ exports["default"] = src$core$$["default"];
 //# sourceMappingURL=main.js.map
 
 /***/ }),
-/* 234 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13204,9 +13484,9 @@ See the accompanying LICENSE file for terms.
 
 
 
-var intl$messageformat$$ = __webpack_require__(108),
-    src$diff$$ = __webpack_require__(235),
-    src$es5$$ = __webpack_require__(236);
+var intl$messageformat$$ = __webpack_require__(109),
+    src$diff$$ = __webpack_require__(239),
+    src$es5$$ = __webpack_require__(240);
 exports["default"] = RelativeFormat;
 
 // -----------------------------------------------------------------------------
@@ -13472,7 +13752,7 @@ RelativeFormat.prototype._selectUnits = function (diffReport) {
 //# sourceMappingURL=core.js.map
 
 /***/ }),
-/* 235 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13531,7 +13811,7 @@ exports["default"] = function (from, to) {
 //# sourceMappingURL=diff.js.map
 
 /***/ }),
-/* 236 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13615,7 +13895,7 @@ exports.defineProperty = defineProperty, exports.objCreate = objCreate, exports.
 //# sourceMappingURL=es5.js.map
 
 /***/ }),
-/* 237 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13633,23 +13913,23 @@ exports["default"] = { "locale": "en", "pluralRuleFunction": function pluralRule
 //# sourceMappingURL=en.js.map
 
 /***/ }),
-/* 238 */
+/* 242 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 239 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports = module.exports = __webpack_require__(240)['default'];
+exports = module.exports = __webpack_require__(244)['default'];
 exports['default'] = exports;
 
 /***/ }),
-/* 240 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13665,7 +13945,7 @@ See the accompanying LICENSE file for terms.
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var src$es5$$ = __webpack_require__(241);
+var src$es5$$ = __webpack_require__(245);
 exports["default"] = createFormatCache;
 
 // -----------------------------------------------------------------------------
@@ -13743,7 +14023,7 @@ function orderedProps(obj) {
 //# sourceMappingURL=memoizer.js.map
 
 /***/ }),
-/* 241 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13828,7 +14108,7 @@ exports.bind = bind, exports.defineProperty = defineProperty, exports.objCreate 
 //# sourceMappingURL=es5.js.map
 
 /***/ }),
-/* 242 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13859,14 +14139,14 @@ var now = function now() {
 module.exports = now;
 
 /***/ }),
-/* 243 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(19),
-    keys = __webpack_require__(29);
+var copyObject = __webpack_require__(21),
+    keys = __webpack_require__(30);
 
 /**
  * The base implementation of `_.assign` without support for multiple sources
@@ -13884,14 +14164,14 @@ function baseAssign(object, source) {
 module.exports = baseAssign;
 
 /***/ }),
-/* 244 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(19),
-    keysIn = __webpack_require__(45);
+var copyObject = __webpack_require__(21),
+    keysIn = __webpack_require__(47);
 
 /**
  * The base implementation of `_.assignIn` without support for multiple sources
@@ -13909,14 +14189,14 @@ function baseAssignIn(object, source) {
 module.exports = baseAssignIn;
 
 /***/ }),
-/* 245 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(19),
-    getSymbols = __webpack_require__(64);
+var copyObject = __webpack_require__(21),
+    getSymbols = __webpack_require__(65);
 
 /**
  * Copies own symbols of `source` to `object`.
@@ -13933,14 +14213,14 @@ function copySymbols(source, object) {
 module.exports = copySymbols;
 
 /***/ }),
-/* 246 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(19),
-    getSymbolsIn = __webpack_require__(114);
+var copyObject = __webpack_require__(21),
+    getSymbolsIn = __webpack_require__(115);
 
 /**
  * Copies own and inherited symbols of `source` to `object`.
@@ -13957,13 +14237,13 @@ function copySymbolsIn(source, object) {
 module.exports = copySymbolsIn;
 
 /***/ }),
-/* 247 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getNative = __webpack_require__(15),
+var getNative = __webpack_require__(16),
     root = __webpack_require__(8);
 
 /* Built-in method references that are verified to be native. */
@@ -13972,13 +14252,13 @@ var DataView = getNative(root, 'DataView');
 module.exports = DataView;
 
 /***/ }),
-/* 248 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getNative = __webpack_require__(15),
+var getNative = __webpack_require__(16),
     root = __webpack_require__(8);
 
 /* Built-in method references that are verified to be native. */
@@ -13987,7 +14267,7 @@ var Promise = getNative(root, 'Promise');
 module.exports = Promise;
 
 /***/ }),
-/* 249 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14021,18 +14301,18 @@ function initCloneArray(array) {
 module.exports = initCloneArray;
 
 /***/ }),
-/* 250 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var cloneArrayBuffer = __webpack_require__(60),
-    cloneDataView = __webpack_require__(251),
-    cloneMap = __webpack_require__(252),
-    cloneRegExp = __webpack_require__(254),
-    cloneSet = __webpack_require__(255),
-    cloneSymbol = __webpack_require__(257),
+var cloneArrayBuffer = __webpack_require__(61),
+    cloneDataView = __webpack_require__(255),
+    cloneMap = __webpack_require__(256),
+    cloneRegExp = __webpack_require__(258),
+    cloneSet = __webpack_require__(259),
+    cloneSymbol = __webpack_require__(261),
     cloneTypedArray = __webpack_require__(136);
 
 /** `Object#toString` result references. */
@@ -14109,13 +14389,13 @@ function initCloneByTag(object, tag, cloneFunc, isDeep) {
 module.exports = initCloneByTag;
 
 /***/ }),
-/* 251 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var cloneArrayBuffer = __webpack_require__(60);
+var cloneArrayBuffer = __webpack_require__(61);
 
 /**
  * Creates a clone of `dataView`.
@@ -14133,13 +14413,13 @@ function cloneDataView(dataView, isDeep) {
 module.exports = cloneDataView;
 
 /***/ }),
-/* 252 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var addMapEntry = __webpack_require__(253),
+var addMapEntry = __webpack_require__(257),
     arrayReduce = __webpack_require__(88),
     mapToArray = __webpack_require__(155);
 
@@ -14163,7 +14443,7 @@ function cloneMap(map, isDeep, cloneFunc) {
 module.exports = cloneMap;
 
 /***/ }),
-/* 253 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14186,7 +14466,7 @@ function addMapEntry(map, pair) {
 module.exports = addMapEntry;
 
 /***/ }),
-/* 254 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14211,13 +14491,13 @@ function cloneRegExp(regexp) {
 module.exports = cloneRegExp;
 
 /***/ }),
-/* 255 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var addSetEntry = __webpack_require__(256),
+var addSetEntry = __webpack_require__(260),
     arrayReduce = __webpack_require__(88),
     setToArray = __webpack_require__(89);
 
@@ -14241,7 +14521,7 @@ function cloneSet(set, isDeep, cloneFunc) {
 module.exports = cloneSet;
 
 /***/ }),
-/* 256 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14264,13 +14544,13 @@ function addSetEntry(set, value) {
 module.exports = addSetEntry;
 
 /***/ }),
-/* 257 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Symbol = __webpack_require__(22);
+var _Symbol = __webpack_require__(24);
 
 /** Used to convert symbols to primitives and strings. */
 var symbolProto = _Symbol ? _Symbol.prototype : undefined,
@@ -14290,16 +14570,16 @@ function cloneSymbol(symbol) {
 module.exports = cloneSymbol;
 
 /***/ }),
-/* 258 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var castPath = __webpack_require__(37),
-    last = __webpack_require__(262),
-    parent = __webpack_require__(263),
-    toKey = __webpack_require__(46);
+var castPath = __webpack_require__(38),
+    last = __webpack_require__(266),
+    parent = __webpack_require__(267),
+    toKey = __webpack_require__(48);
 
 /**
  * The base implementation of `_.unset`.
@@ -14318,13 +14598,13 @@ function baseUnset(object, path) {
 module.exports = baseUnset;
 
 /***/ }),
-/* 259 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var memoizeCapped = __webpack_require__(260);
+var memoizeCapped = __webpack_require__(264);
 
 /** Used to match property names within property paths. */
 var reLeadingDot = /^\./,
@@ -14354,13 +14634,13 @@ var stringToPath = memoizeCapped(function (string) {
 module.exports = stringToPath;
 
 /***/ }),
-/* 260 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var memoize = __webpack_require__(53);
+var memoize = __webpack_require__(39);
 
 /** Used as the maximum memoize cache size. */
 var MAX_MEMOIZE_SIZE = 500;
@@ -14388,16 +14668,16 @@ function memoizeCapped(func) {
 module.exports = memoizeCapped;
 
 /***/ }),
-/* 261 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Symbol = __webpack_require__(22),
-    arrayMap = __webpack_require__(30),
-    isArray = __webpack_require__(2),
-    isSymbol = __webpack_require__(36);
+var _Symbol = __webpack_require__(24),
+    arrayMap = __webpack_require__(31),
+    isArray = __webpack_require__(3),
+    isSymbol = __webpack_require__(37);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -14433,7 +14713,7 @@ function baseToString(value) {
 module.exports = baseToString;
 
 /***/ }),
-/* 262 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14461,7 +14741,7 @@ function last(array) {
 module.exports = last;
 
 /***/ }),
-/* 263 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14485,13 +14765,13 @@ function parent(object, path) {
 module.exports = parent;
 
 /***/ }),
-/* 264 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isPlainObject = __webpack_require__(96);
+var isPlainObject = __webpack_require__(97);
 
 /**
  * Used by `_.omit` to customize its `_.cloneDeep` use to only clone plain
@@ -14509,15 +14789,15 @@ function customOmitClone(value) {
 module.exports = customOmitClone;
 
 /***/ }),
-/* 265 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Symbol = __webpack_require__(22),
-    isArguments = __webpack_require__(51),
-    isArray = __webpack_require__(2);
+var _Symbol = __webpack_require__(24),
+    isArguments = __webpack_require__(53),
+    isArray = __webpack_require__(3);
 
 /** Built-in value references. */
 var spreadableSymbol = _Symbol ? _Symbol.isConcatSpreadable : undefined;
@@ -14536,7 +14816,7 @@ function isFlattenable(value) {
 module.exports = isFlattenable;
 
 /***/ }),
-/* 266 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -14555,7 +14835,7 @@ Edit.default = Edit;
 
 
 /***/ }),
-/* 267 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -14574,7 +14854,7 @@ AngleLeft.default = AngleLeft;
 
 
 /***/ }),
-/* 268 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -14593,7 +14873,7 @@ AngleRight.default = AngleRight;
 
 
 /***/ }),
-/* 269 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -14612,7 +14892,7 @@ AngleUp.default = AngleUp;
 
 
 /***/ }),
-/* 270 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -14631,7 +14911,7 @@ AngleDown.default = AngleDown;
 
 
 /***/ }),
-/* 271 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -14650,7 +14930,7 @@ QuestionCircle.default = QuestionCircle;
 
 
 /***/ }),
-/* 272 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -14669,7 +14949,7 @@ Times.default = Times;
 
 
 /***/ }),
-/* 273 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -14688,7 +14968,7 @@ Eye.default = Eye;
 
 
 /***/ }),
-/* 274 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -14707,7 +14987,7 @@ Circle.default = Circle;
 
 
 /***/ }),
-/* 275 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14736,14 +15016,14 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 var A11yNotice = exports.A11yNotice = _styledComponents2.default.span(_templateObject);
 
 /***/ }),
-/* 276 */,
-/* 277 */
+/* 280 */,
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetTag = __webpack_require__(16),
+var baseGetTag = __webpack_require__(17),
     isObjectLike = __webpack_require__(13);
 
 /** `Object#toString` result references. */
@@ -14782,54 +15062,48 @@ function isNumber(value) {
 module.exports = isNumber;
 
 /***/ }),
-/* 278 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _sentences = __webpack_require__(523);
-
-var _sentences2 = _interopRequireDefault(_sentences);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
-}
-
-var merge = __webpack_require__(23);
-var InvalidTypeError = __webpack_require__(361);
+Object.defineProperty(exports, "__esModule", { value: true });
+var sentences_1 = __webpack_require__(532);
+var merge = __webpack_require__(25);
+var InvalidTypeError = __webpack_require__(370);
 var MissingArgument = __webpack_require__(162);
-var isUndefined = __webpack_require__(3);
-var isEmpty = __webpack_require__(25);
+var isUndefined = __webpack_require__(4);
+var isEmpty = __webpack_require__(15);
 // Researches
-var wordCountInText = __webpack_require__(542);
-var getLinkStatistics = __webpack_require__(544);
-var linkCount = __webpack_require__(554);
-var getLinks = __webpack_require__(364);
-var urlLength = __webpack_require__(555);
-var findKeywordInPageTitle = __webpack_require__(556);
-var matchKeywordInSubheadings = __webpack_require__(557);
-var getKeywordDensity = __webpack_require__(562);
-var stopWordsInKeyword = __webpack_require__(563);
-var stopWordsInUrl = __webpack_require__(566);
-var calculateFleschReading = __webpack_require__(567);
-var metaDescriptionLength = __webpack_require__(584);
-var imageCount = __webpack_require__(585);
-var altTagCount = __webpack_require__(587);
-var keyphraseLength = __webpack_require__(589);
-var metaDescriptionKeyword = __webpack_require__(590);
-var keywordCountInUrl = __webpack_require__(591);
-var findKeywordInFirstParagraph = __webpack_require__(592);
-var pageTitleWidth = __webpack_require__(594);
-var wordComplexity = __webpack_require__(595);
-var getParagraphLength = __webpack_require__(596);
-var countSentencesFromText = __webpack_require__(597);
-var countSentencesFromDescription = __webpack_require__(598);
-var getSubheadingTextLengths = __webpack_require__(599);
-var findTransitionWords = __webpack_require__(601);
-var passiveVoice = __webpack_require__(614);
-var getSentenceBeginnings = __webpack_require__(637);
-var relevantWords = __webpack_require__(645);
+var wordCountInText = __webpack_require__(551);
+var getLinkStatistics = __webpack_require__(553);
+var linkCount = __webpack_require__(563);
+var getLinks = __webpack_require__(373);
+var urlLength = __webpack_require__(564);
+var findKeywordInPageTitle = __webpack_require__(565);
+var matchKeywordInSubheadings = __webpack_require__(566);
+var getKeywordDensity = __webpack_require__(571);
+var stopWordsInKeyword = __webpack_require__(572);
+var stopWordsInUrl = __webpack_require__(575);
+var calculateFleschReading = __webpack_require__(576);
+var metaDescriptionLength = __webpack_require__(593);
+var imageCount = __webpack_require__(594);
+var altTagCount = __webpack_require__(596);
+var keyphraseLength = __webpack_require__(598);
+var metaDescriptionKeyword = __webpack_require__(599);
+var keywordCountInUrl = __webpack_require__(600);
+var findKeywordInFirstParagraph = __webpack_require__(601);
+var pageTitleWidth = __webpack_require__(603);
+var wordComplexity = __webpack_require__(604);
+var getParagraphLength = __webpack_require__(605);
+var countSentencesFromText = __webpack_require__(606);
+var countSentencesFromDescription = __webpack_require__(607);
+var getSubheadingTextLengths = __webpack_require__(608);
+var findTransitionWords = __webpack_require__(610);
+var passiveVoice = __webpack_require__(623);
+var getSentenceBeginnings = __webpack_require__(656);
+var relevantWords = __webpack_require__(664);
 /**
  * This contains all possible, default researches.
  * @param {Paper} paper The Paper object that is needed within the researches.
@@ -14867,7 +15141,7 @@ var Researcher = function Researcher(paper) {
         passiveVoice: passiveVoice,
         getSentenceBeginnings: getSentenceBeginnings,
         relevantWords: relevantWords,
-        sentences: _sentences2.default
+        sentences: sentences_1.default
     };
     this.customResearches = {};
 };
@@ -14934,7 +15208,7 @@ module.exports = Researcher;
 //# sourceMappingURL=researcher.js.map
 
 /***/ }),
-/* 279 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14953,9 +15227,9 @@ var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
 var contentRegex = /^[^<]+$/;
 var greaterThanContentRegex = /^<[^><]*$/;
 var commentRegex = /<!--(.|[\r\n])*?-->/g;
-var core = __webpack_require__(359);
-var forEach = __webpack_require__(5);
-var memoize = __webpack_require__(53);
+var core = __webpack_require__(368);
+var forEach = __webpack_require__(2);
+var memoize = __webpack_require__(39);
 var tokens = [];
 var htmlBlockTokenizer;
 /**
@@ -15079,16 +15353,16 @@ module.exports = {
 //# sourceMappingURL=html.js.map
 
 /***/ }),
-/* 280 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var map = __webpack_require__(9);
-var addWordBoundary = __webpack_require__(124);
-var stripSpaces = __webpack_require__(27);
-var transliterate = __webpack_require__(363);
+var addWordBoundary = __webpack_require__(125);
+var stripSpaces = __webpack_require__(28);
+var transliterate = __webpack_require__(372);
 /**
  * Creates a regex from the keyword with included wordboundaries.
  * @param {string} keyword The keyword to create a regex from.
@@ -15121,14 +15395,14 @@ module.exports = function (text, keyword, locale) {
 //# sourceMappingURL=matchTextWithTransliteration.js.map
 
 /***/ }),
-/* 281 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
-var urlMethods = __webpack_require__(548);
+var urlMethods = __webpack_require__(557);
 /**
  * Removes a hash from a URL, assumes a well formed URL.
  *
@@ -15166,7 +15440,7 @@ function addTrailingSlash(url) {
     return removeTrailingSlash(url) + "/";
 }
 /**
- * Retrieves the URL from an anchor tag
+ * Retrieves the URL from an anchor tag.
  *
  * @param {string} anchorTag An anchor tag.
  * @returns {string} The URL in the anchor tag.
@@ -15176,7 +15450,7 @@ function getFromAnchorTag(anchorTag) {
     return urlMatch === null ? "" : urlMatch[2];
 }
 /**
- * Returns whether or not the given URLs are equal
+ * Returns whether or not the given URLs are equal.
  *
  * @param {string} urlA The first URL to compare.
  * @param {string} urlB The second URL to compare.
@@ -15190,7 +15464,7 @@ function areEqual(urlA, urlB) {
     return addTrailingSlash(urlA) === addTrailingSlash(urlB);
 }
 /**
- * Returns the domain name of a URL
+ * Returns the domain name of a URL.
  *
  * @param {string} url The URL to retrieve the domain name of.
  * @returns {string} The domain name of the URL.
@@ -15199,6 +15473,64 @@ function getHostname(url) {
     url = urlMethods.parse(url);
     return url.hostname;
 }
+/**
+ * Returns the protocol of a URL.
+ *
+ * Note that the colon (http:) is also part of the protocol, conform to node's url.parse api.
+ *
+ * @param {string} url The URL to retrieve the protocol of.
+ * @returns {string|null} The protocol of the URL or null if no protocol is present.
+ */
+function getProtocol(url) {
+    return urlMethods.parse(url).protocol;
+}
+/**
+ * Determine whether a URL is internal.
+ *
+ * @param {string} url The URL to test.
+ * @param {string} host The current host.
+ *
+ * @returns {boolean} Whether or not the URL is internal.
+ */
+function isInternalLink(url, host) {
+    var parsedUrl = urlMethods.parse(url, false, true);
+    // Check if the URL starts with a single slash.
+    if (url.indexOf("//") === -1 && url.indexOf("/") === 0) {
+        return true;
+    }
+    // Check if the URL starts with a # indicating a fragment.
+    if (url.indexOf("#") === 0) {
+        return false;
+    }
+    // No host indicates an internal link.
+    if (!parsedUrl.host) {
+        return true;
+    }
+    return parsedUrl.host === host;
+}
+/**
+ * Checks whether the protocol is either HTTP: or HTTPS:.
+ *
+ * @param {string} protocol The protocol to test.
+ *
+ * @returns {boolean} Whether the protocol is http(s):.
+ */
+function protocolIsHttpScheme(protocol) {
+    if (!protocol) {
+        return false;
+    }
+    return protocol === "http:" || protocol === "https:";
+}
+/**
+ * Determines whether the link is a relative fragment URL.
+ *
+ * @param {string} url The URL to test.
+ *
+ * @returns {boolean} Whether the link is a relative fragment URL.
+ */
+function isRelativeFragmentURL(url) {
+    return url.indexOf("#") === 0;
+}
 module.exports = {
     removeHash: removeHash,
     removeQueryArgs: removeQueryArgs,
@@ -15206,19 +15538,23 @@ module.exports = {
     addTrailingSlash: addTrailingSlash,
     getFromAnchorTag: getFromAnchorTag,
     areEqual: areEqual,
-    getHostname: getHostname
+    getHostname: getHostname,
+    getProtocol: getProtocol,
+    isInternalLink: isInternalLink,
+    protocolIsHttpScheme: protocolIsHttpScheme,
+    isRelativeFragmentURL: isRelativeFragmentURL
 };
 //# sourceMappingURL=url.js.map
 //# sourceMappingURL=url.js.map
 
 /***/ }),
-/* 282 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createFind = __webpack_require__(575),
+var createFind = __webpack_require__(584),
     findIndex = __webpack_require__(168);
 
 /**
@@ -15262,15 +15598,15 @@ var find = createFind(findIndex);
 module.exports = find;
 
 /***/ }),
-/* 283 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var wordBoundaries = __webpack_require__(610)();
-var includes = __webpack_require__(68);
-var addWordBoundary = __webpack_require__(124);
+var wordBoundaries = __webpack_require__(619)();
+var includes = __webpack_require__(33);
+var addWordBoundary = __webpack_require__(125);
 /**
  * Checks whether a character is present in the list of word boundaries.
  *
@@ -15320,15 +15656,15 @@ module.exports = {
 //# sourceMappingURL=matchWordInSentence.js.map
 
 /***/ }),
-/* 284 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseFindIndex = __webpack_require__(371),
-    baseIsNaN = __webpack_require__(611),
-    strictIndexOf = __webpack_require__(612);
+var baseFindIndex = __webpack_require__(380),
+    baseIsNaN = __webpack_require__(620),
+    strictIndexOf = __webpack_require__(621);
 
 /**
  * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
@@ -15346,14 +15682,14 @@ function baseIndexOf(array, value, fromIndex) {
 module.exports = baseIndexOf;
 
 /***/ }),
-/* 285 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetTag = __webpack_require__(16),
-    isArray = __webpack_require__(2),
+var baseGetTag = __webpack_require__(17),
+    isArray = __webpack_require__(3),
     isObjectLike = __webpack_require__(13);
 
 /** `Object#toString` result references. */
@@ -15383,17 +15719,17 @@ function isString(value) {
 module.exports = isString;
 
 /***/ }),
-/* 286 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isUndefined = __webpack_require__(3);
-var forEach = __webpack_require__(5);
-var stripSpaces = __webpack_require__(27);
-var matchWordInSentence = __webpack_require__(283).isWordInSentence;
-var characterInBoundary = __webpack_require__(283).characterInBoundary;
+var isUndefined = __webpack_require__(4);
+var forEach = __webpack_require__(2);
+var stripSpaces = __webpack_require__(28);
+var matchWordInSentence = __webpack_require__(287).isWordInSentence;
+var characterInBoundary = __webpack_require__(287).characterInBoundary;
 /**
  * Returns the indices of a string in a text. If it is found multiple times, it will return multiple indices.
  *
@@ -15482,37 +15818,81 @@ module.exports = {
 //# sourceMappingURL=indices.js.map
 
 /***/ }),
-/* 287 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-// These auxiliaries are filtered from the beginning of word combinations in the prominent words.
+/**
+ * Matches words from a list in sentence parts and returns them and their indices.
+ *
+ * @param {string} sentencePart The sentence part to match the words in.
+ * @param {RegExp} regex The regex used for matching.
+ * @returns {Array} The list of result objects.
+ */
 
-var filteredAuxiliaries = ["am", "is", "are", "was", "were", "been", "get", "gets", "got", "gotten", "be", "she's", "he's", "it's", "i'm", "we're", "they're", "you're", "isn't", "weren't", "wasn't", "that's", "aren't"];
-// These auxiliaries are not filtered from the beginning of word combinations in the prominent words.
-var notFilteredAuxiliaries = ["being", "getting", "having", "what's"];
-module.exports = function () {
-    return {
-        filteredAuxiliaries: filteredAuxiliaries,
-        notFilteredAuxiliaries: notFilteredAuxiliaries,
-        all: filteredAuxiliaries.concat(notFilteredAuxiliaries)
-    };
+module.exports = function (sentencePart, regex) {
+    var results = [];
+    /* Decided to use a for loop here so that we could retrieve all matches while keeping result objects intact.
+    For every match there is in the sentence part, an object with the match and its index will be pushed into
+    the results array. */
+    for (var match = regex.exec(sentencePart); match !== null; match = regex.exec(sentencePart)) {
+        results.push({
+            match: match[0],
+            index: match.index
+        });
+    }
+    return results;
 };
-//# sourceMappingURL=auxiliaries.js.map
-//# sourceMappingURL=auxiliaries.js.map
+//# sourceMappingURL=getIndicesWithRegex.js.map
+//# sourceMappingURL=getIndicesWithRegex.js.map
 
 /***/ }),
-/* 288 */
+/* 292 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/*
+This is a list of irregular participles used in French.
+These participles have an irregular stem but follow a regular conjugation pattern for feminine and plural forms (adding -e, -es, -s).
+The following participles were excluded because they are intransitive verbs that cannot be passive:
+apparu, réapparu, devenu, redevenu, intervenu, mort, parti, parvenu, provenu, resurvenu, revenu, survenu, venu.
+ */
+
+var irregularsRegular = ["abâtardi", "abattu", "abêti", "aboli", "abouti", "abruti", "abstenu", "abstrait", "accompli", "accouru", "accroupi", "accru", "accueilli", "adjoint", "adouci", "advenu", "affadi", "affaibli", "affermi", "agi", "agrandi", "aguerri", "ahuri", "aigri", "alangui", "alenti", "alourdi", "aluni", "amaigri", "amati", "amerri", "aminci", "amoindri", "amolli", "amorti", "anéanti", "apâli", "aperçu", "aplani", "appartenu", "appauvri", "appendu", "appesanti", "applaudi", "approfondi", "arrondi", "assagi", "assailli", "assaini", "asservi", "assombri", "assorti", "assoupi", "assoupli", "assourdi", "assouvi", "assujetti", "astreint", "attendri", "attendu", "atterri", "attiédi", "attrait", "autodétruit", "avachi", "aveuli", "avili", "banni", "barri", "bâti", "battu", "béni", "blanchi", "blêmi", "bleui", "blondi", "blotti", "bonni", "bouffi", "bouilli", "bruni", "bu", "calmi", "candi", "ceint", "chéri", "choisi", "circonscrit", "circonvenu", "combattu", "comparu", "compati", "conclu", "concouru", "condescendu", "conduit", "confit", "confondu", "conjoint", "connu", "consenti", "construit", "contenu", "contraint", "contredit", "contrefait", "contrevenu", "convaincu", "convenu", "converti", "coproduit", "correspondu", "couru", "cousu", "craint", "cramoisi", "crépi", "croupi", "cru", "cueilli", "cuit", "débattu", "décati", "déchu", "déconfit", "déconstruit", "décousu", "découvert", "décrépi", "décrit", "décru", "déçu", "dédit", "déduit", "défailli", "défendu", "défini", "défleuri", "défraîchi", "dégarni", "dégluti", "dégourdi", "démenti", "démoli", "démordu", "démuni", "départi", "dépeint", "dépendu", "dépéri", "déplu", "dépoli", "dépourvu", "descendu", "désobéi", "desservi", "déteint", "détendu", "détenu", "détruit", "dévêtu", "discouru", "disjoint", "disparu", "distendu", "distrait", "dit", "diverti", "dormi", "durci", "ébahi", "ébaubi", "ébaudi", "échu", "éclairci", "éconduit", "écrit", "élargi", "élu", "embelli", "embouti", "émoulu", "empli", "empreint", "empuanti", "ému", "enchéri", "encouru", "endolori", "endormi", "enduit", "endurci", "enfoui", "enfreint", "enfui", "englouti", "engourdi", "enhardi", "enjoint", "enlaidi", "ennobli", "enorgueilli", "enrichi", "enseveli", "entendu", "entr'aperçu", "entraperçu", "entreclos", "entremis", "entretenu", "entrevu", "entrouvert", "envahi", "épanoui", "éperdu", "équarri", "équivalu", "estourbi", "établi", "éteint", "étendu", "étourdi", "étréci", "étreint", "eu", "évanoui", "exclu", "extrait", "faibli", "fait", "fallu", "farci", "feint", "fendu", "fini", "fléchi", "fleuri", "fondu", "forci", "foui", "fourbi", "fourni", "foutu", "fraîchi", "franchi", "frémi", "frit", "fui", "garanti", "garni", "gauchi", "gémi", "glapi", "grandi", "grossi", "guéri", "haï", "imparti", "induit", "infléchi", "inscrit", "instruit", "interdit", "interrompu", "interverti", "introduit", "inverti", "investi", "jailli", "jauni", "joint", "joui", "langui", "loti", "lu", "maintenu", "méconnu", "mécru", "médit", "menti", "minci", "moisi", "moiti", "molli", "mordu", "morfondu", "moulu", "mugi", "muni", "nanti", "noirci", "nourri", "nui", "obéi", "obscurci", "obtenu", "offert", "oint", "ouï", "ourdi", "ouvert", "pâli", "parcouru", "paru", "pâti", "peint", "pendu", "perçu", "péri", "perverti", "pétri", "plaint", "portrait", "pourfendu", "pourri", "poursuivi", "pourvu", "prédéfini", "prédit", "préétabli", "prémuni", "prescrit", "prétendu", "prévalu", "prévenu", "prévu", "produit", "promu", "proscrit", "pu", "puni", "rabattu", "rabougri", "radouci", "raffermi", "ragaillardi", "raidi", "rajeuni", "ralenti", "ramolli", "ranci", "ravi", "réadmis", "réagi", "réappris", "rebâti", "rebattu", "rebondi", "rebu", "reconnu", "reconstruit", "reconverti", "recouru", "recouvert", "recrépi", "récrit", "recru", "reçu", "recueilli", "recuit", "redécouvert", "redéfini", "redescendu", "redit", "réduit", "réécrit", "réélu", "réentendu", "refendu", "réfléchi", "refondu", "refoutu", "refroidi", "regarni", "régi", "réinscrit", "réintroduit", "réinvesti", "rejoint", "réjoui", "relu", "relui", "rembruni", "remordu", "rempli", "renchéri", "rendormi", "rendu", "rentrait", "répandu", "reparcouru", "reparti", "réparti", "reparu", "repeint", "rependu", "repenti", "reperdu", "répondu", "reproduit", "résolu", "resplendi", "ressaisi", "resservi", "ressorti", "restreint", "resurgi", "rétabli", "retendu", "retenu", "retraduit", "retrait", "retranscrit", "rétréci", "réuni", "réussi", "revécu", "revendu", "reverdi", "reverni", "revêtu", "revu", "ri", "roidi", "rosi", "rôti", "rougi", "roussi", "rousti", "rouvert", "rugi", "saisi", "sali", "satisfait", "sauri", "secouru", "séduit", "senti", "serti", "servi", "sévi", "sorti", "souffert", "souri", "sous-entendu", "sous-tendu", "souscrit", "soustrait", "soutenu", "souvenu", "su", "subi", "subvenu", "suffi", "suivi", "surenchéri", "surgi", "suri", "survécu", "suspendu", "tapi", "tari", "teint", "tendu", "tenu", "terni", "terri", "tiédi", "tondu", "tordu", "traduit", "trahi", "trait", "transcrit", "transi", "travesti", "tressailli", "uni", "vagi", "vaincu", "valu", "vécu", "vendu", "verdi", "verni", "vêtu", "vieilli", "vomi", "voulu", "vu"];
+/*
+This is a list of irregular participles used in French.
+These participles have an irregular stem and follow an irregular conjugation pattern. Therefore all forms are included in the list.
+ */
+var irregularsIrregular = ["absous", "absoute", "absoutes", "dissous", "dissoute", "dissoutes", "crû", "crus", "crue", "crues", "dû", "dus", "dues", "mû", "mus", "mue", "mues"];
+/*
+This is a list of irregular participles used in French.
+These participles have an irregular stem ending in -s. They have the same form in the masculine singular and plural.
+For feminine singular and feminine plural forms -e and -es are added.
+ */
+var irregularsEndingInS = ["repris", "démis", "omis", "dépris", "retransmis", "assis", "promis", "circoncis", "permis", "compris", "mépris", "inclus", "soumis", "rassis", "sursis", "enclos", "acquis", "compromis", "commis", "désappris", "appris", "conquis", "transmis", "remis", "surpris", "reconquis", "mis", "enquis", "pris", "admis", "clos", "émis", "entrepris", "épris", "requis"];
+module.exports = function () {
+  return {
+    irregularsRegular: irregularsRegular,
+    irregularsIrregular: irregularsIrregular,
+    irregularsEndingInS: irregularsEndingInS
+  };
+};
+//# sourceMappingURL=irregulars.js.map
+//# sourceMappingURL=irregulars.js.map
+
+/***/ }),
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var apply = __webpack_require__(103),
-    assignInWith = __webpack_require__(621),
-    baseRest = __webpack_require__(58),
-    customDefaultsAssignIn = __webpack_require__(622);
+var apply = __webpack_require__(104),
+    assignInWith = __webpack_require__(632),
+    baseRest = __webpack_require__(59),
+    customDefaultsAssignIn = __webpack_require__(633);
 
 /**
  * Assigns own and inherited enumerable string keyed properties of source
@@ -15543,15 +15923,191 @@ var defaults = baseRest(function (args) {
 module.exports = defaults;
 
 /***/ }),
-/* 289 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var filteredPassiveAuxiliaries = __webpack_require__(287)().filteredAuxiliaries;
-var notFilteredPassiveAuxiliaries = __webpack_require__(287)().notFilteredAuxiliaries;
-var transitionWords = __webpack_require__(377)().singleWords;
+var isEmpty = __webpack_require__(15);
+/**
+ * Sets sentence part passiveness to passive if no exception rules for the participle apply.
+ *
+ * @returns {void}
+ */
+module.exports = function () {
+    if (isEmpty(this.getParticiple())) {
+        this.setSentencePartPassiveness(false);
+        return;
+    }
+    this.setSentencePartPassiveness(this.isPassive());
+};
+//# sourceMappingURL=checkException.js.map
+//# sourceMappingURL=checkException.js.map
+
+/***/ }),
+/* 295 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getWordIndices = __webpack_require__(291);
+var includesIndex = __webpack_require__(393);
+var arrayToRegex = __webpack_require__(91);
+var cannotDirectlyPrecedePassiveParticipleFrench = __webpack_require__(296)().cannotDirectlyPrecedePassiveParticiple;
+var cannotDirectlyPrecedePassiveParticipleEnglish = __webpack_require__(297)().cannotDirectlyPrecedePassiveParticiple;
+var cannotDirectlyPrecedePassiveParticipleSpanish = __webpack_require__(395)().cannotDirectlyPrecedePassiveParticiple;
+/**
+ * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
+ * If this is the case, the sentence part is not passive.
+ *
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {number} participleIndex The index of the participle.
+ *
+ * @returns {boolean} Returns true if a word from the direct precedence exception list is directly preceding
+ * the participle, otherwise returns false.
+ */
+module.exports = function (sentencePart, participleIndex) {
+    var directPrecedenceExceptionRegex;
+    switch (this.constructor.name) {
+        case "FrenchParticiple":
+            directPrecedenceExceptionRegex = arrayToRegex(cannotDirectlyPrecedePassiveParticipleFrench);
+            break;
+        case "SpanishParticiple":
+            directPrecedenceExceptionRegex = arrayToRegex(cannotDirectlyPrecedePassiveParticipleSpanish);
+            break;
+        case "EnglishParticiple":
+        default:
+            directPrecedenceExceptionRegex = arrayToRegex(cannotDirectlyPrecedePassiveParticipleEnglish);
+            break;
+    }
+    var directPrecedenceExceptionMatch = getWordIndices(sentencePart, directPrecedenceExceptionRegex);
+    return includesIndex(directPrecedenceExceptionMatch, participleIndex);
+};
+//# sourceMappingURL=directPrecedenceException.js.map
+//# sourceMappingURL=directPrecedenceException.js.map
+
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var transitionWords = __webpack_require__(388)().singleWords;
+/**
+ * Returns an object with exceptions for the prominent words researcher
+ * @returns {Object} The object filled with exception arrays.
+ */
+var articles = ["le", "la", "les", "un", "une", "des", "aux", "du", "au", "d'un", "d'une"];
+var cardinalNumerals = ["deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix", "cent", "mille", "million", "milliard"];
+// 'premier' and 'première' are not included because of their secondary meanings ('prime minister', '[movie] premiere')
+var ordinalNumerals = ["second", "secondes", "deuxième", "deuxièmes", "troisième", "troisièmes", "quatrième", "quatrièmes", "cinquième", "cinquièmes", "sixième", "sixièmes", "septième", "septièmes", "huitième", "huitièmes", "neuvième", "neuvièmes", "dixième", "dixièmes", "onzième", "onzièmes", "douzième", "douzièmes", "treizième", "treizièmes", "quatorzième", "quatorzièmes", "quinzième", "quinzièmes", "seizième", "seizièmes", "dix-septième", "dix-septièmes", "dix-huitième", "dix-huitièmes", "dix-neuvième", "dix-neuvièmes", "vingtième", "vingtièmes"];
+var personalPronounsNominative = ["je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles"];
+var personalPronounsStressed = ["moi", "toi", "lui", "soi", "eux"];
+// Le, la, les are already included in the articles list.
+var personalPronounsAccusative = ["me", "te"];
+var demonstrativePronouns = ["celui", "celle", "ceux", "celles", "ce", "celui-ci", "celui-là", "celle-ci", "celle-là", "ceux-ci", "ceux-là", "celles-ci", "celles-là", "ceci", "cela", "ça", "cette", "cet", "ces"];
+var possessivePronouns = ["mon", "ton", "son", "ma", "ta", "sa", "mes", "tes", "ses", "notre", "votre", "leur", "nos", "vos", "leurs"];
+var quantifiers = ["beaucoup", "peu", "quelque", "quelques", "tous", "tout", "toute", "toutes", "plusieurs", "plein", "chaque", "suffisant", "suffisante", "suffisantes", "suffisants", "faible", "moins", "tant", "plus", "divers", "diverse", "diverses"];
+// The remaining reflexive personal pronouns are already included in other pronoun lists.
+var reflexivePronouns = ["se"];
+var indefinitePronouns = ["aucun", "aucune", "autre", "autres", "certain", "certaine", "certaines", "certains", "chacun", "chacune", "même", "mêmes", "quelqu'un", "quelqu'une", "quelques'uns", "quelques'unes", "autrui", "nul", "personne", "quiconque", "rien", "d'aucunes", "d'aucuns", "nuls", "nules", "l'autre", "l'autres", "tel", "telle", "tels", "telles"];
+var relativePronouns = ["qui", "que", "lequel", "laquelle", "auquel", "auxquels", "auxquelles", "duquel", "desquels", "desquelles", "dont", "où", "quoi"];
+var interrogativeProAdverbs = ["combien", "comment", "pourquoi", "d'où"];
+var interrogativeAdjectives = ["quel", "quels", "quelle"];
+var pronominalAdverbs = ["y"];
+var locativeAdverbs = ["là", "ici", "voici"];
+// 'Vins' is not included because it also means 'wines'.
+var otherAuxiliaries = ["a", "a-t-elle", "a-t-il", "a-t-on", "ai", "ai-je", "aie", "as", "as-tu", "aura", "aurai", "auraient", "aurais", "aurait", "auras", "aurez", "auriez", "aurons", "auront", "avaient", "avais", "avait", "avez", "avez-vous", "aviez", "avions", "avons", "avons-nous", "ayez", "ayons", "eu", "eûmes", "eurent", "eus", "eut", "eûtes", "j'ai", "j'aurai", "j'avais", "j'eus", "ont", "ont-elles", "ont-ils", "vais", "vas", "va", "allons", "allez", "vont", "vais-je", "vas-tu", "va-t-il", "va-t-elle", "va-t-on", "allons-nous", "allez-vous", "vont-elles", "vont-ils", "allé", "allés", "j'allai", "allai", "allas", "alla", "allâmes", "allâtes", "allèrent", "j'allais", "allais", "allait", "allions", "alliez", "allaient", "j'irai", "iras", "ira", "irons", "irez", "iront", "j'aille", "aille", "ailles", "aillent", "j'allasse", "allasse", "allasses", "allât", "allassions", "allassiez", "allassent", "j'irais", "irais", "irait", "irions", "iriez", "iraient", "allant", "viens", "vient", "venons", "venez", "viennent", "viens-je", "viens-de", "vient-il", "vient-elle", "vient-on", "venons-nous", "venez-vous", "viennent-elles", "viennent-ils", "vins", "vint", "vînmes", "vîntes", "vinrent", "venu", "venus", "venais", "venait", "venions", "veniez", "venaient", "viendrai", "viendras", "viendra", "viendrons", "viendrez", "viendront", "vienne", "viennes", "vinsse", "vinsses", "vînt", "vinssions", "vinssiez", "vinssent", "viendrais", "viendrait", "viendrions", "viendriez", "viendraient", "venant", "dois", "doit", "devons", "devez", "doivent", "dois-je", "dois-tu", "doit-il", "doit-elle", "doit-on", "devons-nous", "devez-vous", "doivent-elles", "doivent-ils", "dus", "dut", "dûmes", "dûtes", "durent", "dû", "devais", "devait", "devions", "deviez", "devaient", "devrai", "devras", "devra", "devrons", "devrez", "devront", "doive", "doives", "dusse", "dusses", "dût", "dussions", "dussiez", "dussent", "devrais", "devrait", "devrions", "devriez", "devraient", "peux", "peut", "pouvons", "pouvez", "peuvent", "peux-je", "peux-tu", "peut-il", "peut-elle", "peut-on", "pouvons-nous", "pouvez-vous", "peuvent-ils", "peuvent-elles", "pus", "put", "pûmes", "pûtes", "purent", "pu", "pouvais", "pouvait", "pouvions", "pouviez", "pouvaient", "pourrai", "pourras", "pourra", "pourrons", "pourrez", "pourront", "puisse", "puisses", "puissions", "puissiez", "puissent", "pusse", "pusses", "pût", "pussions", "pussiez", "pussent", "pourrais", "pourrait", "pourrions", "pourriez", "pourraient", "pouvant", "semble", "sembles", "semblons", "semblez", "semblent", "semble-je", "sembles-il", "sembles-elle", "sembles-on", "semblons-nous", "semblez-vous", "semblent-ils", "semblent-elles", "semblai", "semblas", "sembla", "semblâmes", "semblâtes", "semblèrent", "semblais", "semblait", "semblions", "sembliez", "semblaient", "semblerai", "sembleras", "semblera", "semblerons", "semblerez", "sembleront", "semblé", "semblasse", "semblasses", "semblât", "semblassions", "semblassiez", "semblassent", "semblerais", "semblerait", "semblerions", "sembleriez", "sembleraient", "parais", "paraît", "ait", "paraissons", "paraissez", "paraissent", "parais-je", "parais-tu", "paraît-il", "paraît-elle", "paraît-on", "ait-il", "ait-elle", "ait-on", "paraissons-nous", "paraissez-vous", "paraissent-ils", "paraissent-elles", "parus", "parut", "parûmes", "parûtes", "parurent", "paraissais", "paraissait", "paraissions", "paraissiez", "paraissaient", "paraîtrai", "paraîtras", "paraîtra", "paraîtrons", "paraîtrez", "paraîtront", "aitrai", "aitras", "aitra", "aitrons", "aitrez", "aitront", "paru", "paraisse", "paraisses", "parusse", "parusses", "parût", "parussions", "parussiez", "parussent", "paraîtrais", "paraîtrait", "paraîtrions", "paraîtriez", "paraîtraient", "paraitrais", "paraitrait", "paraitrions", "paraitriez", "paraitraient", "paraissant", "mets", "met", "mettons", "mettez", "mettent", "mets-je", "mets-tu", "met-il", "met-elle", "met-on", "mettons-nous", "mettez-vous", "mettent-ils", "mettent-elles", "mis", "mit", "mîmes", "mîtes", "mirent", "mettais", "mettait", "mettions", "mettiez", "mettaient", "mettrai", "mettras", "mettra", "mettrons", "mettrez", "mettront", "mette", "mettes", "misse", "misses", "mît", "missions", "missiez", "missent", "mettrais", "mettrait", "mettrions", "mettriez", "mettraient", "mettant", "finis", "finit", "finissons", "finissez", "finissent", "finis-je", "finis-tu", "finit-il", "finit-elle", "finit-on", "finissons-nous", "finissez-vous", "finissent-ils", "finissent-elles", "finîmes", "finîtes", "finirent", "finissais", "finissait", "finissions", "finissiez", "finissaient", "finirai", "finiras", "finira", "finirons", "finirez", "finiront", "fini", "finisse", "finisses", "finît", "finirais", "finirait", "finirions", "finiriez", "finiraient", "finissant"];
+var otherAuxiliariesInfinitive = ["avoir", "aller", "venir", "devoir", "pouvoir", "sembler", "paraître", "paraitre", "mettre", "finir"];
+var copula = ["suis", "es", "est", "est-ce", "n'est", "sommes", "êtes", "sont", "suis-je", "es-tu", "est-il", "est-elle", "est-on", "sommes-nous", "êtes-vous", "sont-ils", "sont-elles", "étais", "était", "étions", "étiez", "étaient", "serai", "seras", "sera", "serons", "serez", "seront", "serais", "serait", "serions", "seriez", "seraient", "sois", "soit", "soyons", "soyez", "soient", "été"];
+var copulaInfinitive = ["être"];
+/*
+’Excepté' not filtered because might also be participle of 'excepter', 'concernant' not filtered because might also be present participle
+of 'concerner'.
+Not filtered because of primary meaning: 'grâce à' ('grace'), 'en face' ('face'), 'en dehors' ('outside'), 'à côté' ('side'),
+'à droite' ('right'), 'à gauche' ('left'). 'voici' already included in the locative pronoun list.
+'hors' for 'hors de', 'quant' for 'quant à'. ‘travers’ is part of 'à travers.'
+ */
+var prepositions = ["à", "après", "au-delà", "au-dessous", "au-dessus", "avant", "avec", "concernant", "chez", "contre", "dans", "de", "depuis", "derrière", "dès", "devant", "durant", "en", "entre", "envers", "environ", "hormis", "hors", "jusque", "jusqu'à", "jusqu'au", "jusqu'aux", "loin", "moyennant", "outre", "par", "parmi", "pendant", "pour", "près", "quant", "sans", "sous", "sur", "travers", "vers", "voilà"];
+var coordinatingConjunctions = ["et", "ni", "or", "ou"];
+/*
+Et...et, ou...ou, ni...ni – in their simple forms already in other lists. 'd'une', 'd'autre' are part of 'd'une part…d'autre part'.
+'sinon' is part of 'sinon…du moins'.
+*/
+var correlativeConjunctions = ["non", "pas", "seulement", "sitôt", "aussitôt", "d'autre"];
+/*
+Many subordinating conjunctions are already included in the prepositions list, transition words list or pronominal adverbs list.
+'autant', 'd'autant', 'd'ici', 'tandis' part of the complex form with 'que', 'lors' as a part of 'lors même que',
+'parce' as a part of 'parce que'
+ */
+var subordinatingConjunctions = ["afin", "autant", "comme", "d'autant", "d'ici", "quand", "lors", "parce", "si", "tandis"];
+/*
+ These verbs are frequently used in interviews to indicate questions and answers.
+'Dire' ('to say'), 'demander' ('to ask'), 'penser' ('to think')– 16 forms; more specific verbs – 4 forms
+'affirmer', 'ajouter' ('to add'), 'analyser', 'avancer', 'écrire' ('to write'), 'indiquer', 'poursuivre' ('to pursue'), 'préciser', 'résumer',
+ 'souvenir' ('to remember'), 'témoigner' ('to witness') – only VS forms (due to their more general nature)
+ */
+var interviewVerbs = ["dit", "disent", "dit-il", "dit-elle", "disent-ils", "disent-elles", "disait", "disait-il", "disait-elle", "disaient-ils", "disaient-elles", "dirent", "demande", "demandent", "demande-t-il", "demande-t-elle", "demandent-ils", "demandent-elles", "demandait", "demandaient", "demandait-il", "demandait-elle", "demandaient-ils", "demandaient-elles", "demanda", "demanda-t-il", "demanda-t-elle", "demandé", "pense", "pensent", "pense-t-il", "pense-t-elle", "pensent-ils", "pensent-elles", "pensait", "pensaient", "pensait-il", "pensait-elle", "pensaient-ils", "pensaient-elles", "pensa", "pensa-t-il", "pensa-t-elle", "pensé", "affirme", "affirme-t-il", "affirme-t-elle", "affirmé", "avoue", "avoue-t-il", "avoue-t-elle", "avoué", "concède", "concède-t-il", "concède-t-elle", "concédé", "confie", "confie-t-il", "confie-t-elle", "confié", "continue", "continue-t-il", "continue-t-elle", "continué", "déclame", "déclame-t-il", "déclame-t-elle", "déclamé", "déclare", "déclare-t-il", "déclare-t-elle", "déclaré", "déplore", "déplore-t-il", "déplore-t-elle", "déploré", "explique", "explique-t-il", "explique-t-elle", "expliqué", "lance", "lance-t-il", "lance-t-elle", "lancé", "narre", "narre-t-il", "narre-t-elle", "narré", "raconte", "raconte-t-il", "raconte-t-elle", "raconté", "rappelle", "rappelle-t-il", "rappelle-t-elle", "rappelé", "réagit", "réagit-il", "réagit-elle", "réagi", "répond", "répond-il", "répond-elle", "répondu", "rétorque", "rétorque-t-il", "rétorque-t-elle", "rétorqué", "souligne", "souligne-t-il", "souligne-t-elle", "souligné", "affirme-t-il", "affirme-t-elle", "ajoute-t-il", "ajoute-t-elle", "analyse-t-il", "analyse-t-elle", "avance-t-il", "avance-t-elle", "écrit-il", "écrit-elle", "indique-t-il", "indique-t-elle", "poursuit-il", "poursuit-elle", "précise-t-il", "précise-t-elle", "résume-t-il", "résume-t-elle", "souvient-il", "souvient-elle", "témoigne-t-il", "témoigne-t-elle"];
+var interviewVerbsInfinitive = ["dire", "penser", "demander", "concéder", "continuer", "confier", "déclamer", "déclarer", "déplorer", "expliquer", "lancer", "narrer", "raconter", "rappeler", "réagir", "répondre", "rétorquer", "souligner", "affirmer", "ajouter", "analyser", "avancer", "écrire", "indiquer", "poursuivre", "préciser", "résumer", "témoigner"];
+// These transition words were not included in the list for the transition word assessment for various reasons.
+var additionalTransitionWords = ["encore", "éternellement", "immédiatement", "compris", "comprenant", "inclus", "naturellement", "particulièrement", "notablement", "actuellement", "maintenant", "ordinairement", "généralement", "habituellement", "d'habitude", "vraiment", "finalement", "uniquement", "peut-être", "initialement", "déjà", "c.-à-d", "souvent", "fréquemment", "régulièrement", "simplement", "éventuellement", "quelquefois", "parfois", "probable", "plausible", "jamais", "toujours", "incidemment", "accidentellement", "récemment", "dernièrement", "relativement", "clairement", "évidemment", "apparemment", "pourvu"];
+var intensifiers = ["assez", "trop", "tellement", "presque", "très", "absolument", "extrêmement", "quasi", "quasiment", "fort"];
+// These verbs convey little meaning.
+var delexicalizedVerbs = ["fais", "fait", "faisons", "faites", "font", "fais-je", "fait-il", "fait-elle", "fait-on", "faisons-nous", "faites-vous", "font-ils", "font-elles", "fis", "fit", "fîmes", "fîtes", "firent", "faisais", "faisait", "faisions", "faisiez", "faisaient", "ferai", "feras", "fera", "ferons", "ferez", "feront", "veux", "veut", "voulons", "voulez", "veulent", "voulus", "voulut", "voulûmes", "voulûtes", "voulurent", "voulais", "voulait", "voulions", "vouliez", "voulaient", "voudrai", "voudras", "voudra", "voudrons", "voudrez", "voudront", "voulu", "veux-je", "veux-tu", "veut-il", "veut-elle", "veut-on", "voulons-nous", "voulez-vous", "veulent-ils", "veulent-elles", "voudrais", "voudrait", "voudrions", "voudriez", "voudraient", "voulant"];
+var delexicalizedVerbsInfinitive = ["faire", "vouloir"];
+/* These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
+ Keyword combinations containing these adjectives/adverbs are fine.
+ 'Dernier' is also included in generalAdjectivesAdverbsPreceding because it can be used both before and after a noun,
+ and it should be filtered out either way.
+ */
+var generalAdjectivesAdverbs = ["antérieur", "antérieures", "antérieurs", "antérieure", "précédent", "précédents", "précédente", "précédentes", "facile", "faciles", "simple", "simples", "vite", "vites", "vitesse", "vitesses", "difficile", "difficiles", "propre", "propres", "long", "longe", "longs", "longes", "longue", "longues", "bas", "basse", "basses", "ordinaire", "ordinaires", "bref", "brefs", "brève", "brèves", "sûr", "sûrs", "sûre", "sûres", "sure", "sures", "surs", "habituel", "habituels", "habituelle", "habituelles", "soi-disant", "surtout", "récent", "récents", "récente", "récentes", "total", "totaux", "totale", "totales", "complet", "complets", "complète", "complètes", "possible", "possibles", "communément", "constamment", "facilement", "continuellement", "directement", "légèrement", "dernier", "derniers", "dernière", "dernières", "différent", "différents", "différente", "différentes", "similaire", "similaires", "pareil", "pareils", "pareille", "pareilles", "largement", "mal", "super", "bien", "pire", "pires", "suivants", "suivante", "suivantes", "prochain", "prochaine", "prochains", "prochaines", "proche", "proches", "fur"];
+/*
+ 'Dernier' is also included in generalAdjectivesAdverbs because it can be used both before and after a noun,
+ and it should be filtered out either way.
+ */
+var generalAdjectivesAdverbsPreceding = ["nouveau", "nouvel", "nouvelle", "nouveaux", "nouvelles", "vieux", "vieil", "vieille", "vieilles", "beau", "bel", "belle", "belles", "bon", "bons", "bonne", "bonnes", "grand", "grande", "grands", "grandes", "haut", "hauts", "haute", "hautes", "petit", "petite", "petits", "petites", "meilleur", "meilleurs", "meilleure", "meilleures", "joli", "jolis", "jolie", "jolies", "gros", "grosse", "grosses", "mauvais", "mauvaise", "mauvaises", "dernier", "derniers", "dernière", "dernières"];
+var interjections = ["ah", "ha", "oh", "ho", "bis", "plouf", "vlan", "ciel", "pouf", "paf", "crac", "hurrah", "allo", "stop", "bravo", "ô", "eh", "hé", "aïe", "oef", "ahi", "fi", "zest", "hem", "holà", "chut"];
+// These words and abbreviations are frequently used in recipes in lists of ingredients.
+var recipeWords = ["mg", "g", "kg", "ml", "dl", "cl", "l", "grammes", "gram", "once", "onces", "oz", "lbs", "càc", "cc", "càd", "càs", "càt", "cd", "cs", "ct"];
+var timeWords = ["minute", "minutes", "heure", "heures", "journée", "journées", "semaine", "semaines", "mois", "année", "années", "aujourd'hui", "demain", "hier", "après-demain", "avant-hier"];
+var vagueNouns = ["chose", "choses", "façon", "façons", "pièce", "pièces", "truc", "trucs", "fois", "cas", "aspect", "aspects", "objet", "objets", "idée", "idées", "thème", "thèmes", "sujet", "sujets", "personnes", "manière", "manières", "sorte", "sortes"];
+var miscellaneous = ["ne", "oui", "d'accord", "amen", "euro", "euros", "etc"];
+var titlesPreceding = ["mme", "mmes", "mlle", "mlles", "mm", "dr", "pr"];
+var titlesFollowing = ["jr", "sr"];
+module.exports = function () {
+  return {
+    // These word categories are filtered at the ending of word combinations.
+    filteredAtEnding: [].concat(ordinalNumerals, otherAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive, generalAdjectivesAdverbsPreceding),
+    // These word categories are filtered at the beginning of word combinations.
+    filteredAtBeginning: generalAdjectivesAdverbs,
+    // These word categories are filtered at the beginning and ending of word combinations.
+    filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
+    // These word categories are filtered everywhere within word combinations.
+    filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsStressed, reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeAdjectives, relativePronouns, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns),
+    // These word categories cannot directly precede a passive participle.
+    cannotDirectlyPrecedePassiveParticiple: [].concat(articles, prepositions, personalPronounsStressed, personalPronounsAccusative, possessivePronouns, reflexivePronouns, indefinitePronouns, interrogativeProAdverbs, interrogativeAdjectives, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, interviewVerbs, delexicalizedVerbsInfinitive),
+    // These word categories cannot intervene between an auxiliary and a corresponding passive participle.
+    cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat(otherAuxiliaries, otherAuxiliariesInfinitive),
+    // This export contains all of the above words.
+    all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing)
+  };
+};
+//# sourceMappingURL=functionWords.js.map
+//# sourceMappingURL=functionWords.js.map
+
+/***/ }),
+/* 297 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var filteredPassiveAuxiliaries = __webpack_require__(298)().filteredAuxiliaries;
+var notFilteredPassiveAuxiliaries = __webpack_require__(298)().notFilteredAuxiliaries;
+var transitionWords = __webpack_require__(386)().singleWords;
 /**
  * Returns an object with exceptions for the prominent words researcher
  * @returns {Object} The object filled with exception arrays.
@@ -15632,13 +16188,34 @@ module.exports = function () {
 //# sourceMappingURL=functionWords.js.map
 
 /***/ }),
-/* 290 */
+/* 298 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// These auxiliaries are filtered from the beginning of word combinations in the prominent words.
+
+var filteredAuxiliaries = ["am", "is", "are", "was", "were", "been", "get", "gets", "got", "gotten", "be", "she's", "he's", "it's", "i'm", "we're", "they're", "you're", "isn't", "weren't", "wasn't", "that's", "aren't"];
+// These auxiliaries are not filtered from the beginning of word combinations in the prominent words.
+var notFilteredAuxiliaries = ["being", "getting", "having", "what's"];
+module.exports = function () {
+    return {
+        filteredAuxiliaries: filteredAuxiliaries,
+        notFilteredAuxiliaries: notFilteredAuxiliaries,
+        all: filteredAuxiliaries.concat(notFilteredAuxiliaries)
+    };
+};
+//# sourceMappingURL=auxiliaries.js.map
+//# sourceMappingURL=auxiliaries.js.map
+
+/***/ }),
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIndexOf = __webpack_require__(284);
+var baseIndexOf = __webpack_require__(288);
 
 /**
  * A specialized version of `_.includes` for arrays without support for
@@ -15657,7 +16234,7 @@ function arrayIncludes(array, value) {
 module.exports = arrayIncludes;
 
 /***/ }),
-/* 291 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15687,14 +16264,14 @@ function arrayIncludesWith(array, value, comparator) {
 module.exports = arrayIncludesWith;
 
 /***/ }),
-/* 292 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseHas = __webpack_require__(648),
-    hasPath = __webpack_require__(355);
+var baseHas = __webpack_require__(667),
+    hasPath = __webpack_require__(364);
 
 /**
  * Checks if `path` is a direct property of `object`.
@@ -15730,30 +16307,30 @@ function has(object, path) {
 module.exports = has;
 
 /***/ }),
-/* 293 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Assessor = __webpack_require__(97);
-var introductionKeyword = __webpack_require__(320);
-var keyphraseLength = __webpack_require__(321);
-var keywordDensity = __webpack_require__(322);
-var keywordStopWords = __webpack_require__(323);
-var metaDescriptionKeyword = __webpack_require__(324);
-var MetaDescriptionLength = __webpack_require__(325);
-var SubheadingsKeyword = __webpack_require__(392);
-var textCompetingLinks = __webpack_require__(393);
-var TextImages = __webpack_require__(394);
-var TextLength = __webpack_require__(395);
-var OutboundLinks = __webpack_require__(396);
-var internalLinks = __webpack_require__(397);
-var titleKeyword = __webpack_require__(327);
-var TitleWidth = __webpack_require__(328);
-var UrlKeyword = __webpack_require__(329);
-var UrlLength = __webpack_require__(330);
-var urlStopWords = __webpack_require__(331);
+var Assessor = __webpack_require__(98);
+var introductionKeyword = __webpack_require__(329);
+var keyphraseLength = __webpack_require__(330);
+var keywordDensity = __webpack_require__(331);
+var keywordStopWords = __webpack_require__(332);
+var metaDescriptionKeyword = __webpack_require__(333);
+var MetaDescriptionLength = __webpack_require__(334);
+var SubheadingsKeyword = __webpack_require__(401);
+var textCompetingLinks = __webpack_require__(402);
+var TextImages = __webpack_require__(403);
+var TextLength = __webpack_require__(404);
+var OutboundLinks = __webpack_require__(405);
+var internalLinks = __webpack_require__(406);
+var titleKeyword = __webpack_require__(336);
+var TitleWidth = __webpack_require__(337);
+var UrlKeyword = __webpack_require__(338);
+var UrlLength = __webpack_require__(339);
+var urlStopWords = __webpack_require__(340);
 /**
  * Creates the Assessor
  *
@@ -15767,28 +16344,28 @@ var SEOAssessor = function SEOAssessor(i18n, options) {
   Assessor.call(this, i18n, options);
   this._assessments = [introductionKeyword, keyphraseLength, keywordDensity, keywordStopWords, metaDescriptionKeyword, new MetaDescriptionLength(), new SubheadingsKeyword(), textCompetingLinks, new TextImages(), new TextLength(), new OutboundLinks(), internalLinks, titleKeyword, new TitleWidth(), new UrlKeyword(), new UrlLength(), urlStopWords];
 };
-__webpack_require__(33).inherits(SEOAssessor, Assessor);
+__webpack_require__(19).inherits(SEOAssessor, Assessor);
 module.exports = SEOAssessor;
 //# sourceMappingURL=seoAssessor.js.map
 //# sourceMappingURL=seoAssessor.js.map
 
 /***/ }),
-/* 294 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Assessor = __webpack_require__(97);
-var fleschReadingEase = __webpack_require__(398);
-var paragraphTooLong = __webpack_require__(399);
-var SentenceLengthInText = __webpack_require__(400);
-var SubheadingDistributionTooLong = __webpack_require__(401);
-var transitionWords = __webpack_require__(402);
-var passiveVoice = __webpack_require__(403);
-var sentenceBeginnings = __webpack_require__(404);
-var textPresence = __webpack_require__(405);
-var contentConfiguration = __webpack_require__(406);
+var Assessor = __webpack_require__(98);
+var fleschReadingEase = __webpack_require__(407);
+var paragraphTooLong = __webpack_require__(408);
+var SentenceLengthInText = __webpack_require__(409);
+var SubheadingDistributionTooLong = __webpack_require__(410);
+var transitionWords = __webpack_require__(411);
+var passiveVoice = __webpack_require__(412);
+var sentenceBeginnings = __webpack_require__(413);
+var textPresence = __webpack_require__(414);
+var contentConfiguration = __webpack_require__(415);
 /*
     Temporarily disabled:
 
@@ -15797,7 +16374,7 @@ var contentConfiguration = __webpack_require__(406);
  */
 var scoreToRating = __webpack_require__(163);
 var map = __webpack_require__(9);
-var sum = __webpack_require__(373);
+var sum = __webpack_require__(382);
 /**
  * Creates the Assessor
  *
@@ -15815,7 +16392,7 @@ var ContentAssessor = function ContentAssessor(i18n) {
     var locale = options.hasOwnProperty("locale") ? options.locale : "en_US";
     this._assessments = [fleschReadingEase, new SubheadingDistributionTooLong(), paragraphTooLong, new SentenceLengthInText(contentConfiguration(locale).sentenceLength), transitionWords, passiveVoice, textPresence, sentenceBeginnings];
 };
-__webpack_require__(33).inherits(ContentAssessor, Assessor);
+__webpack_require__(19).inherits(ContentAssessor, Assessor);
 /**
  * Calculates the weighted rating for languages that have all assessments based on a given rating.
  *
@@ -15932,7 +16509,7 @@ module.exports = ContentAssessor;
 //# sourceMappingURL=contentAssessor.js.map
 
 /***/ }),
-/* 295 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15952,34 +16529,34 @@ module.exports = function (recommendedValue, valueLength) {
 //# sourceMappingURL=isValueTooLong.js.map
 
 /***/ }),
-/* 296 */
+/* 305 */
 /***/ (function(module, exports) {
 
 module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"∾","acd":"∿","acE":"∾̳","Acirc":"Â","acirc":"â","acute":"´","Acy":"А","acy":"а","AElig":"Æ","aelig":"æ","af":"⁡","Afr":"𝔄","afr":"𝔞","Agrave":"À","agrave":"à","alefsym":"ℵ","aleph":"ℵ","Alpha":"Α","alpha":"α","Amacr":"Ā","amacr":"ā","amalg":"⨿","amp":"&","AMP":"&","andand":"⩕","And":"⩓","and":"∧","andd":"⩜","andslope":"⩘","andv":"⩚","ang":"∠","ange":"⦤","angle":"∠","angmsdaa":"⦨","angmsdab":"⦩","angmsdac":"⦪","angmsdad":"⦫","angmsdae":"⦬","angmsdaf":"⦭","angmsdag":"⦮","angmsdah":"⦯","angmsd":"∡","angrt":"∟","angrtvb":"⊾","angrtvbd":"⦝","angsph":"∢","angst":"Å","angzarr":"⍼","Aogon":"Ą","aogon":"ą","Aopf":"𝔸","aopf":"𝕒","apacir":"⩯","ap":"≈","apE":"⩰","ape":"≊","apid":"≋","apos":"'","ApplyFunction":"⁡","approx":"≈","approxeq":"≊","Aring":"Å","aring":"å","Ascr":"𝒜","ascr":"𝒶","Assign":"≔","ast":"*","asymp":"≈","asympeq":"≍","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","awconint":"∳","awint":"⨑","backcong":"≌","backepsilon":"϶","backprime":"‵","backsim":"∽","backsimeq":"⋍","Backslash":"∖","Barv":"⫧","barvee":"⊽","barwed":"⌅","Barwed":"⌆","barwedge":"⌅","bbrk":"⎵","bbrktbrk":"⎶","bcong":"≌","Bcy":"Б","bcy":"б","bdquo":"„","becaus":"∵","because":"∵","Because":"∵","bemptyv":"⦰","bepsi":"϶","bernou":"ℬ","Bernoullis":"ℬ","Beta":"Β","beta":"β","beth":"ℶ","between":"≬","Bfr":"𝔅","bfr":"𝔟","bigcap":"⋂","bigcirc":"◯","bigcup":"⋃","bigodot":"⨀","bigoplus":"⨁","bigotimes":"⨂","bigsqcup":"⨆","bigstar":"★","bigtriangledown":"▽","bigtriangleup":"△","biguplus":"⨄","bigvee":"⋁","bigwedge":"⋀","bkarow":"⤍","blacklozenge":"⧫","blacksquare":"▪","blacktriangle":"▴","blacktriangledown":"▾","blacktriangleleft":"◂","blacktriangleright":"▸","blank":"␣","blk12":"▒","blk14":"░","blk34":"▓","block":"█","bne":"=⃥","bnequiv":"≡⃥","bNot":"⫭","bnot":"⌐","Bopf":"𝔹","bopf":"𝕓","bot":"⊥","bottom":"⊥","bowtie":"⋈","boxbox":"⧉","boxdl":"┐","boxdL":"╕","boxDl":"╖","boxDL":"╗","boxdr":"┌","boxdR":"╒","boxDr":"╓","boxDR":"╔","boxh":"─","boxH":"═","boxhd":"┬","boxHd":"╤","boxhD":"╥","boxHD":"╦","boxhu":"┴","boxHu":"╧","boxhU":"╨","boxHU":"╩","boxminus":"⊟","boxplus":"⊞","boxtimes":"⊠","boxul":"┘","boxuL":"╛","boxUl":"╜","boxUL":"╝","boxur":"└","boxuR":"╘","boxUr":"╙","boxUR":"╚","boxv":"│","boxV":"║","boxvh":"┼","boxvH":"╪","boxVh":"╫","boxVH":"╬","boxvl":"┤","boxvL":"╡","boxVl":"╢","boxVL":"╣","boxvr":"├","boxvR":"╞","boxVr":"╟","boxVR":"╠","bprime":"‵","breve":"˘","Breve":"˘","brvbar":"¦","bscr":"𝒷","Bscr":"ℬ","bsemi":"⁏","bsim":"∽","bsime":"⋍","bsolb":"⧅","bsol":"\\","bsolhsub":"⟈","bull":"•","bullet":"•","bump":"≎","bumpE":"⪮","bumpe":"≏","Bumpeq":"≎","bumpeq":"≏","Cacute":"Ć","cacute":"ć","capand":"⩄","capbrcup":"⩉","capcap":"⩋","cap":"∩","Cap":"⋒","capcup":"⩇","capdot":"⩀","CapitalDifferentialD":"ⅅ","caps":"∩︀","caret":"⁁","caron":"ˇ","Cayleys":"ℭ","ccaps":"⩍","Ccaron":"Č","ccaron":"č","Ccedil":"Ç","ccedil":"ç","Ccirc":"Ĉ","ccirc":"ĉ","Cconint":"∰","ccups":"⩌","ccupssm":"⩐","Cdot":"Ċ","cdot":"ċ","cedil":"¸","Cedilla":"¸","cemptyv":"⦲","cent":"¢","centerdot":"·","CenterDot":"·","cfr":"𝔠","Cfr":"ℭ","CHcy":"Ч","chcy":"ч","check":"✓","checkmark":"✓","Chi":"Χ","chi":"χ","circ":"ˆ","circeq":"≗","circlearrowleft":"↺","circlearrowright":"↻","circledast":"⊛","circledcirc":"⊚","circleddash":"⊝","CircleDot":"⊙","circledR":"®","circledS":"Ⓢ","CircleMinus":"⊖","CirclePlus":"⊕","CircleTimes":"⊗","cir":"○","cirE":"⧃","cire":"≗","cirfnint":"⨐","cirmid":"⫯","cirscir":"⧂","ClockwiseContourIntegral":"∲","CloseCurlyDoubleQuote":"”","CloseCurlyQuote":"’","clubs":"♣","clubsuit":"♣","colon":":","Colon":"∷","Colone":"⩴","colone":"≔","coloneq":"≔","comma":",","commat":"@","comp":"∁","compfn":"∘","complement":"∁","complexes":"ℂ","cong":"≅","congdot":"⩭","Congruent":"≡","conint":"∮","Conint":"∯","ContourIntegral":"∮","copf":"𝕔","Copf":"ℂ","coprod":"∐","Coproduct":"∐","copy":"©","COPY":"©","copysr":"℗","CounterClockwiseContourIntegral":"∳","crarr":"↵","cross":"✗","Cross":"⨯","Cscr":"𝒞","cscr":"𝒸","csub":"⫏","csube":"⫑","csup":"⫐","csupe":"⫒","ctdot":"⋯","cudarrl":"⤸","cudarrr":"⤵","cuepr":"⋞","cuesc":"⋟","cularr":"↶","cularrp":"⤽","cupbrcap":"⩈","cupcap":"⩆","CupCap":"≍","cup":"∪","Cup":"⋓","cupcup":"⩊","cupdot":"⊍","cupor":"⩅","cups":"∪︀","curarr":"↷","curarrm":"⤼","curlyeqprec":"⋞","curlyeqsucc":"⋟","curlyvee":"⋎","curlywedge":"⋏","curren":"¤","curvearrowleft":"↶","curvearrowright":"↷","cuvee":"⋎","cuwed":"⋏","cwconint":"∲","cwint":"∱","cylcty":"⌭","dagger":"†","Dagger":"‡","daleth":"ℸ","darr":"↓","Darr":"↡","dArr":"⇓","dash":"‐","Dashv":"⫤","dashv":"⊣","dbkarow":"⤏","dblac":"˝","Dcaron":"Ď","dcaron":"ď","Dcy":"Д","dcy":"д","ddagger":"‡","ddarr":"⇊","DD":"ⅅ","dd":"ⅆ","DDotrahd":"⤑","ddotseq":"⩷","deg":"°","Del":"∇","Delta":"Δ","delta":"δ","demptyv":"⦱","dfisht":"⥿","Dfr":"𝔇","dfr":"𝔡","dHar":"⥥","dharl":"⇃","dharr":"⇂","DiacriticalAcute":"´","DiacriticalDot":"˙","DiacriticalDoubleAcute":"˝","DiacriticalGrave":"`","DiacriticalTilde":"˜","diam":"⋄","diamond":"⋄","Diamond":"⋄","diamondsuit":"♦","diams":"♦","die":"¨","DifferentialD":"ⅆ","digamma":"ϝ","disin":"⋲","div":"÷","divide":"÷","divideontimes":"⋇","divonx":"⋇","DJcy":"Ђ","djcy":"ђ","dlcorn":"⌞","dlcrop":"⌍","dollar":"$","Dopf":"𝔻","dopf":"𝕕","Dot":"¨","dot":"˙","DotDot":"⃜","doteq":"≐","doteqdot":"≑","DotEqual":"≐","dotminus":"∸","dotplus":"∔","dotsquare":"⊡","doublebarwedge":"⌆","DoubleContourIntegral":"∯","DoubleDot":"¨","DoubleDownArrow":"⇓","DoubleLeftArrow":"⇐","DoubleLeftRightArrow":"⇔","DoubleLeftTee":"⫤","DoubleLongLeftArrow":"⟸","DoubleLongLeftRightArrow":"⟺","DoubleLongRightArrow":"⟹","DoubleRightArrow":"⇒","DoubleRightTee":"⊨","DoubleUpArrow":"⇑","DoubleUpDownArrow":"⇕","DoubleVerticalBar":"∥","DownArrowBar":"⤓","downarrow":"↓","DownArrow":"↓","Downarrow":"⇓","DownArrowUpArrow":"⇵","DownBreve":"̑","downdownarrows":"⇊","downharpoonleft":"⇃","downharpoonright":"⇂","DownLeftRightVector":"⥐","DownLeftTeeVector":"⥞","DownLeftVectorBar":"⥖","DownLeftVector":"↽","DownRightTeeVector":"⥟","DownRightVectorBar":"⥗","DownRightVector":"⇁","DownTeeArrow":"↧","DownTee":"⊤","drbkarow":"⤐","drcorn":"⌟","drcrop":"⌌","Dscr":"𝒟","dscr":"𝒹","DScy":"Ѕ","dscy":"ѕ","dsol":"⧶","Dstrok":"Đ","dstrok":"đ","dtdot":"⋱","dtri":"▿","dtrif":"▾","duarr":"⇵","duhar":"⥯","dwangle":"⦦","DZcy":"Џ","dzcy":"џ","dzigrarr":"⟿","Eacute":"É","eacute":"é","easter":"⩮","Ecaron":"Ě","ecaron":"ě","Ecirc":"Ê","ecirc":"ê","ecir":"≖","ecolon":"≕","Ecy":"Э","ecy":"э","eDDot":"⩷","Edot":"Ė","edot":"ė","eDot":"≑","ee":"ⅇ","efDot":"≒","Efr":"𝔈","efr":"𝔢","eg":"⪚","Egrave":"È","egrave":"è","egs":"⪖","egsdot":"⪘","el":"⪙","Element":"∈","elinters":"⏧","ell":"ℓ","els":"⪕","elsdot":"⪗","Emacr":"Ē","emacr":"ē","empty":"∅","emptyset":"∅","EmptySmallSquare":"◻","emptyv":"∅","EmptyVerySmallSquare":"▫","emsp13":" ","emsp14":" ","emsp":" ","ENG":"Ŋ","eng":"ŋ","ensp":" ","Eogon":"Ę","eogon":"ę","Eopf":"𝔼","eopf":"𝕖","epar":"⋕","eparsl":"⧣","eplus":"⩱","epsi":"ε","Epsilon":"Ε","epsilon":"ε","epsiv":"ϵ","eqcirc":"≖","eqcolon":"≕","eqsim":"≂","eqslantgtr":"⪖","eqslantless":"⪕","Equal":"⩵","equals":"=","EqualTilde":"≂","equest":"≟","Equilibrium":"⇌","equiv":"≡","equivDD":"⩸","eqvparsl":"⧥","erarr":"⥱","erDot":"≓","escr":"ℯ","Escr":"ℰ","esdot":"≐","Esim":"⩳","esim":"≂","Eta":"Η","eta":"η","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","euro":"€","excl":"!","exist":"∃","Exists":"∃","expectation":"ℰ","exponentiale":"ⅇ","ExponentialE":"ⅇ","fallingdotseq":"≒","Fcy":"Ф","fcy":"ф","female":"♀","ffilig":"ﬃ","fflig":"ﬀ","ffllig":"ﬄ","Ffr":"𝔉","ffr":"𝔣","filig":"ﬁ","FilledSmallSquare":"◼","FilledVerySmallSquare":"▪","fjlig":"fj","flat":"♭","fllig":"ﬂ","fltns":"▱","fnof":"ƒ","Fopf":"𝔽","fopf":"𝕗","forall":"∀","ForAll":"∀","fork":"⋔","forkv":"⫙","Fouriertrf":"ℱ","fpartint":"⨍","frac12":"½","frac13":"⅓","frac14":"¼","frac15":"⅕","frac16":"⅙","frac18":"⅛","frac23":"⅔","frac25":"⅖","frac34":"¾","frac35":"⅗","frac38":"⅜","frac45":"⅘","frac56":"⅚","frac58":"⅝","frac78":"⅞","frasl":"⁄","frown":"⌢","fscr":"𝒻","Fscr":"ℱ","gacute":"ǵ","Gamma":"Γ","gamma":"γ","Gammad":"Ϝ","gammad":"ϝ","gap":"⪆","Gbreve":"Ğ","gbreve":"ğ","Gcedil":"Ģ","Gcirc":"Ĝ","gcirc":"ĝ","Gcy":"Г","gcy":"г","Gdot":"Ġ","gdot":"ġ","ge":"≥","gE":"≧","gEl":"⪌","gel":"⋛","geq":"≥","geqq":"≧","geqslant":"⩾","gescc":"⪩","ges":"⩾","gesdot":"⪀","gesdoto":"⪂","gesdotol":"⪄","gesl":"⋛︀","gesles":"⪔","Gfr":"𝔊","gfr":"𝔤","gg":"≫","Gg":"⋙","ggg":"⋙","gimel":"ℷ","GJcy":"Ѓ","gjcy":"ѓ","gla":"⪥","gl":"≷","glE":"⪒","glj":"⪤","gnap":"⪊","gnapprox":"⪊","gne":"⪈","gnE":"≩","gneq":"⪈","gneqq":"≩","gnsim":"⋧","Gopf":"𝔾","gopf":"𝕘","grave":"`","GreaterEqual":"≥","GreaterEqualLess":"⋛","GreaterFullEqual":"≧","GreaterGreater":"⪢","GreaterLess":"≷","GreaterSlantEqual":"⩾","GreaterTilde":"≳","Gscr":"𝒢","gscr":"ℊ","gsim":"≳","gsime":"⪎","gsiml":"⪐","gtcc":"⪧","gtcir":"⩺","gt":">","GT":">","Gt":"≫","gtdot":"⋗","gtlPar":"⦕","gtquest":"⩼","gtrapprox":"⪆","gtrarr":"⥸","gtrdot":"⋗","gtreqless":"⋛","gtreqqless":"⪌","gtrless":"≷","gtrsim":"≳","gvertneqq":"≩︀","gvnE":"≩︀","Hacek":"ˇ","hairsp":" ","half":"½","hamilt":"ℋ","HARDcy":"Ъ","hardcy":"ъ","harrcir":"⥈","harr":"↔","hArr":"⇔","harrw":"↭","Hat":"^","hbar":"ℏ","Hcirc":"Ĥ","hcirc":"ĥ","hearts":"♥","heartsuit":"♥","hellip":"…","hercon":"⊹","hfr":"𝔥","Hfr":"ℌ","HilbertSpace":"ℋ","hksearow":"⤥","hkswarow":"⤦","hoarr":"⇿","homtht":"∻","hookleftarrow":"↩","hookrightarrow":"↪","hopf":"𝕙","Hopf":"ℍ","horbar":"―","HorizontalLine":"─","hscr":"𝒽","Hscr":"ℋ","hslash":"ℏ","Hstrok":"Ħ","hstrok":"ħ","HumpDownHump":"≎","HumpEqual":"≏","hybull":"⁃","hyphen":"‐","Iacute":"Í","iacute":"í","ic":"⁣","Icirc":"Î","icirc":"î","Icy":"И","icy":"и","Idot":"İ","IEcy":"Е","iecy":"е","iexcl":"¡","iff":"⇔","ifr":"𝔦","Ifr":"ℑ","Igrave":"Ì","igrave":"ì","ii":"ⅈ","iiiint":"⨌","iiint":"∭","iinfin":"⧜","iiota":"℩","IJlig":"Ĳ","ijlig":"ĳ","Imacr":"Ī","imacr":"ī","image":"ℑ","ImaginaryI":"ⅈ","imagline":"ℐ","imagpart":"ℑ","imath":"ı","Im":"ℑ","imof":"⊷","imped":"Ƶ","Implies":"⇒","incare":"℅","in":"∈","infin":"∞","infintie":"⧝","inodot":"ı","intcal":"⊺","int":"∫","Int":"∬","integers":"ℤ","Integral":"∫","intercal":"⊺","Intersection":"⋂","intlarhk":"⨗","intprod":"⨼","InvisibleComma":"⁣","InvisibleTimes":"⁢","IOcy":"Ё","iocy":"ё","Iogon":"Į","iogon":"į","Iopf":"𝕀","iopf":"𝕚","Iota":"Ι","iota":"ι","iprod":"⨼","iquest":"¿","iscr":"𝒾","Iscr":"ℐ","isin":"∈","isindot":"⋵","isinE":"⋹","isins":"⋴","isinsv":"⋳","isinv":"∈","it":"⁢","Itilde":"Ĩ","itilde":"ĩ","Iukcy":"І","iukcy":"і","Iuml":"Ï","iuml":"ï","Jcirc":"Ĵ","jcirc":"ĵ","Jcy":"Й","jcy":"й","Jfr":"𝔍","jfr":"𝔧","jmath":"ȷ","Jopf":"𝕁","jopf":"𝕛","Jscr":"𝒥","jscr":"𝒿","Jsercy":"Ј","jsercy":"ј","Jukcy":"Є","jukcy":"є","Kappa":"Κ","kappa":"κ","kappav":"ϰ","Kcedil":"Ķ","kcedil":"ķ","Kcy":"К","kcy":"к","Kfr":"𝔎","kfr":"𝔨","kgreen":"ĸ","KHcy":"Х","khcy":"х","KJcy":"Ќ","kjcy":"ќ","Kopf":"𝕂","kopf":"𝕜","Kscr":"𝒦","kscr":"𝓀","lAarr":"⇚","Lacute":"Ĺ","lacute":"ĺ","laemptyv":"⦴","lagran":"ℒ","Lambda":"Λ","lambda":"λ","lang":"⟨","Lang":"⟪","langd":"⦑","langle":"⟨","lap":"⪅","Laplacetrf":"ℒ","laquo":"«","larrb":"⇤","larrbfs":"⤟","larr":"←","Larr":"↞","lArr":"⇐","larrfs":"⤝","larrhk":"↩","larrlp":"↫","larrpl":"⤹","larrsim":"⥳","larrtl":"↢","latail":"⤙","lAtail":"⤛","lat":"⪫","late":"⪭","lates":"⪭︀","lbarr":"⤌","lBarr":"⤎","lbbrk":"❲","lbrace":"{","lbrack":"[","lbrke":"⦋","lbrksld":"⦏","lbrkslu":"⦍","Lcaron":"Ľ","lcaron":"ľ","Lcedil":"Ļ","lcedil":"ļ","lceil":"⌈","lcub":"{","Lcy":"Л","lcy":"л","ldca":"⤶","ldquo":"“","ldquor":"„","ldrdhar":"⥧","ldrushar":"⥋","ldsh":"↲","le":"≤","lE":"≦","LeftAngleBracket":"⟨","LeftArrowBar":"⇤","leftarrow":"←","LeftArrow":"←","Leftarrow":"⇐","LeftArrowRightArrow":"⇆","leftarrowtail":"↢","LeftCeiling":"⌈","LeftDoubleBracket":"⟦","LeftDownTeeVector":"⥡","LeftDownVectorBar":"⥙","LeftDownVector":"⇃","LeftFloor":"⌊","leftharpoondown":"↽","leftharpoonup":"↼","leftleftarrows":"⇇","leftrightarrow":"↔","LeftRightArrow":"↔","Leftrightarrow":"⇔","leftrightarrows":"⇆","leftrightharpoons":"⇋","leftrightsquigarrow":"↭","LeftRightVector":"⥎","LeftTeeArrow":"↤","LeftTee":"⊣","LeftTeeVector":"⥚","leftthreetimes":"⋋","LeftTriangleBar":"⧏","LeftTriangle":"⊲","LeftTriangleEqual":"⊴","LeftUpDownVector":"⥑","LeftUpTeeVector":"⥠","LeftUpVectorBar":"⥘","LeftUpVector":"↿","LeftVectorBar":"⥒","LeftVector":"↼","lEg":"⪋","leg":"⋚","leq":"≤","leqq":"≦","leqslant":"⩽","lescc":"⪨","les":"⩽","lesdot":"⩿","lesdoto":"⪁","lesdotor":"⪃","lesg":"⋚︀","lesges":"⪓","lessapprox":"⪅","lessdot":"⋖","lesseqgtr":"⋚","lesseqqgtr":"⪋","LessEqualGreater":"⋚","LessFullEqual":"≦","LessGreater":"≶","lessgtr":"≶","LessLess":"⪡","lesssim":"≲","LessSlantEqual":"⩽","LessTilde":"≲","lfisht":"⥼","lfloor":"⌊","Lfr":"𝔏","lfr":"𝔩","lg":"≶","lgE":"⪑","lHar":"⥢","lhard":"↽","lharu":"↼","lharul":"⥪","lhblk":"▄","LJcy":"Љ","ljcy":"љ","llarr":"⇇","ll":"≪","Ll":"⋘","llcorner":"⌞","Lleftarrow":"⇚","llhard":"⥫","lltri":"◺","Lmidot":"Ŀ","lmidot":"ŀ","lmoustache":"⎰","lmoust":"⎰","lnap":"⪉","lnapprox":"⪉","lne":"⪇","lnE":"≨","lneq":"⪇","lneqq":"≨","lnsim":"⋦","loang":"⟬","loarr":"⇽","lobrk":"⟦","longleftarrow":"⟵","LongLeftArrow":"⟵","Longleftarrow":"⟸","longleftrightarrow":"⟷","LongLeftRightArrow":"⟷","Longleftrightarrow":"⟺","longmapsto":"⟼","longrightarrow":"⟶","LongRightArrow":"⟶","Longrightarrow":"⟹","looparrowleft":"↫","looparrowright":"↬","lopar":"⦅","Lopf":"𝕃","lopf":"𝕝","loplus":"⨭","lotimes":"⨴","lowast":"∗","lowbar":"_","LowerLeftArrow":"↙","LowerRightArrow":"↘","loz":"◊","lozenge":"◊","lozf":"⧫","lpar":"(","lparlt":"⦓","lrarr":"⇆","lrcorner":"⌟","lrhar":"⇋","lrhard":"⥭","lrm":"‎","lrtri":"⊿","lsaquo":"‹","lscr":"𝓁","Lscr":"ℒ","lsh":"↰","Lsh":"↰","lsim":"≲","lsime":"⪍","lsimg":"⪏","lsqb":"[","lsquo":"‘","lsquor":"‚","Lstrok":"Ł","lstrok":"ł","ltcc":"⪦","ltcir":"⩹","lt":"<","LT":"<","Lt":"≪","ltdot":"⋖","lthree":"⋋","ltimes":"⋉","ltlarr":"⥶","ltquest":"⩻","ltri":"◃","ltrie":"⊴","ltrif":"◂","ltrPar":"⦖","lurdshar":"⥊","luruhar":"⥦","lvertneqq":"≨︀","lvnE":"≨︀","macr":"¯","male":"♂","malt":"✠","maltese":"✠","Map":"⤅","map":"↦","mapsto":"↦","mapstodown":"↧","mapstoleft":"↤","mapstoup":"↥","marker":"▮","mcomma":"⨩","Mcy":"М","mcy":"м","mdash":"—","mDDot":"∺","measuredangle":"∡","MediumSpace":" ","Mellintrf":"ℳ","Mfr":"𝔐","mfr":"𝔪","mho":"℧","micro":"µ","midast":"*","midcir":"⫰","mid":"∣","middot":"·","minusb":"⊟","minus":"−","minusd":"∸","minusdu":"⨪","MinusPlus":"∓","mlcp":"⫛","mldr":"…","mnplus":"∓","models":"⊧","Mopf":"𝕄","mopf":"𝕞","mp":"∓","mscr":"𝓂","Mscr":"ℳ","mstpos":"∾","Mu":"Μ","mu":"μ","multimap":"⊸","mumap":"⊸","nabla":"∇","Nacute":"Ń","nacute":"ń","nang":"∠⃒","nap":"≉","napE":"⩰̸","napid":"≋̸","napos":"ŉ","napprox":"≉","natural":"♮","naturals":"ℕ","natur":"♮","nbsp":" ","nbump":"≎̸","nbumpe":"≏̸","ncap":"⩃","Ncaron":"Ň","ncaron":"ň","Ncedil":"Ņ","ncedil":"ņ","ncong":"≇","ncongdot":"⩭̸","ncup":"⩂","Ncy":"Н","ncy":"н","ndash":"–","nearhk":"⤤","nearr":"↗","neArr":"⇗","nearrow":"↗","ne":"≠","nedot":"≐̸","NegativeMediumSpace":"​","NegativeThickSpace":"​","NegativeThinSpace":"​","NegativeVeryThinSpace":"​","nequiv":"≢","nesear":"⤨","nesim":"≂̸","NestedGreaterGreater":"≫","NestedLessLess":"≪","NewLine":"\n","nexist":"∄","nexists":"∄","Nfr":"𝔑","nfr":"𝔫","ngE":"≧̸","nge":"≱","ngeq":"≱","ngeqq":"≧̸","ngeqslant":"⩾̸","nges":"⩾̸","nGg":"⋙̸","ngsim":"≵","nGt":"≫⃒","ngt":"≯","ngtr":"≯","nGtv":"≫̸","nharr":"↮","nhArr":"⇎","nhpar":"⫲","ni":"∋","nis":"⋼","nisd":"⋺","niv":"∋","NJcy":"Њ","njcy":"њ","nlarr":"↚","nlArr":"⇍","nldr":"‥","nlE":"≦̸","nle":"≰","nleftarrow":"↚","nLeftarrow":"⇍","nleftrightarrow":"↮","nLeftrightarrow":"⇎","nleq":"≰","nleqq":"≦̸","nleqslant":"⩽̸","nles":"⩽̸","nless":"≮","nLl":"⋘̸","nlsim":"≴","nLt":"≪⃒","nlt":"≮","nltri":"⋪","nltrie":"⋬","nLtv":"≪̸","nmid":"∤","NoBreak":"⁠","NonBreakingSpace":" ","nopf":"𝕟","Nopf":"ℕ","Not":"⫬","not":"¬","NotCongruent":"≢","NotCupCap":"≭","NotDoubleVerticalBar":"∦","NotElement":"∉","NotEqual":"≠","NotEqualTilde":"≂̸","NotExists":"∄","NotGreater":"≯","NotGreaterEqual":"≱","NotGreaterFullEqual":"≧̸","NotGreaterGreater":"≫̸","NotGreaterLess":"≹","NotGreaterSlantEqual":"⩾̸","NotGreaterTilde":"≵","NotHumpDownHump":"≎̸","NotHumpEqual":"≏̸","notin":"∉","notindot":"⋵̸","notinE":"⋹̸","notinva":"∉","notinvb":"⋷","notinvc":"⋶","NotLeftTriangleBar":"⧏̸","NotLeftTriangle":"⋪","NotLeftTriangleEqual":"⋬","NotLess":"≮","NotLessEqual":"≰","NotLessGreater":"≸","NotLessLess":"≪̸","NotLessSlantEqual":"⩽̸","NotLessTilde":"≴","NotNestedGreaterGreater":"⪢̸","NotNestedLessLess":"⪡̸","notni":"∌","notniva":"∌","notnivb":"⋾","notnivc":"⋽","NotPrecedes":"⊀","NotPrecedesEqual":"⪯̸","NotPrecedesSlantEqual":"⋠","NotReverseElement":"∌","NotRightTriangleBar":"⧐̸","NotRightTriangle":"⋫","NotRightTriangleEqual":"⋭","NotSquareSubset":"⊏̸","NotSquareSubsetEqual":"⋢","NotSquareSuperset":"⊐̸","NotSquareSupersetEqual":"⋣","NotSubset":"⊂⃒","NotSubsetEqual":"⊈","NotSucceeds":"⊁","NotSucceedsEqual":"⪰̸","NotSucceedsSlantEqual":"⋡","NotSucceedsTilde":"≿̸","NotSuperset":"⊃⃒","NotSupersetEqual":"⊉","NotTilde":"≁","NotTildeEqual":"≄","NotTildeFullEqual":"≇","NotTildeTilde":"≉","NotVerticalBar":"∤","nparallel":"∦","npar":"∦","nparsl":"⫽⃥","npart":"∂̸","npolint":"⨔","npr":"⊀","nprcue":"⋠","nprec":"⊀","npreceq":"⪯̸","npre":"⪯̸","nrarrc":"⤳̸","nrarr":"↛","nrArr":"⇏","nrarrw":"↝̸","nrightarrow":"↛","nRightarrow":"⇏","nrtri":"⋫","nrtrie":"⋭","nsc":"⊁","nsccue":"⋡","nsce":"⪰̸","Nscr":"𝒩","nscr":"𝓃","nshortmid":"∤","nshortparallel":"∦","nsim":"≁","nsime":"≄","nsimeq":"≄","nsmid":"∤","nspar":"∦","nsqsube":"⋢","nsqsupe":"⋣","nsub":"⊄","nsubE":"⫅̸","nsube":"⊈","nsubset":"⊂⃒","nsubseteq":"⊈","nsubseteqq":"⫅̸","nsucc":"⊁","nsucceq":"⪰̸","nsup":"⊅","nsupE":"⫆̸","nsupe":"⊉","nsupset":"⊃⃒","nsupseteq":"⊉","nsupseteqq":"⫆̸","ntgl":"≹","Ntilde":"Ñ","ntilde":"ñ","ntlg":"≸","ntriangleleft":"⋪","ntrianglelefteq":"⋬","ntriangleright":"⋫","ntrianglerighteq":"⋭","Nu":"Ν","nu":"ν","num":"#","numero":"№","numsp":" ","nvap":"≍⃒","nvdash":"⊬","nvDash":"⊭","nVdash":"⊮","nVDash":"⊯","nvge":"≥⃒","nvgt":">⃒","nvHarr":"⤄","nvinfin":"⧞","nvlArr":"⤂","nvle":"≤⃒","nvlt":"<⃒","nvltrie":"⊴⃒","nvrArr":"⤃","nvrtrie":"⊵⃒","nvsim":"∼⃒","nwarhk":"⤣","nwarr":"↖","nwArr":"⇖","nwarrow":"↖","nwnear":"⤧","Oacute":"Ó","oacute":"ó","oast":"⊛","Ocirc":"Ô","ocirc":"ô","ocir":"⊚","Ocy":"О","ocy":"о","odash":"⊝","Odblac":"Ő","odblac":"ő","odiv":"⨸","odot":"⊙","odsold":"⦼","OElig":"Œ","oelig":"œ","ofcir":"⦿","Ofr":"𝔒","ofr":"𝔬","ogon":"˛","Ograve":"Ò","ograve":"ò","ogt":"⧁","ohbar":"⦵","ohm":"Ω","oint":"∮","olarr":"↺","olcir":"⦾","olcross":"⦻","oline":"‾","olt":"⧀","Omacr":"Ō","omacr":"ō","Omega":"Ω","omega":"ω","Omicron":"Ο","omicron":"ο","omid":"⦶","ominus":"⊖","Oopf":"𝕆","oopf":"𝕠","opar":"⦷","OpenCurlyDoubleQuote":"“","OpenCurlyQuote":"‘","operp":"⦹","oplus":"⊕","orarr":"↻","Or":"⩔","or":"∨","ord":"⩝","order":"ℴ","orderof":"ℴ","ordf":"ª","ordm":"º","origof":"⊶","oror":"⩖","orslope":"⩗","orv":"⩛","oS":"Ⓢ","Oscr":"𝒪","oscr":"ℴ","Oslash":"Ø","oslash":"ø","osol":"⊘","Otilde":"Õ","otilde":"õ","otimesas":"⨶","Otimes":"⨷","otimes":"⊗","Ouml":"Ö","ouml":"ö","ovbar":"⌽","OverBar":"‾","OverBrace":"⏞","OverBracket":"⎴","OverParenthesis":"⏜","para":"¶","parallel":"∥","par":"∥","parsim":"⫳","parsl":"⫽","part":"∂","PartialD":"∂","Pcy":"П","pcy":"п","percnt":"%","period":".","permil":"‰","perp":"⊥","pertenk":"‱","Pfr":"𝔓","pfr":"𝔭","Phi":"Φ","phi":"φ","phiv":"ϕ","phmmat":"ℳ","phone":"☎","Pi":"Π","pi":"π","pitchfork":"⋔","piv":"ϖ","planck":"ℏ","planckh":"ℎ","plankv":"ℏ","plusacir":"⨣","plusb":"⊞","pluscir":"⨢","plus":"+","plusdo":"∔","plusdu":"⨥","pluse":"⩲","PlusMinus":"±","plusmn":"±","plussim":"⨦","plustwo":"⨧","pm":"±","Poincareplane":"ℌ","pointint":"⨕","popf":"𝕡","Popf":"ℙ","pound":"£","prap":"⪷","Pr":"⪻","pr":"≺","prcue":"≼","precapprox":"⪷","prec":"≺","preccurlyeq":"≼","Precedes":"≺","PrecedesEqual":"⪯","PrecedesSlantEqual":"≼","PrecedesTilde":"≾","preceq":"⪯","precnapprox":"⪹","precneqq":"⪵","precnsim":"⋨","pre":"⪯","prE":"⪳","precsim":"≾","prime":"′","Prime":"″","primes":"ℙ","prnap":"⪹","prnE":"⪵","prnsim":"⋨","prod":"∏","Product":"∏","profalar":"⌮","profline":"⌒","profsurf":"⌓","prop":"∝","Proportional":"∝","Proportion":"∷","propto":"∝","prsim":"≾","prurel":"⊰","Pscr":"𝒫","pscr":"𝓅","Psi":"Ψ","psi":"ψ","puncsp":" ","Qfr":"𝔔","qfr":"𝔮","qint":"⨌","qopf":"𝕢","Qopf":"ℚ","qprime":"⁗","Qscr":"𝒬","qscr":"𝓆","quaternions":"ℍ","quatint":"⨖","quest":"?","questeq":"≟","quot":"\"","QUOT":"\"","rAarr":"⇛","race":"∽̱","Racute":"Ŕ","racute":"ŕ","radic":"√","raemptyv":"⦳","rang":"⟩","Rang":"⟫","rangd":"⦒","range":"⦥","rangle":"⟩","raquo":"»","rarrap":"⥵","rarrb":"⇥","rarrbfs":"⤠","rarrc":"⤳","rarr":"→","Rarr":"↠","rArr":"⇒","rarrfs":"⤞","rarrhk":"↪","rarrlp":"↬","rarrpl":"⥅","rarrsim":"⥴","Rarrtl":"⤖","rarrtl":"↣","rarrw":"↝","ratail":"⤚","rAtail":"⤜","ratio":"∶","rationals":"ℚ","rbarr":"⤍","rBarr":"⤏","RBarr":"⤐","rbbrk":"❳","rbrace":"}","rbrack":"]","rbrke":"⦌","rbrksld":"⦎","rbrkslu":"⦐","Rcaron":"Ř","rcaron":"ř","Rcedil":"Ŗ","rcedil":"ŗ","rceil":"⌉","rcub":"}","Rcy":"Р","rcy":"р","rdca":"⤷","rdldhar":"⥩","rdquo":"”","rdquor":"”","rdsh":"↳","real":"ℜ","realine":"ℛ","realpart":"ℜ","reals":"ℝ","Re":"ℜ","rect":"▭","reg":"®","REG":"®","ReverseElement":"∋","ReverseEquilibrium":"⇋","ReverseUpEquilibrium":"⥯","rfisht":"⥽","rfloor":"⌋","rfr":"𝔯","Rfr":"ℜ","rHar":"⥤","rhard":"⇁","rharu":"⇀","rharul":"⥬","Rho":"Ρ","rho":"ρ","rhov":"ϱ","RightAngleBracket":"⟩","RightArrowBar":"⇥","rightarrow":"→","RightArrow":"→","Rightarrow":"⇒","RightArrowLeftArrow":"⇄","rightarrowtail":"↣","RightCeiling":"⌉","RightDoubleBracket":"⟧","RightDownTeeVector":"⥝","RightDownVectorBar":"⥕","RightDownVector":"⇂","RightFloor":"⌋","rightharpoondown":"⇁","rightharpoonup":"⇀","rightleftarrows":"⇄","rightleftharpoons":"⇌","rightrightarrows":"⇉","rightsquigarrow":"↝","RightTeeArrow":"↦","RightTee":"⊢","RightTeeVector":"⥛","rightthreetimes":"⋌","RightTriangleBar":"⧐","RightTriangle":"⊳","RightTriangleEqual":"⊵","RightUpDownVector":"⥏","RightUpTeeVector":"⥜","RightUpVectorBar":"⥔","RightUpVector":"↾","RightVectorBar":"⥓","RightVector":"⇀","ring":"˚","risingdotseq":"≓","rlarr":"⇄","rlhar":"⇌","rlm":"‏","rmoustache":"⎱","rmoust":"⎱","rnmid":"⫮","roang":"⟭","roarr":"⇾","robrk":"⟧","ropar":"⦆","ropf":"𝕣","Ropf":"ℝ","roplus":"⨮","rotimes":"⨵","RoundImplies":"⥰","rpar":")","rpargt":"⦔","rppolint":"⨒","rrarr":"⇉","Rrightarrow":"⇛","rsaquo":"›","rscr":"𝓇","Rscr":"ℛ","rsh":"↱","Rsh":"↱","rsqb":"]","rsquo":"’","rsquor":"’","rthree":"⋌","rtimes":"⋊","rtri":"▹","rtrie":"⊵","rtrif":"▸","rtriltri":"⧎","RuleDelayed":"⧴","ruluhar":"⥨","rx":"℞","Sacute":"Ś","sacute":"ś","sbquo":"‚","scap":"⪸","Scaron":"Š","scaron":"š","Sc":"⪼","sc":"≻","sccue":"≽","sce":"⪰","scE":"⪴","Scedil":"Ş","scedil":"ş","Scirc":"Ŝ","scirc":"ŝ","scnap":"⪺","scnE":"⪶","scnsim":"⋩","scpolint":"⨓","scsim":"≿","Scy":"С","scy":"с","sdotb":"⊡","sdot":"⋅","sdote":"⩦","searhk":"⤥","searr":"↘","seArr":"⇘","searrow":"↘","sect":"§","semi":";","seswar":"⤩","setminus":"∖","setmn":"∖","sext":"✶","Sfr":"𝔖","sfr":"𝔰","sfrown":"⌢","sharp":"♯","SHCHcy":"Щ","shchcy":"щ","SHcy":"Ш","shcy":"ш","ShortDownArrow":"↓","ShortLeftArrow":"←","shortmid":"∣","shortparallel":"∥","ShortRightArrow":"→","ShortUpArrow":"↑","shy":"­","Sigma":"Σ","sigma":"σ","sigmaf":"ς","sigmav":"ς","sim":"∼","simdot":"⩪","sime":"≃","simeq":"≃","simg":"⪞","simgE":"⪠","siml":"⪝","simlE":"⪟","simne":"≆","simplus":"⨤","simrarr":"⥲","slarr":"←","SmallCircle":"∘","smallsetminus":"∖","smashp":"⨳","smeparsl":"⧤","smid":"∣","smile":"⌣","smt":"⪪","smte":"⪬","smtes":"⪬︀","SOFTcy":"Ь","softcy":"ь","solbar":"⌿","solb":"⧄","sol":"/","Sopf":"𝕊","sopf":"𝕤","spades":"♠","spadesuit":"♠","spar":"∥","sqcap":"⊓","sqcaps":"⊓︀","sqcup":"⊔","sqcups":"⊔︀","Sqrt":"√","sqsub":"⊏","sqsube":"⊑","sqsubset":"⊏","sqsubseteq":"⊑","sqsup":"⊐","sqsupe":"⊒","sqsupset":"⊐","sqsupseteq":"⊒","square":"□","Square":"□","SquareIntersection":"⊓","SquareSubset":"⊏","SquareSubsetEqual":"⊑","SquareSuperset":"⊐","SquareSupersetEqual":"⊒","SquareUnion":"⊔","squarf":"▪","squ":"□","squf":"▪","srarr":"→","Sscr":"𝒮","sscr":"𝓈","ssetmn":"∖","ssmile":"⌣","sstarf":"⋆","Star":"⋆","star":"☆","starf":"★","straightepsilon":"ϵ","straightphi":"ϕ","strns":"¯","sub":"⊂","Sub":"⋐","subdot":"⪽","subE":"⫅","sube":"⊆","subedot":"⫃","submult":"⫁","subnE":"⫋","subne":"⊊","subplus":"⪿","subrarr":"⥹","subset":"⊂","Subset":"⋐","subseteq":"⊆","subseteqq":"⫅","SubsetEqual":"⊆","subsetneq":"⊊","subsetneqq":"⫋","subsim":"⫇","subsub":"⫕","subsup":"⫓","succapprox":"⪸","succ":"≻","succcurlyeq":"≽","Succeeds":"≻","SucceedsEqual":"⪰","SucceedsSlantEqual":"≽","SucceedsTilde":"≿","succeq":"⪰","succnapprox":"⪺","succneqq":"⪶","succnsim":"⋩","succsim":"≿","SuchThat":"∋","sum":"∑","Sum":"∑","sung":"♪","sup1":"¹","sup2":"²","sup3":"³","sup":"⊃","Sup":"⋑","supdot":"⪾","supdsub":"⫘","supE":"⫆","supe":"⊇","supedot":"⫄","Superset":"⊃","SupersetEqual":"⊇","suphsol":"⟉","suphsub":"⫗","suplarr":"⥻","supmult":"⫂","supnE":"⫌","supne":"⊋","supplus":"⫀","supset":"⊃","Supset":"⋑","supseteq":"⊇","supseteqq":"⫆","supsetneq":"⊋","supsetneqq":"⫌","supsim":"⫈","supsub":"⫔","supsup":"⫖","swarhk":"⤦","swarr":"↙","swArr":"⇙","swarrow":"↙","swnwar":"⤪","szlig":"ß","Tab":"\t","target":"⌖","Tau":"Τ","tau":"τ","tbrk":"⎴","Tcaron":"Ť","tcaron":"ť","Tcedil":"Ţ","tcedil":"ţ","Tcy":"Т","tcy":"т","tdot":"⃛","telrec":"⌕","Tfr":"𝔗","tfr":"𝔱","there4":"∴","therefore":"∴","Therefore":"∴","Theta":"Θ","theta":"θ","thetasym":"ϑ","thetav":"ϑ","thickapprox":"≈","thicksim":"∼","ThickSpace":"  ","ThinSpace":" ","thinsp":" ","thkap":"≈","thksim":"∼","THORN":"Þ","thorn":"þ","tilde":"˜","Tilde":"∼","TildeEqual":"≃","TildeFullEqual":"≅","TildeTilde":"≈","timesbar":"⨱","timesb":"⊠","times":"×","timesd":"⨰","tint":"∭","toea":"⤨","topbot":"⌶","topcir":"⫱","top":"⊤","Topf":"𝕋","topf":"𝕥","topfork":"⫚","tosa":"⤩","tprime":"‴","trade":"™","TRADE":"™","triangle":"▵","triangledown":"▿","triangleleft":"◃","trianglelefteq":"⊴","triangleq":"≜","triangleright":"▹","trianglerighteq":"⊵","tridot":"◬","trie":"≜","triminus":"⨺","TripleDot":"⃛","triplus":"⨹","trisb":"⧍","tritime":"⨻","trpezium":"⏢","Tscr":"𝒯","tscr":"𝓉","TScy":"Ц","tscy":"ц","TSHcy":"Ћ","tshcy":"ћ","Tstrok":"Ŧ","tstrok":"ŧ","twixt":"≬","twoheadleftarrow":"↞","twoheadrightarrow":"↠","Uacute":"Ú","uacute":"ú","uarr":"↑","Uarr":"↟","uArr":"⇑","Uarrocir":"⥉","Ubrcy":"Ў","ubrcy":"ў","Ubreve":"Ŭ","ubreve":"ŭ","Ucirc":"Û","ucirc":"û","Ucy":"У","ucy":"у","udarr":"⇅","Udblac":"Ű","udblac":"ű","udhar":"⥮","ufisht":"⥾","Ufr":"𝔘","ufr":"𝔲","Ugrave":"Ù","ugrave":"ù","uHar":"⥣","uharl":"↿","uharr":"↾","uhblk":"▀","ulcorn":"⌜","ulcorner":"⌜","ulcrop":"⌏","ultri":"◸","Umacr":"Ū","umacr":"ū","uml":"¨","UnderBar":"_","UnderBrace":"⏟","UnderBracket":"⎵","UnderParenthesis":"⏝","Union":"⋃","UnionPlus":"⊎","Uogon":"Ų","uogon":"ų","Uopf":"𝕌","uopf":"𝕦","UpArrowBar":"⤒","uparrow":"↑","UpArrow":"↑","Uparrow":"⇑","UpArrowDownArrow":"⇅","updownarrow":"↕","UpDownArrow":"↕","Updownarrow":"⇕","UpEquilibrium":"⥮","upharpoonleft":"↿","upharpoonright":"↾","uplus":"⊎","UpperLeftArrow":"↖","UpperRightArrow":"↗","upsi":"υ","Upsi":"ϒ","upsih":"ϒ","Upsilon":"Υ","upsilon":"υ","UpTeeArrow":"↥","UpTee":"⊥","upuparrows":"⇈","urcorn":"⌝","urcorner":"⌝","urcrop":"⌎","Uring":"Ů","uring":"ů","urtri":"◹","Uscr":"𝒰","uscr":"𝓊","utdot":"⋰","Utilde":"Ũ","utilde":"ũ","utri":"▵","utrif":"▴","uuarr":"⇈","Uuml":"Ü","uuml":"ü","uwangle":"⦧","vangrt":"⦜","varepsilon":"ϵ","varkappa":"ϰ","varnothing":"∅","varphi":"ϕ","varpi":"ϖ","varpropto":"∝","varr":"↕","vArr":"⇕","varrho":"ϱ","varsigma":"ς","varsubsetneq":"⊊︀","varsubsetneqq":"⫋︀","varsupsetneq":"⊋︀","varsupsetneqq":"⫌︀","vartheta":"ϑ","vartriangleleft":"⊲","vartriangleright":"⊳","vBar":"⫨","Vbar":"⫫","vBarv":"⫩","Vcy":"В","vcy":"в","vdash":"⊢","vDash":"⊨","Vdash":"⊩","VDash":"⊫","Vdashl":"⫦","veebar":"⊻","vee":"∨","Vee":"⋁","veeeq":"≚","vellip":"⋮","verbar":"|","Verbar":"‖","vert":"|","Vert":"‖","VerticalBar":"∣","VerticalLine":"|","VerticalSeparator":"❘","VerticalTilde":"≀","VeryThinSpace":" ","Vfr":"𝔙","vfr":"𝔳","vltri":"⊲","vnsub":"⊂⃒","vnsup":"⊃⃒","Vopf":"𝕍","vopf":"𝕧","vprop":"∝","vrtri":"⊳","Vscr":"𝒱","vscr":"𝓋","vsubnE":"⫋︀","vsubne":"⊊︀","vsupnE":"⫌︀","vsupne":"⊋︀","Vvdash":"⊪","vzigzag":"⦚","Wcirc":"Ŵ","wcirc":"ŵ","wedbar":"⩟","wedge":"∧","Wedge":"⋀","wedgeq":"≙","weierp":"℘","Wfr":"𝔚","wfr":"𝔴","Wopf":"𝕎","wopf":"𝕨","wp":"℘","wr":"≀","wreath":"≀","Wscr":"𝒲","wscr":"𝓌","xcap":"⋂","xcirc":"◯","xcup":"⋃","xdtri":"▽","Xfr":"𝔛","xfr":"𝔵","xharr":"⟷","xhArr":"⟺","Xi":"Ξ","xi":"ξ","xlarr":"⟵","xlArr":"⟸","xmap":"⟼","xnis":"⋻","xodot":"⨀","Xopf":"𝕏","xopf":"𝕩","xoplus":"⨁","xotime":"⨂","xrarr":"⟶","xrArr":"⟹","Xscr":"𝒳","xscr":"𝓍","xsqcup":"⨆","xuplus":"⨄","xutri":"△","xvee":"⋁","xwedge":"⋀","Yacute":"Ý","yacute":"ý","YAcy":"Я","yacy":"я","Ycirc":"Ŷ","ycirc":"ŷ","Ycy":"Ы","ycy":"ы","yen":"¥","Yfr":"𝔜","yfr":"𝔶","YIcy":"Ї","yicy":"ї","Yopf":"𝕐","yopf":"𝕪","Yscr":"𝒴","yscr":"𝓎","YUcy":"Ю","yucy":"ю","yuml":"ÿ","Yuml":"Ÿ","Zacute":"Ź","zacute":"ź","Zcaron":"Ž","zcaron":"ž","Zcy":"З","zcy":"з","Zdot":"Ż","zdot":"ż","zeetrf":"ℨ","ZeroWidthSpace":"​","Zeta":"Ζ","zeta":"ζ","zfr":"𝔷","Zfr":"ℨ","ZHcy":"Ж","zhcy":"ж","zigrarr":"⇝","zopf":"𝕫","Zopf":"ℤ","Zscr":"𝒵","zscr":"𝓏","zwj":"‍","zwnj":"‌"}
 
 /***/ }),
-/* 297 */
+/* 306 */
 /***/ (function(module, exports) {
 
 module.exports = {"amp":"&","apos":"'","gt":">","lt":"<","quot":"\""}
 
 /***/ }),
-/* 298 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports = module.exports = __webpack_require__(418);
+exports = module.exports = __webpack_require__(427);
 exports.Stream = exports;
 exports.Readable = exports;
-exports.Writable = __webpack_require__(300);
+exports.Writable = __webpack_require__(309);
 exports.Duplex = __webpack_require__(72);
-exports.Transform = __webpack_require__(422);
-exports.PassThrough = __webpack_require__(707);
+exports.Transform = __webpack_require__(431);
+exports.PassThrough = __webpack_require__(724);
 
 /***/ }),
-/* 299 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15993,9 +16570,9 @@ exports.PassThrough = __webpack_require__(707);
 
 
 
-var base64 = __webpack_require__(700);
-var ieee754 = __webpack_require__(701);
-var isArray = __webpack_require__(419);
+var base64 = __webpack_require__(717);
+var ieee754 = __webpack_require__(718);
+var isArray = __webpack_require__(428);
 
 exports.Buffer = Buffer;
 exports.SlowBuffer = SlowBuffer;
@@ -17723,7 +18300,7 @@ function isnan(val) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 300 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17756,7 +18333,7 @@ function isnan(val) {
 
 /*<replacement>*/
 
-var processNextTick = __webpack_require__(170);
+var processNextTick = __webpack_require__(174);
 /*</replacement>*/
 
 module.exports = Writable;
@@ -17799,16 +18376,16 @@ util.inherits = __webpack_require__(14);
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __webpack_require__(706)
+  deprecate: __webpack_require__(723)
 };
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(420);
+var Stream = __webpack_require__(429);
 /*</replacement>*/
 
 /*<replacement>*/
-var Buffer = __webpack_require__(171).Buffer;
+var Buffer = __webpack_require__(175).Buffer;
 var OurUint8Array = global.Uint8Array || function () {};
 function _uint8ArrayToBuffer(chunk) {
   return Buffer.from(chunk);
@@ -17818,7 +18395,7 @@ function _isUint8Array(obj) {
 }
 /*</replacement>*/
 
-var destroyImpl = __webpack_require__(421);
+var destroyImpl = __webpack_require__(430);
 
 util.inherits(Writable, Stream);
 
@@ -18391,16 +18968,16 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(56), __webpack_require__(704).setImmediate, __webpack_require__(12)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(57), __webpack_require__(721).setImmediate, __webpack_require__(12)))
 
 /***/ }),
-/* 301 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Buffer = __webpack_require__(171).Buffer;
+var Buffer = __webpack_require__(175).Buffer;
 
 var isEncoding = Buffer.isEncoding || function (encoding) {
   encoding = '' + encoding;
@@ -18672,7 +19249,7 @@ function simpleEnd(buf) {
 }
 
 /***/ }),
-/* 302 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18683,27 +19260,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-var _createStore = __webpack_require__(424);
+var _createStore = __webpack_require__(433);
 
 var _createStore2 = _interopRequireDefault(_createStore);
 
-var _combineReducers = __webpack_require__(739);
+var _combineReducers = __webpack_require__(756);
 
 var _combineReducers2 = _interopRequireDefault(_combineReducers);
 
-var _bindActionCreators = __webpack_require__(740);
+var _bindActionCreators = __webpack_require__(757);
 
 var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 
-var _applyMiddleware = __webpack_require__(741);
+var _applyMiddleware = __webpack_require__(758);
 
 var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 
-var _compose = __webpack_require__(427);
+var _compose = __webpack_require__(436);
 
 var _compose2 = _interopRequireDefault(_compose);
 
-var _warning = __webpack_require__(426);
+var _warning = __webpack_require__(435);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -18726,7 +19303,7 @@ exports.applyMiddleware = _applyMiddleware2.default;
 exports.compose = _compose2.default;
 
 /***/ }),
-/* 303 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18736,15 +19313,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _baseGetTag = __webpack_require__(728);
+var _baseGetTag = __webpack_require__(745);
 
 var _baseGetTag2 = _interopRequireDefault(_baseGetTag);
 
-var _getPrototype = __webpack_require__(733);
+var _getPrototype = __webpack_require__(750);
 
 var _getPrototype2 = _interopRequireDefault(_getPrototype);
 
-var _isObjectLike = __webpack_require__(735);
+var _isObjectLike = __webpack_require__(752);
 
 var _isObjectLike2 = _interopRequireDefault(_isObjectLike);
 
@@ -18809,7 +19386,7 @@ function isPlainObject(value) {
 exports.default = isPlainObject;
 
 /***/ }),
-/* 304 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18820,15 +19397,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.connect = exports.connectAdvanced = exports.createProvider = exports.Provider = undefined;
 
-var _Provider = __webpack_require__(744);
+var _Provider = __webpack_require__(761);
 
 var _Provider2 = _interopRequireDefault(_Provider);
 
-var _connectAdvanced = __webpack_require__(429);
+var _connectAdvanced = __webpack_require__(438);
 
 var _connectAdvanced2 = _interopRequireDefault(_connectAdvanced);
 
-var _connect = __webpack_require__(747);
+var _connect = __webpack_require__(764);
 
 var _connect2 = _interopRequireDefault(_connect);
 
@@ -18840,7 +19417,7 @@ exports.connectAdvanced = _connectAdvanced2.default;
 exports.connect = _connect2.default;
 
 /***/ }),
-/* 305 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18873,14 +19450,14 @@ function warning(message) {
 }
 
 /***/ }),
-/* 306 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseCreate = __webpack_require__(106),
-    baseLodash = __webpack_require__(307);
+var baseCreate = __webpack_require__(107),
+    baseLodash = __webpack_require__(316);
 
 /**
  * The base constructor for creating `lodash` wrapper objects.
@@ -18903,7 +19480,7 @@ LodashWrapper.prototype.constructor = LodashWrapper;
 module.exports = LodashWrapper;
 
 /***/ }),
-/* 307 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18921,14 +19498,14 @@ function baseLodash() {
 module.exports = baseLodash;
 
 /***/ }),
-/* 308 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseCreate = __webpack_require__(106),
-    baseLodash = __webpack_require__(307);
+var baseCreate = __webpack_require__(107),
+    baseLodash = __webpack_require__(316);
 
 /** Used as references for the maximum length and index of an array. */
 var MAX_ARRAY_LENGTH = 4294967295;
@@ -18957,7 +19534,7 @@ LazyWrapper.prototype.constructor = LazyWrapper;
 module.exports = LazyWrapper;
 
 /***/ }),
-/* 309 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19096,7 +19673,7 @@ function updateReadabilityResult(result) {
 }
 
 /***/ }),
-/* 310 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19105,7 +19682,7 @@ function updateReadabilityResult(result) {
 /* global YoastSEO */
 
 var scoreToRating = __webpack_require__(161).helpers.scoreToRating;
-var isUndefined = __webpack_require__(3);
+var isUndefined = __webpack_require__(4);
 
 /**
  * Returns whether or not the current page has presenters.
@@ -19164,15 +19741,15 @@ function getIndicatorForScore(score) {
 module.exports = getIndicatorForScore;
 
 /***/ }),
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19213,13 +19790,13 @@ function get(object, path, defaultValue) {
 module.exports = get;
 
 /***/ }),
-/* 320 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 /**
  * Returns a score and text based on the firstParagraph object.
  *
@@ -19266,13 +19843,13 @@ module.exports = {
 //# sourceMappingURL=introductionKeywordAssessment.js.map
 
 /***/ }),
-/* 321 */
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 /**
  * Assesses the keyphrase presence and length
  *
@@ -19301,15 +19878,15 @@ module.exports = {
 //# sourceMappingURL=keyphraseLengthAssessment.js.map
 
 /***/ }),
-/* 322 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var matchWords = __webpack_require__(67);
-var countWords = __webpack_require__(55);
+var AssessmentResult = __webpack_require__(5);
+var matchWords = __webpack_require__(68);
+var countWords = __webpack_require__(56);
 var formatNumber = __webpack_require__(126);
 var inRange = __webpack_require__(69);
 var inRangeEndInclusive = inRange.inRangeEndInclusive;
@@ -19388,14 +19965,14 @@ module.exports = {
 //# sourceMappingURL=keywordDensityAssessment.js.map
 
 /***/ }),
-/* 323 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var getLanguageAvailability = __webpack_require__(91);
+var AssessmentResult = __webpack_require__(5);
+var getLanguageAvailability = __webpack_require__(92);
 var availableLanguages = ["en"];
 /**
  * Calculate the score based on the amount of stop words in the keyword.
@@ -19441,13 +20018,13 @@ module.exports = {
 //# sourceMappingURL=keywordStopWordsAssessment.js.map
 
 /***/ }),
-/* 324 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 /**
  * Returns the score and text for the description keyword match.
  * @param {number} keywordMatches The number of keyword matches in the description.
@@ -19496,7 +20073,7 @@ module.exports = {
 //# sourceMappingURL=metaDescriptionKeywordAssessment.js.map
 
 /***/ }),
-/* 325 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19532,9 +20109,9 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(38);
-var merge = __webpack_require__(23);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(40);
+var merge = __webpack_require__(25);
 /**
  * Assessment for calculating the length of the meta description.
  */
@@ -19649,15 +20226,15 @@ module.exports = MetaDescriptionLengthAssessment;
 //# sourceMappingURL=metaDescriptionLengthAssessment.js.map
 
 /***/ }),
-/* 326 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseInRange = __webpack_require__(661),
-    toFinite = __webpack_require__(372),
-    toNumber = __webpack_require__(110);
+var baseInRange = __webpack_require__(678),
+    toFinite = __webpack_require__(381),
+    toNumber = __webpack_require__(111);
 
 /**
  * Checks if `n` is between `start` and up to, but not including, `end`. If
@@ -19712,14 +20289,14 @@ function inRange(number, start, end) {
 module.exports = inRange;
 
 /***/ }),
-/* 327 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var escape = __webpack_require__(662);
+var AssessmentResult = __webpack_require__(5);
+var escape = __webpack_require__(679);
 /**
  * Executes the pagetitle keyword assessment and returns an assessment result.
  * @param {Paper} paper The Paper object to assess.
@@ -19758,7 +20335,7 @@ module.exports = {
 //# sourceMappingURL=titleKeywordAssessment.js.map
 
 /***/ }),
-/* 328 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19794,10 +20371,10 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(38);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(40);
 var inRange = __webpack_require__(69).inRangeEndInclusive;
-var merge = __webpack_require__(23);
+var merge = __webpack_require__(25);
 /**
  * Represents the assessmenth that will calculate if the width of the page title is correct.
  */
@@ -19907,7 +20484,7 @@ module.exports = PageTitleWidthAssesment;
 //# sourceMappingURL=pageTitleWidthAssessment.js.map
 
 /***/ }),
-/* 329 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19943,9 +20520,9 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(38);
-var merge = __webpack_require__(23);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(40);
+var merge = __webpack_require__(25);
 /**
  * Represents the URL keyword assessments. This assessments will check if the keyword is present in the url.
  */
@@ -20051,7 +20628,7 @@ module.exports = UrlKeywordAssessment;
 //# sourceMappingURL=urlKeywordAssessment.js.map
 
 /***/ }),
-/* 330 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20087,9 +20664,9 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(38);
-var merge = __webpack_require__(23);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(40);
+var merge = __webpack_require__(25);
 /**
  * Assessment that checks if the url is long enough.
  */
@@ -20195,14 +20772,14 @@ module.exports = UrlLengthAssessment;
 //# sourceMappingURL=urlLengthAssessment.js.map
 
 /***/ }),
-/* 331 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var getLanguageAvailability = __webpack_require__(91);
+var AssessmentResult = __webpack_require__(5);
+var getLanguageAvailability = __webpack_require__(92);
 var availableLanguages = ["en"];
 /**
  * Calculate the score based on the amount of stop words in the url.
@@ -20249,7 +20826,7 @@ module.exports = {
 //# sourceMappingURL=urlStopWordsAssessment.js.map
 
 /***/ }),
-/* 332 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20275,15 +20852,15 @@ var setMarkerStatus = exports.setMarkerStatus = function setMarkerStatus(marksBu
 };
 
 /***/ }),
-/* 333 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _forEach = __webpack_require__(5);
+var _forEach = __webpack_require__(2);
 
-var removeMarks = __webpack_require__(452);
+var removeMarks = __webpack_require__(461);
 
 var MARK_TAG = "yoastmark";
 
@@ -20384,12 +20961,12 @@ module.exports = {
 };
 
 /***/ }),
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */,
-/* 339 */
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20422,26 +20999,26 @@ function createBaseFor(fromRight) {
 module.exports = createBaseFor;
 
 /***/ }),
-/* 340 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assignMergeValue = __webpack_require__(173),
+var assignMergeValue = __webpack_require__(177),
     cloneBuffer = __webpack_require__(135),
     cloneTypedArray = __webpack_require__(136),
-    copyArray = __webpack_require__(95),
+    copyArray = __webpack_require__(96),
     initCloneObject = __webpack_require__(137),
-    isArguments = __webpack_require__(51),
-    isArray = __webpack_require__(2),
+    isArguments = __webpack_require__(53),
+    isArray = __webpack_require__(3),
     isArrayLikeObject = __webpack_require__(145),
-    isBuffer = __webpack_require__(52),
-    isFunction = __webpack_require__(57),
+    isBuffer = __webpack_require__(54),
+    isFunction = __webpack_require__(58),
     isObject = __webpack_require__(6),
-    isPlainObject = __webpack_require__(96),
+    isPlainObject = __webpack_require__(97),
     isTypedArray = __webpack_require__(78),
-    toPlainObject = __webpack_require__(341);
+    toPlainObject = __webpack_require__(350);
 
 /**
  * A specialized version of `baseMerge` for arrays and objects which performs
@@ -20514,14 +21091,14 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
 module.exports = baseMergeDeep;
 
 /***/ }),
-/* 341 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(19),
-    keysIn = __webpack_require__(45);
+var copyObject = __webpack_require__(21),
+    keysIn = __webpack_require__(47);
 
 /**
  * Converts `value` to a plain object flattening inherited enumerable string
@@ -20554,21 +21131,21 @@ function toPlainObject(value) {
 module.exports = toPlainObject;
 
 /***/ }),
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */,
-/* 346 */,
-/* 347 */,
-/* 348 */,
-/* 349 */,
-/* 350 */
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */,
+/* 355 */,
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIsEqualDeep = __webpack_require__(526),
+var baseIsEqualDeep = __webpack_require__(535),
     isObjectLike = __webpack_require__(13);
 
 /**
@@ -20598,14 +21175,14 @@ function baseIsEqual(value, other, bitmask, customizer, stack) {
 module.exports = baseIsEqual;
 
 /***/ }),
-/* 351 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var SetCache = __webpack_require__(164),
-    arraySome = __webpack_require__(529),
+    arraySome = __webpack_require__(538),
     cacheHas = __webpack_require__(165);
 
 /** Used to compose bitmasks for value comparisons. */
@@ -20683,7 +21260,7 @@ function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
 module.exports = equalArrays;
 
 /***/ }),
-/* 352 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20706,7 +21283,7 @@ function isStrictComparable(value) {
 module.exports = isStrictComparable;
 
 /***/ }),
-/* 353 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20733,14 +21310,14 @@ function matchesStrictComparable(key, srcValue) {
 module.exports = matchesStrictComparable;
 
 /***/ }),
-/* 354 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseHasIn = __webpack_require__(534),
-    hasPath = __webpack_require__(355);
+var baseHasIn = __webpack_require__(543),
+    hasPath = __webpack_require__(364);
 
 /**
  * Checks if `path` is a direct or inherited property of `object`.
@@ -20775,18 +21352,18 @@ function hasIn(object, path) {
 module.exports = hasIn;
 
 /***/ }),
-/* 355 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var castPath = __webpack_require__(37),
-    isArguments = __webpack_require__(51),
-    isArray = __webpack_require__(2),
+var castPath = __webpack_require__(38),
+    isArguments = __webpack_require__(53),
+    isArray = __webpack_require__(3),
     isIndex = __webpack_require__(77),
     isLength = __webpack_require__(81),
-    toKey = __webpack_require__(46);
+    toKey = __webpack_require__(48);
 
 /**
  * Checks if `path` exists on `object`.
@@ -20821,14 +21398,14 @@ function hasPath(object, path, hasFunc) {
 module.exports = hasPath;
 
 /***/ }),
-/* 356 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseEach = __webpack_require__(123),
-    isArrayLike = __webpack_require__(21);
+var baseEach = __webpack_require__(124),
+    isArrayLike = __webpack_require__(23);
 
 /**
  * The base implementation of `_.map` without support for iteratee shorthands.
@@ -20851,13 +21428,13 @@ function baseMap(collection, iteratee) {
 module.exports = baseMap;
 
 /***/ }),
-/* 357 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseEach = __webpack_require__(123);
+var baseEach = __webpack_require__(124);
 
 /**
  * The base implementation of `_.filter` without support for iteratee shorthands.
@@ -20880,7 +21457,7 @@ function baseFilter(collection, predicate) {
 module.exports = baseFilter;
 
 /***/ }),
-/* 358 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20932,7 +21509,7 @@ function negate(predicate) {
 module.exports = negate;
 
 /***/ }),
-/* 359 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21008,7 +21585,7 @@ module.exports = function (onToken_orig) {
 };
 
 /***/ }),
-/* 360 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21050,7 +21627,7 @@ module.exports = {
 //# sourceMappingURL=unifyWhitespace.js.map
 
 /***/ }),
-/* 361 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21066,12 +21643,12 @@ module.exports = function InvalidTypeError(message) {
   this.name = this.constructor.name;
   this.message = message;
 };
-__webpack_require__(33).inherits(module.exports, Error);
+__webpack_require__(19).inherits(module.exports, Error);
 //# sourceMappingURL=invalidType.js.map
 //# sourceMappingURL=invalidType.js.map
 
 /***/ }),
-/* 362 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21097,14 +21674,14 @@ module.exports = function (text) {
 //# sourceMappingURL=getAnchorsFromText.js.map
 
 /***/ }),
-/* 363 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/replaceDiacritics */
 
-var transliterationsMap = __webpack_require__(546);
+var transliterationsMap = __webpack_require__(555);
 /**
  * Replaces all special characters from the text based on the transliterations map.
  *
@@ -21123,16 +21700,16 @@ module.exports = function (text, locale) {
 //# sourceMappingURL=transliterate.js.map
 
 /***/ }),
-/* 364 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/getLinkStatistics */
 
-var getAnchors = __webpack_require__(362);
+var getAnchors = __webpack_require__(371);
 var map = __webpack_require__(9);
-var url = __webpack_require__(281);
+var url = __webpack_require__(285);
 /**
  * Checks a text for anchors and returns the number found.
  *
@@ -21147,14 +21724,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=getLinks.js.map
 
 /***/ }),
-/* 365 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/stripNonTextTags */
 
-var stripSpaces = __webpack_require__(27);
+var stripSpaces = __webpack_require__(28);
 /**
  * Strips all tags from the text, except li, p, dd and h1-h6 tags from the text that contain content to check.
  *
@@ -21170,14 +21747,14 @@ module.exports = function (text) {
 //# sourceMappingURL=stripNonTextTags.js.map
 
 /***/ }),
-/* 366 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stopwords = __webpack_require__(564)();
-var toRegex = __webpack_require__(367);
+var stopwords = __webpack_require__(573)();
+var toRegex = __webpack_require__(376);
 /**
  * Checks a text to see if there are any stopwords, that are defined in the stopwords config.
  *
@@ -21198,19 +21775,19 @@ module.exports = function (text) {
 //# sourceMappingURL=stopWordsInText.js.map
 
 /***/ }),
-/* 367 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/stringToRegex */
 
-var isUndefined = __webpack_require__(3);
-var replaceDiacritics = __webpack_require__(368);
-var addWordBoundary = __webpack_require__(124);
-var sanitizeString = __webpack_require__(369);
-var escapeRegExp = __webpack_require__(31);
-var memoize = __webpack_require__(53);
+var isUndefined = __webpack_require__(4);
+var replaceDiacritics = __webpack_require__(377);
+var addWordBoundary = __webpack_require__(125);
+var sanitizeString = __webpack_require__(378);
+var escapeRegExp = __webpack_require__(32);
+var memoize = __webpack_require__(39);
 /**
  * Creates a regex from a string so it can be matched everywhere in the same way.
  *
@@ -21235,14 +21812,14 @@ module.exports = memoize(function (string, extraBoundary, doReplaceDiacritics) {
 //# sourceMappingURL=createWordRegex.js.map
 
 /***/ }),
-/* 368 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/replaceDiacritics */
 
-var diacriticsRemovalMap = __webpack_require__(565);
+var diacriticsRemovalMap = __webpack_require__(574);
 /**
  * Replaces all diacritics from the text based on the diacritics removal map.
  *
@@ -21260,15 +21837,15 @@ module.exports = function (text) {
 //# sourceMappingURL=replaceDiacritics.js.map
 
 /***/ }),
-/* 369 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/sanitizeString */
 
-var stripTags = __webpack_require__(26).stripFullTags;
-var stripSpaces = __webpack_require__(27);
+var stripTags = __webpack_require__(27).stripFullTags;
+var stripSpaces = __webpack_require__(28);
 /**
  * Strip HTMLtags characters from string that break regex
  *
@@ -21284,25 +21861,25 @@ module.exports = function (text) {
 //# sourceMappingURL=sanitizeString.js.map
 
 /***/ }),
-/* 370 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/countSyllables */
 
-var syllableMatchers = __webpack_require__(570);
-var getWords = __webpack_require__(66);
-var forEach = __webpack_require__(5);
-var filter = __webpack_require__(20);
-var find = __webpack_require__(282);
-var isUndefined = __webpack_require__(3);
+var syllableMatchers = __webpack_require__(579);
+var getWords = __webpack_require__(67);
+var forEach = __webpack_require__(2);
+var filter = __webpack_require__(22);
+var find = __webpack_require__(286);
+var isUndefined = __webpack_require__(4);
 var map = __webpack_require__(9);
-var sum = __webpack_require__(373);
-var memoize = __webpack_require__(53);
+var sum = __webpack_require__(382);
+var memoize = __webpack_require__(39);
 var flatMap = __webpack_require__(166);
-var SyllableCountIterator = __webpack_require__(577);
-var DeviationFragment = __webpack_require__(579);
+var SyllableCountIterator = __webpack_require__(586);
+var DeviationFragment = __webpack_require__(588);
 /**
  * Counts vowel groups inside a word.
  *
@@ -21442,7 +22019,7 @@ module.exports = countSyllablesInText;
 //# sourceMappingURL=count.js.map
 
 /***/ }),
-/* 371 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21474,13 +22051,13 @@ function baseFindIndex(array, predicate, fromIndex, fromRight) {
 module.exports = baseFindIndex;
 
 /***/ }),
-/* 372 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var toNumber = __webpack_require__(110);
+var toNumber = __webpack_require__(111);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0,
@@ -21524,14 +22101,14 @@ function toFinite(value) {
 module.exports = toFinite;
 
 /***/ }),
-/* 373 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseSum = __webpack_require__(576),
-    identity = __webpack_require__(49);
+var baseSum = __webpack_require__(585),
+    identity = __webpack_require__(51);
 
 /**
  * Computes the sum of the values in `array`.
@@ -21554,14 +22131,14 @@ function sum(array) {
 module.exports = sum;
 
 /***/ }),
-/* 374 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/imageInText */
 
-var matchStringWithRegex = __webpack_require__(586);
+var matchStringWithRegex = __webpack_require__(595);
 /**
  * Checks the text for images.
  *
@@ -21575,7 +22152,7 @@ module.exports = function (text) {
 //# sourceMappingURL=imageInText.js.map
 
 /***/ }),
-/* 375 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21583,8 +22160,8 @@ module.exports = function (text) {
 
 var map = __webpack_require__(9);
 var flatMap = __webpack_require__(166);
-var filter = __webpack_require__(20);
-var getBlocks = __webpack_require__(279).getBlocks;
+var filter = __webpack_require__(22);
+var getBlocks = __webpack_require__(283).getBlocks;
 /**
  * Matches the paragraphs in <p>-tags and returns the text in them.
  * @param {string} text The text to match paragraph in.
@@ -21632,15 +22209,15 @@ module.exports = function (text) {
 //# sourceMappingURL=matchParagraphs.js.map
 
 /***/ }),
-/* 376 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var wordCount = __webpack_require__(55);
-var forEach = __webpack_require__(5);
-var stripHTMLTags = __webpack_require__(26).stripFullTags;
+var wordCount = __webpack_require__(56);
+var forEach = __webpack_require__(2);
+var stripHTMLTags = __webpack_require__(27).stripFullTags;
 /**
  * Returns an array with the number of words in a sentence.
  * @param {Array} sentences Array with sentences from text.
@@ -21666,7 +22243,7 @@ module.exports = function (sentences) {
 //# sourceMappingURL=sentencesLength.js.map
 
 /***/ }),
-/* 377 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21690,7 +22267,7 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 378 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21714,7 +22291,7 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 379 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21738,7 +22315,7 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 380 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21762,7 +22339,7 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 381 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21785,7 +22362,7 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 382 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21809,14 +22386,14 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 383 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseValues = __webpack_require__(613),
-    keys = __webpack_require__(29);
+var baseValues = __webpack_require__(622),
+    keys = __webpack_require__(30);
 
 /**
  * Creates an array of the own enumerable string keyed property values of `object`.
@@ -21851,237 +22428,48 @@ function values(object) {
 module.exports = values;
 
 /***/ }),
-/* 384 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/**
- * Constructs a sentence part object.
- *
- * @param {string} sentencePartText The text in the sentence part.
- * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
- * @param {string} locale The locale used for this sentence part.
- *
- * @constructor
- */
-
-var SentencePart = function SentencePart(sentencePartText, auxiliaries, locale) {
-  this._sentencePartText = sentencePartText;
-  this._auxiliaries = auxiliaries;
-  this._locale = locale;
-  this._isPassive = false;
-};
-/**
- * Returns the sentence part string.
- *
- * @returns {string} The sentence part.
- */
-SentencePart.prototype.getSentencePartText = function () {
-  return this._sentencePartText;
-};
-/**
- * Returns the passiveness of a sentence part.
- *
- * @returns {boolean} returns true if passive, otherwise returns false.
- */
-SentencePart.prototype.isPassive = function () {
-  return this._isPassive;
-};
-/**
- * Returns the list of auxiliaries from a sentence part.
- *
- * @returns {Array} The list of auxiliaries.
- */
-SentencePart.prototype.getAuxiliaries = function () {
-  return this._auxiliaries;
-};
-/**
- * Returns the locale of the sentence part.
- *
- * @returns {string} The locale of the sentence part.
- */
-SentencePart.prototype.getLocale = function () {
-  return this._locale;
-};
-/**
- * Sets the passiveness of the sentence part.
- *
- * @param {boolean} passive Whether the sentence part is passive or not.
- * @returns {void}
- */
-SentencePart.prototype.setPassive = function (passive) {
-  this._isPassive = passive;
-};
-module.exports = SentencePart;
-//# sourceMappingURL=SentencePart.js.map
-//# sourceMappingURL=SentencePart.js.map
-
-/***/ }),
-/* 385 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWords = __webpack_require__(66);
-var regexFunction = __webpack_require__(618)();
-var regularParticiples = regexFunction.regularParticiples;
-var irregularParticiples = regexFunction.irregularParticiples;
-var EnglishParticiple = __webpack_require__(620);
-var forEach = __webpack_require__(5);
+var isEmpty = __webpack_require__(15);
+var forEach = __webpack_require__(2);
+var includes = __webpack_require__(33);
 /**
- * Creates English participle objects for the participles found in a sentence part.
+ * Checks whether a given word is directly preceded by a word from a list of words.
  *
- * @param {string} sentencePartText The sentence part to find participles in.
- * @param {array} auxiliaries The list of auxiliaries from the sentence part.
- * @returns {Array} The list with English participle objects.
+ * @param {Array} precedingWords The array of objects with matches and indices.
+ * @param {number} matchIndex The index of the word for which to check whether it's preceded by one of the other words.
+ * @param {boolean} addSpace True if a space should be added.
+ *
+ * @returns {boolean} Returns true if the match is preceded by a given word, otherwise returns false.
  */
-module.exports = function (sentencePartText, auxiliaries) {
-    var words = getWords(sentencePartText);
-    var foundParticiples = [];
-    forEach(words, function (word) {
-        var type = "";
-        if (regularParticiples(word).length !== 0) {
-            type = "regular";
-        }
-        if (irregularParticiples(word).length !== 0) {
-            type = "irregular";
-        }
-        if (type !== "") {
-            foundParticiples.push(new EnglishParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: type }));
-        }
+module.exports = function (precedingWords, matchIndex) {
+    var addSpace = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+    /*
+    1 if there is a space between the match and the preceding word
+    (because the end word boundary is not included in the match).
+    0 if the preceding word is a contraction.
+    */
+    var space = addSpace ? 1 : 0;
+    if (isEmpty(precedingWords)) {
+        return false;
+    }
+    var precedingWordsEndIndices = [];
+    forEach(precedingWords, function (precedingWord) {
+        var precedingWordsEndIndex = precedingWord.index + precedingWord.match.length + space;
+        precedingWordsEndIndices.push(precedingWordsEndIndex);
     });
-    return foundParticiples;
+    return includes(precedingWordsEndIndices, matchIndex);
 };
-//# sourceMappingURL=getParticiples.js.map
-//# sourceMappingURL=getParticiples.js.map
+//# sourceMappingURL=includesIndex.js.map
+//# sourceMappingURL=includesIndex.js.map
 
 /***/ }),
-/* 386 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var getType = __webpack_require__(387).getType;
-var isSameType = __webpack_require__(387).isSameType;
-var defaults = __webpack_require__(288);
-var forEach = __webpack_require__(5);
-/**
- * Default attributes to be used by the Participle if they are left undefined.
- * @type { { auxiliaries: array, type: string } }
- */
-var defaultAttributes = {
-    auxiliaries: [],
-    type: ""
-};
-/**
- * Validates the type of all attributes. Throws an error if the type is invalid.
- *
- * @param {object} attributes The object containing all attributes.
- * @returns {void}
- */
-var validateAttributes = function validateAttributes(attributes) {
-    forEach(attributes, function (attributeValue, attributeName) {
-        var expectedType = getType(defaultAttributes[attributeName]);
-        if (isSameType(attributeValue, expectedType) === false) {
-            throw Error("Attribute " + attributeName + " has invalid type. Expected " + expectedType + ", got " + getType(attributeValue) + ".");
-        }
-    });
-};
-/**
- * Construct the Participle object and set the participle, sentence part, auxiliary and type.
- *
- * @param {string} participle The participle.
- * @param {string} sentencePart The sentence part where the participle is from.
- * @param {object} attributes The object containing all attributes.
- * @constructor
- */
-var Participle = function Participle(participle, sentencePart, attributes) {
-    this.setParticiple(participle);
-    this.setSentencePart(sentencePart);
-    this._determinesSentencePartIsPassive = false;
-    attributes = attributes || {};
-    defaults(attributes, defaultAttributes);
-    validateAttributes(attributes);
-    this._attributes = attributes;
-};
-/**
- * Sets the participle.
- * @param {string} participle The participle.
- * @returns {void}.
- */
-Participle.prototype.setParticiple = function (participle) {
-    if (participle === "") {
-        throw Error("The participle should not be empty.");
-    }
-    this._participle = participle;
-};
-/**
- * Returns the participle.
- * @returns {String} The participle.
- */
-Participle.prototype.getParticiple = function () {
-    return this._participle;
-};
-/**
- * Sets the SentencePart.
- *
- * @param {string} sentencePart The sentence part.
- * @returns {void}.
- */
-Participle.prototype.setSentencePart = function (sentencePart) {
-    if (sentencePart === "") {
-        throw Error("The sentence part should not be empty.");
-    }
-    this._sentencePart = sentencePart;
-};
-/**
- * Returns the sentence part.
- * @returns {String} The sentence part.
- */
-Participle.prototype.getSentencePart = function () {
-    return this._sentencePart;
-};
-/**
- * Returns the type.
- * @returns {String} The type.
- */
-Participle.prototype.getType = function () {
-    return this._attributes.type;
-};
-/**
- * Returns the auxiliaries.
- * @returns {String} The auxiliaries.
- */
-Participle.prototype.getAuxiliaries = function () {
-    return this._attributes.auxiliaries;
-};
-/**
- * Returns if the participle is passive or not.
- * @returns {boolean} True if it is passive.
- */
-Participle.prototype.determinesSentencePartIsPassive = function () {
-    return this._determinesSentencePartIsPassive;
-};
-/**
- * Determines if the sentence is passive or not.
- * @param {boolean} passive Whether the sentence part is passive.
- * @returns {void}
- */
-Participle.prototype.setSentencePartPassiveness = function (passive) {
-    if (!isSameType(passive, "boolean")) {
-        throw Error("Passiveness had invalid type. Expected boolean, got " + getType(passive) + ".");
-    }
-    this._determinesSentencePartIsPassive = passive;
-};
-module.exports = Participle;
-//# sourceMappingURL=Participle.js.map
-//# sourceMappingURL=Participle.js.map
-
-/***/ }),
-/* 387 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22126,16 +22514,137 @@ module.exports = {
 //# sourceMappingURL=types.js.map
 
 /***/ }),
-/* 388 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayMap = __webpack_require__(30),
-    baseIntersection = __webpack_require__(625),
-    baseRest = __webpack_require__(58),
-    castArrayLikeObject = __webpack_require__(626);
+var transitionWords = __webpack_require__(389)().singleWords;
+/**
+ * Returns an array with exceptions for the prominent words researcher
+ * @returns {Array} The array filled with exceptions.
+ */
+var articles = ["el", "la", "los", "las", "un", "una", "unos", "unas"];
+// "Uno" is already included in the articles.
+var cardinalNumerals = ["dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece", "catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte", "cien", "centena", "mil", "millon", "millones"];
+var ordinalNumerals = ["primera", "segunda", "tercera", "cuarto", "cuarta", "quinto", "quinta", "sexto", "sexta", "septimo", "septima", "octavo", "octava", "noveno", "novena", "décimo", "décima", "vigésimo", "vigésima", "primeros", "primeras", "segundos", "segundas", "terceros", "terceras", "cuartos", "cuartas", "quintos", "quintas", "sextos", "sextas", "septimos", "septimas", "octavos", "octavas", "novenos", "novenas", "décimos", "décimas", "vigésimos", "vigésimas"];
+var personalPronounsNominative = ["yo", "tú", "él", "ella", "ello", "nosotros", "nosotras", "vosotros", "vosotras", "ustedes", "ellos", "ellas"];
+var personalPronounsAccusative = ["me", "te", "lo", "se", "nos", "os", "les"];
+var personalPronounsPrepositional = ["mí", "ti", "ud", "uds", "usted", "sí"];
+var personalPronounsComitative = ["conmigo", "contigo", "consigo"];
+var demonstrativePronouns = ["este", "ese", "aquel", "esta", "esa", "aquella", "estos", "esos", "aquellos", "estas", "esas", "aquellas", "esto", "eso", "aquello"];
+var possessivePronouns = ["mi", "mis", "mío", "míos", "mía", "mías", "nuestro", "nuestros", "nuestra", "nuestras", "tuyo", "tuyos", "tuya", "tuyas", "tu", "tus", "vuestro", "vuestros", "vuestra", "vuestras", "suyo", "suyos", "suya", "suyas", "su", "sus"];
+var quantifiers = ["bastante", "bastantes", "mucho", "muchas", "mucha", "muchos", "demasiado", "demasiada", "demasiados", "demasiadas", "poco", "poca", "pocos", "pocas", "demás", "otros", "otras", "todo", "toda", "todos", "todas"];
+var indefinitePronouns = ["alguien", "algo", "algún", "alguno", "alguna", "algunos", "algunas", "nadie", "nada", "ningún", "ninguno", "ninguna", "ningunos", "ningunas", "tanto", "tantos", "tanta", "tantas"];
+var interrogativeDeterminers = ["cuyas", "cual"];
+var interrogativePronouns = ["cuyo"];
+/*
+'Qué' is part of 'por qué' ('why'). The combination 'quien sea' ('whoever') is separated into two entries: 'quien' and 'sea'.
+'quira' is part of 'cuando quiera' ('whenever').
+ */
+var interrogativeProAdverbs = ["comoquiera", "cualesquiera", "cualquier", "cuanta", "cuantas", "cuanto", "cuantos", "cuál", "cuáles", "cuánta", "cuántas", "cuánto", "cuántos", "cómo", "dondequiera", "dónde", "quien", "quienes", "quienquiera", "quién", "quiénes", "qué"];
+var locativeAdverbs = ["allí", "ahí", "allá", "aquí", "acá", "adónde", "delante", "detrás", "debajo", "adelante", "atrás", "adentro", "afuera"];
+var otherAuxiliaries = ["he", "has", "ha", "hay", "hemos", "habéis", "han", "hube", "hubiste", "hubo", "hubimos", "hubisteis", "hubieron", "había", "habías", "habíamos", "habíais", "habían", "habría", "habrías", "habríais", "habrían", "habré", "habrás", "habrá", "habremos", "habréis", "habrán", "haya", "hayas", "hayamos", "hayáis", "hayan", "hubiera", "hubieras", "hubiéramos", "hubierais", "hubieran", "hubiese", "hubieses", "hubiésemos", "hubieseis", "hubiesen", "hubiere", "hubieres", "hubiéremos", "hubiereis", "hubieren", "habed", "habido", "debo", "debes", "debe", "debemos", "debéis", "deben", "debí", "debiste", "debió", "debimos", "debisteis", "debieron", "debía", "debías", "debíamos", "debíais", "debían", "debería", "deberías", "deberíamos", "deberíais", "deberían", "deberé", "deberás", "deberá", "deberemos", "deberéis", "deberán", "deba", "debas", "debamos", "debáis", "deban", "debiera", "debieras", "debiéramos", "debierais", "debieran", "debiese", "debieses", "debiésemos", "debieseis", "debiesen", "debiere", "debieres", "debiéremos", "debiereis", "debieren", "debed", "debido", "empiezo", "empiezas", "empieza", "empezáis", "empiezan", "empecé", "empezaste", "empezó", "empezamos", "empezasteis", "empezaron", "empezaba", "empezabas", "empezábamos", "empezabais", "empezaban", "empezaría", "empezarías", "empezaríamos", "empezaríais", "empezarían", "empezaré", "empezarás", "empezará", "empezaremos", "empezaréis", "empezarán", "empiece", "empieces", "empecemos", "empecéis", "empiecen", "empezara", "empezaras", "empezáramos", "empezarais", "empezaran", "empezase", "empezases", "empezásemos", "empezaseis", "empezasen", "empezare", "empezares", "empezáremos", "empezareis", "empezaren", "empezad", "empezado", "comienzo", "comienzas", "comienza", "comenzamos", "comenzáis", "comienzan", "comencé", "comenzaste", "comenzó", "comenzasteis", "comenzaron", "comenzaba", "comenzabas", "comenzábamos", "comenzabais", "comenzaban", "comenzaría", "comenzarías", "comenzaríamos", "comenzaríais", "comenzarían", "comenzaré", "comenzarás", "comenzará", "comenzaremos", "comenzaréis", "comenzarán", "comience", "comiences", "comencemos", "comencéis", "comiencen", "comenzara", "comenzaras", "comenzáramos", "comenzarais", "comenzaran", "comenzase", "comenzases", "comenzásemos", "comenzaseis", "comenzasen", "comenzare", "comenzares", "comenzáremos", "comenzareis", "comenzaren", "comenzad", "comenzado", "sigo", "sigues", "sigue", "seguimos", "seguis", "siguen", "seguí", "seguiste", "siguió", "seguisteis", "siguieron", "seguía", "seguías", "seguíamos", "seguíais", "seguían", "seguiría", "seguirías", "seguiríamos", "seguiríais", "seguirían", "seguiré", "seguirás", "seguirá", "seguiremos", "seguiréis", "seguirán", "siga", "sigas", "sigamos", "sigáis", "sigan", "siguiera", "siguieras", "siguiéramos", "siguierais", "siguieran", "siguiese", "siguieses", "siguiésemos", "siguieseis", "siguiesen", "siguiere", "siguieres", "siguiéremos", "siguiereis", "siguieren", "seguid", "seguido", "tengo", "tienes", "tiene", "tenemos", "tenéis", "tienen", "tuve", "tuviste", "tuvo", "tuvimos", "tuvisteis", "tuvieron", "tenía", "tenías", "teníamos", "teníais", "tenían", "tendría", "tendrías", "tendríamos", "tendríais", "tendrían", "tendré", "tendrás", "tendrá", "tendremos", "tendréis", "tendrán", "tenga", "tengas", "tengamos", "tengáis", "tengan", "tuviera", "tuvieras", "tuviéramos", "tuvierais", "tuvieran", "tuviese", "tuvieses", "tuviésemos", "tuvieseis", "tuviesen", "tuviere", "tuvieres", "tuviéremos", "tuviereis", "tuvieren", "ten", "tened", "tenido", "ando", "andas", "andamos", "andáis", "andan", "anduve", "anduviste", "anduvo", "anduvimos", "anduvisteis", "anduvieron", "andaba", "andabas", "andábamos", "andabais", "andaban", "andaría", "andarías", "andaríamos", "andaríais", "andarían", "andaré", "andarás", "andará", "andaremos", "andaréis", "andarán", "ande", "andes", "andemos", "andéis", "anden", "anduviera", "anduvieras", "anduviéramos", "anduvierais", "anduvieran", "anduviese", "anduvieses", "anduviésemos", "anduvieseis", "anduviesen", "anduviere", "anduvieres", "anduviéremos", "anduviereis", "anduvieren", "andad", "andado", "quedo", "quedas", "queda", "quedamos", "quedáis", "quedan", "quedé", "quedasteis", "quedaron", "quedaba", "quedabas", "quedábamos", "quedabais", "quedaban", "quedaría", "quedarías", "quedaríamos", "quedaríais", "quedarían", "quedaré", "quedarás", "quedará", "quedaremos", "quedaréis", "quedarán", "quede", "quedes", "quedemos", "quedéis", "queden", "quedara", "quedaras", "quedáramos", "quedarais", "quedaran", "quedase", "quedases", "quedásemos", "quedaseis", "quedasen", "quedare", "quedares", "quedáremos", "quedareis", "quedaren", "quedad", "quedado", "hallo", "hallas", "halla", "hallamos", "halláis", "hallan", "hallé", "hallaste", "halló", "hallasteis", "hallaron", "hallaba", "hallabas", "hallábamos", "hallabais", "hallaban", "hallaría", "hallarías", "hallaríamos", "hallaríais", "hallarían", "hallaré", "hallarás", "hallará", "hallaremos", "hallaréis", "hallarán", "halle", "halles", "hallemos", "halléis", "hallen", "hallara", "hallaras", "halláramos", "hallarais", "hallaran", "hallase", "hallases", "hallásemos", "hallaseis", "hallasen", "hallare", "hallares", "halláremos", "hallareis", "hallaren", "hallad", "hallado", "vengo", "vienes", "viene", "venimos", "venis", "vienen", "vine", "viniste", "vino", "vinimos", "vinisteis", "vinieron", "venía", "vanías", "verníamos", "veníais", "venían", "vendría", "vendrías", "vendríamos", "vendíais", "vendrían", "vendré", "vendrás", "vendrá", "vendremos", "vendréis", "vendrán", "venga", "vengas", "vengamos", "vengáis", "vengan", "viniera", "vinieras", "viniéramos", "vinierais", "vinieran", "viniese", "vinieses", "viniésemos", "vinieseis", "viniesen", "viniere", "vinieres", "viniéremos", "viniereis", "vinieren", "ven", "venid", "venido", "abro", "abres", "abre", "abrismos", "abrís", "abren", "abrí", "abriste", "abrió", "abristeis", "abrieron", "abría", "abrías", "abríais", "abrían", "abriría", "abrirías", "abriríamos", "abriríais", "abrirían", "abriré", "abrirás", "abrirá", "abriremos", "abriréis", "abrirán", "abra", "abras", "abramos", "abráis", "abran", "abriera", "abrieras", "abriéramos", "abrierais", "abrieran", "abriese", "abrieses", "abriésemos", "abrieseis", "abriesen", "abriere", "abrieres", "abriéremos", "abriereis", "abrieren", "abrid", "abierto", "voy", "vas", "va", "vamos", "vais", "van", "iba", "ibas", "íbamos", "ibais", "iban", "iría", "irías", "iríamos", "iríais", "irían", "iré", "irás", "irá", "iremos", "iréis", "irán", "vaya", "vayas", "vayamos", "vayáis", "vayan", "ve", "id", "ido", "acabo", "acabas", "acaba", "acabamos", "acabáis", "acaban", "acabé", "acabaste", "acabó", "acabasteis", "acabaron", "acababa", "acababas", "acabábamos", "acababais", "acababan", "acabaría", "acabarías", "acabaríamos", "acabaríais", "acabarían", "acabaré", "acabarás", "acabará", "acabaremos", "acabaréis", "acabarán", "acabe", "acabes", "acabemos", "acabéis", "acaben", "acabara", "acabaras", "acabáramos", "acabarais", "acabaran", "acabase", "acabases", "acabásemos", "acabaseis", "acabasen", "acabare", "acabares", "acabáremos", "acabareis", "acabaren", "acabad", "acabado", "llevo", "llevas", "lleva", "llevamos", "lleváis", "llevan", "llevé", "llevaste", "llevó", "llevasteis", "llevaron", "llevaba", "llevabas", "llevábamos", "llevabais", "llevaban", "llevaría", "llevarías", "llevaríamos", "llevaríais", "llevarían", "llevaré", "llevarás", "llevará", "llevaremos", "llevaréis", "llevarán", "lleve", "lleves", "llevemos", "llevéis", "lleven", "llevara", "llevaras", "lleváramos", "llevarais", "llevaran", "llevase", "llevases", "llevásemos", "llevaseis", "llevasen", "llevare", "llevares", "lleváremos", "llevareis", "llevaren", "llevad", "llevado", "alcanzo", "alcanzas", "alcanza", "alcanzamos", "alcanzáis", "alcanzan", "alcancé", "alcanzaste", "alcanzó", "alcanzasteis", "alcanzaron", "alcanzaba", "alcanzabas", "alcanzábamos", "alcanzabais", "alcanzaban", "alcanzaría", "alcanzarías", "alcanzaríamos", "alcanzaríais", "alcanzarían", "alcanzaré", "alcanzarás", "alcanzará", "alcanzaremos", "alcanzaréis", "alcanzarán", "alcance", "alcances", "alcancemos", "alcancéis", "alcancen", "alcanzara", "alcanzaras", "alcanzáramos", "alcanzarais", "alcanzaran", "alcanzase", "alcanzases", "alcanzásemos", "alcanzaseis", "alcanzasen", "alcanzare", "alcanzares", "alcanzáremos", "alcanzareis", "alcanzaren", "alcanzad", "alcanzado", "digo", "dices", "dice", "decimos", "decís", "dicen", "dije", "dijiste", "dijo", "dijimos", "dijisteis", "dijeron", "decía", "decías", "decíamos", "decíais", "decían", "diría", "dirías", "diríamos", "diríais", "dirían", "diré", "dirás", "dirá", "diremos", "diréis", "dirán", "diga", "digas", "digamos", "digáis", "digan", "dijera", "dijeras", "dijéramos", "dijerais", "dijeran", "dijese", "dijeses", "dijésemos", "dijeseis", "dijesen", "dijere", "dijeres", "dijéremos", "dijereis", "dijeren", "di", "decid", "dicho", "continúo", "continúas", "continúa", "continuamos", "continuáis", "continúan", "continué", "continuaste", "continuó", "continuasteis", "continuaron", "continuaba", "continuabas", "continuábamos", "continuabais", "continuaban", "continuaría", "continuarías", "continuaríamos", "continuaríais", "continuarían", "continuaré", "continuarás", "continuará", "continuaremos", "continuaréis", "continuarán", "continúe", "continúes", "continuemos", "continuéis", "continúen", "continuara", "continuaras", "continuáramos", "continuarais", "continuaran", "continuase", "continuases", "continuásemos", "continuaseis", "continuasen", "continuare", "continuares", "continuáremos", "continuareis", "continuaren", "continuad", "continuado", "resulto", "resultas", "resulta", "resultamos", "resultáis", "resultan", "resulté", "resultaste", "resultó", "resultasteis", "resultaron", "resultaba", "resultabas", "resultábamos", "resultabais", "resultaban", "resultaría", "resultarías", "resultaríamos", "resultaríais", "resultarían", "resultaré", "resultarás", "resultará", "resultaremos", "resultaréis", "resultarán", "resulte", "resultes", "resultemos", "resultéis", "resulten", "resultara", "resultaras", "resultáramos", "resultarais", "resultaran", "resultase", "resultases", "resultásemos", "resultaseis", "resultasen", "resultare", "resultares", "resultáremos", "resultareis", "resultaren", "resultad", "resultado", "puedo", "puedes", "puede", "podemos", "podéis", "pueden", "pude", "pudiste", "pudo", "pudimos", "pudisteis", "pudieron", "podía", "podías", "podíamos", "podíais", "podían", "podría", "podrías", "podríamos", "podríais", "podrían", "podré", "podrás", "podrá", "podremos", "podréis", "podrán", "pueda", "puedas", "podamos", "podáis", "puedan", "pudiera", "pudieras", "pudiéramos", "pudierais", "pudieran", "pudiese", "pudieses", "pudiésemos", "pudieseis", "pudiesen", "pudiere", "pudieres", "pudiéremos", "pudiereis", "pudieren", "poded", "podido", "quiero", "quieres", "quiere", "queremos", "queréis", "quieren", "quise", "quisiste", "quiso", "quisimos", "quisisteis", "quisieron", "quería", "querías", "queríamos", "queríais", "querían", "querría", "querrías", "querríamos", "querríais", "querrían", "querré", "querrás", "querrá", "querremos", "querréis", "querrán", "quiera", "quieras", "queramos", "queráis", "quieran", "quisiera", "quisieras", "quisiéramos", "quisierais", "quisieran", "quisiese", "quisieses", "quisiésemos", "quisieseis", "quisiesen", "quisiere", "quisieres", "quisiéremos", "quisiereis", "quisieren", "quered", "querido", "sabes", "sabe", "sabemos", "sabéis", "saben", "supe", "supiste", "supo", "supimos", "supisteis", "supieron", "sabía", "sabías", "sabíamos", "sabíais", "sabían", "sabría", "sabrías", "sabríamos", "sabríais", "sabrían", "sabré", "sabrás", "sabrá", "sabremos", "sabréis", "sabrán", "sepa", "sepas", "sepamos", "sepáis", "sepan", "supiera", "supieras", "supiéramos", "supierais", "supieran", "supiese", "supieses", "supiésemos", "supieseis", "supiesen", "supiere", "supieres", "supiéremos", "supiereis", "supieren", "sabed", "sabido", "suelo", "sueles", "suele", "solemos", "soléis", "suelen", "solí", "soliste", "solió", "solimos", "solisteis", "solieron", "solía", "solías", "solíamos", "solíais", "solían", "solería", "solerías", "soleríamos", "soleríais", "solerían", "soleré", "solerás", "solerá", "soleremos", "soleréis", "solerán", "suela", "suelas", "solamos", "soláis", "suelan", "soliera", "solieras", "soliéramos", "solierais", "solieran", "soliese", "solieses", "soliésemos", "solieseis", "soliesen", "soliere", "solieres", "soliéremos", "soliereis", "solieren", "soled", "solido", "necesito", "necesitas", "necesitamos", "necesitáis", "necesitan", "necesité", "necesitaste", "necesitó", "necesitasteis", "necesitaron", "necesitaba", "necesitabas", "necesitábamos", "necesitabais", "necesitaban", "necesitaría", "necesitarías", "necesitaríamos", "necesitaríais", "necesitarían", "necesitaré", "necesitarás", "necesitará", "necesitaremos", "necesitaréis", "necesitarán", "necesite", "necesites", "necesitemos", "necesitéis", "necesiten", "necesitara", "necesitaras", "necesitáramos", "necesitarais", "necesitaran", "necesitase", "necesitases", "necesitásemos", "necesitaseis", "necesitasen", "necesitare", "necesitares", "necesitáremos", "necesitareis", "necesitaren", "necesita", "necesitad", "necesitado"];
+var otherAuxiliariesInfinitive = ["haber", "deber", "empezar", "comenzar", "seguir", "tener", "andar", "quedar", "hallar", "venir", "abrir", "ir", "acabar", "llevar", "alcanzar", "decir", "continuar", "resultar", "poder", "querer", "saber", "soler", "necesitar"];
+var copula = ["estoy", "estás", "está", "estamos", "estáis", "están", "estuve", "estuviste", "estuvo", "estuvimos", "estuvisteis", "estuvieron", "estuba", "estabas", "estábamos", "estabais", "estaban", "estraría", "estarías", "estaríamos", "estaríais", "estarían", "estaré", "estarás", "estará", "estaremos", "estaréis", "estarán", "esté", "estés", "estemos", "estéis", "estén", "estuviera", "estuviese", "estuvieras", "estuviéramos", "estuvierais", "estuvieran", "estuvieses", "estuviésemos", "estuvieseis", "estuviesen", "estuviere", "estuvieres", "estuviéremos", "estuviereis", "estuvieren", "estad", "estado", "soy", "eres", "es", "somos", "sois", "son", "fui", "fuiste", "fuimos", "fuisteis", "fueron", "era", "eras", "éramos", "erais", "eran", "sería", "serías", "seríamos", "seríais", "serían", "seré", "serás", "seremos", "seréis", "serán", "sea", "seas", "seamos", "seáis", "sean", "fueras", "fuéramos", "fuerais", "fueran", "fuese", "fueses", "fuésemos", "fueseis", "fuesen", "fuere", "fueres", "fuéremos", "fuereis", "fueren", "sé", "sed", "sido"];
+var copulaInfinitive = ["estar", "ser"];
+var prepositions = ["a", "ante", "abajo", "adonde", "al", "allende", "alrededor", "amén", "antes", "arriba", "aun", "bajo", "cabe", "cabo", "con", "contigo", "contra", "de", "dejante", "del", "dentro", "desde", "donde", "durante", "en", "encima", "entre", "excepto", "fuera", "hacia", "hasta", "incluso", "mediante", "más", "opuesto", "par", "para", "próximo", "salvo", "según", "sin", "so", "sobre", "tras", "versus", "vía"];
+var prepositionalAdverbs = ["cerca"];
+var coordinatingConjunctions = ["o", "y", "entonces", "e", "u", "ni", "bien", "ora"];
+// 'Igual' is part of 'igual...que'.
+var correlativeConjunctions = ["igual"];
+var subordinatingConjunctions = ["apenas", "segun", "que"];
+// These verbs are frequently used in interviews to indicate questions and answers.
+// 'Dijo' is already included in the otherAuxiliaries category.
+var interviewVerbs = ["apunto", "apunta", "confieso", "confiesa", "confesaba", "revelado", "revelo", "revela", "revelaba", "declarado", "declaro", "declara", "declaba", "señalo", "señala", "señalaba", "declaraba", "comento", "comenta"];
+// These transition words were not included in the list for the transition word assessment for various reasons.
+var additionalTransitionWords = ["básicamente", "esencialmente", "primeramente", "siempre", "nunca", "ahora", "quizá", "acaso", "inclusive", "probablemente", "verdaderamente", "seguramente", "jamás", "obviamente", "indiscutiblement", "inmediatamente", "previamente"];
+var intensifiers = ["muy", "tan", "completamente", "suficiente", "tal", "tales"];
+// These verbs convey little meaning.
+var delexicalizedVerbs = ["hago", "haces", "hace", "hacemos", "hacéis", "hacen", "hice", "hiciste", "hizo", "hicimos", "hicisteis", "hicieron", "hacía", "hacías", "hacíamos", "hacíais", "hacían", "haría,", "harías", "haríamos", "haríais", "harían", "haré", "harás", "hará", "haremos", "haréis", "harán", "haga", "hagas", "hagamos", "hagáis", "hagan", "hiciera", "hicieras", "hiciéramos", "hicierais", "hicieran", "hiciese", "hicieses", "hiciésemos", "hicieseis", "hiciesen", "hiciere", "hicieres", "hiciéremos", "hiciereis", "hicieren", "haz", "haced", "hecho", "parezco", "pareces", "parece", "parecemos", "parecéis", "parecen", "parecí", "pareciste", "pareció", "parecimos", "parecisteis", "parecieron", "parecía", "parecías", "parecíamos", "parecíais", "parecían", "parecería", "parecerías", "pareceríamos", "pareceríais", "parecerían", "pareceré", "parecerás", "parecerá", "pareceremos", "pareceréis", "parecerán", "parezca", "parezcas", "parezcamos", "parezcáis", "parezcan", "pareciera", "parecieras", "pareciéramos", "parecierais", "parecieran", "pareciese", "parecieses", "pareciésemos", "parecieseis", "pareciesen", "pareciere", "parecieres", "pareciéremos", "pareciereis", "parecieren", "pareced", "parecido"];
+var delexicalizedVerbsInfinitive = ["hacer", "parecer"];
+// These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
+// Keyword combinations containing these adjectives/adverbs are fine.
+var generalAdjectivesAdverbs = ["enfrente", "mejor", "peor", "menos", "claro", "bueno", "nuevo", "nueva", "nuevos", "nuevas", "viejo", "viejos", "vieja", "viejas", "anterior", "grande", "gran", "grandes", "mayores", "fácil", "fáciles", "rápido", "rápida", "rápidos", "rápidas", "lejos", "lejas", "difícil", "difíciles", "propio", "propios", "propia", "propias", "largo", "larga", "largos", "largas", "bajos", "baja", "bajas", "alto", "alta", "altos", "altas", "regular", "regulares", "normal", "pequeño", "pequeña", "pequeños", "pequeñas", "diminuta", "diminuto", "diminutas", "diminutos", "chiquitito", "chiquititos", "chiquitita", "chiquititas", "corta", "corto", "cortas", "cortos", "principal", "principales", "mismo", "mismos", "misma", "mismas", "capaz", "capaces", "cierta", "cierto", "ciertas", "ciertos", "llamado", "llamada", "llamados", "llamadas", "mayormente", "reciente", "recientes", "completa", "completo", "completas", "completos", "absoluta", "absoluto", "absolutas", "absolutos", "últimamente", "posible", "común", "comúnes", "comúnmente", "constantemente", "continuamente", "directamente", "fácilmente", "casi", "ligeramente", "estima", "estimada", "estimado", "aproximada", "aproximadamente", "última", "últimas", "último", "últimos", "diferente", "diferentes", "similar", "mal", "malo", "malos", "mala", "malas", "perfectamente", "excelente", "final", "general"];
+var interjections = ["ah", "eh", "ejem", "ele", "achís", "adiós", "agur", "ajá", "ajajá", "ala", "alá", "albricias", "aleluya", "alerta", "alirón", "aló", "amalaya", "ar", "aro", "arrarray", "arre", "arsa", "atatay", "aúpa", "ax", "ay", "ayayay", "bah", "banzai", "barajo", "bla", "bravo", "buf", "bum", "ca", "caguendiós", "canastos", "caracho", "caracoles", "carajo", "caramba", "carape", "caray", "cáscaras", "cáspita", "cataplum", "ce", "chao", "chau", "che", "chis", "chist", "chitón", "cho", "chucho", "chus", "cielos", "clo", "coche", "cochi", "cojones", "concho", "coño", "córcholis", "cuchí", "cuidado", "cuz", "demonio", "demontre", "despacio", "diablo", "diantre", "dios", "ea", "epa", "equilicuá", "estúpido", "eureka", "evohé", "exacto", "fantástico", "firmes", "fo", "forte", "gua", "gualá", "guarte", "guay", "hala", "hale", "he", "hi", "hin", "hola", "hopo", "huesque", "huiche", "huichó", "huifa", "hurra", "huy", "ja", "jajajá", "jajay", "jaque", "jau", "jo", "jobar", "joder", "jolín", "jopo", "leñe", "listo", "malhayas", "mamola", "mecachis", "miéchica", "mondo", "moste", "mutis", "nanay", "narices", "oh", "ojalá", "ojo", "okay", "ole", "olé", "órdiga", "oste", "ostras", "ox", "oxte", "paf", "pardiez", "paso", "pucha", "puf", "puff", "pumba", "puñeta", "quia", "quiúbole", "recórcholis", "rediez", "rediós", "salve", "sanseacabó", "sniff", "socorro", "ta", "tararira", "tate", "tururú", "uf", "uh", "ui", "upa", "uste", "uy", "victoria", "vítor", "viva", "za", "zambomba", "zapateta", "zape", "zas"];
+// These words and abbreviations are frequently used in recipes in lists of ingredients.
+var recipeWords = ["kg", "mg", "gr", "g", "km", "m", "l", "ml", "cl"];
+var timeWords = ["minuto", "minutos", "hora", "horas", "día", "días", "semana", "semanas", "mes", "meses", "año", "años", "hoy", "mañana", "ayer"];
+// 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
+var vagueNouns = ["cosa", "cosas", "manera", "maneras", "caso", "casos", "pieza", "piezas", "vez", "veces", "parte", "partes", "porcentaje", "instancia", "aspecto", "aspectos", "punto", "puntos", "objeto", "objectos", "persona", "personas"];
+var miscellaneous = ["no", "euros"];
+var titlesPreceding = ["sra", "sras", "srta", "sr", "sres", "dra", "dr", "profa", "prof"];
+var titlesFollowing = ["jr", "sr"];
+module.exports = function () {
+    return {
+        // These word categories are filtered at the beginning of word combinations.
+        filteredAtBeginning: generalAdjectivesAdverbs,
+        // These word categories are filtered at the ending of word combinations.
+        filteredAtEnding: [].concat(ordinalNumerals, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive),
+        // These word categories are filtered at the beginning and ending of word combinations.
+        filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
+        // These word categories are filtered everywhere within word combinations.
+        filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, personalPronounsComitative, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, recipeWords, timeWords, vagueNouns),
+        // These word categories cannot directly precede a passive participle.
+        cannotDirectlyPrecedePassiveParticiple: [].concat(articles, prepositions, personalPronounsAccusative, possessivePronouns, indefinitePronouns, interrogativeProAdverbs, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalizedVerbsInfinitive, interviewVerbs),
+        // This export contains all of the above words.
+        all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
+    };
+};
+//# sourceMappingURL=functionWords.js.map
+//# sourceMappingURL=functionWords.js.map
+
+/***/ }),
+/* 396 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getWordIndices = __webpack_require__(291);
+var precedesIndex = __webpack_require__(635);
+var arrayToRegex = __webpack_require__(91);
+var cannotBeBetweenAuxiliaryAndParticipleFrench = __webpack_require__(296)().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+var cannotBeBetweenAuxiliaryAndParticipleEnglish = __webpack_require__(297)().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+/**
+ * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
+ * If this is the case, the sentence part is not passive.
+ *
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {number} participleIndex The index of the participle.
+ *
+ * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
+ * sentence part before the participle, otherwise returns false.
+ */
+module.exports = function (sentencePart, participleIndex) {
+    var precedenceExceptionRegex;
+    switch (this.constructor.name) {
+        case "FrenchParticiple":
+            precedenceExceptionRegex = arrayToRegex(cannotBeBetweenAuxiliaryAndParticipleFrench);
+            break;
+        case "EnglishParticiple":
+        default:
+            precedenceExceptionRegex = arrayToRegex(cannotBeBetweenAuxiliaryAndParticipleEnglish);
+            break;
+    }
+    var precedenceExceptionMatch = getWordIndices(sentencePart, precedenceExceptionRegex);
+    return precedesIndex(precedenceExceptionMatch, participleIndex);
+};
+//# sourceMappingURL=precedenceException.js.map
+//# sourceMappingURL=precedenceException.js.map
+
+/***/ }),
+/* 397 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var arrayMap = __webpack_require__(31),
+    baseIntersection = __webpack_require__(636),
+    baseRest = __webpack_require__(59),
+    castArrayLikeObject = __webpack_require__(637);
 
 /**
  * Creates an array of unique values that are included in all given arrays
@@ -22162,13 +22671,13 @@ var intersection = baseRest(function (arrays) {
 module.exports = intersection;
 
 /***/ }),
-/* 389 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var forEach = __webpack_require__(5);
+var forEach = __webpack_require__(2);
 /**
  * Checks if the participles make the sentence part passive.
  *
@@ -22189,23 +22698,23 @@ module.exports = function (participles) {
 //# sourceMappingURL=determineSentencePartIsPassive.js.map
 
 /***/ }),
-/* 390 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWords = __webpack_require__(66);
-var regexFunction = __webpack_require__(632)();
+var getWords = __webpack_require__(67);
+var regexFunction = __webpack_require__(651)();
 var verbsBeginningWithErVerEntBeZerHerUber = regexFunction.verbsBeginningWithErVerEntBeZerHerUber;
 var verbsBeginningWithGe = regexFunction.verbsBeginningWithGe;
 var verbsWithGeInMiddle = regexFunction.verbsWithGeInMiddle;
 var verbsWithErVerEntBeZerHerUberInMiddle = regexFunction.verbsWithErVerEntBeZerHerUberInMiddle;
 var verbsEndingWithIert = regexFunction.verbsEndingWithIert;
-var irregularParticiples = __webpack_require__(633)();
-var GermanParticiple = __webpack_require__(634);
-var forEach = __webpack_require__(5);
-var includes = __webpack_require__(68);
+var irregularParticiples = __webpack_require__(652)();
+var GermanParticiple = __webpack_require__(653);
+var forEach = __webpack_require__(2);
+var includes = __webpack_require__(33);
 /**
  * Creates GermanParticiple Objects for the participles found in a sentence.
  *
@@ -22246,7 +22755,7 @@ module.exports = function (sentencePartText, auxiliaries) {
 //# sourceMappingURL=getParticiples.js.map
 
 /***/ }),
-/* 391 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22271,7 +22780,7 @@ function noop() {
 module.exports = noop;
 
 /***/ }),
-/* 392 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22307,9 +22816,9 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(38);
-var merge = __webpack_require__(23);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(40);
+var merge = __webpack_require__(25);
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
  */
@@ -22411,7 +22920,7 @@ var SubHeadingsKeywordAssessment = function (_Assessment) {
         key: "translateScore",
         value: function translateScore(score, subHeadings, i18n) {
             if (score === this._config.scores.multipleMatches || score === this._config.scores.oneMatch) {
-                return i18n.sprintf(i18n.dgettext("js-text-analysis", "The focus keyword appears only in %2$d (out of %1$d) subheadings in your copy. " + "Try to use it in at least one more subheading."), subHeadings.count, subHeadings.matches);
+                return i18n.sprintf(i18n.dgettext("js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy."), subHeadings.count, subHeadings.matches);
             }
             if (score === this._config.scores.noMatches) {
                 return i18n.dgettext("js-text-analysis", "You have not used the focus keyword in any subheading (such as an H2) in your copy.");
@@ -22428,13 +22937,13 @@ module.exports = SubHeadingsKeywordAssessment;
 //# sourceMappingURL=subheadingsKeywordAssessment.js.map
 
 /***/ }),
-/* 393 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 var Mark = __webpack_require__(70);
 var addMark = __webpack_require__(71);
 var map = __webpack_require__(9);
@@ -22500,7 +23009,7 @@ module.exports = {
 //# sourceMappingURL=textCompetingLinksAssessment.js.map
 
 /***/ }),
-/* 394 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22536,9 +23045,9 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(38);
-var merge = __webpack_require__(23);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(40);
+var merge = __webpack_require__(25);
 /**
  * Represents the assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
  */
@@ -22683,7 +23192,7 @@ module.exports = TextImagesAssessment;
 //# sourceMappingURL=textImagesAssessment.js.map
 
 /***/ }),
-/* 395 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22719,10 +23228,10 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(38);
-var inRange = __webpack_require__(326);
-var merge = __webpack_require__(23);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(40);
+var inRange = __webpack_require__(335);
+var merge = __webpack_require__(25);
 /**
  * Assessment that will test if the text is long enough.
  */
@@ -22860,7 +23369,7 @@ module.exports = TextLengthAssessment;
 //# sourceMappingURL=textLengthAssessment.js.map
 
 /***/ }),
-/* 396 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22896,10 +23405,10 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(38);
-var isEmpty = __webpack_require__(25);
-var merge = __webpack_require__(23);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(40);
+var isEmpty = __webpack_require__(15);
+var merge = __webpack_require__(25);
 /**
  * Assessment for calculating the outbound links in the text.
  */
@@ -23031,14 +23540,14 @@ module.exports = OutboundLinksAssessment;
 //# sourceMappingURL=outboundLinksAssessment.js.map
 
 /***/ }),
-/* 397 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var isEmpty = __webpack_require__(25);
+var AssessmentResult = __webpack_require__(5);
+var isEmpty = __webpack_require__(15);
 /**
  * Returns a score and text based on the linkStatistics object.
  *
@@ -23105,15 +23614,15 @@ module.exports = {
 //# sourceMappingURL=internalLinksAssessment.js.map
 
 /***/ }),
-/* 398 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var inRange = __webpack_require__(326);
-var getLanguageAvailability = __webpack_require__(91);
+var AssessmentResult = __webpack_require__(5);
+var inRange = __webpack_require__(335);
+var getLanguageAvailability = __webpack_require__(92);
 var availableLanguages = ["en", "nl", "de", "it"];
 /**
  * Calculates the assessment result based on the fleschReadingScore
@@ -23212,19 +23721,19 @@ module.exports = {
 //# sourceMappingURL=fleschReadingEaseAssessment.js.map
 
 /***/ }),
-/* 399 */
+/* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var stripHTMLTags = __webpack_require__(26).stripBlockTagsAtStartEnd;
-var isParagraphTooLong = __webpack_require__(295);
+var AssessmentResult = __webpack_require__(5);
+var stripHTMLTags = __webpack_require__(27).stripBlockTagsAtStartEnd;
+var isParagraphTooLong = __webpack_require__(304);
 var Mark = __webpack_require__(70);
 var marker = __webpack_require__(71);
 var inRange = __webpack_require__(69).inRangeEndInclusive;
-var filter = __webpack_require__(20);
+var filter = __webpack_require__(22);
 var map = __webpack_require__(9);
 // 150 is the recommendedValue for the maximum paragraph length.
 var recommendedValue = 150;
@@ -23337,7 +23846,7 @@ module.exports = {
 //# sourceMappingURL=paragraphTooLongAssessment.js.map
 
 /***/ }),
-/* 400 */
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23373,16 +23882,16 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(38);
-var countTooLongSentences = __webpack_require__(665);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(40);
+var countTooLongSentences = __webpack_require__(682);
 var formatNumber = __webpack_require__(126);
 var inRange = __webpack_require__(69).inRangeEndInclusive;
-var stripTags = __webpack_require__(26).stripIncompleteTags;
+var stripTags = __webpack_require__(27).stripIncompleteTags;
 var Mark = __webpack_require__(70);
 var addMark = __webpack_require__(71);
 var map = __webpack_require__(9);
-var merge = __webpack_require__(23);
+var merge = __webpack_require__(25);
 /**
  * Represents the assessment that will calculate the length of sentences in the text.
  */
@@ -23571,7 +24080,7 @@ module.exports = SentenceLengthInTextAssessment;
 //# sourceMappingURL=sentenceLengthInTextAssessment.js.map
 
 /***/ }),
-/* 401 */
+/* 410 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23607,12 +24116,12 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(38);
-var isTextTooLong = __webpack_require__(295);
-var filter = __webpack_require__(20);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(40);
+var isTextTooLong = __webpack_require__(304);
+var filter = __webpack_require__(22);
 var map = __webpack_require__(9);
-var merge = __webpack_require__(23);
+var merge = __webpack_require__(25);
 var Mark = __webpack_require__(70);
 var marker = __webpack_require__(71);
 var inRange = __webpack_require__(69).inRangeEndInclusive;
@@ -23781,20 +24290,20 @@ module.exports = SubheadingsDistributionTooLong;
 //# sourceMappingURL=subheadingDistributionTooLongAssessment.js.map
 
 /***/ }),
-/* 402 */
+/* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 var formatNumber = __webpack_require__(126);
 var map = __webpack_require__(9);
 var inRange = __webpack_require__(69).inRangeStartInclusive;
-var stripTags = __webpack_require__(26).stripIncompleteTags;
+var stripTags = __webpack_require__(27).stripIncompleteTags;
 var Mark = __webpack_require__(70);
 var marker = __webpack_require__(71);
-var getLanguageAvailability = __webpack_require__(91);
+var getLanguageAvailability = __webpack_require__(92);
 var availableLanguages = ["en", "de", "es", "fr", "nl", "it"];
 /**
  * Calculates the actual percentage of transition words in the sentences.
@@ -23899,21 +24408,21 @@ module.exports = {
 //# sourceMappingURL=transitionWordsAssessment.js.map
 
 /***/ }),
-/* 403 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 var formatNumber = __webpack_require__(126);
 var inRange = __webpack_require__(69).inRangeEndInclusive;
-var stripTags = __webpack_require__(26).stripIncompleteTags;
+var stripTags = __webpack_require__(27).stripIncompleteTags;
 var Mark = __webpack_require__(70);
 var marker = __webpack_require__(71);
 var map = __webpack_require__(9);
-var getLanguageAvailability = __webpack_require__(91);
-var availableLanguages = ["en", "de"];
+var getLanguageAvailability = __webpack_require__(92);
+var availableLanguages = ["en", "de", "fr", "es"];
 /**
  * Calculates the result based on the number of sentences and passives.
  * @param {object} passiveVoice The object containing the number of sentences and passives
@@ -24005,23 +24514,23 @@ module.exports = {
 //# sourceMappingURL=passiveVoiceAssessment.js.map
 
 /***/ }),
-/* 404 */
+/* 413 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var stripTags = __webpack_require__(26).stripIncompleteTags;
-var partition = __webpack_require__(666);
-var sortBy = __webpack_require__(670);
+var AssessmentResult = __webpack_require__(5);
+var stripTags = __webpack_require__(27).stripIncompleteTags;
+var partition = __webpack_require__(683);
+var sortBy = __webpack_require__(687);
 var map = __webpack_require__(9);
-var filter = __webpack_require__(20);
+var filter = __webpack_require__(22);
 var flatten = __webpack_require__(157);
 var Mark = __webpack_require__(70);
 var marker = __webpack_require__(71);
 var maximumConsecutiveDuplicates = 2;
-var getLanguageAvailability = __webpack_require__(91);
+var getLanguageAvailability = __webpack_require__(92);
 var availableLanguages = ["en", "de", "es", "fr", "nl", "it"];
 /**
  * Counts and groups the number too often used sentence beginnings and determines the lowest count within that group.
@@ -24112,14 +24621,14 @@ module.exports = {
 //# sourceMappingURL=sentenceBeginningsAssessment.js.map
 
 /***/ }),
-/* 405 */
+/* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stripHTMLTags = __webpack_require__(26).stripFullTags;
-var AssessmentResult = __webpack_require__(4);
+var stripHTMLTags = __webpack_require__(27).stripFullTags;
+var AssessmentResult = __webpack_require__(5);
 /**
  * Assesses that the paper has at least a little bit of content.
  *
@@ -24146,16 +24655,16 @@ module.exports = {
 //# sourceMappingURL=textPresenceAssessment.js.map
 
 /***/ }),
-/* 406 */
+/* 415 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaultsDeep = __webpack_require__(92);
-var getLanguage = __webpack_require__(48);
-var defaultConfig = __webpack_require__(677);
-var it = __webpack_require__(678);
+var defaultsDeep = __webpack_require__(93);
+var getLanguage = __webpack_require__(50);
+var defaultConfig = __webpack_require__(694);
+var it = __webpack_require__(695);
 var configurations = {
     it: it
 };
@@ -24170,29 +24679,29 @@ module.exports = function (locale) {
 //# sourceMappingURL=combinedConfig.js.map
 
 /***/ }),
-/* 407 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isEmpty = __webpack_require__(25);
-var isElement = __webpack_require__(681);
-var isUndefined = __webpack_require__(3);
-var clone = __webpack_require__(682);
-var defaultsDeep = __webpack_require__(92);
-var forEach = __webpack_require__(5);
+var isEmpty = __webpack_require__(15);
+var isElement = __webpack_require__(698);
+var isUndefined = __webpack_require__(4);
+var clone = __webpack_require__(699);
+var defaultsDeep = __webpack_require__(93);
+var forEach = __webpack_require__(2);
 var debounce = __webpack_require__(87);
-var createWordRegex = __webpack_require__(367);
-var stripHTMLTags = __webpack_require__(26).stripFullTags;
-var stripSpaces = __webpack_require__(27);
-var replaceDiacritics = __webpack_require__(368);
-var transliterate = __webpack_require__(363);
-var templates = __webpack_require__(408);
+var createWordRegex = __webpack_require__(376);
+var stripHTMLTags = __webpack_require__(27).stripFullTags;
+var stripSpaces = __webpack_require__(28);
+var replaceDiacritics = __webpack_require__(377);
+var transliterate = __webpack_require__(372);
+var templates = __webpack_require__(417);
 var snippetEditorTemplate = templates.snippetEditor;
 var hiddenElement = templates.hiddenSpan;
-var SnippetPreviewToggler = __webpack_require__(683);
-var domManipulation = __webpack_require__(409);
+var SnippetPreviewToggler = __webpack_require__(700);
+var domManipulation = __webpack_require__(418);
 var defaults = {
     data: {
         title: "",
@@ -25255,7 +25764,7 @@ module.exports = SnippetPreview;
 //# sourceMappingURL=snippetPreview.js.map
 
 /***/ }),
-/* 408 */
+/* 417 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25744,16 +26253,16 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
   }
 }).call(undefined);
 //# sourceMappingURL=templates.js.map
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(42)(module)))
 
 /***/ }),
-/* 409 */
+/* 418 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var forEach = __webpack_require__(5);
+var forEach = __webpack_require__(2);
 /**
  * Adds a class to an element
  *
@@ -25813,7 +26322,7 @@ module.exports = {
 //# sourceMappingURL=domManipulation.js.map
 
 /***/ }),
-/* 410 */
+/* 419 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25827,12 +26336,12 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
     return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
 };
 
-var isUndefined = __webpack_require__(3);
-var forEach = __webpack_require__(5);
-var reduce = __webpack_require__(691);
-var isString = __webpack_require__(285);
+var isUndefined = __webpack_require__(4);
+var forEach = __webpack_require__(2);
+var reduce = __webpack_require__(708);
+var isString = __webpack_require__(289);
 var isObject = __webpack_require__(6);
-var InvalidTypeError = __webpack_require__(361);
+var InvalidTypeError = __webpack_require__(370);
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
  *
@@ -26163,13 +26672,13 @@ module.exports = Pluggable;
 //# sourceMappingURL=pluggable.js.map
 
 /***/ }),
-/* 411 */
+/* 420 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(288);
+var defaults = __webpack_require__(293);
 /**
  * Default attributes to be used by the Paper if they are left undefined.
  * @type {{keyword: string, description: string, title: string, url: string}}
@@ -26315,13 +26824,13 @@ module.exports = Paper;
 //# sourceMappingURL=Paper.js.map
 
 /***/ }),
-/* 412 */
+/* 421 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Tokenizer = __webpack_require__(413);
+var Tokenizer = __webpack_require__(422);
 
 /*
 	Options:
@@ -26660,7 +27169,7 @@ Parser.prototype.done = Parser.prototype.end;
 module.exports = Parser;
 
 /***/ }),
-/* 413 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26668,10 +27177,10 @@ module.exports = Parser;
 
 module.exports = Tokenizer;
 
-var decodeCodePoint = __webpack_require__(414),
-    entityMap = __webpack_require__(296),
-    legacyMap = __webpack_require__(415),
-    xmlMap = __webpack_require__(297),
+var decodeCodePoint = __webpack_require__(423),
+    entityMap = __webpack_require__(305),
+    legacyMap = __webpack_require__(424),
+    xmlMap = __webpack_require__(306),
     i = 0,
     TEXT = i++,
     BEFORE_TAG_NAME = i++,
@@ -27587,13 +28096,13 @@ Tokenizer.prototype._emitPartial = function (value) {
 };
 
 /***/ }),
-/* 414 */
+/* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var decodeMap = __webpack_require__(694);
+var decodeMap = __webpack_require__(711);
 
 module.exports = decodeCodePoint;
 
@@ -27621,13 +28130,13 @@ function decodeCodePoint(codePoint) {
 }
 
 /***/ }),
-/* 415 */
+/* 424 */
 /***/ (function(module, exports) {
 
 module.exports = {"Aacute":"Á","aacute":"á","Acirc":"Â","acirc":"â","acute":"´","AElig":"Æ","aelig":"æ","Agrave":"À","agrave":"à","amp":"&","AMP":"&","Aring":"Å","aring":"å","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","brvbar":"¦","Ccedil":"Ç","ccedil":"ç","cedil":"¸","cent":"¢","copy":"©","COPY":"©","curren":"¤","deg":"°","divide":"÷","Eacute":"É","eacute":"é","Ecirc":"Ê","ecirc":"ê","Egrave":"È","egrave":"è","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","frac12":"½","frac14":"¼","frac34":"¾","gt":">","GT":">","Iacute":"Í","iacute":"í","Icirc":"Î","icirc":"î","iexcl":"¡","Igrave":"Ì","igrave":"ì","iquest":"¿","Iuml":"Ï","iuml":"ï","laquo":"«","lt":"<","LT":"<","macr":"¯","micro":"µ","middot":"·","nbsp":" ","not":"¬","Ntilde":"Ñ","ntilde":"ñ","Oacute":"Ó","oacute":"ó","Ocirc":"Ô","ocirc":"ô","Ograve":"Ò","ograve":"ò","ordf":"ª","ordm":"º","Oslash":"Ø","oslash":"ø","Otilde":"Õ","otilde":"õ","Ouml":"Ö","ouml":"ö","para":"¶","plusmn":"±","pound":"£","quot":"\"","QUOT":"\"","raquo":"»","reg":"®","REG":"®","sect":"§","shy":"­","sup1":"¹","sup2":"²","sup3":"³","szlig":"ß","THORN":"Þ","thorn":"þ","times":"×","Uacute":"Ú","uacute":"ú","Ucirc":"Û","ucirc":"û","Ugrave":"Ù","ugrave":"ù","uml":"¨","Uuml":"Ü","uuml":"ü","Yacute":"Ý","yacute":"ý","yen":"¥","yuml":"ÿ"}
 
 /***/ }),
-/* 416 */
+/* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27679,7 +28188,7 @@ Object.keys(domLvl1).forEach(function (key) {
 });
 
 /***/ }),
-/* 417 */
+/* 426 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27687,10 +28196,10 @@ Object.keys(domLvl1).forEach(function (key) {
 
 module.exports = Stream;
 
-var Parser = __webpack_require__(412),
-    WritableStream = __webpack_require__(699).Writable || __webpack_require__(712).Writable,
-    StringDecoder = __webpack_require__(301).StringDecoder,
-    Buffer = __webpack_require__(299).Buffer;
+var Parser = __webpack_require__(421),
+    WritableStream = __webpack_require__(716).Writable || __webpack_require__(729).Writable,
+    StringDecoder = __webpack_require__(310).StringDecoder,
+    Buffer = __webpack_require__(308).Buffer;
 
 function Stream(cbs, options) {
 	var parser = this._parser = new Parser(cbs, options);
@@ -27712,7 +28221,7 @@ WritableStream.prototype._write = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 418 */
+/* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27741,13 +28250,13 @@ WritableStream.prototype._write = function (chunk, encoding, cb) {
 
 /*<replacement>*/
 
-var processNextTick = __webpack_require__(170);
+var processNextTick = __webpack_require__(174);
 /*</replacement>*/
 
 module.exports = Readable;
 
 /*<replacement>*/
-var isArray = __webpack_require__(419);
+var isArray = __webpack_require__(428);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -27765,13 +28274,13 @@ var EElistenerCount = function EElistenerCount(emitter, type) {
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(420);
+var Stream = __webpack_require__(429);
 /*</replacement>*/
 
 // TODO(bmeurer): Change this back to const once hole checks are
 // properly optimized away early in Ignition+TurboFan.
 /*<replacement>*/
-var Buffer = __webpack_require__(171).Buffer;
+var Buffer = __webpack_require__(175).Buffer;
 var OurUint8Array = global.Uint8Array || function () {};
 function _uint8ArrayToBuffer(chunk) {
   return Buffer.from(chunk);
@@ -27787,7 +28296,7 @@ util.inherits = __webpack_require__(14);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(702);
+var debugUtil = __webpack_require__(719);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -27796,8 +28305,8 @@ if (debugUtil && debugUtil.debuglog) {
 }
 /*</replacement>*/
 
-var BufferList = __webpack_require__(703);
-var destroyImpl = __webpack_require__(421);
+var BufferList = __webpack_require__(720);
+var destroyImpl = __webpack_require__(430);
 var StringDecoder;
 
 util.inherits(Readable, Stream);
@@ -27880,7 +28389,7 @@ function ReadableState(options, stream) {
   this.decoder = null;
   this.encoding = null;
   if (options.encoding) {
-    if (!StringDecoder) StringDecoder = __webpack_require__(301).StringDecoder;
+    if (!StringDecoder) StringDecoder = __webpack_require__(310).StringDecoder;
     this.decoder = new StringDecoder(options.encoding);
     this.encoding = options.encoding;
   }
@@ -28036,7 +28545,7 @@ Readable.prototype.isPaused = function () {
 
 // backwards compatibility.
 Readable.prototype.setEncoding = function (enc) {
-  if (!StringDecoder) StringDecoder = __webpack_require__(301).StringDecoder;
+  if (!StringDecoder) StringDecoder = __webpack_require__(310).StringDecoder;
   this._readableState.decoder = new StringDecoder(enc);
   this._readableState.encoding = enc;
   return this;
@@ -28723,10 +29232,10 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(56)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(57)))
 
 /***/ }),
-/* 419 */
+/* 428 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28739,7 +29248,7 @@ module.exports = Array.isArray || function (arr) {
 };
 
 /***/ }),
-/* 420 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28748,7 +29257,7 @@ module.exports = Array.isArray || function (arr) {
 module.exports = __webpack_require__(86).EventEmitter;
 
 /***/ }),
-/* 421 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28756,7 +29265,7 @@ module.exports = __webpack_require__(86).EventEmitter;
 
 /*<replacement>*/
 
-var processNextTick = __webpack_require__(170);
+var processNextTick = __webpack_require__(174);
 /*</replacement>*/
 
 // undocumented cb() API, needed for core, not for public API
@@ -28826,7 +29335,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 422 */
+/* 431 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29046,20 +29555,20 @@ function done(stream, er, data) {
 }
 
 /***/ }),
-/* 423 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _markerButtons = __webpack_require__(332);
+var _markerButtons = __webpack_require__(341);
 
 /* global tinyMCE, require, YoastSEO */
 
-var forEach = __webpack_require__(5);
-var isUndefined = __webpack_require__(3);
-var editorHasMarks = __webpack_require__(333).editorHasMarks;
-var editorRemoveMarks = __webpack_require__(333).editorRemoveMarks;
+var forEach = __webpack_require__(2);
+var isUndefined = __webpack_require__(4);
+var editorHasMarks = __webpack_require__(342).editorHasMarks;
+var editorRemoveMarks = __webpack_require__(342).editorRemoveMarks;
 
 var store = void 0;
 
@@ -29277,7 +29786,7 @@ var termsTmceId = "description";
 })(jQuery);
 
 /***/ }),
-/* 424 */
+/* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29292,11 +29801,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.default = createStore;
 
-var _isPlainObject = __webpack_require__(303);
+var _isPlainObject = __webpack_require__(312);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _symbolObservable = __webpack_require__(736);
+var _symbolObservable = __webpack_require__(753);
 
 var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
 
@@ -29549,7 +30058,7 @@ var ActionTypes = exports.ActionTypes = {
 }
 
 /***/ }),
-/* 425 */
+/* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29559,7 +30068,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _root = __webpack_require__(729);
+var _root = __webpack_require__(746);
 
 var _root2 = _interopRequireDefault(_root);
 
@@ -29571,7 +30080,7 @@ var _Symbol = _root2.default.Symbol;
 exports.default = _Symbol;
 
 /***/ }),
-/* 426 */
+/* 435 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29604,7 +30113,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 427 */
+/* 436 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29648,7 +30157,7 @@ function compose() {
 }
 
 /***/ }),
-/* 428 */
+/* 437 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29679,7 +30188,7 @@ var storeShape = exports.storeShape = _propTypes2.default.shape({
 });
 
 /***/ }),
-/* 429 */
+/* 438 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29693,7 +30202,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.default = connectAdvanced;
 
-var _hoistNonReactStatics = __webpack_require__(745);
+var _hoistNonReactStatics = __webpack_require__(762);
 
 var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
@@ -29703,11 +30212,11 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _react = __webpack_require__(0);
 
-var _Subscription = __webpack_require__(746);
+var _Subscription = __webpack_require__(763);
 
 var _Subscription2 = _interopRequireDefault(_Subscription);
 
-var _PropTypes = __webpack_require__(428);
+var _PropTypes = __webpack_require__(437);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30019,7 +30528,7 @@ selectorFactory) {
 }
 
 /***/ }),
-/* 430 */
+/* 439 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30032,7 +30541,7 @@ exports.wrapMapToPropsConstant = wrapMapToPropsConstant;
 exports.getDependsOnOwnProps = getDependsOnOwnProps;
 exports.wrapMapToPropsFunc = wrapMapToPropsFunc;
 
-var _verifyPlainObject = __webpack_require__(431);
+var _verifyPlainObject = __webpack_require__(440);
 
 var _verifyPlainObject2 = _interopRequireDefault(_verifyPlainObject);
 
@@ -30105,7 +30614,7 @@ function wrapMapToPropsFunc(mapToProps, methodName) {
 }
 
 /***/ }),
-/* 431 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30116,11 +30625,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = verifyPlainObject;
 
-var _isPlainObject = __webpack_require__(303);
+var _isPlainObject = __webpack_require__(312);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _warning = __webpack_require__(305);
+var _warning = __webpack_require__(314);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -30133,18 +30642,18 @@ function verifyPlainObject(value, displayName, methodName) {
 }
 
 /***/ }),
-/* 432 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var LodashWrapper = __webpack_require__(306),
-    flatRest = __webpack_require__(120),
-    getData = __webpack_require__(433),
-    getFuncName = __webpack_require__(434),
-    isArray = __webpack_require__(2),
-    isLaziable = __webpack_require__(757);
+var LodashWrapper = __webpack_require__(315),
+    flatRest = __webpack_require__(121),
+    getData = __webpack_require__(442),
+    getFuncName = __webpack_require__(443),
+    isArray = __webpack_require__(3),
+    isLaziable = __webpack_require__(774);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -30214,14 +30723,14 @@ function createFlow(fromRight) {
 module.exports = createFlow;
 
 /***/ }),
-/* 433 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var metaMap = __webpack_require__(755),
-    noop = __webpack_require__(391);
+var metaMap = __webpack_require__(772),
+    noop = __webpack_require__(400);
 
 /**
  * Gets metadata for `func`.
@@ -30237,13 +30746,13 @@ var getData = !metaMap ? noop : function (func) {
 module.exports = getData;
 
 /***/ }),
-/* 434 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var realNames = __webpack_require__(756);
+var realNames = __webpack_require__(773);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -30276,7 +30785,7 @@ function getFuncName(func) {
 module.exports = getFuncName;
 
 /***/ }),
-/* 435 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30304,7 +30813,7 @@ var setActiveKeyword = exports.setActiveKeyword = function setActiveKeyword(keyw
 };
 
 /***/ }),
-/* 436 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30324,11 +30833,11 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _mapResults = __webpack_require__(766);
+var _mapResults = __webpack_require__(783);
 
 var _mapResults2 = _interopRequireDefault(_mapResults);
 
-var _ContentAnalysis = __webpack_require__(767);
+var _ContentAnalysis = __webpack_require__(784);
 
 var _ContentAnalysis2 = _interopRequireDefault(_ContentAnalysis);
 
@@ -30441,7 +30950,7 @@ Results.defaultProps = {
 exports.default = Results;
 
 /***/ }),
-/* 437 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30477,7 +30986,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 438 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30499,15 +31008,15 @@ module.exports = {
 };
 
 /***/ }),
-/* 439 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getL10nObject = __webpack_require__(93);
+var getL10nObject = __webpack_require__(94);
 
-var isUndefined = __webpack_require__(3);
+var isUndefined = __webpack_require__(4);
 
 /**
  * Returns whether or not the content analysis is active
@@ -30523,7 +31032,7 @@ function isKeywordAnalysisActive() {
 module.exports = isKeywordAnalysisActive;
 
 /***/ }),
-/* 440 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30531,8 +31040,8 @@ module.exports = isKeywordAnalysisActive;
 
 /* global wp, jQuery */
 
-var defaultsDeep = __webpack_require__(92);
-var getIndicatorForScore = __webpack_require__(310);
+var defaultsDeep = __webpack_require__(93);
+var getIndicatorForScore = __webpack_require__(319);
 
 var $ = jQuery;
 
@@ -30735,15 +31244,15 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 441 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getL10nObject = __webpack_require__(93);
+var getL10nObject = __webpack_require__(94);
 
-var isUndefined = __webpack_require__(3);
+var isUndefined = __webpack_require__(4);
 
 /**
  * Retrieves translations for YoastSEO.js for the current page, either term or post.
@@ -30766,17 +31275,17 @@ function getTranslations() {
 module.exports = getTranslations;
 
 /***/ }),
-/* 442 */,
-/* 443 */,
-/* 444 */,
-/* 445 */,
-/* 446 */,
-/* 447 */,
-/* 448 */,
-/* 449 */,
-/* 450 */,
 /* 451 */,
-/* 452 */
+/* 452 */,
+/* 453 */,
+/* 454 */,
+/* 455 */,
+/* 456 */,
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30795,15 +31304,6 @@ module.exports = function (text) {
 //# sourceMappingURL=removeMarks.js.map
 
 /***/ }),
-/* 453 */,
-/* 454 */,
-/* 455 */,
-/* 456 */,
-/* 457 */,
-/* 458 */,
-/* 459 */,
-/* 460 */,
-/* 461 */,
 /* 462 */,
 /* 463 */,
 /* 464 */,
@@ -30862,14 +31362,23 @@ module.exports = function (text) {
 /* 517 */,
 /* 518 */,
 /* 519 */,
-/* 520 */
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */,
+/* 528 */,
+/* 529 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var isUndefined = __webpack_require__(3);
+var AssessmentResult = __webpack_require__(5);
+var isUndefined = __webpack_require__(4);
 var MissingArgument = __webpack_require__(162);
 /**
  * @param {object} app The app
@@ -30994,7 +31503,7 @@ module.exports = PreviouslyUsedKeyword;
 //# sourceMappingURL=previouslyUsedKeywords.js.map
 
 /***/ }),
-/* 521 */
+/* 530 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31007,7 +31516,7 @@ module.exports = function isBuffer(arg) {
 };
 
 /***/ }),
-/* 522 */
+/* 531 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31038,37 +31547,34 @@ if (typeof Object.create === 'function') {
 }
 
 /***/ }),
-/* 523 */
+/* 532 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function (paper) {
-  return getSentences(paper.getText());
-};
-
-//# sourceMappingURL=sentences.js.map
-var getSentences = __webpack_require__(54);
+Object.defineProperty(exports, "__esModule", { value: true });
+var getSentences = __webpack_require__(55);
 /**
  * @param {Paper} paper The paper to analyze.
  */
+function default_1(paper) {
+  return getSentences(paper.getText());
+}
+exports.default = default_1;
+//# sourceMappingURL=sentences.js.map
 //# sourceMappingURL=sentences.js.map
 
 /***/ }),
-/* 524 */
+/* 533 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIsMatch = __webpack_require__(525),
-    getMatchData = __webpack_require__(532),
-    matchesStrictComparable = __webpack_require__(353);
+var baseIsMatch = __webpack_require__(534),
+    getMatchData = __webpack_require__(541),
+    matchesStrictComparable = __webpack_require__(362);
 
 /**
  * The base implementation of `_.matches` which doesn't clone `source`.
@@ -31090,14 +31596,14 @@ function baseMatches(source) {
 module.exports = baseMatches;
 
 /***/ }),
-/* 525 */
+/* 534 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var Stack = __webpack_require__(79),
-    baseIsEqual = __webpack_require__(350);
+    baseIsEqual = __webpack_require__(359);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -31154,19 +31660,19 @@ function baseIsMatch(object, source, matchData, customizer) {
 module.exports = baseIsMatch;
 
 /***/ }),
-/* 526 */
+/* 535 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var Stack = __webpack_require__(79),
-    equalArrays = __webpack_require__(351),
-    equalByTag = __webpack_require__(530),
-    equalObjects = __webpack_require__(531),
-    getTag = __webpack_require__(117),
-    isArray = __webpack_require__(2),
-    isBuffer = __webpack_require__(52),
+    equalArrays = __webpack_require__(360),
+    equalByTag = __webpack_require__(539),
+    equalObjects = __webpack_require__(540),
+    getTag = __webpack_require__(118),
+    isArray = __webpack_require__(3),
+    isBuffer = __webpack_require__(54),
     isTypedArray = __webpack_require__(78);
 
 /** Used to compose bitmasks for value comparisons. */
@@ -31243,7 +31749,7 @@ function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
 module.exports = baseIsEqualDeep;
 
 /***/ }),
-/* 527 */
+/* 536 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31270,7 +31776,7 @@ function setCacheAdd(value) {
 module.exports = setCacheAdd;
 
 /***/ }),
-/* 528 */
+/* 537 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31292,7 +31798,7 @@ function setCacheHas(value) {
 module.exports = setCacheHas;
 
 /***/ }),
-/* 529 */
+/* 538 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31323,16 +31829,16 @@ function arraySome(array, predicate) {
 module.exports = arraySome;
 
 /***/ }),
-/* 530 */
+/* 539 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Symbol = __webpack_require__(22),
+var _Symbol = __webpack_require__(24),
     Uint8Array = __webpack_require__(144),
-    eq = __webpack_require__(35),
-    equalArrays = __webpack_require__(351),
+    eq = __webpack_require__(36),
+    equalArrays = __webpack_require__(360),
     mapToArray = __webpack_require__(155),
     setToArray = __webpack_require__(89);
 
@@ -31441,7 +31947,7 @@ function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
 module.exports = equalByTag;
 
 /***/ }),
-/* 531 */
+/* 540 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31530,14 +32036,14 @@ function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
 module.exports = equalObjects;
 
 /***/ }),
-/* 532 */
+/* 541 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isStrictComparable = __webpack_require__(352),
-    keys = __webpack_require__(29);
+var isStrictComparable = __webpack_require__(361),
+    keys = __webpack_require__(30);
 
 /**
  * Gets the property names, values, and compare flags of `object`.
@@ -31562,19 +32068,19 @@ function getMatchData(object) {
 module.exports = getMatchData;
 
 /***/ }),
-/* 533 */
+/* 542 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIsEqual = __webpack_require__(350),
-    get = __webpack_require__(319),
-    hasIn = __webpack_require__(354),
-    isKey = __webpack_require__(118),
-    isStrictComparable = __webpack_require__(352),
-    matchesStrictComparable = __webpack_require__(353),
-    toKey = __webpack_require__(46);
+var baseIsEqual = __webpack_require__(359),
+    get = __webpack_require__(328),
+    hasIn = __webpack_require__(363),
+    isKey = __webpack_require__(119),
+    isStrictComparable = __webpack_require__(361),
+    matchesStrictComparable = __webpack_require__(362),
+    toKey = __webpack_require__(48);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -31601,7 +32107,7 @@ function baseMatchesProperty(path, srcValue) {
 module.exports = baseMatchesProperty;
 
 /***/ }),
-/* 534 */
+/* 543 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31622,16 +32128,16 @@ function baseHasIn(object, key) {
 module.exports = baseHasIn;
 
 /***/ }),
-/* 535 */
+/* 544 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseProperty = __webpack_require__(536),
-    basePropertyDeep = __webpack_require__(537),
-    isKey = __webpack_require__(118),
-    toKey = __webpack_require__(46);
+var baseProperty = __webpack_require__(545),
+    basePropertyDeep = __webpack_require__(546),
+    isKey = __webpack_require__(119),
+    toKey = __webpack_require__(48);
 
 /**
  * Creates a function that returns the value at `path` of a given object.
@@ -31662,7 +32168,7 @@ function property(path) {
 module.exports = property;
 
 /***/ }),
-/* 536 */
+/* 545 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31684,7 +32190,7 @@ function baseProperty(key) {
 module.exports = baseProperty;
 
 /***/ }),
-/* 537 */
+/* 546 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31708,14 +32214,14 @@ function basePropertyDeep(path) {
 module.exports = basePropertyDeep;
 
 /***/ }),
-/* 538 */
+/* 547 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseFor = __webpack_require__(217),
-    keys = __webpack_require__(29);
+var baseFor = __webpack_require__(221),
+    keys = __webpack_require__(30);
 
 /**
  * The base implementation of `_.forOwn` without support for iteratee shorthands.
@@ -31732,13 +32238,13 @@ function baseForOwn(object, iteratee) {
 module.exports = baseForOwn;
 
 /***/ }),
-/* 539 */
+/* 548 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isArrayLike = __webpack_require__(21);
+var isArrayLike = __webpack_require__(23);
 
 /**
  * Creates a `baseEach` or `baseEachRight` function.
@@ -31772,13 +32278,13 @@ function createBaseEach(eachFunc, fromRight) {
 module.exports = createBaseEach;
 
 /***/ }),
-/* 540 */
+/* 549 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var identity = __webpack_require__(49);
+var identity = __webpack_require__(51);
 
 /**
  * Casts `value` to `identity` if it's not a function.
@@ -31794,13 +32300,13 @@ function castFunction(value) {
 module.exports = castFunction;
 
 /***/ }),
-/* 541 */
+/* 550 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isNumber = __webpack_require__(277);
+var isNumber = __webpack_require__(281);
 
 /**
  * Checks if `value` is `NaN`.
@@ -31840,13 +32346,13 @@ function isNaN(value) {
 module.exports = isNaN;
 
 /***/ }),
-/* 542 */
+/* 551 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var wordCount = __webpack_require__(55);
+var wordCount = __webpack_require__(56);
 /**
  * Count the words in the text
  * @param {Paper} paper The Paper object who's
@@ -31859,7 +32365,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=wordCountInText.js.map
 
 /***/ }),
-/* 543 */
+/* 552 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31885,19 +32391,19 @@ module.exports = function (text) {
 //# sourceMappingURL=removePunctuation.js.map
 
 /***/ }),
-/* 544 */
+/* 553 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/getLinkStatistics */
 
-var getAnchors = __webpack_require__(362);
-var findKeywordInUrl = __webpack_require__(545);
-var getLinkType = __webpack_require__(547);
-var checkNofollow = __webpack_require__(553);
-var urlHelper = __webpack_require__(281);
-var escapeRegExp = __webpack_require__(31);
+var getAnchors = __webpack_require__(371);
+var findKeywordInUrl = __webpack_require__(554);
+var getLinkType = __webpack_require__(556);
+var checkNofollow = __webpack_require__(562);
+var urlHelper = __webpack_require__(285);
+var escapeRegExp = __webpack_require__(32);
 /**
  * Checks whether or not an anchor contains the passed keyword.
  * @param {string} keyword The keyword to look for.
@@ -31981,15 +32487,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=getLinkStatistics.js.map
 
 /***/ }),
-/* 545 */
+/* 554 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/findKeywordInUrl */
 
-var matchTextWithTransliteration = __webpack_require__(280);
-var escapeRegExp = __webpack_require__(31);
+var matchTextWithTransliteration = __webpack_require__(284);
+var escapeRegExp = __webpack_require__(32);
 /**
  * Matches the keyword in the URL.
  *
@@ -32011,14 +32517,14 @@ module.exports = function (url, keyword, locale) {
 //# sourceMappingURL=findKeywordInUrl.js.map
 
 /***/ }),
-/* 546 */
+/* 555 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getLanguage = __webpack_require__(48);
-var isUndefined = __webpack_require__(3);
+var getLanguage = __webpack_require__(50);
+var isUndefined = __webpack_require__(4);
 var transliterations = {
     // Language: Spanish.
     // Source: https://en.wikipedia.org/wiki/Spanish_orthography
@@ -32435,38 +32941,42 @@ module.exports = function (locale) {
 //# sourceMappingURL=transliterations.js.map
 
 /***/ }),
-/* 547 */
+/* 556 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcess/getLinkType */
 
-var urlHelper = __webpack_require__(281);
+var urlHelper = __webpack_require__(285);
 /**
  * Determines the type of link.
  *
  * @param {string} text String with anchor tag.
- * @param {string} url Url to match against.
+ * @param {string} url URL to match against.
  * @returns {string} The link type (other, external or internal).
  */
 module.exports = function (text, url) {
-    var linkType = "other";
     var anchorUrl = urlHelper.getFromAnchorTag(text);
-    // Matches all links that start with http:// and https://, case insensitive and global
-    if (anchorUrl.match(/https?:\/\//ig) !== null) {
-        linkType = "external";
-        if (urlHelper.getHostname(anchorUrl) === urlHelper.getHostname(url)) {
-            linkType = "internal";
-        }
+    /**
+     * A link is "Other" if:
+     * - The protocol is neither null, nor http, nor https.
+     * - The link is a relative fragment URL (starts with #), because it won't navigate to another page.
+     */
+    var protocol = urlHelper.getProtocol(anchorUrl);
+    if (protocol && !urlHelper.protocolIsHttpScheme(protocol) || urlHelper.isRelativeFragmentURL(anchorUrl)) {
+        return "other";
     }
-    return linkType;
+    if (urlHelper.isInternalLink(anchorUrl, urlHelper.getHostname(url))) {
+        return "internal";
+    }
+    return "external";
 };
 //# sourceMappingURL=getLinkType.js.map
 //# sourceMappingURL=getLinkType.js.map
 
 /***/ }),
-/* 548 */
+/* 557 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32495,8 +33005,8 @@ module.exports = function (text, url) {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var punycode = __webpack_require__(549);
-var util = __webpack_require__(550);
+var punycode = __webpack_require__(558);
+var util = __webpack_require__(559);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -32579,7 +33089,7 @@ slashedProtocol = {
   'gopher:': true,
   'file:': true
 },
-    querystring = __webpack_require__(551);
+    querystring = __webpack_require__(560);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -33181,7 +33691,7 @@ Url.prototype.parseHost = function () {
 };
 
 /***/ }),
-/* 549 */
+/* 558 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33695,7 +34205,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	/** Expose `punycode` */
 	// Some AMD build optimizers, like r.js, check for specific condition patterns
 	// like the following:
-	if ("function" == 'function' && _typeof(__webpack_require__(122)) == 'object' && __webpack_require__(122)) {
+	if ("function" == 'function' && _typeof(__webpack_require__(123)) == 'object' && __webpack_require__(123)) {
 		!(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {
 			return punycode;
 		}).call(exports, __webpack_require__, exports, module),
@@ -33715,10 +34225,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		root.punycode = punycode;
 	}
 })(undefined);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module), __webpack_require__(12)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42)(module), __webpack_require__(12)))
 
 /***/ }),
-/* 550 */
+/* 559 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33742,17 +34252,17 @@ module.exports = {
 };
 
 /***/ }),
-/* 551 */
+/* 560 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(552);
-exports.encode = exports.stringify = __webpack_require__(222);
+exports.decode = exports.parse = __webpack_require__(561);
+exports.encode = exports.stringify = __webpack_require__(226);
 
 /***/ }),
-/* 552 */
+/* 561 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33846,7 +34356,7 @@ var isArray = Array.isArray || function (xs) {
 };
 
 /***/ }),
-/* 553 */
+/* 562 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33871,14 +34381,14 @@ module.exports = function (text) {
 //# sourceMappingURL=checkNofollow.js.map
 
 /***/ }),
-/* 554 */
+/* 563 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/getLinkStatistics */
 
-var getLinks = __webpack_require__(364);
+var getLinks = __webpack_require__(373);
 /**
  * Checks a text for anchors and returns the number found.
  *
@@ -33893,7 +34403,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=countLinks.js.map
 
 /***/ }),
-/* 555 */
+/* 564 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33920,15 +34430,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=urlIsTooLong.js.map
 
 /***/ }),
-/* 556 */
+/* 565 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/findKeywordInPageTitle */
 
-var wordMatch = __webpack_require__(67);
-var escapeRegExp = __webpack_require__(31);
+var wordMatch = __webpack_require__(68);
+var escapeRegExp = __webpack_require__(32);
 /**
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
  * and the position of the keyword.
@@ -33949,17 +34459,17 @@ module.exports = function (paper) {
 //# sourceMappingURL=findKeywordInPageTitle.js.map
 
 /***/ }),
-/* 557 */
+/* 566 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /* @module analyses/matchKeywordInSubheadings */
 
-var stripSomeTags = __webpack_require__(365);
-var subheadingMatch = __webpack_require__(558);
-var getSubheadingContents = __webpack_require__(561).getSubheadingContents;
-var escapeRegExp = __webpack_require__(31);
+var stripSomeTags = __webpack_require__(374);
+var subheadingMatch = __webpack_require__(567);
+var getSubheadingContents = __webpack_require__(570).getSubheadingContents;
+var escapeRegExp = __webpack_require__(32);
 /**
  * Checks if there are any subheadings like h2 in the text
  * and if they have the keyword in them.
@@ -33984,15 +34494,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=matchKeywordInSubheadings.js.map
 
 /***/ }),
-/* 558 */
+/* 567 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var replaceString = __webpack_require__(559);
-var removalWords = __webpack_require__(560)();
-var matchTextWithTransliteration = __webpack_require__(280);
+var replaceString = __webpack_require__(568);
+var removalWords = __webpack_require__(569)();
+var matchTextWithTransliteration = __webpack_require__(284);
 /**
  * Matches the keyword in an array of strings
  *
@@ -34021,7 +34531,7 @@ module.exports = function (matches, keyword, locale) {
 //# sourceMappingURL=subheadingsMatch.js.map
 
 /***/ }),
-/* 559 */
+/* 568 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34044,7 +34554,7 @@ module.exports = function (text, stringToReplace, replacement) {
 //# sourceMappingURL=replaceString.js.map
 
 /***/ }),
-/* 560 */
+/* 569 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34063,7 +34573,7 @@ module.exports = function () {
 //# sourceMappingURL=removalWords.js.map
 
 /***/ }),
-/* 561 */
+/* 570 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34107,16 +34617,16 @@ module.exports = {
 //# sourceMappingURL=getSubheadings.js.map
 
 /***/ }),
-/* 562 */
+/* 571 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/getKeywordDensity */
 
-var countWords = __webpack_require__(55);
-var matchWords = __webpack_require__(67);
-var escapeRegExp = __webpack_require__(31);
+var countWords = __webpack_require__(56);
+var matchWords = __webpack_require__(68);
+var escapeRegExp = __webpack_require__(32);
 /**
  * Calculates the keyword density .
  *
@@ -34138,15 +34648,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=getKeywordDensity.js.map
 
 /***/ }),
-/* 563 */
+/* 572 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module researches/stopWordsInKeyword */
 
-var stopWordsInText = __webpack_require__(366);
-var escapeRegExp = __webpack_require__(31);
+var stopWordsInText = __webpack_require__(375);
+var escapeRegExp = __webpack_require__(32);
 /**
  * Checks for the amount of stop words in the keyword.
  * @param {Paper} paper The Paper object to be checked against.
@@ -34160,7 +34670,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=stopWordsInKeyword.js.map
 
 /***/ }),
-/* 564 */
+/* 573 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34179,7 +34689,7 @@ module.exports = function () {
 //# sourceMappingURL=stopwords.js.map
 
 /***/ }),
-/* 565 */
+/* 574 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34252,14 +34762,14 @@ module.exports = function () {
 //# sourceMappingURL=diacritics.js.map
 
 /***/ }),
-/* 566 */
+/* 575 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module researches/stopWordsInUrl */
 
-var stopWordsInText = __webpack_require__(366);
+var stopWordsInText = __webpack_require__(375);
 /**
  * Matches stopwords in the URL. Replaces - and _ with whitespace.
  * @param {Paper} paper The Paper object to get the url from.
@@ -34272,19 +34782,19 @@ module.exports = function (paper) {
 //# sourceMappingURL=stopWordsInUrl.js.map
 
 /***/ }),
-/* 567 */
+/* 576 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/calculateFleschReading */
 
-var stripNumbers = __webpack_require__(568);
-var countSentences = __webpack_require__(569);
-var countWords = __webpack_require__(55);
-var countSyllables = __webpack_require__(370);
+var stripNumbers = __webpack_require__(577);
+var countSentences = __webpack_require__(578);
+var countWords = __webpack_require__(56);
+var countSyllables = __webpack_require__(379);
 var formatNumber = __webpack_require__(126);
-var getLanguage = __webpack_require__(48);
+var getLanguage = __webpack_require__(50);
 /**
  * Calculates an average from a total and an amount
  *
@@ -34340,14 +34850,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=calculateFleschReading.js.map
 
 /***/ }),
-/* 568 */
+/* 577 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/stripNumbers */
 
-var stripSpaces = __webpack_require__(27);
+var stripSpaces = __webpack_require__(28);
 /**
  * Removes all words comprised only of numbers.
  *
@@ -34367,14 +34877,14 @@ module.exports = function (text) {
 //# sourceMappingURL=stripNumbers.js.map
 
 /***/ }),
-/* 569 */
+/* 578 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/countSentences */
 
-var getSentences = __webpack_require__(54);
+var getSentences = __webpack_require__(55);
 /**
  * Counts the number of sentences in a given string.
  *
@@ -34393,19 +34903,19 @@ module.exports = function (text) {
 //# sourceMappingURL=countSentences.js.map
 
 /***/ }),
-/* 570 */
+/* 579 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module config/syllables */
 
-var getLanguage = __webpack_require__(48);
-var isUndefined = __webpack_require__(3);
-var de = __webpack_require__(571);
-var en = __webpack_require__(572);
-var nl = __webpack_require__(573);
-var it = __webpack_require__(574);
+var getLanguage = __webpack_require__(50);
+var isUndefined = __webpack_require__(4);
+var de = __webpack_require__(580);
+var en = __webpack_require__(581);
+var nl = __webpack_require__(582);
+var it = __webpack_require__(583);
 var languages = { de: de, nl: nl, en: en, it: it };
 module.exports = function () {
     var locale = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "en_US";
@@ -34421,39 +34931,39 @@ module.exports = function () {
 //# sourceMappingURL=syllables.js.map
 
 /***/ }),
-/* 571 */
+/* 580 */
 /***/ (function(module, exports) {
 
 module.exports = {"vowels":"aeiouyäöüáéâàèîêâûôœ","deviations":{"vowels":[{"fragments":["ouil","deaux","deau$","oard","äthiop","euil","veau","eau$","ueue","lienisch","ance$","ence$","time$","once$","ziat","guette","ête","ôte$","[hp]omme$","[qdscn]ue$","aire$","ture$","êpe$","[^q]ui$","tiche$","vice$","oile$","zial","cruis","leas","coa[ct]","[^i]deal","[fw]eat","[lsx]ed$"],"countModifier":-1},{"fragments":["aau","a[äöüo]","äue","äeu","aei","aue","aeu","ael","ai[aeo]","saik","aismus","ä[aeoi]","auä","éa","e[äaoö]","ei[eo]","ee[aeiou]","eu[aäe]","eum$","eü","o[aäöü]","poet","oo[eo]","oie","oei[^l]","oeu[^f]","öa","[fgrz]ieu","mieun","tieur","ieum","i[aiuü]","[^l]iä","[^s]chien","io[bcdfhjkmpqtuvwx]","[bdhmprv]ion","[lr]ior","[^g]io[gs]","[dr]ioz","elioz","zioni","bio[lnorz]","iö[^s]","ie[ei]","rier$","öi[eg]","[^r]öisch","[^gqv]u[aeéioöuü]","quie$","quie[^s]","uäu","^us-","^it-","üe","naiv","aisch$","aische$","aische[nrs]$","[lst]ien","dien$","gois","[^g]rient","[aeiou]y[aeiou]","byi","yä","[a-z]y[ao]","yau","koor","scient","eriel","[dg]oing"],"countModifier":1},{"fragments":["eauü","ioi","ioo","ioa","iii","oai","eueu"],"countModifier":1}],"words":{"full":[{"word":"beach","syllables":1},{"word":"beat","syllables":1},{"word":"beau","syllables":1},{"word":"beaune","syllables":1},{"word":"belle","syllables":1},{"word":"bouche","syllables":1},{"word":"brake","syllables":1},{"word":"cache","syllables":1},{"word":"chaiselongue","syllables":2},{"word":"choke","syllables":1},{"word":"cordiale","syllables":3},{"word":"core","syllables":1},{"word":"dope","syllables":1},{"word":"eat","syllables":1},{"word":"eye","syllables":1},{"word":"fake","syllables":1},{"word":"fame","syllables":1},{"word":"fatigue","syllables":2},{"word":"femme","syllables":1},{"word":"force","syllables":1},{"word":"game","syllables":1},{"word":"games","syllables":1},{"word":"gate","syllables":1},{"word":"grande","syllables":1},{"word":"ice","syllables":1},{"word":"ion","syllables":2},{"word":"joke","syllables":1},{"word":"jupe","syllables":1},{"word":"maisch","syllables":1},{"word":"maische","syllables":2},{"word":"move","syllables":1},{"word":"native","syllables":2},{"word":"nice","syllables":1},{"word":"one","syllables":1},{"word":"pipe","syllables":1},{"word":"prime","syllables":1},{"word":"rate","syllables":1},{"word":"rhythm","syllables":2},{"word":"ride","syllables":1},{"word":"rides","syllables":1},{"word":"rien","syllables":2},{"word":"save","syllables":1},{"word":"science","syllables":2},{"word":"siècle","syllables":1},{"word":"site","syllables":1},{"word":"suite","syllables":1},{"word":"take","syllables":1},{"word":"taupe","syllables":1},{"word":"universe","syllables":3},{"word":"vogue","syllables":1},{"word":"wave","syllables":1},{"word":"zion","syllables":2}],"fragments":{"global":[{"word":"abreaktion","syllables":4},{"word":"adware","syllables":2},{"word":"affaire","syllables":3},{"word":"aiguière","syllables":2},{"word":"anisette","syllables":3},{"word":"appeal","syllables":2},{"word":"backstage","syllables":2},{"word":"bankrate","syllables":2},{"word":"baseball","syllables":2},{"word":"basejump","syllables":2},{"word":"beachcomber","syllables":3},{"word":"beachvolleyball","syllables":4},{"word":"beagle","syllables":2},{"word":"beamer","syllables":2},{"word":"beamer","syllables":2},{"word":"béarnaise","syllables":3},{"word":"beaufort","syllables":2},{"word":"beaujolais","syllables":3},{"word":"beauté","syllables":2},{"word":"beauty","syllables":2},{"word":"belgier","syllables":3},{"word":"bestien","syllables":2},{"word":"biskuit","syllables":2},{"word":"bleach","syllables":1},{"word":"blue","syllables":1},{"word":"board","syllables":1},{"word":"boat","syllables":1},{"word":"bodysuit","syllables":3},{"word":"bordelaise","syllables":3},{"word":"break","syllables":1},{"word":"build","syllables":1},{"word":"bureau","syllables":2},{"word":"business","syllables":2},{"word":"cabrio","syllables":3},{"word":"cabriolet","syllables":4},{"word":"cachesexe","syllables":2},{"word":"camaieu","syllables":3},{"word":"canyon","syllables":2},{"word":"case","syllables":1},{"word":"catsuit","syllables":2},{"word":"centime","syllables":3},{"word":"chaise","syllables":2},{"word":"champion","syllables":2},{"word":"championat","syllables":3},{"word":"chapiteau","syllables":3},{"word":"chateau","syllables":2},{"word":"château","syllables":2},{"word":"cheat","syllables":1},{"word":"cheese","syllables":1},{"word":"chihuahua","syllables":3},{"word":"choice","syllables":1},{"word":"circonflexe","syllables":3},{"word":"clean","syllables":1},{"word":"cloche","syllables":1},{"word":"close","syllables":1},{"word":"clothes","syllables":1},{"word":"commerce","syllables":2},{"word":"crime","syllables":1},{"word":"crossrate","syllables":2},{"word":"cuisine","syllables":2},{"word":"culotte","syllables":2},{"word":"death","syllables":1},{"word":"defense","syllables":2},{"word":"détente","syllables":2},{"word":"dread","syllables":1},{"word":"dream","syllables":1},{"word":"dresscode","syllables":2},{"word":"dungeon","syllables":2},{"word":"easy","syllables":2},{"word":"engagement","syllables":3},{"word":"entente","syllables":2},{"word":"eye-catcher","syllables":3},{"word":"eyecatcher","syllables":3},{"word":"eyeliner","syllables":3},{"word":"eyeword","syllables":2},{"word":"fashion","syllables":2},{"word":"feature","syllables":2},{"word":"ferien","syllables":3},{"word":"fineliner","syllables":3},{"word":"fisheye","syllables":2},{"word":"flake","syllables":1},{"word":"flambeau","syllables":2},{"word":"flatrate","syllables":2},{"word":"fleece","syllables":1},{"word":"fraîche","syllables":1},{"word":"freak","syllables":1},{"word":"frites","syllables":1},{"word":"future","syllables":2},{"word":"gaelic","syllables":2},{"word":"game-show","syllables":2},{"word":"gameboy","syllables":2},{"word":"gamepad","syllables":2},{"word":"gameplay","syllables":2},{"word":"gameport","syllables":2},{"word":"gameshow","syllables":2},{"word":"garigue","syllables":2},{"word":"garrigue","syllables":2},{"word":"gatefold","syllables":2},{"word":"gateway","syllables":2},{"word":"geflashed","syllables":2},{"word":"georgier","syllables":4},{"word":"goal","syllables":1},{"word":"grapefruit","syllables":2},{"word":"great","syllables":1},{"word":"groupware","syllables":2},{"word":"gueule","syllables":1},{"word":"guide","syllables":1},{"word":"guilloche","syllables":2},{"word":"gynäzeen","syllables":4},{"word":"gynözeen","syllables":4},{"word":"haircare","syllables":2},{"word":"hardcore","syllables":2},{"word":"hardware","syllables":2},{"word":"head","syllables":1},{"word":"hearing","syllables":2},{"word":"heart","syllables":1},{"word":"heavy","syllables":2},{"word":"hedge","syllables":1},{"word":"heroin","syllables":3},{"word":"inclusive","syllables":3},{"word":"initiative","syllables":4},{"word":"inside","syllables":2},{"word":"jaguar","syllables":3},{"word":"jalousette","syllables":3},{"word":"jeans","syllables":1},{"word":"jeunesse","syllables":2},{"word":"juice","syllables":1},{"word":"jukebox","syllables":2},{"word":"jumpsuit","syllables":2},{"word":"kanarien","syllables":4},{"word":"kapriole","syllables":4},{"word":"karosserielinie","syllables":6},{"word":"konopeen","syllables":4},{"word":"lacrosse","syllables":2},{"word":"laplace","syllables":2},{"word":"late-","syllables":1},{"word":"lead","syllables":1},{"word":"league","syllables":1},{"word":"learn","syllables":1},{"word":"légière","syllables":2},{"word":"lizenziat","syllables":4},{"word":"load","syllables":1},{"word":"lotterielos","syllables":4},{"word":"lounge","syllables":1},{"word":"lyzeen","syllables":3},{"word":"madame","syllables":2},{"word":"mademoiselle","syllables":3},{"word":"magier","syllables":3},{"word":"make-up","syllables":2},{"word":"malware","syllables":2},{"word":"management","syllables":3},{"word":"manteau","syllables":2},{"word":"mausoleen","syllables":4},{"word":"mauve","syllables":1},{"word":"medien","syllables":3},{"word":"mesdames","syllables":2},{"word":"mesopotamien","syllables":6},{"word":"milliarde","syllables":3},{"word":"missile","syllables":2},{"word":"miszellaneen","syllables":5},{"word":"mousse","syllables":1},{"word":"mousseline","syllables":3},{"word":"museen","syllables":3},{"word":"musette","syllables":2},{"word":"nahuatl","syllables":2},{"word":"noisette","syllables":2},{"word":"notebook","syllables":2},{"word":"nuance","syllables":3},{"word":"nuklease","syllables":4},{"word":"odeen","syllables":3},{"word":"offline","syllables":2},{"word":"offside","syllables":2},{"word":"oleaster","syllables":4},{"word":"on-stage","syllables":2},{"word":"online","syllables":2},{"word":"orpheen","syllables":3},{"word":"parforceritt","syllables":3},{"word":"patiens","syllables":2},{"word":"patient","syllables":2},{"word":"peace","syllables":1},{"word":"peace","syllables":1},{"word":"peanuts","syllables":2},{"word":"people","syllables":2},{"word":"perineen","syllables":4},{"word":"peritoneen","syllables":5},{"word":"picture","syllables":2},{"word":"piece","syllables":1},{"word":"pipeline","syllables":2},{"word":"plateau","syllables":2},{"word":"poesie","syllables":3},{"word":"poleposition","syllables":4},{"word":"portemanteau","syllables":3},{"word":"portemonnaie","syllables":3},{"word":"primerate","syllables":2},{"word":"primerate","syllables":2},{"word":"primetime","syllables":2},{"word":"protease","syllables":4},{"word":"protein","syllables":3},{"word":"prytaneen","syllables":4},{"word":"quotient","syllables":2},{"word":"radio","syllables":3},{"word":"reader","syllables":2},{"word":"ready","syllables":2},{"word":"reallife","syllables":2},{"word":"repeat","syllables":2},{"word":"retake","syllables":2},{"word":"rigole","syllables":2},{"word":"risolle","syllables":2},{"word":"road","syllables":1},{"word":"roaming","syllables":2},{"word":"roquefort","syllables":2},{"word":"safe","syllables":1},{"word":"savonette","syllables":3},{"word":"sciencefiction","syllables":3},{"word":"search","syllables":1},{"word":"selfmade","syllables":2},{"word":"septime","syllables":3},{"word":"serapeen","syllables":4},{"word":"service","syllables":2},{"word":"serviette","syllables":2},{"word":"share","syllables":1},{"word":"shave","syllables":1},{"word":"shore","syllables":1},{"word":"sidebar","syllables":2},{"word":"sideboard","syllables":2},{"word":"sidekick","syllables":2},{"word":"silhouette","syllables":3},{"word":"sitemap","syllables":2},{"word":"slide","syllables":1},{"word":"sneak","syllables":1},{"word":"soap","syllables":1},{"word":"softcore","syllables":2},{"word":"software","syllables":2},{"word":"soutanelle","syllables":3},{"word":"speak","syllables":1},{"word":"special","syllables":2},{"word":"spracheinstellung","syllables":5},{"word":"spyware","syllables":2},{"word":"square","syllables":1},{"word":"stagediving","syllables":3},{"word":"stakeholder","syllables":3},{"word":"statement","syllables":2},{"word":"steady","syllables":2},{"word":"steak","syllables":1},{"word":"stealth","syllables":1},{"word":"steam","syllables":1},{"word":"stoned","syllables":1},{"word":"stracciatella","syllables":4},{"word":"stream","syllables":1},{"word":"stride","syllables":1},{"word":"strike","syllables":1},{"word":"suitcase","syllables":2},{"word":"sweepstake","syllables":2},{"word":"t-bone","syllables":2},{"word":"t-shirt","syllables":1},{"word":"tailgate","syllables":2},{"word":"take-off","syllables":2},{"word":"take-over","syllables":3},{"word":"takeaway","syllables":3},{"word":"takeoff","syllables":2},{"word":"takeover","syllables":3},{"word":"throat","syllables":1},{"word":"time-out","syllables":2},{"word":"timelag","syllables":2},{"word":"timeline","syllables":2},{"word":"timesharing","syllables":3},{"word":"toast","syllables":1},{"word":"traubenmaische","syllables":4},{"word":"tristesse","syllables":2},{"word":"usenet","syllables":2},{"word":"varietät","syllables":4},{"word":"varieté","syllables":4},{"word":"vinaigrette","syllables":3},{"word":"vintage","syllables":2},{"word":"violett","syllables":3},{"word":"voice","syllables":1},{"word":"wakeboard","syllables":2},{"word":"washed","syllables":1},{"word":"waveboard","syllables":2},{"word":"wear","syllables":1},{"word":"wear","syllables":1},{"word":"website","syllables":2},{"word":"white","syllables":1},{"word":"widescreen","syllables":2},{"word":"wire","syllables":1},{"word":"yacht","syllables":1},{"word":"yorkshire","syllables":2},{"word":"éprouvette","syllables":3,"notFollowedBy":["n"]},{"word":"galette","syllables":2,"notFollowedBy":["n"]},{"word":"gigue","syllables":1,"notFollowedBy":["n"]},{"word":"groove","syllables":1,"notFollowedBy":["n"]},{"word":"morgue","syllables":1,"notFollowedBy":["n"]},{"word":"paillette","syllables":2,"notFollowedBy":["n"]},{"word":"raclette","syllables":2,"notFollowedBy":["n"]},{"word":"roulette","syllables":2,"notFollowedBy":["n"]},{"word":"spike","syllables":1,"notFollowedBy":["n"]},{"word":"style","syllables":1,"notFollowedBy":["n"]},{"word":"tablette","syllables":2,"notFollowedBy":["n"]},{"word":"grunge","syllables":1,"notFollowedBy":["r"]},{"word":"size","syllables":1,"notFollowedBy":["r"]},{"word":"value","syllables":1,"notFollowedBy":["r"]},{"word":"quiche","syllables":1,"notFollowedBy":["s"]},{"word":"house","syllables":1,"notFollowedBy":["n","s"]},{"word":"sauce","syllables":1,"notFollowedBy":["n","s"]},{"word":"space","syllables":1,"notFollowedBy":["n","s"]},{"word":"airline","syllables":2,"notFollowedBy":["n","r"]},{"word":"autosave","syllables":3,"notFollowedBy":["n","r"]},{"word":"bagpipe","syllables":2,"notFollowedBy":["n","r"]},{"word":"bike","syllables":1,"notFollowedBy":["n","r"]},{"word":"dance","syllables":1,"notFollowedBy":["n","r"]},{"word":"deadline","syllables":2,"notFollowedBy":["n","r"]},{"word":"halfpipe","syllables":2,"notFollowedBy":["n","r"]},{"word":"headline","syllables":2,"notFollowedBy":["n","r"]},{"word":"home","syllables":1,"notFollowedBy":["n","r"]},{"word":"hornpipe","syllables":2,"notFollowedBy":["n","r"]},{"word":"hotline","syllables":2,"notFollowedBy":["n","r"]},{"word":"infoline","syllables":3,"notFollowedBy":["n","r"]},{"word":"inline","syllables":2,"notFollowedBy":["n","r"]},{"word":"kite","syllables":1,"notFollowedBy":["n","r"]},{"word":"rollerblade","syllables":1,"notFollowedBy":["n","r"]},{"word":"score","syllables":1,"notFollowedBy":["n","r"]},{"word":"skyline","syllables":2,"notFollowedBy":["n","r"]},{"word":"slackline","syllables":2,"notFollowedBy":["n","r"]},{"word":"slice","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"snooze","syllables":1,"notFollowedBy":["n","r"]},{"word":"storyline","syllables":3,"notFollowedBy":["n","r"]},{"word":"office","syllables":2,"notFollowedBy":["s","r"]},{"word":"space","syllables":1,"notFollowedBy":["n","s","r"]},{"word":"tease","syllables":1,"notFollowedBy":["n","s","r"]},{"word":"cache","syllables":1,"notFollowedBy":["t"]}],"atBeginningOrEnd":[{"word":"case","syllables":1},{"word":"life","syllables":1},{"word":"teak","syllables":1},{"word":"team","syllables":1},{"word":"creme","syllables":1,"notFollowedBy":["n","r"]},{"word":"crème","syllables":1,"notFollowedBy":["n","r"]},{"word":"drive","syllables":1,"notFollowedBy":["n","r"]},{"word":"skate","syllables":1,"notFollowedBy":["n","r"]},{"word":"update","syllables":2,"notFollowedBy":["n","r"]},{"word":"upgrade","syllables":2,"notFollowedBy":["n","r"]}],"atBeginning":[{"word":"anion","syllables":3},{"word":"facelift","syllables":2},{"word":"jiu","syllables":1},{"word":"pace","syllables":1},{"word":"shake","syllables":1},{"word":"tea","syllables":1},{"word":"trade","syllables":1},{"word":"deal","syllables":1}],"atEnd":[{"word":"face","syllables":1},{"word":"file","syllables":1},{"word":"mousse","syllables":1},{"word":"plate","syllables":1},{"word":"tape","syllables":1},{"word":"byte","syllables":1,"alsoFollowedBy":["s"]},{"word":"cape","syllables":1,"alsoFollowedBy":["s"]},{"word":"five","syllables":1,"alsoFollowedBy":["s"]},{"word":"hype","syllables":1,"alsoFollowedBy":["s"]},{"word":"leak","syllables":1,"alsoFollowedBy":["s"]},{"word":"like","syllables":1,"alsoFollowedBy":["s"]},{"word":"make","syllables":1,"alsoFollowedBy":["s"]},{"word":"phone","syllables":1,"alsoFollowedBy":["s"]},{"word":"rave","syllables":1,"alsoFollowedBy":["s"]},{"word":"regime","syllables":2,"alsoFollowedBy":["s"]},{"word":"statue","syllables":2,"alsoFollowedBy":["s"]},{"word":"store","syllables":1,"alsoFollowedBy":["s"]},{"word":"wave","syllables":1,"alsoFollowedBy":["s"]},{"word":"date","syllables":1,"notFollowedBy":["n"]},{"word":"image","syllables":2,"notFollowedBy":["s"]}]}}}}
 
 /***/ }),
-/* 572 */
+/* 581 */
 /***/ (function(module, exports) {
 
 module.exports = {"vowels":"aeiouy","deviations":{"vowels":[{"fragments":["cial","tia","cius","giu","ion","[^bdnprv]iou","sia$","[^aeiuot]{2,}ed$","[aeiouy][^aeiuoyts]{1,}e$","[a-z]ely$","[cgy]ed$","rved$","[aeiouy][dt]es?$","eau","ieu","oeu","[aeiouy][^aeiouydt]e[sd]?$","[aeouy]rse$","^eye"],"countModifier":-1},{"fragments":["ia","iu","ii","io","[aeio][aeiou]{2}","[aeiou]ing","[^aeiou]ying","ui[aeou]"],"countModifier":1},{"fragments":["^ree[jmnpqrsx]","^reele","^reeva","riet","dien","[aeiouym][bdp]le$","uei","uou","^mc","ism$","[^l]lien","^coa[dglx].","[^gqauieo]ua[^auieo]","dn't$","uity$","ie(r|st)","[aeiouw]y[aeiou]","[^ao]ire[ds]","[^ao]ire$"],"countModifier":1},{"fragments":["eoa","eoo","ioa","ioe","ioo"],"countModifier":1}],"words":{"full":[{"word":"business","syllables":2},{"word":"coheiress","syllables":3},{"word":"colonel","syllables":2},{"word":"heiress","syllables":2},{"word":"i.e","syllables":2},{"word":"shoreline","syllables":2},{"word":"simile","syllables":3},{"word":"unheired","syllables":2},{"word":"wednesday","syllables":2}],"fragments":{"global":[{"word":"coyote","syllables":3},{"word":"graveyard","syllables":2},{"word":"lawyer","syllables":2}]}}}}
 
 /***/ }),
-/* 573 */
+/* 582 */
 /***/ (function(module, exports) {
 
 module.exports = {"vowels":"aáäâeéëêiíïîoóöôuúüûy","deviations":{"vowels":[{"fragments":["ue$","dge$","[tcp]iënt","ace$","[br]each","[ainpr]tiaal","[io]tiaan","gua[yc]","[^i]deal","tive$","load","[^e]coke","[^s]core$"],"countModifier":-1},{"fragments":["aä","aeu","aie","ao","ë","eo","eú","ieau","ea$","ea[^u]","ei[ej]","eu[iu]","ï","iei","ienne","[^l]ieu[^w]","[^l]ieu$","i[auiy]","stion","[^cstx]io","^sion","riè","oö","oa","oeing","oie","[eu]ü","[^q]u[aeèo]","uie","[bhnpr]ieel","[bhnpr]iël"],"countModifier":1},{"fragments":["[aeolu]y[aeéèoóu]"],"countModifier":1}],"words":{"full":[{"word":"bye","syllables":1},{"word":"core","syllables":1},{"word":"cure","syllables":1},{"word":"dei","syllables":2},{"word":"dope","syllables":1},{"word":"dude","syllables":1},{"word":"fake","syllables":1},{"word":"fame","syllables":1},{"word":"five","syllables":1},{"word":"hole","syllables":1},{"word":"least","syllables":1},{"word":"lone","syllables":1},{"word":"minute","syllables":2},{"word":"move","syllables":1},{"word":"nice","syllables":1},{"word":"one","syllables":1},{"word":"state","syllables":1},{"word":"surplace","syllables":2},{"word":"take","syllables":1},{"word":"trade","syllables":1},{"word":"wide","syllables":1}],"fragments":{"global":[{"word":"adieu","syllables":2},{"word":"airline","syllables":2},{"word":"airmiles","syllables":2},{"word":"alien","syllables":3},{"word":"ambient","syllables":3},{"word":"announcement","syllables":3},{"word":"appearance","syllables":3},{"word":"appeasement","syllables":3},{"word":"atheneum","syllables":4},{"word":"awesome","syllables":2},{"word":"baccalaurei","syllables":5},{"word":"baccalaureus","syllables":5},{"word":"baseball","syllables":3},{"word":"basejump","syllables":2},{"word":"banlieue","syllables":3},{"word":"bapao","syllables":2},{"word":"barbecue","syllables":3},{"word":"beamer","syllables":2},{"word":"beanie","syllables":2},{"word":"beat","syllables":1},{"word":"belle","syllables":2},{"word":"bête","syllables":1},{"word":"bingewatch","syllables":2},{"word":"blocnote","syllables":2},{"word":"blue","syllables":1},{"word":"board","syllables":1},{"word":"break","syllables":1},{"word":"broad","syllables":1},{"word":"bulls-eye","syllables":2},{"word":"business","syllables":2},{"word":"byebye","syllables":2},{"word":"cacao","syllables":2},{"word":"caesar","syllables":2},{"word":"camaieu","syllables":3},{"word":"caoutchouc","syllables":2},{"word":"carbolineum","syllables":5},{"word":"catchphrase","syllables":1},{"word":"carrier","syllables":3},{"word":"cheat","syllables":1},{"word":"cheese","syllables":1},{"word":"circonflexe","syllables":3},{"word":"clean","syllables":1},{"word":"cloak","syllables":1},{"word":"cobuying","syllables":3},{"word":"comeback","syllables":2},{"word":"comfortzone","syllables":3},{"word":"communiqué","syllables":4},{"word":"conopeum","syllables":4},{"word":"console","syllables":2},{"word":"corporate","syllables":3},{"word":"coûte","syllables":1},{"word":"creamer","syllables":2},{"word":"crime","syllables":1},{"word":"cruesli","syllables":2},{"word":"deadline","syllables":2},{"word":"deautoriseren","syllables":6},{"word":"deuce","syllables":1},{"word":"deum","syllables":2},{"word":"dirndl","syllables":2},{"word":"dread","syllables":2},{"word":"dreamteam","syllables":2},{"word":"drone","syllables":1},{"word":"enquête","syllables":3},{"word":"escape","syllables":2},{"word":"exposure","syllables":3},{"word":"extranei","syllables":4},{"word":"extraneus","syllables":4},{"word":"eyecatcher","syllables":3},{"word":"eyeliner","syllables":3},{"word":"eyeopener","syllables":4},{"word":"eyetracker","syllables":3},{"word":"eyetracking","syllables":3},{"word":"fairtrade","syllables":2},{"word":"fauteuil","syllables":2},{"word":"feature","syllables":2},{"word":"feuilletee","syllables":3},{"word":"feuilleton","syllables":3},{"word":"fisheye","syllables":2},{"word":"fineliner","syllables":3},{"word":"finetunen","syllables":3},{"word":"forehand","syllables":2},{"word":"freak","syllables":1},{"word":"fusioneren","syllables":4},{"word":"gayparade","syllables":3},{"word":"gaypride","syllables":2},{"word":"goal","syllables":1},{"word":"grapefruit","syllables":2},{"word":"gruyère","syllables":3},{"word":"guele","syllables":1},{"word":"guerrilla","syllables":3},{"word":"guest","syllables":1},{"word":"hardware","syllables":2},{"word":"haute","syllables":1},{"word":"healing","syllables":2},{"word":"heater","syllables":2},{"word":"heavy","syllables":2},{"word":"hoax","syllables":1},{"word":"hotline","syllables":2},{"word":"idee-fixe","syllables":3},{"word":"inclusive","syllables":3},{"word":"inline","syllables":2},{"word":"intake","syllables":2},{"word":"intensive","syllables":3},{"word":"jeans","syllables":1},{"word":"Jones","syllables":1},{"word":"jubileum","syllables":4},{"word":"kalfsribeye","syllables":3},{"word":"kraaiennest","syllables":3},{"word":"lastminute","syllables":3},{"word":"learning","syllables":2},{"word":"league","syllables":1},{"word":"line-up","syllables":2},{"word":"linoleum","syllables":4},{"word":"load","syllables":1},{"word":"loafer","syllables":2},{"word":"longread","syllables":2},{"word":"lookalike","syllables":3},{"word":"louis","syllables":3},{"word":"lyceum","syllables":3},{"word":"magazine","syllables":3},{"word":"mainstream","syllables":2},{"word":"make-over","syllables":3},{"word":"make-up","syllables":2},{"word":"malware","syllables":2},{"word":"marmoleum","syllables":4},{"word":"mausoleum","syllables":4},{"word":"medeauteur","syllables":4},{"word":"midlifecrisis","syllables":4},{"word":"migraineaura","syllables":5},{"word":"milkshake","syllables":2},{"word":"millefeuille","syllables":4},{"word":"mixed","syllables":1},{"word":"muesli","syllables":2},{"word":"museum","syllables":3},{"word":"must-have","syllables":2},{"word":"must-read","syllables":2},{"word":"notebook","syllables":2},{"word":"nonsense","syllables":2},{"word":"nowhere","syllables":2},{"word":"nurture","syllables":2},{"word":"offline","syllables":2},{"word":"oneliner","syllables":3},{"word":"onesie","syllables":2},{"word":"online","syllables":2},{"word":"opinion","syllables":3},{"word":"paella","syllables":3},{"word":"pacemaker","syllables":3},{"word":"panache","syllables":2},{"word":"papegaaienneus","syllables":5},{"word":"passe-partout","syllables":3},{"word":"peanuts","syllables":2},{"word":"perigeum","syllables":4},{"word":"perineum","syllables":4},{"word":"perpetuum","syllables":4},{"word":"petroleum","syllables":4},{"word":"phone","syllables":3},{"word":"picture","syllables":2},{"word":"placemat","syllables":2},{"word":"porte-manteau","syllables":3},{"word":"portefeuille","syllables":4},{"word":"presse-papier","syllables":3},{"word":"primetime","syllables":2},{"word":"queen","syllables":1},{"word":"questionnaire","syllables":3},{"word":"queue","syllables":1},{"word":"reader","syllables":2},{"word":"reality","syllables":3},{"word":"reallife","syllables":2},{"word":"remake","syllables":2},{"word":"repeat","syllables":2},{"word":"repertoire","syllables":3},{"word":"research","syllables":2},{"word":"reverence","syllables":3},{"word":"ribeye","syllables":2},{"word":"ringtone","syllables":3},{"word":"road","syllables":1},{"word":"roaming","syllables":2},{"word":"sciencefiction","syllables":4},{"word":"selfmade","syllables":2},{"word":"sidekick","syllables":2},{"word":"sightseeing","syllables":3},{"word":"skyline","syllables":2},{"word":"smile","syllables":1},{"word":"sneaky","syllables":2},{"word":"software","syllables":2},{"word":"sparerib","syllables":2},{"word":"speaker","syllables":2},{"word":"spread","syllables":1},{"word":"statement","syllables":2},{"word":"steak","syllables":1},{"word":"steeplechase","syllables":3},{"word":"stonewash","syllables":2},{"word":"store","syllables":1},{"word":"streaken","syllables":2},{"word":"stream","syllables":1},{"word":"streetware","syllables":1},{"word":"supersoaker","syllables":4},{"word":"surprise-party","syllables":4},{"word":"sweater","syllables":2},{"word":"teaser","syllables":2},{"word":"tenue","syllables":2},{"word":"template","syllables":2},{"word":"timeline","syllables":2},{"word":"tissue","syllables":2},{"word":"toast","syllables":1},{"word":"tête-à-tête","syllables":3},{"word":"typecast","syllables":2},{"word":"unique","syllables":2},{"word":"ureum","syllables":3},{"word":"vibe","syllables":1},{"word":"vieux","syllables":1},{"word":"ville","syllables":1},{"word":"vintage","syllables":2},{"word":"wandelyup","syllables":3},{"word":"wiseguy","syllables":2},{"word":"wake-up-call","syllables":3},{"word":"webcare","syllables":2},{"word":"winegum","syllables":2},{"word":"base","syllables":1,"notFollowedBy":["e","n","r"]},{"word":"game","syllables":1,"notFollowedBy":["n","l","r"]},{"word":"style","syllables":1,"notFollowedBy":["n","s"]},{"word":"douche","syllables":1,"notFollowedBy":["n","s"]},{"word":"space","syllables":1,"notFollowedBy":["n","s"]},{"word":"striptease","syllables":2,"notFollowedBy":["n","s"]},{"word":"jive","syllables":1,"notFollowedBy":["n","r"]},{"word":"keynote","syllables":2,"notFollowedBy":["n","r"]},{"word":"mountainbike","syllables":3,"notFollowedBy":["n","r"]},{"word":"face","syllables":1,"notFollowedBy":["n","t"]},{"word":"challenge","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"cruise","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"house","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"dance","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"franchise","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"freelance","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"lease","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"linedance","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"lounge","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"merchandise","syllables":3,"notFollowedBy":["n","r","s"]},{"word":"performance","syllables":3,"notFollowedBy":["n","r","s"]},{"word":"release","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"resource","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"cache","syllables":1,"notFollowedBy":["c","l","n","t","x"]},{"word":"office","syllables":2,"notFollowedBy":["r","s"]},{"word":"close","syllables":1,"notFollowedBy":["r","t"]}],"atBeginningOrEnd":[{"word":"byte","syllables":1},{"word":"cake","syllables":1},{"word":"care","syllables":1},{"word":"coach","syllables":1},{"word":"coat","syllables":1},{"word":"earl","syllables":1},{"word":"foam","syllables":1},{"word":"gate","syllables":1},{"word":"head","syllables":1},{"word":"home","syllables":1},{"word":"live","syllables":1},{"word":"safe","syllables":1},{"word":"site","syllables":1},{"word":"soap","syllables":1},{"word":"teak","syllables":1},{"word":"team","syllables":1},{"word":"wave","syllables":1},{"word":"brace","syllables":1,"notFollowedBy":["s"]},{"word":"case","syllables":1,"notFollowedBy":["s"]},{"word":"fleece","syllables":1,"notFollowedBy":["s"]},{"word":"service","syllables":2,"notFollowedBy":["s"]},{"word":"voice","syllables":1,"notFollowedBy":["s"]},{"word":"kite","syllables":1,"notFollowedBy":["n","r"]},{"word":"skate","syllables":1,"notFollowedBy":["n","r"]},{"word":"race","syllables":1,"notFollowedBy":["n","r","s"]}],"atBeginning":[{"word":"coke","syllables":1},{"word":"deal","syllables":1},{"word":"image","syllables":2,"notFollowedBy":["s"]}],"atEnd":[{"word":"force","syllables":1},{"word":"tea","syllables":1},{"word":"time","syllables":1},{"word":"date","syllables":1,"alsoFollowedBy":["s"]},{"word":"hype","syllables":1,"alsoFollowedBy":["s"]},{"word":"quote","syllables":1,"alsoFollowedBy":["s"]},{"word":"tape","syllables":1,"alsoFollowedBy":["s"]},{"word":"upgrade","syllables":2,"alsoFollowedBy":["s"]}]}}}}
 
 /***/ }),
-/* 574 */
+/* 583 */
 /***/ (function(module, exports) {
 
 module.exports = {"vowels":"aeiouyàèéìîïòù","deviations":{"vowels":[{"fragments":["a[íúeo]","e[íúao]","o[íúaeè]","í[aeo]","ú[aeo]","ai[aeou]","àii","aiì","au[eé]","ei[aàeèé]","èia","ia[èiì]","iài","oi[aàeèo]","òia","óio","uí","ui[aàó]","ùio","ouï","coo[cmnpr]","lcool","coòf","[aeuioìùèéàò]y[aeuioíìùèàó]","ìa$","èa$"],"countModifier":1},{"fragments":["aoi","aoì","ioe","riae","ïa$"],"countModifier":1}],"words":{"full":[{"word":"via","syllables":2},{"word":"guaime","syllables":3},{"word":"guaina","syllables":3},{"word":"coke","syllables":1},{"word":"frame","syllables":1},{"word":"goal","syllables":1},{"word":"live","syllables":1},{"word":"mouse","syllables":1},{"word":"coon","syllables":1}],"fragments":{"global":[{"word":"mayoyào","syllables":4},{"word":"eye-liner","syllables":3},{"word":"scooner","syllables":2},{"word":"cocoon","syllables":2},{"word":"silhouette","syllables":4},{"word":"circuíto","syllables":4},{"word":"cruento","syllables":3},{"word":"cruènto","syllables":3},{"word":"rituale","syllables":4},{"word":"duello","syllables":3},{"word":"fuorviante","syllables":4},{"word":"league","syllables":1},{"word":"leader","syllables":2},{"word":"appeal","syllables":2},{"word":"backstage","syllables":2},{"word":"badge","syllables":1},{"word":"baseball","syllables":2},{"word":"beauty","syllables":2},{"word":"bondage","syllables":2,"notFollowedBy":["s"]},{"word":"break","syllables":1},{"word":"brokerage","syllables":3},{"word":"business","syllables":2},{"word":"cache","syllables":2,"notFollowedBy":["s","r"]},{"word":"cashmere","syllables":2},{"word":"challenge","syllables":2,"notFollowedBy":["s","r"]},{"word":"charleston","syllables":2},{"word":"cheap","syllables":1},{"word":"cottage","syllables":2,"notFollowedBy":["s"]},{"word":"cruise","syllables":1,"notFollowedBy":["s","r"]},{"word":"device","syllables":2,"notFollowedBy":["s"]},{"word":"downgrade","syllables":2,"notFollowedBy":["d"]},{"word":"download","syllables":2},{"word":"drive","syllables":1,"notFollowedBy":["r"]},{"word":"endorsement","syllables":3},{"word":"drive","syllables":1,"notFollowedBy":["r"]},{"word":"executive","syllables":4},{"word":"firmware","syllables":2},{"word":"fobia","syllables":3},{"word":"float","syllables":1},{"word":"freak","syllables":1},{"word":"game","syllables":1,"notFollowedBy":["r"]},{"word":"guideline","syllables":2},{"word":"hardware","syllables":2},{"word":"homeless","syllables":2},{"word":"hardware","syllables":1,"notFollowedBy":["r"]},{"word":"hardware","syllables":1,"notFollowedBy":["r"]},{"word":"hardware","syllables":1,"notFollowedBy":["r"]},{"word":"hospice","syllables":2,"notFollowedBy":["s"]},{"word":"impeachment","syllables":3},{"word":"jeans","syllables":1},{"word":"jukebox","syllables":2},{"word":"leasing","syllables":2},{"word":"lease","syllables":1,"notFollowedBy":["s"]},{"word":"lounge","syllables":1,"notFollowedBy":["r","s"]},{"word":"magazine","syllables":3},{"word":"notebook","syllables":2},{"word":"office","syllables":2,"notFollowedBy":["r","s"]},{"word":"online","syllables":2},{"word":"offline","syllables":2},{"word":"overcoat","syllables":3},{"word":"offside","syllables":2,"notFollowedBy":["r"]},{"word":"overdrive","syllables":3},{"word":"oversize","syllables":3},{"word":"pacemaker","syllables":3},{"word":"package","syllables":2,"notFollowedBy":["r","s"]},{"word":"pancake","syllables":2},{"word":"performance","syllables":3},{"word":"premium","syllables":3},{"word":"ragtime","syllables":2},{"word":"reading","syllables":2},{"word":"residence","syllables":3,"notFollowedBy":["s"]},{"word":"roaming","syllables":2},{"word":"rollerblade","syllables":3,"notFollowedBy":["r"]},{"word":"royalty","syllables":3},{"word":"shake","syllables":1,"notFollowedBy":["r"]},{"word":"shale","syllables":1},{"word":"shampooing","syllables":3},{"word":"shareware","syllables":2},{"word":"shearling","syllables":2},{"word":"sidecar","syllables":2},{"word":"hardware","syllables":1,"notFollowedBy":["r"]},{"word":"skate","syllables":1,"notFollowedBy":["n","r"]},{"word":"trial","syllables":2},{"word":"toast","syllables":1},{"word":"texture","syllables":2},{"word":"testimonial","syllables":5},{"word":"teaser","syllables":2},{"word":"sweater","syllables":2},{"word":"suspense","syllables":2,"notFollowedBy":["r"]},{"word":"subroutine","syllables":3},{"word":"steadicam","syllables":3},{"word":"spread","syllables":1},{"word":"speaker","syllables":2},{"word":"board","syllables":1},{"word":"sneaker","syllables":2},{"word":"smartphone","syllables":2},{"word":"slide","syllables":1,"notFollowedBy":["r"]},{"word":"skyline","syllables":2},{"word":"skinhead","syllables":2},{"word":"update","syllables":2,"notFollowedBy":["r"]},{"word":"upgrade","syllables":2,"notFollowedBy":["r"]},{"word":"upload","syllables":2},{"word":"vintage","syllables":2},{"word":"wakeboard","syllables":2},{"word":"website","syllables":2},{"word":"welfare","syllables":2},{"word":"yeah","syllables":1},{"word":"yearling","syllables":2}],"atEnd":[{"word":"byte","syllables":1,"alsoFollowedBy":["s"]},{"word":"bite","syllables":1,"alsoFollowedBy":["s"]},{"word":"beat","syllables":1,"alsoFollowedBy":["s"]},{"word":"coach","syllables":1},{"word":"line","syllables":1,"alsoFollowedBy":["s"]}],"atBeginning":[{"word":"cheese","syllables":1},{"word":"head","syllables":1},{"word":"streak","syllables":1}],"atBeginningOrEnd":[{"word":"team","syllables":1},{"word":"stream","syllables":1}]}}}}
 
 /***/ }),
-/* 575 */
+/* 584 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIteratee = __webpack_require__(47),
-    isArrayLike = __webpack_require__(21),
-    keys = __webpack_require__(29);
+var baseIteratee = __webpack_require__(49),
+    isArrayLike = __webpack_require__(23),
+    keys = __webpack_require__(30);
 
 /**
  * Creates a `_.find` or `_.findLast` function.
@@ -34480,7 +34990,7 @@ function createFind(findIndexFunc) {
 module.exports = createFind;
 
 /***/ }),
-/* 576 */
+/* 585 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34512,15 +35022,15 @@ function baseSum(array, iteratee) {
 module.exports = baseSum;
 
 /***/ }),
-/* 577 */
+/* 586 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SyllableCountStep = __webpack_require__(578);
-var isUndefined = __webpack_require__(3);
-var forEach = __webpack_require__(5);
+var SyllableCountStep = __webpack_require__(587);
+var isUndefined = __webpack_require__(4);
+var forEach = __webpack_require__(2);
 /**
  * Creates a syllable count iterator.
  *
@@ -34570,14 +35080,14 @@ module.exports = SyllableCountIterator;
 //# sourceMappingURL=syllableCountIterator.js.map
 
 /***/ }),
-/* 578 */
+/* 587 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isUndefined = __webpack_require__(3);
-var arrayToRegex = __webpack_require__(125);
+var isUndefined = __webpack_require__(4);
+var arrayToRegex = __webpack_require__(91);
 /**
  * Constructs a language syllable regex that contains a regex for matching syllable exclusion.
  *
@@ -34638,14 +35148,14 @@ module.exports = SyllableCountStep;
 //# sourceMappingURL=syllableCountStep.js.map
 
 /***/ }),
-/* 579 */
+/* 588 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isUndefined = __webpack_require__(3);
-var pick = __webpack_require__(580);
+var isUndefined = __webpack_require__(4);
+var pick = __webpack_require__(589);
 /**
  * Represents a partial deviation when counting syllables
  *
@@ -34740,14 +35250,14 @@ module.exports = DeviationFragment;
 //# sourceMappingURL=DeviationFragment.js.map
 
 /***/ }),
-/* 580 */
+/* 589 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var basePick = __webpack_require__(581),
-    flatRest = __webpack_require__(120);
+var basePick = __webpack_require__(590),
+    flatRest = __webpack_require__(121);
 
 /**
  * Creates an object composed of the picked `object` properties.
@@ -34773,14 +35283,14 @@ var pick = flatRest(function (object, paths) {
 module.exports = pick;
 
 /***/ }),
-/* 581 */
+/* 590 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var basePickBy = __webpack_require__(582),
-    hasIn = __webpack_require__(354);
+var basePickBy = __webpack_require__(591),
+    hasIn = __webpack_require__(363);
 
 /**
  * The base implementation of `_.pick` without support for individual
@@ -34800,15 +35310,15 @@ function basePick(object, paths) {
 module.exports = basePick;
 
 /***/ }),
-/* 582 */
+/* 591 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var baseGet = __webpack_require__(80),
-    baseSet = __webpack_require__(583),
-    castPath = __webpack_require__(37);
+    baseSet = __webpack_require__(592),
+    castPath = __webpack_require__(38);
 
 /**
  * The base implementation of  `_.pickBy` without support for iteratee shorthands.
@@ -34838,17 +35348,17 @@ function basePickBy(object, paths, predicate) {
 module.exports = basePickBy;
 
 /***/ }),
-/* 583 */
+/* 592 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var assignValue = __webpack_require__(75),
-    castPath = __webpack_require__(37),
+    castPath = __webpack_require__(38),
     isIndex = __webpack_require__(77),
     isObject = __webpack_require__(6),
-    toKey = __webpack_require__(46);
+    toKey = __webpack_require__(48);
 
 /**
  * The base implementation of `_.set`.
@@ -34891,7 +35401,7 @@ function baseSet(object, path, value, customizer) {
 module.exports = baseSet;
 
 /***/ }),
-/* 584 */
+/* 593 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34909,14 +35419,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=metaDescriptionLength.js.map
 
 /***/ }),
-/* 585 */
+/* 594 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module researches/imageInText */
 
-var imageInText = __webpack_require__(374);
+var imageInText = __webpack_require__(383);
 /**
  * Checks the amount of images in the text.
  *
@@ -34930,7 +35440,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=imageCountInText.js.map
 
 /***/ }),
-/* 586 */
+/* 595 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34956,17 +35466,17 @@ module.exports = function (text, regexString) {
 //# sourceMappingURL=matchStringWithRegex.js.map
 
 /***/ }),
-/* 587 */
+/* 596 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module researches/imageAltTags */
 
-var imageInText = __webpack_require__(374);
-var imageAlttag = __webpack_require__(588);
-var wordMatch = __webpack_require__(67);
-var escapeRegExp = __webpack_require__(31);
+var imageInText = __webpack_require__(383);
+var imageAlttag = __webpack_require__(597);
+var wordMatch = __webpack_require__(68);
+var escapeRegExp = __webpack_require__(32);
 /**
  * Matches the alt-tags in the images found in the text.
  * Returns an object with the totals and different alt-tags.
@@ -35021,14 +35531,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=imageAltTags.js.map
 
 /***/ }),
-/* 588 */
+/* 597 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/getAlttagContent */
 
-var stripSpaces = __webpack_require__(27);
+var stripSpaces = __webpack_require__(28);
 var regexAltTag = /alt=(['"])(.*?)\1/i;
 /**
  * Checks for an alttag in the image and returns its content
@@ -35050,14 +35560,14 @@ module.exports = function (text) {
 //# sourceMappingURL=getAlttagContent.js.map
 
 /***/ }),
-/* 589 */
+/* 598 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var countWords = __webpack_require__(55);
-var sanitizeString = __webpack_require__(369);
+var countWords = __webpack_require__(56);
+var sanitizeString = __webpack_require__(378);
 /**
  * Determines the length in words of a the keyphrase, the keyword is a keyphrase if it is more than one word.
  *
@@ -35073,14 +35583,14 @@ module.exports = keyphraseLengthResearch;
 //# sourceMappingURL=keyphraseLength.js.map
 
 /***/ }),
-/* 590 */
+/* 599 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var matchTextWithWord = __webpack_require__(67);
-var escapeRegExp = __webpack_require__(31);
+var matchTextWithWord = __webpack_require__(68);
+var escapeRegExp = __webpack_require__(32);
 /**
  * Matches the keyword in the description if a description and keyword are available.
  * default is -1 if no description and/or keyword is specified
@@ -35099,15 +35609,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=metaDescriptionKeyword.js.map
 
 /***/ }),
-/* 591 */
+/* 600 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module researches/countKeywordInUrl */
 
-var wordMatch = __webpack_require__(67);
-var escapeRegExp = __webpack_require__(31);
+var wordMatch = __webpack_require__(68);
+var escapeRegExp = __webpack_require__(32);
 /**
  * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
  *
@@ -35123,18 +35633,18 @@ module.exports = function (paper) {
 //# sourceMappingURL=keywordCountInUrl.js.map
 
 /***/ }),
-/* 592 */
+/* 601 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/findKeywordInFirstParagraph */
 
-var matchParagraphs = __webpack_require__(375);
-var wordMatch = __webpack_require__(67);
-var escapeRegExp = __webpack_require__(31);
-var reject = __webpack_require__(593);
-var isEmpty = __webpack_require__(25);
+var matchParagraphs = __webpack_require__(384);
+var wordMatch = __webpack_require__(68);
+var escapeRegExp = __webpack_require__(32);
+var reject = __webpack_require__(602);
+var isEmpty = __webpack_require__(15);
 /**
  * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
  * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
@@ -35153,17 +35663,17 @@ module.exports = function (paper) {
 //# sourceMappingURL=findKeywordInFirstParagraph.js.map
 
 /***/ }),
-/* 593 */
+/* 602 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayFilter = __webpack_require__(112),
-    baseFilter = __webpack_require__(357),
-    baseIteratee = __webpack_require__(47),
-    isArray = __webpack_require__(2),
-    negate = __webpack_require__(358);
+var arrayFilter = __webpack_require__(113),
+    baseFilter = __webpack_require__(366),
+    baseIteratee = __webpack_require__(49),
+    isArray = __webpack_require__(3),
+    negate = __webpack_require__(367);
 
 /**
  * The opposite of `_.filter`; this method returns the elements of `collection`
@@ -35207,7 +35717,7 @@ function reject(collection, predicate) {
 module.exports = reject;
 
 /***/ }),
-/* 594 */
+/* 603 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35228,17 +35738,17 @@ module.exports = function (paper) {
 //# sourceMappingURL=pageTitleWidth.js.map
 
 /***/ }),
-/* 595 */
+/* 604 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWords = __webpack_require__(66);
-var countSyllables = __webpack_require__(370);
-var getSentences = __webpack_require__(54);
+var getWords = __webpack_require__(67);
+var countSyllables = __webpack_require__(379);
+var getSentences = __webpack_require__(55);
 var map = __webpack_require__(9);
-var forEach = __webpack_require__(5);
+var forEach = __webpack_require__(2);
 /**
  * Gets the complexity per word, along with the index for the sentence.
  * @param {string} sentence The sentence to get wordComplexity from.
@@ -35274,15 +35784,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=getWordComplexity.js.map
 
 /***/ }),
-/* 596 */
+/* 605 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var countWords = __webpack_require__(55);
-var matchParagraphs = __webpack_require__(375);
-var filter = __webpack_require__(20);
+var countWords = __webpack_require__(56);
+var matchParagraphs = __webpack_require__(384);
+var filter = __webpack_require__(22);
 /**
  * Gets all paragraphs and their word counts from the text.
  *
@@ -35307,14 +35817,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=getParagraphLength.js.map
 
 /***/ }),
-/* 597 */
+/* 606 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getSentences = __webpack_require__(54);
-var sentencesLength = __webpack_require__(376);
+var getSentences = __webpack_require__(55);
+var sentencesLength = __webpack_require__(385);
 /**
  * Count sentences in the text.
  * @param {Paper} paper The Paper object to get text from.
@@ -35328,14 +35838,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=countSentencesFromText.js.map
 
 /***/ }),
-/* 598 */
+/* 607 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getSentences = __webpack_require__(54);
-var sentencesLength = __webpack_require__(376);
+var getSentences = __webpack_require__(55);
+var sentencesLength = __webpack_require__(385);
 /**
  * Counts sentences in the description..
  * @param {Paper} paper The Paper object to get description from.
@@ -35349,15 +35859,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=countSentencesFromDescription.js.map
 
 /***/ }),
-/* 599 */
+/* 608 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getSubheadingTexts = __webpack_require__(600);
-var countWords = __webpack_require__(55);
-var forEach = __webpack_require__(5);
+var getSubheadingTexts = __webpack_require__(609);
+var countWords = __webpack_require__(56);
+var forEach = __webpack_require__(2);
 /**
  * Gets the subheadings from the text and returns the length of these subheading in an array.
  * @param {Paper} paper The Paper object to get the text from.
@@ -35379,7 +35889,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=getSubheadingTextLengths.js.map
 
 /***/ }),
-/* 600 */
+/* 609 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35412,20 +35922,20 @@ module.exports = function (text) {
 //# sourceMappingURL=getSubheadingTexts.js.map
 
 /***/ }),
-/* 601 */
+/* 610 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createRegexFromDoubleArray = __webpack_require__(602);
-var getSentences = __webpack_require__(54);
+var createRegexFromDoubleArray = __webpack_require__(611);
+var getSentences = __webpack_require__(55);
 var normalizeSingleQuotes = __webpack_require__(167).normalizeSingle;
-var getTransitionWords = __webpack_require__(603);
-var matchWordInSentence = __webpack_require__(283).isWordInSentence;
-var forEach = __webpack_require__(5);
-var filter = __webpack_require__(20);
-var memoize = __webpack_require__(53);
+var getTransitionWords = __webpack_require__(612);
+var matchWordInSentence = __webpack_require__(287).isWordInSentence;
+var forEach = __webpack_require__(2);
+var filter = __webpack_require__(22);
+var memoize = __webpack_require__(39);
 var createRegexFromDoubleArrayCached = memoize(createRegexFromDoubleArray);
 /**
  * Matches the sentence against two part transition words.
@@ -35505,14 +36015,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=findTransitionWords.js.map
 
 /***/ }),
-/* 602 */
+/* 611 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/createRegexFromDoubleArray */
 
-var addWordBoundary = __webpack_require__(124);
+var addWordBoundary = __webpack_require__(125);
 /**
  * Creates a regex string of combined strings from the input array.
  * @param {array} array The array containing the various parts of a transition word combination.
@@ -35540,25 +36050,25 @@ module.exports = function (array) {
 //# sourceMappingURL=createRegexFromDoubleArray.js.map
 
 /***/ }),
-/* 603 */
+/* 612 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var transitionWordsEnglish = __webpack_require__(377)().allWords;
-var twoPartTransitionWordsEnglish = __webpack_require__(604);
-var transitionWordsGerman = __webpack_require__(378)().allWords;
-var twoPartTransitionWordsGerman = __webpack_require__(605);
-var transitionWordsFrench = __webpack_require__(379)().allWords;
-var twoPartTransitionWordsFrench = __webpack_require__(606);
-var transitionWordsSpanish = __webpack_require__(380)().allWords;
-var twoPartTransitionWordsSpanish = __webpack_require__(607);
-var transitionWordsDutch = __webpack_require__(381)().allWords;
-var twoPartTransitionWordsDutch = __webpack_require__(608);
-var transitionWordsItalian = __webpack_require__(382)().allWords;
-var twoPartTransitionWordsItalian = __webpack_require__(609);
-var getLanguage = __webpack_require__(48);
+var transitionWordsEnglish = __webpack_require__(386)().allWords;
+var twoPartTransitionWordsEnglish = __webpack_require__(613);
+var transitionWordsGerman = __webpack_require__(387)().allWords;
+var twoPartTransitionWordsGerman = __webpack_require__(614);
+var transitionWordsFrench = __webpack_require__(388)().allWords;
+var twoPartTransitionWordsFrench = __webpack_require__(615);
+var transitionWordsSpanish = __webpack_require__(389)().allWords;
+var twoPartTransitionWordsSpanish = __webpack_require__(616);
+var transitionWordsDutch = __webpack_require__(390)().allWords;
+var twoPartTransitionWordsDutch = __webpack_require__(617);
+var transitionWordsItalian = __webpack_require__(391)().allWords;
+var twoPartTransitionWordsItalian = __webpack_require__(618);
+var getLanguage = __webpack_require__(50);
 module.exports = function (locale) {
     switch (getLanguage(locale)) {
         case "de":
@@ -35598,7 +36108,7 @@ module.exports = function (locale) {
 //# sourceMappingURL=getTransitionWords.js.map
 
 /***/ }),
-/* 604 */
+/* 613 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35616,7 +36126,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 605 */
+/* 614 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35634,7 +36144,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 606 */
+/* 615 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35652,7 +36162,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 607 */
+/* 616 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35670,7 +36180,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 608 */
+/* 617 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35687,7 +36197,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 609 */
+/* 618 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35704,7 +36214,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 610 */
+/* 619 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35721,7 +36231,7 @@ module.exports = function () {
 //# sourceMappingURL=wordBoundaries.js.map
 
 /***/ }),
-/* 611 */
+/* 620 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35741,7 +36251,7 @@ function baseIsNaN(value) {
 module.exports = baseIsNaN;
 
 /***/ }),
-/* 612 */
+/* 621 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35772,13 +36282,13 @@ function strictIndexOf(array, value, fromIndex) {
 module.exports = strictIndexOf;
 
 /***/ }),
-/* 613 */
+/* 622 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayMap = __webpack_require__(30);
+var arrayMap = __webpack_require__(31);
 
 /**
  * The base implementation of `_.values` and `_.valuesIn` which creates an
@@ -35799,23 +36309,23 @@ function baseValues(object, props) {
 module.exports = baseValues;
 
 /***/ }),
-/* 614 */
+/* 623 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getSentences = __webpack_require__(54);
-var stripHTMLTags = __webpack_require__(26).stripFullTags;
-var getLanguage = __webpack_require__(48);
-var Sentence = __webpack_require__(615);
-// English.
-var getSentencePartsEnglish = __webpack_require__(616);
-var determinePassivesEnglish = __webpack_require__(628);
-// German.
-var getSentencePartsGerman = __webpack_require__(629);
-var determinePassivesGerman = __webpack_require__(636);
-var forEach = __webpack_require__(5);
+var getSentences = __webpack_require__(55);
+var stripHTMLTags = __webpack_require__(27).stripFullTags;
+var getLanguage = __webpack_require__(50);
+var Sentence = __webpack_require__(624);
+// Imports used for English, French and Spanish.
+var getSentencePartsDefault = __webpack_require__(625);
+var determinePassivesDefault = __webpack_require__(647);
+// Imports used for German.
+var getSentencePartsGerman = __webpack_require__(648);
+var determinePassivesGerman = __webpack_require__(655);
+var forEach = __webpack_require__(2);
 /**
  * Gets the sentence parts from a sentence by determining sentence breakers.
  *
@@ -35829,9 +36339,15 @@ var getSentenceParts = function getSentenceParts(sentence, language) {
         case "de":
             sentenceParts = getSentencePartsGerman(sentence);
             break;
+        case "fr":
+            sentenceParts = getSentencePartsDefault(sentence, "fr");
+            break;
+        case "es":
+            sentenceParts = getSentencePartsDefault(sentence, "es");
+            break;
         case "en":
         default:
-            sentenceParts = getSentencePartsEnglish(sentence);
+            sentenceParts = getSentencePartsDefault(sentence, "en");
             break;
     }
     return sentenceParts;
@@ -35848,9 +36364,15 @@ var determinePassives = function determinePassives(sentencePart, language) {
         case "de":
             sentencePart.setPassive(determinePassivesGerman(sentencePart.getSentencePartText(), sentencePart.getAuxiliaries()));
             break;
+        case "fr":
+            sentencePart.setPassive(determinePassivesDefault(sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "fr"));
+            break;
+        case "es":
+            sentencePart.setPassive(determinePassivesDefault(sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "es"));
+            break;
         case "en":
         default:
-            sentencePart.setPassive(determinePassivesEnglish(sentencePart.getSentencePartText(), sentencePart.getAuxiliaries()));
+            sentencePart.setPassive(determinePassivesDefault(sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "en"));
             break;
     }
 };
@@ -35892,7 +36414,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=getPassiveVoice.js.map
 
 /***/ }),
-/* 615 */
+/* 624 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35936,32 +36458,78 @@ module.exports = Sentence;
 //# sourceMappingURL=Sentence.js.map
 
 /***/ }),
-/* 616 */
+/* 625 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-var stopCharacterRegex = /(?!([a-zA-Z]))([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
-var ingExclusionArray = ["king", "cling", "ring", "being", "thing", "something", "anything"];
-var indices = __webpack_require__(286);
+var indices = __webpack_require__(290);
 var getIndicesOfList = indices.getIndicesByWordList;
 var filterIndices = indices.filterIndices;
 var sortIndices = indices.sortIndices;
-var stripSpaces = __webpack_require__(27);
+var stripSpaces = __webpack_require__(28);
 var normalizeSingleQuotes = __webpack_require__(167).normalizeSingle;
-var arrayToRegex = __webpack_require__(125);
-var auxiliaries = __webpack_require__(287)().all;
-var SentencePart = __webpack_require__(617);
-var auxiliaryRegex = arrayToRegex(auxiliaries);
-var stopwords = __webpack_require__(627)();
-var filter = __webpack_require__(20);
-var isUndefined = __webpack_require__(3);
-var includes = __webpack_require__(68);
+var arrayToRegex = __webpack_require__(91);
+var getWordIndices = __webpack_require__(291);
+var includesIndex = __webpack_require__(393);
+var followsIndex = __webpack_require__(626);
+var filter = __webpack_require__(22);
+var isUndefined = __webpack_require__(4);
+var includes = __webpack_require__(33);
 var map = __webpack_require__(9);
+var forEach = __webpack_require__(2);
+// English-specific variables and imports.
+var SentencePartEnglish = __webpack_require__(627);
+var auxiliariesEnglish = __webpack_require__(298)().all;
+var stopwordsEnglish = __webpack_require__(640)();
+var stopCharacterRegexEnglish = /([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var ingExclusionArray = ["king", "cling", "ring", "being", "thing", "something", "anything"];
+// French-specific variables and imports.
+var SentencePartFrench = __webpack_require__(641);
+var auxiliariesFrench = __webpack_require__(642)();
+var stopwordsFrench = __webpack_require__(643)();
+var stopCharacterRegexFrench = /(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+var followingAuxiliaryExceptionWordsFrench = ["le", "la", "les", "une", "l'un", "l'une"];
+var reflexivePronounsFrench = ["se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous"];
+var directPrecedenceExceptionRegex = arrayToRegex(reflexivePronounsFrench);
+var elisionAuxiliaryExceptionWords = ["c'", "s'", "peut-"];
+var elisionAuxiliaryExceptionRegex = arrayToRegex(elisionAuxiliaryExceptionWords, true);
+// Spanish-specific variables and imports.
+var SentencePartSpanish = __webpack_require__(644);
+var auxiliariesSpanish = __webpack_require__(645)();
+var stopwordsSpanish = __webpack_require__(646)();
+var stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+var followingAuxiliaryExceptionWordsSpanish = ["el", "la", "los", "las", "una"];
+// The language-specific variables used to split sentences into sentence parts.
+var languageVariables = {
+    en: {
+        stopwords: stopwordsEnglish,
+        auxiliaryRegex: arrayToRegex(auxiliariesEnglish),
+        SentencePart: SentencePartEnglish,
+        auxiliaries: auxiliariesEnglish,
+        stopCharacterRegex: stopCharacterRegexEnglish
+    },
+    fr: {
+        stopwords: stopwordsFrench,
+        auxiliaryRegex: arrayToRegex(auxiliariesFrench),
+        SentencePart: SentencePartFrench,
+        auxiliaries: auxiliariesFrench,
+        stopCharacterRegex: stopCharacterRegexFrench,
+        followingAuxiliaryExceptionRegex: arrayToRegex(followingAuxiliaryExceptionWordsFrench)
+    },
+    es: {
+        stopwords: stopwordsSpanish,
+        auxiliaryRegex: arrayToRegex(auxiliariesSpanish),
+        SentencePart: SentencePartSpanish,
+        auxiliaries: auxiliariesSpanish,
+        stopCharacterRegex: stopCharacterRegexSpanish,
+        followingAuxiliaryExceptionRegex: arrayToRegex(followingAuxiliaryExceptionWordsSpanish)
+    }
+};
 /**
- * Gets active verbs (ending in ing) to determine sentence breakers.
+ * Gets active verbs (ending in ing) to determine sentence breakers in English.
  *
  * @param {string} sentence The sentence to get the active verbs from.
  * @returns {Array} The array with valid matches.
@@ -35978,9 +36546,11 @@ var getVerbsEndingInIng = function getVerbsEndingInIng(sentence) {
  * Gets stop characters to determine sentence breakers.
  *
  * @param {string} sentence The sentence to get the stop characters from.
- * @returns {Array} The array with valid matches.
+ * @param {string} language The language for which to get the stop characters.
+ * @returns {Array} The array with stop characters.
  */
-var getStopCharacters = function getStopCharacters(sentence) {
+var getStopCharacters = function getStopCharacters(sentence, language) {
+    var stopCharacterRegex = languageVariables[language].stopCharacterRegex;
     var match;
     var matches = [];
     stopCharacterRegex.lastIndex = 0;
@@ -35993,51 +36563,154 @@ var getStopCharacters = function getStopCharacters(sentence) {
     return matches;
 };
 /**
- * Gets the indexes of sentence breakers (auxiliaries, stopwords and active verbs) to determine sentence parts.
+ * Filters auxiliaries preceded by a reflexive pronoun.
+ *
+ * @param {string} text The text part in which to check.
+ * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
+ * @returns {Array} The filtered list of auxiliary indices.
+ */
+var auxiliaryPrecedenceExceptionFilter = function auxiliaryPrecedenceExceptionFilter(text, auxiliaryMatches) {
+    var directPrecedenceExceptionMatches = getWordIndices(text, directPrecedenceExceptionRegex);
+    forEach(auxiliaryMatches, function (auxiliaryMatch) {
+        if (includesIndex(directPrecedenceExceptionMatches, auxiliaryMatch.index)) {
+            auxiliaryMatches = auxiliaryMatches.filter(function (auxiliaryObject) {
+                return auxiliaryObject.index !== auxiliaryMatch.index;
+            });
+        }
+    });
+    return auxiliaryMatches;
+};
+/**
+ * Filters auxiliaries followed by a word on the followingAuxiliaryExceptionWords list.
+ *
+ * @param {string} text The text part in which to check.
+ * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
+ * @param {string} language The language for which to filter the auxiliaries.
+ * @returns {Array} The filtered list of auxiliary indices.
+ */
+var followingAuxiliaryExceptionFilter = function followingAuxiliaryExceptionFilter(text, auxiliaryMatches, language) {
+    var followingAuxiliaryExceptionRegex = languageVariables[language].followingAuxiliaryExceptionRegex;
+    var followingAuxiliaryExceptionMatches = getWordIndices(text, followingAuxiliaryExceptionRegex);
+    forEach(auxiliaryMatches, function (auxiliaryMatch) {
+        if (followsIndex(followingAuxiliaryExceptionMatches, auxiliaryMatch)) {
+            auxiliaryMatches = auxiliaryMatches.filter(function (auxiliaryObject) {
+                return auxiliaryObject.index !== auxiliaryMatch.index;
+            });
+        }
+    });
+    return auxiliaryMatches;
+};
+/**
+ * Filters auxiliaries preceded by an elided word (e.g., s') on the elisionAuxiliaryExceptionWords list.
+ *
+ * @param {string} text The text part in which to check.
+ * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
+ * @returns {Array} The filtered list of auxiliary indices.
+ */
+var elisionAuxiliaryExceptionFilter = function elisionAuxiliaryExceptionFilter(text, auxiliaryMatches) {
+    var elisionAuxiliaryExceptionMatches = getWordIndices(text, elisionAuxiliaryExceptionRegex);
+    forEach(auxiliaryMatches, function (auxiliaryMatch) {
+        if (includesIndex(elisionAuxiliaryExceptionMatches, auxiliaryMatch.index, false)) {
+            auxiliaryMatches = auxiliaryMatches.filter(function (auxiliaryObject) {
+                return auxiliaryObject.index !== auxiliaryMatch.index;
+            });
+        }
+    });
+    return auxiliaryMatches;
+};
+/**
+ * Gets the indexes of sentence breakers (auxiliaries, stopwords and stop characters;
+ * in English also active verbs) to determine sentence parts.
  * Indices are filtered because there could be duplicate matches, like "even though" and "though".
  * In addition, 'having' will be matched both as a -ing verb as well as an auxiliary.
  *
- * @param {string} sentence The sentence to check for indices of auxiliaries, stopwords and active verbs.
+ * @param {string} sentence The sentence to check for indices of sentence breakers.
+ * @param {string} language The language for which to match the sentence breakers.
  * @returns {Array} The array with valid indices to use for determining sentence parts.
  */
-var getSentenceBreakers = function getSentenceBreakers(sentence) {
+var getSentenceBreakers = function getSentenceBreakers(sentence, language) {
     sentence = sentence.toLocaleLowerCase();
+    var stopwords = languageVariables[language].stopwords;
+    var auxiliaries = languageVariables[language].auxiliaries;
     var auxiliaryIndices = getIndicesOfList(auxiliaries, sentence);
     var stopwordIndices = getIndicesOfList(stopwords, sentence);
-    var stopCharacterIndices = getStopCharacters(sentence);
-    var ingVerbs = getVerbsEndingInIng(sentence);
-    var ingVerbsIndices = getIndicesOfList(ingVerbs, sentence);
+    var stopCharacterIndices = getStopCharacters(sentence, language);
+    var indices;
     // Concat all indices arrays, filter them and sort them.
-    var indices = [].concat(auxiliaryIndices, stopwordIndices, ingVerbsIndices, stopCharacterIndices);
+    switch (language) {
+        case "fr":
+            // Filters auxiliaries matched in the sentence based on a precedence exception filter.
+            auxiliaryIndices = auxiliaryPrecedenceExceptionFilter(sentence, auxiliaryIndices);
+            // Filters auxiliaries matched in the sentence based on a elision exception filter.
+            auxiliaryIndices = elisionAuxiliaryExceptionFilter(sentence, auxiliaryIndices);
+            indices = [].concat(auxiliaryIndices, stopwordIndices, stopCharacterIndices);
+            break;
+        case "es":
+            indices = [].concat(auxiliaryIndices, stopwordIndices, stopCharacterIndices);
+            break;
+        case "en":
+        default:
+            var ingVerbs = getVerbsEndingInIng(sentence);
+            var ingVerbsIndices = getIndicesOfList(ingVerbs, sentence);
+            indices = [].concat(auxiliaryIndices, stopwordIndices, ingVerbsIndices, stopCharacterIndices);
+            break;
+    }
     indices = filterIndices(indices);
     return sortIndices(indices);
 };
 /**
- * Gets the matches with the auxiliaries in the sentence.
+ * Gets the auxiliaries from a sentence.
  *
  * @param {string} sentencePart The part of the sentence to match for auxiliaries.
+ * @param {string} language The language for which to match the auxiliaries.
  * @returns {Array} All formatted matches from the sentence part.
  */
-var getAuxiliaryMatches = function getAuxiliaryMatches(sentencePart) {
+var getAuxiliaryMatches = function getAuxiliaryMatches(sentencePart, language) {
+    var auxiliaryRegex = languageVariables[language].auxiliaryRegex;
     var auxiliaryMatches = sentencePart.match(auxiliaryRegex) || [];
-    return map(auxiliaryMatches, function (auxiliaryMatch) {
-        return stripSpaces(auxiliaryMatch);
-    });
+    switch (language) {
+        case "fr":
+        case "es":
+            // An array with the matched auxiliaries and their indices.
+            var auxiliaryMatchIndices = getIndicesOfList(auxiliaryMatches, sentencePart);
+            if (language === "fr") {
+                // Filters auxiliaries matched in the sentence part based on a precedence exception filter.
+                auxiliaryMatchIndices = auxiliaryPrecedenceExceptionFilter(sentencePart, auxiliaryMatchIndices);
+            }
+            // Filters auxiliaries matched in the sentence part based on a exception filter for words following the auxiliary.
+            auxiliaryMatchIndices = followingAuxiliaryExceptionFilter(sentencePart, auxiliaryMatchIndices, language);
+            // An array with the matched auxiliary verbs (without indices).
+            var auxiliaryMatchWords = [];
+            forEach(auxiliaryMatchIndices, function (auxiliaryMatchIndex) {
+                auxiliaryMatchWords.push(auxiliaryMatchIndex.match);
+            });
+            return map(auxiliaryMatchWords, function (auxiliaryMatch) {
+                return stripSpaces(auxiliaryMatch);
+            });
+        case "en":
+        default:
+            return map(auxiliaryMatches, function (auxiliaryMatch) {
+                return stripSpaces(auxiliaryMatch);
+            });
+    }
 };
 /**
  * Gets the sentence parts from a sentence by determining sentence breakers.
  *
  * @param {string} sentence The sentence to split up in sentence parts.
+ * @param {string} language The language for which to get the sentence parts.
  * @returns {Array} The array with all parts of a sentence that have an auxiliary.
  */
-var getSentenceParts = function getSentenceParts(sentence) {
+var getSentenceParts = function getSentenceParts(sentence, language) {
     var sentenceParts = [];
+    var auxiliaryRegex = languageVariables[language].auxiliaryRegex;
+    var SentencePart = languageVariables[language].SentencePart;
     sentence = normalizeSingleQuotes(sentence);
     // First check if there is an auxiliary in the sentence.
     if (sentence.match(auxiliaryRegex) === null) {
         return sentenceParts;
     }
-    var indices = getSentenceBreakers(sentence);
+    var indices = getSentenceBreakers(sentence, language);
     // Get the words after the found auxiliary.
     for (var i = 0; i < indices.length; i++) {
         var endIndex = sentence.length;
@@ -36046,7 +36719,7 @@ var getSentenceParts = function getSentenceParts(sentence) {
         }
         // Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
         var sentencePart = stripSpaces(sentence.substr(indices[i].index, endIndex - indices[i].index));
-        var auxiliaryMatches = getAuxiliaryMatches(sentencePart);
+        var auxiliaryMatches = getAuxiliaryMatches(sentencePart, language);
         // If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
         if (auxiliaryMatches.length !== 0) {
             sentenceParts.push(new SentencePart(sentencePart, auxiliaryMatches));
@@ -36058,23 +36731,57 @@ var getSentenceParts = function getSentenceParts(sentence) {
  * Split the sentence in sentence parts based on auxiliaries.
  *
  * @param {string} sentence The sentence to split in parts.
+ * @param {string} language The language for which to get the sentence parts.
  * @returns {Array} A list with sentence parts.
  */
-module.exports = function (sentence) {
-    return getSentenceParts(sentence);
+module.exports = function (sentence, language) {
+    return getSentenceParts(sentence, language);
 };
 //# sourceMappingURL=getSentenceParts.js.map
 //# sourceMappingURL=getSentenceParts.js.map
 
 /***/ }),
-/* 617 */
+/* 626 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SentencePart = __webpack_require__(384);
-var getParticiples = __webpack_require__(385);
+var isEmpty = __webpack_require__(15);
+var forEach = __webpack_require__(2);
+var includes = __webpack_require__(33);
+/**
+ * Checks whether a given word is followed by any word from a given list.
+ *
+ * @param {Array} followingWords The array of objects with matches and indices.
+ * @param {Object} match The object with the match and index to test the following words for.
+ *
+ * @returns {boolean} Returns true if the match is followed by a given word, otherwise returns false.
+ */
+module.exports = function (followingWords, match) {
+    if (isEmpty(followingWords)) {
+        return false;
+    }
+    // The followingWordIndices include the preceding space.
+    var wordAfterMatchIndex = match.index + match.match.length;
+    var followingWordsIndices = [];
+    forEach(followingWords, function (followingWord) {
+        followingWordsIndices.push(followingWord.index);
+    });
+    return includes(followingWordsIndices, wordAfterMatchIndex);
+};
+//# sourceMappingURL=followsIndex.js.map
+//# sourceMappingURL=followsIndex.js.map
+
+/***/ }),
+/* 627 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var SentencePart = __webpack_require__(170);
+var getParticiples = __webpack_require__(171);
 /**
  * Creates a English specific sentence part.
  *
@@ -36086,66 +36793,130 @@ var getParticiples = __webpack_require__(385);
 var EnglishSentencePart = function EnglishSentencePart(sentencePartText, auxiliaries, locale) {
   SentencePart.call(this, sentencePartText, auxiliaries, locale);
 };
-__webpack_require__(33).inherits(EnglishSentencePart, SentencePart);
+__webpack_require__(19).inherits(EnglishSentencePart, SentencePart);
 /**
  * Returns the participle objects for the participles found in the sentence part.
  * @returns {Array} The list of participle objects.
  */
 EnglishSentencePart.prototype.getParticiples = function () {
-  return getParticiples(this.getSentencePartText(), this.getAuxiliaries());
+  return getParticiples(this.getSentencePartText(), this.getAuxiliaries(), "en");
 };
 module.exports = EnglishSentencePart;
 //# sourceMappingURL=SentencePart.js.map
 //# sourceMappingURL=SentencePart.js.map
 
 /***/ }),
-/* 618 */
+/* 628 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var find = __webpack_require__(282);
-var irregulars = __webpack_require__(619)();
+var find = __webpack_require__(286);
+var forEach = __webpack_require__(2);
+var memoize = __webpack_require__(39);
+var includes = __webpack_require__(33);
+var irregularsEnglish = __webpack_require__(629)();
+var irregularsRegularFrench = __webpack_require__(292)().irregularsRegular;
+var irregularsIrregularFrench = __webpack_require__(292)().irregularsIrregular;
+var irregularsEndingInSFrench = __webpack_require__(292)().irregularsEndingInS;
+var spanishParticiples = __webpack_require__(630)();
+// The language-specific participle regexes.
+var languageVariables = {
+    en: {
+        regularParticiplesRegex: /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig
+    },
+    fr: {
+        regularParticiplesRegex: /\S+(é|ée|és|ées)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig
+    }
+};
 /**
  * Returns words that have been determined to be a regular participle.
  *
- * @param {string} word The word to check
+ * @param {string} word The word to check.
+ * @param {string} language The language in which to match.
  *
  * @returns {Array} A list with the matches.
  */
-var regularParticiples = function regularParticiples(word) {
-    // Matches all words ending in ed.
-    var regularParticiplesRegex = /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var regularParticiples = function regularParticiples(word, language) {
+    // In Spanish we don't match participles with a regular regex pattern.
+    if (language === "es") {
+        return [];
+    }
+    // Matches all words with a language-specific participle suffix.
+    var regularParticiplesRegex = languageVariables[language].regularParticiplesRegex;
     return word.match(regularParticiplesRegex) || [];
+};
+/**
+ * Returns an array of matches of irregular participles with suffixes.
+ *
+ * @param {string} word The word to match on.
+ * @param {Array} irregulars The list of irregulars to match.
+ * @param {string} suffixes The suffixes to match the word with.
+ * @param {Array} matches The array into which to push the matches.
+ * @returns {Array} A list with matched irregular participles.
+ */
+var matchFrenchParticipleWithSuffix = function matchFrenchParticipleWithSuffix(word, irregulars, suffixes) {
+    var matches = [];
+    forEach(irregulars, function (irregular) {
+        var irregularParticiplesRegex = new RegExp("^" + irregular + suffixes + "?$", "ig");
+        var participleMatch = word.match(irregularParticiplesRegex);
+        if (participleMatch) {
+            matches.push(participleMatch[0]);
+        }
+    });
+    return matches;
 };
 /**
  * Returns the matches for a word in the list of irregulars.
  *
  * @param {string} word The word to match in the list.
+ * @param {string} language The language for which to match.
  *
  * @returns {Array} A list with the matches.
  */
-var irregularParticiples = function irregularParticiples(word) {
+var irregularParticiples = function irregularParticiples(word, language) {
     var matches = [];
-    find(irregulars, function (currentWord) {
-        if (currentWord === word) {
-            matches.push(currentWord);
-        }
-    });
+    switch (language) {
+        case "fr":
+            // Match different classes of participles with suffixes.
+            matches = matches.concat(matchFrenchParticipleWithSuffix(word, irregularsRegularFrench, "(e|s|es)"));
+            matches = matches.concat(matchFrenchParticipleWithSuffix(word, irregularsEndingInSFrench, "(e|es)"));
+            // Match irregular participles that don't require adding a suffix.
+            find(irregularsIrregularFrench, function (irregularParticiple) {
+                if (irregularParticiple === word) {
+                    matches.push(irregularParticiple);
+                }
+            });
+            break;
+        case "es":
+            // In Spanish, we only match passives from a word list.
+            if (includes(spanishParticiples, word)) {
+                matches.push(word);
+            }
+            break;
+        case "en":
+        default:
+            find(irregularsEnglish, function (irregularParticiple) {
+                if (irregularParticiple === word) {
+                    matches.push(irregularParticiple);
+                }
+            });
+            break;
+    }
     return matches;
 };
 module.exports = function () {
     return {
-        regularParticiples: regularParticiples,
-        irregularParticiples: irregularParticiples
+        regularParticiples: memoize(regularParticiples),
+        irregularParticiples: memoize(irregularParticiples)
     };
 };
 //# sourceMappingURL=matchParticiples.js.map
 //# sourceMappingURL=matchParticiples.js.map
 
 /***/ }),
-/* 619 */
+/* 629 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36160,100 +36931,53 @@ module.exports = function () {
 //# sourceMappingURL=irregulars.js.map
 
 /***/ }),
-/* 620 */
+/* 630 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * Returns a list of all participles used for the Spanish passive voice assessment.
+ * For each participle, versions for all four possible suffixes (-o, -a, -os, -as) are included.
+ * @returns {Array} The list with participles.
+ */
+
+module.exports = function () {
+  return ["abajado", "abalanzado", "abaleado", "abandonado", "abaratado", "abarcado", "abarrotado", "abastecido", "abatido", "abdicado", "abierto", "abismado", "abjurado", "ablandado", "abocado", "abochornado", "abofeteado", "abolido", "abollado", "abombado", "abominado", "abonado", "abordado", "aborrecido", "aborregado", "abortado", "abotonado", "abrasado", "abrazado", "abrevado", "abreviado", "abrigado", "abrochado", "abrogado", "abroquelado", "abrumado", "absorbido", "abstenido", "abstraído", "absuelto", "abucheado", "abultado", "abundado", "aburguesado", "aburrido", "abusado", "acabado", "acallado", "acalorado", "acaparado", "acariciado", "acarreado", "acatado", "acaudillado", "accedido", "accionado", "acechado", "aceitado", "acelerado", "acentuado", "aceptado", "acerado", "acercado", "acertado", "achacado", "achantado", "achatado", "achicado", "acicalado", "acidificado", "aclarado", "aclimatado", "acobardado", "acodado", "acogido", "acojonado", "acometido", "acomodado", "acompañado", "acompasado", "acongojado", "aconsejado", "acontecido", "acopiado", "acoplado", "acordado", "acordonado", "acorralado", "acortado", "acosado", "acostado", "acostumbrado", "acotado", "acrecentado", "acreditado", "acrisolado", "activado", "actuado", "acuchillado", "acuciado", "acudido", "acuerpado", "acumulado", "acunado", "acuñado", "acurrucado", "acusado", "adaptado", "adecentado", "adelantado", "adelgazado", "adentrado", "adeudado", "adherido", "adicionado", "adiestrado", "adivinado", "adjetivado", "adjudicado", "adjuntado", "administrado", "admirado", "admitido", "adoctrinado", "adolecido", "adoptado", "adorado", "adormecido", "adornado", "adquirido", "aducido", "adueñado", "adulado", "adulterado", "advertido", "afanado", "afeado", "afectado", "afeitado", "aferrado", "afianzado", "afinado", "afirmado", "afligido", "aflorado", "afrentado", "afrontado", "agachado", "agarrado", "agarrotado", "agasajado", "agenciado", "agigantado", "agilizado", "agitado", "aglutinado", "agobiado", "agolpado", "agonizado", "agostado", "agotado", "agradado", "agradecido", "agrandado", "agravado", "agraviado", "agredido", "agregado", "agriado", "agrietado", "agrupado", "aguado", "aguantado", "aguardado", "agudizado", "aguijoneado", "agujereado", "aguzado", "ahogado", "ahondado", "ahorcado", "ahorrado", "ahuecado", "ahuyentado", "aireado", "aislado", "ajustado", "ajusticiado", "alabado", "alagado", "alambrado", "alardeado", "alargado", "alarmado", "albergado", "alborotado", "alcanzado", "aleccionado", "alegado", "alegrado", "alejado", "alentado", "alertado", "alfabetizado", "alfombrado", "aliado", "alienado", "aligerado", "alimentado", "aliñado", "alineado", "alisado", "alistado", "aliviado", "alivianado", "allanado", "almacenado", "almorzado", "alojado", "alquilado", "alterado", "alternado", "alucinado", "aludido", "alumbrado", "alzado", "amado", "amaestrado", "amagado", "amainado", "amalgamado", "amamantado", "amansado", "amargado", "amarrado", "amasado", "ambicionado", "amedrentado", "amenazado", "amenizado", "ameritado", "ametrallado", "amilanado", "aminorado", "amnistiado", "amoldado", "amonestado", "amontonado", "amordazado", "amortajado", "amortiguado", "amortizado", "amotinado", "amparado", "ampayado", "ampliado", "amplificado", "amputado", "amueblado", "añadido", "analizado", "anatematizado", "andado", "anegado", "anestesiado", "anexado", "anexionado", "anhelado", "anidado", "anillado", "animado", "aniquilado", "anisado", "añorado", "anotado", "anoticiado", "ansiado", "antecedido", "antepuesto", "anticipado", "antojado", "anudado", "anulado", "anunciado", "apabullado", "apachurrado", "apaciguado", "apadrinado", "apagado", "apalancado", "apaleado", "apañado", "apantallado", "aparcado", "apareado", "aparecido", "aparentado", "apartado", "apeado", "apedreado", "apelado", "apellidado", "apelmazado", "apercibido", "apersonado", "apestado", "apetecido", "apiadado", "apilado", "apiñado", "apisonado", "aplacado", "aplanado", "aplastado", "aplaudido", "aplazado", "aplicado", "apoderado", "apoltronado", "aporreado", "aportado", "aposentado", "apostado", "apostatado", "apostillado", "apoyado", "apreciado", "aprehendido", "apremiado", "aprendido", "apresado", "apresurado", "apretado", "apretujado", "aprisionado", "aprobado", "aprovechado", "aprovisionado", "aproximado", "apuñalado", "apuñaleado", "apuntado", "apuntalado", "apuntillado", "apurado", "aquejado", "aquietado", "aquilatado", "arañado", "arbitrado", "archivado", "arengado", "argüido", "argumentado", "armado", "armonizado", "aromatizado", "arqueado", "arrancado", "arrasado", "arrastrado", "arreado", "arrebatado", "arreciado", "arreglado", "arrellanado", "arremangado", "arremetido", "arrendado", "arrepentido", "arrestado", "arriado", "arribado", "arriesgado", "arrimado", "arrinconado", "arrodillado", "arrogado", "arrojado", "arrollado", "arropado", "arruinado", "arrullado", "articulado", "asado", "asaltado", "ascendido", "aseado", "asechado", "asediado", "asegurado", "asemejado", "asentado", "asentido", "aserrado", "asesinado", "asesorado", "asestado", "aseverado", "asfixiado", "asido", "asignado", "asilado", "asimilado", "asistido", "asolado", "asoleado", "asomado", "asombrado", "aspirado", "astillado", "asumido", "asustado", "atacado", "atado", "atajado", "atarantado", "atascado", "atemorizado", "atemperado", "atenazado", "atendido", "atenido", "atentado", "atenuado", "aterrado", "aterrorizado", "atesorado", "atestiguado", "atiborrado", "atisbado", "atizado", "atomizado", "atontado", "atorado", "atormentado", "atornillado", "atosigado", "atracado", "atragantado", "atraído", "atrancado", "atrapado", "atrasado", "atravesado", "atrevido", "atribuido", "atrincherado", "atrofiado", "atropellado", "aturdido", "auditado", "augurado", "aumentado", "aunado", "aupado", "auscultado", "ausentado", "autenticado", "autentificado", "autodefinido", "autoeditado", "automatizado", "autorizado", "autorregulado", "auxiliado", "avalado", "avanzado", "avasallado", "avenido", "aventado", "aventajado", "aventurado", "averiado", "averiguado", "avezado", "avisado", "avispado", "avistado", "avivado", "avizorado", "avocado", "ayudado", "azotado", "azuzado", "babeado", "bailado", "bajado", "balaceado", "balanceado", "bañado", "banalizado", "bancado", "bandeado", "barajado", "barrido", "basado", "bastardeado", "basureado", "batallado", "bateado", "batido", "bautizado", "beatificado", "bebido", "beneficiado", "besado", "bifurcado", "birlado", "blandido", "blanqueado", "blasfemado", "blindado", "bloqueado", "boicoteado", "bombardeado", "bombeado", "bonificado", "bordeado", "borrado", "borroneado", "bosquejado", "bostezado", "botado", "boxeado", "bregado", "brillado", "brincado", "brindado", "bromeado", "brotado", "bruñido", "buceado", "burlado", "buscado", "cabeceado", "cabido", "cabildeado", "cabreado", "cacareado", "cachado", "cacheado", "cacheteado", "caducado", "cagado", "calado", "calculado", "caldeado", "calefaccionado", "calendarizado", "calentado", "calibrado", "calificado", "caligrafiado", "callado", "calmado", "calumniado", "calzado", "cambiado", "caminado", "camuflado", "canalizado", "cancelado", "canjeado", "cansado", "cantado", "capado", "capeado", "capitalizado", "capitulado", "captado", "capturado", "caracterizado", "carburado", "carcomido", "cardado", "careado", "carecido", "cargado", "caricaturizado", "cartografiado", "cascado", "castigado", "castrado", "catado", "catalizado", "catalogado", "catapultado", "cateado", "categorizado", "causado", "cauterizado", "cautivado", "cavado", "cavilado", "cazado", "cebado", "cedido", "cegado", "cejado", "celebrado", "cenado", "ceñido", "censurado", "centrifugado", "centuplicado", "cepillado", "cercado", "cercenado", "cerciorado", "cernido", "cerrado", "cesado", "chafado", "chamuscado", "chantajeado", "chapado", "charlado", "chateado", "chequeado", "chiflado", "chillado", "chingado", "chirriado", "chivado", "chocado", "chorreado", "choteado", "chupado", "chutado", "cicatrizado", "cifrado", "cimentado", "cincelado", "circulado", "circuncidado", "circundado", "citado", "clamado", "clarificado", "clasificado", "claudicado", "clausurado", "clavado", "clicado", "clonado", "coaccionado", "coadyuvado", "coagulado", "coaligado", "coartado", "cobijado", "cobrado", "cocido", "cocinado", "codeado", "codiciado", "codificado", "codirigido", "coexistido", "cofinanciado", "cogido", "cohabitado", "cohibido", "coincidido", "colaborado", "colacionado", "colado", "colapsado", "coleccionado", "colectado", "colectivizado", "colgado", "colisionado", "colmado", "colocado", "colonizado", "coloreado", "columpiado", "combatido", "combinado", "comentado", "comenzado", "comerciado", "comercializado", "cometido", "comido", "comisionado", "compactado", "compadecido", "compaginado", "comparado", "comparecido", "compartido", "compatibilizado", "compelido", "compendiado", "compenetrado", "compensado", "compilado", "complacido", "complementado", "completado", "complotado", "comportado", "comprado", "comprendido", "comprimido", "comprobado", "comprometido", "compuesto", "compulsado", "computado", "comulgado", "comunicado", "concatenado", "concebido", "concedido", "concelebrado", "concentrado", "conceptuado", "conceptualizado", "concertado", "concienciado", "concientizado", "conciliado", "concitado", "concluido", "concordado", "concretado", "concretizado", "conculcado", "concursado", "condenado", "condensado", "condicionado", "condimentado", "condolido", "condonado", "conducido", "conectado", "conexionado", "confabulado", "confeccionado", "conferido", "confesado", "confiado", "configurado", "confirmado", "confiscado", "confluido", "conformado", "confortado", "confrontado", "confundido", "congeniado", "congestionado", "congratulado", "congregado", "conjeturado", "conjugado", "conjuntado", "conjurado", "conllevado", "conmemorado", "conminado", "conmocionado", "conmovido", "conmutado", "connotado", "conquistado", "consagrado", "conseguido", "consensuado", "consentido", "conservado", "considerado", "consignado", "consistido", "consolado", "consolidado", "conspirado", "constado", "constatado", "constelado", "constitucionalizado", "constituido", "constreñido", "construido", "consultado", "consumado", "consumido", "contabilizado", "contactado", "contado", "contagiado", "contemplado", "contendido", "contenido", "contentado", "contestado", "contextualizado", "continuado", "contorneado", "contraatacado", "contrabandeado", "contradicho", "contrahecho", "contraído", "contrapesado", "contrapuesto", "contrariado", "contrarrestado", "contrastado", "contratado", "contravenido", "contribuido", "contristado", "controlado", "convalidado", "convencido", "convenido", "convergido", "conversado", "convertido", "convidado", "convivido", "convocado", "convulsionado", "cooperado", "cooptado", "coordinado", "copado", "copiado", "coproducido", "copulado", "coqueteado", "corchado", "coreado", "coreografiado", "corneado", "coronado", "corporizado", "corregido", "correlacionado", "correspondido", "correteado", "corrido", "corroborado", "corroído", "corrompido", "cortado", "cortejado", "cosechado", "cosido", "cosificado", "costado", "costeado", "cotejado", "cotizado", "creado", "creído", "criado", "cribado", "criminalizado", "crispado", "cristalizado", "cristianizado", "criticado", "cronometrado", "crucificado", "crujido", "cruzado", "cuadriplicado", "cuadruplicado", "cuajado", "cuantificado", "cuarteado", "cubierto", "cuestionado", "cuidado", "culeado", "culminado", "culpabilizado", "culpado", "cultivado", "culturizado", "cumplido", "cumplimentado", "cundido", "curado", "curioseado", "currado", "cursado", "curvado", "custodiado", "dado", "dañado", "danzado", "datado", "dateado", "debatido", "debido", "debilitado", "debitado", "debutado", "decaído", "decantado", "decapitado", "decepcionado", "decidido", "declamado", "declarado", "declinado", "decodificado", "decolorado", "decomisado", "decrecido", "decretado", "dedicado", "deducido", "defecado", "defendido", "defenestrado", "deferido", "definido", "deformado", "defraudado", "degenerado", "deglutido", "degollado", "degradado", "degustado", "deificado", "dejado", "delatado", "delegado", "deleitado", "deletreado", "deliberado", "delimitado", "delineado", "delinquido", "demandado", "demarcado", "demediado", "demeritado", "democratizado", "demolido", "demonizado", "demorado", "demostrado", "demudado", "denegado", "denigrado", "denominado", "denostado", "denotado", "denunciado", "deparado", "departido", "dependido", "depilado", "deplorado", "deportado", "depositado", "depreciado", "depredado", "deprimido", "depuesto", "depurado", "derechizado", "derivado", "derogado", "derramado", "derretido", "derribado", "derrocado", "derrochado", "derrotado", "derruido", "derrumbado", "desabrochado", "desacatado", "desacelerado", "desacomodado", "desaconsejado", "desacoplado", "desacralizado", "desacreditado", "desactivado", "desafiado", "desafinado", "desaguado", "desahogado", "desairado", "desajustado", "desalentado", "desalineado", "desalojado", "desandado", "desangrado", "desanimado", "desaparecido", "desapegado", "desaprendido", "desaprobado", "desaprovechado", "desarmado", "desarraigado", "desarreglado", "desarrollado", "desarticulado", "desaseado", "desasido", "desasosegado", "desatado", "desatendido", "desautorizado", "desayunado", "desbancado", "desbandado", "desbaratado", "desbarrancado", "desbastado", "desbloqueado", "desbocado", "desbordado", "desbrozado", "descabalgado", "descabezado", "descaderado", "descalabrado", "descalificado", "descansado", "descargado", "descarriado", "descarrilado", "descartado", "descascarado", "descascarillado", "descendido", "descentrado", "descifrado", "descocido", "descodificado", "descojonado", "descolgado", "descolocado", "descolonizado", "descompensado", "descomprimido", "descompuesto", "desconectado", "desconfiado", "descongelado", "desconocido", "descontado", "descontaminado", "descontextualizado", "descontinuado", "desconvocado", "descorazonado", "descorchado", "descorrido", "descosido", "descoyuntado", "descreído", "descristianizado", "descuadrado", "descuartizado", "descubierto", "descuidado", "desdeñado", "desdibujado", "desdicho", "desdoblado", "deseado", "desecado", "desechado", "desembarazado", "desembarcado", "desembocado", "desembolsado", "desempacado", "desempañado", "desempaquetado", "desempeñado", "desempolvado", "desenamorado", "desencadenado", "desencajado", "desencarnado", "desenchufado", "desenfocado", "desenfundado", "desenganchado", "desengrasado", "desenmascarado", "desenredado", "desenrollado", "desentendido", "desenterrado", "desentonado", "desentrañado", "desenvainado", "desenvuelto", "desequilibrado", "desertado", "desestabilizado", "desestimado", "desfalcado", "desfallecido", "desfigurado", "desfondado", "desgajado", "desgañitado", "desgarrado", "desgastado", "desglosado", "desgobernado", "desgranado", "desguazado", "deshecho", "desheredado", "deshidratado", "deshilachado", "deshojado", "deshonrado", "deshuesado", "deshumanizado", "designado", "desilusionado", "desincentivado", "desinfectado", "desinflado", "desinflamado", "desinformado", "desinhibido", "desinstalado", "desintegrado", "desintoxicado", "desistido", "desjarretado", "deslegitimado", "desleído", "desligado", "deslindado", "deslizado", "deslucido", "deslumbrado", "desmadrado", "desmalezado", "desmantelado", "desmaquillado", "desmarcado", "desmayado", "desmejorado", "desmembrado", "desmentido", "desmenuzado", "desmerecido", "desmigado", "desmitificado", "desmoldado", "desmontado", "desmoralizado", "desmoronado", "desmotivado", "desmovilizado", "desnaturalizado", "desnivelado", "desnucado", "desnudado", "desobedecido", "desobligado", "desoído", "desollado", "desorganizado", "desorientado", "despachado", "desparasitado", "desparecido", "desparramado", "despedazado", "despedido", "despegado", "despeinado", "despejado", "despellejado", "despeñado", "despenalizado", "desperdiciado", "despersonalizado", "despertado", "despilfarrado", "despintado", "despiojado", "despistado", "desplazado", "desplegado", "desplomado", "desplumado", "despojado", "despolitizado", "desposado", "desposeído", "despotricado", "despreciado", "desprendido", "despreocupado", "desprestigiado", "desprogramado", "despulpado", "despuntado", "desquiciado", "desquitado", "destacado", "destapado", "desteñido", "desterrado", "destetado", "destilado", "destituido", "destrabado", "destripado", "destronado", "destrozado", "destruido", "desunido", "desvalijado", "desvalorizado", "desvanecido", "desvelado", "desvestido", "desviado", "desvinculado", "desvirtuado", "desvivido", "detectado", "detenido", "detentado", "deteriorado", "determinado", "detestado", "detonado", "devaluado", "devanado", "devastado", "develado", "devengado", "devenido", "devorado", "devuelto", "diagnosticado", "diagramado", "dializado", "dialogado", "dibujado", "dicho", "dictado", "dictaminado", "diezmado", "difamado", "diferenciado", "diferido", "dificultado", "difuminado", "difundido", "digerido", "digitado", "dignado", "dignificado", "dilapidado", "dilatado", "diligenciado", "dilucidado", "diluido", "dimensionado", "dimitido", "dinamitado", "dinamizado", "dirimido", "discernido", "disciplinado", "discontinuado", "discrepado", "discriminado", "disculpado", "discurrido", "discutido", "diseccionado", "diseminado", "diseñado", "disentido", "disertado", "disfrazado", "disfrutado", "disgregado", "disgustado", "disimulado", "disipado", "dislocado", "disminuido", "disociado", "dispensado", "dispersado", "dispuesto", "disputado", "distado", "distanciado", "distendido", "distinguido", "distorsionado", "distraído", "distribuido", "disuadido", "disuelto", "divagado", "diversificado", "divertido", "dividido", "divinizado", "divisado", "divorciado", "divulgado", "doblado", "doblegado", "doctorado", "documentado", "dogmatizado", "dolido", "domado", "domesticado", "dominado", "donado", "dopado", "dormido", "dosificado", "dotado", "dragado", "dramatizado", "drenado", "drogado", "duchado", "dudado", "dulcificado", "duplicado", "durado", "echado", "eclipsado", "eclosionado", "economizado", "ecualizado", "edificado", "editado", "educado", "efectuado", "ejecutado", "ejemplificado", "ejercido", "ejercitado", "elaborado", "electrizado", "electrocutado", "elevado", "elidido", "eliminado", "elogiado", "elucubrado", "eludido", "emanado", "emancipado", "embadurnado", "embalado", "embalsamado", "embanderado", "embarcado", "embargado", "embarrado", "embarrancado", "embaucado", "embebido", "embelesado", "embellecido", "embestido", "embolado", "embolsado", "emborrachado", "emborronado", "emboscado", "embotado", "embriagado", "embrollado", "embrutecido", "embuchado", "emergido", "emigrado", "emitido", "emocionado", "empacado", "empachado", "empadronado", "empalado", "empalmado", "empanado", "empañado", "empantanado", "empapelado", "empaquetado", "emparejado", "empastado", "empatado", "empecinado", "empeñado", "empeorado", "empequeñecido", "emperrado", "empezado", "empinado", "emplazado", "empleado", "empobrecido", "empoderado", "empollado", "empolvado", "emponzoñado", "emprendido", "empujado", "empuñado", "emputado", "emulado", "emulsionado", "enajenado", "enaltecido", "enamorado", "enarbolado", "enardecido", "encabezado", "encabritado", "encabronado", "encadenado", "encajado", "encajonado", "encallado", "encamado", "encaminado", "encandilado", "encanecido", "encañonado", "encantado", "encaprichado", "encapsulado", "encarado", "encaramado", "encarecido", "encargado", "encariñado", "encarnado", "encarrilado", "encartado", "encasillado", "encasquetado", "encasquillado", "encastrado", "encausado", "encauzado", "enceguecido", "encendido", "encerado", "encerrado", "encharcado", "enchufado", "encimado", "encogido", "encolado", "encolerizado", "encolumnado", "encomendado", "enconado", "encontrado", "encordado", "encrespado", "encuadrado", "encubierto", "encuerado", "encumbrado", "enderezado", "endeudado", "endilgado", "endiosado", "endosado", "endulzado", "endurecido", "enemistado", "energizado", "enervado", "enfadado", "enfangado", "enfatizado", "enfermado", "enfiestado", "enfilado", "enflaquecido", "enfocado", "enfrascado", "enfrentado", "enfriado", "enfurecido", "engalanado", "engañado", "enganchado", "engarzado", "engatusado", "engendrado", "englobado", "engolosinado", "engordado", "engranado", "engrandecido", "engrasado", "engreído", "engrosado", "engullido", "enharinado", "enhebrado", "enjuagado", "enjugado", "enjuiciado", "enlazado", "enlistado", "enlodado", "enloquecido", "enlozado", "enlutado", "enmarañado", "enmascarado", "enmendado", "enmohecido", "enmudecido", "ennegrecido", "ennoblecido", "enorgullecido", "enrarecido", "enredado", "enripiado", "enriquecido", "enrocado", "enrojecido", "enrolado", "enrollado", "enroscado", "enrumbado", "ensalzado", "ensamblado", "ensañado", "ensanchado", "ensartado", "ensayado", "ensebado", "enseñado", "enseñoreado", "ensillado", "ensoberbecido", "ensogado", "ensombrecido", "ensoñado", "ensordecido", "ensuciado", "entablado", "entallado", "entendido", "enterado", "enternecido", "enterrado", "entibiado", "entintado", "entonado", "entorpecido", "entrado", "entrampado", "entrañado", "entreabierto", "entrecomillado", "entrecruzado", "entregado", "entrelazado", "entremetido", "entremezclado", "entrenado", "entresacado", "entretejido", "entretenido", "entreverado", "entrevistado", "entristecido", "entrometido", "entronado", "entroncado", "entronizado", "entumecido", "enturbiado", "entusiasmado", "enumerado", "enunciado", "envainado", "envalentonado", "envanecido", "envasado", "envejecido", "envenenado", "envestido", "enviado", "enviciado", "envidiado", "envilecido", "enviudado", "envuelto", "enzarzado", "equilibrado", "equiparado", "equivocado", "erigido", "erizado", "erogado", "erosionado", "erotizado", "erradicado", "errado", "esbozado", "escabullido", "escalado", "escaldado", "escalfado", "escamado", "escamoteado", "escampado", "escandalizado", "escaneado", "escapado", "escaqueado", "escarbado", "escarchado", "escarmentado", "escarnecido", "escaseado", "escatimado", "escenificado", "escindido", "esclarecido", "esclavizado", "escocido", "escogido", "escolarizado", "escoltado", "escondido", "escorado", "escrachado", "escrito", "escrutado", "escuchado", "escudado", "escudriñado", "esculpido", "escupido", "escurrido", "esforzado", "esfumado", "esgrimido", "esmerado", "esmerilado", "espabilado", "espaciado", "españolizado", "espantado", "esparcido", "especificado", "especulado", "esperado", "espesado", "espetado", "espiado", "espigado", "espinado", "espirado", "espiritualizado", "espoleado", "espolvoreado", "esponjado", "esponsorizado", "esposado", "esquematizado", "esquiado", "esquilado", "esquilmado", "esquivado", "estabilizado", "establecido", "estacionado", "estafado", "estallado", "estampado", "estancado", "estaqueado", "estatizado", "estatuido", "esterificado", "esterilizado", "estigmatizado", "estilizado", "estimado", "estimulado", "estipulado", "estirado", "estorbado", "estornudado", "estragado", "estrangulado", "estrechado", "estrellado", "estremecido", "estrenado", "estresado", "estriado", "estropeado", "estructurado", "estrujado", "estudiado", "eternizado", "etiquetado", "evacuado", "evadido", "evaluado", "evangelizado", "evaporado", "evidenciado", "eviscerado", "evitado", "evocado", "evolucionado", "exacerbado", "exagerado", "exaltado", "examinado", "exasperado", "excarcelado", "excavado", "excedido", "exceptuado", "excitado", "exclamado", "excluido", "excretado", "exculpado", "excusado", "execrado", "exhalado", "exhibido", "exhortado", "exhumado", "exigido", "exilado", "eximido", "existido", "exonerado", "exorcizado", "expandido", "expedido", "expedientado", "expelido", "expendido", "experimentado", "expiado", "expirado", "explayado", "explicado", "explicitado", "explorado", "explosionado", "explotado", "expoliado", "exportado", "expresado", "exprimido", "expropiado", "expuesto", "expulsado", "expurgado", "extendido", "exteriorizado", "exterminado", "externado", "externalizado", "extinguido", "extirpado", "extorsionado", "extractado", "extraditado", "extraído", "extralimitado", "extrañado", "extrapolado", "extraviado", "extremado", "extruido", "exudado", "eyaculado", "eyectado", "fabricado", "fabulado", "facilitado", "facturado", "facultado", "fagocitado", "fajado", "fallado", "fallecido", "falsado", "falseado", "falsificado", "familiarizado", "fantaseado", "fascinado", "fastidiado", "fatigado", "favorecido", "fecundado", "felicitado", "feminizado", "fenecido", "fermentado", "fertilizado", "festejado", "fiado", "fichado", "fidelizado", "figurado", "fijado", "filmado", "filosofado", "filtrado", "finalizado", "financiado", "fincado", "fingido", "finiquitado", "firmado", "fiscalizado", "fisurado", "flagelado", "flameado", "flanqueado", "flaqueado", "fletado", "flexibilizado", "flexionado", "flipado", "floreado", "florecido", "flotado", "fluctuado", "focalizado", "fogueado", "foliado", "follado", "fomentado", "fondeado", "forcejeado", "forestado", "forjado", "formado", "formalizado", "formateado", "formulado", "fornicado", "forrado", "fortalecido", "forzado", "fotocopiado", "fotografiado", "fracasado", "fraccionado", "fracturado", "fragmentado", "fraguado", "franqueado", "frecuentado", "fregado", "frenado", "fresado", "friccionado", "frotado", "fructificado", "fruncido", "fugado", "fulminado", "fumado", "fumigado", "funcionado", "fundado", "fundamentado", "fundido", "fungido", "fusilado", "fusionado", "fustigado", "gafado", "ganado", "gangrenado", "garabateado", "garantido", "garantizado", "garrido", "gaseado", "gastado", "gemido", "generado", "generalizado", "gerenciado", "germinado", "gestado", "gestionado", "girado", "glorificado", "glosado", "gobernado", "goleado", "golpeado", "gozado", "grabado", "graduado", "graficado", "granjeado", "grapado", "gratificado", "gravado", "gravitado", "gritado", "gruñido", "guardado", "guarecido", "guarnecido", "guerreado", "guiado", "guillotinado", "guiñado", "guindado", "guisado", "gustado", "habilitado", "habitado", "habituado", "hablado", "halado", "halagado", "hallado", "hartado", "hechizado", "hecho", "helenizado", "henchido", "hendido", "heredado", "herido", "hermanado", "herrado", "hervido", "hibernado", "hibridado", "hidratado", "higienizado", "hilado", "hilvanado", "hincado", "hinchado", "hipnotizado", "hipotecado", "historiado", "hojeado", "holgado", "hollado", "homenajeado", "homogeneizado", "homologado", "honrado", "horadado", "horneado", "horrorizado", "hospedado", "hostigado", "hostilizado", "huido", "humanado", "humanizado", "humectado", "humedecido", "humillado", "hundido", "hurgado", "hurtado", "ideado", "idealizado", "identificado", "ideologizado", "idiotizado", "idolatrado", "ignorado", "igualado", "ilegalizado", "iluminado", "ilusionado", "ilustrado", "imaginado", "imbricado", "imitado", "impactado", "impartido", "impedido", "impelido", "imperado", "impermeabilizado", "implantado", "implementado", "implicado", "implorado", "importado", "importunado", "imposibilitado", "impresionado", "improvisado", "impuesto", "impugnado", "impulsado", "imputado", "inaugurado", "incautado", "incendiado", "incentivado", "incinerado", "incitado", "inclinado", "incluido", "incoado", "incomodado", "incorporado", "incrementado", "increpado", "incriminado", "incubado", "inculcado", "inculpado", "incumplido", "incurrido", "incursionado", "indagado", "indemnizado", "independizado", "indexado", "indicado", "indigestado", "indignado", "indispuesto", "individuado", "inducido", "indultado", "inervado", "infamado", "infartado", "infectado", "inferido", "inficionado", "infiltrado", "inflado", "inflamado", "infligido", "influenciado", "influido", "informado", "infravalorado", "infringido", "infundido", "ingeniado", "ingerido", "ingresado", "inhabilitado", "inhalado", "inhibido", "inhumado", "iniciado", "inicializado", "injertado", "injuriado", "inmigrado", "inmiscuido", "inmolado", "inmortalizado", "inmovilizado", "inmunizado", "innovado", "inoculado", "inquietado", "inquirido", "insensibilizado", "insertado", "insinuado", "insistido", "inspeccionado", "inspirado", "instado", "instalado", "instaurado", "instigado", "instituido", "instruido", "instrumentado", "instrumentalizado", "insuflado", "insultado", "insumido", "integrado", "intelectualizado", "intensificado", "intentado", "interactuado", "intercalado", "intercambiado", "intercedido", "interceptado", "interesado", "interferido", "interiorizado", "intermediado", "internacionalizado", "internalizado", "interpelado", "interpolado", "interpretado", "interpuesto", "interrogado", "interrumpido", "intervenido", "intimado", "intimidado", "intitulado", "intoxicado", "intrigado", "introducido", "intuido", "inundado", "inutilizado", "invadido", "invalidado", "inventado", "inventariado", "invertido", "investido", "investigado", "invitado", "invocado", "involucionado", "inyectado", "ionizado", "ironizado", "irradiado", "irrespetado", "irrigado", "irritado", "irrogado", "irrumpido", "jactado", "jalado", "jaleado", "jalonado", "jaqueado", "jerarquizado", "jodido", "jorobado", "jubilado", "jugado", "juntado", "jurado", "juramentado", "justificado", "juzgado", "laborado", "labrado", "laburado", "lacado", "lacerado", "lactado", "ladeado", "ladrado", "lamentado", "lamido", "laminado", "languidecido", "lanzado", "lapidado", "laqueado", "largado", "lastimado", "lastrado", "latido", "laudado", "lavado", "legalizado", "legislado", "legitimado", "leído", "lesionado", "leudado", "levantado", "liado", "liberado", "liberalizado", "libertado", "librado", "licitado", "licuado", "liderizado", "lidiado", "ligado", "lijado", "limado", "limitado", "limpiado", "linchado", "liquidado", "litigado", "llagado", "llamado", "llegado", "llenado", "llevado", "llorado", "localizado", "logrado", "lubricado", "luchado", "lucido", "lucrado", "lustrado", "macerado", "machacado", "macheteado", "machucado", "madreado", "madrugado", "madurado", "magnetizado", "magnificado", "malacostumbrado", "malbaratado", "malcriado", "maleado", "malentendido", "malgastado", "malinterpretado", "malogrado", "maltratado", "malversado", "mamado", "manchado", "mancillado", "mandado", "manejado", "mangado", "mangoneado", "manifestado", "maniobrado", "manipulado", "manoseado", "manteado", "mantenido", "manufacturado", "maquillado", "maquinado", "maravillado", "marcado", "marchitado", "mareado", "marginado", "maridado", "martillado", "martirizado", "masacrado", "masajeado", "mascado", "masificado", "masticado", "masturbado", "matado", "materializado", "matizado", "matriculado", "maximizado", "meado", "mecanografiado", "mechado", "mecido", "mediado", "mediatizado", "medicado", "medido", "meditado", "medrado", "mejorado", "mellado", "memorizado", "mencionado", "meneado", "menguado", "menoscabado", "menospreciado", "menstruado", "mensualizado", "mensurado", "mentado", "mentalizado", "mentido", "mercadeado", "mercantilizado", "merecido", "merendado", "mermado", "merodeado", "mesurado", "metamorfoseado", "metido", "mezclado", "migrado", "militado", "militarizado", "mimado", "mimetizado", "minado", "minimizado", "ministrado", "minusvalorado", "mirado", "mistificado", "mitificado", "mitigado", "modelado", "modernizado", "modificado", "modulado", "mofado", "mojado", "moldeado", "molestado", "molido", "monetizado", "monitorizado", "monopolizado", "montado", "morado", "moralizado", "mordido", "mordisqueado", "mortificado", "mosqueado", "mostrado", "motejado", "motivado", "movido", "movilizado", "mudado", "muestreado", "multado", "multiplicado", "munido", "murmurado", "mutado", "mutilado", "nacionalizado", "narcotizado", "narrado", "naufragado", "navegado", "necesitado", "negado", "negociado", "neutralizado", "ninguneado", "nivelado", "nombrado", "nominado", "noqueado", "normado", "normalizado", "notado", "notificado", "nutrido", "obcecado", "obedecido", "objetado", "objetivado", "obligado", "obliterado", "obnubilado", "obrado", "obsequiado", "observado", "obsesionado", "obstaculizado", "obstruido", "obtenido", "obturado", "obviado", "ocasionado", "ocluido", "ocultado", "ocupado", "odiado", "ofendido", "ofertado", "oficiado", "oficializado", "ofrecido", "ofrendado", "ofuscado", "oído", "ojeado", "olfateado", "olido", "olvidado", "omitido", "ondeado", "ondulado", "opacado", "operado", "opinado", "oprimido", "optado", "optimizado", "opuesto", "orado", "orbitado", "ordenado", "ordeñado", "organizado", "orientado", "originado", "orillado", "orinado", "ornado", "ornamentado", "orquestado", "osado", "oscilado", "oscurecido", "osificado", "ostentado", "otorgado", "ovacionado", "ovulado", "oxidado", "oxigenado", "pacificado", "pactado", "padecido", "paganizado", "paginado", "paladeado", "paliado", "palpado", "parado", "parafraseado", "paralizado", "parapetado", "parasitado", "parcelado", "parchado", "parcheado", "pareado", "parido", "parodiado", "parqueado", "participado", "particularizado", "partido", "pasado", "paseado", "pastoreado", "pataleado", "pateado", "patentado", "patentizado", "patinado", "patrullado", "pecado", "pedaleado", "pedido", "pegado", "peinado", "pellizcado", "penalizado", "penetrado", "pensado", "percatado", "percibido", "percutido", "perdido", "perdonado", "perdurado", "perecido", "peregrinado", "perfeccionado", "perfilado", "perforado", "perfumado", "pergeñado", "peritado", "perjudicado", "perjurado", "permeado", "permitido", "permutado", "pernoctado", "perpetrado", "perpetuado", "perseguido", "perseverado", "persistido", "personado", "personalizado", "personificado", "persuadido", "pertenecido", "pertrechado", "perturbado", "pervertido", "pervivido", "pescado", "petado", "peticionado", "picado", "picaneado", "picoteado", "pifiado", "pignorado", "pillado", "pilotado", "piloteado", "pincelado", "pinchado", "pintado", "pintarrajeado", "pinzado", "pirado", "pirateado", "pisado", "pisoteado", "pitado", "placido", "plagiado", "planchado", "planeado", "plantado", "planteado", "plasmado", "platicado", "plegado", "pluralizado", "podado", "poetizado", "polemizado", "politizado", "pololeado", "ponderado", "pontificado", "popularizado", "porfiado", "portado", "porteado", "posado", "posesionado", "posibilitado", "posicionado", "pospuesto", "posteado", "postergado", "postrado", "postulado", "potenciado", "practicado", "precarizado", "precedido", "preceptuado", "precintado", "precipitado", "precisado", "preconizado", "predicado", "predicho", "predispuesto", "predominado", "preferido", "prefigurado", "pregonado", "preguntado", "prejuzgado", "premiado", "prendado", "prendido", "preocupado", "preparado", "presagiado", "prescindido", "presenciado", "presentado", "presentido", "preservado", "presidido", "presionado", "prestado", "prestigiado", "presumido", "presurizado", "pretendido", "preterido", "prevalecido", "prevalido", "prevaricado", "prevenido", "previsto", "primado", "principiado", "pringado", "priorizado", "privatizado", "probado", "problematizado", "procedido", "procesado", "proclamado", "procreado", "procurado", "prodigado", "producido", "profanado", "proferido", "profesado", "profesionalizado", "profetizado", "profundizado", "programado", "progresado", "prohibido", "prohijado", "proletarizado", "proliferado", "prologado", "prolongado", "promediado", "prometido", "promocionado", "promovido", "promulgado", "pronosticado", "pronunciado", "propagado", "propalado", "propendido", "propiciado", "propinado", "proporcionado", "propuesto", "propugnado", "propulsado", "prorrateado", "prorrogado", "proseguido", "prosperado", "prostituido", "protegido", "protestado", "protocolizado", "provenido", "provocado", "proyectado", "psicoanalizado", "publicado", "publicitado", "puesto", "pugnado", "pujado", "pulido", "pulsado", "pululado", "pulverizado", "punado", "punteado", "puntuado", "puntualizado", "punzado", "purgado", "purificado", "puteado", "quebrado", "quebrantado", "quejado", "quemado", "querellado", "querido", "quintuplicado", "quitado", "racionado", "racionalizado", "radiado", "radicado", "radicalizado", "raído", "rajado", "ralentizado", "rapado", "rapeado", "raptado", "rascado", "rasgado", "rasguñado", "raspado", "rastreado", "rasurado", "ratificado", "rayado", "razonado", "reabierto", "reabsorbido", "reaccionado", "reactivado", "readaptado", "readmitido", "reafirmado", "reagrupado", "reajustado", "realimentado", "realizado", "realzado", "reanimado", "reanudado", "reaparecido", "rearmado", "reasumido", "reavivado", "rebajado", "rebalsado", "rebanado", "rebasado", "rebatido", "rebautizado", "rebelado", "reblandecido", "rebobinado", "rebosado", "rebotado", "rebozado", "rebuscado", "recabado", "recaído", "recalado", "recalcado", "recalentado", "recalificado", "recapacitado", "recapitulado", "recargado", "recatado", "recaudado", "receptado", "recetado", "rechazado", "recibido", "reciclado", "recitado", "reclamado", "reclinado", "reclutado", "recobrado", "recocido", "recogido", "recolectado", "recomendado", "recomenzado", "recompensado", "recompuesto", "reconcentrado", "reconciliado", "reconducido", "reconfortado", "reconocido", "reconquistado", "reconsiderado", "reconstituido", "reconstruido", "reconvenido", "reconvertido", "recopilado", "recordado", "recorrido", "recortado", "recreado", "recriminado", "recrudecido", "rectificado", "recubierto", "reculado", "recuperado", "recurrido", "recusado", "redactado", "redefinido", "redescubierto", "redimensionado", "redimido", "rediseñado", "redistribuido", "redituado", "redoblado", "redondeado", "reducido", "redundado", "reedificado", "reeditado", "reeducado", "reelaborado", "reembolsado", "reemplazado", "reencarnado", "reencauchado", "reencontrado", "reenganchado", "reenviado", "reescrito", "reestructurado", "reexaminado", "refaccionado", "referido", "refinado", "refinanciado", "reflejado", "reflexionado", "reflotado", "reforestado", "reformado", "reforzado", "refractado", "refrenado", "refrendado", "refrescado", "refrigerado", "refundido", "refutado", "regado", "regalado", "regañado", "regateado", "regenerado", "regentado", "regenteado", "regido", "regionalizado", "registrado", "reglado", "reglamentado", "regocijado", "regodeado", "regresado", "regulado", "regularizado", "regurgitado", "rehabilitado", "rehecho", "rehogado", "rehuido", "rehusado", "reído", "reinado", "reincidido", "reincorporado", "reingresado", "reiniciado", "reinsertado", "reinstalado", "reinstaurado", "reintegrado", "reinventado", "reinvertido", "reiterado", "reivindicado", "rejuvenecido", "relajado", "relamido", "relanzado", "relatado", "relativizado", "relegado", "releído", "relevado", "religado", "rellenado", "remachado", "remado", "remangado", "remarcado", "rematado", "remecido", "remediado", "rememorado", "remendado", "remitido", "remodelado", "remojado", "remolcado", "remontado", "removido", "remplazado", "renacido", "rendido", "renegado", "renegociado", "reñido", "renombrado", "renovado", "rentabilizado", "rentado", "renunciado", "reordenado", "reorganizado", "reorientado", "reparado", "repartido", "repasado", "repatriado", "repelido", "repensado", "repercutido", "repescado", "repetido", "repicado", "repintado", "replanteado", "replegado", "replicado", "repoblado", "reportado", "reporteado", "reposado", "repreguntado", "reprendido", "represado", "representado", "reprimido", "reprobado", "reprochado", "reproducido", "repudiado", "repuesto", "repugnado", "repuntado", "reputado", "requerido", "requisado", "resaltado", "resarcido", "resbalado", "rescatado", "rescindido", "resecado", "reseñado", "reservado", "reseteado", "resguardado", "residido", "resignado", "resistido", "resonado", "respaldado", "respetado", "respirado", "resplandecido", "respondido", "responsabilizado", "resquebrajado", "restablecido", "restado", "restaurado", "restituido", "restregado", "resucitado", "resuelto", "resumido", "resurgido", "retado", "retardado", "retenido", "retirado", "retocado", "retomado", "retorcido", "retornado", "retractado", "retraído", "retransmitido", "retrasado", "retratado", "retribuido", "retrotraído", "retumbado", "reunido", "reunificado", "reutilizado", "revalidado", "revalorizado", "revaluado", "revelado", "revendido", "reventado", "reverdecido", "reverenciado", "revertido", "revestido", "revirado", "revisado", "revitalizado", "revivido", "revocado", "revolcado", "revoloteado", "revolucionado", "revuelto", "ridiculizado", "rifado", "rimado", "rivalizado", "rizado", "robado", "robustecido", "rociado", "rodado", "rodeado", "rogado", "roído", "rondado", "rotado", "roto", "rotulado", "roturado", "rozado", "ruborizado", "rubricado", "rugido", "rumiado", "rumorado", "sabido", "saboreado", "saboteado", "sacado", "saciado", "sacralizado", "sacrificado", "sacudido", "saldado", "salpimentado", "salpullido", "saltado", "salteado", "saludado", "salvado", "salvaguardado", "sanado", "saneado", "sangrado", "santificado", "saqueado", "satanizado", "satirizado", "satisfecho", "sazonado", "secado", "seccionado", "secretado", "secuenciado", "secuestrado", "secundado", "sedimentado", "seducido", "segado", "segmentado", "segregado", "seguido", "seleccionado", "sembrado", "señalado", "sensibilizado", "sentado", "sentenciado", "sentido", "separado", "serenado", "serrado", "servido", "significado", "silenciado", "simbolizado", "simpatizado", "simplificado", "simulado", "sincerado", "sincronizado", "sindicado", "sindicalizado", "singularizado", "sintetizado", "sintonizado", "sistematizado", "situado", "sobado", "sobornado", "sobrado", "sobrecargado", "sobrecogido", "sobreentendido", "sobreestimado", "sobrellevado", "sobrentendido", "sobrepasado", "sobrepuesto", "sobresalido", "sobresaltado", "sobrestimado", "sobrevenido", "sobrevivido", "sobrevolado", "socavado", "socializado", "socorrido", "sodomizado", "sofocado", "sojuzgado", "solapado", "solicitado", "solidarizado", "solidificado", "soliviantado", "soltado", "solucionado", "solventado", "sombreado", "sometido", "sonado", "soñado", "sondeado", "sonreído", "sonrojado", "sopesado", "soplado", "soportado", "sorbido", "sorprendido", "sorteado", "sosegado", "soslayado", "sospechado", "sostenido", "suavizado", "subastado", "subcontratado", "subdividido", "subestimado", "subido", "sublevado", "sublimado", "subrayado", "subrogado", "subsanado", "subsidiado", "subsistido", "substraído", "subsumido", "subvertido", "subyugado", "succionado", "sucedido", "sucumbido", "sudado", "sufragado", "sufrido", "sugerido", "sugestionado", "suicidado", "sujetado", "sumado", "sumergido", "suministrado", "supeditado", "superado", "superpuesto", "supervisado", "suplantado", "suplicado", "suplido", "suprimido", "supuesto", "surcado", "surtido", "suscitado", "suspendido", "suspirado", "sustanciado", "sustantivado", "sustentado", "sustituido", "sustraído", "susurrado", "suturado", "tabulado", "tachado", "talado", "taladrado", "tallado", "tambaleado", "tamizado", "tañido", "tanteado", "tapado", "tapizado", "taponado", "tarareado", "tardado", "tasado", "tatuado", "tecleado", "tejido", "telefoneado", "televisado", "temido", "templado", "tendido", "tenido", "tensado", "tentado", "teorizado", "terciado", "tergiversado", "terminado", "territorializado", "testado", "testeado", "testificado", "testimoniado", "tildado", "timado", "timbrado", "tinturado", "tipeado", "tipificado", "tirado", "tiranizado", "tironeado", "tiroteado", "titubeado", "tiznado", "tocado", "tolerado", "tomado", "tonificado", "topado", "toqueteado", "torcido", "toreado", "tornado", "tornasolado", "torneado", "torpedeado", "torturado", "tosido", "tostado", "totalizado", "trabado", "trabajado", "traducido", "traficado", "tragado", "traicionado", "traído", "trajinado", "tramado", "tramitado", "trancado", "tranquilizado", "transcendido", "transcurrido", "transferido", "transfigurado", "transformado", "transfundido", "transgredido", "transigido", "transitado", "transliterado", "translucido", "transmitido", "transmutado", "transparentado", "transpirado", "transportado", "transpuesto", "trasegado", "trasgredido", "trasladado", "traslapado", "traslucido", "trasnochado", "traspapelado", "traspasado", "trasplantado", "traspuesto", "trasquilado", "trasteado", "trastocado", "trastornado", "trasvasado", "tratado", "trazado", "trenzado", "trepado", "tributado", "trincado", "triplicado", "triturado", "triunfado", "trivializado", "trocado", "troceado", "tronado", "tronchado", "truncado", "tumbado", "tuneado", "turbado", "turnado", "tutelado", "ufanado", "ultimado", "uncido", "ungido", "unido", "universalizado", "untado", "urbanizado", "urdido", "usado", "usufructuado", "usurpado", "utilizado", "vacado", "vaciado", "vacilado", "vacunado", "vagado", "validado", "valido", "valorado", "valorizado", "valuado", "vanagloriado", "vandalizado", "vaporizado", "variado", "vaticinado", "vedado", "vehiculado", "vejado", "velado", "vencido", "vendado", "vendido", "venerado", "vengado", "ventilado", "veraneado", "verbalizado", "verificado", "versado", "versionado", "vertebrado", "vertido", "vestido", "vetado", "viabilizado", "viajado", "vibrado", "victimado", "victimizado", "vigilado", "vigorizado", "vilipendiado", "vindicado", "violado", "violentado", "virado", "visado", "visibilizado", "visitado", "vislumbrado", "visto", "visualizado", "vitoreado", "vitrificado", "vituperado", "vivido", "vivificado", "vocalizado", "voceado", "vociferado", "volado", "volatilizado", "volcado", "volteado", "vomitado", "votado", "vuelto", "vulcanizado", "vulgarizado", "vulnerado", "yuxtapuesto", "zafado", "zambullido", "zampado", "zanjado", "zarandeado", "zarpado", "zozobrado", "zumbado", "zurcido", "zurrado", "abajada", "abalanzada", "abaleada", "abandonada", "abaratada", "abarcada", "abarrotada", "abastecida", "abatida", "abdicada", "abierta", "abismada", "abjurada", "ablandada", "abocada", "abochornada", "abofeteada", "abolida", "abollada", "abombada", "abominada", "abonada", "abordada", "aborrecida", "aborregada", "abortada", "abotonada", "abrasada", "abrazada", "abrevada", "abreviada", "abrigada", "abrochada", "abrogada", "abroquelada", "abrumada", "absorbida", "abstenida", "abstraída", "absuelta", "abucheada", "abultada", "abundada", "aburguesada", "aburrida", "abusada", "acabada", "acallada", "acalorada", "acaparada", "acariciada", "acarreada", "acatada", "acaudillada", "accedida", "accionada", "acechada", "aceitada", "acelerada", "acentuada", "aceptada", "acerada", "acercada", "acertada", "achacada", "achantada", "achatada", "achicada", "acicalada", "acidificada", "aclarada", "aclimatada", "acobardada", "acodada", "acogida", "acojonada", "acometida", "acomodada", "acompañada", "acompasada", "acongojada", "aconsejada", "acontecida", "acopiada", "acoplada", "acordada", "acordonada", "acorralada", "acortada", "acosada", "acostada", "acostumbrada", "acotada", "acrecentada", "acreditada", "acrisolada", "activada", "actuada", "acuchillada", "acuciada", "acudida", "acuerpada", "acumulada", "acunada", "acuñada", "acurrucada", "acusada", "adaptada", "adecentada", "adelantada", "adelgazada", "adentrada", "adeudada", "adherida", "adicionada", "adiestrada", "adivinada", "adjetivada", "adjudicada", "adjuntada", "administrada", "admirada", "admitida", "adoctrinada", "adolecida", "adoptada", "adorada", "adormecida", "adornada", "adquirida", "aducida", "adueñada", "adulada", "adulterada", "advertida", "afanada", "afeada", "afectada", "afeitada", "aferrada", "afianzada", "afinada", "afirmada", "afligida", "aflorada", "afrentada", "afrontada", "agachada", "agarrada", "agarrotada", "agasajada", "agenciada", "agigantada", "agilizada", "agitada", "aglutinada", "agobiada", "agolpada", "agonizada", "agostada", "agotada", "agradada", "agradecida", "agrandada", "agravada", "agraviada", "agredida", "agregada", "agriada", "agrietada", "agrupada", "aguada", "aguantada", "aguardada", "agudizada", "aguijoneada", "agujereada", "aguzada", "ahogada", "ahondada", "ahorcada", "ahorrada", "ahuecada", "ahuyentada", "aireada", "aislada", "ajustada", "ajusticiada", "alabada", "alagada", "alambrada", "alardeada", "alargada", "alarmada", "albergada", "alborotada", "alcanzada", "aleccionada", "alegada", "alegrada", "alejada", "alentada", "alertada", "alfabetizada", "alfombrada", "aliada", "alienada", "aligerada", "alimentada", "aliñada", "alineada", "alisada", "alistada", "aliviada", "alivianada", "allanada", "almacenada", "almorzada", "alojada", "alquilada", "alterada", "alternada", "alucinada", "aludida", "alumbrada", "alzada", "amada", "amaestrada", "amagada", "amainada", "amalgamada", "amamantada", "amansada", "amargada", "amarrada", "amasada", "ambicionada", "amedrentada", "amenazada", "amenizada", "ameritada", "ametrallada", "amilanada", "aminorada", "amnistiada", "amoldada", "amonestada", "amontonada", "amordazada", "amortajada", "amortiguada", "amortizada", "amotinada", "amparada", "ampayada", "ampliada", "amplificada", "amputada", "amueblada", "añadida", "analizada", "anatematizada", "andada", "anegada", "anestesiada", "anexada", "anexionada", "anhelada", "anidada", "anillada", "animada", "aniquilada", "anisada", "añorada", "anotada", "anoticiada", "ansiada", "antecedida", "antepuesta", "anticipada", "antojada", "anudada", "anulada", "anunciada", "apabullada", "apachurrada", "apaciguada", "apadrinada", "apagada", "apalancada", "apaleada", "apañada", "apantallada", "aparcada", "apareada", "aparecida", "aparentada", "apartada", "apeada", "apedreada", "apelada", "apellidada", "apelmazada", "apercibida", "apersonada", "apestada", "apetecida", "apiadada", "apilada", "apiñada", "apisonada", "aplacada", "aplanada", "aplastada", "aplaudida", "aplazada", "aplicada", "apoderada", "apoltronada", "aporreada", "aportada", "aposentada", "apostada", "apostatada", "apostillada", "apoyada", "apreciada", "aprehendida", "apremiada", "aprendida", "apresada", "apresurada", "apretada", "apretujada", "aprisionada", "aprobada", "aprovechada", "aprovisionada", "aproximada", "apuñalada", "apuñaleada", "apuntada", "apuntalada", "apuntillada", "apurada", "aquejada", "aquietada", "aquilatada", "arañada", "arbitrada", "archivada", "arengada", "argüida", "argumentada", "armada", "armonizada", "aromatizada", "arqueada", "arrancada", "arrasada", "arrastrada", "arreada", "arrebatada", "arreciada", "arreglada", "arrellanada", "arremangada", "arremetida", "arrendada", "arrepentida", "arrestada", "arriada", "arribada", "arriesgada", "arrimada", "arrinconada", "arrodillada", "arrogada", "arrojada", "arrollada", "arropada", "arruinada", "arrullada", "articulada", "asada", "asaltada", "ascendida", "aseada", "asechada", "asediada", "asegurada", "asemejada", "asentada", "asentida", "aserrada", "asesinada", "asesorada", "asestada", "aseverada", "asfixiada", "asida", "asignada", "asilada", "asimilada", "asistida", "asolada", "asoleada", "asomada", "asombrada", "aspirada", "astillada", "asumida", "asustada", "atacada", "atada", "atajada", "atarantada", "atascada", "atemorizada", "atemperada", "atenazada", "atendida", "atenida", "atentada", "atenuada", "aterrada", "aterrorizada", "atesorada", "atestiguada", "atiborrada", "atisbada", "atizada", "atomizada", "atontada", "atorada", "atormentada", "atornillada", "atosigada", "atracada", "atragantada", "atraída", "atrancada", "atrapada", "atrasada", "atravesada", "atrevida", "atribuida", "atrincherada", "atrofiada", "atropellada", "aturdida", "auditada", "augurada", "aumentada", "aunada", "aupada", "auscultada", "ausentada", "autenticada", "autentificada", "autodefinida", "autoeditada", "automatizada", "autorizada", "autorregulada", "auxiliada", "avalada", "avanzada", "avasallada", "avenida", "aventada", "aventajada", "aventurada", "averiada", "averiguada", "avezada", "avisada", "avispada", "avistada", "avivada", "avizorada", "avocada", "ayudada", "azotada", "azuzada", "babeada", "bailada", "bajada", "balaceada", "balanceada", "bañada", "banalizada", "bancada", "bandeada", "barajada", "barrida", "basada", "bastardeada", "basureada", "batallada", "bateada", "batida", "bautizada", "beatificada", "bebida", "beneficiada", "besada", "bifurcada", "birlada", "blandida", "blanqueada", "blasfemada", "blindada", "bloqueada", "boicoteada", "bombardeada", "bombeada", "bonificada", "bordeada", "borrada", "borroneada", "bosquejada", "bostezada", "botada", "boxeada", "bregada", "brillada", "brincada", "brindada", "bromeada", "brotada", "bruñida", "buceada", "burlada", "buscada", "cabeceada", "cabida", "cabildeada", "cabreada", "cacareada", "cachada", "cacheada", "cacheteada", "caducada", "cagada", "calada", "calculada", "caldeada", "calefaccionada", "calendarizada", "calentada", "calibrada", "calificada", "caligrafiada", "callada", "calmada", "calumniada", "calzada", "cambiada", "caminada", "camuflada", "canalizada", "cancelada", "canjeada", "cansada", "cantada", "capada", "capeada", "capitalizada", "capitulada", "captada", "capturada", "caracterizada", "carburada", "carcomida", "cardada", "careada", "carecida", "cargada", "caricaturizada", "cartografiada", "cascada", "castigada", "castrada", "catada", "catalizada", "catalogada", "catapultada", "cateada", "categorizada", "causada", "cauterizada", "cautivada", "cavada", "cavilada", "cazada", "cebada", "cedida", "cegada", "cejada", "celebrada", "cenada", "ceñida", "censurada", "centrifugada", "centuplicada", "cepillada", "cercada", "cercenada", "cerciorada", "cernida", "cerrada", "cesada", "chafada", "chamuscada", "chantajeada", "chapada", "charlada", "chateada", "chequeada", "chiflada", "chillada", "chingada", "chirriada", "chivada", "chocada", "chorreada", "choteada", "chupada", "chutada", "cicatrizada", "cifrada", "cimentada", "cincelada", "circulada", "circuncidada", "circundada", "citada", "clamada", "clarificada", "clasificada", "claudicada", "clausurada", "clavada", "clicada", "clonada", "coaccionada", "coadyuvada", "coagulada", "coaligada", "coartada", "cobijada", "cobrada", "cocida", "cocinada", "codeada", "codiciada", "codificada", "codirigida", "coexistida", "cofinanciada", "cogida", "cohabitada", "cohibida", "coincidida", "colaborada", "colacionada", "colada", "colapsada", "coleccionada", "colectada", "colectivizada", "colgada", "colisionada", "colmada", "colocada", "colonizada", "coloreada", "columpiada", "combatida", "combinada", "comentada", "comenzada", "comerciada", "comercializada", "cometida", "comida", "comisionada", "compactada", "compadecida", "compaginada", "comparada", "comparecida", "compartida", "compatibilizada", "compelida", "compendiada", "compenetrada", "compensada", "compilada", "complacida", "complementada", "completada", "complotada", "comportada", "comprada", "comprendida", "comprimida", "comprobada", "comprometida", "compuesta", "compulsada", "computada", "comulgada", "comunicada", "concatenada", "concebida", "concedida", "concelebrada", "concentrada", "conceptuada", "conceptualizada", "concertada", "concienciada", "concientizada", "conciliada", "concitada", "concluida", "concordada", "concretada", "concretizada", "conculcada", "concursada", "condenada", "condensada", "condicionada", "condimentada", "condolida", "condonada", "conducida", "conectada", "conexionada", "confabulada", "confeccionada", "conferida", "confesada", "confiada", "configurada", "confirmada", "confiscada", "confluida", "conformada", "confortada", "confrontada", "confundida", "congeniada", "congestionada", "congratulada", "congregada", "conjeturada", "conjugada", "conjuntada", "conjurada", "conllevada", "conmemorada", "conminada", "conmocionada", "conmovida", "conmutada", "connotada", "conquistada", "consagrada", "conseguida", "consensuada", "consentida", "conservada", "considerada", "consignada", "consistida", "consolada", "consolidada", "conspirada", "constada", "constatada", "constelada", "constitucionalizada", "constituida", "constreñida", "construida", "consultada", "consumada", "consumida", "contabilizada", "contactada", "contada", "contagiada", "contemplada", "contendida", "contenida", "contentada", "contestada", "contextualizada", "continuada", "contorneada", "contraatacada", "contrabandeada", "contradicha", "contrahecha", "contraída", "contrapesada", "contrapuesta", "contrariada", "contrarrestada", "contrastada", "contratada", "contravenida", "contribuida", "contristada", "controlada", "convalidada", "convencida", "convenida", "convergida", "conversada", "convertida", "convidada", "convivida", "convocada", "convulsionada", "cooperada", "cooptada", "coordinada", "copada", "copiada", "coproducida", "copulada", "coqueteada", "corchada", "coreada", "coreografiada", "corneada", "coronada", "corporizada", "corregida", "correlacionada", "correspondida", "correteada", "corrida", "corroborada", "corroída", "corrompida", "cortada", "cortejada", "cosechada", "cosida", "cosificada", "costada", "costeada", "cotejada", "cotizada", "creada", "creída", "criada", "cribada", "criminalizada", "crispada", "cristalizada", "cristianizada", "criticada", "cronometrada", "crucificada", "crujida", "cruzada", "cuadriplicada", "cuadruplicada", "cuajada", "cuantificada", "cuarteada", "cubierta", "cuestionada", "cuidada", "culeada", "culminada", "culpabilizada", "culpada", "cultivada", "culturizada", "cumplida", "cumplimentada", "cundida", "curada", "curioseada", "currada", "cursada", "curvada", "custodiada", "dada", "dañada", "danzada", "datada", "dateada", "debatida", "debida", "debilitada", "debitada", "debutada", "decaída", "decantada", "decapitada", "decepcionada", "decidida", "declamada", "declarada", "declinada", "decodificada", "decolorada", "decomisada", "decrecida", "decretada", "dedicada", "deducida", "defecada", "defendida", "defenestrada", "deferida", "definida", "deformada", "defraudada", "degenerada", "deglutida", "degollada", "degradada", "degustada", "deificada", "dejada", "delatada", "delegada", "deleitada", "deletreada", "deliberada", "delimitada", "delineada", "delinquida", "demandada", "demarcada", "demediada", "demeritada", "democratizada", "demolida", "demonizada", "demorada", "demostrada", "demudada", "denegada", "denigrada", "denominada", "denostada", "denotada", "denunciada", "deparada", "departida", "dependida", "depilada", "deplorada", "deportada", "depositada", "depreciada", "depredada", "deprimida", "depuesta", "depurada", "derechizada", "derivada", "derogada", "derramada", "derretida", "derribada", "derrocada", "derrochada", "derrotada", "derruida", "derrumbada", "desabrochada", "desacatada", "desacelerada", "desacomodada", "desaconsejada", "desacoplada", "desacralizada", "desacreditada", "desactivada", "desafiada", "desafinada", "desaguada", "desahogada", "desairada", "desajustada", "desalentada", "desalineada", "desalojada", "desandada", "desangrada", "desanimada", "desaparecida", "desapegada", "desaprendida", "desaprobada", "desaprovechada", "desarmada", "desarraigada", "desarreglada", "desarrollada", "desarticulada", "desaseada", "desasida", "desasosegada", "desatada", "desatendida", "desautorizada", "desayunada", "desbancada", "desbandada", "desbaratada", "desbarrancada", "desbastada", "desbloqueada", "desbocada", "desbordada", "desbrozada", "descabalgada", "descabezada", "descaderada", "descalabrada", "descalificada", "descansada", "descargada", "descarriada", "descarrilada", "descartada", "descascarada", "descascarillada", "descendida", "descentrada", "descifrada", "descocida", "descodificada", "descojonada", "descolgada", "descolocada", "descolonizada", "descompensada", "descomprimida", "descompuesta", "desconectada", "desconfiada", "descongelada", "desconocida", "descontada", "descontaminada", "descontextualizada", "descontinuada", "desconvocada", "descorazonada", "descorchada", "descorrida", "descosida", "descoyuntada", "descreída", "descristianizada", "descuadrada", "descuartizada", "descubierta", "descuidada", "desdeñada", "desdibujada", "desdicha", "desdoblada", "deseada", "desecada", "desechada", "desembarazada", "desembarcada", "desembocada", "desembolsada", "desempacada", "desempañada", "desempaquetada", "desempeñada", "desempolvada", "desenamorada", "desencadenada", "desencajada", "desencarnada", "desenchufada", "desenfocada", "desenfundada", "desenganchada", "desengrasada", "desenmascarada", "desenredada", "desenrollada", "desentendida", "desenterrada", "desentonada", "desentrañada", "desenvainada", "desenvuelta", "desequilibrada", "desertada", "desestabilizada", "desestimada", "desfalcada", "desfallecida", "desfigurada", "desfondada", "desgajada", "desgañitada", "desgarrada", "desgastada", "desglosada", "desgobernada", "desgranada", "desguazada", "deshecha", "desheredada", "deshidratada", "deshilachada", "deshojada", "deshonrada", "deshuesada", "deshumanizada", "designada", "desilusionada", "desincentivada", "desinfectada", "desinflada", "desinflamada", "desinformada", "desinhibida", "desinstalada", "desintegrada", "desintoxicada", "desistida", "desjarretada", "deslegitimada", "desleída", "desligada", "deslindada", "deslizada", "deslucida", "deslumbrada", "desmadrada", "desmalezada", "desmantelada", "desmaquillada", "desmarcada", "desmayada", "desmejorada", "desmembrada", "desmentida", "desmenuzada", "desmerecida", "desmigada", "desmitificada", "desmoldada", "desmontada", "desmoralizada", "desmoronada", "desmotivada", "desmovilizada", "desnaturalizada", "desnivelada", "desnucada", "desnudada", "desobedecida", "desobligada", "desoída", "desollada", "desorganizada", "desorientada", "despachada", "desparasitada", "desparecida", "desparramada", "despedazada", "despedida", "despegada", "despeinada", "despejada", "despellejada", "despeñada", "despenalizada", "desperdiciada", "despersonalizada", "despertada", "despilfarrada", "despintada", "despiojada", "despistada", "desplazada", "desplegada", "desplomada", "desplumada", "despojada", "despolitizada", "desposada", "desposeída", "despotricada", "despreciada", "desprendida", "despreocupada", "desprestigiada", "desprogramada", "despulpada", "despuntada", "desquiciada", "desquitada", "destacada", "destapada", "desteñida", "desterrada", "destetada", "destilada", "destituida", "destrabada", "destripada", "destronada", "destrozada", "destruida", "desunida", "desvalijada", "desvalorizada", "desvanecida", "desvelada", "desvestida", "desviada", "desvinculada", "desvirtuada", "desvivida", "detectada", "detenida", "detentada", "deteriorada", "determinada", "detestada", "detonada", "devaluada", "devanada", "devastada", "develada", "devengada", "devenida", "devorada", "devuelta", "diagnosticada", "diagramada", "dializada", "dialogada", "dibujada", "dicha", "dictada", "dictaminada", "diezmada", "difamada", "diferenciada", "diferida", "dificultada", "difuminada", "difundida", "digerida", "digitada", "dignada", "dignificada", "dilapidada", "dilatada", "diligenciada", "dilucidada", "diluida", "dimensionada", "dimitida", "dinamitada", "dinamizada", "dirimida", "discernida", "disciplinada", "discontinuada", "discrepada", "discriminada", "disculpada", "discurrida", "discutida", "diseccionada", "diseminada", "diseñada", "disentida", "disertada", "disfrazada", "disfrutada", "disgregada", "disgustada", "disimulada", "disipada", "dislocada", "disminuida", "disociada", "dispensada", "dispersada", "dispuesta", "disputada", "distada", "distanciada", "distendida", "distinguida", "distorsionada", "distraída", "distribuida", "disuadida", "disuelta", "divagada", "diversificada", "divertida", "dividida", "divinizada", "divisada", "divorciada", "divulgada", "doblada", "doblegada", "doctorada", "documentada", "dogmatizada", "dolida", "domada", "domesticada", "dominada", "donada", "dopada", "dormida", "dosificada", "dotada", "dragada", "dramatizada", "drenada", "drogada", "duchada", "dudada", "dulcificada", "duplicada", "durada", "echada", "eclipsada", "eclosionada", "economizada", "ecualizada", "edificada", "editada", "educada", "efectuada", "ejecutada", "ejemplificada", "ejercida", "ejercitada", "elaborada", "electrizada", "electrocutada", "elevada", "elidida", "eliminada", "elogiada", "elucubrada", "eludida", "emanada", "emancipada", "embadurnada", "embalada", "embalsamada", "embanderada", "embarcada", "embargada", "embarrada", "embarrancada", "embaucada", "embebida", "embelesada", "embellecida", "embestida", "embolada", "embolsada", "emborrachada", "emborronada", "emboscada", "embotada", "embriagada", "embrollada", "embrutecida", "embuchada", "emergida", "emigrada", "emitida", "emocionada", "empacada", "empachada", "empadronada", "empalada", "empalmada", "empanada", "empañada", "empantanada", "empapelada", "empaquetada", "emparejada", "empastada", "empatada", "empecinada", "empeñada", "empeorada", "empequeñecida", "emperrada", "empezada", "empinada", "emplazada", "empleada", "empobrecida", "empoderada", "empollada", "empolvada", "emponzoñada", "emprendida", "empujada", "empuñada", "emputada", "emulada", "emulsionada", "enajenada", "enaltecida", "enamorada", "enarbolada", "enardecida", "encabezada", "encabritada", "encabronada", "encadenada", "encajada", "encajonada", "encallada", "encamada", "encaminada", "encandilada", "encanecida", "encañonada", "encantada", "encaprichada", "encapsulada", "encarada", "encaramada", "encarecida", "encargada", "encariñada", "encarnada", "encarrilada", "encartada", "encasillada", "encasquetada", "encasquillada", "encastrada", "encausada", "encauzada", "enceguecida", "encendida", "encerada", "encerrada", "encharcada", "enchufada", "encimada", "encogida", "encolada", "encolerizada", "encolumnada", "encomendada", "enconada", "encontrada", "encordada", "encrespada", "encuadrada", "encubierta", "encuerada", "encumbrada", "enderezada", "endeudada", "endilgada", "endiosada", "endosada", "endulzada", "endurecida", "enemistada", "energizada", "enervada", "enfadada", "enfangada", "enfatizada", "enfermada", "enfiestada", "enfilada", "enflaquecida", "enfocada", "enfrascada", "enfrentada", "enfriada", "enfurecida", "engalanada", "engañada", "enganchada", "engarzada", "engatusada", "engendrada", "englobada", "engolosinada", "engordada", "engranada", "engrandecida", "engrasada", "engreída", "engrosada", "engullida", "enharinada", "enhebrada", "enjuagada", "enjugada", "enjuiciada", "enlazada", "enlistada", "enlodada", "enloquecida", "enlozada", "enlutada", "enmarañada", "enmascarada", "enmendada", "enmohecida", "enmudecida", "ennegrecida", "ennoblecida", "enorgullecida", "enrarecida", "enredada", "enripiada", "enriquecida", "enrocada", "enrojecida", "enrolada", "enrollada", "enroscada", "enrumbada", "ensalzada", "ensamblada", "ensañada", "ensanchada", "ensartada", "ensayada", "ensebada", "enseñada", "enseñoreada", "ensillada", "ensoberbecida", "ensogada", "ensombrecida", "ensoñada", "ensordecida", "ensuciada", "entablada", "entallada", "entendida", "enterada", "enternecida", "enterrada", "entibiada", "entintada", "entonada", "entorpecida", "entrada", "entrampada", "entrañada", "entreabierta", "entrecomillada", "entrecruzada", "entregada", "entrelazada", "entremetida", "entremezclada", "entrenada", "entresacada", "entretejida", "entretenida", "entreverada", "entrevistada", "entristecida", "entrometida", "entronada", "entroncada", "entronizada", "entumecida", "enturbiada", "entusiasmada", "enumerada", "enunciada", "envainada", "envalentonada", "envanecida", "envasada", "envejecida", "envenenada", "envestida", "enviada", "enviciada", "envidiada", "envilecida", "enviudada", "envuelta", "enzarzada", "equilibrada", "equiparada", "equivocada", "erigida", "erizada", "erogada", "erosionada", "erotizada", "erradicada", "errada", "esbozada", "escabullida", "escalada", "escaldada", "escalfada", "escamada", "escamoteada", "escampada", "escandalizada", "escaneada", "escapada", "escaqueada", "escarbada", "escarchada", "escarmentada", "escarnecida", "escaseada", "escatimada", "escenificada", "escindida", "esclarecida", "esclavizada", "escocida", "escogida", "escolarizada", "escoltada", "escondida", "escorada", "escrachada", "escrita", "escrutada", "escuchada", "escudada", "escudriñada", "esculpida", "escupida", "escurrida", "esforzada", "esfumada", "esgrimida", "esmerada", "esmerilada", "espabilada", "espaciada", "españolizada", "espantada", "esparcida", "especificada", "especulada", "esperada", "espesada", "espetada", "espiada", "espigada", "espinada", "espirada", "espiritualizada", "espoleada", "espolvoreada", "esponjada", "esponsorizada", "esposada", "esquematizada", "esquiada", "esquilada", "esquilmada", "esquivada", "estabilizada", "establecida", "estacionada", "estafada", "estallada", "estampada", "estancada", "estaqueada", "estatizada", "estatuida", "esterificada", "esterilizada", "estigmatizada", "estilizada", "estimada", "estimulada", "estipulada", "estirada", "estorbada", "estornudada", "estragada", "estrangulada", "estrechada", "estrellada", "estremecida", "estrenada", "estresada", "estriada", "estropeada", "estructurada", "estrujada", "estudiada", "eternizada", "etiquetada", "evacuada", "evadida", "evaluada", "evangelizada", "evaporada", "evidenciada", "eviscerada", "evitada", "evocada", "evolucionada", "exacerbada", "exagerada", "exaltada", "examinada", "exasperada", "excarcelada", "excavada", "excedida", "exceptuada", "excitada", "exclamada", "excluida", "excretada", "exculpada", "excusada", "execrada", "exhalada", "exhibida", "exhortada", "exhumada", "exigida", "exilada", "eximida", "existida", "exonerada", "exorcizada", "expandida", "expedida", "expedientada", "expelida", "expendida", "experimentada", "expiada", "expirada", "explayada", "explicada", "explicitada", "explorada", "explosionada", "explotada", "expoliada", "exportada", "expresada", "exprimida", "expropiada", "expuesta", "expulsada", "expurgada", "extendida", "exteriorizada", "exterminada", "externada", "externalizada", "extinguida", "extirpada", "extorsionada", "extractada", "extraditada", "extraída", "extralimitada", "extrañada", "extrapolada", "extraviada", "extremada", "extruida", "exudada", "eyaculada", "eyectada", "fabricada", "fabulada", "facilitada", "facturada", "facultada", "fagocitada", "fajada", "fallada", "fallecida", "falsada", "falseada", "falsificada", "familiarizada", "fantaseada", "fascinada", "fastidiada", "fatigada", "favorecida", "fecundada", "felicitada", "feminizada", "fenecida", "fermentada", "fertilizada", "festejada", "fiada", "fichada", "fidelizada", "figurada", "fijada", "filmada", "filosofada", "filtrada", "finalizada", "financiada", "fincada", "fingida", "finiquitada", "firmada", "fiscalizada", "fisurada", "flagelada", "flameada", "flanqueada", "flaqueada", "fletada", "flexibilizada", "flexionada", "flipada", "floreada", "florecida", "flotada", "fluctuada", "focalizada", "fogueada", "foliada", "follada", "fomentada", "fondeada", "forcejeada", "forestada", "forjada", "formada", "formalizada", "formateada", "formulada", "fornicada", "forrada", "fortalecida", "forzada", "fotocopiada", "fotografiada", "fracasada", "fraccionada", "fracturada", "fragmentada", "fraguada", "franqueada", "frecuentada", "fregada", "frenada", "fresada", "friccionada", "frotada", "fructificada", "fruncida", "fugada", "fulminada", "fumada", "fumigada", "funcionada", "fundada", "fundamentada", "fundida", "fungida", "fusilada", "fusionada", "fustigada", "gafada", "ganada", "gangrenada", "garabateada", "garantida", "garantizada", "garrida", "gaseada", "gastada", "gemida", "generada", "generalizada", "gerenciada", "germinada", "gestada", "gestionada", "girada", "glorificada", "glosada", "gobernada", "goleada", "golpeada", "gozada", "grabada", "graduada", "graficada", "granjeada", "grapada", "gratificada", "gravada", "gravitada", "gritada", "gruñida", "guardada", "guarecida", "guarnecida", "guerreada", "guiada", "guillotinada", "guiñada", "guindada", "guisada", "gustada", "habilitada", "habitada", "habituada", "hablada", "halada", "halagada", "hallada", "hartada", "hechizada", "hecha", "helenizada", "henchida", "hendida", "heredada", "herida", "hermanada", "herrada", "hervida", "hibernada", "hibridada", "hidratada", "higienizada", "hilada", "hilvanada", "hincada", "hinchada", "hipnotizada", "hipotecada", "historiada", "hojeada", "holgada", "hollada", "homenajeada", "homogeneizada", "homologada", "honrada", "horadada", "horneada", "horrorizada", "hospedada", "hostigada", "hostilizada", "huida", "humanada", "humanizada", "humectada", "humedecida", "humillada", "hundida", "hurgada", "hurtada", "ideada", "idealizada", "identificada", "ideologizada", "idiotizada", "idolatrada", "ignorada", "igualada", "ilegalizada", "iluminada", "ilusionada", "ilustrada", "imaginada", "imbricada", "imitada", "impactada", "impartida", "impedida", "impelida", "imperada", "impermeabilizada", "implantada", "implementada", "implicada", "implorada", "importada", "importunada", "imposibilitada", "impresionada", "improvisada", "impuesta", "impugnada", "impulsada", "imputada", "inaugurada", "incautada", "incendiada", "incentivada", "incinerada", "incitada", "inclinada", "incluida", "incoada", "incomodada", "incorporada", "incrementada", "increpada", "incriminada", "incubada", "inculcada", "inculpada", "incumplida", "incurrida", "incursionada", "indagada", "indemnizada", "independizada", "indexada", "indicada", "indigestada", "indignada", "indispuesta", "individuada", "inducida", "indultada", "inervada", "infamada", "infartada", "infectada", "inferida", "inficionada", "infiltrada", "inflada", "inflamada", "infligida", "influenciada", "influida", "informada", "infravalorada", "infringida", "infundida", "ingeniada", "ingerida", "ingresada", "inhabilitada", "inhalada", "inhibida", "inhumada", "iniciada", "inicializada", "injertada", "injuriada", "inmigrada", "inmiscuida", "inmolada", "inmortalizada", "inmovilizada", "inmunizada", "innovada", "inoculada", "inquietada", "inquirida", "insensibilizada", "insertada", "insinuada", "insistida", "inspeccionada", "inspirada", "instada", "instalada", "instaurada", "instigada", "instituida", "instruida", "instrumentada", "instrumentalizada", "insuflada", "insultada", "insumida", "integrada", "intelectualizada", "intensificada", "intentada", "interactuada", "intercalada", "intercambiada", "intercedida", "interceptada", "interesada", "interferida", "interiorizada", "intermediada", "internacionalizada", "internalizada", "interpelada", "interpolada", "interpretada", "interpuesta", "interrogada", "interrumpida", "intervenida", "intimada", "intimidada", "intitulada", "intoxicada", "intrigada", "introducida", "intuida", "inundada", "inutilizada", "invadida", "invalidada", "inventada", "inventariada", "invertida", "investida", "investigada", "invitada", "invocada", "involucionada", "inyectada", "ionizada", "ironizada", "irradiada", "irrespetada", "irrigada", "irritada", "irrogada", "irrumpida", "jactada", "jalada", "jaleada", "jalonada", "jaqueada", "jerarquizada", "jodida", "jorobada", "jubilada", "jugada", "juntada", "jurada", "juramentada", "justificada", "juzgada", "laborada", "labrada", "laburada", "lacada", "lacerada", "lactada", "ladeada", "ladrada", "lamentada", "lamida", "laminada", "languidecida", "lanzada", "lapidada", "laqueada", "largada", "lastimada", "lastrada", "latida", "laudada", "lavada", "legalizada", "legislada", "legitimada", "leída", "lesionada", "leudada", "levantada", "liada", "liberada", "liberalizada", "libertada", "librada", "licitada", "licuada", "liderizada", "lidiada", "ligada", "lijada", "limada", "limitada", "limpiada", "linchada", "liquidada", "litigada", "llagada", "llamada", "llegada", "llenada", "llevada", "llorada", "localizada", "lograda", "lubricada", "luchada", "lucida", "lucrada", "lustrada", "macerada", "machacada", "macheteada", "machucada", "madreada", "madrugada", "madurada", "magnetizada", "magnificada", "malacostumbrada", "malbaratada", "malcriada", "maleada", "malentendida", "malgastada", "malinterpretada", "malograda", "maltratada", "malversada", "mamada", "manchada", "mancillada", "mandada", "manejada", "mangada", "mangoneada", "manifestada", "maniobrada", "manipulada", "manoseada", "manteada", "mantenida", "manufacturada", "maquillada", "maquinada", "maravillada", "marcada", "marchitada", "mareada", "marginada", "maridada", "martillada", "martirizada", "masacrada", "masajeada", "mascada", "masificada", "masticada", "masturbada", "matada", "materializada", "matizada", "matriculada", "maximizada", "meada", "mecanografiada", "mechada", "mecida", "mediada", "mediatizada", "medicada", "medida", "meditada", "medrada", "mejorada", "mellada", "memorizada", "mencionada", "meneada", "menguada", "menoscabada", "menospreciada", "menstruada", "mensualizada", "mensurada", "mentada", "mentalizada", "mentida", "mercadeada", "mercantilizada", "merecida", "merendada", "mermada", "merodeada", "mesurada", "metamorfoseada", "metida", "mezclada", "migrada", "militada", "militarizada", "mimada", "mimetizada", "minada", "minimizada", "ministrada", "minusvalorada", "mirada", "mistificada", "mitificada", "mitigada", "modelada", "modernizada", "modificada", "modulada", "mofada", "mojada", "moldeada", "molestada", "molida", "monetizada", "monitorizada", "monopolizada", "montada", "morada", "moralizada", "mordida", "mordisqueada", "mortificada", "mosqueada", "mostrada", "motejada", "motivada", "movida", "movilizada", "mudada", "muestreada", "multada", "multiplicada", "munida", "murmurada", "mutada", "mutilada", "nacionalizada", "narcotizada", "narrada", "naufragada", "navegada", "necesitada", "negada", "negociada", "neutralizada", "ninguneada", "nivelada", "nombrada", "nominada", "noqueada", "normada", "normalizada", "notada", "notificada", "nutrida", "obcecada", "obedecida", "objetada", "objetivada", "obligada", "obliterada", "obnubilada", "obrada", "obsequiada", "observada", "obsesionada", "obstaculizada", "obstruida", "obtenida", "obturada", "obviada", "ocasionada", "ocluida", "ocultada", "ocupada", "odiada", "ofendida", "ofertada", "oficiada", "oficializada", "ofrecida", "ofrendada", "ofuscada", "oída", "ojeada", "olfateada", "olida", "olvidada", "omitida", "ondeada", "ondulada", "opacada", "operada", "opinada", "oprimida", "optada", "optimizada", "opuesta", "orada", "orbitada", "ordenada", "ordeñada", "organizada", "orientada", "originada", "orillada", "orinada", "ornada", "ornamentada", "orquestada", "osada", "oscilada", "oscurecida", "osificada", "ostentada", "otorgada", "ovacionada", "ovulada", "oxidada", "oxigenada", "pacificada", "pactada", "padecida", "paganizada", "paginada", "paladeada", "paliada", "palpada", "parada", "parafraseada", "paralizada", "parapetada", "parasitada", "parcelada", "parchada", "parcheada", "pareada", "parida", "parodiada", "parqueada", "participada", "particularizada", "partida", "pasada", "paseada", "pastoreada", "pataleada", "pateada", "patentada", "patentizada", "patinada", "patrullada", "pecada", "pedaleada", "pedida", "pegada", "peinada", "pellizcada", "penalizada", "penetrada", "pensada", "percatada", "percibida", "percutida", "perdida", "perdonada", "perdurada", "perecida", "peregrinada", "perfeccionada", "perfilada", "perforada", "perfumada", "pergeñada", "peritada", "perjudicada", "perjurada", "permeada", "permitida", "permutada", "pernoctada", "perpetrada", "perpetuada", "perseguida", "perseverada", "persistida", "personada", "personalizada", "personificada", "persuadida", "pertenecida", "pertrechada", "perturbada", "pervertida", "pervivida", "pescada", "petada", "peticionada", "picada", "picaneada", "picoteada", "pifiada", "pignorada", "pillada", "pilotada", "piloteada", "pincelada", "pinchada", "pintada", "pintarrajeada", "pinzada", "pirada", "pirateada", "pisada", "pisoteada", "pitada", "placida", "plagiada", "planchada", "planeada", "plantada", "planteada", "plasmada", "platicada", "plegada", "pluralizada", "podada", "poetizada", "polemizada", "politizada", "pololeada", "ponderada", "pontificada", "popularizada", "porfiada", "portada", "porteada", "posada", "posesionada", "posibilitada", "posicionada", "pospuesta", "posteada", "postergada", "postrada", "postulada", "potenciada", "practicada", "precarizada", "precedida", "preceptuada", "precintada", "precipitada", "precisada", "preconizada", "predicada", "predicha", "predispuesta", "predominada", "preferida", "prefigurada", "pregonada", "preguntada", "prejuzgada", "premiada", "prendada", "prendida", "preocupada", "preparada", "presagiada", "prescindida", "presenciada", "presentada", "presentida", "preservada", "presidida", "presionada", "prestada", "prestigiada", "presumida", "presurizada", "pretendida", "preterida", "prevalecida", "prevalida", "prevaricada", "prevenida", "prevista", "primada", "principiada", "pringada", "priorizada", "privatizada", "probada", "problematizada", "procedida", "procesada", "proclamada", "procreada", "procurada", "prodigada", "producida", "profanada", "proferida", "profesada", "profesionalizada", "profetizada", "profundizada", "programada", "progresada", "prohibida", "prohijada", "proletarizada", "proliferada", "prologada", "prolongada", "promediada", "prometida", "promocionada", "promovida", "promulgada", "pronosticada", "pronunciada", "propagada", "propalada", "propendida", "propiciada", "propinada", "proporcionada", "propuesta", "propugnada", "propulsada", "prorrateada", "prorrogada", "proseguida", "prosperada", "prostituida", "protegida", "protestada", "protocolizada", "provenida", "provocada", "proyectada", "psicoanalizada", "publicada", "publicitada", "puesta", "pugnada", "pujada", "pulida", "pulsada", "pululada", "pulverizada", "punada", "punteada", "puntuada", "puntualizada", "punzada", "purgada", "purificada", "puteada", "quebrada", "quebrantada", "quejada", "quemada", "querellada", "querida", "quintuplicada", "quitada", "racionada", "racionalizada", "radiada", "radicada", "radicalizada", "raída", "rajada", "ralentizada", "rapada", "rapeada", "raptada", "rascada", "rasgada", "rasguñada", "raspada", "rastreada", "rasurada", "ratificada", "rayada", "razonada", "reabierta", "reabsorbida", "reaccionada", "reactivada", "readaptada", "readmitida", "reafirmada", "reagrupada", "reajustada", "realimentada", "realizada", "realzada", "reanimada", "reanudada", "reaparecida", "rearmada", "reasumida", "reavivada", "rebajada", "rebalsada", "rebanada", "rebasada", "rebatida", "rebautizada", "rebelada", "reblandecida", "rebobinada", "rebosada", "rebotada", "rebozada", "rebuscada", "recabada", "recaída", "recalada", "recalcada", "recalentada", "recalificada", "recapacitada", "recapitulada", "recargada", "recatada", "recaudada", "receptada", "recetada", "rechazada", "recibida", "reciclada", "recitada", "reclamada", "reclinada", "reclutada", "recobrada", "recocida", "recogida", "recolectada", "recomendada", "recomenzada", "recompensada", "recompuesta", "reconcentrada", "reconciliada", "reconducida", "reconfortada", "reconocida", "reconquistada", "reconsiderada", "reconstituida", "reconstruida", "reconvenida", "reconvertida", "recopilada", "recordada", "recorrida", "recortada", "recreada", "recriminada", "recrudecida", "rectificada", "recubierta", "reculada", "recuperada", "recurrida", "recusada", "redactada", "redefinida", "redescubierta", "redimensionada", "redimida", "rediseñada", "redistribuida", "redituada", "redoblada", "redondeada", "reducida", "redundada", "reedificada", "reeditada", "reeducada", "reelaborada", "reembolsada", "reemplazada", "reencarnada", "reencauchada", "reencontrada", "reenganchada", "reenviada", "reescrita", "reestructurada", "reexaminada", "refaccionada", "referida", "refinada", "refinanciada", "reflejada", "reflexionada", "reflotada", "reforestada", "reformada", "reforzada", "refractada", "refrenada", "refrendada", "refrescada", "refrigerada", "refundida", "refutada", "regada", "regalada", "regañada", "regateada", "regenerada", "regentada", "regenteada", "regida", "regionalizada", "registrada", "reglada", "reglamentada", "regocijada", "regodeada", "regresada", "regulada", "regularizada", "regurgitada", "rehabilitada", "rehecha", "rehogada", "rehuida", "rehusada", "reída", "reinada", "reincidida", "reincorporada", "reingresada", "reiniciada", "reinsertada", "reinstalada", "reinstaurada", "reintegrada", "reinventada", "reinvertida", "reiterada", "reivindicada", "rejuvenecida", "relajada", "relamida", "relanzada", "relatada", "relativizada", "relegada", "releída", "relevada", "religada", "rellenada", "remachada", "remada", "remangada", "remarcada", "rematada", "remecida", "remediada", "rememorada", "remendada", "remitida", "remodelada", "remojada", "remolcada", "remontada", "removida", "remplazada", "renacida", "rendida", "renegada", "renegociada", "reñida", "renombrada", "renovada", "rentabilizada", "rentada", "renunciada", "reordenada", "reorganizada", "reorientada", "reparada", "repartida", "repasada", "repatriada", "repelida", "repensada", "repercutida", "repescada", "repetida", "repicada", "repintada", "replanteada", "replegada", "replicada", "repoblada", "reportada", "reporteada", "reposada", "repreguntada", "reprendida", "represada", "representada", "reprimida", "reprobada", "reprochada", "reproducida", "repudiada", "repuesta", "repugnada", "repuntada", "reputada", "requerida", "requisada", "resaltada", "resarcida", "resbalada", "rescatada", "rescindida", "resecada", "reseñada", "reservada", "reseteada", "resguardada", "residida", "resignada", "resistida", "resonada", "respaldada", "respetada", "respirada", "resplandecida", "respondida", "responsabilizada", "resquebrajada", "restablecida", "restada", "restaurada", "restituida", "restregada", "resucitada", "resuelta", "resumida", "resurgida", "retada", "retardada", "retenida", "retirada", "retocada", "retomada", "retorcida", "retornada", "retractada", "retraída", "retransmitida", "retrasada", "retratada", "retribuida", "retrotraída", "retumbada", "reunida", "reunificada", "reutilizada", "revalidada", "revalorizada", "revaluada", "revelada", "revendida", "reventada", "reverdecida", "reverenciada", "revertida", "revestida", "revirada", "revisada", "revitalizada", "revivida", "revocada", "revolcada", "revoloteada", "revolucionada", "revuelta", "ridiculizada", "rifada", "rimada", "rivalizada", "rizada", "robada", "robustecida", "rociada", "rodada", "rodeada", "rogada", "roída", "rondada", "rotada", "rota", "rotulada", "roturada", "rozada", "ruborizada", "rubricada", "rugida", "rumiada", "rumorada", "sabida", "saboreada", "saboteada", "sacada", "saciada", "sacralizada", "sacrificada", "sacudida", "saldada", "salpimentada", "salpullida", "saltada", "salteada", "saludada", "salvada", "salvaguardada", "sanada", "saneada", "sangrada", "santificada", "saqueada", "satanizada", "satirizada", "satisfecha", "sazonada", "secada", "seccionada", "secretada", "secuenciada", "secuestrada", "secundada", "sedimentada", "seducida", "segada", "segmentada", "segregada", "seguida", "seleccionada", "sembrada", "señalada", "sensibilizada", "sentada", "sentenciada", "sentida", "separada", "serenada", "serrada", "servida", "significada", "silenciada", "simbolizada", "simpatizada", "simplificada", "simulada", "sincerada", "sincronizada", "sindicada", "sindicalizada", "singularizada", "sintetizada", "sintonizada", "sistematizada", "situada", "sobada", "sobornada", "sobrada", "sobrecargada", "sobrecogida", "sobreentendida", "sobreestimada", "sobrellevada", "sobrentendida", "sobrepasada", "sobrepuesta", "sobresalida", "sobresaltada", "sobrestimada", "sobrevenida", "sobrevivida", "sobrevolada", "socavada", "socializada", "socorrida", "sodomizada", "sofocada", "sojuzgada", "solapada", "solicitada", "solidarizada", "solidificada", "soliviantada", "soltada", "solucionada", "solventada", "sombreada", "sometida", "sonada", "soñada", "sondeada", "sonreída", "sonrojada", "sopesada", "soplada", "soportada", "sorbida", "sorprendida", "sorteada", "sosegada", "soslayada", "sospechada", "sostenida", "suavizada", "subastada", "subcontratada", "subdividida", "subestimada", "subida", "sublevada", "sublimada", "subrayada", "subrogada", "subsanada", "subsidiada", "subsistida", "substraída", "subsumida", "subvertida", "subyugada", "succionada", "sucedida", "sucumbida", "sudada", "sufragada", "sufrida", "sugerida", "sugestionada", "suicidada", "sujetada", "sumada", "sumergida", "suministrada", "supeditada", "superada", "superpuesta", "supervisada", "suplantada", "suplicada", "suplida", "suprimida", "supuesta", "surcada", "surtida", "suscitada", "suspendida", "suspirada", "sustanciada", "sustantivada", "sustentada", "sustituida", "sustraída", "susurrada", "suturada", "tabulada", "tachada", "talada", "taladrada", "tallada", "tambaleada", "tamizada", "tañida", "tanteada", "tapada", "tapizada", "taponada", "tarareada", "tardada", "tasada", "tatuada", "tecleada", "tejida", "telefoneada", "televisada", "temida", "templada", "tendida", "tenida", "tensada", "tentada", "teorizada", "terciada", "tergiversada", "terminada", "territorializada", "testada", "testeada", "testificada", "testimoniada", "tildada", "timada", "timbrada", "tinturada", "tipeada", "tipificada", "tirada", "tiranizada", "tironeada", "tiroteada", "titubeada", "tiznada", "tocada", "tolerada", "tomada", "tonificada", "topada", "toqueteada", "torcida", "toreada", "tornada", "tornasolada", "torneada", "torpedeada", "torturada", "tosida", "tostada", "totalizada", "trabada", "trabajada", "traducida", "traficada", "tragada", "traicionada", "traída", "trajinada", "tramada", "tramitada", "trancada", "tranquilizada", "transcendida", "transcurrida", "transferida", "transfigurada", "transformada", "transfundida", "transgredida", "transigida", "transitada", "transliterada", "translucida", "transmitida", "transmutada", "transparentada", "transpirada", "transportada", "transpuesta", "trasegada", "trasgredida", "trasladada", "traslapada", "traslucida", "trasnochada", "traspapelada", "traspasada", "trasplantada", "traspuesta", "trasquilada", "trasteada", "trastocada", "trastornada", "trasvasada", "tratada", "trazada", "trenzada", "trepada", "tributada", "trincada", "triplicada", "triturada", "triunfada", "trivializada", "trocada", "troceada", "tronada", "tronchada", "truncada", "tumbada", "tuneada", "turbada", "turnada", "tutelada", "ufanada", "ultimada", "uncida", "ungida", "unida", "universalizada", "untada", "urbanizada", "urdida", "usada", "usufructuada", "usurpada", "utilizada", "vacada", "vaciada", "vacilada", "vacunada", "vagada", "validada", "valida", "valorada", "valorizada", "valuada", "vanagloriada", "vandalizada", "vaporizada", "variada", "vaticinada", "vedada", "vehiculada", "vejada", "velada", "vencida", "vendada", "vendida", "venerada", "vengada", "ventilada", "veraneada", "verbalizada", "verificada", "versada", "versionada", "vertebrada", "vertida", "vestida", "vetada", "viabilizada", "viajada", "vibrada", "victimada", "victimizada", "vigilada", "vigorizada", "vilipendiada", "vindicada", "violada", "violentada", "virada", "visada", "visibilizada", "visitada", "vislumbrada", "vista", "visualizada", "vitoreada", "vitrificada", "vituperada", "vivida", "vivificada", "vocalizada", "voceada", "vociferada", "volada", "volatilizada", "volcada", "volteada", "vomitada", "votada", "vuelta", "vulcanizada", "vulgarizada", "vulnerada", "yuxtapuesta", "zafada", "zambullida", "zampada", "zanjada", "zarandeada", "zarpada", "zozobrada", "zumbada", "zurcida", "zurrada", "abajados", "abalanzados", "abaleados", "abandonados", "abaratados", "abarcados", "abarrotados", "abastecidos", "abatidos", "abdicados", "abiertos", "abismados", "abjurados", "ablandados", "abocados", "abochornados", "abofeteados", "abolidos", "abollados", "abombados", "abominados", "abonados", "abordados", "aborrecidos", "aborregados", "abortados", "abotonados", "abrasados", "abrazados", "abrevados", "abreviados", "abrigados", "abrochados", "abrogados", "abroquelados", "abrumados", "absorbidos", "abstenidos", "abstraídos", "absueltos", "abucheados", "abultados", "abundados", "aburguesados", "aburridos", "abusados", "acabados", "acallados", "acalorados", "acaparados", "acariciados", "acarreados", "acatados", "acaudillados", "accedidos", "accionados", "acechados", "aceitados", "acelerados", "acentuados", "aceptados", "acerados", "acercados", "acertados", "achacados", "achantados", "achatados", "achicados", "acicalados", "acidificados", "aclarados", "aclimatados", "acobardados", "acodados", "acogidos", "acojonados", "acometidos", "acomodados", "acompañados", "acompasados", "acongojados", "aconsejados", "acontecidos", "acopiados", "acoplados", "acordados", "acordonados", "acorralados", "acortados", "acosados", "acostados", "acostumbrados", "acotados", "acrecentados", "acreditados", "acrisolados", "activados", "actuados", "acuchillados", "acuciados", "acudidos", "acuerpados", "acumulados", "acunados", "acuñados", "acurrucados", "acusados", "adaptados", "adecentados", "adelantados", "adelgazados", "adentrados", "adeudados", "adheridos", "adicionados", "adiestrados", "adivinados", "adjetivados", "adjudicados", "adjuntados", "administrados", "admirados", "admitidos", "adoctrinados", "adolecidos", "adoptados", "adorados", "adormecidos", "adornados", "adquiridos", "aducidos", "adueñados", "adulados", "adulterados", "advertidos", "afanados", "afeados", "afectados", "afeitados", "aferrados", "afianzados", "afinados", "afirmados", "afligidos", "aflorados", "afrentados", "afrontados", "agachados", "agarrados", "agarrotados", "agasajados", "agenciados", "agigantados", "agilizados", "agitados", "aglutinados", "agobiados", "agolpados", "agonizados", "agostados", "agotados", "agradados", "agradecidos", "agrandados", "agravados", "agraviados", "agredidos", "agregados", "agriados", "agrietados", "agrupados", "aguados", "aguantados", "aguardados", "agudizados", "aguijoneados", "agujereados", "aguzados", "ahogados", "ahondados", "ahorcados", "ahorrados", "ahuecados", "ahuyentados", "aireados", "aislados", "ajustados", "ajusticiados", "alabados", "alagados", "alambrados", "alardeados", "alargados", "alarmados", "albergados", "alborotados", "alcanzados", "aleccionados", "alegados", "alegrados", "alejados", "alentados", "alertados", "alfabetizados", "alfombrados", "aliados", "alienados", "aligerados", "alimentados", "aliñados", "alineados", "alisados", "alistados", "aliviados", "alivianados", "allanados", "almacenados", "almorzados", "alojados", "alquilados", "alterados", "alternados", "alucinados", "aludidos", "alumbrados", "alzados", "amados", "amaestrados", "amagados", "amainados", "amalgamados", "amamantados", "amansados", "amargados", "amarrados", "amasados", "ambicionados", "amedrentados", "amenazados", "amenizados", "ameritados", "ametrallados", "amilanados", "aminorados", "amnistiados", "amoldados", "amonestados", "amontonados", "amordazados", "amortajados", "amortiguados", "amortizados", "amotinados", "amparados", "ampayados", "ampliados", "amplificados", "amputados", "amueblados", "añadidos", "analizados", "anatematizados", "andados", "anegados", "anestesiados", "anexados", "anexionados", "anhelados", "anidados", "anillados", "animados", "aniquilados", "anisados", "añorados", "anotados", "anoticiados", "ansiados", "antecedidos", "antepuestos", "anticipados", "antojados", "anudados", "anulados", "anunciados", "apabullados", "apachurrados", "apaciguados", "apadrinados", "apagados", "apalancados", "apaleados", "apañados", "apantallados", "aparcados", "apareados", "aparecidos", "aparentados", "apartados", "apeados", "apedreados", "apelados", "apellidados", "apelmazados", "apercibidos", "apersonados", "apestados", "apetecidos", "apiadados", "apilados", "apiñados", "apisonados", "aplacados", "aplanados", "aplastados", "aplaudidos", "aplazados", "aplicados", "apoderados", "apoltronados", "aporreados", "aportados", "aposentados", "apostados", "apostatados", "apostillados", "apoyados", "apreciados", "aprehendidos", "apremiados", "aprendidos", "apresados", "apresurados", "apretados", "apretujados", "aprisionados", "aprobados", "aprovechados", "aprovisionados", "aproximados", "apuñalados", "apuñaleados", "apuntados", "apuntalados", "apuntillados", "apurados", "aquejados", "aquietados", "aquilatados", "arañados", "arbitrados", "archivados", "arengados", "argüidos", "argumentados", "armados", "armonizados", "aromatizados", "arqueados", "arrancados", "arrasados", "arrastrados", "arreados", "arrebatados", "arreciados", "arreglados", "arrellanados", "arremangados", "arremetidos", "arrendados", "arrepentidos", "arrestados", "arriados", "arribados", "arriesgados", "arrimados", "arrinconados", "arrodillados", "arrogados", "arrojados", "arrollados", "arropados", "arruinados", "arrullados", "articulados", "asados", "asaltados", "ascendidos", "aseados", "asechados", "asediados", "asegurados", "asemejados", "asentados", "asentidos", "aserrados", "asesinados", "asesorados", "asestados", "aseverados", "asfixiados", "asidos", "asignados", "asilados", "asimilados", "asistidos", "asolados", "asoleados", "asomados", "asombrados", "aspirados", "astillados", "asumidos", "asustados", "atacados", "atados", "atajados", "atarantados", "atascados", "atemorizados", "atemperados", "atenazados", "atendidos", "atenidos", "atentados", "atenuados", "aterrados", "aterrorizados", "atesorados", "atestiguados", "atiborrados", "atisbados", "atizados", "atomizados", "atontados", "atorados", "atormentados", "atornillados", "atosigados", "atracados", "atragantados", "atraídos", "atrancados", "atrapados", "atrasados", "atravesados", "atrevidos", "atribuidos", "atrincherados", "atrofiados", "atropellados", "aturdidos", "auditados", "augurados", "aumentados", "aunados", "aupados", "auscultados", "ausentados", "autenticados", "autentificados", "autodefinidos", "autoeditados", "automatizados", "autorizados", "autorregulados", "auxiliados", "avalados", "avanzados", "avasallados", "avenidos", "aventados", "aventajados", "aventurados", "averiados", "averiguados", "avezados", "avisados", "avispados", "avistados", "avivados", "avizorados", "avocados", "ayudados", "azotados", "azuzados", "babeados", "bailados", "bajados", "balaceados", "balanceados", "bañados", "banalizados", "bancados", "bandeados", "barajados", "barridos", "basados", "bastardeados", "basureados", "batallados", "bateados", "batidos", "bautizados", "beatificados", "bebidos", "beneficiados", "besados", "bifurcados", "birlados", "blandidos", "blanqueados", "blasfemados", "blindados", "bloqueados", "boicoteados", "bombardeados", "bombeados", "bonificados", "bordeados", "borrados", "borroneados", "bosquejados", "bostezados", "botados", "boxeados", "bregados", "brillados", "brincados", "brindados", "bromeados", "brotados", "bruñidos", "buceados", "burlados", "buscados", "cabeceados", "cabidos", "cabildeados", "cabreados", "cacareados", "cachados", "cacheados", "cacheteados", "caducados", "cagados", "calados", "calculados", "caldeados", "calefaccionados", "calendarizados", "calentados", "calibrados", "calificados", "caligrafiados", "callados", "calmados", "calumniados", "calzados", "cambiados", "caminados", "camuflados", "canalizados", "cancelados", "canjeados", "cansados", "cantados", "capados", "capeados", "capitalizados", "capitulados", "captados", "capturados", "caracterizados", "carburados", "carcomidos", "cardados", "careados", "carecidos", "cargados", "caricaturizados", "cartografiados", "cascados", "castigados", "castrados", "catados", "catalizados", "catalogados", "catapultados", "cateados", "categorizados", "causados", "cauterizados", "cautivados", "cavados", "cavilados", "cazados", "cebados", "cedidos", "cegados", "cejados", "celebrados", "cenados", "ceñidos", "censurados", "centrifugados", "centuplicados", "cepillados", "cercados", "cercenados", "cerciorados", "cernidos", "cerrados", "cesados", "chafados", "chamuscados", "chantajeados", "chapados", "charlados", "chateados", "chequeados", "chiflados", "chillados", "chingados", "chirriados", "chivados", "chocados", "chorreados", "choteados", "chupados", "chutados", "cicatrizados", "cifrados", "cimentados", "cincelados", "circulados", "circuncidados", "circundados", "citados", "clamados", "clarificados", "clasificados", "claudicados", "clausurados", "clavados", "clicados", "clonados", "coaccionados", "coadyuvados", "coagulados", "coaligados", "coartados", "cobijados", "cobrados", "cocidos", "cocinados", "codeados", "codiciados", "codificados", "codirigidos", "coexistidos", "cofinanciados", "cogidos", "cohabitados", "cohibidos", "coincididos", "colaborados", "colacionados", "colados", "colapsados", "coleccionados", "colectados", "colectivizados", "colgados", "colisionados", "colmados", "colocados", "colonizados", "coloreados", "columpiados", "combatidos", "combinados", "comentados", "comenzados", "comerciados", "comercializados", "cometidos", "comidos", "comisionados", "compactados", "compadecidos", "compaginados", "comparados", "comparecidos", "compartidos", "compatibilizados", "compelidos", "compendiados", "compenetrados", "compensados", "compilados", "complacidos", "complementados", "completados", "complotados", "comportados", "comprados", "comprendidos", "comprimidos", "comprobados", "comprometidos", "compuestos", "compulsados", "computados", "comulgados", "comunicados", "concatenados", "concebidos", "concedidos", "concelebrados", "concentrados", "conceptuados", "conceptualizados", "concertados", "concienciados", "concientizados", "conciliados", "concitados", "concluidos", "concordados", "concretados", "concretizados", "conculcados", "concursados", "condenados", "condensados", "condicionados", "condimentados", "condolidos", "condonados", "conducidos", "conectados", "conexionados", "confabulados", "confeccionados", "conferidos", "confesados", "confiados", "configurados", "confirmados", "confiscados", "confluidos", "conformados", "confortados", "confrontados", "confundidos", "congeniados", "congestionados", "congratulados", "congregados", "conjeturados", "conjugados", "conjuntados", "conjurados", "conllevados", "conmemorados", "conminados", "conmocionados", "conmovidos", "conmutados", "connotados", "conquistados", "consagrados", "conseguidos", "consensuados", "consentidos", "conservados", "considerados", "consignados", "consistidos", "consolados", "consolidados", "conspirados", "constados", "constatados", "constelados", "constitucionalizados", "constituidos", "constreñidos", "construidos", "consultados", "consumados", "consumidos", "contabilizados", "contactados", "contados", "contagiados", "contemplados", "contendidos", "contenidos", "contentados", "contestados", "contextualizados", "continuados", "contorneados", "contraatacados", "contrabandeados", "contradichos", "contrahechos", "contraídos", "contrapesados", "contrapuestos", "contrariados", "contrarrestados", "contrastados", "contratados", "contravenidos", "contribuidos", "contristados", "controlados", "convalidados", "convencidos", "convenidos", "convergidos", "conversados", "convertidos", "convidados", "convividos", "convocados", "convulsionados", "cooperados", "cooptados", "coordinados", "copados", "copiados", "coproducidos", "copulados", "coqueteados", "corchados", "coreados", "coreografiados", "corneados", "coronados", "corporizados", "corregidos", "correlacionados", "correspondidos", "correteados", "corridos", "corroborados", "corroídos", "corrompidos", "cortados", "cortejados", "cosechados", "cosidos", "cosificados", "costados", "costeados", "cotejados", "cotizados", "creados", "creídos", "criados", "cribados", "criminalizados", "crispados", "cristalizados", "cristianizados", "criticados", "cronometrados", "crucificados", "crujidos", "cruzados", "cuadriplicados", "cuadruplicados", "cuajados", "cuantificados", "cuarteados", "cubiertos", "cuestionados", "cuidados", "culeados", "culminados", "culpabilizados", "culpados", "cultivados", "culturizados", "cumplidos", "cumplimentados", "cundidos", "curados", "curioseados", "currados", "cursados", "curvados", "custodiados", "dados", "dañados", "danzados", "datados", "dateados", "debatidos", "debidos", "debilitados", "debitados", "debutados", "decaídos", "decantados", "decapitados", "decepcionados", "decididos", "declamados", "declarados", "declinados", "decodificados", "decolorados", "decomisados", "decrecidos", "decretados", "dedicados", "deducidos", "defecados", "defendidos", "defenestrados", "deferidos", "definidos", "deformados", "defraudados", "degenerados", "deglutidos", "degollados", "degradados", "degustados", "deificados", "dejados", "delatados", "delegados", "deleitados", "deletreados", "deliberados", "delimitados", "delineados", "delinquidos", "demandados", "demarcados", "demediados", "demeritados", "democratizados", "demolidos", "demonizados", "demorados", "demostrados", "demudados", "denegados", "denigrados", "denominados", "denostados", "denotados", "denunciados", "deparados", "departidos", "dependidos", "depilados", "deplorados", "deportados", "depositados", "depreciados", "depredados", "deprimidos", "depuestos", "depurados", "derechizados", "derivados", "derogados", "derramados", "derretidos", "derribados", "derrocados", "derrochados", "derrotados", "derruidos", "derrumbados", "desabrochados", "desacatados", "desacelerados", "desacomodados", "desaconsejados", "desacoplados", "desacralizados", "desacreditados", "desactivados", "desafiados", "desafinados", "desaguados", "desahogados", "desairados", "desajustados", "desalentados", "desalineados", "desalojados", "desandados", "desangrados", "desanimados", "desaparecidos", "desapegados", "desaprendidos", "desaprobados", "desaprovechados", "desarmados", "desarraigados", "desarreglados", "desarrollados", "desarticulados", "desaseados", "desasidos", "desasosegados", "desatados", "desatendidos", "desautorizados", "desayunados", "desbancados", "desbandados", "desbaratados", "desbarrancados", "desbastados", "desbloqueados", "desbocados", "desbordados", "desbrozados", "descabalgados", "descabezados", "descaderados", "descalabrados", "descalificados", "descansados", "descargados", "descarriados", "descarrilados", "descartados", "descascarados", "descascarillados", "descendidos", "descentrados", "descifrados", "descocidos", "descodificados", "descojonados", "descolgados", "descolocados", "descolonizados", "descompensados", "descomprimidos", "descompuestos", "desconectados", "desconfiados", "descongelados", "desconocidos", "descontados", "descontaminados", "descontextualizados", "descontinuados", "desconvocados", "descorazonados", "descorchados", "descorridos", "descosidos", "descoyuntados", "descreídos", "descristianizados", "descuadrados", "descuartizados", "descubiertos", "descuidados", "desdeñados", "desdibujados", "desdichos", "desdoblados", "deseados", "desecados", "desechados", "desembarazados", "desembarcados", "desembocados", "desembolsados", "desempacados", "desempañados", "desempaquetados", "desempeñados", "desempolvados", "desenamorados", "desencadenados", "desencajados", "desencarnados", "desenchufados", "desenfocados", "desenfundados", "desenganchados", "desengrasados", "desenmascarados", "desenredados", "desenrollados", "desentendidos", "desenterrados", "desentonados", "desentrañados", "desenvainados", "desenvueltos", "desequilibrados", "desertados", "desestabilizados", "desestimados", "desfalcados", "desfallecidos", "desfigurados", "desfondados", "desgajados", "desgañitados", "desgarrados", "desgastados", "desglosados", "desgobernados", "desgranados", "desguazados", "deshechos", "desheredados", "deshidratados", "deshilachados", "deshojados", "deshonrados", "deshuesados", "deshumanizados", "designados", "desilusionados", "desincentivados", "desinfectados", "desinflados", "desinflamados", "desinformados", "desinhibidos", "desinstalados", "desintegrados", "desintoxicados", "desistidos", "desjarretados", "deslegitimados", "desleídos", "desligados", "deslindados", "deslizados", "deslucidos", "deslumbrados", "desmadrados", "desmalezados", "desmantelados", "desmaquillados", "desmarcados", "desmayados", "desmejorados", "desmembrados", "desmentidos", "desmenuzados", "desmerecidos", "desmigados", "desmitificados", "desmoldados", "desmontados", "desmoralizados", "desmoronados", "desmotivados", "desmovilizados", "desnaturalizados", "desnivelados", "desnucados", "desnudados", "desobedecidos", "desobligados", "desoídos", "desollados", "desorganizados", "desorientados", "despachados", "desparasitados", "desparecidos", "desparramados", "despedazados", "despedidos", "despegados", "despeinados", "despejados", "despellejados", "despeñados", "despenalizados", "desperdiciados", "despersonalizados", "despertados", "despilfarrados", "despintados", "despiojados", "despistados", "desplazados", "desplegados", "desplomados", "desplumados", "despojados", "despolitizados", "desposados", "desposeídos", "despotricados", "despreciados", "desprendidos", "despreocupados", "desprestigiados", "desprogramados", "despulpados", "despuntados", "desquiciados", "desquitados", "destacados", "destapados", "desteñidos", "desterrados", "destetados", "destilados", "destituidos", "destrabados", "destripados", "destronados", "destrozados", "destruidos", "desunidos", "desvalijados", "desvalorizados", "desvanecidos", "desvelados", "desvestidos", "desviados", "desvinculados", "desvirtuados", "desvividos", "detectados", "detenidos", "detentados", "deteriorados", "determinados", "detestados", "detonados", "devaluados", "devanados", "devastados", "develados", "devengados", "devenidos", "devorados", "devueltos", "diagnosticados", "diagramados", "dializados", "dialogados", "dibujados", "dichos", "dictados", "dictaminados", "diezmados", "difamados", "diferenciados", "diferidos", "dificultados", "difuminados", "difundidos", "digeridos", "digitados", "dignados", "dignificados", "dilapidados", "dilatados", "diligenciados", "dilucidados", "diluidos", "dimensionados", "dimitidos", "dinamitados", "dinamizados", "dirimidos", "discernidos", "disciplinados", "discontinuados", "discrepados", "discriminados", "disculpados", "discurridos", "discutidos", "diseccionados", "diseminados", "diseñados", "disentidos", "disertados", "disfrazados", "disfrutados", "disgregados", "disgustados", "disimulados", "disipados", "dislocados", "disminuidos", "disociados", "dispensados", "dispersados", "dispuestos", "disputados", "distados", "distanciados", "distendidos", "distinguidos", "distorsionados", "distraídos", "distribuidos", "disuadidos", "disueltos", "divagados", "diversificados", "divertidos", "divididos", "divinizados", "divisados", "divorciados", "divulgados", "doblados", "doblegados", "doctorados", "documentados", "dogmatizados", "dolidos", "domados", "domesticados", "dominados", "donados", "dopados", "dormidos", "dosificados", "dotados", "dragados", "dramatizados", "drenados", "drogados", "duchados", "dudados", "dulcificados", "duplicados", "durados", "echados", "eclipsados", "eclosionados", "economizados", "ecualizados", "edificados", "editados", "educados", "efectuados", "ejecutados", "ejemplificados", "ejercidos", "ejercitados", "elaborados", "electrizados", "electrocutados", "elevados", "elididos", "eliminados", "elogiados", "elucubrados", "eludidos", "emanados", "emancipados", "embadurnados", "embalados", "embalsamados", "embanderados", "embarcados", "embargados", "embarrados", "embarrancados", "embaucados", "embebidos", "embelesados", "embellecidos", "embestidos", "embolados", "embolsados", "emborrachados", "emborronados", "emboscados", "embotados", "embriagados", "embrollados", "embrutecidos", "embuchados", "emergidos", "emigrados", "emitidos", "emocionados", "empacados", "empachados", "empadronados", "empalados", "empalmados", "empanados", "empañados", "empantanados", "empapelados", "empaquetados", "emparejados", "empastados", "empatados", "empecinados", "empeñados", "empeorados", "empequeñecidos", "emperrados", "empezados", "empinados", "emplazados", "empleados", "empobrecidos", "empoderados", "empollados", "empolvados", "emponzoñados", "emprendidos", "empujados", "empuñados", "emputados", "emulados", "emulsionados", "enajenados", "enaltecidos", "enamorados", "enarbolados", "enardecidos", "encabezados", "encabritados", "encabronados", "encadenados", "encajados", "encajonados", "encallados", "encamados", "encaminados", "encandilados", "encanecidos", "encañonados", "encantados", "encaprichados", "encapsulados", "encarados", "encaramados", "encarecidos", "encargados", "encariñados", "encarnados", "encarrilados", "encartados", "encasillados", "encasquetados", "encasquillados", "encastrados", "encausados", "encauzados", "enceguecidos", "encendidos", "encerados", "encerrados", "encharcados", "enchufados", "encimados", "encogidos", "encolados", "encolerizados", "encolumnados", "encomendados", "enconados", "encontrados", "encordados", "encrespados", "encuadrados", "encubiertos", "encuerados", "encumbrados", "enderezados", "endeudados", "endilgados", "endiosados", "endosados", "endulzados", "endurecidos", "enemistados", "energizados", "enervados", "enfadados", "enfangados", "enfatizados", "enfermados", "enfiestados", "enfilados", "enflaquecidos", "enfocados", "enfrascados", "enfrentados", "enfriados", "enfurecidos", "engalanados", "engañados", "enganchados", "engarzados", "engatusados", "engendrados", "englobados", "engolosinados", "engordados", "engranados", "engrandecidos", "engrasados", "engreídos", "engrosados", "engullidos", "enharinados", "enhebrados", "enjuagados", "enjugados", "enjuiciados", "enlazados", "enlistados", "enlodados", "enloquecidos", "enlozados", "enlutados", "enmarañados", "enmascarados", "enmendados", "enmohecidos", "enmudecidos", "ennegrecidos", "ennoblecidos", "enorgullecidos", "enrarecidos", "enredados", "enripiados", "enriquecidos", "enrocados", "enrojecidos", "enrolados", "enrollados", "enroscados", "enrumbados", "ensalzados", "ensamblados", "ensañados", "ensanchados", "ensartados", "ensayados", "ensebados", "enseñados", "enseñoreados", "ensillados", "ensoberbecidos", "ensogados", "ensombrecidos", "ensoñados", "ensordecidos", "ensuciados", "entablados", "entallados", "entendidos", "enterados", "enternecidos", "enterrados", "entibiados", "entintados", "entonados", "entorpecidos", "entrados", "entrampados", "entrañados", "entreabiertos", "entrecomillados", "entrecruzados", "entregados", "entrelazados", "entremetidos", "entremezclados", "entrenados", "entresacados", "entretejidos", "entretenidos", "entreverados", "entrevistados", "entristecidos", "entrometidos", "entronados", "entroncados", "entronizados", "entumecidos", "enturbiados", "entusiasmados", "enumerados", "enunciados", "envainados", "envalentonados", "envanecidos", "envasados", "envejecidos", "envenenados", "envestidos", "enviados", "enviciados", "envidiados", "envilecidos", "enviudados", "envueltos", "enzarzados", "equilibrados", "equiparados", "equivocados", "erigidos", "erizados", "erogados", "erosionados", "erotizados", "erradicados", "errados", "esbozados", "escabullidos", "escalados", "escaldados", "escalfados", "escamados", "escamoteados", "escampados", "escandalizados", "escaneados", "escapados", "escaqueados", "escarbados", "escarchados", "escarmentados", "escarnecidos", "escaseados", "escatimados", "escenificados", "escindidos", "esclarecidos", "esclavizados", "escocidos", "escogidos", "escolarizados", "escoltados", "escondidos", "escorados", "escrachados", "escritos", "escrutados", "escuchados", "escudados", "escudriñados", "esculpidos", "escupidos", "escurridos", "esforzados", "esfumados", "esgrimidos", "esmerados", "esmerilados", "espabilados", "espaciados", "españolizados", "espantados", "esparcidos", "especificados", "especulados", "esperados", "espesados", "espetados", "espiados", "espigados", "espinados", "espirados", "espiritualizados", "espoleados", "espolvoreados", "esponjados", "esponsorizados", "esposados", "esquematizados", "esquiados", "esquilados", "esquilmados", "esquivados", "estabilizados", "establecidos", "estacionados", "estafados", "estallados", "estampados", "estancados", "estaqueados", "estatizados", "estatuidos", "esterificados", "esterilizados", "estigmatizados", "estilizados", "estimados", "estimulados", "estipulados", "estirados", "estorbados", "estornudados", "estragados", "estrangulados", "estrechados", "estrellados", "estremecidos", "estrenados", "estresados", "estriados", "estropeados", "estructurados", "estrujados", "estudiados", "eternizados", "etiquetados", "evacuados", "evadidos", "evaluados", "evangelizados", "evaporados", "evidenciados", "eviscerados", "evitados", "evocados", "evolucionados", "exacerbados", "exagerados", "exaltados", "examinados", "exasperados", "excarcelados", "excavados", "excedidos", "exceptuados", "excitados", "exclamados", "excluidos", "excretados", "exculpados", "excusados", "execrados", "exhalados", "exhibidos", "exhortados", "exhumados", "exigidos", "exilados", "eximidos", "existidos", "exonerados", "exorcizados", "expandidos", "expedidos", "expedientados", "expelidos", "expendidos", "experimentados", "expiados", "expirados", "explayados", "explicados", "explicitados", "explorados", "explosionados", "explotados", "expoliados", "exportados", "expresados", "exprimidos", "expropiados", "expuestos", "expulsados", "expurgados", "extendidos", "exteriorizados", "exterminados", "externados", "externalizados", "extinguidos", "extirpados", "extorsionados", "extractados", "extraditados", "extraídos", "extralimitados", "extrañados", "extrapolados", "extraviados", "extremados", "extruidos", "exudados", "eyaculados", "eyectados", "fabricados", "fabulados", "facilitados", "facturados", "facultados", "fagocitados", "fajados", "fallados", "fallecidos", "falsados", "falseados", "falsificados", "familiarizados", "fantaseados", "fascinados", "fastidiados", "fatigados", "favorecidos", "fecundados", "felicitados", "feminizados", "fenecidos", "fermentados", "fertilizados", "festejados", "fiados", "fichados", "fidelizados", "figurados", "fijados", "filmados", "filosofados", "filtrados", "finalizados", "financiados", "fincados", "fingidos", "finiquitados", "firmados", "fiscalizados", "fisurados", "flagelados", "flameados", "flanqueados", "flaqueados", "fletados", "flexibilizados", "flexionados", "flipados", "floreados", "florecidos", "flotados", "fluctuados", "focalizados", "fogueados", "foliados", "follados", "fomentados", "fondeados", "forcejeados", "forestados", "forjados", "formados", "formalizados", "formateados", "formulados", "fornicados", "forrados", "fortalecidos", "forzados", "fotocopiados", "fotografiados", "fracasados", "fraccionados", "fracturados", "fragmentados", "fraguados", "franqueados", "frecuentados", "fregados", "frenados", "fresados", "friccionados", "frotados", "fructificados", "fruncidos", "fugados", "fulminados", "fumados", "fumigados", "funcionados", "fundados", "fundamentados", "fundidos", "fungidos", "fusilados", "fusionados", "fustigados", "gafados", "ganados", "gangrenados", "garabateados", "garantidos", "garantizados", "garridos", "gaseados", "gastados", "gemidos", "generados", "generalizados", "gerenciados", "germinados", "gestados", "gestionados", "girados", "glorificados", "glosados", "gobernados", "goleados", "golpeados", "gozados", "grabados", "graduados", "graficados", "granjeados", "grapados", "gratificados", "gravados", "gravitados", "gritados", "gruñidos", "guardados", "guarecidos", "guarnecidos", "guerreados", "guiados", "guillotinados", "guiñados", "guindados", "guisados", "gustados", "habilitados", "habitados", "habituados", "hablados", "halados", "halagados", "hallados", "hartados", "hechizados", "hechos", "helenizados", "henchidos", "hendidos", "heredados", "heridos", "hermanados", "herrados", "hervidos", "hibernados", "hibridados", "hidratados", "higienizados", "hilados", "hilvanados", "hincados", "hinchados", "hipnotizados", "hipotecados", "historiados", "hojeados", "holgados", "hollados", "homenajeados", "homogeneizados", "homologados", "honrados", "horadados", "horneados", "horrorizados", "hospedados", "hostigados", "hostilizados", "huidos", "humanados", "humanizados", "humectados", "humedecidos", "humillados", "hundidos", "hurgados", "hurtados", "ideados", "idealizados", "identificados", "ideologizados", "idiotizados", "idolatrados", "ignorados", "igualados", "ilegalizados", "iluminados", "ilusionados", "ilustrados", "imaginados", "imbricados", "imitados", "impactados", "impartidos", "impedidos", "impelidos", "imperados", "impermeabilizados", "implantados", "implementados", "implicados", "implorados", "importados", "importunados", "imposibilitados", "impresionados", "improvisados", "impuestos", "impugnados", "impulsados", "imputados", "inaugurados", "incautados", "incendiados", "incentivados", "incinerados", "incitados", "inclinados", "incluidos", "incoados", "incomodados", "incorporados", "incrementados", "increpados", "incriminados", "incubados", "inculcados", "inculpados", "incumplidos", "incurridos", "incursionados", "indagados", "indemnizados", "independizados", "indexados", "indicados", "indigestados", "indignados", "indispuestos", "individuados", "inducidos", "indultados", "inervados", "infamados", "infartados", "infectados", "inferidos", "inficionados", "infiltrados", "inflados", "inflamados", "infligidos", "influenciados", "influidos", "informados", "infravalorados", "infringidos", "infundidos", "ingeniados", "ingeridos", "ingresados", "inhabilitados", "inhalados", "inhibidos", "inhumados", "iniciados", "inicializados", "injertados", "injuriados", "inmigrados", "inmiscuidos", "inmolados", "inmortalizados", "inmovilizados", "inmunizados", "innovados", "inoculados", "inquietados", "inquiridos", "insensibilizados", "insertados", "insinuados", "insistidos", "inspeccionados", "inspirados", "instados", "instalados", "instaurados", "instigados", "instituidos", "instruidos", "instrumentados", "instrumentalizados", "insuflados", "insultados", "insumidos", "integrados", "intelectualizados", "intensificados", "intentados", "interactuados", "intercalados", "intercambiados", "intercedidos", "interceptados", "interesados", "interferidos", "interiorizados", "intermediados", "internacionalizados", "internalizados", "interpelados", "interpolados", "interpretados", "interpuestos", "interrogados", "interrumpidos", "intervenidos", "intimados", "intimidados", "intitulados", "intoxicados", "intrigados", "introducidos", "intuidos", "inundados", "inutilizados", "invadidos", "invalidados", "inventados", "inventariados", "invertidos", "investidos", "investigados", "invitados", "invocados", "involucionados", "inyectados", "ionizados", "ironizados", "irradiados", "irrespetados", "irrigados", "irritados", "irrogados", "irrumpidos", "jactados", "jalados", "jaleados", "jalonados", "jaqueados", "jerarquizados", "jodidos", "jorobados", "jubilados", "jugados", "juntados", "jurados", "juramentados", "justificados", "juzgados", "laborados", "labrados", "laburados", "lacados", "lacerados", "lactados", "ladeados", "ladrados", "lamentados", "lamidos", "laminados", "languidecidos", "lanzados", "lapidados", "laqueados", "largados", "lastimados", "lastrados", "latidos", "laudados", "lavados", "legalizados", "legislados", "legitimados", "leídos", "lesionados", "leudados", "levantados", "liados", "liberados", "liberalizados", "libertados", "librados", "licitados", "licuados", "liderizados", "lidiados", "ligados", "lijados", "limados", "limitados", "limpiados", "linchados", "liquidados", "litigados", "llagados", "llamados", "llegados", "llenados", "llevados", "llorados", "localizados", "logrados", "lubricados", "luchados", "lucidos", "lucrados", "lustrados", "macerados", "machacados", "macheteados", "machucados", "madreados", "madrugados", "madurados", "magnetizados", "magnificados", "malacostumbrados", "malbaratados", "malcriados", "maleados", "malentendidos", "malgastados", "malinterpretados", "malogrados", "maltratados", "malversados", "mamados", "manchados", "mancillados", "mandados", "manejados", "mangados", "mangoneados", "manifestados", "maniobrados", "manipulados", "manoseados", "manteados", "mantenidos", "manufacturados", "maquillados", "maquinados", "maravillados", "marcados", "marchitados", "mareados", "marginados", "maridados", "martillados", "martirizados", "masacrados", "masajeados", "mascados", "masificados", "masticados", "masturbados", "matados", "materializados", "matizados", "matriculados", "maximizados", "meados", "mecanografiados", "mechados", "mecidos", "mediados", "mediatizados", "medicados", "medidos", "meditados", "medrados", "mejorados", "mellados", "memorizados", "mencionados", "meneados", "menguados", "menoscabados", "menospreciados", "menstruados", "mensualizados", "mensurados", "mentados", "mentalizados", "mentidos", "mercadeados", "mercantilizados", "merecidos", "merendados", "mermados", "merodeados", "mesurados", "metamorfoseados", "metidos", "mezclados", "migrados", "militados", "militarizados", "mimados", "mimetizados", "minados", "minimizados", "ministrados", "minusvalorados", "mirados", "mistificados", "mitificados", "mitigados", "modelados", "modernizados", "modificados", "modulados", "mofados", "mojados", "moldeados", "molestados", "molidos", "monetizados", "monitorizados", "monopolizados", "montados", "morados", "moralizados", "mordidos", "mordisqueados", "mortificados", "mosqueados", "mostrados", "motejados", "motivados", "movidos", "movilizados", "mudados", "muestreados", "multados", "multiplicados", "munidos", "murmurados", "mutados", "mutilados", "nacionalizados", "narcotizados", "narrados", "naufragados", "navegados", "necesitados", "negados", "negociados", "neutralizados", "ninguneados", "nivelados", "nombrados", "nominados", "noqueados", "normados", "normalizados", "notados", "notificados", "nutridos", "obcecados", "obedecidos", "objetados", "objetivados", "obligados", "obliterados", "obnubilados", "obrados", "obsequiados", "observados", "obsesionados", "obstaculizados", "obstruidos", "obtenidos", "obturados", "obviados", "ocasionados", "ocluidos", "ocultados", "ocupados", "odiados", "ofendidos", "ofertados", "oficiados", "oficializados", "ofrecidos", "ofrendados", "ofuscados", "oídos", "ojeados", "olfateados", "olidos", "olvidados", "omitidos", "ondeados", "ondulados", "opacados", "operados", "opinados", "oprimidos", "optados", "optimizados", "opuestos", "orados", "orbitados", "ordenados", "ordeñados", "organizados", "orientados", "originados", "orillados", "orinados", "ornados", "ornamentados", "orquestados", "osados", "oscilados", "oscurecidos", "osificados", "ostentados", "otorgados", "ovacionados", "ovulados", "oxidados", "oxigenados", "pacificados", "pactados", "padecidos", "paganizados", "paginados", "paladeados", "paliados", "palpados", "parados", "parafraseados", "paralizados", "parapetados", "parasitados", "parcelados", "parchados", "parcheados", "pareados", "paridos", "parodiados", "parqueados", "participados", "particularizados", "partidos", "pasados", "paseados", "pastoreados", "pataleados", "pateados", "patentados", "patentizados", "patinados", "patrullados", "pecados", "pedaleados", "pedidos", "pegados", "peinados", "pellizcados", "penalizados", "penetrados", "pensados", "percatados", "percibidos", "percutidos", "perdidos", "perdonados", "perdurados", "perecidos", "peregrinados", "perfeccionados", "perfilados", "perforados", "perfumados", "pergeñados", "peritados", "perjudicados", "perjurados", "permeados", "permitidos", "permutados", "pernoctados", "perpetrados", "perpetuados", "perseguidos", "perseverados", "persistidos", "personados", "personalizados", "personificados", "persuadidos", "pertenecidos", "pertrechados", "perturbados", "pervertidos", "pervividos", "pescados", "petados", "peticionados", "picados", "picaneados", "picoteados", "pifiados", "pignorados", "pillados", "pilotados", "piloteados", "pincelados", "pinchados", "pintados", "pintarrajeados", "pinzados", "pirados", "pirateados", "pisados", "pisoteados", "pitados", "placidos", "plagiados", "planchados", "planeados", "plantados", "planteados", "plasmados", "platicados", "plegados", "pluralizados", "podados", "poetizados", "polemizados", "politizados", "pololeados", "ponderados", "pontificados", "popularizados", "porfiados", "portados", "porteados", "posados", "posesionados", "posibilitados", "posicionados", "pospuestos", "posteados", "postergados", "postrados", "postulados", "potenciados", "practicados", "precarizados", "precedidos", "preceptuados", "precintados", "precipitados", "precisados", "preconizados", "predicados", "predichos", "predispuestos", "predominados", "preferidos", "prefigurados", "pregonados", "preguntados", "prejuzgados", "premiados", "prendados", "prendidos", "preocupados", "preparados", "presagiados", "prescindidos", "presenciados", "presentados", "presentidos", "preservados", "presididos", "presionados", "prestados", "prestigiados", "presumidos", "presurizados", "pretendidos", "preteridos", "prevalecidos", "prevalidos", "prevaricados", "prevenidos", "previstos", "primados", "principiados", "pringados", "priorizados", "privatizados", "probados", "problematizados", "procedidos", "procesados", "proclamados", "procreados", "procurados", "prodigados", "producidos", "profanados", "proferidos", "profesados", "profesionalizados", "profetizados", "profundizados", "programados", "progresados", "prohibidos", "prohijados", "proletarizados", "proliferados", "prologados", "prolongados", "promediados", "prometidos", "promocionados", "promovidos", "promulgados", "pronosticados", "pronunciados", "propagados", "propalados", "propendidos", "propiciados", "propinados", "proporcionados", "propuestos", "propugnados", "propulsados", "prorrateados", "prorrogados", "proseguidos", "prosperados", "prostituidos", "protegidos", "protestados", "protocolizados", "provenidos", "provocados", "proyectados", "psicoanalizados", "publicados", "publicitados", "puestos", "pugnados", "pujados", "pulidos", "pulsados", "pululados", "pulverizados", "punados", "punteados", "puntuados", "puntualizados", "punzados", "purgados", "purificados", "puteados", "quebrados", "quebrantados", "quejados", "quemados", "querellados", "queridos", "quintuplicados", "quitados", "racionados", "racionalizados", "radiados", "radicados", "radicalizados", "raídos", "rajados", "ralentizados", "rapados", "rapeados", "raptados", "rascados", "rasgados", "rasguñados", "raspados", "rastreados", "rasurados", "ratificados", "rayados", "razonados", "reabiertos", "reabsorbidos", "reaccionados", "reactivados", "readaptados", "readmitidos", "reafirmados", "reagrupados", "reajustados", "realimentados", "realizados", "realzados", "reanimados", "reanudados", "reaparecidos", "rearmados", "reasumidos", "reavivados", "rebajados", "rebalsados", "rebanados", "rebasados", "rebatidos", "rebautizados", "rebelados", "reblandecidos", "rebobinados", "rebosados", "rebotados", "rebozados", "rebuscados", "recabados", "recaídos", "recalados", "recalcados", "recalentados", "recalificados", "recapacitados", "recapitulados", "recargados", "recatados", "recaudados", "receptados", "recetados", "rechazados", "recibidos", "reciclados", "recitados", "reclamados", "reclinados", "reclutados", "recobrados", "recocidos", "recogidos", "recolectados", "recomendados", "recomenzados", "recompensados", "recompuestos", "reconcentrados", "reconciliados", "reconducidos", "reconfortados", "reconocidos", "reconquistados", "reconsiderados", "reconstituidos", "reconstruidos", "reconvenidos", "reconvertidos", "recopilados", "recordados", "recorridos", "recortados", "recreados", "recriminados", "recrudecidos", "rectificados", "recubiertos", "reculados", "recuperados", "recurridos", "recusados", "redactados", "redefinidos", "redescubiertos", "redimensionados", "redimidos", "rediseñados", "redistribuidos", "redituados", "redoblados", "redondeados", "reducidos", "redundados", "reedificados", "reeditados", "reeducados", "reelaborados", "reembolsados", "reemplazados", "reencarnados", "reencauchados", "reencontrados", "reenganchados", "reenviados", "reescritos", "reestructurados", "reexaminados", "refaccionados", "referidos", "refinados", "refinanciados", "reflejados", "reflexionados", "reflotados", "reforestados", "reformados", "reforzados", "refractados", "refrenados", "refrendados", "refrescados", "refrigerados", "refundidos", "refutados", "regados", "regalados", "regañados", "regateados", "regenerados", "regentados", "regenteados", "regidos", "regionalizados", "registrados", "reglados", "reglamentados", "regocijados", "regodeados", "regresados", "regulados", "regularizados", "regurgitados", "rehabilitados", "rehechos", "rehogados", "rehuidos", "rehusados", "reídos", "reinados", "reincididos", "reincorporados", "reingresados", "reiniciados", "reinsertados", "reinstalados", "reinstaurados", "reintegrados", "reinventados", "reinvertidos", "reiterados", "reivindicados", "rejuvenecidos", "relajados", "relamidos", "relanzados", "relatados", "relativizados", "relegados", "releídos", "relevados", "religados", "rellenados", "remachados", "remados", "remangados", "remarcados", "rematados", "remecidos", "remediados", "rememorados", "remendados", "remitidos", "remodelados", "remojados", "remolcados", "remontados", "removidos", "remplazados", "renacidos", "rendidos", "renegados", "renegociados", "reñidos", "renombrados", "renovados", "rentabilizados", "rentados", "renunciados", "reordenados", "reorganizados", "reorientados", "reparados", "repartidos", "repasados", "repatriados", "repelidos", "repensados", "repercutidos", "repescados", "repetidos", "repicados", "repintados", "replanteados", "replegados", "replicados", "repoblados", "reportados", "reporteados", "reposados", "repreguntados", "reprendidos", "represados", "representados", "reprimidos", "reprobados", "reprochados", "reproducidos", "repudiados", "repuestos", "repugnados", "repuntados", "reputados", "requeridos", "requisados", "resaltados", "resarcidos", "resbalados", "rescatados", "rescindidos", "resecados", "reseñados", "reservados", "reseteados", "resguardados", "resididos", "resignados", "resistidos", "resonados", "respaldados", "respetados", "respirados", "resplandecidos", "respondidos", "responsabilizados", "resquebrajados", "restablecidos", "restados", "restaurados", "restituidos", "restregados", "resucitados", "resueltos", "resumidos", "resurgidos", "retados", "retardados", "retenidos", "retirados", "retocados", "retomados", "retorcidos", "retornados", "retractados", "retraídos", "retransmitidos", "retrasados", "retratados", "retribuidos", "retrotraídos", "retumbados", "reunidos", "reunificados", "reutilizados", "revalidados", "revalorizados", "revaluados", "revelados", "revendidos", "reventados", "reverdecidos", "reverenciados", "revertidos", "revestidos", "revirados", "revisados", "revitalizados", "revividos", "revocados", "revolcados", "revoloteados", "revolucionados", "revueltos", "ridiculizados", "rifados", "rimados", "rivalizados", "rizados", "robados", "robustecidos", "rociados", "rodados", "rodeados", "rogados", "roídos", "rondados", "rotados", "rotos", "rotulados", "roturados", "rozados", "ruborizados", "rubricados", "rugidos", "rumiados", "rumorados", "sabidos", "saboreados", "saboteados", "sacados", "saciados", "sacralizados", "sacrificados", "sacudidos", "saldados", "salpimentados", "salpullidos", "saltados", "salteados", "saludados", "salvados", "salvaguardados", "sanados", "saneados", "sangrados", "santificados", "saqueados", "satanizados", "satirizados", "satisfechos", "sazonados", "secados", "seccionados", "secretados", "secuenciados", "secuestrados", "secundados", "sedimentados", "seducidos", "segados", "segmentados", "segregados", "seguidos", "seleccionados", "sembrados", "señalados", "sensibilizados", "sentados", "sentenciados", "sentidos", "separados", "serenados", "serrados", "servidos", "significados", "silenciados", "simbolizados", "simpatizados", "simplificados", "simulados", "sincerados", "sincronizados", "sindicados", "sindicalizados", "singularizados", "sintetizados", "sintonizados", "sistematizados", "situados", "sobados", "sobornados", "sobrados", "sobrecargados", "sobrecogidos", "sobreentendidos", "sobreestimados", "sobrellevados", "sobrentendidos", "sobrepasados", "sobrepuestos", "sobresalidos", "sobresaltados", "sobrestimados", "sobrevenidos", "sobrevividos", "sobrevolados", "socavados", "socializados", "socorridos", "sodomizados", "sofocados", "sojuzgados", "solapados", "solicitados", "solidarizados", "solidificados", "soliviantados", "soltados", "solucionados", "solventados", "sombreados", "sometidos", "sonados", "soñados", "sondeados", "sonreídos", "sonrojados", "sopesados", "soplados", "soportados", "sorbidos", "sorprendidos", "sorteados", "sosegados", "soslayados", "sospechados", "sostenidos", "suavizados", "subastados", "subcontratados", "subdivididos", "subestimados", "subidos", "sublevados", "sublimados", "subrayados", "subrogados", "subsanados", "subsidiados", "subsistidos", "substraídos", "subsumidos", "subvertidos", "subyugados", "succionados", "sucedidos", "sucumbidos", "sudados", "sufragados", "sufridos", "sugeridos", "sugestionados", "suicidados", "sujetados", "sumados", "sumergidos", "suministrados", "supeditados", "superados", "superpuestos", "supervisados", "suplantados", "suplicados", "suplidos", "suprimidos", "supuestos", "surcados", "surtidos", "suscitados", "suspendidos", "suspirados", "sustanciados", "sustantivados", "sustentados", "sustituidos", "sustraídos", "susurrados", "suturados", "tabulados", "tachados", "talados", "taladrados", "tallados", "tambaleados", "tamizados", "tañidos", "tanteados", "tapados", "tapizados", "taponados", "tarareados", "tardados", "tasados", "tatuados", "tecleados", "tejidos", "telefoneados", "televisados", "temidos", "templados", "tendidos", "tenidos", "tensados", "tentados", "teorizados", "terciados", "tergiversados", "terminados", "territorializados", "testados", "testeados", "testificados", "testimoniados", "tildados", "timados", "timbrados", "tinturados", "tipeados", "tipificados", "tirados", "tiranizados", "tironeados", "tiroteados", "titubeados", "tiznados", "tocados", "tolerados", "tomados", "tonificados", "topados", "toqueteados", "torcidos", "toreados", "tornados", "tornasolados", "torneados", "torpedeados", "torturados", "tosidos", "tostados", "totalizados", "trabados", "trabajados", "traducidos", "traficados", "tragados", "traicionados", "traídos", "trajinados", "tramados", "tramitados", "trancados", "tranquilizados", "transcendidos", "transcurridos", "transferidos", "transfigurados", "transformados", "transfundidos", "transgredidos", "transigidos", "transitados", "transliterados", "translucidos", "transmitidos", "transmutados", "transparentados", "transpirados", "transportados", "transpuestos", "trasegados", "trasgredidos", "trasladados", "traslapados", "traslucidos", "trasnochados", "traspapelados", "traspasados", "trasplantados", "traspuestos", "trasquilados", "trasteados", "trastocados", "trastornados", "trasvasados", "tratados", "trazados", "trenzados", "trepados", "tributados", "trincados", "triplicados", "triturados", "triunfados", "trivializados", "trocados", "troceados", "tronados", "tronchados", "truncados", "tumbados", "tuneados", "turbados", "turnados", "tutelados", "ufanados", "ultimados", "uncidos", "ungidos", "unidos", "universalizados", "untados", "urbanizados", "urdidos", "usados", "usufructuados", "usurpados", "utilizados", "vacados", "vaciados", "vacilados", "vacunados", "vagados", "validados", "validos", "valorados", "valorizados", "valuados", "vanagloriados", "vandalizados", "vaporizados", "variados", "vaticinados", "vedados", "vehiculados", "vejados", "velados", "vencidos", "vendados", "vendidos", "venerados", "vengados", "ventilados", "veraneados", "verbalizados", "verificados", "versados", "versionados", "vertebrados", "vertidos", "vestidos", "vetados", "viabilizados", "viajados", "vibrados", "victimados", "victimizados", "vigilados", "vigorizados", "vilipendiados", "vindicados", "violados", "violentados", "virados", "visados", "visibilizados", "visitados", "vislumbrados", "vistos", "visualizados", "vitoreados", "vitrificados", "vituperados", "vividos", "vivificados", "vocalizados", "voceados", "vociferados", "volados", "volatilizados", "volcados", "volteados", "vomitados", "votados", "vueltos", "vulcanizados", "vulgarizados", "vulnerados", "yuxtapuestos", "zafados", "zambullidos", "zampados", "zanjados", "zarandeados", "zarpados", "zozobrados", "zumbados", "zurcidos", "zurrados", "abajadas", "abalanzadas", "abaleadas", "abandonadas", "abaratadas", "abarcadas", "abarrotadas", "abastecidas", "abatidas", "abdicadas", "abiertas", "abismadas", "abjuradas", "ablandadas", "abocadas", "abochornadas", "abofeteadas", "abolidas", "abolladas", "abombadas", "abominadas", "abonadas", "abordadas", "aborrecidas", "aborregadas", "abortadas", "abotonadas", "abrasadas", "abrazadas", "abrevadas", "abreviadas", "abrigadas", "abrochadas", "abrogadas", "abroqueladas", "abrumadas", "absorbidas", "abstenidas", "abstraídas", "absueltas", "abucheadas", "abultadas", "abundadas", "aburguesadas", "aburridas", "abusadas", "acabadas", "acalladas", "acaloradas", "acaparadas", "acariciadas", "acarreadas", "acatadas", "acaudilladas", "accedidas", "accionadas", "acechadas", "aceitadas", "aceleradas", "acentuadas", "aceptadas", "aceradas", "acercadas", "acertadas", "achacadas", "achantadas", "achatadas", "achicadas", "acicaladas", "acidificadas", "aclaradas", "aclimatadas", "acobardadas", "acodadas", "acogidas", "acojonadas", "acometidas", "acomodadas", "acompañadas", "acompasadas", "acongojadas", "aconsejadas", "acontecidas", "acopiadas", "acopladas", "acordadas", "acordonadas", "acorraladas", "acortadas", "acosadas", "acostadas", "acostumbradas", "acotadas", "acrecentadas", "acreditadas", "acrisoladas", "activadas", "actuadas", "acuchilladas", "acuciadas", "acudidas", "acuerpadas", "acumuladas", "acunadas", "acuñadas", "acurrucadas", "acusadas", "adaptadas", "adecentadas", "adelantadas", "adelgazadas", "adentradas", "adeudadas", "adheridas", "adicionadas", "adiestradas", "adivinadas", "adjetivadas", "adjudicadas", "adjuntadas", "administradas", "admiradas", "admitidas", "adoctrinadas", "adolecidas", "adoptadas", "adoradas", "adormecidas", "adornadas", "adquiridas", "aducidas", "adueñadas", "aduladas", "adulteradas", "advertidas", "afanadas", "afeadas", "afectadas", "afeitadas", "aferradas", "afianzadas", "afinadas", "afirmadas", "afligidas", "afloradas", "afrentadas", "afrontadas", "agachadas", "agarradas", "agarrotadas", "agasajadas", "agenciadas", "agigantadas", "agilizadas", "agitadas", "aglutinadas", "agobiadas", "agolpadas", "agonizadas", "agostadas", "agotadas", "agradadas", "agradecidas", "agrandadas", "agravadas", "agraviadas", "agredidas", "agregadas", "agriadas", "agrietadas", "agrupadas", "aguadas", "aguantadas", "aguardadas", "agudizadas", "aguijoneadas", "agujereadas", "aguzadas", "ahogadas", "ahondadas", "ahorcadas", "ahorradas", "ahuecadas", "ahuyentadas", "aireadas", "aisladas", "ajustadas", "ajusticiadas", "alabadas", "alagadas", "alambradas", "alardeadas", "alargadas", "alarmadas", "albergadas", "alborotadas", "alcanzadas", "aleccionadas", "alegadas", "alegradas", "alejadas", "alentadas", "alertadas", "alfabetizadas", "alfombradas", "aliadas", "alienadas", "aligeradas", "alimentadas", "aliñadas", "alineadas", "alisadas", "alistadas", "aliviadas", "alivianadas", "allanadas", "almacenadas", "almorzadas", "alojadas", "alquiladas", "alteradas", "alternadas", "alucinadas", "aludidas", "alumbradas", "alzadas", "amadas", "amaestradas", "amagadas", "amainadas", "amalgamadas", "amamantadas", "amansadas", "amargadas", "amarradas", "amasadas", "ambicionadas", "amedrentadas", "amenazadas", "amenizadas", "ameritadas", "ametralladas", "amilanadas", "aminoradas", "amnistiadas", "amoldadas", "amonestadas", "amontonadas", "amordazadas", "amortajadas", "amortiguadas", "amortizadas", "amotinadas", "amparadas", "ampayadas", "ampliadas", "amplificadas", "amputadas", "amuebladas", "añadidas", "analizadas", "anatematizadas", "andadas", "anegadas", "anestesiadas", "anexadas", "anexionadas", "anheladas", "anidadas", "anilladas", "animadas", "aniquiladas", "anisadas", "añoradas", "anotadas", "anoticiadas", "ansiadas", "antecedidas", "antepuestas", "anticipadas", "antojadas", "anudadas", "anuladas", "anunciadas", "apabulladas", "apachurradas", "apaciguadas", "apadrinadas", "apagadas", "apalancadas", "apaleadas", "apañadas", "apantalladas", "aparcadas", "apareadas", "aparecidas", "aparentadas", "apartadas", "apeadas", "apedreadas", "apeladas", "apellidadas", "apelmazadas", "apercibidas", "apersonadas", "apestadas", "apetecidas", "apiadadas", "apiladas", "apiñadas", "apisonadas", "aplacadas", "aplanadas", "aplastadas", "aplaudidas", "aplazadas", "aplicadas", "apoderadas", "apoltronadas", "aporreadas", "aportadas", "aposentadas", "apostadas", "apostatadas", "apostilladas", "apoyadas", "apreciadas", "aprehendidas", "apremiadas", "aprendidas", "apresadas", "apresuradas", "apretadas", "apretujadas", "aprisionadas", "aprobadas", "aprovechadas", "aprovisionadas", "aproximadas", "apuñaladas", "apuñaleadas", "apuntadas", "apuntaladas", "apuntilladas", "apuradas", "aquejadas", "aquietadas", "aquilatadas", "arañadas", "arbitradas", "archivadas", "arengadas", "argüidas", "argumentadas", "armadas", "armonizadas", "aromatizadas", "arqueadas", "arrancadas", "arrasadas", "arrastradas", "arreadas", "arrebatadas", "arreciadas", "arregladas", "arrellanadas", "arremangadas", "arremetidas", "arrendadas", "arrepentidas", "arrestadas", "arriadas", "arribadas", "arriesgadas", "arrimadas", "arrinconadas", "arrodilladas", "arrogadas", "arrojadas", "arrolladas", "arropadas", "arruinadas", "arrulladas", "articuladas", "asadas", "asaltadas", "ascendidas", "aseadas", "asechadas", "asediadas", "aseguradas", "asemejadas", "asentadas", "asentidas", "aserradas", "asesinadas", "asesoradas", "asestadas", "aseveradas", "asfixiadas", "asidas", "asignadas", "asiladas", "asimiladas", "asistidas", "asoladas", "asoleadas", "asomadas", "asombradas", "aspiradas", "astilladas", "asumidas", "asustadas", "atacadas", "atadas", "atajadas", "atarantadas", "atascadas", "atemorizadas", "atemperadas", "atenazadas", "atendidas", "atenidas", "atentadas", "atenuadas", "aterradas", "aterrorizadas", "atesoradas", "atestiguadas", "atiborradas", "atisbadas", "atizadas", "atomizadas", "atontadas", "atoradas", "atormentadas", "atornilladas", "atosigadas", "atracadas", "atragantadas", "atraídas", "atrancadas", "atrapadas", "atrasadas", "atravesadas", "atrevidas", "atribuidas", "atrincheradas", "atrofiadas", "atropelladas", "aturdidas", "auditadas", "auguradas", "aumentadas", "aunadas", "aupadas", "auscultadas", "ausentadas", "autenticadas", "autentificadas", "autodefinidas", "autoeditadas", "automatizadas", "autorizadas", "autorreguladas", "auxiliadas", "avaladas", "avanzadas", "avasalladas", "avenidas", "aventadas", "aventajadas", "aventuradas", "averiadas", "averiguadas", "avezadas", "avisadas", "avispadas", "avistadas", "avivadas", "avizoradas", "avocadas", "ayudadas", "azotadas", "azuzadas", "babeadas", "bailadas", "bajadas", "balaceadas", "balanceadas", "bañadas", "banalizadas", "bancadas", "bandeadas", "barajadas", "barridas", "basadas", "bastardeadas", "basureadas", "batalladas", "bateadas", "batidas", "bautizadas", "beatificadas", "bebidas", "beneficiadas", "besadas", "bifurcadas", "birladas", "blandidas", "blanqueadas", "blasfemadas", "blindadas", "bloqueadas", "boicoteadas", "bombardeadas", "bombeadas", "bonificadas", "bordeadas", "borradas", "borroneadas", "bosquejadas", "bostezadas", "botadas", "boxeadas", "bregadas", "brilladas", "brincadas", "brindadas", "bromeadas", "brotadas", "bruñidas", "buceadas", "burladas", "buscadas", "cabeceadas", "cabidas", "cabildeadas", "cabreadas", "cacareadas", "cachadas", "cacheadas", "cacheteadas", "caducadas", "cagadas", "caladas", "calculadas", "caldeadas", "calefaccionadas", "calendarizadas", "calentadas", "calibradas", "calificadas", "caligrafiadas", "calladas", "calmadas", "calumniadas", "calzadas", "cambiadas", "caminadas", "camufladas", "canalizadas", "canceladas", "canjeadas", "cansadas", "cantadas", "capadas", "capeadas", "capitalizadas", "capituladas", "captadas", "capturadas", "caracterizadas", "carburadas", "carcomidas", "cardadas", "careadas", "carecidas", "cargadas", "caricaturizadas", "cartografiadas", "cascadas", "castigadas", "castradas", "catadas", "catalizadas", "catalogadas", "catapultadas", "cateadas", "categorizadas", "causadas", "cauterizadas", "cautivadas", "cavadas", "caviladas", "cazadas", "cebadas", "cedidas", "cegadas", "cejadas", "celebradas", "cenadas", "ceñidas", "censuradas", "centrifugadas", "centuplicadas", "cepilladas", "cercadas", "cercenadas", "cercioradas", "cernidas", "cerradas", "cesadas", "chafadas", "chamuscadas", "chantajeadas", "chapadas", "charladas", "chateadas", "chequeadas", "chifladas", "chilladas", "chingadas", "chirriadas", "chivadas", "chocadas", "chorreadas", "choteadas", "chupadas", "chutadas", "cicatrizadas", "cifradas", "cimentadas", "cinceladas", "circuladas", "circuncidadas", "circundadas", "citadas", "clamadas", "clarificadas", "clasificadas", "claudicadas", "clausuradas", "clavadas", "clicadas", "clonadas", "coaccionadas", "coadyuvadas", "coaguladas", "coaligadas", "coartadas", "cobijadas", "cobradas", "cocidas", "cocinadas", "codeadas", "codiciadas", "codificadas", "codirigidas", "coexistidas", "cofinanciadas", "cogidas", "cohabitadas", "cohibidas", "coincididas", "colaboradas", "colacionadas", "coladas", "colapsadas", "coleccionadas", "colectadas", "colectivizadas", "colgadas", "colisionadas", "colmadas", "colocadas", "colonizadas", "coloreadas", "columpiadas", "combatidas", "combinadas", "comentadas", "comenzadas", "comerciadas", "comercializadas", "cometidas", "comidas", "comisionadas", "compactadas", "compadecidas", "compaginadas", "comparadas", "comparecidas", "compartidas", "compatibilizadas", "compelidas", "compendiadas", "compenetradas", "compensadas", "compiladas", "complacidas", "complementadas", "completadas", "complotadas", "comportadas", "compradas", "comprendidas", "comprimidas", "comprobadas", "comprometidas", "compuestas", "compulsadas", "computadas", "comulgadas", "comunicadas", "concatenadas", "concebidas", "concedidas", "concelebradas", "concentradas", "conceptuadas", "conceptualizadas", "concertadas", "concienciadas", "concientizadas", "conciliadas", "concitadas", "concluidas", "concordadas", "concretadas", "concretizadas", "conculcadas", "concursadas", "condenadas", "condensadas", "condicionadas", "condimentadas", "condolidas", "condonadas", "conducidas", "conectadas", "conexionadas", "confabuladas", "confeccionadas", "conferidas", "confesadas", "confiadas", "configuradas", "confirmadas", "confiscadas", "confluidas", "conformadas", "confortadas", "confrontadas", "confundidas", "congeniadas", "congestionadas", "congratuladas", "congregadas", "conjeturadas", "conjugadas", "conjuntadas", "conjuradas", "conllevadas", "conmemoradas", "conminadas", "conmocionadas", "conmovidas", "conmutadas", "connotadas", "conquistadas", "consagradas", "conseguidas", "consensuadas", "consentidas", "conservadas", "consideradas", "consignadas", "consistidas", "consoladas", "consolidadas", "conspiradas", "constadas", "constatadas", "consteladas", "constitucionalizadas", "constituidas", "constreñidas", "construidas", "consultadas", "consumadas", "consumidas", "contabilizadas", "contactadas", "contadas", "contagiadas", "contempladas", "contendidas", "contenidas", "contentadas", "contestadas", "contextualizadas", "continuadas", "contorneadas", "contraatacadas", "contrabandeadas", "contradichas", "contrahechas", "contraídas", "contrapesadas", "contrapuestas", "contrariadas", "contrarrestadas", "contrastadas", "contratadas", "contravenidas", "contribuidas", "contristadas", "controladas", "convalidadas", "convencidas", "convenidas", "convergidas", "conversadas", "convertidas", "convidadas", "convividas", "convocadas", "convulsionadas", "cooperadas", "cooptadas", "coordinadas", "copadas", "copiadas", "coproducidas", "copuladas", "coqueteadas", "corchadas", "coreadas", "coreografiadas", "corneadas", "coronadas", "corporizadas", "corregidas", "correlacionadas", "correspondidas", "correteadas", "corridas", "corroboradas", "corroídas", "corrompidas", "cortadas", "cortejadas", "cosechadas", "cosidas", "cosificadas", "costadas", "costeadas", "cotejadas", "cotizadas", "creadas", "creídas", "criadas", "cribadas", "criminalizadas", "crispadas", "cristalizadas", "cristianizadas", "criticadas", "cronometradas", "crucificadas", "crujidas", "cruzadas", "cuadriplicadas", "cuadruplicadas", "cuajadas", "cuantificadas", "cuarteadas", "cubiertas", "cuestionadas", "cuidadas", "culeadas", "culminadas", "culpabilizadas", "culpadas", "cultivadas", "culturizadas", "cumplidas", "cumplimentadas", "cundidas", "curadas", "curioseadas", "curradas", "cursadas", "curvadas", "custodiadas", "dadas", "dañadas", "danzadas", "datadas", "dateadas", "debatidas", "debidas", "debilitadas", "debitadas", "debutadas", "decaídas", "decantadas", "decapitadas", "decepcionadas", "decididas", "declamadas", "declaradas", "declinadas", "decodificadas", "decoloradas", "decomisadas", "decrecidas", "decretadas", "dedicadas", "deducidas", "defecadas", "defendidas", "defenestradas", "deferidas", "definidas", "deformadas", "defraudadas", "degeneradas", "deglutidas", "degolladas", "degradadas", "degustadas", "deificadas", "dejadas", "delatadas", "delegadas", "deleitadas", "deletreadas", "deliberadas", "delimitadas", "delineadas", "delinquidas", "demandadas", "demarcadas", "demediadas", "demeritadas", "democratizadas", "demolidas", "demonizadas", "demoradas", "demostradas", "demudadas", "denegadas", "denigradas", "denominadas", "denostadas", "denotadas", "denunciadas", "deparadas", "departidas", "dependidas", "depiladas", "deploradas", "deportadas", "depositadas", "depreciadas", "depredadas", "deprimidas", "depuestas", "depuradas", "derechizadas", "derivadas", "derogadas", "derramadas", "derretidas", "derribadas", "derrocadas", "derrochadas", "derrotadas", "derruidas", "derrumbadas", "desabrochadas", "desacatadas", "desaceleradas", "desacomodadas", "desaconsejadas", "desacopladas", "desacralizadas", "desacreditadas", "desactivadas", "desafiadas", "desafinadas", "desaguadas", "desahogadas", "desairadas", "desajustadas", "desalentadas", "desalineadas", "desalojadas", "desandadas", "desangradas", "desanimadas", "desaparecidas", "desapegadas", "desaprendidas", "desaprobadas", "desaprovechadas", "desarmadas", "desarraigadas", "desarregladas", "desarrolladas", "desarticuladas", "desaseadas", "desasidas", "desasosegadas", "desatadas", "desatendidas", "desautorizadas", "desayunadas", "desbancadas", "desbandadas", "desbaratadas", "desbarrancadas", "desbastadas", "desbloqueadas", "desbocadas", "desbordadas", "desbrozadas", "descabalgadas", "descabezadas", "descaderadas", "descalabradas", "descalificadas", "descansadas", "descargadas", "descarriadas", "descarriladas", "descartadas", "descascaradas", "descascarilladas", "descendidas", "descentradas", "descifradas", "descocidas", "descodificadas", "descojonadas", "descolgadas", "descolocadas", "descolonizadas", "descompensadas", "descomprimidas", "descompuestas", "desconectadas", "desconfiadas", "descongeladas", "desconocidas", "descontadas", "descontaminadas", "descontextualizadas", "descontinuadas", "desconvocadas", "descorazonadas", "descorchadas", "descorridas", "descosidas", "descoyuntadas", "descreídas", "descristianizadas", "descuadradas", "descuartizadas", "descubiertas", "descuidadas", "desdeñadas", "desdibujadas", "desdichas", "desdobladas", "deseadas", "desecadas", "desechadas", "desembarazadas", "desembarcadas", "desembocadas", "desembolsadas", "desempacadas", "desempañadas", "desempaquetadas", "desempeñadas", "desempolvadas", "desenamoradas", "desencadenadas", "desencajadas", "desencarnadas", "desenchufadas", "desenfocadas", "desenfundadas", "desenganchadas", "desengrasadas", "desenmascaradas", "desenredadas", "desenrolladas", "desentendidas", "desenterradas", "desentonadas", "desentrañadas", "desenvainadas", "desenvueltas", "desequilibradas", "desertadas", "desestabilizadas", "desestimadas", "desfalcadas", "desfallecidas", "desfiguradas", "desfondadas", "desgajadas", "desgañitadas", "desgarradas", "desgastadas", "desglosadas", "desgobernadas", "desgranadas", "desguazadas", "deshechas", "desheredadas", "deshidratadas", "deshilachadas", "deshojadas", "deshonradas", "deshuesadas", "deshumanizadas", "designadas", "desilusionadas", "desincentivadas", "desinfectadas", "desinfladas", "desinflamadas", "desinformadas", "desinhibidas", "desinstaladas", "desintegradas", "desintoxicadas", "desistidas", "desjarretadas", "deslegitimadas", "desleídas", "desligadas", "deslindadas", "deslizadas", "deslucidas", "deslumbradas", "desmadradas", "desmalezadas", "desmanteladas", "desmaquilladas", "desmarcadas", "desmayadas", "desmejoradas", "desmembradas", "desmentidas", "desmenuzadas", "desmerecidas", "desmigadas", "desmitificadas", "desmoldadas", "desmontadas", "desmoralizadas", "desmoronadas", "desmotivadas", "desmovilizadas", "desnaturalizadas", "desniveladas", "desnucadas", "desnudadas", "desobedecidas", "desobligadas", "desoídas", "desolladas", "desorganizadas", "desorientadas", "despachadas", "desparasitadas", "desparecidas", "desparramadas", "despedazadas", "despedidas", "despegadas", "despeinadas", "despejadas", "despellejadas", "despeñadas", "despenalizadas", "desperdiciadas", "despersonalizadas", "despertadas", "despilfarradas", "despintadas", "despiojadas", "despistadas", "desplazadas", "desplegadas", "desplomadas", "desplumadas", "despojadas", "despolitizadas", "desposadas", "desposeídas", "despotricadas", "despreciadas", "desprendidas", "despreocupadas", "desprestigiadas", "desprogramadas", "despulpadas", "despuntadas", "desquiciadas", "desquitadas", "destacadas", "destapadas", "desteñidas", "desterradas", "destetadas", "destiladas", "destituidas", "destrabadas", "destripadas", "destronadas", "destrozadas", "destruidas", "desunidas", "desvalijadas", "desvalorizadas", "desvanecidas", "desveladas", "desvestidas", "desviadas", "desvinculadas", "desvirtuadas", "desvividas", "detectadas", "detenidas", "detentadas", "deterioradas", "determinadas", "detestadas", "detonadas", "devaluadas", "devanadas", "devastadas", "develadas", "devengadas", "devenidas", "devoradas", "devueltas", "diagnosticadas", "diagramadas", "dializadas", "dialogadas", "dibujadas", "dichas", "dictadas", "dictaminadas", "diezmadas", "difamadas", "diferenciadas", "diferidas", "dificultadas", "difuminadas", "difundidas", "digeridas", "digitadas", "dignadas", "dignificadas", "dilapidadas", "dilatadas", "diligenciadas", "dilucidadas", "diluidas", "dimensionadas", "dimitidas", "dinamitadas", "dinamizadas", "dirimidas", "discernidas", "disciplinadas", "discontinuadas", "discrepadas", "discriminadas", "disculpadas", "discurridas", "discutidas", "diseccionadas", "diseminadas", "diseñadas", "disentidas", "disertadas", "disfrazadas", "disfrutadas", "disgregadas", "disgustadas", "disimuladas", "disipadas", "dislocadas", "disminuidas", "disociadas", "dispensadas", "dispersadas", "dispuestas", "disputadas", "distadas", "distanciadas", "distendidas", "distinguidas", "distorsionadas", "distraídas", "distribuidas", "disuadidas", "disueltas", "divagadas", "diversificadas", "divertidas", "divididas", "divinizadas", "divisadas", "divorciadas", "divulgadas", "dobladas", "doblegadas", "doctoradas", "documentadas", "dogmatizadas", "dolidas", "domadas", "domesticadas", "dominadas", "donadas", "dopadas", "dormidas", "dosificadas", "dotadas", "dragadas", "dramatizadas", "drenadas", "drogadas", "duchadas", "dudadas", "dulcificadas", "duplicadas", "duradas", "echadas", "eclipsadas", "eclosionadas", "economizadas", "ecualizadas", "edificadas", "editadas", "educadas", "efectuadas", "ejecutadas", "ejemplificadas", "ejercidas", "ejercitadas", "elaboradas", "electrizadas", "electrocutadas", "elevadas", "elididas", "eliminadas", "elogiadas", "elucubradas", "eludidas", "emanadas", "emancipadas", "embadurnadas", "embaladas", "embalsamadas", "embanderadas", "embarcadas", "embargadas", "embarradas", "embarrancadas", "embaucadas", "embebidas", "embelesadas", "embellecidas", "embestidas", "emboladas", "embolsadas", "emborrachadas", "emborronadas", "emboscadas", "embotadas", "embriagadas", "embrolladas", "embrutecidas", "embuchadas", "emergidas", "emigradas", "emitidas", "emocionadas", "empacadas", "empachadas", "empadronadas", "empaladas", "empalmadas", "empanadas", "empañadas", "empantanadas", "empapeladas", "empaquetadas", "emparejadas", "empastadas", "empatadas", "empecinadas", "empeñadas", "empeoradas", "empequeñecidas", "emperradas", "empezadas", "empinadas", "emplazadas", "empleadas", "empobrecidas", "empoderadas", "empolladas", "empolvadas", "emponzoñadas", "emprendidas", "empujadas", "empuñadas", "emputadas", "emuladas", "emulsionadas", "enajenadas", "enaltecidas", "enamoradas", "enarboladas", "enardecidas", "encabezadas", "encabritadas", "encabronadas", "encadenadas", "encajadas", "encajonadas", "encalladas", "encamadas", "encaminadas", "encandiladas", "encanecidas", "encañonadas", "encantadas", "encaprichadas", "encapsuladas", "encaradas", "encaramadas", "encarecidas", "encargadas", "encariñadas", "encarnadas", "encarriladas", "encartadas", "encasilladas", "encasquetadas", "encasquilladas", "encastradas", "encausadas", "encauzadas", "enceguecidas", "encendidas", "enceradas", "encerradas", "encharcadas", "enchufadas", "encimadas", "encogidas", "encoladas", "encolerizadas", "encolumnadas", "encomendadas", "enconadas", "encontradas", "encordadas", "encrespadas", "encuadradas", "encubiertas", "encueradas", "encumbradas", "enderezadas", "endeudadas", "endilgadas", "endiosadas", "endosadas", "endulzadas", "endurecidas", "enemistadas", "energizadas", "enervadas", "enfadadas", "enfangadas", "enfatizadas", "enfermadas", "enfiestadas", "enfiladas", "enflaquecidas", "enfocadas", "enfrascadas", "enfrentadas", "enfriadas", "enfurecidas", "engalanadas", "engañadas", "enganchadas", "engarzadas", "engatusadas", "engendradas", "englobadas", "engolosinadas", "engordadas", "engranadas", "engrandecidas", "engrasadas", "engreídas", "engrosadas", "engullidas", "enharinadas", "enhebradas", "enjuagadas", "enjugadas", "enjuiciadas", "enlazadas", "enlistadas", "enlodadas", "enloquecidas", "enlozadas", "enlutadas", "enmarañadas", "enmascaradas", "enmendadas", "enmohecidas", "enmudecidas", "ennegrecidas", "ennoblecidas", "enorgullecidas", "enrarecidas", "enredadas", "enripiadas", "enriquecidas", "enrocadas", "enrojecidas", "enroladas", "enrolladas", "enroscadas", "enrumbadas", "ensalzadas", "ensambladas", "ensañadas", "ensanchadas", "ensartadas", "ensayadas", "ensebadas", "enseñadas", "enseñoreadas", "ensilladas", "ensoberbecidas", "ensogadas", "ensombrecidas", "ensoñadas", "ensordecidas", "ensuciadas", "entabladas", "entalladas", "entendidas", "enteradas", "enternecidas", "enterradas", "entibiadas", "entintadas", "entonadas", "entorpecidas", "entradas", "entrampadas", "entrañadas", "entreabiertas", "entrecomilladas", "entrecruzadas", "entregadas", "entrelazadas", "entremetidas", "entremezcladas", "entrenadas", "entresacadas", "entretejidas", "entretenidas", "entreveradas", "entrevistadas", "entristecidas", "entrometidas", "entronadas", "entroncadas", "entronizadas", "entumecidas", "enturbiadas", "entusiasmadas", "enumeradas", "enunciadas", "envainadas", "envalentonadas", "envanecidas", "envasadas", "envejecidas", "envenenadas", "envestidas", "enviadas", "enviciadas", "envidiadas", "envilecidas", "enviudadas", "envueltas", "enzarzadas", "equilibradas", "equiparadas", "equivocadas", "erigidas", "erizadas", "erogadas", "erosionadas", "erotizadas", "erradicadas", "erradas", "esbozadas", "escabullidas", "escaladas", "escaldadas", "escalfadas", "escamadas", "escamoteadas", "escampadas", "escandalizadas", "escaneadas", "escapadas", "escaqueadas", "escarbadas", "escarchadas", "escarmentadas", "escarnecidas", "escaseadas", "escatimadas", "escenificadas", "escindidas", "esclarecidas", "esclavizadas", "escocidas", "escogidas", "escolarizadas", "escoltadas", "escondidas", "escoradas", "escrachadas", "escritas", "escrutadas", "escuchadas", "escudadas", "escudriñadas", "esculpidas", "escupidas", "escurridas", "esforzadas", "esfumadas", "esgrimidas", "esmeradas", "esmeriladas", "espabiladas", "espaciadas", "españolizadas", "espantadas", "esparcidas", "especificadas", "especuladas", "esperadas", "espesadas", "espetadas", "espiadas", "espigadas", "espinadas", "espiradas", "espiritualizadas", "espoleadas", "espolvoreadas", "esponjadas", "esponsorizadas", "esposadas", "esquematizadas", "esquiadas", "esquiladas", "esquilmadas", "esquivadas", "estabilizadas", "establecidas", "estacionadas", "estafadas", "estalladas", "estampadas", "estancadas", "estaqueadas", "estatizadas", "estatuidas", "esterificadas", "esterilizadas", "estigmatizadas", "estilizadas", "estimadas", "estimuladas", "estipuladas", "estiradas", "estorbadas", "estornudadas", "estragadas", "estranguladas", "estrechadas", "estrelladas", "estremecidas", "estrenadas", "estresadas", "estriadas", "estropeadas", "estructuradas", "estrujadas", "estudiadas", "eternizadas", "etiquetadas", "evacuadas", "evadidas", "evaluadas", "evangelizadas", "evaporadas", "evidenciadas", "evisceradas", "evitadas", "evocadas", "evolucionadas", "exacerbadas", "exageradas", "exaltadas", "examinadas", "exasperadas", "excarceladas", "excavadas", "excedidas", "exceptuadas", "excitadas", "exclamadas", "excluidas", "excretadas", "exculpadas", "excusadas", "execradas", "exhaladas", "exhibidas", "exhortadas", "exhumadas", "exigidas", "exiladas", "eximidas", "existidas", "exoneradas", "exorcizadas", "expandidas", "expedidas", "expedientadas", "expelidas", "expendidas", "experimentadas", "expiadas", "expiradas", "explayadas", "explicadas", "explicitadas", "exploradas", "explosionadas", "explotadas", "expoliadas", "exportadas", "expresadas", "exprimidas", "expropiadas", "expuestas", "expulsadas", "expurgadas", "extendidas", "exteriorizadas", "exterminadas", "externadas", "externalizadas", "extinguidas", "extirpadas", "extorsionadas", "extractadas", "extraditadas", "extraídas", "extralimitadas", "extrañadas", "extrapoladas", "extraviadas", "extremadas", "extruidas", "exudadas", "eyaculadas", "eyectadas", "fabricadas", "fabuladas", "facilitadas", "facturadas", "facultadas", "fagocitadas", "fajadas", "falladas", "fallecidas", "falsadas", "falseadas", "falsificadas", "familiarizadas", "fantaseadas", "fascinadas", "fastidiadas", "fatigadas", "favorecidas", "fecundadas", "felicitadas", "feminizadas", "fenecidas", "fermentadas", "fertilizadas", "festejadas", "fiadas", "fichadas", "fidelizadas", "figuradas", "fijadas", "filmadas", "filosofadas", "filtradas", "finalizadas", "financiadas", "fincadas", "fingidas", "finiquitadas", "firmadas", "fiscalizadas", "fisuradas", "flageladas", "flameadas", "flanqueadas", "flaqueadas", "fletadas", "flexibilizadas", "flexionadas", "flipadas", "floreadas", "florecidas", "flotadas", "fluctuadas", "focalizadas", "fogueadas", "foliadas", "folladas", "fomentadas", "fondeadas", "forcejeadas", "forestadas", "forjadas", "formadas", "formalizadas", "formateadas", "formuladas", "fornicadas", "forradas", "fortalecidas", "forzadas", "fotocopiadas", "fotografiadas", "fracasadas", "fraccionadas", "fracturadas", "fragmentadas", "fraguadas", "franqueadas", "frecuentadas", "fregadas", "frenadas", "fresadas", "friccionadas", "frotadas", "fructificadas", "fruncidas", "fugadas", "fulminadas", "fumadas", "fumigadas", "funcionadas", "fundadas", "fundamentadas", "fundidas", "fungidas", "fusiladas", "fusionadas", "fustigadas", "gafadas", "ganadas", "gangrenadas", "garabateadas", "garantidas", "garantizadas", "garridas", "gaseadas", "gastadas", "gemidas", "generadas", "generalizadas", "gerenciadas", "germinadas", "gestadas", "gestionadas", "giradas", "glorificadas", "glosadas", "gobernadas", "goleadas", "golpeadas", "gozadas", "grabadas", "graduadas", "graficadas", "granjeadas", "grapadas", "gratificadas", "gravadas", "gravitadas", "gritadas", "gruñidas", "guardadas", "guarecidas", "guarnecidas", "guerreadas", "guiadas", "guillotinadas", "guiñadas", "guindadas", "guisadas", "gustadas", "habilitadas", "habitadas", "habituadas", "habladas", "haladas", "halagadas", "halladas", "hartadas", "hechizadas", "hechas", "helenizadas", "henchidas", "hendidas", "heredadas", "heridas", "hermanadas", "herradas", "hervidas", "hibernadas", "hibridadas", "hidratadas", "higienizadas", "hiladas", "hilvanadas", "hincadas", "hinchadas", "hipnotizadas", "hipotecadas", "historiadas", "hojeadas", "holgadas", "holladas", "homenajeadas", "homogeneizadas", "homologadas", "honradas", "horadadas", "horneadas", "horrorizadas", "hospedadas", "hostigadas", "hostilizadas", "huidas", "humanadas", "humanizadas", "humectadas", "humedecidas", "humilladas", "hundidas", "hurgadas", "hurtadas", "ideadas", "idealizadas", "identificadas", "ideologizadas", "idiotizadas", "idolatradas", "ignoradas", "igualadas", "ilegalizadas", "iluminadas", "ilusionadas", "ilustradas", "imaginadas", "imbricadas", "imitadas", "impactadas", "impartidas", "impedidas", "impelidas", "imperadas", "impermeabilizadas", "implantadas", "implementadas", "implicadas", "imploradas", "importadas", "importunadas", "imposibilitadas", "impresionadas", "improvisadas", "impuestas", "impugnadas", "impulsadas", "imputadas", "inauguradas", "incautadas", "incendiadas", "incentivadas", "incineradas", "incitadas", "inclinadas", "incluidas", "incoadas", "incomodadas", "incorporadas", "incrementadas", "increpadas", "incriminadas", "incubadas", "inculcadas", "inculpadas", "incumplidas", "incurridas", "incursionadas", "indagadas", "indemnizadas", "independizadas", "indexadas", "indicadas", "indigestadas", "indignadas", "indispuestas", "individuadas", "inducidas", "indultadas", "inervadas", "infamadas", "infartadas", "infectadas", "inferidas", "inficionadas", "infiltradas", "infladas", "inflamadas", "infligidas", "influenciadas", "influidas", "informadas", "infravaloradas", "infringidas", "infundidas", "ingeniadas", "ingeridas", "ingresadas", "inhabilitadas", "inhaladas", "inhibidas", "inhumadas", "iniciadas", "inicializadas", "injertadas", "injuriadas", "inmigradas", "inmiscuidas", "inmoladas", "inmortalizadas", "inmovilizadas", "inmunizadas", "innovadas", "inoculadas", "inquietadas", "inquiridas", "insensibilizadas", "insertadas", "insinuadas", "insistidas", "inspeccionadas", "inspiradas", "instadas", "instaladas", "instauradas", "instigadas", "instituidas", "instruidas", "instrumentadas", "instrumentalizadas", "insufladas", "insultadas", "insumidas", "integradas", "intelectualizadas", "intensificadas", "intentadas", "interactuadas", "intercaladas", "intercambiadas", "intercedidas", "interceptadas", "interesadas", "interferidas", "interiorizadas", "intermediadas", "internacionalizadas", "internalizadas", "interpeladas", "interpoladas", "interpretadas", "interpuestas", "interrogadas", "interrumpidas", "intervenidas", "intimadas", "intimidadas", "intituladas", "intoxicadas", "intrigadas", "introducidas", "intuidas", "inundadas", "inutilizadas", "invadidas", "invalidadas", "inventadas", "inventariadas", "invertidas", "investidas", "investigadas", "invitadas", "invocadas", "involucionadas", "inyectadas", "ionizadas", "ironizadas", "irradiadas", "irrespetadas", "irrigadas", "irritadas", "irrogadas", "irrumpidas", "jactadas", "jaladas", "jaleadas", "jalonadas", "jaqueadas", "jerarquizadas", "jodidas", "jorobadas", "jubiladas", "jugadas", "juntadas", "juradas", "juramentadas", "justificadas", "juzgadas", "laboradas", "labradas", "laburadas", "lacadas", "laceradas", "lactadas", "ladeadas", "ladradas", "lamentadas", "lamidas", "laminadas", "languidecidas", "lanzadas", "lapidadas", "laqueadas", "largadas", "lastimadas", "lastradas", "latidas", "laudadas", "lavadas", "legalizadas", "legisladas", "legitimadas", "leídas", "lesionadas", "leudadas", "levantadas", "liadas", "liberadas", "liberalizadas", "libertadas", "libradas", "licitadas", "licuadas", "liderizadas", "lidiadas", "ligadas", "lijadas", "limadas", "limitadas", "limpiadas", "linchadas", "liquidadas", "litigadas", "llagadas", "llamadas", "llegadas", "llenadas", "llevadas", "lloradas", "localizadas", "logradas", "lubricadas", "luchadas", "lucidas", "lucradas", "lustradas", "maceradas", "machacadas", "macheteadas", "machucadas", "madreadas", "madrugadas", "maduradas", "magnetizadas", "magnificadas", "malacostumbradas", "malbaratadas", "malcriadas", "maleadas", "malentendidas", "malgastadas", "malinterpretadas", "malogradas", "maltratadas", "malversadas", "mamadas", "manchadas", "mancilladas", "mandadas", "manejadas", "mangadas", "mangoneadas", "manifestadas", "maniobradas", "manipuladas", "manoseadas", "manteadas", "mantenidas", "manufacturadas", "maquilladas", "maquinadas", "maravilladas", "marcadas", "marchitadas", "mareadas", "marginadas", "maridadas", "martilladas", "martirizadas", "masacradas", "masajeadas", "mascadas", "masificadas", "masticadas", "masturbadas", "matadas", "materializadas", "matizadas", "matriculadas", "maximizadas", "meadas", "mecanografiadas", "mechadas", "mecidas", "mediadas", "mediatizadas", "medicadas", "medidas", "meditadas", "medradas", "mejoradas", "melladas", "memorizadas", "mencionadas", "meneadas", "menguadas", "menoscabadas", "menospreciadas", "menstruadas", "mensualizadas", "mensuradas", "mentadas", "mentalizadas", "mentidas", "mercadeadas", "mercantilizadas", "merecidas", "merendadas", "mermadas", "merodeadas", "mesuradas", "metamorfoseadas", "metidas", "mezcladas", "migradas", "militadas", "militarizadas", "mimadas", "mimetizadas", "minadas", "minimizadas", "ministradas", "minusvaloradas", "miradas", "mistificadas", "mitificadas", "mitigadas", "modeladas", "modernizadas", "modificadas", "moduladas", "mofadas", "mojadas", "moldeadas", "molestadas", "molidas", "monetizadas", "monitorizadas", "monopolizadas", "montadas", "moradas", "moralizadas", "mordidas", "mordisqueadas", "mortificadas", "mosqueadas", "mostradas", "motejadas", "motivadas", "movidas", "movilizadas", "mudadas", "muestreadas", "multadas", "multiplicadas", "munidas", "murmuradas", "mutadas", "mutiladas", "nacionalizadas", "narcotizadas", "narradas", "naufragadas", "navegadas", "necesitadas", "negadas", "negociadas", "neutralizadas", "ninguneadas", "niveladas", "nombradas", "nominadas", "noqueadas", "normadas", "normalizadas", "notadas", "notificadas", "nutridas", "obcecadas", "obedecidas", "objetadas", "objetivadas", "obligadas", "obliteradas", "obnubiladas", "obradas", "obsequiadas", "observadas", "obsesionadas", "obstaculizadas", "obstruidas", "obtenidas", "obturadas", "obviadas", "ocasionadas", "ocluidas", "ocultadas", "ocupadas", "odiadas", "ofendidas", "ofertadas", "oficiadas", "oficializadas", "ofrecidas", "ofrendadas", "ofuscadas", "oídas", "ojeadas", "olfateadas", "olidas", "olvidadas", "omitidas", "ondeadas", "onduladas", "opacadas", "operadas", "opinadas", "oprimidas", "optadas", "optimizadas", "opuestas", "oradas", "orbitadas", "ordenadas", "ordeñadas", "organizadas", "orientadas", "originadas", "orilladas", "orinadas", "ornadas", "ornamentadas", "orquestadas", "osadas", "osciladas", "oscurecidas", "osificadas", "ostentadas", "otorgadas", "ovacionadas", "ovuladas", "oxidadas", "oxigenadas", "pacificadas", "pactadas", "padecidas", "paganizadas", "paginadas", "paladeadas", "paliadas", "palpadas", "paradas", "parafraseadas", "paralizadas", "parapetadas", "parasitadas", "parceladas", "parchadas", "parcheadas", "pareadas", "paridas", "parodiadas", "parqueadas", "participadas", "particularizadas", "partidas", "pasadas", "paseadas", "pastoreadas", "pataleadas", "pateadas", "patentadas", "patentizadas", "patinadas", "patrulladas", "pecadas", "pedaleadas", "pedidas", "pegadas", "peinadas", "pellizcadas", "penalizadas", "penetradas", "pensadas", "percatadas", "percibidas", "percutidas", "perdidas", "perdonadas", "perduradas", "perecidas", "peregrinadas", "perfeccionadas", "perfiladas", "perforadas", "perfumadas", "pergeñadas", "peritadas", "perjudicadas", "perjuradas", "permeadas", "permitidas", "permutadas", "pernoctadas", "perpetradas", "perpetuadas", "perseguidas", "perseveradas", "persistidas", "personadas", "personalizadas", "personificadas", "persuadidas", "pertenecidas", "pertrechadas", "perturbadas", "pervertidas", "pervividas", "pescadas", "petadas", "peticionadas", "picadas", "picaneadas", "picoteadas", "pifiadas", "pignoradas", "pilladas", "pilotadas", "piloteadas", "pinceladas", "pinchadas", "pintadas", "pintarrajeadas", "pinzadas", "piradas", "pirateadas", "pisadas", "pisoteadas", "pitadas", "placidas", "plagiadas", "planchadas", "planeadas", "plantadas", "planteadas", "plasmadas", "platicadas", "plegadas", "pluralizadas", "podadas", "poetizadas", "polemizadas", "politizadas", "pololeadas", "ponderadas", "pontificadas", "popularizadas", "porfiadas", "portadas", "porteadas", "posadas", "posesionadas", "posibilitadas", "posicionadas", "pospuestas", "posteadas", "postergadas", "postradas", "postuladas", "potenciadas", "practicadas", "precarizadas", "precedidas", "preceptuadas", "precintadas", "precipitadas", "precisadas", "preconizadas", "predicadas", "predichas", "predispuestas", "predominadas", "preferidas", "prefiguradas", "pregonadas", "preguntadas", "prejuzgadas", "premiadas", "prendadas", "prendidas", "preocupadas", "preparadas", "presagiadas", "prescindidas", "presenciadas", "presentadas", "presentidas", "preservadas", "presididas", "presionadas", "prestadas", "prestigiadas", "presumidas", "presurizadas", "pretendidas", "preteridas", "prevalecidas", "prevalidas", "prevaricadas", "prevenidas", "previstas", "primadas", "principiadas", "pringadas", "priorizadas", "privatizadas", "probadas", "problematizadas", "procedidas", "procesadas", "proclamadas", "procreadas", "procuradas", "prodigadas", "producidas", "profanadas", "proferidas", "profesadas", "profesionalizadas", "profetizadas", "profundizadas", "programadas", "progresadas", "prohibidas", "prohijadas", "proletarizadas", "proliferadas", "prologadas", "prolongadas", "promediadas", "prometidas", "promocionadas", "promovidas", "promulgadas", "pronosticadas", "pronunciadas", "propagadas", "propaladas", "propendidas", "propiciadas", "propinadas", "proporcionadas", "propuestas", "propugnadas", "propulsadas", "prorrateadas", "prorrogadas", "proseguidas", "prosperadas", "prostituidas", "protegidas", "protestadas", "protocolizadas", "provenidas", "provocadas", "proyectadas", "psicoanalizadas", "publicadas", "publicitadas", "puestas", "pugnadas", "pujadas", "pulidas", "pulsadas", "pululadas", "pulverizadas", "punadas", "punteadas", "puntuadas", "puntualizadas", "punzadas", "purgadas", "purificadas", "puteadas", "quebradas", "quebrantadas", "quejadas", "quemadas", "querelladas", "queridas", "quintuplicadas", "quitadas", "racionadas", "racionalizadas", "radiadas", "radicadas", "radicalizadas", "raídas", "rajadas", "ralentizadas", "rapadas", "rapeadas", "raptadas", "rascadas", "rasgadas", "rasguñadas", "raspadas", "rastreadas", "rasuradas", "ratificadas", "rayadas", "razonadas", "reabiertas", "reabsorbidas", "reaccionadas", "reactivadas", "readaptadas", "readmitidas", "reafirmadas", "reagrupadas", "reajustadas", "realimentadas", "realizadas", "realzadas", "reanimadas", "reanudadas", "reaparecidas", "rearmadas", "reasumidas", "reavivadas", "rebajadas", "rebalsadas", "rebanadas", "rebasadas", "rebatidas", "rebautizadas", "rebeladas", "reblandecidas", "rebobinadas", "rebosadas", "rebotadas", "rebozadas", "rebuscadas", "recabadas", "recaídas", "recaladas", "recalcadas", "recalentadas", "recalificadas", "recapacitadas", "recapituladas", "recargadas", "recatadas", "recaudadas", "receptadas", "recetadas", "rechazadas", "recibidas", "recicladas", "recitadas", "reclamadas", "reclinadas", "reclutadas", "recobradas", "recocidas", "recogidas", "recolectadas", "recomendadas", "recomenzadas", "recompensadas", "recompuestas", "reconcentradas", "reconciliadas", "reconducidas", "reconfortadas", "reconocidas", "reconquistadas", "reconsideradas", "reconstituidas", "reconstruidas", "reconvenidas", "reconvertidas", "recopiladas", "recordadas", "recorridas", "recortadas", "recreadas", "recriminadas", "recrudecidas", "rectificadas", "recubiertas", "reculadas", "recuperadas", "recurridas", "recusadas", "redactadas", "redefinidas", "redescubiertas", "redimensionadas", "redimidas", "rediseñadas", "redistribuidas", "redituadas", "redobladas", "redondeadas", "reducidas", "redundadas", "reedificadas", "reeditadas", "reeducadas", "reelaboradas", "reembolsadas", "reemplazadas", "reencarnadas", "reencauchadas", "reencontradas", "reenganchadas", "reenviadas", "reescritas", "reestructuradas", "reexaminadas", "refaccionadas", "referidas", "refinadas", "refinanciadas", "reflejadas", "reflexionadas", "reflotadas", "reforestadas", "reformadas", "reforzadas", "refractadas", "refrenadas", "refrendadas", "refrescadas", "refrigeradas", "refundidas", "refutadas", "regadas", "regaladas", "regañadas", "regateadas", "regeneradas", "regentadas", "regenteadas", "regidas", "regionalizadas", "registradas", "regladas", "reglamentadas", "regocijadas", "regodeadas", "regresadas", "reguladas", "regularizadas", "regurgitadas", "rehabilitadas", "rehechas", "rehogadas", "rehuidas", "rehusadas", "reídas", "reinadas", "reincididas", "reincorporadas", "reingresadas", "reiniciadas", "reinsertadas", "reinstaladas", "reinstauradas", "reintegradas", "reinventadas", "reinvertidas", "reiteradas", "reivindicadas", "rejuvenecidas", "relajadas", "relamidas", "relanzadas", "relatadas", "relativizadas", "relegadas", "releídas", "relevadas", "religadas", "rellenadas", "remachadas", "remadas", "remangadas", "remarcadas", "rematadas", "remecidas", "remediadas", "rememoradas", "remendadas", "remitidas", "remodeladas", "remojadas", "remolcadas", "remontadas", "removidas", "remplazadas", "renacidas", "rendidas", "renegadas", "renegociadas", "reñidas", "renombradas", "renovadas", "rentabilizadas", "rentadas", "renunciadas", "reordenadas", "reorganizadas", "reorientadas", "reparadas", "repartidas", "repasadas", "repatriadas", "repelidas", "repensadas", "repercutidas", "repescadas", "repetidas", "repicadas", "repintadas", "replanteadas", "replegadas", "replicadas", "repobladas", "reportadas", "reporteadas", "reposadas", "repreguntadas", "reprendidas", "represadas", "representadas", "reprimidas", "reprobadas", "reprochadas", "reproducidas", "repudiadas", "repuestas", "repugnadas", "repuntadas", "reputadas", "requeridas", "requisadas", "resaltadas", "resarcidas", "resbaladas", "rescatadas", "rescindidas", "resecadas", "reseñadas", "reservadas", "reseteadas", "resguardadas", "resididas", "resignadas", "resistidas", "resonadas", "respaldadas", "respetadas", "respiradas", "resplandecidas", "respondidas", "responsabilizadas", "resquebrajadas", "restablecidas", "restadas", "restauradas", "restituidas", "restregadas", "resucitadas", "resueltas", "resumidas", "resurgidas", "retadas", "retardadas", "retenidas", "retiradas", "retocadas", "retomadas", "retorcidas", "retornadas", "retractadas", "retraídas", "retransmitidas", "retrasadas", "retratadas", "retribuidas", "retrotraídas", "retumbadas", "reunidas", "reunificadas", "reutilizadas", "revalidadas", "revalorizadas", "revaluadas", "reveladas", "revendidas", "reventadas", "reverdecidas", "reverenciadas", "revertidas", "revestidas", "reviradas", "revisadas", "revitalizadas", "revividas", "revocadas", "revolcadas", "revoloteadas", "revolucionadas", "revueltas", "ridiculizadas", "rifadas", "rimadas", "rivalizadas", "rizadas", "robadas", "robustecidas", "rociadas", "rodadas", "rodeadas", "rogadas", "roídas", "rondadas", "rotadas", "rotas", "rotuladas", "roturadas", "rozadas", "ruborizadas", "rubricadas", "rugidas", "rumiadas", "rumoradas", "sabidas", "saboreadas", "saboteadas", "sacadas", "saciadas", "sacralizadas", "sacrificadas", "sacudidas", "saldadas", "salpimentadas", "salpullidas", "saltadas", "salteadas", "saludadas", "salvadas", "salvaguardadas", "sanadas", "saneadas", "sangradas", "santificadas", "saqueadas", "satanizadas", "satirizadas", "satisfechas", "sazonadas", "secadas", "seccionadas", "secretadas", "secuenciadas", "secuestradas", "secundadas", "sedimentadas", "seducidas", "segadas", "segmentadas", "segregadas", "seguidas", "seleccionadas", "sembradas", "señaladas", "sensibilizadas", "sentadas", "sentenciadas", "sentidas", "separadas", "serenadas", "serradas", "servidas", "significadas", "silenciadas", "simbolizadas", "simpatizadas", "simplificadas", "simuladas", "sinceradas", "sincronizadas", "sindicadas", "sindicalizadas", "singularizadas", "sintetizadas", "sintonizadas", "sistematizadas", "situadas", "sobadas", "sobornadas", "sobradas", "sobrecargadas", "sobrecogidas", "sobreentendidas", "sobreestimadas", "sobrellevadas", "sobrentendidas", "sobrepasadas", "sobrepuestas", "sobresalidas", "sobresaltadas", "sobrestimadas", "sobrevenidas", "sobrevividas", "sobrevoladas", "socavadas", "socializadas", "socorridas", "sodomizadas", "sofocadas", "sojuzgadas", "solapadas", "solicitadas", "solidarizadas", "solidificadas", "soliviantadas", "soltadas", "solucionadas", "solventadas", "sombreadas", "sometidas", "sonadas", "soñadas", "sondeadas", "sonreídas", "sonrojadas", "sopesadas", "sopladas", "soportadas", "sorbidas", "sorprendidas", "sorteadas", "sosegadas", "soslayadas", "sospechadas", "sostenidas", "suavizadas", "subastadas", "subcontratadas", "subdivididas", "subestimadas", "subidas", "sublevadas", "sublimadas", "subrayadas", "subrogadas", "subsanadas", "subsidiadas", "subsistidas", "substraídas", "subsumidas", "subvertidas", "subyugadas", "succionadas", "sucedidas", "sucumbidas", "sudadas", "sufragadas", "sufridas", "sugeridas", "sugestionadas", "suicidadas", "sujetadas", "sumadas", "sumergidas", "suministradas", "supeditadas", "superadas", "superpuestas", "supervisadas", "suplantadas", "suplicadas", "suplidas", "suprimidas", "supuestas", "surcadas", "surtidas", "suscitadas", "suspendidas", "suspiradas", "sustanciadas", "sustantivadas", "sustentadas", "sustituidas", "sustraídas", "susurradas", "suturadas", "tabuladas", "tachadas", "taladas", "taladradas", "talladas", "tambaleadas", "tamizadas", "tañidas", "tanteadas", "tapadas", "tapizadas", "taponadas", "tarareadas", "tardadas", "tasadas", "tatuadas", "tecleadas", "tejidas", "telefoneadas", "televisadas", "temidas", "templadas", "tendidas", "tenidas", "tensadas", "tentadas", "teorizadas", "terciadas", "tergiversadas", "terminadas", "territorializadas", "testadas", "testeadas", "testificadas", "testimoniadas", "tildadas", "timadas", "timbradas", "tinturadas", "tipeadas", "tipificadas", "tiradas", "tiranizadas", "tironeadas", "tiroteadas", "titubeadas", "tiznadas", "tocadas", "toleradas", "tomadas", "tonificadas", "topadas", "toqueteadas", "torcidas", "toreadas", "tornadas", "tornasoladas", "torneadas", "torpedeadas", "torturadas", "tosidas", "tostadas", "totalizadas", "trabadas", "trabajadas", "traducidas", "traficadas", "tragadas", "traicionadas", "traídas", "trajinadas", "tramadas", "tramitadas", "trancadas", "tranquilizadas", "transcendidas", "transcurridas", "transferidas", "transfiguradas", "transformadas", "transfundidas", "transgredidas", "transigidas", "transitadas", "transliteradas", "translucidas", "transmitidas", "transmutadas", "transparentadas", "transpiradas", "transportadas", "transpuestas", "trasegadas", "trasgredidas", "trasladadas", "traslapadas", "traslucidas", "trasnochadas", "traspapeladas", "traspasadas", "trasplantadas", "traspuestas", "trasquiladas", "trasteadas", "trastocadas", "trastornadas", "trasvasadas", "tratadas", "trazadas", "trenzadas", "trepadas", "tributadas", "trincadas", "triplicadas", "trituradas", "triunfadas", "trivializadas", "trocadas", "troceadas", "tronadas", "tronchadas", "truncadas", "tumbadas", "tuneadas", "turbadas", "turnadas", "tuteladas", "ufanadas", "ultimadas", "uncidas", "ungidas", "unidas", "universalizadas", "untadas", "urbanizadas", "urdidas", "usadas", "usufructuadas", "usurpadas", "utilizadas", "vacadas", "vaciadas", "vaciladas", "vacunadas", "vagadas", "validadas", "validas", "valoradas", "valorizadas", "valuadas", "vanagloriadas", "vandalizadas", "vaporizadas", "variadas", "vaticinadas", "vedadas", "vehiculadas", "vejadas", "veladas", "vencidas", "vendadas", "vendidas", "veneradas", "vengadas", "ventiladas", "veraneadas", "verbalizadas", "verificadas", "versadas", "versionadas", "vertebradas", "vertidas", "vestidas", "vetadas", "viabilizadas", "viajadas", "vibradas", "victimadas", "victimizadas", "vigiladas", "vigorizadas", "vilipendiadas", "vindicadas", "violadas", "violentadas", "viradas", "visadas", "visibilizadas", "visitadas", "vislumbradas", "vistas", "visualizadas", "vitoreadas", "vitrificadas", "vituperadas", "vividas", "vivificadas", "vocalizadas", "voceadas", "vociferadas", "voladas", "volatilizadas", "volcadas", "volteadas", "vomitadas", "votadas", "vueltas", "vulcanizadas", "vulgarizadas", "vulneradas", "yuxtapuestas", "zafadas", "zambullidas", "zampadas", "zanjadas", "zarandeadas", "zarpadas", "zozobradas", "zumbadas", "zurcidas", "zurradas"];
+};
+//# sourceMappingURL=participles.js.map
+//# sourceMappingURL=participles.js.map
+
+/***/ }),
+/* 631 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Participle = __webpack_require__(386);
-var nonVerbsEndingEd = __webpack_require__(623)();
-var getWordIndices = __webpack_require__(624);
-var arrayToRegex = __webpack_require__(125);
-var cannotDirectlyPrecedePassiveParticiple = __webpack_require__(289)().cannotDirectlyPrecedePassiveParticiple;
-var cannotBeBetweenAuxiliaryAndParticiple = __webpack_require__(289)().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-var forEach = __webpack_require__(5);
-var includes = __webpack_require__(68);
-var isEmpty = __webpack_require__(25);
-var intersection = __webpack_require__(388);
-var directPrecedenceExceptionRegex = arrayToRegex(cannotDirectlyPrecedePassiveParticiple);
-var precedenceExceptionRegex = arrayToRegex(cannotBeBetweenAuxiliaryAndParticiple);
+var Participle = __webpack_require__(172);
+var checkException = __webpack_require__(294);
+var nonVerbsEndingEd = __webpack_require__(634)();
+var directPrecedenceException = __webpack_require__(295);
+var precedenceException = __webpack_require__(396);
+var includes = __webpack_require__(33);
+var isEmpty = __webpack_require__(15);
+var intersection = __webpack_require__(397);
 var irregularExclusionArray = ["get", "gets", "getting", "got", "gotten"];
-/**
- * Checks whether a participle is directly preceded by a given word.
- *
- * @param {Array} precedingWords The array of objects with matches and indices.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
- */
-var includesIndex = function includesIndex(precedingWords, participleIndex) {
-    if (isEmpty(precedingWords)) {
-        return false;
-    }
-    var precedingWordsEndIndices = [];
-    forEach(precedingWords, function (precedingWord) {
-        // + 1 because the end word boundary is not included in the match.
-        var precedingWordsEndIndex = precedingWord.index + precedingWord.match.length + 1;
-        precedingWordsEndIndices.push(precedingWordsEndIndex);
-    });
-    return includes(precedingWordsEndIndices, participleIndex);
-};
-/**
- * Checks whether a given word precedes a participle directly or indirectly.
- *
- * @param {Array} precedingWords The array of objects with matches and indices.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
- */
-var precedesIndex = function precedesIndex(precedingWords, participleIndex) {
-    if (isEmpty(precedingWords)) {
-        return false;
-    }
-    var precedingWordsIndices = [];
-    forEach(precedingWords, function (precedingWord) {
-        var precedingWordsIndex = precedingWord.index;
-        precedingWordsIndices.push(precedingWordsIndex);
-    });
-    var matches = [];
-    forEach(precedingWordsIndices, function (precedingWordsIndex) {
-        // + 1 because the beginning word boundary is not included in the passive participle match
-        if (precedingWordsIndex + 1 < participleIndex) {
-            matches.push(precedingWordsIndex);
-        }
-    });
-    if (matches.length) {
-        return true;
-    }
-    return false;
-};
 /**
  * Creates an Participle object for the English language.
  *
  * @param {string} participle The participle.
  * @param {string} sentencePart The sentence part that contains the participle.
- * @param {object} attributes  The attributes object.
+ * @param {Object} attributes  The attributes object.
  *
  * @constructor
  */
 var EnglishParticiple = function EnglishParticiple(participle, sentencePart, attributes) {
     Participle.call(this, participle, sentencePart, attributes);
-    this.checkException();
+    checkException.call(this);
 };
-__webpack_require__(33).inherits(EnglishParticiple, Participle);
-/**
- * Sets sentence part passiveness to passive if there is no exception.
- *
- * @returns {void}
- */
-EnglishParticiple.prototype.checkException = function () {
-    if (isEmpty(this.getParticiple())) {
-        this.setSentencePartPassiveness(false);
-        return;
-    }
-    this.setSentencePartPassiveness(this.isPassive());
-};
+__webpack_require__(19).inherits(EnglishParticiple, Participle);
 /**
  * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
  * If no exceptions are found, the sentence part is passive.
@@ -36292,48 +37016,22 @@ EnglishParticiple.prototype.hasRidException = function () {
     }
     return false;
 };
-/**
- * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
- * If this is the case, the sentence part is not passive.
- *
- * @param {string} sentencePart The sentence part that contains the participle.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if a word from the direct precedence exception list is directly preceding
- * the participle, otherwise returns false.
- */
-EnglishParticiple.prototype.directPrecedenceException = function (sentencePart, participleIndex) {
-    var directPrecedenceExceptionMatch = getWordIndices(sentencePart, directPrecedenceExceptionRegex);
-    return includesIndex(directPrecedenceExceptionMatch, participleIndex);
-};
-/**
- * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
- * If this is the case, the sentence part is not passive.
- *
- * @param {string} sentencePart The sentence part that contains the participle.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
- * sentence part before the participle, otherwise returns false.
- */
-EnglishParticiple.prototype.precedenceException = function (sentencePart, participleIndex) {
-    var precedenceExceptionMatch = getWordIndices(sentencePart, precedenceExceptionRegex);
-    return precedesIndex(precedenceExceptionMatch, participleIndex);
-};
+EnglishParticiple.prototype.directPrecedenceException = directPrecedenceException;
+EnglishParticiple.prototype.precedenceException = precedenceException;
 module.exports = EnglishParticiple;
 //# sourceMappingURL=EnglishParticiple.js.map
 //# sourceMappingURL=EnglishParticiple.js.map
 
 /***/ }),
-/* 621 */
+/* 632 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(19),
+var copyObject = __webpack_require__(21),
     createAssigner = __webpack_require__(132),
-    keysIn = __webpack_require__(45);
+    keysIn = __webpack_require__(47);
 
 /**
  * This method is like `_.assignIn` except that it accepts `customizer`
@@ -36371,13 +37069,13 @@ var assignInWith = createAssigner(function (object, source, srcIndex, customizer
 module.exports = assignInWith;
 
 /***/ }),
-/* 622 */
+/* 633 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var eq = __webpack_require__(35);
+var eq = __webpack_require__(36);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -36407,7 +37105,7 @@ function customDefaultsAssignIn(objValue, srcValue, key, object) {
 module.exports = customDefaultsAssignIn;
 
 /***/ }),
-/* 623 */
+/* 634 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36420,46 +37118,57 @@ module.exports = function () {
 //# sourceMappingURL=non-verb-ending-ed.js.map
 
 /***/ }),
-/* 624 */
+/* 635 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-/**
- * Matches words from a list in sentence parts and returns them and their indices.
- *
- * @param {string} sentencePart The sentence part to match the words in.
- * @param {RegExp} regex The regex used for matching.
- * @returns {Array} The list of result objects.
- */
 
-module.exports = function (sentencePart, regex) {
-    var results = [];
-    /* Decided to use a for loop here so that we could retrieve all matches while keeping result objects intact.
-    For every match there is in the sentence part, an object with the match and its index will be pushed into
-    the results array. */
-    for (var match = regex.exec(sentencePart); match !== null; match = regex.exec(sentencePart)) {
-        results.push({
-            match: match[0],
-            index: match.index
-        });
+var isEmpty = __webpack_require__(15);
+var forEach = __webpack_require__(2);
+/**
+ * Checks whether a given word precedes a participle directly or indirectly.
+ *
+ * @param {Array} precedingWords The array of objects with matches and indices.
+ * @param {number} participleIndex The index of the participle.
+ *
+ * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
+ */
+module.exports = function (precedingWords, participleIndex) {
+    if (isEmpty(precedingWords)) {
+        return false;
     }
-    return results;
+    var precedingWordsIndices = [];
+    forEach(precedingWords, function (precedingWord) {
+        var precedingWordsIndex = precedingWord.index;
+        precedingWordsIndices.push(precedingWordsIndex);
+    });
+    var matches = [];
+    forEach(precedingWordsIndices, function (precedingWordsIndex) {
+        // + 1 because the beginning word boundary is not included in the passive participle match
+        if (precedingWordsIndex + 1 < participleIndex) {
+            matches.push(precedingWordsIndex);
+        }
+    });
+    if (matches.length > 0) {
+        return true;
+    }
+    return false;
 };
-//# sourceMappingURL=getIndicesWithRegex.js.map
-//# sourceMappingURL=getIndicesWithRegex.js.map
+//# sourceMappingURL=precedesIndex.js.map
+//# sourceMappingURL=precedesIndex.js.map
 
 /***/ }),
-/* 625 */
+/* 636 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var SetCache = __webpack_require__(164),
-    arrayIncludes = __webpack_require__(290),
-    arrayIncludesWith = __webpack_require__(291),
-    arrayMap = __webpack_require__(30),
+    arrayIncludes = __webpack_require__(299),
+    arrayIncludesWith = __webpack_require__(300),
+    arrayMap = __webpack_require__(31),
     baseUnary = __webpack_require__(82),
     cacheHas = __webpack_require__(165);
 
@@ -36523,7 +37232,7 @@ function baseIntersection(arrays, iteratee, comparator) {
 module.exports = baseIntersection;
 
 /***/ }),
-/* 626 */
+/* 637 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36545,55 +37254,377 @@ function castArrayLikeObject(value) {
 module.exports = castArrayLikeObject;
 
 /***/ }),
-/* 627 */
+/* 638 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+var Participle = __webpack_require__(172);
+var checkException = __webpack_require__(294);
+var directPrecedenceException = __webpack_require__(295);
+var precedenceException = __webpack_require__(396);
+var exceptionsParticiplesAdjectivesVerbs = __webpack_require__(173)().adjectivesVerbs;
+var exceptionsParticiplesNounsVowel = __webpack_require__(173)().nounsStartingWithVowel;
+var exceptionsParticiplesNounsConsonant = __webpack_require__(173)().nounsStartingWithConsonant;
+var exceptionsParticiplesOthers = __webpack_require__(173)().others;
+var includes = __webpack_require__(33);
+var forEach = __webpack_require__(2);
+var memoize = __webpack_require__(39);
+/**
+ * Creates an Participle object for the French language.
+ *
+ * @param {string} participle The participle.
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {Object} attributes  The attributes object.
+ *
+ * @constructor
+ */
+var FrenchParticiple = function FrenchParticiple(participle, sentencePart, attributes) {
+    Participle.call(this, participle, sentencePart, attributes);
+    checkException.call(this);
+};
+__webpack_require__(19).inherits(FrenchParticiple, Participle);
+/**
+ * Checks whether the participle is irregular.
+ *
+ * @returns {boolean} Returns true if the passive is irregular.
+ */
+var checkIrregular = function checkIrregular() {
+    if (this.getType() === "irregular") {
+        return true;
+    }
+};
+/**
+ * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
+ * If no exceptions are found, the sentence part is passive.
+ *
+ * @returns {boolean} Returns true if no exception is found.
+ */
+FrenchParticiple.prototype.isPassive = function () {
+    var sentencePart = this.getSentencePart();
+    var participleIndex = sentencePart.indexOf(this.getParticiple());
+    // Only check precedence exceptions for irregular participles.
+    if (checkIrregular.call(this)) {
+        return !this.directPrecedenceException(sentencePart, participleIndex) && !this.precedenceException(sentencePart, participleIndex);
+    }
+    // Check precedence exceptions and exception lists for regular participles.
+    return !this.isOnAdjectivesVerbsExceptionList() && !this.isOnNounsExceptionList() && !this.isOnOthersExceptionList() && !this.directPrecedenceException(sentencePart, participleIndex) && !this.precedenceException(sentencePart, participleIndex);
+};
+/**
+ * Creates regexes to match adjective and verb participle exceptions (including suffixes) and memoizes them.
+ *
+ * @returns {Array} Returns an array with all adjective and verb participle exceptions.
+ */
+var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize(function () {
+    var exceptionsParticiplesAdjectivesVerbsRegexes = [];
+    forEach(exceptionsParticiplesAdjectivesVerbs, function (exceptionParticiplesAdjectivesVerbs) {
+        exceptionsParticiplesAdjectivesVerbsRegexes.push(new RegExp("^" + exceptionParticiplesAdjectivesVerbs + "(e|s|es)?$", "ig"));
+    });
+    return exceptionsParticiplesAdjectivesVerbsRegexes;
+});
+/**
+ * Creates regexes to match noun participle exceptions (including suffixes) and memoizes them.
+ *
+ * @returns {Array} Returns an array with all noun participle exceptions.
+ */
+var getExceptionsParticiplesNounsRegexes = memoize(function () {
+    var exceptionsParticiplesNounsRegexes = [];
+    // Nouns starting with a vowel are checked with -s suffix and l' and d' prefixes.
+    forEach(exceptionsParticiplesNounsVowel, function (exceptionParticipleNounVowel) {
+        exceptionsParticiplesNounsRegexes.push(new RegExp("^(l'|d')?" + exceptionParticipleNounVowel + "(s)?$", "ig"));
+    });
+    // Nouns starting with a consonant are checked with -s suffix.
+    forEach(exceptionsParticiplesNounsConsonant, function (exceptionParticipleNounConsonant) {
+        exceptionsParticiplesNounsRegexes.push(new RegExp("^" + exceptionParticipleNounConsonant + "(s)?$", "ig"));
+    });
+    return exceptionsParticiplesNounsRegexes;
+});
+/**
+ * Checks whether a given participle matches a list of regex exceptions.
+ *
+ * @param {Array} participleExceptionRegexes The array of regexes to check.
+ * @returns {boolean} Returns true if the participle matches a regex.
+ */
+var checkParticipleExceptionRegexes = function checkParticipleExceptionRegexes(participleExceptionRegexes) {
+    var participle = this.getParticiple();
+    var match = [];
+    forEach(participleExceptionRegexes, function (participleExceptionRegex) {
+        var exceptionMatch = participle.match(participleExceptionRegex);
+        if (exceptionMatch) {
+            match.push(exceptionMatch[0]);
+        }
+    });
+    if (match.length > 0) {
+        return true;
+    }
+    return false;
+};
+/**
+ * Checks whether a found participle is in the exception list of adjectives and verbs.
+ * These words are checked with e/s/es as possible suffixes.
+ * If a word is on the list, it isn't a participle.
+ *
+ * @returns {boolean} Returns true if it is in the exception list of adjectives and verbs, otherwise returns false.
+ */
+FrenchParticiple.prototype.isOnAdjectivesVerbsExceptionList = function () {
+    var exceptionParticiplesAdjectivesVerbs = getExceptionsParticiplesAdjectivesVerbsRegexes();
+    return checkParticipleExceptionRegexes.call(this, exceptionParticiplesAdjectivesVerbs);
+};
+/**
+ * Checks whether a found participle is in the exception list of nouns.
+ * These words are checked with s as a possible suffix.
+ * If a word is on the list, it isn't a participle.
+ *
+ * @returns {boolean} Returns true if it is in the exception list of nouns, otherwise returns false.
+ */
+FrenchParticiple.prototype.isOnNounsExceptionList = function () {
+    var exceptionsParticiplesNouns = getExceptionsParticiplesNounsRegexes();
+    return checkParticipleExceptionRegexes.call(this, exceptionsParticiplesNouns);
+};
+/**
+ * Checks whether a found participle is in the exception list in the 'other' category.
+ * If a word is on the list, it isn't a participle.
+ * Irregular participles do not end in -é and therefore can't be on the list.
+ *
+ * @returns {boolean} Returns true if it is in the exception list of nouns, otherwise returns false.
+ */
+FrenchParticiple.prototype.isOnOthersExceptionList = function () {
+    return includes(exceptionsParticiplesOthers, this.getParticiple());
+};
+FrenchParticiple.prototype.directPrecedenceException = directPrecedenceException;
+FrenchParticiple.prototype.precedenceException = precedenceException;
+module.exports = FrenchParticiple;
+//# sourceMappingURL=FrenchParticiple.js.map
+//# sourceMappingURL=FrenchParticiple.js.map
+
+/***/ }),
+/* 639 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Participle = __webpack_require__(172);
+var checkException = __webpack_require__(294);
+var directPrecedenceException = __webpack_require__(295);
+/**
+ * Creates an Participle object for the Spanish language.
+ *
+ * @param {string} participle The participle.
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {Object} attributes  The attributes object.
+ *
+ * @constructor
+ */
+var SpanishParticiple = function SpanishParticiple(participle, sentencePart, attributes) {
+  Participle.call(this, participle, sentencePart, attributes);
+  checkException.call(this);
+};
+__webpack_require__(19).inherits(SpanishParticiple, Participle);
+/**
+ * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
+ * If no exceptions are found, the sentence part is passive.
+ *
+ * @returns {boolean} Returns true if no exception is found.
+ */
+SpanishParticiple.prototype.isPassive = function () {
+  var sentencePart = this.getSentencePart();
+  var participleIndex = sentencePart.indexOf(this.getParticiple());
+  return !this.directPrecedenceException(sentencePart, participleIndex);
+};
+SpanishParticiple.prototype.directPrecedenceException = directPrecedenceException;
+module.exports = SpanishParticiple;
+//# sourceMappingURL=SpanishParticiple.js.map
+//# sourceMappingURL=SpanishParticiple.js.map
+
+/***/ }),
+/* 640 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * Returns a list with stopwords for the English passive voice assessment.
+ * @returns {Array} The list with stopwords.
+ */
+
 module.exports = function () {
-    return ["to", "which", "who", "whom", "that", "whose", "after", "although", "as", "because", "before", "even if", "even though", "how", "if", "in order that", "inasmuch", "lest", "once", "provided", "since", "so that", "than", "though", "till", "unless", "until", "when", "whenever", "where", "whereas", "wherever", "whether", "while", "why", "by the time", "supposing", "no matter", "how", "what", "won't", "do", "does", "–", "and", "but", "or"];
+  return ["to", "which", "who", "whom", "that", "whose", "after", "although", "as", "because", "before", "even if", "even though", "how", "if", "in order that", "inasmuch", "lest", "once", "provided", "since", "so that", "than", "though", "till", "unless", "until", "when", "whenever", "where", "whereas", "wherever", "whether", "while", "why", "by the time", "supposing", "no matter", "how", "what", "won't", "do", "does", "–", "and", "but", "or"];
 };
 //# sourceMappingURL=stopwords.js.map
 //# sourceMappingURL=stopwords.js.map
 
 /***/ }),
-/* 628 */
+/* 641 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getParticiples = __webpack_require__(385);
-var determineSentencePartIsPassive = __webpack_require__(389);
+var SentencePart = __webpack_require__(170);
+var getParticiples = __webpack_require__(171);
+/**
+ * Creates a French-specific sentence part.
+ *
+ * @param {string} sentencePartText The text from the sentence part.
+ * @param {Array} auxiliaries The list with auxiliaries.
+ * @constructor
+ */
+var FrenchSentencePart = function FrenchSentencePart(sentencePartText, auxiliaries) {
+  SentencePart.call(this, sentencePartText, auxiliaries, "fr_FR");
+};
+__webpack_require__(19).inherits(FrenchSentencePart, SentencePart);
+/**
+ * Returns the participles found in the sentence part.
+ *
+ * @returns {Array} The array of Participle Objects.
+ */
+FrenchSentencePart.prototype.getParticiples = function () {
+  return getParticiples(this.getSentencePartText(), this.getAuxiliaries(), "fr");
+};
+module.exports = FrenchSentencePart;
+//# sourceMappingURL=SentencePart.js.map
+//# sourceMappingURL=SentencePart.js.map
+
+/***/ }),
+/* 642 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * Returns a list with auxiliaries for the French passive voice assessment.
+ * @returns {Array} The list with auxiliaries.
+ */
+
+module.exports = function () {
+  return ["être", "d'être", "suis", "es", "est", "sommes", "êtes", "sont", "n'est", "n'es", "n'êtes", "été", "j'étais", "étais", "était", "étions", "étiez", "étaient", "c'était", "n'étais", "n'était", "n'étions", "n'étiez", "n'étaient", "serai", "seras", "sera", "serons", "serez", "seront", "sois", "soit", "soyons", "soyez", "soient", "fusse", "fusses", "fût", "fussions", "fussiez", "fussent", "serais", "serait", "serions", "seriez", "seraient", "fus", "fut", "fûmes", "fûtes", "furent", "suis-je", "es-tu", "est-il", "est-elle", "est-on", "sommes-nous", "êtes-vous", "sont-ils", "sont-elles", "est-ce", "étais-je", "étais-tu", "était-il", "était-elle", "était-on", "était-ce", "étions-nous", "étiez-vous", "étaient-ils", "étaient-elles", "serai-je", "seras-tu", "sera-t-il", "sera-t-elle", "sera-t-on", "sera-ce", "serons-nous", "serez-vous", "seront-ils", "seront-elles", "serais-je", "serais-tu", "serait-il", "serait-elle", "serait-on", "serait-ce", "serions-nous", "seriez-vous", "seraient-ils", "seraient-elles", "fus-je", "fus-tu", "fut-il", "fut-elle", "fut-on", "fut-ce", "fûmes-nous", "fûtes-vous", "furent-ils", "furent-elles"];
+};
+//# sourceMappingURL=auxiliaries.js.map
+//# sourceMappingURL=auxiliaries.js.map
+
+/***/ }),
+/* 643 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * Returns a list with stopwords for the French passive voice assessment.
+ * @returns {Array} The list with stopwords.
+ */
+
+module.exports = function () {
+  return ["et", "ou", "car", "or", "puisque", "puisqu'il", "puisqu'ils", "puisqu'elle", "puisqu'elles", "puisqu'un", "puisqu'une", "puisqu'on", "quand", "lorsque", "lorsqu'il", "lorsqu'elle", "lorsqu'ils", "lorsqu'elles", "lorsqu'on", "lorsqu'un", "lorsqu'une", "quoique", "quoiqu'il", "quoiqu'ils", "quoiqu'elle", "quoiqu'elles", "quoiqu'on", "quoiqu'un", "quoiqu'une", "qu'elle", "qu'il", "qu'ils", "qu'elles", "qu'on", "qu'un", "qu'une", "si", "s'ils", "s'elles", "s'elle", "s'il", "s'on", "s'un", "s'une", "quand bien même", "pourquoi", "après", "avant", "afin de", "compte tenu de", "pour ne pas dire", "sinon", "une fois", "sitôt", "dont", "lequel", "laquelle", "lesquels", "lesquelles", "auquel", "auxquels", "auxquelles", "duquel", "desquels", "desquelles", "qui", "où", "d'où", ":", "allé", "entré", "resté", "retombé", "apparu", "réapparu", "devenu", "redevenu", "intervenu", "provenu", "resurvenu", "survenu", "allés", "entrés", "restés", "retombés", "apparus", "réapparus", "devenus", "redevenus", "intervenus", "provenus", "resurvenus", "survenus", "allée", "entrée", "restée", "retombée", "apparue", "réapparue", "devenue", "redevenue", "intervenue", "provenue", "resurvenue", "survenue", "allées", "entrées", "restées", "retombées", "apparues", "réapparues", "devenues", "redevenues", "intervenues", "provenues", "resurvenues", "survenues"];
+};
+//# sourceMappingURL=stopwords.js.map
+//# sourceMappingURL=stopwords.js.map
+
+/***/ }),
+/* 644 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var SentencePart = __webpack_require__(170);
+var getParticiples = __webpack_require__(171);
+/**
+ * Creates a Spanish-specific sentence part.
+ *
+ * @param {string} sentencePartText The text from the sentence part.
+ * @param {Array} auxiliaries The list with auxiliaries.
+ * @constructor
+ */
+var SpanishSentencePart = function SpanishSentencePart(sentencePartText, auxiliaries) {
+  SentencePart.call(this, sentencePartText, auxiliaries, "es_ES");
+};
+__webpack_require__(19).inherits(SpanishSentencePart, SentencePart);
+/**
+ * Returns the participles found in the sentence part.
+ *
+ * @returns {Array} The array of Participle Objects.
+ */
+SpanishSentencePart.prototype.getParticiples = function () {
+  return getParticiples(this.getSentencePartText(), this.getAuxiliaries(), "es");
+};
+module.exports = SpanishSentencePart;
+//# sourceMappingURL=SentencePart.js.map
+//# sourceMappingURL=SentencePart.js.map
+
+/***/ }),
+/* 645 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * Returns a list with auxiliaries for the Spanish passive voice assessment.
+ * @returns {Array} The list with auxiliaries.
+ */
+
+module.exports = function () {
+  return ["ser", "soy", "eres", "es", "somos", "sois", "son", "fui", "fuiste", "fue", "fuimos", "fuisteis", "fueron", "era", "eras", "era", "éramos", "erais", "eran", "sería", "serías", "seríamos", "seríais", "serían", "seré", "serás", "será", "seremos", "seréis", "serán", "seas", "sea", "seamos", "seáis", "sean", "fuera", "fueras", "fuéramos", "fuerais", "fueran", "fuese", "fueses", "fuésemos", "fueseis", "fuesen", "fuere", "fueres", "fuéremos", "fuereis", "fueren", "sé", "sed", "siendo", "sido"];
+};
+//# sourceMappingURL=auxiliaries.js.map
+//# sourceMappingURL=auxiliaries.js.map
+
+/***/ }),
+/* 646 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * Returns a list with stopwords for the Spanish passive voice assessment.
+ * @returns {Array} The list with stopwords.
+ */
+
+module.exports = function () {
+  return ["pero", "ora", "aunque", "aun", "mientras", "porque", "apenas", "si", "antes", "después", "cómo", "como", "empero", "que", "cuanto", "cuando", "cual", "cuales", "quién", "quien", "quienes", "dónde", "adónde", "cuyo", "cuyos", "cuya", "cuyas"];
+};
+//# sourceMappingURL=stopwords.js.map
+//# sourceMappingURL=stopwords.js.map
+
+/***/ }),
+/* 647 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getParticiples = __webpack_require__(171);
+var determineSentencePartIsPassive = __webpack_require__(398);
 /**
  * Determines whether a sentence part is passive.
  *
  * @param {string} sentencePart The sentence part to determine voice for.
  * @param {Array} auxiliaries The auxiliaries to be used for creating SentenceParts.
+ * @param {string} language The language to determine voice for.
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
-module.exports = function (sentencePart, auxiliaries) {
-  var participles = getParticiples(sentencePart, auxiliaries);
+module.exports = function (sentencePart, auxiliaries, language) {
+  var participles = getParticiples(sentencePart, auxiliaries, language);
   return determineSentencePartIsPassive(participles);
 };
 //# sourceMappingURL=determinePassives.js.map
 //# sourceMappingURL=determinePassives.js.map
 
 /***/ }),
-/* 629 */
+/* 648 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stopwords = __webpack_require__(630)();
-var arrayToRegex = __webpack_require__(125);
-var stripSpaces = __webpack_require__(27);
-var SentencePart = __webpack_require__(631);
+var stopwords = __webpack_require__(649)();
+var arrayToRegex = __webpack_require__(91);
+var stripSpaces = __webpack_require__(28);
+var SentencePart = __webpack_require__(650);
 var auxiliaries = __webpack_require__(127)().allAuxiliaries;
-var forEach = __webpack_require__(5);
-var isEmpty = __webpack_require__(25);
+var forEach = __webpack_require__(2);
+var isEmpty = __webpack_require__(15);
 var map = __webpack_require__(9);
 var stopwordRegex = arrayToRegex(stopwords);
 var auxiliaryRegex = arrayToRegex(auxiliaries);
@@ -36669,30 +37700,33 @@ module.exports = function (sentence) {
 //# sourceMappingURL=getSentenceParts.js.map
 
 /***/ }),
-/* 630 */
+/* 649 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-// This is a list with stopwords used in German.
+/**
+ * Returns a list with stopwords for the German passive voice assessment.
+ * @returns {Array} The list with stopwords.
+ */
 
 module.exports = function () {
-    return [":", "aber", "als", "bevor", "bis", "da", "damit", "daß", "dass", "denn", "doch", "ehe", "falls", "gleichwohl", "indem", "indes", "indessen", "insofern", "insoweit", "nachdem", "nun", "ob", "obgleich", "obschon", "obwohl", "obzwar", "oder", "seitdem", "sobald", "sodass", "sofern", "solange", "sondern", "sooft", "soviel", "soweit", "sowie", "trotz", "und", "ungeachtet", "waehrend", "während", "weil", "welche", "welchem", "welchen", "welcher", "welches", "wem", "wen", "wenn", "wenngleich", "wennschon", "wer", "wes", "wessen", "wie", "wiewohl", "wohingegen", "zumal"];
+  return [":", "aber", "als", "bevor", "bis", "da", "damit", "daß", "dass", "denn", "doch", "ehe", "falls", "gleichwohl", "indem", "indes", "indessen", "insofern", "insoweit", "nachdem", "nun", "ob", "obgleich", "obschon", "obwohl", "obzwar", "oder", "seitdem", "sobald", "sodass", "sofern", "solange", "sondern", "sooft", "soviel", "soweit", "sowie", "trotz", "und", "ungeachtet", "waehrend", "während", "weil", "welche", "welchem", "welchen", "welcher", "welches", "wem", "wen", "wenn", "wenngleich", "wennschon", "wer", "wes", "wessen", "wie", "wiewohl", "wohingegen", "zumal"];
 };
 //# sourceMappingURL=stopwords.js.map
 //# sourceMappingURL=stopwords.js.map
 
 /***/ }),
-/* 631 */
+/* 650 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SentencePart = __webpack_require__(384);
-var getParticiples = __webpack_require__(390);
+var SentencePart = __webpack_require__(170);
+var getParticiples = __webpack_require__(399);
 /**
- * Creates a German specific sentence part.
+ * Creates a German-specific sentence part.
  *
  * @param {string} sentencePartText The text from the sentence part.
  * @param {Array} auxiliaries The list with auxiliaries.
@@ -36701,7 +37735,7 @@ var getParticiples = __webpack_require__(390);
 var GermanSentencePart = function GermanSentencePart(sentencePartText, auxiliaries) {
   SentencePart.call(this, sentencePartText, auxiliaries, "de_DE");
 };
-__webpack_require__(33).inherits(GermanSentencePart, SentencePart);
+__webpack_require__(19).inherits(GermanSentencePart, SentencePart);
 /**
  * Returns the participles found in the sentence part.
  *
@@ -36715,7 +37749,7 @@ module.exports = GermanSentencePart;
 //# sourceMappingURL=SentencePart.js.map
 
 /***/ }),
-/* 632 */
+/* 651 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36796,7 +37830,7 @@ module.exports = function () {
 //# sourceMappingURL=regex.js.map
 
 /***/ }),
-/* 633 */
+/* 652 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36812,22 +37846,22 @@ module.exports = function () {
 //# sourceMappingURL=irregulars.js.map
 
 /***/ }),
-/* 634 */
+/* 653 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Participle = __webpack_require__(386);
-var getIndices = __webpack_require__(286).getIndicesByWord;
-var getIndicesOfList = __webpack_require__(286).getIndicesByWordList;
-var exceptionsParticiplesActive = __webpack_require__(635)();
+var Participle = __webpack_require__(172);
+var getIndices = __webpack_require__(290).getIndicesByWord;
+var getIndicesOfList = __webpack_require__(290).getIndicesByWordList;
+var exceptionsParticiplesActive = __webpack_require__(654)();
 var auxiliaries = __webpack_require__(127)().participleLike;
 var exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-var includes = __webpack_require__(68);
+var includes = __webpack_require__(33);
 var map = __webpack_require__(9);
 /**
- * Creates an Participle object for the English language.
+ * Creates an Participle object for the German language.
  *
  * @param {string} participle The participle.
  * @param {string} sentencePart The sentence part that contains the participle.
@@ -36839,7 +37873,7 @@ var GermanParticiple = function GermanParticiple(participle, sentencePart, attri
     Participle.call(this, participle, sentencePart, attributes);
     this.setSentencePartPassiveness(this.isPassive());
 };
-__webpack_require__(33).inherits(GermanParticiple, Participle);
+__webpack_require__(19).inherits(GermanParticiple, Participle);
 /**
  * Checks if the text is passive based on the participle exceptions.
  *
@@ -36896,7 +37930,7 @@ module.exports = GermanParticiple;
 //# sourceMappingURL=GermanParticiple.js.map
 
 /***/ }),
-/* 635 */
+/* 654 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36910,16 +37944,16 @@ module.exports = function () {
 //# sourceMappingURL=exceptionsParticiplesActive.js.map
 
 /***/ }),
-/* 636 */
+/* 655 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayToRegex = __webpack_require__(125);
+var arrayToRegex = __webpack_require__(91);
 var auxiliaries = __webpack_require__(127)().allAuxiliaries;
-var getParticiples = __webpack_require__(390);
-var determineSentencePartIsPassive = __webpack_require__(389);
+var getParticiples = __webpack_require__(399);
+var determineSentencePartIsPassive = __webpack_require__(398);
 var auxiliaryRegex = arrayToRegex(auxiliaries);
 /**
  * Determines whether a sentence part is passive.
@@ -36941,19 +37975,19 @@ module.exports = function (sentencePartText, auxiliaries) {
 //# sourceMappingURL=determinePassives.js.map
 
 /***/ }),
-/* 637 */
+/* 656 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWords = __webpack_require__(66);
-var stripSpaces = __webpack_require__(27);
-var stripTags = __webpack_require__(26).stripFullTags;
-var getFirstWordExceptions = __webpack_require__(638);
-var isEmpty = __webpack_require__(25);
-var forEach = __webpack_require__(5);
-var filter = __webpack_require__(20);
+var getWords = __webpack_require__(67);
+var stripSpaces = __webpack_require__(28);
+var stripTags = __webpack_require__(27).stripFullTags;
+var getFirstWordExceptions = __webpack_require__(657);
+var isEmpty = __webpack_require__(15);
+var forEach = __webpack_require__(2);
+var filter = __webpack_require__(22);
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
  *
@@ -37045,19 +38079,19 @@ module.exports = function (paper, researcher) {
 //# sourceMappingURL=getSentenceBeginnings.js.map
 
 /***/ }),
-/* 638 */
+/* 657 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var firstWordExceptionsEnglish = __webpack_require__(639);
-var firstWordExceptionsGerman = __webpack_require__(640);
-var firstWordExceptionsSpanish = __webpack_require__(641);
-var firstWordExceptionsFrench = __webpack_require__(642);
-var firstWordExceptionsDutch = __webpack_require__(643);
-var firstWordExceptionsItalian = __webpack_require__(644);
-var getLanguage = __webpack_require__(48);
+var firstWordExceptionsEnglish = __webpack_require__(658);
+var firstWordExceptionsGerman = __webpack_require__(659);
+var firstWordExceptionsSpanish = __webpack_require__(660);
+var firstWordExceptionsFrench = __webpack_require__(661);
+var firstWordExceptionsDutch = __webpack_require__(662);
+var firstWordExceptionsItalian = __webpack_require__(663);
+var getLanguage = __webpack_require__(50);
 module.exports = function (locale) {
     switch (getLanguage(locale)) {
         case "de":
@@ -37079,7 +38113,7 @@ module.exports = function (locale) {
 //# sourceMappingURL=getFirstWordExceptions.js.map
 
 /***/ }),
-/* 639 */
+/* 658 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37104,7 +38138,7 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 640 */
+/* 659 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37129,7 +38163,7 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 641 */
+/* 660 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37154,7 +38188,7 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 642 */
+/* 661 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37179,7 +38213,7 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 643 */
+/* 662 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37204,7 +38238,7 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 644 */
+/* 663 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37229,13 +38263,13 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 645 */
+/* 664 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getRelevantWords = __webpack_require__(646).getRelevantWords;
+var getRelevantWords = __webpack_require__(665).getRelevantWords;
 /**
  * Retrieves the relevant words from the given paper.
  *
@@ -37250,33 +38284,33 @@ module.exports = relevantWords;
 //# sourceMappingURL=relevantWords.js.map
 
 /***/ }),
-/* 646 */
+/* 665 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWords = __webpack_require__(66);
-var getSentences = __webpack_require__(54);
-var WordCombination = __webpack_require__(647);
+var getWords = __webpack_require__(67);
+var getSentences = __webpack_require__(55);
+var WordCombination = __webpack_require__(666);
 var normalizeQuotes = __webpack_require__(167).normalize;
-var germanFunctionWords = __webpack_require__(649);
-var englishFunctionWords = __webpack_require__(289);
-var dutchFunctionWords = __webpack_require__(650);
-var spanishFunctionWords = __webpack_require__(651);
-var italianFunctionWords = __webpack_require__(652);
-var frenchFunctionWords = __webpack_require__(653);
-var getLanguage = __webpack_require__(48);
-var filter = __webpack_require__(20);
+var germanFunctionWords = __webpack_require__(668);
+var englishFunctionWords = __webpack_require__(297);
+var dutchFunctionWords = __webpack_require__(669);
+var spanishFunctionWords = __webpack_require__(395);
+var italianFunctionWords = __webpack_require__(670);
+var frenchFunctionWords = __webpack_require__(296);
+var getLanguage = __webpack_require__(50);
+var filter = __webpack_require__(22);
 var map = __webpack_require__(9);
-var forEach = __webpack_require__(5);
-var has = __webpack_require__(292);
+var forEach = __webpack_require__(2);
+var has = __webpack_require__(301);
 var flatMap = __webpack_require__(166);
-var values = __webpack_require__(383);
-var take = __webpack_require__(654);
-var includes = __webpack_require__(68);
-var intersection = __webpack_require__(388);
-var isEmpty = __webpack_require__(25);
+var values = __webpack_require__(392);
+var take = __webpack_require__(671);
+var includes = __webpack_require__(33);
+var intersection = __webpack_require__(397);
+var isEmpty = __webpack_require__(15);
 var densityLowerLimit = 0;
 var densityUpperLimit = 0.03;
 var relevantWordLimit = 100;
@@ -37532,14 +38566,14 @@ module.exports = {
 //# sourceMappingURL=relevantWords.js.map
 
 /***/ }),
-/* 647 */
+/* 666 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var forEach = __webpack_require__(5);
-var has = __webpack_require__(292);
+var forEach = __webpack_require__(2);
+var has = __webpack_require__(301);
 /**
  * Returns whether or not the given word is a function word.
  *
@@ -37698,7 +38732,7 @@ module.exports = WordCombination;
 //# sourceMappingURL=WordCombination.js.map
 
 /***/ }),
-/* 648 */
+/* 667 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37725,7 +38759,7 @@ function baseHas(object, key) {
 module.exports = baseHas;
 
 /***/ }),
-/* 649 */
+/* 668 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37733,7 +38767,7 @@ module.exports = baseHas;
 
 var filteredPassiveAuxiliaries = __webpack_require__(127)().filteredAuxiliaries;
 var passiveAuxiliariesInfinitive = __webpack_require__(127)().infinitiveAuxiliaries;
-var transitionWords = __webpack_require__(378)().singleWords;
+var transitionWords = __webpack_require__(387)().singleWords;
 /**
  * Returns an object with exceptions for the prominent words researcher
  * @returns {Object} The object filled with exception arrays.
@@ -37808,13 +38842,13 @@ module.exports = function () {
 //# sourceMappingURL=functionWords.js.map
 
 /***/ }),
-/* 650 */
+/* 669 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var transitionWords = __webpack_require__(381)().singleWords;
+var transitionWords = __webpack_require__(390)().singleWords;
 /**
  * Returns an array with exceptions for the prominent words researcher.
  * @returns {Array} The array filled with exceptions.
@@ -37894,93 +38928,13 @@ module.exports = function () {
 //# sourceMappingURL=functionWords.js.map
 
 /***/ }),
-/* 651 */
+/* 670 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var transitionWords = __webpack_require__(380)().singleWords;
-/**
- * Returns an array with exceptions for the prominent words researcher
- * @returns {Array} The array filled with exceptions.
- */
-var articles = ["el", "la", "los", "las", "un", "una", "unos", "unas"];
-// "Uno" is already included in the articles.
-var cardinalNumerals = ["dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece", "catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte", "cien", "centena", "mil", "millon", "millones"];
-var ordinalNumerals = ["primera", "segunda", "tercera", "cuarto", "cuarta", "quinto", "quinta", "sexto", "sexta", "septimo", "septima", "octavo", "octava", "noveno", "novena", "décimo", "décima", "vigésimo", "vigésima", "primeros", "primeras", "segundos", "segundas", "terceros", "terceras", "cuartos", "cuartas", "quintos", "quintas", "sextos", "sextas", "septimos", "septimas", "octavos", "octavas", "novenos", "novenas", "décimos", "décimas", "vigésimos", "vigésimas"];
-var personalPronounsNominative = ["yo", "tú", "él", "ella", "ello", "nosotros", "nosotras", "vosotros", "vosotras", "ustedes", "ellos", "ellas"];
-var personalPronounsAccusative = ["me", "te", "lo", "se", "nos", "os", "les"];
-var personalPronounsPrepositional = ["mí", "ti", "ud", "uds", "usted", "sí"];
-var personalPronounsComitative = ["conmigo", "contigo", "consigo"];
-var demonstrativePronouns = ["este", "ese", "aquel", "esta", "esa", "aquella", "estos", "esos", "aquellos", "estas", "esas", "aquellas", "esto", "eso", "aquello"];
-var possessivePronouns = ["mi", "mis", "mío", "míos", "mía", "mías", "nuestro", "nuestros", "nuestra", "nuestras", "tuyo", "tuyos", "tuya", "tuyas", "tu", "tus", "vuestro", "vuestros", "vuestra", "vuestras", "suyo", "suyos", "suya", "suyas", "su", "sus"];
-var quantifiers = ["bastante", "bastantes", "mucho", "muchas", "mucha", "muchos", "demasiado", "demasiada", "demasiados", "demasiadas", "poco", "poca", "pocos", "pocas", "demás", "otros", "otras", "todo", "toda", "todos", "todas"];
-var indefinitePronouns = ["alguien", "algo", "algún", "alguno", "alguna", "algunos", "algunas", "nadie", "nada", "ningún", "ninguno", "ninguna", "ningunos", "ningunas", "tanto", "tantos", "tanta", "tantas"];
-var interrogativeDeterminers = ["cuyas", "cual"];
-var interrogativePronouns = ["cuyo"];
-/*
-'Qué' is part of 'por qué' ('why'). The combination 'quien sea' ('whoever') is separated into two entries: 'quien' and 'sea'.
-'quira' is part of 'cuando quiera' ('whenever').
- */
-var interrogativeProAdverbs = ["comoquiera", "cualesquiera", "cualquier", "cuanta", "cuantas", "cuanto", "cuantos", "cuál", "cuáles", "cuánta", "cuántas", "cuánto", "cuántos", "cómo", "dondequiera", "dónde", "quien", "quienes", "quienquiera", "quién", "quiénes", "qué"];
-var locativeAdverbs = ["allí", "ahí", "allá", "aquí", "acá", "adónde", "delante", "detrás", "debajo", "adelante", "atrás", "adentro", "afuera"];
-var otherAuxiliaries = ["he", "has", "ha", "hay", "hemos", "habéis", "han", "hube", "hubiste", "hubo", "hubimos", "hubisteis", "hubieron", "había", "habías", "habíamos", "habíais", "habían", "habría", "habrías", "habríais", "habrían", "habré", "habrás", "habrá", "habremos", "habréis", "habrán", "haya", "hayas", "hayamos", "hayáis", "hayan", "hubiera", "hubieras", "hubiéramos", "hubierais", "hubieran", "hubiese", "hubieses", "hubiésemos", "hubieseis", "hubiesen", "hubiere", "hubieres", "hubiéremos", "hubiereis", "hubieren", "habed", "habido", "debo", "debes", "debe", "debemos", "debéis", "deben", "debí", "debiste", "debió", "debimos", "debisteis", "debieron", "debía", "debías", "debíamos", "debíais", "debían", "debería", "deberías", "deberíamos", "deberíais", "deberían", "deberé", "deberás", "deberá", "deberemos", "deberéis", "deberán", "deba", "debas", "debamos", "debáis", "deban", "debiera", "debieras", "debiéramos", "debierais", "debieran", "debiese", "debieses", "debiésemos", "debieseis", "debiesen", "debiere", "debieres", "debiéremos", "debiereis", "debieren", "debed", "debido", "empiezo", "empiezas", "empieza", "empezáis", "empiezan", "empecé", "empezaste", "empezó", "empezamos", "empezasteis", "empezaron", "empezaba", "empezabas", "empezábamos", "empezabais", "empezaban", "empezaría", "empezarías", "empezaríamos", "empezaríais", "empezarían", "empezaré", "empezarás", "empezará", "empezaremos", "empezaréis", "empezarán", "empiece", "empieces", "empecemos", "empecéis", "empiecen", "empezara", "empezaras", "empezáramos", "empezarais", "empezaran", "empezase", "empezases", "empezásemos", "empezaseis", "empezasen", "empezare", "empezares", "empezáremos", "empezareis", "empezaren", "empezad", "empezado", "comienzo", "comienzas", "comienza", "comenzamos", "comenzáis", "comienzan", "comencé", "comenzaste", "comenzó", "comenzasteis", "comenzaron", "comenzaba", "comenzabas", "comenzábamos", "comenzabais", "comenzaban", "comenzaría", "comenzarías", "comenzaríamos", "comenzaríais", "comenzarían", "comenzaré", "comenzarás", "comenzará", "comenzaremos", "comenzaréis", "comenzarán", "comience", "comiences", "comencemos", "comencéis", "comiencen", "comenzara", "comenzaras", "comenzáramos", "comenzarais", "comenzaran", "comenzase", "comenzases", "comenzásemos", "comenzaseis", "comenzasen", "comenzare", "comenzares", "comenzáremos", "comenzareis", "comenzaren", "comenzad", "comenzado", "sigo", "sigues", "sigue", "seguimos", "seguis", "siguen", "seguí", "seguiste", "siguió", "seguisteis", "siguieron", "seguía", "seguías", "seguíamos", "seguíais", "seguían", "seguiría", "seguirías", "seguiríamos", "seguiríais", "seguirían", "seguiré", "seguirás", "seguirá", "seguiremos", "seguiréis", "seguirán", "siga", "sigas", "sigamos", "sigáis", "sigan", "siguiera", "siguieras", "siguiéramos", "siguierais", "siguieran", "siguiese", "siguieses", "siguiésemos", "siguieseis", "siguiesen", "siguiere", "siguieres", "siguiéremos", "siguiereis", "siguieren", "seguid", "seguido", "tengo", "tienes", "tiene", "tenemos", "tenéis", "tienen", "tuve", "tuviste", "tuvo", "tuvimos", "tuvisteis", "tuvieron", "tenía", "tenías", "teníamos", "teníais", "tenían", "tendría", "tendrías", "tendríamos", "tendríais", "tendrían", "tendré", "tendrás", "tendrá", "tendremos", "tendréis", "tendrán", "tenga", "tengas", "tengamos", "tengáis", "tengan", "tuviera", "tuvieras", "tuviéramos", "tuvierais", "tuvieran", "tuviese", "tuvieses", "tuviésemos", "tuvieseis", "tuviesen", "tuviere", "tuvieres", "tuviéremos", "tuviereis", "tuvieren", "ten", "tened", "tenido", "ando", "andas", "andamos", "andáis", "andan", "anduve", "anduviste", "anduvo", "anduvimos", "anduvisteis", "anduvieron", "andaba", "andabas", "andábamos", "andabais", "andaban", "andaría", "andarías", "andaríamos", "andaríais", "andarían", "andaré", "andarás", "andará", "andaremos", "andaréis", "andarán", "ande", "andes", "andemos", "andéis", "anden", "anduviera", "anduvieras", "anduviéramos", "anduvierais", "anduvieran", "anduviese", "anduvieses", "anduviésemos", "anduvieseis", "anduviesen", "anduviere", "anduvieres", "anduviéremos", "anduviereis", "anduvieren", "andad", "andado", "quedo", "quedas", "queda", "quedamos", "quedáis", "quedan", "quedé", "quedasteis", "quedaron", "quedaba", "quedabas", "quedábamos", "quedabais", "quedaban", "quedaría", "quedarías", "quedaríamos", "quedaríais", "quedarían", "quedaré", "quedarás", "quedará", "quedaremos", "quedaréis", "quedarán", "quede", "quedes", "quedemos", "quedéis", "queden", "quedara", "quedaras", "quedáramos", "quedarais", "quedaran", "quedase", "quedases", "quedásemos", "quedaseis", "quedasen", "quedare", "quedares", "quedáremos", "quedareis", "quedaren", "quedad", "quedado", "hallo", "hallas", "halla", "hallamos", "halláis", "hallan", "hallé", "hallaste", "halló", "hallasteis", "hallaron", "hallaba", "hallabas", "hallábamos", "hallabais", "hallaban", "hallaría", "hallarías", "hallaríamos", "hallaríais", "hallarían", "hallaré", "hallarás", "hallará", "hallaremos", "hallaréis", "hallarán", "halle", "halles", "hallemos", "halléis", "hallen", "hallara", "hallaras", "halláramos", "hallarais", "hallaran", "hallase", "hallases", "hallásemos", "hallaseis", "hallasen", "hallare", "hallares", "halláremos", "hallareis", "hallaren", "hallad", "hallado", "vengo", "vienes", "viene", "venimos", "venis", "vienen", "vine", "viniste", "vino", "vinimos", "vinisteis", "vinieron", "venía", "vanías", "verníamos", "veníais", "venían", "vendría", "vendrías", "vendríamos", "vendíais", "vendrían", "vendré", "vendrás", "vendrá", "vendremos", "vendréis", "vendrán", "venga", "vengas", "vengamos", "vengáis", "vengan", "viniera", "vinieras", "viniéramos", "vinierais", "vinieran", "viniese", "vinieses", "viniésemos", "vinieseis", "viniesen", "viniere", "vinieres", "viniéremos", "viniereis", "vinieren", "ven", "venid", "venido", "abro", "abres", "abre", "abrismos", "abrís", "abren", "abrí", "abriste", "abrió", "abristeis", "abrieron", "abría", "abrías", "abríais", "abrían", "abriría", "abrirías", "abriríamos", "abriríais", "abrirían", "abriré", "abrirás", "abrirá", "abriremos", "abriréis", "abrirán", "abra", "abras", "abramos", "abráis", "abran", "abriera", "abrieras", "abriéramos", "abrierais", "abrieran", "abriese", "abrieses", "abriésemos", "abrieseis", "abriesen", "abriere", "abrieres", "abriéremos", "abriereis", "abrieren", "abrid", "abierto", "voy", "vas", "va", "vamos", "vais", "van", "iba", "ibas", "íbamos", "ibais", "iban", "iría", "irías", "iríamos", "iríais", "irían", "iré", "irás", "irá", "iremos", "iréis", "irán", "vaya", "vayas", "vayamos", "vayáis", "vayan", "ve", "id", "ido", "acabo", "acabas", "acaba", "acabamos", "acabáis", "acaban", "acabé", "acabaste", "acabó", "acabasteis", "acabaron", "acababa", "acababas", "acabábamos", "acababais", "acababan", "acabaría", "acabarías", "acabaríamos", "acabaríais", "acabarían", "acabaré", "acabarás", "acabará", "acabaremos", "acabaréis", "acabarán", "acabe", "acabes", "acabemos", "acabéis", "acaben", "acabara", "acabaras", "acabáramos", "acabarais", "acabaran", "acabase", "acabases", "acabásemos", "acabaseis", "acabasen", "acabare", "acabares", "acabáremos", "acabareis", "acabaren", "acabad", "acabado", "llevo", "llevas", "lleva", "llevamos", "lleváis", "llevan", "llevé", "llevaste", "llevó", "llevasteis", "llevaron", "llevaba", "llevabas", "llevábamos", "llevabais", "llevaban", "llevaría", "llevarías", "llevaríamos", "llevaríais", "llevarían", "llevaré", "llevarás", "llevará", "llevaremos", "llevaréis", "llevarán", "lleve", "lleves", "llevemos", "llevéis", "lleven", "llevara", "llevaras", "lleváramos", "llevarais", "llevaran", "llevase", "llevases", "llevásemos", "llevaseis", "llevasen", "llevare", "llevares", "lleváremos", "llevareis", "llevaren", "llevad", "llevado", "alcanzo", "alcanzas", "alcanza", "alcanzamos", "alcanzáis", "alcanzan", "alcancé", "alcanzaste", "alcanzó", "alcanzasteis", "alcanzaron", "alcanzaba", "alcanzabas", "alcanzábamos", "alcanzabais", "alcanzaban", "alcanzaría", "alcanzarías", "alcanzaríamos", "alcanzaríais", "alcanzarían", "alcanzaré", "alcanzarás", "alcanzará", "alcanzaremos", "alcanzaréis", "alcanzarán", "alcance", "alcances", "alcancemos", "alcancéis", "alcancen", "alcanzara", "alcanzaras", "alcanzáramos", "alcanzarais", "alcanzaran", "alcanzase", "alcanzases", "alcanzásemos", "alcanzaseis", "alcanzasen", "alcanzare", "alcanzares", "alcanzáremos", "alcanzareis", "alcanzaren", "alcanzad", "alcanzado", "digo", "dices", "dice", "decimos", "decís", "dicen", "dije", "dijiste", "dijo", "dijimos", "dijisteis", "dijeron", "decía", "decías", "decíamos", "decíais", "decían", "diría", "dirías", "diríamos", "diríais", "dirían", "diré", "dirás", "dirá", "diremos", "diréis", "dirán", "diga", "digas", "digamos", "digáis", "digan", "dijera", "dijeras", "dijéramos", "dijerais", "dijeran", "dijese", "dijeses", "dijésemos", "dijeseis", "dijesen", "dijere", "dijeres", "dijéremos", "dijereis", "dijeren", "di", "decid", "dicho", "continúo", "continúas", "continúa", "continuamos", "continuáis", "continúan", "continué", "continuaste", "continuó", "continuasteis", "continuaron", "continuaba", "continuabas", "continuábamos", "continuabais", "continuaban", "continuaría", "continuarías", "continuaríamos", "continuaríais", "continuarían", "continuaré", "continuarás", "continuará", "continuaremos", "continuaréis", "continuarán", "continúe", "continúes", "continuemos", "continuéis", "continúen", "continuara", "continuaras", "continuáramos", "continuarais", "continuaran", "continuase", "continuases", "continuásemos", "continuaseis", "continuasen", "continuare", "continuares", "continuáremos", "continuareis", "continuaren", "continuad", "continuado", "resulto", "resultas", "resulta", "resultamos", "resultáis", "resultan", "resulté", "resultaste", "resultó", "resultasteis", "resultaron", "resultaba", "resultabas", "resultábamos", "resultabais", "resultaban", "resultaría", "resultarías", "resultaríamos", "resultaríais", "resultarían", "resultaré", "resultarás", "resultará", "resultaremos", "resultaréis", "resultarán", "resulte", "resultes", "resultemos", "resultéis", "resulten", "resultara", "resultaras", "resultáramos", "resultarais", "resultaran", "resultase", "resultases", "resultásemos", "resultaseis", "resultasen", "resultare", "resultares", "resultáremos", "resultareis", "resultaren", "resultad", "resultado", "puedo", "puedes", "puede", "podemos", "podéis", "pueden", "pude", "pudiste", "pudo", "pudimos", "pudisteis", "pudieron", "podía", "podías", "podíamos", "podíais", "podían", "podría", "podrías", "podríamos", "podríais", "podrían", "podré", "podrás", "podrá", "podremos", "podréis", "podrán", "pueda", "puedas", "podamos", "podáis", "puedan", "pudiera", "pudieras", "pudiéramos", "pudierais", "pudieran", "pudiese", "pudieses", "pudiésemos", "pudieseis", "pudiesen", "pudiere", "pudieres", "pudiéremos", "pudiereis", "pudieren", "poded", "podido", "quiero", "quieres", "quiere", "queremos", "queréis", "quieren", "quise", "quisiste", "quiso", "quisimos", "quisisteis", "quisieron", "quería", "querías", "queríamos", "queríais", "querían", "querría", "querrías", "querríamos", "querríais", "querrían", "querré", "querrás", "querrá", "querremos", "querréis", "querrán", "quiera", "quieras", "queramos", "queráis", "quieran", "quisiera", "quisieras", "quisiéramos", "quisierais", "quisieran", "quisiese", "quisieses", "quisiésemos", "quisieseis", "quisiesen", "quisiere", "quisieres", "quisiéremos", "quisiereis", "quisieren", "quered", "querido", "sabes", "sabe", "sabemos", "sabéis", "saben", "supe", "supiste", "supo", "supimos", "supisteis", "supieron", "sabía", "sabías", "sabíamos", "sabíais", "sabían", "sabría", "sabrías", "sabríamos", "sabríais", "sabrían", "sabré", "sabrás", "sabrá", "sabremos", "sabréis", "sabrán", "sepa", "sepas", "sepamos", "sepáis", "sepan", "supiera", "supieras", "supiéramos", "supierais", "supieran", "supiese", "supieses", "supiésemos", "supieseis", "supiesen", "supiere", "supieres", "supiéremos", "supiereis", "supieren", "sabed", "sabido", "suelo", "sueles", "suele", "solemos", "soléis", "suelen", "solí", "soliste", "solió", "solimos", "solisteis", "solieron", "solía", "solías", "solíamos", "solíais", "solían", "solería", "solerías", "soleríamos", "soleríais", "solerían", "soleré", "solerás", "solerá", "soleremos", "soleréis", "solerán", "suela", "suelas", "solamos", "soláis", "suelan", "soliera", "solieras", "soliéramos", "solierais", "solieran", "soliese", "solieses", "soliésemos", "solieseis", "soliesen", "soliere", "solieres", "soliéremos", "soliereis", "solieren", "soled", "solido", "necesito", "necesitas", "necesitamos", "necesitáis", "necesitan", "necesité", "necesitaste", "necesitó", "necesitasteis", "necesitaron", "necesitaba", "necesitabas", "necesitábamos", "necesitabais", "necesitaban", "necesitaría", "necesitarías", "necesitaríamos", "necesitaríais", "necesitarían", "necesitaré", "necesitarás", "necesitará", "necesitaremos", "necesitaréis", "necesitarán", "necesite", "necesites", "necesitemos", "necesitéis", "necesiten", "necesitara", "necesitaras", "necesitáramos", "necesitarais", "necesitaran", "necesitase", "necesitases", "necesitásemos", "necesitaseis", "necesitasen", "necesitare", "necesitares", "necesitáremos", "necesitareis", "necesitaren", "necesita", "necesitad", "necesitado"];
-var otherAuxiliariesInfinitive = ["haber", "deber", "empezar", "comenzar", "seguir", "tener", "andar", "quedar", "hallar", "venir", "abrir", "ir", "acabar", "llevar", "alcanzar", "decir", "continuar", "resultar", "poder", "querer", "saber", "soler", "necesitar"];
-var copula = ["estoy", "estás", "está", "estamos", "estáis", "están", "estuve", "estuviste", "estuvo", "estuvimos", "estuvisteis", "estuvieron", "estuba", "estabas", "estábamos", "estabais", "estaban", "estraría", "estarías", "estaríamos", "estaríais", "estarían", "estaré", "estarás", "estará", "estaremos", "estaréis", "estarán", "esté", "estés", "estemos", "estéis", "estén", "estuviera", "estuviese", "estuvieras", "estuviéramos", "estuvierais", "estuvieran", "estuvieses", "estuviésemos", "estuvieseis", "estuviesen", "estuviere", "estuvieres", "estuviéremos", "estuviereis", "estuvieren", "estad", "estado", "soy", "eres", "es", "somos", "sois", "son", "fui", "fuiste", "fuimos", "fuisteis", "fueron", "era", "eras", "éramos", "erais", "eran", "sería", "serías", "seríamos", "seríais", "serían", "seré", "serás", "seremos", "seréis", "serán", "sea", "seas", "seamos", "seáis", "sean", "fueras", "fuéramos", "fuerais", "fueran", "fuese", "fueses", "fuésemos", "fueseis", "fuesen", "fuere", "fueres", "fuéremos", "fuereis", "fueren", "sé", "sed", "sido"];
-var copulaInfinitive = ["estar", "ser"];
-var prepositions = ["a", "ante", "abajo", "adonde", "al", "allende", "alrededor", "amén", "antes", "arriba", "aun", "bajo", "cabe", "cabo", "con", "contigo", "contra", "de", "dejante", "del", "dentro", "desde", "donde", "durante", "en", "encima", "entre", "excepto", "fuera", "hacia", "hasta", "incluso", "mediante", "más", "opuesto", "par", "para", "próximo", "salvo", "según", "sin", "so", "sobre", "tras", "versus", "vía"];
-var prepositionalAdverbs = ["cerca"];
-var coordinatingConjunctions = ["o", "y", "entonces", "e", "u", "ni", "bien", "ora"];
-// 'Igual' is part of 'igual...que'.
-var correlativeConjunctions = ["igual"];
-var subordinatingConjunctions = ["apenas", "segun", "que"];
-// These verbs are frequently used in interviews to indicate questions and answers.
-// 'Dijo' is already included in the otherAuxiliaries category.
-var interviewVerbs = ["apunto", "apunta", "confieso", "confiesa", "confesaba", "revelado", "revelo", "revela", "revelaba", "declarado", "declaro", "declara", "declaba", "señalo", "señala", "señalaba", "declaraba", "comento", "comenta"];
-// These transition words were not included in the list for the transition word assessment for various reasons.
-var additionalTransitionWords = ["básicamente", "esencialmente", "primeramente", "siempre", "nunca", "ahora", "quizá", "acaso", "inclusive", "probablemente", "verdaderamente", "seguramente", "jamás", "obviamente", "indiscutiblement", "inmediatamente", "previamente"];
-var intensifiers = ["muy", "tan", "completamente", "suficiente", "tal", "tales"];
-// These verbs convey little meaning.
-var delexicalizedVerbs = ["hago", "haces", "hace", "hacemos", "hacéis", "hacen", "hice", "hiciste", "hizo", "hicimos", "hicisteis", "hicieron", "hacía", "hacías", "hacíamos", "hacíais", "hacían", "haría,", "harías", "haríamos", "haríais", "harían", "haré", "harás", "hará", "haremos", "haréis", "harán", "haga", "hagas", "hagamos", "hagáis", "hagan", "hiciera", "hicieras", "hiciéramos", "hicierais", "hicieran", "hiciese", "hicieses", "hiciésemos", "hicieseis", "hiciesen", "hiciere", "hicieres", "hiciéremos", "hiciereis", "hicieren", "haz", "haced", "hecho", "parezco", "pareces", "parece", "parecemos", "parecéis", "parecen", "parecí", "pareciste", "pareció", "parecimos", "parecisteis", "parecieron", "parecía", "parecías", "parecíamos", "parecíais", "parecían", "parecería", "parecerías", "pareceríamos", "pareceríais", "parecerían", "pareceré", "parecerás", "parecerá", "pareceremos", "pareceréis", "parecerán", "parezca", "parezcas", "parezcamos", "parezcáis", "parezcan", "pareciera", "parecieras", "pareciéramos", "parecierais", "parecieran", "pareciese", "parecieses", "pareciésemos", "parecieseis", "pareciesen", "pareciere", "parecieres", "pareciéremos", "pareciereis", "parecieren", "pareced", "parecido"];
-var delexicalizedVerbsInfinitive = ["hacer", "parecer"];
-// These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
-// Keyword combinations containing these adjectives/adverbs are fine.
-var generalAdjectivesAdverbs = ["enfrente", "mejor", "peor", "menos", "claro", "bueno", "nuevo", "nueva", "nuevos", "nuevas", "viejo", "viejos", "vieja", "viejas", "anterior", "grande", "gran", "grandes", "mayores", "fácil", "fáciles", "rápido", "rápida", "rápidos", "rápidas", "lejos", "lejas", "difícil", "difíciles", "propio", "propios", "propia", "propias", "largo", "larga", "largos", "largas", "bajos", "baja", "bajas", "alto", "alta", "altos", "altas", "regular", "regulares", "normal", "pequeño", "pequeña", "pequeños", "pequeñas", "diminuta", "diminuto", "diminutas", "diminutos", "chiquitito", "chiquititos", "chiquitita", "chiquititas", "corta", "corto", "cortas", "cortos", "principal", "principales", "mismo", "mismos", "misma", "mismas", "capaz", "capaces", "cierta", "cierto", "ciertas", "ciertos", "llamado", "llamada", "llamados", "llamadas", "mayormente", "reciente", "recientes", "completa", "completo", "completas", "completos", "absoluta", "absoluto", "absolutas", "absolutos", "últimamente", "posible", "común", "comúnes", "comúnmente", "constantemente", "continuamente", "directamente", "fácilmente", "casi", "ligeramente", "estima", "estimada", "estimado", "aproximada", "aproximadamente", "última", "últimas", "último", "últimos", "diferente", "diferentes", "similar", "mal", "malo", "malos", "mala", "malas", "perfectamente", "excelente", "final", "general"];
-var interjections = ["ah", "eh", "ejem", "ele", "achís", "adiós", "agur", "ajá", "ajajá", "ala", "alá", "albricias", "aleluya", "alerta", "alirón", "aló", "amalaya", "ar", "aro", "arrarray", "arre", "arsa", "atatay", "aúpa", "ax", "ay", "ayayay", "bah", "banzai", "barajo", "bla", "bravo", "buf", "bum", "ca", "caguendiós", "canastos", "caracho", "caracoles", "carajo", "caramba", "carape", "caray", "cáscaras", "cáspita", "cataplum", "ce", "chao", "chau", "che", "chis", "chist", "chitón", "cho", "chucho", "chus", "cielos", "clo", "coche", "cochi", "cojones", "concho", "coño", "córcholis", "cuchí", "cuidado", "cuz", "demonio", "demontre", "despacio", "diablo", "diantre", "dios", "ea", "epa", "equilicuá", "estúpido", "eureka", "evohé", "exacto", "fantástico", "firmes", "fo", "forte", "gua", "gualá", "guarte", "guay", "hala", "hale", "he", "hi", "hin", "hola", "hopo", "huesque", "huiche", "huichó", "huifa", "hurra", "huy", "ja", "jajajá", "jajay", "jaque", "jau", "jo", "jobar", "joder", "jolín", "jopo", "leñe", "listo", "malhayas", "mamola", "mecachis", "miéchica", "mondo", "moste", "mutis", "nanay", "narices", "oh", "ojalá", "ojo", "okay", "ole", "olé", "órdiga", "oste", "ostras", "ox", "oxte", "paf", "pardiez", "paso", "pucha", "puf", "puff", "pumba", "puñeta", "quia", "quiúbole", "recórcholis", "rediez", "rediós", "salve", "sanseacabó", "sniff", "socorro", "ta", "tararira", "tate", "tururú", "uf", "uh", "ui", "upa", "uste", "uy", "victoria", "vítor", "viva", "za", "zambomba", "zapateta", "zape", "zas"];
-// These words and abbreviations are frequently used in recipes in lists of ingredients.
-var recipeWords = ["kg", "mg", "gr", "g", "km", "m", "l", "ml", "cl"];
-var timeWords = ["minuto", "minutos", "hora", "horas", "día", "días", "semana", "semanas", "mes", "meses", "año", "años", "hoy", "mañana", "ayer"];
-// 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
-var vagueNouns = ["cosa", "cosas", "manera", "maneras", "caso", "casos", "pieza", "piezas", "vez", "veces", "parte", "partes", "porcentaje", "instancia", "aspecto", "aspectos", "punto", "puntos", "objeto", "objectos", "persona", "personas"];
-var miscellaneous = ["no", "euros"];
-var titlesPreceding = ["sra", "sras", "srta", "sr", "sres", "dra", "dr", "profa", "prof"];
-var titlesFollowing = ["jr", "sr"];
-module.exports = function () {
-    return {
-        // These word categories are filtered at the beginning of word combinations.
-        filteredAtBeginning: generalAdjectivesAdverbs,
-        // These word categories are filtered at the ending of word combinations.
-        filteredAtEnding: [].concat(ordinalNumerals, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive),
-        // These word categories are filtered at the beginning and ending of word combinations.
-        filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
-        // These word categories are filtered everywhere within word combinations.
-        filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, personalPronounsComitative, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, recipeWords, timeWords, vagueNouns),
-        // This export contains all of the above words.
-        all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
-    };
-};
-//# sourceMappingURL=functionWords.js.map
-//# sourceMappingURL=functionWords.js.map
-
-/***/ }),
-/* 652 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var transitionWords = __webpack_require__(382)().singleWords;
+var transitionWords = __webpack_require__(391)().singleWords;
 /**
  * Returns an object with exceptions for the prominent words researcher.
  * @returns {Object} The object filled with exception arrays.
@@ -38088,113 +39042,7 @@ module.exports = function () {
 //# sourceMappingURL=functionWords.js.map
 
 /***/ }),
-/* 653 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var transitionWords = __webpack_require__(379)().singleWords;
-/**
- * Returns an object with exceptions for the prominent words researcher
- * @returns {Object} The object filled with exception arrays.
- */
-var articles = ["le", "la", "les", "un", "une", "des", "aux", "du", "au", "d'un", "d'une"];
-var cardinalNumerals = ["deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix", "cent", "mille", "million", "milliard"];
-// 'premier' and 'première' are not included because of their secondary meanings ('prime minister', '[movie] premiere')
-var ordinalNumerals = ["second", "secondes", "deuxième", "deuxièmes", "troisième", "troisièmes", "quatrième", "quatrièmes", "cinquième", "cinquièmes", "sixième", "sixièmes", "septième", "septièmes", "huitième", "huitièmes", "neuvième", "neuvièmes", "dixième", "dixièmes", "onzième", "onzièmes", "douzième", "douzièmes", "treizième", "treizièmes", "quatorzième", "quatorzièmes", "quinzième", "quinzièmes", "seizième", "seizièmes", "dix-septième", "dix-septièmes", "dix-huitième", "dix-huitièmes", "dix-neuvième", "dix-neuvièmes", "vingtième", "vingtièmes"];
-var personalPronounsNominative = ["je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles"];
-var personalPronounsStressed = ["moi", "toi", "lui", "soi", "eux"];
-// Le, la, les are already included in the articles list.
-var personalPronounsAccusative = ["me", "te"];
-var demonstrativePronouns = ["celui", "celle", "ceux", "celles", "ce", "celui-ci", "celui-là", "celle-ci", "celle-là", "ceux-ci", "ceux-là", "celles-ci", "celles-là", "ceci", "cela", "ça", "cette", "cet", "ces"];
-var possessivePronouns = ["mon", "ton", "son", "ma", "ta", "sa", "mes", "tes", "ses", "notre", "votre", "leur", "nos", "vos", "leurs"];
-var quantifiers = ["beaucoup", "peu", "quelque", "quelques", "tous", "tout", "toute", "toutes", "plusieurs", "plein", "chaque", "suffisant", "suffisante", "suffisantes", "suffisants", "faible", "moins", "tant", "plus", "divers", "diverse", "diverses"];
-// The remaining reflexive personal pronouns are already included in other pronoun lists.
-var reflexivePronouns = ["se"];
-var indefinitePronouns = ["aucun", "aucune", "autre", "autres", "certain", "certaine", "certaines", "certains", "chacun", "chacune", "même", "mêmes", "quelqu'un", "quelqu'une", "quelques'uns", "quelques'unes", "autrui", "nul", "personne", "quiconque", "rien", "d'aucunes", "d'aucuns", "nuls", "nules", "l'autre", "l'autres", "tel", "telle", "tels", "telles"];
-var relativePronouns = ["qui", "que", "lequel", "laquelle", "auquel", "auxquels", "auxquelles", "duquel", "desquels", "desquelles", "dont", "où", "quoi"];
-var interrogativeProAdverbs = ["combien", "comment", "pourquoi", "d'où"];
-var interrogativeAdjectives = ["quel", "quels", "quelle"];
-var pronominalAdverbs = ["y"];
-var locativeAdverbs = ["là", "ici", "voici"];
-// 'Vins' is not included because it also means 'wines'.
-var otherAuxiliaries = ["a", "a-t-elle", "a-t-il", "a-t-on", "ai", "ai-je", "aie", "as", "as-tu", "aura", "aurai", "auraient", "aurais", "aurait", "auras", "aurez", "auriez", "aurons", "auront", "avaient", "avais", "avait", "avez", "avez-vous", "aviez", "avions", "avons", "avons-nous", "ayez", "ayons", "eu", "eûmes", "eurent", "eus", "eut", "eûtes", "j'ai", "j'aurai", "j'avais", "j'eus", "ont", "ont-elles", "ont-ils", "vais", "vas", "va", "allons", "allez", "vont", "vais-je", "vas-tu", "va-t-il", "va-t-elle", "va-t-on", "allons-nous", "allez-vous", "vont-elles", "vont-ils", "allé", "allés", "j'allai", "allai", "allas", "alla", "allâmes", "allâtes", "allèrent", "j'allais", "allais", "allait", "allions", "alliez", "allaient", "j'irai", "iras", "ira", "irons", "irez", "iront", "j'aille", "aille", "ailles", "aillent", "j'allasse", "allasse", "allasses", "allât", "allassions", "allassiez", "allassent", "j'irais", "irais", "irait", "irions", "iriez", "iraient", "allant", "viens", "vient", "venons", "venez", "viennent", "viens-je", "viens-de", "vient-il", "vient-elle", "vient-on", "venons-nous", "venez-vous", "viennent-elles", "viennent-ils", "vins", "vint", "vînmes", "vîntes", "vinrent", "venu", "venus", "venais", "venait", "venions", "veniez", "venaient", "viendrai", "viendras", "viendra", "viendrons", "viendrez", "viendront", "vienne", "viennes", "vinsse", "vinsses", "vînt", "vinssions", "vinssiez", "vinssent", "viendrais", "viendrait", "viendrions", "viendriez", "viendraient", "venant", "dois", "doit", "devons", "devez", "doivent", "dois-je", "dois-tu", "doit-il", "doit-elle", "doit-on", "devons-nous", "devez-vous", "doivent-elles", "doivent-ils", "dus", "dut", "dûmes", "dûtes", "durent", "dû", "devais", "devait", "devions", "deviez", "devaient", "devrai", "devras", "devra", "devrons", "devrez", "devront", "doive", "doives", "dusse", "dusses", "dût", "dussions", "dussiez", "dussent", "devrais", "devrait", "devrions", "devriez", "devraient", "peux", "peut", "pouvons", "pouvez", "peuvent", "peux-je", "peux-tu", "peut-il", "peut-elle", "peut-on", "pouvons-nous", "pouvez-vous", "peuvent-ils", "peuvent-elles", "pus", "put", "pûmes", "pûtes", "purent", "pu", "pouvais", "pouvait", "pouvions", "pouviez", "pouvaient", "pourrai", "pourras", "pourra", "pourrons", "pourrez", "pourront", "puisse", "puisses", "puissions", "puissiez", "puissent", "pusse", "pusses", "pût", "pussions", "pussiez", "pussent", "pourrais", "pourrait", "pourrions", "pourriez", "pourraient", "pouvant", "semble", "sembles", "semblons", "semblez", "semblent", "semble-je", "sembles-il", "sembles-elle", "sembles-on", "semblons-nous", "semblez-vous", "semblent-ils", "semblent-elles", "semblai", "semblas", "sembla", "semblâmes", "semblâtes", "semblèrent", "semblais", "semblait", "semblions", "sembliez", "semblaient", "semblerai", "sembleras", "semblera", "semblerons", "semblerez", "sembleront", "semblé", "semblasse", "semblasses", "semblât", "semblassions", "semblassiez", "semblassent", "semblerais", "semblerait", "semblerions", "sembleriez", "sembleraient", "parais", "paraît", "ait", "paraissons", "paraissez", "paraissent", "parais-je", "parais-tu", "paraît-il", "paraît-elle", "paraît-on", "ait-il", "ait-elle", "ait-on", "paraissons-nous", "paraissez-vous", "paraissent-ils", "paraissent-elles", "parus", "parut", "parûmes", "parûtes", "parurent", "paraissais", "paraissait", "paraissions", "paraissiez", "paraissaient", "paraîtrai", "paraîtras", "paraîtra", "paraîtrons", "paraîtrez", "paraîtront", "aitrai", "aitras", "aitra", "aitrons", "aitrez", "aitront", "paru", "paraisse", "paraisses", "parusse", "parusses", "parût", "parussions", "parussiez", "parussent", "paraîtrais", "paraîtrait", "paraîtrions", "paraîtriez", "paraîtraient", "paraitrais", "paraitrait", "paraitrions", "paraitriez", "paraitraient", "paraissant", "mets", "met", "mettons", "mettez", "mettent", "mets-je", "mets-tu", "met-il", "met-elle", "met-on", "mettons-nous", "mettez-vous", "mettent-ils", "mettent-elles", "mis", "mit", "mîmes", "mîtes", "mirent", "mettais", "mettait", "mettions", "mettiez", "mettaient", "mettrai", "mettras", "mettra", "mettrons", "mettrez", "mettront", "mette", "mettes", "misse", "misses", "mît", "missions", "missiez", "missent", "mettrais", "mettrait", "mettrions", "mettriez", "mettraient", "mettant", "finis", "finit", "finissons", "finissez", "finissent", "finis-je", "finis-tu", "finit-il", "finit-elle", "finit-on", "finissons-nous", "finissez-vous", "finissent-ils", "finissent-elles", "finîmes", "finîtes", "finirent", "finissais", "finissait", "finissions", "finissiez", "finissaient", "finirai", "finiras", "finira", "finirons", "finirez", "finiront", "fini", "finisse", "finisses", "finît", "finirais", "finirait", "finirions", "finiriez", "finiraient", "finissant"];
-var otherAuxiliariesInfinitive = ["avoir", "aller", "venir", "devoir", "pouvoir", "sembler", "paraître", "paraitre", "mettre", "finir"];
-var copula = ["suis", "es", "est", "est-ce", "n'est", "sommes", "êtes", "sont", "suis-je", "es-tu", "est-il", "est-elle", "est-on", "sommes-nous", "êtes-vous", "sont-ils", "sont-elles", "étais", "était", "étions", "étiez", "étaient", "serai", "seras", "sera", "serons", "serez", "seront", "serais", "serait", "serions", "seriez", "seraient", "sois", "soit", "soyons", "soyez", "soient", "été"];
-var copulaInfinitive = ["être"];
-/*
-’Excepté' not filtered because might also be participle of 'excepter', 'concernant' not filtered because might also be present participle
-of 'concerner'.
-Not filtered because of primary meaning: 'grâce à' ('grace'), 'en face' ('face'), 'en dehors' ('outside'), 'à côté' ('side'),
-'à droite' ('right'), 'à gauche' ('left'). 'voici' already included in the locative pronoun list.
-'hors' for 'hors de', 'quant' for 'quant à'. ‘travers’ is part of 'à travers.'
- */
-var prepositions = ["à", "après", "au-delà", "au-dessous", "au-dessus", "avant", "avec", "concernant", "chez", "contre", "dans", "de", "depuis", "derrière", "dès", "devant", "durant", "en", "entre", "envers", "environ", "hormis", "hors", "jusque", "jusqu'à", "jusqu'au", "jusqu'aux", "loin", "moyennant", "outre", "par", "parmi", "pendant", "pour", "près", "quant", "sans", "sous", "sur", "travers", "vers", "voilà"];
-var coordinatingConjunctions = ["et", "ni", "or", "ou"];
-/*
-Et...et, ou...ou, ni...ni – in their simple forms already in other lists. 'd'une', 'd'autre' are part of 'd'une part…d'autre part'.
-'sinon' is part of 'sinon…du moins'.
-*/
-var correlativeConjunctions = ["non", "pas", "seulement", "sitôt", "aussitôt", "d'autre"];
-/*
-Many subordinating conjunctions are already included in the prepositions list, transition words list or pronominal adverbs list.
-'autant', 'd'autant', 'd'ici', 'tandis' part of the complex form with 'que', 'lors' as a part of 'lors même que',
-'parce' as a part of 'parce que'
- */
-var subordinatingConjunctions = ["afin", "autant", "comme", "d'autant", "d'ici", "quand", "lors", "parce", "si", "tandis"];
-/*
- These verbs are frequently used in interviews to indicate questions and answers.
-'Dire' ('to say'), 'demander' ('to ask'), 'penser' ('to think')– 16 forms; more specific verbs – 4 forms
-'affirmer', 'ajouter' ('to add'), 'analyser', 'avancer', 'écrire' ('to write'), 'indiquer', 'poursuivre' ('to pursue'), 'préciser', 'résumer',
- 'souvenir' ('to remember'), 'témoigner' ('to witness') – only VS forms (due to their more general nature)
- */
-var interviewVerbs = ["dit", "disent", "dit-il", "dit-elle", "disent-ils", "disent-elles", "disait", "disait-il", "disait-elle", "disaient-ils", "disaient-elles", "dirent", "demande", "demandent", "demande-t-il", "demande-t-elle", "demandent-ils", "demandent-elles", "demandait", "demandaient", "demandait-il", "demandait-elle", "demandaient-ils", "demandaient-elles", "demanda", "demanda-t-il", "demanda-t-elle", "demandé", "pense", "pensent", "pense-t-il", "pense-t-elle", "pensent-ils", "pensent-elles", "pensait", "pensaient", "pensait-il", "pensait-elle", "pensaient-ils", "pensaient-elles", "pensa", "pensa-t-il", "pensa-t-elle", "pensé", "affirme", "affirme-t-il", "affirme-t-elle", "affirmé", "avoue", "avoue-t-il", "avoue-t-elle", "avoué", "concède", "concède-t-il", "concède-t-elle", "concédé", "confie", "confie-t-il", "confie-t-elle", "confié", "continue", "continue-t-il", "continue-t-elle", "continué", "déclame", "déclame-t-il", "déclame-t-elle", "déclamé", "déclare", "déclare-t-il", "déclare-t-elle", "déclaré", "déplore", "déplore-t-il", "déplore-t-elle", "déploré", "explique", "explique-t-il", "explique-t-elle", "expliqué", "lance", "lance-t-il", "lance-t-elle", "lancé", "narre", "narre-t-il", "narre-t-elle", "narré", "raconte", "raconte-t-il", "raconte-t-elle", "raconté", "rappelle", "rappelle-t-il", "rappelle-t-elle", "rappelé", "réagit", "réagit-il", "réagit-elle", "réagi", "répond", "répond-il", "répond-elle", "répondu", "rétorque", "rétorque-t-il", "rétorque-t-elle", "rétorqué", "souligne", "souligne-t-il", "souligne-t-elle", "souligné", "affirme-t-il", "affirme-t-elle", "ajoute-t-il", "ajoute-t-elle", "analyse-t-il", "analyse-t-elle", "avance-t-il", "avance-t-elle", "écrit-il", "écrit-elle", "indique-t-il", "indique-t-elle", "poursuit-il", "poursuit-elle", "précise-t-il", "précise-t-elle", "résume-t-il", "résume-t-elle", "souvient-il", "souvient-elle", "témoigne-t-il", "témoigne-t-elle"];
-var interviewVerbsInfinitive = ["dire", "penser", "demander", "concéder", "continuer", "confier", "déclamer", "déclarer", "déplorer", "expliquer", "lancer", "narrer", "raconter", "rappeler", "réagir", "répondre", "rétorquer", "souligner", "affirmer", "ajouter", "analyser", "avancer", "écrire", "indiquer", "poursuivre", "préciser", "résumer", "témoigner"];
-// These transition words were not included in the list for the transition word assessment for various reasons.
-var additionalTransitionWords = ["encore", "éternellement", "immédiatement", "compris", "comprenant", "inclus", "naturellement", "particulièrement", "notablement", "actuellement", "maintenant", "ordinairement", "généralement", "habituellement", "d'habitude", "vraiment", "finalement", "uniquement", "peut-être", "initialement", "déjà", "c.-à-d", "souvent", "fréquemment", "régulièrement", "simplement", "éventuellement", "quelquefois", "parfois", "probable", "plausible", "jamais", "toujours", "incidemment", "accidentellement", "récemment", "dernièrement", "relativement", "clairement", "évidemment", "apparemment", "pourvu"];
-var intensifiers = ["assez", "trop", "tellement", "presque", "très", "absolument", "extrêmement", "quasi", "quasiment", "fort"];
-// These verbs convey little meaning.
-var delexicalizedVerbs = ["fais", "fait", "faisons", "faites", "font", "fais-je", "fait-il", "fait-elle", "fait-on", "faisons-nous", "faites-vous", "font-ils", "font-elles", "fis", "fit", "fîmes", "fîtes", "firent", "faisais", "faisait", "faisions", "faisiez", "faisaient", "ferai", "feras", "fera", "ferons", "ferez", "feront", "veux", "veut", "voulons", "voulez", "veulent", "voulus", "voulut", "voulûmes", "voulûtes", "voulurent", "voulais", "voulait", "voulions", "vouliez", "voulaient", "voudrai", "voudras", "voudra", "voudrons", "voudrez", "voudront", "voulu", "veux-je", "veux-tu", "veut-il", "veut-elle", "veut-on", "voulons-nous", "voulez-vous", "veulent-ils", "veulent-elles", "voudrais", "voudrait", "voudrions", "voudriez", "voudraient", "voulant"];
-var delexicalizedVerbsInfinitive = ["faire", "vouloir"];
-/* These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
- Keyword combinations containing these adjectives/adverbs are fine.
- 'Dernier' is also included in generalAdjectivesAdverbsPreceding because it can be used both before and after a noun,
- and it should be filtered out either way.
- */
-var generalAdjectivesAdverbs = ["antérieur", "antérieures", "antérieurs", "antérieure", "précédent", "précédents", "précédente", "précédentes", "facile", "faciles", "simple", "simples", "vite", "vites", "vitesse", "vitesses", "difficile", "difficiles", "propre", "propres", "long", "longe", "longs", "longes", "longue", "longues", "bas", "basse", "basses", "ordinaire", "ordinaires", "bref", "brefs", "brève", "brèves", "sûr", "sûrs", "sûre", "sûres", "sure", "sures", "surs", "habituel", "habituels", "habituelle", "habituelles", "soi-disant", "surtout", "récent", "récents", "récente", "récentes", "total", "totaux", "totale", "totales", "complet", "complets", "complète", "complètes", "possible", "possibles", "communément", "constamment", "facilement", "continuellement", "directement", "légèrement", "dernier", "derniers", "dernière", "dernières", "différent", "différents", "différente", "différentes", "similaire", "similaires", "pareil", "pareils", "pareille", "pareilles", "largement", "mal", "super", "bien", "pire", "pires", "suivants", "suivante", "suivantes", "prochain", "prochaine", "prochains", "prochaines", "proche", "proches", "fur"];
-/*
- 'Dernier' is also included in generalAdjectivesAdverbs because it can be used both before and after a noun,
- and it should be filtered out either way.
- */
-var generalAdjectivesAdverbsPreceding = ["nouveau", "nouvel", "nouvelle", "nouveaux", "nouvelles", "vieux", "vieil", "vieille", "vieilles", "beau", "bel", "belle", "belles", "bon", "bons", "bonne", "bonnes", "grand", "grande", "grands", "grandes", "haut", "hauts", "haute", "hautes", "petit", "petite", "petits", "petites", "meilleur", "meilleurs", "meilleure", "meilleures", "joli", "jolis", "jolie", "jolies", "gros", "grosse", "grosses", "mauvais", "mauvaise", "mauvaises", "dernier", "derniers", "dernière", "dernières"];
-var interjections = ["ah", "ha", "oh", "ho", "bis", "plouf", "vlan", "ciel", "pouf", "paf", "crac", "hurrah", "allo", "stop", "bravo", "ô", "eh", "hé", "aïe", "oef", "ahi", "fi", "zest", "hem", "holà", "chut"];
-// These words and abbreviations are frequently used in recipes in lists of ingredients.
-var recipeWords = ["mg", "g", "kg", "ml", "dl", "cl", "l", "grammes", "gram", "once", "onces", "oz", "lbs", "càc", "cc", "càd", "càs", "càt", "cd", "cs", "ct"];
-var timeWords = ["minute", "minutes", "heure", "heures", "journée", "journées", "semaine", "semaines", "mois", "année", "années", "aujourd'hui", "demain", "hier", "après-demain", "avant-hier"];
-var vagueNouns = ["chose", "choses", "façon", "façons", "pièce", "pièces", "truc", "trucs", "fois", "cas", "aspect", "aspects", "objet", "objets", "idée", "idées", "thème", "thèmes", "sujet", "sujets", "personnes", "manière", "manières", "sorte", "sortes"];
-var miscellaneous = ["ne", "oui", "d'accord", "amen", "euro", "euros", "etc"];
-var titlesPreceding = ["mme", "mmes", "mlle", "mlles", "mm", "dr", "pr"];
-var titlesFollowing = ["jr", "sr"];
-module.exports = function () {
-  return {
-    // These word categories are filtered at the ending of word combinations.
-    filteredAtEnding: [].concat(ordinalNumerals, otherAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive, generalAdjectivesAdverbsPreceding),
-    // These word categories are filtered at the beginning of word combinations.
-    filteredAtBeginning: generalAdjectivesAdverbs,
-    // These word categories are filtered at the beginning and ending of word combinations.
-    filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
-    // These word categories are filtered everywhere within word combinations.
-    filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsStressed, reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeAdjectives, relativePronouns, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns),
-    // This export contains all of the above words.
-    all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing)
-  };
-};
-//# sourceMappingURL=functionWords.js.map
-//# sourceMappingURL=functionWords.js.map
-
-/***/ }),
-/* 654 */
+/* 671 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38239,13 +39087,13 @@ function take(array, n, guard) {
 module.exports = take;
 
 /***/ }),
-/* 655 */
+/* 672 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var uniqBy = __webpack_require__(656);
+var uniqBy = __webpack_require__(673);
 /**
  * Removes duplicate marks from an array
  *
@@ -38262,14 +39110,14 @@ module.exports = removeDuplicateMarks;
 //# sourceMappingURL=removeDuplicateMarks.js.map
 
 /***/ }),
-/* 656 */
+/* 673 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIteratee = __webpack_require__(47),
-    baseUniq = __webpack_require__(657);
+var baseIteratee = __webpack_require__(49),
+    baseUniq = __webpack_require__(674);
 
 /**
  * This method is like `_.uniq` except that it accepts `iteratee` which is
@@ -38301,17 +39149,17 @@ function uniqBy(array, iteratee) {
 module.exports = uniqBy;
 
 /***/ }),
-/* 657 */
+/* 674 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var SetCache = __webpack_require__(164),
-    arrayIncludes = __webpack_require__(290),
-    arrayIncludesWith = __webpack_require__(291),
+    arrayIncludes = __webpack_require__(299),
+    arrayIncludesWith = __webpack_require__(300),
     cacheHas = __webpack_require__(165),
-    createSet = __webpack_require__(658),
+    createSet = __webpack_require__(675),
     setToArray = __webpack_require__(89);
 
 /** Used as the size to enable large array optimizations. */
@@ -38377,14 +39225,14 @@ function baseUniq(array, iteratee, comparator) {
 module.exports = baseUniq;
 
 /***/ }),
-/* 658 */
+/* 675 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var Set = __webpack_require__(153),
-    noop = __webpack_require__(391),
+    noop = __webpack_require__(400),
     setToArray = __webpack_require__(89);
 
 /** Used as references for various `Number` constants. */
@@ -38404,13 +39252,13 @@ var createSet = !(Set && 1 / setToArray(new Set([, -0]))[1] == INFINITY) ? noop 
 module.exports = createSet;
 
 /***/ }),
-/* 659 */
+/* 676 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isUndefined = __webpack_require__(3);
+var isUndefined = __webpack_require__(4);
 /**
  * Shows and error trace of the error message in the console if the console is available.
  *
@@ -38432,13 +39280,13 @@ module.exports = {
 //# sourceMappingURL=errors.js.map
 
 /***/ }),
-/* 660 */
+/* 677 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIndexOf = __webpack_require__(284),
+var baseIndexOf = __webpack_require__(288),
     toInteger = __webpack_require__(169);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
@@ -38482,7 +39330,7 @@ function indexOf(array, value, fromIndex) {
 module.exports = indexOf;
 
 /***/ }),
-/* 661 */
+/* 678 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38508,14 +39356,14 @@ function baseInRange(number, start, end) {
 module.exports = baseInRange;
 
 /***/ }),
-/* 662 */
+/* 679 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var escapeHtmlChar = __webpack_require__(663),
-    toString = __webpack_require__(119);
+var escapeHtmlChar = __webpack_require__(680),
+    toString = __webpack_require__(120);
 
 /** Used to match HTML entities and HTML characters. */
 var reUnescapedHtml = /[&<>"']/g,
@@ -38557,13 +39405,13 @@ function escape(string) {
 module.exports = escape;
 
 /***/ }),
-/* 663 */
+/* 680 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var basePropertyOf = __webpack_require__(664);
+var basePropertyOf = __webpack_require__(681);
 
 /** Used to map characters to HTML entities. */
 var htmlEscapes = {
@@ -38586,7 +39434,7 @@ var escapeHtmlChar = basePropertyOf(htmlEscapes);
 module.exports = escapeHtmlChar;
 
 /***/ }),
-/* 664 */
+/* 681 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38608,14 +39456,14 @@ function basePropertyOf(object) {
 module.exports = basePropertyOf;
 
 /***/ }),
-/* 665 */
+/* 682 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var filter = __webpack_require__(20);
-var isSentenceTooLong = __webpack_require__(295);
+var filter = __webpack_require__(22);
+var isSentenceTooLong = __webpack_require__(304);
 /**
  * Checks for too long sentences.
  * @param {array} sentences The array with objects containing sentences and their lengths.
@@ -38632,13 +39480,13 @@ module.exports = function (sentences, recommendedValue) {
 //# sourceMappingURL=checkForTooLongSentences.js.map
 
 /***/ }),
-/* 666 */
+/* 683 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createAggregator = __webpack_require__(667);
+var createAggregator = __webpack_require__(684);
 
 /**
  * Creates an array of elements split into two groups, the first of which
@@ -38685,16 +39533,16 @@ var partition = createAggregator(function (result, value, key) {
 module.exports = partition;
 
 /***/ }),
-/* 667 */
+/* 684 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayAggregator = __webpack_require__(668),
-    baseAggregator = __webpack_require__(669),
-    baseIteratee = __webpack_require__(47),
-    isArray = __webpack_require__(2);
+var arrayAggregator = __webpack_require__(685),
+    baseAggregator = __webpack_require__(686),
+    baseIteratee = __webpack_require__(49),
+    isArray = __webpack_require__(3);
 
 /**
  * Creates a function like `_.groupBy`.
@@ -38716,7 +39564,7 @@ function createAggregator(setter, initializer) {
 module.exports = createAggregator;
 
 /***/ }),
-/* 668 */
+/* 685 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38746,13 +39594,13 @@ function arrayAggregator(array, setter, iteratee, accumulator) {
 module.exports = arrayAggregator;
 
 /***/ }),
-/* 669 */
+/* 686 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseEach = __webpack_require__(123);
+var baseEach = __webpack_require__(124);
 
 /**
  * Aggregates elements of `collection` on `accumulator` with keys transformed
@@ -38775,16 +39623,16 @@ function baseAggregator(collection, setter, iteratee, accumulator) {
 module.exports = baseAggregator;
 
 /***/ }),
-/* 670 */
+/* 687 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var baseFlatten = __webpack_require__(90),
-    baseOrderBy = __webpack_require__(671),
-    baseRest = __webpack_require__(58),
-    isIterateeCall = __webpack_require__(188);
+    baseOrderBy = __webpack_require__(688),
+    baseRest = __webpack_require__(59),
+    isIterateeCall = __webpack_require__(192);
 
 /**
  * Creates an array of elements, sorted in ascending order by the results of
@@ -38831,19 +39679,19 @@ var sortBy = baseRest(function (collection, iteratees) {
 module.exports = sortBy;
 
 /***/ }),
-/* 671 */
+/* 688 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayMap = __webpack_require__(30),
-    baseIteratee = __webpack_require__(47),
-    baseMap = __webpack_require__(356),
-    baseSortBy = __webpack_require__(672),
+var arrayMap = __webpack_require__(31),
+    baseIteratee = __webpack_require__(49),
+    baseMap = __webpack_require__(365),
+    baseSortBy = __webpack_require__(689),
     baseUnary = __webpack_require__(82),
-    compareMultiple = __webpack_require__(673),
-    identity = __webpack_require__(49);
+    compareMultiple = __webpack_require__(690),
+    identity = __webpack_require__(51);
 
 /**
  * The base implementation of `_.orderBy` without param guards.
@@ -38873,7 +39721,7 @@ function baseOrderBy(collection, iteratees, orders) {
 module.exports = baseOrderBy;
 
 /***/ }),
-/* 672 */
+/* 689 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38902,13 +39750,13 @@ function baseSortBy(array, comparer) {
 module.exports = baseSortBy;
 
 /***/ }),
-/* 673 */
+/* 690 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var compareAscending = __webpack_require__(674);
+var compareAscending = __webpack_require__(691);
 
 /**
  * Used by `_.orderBy` to compare multiple properties of a value to another
@@ -38954,13 +39802,13 @@ function compareMultiple(object, other, orders) {
 module.exports = compareMultiple;
 
 /***/ }),
-/* 674 */
+/* 691 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isSymbol = __webpack_require__(36);
+var isSymbol = __webpack_require__(37);
 
 /**
  * Compares values to sort them in ascending order.
@@ -38995,7 +39843,7 @@ function compareAscending(value, other) {
 module.exports = compareAscending;
 
 /***/ }),
-/* 675 */
+/* 692 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39031,7 +39879,7 @@ function customDefaultsMerge(objValue, srcValue, key, object, source, stack) {
 module.exports = customDefaultsMerge;
 
 /***/ }),
-/* 676 */
+/* 693 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39078,7 +39926,7 @@ var mergeWith = createAssigner(function (object, source, srcIndex, customizer) {
 module.exports = mergeWith;
 
 /***/ }),
-/* 677 */
+/* 694 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39095,7 +39943,7 @@ module.exports = {
 //# sourceMappingURL=default.js.map
 
 /***/ }),
-/* 678 */
+/* 695 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39110,33 +39958,33 @@ module.exports = {
 //# sourceMappingURL=it.js.map
 
 /***/ }),
-/* 679 */
+/* 696 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(680);
-var SnippetPreview = __webpack_require__(407);
-var defaultsDeep = __webpack_require__(92);
+__webpack_require__(697);
+var SnippetPreview = __webpack_require__(416);
+var defaultsDeep = __webpack_require__(93);
 var isObject = __webpack_require__(6);
-var isString = __webpack_require__(285);
+var isString = __webpack_require__(289);
 var MissingArgument = __webpack_require__(162);
-var isUndefined = __webpack_require__(3);
-var isEmpty = __webpack_require__(25);
-var forEach = __webpack_require__(5);
+var isUndefined = __webpack_require__(4);
+var isEmpty = __webpack_require__(15);
+var forEach = __webpack_require__(2);
 var debounce = __webpack_require__(87);
-var throttle = __webpack_require__(684);
-var Jed = __webpack_require__(178);
-var SEOAssessor = __webpack_require__(293);
-var ContentAssessor = __webpack_require__(294);
-var CornerstoneSEOAssessor = __webpack_require__(685);
-var CornerstoneContentAssessor = __webpack_require__(686);
-var Researcher = __webpack_require__(278);
-var AssessorPresenter = __webpack_require__(687);
-var Pluggable = __webpack_require__(410);
-var Paper = __webpack_require__(411);
-var removeHtmlBlocks = __webpack_require__(693);
+var throttle = __webpack_require__(701);
+var Jed = __webpack_require__(182);
+var SEOAssessor = __webpack_require__(302);
+var ContentAssessor = __webpack_require__(303);
+var CornerstoneSEOAssessor = __webpack_require__(702);
+var CornerstoneContentAssessor = __webpack_require__(703);
+var Researcher = __webpack_require__(282);
+var AssessorPresenter = __webpack_require__(704);
+var Pluggable = __webpack_require__(419);
+var Paper = __webpack_require__(420);
+var removeHtmlBlocks = __webpack_require__(710);
 var inputDebounceDelay = 400;
 /**
  * Default config for YoastSEO.js
@@ -39351,7 +40199,6 @@ var App = function App(args) {
     }
     this.initSnippetPreview();
     this.initAssessorPresenters();
-    this.refresh();
 };
 /**
  * Returns the default output element based on which analyses are active.
@@ -39530,6 +40377,10 @@ App.prototype.getData = function () {
  * @returns {void}
  */
 App.prototype.refresh = function () {
+    // Until all plugins are loaded, do not trigger a refresh.
+    if (!this.pluggable.loaded) {
+        return;
+    }
     this._pureRefresh();
 };
 /**
@@ -39718,9 +40569,8 @@ App.prototype.modifyData = function (data) {
  * @returns {void}
  */
 App.prototype.pluginsLoaded = function () {
-    this.getData();
     this.removeLoadingDialog();
-    this.runAnalyzer();
+    this.refresh();
 };
 /**
  * Shows the loading dialog which shows the loading of the plugins.
@@ -39905,7 +40755,7 @@ module.exports = App;
 //# sourceMappingURL=app.js.map
 
 /***/ }),
-/* 680 */
+/* 697 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39924,14 +40774,14 @@ module.exports = analyzerConfig;
 //# sourceMappingURL=config.js.map
 
 /***/ }),
-/* 681 */
+/* 698 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var isObjectLike = __webpack_require__(13),
-    isPlainObject = __webpack_require__(96);
+    isPlainObject = __webpack_require__(97);
 
 /**
  * Checks if `value` is likely a DOM element.
@@ -39957,7 +40807,7 @@ function isElement(value) {
 module.exports = isElement;
 
 /***/ }),
-/* 682 */
+/* 699 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40001,14 +40851,14 @@ function clone(value) {
 module.exports = clone;
 
 /***/ }),
-/* 683 */
+/* 700 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var forEach = __webpack_require__(5);
-var domManipulation = __webpack_require__(409);
+var forEach = __webpack_require__(2);
+var domManipulation = __webpack_require__(418);
 var previewModes = {
     desktop: "snippet-editor__view--desktop",
     mobile: "snippet-editor__view--mobile"
@@ -40227,7 +41077,7 @@ module.exports = SnippetPreviewToggler;
 //# sourceMappingURL=snippetPreviewToggler.js.map
 
 /***/ }),
-/* 684 */
+/* 701 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40304,31 +41154,31 @@ function throttle(func, wait, options) {
 module.exports = throttle;
 
 /***/ }),
-/* 685 */
+/* 702 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Assessor = __webpack_require__(97);
-var SEOAssessor = __webpack_require__(293);
-var introductionKeyword = __webpack_require__(320);
-var keyphraseLength = __webpack_require__(321);
-var keywordDensity = __webpack_require__(322);
-var keywordStopWords = __webpack_require__(323);
-var metaDescriptionKeyword = __webpack_require__(324);
-var MetaDescriptionLength = __webpack_require__(325);
-var SubheadingsKeyword = __webpack_require__(392);
-var textCompetingLinks = __webpack_require__(393);
-var TextImages = __webpack_require__(394);
-var TextLength = __webpack_require__(395);
-var OutboundLinks = __webpack_require__(396);
-var internalLinks = __webpack_require__(397);
-var titleKeyword = __webpack_require__(327);
-var TitleWidth = __webpack_require__(328);
-var UrlKeyword = __webpack_require__(329);
-var UrlLength = __webpack_require__(330);
-var urlStopWords = __webpack_require__(331);
+var Assessor = __webpack_require__(98);
+var SEOAssessor = __webpack_require__(302);
+var introductionKeyword = __webpack_require__(329);
+var keyphraseLength = __webpack_require__(330);
+var keywordDensity = __webpack_require__(331);
+var keywordStopWords = __webpack_require__(332);
+var metaDescriptionKeyword = __webpack_require__(333);
+var MetaDescriptionLength = __webpack_require__(334);
+var SubheadingsKeyword = __webpack_require__(401);
+var textCompetingLinks = __webpack_require__(402);
+var TextImages = __webpack_require__(403);
+var TextLength = __webpack_require__(404);
+var OutboundLinks = __webpack_require__(405);
+var internalLinks = __webpack_require__(406);
+var titleKeyword = __webpack_require__(336);
+var TitleWidth = __webpack_require__(337);
+var UrlKeyword = __webpack_require__(338);
+var UrlLength = __webpack_require__(339);
+var urlStopWords = __webpack_require__(340);
 /**
  * Creates the Assessor
  *
@@ -40386,29 +41236,29 @@ var CornerstoneSEOAssessor = function CornerstoneSEOAssessor(i18n, options) {
         }
     }), urlStopWords];
 };
-__webpack_require__(33).inherits(CornerstoneSEOAssessor, SEOAssessor);
+__webpack_require__(19).inherits(CornerstoneSEOAssessor, SEOAssessor);
 module.exports = CornerstoneSEOAssessor;
 //# sourceMappingURL=seoAssessor.js.map
 //# sourceMappingURL=seoAssessor.js.map
 
 /***/ }),
-/* 686 */
+/* 703 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Assessor = __webpack_require__(97);
-var ContentAssessor = __webpack_require__(294);
-var fleschReadingEase = __webpack_require__(398);
-var paragraphTooLong = __webpack_require__(399);
-var SentenceLengthInText = __webpack_require__(400);
-var SubheadingDistributionTooLong = __webpack_require__(401);
-var transitionWords = __webpack_require__(402);
-var passiveVoice = __webpack_require__(403);
-var sentenceBeginnings = __webpack_require__(404);
-var textPresence = __webpack_require__(405);
-var contentConfiguration = __webpack_require__(406);
+var Assessor = __webpack_require__(98);
+var ContentAssessor = __webpack_require__(303);
+var fleschReadingEase = __webpack_require__(407);
+var paragraphTooLong = __webpack_require__(408);
+var SentenceLengthInText = __webpack_require__(409);
+var SubheadingDistributionTooLong = __webpack_require__(410);
+var transitionWords = __webpack_require__(411);
+var passiveVoice = __webpack_require__(412);
+var sentenceBeginnings = __webpack_require__(413);
+var textPresence = __webpack_require__(414);
+var contentConfiguration = __webpack_require__(415);
 /*
  Temporarily disabled:
 
@@ -40440,26 +41290,26 @@ var CornerStoneContentAssessor = function CornerStoneContentAssessor(i18n) {
         farTooMany: 25
     }), transitionWords, passiveVoice, textPresence, sentenceBeginnings];
 };
-__webpack_require__(33).inherits(CornerStoneContentAssessor, ContentAssessor);
+__webpack_require__(19).inherits(CornerStoneContentAssessor, ContentAssessor);
 module.exports = CornerStoneContentAssessor;
 //# sourceMappingURL=contentAssessor.js.map
 //# sourceMappingURL=contentAssessor.js.map
 
 /***/ }),
-/* 687 */
+/* 704 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var forEach = __webpack_require__(5);
-var isNumber = __webpack_require__(277);
+var forEach = __webpack_require__(2);
+var isNumber = __webpack_require__(281);
 var isObject = __webpack_require__(6);
-var isUndefined = __webpack_require__(3);
-var difference = __webpack_require__(688);
-var template = __webpack_require__(408).assessmentPresenterResult;
+var isUndefined = __webpack_require__(4);
+var difference = __webpack_require__(705);
+var template = __webpack_require__(417).assessmentPresenterResult;
 var scoreToRating = __webpack_require__(163);
-var createConfig = __webpack_require__(690);
+var createConfig = __webpack_require__(707);
 /**
  * Constructs the AssessorPresenter.
  *
@@ -40783,15 +41633,15 @@ module.exports = AssessorPresenter;
 //# sourceMappingURL=AssessorPresenter.js.map
 
 /***/ }),
-/* 688 */
+/* 705 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseDifference = __webpack_require__(689),
+var baseDifference = __webpack_require__(706),
     baseFlatten = __webpack_require__(90),
-    baseRest = __webpack_require__(58),
+    baseRest = __webpack_require__(59),
     isArrayLikeObject = __webpack_require__(145);
 
 /**
@@ -40822,16 +41672,16 @@ var difference = baseRest(function (array, values) {
 module.exports = difference;
 
 /***/ }),
-/* 689 */
+/* 706 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var SetCache = __webpack_require__(164),
-    arrayIncludes = __webpack_require__(290),
-    arrayIncludesWith = __webpack_require__(291),
-    arrayMap = __webpack_require__(30),
+    arrayIncludes = __webpack_require__(299),
+    arrayIncludesWith = __webpack_require__(300),
+    arrayMap = __webpack_require__(31),
     baseUnary = __webpack_require__(82),
     cacheHas = __webpack_require__(165);
 
@@ -40894,7 +41744,7 @@ function baseDifference(array, values, iteratee, comparator) {
 module.exports = baseDifference;
 
 /***/ }),
-/* 690 */
+/* 707 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40937,17 +41787,17 @@ module.exports = function (i18n) {
 //# sourceMappingURL=presenter.js.map
 
 /***/ }),
-/* 691 */
+/* 708 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var arrayReduce = __webpack_require__(88),
-    baseEach = __webpack_require__(123),
-    baseIteratee = __webpack_require__(47),
-    baseReduce = __webpack_require__(692),
-    isArray = __webpack_require__(2);
+    baseEach = __webpack_require__(124),
+    baseIteratee = __webpack_require__(49),
+    baseReduce = __webpack_require__(709),
+    isArray = __webpack_require__(3);
 
 /**
  * Reduces `collection` to a value which is the accumulated result of running
@@ -40996,7 +41846,7 @@ function reduce(collection, iteratee, accumulator) {
 module.exports = reduce;
 
 /***/ }),
-/* 692 */
+/* 709 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41025,7 +41875,7 @@ function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
 module.exports = baseReduce;
 
 /***/ }),
-/* 693 */
+/* 710 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41033,7 +41883,7 @@ module.exports = baseReduce;
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
 
 var htmlparser = __webpack_require__(128);
-var includes = __webpack_require__(68);
+var includes = __webpack_require__(33);
 // The array containing the text parts without the blocks defined in inlineTags.
 var textArray = void 0;
 // False when we are not in a block defined in inlineTags. True if we are.
@@ -41108,13 +41958,13 @@ module.exports = function (text) {
 //# sourceMappingURL=htmlParser.js.map
 
 /***/ }),
-/* 694 */
+/* 711 */
 /***/ (function(module, exports) {
 
 module.exports = {"0":65533,"128":8364,"130":8218,"131":402,"132":8222,"133":8230,"134":8224,"135":8225,"136":710,"137":8240,"138":352,"139":8249,"140":338,"142":381,"145":8216,"146":8217,"147":8220,"148":8221,"149":8226,"150":8211,"151":8212,"152":732,"153":8482,"154":353,"155":8250,"156":339,"158":382,"159":376}
 
 /***/ }),
-/* 695 */
+/* 712 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41125,8 +41975,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var ElementType = __webpack_require__(129);
 
 var re_whitespace = /\s+/g;
-var NodePrototype = __webpack_require__(416);
-var ElementPrototype = __webpack_require__(696);
+var NodePrototype = __webpack_require__(425);
+var ElementPrototype = __webpack_require__(713);
 
 function DomHandler(callback, options, elementCB) {
 	if ((typeof callback === "undefined" ? "undefined" : _typeof(callback)) === "object") {
@@ -41335,14 +42185,14 @@ DomHandler.prototype.onprocessinginstruction = function (name, data) {
 module.exports = DomHandler;
 
 /***/ }),
-/* 696 */
+/* 713 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 // DOM-Level-1-compliant structure
-var NodePrototype = __webpack_require__(416);
+var NodePrototype = __webpack_require__(425);
 var ElementPrototype = module.exports = Object.create(NodePrototype);
 
 var domLvl1 = {
@@ -41363,7 +42213,7 @@ Object.keys(domLvl1).forEach(function (key) {
 });
 
 /***/ }),
-/* 697 */
+/* 714 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41465,7 +42315,7 @@ FeedHandler.prototype.onend = function () {
 module.exports = FeedHandler;
 
 /***/ }),
-/* 698 */
+/* 715 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41473,7 +42323,7 @@ module.exports = FeedHandler;
 
 module.exports = Stream;
 
-var Parser = __webpack_require__(417);
+var Parser = __webpack_require__(426);
 
 function Stream(options) {
 	Parser.call(this, new Cbs(this), options);
@@ -41508,7 +42358,7 @@ Object.keys(EVENTS).forEach(function (name) {
 });
 
 /***/ }),
-/* 699 */
+/* 716 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41541,11 +42391,11 @@ var EE = __webpack_require__(86).EventEmitter;
 var inherits = __webpack_require__(14);
 
 inherits(Stream, EE);
-Stream.Readable = __webpack_require__(298);
-Stream.Writable = __webpack_require__(708);
-Stream.Duplex = __webpack_require__(709);
-Stream.Transform = __webpack_require__(710);
-Stream.PassThrough = __webpack_require__(711);
+Stream.Readable = __webpack_require__(307);
+Stream.Writable = __webpack_require__(725);
+Stream.Duplex = __webpack_require__(726);
+Stream.Transform = __webpack_require__(727);
+Stream.PassThrough = __webpack_require__(728);
 
 // Backwards-compat with node 0.4.x
 Stream.Stream = Stream;
@@ -41640,7 +42490,7 @@ Stream.prototype.pipe = function (dest, options) {
 };
 
 /***/ }),
-/* 700 */
+/* 717 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41760,7 +42610,7 @@ function fromByteArray(uint8) {
 }
 
 /***/ }),
-/* 701 */
+/* 718 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41852,13 +42702,13 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 };
 
 /***/ }),
-/* 702 */
+/* 719 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 703 */
+/* 720 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41872,7 +42722,7 @@ function _classCallCheck(instance, Constructor) {
   }
 }
 
-var Buffer = __webpack_require__(171).Buffer;
+var Buffer = __webpack_require__(175).Buffer;
 /*</replacement>*/
 
 function copyBuffer(src, target, offset) {
@@ -41942,7 +42792,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 704 */
+/* 721 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41996,12 +42846,12 @@ exports._unrefActive = exports.active = function (item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(705);
+__webpack_require__(722);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 /***/ }),
-/* 705 */
+/* 722 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42189,10 +43039,10 @@ exports.clearImmediate = clearImmediate;
     attachTo.setImmediate = setImmediate;
     attachTo.clearImmediate = clearImmediate;
 })(typeof self === "undefined" ? typeof global === "undefined" ? undefined : global : self);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(56)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(57)))
 
 /***/ }),
-/* 706 */
+/* 723 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42267,7 +43117,7 @@ function config(name) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 707 */
+/* 724 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42300,7 +43150,7 @@ function config(name) {
 
 module.exports = PassThrough;
 
-var Transform = __webpack_require__(422);
+var Transform = __webpack_require__(431);
 
 /*<replacement>*/
 var util = __webpack_require__(130);
@@ -42320,16 +43170,16 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 708 */
+/* 725 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(300);
+module.exports = __webpack_require__(309);
 
 /***/ }),
-/* 709 */
+/* 726 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42338,31 +43188,31 @@ module.exports = __webpack_require__(300);
 module.exports = __webpack_require__(72);
 
 /***/ }),
-/* 710 */
+/* 727 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(298).Transform;
+module.exports = __webpack_require__(307).Transform;
 
 /***/ }),
-/* 711 */
+/* 728 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(298).PassThrough;
+module.exports = __webpack_require__(307).PassThrough;
 
 /***/ }),
-/* 712 */
+/* 729 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 713 */
+/* 730 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42397,7 +43247,7 @@ Object.keys(EVENTS).forEach(function (name) {
 });
 
 /***/ }),
-/* 714 */
+/* 731 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42405,21 +43255,21 @@ Object.keys(EVENTS).forEach(function (name) {
 
 var DomUtils = module.exports;
 
-[__webpack_require__(715), __webpack_require__(721), __webpack_require__(722), __webpack_require__(723), __webpack_require__(724), __webpack_require__(725)].forEach(function (ext) {
+[__webpack_require__(732), __webpack_require__(738), __webpack_require__(739), __webpack_require__(740), __webpack_require__(741), __webpack_require__(742)].forEach(function (ext) {
 	Object.keys(ext).forEach(function (key) {
 		DomUtils[key] = ext[key].bind(DomUtils);
 	});
 });
 
 /***/ }),
-/* 715 */
+/* 732 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var ElementType = __webpack_require__(129),
-    getOuterHTML = __webpack_require__(716),
+    getOuterHTML = __webpack_require__(733),
     isTag = ElementType.isTag;
 
 module.exports = {
@@ -42443,7 +43293,7 @@ function getText(elem) {
 }
 
 /***/ }),
-/* 716 */
+/* 733 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42452,8 +43302,8 @@ function getText(elem) {
 /*
   Module dependencies
 */
-var ElementType = __webpack_require__(717);
-var entities = __webpack_require__(718);
+var ElementType = __webpack_require__(734);
+var entities = __webpack_require__(735);
 
 /*
   Boolean Attributes
@@ -42614,7 +43464,7 @@ function renderComment(elem) {
 }
 
 /***/ }),
-/* 717 */
+/* 734 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42636,14 +43486,14 @@ module.exports = {
 };
 
 /***/ }),
-/* 718 */
+/* 735 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var encode = __webpack_require__(719),
-    decode = __webpack_require__(720);
+var encode = __webpack_require__(736),
+    decode = __webpack_require__(737);
 
 exports.decode = function (data, level) {
 	return (!level || level <= 0 ? decode.XML : decode.HTML)(data);
@@ -42670,18 +43520,18 @@ exports.decodeHTML4Strict = exports.decodeHTML5Strict = exports.decodeHTMLStrict
 exports.escape = encode.escape;
 
 /***/ }),
-/* 719 */
+/* 736 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var inverseXML = getInverseObj(__webpack_require__(297)),
+var inverseXML = getInverseObj(__webpack_require__(306)),
     xmlReplacer = getInverseReplacer(inverseXML);
 
 exports.XML = getInverse(inverseXML, xmlReplacer);
 
-var inverseHTML = getInverseObj(__webpack_require__(296)),
+var inverseHTML = getInverseObj(__webpack_require__(305)),
     htmlReplacer = getInverseReplacer(inverseHTML);
 
 exports.HTML = getInverse(inverseHTML, htmlReplacer);
@@ -42745,16 +43595,16 @@ function escapeXML(data) {
 exports.escape = escapeXML;
 
 /***/ }),
-/* 720 */
+/* 737 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var entityMap = __webpack_require__(296),
-    legacyMap = __webpack_require__(415),
-    xmlMap = __webpack_require__(297),
-    decodeCodePoint = __webpack_require__(414);
+var entityMap = __webpack_require__(305),
+    legacyMap = __webpack_require__(424),
+    xmlMap = __webpack_require__(306),
+    decodeCodePoint = __webpack_require__(423);
 
 var decodeXMLStrict = getStrictDecoder(xmlMap),
     decodeHTMLStrict = getStrictDecoder(entityMap);
@@ -42823,7 +43673,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 721 */
+/* 738 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42855,7 +43705,7 @@ exports.getName = function (elem) {
 };
 
 /***/ }),
-/* 722 */
+/* 739 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42938,7 +43788,7 @@ exports.prepend = function (elem, prev) {
 };
 
 /***/ }),
-/* 723 */
+/* 740 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43039,7 +43889,7 @@ function findAll(test, rootElems) {
 }
 
 /***/ }),
-/* 724 */
+/* 741 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43146,7 +43996,7 @@ exports.getElementsByTagType = function (type, element, recurse, limit) {
 };
 
 /***/ }),
-/* 725 */
+/* 742 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43300,7 +44150,7 @@ exports.uniqueSort = function (nodes) {
 };
 
 /***/ }),
-/* 726 */
+/* 743 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43363,7 +44213,7 @@ CollectingHandler.prototype.restart = function () {
 };
 
 /***/ }),
-/* 727 */
+/* 744 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43374,13 +44224,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.initialize = initialize;
 
-var _redux = __webpack_require__(302);
+var _redux = __webpack_require__(311);
 
-var _reduxThunk = __webpack_require__(742);
+var _reduxThunk = __webpack_require__(759);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _reduxLogger = __webpack_require__(743);
+var _reduxLogger = __webpack_require__(760);
 
 var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
@@ -43388,35 +44238,35 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(98);
+var _reactDom = __webpack_require__(99);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRedux = __webpack_require__(304);
+var _reactRedux = __webpack_require__(313);
 
-var _reactIntl = __webpack_require__(32);
+var _reactIntl = __webpack_require__(34);
 
-var _flowRight = __webpack_require__(754);
+var _flowRight = __webpack_require__(771);
 
 var _flowRight2 = _interopRequireDefault(_flowRight);
 
-var _markerButtons = __webpack_require__(760);
+var _markerButtons = __webpack_require__(777);
 
 var _markerButtons2 = _interopRequireDefault(_markerButtons);
 
-var _contentAnalysisReducer = __webpack_require__(761);
+var _contentAnalysisReducer = __webpack_require__(778);
 
 var _contentAnalysisReducer2 = _interopRequireDefault(_contentAnalysisReducer);
 
-var _activeKeyword = __webpack_require__(764);
+var _activeKeyword = __webpack_require__(781);
 
 var _activeKeyword2 = _interopRequireDefault(_activeKeyword);
 
-var _ReadabilityAnalysis = __webpack_require__(765);
+var _ReadabilityAnalysis = __webpack_require__(782);
 
 var _ReadabilityAnalysis2 = _interopRequireDefault(_ReadabilityAnalysis);
 
-var _SeoAnalysis = __webpack_require__(774);
+var _SeoAnalysis = __webpack_require__(791);
 
 var _SeoAnalysis2 = _interopRequireDefault(_SeoAnalysis);
 
@@ -43538,7 +44388,7 @@ function initialize(args) {
 exports.default = initialize;
 
 /***/ }),
-/* 728 */
+/* 745 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43548,15 +44398,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(425);
+var _Symbol2 = __webpack_require__(434);
 
 var _Symbol3 = _interopRequireDefault(_Symbol2);
 
-var _getRawTag = __webpack_require__(731);
+var _getRawTag = __webpack_require__(748);
 
 var _getRawTag2 = _interopRequireDefault(_getRawTag);
 
-var _objectToString = __webpack_require__(732);
+var _objectToString = __webpack_require__(749);
 
 var _objectToString2 = _interopRequireDefault(_objectToString);
 
@@ -43586,7 +44436,7 @@ function baseGetTag(value) {
 exports.default = baseGetTag;
 
 /***/ }),
-/* 729 */
+/* 746 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43598,7 +44448,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _freeGlobal = __webpack_require__(730);
+var _freeGlobal = __webpack_require__(747);
 
 var _freeGlobal2 = _interopRequireDefault(_freeGlobal);
 
@@ -43613,7 +44463,7 @@ var root = _freeGlobal2.default || freeSelf || Function('return this')();
 exports.default = root;
 
 /***/ }),
-/* 730 */
+/* 747 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43632,7 +44482,7 @@ exports.default = freeGlobal;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 731 */
+/* 748 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43642,7 +44492,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(425);
+var _Symbol2 = __webpack_require__(434);
 
 var _Symbol3 = _interopRequireDefault(_Symbol2);
 
@@ -43694,7 +44544,7 @@ function getRawTag(value) {
 exports.default = getRawTag;
 
 /***/ }),
-/* 732 */
+/* 749 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43727,7 +44577,7 @@ function objectToString(value) {
 exports.default = objectToString;
 
 /***/ }),
-/* 733 */
+/* 750 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43737,7 +44587,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _overArg = __webpack_require__(734);
+var _overArg = __webpack_require__(751);
 
 var _overArg2 = _interopRequireDefault(_overArg);
 
@@ -43749,7 +44599,7 @@ var getPrototype = (0, _overArg2.default)(Object.getPrototypeOf, Object);
 exports.default = getPrototype;
 
 /***/ }),
-/* 734 */
+/* 751 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43775,7 +44625,7 @@ function overArg(func, transform) {
 exports.default = overArg;
 
 /***/ }),
-/* 735 */
+/* 752 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43818,16 +44668,16 @@ function isObjectLike(value) {
 exports.default = isObjectLike;
 
 /***/ }),
-/* 736 */
+/* 753 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(737);
+module.exports = __webpack_require__(754);
 
 /***/ }),
-/* 737 */
+/* 754 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43837,7 +44687,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ponyfill = __webpack_require__(738);
+var _ponyfill = __webpack_require__(755);
 
 var _ponyfill2 = _interopRequireDefault(_ponyfill);
 
@@ -43861,10 +44711,10 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(42)(module)))
 
 /***/ }),
-/* 738 */
+/* 755 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43893,7 +44743,7 @@ function symbolObservablePonyfill(root) {
 };
 
 /***/ }),
-/* 739 */
+/* 756 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43904,13 +44754,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = combineReducers;
 
-var _createStore = __webpack_require__(424);
+var _createStore = __webpack_require__(433);
 
-var _isPlainObject = __webpack_require__(303);
+var _isPlainObject = __webpack_require__(312);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _warning = __webpack_require__(426);
+var _warning = __webpack_require__(435);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -44044,7 +44894,7 @@ function combineReducers(reducers) {
 }
 
 /***/ }),
-/* 740 */
+/* 757 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44106,7 +44956,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 /***/ }),
-/* 741 */
+/* 758 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44117,7 +44967,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = applyMiddleware;
 
-var _compose = __webpack_require__(427);
+var _compose = __webpack_require__(436);
 
 var _compose2 = _interopRequireDefault(_compose);
 
@@ -44179,7 +45029,7 @@ function applyMiddleware() {
 }
 
 /***/ }),
-/* 742 */
+/* 759 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44208,7 +45058,7 @@ thunk.withExtraArgument = createThunkMiddleware;
 exports['default'] = thunk;
 
 /***/ }),
-/* 743 */
+/* 760 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44503,7 +45353,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 744 */
+/* 761 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44523,9 +45373,9 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _PropTypes = __webpack_require__(428);
+var _PropTypes = __webpack_require__(437);
 
-var _warning = __webpack_require__(305);
+var _warning = __webpack_require__(314);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -44612,7 +45462,7 @@ function createProvider() {
 exports.default = createProvider();
 
 /***/ }),
-/* 745 */
+/* 762 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44685,7 +45535,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 };
 
 /***/ }),
-/* 746 */
+/* 763 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44792,7 +45642,7 @@ var Subscription = function () {
 exports.default = Subscription;
 
 /***/ }),
-/* 747 */
+/* 764 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44806,27 +45656,27 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.createConnect = createConnect;
 
-var _connectAdvanced = __webpack_require__(429);
+var _connectAdvanced = __webpack_require__(438);
 
 var _connectAdvanced2 = _interopRequireDefault(_connectAdvanced);
 
-var _shallowEqual = __webpack_require__(748);
+var _shallowEqual = __webpack_require__(765);
 
 var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 
-var _mapDispatchToProps = __webpack_require__(749);
+var _mapDispatchToProps = __webpack_require__(766);
 
 var _mapDispatchToProps2 = _interopRequireDefault(_mapDispatchToProps);
 
-var _mapStateToProps = __webpack_require__(750);
+var _mapStateToProps = __webpack_require__(767);
 
 var _mapStateToProps2 = _interopRequireDefault(_mapStateToProps);
 
-var _mergeProps = __webpack_require__(751);
+var _mergeProps = __webpack_require__(768);
 
 var _mergeProps2 = _interopRequireDefault(_mergeProps);
 
-var _selectorFactory = __webpack_require__(752);
+var _selectorFactory = __webpack_require__(769);
 
 var _selectorFactory2 = _interopRequireDefault(_selectorFactory);
 
@@ -44942,7 +45792,7 @@ function createConnect() {
 exports.default = createConnect();
 
 /***/ }),
-/* 748 */
+/* 765 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44987,7 +45837,7 @@ function shallowEqual(objA, objB) {
 }
 
 /***/ }),
-/* 749 */
+/* 766 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45003,9 +45853,9 @@ exports.whenMapDispatchToPropsIsFunction = whenMapDispatchToPropsIsFunction;
 exports.whenMapDispatchToPropsIsMissing = whenMapDispatchToPropsIsMissing;
 exports.whenMapDispatchToPropsIsObject = whenMapDispatchToPropsIsObject;
 
-var _redux = __webpack_require__(302);
+var _redux = __webpack_require__(311);
 
-var _wrapMapToProps = __webpack_require__(430);
+var _wrapMapToProps = __webpack_require__(439);
 
 function whenMapDispatchToPropsIsFunction(mapDispatchToProps) {
   return typeof mapDispatchToProps === 'function' ? (0, _wrapMapToProps.wrapMapToPropsFunc)(mapDispatchToProps, 'mapDispatchToProps') : undefined;
@@ -45026,7 +45876,7 @@ function whenMapDispatchToPropsIsObject(mapDispatchToProps) {
 exports.default = [whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject];
 
 /***/ }),
-/* 750 */
+/* 767 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45038,7 +45888,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.whenMapStateToPropsIsFunction = whenMapStateToPropsIsFunction;
 exports.whenMapStateToPropsIsMissing = whenMapStateToPropsIsMissing;
 
-var _wrapMapToProps = __webpack_require__(430);
+var _wrapMapToProps = __webpack_require__(439);
 
 function whenMapStateToPropsIsFunction(mapStateToProps) {
   return typeof mapStateToProps === 'function' ? (0, _wrapMapToProps.wrapMapToPropsFunc)(mapStateToProps, 'mapStateToProps') : undefined;
@@ -45053,7 +45903,7 @@ function whenMapStateToPropsIsMissing(mapStateToProps) {
 exports.default = [whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing];
 
 /***/ }),
-/* 751 */
+/* 768 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45067,7 +45917,7 @@ exports.wrapMergePropsFunc = wrapMergePropsFunc;
 exports.whenMergePropsIsFunction = whenMergePropsIsFunction;
 exports.whenMergePropsIsOmitted = whenMergePropsIsOmitted;
 
-var _verifyPlainObject = __webpack_require__(431);
+var _verifyPlainObject = __webpack_require__(440);
 
 var _verifyPlainObject2 = _interopRequireDefault(_verifyPlainObject);
 
@@ -45126,7 +45976,7 @@ function whenMergePropsIsOmitted(mergeProps) {
 exports.default = [whenMergePropsIsFunction, whenMergePropsIsOmitted];
 
 /***/ }),
-/* 752 */
+/* 769 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45139,7 +45989,7 @@ exports.impureFinalPropsSelectorFactory = impureFinalPropsSelectorFactory;
 exports.pureFinalPropsSelectorFactory = pureFinalPropsSelectorFactory;
 exports.default = finalPropsSelectorFactory;
 
-var _verifySubselectors = __webpack_require__(753);
+var _verifySubselectors = __webpack_require__(770);
 
 var _verifySubselectors2 = _interopRequireDefault(_verifySubselectors);
 
@@ -45251,7 +46101,7 @@ function finalPropsSelectorFactory(dispatch, _ref2) {
 }
 
 /***/ }),
-/* 753 */
+/* 770 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45262,7 +46112,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = verifySubselectors;
 
-var _warning = __webpack_require__(305);
+var _warning = __webpack_require__(314);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -45285,13 +46135,13 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 }
 
 /***/ }),
-/* 754 */
+/* 771 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createFlow = __webpack_require__(432);
+var createFlow = __webpack_require__(441);
 
 /**
  * This method is like `_.flow` except that it creates a function that
@@ -45319,7 +46169,7 @@ var flowRight = createFlow(true);
 module.exports = flowRight;
 
 /***/ }),
-/* 755 */
+/* 772 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45333,7 +46183,7 @@ var metaMap = WeakMap && new WeakMap();
 module.exports = metaMap;
 
 /***/ }),
-/* 756 */
+/* 773 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45345,16 +46195,16 @@ var realNames = {};
 module.exports = realNames;
 
 /***/ }),
-/* 757 */
+/* 774 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var LazyWrapper = __webpack_require__(308),
-    getData = __webpack_require__(433),
-    getFuncName = __webpack_require__(434),
-    lodash = __webpack_require__(758);
+var LazyWrapper = __webpack_require__(317),
+    getData = __webpack_require__(442),
+    getFuncName = __webpack_require__(443),
+    lodash = __webpack_require__(775);
 
 /**
  * Checks if `func` has a lazy counterpart.
@@ -45381,18 +46231,18 @@ function isLaziable(func) {
 module.exports = isLaziable;
 
 /***/ }),
-/* 758 */
+/* 775 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var LazyWrapper = __webpack_require__(308),
-    LodashWrapper = __webpack_require__(306),
-    baseLodash = __webpack_require__(307),
-    isArray = __webpack_require__(2),
+var LazyWrapper = __webpack_require__(317),
+    LodashWrapper = __webpack_require__(315),
+    baseLodash = __webpack_require__(316),
+    isArray = __webpack_require__(3),
     isObjectLike = __webpack_require__(13),
-    wrapperClone = __webpack_require__(759);
+    wrapperClone = __webpack_require__(776);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -45536,15 +46386,15 @@ lodash.prototype.constructor = lodash;
 module.exports = lodash;
 
 /***/ }),
-/* 759 */
+/* 776 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var LazyWrapper = __webpack_require__(308),
-    LodashWrapper = __webpack_require__(306),
-    copyArray = __webpack_require__(95);
+var LazyWrapper = __webpack_require__(317),
+    LodashWrapper = __webpack_require__(315),
+    copyArray = __webpack_require__(96);
 
 /**
  * Creates a clone of `wrapper`.
@@ -45567,7 +46417,7 @@ function wrapperClone(wrapper) {
 module.exports = wrapperClone;
 
 /***/ }),
-/* 760 */
+/* 777 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45577,7 +46427,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _markerButtons = __webpack_require__(332);
+var _markerButtons = __webpack_require__(341);
 
 var INITIAL_STATE = null;
 
@@ -45616,7 +46466,7 @@ function markerStatusReducer() {
 exports.default = markerStatusReducer;
 
 /***/ }),
-/* 761 */
+/* 778 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45626,11 +46476,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _readabilityResultsReducer = __webpack_require__(762);
+var _readabilityResultsReducer = __webpack_require__(779);
 
-var _keywordResultsReducer = __webpack_require__(763);
+var _keywordResultsReducer = __webpack_require__(780);
 
-var _redux = __webpack_require__(302);
+var _redux = __webpack_require__(311);
 
 exports.default = (0, _redux.combineReducers)({
 	seo: _keywordResultsReducer.keywordResultsReducer,
@@ -45638,7 +46488,7 @@ exports.default = (0, _redux.combineReducers)({
 });
 
 /***/ }),
-/* 762 */
+/* 779 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45649,7 +46499,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.readabilityResultsReducer = readabilityResultsReducer;
 
-var _contentAnalysis = __webpack_require__(309);
+var _contentAnalysis = __webpack_require__(318);
 
 var _findIndex = __webpack_require__(168);
 
@@ -45713,7 +46563,7 @@ function readabilityResultsReducer() {
 }
 
 /***/ }),
-/* 763 */
+/* 780 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45724,13 +46574,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.keywordResultsReducer = keywordResultsReducer;
 
-var _contentAnalysis = __webpack_require__(309);
+var _contentAnalysis = __webpack_require__(318);
 
 var _findIndex = __webpack_require__(168);
 
 var _findIndex2 = _interopRequireDefault(_findIndex);
 
-var _omit = __webpack_require__(111);
+var _omit = __webpack_require__(112);
 
 var _omit2 = _interopRequireDefault(_omit);
 
@@ -45861,7 +46711,7 @@ function keywordResultsReducer() {
 }
 
 /***/ }),
-/* 764 */
+/* 781 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45871,7 +46721,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _activeKeyword = __webpack_require__(435);
+var _activeKeyword = __webpack_require__(444);
 
 var INITIAL_STATE = null;
 
@@ -45898,7 +46748,7 @@ function activeKeywordReducer() {
 exports.default = activeKeywordReducer;
 
 /***/ }),
-/* 765 */
+/* 782 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45918,9 +46768,9 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(304);
+var _reactRedux = __webpack_require__(313);
 
-var _Results = __webpack_require__(436);
+var _Results = __webpack_require__(445);
 
 var _Results2 = _interopRequireDefault(_Results);
 
@@ -45996,7 +46846,7 @@ function mapStateToProps(state, ownProps) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(ReadabilityAnalysis);
 
 /***/ }),
-/* 766 */
+/* 783 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46121,7 +46971,7 @@ function mapResults(results) {
 }
 
 /***/ }),
-/* 767 */
+/* 784 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46154,15 +47004,15 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactIntl = __webpack_require__(32);
+var _reactIntl = __webpack_require__(34);
 
-var _makeOutboundLink = __webpack_require__(174);
+var _makeOutboundLink = __webpack_require__(178);
 
-var _AnalysisResult = __webpack_require__(768);
+var _AnalysisResult = __webpack_require__(785);
 
 var _AnalysisResult2 = _interopRequireDefault(_AnalysisResult);
 
-var _AnalysisCollapsible = __webpack_require__(770);
+var _AnalysisCollapsible = __webpack_require__(787);
 
 var _AnalysisCollapsible2 = _interopRequireDefault(_AnalysisCollapsible);
 
@@ -46504,7 +47354,7 @@ ContentAnalysis.defaultProps = {
 exports.default = (0, _reactIntl.injectIntl)(ContentAnalysis);
 
 /***/ }),
-/* 768 */
+/* 785 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46531,11 +47381,11 @@ var _styledComponents = __webpack_require__(7);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _index = __webpack_require__(121);
+var _index = __webpack_require__(122);
 
-var _Icon = __webpack_require__(63);
+var _Icon = __webpack_require__(64);
 
-var _IconButtonToggle = __webpack_require__(769);
+var _IconButtonToggle = __webpack_require__(786);
 
 var _IconButtonToggle2 = _interopRequireDefault(_IconButtonToggle);
 
@@ -46607,7 +47457,7 @@ AnalysisResult.defaultProps = {
 exports.default = AnalysisResult;
 
 /***/ }),
-/* 769 */
+/* 786 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46635,7 +47485,7 @@ var _colors = __webpack_require__(11);
 
 var _colors2 = _interopRequireDefault(_colors);
 
-var _Icon = __webpack_require__(63);
+var _Icon = __webpack_require__(64);
 
 var _helpers = __webpack_require__(158);
 
@@ -46741,7 +47591,7 @@ ChangingIconButton.defaultProps = {
 exports.default = ChangingIconButton;
 
 /***/ }),
-/* 770 */
+/* 787 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46772,15 +47622,15 @@ var _styledComponents = __webpack_require__(7);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _reactUtils = __webpack_require__(771);
+var _reactUtils = __webpack_require__(788);
 
-var _svg = __webpack_require__(121);
+var _svg = __webpack_require__(122);
 
 var _colors = __webpack_require__(11);
 
 var _colors2 = _interopRequireDefault(_colors);
 
-var _Button = __webpack_require__(772);
+var _Button = __webpack_require__(789);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46978,7 +47828,7 @@ AnalysisCollapsible.defaultProps = {
 exports.default = AnalysisCollapsible;
 
 /***/ }),
-/* 771 */
+/* 788 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47008,7 +47858,7 @@ function getChildrenCount(children) {
 }
 
 /***/ }),
-/* 772 */
+/* 789 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47041,11 +47891,11 @@ var _styledComponents = __webpack_require__(7);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _flow = __webpack_require__(773);
+var _flow = __webpack_require__(790);
 
 var _flow2 = _interopRequireDefault(_flow);
 
-var _omit = __webpack_require__(111);
+var _omit = __webpack_require__(112);
 
 var _omit2 = _interopRequireDefault(_omit);
 
@@ -47057,7 +47907,7 @@ var _colors = __webpack_require__(11);
 
 var _colors2 = _interopRequireDefault(_colors);
 
-var _Icon = __webpack_require__(63);
+var _Icon = __webpack_require__(64);
 
 var _helpers = __webpack_require__(158);
 
@@ -47262,13 +48112,13 @@ IconButton.propTypes = {
 };
 
 /***/ }),
-/* 773 */
+/* 790 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createFlow = __webpack_require__(432);
+var createFlow = __webpack_require__(441);
 
 /**
  * Creates a function that returns the result of invoking the given functions
@@ -47297,7 +48147,7 @@ var flow = createFlow();
 module.exports = flow;
 
 /***/ }),
-/* 774 */
+/* 791 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47317,9 +48167,9 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(304);
+var _reactRedux = __webpack_require__(313);
 
-var _Results = __webpack_require__(436);
+var _Results = __webpack_require__(445);
 
 var _Results2 = _interopRequireDefault(_Results);
 
@@ -47383,7 +48233,7 @@ function mapStateToProps(state, ownProps) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(SeoAnalysis);
 
 /***/ }),
-/* 775 */
+/* 792 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47391,10 +48241,10 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps)(SeoAnalysis);
 
 /* global YoastSEO */
 
-var defaultsDeep = __webpack_require__(92);
+var defaultsDeep = __webpack_require__(93);
 
-var KeywordTab = __webpack_require__(776);
-var GenericTab = __webpack_require__(440);
+var KeywordTab = __webpack_require__(793);
+var GenericTab = __webpack_require__(449);
 
 var $ = jQuery;
 
@@ -47573,17 +48423,17 @@ TabManager.prototype.getContentTab = function () {
 module.exports = TabManager;
 
 /***/ }),
-/* 776 */
+/* 793 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 /* global wp, jQuery */
-var isUndefined = __webpack_require__(3);
-var defaultsDeep = __webpack_require__(92);
+var isUndefined = __webpack_require__(4);
+var defaultsDeep = __webpack_require__(93);
 
-var GenericTab = __webpack_require__(440);
+var GenericTab = __webpack_require__(449);
 
 var defaultArguments = {
 	keyword: "",
@@ -47717,15 +48567,15 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 777 */
+/* 794 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getL10nObject = __webpack_require__(93);
+var getL10nObject = __webpack_require__(94);
 
-var isUndefined = __webpack_require__(3);
+var isUndefined = __webpack_require__(4);
 
 /**
  * Returns whether or not the content analysis is active
@@ -47741,7 +48591,7 @@ function isContentAnalysisActive() {
 module.exports = isContentAnalysisActive;
 
 /***/ }),
-/* 778 */
+/* 795 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47749,10 +48599,10 @@ module.exports = isContentAnalysisActive;
 
 /* global jQuery */
 
-var getL10nObject = __webpack_require__(93);
-var getI18n = __webpack_require__(779);
-var getTitlePlaceholder = __webpack_require__(780);
-var getDescriptionPlaceholder = __webpack_require__(781);
+var getL10nObject = __webpack_require__(94);
+var getI18n = __webpack_require__(796);
+var getTitlePlaceholder = __webpack_require__(797);
+var getDescriptionPlaceholder = __webpack_require__(798);
 
 var SnippetPreview = __webpack_require__(161).SnippetPreview;
 
@@ -47877,15 +48727,15 @@ module.exports = {
 };
 
 /***/ }),
-/* 779 */
+/* 796 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getTranslations = __webpack_require__(441);
-var isEmpty = __webpack_require__(25);
-var Jed = __webpack_require__(178);
+var getTranslations = __webpack_require__(450);
+var isEmpty = __webpack_require__(15);
+var Jed = __webpack_require__(182);
 
 /**
  * Returns a Jed object usable in YoastSEO.js
@@ -47913,13 +48763,13 @@ function getI18n() {
 module.exports = getI18n;
 
 /***/ }),
-/* 780 */
+/* 797 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getL10nObject = __webpack_require__(93);
+var getL10nObject = __webpack_require__(94);
 
 /**
  * Returns the title placeholder for use in the title forms.
@@ -47944,13 +48794,13 @@ function getTitlePlaceholder() {
 module.exports = getTitlePlaceholder;
 
 /***/ }),
-/* 781 */
+/* 798 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getL10nObject = __webpack_require__(93);
+var getL10nObject = __webpack_require__(94);
 
 /**
  * Returns the description placeholder for use in the description forms.
@@ -47971,7 +48821,7 @@ function getDescriptionPlaceholder() {
 module.exports = getDescriptionPlaceholder;
 
 /***/ }),
-/* 782 */
+/* 799 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47980,9 +48830,9 @@ module.exports = getDescriptionPlaceholder;
 /* global jQuery, ajaxurl */
 
 var UsedKeywordsPlugin = __webpack_require__(161).bundledPlugins.usedKeywords;
-var _has = __webpack_require__(292);
+var _has = __webpack_require__(301);
 var _debounce = __webpack_require__(87);
-var _isArray = __webpack_require__(2);
+var _isArray = __webpack_require__(3);
 var $ = jQuery;
 
 /**
@@ -48075,23 +48925,6 @@ UsedKeywords.prototype.updateKeywordUsage = function (keyword, response) {
 module.exports = UsedKeywords;
 
 /***/ }),
-/* 783 */,
-/* 784 */,
-/* 785 */,
-/* 786 */,
-/* 787 */,
-/* 788 */,
-/* 789 */,
-/* 790 */,
-/* 791 */,
-/* 792 */,
-/* 793 */,
-/* 794 */,
-/* 795 */,
-/* 796 */,
-/* 797 */,
-/* 798 */,
-/* 799 */,
 /* 800 */,
 /* 801 */,
 /* 802 */,
@@ -48123,7 +48956,24 @@ module.exports = UsedKeywords;
 /* 828 */,
 /* 829 */,
 /* 830 */,
-/* 831 */
+/* 831 */,
+/* 832 */,
+/* 833 */,
+/* 834 */,
+/* 835 */,
+/* 836 */,
+/* 837 */,
+/* 838 */,
+/* 839 */,
+/* 840 */,
+/* 841 */,
+/* 842 */,
+/* 843 */,
+/* 844 */,
+/* 845 */,
+/* 846 */,
+/* 847 */,
+/* 848 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48227,23 +49077,6 @@ var imageScoreClass = "image yoast-logo svg";
 })(jQuery);
 
 /***/ }),
-/* 832 */,
-/* 833 */,
-/* 834 */,
-/* 835 */,
-/* 836 */,
-/* 837 */,
-/* 838 */,
-/* 839 */,
-/* 840 */,
-/* 841 */,
-/* 842 */,
-/* 843 */,
-/* 844 */,
-/* 845 */,
-/* 846 */,
-/* 847 */,
-/* 848 */,
 /* 849 */,
 /* 850 */,
 /* 851 */,
@@ -48446,7 +49279,25 @@ var imageScoreClass = "image yoast-logo svg";
 /* 1048 */,
 /* 1049 */,
 /* 1050 */,
-/* 1051 */
+/* 1051 */,
+/* 1052 */,
+/* 1053 */,
+/* 1054 */,
+/* 1055 */,
+/* 1056 */,
+/* 1057 */,
+/* 1058 */,
+/* 1059 */,
+/* 1060 */,
+/* 1061 */,
+/* 1062 */,
+/* 1063 */,
+/* 1064 */,
+/* 1065 */,
+/* 1066 */,
+/* 1067 */,
+/* 1068 */,
+/* 1069 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48454,69 +49305,69 @@ var imageScoreClass = "image yoast-logo svg";
 
 var _yoastseo = __webpack_require__(161);
 
-var _isUndefined = __webpack_require__(3);
+var _isUndefined = __webpack_require__(4);
 
 var _isUndefined2 = _interopRequireDefault(_isUndefined);
 
-var _wpSeoTinymce = __webpack_require__(423);
+var _wpSeoTinymce = __webpack_require__(432);
 
 var _wpSeoTinymce2 = _interopRequireDefault(_wpSeoTinymce);
 
-var _wpSeoMarkdownPlugin = __webpack_require__(1052);
+var _wpSeoMarkdownPlugin = __webpack_require__(1070);
 
 var _wpSeoMarkdownPlugin2 = _interopRequireDefault(_wpSeoMarkdownPlugin);
 
-var _edit = __webpack_require__(727);
+var _edit = __webpack_require__(744);
 
 var _edit2 = _interopRequireDefault(_edit);
 
-var _activeKeyword = __webpack_require__(435);
+var _activeKeyword = __webpack_require__(444);
 
-var _contentAnalysis = __webpack_require__(309);
+var _contentAnalysis = __webpack_require__(318);
 
-var _tinyMCE = __webpack_require__(333);
+var _tinyMCE = __webpack_require__(342);
 
-var _publishBox = __webpack_require__(831);
+var _publishBox = __webpack_require__(848);
 
 var _publishBox2 = _interopRequireDefault(_publishBox);
 
-var _trafficLight = __webpack_require__(437);
+var _trafficLight = __webpack_require__(446);
 
-var _adminBar = __webpack_require__(438);
+var _adminBar = __webpack_require__(447);
 
-var _PostDataCollector = __webpack_require__(1054);
+var _PostDataCollector = __webpack_require__(1072);
 
 var _PostDataCollector2 = _interopRequireDefault(_PostDataCollector);
 
-var _getIndicatorForScore = __webpack_require__(310);
+var _getIndicatorForScore = __webpack_require__(319);
 
 var _getIndicatorForScore2 = _interopRequireDefault(_getIndicatorForScore);
 
-var _tabManager = __webpack_require__(775);
+var _tabManager = __webpack_require__(792);
 
 var _tabManager2 = _interopRequireDefault(_tabManager);
 
-var _getTranslations = __webpack_require__(441);
+var _getTranslations = __webpack_require__(450);
 
 var _getTranslations2 = _interopRequireDefault(_getTranslations);
 
-var _isKeywordAnalysisActive = __webpack_require__(439);
+var _isKeywordAnalysisActive = __webpack_require__(448);
 
 var _isKeywordAnalysisActive2 = _interopRequireDefault(_isKeywordAnalysisActive);
 
-var _isContentAnalysisActive = __webpack_require__(777);
+var _isContentAnalysisActive = __webpack_require__(794);
 
 var _isContentAnalysisActive2 = _interopRequireDefault(_isContentAnalysisActive);
 
-var _snippetPreview = __webpack_require__(778);
+var _snippetPreview = __webpack_require__(795);
 
 var _snippetPreview2 = _interopRequireDefault(_snippetPreview);
 
-var _usedKeywords = __webpack_require__(782);
+var _usedKeywords = __webpack_require__(799);
 
 var _usedKeywords2 = _interopRequireDefault(_usedKeywords);
 
-var _markerButtons = __webpack_require__(332);
+var _markerButtons = __webpack_require__(341);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48948,7 +49799,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 })(jQuery); /* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
 /***/ }),
-/* 1052 */
+/* 1070 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48960,7 +49811,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _marked = __webpack_require__(1053);
+var _marked = __webpack_require__(1071);
 
 var _marked2 = _interopRequireDefault(_marked);
 
@@ -49013,7 +49864,7 @@ var YoastMarkdownPlugin = function () {
 exports.default = YoastMarkdownPlugin;
 
 /***/ }),
-/* 1053 */
+/* 1071 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49028,7 +49879,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  */
 
 ;(function () {
-  'use strict';
 
   /**
    * Block-Level Grammar
@@ -49428,21 +50278,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   var inline = {
     escape: /^\\([\\`*{}\[\]()#+\-.!_>])/,
-    autolink: /^<([^ <>]+(@|:\/)[^ <>]+)>/,
+    autolink: /^<([^ >]+(@|:\/)[^ >]+)>/,
     url: noop,
-    tag: /^<!--[\s\S]*?-->|^<\/?\w+(?:"[^"]*"|'[^']*'|[^<'">])*?>/,
+    tag: /^<!--[\s\S]*?-->|^<\/?\w+(?:"[^"]*"|'[^']*'|[^'">])*?>/,
     link: /^!?\[(inside)\]\(href\)/,
     reflink: /^!?\[(inside)\]\s*\[([^\]]*)\]/,
     nolink: /^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/,
     strong: /^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/,
     em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
-    code: /^(`+)([\s\S]*?[^`])\1(?!`)/,
+    code: /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/,
     br: /^ {2,}\n(?!\s*$)/,
     del: noop,
     text: /^[\s\S]+?(?=[\\<!\[_*`]| {2,}\n|$)/
   };
 
-  inline._inside = /(?:\[[^\]]*\]|\\[\[\]]|[^\[\]]|\](?=[^\[]*\]))*/;
+  inline._inside = /(?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*/;
   inline._href = /\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*/;
 
   inline.link = replace(inline.link)('inside', inline._inside)('href', inline._href)();
@@ -49548,7 +50398,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       if (cap = this.rules.autolink.exec(src)) {
         src = src.substring(cap[0].length);
         if (cap[2] === '@') {
-          text = escape(cap[1].charAt(6) === ':' ? this.mangle(cap[1].substring(7)) : this.mangle(cap[1]));
+          text = cap[1].charAt(6) === ':' ? this.mangle(cap[1].substring(7)) : this.mangle(cap[1]);
           href = this.mangle('mailto:') + text;
         } else {
           text = escape(cap[1]);
@@ -49624,7 +50474,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       // code
       if (cap = this.rules.code.exec(src)) {
         src = src.substring(cap[0].length);
-        out += this.renderer.codespan(escape(cap[2].trim(), true));
+        out += this.renderer.codespan(escape(cap[2], true));
         continue;
       }
 
@@ -49806,14 +50656,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       try {
         var prot = decodeURIComponent(unescape(href)).replace(/[^\w:]/g, '').toLowerCase();
       } catch (e) {
-        return text;
+        return '';
       }
       if (prot.indexOf('javascript:') === 0 || prot.indexOf('vbscript:') === 0 || prot.indexOf('data:') === 0) {
-        return text;
+        return '';
       }
-    }
-    if (this.options.baseUrl && !originIndependentUrl.test(href)) {
-      href = resolveUrl(this.options.baseUrl, href);
     }
     var out = '<a href="' + href + '"';
     if (title) {
@@ -49824,9 +50671,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   };
 
   Renderer.prototype.image = function (href, title, text) {
-    if (this.options.baseUrl && !originIndependentUrl.test(href)) {
-      href = resolveUrl(this.options.baseUrl, href);
-    }
     var out = '<img src="' + href + '" alt="' + text + '"';
     if (title) {
       out += ' title="' + title + '"';
@@ -50025,8 +50869,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }
 
   function unescape(html) {
-    // explicitly match decimal, hex, and named HTML entities
-    return html.replace(/&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/ig, function (_, n) {
+    // explicitly match decimal, hex, and named HTML entities 
+    return html.replace(/&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/g, function (_, n) {
       n = n.toLowerCase();
       if (n === 'colon') return ':';
       if (n.charAt(0) === '#') {
@@ -50047,30 +50891,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       return self;
     };
   }
-
-  function resolveUrl(base, href) {
-    if (!baseUrls[' ' + base]) {
-      // we can ignore everything in base after the last slash of its path component,
-      // but we might need to add _that_
-      // https://tools.ietf.org/html/rfc3986#section-3
-      if (/^[^:]+:\/*[^/]*$/.test(base)) {
-        baseUrls[' ' + base] = base + '/';
-      } else {
-        baseUrls[' ' + base] = base.replace(/[^/]*$/, '');
-      }
-    }
-    base = baseUrls[' ' + base];
-
-    if (href.slice(0, 2) === '//') {
-      return base.replace(/:[\s\S]*/, ':') + href;
-    } else if (href.charAt(0) === '/') {
-      return base.replace(/(:\/*[^/]*)[\s\S]*/, '$1') + href;
-    } else {
-      return base + href;
-    }
-  }
-  var baseUrls = {};
-  var originIndependentUrl = /^$|^[a-z][a-z0-9+.-]*:|^[?#]/i;
 
   function noop() {}
   noop.exec = noop;
@@ -50170,7 +50990,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     } catch (e) {
       e.message += '\nPlease report this to https://github.com/chjj/marked.';
       if ((opt || marked.defaults).silent) {
-        return '<p>An error occurred:</p><pre>' + escape(e.message + '', true) + '</pre>';
+        return '<p>An error occured:</p><pre>' + escape(e.message + '', true) + '</pre>';
       }
       throw e;
     }
@@ -50200,8 +51020,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     smartypants: false,
     headerPrefix: '',
     renderer: new Renderer(),
-    xhtml: false,
-    baseUrl: null
+    xhtml: false
   };
 
   /**
@@ -50237,7 +51056,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 1054 */
+/* 1072 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50249,31 +51068,31 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /* global jQuery, YoastSEO, wpseoPostScraperL10n */
 
-var _isKeywordAnalysisActive = __webpack_require__(439);
+var _isKeywordAnalysisActive = __webpack_require__(448);
 
 var _isKeywordAnalysisActive2 = _interopRequireDefault(_isKeywordAnalysisActive);
 
-var _removeMarks = __webpack_require__(452);
+var _removeMarks = __webpack_require__(461);
 
 var _removeMarks2 = _interopRequireDefault(_removeMarks);
 
-var _wpSeoTinymce = __webpack_require__(423);
+var _wpSeoTinymce = __webpack_require__(432);
 
 var _wpSeoTinymce2 = _interopRequireDefault(_wpSeoTinymce);
 
-var _getIndicatorForScore = __webpack_require__(310);
+var _getIndicatorForScore = __webpack_require__(319);
 
 var _getIndicatorForScore2 = _interopRequireDefault(_getIndicatorForScore);
 
-var _trafficLight = __webpack_require__(437);
+var _trafficLight = __webpack_require__(446);
 
-var _adminBar = __webpack_require__(438);
+var _adminBar = __webpack_require__(447);
 
-var _publishBox = __webpack_require__(831);
+var _publishBox = __webpack_require__(848);
 
 var _publishBox2 = _interopRequireDefault(_publishBox);
 
-var _get2 = __webpack_require__(319);
+var _get2 = __webpack_require__(328);
 
 var _get3 = _interopRequireDefault(_get2);
 
@@ -50695,4 +51514,4 @@ PostDataCollector.prototype.initKeywordTabTemplate = function () {
 exports.default = PostDataCollector;
 
 /***/ })
-],[1051]);
+],[1069]);
