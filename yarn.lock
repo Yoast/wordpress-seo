@@ -1412,9 +1412,9 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
 
-console.table@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/console.table/-/console.table-0.9.1.tgz#4b01fd0a6b56fffb79092783e56a9bb90678728c"
+console.table@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/console.table/-/console.table-0.10.0.tgz#0917025588875befd70cf2eff4bef2c6e2d75d04"
   dependencies:
     easy-table "1.1.0"
 

@@ -34,7 +34,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "grunt-babel": "^7.0.0",
     "babelify": "^8.0.0",
-    "console.table": "^0.9.1",
+    "console.table": "^0.10.0",
     "eslint-config-yoast": "^2.0.2",
     "eslint-plugin-react": "^7.0.0",
     "eslint-plugin-yoast": "^1.0.1",
