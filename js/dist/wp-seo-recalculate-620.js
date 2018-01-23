@@ -330,7 +330,7 @@ var isUndefined = require("lodash/isUndefined");
 	$(init);
 })(jQuery);
 
-},{"./assessors/taxonomyAssessor":1,"jed":3,"lodash/isUndefined":192,"yoastseo/js/seoAssessor":347,"yoastseo/js/values/Paper":389}],3:[function(require,module,exports){
+},{"./assessors/taxonomyAssessor":1,"jed":3,"lodash/isUndefined":192,"yoastseo/js/seoAssessor":359,"yoastseo/js/values/Paper":406}],3:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -10256,7 +10256,7 @@ module.exports = {
 
 
 
-},{"../../values/AssessmentResult.js":387,"lodash/isEmpty":181}],227:[function(require,module,exports){
+},{"../../values/AssessmentResult.js":404,"lodash/isEmpty":181}],227:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -10305,7 +10305,7 @@ module.exports = {
 
 
 
-},{"../../values/AssessmentResult.js":387}],228:[function(require,module,exports){
+},{"../../values/AssessmentResult.js":404}],228:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -10336,7 +10336,7 @@ module.exports = {
 
 
 
-},{"../../values/AssessmentResult.js":387}],229:[function(require,module,exports){
+},{"../../values/AssessmentResult.js":404}],229:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -10419,7 +10419,7 @@ module.exports = {
 
 
 
-},{"../../helpers/formatNumber.js":258,"../../helpers/inRange.js":264,"../../stringProcessing/countWords.js":351,"../../stringProcessing/matchTextWithWord.js":368,"../../values/AssessmentResult.js":387}],230:[function(require,module,exports){
+},{"../../helpers/formatNumber.js":258,"../../helpers/inRange.js":264,"../../stringProcessing/countWords.js":363,"../../stringProcessing/matchTextWithWord.js":383,"../../values/AssessmentResult.js":404}],230:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -10468,7 +10468,7 @@ module.exports = {
 
 
 
-},{"../../helpers/getLanguageAvailability.js":261,"../../values/AssessmentResult.js":387}],231:[function(require,module,exports){
+},{"../../helpers/getLanguageAvailability.js":261,"../../values/AssessmentResult.js":404}],231:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -10519,7 +10519,7 @@ module.exports = {
 
 
 
-},{"../../values/AssessmentResult.js":387}],232:[function(require,module,exports){
+},{"../../values/AssessmentResult.js":404}],232:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -10668,7 +10668,7 @@ module.exports = MetaDescriptionLengthAssessment;
 
 
 
-},{"../../assessment.js":225,"../../values/AssessmentResult.js":387,"lodash/merge":197}],233:[function(require,module,exports){
+},{"../../assessment.js":225,"../../values/AssessmentResult.js":404,"lodash/merge":197}],233:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -10835,7 +10835,7 @@ module.exports = OutboundLinksAssessment;
 
 
 
-},{"../../assessment.js":225,"../../values/AssessmentResult.js":387,"lodash/isEmpty":181,"lodash/merge":197}],234:[function(require,module,exports){
+},{"../../assessment.js":225,"../../values/AssessmentResult.js":404,"lodash/isEmpty":181,"lodash/merge":197}],234:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -10980,7 +10980,7 @@ module.exports = PageTitleWidthAssesment;
 
 
 
-},{"../../assessment.js":225,"../../helpers/inRange":264,"../../values/AssessmentResult.js":387,"lodash/merge":197}],235:[function(require,module,exports){
+},{"../../assessment.js":225,"../../helpers/inRange":264,"../../values/AssessmentResult.js":404,"lodash/merge":197}],235:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -11117,7 +11117,7 @@ var SubHeadingsKeywordAssessment = function (_Assessment) {
         key: "translateScore",
         value: function translateScore(score, subHeadings, i18n) {
             if (score === this._config.scores.multipleMatches || score === this._config.scores.oneMatch) {
-                return i18n.sprintf(i18n.dgettext("js-text-analysis", "The focus keyword appears only in %2$d (out of %1$d) subheadings in your copy. " + "Try to use it in at least one more subheading."), subHeadings.count, subHeadings.matches);
+                return i18n.sprintf(i18n.dgettext("js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy."), subHeadings.count, subHeadings.matches);
             }
             if (score === this._config.scores.noMatches) {
                 return i18n.dgettext("js-text-analysis", "You have not used the focus keyword in any subheading (such as an H2) in your copy.");
@@ -11133,7 +11133,7 @@ module.exports = SubHeadingsKeywordAssessment;
 
 
 
-},{"../../assessment.js":225,"../../values/AssessmentResult.js":387,"lodash/merge":197}],236:[function(require,module,exports){
+},{"../../assessment.js":225,"../../values/AssessmentResult.js":404,"lodash/merge":197}],236:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -11219,7 +11219,7 @@ module.exports = {
 
 
 
-},{"../../values/AssessmentResult.js":387,"lodash/inRange":172}],237:[function(require,module,exports){
+},{"../../values/AssessmentResult.js":404,"lodash/inRange":172}],237:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -11287,7 +11287,7 @@ module.exports = {
 
 
 
-},{"../../markers/addMark.js":268,"../../values/AssessmentResult.js":387,"../../values/Mark.js":388,"lodash/map":195}],238:[function(require,module,exports){
+},{"../../markers/addMark.js":268,"../../values/AssessmentResult.js":404,"../../values/Mark.js":405,"lodash/map":195}],238:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -11466,7 +11466,7 @@ module.exports = TextImagesAssessment;
 
 
 
-},{"../../assessment.js":225,"../../values/AssessmentResult.js":387,"lodash/merge":197}],239:[function(require,module,exports){
+},{"../../assessment.js":225,"../../values/AssessmentResult.js":404,"lodash/merge":197}],239:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -11639,7 +11639,7 @@ module.exports = TextLengthAssessment;
 
 
 
-},{"../../assessment.js":225,"../../values/AssessmentResult.js":387,"lodash/inRange":172,"lodash/merge":197}],240:[function(require,module,exports){
+},{"../../assessment.js":225,"../../values/AssessmentResult.js":404,"lodash/inRange":172,"lodash/merge":197}],240:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -11681,7 +11681,7 @@ module.exports = {
 
 
 
-},{"../../values/AssessmentResult.js":387,"lodash/escape":160}],241:[function(require,module,exports){
+},{"../../values/AssessmentResult.js":404,"lodash/escape":160}],241:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -11821,7 +11821,7 @@ module.exports = UrlKeywordAssessment;
 
 
 
-},{"../../assessment.js":225,"../../values/AssessmentResult.js":387,"lodash/merge":197}],242:[function(require,module,exports){
+},{"../../assessment.js":225,"../../values/AssessmentResult.js":404,"lodash/merge":197}],242:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -11961,7 +11961,7 @@ module.exports = UrlLengthAssessment;
 
 
 
-},{"../../assessment.js":225,"../../values/AssessmentResult.js":387,"lodash/merge":197}],243:[function(require,module,exports){
+},{"../../assessment.js":225,"../../values/AssessmentResult.js":404,"lodash/merge":197}],243:[function(require,module,exports){
 "use strict";
 
 var AssessmentResult = require("../../values/AssessmentResult.js");
@@ -12011,7 +12011,7 @@ module.exports = {
 
 
 
-},{"../../helpers/getLanguageAvailability.js":261,"../../values/AssessmentResult.js":387}],244:[function(require,module,exports){
+},{"../../helpers/getLanguageAvailability.js":261,"../../values/AssessmentResult.js":404}],244:[function(require,module,exports){
 "use strict";
 
 var Researcher = require("./researcher.js");
@@ -12268,7 +12268,7 @@ module.exports = Assessor;
 
 
 
-},{"./errors/missingArgument":256,"./helpers/errors.js":257,"./markers/removeDuplicateMarks":269,"./researcher.js":270,"./values/AssessmentResult.js":387,"lodash/filter":162,"lodash/find":163,"lodash/findIndex":164,"lodash/forEach":167,"lodash/isFunction":182,"lodash/isUndefined":192,"lodash/map":195}],245:[function(require,module,exports){
+},{"./errors/missingArgument":256,"./helpers/errors.js":257,"./markers/removeDuplicateMarks":269,"./researcher.js":270,"./values/AssessmentResult.js":404,"lodash/filter":162,"lodash/find":163,"lodash/findIndex":164,"lodash/forEach":167,"lodash/isFunction":182,"lodash/isUndefined":192,"lodash/map":195}],245:[function(require,module,exports){
 "use strict";
 /** @module config/diacritics */
 /**
@@ -14394,7 +14394,7 @@ module.exports = function (locale) {
 
 
 
-},{"../researches/dutch/firstWordExceptions.js":275,"../researches/english/firstWordExceptions.js":282,"../researches/french/firstWordExceptions.js":297,"../researches/german/firstWordExceptions.js":304,"../researches/italian/firstWordExceptions.js":325,"../researches/spanish/firstWordExceptions.js":338,"./getLanguage.js":260}],260:[function(require,module,exports){
+},{"../researches/dutch/firstWordExceptions.js":275,"../researches/english/firstWordExceptions.js":279,"../researches/french/firstWordExceptions.js":292,"../researches/german/firstWordExceptions.js":302,"../researches/italian/firstWordExceptions.js":326,"../researches/spanish/firstWordExceptions.js":345,"./getLanguage.js":260}],260:[function(require,module,exports){
 "use strict";
 /**
  * The function getting the language part of the locale.
@@ -14482,7 +14482,7 @@ module.exports = function (locale) {
 
 
 
-},{"../researches/dutch/transitionWords.js":277,"../researches/dutch/twoPartTransitionWords.js":278,"../researches/english/transitionWords.js":292,"../researches/english/twoPartTransitionWords.js":293,"../researches/french/transitionWords.js":299,"../researches/french/twoPartTransitionWords.js":300,"../researches/german/transitionWords.js":313,"../researches/german/twoPartTransitionWords.js":314,"../researches/italian/transitionWords.js":327,"../researches/italian/twoPartTransitionWords.js":328,"../researches/spanish/transitionWords.js":340,"../researches/spanish/twoPartTransitionWords.js":341,"./getLanguage.js":260}],263:[function(require,module,exports){
+},{"../researches/dutch/transitionWords.js":277,"../researches/dutch/twoPartTransitionWords.js":278,"../researches/english/transitionWords.js":287,"../researches/english/twoPartTransitionWords.js":288,"../researches/french/transitionWords.js":300,"../researches/french/twoPartTransitionWords.js":301,"../researches/german/transitionWords.js":314,"../researches/german/twoPartTransitionWords.js":315,"../researches/italian/transitionWords.js":328,"../researches/italian/twoPartTransitionWords.js":329,"../researches/spanish/transitionWords.js":352,"../researches/spanish/twoPartTransitionWords.js":353,"./getLanguage.js":260}],263:[function(require,module,exports){
 "use strict";
 
 var blockElements = ["address", "article", "aside", "blockquote", "canvas", "dd", "div", "dl", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main", "nav", "noscript", "ol", "output", "p", "pre", "section", "table", "tfoot", "ul", "video"];
@@ -14786,7 +14786,7 @@ module.exports = SyllableCountStep;
 
 
 
-},{"../stringProcessing/createRegexFromArray.js":352,"lodash/isUndefined":192}],267:[function(require,module,exports){
+},{"../stringProcessing/createRegexFromArray.js":364,"lodash/isUndefined":192}],267:[function(require,module,exports){
 "use strict";
 /**
  * Gets the parsed type name of subjects.
@@ -14864,14 +14864,8 @@ module.exports = removeDuplicateMarks;
 },{"lodash/uniqBy":212}],270:[function(require,module,exports){
 "use strict";
 
-var _sentences = require("./researches/sentences");
-
-var _sentences2 = _interopRequireDefault(_sentences);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
-}
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var sentences_1 = require("./researches/sentences");
 var merge = require("lodash/merge");
 var InvalidTypeError = require("./errors/invalidType");
 var MissingArgument = require("./errors/missingArgument");
@@ -14943,7 +14937,7 @@ var Researcher = function Researcher(paper) {
         passiveVoice: passiveVoice,
         getSentenceBeginnings: getSentenceBeginnings,
         relevantWords: relevantWords,
-        sentences: _sentences2.default
+        sentences: sentences_1.default
     };
     this.customResearches = {};
 };
@@ -15009,7 +15003,7 @@ module.exports = Researcher;
 
 
 
-},{"./errors/invalidType":255,"./errors/missingArgument":256,"./researches/calculateFleschReading.js":271,"./researches/countLinks.js":272,"./researches/countSentencesFromDescription.js":273,"./researches/countSentencesFromText.js":274,"./researches/findKeywordInFirstParagraph.js":294,"./researches/findKeywordInPageTitle.js":295,"./researches/findTransitionWords.js":296,"./researches/getKeywordDensity.js":315,"./researches/getLinkStatistics.js":316,"./researches/getLinks.js":317,"./researches/getParagraphLength.js":318,"./researches/getPassiveVoice.js":319,"./researches/getSentenceBeginnings.js":320,"./researches/getSubheadingTextLengths.js":321,"./researches/getWordComplexity.js":322,"./researches/imageAltTags.js":323,"./researches/imageCountInText.js":324,"./researches/keyphraseLength":329,"./researches/keywordCountInUrl":330,"./researches/matchKeywordInSubheadings.js":331,"./researches/metaDescriptionKeyword.js":332,"./researches/metaDescriptionLength.js":333,"./researches/pageTitleWidth.js":334,"./researches/relevantWords":336,"./researches/sentences":337,"./researches/stopWordsInKeyword":342,"./researches/stopWordsInUrl":344,"./researches/urlIsTooLong.js":345,"./researches/wordCountInText.js":346,"lodash/isEmpty":181,"lodash/isUndefined":192,"lodash/merge":197}],271:[function(require,module,exports){
+},{"./errors/invalidType":255,"./errors/missingArgument":256,"./researches/calculateFleschReading.js":271,"./researches/countLinks.js":272,"./researches/countSentencesFromDescription.js":273,"./researches/countSentencesFromText.js":274,"./researches/findKeywordInFirstParagraph.js":289,"./researches/findKeywordInPageTitle.js":290,"./researches/findTransitionWords.js":291,"./researches/getKeywordDensity.js":316,"./researches/getLinkStatistics.js":317,"./researches/getLinks.js":318,"./researches/getParagraphLength.js":319,"./researches/getPassiveVoice.js":320,"./researches/getSentenceBeginnings.js":321,"./researches/getSubheadingTextLengths.js":322,"./researches/getWordComplexity.js":323,"./researches/imageAltTags.js":324,"./researches/imageCountInText.js":325,"./researches/keyphraseLength":330,"./researches/keywordCountInUrl":331,"./researches/matchKeywordInSubheadings.js":332,"./researches/metaDescriptionKeyword.js":333,"./researches/metaDescriptionLength.js":334,"./researches/pageTitleWidth.js":335,"./researches/relevantWords":343,"./researches/sentences":344,"./researches/stopWordsInKeyword":354,"./researches/stopWordsInUrl":356,"./researches/urlIsTooLong.js":357,"./researches/wordCountInText.js":358,"lodash/isEmpty":181,"lodash/isUndefined":192,"lodash/merge":197}],271:[function(require,module,exports){
 "use strict";
 /** @module analyses/calculateFleschReading */
 
@@ -15073,7 +15067,7 @@ module.exports = function (paper) {
 
 
 
-},{"../helpers/formatNumber.js":258,"../helpers/getLanguage.js":260,"../stringProcessing/countSentences.js":350,"../stringProcessing/countWords.js":351,"../stringProcessing/stripNumbers.js":379,"../stringProcessing/syllables/count.js":383}],272:[function(require,module,exports){
+},{"../helpers/formatNumber.js":258,"../helpers/getLanguage.js":260,"../stringProcessing/countSentences.js":362,"../stringProcessing/countWords.js":363,"../stringProcessing/stripNumbers.js":396,"../stringProcessing/syllables/count.js":400}],272:[function(require,module,exports){
 "use strict";
 /** @module analyses/getLinkStatistics */
 
@@ -15091,7 +15085,7 @@ module.exports = function (paper) {
 
 
 
-},{"./getLinks":317}],273:[function(require,module,exports){
+},{"./getLinks":318}],273:[function(require,module,exports){
 "use strict";
 
 var getSentences = require("../stringProcessing/getSentences");
@@ -15108,7 +15102,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/getSentences":359,"./../stringProcessing/sentencesLength.js":376}],274:[function(require,module,exports){
+},{"../stringProcessing/getSentences":373,"./../stringProcessing/sentencesLength.js":393}],274:[function(require,module,exports){
 "use strict";
 
 var getSentences = require("../stringProcessing/getSentences");
@@ -15125,7 +15119,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/getSentences":359,"./../stringProcessing/sentencesLength.js":376}],275:[function(require,module,exports){
+},{"../stringProcessing/getSentences":373,"./../stringProcessing/sentencesLength.js":393}],275:[function(require,module,exports){
 "use strict";
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
@@ -15262,214 +15256,6 @@ module.exports = function () {
 
 },{}],279:[function(require,module,exports){
 "use strict";
-
-var Participle = require("../../values/Participle.js");
-var nonVerbsEndingEd = require("./passivevoice/non-verb-ending-ed.js")();
-var getWordIndices = require("./passivevoice/getIndicesWithRegex.js");
-var arrayToRegex = require("../../stringProcessing/createRegexFromArray.js");
-var cannotDirectlyPrecedePassiveParticiple = require("./functionWords.js")().cannotDirectlyPrecedePassiveParticiple;
-var cannotBeBetweenAuxiliaryAndParticiple = require("./functionWords.js")().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-var forEach = require("lodash/forEach");
-var includes = require("lodash/includes");
-var isEmpty = require("lodash/isEmpty");
-var intersection = require("lodash/intersection");
-var directPrecedenceExceptionRegex = arrayToRegex(cannotDirectlyPrecedePassiveParticiple);
-var precedenceExceptionRegex = arrayToRegex(cannotBeBetweenAuxiliaryAndParticiple);
-var irregularExclusionArray = ["get", "gets", "getting", "got", "gotten"];
-/**
- * Checks whether a participle is directly preceded by a given word.
- *
- * @param {Array} precedingWords The array of objects with matches and indices.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
- */
-var includesIndex = function includesIndex(precedingWords, participleIndex) {
-    if (isEmpty(precedingWords)) {
-        return false;
-    }
-    var precedingWordsEndIndices = [];
-    forEach(precedingWords, function (precedingWord) {
-        // + 1 because the end word boundary is not included in the match.
-        var precedingWordsEndIndex = precedingWord.index + precedingWord.match.length + 1;
-        precedingWordsEndIndices.push(precedingWordsEndIndex);
-    });
-    return includes(precedingWordsEndIndices, participleIndex);
-};
-/**
- * Checks whether a given word precedes a participle directly or indirectly.
- *
- * @param {Array} precedingWords The array of objects with matches and indices.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
- */
-var precedesIndex = function precedesIndex(precedingWords, participleIndex) {
-    if (isEmpty(precedingWords)) {
-        return false;
-    }
-    var precedingWordsIndices = [];
-    forEach(precedingWords, function (precedingWord) {
-        var precedingWordsIndex = precedingWord.index;
-        precedingWordsIndices.push(precedingWordsIndex);
-    });
-    var matches = [];
-    forEach(precedingWordsIndices, function (precedingWordsIndex) {
-        // + 1 because the beginning word boundary is not included in the passive participle match
-        if (precedingWordsIndex + 1 < participleIndex) {
-            matches.push(precedingWordsIndex);
-        }
-    });
-    if (matches.length) {
-        return true;
-    }
-    return false;
-};
-/**
- * Creates an Participle object for the English language.
- *
- * @param {string} participle The participle.
- * @param {string} sentencePart The sentence part that contains the participle.
- * @param {object} attributes  The attributes object.
- *
- * @constructor
- */
-var EnglishParticiple = function EnglishParticiple(participle, sentencePart, attributes) {
-    Participle.call(this, participle, sentencePart, attributes);
-    this.checkException();
-};
-require("util").inherits(EnglishParticiple, Participle);
-/**
- * Sets sentence part passiveness to passive if there is no exception.
- *
- * @returns {void}
- */
-EnglishParticiple.prototype.checkException = function () {
-    if (isEmpty(this.getParticiple())) {
-        this.setSentencePartPassiveness(false);
-        return;
-    }
-    this.setSentencePartPassiveness(this.isPassive());
-};
-/**
- * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
- * If no exceptions are found, the sentence part is passive.
- *
- * @returns {boolean} Returns true if no exception is found.
- */
-EnglishParticiple.prototype.isPassive = function () {
-    var sentencePart = this.getSentencePart();
-    var participleIndex = sentencePart.indexOf(this.getParticiple());
-    return !this.isNonVerbEndingEd() && !this.hasRidException() && !this.directPrecedenceException(sentencePart, participleIndex) && !this.precedenceException(sentencePart, participleIndex);
-};
-/**
- * Checks whether a found participle is in the nonVerbsEndingEd list.
- * If a word is in the nonVerbsEndingEd list, it isn't a participle.
- * Irregular participles do not end in -ed, and therefore cannot be in the nonVerbsEndingEd list.
- *
- * @returns {boolean} Returns true if it is in the nonVerbsEndingEd list, otherwise returns false.
- */
-EnglishParticiple.prototype.isNonVerbEndingEd = function () {
-    if (this.getType() === "irregular") {
-        return false;
-    }
-    return includes(nonVerbsEndingEd, this.getParticiple());
-};
-/**
- * Checks whether the participle is 'rid' in combination with 'get', 'gets', 'getting', 'got' or 'gotten'.
- * If this is true, the participle is not passive.
- *
- * @returns {boolean} Returns true if 'rid' is found in combination with a form of 'get'
- * otherwise returns false.
- */
-EnglishParticiple.prototype.hasRidException = function () {
-    if (this.getParticiple() === "rid") {
-        var auxiliaries = this.getAuxiliaries();
-        return !isEmpty(intersection(irregularExclusionArray, auxiliaries));
-    }
-    return false;
-};
-/**
- * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
- * If this is the case, the sentence part is not passive.
- *
- * @param {string} sentencePart The sentence part that contains the participle.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if a word from the direct precedence exception list is directly preceding
- * the participle, otherwise returns false.
- */
-EnglishParticiple.prototype.directPrecedenceException = function (sentencePart, participleIndex) {
-    var directPrecedenceExceptionMatch = getWordIndices(sentencePart, directPrecedenceExceptionRegex);
-    return includesIndex(directPrecedenceExceptionMatch, participleIndex);
-};
-/**
- * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
- * If this is the case, the sentence part is not passive.
- *
- * @param {string} sentencePart The sentence part that contains the participle.
- * @param {number} participleIndex The index of the participle.
- *
- * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
- * sentence part before the participle, otherwise returns false.
- */
-EnglishParticiple.prototype.precedenceException = function (sentencePart, participleIndex) {
-    var precedenceExceptionMatch = getWordIndices(sentencePart, precedenceExceptionRegex);
-    return precedesIndex(precedenceExceptionMatch, participleIndex);
-};
-module.exports = EnglishParticiple;
-
-
-
-},{"../../stringProcessing/createRegexFromArray.js":352,"../../values/Participle.js":390,"./functionWords.js":283,"./passivevoice/getIndicesWithRegex.js":286,"./passivevoice/non-verb-ending-ed.js":290,"lodash/forEach":167,"lodash/includes":173,"lodash/intersection":175,"lodash/isEmpty":181,"util":224}],280:[function(require,module,exports){
-"use strict";
-
-var SentencePart = require("../../values/SentencePart.js");
-var getParticiples = require("./passivevoice/getParticiples.js");
-/**
- * Creates a English specific sentence part.
- *
- * @param {string} sentencePartText The text from the sentence part.
- * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
- * @param {string} locale The locale used for this sentence part.
- * @constructor
- */
-var EnglishSentencePart = function EnglishSentencePart(sentencePartText, auxiliaries, locale) {
-  SentencePart.call(this, sentencePartText, auxiliaries, locale);
-};
-require("util").inherits(EnglishSentencePart, SentencePart);
-/**
- * Returns the participle objects for the participles found in the sentence part.
- * @returns {Array} The list of participle objects.
- */
-EnglishSentencePart.prototype.getParticiples = function () {
-  return getParticiples(this.getSentencePartText(), this.getAuxiliaries());
-};
-module.exports = EnglishSentencePart;
-
-
-
-},{"../../values/SentencePart.js":392,"./passivevoice/getParticiples.js":287,"util":224}],281:[function(require,module,exports){
-"use strict";
-
-var getParticiples = require("./passivevoice/getParticiples.js");
-var determineSentencePartIsPassive = require("../passivevoice/determineSentencePartIsPassive.js");
-/**
- * Determines whether a sentence part is passive.
- *
- * @param {string} sentencePart The sentence part to determine voice for.
- * @param {Array} auxiliaries The auxiliaries to be used for creating SentenceParts.
- * @returns {boolean} Returns true if passive, otherwise returns false.
- */
-module.exports = function (sentencePart, auxiliaries) {
-  var participles = getParticiples(sentencePart, auxiliaries);
-  return determineSentencePartIsPassive(participles);
-};
-
-
-
-},{"../passivevoice/determineSentencePartIsPassive.js":335,"./passivevoice/getParticiples.js":287}],282:[function(require,module,exports){
-"use strict";
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
  * @returns {Array} The array filled with exceptions.
@@ -15489,11 +15275,11 @@ module.exports = function () {
 
 
 
-},{}],283:[function(require,module,exports){
+},{}],280:[function(require,module,exports){
 "use strict";
 
-var filteredPassiveAuxiliaries = require("./passivevoice/auxiliaries.js")().filteredAuxiliaries;
-var notFilteredPassiveAuxiliaries = require("./passivevoice/auxiliaries.js")().notFilteredAuxiliaries;
+var filteredPassiveAuxiliaries = require("./passiveVoice/auxiliaries.js")().filteredAuxiliaries;
+var notFilteredPassiveAuxiliaries = require("./passiveVoice/auxiliaries.js")().notFilteredAuxiliaries;
 var transitionWords = require("./transitionWords.js")().singleWords;
 /**
  * Returns an object with exceptions for the prominent words researcher
@@ -15574,134 +15360,105 @@ module.exports = function () {
 
 
 
-},{"./passivevoice/auxiliaries.js":285,"./transitionWords.js":292}],284:[function(require,module,exports){
+},{"./passiveVoice/auxiliaries.js":283,"./transitionWords.js":287}],281:[function(require,module,exports){
 "use strict";
 
-var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-var stopCharacterRegex = /(?!([a-zA-Z]))([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
-var ingExclusionArray = ["king", "cling", "ring", "being", "thing", "something", "anything"];
-var indices = require("../../stringProcessing/indices");
-var getIndicesOfList = indices.getIndicesByWordList;
-var filterIndices = indices.filterIndices;
-var sortIndices = indices.sortIndices;
-var stripSpaces = require("../../stringProcessing/stripSpaces.js");
-var normalizeSingleQuotes = require("../../stringProcessing/quotes.js").normalizeSingle;
-var arrayToRegex = require("../../stringProcessing/createRegexFromArray.js");
-var auxiliaries = require("./passivevoice/auxiliaries.js")().all;
-var SentencePart = require("./SentencePart.js");
-var auxiliaryRegex = arrayToRegex(auxiliaries);
-var stopwords = require("./passivevoice/stopwords.js")();
-var filter = require("lodash/filter");
-var isUndefined = require("lodash/isUndefined");
+var Participle = require("../../../values/Participle.js");
+var checkException = require("../../passiveVoice/checkException.js");
+var nonVerbsEndingEd = require("./non-verb-ending-ed.js")();
+var directPrecedenceException = require("../../../stringProcessing/directPrecedenceException");
+var precedenceException = require("../../../stringProcessing/precedenceException");
 var includes = require("lodash/includes");
-var map = require("lodash/map");
+var isEmpty = require("lodash/isEmpty");
+var intersection = require("lodash/intersection");
+var irregularExclusionArray = ["get", "gets", "getting", "got", "gotten"];
 /**
- * Gets active verbs (ending in ing) to determine sentence breakers.
+ * Creates an Participle object for the English language.
  *
- * @param {string} sentence The sentence to get the active verbs from.
- * @returns {Array} The array with valid matches.
+ * @param {string} participle The participle.
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {Object} attributes  The attributes object.
+ *
+ * @constructor
  */
-var getVerbsEndingInIng = function getVerbsEndingInIng(sentence) {
-    // Matches the sentences with words ending in ing.
-    var matches = sentence.match(verbEndingInIngRegex) || [];
-    // Filters out words ending in -ing that aren't verbs.
-    return filter(matches, function (match) {
-        return !includes(ingExclusionArray, stripSpaces(match));
-    });
+var EnglishParticiple = function EnglishParticiple(participle, sentencePart, attributes) {
+    Participle.call(this, participle, sentencePart, attributes);
+    checkException.call(this);
+};
+require("util").inherits(EnglishParticiple, Participle);
+/**
+ * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
+ * If no exceptions are found, the sentence part is passive.
+ *
+ * @returns {boolean} Returns true if no exception is found.
+ */
+EnglishParticiple.prototype.isPassive = function () {
+    var sentencePart = this.getSentencePart();
+    var participleIndex = sentencePart.indexOf(this.getParticiple());
+    return !this.isNonVerbEndingEd() && !this.hasRidException() && !this.directPrecedenceException(sentencePart, participleIndex) && !this.precedenceException(sentencePart, participleIndex);
 };
 /**
- * Gets stop characters to determine sentence breakers.
+ * Checks whether a found participle is in the nonVerbsEndingEd list.
+ * If a word is in the nonVerbsEndingEd list, it isn't a participle.
+ * Irregular participles do not end in -ed, and therefore cannot be in the nonVerbsEndingEd list.
  *
- * @param {string} sentence The sentence to get the stop characters from.
- * @returns {Array} The array with valid matches.
+ * @returns {boolean} Returns true if it is in the nonVerbsEndingEd list, otherwise returns false.
  */
-var getStopCharacters = function getStopCharacters(sentence) {
-    var match;
-    var matches = [];
-    stopCharacterRegex.lastIndex = 0;
-    while ((match = stopCharacterRegex.exec(sentence)) !== null) {
-        matches.push({
-            index: match.index,
-            match: match[0]
-        });
+EnglishParticiple.prototype.isNonVerbEndingEd = function () {
+    if (this.getType() === "irregular") {
+        return false;
     }
-    return matches;
+    return includes(nonVerbsEndingEd, this.getParticiple());
 };
 /**
- * Gets the indexes of sentence breakers (auxiliaries, stopwords and active verbs) to determine sentence parts.
- * Indices are filtered because there could be duplicate matches, like "even though" and "though".
- * In addition, 'having' will be matched both as a -ing verb as well as an auxiliary.
+ * Checks whether the participle is 'rid' in combination with 'get', 'gets', 'getting', 'got' or 'gotten'.
+ * If this is true, the participle is not passive.
  *
- * @param {string} sentence The sentence to check for indices of auxiliaries, stopwords and active verbs.
- * @returns {Array} The array with valid indices to use for determining sentence parts.
+ * @returns {boolean} Returns true if 'rid' is found in combination with a form of 'get'
+ * otherwise returns false.
  */
-var getSentenceBreakers = function getSentenceBreakers(sentence) {
-    sentence = sentence.toLocaleLowerCase();
-    var auxiliaryIndices = getIndicesOfList(auxiliaries, sentence);
-    var stopwordIndices = getIndicesOfList(stopwords, sentence);
-    var stopCharacterIndices = getStopCharacters(sentence);
-    var ingVerbs = getVerbsEndingInIng(sentence);
-    var ingVerbsIndices = getIndicesOfList(ingVerbs, sentence);
-    // Concat all indices arrays, filter them and sort them.
-    var indices = [].concat(auxiliaryIndices, stopwordIndices, ingVerbsIndices, stopCharacterIndices);
-    indices = filterIndices(indices);
-    return sortIndices(indices);
-};
-/**
- * Gets the matches with the auxiliaries in the sentence.
- *
- * @param {string} sentencePart The part of the sentence to match for auxiliaries.
- * @returns {Array} All formatted matches from the sentence part.
- */
-var getAuxiliaryMatches = function getAuxiliaryMatches(sentencePart) {
-    var auxiliaryMatches = sentencePart.match(auxiliaryRegex) || [];
-    return map(auxiliaryMatches, function (auxiliaryMatch) {
-        return stripSpaces(auxiliaryMatch);
-    });
-};
-/**
- * Gets the sentence parts from a sentence by determining sentence breakers.
- *
- * @param {string} sentence The sentence to split up in sentence parts.
- * @returns {Array} The array with all parts of a sentence that have an auxiliary.
- */
-var getSentenceParts = function getSentenceParts(sentence) {
-    var sentenceParts = [];
-    sentence = normalizeSingleQuotes(sentence);
-    // First check if there is an auxiliary in the sentence.
-    if (sentence.match(auxiliaryRegex) === null) {
-        return sentenceParts;
+EnglishParticiple.prototype.hasRidException = function () {
+    if (this.getParticiple() === "rid") {
+        var auxiliaries = this.getAuxiliaries();
+        return !isEmpty(intersection(irregularExclusionArray, auxiliaries));
     }
-    var indices = getSentenceBreakers(sentence);
-    // Get the words after the found auxiliary.
-    for (var i = 0; i < indices.length; i++) {
-        var endIndex = sentence.length;
-        if (!isUndefined(indices[i + 1])) {
-            endIndex = indices[i + 1].index;
-        }
-        // Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
-        var sentencePart = stripSpaces(sentence.substr(indices[i].index, endIndex - indices[i].index));
-        var auxiliaryMatches = getAuxiliaryMatches(sentencePart);
-        // If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
-        if (auxiliaryMatches.length !== 0) {
-            sentenceParts.push(new SentencePart(sentencePart, auxiliaryMatches));
-        }
-    }
-    return sentenceParts;
+    return false;
 };
-/**
- * Split the sentence in sentence parts based on auxiliaries.
- *
- * @param {string} sentence The sentence to split in parts.
- * @returns {Array} A list with sentence parts.
- */
-module.exports = function (sentence) {
-    return getSentenceParts(sentence);
-};
+EnglishParticiple.prototype.directPrecedenceException = directPrecedenceException;
+EnglishParticiple.prototype.precedenceException = precedenceException;
+module.exports = EnglishParticiple;
 
 
 
-},{"../../stringProcessing/createRegexFromArray.js":352,"../../stringProcessing/indices":364,"../../stringProcessing/quotes.js":370,"../../stringProcessing/stripSpaces.js":380,"./SentencePart.js":280,"./passivevoice/auxiliaries.js":285,"./passivevoice/stopwords.js":291,"lodash/filter":162,"lodash/includes":173,"lodash/isUndefined":192,"lodash/map":195}],285:[function(require,module,exports){
+},{"../../../stringProcessing/directPrecedenceException":367,"../../../stringProcessing/precedenceException":385,"../../../values/Participle.js":407,"../../passiveVoice/checkException.js":336,"./non-verb-ending-ed.js":285,"lodash/includes":173,"lodash/intersection":175,"lodash/isEmpty":181,"util":224}],282:[function(require,module,exports){
+"use strict";
+
+var SentencePart = require("../../../values/SentencePart.js");
+var getParticiples = require("../../passiveVoice/getParticiples.js");
+/**
+ * Creates a English specific sentence part.
+ *
+ * @param {string} sentencePartText The text from the sentence part.
+ * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
+ * @param {string} locale The locale used for this sentence part.
+ * @constructor
+ */
+var EnglishSentencePart = function EnglishSentencePart(sentencePartText, auxiliaries, locale) {
+  SentencePart.call(this, sentencePartText, auxiliaries, locale);
+};
+require("util").inherits(EnglishSentencePart, SentencePart);
+/**
+ * Returns the participle objects for the participles found in the sentence part.
+ * @returns {Array} The list of participle objects.
+ */
+EnglishSentencePart.prototype.getParticiples = function () {
+  return getParticiples(this.getSentencePartText(), this.getAuxiliaries(), "en");
+};
+module.exports = EnglishSentencePart;
+
+
+
+},{"../../../values/SentencePart.js":409,"../../passiveVoice/getParticiples.js":340,"util":224}],283:[function(require,module,exports){
 "use strict";
 // These auxiliaries are filtered from the beginning of word combinations in the prominent words.
 
@@ -15718,69 +15475,7 @@ module.exports = function () {
 
 
 
-},{}],286:[function(require,module,exports){
-"use strict";
-/**
- * Matches words from a list in sentence parts and returns them and their indices.
- *
- * @param {string} sentencePart The sentence part to match the words in.
- * @param {RegExp} regex The regex used for matching.
- * @returns {Array} The list of result objects.
- */
-
-module.exports = function (sentencePart, regex) {
-    var results = [];
-    /* Decided to use a for loop here so that we could retrieve all matches while keeping result objects intact.
-    For every match there is in the sentence part, an object with the match and its index will be pushed into
-    the results array. */
-    for (var match = regex.exec(sentencePart); match !== null; match = regex.exec(sentencePart)) {
-        results.push({
-            match: match[0],
-            index: match.index
-        });
-    }
-    return results;
-};
-
-
-
-},{}],287:[function(require,module,exports){
-"use strict";
-
-var getWords = require("../../../stringProcessing/getWords.js");
-var regexFunction = require("../../../researches/english/passivevoice/matchParticiples")();
-var regularParticiples = regexFunction.regularParticiples;
-var irregularParticiples = regexFunction.irregularParticiples;
-var EnglishParticiple = require("../EnglishParticiple.js");
-var forEach = require("lodash/forEach");
-/**
- * Creates English participle objects for the participles found in a sentence part.
- *
- * @param {string} sentencePartText The sentence part to find participles in.
- * @param {array} auxiliaries The list of auxiliaries from the sentence part.
- * @returns {Array} The list with English participle objects.
- */
-module.exports = function (sentencePartText, auxiliaries) {
-    var words = getWords(sentencePartText);
-    var foundParticiples = [];
-    forEach(words, function (word) {
-        var type = "";
-        if (regularParticiples(word).length !== 0) {
-            type = "regular";
-        }
-        if (irregularParticiples(word).length !== 0) {
-            type = "irregular";
-        }
-        if (type !== "") {
-            foundParticiples.push(new EnglishParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: type }));
-        }
-    });
-    return foundParticiples;
-};
-
-
-
-},{"../../../researches/english/passivevoice/matchParticiples":289,"../../../stringProcessing/getWords.js":362,"../EnglishParticiple.js":279,"lodash/forEach":167}],288:[function(require,module,exports){
+},{}],284:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -15791,49 +15486,7 @@ module.exports = function () {
 
 
 
-},{}],289:[function(require,module,exports){
-"use strict";
-
-var find = require("lodash/find");
-var irregulars = require("./irregulars")();
-/**
- * Returns words that have been determined to be a regular participle.
- *
- * @param {string} word The word to check
- *
- * @returns {Array} A list with the matches.
- */
-var regularParticiples = function regularParticiples(word) {
-    // Matches all words ending in ed.
-    var regularParticiplesRegex = /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-    return word.match(regularParticiplesRegex) || [];
-};
-/**
- * Returns the matches for a word in the list of irregulars.
- *
- * @param {string} word The word to match in the list.
- *
- * @returns {Array} A list with the matches.
- */
-var irregularParticiples = function irregularParticiples(word) {
-    var matches = [];
-    find(irregulars, function (currentWord) {
-        if (currentWord === word) {
-            matches.push(currentWord);
-        }
-    });
-    return matches;
-};
-module.exports = function () {
-    return {
-        regularParticiples: regularParticiples,
-        irregularParticiples: irregularParticiples
-    };
-};
-
-
-
-},{"./irregulars":288,"lodash/find":163}],290:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -15842,16 +15495,20 @@ module.exports = function () {
 
 
 
-},{}],291:[function(require,module,exports){
+},{}],286:[function(require,module,exports){
 "use strict";
+/**
+ * Returns a list with stopwords for the English passive voice assessment.
+ * @returns {Array} The list with stopwords.
+ */
 
 module.exports = function () {
-    return ["to", "which", "who", "whom", "that", "whose", "after", "although", "as", "because", "before", "even if", "even though", "how", "if", "in order that", "inasmuch", "lest", "once", "provided", "since", "so that", "than", "though", "till", "unless", "until", "when", "whenever", "where", "whereas", "wherever", "whether", "while", "why", "by the time", "supposing", "no matter", "how", "what", "won't", "do", "does", "–", "and", "but", "or"];
+  return ["to", "which", "who", "whom", "that", "whose", "after", "although", "as", "because", "before", "even if", "even though", "how", "if", "in order that", "inasmuch", "lest", "once", "provided", "since", "so that", "than", "though", "till", "unless", "until", "when", "whenever", "where", "whereas", "wherever", "whether", "while", "why", "by the time", "supposing", "no matter", "how", "what", "won't", "do", "does", "–", "and", "but", "or"];
 };
 
 
 
-},{}],292:[function(require,module,exports){
+},{}],287:[function(require,module,exports){
 "use strict";
 /** @module config/transitionWords */
 
@@ -15871,7 +15528,7 @@ module.exports = function () {
 
 
 
-},{}],293:[function(require,module,exports){
+},{}],288:[function(require,module,exports){
 "use strict";
 /** @module config/twoPartTransitionWords */
 /**
@@ -15885,7 +15542,7 @@ module.exports = function () {
 
 
 
-},{}],294:[function(require,module,exports){
+},{}],289:[function(require,module,exports){
 "use strict";
 /** @module analyses/findKeywordInFirstParagraph */
 
@@ -15911,7 +15568,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/matchParagraphs.js":365,"../stringProcessing/matchTextWithWord.js":368,"lodash/escapeRegExp":161,"lodash/isEmpty":181,"lodash/reject":202}],295:[function(require,module,exports){
+},{"../stringProcessing/matchParagraphs.js":380,"../stringProcessing/matchTextWithWord.js":383,"lodash/escapeRegExp":161,"lodash/isEmpty":181,"lodash/reject":202}],290:[function(require,module,exports){
 "use strict";
 /** @module analyses/findKeywordInPageTitle */
 
@@ -15936,7 +15593,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/matchTextWithWord.js":368,"lodash/escapeRegExp":161}],296:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":383,"lodash/escapeRegExp":161}],291:[function(require,module,exports){
 "use strict";
 
 var createRegexFromDoubleArray = require("../stringProcessing/createRegexFromDoubleArray.js");
@@ -16025,7 +15682,7 @@ module.exports = function (paper) {
 
 
 
-},{"../helpers/getTransitionWords.js":262,"../stringProcessing/createRegexFromDoubleArray.js":353,"../stringProcessing/getSentences.js":359,"../stringProcessing/matchWordInSentence.js":369,"../stringProcessing/quotes.js":370,"lodash/filter":162,"lodash/forEach":167,"lodash/memoize":196}],297:[function(require,module,exports){
+},{"../helpers/getTransitionWords.js":262,"../stringProcessing/createRegexFromDoubleArray.js":365,"../stringProcessing/getSentences.js":373,"../stringProcessing/matchWordInSentence.js":384,"../stringProcessing/quotes.js":387,"lodash/filter":162,"lodash/forEach":167,"lodash/memoize":196}],292:[function(require,module,exports){
 "use strict";
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
@@ -16046,7 +15703,7 @@ module.exports = function () {
 
 
 
-},{}],298:[function(require,module,exports){
+},{}],293:[function(require,module,exports){
 "use strict";
 
 var transitionWords = require("./transitionWords.js")().singleWords;
@@ -16141,6 +15798,10 @@ module.exports = function () {
     filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
     // These word categories are filtered everywhere within word combinations.
     filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsStressed, reflexivePronouns, interjections, cardinalNumerals, copula, interviewVerbs, otherAuxiliaries, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeAdjectives, relativePronouns, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns),
+    // These word categories cannot directly precede a passive participle.
+    cannotDirectlyPrecedePassiveParticiple: [].concat(articles, prepositions, personalPronounsStressed, personalPronounsAccusative, possessivePronouns, reflexivePronouns, indefinitePronouns, interrogativeProAdverbs, interrogativeAdjectives, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, interviewVerbs, delexicalizedVerbsInfinitive),
+    // These word categories cannot intervene between an auxiliary and a corresponding passive participle.
+    cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat(otherAuxiliaries, otherAuxiliariesInfinitive),
     // This export contains all of the above words.
     all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, interrogativeAdjectives, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding, titlesFollowing)
   };
@@ -16148,7 +15809,265 @@ module.exports = function () {
 
 
 
-},{"./transitionWords.js":299}],299:[function(require,module,exports){
+},{"./transitionWords.js":300}],294:[function(require,module,exports){
+"use strict";
+
+var Participle = require("../../../values/Participle.js");
+var checkException = require("../../passiveVoice/checkException.js");
+var directPrecedenceException = require("../../../stringProcessing/directPrecedenceException");
+var precedenceException = require("../../../stringProcessing/precedenceException");
+var exceptionsParticiplesAdjectivesVerbs = require("./exceptionsParticiples.js")().adjectivesVerbs;
+var exceptionsParticiplesNounsVowel = require("./exceptionsParticiples.js")().nounsStartingWithVowel;
+var exceptionsParticiplesNounsConsonant = require("./exceptionsParticiples.js")().nounsStartingWithConsonant;
+var exceptionsParticiplesOthers = require("./exceptionsParticiples.js")().others;
+var includes = require("lodash/includes");
+var forEach = require("lodash/forEach");
+var memoize = require("lodash/memoize");
+/**
+ * Creates an Participle object for the French language.
+ *
+ * @param {string} participle The participle.
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {Object} attributes  The attributes object.
+ *
+ * @constructor
+ */
+var FrenchParticiple = function FrenchParticiple(participle, sentencePart, attributes) {
+    Participle.call(this, participle, sentencePart, attributes);
+    checkException.call(this);
+};
+require("util").inherits(FrenchParticiple, Participle);
+/**
+ * Checks whether the participle is irregular.
+ *
+ * @returns {boolean} Returns true if the passive is irregular.
+ */
+var checkIrregular = function checkIrregular() {
+    if (this.getType() === "irregular") {
+        return true;
+    }
+};
+/**
+ * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
+ * If no exceptions are found, the sentence part is passive.
+ *
+ * @returns {boolean} Returns true if no exception is found.
+ */
+FrenchParticiple.prototype.isPassive = function () {
+    var sentencePart = this.getSentencePart();
+    var participleIndex = sentencePart.indexOf(this.getParticiple());
+    // Only check precedence exceptions for irregular participles.
+    if (checkIrregular.call(this)) {
+        return !this.directPrecedenceException(sentencePart, participleIndex) && !this.precedenceException(sentencePart, participleIndex);
+    }
+    // Check precedence exceptions and exception lists for regular participles.
+    return !this.isOnAdjectivesVerbsExceptionList() && !this.isOnNounsExceptionList() && !this.isOnOthersExceptionList() && !this.directPrecedenceException(sentencePart, participleIndex) && !this.precedenceException(sentencePart, participleIndex);
+};
+/**
+ * Creates regexes to match adjective and verb participle exceptions (including suffixes) and memoizes them.
+ *
+ * @returns {Array} Returns an array with all adjective and verb participle exceptions.
+ */
+var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize(function () {
+    var exceptionsParticiplesAdjectivesVerbsRegexes = [];
+    forEach(exceptionsParticiplesAdjectivesVerbs, function (exceptionParticiplesAdjectivesVerbs) {
+        exceptionsParticiplesAdjectivesVerbsRegexes.push(new RegExp("^" + exceptionParticiplesAdjectivesVerbs + "(e|s|es)?$", "ig"));
+    });
+    return exceptionsParticiplesAdjectivesVerbsRegexes;
+});
+/**
+ * Creates regexes to match noun participle exceptions (including suffixes) and memoizes them.
+ *
+ * @returns {Array} Returns an array with all noun participle exceptions.
+ */
+var getExceptionsParticiplesNounsRegexes = memoize(function () {
+    var exceptionsParticiplesNounsRegexes = [];
+    // Nouns starting with a vowel are checked with -s suffix and l' and d' prefixes.
+    forEach(exceptionsParticiplesNounsVowel, function (exceptionParticipleNounVowel) {
+        exceptionsParticiplesNounsRegexes.push(new RegExp("^(l'|d')?" + exceptionParticipleNounVowel + "(s)?$", "ig"));
+    });
+    // Nouns starting with a consonant are checked with -s suffix.
+    forEach(exceptionsParticiplesNounsConsonant, function (exceptionParticipleNounConsonant) {
+        exceptionsParticiplesNounsRegexes.push(new RegExp("^" + exceptionParticipleNounConsonant + "(s)?$", "ig"));
+    });
+    return exceptionsParticiplesNounsRegexes;
+});
+/**
+ * Checks whether a given participle matches a list of regex exceptions.
+ *
+ * @param {Array} participleExceptionRegexes The array of regexes to check.
+ * @returns {boolean} Returns true if the participle matches a regex.
+ */
+var checkParticipleExceptionRegexes = function checkParticipleExceptionRegexes(participleExceptionRegexes) {
+    var participle = this.getParticiple();
+    var match = [];
+    forEach(participleExceptionRegexes, function (participleExceptionRegex) {
+        var exceptionMatch = participle.match(participleExceptionRegex);
+        if (exceptionMatch) {
+            match.push(exceptionMatch[0]);
+        }
+    });
+    if (match.length > 0) {
+        return true;
+    }
+    return false;
+};
+/**
+ * Checks whether a found participle is in the exception list of adjectives and verbs.
+ * These words are checked with e/s/es as possible suffixes.
+ * If a word is on the list, it isn't a participle.
+ *
+ * @returns {boolean} Returns true if it is in the exception list of adjectives and verbs, otherwise returns false.
+ */
+FrenchParticiple.prototype.isOnAdjectivesVerbsExceptionList = function () {
+    var exceptionParticiplesAdjectivesVerbs = getExceptionsParticiplesAdjectivesVerbsRegexes();
+    return checkParticipleExceptionRegexes.call(this, exceptionParticiplesAdjectivesVerbs);
+};
+/**
+ * Checks whether a found participle is in the exception list of nouns.
+ * These words are checked with s as a possible suffix.
+ * If a word is on the list, it isn't a participle.
+ *
+ * @returns {boolean} Returns true if it is in the exception list of nouns, otherwise returns false.
+ */
+FrenchParticiple.prototype.isOnNounsExceptionList = function () {
+    var exceptionsParticiplesNouns = getExceptionsParticiplesNounsRegexes();
+    return checkParticipleExceptionRegexes.call(this, exceptionsParticiplesNouns);
+};
+/**
+ * Checks whether a found participle is in the exception list in the 'other' category.
+ * If a word is on the list, it isn't a participle.
+ * Irregular participles do not end in -é and therefore can't be on the list.
+ *
+ * @returns {boolean} Returns true if it is in the exception list of nouns, otherwise returns false.
+ */
+FrenchParticiple.prototype.isOnOthersExceptionList = function () {
+    return includes(exceptionsParticiplesOthers, this.getParticiple());
+};
+FrenchParticiple.prototype.directPrecedenceException = directPrecedenceException;
+FrenchParticiple.prototype.precedenceException = precedenceException;
+module.exports = FrenchParticiple;
+
+
+
+},{"../../../stringProcessing/directPrecedenceException":367,"../../../stringProcessing/precedenceException":385,"../../../values/Participle.js":407,"../../passiveVoice/checkException.js":336,"./exceptionsParticiples.js":297,"lodash/forEach":167,"lodash/includes":173,"lodash/memoize":196,"util":224}],295:[function(require,module,exports){
+"use strict";
+
+var SentencePart = require("../../../values/SentencePart.js");
+var getParticiples = require("../../passiveVoice/getParticiples.js");
+/**
+ * Creates a French-specific sentence part.
+ *
+ * @param {string} sentencePartText The text from the sentence part.
+ * @param {Array} auxiliaries The list with auxiliaries.
+ * @constructor
+ */
+var FrenchSentencePart = function FrenchSentencePart(sentencePartText, auxiliaries) {
+  SentencePart.call(this, sentencePartText, auxiliaries, "fr_FR");
+};
+require("util").inherits(FrenchSentencePart, SentencePart);
+/**
+ * Returns the participles found in the sentence part.
+ *
+ * @returns {Array} The array of Participle Objects.
+ */
+FrenchSentencePart.prototype.getParticiples = function () {
+  return getParticiples(this.getSentencePartText(), this.getAuxiliaries(), "fr");
+};
+module.exports = FrenchSentencePart;
+
+
+
+},{"../../../values/SentencePart.js":409,"../../passiveVoice/getParticiples.js":340,"util":224}],296:[function(require,module,exports){
+"use strict";
+/**
+ * Returns a list with auxiliaries for the French passive voice assessment.
+ * @returns {Array} The list with auxiliaries.
+ */
+
+module.exports = function () {
+  return ["être", "d'être", "suis", "es", "est", "sommes", "êtes", "sont", "n'est", "n'es", "n'êtes", "été", "j'étais", "étais", "était", "étions", "étiez", "étaient", "c'était", "n'étais", "n'était", "n'étions", "n'étiez", "n'étaient", "serai", "seras", "sera", "serons", "serez", "seront", "sois", "soit", "soyons", "soyez", "soient", "fusse", "fusses", "fût", "fussions", "fussiez", "fussent", "serais", "serait", "serions", "seriez", "seraient", "fus", "fut", "fûmes", "fûtes", "furent", "suis-je", "es-tu", "est-il", "est-elle", "est-on", "sommes-nous", "êtes-vous", "sont-ils", "sont-elles", "est-ce", "étais-je", "étais-tu", "était-il", "était-elle", "était-on", "était-ce", "étions-nous", "étiez-vous", "étaient-ils", "étaient-elles", "serai-je", "seras-tu", "sera-t-il", "sera-t-elle", "sera-t-on", "sera-ce", "serons-nous", "serez-vous", "seront-ils", "seront-elles", "serais-je", "serais-tu", "serait-il", "serait-elle", "serait-on", "serait-ce", "serions-nous", "seriez-vous", "seraient-ils", "seraient-elles", "fus-je", "fus-tu", "fut-il", "fut-elle", "fut-on", "fut-ce", "fûmes-nous", "fûtes-vous", "furent-ils", "furent-elles"];
+};
+
+
+
+},{}],297:[function(require,module,exports){
+"use strict";
+// These word need to be checked with s/e/es suffixes.
+
+var adjectivesVerbs = [
+// The following words are participles of verbs that cannot be passives.
+"allé", "arrivé", "décédé", "demeuré", "entré", "été", "né", "resté", "retombé", "tombé",
+// The following words are non-participles ending in é.
+"achalandé", "aéroporté", "affilé", "affixé", "âgé", "aîné", "aisé", "aligoté", "alizé", "alliacé", "alluré", "alphabétisé", "alvéolé", "aminé", "ammoniaqué", "ampoulé", "archi-prouvé", "archi-usé", "asexué", "autoguidé", "autopropulsé", "aviné", "baleiné", "barbelé", "baryté", "bien-aimé", "bisexué", "bouqueté", "brioché", "burkinabé", "cagoulé", "calamistré", "cannelé", "carabiné", "carboné", "caréné", "carié", "carminé", "carné", "carpé", "censé", "cérusé", "charançonné", "chenillé", "chocolaté", "chtarbé", "citronné", "cofondé", "contrecollé", "côtelé", "courbaturé", "crawlé", "crossé", "crustacé", "cutané", "damasquiné", "damassé", "décavé", "déguenillé", "demi-paralysé", "denté", "dépenaillé", "désenchanté", "désodé", "diapré", "ébranché", "écervelé", "effréné", "effronté", "éhonté", "embourgeoisé", "embroussaillé", "embruiné", "émerillonné", "encalminé", "encaustiqué", "encorné", "endiablé", "endiamanté", "enfoiré", "enfouraillé", "ensellé", "entrelardé", "éploré", "ergoté", "erroné", "étagé", "éthéré", "éversé", "éwé", "ex-associé", "exorbité", "expansé", "famé", "férié", "fibré", "filoguidé", "flammé", "fleurdelisé", "fliqué", "flûté", "forcené", "fortuné", "foulbé", "frelaté", "friqué", "futé", "gazonné", "gracieusé", "gradé", "granulé", "herminé", "hiérarchisé", "huppé", "hydrogéné", "igné", "illettré", "illimité", "imbriqué", "immaculé", "immérité", "immodéré", "immunodéprimé", "impayé", "impensé", "impollué", "imprononcé", "inaccoutumé", "inachevé", "inactivé", "inadapté", "inaltéré", "inanimé", "inapproprié", "inarticulé", "inavoué", "inchangé", "inconditionné", "inconsidéré", "inconsolé", "incontesté", "incontrôlé", "incréé", "indéfriché", "indéterminé", "indifférencié", "indiscipliné", "indiscuté", "indivisé", "indompté", "inébranlé", "inemployé", "inentamé", "inespéré", "inexpérimenté", "inexpliqué", "inexploité", "inexploré", "inexprimé", "infondé", "informulé", "infortuné", "inhabité", "inimité", "injustifié", "inné", "innommé", "inoccupé", "inopiné", "inorganisé", "inoublié", "insensé", "insoupçonné", "instantané", "insubordonné", "insurpassé", "intentionné", "interallié", "intouché", "inusité", "inutilisé", "invertébré", "inviolé", "iodé", "irraisonné", "irréalisé", "lacté", "lamé", "lamifié", "larvé", "laryngé", "léopardé", "lettré", "lié", "lifté", "losangé", "luné", "lunetté", "madré", "maillé", "malaisé", "malavisé", "maléficié", "malfamé", "malformé", "malintentionné", "mendé", "ménopausé", "mentholé", "mi-accablé", "mi-allongé", "mi-café", "mi-consterné", "mi-enterré", "mi-étonné", "mi-pincé", "mi-terrorisé", "miellé", "millimétré", "miraculé", "momentané", "monoclé", "mordoré", "mort-né", "névrosé", "nitré", "non-initié", "nouveau-né", "olé-olé", "ongulé", "paillé", "palé", "papilionacé", "paqueté", "paraffiné", "pasteurisé", "patenté", "paysagé", "pédonculé", "pestiféré", "platiné", "pocheté", "polychromé", "poplité", "potelé", "pourpré", "praliné", "précité", "prédigéré", "préencollé", "préfabriqué", "prématuré", "premier-né", "préprogrammé", "prostré", "protéiné", "pyramidé", "quadrilobé", "racé", "re-café", "re-rêvé", "re-vérifié", "rebarré", "redécoré", "relargué", "résiné", "réticulé", "revérifié", "revivifié", "rose-thé", "safrané", "satiné", "saumoné", "sébacé", "sensé", "sexué", "sigillé", "silicosé", "simultané", "sinistré", "soufré", "sous-cutané", "sous-développé", "sous-qualifié", "soussigné", "spiralé", "spontané", "stratifié", "sulfaté", "sulfuré", "sulfurisé", "suractivé", "suranné", "surbooké", "surbrodé", "surdéveloppé", "surdimensionné", "surdoué", "surentraîné", "suroxygéné", "surpeuplé", "surqualifié", "susmentionné", "susnommé", "systématisé", "tarabiscoté", "taupé", "thrombosé", "tiercé", "timoré", "tiqueté", "transcutané", "triphasé", "usagé", "usité", "vallonné", "vanillé", "vascularisé", "veinulé", "venté", "vergé", "vert-de-grisé", "vertébré", "vitaminé", "vulcanisé", "zélé"];
+/*
+The following words are nouns ending in -é or -ée and starting with a vowel.
+These words need to be checked with -s suffixes and l' and d' prefixes.
+ */
+var nounsStartingWithVowel = ["à-côté", "abbé", "absurdité", "accessibilité", "acerbité", "acidité", "acmé", "acné", "âcreté", "activité", "actualité", "acuité", "adaptabilité", "adiposité", "admissibilité", "adversité", "affabilité", "affectivité", "affidé", "affinité", "agilité", "agressivité", "alacrité", "alcalinité", "altérité", "amabilité", "ambiguïté", "amé", "aménité", "américanité", "amirauté", "amitié", "amoralité", "ancestralité", "ancienneté", "anfractuosité", "angulosité", "animalité", "animosité", "anormalité", "anti-acné", "anti-cité", "anti-criminalité", "anti-gravité", "anti-intimité", "anti-société", "antigravité", "antiquité", "anxiété", "aparté", "applicabilité", "âpreté", "archevêché", "aridité", "artificialité", "asexualité", "asociabilité", "aspérité", "assiduité", "astarté", "atrocité", "austérité", "authenticité", "autodafé", "autorité", "avé", "aveugle-né", "avidité", "ébriété", "effectivité", "efficacité", "égalité", "élasticité", "électricité", "élément-clé", "élémentarité", "éligibilité", "émotivité", "empaffé", "énormité", "entièreté", "entité", "enviandé", "épitomé", "équanimité", "équité", "étanchéité", "éternité", "ethnicité", "étrangéité", "étrangeté", "euromarché", "évêché", "éventualité", "ex-abbé", "ex-fiancé", "excentricité", "exclusivité", "exemplarité", "exhaustivité", "exiguïté", "extériorité", "externalité", "exterritorialité", "extrémité", "idée-clé", "identité", "illégalité", "illégitimité", "imbécillité", "immatérialité", "immaturité", "immédiateté", "immensité", "immobilité", "immoralité", "immortalité", "immuabilité", "immunité", "immutabilité", "impalpabilité", "impartialité", "impassibilité", "impeccabilité", "impécuniosité", "impénétrabilité", "imperméabilité", "impersonnalité", "impétuosité", "impiété", "implacabilité", "impopularité", "impossibilité", "impraticabilité", "imprévisibilité", "improbabilité", "impudicité", "impulsivité", "impunité", "impureté", "inaccessibilité", "inactivité", "inanité", "inauthenticité", "incapacité", "incommodité", "incommunicabilité", "incompatibilité", "incongruité", "incorruptibilité", "incrédibilité", "incrédulité", "incuriosité", "indemnité", "indestructibilité", "indignité", "indisponibilité", "individualité", "indivisibilité", "indocilité", "industrie-clé", "inefficacité", "inégalité", "inéligibilité", "inéluctabilité", "inévitabilité", "inexorabilité", "infaillibilité", "infécondité", "infériorité", "infertilité", "infidélité", "infinité", "infirmité", "inflammabilité", "inflexibilité", "ingéniosité", "ingénuité", "inhospitalité", "inhumanité", "inimitié", "iniquité", "innocuité", "inopportunité", "insalubrité", "insanité", "insécurité", "insensibilité", "inséparabilité", "insincérité", "insipidité", "insonorité", "instabilité", "instantanéité", "insularité", "intangibilité", "intégralité", "intégrité", "intelligibilité", "intemporalité", "intensité", "intentionnalité", "interactivité", "intériorité", "intimité", "intrépidité", "inusabilité", "inutilité", "invalidité", "inventivité", "invincibilité", "inviolabilité", "invisibilité", "invulnérabilité", "irrationalité", "irréalité", "irrecevabilité", "irrégularité", "irréligiosité", "irresponsabilité", "irréversibilité", "irrévocabilité", "irritabilité", "obésité", "objectivité", "obliquité", "obscénité", "obscurité", "obséquiosité", "officialité", "oiseau-clé", "oisiveté", "okoumé", "onctuosité", "opacité", "opiniâtreté", "opportunité", "oralité", "originalité", "ubiquité", "ukulélé", "unanimité", "unicité", "uniformité", "unilatéralité", "unité", "universalité", "université", "urbanité", "utilité", "yé-yé", "yéyé", "achillée", "almée", "aménorrhée", "année", "anti-nausée", "apnée", "apogée", "araignée", "arrière-pensée", "assiettée", "athénée", "auloffée", "aveugle-née", "avrillée", "azalée", "échauffourée", "écuellée", "élysée", "embardée", "empyrée", "épée", "épopée", "étuvée", "ex-allée", "ex-dulcinée", "ex-fiancée", "ex-lycée", "idée", "ipomée", "odyssée", "onomatopée", "orchidée", "orée", "orphée", "urée"];
+/*
+The following words are nouns ending in -é or -ée and starting with a consonant.
+These words need to be checked with -s suffixes.
+*/
+var nounsStartingWithConsonant = ["banalité", "bas-côté", "beaupré", "beauté", "bébé", "bédé", "bénédicité", "bénignité", "bestialité", "bien-fondé", "biodiversité", "bipolarité", "bisexualité", "blé", "bonté", "bout-rimé", "bovidé", "brièveté", "brutalité", "caducité", "café", "callosité", "camélidé", "canapé", "capacité", "capillarité", "captivité", "carte-clé", "caté", "catholicité", "causalité", "causticité", "cavité", "cécité", "célébrité", "célérité", "cérébralité", "cétacé", "charité", "chassé-croisé", "chasteté", "cherté", "chétivité", "chimpanzé", "chrétienté", "ciné", "cinéma-vérité", "circularité", "citoyenneté", "civilité", "clandé", "clandestinité", "clarté", "clé", "clergé", "co-propriété", "coaccusé", "cochonceté", "code-clé", "collectivité", "collégialité", "combativité", "comestibilité", "comité", "commodité", "communauté", "communicabilité", "compacité", "comparabilité", "compatibilité", "compétitivité", "complémentarité", "complexité", "complicité", "comptabilité", "comté", "concavité", "condé", "conductibilité", "conductivité", "confidentialité", "conformité", "confraternité", "congé", "conjugalité", "connectivité", "consanguinité", "constitutionnalité", "contiguïté", "continuité", "contrariété", "contre-gré", "contre-plaqué", "contre-vérité", "contreplaqué", "contrevérité", "convexité", "convivialité", "coopé", "copropriété", "cordialité", "coré", "coriacité", "corporalité", "côté", "créativité", "crédibilité", "crédulité", "crétacé", "criminalité", "cruauté", "crudité", "culpabilité", "cupidité", "curiosité", "cybercafé", "cyprinidé", "dangerosité", "daphné", "dé", "débotté", "décimalité", "décision-clé", "déclivité", "déductibilité", "défectuosité", "degré", "déité", "déloyauté", "demi-clarté", "demi-degré", "demi-liberté", "demi-obscurité", "demi-vérité", "dénatalité", "densité", "député", "dératé", "dernier-né", "désirabilité", "dextérité", "difficulté", "difformité", "dignité", "discontinuité", "disparité", "disponibilité", "diversité", "divinité", "docilité", "domesticité", "doyenné", "dualité", "duché", "duplicité", "durabilité", "dureté", "faculté", "faillibilité", "faisabilité", "familiarité", "fatalité", "fatuité", "fausseté", "fébrilité", "fécondité", "félidé", "félinité", "féminité", "féodalité", "fermeté", "férocité", "ferté", "fertilité", "festivité", "fétidité", "fiabilité", "fibrillé", "fidélité", "fierté", "finalité", "fiscalité", "fixité", "flaccidité", "flatuosité", "flexibilité", "flexuosité", "flottabilité", "fluidité", "fonctionnalité", "formalité", "fossé", "fragilité", "francité", "fraternité", "friabilité", "frigidité", "frilosité", "fringillidé", "frivolité", "frugalité", "fugacité", "furtivité", "futilité", "gaieté", "gaîté", "gallinacé", "gémellité", "généralité", "générosité", "génialité", "génitalité", "germanité", "gibbosité", "globalité", "godemiché", "gracieuseté", "gracilité", "grand-duché", "granité", "gratuité", "gravidité", "gré", "grossièreté", "habileté", "habitabilité", "haute-fidélité", "henné", "hérédité", "hétérogénéité", "hétérosexualité", "hilarité", "histocompatibilité", "historicité", "homme-clé", "homogénéité", "homosexualité", "honnêteté", "honorabilité", "horizontalité", "hospitalité", "hostilité", "humanité", "humidité", "humilité", "hyperacidité", "hyperactivité", "hypercoagulabilité", "hyperémotivité", "hypermarché", "hyperréactivité", "hypersensibilité", "jovialité", "joyeuseté", "jubé", "judaïcité", "judaïté", "judéité", "juvénilité", "karaoké", "karaté", "karité", "kiné", "koré", "lâcheté", "laïcité", "lamedé", "lascivité", "latéralité", "latinité", "laubé", "laxité", "lé", "légalité", "légèreté", "légitimité", "lèse-majesté", "létalité", "lettre-clé", "libéralité", "liberté", "licéité", "limpidité", "liquidité", "lisibilité", "littéralité", "lividité", "localité", "longanimité", "longévité", "loquacité", "loyauté", "lubricité", "lucidité", "luminosité", "macramé", "magnanimité", "majesté", "majorité", "mal-aimé", "mal-baisé", "malhonnêteté", "malignité", "malinké", "malléabilité", "malpropreté", "maniabilité", "manoeuvrabilité", "marginalité", "masculinité", "maskinongé", "massivité", "matérialité", "maternité", "matité", "maturité", "mauvaiseté", "méchanceté", "médiocrité", "médiumnité", "mémé", "mémorabilité", "mendicité", "mensualité", "mentalité", "merveillosité", "méticulosité", "mi-capacité", "mi-été", "mi-meublé", "mi-porté", "mi-réalité", "mi-résigné", "miché", "microgravité", "minorité", "mitoyenneté", "mixité", "mobilité", "mocheté", "modalité", "modernité", "modicité", "moment-clé", "mondanité", "monstruosité", "mont-de-piété", "monumentalité", "mooré", "moralité", "morbidité", "morosité", "mortalité", "mot-clé", "motilité", "motricité", "mousmé", "mucosité", "multiplicité", "multipropriété", "municipalité", "musicalité", "mutabilité", "mutité", "mutualité", "naïveté", "narghilé", "narguilé", "natalité", "nationalité", "nativité", "navigabilité", "nébulosité", "négativité", "néné", "nervosité", "nescafé", "netteté", "neutralité", "névé", "niakoué", "niébé", "nocivité", "non-conformité", "non-culpabilité", "nordicité", "normalité", "notabilité", "notoriété", "nouveauté", "nouvelleté", "nubilité", "nudité", "nue-propriété", "nullité", "nuptialité", "papauté", "papé", "parenté", "parité", "partialité", "particularité", "passiveté", "passivité", "pâté", "paternité", "pause-café", "pauses-café", "pauvreté", "pédé", "pédégé", "pénalité", "pépé", "pérennité", "perfectibilité", "périodicité", "perméabilité", "permissivité", "péroné", "perpétuité", "perplexité", "perré", "personnage-clé", "personnalité", "perspicacité", "perversité", "pèse-bébé", "petit-salé", "photosensibilité", "phrase-clé", "pilosité", "pisé", "pitié", "placidité", "plasticité", "plausibilité", "pluralité", "pluviosité", "point-clé", "poiré", "poire-vérité", "polarité", "polycopié", "polytonalité", "ponctualité", "pongé", "popularité", "porosité", "portabilité", "porte-bébé", "porte-clé", "position-clé", "positivité", "possessivité", "possibilité", "poste-clé", "postérité", "potentialité", "pousse-café", "pré", "pré-salé", "précarité", "préciosité", "précocité", "prématurité", "prévisibilité", "prévôté", "prieuré", "primauté", "principauté", "priorité", "privauté", "probabilité", "probité", "prodigalité", "productivité", "profitabilité", "prolixité", "promiscuité", "proportionnalité", "propreté", "propriété", "prospérité", "proximité", "psyché", "puberté", "publicité", "pudicité", "puérilité", "pugnacité", "puîné", "pureté", "pusillanimité", "qualité", "quantité", "quarté", "quasi-impossibilité", "quasi-impunité", "quasi-nudité", "quasi-totalité", "quasi-unanimité", "question-clé", "quinté", "quotidienneté", "quotité", "radioactivité", "raisiné", "rapacité", "raphé", "rapidité", "rareté", "rationalité", "raucité", "ré", "réactivité", "réalité", "récépissé", "réceptivité", "recevabilité", "réciprocité", "récré", "régularité", "relativité", "religiosité", "rentabilité", "reportage-vérité", "respectabilité", "responsabilité", "réversibilité", "rigidité", "risibilité", "rivalité", "romanité", "rotondité", "roulé-boulé", "royauté", "rugosité", "rusticité", "sagacité", "saint-honoré", "sainteté", "saké", "salacité", "saleté", "salinité", "salmonidé", "salubrité", "santé", "sapidité", "satiété", "sauveté", "scène-clé", "scientificité", "scissiparité", "scolarité", "scrupulosité", "sécurité", "sédentarité", "sélectivité", "semi-liberté", "séné", "sénevé", "sénilité", "sensibilité", "sensorialité", "sensualité", "sentimentalité", "septicité", "sérénité", "sergé", "séropositivité", "sérosité", "serviabilité", "servilité", "sévérité", "sexualité", "similarité", "simplicité", "simultanéité", "sincérité", "singularité", "sinuosité", "sobriété", "sociabilité", "société", "solennité", "solidarité", "solidité", "solubilité", "soluté", "solvabilité", "sommité", "somptuosité", "sonorité", "sordidité", "sororité", "soudaineté", "sous-comité", "sous-humanité", "souveraineté", "spasticité", "spécialité", "spécificité", "sphéricité", "spiritualité", "spontanéité", "sportivité", "spumosité", "stabilité", "sténopé", "stérilité", "stupidité", "suavité", "subjectivité", "sublimité", "subtilité", "succédané", "suggestibilité", "suggestivité", "superficialité", "superfluité", "supériorité", "supermarché", "supraconductivité", "suractivité", "surcapacité", "surdité", "sûreté", "surgé", "surhumanité", "surintensité", "surréalité", "susceptibilité", "suzeraineté", "synthé", "taboulé", "taciturnité", "tamouré", "tangibilité", "tarpé", "technicité", "télé", "témérité", "témoin-clé", "temporalité", "ténacité", "tendreté", "ténébrionidé", "ténuité", "territorialité", "tévé", "thé", "théâtralité", "tiaré", "timidité", "tollé", "tonalité", "tonicité", "totalité", "toxicité", "traçabilité", "tranquillité", "translucidité", "transsexualité", "trinité", "trivialité", "tsé-tsé", "tubérosité", "turbé", "vacuité", "vahiné", "validité", "vanité", "variabilité", "variété", "vassalité", "vastité", "velléité", "vélocité", "vénalité", "vénusté", "véracité", "verbosité", "vérité", "versatilité", "verticalité", "vétusté", "viabilité", "vicinalité", "vicomté", "viduité", "virginité", "virilité", "virtualité", "virtuosité", "viscosité", "visibilité", "vitalité", "vivacité", "volatilité", "volonté", "volubilité", "volupté", "voracité", "vulgarité", "vulnérabilité", "batée", "becquée", "billevesée", "bolée", "bondrée", "borée", "bouée", "bougainvillée", "brouettée", "buée", "caducée", "canne-épée", "casserolée", "cavée", "centaurée", "cépée", "céphalée", "charretée", "chaudronnée", "chicorée", "chorée", "cochlée", "cochonnée", "colée", "contre-allée", "contre-plongée", "corvée", "coryphée", "cucurbitacée", "cuillerée", "culée", "cylindrée", "demi-journée", "demi-volée", "denrée", "dernière-née", "diarrhée", "diatomée", "dionée", "dragée", "dulcinée", "dysménorrhée", "dyspnée", "fée", "feuillée", "flopée", "fournée", "fricassée", "friselée", "galathée", "galée", "giboulée", "giroflée", "gonorrhée", "goulée", "graminée", "guinée", "gynécée", "haquenée", "hottée", "hyménée", "hyperborée", "hypogée", "journée", "lance-fusée", "litée", "logorrhée", "lycée", "macchabée", "mainlevée", "maisonnée", "mal-aimée", "mal-baisée", "maréchaussée", "marée", "mausolée", "mélopée", "mi-effrontée", "mi-journée", "miellée", "mijaurée", "mosquée", "moteur-fusée", "muflée", "nausée", "nuée", "nuitée", "panacée", "pâtée", "peignée", "pelletée", "pépée", "périgée", "périnée", "pharmacopée", "pipée", "platée", "pochetée", "pochetée", "poignée", "poirée", "poisson-épée", "porte-épée", "potée", "poupée", "première-née", "prérentrée", "presse-purée", "prytanée", "purée", "quasi-fiancée", "ramée", "raz-de-marée", "resucée", "rétrofusée", "rez-de-chaussée", "risée", "ruchée", "scarabée", "séborrhée", "sigisbée", "simagrée", "singe-araignée", "soirée", "solanacée", "tablée", "tinée", "trachée", "trâlée", "transfusée", "travée", "trépanée", "trochée", "trophée", "vallée", "ventrée", "vesprée"];
+// These words do not need to be checked with any suffixes.
+var others = ["bé", "cré", "crédié", "é", "loucedé", "eussé", "hé", "malgré", "moitié-moitié", "ohé", "olé", "ollé", "sacrédié", "d'emblée", "quasi-instantanée"];
+module.exports = function () {
+    return {
+        adjectivesVerbs: adjectivesVerbs,
+        nounsStartingWithVowel: nounsStartingWithVowel,
+        nounsStartingWithConsonant: nounsStartingWithConsonant,
+        others: others
+    };
+};
+
+
+
+},{}],298:[function(require,module,exports){
+"use strict";
+/*
+This is a list of irregular participles used in French.
+These participles have an irregular stem but follow a regular conjugation pattern for feminine and plural forms (adding -e, -es, -s).
+The following participles were excluded because they are intransitive verbs that cannot be passive:
+apparu, réapparu, devenu, redevenu, intervenu, mort, parti, parvenu, provenu, resurvenu, revenu, survenu, venu.
+ */
+
+var irregularsRegular = ["abâtardi", "abattu", "abêti", "aboli", "abouti", "abruti", "abstenu", "abstrait", "accompli", "accouru", "accroupi", "accru", "accueilli", "adjoint", "adouci", "advenu", "affadi", "affaibli", "affermi", "agi", "agrandi", "aguerri", "ahuri", "aigri", "alangui", "alenti", "alourdi", "aluni", "amaigri", "amati", "amerri", "aminci", "amoindri", "amolli", "amorti", "anéanti", "apâli", "aperçu", "aplani", "appartenu", "appauvri", "appendu", "appesanti", "applaudi", "approfondi", "arrondi", "assagi", "assailli", "assaini", "asservi", "assombri", "assorti", "assoupi", "assoupli", "assourdi", "assouvi", "assujetti", "astreint", "attendri", "attendu", "atterri", "attiédi", "attrait", "autodétruit", "avachi", "aveuli", "avili", "banni", "barri", "bâti", "battu", "béni", "blanchi", "blêmi", "bleui", "blondi", "blotti", "bonni", "bouffi", "bouilli", "bruni", "bu", "calmi", "candi", "ceint", "chéri", "choisi", "circonscrit", "circonvenu", "combattu", "comparu", "compati", "conclu", "concouru", "condescendu", "conduit", "confit", "confondu", "conjoint", "connu", "consenti", "construit", "contenu", "contraint", "contredit", "contrefait", "contrevenu", "convaincu", "convenu", "converti", "coproduit", "correspondu", "couru", "cousu", "craint", "cramoisi", "crépi", "croupi", "cru", "cueilli", "cuit", "débattu", "décati", "déchu", "déconfit", "déconstruit", "décousu", "découvert", "décrépi", "décrit", "décru", "déçu", "dédit", "déduit", "défailli", "défendu", "défini", "défleuri", "défraîchi", "dégarni", "dégluti", "dégourdi", "démenti", "démoli", "démordu", "démuni", "départi", "dépeint", "dépendu", "dépéri", "déplu", "dépoli", "dépourvu", "descendu", "désobéi", "desservi", "déteint", "détendu", "détenu", "détruit", "dévêtu", "discouru", "disjoint", "disparu", "distendu", "distrait", "dit", "diverti", "dormi", "durci", "ébahi", "ébaubi", "ébaudi", "échu", "éclairci", "éconduit", "écrit", "élargi", "élu", "embelli", "embouti", "émoulu", "empli", "empreint", "empuanti", "ému", "enchéri", "encouru", "endolori", "endormi", "enduit", "endurci", "enfoui", "enfreint", "enfui", "englouti", "engourdi", "enhardi", "enjoint", "enlaidi", "ennobli", "enorgueilli", "enrichi", "enseveli", "entendu", "entr'aperçu", "entraperçu", "entreclos", "entremis", "entretenu", "entrevu", "entrouvert", "envahi", "épanoui", "éperdu", "équarri", "équivalu", "estourbi", "établi", "éteint", "étendu", "étourdi", "étréci", "étreint", "eu", "évanoui", "exclu", "extrait", "faibli", "fait", "fallu", "farci", "feint", "fendu", "fini", "fléchi", "fleuri", "fondu", "forci", "foui", "fourbi", "fourni", "foutu", "fraîchi", "franchi", "frémi", "frit", "fui", "garanti", "garni", "gauchi", "gémi", "glapi", "grandi", "grossi", "guéri", "haï", "imparti", "induit", "infléchi", "inscrit", "instruit", "interdit", "interrompu", "interverti", "introduit", "inverti", "investi", "jailli", "jauni", "joint", "joui", "langui", "loti", "lu", "maintenu", "méconnu", "mécru", "médit", "menti", "minci", "moisi", "moiti", "molli", "mordu", "morfondu", "moulu", "mugi", "muni", "nanti", "noirci", "nourri", "nui", "obéi", "obscurci", "obtenu", "offert", "oint", "ouï", "ourdi", "ouvert", "pâli", "parcouru", "paru", "pâti", "peint", "pendu", "perçu", "péri", "perverti", "pétri", "plaint", "portrait", "pourfendu", "pourri", "poursuivi", "pourvu", "prédéfini", "prédit", "préétabli", "prémuni", "prescrit", "prétendu", "prévalu", "prévenu", "prévu", "produit", "promu", "proscrit", "pu", "puni", "rabattu", "rabougri", "radouci", "raffermi", "ragaillardi", "raidi", "rajeuni", "ralenti", "ramolli", "ranci", "ravi", "réadmis", "réagi", "réappris", "rebâti", "rebattu", "rebondi", "rebu", "reconnu", "reconstruit", "reconverti", "recouru", "recouvert", "recrépi", "récrit", "recru", "reçu", "recueilli", "recuit", "redécouvert", "redéfini", "redescendu", "redit", "réduit", "réécrit", "réélu", "réentendu", "refendu", "réfléchi", "refondu", "refoutu", "refroidi", "regarni", "régi", "réinscrit", "réintroduit", "réinvesti", "rejoint", "réjoui", "relu", "relui", "rembruni", "remordu", "rempli", "renchéri", "rendormi", "rendu", "rentrait", "répandu", "reparcouru", "reparti", "réparti", "reparu", "repeint", "rependu", "repenti", "reperdu", "répondu", "reproduit", "résolu", "resplendi", "ressaisi", "resservi", "ressorti", "restreint", "resurgi", "rétabli", "retendu", "retenu", "retraduit", "retrait", "retranscrit", "rétréci", "réuni", "réussi", "revécu", "revendu", "reverdi", "reverni", "revêtu", "revu", "ri", "roidi", "rosi", "rôti", "rougi", "roussi", "rousti", "rouvert", "rugi", "saisi", "sali", "satisfait", "sauri", "secouru", "séduit", "senti", "serti", "servi", "sévi", "sorti", "souffert", "souri", "sous-entendu", "sous-tendu", "souscrit", "soustrait", "soutenu", "souvenu", "su", "subi", "subvenu", "suffi", "suivi", "surenchéri", "surgi", "suri", "survécu", "suspendu", "tapi", "tari", "teint", "tendu", "tenu", "terni", "terri", "tiédi", "tondu", "tordu", "traduit", "trahi", "trait", "transcrit", "transi", "travesti", "tressailli", "uni", "vagi", "vaincu", "valu", "vécu", "vendu", "verdi", "verni", "vêtu", "vieilli", "vomi", "voulu", "vu"];
+/*
+This is a list of irregular participles used in French.
+These participles have an irregular stem and follow an irregular conjugation pattern. Therefore all forms are included in the list.
+ */
+var irregularsIrregular = ["absous", "absoute", "absoutes", "dissous", "dissoute", "dissoutes", "crû", "crus", "crue", "crues", "dû", "dus", "dues", "mû", "mus", "mue", "mues"];
+/*
+This is a list of irregular participles used in French.
+These participles have an irregular stem ending in -s. They have the same form in the masculine singular and plural.
+For feminine singular and feminine plural forms -e and -es are added.
+ */
+var irregularsEndingInS = ["repris", "démis", "omis", "dépris", "retransmis", "assis", "promis", "circoncis", "permis", "compris", "mépris", "inclus", "soumis", "rassis", "sursis", "enclos", "acquis", "compromis", "commis", "désappris", "appris", "conquis", "transmis", "remis", "surpris", "reconquis", "mis", "enquis", "pris", "admis", "clos", "émis", "entrepris", "épris", "requis"];
+module.exports = function () {
+  return {
+    irregularsRegular: irregularsRegular,
+    irregularsIrregular: irregularsIrregular,
+    irregularsEndingInS: irregularsEndingInS
+  };
+};
+
+
+
+},{}],299:[function(require,module,exports){
+"use strict";
+/**
+ * Returns a list with stopwords for the French passive voice assessment.
+ * @returns {Array} The list with stopwords.
+ */
+
+module.exports = function () {
+  return ["et", "ou", "car", "or", "puisque", "puisqu'il", "puisqu'ils", "puisqu'elle", "puisqu'elles", "puisqu'un", "puisqu'une", "puisqu'on", "quand", "lorsque", "lorsqu'il", "lorsqu'elle", "lorsqu'ils", "lorsqu'elles", "lorsqu'on", "lorsqu'un", "lorsqu'une", "quoique", "quoiqu'il", "quoiqu'ils", "quoiqu'elle", "quoiqu'elles", "quoiqu'on", "quoiqu'un", "quoiqu'une", "qu'elle", "qu'il", "qu'ils", "qu'elles", "qu'on", "qu'un", "qu'une", "si", "s'ils", "s'elles", "s'elle", "s'il", "s'on", "s'un", "s'une", "quand bien même", "pourquoi", "après", "avant", "afin de", "compte tenu de", "pour ne pas dire", "sinon", "une fois", "sitôt", "dont", "lequel", "laquelle", "lesquels", "lesquelles", "auquel", "auxquels", "auxquelles", "duquel", "desquels", "desquelles", "qui", "où", "d'où", ":", "allé", "entré", "resté", "retombé", "apparu", "réapparu", "devenu", "redevenu", "intervenu", "provenu", "resurvenu", "survenu", "allés", "entrés", "restés", "retombés", "apparus", "réapparus", "devenus", "redevenus", "intervenus", "provenus", "resurvenus", "survenus", "allée", "entrée", "restée", "retombée", "apparue", "réapparue", "devenue", "redevenue", "intervenue", "provenue", "resurvenue", "survenue", "allées", "entrées", "restées", "retombées", "apparues", "réapparues", "devenues", "redevenues", "intervenues", "provenues", "resurvenues", "survenues"];
+};
+
+
+
+},{}],300:[function(require,module,exports){
 "use strict";
 /** @module config/transitionWords */
 
@@ -16168,7 +16087,7 @@ module.exports = function () {
 
 
 
-},{}],300:[function(require,module,exports){
+},{}],301:[function(require,module,exports){
 "use strict";
 /** @module config/twoPartTransitionWords */
 /**
@@ -16182,142 +16101,7 @@ module.exports = function () {
 
 
 
-},{}],301:[function(require,module,exports){
-"use strict";
-
-var Participle = require("../../values/Participle.js");
-var getIndices = require("../../stringProcessing/indices.js").getIndicesByWord;
-var getIndicesOfList = require("../../stringProcessing/indices.js").getIndicesByWordList;
-var exceptionsParticiplesActive = require("./passivevoice/exceptionsParticiplesActive.js")();
-var auxiliaries = require("./passivevoice/auxiliaries.js")().participleLike;
-var exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-var includes = require("lodash/includes");
-var map = require("lodash/map");
-/**
- * Creates an Participle object for the English language.
- *
- * @param {string} participle The participle.
- * @param {string} sentencePart The sentence part that contains the participle.
- * @param {object} attributes  The attributes object.
- *
- * @constructor
- */
-var GermanParticiple = function GermanParticiple(participle, sentencePart, attributes) {
-    Participle.call(this, participle, sentencePart, attributes);
-    this.setSentencePartPassiveness(this.isPassive());
-};
-require("util").inherits(GermanParticiple, Participle);
-/**
- * Checks if the text is passive based on the participle exceptions.
- *
- * @returns {boolean} Returns true if there is no exception, and the sentence is passive.
- */
-GermanParticiple.prototype.isPassive = function () {
-    return !this.hasNounSuffix() && !this.isInExceptionList() && !this.hasHabenSeinException() && !this.isAuxiliary();
-};
-/**
- * Checks whether a found participle is in the exception list.
- * If a word is in the exceptionsParticiplesActive list, it isn't a participle.
- *
- * @returns {boolean} Returns true if it is in the exception list, otherwise returns false.
- */
-GermanParticiple.prototype.isInExceptionList = function () {
-    return includes(exceptionsParticiplesActive, this.getParticiple());
-};
-/**
- * Checks whether a found participle ends in a noun suffix.
- * If a word ends in a noun suffix from the exceptionsRegex, it isn't a participle.
- *
- * @returns {boolean} Returns true if it ends in a noun suffix, otherwise returns false.
- */
-GermanParticiple.prototype.hasNounSuffix = function () {
-    return this.getParticiple().match(exceptionsRegex) !== null;
-};
-/**
- * Checks whether a participle is followed by 'haben' or 'sein'.
- * If a participle is followed by one of these, the sentence is not passive.
- *
- * @returns {boolean} Returns true if it is an exception, otherwise returns false.
- */
-GermanParticiple.prototype.hasHabenSeinException = function () {
-    var participleIndices = getIndices(this.getParticiple(), this.getSentencePart());
-    var habenSeinIndices = getIndicesOfList(["haben", "sein"], this.getSentencePart());
-    if (participleIndices.length > 0 && habenSeinIndices.length === 0) {
-        return false;
-    }
-    habenSeinIndices = map(habenSeinIndices, "index");
-    var currentParticiple = participleIndices[0];
-    return includes(habenSeinIndices, currentParticiple.index + currentParticiple.match.length + 1);
-};
-/**
- * Checks whether a found participle is an auxiliary.
- * If a word is an auxiliary, it isn't a participle.
- *
- * @returns {boolean} Returns true if it is an auxiliary, otherwise returns false.
- */
-GermanParticiple.prototype.isAuxiliary = function () {
-    return includes(auxiliaries, this.getParticiple());
-};
-module.exports = GermanParticiple;
-
-
-
-},{"../../stringProcessing/indices.js":364,"../../values/Participle.js":390,"./passivevoice/auxiliaries.js":307,"./passivevoice/exceptionsParticiplesActive.js":308,"lodash/includes":173,"lodash/map":195,"util":224}],302:[function(require,module,exports){
-"use strict";
-
-var SentencePart = require("../../values/SentencePart.js");
-var getParticiples = require("./passivevoice/getParticiples.js");
-/**
- * Creates a German specific sentence part.
- *
- * @param {string} sentencePartText The text from the sentence part.
- * @param {Array} auxiliaries The list with auxiliaries.
- * @constructor
- */
-var GermanSentencePart = function GermanSentencePart(sentencePartText, auxiliaries) {
-  SentencePart.call(this, sentencePartText, auxiliaries, "de_DE");
-};
-require("util").inherits(GermanSentencePart, SentencePart);
-/**
- * Returns the participles found in the sentence part.
- *
- * @returns {Array} The array of Participle Objects.
- */
-GermanSentencePart.prototype.getParticiples = function () {
-  return getParticiples(this.getSentencePartText(), this.getAuxiliaries());
-};
-module.exports = GermanSentencePart;
-
-
-
-},{"../../values/SentencePart.js":392,"./passivevoice/getParticiples.js":309,"util":224}],303:[function(require,module,exports){
-"use strict";
-
-var arrayToRegex = require("../../stringProcessing/createRegexFromArray.js");
-var auxiliaries = require("./passivevoice/auxiliaries.js")().allAuxiliaries;
-var getParticiples = require("./passivevoice/getParticiples.js");
-var determineSentencePartIsPassive = require("../passivevoice/determineSentencePartIsPassive.js");
-var auxiliaryRegex = arrayToRegex(auxiliaries);
-/**
- * Determines whether a sentence part is passive.
- *
- * @param {string} sentencePartText The sentence part to determine voice for.
- * @param {Array} auxiliaries A list with auxiliaries in this sentence part.
- * @returns {boolean} Returns true if passive, otherwise returns false.
- */
-module.exports = function (sentencePartText, auxiliaries) {
-    var passive = false;
-    var auxiliaryMatches = sentencePartText.match(auxiliaryRegex);
-    if (auxiliaryMatches === null) {
-        return passive;
-    }
-    var participles = getParticiples(sentencePartText, auxiliaries);
-    return determineSentencePartIsPassive(participles);
-};
-
-
-
-},{"../../stringProcessing/createRegexFromArray.js":352,"../passivevoice/determineSentencePartIsPassive.js":335,"./passivevoice/auxiliaries.js":307,"./passivevoice/getParticiples.js":309}],304:[function(require,module,exports){
+},{}],302:[function(require,module,exports){
 "use strict";
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
@@ -16338,11 +16122,11 @@ module.exports = function () {
 
 
 
-},{}],305:[function(require,module,exports){
+},{}],303:[function(require,module,exports){
 "use strict";
 
-var filteredPassiveAuxiliaries = require("./passivevoice/auxiliaries.js")().filteredAuxiliaries;
-var passiveAuxiliariesInfinitive = require("./passivevoice/auxiliaries.js")().infinitiveAuxiliaries;
+var filteredPassiveAuxiliaries = require("./passiveVoice/auxiliaries.js")().filteredAuxiliaries;
+var passiveAuxiliariesInfinitive = require("./passiveVoice/auxiliaries.js")().infinitiveAuxiliaries;
 var transitionWords = require("./transitionWords.js")().singleWords;
 /**
  * Returns an object with exceptions for the prominent words researcher
@@ -16417,14 +16201,239 @@ module.exports = function () {
 
 
 
-},{"./passivevoice/auxiliaries.js":307,"./transitionWords.js":313}],306:[function(require,module,exports){
+},{"./passiveVoice/auxiliaries.js":306,"./transitionWords.js":314}],304:[function(require,module,exports){
 "use strict";
 
-var stopwords = require("./passivevoice/stopwords.js")();
-var arrayToRegex = require("../../stringProcessing/createRegexFromArray.js");
-var stripSpaces = require("../../stringProcessing/stripSpaces.js");
+var Participle = require("../../../values/Participle.js");
+var getIndices = require("../../../stringProcessing/indices.js").getIndicesByWord;
+var getIndicesOfList = require("../../../stringProcessing/indices.js").getIndicesByWordList;
+var exceptionsParticiplesActive = require("./exceptionsParticiplesActive.js")();
+var auxiliaries = require("./auxiliaries.js")().participleLike;
+var exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var includes = require("lodash/includes");
+var map = require("lodash/map");
+/**
+ * Creates an Participle object for the German language.
+ *
+ * @param {string} participle The participle.
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {object} attributes  The attributes object.
+ *
+ * @constructor
+ */
+var GermanParticiple = function GermanParticiple(participle, sentencePart, attributes) {
+    Participle.call(this, participle, sentencePart, attributes);
+    this.setSentencePartPassiveness(this.isPassive());
+};
+require("util").inherits(GermanParticiple, Participle);
+/**
+ * Checks if the text is passive based on the participle exceptions.
+ *
+ * @returns {boolean} Returns true if there is no exception, and the sentence is passive.
+ */
+GermanParticiple.prototype.isPassive = function () {
+    return !this.hasNounSuffix() && !this.isInExceptionList() && !this.hasHabenSeinException() && !this.isAuxiliary();
+};
+/**
+ * Checks whether a found participle is in the exception list.
+ * If a word is in the exceptionsParticiplesActive list, it isn't a participle.
+ *
+ * @returns {boolean} Returns true if it is in the exception list, otherwise returns false.
+ */
+GermanParticiple.prototype.isInExceptionList = function () {
+    return includes(exceptionsParticiplesActive, this.getParticiple());
+};
+/**
+ * Checks whether a found participle ends in a noun suffix.
+ * If a word ends in a noun suffix from the exceptionsRegex, it isn't a participle.
+ *
+ * @returns {boolean} Returns true if it ends in a noun suffix, otherwise returns false.
+ */
+GermanParticiple.prototype.hasNounSuffix = function () {
+    return this.getParticiple().match(exceptionsRegex) !== null;
+};
+/**
+ * Checks whether a participle is followed by 'haben' or 'sein'.
+ * If a participle is followed by one of these, the sentence is not passive.
+ *
+ * @returns {boolean} Returns true if it is an exception, otherwise returns false.
+ */
+GermanParticiple.prototype.hasHabenSeinException = function () {
+    var participleIndices = getIndices(this.getParticiple(), this.getSentencePart());
+    var habenSeinIndices = getIndicesOfList(["haben", "sein"], this.getSentencePart());
+    if (participleIndices.length > 0 && habenSeinIndices.length === 0) {
+        return false;
+    }
+    habenSeinIndices = map(habenSeinIndices, "index");
+    var currentParticiple = participleIndices[0];
+    return includes(habenSeinIndices, currentParticiple.index + currentParticiple.match.length + 1);
+};
+/**
+ * Checks whether a found participle is an auxiliary.
+ * If a word is an auxiliary, it isn't a participle.
+ *
+ * @returns {boolean} Returns true if it is an auxiliary, otherwise returns false.
+ */
+GermanParticiple.prototype.isAuxiliary = function () {
+    return includes(auxiliaries, this.getParticiple());
+};
+module.exports = GermanParticiple;
+
+
+
+},{"../../../stringProcessing/indices.js":379,"../../../values/Participle.js":407,"./auxiliaries.js":306,"./exceptionsParticiplesActive.js":308,"lodash/includes":173,"lodash/map":195,"util":224}],305:[function(require,module,exports){
+"use strict";
+
+var SentencePart = require("../../../values/SentencePart.js");
+var getParticiples = require("./getParticiples.js");
+/**
+ * Creates a German-specific sentence part.
+ *
+ * @param {string} sentencePartText The text from the sentence part.
+ * @param {Array} auxiliaries The list with auxiliaries.
+ * @constructor
+ */
+var GermanSentencePart = function GermanSentencePart(sentencePartText, auxiliaries) {
+  SentencePart.call(this, sentencePartText, auxiliaries, "de_DE");
+};
+require("util").inherits(GermanSentencePart, SentencePart);
+/**
+ * Returns the participles found in the sentence part.
+ *
+ * @returns {Array} The array of Participle Objects.
+ */
+GermanSentencePart.prototype.getParticiples = function () {
+  return getParticiples(this.getSentencePartText(), this.getAuxiliaries());
+};
+module.exports = GermanSentencePart;
+
+
+
+},{"../../../values/SentencePart.js":409,"./getParticiples.js":309,"util":224}],306:[function(require,module,exports){
+"use strict";
+// These passive auxiliaries start with be-, ge- or er- en and with -t, and therefore look like a participle.
+
+var participleLike = ["bekommst", "bekommt", "bekamst", "bekommest", "bekommet", "bekämest", "bekämst", "bekämet", "bekämt", "gekriegt", "gehörst", "gehört", "gehörtest", "gehörtet", "gehörest", "gehöret", "erhältst", "erhält", "erhaltet", "erhielt", "erhieltest", "erhieltst", "erhieltet", "erhaltest"];
+// These are all other passive auxiliaries.
+var otherAuxiliaries = ["werde", "wirst", "wird", "werden", "werdet", "wurde", "ward", "wurdest", "wardst", "wurden", "wurdet", "worden", "werdest", "würde", "würdest", "würden", "würdet", "bekomme", "bekommen", "bekam", "bekamen", "bekäme", "bekämen", "kriege", "kriegst", "kriegt", "kriegen", "kriegte", "kriegtest", "kriegten", "kriegtet", "kriegest", "krieget", "gehöre", "gehören", "gehörte", "gehörten", "erhalte", "erhalten", "erhielten", "erhielte"];
+// These first person plural auxiliaries also function as an infinitive.
+var infinitiveAuxiliaries = ["werden", "bekommen", "kriegen", "gehören", "erhalten"];
+/**
+ * Returns lists with auxiliaries.
+ * @returns {Array} The lists with auxiliaries.
+ */
+module.exports = function () {
+    return {
+        participleLike: participleLike,
+        otherAuxiliaries: otherAuxiliaries.concat(infinitiveAuxiliaries),
+        // These auxiliaries are filtered from the beginning and end of word combinations in the prominent words.
+        filteredAuxiliaries: participleLike.concat(otherAuxiliaries),
+        // These auxiliaries are not filtered from the beginning of word combinations in the prominent words.
+        infinitiveAuxiliaries: infinitiveAuxiliaries,
+        allAuxiliaries: participleLike.concat(otherAuxiliaries, infinitiveAuxiliaries)
+    };
+};
+
+
+
+},{}],307:[function(require,module,exports){
+"use strict";
+
+var arrayToRegex = require("../../../stringProcessing/createRegexFromArray.js");
+var auxiliaries = require("./auxiliaries.js")().allAuxiliaries;
+var getParticiples = require("./getParticiples.js");
+var determineSentencePartIsPassive = require("../../passiveVoice/determineSentencePartIsPassive.js");
+var auxiliaryRegex = arrayToRegex(auxiliaries);
+/**
+ * Determines whether a sentence part is passive.
+ *
+ * @param {string} sentencePartText The sentence part to determine voice for.
+ * @param {Array} auxiliaries A list with auxiliaries in this sentence part.
+ * @returns {boolean} Returns true if passive, otherwise returns false.
+ */
+module.exports = function (sentencePartText, auxiliaries) {
+    var passive = false;
+    var auxiliaryMatches = sentencePartText.match(auxiliaryRegex);
+    if (auxiliaryMatches === null) {
+        return passive;
+    }
+    var participles = getParticiples(sentencePartText, auxiliaries);
+    return determineSentencePartIsPassive(participles);
+};
+
+
+
+},{"../../../stringProcessing/createRegexFromArray.js":364,"../../passiveVoice/determineSentencePartIsPassive.js":338,"./auxiliaries.js":306,"./getParticiples.js":309}],308:[function(require,module,exports){
+"use strict";
+// This is a list of words that look like a participle, but aren't participles.
+
+module.exports = function () {
+    return ["geht", "gämsbart", "gemsbart", "geäst", "gebarungsbericht", "geähnelt", "geartet", "gebäudetrakt", "gebet", "gebiet", "gebietsrepräsentant", "gebildbrot", "gebirgsart", "gebirgsgrat", "gebirgskurort", "gebirgsluft", "gebirgsschlucht", "geblüt", "geblütsrecht", "gebohntkraut", "gebot", "gebrauchsgut", "gebrauchstext", "gebrauchsverlust", "gebrauchtgerät", "gebrauchtwagengeschäft", "gebrauchtwagenmarkt", "geburt", "geburtsakt", "geburtsgeschwulst", "geburtsgewicht", "geburtsort", "geburtsrecht", "geburtsstadt", "geburtstagsfest", "geckenart", "gedächtniskonzert", "gedächtniskunst", "gedächtnisverlust", "gedankenarmut", "gedankenexperiment", "gedankenflucht", "gedankengut", "gedankenschritt", "gedankenwelt", "gedenkkonzert", "gedicht", "geest", "gefahrengebiet", "gefahrenmoment", "gefahrenpunkt", "gefahrgut", "gefahrguttransport", "gefährt", "gefälligkeitsakzept", "gefallsucht", "gefangenenanstalt", "gefangenentransport", "gefängnisarzt", "gefängniskluft", "gefäßnaht", "gefecht", "gefechtsabschnitt", "gefechtsbereit", "gefechtsgebiet", "gefechtsgewicht", "gefechtshut", "gefechtsmast", "gefechtsmast", "geflecht", "geflügelaufzucht", "geflügelleberwurst", "geflügelmarkt", "geflügelmast", "geflügelpest", "geflügelsalat", "geflügelwurst", "geflügelzucht", "gefolgsleute", "gefrett", "gefriergerät", "gefriergut", "gefrierobst", "gefrierpunkt", "gefrierschnitt", "gefühlsarmut", "gefühlswelt", "gegenangebot", "gegenansicht", "gegenargument", "gegengeschäft", "gegengewalt", "gegengewicht", "gegenkandidat", "gegenkompliment", "gegenkonzept", "gegenlicht", "gegenmacht", "gegenpapst", "gegenpart", "gegensatzwort", "gegenstandpunkt", "gegenstandsgebiet", "gegenwart", "gegenwartskunst", "gegenwelt", "gegenwort", "gehaart", "gehandicapt", "gehandikapt", "geheimagent", "geheimbericht", "geheimdokument", "geheimfavorit", "geheimkontakt", "geheimkult", "geheimnisverrat", "geheimpolizist", "geheimrat", "geheimrezept", "geheimtext", "gehirnakrobat", "gehirngeschwulst", "gehirnhaut", "gehirnsandgeschwulst", "gehirntot", "gehirntrust", "gehöft", "gehörlosensport", "geigenkonzert", "geißbart", "geißblatt", "geißhirte", "geißhirt", "geist", "geisterfahrt", "geisterstadt", "geisterwelt", "geistesarmut", "geistesart", "geistesfürst", "geistesgegenwart", "geistesgestört", "geistesprodukt", "geistestat", "geistesverwandt", "geisteswelt", "geklüft", "geländefahrt", "geländeritt", "geländesport", "gelangweilt", "gelaut", "geläut", "gelblicht", "gelbrost", "gelbsucht", "gelbwurst", "gelcoat", "geldausgabeautomat", "geldautomat", "geldgeschäft", "geldheirat", "geldinstitut", "geldmarkt", "geldsurrogat", "geldtransport", "geldverlust", "gelehrtenstreit", "gelehrtenwelt", "geleit", "geleitboot", "geleitwort", "gelenkgicht", "gelenkwassersucht", "geleucht", "geltungssucht", "gelüst", "gemächt", "gemeindeamt", "gemeindebürgerrecht", "gemeindegut", "gemeindekirchenrat", "gemeindepräsident", "gemeinderat", "gemeingeist", "gemeingut", "gemeinschaftsgeist", "gemeinschaftsprojekt", "gemeinschaftsunterkunft", "gemengesaat", "gemüseart", "gemüsebeet", "gemüsegeschäft", "gemüsemarkt", "gemüsesaft", "gemüsesalat", "gemüsezucht", "gemüt", "gemütsarmut", "gemütsart", "gemütsathlet", "gemütskalt", "genausogut", "genausooft", "genausoweit", "gendefekt", "generalagent", "generalarzt", "generalat", "generalbassinstrument", "generalbaßinstrument", "generalbundesanwalt", "generalgouvernement", "generalintendant", "generalist", "generalkonsulat", "generalleutnant", "generaloberst", "generalresident", "generalsekretariat", "generalstaaten", "generalstaatsanwalt", "generalsuperintendent", "generalüberholt", "generalvikariat", "generalvollmacht", "generationenkonflikt", "generativist", "genist", "genitivattribut", "genitivobjekt", "genmanipuliert", "gennesaret", "genotzüchtigt", "gent", "genuasamt", "genussgift", "genußgift", "genusssucht", "genuss-sucht", "genußsucht", "genverändert", "geobiont", "geodät", "geografieunterricht", "geographieunterricht", "geokrat", "geophyt", "gepäckfracht", "geradeausfahrt", "geradesogut", "gefälligst", "gerant", "gerät", "gerätewart", "geräuschlaut", "gerbextrakt", "gericht", "gerichtsarzt", "gerichtsort", "gerichtspräsident", "germanisiert", "germanist", "germanistikstudent", "gerodelt", "geröllschicht", "geröllschutt", "geront", "gerontokrat", "gerstenbrot", "gerstensaft", "gerstenschrot", "gerücht", "gerüst", "gesamtansicht", "gesamtaspekt", "gesamtdurchschnitt", "gesamtgewicht", "gesamtgut", "gesamt", "gesamtklassement", "gesamtunterricht", "gesandtschaftsrat", "gesangskunst", "gesangspart", "gesangssolist", "gesangsunterricht", "gesangunterricht", "geschäft", "geschäftsaufsicht", "geschäftsbericht", "geschäftsgeist", "geschäftswelt", "geschenkpaket", "geschichtsunterricht", "geschicklichkeitstest", "geschicklichkeitstest", "geschlecht", "geschlechtsakt", "geschlechtslust", "geschlechtsprodukt", "geschlechtswort", "geschmackstest", "geschwindigkeitslimit", "geschworenengericht", "geschwulst", "gesellschaftsfahrt", "gesellschaftsschicht", "gesetzblatt", "gesetzespaket", "gesetzestext", "gesicht", "gesichtshaut", "gesichtspunkt", "gesichtsschnitt", "gesichtsverlust", "gespenst", "gespensterfurcht", "gespinst", "gespött", "gesprächstherapeut", "gestalt", "gestaltungselement", "gesteinsart", "gesteinschutt", "gesteinsschicht", "gestüt", "gestüthengst", "verantwortungsbewusst", "verantwortungsbewußt", "getast", "getränkeabholmarkt", "getränkeautomat", "getränkemarkt", "getreideart", "getreideaussaat", "getreideexport", "getreideimport", "getreideprodukt", "getreideschnitt", "getreidevorrat", "gewährfrist", "gewalt", "gewaltakt", "gewaltbereit", "gewalttat", "gesprächsbereit", "gewaltverbot", "gewaltverzicht", "gewässerbett", "gewässerwart", "gewebeschicht", "gewebsrest", "gewicht", "gewichtsprozent", "gewichtsverlust", "gewerbeamt", "gewerbearzt", "gewerbeaufsicht", "gewerbeaufsichtsamt", "gewerbegebiet", "gewerberecht", "gewerbsunzucht", "gewerkschaft", "gewerkschaftsjournalist", "gewindestift", "gewinnsucht", "gewinst", "gewissensangst", "gewissenskonflikt", "gewitterfront", "gewitterluft", "gewohnheitsrecht", "gewürzextrakt", "gewürzkraut", "gezücht", "erbbaurecht", "erbfolgerecht", "erbfolgestreit", "erbgut", "erbhofrecht", "erblast", "erbpacht", "erbrecht", "erbschaftsstreit", "erbsenkraut", "erbbedingt", "erbberechtigt", "erblasst", "erblaßt", "erbswurst", "erbverzicht", "erbwort", "erbzinsgut", "erdbebengebiet", "erdbeerjogurt", "erdbeerjoghurt", "erdbeeryoghurt", "erdbeerkompott", "erdbeerrot", "erdbeersaft", "erdbeersekt", "erdengut", "erdenlust", "erdfrucht", "erdgeist", "erdkundeunterricht", "erdlicht", "erdmittelpunkt", "erdnussfett", "erdölprodukt", "erdölproduzent", "erdsatellit", "erdschicht", "erdsicht", "erdtrabant", "erdverhaftet", "eremit", "erfahrungsbericht", "erfahrungshorizont", "erfahrungswelt", "erfindergeist", "erfolgsaussicht", "erfolgsorientiert", "erfolgsrezept", "erfolgsverwöhnt", "erfüllungsort", "erfurt", "ergänzungsheft", "ergänzungssport", "ergänzungstest", "ergostat", "ergotherapeut", "erholungsgebiet", "erholungsort", "erkundungsfahrt", "erlaucht", "erläuterungstext", "erlebnisbericht", "erlebnisorientiert", "erlebniswelt", "ernährungsamt", "ernst", "ernstgemeint", "ernteaussicht", "erntedankfest", "erntefest", "erntemonat", "ernteresultat", "eroberungsabsicht", "eroberungsgeist", "eroberungslust", "eroberungssucht", "eröffnungskonzert", "ersatzgeschwächt", "ersatzgut", "ersatzkandidat", "ersatzobjekt", "ersatzpräparat", "ersatzreservist", "ersatztorwart", "erscheinungsfest", "erscheinungsort", "erscheinungswelt", "erschließungsgebiet", "erst", "erstbundesligist", "erstfahrt", "erstgebot", "erstgeburt", "erstgeburtsrecht", "erstklassbillett", "erstklaßbillett", "erstkommunikant", "erstkonsument", "erstligist", "erstplatziert", "erstplaciert", "erstplaziert", "erstrecht", "ertragsaussicht", "erwartungsangst", "erwartungshorizont", "erwerbseinkünfte", "erythrit", "erythroblast", "erythrozyt", "erzählertalent", "erzählgut", "erzählkunst", "erzähltalent", "erzamt", "erzdemokrat", "erzeugungsschlacht", "erzfaschist", "erziehungsanstalt", "erziehungsberechtigt", "erziehungsinstitut", "erzkommunist", "erzprotestant", "veranlassungswort", "veranschaulicht", "veranschlagt", "verantwortungsbewusst", "verantwortungsbewußt", "veräußerungsverbot", "verbalist", "verbalkontrakt", "verbändestaat", "verbannungsort", "verbildlicht", "verbindungspunkt", "verbindungsstudent", "verbraucherkredit", "verbrauchermarkt", "verbrauchsgut", "verbrechernest", "verbrechersyndikat", "verbrecherwelt", "verbreitungsgebiet", "verbrennungsprodukt", "verdachtsmoment", "verdampfungsgerät", "verdauungstrakt", "verdikt", "veredelungsprodukt", "verehrerpost", "vereinspräsident", "vereinsrecht", "vereinssport", "verfahrensrecht", "verfassungsfahrt", "verfassungsgericht", "verfassungsrecht", "verfassungsstaat", "verfolgungsrecht", "verfremdungseffekt", "verfügungsgewalt", "verfügungsrecht", "verfügungsberechtigt", "verführungskunst", "vergegenständlicht", "vergegenwärtigt", "vergeltungsakt", "vergenossenschaftlicht", "vergissmeinnicht", "vergißmeinnicht", "vergleichsmonat", "vergleichsobjekt", "vergleichspunkt", "vergnügungsetablissement", "vergnügungsfahrt", "vergnügungssucht", "vergrößerungsgerät", "verhaltensgestört", "verhältniswahlrecht", "verhältniswort", "verhandlungsangebot", "verhandlungsbereit", "versandbereit", "verteidigungsbereit", "verhandlungsmandat", "verhandlungsort", "verhandlungspunkt", "verhöramt", "verist", "verjährungsfrist", "verkaufsagent", "verkaufsangebot", "verkaufsargument", "verkaufsautomat", "verkaufsfront", "verkaufshit", "verkaufsobjekt", "verkaufsorientiert", "verkaufspunkt", "verkehrsamt", "verkehrsdelikt", "verkehrsinfarkt", "verkehrsknotenpunkt", "verkehrslicht", "verkehrsnachricht", "verkehrspolizist", "verkehrsrecht", "verkehrsunterricht", "verkehrsverbot", "verklarungsbericht", "verknüpfungspunkt", "verkündungsblatt", "verlagsanstalt", "verlagsprospekt", "verlagsrecht", "verlagsrepräsentant", "verlagssignet", "verlust", "verlustgeschäft", "verlust", "verlustgeschäft", "verlustpunkt", "vermessungsamt", "vermittlungsamt", "vermögensrecht", "vermont", "vermummungsverbot", "verneinungswort", "vernichtungswut", "vernunft", "vernunftheirat", "verordnungsblatt", "verpackungsflut", "verpflichtungsgeschäft", "verrat", "versammlungsort", "versammlungsrecht", "versandgeschäft", "versandgut", "versart", "verschlusslaut", "verschnitt", "verschwendungssucht", "versehrtensport", "versicherungsagent", "versicherungsanstalt", "versicherungsrecht", "verskunst", "versöhnungsfest", "versorgungsamt", "versorgungsberechtigt", "versorgungsgebiet", "versorgungsgut", "versorgungsstaat", "verstakt", "verständigungsbereit", "verstellungskunst", "verstürznaht", "versuchsanstalt", "versuchsobjekt", "versuchsprojekt", "vertebrat", "verteidigungsbudget", "verteidigungsetat", "verteidigungspakt", "verteilungskonflikt", "verteilungszahlwort", "vertikalschnitt", "vertikutiergerät", "vertragsgerecht", "vertragspunkt", "vertragsrecht", "vertragsstaat", "vertragstext", "vertragswerkstatt", "vertrauensanwalt", "vertrauensarzt", "vertrauensverlust", "vertriebsrecht", "vervielfältigungsrecht", "vervielfältigungszahlwort", "verwaltungsakt", "verwaltungsgericht", "verwaltungsrat", "verwaltungsrecht", "verwundetentransport", "verzicht", "verzweiflungsakt", "verzweiflungstat", "entbindungsanstalt", "entdeckungsfahrt", "entenbrust", "entenfett", "entertainment", "enthusiast", "entlastungsmoment", "entlüftungsschacht", "entnazifizierungsgericht", "entoblast", "entoparasit", "entrechat", "entrefilet", "entrepot", "entscheidungsfurcht", "entscheidungsgewalt", "entscheidungsrecht", "entscheidungsschlacht", "entstehungsort", "entsteht", "entwässerungsschacht", "entwicklungsabschnitt", "entwicklungsinstitut", "entwicklungsprojekt", "entwicklungsschritt", "entziehungsanstalt", "zerat", "zerebrallaut", "zerfallsprodukt", "zergliederungskunst", "zerit", "zermatt", "zersetzungsprodukt", "zerstörungslust", "zerstörungswut", "zertifikat", "zerussit", "zervelat", "zervelatwurst", "beamtenrecht", "beamtenschicht", "beamtenstaat", "beat", "beatmungsgerät", "beaufort", "becherfrucht", "beckengurt", "becquereleffekt", "bedarfsgut", "bedenkfrist", "bedienungselement", "bedienungsgerät", "bedienungskomfort", "bedingtgut", "bedürfnisanstalt", "beeinflusst", "beeinflußt", "beerdigungsanstalt", "beerdigungsinstitut", "beerenfrucht", "beerenobst", "beerensaft", "beet", "befasst", "befaßt", "befehlsgewalt", "beförderungsentgelt", "beförderungsrecht", "begabungstest", "begegnungsort", "begleitinstrument", "begleittext", "begleitwort", "begnadigungsrecht", "begräbt", "begrenzungslicht", "begriffswelt", "begriffswort", "begrüßungswort", "behaviorist", "behebungsfrist", "behelfsausfahrt", "behelfsunterkunft", "behindertengerecht", "behindertensport", "behindertentransport", "behmlot", "beiblatt", "beiboot", "beignet", "beiheft", "beikost", "beilast", "beileidswort", "beinamputiert", "beinhaut", "beirat", "beirut", "beistandskredit", "beistandspakt", "beitritt", "beitrittsabsicht", "beitrittsgebiet", "beiwacht", "beiwort", "beizgerät", "bekehrungswut", "bekennergeist", "bekennermut", "bekleidungsamt", "bekommen", "belegarzt", "belegbett", "belegfrist", "belehrungssucht", "belemnit", "belesprit", "beleuchtungseffekt", "beleuchtungsgerät", "belfast", "belkantist", "belcantist", "belletrist", "bellizist", "belt", "benedikt", "benediktenkraut", "benefiziant", "benefiziat", "benefizkonzert", "beneluxstaat", "bentonit", "benzindunst", "beratungspunkt", "bereit", "bereicherungsabsicht", "bereitschaftsarzt", "bergamt", "bergeslast", "bergfahrt", "bergfest", "berggeist", "berggrat", "bergluft", "bergpredigt", "bergsport", "berg-und-Tal-Fahrt", "bergwacht", "bergwelt", "bericht", "berichtsmonat", "beritt", "bermudashort", "bernbiet", "berserkerwut", "berufsaussicht", "berufssoldat", "berufssport", "berufsstart", "berufstracht", "berufsverbot", "berufungsfrist", "berufungsgericht", "berufungsrecht", "berührungsangst", "berührungspunkt", "besanmast", "besatzungsgebiet", "besatzungsmacht", "besatzungsrecht", "besatzungssoldat", "besatzungsstatut", "beschaffungsamt", "beschäftigungstherapeut", "beschlächt", "beschlussrecht", "beschlußrecht", "beschmet", "beschneidungsfest", "beschlächt", "beschlussrecht", "beschlußrecht", "beschmet", "beschneidungsfest", "beschwerdefrist", "beschwerderecht", "beschwörungskunst", "beseitigungsanstalt", "besetzungsgebiet", "besetzungsmacht", "besetzungsstatut", "besichtigungsfahrt", "besitzrecht", "besoldungsrecht", "besprechungspunkt", "besserungsanstalt", "bestattungsinstitut", "bestimmungsort", "bestimmungswort", "bestinformiert", "bestqualifiziert", "bestrahlungsgerät", "bestrenommiert", "bestsituiert", "bestverkauft", "besucherrat", "besuchsrecht", "betpult", "betracht", "betreibungsamt", "betriebsarzt", "betriebsfest", "betriebsrat", "betriebswirt", "bett", "bettelmusikant", "bettelvogt", "bettstatt", "bettwurst", "beulenpest", "beutegut", "beutekunst", "beuterecht", "bevölkerungsschicht", "bewahranstalt", "bewährungsfrist", "bewegungsarmut", "beweislast", "bewußt", "bewusst", "beziehungsgeflecht", "bezirksamt", "bezirksarzt", "bezirksgericht", "bezirkskabinett", "bezirksschulrat", "bezirksstadt", "bezugspunkt", "bezugsrecht", "heraklit", "herat", "herbalist", "herbst", "herbstmonat", "herbstpunkt", "herdbuchzucht", "herdeninstinkt", "herfahrt", "heringsfilet", "heringssalat", "herkuleskraut", "herkunft", "herkunftsort", "hermaphrodit", "heroenkult", "heroinsucht", "heroldsamt", "heroldskunst", "herostrat", "herrenabfahrt", "herrenbrot", "herrendienst", "herrenfest", "herrenhut", "herrenrecht", "herrenschnitt", "herrenwelt", "herrgott", "herrnhut", "herrschaftsgebiet", "herrschaftsgewalt", "herrschaftsinstrument", "herrschergeschlecht", "herrscherkult", "herrschsucht", "herstellungsart", "herzacht", "herzangst", "herzblatt", "herzblut", "herzensangst", "herzensgut", "herzenslust", "herzenstrost", "herzgeliebt", "herzinfarkt", "herzinnenhaut", "herzklappendefekt", "herzogshut", "herzlichst", "herzpatient", "herzpunkt", "herzspezialist", "überbackt", "ueberbackt", "überbacktet", "ueberbacktet", "überbietet", "ueberbietet", "überbot", "ueberbot", "überbotet", "ueberbotet", "überbindet", "ueberbindet", "überbandet", "ueberbandet", "überbläst", "ueberblaest", "überbliest", "ueberbliest", "überbrät", "ueberbraet", "überbratet", "ueberbratet", "überbriet", "ueberbriet", "überbrietet", "ueberbrietet", "überbringt", "ueberbringt", "überbrachtet", "ueberbrachtet", "überbrücktet", "ueberbruecktet", "überbrühtet", "ueberbrühtet", "überbrülltet", "ueberbruelltet", "überbuchtet", "ueberbuchtet", "überbürdetet", "ueberbuerdetet", "überdecktet", "ueberdecktet", "überdehntet", "ueberdehntet", "überdenkt", "ueberdenkt", "überdachtet", "ueberdachtet", "überdosiertet", "ueberdosiertet", "überdrehtet", "ueberdrehtet", "überdrucktet", "ueberdrucktet", "überdüngtet", "ueberdüngtet", "übereignetet", "uebereignetet", "übereiltet", "uebereiltet", "übererfülltet", "uebererfuelltet", "überißt", "ueberisst", "ueberißt", "überisst", "überesst", "ueberesst", "übereßt", "uebereßt", "überaßt", "ueberaßt", "überesset", "ueberesset", "überäßet", "ueberaesset", "überfährt", "ueberfaehrt", "überfahrt", "ueberfahrt", "überfuhrt", "ueberfuhrt", "überfällt", "ueberfaellt", "überfallet", "ueberfallet", "überfielt", "ueberfielt", "überfielet", "ueberfielet", "überfängt", "ueberfaengt", "überfingt", "ueberfingt", "überfinget", "ueberfinget", "überfärbet", "ueberfaerbet", "überfettetet", "ueberfettetet", "überfirnisset", "ueberfirnisset", "überfirnißtet", "ueberfirnisstet", "überfischet", "ueberfischet", "überfischtet", "ueberfischtet", "überflanktet", "ueberflanktet", "überflanktet", "ueberflanktet", "überfliegt", "ueberfliegt", "überflieget", "ueberflieget", "überflöget", "ueberflöget", "überflösset", "ueberfloesset", "überflosst", "ueberflosst", "überfloßt", "ueberflosst", "überfließt", "ueberfliesst", "überflutetet", "ueberflutetet", "überformet", "ueberformet", "überformtet", "ueberformtet", "überfrachtetet", "ueberfrachtetet", "überfracht", "ueberfracht", "überfraget", "ueberfraget", "überfragtet", "ueberfragtet", "überfremdetet", "ueberfremdetet", "überfrisst", "ueberfrisst", "überfrißt", "ueberfrißt", "überfresst", "ueberfresst", "überfreßt", "ueberfreßt", "überfresset", "ueberfresset", "überfraßt", "ueberfraßt", "ueberfrasst", "überfräßet", "ueberfraesset", "überfriert", "ueberfriert", "überfrieret", "ueberfrieret", "überfrort", "ueberfrort", "überfröret", "ueberfroeret", "überfrört", "ueberfroert", "überführet", "ueberfuehret", "überführtet", "ueberfuehrtet", "überfüllet", "ueberfuellet", "übergibt", "uebergibt", "übergebt", "uebergebt", "übergebet", "uebergebet", "übergabt", "uebergabt", "übergäbet", "uebergaebet", "übergäbt", "uebergaebt", "übergeht", "uebergeht", "übergehet", "uebergehet", "übergingt", "uebergingt", "übergewichtetet", "uebergewichtetet", "übergießet", "uebergiesset", "übergießt", "uebergiesst", "übergösset", "uebergoesset", "übergosst", "uebergosst", "uebergoßt", "übergipset", "uebergipset", "übergipstet", "uebergipstet", "übergipset", "uebergipset", "übergipstet", "uebergipstet", "überglänzet", "ueberglaenzet", "überglänztet", "ueberglaenztet", "überglaset", "ueberglaset", "überglastet", "ueberglastet", "überglühet", "uebergluehet", "überglühtet", "uebergluehtet", "übergoldetet", "uebergoldetet", "übergraset", "uebergraset", "übergrastet", "uebergrastet", "übergrätschet", "uebergraetschet", "übergrätschtet", "uebergraetschtet", "übergreift", "uebergreift", "übergreifet", "uebergreifet", "übergrifft", "uebergrifft", "übergriffet", "uebergriffet", "übergreift", "uebergreift", "übergreifet", "uebergreifet", "übergriffet", "uebergriffet", "übergrifft", "uebergrifft", "übergrünet", "uebergruenet", "übergrüntet", "uebergruentet", "überhat", "ueberhat", "überhabt", "ueberhabt", "überhabet", "ueberhabet", "überhattet", "ueberhattet", "überhättet", "ueberhaettet", "überhält", "ueberhaelt", "überhaltet", "ueberhaltet", "überhielt", "ueberhielt", "überhieltet", "ueberhieltet", "überhändiget", "ueberhaendiget", "überhändigtet", "ueberhaendigtet", "überhängt", "ueberhaengt", "überhänget", "ueberhaenget", "überhingt", "ueberhingt", "überhinget", "ueberhinget", "überhängt", "ueberhaengt", "überhänget", "ueberhaenget", "überhängtet", "ueberhaengtet", "überhänget", "ueberhaenget", "überhängtet", "ueberhaengtet", "überhängt", "ueberhaengt", "überhänget", "ueberhaenget", "überhingt", "ueberhingt", "überhinget", "ueberhinget", "überhastetet", "ueberhastetet", "überhäufet", "ueberhaeufet", "überhäuftet", "ueberhaeuftet", "überhebt", "ueberhebt", "überhebet", "ueberhebet", "überhobt", "ueberhobt", "überhöbet", "ueberhoebet", "überhebt", "ueberhebt", "überhebet", "ueberhebet", "überhobt", "ueberhobt", "überheiztet", "ueberheiztet", "überheizet", "ueberheizet", "überhöhet", "ueberhoehet", "überhöhtet", "ueberhoehtet", "überhitzet", "ueberhitzet", "überhitztet", "ueberhitztet", "überholet", "ueberholet", "überholtet", "ueberholtet", "überhöret", "ueberhoeret", "überhörtet", "ueberhoertet", "überinterpretieret", "ueberinterpretieret", "überinterpretiertet", "ueberinterpretiertet", "überinterpretieret", "ueberinterpretieret", "überinterpretiertet", "ueberinterpretiertet", "überklebet", "ueberklebet", "überklebtet", "ueberklebtet", "überkleidetet", "ueberkleidetet", "überkochet", "ueberkochet", "überkochtet", "ueberkochtet", "überkommet", "ueberkommet", "überkamt", "ueberkamt", "überkämet", "ueberkaemet", "überkämt", "ueberkaemt", "überkompensieret", "ueberkompensieret", "überkompensiertet", "ueberkompensiertet", "überkreuzet", "ueberkreuzet", "überkreuztet", "ueberkreuztet", "überkronet", "ueberkronet", "überkrontet", "ueberkrontet", "überkrustetet", "ueberkrustetet", "überladet", "ueberladet", "überludet", "ueberludet", "überlüdet", "ueberluedet", "überlappet", "ueberlappet", "überlapptet", "ueberlapptet", "überlasset", "ueberlasset", "überlaßt", "ueberlaßt", "ueberlasst", "ueberlasst", "überlässt", "ueberlaesst", "überließt", "ueberließt", "ueberliesst", "überließet", "ueberließet", "ueberliesset", "überlastet", "ueberlastet", "überlastetet", "ueberlastetet", "überläuft", "ueberlaeuft", "überlaufet", "ueberlaufet", "überlieft", "ueberlieft", "überliefet", "ueberliefet", "überlebet", "ueberlebet", "überlebtet", "ueberlebtet", "überleget", "ueberleget", "überlegtet", "ueberlegtet", "überlegt", "ueberlegt", "überleget", "ueberleget", "überlegtet", "ueberlegtet", "überleitet", "ueberleitet", "überleitetet", "ueberleitetet", "überleset", "ueberleset", "überlast", "ueberlast", "überläset", "ueberlaeset", "überliegt", "ueberliegt", "überlieget", "ueberlieget", "überlagt", "ueberlagt", "überläget", "ueberlaeget", "überlägt", "ueberlaegt", "überlistetet", "ueberlistetet", "übermachet", "uebermachet", "übermachtet", "uebermachtet", "übermalet", "uebermalet", "übermaltet", "uebermaltet", "übermalet", "uebermalet", "übermaltet", "uebermaltet", "übermannet", "uebermannet", "übermanntet", "uebermanntet", "übermarchtet", "uebermarchtet", "übermarchet", "uebermarchet", "übermästetet", "uebermaestetet", "übermüdetet", "uebermuedetet", "übernächtiget", "uebernaechtiget", "übernächtigtet", "uebernaechtigtet", "übernimmt", "uebernimmt", "übernehmt", "uebernehmt", "übernehmet", "uebernehmet", "übernahmt", "uebernahmt", "übernähmet", "uebernaehmet", "übernähmt", "uebernaehmt", "übernutzet", "uebernutzet", "übernutztet", "uebernutztet", "überpflanzt", "ueberpflanzt", "überpflanzet", "ueberpflanzet", "überpflanztet", "ueberpflanztet", "überplanet", "ueberplanet", "überplantet", "ueberplantet", "überprüfet", "ueberpruefet", "überprüftet", "ueberprueftet", "überquillt", "ueberquillt", "überquellt", "ueberquellt", "überquellet", "ueberquellet", "überquollt", "ueberquollt", "überquöllet", "ueberquoellet", "ueberquöllt", "ueberquoellt", "überqueret", "ueberqueret", "überquertet", "ueberquertet", "überraget", "ueberraget", "überragtet", "ueberragtet", "überragt", "ueberragt", "überraget", "ueberraget", "überragtet", "ueberragtet", "überraschet", "ueberraschet", "überraschtet", "ueberraschtet", "überreagieret", "ueberreagieret", "überreagiertet", "ueberreagiertet", "überrechnetet", "ueberrechnetet", "überredetet", "ueberredetet", "überreglementieret", "ueberreglementieret", "überreglementiertet", "ueberreglementiertet", "überregulieret", "ueberregulieret", "überreguliertet", "ueberreguliertet", "überreichet", "ueberreichet", "überreichtet", "ueberreichtet", "überreißet", "ueberreisset", "überrisset", "ueberrisset", "überreitet", "ueberreitet", "überrittet", "ueberrittet", "überreizet", "ueberreizet", "überreiztet", "ueberreiztet", "überrennet", "ueberrennet", "überrenntet", "ueberrenntet", "überrollet", "ueberrollet", "überrolltet", "ueberrolltet", "überrundetet", "ueberrundetet", "übersäet", "uebersaeet", "übersätet", "uebersaetet", "übersättiget", "uebersaettiget", "uebersaettigtet", "übersättigtet", "überschattetet", "ueberschattetet", "überschätzet", "ueberschaetzet", "überschätztet", "ueberschaetztet", "überschauet", "ueberschauet", "überschautet", "ueberschautet", "überschäumt", "ueberschaeumt", "überschäumet", "ueberschaeumet", "überschäumtet", "ueberschaeumtet", "überschießt", "ueberschießt", "ueberschiesst", "überschießet", "ueberschiesset", "ueberschießet", "überschosst", "ueberschosst", "überschosst", "ueberschosst", "überschoßt", "ueberschoßt", "überschösset", "ueberschoesset", "überschlafet", "ueberschlafet", "überschliefet", "ueberschliefet", "überschlieft", "ueberschlieft", "überschlaget", "ueberschlaget", "überschlüget", "ueberschlueget", "überschlügt", "ueberschluegt", "überschlägt", "ueberschlaegt", "überschlagt", "ueberschlagt", "überschlaget", "ueberschlaget", "überschlugt", "ueberschlugt", "überschlüget", "ueberschlueget", "überschlügt", "ueberschluegt", "überschlägt", "ueberschlaegt", "überschlagt", "ueberschlagt", "überschlaget", "ueberschlaget", "überschlugt", "ueberschlugt", "überschlüget", "ueberschlueget", "ueberschluegt", "überschlügt", "überschließt", "ueberschließt", "ueberschliesst", "überschließet", "ueberschliesset", "überschlosst", "ueberschlosst", "überschloßt", "ueberschlosst", "überschlösset", "ueberschloesset", "überschmieret", "ueberschmieret", "überschmiertet", "ueberschmiertet", "überschminket", "ueberschminket", "überschminktet", "ueberschminktet", "überschnappt", "ueberschnappt", "überschnappet", "ueberschnappet", "überschnapptet", "ueberschnapptet", "überschneidet", "ueberschneidet", "überschnittet", "ueberschnittet", "überschneiet", "ueberschneiet", "überschneitet", "ueberschneitet", "überschreibet", "ueberschreibet", "überschriebet", "ueberschriebet", "überschriebt", "ueberschriebt", "überschreiet", "ueberschreiet", "überschrieet", "ueberschrieet", "überschriet", "ueberschriet", "überschriet", "ueberschriet", "überschreitet", "ueberschreitet", "überschritt", "ueberschritt", "überschrittet", "ueberschrittet", "überschuldetet", "ueberschuldetet", "überschüttet", "ueberschüttet", "überschüttetet", "ueberschüttetet", "überschüttetet", "ueberschuettetet", "überschwappt", "ueberschwappt", "überschwappet", "ueberschwappet", "überschwapptet", "ueberschwapptet", "überschwemmet", "ueberschwemmet", "überschwemmtet", "ueberschwemmtet", "überschwinget", "ueberschwinget", "überschwangt", "ueberschwangt", "überschwänget", "ueberschwaenget", "überschwängt", "ueberschwaengt", "übersieht", "uebersieht", "überseht", "ueberseht", "übersehet", "uebersehet", "übersaht", "uebersaht", "übersähet", "uebersaehet", "übersäht", "uebersaeht", "übersähet", "uebersaehet", "übersäht", "uebersaeht", "übersandtet", "uebersandtet", "übersendetet", "uebersendetet", "übersensibilisieret", "uebersensibilisieret", "übersensibilisiertet", "uebersensibilisiertet", "übersetzt", "uebersetzt", "übersetzet", "uebersetzet", "übersetztet", "uebersetztet", "übersetzet", "uebersetzet", "übersetztet", "uebersetztet", "übersiedet", "uebersiedet", "übersiedetet", "uebersiedetet", "übersott", "uebersott", "übersottet", "uebersottet", "übersöttet", "uebersoettet", "übersiedet", "uebersiedet", "übersiedetet", "uebersiedetet", "übersott", "uebersott", "übersottet", "uebersottet", "übersöttet", "uebersoettet", "überspannet", "ueberspannet", "überspanntet", "ueberspanntet", "überspielet", "ueberspielet", "überspieltet", "ueberspieltet", "überspinnet", "ueberspinnet", "überspännet", "ueberspaennet", "überspännt", "ueberspaennt", "überspönnet", "ueberspoennet", "überspönnt", "ueberspoennt", "überspitzet", "ueberspitzet", "überspitztet", "ueberspitztet", "übersprechet", "uebersprechet", "überspracht", "ueberspracht", "übersprächet", "ueberspraechet", "übersprächt", "ueberspraecht", "überspringt", "ueberspringt", "überspringet", "ueberspringet", "überspränget", "ueberspraenget", "übersprängt", "ueberspraengt", "überspringt", "ueberspringt", "überspringet", "ueberspringet", "übersprangt", "uebersprangt", "überspränget", "ueberspraenget", "übersprängt", "ueberspraengt", "übersprühet", "ueberspruehet", "übersprühtet", "ueberspruehtet", "übersprühet", "ueberspruehet", "übersprühtet", "ueberspruehtet", "überspület", "ueberspuelet", "überspültet", "überspueltet", "übersticht", "uebersticht", "überstecht", "ueberstecht", "überstechet", "ueberstechet", "überstacht", "ueberstacht", "überstächet", "ueberstaechet", "überstächt", "ueberstaecht", "übersticht", "uebersticht", "überstecht", "ueberstecht", "überstechet", "ueberstechet", "überstacht", "ueberstacht", "überstächet", "ueberstaechet", "überstächt", "ueberstaecht", "überstehet", "ueberstehet", "überstandet", "überstandet", "überständet", "überstaendet", "überstündet", "überstuendet", "übersteht", "uebersteht", "überstehet", "ueberstehet", "überstandet", "ueberstandet", "überständet", "ueberstaendet", "überstündet", "ueberstuendet", "übersteiget", "uebersteiget", "überstieget", "ueberstieget", "überstiegt", "ueberstiegt", "übersteigt", "uebersteigt", "übersteiget", "uebersteiget", "überstiegt", "ueberstiegt", "überstieget", "ueberstieget", "überstellet", "ueberstellet", "überstilisieret", "ueberstilisieret", "überstimmet", "ueberstimmet", "überstimmtet", "ueberstimmtet", "überstrahlet", "ueberstrahlet", "überstrahltet", "ueberstrahltet", "überstrapazieret", "ueberstrapazieret", "überstrapaziertet", "ueberstrapaziertet", "überstreicht", "ueberstreicht", "überstreichet", "ueberstreichet", "überstricht", "ueberstricht", "überstrichet", "ueberstrichet", "überstreichet", "ueberstreichet", "überstrichet", "ueberstrichet", "überstricht", "ueberstricht", "überstreift", "ueberstreift", "überstreifet", "ueberstreifet", "überstreiftet", "ueberstreiftet", "überstreuet", "ueberstreuet", "überstreutet", "ueberstreutet", "überströmet", "ueberstroemet", "überströmtet", "überstroemtet", "überstülpt", "überstuelpt", "ueberstuelpet", "überstülpet", "überstülptet", "ueberstuelptet", "überstürzet", "ueberstuerzet", "überstürztet", "ueberstuerztet", "übertäubet", "uebertaeubet", "übertäubtet", "uebertaeubtet", "übertauchet", "uebertauchet", "übertauchtet", "uebertauchtet", "übertippet", "uebertippet", "übertipptet", "uebertipptet", "übertönet", "uebertoenet", "übertöntet", "uebertoentet", "übertouret", "uebertouret", "übertourtet", "uebertourtet", "überträgt", "uebertraegt", "übertragt", "uebertragt", "übertraget", "uebertraget", "übertrugt", "uebertrugt", "übertrüget", "uebertrueget", "übertrügt", "uebertruegt", "übertrainieret", "uebertrainieret", "übertrainiertet", "uebertrainiertet", "übertreffet", "uebertreffet", "übertraft", "uebertraft", "überträfet", "uebertraefet", "überträft", "uebertraeft", "übertreibt", "uebertreibt", "übertreibet", "uebertreibet", "übertriebet", "uebertriebet", "übertriebt", "uebertriebt", "übertritt", "uebertritt", "übertretet", "uebertretet", "übertrat", "uebertrat", "übertratet", "uebertratet", "überträtet", "uebertraetet", "übertritt", "uebertritt", "übertretet", "uebertretet", "übertrat", "uebertrat", "übertratet", "uebertratet", "überträtet", "uebertraetet", "übertrumpfet", "uebertrumpfet", "übertrumpftet", "uebertrumpftet", "übertünchet", "uebertuenchet", "übertünchtet", "überversorget", "ueberversorget", "überversorgtet", "ueberversorgtet", "übervorteilet", "uebervorteilet", "übervorteiltet", "uebervorteiltet", "überwachet", "ueberwachet", "überwachtet", "ueberwachtet", "überwachset", "ueberwachset", "überwüchset", "ueberwuechset", "überwallt", "ueberwallt", "überwallet", "ueberwallet", "überwalltet", "ueberwalltet", "überwallet", "ueberwallet", "überwalltet", "ueberwalltet", "überwältiget", "ueberwaeltiget", "überwältigtet", "ueberwaeltigtet", "überwalzet", "ueberwalzet", "überwalztet", "ueberwalztet", "überwälzet", "ueberwaelzet", "überwälztet", "ueberwaelztet", "überwechtetet", "ueberwechtetet", "überwächtetet", "ueberwaechtetet", "überwehet", "ueberwehet", "überwehtet", "ueberwehtet", "überweidetet", "ueberweidetet", "überweist", "ueberweist", "überweiset", "ueberweiset", "überwiest", "ueberwiest", "überwieset", "ueberwieset", "überweißet", "ueberweisset", "überweißtet", "ueberweisstet", "überwirft", "ueberwirft", "überwerft", "ueberwerft", "überwerfet", "ueberwerfet", "überwarft", "ueberwarft", "überwürfet", "ueberwuerfet", "überwürft", "ueberwuerft", "überwirft", "ueberwirft", "überwerft", "ueberwerft", "überwerfet", "ueberwerfet", "überwarft", "ueberwarft", "überwürfet", "ueberwuerfet", "überwürft", "ueberwuerft", "überwertetet", "ueberwertetet", "überwiegt", "ueberwiegt", "überwieget", "ueberwieget", "überwogt", "ueberwogt", "überwöget", "ueberwoeget", "überwögt", "ueberwoegt", "überwindet", "ueberwindet", "überwandet", "ueberwandet", "überwändet", "ueberwaendet", "überwölbet", "ueberwoelbet", "überwölbtet", "ueberwoelbtet", "ueberwuerzet", "ueberwuerzet", "überwürztet", "ueberwuerztet", "überzahlet", "ueberzahlet", "überzahltet", "ueberzahltet", "überzahltet", "ueberzahltet", "überzeichnetet", "ueberzeichnetet", "überzeuget", "ueberzeuget", "überzeugtet", "ueberzeugtet", "überzieht", "ueberzieht", "überziehet", "ueberziehet", "überzogt", "ueberzogt", "überzöget", "ueberzoeget", "überzögt", "ueberzoegt", "überzüchtetet", "ueberzuechtetet", "überangebot", "ueberangebot", "überbrückungskredit", "ueberbrückungskredit", "übereinkunft", "uebereinkunft", "überfahrt", "ueberfahrt", "überflugverbot", "ueberflugverbot", "überflutungsgebiet", "ueberflutungsgebiet", "überfracht", "ueberfracht", "überfrucht", "ueberfrucht", "übergangslaut", "uebergangslaut", "übergebot", "uebergebot", "übergewicht", "uebergewicht", "überhangmandat", "ueberhangmandat", "überhangsrecht", "ueberhangsrecht", "überholverbot", "ueberholverbot", "überladenheit", "ueberladenheit", "überlandfahrt", "ueberlandfahrt", "überlast", "ueberlast", "überlegenheit", "ueberlegenheit", "übermacht", "uebermacht", "übermaßverbot", "uebermassverbot", "übermut", "uebermut", "überraschungseffekt", "ueberraschungseffekt", "überraschungsgast", "ueberraschungsgast", "überraschungsmoment", "ueberraschungsmoment", "überredungskunst", "ueberredungskunst", "überreiztheit", "ueberreiztheit", "überrest", "ueberrest", "überschicht", "ueberschicht", "überschnitt", "ueberschnitt", "überschrift", "ueberschrift", "überschwemmungsgebiet", "ueberschwemmungsgebiet", "überseegebiet", "ueberseegebiet", "überseegeschäft", "ueberseegeschaeft", "übersicht", "uebersicht", "überspanntheit", "ueberspanntheit", "überspitztheit", "ueberspitztheit", "übertragungsrecht", "uebertragungsrecht", "übertriebenheit", "uebertriebenheit", "übertritt", "uebertritt", "überwachungsdienst", "ueberwachungsdienst", "überwachungsstaat", "ueberwachungsstaat", "überwelt", "ueberwelt", "überwinterungsgebiet", "ueberwinterungsgebiet", "überzeugtheit", "ueberzeugtheit", "überzeugungstat", "ueberzeugungstat", "überziehungskredit", "ueberziehungskredit"];
+};
+
+
+
+},{}],309:[function(require,module,exports){
+"use strict";
+
+var getWords = require("../../../stringProcessing/getWords.js");
+var regexFunction = require("./regex.js")();
+var verbsBeginningWithErVerEntBeZerHerUber = regexFunction.verbsBeginningWithErVerEntBeZerHerUber;
+var verbsBeginningWithGe = regexFunction.verbsBeginningWithGe;
+var verbsWithGeInMiddle = regexFunction.verbsWithGeInMiddle;
+var verbsWithErVerEntBeZerHerUberInMiddle = regexFunction.verbsWithErVerEntBeZerHerUberInMiddle;
+var verbsEndingWithIert = regexFunction.verbsEndingWithIert;
+var irregularParticiples = require("./irregulars.js")();
+var GermanParticiple = require("./GermanParticiple.js");
+var forEach = require("lodash/forEach");
+var includes = require("lodash/includes");
+/**
+ * Creates GermanParticiple Objects for the participles found in a sentence.
+ *
+ * @param {string} sentencePartText The sentence to finds participles in.
+ * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
+ * @returns {Array} The array with GermanParticiple Objects.
+ */
+module.exports = function (sentencePartText, auxiliaries) {
+    var words = getWords(sentencePartText);
+    var foundParticiples = [];
+    forEach(words, function (word) {
+        if (verbsBeginningWithGe(word).length !== 0) {
+            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "ge at beginning" }));
+            return;
+        }
+        if (verbsWithGeInMiddle(word).length !== 0) {
+            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "ge in the middle" }));
+            return;
+        }
+        if (verbsBeginningWithErVerEntBeZerHerUber(word).length !== 0) {
+            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her at beginning" }));
+            return;
+        }
+        if (verbsWithErVerEntBeZerHerUberInMiddle(word).length !== 0) {
+            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her in the middle" }));
+            return;
+        }
+        if (verbsEndingWithIert(word).length !== 0) {
+            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "iert at the end" }));
+        }
+        if (includes(irregularParticiples, word)) {
+            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "irregular" }));
+        }
+    });
+    return foundParticiples;
+};
+
+
+
+},{"../../../stringProcessing/getWords.js":376,"./GermanParticiple.js":304,"./irregulars.js":311,"./regex.js":312,"lodash/forEach":167,"lodash/includes":173}],310:[function(require,module,exports){
+"use strict";
+
+var stopwords = require("./stopwords.js")();
+var arrayToRegex = require("../../../stringProcessing/createRegexFromArray.js");
+var stripSpaces = require("../../../stringProcessing/stripSpaces.js");
 var SentencePart = require("./SentencePart.js");
-var auxiliaries = require("./passivevoice/auxiliaries.js")().allAuxiliaries;
+var auxiliaries = require("./auxiliaries.js")().allAuxiliaries;
 var forEach = require("lodash/forEach");
 var isEmpty = require("lodash/isEmpty");
 var map = require("lodash/map");
@@ -16501,97 +16510,7 @@ module.exports = function (sentence) {
 
 
 
-},{"../../stringProcessing/createRegexFromArray.js":352,"../../stringProcessing/stripSpaces.js":380,"./SentencePart.js":302,"./passivevoice/auxiliaries.js":307,"./passivevoice/stopwords.js":312,"lodash/forEach":167,"lodash/isEmpty":181,"lodash/map":195}],307:[function(require,module,exports){
-"use strict";
-// These passive auxiliaries start with be-, ge- or er- en and with -t, and therefore look like a participle.
-
-var participleLike = ["bekommst", "bekommt", "bekamst", "bekommest", "bekommet", "bekämest", "bekämst", "bekämet", "bekämt", "gekriegt", "gehörst", "gehört", "gehörtest", "gehörtet", "gehörest", "gehöret", "erhältst", "erhält", "erhaltet", "erhielt", "erhieltest", "erhieltst", "erhieltet", "erhaltest"];
-// These are all other passive auxiliaries.
-var otherAuxiliaries = ["werde", "wirst", "wird", "werden", "werdet", "wurde", "ward", "wurdest", "wardst", "wurden", "wurdet", "worden", "werdest", "würde", "würdest", "würden", "würdet", "bekomme", "bekommen", "bekam", "bekamen", "bekäme", "bekämen", "kriege", "kriegst", "kriegt", "kriegen", "kriegte", "kriegtest", "kriegten", "kriegtet", "kriegest", "krieget", "gehöre", "gehören", "gehörte", "gehörten", "erhalte", "erhalten", "erhielten", "erhielte"];
-// These first person plural auxiliaries also function as an infinitive.
-var infinitiveAuxiliaries = ["werden", "bekommen", "kriegen", "gehören", "erhalten"];
-/**
- * Returns lists with auxiliaries.
- * @returns {Array} The lists with auxiliaries.
- */
-module.exports = function () {
-    return {
-        participleLike: participleLike,
-        otherAuxiliaries: otherAuxiliaries.concat(infinitiveAuxiliaries),
-        // These auxiliaries are filtered from the beginning and end of word combinations in the prominent words.
-        filteredAuxiliaries: participleLike.concat(otherAuxiliaries),
-        // These auxiliaries are not filtered from the beginning of word combinations in the prominent words.
-        infinitiveAuxiliaries: infinitiveAuxiliaries,
-        allAuxiliaries: participleLike.concat(otherAuxiliaries, infinitiveAuxiliaries)
-    };
-};
-
-
-
-},{}],308:[function(require,module,exports){
-"use strict";
-// This is a list of words that look like a participle, but aren't participles.
-
-module.exports = function () {
-    return ["geht", "gämsbart", "gemsbart", "geäst", "gebarungsbericht", "geähnelt", "geartet", "gebäudetrakt", "gebet", "gebiet", "gebietsrepräsentant", "gebildbrot", "gebirgsart", "gebirgsgrat", "gebirgskurort", "gebirgsluft", "gebirgsschlucht", "geblüt", "geblütsrecht", "gebohntkraut", "gebot", "gebrauchsgut", "gebrauchstext", "gebrauchsverlust", "gebrauchtgerät", "gebrauchtwagengeschäft", "gebrauchtwagenmarkt", "geburt", "geburtsakt", "geburtsgeschwulst", "geburtsgewicht", "geburtsort", "geburtsrecht", "geburtsstadt", "geburtstagsfest", "geckenart", "gedächtniskonzert", "gedächtniskunst", "gedächtnisverlust", "gedankenarmut", "gedankenexperiment", "gedankenflucht", "gedankengut", "gedankenschritt", "gedankenwelt", "gedenkkonzert", "gedicht", "geest", "gefahrengebiet", "gefahrenmoment", "gefahrenpunkt", "gefahrgut", "gefahrguttransport", "gefährt", "gefälligkeitsakzept", "gefallsucht", "gefangenenanstalt", "gefangenentransport", "gefängnisarzt", "gefängniskluft", "gefäßnaht", "gefecht", "gefechtsabschnitt", "gefechtsbereit", "gefechtsgebiet", "gefechtsgewicht", "gefechtshut", "gefechtsmast", "gefechtsmast", "geflecht", "geflügelaufzucht", "geflügelleberwurst", "geflügelmarkt", "geflügelmast", "geflügelpest", "geflügelsalat", "geflügelwurst", "geflügelzucht", "gefolgsleute", "gefrett", "gefriergerät", "gefriergut", "gefrierobst", "gefrierpunkt", "gefrierschnitt", "gefühlsarmut", "gefühlswelt", "gegenangebot", "gegenansicht", "gegenargument", "gegengeschäft", "gegengewalt", "gegengewicht", "gegenkandidat", "gegenkompliment", "gegenkonzept", "gegenlicht", "gegenmacht", "gegenpapst", "gegenpart", "gegensatzwort", "gegenstandpunkt", "gegenstandsgebiet", "gegenwart", "gegenwartskunst", "gegenwelt", "gegenwort", "gehaart", "gehandicapt", "gehandikapt", "geheimagent", "geheimbericht", "geheimdokument", "geheimfavorit", "geheimkontakt", "geheimkult", "geheimnisverrat", "geheimpolizist", "geheimrat", "geheimrezept", "geheimtext", "gehirnakrobat", "gehirngeschwulst", "gehirnhaut", "gehirnsandgeschwulst", "gehirntot", "gehirntrust", "gehöft", "gehörlosensport", "geigenkonzert", "geißbart", "geißblatt", "geißhirte", "geißhirt", "geist", "geisterfahrt", "geisterstadt", "geisterwelt", "geistesarmut", "geistesart", "geistesfürst", "geistesgegenwart", "geistesgestört", "geistesprodukt", "geistestat", "geistesverwandt", "geisteswelt", "geklüft", "geländefahrt", "geländeritt", "geländesport", "gelangweilt", "gelaut", "geläut", "gelblicht", "gelbrost", "gelbsucht", "gelbwurst", "gelcoat", "geldausgabeautomat", "geldautomat", "geldgeschäft", "geldheirat", "geldinstitut", "geldmarkt", "geldsurrogat", "geldtransport", "geldverlust", "gelehrtenstreit", "gelehrtenwelt", "geleit", "geleitboot", "geleitwort", "gelenkgicht", "gelenkwassersucht", "geleucht", "geltungssucht", "gelüst", "gemächt", "gemeindeamt", "gemeindebürgerrecht", "gemeindegut", "gemeindekirchenrat", "gemeindepräsident", "gemeinderat", "gemeingeist", "gemeingut", "gemeinschaftsgeist", "gemeinschaftsprojekt", "gemeinschaftsunterkunft", "gemengesaat", "gemüseart", "gemüsebeet", "gemüsegeschäft", "gemüsemarkt", "gemüsesaft", "gemüsesalat", "gemüsezucht", "gemüt", "gemütsarmut", "gemütsart", "gemütsathlet", "gemütskalt", "genausogut", "genausooft", "genausoweit", "gendefekt", "generalagent", "generalarzt", "generalat", "generalbassinstrument", "generalbaßinstrument", "generalbundesanwalt", "generalgouvernement", "generalintendant", "generalist", "generalkonsulat", "generalleutnant", "generaloberst", "generalresident", "generalsekretariat", "generalstaaten", "generalstaatsanwalt", "generalsuperintendent", "generalüberholt", "generalvikariat", "generalvollmacht", "generationenkonflikt", "generativist", "genist", "genitivattribut", "genitivobjekt", "genmanipuliert", "gennesaret", "genotzüchtigt", "gent", "genuasamt", "genussgift", "genußgift", "genusssucht", "genuss-sucht", "genußsucht", "genverändert", "geobiont", "geodät", "geografieunterricht", "geographieunterricht", "geokrat", "geophyt", "gepäckfracht", "geradeausfahrt", "geradesogut", "gefälligst", "gerant", "gerät", "gerätewart", "geräuschlaut", "gerbextrakt", "gericht", "gerichtsarzt", "gerichtsort", "gerichtspräsident", "germanisiert", "germanist", "germanistikstudent", "gerodelt", "geröllschicht", "geröllschutt", "geront", "gerontokrat", "gerstenbrot", "gerstensaft", "gerstenschrot", "gerücht", "gerüst", "gesamtansicht", "gesamtaspekt", "gesamtdurchschnitt", "gesamtgewicht", "gesamtgut", "gesamt", "gesamtklassement", "gesamtunterricht", "gesandtschaftsrat", "gesangskunst", "gesangspart", "gesangssolist", "gesangsunterricht", "gesangunterricht", "geschäft", "geschäftsaufsicht", "geschäftsbericht", "geschäftsgeist", "geschäftswelt", "geschenkpaket", "geschichtsunterricht", "geschicklichkeitstest", "geschicklichkeitstest", "geschlecht", "geschlechtsakt", "geschlechtslust", "geschlechtsprodukt", "geschlechtswort", "geschmackstest", "geschwindigkeitslimit", "geschworenengericht", "geschwulst", "gesellschaftsfahrt", "gesellschaftsschicht", "gesetzblatt", "gesetzespaket", "gesetzestext", "gesicht", "gesichtshaut", "gesichtspunkt", "gesichtsschnitt", "gesichtsverlust", "gespenst", "gespensterfurcht", "gespinst", "gespött", "gesprächstherapeut", "gestalt", "gestaltungselement", "gesteinsart", "gesteinschutt", "gesteinsschicht", "gestüt", "gestüthengst", "verantwortungsbewusst", "verantwortungsbewußt", "getast", "getränkeabholmarkt", "getränkeautomat", "getränkemarkt", "getreideart", "getreideaussaat", "getreideexport", "getreideimport", "getreideprodukt", "getreideschnitt", "getreidevorrat", "gewährfrist", "gewalt", "gewaltakt", "gewaltbereit", "gewalttat", "gesprächsbereit", "gewaltverbot", "gewaltverzicht", "gewässerbett", "gewässerwart", "gewebeschicht", "gewebsrest", "gewicht", "gewichtsprozent", "gewichtsverlust", "gewerbeamt", "gewerbearzt", "gewerbeaufsicht", "gewerbeaufsichtsamt", "gewerbegebiet", "gewerberecht", "gewerbsunzucht", "gewerkschaft", "gewerkschaftsjournalist", "gewindestift", "gewinnsucht", "gewinst", "gewissensangst", "gewissenskonflikt", "gewitterfront", "gewitterluft", "gewohnheitsrecht", "gewürzextrakt", "gewürzkraut", "gezücht", "erbbaurecht", "erbfolgerecht", "erbfolgestreit", "erbgut", "erbhofrecht", "erblast", "erbpacht", "erbrecht", "erbschaftsstreit", "erbsenkraut", "erbbedingt", "erbberechtigt", "erblasst", "erblaßt", "erbswurst", "erbverzicht", "erbwort", "erbzinsgut", "erdbebengebiet", "erdbeerjogurt", "erdbeerjoghurt", "erdbeeryoghurt", "erdbeerkompott", "erdbeerrot", "erdbeersaft", "erdbeersekt", "erdengut", "erdenlust", "erdfrucht", "erdgeist", "erdkundeunterricht", "erdlicht", "erdmittelpunkt", "erdnussfett", "erdölprodukt", "erdölproduzent", "erdsatellit", "erdschicht", "erdsicht", "erdtrabant", "erdverhaftet", "eremit", "erfahrungsbericht", "erfahrungshorizont", "erfahrungswelt", "erfindergeist", "erfolgsaussicht", "erfolgsorientiert", "erfolgsrezept", "erfolgsverwöhnt", "erfüllungsort", "erfurt", "ergänzungsheft", "ergänzungssport", "ergänzungstest", "ergostat", "ergotherapeut", "erholungsgebiet", "erholungsort", "erkundungsfahrt", "erlaucht", "erläuterungstext", "erlebnisbericht", "erlebnisorientiert", "erlebniswelt", "ernährungsamt", "ernst", "ernstgemeint", "ernteaussicht", "erntedankfest", "erntefest", "erntemonat", "ernteresultat", "eroberungsabsicht", "eroberungsgeist", "eroberungslust", "eroberungssucht", "eröffnungskonzert", "ersatzgeschwächt", "ersatzgut", "ersatzkandidat", "ersatzobjekt", "ersatzpräparat", "ersatzreservist", "ersatztorwart", "erscheinungsfest", "erscheinungsort", "erscheinungswelt", "erschließungsgebiet", "erst", "erstbundesligist", "erstfahrt", "erstgebot", "erstgeburt", "erstgeburtsrecht", "erstklassbillett", "erstklaßbillett", "erstkommunikant", "erstkonsument", "erstligist", "erstplatziert", "erstplaciert", "erstplaziert", "erstrecht", "ertragsaussicht", "erwartungsangst", "erwartungshorizont", "erwerbseinkünfte", "erythrit", "erythroblast", "erythrozyt", "erzählertalent", "erzählgut", "erzählkunst", "erzähltalent", "erzamt", "erzdemokrat", "erzeugungsschlacht", "erzfaschist", "erziehungsanstalt", "erziehungsberechtigt", "erziehungsinstitut", "erzkommunist", "erzprotestant", "veranlassungswort", "veranschaulicht", "veranschlagt", "verantwortungsbewusst", "verantwortungsbewußt", "veräußerungsverbot", "verbalist", "verbalkontrakt", "verbändestaat", "verbannungsort", "verbildlicht", "verbindungspunkt", "verbindungsstudent", "verbraucherkredit", "verbrauchermarkt", "verbrauchsgut", "verbrechernest", "verbrechersyndikat", "verbrecherwelt", "verbreitungsgebiet", "verbrennungsprodukt", "verdachtsmoment", "verdampfungsgerät", "verdauungstrakt", "verdikt", "veredelungsprodukt", "verehrerpost", "vereinspräsident", "vereinsrecht", "vereinssport", "verfahrensrecht", "verfassungsfahrt", "verfassungsgericht", "verfassungsrecht", "verfassungsstaat", "verfolgungsrecht", "verfremdungseffekt", "verfügungsgewalt", "verfügungsrecht", "verfügungsberechtigt", "verführungskunst", "vergegenständlicht", "vergegenwärtigt", "vergeltungsakt", "vergenossenschaftlicht", "vergissmeinnicht", "vergißmeinnicht", "vergleichsmonat", "vergleichsobjekt", "vergleichspunkt", "vergnügungsetablissement", "vergnügungsfahrt", "vergnügungssucht", "vergrößerungsgerät", "verhaltensgestört", "verhältniswahlrecht", "verhältniswort", "verhandlungsangebot", "verhandlungsbereit", "versandbereit", "verteidigungsbereit", "verhandlungsmandat", "verhandlungsort", "verhandlungspunkt", "verhöramt", "verist", "verjährungsfrist", "verkaufsagent", "verkaufsangebot", "verkaufsargument", "verkaufsautomat", "verkaufsfront", "verkaufshit", "verkaufsobjekt", "verkaufsorientiert", "verkaufspunkt", "verkehrsamt", "verkehrsdelikt", "verkehrsinfarkt", "verkehrsknotenpunkt", "verkehrslicht", "verkehrsnachricht", "verkehrspolizist", "verkehrsrecht", "verkehrsunterricht", "verkehrsverbot", "verklarungsbericht", "verknüpfungspunkt", "verkündungsblatt", "verlagsanstalt", "verlagsprospekt", "verlagsrecht", "verlagsrepräsentant", "verlagssignet", "verlust", "verlustgeschäft", "verlust", "verlustgeschäft", "verlustpunkt", "vermessungsamt", "vermittlungsamt", "vermögensrecht", "vermont", "vermummungsverbot", "verneinungswort", "vernichtungswut", "vernunft", "vernunftheirat", "verordnungsblatt", "verpackungsflut", "verpflichtungsgeschäft", "verrat", "versammlungsort", "versammlungsrecht", "versandgeschäft", "versandgut", "versart", "verschlusslaut", "verschnitt", "verschwendungssucht", "versehrtensport", "versicherungsagent", "versicherungsanstalt", "versicherungsrecht", "verskunst", "versöhnungsfest", "versorgungsamt", "versorgungsberechtigt", "versorgungsgebiet", "versorgungsgut", "versorgungsstaat", "verstakt", "verständigungsbereit", "verstellungskunst", "verstürznaht", "versuchsanstalt", "versuchsobjekt", "versuchsprojekt", "vertebrat", "verteidigungsbudget", "verteidigungsetat", "verteidigungspakt", "verteilungskonflikt", "verteilungszahlwort", "vertikalschnitt", "vertikutiergerät", "vertragsgerecht", "vertragspunkt", "vertragsrecht", "vertragsstaat", "vertragstext", "vertragswerkstatt", "vertrauensanwalt", "vertrauensarzt", "vertrauensverlust", "vertriebsrecht", "vervielfältigungsrecht", "vervielfältigungszahlwort", "verwaltungsakt", "verwaltungsgericht", "verwaltungsrat", "verwaltungsrecht", "verwundetentransport", "verzicht", "verzweiflungsakt", "verzweiflungstat", "entbindungsanstalt", "entdeckungsfahrt", "entenbrust", "entenfett", "entertainment", "enthusiast", "entlastungsmoment", "entlüftungsschacht", "entnazifizierungsgericht", "entoblast", "entoparasit", "entrechat", "entrefilet", "entrepot", "entscheidungsfurcht", "entscheidungsgewalt", "entscheidungsrecht", "entscheidungsschlacht", "entstehungsort", "entsteht", "entwässerungsschacht", "entwicklungsabschnitt", "entwicklungsinstitut", "entwicklungsprojekt", "entwicklungsschritt", "entziehungsanstalt", "zerat", "zerebrallaut", "zerfallsprodukt", "zergliederungskunst", "zerit", "zermatt", "zersetzungsprodukt", "zerstörungslust", "zerstörungswut", "zertifikat", "zerussit", "zervelat", "zervelatwurst", "beamtenrecht", "beamtenschicht", "beamtenstaat", "beat", "beatmungsgerät", "beaufort", "becherfrucht", "beckengurt", "becquereleffekt", "bedarfsgut", "bedenkfrist", "bedienungselement", "bedienungsgerät", "bedienungskomfort", "bedingtgut", "bedürfnisanstalt", "beeinflusst", "beeinflußt", "beerdigungsanstalt", "beerdigungsinstitut", "beerenfrucht", "beerenobst", "beerensaft", "beet", "befasst", "befaßt", "befehlsgewalt", "beförderungsentgelt", "beförderungsrecht", "begabungstest", "begegnungsort", "begleitinstrument", "begleittext", "begleitwort", "begnadigungsrecht", "begräbt", "begrenzungslicht", "begriffswelt", "begriffswort", "begrüßungswort", "behaviorist", "behebungsfrist", "behelfsausfahrt", "behelfsunterkunft", "behindertengerecht", "behindertensport", "behindertentransport", "behmlot", "beiblatt", "beiboot", "beignet", "beiheft", "beikost", "beilast", "beileidswort", "beinamputiert", "beinhaut", "beirat", "beirut", "beistandskredit", "beistandspakt", "beitritt", "beitrittsabsicht", "beitrittsgebiet", "beiwacht", "beiwort", "beizgerät", "bekehrungswut", "bekennergeist", "bekennermut", "bekleidungsamt", "bekommen", "belegarzt", "belegbett", "belegfrist", "belehrungssucht", "belemnit", "belesprit", "beleuchtungseffekt", "beleuchtungsgerät", "belfast", "belkantist", "belcantist", "belletrist", "bellizist", "belt", "benedikt", "benediktenkraut", "benefiziant", "benefiziat", "benefizkonzert", "beneluxstaat", "bentonit", "benzindunst", "beratungspunkt", "bereit", "bereicherungsabsicht", "bereitschaftsarzt", "bergamt", "bergeslast", "bergfahrt", "bergfest", "berggeist", "berggrat", "bergluft", "bergpredigt", "bergsport", "berg-und-Tal-Fahrt", "bergwacht", "bergwelt", "bericht", "berichtsmonat", "beritt", "bermudashort", "bernbiet", "berserkerwut", "berufsaussicht", "berufssoldat", "berufssport", "berufsstart", "berufstracht", "berufsverbot", "berufungsfrist", "berufungsgericht", "berufungsrecht", "berührungsangst", "berührungspunkt", "besanmast", "besatzungsgebiet", "besatzungsmacht", "besatzungsrecht", "besatzungssoldat", "besatzungsstatut", "beschaffungsamt", "beschäftigungstherapeut", "beschlächt", "beschlussrecht", "beschlußrecht", "beschmet", "beschneidungsfest", "beschlächt", "beschlussrecht", "beschlußrecht", "beschmet", "beschneidungsfest", "beschwerdefrist", "beschwerderecht", "beschwörungskunst", "beseitigungsanstalt", "besetzungsgebiet", "besetzungsmacht", "besetzungsstatut", "besichtigungsfahrt", "besitzrecht", "besoldungsrecht", "besprechungspunkt", "besserungsanstalt", "bestattungsinstitut", "bestimmungsort", "bestimmungswort", "bestinformiert", "bestqualifiziert", "bestrahlungsgerät", "bestrenommiert", "bestsituiert", "bestverkauft", "besucherrat", "besuchsrecht", "betpult", "betracht", "betreibungsamt", "betriebsarzt", "betriebsfest", "betriebsrat", "betriebswirt", "bett", "bettelmusikant", "bettelvogt", "bettstatt", "bettwurst", "beulenpest", "beutegut", "beutekunst", "beuterecht", "bevölkerungsschicht", "bewahranstalt", "bewährungsfrist", "bewegungsarmut", "beweislast", "bewußt", "bewusst", "beziehungsgeflecht", "bezirksamt", "bezirksarzt", "bezirksgericht", "bezirkskabinett", "bezirksschulrat", "bezirksstadt", "bezugspunkt", "bezugsrecht", "heraklit", "herat", "herbalist", "herbst", "herbstmonat", "herbstpunkt", "herdbuchzucht", "herdeninstinkt", "herfahrt", "heringsfilet", "heringssalat", "herkuleskraut", "herkunft", "herkunftsort", "hermaphrodit", "heroenkult", "heroinsucht", "heroldsamt", "heroldskunst", "herostrat", "herrenabfahrt", "herrenbrot", "herrendienst", "herrenfest", "herrenhut", "herrenrecht", "herrenschnitt", "herrenwelt", "herrgott", "herrnhut", "herrschaftsgebiet", "herrschaftsgewalt", "herrschaftsinstrument", "herrschergeschlecht", "herrscherkult", "herrschsucht", "herstellungsart", "herzacht", "herzangst", "herzblatt", "herzblut", "herzensangst", "herzensgut", "herzenslust", "herzenstrost", "herzgeliebt", "herzinfarkt", "herzinnenhaut", "herzklappendefekt", "herzogshut", "herzlichst", "herzpatient", "herzpunkt", "herzspezialist", "überbackt", "ueberbackt", "überbacktet", "ueberbacktet", "überbietet", "ueberbietet", "überbot", "ueberbot", "überbotet", "ueberbotet", "überbindet", "ueberbindet", "überbandet", "ueberbandet", "überbläst", "ueberblaest", "überbliest", "ueberbliest", "überbrät", "ueberbraet", "überbratet", "ueberbratet", "überbriet", "ueberbriet", "überbrietet", "ueberbrietet", "überbringt", "ueberbringt", "überbrachtet", "ueberbrachtet", "überbrücktet", "ueberbruecktet", "überbrühtet", "ueberbrühtet", "überbrülltet", "ueberbruelltet", "überbuchtet", "ueberbuchtet", "überbürdetet", "ueberbuerdetet", "überdecktet", "ueberdecktet", "überdehntet", "ueberdehntet", "überdenkt", "ueberdenkt", "überdachtet", "ueberdachtet", "überdosiertet", "ueberdosiertet", "überdrehtet", "ueberdrehtet", "überdrucktet", "ueberdrucktet", "überdüngtet", "ueberdüngtet", "übereignetet", "uebereignetet", "übereiltet", "uebereiltet", "übererfülltet", "uebererfuelltet", "überißt", "ueberisst", "ueberißt", "überisst", "überesst", "ueberesst", "übereßt", "uebereßt", "überaßt", "ueberaßt", "überesset", "ueberesset", "überäßet", "ueberaesset", "überfährt", "ueberfaehrt", "überfahrt", "ueberfahrt", "überfuhrt", "ueberfuhrt", "überfällt", "ueberfaellt", "überfallet", "ueberfallet", "überfielt", "ueberfielt", "überfielet", "ueberfielet", "überfängt", "ueberfaengt", "überfingt", "ueberfingt", "überfinget", "ueberfinget", "überfärbet", "ueberfaerbet", "überfettetet", "ueberfettetet", "überfirnisset", "ueberfirnisset", "überfirnißtet", "ueberfirnisstet", "überfischet", "ueberfischet", "überfischtet", "ueberfischtet", "überflanktet", "ueberflanktet", "überflanktet", "ueberflanktet", "überfliegt", "ueberfliegt", "überflieget", "ueberflieget", "überflöget", "ueberflöget", "überflösset", "ueberfloesset", "überflosst", "ueberflosst", "überfloßt", "ueberflosst", "überfließt", "ueberfliesst", "überflutetet", "ueberflutetet", "überformet", "ueberformet", "überformtet", "ueberformtet", "überfrachtetet", "ueberfrachtetet", "überfracht", "ueberfracht", "überfraget", "ueberfraget", "überfragtet", "ueberfragtet", "überfremdetet", "ueberfremdetet", "überfrisst", "ueberfrisst", "überfrißt", "ueberfrißt", "überfresst", "ueberfresst", "überfreßt", "ueberfreßt", "überfresset", "ueberfresset", "überfraßt", "ueberfraßt", "ueberfrasst", "überfräßet", "ueberfraesset", "überfriert", "ueberfriert", "überfrieret", "ueberfrieret", "überfrort", "ueberfrort", "überfröret", "ueberfroeret", "überfrört", "ueberfroert", "überführet", "ueberfuehret", "überführtet", "ueberfuehrtet", "überfüllet", "ueberfuellet", "übergibt", "uebergibt", "übergebt", "uebergebt", "übergebet", "uebergebet", "übergabt", "uebergabt", "übergäbet", "uebergaebet", "übergäbt", "uebergaebt", "übergeht", "uebergeht", "übergehet", "uebergehet", "übergingt", "uebergingt", "übergewichtetet", "uebergewichtetet", "übergießet", "uebergiesset", "übergießt", "uebergiesst", "übergösset", "uebergoesset", "übergosst", "uebergosst", "uebergoßt", "übergipset", "uebergipset", "übergipstet", "uebergipstet", "übergipset", "uebergipset", "übergipstet", "uebergipstet", "überglänzet", "ueberglaenzet", "überglänztet", "ueberglaenztet", "überglaset", "ueberglaset", "überglastet", "ueberglastet", "überglühet", "uebergluehet", "überglühtet", "uebergluehtet", "übergoldetet", "uebergoldetet", "übergraset", "uebergraset", "übergrastet", "uebergrastet", "übergrätschet", "uebergraetschet", "übergrätschtet", "uebergraetschtet", "übergreift", "uebergreift", "übergreifet", "uebergreifet", "übergrifft", "uebergrifft", "übergriffet", "uebergriffet", "übergreift", "uebergreift", "übergreifet", "uebergreifet", "übergriffet", "uebergriffet", "übergrifft", "uebergrifft", "übergrünet", "uebergruenet", "übergrüntet", "uebergruentet", "überhat", "ueberhat", "überhabt", "ueberhabt", "überhabet", "ueberhabet", "überhattet", "ueberhattet", "überhättet", "ueberhaettet", "überhält", "ueberhaelt", "überhaltet", "ueberhaltet", "überhielt", "ueberhielt", "überhieltet", "ueberhieltet", "überhändiget", "ueberhaendiget", "überhändigtet", "ueberhaendigtet", "überhängt", "ueberhaengt", "überhänget", "ueberhaenget", "überhingt", "ueberhingt", "überhinget", "ueberhinget", "überhängt", "ueberhaengt", "überhänget", "ueberhaenget", "überhängtet", "ueberhaengtet", "überhänget", "ueberhaenget", "überhängtet", "ueberhaengtet", "überhängt", "ueberhaengt", "überhänget", "ueberhaenget", "überhingt", "ueberhingt", "überhinget", "ueberhinget", "überhastetet", "ueberhastetet", "überhäufet", "ueberhaeufet", "überhäuftet", "ueberhaeuftet", "überhebt", "ueberhebt", "überhebet", "ueberhebet", "überhobt", "ueberhobt", "überhöbet", "ueberhoebet", "überhebt", "ueberhebt", "überhebet", "ueberhebet", "überhobt", "ueberhobt", "überheiztet", "ueberheiztet", "überheizet", "ueberheizet", "überhöhet", "ueberhoehet", "überhöhtet", "ueberhoehtet", "überhitzet", "ueberhitzet", "überhitztet", "ueberhitztet", "überholet", "ueberholet", "überholtet", "ueberholtet", "überhöret", "ueberhoeret", "überhörtet", "ueberhoertet", "überinterpretieret", "ueberinterpretieret", "überinterpretiertet", "ueberinterpretiertet", "überinterpretieret", "ueberinterpretieret", "überinterpretiertet", "ueberinterpretiertet", "überklebet", "ueberklebet", "überklebtet", "ueberklebtet", "überkleidetet", "ueberkleidetet", "überkochet", "ueberkochet", "überkochtet", "ueberkochtet", "überkommet", "ueberkommet", "überkamt", "ueberkamt", "überkämet", "ueberkaemet", "überkämt", "ueberkaemt", "überkompensieret", "ueberkompensieret", "überkompensiertet", "ueberkompensiertet", "überkreuzet", "ueberkreuzet", "überkreuztet", "ueberkreuztet", "überkronet", "ueberkronet", "überkrontet", "ueberkrontet", "überkrustetet", "ueberkrustetet", "überladet", "ueberladet", "überludet", "ueberludet", "überlüdet", "ueberluedet", "überlappet", "ueberlappet", "überlapptet", "ueberlapptet", "überlasset", "ueberlasset", "überlaßt", "ueberlaßt", "ueberlasst", "ueberlasst", "überlässt", "ueberlaesst", "überließt", "ueberließt", "ueberliesst", "überließet", "ueberließet", "ueberliesset", "überlastet", "ueberlastet", "überlastetet", "ueberlastetet", "überläuft", "ueberlaeuft", "überlaufet", "ueberlaufet", "überlieft", "ueberlieft", "überliefet", "ueberliefet", "überlebet", "ueberlebet", "überlebtet", "ueberlebtet", "überleget", "ueberleget", "überlegtet", "ueberlegtet", "überlegt", "ueberlegt", "überleget", "ueberleget", "überlegtet", "ueberlegtet", "überleitet", "ueberleitet", "überleitetet", "ueberleitetet", "überleset", "ueberleset", "überlast", "ueberlast", "überläset", "ueberlaeset", "überliegt", "ueberliegt", "überlieget", "ueberlieget", "überlagt", "ueberlagt", "überläget", "ueberlaeget", "überlägt", "ueberlaegt", "überlistetet", "ueberlistetet", "übermachet", "uebermachet", "übermachtet", "uebermachtet", "übermalet", "uebermalet", "übermaltet", "uebermaltet", "übermalet", "uebermalet", "übermaltet", "uebermaltet", "übermannet", "uebermannet", "übermanntet", "uebermanntet", "übermarchtet", "uebermarchtet", "übermarchet", "uebermarchet", "übermästetet", "uebermaestetet", "übermüdetet", "uebermuedetet", "übernächtiget", "uebernaechtiget", "übernächtigtet", "uebernaechtigtet", "übernimmt", "uebernimmt", "übernehmt", "uebernehmt", "übernehmet", "uebernehmet", "übernahmt", "uebernahmt", "übernähmet", "uebernaehmet", "übernähmt", "uebernaehmt", "übernutzet", "uebernutzet", "übernutztet", "uebernutztet", "überpflanzt", "ueberpflanzt", "überpflanzet", "ueberpflanzet", "überpflanztet", "ueberpflanztet", "überplanet", "ueberplanet", "überplantet", "ueberplantet", "überprüfet", "ueberpruefet", "überprüftet", "ueberprueftet", "überquillt", "ueberquillt", "überquellt", "ueberquellt", "überquellet", "ueberquellet", "überquollt", "ueberquollt", "überquöllet", "ueberquoellet", "ueberquöllt", "ueberquoellt", "überqueret", "ueberqueret", "überquertet", "ueberquertet", "überraget", "ueberraget", "überragtet", "ueberragtet", "überragt", "ueberragt", "überraget", "ueberraget", "überragtet", "ueberragtet", "überraschet", "ueberraschet", "überraschtet", "ueberraschtet", "überreagieret", "ueberreagieret", "überreagiertet", "ueberreagiertet", "überrechnetet", "ueberrechnetet", "überredetet", "ueberredetet", "überreglementieret", "ueberreglementieret", "überreglementiertet", "ueberreglementiertet", "überregulieret", "ueberregulieret", "überreguliertet", "ueberreguliertet", "überreichet", "ueberreichet", "überreichtet", "ueberreichtet", "überreißet", "ueberreisset", "überrisset", "ueberrisset", "überreitet", "ueberreitet", "überrittet", "ueberrittet", "überreizet", "ueberreizet", "überreiztet", "ueberreiztet", "überrennet", "ueberrennet", "überrenntet", "ueberrenntet", "überrollet", "ueberrollet", "überrolltet", "ueberrolltet", "überrundetet", "ueberrundetet", "übersäet", "uebersaeet", "übersätet", "uebersaetet", "übersättiget", "uebersaettiget", "uebersaettigtet", "übersättigtet", "überschattetet", "ueberschattetet", "überschätzet", "ueberschaetzet", "überschätztet", "ueberschaetztet", "überschauet", "ueberschauet", "überschautet", "ueberschautet", "überschäumt", "ueberschaeumt", "überschäumet", "ueberschaeumet", "überschäumtet", "ueberschaeumtet", "überschießt", "ueberschießt", "ueberschiesst", "überschießet", "ueberschiesset", "ueberschießet", "überschosst", "ueberschosst", "überschosst", "ueberschosst", "überschoßt", "ueberschoßt", "überschösset", "ueberschoesset", "überschlafet", "ueberschlafet", "überschliefet", "ueberschliefet", "überschlieft", "ueberschlieft", "überschlaget", "ueberschlaget", "überschlüget", "ueberschlueget", "überschlügt", "ueberschluegt", "überschlägt", "ueberschlaegt", "überschlagt", "ueberschlagt", "überschlaget", "ueberschlaget", "überschlugt", "ueberschlugt", "überschlüget", "ueberschlueget", "überschlügt", "ueberschluegt", "überschlägt", "ueberschlaegt", "überschlagt", "ueberschlagt", "überschlaget", "ueberschlaget", "überschlugt", "ueberschlugt", "überschlüget", "ueberschlueget", "ueberschluegt", "überschlügt", "überschließt", "ueberschließt", "ueberschliesst", "überschließet", "ueberschliesset", "überschlosst", "ueberschlosst", "überschloßt", "ueberschlosst", "überschlösset", "ueberschloesset", "überschmieret", "ueberschmieret", "überschmiertet", "ueberschmiertet", "überschminket", "ueberschminket", "überschminktet", "ueberschminktet", "überschnappt", "ueberschnappt", "überschnappet", "ueberschnappet", "überschnapptet", "ueberschnapptet", "überschneidet", "ueberschneidet", "überschnittet", "ueberschnittet", "überschneiet", "ueberschneiet", "überschneitet", "ueberschneitet", "überschreibet", "ueberschreibet", "überschriebet", "ueberschriebet", "überschriebt", "ueberschriebt", "überschreiet", "ueberschreiet", "überschrieet", "ueberschrieet", "überschriet", "ueberschriet", "überschriet", "ueberschriet", "überschreitet", "ueberschreitet", "überschritt", "ueberschritt", "überschrittet", "ueberschrittet", "überschuldetet", "ueberschuldetet", "überschüttet", "ueberschüttet", "überschüttetet", "ueberschüttetet", "überschüttetet", "ueberschuettetet", "überschwappt", "ueberschwappt", "überschwappet", "ueberschwappet", "überschwapptet", "ueberschwapptet", "überschwemmet", "ueberschwemmet", "überschwemmtet", "ueberschwemmtet", "überschwinget", "ueberschwinget", "überschwangt", "ueberschwangt", "überschwänget", "ueberschwaenget", "überschwängt", "ueberschwaengt", "übersieht", "uebersieht", "überseht", "ueberseht", "übersehet", "uebersehet", "übersaht", "uebersaht", "übersähet", "uebersaehet", "übersäht", "uebersaeht", "übersähet", "uebersaehet", "übersäht", "uebersaeht", "übersandtet", "uebersandtet", "übersendetet", "uebersendetet", "übersensibilisieret", "uebersensibilisieret", "übersensibilisiertet", "uebersensibilisiertet", "übersetzt", "uebersetzt", "übersetzet", "uebersetzet", "übersetztet", "uebersetztet", "übersetzet", "uebersetzet", "übersetztet", "uebersetztet", "übersiedet", "uebersiedet", "übersiedetet", "uebersiedetet", "übersott", "uebersott", "übersottet", "uebersottet", "übersöttet", "uebersoettet", "übersiedet", "uebersiedet", "übersiedetet", "uebersiedetet", "übersott", "uebersott", "übersottet", "uebersottet", "übersöttet", "uebersoettet", "überspannet", "ueberspannet", "überspanntet", "ueberspanntet", "überspielet", "ueberspielet", "überspieltet", "ueberspieltet", "überspinnet", "ueberspinnet", "überspännet", "ueberspaennet", "überspännt", "ueberspaennt", "überspönnet", "ueberspoennet", "überspönnt", "ueberspoennt", "überspitzet", "ueberspitzet", "überspitztet", "ueberspitztet", "übersprechet", "uebersprechet", "überspracht", "ueberspracht", "übersprächet", "ueberspraechet", "übersprächt", "ueberspraecht", "überspringt", "ueberspringt", "überspringet", "ueberspringet", "überspränget", "ueberspraenget", "übersprängt", "ueberspraengt", "überspringt", "ueberspringt", "überspringet", "ueberspringet", "übersprangt", "uebersprangt", "überspränget", "ueberspraenget", "übersprängt", "ueberspraengt", "übersprühet", "ueberspruehet", "übersprühtet", "ueberspruehtet", "übersprühet", "ueberspruehet", "übersprühtet", "ueberspruehtet", "überspület", "ueberspuelet", "überspültet", "überspueltet", "übersticht", "uebersticht", "überstecht", "ueberstecht", "überstechet", "ueberstechet", "überstacht", "ueberstacht", "überstächet", "ueberstaechet", "überstächt", "ueberstaecht", "übersticht", "uebersticht", "überstecht", "ueberstecht", "überstechet", "ueberstechet", "überstacht", "ueberstacht", "überstächet", "ueberstaechet", "überstächt", "ueberstaecht", "überstehet", "ueberstehet", "überstandet", "überstandet", "überständet", "überstaendet", "überstündet", "überstuendet", "übersteht", "uebersteht", "überstehet", "ueberstehet", "überstandet", "ueberstandet", "überständet", "ueberstaendet", "überstündet", "ueberstuendet", "übersteiget", "uebersteiget", "überstieget", "ueberstieget", "überstiegt", "ueberstiegt", "übersteigt", "uebersteigt", "übersteiget", "uebersteiget", "überstiegt", "ueberstiegt", "überstieget", "ueberstieget", "überstellet", "ueberstellet", "überstilisieret", "ueberstilisieret", "überstimmet", "ueberstimmet", "überstimmtet", "ueberstimmtet", "überstrahlet", "ueberstrahlet", "überstrahltet", "ueberstrahltet", "überstrapazieret", "ueberstrapazieret", "überstrapaziertet", "ueberstrapaziertet", "überstreicht", "ueberstreicht", "überstreichet", "ueberstreichet", "überstricht", "ueberstricht", "überstrichet", "ueberstrichet", "überstreichet", "ueberstreichet", "überstrichet", "ueberstrichet", "überstricht", "ueberstricht", "überstreift", "ueberstreift", "überstreifet", "ueberstreifet", "überstreiftet", "ueberstreiftet", "überstreuet", "ueberstreuet", "überstreutet", "ueberstreutet", "überströmet", "ueberstroemet", "überströmtet", "überstroemtet", "überstülpt", "überstuelpt", "ueberstuelpet", "überstülpet", "überstülptet", "ueberstuelptet", "überstürzet", "ueberstuerzet", "überstürztet", "ueberstuerztet", "übertäubet", "uebertaeubet", "übertäubtet", "uebertaeubtet", "übertauchet", "uebertauchet", "übertauchtet", "uebertauchtet", "übertippet", "uebertippet", "übertipptet", "uebertipptet", "übertönet", "uebertoenet", "übertöntet", "uebertoentet", "übertouret", "uebertouret", "übertourtet", "uebertourtet", "überträgt", "uebertraegt", "übertragt", "uebertragt", "übertraget", "uebertraget", "übertrugt", "uebertrugt", "übertrüget", "uebertrueget", "übertrügt", "uebertruegt", "übertrainieret", "uebertrainieret", "übertrainiertet", "uebertrainiertet", "übertreffet", "uebertreffet", "übertraft", "uebertraft", "überträfet", "uebertraefet", "überträft", "uebertraeft", "übertreibt", "uebertreibt", "übertreibet", "uebertreibet", "übertriebet", "uebertriebet", "übertriebt", "uebertriebt", "übertritt", "uebertritt", "übertretet", "uebertretet", "übertrat", "uebertrat", "übertratet", "uebertratet", "überträtet", "uebertraetet", "übertritt", "uebertritt", "übertretet", "uebertretet", "übertrat", "uebertrat", "übertratet", "uebertratet", "überträtet", "uebertraetet", "übertrumpfet", "uebertrumpfet", "übertrumpftet", "uebertrumpftet", "übertünchet", "uebertuenchet", "übertünchtet", "überversorget", "ueberversorget", "überversorgtet", "ueberversorgtet", "übervorteilet", "uebervorteilet", "übervorteiltet", "uebervorteiltet", "überwachet", "ueberwachet", "überwachtet", "ueberwachtet", "überwachset", "ueberwachset", "überwüchset", "ueberwuechset", "überwallt", "ueberwallt", "überwallet", "ueberwallet", "überwalltet", "ueberwalltet", "überwallet", "ueberwallet", "überwalltet", "ueberwalltet", "überwältiget", "ueberwaeltiget", "überwältigtet", "ueberwaeltigtet", "überwalzet", "ueberwalzet", "überwalztet", "ueberwalztet", "überwälzet", "ueberwaelzet", "überwälztet", "ueberwaelztet", "überwechtetet", "ueberwechtetet", "überwächtetet", "ueberwaechtetet", "überwehet", "ueberwehet", "überwehtet", "ueberwehtet", "überweidetet", "ueberweidetet", "überweist", "ueberweist", "überweiset", "ueberweiset", "überwiest", "ueberwiest", "überwieset", "ueberwieset", "überweißet", "ueberweisset", "überweißtet", "ueberweisstet", "überwirft", "ueberwirft", "überwerft", "ueberwerft", "überwerfet", "ueberwerfet", "überwarft", "ueberwarft", "überwürfet", "ueberwuerfet", "überwürft", "ueberwuerft", "überwirft", "ueberwirft", "überwerft", "ueberwerft", "überwerfet", "ueberwerfet", "überwarft", "ueberwarft", "überwürfet", "ueberwuerfet", "überwürft", "ueberwuerft", "überwertetet", "ueberwertetet", "überwiegt", "ueberwiegt", "überwieget", "ueberwieget", "überwogt", "ueberwogt", "überwöget", "ueberwoeget", "überwögt", "ueberwoegt", "überwindet", "ueberwindet", "überwandet", "ueberwandet", "überwändet", "ueberwaendet", "überwölbet", "ueberwoelbet", "überwölbtet", "ueberwoelbtet", "ueberwuerzet", "ueberwuerzet", "überwürztet", "ueberwuerztet", "überzahlet", "ueberzahlet", "überzahltet", "ueberzahltet", "überzahltet", "ueberzahltet", "überzeichnetet", "ueberzeichnetet", "überzeuget", "ueberzeuget", "überzeugtet", "ueberzeugtet", "überzieht", "ueberzieht", "überziehet", "ueberziehet", "überzogt", "ueberzogt", "überzöget", "ueberzoeget", "überzögt", "ueberzoegt", "überzüchtetet", "ueberzuechtetet", "überangebot", "ueberangebot", "überbrückungskredit", "ueberbrückungskredit", "übereinkunft", "uebereinkunft", "überfahrt", "ueberfahrt", "überflugverbot", "ueberflugverbot", "überflutungsgebiet", "ueberflutungsgebiet", "überfracht", "ueberfracht", "überfrucht", "ueberfrucht", "übergangslaut", "uebergangslaut", "übergebot", "uebergebot", "übergewicht", "uebergewicht", "überhangmandat", "ueberhangmandat", "überhangsrecht", "ueberhangsrecht", "überholverbot", "ueberholverbot", "überladenheit", "ueberladenheit", "überlandfahrt", "ueberlandfahrt", "überlast", "ueberlast", "überlegenheit", "ueberlegenheit", "übermacht", "uebermacht", "übermaßverbot", "uebermassverbot", "übermut", "uebermut", "überraschungseffekt", "ueberraschungseffekt", "überraschungsgast", "ueberraschungsgast", "überraschungsmoment", "ueberraschungsmoment", "überredungskunst", "ueberredungskunst", "überreiztheit", "ueberreiztheit", "überrest", "ueberrest", "überschicht", "ueberschicht", "überschnitt", "ueberschnitt", "überschrift", "ueberschrift", "überschwemmungsgebiet", "ueberschwemmungsgebiet", "überseegebiet", "ueberseegebiet", "überseegeschäft", "ueberseegeschaeft", "übersicht", "uebersicht", "überspanntheit", "ueberspanntheit", "überspitztheit", "ueberspitztheit", "übertragungsrecht", "uebertragungsrecht", "übertriebenheit", "uebertriebenheit", "übertritt", "uebertritt", "überwachungsdienst", "ueberwachungsdienst", "überwachungsstaat", "ueberwachungsstaat", "überwelt", "ueberwelt", "überwinterungsgebiet", "ueberwinterungsgebiet", "überzeugtheit", "ueberzeugtheit", "überzeugungstat", "ueberzeugungstat", "überziehungskredit", "ueberziehungskredit"];
-};
-
-
-
-},{}],309:[function(require,module,exports){
-"use strict";
-
-var getWords = require("../../../stringProcessing/getWords.js");
-var regexFunction = require("./regex.js")();
-var verbsBeginningWithErVerEntBeZerHerUber = regexFunction.verbsBeginningWithErVerEntBeZerHerUber;
-var verbsBeginningWithGe = regexFunction.verbsBeginningWithGe;
-var verbsWithGeInMiddle = regexFunction.verbsWithGeInMiddle;
-var verbsWithErVerEntBeZerHerUberInMiddle = regexFunction.verbsWithErVerEntBeZerHerUberInMiddle;
-var verbsEndingWithIert = regexFunction.verbsEndingWithIert;
-var irregularParticiples = require("./irregulars.js")();
-var GermanParticiple = require("../GermanParticiple.js");
-var forEach = require("lodash/forEach");
-var includes = require("lodash/includes");
-/**
- * Creates GermanParticiple Objects for the participles found in a sentence.
- *
- * @param {string} sentencePartText The sentence to finds participles in.
- * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
- * @returns {Array} The array with GermanParticiple Objects.
- */
-module.exports = function (sentencePartText, auxiliaries) {
-    var words = getWords(sentencePartText);
-    var foundParticiples = [];
-    forEach(words, function (word) {
-        if (verbsBeginningWithGe(word).length !== 0) {
-            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "ge at beginning" }));
-            return;
-        }
-        if (verbsWithGeInMiddle(word).length !== 0) {
-            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "ge in the middle" }));
-            return;
-        }
-        if (verbsBeginningWithErVerEntBeZerHerUber(word).length !== 0) {
-            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her at beginning" }));
-            return;
-        }
-        if (verbsWithErVerEntBeZerHerUberInMiddle(word).length !== 0) {
-            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her in the middle" }));
-            return;
-        }
-        if (verbsEndingWithIert(word).length !== 0) {
-            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "iert at the end" }));
-        }
-        if (includes(irregularParticiples, word)) {
-            foundParticiples.push(new GermanParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: "irregular" }));
-        }
-    });
-    return foundParticiples;
-};
-
-
-
-},{"../../../stringProcessing/getWords.js":362,"../GermanParticiple.js":301,"./irregulars.js":310,"./regex.js":311,"lodash/forEach":167,"lodash/includes":173}],310:[function(require,module,exports){
+},{"../../../stringProcessing/createRegexFromArray.js":364,"../../../stringProcessing/stripSpaces.js":397,"./SentencePart.js":305,"./auxiliaries.js":306,"./stopwords.js":313,"lodash/forEach":167,"lodash/isEmpty":181,"lodash/map":195}],311:[function(require,module,exports){
 "use strict";
 // This is a list of irregular participles used in German.
 
@@ -16603,7 +16522,7 @@ module.exports = function () {
 
 
 
-},{}],311:[function(require,module,exports){
+},{}],312:[function(require,module,exports){
 "use strict";
 
 var verbsBeginningWithGeRegex = /^((ge)\S+t($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>]))/ig;
@@ -16680,17 +16599,20 @@ module.exports = function () {
 
 
 
-},{}],312:[function(require,module,exports){
+},{}],313:[function(require,module,exports){
 "use strict";
-// This is a list with stopwords used in German.
+/**
+ * Returns a list with stopwords for the German passive voice assessment.
+ * @returns {Array} The list with stopwords.
+ */
 
 module.exports = function () {
-    return [":", "aber", "als", "bevor", "bis", "da", "damit", "daß", "dass", "denn", "doch", "ehe", "falls", "gleichwohl", "indem", "indes", "indessen", "insofern", "insoweit", "nachdem", "nun", "ob", "obgleich", "obschon", "obwohl", "obzwar", "oder", "seitdem", "sobald", "sodass", "sofern", "solange", "sondern", "sooft", "soviel", "soweit", "sowie", "trotz", "und", "ungeachtet", "waehrend", "während", "weil", "welche", "welchem", "welchen", "welcher", "welches", "wem", "wen", "wenn", "wenngleich", "wennschon", "wer", "wes", "wessen", "wie", "wiewohl", "wohingegen", "zumal"];
+  return [":", "aber", "als", "bevor", "bis", "da", "damit", "daß", "dass", "denn", "doch", "ehe", "falls", "gleichwohl", "indem", "indes", "indessen", "insofern", "insoweit", "nachdem", "nun", "ob", "obgleich", "obschon", "obwohl", "obzwar", "oder", "seitdem", "sobald", "sodass", "sofern", "solange", "sondern", "sooft", "soviel", "soweit", "sowie", "trotz", "und", "ungeachtet", "waehrend", "während", "weil", "welche", "welchem", "welchen", "welcher", "welches", "wem", "wen", "wenn", "wenngleich", "wennschon", "wer", "wes", "wessen", "wie", "wiewohl", "wohingegen", "zumal"];
 };
 
 
 
-},{}],313:[function(require,module,exports){
+},{}],314:[function(require,module,exports){
 "use strict";
 /** @module config/transitionWords */
 
@@ -16710,7 +16632,7 @@ module.exports = function () {
 
 
 
-},{}],314:[function(require,module,exports){
+},{}],315:[function(require,module,exports){
 "use strict";
 /** @module config/twoPartTransitionWords */
 /**
@@ -16724,7 +16646,7 @@ module.exports = function () {
 
 
 
-},{}],315:[function(require,module,exports){
+},{}],316:[function(require,module,exports){
 "use strict";
 /** @module analyses/getKeywordDensity */
 
@@ -16751,7 +16673,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/countWords.js":351,"../stringProcessing/matchTextWithWord.js":368,"lodash/escapeRegExp":161}],316:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":363,"../stringProcessing/matchTextWithWord.js":383,"lodash/escapeRegExp":161}],317:[function(require,module,exports){
 "use strict";
 /** @module analyses/getLinkStatistics */
 
@@ -16843,7 +16765,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/checkNofollow.js":349,"../stringProcessing/findKeywordInUrl.js":355,"../stringProcessing/getAnchorsFromText.js":357,"../stringProcessing/getLinkType.js":358,"../stringProcessing/url.js":386,"lodash/escapeRegExp":161}],317:[function(require,module,exports){
+},{"../stringProcessing/checkNofollow.js":361,"../stringProcessing/findKeywordInUrl.js":368,"../stringProcessing/getAnchorsFromText.js":371,"../stringProcessing/getLinkType.js":372,"../stringProcessing/url.js":403,"lodash/escapeRegExp":161}],318:[function(require,module,exports){
 "use strict";
 /** @module analyses/getLinkStatistics */
 
@@ -16863,7 +16785,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/getAnchorsFromText.js":357,"../stringProcessing/url.js":386,"lodash/map":195}],318:[function(require,module,exports){
+},{"../stringProcessing/getAnchorsFromText.js":371,"../stringProcessing/url.js":403,"lodash/map":195}],319:[function(require,module,exports){
 "use strict";
 
 var countWords = require("../stringProcessing/countWords.js");
@@ -16892,19 +16814,19 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/countWords.js":351,"../stringProcessing/matchParagraphs.js":365,"lodash/filter":162}],319:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":363,"../stringProcessing/matchParagraphs.js":380,"lodash/filter":162}],320:[function(require,module,exports){
 "use strict";
 
 var getSentences = require("../stringProcessing/getSentences.js");
 var stripHTMLTags = require("../stringProcessing/stripHTMLTags.js").stripFullTags;
 var getLanguage = require("../helpers/getLanguage.js");
 var Sentence = require("../values/Sentence.js");
-// English.
-var getSentencePartsEnglish = require("./english/getSentenceParts.js");
-var determinePassivesEnglish = require("./english/determinePassives.js");
-// German.
-var getSentencePartsGerman = require("./german/getSentenceParts.js");
-var determinePassivesGerman = require("./german/determinePassives.js");
+// Imports used for English, French and Spanish.
+var getSentencePartsDefault = require("./passiveVoice/getSentenceParts.js");
+var determinePassivesDefault = require("./passiveVoice/determinePassives");
+// Imports used for German.
+var getSentencePartsGerman = require("./german/passiveVoice/getSentenceParts.js");
+var determinePassivesGerman = require("./german/passiveVoice/determinePassives.js");
 var forEach = require("lodash/forEach");
 /**
  * Gets the sentence parts from a sentence by determining sentence breakers.
@@ -16919,9 +16841,15 @@ var getSentenceParts = function getSentenceParts(sentence, language) {
         case "de":
             sentenceParts = getSentencePartsGerman(sentence);
             break;
+        case "fr":
+            sentenceParts = getSentencePartsDefault(sentence, "fr");
+            break;
+        case "es":
+            sentenceParts = getSentencePartsDefault(sentence, "es");
+            break;
         case "en":
         default:
-            sentenceParts = getSentencePartsEnglish(sentence);
+            sentenceParts = getSentencePartsDefault(sentence, "en");
             break;
     }
     return sentenceParts;
@@ -16938,9 +16866,15 @@ var determinePassives = function determinePassives(sentencePart, language) {
         case "de":
             sentencePart.setPassive(determinePassivesGerman(sentencePart.getSentencePartText(), sentencePart.getAuxiliaries()));
             break;
+        case "fr":
+            sentencePart.setPassive(determinePassivesDefault(sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "fr"));
+            break;
+        case "es":
+            sentencePart.setPassive(determinePassivesDefault(sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "es"));
+            break;
         case "en":
         default:
-            sentencePart.setPassive(determinePassivesEnglish(sentencePart.getSentencePartText(), sentencePart.getAuxiliaries()));
+            sentencePart.setPassive(determinePassivesDefault(sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "en"));
             break;
     }
 };
@@ -16981,7 +16915,7 @@ module.exports = function (paper) {
 
 
 
-},{"../helpers/getLanguage.js":260,"../stringProcessing/getSentences.js":359,"../stringProcessing/stripHTMLTags.js":377,"../values/Sentence.js":391,"./english/determinePassives.js":281,"./english/getSentenceParts.js":284,"./german/determinePassives.js":303,"./german/getSentenceParts.js":306,"lodash/forEach":167}],320:[function(require,module,exports){
+},{"../helpers/getLanguage.js":260,"../stringProcessing/getSentences.js":373,"../stringProcessing/stripHTMLTags.js":394,"../values/Sentence.js":408,"./german/passiveVoice/determinePassives.js":307,"./german/passiveVoice/getSentenceParts.js":310,"./passiveVoice/determinePassives":337,"./passiveVoice/getSentenceParts.js":341,"lodash/forEach":167}],321:[function(require,module,exports){
 "use strict";
 
 var getWords = require("../stringProcessing/getWords.js");
@@ -17081,7 +17015,7 @@ module.exports = function (paper, researcher) {
 
 
 
-},{"../helpers/getFirstWordExceptions.js":259,"../stringProcessing/getWords.js":362,"../stringProcessing/stripHTMLTags.js":377,"../stringProcessing/stripSpaces.js":380,"lodash/filter":162,"lodash/forEach":167,"lodash/isEmpty":181}],321:[function(require,module,exports){
+},{"../helpers/getFirstWordExceptions.js":259,"../stringProcessing/getWords.js":376,"../stringProcessing/stripHTMLTags.js":394,"../stringProcessing/stripSpaces.js":397,"lodash/filter":162,"lodash/forEach":167,"lodash/isEmpty":181}],322:[function(require,module,exports){
 "use strict";
 
 var getSubheadingTexts = require("../stringProcessing/getSubheadingTexts.js");
@@ -17107,7 +17041,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/countWords.js":351,"../stringProcessing/getSubheadingTexts.js":360,"lodash/forEach":167}],322:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":363,"../stringProcessing/getSubheadingTexts.js":374,"lodash/forEach":167}],323:[function(require,module,exports){
 "use strict";
 
 var getWords = require("../stringProcessing/getWords.js");
@@ -17149,7 +17083,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/getSentences.js":359,"../stringProcessing/getWords.js":362,"../stringProcessing/syllables/count.js":383,"lodash/forEach":167,"lodash/map":195}],323:[function(require,module,exports){
+},{"../stringProcessing/getSentences.js":373,"../stringProcessing/getWords.js":376,"../stringProcessing/syllables/count.js":400,"lodash/forEach":167,"lodash/map":195}],324:[function(require,module,exports){
 "use strict";
 /** @module researches/imageAltTags */
 
@@ -17210,7 +17144,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/getAlttagContent":356,"../stringProcessing/imageInText":363,"../stringProcessing/matchTextWithWord":368,"lodash/escapeRegExp":161}],324:[function(require,module,exports){
+},{"../stringProcessing/getAlttagContent":370,"../stringProcessing/imageInText":377,"../stringProcessing/matchTextWithWord":383,"lodash/escapeRegExp":161}],325:[function(require,module,exports){
 "use strict";
 /** @module researches/imageInText */
 
@@ -17227,7 +17161,7 @@ module.exports = function (paper) {
 
 
 
-},{"./../stringProcessing/imageInText":363}],325:[function(require,module,exports){
+},{"./../stringProcessing/imageInText":377}],326:[function(require,module,exports){
 "use strict";
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
@@ -17248,7 +17182,7 @@ module.exports = function () {
 
 
 
-},{}],326:[function(require,module,exports){
+},{}],327:[function(require,module,exports){
 "use strict";
 
 var transitionWords = require("./transitionWords.js")().singleWords;
@@ -17358,7 +17292,7 @@ module.exports = function () {
 
 
 
-},{"./transitionWords.js":327}],327:[function(require,module,exports){
+},{"./transitionWords.js":328}],328:[function(require,module,exports){
 "use strict";
 /** @module config/transitionWords */
 
@@ -17378,7 +17312,7 @@ module.exports = function () {
 
 
 
-},{}],328:[function(require,module,exports){
+},{}],329:[function(require,module,exports){
 "use strict";
 /**
  * Returns an array with two-part transition words to be used by the assessments.
@@ -17391,7 +17325,7 @@ module.exports = function () {
 
 
 
-},{}],329:[function(require,module,exports){
+},{}],330:[function(require,module,exports){
 "use strict";
 
 var countWords = require("../stringProcessing/countWords");
@@ -17410,7 +17344,7 @@ module.exports = keyphraseLengthResearch;
 
 
 
-},{"../stringProcessing/countWords":351,"../stringProcessing/sanitizeString":375}],330:[function(require,module,exports){
+},{"../stringProcessing/countWords":363,"../stringProcessing/sanitizeString":392}],331:[function(require,module,exports){
 "use strict";
 /** @module researches/countKeywordInUrl */
 
@@ -17430,7 +17364,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/matchTextWithWord.js":368,"lodash/escapeRegExp":161}],331:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":383,"lodash/escapeRegExp":161}],332:[function(require,module,exports){
 "use strict";
 /* @module analyses/matchKeywordInSubheadings */
 
@@ -17461,7 +17395,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/getSubheadings.js":361,"../stringProcessing/stripNonTextTags.js":378,"../stringProcessing/subheadingsMatch.js":381,"lodash/escapeRegExp":161}],332:[function(require,module,exports){
+},{"../stringProcessing/getSubheadings.js":375,"../stringProcessing/stripNonTextTags.js":395,"../stringProcessing/subheadingsMatch.js":398,"lodash/escapeRegExp":161}],333:[function(require,module,exports){
 "use strict";
 
 var matchTextWithWord = require("../stringProcessing/matchTextWithWord.js");
@@ -17483,7 +17417,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/matchTextWithWord.js":368,"lodash/escapeRegExp":161}],333:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":383,"lodash/escapeRegExp":161}],334:[function(require,module,exports){
 "use strict";
 /**
  * Check the length of the description.
@@ -17497,7 +17431,7 @@ module.exports = function (paper) {
 
 
 
-},{}],334:[function(require,module,exports){
+},{}],335:[function(require,module,exports){
 "use strict";
 /**
  * Check the width of the title in pixels
@@ -17514,7 +17448,46 @@ module.exports = function (paper) {
 
 
 
-},{}],335:[function(require,module,exports){
+},{}],336:[function(require,module,exports){
+"use strict";
+
+var isEmpty = require("lodash/isEmpty");
+/**
+ * Sets sentence part passiveness to passive if no exception rules for the participle apply.
+ *
+ * @returns {void}
+ */
+module.exports = function () {
+    if (isEmpty(this.getParticiple())) {
+        this.setSentencePartPassiveness(false);
+        return;
+    }
+    this.setSentencePartPassiveness(this.isPassive());
+};
+
+
+
+},{"lodash/isEmpty":181}],337:[function(require,module,exports){
+"use strict";
+
+var getParticiples = require(".//getParticiples.js");
+var determineSentencePartIsPassive = require(".//determineSentencePartIsPassive.js");
+/**
+ * Determines whether a sentence part is passive.
+ *
+ * @param {string} sentencePart The sentence part to determine voice for.
+ * @param {Array} auxiliaries The auxiliaries to be used for creating SentenceParts.
+ * @param {string} language The language to determine voice for.
+ * @returns {boolean} Returns true if passive, otherwise returns false.
+ */
+module.exports = function (sentencePart, auxiliaries, language) {
+  var participles = getParticiples(sentencePart, auxiliaries, language);
+  return determineSentencePartIsPassive(participles);
+};
+
+
+
+},{".//determineSentencePartIsPassive.js":338,".//getParticiples.js":340}],338:[function(require,module,exports){
 "use strict";
 
 var forEach = require("lodash/forEach");
@@ -17537,7 +17510,468 @@ module.exports = function (participles) {
 
 
 
-},{"lodash/forEach":167}],336:[function(require,module,exports){
+},{"lodash/forEach":167}],339:[function(require,module,exports){
+"use strict";
+/**
+ * Matches words from a list in sentence parts and returns them and their indices.
+ *
+ * @param {string} sentencePart The sentence part to match the words in.
+ * @param {RegExp} regex The regex used for matching.
+ * @returns {Array} The list of result objects.
+ */
+
+module.exports = function (sentencePart, regex) {
+    var results = [];
+    /* Decided to use a for loop here so that we could retrieve all matches while keeping result objects intact.
+    For every match there is in the sentence part, an object with the match and its index will be pushed into
+    the results array. */
+    for (var match = regex.exec(sentencePart); match !== null; match = regex.exec(sentencePart)) {
+        results.push({
+            match: match[0],
+            index: match.index
+        });
+    }
+    return results;
+};
+
+
+
+},{}],340:[function(require,module,exports){
+"use strict";
+
+var getWords = require("../../stringProcessing/getWords.js");
+var matchParticiples = require(".//matchParticiples")();
+var regularParticipleRegex = matchParticiples.regularParticiples;
+var irregularParticipleRegex = matchParticiples.irregularParticiples;
+var EnglishParticiple = require("../english/passiveVoice/EnglishParticiple.js");
+var FrenchParticiple = require("../french/passiveVoice/FrenchParticiple.js");
+var SpanishParticiple = require("../spanish/passiveVoice/SpanishParticiple.js");
+var forEach = require("lodash/forEach");
+/**
+ * Creates participle objects for the participles found in a sentence part.
+ *
+ * @param {string} sentencePartText The sentence part to find participles in.
+ * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
+ * @param {string} language The language to find the participles for.
+ * @returns {Array} The list with participle objects.
+ */
+module.exports = function (sentencePartText, auxiliaries, language) {
+    var words = getWords(sentencePartText);
+    var foundParticiples = [];
+    forEach(words, function (word) {
+        var type = "";
+        if (regularParticipleRegex(word, language).length !== 0) {
+            type = "regular";
+        }
+        if (irregularParticipleRegex(word, language).length !== 0) {
+            type = "irregular";
+        }
+        if (type !== "") {
+            switch (language) {
+                case "fr":
+                    foundParticiples.push(new FrenchParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: type }));
+                    break;
+                case "es":
+                    foundParticiples.push(new SpanishParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: type }));
+                    break;
+                case "en":
+                default:
+                    foundParticiples.push(new EnglishParticiple(word, sentencePartText, { auxiliaries: auxiliaries, type: type }));
+                    break;
+            }
+        }
+    });
+    return foundParticiples;
+};
+
+
+
+},{"../../stringProcessing/getWords.js":376,"../english/passiveVoice/EnglishParticiple.js":281,"../french/passiveVoice/FrenchParticiple.js":294,"../spanish/passiveVoice/SpanishParticiple.js":348,".//matchParticiples":342,"lodash/forEach":167}],341:[function(require,module,exports){
+"use strict";
+
+var indices = require("../../stringProcessing/indices");
+var getIndicesOfList = indices.getIndicesByWordList;
+var filterIndices = indices.filterIndices;
+var sortIndices = indices.sortIndices;
+var stripSpaces = require("../../stringProcessing/stripSpaces.js");
+var normalizeSingleQuotes = require("../../stringProcessing/quotes.js").normalizeSingle;
+var arrayToRegex = require("../../stringProcessing/createRegexFromArray.js");
+var getWordIndices = require("./getIndicesWithRegex.js");
+var includesIndex = require("../../stringProcessing/includesIndex");
+var followsIndex = require("../../stringProcessing/followsIndex");
+var filter = require("lodash/filter");
+var isUndefined = require("lodash/isUndefined");
+var includes = require("lodash/includes");
+var map = require("lodash/map");
+var forEach = require("lodash/forEach");
+// English-specific variables and imports.
+var SentencePartEnglish = require("../english/passiveVoice/SentencePart");
+var auxiliariesEnglish = require("../english/passiveVoice/auxiliaries.js")().all;
+var stopwordsEnglish = require("../english/passiveVoice/stopwords.js")();
+var stopCharacterRegexEnglish = /([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var ingExclusionArray = ["king", "cling", "ring", "being", "thing", "something", "anything"];
+// French-specific variables and imports.
+var SentencePartFrench = require("../french/passiveVoice/SentencePart");
+var auxiliariesFrench = require("../french/passiveVoice/auxiliaries.js")();
+var stopwordsFrench = require("../french/passiveVoice/stopwords.js")();
+var stopCharacterRegexFrench = /(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+var followingAuxiliaryExceptionWordsFrench = ["le", "la", "les", "une", "l'un", "l'une"];
+var reflexivePronounsFrench = ["se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous"];
+var directPrecedenceExceptionRegex = arrayToRegex(reflexivePronounsFrench);
+var elisionAuxiliaryExceptionWords = ["c'", "s'", "peut-"];
+var elisionAuxiliaryExceptionRegex = arrayToRegex(elisionAuxiliaryExceptionWords, true);
+// Spanish-specific variables and imports.
+var SentencePartSpanish = require("../spanish/passiveVoice/SentencePart");
+var auxiliariesSpanish = require("../spanish/passiveVoice/auxiliaries.js")();
+var stopwordsSpanish = require("../spanish/passiveVoice/stopwords.js")();
+var stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+var followingAuxiliaryExceptionWordsSpanish = ["el", "la", "los", "las", "una"];
+// The language-specific variables used to split sentences into sentence parts.
+var languageVariables = {
+    en: {
+        stopwords: stopwordsEnglish,
+        auxiliaryRegex: arrayToRegex(auxiliariesEnglish),
+        SentencePart: SentencePartEnglish,
+        auxiliaries: auxiliariesEnglish,
+        stopCharacterRegex: stopCharacterRegexEnglish
+    },
+    fr: {
+        stopwords: stopwordsFrench,
+        auxiliaryRegex: arrayToRegex(auxiliariesFrench),
+        SentencePart: SentencePartFrench,
+        auxiliaries: auxiliariesFrench,
+        stopCharacterRegex: stopCharacterRegexFrench,
+        followingAuxiliaryExceptionRegex: arrayToRegex(followingAuxiliaryExceptionWordsFrench)
+    },
+    es: {
+        stopwords: stopwordsSpanish,
+        auxiliaryRegex: arrayToRegex(auxiliariesSpanish),
+        SentencePart: SentencePartSpanish,
+        auxiliaries: auxiliariesSpanish,
+        stopCharacterRegex: stopCharacterRegexSpanish,
+        followingAuxiliaryExceptionRegex: arrayToRegex(followingAuxiliaryExceptionWordsSpanish)
+    }
+};
+/**
+ * Gets active verbs (ending in ing) to determine sentence breakers in English.
+ *
+ * @param {string} sentence The sentence to get the active verbs from.
+ * @returns {Array} The array with valid matches.
+ */
+var getVerbsEndingInIng = function getVerbsEndingInIng(sentence) {
+    // Matches the sentences with words ending in ing.
+    var matches = sentence.match(verbEndingInIngRegex) || [];
+    // Filters out words ending in -ing that aren't verbs.
+    return filter(matches, function (match) {
+        return !includes(ingExclusionArray, stripSpaces(match));
+    });
+};
+/**
+ * Gets stop characters to determine sentence breakers.
+ *
+ * @param {string} sentence The sentence to get the stop characters from.
+ * @param {string} language The language for which to get the stop characters.
+ * @returns {Array} The array with stop characters.
+ */
+var getStopCharacters = function getStopCharacters(sentence, language) {
+    var stopCharacterRegex = languageVariables[language].stopCharacterRegex;
+    var match;
+    var matches = [];
+    stopCharacterRegex.lastIndex = 0;
+    while ((match = stopCharacterRegex.exec(sentence)) !== null) {
+        matches.push({
+            index: match.index,
+            match: match[0]
+        });
+    }
+    return matches;
+};
+/**
+ * Filters auxiliaries preceded by a reflexive pronoun.
+ *
+ * @param {string} text The text part in which to check.
+ * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
+ * @returns {Array} The filtered list of auxiliary indices.
+ */
+var auxiliaryPrecedenceExceptionFilter = function auxiliaryPrecedenceExceptionFilter(text, auxiliaryMatches) {
+    var directPrecedenceExceptionMatches = getWordIndices(text, directPrecedenceExceptionRegex);
+    forEach(auxiliaryMatches, function (auxiliaryMatch) {
+        if (includesIndex(directPrecedenceExceptionMatches, auxiliaryMatch.index)) {
+            auxiliaryMatches = auxiliaryMatches.filter(function (auxiliaryObject) {
+                return auxiliaryObject.index !== auxiliaryMatch.index;
+            });
+        }
+    });
+    return auxiliaryMatches;
+};
+/**
+ * Filters auxiliaries followed by a word on the followingAuxiliaryExceptionWords list.
+ *
+ * @param {string} text The text part in which to check.
+ * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
+ * @param {string} language The language for which to filter the auxiliaries.
+ * @returns {Array} The filtered list of auxiliary indices.
+ */
+var followingAuxiliaryExceptionFilter = function followingAuxiliaryExceptionFilter(text, auxiliaryMatches, language) {
+    var followingAuxiliaryExceptionRegex = languageVariables[language].followingAuxiliaryExceptionRegex;
+    var followingAuxiliaryExceptionMatches = getWordIndices(text, followingAuxiliaryExceptionRegex);
+    forEach(auxiliaryMatches, function (auxiliaryMatch) {
+        if (followsIndex(followingAuxiliaryExceptionMatches, auxiliaryMatch)) {
+            auxiliaryMatches = auxiliaryMatches.filter(function (auxiliaryObject) {
+                return auxiliaryObject.index !== auxiliaryMatch.index;
+            });
+        }
+    });
+    return auxiliaryMatches;
+};
+/**
+ * Filters auxiliaries preceded by an elided word (e.g., s') on the elisionAuxiliaryExceptionWords list.
+ *
+ * @param {string} text The text part in which to check.
+ * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
+ * @returns {Array} The filtered list of auxiliary indices.
+ */
+var elisionAuxiliaryExceptionFilter = function elisionAuxiliaryExceptionFilter(text, auxiliaryMatches) {
+    var elisionAuxiliaryExceptionMatches = getWordIndices(text, elisionAuxiliaryExceptionRegex);
+    forEach(auxiliaryMatches, function (auxiliaryMatch) {
+        if (includesIndex(elisionAuxiliaryExceptionMatches, auxiliaryMatch.index, false)) {
+            auxiliaryMatches = auxiliaryMatches.filter(function (auxiliaryObject) {
+                return auxiliaryObject.index !== auxiliaryMatch.index;
+            });
+        }
+    });
+    return auxiliaryMatches;
+};
+/**
+ * Gets the indexes of sentence breakers (auxiliaries, stopwords and stop characters;
+ * in English also active verbs) to determine sentence parts.
+ * Indices are filtered because there could be duplicate matches, like "even though" and "though".
+ * In addition, 'having' will be matched both as a -ing verb as well as an auxiliary.
+ *
+ * @param {string} sentence The sentence to check for indices of sentence breakers.
+ * @param {string} language The language for which to match the sentence breakers.
+ * @returns {Array} The array with valid indices to use for determining sentence parts.
+ */
+var getSentenceBreakers = function getSentenceBreakers(sentence, language) {
+    sentence = sentence.toLocaleLowerCase();
+    var stopwords = languageVariables[language].stopwords;
+    var auxiliaries = languageVariables[language].auxiliaries;
+    var auxiliaryIndices = getIndicesOfList(auxiliaries, sentence);
+    var stopwordIndices = getIndicesOfList(stopwords, sentence);
+    var stopCharacterIndices = getStopCharacters(sentence, language);
+    var indices;
+    // Concat all indices arrays, filter them and sort them.
+    switch (language) {
+        case "fr":
+            // Filters auxiliaries matched in the sentence based on a precedence exception filter.
+            auxiliaryIndices = auxiliaryPrecedenceExceptionFilter(sentence, auxiliaryIndices);
+            // Filters auxiliaries matched in the sentence based on a elision exception filter.
+            auxiliaryIndices = elisionAuxiliaryExceptionFilter(sentence, auxiliaryIndices);
+            indices = [].concat(auxiliaryIndices, stopwordIndices, stopCharacterIndices);
+            break;
+        case "es":
+            indices = [].concat(auxiliaryIndices, stopwordIndices, stopCharacterIndices);
+            break;
+        case "en":
+        default:
+            var ingVerbs = getVerbsEndingInIng(sentence);
+            var ingVerbsIndices = getIndicesOfList(ingVerbs, sentence);
+            indices = [].concat(auxiliaryIndices, stopwordIndices, ingVerbsIndices, stopCharacterIndices);
+            break;
+    }
+    indices = filterIndices(indices);
+    return sortIndices(indices);
+};
+/**
+ * Gets the auxiliaries from a sentence.
+ *
+ * @param {string} sentencePart The part of the sentence to match for auxiliaries.
+ * @param {string} language The language for which to match the auxiliaries.
+ * @returns {Array} All formatted matches from the sentence part.
+ */
+var getAuxiliaryMatches = function getAuxiliaryMatches(sentencePart, language) {
+    var auxiliaryRegex = languageVariables[language].auxiliaryRegex;
+    var auxiliaryMatches = sentencePart.match(auxiliaryRegex) || [];
+    switch (language) {
+        case "fr":
+        case "es":
+            // An array with the matched auxiliaries and their indices.
+            var auxiliaryMatchIndices = getIndicesOfList(auxiliaryMatches, sentencePart);
+            if (language === "fr") {
+                // Filters auxiliaries matched in the sentence part based on a precedence exception filter.
+                auxiliaryMatchIndices = auxiliaryPrecedenceExceptionFilter(sentencePart, auxiliaryMatchIndices);
+            }
+            // Filters auxiliaries matched in the sentence part based on a exception filter for words following the auxiliary.
+            auxiliaryMatchIndices = followingAuxiliaryExceptionFilter(sentencePart, auxiliaryMatchIndices, language);
+            // An array with the matched auxiliary verbs (without indices).
+            var auxiliaryMatchWords = [];
+            forEach(auxiliaryMatchIndices, function (auxiliaryMatchIndex) {
+                auxiliaryMatchWords.push(auxiliaryMatchIndex.match);
+            });
+            return map(auxiliaryMatchWords, function (auxiliaryMatch) {
+                return stripSpaces(auxiliaryMatch);
+            });
+        case "en":
+        default:
+            return map(auxiliaryMatches, function (auxiliaryMatch) {
+                return stripSpaces(auxiliaryMatch);
+            });
+    }
+};
+/**
+ * Gets the sentence parts from a sentence by determining sentence breakers.
+ *
+ * @param {string} sentence The sentence to split up in sentence parts.
+ * @param {string} language The language for which to get the sentence parts.
+ * @returns {Array} The array with all parts of a sentence that have an auxiliary.
+ */
+var getSentenceParts = function getSentenceParts(sentence, language) {
+    var sentenceParts = [];
+    var auxiliaryRegex = languageVariables[language].auxiliaryRegex;
+    var SentencePart = languageVariables[language].SentencePart;
+    sentence = normalizeSingleQuotes(sentence);
+    // First check if there is an auxiliary in the sentence.
+    if (sentence.match(auxiliaryRegex) === null) {
+        return sentenceParts;
+    }
+    var indices = getSentenceBreakers(sentence, language);
+    // Get the words after the found auxiliary.
+    for (var i = 0; i < indices.length; i++) {
+        var endIndex = sentence.length;
+        if (!isUndefined(indices[i + 1])) {
+            endIndex = indices[i + 1].index;
+        }
+        // Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
+        var sentencePart = stripSpaces(sentence.substr(indices[i].index, endIndex - indices[i].index));
+        var auxiliaryMatches = getAuxiliaryMatches(sentencePart, language);
+        // If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
+        if (auxiliaryMatches.length !== 0) {
+            sentenceParts.push(new SentencePart(sentencePart, auxiliaryMatches));
+        }
+    }
+    return sentenceParts;
+};
+/**
+ * Split the sentence in sentence parts based on auxiliaries.
+ *
+ * @param {string} sentence The sentence to split in parts.
+ * @param {string} language The language for which to get the sentence parts.
+ * @returns {Array} A list with sentence parts.
+ */
+module.exports = function (sentence, language) {
+    return getSentenceParts(sentence, language);
+};
+
+
+
+},{"../../stringProcessing/createRegexFromArray.js":364,"../../stringProcessing/followsIndex":369,"../../stringProcessing/includesIndex":378,"../../stringProcessing/indices":379,"../../stringProcessing/quotes.js":387,"../../stringProcessing/stripSpaces.js":397,"../english/passiveVoice/SentencePart":282,"../english/passiveVoice/auxiliaries.js":283,"../english/passiveVoice/stopwords.js":286,"../french/passiveVoice/SentencePart":295,"../french/passiveVoice/auxiliaries.js":296,"../french/passiveVoice/stopwords.js":299,"../spanish/passiveVoice/SentencePart":347,"../spanish/passiveVoice/auxiliaries.js":349,"../spanish/passiveVoice/stopwords.js":351,"./getIndicesWithRegex.js":339,"lodash/filter":162,"lodash/forEach":167,"lodash/includes":173,"lodash/isUndefined":192,"lodash/map":195}],342:[function(require,module,exports){
+"use strict";
+
+var find = require("lodash/find");
+var forEach = require("lodash/forEach");
+var memoize = require("lodash/memoize");
+var includes = require("lodash/includes");
+var irregularsEnglish = require("../english/passiveVoice/irregulars")();
+var irregularsRegularFrench = require("../french/passiveVoice/irregulars")().irregularsRegular;
+var irregularsIrregularFrench = require("../french/passiveVoice/irregulars")().irregularsIrregular;
+var irregularsEndingInSFrench = require("../french/passiveVoice/irregulars")().irregularsEndingInS;
+var spanishParticiples = require("../spanish/passiveVoice/participles")();
+// The language-specific participle regexes.
+var languageVariables = {
+    en: {
+        regularParticiplesRegex: /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig
+    },
+    fr: {
+        regularParticiplesRegex: /\S+(é|ée|és|ées)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig
+    }
+};
+/**
+ * Returns words that have been determined to be a regular participle.
+ *
+ * @param {string} word The word to check.
+ * @param {string} language The language in which to match.
+ *
+ * @returns {Array} A list with the matches.
+ */
+var regularParticiples = function regularParticiples(word, language) {
+    // In Spanish we don't match participles with a regular regex pattern.
+    if (language === "es") {
+        return [];
+    }
+    // Matches all words with a language-specific participle suffix.
+    var regularParticiplesRegex = languageVariables[language].regularParticiplesRegex;
+    return word.match(regularParticiplesRegex) || [];
+};
+/**
+ * Returns an array of matches of irregular participles with suffixes.
+ *
+ * @param {string} word The word to match on.
+ * @param {Array} irregulars The list of irregulars to match.
+ * @param {string} suffixes The suffixes to match the word with.
+ * @param {Array} matches The array into which to push the matches.
+ * @returns {Array} A list with matched irregular participles.
+ */
+var matchFrenchParticipleWithSuffix = function matchFrenchParticipleWithSuffix(word, irregulars, suffixes) {
+    var matches = [];
+    forEach(irregulars, function (irregular) {
+        var irregularParticiplesRegex = new RegExp("^" + irregular + suffixes + "?$", "ig");
+        var participleMatch = word.match(irregularParticiplesRegex);
+        if (participleMatch) {
+            matches.push(participleMatch[0]);
+        }
+    });
+    return matches;
+};
+/**
+ * Returns the matches for a word in the list of irregulars.
+ *
+ * @param {string} word The word to match in the list.
+ * @param {string} language The language for which to match.
+ *
+ * @returns {Array} A list with the matches.
+ */
+var irregularParticiples = function irregularParticiples(word, language) {
+    var matches = [];
+    switch (language) {
+        case "fr":
+            // Match different classes of participles with suffixes.
+            matches = matches.concat(matchFrenchParticipleWithSuffix(word, irregularsRegularFrench, "(e|s|es)"));
+            matches = matches.concat(matchFrenchParticipleWithSuffix(word, irregularsEndingInSFrench, "(e|es)"));
+            // Match irregular participles that don't require adding a suffix.
+            find(irregularsIrregularFrench, function (irregularParticiple) {
+                if (irregularParticiple === word) {
+                    matches.push(irregularParticiple);
+                }
+            });
+            break;
+        case "es":
+            // In Spanish, we only match passives from a word list.
+            if (includes(spanishParticiples, word)) {
+                matches.push(word);
+            }
+            break;
+        case "en":
+        default:
+            find(irregularsEnglish, function (irregularParticiple) {
+                if (irregularParticiple === word) {
+                    matches.push(irregularParticiple);
+                }
+            });
+            break;
+    }
+    return matches;
+};
+module.exports = function () {
+    return {
+        regularParticiples: memoize(regularParticiples),
+        irregularParticiples: memoize(irregularParticiples)
+    };
+};
+
+
+
+},{"../english/passiveVoice/irregulars":284,"../french/passiveVoice/irregulars":298,"../spanish/passiveVoice/participles":350,"lodash/find":163,"lodash/forEach":167,"lodash/includes":173,"lodash/memoize":196}],343:[function(require,module,exports){
 "use strict";
 
 var getRelevantWords = require("../stringProcessing/relevantWords").getRelevantWords;
@@ -17554,25 +17988,22 @@ module.exports = relevantWords;
 
 
 
-},{"../stringProcessing/relevantWords":371}],337:[function(require,module,exports){
+},{"../stringProcessing/relevantWords":388}],344:[function(require,module,exports){
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function (paper) {
-  return getSentences(paper.getText());
-};
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
 var getSentences = require("../stringProcessing/getSentences");
 /**
  * @param {Paper} paper The paper to analyze.
  */
+function default_1(paper) {
+  return getSentences(paper.getText());
+}
+exports.default = default_1;
 
 
-},{"../stringProcessing/getSentences":359}],338:[function(require,module,exports){
+
+},{"../stringProcessing/getSentences":373}],345:[function(require,module,exports){
 "use strict";
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
@@ -17593,7 +18024,7 @@ module.exports = function () {
 
 
 
-},{}],339:[function(require,module,exports){
+},{}],346:[function(require,module,exports){
 "use strict";
 
 var transitionWords = require("./transitionWords.js")().singleWords;
@@ -17662,6 +18093,8 @@ module.exports = function () {
         filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
         // These word categories are filtered everywhere within word combinations.
         filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, personalPronounsComitative, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, recipeWords, timeWords, vagueNouns),
+        // These word categories cannot directly precede a passive participle.
+        cannotDirectlyPrecedePassiveParticiple: [].concat(articles, prepositions, personalPronounsAccusative, possessivePronouns, indefinitePronouns, interrogativeProAdverbs, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalizedVerbsInfinitive, interviewVerbs),
         // This export contains all of the above words.
         all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing)
     };
@@ -17669,7 +18102,111 @@ module.exports = function () {
 
 
 
-},{"./transitionWords.js":340}],340:[function(require,module,exports){
+},{"./transitionWords.js":352}],347:[function(require,module,exports){
+"use strict";
+
+var SentencePart = require("../../../values/SentencePart.js");
+var getParticiples = require("../../passiveVoice/getParticiples.js");
+/**
+ * Creates a Spanish-specific sentence part.
+ *
+ * @param {string} sentencePartText The text from the sentence part.
+ * @param {Array} auxiliaries The list with auxiliaries.
+ * @constructor
+ */
+var SpanishSentencePart = function SpanishSentencePart(sentencePartText, auxiliaries) {
+  SentencePart.call(this, sentencePartText, auxiliaries, "es_ES");
+};
+require("util").inherits(SpanishSentencePart, SentencePart);
+/**
+ * Returns the participles found in the sentence part.
+ *
+ * @returns {Array} The array of Participle Objects.
+ */
+SpanishSentencePart.prototype.getParticiples = function () {
+  return getParticiples(this.getSentencePartText(), this.getAuxiliaries(), "es");
+};
+module.exports = SpanishSentencePart;
+
+
+
+},{"../../../values/SentencePart.js":409,"../../passiveVoice/getParticiples.js":340,"util":224}],348:[function(require,module,exports){
+"use strict";
+
+var Participle = require("../../../values/Participle.js");
+var checkException = require("../../passiveVoice/checkException.js");
+var directPrecedenceException = require("../../../stringProcessing/directPrecedenceException");
+/**
+ * Creates an Participle object for the Spanish language.
+ *
+ * @param {string} participle The participle.
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {Object} attributes  The attributes object.
+ *
+ * @constructor
+ */
+var SpanishParticiple = function SpanishParticiple(participle, sentencePart, attributes) {
+  Participle.call(this, participle, sentencePart, attributes);
+  checkException.call(this);
+};
+require("util").inherits(SpanishParticiple, Participle);
+/**
+ * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
+ * If no exceptions are found, the sentence part is passive.
+ *
+ * @returns {boolean} Returns true if no exception is found.
+ */
+SpanishParticiple.prototype.isPassive = function () {
+  var sentencePart = this.getSentencePart();
+  var participleIndex = sentencePart.indexOf(this.getParticiple());
+  return !this.directPrecedenceException(sentencePart, participleIndex);
+};
+SpanishParticiple.prototype.directPrecedenceException = directPrecedenceException;
+module.exports = SpanishParticiple;
+
+
+
+},{"../../../stringProcessing/directPrecedenceException":367,"../../../values/Participle.js":407,"../../passiveVoice/checkException.js":336,"util":224}],349:[function(require,module,exports){
+"use strict";
+/**
+ * Returns a list with auxiliaries for the Spanish passive voice assessment.
+ * @returns {Array} The list with auxiliaries.
+ */
+
+module.exports = function () {
+  return ["ser", "soy", "eres", "es", "somos", "sois", "son", "fui", "fuiste", "fue", "fuimos", "fuisteis", "fueron", "era", "eras", "era", "éramos", "erais", "eran", "sería", "serías", "seríamos", "seríais", "serían", "seré", "serás", "será", "seremos", "seréis", "serán", "seas", "sea", "seamos", "seáis", "sean", "fuera", "fueras", "fuéramos", "fuerais", "fueran", "fuese", "fueses", "fuésemos", "fueseis", "fuesen", "fuere", "fueres", "fuéremos", "fuereis", "fueren", "sé", "sed", "siendo", "sido"];
+};
+
+
+
+},{}],350:[function(require,module,exports){
+"use strict";
+/**
+ * Returns a list of all participles used for the Spanish passive voice assessment.
+ * For each participle, versions for all four possible suffixes (-o, -a, -os, -as) are included.
+ * @returns {Array} The list with participles.
+ */
+
+module.exports = function () {
+  return ["abajado", "abalanzado", "abaleado", "abandonado", "abaratado", "abarcado", "abarrotado", "abastecido", "abatido", "abdicado", "abierto", "abismado", "abjurado", "ablandado", "abocado", "abochornado", "abofeteado", "abolido", "abollado", "abombado", "abominado", "abonado", "abordado", "aborrecido", "aborregado", "abortado", "abotonado", "abrasado", "abrazado", "abrevado", "abreviado", "abrigado", "abrochado", "abrogado", "abroquelado", "abrumado", "absorbido", "abstenido", "abstraído", "absuelto", "abucheado", "abultado", "abundado", "aburguesado", "aburrido", "abusado", "acabado", "acallado", "acalorado", "acaparado", "acariciado", "acarreado", "acatado", "acaudillado", "accedido", "accionado", "acechado", "aceitado", "acelerado", "acentuado", "aceptado", "acerado", "acercado", "acertado", "achacado", "achantado", "achatado", "achicado", "acicalado", "acidificado", "aclarado", "aclimatado", "acobardado", "acodado", "acogido", "acojonado", "acometido", "acomodado", "acompañado", "acompasado", "acongojado", "aconsejado", "acontecido", "acopiado", "acoplado", "acordado", "acordonado", "acorralado", "acortado", "acosado", "acostado", "acostumbrado", "acotado", "acrecentado", "acreditado", "acrisolado", "activado", "actuado", "acuchillado", "acuciado", "acudido", "acuerpado", "acumulado", "acunado", "acuñado", "acurrucado", "acusado", "adaptado", "adecentado", "adelantado", "adelgazado", "adentrado", "adeudado", "adherido", "adicionado", "adiestrado", "adivinado", "adjetivado", "adjudicado", "adjuntado", "administrado", "admirado", "admitido", "adoctrinado", "adolecido", "adoptado", "adorado", "adormecido", "adornado", "adquirido", "aducido", "adueñado", "adulado", "adulterado", "advertido", "afanado", "afeado", "afectado", "afeitado", "aferrado", "afianzado", "afinado", "afirmado", "afligido", "aflorado", "afrentado", "afrontado", "agachado", "agarrado", "agarrotado", "agasajado", "agenciado", "agigantado", "agilizado", "agitado", "aglutinado", "agobiado", "agolpado", "agonizado", "agostado", "agotado", "agradado", "agradecido", "agrandado", "agravado", "agraviado", "agredido", "agregado", "agriado", "agrietado", "agrupado", "aguado", "aguantado", "aguardado", "agudizado", "aguijoneado", "agujereado", "aguzado", "ahogado", "ahondado", "ahorcado", "ahorrado", "ahuecado", "ahuyentado", "aireado", "aislado", "ajustado", "ajusticiado", "alabado", "alagado", "alambrado", "alardeado", "alargado", "alarmado", "albergado", "alborotado", "alcanzado", "aleccionado", "alegado", "alegrado", "alejado", "alentado", "alertado", "alfabetizado", "alfombrado", "aliado", "alienado", "aligerado", "alimentado", "aliñado", "alineado", "alisado", "alistado", "aliviado", "alivianado", "allanado", "almacenado", "almorzado", "alojado", "alquilado", "alterado", "alternado", "alucinado", "aludido", "alumbrado", "alzado", "amado", "amaestrado", "amagado", "amainado", "amalgamado", "amamantado", "amansado", "amargado", "amarrado", "amasado", "ambicionado", "amedrentado", "amenazado", "amenizado", "ameritado", "ametrallado", "amilanado", "aminorado", "amnistiado", "amoldado", "amonestado", "amontonado", "amordazado", "amortajado", "amortiguado", "amortizado", "amotinado", "amparado", "ampayado", "ampliado", "amplificado", "amputado", "amueblado", "añadido", "analizado", "anatematizado", "andado", "anegado", "anestesiado", "anexado", "anexionado", "anhelado", "anidado", "anillado", "animado", "aniquilado", "anisado", "añorado", "anotado", "anoticiado", "ansiado", "antecedido", "antepuesto", "anticipado", "antojado", "anudado", "anulado", "anunciado", "apabullado", "apachurrado", "apaciguado", "apadrinado", "apagado", "apalancado", "apaleado", "apañado", "apantallado", "aparcado", "apareado", "aparecido", "aparentado", "apartado", "apeado", "apedreado", "apelado", "apellidado", "apelmazado", "apercibido", "apersonado", "apestado", "apetecido", "apiadado", "apilado", "apiñado", "apisonado", "aplacado", "aplanado", "aplastado", "aplaudido", "aplazado", "aplicado", "apoderado", "apoltronado", "aporreado", "aportado", "aposentado", "apostado", "apostatado", "apostillado", "apoyado", "apreciado", "aprehendido", "apremiado", "aprendido", "apresado", "apresurado", "apretado", "apretujado", "aprisionado", "aprobado", "aprovechado", "aprovisionado", "aproximado", "apuñalado", "apuñaleado", "apuntado", "apuntalado", "apuntillado", "apurado", "aquejado", "aquietado", "aquilatado", "arañado", "arbitrado", "archivado", "arengado", "argüido", "argumentado", "armado", "armonizado", "aromatizado", "arqueado", "arrancado", "arrasado", "arrastrado", "arreado", "arrebatado", "arreciado", "arreglado", "arrellanado", "arremangado", "arremetido", "arrendado", "arrepentido", "arrestado", "arriado", "arribado", "arriesgado", "arrimado", "arrinconado", "arrodillado", "arrogado", "arrojado", "arrollado", "arropado", "arruinado", "arrullado", "articulado", "asado", "asaltado", "ascendido", "aseado", "asechado", "asediado", "asegurado", "asemejado", "asentado", "asentido", "aserrado", "asesinado", "asesorado", "asestado", "aseverado", "asfixiado", "asido", "asignado", "asilado", "asimilado", "asistido", "asolado", "asoleado", "asomado", "asombrado", "aspirado", "astillado", "asumido", "asustado", "atacado", "atado", "atajado", "atarantado", "atascado", "atemorizado", "atemperado", "atenazado", "atendido", "atenido", "atentado", "atenuado", "aterrado", "aterrorizado", "atesorado", "atestiguado", "atiborrado", "atisbado", "atizado", "atomizado", "atontado", "atorado", "atormentado", "atornillado", "atosigado", "atracado", "atragantado", "atraído", "atrancado", "atrapado", "atrasado", "atravesado", "atrevido", "atribuido", "atrincherado", "atrofiado", "atropellado", "aturdido", "auditado", "augurado", "aumentado", "aunado", "aupado", "auscultado", "ausentado", "autenticado", "autentificado", "autodefinido", "autoeditado", "automatizado", "autorizado", "autorregulado", "auxiliado", "avalado", "avanzado", "avasallado", "avenido", "aventado", "aventajado", "aventurado", "averiado", "averiguado", "avezado", "avisado", "avispado", "avistado", "avivado", "avizorado", "avocado", "ayudado", "azotado", "azuzado", "babeado", "bailado", "bajado", "balaceado", "balanceado", "bañado", "banalizado", "bancado", "bandeado", "barajado", "barrido", "basado", "bastardeado", "basureado", "batallado", "bateado", "batido", "bautizado", "beatificado", "bebido", "beneficiado", "besado", "bifurcado", "birlado", "blandido", "blanqueado", "blasfemado", "blindado", "bloqueado", "boicoteado", "bombardeado", "bombeado", "bonificado", "bordeado", "borrado", "borroneado", "bosquejado", "bostezado", "botado", "boxeado", "bregado", "brillado", "brincado", "brindado", "bromeado", "brotado", "bruñido", "buceado", "burlado", "buscado", "cabeceado", "cabido", "cabildeado", "cabreado", "cacareado", "cachado", "cacheado", "cacheteado", "caducado", "cagado", "calado", "calculado", "caldeado", "calefaccionado", "calendarizado", "calentado", "calibrado", "calificado", "caligrafiado", "callado", "calmado", "calumniado", "calzado", "cambiado", "caminado", "camuflado", "canalizado", "cancelado", "canjeado", "cansado", "cantado", "capado", "capeado", "capitalizado", "capitulado", "captado", "capturado", "caracterizado", "carburado", "carcomido", "cardado", "careado", "carecido", "cargado", "caricaturizado", "cartografiado", "cascado", "castigado", "castrado", "catado", "catalizado", "catalogado", "catapultado", "cateado", "categorizado", "causado", "cauterizado", "cautivado", "cavado", "cavilado", "cazado", "cebado", "cedido", "cegado", "cejado", "celebrado", "cenado", "ceñido", "censurado", "centrifugado", "centuplicado", "cepillado", "cercado", "cercenado", "cerciorado", "cernido", "cerrado", "cesado", "chafado", "chamuscado", "chantajeado", "chapado", "charlado", "chateado", "chequeado", "chiflado", "chillado", "chingado", "chirriado", "chivado", "chocado", "chorreado", "choteado", "chupado", "chutado", "cicatrizado", "cifrado", "cimentado", "cincelado", "circulado", "circuncidado", "circundado", "citado", "clamado", "clarificado", "clasificado", "claudicado", "clausurado", "clavado", "clicado", "clonado", "coaccionado", "coadyuvado", "coagulado", "coaligado", "coartado", "cobijado", "cobrado", "cocido", "cocinado", "codeado", "codiciado", "codificado", "codirigido", "coexistido", "cofinanciado", "cogido", "cohabitado", "cohibido", "coincidido", "colaborado", "colacionado", "colado", "colapsado", "coleccionado", "colectado", "colectivizado", "colgado", "colisionado", "colmado", "colocado", "colonizado", "coloreado", "columpiado", "combatido", "combinado", "comentado", "comenzado", "comerciado", "comercializado", "cometido", "comido", "comisionado", "compactado", "compadecido", "compaginado", "comparado", "comparecido", "compartido", "compatibilizado", "compelido", "compendiado", "compenetrado", "compensado", "compilado", "complacido", "complementado", "completado", "complotado", "comportado", "comprado", "comprendido", "comprimido", "comprobado", "comprometido", "compuesto", "compulsado", "computado", "comulgado", "comunicado", "concatenado", "concebido", "concedido", "concelebrado", "concentrado", "conceptuado", "conceptualizado", "concertado", "concienciado", "concientizado", "conciliado", "concitado", "concluido", "concordado", "concretado", "concretizado", "conculcado", "concursado", "condenado", "condensado", "condicionado", "condimentado", "condolido", "condonado", "conducido", "conectado", "conexionado", "confabulado", "confeccionado", "conferido", "confesado", "confiado", "configurado", "confirmado", "confiscado", "confluido", "conformado", "confortado", "confrontado", "confundido", "congeniado", "congestionado", "congratulado", "congregado", "conjeturado", "conjugado", "conjuntado", "conjurado", "conllevado", "conmemorado", "conminado", "conmocionado", "conmovido", "conmutado", "connotado", "conquistado", "consagrado", "conseguido", "consensuado", "consentido", "conservado", "considerado", "consignado", "consistido", "consolado", "consolidado", "conspirado", "constado", "constatado", "constelado", "constitucionalizado", "constituido", "constreñido", "construido", "consultado", "consumado", "consumido", "contabilizado", "contactado", "contado", "contagiado", "contemplado", "contendido", "contenido", "contentado", "contestado", "contextualizado", "continuado", "contorneado", "contraatacado", "contrabandeado", "contradicho", "contrahecho", "contraído", "contrapesado", "contrapuesto", "contrariado", "contrarrestado", "contrastado", "contratado", "contravenido", "contribuido", "contristado", "controlado", "convalidado", "convencido", "convenido", "convergido", "conversado", "convertido", "convidado", "convivido", "convocado", "convulsionado", "cooperado", "cooptado", "coordinado", "copado", "copiado", "coproducido", "copulado", "coqueteado", "corchado", "coreado", "coreografiado", "corneado", "coronado", "corporizado", "corregido", "correlacionado", "correspondido", "correteado", "corrido", "corroborado", "corroído", "corrompido", "cortado", "cortejado", "cosechado", "cosido", "cosificado", "costado", "costeado", "cotejado", "cotizado", "creado", "creído", "criado", "cribado", "criminalizado", "crispado", "cristalizado", "cristianizado", "criticado", "cronometrado", "crucificado", "crujido", "cruzado", "cuadriplicado", "cuadruplicado", "cuajado", "cuantificado", "cuarteado", "cubierto", "cuestionado", "cuidado", "culeado", "culminado", "culpabilizado", "culpado", "cultivado", "culturizado", "cumplido", "cumplimentado", "cundido", "curado", "curioseado", "currado", "cursado", "curvado", "custodiado", "dado", "dañado", "danzado", "datado", "dateado", "debatido", "debido", "debilitado", "debitado", "debutado", "decaído", "decantado", "decapitado", "decepcionado", "decidido", "declamado", "declarado", "declinado", "decodificado", "decolorado", "decomisado", "decrecido", "decretado", "dedicado", "deducido", "defecado", "defendido", "defenestrado", "deferido", "definido", "deformado", "defraudado", "degenerado", "deglutido", "degollado", "degradado", "degustado", "deificado", "dejado", "delatado", "delegado", "deleitado", "deletreado", "deliberado", "delimitado", "delineado", "delinquido", "demandado", "demarcado", "demediado", "demeritado", "democratizado", "demolido", "demonizado", "demorado", "demostrado", "demudado", "denegado", "denigrado", "denominado", "denostado", "denotado", "denunciado", "deparado", "departido", "dependido", "depilado", "deplorado", "deportado", "depositado", "depreciado", "depredado", "deprimido", "depuesto", "depurado", "derechizado", "derivado", "derogado", "derramado", "derretido", "derribado", "derrocado", "derrochado", "derrotado", "derruido", "derrumbado", "desabrochado", "desacatado", "desacelerado", "desacomodado", "desaconsejado", "desacoplado", "desacralizado", "desacreditado", "desactivado", "desafiado", "desafinado", "desaguado", "desahogado", "desairado", "desajustado", "desalentado", "desalineado", "desalojado", "desandado", "desangrado", "desanimado", "desaparecido", "desapegado", "desaprendido", "desaprobado", "desaprovechado", "desarmado", "desarraigado", "desarreglado", "desarrollado", "desarticulado", "desaseado", "desasido", "desasosegado", "desatado", "desatendido", "desautorizado", "desayunado", "desbancado", "desbandado", "desbaratado", "desbarrancado", "desbastado", "desbloqueado", "desbocado", "desbordado", "desbrozado", "descabalgado", "descabezado", "descaderado", "descalabrado", "descalificado", "descansado", "descargado", "descarriado", "descarrilado", "descartado", "descascarado", "descascarillado", "descendido", "descentrado", "descifrado", "descocido", "descodificado", "descojonado", "descolgado", "descolocado", "descolonizado", "descompensado", "descomprimido", "descompuesto", "desconectado", "desconfiado", "descongelado", "desconocido", "descontado", "descontaminado", "descontextualizado", "descontinuado", "desconvocado", "descorazonado", "descorchado", "descorrido", "descosido", "descoyuntado", "descreído", "descristianizado", "descuadrado", "descuartizado", "descubierto", "descuidado", "desdeñado", "desdibujado", "desdicho", "desdoblado", "deseado", "desecado", "desechado", "desembarazado", "desembarcado", "desembocado", "desembolsado", "desempacado", "desempañado", "desempaquetado", "desempeñado", "desempolvado", "desenamorado", "desencadenado", "desencajado", "desencarnado", "desenchufado", "desenfocado", "desenfundado", "desenganchado", "desengrasado", "desenmascarado", "desenredado", "desenrollado", "desentendido", "desenterrado", "desentonado", "desentrañado", "desenvainado", "desenvuelto", "desequilibrado", "desertado", "desestabilizado", "desestimado", "desfalcado", "desfallecido", "desfigurado", "desfondado", "desgajado", "desgañitado", "desgarrado", "desgastado", "desglosado", "desgobernado", "desgranado", "desguazado", "deshecho", "desheredado", "deshidratado", "deshilachado", "deshojado", "deshonrado", "deshuesado", "deshumanizado", "designado", "desilusionado", "desincentivado", "desinfectado", "desinflado", "desinflamado", "desinformado", "desinhibido", "desinstalado", "desintegrado", "desintoxicado", "desistido", "desjarretado", "deslegitimado", "desleído", "desligado", "deslindado", "deslizado", "deslucido", "deslumbrado", "desmadrado", "desmalezado", "desmantelado", "desmaquillado", "desmarcado", "desmayado", "desmejorado", "desmembrado", "desmentido", "desmenuzado", "desmerecido", "desmigado", "desmitificado", "desmoldado", "desmontado", "desmoralizado", "desmoronado", "desmotivado", "desmovilizado", "desnaturalizado", "desnivelado", "desnucado", "desnudado", "desobedecido", "desobligado", "desoído", "desollado", "desorganizado", "desorientado", "despachado", "desparasitado", "desparecido", "desparramado", "despedazado", "despedido", "despegado", "despeinado", "despejado", "despellejado", "despeñado", "despenalizado", "desperdiciado", "despersonalizado", "despertado", "despilfarrado", "despintado", "despiojado", "despistado", "desplazado", "desplegado", "desplomado", "desplumado", "despojado", "despolitizado", "desposado", "desposeído", "despotricado", "despreciado", "desprendido", "despreocupado", "desprestigiado", "desprogramado", "despulpado", "despuntado", "desquiciado", "desquitado", "destacado", "destapado", "desteñido", "desterrado", "destetado", "destilado", "destituido", "destrabado", "destripado", "destronado", "destrozado", "destruido", "desunido", "desvalijado", "desvalorizado", "desvanecido", "desvelado", "desvestido", "desviado", "desvinculado", "desvirtuado", "desvivido", "detectado", "detenido", "detentado", "deteriorado", "determinado", "detestado", "detonado", "devaluado", "devanado", "devastado", "develado", "devengado", "devenido", "devorado", "devuelto", "diagnosticado", "diagramado", "dializado", "dialogado", "dibujado", "dicho", "dictado", "dictaminado", "diezmado", "difamado", "diferenciado", "diferido", "dificultado", "difuminado", "difundido", "digerido", "digitado", "dignado", "dignificado", "dilapidado", "dilatado", "diligenciado", "dilucidado", "diluido", "dimensionado", "dimitido", "dinamitado", "dinamizado", "dirimido", "discernido", "disciplinado", "discontinuado", "discrepado", "discriminado", "disculpado", "discurrido", "discutido", "diseccionado", "diseminado", "diseñado", "disentido", "disertado", "disfrazado", "disfrutado", "disgregado", "disgustado", "disimulado", "disipado", "dislocado", "disminuido", "disociado", "dispensado", "dispersado", "dispuesto", "disputado", "distado", "distanciado", "distendido", "distinguido", "distorsionado", "distraído", "distribuido", "disuadido", "disuelto", "divagado", "diversificado", "divertido", "dividido", "divinizado", "divisado", "divorciado", "divulgado", "doblado", "doblegado", "doctorado", "documentado", "dogmatizado", "dolido", "domado", "domesticado", "dominado", "donado", "dopado", "dormido", "dosificado", "dotado", "dragado", "dramatizado", "drenado", "drogado", "duchado", "dudado", "dulcificado", "duplicado", "durado", "echado", "eclipsado", "eclosionado", "economizado", "ecualizado", "edificado", "editado", "educado", "efectuado", "ejecutado", "ejemplificado", "ejercido", "ejercitado", "elaborado", "electrizado", "electrocutado", "elevado", "elidido", "eliminado", "elogiado", "elucubrado", "eludido", "emanado", "emancipado", "embadurnado", "embalado", "embalsamado", "embanderado", "embarcado", "embargado", "embarrado", "embarrancado", "embaucado", "embebido", "embelesado", "embellecido", "embestido", "embolado", "embolsado", "emborrachado", "emborronado", "emboscado", "embotado", "embriagado", "embrollado", "embrutecido", "embuchado", "emergido", "emigrado", "emitido", "emocionado", "empacado", "empachado", "empadronado", "empalado", "empalmado", "empanado", "empañado", "empantanado", "empapelado", "empaquetado", "emparejado", "empastado", "empatado", "empecinado", "empeñado", "empeorado", "empequeñecido", "emperrado", "empezado", "empinado", "emplazado", "empleado", "empobrecido", "empoderado", "empollado", "empolvado", "emponzoñado", "emprendido", "empujado", "empuñado", "emputado", "emulado", "emulsionado", "enajenado", "enaltecido", "enamorado", "enarbolado", "enardecido", "encabezado", "encabritado", "encabronado", "encadenado", "encajado", "encajonado", "encallado", "encamado", "encaminado", "encandilado", "encanecido", "encañonado", "encantado", "encaprichado", "encapsulado", "encarado", "encaramado", "encarecido", "encargado", "encariñado", "encarnado", "encarrilado", "encartado", "encasillado", "encasquetado", "encasquillado", "encastrado", "encausado", "encauzado", "enceguecido", "encendido", "encerado", "encerrado", "encharcado", "enchufado", "encimado", "encogido", "encolado", "encolerizado", "encolumnado", "encomendado", "enconado", "encontrado", "encordado", "encrespado", "encuadrado", "encubierto", "encuerado", "encumbrado", "enderezado", "endeudado", "endilgado", "endiosado", "endosado", "endulzado", "endurecido", "enemistado", "energizado", "enervado", "enfadado", "enfangado", "enfatizado", "enfermado", "enfiestado", "enfilado", "enflaquecido", "enfocado", "enfrascado", "enfrentado", "enfriado", "enfurecido", "engalanado", "engañado", "enganchado", "engarzado", "engatusado", "engendrado", "englobado", "engolosinado", "engordado", "engranado", "engrandecido", "engrasado", "engreído", "engrosado", "engullido", "enharinado", "enhebrado", "enjuagado", "enjugado", "enjuiciado", "enlazado", "enlistado", "enlodado", "enloquecido", "enlozado", "enlutado", "enmarañado", "enmascarado", "enmendado", "enmohecido", "enmudecido", "ennegrecido", "ennoblecido", "enorgullecido", "enrarecido", "enredado", "enripiado", "enriquecido", "enrocado", "enrojecido", "enrolado", "enrollado", "enroscado", "enrumbado", "ensalzado", "ensamblado", "ensañado", "ensanchado", "ensartado", "ensayado", "ensebado", "enseñado", "enseñoreado", "ensillado", "ensoberbecido", "ensogado", "ensombrecido", "ensoñado", "ensordecido", "ensuciado", "entablado", "entallado", "entendido", "enterado", "enternecido", "enterrado", "entibiado", "entintado", "entonado", "entorpecido", "entrado", "entrampado", "entrañado", "entreabierto", "entrecomillado", "entrecruzado", "entregado", "entrelazado", "entremetido", "entremezclado", "entrenado", "entresacado", "entretejido", "entretenido", "entreverado", "entrevistado", "entristecido", "entrometido", "entronado", "entroncado", "entronizado", "entumecido", "enturbiado", "entusiasmado", "enumerado", "enunciado", "envainado", "envalentonado", "envanecido", "envasado", "envejecido", "envenenado", "envestido", "enviado", "enviciado", "envidiado", "envilecido", "enviudado", "envuelto", "enzarzado", "equilibrado", "equiparado", "equivocado", "erigido", "erizado", "erogado", "erosionado", "erotizado", "erradicado", "errado", "esbozado", "escabullido", "escalado", "escaldado", "escalfado", "escamado", "escamoteado", "escampado", "escandalizado", "escaneado", "escapado", "escaqueado", "escarbado", "escarchado", "escarmentado", "escarnecido", "escaseado", "escatimado", "escenificado", "escindido", "esclarecido", "esclavizado", "escocido", "escogido", "escolarizado", "escoltado", "escondido", "escorado", "escrachado", "escrito", "escrutado", "escuchado", "escudado", "escudriñado", "esculpido", "escupido", "escurrido", "esforzado", "esfumado", "esgrimido", "esmerado", "esmerilado", "espabilado", "espaciado", "españolizado", "espantado", "esparcido", "especificado", "especulado", "esperado", "espesado", "espetado", "espiado", "espigado", "espinado", "espirado", "espiritualizado", "espoleado", "espolvoreado", "esponjado", "esponsorizado", "esposado", "esquematizado", "esquiado", "esquilado", "esquilmado", "esquivado", "estabilizado", "establecido", "estacionado", "estafado", "estallado", "estampado", "estancado", "estaqueado", "estatizado", "estatuido", "esterificado", "esterilizado", "estigmatizado", "estilizado", "estimado", "estimulado", "estipulado", "estirado", "estorbado", "estornudado", "estragado", "estrangulado", "estrechado", "estrellado", "estremecido", "estrenado", "estresado", "estriado", "estropeado", "estructurado", "estrujado", "estudiado", "eternizado", "etiquetado", "evacuado", "evadido", "evaluado", "evangelizado", "evaporado", "evidenciado", "eviscerado", "evitado", "evocado", "evolucionado", "exacerbado", "exagerado", "exaltado", "examinado", "exasperado", "excarcelado", "excavado", "excedido", "exceptuado", "excitado", "exclamado", "excluido", "excretado", "exculpado", "excusado", "execrado", "exhalado", "exhibido", "exhortado", "exhumado", "exigido", "exilado", "eximido", "existido", "exonerado", "exorcizado", "expandido", "expedido", "expedientado", "expelido", "expendido", "experimentado", "expiado", "expirado", "explayado", "explicado", "explicitado", "explorado", "explosionado", "explotado", "expoliado", "exportado", "expresado", "exprimido", "expropiado", "expuesto", "expulsado", "expurgado", "extendido", "exteriorizado", "exterminado", "externado", "externalizado", "extinguido", "extirpado", "extorsionado", "extractado", "extraditado", "extraído", "extralimitado", "extrañado", "extrapolado", "extraviado", "extremado", "extruido", "exudado", "eyaculado", "eyectado", "fabricado", "fabulado", "facilitado", "facturado", "facultado", "fagocitado", "fajado", "fallado", "fallecido", "falsado", "falseado", "falsificado", "familiarizado", "fantaseado", "fascinado", "fastidiado", "fatigado", "favorecido", "fecundado", "felicitado", "feminizado", "fenecido", "fermentado", "fertilizado", "festejado", "fiado", "fichado", "fidelizado", "figurado", "fijado", "filmado", "filosofado", "filtrado", "finalizado", "financiado", "fincado", "fingido", "finiquitado", "firmado", "fiscalizado", "fisurado", "flagelado", "flameado", "flanqueado", "flaqueado", "fletado", "flexibilizado", "flexionado", "flipado", "floreado", "florecido", "flotado", "fluctuado", "focalizado", "fogueado", "foliado", "follado", "fomentado", "fondeado", "forcejeado", "forestado", "forjado", "formado", "formalizado", "formateado", "formulado", "fornicado", "forrado", "fortalecido", "forzado", "fotocopiado", "fotografiado", "fracasado", "fraccionado", "fracturado", "fragmentado", "fraguado", "franqueado", "frecuentado", "fregado", "frenado", "fresado", "friccionado", "frotado", "fructificado", "fruncido", "fugado", "fulminado", "fumado", "fumigado", "funcionado", "fundado", "fundamentado", "fundido", "fungido", "fusilado", "fusionado", "fustigado", "gafado", "ganado", "gangrenado", "garabateado", "garantido", "garantizado", "garrido", "gaseado", "gastado", "gemido", "generado", "generalizado", "gerenciado", "germinado", "gestado", "gestionado", "girado", "glorificado", "glosado", "gobernado", "goleado", "golpeado", "gozado", "grabado", "graduado", "graficado", "granjeado", "grapado", "gratificado", "gravado", "gravitado", "gritado", "gruñido", "guardado", "guarecido", "guarnecido", "guerreado", "guiado", "guillotinado", "guiñado", "guindado", "guisado", "gustado", "habilitado", "habitado", "habituado", "hablado", "halado", "halagado", "hallado", "hartado", "hechizado", "hecho", "helenizado", "henchido", "hendido", "heredado", "herido", "hermanado", "herrado", "hervido", "hibernado", "hibridado", "hidratado", "higienizado", "hilado", "hilvanado", "hincado", "hinchado", "hipnotizado", "hipotecado", "historiado", "hojeado", "holgado", "hollado", "homenajeado", "homogeneizado", "homologado", "honrado", "horadado", "horneado", "horrorizado", "hospedado", "hostigado", "hostilizado", "huido", "humanado", "humanizado", "humectado", "humedecido", "humillado", "hundido", "hurgado", "hurtado", "ideado", "idealizado", "identificado", "ideologizado", "idiotizado", "idolatrado", "ignorado", "igualado", "ilegalizado", "iluminado", "ilusionado", "ilustrado", "imaginado", "imbricado", "imitado", "impactado", "impartido", "impedido", "impelido", "imperado", "impermeabilizado", "implantado", "implementado", "implicado", "implorado", "importado", "importunado", "imposibilitado", "impresionado", "improvisado", "impuesto", "impugnado", "impulsado", "imputado", "inaugurado", "incautado", "incendiado", "incentivado", "incinerado", "incitado", "inclinado", "incluido", "incoado", "incomodado", "incorporado", "incrementado", "increpado", "incriminado", "incubado", "inculcado", "inculpado", "incumplido", "incurrido", "incursionado", "indagado", "indemnizado", "independizado", "indexado", "indicado", "indigestado", "indignado", "indispuesto", "individuado", "inducido", "indultado", "inervado", "infamado", "infartado", "infectado", "inferido", "inficionado", "infiltrado", "inflado", "inflamado", "infligido", "influenciado", "influido", "informado", "infravalorado", "infringido", "infundido", "ingeniado", "ingerido", "ingresado", "inhabilitado", "inhalado", "inhibido", "inhumado", "iniciado", "inicializado", "injertado", "injuriado", "inmigrado", "inmiscuido", "inmolado", "inmortalizado", "inmovilizado", "inmunizado", "innovado", "inoculado", "inquietado", "inquirido", "insensibilizado", "insertado", "insinuado", "insistido", "inspeccionado", "inspirado", "instado", "instalado", "instaurado", "instigado", "instituido", "instruido", "instrumentado", "instrumentalizado", "insuflado", "insultado", "insumido", "integrado", "intelectualizado", "intensificado", "intentado", "interactuado", "intercalado", "intercambiado", "intercedido", "interceptado", "interesado", "interferido", "interiorizado", "intermediado", "internacionalizado", "internalizado", "interpelado", "interpolado", "interpretado", "interpuesto", "interrogado", "interrumpido", "intervenido", "intimado", "intimidado", "intitulado", "intoxicado", "intrigado", "introducido", "intuido", "inundado", "inutilizado", "invadido", "invalidado", "inventado", "inventariado", "invertido", "investido", "investigado", "invitado", "invocado", "involucionado", "inyectado", "ionizado", "ironizado", "irradiado", "irrespetado", "irrigado", "irritado", "irrogado", "irrumpido", "jactado", "jalado", "jaleado", "jalonado", "jaqueado", "jerarquizado", "jodido", "jorobado", "jubilado", "jugado", "juntado", "jurado", "juramentado", "justificado", "juzgado", "laborado", "labrado", "laburado", "lacado", "lacerado", "lactado", "ladeado", "ladrado", "lamentado", "lamido", "laminado", "languidecido", "lanzado", "lapidado", "laqueado", "largado", "lastimado", "lastrado", "latido", "laudado", "lavado", "legalizado", "legislado", "legitimado", "leído", "lesionado", "leudado", "levantado", "liado", "liberado", "liberalizado", "libertado", "librado", "licitado", "licuado", "liderizado", "lidiado", "ligado", "lijado", "limado", "limitado", "limpiado", "linchado", "liquidado", "litigado", "llagado", "llamado", "llegado", "llenado", "llevado", "llorado", "localizado", "logrado", "lubricado", "luchado", "lucido", "lucrado", "lustrado", "macerado", "machacado", "macheteado", "machucado", "madreado", "madrugado", "madurado", "magnetizado", "magnificado", "malacostumbrado", "malbaratado", "malcriado", "maleado", "malentendido", "malgastado", "malinterpretado", "malogrado", "maltratado", "malversado", "mamado", "manchado", "mancillado", "mandado", "manejado", "mangado", "mangoneado", "manifestado", "maniobrado", "manipulado", "manoseado", "manteado", "mantenido", "manufacturado", "maquillado", "maquinado", "maravillado", "marcado", "marchitado", "mareado", "marginado", "maridado", "martillado", "martirizado", "masacrado", "masajeado", "mascado", "masificado", "masticado", "masturbado", "matado", "materializado", "matizado", "matriculado", "maximizado", "meado", "mecanografiado", "mechado", "mecido", "mediado", "mediatizado", "medicado", "medido", "meditado", "medrado", "mejorado", "mellado", "memorizado", "mencionado", "meneado", "menguado", "menoscabado", "menospreciado", "menstruado", "mensualizado", "mensurado", "mentado", "mentalizado", "mentido", "mercadeado", "mercantilizado", "merecido", "merendado", "mermado", "merodeado", "mesurado", "metamorfoseado", "metido", "mezclado", "migrado", "militado", "militarizado", "mimado", "mimetizado", "minado", "minimizado", "ministrado", "minusvalorado", "mirado", "mistificado", "mitificado", "mitigado", "modelado", "modernizado", "modificado", "modulado", "mofado", "mojado", "moldeado", "molestado", "molido", "monetizado", "monitorizado", "monopolizado", "montado", "morado", "moralizado", "mordido", "mordisqueado", "mortificado", "mosqueado", "mostrado", "motejado", "motivado", "movido", "movilizado", "mudado", "muestreado", "multado", "multiplicado", "munido", "murmurado", "mutado", "mutilado", "nacionalizado", "narcotizado", "narrado", "naufragado", "navegado", "necesitado", "negado", "negociado", "neutralizado", "ninguneado", "nivelado", "nombrado", "nominado", "noqueado", "normado", "normalizado", "notado", "notificado", "nutrido", "obcecado", "obedecido", "objetado", "objetivado", "obligado", "obliterado", "obnubilado", "obrado", "obsequiado", "observado", "obsesionado", "obstaculizado", "obstruido", "obtenido", "obturado", "obviado", "ocasionado", "ocluido", "ocultado", "ocupado", "odiado", "ofendido", "ofertado", "oficiado", "oficializado", "ofrecido", "ofrendado", "ofuscado", "oído", "ojeado", "olfateado", "olido", "olvidado", "omitido", "ondeado", "ondulado", "opacado", "operado", "opinado", "oprimido", "optado", "optimizado", "opuesto", "orado", "orbitado", "ordenado", "ordeñado", "organizado", "orientado", "originado", "orillado", "orinado", "ornado", "ornamentado", "orquestado", "osado", "oscilado", "oscurecido", "osificado", "ostentado", "otorgado", "ovacionado", "ovulado", "oxidado", "oxigenado", "pacificado", "pactado", "padecido", "paganizado", "paginado", "paladeado", "paliado", "palpado", "parado", "parafraseado", "paralizado", "parapetado", "parasitado", "parcelado", "parchado", "parcheado", "pareado", "parido", "parodiado", "parqueado", "participado", "particularizado", "partido", "pasado", "paseado", "pastoreado", "pataleado", "pateado", "patentado", "patentizado", "patinado", "patrullado", "pecado", "pedaleado", "pedido", "pegado", "peinado", "pellizcado", "penalizado", "penetrado", "pensado", "percatado", "percibido", "percutido", "perdido", "perdonado", "perdurado", "perecido", "peregrinado", "perfeccionado", "perfilado", "perforado", "perfumado", "pergeñado", "peritado", "perjudicado", "perjurado", "permeado", "permitido", "permutado", "pernoctado", "perpetrado", "perpetuado", "perseguido", "perseverado", "persistido", "personado", "personalizado", "personificado", "persuadido", "pertenecido", "pertrechado", "perturbado", "pervertido", "pervivido", "pescado", "petado", "peticionado", "picado", "picaneado", "picoteado", "pifiado", "pignorado", "pillado", "pilotado", "piloteado", "pincelado", "pinchado", "pintado", "pintarrajeado", "pinzado", "pirado", "pirateado", "pisado", "pisoteado", "pitado", "placido", "plagiado", "planchado", "planeado", "plantado", "planteado", "plasmado", "platicado", "plegado", "pluralizado", "podado", "poetizado", "polemizado", "politizado", "pololeado", "ponderado", "pontificado", "popularizado", "porfiado", "portado", "porteado", "posado", "posesionado", "posibilitado", "posicionado", "pospuesto", "posteado", "postergado", "postrado", "postulado", "potenciado", "practicado", "precarizado", "precedido", "preceptuado", "precintado", "precipitado", "precisado", "preconizado", "predicado", "predicho", "predispuesto", "predominado", "preferido", "prefigurado", "pregonado", "preguntado", "prejuzgado", "premiado", "prendado", "prendido", "preocupado", "preparado", "presagiado", "prescindido", "presenciado", "presentado", "presentido", "preservado", "presidido", "presionado", "prestado", "prestigiado", "presumido", "presurizado", "pretendido", "preterido", "prevalecido", "prevalido", "prevaricado", "prevenido", "previsto", "primado", "principiado", "pringado", "priorizado", "privatizado", "probado", "problematizado", "procedido", "procesado", "proclamado", "procreado", "procurado", "prodigado", "producido", "profanado", "proferido", "profesado", "profesionalizado", "profetizado", "profundizado", "programado", "progresado", "prohibido", "prohijado", "proletarizado", "proliferado", "prologado", "prolongado", "promediado", "prometido", "promocionado", "promovido", "promulgado", "pronosticado", "pronunciado", "propagado", "propalado", "propendido", "propiciado", "propinado", "proporcionado", "propuesto", "propugnado", "propulsado", "prorrateado", "prorrogado", "proseguido", "prosperado", "prostituido", "protegido", "protestado", "protocolizado", "provenido", "provocado", "proyectado", "psicoanalizado", "publicado", "publicitado", "puesto", "pugnado", "pujado", "pulido", "pulsado", "pululado", "pulverizado", "punado", "punteado", "puntuado", "puntualizado", "punzado", "purgado", "purificado", "puteado", "quebrado", "quebrantado", "quejado", "quemado", "querellado", "querido", "quintuplicado", "quitado", "racionado", "racionalizado", "radiado", "radicado", "radicalizado", "raído", "rajado", "ralentizado", "rapado", "rapeado", "raptado", "rascado", "rasgado", "rasguñado", "raspado", "rastreado", "rasurado", "ratificado", "rayado", "razonado", "reabierto", "reabsorbido", "reaccionado", "reactivado", "readaptado", "readmitido", "reafirmado", "reagrupado", "reajustado", "realimentado", "realizado", "realzado", "reanimado", "reanudado", "reaparecido", "rearmado", "reasumido", "reavivado", "rebajado", "rebalsado", "rebanado", "rebasado", "rebatido", "rebautizado", "rebelado", "reblandecido", "rebobinado", "rebosado", "rebotado", "rebozado", "rebuscado", "recabado", "recaído", "recalado", "recalcado", "recalentado", "recalificado", "recapacitado", "recapitulado", "recargado", "recatado", "recaudado", "receptado", "recetado", "rechazado", "recibido", "reciclado", "recitado", "reclamado", "reclinado", "reclutado", "recobrado", "recocido", "recogido", "recolectado", "recomendado", "recomenzado", "recompensado", "recompuesto", "reconcentrado", "reconciliado", "reconducido", "reconfortado", "reconocido", "reconquistado", "reconsiderado", "reconstituido", "reconstruido", "reconvenido", "reconvertido", "recopilado", "recordado", "recorrido", "recortado", "recreado", "recriminado", "recrudecido", "rectificado", "recubierto", "reculado", "recuperado", "recurrido", "recusado", "redactado", "redefinido", "redescubierto", "redimensionado", "redimido", "rediseñado", "redistribuido", "redituado", "redoblado", "redondeado", "reducido", "redundado", "reedificado", "reeditado", "reeducado", "reelaborado", "reembolsado", "reemplazado", "reencarnado", "reencauchado", "reencontrado", "reenganchado", "reenviado", "reescrito", "reestructurado", "reexaminado", "refaccionado", "referido", "refinado", "refinanciado", "reflejado", "reflexionado", "reflotado", "reforestado", "reformado", "reforzado", "refractado", "refrenado", "refrendado", "refrescado", "refrigerado", "refundido", "refutado", "regado", "regalado", "regañado", "regateado", "regenerado", "regentado", "regenteado", "regido", "regionalizado", "registrado", "reglado", "reglamentado", "regocijado", "regodeado", "regresado", "regulado", "regularizado", "regurgitado", "rehabilitado", "rehecho", "rehogado", "rehuido", "rehusado", "reído", "reinado", "reincidido", "reincorporado", "reingresado", "reiniciado", "reinsertado", "reinstalado", "reinstaurado", "reintegrado", "reinventado", "reinvertido", "reiterado", "reivindicado", "rejuvenecido", "relajado", "relamido", "relanzado", "relatado", "relativizado", "relegado", "releído", "relevado", "religado", "rellenado", "remachado", "remado", "remangado", "remarcado", "rematado", "remecido", "remediado", "rememorado", "remendado", "remitido", "remodelado", "remojado", "remolcado", "remontado", "removido", "remplazado", "renacido", "rendido", "renegado", "renegociado", "reñido", "renombrado", "renovado", "rentabilizado", "rentado", "renunciado", "reordenado", "reorganizado", "reorientado", "reparado", "repartido", "repasado", "repatriado", "repelido", "repensado", "repercutido", "repescado", "repetido", "repicado", "repintado", "replanteado", "replegado", "replicado", "repoblado", "reportado", "reporteado", "reposado", "repreguntado", "reprendido", "represado", "representado", "reprimido", "reprobado", "reprochado", "reproducido", "repudiado", "repuesto", "repugnado", "repuntado", "reputado", "requerido", "requisado", "resaltado", "resarcido", "resbalado", "rescatado", "rescindido", "resecado", "reseñado", "reservado", "reseteado", "resguardado", "residido", "resignado", "resistido", "resonado", "respaldado", "respetado", "respirado", "resplandecido", "respondido", "responsabilizado", "resquebrajado", "restablecido", "restado", "restaurado", "restituido", "restregado", "resucitado", "resuelto", "resumido", "resurgido", "retado", "retardado", "retenido", "retirado", "retocado", "retomado", "retorcido", "retornado", "retractado", "retraído", "retransmitido", "retrasado", "retratado", "retribuido", "retrotraído", "retumbado", "reunido", "reunificado", "reutilizado", "revalidado", "revalorizado", "revaluado", "revelado", "revendido", "reventado", "reverdecido", "reverenciado", "revertido", "revestido", "revirado", "revisado", "revitalizado", "revivido", "revocado", "revolcado", "revoloteado", "revolucionado", "revuelto", "ridiculizado", "rifado", "rimado", "rivalizado", "rizado", "robado", "robustecido", "rociado", "rodado", "rodeado", "rogado", "roído", "rondado", "rotado", "roto", "rotulado", "roturado", "rozado", "ruborizado", "rubricado", "rugido", "rumiado", "rumorado", "sabido", "saboreado", "saboteado", "sacado", "saciado", "sacralizado", "sacrificado", "sacudido", "saldado", "salpimentado", "salpullido", "saltado", "salteado", "saludado", "salvado", "salvaguardado", "sanado", "saneado", "sangrado", "santificado", "saqueado", "satanizado", "satirizado", "satisfecho", "sazonado", "secado", "seccionado", "secretado", "secuenciado", "secuestrado", "secundado", "sedimentado", "seducido", "segado", "segmentado", "segregado", "seguido", "seleccionado", "sembrado", "señalado", "sensibilizado", "sentado", "sentenciado", "sentido", "separado", "serenado", "serrado", "servido", "significado", "silenciado", "simbolizado", "simpatizado", "simplificado", "simulado", "sincerado", "sincronizado", "sindicado", "sindicalizado", "singularizado", "sintetizado", "sintonizado", "sistematizado", "situado", "sobado", "sobornado", "sobrado", "sobrecargado", "sobrecogido", "sobreentendido", "sobreestimado", "sobrellevado", "sobrentendido", "sobrepasado", "sobrepuesto", "sobresalido", "sobresaltado", "sobrestimado", "sobrevenido", "sobrevivido", "sobrevolado", "socavado", "socializado", "socorrido", "sodomizado", "sofocado", "sojuzgado", "solapado", "solicitado", "solidarizado", "solidificado", "soliviantado", "soltado", "solucionado", "solventado", "sombreado", "sometido", "sonado", "soñado", "sondeado", "sonreído", "sonrojado", "sopesado", "soplado", "soportado", "sorbido", "sorprendido", "sorteado", "sosegado", "soslayado", "sospechado", "sostenido", "suavizado", "subastado", "subcontratado", "subdividido", "subestimado", "subido", "sublevado", "sublimado", "subrayado", "subrogado", "subsanado", "subsidiado", "subsistido", "substraído", "subsumido", "subvertido", "subyugado", "succionado", "sucedido", "sucumbido", "sudado", "sufragado", "sufrido", "sugerido", "sugestionado", "suicidado", "sujetado", "sumado", "sumergido", "suministrado", "supeditado", "superado", "superpuesto", "supervisado", "suplantado", "suplicado", "suplido", "suprimido", "supuesto", "surcado", "surtido", "suscitado", "suspendido", "suspirado", "sustanciado", "sustantivado", "sustentado", "sustituido", "sustraído", "susurrado", "suturado", "tabulado", "tachado", "talado", "taladrado", "tallado", "tambaleado", "tamizado", "tañido", "tanteado", "tapado", "tapizado", "taponado", "tarareado", "tardado", "tasado", "tatuado", "tecleado", "tejido", "telefoneado", "televisado", "temido", "templado", "tendido", "tenido", "tensado", "tentado", "teorizado", "terciado", "tergiversado", "terminado", "territorializado", "testado", "testeado", "testificado", "testimoniado", "tildado", "timado", "timbrado", "tinturado", "tipeado", "tipificado", "tirado", "tiranizado", "tironeado", "tiroteado", "titubeado", "tiznado", "tocado", "tolerado", "tomado", "tonificado", "topado", "toqueteado", "torcido", "toreado", "tornado", "tornasolado", "torneado", "torpedeado", "torturado", "tosido", "tostado", "totalizado", "trabado", "trabajado", "traducido", "traficado", "tragado", "traicionado", "traído", "trajinado", "tramado", "tramitado", "trancado", "tranquilizado", "transcendido", "transcurrido", "transferido", "transfigurado", "transformado", "transfundido", "transgredido", "transigido", "transitado", "transliterado", "translucido", "transmitido", "transmutado", "transparentado", "transpirado", "transportado", "transpuesto", "trasegado", "trasgredido", "trasladado", "traslapado", "traslucido", "trasnochado", "traspapelado", "traspasado", "trasplantado", "traspuesto", "trasquilado", "trasteado", "trastocado", "trastornado", "trasvasado", "tratado", "trazado", "trenzado", "trepado", "tributado", "trincado", "triplicado", "triturado", "triunfado", "trivializado", "trocado", "troceado", "tronado", "tronchado", "truncado", "tumbado", "tuneado", "turbado", "turnado", "tutelado", "ufanado", "ultimado", "uncido", "ungido", "unido", "universalizado", "untado", "urbanizado", "urdido", "usado", "usufructuado", "usurpado", "utilizado", "vacado", "vaciado", "vacilado", "vacunado", "vagado", "validado", "valido", "valorado", "valorizado", "valuado", "vanagloriado", "vandalizado", "vaporizado", "variado", "vaticinado", "vedado", "vehiculado", "vejado", "velado", "vencido", "vendado", "vendido", "venerado", "vengado", "ventilado", "veraneado", "verbalizado", "verificado", "versado", "versionado", "vertebrado", "vertido", "vestido", "vetado", "viabilizado", "viajado", "vibrado", "victimado", "victimizado", "vigilado", "vigorizado", "vilipendiado", "vindicado", "violado", "violentado", "virado", "visado", "visibilizado", "visitado", "vislumbrado", "visto", "visualizado", "vitoreado", "vitrificado", "vituperado", "vivido", "vivificado", "vocalizado", "voceado", "vociferado", "volado", "volatilizado", "volcado", "volteado", "vomitado", "votado", "vuelto", "vulcanizado", "vulgarizado", "vulnerado", "yuxtapuesto", "zafado", "zambullido", "zampado", "zanjado", "zarandeado", "zarpado", "zozobrado", "zumbado", "zurcido", "zurrado", "abajada", "abalanzada", "abaleada", "abandonada", "abaratada", "abarcada", "abarrotada", "abastecida", "abatida", "abdicada", "abierta", "abismada", "abjurada", "ablandada", "abocada", "abochornada", "abofeteada", "abolida", "abollada", "abombada", "abominada", "abonada", "abordada", "aborrecida", "aborregada", "abortada", "abotonada", "abrasada", "abrazada", "abrevada", "abreviada", "abrigada", "abrochada", "abrogada", "abroquelada", "abrumada", "absorbida", "abstenida", "abstraída", "absuelta", "abucheada", "abultada", "abundada", "aburguesada", "aburrida", "abusada", "acabada", "acallada", "acalorada", "acaparada", "acariciada", "acarreada", "acatada", "acaudillada", "accedida", "accionada", "acechada", "aceitada", "acelerada", "acentuada", "aceptada", "acerada", "acercada", "acertada", "achacada", "achantada", "achatada", "achicada", "acicalada", "acidificada", "aclarada", "aclimatada", "acobardada", "acodada", "acogida", "acojonada", "acometida", "acomodada", "acompañada", "acompasada", "acongojada", "aconsejada", "acontecida", "acopiada", "acoplada", "acordada", "acordonada", "acorralada", "acortada", "acosada", "acostada", "acostumbrada", "acotada", "acrecentada", "acreditada", "acrisolada", "activada", "actuada", "acuchillada", "acuciada", "acudida", "acuerpada", "acumulada", "acunada", "acuñada", "acurrucada", "acusada", "adaptada", "adecentada", "adelantada", "adelgazada", "adentrada", "adeudada", "adherida", "adicionada", "adiestrada", "adivinada", "adjetivada", "adjudicada", "adjuntada", "administrada", "admirada", "admitida", "adoctrinada", "adolecida", "adoptada", "adorada", "adormecida", "adornada", "adquirida", "aducida", "adueñada", "adulada", "adulterada", "advertida", "afanada", "afeada", "afectada", "afeitada", "aferrada", "afianzada", "afinada", "afirmada", "afligida", "aflorada", "afrentada", "afrontada", "agachada", "agarrada", "agarrotada", "agasajada", "agenciada", "agigantada", "agilizada", "agitada", "aglutinada", "agobiada", "agolpada", "agonizada", "agostada", "agotada", "agradada", "agradecida", "agrandada", "agravada", "agraviada", "agredida", "agregada", "agriada", "agrietada", "agrupada", "aguada", "aguantada", "aguardada", "agudizada", "aguijoneada", "agujereada", "aguzada", "ahogada", "ahondada", "ahorcada", "ahorrada", "ahuecada", "ahuyentada", "aireada", "aislada", "ajustada", "ajusticiada", "alabada", "alagada", "alambrada", "alardeada", "alargada", "alarmada", "albergada", "alborotada", "alcanzada", "aleccionada", "alegada", "alegrada", "alejada", "alentada", "alertada", "alfabetizada", "alfombrada", "aliada", "alienada", "aligerada", "alimentada", "aliñada", "alineada", "alisada", "alistada", "aliviada", "alivianada", "allanada", "almacenada", "almorzada", "alojada", "alquilada", "alterada", "alternada", "alucinada", "aludida", "alumbrada", "alzada", "amada", "amaestrada", "amagada", "amainada", "amalgamada", "amamantada", "amansada", "amargada", "amarrada", "amasada", "ambicionada", "amedrentada", "amenazada", "amenizada", "ameritada", "ametrallada", "amilanada", "aminorada", "amnistiada", "amoldada", "amonestada", "amontonada", "amordazada", "amortajada", "amortiguada", "amortizada", "amotinada", "amparada", "ampayada", "ampliada", "amplificada", "amputada", "amueblada", "añadida", "analizada", "anatematizada", "andada", "anegada", "anestesiada", "anexada", "anexionada", "anhelada", "anidada", "anillada", "animada", "aniquilada", "anisada", "añorada", "anotada", "anoticiada", "ansiada", "antecedida", "antepuesta", "anticipada", "antojada", "anudada", "anulada", "anunciada", "apabullada", "apachurrada", "apaciguada", "apadrinada", "apagada", "apalancada", "apaleada", "apañada", "apantallada", "aparcada", "apareada", "aparecida", "aparentada", "apartada", "apeada", "apedreada", "apelada", "apellidada", "apelmazada", "apercibida", "apersonada", "apestada", "apetecida", "apiadada", "apilada", "apiñada", "apisonada", "aplacada", "aplanada", "aplastada", "aplaudida", "aplazada", "aplicada", "apoderada", "apoltronada", "aporreada", "aportada", "aposentada", "apostada", "apostatada", "apostillada", "apoyada", "apreciada", "aprehendida", "apremiada", "aprendida", "apresada", "apresurada", "apretada", "apretujada", "aprisionada", "aprobada", "aprovechada", "aprovisionada", "aproximada", "apuñalada", "apuñaleada", "apuntada", "apuntalada", "apuntillada", "apurada", "aquejada", "aquietada", "aquilatada", "arañada", "arbitrada", "archivada", "arengada", "argüida", "argumentada", "armada", "armonizada", "aromatizada", "arqueada", "arrancada", "arrasada", "arrastrada", "arreada", "arrebatada", "arreciada", "arreglada", "arrellanada", "arremangada", "arremetida", "arrendada", "arrepentida", "arrestada", "arriada", "arribada", "arriesgada", "arrimada", "arrinconada", "arrodillada", "arrogada", "arrojada", "arrollada", "arropada", "arruinada", "arrullada", "articulada", "asada", "asaltada", "ascendida", "aseada", "asechada", "asediada", "asegurada", "asemejada", "asentada", "asentida", "aserrada", "asesinada", "asesorada", "asestada", "aseverada", "asfixiada", "asida", "asignada", "asilada", "asimilada", "asistida", "asolada", "asoleada", "asomada", "asombrada", "aspirada", "astillada", "asumida", "asustada", "atacada", "atada", "atajada", "atarantada", "atascada", "atemorizada", "atemperada", "atenazada", "atendida", "atenida", "atentada", "atenuada", "aterrada", "aterrorizada", "atesorada", "atestiguada", "atiborrada", "atisbada", "atizada", "atomizada", "atontada", "atorada", "atormentada", "atornillada", "atosigada", "atracada", "atragantada", "atraída", "atrancada", "atrapada", "atrasada", "atravesada", "atrevida", "atribuida", "atrincherada", "atrofiada", "atropellada", "aturdida", "auditada", "augurada", "aumentada", "aunada", "aupada", "auscultada", "ausentada", "autenticada", "autentificada", "autodefinida", "autoeditada", "automatizada", "autorizada", "autorregulada", "auxiliada", "avalada", "avanzada", "avasallada", "avenida", "aventada", "aventajada", "aventurada", "averiada", "averiguada", "avezada", "avisada", "avispada", "avistada", "avivada", "avizorada", "avocada", "ayudada", "azotada", "azuzada", "babeada", "bailada", "bajada", "balaceada", "balanceada", "bañada", "banalizada", "bancada", "bandeada", "barajada", "barrida", "basada", "bastardeada", "basureada", "batallada", "bateada", "batida", "bautizada", "beatificada", "bebida", "beneficiada", "besada", "bifurcada", "birlada", "blandida", "blanqueada", "blasfemada", "blindada", "bloqueada", "boicoteada", "bombardeada", "bombeada", "bonificada", "bordeada", "borrada", "borroneada", "bosquejada", "bostezada", "botada", "boxeada", "bregada", "brillada", "brincada", "brindada", "bromeada", "brotada", "bruñida", "buceada", "burlada", "buscada", "cabeceada", "cabida", "cabildeada", "cabreada", "cacareada", "cachada", "cacheada", "cacheteada", "caducada", "cagada", "calada", "calculada", "caldeada", "calefaccionada", "calendarizada", "calentada", "calibrada", "calificada", "caligrafiada", "callada", "calmada", "calumniada", "calzada", "cambiada", "caminada", "camuflada", "canalizada", "cancelada", "canjeada", "cansada", "cantada", "capada", "capeada", "capitalizada", "capitulada", "captada", "capturada", "caracterizada", "carburada", "carcomida", "cardada", "careada", "carecida", "cargada", "caricaturizada", "cartografiada", "cascada", "castigada", "castrada", "catada", "catalizada", "catalogada", "catapultada", "cateada", "categorizada", "causada", "cauterizada", "cautivada", "cavada", "cavilada", "cazada", "cebada", "cedida", "cegada", "cejada", "celebrada", "cenada", "ceñida", "censurada", "centrifugada", "centuplicada", "cepillada", "cercada", "cercenada", "cerciorada", "cernida", "cerrada", "cesada", "chafada", "chamuscada", "chantajeada", "chapada", "charlada", "chateada", "chequeada", "chiflada", "chillada", "chingada", "chirriada", "chivada", "chocada", "chorreada", "choteada", "chupada", "chutada", "cicatrizada", "cifrada", "cimentada", "cincelada", "circulada", "circuncidada", "circundada", "citada", "clamada", "clarificada", "clasificada", "claudicada", "clausurada", "clavada", "clicada", "clonada", "coaccionada", "coadyuvada", "coagulada", "coaligada", "coartada", "cobijada", "cobrada", "cocida", "cocinada", "codeada", "codiciada", "codificada", "codirigida", "coexistida", "cofinanciada", "cogida", "cohabitada", "cohibida", "coincidida", "colaborada", "colacionada", "colada", "colapsada", "coleccionada", "colectada", "colectivizada", "colgada", "colisionada", "colmada", "colocada", "colonizada", "coloreada", "columpiada", "combatida", "combinada", "comentada", "comenzada", "comerciada", "comercializada", "cometida", "comida", "comisionada", "compactada", "compadecida", "compaginada", "comparada", "comparecida", "compartida", "compatibilizada", "compelida", "compendiada", "compenetrada", "compensada", "compilada", "complacida", "complementada", "completada", "complotada", "comportada", "comprada", "comprendida", "comprimida", "comprobada", "comprometida", "compuesta", "compulsada", "computada", "comulgada", "comunicada", "concatenada", "concebida", "concedida", "concelebrada", "concentrada", "conceptuada", "conceptualizada", "concertada", "concienciada", "concientizada", "conciliada", "concitada", "concluida", "concordada", "concretada", "concretizada", "conculcada", "concursada", "condenada", "condensada", "condicionada", "condimentada", "condolida", "condonada", "conducida", "conectada", "conexionada", "confabulada", "confeccionada", "conferida", "confesada", "confiada", "configurada", "confirmada", "confiscada", "confluida", "conformada", "confortada", "confrontada", "confundida", "congeniada", "congestionada", "congratulada", "congregada", "conjeturada", "conjugada", "conjuntada", "conjurada", "conllevada", "conmemorada", "conminada", "conmocionada", "conmovida", "conmutada", "connotada", "conquistada", "consagrada", "conseguida", "consensuada", "consentida", "conservada", "considerada", "consignada", "consistida", "consolada", "consolidada", "conspirada", "constada", "constatada", "constelada", "constitucionalizada", "constituida", "constreñida", "construida", "consultada", "consumada", "consumida", "contabilizada", "contactada", "contada", "contagiada", "contemplada", "contendida", "contenida", "contentada", "contestada", "contextualizada", "continuada", "contorneada", "contraatacada", "contrabandeada", "contradicha", "contrahecha", "contraída", "contrapesada", "contrapuesta", "contrariada", "contrarrestada", "contrastada", "contratada", "contravenida", "contribuida", "contristada", "controlada", "convalidada", "convencida", "convenida", "convergida", "conversada", "convertida", "convidada", "convivida", "convocada", "convulsionada", "cooperada", "cooptada", "coordinada", "copada", "copiada", "coproducida", "copulada", "coqueteada", "corchada", "coreada", "coreografiada", "corneada", "coronada", "corporizada", "corregida", "correlacionada", "correspondida", "correteada", "corrida", "corroborada", "corroída", "corrompida", "cortada", "cortejada", "cosechada", "cosida", "cosificada", "costada", "costeada", "cotejada", "cotizada", "creada", "creída", "criada", "cribada", "criminalizada", "crispada", "cristalizada", "cristianizada", "criticada", "cronometrada", "crucificada", "crujida", "cruzada", "cuadriplicada", "cuadruplicada", "cuajada", "cuantificada", "cuarteada", "cubierta", "cuestionada", "cuidada", "culeada", "culminada", "culpabilizada", "culpada", "cultivada", "culturizada", "cumplida", "cumplimentada", "cundida", "curada", "curioseada", "currada", "cursada", "curvada", "custodiada", "dada", "dañada", "danzada", "datada", "dateada", "debatida", "debida", "debilitada", "debitada", "debutada", "decaída", "decantada", "decapitada", "decepcionada", "decidida", "declamada", "declarada", "declinada", "decodificada", "decolorada", "decomisada", "decrecida", "decretada", "dedicada", "deducida", "defecada", "defendida", "defenestrada", "deferida", "definida", "deformada", "defraudada", "degenerada", "deglutida", "degollada", "degradada", "degustada", "deificada", "dejada", "delatada", "delegada", "deleitada", "deletreada", "deliberada", "delimitada", "delineada", "delinquida", "demandada", "demarcada", "demediada", "demeritada", "democratizada", "demolida", "demonizada", "demorada", "demostrada", "demudada", "denegada", "denigrada", "denominada", "denostada", "denotada", "denunciada", "deparada", "departida", "dependida", "depilada", "deplorada", "deportada", "depositada", "depreciada", "depredada", "deprimida", "depuesta", "depurada", "derechizada", "derivada", "derogada", "derramada", "derretida", "derribada", "derrocada", "derrochada", "derrotada", "derruida", "derrumbada", "desabrochada", "desacatada", "desacelerada", "desacomodada", "desaconsejada", "desacoplada", "desacralizada", "desacreditada", "desactivada", "desafiada", "desafinada", "desaguada", "desahogada", "desairada", "desajustada", "desalentada", "desalineada", "desalojada", "desandada", "desangrada", "desanimada", "desaparecida", "desapegada", "desaprendida", "desaprobada", "desaprovechada", "desarmada", "desarraigada", "desarreglada", "desarrollada", "desarticulada", "desaseada", "desasida", "desasosegada", "desatada", "desatendida", "desautorizada", "desayunada", "desbancada", "desbandada", "desbaratada", "desbarrancada", "desbastada", "desbloqueada", "desbocada", "desbordada", "desbrozada", "descabalgada", "descabezada", "descaderada", "descalabrada", "descalificada", "descansada", "descargada", "descarriada", "descarrilada", "descartada", "descascarada", "descascarillada", "descendida", "descentrada", "descifrada", "descocida", "descodificada", "descojonada", "descolgada", "descolocada", "descolonizada", "descompensada", "descomprimida", "descompuesta", "desconectada", "desconfiada", "descongelada", "desconocida", "descontada", "descontaminada", "descontextualizada", "descontinuada", "desconvocada", "descorazonada", "descorchada", "descorrida", "descosida", "descoyuntada", "descreída", "descristianizada", "descuadrada", "descuartizada", "descubierta", "descuidada", "desdeñada", "desdibujada", "desdicha", "desdoblada", "deseada", "desecada", "desechada", "desembarazada", "desembarcada", "desembocada", "desembolsada", "desempacada", "desempañada", "desempaquetada", "desempeñada", "desempolvada", "desenamorada", "desencadenada", "desencajada", "desencarnada", "desenchufada", "desenfocada", "desenfundada", "desenganchada", "desengrasada", "desenmascarada", "desenredada", "desenrollada", "desentendida", "desenterrada", "desentonada", "desentrañada", "desenvainada", "desenvuelta", "desequilibrada", "desertada", "desestabilizada", "desestimada", "desfalcada", "desfallecida", "desfigurada", "desfondada", "desgajada", "desgañitada", "desgarrada", "desgastada", "desglosada", "desgobernada", "desgranada", "desguazada", "deshecha", "desheredada", "deshidratada", "deshilachada", "deshojada", "deshonrada", "deshuesada", "deshumanizada", "designada", "desilusionada", "desincentivada", "desinfectada", "desinflada", "desinflamada", "desinformada", "desinhibida", "desinstalada", "desintegrada", "desintoxicada", "desistida", "desjarretada", "deslegitimada", "desleída", "desligada", "deslindada", "deslizada", "deslucida", "deslumbrada", "desmadrada", "desmalezada", "desmantelada", "desmaquillada", "desmarcada", "desmayada", "desmejorada", "desmembrada", "desmentida", "desmenuzada", "desmerecida", "desmigada", "desmitificada", "desmoldada", "desmontada", "desmoralizada", "desmoronada", "desmotivada", "desmovilizada", "desnaturalizada", "desnivelada", "desnucada", "desnudada", "desobedecida", "desobligada", "desoída", "desollada", "desorganizada", "desorientada", "despachada", "desparasitada", "desparecida", "desparramada", "despedazada", "despedida", "despegada", "despeinada", "despejada", "despellejada", "despeñada", "despenalizada", "desperdiciada", "despersonalizada", "despertada", "despilfarrada", "despintada", "despiojada", "despistada", "desplazada", "desplegada", "desplomada", "desplumada", "despojada", "despolitizada", "desposada", "desposeída", "despotricada", "despreciada", "desprendida", "despreocupada", "desprestigiada", "desprogramada", "despulpada", "despuntada", "desquiciada", "desquitada", "destacada", "destapada", "desteñida", "desterrada", "destetada", "destilada", "destituida", "destrabada", "destripada", "destronada", "destrozada", "destruida", "desunida", "desvalijada", "desvalorizada", "desvanecida", "desvelada", "desvestida", "desviada", "desvinculada", "desvirtuada", "desvivida", "detectada", "detenida", "detentada", "deteriorada", "determinada", "detestada", "detonada", "devaluada", "devanada", "devastada", "develada", "devengada", "devenida", "devorada", "devuelta", "diagnosticada", "diagramada", "dializada", "dialogada", "dibujada", "dicha", "dictada", "dictaminada", "diezmada", "difamada", "diferenciada", "diferida", "dificultada", "difuminada", "difundida", "digerida", "digitada", "dignada", "dignificada", "dilapidada", "dilatada", "diligenciada", "dilucidada", "diluida", "dimensionada", "dimitida", "dinamitada", "dinamizada", "dirimida", "discernida", "disciplinada", "discontinuada", "discrepada", "discriminada", "disculpada", "discurrida", "discutida", "diseccionada", "diseminada", "diseñada", "disentida", "disertada", "disfrazada", "disfrutada", "disgregada", "disgustada", "disimulada", "disipada", "dislocada", "disminuida", "disociada", "dispensada", "dispersada", "dispuesta", "disputada", "distada", "distanciada", "distendida", "distinguida", "distorsionada", "distraída", "distribuida", "disuadida", "disuelta", "divagada", "diversificada", "divertida", "dividida", "divinizada", "divisada", "divorciada", "divulgada", "doblada", "doblegada", "doctorada", "documentada", "dogmatizada", "dolida", "domada", "domesticada", "dominada", "donada", "dopada", "dormida", "dosificada", "dotada", "dragada", "dramatizada", "drenada", "drogada", "duchada", "dudada", "dulcificada", "duplicada", "durada", "echada", "eclipsada", "eclosionada", "economizada", "ecualizada", "edificada", "editada", "educada", "efectuada", "ejecutada", "ejemplificada", "ejercida", "ejercitada", "elaborada", "electrizada", "electrocutada", "elevada", "elidida", "eliminada", "elogiada", "elucubrada", "eludida", "emanada", "emancipada", "embadurnada", "embalada", "embalsamada", "embanderada", "embarcada", "embargada", "embarrada", "embarrancada", "embaucada", "embebida", "embelesada", "embellecida", "embestida", "embolada", "embolsada", "emborrachada", "emborronada", "emboscada", "embotada", "embriagada", "embrollada", "embrutecida", "embuchada", "emergida", "emigrada", "emitida", "emocionada", "empacada", "empachada", "empadronada", "empalada", "empalmada", "empanada", "empañada", "empantanada", "empapelada", "empaquetada", "emparejada", "empastada", "empatada", "empecinada", "empeñada", "empeorada", "empequeñecida", "emperrada", "empezada", "empinada", "emplazada", "empleada", "empobrecida", "empoderada", "empollada", "empolvada", "emponzoñada", "emprendida", "empujada", "empuñada", "emputada", "emulada", "emulsionada", "enajenada", "enaltecida", "enamorada", "enarbolada", "enardecida", "encabezada", "encabritada", "encabronada", "encadenada", "encajada", "encajonada", "encallada", "encamada", "encaminada", "encandilada", "encanecida", "encañonada", "encantada", "encaprichada", "encapsulada", "encarada", "encaramada", "encarecida", "encargada", "encariñada", "encarnada", "encarrilada", "encartada", "encasillada", "encasquetada", "encasquillada", "encastrada", "encausada", "encauzada", "enceguecida", "encendida", "encerada", "encerrada", "encharcada", "enchufada", "encimada", "encogida", "encolada", "encolerizada", "encolumnada", "encomendada", "enconada", "encontrada", "encordada", "encrespada", "encuadrada", "encubierta", "encuerada", "encumbrada", "enderezada", "endeudada", "endilgada", "endiosada", "endosada", "endulzada", "endurecida", "enemistada", "energizada", "enervada", "enfadada", "enfangada", "enfatizada", "enfermada", "enfiestada", "enfilada", "enflaquecida", "enfocada", "enfrascada", "enfrentada", "enfriada", "enfurecida", "engalanada", "engañada", "enganchada", "engarzada", "engatusada", "engendrada", "englobada", "engolosinada", "engordada", "engranada", "engrandecida", "engrasada", "engreída", "engrosada", "engullida", "enharinada", "enhebrada", "enjuagada", "enjugada", "enjuiciada", "enlazada", "enlistada", "enlodada", "enloquecida", "enlozada", "enlutada", "enmarañada", "enmascarada", "enmendada", "enmohecida", "enmudecida", "ennegrecida", "ennoblecida", "enorgullecida", "enrarecida", "enredada", "enripiada", "enriquecida", "enrocada", "enrojecida", "enrolada", "enrollada", "enroscada", "enrumbada", "ensalzada", "ensamblada", "ensañada", "ensanchada", "ensartada", "ensayada", "ensebada", "enseñada", "enseñoreada", "ensillada", "ensoberbecida", "ensogada", "ensombrecida", "ensoñada", "ensordecida", "ensuciada", "entablada", "entallada", "entendida", "enterada", "enternecida", "enterrada", "entibiada", "entintada", "entonada", "entorpecida", "entrada", "entrampada", "entrañada", "entreabierta", "entrecomillada", "entrecruzada", "entregada", "entrelazada", "entremetida", "entremezclada", "entrenada", "entresacada", "entretejida", "entretenida", "entreverada", "entrevistada", "entristecida", "entrometida", "entronada", "entroncada", "entronizada", "entumecida", "enturbiada", "entusiasmada", "enumerada", "enunciada", "envainada", "envalentonada", "envanecida", "envasada", "envejecida", "envenenada", "envestida", "enviada", "enviciada", "envidiada", "envilecida", "enviudada", "envuelta", "enzarzada", "equilibrada", "equiparada", "equivocada", "erigida", "erizada", "erogada", "erosionada", "erotizada", "erradicada", "errada", "esbozada", "escabullida", "escalada", "escaldada", "escalfada", "escamada", "escamoteada", "escampada", "escandalizada", "escaneada", "escapada", "escaqueada", "escarbada", "escarchada", "escarmentada", "escarnecida", "escaseada", "escatimada", "escenificada", "escindida", "esclarecida", "esclavizada", "escocida", "escogida", "escolarizada", "escoltada", "escondida", "escorada", "escrachada", "escrita", "escrutada", "escuchada", "escudada", "escudriñada", "esculpida", "escupida", "escurrida", "esforzada", "esfumada", "esgrimida", "esmerada", "esmerilada", "espabilada", "espaciada", "españolizada", "espantada", "esparcida", "especificada", "especulada", "esperada", "espesada", "espetada", "espiada", "espigada", "espinada", "espirada", "espiritualizada", "espoleada", "espolvoreada", "esponjada", "esponsorizada", "esposada", "esquematizada", "esquiada", "esquilada", "esquilmada", "esquivada", "estabilizada", "establecida", "estacionada", "estafada", "estallada", "estampada", "estancada", "estaqueada", "estatizada", "estatuida", "esterificada", "esterilizada", "estigmatizada", "estilizada", "estimada", "estimulada", "estipulada", "estirada", "estorbada", "estornudada", "estragada", "estrangulada", "estrechada", "estrellada", "estremecida", "estrenada", "estresada", "estriada", "estropeada", "estructurada", "estrujada", "estudiada", "eternizada", "etiquetada", "evacuada", "evadida", "evaluada", "evangelizada", "evaporada", "evidenciada", "eviscerada", "evitada", "evocada", "evolucionada", "exacerbada", "exagerada", "exaltada", "examinada", "exasperada", "excarcelada", "excavada", "excedida", "exceptuada", "excitada", "exclamada", "excluida", "excretada", "exculpada", "excusada", "execrada", "exhalada", "exhibida", "exhortada", "exhumada", "exigida", "exilada", "eximida", "existida", "exonerada", "exorcizada", "expandida", "expedida", "expedientada", "expelida", "expendida", "experimentada", "expiada", "expirada", "explayada", "explicada", "explicitada", "explorada", "explosionada", "explotada", "expoliada", "exportada", "expresada", "exprimida", "expropiada", "expuesta", "expulsada", "expurgada", "extendida", "exteriorizada", "exterminada", "externada", "externalizada", "extinguida", "extirpada", "extorsionada", "extractada", "extraditada", "extraída", "extralimitada", "extrañada", "extrapolada", "extraviada", "extremada", "extruida", "exudada", "eyaculada", "eyectada", "fabricada", "fabulada", "facilitada", "facturada", "facultada", "fagocitada", "fajada", "fallada", "fallecida", "falsada", "falseada", "falsificada", "familiarizada", "fantaseada", "fascinada", "fastidiada", "fatigada", "favorecida", "fecundada", "felicitada", "feminizada", "fenecida", "fermentada", "fertilizada", "festejada", "fiada", "fichada", "fidelizada", "figurada", "fijada", "filmada", "filosofada", "filtrada", "finalizada", "financiada", "fincada", "fingida", "finiquitada", "firmada", "fiscalizada", "fisurada", "flagelada", "flameada", "flanqueada", "flaqueada", "fletada", "flexibilizada", "flexionada", "flipada", "floreada", "florecida", "flotada", "fluctuada", "focalizada", "fogueada", "foliada", "follada", "fomentada", "fondeada", "forcejeada", "forestada", "forjada", "formada", "formalizada", "formateada", "formulada", "fornicada", "forrada", "fortalecida", "forzada", "fotocopiada", "fotografiada", "fracasada", "fraccionada", "fracturada", "fragmentada", "fraguada", "franqueada", "frecuentada", "fregada", "frenada", "fresada", "friccionada", "frotada", "fructificada", "fruncida", "fugada", "fulminada", "fumada", "fumigada", "funcionada", "fundada", "fundamentada", "fundida", "fungida", "fusilada", "fusionada", "fustigada", "gafada", "ganada", "gangrenada", "garabateada", "garantida", "garantizada", "garrida", "gaseada", "gastada", "gemida", "generada", "generalizada", "gerenciada", "germinada", "gestada", "gestionada", "girada", "glorificada", "glosada", "gobernada", "goleada", "golpeada", "gozada", "grabada", "graduada", "graficada", "granjeada", "grapada", "gratificada", "gravada", "gravitada", "gritada", "gruñida", "guardada", "guarecida", "guarnecida", "guerreada", "guiada", "guillotinada", "guiñada", "guindada", "guisada", "gustada", "habilitada", "habitada", "habituada", "hablada", "halada", "halagada", "hallada", "hartada", "hechizada", "hecha", "helenizada", "henchida", "hendida", "heredada", "herida", "hermanada", "herrada", "hervida", "hibernada", "hibridada", "hidratada", "higienizada", "hilada", "hilvanada", "hincada", "hinchada", "hipnotizada", "hipotecada", "historiada", "hojeada", "holgada", "hollada", "homenajeada", "homogeneizada", "homologada", "honrada", "horadada", "horneada", "horrorizada", "hospedada", "hostigada", "hostilizada", "huida", "humanada", "humanizada", "humectada", "humedecida", "humillada", "hundida", "hurgada", "hurtada", "ideada", "idealizada", "identificada", "ideologizada", "idiotizada", "idolatrada", "ignorada", "igualada", "ilegalizada", "iluminada", "ilusionada", "ilustrada", "imaginada", "imbricada", "imitada", "impactada", "impartida", "impedida", "impelida", "imperada", "impermeabilizada", "implantada", "implementada", "implicada", "implorada", "importada", "importunada", "imposibilitada", "impresionada", "improvisada", "impuesta", "impugnada", "impulsada", "imputada", "inaugurada", "incautada", "incendiada", "incentivada", "incinerada", "incitada", "inclinada", "incluida", "incoada", "incomodada", "incorporada", "incrementada", "increpada", "incriminada", "incubada", "inculcada", "inculpada", "incumplida", "incurrida", "incursionada", "indagada", "indemnizada", "independizada", "indexada", "indicada", "indigestada", "indignada", "indispuesta", "individuada", "inducida", "indultada", "inervada", "infamada", "infartada", "infectada", "inferida", "inficionada", "infiltrada", "inflada", "inflamada", "infligida", "influenciada", "influida", "informada", "infravalorada", "infringida", "infundida", "ingeniada", "ingerida", "ingresada", "inhabilitada", "inhalada", "inhibida", "inhumada", "iniciada", "inicializada", "injertada", "injuriada", "inmigrada", "inmiscuida", "inmolada", "inmortalizada", "inmovilizada", "inmunizada", "innovada", "inoculada", "inquietada", "inquirida", "insensibilizada", "insertada", "insinuada", "insistida", "inspeccionada", "inspirada", "instada", "instalada", "instaurada", "instigada", "instituida", "instruida", "instrumentada", "instrumentalizada", "insuflada", "insultada", "insumida", "integrada", "intelectualizada", "intensificada", "intentada", "interactuada", "intercalada", "intercambiada", "intercedida", "interceptada", "interesada", "interferida", "interiorizada", "intermediada", "internacionalizada", "internalizada", "interpelada", "interpolada", "interpretada", "interpuesta", "interrogada", "interrumpida", "intervenida", "intimada", "intimidada", "intitulada", "intoxicada", "intrigada", "introducida", "intuida", "inundada", "inutilizada", "invadida", "invalidada", "inventada", "inventariada", "invertida", "investida", "investigada", "invitada", "invocada", "involucionada", "inyectada", "ionizada", "ironizada", "irradiada", "irrespetada", "irrigada", "irritada", "irrogada", "irrumpida", "jactada", "jalada", "jaleada", "jalonada", "jaqueada", "jerarquizada", "jodida", "jorobada", "jubilada", "jugada", "juntada", "jurada", "juramentada", "justificada", "juzgada", "laborada", "labrada", "laburada", "lacada", "lacerada", "lactada", "ladeada", "ladrada", "lamentada", "lamida", "laminada", "languidecida", "lanzada", "lapidada", "laqueada", "largada", "lastimada", "lastrada", "latida", "laudada", "lavada", "legalizada", "legislada", "legitimada", "leída", "lesionada", "leudada", "levantada", "liada", "liberada", "liberalizada", "libertada", "librada", "licitada", "licuada", "liderizada", "lidiada", "ligada", "lijada", "limada", "limitada", "limpiada", "linchada", "liquidada", "litigada", "llagada", "llamada", "llegada", "llenada", "llevada", "llorada", "localizada", "lograda", "lubricada", "luchada", "lucida", "lucrada", "lustrada", "macerada", "machacada", "macheteada", "machucada", "madreada", "madrugada", "madurada", "magnetizada", "magnificada", "malacostumbrada", "malbaratada", "malcriada", "maleada", "malentendida", "malgastada", "malinterpretada", "malograda", "maltratada", "malversada", "mamada", "manchada", "mancillada", "mandada", "manejada", "mangada", "mangoneada", "manifestada", "maniobrada", "manipulada", "manoseada", "manteada", "mantenida", "manufacturada", "maquillada", "maquinada", "maravillada", "marcada", "marchitada", "mareada", "marginada", "maridada", "martillada", "martirizada", "masacrada", "masajeada", "mascada", "masificada", "masticada", "masturbada", "matada", "materializada", "matizada", "matriculada", "maximizada", "meada", "mecanografiada", "mechada", "mecida", "mediada", "mediatizada", "medicada", "medida", "meditada", "medrada", "mejorada", "mellada", "memorizada", "mencionada", "meneada", "menguada", "menoscabada", "menospreciada", "menstruada", "mensualizada", "mensurada", "mentada", "mentalizada", "mentida", "mercadeada", "mercantilizada", "merecida", "merendada", "mermada", "merodeada", "mesurada", "metamorfoseada", "metida", "mezclada", "migrada", "militada", "militarizada", "mimada", "mimetizada", "minada", "minimizada", "ministrada", "minusvalorada", "mirada", "mistificada", "mitificada", "mitigada", "modelada", "modernizada", "modificada", "modulada", "mofada", "mojada", "moldeada", "molestada", "molida", "monetizada", "monitorizada", "monopolizada", "montada", "morada", "moralizada", "mordida", "mordisqueada", "mortificada", "mosqueada", "mostrada", "motejada", "motivada", "movida", "movilizada", "mudada", "muestreada", "multada", "multiplicada", "munida", "murmurada", "mutada", "mutilada", "nacionalizada", "narcotizada", "narrada", "naufragada", "navegada", "necesitada", "negada", "negociada", "neutralizada", "ninguneada", "nivelada", "nombrada", "nominada", "noqueada", "normada", "normalizada", "notada", "notificada", "nutrida", "obcecada", "obedecida", "objetada", "objetivada", "obligada", "obliterada", "obnubilada", "obrada", "obsequiada", "observada", "obsesionada", "obstaculizada", "obstruida", "obtenida", "obturada", "obviada", "ocasionada", "ocluida", "ocultada", "ocupada", "odiada", "ofendida", "ofertada", "oficiada", "oficializada", "ofrecida", "ofrendada", "ofuscada", "oída", "ojeada", "olfateada", "olida", "olvidada", "omitida", "ondeada", "ondulada", "opacada", "operada", "opinada", "oprimida", "optada", "optimizada", "opuesta", "orada", "orbitada", "ordenada", "ordeñada", "organizada", "orientada", "originada", "orillada", "orinada", "ornada", "ornamentada", "orquestada", "osada", "oscilada", "oscurecida", "osificada", "ostentada", "otorgada", "ovacionada", "ovulada", "oxidada", "oxigenada", "pacificada", "pactada", "padecida", "paganizada", "paginada", "paladeada", "paliada", "palpada", "parada", "parafraseada", "paralizada", "parapetada", "parasitada", "parcelada", "parchada", "parcheada", "pareada", "parida", "parodiada", "parqueada", "participada", "particularizada", "partida", "pasada", "paseada", "pastoreada", "pataleada", "pateada", "patentada", "patentizada", "patinada", "patrullada", "pecada", "pedaleada", "pedida", "pegada", "peinada", "pellizcada", "penalizada", "penetrada", "pensada", "percatada", "percibida", "percutida", "perdida", "perdonada", "perdurada", "perecida", "peregrinada", "perfeccionada", "perfilada", "perforada", "perfumada", "pergeñada", "peritada", "perjudicada", "perjurada", "permeada", "permitida", "permutada", "pernoctada", "perpetrada", "perpetuada", "perseguida", "perseverada", "persistida", "personada", "personalizada", "personificada", "persuadida", "pertenecida", "pertrechada", "perturbada", "pervertida", "pervivida", "pescada", "petada", "peticionada", "picada", "picaneada", "picoteada", "pifiada", "pignorada", "pillada", "pilotada", "piloteada", "pincelada", "pinchada", "pintada", "pintarrajeada", "pinzada", "pirada", "pirateada", "pisada", "pisoteada", "pitada", "placida", "plagiada", "planchada", "planeada", "plantada", "planteada", "plasmada", "platicada", "plegada", "pluralizada", "podada", "poetizada", "polemizada", "politizada", "pololeada", "ponderada", "pontificada", "popularizada", "porfiada", "portada", "porteada", "posada", "posesionada", "posibilitada", "posicionada", "pospuesta", "posteada", "postergada", "postrada", "postulada", "potenciada", "practicada", "precarizada", "precedida", "preceptuada", "precintada", "precipitada", "precisada", "preconizada", "predicada", "predicha", "predispuesta", "predominada", "preferida", "prefigurada", "pregonada", "preguntada", "prejuzgada", "premiada", "prendada", "prendida", "preocupada", "preparada", "presagiada", "prescindida", "presenciada", "presentada", "presentida", "preservada", "presidida", "presionada", "prestada", "prestigiada", "presumida", "presurizada", "pretendida", "preterida", "prevalecida", "prevalida", "prevaricada", "prevenida", "prevista", "primada", "principiada", "pringada", "priorizada", "privatizada", "probada", "problematizada", "procedida", "procesada", "proclamada", "procreada", "procurada", "prodigada", "producida", "profanada", "proferida", "profesada", "profesionalizada", "profetizada", "profundizada", "programada", "progresada", "prohibida", "prohijada", "proletarizada", "proliferada", "prologada", "prolongada", "promediada", "prometida", "promocionada", "promovida", "promulgada", "pronosticada", "pronunciada", "propagada", "propalada", "propendida", "propiciada", "propinada", "proporcionada", "propuesta", "propugnada", "propulsada", "prorrateada", "prorrogada", "proseguida", "prosperada", "prostituida", "protegida", "protestada", "protocolizada", "provenida", "provocada", "proyectada", "psicoanalizada", "publicada", "publicitada", "puesta", "pugnada", "pujada", "pulida", "pulsada", "pululada", "pulverizada", "punada", "punteada", "puntuada", "puntualizada", "punzada", "purgada", "purificada", "puteada", "quebrada", "quebrantada", "quejada", "quemada", "querellada", "querida", "quintuplicada", "quitada", "racionada", "racionalizada", "radiada", "radicada", "radicalizada", "raída", "rajada", "ralentizada", "rapada", "rapeada", "raptada", "rascada", "rasgada", "rasguñada", "raspada", "rastreada", "rasurada", "ratificada", "rayada", "razonada", "reabierta", "reabsorbida", "reaccionada", "reactivada", "readaptada", "readmitida", "reafirmada", "reagrupada", "reajustada", "realimentada", "realizada", "realzada", "reanimada", "reanudada", "reaparecida", "rearmada", "reasumida", "reavivada", "rebajada", "rebalsada", "rebanada", "rebasada", "rebatida", "rebautizada", "rebelada", "reblandecida", "rebobinada", "rebosada", "rebotada", "rebozada", "rebuscada", "recabada", "recaída", "recalada", "recalcada", "recalentada", "recalificada", "recapacitada", "recapitulada", "recargada", "recatada", "recaudada", "receptada", "recetada", "rechazada", "recibida", "reciclada", "recitada", "reclamada", "reclinada", "reclutada", "recobrada", "recocida", "recogida", "recolectada", "recomendada", "recomenzada", "recompensada", "recompuesta", "reconcentrada", "reconciliada", "reconducida", "reconfortada", "reconocida", "reconquistada", "reconsiderada", "reconstituida", "reconstruida", "reconvenida", "reconvertida", "recopilada", "recordada", "recorrida", "recortada", "recreada", "recriminada", "recrudecida", "rectificada", "recubierta", "reculada", "recuperada", "recurrida", "recusada", "redactada", "redefinida", "redescubierta", "redimensionada", "redimida", "rediseñada", "redistribuida", "redituada", "redoblada", "redondeada", "reducida", "redundada", "reedificada", "reeditada", "reeducada", "reelaborada", "reembolsada", "reemplazada", "reencarnada", "reencauchada", "reencontrada", "reenganchada", "reenviada", "reescrita", "reestructurada", "reexaminada", "refaccionada", "referida", "refinada", "refinanciada", "reflejada", "reflexionada", "reflotada", "reforestada", "reformada", "reforzada", "refractada", "refrenada", "refrendada", "refrescada", "refrigerada", "refundida", "refutada", "regada", "regalada", "regañada", "regateada", "regenerada", "regentada", "regenteada", "regida", "regionalizada", "registrada", "reglada", "reglamentada", "regocijada", "regodeada", "regresada", "regulada", "regularizada", "regurgitada", "rehabilitada", "rehecha", "rehogada", "rehuida", "rehusada", "reída", "reinada", "reincidida", "reincorporada", "reingresada", "reiniciada", "reinsertada", "reinstalada", "reinstaurada", "reintegrada", "reinventada", "reinvertida", "reiterada", "reivindicada", "rejuvenecida", "relajada", "relamida", "relanzada", "relatada", "relativizada", "relegada", "releída", "relevada", "religada", "rellenada", "remachada", "remada", "remangada", "remarcada", "rematada", "remecida", "remediada", "rememorada", "remendada", "remitida", "remodelada", "remojada", "remolcada", "remontada", "removida", "remplazada", "renacida", "rendida", "renegada", "renegociada", "reñida", "renombrada", "renovada", "rentabilizada", "rentada", "renunciada", "reordenada", "reorganizada", "reorientada", "reparada", "repartida", "repasada", "repatriada", "repelida", "repensada", "repercutida", "repescada", "repetida", "repicada", "repintada", "replanteada", "replegada", "replicada", "repoblada", "reportada", "reporteada", "reposada", "repreguntada", "reprendida", "represada", "representada", "reprimida", "reprobada", "reprochada", "reproducida", "repudiada", "repuesta", "repugnada", "repuntada", "reputada", "requerida", "requisada", "resaltada", "resarcida", "resbalada", "rescatada", "rescindida", "resecada", "reseñada", "reservada", "reseteada", "resguardada", "residida", "resignada", "resistida", "resonada", "respaldada", "respetada", "respirada", "resplandecida", "respondida", "responsabilizada", "resquebrajada", "restablecida", "restada", "restaurada", "restituida", "restregada", "resucitada", "resuelta", "resumida", "resurgida", "retada", "retardada", "retenida", "retirada", "retocada", "retomada", "retorcida", "retornada", "retractada", "retraída", "retransmitida", "retrasada", "retratada", "retribuida", "retrotraída", "retumbada", "reunida", "reunificada", "reutilizada", "revalidada", "revalorizada", "revaluada", "revelada", "revendida", "reventada", "reverdecida", "reverenciada", "revertida", "revestida", "revirada", "revisada", "revitalizada", "revivida", "revocada", "revolcada", "revoloteada", "revolucionada", "revuelta", "ridiculizada", "rifada", "rimada", "rivalizada", "rizada", "robada", "robustecida", "rociada", "rodada", "rodeada", "rogada", "roída", "rondada", "rotada", "rota", "rotulada", "roturada", "rozada", "ruborizada", "rubricada", "rugida", "rumiada", "rumorada", "sabida", "saboreada", "saboteada", "sacada", "saciada", "sacralizada", "sacrificada", "sacudida", "saldada", "salpimentada", "salpullida", "saltada", "salteada", "saludada", "salvada", "salvaguardada", "sanada", "saneada", "sangrada", "santificada", "saqueada", "satanizada", "satirizada", "satisfecha", "sazonada", "secada", "seccionada", "secretada", "secuenciada", "secuestrada", "secundada", "sedimentada", "seducida", "segada", "segmentada", "segregada", "seguida", "seleccionada", "sembrada", "señalada", "sensibilizada", "sentada", "sentenciada", "sentida", "separada", "serenada", "serrada", "servida", "significada", "silenciada", "simbolizada", "simpatizada", "simplificada", "simulada", "sincerada", "sincronizada", "sindicada", "sindicalizada", "singularizada", "sintetizada", "sintonizada", "sistematizada", "situada", "sobada", "sobornada", "sobrada", "sobrecargada", "sobrecogida", "sobreentendida", "sobreestimada", "sobrellevada", "sobrentendida", "sobrepasada", "sobrepuesta", "sobresalida", "sobresaltada", "sobrestimada", "sobrevenida", "sobrevivida", "sobrevolada", "socavada", "socializada", "socorrida", "sodomizada", "sofocada", "sojuzgada", "solapada", "solicitada", "solidarizada", "solidificada", "soliviantada", "soltada", "solucionada", "solventada", "sombreada", "sometida", "sonada", "soñada", "sondeada", "sonreída", "sonrojada", "sopesada", "soplada", "soportada", "sorbida", "sorprendida", "sorteada", "sosegada", "soslayada", "sospechada", "sostenida", "suavizada", "subastada", "subcontratada", "subdividida", "subestimada", "subida", "sublevada", "sublimada", "subrayada", "subrogada", "subsanada", "subsidiada", "subsistida", "substraída", "subsumida", "subvertida", "subyugada", "succionada", "sucedida", "sucumbida", "sudada", "sufragada", "sufrida", "sugerida", "sugestionada", "suicidada", "sujetada", "sumada", "sumergida", "suministrada", "supeditada", "superada", "superpuesta", "supervisada", "suplantada", "suplicada", "suplida", "suprimida", "supuesta", "surcada", "surtida", "suscitada", "suspendida", "suspirada", "sustanciada", "sustantivada", "sustentada", "sustituida", "sustraída", "susurrada", "suturada", "tabulada", "tachada", "talada", "taladrada", "tallada", "tambaleada", "tamizada", "tañida", "tanteada", "tapada", "tapizada", "taponada", "tarareada", "tardada", "tasada", "tatuada", "tecleada", "tejida", "telefoneada", "televisada", "temida", "templada", "tendida", "tenida", "tensada", "tentada", "teorizada", "terciada", "tergiversada", "terminada", "territorializada", "testada", "testeada", "testificada", "testimoniada", "tildada", "timada", "timbrada", "tinturada", "tipeada", "tipificada", "tirada", "tiranizada", "tironeada", "tiroteada", "titubeada", "tiznada", "tocada", "tolerada", "tomada", "tonificada", "topada", "toqueteada", "torcida", "toreada", "tornada", "tornasolada", "torneada", "torpedeada", "torturada", "tosida", "tostada", "totalizada", "trabada", "trabajada", "traducida", "traficada", "tragada", "traicionada", "traída", "trajinada", "tramada", "tramitada", "trancada", "tranquilizada", "transcendida", "transcurrida", "transferida", "transfigurada", "transformada", "transfundida", "transgredida", "transigida", "transitada", "transliterada", "translucida", "transmitida", "transmutada", "transparentada", "transpirada", "transportada", "transpuesta", "trasegada", "trasgredida", "trasladada", "traslapada", "traslucida", "trasnochada", "traspapelada", "traspasada", "trasplantada", "traspuesta", "trasquilada", "trasteada", "trastocada", "trastornada", "trasvasada", "tratada", "trazada", "trenzada", "trepada", "tributada", "trincada", "triplicada", "triturada", "triunfada", "trivializada", "trocada", "troceada", "tronada", "tronchada", "truncada", "tumbada", "tuneada", "turbada", "turnada", "tutelada", "ufanada", "ultimada", "uncida", "ungida", "unida", "universalizada", "untada", "urbanizada", "urdida", "usada", "usufructuada", "usurpada", "utilizada", "vacada", "vaciada", "vacilada", "vacunada", "vagada", "validada", "valida", "valorada", "valorizada", "valuada", "vanagloriada", "vandalizada", "vaporizada", "variada", "vaticinada", "vedada", "vehiculada", "vejada", "velada", "vencida", "vendada", "vendida", "venerada", "vengada", "ventilada", "veraneada", "verbalizada", "verificada", "versada", "versionada", "vertebrada", "vertida", "vestida", "vetada", "viabilizada", "viajada", "vibrada", "victimada", "victimizada", "vigilada", "vigorizada", "vilipendiada", "vindicada", "violada", "violentada", "virada", "visada", "visibilizada", "visitada", "vislumbrada", "vista", "visualizada", "vitoreada", "vitrificada", "vituperada", "vivida", "vivificada", "vocalizada", "voceada", "vociferada", "volada", "volatilizada", "volcada", "volteada", "vomitada", "votada", "vuelta", "vulcanizada", "vulgarizada", "vulnerada", "yuxtapuesta", "zafada", "zambullida", "zampada", "zanjada", "zarandeada", "zarpada", "zozobrada", "zumbada", "zurcida", "zurrada", "abajados", "abalanzados", "abaleados", "abandonados", "abaratados", "abarcados", "abarrotados", "abastecidos", "abatidos", "abdicados", "abiertos", "abismados", "abjurados", "ablandados", "abocados", "abochornados", "abofeteados", "abolidos", "abollados", "abombados", "abominados", "abonados", "abordados", "aborrecidos", "aborregados", "abortados", "abotonados", "abrasados", "abrazados", "abrevados", "abreviados", "abrigados", "abrochados", "abrogados", "abroquelados", "abrumados", "absorbidos", "abstenidos", "abstraídos", "absueltos", "abucheados", "abultados", "abundados", "aburguesados", "aburridos", "abusados", "acabados", "acallados", "acalorados", "acaparados", "acariciados", "acarreados", "acatados", "acaudillados", "accedidos", "accionados", "acechados", "aceitados", "acelerados", "acentuados", "aceptados", "acerados", "acercados", "acertados", "achacados", "achantados", "achatados", "achicados", "acicalados", "acidificados", "aclarados", "aclimatados", "acobardados", "acodados", "acogidos", "acojonados", "acometidos", "acomodados", "acompañados", "acompasados", "acongojados", "aconsejados", "acontecidos", "acopiados", "acoplados", "acordados", "acordonados", "acorralados", "acortados", "acosados", "acostados", "acostumbrados", "acotados", "acrecentados", "acreditados", "acrisolados", "activados", "actuados", "acuchillados", "acuciados", "acudidos", "acuerpados", "acumulados", "acunados", "acuñados", "acurrucados", "acusados", "adaptados", "adecentados", "adelantados", "adelgazados", "adentrados", "adeudados", "adheridos", "adicionados", "adiestrados", "adivinados", "adjetivados", "adjudicados", "adjuntados", "administrados", "admirados", "admitidos", "adoctrinados", "adolecidos", "adoptados", "adorados", "adormecidos", "adornados", "adquiridos", "aducidos", "adueñados", "adulados", "adulterados", "advertidos", "afanados", "afeados", "afectados", "afeitados", "aferrados", "afianzados", "afinados", "afirmados", "afligidos", "aflorados", "afrentados", "afrontados", "agachados", "agarrados", "agarrotados", "agasajados", "agenciados", "agigantados", "agilizados", "agitados", "aglutinados", "agobiados", "agolpados", "agonizados", "agostados", "agotados", "agradados", "agradecidos", "agrandados", "agravados", "agraviados", "agredidos", "agregados", "agriados", "agrietados", "agrupados", "aguados", "aguantados", "aguardados", "agudizados", "aguijoneados", "agujereados", "aguzados", "ahogados", "ahondados", "ahorcados", "ahorrados", "ahuecados", "ahuyentados", "aireados", "aislados", "ajustados", "ajusticiados", "alabados", "alagados", "alambrados", "alardeados", "alargados", "alarmados", "albergados", "alborotados", "alcanzados", "aleccionados", "alegados", "alegrados", "alejados", "alentados", "alertados", "alfabetizados", "alfombrados", "aliados", "alienados", "aligerados", "alimentados", "aliñados", "alineados", "alisados", "alistados", "aliviados", "alivianados", "allanados", "almacenados", "almorzados", "alojados", "alquilados", "alterados", "alternados", "alucinados", "aludidos", "alumbrados", "alzados", "amados", "amaestrados", "amagados", "amainados", "amalgamados", "amamantados", "amansados", "amargados", "amarrados", "amasados", "ambicionados", "amedrentados", "amenazados", "amenizados", "ameritados", "ametrallados", "amilanados", "aminorados", "amnistiados", "amoldados", "amonestados", "amontonados", "amordazados", "amortajados", "amortiguados", "amortizados", "amotinados", "amparados", "ampayados", "ampliados", "amplificados", "amputados", "amueblados", "añadidos", "analizados", "anatematizados", "andados", "anegados", "anestesiados", "anexados", "anexionados", "anhelados", "anidados", "anillados", "animados", "aniquilados", "anisados", "añorados", "anotados", "anoticiados", "ansiados", "antecedidos", "antepuestos", "anticipados", "antojados", "anudados", "anulados", "anunciados", "apabullados", "apachurrados", "apaciguados", "apadrinados", "apagados", "apalancados", "apaleados", "apañados", "apantallados", "aparcados", "apareados", "aparecidos", "aparentados", "apartados", "apeados", "apedreados", "apelados", "apellidados", "apelmazados", "apercibidos", "apersonados", "apestados", "apetecidos", "apiadados", "apilados", "apiñados", "apisonados", "aplacados", "aplanados", "aplastados", "aplaudidos", "aplazados", "aplicados", "apoderados", "apoltronados", "aporreados", "aportados", "aposentados", "apostados", "apostatados", "apostillados", "apoyados", "apreciados", "aprehendidos", "apremiados", "aprendidos", "apresados", "apresurados", "apretados", "apretujados", "aprisionados", "aprobados", "aprovechados", "aprovisionados", "aproximados", "apuñalados", "apuñaleados", "apuntados", "apuntalados", "apuntillados", "apurados", "aquejados", "aquietados", "aquilatados", "arañados", "arbitrados", "archivados", "arengados", "argüidos", "argumentados", "armados", "armonizados", "aromatizados", "arqueados", "arrancados", "arrasados", "arrastrados", "arreados", "arrebatados", "arreciados", "arreglados", "arrellanados", "arremangados", "arremetidos", "arrendados", "arrepentidos", "arrestados", "arriados", "arribados", "arriesgados", "arrimados", "arrinconados", "arrodillados", "arrogados", "arrojados", "arrollados", "arropados", "arruinados", "arrullados", "articulados", "asados", "asaltados", "ascendidos", "aseados", "asechados", "asediados", "asegurados", "asemejados", "asentados", "asentidos", "aserrados", "asesinados", "asesorados", "asestados", "aseverados", "asfixiados", "asidos", "asignados", "asilados", "asimilados", "asistidos", "asolados", "asoleados", "asomados", "asombrados", "aspirados", "astillados", "asumidos", "asustados", "atacados", "atados", "atajados", "atarantados", "atascados", "atemorizados", "atemperados", "atenazados", "atendidos", "atenidos", "atentados", "atenuados", "aterrados", "aterrorizados", "atesorados", "atestiguados", "atiborrados", "atisbados", "atizados", "atomizados", "atontados", "atorados", "atormentados", "atornillados", "atosigados", "atracados", "atragantados", "atraídos", "atrancados", "atrapados", "atrasados", "atravesados", "atrevidos", "atribuidos", "atrincherados", "atrofiados", "atropellados", "aturdidos", "auditados", "augurados", "aumentados", "aunados", "aupados", "auscultados", "ausentados", "autenticados", "autentificados", "autodefinidos", "autoeditados", "automatizados", "autorizados", "autorregulados", "auxiliados", "avalados", "avanzados", "avasallados", "avenidos", "aventados", "aventajados", "aventurados", "averiados", "averiguados", "avezados", "avisados", "avispados", "avistados", "avivados", "avizorados", "avocados", "ayudados", "azotados", "azuzados", "babeados", "bailados", "bajados", "balaceados", "balanceados", "bañados", "banalizados", "bancados", "bandeados", "barajados", "barridos", "basados", "bastardeados", "basureados", "batallados", "bateados", "batidos", "bautizados", "beatificados", "bebidos", "beneficiados", "besados", "bifurcados", "birlados", "blandidos", "blanqueados", "blasfemados", "blindados", "bloqueados", "boicoteados", "bombardeados", "bombeados", "bonificados", "bordeados", "borrados", "borroneados", "bosquejados", "bostezados", "botados", "boxeados", "bregados", "brillados", "brincados", "brindados", "bromeados", "brotados", "bruñidos", "buceados", "burlados", "buscados", "cabeceados", "cabidos", "cabildeados", "cabreados", "cacareados", "cachados", "cacheados", "cacheteados", "caducados", "cagados", "calados", "calculados", "caldeados", "calefaccionados", "calendarizados", "calentados", "calibrados", "calificados", "caligrafiados", "callados", "calmados", "calumniados", "calzados", "cambiados", "caminados", "camuflados", "canalizados", "cancelados", "canjeados", "cansados", "cantados", "capados", "capeados", "capitalizados", "capitulados", "captados", "capturados", "caracterizados", "carburados", "carcomidos", "cardados", "careados", "carecidos", "cargados", "caricaturizados", "cartografiados", "cascados", "castigados", "castrados", "catados", "catalizados", "catalogados", "catapultados", "cateados", "categorizados", "causados", "cauterizados", "cautivados", "cavados", "cavilados", "cazados", "cebados", "cedidos", "cegados", "cejados", "celebrados", "cenados", "ceñidos", "censurados", "centrifugados", "centuplicados", "cepillados", "cercados", "cercenados", "cerciorados", "cernidos", "cerrados", "cesados", "chafados", "chamuscados", "chantajeados", "chapados", "charlados", "chateados", "chequeados", "chiflados", "chillados", "chingados", "chirriados", "chivados", "chocados", "chorreados", "choteados", "chupados", "chutados", "cicatrizados", "cifrados", "cimentados", "cincelados", "circulados", "circuncidados", "circundados", "citados", "clamados", "clarificados", "clasificados", "claudicados", "clausurados", "clavados", "clicados", "clonados", "coaccionados", "coadyuvados", "coagulados", "coaligados", "coartados", "cobijados", "cobrados", "cocidos", "cocinados", "codeados", "codiciados", "codificados", "codirigidos", "coexistidos", "cofinanciados", "cogidos", "cohabitados", "cohibidos", "coincididos", "colaborados", "colacionados", "colados", "colapsados", "coleccionados", "colectados", "colectivizados", "colgados", "colisionados", "colmados", "colocados", "colonizados", "coloreados", "columpiados", "combatidos", "combinados", "comentados", "comenzados", "comerciados", "comercializados", "cometidos", "comidos", "comisionados", "compactados", "compadecidos", "compaginados", "comparados", "comparecidos", "compartidos", "compatibilizados", "compelidos", "compendiados", "compenetrados", "compensados", "compilados", "complacidos", "complementados", "completados", "complotados", "comportados", "comprados", "comprendidos", "comprimidos", "comprobados", "comprometidos", "compuestos", "compulsados", "computados", "comulgados", "comunicados", "concatenados", "concebidos", "concedidos", "concelebrados", "concentrados", "conceptuados", "conceptualizados", "concertados", "concienciados", "concientizados", "conciliados", "concitados", "concluidos", "concordados", "concretados", "concretizados", "conculcados", "concursados", "condenados", "condensados", "condicionados", "condimentados", "condolidos", "condonados", "conducidos", "conectados", "conexionados", "confabulados", "confeccionados", "conferidos", "confesados", "confiados", "configurados", "confirmados", "confiscados", "confluidos", "conformados", "confortados", "confrontados", "confundidos", "congeniados", "congestionados", "congratulados", "congregados", "conjeturados", "conjugados", "conjuntados", "conjurados", "conllevados", "conmemorados", "conminados", "conmocionados", "conmovidos", "conmutados", "connotados", "conquistados", "consagrados", "conseguidos", "consensuados", "consentidos", "conservados", "considerados", "consignados", "consistidos", "consolados", "consolidados", "conspirados", "constados", "constatados", "constelados", "constitucionalizados", "constituidos", "constreñidos", "construidos", "consultados", "consumados", "consumidos", "contabilizados", "contactados", "contados", "contagiados", "contemplados", "contendidos", "contenidos", "contentados", "contestados", "contextualizados", "continuados", "contorneados", "contraatacados", "contrabandeados", "contradichos", "contrahechos", "contraídos", "contrapesados", "contrapuestos", "contrariados", "contrarrestados", "contrastados", "contratados", "contravenidos", "contribuidos", "contristados", "controlados", "convalidados", "convencidos", "convenidos", "convergidos", "conversados", "convertidos", "convidados", "convividos", "convocados", "convulsionados", "cooperados", "cooptados", "coordinados", "copados", "copiados", "coproducidos", "copulados", "coqueteados", "corchados", "coreados", "coreografiados", "corneados", "coronados", "corporizados", "corregidos", "correlacionados", "correspondidos", "correteados", "corridos", "corroborados", "corroídos", "corrompidos", "cortados", "cortejados", "cosechados", "cosidos", "cosificados", "costados", "costeados", "cotejados", "cotizados", "creados", "creídos", "criados", "cribados", "criminalizados", "crispados", "cristalizados", "cristianizados", "criticados", "cronometrados", "crucificados", "crujidos", "cruzados", "cuadriplicados", "cuadruplicados", "cuajados", "cuantificados", "cuarteados", "cubiertos", "cuestionados", "cuidados", "culeados", "culminados", "culpabilizados", "culpados", "cultivados", "culturizados", "cumplidos", "cumplimentados", "cundidos", "curados", "curioseados", "currados", "cursados", "curvados", "custodiados", "dados", "dañados", "danzados", "datados", "dateados", "debatidos", "debidos", "debilitados", "debitados", "debutados", "decaídos", "decantados", "decapitados", "decepcionados", "decididos", "declamados", "declarados", "declinados", "decodificados", "decolorados", "decomisados", "decrecidos", "decretados", "dedicados", "deducidos", "defecados", "defendidos", "defenestrados", "deferidos", "definidos", "deformados", "defraudados", "degenerados", "deglutidos", "degollados", "degradados", "degustados", "deificados", "dejados", "delatados", "delegados", "deleitados", "deletreados", "deliberados", "delimitados", "delineados", "delinquidos", "demandados", "demarcados", "demediados", "demeritados", "democratizados", "demolidos", "demonizados", "demorados", "demostrados", "demudados", "denegados", "denigrados", "denominados", "denostados", "denotados", "denunciados", "deparados", "departidos", "dependidos", "depilados", "deplorados", "deportados", "depositados", "depreciados", "depredados", "deprimidos", "depuestos", "depurados", "derechizados", "derivados", "derogados", "derramados", "derretidos", "derribados", "derrocados", "derrochados", "derrotados", "derruidos", "derrumbados", "desabrochados", "desacatados", "desacelerados", "desacomodados", "desaconsejados", "desacoplados", "desacralizados", "desacreditados", "desactivados", "desafiados", "desafinados", "desaguados", "desahogados", "desairados", "desajustados", "desalentados", "desalineados", "desalojados", "desandados", "desangrados", "desanimados", "desaparecidos", "desapegados", "desaprendidos", "desaprobados", "desaprovechados", "desarmados", "desarraigados", "desarreglados", "desarrollados", "desarticulados", "desaseados", "desasidos", "desasosegados", "desatados", "desatendidos", "desautorizados", "desayunados", "desbancados", "desbandados", "desbaratados", "desbarrancados", "desbastados", "desbloqueados", "desbocados", "desbordados", "desbrozados", "descabalgados", "descabezados", "descaderados", "descalabrados", "descalificados", "descansados", "descargados", "descarriados", "descarrilados", "descartados", "descascarados", "descascarillados", "descendidos", "descentrados", "descifrados", "descocidos", "descodificados", "descojonados", "descolgados", "descolocados", "descolonizados", "descompensados", "descomprimidos", "descompuestos", "desconectados", "desconfiados", "descongelados", "desconocidos", "descontados", "descontaminados", "descontextualizados", "descontinuados", "desconvocados", "descorazonados", "descorchados", "descorridos", "descosidos", "descoyuntados", "descreídos", "descristianizados", "descuadrados", "descuartizados", "descubiertos", "descuidados", "desdeñados", "desdibujados", "desdichos", "desdoblados", "deseados", "desecados", "desechados", "desembarazados", "desembarcados", "desembocados", "desembolsados", "desempacados", "desempañados", "desempaquetados", "desempeñados", "desempolvados", "desenamorados", "desencadenados", "desencajados", "desencarnados", "desenchufados", "desenfocados", "desenfundados", "desenganchados", "desengrasados", "desenmascarados", "desenredados", "desenrollados", "desentendidos", "desenterrados", "desentonados", "desentrañados", "desenvainados", "desenvueltos", "desequilibrados", "desertados", "desestabilizados", "desestimados", "desfalcados", "desfallecidos", "desfigurados", "desfondados", "desgajados", "desgañitados", "desgarrados", "desgastados", "desglosados", "desgobernados", "desgranados", "desguazados", "deshechos", "desheredados", "deshidratados", "deshilachados", "deshojados", "deshonrados", "deshuesados", "deshumanizados", "designados", "desilusionados", "desincentivados", "desinfectados", "desinflados", "desinflamados", "desinformados", "desinhibidos", "desinstalados", "desintegrados", "desintoxicados", "desistidos", "desjarretados", "deslegitimados", "desleídos", "desligados", "deslindados", "deslizados", "deslucidos", "deslumbrados", "desmadrados", "desmalezados", "desmantelados", "desmaquillados", "desmarcados", "desmayados", "desmejorados", "desmembrados", "desmentidos", "desmenuzados", "desmerecidos", "desmigados", "desmitificados", "desmoldados", "desmontados", "desmoralizados", "desmoronados", "desmotivados", "desmovilizados", "desnaturalizados", "desnivelados", "desnucados", "desnudados", "desobedecidos", "desobligados", "desoídos", "desollados", "desorganizados", "desorientados", "despachados", "desparasitados", "desparecidos", "desparramados", "despedazados", "despedidos", "despegados", "despeinados", "despejados", "despellejados", "despeñados", "despenalizados", "desperdiciados", "despersonalizados", "despertados", "despilfarrados", "despintados", "despiojados", "despistados", "desplazados", "desplegados", "desplomados", "desplumados", "despojados", "despolitizados", "desposados", "desposeídos", "despotricados", "despreciados", "desprendidos", "despreocupados", "desprestigiados", "desprogramados", "despulpados", "despuntados", "desquiciados", "desquitados", "destacados", "destapados", "desteñidos", "desterrados", "destetados", "destilados", "destituidos", "destrabados", "destripados", "destronados", "destrozados", "destruidos", "desunidos", "desvalijados", "desvalorizados", "desvanecidos", "desvelados", "desvestidos", "desviados", "desvinculados", "desvirtuados", "desvividos", "detectados", "detenidos", "detentados", "deteriorados", "determinados", "detestados", "detonados", "devaluados", "devanados", "devastados", "develados", "devengados", "devenidos", "devorados", "devueltos", "diagnosticados", "diagramados", "dializados", "dialogados", "dibujados", "dichos", "dictados", "dictaminados", "diezmados", "difamados", "diferenciados", "diferidos", "dificultados", "difuminados", "difundidos", "digeridos", "digitados", "dignados", "dignificados", "dilapidados", "dilatados", "diligenciados", "dilucidados", "diluidos", "dimensionados", "dimitidos", "dinamitados", "dinamizados", "dirimidos", "discernidos", "disciplinados", "discontinuados", "discrepados", "discriminados", "disculpados", "discurridos", "discutidos", "diseccionados", "diseminados", "diseñados", "disentidos", "disertados", "disfrazados", "disfrutados", "disgregados", "disgustados", "disimulados", "disipados", "dislocados", "disminuidos", "disociados", "dispensados", "dispersados", "dispuestos", "disputados", "distados", "distanciados", "distendidos", "distinguidos", "distorsionados", "distraídos", "distribuidos", "disuadidos", "disueltos", "divagados", "diversificados", "divertidos", "divididos", "divinizados", "divisados", "divorciados", "divulgados", "doblados", "doblegados", "doctorados", "documentados", "dogmatizados", "dolidos", "domados", "domesticados", "dominados", "donados", "dopados", "dormidos", "dosificados", "dotados", "dragados", "dramatizados", "drenados", "drogados", "duchados", "dudados", "dulcificados", "duplicados", "durados", "echados", "eclipsados", "eclosionados", "economizados", "ecualizados", "edificados", "editados", "educados", "efectuados", "ejecutados", "ejemplificados", "ejercidos", "ejercitados", "elaborados", "electrizados", "electrocutados", "elevados", "elididos", "eliminados", "elogiados", "elucubrados", "eludidos", "emanados", "emancipados", "embadurnados", "embalados", "embalsamados", "embanderados", "embarcados", "embargados", "embarrados", "embarrancados", "embaucados", "embebidos", "embelesados", "embellecidos", "embestidos", "embolados", "embolsados", "emborrachados", "emborronados", "emboscados", "embotados", "embriagados", "embrollados", "embrutecidos", "embuchados", "emergidos", "emigrados", "emitidos", "emocionados", "empacados", "empachados", "empadronados", "empalados", "empalmados", "empanados", "empañados", "empantanados", "empapelados", "empaquetados", "emparejados", "empastados", "empatados", "empecinados", "empeñados", "empeorados", "empequeñecidos", "emperrados", "empezados", "empinados", "emplazados", "empleados", "empobrecidos", "empoderados", "empollados", "empolvados", "emponzoñados", "emprendidos", "empujados", "empuñados", "emputados", "emulados", "emulsionados", "enajenados", "enaltecidos", "enamorados", "enarbolados", "enardecidos", "encabezados", "encabritados", "encabronados", "encadenados", "encajados", "encajonados", "encallados", "encamados", "encaminados", "encandilados", "encanecidos", "encañonados", "encantados", "encaprichados", "encapsulados", "encarados", "encaramados", "encarecidos", "encargados", "encariñados", "encarnados", "encarrilados", "encartados", "encasillados", "encasquetados", "encasquillados", "encastrados", "encausados", "encauzados", "enceguecidos", "encendidos", "encerados", "encerrados", "encharcados", "enchufados", "encimados", "encogidos", "encolados", "encolerizados", "encolumnados", "encomendados", "enconados", "encontrados", "encordados", "encrespados", "encuadrados", "encubiertos", "encuerados", "encumbrados", "enderezados", "endeudados", "endilgados", "endiosados", "endosados", "endulzados", "endurecidos", "enemistados", "energizados", "enervados", "enfadados", "enfangados", "enfatizados", "enfermados", "enfiestados", "enfilados", "enflaquecidos", "enfocados", "enfrascados", "enfrentados", "enfriados", "enfurecidos", "engalanados", "engañados", "enganchados", "engarzados", "engatusados", "engendrados", "englobados", "engolosinados", "engordados", "engranados", "engrandecidos", "engrasados", "engreídos", "engrosados", "engullidos", "enharinados", "enhebrados", "enjuagados", "enjugados", "enjuiciados", "enlazados", "enlistados", "enlodados", "enloquecidos", "enlozados", "enlutados", "enmarañados", "enmascarados", "enmendados", "enmohecidos", "enmudecidos", "ennegrecidos", "ennoblecidos", "enorgullecidos", "enrarecidos", "enredados", "enripiados", "enriquecidos", "enrocados", "enrojecidos", "enrolados", "enrollados", "enroscados", "enrumbados", "ensalzados", "ensamblados", "ensañados", "ensanchados", "ensartados", "ensayados", "ensebados", "enseñados", "enseñoreados", "ensillados", "ensoberbecidos", "ensogados", "ensombrecidos", "ensoñados", "ensordecidos", "ensuciados", "entablados", "entallados", "entendidos", "enterados", "enternecidos", "enterrados", "entibiados", "entintados", "entonados", "entorpecidos", "entrados", "entrampados", "entrañados", "entreabiertos", "entrecomillados", "entrecruzados", "entregados", "entrelazados", "entremetidos", "entremezclados", "entrenados", "entresacados", "entretejidos", "entretenidos", "entreverados", "entrevistados", "entristecidos", "entrometidos", "entronados", "entroncados", "entronizados", "entumecidos", "enturbiados", "entusiasmados", "enumerados", "enunciados", "envainados", "envalentonados", "envanecidos", "envasados", "envejecidos", "envenenados", "envestidos", "enviados", "enviciados", "envidiados", "envilecidos", "enviudados", "envueltos", "enzarzados", "equilibrados", "equiparados", "equivocados", "erigidos", "erizados", "erogados", "erosionados", "erotizados", "erradicados", "errados", "esbozados", "escabullidos", "escalados", "escaldados", "escalfados", "escamados", "escamoteados", "escampados", "escandalizados", "escaneados", "escapados", "escaqueados", "escarbados", "escarchados", "escarmentados", "escarnecidos", "escaseados", "escatimados", "escenificados", "escindidos", "esclarecidos", "esclavizados", "escocidos", "escogidos", "escolarizados", "escoltados", "escondidos", "escorados", "escrachados", "escritos", "escrutados", "escuchados", "escudados", "escudriñados", "esculpidos", "escupidos", "escurridos", "esforzados", "esfumados", "esgrimidos", "esmerados", "esmerilados", "espabilados", "espaciados", "españolizados", "espantados", "esparcidos", "especificados", "especulados", "esperados", "espesados", "espetados", "espiados", "espigados", "espinados", "espirados", "espiritualizados", "espoleados", "espolvoreados", "esponjados", "esponsorizados", "esposados", "esquematizados", "esquiados", "esquilados", "esquilmados", "esquivados", "estabilizados", "establecidos", "estacionados", "estafados", "estallados", "estampados", "estancados", "estaqueados", "estatizados", "estatuidos", "esterificados", "esterilizados", "estigmatizados", "estilizados", "estimados", "estimulados", "estipulados", "estirados", "estorbados", "estornudados", "estragados", "estrangulados", "estrechados", "estrellados", "estremecidos", "estrenados", "estresados", "estriados", "estropeados", "estructurados", "estrujados", "estudiados", "eternizados", "etiquetados", "evacuados", "evadidos", "evaluados", "evangelizados", "evaporados", "evidenciados", "eviscerados", "evitados", "evocados", "evolucionados", "exacerbados", "exagerados", "exaltados", "examinados", "exasperados", "excarcelados", "excavados", "excedidos", "exceptuados", "excitados", "exclamados", "excluidos", "excretados", "exculpados", "excusados", "execrados", "exhalados", "exhibidos", "exhortados", "exhumados", "exigidos", "exilados", "eximidos", "existidos", "exonerados", "exorcizados", "expandidos", "expedidos", "expedientados", "expelidos", "expendidos", "experimentados", "expiados", "expirados", "explayados", "explicados", "explicitados", "explorados", "explosionados", "explotados", "expoliados", "exportados", "expresados", "exprimidos", "expropiados", "expuestos", "expulsados", "expurgados", "extendidos", "exteriorizados", "exterminados", "externados", "externalizados", "extinguidos", "extirpados", "extorsionados", "extractados", "extraditados", "extraídos", "extralimitados", "extrañados", "extrapolados", "extraviados", "extremados", "extruidos", "exudados", "eyaculados", "eyectados", "fabricados", "fabulados", "facilitados", "facturados", "facultados", "fagocitados", "fajados", "fallados", "fallecidos", "falsados", "falseados", "falsificados", "familiarizados", "fantaseados", "fascinados", "fastidiados", "fatigados", "favorecidos", "fecundados", "felicitados", "feminizados", "fenecidos", "fermentados", "fertilizados", "festejados", "fiados", "fichados", "fidelizados", "figurados", "fijados", "filmados", "filosofados", "filtrados", "finalizados", "financiados", "fincados", "fingidos", "finiquitados", "firmados", "fiscalizados", "fisurados", "flagelados", "flameados", "flanqueados", "flaqueados", "fletados", "flexibilizados", "flexionados", "flipados", "floreados", "florecidos", "flotados", "fluctuados", "focalizados", "fogueados", "foliados", "follados", "fomentados", "fondeados", "forcejeados", "forestados", "forjados", "formados", "formalizados", "formateados", "formulados", "fornicados", "forrados", "fortalecidos", "forzados", "fotocopiados", "fotografiados", "fracasados", "fraccionados", "fracturados", "fragmentados", "fraguados", "franqueados", "frecuentados", "fregados", "frenados", "fresados", "friccionados", "frotados", "fructificados", "fruncidos", "fugados", "fulminados", "fumados", "fumigados", "funcionados", "fundados", "fundamentados", "fundidos", "fungidos", "fusilados", "fusionados", "fustigados", "gafados", "ganados", "gangrenados", "garabateados", "garantidos", "garantizados", "garridos", "gaseados", "gastados", "gemidos", "generados", "generalizados", "gerenciados", "germinados", "gestados", "gestionados", "girados", "glorificados", "glosados", "gobernados", "goleados", "golpeados", "gozados", "grabados", "graduados", "graficados", "granjeados", "grapados", "gratificados", "gravados", "gravitados", "gritados", "gruñidos", "guardados", "guarecidos", "guarnecidos", "guerreados", "guiados", "guillotinados", "guiñados", "guindados", "guisados", "gustados", "habilitados", "habitados", "habituados", "hablados", "halados", "halagados", "hallados", "hartados", "hechizados", "hechos", "helenizados", "henchidos", "hendidos", "heredados", "heridos", "hermanados", "herrados", "hervidos", "hibernados", "hibridados", "hidratados", "higienizados", "hilados", "hilvanados", "hincados", "hinchados", "hipnotizados", "hipotecados", "historiados", "hojeados", "holgados", "hollados", "homenajeados", "homogeneizados", "homologados", "honrados", "horadados", "horneados", "horrorizados", "hospedados", "hostigados", "hostilizados", "huidos", "humanados", "humanizados", "humectados", "humedecidos", "humillados", "hundidos", "hurgados", "hurtados", "ideados", "idealizados", "identificados", "ideologizados", "idiotizados", "idolatrados", "ignorados", "igualados", "ilegalizados", "iluminados", "ilusionados", "ilustrados", "imaginados", "imbricados", "imitados", "impactados", "impartidos", "impedidos", "impelidos", "imperados", "impermeabilizados", "implantados", "implementados", "implicados", "implorados", "importados", "importunados", "imposibilitados", "impresionados", "improvisados", "impuestos", "impugnados", "impulsados", "imputados", "inaugurados", "incautados", "incendiados", "incentivados", "incinerados", "incitados", "inclinados", "incluidos", "incoados", "incomodados", "incorporados", "incrementados", "increpados", "incriminados", "incubados", "inculcados", "inculpados", "incumplidos", "incurridos", "incursionados", "indagados", "indemnizados", "independizados", "indexados", "indicados", "indigestados", "indignados", "indispuestos", "individuados", "inducidos", "indultados", "inervados", "infamados", "infartados", "infectados", "inferidos", "inficionados", "infiltrados", "inflados", "inflamados", "infligidos", "influenciados", "influidos", "informados", "infravalorados", "infringidos", "infundidos", "ingeniados", "ingeridos", "ingresados", "inhabilitados", "inhalados", "inhibidos", "inhumados", "iniciados", "inicializados", "injertados", "injuriados", "inmigrados", "inmiscuidos", "inmolados", "inmortalizados", "inmovilizados", "inmunizados", "innovados", "inoculados", "inquietados", "inquiridos", "insensibilizados", "insertados", "insinuados", "insistidos", "inspeccionados", "inspirados", "instados", "instalados", "instaurados", "instigados", "instituidos", "instruidos", "instrumentados", "instrumentalizados", "insuflados", "insultados", "insumidos", "integrados", "intelectualizados", "intensificados", "intentados", "interactuados", "intercalados", "intercambiados", "intercedidos", "interceptados", "interesados", "interferidos", "interiorizados", "intermediados", "internacionalizados", "internalizados", "interpelados", "interpolados", "interpretados", "interpuestos", "interrogados", "interrumpidos", "intervenidos", "intimados", "intimidados", "intitulados", "intoxicados", "intrigados", "introducidos", "intuidos", "inundados", "inutilizados", "invadidos", "invalidados", "inventados", "inventariados", "invertidos", "investidos", "investigados", "invitados", "invocados", "involucionados", "inyectados", "ionizados", "ironizados", "irradiados", "irrespetados", "irrigados", "irritados", "irrogados", "irrumpidos", "jactados", "jalados", "jaleados", "jalonados", "jaqueados", "jerarquizados", "jodidos", "jorobados", "jubilados", "jugados", "juntados", "jurados", "juramentados", "justificados", "juzgados", "laborados", "labrados", "laburados", "lacados", "lacerados", "lactados", "ladeados", "ladrados", "lamentados", "lamidos", "laminados", "languidecidos", "lanzados", "lapidados", "laqueados", "largados", "lastimados", "lastrados", "latidos", "laudados", "lavados", "legalizados", "legislados", "legitimados", "leídos", "lesionados", "leudados", "levantados", "liados", "liberados", "liberalizados", "libertados", "librados", "licitados", "licuados", "liderizados", "lidiados", "ligados", "lijados", "limados", "limitados", "limpiados", "linchados", "liquidados", "litigados", "llagados", "llamados", "llegados", "llenados", "llevados", "llorados", "localizados", "logrados", "lubricados", "luchados", "lucidos", "lucrados", "lustrados", "macerados", "machacados", "macheteados", "machucados", "madreados", "madrugados", "madurados", "magnetizados", "magnificados", "malacostumbrados", "malbaratados", "malcriados", "maleados", "malentendidos", "malgastados", "malinterpretados", "malogrados", "maltratados", "malversados", "mamados", "manchados", "mancillados", "mandados", "manejados", "mangados", "mangoneados", "manifestados", "maniobrados", "manipulados", "manoseados", "manteados", "mantenidos", "manufacturados", "maquillados", "maquinados", "maravillados", "marcados", "marchitados", "mareados", "marginados", "maridados", "martillados", "martirizados", "masacrados", "masajeados", "mascados", "masificados", "masticados", "masturbados", "matados", "materializados", "matizados", "matriculados", "maximizados", "meados", "mecanografiados", "mechados", "mecidos", "mediados", "mediatizados", "medicados", "medidos", "meditados", "medrados", "mejorados", "mellados", "memorizados", "mencionados", "meneados", "menguados", "menoscabados", "menospreciados", "menstruados", "mensualizados", "mensurados", "mentados", "mentalizados", "mentidos", "mercadeados", "mercantilizados", "merecidos", "merendados", "mermados", "merodeados", "mesurados", "metamorfoseados", "metidos", "mezclados", "migrados", "militados", "militarizados", "mimados", "mimetizados", "minados", "minimizados", "ministrados", "minusvalorados", "mirados", "mistificados", "mitificados", "mitigados", "modelados", "modernizados", "modificados", "modulados", "mofados", "mojados", "moldeados", "molestados", "molidos", "monetizados", "monitorizados", "monopolizados", "montados", "morados", "moralizados", "mordidos", "mordisqueados", "mortificados", "mosqueados", "mostrados", "motejados", "motivados", "movidos", "movilizados", "mudados", "muestreados", "multados", "multiplicados", "munidos", "murmurados", "mutados", "mutilados", "nacionalizados", "narcotizados", "narrados", "naufragados", "navegados", "necesitados", "negados", "negociados", "neutralizados", "ninguneados", "nivelados", "nombrados", "nominados", "noqueados", "normados", "normalizados", "notados", "notificados", "nutridos", "obcecados", "obedecidos", "objetados", "objetivados", "obligados", "obliterados", "obnubilados", "obrados", "obsequiados", "observados", "obsesionados", "obstaculizados", "obstruidos", "obtenidos", "obturados", "obviados", "ocasionados", "ocluidos", "ocultados", "ocupados", "odiados", "ofendidos", "ofertados", "oficiados", "oficializados", "ofrecidos", "ofrendados", "ofuscados", "oídos", "ojeados", "olfateados", "olidos", "olvidados", "omitidos", "ondeados", "ondulados", "opacados", "operados", "opinados", "oprimidos", "optados", "optimizados", "opuestos", "orados", "orbitados", "ordenados", "ordeñados", "organizados", "orientados", "originados", "orillados", "orinados", "ornados", "ornamentados", "orquestados", "osados", "oscilados", "oscurecidos", "osificados", "ostentados", "otorgados", "ovacionados", "ovulados", "oxidados", "oxigenados", "pacificados", "pactados", "padecidos", "paganizados", "paginados", "paladeados", "paliados", "palpados", "parados", "parafraseados", "paralizados", "parapetados", "parasitados", "parcelados", "parchados", "parcheados", "pareados", "paridos", "parodiados", "parqueados", "participados", "particularizados", "partidos", "pasados", "paseados", "pastoreados", "pataleados", "pateados", "patentados", "patentizados", "patinados", "patrullados", "pecados", "pedaleados", "pedidos", "pegados", "peinados", "pellizcados", "penalizados", "penetrados", "pensados", "percatados", "percibidos", "percutidos", "perdidos", "perdonados", "perdurados", "perecidos", "peregrinados", "perfeccionados", "perfilados", "perforados", "perfumados", "pergeñados", "peritados", "perjudicados", "perjurados", "permeados", "permitidos", "permutados", "pernoctados", "perpetrados", "perpetuados", "perseguidos", "perseverados", "persistidos", "personados", "personalizados", "personificados", "persuadidos", "pertenecidos", "pertrechados", "perturbados", "pervertidos", "pervividos", "pescados", "petados", "peticionados", "picados", "picaneados", "picoteados", "pifiados", "pignorados", "pillados", "pilotados", "piloteados", "pincelados", "pinchados", "pintados", "pintarrajeados", "pinzados", "pirados", "pirateados", "pisados", "pisoteados", "pitados", "placidos", "plagiados", "planchados", "planeados", "plantados", "planteados", "plasmados", "platicados", "plegados", "pluralizados", "podados", "poetizados", "polemizados", "politizados", "pololeados", "ponderados", "pontificados", "popularizados", "porfiados", "portados", "porteados", "posados", "posesionados", "posibilitados", "posicionados", "pospuestos", "posteados", "postergados", "postrados", "postulados", "potenciados", "practicados", "precarizados", "precedidos", "preceptuados", "precintados", "precipitados", "precisados", "preconizados", "predicados", "predichos", "predispuestos", "predominados", "preferidos", "prefigurados", "pregonados", "preguntados", "prejuzgados", "premiados", "prendados", "prendidos", "preocupados", "preparados", "presagiados", "prescindidos", "presenciados", "presentados", "presentidos", "preservados", "presididos", "presionados", "prestados", "prestigiados", "presumidos", "presurizados", "pretendidos", "preteridos", "prevalecidos", "prevalidos", "prevaricados", "prevenidos", "previstos", "primados", "principiados", "pringados", "priorizados", "privatizados", "probados", "problematizados", "procedidos", "procesados", "proclamados", "procreados", "procurados", "prodigados", "producidos", "profanados", "proferidos", "profesados", "profesionalizados", "profetizados", "profundizados", "programados", "progresados", "prohibidos", "prohijados", "proletarizados", "proliferados", "prologados", "prolongados", "promediados", "prometidos", "promocionados", "promovidos", "promulgados", "pronosticados", "pronunciados", "propagados", "propalados", "propendidos", "propiciados", "propinados", "proporcionados", "propuestos", "propugnados", "propulsados", "prorrateados", "prorrogados", "proseguidos", "prosperados", "prostituidos", "protegidos", "protestados", "protocolizados", "provenidos", "provocados", "proyectados", "psicoanalizados", "publicados", "publicitados", "puestos", "pugnados", "pujados", "pulidos", "pulsados", "pululados", "pulverizados", "punados", "punteados", "puntuados", "puntualizados", "punzados", "purgados", "purificados", "puteados", "quebrados", "quebrantados", "quejados", "quemados", "querellados", "queridos", "quintuplicados", "quitados", "racionados", "racionalizados", "radiados", "radicados", "radicalizados", "raídos", "rajados", "ralentizados", "rapados", "rapeados", "raptados", "rascados", "rasgados", "rasguñados", "raspados", "rastreados", "rasurados", "ratificados", "rayados", "razonados", "reabiertos", "reabsorbidos", "reaccionados", "reactivados", "readaptados", "readmitidos", "reafirmados", "reagrupados", "reajustados", "realimentados", "realizados", "realzados", "reanimados", "reanudados", "reaparecidos", "rearmados", "reasumidos", "reavivados", "rebajados", "rebalsados", "rebanados", "rebasados", "rebatidos", "rebautizados", "rebelados", "reblandecidos", "rebobinados", "rebosados", "rebotados", "rebozados", "rebuscados", "recabados", "recaídos", "recalados", "recalcados", "recalentados", "recalificados", "recapacitados", "recapitulados", "recargados", "recatados", "recaudados", "receptados", "recetados", "rechazados", "recibidos", "reciclados", "recitados", "reclamados", "reclinados", "reclutados", "recobrados", "recocidos", "recogidos", "recolectados", "recomendados", "recomenzados", "recompensados", "recompuestos", "reconcentrados", "reconciliados", "reconducidos", "reconfortados", "reconocidos", "reconquistados", "reconsiderados", "reconstituidos", "reconstruidos", "reconvenidos", "reconvertidos", "recopilados", "recordados", "recorridos", "recortados", "recreados", "recriminados", "recrudecidos", "rectificados", "recubiertos", "reculados", "recuperados", "recurridos", "recusados", "redactados", "redefinidos", "redescubiertos", "redimensionados", "redimidos", "rediseñados", "redistribuidos", "redituados", "redoblados", "redondeados", "reducidos", "redundados", "reedificados", "reeditados", "reeducados", "reelaborados", "reembolsados", "reemplazados", "reencarnados", "reencauchados", "reencontrados", "reenganchados", "reenviados", "reescritos", "reestructurados", "reexaminados", "refaccionados", "referidos", "refinados", "refinanciados", "reflejados", "reflexionados", "reflotados", "reforestados", "reformados", "reforzados", "refractados", "refrenados", "refrendados", "refrescados", "refrigerados", "refundidos", "refutados", "regados", "regalados", "regañados", "regateados", "regenerados", "regentados", "regenteados", "regidos", "regionalizados", "registrados", "reglados", "reglamentados", "regocijados", "regodeados", "regresados", "regulados", "regularizados", "regurgitados", "rehabilitados", "rehechos", "rehogados", "rehuidos", "rehusados", "reídos", "reinados", "reincididos", "reincorporados", "reingresados", "reiniciados", "reinsertados", "reinstalados", "reinstaurados", "reintegrados", "reinventados", "reinvertidos", "reiterados", "reivindicados", "rejuvenecidos", "relajados", "relamidos", "relanzados", "relatados", "relativizados", "relegados", "releídos", "relevados", "religados", "rellenados", "remachados", "remados", "remangados", "remarcados", "rematados", "remecidos", "remediados", "rememorados", "remendados", "remitidos", "remodelados", "remojados", "remolcados", "remontados", "removidos", "remplazados", "renacidos", "rendidos", "renegados", "renegociados", "reñidos", "renombrados", "renovados", "rentabilizados", "rentados", "renunciados", "reordenados", "reorganizados", "reorientados", "reparados", "repartidos", "repasados", "repatriados", "repelidos", "repensados", "repercutidos", "repescados", "repetidos", "repicados", "repintados", "replanteados", "replegados", "replicados", "repoblados", "reportados", "reporteados", "reposados", "repreguntados", "reprendidos", "represados", "representados", "reprimidos", "reprobados", "reprochados", "reproducidos", "repudiados", "repuestos", "repugnados", "repuntados", "reputados", "requeridos", "requisados", "resaltados", "resarcidos", "resbalados", "rescatados", "rescindidos", "resecados", "reseñados", "reservados", "reseteados", "resguardados", "resididos", "resignados", "resistidos", "resonados", "respaldados", "respetados", "respirados", "resplandecidos", "respondidos", "responsabilizados", "resquebrajados", "restablecidos", "restados", "restaurados", "restituidos", "restregados", "resucitados", "resueltos", "resumidos", "resurgidos", "retados", "retardados", "retenidos", "retirados", "retocados", "retomados", "retorcidos", "retornados", "retractados", "retraídos", "retransmitidos", "retrasados", "retratados", "retribuidos", "retrotraídos", "retumbados", "reunidos", "reunificados", "reutilizados", "revalidados", "revalorizados", "revaluados", "revelados", "revendidos", "reventados", "reverdecidos", "reverenciados", "revertidos", "revestidos", "revirados", "revisados", "revitalizados", "revividos", "revocados", "revolcados", "revoloteados", "revolucionados", "revueltos", "ridiculizados", "rifados", "rimados", "rivalizados", "rizados", "robados", "robustecidos", "rociados", "rodados", "rodeados", "rogados", "roídos", "rondados", "rotados", "rotos", "rotulados", "roturados", "rozados", "ruborizados", "rubricados", "rugidos", "rumiados", "rumorados", "sabidos", "saboreados", "saboteados", "sacados", "saciados", "sacralizados", "sacrificados", "sacudidos", "saldados", "salpimentados", "salpullidos", "saltados", "salteados", "saludados", "salvados", "salvaguardados", "sanados", "saneados", "sangrados", "santificados", "saqueados", "satanizados", "satirizados", "satisfechos", "sazonados", "secados", "seccionados", "secretados", "secuenciados", "secuestrados", "secundados", "sedimentados", "seducidos", "segados", "segmentados", "segregados", "seguidos", "seleccionados", "sembrados", "señalados", "sensibilizados", "sentados", "sentenciados", "sentidos", "separados", "serenados", "serrados", "servidos", "significados", "silenciados", "simbolizados", "simpatizados", "simplificados", "simulados", "sincerados", "sincronizados", "sindicados", "sindicalizados", "singularizados", "sintetizados", "sintonizados", "sistematizados", "situados", "sobados", "sobornados", "sobrados", "sobrecargados", "sobrecogidos", "sobreentendidos", "sobreestimados", "sobrellevados", "sobrentendidos", "sobrepasados", "sobrepuestos", "sobresalidos", "sobresaltados", "sobrestimados", "sobrevenidos", "sobrevividos", "sobrevolados", "socavados", "socializados", "socorridos", "sodomizados", "sofocados", "sojuzgados", "solapados", "solicitados", "solidarizados", "solidificados", "soliviantados", "soltados", "solucionados", "solventados", "sombreados", "sometidos", "sonados", "soñados", "sondeados", "sonreídos", "sonrojados", "sopesados", "soplados", "soportados", "sorbidos", "sorprendidos", "sorteados", "sosegados", "soslayados", "sospechados", "sostenidos", "suavizados", "subastados", "subcontratados", "subdivididos", "subestimados", "subidos", "sublevados", "sublimados", "subrayados", "subrogados", "subsanados", "subsidiados", "subsistidos", "substraídos", "subsumidos", "subvertidos", "subyugados", "succionados", "sucedidos", "sucumbidos", "sudados", "sufragados", "sufridos", "sugeridos", "sugestionados", "suicidados", "sujetados", "sumados", "sumergidos", "suministrados", "supeditados", "superados", "superpuestos", "supervisados", "suplantados", "suplicados", "suplidos", "suprimidos", "supuestos", "surcados", "surtidos", "suscitados", "suspendidos", "suspirados", "sustanciados", "sustantivados", "sustentados", "sustituidos", "sustraídos", "susurrados", "suturados", "tabulados", "tachados", "talados", "taladrados", "tallados", "tambaleados", "tamizados", "tañidos", "tanteados", "tapados", "tapizados", "taponados", "tarareados", "tardados", "tasados", "tatuados", "tecleados", "tejidos", "telefoneados", "televisados", "temidos", "templados", "tendidos", "tenidos", "tensados", "tentados", "teorizados", "terciados", "tergiversados", "terminados", "territorializados", "testados", "testeados", "testificados", "testimoniados", "tildados", "timados", "timbrados", "tinturados", "tipeados", "tipificados", "tirados", "tiranizados", "tironeados", "tiroteados", "titubeados", "tiznados", "tocados", "tolerados", "tomados", "tonificados", "topados", "toqueteados", "torcidos", "toreados", "tornados", "tornasolados", "torneados", "torpedeados", "torturados", "tosidos", "tostados", "totalizados", "trabados", "trabajados", "traducidos", "traficados", "tragados", "traicionados", "traídos", "trajinados", "tramados", "tramitados", "trancados", "tranquilizados", "transcendidos", "transcurridos", "transferidos", "transfigurados", "transformados", "transfundidos", "transgredidos", "transigidos", "transitados", "transliterados", "translucidos", "transmitidos", "transmutados", "transparentados", "transpirados", "transportados", "transpuestos", "trasegados", "trasgredidos", "trasladados", "traslapados", "traslucidos", "trasnochados", "traspapelados", "traspasados", "trasplantados", "traspuestos", "trasquilados", "trasteados", "trastocados", "trastornados", "trasvasados", "tratados", "trazados", "trenzados", "trepados", "tributados", "trincados", "triplicados", "triturados", "triunfados", "trivializados", "trocados", "troceados", "tronados", "tronchados", "truncados", "tumbados", "tuneados", "turbados", "turnados", "tutelados", "ufanados", "ultimados", "uncidos", "ungidos", "unidos", "universalizados", "untados", "urbanizados", "urdidos", "usados", "usufructuados", "usurpados", "utilizados", "vacados", "vaciados", "vacilados", "vacunados", "vagados", "validados", "validos", "valorados", "valorizados", "valuados", "vanagloriados", "vandalizados", "vaporizados", "variados", "vaticinados", "vedados", "vehiculados", "vejados", "velados", "vencidos", "vendados", "vendidos", "venerados", "vengados", "ventilados", "veraneados", "verbalizados", "verificados", "versados", "versionados", "vertebrados", "vertidos", "vestidos", "vetados", "viabilizados", "viajados", "vibrados", "victimados", "victimizados", "vigilados", "vigorizados", "vilipendiados", "vindicados", "violados", "violentados", "virados", "visados", "visibilizados", "visitados", "vislumbrados", "vistos", "visualizados", "vitoreados", "vitrificados", "vituperados", "vividos", "vivificados", "vocalizados", "voceados", "vociferados", "volados", "volatilizados", "volcados", "volteados", "vomitados", "votados", "vueltos", "vulcanizados", "vulgarizados", "vulnerados", "yuxtapuestos", "zafados", "zambullidos", "zampados", "zanjados", "zarandeados", "zarpados", "zozobrados", "zumbados", "zurcidos", "zurrados", "abajadas", "abalanzadas", "abaleadas", "abandonadas", "abaratadas", "abarcadas", "abarrotadas", "abastecidas", "abatidas", "abdicadas", "abiertas", "abismadas", "abjuradas", "ablandadas", "abocadas", "abochornadas", "abofeteadas", "abolidas", "abolladas", "abombadas", "abominadas", "abonadas", "abordadas", "aborrecidas", "aborregadas", "abortadas", "abotonadas", "abrasadas", "abrazadas", "abrevadas", "abreviadas", "abrigadas", "abrochadas", "abrogadas", "abroqueladas", "abrumadas", "absorbidas", "abstenidas", "abstraídas", "absueltas", "abucheadas", "abultadas", "abundadas", "aburguesadas", "aburridas", "abusadas", "acabadas", "acalladas", "acaloradas", "acaparadas", "acariciadas", "acarreadas", "acatadas", "acaudilladas", "accedidas", "accionadas", "acechadas", "aceitadas", "aceleradas", "acentuadas", "aceptadas", "aceradas", "acercadas", "acertadas", "achacadas", "achantadas", "achatadas", "achicadas", "acicaladas", "acidificadas", "aclaradas", "aclimatadas", "acobardadas", "acodadas", "acogidas", "acojonadas", "acometidas", "acomodadas", "acompañadas", "acompasadas", "acongojadas", "aconsejadas", "acontecidas", "acopiadas", "acopladas", "acordadas", "acordonadas", "acorraladas", "acortadas", "acosadas", "acostadas", "acostumbradas", "acotadas", "acrecentadas", "acreditadas", "acrisoladas", "activadas", "actuadas", "acuchilladas", "acuciadas", "acudidas", "acuerpadas", "acumuladas", "acunadas", "acuñadas", "acurrucadas", "acusadas", "adaptadas", "adecentadas", "adelantadas", "adelgazadas", "adentradas", "adeudadas", "adheridas", "adicionadas", "adiestradas", "adivinadas", "adjetivadas", "adjudicadas", "adjuntadas", "administradas", "admiradas", "admitidas", "adoctrinadas", "adolecidas", "adoptadas", "adoradas", "adormecidas", "adornadas", "adquiridas", "aducidas", "adueñadas", "aduladas", "adulteradas", "advertidas", "afanadas", "afeadas", "afectadas", "afeitadas", "aferradas", "afianzadas", "afinadas", "afirmadas", "afligidas", "afloradas", "afrentadas", "afrontadas", "agachadas", "agarradas", "agarrotadas", "agasajadas", "agenciadas", "agigantadas", "agilizadas", "agitadas", "aglutinadas", "agobiadas", "agolpadas", "agonizadas", "agostadas", "agotadas", "agradadas", "agradecidas", "agrandadas", "agravadas", "agraviadas", "agredidas", "agregadas", "agriadas", "agrietadas", "agrupadas", "aguadas", "aguantadas", "aguardadas", "agudizadas", "aguijoneadas", "agujereadas", "aguzadas", "ahogadas", "ahondadas", "ahorcadas", "ahorradas", "ahuecadas", "ahuyentadas", "aireadas", "aisladas", "ajustadas", "ajusticiadas", "alabadas", "alagadas", "alambradas", "alardeadas", "alargadas", "alarmadas", "albergadas", "alborotadas", "alcanzadas", "aleccionadas", "alegadas", "alegradas", "alejadas", "alentadas", "alertadas", "alfabetizadas", "alfombradas", "aliadas", "alienadas", "aligeradas", "alimentadas", "aliñadas", "alineadas", "alisadas", "alistadas", "aliviadas", "alivianadas", "allanadas", "almacenadas", "almorzadas", "alojadas", "alquiladas", "alteradas", "alternadas", "alucinadas", "aludidas", "alumbradas", "alzadas", "amadas", "amaestradas", "amagadas", "amainadas", "amalgamadas", "amamantadas", "amansadas", "amargadas", "amarradas", "amasadas", "ambicionadas", "amedrentadas", "amenazadas", "amenizadas", "ameritadas", "ametralladas", "amilanadas", "aminoradas", "amnistiadas", "amoldadas", "amonestadas", "amontonadas", "amordazadas", "amortajadas", "amortiguadas", "amortizadas", "amotinadas", "amparadas", "ampayadas", "ampliadas", "amplificadas", "amputadas", "amuebladas", "añadidas", "analizadas", "anatematizadas", "andadas", "anegadas", "anestesiadas", "anexadas", "anexionadas", "anheladas", "anidadas", "anilladas", "animadas", "aniquiladas", "anisadas", "añoradas", "anotadas", "anoticiadas", "ansiadas", "antecedidas", "antepuestas", "anticipadas", "antojadas", "anudadas", "anuladas", "anunciadas", "apabulladas", "apachurradas", "apaciguadas", "apadrinadas", "apagadas", "apalancadas", "apaleadas", "apañadas", "apantalladas", "aparcadas", "apareadas", "aparecidas", "aparentadas", "apartadas", "apeadas", "apedreadas", "apeladas", "apellidadas", "apelmazadas", "apercibidas", "apersonadas", "apestadas", "apetecidas", "apiadadas", "apiladas", "apiñadas", "apisonadas", "aplacadas", "aplanadas", "aplastadas", "aplaudidas", "aplazadas", "aplicadas", "apoderadas", "apoltronadas", "aporreadas", "aportadas", "aposentadas", "apostadas", "apostatadas", "apostilladas", "apoyadas", "apreciadas", "aprehendidas", "apremiadas", "aprendidas", "apresadas", "apresuradas", "apretadas", "apretujadas", "aprisionadas", "aprobadas", "aprovechadas", "aprovisionadas", "aproximadas", "apuñaladas", "apuñaleadas", "apuntadas", "apuntaladas", "apuntilladas", "apuradas", "aquejadas", "aquietadas", "aquilatadas", "arañadas", "arbitradas", "archivadas", "arengadas", "argüidas", "argumentadas", "armadas", "armonizadas", "aromatizadas", "arqueadas", "arrancadas", "arrasadas", "arrastradas", "arreadas", "arrebatadas", "arreciadas", "arregladas", "arrellanadas", "arremangadas", "arremetidas", "arrendadas", "arrepentidas", "arrestadas", "arriadas", "arribadas", "arriesgadas", "arrimadas", "arrinconadas", "arrodilladas", "arrogadas", "arrojadas", "arrolladas", "arropadas", "arruinadas", "arrulladas", "articuladas", "asadas", "asaltadas", "ascendidas", "aseadas", "asechadas", "asediadas", "aseguradas", "asemejadas", "asentadas", "asentidas", "aserradas", "asesinadas", "asesoradas", "asestadas", "aseveradas", "asfixiadas", "asidas", "asignadas", "asiladas", "asimiladas", "asistidas", "asoladas", "asoleadas", "asomadas", "asombradas", "aspiradas", "astilladas", "asumidas", "asustadas", "atacadas", "atadas", "atajadas", "atarantadas", "atascadas", "atemorizadas", "atemperadas", "atenazadas", "atendidas", "atenidas", "atentadas", "atenuadas", "aterradas", "aterrorizadas", "atesoradas", "atestiguadas", "atiborradas", "atisbadas", "atizadas", "atomizadas", "atontadas", "atoradas", "atormentadas", "atornilladas", "atosigadas", "atracadas", "atragantadas", "atraídas", "atrancadas", "atrapadas", "atrasadas", "atravesadas", "atrevidas", "atribuidas", "atrincheradas", "atrofiadas", "atropelladas", "aturdidas", "auditadas", "auguradas", "aumentadas", "aunadas", "aupadas", "auscultadas", "ausentadas", "autenticadas", "autentificadas", "autodefinidas", "autoeditadas", "automatizadas", "autorizadas", "autorreguladas", "auxiliadas", "avaladas", "avanzadas", "avasalladas", "avenidas", "aventadas", "aventajadas", "aventuradas", "averiadas", "averiguadas", "avezadas", "avisadas", "avispadas", "avistadas", "avivadas", "avizoradas", "avocadas", "ayudadas", "azotadas", "azuzadas", "babeadas", "bailadas", "bajadas", "balaceadas", "balanceadas", "bañadas", "banalizadas", "bancadas", "bandeadas", "barajadas", "barridas", "basadas", "bastardeadas", "basureadas", "batalladas", "bateadas", "batidas", "bautizadas", "beatificadas", "bebidas", "beneficiadas", "besadas", "bifurcadas", "birladas", "blandidas", "blanqueadas", "blasfemadas", "blindadas", "bloqueadas", "boicoteadas", "bombardeadas", "bombeadas", "bonificadas", "bordeadas", "borradas", "borroneadas", "bosquejadas", "bostezadas", "botadas", "boxeadas", "bregadas", "brilladas", "brincadas", "brindadas", "bromeadas", "brotadas", "bruñidas", "buceadas", "burladas", "buscadas", "cabeceadas", "cabidas", "cabildeadas", "cabreadas", "cacareadas", "cachadas", "cacheadas", "cacheteadas", "caducadas", "cagadas", "caladas", "calculadas", "caldeadas", "calefaccionadas", "calendarizadas", "calentadas", "calibradas", "calificadas", "caligrafiadas", "calladas", "calmadas", "calumniadas", "calzadas", "cambiadas", "caminadas", "camufladas", "canalizadas", "canceladas", "canjeadas", "cansadas", "cantadas", "capadas", "capeadas", "capitalizadas", "capituladas", "captadas", "capturadas", "caracterizadas", "carburadas", "carcomidas", "cardadas", "careadas", "carecidas", "cargadas", "caricaturizadas", "cartografiadas", "cascadas", "castigadas", "castradas", "catadas", "catalizadas", "catalogadas", "catapultadas", "cateadas", "categorizadas", "causadas", "cauterizadas", "cautivadas", "cavadas", "caviladas", "cazadas", "cebadas", "cedidas", "cegadas", "cejadas", "celebradas", "cenadas", "ceñidas", "censuradas", "centrifugadas", "centuplicadas", "cepilladas", "cercadas", "cercenadas", "cercioradas", "cernidas", "cerradas", "cesadas", "chafadas", "chamuscadas", "chantajeadas", "chapadas", "charladas", "chateadas", "chequeadas", "chifladas", "chilladas", "chingadas", "chirriadas", "chivadas", "chocadas", "chorreadas", "choteadas", "chupadas", "chutadas", "cicatrizadas", "cifradas", "cimentadas", "cinceladas", "circuladas", "circuncidadas", "circundadas", "citadas", "clamadas", "clarificadas", "clasificadas", "claudicadas", "clausuradas", "clavadas", "clicadas", "clonadas", "coaccionadas", "coadyuvadas", "coaguladas", "coaligadas", "coartadas", "cobijadas", "cobradas", "cocidas", "cocinadas", "codeadas", "codiciadas", "codificadas", "codirigidas", "coexistidas", "cofinanciadas", "cogidas", "cohabitadas", "cohibidas", "coincididas", "colaboradas", "colacionadas", "coladas", "colapsadas", "coleccionadas", "colectadas", "colectivizadas", "colgadas", "colisionadas", "colmadas", "colocadas", "colonizadas", "coloreadas", "columpiadas", "combatidas", "combinadas", "comentadas", "comenzadas", "comerciadas", "comercializadas", "cometidas", "comidas", "comisionadas", "compactadas", "compadecidas", "compaginadas", "comparadas", "comparecidas", "compartidas", "compatibilizadas", "compelidas", "compendiadas", "compenetradas", "compensadas", "compiladas", "complacidas", "complementadas", "completadas", "complotadas", "comportadas", "compradas", "comprendidas", "comprimidas", "comprobadas", "comprometidas", "compuestas", "compulsadas", "computadas", "comulgadas", "comunicadas", "concatenadas", "concebidas", "concedidas", "concelebradas", "concentradas", "conceptuadas", "conceptualizadas", "concertadas", "concienciadas", "concientizadas", "conciliadas", "concitadas", "concluidas", "concordadas", "concretadas", "concretizadas", "conculcadas", "concursadas", "condenadas", "condensadas", "condicionadas", "condimentadas", "condolidas", "condonadas", "conducidas", "conectadas", "conexionadas", "confabuladas", "confeccionadas", "conferidas", "confesadas", "confiadas", "configuradas", "confirmadas", "confiscadas", "confluidas", "conformadas", "confortadas", "confrontadas", "confundidas", "congeniadas", "congestionadas", "congratuladas", "congregadas", "conjeturadas", "conjugadas", "conjuntadas", "conjuradas", "conllevadas", "conmemoradas", "conminadas", "conmocionadas", "conmovidas", "conmutadas", "connotadas", "conquistadas", "consagradas", "conseguidas", "consensuadas", "consentidas", "conservadas", "consideradas", "consignadas", "consistidas", "consoladas", "consolidadas", "conspiradas", "constadas", "constatadas", "consteladas", "constitucionalizadas", "constituidas", "constreñidas", "construidas", "consultadas", "consumadas", "consumidas", "contabilizadas", "contactadas", "contadas", "contagiadas", "contempladas", "contendidas", "contenidas", "contentadas", "contestadas", "contextualizadas", "continuadas", "contorneadas", "contraatacadas", "contrabandeadas", "contradichas", "contrahechas", "contraídas", "contrapesadas", "contrapuestas", "contrariadas", "contrarrestadas", "contrastadas", "contratadas", "contravenidas", "contribuidas", "contristadas", "controladas", "convalidadas", "convencidas", "convenidas", "convergidas", "conversadas", "convertidas", "convidadas", "convividas", "convocadas", "convulsionadas", "cooperadas", "cooptadas", "coordinadas", "copadas", "copiadas", "coproducidas", "copuladas", "coqueteadas", "corchadas", "coreadas", "coreografiadas", "corneadas", "coronadas", "corporizadas", "corregidas", "correlacionadas", "correspondidas", "correteadas", "corridas", "corroboradas", "corroídas", "corrompidas", "cortadas", "cortejadas", "cosechadas", "cosidas", "cosificadas", "costadas", "costeadas", "cotejadas", "cotizadas", "creadas", "creídas", "criadas", "cribadas", "criminalizadas", "crispadas", "cristalizadas", "cristianizadas", "criticadas", "cronometradas", "crucificadas", "crujidas", "cruzadas", "cuadriplicadas", "cuadruplicadas", "cuajadas", "cuantificadas", "cuarteadas", "cubiertas", "cuestionadas", "cuidadas", "culeadas", "culminadas", "culpabilizadas", "culpadas", "cultivadas", "culturizadas", "cumplidas", "cumplimentadas", "cundidas", "curadas", "curioseadas", "curradas", "cursadas", "curvadas", "custodiadas", "dadas", "dañadas", "danzadas", "datadas", "dateadas", "debatidas", "debidas", "debilitadas", "debitadas", "debutadas", "decaídas", "decantadas", "decapitadas", "decepcionadas", "decididas", "declamadas", "declaradas", "declinadas", "decodificadas", "decoloradas", "decomisadas", "decrecidas", "decretadas", "dedicadas", "deducidas", "defecadas", "defendidas", "defenestradas", "deferidas", "definidas", "deformadas", "defraudadas", "degeneradas", "deglutidas", "degolladas", "degradadas", "degustadas", "deificadas", "dejadas", "delatadas", "delegadas", "deleitadas", "deletreadas", "deliberadas", "delimitadas", "delineadas", "delinquidas", "demandadas", "demarcadas", "demediadas", "demeritadas", "democratizadas", "demolidas", "demonizadas", "demoradas", "demostradas", "demudadas", "denegadas", "denigradas", "denominadas", "denostadas", "denotadas", "denunciadas", "deparadas", "departidas", "dependidas", "depiladas", "deploradas", "deportadas", "depositadas", "depreciadas", "depredadas", "deprimidas", "depuestas", "depuradas", "derechizadas", "derivadas", "derogadas", "derramadas", "derretidas", "derribadas", "derrocadas", "derrochadas", "derrotadas", "derruidas", "derrumbadas", "desabrochadas", "desacatadas", "desaceleradas", "desacomodadas", "desaconsejadas", "desacopladas", "desacralizadas", "desacreditadas", "desactivadas", "desafiadas", "desafinadas", "desaguadas", "desahogadas", "desairadas", "desajustadas", "desalentadas", "desalineadas", "desalojadas", "desandadas", "desangradas", "desanimadas", "desaparecidas", "desapegadas", "desaprendidas", "desaprobadas", "desaprovechadas", "desarmadas", "desarraigadas", "desarregladas", "desarrolladas", "desarticuladas", "desaseadas", "desasidas", "desasosegadas", "desatadas", "desatendidas", "desautorizadas", "desayunadas", "desbancadas", "desbandadas", "desbaratadas", "desbarrancadas", "desbastadas", "desbloqueadas", "desbocadas", "desbordadas", "desbrozadas", "descabalgadas", "descabezadas", "descaderadas", "descalabradas", "descalificadas", "descansadas", "descargadas", "descarriadas", "descarriladas", "descartadas", "descascaradas", "descascarilladas", "descendidas", "descentradas", "descifradas", "descocidas", "descodificadas", "descojonadas", "descolgadas", "descolocadas", "descolonizadas", "descompensadas", "descomprimidas", "descompuestas", "desconectadas", "desconfiadas", "descongeladas", "desconocidas", "descontadas", "descontaminadas", "descontextualizadas", "descontinuadas", "desconvocadas", "descorazonadas", "descorchadas", "descorridas", "descosidas", "descoyuntadas", "descreídas", "descristianizadas", "descuadradas", "descuartizadas", "descubiertas", "descuidadas", "desdeñadas", "desdibujadas", "desdichas", "desdobladas", "deseadas", "desecadas", "desechadas", "desembarazadas", "desembarcadas", "desembocadas", "desembolsadas", "desempacadas", "desempañadas", "desempaquetadas", "desempeñadas", "desempolvadas", "desenamoradas", "desencadenadas", "desencajadas", "desencarnadas", "desenchufadas", "desenfocadas", "desenfundadas", "desenganchadas", "desengrasadas", "desenmascaradas", "desenredadas", "desenrolladas", "desentendidas", "desenterradas", "desentonadas", "desentrañadas", "desenvainadas", "desenvueltas", "desequilibradas", "desertadas", "desestabilizadas", "desestimadas", "desfalcadas", "desfallecidas", "desfiguradas", "desfondadas", "desgajadas", "desgañitadas", "desgarradas", "desgastadas", "desglosadas", "desgobernadas", "desgranadas", "desguazadas", "deshechas", "desheredadas", "deshidratadas", "deshilachadas", "deshojadas", "deshonradas", "deshuesadas", "deshumanizadas", "designadas", "desilusionadas", "desincentivadas", "desinfectadas", "desinfladas", "desinflamadas", "desinformadas", "desinhibidas", "desinstaladas", "desintegradas", "desintoxicadas", "desistidas", "desjarretadas", "deslegitimadas", "desleídas", "desligadas", "deslindadas", "deslizadas", "deslucidas", "deslumbradas", "desmadradas", "desmalezadas", "desmanteladas", "desmaquilladas", "desmarcadas", "desmayadas", "desmejoradas", "desmembradas", "desmentidas", "desmenuzadas", "desmerecidas", "desmigadas", "desmitificadas", "desmoldadas", "desmontadas", "desmoralizadas", "desmoronadas", "desmotivadas", "desmovilizadas", "desnaturalizadas", "desniveladas", "desnucadas", "desnudadas", "desobedecidas", "desobligadas", "desoídas", "desolladas", "desorganizadas", "desorientadas", "despachadas", "desparasitadas", "desparecidas", "desparramadas", "despedazadas", "despedidas", "despegadas", "despeinadas", "despejadas", "despellejadas", "despeñadas", "despenalizadas", "desperdiciadas", "despersonalizadas", "despertadas", "despilfarradas", "despintadas", "despiojadas", "despistadas", "desplazadas", "desplegadas", "desplomadas", "desplumadas", "despojadas", "despolitizadas", "desposadas", "desposeídas", "despotricadas", "despreciadas", "desprendidas", "despreocupadas", "desprestigiadas", "desprogramadas", "despulpadas", "despuntadas", "desquiciadas", "desquitadas", "destacadas", "destapadas", "desteñidas", "desterradas", "destetadas", "destiladas", "destituidas", "destrabadas", "destripadas", "destronadas", "destrozadas", "destruidas", "desunidas", "desvalijadas", "desvalorizadas", "desvanecidas", "desveladas", "desvestidas", "desviadas", "desvinculadas", "desvirtuadas", "desvividas", "detectadas", "detenidas", "detentadas", "deterioradas", "determinadas", "detestadas", "detonadas", "devaluadas", "devanadas", "devastadas", "develadas", "devengadas", "devenidas", "devoradas", "devueltas", "diagnosticadas", "diagramadas", "dializadas", "dialogadas", "dibujadas", "dichas", "dictadas", "dictaminadas", "diezmadas", "difamadas", "diferenciadas", "diferidas", "dificultadas", "difuminadas", "difundidas", "digeridas", "digitadas", "dignadas", "dignificadas", "dilapidadas", "dilatadas", "diligenciadas", "dilucidadas", "diluidas", "dimensionadas", "dimitidas", "dinamitadas", "dinamizadas", "dirimidas", "discernidas", "disciplinadas", "discontinuadas", "discrepadas", "discriminadas", "disculpadas", "discurridas", "discutidas", "diseccionadas", "diseminadas", "diseñadas", "disentidas", "disertadas", "disfrazadas", "disfrutadas", "disgregadas", "disgustadas", "disimuladas", "disipadas", "dislocadas", "disminuidas", "disociadas", "dispensadas", "dispersadas", "dispuestas", "disputadas", "distadas", "distanciadas", "distendidas", "distinguidas", "distorsionadas", "distraídas", "distribuidas", "disuadidas", "disueltas", "divagadas", "diversificadas", "divertidas", "divididas", "divinizadas", "divisadas", "divorciadas", "divulgadas", "dobladas", "doblegadas", "doctoradas", "documentadas", "dogmatizadas", "dolidas", "domadas", "domesticadas", "dominadas", "donadas", "dopadas", "dormidas", "dosificadas", "dotadas", "dragadas", "dramatizadas", "drenadas", "drogadas", "duchadas", "dudadas", "dulcificadas", "duplicadas", "duradas", "echadas", "eclipsadas", "eclosionadas", "economizadas", "ecualizadas", "edificadas", "editadas", "educadas", "efectuadas", "ejecutadas", "ejemplificadas", "ejercidas", "ejercitadas", "elaboradas", "electrizadas", "electrocutadas", "elevadas", "elididas", "eliminadas", "elogiadas", "elucubradas", "eludidas", "emanadas", "emancipadas", "embadurnadas", "embaladas", "embalsamadas", "embanderadas", "embarcadas", "embargadas", "embarradas", "embarrancadas", "embaucadas", "embebidas", "embelesadas", "embellecidas", "embestidas", "emboladas", "embolsadas", "emborrachadas", "emborronadas", "emboscadas", "embotadas", "embriagadas", "embrolladas", "embrutecidas", "embuchadas", "emergidas", "emigradas", "emitidas", "emocionadas", "empacadas", "empachadas", "empadronadas", "empaladas", "empalmadas", "empanadas", "empañadas", "empantanadas", "empapeladas", "empaquetadas", "emparejadas", "empastadas", "empatadas", "empecinadas", "empeñadas", "empeoradas", "empequeñecidas", "emperradas", "empezadas", "empinadas", "emplazadas", "empleadas", "empobrecidas", "empoderadas", "empolladas", "empolvadas", "emponzoñadas", "emprendidas", "empujadas", "empuñadas", "emputadas", "emuladas", "emulsionadas", "enajenadas", "enaltecidas", "enamoradas", "enarboladas", "enardecidas", "encabezadas", "encabritadas", "encabronadas", "encadenadas", "encajadas", "encajonadas", "encalladas", "encamadas", "encaminadas", "encandiladas", "encanecidas", "encañonadas", "encantadas", "encaprichadas", "encapsuladas", "encaradas", "encaramadas", "encarecidas", "encargadas", "encariñadas", "encarnadas", "encarriladas", "encartadas", "encasilladas", "encasquetadas", "encasquilladas", "encastradas", "encausadas", "encauzadas", "enceguecidas", "encendidas", "enceradas", "encerradas", "encharcadas", "enchufadas", "encimadas", "encogidas", "encoladas", "encolerizadas", "encolumnadas", "encomendadas", "enconadas", "encontradas", "encordadas", "encrespadas", "encuadradas", "encubiertas", "encueradas", "encumbradas", "enderezadas", "endeudadas", "endilgadas", "endiosadas", "endosadas", "endulzadas", "endurecidas", "enemistadas", "energizadas", "enervadas", "enfadadas", "enfangadas", "enfatizadas", "enfermadas", "enfiestadas", "enfiladas", "enflaquecidas", "enfocadas", "enfrascadas", "enfrentadas", "enfriadas", "enfurecidas", "engalanadas", "engañadas", "enganchadas", "engarzadas", "engatusadas", "engendradas", "englobadas", "engolosinadas", "engordadas", "engranadas", "engrandecidas", "engrasadas", "engreídas", "engrosadas", "engullidas", "enharinadas", "enhebradas", "enjuagadas", "enjugadas", "enjuiciadas", "enlazadas", "enlistadas", "enlodadas", "enloquecidas", "enlozadas", "enlutadas", "enmarañadas", "enmascaradas", "enmendadas", "enmohecidas", "enmudecidas", "ennegrecidas", "ennoblecidas", "enorgullecidas", "enrarecidas", "enredadas", "enripiadas", "enriquecidas", "enrocadas", "enrojecidas", "enroladas", "enrolladas", "enroscadas", "enrumbadas", "ensalzadas", "ensambladas", "ensañadas", "ensanchadas", "ensartadas", "ensayadas", "ensebadas", "enseñadas", "enseñoreadas", "ensilladas", "ensoberbecidas", "ensogadas", "ensombrecidas", "ensoñadas", "ensordecidas", "ensuciadas", "entabladas", "entalladas", "entendidas", "enteradas", "enternecidas", "enterradas", "entibiadas", "entintadas", "entonadas", "entorpecidas", "entradas", "entrampadas", "entrañadas", "entreabiertas", "entrecomilladas", "entrecruzadas", "entregadas", "entrelazadas", "entremetidas", "entremezcladas", "entrenadas", "entresacadas", "entretejidas", "entretenidas", "entreveradas", "entrevistadas", "entristecidas", "entrometidas", "entronadas", "entroncadas", "entronizadas", "entumecidas", "enturbiadas", "entusiasmadas", "enumeradas", "enunciadas", "envainadas", "envalentonadas", "envanecidas", "envasadas", "envejecidas", "envenenadas", "envestidas", "enviadas", "enviciadas", "envidiadas", "envilecidas", "enviudadas", "envueltas", "enzarzadas", "equilibradas", "equiparadas", "equivocadas", "erigidas", "erizadas", "erogadas", "erosionadas", "erotizadas", "erradicadas", "erradas", "esbozadas", "escabullidas", "escaladas", "escaldadas", "escalfadas", "escamadas", "escamoteadas", "escampadas", "escandalizadas", "escaneadas", "escapadas", "escaqueadas", "escarbadas", "escarchadas", "escarmentadas", "escarnecidas", "escaseadas", "escatimadas", "escenificadas", "escindidas", "esclarecidas", "esclavizadas", "escocidas", "escogidas", "escolarizadas", "escoltadas", "escondidas", "escoradas", "escrachadas", "escritas", "escrutadas", "escuchadas", "escudadas", "escudriñadas", "esculpidas", "escupidas", "escurridas", "esforzadas", "esfumadas", "esgrimidas", "esmeradas", "esmeriladas", "espabiladas", "espaciadas", "españolizadas", "espantadas", "esparcidas", "especificadas", "especuladas", "esperadas", "espesadas", "espetadas", "espiadas", "espigadas", "espinadas", "espiradas", "espiritualizadas", "espoleadas", "espolvoreadas", "esponjadas", "esponsorizadas", "esposadas", "esquematizadas", "esquiadas", "esquiladas", "esquilmadas", "esquivadas", "estabilizadas", "establecidas", "estacionadas", "estafadas", "estalladas", "estampadas", "estancadas", "estaqueadas", "estatizadas", "estatuidas", "esterificadas", "esterilizadas", "estigmatizadas", "estilizadas", "estimadas", "estimuladas", "estipuladas", "estiradas", "estorbadas", "estornudadas", "estragadas", "estranguladas", "estrechadas", "estrelladas", "estremecidas", "estrenadas", "estresadas", "estriadas", "estropeadas", "estructuradas", "estrujadas", "estudiadas", "eternizadas", "etiquetadas", "evacuadas", "evadidas", "evaluadas", "evangelizadas", "evaporadas", "evidenciadas", "evisceradas", "evitadas", "evocadas", "evolucionadas", "exacerbadas", "exageradas", "exaltadas", "examinadas", "exasperadas", "excarceladas", "excavadas", "excedidas", "exceptuadas", "excitadas", "exclamadas", "excluidas", "excretadas", "exculpadas", "excusadas", "execradas", "exhaladas", "exhibidas", "exhortadas", "exhumadas", "exigidas", "exiladas", "eximidas", "existidas", "exoneradas", "exorcizadas", "expandidas", "expedidas", "expedientadas", "expelidas", "expendidas", "experimentadas", "expiadas", "expiradas", "explayadas", "explicadas", "explicitadas", "exploradas", "explosionadas", "explotadas", "expoliadas", "exportadas", "expresadas", "exprimidas", "expropiadas", "expuestas", "expulsadas", "expurgadas", "extendidas", "exteriorizadas", "exterminadas", "externadas", "externalizadas", "extinguidas", "extirpadas", "extorsionadas", "extractadas", "extraditadas", "extraídas", "extralimitadas", "extrañadas", "extrapoladas", "extraviadas", "extremadas", "extruidas", "exudadas", "eyaculadas", "eyectadas", "fabricadas", "fabuladas", "facilitadas", "facturadas", "facultadas", "fagocitadas", "fajadas", "falladas", "fallecidas", "falsadas", "falseadas", "falsificadas", "familiarizadas", "fantaseadas", "fascinadas", "fastidiadas", "fatigadas", "favorecidas", "fecundadas", "felicitadas", "feminizadas", "fenecidas", "fermentadas", "fertilizadas", "festejadas", "fiadas", "fichadas", "fidelizadas", "figuradas", "fijadas", "filmadas", "filosofadas", "filtradas", "finalizadas", "financiadas", "fincadas", "fingidas", "finiquitadas", "firmadas", "fiscalizadas", "fisuradas", "flageladas", "flameadas", "flanqueadas", "flaqueadas", "fletadas", "flexibilizadas", "flexionadas", "flipadas", "floreadas", "florecidas", "flotadas", "fluctuadas", "focalizadas", "fogueadas", "foliadas", "folladas", "fomentadas", "fondeadas", "forcejeadas", "forestadas", "forjadas", "formadas", "formalizadas", "formateadas", "formuladas", "fornicadas", "forradas", "fortalecidas", "forzadas", "fotocopiadas", "fotografiadas", "fracasadas", "fraccionadas", "fracturadas", "fragmentadas", "fraguadas", "franqueadas", "frecuentadas", "fregadas", "frenadas", "fresadas", "friccionadas", "frotadas", "fructificadas", "fruncidas", "fugadas", "fulminadas", "fumadas", "fumigadas", "funcionadas", "fundadas", "fundamentadas", "fundidas", "fungidas", "fusiladas", "fusionadas", "fustigadas", "gafadas", "ganadas", "gangrenadas", "garabateadas", "garantidas", "garantizadas", "garridas", "gaseadas", "gastadas", "gemidas", "generadas", "generalizadas", "gerenciadas", "germinadas", "gestadas", "gestionadas", "giradas", "glorificadas", "glosadas", "gobernadas", "goleadas", "golpeadas", "gozadas", "grabadas", "graduadas", "graficadas", "granjeadas", "grapadas", "gratificadas", "gravadas", "gravitadas", "gritadas", "gruñidas", "guardadas", "guarecidas", "guarnecidas", "guerreadas", "guiadas", "guillotinadas", "guiñadas", "guindadas", "guisadas", "gustadas", "habilitadas", "habitadas", "habituadas", "habladas", "haladas", "halagadas", "halladas", "hartadas", "hechizadas", "hechas", "helenizadas", "henchidas", "hendidas", "heredadas", "heridas", "hermanadas", "herradas", "hervidas", "hibernadas", "hibridadas", "hidratadas", "higienizadas", "hiladas", "hilvanadas", "hincadas", "hinchadas", "hipnotizadas", "hipotecadas", "historiadas", "hojeadas", "holgadas", "holladas", "homenajeadas", "homogeneizadas", "homologadas", "honradas", "horadadas", "horneadas", "horrorizadas", "hospedadas", "hostigadas", "hostilizadas", "huidas", "humanadas", "humanizadas", "humectadas", "humedecidas", "humilladas", "hundidas", "hurgadas", "hurtadas", "ideadas", "idealizadas", "identificadas", "ideologizadas", "idiotizadas", "idolatradas", "ignoradas", "igualadas", "ilegalizadas", "iluminadas", "ilusionadas", "ilustradas", "imaginadas", "imbricadas", "imitadas", "impactadas", "impartidas", "impedidas", "impelidas", "imperadas", "impermeabilizadas", "implantadas", "implementadas", "implicadas", "imploradas", "importadas", "importunadas", "imposibilitadas", "impresionadas", "improvisadas", "impuestas", "impugnadas", "impulsadas", "imputadas", "inauguradas", "incautadas", "incendiadas", "incentivadas", "incineradas", "incitadas", "inclinadas", "incluidas", "incoadas", "incomodadas", "incorporadas", "incrementadas", "increpadas", "incriminadas", "incubadas", "inculcadas", "inculpadas", "incumplidas", "incurridas", "incursionadas", "indagadas", "indemnizadas", "independizadas", "indexadas", "indicadas", "indigestadas", "indignadas", "indispuestas", "individuadas", "inducidas", "indultadas", "inervadas", "infamadas", "infartadas", "infectadas", "inferidas", "inficionadas", "infiltradas", "infladas", "inflamadas", "infligidas", "influenciadas", "influidas", "informadas", "infravaloradas", "infringidas", "infundidas", "ingeniadas", "ingeridas", "ingresadas", "inhabilitadas", "inhaladas", "inhibidas", "inhumadas", "iniciadas", "inicializadas", "injertadas", "injuriadas", "inmigradas", "inmiscuidas", "inmoladas", "inmortalizadas", "inmovilizadas", "inmunizadas", "innovadas", "inoculadas", "inquietadas", "inquiridas", "insensibilizadas", "insertadas", "insinuadas", "insistidas", "inspeccionadas", "inspiradas", "instadas", "instaladas", "instauradas", "instigadas", "instituidas", "instruidas", "instrumentadas", "instrumentalizadas", "insufladas", "insultadas", "insumidas", "integradas", "intelectualizadas", "intensificadas", "intentadas", "interactuadas", "intercaladas", "intercambiadas", "intercedidas", "interceptadas", "interesadas", "interferidas", "interiorizadas", "intermediadas", "internacionalizadas", "internalizadas", "interpeladas", "interpoladas", "interpretadas", "interpuestas", "interrogadas", "interrumpidas", "intervenidas", "intimadas", "intimidadas", "intituladas", "intoxicadas", "intrigadas", "introducidas", "intuidas", "inundadas", "inutilizadas", "invadidas", "invalidadas", "inventadas", "inventariadas", "invertidas", "investidas", "investigadas", "invitadas", "invocadas", "involucionadas", "inyectadas", "ionizadas", "ironizadas", "irradiadas", "irrespetadas", "irrigadas", "irritadas", "irrogadas", "irrumpidas", "jactadas", "jaladas", "jaleadas", "jalonadas", "jaqueadas", "jerarquizadas", "jodidas", "jorobadas", "jubiladas", "jugadas", "juntadas", "juradas", "juramentadas", "justificadas", "juzgadas", "laboradas", "labradas", "laburadas", "lacadas", "laceradas", "lactadas", "ladeadas", "ladradas", "lamentadas", "lamidas", "laminadas", "languidecidas", "lanzadas", "lapidadas", "laqueadas", "largadas", "lastimadas", "lastradas", "latidas", "laudadas", "lavadas", "legalizadas", "legisladas", "legitimadas", "leídas", "lesionadas", "leudadas", "levantadas", "liadas", "liberadas", "liberalizadas", "libertadas", "libradas", "licitadas", "licuadas", "liderizadas", "lidiadas", "ligadas", "lijadas", "limadas", "limitadas", "limpiadas", "linchadas", "liquidadas", "litigadas", "llagadas", "llamadas", "llegadas", "llenadas", "llevadas", "lloradas", "localizadas", "logradas", "lubricadas", "luchadas", "lucidas", "lucradas", "lustradas", "maceradas", "machacadas", "macheteadas", "machucadas", "madreadas", "madrugadas", "maduradas", "magnetizadas", "magnificadas", "malacostumbradas", "malbaratadas", "malcriadas", "maleadas", "malentendidas", "malgastadas", "malinterpretadas", "malogradas", "maltratadas", "malversadas", "mamadas", "manchadas", "mancilladas", "mandadas", "manejadas", "mangadas", "mangoneadas", "manifestadas", "maniobradas", "manipuladas", "manoseadas", "manteadas", "mantenidas", "manufacturadas", "maquilladas", "maquinadas", "maravilladas", "marcadas", "marchitadas", "mareadas", "marginadas", "maridadas", "martilladas", "martirizadas", "masacradas", "masajeadas", "mascadas", "masificadas", "masticadas", "masturbadas", "matadas", "materializadas", "matizadas", "matriculadas", "maximizadas", "meadas", "mecanografiadas", "mechadas", "mecidas", "mediadas", "mediatizadas", "medicadas", "medidas", "meditadas", "medradas", "mejoradas", "melladas", "memorizadas", "mencionadas", "meneadas", "menguadas", "menoscabadas", "menospreciadas", "menstruadas", "mensualizadas", "mensuradas", "mentadas", "mentalizadas", "mentidas", "mercadeadas", "mercantilizadas", "merecidas", "merendadas", "mermadas", "merodeadas", "mesuradas", "metamorfoseadas", "metidas", "mezcladas", "migradas", "militadas", "militarizadas", "mimadas", "mimetizadas", "minadas", "minimizadas", "ministradas", "minusvaloradas", "miradas", "mistificadas", "mitificadas", "mitigadas", "modeladas", "modernizadas", "modificadas", "moduladas", "mofadas", "mojadas", "moldeadas", "molestadas", "molidas", "monetizadas", "monitorizadas", "monopolizadas", "montadas", "moradas", "moralizadas", "mordidas", "mordisqueadas", "mortificadas", "mosqueadas", "mostradas", "motejadas", "motivadas", "movidas", "movilizadas", "mudadas", "muestreadas", "multadas", "multiplicadas", "munidas", "murmuradas", "mutadas", "mutiladas", "nacionalizadas", "narcotizadas", "narradas", "naufragadas", "navegadas", "necesitadas", "negadas", "negociadas", "neutralizadas", "ninguneadas", "niveladas", "nombradas", "nominadas", "noqueadas", "normadas", "normalizadas", "notadas", "notificadas", "nutridas", "obcecadas", "obedecidas", "objetadas", "objetivadas", "obligadas", "obliteradas", "obnubiladas", "obradas", "obsequiadas", "observadas", "obsesionadas", "obstaculizadas", "obstruidas", "obtenidas", "obturadas", "obviadas", "ocasionadas", "ocluidas", "ocultadas", "ocupadas", "odiadas", "ofendidas", "ofertadas", "oficiadas", "oficializadas", "ofrecidas", "ofrendadas", "ofuscadas", "oídas", "ojeadas", "olfateadas", "olidas", "olvidadas", "omitidas", "ondeadas", "onduladas", "opacadas", "operadas", "opinadas", "oprimidas", "optadas", "optimizadas", "opuestas", "oradas", "orbitadas", "ordenadas", "ordeñadas", "organizadas", "orientadas", "originadas", "orilladas", "orinadas", "ornadas", "ornamentadas", "orquestadas", "osadas", "osciladas", "oscurecidas", "osificadas", "ostentadas", "otorgadas", "ovacionadas", "ovuladas", "oxidadas", "oxigenadas", "pacificadas", "pactadas", "padecidas", "paganizadas", "paginadas", "paladeadas", "paliadas", "palpadas", "paradas", "parafraseadas", "paralizadas", "parapetadas", "parasitadas", "parceladas", "parchadas", "parcheadas", "pareadas", "paridas", "parodiadas", "parqueadas", "participadas", "particularizadas", "partidas", "pasadas", "paseadas", "pastoreadas", "pataleadas", "pateadas", "patentadas", "patentizadas", "patinadas", "patrulladas", "pecadas", "pedaleadas", "pedidas", "pegadas", "peinadas", "pellizcadas", "penalizadas", "penetradas", "pensadas", "percatadas", "percibidas", "percutidas", "perdidas", "perdonadas", "perduradas", "perecidas", "peregrinadas", "perfeccionadas", "perfiladas", "perforadas", "perfumadas", "pergeñadas", "peritadas", "perjudicadas", "perjuradas", "permeadas", "permitidas", "permutadas", "pernoctadas", "perpetradas", "perpetuadas", "perseguidas", "perseveradas", "persistidas", "personadas", "personalizadas", "personificadas", "persuadidas", "pertenecidas", "pertrechadas", "perturbadas", "pervertidas", "pervividas", "pescadas", "petadas", "peticionadas", "picadas", "picaneadas", "picoteadas", "pifiadas", "pignoradas", "pilladas", "pilotadas", "piloteadas", "pinceladas", "pinchadas", "pintadas", "pintarrajeadas", "pinzadas", "piradas", "pirateadas", "pisadas", "pisoteadas", "pitadas", "placidas", "plagiadas", "planchadas", "planeadas", "plantadas", "planteadas", "plasmadas", "platicadas", "plegadas", "pluralizadas", "podadas", "poetizadas", "polemizadas", "politizadas", "pololeadas", "ponderadas", "pontificadas", "popularizadas", "porfiadas", "portadas", "porteadas", "posadas", "posesionadas", "posibilitadas", "posicionadas", "pospuestas", "posteadas", "postergadas", "postradas", "postuladas", "potenciadas", "practicadas", "precarizadas", "precedidas", "preceptuadas", "precintadas", "precipitadas", "precisadas", "preconizadas", "predicadas", "predichas", "predispuestas", "predominadas", "preferidas", "prefiguradas", "pregonadas", "preguntadas", "prejuzgadas", "premiadas", "prendadas", "prendidas", "preocupadas", "preparadas", "presagiadas", "prescindidas", "presenciadas", "presentadas", "presentidas", "preservadas", "presididas", "presionadas", "prestadas", "prestigiadas", "presumidas", "presurizadas", "pretendidas", "preteridas", "prevalecidas", "prevalidas", "prevaricadas", "prevenidas", "previstas", "primadas", "principiadas", "pringadas", "priorizadas", "privatizadas", "probadas", "problematizadas", "procedidas", "procesadas", "proclamadas", "procreadas", "procuradas", "prodigadas", "producidas", "profanadas", "proferidas", "profesadas", "profesionalizadas", "profetizadas", "profundizadas", "programadas", "progresadas", "prohibidas", "prohijadas", "proletarizadas", "proliferadas", "prologadas", "prolongadas", "promediadas", "prometidas", "promocionadas", "promovidas", "promulgadas", "pronosticadas", "pronunciadas", "propagadas", "propaladas", "propendidas", "propiciadas", "propinadas", "proporcionadas", "propuestas", "propugnadas", "propulsadas", "prorrateadas", "prorrogadas", "proseguidas", "prosperadas", "prostituidas", "protegidas", "protestadas", "protocolizadas", "provenidas", "provocadas", "proyectadas", "psicoanalizadas", "publicadas", "publicitadas", "puestas", "pugnadas", "pujadas", "pulidas", "pulsadas", "pululadas", "pulverizadas", "punadas", "punteadas", "puntuadas", "puntualizadas", "punzadas", "purgadas", "purificadas", "puteadas", "quebradas", "quebrantadas", "quejadas", "quemadas", "querelladas", "queridas", "quintuplicadas", "quitadas", "racionadas", "racionalizadas", "radiadas", "radicadas", "radicalizadas", "raídas", "rajadas", "ralentizadas", "rapadas", "rapeadas", "raptadas", "rascadas", "rasgadas", "rasguñadas", "raspadas", "rastreadas", "rasuradas", "ratificadas", "rayadas", "razonadas", "reabiertas", "reabsorbidas", "reaccionadas", "reactivadas", "readaptadas", "readmitidas", "reafirmadas", "reagrupadas", "reajustadas", "realimentadas", "realizadas", "realzadas", "reanimadas", "reanudadas", "reaparecidas", "rearmadas", "reasumidas", "reavivadas", "rebajadas", "rebalsadas", "rebanadas", "rebasadas", "rebatidas", "rebautizadas", "rebeladas", "reblandecidas", "rebobinadas", "rebosadas", "rebotadas", "rebozadas", "rebuscadas", "recabadas", "recaídas", "recaladas", "recalcadas", "recalentadas", "recalificadas", "recapacitadas", "recapituladas", "recargadas", "recatadas", "recaudadas", "receptadas", "recetadas", "rechazadas", "recibidas", "recicladas", "recitadas", "reclamadas", "reclinadas", "reclutadas", "recobradas", "recocidas", "recogidas", "recolectadas", "recomendadas", "recomenzadas", "recompensadas", "recompuestas", "reconcentradas", "reconciliadas", "reconducidas", "reconfortadas", "reconocidas", "reconquistadas", "reconsideradas", "reconstituidas", "reconstruidas", "reconvenidas", "reconvertidas", "recopiladas", "recordadas", "recorridas", "recortadas", "recreadas", "recriminadas", "recrudecidas", "rectificadas", "recubiertas", "reculadas", "recuperadas", "recurridas", "recusadas", "redactadas", "redefinidas", "redescubiertas", "redimensionadas", "redimidas", "rediseñadas", "redistribuidas", "redituadas", "redobladas", "redondeadas", "reducidas", "redundadas", "reedificadas", "reeditadas", "reeducadas", "reelaboradas", "reembolsadas", "reemplazadas", "reencarnadas", "reencauchadas", "reencontradas", "reenganchadas", "reenviadas", "reescritas", "reestructuradas", "reexaminadas", "refaccionadas", "referidas", "refinadas", "refinanciadas", "reflejadas", "reflexionadas", "reflotadas", "reforestadas", "reformadas", "reforzadas", "refractadas", "refrenadas", "refrendadas", "refrescadas", "refrigeradas", "refundidas", "refutadas", "regadas", "regaladas", "regañadas", "regateadas", "regeneradas", "regentadas", "regenteadas", "regidas", "regionalizadas", "registradas", "regladas", "reglamentadas", "regocijadas", "regodeadas", "regresadas", "reguladas", "regularizadas", "regurgitadas", "rehabilitadas", "rehechas", "rehogadas", "rehuidas", "rehusadas", "reídas", "reinadas", "reincididas", "reincorporadas", "reingresadas", "reiniciadas", "reinsertadas", "reinstaladas", "reinstauradas", "reintegradas", "reinventadas", "reinvertidas", "reiteradas", "reivindicadas", "rejuvenecidas", "relajadas", "relamidas", "relanzadas", "relatadas", "relativizadas", "relegadas", "releídas", "relevadas", "religadas", "rellenadas", "remachadas", "remadas", "remangadas", "remarcadas", "rematadas", "remecidas", "remediadas", "rememoradas", "remendadas", "remitidas", "remodeladas", "remojadas", "remolcadas", "remontadas", "removidas", "remplazadas", "renacidas", "rendidas", "renegadas", "renegociadas", "reñidas", "renombradas", "renovadas", "rentabilizadas", "rentadas", "renunciadas", "reordenadas", "reorganizadas", "reorientadas", "reparadas", "repartidas", "repasadas", "repatriadas", "repelidas", "repensadas", "repercutidas", "repescadas", "repetidas", "repicadas", "repintadas", "replanteadas", "replegadas", "replicadas", "repobladas", "reportadas", "reporteadas", "reposadas", "repreguntadas", "reprendidas", "represadas", "representadas", "reprimidas", "reprobadas", "reprochadas", "reproducidas", "repudiadas", "repuestas", "repugnadas", "repuntadas", "reputadas", "requeridas", "requisadas", "resaltadas", "resarcidas", "resbaladas", "rescatadas", "rescindidas", "resecadas", "reseñadas", "reservadas", "reseteadas", "resguardadas", "resididas", "resignadas", "resistidas", "resonadas", "respaldadas", "respetadas", "respiradas", "resplandecidas", "respondidas", "responsabilizadas", "resquebrajadas", "restablecidas", "restadas", "restauradas", "restituidas", "restregadas", "resucitadas", "resueltas", "resumidas", "resurgidas", "retadas", "retardadas", "retenidas", "retiradas", "retocadas", "retomadas", "retorcidas", "retornadas", "retractadas", "retraídas", "retransmitidas", "retrasadas", "retratadas", "retribuidas", "retrotraídas", "retumbadas", "reunidas", "reunificadas", "reutilizadas", "revalidadas", "revalorizadas", "revaluadas", "reveladas", "revendidas", "reventadas", "reverdecidas", "reverenciadas", "revertidas", "revestidas", "reviradas", "revisadas", "revitalizadas", "revividas", "revocadas", "revolcadas", "revoloteadas", "revolucionadas", "revueltas", "ridiculizadas", "rifadas", "rimadas", "rivalizadas", "rizadas", "robadas", "robustecidas", "rociadas", "rodadas", "rodeadas", "rogadas", "roídas", "rondadas", "rotadas", "rotas", "rotuladas", "roturadas", "rozadas", "ruborizadas", "rubricadas", "rugidas", "rumiadas", "rumoradas", "sabidas", "saboreadas", "saboteadas", "sacadas", "saciadas", "sacralizadas", "sacrificadas", "sacudidas", "saldadas", "salpimentadas", "salpullidas", "saltadas", "salteadas", "saludadas", "salvadas", "salvaguardadas", "sanadas", "saneadas", "sangradas", "santificadas", "saqueadas", "satanizadas", "satirizadas", "satisfechas", "sazonadas", "secadas", "seccionadas", "secretadas", "secuenciadas", "secuestradas", "secundadas", "sedimentadas", "seducidas", "segadas", "segmentadas", "segregadas", "seguidas", "seleccionadas", "sembradas", "señaladas", "sensibilizadas", "sentadas", "sentenciadas", "sentidas", "separadas", "serenadas", "serradas", "servidas", "significadas", "silenciadas", "simbolizadas", "simpatizadas", "simplificadas", "simuladas", "sinceradas", "sincronizadas", "sindicadas", "sindicalizadas", "singularizadas", "sintetizadas", "sintonizadas", "sistematizadas", "situadas", "sobadas", "sobornadas", "sobradas", "sobrecargadas", "sobrecogidas", "sobreentendidas", "sobreestimadas", "sobrellevadas", "sobrentendidas", "sobrepasadas", "sobrepuestas", "sobresalidas", "sobresaltadas", "sobrestimadas", "sobrevenidas", "sobrevividas", "sobrevoladas", "socavadas", "socializadas", "socorridas", "sodomizadas", "sofocadas", "sojuzgadas", "solapadas", "solicitadas", "solidarizadas", "solidificadas", "soliviantadas", "soltadas", "solucionadas", "solventadas", "sombreadas", "sometidas", "sonadas", "soñadas", "sondeadas", "sonreídas", "sonrojadas", "sopesadas", "sopladas", "soportadas", "sorbidas", "sorprendidas", "sorteadas", "sosegadas", "soslayadas", "sospechadas", "sostenidas", "suavizadas", "subastadas", "subcontratadas", "subdivididas", "subestimadas", "subidas", "sublevadas", "sublimadas", "subrayadas", "subrogadas", "subsanadas", "subsidiadas", "subsistidas", "substraídas", "subsumidas", "subvertidas", "subyugadas", "succionadas", "sucedidas", "sucumbidas", "sudadas", "sufragadas", "sufridas", "sugeridas", "sugestionadas", "suicidadas", "sujetadas", "sumadas", "sumergidas", "suministradas", "supeditadas", "superadas", "superpuestas", "supervisadas", "suplantadas", "suplicadas", "suplidas", "suprimidas", "supuestas", "surcadas", "surtidas", "suscitadas", "suspendidas", "suspiradas", "sustanciadas", "sustantivadas", "sustentadas", "sustituidas", "sustraídas", "susurradas", "suturadas", "tabuladas", "tachadas", "taladas", "taladradas", "talladas", "tambaleadas", "tamizadas", "tañidas", "tanteadas", "tapadas", "tapizadas", "taponadas", "tarareadas", "tardadas", "tasadas", "tatuadas", "tecleadas", "tejidas", "telefoneadas", "televisadas", "temidas", "templadas", "tendidas", "tenidas", "tensadas", "tentadas", "teorizadas", "terciadas", "tergiversadas", "terminadas", "territorializadas", "testadas", "testeadas", "testificadas", "testimoniadas", "tildadas", "timadas", "timbradas", "tinturadas", "tipeadas", "tipificadas", "tiradas", "tiranizadas", "tironeadas", "tiroteadas", "titubeadas", "tiznadas", "tocadas", "toleradas", "tomadas", "tonificadas", "topadas", "toqueteadas", "torcidas", "toreadas", "tornadas", "tornasoladas", "torneadas", "torpedeadas", "torturadas", "tosidas", "tostadas", "totalizadas", "trabadas", "trabajadas", "traducidas", "traficadas", "tragadas", "traicionadas", "traídas", "trajinadas", "tramadas", "tramitadas", "trancadas", "tranquilizadas", "transcendidas", "transcurridas", "transferidas", "transfiguradas", "transformadas", "transfundidas", "transgredidas", "transigidas", "transitadas", "transliteradas", "translucidas", "transmitidas", "transmutadas", "transparentadas", "transpiradas", "transportadas", "transpuestas", "trasegadas", "trasgredidas", "trasladadas", "traslapadas", "traslucidas", "trasnochadas", "traspapeladas", "traspasadas", "trasplantadas", "traspuestas", "trasquiladas", "trasteadas", "trastocadas", "trastornadas", "trasvasadas", "tratadas", "trazadas", "trenzadas", "trepadas", "tributadas", "trincadas", "triplicadas", "trituradas", "triunfadas", "trivializadas", "trocadas", "troceadas", "tronadas", "tronchadas", "truncadas", "tumbadas", "tuneadas", "turbadas", "turnadas", "tuteladas", "ufanadas", "ultimadas", "uncidas", "ungidas", "unidas", "universalizadas", "untadas", "urbanizadas", "urdidas", "usadas", "usufructuadas", "usurpadas", "utilizadas", "vacadas", "vaciadas", "vaciladas", "vacunadas", "vagadas", "validadas", "validas", "valoradas", "valorizadas", "valuadas", "vanagloriadas", "vandalizadas", "vaporizadas", "variadas", "vaticinadas", "vedadas", "vehiculadas", "vejadas", "veladas", "vencidas", "vendadas", "vendidas", "veneradas", "vengadas", "ventiladas", "veraneadas", "verbalizadas", "verificadas", "versadas", "versionadas", "vertebradas", "vertidas", "vestidas", "vetadas", "viabilizadas", "viajadas", "vibradas", "victimadas", "victimizadas", "vigiladas", "vigorizadas", "vilipendiadas", "vindicadas", "violadas", "violentadas", "viradas", "visadas", "visibilizadas", "visitadas", "vislumbradas", "vistas", "visualizadas", "vitoreadas", "vitrificadas", "vituperadas", "vividas", "vivificadas", "vocalizadas", "voceadas", "vociferadas", "voladas", "volatilizadas", "volcadas", "volteadas", "vomitadas", "votadas", "vueltas", "vulcanizadas", "vulgarizadas", "vulneradas", "yuxtapuestas", "zafadas", "zambullidas", "zampadas", "zanjadas", "zarandeadas", "zarpadas", "zozobradas", "zumbadas", "zurcidas", "zurradas"];
+};
+
+
+
+},{}],351:[function(require,module,exports){
+"use strict";
+/**
+ * Returns a list with stopwords for the Spanish passive voice assessment.
+ * @returns {Array} The list with stopwords.
+ */
+
+module.exports = function () {
+  return ["pero", "ora", "aunque", "aun", "mientras", "porque", "apenas", "si", "antes", "después", "cómo", "como", "empero", "que", "cuanto", "cuando", "cual", "cuales", "quién", "quien", "quienes", "dónde", "adónde", "cuyo", "cuyos", "cuya", "cuyas"];
+};
+
+
+
+},{}],352:[function(require,module,exports){
 "use strict";
 /** @module config/transitionWords */
 
@@ -17689,7 +18226,7 @@ module.exports = function () {
 
 
 
-},{}],341:[function(require,module,exports){
+},{}],353:[function(require,module,exports){
 "use strict";
 /** @module config/twoPartTransitionWords */
 /**
@@ -17703,7 +18240,7 @@ module.exports = function () {
 
 
 
-},{}],342:[function(require,module,exports){
+},{}],354:[function(require,module,exports){
 "use strict";
 /** @module researches/stopWordsInKeyword */
 
@@ -17721,7 +18258,7 @@ module.exports = function (paper) {
 
 
 
-},{"./stopWordsInText.js":343,"lodash/escapeRegExp":161}],343:[function(require,module,exports){
+},{"./stopWordsInText.js":355,"lodash/escapeRegExp":161}],355:[function(require,module,exports){
 "use strict";
 
 var stopwords = require("../config/stopwords.js")();
@@ -17745,7 +18282,7 @@ module.exports = function (text) {
 
 
 
-},{"../config/stopwords.js":247,"../stringProcessing/createWordRegex.js":354}],344:[function(require,module,exports){
+},{"../config/stopwords.js":247,"../stringProcessing/createWordRegex.js":366}],356:[function(require,module,exports){
 "use strict";
 /** @module researches/stopWordsInUrl */
 
@@ -17761,7 +18298,7 @@ module.exports = function (paper) {
 
 
 
-},{"./stopWordsInText.js":343}],345:[function(require,module,exports){
+},{"./stopWordsInText.js":355}],357:[function(require,module,exports){
 "use strict";
 /** @module analyses/isUrlTooLong */
 /**
@@ -17784,7 +18321,7 @@ module.exports = function (paper) {
 
 
 
-},{}],346:[function(require,module,exports){
+},{}],358:[function(require,module,exports){
 "use strict";
 
 var wordCount = require("../stringProcessing/countWords.js");
@@ -17799,7 +18336,7 @@ module.exports = function (paper) {
 
 
 
-},{"../stringProcessing/countWords.js":351}],347:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":363}],359:[function(require,module,exports){
 "use strict";
 
 var Assessor = require("./assessor.js");
@@ -17838,7 +18375,7 @@ module.exports = SEOAssessor;
 
 
 
-},{"./assessments/seo/internalLinksAssessment":226,"./assessments/seo/introductionKeywordAssessment.js":227,"./assessments/seo/keyphraseLengthAssessment.js":228,"./assessments/seo/keywordDensityAssessment.js":229,"./assessments/seo/keywordStopWordsAssessment.js":230,"./assessments/seo/metaDescriptionKeywordAssessment.js":231,"./assessments/seo/metaDescriptionLengthAssessment.js":232,"./assessments/seo/outboundLinksAssessment.js":233,"./assessments/seo/pageTitleWidthAssessment.js":234,"./assessments/seo/subheadingsKeywordAssessment.js":235,"./assessments/seo/textCompetingLinksAssessment.js":237,"./assessments/seo/textImagesAssessment.js":238,"./assessments/seo/textLengthAssessment.js":239,"./assessments/seo/titleKeywordAssessment.js":240,"./assessments/seo/urlKeywordAssessment.js":241,"./assessments/seo/urlLengthAssessment.js":242,"./assessments/seo/urlStopWordsAssessment.js":243,"./assessor.js":244,"util":224}],348:[function(require,module,exports){
+},{"./assessments/seo/internalLinksAssessment":226,"./assessments/seo/introductionKeywordAssessment.js":227,"./assessments/seo/keyphraseLengthAssessment.js":228,"./assessments/seo/keywordDensityAssessment.js":229,"./assessments/seo/keywordStopWordsAssessment.js":230,"./assessments/seo/metaDescriptionKeywordAssessment.js":231,"./assessments/seo/metaDescriptionLengthAssessment.js":232,"./assessments/seo/outboundLinksAssessment.js":233,"./assessments/seo/pageTitleWidthAssessment.js":234,"./assessments/seo/subheadingsKeywordAssessment.js":235,"./assessments/seo/textCompetingLinksAssessment.js":237,"./assessments/seo/textImagesAssessment.js":238,"./assessments/seo/textLengthAssessment.js":239,"./assessments/seo/titleKeywordAssessment.js":240,"./assessments/seo/urlKeywordAssessment.js":241,"./assessments/seo/urlLengthAssessment.js":242,"./assessments/seo/urlStopWordsAssessment.js":243,"./assessor.js":244,"util":224}],360:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/addWordboundary */
 /**
@@ -17867,7 +18404,7 @@ module.exports = function (matchString) {
 
 
 
-},{}],349:[function(require,module,exports){
+},{}],361:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/checkNofollow */
 /**
@@ -17888,7 +18425,7 @@ module.exports = function (text) {
 
 
 
-},{}],350:[function(require,module,exports){
+},{}],362:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/countSentences */
 
@@ -17910,7 +18447,7 @@ module.exports = function (text) {
 
 
 
-},{"../stringProcessing/getSentences.js":359}],351:[function(require,module,exports){
+},{"../stringProcessing/getSentences.js":373}],363:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/countWords */
 
@@ -17927,7 +18464,7 @@ module.exports = function (text) {
 
 
 
-},{"../stringProcessing/getWords.js":362}],352:[function(require,module,exports){
+},{"../stringProcessing/getWords.js":376}],364:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/createRegexFromArray */
 
@@ -17955,7 +18492,7 @@ module.exports = function (array, disableWordBoundary) {
 
 
 
-},{"../stringProcessing/addWordboundary.js":348,"lodash/map":195}],353:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":360,"lodash/map":195}],365:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/createRegexFromDoubleArray */
 
@@ -17986,7 +18523,7 @@ module.exports = function (array) {
 
 
 
-},{"../stringProcessing/addWordboundary.js":348}],354:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":360}],366:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/stringToRegex */
 
@@ -18019,7 +18556,46 @@ module.exports = memoize(function (string, extraBoundary, doReplaceDiacritics) {
 
 
 
-},{"../stringProcessing/addWordboundary.js":348,"../stringProcessing/replaceDiacritics.js":373,"../stringProcessing/sanitizeString":375,"lodash/escapeRegExp":161,"lodash/isUndefined":192,"lodash/memoize":196}],355:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":360,"../stringProcessing/replaceDiacritics.js":390,"../stringProcessing/sanitizeString":392,"lodash/escapeRegExp":161,"lodash/isUndefined":192,"lodash/memoize":196}],367:[function(require,module,exports){
+"use strict";
+
+var getWordIndices = require("../researches/passiveVoice/getIndicesWithRegex.js");
+var includesIndex = require("./includesIndex");
+var arrayToRegex = require("./createRegexFromArray.js");
+var cannotDirectlyPrecedePassiveParticipleFrench = require("../researches/french/functionWords.js")().cannotDirectlyPrecedePassiveParticiple;
+var cannotDirectlyPrecedePassiveParticipleEnglish = require("../researches/english/functionWords.js")().cannotDirectlyPrecedePassiveParticiple;
+var cannotDirectlyPrecedePassiveParticipleSpanish = require("../researches/spanish/functionWords.js")().cannotDirectlyPrecedePassiveParticiple;
+/**
+ * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
+ * If this is the case, the sentence part is not passive.
+ *
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {number} participleIndex The index of the participle.
+ *
+ * @returns {boolean} Returns true if a word from the direct precedence exception list is directly preceding
+ * the participle, otherwise returns false.
+ */
+module.exports = function (sentencePart, participleIndex) {
+    var directPrecedenceExceptionRegex;
+    switch (this.constructor.name) {
+        case "FrenchParticiple":
+            directPrecedenceExceptionRegex = arrayToRegex(cannotDirectlyPrecedePassiveParticipleFrench);
+            break;
+        case "SpanishParticiple":
+            directPrecedenceExceptionRegex = arrayToRegex(cannotDirectlyPrecedePassiveParticipleSpanish);
+            break;
+        case "EnglishParticiple":
+        default:
+            directPrecedenceExceptionRegex = arrayToRegex(cannotDirectlyPrecedePassiveParticipleEnglish);
+            break;
+    }
+    var directPrecedenceExceptionMatch = getWordIndices(sentencePart, directPrecedenceExceptionRegex);
+    return includesIndex(directPrecedenceExceptionMatch, participleIndex);
+};
+
+
+
+},{"../researches/english/functionWords.js":280,"../researches/french/functionWords.js":293,"../researches/passiveVoice/getIndicesWithRegex.js":339,"../researches/spanish/functionWords.js":346,"./createRegexFromArray.js":364,"./includesIndex":378}],368:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/findKeywordInUrl */
 
@@ -18045,7 +18621,36 @@ module.exports = function (url, keyword, locale) {
 
 
 
-},{"./matchTextWithTransliteration.js":367,"lodash/escapeRegExp":161}],356:[function(require,module,exports){
+},{"./matchTextWithTransliteration.js":382,"lodash/escapeRegExp":161}],369:[function(require,module,exports){
+"use strict";
+
+var isEmpty = require("lodash/isEmpty");
+var forEach = require("lodash/forEach");
+var includes = require("lodash/includes");
+/**
+ * Checks whether a given word is followed by any word from a given list.
+ *
+ * @param {Array} followingWords The array of objects with matches and indices.
+ * @param {Object} match The object with the match and index to test the following words for.
+ *
+ * @returns {boolean} Returns true if the match is followed by a given word, otherwise returns false.
+ */
+module.exports = function (followingWords, match) {
+    if (isEmpty(followingWords)) {
+        return false;
+    }
+    // The followingWordIndices include the preceding space.
+    var wordAfterMatchIndex = match.index + match.match.length;
+    var followingWordsIndices = [];
+    forEach(followingWords, function (followingWord) {
+        followingWordsIndices.push(followingWord.index);
+    });
+    return includes(followingWordsIndices, wordAfterMatchIndex);
+};
+
+
+
+},{"lodash/forEach":167,"lodash/includes":173,"lodash/isEmpty":181}],370:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/getAlttagContent */
 
@@ -18070,7 +18675,7 @@ module.exports = function (text) {
 
 
 
-},{"../stringProcessing/stripSpaces.js":380}],357:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":397}],371:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/getAnchorsFromText */
 /**
@@ -18092,7 +18697,7 @@ module.exports = function (text) {
 
 
 
-},{}],358:[function(require,module,exports){
+},{}],372:[function(require,module,exports){
 "use strict";
 /** @module stringProcess/getLinkType */
 
@@ -18101,25 +18706,29 @@ var urlHelper = require("./url");
  * Determines the type of link.
  *
  * @param {string} text String with anchor tag.
- * @param {string} url Url to match against.
+ * @param {string} url URL to match against.
  * @returns {string} The link type (other, external or internal).
  */
 module.exports = function (text, url) {
-    var linkType = "other";
     var anchorUrl = urlHelper.getFromAnchorTag(text);
-    // Matches all links that start with http:// and https://, case insensitive and global
-    if (anchorUrl.match(/https?:\/\//ig) !== null) {
-        linkType = "external";
-        if (urlHelper.getHostname(anchorUrl) === urlHelper.getHostname(url)) {
-            linkType = "internal";
-        }
+    /**
+     * A link is "Other" if:
+     * - The protocol is neither null, nor http, nor https.
+     * - The link is a relative fragment URL (starts with #), because it won't navigate to another page.
+     */
+    var protocol = urlHelper.getProtocol(anchorUrl);
+    if (protocol && !urlHelper.protocolIsHttpScheme(protocol) || urlHelper.isRelativeFragmentURL(anchorUrl)) {
+        return "other";
     }
-    return linkType;
+    if (urlHelper.isInternalLink(anchorUrl, urlHelper.getHostname(url))) {
+        return "internal";
+    }
+    return "external";
 };
 
 
 
-},{"./url":386}],359:[function(require,module,exports){
+},{"./url":403}],373:[function(require,module,exports){
 "use strict";
 
 var map = require("lodash/map");
@@ -18393,7 +19002,7 @@ module.exports = function (text) {
 
 
 
-},{"../helpers/html.js":263,"../stringProcessing/quotes.js":370,"../stringProcessing/unifyWhitespace.js":385,"lodash/filter":162,"lodash/flatMap":165,"lodash/forEach":167,"lodash/isEmpty":181,"lodash/isNaN":184,"lodash/isUndefined":192,"lodash/map":195,"lodash/memoize":196,"lodash/negate":198,"tokenizer2/core":219}],360:[function(require,module,exports){
+},{"../helpers/html.js":263,"../stringProcessing/quotes.js":387,"../stringProcessing/unifyWhitespace.js":402,"lodash/filter":162,"lodash/flatMap":165,"lodash/forEach":167,"lodash/isEmpty":181,"lodash/isNaN":184,"lodash/isUndefined":192,"lodash/map":195,"lodash/memoize":196,"lodash/negate":198,"tokenizer2/core":219}],374:[function(require,module,exports){
 "use strict";
 /**
  * Returns all texts per subheading.
@@ -18422,7 +19031,7 @@ module.exports = function (text) {
 
 
 
-},{}],361:[function(require,module,exports){
+},{}],375:[function(require,module,exports){
 "use strict";
 
 var map = require("lodash/map");
@@ -18462,7 +19071,7 @@ module.exports = {
 
 
 
-},{"lodash/map":195}],362:[function(require,module,exports){
+},{"lodash/map":195}],376:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/countWords */
 
@@ -18493,7 +19102,7 @@ module.exports = function (text) {
 
 
 
-},{"./removePunctuation.js":372,"./stripHTMLTags.js":377,"./stripSpaces.js":380,"lodash/filter":162,"lodash/map":195}],363:[function(require,module,exports){
+},{"./removePunctuation.js":389,"./stripHTMLTags.js":394,"./stripSpaces.js":397,"lodash/filter":162,"lodash/map":195}],377:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/imageInText */
 
@@ -18510,7 +19119,44 @@ module.exports = function (text) {
 
 
 
-},{"./matchStringWithRegex.js":366}],364:[function(require,module,exports){
+},{"./matchStringWithRegex.js":381}],378:[function(require,module,exports){
+"use strict";
+
+var isEmpty = require("lodash/isEmpty");
+var forEach = require("lodash/forEach");
+var includes = require("lodash/includes");
+/**
+ * Checks whether a given word is directly preceded by a word from a list of words.
+ *
+ * @param {Array} precedingWords The array of objects with matches and indices.
+ * @param {number} matchIndex The index of the word for which to check whether it's preceded by one of the other words.
+ * @param {boolean} addSpace True if a space should be added.
+ *
+ * @returns {boolean} Returns true if the match is preceded by a given word, otherwise returns false.
+ */
+module.exports = function (precedingWords, matchIndex) {
+    var addSpace = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+    /*
+    1 if there is a space between the match and the preceding word
+    (because the end word boundary is not included in the match).
+    0 if the preceding word is a contraction.
+    */
+    var space = addSpace ? 1 : 0;
+    if (isEmpty(precedingWords)) {
+        return false;
+    }
+    var precedingWordsEndIndices = [];
+    forEach(precedingWords, function (precedingWord) {
+        var precedingWordsEndIndex = precedingWord.index + precedingWord.match.length + space;
+        precedingWordsEndIndices.push(precedingWordsEndIndex);
+    });
+    return includes(precedingWordsEndIndices, matchIndex);
+};
+
+
+
+},{"lodash/forEach":167,"lodash/includes":173,"lodash/isEmpty":181}],379:[function(require,module,exports){
 "use strict";
 
 var isUndefined = require("lodash/isUndefined");
@@ -18605,7 +19251,7 @@ module.exports = {
 
 
 
-},{"../stringProcessing/matchWordInSentence.js":369,"../stringProcessing/stripSpaces.js":380,"lodash/forEach":167,"lodash/isUndefined":192}],365:[function(require,module,exports){
+},{"../stringProcessing/matchWordInSentence.js":384,"../stringProcessing/stripSpaces.js":397,"lodash/forEach":167,"lodash/isUndefined":192}],380:[function(require,module,exports){
 "use strict";
 
 var map = require("lodash/map");
@@ -18658,7 +19304,7 @@ module.exports = function (text) {
 
 
 
-},{"../helpers/html":263,"lodash/filter":162,"lodash/flatMap":165,"lodash/map":195}],366:[function(require,module,exports){
+},{"../helpers/html":263,"lodash/filter":162,"lodash/flatMap":165,"lodash/map":195}],381:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/matchStringWithRegex */
 /**
@@ -18680,7 +19326,7 @@ module.exports = function (text, regexString) {
 
 
 
-},{}],367:[function(require,module,exports){
+},{}],382:[function(require,module,exports){
 "use strict";
 
 var map = require("lodash/map");
@@ -18718,7 +19364,7 @@ module.exports = function (text, keyword, locale) {
 
 
 
-},{"./addWordboundary.js":348,"./stripSpaces.js":380,"./transliterate.js":384,"lodash/map":195}],368:[function(require,module,exports){
+},{"./addWordboundary.js":360,"./stripSpaces.js":397,"./transliterate.js":401,"lodash/map":195}],383:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/matchTextWithWord */
 
@@ -18743,7 +19389,7 @@ module.exports = function (text, wordToMatch, locale, extraBoundary) {
 
 
 
-},{"../stringProcessing/matchTextWithTransliteration.js":367,"../stringProcessing/stripNonTextTags.js":378,"../stringProcessing/unifyWhitespace.js":385}],369:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithTransliteration.js":382,"../stringProcessing/stripNonTextTags.js":395,"../stringProcessing/unifyWhitespace.js":402}],384:[function(require,module,exports){
 "use strict";
 
 var wordBoundaries = require("../config/wordBoundaries.js")();
@@ -18797,7 +19443,79 @@ module.exports = {
 
 
 
-},{"../config/wordBoundaries.js":254,"./addWordboundary.js":348,"lodash/includes":173}],370:[function(require,module,exports){
+},{"../config/wordBoundaries.js":254,"./addWordboundary.js":360,"lodash/includes":173}],385:[function(require,module,exports){
+"use strict";
+
+var getWordIndices = require("../researches/passiveVoice/getIndicesWithRegex.js");
+var precedesIndex = require("./precedesIndex");
+var arrayToRegex = require("./createRegexFromArray.js");
+var cannotBeBetweenAuxiliaryAndParticipleFrench = require("../researches/french/functionWords.js")().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+var cannotBeBetweenAuxiliaryAndParticipleEnglish = require("../researches/english/functionWords.js")().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+/**
+ * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
+ * If this is the case, the sentence part is not passive.
+ *
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {number} participleIndex The index of the participle.
+ *
+ * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
+ * sentence part before the participle, otherwise returns false.
+ */
+module.exports = function (sentencePart, participleIndex) {
+    var precedenceExceptionRegex;
+    switch (this.constructor.name) {
+        case "FrenchParticiple":
+            precedenceExceptionRegex = arrayToRegex(cannotBeBetweenAuxiliaryAndParticipleFrench);
+            break;
+        case "EnglishParticiple":
+        default:
+            precedenceExceptionRegex = arrayToRegex(cannotBeBetweenAuxiliaryAndParticipleEnglish);
+            break;
+    }
+    var precedenceExceptionMatch = getWordIndices(sentencePart, precedenceExceptionRegex);
+    return precedesIndex(precedenceExceptionMatch, participleIndex);
+};
+
+
+
+},{"../researches/english/functionWords.js":280,"../researches/french/functionWords.js":293,"../researches/passiveVoice/getIndicesWithRegex.js":339,"./createRegexFromArray.js":364,"./precedesIndex":386}],386:[function(require,module,exports){
+"use strict";
+
+var isEmpty = require("lodash/isEmpty");
+var forEach = require("lodash/forEach");
+/**
+ * Checks whether a given word precedes a participle directly or indirectly.
+ *
+ * @param {Array} precedingWords The array of objects with matches and indices.
+ * @param {number} participleIndex The index of the participle.
+ *
+ * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
+ */
+module.exports = function (precedingWords, participleIndex) {
+    if (isEmpty(precedingWords)) {
+        return false;
+    }
+    var precedingWordsIndices = [];
+    forEach(precedingWords, function (precedingWord) {
+        var precedingWordsIndex = precedingWord.index;
+        precedingWordsIndices.push(precedingWordsIndex);
+    });
+    var matches = [];
+    forEach(precedingWordsIndices, function (precedingWordsIndex) {
+        // + 1 because the beginning word boundary is not included in the passive participle match
+        if (precedingWordsIndex + 1 < participleIndex) {
+            matches.push(precedingWordsIndex);
+        }
+    });
+    if (matches.length > 0) {
+        return true;
+    }
+    return false;
+};
+
+
+
+},{"lodash/forEach":167,"lodash/isEmpty":181}],387:[function(require,module,exports){
 "use strict";
 /**
  * Normalizes single quotes to 'regular' quotes.
@@ -18835,7 +19553,7 @@ module.exports = {
 
 
 
-},{}],371:[function(require,module,exports){
+},{}],388:[function(require,module,exports){
 "use strict";
 
 var getWords = require("../stringProcessing/getWords.js");
@@ -19113,7 +19831,7 @@ module.exports = {
 
 
 
-},{"../helpers/getLanguage.js":260,"../researches/dutch/functionWords.js":276,"../researches/english/functionWords.js":283,"../researches/french/functionWords.js":298,"../researches/german/functionWords.js":305,"../researches/italian/functionWords.js":326,"../researches/spanish/functionWords.js":339,"../stringProcessing/getSentences.js":359,"../stringProcessing/getWords.js":362,"../stringProcessing/quotes.js":370,"../values/WordCombination.js":393,"lodash/filter":162,"lodash/flatMap":165,"lodash/forEach":167,"lodash/has":169,"lodash/includes":173,"lodash/intersection":175,"lodash/isEmpty":181,"lodash/map":195,"lodash/take":206,"lodash/values":213}],372:[function(require,module,exports){
+},{"../helpers/getLanguage.js":260,"../researches/dutch/functionWords.js":276,"../researches/english/functionWords.js":280,"../researches/french/functionWords.js":293,"../researches/german/functionWords.js":303,"../researches/italian/functionWords.js":327,"../researches/spanish/functionWords.js":346,"../stringProcessing/getSentences.js":373,"../stringProcessing/getWords.js":376,"../stringProcessing/quotes.js":387,"../values/WordCombination.js":410,"lodash/filter":162,"lodash/flatMap":165,"lodash/forEach":167,"lodash/has":169,"lodash/includes":173,"lodash/intersection":175,"lodash/isEmpty":181,"lodash/map":195,"lodash/take":206,"lodash/values":213}],389:[function(require,module,exports){
 "use strict";
 // Replace all other punctuation characters at the beginning or at the end of a word.
 
@@ -19135,7 +19853,7 @@ module.exports = function (text) {
 
 
 
-},{}],373:[function(require,module,exports){
+},{}],390:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/replaceDiacritics */
 
@@ -19156,7 +19874,7 @@ module.exports = function (text) {
 
 
 
-},{"../config/diacritics.js":245}],374:[function(require,module,exports){
+},{"../config/diacritics.js":245}],391:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/replaceString */
 /**
@@ -19175,7 +19893,7 @@ module.exports = function (text, stringToReplace, replacement) {
 
 
 
-},{}],375:[function(require,module,exports){
+},{}],392:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/sanitizeString */
 
@@ -19195,7 +19913,7 @@ module.exports = function (text) {
 
 
 
-},{"../stringProcessing/stripHTMLTags.js":377,"../stringProcessing/stripSpaces.js":380}],376:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":394,"../stringProcessing/stripSpaces.js":397}],393:[function(require,module,exports){
 "use strict";
 
 var wordCount = require("./countWords.js");
@@ -19225,7 +19943,7 @@ module.exports = function (sentences) {
 
 
 
-},{"./countWords.js":351,"./stripHTMLTags.js":377,"lodash/forEach":167}],377:[function(require,module,exports){
+},{"./countWords.js":363,"./stripHTMLTags.js":394,"lodash/forEach":167}],394:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/stripHTMLTags */
 
@@ -19274,7 +19992,7 @@ module.exports = {
 
 
 
-},{"../helpers/html.js":263,"../stringProcessing/stripSpaces.js":380}],378:[function(require,module,exports){
+},{"../helpers/html.js":263,"../stringProcessing/stripSpaces.js":397}],395:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/stripNonTextTags */
 
@@ -19293,7 +20011,7 @@ module.exports = function (text) {
 
 
 
-},{"../stringProcessing/stripSpaces.js":380}],379:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":397}],396:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/stripNumbers */
 
@@ -19316,7 +20034,7 @@ module.exports = function (text) {
 
 
 
-},{"../stringProcessing/stripSpaces.js":380}],380:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":397}],397:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/stripSpaces */
 /**
@@ -19338,7 +20056,7 @@ module.exports = function (text) {
 
 
 
-},{}],381:[function(require,module,exports){
+},{}],398:[function(require,module,exports){
 "use strict";
 
 var replaceString = require("../stringProcessing/replaceString.js");
@@ -19371,7 +20089,7 @@ module.exports = function (matches, keyword, locale) {
 
 
 
-},{"../config/removalWords.js":246,"../stringProcessing/matchTextWithTransliteration.js":367,"../stringProcessing/replaceString.js":374}],382:[function(require,module,exports){
+},{"../config/removalWords.js":246,"../stringProcessing/matchTextWithTransliteration.js":382,"../stringProcessing/replaceString.js":391}],399:[function(require,module,exports){
 "use strict";
 
 var isUndefined = require("lodash/isUndefined");
@@ -19469,7 +20187,7 @@ module.exports = DeviationFragment;
 
 
 
-},{"lodash/isUndefined":192,"lodash/pick":200}],383:[function(require,module,exports){
+},{"lodash/isUndefined":192,"lodash/pick":200}],400:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/countSyllables */
 
@@ -19623,7 +20341,7 @@ module.exports = countSyllablesInText;
 
 
 
-},{"../../config/syllables.js":248,"../../helpers/syllableCountIterator.js":265,"../getWords.js":362,"./DeviationFragment":382,"lodash/filter":162,"lodash/find":163,"lodash/flatMap":165,"lodash/forEach":167,"lodash/isUndefined":192,"lodash/map":195,"lodash/memoize":196,"lodash/sum":205}],384:[function(require,module,exports){
+},{"../../config/syllables.js":248,"../../helpers/syllableCountIterator.js":265,"../getWords.js":376,"./DeviationFragment":399,"lodash/filter":162,"lodash/find":163,"lodash/flatMap":165,"lodash/forEach":167,"lodash/isUndefined":192,"lodash/map":195,"lodash/memoize":196,"lodash/sum":205}],401:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/replaceDiacritics */
 
@@ -19645,7 +20363,7 @@ module.exports = function (text, locale) {
 
 
 
-},{"../config/transliterations.js":253}],385:[function(require,module,exports){
+},{"../config/transliterations.js":253}],402:[function(require,module,exports){
 "use strict";
 /** @module stringProcessing/unifyWhitespace */
 /**
@@ -19683,7 +20401,7 @@ module.exports = {
 
 
 
-},{}],386:[function(require,module,exports){
+},{}],403:[function(require,module,exports){
 "use strict";
 
 var urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
@@ -19725,7 +20443,7 @@ function addTrailingSlash(url) {
     return removeTrailingSlash(url) + "/";
 }
 /**
- * Retrieves the URL from an anchor tag
+ * Retrieves the URL from an anchor tag.
  *
  * @param {string} anchorTag An anchor tag.
  * @returns {string} The URL in the anchor tag.
@@ -19735,7 +20453,7 @@ function getFromAnchorTag(anchorTag) {
     return urlMatch === null ? "" : urlMatch[2];
 }
 /**
- * Returns whether or not the given URLs are equal
+ * Returns whether or not the given URLs are equal.
  *
  * @param {string} urlA The first URL to compare.
  * @param {string} urlB The second URL to compare.
@@ -19749,7 +20467,7 @@ function areEqual(urlA, urlB) {
     return addTrailingSlash(urlA) === addTrailingSlash(urlB);
 }
 /**
- * Returns the domain name of a URL
+ * Returns the domain name of a URL.
  *
  * @param {string} url The URL to retrieve the domain name of.
  * @returns {string} The domain name of the URL.
@@ -19758,6 +20476,64 @@ function getHostname(url) {
     url = urlMethods.parse(url);
     return url.hostname;
 }
+/**
+ * Returns the protocol of a URL.
+ *
+ * Note that the colon (http:) is also part of the protocol, conform to node's url.parse api.
+ *
+ * @param {string} url The URL to retrieve the protocol of.
+ * @returns {string|null} The protocol of the URL or null if no protocol is present.
+ */
+function getProtocol(url) {
+    return urlMethods.parse(url).protocol;
+}
+/**
+ * Determine whether a URL is internal.
+ *
+ * @param {string} url The URL to test.
+ * @param {string} host The current host.
+ *
+ * @returns {boolean} Whether or not the URL is internal.
+ */
+function isInternalLink(url, host) {
+    var parsedUrl = urlMethods.parse(url, false, true);
+    // Check if the URL starts with a single slash.
+    if (url.indexOf("//") === -1 && url.indexOf("/") === 0) {
+        return true;
+    }
+    // Check if the URL starts with a # indicating a fragment.
+    if (url.indexOf("#") === 0) {
+        return false;
+    }
+    // No host indicates an internal link.
+    if (!parsedUrl.host) {
+        return true;
+    }
+    return parsedUrl.host === host;
+}
+/**
+ * Checks whether the protocol is either HTTP: or HTTPS:.
+ *
+ * @param {string} protocol The protocol to test.
+ *
+ * @returns {boolean} Whether the protocol is http(s):.
+ */
+function protocolIsHttpScheme(protocol) {
+    if (!protocol) {
+        return false;
+    }
+    return protocol === "http:" || protocol === "https:";
+}
+/**
+ * Determines whether the link is a relative fragment URL.
+ *
+ * @param {string} url The URL to test.
+ *
+ * @returns {boolean} Whether the link is a relative fragment URL.
+ */
+function isRelativeFragmentURL(url) {
+    return url.indexOf("#") === 0;
+}
 module.exports = {
     removeHash: removeHash,
     removeQueryArgs: removeQueryArgs,
@@ -19765,12 +20541,16 @@ module.exports = {
     addTrailingSlash: addTrailingSlash,
     getFromAnchorTag: getFromAnchorTag,
     areEqual: areEqual,
-    getHostname: getHostname
+    getHostname: getHostname,
+    getProtocol: getProtocol,
+    isInternalLink: isInternalLink,
+    protocolIsHttpScheme: protocolIsHttpScheme,
+    isRelativeFragmentURL: isRelativeFragmentURL
 };
 
 
 
-},{"url":220}],387:[function(require,module,exports){
+},{"url":220}],404:[function(require,module,exports){
 "use strict";
 
 var isUndefined = require("lodash/isUndefined");
@@ -19920,7 +20700,7 @@ module.exports = AssessmentResult;
 
 
 
-},{"lodash/isNumber":185,"lodash/isUndefined":192}],388:[function(require,module,exports){
+},{"lodash/isNumber":185,"lodash/isUndefined":192}],405:[function(require,module,exports){
 "use strict";
 
 var defaults = require("lodash/defaults");
@@ -19966,7 +20746,7 @@ module.exports = Mark;
 
 
 
-},{"lodash/defaults":158}],389:[function(require,module,exports){
+},{"lodash/defaults":158}],406:[function(require,module,exports){
 "use strict";
 
 var defaults = require("lodash/defaults");
@@ -20114,7 +20894,7 @@ module.exports = Paper;
 
 
 
-},{"lodash/defaults":158}],390:[function(require,module,exports){
+},{"lodash/defaults":158}],407:[function(require,module,exports){
 "use strict";
 
 var getType = require("./../helpers/types.js").getType;
@@ -20233,7 +21013,7 @@ module.exports = Participle;
 
 
 
-},{"./../helpers/types.js":267,"lodash/defaults":158,"lodash/forEach":167}],391:[function(require,module,exports){
+},{"./../helpers/types.js":267,"lodash/defaults":158,"lodash/forEach":167}],408:[function(require,module,exports){
 "use strict";
 /**
  * Default attributes to be used by the Sentence if they are left undefined.
@@ -20273,7 +21053,7 @@ module.exports = Sentence;
 
 
 
-},{}],392:[function(require,module,exports){
+},{}],409:[function(require,module,exports){
 "use strict";
 /**
  * Constructs a sentence part object.
@@ -20336,7 +21116,7 @@ module.exports = SentencePart;
 
 
 
-},{}],393:[function(require,module,exports){
+},{}],410:[function(require,module,exports){
 "use strict";
 
 var forEach = require("lodash/forEach");
