@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 6.1.1\n"
+"Project-Id-Version: Yoast SEO 6.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-01-16 08:31:28+00:00\n"
+"POT-Creation-Date: 2018-01-23 09:19:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -334,68 +334,68 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin.php:233
+#: admin/class-admin.php:235
 msgid "Premium Support"
 msgstr ""
 
-#: admin/class-admin.php:237
+#: admin/class-admin.php:239
 msgid "FAQ"
 msgstr ""
 
-#: admin/class-admin.php:272 admin/pages/social.php:20
+#: admin/class-admin.php:274 admin/pages/social.php:20
 msgid "Google+"
 msgstr ""
 
-#: admin/class-admin.php:274
+#: admin/class-admin.php:276
 msgid "Twitter username (without @)"
 msgstr ""
 
-#: admin/class-admin.php:276
+#: admin/class-admin.php:278
 msgid "Facebook profile URL"
 msgstr ""
 
-#: admin/class-admin.php:353
+#: admin/class-admin.php:355
 msgid "Yoast SEO video tutorial"
 msgstr ""
 
-#: admin/class-admin.php:354
+#: admin/class-admin.php:356
 msgid "Scroll to see the table content."
 msgstr ""
 
-#: admin/class-admin.php:670
+#: admin/class-admin.php:672
 msgid "For more information:"
 msgstr ""
 
-#: admin/class-admin.php:671
+#: admin/class-admin.php:673
 msgid "Title optimization"
 msgstr ""
 
-#: admin/class-admin.php:672
+#: admin/class-admin.php:674
 msgid "Why Google won't display the right page title"
 msgstr ""
 
-#: admin/class-admin.php:678 admin/class-admin.php:679 admin/pages/metas.php:41
+#: admin/class-admin.php:680 admin/class-admin.php:681 admin/pages/metas.php:41
 #: admin/pages/metas.php:62
 msgid "Template explanation"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO.
-#: admin/class-admin.php:682
+#: admin/class-admin.php:684
 msgid ""
 "The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
 "tabs on the left explain the available variables."
 msgstr ""
 
-#: admin/class-admin.php:685 admin/pages/metas.php:64
+#: admin/class-admin.php:687 admin/pages/metas.php:64
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:692 admin/class-admin.php:693 admin/pages/metas.php:69
+#: admin/class-admin.php:694 admin/class-admin.php:695 admin/pages/metas.php:69
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:700 admin/class-admin.php:701 admin/pages/metas.php:75
+#: admin/class-admin.php:702 admin/class-admin.php:703 admin/pages/metas.php:75
 msgid "Advanced Variables"
 msgstr ""
 
@@ -1267,11 +1267,11 @@ msgid "Current option:"
 msgstr ""
 
 #. translators: %1$s expands to "Yoast".
-#: admin/class-yoast-form.php:203
+#: admin/class-yoast-form.php:205
 msgid "%1s recommendations for you"
 msgstr ""
 
-#: admin/class-yoast-form.php:316 admin/views/tabs/dashboard/features.php:86
+#: admin/class-yoast-form.php:318 admin/views/tabs/dashboard/features.php:86
 #: admin/views/tabs/dashboard/security.php:18
 #: admin/views/tabs/metas/archives.php:35
 #: admin/views/tabs/metas/archives.php:54
@@ -1280,7 +1280,7 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:316 admin/views/tabs/dashboard/features.php:85
+#: admin/class-yoast-form.php:318 admin/views/tabs/dashboard/features.php:85
 #: admin/views/tabs/dashboard/security.php:17
 #: admin/views/tabs/metas/archives.php:34
 #: admin/views/tabs/metas/archives.php:53
@@ -1289,7 +1289,7 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:508 admin/metabox/class-metabox.php:712
+#: admin/class-yoast-form.php:510 admin/metabox/class-metabox.php:712
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:134
 msgid "Upload Image"
 msgstr ""
@@ -2783,7 +2783,7 @@ msgstr ""
 msgid "Taxonomies"
 msgstr ""
 
-#: admin/pages/metas.php:24 frontend/class-frontend.php:538
+#: admin/pages/metas.php:24 frontend/class-frontend.php:564
 msgid "Archives"
 msgstr ""
 
@@ -4450,25 +4450,25 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to the search phrase.
-#: frontend/class-frontend.php:467
+#: frontend/class-frontend.php:512
 msgid "Search for \"%s\""
 msgstr ""
 
 #. translators: %s expands to a time period, i.e. month name, year or specific
 #. date.
 #. translators: %s expands to the variable used for term title.
-#: frontend/class-frontend.php:527 frontend/class-frontend.php:531
-#: frontend/class-frontend.php:535
+#: frontend/class-frontend.php:553 frontend/class-frontend.php:557
+#: frontend/class-frontend.php:561
 #: inc/options/class-wpseo-option-titles.php:241
 msgid "%s Archives"
 msgstr ""
 
-#: frontend/class-frontend.php:550
+#: frontend/class-frontend.php:576
 #: inc/options/class-wpseo-option-titles.php:181
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1261
+#: frontend/class-frontend.php:1277
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -5637,8 +5637,7 @@ msgstr ""
 #: node_modules/yoastseo/js/assessments/seo/subheadingsKeywordAssessment.js:116
 #, javascript-format
 msgid ""
-"The focus keyword appears only in %2$d (out of %1$d) subheadings in your "
-"copy. Try to use it in at least one more subheading."
+"The focus keyword appears in %2$d (out of %1$d) subheadings in your copy."
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/subheadingsKeywordAssessment.js:119
