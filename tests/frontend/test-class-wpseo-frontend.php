@@ -3,15 +3,14 @@
  * @package WPSEO\Tests
  */
 
+require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case-frontend.php';
+
 /**
  * Unit Test Class.
+ *
+ * @group frontend
  */
-class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
-
-	/**
-	 * @var WPSEO_Frontend_Double
-	 */
-	private static $class_instance;
+class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 
 	/**
 	 * Setting up.
@@ -29,6 +28,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function tearDown() {
 		parent::tearDown();
+
+		$this->reset_post_types();
 
 		ob_clean();
 		self::$class_instance->reset();
@@ -100,145 +101,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 		$this->assertFalse( self::$class_instance->is_posts_page() );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::get_content_title
-	 */
-	public function test_get_content_title() {
-
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-		$this->assertFalse( self::$class_instance->is_home_posts_page() );
-
-		// Test title according to format.
-		$expected_title = self::$class_instance->get_title_from_options( 'title-post', get_queried_object() );
-		$this->assertEquals( $expected_title, self::$class_instance->get_content_title() );
-
-		// Test explicit post title.
-		$explicit_title = 'WPSEO Post Title %%sitename%%';
-		WPSEO_Meta::set_value( 'title', $explicit_title, $post_id );
-
-		$post           = get_post( $post_id );
-		$expected_title = wpseo_replace_vars( $explicit_title, $post );
-		$this->assertEquals( $expected_title, self::$class_instance->get_content_title() );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::get_taxonomy_title
-	 */
-	public function test_get_taxonomy_title() {
-
-		// Create and go to cat archive.
-		$category_id = wp_create_category( 'Category Name' );
-		flush_rewrite_rules();
-
-		$this->go_to( get_category_link( $category_id ) );
-
-		// Test title according to format.
-		$expected_title = self::$class_instance->get_title_from_options( 'title-tax-category', (array) get_queried_object() );
-		$this->assertEquals( $expected_title, self::$class_instance->get_taxonomy_title() );
-
-		// @todo Add test for an explicit wpseo title format.
-		// We need an easy way to set taxonomy meta though...
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::get_author_title
-	 */
-	public function test_get_author_title() {
-
-		// Create and go to author.
-		$user_id = $this->factory->user->create();
-		$this->go_to( get_author_posts_url( $user_id ) );
-
-		// Test general author title.
-		$expected_title = self::$class_instance->get_title_from_options( 'title-author-wpseo' );
-		$this->assertEquals( $expected_title, self::$class_instance->get_author_title() );
-
-		// Add explicit title to author meta.
-		$explicit_title = 'WPSEO Author Title %%sitename%%';
-		add_user_meta( $user_id, 'wpseo_title', $explicit_title );
-
-		// Test explicit title.
-		$expected_title = wpseo_replace_vars( 'WPSEO Author Title %%sitename%%', array() );
-		$this->assertEquals( $expected_title, self::$class_instance->get_author_title() );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::get_title_from_options
-	 */
-	public function test_get_title_from_options() {
-		// Should return an empty string.
-		$this->assertEmpty( self::$class_instance->get_title_from_options( '__not-existing-index' ) );
-
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$var_source     = (array) get_queried_object();
-		$expected_title = wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
-		$this->assertEquals( $expected_title, self::$class_instance->get_title_from_options( '__not-existing-index', $var_source ) );
-
-		// Test with an option that exists.
-		$index          = 'title-post';
-		$expected_title = wpseo_replace_vars( self::$class_instance->options[ $index ], $var_source );
-		$this->assertEquals( $expected_title, self::$class_instance->get_title_from_options( $index, $var_source ) );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::get_default_title
-	 */
-	public function test_get_default_title() {
-		// @todo
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::add_paging_to_title
-	 */
-	public function test_add_paging_to_title() {
-		$input = 'Initial title';
-
-		// Test without paged query var set.
-		$expected = $input;
-		$this->assertEquals( $input, self::$class_instance->add_paging_to_title( '', '', $input ) );
-
-		// Test with paged set.
-		set_query_var( 'paged', 2 );
-		global $wp_query;
-		$expected = self::$class_instance->add_to_title( '', '', $input, $wp_query->query_vars['paged'] . '/' . $wp_query->max_num_pages );
-		$this->assertEquals( $expected, self::$class_instance->add_paging_to_title( '', '', $input ) );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::add_to_title
-	 */
-	public function test_add_to_title() {
-
-		$title      = 'Title';
-		$sep        = ' >> ';
-		$title_part = 'Title Part';
-
-		$expected = $title . $sep . $title_part;
-		$this->assertEquals( $expected, self::$class_instance->add_to_title( $sep, 'right', $title, $title_part ) );
-
-		$expected = $title_part . $sep . $title;
-		$this->assertEquals( $expected, self::$class_instance->add_to_title( $sep, 'left', $title, $title_part ) );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::title
-	 */
-	public function test_title() {
-		// @todo
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::wp_title
-	 */
-	public function force_wp_title() {
-		// @todo
 	}
 
 	/**
@@ -445,162 +307,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::metakeywords
-	 */
-	public function test_metakeywords() {
-		// @todo
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::metadesc
-	 */
-	public function test_metadesc() {
-		// @todo
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::page_redirect
-	 */
-	public function test_page_redirect() {
-		// Should not redirect on home pages.
-		$this->go_to_home();
-		$this->assertFalse( self::$class_instance->page_redirect() );
-
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Should not redirect when no redirect URL was set.
-		$this->assertFalse( self::$class_instance->page_redirect() );
-	}
-
-	/**
 	 * @covers WPSEO_Frontend::nofollow_link
 	 */
 	public function test_nofollow_link() {
 		$input    = '<a href="#">A link</a>';
 		$expected = str_replace( '<a ', '<a rel="nofollow" ', $input );
 		$this->assertEquals( $expected, self::$class_instance->nofollow_link( $input ) );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::archive_redirect
-	 */
-	public function test_archive_redirect() {
-
-		global $wp_query;
-
-		$c = self::$class_instance;
-
-		// Test on author, authors enabled -> false.
-		$wp_query->is_author          = true;
-		$c->options['disable-author'] = false;
-		$this->assertFalse( $c->archive_redirect() );
-
-		// Test not on author, authors disabled -> false.
-		$wp_query->is_author          = false;
-		$c->options['disable-author'] = true;
-		$this->assertFalse( $c->archive_redirect() );
-
-		// Test on date, dates enabled -> false.
-		$wp_query->is_date          = true;
-		$c->options['disable-date'] = false;
-		$this->assertFalse( $c->archive_redirect() );
-
-		// Test not on date, dates disabled -> false.
-		$wp_query->is_date          = false;
-		$c->options['disable-date'] = true;
-		$this->assertFalse( $c->archive_redirect() );
-	}
-
-	/**
-	 * Tests the situation where the archive redirect has been redirected.
-	 *
-	 * @covers WPSEO_Frontend::archive_redirect()
-	 */
-	public function test_archive_redirect_being_redirected() {
-		global $wp_query;
-
-		$frontend = self::$class_instance;
-
-		$wp_query->is_author                 = true;
-		$frontend->options['disable-author'] = true;
-		$this->assertTrue( $frontend->archive_redirect() );
-
-		$wp_query->is_date                 = true;
-		$frontend->options['disable-date'] = true;
-		$this->assertTrue( $frontend->archive_redirect() );
-	}
-
-	/**
-	 * Tests for attachment redirect an attachment page with parent.
-	 *
-	 * @covers WPSEO_Frontend::attachment_redirect
-	 */
-	public function test_attachment_redirect() {
-		// Create parent post ID.
-		$parent_post_id = $this->factory->post->create();
-
-		// Create an attachment with parent.
-		$post_id = $this->factory->post->create(
-			array(
-				'post_type'   => 'attachment',
-				'post_parent' => $parent_post_id,
-			)
-		);
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Make sure the redirect is applied.
-		$this->assertTrue( self::$class_instance->attachment_redirect() );
-	}
-
-	/**
-	 * Tests for attachment redirect on a non-attachment page.
-	 *
-	 * @covers WPSEO_Frontend::attachment_redirect
-	 */
-	public function test_attachment_redirect_no_attachment() {
-		$post_id = $this->factory->post->create( array( 'post_type' => 'post' ) );
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Should not redirect on regular post pages.
-		$this->assertFalse( self::$class_instance->attachment_redirect() );
-	}
-
-	/**
-	 * Tests for a request without a valid post object.
-	 *
-	 * @covers WPSEO_Frontend::attachment_redirect
-	 */
-	public function test_attachment_redirect_no_post_object() {
-		global $post;
-
-		$saved_post = $post;
-		$post       = null;
-
-		$this->assertFalse( self::$class_instance->attachment_redirect() );
-
-		// Restore global Post.
-		$post = $saved_post;
-	}
-
-	/**
-	 * Tests for a request without a parent on an attachment.
-	 *
-	 * @covers WPSEO_Frontend::attachment_redirect
-	 */
-	public function test_attachment_redirect_no_parent() {
-		// Create and go to post.
-		$post_id = $this->factory->post->create(
-			array(
-				'post_type'   => 'attachment',
-				'post_parent' => 0,
-			)
-		);
-		$this->go_to( get_permalink( $post_id ) );
-
-		$this->assertFalse( self::$class_instance->attachment_redirect() );
-		$this->assertEquals( 1, did_action( 'wpseo_redirect_orphan_attachment' ) );
 	}
 
 	/**
@@ -878,7 +590,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( true ) );
 
 		$frontend
-			->expects( $this->exactly( 2 ) )
+			->expects( $this->exactly( 1 ) )
 			->method( 'get_debug_mark' );
 
 		// Enables the output buffering.
@@ -947,15 +659,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::title_test_helper
-	 */
-	public function test_title_test_helper() {
-		// @todo
-	}
-
-
-
-	/**
 	 * @param string $initial_url URL to start off from.
 	 *
 	 * @return void
@@ -994,15 +697,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param string $name Option name.
-	 *
-	 * @return string
-	 */
-	private function get_option( $name ) {
-		return self::$class_instance->options[ $name ];
-	}
-
-	/**
 	 * @param string $option_name Option name.
 	 * @param string $expected    Expected output.
 	 *
@@ -1015,74 +709,40 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param string $expected Expected output.
-	 *
-	 * @return void
+	 * @covers WPSEO_Frontend::get_queried_post_type()
 	 */
-	private function run_json_ld_test( $expected ) {
-		$this->expectOutput( $expected, self::$class_instance->internal_search_json_ld() );
+	public function test_get_queried_post_type() {
+		$wp_query = $this->getMockBuilder( 'WP_Query' )
+						 ->setMethods( array( 'get' ) )
+						 ->getMock();
+
+		$wp_query
+			->expects( $this->once() )
+			->method( 'get' )
+			->with( 'post_type' )
+			->will( $this->returnValue( 'my_post_type' ) );
+
+		$GLOBALS['wp_query'] = $wp_query;
+
+		$this->assertEquals( 'my_post_type', self::$class_instance->get_queried_post_type() );
 	}
 
 	/**
-	 * Override the go_to function in core as its broken when path isn't set.
-	 *
-	 * Can be removed when https://core.trac.wordpress.org/ticket/31417 is fixed and in all releases we're testing (so when 4.2 is the lowest common denominator).
-	 *
-	 * @param string $url URL.
+	 * @covers WPSEO_Frontend::get_queried_post_type()
 	 */
-	public function go_to( $url ) {
-		// Note: the WP and WP_Query classes like to silently fetch parameters
-		// from all over the place (globals, GET, etc), which makes it tricky
-		// to run them more than once without very carefully clearing everything.
-		$_GET  = array();
-		$_POST = array();
+	public function test_get_queried_post_type_array() {
+		$wp_query = $this->getMockBuilder( 'WP_Query' )
+						 ->setMethods( array( 'get' ) )
+						 ->getMock();
 
-		$keys = array(
-			'query_string',
-			'id',
-			'postdata',
-			'authordata',
-			'day',
-			'currentmonth',
-			'page',
-			'pages',
-			'multipage',
-			'more',
-			'numpages',
-			'pagenow',
-		);
+		$wp_query
+			->expects( $this->once() )
+			->method( 'get' )
+			->with( 'post_type' )
+			->will( $this->returnValue( array( 'my_post_type', 'your_post_type' ) ) );
 
-		foreach ( $keys as $v ) {
-			if ( isset( $GLOBALS[ $v ] ) ) {
-				unset( $GLOBALS[ $v ] );
-			}
-		}
-		$parts = wp_parse_url( $url );
-		if ( isset( $parts['scheme'] ) ) {
-			$req = isset( $parts['path'] ) ? $parts['path'] : '';
-			if ( isset( $parts['query'] ) ) {
-				$req .= '?' . $parts['query'];
-				// Parse the url query vars into $_GET.
-				parse_str( $parts['query'], $_GET );
-			}
-		}
-		else {
-			$req = $url;
-		}
-		if ( ! isset( $parts['query'] ) ) {
-			$parts['query'] = '';
-		}
+		$GLOBALS['wp_query'] = $wp_query;
 
-		$_SERVER['REQUEST_URI'] = $req;
-		unset( $_SERVER['PATH_INFO'] );
-
-		$this->flush_cache();
-		unset( $GLOBALS['wp_query'], $GLOBALS['wp_the_query'] );
-		$GLOBALS['wp_the_query'] = new WP_Query();
-		$GLOBALS['wp_query']     = $GLOBALS['wp_the_query'];
-		$GLOBALS['wp']           = new WP();
-		_cleanup_query_vars();
-
-		$GLOBALS['wp']->main( $parts['query'] );
+		$this->assertEquals( 'my_post_type', self::$class_instance->get_queried_post_type() );
 	}
 }

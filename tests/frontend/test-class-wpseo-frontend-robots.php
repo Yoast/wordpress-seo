@@ -1,26 +1,16 @@
 <?php
 /**
- * @package WPSEO\Tests
+ * @package WPSEO\Tests\Frontend
  */
+
+require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case-frontend.php';
 
 /**
  * Unit Test Class.
+ *
+ * @group frontend
  */
-class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
-
-	/**
-	 * @var WPSEO_Frontend
-	 */
-	private static $class_instance;
-
-	/**
-	 * Setting up.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		self::$class_instance = WPSEO_Frontend::get_instance();
-	}
+final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 	/**
 	 * Provision tests.
@@ -40,12 +30,10 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		parent::tearDown();
 
 		ob_clean();
-
-
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots
+	 * @covers WPSEO_Frontend::robots()
 	 *
 	 * @todo Test post type archives.
 	 * @todo Test with page_for_posts option.
@@ -60,6 +48,9 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '', self::$class_instance->robots() );
 	}
 
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_robots_on_private_blog() {
 		// Go to home.
 		$this->go_to_home();
@@ -72,7 +63,9 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		update_option( 'blog_public', '1' );
 	}
 
-
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_with_replytocom_attribute() {
 		// Go to home.
 		$this->go_to_home();
@@ -86,9 +79,10 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		unset( $_GET['replytocom'] );
 	}
 
-
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_subpages_with_robots_using_default_state() {
-
 		// Go to home.
 		$this->go_to_home();
 
@@ -98,6 +92,9 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		set_query_var( 'paged', 0 );
 	}
 
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_subpages_robots_noindex() {
 		// Go to home.
 		$this->go_to_home();
@@ -110,10 +107,11 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		// Clean-up.
 		self::$class_instance->options['noindex-subpages-wpseo'] = false;
 		set_query_var( 'paged', 0 );
-
 	}
 
-
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_post_robots_default_state() {
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
@@ -122,11 +120,11 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		// Test regular post with no special options.
 		$expected = '';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
-
 	}
 
-
-
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_post_noindex() {
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
@@ -135,13 +133,11 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		// Test noindex-post option.
 		WPSEO_Options::save_option( 'wpseo_titles', 'noindex-post', true );
 		$this->assertEquals( 'noindex,follow', self::$class_instance->robots() );
-
-		// clean-up
-//		self::$class_instance->options['noindex-post'] = false;
-
 	}
 
-
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_private_post() {
 		// Create and go to post.
 		$post_id = $this->factory->post->create( array( 'post_status' => 'private' ) );
@@ -151,9 +147,10 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'noindex,follow', self::$class_instance->robots() );
 	}
 
-
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_category() {
-
 		// Go to category page.
 		$category_id = wp_create_category( 'Category Name' );
 		flush_rewrite_rules();
@@ -169,6 +166,9 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_category_noindex() {
 		// Go to category page.
 		$category_id = wp_create_category( 'Category Name' );
@@ -189,8 +189,10 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->options['noindex-tax-category'] = false;
 	}
 
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_subpages_category_archives() {
-
 		// Go to category page.
 		$category_id = wp_create_category( 'Category Name' );
 		flush_rewrite_rules();
@@ -209,12 +211,12 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 
 		$expected = 'noindex,follow';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
-
 	}
 
-
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_author_archive() {
-
 		// Go to author page.
 		$user_id = $this->factory->user->create();
 		$this->go_to( get_author_posts_url( $user_id ) );
@@ -222,15 +224,15 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		// Test author archive with no special options.
 		$expected = '';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
-
 	}
 
+	/**
+	 * @covers WPSEO_Frontend::robots()
+	 */
 	public function test_author_archive_noindex() {
-
 		// Go to author page.
 		$user_id = $this->factory->user->create();
 		$this->go_to( get_author_posts_url( $user_id ) );
-
 
 		// Test author archive with 'noindex-author-wpseo'.
 		$expected = 'noindex,follow';
@@ -239,9 +241,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 
 		// Clean-up.
 		self::$class_instance->options['noindex-author-wpseo'] = false;
-
 	}
-
 
 	/**
 	 * This test was broken when it was located in test-class-wpseo-frontend.php.
@@ -266,7 +266,6 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::robots_for_single_post
 	 */
 	public function test_robots_for_single_post() {
-
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
@@ -306,12 +305,4 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( $expected, self::$class_instance->noindex_page() );
 
 	}
-
-	/**
-	 * @covers WPSEO_Frontend::noindex_feed
-	 */
-	public function test_noindex_feed() {
-		// @todo
-	}
-
 }

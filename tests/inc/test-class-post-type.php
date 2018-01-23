@@ -24,14 +24,10 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type::get_accessible_post_types()
 	 */
 	public function test_get_accessible_post_types() {
-		$this->assertEquals(
-			array(
-				'post'       => 'post',
-				'page'       => 'page',
-				'attachment' => 'attachment',
-			),
-			WPSEO_Post_Type::get_accessible_post_types()
-		);
+		$post_types = WPSEO_Post_Type::get_accessible_post_types();
+		$this->assertContains( 'post', $post_types );
+		$this->assertContains( 'page', $post_types );
+		$this->assertContains( 'attachment', $post_types );
 	}
 
 	/**

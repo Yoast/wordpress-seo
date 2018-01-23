@@ -66,7 +66,7 @@ echo '<h2>' . esc_html__( 'Restore default settings', 'wordpress-seo' ) . '</h2>
 </p>
 
 <p>
-	<a onclick="if ( !confirm( '<?php esc_html_e( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ); ?>' ) ) return false;"
+	<a onclick='if ( !confirm( <?php echo esc_attr( wp_json_encode( __( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ) ) ); ?> ) ) return false;'
 		class="button"
 		href="<?php echo esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&wpseo_reset_defaults=1' ) ) ); ?>"><?php esc_html_e( 'Restore default settings', 'wordpress-seo' ); ?></a>
 </p>
