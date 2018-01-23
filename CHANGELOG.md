@@ -5,6 +5,18 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.29.0 January 15th, 2018
+### Added
+* Adds language support table to the README.
+* Adds a performance analysis tool.
+* Adds the passive voice assessment for French.
+* Adds the passive voice assessment for Spanish.
+
+### Changed
+* Simplifies the message for the SubheadingsKeywordAssessment.
+* Reduces the number of times the content analysis is refreshed on page load.
+* Fixes a bug where relative URLs were not counted as internal links in the internal link assessment.
+
 ## 1.28.0 December 18th, 2017
 ### Changed
 * Includes the link to the post about using your focus keyword multiple times also to the feedback text that is shown when using a focus keyword twice. 

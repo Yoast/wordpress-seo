@@ -9,7 +9,7 @@ var marker = require( "../../markers/addMark.js" );
 var map = require( "lodash/map" );
 
 var getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
-var availableLanguages = [ "en", "de", "fr" ];
+var availableLanguages = [ "en", "de", "fr", "es" ];
 
 /**
  * Calculates the result based on the number of sentences and passives.
@@ -19,12 +19,17 @@ var availableLanguages = [ "en", "de", "fr" ];
  */
 var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	var score;
-
-	var percentage = ( passiveVoice.passives.length / passiveVoice.total ) * 100;
-	percentage = formatNumber( percentage );
+	var percentage = 0;
 	var recommendedValue = 10;
 	var passiveVoiceURL = "<a href='https://yoa.st/passive-voice' target='_blank'>";
-	var hasMarks = ( percentage > 0 );
+	var hasMarks;
+
+	// Prevent division by zero errors.
+	if ( passiveVoice.total !== 0 ) {
+		percentage = formatNumber( ( passiveVoice.passives.length / passiveVoice.total ) * 100 );
+	}
+
+	hasMarks = ( percentage > 0 );
 
 	if ( percentage <= 10 ) {
 		// Green indicator.

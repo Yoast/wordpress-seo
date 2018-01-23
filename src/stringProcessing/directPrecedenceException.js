@@ -3,6 +3,7 @@ var includesIndex = require( "./includesIndex" );
 var arrayToRegex = require( "./createRegexFromArray.js" );
 var cannotDirectlyPrecedePassiveParticipleFrench = require( "../researches/french/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 var cannotDirectlyPrecedePassiveParticipleEnglish = require( "../researches/english/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+var cannotDirectlyPrecedePassiveParticipleSpanish = require( "../researches/spanish/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 
 /**
  * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
@@ -19,6 +20,9 @@ module.exports = function( sentencePart, participleIndex ) {
 	switch ( this.constructor.name ) {
 		case "FrenchParticiple":
 			directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticipleFrench );
+			break;
+		case "SpanishParticiple":
+			directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticipleSpanish );
 			break;
 		case "EnglishParticiple":
 		default:
