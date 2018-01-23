@@ -1,0 +1,85 @@
+<?php
+
+namespace Yoast\YoastSEO\Tests;
+
+use Yoast\YoastSEO\WordPress\Integration_Group;
+
+/**
+ * Class Database_Migration_Test
+ *
+ * @group   yoastmeta
+ *
+ * @package Yoast\Tests
+ */
+class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
+	/**
+	 * Tests ensure integration is called on constructor
+	 *
+	 * @covers \Yoast\YoastSEO\WordPress\Integration_Group::__construct()
+	 */
+	public function test_construct() {
+		$classname = '\Yoast\YoastSEO\WordPress\Integration_Group';
+		// make sure only integrations are loaded.
+		$instance = $this
+			->getMockBuilder( $classname )
+			->setMethods( array( 'ensure_integration' ) )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'ensure_integration' )
+			->with( $this->equalTo( array( 'a', 'b' ) ) );
+
+		// Trigger the constructor to test the implicit method call.
+		$reflectedClass = new \ReflectionClass( $classname );
+		$constructor    = $reflectedClass->getConstructor();
+		$constructor->invoke( $instance, array( 'a', 'b' ) );
+	}
+
+	/**
+	 * Tests to make sure only Integration instances are used in the Integration Group
+	 *
+	 * @covers \Yoast\YoastSEO\WordPress\Integration_Group::ensure_integration()
+	 */
+	public function test_ensure_integration() {
+		$integration = $this
+			->getMockBuilder( '\Yoast\YoastSEO\WordPress\Integration' )
+			->getMock();
+
+		$classname = '\Yoast\YoastSEO\WordPress\Integration_Group';
+
+		$instance = $this
+			->getMockBuilder( $classname )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$no_integration = new \stdClass();
+
+		// Trigger the constructor to test the implicit method call.
+		$reflectedClass = new \ReflectionClass( $classname );
+		$constructor    = $reflectedClass->getConstructor();
+		$constructor->invoke( $instance, array( $integration, $no_integration ) );
+
+		$this->assertAttributeEquals( array( $integration ), 'integrations', $instance );
+	}
+
+	/**
+	 * Tests that register hooks is called on the integration
+	 *
+	 * @covers \Yoast\YoastSEO\WordPress\Integration_Group::register_hooks()
+	 */
+	public function test_register_hooks() {
+		$integration = $this
+			->getMockBuilder( '\Yoast\YoastSEO\WordPress\Integration' )
+			->setMethods( array( 'register_hooks' ) )
+			->getMock();
+
+		$integration
+			->expects( $this->once() )
+			->method( 'register_hooks' );
+
+		$instance = new Integration_Group( array( $integration ) );
+		$instance->register_hooks();
+	}
+}

@@ -78,19 +78,23 @@ class Dependency_Management {
 	}
 
 	/**
-	 * @param $base
+	 * Wraps class_exists to make this better testable.
 	 *
-	 * @return bool
+	 * @param string $class Class to test for existence.
+	 *
+	 * @return bool True if the class exists.
 	 */
-	protected function class_exists( $base ) {
-		return class_exists( $base );
+	protected function class_exists( $class ) {
+		return class_exists( $class );
 	}
 
 	/**
-	 * @param string $base
-	 * @param string $alias
+	 * Wraps class alias to make it better testable.
 	 *
-	 * @return bool
+	 * @param string $base  Base class to use for the alias.
+	 * @param string $alias Class to create an alias for.
+	 *
+	 * @return bool True on successful alias.
 	 */
 	protected function class_alias( $base, $alias ) {
 		return class_alias( $base, $alias );

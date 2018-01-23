@@ -111,4 +111,18 @@ class Dependency_Management_Test extends \PHPUnit_Framework_TestCase {
 		/** @var Dependency_Management $instance */
 		$instance->ensure_class_alias( YOAST_VENDOR_NS_PREFIX . '\Some_Class' );
 	}
+
+	/**
+	 * Tests to make sure the autoloader is registered during initialization
+	 *
+	 * @covers \Yoast\YoastSEO\Config\Dependency_Management::initialize()
+	 */
+	public function test_registration_of_autoloader() {
+		$instance = new Dependency_Management();
+		$instance->initialize();
+
+		$registered_autoloaders = spl_autoload_functions();
+
+		$this->assertContains( array( $instance, 'ensure_class_alias' ), $registered_autoloaders );
+	}
 }
