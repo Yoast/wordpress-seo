@@ -163,21 +163,8 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 		}
 
 		// If we get to replace the data, let's do some proper cleanup.
-		foreach (
-			array(
-				'_seop_settings',
-				'_seop_upgrade_v6',
-				'_seop_site_audit',
-				'_seop_cache_result',
-				'_seop_cache_score',
-				'_seop_cache_md5',
-				'_seop_link_last_check',
-				'_seop_kw_1',
-				'_seop_kw_2',
-				'_seop_kw_3',
-			) as $key ) {
-			echo $key;
-			delete_post_meta( $post_id, $key );
-		}
+		global $wpdb;
+		$query = $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key LIKE '_seop_%'", $post_id );
+		$wpdb->query( $query );
 	}
 }
