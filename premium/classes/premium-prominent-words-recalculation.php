@@ -201,6 +201,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @return string The message to return when it is already indexed.
 	 */
 	private function messageAlreadyIndexed() {
-		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! You\'ve optimized your internal linking suggestions.', 'wordpress-seo-premium' );
+		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! You\'ve optimized your internal linking suggestions. These suggestions will now appear alongside your content when you are writing or editing a post.', 'wordpress-seo-premium' );
 	}
 }
