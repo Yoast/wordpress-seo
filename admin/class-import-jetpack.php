@@ -12,9 +12,11 @@ class WPSEO_Import_Jetpack_SEO extends WPSEO_Import_External {
 
 	/**
 	 * Import Jetpack Advanced SEO settings
+	 *
+	 * @param boolean $replace Boolean replace switch.
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function __construct( $replace = false ) {
+		parent::__construct( $replace );
 
 		$this->import_metas();
 	}

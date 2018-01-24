@@ -16,11 +16,7 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 ?>
 	<p>
 		<?php
-		printf(
-			/* translators: %s expands to <code>&lt;head&gt;</code> */
-			esc_html__( 'Add Open Graph meta data to your site\'s %s section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ),
-			'<code>&lt;head&gt;</code>'
-		);
+			esc_html_e( 'Enable this feature if you want Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.', 'wordpress-seo' );
 		?>
 	</p>
 

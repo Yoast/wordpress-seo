@@ -3,22 +3,31 @@
 # Set default behaviour, in case users don't have core.autocrlf set.
 * text=auto
 
+.github export-ignore
 grunt export-ignore
 tests export-ignore
+webpack export-ignore
+.babelrc export-ignore
+.codeclimate.yml export-ignore
 .csscomb.json export-ignore
+.csslintrc export-ignore
 .editorconfig export-ignore
+.eslintignore export-ignore
+.eslintrc export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
-.gruntjshintrc export-ignore
-.jscsrc export-ignore
-.jshintrc export-ignore
+.phpcs.xml export-ignore
+.phpcs.xml.dist export-ignore
+.removeable-files
 .travis.yml export-ignore
-codesniffer.xml export-ignore
 Gruntfile.js export-ignore
 package.json export-ignore
-phpunit.xml export-ignore
 phpcs.xml export-ignore
+phpcs.xml.dist export-ignore
+phpdoc.xml export-ignore
+phpdoc.dist.xml export-ignore
 phpmd.xml export-ignore
-CONTRIBUTING.md export-ignore
+phpunit.xml export-ignore
+phpunit.xml.dist export-ignore
 README.md export-ignore
-ISSUE_TEMPLATE.md export-ignore
+renovate.json export-ignore
