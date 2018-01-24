@@ -897,7 +897,7 @@ button.yoast-tooltip {
 	display: none;
 }
 
-.yoast-help-center .yoast-help-center__button {
+.postbox .yoast-help-center__button {
 	min-height: 0;
 	margin: 0;
 	padding: 8px 0;
@@ -909,7 +909,7 @@ button.yoast-tooltip {
 	text-transform: none;
 }
 
-.yoast-help-center .yoast-help-center__button svg {
+.postbox .yoast-help-center__button svg {
 	margin: 0 13px;
 }
 

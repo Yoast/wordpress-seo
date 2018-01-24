@@ -1,6 +1,6 @@
 yoastWebpackJsonp([4],{
 
-/***/ 1042:
+/***/ 1060:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12,23 +12,23 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(98);
+var _reactDom = __webpack_require__(99);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _SeoAssessment = __webpack_require__(1043);
+var _SeoAssessment = __webpack_require__(1061);
 
 var _SeoAssessment2 = _interopRequireDefault(_SeoAssessment);
 
-var _ScoreAssessments = __webpack_require__(830);
+var _ScoreAssessments = __webpack_require__(847);
 
 var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
 
-var _getFeed2 = __webpack_require__(1045);
+var _getFeed2 = __webpack_require__(1063);
 
 var _getFeed3 = _interopRequireDefault(_getFeed2);
 
-var _WordpressFeed = __webpack_require__(1046);
+var _WordpressFeed = __webpack_require__(1064);
 
 var _WordpressFeed2 = _interopRequireDefault(_WordpressFeed);
 
@@ -279,7 +279,7 @@ if (element) {
 
 /***/ }),
 
-/***/ 1043:
+/***/ 1061:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -304,11 +304,11 @@ var _styledComponents = __webpack_require__(7);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _StackedProgressBar = __webpack_require__(1044);
+var _StackedProgressBar = __webpack_require__(1062);
 
 var _StackedProgressBar2 = _interopRequireDefault(_StackedProgressBar);
 
-var _ScoreAssessments = __webpack_require__(830);
+var _ScoreAssessments = __webpack_require__(847);
 
 var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
 
@@ -374,7 +374,7 @@ exports.default = SeoAssessment;
 
 /***/ }),
 
-/***/ 1044:
+/***/ 1062:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -462,7 +462,7 @@ exports.default = StackedProgressBar;
 
 /***/ }),
 
-/***/ 1045:
+/***/ 1063:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -643,7 +643,7 @@ function getFeed(url) {
 
 /***/ }),
 
-/***/ 1046:
+/***/ 1064:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -816,7 +816,7 @@ module.exports = {"$palette_white":"#fff","$palette_grey_ultra_light":"#f7f7f7",
 
 /***/ }),
 
-/***/ 830:
+/***/ 847:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -928,4 +928,4 @@ exports.default = ScoreAssessments;
 
 /***/ })
 
-},[1042]);
+},[1060]);
