@@ -42,7 +42,6 @@ export function makeFullWidth( component ) {
  * Creates a list table component.
  */
 class ListTable extends React.Component {
-
 	/**
 	 * Constructor for the component.
 	 *
@@ -75,7 +74,9 @@ class ListTable extends React.Component {
 	render() {
 		let children = this.getChildren();
 
-		return ( <List role="list" children={ children } /> );
+		return (
+			<List>{ children }</List>
+		);
 	}
 }
 
