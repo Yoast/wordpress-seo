@@ -1,16 +1,168 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the BaseLinkButton matches the snapshot 1`] = `
+.c4 {
+  text-decoration: none;
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+}
+
+.c3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c3 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c2::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c2:focus {
+  outline: none;
+  border-color: #0066cd;
+  background-color: ;
+  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+}
+
+.c1:hover {
+  background-color: ;
+  border-color: ;
+  color: #000;
+}
+
+.c0:active {
+  background-color: ;
+  border-color: ;
+  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+}
+
+@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+  .c3::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <a
-  className="sc-iwsKbI giSiXQ sc-dnqmqq kaJYpi sc-htoDjs gwrbIm sc-gzVnrw eFsQEO sc-bZQynM hUnLvZ"
+  className="c0 c1 c2 c3 c4"
 >
   LinkButtonValue
 </a>
 `;
 
 exports[`the LinkButton matches the snapshot 1`] = `
+.c5 {
+  text-decoration: none;
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c4 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  background-color: ;
+  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+}
+
+.c2:hover {
+  background-color: ;
+  border-color: ;
+  color: #000;
+}
+
+.c1:active {
+  background-color: ;
+  border-color: ;
+  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+}
+
+.c0 {
+  font-size: 0.8rem;
+}
+
+@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+  .c4::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <a
-  className="sc-gZMcBi hXZHGD sc-iwsKbI giSiXQ sc-dnqmqq kaJYpi sc-htoDjs gwrbIm sc-gzVnrw eFsQEO sc-bZQynM hUnLvZ"
+  className="c0 c1 c2 c3 c4 c5"
 >
   LinkButtonValue
 </a>

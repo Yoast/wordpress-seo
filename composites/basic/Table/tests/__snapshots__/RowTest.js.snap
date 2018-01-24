@@ -1,13 +1,74 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the Row component matches the snapshot 1`] = `
+.c0 {
+  background: #fff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 48px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: space-between;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: space-between;
+  justify-content: space-between;
+}
+
 <li
-  className="sc-bdVaJa eHMDHE"
+  className="c0"
 />
 `;
 
 exports[`the RowResponsiveWrap component matches the snapshot 1`] = `
+.c1 {
+  background: #fff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: ;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: space-between;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: space-between;
+  justify-content: space-between;
+}
+
+@media screen and ( max-width: 800px ) {
+  .c0 {
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-align-items: flex-start;
+    -webkit-box-align: flex-start;
+    -ms-flex-align: flex-start;
+    align-items: flex-start;
+  }
+
+  .c0:first-child {
+    margin-top: 0;
+  }
+
+  .c0 > span::before {
+    position: static;
+    display: inline-block;
+    padding-right: 0.5em;
+    font-size: inherit;
+  }
+
+  .c0 > span {
+    padding-left: 0;
+  }
+}
+
 <li
-  className="sc-bwzfXH hEqAjG sc-bdVaJa kQkJru"
+  className="c0 c1"
 />
 `;

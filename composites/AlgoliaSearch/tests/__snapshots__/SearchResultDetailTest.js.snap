@@ -1,24 +1,216 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the SearchResultDetail component matches the snapshot 1`] = `
+.c10 {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+.c3 {
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 16px;
+  padding: 0px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 14px/24px "Open Sans", sans-serif;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px 0 rgba( 0, 0, 0, 0.3 );
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c2:hover,
+.c2:focus,
+.c2:active {
+  box-shadow: 0 4px 10px 0 rgba( 0, 0, 0, 0.2 ),inset 0 0 0 100px rgba( 0, 0, 0, 0.1 );
+  color: #fff;
+}
+
+.c2:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+}
+
+.c7 {
+  text-decoration: none;
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 16px;
+  padding: 0px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 14px/24px "Open Sans", sans-serif;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px 0 rgba( 0, 0, 0, 0.3 );
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c6:hover,
+.c6:focus,
+.c6:active {
+  box-shadow: 0 4px 10px 0 rgba( 0, 0, 0, 0.2 ),inset 0 0 0 100px rgba( 0, 0, 0, 0.1 );
+  color: #fff;
+}
+
+.c6:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+}
+
+.c9 {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c0 {
+  outline: none;
+}
+
+.c1 {
+  padding: 0 16px 16px;
+}
+
+.c5 {
+  float: right;
+}
+
+.c4 {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c8 {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .c2::after {
+    display: inline-block;
+    content: "";
+    min-height: 48px;
+  }
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 48px;
+  }
+}
+
+@media screen and ( max-width: 768px ) {
+  .c0 {
+    margin: 0 -16px;
+  }
+}
+
 <section
   aria-label="Search result"
-  className="sc-bZQynM eYbrpH"
+  className="c0"
   tabIndex="-1"
 >
   <nav
-    className="sc-gzVnrw hdBCBy"
+    className="c1"
   >
     <button
       aria-expanded={undefined}
-      className="sc-htpNat jsmbHK sc-bwzfXH dIZeqH"
+      className="c2 c3"
       onClick={[Function]}
       type="button"
     >
       <span>
         <svg
           aria-hidden="true"
-          className="sc-dnqmqq dAHMUA"
+          className="c4"
           focusable="false"
           role="img"
         />
@@ -27,7 +219,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
     </button>
     <a
       aria-label="Open the knowledge base article in a new window or read it in the iframe below"
-      className="sc-htoDjs hpJeHy sc-ifAKCX keDKTL sc-bxivhb ccVExY"
+      className="c5 c6 c7"
       href="https://kb.yoast.com/kb/passive-voice/"
       rel="noopener noreferrer"
       target="_blank"
@@ -35,19 +227,19 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
       View in KB
       <svg
         aria-hidden="true"
-        className="sc-iwsKbI insUbX"
+        className="c8"
         focusable="false"
         role="img"
       />
       <span
-        className="sc-EHOje dtuOhP"
+        className="c9"
       >
         (Opens in a new browser tab)
       </span>
     </a>
   </nav>
   <iframe
-    className="kb-search-content-frame sc-bdVaJa jsOWvL"
+    className="kb-search-content-frame c10"
     src="https://kb.yoast.com/kb/passive-voice/amp/?source=wpseo-kb-search"
     title="Knowledge base article"
   />

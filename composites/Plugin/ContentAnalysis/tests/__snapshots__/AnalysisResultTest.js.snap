@@ -1,17 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the AnalysisResult component matches the snapshot 1`] = `
+.c4 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #a4286a;
+  box-shadow: inset 0 2px 0 rgba( 93, 35, 122, 0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 23px;
+}
+
+.c4:hover {
+  border-color: #fff;
+}
+
+.c4:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c0 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c1 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c3 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c2 {
+  width: 13px;
+  height: 13px;
+  fill: blue;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <li
-  className="sc-bwzfXH kaQsFW"
+  className="c0"
 >
   <svg
     aria-hidden="true"
-    className="sc-htpNat kcPZvN sc-ifAKCX gIfmeR"
+    className="c1 c2"
     focusable="false"
     role="img"
   />
   <p
-    className="sc-bxivhb eBerdq"
+    className="c3"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -21,7 +89,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa jgsRfK"
+    className="c4"
     disabled={false}
     id="Result button"
     onClick={[Function]}
@@ -29,7 +97,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   >
     <svg
       aria-hidden="true"
-      className="sc-EHOje cEzfCV"
+      className="c5"
       focusable="false"
       role="img"
     />
@@ -38,17 +106,85 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 `;
 
 exports[`the AnalysisResult component with disabled buttons matches the snapshot 1`] = `
+.c4 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #a4286a;
+  box-shadow: inset 0 2px 0 rgba( 93, 35, 122, 0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 23px;
+}
+
+.c4:hover {
+  border-color: #fff;
+}
+
+.c4:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c0 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c1 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c3 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c2 {
+  width: 13px;
+  height: 13px;
+  fill: blue;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  fill: #ddd;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <li
-  className="sc-bwzfXH kaQsFW"
+  className="c0"
 >
   <svg
     aria-hidden="true"
-    className="sc-htpNat kcPZvN sc-htoDjs hFWmva"
+    className="c1 c2"
     focusable="false"
     role="img"
   />
   <p
-    className="sc-bxivhb eBerdq"
+    className="c3"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -58,7 +194,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa jgsRfK"
+    className="c4"
     disabled={true}
     id="Result button"
     onClick={[Function]}
@@ -66,7 +202,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   >
     <svg
       aria-hidden="true"
-      className="sc-dnqmqq haxLBt"
+      className="c5"
       focusable="false"
       role="img"
     />
@@ -75,17 +211,52 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 `;
 
 exports[`the AnalysisResult component with hidden buttons matches the snapshot 1`] = `
+.c0 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c1 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c3 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c2 {
+  width: 13px;
+  height: 13px;
+  fill: blue;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <li
-  className="sc-bwzfXH kaQsFW"
+  className="c0"
 >
   <svg
     aria-hidden="true"
-    className="sc-htpNat kcPZvN sc-iwsKbI kbxVcT"
+    className="c1 c2"
     focusable="false"
     role="img"
   />
   <p
-    className="sc-bxivhb eBerdq"
+    className="c3"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -96,17 +267,85 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
 `;
 
 exports[`the AnalysisResult component with html in the text matches the snapshot 1`] = `
+.c4 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #a4286a;
+  box-shadow: inset 0 2px 0 rgba( 93, 35, 122, 0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 23px;
+}
+
+.c4:hover {
+  border-color: #fff;
+}
+
+.c4:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c0 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c1 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c3 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c2 {
+  width: 13px;
+  height: 13px;
+  fill: blue;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <li
-  className="sc-bwzfXH kaQsFW"
+  className="c0"
 >
   <svg
     aria-hidden="true"
-    className="sc-htpNat kcPZvN sc-bZQynM jbcHwk"
+    className="c1 c2"
     focusable="false"
     role="img"
   />
   <p
-    className="sc-bxivhb eBerdq"
+    className="c3"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing <b>great!</b>",
@@ -116,7 +355,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa jgsRfK"
+    className="c4"
     disabled={false}
     id="Result button"
     onClick={[Function]}
@@ -124,7 +363,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   >
     <svg
       aria-hidden="true"
-      className="sc-gzVnrw dJVhwI"
+      className="c5"
       focusable="false"
       role="img"
     />
