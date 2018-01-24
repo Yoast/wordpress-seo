@@ -20,6 +20,7 @@
     "build": "webpack --config ./webpack/webpack.config.prod.js"
   },
   "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
     "transformIgnorePatterns": [
       "/node_modules/(?!yoast-components).+\\.js$"
     ],
@@ -71,8 +72,9 @@
     "i18n-calypso": "^1.6.3",
     "jest": "^18.0.0",
     "load-grunt-config": "^0.19.2",
-    "react": "^15.3.1",
-    "react-dom": "^15.4.0",
+    "raf": "^3.4.0",
+    "react": "^16.2.0",
+    "react-dom": "16.2.0",
     "redux-logger": "^3.0.6",
     "sassdash": "^0.8.1",
     "svg-react-loader": "^0.4.5",
@@ -94,7 +96,7 @@
     "prop-types": "^15.5.10",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
-    "react-tap-event-plugin": "^2.0.0",
+    "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
