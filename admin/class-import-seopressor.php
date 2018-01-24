@@ -40,7 +40,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	/**
 	 * SEOpressor stores most of the data in one post array, this loops over it.
 	 *
-	 * @param int $post_id
+	 * @param int $post_id Post ID.
 	 */
 	private function import_seopressor_post_settings( $post_id ) {
 		$settings = get_post_meta( $post_id, '_seop_settings', true );
@@ -57,9 +57,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 				'tw_description'   => 'twitter-description',
 				'tw_title'         => 'twitter-title',
 				'tw_image'         => 'twitter-image',
-			)
-			as $seopressor_key => $yoast_key
-		) {
+			) as $seopressor_key => $yoast_key ) {
 			$this->import_meta_helper( $seopressor_key, $yoast_key, $settings, $post_id );
 		}
 
@@ -86,11 +84,11 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	 * @param integer $post_id Post ID.
 	 */
 	private function import_post_focus_keywords( $post_id ) {
-		// Import the focus keyword
+		// Import the focus keyword.
 		$focuskw = trim( get_post_meta( $post_id, '_seop_kw_1', true ) );
 		WPSEO_Meta::set_value( 'focuskw', $focuskw, $post_id );
 
-		// Import additional focus keywords for use in premium
+		// Import additional focus keywords for use in premium.
 		$focuskw2 = trim( get_post_meta( $post_id, '_seop_kw_2', true ) );
 		$focuskw3 = trim( get_post_meta( $post_id, '_seop_kw_3', true ) );
 
@@ -103,7 +101,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 		}
 
 		if ( $focus_keywords !== array() ) {
-			WPSEO_Meta::set_value( 'focuskeywords', json_encode( $focus_keywords ), $post_id );
+			WPSEO_Meta::set_value( 'focuskeywords', wp_json_encode( $focus_keywords ), $post_id );
 		}
 	}
 
@@ -138,14 +136,14 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 			'advanced' => '',
 		);
 
-		if ( in_array( 'noindex', $seopressor_robots ) ) {
+		if ( in_array( 'noindex', $seopressor_robots, true ) ) {
 			$return['index'] = 1;
 		}
-		if ( in_array( 'nofollow', $seopressor_robots ) ) {
+		if ( in_array( 'nofollow', $seopressor_robots, true ) ) {
 			$return['follow'] = 0;
 		}
 		foreach ( array( 'noarchive', 'nosnippet', 'noimageindex' ) as $needle ) {
-			if ( in_array( $needle, $seopressor_robots ) ) {
+			if ( in_array( $needle, $seopressor_robots, true ) ) {
 				$return['advanced'] .= $needle . ',';
 			}
 		}
@@ -157,14 +155,14 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	/**
 	 * Removes all the post meta fields SEOpressor creates.
 	 *
-	 * @param integer $post_id Post ID
+	 * @param integer $post_id Post ID.
 	 */
 	private function seopressor_post_cleanup( $post_id ) {
 		if ( ! $this->replace ) {
 			return;
 		}
 
-		// If we get to replace the data, let's do some proper cleanup
+		// If we get to replace the data, let's do some proper cleanup.
 		foreach (
 			array(
 				'_seop_settings',
@@ -177,8 +175,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 				'_seop_kw_1',
 				'_seop_kw_2',
 				'_seop_kw_3',
-			) as $key
-		) {
+			) as $key ) {
 			echo $key;
 			delete_post_meta( $post_id, $key );
 		}
