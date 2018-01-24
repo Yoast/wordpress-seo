@@ -109,7 +109,7 @@ class KeywordSuggestions {
 		let title = translate( "Insights" );
 
 		ReactDOM.render(
-			<StyledSection title={title} icon="file-text-o" sectionContent={keywordSuggestions} />,
+			<StyledSection headingText={ title } headingLevel={ 3 } headingIcon="fileText" sectionContent={ keywordSuggestions } />,
 			this.suggestionsDiv
 		);
 	}
