@@ -111,6 +111,7 @@ class ZebrafiedListTable extends ListTable {
 		this.zebraProps.children = children.map( ( child, index ) => {
 			return React.cloneElement( child, {
 				background: ( index % 2 === 1 ) ? colors.$color_white : colors.$color_background_light,
+				key: index,
 			} );
 		} );
 	}
