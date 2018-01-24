@@ -94,6 +94,8 @@ class Plugin implements Integration {
 	}
 
 	/**
+	 * Wraps the WordPress is_admin function.
+	 *
 	 * @return bool
 	 */
 	protected function is_admin() {
@@ -101,6 +103,8 @@ class Plugin implements Integration {
 	}
 
 	/**
+	 * Wraps the WordPress is_admin function.
+	 *
 	 * @return bool
 	 */
 	protected function is_frontend() {
@@ -108,6 +112,8 @@ class Plugin implements Integration {
 	}
 
 	/**
+	 * Adds the required frontend integrations.
+	 *
 	 * @return void
 	 */
 	protected function add_frontend_integrations() {
@@ -115,6 +121,8 @@ class Plugin implements Integration {
 	}
 
 	/**
+	 * Adds the required frontend integrations.
+	 *
 	 * @return void
 	 */
 	protected function add_admin_integrations() {
@@ -122,6 +130,8 @@ class Plugin implements Integration {
 	}
 
 	/**
+	 * Configures the ORM.
+	 *
 	 * @return void
 	 */
 	protected function configure_orm() {

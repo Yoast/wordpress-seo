@@ -109,10 +109,12 @@ class Indexable_Author implements Integration {
 	}
 
 	/**
-	 * @param $user_id
-	 * @param $key
+	 * Retrieves the author meta.
 	 *
-	 * @return string
+	 * @param int    $user_id Author to fetch the data of.
+	 * @param string $key     The meta entry to retrieve.
+	 *
+	 * @return string The value of the meta field.
 	 */
 	protected function get_author_meta( $user_id, $key ) {
 		return \get_the_author_meta( $key, $user_id );

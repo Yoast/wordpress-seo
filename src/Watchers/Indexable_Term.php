@@ -46,7 +46,7 @@ class Indexable_Term implements Integration {
 	 */
 	public function save_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
 		/** @var Indexable $indexable */
-		$indexable = $this->get_indexable( $term_id, $taxonomy );
+		$indexable            = $this->get_indexable( $term_id, $taxonomy );
 		$indexable->permalink = $this->get_permalink( $term_id, $taxonomy );
 
 		$term_meta = $this->get_meta_data( $term_id, $taxonomy );
@@ -94,7 +94,9 @@ class Indexable_Term implements Integration {
 	}
 
 	/**
-	 * @return array
+	 * Retrieves the meta lookup table.
+	 *
+	 * @return array The lookup table.
 	 */
 	protected function get_meta_lookup() {
 		$meta_to_indexable = array(
@@ -139,20 +141,24 @@ class Indexable_Term implements Integration {
 	}
 
 	/**
-	 * @param $term_id
-	 * @param $taxonomy
+	 * Retrieves the meta data for a term.
 	 *
-	 * @return bool|mixed
+	 * @param int    $term_id  Term to use.
+	 * @param string $taxonomy Taxonomy to use.
+	 *
+	 * @return bool|array The meta data for the term.
 	 */
 	protected function get_meta_data( $term_id, $taxonomy ) {
 		return \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
 	}
 
 	/**
-	 * @param $term_id
-	 * @param $taxonomy
+	 * Retrieves the permalink for a term.
 	 *
-	 * @return string|\WP_Error
+	 * @param int    $term_id  The term to use.
+	 * @param string $taxonomy Taxonomy to use.
+	 *
+	 * @return string|\WP_Error The permalink for the term.
 	 */
 	protected function get_permalink( $term_id, $taxonomy ) {
 		return \get_term_link( $term_id, $taxonomy );

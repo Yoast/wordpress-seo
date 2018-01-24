@@ -119,7 +119,7 @@ class Database_Migration {
 	/**
 	 * Retrieves the Ruckusing instance to run migrations with.
 	 *
-	 * @return Ruckusing_FrameworkRunner
+	 * @return Ruckusing_FrameworkRunner Framework runner to use.
 	 */
 	protected function get_framework_runner() {
 		$main = new Ruckusing_FrameworkRunner(

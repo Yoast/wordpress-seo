@@ -81,7 +81,7 @@ class Primary_Term implements Integration {
 	 *
 	 * @param int $post_id Default current post ID.
 	 *
-	 * @return array
+	 * @return array The taxonomies.
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
 		if ( null === $post_id ) {
@@ -105,7 +105,7 @@ class Primary_Term implements Integration {
 	 *
 	 * @param int $post_id ID of the post.
 	 *
-	 * @return array
+	 * @return array The taxonomies.
 	 */
 	protected function generate_primary_term_taxonomies( $post_id ) {
 		$post_type      = get_post_type( $post_id );
@@ -131,7 +131,7 @@ class Primary_Term implements Integration {
 	 *
 	 * @param \stdClass $taxonomy Taxonomy object.
 	 *
-	 * @return bool
+	 * @return bool True for hierarchical taxonomy.
 	 */
 	protected function filter_hierarchical_taxonomies( $taxonomy ) {
 		return (bool) $taxonomy->hierarchical;

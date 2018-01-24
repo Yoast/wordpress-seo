@@ -40,7 +40,7 @@ class Dependency_Management {
 	/**
 	 * Checks if the prefixes are available.
 	 *
-	 * @return bool
+	 * @return bool True if prefixes are available.
 	 */
 	public function prefixed_available() {
 		static $available = null;
