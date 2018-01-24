@@ -27,7 +27,7 @@ class Indexable_Author implements Integration {
 	 */
 	public function delete_meta( $user_id ) {
 		$indexable = $this->get_indexable( $user_id, false );
-		if ( $indexable ) {
+		if ( $indexable instanceof Yoast_Model ) {
 			$indexable->delete();
 		}
 	}

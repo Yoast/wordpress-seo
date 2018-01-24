@@ -30,7 +30,7 @@ class Indexable_Term implements Integration {
 	 */
 	public function delete_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
 		$indexable = $this->get_indexable( $term_id, $taxonomy, false );
-		if ( $indexable ) {
+		if ( $indexable instanceof Yoast_Model ) {
 			$indexable->delete();
 		}
 	}
@@ -51,27 +51,7 @@ class Indexable_Term implements Integration {
 
 		$term_meta = $this->get_meta_data( $term_id, $taxonomy );
 
-		$meta_to_indexable = array(
-			'wpseo_canonical' => 'canonical',
-
-			'wpseo_title'         => 'title',
-			'wpseo_desc'          => 'description',
-			'wpseo_content_score' => 'content_score',
-
-			'wpseo_bctitle' => 'breadcrumb_title',
-
-			'wpseo_opengraph-title'       => 'og_title',
-			'wpseo_opengraph-description' => 'og_description',
-			'wpseo_opengraph-image'       => 'og_image',
-
-			'wpseo_twitter-title'       => 'twitter_title',
-			'wpseo_twitter-description' => 'twitter_description',
-			'wpseo_twitter-image'       => 'twitter_image',
-
-			'wpseo_noindex' => 'robots_noindex',
-		);
-
-		foreach ( $meta_to_indexable as $meta_key => $indexable_key ) {
+		foreach ( $this->get_meta_lookup() as $meta_key => $indexable_key ) {
 			$indexable->{$indexable_key} = $term_meta[ $meta_key ];
 		}
 
@@ -111,6 +91,33 @@ class Indexable_Term implements Integration {
 		}
 
 		return $indexable;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function get_meta_lookup() {
+		$meta_to_indexable = array(
+			'wpseo_canonical' => 'canonical',
+
+			'wpseo_title'         => 'title',
+			'wpseo_desc'          => 'description',
+			'wpseo_content_score' => 'content_score',
+
+			'wpseo_bctitle' => 'breadcrumb_title',
+
+			'wpseo_opengraph-title'       => 'og_title',
+			'wpseo_opengraph-description' => 'og_description',
+			'wpseo_opengraph-image'       => 'og_image',
+
+			'wpseo_twitter-title'       => 'twitter_title',
+			'wpseo_twitter-description' => 'twitter_description',
+			'wpseo_twitter-image'       => 'twitter_image',
+
+			'wpseo_noindex' => 'robots_noindex',
+		);
+
+		return $meta_to_indexable;
 	}
 
 	/**
