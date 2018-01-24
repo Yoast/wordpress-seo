@@ -47,6 +47,10 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 	if ( ! empty( $post_wpseo['importwpseo'] ) || filter_input( INPUT_GET, 'importwpseo' ) ) {
 		$import = new WPSEO_Import_WPSEO( $replace );
 	}
+
+	if ( ! empty( $post_wpseo['importseopressor'] ) || filter_input( INPUT_GET, 'importseopressor' ) ) {
+		$import = new WPSEO_Import_SEOPressor( $replace );
+	}
 }
 
 if ( isset( $_FILES['settings_import_file'] ) ) {
