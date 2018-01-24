@@ -46,11 +46,11 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 	 * Importing the robot values from WPSEO plugin. These have to be converted to the Yoast format.
 	 */
 	private function import_post_robots() {
-		$query_posts = new WP_Query( 'post_type=any&meta_key=_wpseo_edit_robots&order=ASC' );
+		$query_posts = new WP_Query( 'post_type=any&meta_key=_wpseo_edit_robots&order=ASC&fields=ids&nopaging=true' );
 
 		if ( ! empty( $query_posts->posts ) ) {
-			foreach ( $query_posts->posts as $post ) {
-				$this->import_post_robot( $post->ID );
+			foreach ( array_values( $query_posts->posts ) as $post_id ) {
+				$this->import_post_robot( $post_id );
 			}
 		}
 	}
