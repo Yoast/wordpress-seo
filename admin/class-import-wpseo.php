@@ -12,9 +12,11 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 
 	/**
 	 * Import wpSEO settings
+	 *
+	 * @param boolean $replace Boolean replace switch.
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function __construct( $replace = false ) {
+		parent::__construct( $replace );
 
 		$this->import_post_metas();
 		$this->import_taxonomy_metas();
