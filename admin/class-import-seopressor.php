@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Import_SEOPressor
  *
- * Class with functionality to import Yoast SEO settings from SEOpressor
+ * Class with functionality to import Yoast SEO settings from SEOpressor.
  */
 class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	/**
@@ -106,7 +106,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Getting the wpSEO robot value and map this to Yoast SEO values.
+	 * Getting the SEOpressor robot value and map this to Yoast SEO values.
 	 *
 	 * @param string  $meta_rules The meta rules taken from the SEOpressor settings array.
 	 * @param integer $post_id    The post id of the current post.
@@ -123,7 +123,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Getting the robot config by given wpSEO robots value.
+	 * Getting the robot config by given SEOpressor robots value.
 	 *
 	 * @param array $seopressor_robots The value in SEOpressor that needs to be converted to the Yoast format.
 	 *
