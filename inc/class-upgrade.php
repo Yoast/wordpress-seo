@@ -326,9 +326,12 @@ class WPSEO_Upgrade {
 			$wpdb->prepare('
 				SELECT user_id, meta_value
 				FROM ' . $wpdb->usermeta . '
-				WHERE meta_key = %s AND meta_value LIKE "%%wpseo-dismiss-about%%"
-				', $meta_key ),
-				ARRAY_A
+				WHERE meta_key = %s AND meta_value LIKE %s
+				',
+				$meta_key,
+				'%wpseo-dismiss-about%'
+			),
+			ARRAY_A
 		);
 
 		if ( empty( $usermetas ) ) {

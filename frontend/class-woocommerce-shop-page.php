@@ -18,7 +18,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the  ID of the WooCommerce shop page when the currently opened page is the shop page.
+	 * Returns the ID of the WooCommerce shop page when the currently opened page is the shop page.
 	 *
 	 * @param int $page_id The page id.
 	 *
@@ -37,7 +37,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 *
 	 * @return bool Whether the current page is the WooCommerce shop page.
 	 */
-	protected function is_shop_page() {
+	public function is_shop_page() {
 		if ( function_exists( 'is_shop' ) && function_exists( 'wc_get_page_id' ) ) {
 			return is_shop() && ! is_search();
 		}
@@ -50,7 +50,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 *
 	 * @return int The ID of the set page.
 	 */
-	protected function get_shop_page_id() {
+	public function get_shop_page_id() {
 		static $shop_page_id;
 
 		if ( ! $shop_page_id ) {
