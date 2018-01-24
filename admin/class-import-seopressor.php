@@ -32,10 +32,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 			foreach ( array_values( $query_posts->posts ) as $post_id ) {
 				$this->import_post_focus_keywords( $post_id );
 				$this->import_seopressor_post_settings( $post_id );
-
-				if ( $this->replace ) {
-					$this->seopressor_post_cleanup( $post_id );
-				}
+				$this->seopressor_post_cleanup( $post_id );
 			}
 		}
 	}
@@ -163,6 +160,10 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	 * @param integer $post_id Post ID
 	 */
 	private function seopressor_post_cleanup( $post_id ) {
+		if ( ! $this->replace ) {
+			return;
+		}
+
 		// If we get to replace the data, let's do some proper cleanup
 		foreach (
 			array(
