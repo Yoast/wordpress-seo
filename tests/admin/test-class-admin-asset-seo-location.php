@@ -7,6 +7,8 @@ final class Test_WPSEO_Admin_Asset_SEO_Location extends PHPUnit_Framework_TestCa
 
 	/**
 	 * Tests the get_url function.
+	 *
+	 * @covers WPSEO_Admin_Asset_SEO_Location::get_url()
 	 */
 	public function test_get_url() {
 		$asset = new WPSEO_Admin_Asset( array(
@@ -19,13 +21,15 @@ final class Test_WPSEO_Admin_Asset_SEO_Location extends PHPUnit_Framework_TestCa
 			'suffix'    => '.suffix',
 			'rtl'       => false,
 		) );
-		$expected_js = home_url() . '/wp-content/plugins/wordpress-seo/js/dist/src.suffix.js';
-		$expected_css = home_url() . '/wp-content/plugins/wordpress-seo/css/dist/src.suffix.css';
+
+		$expected_js    = home_url() . '/wp-content/plugins/wordpress-seo/js/dist/src.suffix.js';
+		$expected_css   = home_url() . '/wp-content/plugins/wordpress-seo/css/dist/src.suffix.css';
 		$expected_empty = '';
+
 		$location = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
 
-		$actual_js = $location->get_url( $asset, WPSEO_Admin_Asset::TYPE_JS );
-		$actual_css = $location->get_url( $asset, WPSEO_Admin_Asset::TYPE_CSS );
+		$actual_js    = $location->get_url( $asset, WPSEO_Admin_Asset::TYPE_JS );
+		$actual_css   = $location->get_url( $asset, WPSEO_Admin_Asset::TYPE_CSS );
 		$actual_empty = $location->get_url( $asset, '' );
 
 		$this->assertEquals( $expected_js, $actual_js );
