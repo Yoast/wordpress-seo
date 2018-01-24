@@ -4,14 +4,12 @@ import PropTypes from "prop-types";
 /**
  * Creates a Heading component.
  *
- * @param {Object} props The props to use with the component.
- *
- * @returns {ReactElement} The rendered Heading component.
- *
- * @constructor
+ * @param {Object} props The props to use.
+ * @returns {ReactElement} The rendered component.
  */
 const Heading = ( props ) => {
 	const HeadingLevel = `h${ props.level }`;
+
 	return (
 		<HeadingLevel className={ props.className }>
 			{ props.children }
@@ -20,7 +18,7 @@ const Heading = ( props ) => {
 };
 
 Heading.propTypes = {
-	level: PropTypes.number.isRequired,
+	level: PropTypes.number,
 	className: PropTypes.string,
 	children: PropTypes.any,
 };

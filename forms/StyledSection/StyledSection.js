@@ -9,12 +9,14 @@ import { rgba } from "../../style-guide/helpers";
 import { Icon } from "../../composites/Plugin/Shared/components/Icon";
 import * as icons from "../../style-guide/svg";
 
+const StyledHeading = styled( Heading )``;
+
+const StyledIcon = styled( Icon )``;
+
 const StyledSectionBase = styled( Section )`
 	box-shadow: 0 1px 2px ${ rgba( colors.$color_black, 0.2 ) };
-	position: relative;
 	background-color: ${ colors.$color_white };
-	background-image: url( svg-icon-file-text-o( ${ colors.$color_black } ) );
-	padding: 0 20px 15px;
+	padding: 0 20px 16px;
 
 	*, & {
 		box-sizing: border-box;
@@ -23,41 +25,38 @@ const StyledSectionBase = styled( Section )`
 			box-sizing: border-box;
 		}
 	}
-`;
 
-const StyledHeading = styled( Heading )`
-	padding: 8px 20px;
-	font-size: 0.9rem;
-	margin: 0 -20px 15px;
-	font-family: "Open Sans", sans-serif;
-	font-weight: 300;
-	color: ${ colors.$color_grey_dark };
-`;
+	& ${ StyledHeading } {
+		display: flex;
+		align-items: center;
+		padding: 8px 0 0;
+		font-size: 1rem;
+		line-height: 1.5;
+		margin: 0 0 16px;
+		font-family: "Open Sans", sans-serif;
+		font-weight: 300;
+		color: ${ colors.$color_grey_dark };
+	}
 
-const StyledIcon = styled( Icon )`
-	vertical-align: middle;
-	margin-right: 8px;
+	& ${ StyledIcon } {
+		margin-right: 8px;
+	}
 `;
 
 /**
- * Represents a visual section within the page.
+ * Creates a styled section within the page.
  *
- * @param {Object} props The props for this component.
+ * @param {Object} props The props to use.
  * @returns {ReactElement} The rendered component.
  */
 const StyledSection = ( props ) => {
 	return (
 		<StyledSectionBase
 			className={ props.className }
-			styled={ true }
 		>
 			<StyledHeading
 				level={ props.headingLevel }
-				headingText={ props.title }
-				headingIcon={ props.headingIcon }
-				headingIconColor={ props.headingIconColor }
-				headingIconSize={ props.headingIconSize }
-				headingClassName={ props.headingClassName }
+				className={ props.headingClassName }
 			>
 				{ props.headingIcon && <StyledIcon
 					icon={ icons[ `${ props.headingIcon }` ] }
@@ -65,7 +64,7 @@ const StyledSection = ( props ) => {
 					size={ props.headingIconSize }
 					/>
 				}
-				{ props.title }
+				{ props.headingText }
 			</StyledHeading>
 			{ props.sectionContent }
 			{ props.children }
@@ -74,14 +73,13 @@ const StyledSection = ( props ) => {
 };
 
 StyledSection.propTypes = {
-	styled: PropTypes.bool,
 	className: PropTypes.string,
-	title: PropTypes.string.isRequired,
+	headingLevel: PropTypes.number,
+	headingClassName: PropTypes.string,
 	headingIcon: PropTypes.string,
 	headingIconColor: PropTypes.string,
 	headingIconSize: PropTypes.string,
-	headingLevel: PropTypes.number,
-	headingClassName: PropTypes.string,
+	headingText: PropTypes.string.isRequired,
 	sectionContent: PropTypes.element.isRequired,
 	children: PropTypes.any,
 };
@@ -89,7 +87,6 @@ StyledSection.propTypes = {
 StyledSection.defaultProps = {
 	className: "yoast-section",
 	headingLevel: 2,
-	headingClassName: "yoast-section__heading yoast-section__heading-icon",
 };
 
 export default StyledSection;

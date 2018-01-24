@@ -4,15 +4,15 @@ import PropTypes from "prop-types";
 import Heading from "../composites/basic/Heading";
 
 /**
- * Represents a HTML section element.
+ * Creates a HTML section element with an optional heading.
  *
- * @param {Object} props The properties to use.
+ * @param {Object} props The props to use.
  * @returns {ReactElement} The rendered component.
  */
 const Section = ( props ) => {
 	return (
 		<section className={ props.className }>
-			{ ! props.styled &&
+			{ props.headingText &&
 				<Heading level={ props.headingLevel } className={ props.headingClassName }>
 					{ props.headingText }
 				</Heading>
@@ -22,29 +22,16 @@ const Section = ( props ) => {
 	);
 };
 
-/**
- * Adds validation for the properties.
- *
- * @type {{level: number, headingText: string, headingClassName: string}}
- */
 Section.propTypes = {
+	className: PropTypes.string,
+	headingText: PropTypes.string,
 	headingLevel: PropTypes.number,
 	headingClassName: PropTypes.string,
-	headingIcon: PropTypes.string,
-	headingText: PropTypes.string,
-	className: PropTypes.string,
 	children: PropTypes.any,
 };
 
-/**
- * Defines the default values for the properties.
- *
- * @type {{level: number, headingClassName: string}}
- */
 Section.defaultProps = {
-	level: 1,
-	headingClassName: "",
-	className: "",
+	headingLevel: 1,
 };
 
 export default Section;

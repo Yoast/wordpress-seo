@@ -158,7 +158,7 @@ class SearchResultPreview extends React.Component {
 
 		return (
 			<Section
-				level={ 3 }
+				headingLevel={ 3 }
 				headingText={ translations.previewTitle }
 				headingClassName={ this.classNames.sectionHeading }
 				className={ this.classNames.section }>
