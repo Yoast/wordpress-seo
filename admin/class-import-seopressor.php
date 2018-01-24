@@ -9,8 +9,9 @@
  * Class with functionality to import Yoast SEO settings from SEOpressor.
  */
 class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
+
 	/**
-	 * Import SEOpressor settings
+	 * Imports the SEOpressor settings.
 	 *
 	 * @param boolean $replace Boolean replace switch.
 	 */
@@ -23,7 +24,9 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Import the post meta values to Yoast SEO
+	 * Imports the post meta values to Yoast SEO.
+	 *
+	 * @return void
 	 */
 	private function import_post_metas() {
 		// Query for all the posts that have an _seop_settings meta set.
@@ -38,9 +41,11 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	}
 
 	/**
-	 * SEOpressor stores most of the data in one post array, this loops over it.
+	 * Imports the data. SEOpressor stores most of the data in one post array, this loops over it.
 	 *
 	 * @param int $post_id Post ID.
+	 *
+	 * @return void
 	 */
 	private function import_seopressor_post_settings( $post_id ) {
 		$settings = get_post_meta( $post_id, '_seop_settings', true );
@@ -65,12 +70,14 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Helper function to store the meta value should it be set in SEOPressor's settings
+	 * Represents the Helper function to store the meta value should it be set in SEOPressor's settings.
 	 *
 	 * @param string $seo_pressor_key     The key in the SEOPressor array.
 	 * @param string $yoast_key           The identifier we use in our meta settings.
 	 * @param array  $seopressor_settings The array of settings for this post in SEOpressor.
 	 * @param int    $post_id             The post ID.
+	 *
+	 * @return void
 	 */
 	private function import_meta_helper( $seo_pressor_key, $yoast_key, $seopressor_settings, $post_id ) {
 		if ( ! empty( $seopressor_settings[ $seo_pressor_key ] ) ) {
@@ -82,6 +89,8 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	 * Imports the focus keywords, and stores them for later use.
 	 *
 	 * @param integer $post_id Post ID.
+	 *
+	 * @return void
 	 */
 	private function import_post_focus_keywords( $post_id ) {
 		// Import the focus keyword.
@@ -106,10 +115,12 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Getting the SEOpressor robot value and map this to Yoast SEO values.
+	 * Retrieves the SEOpressor robot value and map this to Yoast SEO values.
 	 *
 	 * @param string  $meta_rules The meta rules taken from the SEOpressor settings array.
 	 * @param integer $post_id    The post id of the current post.
+	 *
+	 * @return void
 	 */
 	private function import_post_robots( $meta_rules, $post_id ) {
 		$seopressor_robots = explode( '#|#|#', $meta_rules );
@@ -123,11 +134,11 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Getting the robot config by given SEOpressor robots value.
+	 * Gets the robot config by given SEOpressor robots value.
 	 *
 	 * @param array $seopressor_robots The value in SEOpressor that needs to be converted to the Yoast format.
 	 *
-	 * @return array
+	 * @return array The robots values in Yoast format.
 	 */
 	private function get_robot_value( $seopressor_robots ) {
 		$return = array(
@@ -156,6 +167,8 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 	 * Removes all the post meta fields SEOpressor creates.
 	 *
 	 * @param integer $post_id Post ID.
+	 *
+	 * @return void
 	 */
 	private function seopressor_post_cleanup( $post_id ) {
 		if ( ! $this->replace ) {
