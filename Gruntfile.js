@@ -8,7 +8,7 @@ module.exports = function( grunt ) {
 	"use strict";
 
 	timeGrunt( grunt );
-  
+
 	const pkg = grunt.file.readJSON( "package.json" );
 	const pluginVersion = pkg.yoast.pluginVersion;
 
