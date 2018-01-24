@@ -43,7 +43,7 @@ class Indexable_Post implements Integration {
 			return;
 		}
 
-		$indexable = $this->get_indexable( $post_id );
+		$indexable            = $this->get_indexable( $post_id );
 		$indexable->permalink = $this->get_permalink( $post_id );
 
 		// Implement filling of meta values.
@@ -111,8 +111,10 @@ class Indexable_Post implements Integration {
 	}
 
 	/**
-	 * @param $post_id
-	 * @param $indexable
+	 * Updates the link count from existing data.
+	 *
+	 * @param int       $post_id   Post ID to use.
+	 * @param Indexable $indexable Indexable to store the values on.
 	 */
 	protected function set_link_count( $post_id, $indexable ) {
 		try {
@@ -166,34 +168,42 @@ class Indexable_Post implements Integration {
 	}
 
 	/**
-	 * @param $post_id
+	 * Helper function to fetch post meta data from WordPress.
 	 *
-	 * @return mixed
+	 * @param int $post_id Post to use.
+	 *
+	 * @return array|null Data found for the supplied post.
 	 */
 	protected function get_meta_data( $post_id ) {
 		return \get_post_meta( $post_id );
 	}
 
 	/**
-	 * @param $post_id
+	 * Retrieves the permalink for a post.
 	 *
-	 * @return false|string
+	 * @param int $post_id The post to fetch the permalink of.
+	 *
+	 * @return false|string The permalink.
 	 */
 	protected function get_permalink( $post_id ) {
 		return \get_permalink( $post_id );
 	}
 
 	/**
-	 * @param $post_id
+	 * Retrieves the post type of a post.
 	 *
-	 * @return false|string
+	 * @param int $post_id The post to retrieve the type of.
+	 *
+	 * @return false|string The post type.
 	 */
 	protected function get_post_type( $post_id ) {
 		return \get_post_type( $post_id );
 	}
 
 	/**
-	 * @return array
+	 * Retrieves the lookup table.
+	 *
+	 * @return array Lookup table for the meta fields.
 	 */
 	protected function get_meta_lookup() {
 		return array(
@@ -217,7 +227,9 @@ class Indexable_Post implements Integration {
 	}
 
 	/**
-	 * @return array
+	 * Retrieves the robot options to search for.
+	 *
+	 * @return array List of robots values.
 	 */
 	protected function get_robots_options() {
 		return array( 'noimageindex', 'noarchive', 'nosnippet' );
