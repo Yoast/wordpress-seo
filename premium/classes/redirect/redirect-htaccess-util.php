@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
@@ -33,6 +35,10 @@ class WPSEO_Redirect_Htaccess_Util {
 	 * @return string
 	 */
 	public static function get_htaccess_file_path() {
+		if ( ! function_exists( 'get_home_path' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+
 		return get_home_path() . '.htaccess';
 	}
 }
