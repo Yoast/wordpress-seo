@@ -7,8 +7,9 @@
  * Class with functionality to import Yoast SEO settings from Ultimate SEO.
  */
 class WPSEO_Import_Ultimate_SEO extends WPSEO_Import_External {
+
 	/**
-	 * Import Ultimate SEO settings
+	 * Constructs the import Ultimate SEO settings.
 	 *
 	 * @param boolean $replace Boolean replace switch.
 	 */
@@ -23,7 +24,9 @@ class WPSEO_Import_Ultimate_SEO extends WPSEO_Import_External {
 	}
 
 	/**
-	 * Import All In One SEO meta values.
+	 * Imports the Ultimate SEO  meta values.
+	 *
+	 * @returns void
 	 */
 	private function import_metas() {
 		WPSEO_Meta::replace_meta( '_su_description', WPSEO_Meta::$meta_prefix . 'metadesc', $this->replace );
@@ -37,6 +40,8 @@ class WPSEO_Import_Ultimate_SEO extends WPSEO_Import_External {
 
 	/**
 	 * Removes all leftover SEO ultimate data from the database.
+	 *
+	 * @return void
 	 */
 	private function cleanup() {
 		if ( ! $this->replace ) {
