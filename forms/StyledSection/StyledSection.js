@@ -85,7 +85,6 @@ StyledSection.propTypes = {
 };
 
 StyledSection.defaultProps = {
-	className: "yoast-section",
 	headingLevel: 2,
 };
 
