@@ -288,8 +288,7 @@ class WPSEO_Sitemaps_Renderer {
 			return $url;
 		}
 
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$path = parse_url( $url, PHP_URL_PATH );
+		$path = wp_parse_url( $url, PHP_URL_PATH );
 
 		if ( ! empty( $path ) && '/' !== $path ) {
 			$encoded_path = explode( '/', $path );
@@ -304,8 +303,7 @@ class WPSEO_Sitemaps_Renderer {
 			$url = str_replace( $path, $encoded_path, $url );
 		}
 
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$query = parse_url( $url, PHP_URL_QUERY );
+		$query = wp_parse_url( $url, PHP_URL_QUERY );
 
 		if ( ! empty( $query ) ) {
 
