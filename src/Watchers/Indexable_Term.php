@@ -130,7 +130,7 @@ class Indexable_Term implements Integration {
 	 * @return bool|null
 	 */
 	protected function get_sitemap_include_value( $meta_value ) {
-		switch ( $meta_value ) {
+		switch ( (string) $meta_value ) {
 			case 'always':
 				return false;
 			case 'never':

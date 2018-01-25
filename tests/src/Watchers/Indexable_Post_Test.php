@@ -5,7 +5,6 @@ namespace Yoast\Tests\Watchers;
 use Yoast\Tests\Doubles\Indexable_Post as Indexable_Post_Double;
 use Yoast\YoastSEO\Watchers\Indexable_Post;
 
-
 /**
  * Class Indexable_Post_Test
  *
@@ -14,6 +13,9 @@ use Yoast\YoastSEO\Watchers\Indexable_Post;
  * @package Yoast\Tests\Watchers
  */
 class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
+	/**
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::register_hooks()
+	 */
 	public function test_register_hooks() {
 		$instance = new Indexable_Post();
 		$instance->register_hooks();
@@ -22,6 +24,9 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertNotFalse( \has_action( 'delete_post', array( $instance, 'delete_meta' ) ) );
 	}
 
+	/**
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::delete_meta()
+	 */
 	public function test_delete_meta() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Post' )
@@ -48,6 +53,9 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$instance->delete_meta( $id );
 	}
 
+	/**
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::delete_meta()
+	 */
 	public function test_delete_meta_no_indexable() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Post' )
@@ -74,12 +82,18 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$instance->delete_meta( $id );
 	}
 
+	/**
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_meta_value()
+	 */
 	public function test_get_meta_value() {
 		$instance = new Indexable_Post_Double();
 
 		$this->assertEquals( 'b', $instance->get_meta_value( array( 'a' => array( 'b' ) ), 'a' ) );
 	}
 
+	/**
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_meta_value()
+	 */
 	public function test_get_meta_value_default() {
 		$instance = new Indexable_Post_Double();
 
@@ -87,7 +101,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 *
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_robots_noindex()
 	 */
 	public function test_get_robots_noindex() {
 		$instance = new Indexable_Post_Double();
@@ -104,6 +118,9 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse( $instance->get_robots_noindex( '2' ) );
 	}
 
+	/**
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::save_meta()
+	 */
 	public function test_save_meta() {
 		$indexable_mock = $this
 			->getMockBuilder( 'Yoast_Model_Mock' )
@@ -198,6 +215,9 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertAttributeEquals( null, 'robots_robots_3', $indexable_mock );
 	}
 
+	/**
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::save_meta()
+	 */
 	public function test_save_meta_is_post_not_indexable() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Post' )
@@ -216,11 +236,17 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$instance->save_meta( 1 );
 	}
 
+	/**
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_meta_lookup()
+	 */
 	public function test_get_meta_lookup() {
 		$instance = new Indexable_Post_Double();
 		$this->assertInternalType( 'array', $instance->get_meta_lookup() );
 	}
 
+	/**
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_robots_options()
+	 */
 	public function test_get_robots_options() {
 		$instance = new Indexable_Post_Double();
 		$this->assertInternalType( 'array', $instance->get_robots_options() );
