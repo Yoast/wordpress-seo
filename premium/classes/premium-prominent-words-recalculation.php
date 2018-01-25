@@ -79,16 +79,14 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 *
 	 * @param array $post_types The post types to retrieve the labels for.
 	 *
-	 * @return string A textual representation of all the supported post types.
+	 * @return array A list of post type labels for the supplied post types.
 	 */
 	protected function get_indexable_post_type_labels( $post_types ) {
 		if ( ! is_array( $post_types ) ) {
-			return '';
+			return array();
 		}
 
-		$post_type_labels = array_map( array( $this, 'retrieve_post_type_label' ), $post_types );
-
-		return implode( ', ', $post_type_labels );
+		return array_map( array( $this, 'retrieve_post_type_label' ), $post_types );
 	}
 
 	/**
@@ -152,7 +150,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					printf(
 						/* translators: 1: expands to a list of supported post type labels that are being recalculated. */
 						esc_html__( 'Generating suggestions for %1$s...', 'wordpress-seo-premium' ),
-						$supported_post_type_labels
+						implode( ', ', $supported_post_type_labels )
 					);
 
 					?>

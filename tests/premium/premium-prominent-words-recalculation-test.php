@@ -23,20 +23,21 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Test extends WPSEO_UnitTestCas
 	 * Tests the formatting of the post type labels.
 	 *
 	 *
-	 * @param string $expected   The expected value.
-	 * @param mixed  $post_types The post types to format.
+	 * @param string $expected    The expected value.
+	 * @param mixed  $post_types  The post types to format.
+	 * @param string $description Description of the assertion.
 	 *
 	 * @dataProvider post_type_labels_provider
 	 *
-	 * @covers WPSEO_Premium_Prominent_Words_Recalculation::get_indexable_post_type_labels()
+	 * @covers       WPSEO_Premium_Prominent_Words_Recalculation::get_indexable_post_type_labels()
 	 */
-	public function test_get_indexable_post_type_labels( $expected, $post_types ) {
+	public function test_get_indexable_post_type_labels( $expected, $post_types, $description = '' ) {
 		$class_instance = new WPSEO_Premium_Prominent_Words_Recalculation_Double(
 			new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query(),
 			new WPSEO_Premium_Prominent_Words_Support()
 		);
 
-		$this->assertEquals( $expected, $class_instance->get_indexable_post_type_labels( $post_types ) );
+		$this->assertEquals( $expected, $class_instance->get_indexable_post_type_labels( $post_types ), $description );
 	}
 
 	/**
@@ -60,15 +61,27 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Test extends WPSEO_UnitTestCas
 	 * Format:
 	 * [0] Expected value.
 	 * [1] Post types to get the labels for.
+	 * [2] Description of the tested value.
 	 *
 	 * @return array
 	 */
-	public function post_type_labels_provider(  ) {
+	public function post_type_labels_provider() {
 		return array(
-			array( '', false ),
-			array( 'Posts', array( 'post' ) ),
-			array( 'Posts, test', array( 'post', 'test' ) ),
+			array(
+				array(),
+				false,
+				'Always return an array.'
+			),
+			array(
+				array( 'Posts' ),
+				array( 'post' ),
+				'Use post label.'
+			),
+			array(
+				array( 'Posts', 'test' ),
+				array( 'post', 'test' ),
+				'Use post type as fallback for non-existing post type.'
+			),
 		);
 	}
-
 }
