@@ -143,6 +143,8 @@ class Indexable_Term implements Integration {
 	/**
 	 * Retrieves the meta data for a term.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int    $term_id  Term to use.
 	 * @param string $taxonomy Taxonomy to use.
 	 *
@@ -154,6 +156,8 @@ class Indexable_Term implements Integration {
 
 	/**
 	 * Retrieves the permalink for a term.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param int    $term_id  The term to use.
 	 * @param string $taxonomy Taxonomy to use.

@@ -67,9 +67,13 @@ class Indexable_Post implements Integration {
 	}
 
 	/**
-	 * @param $post_id
+	 * Determines if the post can be indexed
 	 *
-	 * @return bool
+	 * @codeCoverageIgnore
+	 *
+	 * @param int $post_id Post ID to check
+	 *
+	 * @return bool True if the post can be indexed.
 	 */
 	protected function is_post_indexable( $post_id ) {
 		if ( \wp_is_post_revision( $post_id ) ) {
@@ -170,6 +174,8 @@ class Indexable_Post implements Integration {
 	/**
 	 * Helper function to fetch post meta data from WordPress.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $post_id Post to use.
 	 *
 	 * @return array|null Data found for the supplied post.
@@ -181,6 +187,8 @@ class Indexable_Post implements Integration {
 	/**
 	 * Retrieves the permalink for a post.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $post_id The post to fetch the permalink of.
 	 *
 	 * @return false|string The permalink.
@@ -191,6 +199,8 @@ class Indexable_Post implements Integration {
 
 	/**
 	 * Retrieves the post type of a post.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $post_id The post to retrieve the type of.
 	 *
