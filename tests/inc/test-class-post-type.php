@@ -25,14 +25,10 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type::get_accessible_post_types()
 	 */
 	public function test_get_accessible_post_types() {
-		$this->assertEquals(
-			array(
-				'post'       => 'post',
-				'page'       => 'page',
-				'attachment' => 'attachment',
-			),
-			WPSEO_Post_Type::get_accessible_post_types()
-		);
+		$post_types = WPSEO_Post_Type::get_accessible_post_types();
+		$this->assertContains( 'post', $post_types );
+		$this->assertContains( 'page', $post_types );
+		$this->assertContains( 'attachment', $post_types );
 	}
 
 	/**
@@ -193,12 +189,13 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type::is_rest_enabled()
 	 */
 	public function test_rest_enabled_post_types() {
-		register_post_type( 'custom-post-type', array( 'public' => true ) );
 		$this->assertTrue( WPSEO_Post_Type::is_rest_enabled( 'post' ) );
 		$this->assertFalse( WPSEO_Post_Type::is_rest_enabled( 'invalid_post_type' ) );
 
 		register_post_type( 'custom-post-type-api', array( 'public' => true, 'show_in_rest' => true ) );
 		$this->assertTrue( WPSEO_Post_Type::is_rest_enabled( 'custom-post-type-api' ) );
+
+		register_post_type( 'custom-post-type', array( 'public' => true ) );
 		$this->assertFalse( WPSEO_Post_Type::is_rest_enabled( 'custom-post-type' ) );
 	}
 }

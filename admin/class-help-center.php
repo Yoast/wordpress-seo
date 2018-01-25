@@ -101,6 +101,26 @@ class WPSEO_Help_Center {
 			),
 		);
 
+		$formatted_data['contactSupportParagraphs'] = array(
+			array(
+				'image' => array(
+					'src'    => esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/support-team.svg' ),
+					'width'  => 100,
+					'height' => 100,
+					'alt'    => '',
+				),
+				'content'  => null,
+			),
+			array(
+				'image' => null,
+				'content'  => __( 'If you have a problem that you can\'t solve with our video tutorials or knowledge base, you can send a message to our support team. They can be reached 24/7.', 'wordpress-seo' ),
+			),
+			array(
+				'image' => null,
+				'content' => __( 'Support requests you create here are sent directly into our support system, which is secured with 256 bit SSL, so communication is 100% secure.', 'wordpress-seo' ),
+			),
+		);
+
 		$formatted_data['extraTabs'] = $this->get_extra_tabs();
 
 		return $formatted_data;
@@ -216,7 +236,7 @@ class WPSEO_Help_Center {
 													),
 			'searchResult.searchResultsHeading'  => __( 'Search results', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab'           => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-			'contactSupport.button'              => __( 'Open support form', 'wordpress-seo' ),
+			'contactSupport.button'              => __( 'New support request', 'wordpress-seo' ),
 			'helpCenter.buttonText'              => __( 'Need help?', 'wordpress-seo' ),
 		);
 	}

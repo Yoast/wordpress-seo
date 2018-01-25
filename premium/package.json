@@ -60,8 +60,8 @@
     "react-dom": "^15.3.1",
     "sassdash": "^0.8.2",
     "yoast-components": "2.11.9",
-    "yoast-premium-components": "git+ssh://git@github.com/yoast/yoast-premium-components.git#1.5.0",
+    "yoast-premium-components": "git+ssh://git@github.com/yoast/yoast-premium-components.git#1.6.0",
     "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews#1.4.2",
-    "yoastseo": "^1.28"
+    "yoastseo": "^1.29"
   }
 }
