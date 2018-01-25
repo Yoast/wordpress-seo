@@ -16,7 +16,7 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return void;
 	 */
-	public function setUp(  ) {
+	public function setUp() {
 		parent::setUp();
 
 		$this->frontend_page_type = new WPSEO_Frontend_Page_Type();
@@ -44,7 +44,7 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 
 		$this->go_to( get_permalink( $post ) );
 		$this->assertTrue( $this->frontend_page_type->is_simple_page() );
-		$this->assertEquals(  $post->ID, $this->frontend_page_type->get_simple_page_id() );
+		$this->assertEquals( $post->ID, $this->frontend_page_type->get_simple_page_id() );
 	}
 
 	/**
@@ -64,7 +64,7 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 
 		$this->go_to( get_permalink( $home_page ) );
 		$this->assertTrue( $this->frontend_page_type->is_simple_page() );
-		$this->assertEquals(  $home_page->ID, $this->frontend_page_type->get_simple_page_id() );
+		$this->assertEquals( $home_page->ID, $this->frontend_page_type->get_simple_page_id() );
 
 		update_option( 'show_on_front', $current_show_on_front );
 		update_option( 'page_for_posts', $current_page_for_posts );
@@ -78,7 +78,7 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_simple_page_without_a_set_filter_for_the_id() {
 		$this->assertFalse( $this->frontend_page_type->is_simple_page() );
-		$this->assertEquals(  0,  $this->frontend_page_type->get_simple_page_id() );
+		$this->assertEquals( 0, $this->frontend_page_type->get_simple_page_id() );
 	}
 
 	/**
@@ -91,7 +91,7 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 		add_filter( 'wpseo_frontend_page_type_simple_page_id', array( $this, 'simple_page_hook' ) );
 
 		$this->assertTrue( $this->frontend_page_type->is_simple_page() );
-		$this->assertEquals(  100,  $this->frontend_page_type->get_simple_page_id() );
+		$this->assertEquals( 100, $this->frontend_page_type->get_simple_page_id() );
 
 		remove_filter( 'wpseo_frontend_page_type_simple_page_id', array( $this, 'simple_page_hook' ) );
 	}
@@ -106,6 +106,5 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	public function simple_page_hook( $page_id ) {
 		return 100;
 	}
-
 
 }
