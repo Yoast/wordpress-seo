@@ -14,6 +14,8 @@ use Yoast\Tests\Doubles\Indexable_Term as Indexable_Term_Double;
  */
 class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	/**
+	 * Tests if the expected hooks are registered
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::register_hooks()
 	 */
 	public function test_register_hooks() {
@@ -26,6 +28,8 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if the indexable is being deleted
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::delete_meta()
 	 */
 	public function test_delete_meta() {
@@ -55,6 +59,8 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if a non-indexable is not being deleted
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::delete_meta()
 	 */
 	public function test_delete_meta_no_indexable() {
@@ -84,6 +90,8 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if the meta lookup is returning the expected data type
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::get_meta_lookup()
 	 */
 	public function test_get_meta_lookup() {
@@ -92,6 +100,8 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if the sitemap lookup method is returning the expected data
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::get_sitemap_include_value()
 	 */
 	public function test_get_sitemap_include_value() {
@@ -107,6 +117,8 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the save meta
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::save_meta()
 	 */
 	public function test_save_meta() {

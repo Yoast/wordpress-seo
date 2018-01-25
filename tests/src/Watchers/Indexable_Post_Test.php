@@ -14,6 +14,8 @@ use Yoast\YoastSEO\Watchers\Indexable_Post;
  */
 class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	/**
+	 * Tests if the expected hooks are registered
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::register_hooks()
 	 */
 	public function test_register_hooks() {
@@ -25,6 +27,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if the indexable is being deleted
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::delete_meta()
 	 */
 	public function test_delete_meta() {
@@ -54,6 +58,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if delete is not called on a non-indexable object
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::delete_meta()
 	 */
 	public function test_delete_meta_no_indexable() {
@@ -83,6 +89,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests retreiving a meta value
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_meta_value()
 	 */
 	public function test_get_meta_value() {
@@ -92,6 +100,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests retreiving a meta value falling back on the default
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_meta_value()
 	 */
 	public function test_get_meta_value_default() {
@@ -101,6 +111,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the robots noindex lookup method
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_robots_noindex()
 	 */
 	public function test_get_robots_noindex() {
@@ -119,6 +131,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the save meta functionality
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::save_meta()
 	 */
 	public function test_save_meta() {
@@ -216,6 +230,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the early return for non-indexable post
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::save_meta()
 	 */
 	public function test_save_meta_is_post_not_indexable() {
@@ -237,6 +253,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if the meta lookup returns the expected type of data
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_meta_lookup()
 	 */
 	public function test_get_meta_lookup() {
@@ -245,6 +263,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if robot options returns the expected type of data
+	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_robots_options()
 	 */
 	public function test_get_robots_options() {
