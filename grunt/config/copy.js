@@ -39,7 +39,6 @@ module.exports = {
 					"wp-seo.php",
 					"wp-seo-main.php",
 					"wpml-config.xml",
-
 					"!languages/wordpress-seo.pot",
 					"!vendor/bin",
 					"!vendor/composer/installed.json",

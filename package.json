@@ -32,9 +32,13 @@
   "devDependencies": {
     "algoliasearch": "^3.16.0",
     "autoprefixer": "^6.3.1",
+    "babel-eslint": "^8.2.1",
     "babel-jest": "^18.0.0",
     "babel-loader": "^7.1.1",
+    "babel-plugin-dynamic-import-webpack": "^1.0.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
@@ -74,9 +78,9 @@
     "sassdash": "^0.8.1",
     "svg-react-loader": "^0.4.5",
     "time-grunt": "^1.0.0",
-    "unminified-webpack-plugin": "^1.2.0",
-    "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.11.0"
+    "webpack-dev-server": "^2.11.0",
+    "unminified-webpack-plugin": "^1.4.2",
+    "webpack": "^3.4.1"
   },
   "optionalDependencies": {
     "grunt-contrib-imagemin": "^2.0.1"

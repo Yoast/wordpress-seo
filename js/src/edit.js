@@ -6,9 +6,9 @@ import logger from "redux-logger";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { IntlProvider, addLocaleData } from "react-intl";
 import flowRight from "lodash/flowRight";
 
+import getIntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
@@ -16,12 +16,16 @@ import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
-let localizedData = {};
+let localizedData = { intl: {} };
 if( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoPostScraperL10n;
 } else if ( window.wpseoTermScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
+
+const locale = localizedData.intl.locale ? localizedData.intl.locale : "en";
+
+const IntlProvider = getIntlProvider( locale );
 
 /**
  * Creates a redux store.
@@ -30,7 +34,7 @@ if( window.wpseoPostScraperL10n ) {
  */
 function configureStore() {
 	const middleware = [
-		thunk
+		thunk,
 	];
 
 	if ( process.env.NODE_ENV !== "production" ) {
@@ -38,7 +42,7 @@ function configureStore() {
 	}
 
 	const enhancers = [
-		applyMiddleware( ...middleware )
+		applyMiddleware( ...middleware ),
 	];
 
 	if ( window.__REDUX_DEVTOOLS_EXTENSION__ ) {
@@ -65,7 +69,6 @@ function configureStore() {
 function wrapInTopLevelComponents( Component, store ) {
 	return (
 		<IntlProvider
-			locale={ localizedData.intl.locale }
 			messages={ localizedData.intl } >
 			<Provider store={ store } >
 				<Component hideMarksButtons={ localizedData.show_markers !== "1" } />
@@ -102,11 +105,6 @@ function renderReactApp( target, component, store ) {
  * @returns {void}
  */
 function renderReactApps( store, args ) {
-	if ( localizedData.intl ) {
-		// Add react-intl translations
-		addLocaleData( localizedData.intl );
-	}
-
 	renderReactApp( args.readabilityTarget, ContentAnalysis, store );
 	renderReactApp( args.seoTarget, SeoAnalysis, store );
 }
