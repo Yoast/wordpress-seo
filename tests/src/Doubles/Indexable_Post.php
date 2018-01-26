@@ -30,4 +30,11 @@ class Indexable_Post extends \Yoast\YoastSEO\Watchers\Indexable_Post {
 	public function get_robots_options() {
 		return parent::get_robots_options();
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function get_indexable( $post_id, $auto_create = true ) {
+		return parent::get_indexable( $post_id, $auto_create );
+	}
 }

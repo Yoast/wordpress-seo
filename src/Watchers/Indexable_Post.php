@@ -2,6 +2,7 @@
 
 namespace Yoast\YoastSEO\Watchers;
 
+use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
@@ -25,9 +26,10 @@ class Indexable_Post implements Integration {
 	 * @return void
 	 */
 	public function delete_meta( $post_id ) {
-		$indexable = $this->get_indexable( $post_id, false );
-		if ( $indexable instanceof Yoast_Model ) {
+		try {
+			$indexable = $this->get_indexable( $post_id, false );
 			$indexable->delete();
+		} catch ( No_Indexable_Found $exception ) {
 		}
 	}
 
@@ -94,6 +96,8 @@ class Indexable_Post implements Integration {
 	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
 	 *
 	 * @return bool|Indexable
+	 *
+	 * @throws \Yoast\YoastSEO\Exceptions\No_Indexable_Found
 	 */
 	protected function get_indexable( $post_id, $auto_create = true ) {
 		$post_type = $this->get_post_type( $post_id );
@@ -109,6 +113,10 @@ class Indexable_Post implements Integration {
 			$indexable->object_id       = $post_id;
 			$indexable->object_type     = 'post';
 			$indexable->object_sub_type = $post_type;
+		}
+
+		if ( ! $indexable ) {
+			throw new No_Indexable_Found( 'No indexable found for supplied arguments' );
 		}
 
 		return $indexable;
