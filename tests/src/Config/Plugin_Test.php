@@ -182,6 +182,19 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 
 		$instance->set_initialize_success( true );
 
+		$instance->register_hooks();
+	}
+
+	/**
+	 * Tests if the action is called during register hooks
+	 *
+	 * @covers \Yoast\YoastSEO\Config\Plugin::register_hooks()
+	 * @covers \Yoast\YoastSEO\Config\Plugin::trigger_integration_hook()
+	 */
+	public function test_register_hooks_action_is_called() {
+		$instance = new \Yoast\Tests\Doubles\Plugin();
+		$instance->set_initialize_success( true );
+
 		$action_count = did_action( 'wpseo_load_integrations' );
 
 		$instance->register_hooks();
