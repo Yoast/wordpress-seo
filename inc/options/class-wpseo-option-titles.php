@@ -34,10 +34,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'metadesc-home-wpseo'    => '', // Text area.
 		'metadesc-author-wpseo'  => '', // Text area.
 		'metadesc-archive-wpseo' => '', // Text area.
-		'metakey-home-wpseo'     => '', // Text field.
-		'metakey-author-wpseo'   => '', // Text field.
 
-		'noindex-subpages-wpseo' => false,
 		'noindex-author-wpseo'   => false,
 		'noindex-archive-wpseo'  => true,
 
@@ -49,20 +46,17 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 * Uses enrich_defaults to add more along the lines of:
 		 * - 'title-' . $pt->name        => ''; // Text field.
 		 * - 'metadesc-' . $pt->name      => ''; // Text field.
-		 * - 'metakey-' . $pt->name        => ''; // Text field.
 		 * - 'noindex-' . $pt->name        => false;
 		 * - 'showdate-' . $pt->name      => false;
 		 * - 'hideeditbox-' . $pt->name      => false;
 		 *
 		 * - 'title-ptarchive-' . $pt->name    => ''; // Text field.
 		 * - 'metadesc-ptarchive-' . $pt->name  => ''; // Text field.
-		 * - 'metakey-ptarchive-' . $pt->name  => ''; // Text field.
 		 * - 'bctitle-ptarchive-' . $pt->name  => ''; // Text field.
 		 * - 'noindex-ptarchive-' . $pt->name  => false;
 		 *
 		 * - 'title-tax-' . $tax->name      => '''; // Text field.
 		 * - 'metadesc-tax-' . $tax->name    => ''; // Text field.
-		 * - 'metakey-tax-' . $tax->name    => ''; // Text field.
 		 * - 'noindex-tax-' . $tax->name    => false;
 		 * - 'hideeditbox-tax-' . $tax->name  => false;
 		 */
@@ -74,7 +68,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	protected $variable_array_key_patterns = array(
 		'title-',
 		'metadesc-',
-		'metakey-',
 		'noindex-',
 		'showdate-',
 		'hideeditbox-',
@@ -210,7 +203,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			foreach ( $post_type_names as $pt ) {
 				$this->defaults[ 'title-' . $pt ]       = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
 				$this->defaults[ 'metadesc-' . $pt ]    = ''; // Text area.
-				$this->defaults[ 'metakey-' . $pt ]     = ''; // Text field.
 				$this->defaults[ 'noindex-' . $pt ]     = false;
 				$this->defaults[ 'showdate-' . $pt ]    = false;
 				$this->defaults[ 'hideeditbox-' . $pt ] = false;
@@ -228,7 +220,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				$this->defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
 				$this->defaults[ 'metadesc-ptarchive-' . $pt->name ] = ''; // Text area.
-				$this->defaults[ 'metakey-ptarchive-' . $pt->name ]  = ''; // Text field.
 				$this->defaults[ 'bctitle-ptarchive-' . $pt->name ]  = ''; // Text field.
 				$this->defaults[ 'noindex-ptarchive-' . $pt->name ]  = false;
 			}
@@ -241,7 +232,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			foreach ( $taxonomy_names as $tax ) {
 				$this->defaults[ 'title-tax-' . $tax ]       = $archives . ' %%page%% %%sep%% %%sitename%%'; // Text field.
 				$this->defaults[ 'metadesc-tax-' . $tax ]    = ''; // Text area.
-				$this->defaults[ 'metakey-tax-' . $tax ]     = ''; // Text field.
 				$this->defaults[ 'hideeditbox-tax-' . $tax ] = false;
 
 				if ( $tax !== 'post_format' ) {
@@ -298,14 +288,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'metadesc-':
 					/*
 					 * Covers:
-					 *  'metakey-home-wpseo', 'metakey-author-wpseo'
-					 *  'metakey-' . $pt->name
-					 *  'metakey-ptarchive-' . $pt->name
-					 *  'metakey-tax-' . $tax->name
-					 */
-				case 'metakey-':
-					/*
-					 * Covers:
 					 *  'bctitle-ptarchive-' . $pt->name
 					 */
 				case 'bctitle-ptarchive-':
@@ -351,7 +333,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				/*
 				 * Covers:
-				 *  'noindex-subpages-wpseo', 'noindex-author-wpseo', 'noindex-archive-wpseo'
+				 *  'noindex-author-wpseo', 'noindex-archive-wpseo'
 				 *  'noindex-' . $pt->name
 				 *  'noindex-ptarchive-' . $pt->name
 				 *  'noindex-tax-' . $tax->name
@@ -429,7 +411,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				'noindexcat'        => 'noindex-category',
 				'noindextag'        => 'noindex-post_tag',
 				'noindexpostformat' => 'noindex-post_format',
-				'noindexsubpages'   => 'noindex-subpages',
 			);
 			foreach ( $move as $old => $new ) {
 				if ( isset( $old_option[ $old ] ) && ! isset( $option_value[ $new ] ) ) {
@@ -464,9 +445,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			'metadesc-home'    => 'metadesc-home-wpseo',
 			'metadesc-author'  => 'metadesc-author-wpseo',
 			'metadesc-archive' => 'metadesc-archive-wpseo',
-			'metakey-home'     => 'metakey-home-wpseo',
-			'metakey-author'   => 'metakey-author-wpseo',
-			'noindex-subpages' => 'noindex-subpages-wpseo',
 			'noindex-author'   => 'noindex-author-wpseo',
 			'noindex-archive'  => 'noindex-archive-wpseo',
 		);
@@ -487,7 +465,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			$rename = array(
 				'title-'           => 'title-tax-',
 				'metadesc-'        => 'metadesc-tax-',
-				'metakey-'         => 'metakey-tax-',
 				'noindex-'         => 'noindex-tax-',
 				'tax-hideeditbox-' => 'hideeditbox-tax-',
 
@@ -543,7 +520,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					/* text fields */
 					case 'title-':
 					case 'metadesc-':
-					case 'metakey-':
 					case 'bctitle-ptarchive-':
 						$option_value[ $key ] = WPSEO_Utils::sanitize_text_field( $value );
 						break;

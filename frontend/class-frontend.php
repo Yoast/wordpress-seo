@@ -766,10 +766,6 @@ class WPSEO_Frontend {
 				$robots['index'] = 'noindex';
 			}
 			elseif ( is_home() ) {
-				if ( get_query_var( 'paged' ) > 1 && $this->options['noindex-subpages-wpseo'] === true ) {
-					$robots['index'] = 'noindex';
-				}
-
 				$page_for_posts = get_option( 'page_for_posts' );
 				if ( $page_for_posts ) {
 					$robots = $this->robots_for_single_post( $robots, $page_for_posts );
@@ -785,11 +781,6 @@ class WPSEO_Frontend {
 				}
 			}
 
-			$is_paged         = isset( $wp_query->query_vars['paged'] ) && ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 );
-			$noindex_subpages = $this->options['noindex-subpages-wpseo'] === true;
-			if ( $is_paged && $noindex_subpages ) {
-				$robots['index'] = 'noindex';
-			}
 			unset( $robot );
 		}
 

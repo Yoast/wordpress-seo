@@ -94,6 +94,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_61();
 		}
 
+		if ( version_compare( $this->options['version'], '6.3', '<' ) ) {
+			$this->upgrade_63();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -441,5 +445,22 @@ class WPSEO_Upgrade {
 
 		$meta_storage = new WPSEO_Meta_Storage();
 		$wpdb->query( 'DELETE FROM ' . $meta_storage->get_table_name() );
+	}
+
+	/**
+	 * Removes some no longer used options for noindexing subpages and for meta keywords and its associated templates.
+	 */
+	private function upgrade_63() {
+		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
+		unset( $option_titles['noindex-subpages-wpseo'] );
+		unset( $option_titles['usemetakeywords'] );
+
+		// Remove all the meta keyword template options we've stored
+		foreach( array_keys( $option_titles ) as $key ) {
+			if ( strpos( $key, 'metakey' ) === 0 ) {
+				unset( $option_titles[ $key ] );
+			}
+		}
+		update_option( 'wpseo_titles', $option_titles );
 	}
 }
