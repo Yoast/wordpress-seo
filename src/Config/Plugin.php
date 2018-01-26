@@ -96,6 +96,8 @@ class Plugin implements Integration {
 	/**
 	 * Wraps the WordPress is_admin function.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool
 	 */
 	protected function is_admin() {
@@ -131,6 +133,8 @@ class Plugin implements Integration {
 
 	/**
 	 * Configures the ORM.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
