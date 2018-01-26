@@ -641,37 +641,4 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		return $url;
 	}
-
-	/**
-	 * Calculate the priority of the post.
-	 *
-	 * @deprecated 3.5 Priority data dropped from sitemaps.
-	 *
-	 * @param WP_Post $post Post object.
-	 *
-	 * @return float|mixed
-	 */
-	private function calculate_priority( $post ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
-
-		$return = 0.6;
-		if ( $post->post_parent === 0 && $post->post_type === 'page' ) {
-			$return = 0.8;
-		}
-
-		if ( $post->ID === $this->get_page_on_front_id() || $post->ID === $this->get_page_for_posts_id() ) {
-			$return = 1.0;
-		}
-
-		/**
-		 * Filter the priority of the URL Yoast SEO uses in the XML sitemap.
-		 *
-		 * @param float  $priority  The priority for this URL, ranging from 0 to 1
-		 * @param string $post_type The post type this archive is for.
-		 * @param object $post      The post object.
-		 */
-		$return = apply_filters( 'wpseo_xml_sitemap_post_priority', $return, $post->post_type, $post );
-
-		return $return;
-	}
 }
