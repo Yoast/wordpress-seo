@@ -6,7 +6,11 @@ var previewModes = {
 	mobile: "snippet-editor__view--mobile",
 };
 
-var minimumDesktopWidth = 600;
+/*
+ * The Google snippet has a 600 pixels max-width on desktop but we need an
+ * additional 20 pixels space to display the hover/focus "arrows".
+*/
+var minimumDesktopWidth = 620;
 
 /**
  * Constructs the snippet preview toggle.
@@ -146,7 +150,7 @@ SnippetPreviewToggler.prototype._setPreviewMode = function( previewMode, toggleE
  */
 SnippetPreviewToggler.prototype.setScrollHintVisibility = function( previewWidth ) {
 	domManipulation.removeClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );
-
+	console.log( previewWidth );
 	if ( previewWidth < minimumDesktopWidth ) {
 		domManipulation.addClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );
 	}
