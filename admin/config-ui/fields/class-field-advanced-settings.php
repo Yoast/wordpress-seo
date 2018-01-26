@@ -4,7 +4,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Advanced_Settings
+ * Class WPSEO_Config_Field_Advanced_Settings.
  */
 class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	/**
@@ -20,7 +20,7 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
-	 * Set adapter
+	 * Set adapter.
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */

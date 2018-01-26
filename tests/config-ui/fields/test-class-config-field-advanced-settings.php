@@ -11,6 +11,8 @@
 class WPSEO_Config_Field_Advanced_Settings_Test extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Tests the get data method.
+	 *
 	 * @dataProvider get_data_values
 	 *
 	 * @param string $expected     The expected result.
@@ -31,6 +33,8 @@ class WPSEO_Config_Field_Advanced_Settings_Test extends PHPUnit_Framework_TestCa
 	}
 
 	/**
+	 * Tests the set data method.
+	 *
 	 * @dataProvider set_data_values
 	 *
 	 * @param bool   $expected      The expected result.
