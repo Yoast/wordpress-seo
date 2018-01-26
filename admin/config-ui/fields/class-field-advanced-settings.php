@@ -4,11 +4,11 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Advanced_Settings.
+ * Adds the Advanced settings toggle to the configuration wizard.
  */
 class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	/**
-	 * WPSEO_Config_Field_Environment constructor.
+	 * Set up the class.
 	 */
 	public function __construct() {
 		parent::__construct( 'enable_setting_pages' );
@@ -23,6 +23,8 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	 * Set adapter.
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
+	 *
+	 * @return void
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
 		$adapter->add_custom_lookup(
@@ -33,9 +35,9 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
-	 * Gets the option that is set for this field.
+	 * Gets the value that is set for this field.
 	 *
-	 * @return string The value for the environment_type wpseo option.
+	 * @return string The value for the environment_type option.
 	 */
 	public function get_data() {
 		if ( $this->get_option_value() === true ) {
@@ -46,7 +48,7 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
-	 * Set new data.
+	 * Sets the new value for the option.
 	 *
 	 * @param string $value_to_save The value to save.
 	 *
@@ -62,11 +64,11 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
-	 * Returns the value from the options.
+	 * Returns the value from the option.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return bool True if settings pages are enabled.
+	 * @return bool True if advanced settings pages are enabled.
 	 */
 	protected function get_option_value() {
 		$option = WPSEO_Options::get_option( 'wpseo' );
@@ -93,12 +95,12 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	/**
 	 * Returns the description for the field.
 	 *
-	 * @return string
+	 * @return string The description for the field.
 	 */
 	protected function get_description() {
 		return sprintf(
 			/* translators: %1$s expands to Yoast SEO  */
-			esc_html__( '
+			__( '
 				%1$s also has a number of advanced settings. We have determined that the (dynamic) 
 				defaults we set for those are fine for most sites. However, if you want to change 
 				them, you can. To get access to these advanced settings, enable them here.',
