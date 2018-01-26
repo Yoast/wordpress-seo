@@ -19,6 +19,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		require_once WPSEO_TESTS_PATH . 'doubles/class-wpseo-post-type-sitemap-provider-double.php';
+
 		self::$class_instance = new WPSEO_Post_Type_Sitemap_Provider();
 	}
 
@@ -52,5 +54,40 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$post_id       = $this->factory->post->create();
 		$sitemap_links = self::$class_instance->get_sitemap_links( 'post', 1, 1 );
 		$this->assertContains( get_permalink( $post_id ), $sitemap_links[1] );
+	}
+
+	/**
+	 * Tests if external URLs are not being included in the sitemap
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_url
+	 */
+	public function test_get_url() {
+		$instance = $this->getMockBuilder( 'WPSEO_Post_Type_Sitemap_Provider_Double' )
+			->setMethods( array( 'get_home_url' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_home_url' )
+			->will( $this->returnValue( 'http://example.org') );
+
+		add_filter( 'wpseo_xml_sitemap_post_url', array( $this, 'set_post_sitemap_url' ) );
+
+		/** @var WPSEO_Post_Type_Sitemap_Provider_Double $instance */
+		$instance->set_classifier( null );
+		$this->assertFalse( $instance->get_url( $this->factory->post->create() ) );
+
+		remove_filter( 'wpseo_xml_sitemap_post_url', array( $this, 'set_post_sitemap_url' ) );
+	}
+
+	/**
+	 * Helper function to mock sitemap URL.
+	 *
+	 * @param string $url URL to mock.
+	 *
+	 * @return string URL to use.
+	 */
+	public function set_post_sitemap_url( $url ) {
+		return 'http://example.com';
 	}
 }
