@@ -59,34 +59,46 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if a non-indexable is not being deleted
+	 * Tests if the indexable is being deleted
 	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::delete_meta()
 	 */
-	public function test_delete_meta_no_indexable() {
+	public function test_delete_meta_exception() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Term' )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
-		$non_indexable = $this
-			->getMockBuilder( 'Some_Class' )
-			->setMethods( array( 'delete' ) )
-			->getMock();
-
-		$non_indexable
-			->expects( $this->never() )
-			->method( 'delete' );
-
-		$id = 1;
-
 		$instance
 			->expects( $this->once() )
 			->method( 'get_indexable' )
-			->with( $id, 'taxonomy', false )
-			->will( $this->returnValue( $non_indexable ) );
+			->will( $this->throwException( new \Yoast\YoastSEO\Exceptions\No_Indexable_Found() ) );
 
-		$instance->delete_meta( $id, '', 'taxonomy' );
+		$instance->delete_meta( 1, '', 'taxonomy' );
+	}
+
+	/**
+	 * Tests retreiving a meta value
+	 *
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::get_indexable()
+	 *
+	 * @expectedException \Yoast\YoastSEO\Exceptions\No_Indexable_Found
+	 */
+	public function test_get_indexable_exception() {
+		$instance = new Indexable_Term_Double();
+
+		$instance->get_indexable( 1, '',false );
+	}
+
+	/**
+	 * Tests retreiving a meta value
+	 *
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::get_indexable()
+	 */
+	public function test_get_indexable_create() {
+		$instance = new Indexable_Term_Double();
+
+		$this->assertInstanceOf( '\Yoast\YoastSEO\Yoast_Model', $instance->get_indexable( 1, '',true ) );
 	}
 
 	/**

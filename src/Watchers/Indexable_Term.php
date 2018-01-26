@@ -2,6 +2,7 @@
 
 namespace Yoast\YoastSEO\Watchers;
 
+use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
@@ -29,9 +30,10 @@ class Indexable_Term implements Integration {
 	 * @return void
 	 */
 	public function delete_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
-		$indexable = $this->get_indexable( $term_id, $taxonomy, false );
-		if ( $indexable instanceof Yoast_Model ) {
+		try {
+			$indexable = $this->get_indexable( $term_id, $taxonomy, false );
 			$indexable->delete();
+		} catch ( No_Indexable_Found $exception ) {
 		}
 	}
 
@@ -74,6 +76,8 @@ class Indexable_Term implements Integration {
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
 	 * @return bool|Indexable
+	 *
+	 * @throws \Yoast\YoastSEO\Exceptions\No_Indexable_Found
 	 */
 	protected function get_indexable( $term_id, $taxonomy, $auto_create = true ) {
 		$indexable = Yoast_Model::of_type( 'Indexable' )
@@ -88,6 +92,10 @@ class Indexable_Term implements Integration {
 			$indexable->object_id       = $term_id;
 			$indexable->object_type     = 'term';
 			$indexable->object_sub_type = $taxonomy;
+		}
+
+		if ( ! $indexable ) {
+			throw new No_Indexable_Found( 'No indexable found for supplied arguments' );
 		}
 
 		return $indexable;
