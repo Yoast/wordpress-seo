@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\Watchers;
+namespace Yoast\Tests\UnitTests\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\Watchers\Indexable_Author;
@@ -122,7 +122,7 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::get_meta_data()
 	 */
 	public function test_get_meta_data() {
-		$instance = $this->getMockBuilder( '\Yoast\Tests\Doubles\Indexable_Author' )
+		$instance = $this->getMockBuilder( 'Yoast\Tests\Doubles\Indexable_Author' )
 						 ->setMethods( array( 'get_author_meta' ) )
 						 ->getMock();
 
@@ -131,7 +131,7 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'get_author_meta' )
 			->will( $this->returnValue( 'result' ) );
 
-		/** @var \Yoast\Tests\Doubles\Indexable_Author $instance */
+		/** @var Yoast\Tests\Doubles\Indexable_Author $instance */
 		$this->assertInternalType( 'array', $instance->get_meta_data( 1 ) );
 		$this->assertContains( 'result', $instance->get_meta_data( 1 ) );
 	}

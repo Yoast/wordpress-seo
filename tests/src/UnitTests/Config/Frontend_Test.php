@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\Config;
+namespace Yoast\Tests\UnitTests\Config;
 
 use Yoast\YoastSEO\Config\Frontend;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\Watchers;
+namespace Yoast\Tests\UnitTests\Watchers;
 
 use Yoast\Tests\Doubles\Indexable_Post as Indexable_Post_Double;
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;

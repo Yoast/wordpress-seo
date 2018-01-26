@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\Watchers;
+namespace Yoast\Tests\UnitTests\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\Watchers\Indexable_Term;

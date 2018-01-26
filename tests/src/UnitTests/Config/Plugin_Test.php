@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\Config;
+namespace Yoast\Tests\UnitTests\Config;
 
 use Yoast\Tests\Doubles\Plugin as Plugin_Double;
 use Yoast\YoastSEO\Config\Database_Migration;
@@ -30,8 +30,9 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	public function test_add_integration() {
 		$instance = new Plugin_Double( $this->get_dependecy_management_mock(), $this->get_database_migration_mock() );
 
-		$integration = $this->getMockBuilder( '\Yoast\YoastSEO\WordPress\Integration' )
-							->getMock();
+		$integration = $this
+			->getMockBuilder( '\Yoast\YoastSEO\WordPress\Integration' )
+			->getMock();
 
 		$instance->add_integration( $integration );
 
@@ -67,21 +68,25 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_initialize() {
 		$dependency_management = $this->get_dependecy_management_mock();
-		$dependency_management->expects( $this->once() )
-							  ->method( 'initialize' )
-							  ->will( $this->returnValue( true ) );
+		$dependency_management
+			->expects( $this->once() )
+			->method( 'initialize' )
+			->will( $this->returnValue( true ) );
 
 		$database_migration = $this->get_database_migration_mock();
-		$database_migration->expects( $this->once() )
-						   ->method( 'initialize' );
+		$database_migration
+			->expects( $this->once() )
+			->method( 'initialize' );
 
-		$instance = $this->getMockBuilder( '\Yoast\YoastSEO\Config\Plugin' )
-						 ->setMethods( array( 'configure_orm' ) )
-						 ->setConstructorArgs( array( $dependency_management, $database_migration ) )
-						 ->getMock();
+		$instance = $this
+			->getMockBuilder( '\Yoast\YoastSEO\Config\Plugin' )
+			->setMethods( array( 'configure_orm' ) )
+			->setConstructorArgs( array( $dependency_management, $database_migration ) )
+			->getMock();
 
-		$instance->expects( $this->once() )
-				 ->method( 'configure_orm' );
+		$instance
+			->expects( $this->once() )
+			->method( 'configure_orm' );
 
 		$instance->initialize();
 	}
@@ -93,21 +98,25 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_initialize_dependency_management_not_initialized() {
 		$dependency_management = $this->get_dependecy_management_mock();
-		$dependency_management->expects( $this->once() )
-							  ->method( 'initialize' )
-							  ->will( $this->returnValue( false ) );
+		$dependency_management
+			->expects( $this->once() )
+			->method( 'initialize' )
+			->will( $this->returnValue( false ) );
 
 		$database_migration = $this->get_database_migration_mock();
-		$database_migration->expects( $this->never() )
-						   ->method( 'initialize' );
+		$database_migration
+			->expects( $this->never() )
+			->method( 'initialize' );
 
-		$instance = $this->getMockBuilder( '\Yoast\YoastSEO\Config\Plugin' )
-						 ->setMethods( array( 'configure_orm' ) )
-						 ->setConstructorArgs( array( $dependency_management, $database_migration ) )
-						 ->getMock();
+		$instance = $this
+			->getMockBuilder( '\Yoast\YoastSEO\Config\Plugin' )
+			->setMethods( array( 'configure_orm' ) )
+			->setConstructorArgs( array( $dependency_management, $database_migration ) )
+			->getMock();
 
-		$instance->expects( $this->never() )
-				 ->method( 'configure_orm' );
+		$instance
+			->expects( $this->never() )
+			->method( 'configure_orm' );
 
 		$instance->initialize();
 	}
@@ -119,22 +128,26 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_initialize_db_migration_not_initialized() {
 		$dependency_management = $this->get_dependecy_management_mock();
-		$dependency_management->expects( $this->once() )
-							  ->method( 'initialize' )
-							  ->will( $this->returnValue( true ) );
+		$dependency_management
+			->expects( $this->once() )
+			->method( 'initialize' )
+			->will( $this->returnValue( true ) );
 
 		$database_migration = $this->get_database_migration_mock();
-		$database_migration->expects( $this->once() )
-						   ->method( 'initialize' )
-						   ->will( $this->returnValue( false ) );
+		$database_migration
+			->expects( $this->once() )
+			->method( 'initialize' )
+			->will( $this->returnValue( false ) );
 
-		$instance = $this->getMockBuilder( '\Yoast\YoastSEO\Config\Plugin' )
-						 ->setMethods( array( 'configure_orm' ) )
-						 ->setConstructorArgs( array( $dependency_management, $database_migration ) )
-						 ->getMock();
+		$instance = $this
+			->getMockBuilder( '\Yoast\YoastSEO\Config\Plugin' )
+			->setMethods( array( 'configure_orm' ) )
+			->setConstructorArgs( array( $dependency_management, $database_migration ) )
+			->getMock();
 
-		$instance->expects( $this->once() )
-				 ->method( 'configure_orm' );
+		$instance
+			->expects( $this->once() )
+			->method( 'configure_orm' );
 
 		$instance->initialize();
 
@@ -148,37 +161,44 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\YoastSEO\Config\Plugin::trigger_integration_hook()
 	 */
 	public function test_register_hooks() {
-		$instance = $this->getMockBuilder( '\Yoast\Tests\Doubles\Plugin' )
-						 ->setMethods( array(
-							 'is_admin',
-							 'is_frontend',
-							 'add_admin_integrations',
-							 'add_frontend_integrations',
-							 'get_integration_group'
-						 ) )
-						 ->getMock();
+		$instance = $this
+			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->setMethods( array(
+				'is_admin',
+				'is_frontend',
+				'add_admin_integrations',
+				'add_frontend_integrations',
+				'get_integration_group'
+			) )
+			->getMock();
 
-		$instance->expects( $this->once() )
-				 ->method( 'is_admin' )
-				 ->will( $this->returnValue( true ) );
+		$instance
+			->expects( $this->once() )
+			->method( 'is_admin' )
+			->will( $this->returnValue( true ) );
 
-		$instance->expects( $this->once() )
-				 ->method( 'is_frontend' )
-				 ->will( $this->returnValue( true ) );
+		$instance
+			->expects( $this->once() )
+			->method( 'is_frontend' )
+			->will( $this->returnValue( true ) );
 
-		$instance->expects( $this->once() )
-				 ->method( 'add_admin_integrations' );
+		$instance
+			->expects( $this->once() )
+			->method( 'add_admin_integrations' );
 
-		$instance->expects( $this->once() )
-				 ->method( 'add_frontend_integrations' );
+		$instance
+			->expects( $this->once() )
+			->method( 'add_frontend_integrations' );
 
 		$integration_group = $this->get_integration_group_mock();
-		$integration_group->expects( $this->once() )
-						  ->method( 'register_hooks' );
+		$integration_group
+			->expects( $this->once() )
+			->method( 'register_hooks' );
 
-		$instance->expects( $this->once() )
-				 ->method( 'get_integration_group' )
-				 ->will( $this->returnValue( $integration_group ) );
+		$instance
+			->expects( $this->once() )
+			->method( 'get_integration_group' )
+			->will( $this->returnValue( $integration_group ) );
 
 		$instance->set_initialize_success( true );
 
@@ -192,7 +212,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\YoastSEO\Config\Plugin::trigger_integration_hook()
 	 */
 	public function test_register_hooks_action_is_called() {
-		$instance = new \Yoast\Tests\Doubles\Plugin();
+		$instance = new Plugin_Double();
 		$instance->set_initialize_success( true );
 
 		$action_count = did_action( 'wpseo_load_integrations' );
@@ -208,14 +228,14 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\YoastSEO\Config\Plugin::register_hooks()
 	 */
 	public function test_register_hooks_not_initialzed() {
-		$instance = $this->getMockBuilder( '\Yoast\Tests\Doubles\Plugin' )
-						 ->setMethods( array(
-							 'get_integration_group'
-						 ) )
-						 ->getMock();
+		$instance = $this
+			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->setMethods( array( 'get_integration_group' ) )
+			->getMock();
 
-		$instance->expects( $this->never() )
-				 ->method( 'get_integration_group' );
+		$instance
+			->expects( $this->never() )
+			->method( 'get_integration_group' );
 
 		$instance->set_initialize_success( false );
 
@@ -228,15 +248,17 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\YoastSEO\Config\Plugin::add_frontend_integrations()
 	 */
 	public function test_add_frontend_integrations() {
-		$instance = $this->getMockBuilder( '\Yoast\Tests\Doubles\Plugin' )
-						 ->setMethods( array(
-							 'add_integration'
-						 ) )
-						 ->getMock();
+		$instance = $this
+			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->setMethods( array(
+				'add_integration'
+			) )
+			->getMock();
 
-		$instance->expects( $this->once() )
-				 ->method( 'add_integration' )
-				 ->with( $this->isInstanceOf( '\Yoast\YoastSEO\Config\Frontend' ) );
+		$instance
+			->expects( $this->once() )
+			->method( 'add_integration' )
+			->with( $this->isInstanceOf( '\Yoast\YoastSEO\Config\Frontend' ) );
 
 		$instance->add_frontend_integrations();
 	}
@@ -247,15 +269,17 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\YoastSEO\Config\Plugin::add_admin_integrations()
 	 */
 	public function test_add_admin_integrations() {
-		$instance = $this->getMockBuilder( '\Yoast\Tests\Doubles\Plugin' )
-						 ->setMethods( array(
-							 'add_integration'
-						 ) )
-						 ->getMock();
+		$instance = $this
+			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->setMethods( array(
+				'add_integration'
+			) )
+			->getMock();
 
-		$instance->expects( $this->once() )
-				 ->method( 'add_integration' )
-				 ->with( $this->isInstanceOf( '\Yoast\YoastSEO\Config\Admin' ) );
+		$instance
+			->expects( $this->once() )
+			->method( 'add_integration' )
+			->with( $this->isInstanceOf( '\Yoast\YoastSEO\Config\Admin' ) );
 
 		$instance->add_admin_integrations();
 	}
@@ -283,9 +307,10 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * @return Dependency_Management
 	 */
 	protected function get_dependecy_management_mock() {
-		return $this->getMockBuilder( '\Yoast\YoastSEO\Config\Dependency_Management' )
-					->setMethods( array( 'initialize' ) )
-					->getMock();
+		return $this
+			->getMockBuilder( '\Yoast\YoastSEO\Config\Dependency_Management' )
+			->setMethods( array( 'initialize' ) )
+			->getMock();
 	}
 
 	/**
@@ -294,10 +319,11 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * @return Database_Migration
 	 */
 	protected function get_database_migration_mock() {
-		return $this->getMockBuilder( '\Yoast\YoastSEO\Config\Database_Migration' )
-					->setMethods( array( 'initialize' ) )
-					->setConstructorArgs( array( null, $this->get_dependecy_management_mock() ) )
-					->getMock();
+		return $this
+			->getMockBuilder( '\Yoast\YoastSEO\Config\Database_Migration' )
+			->setMethods( array( 'initialize' ) )
+			->setConstructorArgs( array( null, $this->get_dependecy_management_mock() ) )
+			->getMock();
 	}
 
 	/**
@@ -308,9 +334,10 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * @return Integration_Group
 	 */
 	protected function get_integration_group_mock( array $integrations = array() ) {
-		return $this->getMockBuilder( '\Yoast\YoastSEO\WordPress\Integration_Group' )
-					->setMethods( array( 'register_hooks' ) )
-					->setConstructorArgs( array( $integrations ) )
-					->getMock();
+		return $this
+			->getMockBuilder( '\Yoast\YoastSEO\WordPress\Integration_Group' )
+			->setMethods( array( 'register_hooks' ) )
+			->setConstructorArgs( array( $integrations ) )
+			->getMock();
 	}
 }

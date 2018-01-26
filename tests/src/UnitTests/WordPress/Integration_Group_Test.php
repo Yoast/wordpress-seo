@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\YoastSEO\Tests;
+namespace Yoast\Tests\UnitTests\WordPress;
 
 use Yoast\YoastSEO\WordPress\Integration_Group;
 
