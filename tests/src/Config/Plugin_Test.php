@@ -145,6 +145,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * Tests if the expected methods are called during register hooks
 	 *
 	 * @covers \Yoast\YoastSEO\Config\Plugin::register_hooks()
+	 * @covers \Yoast\YoastSEO\Config\Plugin::trigger_integration_hook()
 	 */
 	public function test_register_hooks() {
 		$instance = $this->getMockBuilder( '\Yoast\Tests\Doubles\Plugin' )
@@ -153,8 +154,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 							 'is_frontend',
 							 'add_admin_integrations',
 							 'add_frontend_integrations',
-							 'get_integration_group',
-							 'trigger_integration_hook'
+							 'get_integration_group'
 						 ) )
 						 ->getMock();
 
@@ -172,9 +172,6 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 		$instance->expects( $this->once() )
 				 ->method( 'add_frontend_integrations' );
 
-		$instance->expects( $this->once() )
-				 ->method( 'trigger_integration_hook' );
-
 		$integration_group = $this->get_integration_group_mock();
 		$integration_group->expects( $this->once() )
 						  ->method( 'register_hooks' );
@@ -185,7 +182,11 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 
 		$instance->set_initialize_success( true );
 
+		$action_count = did_action( 'wpseo_load_integrations' );
+
 		$instance->register_hooks();
+
+		$this->assertEquals( $action_count + 1, did_action( 'wpseo_load_integrations' ) );
 	}
 
 	/**
