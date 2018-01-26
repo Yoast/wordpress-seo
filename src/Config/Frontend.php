@@ -11,6 +11,8 @@ class Frontend implements Integration {
 	 *
 	 * This is the place to register hooks and filters.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function register_hooks() {
