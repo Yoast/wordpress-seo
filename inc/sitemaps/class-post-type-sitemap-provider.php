@@ -232,17 +232,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$excluded_posts   = explode( ',', $options['excluded-posts'] );
-
-            /**
-             * Filter: 'wpseo_posts_to_exclude' - Allow extending and modifying the posts to exclude.
-             *
-             * @api array $posts_to_exclude The posts to exclude.
-             */
-			$posts_to_exclude = apply_filters( 'wpseo_posts_to_exclude', $excluded_posts );
-			if ( ! is_array( $posts_to_exclude ) ) {
-			    $posts_to_exclude = $excluded_posts;
-			}
+			$posts_to_exclude = $this->get_excluded_posts( $options['excluded-posts'] );
 
 			foreach ( $posts as $post ) {
 
@@ -332,6 +322,46 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Retrieves a list with the excluded post ids.
+	 *
+	 * @param string $excluded_posts Comma separated string with post ids.
+	 *
+	 * @return array Array with post ids to exclude.
+	 */
+	protected function get_excluded_posts( $excluded_posts ) {
+		$excluded_posts_ids = explode( ',', $excluded_posts );
+		$excluded_posts_ids = $this->filter_invalid_ids( $excluded_posts_ids );
+
+		/**
+		 * Filter: 'wpseo_posts_to_exclude' - Allow extending and modifying the posts to exclude.
+		 *
+		 * @api array $posts_to_exclude The posts to exclude.
+		 */
+		$excluded_posts_ids = apply_filters( 'wpseo_posts_to_exclude', $excluded_posts_ids );
+		if ( ! is_array( $excluded_posts_ids ) ) {
+			return array();
+		}
+
+		$excluded_posts_ids = $this->filter_invalid_ids( $excluded_posts_ids );
+
+		return $excluded_posts_ids;
+	}
+
+	/**
+	 * Filters the non numeric ids.
+	 *
+	 * @param array $ids The ids to filter.
+	 *
+	 * @return array Array with numeric ids only.
+	 */
+	protected function filter_invalid_ids( array $ids ) {
+		$ids = array_map( 'intval', $ids );
+		$ids = array_filter( $ids );
+
+		return array_values( $ids );
 	}
 
 	/**
