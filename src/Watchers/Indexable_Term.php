@@ -47,8 +47,12 @@ class Indexable_Term implements Integration {
 	 * @return void
 	 */
 	public function save_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
-		/** @var Indexable $indexable */
-		$indexable            = $this->get_indexable( $term_id, $taxonomy );
+		try {
+			$indexable = $this->get_indexable( $term_id, $taxonomy );
+		} catch ( No_Indexable_Found $exception ) {
+			return;
+		}
+
 		$indexable->permalink = $this->get_permalink( $term_id, $taxonomy );
 
 		$term_meta = $this->get_meta_data( $term_id, $taxonomy );

@@ -2,6 +2,7 @@
 
 namespace Yoast\Tests\Watchers;
 
+use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\Watchers\Indexable_Term;
 use Yoast\Tests\Doubles\Indexable_Term as Indexable_Term_Double;
 
@@ -194,5 +195,24 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertAttributeEquals( 'permalink', 'permalink', $indexable_mock );
 		$this->assertAttributeEquals( 'a', 'a', $indexable_mock );
 		$this->assertAttributeEquals( 1, 'include_in_sitemap', $indexable_mock );
+	}
+
+	/**
+	 * Tests the save meta functionality
+	 *
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::save_meta()
+	 */
+	public function test_save_meta_exception() {
+		$instance = $this
+			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Term' )
+			->setMethods( array( 'get_indexable' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_indexable' )
+			->will( $this->throwException( new No_Indexable_Found() ) );
+
+		$instance->save_meta( -1, '', 'taxonomy' );
 	}
 }

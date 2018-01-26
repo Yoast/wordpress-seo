@@ -2,6 +2,7 @@
 
 namespace Yoast\YoastSEO\Watchers;
 
+use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
@@ -26,9 +27,10 @@ class Indexable_Author implements Integration {
 	 * @return void
 	 */
 	public function delete_meta( $user_id ) {
-		$indexable = $this->get_indexable( $user_id, false );
-		if ( $indexable instanceof Yoast_Model ) {
+		try {
+			$indexable = $this->get_indexable( $user_id, false );
 			$indexable->delete();
+		} catch ( No_Indexable_Found $exception ) {
 		}
 	}
 
@@ -40,16 +42,21 @@ class Indexable_Author implements Integration {
 	 * @return void
 	 */
 	public function save_meta( $user_id ) {
-		$model            = $this->get_indexable( $user_id );
-		$model->permalink = $this->get_permalink( $user_id );
+		try {
+			$indexable = $this->get_indexable( $user_id );
+		} catch ( No_Indexable_Found $exception ) {
+			return;
+		}
+
+		$indexable->permalink = $this->get_permalink( $user_id );
 
 		$meta_data = $this->get_meta_data( $user_id );
 
-		$model->title              = $meta_data['wpseo_title'];
-		$model->description        = $meta_data['wpseo_metadesc'];
-		$model->include_in_sitemap = $this->get_sitemap_include_value( $meta_data['wpseo_excludeauthorsitemap'] );
+		$indexable->title              = $meta_data['wpseo_title'];
+		$indexable->description        = $meta_data['wpseo_metadesc'];
+		$indexable->include_in_sitemap = $this->get_sitemap_include_value( $meta_data['wpseo_excludeauthorsitemap'] );
 
-		$model->save();
+		$indexable->save();
 	}
 
 	/**
@@ -81,6 +88,8 @@ class Indexable_Author implements Integration {
 	 * @param bool $auto_create Optional. Create the indexable when it does not exist yet.
 	 *
 	 * @return bool|Indexable
+	 *
+	 * @throws \Yoast\YoastSEO\Exceptions\No_Indexable_Found
 	 */
 	protected function get_indexable( $user_id, $auto_create = true ) {
 		$indexable = Yoast_Model::of_type( 'Indexable' )
@@ -92,6 +101,10 @@ class Indexable_Author implements Integration {
 			$indexable              = Yoast_Model::of_type( 'Indexable' )->create();
 			$indexable->object_id   = $user_id;
 			$indexable->object_type = 'user';
+		}
+
+		if ( ! $indexable ) {
+			throw new No_Indexable_Found( 'No indexable found for supplied arguments' );
 		}
 
 		return $indexable;
@@ -111,6 +124,8 @@ class Indexable_Author implements Integration {
 	/**
 	 * Retrieves the permalink of a user.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $user_id The user to fetch the permalink of.
 	 *
 	 * @return string The permalink.
@@ -121,6 +136,8 @@ class Indexable_Author implements Integration {
 
 	/**
 	 * Retrieves the author meta.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param int    $user_id Author to fetch the data of.
 	 * @param string $key     The meta entry to retrieve.

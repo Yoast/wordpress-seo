@@ -45,7 +45,12 @@ class Indexable_Post implements Integration {
 			return;
 		}
 
-		$indexable            = $this->get_indexable( $post_id );
+		try {
+			$indexable = $this->get_indexable( $post_id );
+		} catch ( No_Indexable_Found $exception ) {
+			return;
+		}
+
 		$indexable->permalink = $this->get_permalink( $post_id );
 
 		// Implement filling of meta values.

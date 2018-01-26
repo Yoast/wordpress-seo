@@ -3,6 +3,7 @@
 namespace Yoast\Tests\Watchers;
 
 use Yoast\Tests\Doubles\Indexable_Post as Indexable_Post_Double;
+use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\Watchers\Indexable_Post;
 
 /**
@@ -282,5 +283,24 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	public function test_get_robots_options() {
 		$instance = new Indexable_Post_Double();
 		$this->assertInternalType( 'array', $instance->get_robots_options() );
+	}
+
+	/**
+	 * Tests the save meta functionality
+	 *
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::save_meta()
+	 */
+	public function test_save_meta_exception() {
+		$instance = $this
+			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Post' )
+			->setMethods( array( 'get_indexable' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_indexable' )
+			->will( $this->throwException( new No_Indexable_Found() ) );
+
+		$instance->save_meta( -1 );
 	}
 }
