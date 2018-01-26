@@ -10,6 +10,8 @@ class Database_Migration {
 	const MIGRATION_STATE_SUCCESS = 0;
 	const MIGRATION_STATE_ERROR = 1;
 
+	const MIGRATION_ERROR_TRANSIENT_KEY = 'yoast_migration_problem';
+
 	/** @var \wpdb WPDB instance */
 	protected $wpdb;
 
@@ -95,7 +97,7 @@ class Database_Migration {
 	 */
 	protected function set_failed_state( $message ) {
 		// @todo do something with the message.
-		\set_transient( 'yoast_migration_problem', self::MIGRATION_STATE_ERROR, DAY_IN_SECONDS );
+		\set_transient( $this->get_error_transient_key(), self::MIGRATION_STATE_ERROR, DAY_IN_SECONDS );
 	}
 
 	/**
@@ -104,7 +106,7 @@ class Database_Migration {
 	 * @return void
 	 */
 	protected function set_success_state() {
-		\delete_transient( 'yoast_migration_problem' );
+		\delete_transient( $this->get_error_transient_key() );
 	}
 
 	/**
@@ -113,7 +115,7 @@ class Database_Migration {
 	 * @return int Migration state.
 	 */
 	protected function get_migration_state() {
-		return (int) \get_transient( 'yoast_migration_problem' );
+		return (int) \get_transient( $this->get_error_transient_key() );
 	}
 
 	/**
@@ -201,5 +203,14 @@ class Database_Migration {
 			'RUCKUSING_BASE'               => WPSEO_PATH . 'vendor/ruckusing/ruckusing-migrations',
 			'RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name
 		);
+	}
+
+	/**
+	 * Retrieves the error state transient key to use.
+	 *
+	 * @return string The transient key to use for storing the error state.
+	 */
+	protected function get_error_transient_key() {
+		return self::MIGRATION_ERROR_TRANSIENT_KEY;
 	}
 }
