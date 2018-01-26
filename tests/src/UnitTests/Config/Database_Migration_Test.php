@@ -17,7 +17,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the initializing with the wrong migration state.
 	 *
-	 * @covers \Yoast\YoastSEO\Config\Database_Migration::initialize()
+
 	 */
 	public function test_initialize() {
 		$instance = $this
@@ -43,8 +43,6 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Tests the initializing with the defining of constants fails.
-	 *
-	 * @covers \Yoast\YoastSEO\Config\Database_Migration::initialize()
 	 */
 	public function test_initialize_with_set_defines_failing() {
 		$instance = $this
@@ -53,17 +51,13 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 				null,
 				new Dependency_Management()
 			) )
-			->setMethods( array( 'get_migration_state', 'set_defines', 'set_failed_state' ) )
+			->setMethods( array( 'get_migration_state', 'set_defines' ) )
 			->getMock();
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_migration_state' )
 			->will( $this->returnValue( Database_Migration::MIGRATION_STATE_SUCCESS ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'set_failed_state' );
 
 		$instance
 			->expects( $this->once() )
@@ -75,8 +69,6 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Tests the initializing when everything goes as planned.
-	 *
-	 * @covers \Yoast\YoastSEO\Config\Database_Migration::initialize()
 	 */
 	public function test_initialize_success() {
 		$instance = $this
@@ -88,8 +80,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->setMethods( array(
 				'get_migration_state',
 				'set_defines',
-				'get_framework_runner',
-				'set_success_state'
+				'get_framework_runner'
 			) )
 			->getMock();
 
@@ -107,10 +98,6 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->expects( $this->once() )
 			->method( 'get_framework_runner' )
 			->will( $this->returnValue( $this->get_framework_runner_mock() ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'set_success_state' );
 
 		$this->assertTrue( $instance->initialize() );
 	}
