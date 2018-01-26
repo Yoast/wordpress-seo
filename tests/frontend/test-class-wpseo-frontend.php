@@ -108,8 +108,15 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_debug_mark() {
 		// Test if the version number is shown in the debug marker.
-		$version_found = ( stripos( self::$class_instance->get_debug_mark(), WPSEO_VERSION ) !== false );
-		$this->assertTrue( $version_found );
+		$this->assertContains( 'v' . WPSEO_VERSION, self::$class_instance->get_debug_mark() );
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::get_debug_mark
+	 */
+	public function test_debug_mark_contains_hard_link() {
+		// Test if the version number is shown in the debug marker.
+		$this->assertContains( 'https://yoast.com/wordpress/plugins/seo/', self::$class_instance->get_debug_mark() );
 	}
 
 	/**
