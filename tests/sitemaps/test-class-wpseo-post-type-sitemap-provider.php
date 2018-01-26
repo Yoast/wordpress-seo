@@ -5,6 +5,9 @@
 
 /**
  * Class WPSEO_Post_Type_Sitemap_Provider_Test
+ *
+ *
+ * @group test
  */
 class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
@@ -78,7 +81,9 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the default behaviour of the excluded posts. Happy path.
 	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
 	 */
 	public function test_get_excluded_posts() {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
@@ -86,7 +91,9 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( array( '1', '2' ) , $sitemap_provider->get_excluded_posts( '1,2' ) );
 	}
 	/**
+	 * Tests the exluded posts with invalid values being filtered.
 	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
 	 */
 	public function test_get_excluded_posts_filter_out_invalid_values() {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
@@ -97,6 +104,11 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( array() , $sitemap_provider->get_excluded_posts( 'a,b' ) );
 	}
 
+	/**
+	 * Tests the excluded posts with the usage of the filter.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
+	 */
 	public function test_get_excluded_posts_with_set_filter() {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
@@ -107,6 +119,11 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		remove_filter( 'wpseo_posts_to_exclude', array( $this, 'filter_with_valid_output' ) );
 	}
 
+	/**
+	 * Tests the excluded posts with the usage of a filter that returns an invalid value.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
+	 */
 	public function test_get_excluded_posts_with_set_filter_that_has_invalid_return_value() {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
@@ -136,7 +153,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @param array $excluded_post_ids The excluded post ids.
 	 *
-	 * @return array The post ids.
+	 * @return string An invalid value.
 	 */
 	public function filter_with_invalid_output( $excluded_post_ids ) {
 		return '';

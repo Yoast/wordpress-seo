@@ -219,7 +219,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		$options = $this->get_options();
-
+		$posts_to_exclude = $this->get_excluded_posts( $options['excluded-posts'] );
 		$stacked_urls = array();
 
 		while ( $total > $offset ) {
@@ -232,15 +232,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$posts_to_exclude = $this->get_excluded_posts( $options['excluded-posts'] );
-
 			foreach ( $posts as $post ) {
 
 				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 					continue;
 				}
 
-				if ( in_array( $post->ID, $posts_to_exclude ) ) {
+				if ( in_array( $post->ID, $posts_to_exclude, true ) ) {
 					continue;
 				}
 
