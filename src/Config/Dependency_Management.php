@@ -40,6 +40,8 @@ class Dependency_Management {
 	/**
 	 * Checks if the prefixes are available.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool True if prefixes are available.
 	 */
 	public function prefixed_available() {
@@ -57,6 +59,8 @@ class Dependency_Management {
 	 * Prefixes dependencies if composer install is ran with dev mode.
 	 *
 	 * Used in composer in the post-install script hook.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param Event $event Composer event that triggered this script.
 	 *
@@ -80,6 +84,8 @@ class Dependency_Management {
 	/**
 	 * Wraps class_exists to make this better testable.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $class Class to test for existence.
 	 *
 	 * @return bool True if the class exists.
@@ -90,6 +96,8 @@ class Dependency_Management {
 
 	/**
 	 * Wraps class alias to make it better testable.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $base  Base class to use for the alias.
 	 * @param string $alias Class to create an alias for.
