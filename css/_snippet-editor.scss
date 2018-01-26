@@ -103,9 +103,10 @@ $snippet_width: 600px;
 		}
 
 		&--desktop {
-			width: $snippet_width + 40;
+			width: $snippet_width;
 			max-width: 100%;
-			padding: 0 20px;
+			margin: 0 20px;
+			padding: 0;
 			overflow: auto;
 		}
 
@@ -245,7 +246,7 @@ $snippet_width: 600px;
 			margin-right: 10px;
 			font-size: 20px;
 			line-height: inherit;
-			vertical-align: text-top;
+			vertical-align: middle;
 		}
 	}
 

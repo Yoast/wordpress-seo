@@ -6,7 +6,7 @@ var previewModes = {
 	mobile: "snippet-editor__view--mobile",
 };
 
-var minimumDesktopWidth = 640;
+var minimumDesktopWidth = 600;
 
 /**
  * Constructs the snippet preview toggle.
@@ -122,52 +122,23 @@ SnippetPreviewToggler.prototype._findElementByMode = function( previewMode ) {
  * @private
  */
 SnippetPreviewToggler.prototype._setPreviewMode = function( previewMode, toggleElement ) {
+	var previewWidth;
+
 	this._removeActiveStates();
 	this._setActiveState( toggleElement );
 
 	domManipulation.removeClass( this.viewElement, previewModes[ this.previewMode ] );
 	domManipulation.addClass( this.viewElement, previewModes[ previewMode ] );
+	if ( previewMode === "desktop" ) {
+		previewWidth = this.viewElement.getBoundingClientRect().width;
+		this.setScrollHintVisibility( previewWidth );
+	}
 
 	this.previewMode = previewMode;
 };
 
 /**
- * Sets the Snippet Preview Toggler to desktop mode.
- *
- * @returns {void}
- */
-SnippetPreviewToggler.prototype.setDesktopMode = function() {
-	this._setPreviewMode( "desktop", this._findElementByMode( "desktop" ) );
-};
-
-/**
- * Sets the Snippet Preview Toggler to mobile mode.
- *
- * @returns {void}
- */
-SnippetPreviewToggler.prototype.setMobileMode = function() {
-	this._setPreviewMode( "mobile", this._findElementByMode( "mobile" ) );
-};
-
-/**
- * Sets the initial view to desktop or mobile based on the width of the Snippet Preview container.
- *
- * @param {number} previewWidth the width of the Snippet Preview container.
- *
- * @returns {void}
- */
-SnippetPreviewToggler.prototype.setVisibility = function( previewWidth ) {
-	if ( previewWidth < minimumDesktopWidth ) {
-		this.setMobileMode();
-		// At this point the desktop view is scrollable: set a CSS class to show the Scroll Hint message.
-		domManipulation.addClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );
-	} else {
-		this.setDesktopMode();
-	}
-};
-
-/**
- * When the window is resized, sets the visibilty of the Scroll Hint message.
+ * Sets the visibilty of the Scroll Hint message.
  *
  * @param {number} previewWidth the width of the Snippet Preview container.
  *
