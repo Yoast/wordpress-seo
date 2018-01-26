@@ -25,7 +25,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		// Form fields.
 		'forcerewritetitle'      => false,
 		'separator'              => 'sc-dash',
-		'usemetakeywords'        => false,
 		'title-home-wpseo'       => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
 		'title-author-wpseo'     => '', // Text field.
 		'title-archive-wpseo'    => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
@@ -357,7 +356,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'noindex-ptarchive-' . $pt->name
 				 *  'noindex-tax-' . $tax->name
 				 *  'forcerewritetitle':
-				 *  'usemetakeywords':
 				 *  'noodp':
 				 *  'noydir':
 				 *  'disable-author':

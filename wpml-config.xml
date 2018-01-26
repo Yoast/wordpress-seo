@@ -3,7 +3,6 @@
         <custom-field action="translate">_yoast_wpseo_title</custom-field>
         <custom-field action="translate">_yoast_wpseo_bctitle</custom-field>
         <custom-field action="translate">_yoast_wpseo_metadesc</custom-field>
-        <custom-field action="translate">_yoast_wpseo_metakeywords</custom-field>
         <custom-field action="translate">_yoast_wpseo_focuskw</custom-field>
         <custom-field action="copy">_yoast_wpseo_meta-robots-noindex</custom-field>
         <custom-field action="copy">_yoast_wpseo_meta-robots-nofollow</custom-field>
