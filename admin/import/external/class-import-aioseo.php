@@ -6,8 +6,7 @@
 /**
  * Class with functionality to import Yoast SEO settings from All In One SEO.
  */
-class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
-
+class WPSEO_Import_AIOSEO implements WPSEO_External_Importer {
 	/**
 	 * Holds the AOIOSEO options
 	 *
@@ -16,26 +15,80 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 	private $aioseo_options;
 
 	/**
-	 * Import All In One SEO settings
-	 *
-	 * @param boolean $replace Boolean replace switch.
+	 * @var wpdb Holds the WPDB instance.
 	 */
-	public function __construct( $replace = false ) {
-		parent::__construct( $replace );
+	protected $db;
+
+	/**
+	 * Holds the import status object.
+	 *
+	 * @var WPSEO_Import_Status
+	 */
+	private $status;
+
+	/**
+	 * WPSEO_Import_AIOSEO constructor.
+	 */
+	public function __construct() {
+		global $wpdb;
+
+		$this->db = $wpdb;
+	}
+	
+	/**
+	 * Returns the plugin name.
+	 *
+	 * @return string
+	 */
+	public function plugin_name() {
+		return 'All In One SEO Pack';
+	}
+
+	/**
+	 * Imports the All in one SEO Pack settings.
+	 * 
+	 * @return WPSEO_Import_Status
+	 */
+	public function import() {
+		$this->status = new WPSEO_Import_Status( 'import', false );
+
+		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key LIKE '_aioseop_%'" );
+		if ( $affected_rows === 0 ) {
+			return $this->status;
+		}
+
+		$this->status->set_status( true );
 
 		$this->aioseo_options = get_option( 'aioseop_options' );
 
 		$this->import_metas();
 		$this->import_ga();
+
+		return $this->status;
+	}
+
+	/**
+	 * Removes the All in one SEO pack data from the database.
+	 *
+	 * @return WPSEO_Import_Status
+	 */
+	public function cleanup() {
+		$this->status = new WPSEO_Import_Status( 'cleanup', false );
+		$affected_rows = $this->db->query( "DELETE FROM $this->db->postmeta WHERE meta_key LIKE '_aioseop_%'" );
+		if ( $affected_rows > 0 ) {
+			$this->status->set_status( true );
+		}
+
+		return $this->status;
 	}
 
 	/**
 	 * Import All In One SEO meta values.
 	 */
 	private function import_metas() {
-		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $this->replace );
-		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $this->replace );
-		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', $this->replace );
+		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
+		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', false );
+		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', false );
 	}
 
 	/**
@@ -46,13 +99,6 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 	 */
 	private function import_ga() {
 		if ( ! isset( $this->aioseo_options['aiosp_google_analytics_id'] ) ) {
-			$this->set_msg( sprintf(
-			/* translators: 1: link open tag; 2: link close tag. */
-				__( 'All in One SEO data successfully imported. Would you like to %1$sdisable the All in One SEO plugin%2$s?', 'wordpress-seo' ),
-				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_aioseo=1#top#import-seo' ) ) . '">',
-				'</a>'
-			) );
-
 			return;
 		}
 
@@ -62,9 +108,9 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 
 		$plugin_install_nonce = wp_create_nonce( 'install-plugin_google-analytics-for-wordpress' ); // Use the old name because that's the WordPress.org repo.
 
-		$this->set_msg( sprintf(
+		$this->status->set_msg( sprintf(
 			/* translators: 1,2: link open tag; 3: link close tag. */
-			__( 'All in One SEO data successfully imported. Would you like to %1$sdisable the All in One SEO plugin%3$s? You\'ve had Google Analytics enabled in All in One SEO, would you like to install the %2$sGoogle Analytics plugin%3$s?', 'wordpress-seo' ),
+			$this->status->get_msg() . __( 'Would you like to %1$sdisable the All in One SEO plugin%3$s? You\'ve had Google Analytics enabled in All in One SEO, would you like to install the %2$sGoogle Analytics plugin%3$s?', 'wordpress-seo' ),
 			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_aioseo=1#top#import-seo' ) ) . '">',
 			'<a href="' . esc_url( admin_url( 'update.php?action=install-plugin&plugin=google-analytics-for-wordpress&_wpnonce=' . $plugin_install_nonce ) ) . '">',
 			'</a>'

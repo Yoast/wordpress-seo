@@ -1,0 +1,122 @@
+<?php
+/**
+ * @package WPSEO\Admin\Import
+ */
+
+/**
+ * Class WPSEO_ImportStatus
+ *
+ * Holds the status of and message about imports.
+ */
+class WPSEO_Import_Status {
+	/**
+	 * The import message.
+	 *
+	 * @var string
+	 */
+	private $msg = '';
+
+	/**
+	 * The import status.
+	 *
+	 * @var bool
+	 */
+	private $status = false;
+
+	/**
+	 * The type of action performed.
+	 * @var string
+	 */
+	private $action;
+
+	/**
+	 * WPSEO_Import_Status constructor.
+	 *
+	 * @param bool   $status The status of the import.
+	 * @param string $msg    Extra messages about the status.
+	 */
+	public function __construct( $action, $status, $msg = '' ) {
+		$this->action = $action;
+		$this->status = $status;
+		$this->msg    = $msg;
+	}
+
+	/**
+	 * Get the import status.
+	 *
+	 * @return bool
+	 */
+	public function get_status() {
+		return $this->status;
+	}
+
+	/**
+	 * Get the import message.
+	 *
+	 * @return string
+	 */
+	public function get_msg() {
+		if ( $this->msg === '' ) {
+			switch( $this->action ) {
+				case 'import':
+					return $this->default_import_message();
+					break;
+				case 'cleanup':
+					return $this->default_cleanup_message();
+					break;
+			}
+		}
+		return $this->msg;
+	}
+
+	/**
+	 * Get the import action.
+	 *
+	 * @return string
+	 */
+	public function get_action() {
+		return $this->action;
+	}
+
+	/**
+	 * Sets the importer status message.
+	 *
+	 * @param string $msg The message to set.
+	 */
+	public function set_msg( $msg ) {
+		$this->msg = $msg;
+	}
+
+	/**
+	 * Set the importer status.
+	 *
+	 * @param bool $status The status to set.
+	 */
+	public function set_status( $status ) {
+		$this->status = (bool) $status;
+	}
+
+	/**
+	 * Returns the default import message for the current status.
+	 *
+	 * @return string
+	 */
+	private function default_import_message() {
+		if ( $this->status ) {
+			return __( '%s data successfully imported.', 'wordpress-seo' );
+		}
+		return __( '%s data not found.', 'wordpress-seo' );
+	}
+
+	/**
+	 * Returns the default cleanup message for the current status.
+	 *
+	 * @return string
+	 */
+	private function default_cleanup_message() {
+		if ( $this->status ) {
+			return __( '%s data successfully removed.', 'wordpress-seo' );
+		}
+		return __( '%s data not found.', 'wordpress-seo' );
+	}
+}

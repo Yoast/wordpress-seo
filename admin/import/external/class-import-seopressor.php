@@ -8,36 +8,67 @@
  *
  * Class with functionality to import Yoast SEO settings from SEOpressor.
  */
-class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
+class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 
 	/**
-	 * Imports the SEOpressor settings.
+	 * Returns the plugin name.
 	 *
-	 * @param boolean $replace Boolean replace switch.
+	 * @return string
 	 */
-	public function __construct( $replace = false ) {
-		parent::__construct( $replace );
+	public function plugin_name() {
+		return 'SEOpressor';
+	}
 
-		$this->import_post_metas();
+	/**
+	 * @var wpdb Holds the WPDB instance.
+	 */
+	protected $db;
 
-		$this->set_msg( __( 'SEOpressor data successfully imported.', 'wordpress-seo' ) );
+	/**
+	 * WPSEO_Import_SEOPressor constructor.
+	 */
+	public function __construct() {
+		global $wpdb;
+
+		$this->db = $wpdb;
 	}
 
 	/**
 	 * Imports the post meta values to Yoast SEO.
 	 *
-	 * @return void
+	 * @return WPSEO_Import_Status
 	 */
-	private function import_post_metas() {
+	public function import() {
+		$status = new WPSEO_Import_Status( 'import', false );
+
 		// Query for all the posts that have an _seop_settings meta set.
 		$query_posts = new WP_Query( 'post_type=any&meta_key=_seop_settings&order=ASC&fields=ids&nopaging=true' );
 		if ( ! empty( $query_posts->posts ) ) {
 			foreach ( array_values( $query_posts->posts ) as $post_id ) {
 				$this->import_post_focus_keywords( $post_id );
 				$this->import_seopressor_post_settings( $post_id );
-				$this->seopressor_post_cleanup( $post_id );
 			}
+			$status->set_status( true );
+			return $status;
 		}
+
+		return $status;
+	}
+
+	/**
+	 * Removes all the post meta fields SEOpressor creates.
+	 *
+	 * @return WPSEO_Import_Status
+	 */
+	public function cleanup() {
+		$status = new WPSEO_Import_Status( 'cleanup', false );
+
+		// If we get to replace the data, let's do some proper cleanup.
+		$affected_rows = $this->db->query( "DELETE FROM $this->db->postmeta WHERE meta_key LIKE '_seop_%'" );
+		if ( $affected_rows > 0 ) {
+			$status->set_status( true );
+		}
+		return $status;
 	}
 
 	/**
@@ -161,23 +192,5 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 		$return['advanced'] = rtrim( $return['advanced'], ',' );
 
 		return $return;
-	}
-
-	/**
-	 * Removes all the post meta fields SEOpressor creates.
-	 *
-	 * @param integer $post_id Post ID.
-	 *
-	 * @return void
-	 */
-	private function seopressor_post_cleanup( $post_id ) {
-		if ( ! $this->replace ) {
-			return;
-		}
-
-		// If we get to replace the data, let's do some proper cleanup.
-		global $wpdb;
-		$query = $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key LIKE '_seop_%'", $post_id );
-		$wpdb->query( $query );
 	}
 }

@@ -11,7 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $yform = Yoast_Form::get_instance();
 
-$replace = false;
 $import  = false;
 
 /**
@@ -25,35 +24,37 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 	check_admin_referer( 'wpseo-import' );
 
 	$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-	$replace    = ( ! empty( $post_wpseo['deleteolddata'] ) && $post_wpseo['deleteolddata'] === 'on' );
+	$action = 'import';
+	if ( ( ! empty( $post_wpseo['deleteolddata'] ) && $post_wpseo['deleteolddata'] === 'on' ) ) {
+		$action = 'cleanup';
+	}
 
 	if ( ! empty( $post_wpseo['importwoo'] ) ) {
-		$import = new WPSEO_Import_WooThemes_SEO( $replace );
+		$import = new WPSEO_Import_External( new WPSEO_Import_WooThemes_SEO, $action );
 	}
 
 	if ( ! empty( $post_wpseo['importaioseo'] ) || filter_input( INPUT_GET, 'importaioseo' ) ) {
-		$import = new WPSEO_Import_AIOSEO( $replace );
+		$import = new WPSEO_Import_External( new WPSEO_Import_AIOSEO, $action );
 	}
 
 	if ( ! empty( $post_wpseo['importheadspace'] ) ) {
-		$import = new WPSEO_Import_External( $replace );
-		$import->import_headspace();
+		$import = new WPSEO_Import_External( new WPSEO_Import_HeadSpace, $action );
 	}
 
 	if ( ! empty( $post_wpseo['importjetpackseo'] ) || filter_input( INPUT_GET, 'importjetpackseo' ) ) {
-		$import = new WPSEO_Import_Jetpack_SEO( $replace );
+		$import = new WPSEO_Import_External( new WPSEO_Import_Jetpack_SEO, $action );
 	}
 
 	if ( ! empty( $post_wpseo['importwpseo'] ) || filter_input( INPUT_GET, 'importwpseo' ) ) {
-		$import = new WPSEO_Import_WPSEO( $replace );
+		$import = new WPSEO_Import_External( new WPSEO_Import_WPSEO, $action );
 	}
 
 	if ( ! empty( $post_wpseo['importseoultimate'] ) || filter_input( INPUT_GET, 'importseoultimate' ) ) {
-		$import = new WPSEO_Import_Ultimate_SEO( $replace );
+		$import = new WPSEO_Import_External( new WPSEO_Import_Ultimate_SEO, $action );
 	}
 
 	if ( ! empty( $post_wpseo['importseopressor'] ) || filter_input( INPUT_GET, 'importseopressor' ) ) {
-		$import = new WPSEO_Import_SEOPressor( $replace );
+	    $import = new WPSEO_Import_External( new WPSEO_Import_SEOPressor, $action );
 	}
 }
 
@@ -66,7 +67,7 @@ if ( isset( $_FILES['settings_import_file'] ) ) {
 /**
  * Allow custom import actions.
  *
- * @api bool|object $import Contains info about the handled import
+ * @api WPSEO_Import_Status $import Contains info about the handled import
  */
 $import = apply_filters( 'wpseo_handle_import', $import );
 
@@ -76,15 +77,10 @@ if ( $import ) {
 	 *
 	 * @api  string  $msg  The message.
 	 */
-	$msg = apply_filters( 'wpseo_import_message', isset( $import->msg ) ? $import->msg : '' );
+	$msg = apply_filters( 'wpseo_import_message', $import->get_msg() );
 
 	if ( ! empty( $msg ) ) {
-		// Check if we've deleted old data and adjust message to match it.
-		if ( $replace ) {
-			$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
-		}
-
-		$status = ( $import->success ) ? 'updated' : 'error';
+		$status = ( $import->get_status() ) ? 'updated' : 'error';
 
 		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
 	}
