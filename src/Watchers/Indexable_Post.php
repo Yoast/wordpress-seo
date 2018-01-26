@@ -100,7 +100,7 @@ class Indexable_Post implements Integration {
 	 * @param int  $post_id     Post to fetch indexable for.
 	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return bool|Indexable
+	 * @return Indexable
 	 *
 	 * @throws \Yoast\YoastSEO\Exceptions\No_Indexable_Found
 	 */

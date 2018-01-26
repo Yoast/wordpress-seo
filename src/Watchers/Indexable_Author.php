@@ -87,7 +87,7 @@ class Indexable_Author implements Integration {
 	 * @param int  $user_id     The use to retrieve the indexable for.
 	 * @param bool $auto_create Optional. Create the indexable when it does not exist yet.
 	 *
-	 * @return bool|Indexable
+	 * @return Indexable
 	 *
 	 * @throws \Yoast\YoastSEO\Exceptions\No_Indexable_Found
 	 */

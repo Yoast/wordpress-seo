@@ -79,7 +79,7 @@ class Indexable_Term implements Integration {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return bool|Indexable
+	 * @return Indexable
 	 *
 	 * @throws \Yoast\YoastSEO\Exceptions\No_Indexable_Found
 	 */
