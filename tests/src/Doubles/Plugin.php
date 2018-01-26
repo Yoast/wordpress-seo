@@ -61,4 +61,18 @@ class Plugin extends \Yoast\YoastSEO\Config\Plugin {
 	public function get_integration_group( array $integrations = array() ) {
 		return parent::get_integration_group( $integrations );
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function is_admin() {
+		return parent::is_admin();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function is_frontend() {
+		return parent::is_frontend();
+	}
 }

@@ -247,9 +247,21 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 		$instance->add_admin_integrations();
 	}
 
+	/**
+	 * Tests the return type of the integration group
+	 */
 	public function test_get_integration_group() {
 		$instance = new Plugin_Double();
 		$this->assertInstanceOf( '\Yoast\YoastSEO\WordPress\Integration_Group', $instance->get_integration_group() );
+	}
+
+	/**
+	 * Tests if frontend is not the same as admin
+	 */
+	public function test_is_frontend() {
+		$instance = new Plugin_Double();
+
+		$this->assertNotEquals( $instance->is_frontend(), $instance->is_admin() );
 	}
 
 	/**
