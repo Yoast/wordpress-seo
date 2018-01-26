@@ -150,7 +150,6 @@ SnippetPreviewToggler.prototype._setPreviewMode = function( previewMode, toggleE
  */
 SnippetPreviewToggler.prototype.setScrollHintVisibility = function( previewWidth ) {
 	domManipulation.removeClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );
-	console.log( previewWidth );
 	if ( previewWidth < minimumDesktopWidth ) {
 		domManipulation.addClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );
 	}
