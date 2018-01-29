@@ -9,15 +9,6 @@
 class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-config-field-double.php';
-	}
-
-	/**
 	 * @covers WPSEO_Config_Field::__construct()
 	 * @covers WPSEO_Config_Field::get_identifier()
 	 * @covers WPSEO_Config_Field::get_component()
