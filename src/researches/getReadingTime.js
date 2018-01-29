@@ -1,12 +1,12 @@
-var wordCountInText = require( "./wordCountInText.js" );
-var imageCount = require( "./imageCountInText.js" );
+let wordCountInText = require( "./wordCountInText.js" );
+let imageCount = require( "./imageCountInText.js" );
 
 module.exports = function( paper ) {
-	var numberOfWords = wordCountInText( paper );
-	var numberOfImages = imageCount( paper );
+	let numberOfWords = wordCountInText( paper );
+	let numberOfImages = imageCount( paper );
 
-	var readingTime = Math.round( ( numberOfWords / 200 ) + ( numberOfImages * 0.2 ) );
+	let readingTime = Math.ceil( ( numberOfWords / 200 ) + ( numberOfImages * 0.2 ) );
 
-	return readingTime ;
-}
+	return readingTime;
+};
 
