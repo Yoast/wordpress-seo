@@ -334,9 +334,9 @@ class WPSEO_Sitemaps_Renderer {
 	 */
 	protected function get_xsl_url() {
 		if ( home_url() !== site_url() ) {
-			return esc_url( home_url( 'main-sitemap.xsl' ) );
+			return home_url( 'main-sitemap.xsl' );
 		}
 
-		return esc_url( plugin_dir_url( WPSEO_FILE ) . 'css/main-sitemap.xsl' );
+		return plugin_dir_url( WPSEO_FILE ) . 'css/main-sitemap.xsl';
 	}
 }
