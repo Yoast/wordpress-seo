@@ -130,14 +130,20 @@ class WPSEO_Premium {
 
 		if ( $language_support->is_language_supported( $language ) ) {
 			$feature_toggles[] = (object) array(
-				'name'    => __( 'Metabox insights', 'wordpress-seo-premium' ),
-				'setting' => 'enable_metabox_insights',
-				'label'   => __( 'The metabox insights section contains insights about your content, like an overview of the most prominent words in your text.', 'wordpress-seo-premium' ),
+				'name'            => __( 'Insights', 'wordpress-seo-premium' ),
+				'setting'         => 'enable_metabox_insights',
+				'label'           => __( 'The Insights section in our metabox shows you useful data about your content, like which words you use most often.', 'wordpress-seo-premium' ),
+				'read_more_label' => __( 'Read more about how the insights can help you improve your content.', 'wordpress-seo' ),
+				'read_more_url'   => 'https://yoa.st/2ai',
+				'order'           => 41,
 			);
 			$feature_toggles[] = (object) array(
-				'name'    => __( 'Link suggestions', 'wordpress-seo-premium' ),
-				'setting' => 'enable_link_suggestions',
-				'label'   => __( 'The link suggestions section contains a list of posts on your blog with similar content that might be interesting to link to.', 'wordpress-seo-premium' ),
+				'name'            => __( 'Link suggestions', 'wordpress-seo-premium' ),
+				'setting'         => 'enable_link_suggestions',
+				'label'           => __( 'The link suggestions metabox contains a list of posts on your blog with similar content that might be interesting to link to.', 'wordpress-seo-premium' ),
+				'read_more_label' => __( 'Read more about how internal linking can improve your site structure.', 'wordpress-seo' ),
+				'read_more_url'   => 'https://yoa.st/17g',
+				'order'           => 42,
 			);
 		}
 
