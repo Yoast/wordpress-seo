@@ -132,7 +132,7 @@ class WPSEO_Premium {
 			$feature_toggles[] = (object) array(
 				'name'            => __( 'Insights', 'wordpress-seo-premium' ),
 				'setting'         => 'enable_metabox_insights',
-				'label'           => __( 'The Insights section in our metabox shows you useful data about your content, like which words you use most often.', 'wordpress-seo-premium' ),
+				'label'           => __( 'The Insights section in our metabox shows you useful data about your content, like what words you use most often.', 'wordpress-seo-premium' ),
 				'read_more_label' => __( 'Read more about how the insights can help you improve your content.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2ai',
 				'order'           => 41,
