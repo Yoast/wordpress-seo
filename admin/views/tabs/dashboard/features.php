@@ -106,7 +106,7 @@ foreach ( $feature_toggles as $feature ) : ?>
 		<?php
 		$label = esc_html( $feature->label );
 		if ( ! empty( $feature->read_more_label ) ) {
-			$label .= ' '  . sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', WPSEO_Shortlinker::get( $feature->read_more_url ), esc_html( $feature->read_more_label ) );
+			$label .= ' ' . sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', WPSEO_Shortlinker::get( $feature->read_more_url ), esc_html( $feature->read_more_label ) );
 		}
 		$yform->toggle_switch(
 			$feature->setting,
