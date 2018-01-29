@@ -9,16 +9,6 @@
 class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Set up the test object by requiring the test double.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		// Requires the test double.
-		require_once WPSEO_TESTS_PATH . 'doubles/class-breadcrumbs-double.php';
-	}
-
-	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors.
 	 */
 	/*public function test_breadcrumb_home() {
