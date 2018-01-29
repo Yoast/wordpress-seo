@@ -1,3 +1,16 @@
+### 6.3.0: February 13th, 2018
+Enhancements:
+* Adds a new sentence to the Internal Linking analyzer after completing a full site scan. This gives you more insight into what the effects are of running the analyzer.
+* Adds additional explanation on entries on the features tab.
+* Adds links to explanatory articles on the features tab.
+
+Bugfixes:
+* Fixes a bug where a core WordPress function wasn't available when getting the `.htaccess` file path on an Apache installation.
+* Adds support for including custom post types in the prominent words recalculation process.
+
+Other:
+* Includes every change in Yoast SEO core 6.3.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 6.2.0: January 23rd, 2018
 * Includes every change in Yoast SEO core 6.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
