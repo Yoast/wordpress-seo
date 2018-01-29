@@ -11,6 +11,9 @@ const devConfig = {
 			},
 		} ),
 	],
+	devServer: {
+		publicPath: "/",
+	},
 };
 
 module.exports = defaults( devConfig );
