@@ -33,13 +33,6 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	 */
 	public function get() {
 		$fields = array(
-			'metakey'         => $this->get_field_config(
-				__( 'Meta keywords', 'wordpress-seo' ),
-				esc_html__( 'Meta keywords used on the archive page for this term.', 'wordpress-seo' ),
-				'text',
-				'',
-				$this->options['usemetakeywords'] !== true
-			),
 			'noindex'         => $this->get_field_config(
 				esc_html__( 'Meta robots index', 'wordpress-seo' ),
 				esc_html__( 'This taxonomy follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ),

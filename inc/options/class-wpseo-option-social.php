@@ -111,7 +111,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 * @return string
 	 */
 	public static function get_fbconnectkey() {
-		return md5( get_bloginfo( 'url' ) . rand() );
+		return md5( get_bloginfo( 'url' ) . wp_rand() );
 	}
 
 

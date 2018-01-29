@@ -896,8 +896,7 @@ class WPSEO_Utils {
 			return $home_url;
 		}
 
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$home_path = parse_url( $home_url, PHP_URL_PATH );
+		$home_path = wp_parse_url( $home_url, PHP_URL_PATH );
 
 		if ( '/' === $home_path ) { // Home at site root, already slashed.
 			return $home_url;

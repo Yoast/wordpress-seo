@@ -1124,8 +1124,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 
 /* Content tab. */
 #wpseosnippet,
-#wpseofocuskeyword,
-#wpseometakeywords {
+#wpseofocuskeyword {
 	margin-bottom: 2em;
 }
 
@@ -1252,7 +1251,6 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 .wpseotab #yoast_wpseo_focuskw_text_input,
-.wpseotab #yoast_wpseo_metakeywords,
 .wpseotab select[multiple] {
 	margin-top: 0;
 }
