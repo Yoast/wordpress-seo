@@ -58,10 +58,11 @@ const StyledSection = ( props ) => {
 				level={ props.headingLevel }
 				className={ props.headingClassName }
 			>
-				{ props.headingIcon && <StyledIcon
-					icon={ icons[ `${ props.headingIcon }` ] }
-					color={ props.headingIconColor }
-					size={ props.headingIconSize }
+				{ props.headingIcon &&
+					<StyledIcon
+						icon={ icons[ `${ props.headingIcon }` ] }
+						color={ props.headingIconColor }
+						size={ props.headingIconSize }
 					/>
 				}
 				{ props.headingText }
