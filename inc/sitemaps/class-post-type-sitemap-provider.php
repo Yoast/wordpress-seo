@@ -359,9 +359,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return array();
 		}
 
-		$excluded_posts_ids = $this->filter_invalid_ids( $excluded_posts_ids );
-
-		return $excluded_posts_ids;
+		return $this->filter_invalid_ids( $excluded_posts_ids );
 	}
 
 	/**
