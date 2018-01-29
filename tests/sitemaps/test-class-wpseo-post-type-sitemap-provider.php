@@ -21,7 +21,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'doubles/inc/sitemaps/class-post-type-sitemap-provider-double.php';
+		require_once WPSEO_TESTS_PATH . 'doubles/class-wpseo-post-type-sitemap-provider-double.php';
 	}
 
 	/**
@@ -29,8 +29,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/class-wpseo-post-type-sitemap-provider-double.php';
 
 		self::$class_instance = new WPSEO_Post_Type_Sitemap_Provider();
 	}
