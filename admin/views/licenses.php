@@ -68,7 +68,7 @@ $extensions->add(
 	)
 );
 
-if ( ! defined( 'WPSEO_LOCAL_WOOCOMMERCE_VERSION' )  ) {
+if ( ! defined( 'WPSEO_LOCAL_WOOCOMMERCE_VERSION' ) ) {
 	$extensions->add(
 		'wpseo-local',
 		new WPSEO_Extension(

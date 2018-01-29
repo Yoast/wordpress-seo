@@ -14,9 +14,6 @@ if ( 'posts' === get_option( 'show_on_front' ) ) {
 	echo '<h2>', esc_html__( 'Homepage', 'wordpress-seo' ), '</h2>';
 	$yform->textinput( 'title-home-wpseo', __( 'Title template', 'wordpress-seo' ), 'template homepage-template' );
 	$yform->textarea( 'metadesc-home-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template homepage-template' ) );
-	if ( $options['usemetakeywords'] === true ) {
-		$yform->textinput( 'metakey-home-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
-	}
 	echo '</div>';
 }
 else {
