@@ -13,8 +13,6 @@ class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-capability-manager-double.php';
 	}
 
 	public function test_register() {

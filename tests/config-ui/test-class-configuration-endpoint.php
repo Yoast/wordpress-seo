@@ -15,9 +15,6 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-endpoint-mock.php';
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-wp-rest-server-mock.php';
 	}
 
 	/**

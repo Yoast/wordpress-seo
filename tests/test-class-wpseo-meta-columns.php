@@ -19,8 +19,6 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-meta-columns-double.php';
-
 		self::$class_instance = new WPSEO_Meta_Columns_Double();
 	}
 

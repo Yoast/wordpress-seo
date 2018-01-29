@@ -15,8 +15,6 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-storage-mock.php';
 	}
 
 	/**

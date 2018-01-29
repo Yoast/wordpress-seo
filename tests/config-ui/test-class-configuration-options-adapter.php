@@ -16,8 +16,6 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-options-adapter-mock.php';
 	}
 
 	/**

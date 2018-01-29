@@ -19,8 +19,6 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-config-component-connect-google-search-console-mock.php';
 	}
 
 	/**

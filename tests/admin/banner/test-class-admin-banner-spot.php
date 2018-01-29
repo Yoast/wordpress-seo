@@ -13,8 +13,6 @@ class WPSEO_Admin_Banner_Spot_Test extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-admin-banner-renderer-mock.php';
 	}
 
 	/**

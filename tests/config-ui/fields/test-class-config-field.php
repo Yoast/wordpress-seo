@@ -13,8 +13,6 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-config-field-double.php';
 	}
 
 	/**

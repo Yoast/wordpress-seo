@@ -28,8 +28,6 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-primary-term-double.php';
 	}
 
 	/**

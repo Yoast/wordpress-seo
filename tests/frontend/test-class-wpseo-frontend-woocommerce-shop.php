@@ -3,8 +3,6 @@
  * @package WPSEO\Tests
  */
 
-require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case-frontend.php';
-
 /**
  * Unit Test Class.
  *

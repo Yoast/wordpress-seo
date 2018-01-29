@@ -13,8 +13,6 @@ class WPSEO_Taxonomy_Fields_Test extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-taxonomy-fields-double.php';
 	}
 
 	public function test_construct_with_options() {

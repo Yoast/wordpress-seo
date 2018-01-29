@@ -13,8 +13,6 @@ class Capability_Role_Tests extends PHPUnit_Framework_TestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-role-manager-mock.php';
 	}
 
 	public function test_register() {

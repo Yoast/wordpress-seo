@@ -13,8 +13,6 @@ class WPSEO_Ryte_Service_Test extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/onpage-option-mock.php';
 	}
 
 	public function test_cannot_view_ryte() {

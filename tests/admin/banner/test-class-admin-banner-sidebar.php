@@ -16,8 +16,6 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-features-mock.php';
 	}
 
 	/**

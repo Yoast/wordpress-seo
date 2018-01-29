@@ -18,8 +18,6 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/class-wpseo-sitemaps-double.php';
 	}
 
 	/**

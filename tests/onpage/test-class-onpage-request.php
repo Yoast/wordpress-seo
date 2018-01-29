@@ -13,8 +13,6 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-onpage-request-double.php';
 	}
 
 	/**

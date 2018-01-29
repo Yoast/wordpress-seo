@@ -16,8 +16,6 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-service-mock.php';
 	}
 
 	/**
