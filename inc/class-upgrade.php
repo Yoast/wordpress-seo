@@ -449,11 +449,12 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Removes some no longer used options for noindexing subpages and for meta keywords and its associated templates.
+	 *
+	 * @return void
 	 */
 	private function upgrade_63() {
 		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
-		unset( $option_titles['noindex-subpages-wpseo'] );
-		unset( $option_titles['usemetakeywords'] );
+		unset( $option_titles['noindex-subpages-wpseo'], $option_titles['usemetakeywords'] );
 
 		// Remove all the meta keyword template options we've stored.
 		foreach ( array_keys( $option_titles ) as $key ) {
