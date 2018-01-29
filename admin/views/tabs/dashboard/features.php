@@ -96,18 +96,18 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
  * @return bool Whether order for feature A is bigger than for feature B.
  */
 function wpseo_cmp_order( $feature_a, $feature_b ) {
-    return ( $feature_a->order > $feature_b->order );
+	return ( $feature_a->order > $feature_b->order );
 }
 usort( $feature_toggles, 'wpseo_cmp_order' );
 
 foreach ( $feature_toggles as $feature ) : ?>
-    <h3><?php echo esc_html( $feature->name ); ?></h3>
-    <p>
+	<h3><?php echo esc_html( $feature->name ); ?></h3>
+	<p>
 		<?php
-        $label = esc_html( $feature->label );
-        if ( ! empty( $feature->read_more_label ) ) {
-            $label .= ' '  . sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', WPSEO_Shortlinker::get( $feature->read_more_url ), esc_html( $feature->read_more_label ) );
-        }
+		$label = esc_html( $feature->label );
+		if ( ! empty( $feature->read_more_label ) ) {
+			$label .= ' '  . sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', WPSEO_Shortlinker::get( $feature->read_more_url ), esc_html( $feature->read_more_label ) );
+		}
 		$yform->toggle_switch(
 			$feature->setting,
 			array(
@@ -117,8 +117,8 @@ foreach ( $feature_toggles as $feature ) : ?>
 			$label
 		);
 		?>
-    </p>
-    <br/>
+	</p>
+	<br/>
 
 <?php endforeach; ?>
 </div>
