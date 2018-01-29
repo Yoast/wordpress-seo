@@ -19,13 +19,6 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 	private $term;
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Adding a term and set the class instance
 	 */
 	public function setUp() {

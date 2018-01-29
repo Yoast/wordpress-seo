@@ -9,13 +9,6 @@
 class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Reset after each test.
 	 */
 	public function tearDown() {

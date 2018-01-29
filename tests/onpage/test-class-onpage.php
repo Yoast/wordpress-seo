@@ -19,13 +19,6 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	private $option_instance;
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Setup the class instance
 	 */
 	public function setUp() {

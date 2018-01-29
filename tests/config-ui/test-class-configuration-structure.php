@@ -12,13 +12,6 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	protected $structure;
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Set up
 	 */
 	public function setUp() {

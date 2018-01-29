@@ -19,13 +19,6 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 	protected $notification_center;
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Set up our double class.
 	 */
 	public function setUp() {

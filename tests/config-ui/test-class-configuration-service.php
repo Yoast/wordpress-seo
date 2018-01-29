@@ -12,13 +12,6 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	protected $configuration_service;
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Preparation
 	 */
 	public function setUp() {

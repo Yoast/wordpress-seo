@@ -14,13 +14,6 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	/**
-	 * Load the test mock class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Set up our double class.
 	 */
 	public function setUp() {

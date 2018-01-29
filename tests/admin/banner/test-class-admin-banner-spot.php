@@ -9,13 +9,6 @@
 class WPSEO_Admin_Banner_Spot_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Tests the url getter.
 	 *
 	 * @covers WPSEO_Admin_Banner_Spot::__construct

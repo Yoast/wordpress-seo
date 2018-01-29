@@ -14,13 +14,6 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 	private $class_instance;
 
 	/**
-	 * Set up a WPSEO_Extension_Manager object.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Sets up the test class.
 	 */
 	public function setUp() {

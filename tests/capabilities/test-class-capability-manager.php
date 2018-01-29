@@ -8,13 +8,6 @@
  */
 class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 
-	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
 	public function test_register() {
 		$instance = new WPSEO_Capability_Manager_Double();
 

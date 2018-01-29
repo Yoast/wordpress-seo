@@ -8,13 +8,6 @@
  */
 class WPSEO_Ryte_Service_Test extends WPSEO_UnitTestCase {
 
-	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
 	public function test_cannot_view_ryte() {
 		$onpage = new OnPage_Option_Mock( false, WPSEO_OnPage_Option::IS_INDEXABLE, true );
 

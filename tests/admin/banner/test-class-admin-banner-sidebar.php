@@ -12,13 +12,6 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	protected $admin_banner_sidebar;
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Set up the class which will be tested.
 	 */
 	public function setUp() {

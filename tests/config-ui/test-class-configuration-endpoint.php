@@ -11,13 +11,6 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	protected $endpoint;
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Set up
 	 */
 	public function setUp() {

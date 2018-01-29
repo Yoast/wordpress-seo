@@ -9,13 +9,6 @@
 class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Test if there is a response
 	 *
 	 * @covers WPSEO_OnPage_Request::get_response

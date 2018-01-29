@@ -12,13 +12,6 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	protected $components;
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Set up
 	 */
 	public function setUp() {

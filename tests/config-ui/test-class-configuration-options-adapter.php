@@ -12,13 +12,6 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	protected $adapter;
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Set up
 	 */
 	public function setUp() {

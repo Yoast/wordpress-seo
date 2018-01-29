@@ -15,13 +15,6 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	protected $stub_calls = array();
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Set up
 	 */
 	public function setUp() {
