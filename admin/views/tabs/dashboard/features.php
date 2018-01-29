@@ -90,13 +90,13 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 /**
  * Simple sorting function used for usort straight below.
  *
- * @param object $a Key A.
- * @param object $b Key B.
+ * @param object $feature_a Feature A.
+ * @param object $feature_b Feature B.
  *
- * @return bool Whether A is bigger than B.
+ * @return bool Whether order for feature A is bigger than for feature B.
  */
-function wpseo_cmp_order( $a, $b ) {
-    return ( $a->order > $b->order );
+function wpseo_cmp_order( $feature_a, $feature_b ) {
+    return ( $feature_a->order > $feature_b->order );
 }
 usort( $feature_toggles, 'wpseo_cmp_order' );
 
