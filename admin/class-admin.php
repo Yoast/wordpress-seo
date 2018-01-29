@@ -82,6 +82,7 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( $this, 'map_manage_options_cap' ) );
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
+		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'home' );
 
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
@@ -207,7 +208,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Add a link to the settings page to the plugins list.
+	 * Adds links to Premium Support and FAQ under the plugin in the plugin overview page.
 	 *
 	 * @staticvar string $this_plugin Holds the directory & filename for the plugin.
 	 *
@@ -223,8 +224,10 @@ class WPSEO_Admin {
 		}
 
 		if ( class_exists( 'WPSEO_Product_Premium' ) ) {
-			$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
-			if ( $license_manager->license_is_valid() ) {
+			$product_premium   = new WPSEO_Product_Premium();
+			$extension_manager = new WPSEO_Extension_Manager();
+
+			if ( $extension_manager->is_activated( $product_premium->get_slug() ) ) {
 				return $links;
 			}
 		}
