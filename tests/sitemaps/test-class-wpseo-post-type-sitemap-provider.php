@@ -159,8 +159,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	public function filter_with_invalid_output( $excluded_post_ids ) {
 		return '';
 	}
-  
-  /** Tests if external URLs are not being included in the sitemap
+
+	/** Tests if external URLs are not being included in the sitemap
 	 *
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_url
 	 */
