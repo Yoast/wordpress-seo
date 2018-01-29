@@ -6,8 +6,7 @@
 /**
  * Class WPSEO_Post_Type_Sitemap_Provider_Test
  *
- *
- * @group test
+ * @group sitemaps
  */
 class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
@@ -88,7 +87,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	public function test_get_excluded_posts() {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
-		$this->assertEquals( array( '1', '2' ) , $sitemap_provider->get_excluded_posts( '1,2' ) );
+		$this->assertEquals( array( 1, 2 ) , $sitemap_provider->get_excluded_posts( '1,2' ) );
 	}
 	/**
 	 * Tests the exluded posts with invalid values being filtered.
@@ -112,11 +111,11 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	public function test_get_excluded_posts_with_set_filter() {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
-		add_filter( 'wpseo_posts_to_exclude', array( $this, 'filter_with_valid_output' ) );
+		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_valid_output' ) );
 
 		$this->assertEquals( array( 1, 2, 3, 4, 5, 600 ) , $sitemap_provider->get_excluded_posts( '1,2,3,4' ) );
 
-		remove_filter( 'wpseo_posts_to_exclude', array( $this, 'filter_with_valid_output' ) );
+		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_valid_output' ) );
 	}
 
 	/**
@@ -127,11 +126,11 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	public function test_get_excluded_posts_with_set_filter_that_has_invalid_return_value() {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
-		add_filter( 'wpseo_posts_to_exclude', array( $this, 'filter_with_invalid_output' ) );
+		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_invalid_output' ) );
 
 		$this->assertEquals( array() , $sitemap_provider->get_excluded_posts( '1,2,3,4' ) );
 
-		remove_filter( 'wpseo_posts_to_exclude', array( $this, 'filter_with_invalid_output' ) );
+		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_invalid_output' ) );
 	}
 
 	/**
@@ -142,8 +141,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * @return array The post ids.
 	 */
 	public function filter_with_valid_output( $excluded_post_ids ) {
-		array_push( $excluded_post_ids, 5 );
-		array_push( $excluded_post_ids, 600 );
+		$excluded_post_ids[] = 5;
+		$excluded_post_ids[] = 600;
 
 		return $excluded_post_ids;
 	}
