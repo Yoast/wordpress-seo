@@ -57,7 +57,6 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	public function test_get_options_HAS_VALID_KEYS_with_valid_option_names() {
 		$result = WPSEO_Options::get_options( array( 'wpseo_social', 'wpseo_titles' ) );
 		$this->assertArrayHasKey( 'opengraph', $result );
-		$this->assertArrayHasKey( 'metakey-home-wpseo', $result );
 	}
 
 

@@ -101,11 +101,11 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 	 * Tests for the detection of Premium plugins.
 	 */
 	public function test_plugin_is_premium() {
-		$is_premium_plugin  = self::$class_instance->is_premium( self::$class_instance->get_plugin( 'test-plugin' ) );
+		$is_premium_plugin = self::$class_instance->is_premium( self::$class_instance->get_plugin( 'test-plugin' ) );
 
 		$this->assertFalse( $is_premium_plugin );
 
-		$is_premium_plugin  = self::$class_instance->is_premium( self::$class_instance->get_plugin( 'test-premium-plugin' ) );
+		$is_premium_plugin = self::$class_instance->is_premium( self::$class_instance->get_plugin( 'test-premium-plugin' ) );
 
 		$this->assertTrue( $is_premium_plugin );
 	}

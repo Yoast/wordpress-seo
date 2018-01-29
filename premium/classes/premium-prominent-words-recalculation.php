@@ -11,7 +11,7 @@
 class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Integration {
 
 	/** @var int */
-	const MODAL_DIALOG_HEIGHT_BASE = 282;
+	const MODAL_DIALOG_HEIGHT_BASE = 150;
 
 	/** @var int */
 	const PROGRESS_BAR_HEIGHT = 32;
@@ -20,11 +20,30 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	protected $post_query;
 
 	/**
-	 * Registers all hooks to WordPress
+	 * @var WPSEO_Premium_Prominent_Words_Support
+	 */
+	private $prominent_words_support;
+
+	/**
+	 * WPSEO_Premium_Prominent_Words_Recalculation constructor.
+	 *
+	 * @param WPSEO_Premium_Prominent_Words_Unindexed_Post_Query $post_query              The post query class to retrieve the unindexed posts with.
+	 * @param WPSEO_Premium_Prominent_Words_Support              $prominent_words_support The prominent words support class to determine supported posts types to index.
+	 */
+	public function __construct( WPSEO_Premium_Prominent_Words_Unindexed_Post_Query $post_query, WPSEO_Premium_Prominent_Words_Support $prominent_words_support ) {
+		$this->post_query              = $post_query;
+		$this->prominent_words_support = $prominent_words_support;
+	}
+
+	/**
+	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		// When the language isn't supported, stop adding hooks.
 		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
+
 		if ( ! $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
 			return;
 		}
@@ -38,79 +57,114 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	}
 
 	/**
-	 * Renders the html for the internal linking interface.
+	 * Renders the HTML for the internal linking interface.
+	 *
+	 * @return void
 	 */
 	public function add_internal_linking_interface() {
-		$unindexed_posts = $this->count_unindexed_posts_by_type( 'post' );
-		$unindexed_pages = $this->count_unindexed_posts_by_type( 'page' );
+		$total_items = $this->post_query->get_totals( $this->get_post_types() );
 
 		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
-		echo '<p>' . esc_html__( 'Want to use our internal linking tool? Analyze all the published posts and pages to generate internal linking suggestions.', 'wordpress-seo-premium' ) . '</p>';
-		if ( $unindexed_posts === 0 && $unindexed_pages === 0 ) {
-		?>
+		echo '<p>' . esc_html__( 'Want to use our internal linking tool? Analyze all the published posts, pages and custom post types to generate internal linking suggestions.', 'wordpress-seo-premium' ) . '</p>';
 
-			<p><?php echo $this->messageAlreadyIndexed(); ?></p>
-		<?php
-		}
-		else {
-			$height = $this->get_modal_height( $unindexed_posts, $unindexed_pages );
-		?>
+		if ( count( $total_items ) === 0 ) {
+			printf( '<p>%s</p><br>', $this->messageAlreadyIndexed() );
 
-			<p id="internalLinksCalculation">
-				<a id="openInternalLinksCalculation" href="<?php echo esc_url( '#TB_inline?width=600&height=' . $height . '&inlineId=wpseo_recalculate_internal_links_wrapper' ); ?>" title='<?php echo esc_attr__( 'Generating internal linking suggestions', 'wordpress-seo-premium' ); ?>' class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
-			</p>
-		<?php
+			return;
 		}
-		?>
-		<br />
-		<?php
+
+		echo $this->generate_internal_link_calculation_interface();
+	}
+
+	/**
+	 * Takes an array of post types and converts it to a textual list of post types.
+	 *
+	 * @param array $post_types The post types to retrieve the labels for.
+	 *
+	 * @return array A list of post type labels for the supplied post types.
+	 */
+	protected function get_indexable_post_type_labels( $post_types ) {
+		if ( ! is_array( $post_types ) ) {
+			return array();
+		}
+
+		return array_map( array( $this, 'retrieve_post_type_label' ), $post_types );
+	}
+
+	/**
+	 * Retrieves the label for the passed post type.
+	 *
+	 * @param string $post_type The post type to retrieve the label for.
+	 *
+	 * @return string The post type's label. Defaults to the post type itself if no label could be retrieved.
+	 */
+	protected function retrieve_post_type_label( $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
+
+		if ( is_null( $post_type_object ) ) {
+			return $post_type;
+		}
+
+		return $post_type_object->labels->name;
+	}
+
+	/**
+	 * Generates the HTML interface for the recalculation.
+	 *
+	 * @return string The HTML representation of the interface.
+	 */
+	protected function generate_internal_link_calculation_interface() {
+		return sprintf(
+			'<p id="internalLinksCalculation"><a id="openInternalLinksCalculation" href="%s" title="%s" class="%s">%s</a></p><br />',
+			esc_url( '#TB_inline?width=600&height=' . ( self::MODAL_DIALOG_HEIGHT_BASE + self::PROGRESS_BAR_HEIGHT ) . '&inlineId=wpseo_recalculate_internal_links_wrapper' ),
+			esc_attr__( 'Generate internal linking suggestions', 'wordpress-seo-premium' ),
+			esc_attr( 'btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox' ),
+			esc_html__( 'Analyze your content', 'wordpress-seo-premium' )
+		);
 	}
 
 	/**
 	 * Initialize the modal box to be displayed when needed.
+	 *
+	 * @return void
 	 */
 	public function modal_box() {
 		// Adding the thickbox.
 		add_thickbox();
 
-		$total_posts = $this->count_unindexed_posts_by_type( 'post' );
-		$total_pages = $this->count_unindexed_posts_by_type( 'page' );
+		$supported_post_types       = $this->get_post_types();
+		$total_items                = $this->post_query->get_totals( $supported_post_types );
+		$supported_post_type_labels = $this->get_indexable_post_type_labels( $supported_post_types );
 
-		$progress_posts = sprintf(
+		$progress = sprintf(
 			/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-			esc_html__( 'Post %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
-			'<span id="wpseo_count_posts" class="wpseo-prominent-words-progress-current">0</span>',
-			'<strong id="wpseo_count_posts_total" class="wpseo-prominent-words-progress-total">' . (int) $total_posts . '</strong>'
-		);
-
-		$progress_pages = sprintf(
-			/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-			esc_html__( 'Page %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
-			'<span id="wpseo_count_pages" class="wpseo-prominent-words-progress-current">0</span>',
-			'<strong id="wpseo_count_pages_total" class="wpseo-prominent-words-progress-total">' . (int) $total_pages . '</strong>'
+			esc_html__( 'Item %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
+			'<span id="wpseo_count_items" class="wpseo-prominent-words-progress-current">0</span>',
+			'<strong id="wpseo_count_items_total" class="wpseo-prominent-words-progress-total">' . array_sum( $total_items ) . '</strong>'
 		);
 
 		?>
 		<div id="wpseo_recalculate_internal_links_wrapper" class="hidden">
 			<div id="wpseo_recalculate_internal_links">
-				<p><?php esc_html_e( 'Generating suggestions for posts...', 'wordpress-seo-premium' ); ?></p>
-				<?php if ( $total_posts > 0 ) : ?>
-				<div id="wpseo_internal_links_posts_progressbar" class="wpseo-progressbar"></div>
-				<p><?php echo $progress_posts; ?></p>
+				<p>
+					<?php
+
+					printf(
+						/* translators: 1: expands to a list of supported post type labels that are being recalculated. */
+						esc_html__( 'Generating suggestions for %1$s...', 'wordpress-seo-premium' ),
+						implode( ', ', $supported_post_type_labels )
+					);
+
+					?>
+				</p>
+				<?php if ( $total_items > 0 ) : ?>
+					<div id="wpseo_internal_links_unindexed_progressbar" class="wpseo-progressbar"></div>
+					<p><?php echo $progress; ?></p>
 				<?php else : ?>
-				<p><?php esc_html_e( 'All your posts are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
+					<p><?php esc_html_e( 'Everything is already indexed. There is no need to recalculate anything.', 'wordpress-seo-premium' ); ?></p>
 				<?php endif; ?>
 			</div>
-			<hr />
-			<div id="wpseo_recalculate_internal_links">
-				<p><?php esc_html_e( 'Generating suggestions for pages...', 'wordpress-seo-premium' ); ?></p>
-				<?php if ( $total_pages > 0 ) : ?>
-				<div id="wpseo_internal_links_pages_progressbar" class="wpseo-progressbar"></div>
-				<p><?php echo $progress_pages; ?></p>
-				<?php else : ?>
-				<p><?php esc_html_e( 'All your pages are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
-				<?php endif; ?>
-			</div>
+
 			<button onclick="tb_remove();" type="button" class="button"><?php esc_html_e( 'Stop analyzing', 'wordpress-seo-premium' ); ?></button>
 		</div>
 
@@ -118,7 +172,9 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	}
 
 	/**
-	 * Enqueues site wide analysis script
+	 * Enqueues site wide analysis script.
+	 *
+	 * @return void
 	 */
 	public function enqueue() {
 		$page = filter_input( INPUT_GET, 'page' );
@@ -129,70 +185,51 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		wp_register_script(
 			WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis',
 			plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-' . $version . WPSEO_CSSJS_SUFFIX . '.js',
-			array(
-				WPSEO_Admin_Asset_Manager::PREFIX . 'react-dependencies',
-			),
+			array( WPSEO_Admin_Asset_Manager::PREFIX . 'react-dependencies' ),
 			WPSEO_VERSION,
 			true
 		);
 
 		if ( $page === 'wpseo_dashboard' ) {
-			$data = array(
-				'allWords'    => get_terms( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME, array( 'fields' => 'ids' ) ),
-				'amount'      => array(
-					'total' => $this->count_unindexed_posts_by_type( 'post' ),
-				),
-				'amountPages' => array(
-					'total' => $this->count_unindexed_posts_by_type( 'page' ),
-				),
-				'restApi'     => array(
-					'root'  => esc_url_raw( rest_url() ),
-					'nonce' => wp_create_nonce( 'wp_rest' ),
-				),
-				'message'     => array(
-					'analysisCompleted' => $this->messageAlreadyIndexed(),
-				),
-				'l10n'        => array(
-					'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo-premium' ),
-					'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo-premium' ),
-					'contentLocale'         => get_locale(),
-				),
-			);
-
-			wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis' );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', 'yoastSiteWideAnalysisData', array( 'data' => $data ) );
+			$this->enqueue_dashboard_assets();
 		}
 	}
 
 	/**
-	 * Counts posts that have no prominent words.
+	 * Enqueues the dashboard assests.
 	 *
-	 * @param string $post_type The post type to count.
-	 *
-	 * @return int The amount of posts.
+	 * @return void
 	 */
-	protected function count_unindexed_posts_by_type( $post_type ) {
-		if ( ! $this->post_query ) {
-			$this->post_query = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
-		}
+	protected function enqueue_dashboard_assets() {
+		$all_items = $this->post_query->get_totals( $this->get_post_types() );
 
-		return $this->post_query->get_total( $post_type );
+		$data = array(
+			'allWords'      => get_terms( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME, array( 'fields' => 'ids' ) ),
+			'allItems'      => $all_items,
+			'totalItems'    => array_sum( $all_items ),
+			'message'       => array( 'analysisCompleted' => $this->messageAlreadyIndexed() ),
+			'restApi'       => array(
+				'root'  => esc_url_raw( rest_url() ),
+				'nonce' => wp_create_nonce( 'wp_rest' ),
+			),
+			'l10n'          => array(
+				'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo-premium' ),
+				'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo-premium' ),
+				'contentLocale'         => get_locale(),
+			),
+		);
+
+		wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis' );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', 'yoastSiteWideAnalysisData', array( 'data' => $data ) );
 	}
 
 	/**
-	 * Calculates the total height of the modal.
+	 * Returns the rest enabled post types.
 	 *
-	 * @param int $total_posts The total amount of posts.
-	 * @param int $total_pages The total amount of pages.
-	 *
-	 * @return int The calculated height.
+	 * @return array Array with rest enabled post types.
 	 */
-	protected function get_modal_height( $total_posts, $total_pages ) {
-		if ( $total_posts > 0 && $total_pages > 0 ) {
-			return ( self::MODAL_DIALOG_HEIGHT_BASE + self::PROGRESS_BAR_HEIGHT );
-		}
-
-		return self::MODAL_DIALOG_HEIGHT_BASE;
+	protected function get_post_types() {
+		return array_filter( $this->prominent_words_support->get_supported_post_types(), array( 'WPSEO_Post_Type', 'is_rest_enabled' ) );
 	}
 
 	/**

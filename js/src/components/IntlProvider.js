@@ -28,7 +28,7 @@ function loadLocaleData( locale ) {
 		return new Promise( ( resolve ) => resolve() );
 	}
 
-	return import(
+	return System.import(
 		`react-intl/locale-data/${ locale }`
 		).then( localeData => {
 			addLocaleData( localeData );

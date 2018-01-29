@@ -21,9 +21,10 @@ class SiteWideCalculation extends EventEmitter {
 	 * @param {string} nonce The nonce to use when using the REST API.
 	 * @param {number[]} allProminentWordIds A list of all prominent word IDs present on the site.
 	 * @param {string} listEndpoint The endpoint to call when retrieving posts or pages.
+	 * @param {string} postTypeRestBase The post type REST base that specifies the post type.
 	 * @param {ProminentWordCache} prominentWordCache The cache for prominent words.
 	 */
-	constructor( { totalPosts, rootUrl, nonce, allProminentWordIds, listEndpoint, prominentWordCache = null, recalculateAll = false } ) {
+	constructor( { totalPosts, rootUrl, nonce, allProminentWordIds, listEndpoint, postTypeRestBase, prominentWordCache = null, recalculateAll = false } ) {
 		super();
 
 		this._perPage = 10;
@@ -36,6 +37,7 @@ class SiteWideCalculation extends EventEmitter {
 		this._recalculateAll = recalculateAll;
 		this._allProminentWordIds = allProminentWordIds;
 		this._listEndpoint = listEndpoint;
+		this._postTypeRestBase = postTypeRestBase;
 
 		if ( prominentWordCache === null ) {
 			prominentWordCache = new ProminentWordCache();
@@ -171,7 +173,7 @@ class SiteWideCalculation extends EventEmitter {
 	incrementProcessedPosts() {
 		this._processedPosts += 1;
 
-		this.emit( "processedPost", this._processedPosts, this._totalPosts );
+		this.emit( "processedPost", this._processedPosts, this._totalPosts, this._postTypeRestBase );
 	}
 }
 

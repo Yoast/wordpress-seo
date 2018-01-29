@@ -29,9 +29,6 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 		echo "<div id='" . esc_attr( $tax->name ) . "-titles-metas'>";
 		$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
 		$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
-		if ( $options['usemetakeywords'] === true ) {
-			$yform->textinput( 'metakey-tax-' . $tax->name, __( 'Meta keywords template', 'wordpress-seo' ) );
-		}
 		$yform->toggle_switch( 'noindex-tax-' . $tax->name, $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 		if ( $tax->name !== 'post_format' ) {
 			/* translators: %1$s expands to Yoast SEO */

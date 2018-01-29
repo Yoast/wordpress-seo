@@ -66,19 +66,6 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the breadcrumbs title field will be hidden if the option 'breadcrumbs-enable' is set to false.
-	 *
-	 * WPSEO_Taxonomy_Settings_Fields::get
-	 */
-	public function test_get_fields_hidden_meta_keywords() {
-		$this->class_instance->set_option( 'usemetakeywords', true );
-		$this->assertTrue( array_key_exists( 'metakey', $this->class_instance->get() ) );
-
-		$this->class_instance->set_option( 'usemetakeywords', false );
-		$this->assertFalse( array_key_exists( 'metakey', $this->class_instance->get() ) );
-	}
-
-	/**
 	 * Test the result of get_robot_index
 	 *
 	 * WPSEO_Taxonomy_Content_Fields::get_robot_index
