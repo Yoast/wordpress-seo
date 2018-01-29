@@ -106,6 +106,39 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 6.3.0 =
+Release Date: February 13th, 2018
+
+Bugfixes:
+
+* Reverts the shortlink in the HTML comment back to the hard link it was before.
+* Fixes a bug where the Local SEO for WooCommerce extension was not shown on the licenses page.
+* Fixes a bug where the `current_user_can()` function was not called with the post ID as argument.
+* Fixes a bug where only 10 posts when executing meta robots import from wpSEO.de.
+* Fixes a bug where the auto-generated meta descriptions were not respecting the 320 characters limitation.
+* Fixes a bug where external links were not filtered from the post_type sitemap.
+* Clears the sitemap cache when the Site URL is changed.
+* Fixes a bug where old meta values were not deleted during import.
+* Fixes a bug where trashed posts were displayed in the bulk editor overview.
+
+Enhancements:
+
+* Removes all uses of meta keywords throughout the plugin.
+* Removes the "noindex subpages" feature as Google has gotten much better at paginated series, and it's now actually detrimental to use.
+* Adds a step in the configuration wizard for enabling (or disabling) the advanced settings.
+* Adds an importer for the Ultimate SEO plugin SEO data.
+* Adds an importer for the SEOpressor plugin SEO data.
+* Adds a function that can be used to determine whether or not a post type is enabled in the REST API.
+* Adds additional explanation on entries on the features tab.
+* Adds links to explanatory articles on the features tab.
+* Improves Open Graph copy for Facebook and Twitter in the Social settings to better explain what it does.
+* Improves Content Analysis and Publish box copy for better translations.
+* Applies design changes to the Help Center support tab for Premium.
+* Removes the "Other" tab from the Titles & Metas settings screen, as all options have been moved or removed.
+
+Other:
+* Security hardening.
+
 = 6.2.0 =
 Release Date: January 23rd, 2018
 
