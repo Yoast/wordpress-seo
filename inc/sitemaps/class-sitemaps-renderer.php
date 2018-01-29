@@ -27,7 +27,7 @@ class WPSEO_Sitemaps_Renderer {
 	 * Set up object properties.
 	 */
 	public function __construct() {
-		$stylesheet_url       = preg_replace( '/(^http[s]?:)/', '', esc_url( plugin_dir_url( WPSEO_FILE ) . 'css/main-sitemap.xsl' ) );
+		$stylesheet_url       = preg_replace( '/(^http[s]?:)/', '', $this->get_xsl_url() );
 		$this->stylesheet     = '<?xml-stylesheet type="text/xsl" href="' . $stylesheet_url . '"?>';
 		$this->charset        = get_bloginfo( 'charset' );
 		$this->output_charset = $this->charset;
@@ -323,5 +323,22 @@ class WPSEO_Sitemaps_Renderer {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Retrieves the XSL URL that should be used in the current environment
+	 *
+	 * When home_url and site_url are not the same, the home_url should be used.
+	 * This is because the XSL needs to be served from the same domain, protocol and port
+	 * as the XML file that is loading it.
+	 *
+	 * @return string The XSL URL that needs to be used.
+	 */
+	protected function get_xsl_url() {
+		if ( home_url() !== site_url() ) {
+			return esc_url( home_url( 'main-sitemap.xsl' ) );
+		}
+
+		return esc_url( plugin_dir_url( WPSEO_FILE ) . 'css/main-sitemap.xsl' );
 	}
 }
