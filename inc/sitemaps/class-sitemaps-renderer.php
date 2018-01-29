@@ -28,7 +28,7 @@ class WPSEO_Sitemaps_Renderer {
 	 */
 	public function __construct() {
 		$stylesheet_url       = preg_replace( '/(^http[s]?:)/', '', $this->get_xsl_url() );
-		$this->stylesheet     = '<?xml-stylesheet type="text/xsl" href="' . $stylesheet_url . '"?>';
+		$this->stylesheet     = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '"?>';
 		$this->charset        = get_bloginfo( 'charset' );
 		$this->output_charset = $this->charset;
 		$this->timezone       = new WPSEO_Sitemap_Timezone();
@@ -334,9 +334,9 @@ class WPSEO_Sitemaps_Renderer {
 	 */
 	protected function get_xsl_url() {
 		if ( home_url() !== site_url() ) {
-			return esc_url( home_url( 'main-sitemap.xsl' ) );
+			return home_url( 'main-sitemap.xsl' );
 		}
 
-		return esc_url( plugin_dir_url( WPSEO_FILE ) . 'css/main-sitemap.xsl' );
+		return plugin_dir_url( WPSEO_FILE ) . 'css/main-sitemap.xsl';
 	}
 }

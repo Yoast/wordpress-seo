@@ -400,7 +400,7 @@ class WPSEO_Sitemaps {
 		header( 'Cache-Control: maxage=' . $expires );
 		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', ( time() + $expires ) ) . ' GMT' );
 
-		echo file_get_contents( WPSEO_PATH . 'css/main-sitemap.xsl' );
+		readfile( WPSEO_PATH . 'css/main-sitemap.xsl' );
 	}
 
 	/**
