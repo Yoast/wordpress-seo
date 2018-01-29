@@ -455,8 +455,8 @@ class WPSEO_Upgrade {
 		unset( $option_titles['noindex-subpages-wpseo'] );
 		unset( $option_titles['usemetakeywords'] );
 
-		// Remove all the meta keyword template options we've stored
-		foreach( array_keys( $option_titles ) as $key ) {
+		// Remove all the meta keyword template options we've stored.
+		foreach ( array_keys( $option_titles ) as $key ) {
 			if ( strpos( $key, 'metakey' ) === 0 ) {
 				unset( $option_titles[ $key ] );
 			}
