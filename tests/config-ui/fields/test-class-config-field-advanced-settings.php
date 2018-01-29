@@ -17,9 +17,9 @@ class WPSEO_Config_Field_Advanced_Settings_Test extends PHPUnit_Framework_TestCa
 	 *
 	 * @param string $expected     The expected result.
 	 * @param bool   $option_value The saved option value.
-	 * @param string $description  The description of the test purpose.
+	 * @param string $message      The message to display after the assertion is completed.
 	 */
-	public function test_get_data( $expected, $option_value, $description ) {
+	public function test_get_data( $expected, $option_value, $message ) {
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Config_Field_Advanced_Settings' )
 			->setMethods( array( 'get_option_value' ) )
@@ -30,7 +30,7 @@ class WPSEO_Config_Field_Advanced_Settings_Test extends PHPUnit_Framework_TestCa
 			->method( 'get_option_value' )
 			->will( $this->returnValue( $option_value ) );
 
-		$this->assertEquals( $expected, $class_instance->get_data(), $description );
+		$this->assertEquals( $expected, $class_instance->get_data(), $message );
 	}
 
 	/**
@@ -41,9 +41,9 @@ class WPSEO_Config_Field_Advanced_Settings_Test extends PHPUnit_Framework_TestCa
 	 * @param bool   $expected      The expected result.
 	 * @param string $value_to_save The value to save.
 	 * @param bool   $option_value  The saved option value.
-	 * @param string $description   The description of the test purpose.
+	 * @param string $message       The message to display after the assertion is completed.
 	 */
-	public function test_set_data( $expected, $value_to_save, $option_value, $description ) {
+	public function test_set_data( $expected, $value_to_save, $option_value, $message ) {
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Config_Field_Advanced_Settings' )
 			->setMethods( array( 'get_option_value', 'set_option_value' ) )
@@ -54,7 +54,7 @@ class WPSEO_Config_Field_Advanced_Settings_Test extends PHPUnit_Framework_TestCa
 			->method( 'get_option_value' )
 			->will( $this->returnValue( $option_value ) );
 
-		$this->assertEquals( $expected, $class_instance->set_data( $value_to_save ), $description );
+		$this->assertEquals( $expected, $class_instance->set_data( $value_to_save ), $message );
 	}
 
 	/**
@@ -63,7 +63,7 @@ class WPSEO_Config_Field_Advanced_Settings_Test extends PHPUnit_Framework_TestCa
 	 * Format:
 	 * [0] string is the expected value.
 	 * [1] bool   is the value that get_option_value will return.
-	 * [2] string is the description of the test.
+	 * [2] string is the message to display after the assertion is completed.
 	 *
 	 * @return array The data values.
 	 */
@@ -82,7 +82,7 @@ class WPSEO_Config_Field_Advanced_Settings_Test extends PHPUnit_Framework_TestCa
 	 * [0] bool   is the expected value.
 	 * [1] string is the value to save.
 	 * [2] bool   is the value that get_option_value will return.
-	 * [3] string is the description of the test.
+	 * [3] string is the message to display after the assertion is completed.
 	 *
 	 * @return array The data values.
 	 */
