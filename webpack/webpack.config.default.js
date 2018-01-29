@@ -1,9 +1,13 @@
 const _defaultsDeep = require( "lodash/defaultsDeep" );
 const webpack = require( "webpack" );
 const UnminifiedWebpackPlugin = require( "unminified-webpack-plugin" );
+const path = require( "path" );
 
 const paths = require( "./paths" );
-const outputFilename = "[name]-<%= pluginVersionSlug %>.min.js";
+const pkg = require( "../package.json" );
+
+const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
+const outputFilename = "[name]-" + pluginVersionSlug + ".min.js";
 
 const defaultWebpackConfig = {
 	devtool: "eval",
@@ -13,6 +17,8 @@ const defaultWebpackConfig = {
 		path: paths.jsDist,
 		filename: outputFilename,
 		jsonpFunction: "yoastWebpackJsonp",
+		chunkFilename: "chunks/[name].js",
+		publicPath: "/wp-content/plugins/wordpress-seo/js/dist/",
 	},
 	resolve: {
 		extensions: [ ".js", ".jsx" ],
@@ -43,12 +49,12 @@ const defaultWebpackConfig = {
 				NODE_ENV: JSON.stringify( "production" ),
 			},
 		} ),
-		new webpack.optimize.UglifyJsPlugin(),
 		new UnminifiedWebpackPlugin(),
+		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.optimize.AggressiveMergingPlugin(),
 		new webpack.optimize.CommonsChunkPlugin( {
 			name: "vendor",
-			filename: "commons-<%= pluginVersionSlug %>.min.js",
+			filename: "commons-" + pluginVersionSlug + ".min.js",
 		} ),
 	],
 };

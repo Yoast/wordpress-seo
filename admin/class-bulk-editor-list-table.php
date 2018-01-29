@@ -285,10 +285,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$status_links = array();
 
-		$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
-		$states['trash'] = 'trash';
-		$states          = esc_sql( $states );
-		$all_states      = "'" . implode( "', '", $states ) . "'";
+		$states     = get_post_stati( array( 'show_in_admin_all_list' => true ) );
+		$states     = esc_sql( $states );
+		$all_states = "'" . implode( "', '", $states ) . "'";
 
 		$subquery = $this->get_base_subquery();
 
@@ -710,6 +709,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			if ( in_array( $requested_state, $states, true ) ) {
 				$states = array( $requested_state );
 			}
+
+			if ( $requested_state !== 'trash' ) {
+				unset( $states['trash'] );
+			}
 		}
 
 		$states     = esc_sql( $states );
@@ -717,7 +720,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		return $all_states;
 	}
-
 
 	/**
 	 * Based on $this->items and the defined columns, the table rows will be displayed.

@@ -93,7 +93,7 @@ class WPSEO_Link_Query {
 				   AND posts.post_type IN ( ' . $post_types . ' )
 				   AND yoast_meta.internal_link_count IS NULL
 				 LIMIT %d
-	   ';
+		';
 		// @codingStandardsIgnoreEnd
 
 		return $wpdb->get_results(

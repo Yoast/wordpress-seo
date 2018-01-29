@@ -2,7 +2,7 @@
 const defaults = require( "./webpack.config.default" ).defaults;
 const webpack = require( "webpack" );
 
-const devConfig ={
+const devConfig = {
 	devtool: "eval",
 	plugins: [
 		new webpack.DefinePlugin( {
@@ -10,7 +10,7 @@ const devConfig ={
 				NODE_ENV: JSON.stringify( "development" ),
 			},
 		} ),
-	]
+	],
 };
 
 module.exports = defaults( devConfig );
