@@ -29,7 +29,7 @@ $feature_toggles = array(
 	(object) array(
 		'name'            => __( 'Cornerstone content', 'wordpress-seo' ),
 		'setting'         => 'enable_cornerstone_content',
-		'label'           => __( 'The cornerstone feature lets you to mark and filter cornerstone content on your website.', 'wordpress-seo' ),
+		'label'           => __( 'The cornerstone content feature lets you to mark and filter cornerstone content on your website.', 'wordpress-seo' ),
 		'read_more_label' => __( 'Find out how cornerstone content can help you improve your site structure.', 'wordpress-seo' ),
 		'read_more_url'   => 'https://yoa.st/dashboard-help-cornerstone',
 		'order'           => 30,
@@ -52,10 +52,10 @@ $feature_toggles = array(
 	),
 	(object) array(
 		/* translators: %s expands to Ryte. */
-		'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Ryte ' ),
+		'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Ryte' ),
 		'setting'         => 'onpage_indexability',
 		/* translators: %1$s expands to Ryte. */
-		'label'           => sprintf( __( '%1$s can check daily if your site is still indexable by search engines, and will notify you when this is not the case.', 'wordpress-seo' ), 'Ryte' ),
+		'label'           => sprintf( __( '%1$s can check daily if your site is still indexable by search engines and will notify you when this is not the case.', 'wordpress-seo' ), 'Ryte' ),
 		/* translators: %s expands to Ryte. */
 		'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'Ryte ' ),
 		'read_more_url'   => 'https://yoa.st/2an',
@@ -93,7 +93,7 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
  * @param object $a Key A.
  * @param object $b Key B.
  *
- * @return bool
+ * @return bool Whether A is bigger than B.
  */
 function wpseo_cmp_order( $a, $b ) {
     return ( $a->order > $b->order );
