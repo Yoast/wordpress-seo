@@ -23,7 +23,7 @@ $feature_toggles = array(
 		'setting'         => 'content_analysis_active',
 		'label'           => __( 'The readability analysis offers suggestions to improve the structure and style of your text.', 'wordpress-seo' ),
 		'read_more_label' => __( 'Discover why readability is important for SEO.', 'wordpress-seo' ),
-		'read_more_url'   => 'https://yoa.st/2al',
+		'read_more_url'   => 'https://yoa.st/2ao',
 		'order'           => 20,
 	),
 	(object) array(
