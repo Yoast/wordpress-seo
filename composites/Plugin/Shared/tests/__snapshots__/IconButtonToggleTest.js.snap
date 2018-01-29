@@ -1,10 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
+.c0 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204, 204, 204, 0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c0:hover {
+  border-color: #fff;
+}
+
+.c0:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c1 {
+  width: 18px;
+  height: 18px;
+  fill: #ddd;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <button
   aria-label="important toggle"
   aria-pressed={false}
-  className="sc-bdVaJa chrcxo"
+  className="c0"
   disabled={true}
   id="RadioButton2"
   onClick={[Function]}
@@ -12,7 +45,7 @@ exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
 >
   <svg
     aria-hidden="true"
-    className="sc-bxivhb kWWPTV"
+    className="c1"
     focusable="false"
     role="img"
   />
@@ -20,10 +53,43 @@ exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
 `;
 
 exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
+.c0 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #a4286a;
+  box-shadow: inset 0 2px 0 rgba( 93, 35, 122, 0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 23px;
+}
+
+.c0:hover {
+  border-color: #fff;
+}
+
+.c0:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c1 {
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <button
   aria-label="important toggle"
   aria-pressed={true}
-  className="sc-bdVaJa jgsRfK"
+  className="c0"
   disabled={false}
   id="RadioButton2"
   onClick={[Function]}
@@ -31,7 +97,7 @@ exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
 >
   <svg
     aria-hidden="true"
-    className="sc-htpNat JvWAC"
+    className="c1"
     focusable="false"
     role="img"
   />
@@ -39,10 +105,43 @@ exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
 `;
 
 exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
+.c0 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204, 204, 204, 0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c0:hover {
+  border-color: #fff;
+}
+
+.c0:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c1 {
+  width: 18px;
+  height: 18px;
+  fill: #555;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <button
   aria-label="important toggle"
   aria-pressed={false}
-  className="sc-bdVaJa chrcxo"
+  className="c0"
   disabled={false}
   id="RadioButton"
   onClick={[Function]}
@@ -50,7 +149,7 @@ exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
 >
   <svg
     aria-hidden="true"
-    className="sc-bwzfXH ebHRBw"
+    className="c1"
     focusable="false"
     role="img"
   />

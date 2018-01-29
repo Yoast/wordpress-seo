@@ -1,9 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the Icon matches the snapshot 1`] = `
+.c0 {
+  width: 16px;
+  height: 16px;
+  fill: black;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <svg
   aria-hidden="true"
-  className="sc-bdVaJa jCwthi"
+  className="c0"
   focusable="false"
   role="img"
 />
