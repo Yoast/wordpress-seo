@@ -24,6 +24,9 @@ class WPSEO_Import_External {
 	 */
 	public $msg = '';
 
+	/** @var bool When import has been successful */
+	public $success = false;
+
 	/**
 	 * Import class constructor.
 	 *
@@ -100,6 +103,7 @@ class WPSEO_Import_External {
 			}
 			unset( $hs_meta, $meta );
 		}
+		$this->success = true;
 		$this->set_msg( __( 'HeadSpace2 data successfully imported', 'wordpress-seo' ) );
 	}
 }
