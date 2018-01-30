@@ -48,6 +48,10 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 		$import = new WPSEO_Import_WPSEO( $replace );
 	}
 
+	if ( ! empty( $post_wpseo['importseoultimate'] ) || filter_input( INPUT_GET, 'importseoultimate' ) ) {
+		$import = new WPSEO_Import_Ultimate_SEO( $replace );
+	}
+
 	if ( ! empty( $post_wpseo['importseopressor'] ) || filter_input( INPUT_GET, 'importseopressor' ) ) {
 		$import = new WPSEO_Import_SEOPressor( $replace );
 	}

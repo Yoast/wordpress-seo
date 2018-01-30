@@ -19,15 +19,6 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 	private $term;
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-taxonomy-settings-fields-double.php';
-	}
-
-	/**
 	 * Adding a term and set the class instance
 	 */
 	public function setUp() {
@@ -63,19 +54,6 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance->set_option( 'breadcrumbs-enable', false );
 		$this->assertFalse( array_key_exists( 'bctitle', $this->class_instance->get() ) );
-	}
-
-	/**
-	 * Test if the breadcrumbs title field will be hidden if the option 'breadcrumbs-enable' is set to false.
-	 *
-	 * WPSEO_Taxonomy_Settings_Fields::get
-	 */
-	public function test_get_fields_hidden_meta_keywords() {
-		$this->class_instance->set_option( 'usemetakeywords', true );
-		$this->assertTrue( array_key_exists( 'metakey', $this->class_instance->get() ) );
-
-		$this->class_instance->set_option( 'usemetakeywords', false );
-		$this->assertFalse( array_key_exists( 'metakey', $this->class_instance->get() ) );
 	}
 
 	/**
