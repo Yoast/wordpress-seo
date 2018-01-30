@@ -4,6 +4,20 @@ html {
 	font-family: sans-serif;
 }
 
+/* In the plugin the yoast-section comes from the yoast-components
+and switches everything to border-box. */
+.yoast-section *,
+.yoast-section {
+	box-sizing: border-box;
+}
+
+.yoast-section *:before,
+.yoast-section *:after,
+.yoast-section:before,
+.yoast-section:after {
+	box-sizing: border-box;
+}
+
 h2{
 	color: #777;
 }
@@ -11,7 +25,6 @@ h2{
 .output-container,
 .form-container{
 	padding: 20px;
-	width: 512px;
 }
 
 .inputForm label {
