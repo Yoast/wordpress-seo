@@ -3,7 +3,7 @@
  * WPSEO plugin file.
  *
  * @package WPSEO\Admin
- * @since      1.5.0
+ * @since   1.5.0
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
