@@ -152,7 +152,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					printf(
 						/* translators: 1: expands to a list of supported post type labels that are being recalculated. */
 						esc_html__( 'Generating suggestions for %1$s...', 'wordpress-seo-premium' ),
-						implode( ', ', $supported_post_type_labels )
+						esc_html( implode( ', ', $supported_post_type_labels ) )
 					);
 
 					?>

@@ -131,7 +131,7 @@ class WPSEO_Redirect_Handler {
 	 * @return void
 	 */
 	public function set_404() {
-		$wp_query = $this->get_wp_query();
+		$wp_query         = $this->get_wp_query();
 		$wp_query->is_404 = true;
 	}
 

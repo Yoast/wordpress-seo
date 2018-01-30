@@ -10,7 +10,11 @@
  */
 class WPSEO_Redirect_Url_Formatter {
 
-	/** @var string  */
+	/**
+	 * The URL to format.
+	 *
+	 * @var string
+	 */
 	protected $url = '';
 
 	/**

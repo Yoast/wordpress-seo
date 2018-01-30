@@ -73,7 +73,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 						'normal/redirect/' => array(
 							'url'  => '/',
 							'type' => 403,
-						)
+						),
 					)
 				)
 			);
@@ -113,13 +113,13 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 						'normal/redirect/' => array(
 							'url'  => '/',
 							'type' => 403,
-						)
+						),
 					),
 					array(
 						'(reg)ex/redirect' => array(
 							'url'  => '/',
 							'type' => 403,
-						)
+						),
 					)
 				)
 			);
@@ -317,7 +317,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 			'normal/redirect/' => array(
 				'url'  => '/',
 				'type' => 403,
-			)
+			),
 		);
 
 		$this->assertEquals( $redirects, $redirect_handler->normalize_redirects( $redirects ) );
@@ -394,7 +394,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the parsing of the target url.
 	 *
-	 * @param string $unformatted_target The unformatted (given) target
+	 * @param string $unformatted_target The unformatted (given) target.
 	 * @param string $formatted_target   The formatted (expected) target.
 	 *
 	 * @dataProvider target_url_provider
@@ -502,7 +502,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	public function test_set_template_include_hook() {
 		$redirect_handler = new WPSEO_Redirect_Handler_Double();
 
-		$this->assertFalse(  $redirect_handler->set_template_include_hook( 'test' ) );
+		$this->assertFalse( $redirect_handler->set_template_include_hook( 'test' ) );
 	}
 
 	/**
@@ -521,7 +521,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 			->method( 'get_query_template' )
 			->will( $this->returnValue( 'template-file' ) );
 
-		$this->assertTrue(  $redirect_handler->set_template_include_hook( 'test' ) );
+		$this->assertTrue( $redirect_handler->set_template_include_hook( 'test' ) );
 		$this->assertEquals( 10, has_filter( 'template_include', array( $redirect_handler, 'set_template_include' ) ) );
 	}
 
@@ -630,6 +630,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 				'type' => $redirect->get_type(),
 			),
 		);
+
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
 			->setMethods( array( 'get_request_uri', 'get_redirects', 'do_redirect' ) )
@@ -845,7 +846,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $class_instance->load_php_redirects() );
 	}
 
-	/********************** Data Providers **********************/
+	/* ********************* Data Providers ********************* */
 
 	/**
 	 * Provider for the default (normal) redirects.
@@ -918,12 +919,12 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 			array(
 				'page/get/it',
 				new WPSEO_Redirect( 'page/.*', 'page-hi', 301 ),
-				'page-hi'
+				'page-hi',
 			),
 			array(
 				'/a/page/to/amp',
 				new WPSEO_Redirect( '/a/page/([^/]+)/amp', '/a/page/$1', 301 ),
-				'a/page/to'
+				'a/page/to',
 			),
 		);
 	}
@@ -939,10 +940,34 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 */
 	public function url_search_provider() {
 		return array(
-			array( 'normal/redirect/', array( 'url'  => '/', 'type' => 403, ) ),
-			array( 'normal/redirect', array( 'url'  => '/', 'type' => 403, ) ),
-			array( 'noslash', array( 'url'  => '/', 'type' => 403, ) ),
-			array( 'noslash/', array( 'url'  => '/', 'type' => 403, ) ),
+			array(
+				'normal/redirect/',
+				array(
+					'url'  => '/',
+					'type' => 403,
+				),
+			),
+			array(
+				'normal/redirect',
+				array(
+					'url'  => '/',
+					'type' => 403,
+				),
+			),
+			array(
+				'noslash',
+				array(
+					'url'  => '/',
+					'type' => 403,
+				),
+			),
+			array(
+				'noslash/',
+				array(
+					'url'  => '/',
+					'type' => 403,
+				),
+			),
 			array( 'non/existing', false ),
 			array( 'non/existing/', false ),
 		);
@@ -961,9 +986,9 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		$home_url = home_url();
 
 		return array(
-			array( '/test/page' , $home_url . '/test/page' ),
-			array( 'http://external.org/' , 'http://external.org/' ),
-			array( 'no-slash' , 'no-slash' ),
+			array( '/test/page', $home_url . '/test/page' ),
+			array( 'http://external.org/', 'http://external.org/' ),
+			array( 'no-slash', 'no-slash' ),
 		);
 	}
 

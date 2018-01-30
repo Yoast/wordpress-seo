@@ -7,7 +7,7 @@
 
 /**
  * Test class for testing WPSEO_Redirect_File_Nginx
- **/
+ */
 class WPSEO_Redirect_Nginx_Exporter_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -35,7 +35,6 @@ class WPSEO_Redirect_Nginx_Exporter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 *
 	 * Testing if the export method will be called and returns true
 	 *
 	 * @covers WPSEO_Redirect_Nginx_Exporter::export
