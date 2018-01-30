@@ -1,7 +1,9 @@
 <?php
 /**
- * @package    WPSEO\Internals
- * @since      1.8.0
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Internals
+ * @since   1.8.0
  */
 
 /**
