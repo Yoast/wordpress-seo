@@ -123,8 +123,6 @@ Bugfixes:
 
 Enhancements:
 
-* Removes all uses of meta keywords throughout the plugin.
-* Removes the "noindex subpages" feature as Google has gotten much better at paginated series, and it's now actually detrimental to use.
 * Adds a step in the configuration wizard for enabling (or disabling) the advanced settings.
 * Adds an importer for the Ultimate SEO plugin SEO data.
 * Adds an importer for the SEOpressor plugin SEO data.
@@ -134,9 +132,11 @@ Enhancements:
 * Improves Open Graph copy for Facebook and Twitter in the Social settings to better explain what it does.
 * Improves Content Analysis and Publish box copy for better translations.
 * Applies design changes to the Help Center support tab for Premium.
-* Removes the "Other" tab from the Titles & Metas settings screen, as all options have been moved or removed.
 
 Other:
+* Removes "meta keywords" from the plugin as this has had no search result value for at least 7 years.
+* Removes the "noindex subpages" feature as Google has gotten much better at paginated series, and it's now actually detrimental to use.
+* Removes the "Other" tab from the Titles & Metas settings screen, as all options have been moved or removed.
 * Security hardening.
 
 = 6.2.0 =
