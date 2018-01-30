@@ -90,7 +90,6 @@ class WPSEO_Premium {
 	 */
 	public function __construct() {
 		$link_suggestions_service        = new WPSEO_Premium_Link_Suggestions_Service();
-
 		$prominent_words_unindexed_query = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
 		$prominent_words_support         = new WPSEO_Premium_Prominent_Words_Support();
 

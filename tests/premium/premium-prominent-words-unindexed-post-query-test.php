@@ -112,7 +112,13 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 		$this->factory()->post->create_many( 10 );
 		$this->factory()->post->create_many( 8, array( 'post_type' => 'page' ) );
 
-		$this->assertEquals( array( 'posts' => 10, 'pages' => 8 ), $this->class_instance->get_totals( array( 'post', 'page' ) ) );
+		$this->assertEquals(
+			array(
+				'posts' => 10,
+				'pages' => 8,
+			),
+			$this->class_instance->get_totals( array( 'post', 'page' ) )
+		);
 	}
 
 	/**
@@ -142,8 +148,8 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 	public function test_determine_rest_endpoint_custom_types_without_base_set() {
 		register_post_type( 'custom-post-type',
 			array(
-				'public' => true,
-				'labels' => array( 'name' => 'custom-post-type'	),
+				'public'       => true,
+				'labels'       => array( 'name' => 'custom-post-type' ),
 				'show_in_rest' => true,
 			)
 		);
@@ -157,7 +163,13 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 	 * @covers WPSEO_Premium_Prominent_Words_Unindexed_Post_Query::determine_rest_endpoint_for_post_type()
 	 */
 	public function test_determine_rest_endpoint_custom_types_without_base_and_name_set() {
-		register_post_type( 'custom-post-type',	array( 'public' => true, 'show_in_rest' => true ) );
+		register_post_type(
+			'custom-post-type',
+			array(
+				'public'       => true,
+				'show_in_rest' => true,
+			)
+		);
 
 		$this->assertEquals( 'custom-post-type', $this->class_instance->determine_rest_endpoint_for_post_type( 'custom-post-type' ) );
 	}
@@ -170,9 +182,9 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 	public function test_determine_rest_endpoint_custom_types_with_base_set() {
 		register_post_type( 'custom-post-type',
 			array(
-				'public' => true,
-				'name' => 'custom-post-type',
-				'rest_base' => 'custom',
+				'public'       => true,
+				'name'         => 'custom-post-type',
+				'rest_base'    => 'custom',
 				'show_in_rest' => true,
 			)
 		);
