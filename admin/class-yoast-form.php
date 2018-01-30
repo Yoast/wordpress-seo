@@ -600,7 +600,7 @@ class Yoast_Form {
 			$key_esc = esc_attr( $key );
 			$for     = $var_esc . '-' . $key_esc;
 			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />',
-			'<label for="', $for, '">', $value, '<span class="screen-reader-text"> ' , $screen_reader_text,'</span></label>';
+			'<label for="', $for, '">', esc_html( $value ), '<span class="screen-reader-text"> ' , esc_html( $screen_reader_text ),'</span></label>';
 		}
 
 		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
