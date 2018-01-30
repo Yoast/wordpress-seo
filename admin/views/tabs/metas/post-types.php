@@ -16,8 +16,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  */
 $post_types          = get_post_types( array( 'public' => true ), 'objects' );
 $index_switch_values = array(
-	'off' => '<code>index</code>',
-	'on'  => '<code>noindex</code>',
+	'off' => 'index',
+	'on'  => 'noindex',
 );
 
 if ( is_array( $post_types ) && $post_types !== array() ) {
