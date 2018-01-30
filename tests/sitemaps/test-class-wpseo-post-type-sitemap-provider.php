@@ -7,6 +7,7 @@
  * Class WPSEO_Post_Type_Sitemap_Provider_Test
  *
  * @group sitemaps
+ * @group test
  */
 class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
@@ -80,27 +81,48 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the default behaviour of the excluded posts. Happy path.
+	 * Tests the excluded posts with invalid values being filtered.
 	 *
-	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
+	 * @dataProvider data_for_get_excluded_posts_test
+	 *
+	 * @covers       WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
+	 *
+	 * @param array  $expected The expected value.
+	 * @param string $value    The value to test.
+	 * @param string $message  The message to display after the assertion is completed.
 	 */
-	public function test_get_excluded_posts() {
+	public function test_get_excluded_posts( array $expected, $value, $message  ) {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
-		$this->assertEquals( array( 1, 2 ) , $sitemap_provider->get_excluded_posts( '1,2' ) );
+		$this->assertEquals(  $expected, $sitemap_provider->get_excluded_posts( $value ), $message );
 	}
-	/**
-	 * Tests the exluded posts with invalid values being filtered.
-	 *
-	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
-	 */
-	public function test_get_excluded_posts_filter_out_invalid_values() {
-		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
-		$this->assertEquals( array() , $sitemap_provider->get_excluded_posts( '' ) );
-		$this->assertEquals( array() , $sitemap_provider->get_excluded_posts( 'a' ) );
-		$this->assertEquals( array() , $sitemap_provider->get_excluded_posts( ',' ) );
-		$this->assertEquals( array() , $sitemap_provider->get_excluded_posts( 'a,b' ) );
+	/**
+	 * Data provider for the get_excluded_posts test.
+	 *
+	 * Format:
+	 * 0: Is the expected output.
+	 * 1: Is the value to test.
+	 * 2: Is the message to display after the assertion is completed.
+	 *
+	 * @return array The data values.
+	 */
+	public function data_for_get_excluded_posts_test() {
+		return array(
+			array( array( 1, 2 ), '1,2', 'Normal string with happy input' ),
+			array( array(), '', 'Empty string as input' ),
+			array( array(), 'a', 'String value as input' ),
+			array( array( 23 ), '23books', 'String starting with a number' ),
+			array( array(), 'number44', 'String ending with a number' ),
+			array( array(  ), ',', 'Comma only as input' ),
+			array( array(  ), 'a,b', 'Two string with comma as input' ),
+			array( array( 100 ), '100,b', 'String and number as input' ),
+			array( array( 1, 50 ), '1
+			,
+			50', 'Newlines in the string' ),
+			array( array( 1, 2, 3 ),  '1 , 2,    3', 'String containing spaces' ),
+			array( array(), 'a, <!@#>', 'Weird string input' ),
+		);
 	}
 
 	/**
