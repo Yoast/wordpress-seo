@@ -236,7 +236,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$options = $this->get_options();
 		$posts_to_exclude = $this->get_excluded_posts( $options['excluded-posts'] );
-		$stacked_urls = array();
 
 		while ( $total > $offset ) {
 
@@ -276,8 +275,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				if ( empty( $url ) ) {
 					continue;
 				}
-
-				$stacked_urls[] = $url['loc'];
 
 				if ( (int) $post->ID === $this->get_page_for_posts_id() || (int) $post->ID === $this->get_page_on_front_id() ) {
 
