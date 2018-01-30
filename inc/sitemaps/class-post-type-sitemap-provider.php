@@ -250,11 +250,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			foreach ( $posts as $post ) {
 
-				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
+				if ( in_array( $post->ID, $posts_to_exclude, true ) ) {
 					continue;
 				}
 
-				if ( in_array( $post->ID, $posts_to_exclude, true ) ) {
+				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 					continue;
 				}
 
