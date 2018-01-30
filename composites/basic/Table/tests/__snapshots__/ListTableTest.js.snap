@@ -3,6 +3,7 @@
 exports[`the ListTable component matches the snapshot 1`] = `
 <ul
   className="sc-bdVaJa cQAnKY"
+  role="list"
 />
 `;
 
