@@ -463,5 +463,9 @@ class WPSEO_Upgrade {
 			}
 		}
 		update_option( 'wpseo_titles', $option_titles );
+
+		$option_permalinks = WPSEO_Options::get_option( 'wpseo_permalinks' );
+		unset( $option_permalinks['cleanslugs'] );
+		update_option( 'wpseo_permalinks', $option_permalinks );
 	}
 }
