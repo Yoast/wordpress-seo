@@ -69,17 +69,17 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Test extends WPSEO_UnitTestCas
 			array(
 				array(),
 				false,
-				'Always return an array.'
+				'Always return an array.',
 			),
 			array(
 				array( 'Posts' ),
 				array( 'post' ),
-				'Use post label.'
+				'Use post label.',
 			),
 			array(
 				array( 'Posts', 'test' ),
 				array( 'post', 'test' ),
-				'Use post type as fallback for non-existing post type.'
+				'Use post type as fallback for non-existing post type.',
 			),
 		);
 	}
