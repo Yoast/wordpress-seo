@@ -89,6 +89,7 @@ class KeywordSuggestions {
 		let contentDiv = jQuery( "#wpseo_content" );
 
 		this.suggestionsDiv = document.createElement( "div" );
+		this.suggestionsDiv.id = "yoast-insights";
 
 		contentDiv.append( this.suggestionsDiv );
 	}
