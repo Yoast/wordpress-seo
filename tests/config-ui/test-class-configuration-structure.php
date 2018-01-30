@@ -12,15 +12,6 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	protected $structure;
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-structure-mock.php';
-	}
-
-	/**
 	 * Set up
 	 */
 	public function setUp() {
@@ -47,6 +38,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 			'multipleAuthors',
 			'connectGoogleSearchConsole',
 			'titleTemplate',
+			'advancedSettings',
 			'newsletter',
 			'suggestions',
 			'success',

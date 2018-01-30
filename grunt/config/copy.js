@@ -24,7 +24,7 @@ module.exports = {
 				src: [
 					"admin/**",
 					"css/**/*.min.css",
-					"css/xml-sitemap-xsl.php",
+					"css/main-sitemap.xsl",
 					"deprecated/**",
 					"frontend/**",
 					"images/**",

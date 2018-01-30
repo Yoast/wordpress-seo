@@ -19,8 +19,6 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-option-xml-double.php';
-
 		self::$class_instance = new WPSEO_Author_Sitemap_Provider();
 	}
 

@@ -207,6 +207,13 @@ class WPSEO_Sitemaps {
 		$xsl = get_query_var( 'xsl' );
 
 		if ( ! empty( $xsl ) ) {
+			/*
+			 * This is a method to provide the XSL via the home_url.
+			 * Needed when the site_url and home_url are not the same.
+			 * Loading the XSL needs to come from the same domain, protocol and port as the XML.
+			 *
+			 * Whenever home_url and site_url are the same, the file can be loaded directly.
+			 */
 			$this->xsl_output( $xsl );
 			$this->sitemap_close();
 
@@ -393,7 +400,7 @@ class WPSEO_Sitemaps {
 		header( 'Cache-Control: maxage=' . $expires );
 		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', ( time() + $expires ) ) . ' GMT' );
 
-		require_once WPSEO_PATH . 'css/xml-sitemap-xsl.php';
+		readfile( WPSEO_PATH . 'css/main-sitemap.xsl' );
 	}
 
 	/**

@@ -8,6 +8,8 @@
  */
 class WPSEO_Frontend_Double extends WPSEO_Frontend {
 
+	protected $is_premium = false;
+
 	/**
 	 * Exposes the constructor to the public.
 	 */
@@ -59,5 +61,13 @@ class WPSEO_Frontend_Double extends WPSEO_Frontend {
 	 */
 	public function get_post_type_archive_title( $separator, $separator_location ) {
 		return parent::get_post_type_archive_title( $separator, $separator_location );
+	}
+
+	public function set_is_premium( $premium ) {
+		$this->is_premium = (bool) $premium;
+	}
+
+	public function is_premium() {
+		return $this->is_premium;
 	}
 }

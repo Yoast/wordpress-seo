@@ -57,7 +57,10 @@
 	"autoload-dev": {
 		"psr-4": {
 			"Yoast\\Tests\\": "tests/src/"
-		}
+		},
+		"classmap": [
+			"tests/"
+		]
 	},
 	"scripts": {
 		"config-yoastcs": [
