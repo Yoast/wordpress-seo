@@ -126,9 +126,8 @@ Enhancements:
 * Adds a step in the configuration wizard for enabling (or disabling) the advanced settings.
 * Adds an importer for the Ultimate SEO plugin SEO data.
 * Adds an importer for the SEOpressor plugin SEO data.
-* Adds a function that can be used to determine whether or not a post type is enabled in the REST API.
-* Adds additional explanation on entries on the features tab.
 * Adds links to explanatory articles on the features tab.
+* Adds additional explanation for entries on the features tab.
 * Improves Open Graph copy for Facebook and Twitter in the Social settings to better explain what it does.
 * Improves Content Analysis and Publish box copy for better translations.
 * Applies design changes to the Help Center support tab for Premium.
