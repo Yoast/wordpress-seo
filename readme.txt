@@ -124,7 +124,7 @@ Bugfixes:
 Enhancements:
 
 * Adds a step in the configuration wizard for enabling (or disabling) the advanced settings.
-* Adds an importer for the Ultimate SEO plugin SEO data.
+* Adds an importer for the SEO Ultimate plugin SEO data.
 * Adds an importer for the SEOpressor plugin SEO data.
 * Adds links to explanatory articles on the features tab.
 * Adds additional explanation for entries on the features tab.
