@@ -177,7 +177,12 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 
 		// If we get to replace the data, let's do some proper cleanup.
 		global $wpdb;
-		$query = $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key LIKE '_seop_%'", $post_id );
+		$query = $wpdb->prepare(
+			"DELETE FROM $wpdb->postmeta
+			WHERE post_id = %d AND meta_key LIKE %s",
+			$post_id,
+			'_seop_%'
+		);
 		$wpdb->query( $query );
 	}
 }
