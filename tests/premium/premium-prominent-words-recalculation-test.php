@@ -22,7 +22,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Test extends WPSEO_UnitTestCas
 	/**
 	 * Tests the formatting of the post type labels.
 	 *
-	 *
 	 * @param string $expected    The expected value.
 	 * @param mixed  $post_types  The post types to format.
 	 * @param string $description Description of the assertion.

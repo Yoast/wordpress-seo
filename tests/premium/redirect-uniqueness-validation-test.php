@@ -16,9 +16,11 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	 * @var WPSEO_Redirect_Uniqueness_Validation
 	 */
 	private $class_instance;
+
 	/**
+	 * Array with redirects to test against.
 	 *
-	 * @var array Array with redirects to test against.
+	 * @var array
 	 */
 	private $redirects = array(
 		'old_url'    => 'new_url',

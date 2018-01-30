@@ -36,7 +36,6 @@ class WPSEO_Redirect_Apache_Exporter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 *
 	 * Testing if the export method will be called and returns true
 	 *
 	 * @covers WPSEO_Redirect_Apache_Exporter::export

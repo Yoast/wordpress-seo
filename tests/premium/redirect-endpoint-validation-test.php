@@ -18,8 +18,9 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	private $class_instance;
 
 	/**
+	 * Array with redirects to test against.
 	 *
-	 * @var array Array with redirects to test against.
+	 * @var array
 	 */
 	private $redirects = array(
 		'old_url'    => 'new_url',
