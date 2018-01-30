@@ -613,6 +613,14 @@ class WPSEO_Admin_Init {
 				'version'     => '5.8',
 				'alternative' => 'wpseo_breadcrumb_single_link_info',
 			),
+			'wpseo_metakey'                => array(
+				'version'     => '6.3',
+				'alternative' => null,
+			),
+			'wpseo_metakeywords'           => array(
+				'version'     => '6.3',
+				'alternative' => null,
+			),
 		);
 
 		// Determine which filters have been registered.
