@@ -1,7 +1,5 @@
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
-	"use strict";
-
 	return {
 		makepot: {
 			potFile: "languages/yoast-seo.pot",

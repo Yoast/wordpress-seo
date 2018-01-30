@@ -4,19 +4,27 @@ html {
 	font-family: sans-serif;
 }
 
-h2{
-	color: #777;
+/* In the plugin the yoast-section comes from the yoast-components
+and switches everything to border-box. */
+.yoast-section *,
+.yoast-section {
+	box-sizing: border-box;
 }
 
-#snippet_preview {
-	border: 1px solid #ddd;
-	font-family: Arial, sans-serif;
+.yoast-section *:before,
+.yoast-section *:after,
+.yoast-section:before,
+.yoast-section:after {
+	box-sizing: border-box;
+}
+
+h2{
+	color: #777;
 }
 
 .output-container,
 .form-container{
 	padding: 20px;
-	width: 512px;
 }
 
 .inputForm label {
@@ -63,4 +71,38 @@ h2{
 
 pre {
 	white-space: pre-wrap;
+}
+
+/* overall score */
+
+#overallScore #score_circle {
+	fill: #999;
+}
+
+#overallScore #score_circle_shadow {
+	fill: #777;
+}
+
+#overallScore.good #score_circle {
+	fill: #9fda4f;
+}
+
+#overallScore.good #score_circle_shadow {
+	fill: #77b227;
+}
+
+#overallScore.ok #score_circle {
+	fill: #ffb81e;
+}
+
+#overallScore.ok #score_circle_shadow {
+	fill: #f49a00;
+}
+
+#overallScore.bad #score_circle {
+	fill: #ff4e47;
+}
+
+#overallScore.bad #score_circle_shadow {
+	fill: #ed261f;
 }

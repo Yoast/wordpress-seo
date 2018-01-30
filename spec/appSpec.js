@@ -12,7 +12,7 @@ App.prototype.removeLoadingDialog = function(){};
 App.prototype.initSnippetPreview = function(){};
 App.prototype.runAnalyzer = function(){};
 
-document = {};
+global.document = {};
 document.getElementById = function() { return mockElement; };
 
 // Makes lodash think this is a valid HTML element

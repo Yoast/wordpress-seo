@@ -35,7 +35,7 @@ describe( "The SnippetPreview format functions", function(){
 			rawData: {
 				snippetTitle: "<span>snippetTitle keyword</span>",
 				snippetCite: "homeurl",
-				snippetMeta: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies placerat nisl, in tempor ligula. Pellentesque in risus non quam maximus maximus sed a dui. In sed.",
+				snippetMeta: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia eget neque ut porttitor. Quisque semper ligula leo. Nullam convallis ligula et dapibus dictum. Duis imperdiet nisl id orci hendrerit imperdiet. Praesent commodo ornare ante vitae placerat. Aliquam leo justo, imperdiet ut purus at, pharetra semper eros. In cursus faucibus efficitur.",
 				keyword: "keyword"
 			},
 			pluggable: {
@@ -50,7 +50,7 @@ describe( "The SnippetPreview format functions", function(){
 		});
 
 		expect( snippetPreview.formatTitle() ).toBe( "snippetTitle keyword" );
-		expect( snippetPreview.formatMeta() ).toBe( "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies placerat nisl, in tempor ligula. Pellentesque in risus non quam maximus maximus sed " );
+		expect( snippetPreview.formatMeta() ).toBe( "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia eget neque ut porttitor. Quisque semper ligula leo. Nullam convallis ligula et dapibus dictum. Duis imperdiet nisl id orci hendrerit imperdiet. Praesent commodo ornare ante vitae placerat. Aliquam leo justo, imperdiet ut purus at, pharetra sempe" );
 		expect( snippetPreview.formatCite() ).toBe( "homeurl/" );
 		expect( snippetPreview.formatKeyword( "a string with keyword" ) ).toBe( "a string with<strong> keyword</strong>" );
 
@@ -93,6 +93,57 @@ describe( "The SnippetPreview format functions", function(){
 			snippetPreview.data.urlPath = "keyword";
 
 			expect( snippetPreview.formatCite() ).toBe( "<strong>keyword</strong>/")
+		});
+	});
+
+	describe( "The snippet preview format functions with special characters like periods", function() {
+		// Makes lodash think this is a valid HTML element
+		var mockElement = [];
+		mockElement.nodeType = 1;
+
+		var mockApp = {
+			rawData: {
+				snippetMeta: "This is the Yoast SEO 3.9 release",
+				keyword: "Yoast SEO 3.9"
+			},
+			pluggable: {
+				loaded: true,
+				_applyModifications: function(name, text){return text}
+			}
+		};
+
+		var snippetPreview = new SnippetPreview({
+			analyzerApp: mockApp,
+			targetElement: mockElement
+		});
+
+		it( "should highlight the keywords", function(){
+			expect( snippetPreview.formatMeta() ).toBe( "This is the<strong> Yoast SEO 3.9 </strong>release")
+		});
+	} );
+	describe( "The snippet preview format functions with special characters like periods", function() {
+		// Makes lodash think this is a valid HTML element
+		var mockElement = [];
+		mockElement.nodeType = 1;
+
+		var mockApp = {
+			rawData: {
+				snippetMeta: "If you like Yoast SEO, please give a 5* rating",
+				keyword: "5* rating"
+			},
+			pluggable: {
+				loaded: true,
+				_applyModifications: function(name, text){return text}
+			}
+		};
+
+		var snippetPreview = new SnippetPreview({
+			analyzerApp: mockApp,
+			targetElement: mockElement
+		});
+
+		it( "should highlight the keywords", function(){
+			expect( snippetPreview.formatMeta() ).toBe( "If you like Yoast SEO, please give a<strong> 5* rating</strong>" )
 		});
 	});
 } );

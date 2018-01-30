@@ -31,12 +31,19 @@ var fs = require( "fs" );
 
 var filepath = process.argv[ 2 ];
 
+var locale = process.argv[ 3 ];
+
 if ( ! filepath ) {
    filepath = __dirname + "/input.txt";
 }
+
+if ( ! locale ) {
+   locale = "en_US"
+}
+
 var text = fs.readFileSync( filepath, { "encoding": "utf-8" } );
 
-var relevantWordss = map( getRelevantWords( text ), function( word ) {
+var relevantWords = map( getRelevantWords( text, locale ), function( word ) {
    var words = getWords( text );
 
    var output = {
@@ -59,4 +66,4 @@ var relevantWordss = map( getRelevantWords( text ), function( word ) {
    return output;
 });
 
-console.table( relevantWordss );
+console.table( relevantWords );

@@ -2,8 +2,6 @@ var path = require( "path" );
 var loadGruntConfig = require( "load-grunt-config" );
 
 module.exports = function( grunt ) {
-	"use strict";
-
 	// Define project configuration
 	var project = {
 		paths: {
@@ -16,10 +14,11 @@ module.exports = function( grunt ) {
 		},
 		files: {
 			js: [
-				"js/**/*.js",
+				"src/**/*.js",
 				"grunt/config/*.js",
-				"!js/config/*.js",
+				"!src/config/*.js",
 				"<%= files.grunt %>",
+				"!js",
 			],
 			jsDontLint: [
 				"!js/templates.js",

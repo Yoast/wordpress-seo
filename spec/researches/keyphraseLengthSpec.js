@@ -10,3 +10,13 @@ describe( "the keyphrase length research", function() {
 		expect( result ).toBe( 2 );
 	})
 });
+
+describe( "the keyphrase length research", function() {
+	it( "should count the words in the input", function() {
+		var paper = new Paper( "", { keyword: "" } );
+
+		var result = keyphraseLength( paper );
+
+		expect( result ).toBe( 0 );
+	})
+});

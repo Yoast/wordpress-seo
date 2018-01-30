@@ -1,4 +1,4 @@
-var wordComplexityAssessment = require( "../../js/assessments/wordComplexityAssessment.js" );
+var wordComplexityAssessment = require( "../../js/assessments/readability/wordComplexityAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();
@@ -6,7 +6,7 @@ var i18n = factory.buildJed();
 describe( "an assessment returning complex words", function() {
 	it( "runs a test with 30% too many syllables", function(){
 		var mockPaper = new Paper( "" );
-		var result = wordComplexityAssessment.getResult( mockPaper, Factory.buildMockResearcher(
+		var result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher(
 			[ { sentence: "", words: [
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 2 },
@@ -30,7 +30,7 @@ describe( "an assessment returning complex words", function() {
 
 	it( "runs a test with exactly 5.3% too many syllables", function(){
 		var mockPaper = new Paper( "" );
-		var result = wordComplexityAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		var result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
 			{ sentence: "", words: [
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 2 },
@@ -61,7 +61,7 @@ describe( "an assessment returning complex words", function() {
 
 	it( "runs a test with exactly 5% too many syllables", function(){
 		var mockPaper = new Paper( "" );
-		var result = wordComplexityAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		var result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
 			{ sentence: "", words: [
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 2 },
@@ -93,7 +93,7 @@ describe( "an assessment returning complex words", function() {
 
 	it( "runs a test with 2.94% too many syllables", function(){
 		var mockPaper = new Paper( "" );
-		var result = wordComplexityAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		var result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
 			{ sentence: "", words: [
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 2 },
@@ -139,7 +139,7 @@ describe( "an assessment returning complex words", function() {
 
 	it( "runs a test with 0% too many syllables", function(){
 		var mockPaper = new Paper( "" );
-		var result = wordComplexityAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		var result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
 			{ sentence: "", words: [
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 2 },

@@ -1,4 +1,5 @@
 var WordCombination = require( "../../js/values/WordCombination" );
+var functionWords = require( "../../js/researches/english/functionWords.js" )().all;
 
 describe( "WordCombination", function() {
 	describe( "getCombination", function() {
@@ -29,7 +30,7 @@ describe( "WordCombination", function() {
 
 	describe( "getLengthBonus", function() {
 		it( "is based on the length", function() {
-			combination = new WordCombination( [ "word", "word2" ] );
+			let combination = new WordCombination( [ "word", "word2" ] );
 
 			expect( combination.getLengthBonus() ).toBe( WordCombination.lengthBonus[ "2" ] );
 		});
@@ -107,7 +108,7 @@ describe( "WordCombination", function() {
 
 	describe( "getRelevance", function() {
 		it( "should mark function words as irrelevant", function() {
-			var combination = new WordCombination( [ "yes" ] );
+			var combination = new WordCombination( [ "yes" ], 2, functionWords );
 
 			expect( combination.getRelevance() ).toBe( 0 );
 		});

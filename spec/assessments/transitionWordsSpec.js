@@ -1,12 +1,37 @@
-var transitionWordsAssessment = require( "../../js/assessments/transitionWordsAssessment.js" );
-var Paper = require( "../../js/values/Paper.js" );
-var Factory = require( "../helpers/factory.js" );
-var i18n = Factory.buildJed();
+import transitionWordsAssessment from "../../js/assessments/readability/transitionWordsAssessment.js";
+import Paper from "../../js/values/Paper.js";
+import Factory from "../helpers/factory.js";
+import Mark from "../../js/values/Mark.js";
+let i18n = Factory.buildJed();
 
 describe( "An assessment for transition word percentage", function(){
+	let mockPaper, assessment;
+
+	it( "returns the score for 0% of the sentences with transition words", function(){
+		let mockPaper = new Paper();
+		let assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
+			transitionWordSentences: 0 } ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual ( "0% of the sentences contain a <a href='https://yoa.st/transition-words' target='_blank'>transition word</a> " +
+			"or phrase, which is less than the recommended minimum of 30%." );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+
+	it( "returns the score for a paper with text but no sentences (e.g. only images)", function(){
+		let mockPaper = new Paper();
+		let assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 0,
+			transitionWordSentences: 0 } ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual ( "0% of the sentences contain a <a href='https://yoa.st/transition-words' target='_blank'>transition word</a> " +
+			"or phrase, which is less than the recommended minimum of 30%." );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+
 	it( "returns the score for 10.0% of the sentences with transition words", function(){
-		var mockPaper = new Paper();
-		var assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
+		let mockPaper = new Paper();
+		let assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
 			transitionWordSentences: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -15,8 +40,8 @@ describe( "An assessment for transition word percentage", function(){
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "returns the score for 20.0% of the sentences with transition words", function(){
-		var mockPaper = new Paper();
-		var assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 5,
+		let mockPaper = new Paper();
+		let assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 5,
 			transitionWordSentences: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -25,8 +50,8 @@ describe( "An assessment for transition word percentage", function(){
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "returns the score for 25.0% of the sentences with transition words", function(){
-		var mockPaper = new Paper();
-		var assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 4,
+		let mockPaper = new Paper();
+		let assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 4,
 			transitionWordSentences: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -86,9 +111,27 @@ describe( "An assessment for transition word percentage", function(){
 		expect( assessment ).toBe( true );
 	} );
 
-	it( "is not applicable for unsupported locales, nl_NL in this case", function(){
-		mockPaper = new Paper( "This is a string", { locale: "nl_NL" } );
+	it( "is not applicable for unsupported locales, xx_YY in this case", function(){
+		mockPaper = new Paper( "This is a string", { locale: "xx_YY" } );
 		assessment = transitionWordsAssessment.isApplicable( mockPaper );
 		expect( assessment ).toBe( false );
+	} );
+} );
+
+describe( "A test for marking sentences containing a transition word", function() {
+	it ("returns markers for too long sentences", function() {
+		let paper = new Paper( "This sentence is marked, because it contains a transition word." );
+		let transitionWords = Factory.buildMockResearcher( { sentenceResults: [ { sentence: "This sentence is marked, because it contains a transition word.", transitionWords: [ 'because' ] } ] } );
+		let expected = [
+			new Mark( { original: "This sentence is marked, because it contains a transition word.", marked: "<yoastmark class='yoast-text-mark'>This sentence is marked, because it contains a transition word.</yoastmark>" } )
+		];
+		expect( transitionWordsAssessment.getMarks( paper, transitionWords ) ).toEqual( expected );
+	} );
+
+	it ("returns no markers if no sentences contain a transition word", function() {
+		let paper = new Paper( "This sentence is not marked." );
+		let transitionWords = Factory.buildMockResearcher( { sentenceResults: [ ] } );
+		let expected = [];
+		expect( transitionWordsAssessment.getMarks( paper, transitionWords ) ).toEqual( expected );
 	} );
 } );

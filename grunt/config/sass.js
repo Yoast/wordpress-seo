@@ -5,12 +5,13 @@ module.exports = {
 	},
 	build: {
 		files: {
-			"dist/yoast-seo.min.css": "css/analyzer.scss",
+			"examples/shared/yoast-seo.min.css": "css/analyzer.scss",
 		},
 	},
 	example: {
 		files: {
 			"examples/browserified/style.css": "examples/browserified/style.scss",
+			"examples/relevant-words-example/style.css": "examples/relevant-words-example/style.scss",
 		},
 	},
 };

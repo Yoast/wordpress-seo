@@ -1,7 +1,9 @@
-var wordCountAssessment = require( "../../js/assessments/textLengthAssessment.js" );
+var TextLengthAssessment = require( "../../js/assessments/seo/textLengthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
+
+let wordCountAssessment = new TextLengthAssessment();
 
 describe( "A word count assessment", function(){
 
@@ -28,7 +30,7 @@ describe( "A word count assessment", function(){
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 150 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -10 );
-		expect( assessment.getText() ).toEqual ( "The text contains 150 words. This is below the recommended minimum of 300 words. " +
+		expect( assessment.getText() ).toEqual ( "The text contains 150 words. This is far below the recommended minimum of 300 words. " +
 			"Add more content that is relevant for the topic." );
 	} );
 
@@ -36,7 +38,7 @@ describe( "A word count assessment", function(){
 		var mockPaper = new Paper( Factory.buildMockString("Sample ", 225) );
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 225 ), i18n );
 
-		expect( assessment.getScore() ).toEqual( 5 );
+		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual ( "The text contains 225 words. This is below the recommended minimum of 300 words. " +
 			"Add more content that is relevant for the topic." );
 	} );
@@ -45,7 +47,7 @@ describe( "A word count assessment", function(){
 		var mockPaper = new Paper( Factory.buildMockString("Sample ", 275) );
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 275 ), i18n );
 
-		expect( assessment.getScore() ).toEqual( 7 );
+		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual ( "The text contains 275 words. This is slightly below the recommended minimum of 300 words. " +
 			 "Add a bit more copy." );
 	} );

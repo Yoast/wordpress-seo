@@ -1,7 +1,9 @@
-var matchKeywordAssessment = require( "../../js/assessments/subheadingsKeywordAssessment.js" );
+var SubheadingsKeywordAssessment = require( "../../js/assessments/seo/subheadingsKeywordAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
+
+let matchKeywordAssessment = new SubheadingsKeywordAssessment();
 
 describe( "An assessment for matching keywords in subheadings", function(){
 	it( "assesses a string without subheadings", function(){
@@ -24,14 +26,13 @@ describe( "An assessment for matching keywords in subheadings", function(){
 		var assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 1, matches: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "The focus keyword appears in 1 (out of 1) subheadings in the copy. While not a major ranking factor, this is beneficial." );
+		expect( assessment.getText() ).toEqual ( "The focus keyword appears in 1 (out of 1) subheadings in your copy." );
 	} );
 	it( "assesses a string with subheadings and keywords", function(){
 		var mockPaper = new Paper();
 		var assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 10, matches: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "The focus keyword appears in 1 (out of 10) subheadings in the copy. While not a major ranking factor, this is beneficial." );
+		expect( assessment.getText() ).toEqual ( "The focus keyword appears in 1 (out of 10) subheadings in your copy." );
 	} );
 } );
-
