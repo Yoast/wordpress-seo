@@ -114,12 +114,12 @@ Bugfixes:
 * Reverts the shortlink in the HTML comment back to the hard link it was before.
 * Fixes a bug where the Local SEO for WooCommerce extension was not shown on the licenses page.
 * Fixes a bug where the `current_user_can()` function was not called with the post ID as argument.
-* Fixes a bug where only 10 posts when executing meta robots import from wpSEO.de.
-* Fixes a bug where the auto-generated meta descriptions were not respecting the 320 characters limitation.
-* Fixes a bug where external links were not filtered from the post_type sitemap.
-* Clears the sitemap cache when the Site URL is changed.
-* Fixes a bug where old meta values were not deleted during import.
+* Fixes a bug where the auto-generated meta descriptions were not using the new 320 characters limitation.
+* Fixes a bug where specific external links were not filtered from the post_type sitemap.
 * Fixes a bug where trashed posts were displayed in the bulk editor overview.
+* Fixes a bug where old meta values were not deleted during import.
+* Fixes a bug where only 10 posts when executing meta robots import from wpSEO.de.
+* Clears the sitemap cache when the Site URL is changed.
 
 Enhancements:
 
