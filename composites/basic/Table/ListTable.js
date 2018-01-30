@@ -75,7 +75,7 @@ class ListTable extends React.Component {
 		let children = this.getChildren();
 
 		return (
-			<List>{ children }</List>
+			<List role="list">{ children }</List>
 		);
 	}
 }
