@@ -7,7 +7,6 @@
  * Class WPSEO_Post_Type_Sitemap_Provider_Test
  *
  * @group sitemaps
- * @group test
  */
 class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
