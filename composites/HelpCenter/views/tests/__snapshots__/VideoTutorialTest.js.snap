@@ -1,14 +1,93 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the VideoTutorial component matches the snapshot 1`] = `
+.c2 {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+.c2 iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c7 {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c0 {
+  overflow: hidden;
+}
+
+.c1 {
+  float: left;
+  width: 560px;
+}
+
+.c3 {
+  margin-left: 560px;
+  padding: 0 16px;
+  max-width: 560px;
+}
+
+.c4 {
+  padding: 16px 0;
+}
+
+.c4:not( :last-child ) {
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 16px;
+}
+
+.c5 {
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.c6 {
+  color: #a4286a;
+}
+
+@media screen and ( max-width: 1224px ) {
+  .c1 {
+    float: none;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and ( max-width: 1224px ) {
+  .c3 {
+    margin: 0 auto;
+    padding: 0;
+  }
+}
+
 <div
-  className="yoast-video-tutorial__container sc-htpNat jdWHiT"
+  className="yoast-video-tutorial__container c0"
 >
   <div
-    className="yoast-video-tutorial__video-container sc-bxivhb dVPPrD"
+    className="yoast-video-tutorial__video-container c1"
   >
     <div
-      className="sc-bdVaJa fpzLVP"
+      className="c2"
     >
       <iframe
         allowFullScreen={true}
@@ -21,13 +100,13 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
     </div>
   </div>
   <div
-    className="yoast-video-tutorial__descriptions sc-ifAKCX iimhyI"
+    className="yoast-video-tutorial__descriptions c3"
   >
     <div
-      className="yoast-video-tutorial__description sc-EHOje cCZqWy"
+      className="yoast-video-tutorial__description c4"
     >
       <p
-        className="sc-bZQynM gSmTMg"
+        className="c5"
       >
         Need some help?
       </p>
@@ -35,24 +114,24 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
         Go Premium!
       </p>
       <a
-        className="sc-gzVnrw fUXSEk"
+        className="c6"
         href="#1"
         rel="noopener noreferrer"
         target="_blank"
       >
         Get Yoast SEO Premium now »
         <span
-          className="sc-bwzfXH bGOGuL"
+          className="c7"
         >
           (Opens in a new browser tab)
         </span>
       </a>
     </div>
     <div
-      className="yoast-video-tutorial__description sc-EHOje cCZqWy"
+      className="yoast-video-tutorial__description c4"
     >
       <p
-        className="sc-bZQynM gSmTMg"
+        className="c5"
       >
         Need some help?
       </p>
@@ -60,14 +139,14 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
         Go Premium!
       </p>
       <a
-        className="sc-gzVnrw fUXSEk"
+        className="c6"
         href="#2"
         rel="noopener noreferrer"
         target="_blank"
       >
         Get Yoast SEO Premium now »
         <span
-          className="sc-bwzfXH bGOGuL"
+          className="c7"
         >
           (Opens in a new browser tab)
         </span>

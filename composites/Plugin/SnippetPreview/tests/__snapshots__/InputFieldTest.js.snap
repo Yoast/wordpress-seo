@@ -1,8 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the input field matches the snapshot 1`] = `
+.c0 {
+  cursor: text;
+  height: 16px;
+  border: 1px solid #ddd;
+  width: 100%;
+  padding: 3px 5px;
+  margin: 5px 1px 1px 1px;
+  background-color: #fff;
+  overflow: hidden;
+  font-size: 14px;
+  font-style: inherit;
+}
+
+.c0 .public-DraftStyleDefault-block {
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
 <div
-  className="sc-bdVaJa jIBrAg"
+  className="c0"
   onClick={[Function]}
 >
   <div

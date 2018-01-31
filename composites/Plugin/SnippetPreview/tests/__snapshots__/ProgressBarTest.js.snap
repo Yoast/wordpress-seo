@@ -1,27 +1,123 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the progress bar matches the snapshot 1`] = `
+.c0 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c0::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c0::-webkit-progress-value {
+  background-color: #7ad03a;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c0::-moz-progress-bar {
+  background-color: #7ad03a;
+}
+
+.c0::-ms-fill {
+  background-color: #7ad03a;
+  border: 0;
+}
+
 <progress
   aria-hidden="true"
-  className="sc-bdVaJa kgeAzp"
+  className="c0"
   max={1}
   value={0}
 />
 `;
 
 exports[`the progress bar with custom color matches the snapshot 1`] = `
+.c0 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c0::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c0::-webkit-progress-value {
+  background-color: #000;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c0::-moz-progress-bar {
+  background-color: #000;
+}
+
+.c0::-ms-fill {
+  background-color: #000;
+  border: 0;
+}
+
 <progress
   aria-hidden="true"
-  className="sc-bdVaJa iRXsVv"
+  className="c0"
   max={100}
   value={50}
 />
 `;
 
 exports[`the progress bar with progress matches the snapshot 1`] = `
+.c0 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c0::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c0::-webkit-progress-value {
+  background-color: #7ad03a;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c0::-moz-progress-bar {
+  background-color: #7ad03a;
+}
+
+.c0::-ms-fill {
+  background-color: #7ad03a;
+  border: 0;
+}
+
 <progress
   aria-hidden="true"
-  className="sc-bdVaJa kgeAzp"
+  className="c0"
   max={100}
   value={50}
 />

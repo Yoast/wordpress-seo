@@ -1,15 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the ListTable component matches the snapshot 1`] = `
+.c0 {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  width: 100%;
+}
+
+.c0 li:first-child > span::before {
+  left: auto;
+}
+
 <ul
-  className="sc-bdVaJa cQAnKY"
+  className="c0"
   role="list"
 />
 `;
 
 exports[`the ZebrafiedListTable component with multiple children matches the snapshot 1`] = `
+.c0 {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  width: 100%;
+}
+
+.c0 li:first-child > span::before {
+  left: auto;
+}
+
 <ul
-  className="sc-bdVaJa cQAnKY"
+  className="c0"
   role="list"
 >
   <li
@@ -22,8 +46,20 @@ exports[`the ZebrafiedListTable component with multiple children matches the sna
 `;
 
 exports[`the ZebrafiedListTable component with one child matches the snapshot 1`] = `
+.c0 {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  width: 100%;
+}
+
+.c0 li:first-child > span::before {
+  left: auto;
+}
+
 <ul
-  className="sc-bdVaJa cQAnKY"
+  className="c0"
   role="list"
 >
   <li

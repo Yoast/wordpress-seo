@@ -1,40 +1,230 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the CellFixedWidth component matches the snapshot 1`] = `
+.c1 {
+  font-size: 14px;
+  padding-left: 40px;
+}
+
+.c1:first-child {
+  padding-left: 0;
+}
+
+.c1::before {
+  position: absolute;
+  left: -9999em;
+  top: -30px;
+  font-size: 1.286em;
+  line-height: 0;
+  content: "FixedWidthCell";
+}
+
+.c0 {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+@media screen and ( max-width: 1355px ) {
+  .c1 {
+    padding-left: 20px;
+  }
+}
+
 <span
-  className="sc-htpNat Adyvh sc-bdVaJa cypmDc"
+  className="c0 c1"
 >
   This is a cell with a fixed width
 </span>
 `;
 
 exports[`the CellIcon component matches the snapshot 1`] = `
+.c2 {
+  font-size: 14px;
+  padding-left: 40px;
+}
+
+.c2:first-child {
+  padding-left: 0;
+}
+
+.c2::before {
+  position: absolute;
+  left: -9999em;
+  top: -30px;
+  font-size: 1.286em;
+  line-height: 0;
+  content: "IconCell";
+}
+
+.c1 {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+.c0 {
+  height: 60px;
+}
+
+@media screen and ( max-width: 1355px ) {
+  .c2 {
+    padding-left: 20px;
+  }
+}
+
+@media screen and ( max-width: 800px ) {
+  .c0 {
+    height: 48px;
+  }
+}
+
 <span
-  className="sc-ifAKCX bQLOYb sc-htpNat Adyvh sc-bdVaJa kvTJHa"
+  className="c0 c1 c2"
 >
   Icon
 </span>
 `;
 
 exports[`the CellMinWidth component matches the snapshot 1`] = `
+.c1 {
+  font-size: 14px;
+  padding-left: 40px;
+}
+
+.c1:first-child {
+  padding-left: 0;
+}
+
+.c1::before {
+  position: absolute;
+  left: -9999em;
+  top: -30px;
+  font-size: 1.286em;
+  line-height: 0;
+  content: "MinWidthCell";
+}
+
+.c0 {
+  -webkit-flex: 1 0 100px;
+  -ms-flex: 1 0 100px;
+  flex: 1 0 100px;
+}
+
+@media screen and ( max-width: 1355px ) {
+  .c1 {
+    padding-left: 20px;
+  }
+}
+
 <span
-  className="sc-bxivhb lotSSC sc-bdVaJa dGqibM"
+  className="c0 c1"
 >
   This is a call with a min width
 </span>
 `;
 
 exports[`the CellPrimary component matches the snapshot 1`] = `
+.c1 {
+  font-size: 14px;
+  padding-left: 40px;
+}
+
+.c1:first-child {
+  padding-left: 0;
+}
+
+.c1::before {
+  position: absolute;
+  left: -9999em;
+  top: -30px;
+  font-size: 1.286em;
+  line-height: 0;
+  content: "PrimaryCell";
+}
+
+.c0 {
+  -webkit-flex: 1 0 200px;
+  -ms-flex: 1 0 200px;
+  flex: 1 0 200px;
+}
+
+@media screen and ( max-width: 1355px ) {
+  .c1 {
+    padding-left: 20px;
+  }
+}
+
+@media screen and ( max-width: 800px ) {
+  .c0 {
+    -webkit-flex-shrink: 1;
+    -ms-flex-shrink: 1;
+    flex-shrink: 1;
+  }
+}
+
 <span
-  className="sc-bwzfXH gExHBp sc-bdVaJa ktZzSQ"
+  className="c0 c1"
 >
   This is a primary cell
 </span>
 `;
 
 exports[`the CellPrimary with responsiveHeaders matches the snapshot 1`] = `
+.c2 {
+  font-size: 14px;
+  padding-left: 40px;
+}
+
+.c2:first-child {
+  padding-left: 0;
+}
+
+.c2::before {
+  position: absolute;
+  left: -9999em;
+  top: -30px;
+  font-size: 1.286em;
+  line-height: 0;
+  content: "responsiveHeaders";
+}
+
+.c1 {
+  -webkit-flex: 1 0 200px;
+  -ms-flex: 1 0 200px;
+  flex: 1 0 200px;
+}
+
+@media screen and ( max-width: 1355px ) {
+  .c2 {
+    padding-left: 20px;
+  }
+}
+
+@media screen and ( max-width: 800px ) {
+  .c1 {
+    -webkit-flex-shrink: 1;
+    -ms-flex-shrink: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media screen and ( max-width: 800px ) {
+  .c0::before {
+    float: left;
+    min-width: 60px;
+    line-height: inherit;
+    font-weight: 700;
+    content: "responsiveHeaders:";
+  }
+
+  .c0 > span {
+    line-height: inherit;
+  }
+}
+
 <span
-  className="sc-EHOje jXVInk sc-bwzfXH gExHBp sc-bdVaJa hWcPUc"
+  className="c0 c1 c2"
 >
   This is a primary cell with responsive headers
 </span>
