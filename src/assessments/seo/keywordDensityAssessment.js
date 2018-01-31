@@ -19,6 +19,8 @@ var inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
 var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount ) {
 	var score, text, max;
 
+	debugger;
+
 	var roundedKeywordDensity = formatNumber( keywordDensity );
 	var keywordDensityPercentage = roundedKeywordDensity + "%";
 

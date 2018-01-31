@@ -15,6 +15,7 @@ var urlLength = require( "./researches/urlIsTooLong.js" );
 var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
 var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
 var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
+const getKeywordCount = require( "./researches/getKeywordCount" );
 var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
 var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
 var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
@@ -56,6 +57,7 @@ var Researcher = function( paper ) {
 		imageCount: imageCount,
 		altTagCount: altTagCount,
 		matchKeywordInSubheadings: matchKeywordInSubheadings,
+		getKeywordCount: getKeywordCount,
 		getKeywordDensity: getKeywordDensity,
 		stopWordsInKeyword: stopWordsInKeyword,
 		stopWordsInUrl: stopWordsInUrl,

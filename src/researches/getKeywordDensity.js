@@ -1,25 +1,19 @@
 /** @module analyses/getKeywordDensity */
 
-var countWords = require( "../stringProcessing/countWords.js" );
-var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-var normalizeQuotes = require ( "../stringProcessing/quotes.js" ).normalize;
-
-var escapeRegExp = require( "lodash/escapeRegExp" );
+const countWords = require( "../stringProcessing/countWords.js" );
 
 /**
  * Calculates the keyword density .
  *
  * @param {object} paper The paper containing keyword and text.
-  * @returns {number} The keyword density.
+ * @param {object} researcher The researcher.
+ * @returns {number} The keyword density.
  */
-module.exports = function( paper ) {
-	var keyword = escapeRegExp( normalizeQuotes( paper.getKeyword() ) );
-	var text = normalizeQuotes( paper.getText() );
-	var locale = paper.getLocale();
-	var wordCount = countWords( text );
+module.exports = function( paper, researcher ) {
+	const wordCount = countWords( paper.getText() );
 	if ( wordCount === 0 ) {
 		return 0;
 	}
-	var keywordCount = matchWords( text, keyword, locale );
+	const keywordCount = researcher.getResearch( "getKeywordCount" );
 	return ( keywordCount / wordCount ) * 100;
 };
