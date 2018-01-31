@@ -5,11 +5,11 @@ let transitionWords = require( "./transitionWords.js" )().singleWords;
  * @returns {Object} The object filled with exception arrays.
  */
 
-let articles = [ "le", "la", "les", "un", "une", "des", "aux", "du", "au", "d'un", "d'une" ];
+let articles = [ "le", "la", "les", "un", "une", "des", "aux", "du", "au", "d'un", "d'une", "l'un", "l'une" ];
 
 let cardinalNumerals = [ "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze",
 	"quinze", "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix",
-	"quatre-vingt", "quatre-vingt-dix", "cent", "mille", "million", "milliard" ];
+	"quatre-vingt", "quatre-vingt-dix", "septante", "huitante", "octante", "nonante", "cent", "mille", "million", "milliard" ];
 
 // 'premier' and 'première' are not included because of their secondary meanings ('prime minister', '[movie] premiere')
 let ordinalNumerals = [ "second", "secondes", "deuxième", "deuxièmes", "troisième", "troisièmes", "quatrième", "quatrièmes", "cinquième",
@@ -18,9 +18,10 @@ let ordinalNumerals = [ "second", "secondes", "deuxième", "deuxièmes", "troisi
 	"quatorzièmes", "quinzième", "quinzièmes", "seizième", "seizièmes", "dix-septième", "dix-septièmes", "dix-huitième",
 	"dix-huitièmes", "dix-neuvième", "dix-neuvièmes", "vingtième", "vingtièmes" ];
 
-let personalPronounsNominative = [ "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles" ];
+let personalPronounsNominative = [ "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles", "qu'il", "qu'elle",
+	"qu'ils", "qu'elles", "qu'on", "d'il", "d'elle", "d'ils", "d'elles" ];
 
-let personalPronounsStressed = [ "moi", "toi", "lui", "soi", "eux" ];
+let personalPronounsStressed = [ "moi", "toi", "lui", "soi", "eux", "d'eux", "qu'eux" ];
 
 // Le, la, les are already included in the articles list.
 let personalPronounsAccusative = [ "me", "te" ];
@@ -36,9 +37,10 @@ let quantifiers = [ "beaucoup", "peu", "quelque", "quelques", "tous", "tout", "t
 // The remaining reflexive personal pronouns are already included in other pronoun lists.
 let reflexivePronouns = [ "se" ];
 
-let indefinitePronouns = [ "aucun", "aucune", "autre", "autres", "certain", "certaine", "certaines", "certains", "chacun", "chacune", "même", "mêmes",
-	"quelqu'un", "quelqu'une", "quelques'uns", "quelques'unes", "autrui", "nul", "personne", "quiconque", "rien", "d'aucunes", "d'aucuns", "nuls",
-	"nules", "l'autre", "l'autres", "tel", "telle", "tels", "telles" ];
+let indefinitePronouns = [ "aucun", "aucune", "autre", "autres", "d'autres", "certain", "certaine", "certaines", "certains",
+	"chacun", "chacune", "même", "mêmes", "quelqu'un", "quelqu'une", "quelques'uns", "quelques'unes", "autrui", "nul",
+	"personne", "quiconque", "rien", "d'aucunes", "d'aucuns", "nuls", "nules", "l'autre", "l'autres", "tel", "telle",
+	"tels", "telles" ];
 
 let relativePronouns = [ "qui", "que", "lequel", "laquelle", "auquel", "auxquels", "auxquelles", "duquel", "desquels", "desquelles", "dont", "où",
 	"quoi" ];
@@ -47,9 +49,9 @@ let interrogativeProAdverbs = [ "combien", "comment", "pourquoi", "d'où" ];
 
 let interrogativeAdjectives = [ "quel", "quels", "quelle" ];
 
-let pronominalAdverbs = [ "y" ];
+let pronominalAdverbs = [ "y", "n'y" ];
 
-let locativeAdverbs = [ "là", "ici", "voici" ];
+let locativeAdverbs = [ "là", "ici", "d'ici", "voici" ];
 
 // 'Vins' is not included because it also means 'wines'.
 let otherAuxiliaries = [ "a", "a-t-elle", "a-t-il", "a-t-on", "ai", "ai-je", "aie", "as", "as-tu", "aura", "aurai", "auraient", "aurais", "aurait",
@@ -86,15 +88,20 @@ let otherAuxiliaries = [ "a", "a-t-elle", "a-t-il", "a-t-on", "ai", "ai-je", "ai
 	"finissons", "finissez", "finissent", "finis-je", "finis-tu", "finit-il", "finit-elle", "finit-on", "finissons-nous", "finissez-vous",
 	"finissent-ils", "finissent-elles", "finîmes", "finîtes", "finirent", "finissais", "finissait", "finissions", "finissiez", "finissaient",
 	"finirai", "finiras", "finira", "finirons", "finirez", "finiront", "fini", "finisse", "finisses", "finît", "finirais", "finirait", "finirions",
-	"finiriez", "finiraient", "finissant" ];
+	"finiriez", "finiraient", "finissant", "n'a", "n'ai", "n'aie", "n'as",  "n'aura", "n'aurai", "n'auraient", "n'aurais", "n'aurait",
+	"n'auras", "n'aurez", "n'auriez", "n'aurons", "n'auront", "n'avaient", "n'avais", "n'avait", "n'avez", "n'avez-vous", "n'aviez",
+	"n'avions", "n'avons", "n'avons-nous", "n'ayez", "n'ayons", "n'ont", "n'ont-elles", "n'ont-ils", "n'allons", "n'allez", "n'allais",
+	"n'allait", "n'allions", "n'alliez", "n'allaient", "n'iras", "n'ira", "n'irons", "n'irez", "n'iront", "qu'a" ];
 
-let otherAuxiliariesInfinitive = [ "avoir", "aller", "venir", "devoir", "pouvoir", "sembler", "paraître", "paraitre", "mettre", "finir" ];
+let otherAuxiliariesInfinitive = [ "avoir", "aller", "venir", "devoir", "pouvoir", "sembler", "paraître", "paraitre", "mettre", "finir",
+	"d'avoir", "d'aller", "n'avoir" ];
 
 let copula = [ "suis", "es", "est", "est-ce", "n'est", "sommes", "êtes", "sont", "suis-je", "es-tu", "est-il", "est-elle", "est-on", "sommes-nous",
 	"êtes-vous", "sont-ils", "sont-elles", "étais", "était", "étions", "étiez", "étaient", "serai", "seras", "sera", "serons", "serez", "seront",
-	"serais", "serait", "serions", "seriez", "seraient", "sois", "soit", "soyons", "soyez", "soient", "été" ];
+	"serais", "serait", "serions", "seriez", "seraient", "sois", "soit", "soyons", "soyez", "soient", "été", "n'es", "n'est-ce", "n'êtes", "n'était",
+	"n'étais", "n'étions", "n'étiez", "n'étaient", "qu'est" ];
 
-let copulaInfinitive = [ "être" ];
+let copulaInfinitive = [ "être", "d'être" ];
 
 /*
 ’Excepté' not filtered because might also be participle of 'excepter', 'concernant' not filtered because might also be present participle
@@ -104,9 +111,10 @@ Not filtered because of primary meaning: 'grâce à' ('grace'), 'en face' ('face
 'hors' for 'hors de', 'quant' for 'quant à'. ‘travers’ is part of 'à travers.'
  */
 
-let prepositions = [ "à", "après", "au-delà", "au-dessous", "au-dessus", "avant", "avec", "concernant", "chez", "contre", "dans", "de", "depuis",
-	"derrière", "dès", "devant", "durant", "en", "entre", "envers", "environ", "hormis", "hors", "jusque", "jusqu'à", "jusqu'au", "jusqu'aux",
-	"loin", "moyennant", "outre", "par", "parmi", "pendant", "pour", "près", "quant", "sans", "sous", "sur", "travers", "vers", "voilà" ];
+let prepositions = [ "à", "après", "d'après", "au-delà", "au-dessous", "au-dessus", "avant", "avec", "concernant",
+	"chez", "contre", "dans", "de", "depuis", "derrière", "dès", "devant", "durant", "en", "entre", "envers", "environ",
+	"hormis", "hors", "jusque", "jusqu'à", "jusqu'au", "jusqu'aux",	"loin", "moyennant", "outre", "par", "parmi",
+	"pendant", "pour", "près", "quant", "sans", "sous", "sur", "travers", "vers", "voilà" ];
 
 let coordinatingConjunctions = [ "et", "ni", "or", "ou" ];
 

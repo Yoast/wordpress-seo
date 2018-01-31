@@ -159,17 +159,23 @@ let otherAuxiliaries = [ "he", "has", "ha", "hay", "hemos", "habéis", "han", "h
 let otherAuxiliariesInfinitive = [ "haber", "deber", "empezar", "comenzar", "seguir", "tener", "andar", "quedar", "hallar", "venir", "abrir",
 	"ir", "acabar", "llevar", "alcanzar", "decir", "continuar", "resultar", "poder", "querer", "saber", "soler", "necesitar" ];
 
-let copula = [ "estoy", "estás", "está", "estamos", "estáis", "están", "estuve", "estuviste", "estuvo", "estuvimos", "estuvisteis",
+// Estar is not used to form passives in Spanish.
+let copulaEstar = [ "estoy", "estás", "está", "estamos", "estáis", "están", "estuve", "estuviste", "estuvo", "estuvimos", "estuvisteis",
 	"estuvieron", "estuba", "estabas", "estábamos", "estabais", "estaban", "estraría", "estarías", "estaríamos", "estaríais", "estarían",
 	"estaré", "estarás", "estará", "estaremos", "estaréis", "estarán", "esté", "estés", "estemos", "estéis", "estén", "estuviera",
 	"estuviese", "estuvieras", "estuviéramos", "estuvierais", "estuvieran", "estuvieses", "estuviésemos", "estuvieseis", "estuviesen",
-	"estuviere", "estuvieres", "estuviéremos", "estuviereis", "estuvieren", "estad", "estado", "soy", "eres", "es", "somos", "sois", "son",
+	"estuviere", "estuvieres", "estuviéremos", "estuviereis", "estuvieren", "estad", "estado" ];
+
+// Ser is the copula used to form passives in Spanish.
+let copulaSer = [ "soy", "eres", "es", "somos", "sois", "son",
 	"fui", "fuiste", "fuimos", "fuisteis", "fueron", "era", "eras", "éramos", "erais", "eran", "sería", "serías", "seríamos", "seríais",
 	"serían", "seré", "serás", "seremos", "seréis", "serán", "sea", "seas", "seamos", "seáis", "sean", "fueras", "fuéramos",
 	"fuerais", "fueran", "fuese", "fueses", "fuésemos", "fueseis", "fuesen", "fuere", "fueres", "fuéremos", "fuereis", "fueren", "sé",
 	"sed", "sido" ];
 
-let copulaInfinitive = [ "estar", "ser" ];
+let copulaEstarInfinitive = [ "estar" ];
+
+let copulaSerInfinitive = [ "ser" ];
 
 let prepositions = [ "a", "ante", "abajo", "adonde", "al", "allende", "alrededor", "amén", "antes", "arriba", "aun",
 	"bajo", "cabe", "cabo", "con", "contigo", "contra", "de", "dejante", "del", "dentro", "desde", "donde", "durante", "en",
@@ -262,7 +268,8 @@ module.exports = function() {
 		filteredAtBeginning: generalAdjectivesAdverbs,
 
 		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat( ordinalNumerals, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
+		filteredAtEnding: [].concat( ordinalNumerals, otherAuxiliariesInfinitive, copulaEstarInfinitive, copulaSerInfinitive,
+			delexicalizedVerbsInfinitive ),
 
 		// These word categories are filtered at the beginning and ending of word combinations.
 		filteredAtBeginningAndEnding: [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
@@ -270,22 +277,27 @@ module.exports = function() {
 
 		// These word categories are filtered everywhere within word combinations.
 		filteredAnywhere: [].concat( transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional,
-			personalPronounsComitative, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs,
+			personalPronounsComitative, interjections, cardinalNumerals, otherAuxiliaries, copulaEstar, copulaSer, interviewVerbs, delexicalizedVerbs,
 			indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns,
 			interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, recipeWords, timeWords, vagueNouns ),
 
 		// These word categories cannot directly precede a passive participle.
 		cannotDirectlyPrecedePassiveParticiple: [].concat( articles, prepositions, personalPronounsAccusative, possessivePronouns,
 			indefinitePronouns, interrogativeProAdverbs, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalizedVerbsInfinitive,
-			interviewVerbs ),
+			interviewVerbs, interrogativeDeterminers, interrogativePronouns, personalPronounsComitative, personalPronounsPrepositional,
+			prepositionalAdverbs ),
+
+		// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
+		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( copulaEstar, copulaEstarInfinitive ),
 
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
 			personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional,
 			personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns,
-			interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copula,
-			copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
-			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing ),
+			interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copulaEstar, copulaSer,
+			copulaEstarInfinitive, copulaSerInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
+			subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs,
+			delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
+			titlesPreceding, titlesFollowing ),
 	};
 };

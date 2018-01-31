@@ -1,6 +1,8 @@
 var Participle = require( "../../../values/Participle.js" );
 var checkException = require( "../../passiveVoice/checkException.js" );
 var directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
+var precedenceException = require( "../../../stringProcessing/precedenceException" );
+
 
 /**
  * Creates an Participle object for the Spanish language.
@@ -28,9 +30,12 @@ SpanishParticiple.prototype.isPassive = function() {
 	let sentencePart = this.getSentencePart();
 	let participleIndex = sentencePart.indexOf( this.getParticiple() );
 
-	return ! this.directPrecedenceException( sentencePart, participleIndex );
+	return ! this.directPrecedenceException( sentencePart, participleIndex ) &&
+		! this.precedenceException( sentencePart, participleIndex );
 };
 
 SpanishParticiple.prototype.directPrecedenceException = directPrecedenceException;
+
+SpanishParticiple.prototype.precedenceException = precedenceException;
 
 module.exports = SpanishParticiple;
