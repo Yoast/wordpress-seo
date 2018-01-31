@@ -34,10 +34,11 @@ const StyledSectionBase = styled( Section )`
 		margin: 0 0 16px;
 		font-family: "Open Sans", sans-serif;
 		font-weight: 300;
-		color: ${ colors.$color_grey_dark };
+		color: ${ props => props.headingColor ? props.headingColor : `${ colors.$color_grey_dark }` };
 	}
 
 	& ${ StyledIcon } {
+		flex: 0 0 auto;
 		margin-right: 8px;
 	}
 `;
@@ -52,6 +53,7 @@ const StyledSection = ( props ) => {
 	return (
 		<StyledSectionBase
 			className={ props.className }
+			headingColor={ props.headingColor }
 		>
 			<StyledHeading
 				level={ props.headingLevel }
@@ -75,6 +77,7 @@ StyledSection.propTypes = {
 	className: PropTypes.string,
 	headingLevel: PropTypes.number,
 	headingClassName: PropTypes.string,
+	headingColor: PropTypes.string,
 	headingIcon: PropTypes.string,
 	headingIconColor: PropTypes.string,
 	headingIconSize: PropTypes.string,
