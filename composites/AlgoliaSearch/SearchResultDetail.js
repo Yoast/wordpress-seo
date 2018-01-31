@@ -79,7 +79,12 @@ class SearchResultDetail extends React.Component {
 						icon={ angleLeft } />
 					{ backButtonText }
 				</YoastButton>
-				<RightYoastLinkButton href={ this.props.post.permalink } aria-label={ openButtonLabel } target="_blank">
+				<RightYoastLinkButton
+					href={ this.props.post.permalink }
+					aria-label={ openButtonLabel }
+					target="_blank"
+					rel="noopener noreferrer"
+				>
 					{ openButtonText }
 					<Icon
 						size="24px"
