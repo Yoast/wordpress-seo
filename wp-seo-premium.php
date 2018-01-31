@@ -1,9 +1,5 @@
 <?php
 /**
- * @package WPSEO\Main
- */
-
-/**
  * Yoast SEO Plugin.
  *
  * WPSEO Premium plugin file.

@@ -88,7 +88,6 @@ class WPSEO_Frontend {
 		add_action( 'wpseo_head', array( $this, 'debug_mark' ), 2 );
 		add_action( 'wpseo_head', array( $this, 'metadesc' ), 6 );
 		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
-		add_action( 'wpseo_head', array( $this, 'metakeywords' ), 11 );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
 		add_action( 'wpseo_head', array( $this, 'publisher' ), 22 );
@@ -653,15 +652,14 @@ class WPSEO_Frontend {
 	 */
 	public function get_debug_mark() {
 		return sprintf(
-			'<!-- This site is optimized with the %1$s %2$s - %3$s -->',
+			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
 			esc_html( $this->head_product_name() ),
 			/**
 			 * Filter: 'wpseo_hide_version' - can be used to hide the Yoast SEO version in the debug marker (only available in Yoast SEO Premium).
 			 *
 			 * @api bool
 			 */
-			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : 'v' . WPSEO_VERSION ),
-			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yg' ) )
+			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : 'v' . WPSEO_VERSION )
 		);
 	}
 
@@ -768,10 +766,6 @@ class WPSEO_Frontend {
 				$robots['index'] = 'noindex';
 			}
 			elseif ( is_home() ) {
-				if ( get_query_var( 'paged' ) > 1 && $this->options['noindex-subpages-wpseo'] === true ) {
-					$robots['index'] = 'noindex';
-				}
-
 				$page_for_posts = get_option( 'page_for_posts' );
 				if ( $page_for_posts ) {
 					$robots = $this->robots_for_single_post( $robots, $page_for_posts );
@@ -787,11 +781,6 @@ class WPSEO_Frontend {
 				}
 			}
 
-			$is_paged         = isset( $wp_query->query_vars['paged'] ) && ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 );
-			$noindex_subpages = $this->options['noindex-subpages-wpseo'] === true;
-			if ( $is_paged && $noindex_subpages ) {
-				$robots['index'] = 'noindex';
-			}
 			unset( $robot );
 		}
 
@@ -1186,78 +1175,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Outputs the meta keywords element.
-	 *
-	 * @return void
-	 */
-	public function metakeywords() {
-		global $wp_query, $post;
-
-		if ( $this->options['usemetakeywords'] === false ) {
-			return;
-		}
-
-		$keywords = '';
-
-		if ( is_singular() ) {
-			$keywords = $this->get_seo_meta_value( 'metakeywords' );
-			if ( $keywords === '' && ( is_object( $post ) && ( ( isset( $this->options[ 'metakey-' . $post->post_type ] ) && $this->options[ 'metakey-' . $post->post_type ] !== '' ) ) ) ) {
-				$keywords = $this->replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
-			}
-		}
-		else {
-			if ( $this->is_home_posts_page() && $this->options['metakey-home-wpseo'] !== '' ) {
-				$keywords = $this->replace_vars( $this->options['metakey-home-wpseo'], array() );
-			}
-			elseif ( $this->is_home_static_page() ) {
-				$keywords = $this->get_seo_meta_value( 'metakeywords' );
-				if ( $keywords === '' && ( is_object( $post ) && ( isset( $this->options[ 'metakey-' . $post->post_type ] ) && $this->options[ 'metakey-' . $post->post_type ] !== '' ) ) ) {
-					$keywords = $this->replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
-				}
-			}
-			elseif ( $this->is_posts_page() ) {
-				$keywords = $this->get_keywords( get_post( get_option( 'page_for_posts' ) ) );
-			}
-			elseif ( is_category() || is_tag() || is_tax() ) {
-				$term = $wp_query->get_queried_object();
-
-				if ( is_object( $term ) ) {
-					$keywords = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'metakey' );
-					if ( ( ! is_string( $keywords ) || $keywords === '' ) && ( isset( $this->options[ 'metakey-tax-' . $term->taxonomy ] ) && $this->options[ 'metakey-tax-' . $term->taxonomy ] !== '' ) ) {
-						$keywords = $this->replace_vars( $this->options[ 'metakey-tax-' . $term->taxonomy ], $term );
-					}
-				}
-			}
-			elseif ( is_author() ) {
-				$author_id = get_query_var( 'author' );
-				$keywords  = get_the_author_meta( 'metakey', $author_id );
-				if ( ! $keywords && $this->options['metakey-author-wpseo'] !== '' ) {
-					$keywords = $this->replace_vars( $this->options['metakey-author-wpseo'], $wp_query->get_queried_object() );
-				}
-			}
-			elseif ( is_post_type_archive() ) {
-				$post_type = $this->get_queried_post_type();
-				if ( isset( $this->options[ 'metakey-ptarchive-' . $post_type ] ) && $this->options[ 'metakey-ptarchive-' . $post_type ] !== '' ) {
-					$keywords = $this->replace_vars( $this->options[ 'metakey-ptarchive-' . $post_type ], $wp_query->get_queried_object() );
-				}
-			}
-		}
-
-		$keywords = apply_filters( 'wpseo_metakey', trim( $keywords ) ); // @todo Make deprecated.
-
-		/**
-		 * Filter: 'wpseo_metakeywords' - Allow changing the Yoast SEO meta keywords.
-		 *
-		 * @api string $keywords The meta keywords to be echoed.
-		 */
-		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // More appropriately named.
-
-		if ( is_string( $keywords ) && $keywords !== '' ) {
-			echo '<meta name="keywords" content="', esc_attr( wp_strip_all_tags( stripslashes( $keywords ), true ) ), '"/>', "\n";
-		}
-	}
-
-	/**
 	 * Outputs the meta description element or returns the description text.
 	 *
 	 * @param bool $echo Echo or return output flag.
@@ -1615,7 +1532,7 @@ class WPSEO_Frontend {
 			unset( $matches );
 
 			// Prevent cleaning out posts & page previews for people capable of viewing them.
-			if ( isset( $_GET['preview'], $_GET['preview_nonce'] ) && current_user_can( 'edit_post' ) ) {
+			if ( isset( $_GET['preview'], $_GET['preview_nonce'] ) && current_user_can( 'edit_post', $post->ID ) ) {
 				$properurl = '';
 			}
 		}
@@ -1932,24 +1849,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Getting the keywords.
-	 *
-	 * @param WP_Post $post The post object with the values.
-	 *
-	 * @return string
-	 */
-	private function get_keywords( $post ) {
-		$keywords        = $this->get_seo_meta_value( 'metakeywords', $post->ID );
-		$option_meta_key = 'metakey-' . $post->post_type;
-
-		if ( $keywords === '' && ( is_object( $post ) && ( isset( $this->options[ $option_meta_key ] ) && $this->options[ $option_meta_key ] !== '' ) ) ) {
-			$keywords = $this->replace_vars( $this->options[ $option_meta_key ], $post );
-		}
-
-		return $keywords;
-	}
-
-	/**
 	 * Check if term archive query is for multiple terms (/term-1,term2/ or /term-1+term-2/).
 	 *
 	 * @return bool
@@ -2093,6 +1992,17 @@ class WPSEO_Frontend {
 	public function debug_marker( $echo = false ) {
 		_deprecated_function( 'WPSEO_Frontend::debug_marker', '4.4', 'WPSEO_Frontend::debug_mark' );
 		return $this->debug_mark( $echo );
+	}
+
+	/**
+	 * Outputs the meta keywords element.
+	 *
+	 * @deprecated 6.3
+	 *
+	 * @return void
+	 */
+	public function metakeywords() {
+		_deprecated_function( 'WPSEO_Frontend::metakeywords', '6.3' );
 	}
 	// @codeCoverageIgnoreEnd
 }
