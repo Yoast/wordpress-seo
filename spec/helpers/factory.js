@@ -33,11 +33,18 @@ FactoryProto.prototype.buildMockElement = function() {
  *
  * @returns {Researcher}
  */
-FactoryProto.prototype.buildMockResearcher = function( expectedValue ) {
+FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false ) {
+	if( multiValue && typeof expectedValue === "object" ) {
+		return {
+			getResearch: function( research ) {
+				return expectedValue[ research ];
+			},
+		};
+	}
 	return {
 		getResearch: function() {
 			return expectedValue;
-		}
+		},
 	};
 };
 
