@@ -19,19 +19,19 @@ $version = '3.4';
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
 		echo '<li class="wp-person">';
-		echo '<a href="', esc_url( 'https://github.com/' . $username ), '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=120" class="gravatar" alt="">', $dev->name, '</a>';
-		echo '<span class="title">', $dev->role, "</span></li>\n";
+		echo '<a href="', esc_url( 'https://github.com/' . $username ), '" class="web"><img src="//gravatar.com/avatar/', rawurlencode( $dev->gravatar ), '?s=120" class="gravatar" alt="">', esc_html( $dev->name ), '</a>';
+		echo '<span class="title">', esc_html( $dev->role ), "</span></li>\n";
 	}
 }
+
+/* translators: %1$s expands to Yoast SEO */
+$wpseo_thanks_for_updating = sprintf( __( 'Thank you for updating %1$s!', 'wordpress-seo' ), 'Yoast SEO' );
 
 ?>
 
 <div class="wrap about-wrap">
 
-	<h1><?php
-		/* translators: %1$s expands to Yoast SEO */
-		printf( __( 'Thank you for updating %1$s!', 'wordpress-seo' ), 'Yoast SEO' );
-		?></h1>
+	<h1><?php echo esc_html( $wpseo_thanks_for_updating ); ?></h1>
 
 	<p class="about-text">
 		<?php

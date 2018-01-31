@@ -23,6 +23,7 @@ Before opening a new issue, please:
 * update to the newest versions of WordPress and the Yoast SEO plugins.
 * search for duplicate issues to prevent opening a duplicate issue. If there is already an open existing issue, please comment on that issue.
 * check our [knowledge base](https://yoa.st/1y0) for your issue. There are a lot of common errors documented there with possible solutions.
+* follow our _New issue_ template when creating a new issue.
 * check for [plugin and theme conflicts](https://yoa.st/1y2). Please report your findings in the issue.
 * check for [JavaScript errors with your browser's console](https://yoa.st/1y3). Please report your findings in the issue.
 * add as much information as possible. For example: add screenshots, relevant links, step by step guides etc.

@@ -147,13 +147,6 @@ class WPSEO_Meta {
 				'default_value' => '0',
 				'description'   => '',
 			),
-			'metakeywords' => array(
-				'type'          => 'metakeywords',
-				'title'         => '', // Translation added later.
-				'default_value' => '',
-				'class'         => 'metakeywords',
-				'description'   => '', // Translation added later.
-			),
 			'pageanalysis' => array(
 				'type'         => 'pageanalysis',
 				'title'        => '', // Translation added later.
@@ -358,14 +351,6 @@ class WPSEO_Meta {
 
 			case 'general':
 				$options = WPSEO_Options::get_option( 'wpseo_titles' );
-				if ( $options['usemetakeywords'] === true ) {
-					/* Adjust the link in the keywords description text string based on the post type */
-					$field_defs['metakeywords']['description'] = sprintf( $field_defs['metakeywords']['description'], '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#post_types' ) ) . '">', '</a>' );
-				}
-				else {
-					/* Don't show the keywords field if keywords aren't enabled */
-					unset( $field_defs['metakeywords'] );
-				}
 				/**
 				 * Filter the WPSEO metabox form field definitions for the general tab, backward compatibility
 				 *

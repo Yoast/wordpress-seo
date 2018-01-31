@@ -6,7 +6,7 @@
 /**
  * TestCase base class for convenience methods.
  */
-class WPSEO_UnitTestCase extends WP_UnitTestCase {
+abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 
 	/**
 	 * @param string $key   Key to be used with PHP superglobals.

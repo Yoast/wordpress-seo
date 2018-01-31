@@ -8,7 +8,7 @@
  */
 class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
-	/** @var string $home_url Holds the home_url() value to speed up loops. */
+	/** @var string $home_url Holds the home_url() value. */
 	protected static $home_url;
 
 	/** @var array $options All of plugin options. */
@@ -17,10 +17,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/** @var WPSEO_Sitemap_Image_Parser $image_parser Holds image parser instance. */
 	protected static $image_parser;
 
-	/** @var int $page_on_front_id Static front page ID.  */
+	/** @var object $classifier Holds instance of classifier for a link. */
+	protected static $classifier;
+
+	/** @var int $page_on_front_id Static front page ID. */
 	protected static $page_on_front_id;
 
-	/** @var int $page_for_posts_id Posts page ID.  */
+	/** @var int $page_for_posts_id Posts page ID. */
 	protected static $page_for_posts_id;
 
 	/**
@@ -67,6 +70,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return self::$image_parser;
+	}
+
+	/**
+	 * Get the Classifier for a link
+	 *
+	 * @return WPSEO_Link_Type_Classifier
+	 */
+	protected function get_classifier() {
+		if ( ! isset( self::$classifier ) ) {
+			self::$classifier = new WPSEO_Link_Type_Classifier( $this->get_home_url() );
+		}
+
+		return self::$classifier;
 	}
 
 	/**
@@ -591,7 +607,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 *
 		 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 		 */
-		if ( false === strpos( $url['loc'], $this->get_home_url() ) ) {
+		if ( $this->get_classifier()->classify( $url['loc'] ) === WPSEO_Link::TYPE_EXTERNAL ) {
 			return false;
 		}
 
@@ -624,38 +640,5 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$url['images'] = $this->get_image_parser()->get_images( $post );
 
 		return $url;
-	}
-
-	/**
-	 * Calculate the priority of the post.
-	 *
-	 * @deprecated 3.5 Priority data dropped from sitemaps.
-	 *
-	 * @param WP_Post $post Post object.
-	 *
-	 * @return float|mixed
-	 */
-	private function calculate_priority( $post ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
-
-		$return = 0.6;
-		if ( $post->post_parent === 0 && $post->post_type === 'page' ) {
-			$return = 0.8;
-		}
-
-		if ( $post->ID === $this->get_page_on_front_id() || $post->ID === $this->get_page_for_posts_id() ) {
-			$return = 1.0;
-		}
-
-		/**
-		 * Filter the priority of the URL Yoast SEO uses in the XML sitemap.
-		 *
-		 * @param float  $priority  The priority for this URL, ranging from 0 to 1
-		 * @param string $post_type The post type this archive is for.
-		 * @param object $post      The post object.
-		 */
-		$return = apply_filters( 'wpseo_xml_sitemap_post_priority', $return, $post->post_type, $post );
-
-		return $return;
 	}
 }

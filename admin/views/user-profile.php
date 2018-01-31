@@ -3,14 +3,14 @@
  * @package WPSEO\Admin
  */
 
+/* translators: %1$s expands to Yoast SEO */
+$wpseo_up_settings_header = sprintf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
+
 ?>
 
 <div class="yoast yoast-settings">
 
-	<h2 id="wordpress-seo"><?php
-		/* translators: %1$s expands to Yoast SEO */
-		printf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
-		?></h2>
+	<h2 id="wordpress-seo"><?php echo esc_html( $wpseo_up_settings_header ); ?></h2>
 
 	<label for="wpseo_author_title"><?php esc_html_e( 'Title to use for Author page', 'wordpress-seo' ); ?></label>
 	<input class="yoast-settings__text regular-text" type="text" id="wpseo_author_title" name="wpseo_author_title"
@@ -20,12 +20,6 @@
 	<textarea rows="5" cols="30" id="wpseo_author_metadesc" class="yoast-settings__textarea yoast-settings__textarea--medium"
 		name="wpseo_author_metadesc"><?php echo esc_textarea( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea><br>
 
-	<?php if ( $options_titles['usemetakeywords'] === true ) { ?>
-		<label for="wpseo_author_metakey"><?php esc_html_e( 'Meta keywords to use for Author page', 'wordpress-seo' ); ?></label>
-		<input class="yoast-settings__text regular-text" type="text" id="wpseo_author_metakey"
-			name="wpseo_author_metakey"
-			value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>"/><br>
-	<?php } ?>
 		<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_author_exclude"
 			name="wpseo_author_exclude"
 			value="on" <?php echo ( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />

@@ -24,7 +24,7 @@ module.exports = {
 				src: [
 					"admin/**",
 					"css/**/*.min.css",
-					"css/xml-sitemap-xsl.php",
+					"css/main-sitemap.xsl",
 					"deprecated/**",
 					"frontend/**",
 					"images/**",
@@ -39,7 +39,6 @@ module.exports = {
 					"wp-seo.php",
 					"wp-seo-main.php",
 					"wpml-config.xml",
-
 					"!languages/wordpress-seo.pot",
 					"!vendor/bin",
 					"!vendor/composer/installed.json",

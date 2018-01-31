@@ -2,13 +2,15 @@
 var timeGrunt = require( "time-grunt" );
 var path = require( "path" );
 var loadGruntConfig = require( "load-grunt-config" );
+const { flattenVersionForFile } = require( "./webpack/paths" );
 
 module.exports = function( grunt ) {
 	"use strict";
 
 	timeGrunt( grunt );
 
-	let pluginVersion = "6.0";
+	const pkg = grunt.file.readJSON( "package.json" );
+	const pluginVersion = pkg.yoast.pluginVersion;
 
 	// Define project configuration
 	var project = {
@@ -60,14 +62,10 @@ module.exports = function( grunt ) {
 			},
 			grunt: "Gruntfile.js",
 		},
-		pkg: grunt.file.readJSON( "package.json" ),
+		pkg,
 	};
 
-	let versionParts = pluginVersion.split( "." );
-	if ( versionParts.length === 2 ) {
-		versionParts.push( 0 );
-	}
-	project.pluginVersionSlug = versionParts.join( "" );
+	project.pluginVersionSlug = flattenVersionForFile( pluginVersion );
 
 	// Load Grunt configurations and tasks
 	loadGruntConfig( grunt, {

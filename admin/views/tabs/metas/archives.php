@@ -38,9 +38,6 @@ $yform->toggle_switch( 'disable-author', array(
 echo "<div id='author-archives-titles-metas-content' class='archives-titles-metas-content'>";
 $yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
 $yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
-if ( $options['usemetakeywords'] === true ) {
-	$yform->textinput( 'metakey-author-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
-}
 $yform->toggle_switch( 'noindex-author-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 echo '</div>';
 echo '</div>';

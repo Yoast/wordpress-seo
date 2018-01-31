@@ -53,8 +53,8 @@ class WPSEO_Link_Columns {
 			return;
 		}
 
-		// When table doesn't exists.
-		if ( ! WPSEO_Link_Table_Accessible::check_table_is_accessible() || ! WPSEO_Meta_Table_Accessible::check_table_is_accessible() ) {
+		// Exit when either table is not present or accessible.
+		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			return;
 		}
 
