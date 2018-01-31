@@ -115,7 +115,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		return '';
 	}
 
-	/** Tests if external URLs are not being included in the sitemap
+	/** 
+	 * Tests if external URLs are not being included in the sitemap
 	 *
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_url
 	 */
