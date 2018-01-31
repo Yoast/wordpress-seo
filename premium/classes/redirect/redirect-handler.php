@@ -406,12 +406,10 @@ class WPSEO_Redirect_Handler {
 			return $target_url;
 		}
 
-		$target_url = '/' . ltrim( $target_url, '/' );
 		$target_url = $this->trailingslashit( $target_url );
 		$target_url = $this->format_for_multisite( $target_url );
-		$target_url = $this->format_target( $target_url );
 
-		return $target_url;
+		return $this->home_url( $target_url );
 	}
 
 	/**
@@ -460,12 +458,8 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return string The redirect url.
 	 */
-	protected function format_target( $redirect_url ) {
-		if ( $redirect_url[0] === '/' ) {
-			$redirect_url = home_url( $redirect_url );
-		}
-
-		return $redirect_url;
+	protected function home_url( $redirect_url ) {
+		return home_url( $redirect_url );
 	}
 
 	/**

@@ -475,23 +475,23 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation where the redirect url doesn't start with a slash.
 	 *
-	 * @covers WPSEO_Redirect_Handler::format_target()
+	 * @covers WPSEO_Redirect_Handler::home_url()
 	 */
-	public function test_format_target_with_no_start_slash() {
+	public function test_home_url_with_no_start_slash() {
 		$redirect_handler = new WPSEO_Redirect_Handler_Double();
 
-		$this->assertEquals( 'redirect', $redirect_handler->format_target( 'redirect' ) );
+		$this->assertEquals( home_url() . '/redirect', $redirect_handler->home_url( 'redirect' ) );
 	}
 
 	/**
 	 * Tests the situation where the redirect url starts with a slash.
 	 *
-	 * @covers WPSEO_Redirect_Handler::format_target()
+	 * @covers WPSEO_Redirect_Handler::home_url()
 	 */
-	public function test_format_target_with_start_slash() {
+	public function test_home_url_with_start_slash() {
 		$redirect_handler = new WPSEO_Redirect_Handler_Double();
 
-		$this->assertEquals( 'http://example.org/redirect', $redirect_handler->format_target( '/redirect' ) );
+		$this->assertEquals( home_url() . '/redirect', $redirect_handler->home_url( '/redirect' ) );
 	}
 
 	/**
@@ -966,8 +966,14 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 		return array(
 			array( '/test/page' , $home_url . '/test/page' ),
+			array( 'no-slashes' , $home_url . '/no-slashes' ),
 			array( 'http://external.org/' , 'http://external.org/' ),
-			array( '/no-trailing-slash' , 'http://example.org/no-trailing-slash' ),
+
+			/*
+			 * The following entry is added because of issue:
+			 * https://github.com/Yoast/wordpress-seo-premium/issues/1578
+			 */
+			array( '/no-trailing-slash' , $home_url . '/no-trailing-slash' ),
 		);
 	}
 
