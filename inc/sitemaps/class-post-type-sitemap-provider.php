@@ -249,7 +249,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			foreach ( $posts as $post ) {
 
-				if ( in_array( $post->ID, $posts_to_exclude, true ) ) {
+				if ( in_array( (int) $post->ID, $posts_to_exclude, true ) ) {
 					continue;
 				}
 
