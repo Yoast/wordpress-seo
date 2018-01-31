@@ -1231,6 +1231,17 @@ SnippetPreview.prototype.getTitleWidth = function() {
 };
 
 /**
+ * Allows to manually set the title width.
+ * This may be useful in setups where the title field will not always be rendered.
+ *
+ * @param {Number} titleWidth The width of the title in pixels.
+ * @returns {void}
+ */
+SnippetPreview.prototype.setTitleWidth = function( titleWidth ) {
+	this.data.titleWidth = titleWidth;
+};
+
+/**
  * Returns whether or not an app object is present.
  *
  * @returns {boolean} Whether or not there is an App object present.
