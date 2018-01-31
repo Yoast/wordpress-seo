@@ -80,7 +80,7 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 
 		$option[ 'noindex-' . $post_type ] = ( $visible === 'false' );
 
-		update_option( 'wpseo_xml', $option );
+		update_option( 'wpseo_titles', $option );
 
 		// Check if everything got saved properly.
 		$saved_option = WPSEO_Options::get_option( 'wpseo_titles' );

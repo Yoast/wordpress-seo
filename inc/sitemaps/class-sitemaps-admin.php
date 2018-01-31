@@ -33,6 +33,7 @@ class WPSEO_Sitemaps_Admin {
 	 */
 	public function detect_blocking_filesystem_sitemaps() {
 		$wpseo_options = WPSEO_Options::get_option( 'wpseo' );
+
 		if ( $wpseo_options['enable_xml_sitemap'] !== true ) {
 			return;
 		}
@@ -142,7 +143,7 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		$options = WPSEO_Options::get_option( 'wpseo' );
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
 
 		$ping_search_engines = false;
 

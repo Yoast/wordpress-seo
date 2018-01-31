@@ -598,9 +598,9 @@ class WPSEO_Sitemaps {
 	/**
 	 * Get the maximum number of entries per XML sitemap.
 	 *
-	 * @return int
+	 * @return int The maximum number of entries.
 	 */
-	private function get_entries_per_page() {
+	protected function get_entries_per_page() {
 		/**
 		 * Filter the maximum number of entries per XML sitemap.
 		 *
