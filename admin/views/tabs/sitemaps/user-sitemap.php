@@ -14,8 +14,20 @@ echo '<h2>' . esc_html__( 'User sitemap settings', 'wordpress-seo' ) . '</h2>';
 $yform->toggle_switch(
 	'disable_author_sitemap',
 	array(
-		'off' => __( 'Enabled', 'wordpress-seo' ),
-		'on'  => __( 'Disabled', 'wordpress-seo' ),
+		'off' => array(
+			'text' => __( 'Enabled', 'wordpress-seo' ),
+			'screen_reader_text' => sprintf(
+				'(%s)',
+				__( 'author / user sitemap', 'wordpress-seo' )
+			),
+		),
+		'on' => array(
+			'text' => __( 'Disabled', 'wordpress-seo' ),
+			'screen_reader_text' => sprintf(
+				'(%s)',
+				__( 'author / user sitemap', 'wordpress-seo' )
+			),
+		),
 	),
 	__( 'Author / user sitemap', 'wordpress-seo' )
 );
@@ -27,11 +39,26 @@ printf(
 
 echo '<div id="xml_user_block">';
 
-$switch_values = array(
-	'off' => __( 'In sitemap', 'wordpress-seo' ),
-	'on'  => __( 'Not in sitemap', 'wordpress-seo' ),
+$yform->toggle_switch(
+	'disable_author_noposts',
+	array(
+		'off' => array(
+			'text' => __( 'In sitemap', 'wordpress-seo' ),
+			'screen_reader_text' => sprintf(
+				'(%s)',
+				__( 'Users without posts', 'wordpress-seo' )
+			),
+		),
+		'on'  => array(
+			'text' => __( 'Not in sitemap', 'wordpress-seo' ),
+			'screen_reader_text' => sprintf(
+				'(%s)',
+				__( 'Users without posts', 'wordpress-seo' )
+			),
+		),
+	),
+	__( 'Users without posts', 'wordpress-seo' )
 );
-$yform->toggle_switch( 'disable_author_noposts', $switch_values, __( 'Users without posts', 'wordpress-seo' ) );
 
 printf(
 	'<p class="expl">%s</p>',
@@ -43,7 +70,26 @@ unset( $roles['subscriber'] );
 if ( is_array( $roles ) && $roles !== array() ) {
 	echo '<h2>' . esc_html__( 'Filter specific user roles', 'wordpress-seo' ) . '</h2>';
 	foreach ( $roles as $role_key => $role_name ) {
-		$yform->toggle_switch( 'user_role-' . $role_key . '-not_in_sitemap', $switch_values, $role_name );
+		$yform->toggle_switch(
+			'user_role-' . $role_key . '-not_in_sitemap',
+			array(
+				'off' => array(
+					'text' => __( 'In sitemap', 'wordpress-seo' ),
+					'screen_reader_text' => sprintf(
+						'(%s)',
+						$role_name
+					),
+				),
+				'on'  => array(
+					'text' => __( 'Not in sitemap', 'wordpress-seo' ),
+					'screen_reader_text' => sprintf(
+						'(%s)',
+						$role_name
+					),
+				),
+			),
+			$role_name
+		);
 	}
 }
 
