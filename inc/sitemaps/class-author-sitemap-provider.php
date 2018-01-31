@@ -179,7 +179,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$links = array();
 
-		if ( $options['disable-author'] === true || $options['disable_author_sitemap'] === true ) {
+		if ( $options['disable-author'] === true || $options['noindex-author-wpseo'] === true ) {
 			return $links;
 		}
 

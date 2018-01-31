@@ -33,7 +33,7 @@ class WPSEO_Admin_Init {
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_option( 'wpseo_xml' );
+		$this->options = WPSEO_Options::get_option( 'wpseo' );
 
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
 

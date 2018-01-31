@@ -55,13 +55,11 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	 * @return bool
 	 */
 	public function get_data() {
-		$option = WPSEO_Options::get_option( 'wpseo_xml' );
+		$option = WPSEO_Options::get_option( 'wpseo_titles' );
 
-		$key = 'post_types-' . $this->get_post_type() . '-not_in_sitemap';
+		$key = 'noindex-' . $this->get_post_type();
 
-		$stored_data = ! isset( $option[ $key ] ) || false === $option[ $key ];
-
-		if ( $stored_data ) {
+		if ( isset( $option[ $key ] ) && $option[ $key ] === false ) {
 			return 'true';
 		}
 
@@ -78,15 +76,15 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	public function set_data( $visible ) {
 		$post_type = $this->get_post_type();
 
-		$option = WPSEO_Options::get_option( 'wpseo_xml' );
+		$option = WPSEO_Options::get_option( 'wpseo_titles' );
 
-		$option[ 'post_types-' . $post_type . '-not_in_sitemap' ] = ( $visible === 'false' );
+		$option[ 'noindex-' . $post_type ] = ( $visible === 'false' );
 
 		update_option( 'wpseo_xml', $option );
 
 		// Check if everything got saved properly.
-		$saved_option = WPSEO_Options::get_option( 'wpseo_xml' );
+		$saved_option = WPSEO_Options::get_option( 'wpseo_titles' );
 
-		return ( ( $visible === 'false' ) && $saved_option[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true );
+		return ( ( $visible === 'false' ) && $saved_option[ 'noindex-' . $post_type ] === true );
 	}
 }

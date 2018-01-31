@@ -8,7 +8,6 @@
  * This code handles the option upgrades
  */
 class WPSEO_Upgrade {
-
 	/**
 	 * Holds the Yoast SEO options
 	 *
@@ -77,7 +76,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $this->options['version'], '5.0', '>=' )
-			&& version_compare( $this->options['version'], '5.1', '<' )
+		     && version_compare( $this->options['version'], '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
@@ -96,6 +95,10 @@ class WPSEO_Upgrade {
 
 		if ( version_compare( $this->options['version'], '6.3', '<' ) ) {
 			$this->upgrade_63();
+		}
+
+		if ( version_compare( $this->options['version'], '6.4', '<' ) ) {
+			$this->upgrade_64();
 		}
 
 		// Since 3.7.
@@ -242,6 +245,7 @@ class WPSEO_Upgrade {
 	 */
 	private function move_pinterest_option() {
 		$options_social = get_option( 'wpseo_social' );
+		$option_wpseo   = get_option( 'wpseo' );
 
 		if ( isset( $option_wpseo['pinterestverify'] ) ) {
 			$options_social['pinterestverify'] = $option_wpseo['pinterestverify'];
@@ -327,7 +331,7 @@ class WPSEO_Upgrade {
 		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
 
 		$usermetas = $wpdb->get_results(
-			$wpdb->prepare('
+			$wpdb->prepare( '
 				SELECT user_id, meta_value
 				FROM ' . $wpdb->usermeta . '
 				WHERE meta_key = %s AND meta_value LIKE %s
@@ -465,11 +469,17 @@ class WPSEO_Upgrade {
 		update_option( 'wpseo_titles', $option_titles );
 	}
 
+	/**
+	 * Perform the 6.4 updates, moves XML setting to WPSEO, deletes WPSEO_XML option
+	 */
 	private function upgrade_64() {
-		// Move the option to enable XML sitemaps
-		$wpseo_options = WPSEO_Options::get_option( 'wpseo' );
-		$wpseo_xml_options = WPSEO_Options::get_option( 'wpseo_xml' );
+		// Move the option to enable XML sitemaps.
+		$wpseo_options                       = WPSEO_Options::get_option( 'wpseo' );
+		$wpseo_xml_options                   = WPSEO_Options::get_option( 'wpseo_xml' );
 		$wpseo_options['enable_xml_sitemap'] = $wpseo_xml_options['enablexmlsitemap'];
 		update_option( 'wpseo', $wpseo_options );
+
+		// Delete the WPSEO XML option.
+		delete_option( 'wpseo_xml' );
 	}
 }

@@ -150,9 +150,9 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			/* translators: %1$s expands to Yoast SEO, %2$s: 'Google XML Sitemaps' plugin name of possibly conflicting plugin with regard to the creation of sitemaps. */
 			$plugin_sections['xml_sitemaps'] = __( 'Both %1$s and %2$s can create XML sitemaps. Having two XML sitemaps is not beneficial for search engines, yet might slow down your site.', 'wordpress-seo' )
 				. '<br/><br/>'
-				. '<a class="button" href="' . admin_url( 'admin.php?page=wpseo_xml' ) . '">'
+				. '<a class="button" href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#features' ) . '">'
 				/* translators: %1$s expands to Yoast SEO. */
-				. sprintf( __( 'Configure %1$s\'s XML Sitemap settings', 'wordpress-seo' ), 'Yoast SEO' )
+				. sprintf( __( 'Toggle %1$s\'s XML Sitemap', 'wordpress-seo' ), 'Yoast SEO' )
 				. '</a>';
 		}
 

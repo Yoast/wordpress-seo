@@ -81,11 +81,10 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		$options = WPSEO_Options::get_options( array( 'wpseo_xml', 'wpseo_titles' ) );
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
 
 		// If the post type is excluded in options, we can stop.
-		$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
-		if ( isset( $options[ $option ] ) && $options[ $option ] === true ) {
+		if ( $options[ 'noindex-' . $post_type ] === true ) {
 			return;
 		}
 
@@ -143,7 +142,7 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		$options = WPSEO_Options::get_option( 'wpseo_xml' );
+		$options = WPSEO_Options::get_option( 'wpseo' );
 
 		$ping_search_engines = false;
 
@@ -155,8 +154,7 @@ class WPSEO_Sitemaps_Admin {
 				continue;
 			}
 
-			$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
-			if ( ! isset( $options[ $option ] ) || $options[ $option ] === false ) {
+			if ( $options[ 'noindex-' . $post_type ] === false ) {
 				$ping_search_engines = true;
 			}
 		}

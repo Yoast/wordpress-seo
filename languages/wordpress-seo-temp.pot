@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 6.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-01-31 12:37:20+00:00\n"
+"POT-Creation-Date: 2018-01-31 12:59:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -923,7 +923,7 @@ msgstr ""
 
 #: admin/class-plugin-conflict.php:155
 #. translators: %1$s expands to Yoast SEO.
-msgid "Configure %1$s's XML Sitemap settings"
+msgid "Toggle %1$s's XML Sitemap"
 msgstr ""
 
 #: admin/class-plugin-conflict.php:160
