@@ -101,9 +101,10 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 		return sprintf(
 			/* translators: %1$s expands to Yoast SEO  */
 			__( '
-				%1$s also has a number of advanced settings. We have determined that the (dynamic) 
+				%1$s has a number of advanced settings. We have determined that the (dynamic) 
 				defaults we set for those are fine for most sites. However, if you want to change 
-				them, you can. To get access to these advanced settings, enable them here.',
+				them, you can. To get access to these advanced settings, enable them here. 
+				Good to know: you can always enable them later on if you need to.',
 				'wordpress-seo'
 			),
 			'Yoast SEO'
