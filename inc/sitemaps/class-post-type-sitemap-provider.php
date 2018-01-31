@@ -235,8 +235,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		$options = $this->get_options();
-
-		$stacked_urls = array();
+		$posts_to_exclude = $this->get_excluded_posts();
 
 		while ( $total > $offset ) {
 
@@ -248,15 +247,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$posts_to_exclude = explode( ',', $options['excluded-posts'] );
-
 			foreach ( $posts as $post ) {
 
-				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
+				if ( in_array( $post->ID, $posts_to_exclude, true ) ) {
 					continue;
 				}
 
-				if ( in_array( $post->ID, $posts_to_exclude ) ) {
+				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 					continue;
 				}
 
@@ -271,15 +268,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				 *
 				 * @param array  $url  Array of URL parts.
 				 * @param string $type URL type.
-				 * @param object $user Data object for the URL.
+				 * @param object $post Data object for the URL.
 				 */
 				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $post );
 
 				if ( empty( $url ) ) {
 					continue;
 				}
-
-				$stacked_urls[] = $url['loc'];
 
 				if ( $post->ID === $this->get_page_for_posts_id() || $post->ID === $this->get_page_on_front_id() ) {
 
@@ -338,6 +333,25 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Retrieves a list with the excluded post ids.
+	 *
+	 * @return array Array with post ids to exclude.
+	 */
+	protected function get_excluded_posts() {
+		/**
+		 * Filter: 'wpseo_exclude_from_sitemap_by_post_ids' - Allow extending and modifying the posts to exclude.
+		 *
+		 * @api array $posts_to_exclude The posts to exclude.
+		 */
+		$excluded_posts_ids = apply_filters( 'wpseo_exclude_from_sitemap_by_post_ids', array() );
+		if ( ! is_array( $excluded_posts_ids ) || $excluded_posts_ids === array() ) {
+			return array();
+		}
+
+		return array_map( 'intval', $excluded_posts_ids );
 	}
 
 	/**
