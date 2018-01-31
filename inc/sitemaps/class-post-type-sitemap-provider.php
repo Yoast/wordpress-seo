@@ -234,8 +234,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$options = $this->get_options();
-
 		$stacked_urls = array();
 
 		while ( $total > $offset ) {
@@ -248,15 +246,15 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$posts_to_exclude = explode( ',', $options['excluded-posts'] );
+			$posts_to_exclude = $this->get_excluded_posts();
 
 			foreach ( $posts as $post ) {
 
-				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
+				if ( in_array( $post->ID, $posts_to_exclude ) ) {
 					continue;
 				}
 
-				if ( in_array( $post->ID, $posts_to_exclude ) ) {
+				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 					continue;
 				}
 
@@ -315,15 +313,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return bool
 	 */
 	public function is_valid_post_type( $post_type ) {
-
-		$options = $this->get_options();
-
-		if ( ! empty( $options[ "post_types-{$post_type}-not_in_sitemap" ] ) ) {
-			return false;
-		}
-
-		// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
-		if ( ! in_array( $post_type, get_post_types( array( 'public' => true ), 'names' ), true ) ) {
+		if ( ! WPSEO_Post_Type::is_post_type_indexable( $post_type ) ) {
 			return false;
 		}
 
@@ -640,5 +630,21 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$url['images'] = $this->get_image_parser()->get_images( $post );
 
 		return $url;
+	}
+
+	/**
+	 * Retrieve posts that should be excluded from the XML sitemap.
+	 *
+	 * @return array Array of post IDs to exclude.
+	 */
+	private function get_excluded_posts() {
+		/**
+		 * Filter posts out of the XML sitemap.
+		 *
+		 * @param array $excluded_posts An array of post IDs to exclude.
+		 */
+		$excluded_posts = apply_filters( 'wpseo_sitemap_excluded_posts', array() );
+
+		return $excluded_posts;
 	}
 }

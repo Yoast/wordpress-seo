@@ -261,11 +261,6 @@ import a11ySpeak from "a11y-speak";
 		 */
 		wpseoSetTabHash();
 
-		// Toggle the XML sitemap section.
-		jQuery( "#enablexmlsitemap" ).change( function() {
-			jQuery( "#sitemapinfo" ).toggle( jQuery( this ).is( ":checked" ) );
-		} ).change();
-
 		// Toggle the Author archives section.
 		jQuery( "#disable-author input[type='radio']" ).change( function() {
 			// The value on is disabled, off is enabled.

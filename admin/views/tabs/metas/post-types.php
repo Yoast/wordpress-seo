@@ -16,8 +16,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  */
 $post_types          = get_post_types( array( 'public' => true ), 'objects' );
 $index_switch_values = array(
-	'off' => '<code>index</code>',
-	'on'  => '<code>noindex</code>',
+	'off' => 'Yes',
+	'on'  => 'No',
 );
 
 if ( is_array( $post_types ) && $post_types !== array() ) {
@@ -36,9 +36,10 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 			);
 			echo '</p></div>';
 		}
+		/* translators: %1$s expands to the Post type name */
+		$yform->toggle_switch( 'noindex-' . $name, $index_switch_values, sprintf( __( 'Show %1$s in search results?', 'wordpress-seo' ), $post_type->label ) );
 		$yform->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
-		$yform->toggle_switch( 'noindex-' . $name, $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 		$yform->toggle_switch( 'showdate-' . $name, array(
 			'on'  => __( 'Show', 'wordpress-seo' ),
 			'off' => __( 'Hide', 'wordpress-seo' ),
@@ -75,12 +76,12 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $post_type ) {
 		$name = $post_type->name;
 		echo '<h3>' . esc_html( ucfirst( $post_type->labels->name ) ) . '</h3>';
+		$yform->toggle_switch( 'noindex-ptarchive-' . $name, $index_switch_values, __( 'Show this post type archive in search results?', 'wordpress-seo' ) );
 		$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
 		if ( $options['breadcrumbs-enable'] === true ) {
 			$yform->textinput( 'bctitle-ptarchive-' . $name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
 		}
-		$yform->toggle_switch( 'noindex-ptarchive-' . $name, $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 
 		echo '<br/><br/>';
 	}

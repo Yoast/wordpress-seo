@@ -249,7 +249,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	public function is_valid_taxonomy( $taxonomy_name ) {
 
 		$options = $this->get_options();
-		if ( ! empty( $options[ "taxonomies-{$taxonomy_name}-not_in_sitemap" ] ) ) {
+		if ( $options[ "noindex-tax-{$taxonomy_name}" ] === true ) {
 			return false;
 		}
 

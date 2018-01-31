@@ -464,4 +464,12 @@ class WPSEO_Upgrade {
 		}
 		update_option( 'wpseo_titles', $option_titles );
 	}
+
+	private function upgrade_64() {
+		// Move the option to enable XML sitemaps
+		$wpseo_options = WPSEO_Options::get_option( 'wpseo' );
+		$wpseo_xml_options = WPSEO_Options::get_option( 'wpseo_xml' );
+		$wpseo_options['enable_xml_sitemap'] = $wpseo_xml_options['enablexmlsitemap'];
+		update_option( 'wpseo', $wpseo_options );
+	}
 }

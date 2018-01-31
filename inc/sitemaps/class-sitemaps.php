@@ -72,8 +72,7 @@ class WPSEO_Sitemaps {
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 		add_action( 'wpseo_ping_search_engines', array( __CLASS__, 'ping_search_engines' ) );
 
-		$options           = WPSEO_Options::get_all();
-		$this->max_entries = $options['entries-per-page'];
+		$this->max_entries = $this->get_entries_per_page();
 		$this->timezone    = new WPSEO_Sitemap_Timezone();
 		$this->router      = new WPSEO_Sitemaps_Router();
 		$this->renderer    = new WPSEO_Sitemaps_Renderer();
@@ -594,5 +593,21 @@ class WPSEO_Sitemaps {
 		}
 
 		return $change_freq;
+	}
+
+	/**
+	 * Get the maximum number of entries per XML sitemap.
+	 *
+	 * @return int
+	 */
+	private function get_entries_per_page() {
+		/**
+		 * Filter the maximum number of entries per XML sitemap.
+		 *
+		 * @param int $entries The maximum number of entries per XML sitemap.
+		 */
+		$entries = (int) apply_filters( 'wpseo_sitemap_entries_per_page', 1000 );
+
+		return $entries;
 	}
 }

@@ -563,7 +563,7 @@ class WPSEO_Admin_Init {
 	 * See if we should start our XML Sitemaps Admin class
 	 */
 	private function load_xml_sitemaps_admin() {
-		if ( $this->options['enablexmlsitemap'] === true ) {
+		if ( $this->options['enable_xml_sitemap'] === true ) {
 			new WPSEO_Sitemaps_Admin();
 		}
 	}
