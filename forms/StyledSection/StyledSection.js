@@ -66,7 +66,6 @@ const StyledSection = ( props ) => {
 				}
 				{ props.headingText }
 			</StyledHeading>
-			{ props.sectionContent }
 			{ props.children }
 		</StyledSectionBase>
 	);
@@ -80,7 +79,6 @@ StyledSection.propTypes = {
 	headingIconColor: PropTypes.string,
 	headingIconSize: PropTypes.string,
 	headingText: PropTypes.string.isRequired,
-	sectionContent: PropTypes.element.isRequired,
 	children: PropTypes.any,
 };
 
