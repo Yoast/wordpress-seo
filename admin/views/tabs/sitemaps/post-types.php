@@ -11,11 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 echo '<h2>' . esc_html__( 'Post types sitemap settings', 'wordpress-seo' ) . '</h2>';
 
-$switch_values = array(
-	'off' => __( 'In sitemap', 'wordpress-seo' ),
-	'on'  => __( 'Not in sitemap', 'wordpress-seo' ),
-);
-
 // Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
 
@@ -29,8 +24,23 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $pt ) {
 		$yform->toggle_switch(
 			'post_types-' . $pt->name . '-not_in_sitemap',
-			$switch_values,
-			$pt->labels->name . ' (<code>' . $pt->name . '</code>)'
+			array(
+				'off' => array(
+					'text' => __( 'In sitemap', 'wordpress-seo' ),
+					'screen_reader_text' => sprintf(
+						'(%s)',
+						$pt->labels->name
+					),
+				),
+				'on'  => array(
+					'text' => __( 'Not in sitemap', 'wordpress-seo' ),
+					'screen_reader_text' => sprintf(
+						'(%s)',
+						$pt->labels->name
+					),
+				),
+			),
+			$pt->labels->name
 		);
 
 		/**

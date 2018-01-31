@@ -733,8 +733,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_queried_post_type() {
 		$wp_query = $this->getMockBuilder( 'WP_Query' )
-						 ->setMethods( array( 'get' ) )
-						 ->getMock();
+			->setMethods( array( 'get' ) )
+			->getMock();
 
 		$wp_query
 			->expects( $this->once() )
@@ -752,8 +752,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_queried_post_type_array() {
 		$wp_query = $this->getMockBuilder( 'WP_Query' )
-						 ->setMethods( array( 'get' ) )
-						 ->getMock();
+			->setMethods( array( 'get' ) )
+			->getMock();
 
 		$wp_query
 			->expects( $this->once() )

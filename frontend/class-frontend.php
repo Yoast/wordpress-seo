@@ -153,7 +153,7 @@ class WPSEO_Frontend {
 		}
 
 		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
-		$this->frontend_page_type = new WPSEO_Frontend_Page_Type();
+		$this->frontend_page_type    = new WPSEO_Frontend_Page_Type();
 
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
@@ -1922,7 +1922,7 @@ class WPSEO_Frontend {
 
 		if ( ! is_string( $title ) || '' === $title ) {
 			$post_type_obj = get_post_type_object( $post_type );
-			$title_part = '';
+			$title_part    = '';
 
 			if ( isset( $post_type_obj->labels->menu_name ) ) {
 				$title_part = $post_type_obj->labels->menu_name;
