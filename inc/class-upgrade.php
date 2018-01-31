@@ -464,4 +464,16 @@ class WPSEO_Upgrade {
 		}
 		update_option( 'wpseo_titles', $option_titles );
 	}
+
+	/**
+	 * Perform the 6.4 upgrade
+	 */
+	private function upgrade_64() {
+		$option = get_option( 'wpseo_permalinks' );
+		foreach( array( 'cleanpermalinks', 'cleanpermalink-extravars', 'cleanpermalink-googlecampaign', 'cleanpermalink-googlesitesearch' ) as $key ) {
+			unset( $option[ $key ] );
+		}
+
+		update_option( 'wpseo_permalinks', $option );
+	}
 }
