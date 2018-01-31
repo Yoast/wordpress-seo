@@ -351,22 +351,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return array();
 		}
 
-		return $this->filter_invalid_ids( $excluded_posts_ids );
-	}
-
-	/**
-	 * Filters out entries that cannot be post IDs.
-	 *
-	 * @param array $ids The ids to filter.
-	 *
-	 * @return array Array with numeric ids only.
-	 */
-	protected function filter_invalid_ids( array $ids ) {
-		$ids = array_map( 'intval', $ids );
-		$ids = array_filter( $ids );
-		$ids = array_unique( $ids );
-
-		return array_values( $ids );
+		return array_map( 'intval', $excluded_posts_ids);
 	}
 
 	/**
