@@ -395,25 +395,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::clean_permalink
-	 */
-	public function test_clean_permalink() {
-
-		$c = self::$class_instance;
-
-		// Test requests to the robots file.
-		$this->go_to( add_query_arg( array( 'robots' => 1 ), home_url( '/' ) ) );
-		$this->assertFalse( $c->clean_permalink() );
-
-		// test requests to the sitemap
-		// @todo get_query_var only returns 'known' query_vars.. 'sitemap' will always return an empty string
-		// $this->go_to( add_query_arg( array( 'sitemap' => 1 ), home_url() ) );
-		// $this->assertFalse( $c->clean_permalink() );
-
-		// @todo test actual function... good luck ;)
-	}
-
-	/**
 	 * @covers WPSEO_Frontend::rss_replace_vars
 	 */
 	public function test_rss_replace_vars() {
