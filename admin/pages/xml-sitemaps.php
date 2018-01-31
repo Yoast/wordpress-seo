@@ -24,7 +24,7 @@ $yform->admin_header( true, 'wpseo_xml' );
 $options = get_option( 'wpseo_xml' );
 
 echo '<br/>';
-$yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'wordpress-seo' ) );
+$yform->light_switch( 'enablexmlsitemap', __( 'Enable XML sitemap functionality', 'wordpress-seo' ) );
 
 $tabs = new WPSEO_Option_Tabs( 'sitemaps' );
 $tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-sitemaps' ) ) ) );

@@ -43,7 +43,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	public static $defaults_per_term = array(
 		'wpseo_title'                 => '',
 		'wpseo_desc'                  => '',
-		'wpseo_metakey'               => '',
 		'wpseo_canonical'             => '',
 		'wpseo_bctitle'               => '',
 		'wpseo_noindex'               => 'default',
@@ -297,7 +296,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 					}
 					break;
 
-				case 'wpseo_metakey':
 				case 'wpseo_bctitle':
 					if ( isset( $meta_data[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
@@ -379,7 +377,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 										break;
 
 									case 'canonical':
-									case 'wpseo_metakey':
 									case 'wpseo_bctitle':
 									case 'wpseo_title':
 									case 'wpseo_desc':

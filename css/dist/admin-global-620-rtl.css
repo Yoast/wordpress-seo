@@ -585,8 +585,26 @@ td.column-wpseo-linked {
 	display: none;
 }
 
-.contact-premium-support-container {
+.contact-premium-support {
 	text-align: center;
+}
+
+.contact-premium-support__content {
+	margin: 0 auto 1.5em;
+	font-size: 0.9375rem;
+	line-height: 1.4;
+}
+
+.contact-premium-support__content:nth-child(2) {
+	max-width: 610px;
+}
+
+.contact-premium-support__content:nth-child(3) {
+	max-width: 560px;
+}
+
+.contact-premium-support .contact-premium-support__button {
+	margin-bottom: 48px;
 }
 
 .wpseo-premium-description {

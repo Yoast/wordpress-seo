@@ -9,15 +9,6 @@
 class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/statistics-mock.php';
-	}
-
-	/**
 	 * Reset after each test.
 	 */
 	public function tearDown() {

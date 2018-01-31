@@ -33,8 +33,23 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 		if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) !== '' ) {
 			$yform->toggle_switch(
 				'taxonomies-' . $tax->name . '-not_in_sitemap',
-				$switch_values,
-				$tax->labels->name . ' (<code>' . $tax->name . '</code>)'
+				array(
+					'off' => array(
+						'text' => __( 'In sitemap', 'wordpress-seo' ),
+						'screen_reader_text' => sprintf(
+							'(%s)',
+							$tax->labels->name
+						),
+					),
+					'on' => array(
+						'text' => __( 'Not in sitemap', 'wordpress-seo' ),
+						'screen_reader_text' => sprintf(
+							'(%s)',
+							$tax->labels->name
+						),
+					),
+				),
+				$tax->labels->name
 			);
 		}
 	}

@@ -18,10 +18,6 @@
         <exclude name="WordPress.Functions.DontExtract" /><!-- TODO audit usage & replace -->
     </rule>
 
-    <rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedScript">
-        <exclude-pattern>css/xml-sitemap-xsl.php</exclude-pattern>
-    </rule>
-
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" value="wordpress-seo" />

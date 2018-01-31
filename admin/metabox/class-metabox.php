@@ -84,12 +84,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		self::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
 
-		self::$meta_fields['general']['metakeywords']['title'] = __( 'Meta keywords', 'wordpress-seo' );
-		self::$meta_fields['general']['metakeywords']['label'] = __( 'Enter the meta keywords', 'wordpress-seo' );
-		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['general']['metakeywords']['description'] = __( 'If you type something above it will override your %1$smeta keywords template%2$s.', 'wordpress-seo' );
-
-
 		self::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Meta robots index', 'wordpress-seo' );
 		if ( '0' === (string) get_option( 'blog_public' ) ) {
 			self::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
@@ -615,16 +609,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '</section>';
 				$content .= '</div>';
 				break;
-			case 'metakeywords':
-				$content .= '<div id="wpseometakeywords">';
-				$content .= '<section class="yoast-section" id="wpseo-metakeywords-section">';
-				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-edit">' . esc_html( $meta_field_def['title'] ) . '</h3>';
-				$content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
-				$content .= '<input type="text" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/>';
-				$content .= $description;
-				$content .= '</section>';
-				$content .= '</div>';
-				break;
 			case 'text':
 				$ac = '';
 				if ( isset( $meta_field_def['autocomplete'] ) && $meta_field_def['autocomplete'] === false ) {
@@ -749,7 +733,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'snippetpreview',
 					'pageanalysis',
 					'focuskeyword',
-					'metakeywords',
 				), true )
 			) {
 				return $this->create_content_box( $content, $meta_field_def['type'], $help_button, $help_panel );

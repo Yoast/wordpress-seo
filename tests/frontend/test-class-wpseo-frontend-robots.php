@@ -3,8 +3,6 @@
  * @package WPSEO\Tests\Frontend
  */
 
-require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case-frontend.php';
-
 /**
  * Unit Test Class.
  *
@@ -95,23 +93,6 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * @covers WPSEO_Frontend::robots()
 	 */
-	public function test_subpages_robots_noindex() {
-		// Go to home.
-		$this->go_to_home();
-
-		set_query_var( 'paged', 2 );
-
-		self::$class_instance->options['noindex-subpages-wpseo'] = true;
-		$this->assertEquals( 'noindex,follow', self::$class_instance->robots() );
-
-		// Clean-up.
-		self::$class_instance->options['noindex-subpages-wpseo'] = false;
-		set_query_var( 'paged', 0 );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::robots()
-	 */
 	public function test_post_robots_default_state() {
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
@@ -187,30 +168,6 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Clean-up.
 		self::$class_instance->options['noindex-tax-category'] = false;
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::robots()
-	 */
-	public function test_subpages_category_archives() {
-		// Go to category page.
-		$category_id = wp_create_category( 'Category Name' );
-		flush_rewrite_rules();
-
-		// Add posts to category.
-		$this->factory->post->create_many( 6, array( 'post_category' => array( $category_id ) ) );
-
-		$category_link = get_category_link( $category_id );
-		$this->go_to( $category_link );
-
-
-		// Test subpages of category archives.
-		update_site_option( 'posts_per_page', 1 );
-		self::$class_instance->options['noindex-subpages-wpseo'] = true;
-		$this->go_to( add_query_arg( array( 'paged' => 2 ), $category_link ) );
-
-		$expected = 'noindex,follow';
-		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
 	/**

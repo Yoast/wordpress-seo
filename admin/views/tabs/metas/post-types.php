@@ -16,8 +16,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  */
 $post_types          = get_post_types( array( 'public' => true ), 'objects' );
 $index_switch_values = array(
-	'off' => '<code>index</code>',
-	'on'  => '<code>noindex</code>',
+	'off' => 'index',
+	'on'  => 'noindex',
 );
 
 if ( is_array( $post_types ) && $post_types !== array() ) {
@@ -38,9 +38,6 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		}
 		$yform->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
-		if ( $options['usemetakeywords'] === true ) {
-			$yform->textinput( 'metakey-' . $name, __( 'Meta keywords template', 'wordpress-seo' ) );
-		}
 		$yform->toggle_switch( 'noindex-' . $name, $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 		$yform->toggle_switch( 'showdate-' . $name, array(
 			'on'  => __( 'Show', 'wordpress-seo' ),
@@ -80,9 +77,6 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		echo '<h3>' . esc_html( ucfirst( $post_type->labels->name ) ) . '</h3>';
 		$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
-		if ( $options['usemetakeywords'] === true ) {
-			$yform->textinput( 'metakey-ptarchive-' . $name, __( 'Meta keywords', 'wordpress-seo' ) );
-		}
 		if ( $options['breadcrumbs-enable'] === true ) {
 			$yform->textinput( 'bctitle-ptarchive-' . $name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
 		}
