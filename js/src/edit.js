@@ -129,7 +129,7 @@ export function initialize( args ) {
 
 	renderReactApps( store, args );
 
-	const { renderSidebar } = wp.editor;
+	const { renderSidebar } = wp[ "edit-post" ];
 	renderSidebar( "yoast/analysis", {
 		title: "Yoast SEO",
 		render: function YoastSEOSidebar() {
