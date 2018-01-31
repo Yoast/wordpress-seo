@@ -401,39 +401,6 @@ function ajax_get_term_keyword_usage() {
 
 add_action( 'wp_ajax_get_term_keyword_usage', 'ajax_get_term_keyword_usage' );
 
-/**
- * Removes stopword from the sample permalink that is generated in an AJAX request
- *
- * @param array  $permalink The permalink generated for this post by WordPress.
- * @param int    $post_id   The ID of the post.
- * @param string $title     The title for the post that the user used.
- * @param string $name      The name for the post that the user used.
- *
- * @return array
- */
-function wpseo_remove_stopwords_sample_permalink( $permalink, $post_id, $title, $name ) {
-	WPSEO_Options::get_instance();
-	$options = WPSEO_Options::get_options( array( 'wpseo_permalinks' ) );
-	if ( $options['cleanslugs'] !== true ) {
-		return $permalink;
-	}
-
-	/*
-	 * If the name is empty and the title is not, WordPress will generate a slug. In that case we want to remove stop
-	 * words from the slug.
-	 */
-	if ( empty( $name ) && ! empty( $title ) ) {
-		$stop_words = new WPSEO_Admin_Stop_Words();
-
-		// The second element is the slug.
-		$permalink[1] = $stop_words->remove_in( $permalink[1] );
-	}
-
-	return $permalink;
-}
-
-add_action( 'get_sample_permalink', 'wpseo_remove_stopwords_sample_permalink', 10, 4 );
-
 // Crawl Issue Manager AJAX hooks.
 new WPSEO_GSC_Ajax();
 
@@ -448,7 +415,6 @@ new WPSEO_Shortcode_Filter();
 
 new WPSEO_Taxonomy_Columns();
 
-
 // Setting the notice for the recalculate the posts.
 new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax::FOR_SITE );
 
@@ -462,6 +428,18 @@ new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax:
  */
 function wpseo_get_export() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.2', 'This method is deprecated.' );
+
+	wpseo_ajax_json_echo_die( '' );
+}
+
+/**
+ * Removes stopword from the sample permalink that is generated in an AJAX request
+ *
+ * @deprecated 6.3
+ * @codeCoverageIgnore
+ */
+function wpseo_remove_stopwords_sample_permalink() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 6.3', 'This method is deprecated.' );
 
 	wpseo_ajax_json_echo_die( '' );
 }

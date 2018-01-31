@@ -8,7 +8,6 @@
  * This code handles the option upgrades
  */
 class WPSEO_Upgrade {
-
 	/**
 	 * Holds the Yoast SEO options
 	 *
@@ -77,7 +76,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $this->options['version'], '5.0', '>=' )
-			&& version_compare( $this->options['version'], '5.1', '<' )
+		     && version_compare( $this->options['version'], '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
@@ -167,9 +166,7 @@ class WPSEO_Upgrade {
 		wp_clear_scheduled_hook( 'yoast_tracking' );
 
 		// Clear the tracking settings, the seen about setting and the ignore tour setting.
-		$options = get_option( 'wpseo' );
-		unset( $options['tracking_popup_done'], $options['yoast_tracking'], $options['seen_about'], $options['ignore_tour'] );
-		update_option( 'wpseo', $options );
+		$this->remove_option( 'wpseo', array( 'tracking_popup_done', 'yoast_tracking', 'seen_about', 'ignore_tour' ) );
 	}
 
 	/**
@@ -212,7 +209,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to Yoast SEO 3.0
+	 * Performs upgrade functions to Yoast SEO 3.0.
 	 */
 	private function upgrade_30() {
 		// Remove the meta fields for sitemap prio.
@@ -220,7 +217,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to Yoast SEO 3.3
+	 * Performs upgrade functions to Yoast SEO 3.3.
 	 */
 	private function upgrade_33() {
 		// Notification dismissals have been moved to User Meta instead of global option.
@@ -228,7 +225,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to Yoast SEO 3.6
+	 * Performs upgrade functions to Yoast SEO 3.6.
 	 */
 	private function upgrade_36() {
 		global $wpdb;
@@ -242,6 +239,7 @@ class WPSEO_Upgrade {
 	 */
 	private function move_pinterest_option() {
 		$options_social = get_option( 'wpseo_social' );
+		$option_wpseo = get_option( 'wpseo' );
 
 		if ( isset( $option_wpseo['pinterestverify'] ) ) {
 			$options_social['pinterestverify'] = $option_wpseo['pinterestverify'];
@@ -327,7 +325,7 @@ class WPSEO_Upgrade {
 		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
 
 		$usermetas = $wpdb->get_results(
-			$wpdb->prepare('
+			$wpdb->prepare( '
 				SELECT user_id, meta_value
 				FROM ' . $wpdb->usermeta . '
 				WHERE meta_key = %s AND meta_value LIKE %s
@@ -400,7 +398,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Register new capabilities and roles
+	 * Register new capabilities and roles.
 	 */
 	private function upgrade_55() {
 		// Register roles.
@@ -464,8 +462,25 @@ class WPSEO_Upgrade {
 		}
 		update_option( 'wpseo_titles', $option_titles );
 
-		$option_permalinks = WPSEO_Options::get_option( 'wpseo_permalinks' );
-		unset( $option_permalinks['cleanslugs'] );
-		update_option( 'wpseo_permalinks', $option_permalinks );
+		$this->remove_option( 'wpseo_permalinks', 'cleanslugs' );
+	}
+
+	/**
+	 * Helper function to remove keys from options.
+	 *
+	 * @param string       $option The option to remove the keys from.
+	 * @param string|array $keys   The key or keys to remove.
+	 */
+	private function remove_option( $option, $keys ) {
+		$options = WPSEO_Options::get_option( $option );
+
+		if ( ! is_array( $keys ) ) {
+			$keys = array( $keys );
+		}
+		foreach ( $keys as $key ) {
+			unset( $options[ $key ] );
+		}
+
+		update_option( $option, $options );
 	}
 }

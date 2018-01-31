@@ -559,15 +559,11 @@ class WPSEO_Admin {
 	 * Returns the stopwords for the current language.
 	 *
 	 * @since 1.1.7
-	 * @deprecated 3.1 Use WPSEO_Admin_Stop_Words::list_stop_words() instead.
 	 *
 	 * @return array $stopwords Array of stop words to check and / or remove from slug.
 	 */
 	public function stopwords() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1', 'WPSEO_Admin_Stop_Words::list_stop_words' );
-
-		$stop_words = new WPSEO_Admin_Stop_Words();
-		return $stop_words->list_stop_words();
+		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
 	}
 
 	/**
@@ -582,26 +578,6 @@ class WPSEO_Admin {
 	 */
 	public function stopwords_check( $haystack, $checking_url = false ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
-
-		$stop_words = $this->stopwords();
-
-		if ( is_array( $stop_words ) && $stop_words !== array() ) {
-			foreach ( $stop_words as $stop_word ) {
-				// If checking a URL remove the single quotes.
-				if ( $checking_url ) {
-					$stop_word = str_replace( "'", '', $stop_word );
-				}
-
-				// Check whether the stopword appears as a whole word.
-				// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-).
-				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stop_word, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
-				if ( $res > 0 ) {
-					return $stop_word;
-				}
-			}
-		}
-
-		return false;
 	}
 
 	/**
