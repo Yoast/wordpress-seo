@@ -11,20 +11,24 @@
 class WPSEO_Import_External {
 
 	/**
-	 * Whether or not to delete old data
+	 * Whether or not to delete old data.
 	 *
 	 * @var boolean
 	 */
 	protected $replace;
 
 	/**
-	 * Message about the import
+	 * Message about the import status.
 	 *
 	 * @var string
 	 */
 	public $msg = '';
 
-	/** @var bool When import has been successful */
+	/** 
+	 * Whether import has been successful.
+	 *
+	 * @var bool 
+	 */
 	public $success = false;
 
 	/**
