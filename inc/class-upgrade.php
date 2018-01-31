@@ -470,13 +470,26 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Perform the 6.4 updates, moves XML setting to WPSEO, deletes WPSEO_XML option
+	 * Perform the 6.4 upgrade, moves XML setting to WPSEO, deletes WPSEO_XML option.
 	 */
 	private function upgrade_64() {
+		$option = get_option( 'wpseo_permalinks' );
+		foreach ( array(
+			'cleanpermalinks',
+			'cleanpermalink-extravars',
+			'cleanpermalink-googlecampaign',
+			'cleanpermalink-googlesitesearch',
+			) as $key ) {
+			unset( $option[ $key ] );
+		}
+
+		update_option( 'wpseo_permalinks', $option );
+
 		// Move the option to enable XML sitemaps.
 		$wpseo_options                       = WPSEO_Options::get_option( 'wpseo' );
 		$wpseo_xml_options                   = WPSEO_Options::get_option( 'wpseo_xml' );
 		$wpseo_options['enable_xml_sitemap'] = $wpseo_xml_options['enablexmlsitemap'];
+
 		update_option( 'wpseo', $wpseo_options );
 
 		// Delete the WPSEO XML option.

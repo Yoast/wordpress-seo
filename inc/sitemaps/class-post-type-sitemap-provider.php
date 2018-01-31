@@ -235,6 +235,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		$stacked_urls = array();
+		$posts_to_exclude = $this->get_excluded_posts();
 
 		while ( $total > $offset ) {
 
@@ -246,11 +247,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$posts_to_exclude = $this->get_excluded_posts();
-
 			foreach ( $posts as $post ) {
 
-				if ( in_array( $post->ID, $posts_to_exclude ) ) {
+				if ( in_array( $post->ID, $posts_to_exclude, true ) ) {
 					continue;
 				}
 
@@ -269,7 +268,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				 *
 				 * @param array  $url  Array of URL parts.
 				 * @param string $type URL type.
-				 * @param object $user Data object for the URL.
+				 * @param object $post Data object for the URL.
 				 */
 				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $post );
 
@@ -277,9 +276,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					continue;
 				}
 
-				$stacked_urls[] = $url['loc'];
-
-				if ( (int) $post->ID === $this->get_page_for_posts_id() || (int) $post->ID === $this->get_page_on_front_id() ) {
+				if ( $post->ID === $this->get_page_for_posts_id() || $post->ID === $this->get_page_on_front_id() ) {
 
 					array_unshift( $links, $url );
 					continue;
@@ -328,6 +325,25 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Retrieves a list with the excluded post ids.
+	 *
+	 * @return array Array with post ids to exclude.
+	 */
+	protected function get_excluded_posts() {
+		/**
+		 * Filter: 'wpseo_exclude_from_sitemap_by_post_ids' - Allow extending and modifying the posts to exclude.
+		 *
+		 * @api array $posts_to_exclude The posts to exclude.
+		 */
+		$excluded_posts_ids = apply_filters( 'wpseo_exclude_from_sitemap_by_post_ids', array() );
+		if ( ! is_array( $excluded_posts_ids ) || $excluded_posts_ids === array() ) {
+			return array();
+		}
+
+		return array_map( 'intval', $excluded_posts_ids );
 	}
 
 	/**
@@ -534,6 +550,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$post->post_type   = $post_type;
 			$post->post_status = 'publish';
 			$post->filter      = 'sample';
+			$post->ID          = (int) $post->ID;
+			$post->post_parent = (int) $post->post_parent;
+			$post->post_author = (int) $post->post_author;
 			$post_ids[]        = $post->ID;
 		}
 
@@ -630,21 +649,5 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$url['images'] = $this->get_image_parser()->get_images( $post );
 
 		return $url;
-	}
-
-	/**
-	 * Retrieve posts that should be excluded from the XML sitemap.
-	 *
-	 * @return array Array of post IDs to exclude.
-	 */
-	private function get_excluded_posts() {
-		/**
-		 * Filter posts out of the XML sitemap.
-		 *
-		 * @param array $excluded_posts An array of post IDs to exclude.
-		 */
-		$excluded_posts = apply_filters( 'wpseo_sitemap_excluded_posts', array() );
-
-		return $excluded_posts;
 	}
 }

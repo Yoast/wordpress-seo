@@ -15,6 +15,7 @@ final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestC
 			'name' => 'commons',
 			'src'  => 'commons',
 		) );
+
 		$dev_server_location = new WPSEO_Admin_Asset_Dev_Server_Location();
 
 		$actual = $dev_server_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_JS );
@@ -32,6 +33,7 @@ final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestC
 			'name' => 'commons',
 			'src'  => 'commons',
 		) );
+
 		$dev_server_location = new WPSEO_Admin_Asset_Dev_Server_Location( 'https://localhost:8081' );
 
 		$actual = $dev_server_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_JS );
@@ -52,10 +54,11 @@ final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestC
 			'name' => 'commons',
 			'src'  => 'commons',
 		) );
-		$dev_server_location = new WPSEO_Admin_Asset_Dev_Server_Location();
-		$default_location = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
 
-		$actual = $dev_server_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_CSS );
+		$dev_server_location = new WPSEO_Admin_Asset_Dev_Server_Location();
+		$default_location    = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
+
+		$actual   = $dev_server_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_CSS );
 		$expected = $default_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_CSS );
 
 		$this->assertEquals( $expected, $actual );
@@ -74,10 +77,11 @@ final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestC
 			'name' => 'other',
 			'src'  => 'other',
 		) );
-		$dev_server_location = new WPSEO_Admin_Asset_Dev_Server_Location();
-		$default_location = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
 
-		$actual = $dev_server_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_JS );
+		$dev_server_location = new WPSEO_Admin_Asset_Dev_Server_Location();
+		$default_location    = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
+
+		$actual   = $dev_server_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_JS );
 		$expected = $default_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_JS );
 
 		$this->assertEquals( $expected, $actual );
