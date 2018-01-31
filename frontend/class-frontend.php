@@ -1830,7 +1830,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function debug_marker( $echo = false ) {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
 			_deprecated_function( 'WPSEO_Frontend::debug_marker', '4.4', 'WPSEO_Frontend::debug_mark' );
 		}
 		return $this->debug_mark( $echo );
@@ -1844,7 +1844,7 @@ class WPSEO_Frontend {
 	 * @return void
 	 */
 	public function metakeywords() {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
 			_deprecated_function( 'WPSEO_Frontend::metakeywords', '6.3' );
 		}
 	}
@@ -1858,7 +1858,7 @@ class WPSEO_Frontend {
 	 */
 	public function clean_permalink() {
 		// As this is a frontend method, we want to make sure it is not displayed for non-logged in users.
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
 			_deprecated_function( 'WPSEO_Frontend::clean_permalink', '6.4' );
 		}
 	}
