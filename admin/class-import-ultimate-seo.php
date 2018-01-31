@@ -19,6 +19,7 @@ class WPSEO_Import_Ultimate_SEO extends WPSEO_Import_External {
 		$this->import_metas();
 		$this->cleanup();
 
+		$this->success = true;
 		$this->set_msg( __( 'SEO Ultimate data successfully imported.', 'wordpress-seo' ) );
 
 	}

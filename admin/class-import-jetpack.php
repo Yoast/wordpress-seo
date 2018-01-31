@@ -18,6 +18,7 @@ class WPSEO_Import_Jetpack_SEO extends WPSEO_Import_External {
 	public function __construct( $replace = false ) {
 		parent::__construct( $replace );
 
+		$this->success = true;
 		$this->import_metas();
 	}
 

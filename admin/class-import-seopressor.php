@@ -20,6 +20,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 
 		$this->import_post_metas();
 
+		$this->success = true;
 		$this->set_msg( __( 'SEOpressor data successfully imported.', 'wordpress-seo' ) );
 	}
 
