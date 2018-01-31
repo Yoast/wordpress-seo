@@ -24,7 +24,6 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 		'cleanpermalink-googlecampaign'   => false,
 		'cleanpermalink-googlesitesearch' => false,
 		'cleanreplytocom'                 => false,
-		'cleanslugs'                      => true,
 		'redirectattachment'              => false,
 		'stripcategorybase'               => false,
 		'trailingslash'                   => false,
@@ -90,7 +89,6 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 				 * 		'cleanpermalink-googlesitesearch'
 				 *		'cleanpermalink-googlecampaign'
 				 *		'cleanreplytocom'
-				 *		'cleanslugs'
 				 *		'hide-rsdlink'
 				 *		'hide-wlwmanifest'
 				 *		'hide-shortlink'
