@@ -6,12 +6,11 @@ import Section from "../Section";
 import Heading from "../../composites/basic/Heading";
 import colors from "../../style-guide/colors.json";
 import { rgba } from "../../style-guide/helpers";
-import { Icon } from "../../composites/Plugin/Shared/components/Icon";
-import * as icons from "../../style-guide/svg";
+import SvgIcon from "../../composites/Plugin/Shared/components/SvgIcon";
 
 const StyledHeading = styled( Heading )``;
 
-const StyledIcon = styled( Icon )``;
+const StyledIcon = styled( SvgIcon )``;
 
 const StyledSectionBase = styled( Section )`
 	box-shadow: 0 1px 2px ${ rgba( colors.$color_black, 0.2 ) };
@@ -60,7 +59,7 @@ const StyledSection = ( props ) => {
 			>
 				{ props.headingIcon &&
 					<StyledIcon
-						icon={ icons[ `${ props.headingIcon }` ] }
+						icon={ props.headingIcon }
 						color={ props.headingIconColor }
 						size={ props.headingIconSize }
 					/>
