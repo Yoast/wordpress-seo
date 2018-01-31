@@ -24,10 +24,10 @@ class WPSEO_Import_External {
 	 */
 	public $msg = '';
 
-	/** 
+	/**
 	 * Whether import has been successful.
 	 *
-	 * @var bool 
+	 * @var bool
 	 */
 	public $success = false;
 
