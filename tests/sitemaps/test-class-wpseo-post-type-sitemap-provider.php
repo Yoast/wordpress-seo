@@ -57,20 +57,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the filtering of invalid ids.
-	 *
-	 * @covers WPSEO_Post_Type_Sitemap_Provider::filter_invalid_ids()
-	 */
-	public function test_filter_invalid_ids() {
-		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
-
-		$this->assertEquals(
-			array( 1, 2 ),
-			$sitemap_provider->filter_invalid_ids( array( '1', 'string', 2, false ) )
-		);
-	}
-
-	/**
 	 * Tests the excluded posts with invalid values being filtered.
 	 *
 	 * @dataProvider data_for_get_excluded_posts_test
@@ -78,13 +64,13 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * @covers       WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
 	 *
 	 * @param array  $expected The expected value.
-	 * @param string $value    The value to test.
+	 * @param array  $value    The value to test.
 	 * @param string $message  The message to display after the assertion is completed.
 	 */
 	public function test_get_excluded_posts( array $expected, $value, $message  ) {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
-		$this->assertEquals(  $expected, $sitemap_provider->get_excluded_posts( $value ), $message );
+		$this->assertEquals(  $expected, $sitemap_provider->filter_invalid_ids( $value ), $message );
 	}
 
 	/**
@@ -99,19 +85,16 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 */
 	public function data_for_get_excluded_posts_test() {
 		return array(
-			array( array( 1, 2 ), '1,2', 'Normal string with happy input' ),
-			array( array(), '', 'Empty string as input' ),
-			array( array(), 'a', 'String value as input' ),
-			array( array( 23 ), '23books', 'String starting with a number' ),
-			array( array(), 'number44', 'String ending with a number' ),
-			array( array(  ), ',', 'Comma only as input' ),
-			array( array(  ), 'a,b', 'Two string with comma as input' ),
-			array( array( 100 ), '100,b', 'String and number as input' ),
-			array( array( 1, 50 ), '1
-			,
-			50', 'Newlines in the string' ),
-			array( array( 1, 2, 3 ),  '1 , 2,    3', 'String containing spaces' ),
-			array( array(), 'a, <!@#>', 'Weird string input' ),
+			array( array( 1, 2 ), array( '1', '2' ), 'Normal string with happy input' ),
+			array( array(), array( '' ), 'Empty string as input' ),
+			array( array(), array( 'a' ), 'String value as input' ),
+			array( array( 23 ), array( '23books' ), 'String starting with a number' ),
+			array( array(), array( 'number44' ), 'String ending with a number' ),
+			array( array(  ), array( 'a' , 'b' ), 'Two string input' ),
+			array( array(  ), array( 'a' , 'a' ), 'Two equal values as input' ),
+			array( array( 100 ), array( '100' , 'b' ), 'String and number as input' ),
+			array( array( 1, 2, 3 ),  array( '1 ', '2', '    3' ), 'String containing spaces' ),
+			array( array(), array( 'a', '<!@#>' ), 'Weird string input' ),
 		);
 	}
 
@@ -125,7 +108,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_valid_output' ) );
 
-		$this->assertEquals( array( 1, 2, 3, 4, 5, 600 ) , $sitemap_provider->get_excluded_posts( '1,2,3,4' ) );
+		$this->assertEquals( array( 5, 600 ) , $sitemap_provider->get_excluded_posts() );
 
 		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_valid_output' ) );
 	}
