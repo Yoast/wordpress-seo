@@ -16,15 +16,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	/**
-	 * Setting up.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/class-wpseo-post-type-sitemap-provider-double.php';
-	}
-
-	/**
 	 * Set up our double class
 	 */
 	public function setUp() {
