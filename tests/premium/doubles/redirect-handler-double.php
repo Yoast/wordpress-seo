@@ -142,8 +142,8 @@ class WPSEO_Redirect_Handler_Double extends WPSEO_Redirect_Handler {
 	/**
 	 * @inheritdoc
 	 */
-	public function format_target( $redirect_url ) {
-		return parent::format_target( $redirect_url );
+	public function home_url( $redirect_url ) {
+		return parent::home_url( $redirect_url );
 	}
 
 	/**

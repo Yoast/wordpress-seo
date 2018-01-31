@@ -399,8 +399,6 @@ class WPSEO_Redirect_Handler {
 	 * @return string The parsed url.
 	 */
 	protected function parse_target_url( $target_url ) {
-		$target_url = $this->format_target( $target_url );
-
 		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
 
@@ -410,9 +408,8 @@ class WPSEO_Redirect_Handler {
 
 		$target_url = $this->trailingslashit( $target_url );
 		$target_url = $this->format_for_multisite( $target_url );
-		$target_url = $this->format_target( $target_url );
 
-		return $target_url;
+		return $this->home_url( $target_url );
 	}
 
 	/**
@@ -461,12 +458,8 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @return string The redirect url.
 	 */
-	protected function format_target( $redirect_url ) {
-		if ( $redirect_url[0] === '/' ) {
-			$redirect_url = home_url( $redirect_url );
-		}
-
-		return $redirect_url;
+	protected function home_url( $redirect_url ) {
+		return home_url( $redirect_url );
 	}
 
 	/**
