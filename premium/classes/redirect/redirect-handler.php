@@ -399,8 +399,6 @@ class WPSEO_Redirect_Handler {
 	 * @return string The parsed url.
 	 */
 	protected function parse_target_url( $target_url ) {
-		$target_url = $this->format_target( $target_url );
-
 		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
 		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
 
@@ -408,6 +406,7 @@ class WPSEO_Redirect_Handler {
 			return $target_url;
 		}
 
+		$target_url = '/' . ltrim( $target_url, '/' );
 		$target_url = $this->trailingslashit( $target_url );
 		$target_url = $this->format_for_multisite( $target_url );
 		$target_url = $this->format_target( $target_url );

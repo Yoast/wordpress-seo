@@ -890,6 +890,10 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 				'jaarverslagen/2009/Jaarverslag%202009.pdf',
 				new WPSEO_Redirect( 'jaarverslagen/2009/Jaarverslag 2009.pdf', '/', 301 ),
 			),
+			array(
+				'redirect/to',
+				new WPSEO_Redirect( 'redirect/to', '/file', 301 ),
+			),
 		);
 	}
 
@@ -963,7 +967,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		return array(
 			array( '/test/page' , $home_url . '/test/page' ),
 			array( 'http://external.org/' , 'http://external.org/' ),
-			array( 'no-slash' , 'no-slash' ),
+			array( '/no-trailing-slash' , 'http://example.org/no-trailing-slash' ),
 		);
 	}
 
