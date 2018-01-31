@@ -84,7 +84,7 @@ if ( $import ) {
 			$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
 		}
 
-		$status = ( $import->success ) ? 'updated' : 'error';
+		$status = ( ! empty( $import->success ) ) ? 'updated' : 'error';
 
 		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
 	}
