@@ -829,7 +829,6 @@ class WPSEO_Utils {
 			'wpseo_dashboard',
 			'wpseo_titles',
 			'wpseo_social',
-			'wpseo_xml',
 			'wpseo_advanced',
 			'wpseo_tools',
 			'wpseo_search_console',

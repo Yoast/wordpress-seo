@@ -33,7 +33,7 @@ class WPSEO_Admin_Init {
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_option( 'wpseo_xml' );
+		$this->options = WPSEO_Options::get_option( 'wpseo' );
 
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
 
@@ -563,7 +563,7 @@ class WPSEO_Admin_Init {
 	 * See if we should start our XML Sitemaps Admin class
 	 */
 	private function load_xml_sitemaps_admin() {
-		if ( $this->options['enablexmlsitemap'] === true ) {
+		if ( $this->options['enable_xml_sitemap'] === true ) {
 			new WPSEO_Sitemaps_Admin();
 		}
 	}

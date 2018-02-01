@@ -5,6 +5,8 @@
 
 /**
  * Class WPSEO_Post_Type_Sitemap_Provider_Test
+ *
+ * @group sitemaps
  */
 class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
@@ -55,6 +57,65 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the excluded posts with the usage of the filter.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
+	 */
+	public function test_get_excluded_posts_with_set_filter() {
+		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
+
+		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_output' ) );
+
+		$this->assertEquals( array( 5, 600, 23, 0, 0, 3 ) , $sitemap_provider->get_excluded_posts() );
+
+		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_output' ) );
+	}
+
+	/**
+	 * Tests the excluded posts with the usage of a filter that returns an invalid value.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
+	 */
+	public function test_get_excluded_posts_with_set_filter_that_has_invalid_return_value() {
+		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
+
+		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_invalid_output' ) );
+
+		$this->assertEquals( array() , $sitemap_provider->get_excluded_posts( '1,2,3,4' ) );
+
+		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_invalid_output' ) );
+	}
+
+	/**
+	 * Filter method for test.
+	 *
+	 * @param array $excluded_post_ids The excluded post ids.
+	 *
+	 * @return array The post ids.
+	 */
+	public function filter_with_output( $excluded_post_ids ) {
+		$excluded_post_ids[] = 5;
+		$excluded_post_ids[] = 600;
+		$excluded_post_ids[] = '23books';
+		$excluded_post_ids[] = '';
+		$excluded_post_ids[] = array();
+		$excluded_post_ids[] = '    3';
+
+		return $excluded_post_ids;
+	}
+
+	/**
+	 * Filter method for test.
+	 *
+	 * @param array $excluded_post_ids The excluded post ids.
+	 *
+	 * @return string An invalid value.
+	 */
+	public function filter_with_invalid_output( $excluded_post_ids ) {
+		return '';
+	}
+
+	/** 
 	 * Tests if external URLs are not being included in the sitemap
 	 *
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_url

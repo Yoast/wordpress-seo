@@ -22,7 +22,8 @@ class WPSEO_Sitemaps_Admin {
 
 		add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
 
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo_xml', '' );
+		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo_titles', '' );
+		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo', '' );
 	}
 
 	/**
@@ -42,14 +43,14 @@ class WPSEO_Sitemaps_Admin {
 	/**
 	 * Find sitemaps residing on disk as they will block our rewrite.
 	 *
-	 * @since 3.1
+	 * @deprecated since 6.4
 	 */
 	public function detect_blocking_filesystem_sitemaps() {
-		$wpseo_xml_options = WPSEO_Options::get_option( 'wpseo_xml' );
-		if ( $wpseo_xml_options['enablexmlsitemap'] !== true ) {
+		$wpseo_options = WPSEO_Options::get_option( 'wpseo' );
+
+		if ( $wpseo_options['enable_xml_sitemap'] !== true ) {
 			return;
 		}
-		unset( $wpseo_xml_options );
 
 		// Find all files and directories containing 'sitemap' and are post-fixed .xml.
 		$blocking_files = glob( ABSPATH . '*sitemap*.xml', ( GLOB_NOSORT | GLOB_MARK ) );
@@ -59,8 +60,6 @@ class WPSEO_Sitemaps_Admin {
 		}
 
 		// Save if we have changes.
-		$wpseo_options = WPSEO_Options::get_option( 'wpseo' );
-
 		if ( $wpseo_options['blocking_files'] !== $blocking_files ) {
 			$wpseo_options['blocking_files'] = $blocking_files;
 
@@ -97,11 +96,10 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		$options = WPSEO_Options::get_options( array( 'wpseo_xml', 'wpseo_titles' ) );
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
 
 		// If the post type is excluded in options, we can stop.
-		$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
-		if ( isset( $options[ $option ] ) && $options[ $option ] === true ) {
+		if ( $options[ 'noindex-' . $post_type ] === true ) {
 			return;
 		}
 
@@ -159,7 +157,7 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		$options = WPSEO_Options::get_option( 'wpseo_xml' );
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
 
 		$ping_search_engines = false;
 
@@ -171,8 +169,7 @@ class WPSEO_Sitemaps_Admin {
 				continue;
 			}
 
-			$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
-			if ( ! isset( $options[ $option ] ) || $options[ $option ] === false ) {
+			if ( $options[ 'noindex-' . $post_type ] === false ) {
 				$ping_search_engines = true;
 			}
 		}

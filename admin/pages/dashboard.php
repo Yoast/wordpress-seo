@@ -36,8 +36,8 @@ do_action( 'wpseo_all_admin_notices' );
 
 if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files'] ) > 0 ) {
 
-	$xml_sitemap_options = WPSEO_Options::get_option( 'wpseo_xml' );
-	if ( $xml_sitemap_options['enablexmlsitemap'] ) {
+	$options = WPSEO_Options::get_option( 'wpseo' );
+	if ( $options['enable_xml_sitemap'] ) {
 
 		echo '<div class="notice notice-error inline yoast-notice-blocking-files"><p id="blocking_files">';
 		printf(
