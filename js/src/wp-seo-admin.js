@@ -299,6 +299,13 @@ import a11ySpeak from "a11y-speak";
 			}
 		} ).change();
 
+		// Toggle the Author / user sitemap section.
+		jQuery( "#disable_author_sitemap" ).find( "input:radio" ).change( function() {
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#xml_user_block" ).toggle( jQuery( this ).val() === "off" );
+			}
+		} ).change();
+
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );

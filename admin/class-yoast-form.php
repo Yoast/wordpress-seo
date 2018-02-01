@@ -605,4 +605,19 @@ class Yoast_Form {
 
 		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
 	}
+
+	/**
+	 * Creates a toggle switch to define whether an indexable should be indexed or not.
+	 *
+	 * @param string $var    The variable within the option to create the radio buttons for.
+	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
+	 */
+	public function index_switch( $var, $label ) {
+		$index_switch_values = array(
+			'off' => 'index',
+			'on'  => 'noindex',
+		);
+
+		$this->toggle_switch( $var, $index_switch_values, $label );
+	}
 }
