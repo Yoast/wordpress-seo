@@ -221,15 +221,16 @@ class WPSEO_Options {
 	 *
 	 * @param string $option_name The option the key should come from.
 	 * @param string $key         The key it should return.
+	 * @param mixed  $default     The default value that should be returned if the key isn't set.
 	 *
-	 * @return mixed|null Returns value if found, null if not.
+	 * @return mixed|null Returns value if found, $default if not.
 	 */
-	public static function get_option_value( $option_name, $key ) {
+	public static function get_option_value( $option_name, $key, $default = null ) {
 		$option = self::get_option( $option_name );
 		if ( isset( $option[ $key ] ) ) {
 			return $option[ $key ];
 		}
-		return null;
+		return $default;
 	}
 
 	/**
