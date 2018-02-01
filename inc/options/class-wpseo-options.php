@@ -222,11 +222,14 @@ class WPSEO_Options {
 	 * @param string $option_name The option the key should come from.
 	 * @param string $key         The key it should return.
 	 *
-	 * @return mixed
+	 * @return mixed|null Returns value if found, null if not.
 	 */
 	public static function get_option_value( $option_name, $key ) {
 		$option = self::get_option( $option_name );
-		return $option[ $key ];
+		if ( isset( $option[ $key ] ) ) {
+			return $option[ $key ];
+		}
+		return null;
 	}
 
 	/**
