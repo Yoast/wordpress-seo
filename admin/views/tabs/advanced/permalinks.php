@@ -28,9 +28,6 @@ $yform->light_switch( 'redirectattachment', __( 'Redirect attachment URLs to par
 echo '<p>' . esc_html__( 'Attachments to posts are stored in the database as posts, this means they\'re accessible under their own URLs if you do not redirect them, enabling this will redirect them to the post they were attached to.', 'wordpress-seo' ) . '</p>';
 
 echo '<h2>', esc_html__( 'Clean up permalinks', 'wordpress-seo' ), '</h2>';
-$yform->light_switch( 'cleanslugs', __( 'Stop words in slugs.', 'wordpress-seo' ), $remove_buttons, false );
-echo '<p>' . esc_html__( 'This helps you to create cleaner URLs by automatically removing the stopwords from them.', 'wordpress-seo' ) . '</p>';
-
 /* translators: %s expands to <code>?replytocom</code> */
 $yform->light_switch( 'cleanreplytocom', sprintf( __( 'Remove the %s variables.', 'wordpress-seo' ), '<code>?replytocom</code>' ), $remove_buttons, false );
 echo '<p>';

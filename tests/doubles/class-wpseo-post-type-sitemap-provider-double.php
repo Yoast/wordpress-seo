@@ -10,9 +10,15 @@ class WPSEO_Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Pr
 
 	/**
 	 * Sets the classifier
-	 *
 	 */
 	public function set_classifier( $classifier ) {
 		self::$classifier = $classifier;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function get_excluded_posts() {
+		return parent::get_excluded_posts();
 	}
 }

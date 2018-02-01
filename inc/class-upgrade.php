@@ -76,7 +76,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $this->options['version'], '5.0', '>=' )
-			 && version_compare( $this->options['version'], '5.1', '<' )
+		     && version_compare( $this->options['version'], '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
@@ -97,6 +97,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_63();
 		}
 
+		if ( version_compare( $this->options['version'], '6.4', '<' ) ) {
+			$this->upgrade_64();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -109,6 +113,25 @@ class WPSEO_Upgrade {
 		do_action( 'wpseo_run_upgrade', $this->options['version'] );
 
 		$this->finish_up();
+	}
+
+	/**
+	 * Helper function to remove keys from options.
+	 *
+	 * @param string       $option The option to remove the keys from.
+	 * @param string|array $keys   The key or keys to remove.
+	 */
+	private function remove_key_from_option( $option, $keys ) {
+		$options = WPSEO_Options::get_option( $option );
+
+		if ( ! is_array( $keys ) ) {
+			$keys = array( $keys );
+		}
+		foreach ( $keys as $key ) {
+			unset( $options[ $key ] );
+		}
+
+		update_option( $option, $options );
 	}
 
 	/**
@@ -166,9 +189,7 @@ class WPSEO_Upgrade {
 		wp_clear_scheduled_hook( 'yoast_tracking' );
 
 		// Clear the tracking settings, the seen about setting and the ignore tour setting.
-		$options = get_option( 'wpseo' );
-		unset( $options['tracking_popup_done'], $options['yoast_tracking'], $options['seen_about'], $options['ignore_tour'] );
-		update_option( 'wpseo', $options );
+		$this->remove_key_from_option( 'wpseo', array( 'tracking_popup_done', 'yoast_tracking', 'seen_about', 'ignore_tour' ) );
 	}
 
 	/**
@@ -211,7 +232,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to Yoast SEO 3.0
+	 * Performs upgrade functions to Yoast SEO 3.0.
 	 */
 	private function upgrade_30() {
 		// Remove the meta fields for sitemap prio.
@@ -219,7 +240,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to Yoast SEO 3.3
+	 * Performs upgrade functions to Yoast SEO 3.3.
 	 */
 	private function upgrade_33() {
 		// Notification dismissals have been moved to User Meta instead of global option.
@@ -227,7 +248,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to Yoast SEO 3.6
+	 * Performs upgrade functions to Yoast SEO 3.6.
 	 */
 	private function upgrade_36() {
 		global $wpdb;
@@ -241,6 +262,7 @@ class WPSEO_Upgrade {
 	 */
 	private function move_pinterest_option() {
 		$options_social = get_option( 'wpseo_social' );
+		$option_wpseo   = get_option( 'wpseo' );
 
 		if ( isset( $option_wpseo['pinterestverify'] ) ) {
 			$options_social['pinterestverify'] = $option_wpseo['pinterestverify'];
@@ -267,7 +289,7 @@ class WPSEO_Upgrade {
 	 * Removes the about notice when its still in the database.
 	 */
 	private function upgrade_40() {
-		$center = Yoast_Notification_Center::get();
+		$center       = Yoast_Notification_Center::get();
 		$notification = $center->get_notification_by_id( 'wpseo-dismiss-about' );
 
 		if ( $notification ) {
@@ -399,7 +421,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Register new capabilities and roles
+	 * Register new capabilities and roles.
 	 */
 	private function upgrade_55() {
 		// Register roles.
@@ -465,19 +487,20 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Perform the 6.4 upgrade
+	 * Perform the 6.4 upgrade, moves XML setting to WPSEO, deletes WPSEO_XML option.
 	 */
 	private function upgrade_64() {
-		$option = get_option( 'wpseo_permalinks' );
-		foreach ( array(
-			'cleanpermalinks',
-			'cleanpermalink-extravars',
-			'cleanpermalink-googlecampaign',
-			'cleanpermalink-googlesitesearch',
-			) as $key ) {
-			unset( $option[ $key ] );
-		}
+		$this->remove_key_from_option( 'wpseo_permalinks', array( 'cleanslugs', 'cleanpermalinks', 'cleanpermalink-extravars', 'cleanpermalink-googlecampaign', 'cleanpermalink-googlesitesearch' ) );
 
-		update_option( 'wpseo_permalinks', $option );
+		// Move the option to enable XML sitemaps.
+		$wpseo_options                       = WPSEO_Options::get_option( 'wpseo' );
+		$wpseo_xml_options                   = WPSEO_Options::get_option( 'wpseo_xml' );
+		$wpseo_options['enable_xml_sitemap'] = $wpseo_xml_options['enablexmlsitemap'];
+
+		update_option( 'wpseo', $wpseo_options );
+
+		// Delete the WPSEO XML option.
+		delete_option( 'wpseo_xml' );
+
 	}
 }

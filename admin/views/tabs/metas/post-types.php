@@ -53,12 +53,12 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $post_type ) {
 		$name = $post_type->name;
 		echo '<h3>' . esc_html( ucfirst( $post_type->labels->name ) ) . '</h3>';
+		$yform->index_switch( 'noindex-ptarchive-' . $name, __( 'Show this post type archive in search results?', 'wordpress-seo' ) );
 		$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
 		if ( $options['breadcrumbs-enable'] === true ) {
 			$yform->textinput( 'bctitle-ptarchive-' . $name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
 		}
-		$yform->index_switch( 'noindex-ptarchive-' . $name, __( 'Meta Robots', 'wordpress-seo' ) );
 
 		echo '<br/><br/>';
 	}

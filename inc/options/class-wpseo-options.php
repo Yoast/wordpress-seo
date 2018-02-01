@@ -22,7 +22,6 @@ class WPSEO_Options {
 		'wpseo_social'        => 'WPSEO_Option_Social',
 		'wpseo_rss'           => 'WPSEO_Option_RSS',
 		'wpseo_internallinks' => 'WPSEO_Option_InternalLinks',
-		'wpseo_xml'           => 'WPSEO_Option_XML',
 		'wpseo_ms'            => 'WPSEO_Option_MS',
 		'wpseo_taxonomy_meta' => 'WPSEO_Taxonomy_Meta',
 	);

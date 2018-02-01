@@ -36,9 +36,10 @@ $yform->toggle_switch( 'disable-author', array(
 ), __( 'Author archives', 'wordpress-seo' ) );
 
 echo "<div id='author-archives-titles-metas-content' class='archives-titles-metas-content'>";
+$yform->toggle_switch( 'noindex-author-wpseo', $index_switch_values, __( 'Show author archives in search results?', 'wordpress-seo' ) );
+$yform->toggle_switch( 'noindex-author-noposts-wpseo', $index_switch_values, __( 'Show authors without posts in search results?', 'wordpress-seo' ) );
 $yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
 $yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
-$yform->toggle_switch( 'noindex-author-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 echo '</div>';
 echo '</div>';
 
@@ -52,9 +53,9 @@ $yform->toggle_switch( 'disable-date', array(
 ), __( 'Date archives', 'wordpress-seo' ) );
 
 echo "<div id='date-archives-titles-metas-content' class='archives-titles-metas-content'>";
+$yform->toggle_switch( 'noindex-archive-wpseo', $index_switch_values, __( 'Show date archives in search results?', 'wordpress-seo' ) );
 $yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
 $yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
-$yform->toggle_switch( 'noindex-archive-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 echo '</div>';
 echo '</div>';
 

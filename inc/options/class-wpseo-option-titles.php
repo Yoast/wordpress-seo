@@ -35,8 +35,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'metadesc-author-wpseo'  => '', // Text area.
 		'metadesc-archive-wpseo' => '', // Text area.
 
-		'noindex-author-wpseo'   => false,
-		'noindex-archive-wpseo'  => true,
+		'noindex-author-wpseo'           => false,
+		'noindex-author-noposts-wpseo'   => true,
+		'noindex-archive-wpseo'          => true,
 
 		'disable-author'         => false,
 		'disable-date'           => false,
@@ -333,7 +334,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				/*
 				 * Covers:
-				 *  'noindex-author-wpseo', 'noindex-archive-wpseo'
+				 *  'noindex-author-wpseo', 'noindex-author-noposts-wpseo', 'noindex-archive-wpseo'
 				 *  'noindex-' . $pt->name
 				 *  'noindex-ptarchive-' . $pt->name
 				 *  'noindex-tax-' . $tax->name

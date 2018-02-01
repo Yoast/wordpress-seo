@@ -117,7 +117,6 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 			$this->get_submenu_page( __( 'General', 'wordpress-seo' ), $this->menu->get_page_identifier() ),
 			$this->get_submenu_page( __( 'Titles &amp; Metas', 'wordpress-seo' ), 'wpseo_titles' ),
 			$this->get_submenu_page( __( 'Social', 'wordpress-seo' ), 'wpseo_social' ),
-			$this->get_submenu_page( __( 'XML Sitemaps', 'wordpress-seo' ), 'wpseo_xml' ),
 			$this->get_submenu_page( __( 'Advanced', 'wordpress-seo' ), 'wpseo_advanced' ),
 			$this->get_submenu_page( __( 'Tools', 'wordpress-seo' ), 'wpseo_tools' ),
 			$this->get_submenu_page(
