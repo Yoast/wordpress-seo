@@ -7,6 +7,8 @@ use YoastSEO_Vendor\Ruckusing_Util_Logger;
 class Migration_Null_Logger extends Ruckusing_Util_Logger {
 	/**
 	 * Creates an instance of Ruckusing_Util_Logger
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
 		// Intentionally left empty.
@@ -14,6 +16,8 @@ class Migration_Null_Logger extends Ruckusing_Util_Logger {
 
 	/**
 	 * Logs a message
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $msg message to log
 	 *
@@ -24,6 +28,8 @@ class Migration_Null_Logger extends Ruckusing_Util_Logger {
 
 	/**
 	 * Close the log file handler
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
