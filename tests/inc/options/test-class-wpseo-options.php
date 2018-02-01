@@ -122,7 +122,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::get_option_value()
 	 */
 	public function test_get_option_value_returns_null_result() {
-		$result = WPSEO_Options::get_option_value( 'wpseo', 'xml_sitemap' );
+		$result = WPSEO_Options::get_option_value( 'wpseo', 'non_existent_value' );
 		$this->assertNull( $result );
 	}
 
@@ -132,7 +132,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::get_option_value()
 	 */
 	public function test_get_option_value_returns_default_result() {
-		$result = WPSEO_Options::get_option_value( 'wpseo', 'xml_sitemap', array() );
+		$result = WPSEO_Options::get_option_value( 'wpseo', 'non_existent_value', array() );
 		$this->assertEquals( array(), $result );
 	}
 }
