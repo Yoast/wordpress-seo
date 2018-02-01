@@ -16,10 +16,9 @@ module.exports = function( paper ) {
 	let numberOfImages = imageCount( paper );
 
 	/*
-	This formula is based on the average number of words a person is expected to read per minute,
-	plus extra time for each image in the text. It returns the expected reading time in whole minutes,
-	rounded up to the nearest minute.
-	*/
+	 * This formula is based on the average number of words a person is expected to read per minute,
+	 * plus extra time for each image in the text. It returns the expected reading time in whole minutes,
+	 * rounded up to the nearest minute.
+	 */
 	return Math.ceil( ( numberOfWords / wordsPerMinute ) + ( numberOfImages * minutesPerImage ) );
 };
-
