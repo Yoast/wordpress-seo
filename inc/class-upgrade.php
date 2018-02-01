@@ -499,8 +499,8 @@ class WPSEO_Upgrade {
 
 		update_option( 'wpseo', $wpseo_options );
 
-		// Delete the WPSEO XML option.
+		// Delete the WPSEO XML and WPSEO RSS option.
 		delete_option( 'wpseo_xml' );
-
+		delete_option( 'wpseo_rss' );
 	}
 }

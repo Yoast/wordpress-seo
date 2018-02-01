@@ -20,7 +20,6 @@ class WPSEO_Options {
 		'wpseo_permalinks'    => 'WPSEO_Option_Permalinks',
 		'wpseo_titles'        => 'WPSEO_Option_Titles',
 		'wpseo_social'        => 'WPSEO_Option_Social',
-		'wpseo_rss'           => 'WPSEO_Option_RSS',
 		'wpseo_internallinks' => 'WPSEO_Option_InternalLinks',
 		'wpseo_ms'            => 'WPSEO_Option_MS',
 		'wpseo_taxonomy_meta' => 'WPSEO_Taxonomy_Meta',
