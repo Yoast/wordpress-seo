@@ -122,4 +122,15 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 		$result = WPSEO_Options::get_option_value( 'wpseo', 'xml_sitemap' );
 		$this->assertEquals( null, $result );
 	}
+
+
+	/**
+	 * Tests if the get_option_value function returns a valid result.
+	 *
+	 * @covers WPSEO_Options::get_option_value()
+	 */
+	public function test_get_option_value_returns_default_result() {
+		$result = WPSEO_Options::get_option_value( 'wpseo', 'xml_sitemap', array() );
+		$this->assertEquals( array(), $result );
+	}
 }
