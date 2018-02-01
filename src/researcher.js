@@ -35,7 +35,7 @@ var findTransitionWords = require( "./researches/findTransitionWords.js" );
 var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 var relevantWords = require( "./researches/relevantWords" );
-var getReadingTime = require( "./researches/getReadingTime" );
+var readingTime = require( "./researches/readingTime" );
 
 /**
  * This contains all possible, default researches.
@@ -75,7 +75,7 @@ var Researcher = function( paper ) {
 		passiveVoice: passiveVoice,
 		getSentenceBeginnings: getSentenceBeginnings,
 		relevantWords: relevantWords,
-		getReadingTime: getReadingTime,
+		readingTime: readingTime,
 		sentences,
 	};
 
