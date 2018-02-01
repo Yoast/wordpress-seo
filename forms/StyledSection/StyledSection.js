@@ -55,19 +55,21 @@ const StyledSection = ( props ) => {
 			className={ props.className }
 			headingColor={ props.headingColor }
 		>
-			<StyledHeading
-				level={ props.headingLevel }
-				className={ props.headingClassName }
-			>
-				{ props.headingIcon &&
-					<StyledIcon
-						icon={ props.headingIcon }
-						color={ props.headingIconColor }
-						size={ props.headingIconSize }
-					/>
-				}
-				{ props.headingText }
-			</StyledHeading>
+			{ props.headingText &&
+				<StyledHeading
+					level={ props.headingLevel }
+					className={ props.headingClassName }
+				>
+					{ props.headingIcon &&
+						<StyledIcon
+							icon={ props.headingIcon }
+							color={ props.headingIconColor }
+							size={ props.headingIconSize }
+						/>
+					}
+					{ props.headingText }
+				</StyledHeading>
+			}
 			{ props.children }
 		</StyledSectionBase>
 	);
@@ -81,7 +83,7 @@ StyledSection.propTypes = {
 	headingIcon: PropTypes.string,
 	headingIconColor: PropTypes.string,
 	headingIconSize: PropTypes.string,
-	headingText: PropTypes.string.isRequired,
+	headingText: PropTypes.string,
 	children: PropTypes.any,
 };
 

@@ -3,7 +3,6 @@ import React from "react";
 import styled from "styled-components";
 
 import { getChildrenCount } from "../../../../utils/reactUtils";
-import { angleUp, angleDown } from "../../../../style-guide/svg";
 import colors from "../../../../style-guide/colors.json";
 import { IconButton } from "../../Shared/components/Button";
 
@@ -97,7 +96,7 @@ export const AnalysisCollapsibleStateless = ( props ) => {
 			<Button
 				aria-expanded={ props.isOpen }
 				onClick={ props.onToggle }
-				icon={ props.isOpen ? angleUp : angleDown }
+				icon={ props.isOpen ? "angle-up" : "angle-down" }
 				iconColor={ colors.$color_grey_dark } >
 				<AnalysisTitle>{ `${ title } (${ count })` }</AnalysisTitle>
 			</Button>

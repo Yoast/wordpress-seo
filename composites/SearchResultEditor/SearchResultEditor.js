@@ -124,7 +124,7 @@ class SearchResultEditor extends React.Component {
 	}
 
 	/**
-	 * Returns a represenation of the SearchResultPreview.
+	 * Returns a represenation of the SearchResultg.
 	 *
 	 * @returns {JSX.Element} The representation of the SearchResultPreview.
 	 */
@@ -134,16 +134,13 @@ class SearchResultEditor extends React.Component {
 				title={ this.stripHTML( this.state.formTitle ) }
 				url={ this.formatSlug() }
 				description={ this.stripHTML( this.state.formDescription ) }
-
 				measureTitle={ this.rateTitleLength.bind( this ) }
 				measureDescription={ this.rateDescriptionLength.bind( this ) }
-
-				hoveredField={this.state.hoveredPreviewField}
-				focusedField={this.state.focusedPreviewField}
-
-				classNames={this.classNames.preview}
-
-				{...this.eventHandlers.preview}
+				hoveredField={ this.state.hoveredPreviewField }
+				focusedField={ this.state.focusedPreviewField }
+				classNames={ this.classNames.preview }
+				isEditorOpen={ this.state.displayForm }
+				{ ...this.eventHandlers.preview }
 			/>
 		);
 	}

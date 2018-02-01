@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { localize } from "../../utils/i18n";
-import Section from "../../forms/Section";
+import StyledSection from "../../forms/StyledSection/StyledSection";
 import Button from "../../forms/Button";
 import Textfield from "../../forms/composites/Textfield";
 import Progressbar from "../../forms/Progressbar";
@@ -109,7 +109,7 @@ class SearchResultForm extends React.Component {
 		let slug = this.prepareSlug();
 
 		return (
-			<Section headingLevel={3} className="yoast-search-result-form">
+			<StyledSection headingLevel={3} className="yoast-search-result-form">
 				<p className="screen-reader-text">{translations.formDescription}</p>
 
 				<Textfield
@@ -171,7 +171,7 @@ class SearchResultForm extends React.Component {
 					} } />
 
 				{ this.renderCloseButton() }
-			</Section>
+			</StyledSection>
 		);
 	}
 }

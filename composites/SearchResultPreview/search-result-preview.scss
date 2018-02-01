@@ -8,99 +8,87 @@ $prefix: 'yoast-';
 
 /* css for snippet */
 .#{$prefix}search-result-preview {
-  background-color: $color_white;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
 
-  &__heading {
-    padding: 8px 20px;
-    font-size: 0.9rem;
-    margin: 0 -20px 15px;
-    border-bottom: 1px solid $color_border_light;
-    font-family: "Open Sans", sans-serif;
-    font-weight: 300;
-    color: $color_grey_dark;
-  }
+	&__heading {
+		padding: 8px 20px;
+		font-size: 0.9rem;
+		margin: 0 -20px 15px;
+		border-bottom: 1px solid $color_border_light;
+		font-family: "Open Sans", sans-serif;
+		font-weight: 300;
+		color: $color_grey_dark;
+	}
 
-  &__field {
-    @include clearfix;
-    position: relative;
-    cursor: pointer;
-    width: $snippet_width;
-    overflow: hidden;
+	&__field {
+		@include clearfix;
+		position: relative;
+		cursor: pointer;
+		width: $snippet_width;
+		overflow: hidden;
 
-    &--hover {
-      &:before {
-        @include svg-caret-before($color_grey_text);
-      }
-    }
+		&--hover {
+			&:before {
+				@include svg-caret-before($color_grey_text);
+			}
+		}
 
-    &--focus {
-      &:before {
-        @include svg-caret-before($color_blue)
-      }
-    }
+		&--focus {
+			&:before {
+				@include svg-caret-before($color_blue)
+			}
+		}
 
-  }
+	}
 
-  &__title {
-    color: $color_google_title;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-decoration: none;
-    white-space: nowrap;
-    font-size: 18px;
-    line-height: 1.2;
-    font-weight: normal;
-    margin: 0;
-  }
+	&__title {
+		color: $color_google_title;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-decoration: none;
+		white-space: nowrap;
+		font-size: 18px;
+		line-height: 1.2;
+		font-weight: normal;
+		margin: 0;
+	}
 
-  &__url {
-    font-size: 14px;
-    line-height: 16px;
-    color: $color_google_url;
-    font-style: normal;
-  }
+	&__url {
+		font-size: 14px;
+		line-height: 16px;
+		color: $color_google_url;
+		font-style: normal;
+	}
 
-  &__description, &__date {
-    font-size: 13px;
-    line-height: 1.4;
-  }
+	&__description, &__date {
+		font-size: 13px;
+		line-height: 1.4;
+	}
 
-  &__date {
-    color: $color_google_date;
-  }
+	&__date {
+		color: $color_google_date;
+	}
 
-  &__description {
-    color: $color_google_desc;
-  }
-}
-
-.#{$prefix}icon {
-  padding-left: 44px;
-
-  &__eye {
-    @extend .#{$prefix}icon;
-    background: url(svg-icon-eye($color_headings)) no-repeat 20px center / 16px 16px;
-  }
+	&__description {
+		color: $color_google_desc;
+	}
 }
 
 .#{$prefix}button {
-  background: $color_background_light;
-  border: 1px solid $color_button_border;
-  border-radius: 4px;
-  color: $color_grey_dark;
-  padding: 8px 10px;
-  cursor: pointer;
-  font-size: 0.8rem;
+	background: $color_background_light;
+	border: 1px solid $color_button_border;
+	border-radius: 4px;
+	color: $color_grey_dark;
+	padding: 8px 10px;
+	cursor: pointer;
+	font-size: 0.8rem;
 
-  &__edit {
-    @extend .#{$prefix}button;
+	&__edit {
+		@extend .#{$prefix}button;
 
-    background: $color_background_light url(svg-icon-edit($color_headings)) no-repeat 8px center / 16px 16px;
-    background-size: 16px;
-    padding-left: 32px;
-    display: block;
-    margin-top: 1em;
-  }
+		background: $color_background_light url(svg-icon-edit($color_headings)) no-repeat 8px center / 16px 16px;
+		background-size: 16px;
+		padding-left: 32px;
+		display: block;
+		margin-top: 1em;
+	}
 }
