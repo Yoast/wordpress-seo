@@ -26,7 +26,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		}
 		echo '<div id="' . esc_attr( $post_type->name . '-titles-metas' ) . '">';
 		echo '<h2 id="' . esc_attr( $post_type->name ) . '">' . esc_html( ucfirst( $post_type->labels->name ) ) . ' (<code>' . esc_html( $post_type->name ) . '</code>)</h2>';
-		$view_utils->show_post_type_settings( $post_type->name );
+		$view_utils->show_post_type_settings( $post_type );
 		echo '</div>';
 		/**
 		 * Allow adding a custom checkboxes to the admin meta page - Post Types tab

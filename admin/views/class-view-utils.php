@@ -1,11 +1,24 @@
 <?php
+/**
+ * @package WPSEO\Admin\Views
+ */
 
+/**
+ * Class Yoast_View_Utils
+ */
 class Yoast_View_Utils {
-
+	/**
+	 * Yoast_View_Utils constructor.
+	 */
 	public function __construct() {
 		$this->form = Yoast_Form::get_instance();
 	}
 
+	/**
+	 * Shows the search appearance settings for a post type.
+	 *
+	 * @param string|object $post_type The post type to show the search appearance settings for.
+	 */
 	public function show_post_type_settings( $post_type ) {
 		if ( ! is_object( $post_type ) ) {
 			$post_type = get_post_type_object( $post_type );

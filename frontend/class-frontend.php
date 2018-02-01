@@ -1394,20 +1394,25 @@ class WPSEO_Frontend {
 
 	/**
 	 * If the option to disable attachment URLs is checked, this performs the redirect to the attachment.
+	 *
+	 * @return bool Returns succes status
 	 */
 	public function attachment_redirect() {
 		if ( $this->options['disable-attachment'] === false ) {
-			return;
+			return false;
 		}
 		if ( ! is_attachment() ) {
-			return;
+			return false;
 		}
 
 		$url = wp_get_attachment_url( get_queried_object_id() );
 
 		if ( ! empty( $url ) ) {
 			$this->redirect( $url, 301 );
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
