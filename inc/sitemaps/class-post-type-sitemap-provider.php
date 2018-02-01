@@ -136,7 +136,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		global $wpdb;
 
 		// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
-		$post_types          = get_post_types( array( 'public' => true ) );
+		$post_types          = WPSEO_Post_Type::get_accessible_post_types();
 		$post_types          = array_filter( $post_types, array( $this, 'is_valid_post_type' ) );
 		$last_modified_times = WPSEO_Sitemaps::get_last_modified_gmt( $post_types, true );
 		$index               = array();

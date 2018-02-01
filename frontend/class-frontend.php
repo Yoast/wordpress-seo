@@ -121,9 +121,7 @@ class WPSEO_Frontend {
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
-		if ( $this->options['redirectattachment'] === true ) {
-			add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
-		}
+		add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
 
 		/*
 		 * The setting to get here has been deprecated, but don't remove the code as that would break
@@ -1395,34 +1393,21 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * If the option to redirect attachments to their parent is checked, this performs the redirect.
-	 *
-	 * An extra check is done for when the attachment has no parent.
-	 *
-	 * @return boolean False when no redirect was triggered.
+	 * If the option to disable attachment URLs is checked, this performs the redirect to the attachment.
 	 */
 	public function attachment_redirect() {
-		global $post;
-
-		if ( ! is_object( $post ) || ! is_attachment() ) {
-			return false;
+		if ( $this->options['disable-attachment'] === false ) {
+			return;
+		}
+		if ( ! is_attachment() ) {
+			return;
 		}
 
-		$attachment = $post;
+		$url = wp_get_attachment_url( get_queried_object_id() );
 
-		if ( (int) $attachment->post_parent !== 0 ) {
-			$this->redirect( get_permalink( $attachment->post_parent ), 301 );
-			return true;
+		if ( ! empty( $url ) ) {
+			$this->redirect( $url, 301 );
 		}
-
-		/**
-		 * Filter: 'wpseo_redirect_orphan_attachment' - Allows for orphaned attachment to be redirected.
-		 *
-		 * @api WP_Post $attachment The attachment which misses a parent post.
-		 */
-		do_action( 'wpseo_redirect_orphan_attachment', $attachment );
-
-		return false;
 	}
 
 	/**

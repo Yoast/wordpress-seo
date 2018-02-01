@@ -614,8 +614,8 @@ class Yoast_Form {
 	 */
 	public function index_switch( $var, $label ) {
 		$index_switch_values = array(
-			'off' => 'index',
-			'on'  => 'noindex',
+			'off' => __( 'Yes', 'wordpress-seo' ),
+			'on'  => __( 'No', 'wordpress-seo' ),
 		);
 
 		$this->toggle_switch( $var, $index_switch_values, $label );

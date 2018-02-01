@@ -28,7 +28,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 		}
 		echo "<div id='" . esc_attr( $tax->name ) . "-titles-metas'>";
 		/* translators: %1$s expands to the Taxonomy name */
-		$yform->toggle_switch( 'noindex-tax-' . $tax->name, $index_switch_values, sprintf( __( 'Show %1$s in search results?', 'wordpress-seo' ), $tax->labels->name ) );
+		$yform->index_switch( 'noindex-tax-' . $tax->name, sprintf( __( 'Show %1$s in search results?', 'wordpress-seo' ), $tax->labels->name ) );
 		$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
 		$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
 		if ( $tax->name !== 'post_format' ) {

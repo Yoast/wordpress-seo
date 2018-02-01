@@ -277,6 +277,14 @@ import a11ySpeak from "a11y-speak";
 			}
 		} ).change();
 
+		// Toggle the Media section.
+		jQuery( "#disable-attachment input[type='radio']" ).change( function() {
+			// The value on is disabled, off is enabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#media_settings" ).toggle( jQuery( this ).val() === "off" );
+			}
+		} ).change();
+
 		// Toggle the Format-based archives section.
 		jQuery( "#disable-post_format" ).change( function() {
 			jQuery( "#post_format-titles-metas" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
