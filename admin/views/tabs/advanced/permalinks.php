@@ -52,23 +52,3 @@ if ( substr( get_option( 'permalink_structure' ), -1 ) !== '/' && $options['trai
 	);
 	echo '</p>';
 }
-
-$yform->light_switch( 'cleanpermalinks', __( 'Redirect ugly URLs to clean permalinks. (Not recommended in many cases!)', 'wordpress-seo' ), $redirect_buttons );
-echo '<p>' . esc_html__( 'People make mistakes in their links towards you sometimes, or unwanted parameters are added to the end of your URLs, this allows you to redirect them all away. Please note that while this is a feature that is actively maintained, it is known to break several plugins, and should for that reason be the first feature you disable when you encounter issues after installing this plugin.', 'wordpress-seo' ) . '</p>';
-
-echo '<div id="cleanpermalinksdiv">';
-$yform->light_switch( 'cleanpermalink-googlesitesearch', __( 'Prevent cleaning out Google Site Search URLs.', 'wordpress-seo' ) );
-echo '<p>' . esc_html__( 'Google Site Search URLs look weird, and ugly, but if you\'re using Google Site Search, you probably do not want them cleaned out.', 'wordpress-seo' ) . '</p>';
-
-$yform->light_switch( 'cleanpermalink-googlecampaign', __( 'Prevent cleaning out Google Analytics Campaign & Google AdWords Parameters.', 'wordpress-seo' ) );
-echo '<p>';
-printf(
-	/* translators: %s expands to <code>?utm_</code> */
-	esc_html__( 'If you use Google Analytics campaign parameters starting with %s, check this box. However, you\'re advised not to use these. Instead, use the version with a hash.', 'wordpress-seo' ),
-	'<code>?utm_</code>'
-);
-echo '</p>';
-
-$yform->textinput( 'cleanpermalink-extravars', __( 'Other variables not to clean', 'wordpress-seo' ) );
-echo '<p>' . esc_html__( 'You might have extra variables you want to prevent from cleaning out, add them here, comma separated.', 'wordpress-seo' ) . '</p>';
-echo '</div>';

@@ -281,7 +281,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$stacked_urls[] = $url['loc'];
 
-				if ( (int) $post->ID === $this->get_page_for_posts_id() || (int) $post->ID === $this->get_page_on_front_id() ) {
+				if ( $post->ID === $this->get_page_for_posts_id() || $post->ID === $this->get_page_on_front_id() ) {
 
 					array_unshift( $links, $url );
 					continue;
@@ -544,6 +544,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$post->post_type   = $post_type;
 			$post->post_status = 'publish';
 			$post->filter      = 'sample';
+			$post->ID          = (int) $post->ID;
+			$post->post_parent = (int) $post->post_parent;
+			$post->post_author = (int) $post->post_author;
 			$post_ids[]        = $post->ID;
 		}
 

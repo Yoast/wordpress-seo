@@ -69,34 +69,58 @@ class WPSEO_Metabox_Formatter {
 			 */
 			'show_markers'          => apply_filters( 'wpseo_enable_assessment_markers', true ),
 			'publish_box'           => array(
-				'labels'   => array(
+				'labels' => array(
 					'content' => array(
 						'na'   => sprintf(
 							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'Readability: %1$sNot available%2$s', 'wordpress-seo' ),'<strong>', '</strong>' ),
+							__( 'Readability: %1$sNot available%2$s', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						),
 						'bad'  => sprintf(
 							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'Readability: %1$sNeeds improvement%2$s', 'wordpress-seo' ), '<strong>', '</strong>' ),
+							__( 'Readability: %1$sNeeds improvement%2$s', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						),
 						'ok'   => sprintf(
 							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'Readability: %1$sOK%2$s', 'wordpress-seo' ), '<strong>', '</strong>' ),
+							__( 'Readability: %1$sOK%2$s', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						),
 						'good' => sprintf(
 							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'Readability: %1$sGood%2$s', 'wordpress-seo' ), '<strong>', '</strong>' ),
+							__( 'Readability: %1$sGood%2$s', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						),
 					),
 					'keyword' => array(
 						'na'   => sprintf(
 							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'SEO: %1$sNot available%2$s', 'wordpress-seo' ), '<strong>', '</strong>' ),
+							__( 'SEO: %1$sNot available%2$s', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						),
 						'bad'  => sprintf(
 							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'SEO: %1$sNeeds improvement%2$s', 'wordpress-seo' ), '<strong>', '</strong>' ),
+							__( 'SEO: %1$sNeeds improvement%2$s', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						),
 						'ok'   => sprintf(
 							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'SEO: %1$sOK%2$s', 'wordpress-seo' ), '<strong>', '</strong>' ),
+							__( 'SEO: %1$sOK%2$s', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						),
 						'good' => sprintf(
 							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'SEO: %1$sGood%2$s', 'wordpress-seo' ), '<strong>', '</strong>' ),
+							__( 'SEO: %1$sGood%2$s', 'wordpress-seo' ),
+							'<strong>',
+							'</strong>'
+						),
 					),
 				),
 			),

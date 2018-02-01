@@ -12,7 +12,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Pr
 	 * Sets the classifier
 	 *
 	 */
-		public function set_classifier( $classifier) {
+	public function set_classifier( $classifier ) {
 		self::$classifier = $classifier;
 	}
 }

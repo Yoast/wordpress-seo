@@ -67,7 +67,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_home_url' )
-			->will( $this->returnValue( 'http://example.org') );
+			->will( $this->returnValue( 'http://example.org' ) );
 
 		add_filter( 'wpseo_xml_sitemap_post_url', array( $this, 'set_post_sitemap_url' ) );
 

@@ -288,13 +288,13 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Create a light switch input field.
+	 * Create a light switch input field using a single checkbox.
 	 *
 	 * @since 3.1
 	 *
 	 * @param string  $var        The variable within the option to create the checkbox for.
-	 * @param string  $label      The label to show for the variable.
-	 * @param array   $buttons    Array of two labels for the buttons (defaults Off/On).
+	 * @param string  $label      The label element text for the checkbox.
+	 * @param array   $buttons    Array of two visual labels for the buttons (defaults Disabled/Enabled).
 	 * @param boolean $reverse    Reverse order of buttons (default true).
 	 */
 	public function light_switch( $var, $label, $buttons = array(), $reverse = true ) {
@@ -559,13 +559,15 @@ class Yoast_Form {
 
 
 	/**
-	 * Create a toggle switch input field.
+	 * Create a toggle switch input field using two radio buttons.
 	 *
 	 * @since 3.1
 	 *
-	 * @param string $var    The variable within the option to create the file upload field for.
-	 * @param array  $values The radio options to choose from.
-	 * @param string $label  The label to show for the variable.
+	 * @param string $var    The variable within the option to create the radio buttons for.
+	 * @param array  $values Associative array of on/off keys and their values to be used as
+	 *                       the label elements text for the radio buttons. Optionally, each
+	 *                       value can be an array of visible label text and screen reader text.
+	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
 	 */
 	public function toggle_switch( $var, $values, $label ) {
 		if ( ! is_array( $values ) || $values === array() ) {
@@ -588,10 +590,17 @@ class Yoast_Form {
 		<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {
+			$screen_reader_text = '';
+
+			if ( is_array( $value ) ) {
+				$screen_reader_text = $value['screen_reader_text'];
+				$value = $value['text'];
+			}
+
 			$key_esc = esc_attr( $key );
 			$for     = $var_esc . '-' . $key_esc;
 			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />',
-			'<label for="', $for, '">', $value, '</label>';
+			'<label for="', $for, '">', esc_html( $value ), '<span class="screen-reader-text"> ' , esc_html( $screen_reader_text ),'</span></label>';
 		}
 
 		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";

@@ -76,7 +76,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $this->options['version'], '5.0', '>=' )
-		     && version_compare( $this->options['version'], '5.1', '<' )
+			 && version_compare( $this->options['version'], '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
@@ -97,6 +97,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_63();
 		}
 
+		if ( version_compare( $this->options['version'], '6.4', '<' ) ) {
+			$this->upgrade_64();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -109,6 +113,25 @@ class WPSEO_Upgrade {
 		do_action( 'wpseo_run_upgrade', $this->options['version'] );
 
 		$this->finish_up();
+	}
+
+	/**
+	 * Helper function to remove keys from options.
+	 *
+	 * @param string       $option The option to remove the keys from.
+	 * @param string|array $keys   The key or keys to remove.
+	 */
+	private function remove_key_from_option( $option, $keys ) {
+		$options = WPSEO_Options::get_option( $option );
+
+		if ( ! is_array( $keys ) ) {
+			$keys = array( $keys );
+		}
+		foreach ( $keys as $key ) {
+			unset( $options[ $key ] );
+		}
+
+		update_option( $option, $options );
 	}
 
 	/**
@@ -166,7 +189,7 @@ class WPSEO_Upgrade {
 		wp_clear_scheduled_hook( 'yoast_tracking' );
 
 		// Clear the tracking settings, the seen about setting and the ignore tour setting.
-		$this->remove_option( 'wpseo', array( 'tracking_popup_done', 'yoast_tracking', 'seen_about', 'ignore_tour' ) );
+		$this->remove_key_from_option( 'wpseo', array( 'tracking_popup_done', 'yoast_tracking', 'seen_about', 'ignore_tour' ) );
 	}
 
 	/**
@@ -266,7 +289,7 @@ class WPSEO_Upgrade {
 	 * Removes the about notice when its still in the database.
 	 */
 	private function upgrade_40() {
-		$center       = Yoast_Notification_Center::get();
+		$center = Yoast_Notification_Center::get();
 		$notification = $center->get_notification_by_id( 'wpseo-dismiss-about' );
 
 		if ( $notification ) {
@@ -461,26 +484,12 @@ class WPSEO_Upgrade {
 			}
 		}
 		update_option( 'wpseo_titles', $option_titles );
-
-		$this->remove_option( 'wpseo_permalinks', 'cleanslugs' );
 	}
 
 	/**
-	 * Helper function to remove keys from options.
-	 *
-	 * @param string       $option The option to remove the keys from.
-	 * @param string|array $keys   The key or keys to remove.
+	 * Perform the 6.4 upgrade
 	 */
-	private function remove_option( $option, $keys ) {
-		$options = WPSEO_Options::get_option( $option );
-
-		if ( ! is_array( $keys ) ) {
-			$keys = array( $keys );
-		}
-		foreach ( $keys as $key ) {
-			unset( $options[ $key ] );
-		}
-
-		update_option( $option, $options );
+	private function upgrade_64() {
+		$this->remove_key_from_option( 'wpseo_permalinks', array( 'cleanslugs', 'cleanpermalinks', 'cleanpermalink-extravars', 'cleanpermalink-googlecampaign', 'cleanpermalink-googlesitesearch' ) );
 	}
 }

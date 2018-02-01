@@ -299,11 +299,6 @@ import a11ySpeak from "a11y-speak";
 			}
 		} ).change();
 
-		// Toggle the Redirect ugly URLs to clean permalinks section.
-		jQuery( "#cleanpermalinks" ).change( function() {
-			jQuery( "#cleanpermalinksdiv" ).toggle( jQuery( this ).is( ":checked" ) );
-		} ).change();
-
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
