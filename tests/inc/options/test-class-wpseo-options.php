@@ -7,7 +7,6 @@
  * Unit Test Class.
  */
 class WPSEO_Options_Test extends WPSEO_UnitTestCase {
-
 	/**
 	 * Set up the class which will be tested.
 	 */
@@ -27,7 +26,6 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 		$this->assertArrayHasKey( 'rssbefore', $result );
 		$this->assertArrayHasKey( 'breadcrumbs-prefix', $result );
 	}
-
 
 	/**
 	 * Test if the get_options function returns an empty array if you pass an empty array.
@@ -58,7 +56,6 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 		$result = WPSEO_Options::get_options( array( 'wpseo_social', 'wpseo_titles' ) );
 		$this->assertArrayHasKey( 'opengraph', $result );
 	}
-
 
 	/**
 	 * Test if the get_option function returns an empty array if you pass null.
@@ -106,11 +103,17 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::get_option_value()
 	 */
 	public function test_get_option_value_returns_valid_result() {
+		// Make sure these two have their default values
+		$option                            = WPSEO_Options::get_option( 'wpseo' );
+		$option['keyword_analysis_active'] = true;
+		$option['show_onboarding_notice']  = false;
+		update_option( 'wpseo', $option );
+
 		$result = WPSEO_Options::get_option_value( 'wpseo', 'keyword_analysis_active' );
-		$this->assertEquals( true, $result );
+		$this->assertTrue( $result );
 
 		$result = WPSEO_Options::get_option_value( 'wpseo', 'show_onboarding_notice' );
-		$this->assertEquals( false, $result );
+		$this->assertFalse( $result );
 	}
 
 	/**
@@ -120,9 +123,8 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_option_value_returns_null_result() {
 		$result = WPSEO_Options::get_option_value( 'wpseo', 'xml_sitemap' );
-		$this->assertEquals( null, $result );
+		$this->assertNull( $result );
 	}
-
 
 	/**
 	 * Tests if the get_option_value function returns a valid result.
