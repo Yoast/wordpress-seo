@@ -1,7 +1,5 @@
 @import "yoastseo";
 @import "help-center-metabox";
-@import "../../node_modules/yoast-components/style-guide/colors";
-@import "../../node_modules/yoast-components/css/icons";
 
 @function svg-icon-list($color) {
 	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M384 1408q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm0-512q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm-1408-928q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm0-512v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5z"/></svg>');
@@ -651,6 +649,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 // TODO: Move this to the yoast-components repository
+// The variable $color_headings comes from YoastSEO.js and is #555555.
 .yoast-section {
 	&__heading {
 		&-icon-list {
@@ -669,9 +668,9 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 // TODO: To be removed when the styled section will use the StyledSection component.
 .yoast-section {
-	box-shadow: 0 1px 2px rgba( $color_black, .2 );
+	box-shadow: 0 1px 2px rgba( 0, 0, 0, .2 );
 	position: relative;
-	background-color: $color_white;
+	background-color: #fff;
 	padding: 0 20px 15px;
 
 	&__heading {
@@ -680,7 +679,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 		margin: 0 -20px 15px;
 		font-family: "Open Sans", sans-serif;
 		font-weight: 300;
-		color: $color_grey_dark;
+		color: #555;
 
 		&-icon {
 			padding-left: 44px; // 44 - 20 (icon width) = 24 for the 8px grid
