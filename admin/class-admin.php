@@ -581,6 +581,24 @@ class WPSEO_Admin {
 	}
 
 	/**
+	 * Cleans stopwords out of the slug, if the slug hasn't been set yet.
+	 *
+	 * @deprecated 6.4
+	 */
+	public function remove_stopwords_from_slug() {
+		_deprecated_function( __METHOD__, 'WPSEO 6.4' );
+	}
+
+	/**
+	 * Filter the stopwords from the slug.
+	 *
+	 * @deprecated 6.4
+	 */
+	public function filter_stopwords_from_slug() {
+		_deprecated_function( __METHOD__, 'WPSEO 6.4' );
+	}
+	
+	/**
 	 * Adds contextual help to the titles & metas page.
 	 *
 	 * @deprecated 5.6.0
