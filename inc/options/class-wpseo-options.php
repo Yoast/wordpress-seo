@@ -217,6 +217,19 @@ class WPSEO_Options {
 	}
 
 	/**
+	 * Retrieve a single field from an option for the SEO plugin.
+	 *
+	 * @param string $option_name The option the key should come from.
+	 * @param string $key         The key it should return.
+	 *
+	 * @return mixed
+	 */
+	public static function get_option_value( $option_name, $key ) {
+		$option = self::get_option( $option_name );
+		return $option[ $key ];
+	}
+
+	/**
 	 * Get an option only if it's been auto-loaded.
 	 *
 	 * @static
