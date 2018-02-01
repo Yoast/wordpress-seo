@@ -614,8 +614,8 @@ class WPSEO_Admin_Init {
 				'alternative' => 'wpseo_breadcrumb_single_link_info',
 			),
 			'wpseo_stopwords'              => array(
-				'version'     => '6.3',
-				'alternative' => 'none',
+				'version'     => '6.4',
+				'alternative' => null,
 			),
 		);
 
