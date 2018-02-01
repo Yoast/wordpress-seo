@@ -29,6 +29,20 @@ class WPSEO_Sitemaps_Admin {
 	/**
 	 * Find sitemaps residing on disk as they will block our rewrite.
 	 *
+	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
+
+	 * @deprecated since 3.1 in favor of 'detect_blocking_filesystem_sitemaps'
+	 */
+	public function delete_sitemaps() {
+		/**
+		 * When removing this, make sure the 'admin_init' action is replaced with the following function:
+		 */
+		$this->detect_blocking_filesystem_sitemaps();
+	}
+
+	/**
+	 * Find sitemaps residing on disk as they will block our rewrite.
+	 *
 	 * @deprecated since 6.4
 	 */
 	public function detect_blocking_filesystem_sitemaps() {
