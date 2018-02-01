@@ -6,8 +6,7 @@ import { defineMessages, injectIntl, intlShape } from "react-intl";
 import ArticleContent from "./ArticleContent";
 import { YoastButton } from "../Plugin/Shared/components/YoastButton";
 import { YoastLinkButton } from "../Plugin/Shared/components/YoastLinkButton";
-import { Icon } from "../Plugin/Shared/components/Icon";
-import { angleLeft, angleRight } from "../../style-guide/svg/index";
+import SvgIcon from "../Plugin/Shared/components/SvgIcon";
 import { makeOutboundLink } from "../../utils/makeOutboundLink";
 import breakpoints from "../../style-guide/responsive-breakpoints.json";
 import colors from "../../style-guide/colors.json";
@@ -73,18 +72,20 @@ class SearchResultDetail extends React.Component {
 		return (
 			<Nav>
 				<YoastButton aria-label={ backButtonLabel } onClick={ this.props.onBackButtonClicked }>
-					<Icon
+					<SvgIcon
 						size="24px"
 						color={ colors.$color_white }
-						icon={ angleLeft } />
+						icon="angle-left"
+					/>
 					{ backButtonText }
 				</YoastButton>
 				<RightYoastLinkButton href={ this.props.post.permalink } aria-label={ openButtonLabel } target="_blank">
 					{ openButtonText }
-					<Icon
+					<SvgIcon
 						size="24px"
 						color={ colors.$color_white }
-						icon={ angleRight } />
+						icon="angle-right"
+					/>
 				</RightYoastLinkButton>
 			</Nav>
 		);

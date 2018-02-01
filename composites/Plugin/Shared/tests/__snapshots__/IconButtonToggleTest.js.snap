@@ -25,15 +25,6 @@ exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
   cursor: default;
 }
 
-.c1 {
-  width: 18px;
-  height: 18px;
-  fill: #ddd;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <button
   aria-label="important toggle"
   aria-pressed={false}
@@ -44,11 +35,20 @@ exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
   type="button"
 >
   <svg
-    aria-hidden="true"
-    className="c1"
+    aria-hidden={true}
+    className="yoast-svg-icon yoast-svg-icon-eye"
+    fill="#ddd"
     focusable="false"
+    height="18px"
     role="img"
-  />
+    viewBox="0 0 1792 1792"
+    width="18px"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+    />
+  </svg>
 </button>
 `;
 
@@ -77,15 +77,6 @@ exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
   cursor: default;
 }
 
-.c1 {
-  width: 18px;
-  height: 18px;
-  fill: #fff;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <button
   aria-label="important toggle"
   aria-pressed={true}
@@ -96,11 +87,20 @@ exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
   type="button"
 >
   <svg
-    aria-hidden="true"
-    className="c1"
+    aria-hidden={true}
+    className="yoast-svg-icon yoast-svg-icon-eye"
+    fill="#fff"
     focusable="false"
+    height="18px"
     role="img"
-  />
+    viewBox="0 0 1792 1792"
+    width="18px"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+    />
+  </svg>
 </button>
 `;
 
@@ -129,15 +129,6 @@ exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
   cursor: default;
 }
 
-.c1 {
-  width: 18px;
-  height: 18px;
-  fill: #555;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <button
   aria-label="important toggle"
   aria-pressed={false}
@@ -148,10 +139,19 @@ exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
   type="button"
 >
   <svg
-    aria-hidden="true"
-    className="c1"
+    aria-hidden={true}
+    className="yoast-svg-icon yoast-svg-icon-eye"
+    fill="#555"
     focusable="false"
+    height="18px"
     role="img"
-  />
+    viewBox="0 0 1792 1792"
+    width="18px"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+    />
+  </svg>
 </button>
 `;

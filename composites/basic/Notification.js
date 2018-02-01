@@ -5,8 +5,7 @@ import { injectIntl, intlShape, defineMessages } from "react-intl";
 
 import Paper from "./Paper";
 import colors from "../../style-guide/colors.json";
-import { Icon } from "../../composites/Plugin/Shared/components/Icon";
-import { times } from "../../style-guide/svg";
+import SvgIcon from "../../composites/Plugin/Shared/components/SvgIcon";
 import breakpoints from "../../style-guide/responsive-breakpoints.json";
 
 const messages = defineMessages( {
@@ -74,7 +73,7 @@ const DismissButton = styled.button`
 	}
 `;
 
-const StyledIcon = styled( Icon )`
+const StyledIcon = styled( SvgIcon )`
 	vertical-align: middle;
 `;
 
@@ -105,7 +104,7 @@ function Notification( props ) {
 				type="button"
 				aria-label={ props.intl.formatMessage( messages.buttonAriaLabel ) }
 			>
-				<StyledIcon icon={ times } color={ colors.$color_grey_text } size="24px" />
+				<StyledIcon icon="times" color={ colors.$color_grey_text } size="24px" />
 			</DismissButton> }
 		</NotificationContainer>
 	</Paper>;

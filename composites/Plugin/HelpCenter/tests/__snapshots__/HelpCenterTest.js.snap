@@ -88,24 +88,6 @@ exports[`the HelpCenter matches the snapshot 1`] = `
   margin: 0;
 }
 
-.c4 {
-  width: 16px;
-  height: 16px;
-  fill: #fff;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c5 {
-  width: 16px;
-  height: 16px;
-  fill: #fff;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   .c2::after {
     display: inline-block;
@@ -130,19 +112,22 @@ exports[`the HelpCenter matches the snapshot 1`] = `
     type="button"
   >
     <span>
-      <svg
-        aria-hidden="true"
-        className="c4"
-        focusable="false"
-        role="img"
-      />
       Need help?
       <svg
-        aria-hidden="true"
-        className="c5"
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-down"
+        fill="#fff"
         focusable="false"
+        height="16"
         role="img"
-      />
+        viewBox="0 0 1792 1792"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+        />
+      </svg>
     </span>
   </button>
 </div>
@@ -235,24 +220,6 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
   margin: 0;
 }
 
-.c4 {
-  width: 16px;
-  height: 16px;
-  fill: #fff;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c5 {
-  width: 16px;
-  height: 16px;
-  fill: #fff;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   .c2::after {
     display: inline-block;
@@ -277,19 +244,22 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
     type="button"
   >
     <span>
-      <svg
-        aria-hidden="true"
-        className="c4"
-        focusable="false"
-        role="img"
-      />
       Need help?
       <svg
-        aria-hidden="true"
-        className="c5"
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-down"
+        fill="#fff"
         focusable="false"
+        height="16"
         role="img"
-      />
+        viewBox="0 0 1792 1792"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+        />
+      </svg>
     </span>
   </button>
 </div>
