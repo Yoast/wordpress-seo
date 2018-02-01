@@ -9,7 +9,7 @@ let articles = [ "el", "la", "los", "las", "un", "una", "unos", "unas" ];
 
 // "Uno" is already included in the articles.
 let cardinalNumerals = [ "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece",
-	"catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte",  "cien", "centena", "mil", "millon",
+	"catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte", "cien", "centena", "mil", "millon",
 	"millones" ];
 
 let ordinalNumerals = [ "primera", "segunda", "tercera", "cuarto", "cuarta", "quinto", "quinta", "sexto", "sexta",

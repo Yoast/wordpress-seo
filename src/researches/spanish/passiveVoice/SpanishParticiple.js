@@ -9,7 +9,7 @@ var precedenceException = require( "../../../stringProcessing/precedenceExceptio
  *
  * @param {string} participle The participle.
  * @param {string} sentencePart The sentence part that contains the participle.
- * @param {Object} attributes  The attributes object.
+ * @param {Object} attributes The attributes object.
  *
  * @constructor
  */
