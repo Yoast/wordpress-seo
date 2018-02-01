@@ -20,7 +20,6 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		'cleanreplytocom'                 => false,
-		'cleanslugs'                      => true,
 		'redirectattachment'              => false,
 		'stripcategorybase'               => false,
 		'trailingslash'                   => false,
@@ -83,7 +82,6 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 				/*
 				Covers:
 				 *		'cleanreplytocom'
-				 *		'cleanslugs'
 				 *		'hide-rsdlink'
 				 *		'hide-wlwmanifest'
 				 *		'hide-shortlink'

@@ -613,6 +613,10 @@ class WPSEO_Admin_Init {
 				'version'     => '5.8',
 				'alternative' => 'wpseo_breadcrumb_single_link_info',
 			),
+			'wpseo_stopwords'              => array(
+				'version'     => '6.4',
+				'alternative' => null,
+			),
 		);
 
 		// Determine which filters have been registered.
