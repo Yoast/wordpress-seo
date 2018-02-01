@@ -76,7 +76,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $this->options['version'], '5.0', '>=' )
-			 && version_compare( $this->options['version'], '5.1', '<' )
+		     && version_compare( $this->options['version'], '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
@@ -95,6 +95,10 @@ class WPSEO_Upgrade {
 
 		if ( version_compare( $this->options['version'], '6.3', '<' ) ) {
 			$this->upgrade_63();
+		}
+
+		if ( version_compare( $this->options['version'], '6.4', '<' ) ) {
+			$this->upgrade_64();
 		}
 
 		// Since 3.7.
@@ -241,6 +245,7 @@ class WPSEO_Upgrade {
 	 */
 	private function move_pinterest_option() {
 		$options_social = get_option( 'wpseo_social' );
+		$option_wpseo   = get_option( 'wpseo' );
 
 		if ( isset( $option_wpseo['pinterestverify'] ) ) {
 			$options_social['pinterestverify'] = $option_wpseo['pinterestverify'];
@@ -267,7 +272,7 @@ class WPSEO_Upgrade {
 	 * Removes the about notice when its still in the database.
 	 */
 	private function upgrade_40() {
-		$center = Yoast_Notification_Center::get();
+		$center       = Yoast_Notification_Center::get();
 		$notification = $center->get_notification_by_id( 'wpseo-dismiss-about' );
 
 		if ( $notification ) {
@@ -465,7 +470,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Perform the 6.4 upgrade
+	 * Perform the 6.4 upgrade, moves XML setting to WPSEO, deletes WPSEO_XML option.
 	 */
 	private function upgrade_64() {
 		$option = get_option( 'wpseo_permalinks' );
@@ -479,5 +484,15 @@ class WPSEO_Upgrade {
 		}
 
 		update_option( 'wpseo_permalinks', $option );
+
+		// Move the option to enable XML sitemaps.
+		$wpseo_options                       = WPSEO_Options::get_option( 'wpseo' );
+		$wpseo_xml_options                   = WPSEO_Options::get_option( 'wpseo_xml' );
+		$wpseo_options['enable_xml_sitemap'] = $wpseo_xml_options['enablexmlsitemap'];
+
+		update_option( 'wpseo', $wpseo_options );
+
+		// Delete the WPSEO XML option.
+		delete_option( 'wpseo_xml' );
 	}
 }

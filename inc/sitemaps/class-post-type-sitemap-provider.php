@@ -234,7 +234,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$options = $this->get_options();
+		$stacked_urls = array();
 		$posts_to_exclude = $this->get_excluded_posts();
 
 		while ( $total > $offset ) {
@@ -310,15 +310,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return bool
 	 */
 	public function is_valid_post_type( $post_type ) {
-
-		$options = $this->get_options();
-
-		if ( ! empty( $options[ "post_types-{$post_type}-not_in_sitemap" ] ) ) {
-			return false;
-		}
-
-		// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
-		if ( ! in_array( $post_type, get_post_types( array( 'public' => true ), 'names' ), true ) ) {
+		if ( ! WPSEO_Post_Type::is_post_type_indexable( $post_type ) ) {
 			return false;
 		}
 

@@ -29,7 +29,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$options = WPSEO_Options::get_all();
 
-		if ( $options['disable-author'] || $options['disable_author_sitemap'] ) {
+		if ( $options['disable-author'] || $options['noindex-author-wpseo'] ) {
 			return array();
 		}
 
@@ -119,7 +119,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			),
 		);
 
-		if ( $options['disable_author_noposts'] === true ) {
+		if ( $options['noindex-author-noposts-wpseo'] === true ) {
 			// $defaults['who']                 = ''; // Otherwise it cancels out next argument.
 			$defaults['has_published_posts'] = true;
 		}
@@ -179,7 +179,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$links = array();
 
-		if ( $options['disable-author'] === true || $options['disable_author_sitemap'] === true ) {
+		if ( $options['disable-author'] === true || $options['noindex-author-wpseo'] === true ) {
 			return $links;
 		}
 

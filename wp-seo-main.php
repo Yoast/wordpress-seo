@@ -266,18 +266,18 @@ function wpseo_init() {
 	WPSEO_Options::get_instance();
 	WPSEO_Meta::init();
 
-	$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks', 'wpseo_xml' ) );
+	$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks' ) );
 	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
 		new WPSEO_Upgrade();
 		// Get a cleaned up version of the $options.
-		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks', 'wpseo_xml' ) );
+		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks' ) );
 	}
 
 	if ( $options['stripcategorybase'] === true ) {
 		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 	}
 
-	if ( $options['enablexmlsitemap'] === true ) {
+	if ( $options['enable_xml_sitemap'] === true ) {
 		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps();
 	}
 

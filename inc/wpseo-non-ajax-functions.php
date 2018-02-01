@@ -291,12 +291,6 @@ function wpseo_admin_bar_menu() {
 			) );
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-xml',
-				'title'  => __( 'XML Sitemaps', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_xml' ),
-			) );
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
 				'id'     => 'wpseo-wpseo-advanced',
 				'title'  => __( 'Advanced', 'wordpress-seo' ),
 				'href'   => admin_url( 'admin.php?page=wpseo_advanced' ),
