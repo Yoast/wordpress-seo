@@ -80,12 +80,12 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 ?>
 <h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
 <div style="max-width:600px">
-<?php echo esc_html( sprintf(
-/* translators: %1$s expands to Yoast SEO */
+<?php
+echo esc_html( sprintf(
+	/* translators: %1$s expands to Yoast SEO */
 	__( '%1$s comes with a lot of features. You can enable / disable some of them below.', 'wordpress-seo' ),
 	'Yoast SEO'
-) ) ?>
-<?php
+) );
 
 /**
  * Simple sorting function used for usort straight below.
@@ -100,7 +100,8 @@ function wpseo_cmp_order( $feature_a, $feature_b ) {
 }
 usort( $feature_toggles, 'wpseo_cmp_order' );
 
-foreach ( $feature_toggles as $feature ) : ?>
+foreach ( $feature_toggles as $feature ) :
+?>
 	<h3><?php echo esc_html( $feature->name ); ?></h3>
 	<p>
 		<?php

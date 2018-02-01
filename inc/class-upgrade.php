@@ -8,7 +8,6 @@
  * This code handles the option upgrades
  */
 class WPSEO_Upgrade {
-
 	/**
 	 * Holds the Yoast SEO options
 	 *
@@ -77,7 +76,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $this->options['version'], '5.0', '>=' )
-			&& version_compare( $this->options['version'], '5.1', '<' )
+			 && version_compare( $this->options['version'], '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
@@ -268,7 +267,7 @@ class WPSEO_Upgrade {
 	 * Removes the about notice when its still in the database.
 	 */
 	private function upgrade_40() {
-		$center       = Yoast_Notification_Center::get();
+		$center = Yoast_Notification_Center::get();
 		$notification = $center->get_notification_by_id( 'wpseo-dismiss-about' );
 
 		if ( $notification ) {
@@ -327,7 +326,7 @@ class WPSEO_Upgrade {
 		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
 
 		$usermetas = $wpdb->get_results(
-			$wpdb->prepare('
+			$wpdb->prepare( '
 				SELECT user_id, meta_value
 				FROM ' . $wpdb->usermeta . '
 				WHERE meta_key = %s AND meta_value LIKE %s
@@ -463,5 +462,22 @@ class WPSEO_Upgrade {
 			}
 		}
 		update_option( 'wpseo_titles', $option_titles );
+	}
+
+	/**
+	 * Perform the 6.4 upgrade
+	 */
+	private function upgrade_64() {
+		$option = get_option( 'wpseo_permalinks' );
+		foreach ( array(
+			'cleanpermalinks',
+			'cleanpermalink-extravars',
+			'cleanpermalink-googlecampaign',
+			'cleanpermalink-googlesitesearch',
+			) as $key ) {
+			unset( $option[ $key ] );
+		}
+
+		update_option( 'wpseo_permalinks', $option );
 	}
 }
