@@ -11,7 +11,6 @@
   "jest": {
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest/__mocks__/fileMock.js",
-      "\\.(svg)$": "<rootDir>/jest/__mocks__/svgReactLoaderMock.js",
       "\\.(css|less)$": "<rootDir>/jest/__mocks__/styleMock.js"
     },
     "unmockedModulePathPatterns": [
@@ -47,7 +46,6 @@
     "redux-thunk": "^2.2.0",
     "striptags": "^3.1.0",
     "styled-components": "^2.1.2",
-    "svg-url-loader": "^2.1.1",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
@@ -89,7 +87,6 @@
     "redux-mock-store": "^1.2.3",
     "sassdash": "^0.8.2",
     "stubby": "^0.3.1",
-    "svg-react-loader": "^0.4.4",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1"
   },

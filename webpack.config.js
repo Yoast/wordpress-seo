@@ -66,21 +66,12 @@ module.exports = {
 				test: /\.json$/,
 				use: [ "json-loader" ],
 			},
-			{
-				test: /\.svg$/,
-				use: [ {
-					loader: "svg-react-loader",
-					options: {
-						stripdeclarations: true,
-					},
-				} ],
-			},
 		],
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 	],
 	resolve: {
-		extensions: [ ".json", ".jsx", ".js", ".svg" ],
+		extensions: [ ".json", ".jsx", ".js" ],
 	},
 };
