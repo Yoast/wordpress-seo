@@ -560,7 +560,7 @@ class WPSEO_Admin {
 	 *
 	 * @since 1.1.7
 	 *
-	 * @return array $stopwords Array of stop words to check and / or remove from slug.
+	 * @return void
 	 */
 	public function stopwords() {
 		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
@@ -571,12 +571,9 @@ class WPSEO_Admin {
 	 *
 	 * @deprecated 3.1
 	 *
-	 * @param string $haystack     The string to be checked for the stopword.
-	 * @param bool   $checking_url Whether or not we're checking a URL.
-	 *
-	 * @return bool|mixed
+	 * @return void
 	 */
-	public function stopwords_check( $haystack, $checking_url = false ) {
+	public function stopwords_check() {
 		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
 	}
 
@@ -584,6 +581,8 @@ class WPSEO_Admin {
 	 * Cleans stopwords out of the slug, if the slug hasn't been set yet.
 	 *
 	 * @deprecated 6.4
+	 *
+	 * @return void
 	 */
 	public function remove_stopwords_from_slug() {
 		_deprecated_function( __METHOD__, 'WPSEO 6.4' );
@@ -593,11 +592,13 @@ class WPSEO_Admin {
 	 * Filter the stopwords from the slug.
 	 *
 	 * @deprecated 6.4
+	 *
+	 * @return void
 	 */
 	public function filter_stopwords_from_slug() {
 		_deprecated_function( __METHOD__, 'WPSEO 6.4' );
 	}
-	
+
 	/**
 	 * Adds contextual help to the titles & metas page.
 	 *
