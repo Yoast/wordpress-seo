@@ -756,10 +756,16 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 				}
 			}
-			elseif (
-				( is_author() && $this->options['noindex-author-wpseo'] === true ) ||
-				( is_date() && $this->options['noindex-archive-wpseo'] === true )
-			) {
+			elseif ( is_author() ) {
+				if ( $this->options['noindex-author-wpseo'] === true ) {
+					$robots['index'] = 'noindex';
+				}
+				$curauth = $wp_query->get_queried_object();
+				if ( $this->options['noindex-author-noposts-wpseo'] === true && count_user_posts( $curauth->ID, 'any' ) === 0 ) {
+					$robots['index'] = 'noindex';
+				}
+			}
+			elseif ( is_date() && $this->options['noindex-archive-wpseo'] === true ) {
 				$robots['index'] = 'noindex';
 			}
 			elseif ( is_home() ) {
