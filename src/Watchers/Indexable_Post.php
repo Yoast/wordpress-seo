@@ -60,10 +60,12 @@ class Indexable_Post implements Integration {
 			$indexable->{$indexable_key} = $this->get_meta_value( $post_meta, $meta_key );
 		}
 
-		$indexable->robots_noindex = $this->get_robots_noindex( $post_meta['_yoast_wpseo_meta-robots-noindex'][0] );
+		$noindex = isset($post_meta['_yoast_wpseo_meta-robots-noindex']) ? $post_meta['_yoast_wpseo_meta-robots-noindex'][0] : '';
+		$indexable->robots_noindex = $this->get_robots_noindex( $noindex );
 
 		// Set additional meta-robots values.
-		$meta_robots = explode( ',', $post_meta['_yoast_wpseo_meta-robots-adv'][0] );
+		$nonidex_advanced = isset( $post_meta['_yoast_wpseo_meta-robots-adv'] ) ? $post_meta['_yoast_wpseo_meta-robots-adv'][0] : '';
+		$meta_robots = explode( ',', $nonidex_advanced );
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
 			$indexable->{'robots_' . $meta_robots_option} = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
