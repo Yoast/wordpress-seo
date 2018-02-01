@@ -2,6 +2,7 @@
 
 namespace Yoast\YoastSEO\Watchers;
 
+use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 
@@ -15,8 +16,25 @@ class Primary_Term implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'save_post', array( $this, 'save_primary_terms' ) );
-		// @todo add delete
+		\add_action( 'save_post', array( $this, 'save_primary_terms' ) );
+		\add_action( 'delete_post', array( $this, 'delete_primary_terms' ) );
+	}
+
+	/**
+	 * Deletes primary terms for a post.
+	 *
+	 * @param int $post_id The post to delete the terms of.
+	 *
+	 * @return void
+	 */
+	public function delete_primary_terms( $post_id ) {
+		foreach ( $this->get_primary_term_taxonomies( $post_id ) as $taxonomy ) {
+			try {
+				$indexable = $this->get_indexable( $post_id, $taxonomy->name, false );
+				$indexable->delete();
+			} catch ( No_Indexable_Found $exception ) {
+			}
+		}
 	}
 
 	/**
@@ -27,8 +45,7 @@ class Primary_Term implements Integration {
 	 * @return void
 	 */
 	public function save_primary_terms( $post_id ) {
-		$taxonomies = $this->get_primary_term_taxonomies( $post_id );
-		foreach ( $taxonomies as $taxonomy ) {
+		foreach ( $this->get_primary_term_taxonomies( $post_id ) as $taxonomy ) {
 			$this->save_primary_term( $post_id, $taxonomy->name );
 		}
 	}
@@ -49,17 +66,10 @@ class Primary_Term implements Integration {
 			return;
 		}
 
-		/** @var \Yoast\YoastSEO\Models\Primary_Term $primary_term */
-		$primary_term = Yoast_Model::of_type( 'Primary_Term' )
-								   ->where( 'post_id', $post_id )
-								   ->where( 'taxonomy', $taxonomy )
-								   ->find_one();
-
-		if ( ! $primary_term ) {
-			/** @var \Yoast\YoastSEO\Models\Primary_Term $primary_term */
-			$primary_term           = Yoast_Model::of_type( 'Primary_Term' )->create();
-			$primary_term->post_id  = $post_id;
-			$primary_term->taxonomy = $taxonomy;
+		try {
+			$primary_term = $this->get_indexable( $post_id, $taxonomy );
+		} catch ( No_Indexable_Found $exception ) {
+			return;
 		}
 
 		$primary_term->term_id = $term_id;
@@ -135,5 +145,37 @@ class Primary_Term implements Integration {
 	 */
 	protected function filter_hierarchical_taxonomies( $taxonomy ) {
 		return (bool) $taxonomy->hierarchical;
+	}
+
+	/**
+	 * Retrieves an indexable for a primary taxonomy.
+	 *
+	 * @param int    $post_id     The post the indexable is based upon.
+	 * @param string $taxonomy    The taxonomy the indexable belongs to.
+	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
+	 *
+	 * @return \Yoast\YoastSEO\Models\Primary_Term
+	 *
+	 * @throws \Yoast\YoastSEO\Exceptions\No_Indexable_Found
+	 */
+	protected function get_indexable( $post_id, $taxonomy, $auto_create = true ) {
+		/** @var \Yoast\YoastSEO\Models\Primary_Term $indexable */
+		$indexable = Yoast_Model::of_type( 'Primary_Term' )
+								->where( 'post_id', $post_id )
+								->where( 'taxonomy', $taxonomy )
+								->find_one();
+
+		if ( $auto_create && ! $indexable ) {
+			/** @var \Yoast\YoastSEO\Models\Primary_Term $indexable */
+			$indexable           = Yoast_Model::of_type( 'Primary_Term' )->create();
+			$indexable->post_id  = $post_id;
+			$indexable->taxonomy = $taxonomy;
+		}
+
+		if ( ! $indexable ) {
+			throw new No_Indexable_Found( 'No indexable found for supplied arguments' );
+		}
+
+		return $indexable;
 	}
 }

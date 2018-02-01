@@ -16,8 +16,6 @@ use Yoast\YoastSEO\Config\Dependency_Management;
 class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the initializing with the wrong migration state.
-	 *
-
 	 */
 	public function test_initialize() {
 		$instance = $this
