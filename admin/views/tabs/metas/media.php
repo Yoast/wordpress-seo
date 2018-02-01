@@ -16,6 +16,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		<?php _e( 'Because of that, if you never use these attachment URLs, it\'s better to disable them, and redirect them to the media item itself.', 'wordpress-seo' ); ?>
 	</p>
 <?php
+$yform = Yoast_Form::get_instance();
 $yform->toggle_switch( 'disable-attachment', array(
 	'on' => __( 'Yes', 'wordpress-seo' ),
 	'off'  => __( 'No', 'wordpress-seo' ),

@@ -8,6 +8,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
+$yform = Yoast_Form::get_instance();
 
 if ( ! current_theme_supports( 'title-tag' ) ) {
 	$yform->light_switch( 'forcerewritetitle', __( 'Force rewrite titles', 'wordpress-seo' ) );

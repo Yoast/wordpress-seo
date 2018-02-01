@@ -162,13 +162,13 @@ class WPSEO_Upgrade {
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
 	private function finish_up() {
-		$this->options = WPSEO_Options::get_option( 'wpseo' );              // Re-get to make sure we have the latest version.
-		update_option( 'wpseo', $this->options );                           // This also ensures the DB version is equal to WPSEO_VERSION.
+		$this->options = WPSEO_Options::get_option( 'wpseo' );   // Re-get to make sure we have the latest version.
+		update_option( 'wpseo', $this->options );                     // This also ensures the DB version is equal to WPSEO_VERSION.
 
-		add_action( 'shutdown', 'flush_rewrite_rules' );                    // Just flush rewrites, always, to at least make them work after an upgrade.
-		WPSEO_Sitemaps_Cache::clear();                                 // Flush the sitemap cache.
+		add_action( 'shutdown', 'flush_rewrite_rules' );                     // Just flush rewrites, always, to at least make them work after an upgrade.
+		WPSEO_Sitemaps_Cache::clear();                                       // Flush the sitemap cache.
 
-		WPSEO_Options::ensure_options_exist();                              // Make sure all our options always exist - issue #1245.
+		WPSEO_Options::ensure_options_exist();                               // Make sure all our options always exist - issue #1245.
 	}
 
 	/**

@@ -15,15 +15,14 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * making it very hard to restore the setting again.
  */
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
+// We'll show attachments on the Media tab.
+$post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );
 
+$yform      = Yoast_Form::get_instance();
 $view_utils = new Yoast_View_Utils();
 
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $post_type ) {
-		if ( $post_type->name === 'attachment' ) {
-			// We'll show this on the Media tab.
-			continue;
-		}
 		echo '<div id="' . esc_attr( $post_type->name . '-titles-metas' ) . '">';
 		echo '<h2 id="' . esc_attr( $post_type->name ) . '">' . esc_html( ucfirst( $post_type->labels->name ) ) . ' (<code>' . esc_html( $post_type->name ) . '</code>)</h2>';
 		$view_utils->show_post_type_settings( $post_type );
@@ -53,7 +52,8 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $post_type ) {
 		$name = $post_type->name;
 		echo '<h3>' . esc_html( ucfirst( $post_type->labels->name ) ) . '</h3>';
-		$yform->index_switch( 'noindex-ptarchive-' . $name, __( 'Show this post type archive in search results?', 'wordpress-seo' ) );
+		/* translators: %s exapnds to the post type's name. */
+		$yform->index_switch( 'noindex-ptarchive-' . $name, sprintf( __( 'the archive for %s', 'wordpress-seo' ), $post_type->labels->name ) );
 		$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
 		if ( $options['breadcrumbs-enable'] === true ) {
