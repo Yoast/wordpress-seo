@@ -64,6 +64,7 @@ export default class SvgIcon extends React.Component {
 		/* eslint-enable max-len */
 
 		if ( ! path ) {
+			console.warn( "Invalid icon name passed to the SvgIcon component." );
 			return null;
 		}
 

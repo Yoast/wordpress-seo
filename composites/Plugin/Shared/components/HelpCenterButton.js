@@ -16,7 +16,7 @@ import SvgIcon from "../../Shared/components/SvgIcon";
 const HelpCenterButtonBase = ( props ) => {
 	return (
 		<YoastButton { ...props }>
-			<SvgIcon icon="questionCircle" color={ props.iconColor } />
+			<SvgIcon icon="question-circle" color={ props.iconColor } />
 			{ props.children }
 			<SvgIcon icon={ props.isExpanded ? "angle-up" : "angle-down" } color={ props.iconColor } />
 		</YoastButton>
