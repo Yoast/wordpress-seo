@@ -121,9 +121,7 @@ class WPSEO_Frontend {
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
-		if ( $this->options['redirectattachment'] === true ) {
-			add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
-		}
+		add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
 
 		/*
 		 * The setting to get here has been deprecated, but don't remove the code as that would break
@@ -1395,32 +1393,24 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * If the option to redirect attachments to their parent is checked, this performs the redirect.
+	 * If the option to disable attachment URLs is checked, this performs the redirect to the attachment.
 	 *
-	 * An extra check is done for when the attachment has no parent.
-	 *
-	 * @return boolean False when no redirect was triggered.
+	 * @return bool Returns succes status.
 	 */
 	public function attachment_redirect() {
-		global $post;
-
-		if ( ! is_object( $post ) || ! is_attachment() ) {
+		if ( $this->options['disable-attachment'] === false ) {
+			return false;
+		}
+		if ( ! is_attachment() ) {
 			return false;
 		}
 
-		$attachment = $post;
+		$url = wp_get_attachment_url( get_queried_object_id() );
 
-		if ( (int) $attachment->post_parent !== 0 ) {
-			$this->redirect( get_permalink( $attachment->post_parent ), 301 );
+		if ( ! empty( $url ) ) {
+			$this->redirect( $url, 301 );
 			return true;
 		}
-
-		/**
-		 * Filter: 'wpseo_redirect_orphan_attachment' - Allows for orphaned attachment to be redirected.
-		 *
-		 * @api WP_Post $attachment The attachment which misses a parent post.
-		 */
-		do_action( 'wpseo_redirect_orphan_attachment', $attachment );
 
 		return false;
 	}
@@ -1571,11 +1561,11 @@ class WPSEO_Frontend {
 			$before = '';
 			$after  = '';
 
-			if ( $this->options['rssbefore'] !== '' ) {
-				$before = wpautop( $this->rss_replace_vars( $this->options['rssbefore'] ) );
+			if ( WPSEO_Options::get( 'rssbefore', false ) ) {
+				$before = wpautop( $this->rss_replace_vars( WPSEO_Options::get( 'rssbefore' ) ) );
 			}
-			if ( $this->options['rssafter'] !== '' ) {
-				$after = wpautop( $this->rss_replace_vars( $this->options['rssafter'] ) );
+			if ( WPSEO_Options::get( 'rssafter', '' ) !== '' ) {
+				$after = wpautop( $this->rss_replace_vars( WPSEO_Options::get( 'rssafter' ) ) );
 			}
 			if ( $before !== '' || $after !== '' ) {
 				if ( ( isset( $context ) && $context === 'excerpt' ) && trim( $content ) !== '' ) {

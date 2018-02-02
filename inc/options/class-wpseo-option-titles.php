@@ -44,6 +44,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'disable-author'         => false,
 		'disable-date'           => false,
 		'disable-post_format'    => false,
+		'disable-attachment'     => false,
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
@@ -296,16 +297,15 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					 *  'bctitle-ptarchive-' . $pt->name
 					 */
 				case 'bctitle-ptarchive-':
-				/*
-				 * Covers: 'rssbefore', 'rssafter'
-				 */
+					/*
+					 * Covers: 'rssbefore', 'rssafter'
+					 */
 				case 'rssbefore':
 				case 'rssafter':
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
 					break;
-
 
 				/* Integer field - not in form. */
 				case 'title_test':

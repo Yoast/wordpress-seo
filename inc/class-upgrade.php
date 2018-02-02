@@ -76,7 +76,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $this->options['version'], '5.0', '>=' )
-		     && version_compare( $this->options['version'], '5.1', '<' )
+			 && version_compare( $this->options['version'], '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
@@ -135,6 +135,43 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Helper function to move a key from one option to another.
+	 *
+	 * @param string      $old_option Name of the "from" option.
+	 * @param string      $new_option Name of the "to" option.
+	 * @param string      $old_key    Name of the key in the "from" option.
+	 * @param string|null $new_key    Name of the key in the "to" option.
+	 */
+	private function move_key_to_other_option( $old_option, $new_option, $old_key, $new_key = null ) {
+		if ( $new_key === null ) {
+			$new_key = $old_key;
+		}
+
+		$old_options             = WPSEO_Options::get_option( $old_option );
+		$new_options             = WPSEO_Options::get_option( $new_option );
+		if ( isset( $old_options[ $old_key ] ) ) {
+			$new_options[ $new_key ] = $old_options[ $old_key ];
+			unset( $old_options[ $old_key ] );
+
+			update_option( $old_option, $old_options );
+			update_option( $new_option, $new_options );
+		}
+	}
+
+	/**
+	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
+	 */
+	private function finish_up() {
+		$this->options = WPSEO_Options::get_option( 'wpseo' );   // Re-get to make sure we have the latest version.
+		update_option( 'wpseo', $this->options );                     // This also ensures the DB version is equal to WPSEO_VERSION.
+
+		add_action( 'shutdown', 'flush_rewrite_rules' );                     // Just flush rewrites, always, to at least make them work after an upgrade.
+		WPSEO_Sitemaps_Cache::clear();                                       // Flush the sitemap cache.
+
+		WPSEO_Options::ensure_options_exist();                               // Make sure all our options always exist - issue #1245.
+	}
+
+	/**
 	 * Run the Yoast SEO 1.5 upgrade routine
 	 *
 	 * @param string $version Current plugin version.
@@ -155,7 +192,7 @@ class WPSEO_Upgrade {
 		 */
 		delete_option( 'wpseo_ms' );
 
-		$this->move_pinterest_option();
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_social', 'pinterestverify' );
 	}
 
 	/**
@@ -189,7 +226,12 @@ class WPSEO_Upgrade {
 		wp_clear_scheduled_hook( 'yoast_tracking' );
 
 		// Clear the tracking settings, the seen about setting and the ignore tour setting.
-		$this->remove_key_from_option( 'wpseo', array( 'tracking_popup_done', 'yoast_tracking', 'seen_about', 'ignore_tour' ) );
+		$this->remove_key_from_option( 'wpseo', array(
+			'tracking_popup_done',
+			'yoast_tracking',
+			'seen_about',
+			'ignore_tour',
+		) );
 	}
 
 	/**
@@ -258,34 +300,6 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Move the pinterest verification option from the wpseo option to the wpseo_social option
-	 */
-	private function move_pinterest_option() {
-		$options_social = get_option( 'wpseo_social' );
-		$option_wpseo   = get_option( 'wpseo' );
-
-		if ( isset( $option_wpseo['pinterestverify'] ) ) {
-			$options_social['pinterestverify'] = $option_wpseo['pinterestverify'];
-			unset( $option_wpseo['pinterestverify'] );
-			update_option( 'wpseo_social', $options_social );
-			update_option( 'wpseo', $option_wpseo );
-		}
-	}
-
-	/**
-	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
-	 */
-	private function finish_up() {
-		$this->options = WPSEO_Options::get_option( 'wpseo' );              // Re-get to make sure we have the latest version.
-		update_option( 'wpseo', $this->options );                           // This also ensures the DB version is equal to WPSEO_VERSION.
-
-		add_action( 'shutdown', 'flush_rewrite_rules' );                    // Just flush rewrites, always, to at least make them work after an upgrade.
-		WPSEO_Sitemaps_Cache::clear();                                 // Flush the sitemap cache.
-
-		WPSEO_Options::ensure_options_exist();                              // Make sure all our options always exist - issue #1245.
-	}
-
-	/**
 	 * Removes the about notice when its still in the database.
 	 */
 	private function upgrade_40() {
@@ -301,19 +315,8 @@ class WPSEO_Upgrade {
 	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
 	 */
 	private function upgrade_44() {
-		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
-		$option_wpseo  = WPSEO_Options::get_option( 'wpseo' );
-
-		if ( isset( $option_titles['content-analysis-active'] ) && isset( $option_titles['keyword-analysis-active'] ) ) {
-			$option_wpseo['content_analysis_active'] = $option_titles['content-analysis-active'];
-			unset( $option_titles['content-analysis-active'] );
-
-			$option_wpseo['keyword_analysis_active'] = $option_titles['keyword-analysis-active'];
-			unset( $option_titles['keyword-analysis-active'] );
-
-			update_option( 'wpseo_titles', $option_titles );
-			update_option( 'wpseo', $option_wpseo );
-		}
+		$this->move_key_to_other_option( 'wpseo_titles', 'wpseo', 'content-analysis-active', 'content_analysis_active' );
+		$this->move_key_to_other_option( 'wpseo_titles', 'wpseo', 'keyword-analysis-active', 'keyword_analysis_active' );
 	}
 
 	/**
@@ -474,10 +477,10 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_63() {
-		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
-		unset( $option_titles['noindex-subpages-wpseo'], $option_titles['usemetakeywords'] );
+		$this->remove_key_from_option( 'wpseo_titles', array( 'noindex-subpages-wpseo', 'usemetakeywords' ) );
 
 		// Remove all the meta keyword template options we've stored.
+		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
 		foreach ( array_keys( $option_titles ) as $key ) {
 			if ( strpos( $key, 'metakey' ) === 0 ) {
 				unset( $option_titles[ $key ] );
@@ -490,14 +493,19 @@ class WPSEO_Upgrade {
 	 * Perform the 6.4 upgrade, moves XML setting to WPSEO, deletes WPSEO_XML option.
 	 */
 	private function upgrade_64() {
-		$this->remove_key_from_option( 'wpseo_permalinks', array( 'cleanslugs', 'cleanpermalinks', 'cleanpermalink-extravars', 'cleanpermalink-googlecampaign', 'cleanpermalink-googlesitesearch' ) );
+		$this->move_key_to_other_option( 'wpseo_permalinks', 'wpseo_titles', 'redirectattachment', 'disable-attachment' );
+		$this->move_key_to_other_option( 'wpseo_xml', 'wpseo', 'enablexmlsitemap', 'enable_xml_sitemap' );
+		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssbefore' );
+		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssafter' );
 
-		// Move the option to enable XML sitemaps.
-		$wpseo_options                       = WPSEO_Options::get_option( 'wpseo' );
-		$wpseo_xml_options                   = WPSEO_Options::get_option( 'wpseo_xml' );
-		$wpseo_options['enable_xml_sitemap'] = $wpseo_xml_options['enablexmlsitemap'];
-
-		update_option( 'wpseo', $wpseo_options );
+		$this->remove_key_from_option( 'wpseo_permalinks', array(
+			'cleanslugs',
+			'cleanpermalinks',
+			'cleanpermalink-extravars',
+			'cleanpermalink-googlecampaign',
+			'cleanpermalink-googlesitesearch',
+			'redirectattachment',
+		) );
 
 		// Delete the WPSEO XML and WPSEO RSS option.
 		delete_option( 'wpseo_xml' );

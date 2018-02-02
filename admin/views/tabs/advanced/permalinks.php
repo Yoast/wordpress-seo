@@ -23,10 +23,6 @@ $yform->light_switch(
 	false
 );
 
-$redirect_buttons = array( __( 'No redirect', 'wordpress-seo' ), __( 'Redirect', 'wordpress-seo' ) );
-$yform->light_switch( 'redirectattachment', __( 'Redirect attachment URLs to parent post URL.', 'wordpress-seo' ), $redirect_buttons );
-echo '<p>' . esc_html__( 'Attachments to posts are stored in the database as posts, this means they\'re accessible under their own URLs if you do not redirect them, enabling this will redirect them to the post they were attached to.', 'wordpress-seo' ) . '</p>';
-
 echo '<h2>', esc_html__( 'Clean up permalinks', 'wordpress-seo' ), '</h2>';
 /* translators: %s expands to <code>?replytocom</code> */
 $yform->light_switch( 'cleanreplytocom', sprintf( __( 'Remove the %s variables.', 'wordpress-seo' ), '<code>?replytocom</code>' ), $remove_buttons, false );

@@ -9,7 +9,6 @@
  * Instantiates all the options and offers a number of utility methods to work with the options.
  */
 class WPSEO_Options {
-
 	/**
 	 * @var  array  Options this class uses.
 	 *              Array format:  (string) option_name  => (string) name of concrete class for the option
@@ -24,17 +23,14 @@ class WPSEO_Options {
 		'wpseo_ms'            => 'WPSEO_Option_MS',
 		'wpseo_taxonomy_meta' => 'WPSEO_Taxonomy_Meta',
 	);
-
 	/**
 	 * @var  array   Array of instantiated option objects.
 	 */
 	protected static $option_instances = array();
-
 	/**
 	 * @var  object  Instance of this class.
 	 */
 	protected static $instance;
-
 
 	/**
 	 * Instantiate all the WPSEO option management classes.
@@ -215,6 +211,37 @@ class WPSEO_Options {
 	}
 
 	/**
+	 * Retrieve a single field from any option for the SEO plugin. Keys are always unique.
+	 *
+	 * @param string $key     The key it should return.
+	 * @param mixed  $default The default value that should be returned if the key isn't set.
+	 *
+	 * @return mixed|null Returns value if found, $default if not.
+	 */
+	public static function get( $key, $default = null ) {
+		$option = self::get_all();
+		if ( isset( $option[ $key ] ) ) {
+			return $option[ $key ];
+		}
+
+		return $default;
+	}
+
+	/**
+	 * Retrieve a single field from an option for the SEO plugin.
+	 *
+	 * @param string $key   The key to set.
+	 * @param mixed  $value The value to set.
+	 *
+	 * @return mixed|null Returns value if found, $default if not.
+	 */
+	public static function set( $key, $value ) {
+		$lookup_table = self::get_lookup_table();
+
+		return self::save_option( $lookup_table[ $key ], $key, $value );
+	}
+
+	/**
 	 * Get an option only if it's been auto-loaded.
 	 *
 	 * @static
@@ -270,7 +297,6 @@ class WPSEO_Options {
 			delete_option( 'wpseo_indexation' );
 		}
 	}
-
 
 	/**
 	 * Check that all options exist in the database and add any which don't.
@@ -414,63 +440,24 @@ class WPSEO_Options {
 
 		// Check if everything got saved properly.
 		$saved_option = self::get_option( $wpseo_options_group_name );
+
 		return $saved_option[ $option_name ] === $options[ $option_name ];
 	}
 
-	/********************** DEPRECATED FUNCTIONS **********************/
-
-	// @codeCoverageIgnoreStart
 	/**
-	 * Check whether the current user is allowed to access the configuration.
+	 * Retrieves a lookup table to find in which option_group a key is stored.
 	 *
-	 * @deprecated 1.5.6.1
-	 * @deprecated use WPSEO_Utils::grant_access()
-	 * @see        WPSEO_Utils::grant_access()
-	 *
-	 * @return boolean
+	 * @return array The lookup table.
 	 */
-	public static function grant_access() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::grant_access()' );
+	private static function get_lookup_table() {
+		$lookup_table = array();
+		foreach ( array_keys( self::$options ) as $option_name ) {
+			$full_option = self::get_option( $option_name );
+			foreach ( $full_option as $key => $value ) {
+				$lookup_table[ $key ] = $option_name;
+			}
+		}
 
-		return WPSEO_Utils::grant_access();
+		return $lookup_table;
 	}
-
-	/**
-	 * Clears the WP or W3TC cache depending on which is used.
-	 *
-	 * @deprecated 1.5.6.1
-	 * @deprecated use WPSEO_Utils::clear_cache()
-	 * @see        WPSEO_Utils::clear_cache()
-	 */
-	public static function clear_cache() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::clear_cache()' );
-		WPSEO_Utils::clear_cache();
-	}
-
-
-	/**
-	 * Flush W3TC cache after succesfull update/add of taxonomy meta option.
-	 *
-	 * @deprecated 1.5.6.1
-	 * @deprecated use WPSEO_Utils::flush_w3tc_cache()
-	 * @see        WPSEO_Utils::flush_w3tc_cache()
-	 */
-	public static function flush_w3tc_cache() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::flush_w3tc_cache()' );
-		WPSEO_Utils::flush_w3tc_cache();
-	}
-
-
-	/**
-	 * Clear rewrite rules.
-	 *
-	 * @deprecated 1.5.6.1
-	 * @deprecated use WPSEO_Utils::clear_rewrites()
-	 * @see        WPSEO_Utils::clear_rewrites()
-	 */
-	public static function clear_rewrites() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::clear_rewrites()' );
-		WPSEO_Utils::clear_rewrites();
-	}
-	// @codeCoverageIgnoreEnd
 }
