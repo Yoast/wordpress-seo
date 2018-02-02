@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the Icon matches the snapshot 1`] = `
+.c0 {
+  width: 44px;
+  height: 44px;
+  fill: red;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+<svg
+  aria-hidden="true"
+  className="c0"
+  focusable="false"
+  height="1792"
+  role="img"
+  viewBox="0 0 1792 1792"
+  width="1792"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+  />
+</svg>
+`;
