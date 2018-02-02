@@ -9,13 +9,6 @@
 class WPSEO_Admin_Init {
 
 	/**
-	 * Holds the Yoast SEO Options
-	 *
-	 * @var array
-	 */
-	private $options;
-
-	/**
 	 * Holds the global `$pagenow` variable's value.
 	 *
 	 * @var string
@@ -33,8 +26,6 @@ class WPSEO_Admin_Init {
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_option( 'wpseo' );
-
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
 
 		$this->pagenow = $GLOBALS['pagenow'];
@@ -563,7 +554,7 @@ class WPSEO_Admin_Init {
 	 * See if we should start our XML Sitemaps Admin class
 	 */
 	private function load_xml_sitemaps_admin() {
-		if ( $this->options['enable_xml_sitemap'] === true ) {
+		if ( WPSEO_Options::get_option_value( 'wpseo', 'enable_xml_sitemap' ) === true ) {
 			new WPSEO_Sitemaps_Admin();
 		}
 	}
