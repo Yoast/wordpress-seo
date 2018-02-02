@@ -640,11 +640,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 		unset( $canonical );
 
-		$options = $this->get_options();
-		if ( $options['trailingslash'] === true && $post->post_type !== 'post' ) {
-			$url['loc'] = trailingslashit( $url['loc'] );
-		}
-
 		$url['pri']    = 1; // Deprecated, kept for backwards data compat. R.
 		$url['images'] = $this->get_image_parser()->get_images( $post );
 

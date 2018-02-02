@@ -502,7 +502,9 @@ class WPSEO_Upgrade {
 			'cleanpermalink-extravars',
 			'cleanpermalink-googlecampaign',
 			'cleanpermalink-googlesitesearch',
+			'cleanreplytocom',
 			'redirectattachment',
+			'trailingslash',
 		) );
 
 		// Delete the WPSEO XML option.
