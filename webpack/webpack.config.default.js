@@ -17,7 +17,7 @@ const defaultWebpackConfig = {
 		path: paths.jsDist,
 		filename: outputFilename,
 		jsonpFunction: "yoastWebpackJsonp",
-		chunkFilename: "chunks/[name].js",
+		chunkFilename: "chunks/[name].min.js",
 		publicPath: "/wp-content/plugins/wordpress-seo/js/dist/",
 	},
 	resolve: {
@@ -31,7 +31,7 @@ const defaultWebpackConfig = {
 					{
 						loader: "babel-loader",
 					},
-				],
+				],git statu
 			},
 			{
 				test: /.svg$/,
