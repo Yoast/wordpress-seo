@@ -201,6 +201,27 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
+	 * Tests whether an author, when set to not appear in search results, gets a noindex.
+	 *
+	 * @covers WPSEO_Frontend::robots()
+	 */
+	public function test_individual_archive_noindex() {
+		// Go to author page.
+		$user_id = $this->factory->user->create();
+		update_user_meta( $user_id, 'wpseo_noindex_author', 'on' );
+		$this->go_to( get_author_posts_url( $user_id ) );
+
+		$expected = 'noindex,follow';
+		$this->assertEquals( $expected, self::$class_instance->robots() );
+
+		// Test that when this is _not_ set, we also do NOT have a noindex.
+		$user_id = $this->factory->user->create();
+		$this->go_to( get_author_posts_url( $user_id ) );
+		$expected = ''; // index,follow is automatically set to empty string.
+		$this->assertEquals( $expected, self::$class_instance->robots() );
+	}
+
+	/**
 	 * This test was broken when it was located in test-class-wpseo-frontend.php.
 	 *
 	 * @covers WPSEO_Frontend::robots
