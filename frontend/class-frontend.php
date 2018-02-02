@@ -1395,7 +1395,7 @@ class WPSEO_Frontend {
 	/**
 	 * If the option to disable attachment URLs is checked, this performs the redirect to the attachment.
 	 *
-	 * @return bool Returns succes status
+	 * @return bool Returns succes status.
 	 */
 	public function attachment_redirect() {
 		if ( $this->options['disable-attachment'] === false ) {

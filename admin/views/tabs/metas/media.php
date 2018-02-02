@@ -25,6 +25,9 @@ $yform->toggle_switch( 'disable-attachment', array(
 
 ?>
 	<div id="media_settings">
+		<br/>
+		<br/>
+
 		<?php
 		$view_utils = new Yoast_View_Utils();
 		$view_utils->show_post_type_settings( 'attachment' ); ?>

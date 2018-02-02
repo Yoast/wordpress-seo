@@ -25,7 +25,7 @@ $view_utils = new Yoast_View_Utils();
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $post_type ) {
 		echo '<div id="' . esc_attr( $post_type->name . '-titles-metas' ) . '">';
-		echo '<h2 id="' . esc_attr( $post_type->name ) . '">' . esc_html( ucfirst( $post_type->labels->name ) ) . ' (<code>' . esc_html( $post_type->name ) . '</code>)</h2>';
+		echo '<h2 id="' . esc_attr( $post_type->name ) . '">' . esc_html( $post_type->labels->name ) . ' (<code>' . esc_html( $post_type->name ) . '</code>)</h2>';
 		$view_utils->show_post_type_settings( $post_type );
 		echo '</div>';
 		/**
