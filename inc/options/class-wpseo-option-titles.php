@@ -297,6 +297,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					 *  'bctitle-ptarchive-' . $pt->name
 					 */
 				case 'bctitle-ptarchive-':
+					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
+					}
+					break;
+
 					/*
 					 * Covers: 'rssbefore', 'rssafter'
 					 */
