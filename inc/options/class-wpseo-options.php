@@ -9,7 +9,6 @@
  * Instantiates all the options and offers a number of utility methods to work with the options.
  */
 class WPSEO_Options {
-
 	/**
 	 * @var  array  Options this class uses.
 	 *              Array format:  (string) option_name  => (string) name of concrete class for the option
@@ -25,17 +24,14 @@ class WPSEO_Options {
 		'wpseo_ms'            => 'WPSEO_Option_MS',
 		'wpseo_taxonomy_meta' => 'WPSEO_Taxonomy_Meta',
 	);
-
 	/**
 	 * @var  array   Array of instantiated option objects.
 	 */
 	protected static $option_instances = array();
-
 	/**
 	 * @var  object  Instance of this class.
 	 */
 	protected static $instance;
-
 
 	/**
 	 * Instantiate all the WPSEO option management classes.
@@ -229,14 +225,15 @@ class WPSEO_Options {
 		if ( isset( $option[ $key ] ) ) {
 			return $option[ $key ];
 		}
+
 		return $default;
 	}
 
 	/**
 	 * Retrieve a single field from any option for the SEO plugin. Keys are always unique.
 	 *
-	 * @param string $key         The key it should return.
-	 * @param mixed  $default     The default value that should be returned if the key isn't set.
+	 * @param string $key     The key it should return.
+	 * @param mixed  $default The default value that should be returned if the key isn't set.
 	 *
 	 * @return mixed|null Returns value if found, $default if not.
 	 */
@@ -245,6 +242,7 @@ class WPSEO_Options {
 		if ( isset( $option[ $key ] ) ) {
 			return $option[ $key ];
 		}
+
 		return $default;
 	}
 
@@ -258,7 +256,8 @@ class WPSEO_Options {
 	 */
 	public static function set( $key, $value ) {
 		$lookup_table = self::get_lookup_table();
-		return self::save_option( $lookup_table[ $key ],$key, $value );
+
+		return self::save_option( $lookup_table[ $key ], $key, $value );
 	}
 
 	/**
@@ -317,7 +316,6 @@ class WPSEO_Options {
 			delete_option( 'wpseo_indexation' );
 		}
 	}
-
 
 	/**
 	 * Check that all options exist in the database and add any which don't.
@@ -461,6 +459,7 @@ class WPSEO_Options {
 
 		// Check if everything got saved properly.
 		$saved_option = self::get_option( $wpseo_options_group_name );
+
 		return $saved_option[ $option_name ] === $options[ $option_name ];
 	}
 
@@ -471,9 +470,9 @@ class WPSEO_Options {
 	 */
 	private static function get_lookup_table() {
 		$lookup_table = array();
-		foreach( array_keys( self::$options ) as $option_name ) {
+		foreach ( array_keys( self::$options ) as $option_name ) {
 			$full_option = self::get_option( $option_name );
-			foreach( $full_option as $key => $value ) {
+			foreach ( $full_option as $key => $value ) {
 				$lookup_table[ $key ] = $option_name;
 			}
 		}
@@ -512,7 +511,6 @@ class WPSEO_Options {
 		WPSEO_Utils::clear_cache();
 	}
 
-
 	/**
 	 * Flush W3TC cache after succesfull update/add of taxonomy meta option.
 	 *
@@ -524,7 +522,6 @@ class WPSEO_Options {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::flush_w3tc_cache()' );
 		WPSEO_Utils::flush_w3tc_cache();
 	}
-
 
 	/**
 	 * Clear rewrite rules.
