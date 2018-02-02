@@ -38,8 +38,8 @@ class Yoast_View_Utils {
 			'title-' . $post_type->name,
 			__( 'Title template', 'wordpress-seo' ),
 			'template posttype-template'
-		)
-;
+		);
+
 		$this->form->textarea(
 			'metadesc-' . $post_type->name,
 			__( 'Meta description template', 'wordpress-seo' ),
