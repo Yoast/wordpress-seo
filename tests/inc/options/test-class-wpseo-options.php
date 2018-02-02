@@ -206,7 +206,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 			$option_keys = array_keys( WPSEO_Options::get_option( $option_name ) );
 			$intersected = array_intersect( $option_keys, $keys );
 
-			$this->assertEquals( array(), $intersected, 'Option keys must be unique.' );
+			$this->assertEquals( array(), $intersected, 'Option keys must be unique (' . $option_name . ').' );
 
 			$keys = array_merge( $keys, $option_keys );
 		}
