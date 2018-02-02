@@ -107,7 +107,8 @@ class WPSEO_Admin_Init {
 		$notification_center = Yoast_Notification_Center::get();
 		if ( $this->has_default_tagline() ) {
 			$notification_center->add_notification( $tagline_notification );
-		} else {
+		}
+		else {
 			$notification_center->remove_notification( $tagline_notification );
 		}
 	}
@@ -137,7 +138,8 @@ class WPSEO_Admin_Init {
 		$notification_center = Yoast_Notification_Center::get();
 		if ( ! $this->is_blog_public() ) {
 			$notification_center->add_notification( $notification );
-		} else {
+		}
+		else {
 			$notification_center->remove_notification( $notification );
 		}
 	}
@@ -168,7 +170,8 @@ class WPSEO_Admin_Init {
 		$notification_center = Yoast_Notification_Center::get();
 		if ( $this->has_page_comments() ) {
 			$notification_center->add_notification( $tagline_notification );
-		} else {
+		}
+		else {
 			$notification_center->remove_notification( $tagline_notification );
 		}
 	}
@@ -215,7 +218,8 @@ class WPSEO_Admin_Init {
 		$notification_center = Yoast_Notification_Center::get();
 		if ( ! $this->has_postname_in_permalink() ) {
 			$notification_center->add_notification( $notification );
-		} else {
+		}
+		else {
 			$notification_center->remove_notification( $notification );
 		}
 	}
@@ -240,7 +244,8 @@ class WPSEO_Admin_Init {
 
 		if ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION ) {
 			$notification_center->add_notification( $notification );
-		} else {
+		}
+		else {
 			$notification_center->remove_notification( $notification );
 		}
 	}
