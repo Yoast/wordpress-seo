@@ -621,7 +621,7 @@ class Yoast_Form {
 		);
 
 		/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
-		$this->toggle_switch( $var, $index_switch_values, sprintf( __( 'Allow search engines to show %s in search results?', 'wordpress-seo' ), '<strong>' . strtolower( $label ) . '</strong>' ) );
+		$this->toggle_switch( $var, $index_switch_values, sprintf( esc_html__( 'Allow search engines to show %s in search results?', 'wordpress-seo' ), '<strong>' . esc_html( $label ) . '</strong>' ) );
 	}
 
 	/**
@@ -637,6 +637,7 @@ class Yoast_Form {
 			'on'  => __( 'Show', 'wordpress-seo' ),
 			'off' => __( 'Hide', 'wordpress-seo' ),
 		);
+
 		$this->toggle_switch( $var, $show_hide_switch, $label );
 	}
 }

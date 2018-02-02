@@ -46,6 +46,7 @@ class WPSEO_Post_Type {
 		if ( array_key_exists( 'disable-' . $post_type_name, $option ) && $option[ 'disable-' . $post_type_name ] ) {
 			return false;
 		}
+
 		if ( ! array_key_exists( 'noindex-' . $post_type_name, $option ) ) {
 			return false;
 		}

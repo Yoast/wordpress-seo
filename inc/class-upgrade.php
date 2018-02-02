@@ -192,7 +192,7 @@ class WPSEO_Upgrade {
 		 */
 		delete_option( 'wpseo_ms' );
 
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_social','pinterestverify' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_social', 'pinterestverify' );
 	}
 
 	/**

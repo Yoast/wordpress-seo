@@ -15,6 +15,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * making it very hard to restore the setting again.
  */
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
+
 // We'll show attachments on the Media tab.
 $post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );
 
@@ -46,6 +47,7 @@ $post_types = get_post_types(
 	),
 	'objects'
 );
+
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	echo '<h2>' . esc_html__( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
 	echo '<p>' . esc_html__( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';
