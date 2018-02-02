@@ -20,51 +20,8 @@ class WPSEO_Sitemaps_Admin {
 		add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
 		add_action( 'admin_footer', array( $this, 'status_transition_bulk_finished' ) );
 
-		add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
-
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo_titles', '' );
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo', '' );
-	}
-
-	/**
-	 * Find sitemaps residing on disk as they will block our rewrite.
-	 *
-	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
-
-	 * @deprecated since 3.1 in favor of 'detect_blocking_filesystem_sitemaps'
-	 */
-	public function delete_sitemaps() {
-		/**
-		 * When removing this, make sure the 'admin_init' action is replaced with the following function:
-		 */
-		$this->detect_blocking_filesystem_sitemaps();
-	}
-
-	/**
-	 * Find sitemaps residing on disk as they will block our rewrite.
-	 *
-	 * @deprecated since 6.4
-	 */
-	public function detect_blocking_filesystem_sitemaps() {
-		$wpseo_options = WPSEO_Options::get_option( 'wpseo' );
-
-		if ( $wpseo_options['enable_xml_sitemap'] !== true ) {
-			return;
-		}
-
-		// Find all files and directories containing 'sitemap' and are post-fixed .xml.
-		$blocking_files = glob( ABSPATH . '*sitemap*.xml', ( GLOB_NOSORT | GLOB_MARK ) );
-
-		if ( false === $blocking_files ) { // Some systems might return error on no matches.
-			$blocking_files = array();
-		}
-
-		// Save if we have changes.
-		if ( $wpseo_options['blocking_files'] !== $blocking_files ) {
-			$wpseo_options['blocking_files'] = $blocking_files;
-
-			update_option( 'wpseo', $wpseo_options );
-		}
 	}
 
 	/**
@@ -185,4 +142,25 @@ class WPSEO_Sitemaps_Admin {
 
 		WPSEO_Sitemaps::ping_search_engines();
 	}
+
+	// @codeCoverageIgnoreStart
+	/**
+	 * Find sitemaps residing on disk as they will block our rewrite.
+	 *
+	 * @deprecated 6.4
+	 *
+	 */
+	public function delete_sitemaps() {
+		_deprecated_function( 'WPSEO_Sitemaps_Admin::delete_sitemaps', '6.4', null );
+	}
+
+	/**
+	 * Find sitemaps residing on disk as they will block our rewrite.
+	 *
+	 * @deprecated since 6.4
+	 */
+	public function detect_blocking_filesystem_sitemaps() {
+		_deprecated_function( 'WPSEO_Sitemaps_Admin::delete_sitemaps', '6.4', null );
+	}
+	// @codeCoverageIgnoreEnd
 } /* End of class */
