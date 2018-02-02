@@ -212,24 +212,6 @@ class WPSEO_Options {
 	}
 
 	/**
-	 * Retrieve a single field from an option for the SEO plugin.
-	 *
-	 * @param string $option_name The option the key should come from.
-	 * @param string $key         The key it should return.
-	 * @param mixed  $default     The default value that should be returned if the key isn't set.
-	 *
-	 * @return mixed|null Returns value if found, $default if not.
-	 */
-	public static function get_option_value( $option_name, $key, $default = null ) {
-		$option = self::get_option( $option_name );
-		if ( isset( $option[ $key ] ) ) {
-			return $option[ $key ];
-		}
-
-		return $default;
-	}
-
-	/**
 	 * Retrieve a single field from any option for the SEO plugin. Keys are always unique.
 	 *
 	 * @param string $key     The key it should return.
@@ -479,60 +461,4 @@ class WPSEO_Options {
 
 		return $lookup_table;
 	}
-
-
-	/********************** DEPRECATED FUNCTIONS **********************/
-
-	// @codeCoverageIgnoreStart
-	/**
-	 * Check whether the current user is allowed to access the configuration.
-	 *
-	 * @deprecated 1.5.6.1
-	 * @deprecated use WPSEO_Utils::grant_access()
-	 * @see        WPSEO_Utils::grant_access()
-	 *
-	 * @return boolean
-	 */
-	public static function grant_access() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::grant_access()' );
-
-		return WPSEO_Utils::grant_access();
-	}
-
-	/**
-	 * Clears the WP or W3TC cache depending on which is used.
-	 *
-	 * @deprecated 1.5.6.1
-	 * @deprecated use WPSEO_Utils::clear_cache()
-	 * @see        WPSEO_Utils::clear_cache()
-	 */
-	public static function clear_cache() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::clear_cache()' );
-		WPSEO_Utils::clear_cache();
-	}
-
-	/**
-	 * Flush W3TC cache after succesfull update/add of taxonomy meta option.
-	 *
-	 * @deprecated 1.5.6.1
-	 * @deprecated use WPSEO_Utils::flush_w3tc_cache()
-	 * @see        WPSEO_Utils::flush_w3tc_cache()
-	 */
-	public static function flush_w3tc_cache() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::flush_w3tc_cache()' );
-		WPSEO_Utils::flush_w3tc_cache();
-	}
-
-	/**
-	 * Clear rewrite rules.
-	 *
-	 * @deprecated 1.5.6.1
-	 * @deprecated use WPSEO_Utils::clear_rewrites()
-	 * @see        WPSEO_Utils::clear_rewrites()
-	 */
-	public static function clear_rewrites() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::clear_rewrites()' );
-		WPSEO_Utils::clear_rewrites();
-	}
-	// @codeCoverageIgnoreEnd
 }
