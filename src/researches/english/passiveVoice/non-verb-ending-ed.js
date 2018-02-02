@@ -461,6 +461,7 @@ module.exports = function() {
 		"flatbed",
 		"flatfooted",
 		"flatted",
+		"flawed",
 		"flaxenhaired",
 		"flaxseed",
 		"flaxweed",

@@ -3,6 +3,8 @@ var precedesIndex = require( "./precedesIndex" );
 var arrayToRegex = require( "./createRegexFromArray.js" );
 var cannotBeBetweenAuxiliaryAndParticipleFrench = require( "../researches/french/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 var cannotBeBetweenAuxiliaryAndParticipleEnglish = require( "../researches/english/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+var cannotBeBetweenAuxiliaryAndParticipleSpanish = require( "../researches/spanish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+
 
 /**
  * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
@@ -19,6 +21,9 @@ module.exports = function( sentencePart, participleIndex ) {
 	switch ( this.constructor.name ) {
 		case "FrenchParticiple":
 			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleFrench );
+			break;
+		case "SpanishParticiple":
+			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleSpanish );
 			break;
 		case "EnglishParticiple":
 		default:
