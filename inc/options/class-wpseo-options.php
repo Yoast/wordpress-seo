@@ -233,6 +233,35 @@ class WPSEO_Options {
 	}
 
 	/**
+	 * Retrieve a single field from any option for the SEO plugin. Keys are always unique.
+	 *
+	 * @param string $key         The key it should return.
+	 * @param mixed  $default     The default value that should be returned if the key isn't set.
+	 *
+	 * @return mixed|null Returns value if found, $default if not.
+	 */
+	public static function get( $key, $default = null ) {
+		$option = self::get_all();
+		if ( isset( $option[ $key ] ) ) {
+			return $option[ $key ];
+		}
+		return $default;
+	}
+
+	/**
+	 * Retrieve a single field from an option for the SEO plugin.
+	 *
+	 * @param string $key   The key to set.
+	 * @param mixed  $value The value to set.
+	 *
+	 * @return mixed|null Returns value if found, $default if not.
+	 */
+	public static function set( $key, $value ) {
+		$lookup_table = self::get_lookup_table();
+		return self::save_option( $lookup_table[ $key ],$key, $value );
+	}
+
+	/**
 	 * Get an option only if it's been auto-loaded.
 	 *
 	 * @static
@@ -434,6 +463,24 @@ class WPSEO_Options {
 		$saved_option = self::get_option( $wpseo_options_group_name );
 		return $saved_option[ $option_name ] === $options[ $option_name ];
 	}
+
+	/**
+	 * Retrieves a lookup table to find in which option_group a key is stored.
+	 *
+	 * @return array The lookup table.
+	 */
+	private static function get_lookup_table() {
+		$lookup_table = array();
+		foreach( array_keys( self::$options ) as $option_name ) {
+			$full_option = self::get_option( $option_name );
+			foreach( $full_option as $key => $value ) {
+				$lookup_table[ $key ] = $option_name;
+			}
+		}
+
+		return $lookup_table;
+	}
+
 
 	/********************** DEPRECATED FUNCTIONS **********************/
 
