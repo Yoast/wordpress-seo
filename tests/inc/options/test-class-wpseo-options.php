@@ -195,4 +195,20 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 		$result = WPSEO_Options::get( 'show_onboarding_notice' );
 		$this->assertTrue( $result );
 	}
+
+	/**
+	 * Tests if unique keys are used in all options.
+	 */
+	public function test_make_sure_keys_are_unique_over_options() {
+		$keys = array();
+
+		foreach ( array_keys( WPSEO_Options::$options ) as $option_name ) {
+			$option_keys = array_keys( WPSEO_Options::get_option( $option_name ) );
+			$intersected = array_intersect( $option_keys, $keys );
+
+			$this->assertEquals( array(), $intersected, 'Option keys must be unique.' );
+
+			$keys = array_merge( $keys, $option_keys );
+		}
+	}
 }
