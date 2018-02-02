@@ -790,7 +790,6 @@ class WPSEO_Frontend {
 			$robots['index'] = 'noindex';
 		}
 
-
 		$robotsstr = $robots['index'] . ',' . $robots['follow'];
 
 		if ( $robots['other'] !== array() ) {
@@ -812,6 +811,10 @@ class WPSEO_Frontend {
 			echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";
 		}
 
+		// If a page has a noindex, it should _not_ have a canonical, as these are opposing indexing directives.
+		if ( $robots['index'] === 'noindex' ) {
+			remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
+		}
 		return $robotsstr;
 	}
 
