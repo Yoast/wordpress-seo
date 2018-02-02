@@ -27,7 +27,7 @@ $wpseo_up_settings_header = sprintf( __( '%1$s settings', 'wordpress-seo' ), 'Yo
 	<label class="yoast-label-strong"
 		   for="wpseo_noindex_author"><?php printf( esc_html__( 'Do not allow search engines to show %s in search results.', 'wordpress-seo' ), __( 'this author\'s archives', 'wordpress-seo' ) ); ?></label><br>
 
-	<?php if ( WPSEO_Options::get( 'keyword_analysis_active', false ) ): ?>
+	<?php if ( WPSEO_Options::get( 'keyword_analysis_active', false ) ) : ?>
 		<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_keyword_analysis_disable"
 			   name="wpseo_keyword_analysis_disable" aria-describedby="wpseo_keyword_analysis_disable_desc"
 			   value="on" <?php echo ( get_the_author_meta( 'wpseo_keyword_analysis_disable', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
@@ -39,7 +39,7 @@ $wpseo_up_settings_header = sprintf( __( '%1$s settings', 'wordpress-seo' ), 'Yo
 		</p>
 	<?php endif; ?>
 
-	<?php if ( WPSEO_Options::get( 'content_analysis_active', false ) ): ?>
+	<?php if ( WPSEO_Options::get( 'content_analysis_active', false ) ) : ?>
 		<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_content_analysis_disable"
 			   name="wpseo_content_analysis_disable" aria-describedby="wpseo_content_analysis_disable_desc"
 			   value="on" <?php echo ( get_the_author_meta( 'wpseo_content_analysis_disable', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
