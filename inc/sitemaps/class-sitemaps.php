@@ -92,8 +92,8 @@ class WPSEO_Sitemaps {
 
 		$this->providers = array(
 			new WPSEO_Post_Type_Sitemap_Provider(),
-			new WPSEO_Taxonomy_Sitemap_Provider(),
 			new WPSEO_Author_Sitemap_Provider(),
+			new WPSEO_Taxonomy_Sitemap_Provider(),
 		);
 
 		$external_providers = apply_filters( 'wpseo_sitemaps_providers', array() );
