@@ -18,24 +18,27 @@ if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
 	$yform->light_switch( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
 	echo '<br/>';
 }
+
 echo '<div id="breadcrumbsinfo">';
+
 $yform->textinput( 'breadcrumbs-sep', __( 'Separator between breadcrumbs', 'wordpress-seo' ) );
 $yform->textinput( 'breadcrumbs-home', __( 'Anchor text for the Homepage', 'wordpress-seo' ) );
 $yform->textinput( 'breadcrumbs-prefix', __( 'Prefix for the breadcrumb path', 'wordpress-seo' ) );
 $yform->textinput( 'breadcrumbs-archiveprefix', __( 'Prefix for Archive breadcrumbs', 'wordpress-seo' ) );
 $yform->textinput( 'breadcrumbs-searchprefix', __( 'Prefix for Search Page breadcrumbs', 'wordpress-seo' ) );
 $yform->textinput( 'breadcrumbs-404crumb', __( 'Breadcrumb for 404 Page', 'wordpress-seo' ) );
+
 echo '<br/>';
+
 if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) > 0 ) {
-	$yform->toggle_switch( 'breadcrumbs-blog-remove', array(
-		'off' => __( 'Show', 'wordpress-seo' ),
-		'on'  => __( 'Hide', 'wordpress-seo' ),
-	), __( 'Show Blog page', 'wordpress-seo' ) );
+	$yform->show_hide_switch( 'breadcrumbs-blog-remove', __( 'Show Blog page', 'wordpress-seo' ) );
 }
+
 $yform->toggle_switch( 'breadcrumbs-boldlast', array(
 	'on'  => __( 'Bold', 'wordpress-seo' ),
 	'off' => __( 'Regular', 'wordpress-seo' ),
 ), __( 'Bold the last page', 'wordpress-seo' ) );
+
 echo '<br/><br/>';
 
 /*
@@ -68,6 +71,7 @@ $taxonomies = get_taxonomies(
 	),
 	'objects'
 );
+
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	echo '<h2>' . esc_html__( 'Post type archive to show in breadcrumbs for taxonomies', 'wordpress-seo' ) . '</h2>';
 	foreach ( $taxonomies as $tax ) {

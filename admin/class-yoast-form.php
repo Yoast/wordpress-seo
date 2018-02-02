@@ -605,4 +605,39 @@ class Yoast_Form {
 
 		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
 	}
+
+	/**
+	 * Creates a toggle switch to define whether an indexable should be indexed or not.
+	 *
+	 * @param string $var    The variable within the option to create the radio buttons for.
+	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
+	 *
+	 * @return void
+	 */
+	public function index_switch( $var, $label ) {
+		$index_switch_values = array(
+			'off' => __( 'Yes', 'wordpress-seo' ),
+			'on'  => __( 'No', 'wordpress-seo' ),
+		);
+
+		/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
+		$this->toggle_switch( $var, $index_switch_values, sprintf( esc_html__( 'Allow search engines to show %s in search results?', 'wordpress-seo' ), '<strong>' . esc_html( $label ) . '</strong>' ) );
+	}
+
+	/**
+	 * Creates a toggle switch to show hide certain options.
+	 *
+	 * @param string $var    The variable within the option to create the radio buttons for.
+	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
+	 *
+	 * @return void
+	 */
+	public function show_hide_switch( $var, $label ) {
+		$show_hide_switch = array(
+			'on'  => __( 'Show', 'wordpress-seo' ),
+			'off' => __( 'Hide', 'wordpress-seo' ),
+		);
+
+		$this->toggle_switch( $var, $show_hide_switch, $label );
+	}
 }
