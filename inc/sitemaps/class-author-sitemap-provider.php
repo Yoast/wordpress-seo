@@ -89,8 +89,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
-		$options = WPSEO_Options::get_all();
-
 		$defaults = array(
 			// @todo Re-enable after plugin requirements raised to WP 4.6 with the fix.
 			// 'who'        => 'authors', Breaks meta keys, see https://core.trac.wordpress.org/ticket/36724#ticket R.
@@ -107,61 +105,24 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				array(
 					'relation' => 'OR',
 					array(
-						'key'     => 'wpseo_excludeauthorsitemap',
+						'key'     => 'wpseo_noindex_author',
 						'value'   => 'on',
 						'compare' => '!=',
 					),
 					array(
-						'key'     => 'wpseo_excludeauthorsitemap',
+						'key'     => 'wpseo_noindex_author',
 						'compare' => 'NOT EXISTS',
 					),
 				),
 			),
 		);
 
-		if ( $options['noindex-author-noposts-wpseo'] === true ) {
+		if ( WPSEO_Options::get('noindex-author-noposts-wpseo', false ) ) {
 			// $defaults['who']                 = ''; // Otherwise it cancels out next argument.
 			$defaults['has_published_posts'] = true;
 		}
 
-		$excluded_roles = $this->get_excluded_roles();
-
-		if ( ! empty( $excluded_roles ) ) {
-			// $defaults['who']          = ''; // Otherwise it cancels out next argument.
-			$defaults['role__not_in'] = $excluded_roles;
-		}
-
 		return get_users( array_merge( $defaults, $arguments ) );
-	}
-
-	/**
-	 * Retrieve array of roles, excluded in settings.
-	 *
-	 * @return array
-	 */
-	protected function get_excluded_roles() {
-
-		static $excluded_roles;
-
-		if ( isset( $excluded_roles ) ) {
-			return $excluded_roles;
-		}
-
-		$options = WPSEO_Options::get_all();
-		$roles   = WPSEO_Utils::get_roles();
-
-		foreach ( $roles as $role_slug => $role_name ) {
-
-			if ( ! empty( $options[ "user_role-{$role_slug}-not_in_sitemap" ] ) ) {
-				$excluded_roles[] = $role_name;
-			}
-		}
-
-		if ( ! empty( $excluded_roles ) ) { // Otherwise it's handled by who=>authors query.
-			$excluded_roles[] = 'Subscriber';
-		}
-
-		return $excluded_roles;
 	}
 
 	/**
