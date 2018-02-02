@@ -100,45 +100,6 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the get_option_value function returns a valid result.
 	 *
-	 * @covers WPSEO_Options::get_option_value()
-	 */
-	public function test_get_option_value_returns_valid_result() {
-		// Make sure these two have their default values
-		$option                            = WPSEO_Options::get_option( 'wpseo' );
-		$option['keyword_analysis_active'] = true;
-		$option['show_onboarding_notice']  = false;
-		update_option( 'wpseo', $option );
-
-		$result = WPSEO_Options::get_option_value( 'wpseo', 'keyword_analysis_active' );
-		$this->assertTrue( $result );
-
-		$result = WPSEO_Options::get_option_value( 'wpseo', 'show_onboarding_notice' );
-		$this->assertFalse( $result );
-	}
-
-	/**
-	 * Tests if the get_option_value function returns a valid result.
-	 *
-	 * @covers WPSEO_Options::get_option_value()
-	 */
-	public function test_get_option_value_returns_null_result() {
-		$result = WPSEO_Options::get_option_value( 'wpseo', 'non_existent_value' );
-		$this->assertNull( $result );
-	}
-
-	/**
-	 * Tests if the get_option_value function returns a valid result.
-	 *
-	 * @covers WPSEO_Options::get_option_value()
-	 */
-	public function test_get_option_value_returns_default_result() {
-		$result = WPSEO_Options::get_option_value( 'wpseo', 'non_existent_value', array() );
-		$this->assertEquals( array(), $result );
-	}
-
-	/**
-	 * Tests if the get_option_value function returns a valid result.
-	 *
 	 * @covers WPSEO_Options::get()
 	 */
 	public function test_get_returns_valid_result() {
