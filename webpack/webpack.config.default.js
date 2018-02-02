@@ -31,7 +31,7 @@ const defaultWebpackConfig = {
 					{
 						loader: "babel-loader",
 					},
-				],git statu
+				],
 			},
 			{
 				test: /.svg$/,
