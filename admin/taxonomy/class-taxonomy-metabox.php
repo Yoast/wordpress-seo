@@ -9,7 +9,7 @@
 class WPSEO_Taxonomy_Metabox {
 
 	/**
-	 * @var stdClass
+	 * @var WP_Term
 	 */
 	private $term;
 
@@ -114,7 +114,7 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	private function get_content_meta_section() {
 		$taxonomy_content_fields = new WPSEO_Taxonomy_Content_Fields( $this->term );
-		$content                 = $this->taxonomy_tab_content->html( $taxonomy_content_fields->get() );
+		$content                 = $this->taxonomy_tab_content->html( $taxonomy_content_fields->get( $this->term ) );
 
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'content',

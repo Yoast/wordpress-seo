@@ -14,11 +14,6 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	private $no_index_options = array();
 
 	/**
-	 * @var array   Options array for the sitemap_include options, including translated labels
-	 */
-	private $sitemap_include_options = array();
-
-	/**
 	 * @param stdClass $term The currenct taxonomy.
 	 */
 	public function __construct( $term ) {
@@ -34,16 +29,10 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	public function get() {
 		$fields = array(
 			'noindex'         => $this->get_field_config(
-				esc_html__( 'Meta robots index', 'wordpress-seo' ),
-				esc_html__( 'This taxonomy follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ),
-				'select',
-				$this->get_noindex_options()
-			),
-			'sitemap_include' => $this->get_field_config(
-				esc_html__( 'Include in Sitemap?', 'wordpress-seo' ),
+				esc_html( sprintf( __( 'Allow search engines to show this %s in search results?', 'wordpress-seo' ), $this->get_taxonomy_label() ) ),
 				'',
 				'select',
-				$this->sitemap_include_options
+				$this->get_noindex_options()
 			),
 			'bctitle'         => $this->get_field_config(
 				__( 'Breadcrumbs Title', 'wordpress-seo' ),
@@ -69,16 +58,11 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	 */
 	private function translate_meta_options() {
 		$this->no_index_options        = WPSEO_Taxonomy_Meta::$no_index_options;
-		$this->sitemap_include_options = WPSEO_Taxonomy_Meta::$sitemap_include_options;
 
-		/* translators: %s expands to the current taxonomy index value */
-		$this->no_index_options['default'] = __( 'Default for this taxonomy type, currently: %s', 'wordpress-seo' );
-		$this->no_index_options['index']   = __( 'Index', 'wordpress-seo' );
-		$this->no_index_options['noindex'] = __( 'Noindex', 'wordpress-seo' );
-
-		$this->sitemap_include_options['-']      = __( 'Auto detect', 'wordpress-seo' );
-		$this->sitemap_include_options['always'] = __( 'Always include', 'wordpress-seo' );
-		$this->sitemap_include_options['never']  = __( 'Never include', 'wordpress-seo' );
+		/* translators: %1$s expands to the taxonomy name %2$s expands to the current taxonomy index value */
+		$this->no_index_options['default'] = __( 'Default for %1$s, currently: %2$s', 'wordpress-seo' );
+		$this->no_index_options['index']   = __( 'Yes', 'wordpress-seo' );
+		$this->no_index_options['noindex'] = __( 'No', 'wordpress-seo' );
 	}
 
 	/**
@@ -88,13 +72,19 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	 */
 	private function get_noindex_options() {
 		$noindex_options['options']            = $this->no_index_options;
-		$noindex_options['options']['default'] = sprintf( $noindex_options['options']['default'], $this->get_robot_index() );
-
-		if ( get_option( 'blog_public' ) === 0 ) {
-			$noindex_options['description'] = '<br /><span class="error-message">' . esc_html__( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';
-		}
+		$noindex_options['options']['default'] = sprintf( $noindex_options['options']['default'], $this->get_taxonomy_label(), $this->get_robot_index() );
 
 		return $noindex_options;
+	}
+
+	/**
+	 * Retrieve the taxonomies plural for use in sentences.
+	 *
+	 * @return string
+	 */
+	private function get_taxonomy_label() {
+		$taxonomy = get_taxonomy( $this->term->taxonomy );
+		return $taxonomy->labels->name;
 	}
 
 	/**
@@ -103,10 +93,10 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	 * @return string
 	 */
 	private function get_robot_index() {
-		$robot_index  = 'index';
+		$robot_index  = __( 'yes', 'wordpress-seo' );
 		$index_option = 'noindex-tax-' . $this->term->taxonomy;
 		if ( isset( $this->options[ $index_option ] ) && $this->options[ $index_option ] === true ) {
-			$robot_index = 'noindex';
+			$robot_index = __( 'no', 'wordpress-seo' );
 		}
 
 		return $robot_index;

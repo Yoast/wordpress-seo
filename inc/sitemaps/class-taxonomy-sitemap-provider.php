@@ -198,14 +198,9 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$url = array();
 
-			$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
-			$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'sitemap_include' );
+			$tax_noindex = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
 
-			if ( $tax_noindex === 'noindex' && $tax_sitemap_inc !== 'always' ) {
-				continue;
-			}
-
-			if ( $tax_sitemap_inc === 'never' ) {
+			if ( $tax_noindex === 'noindex' ) {
 				continue;
 			}
 
