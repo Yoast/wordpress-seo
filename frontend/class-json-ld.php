@@ -73,6 +73,9 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @link  https://developers.google.com/structured-data/site-name
 	 */
 	public function website() {
+		if ( ! is_front_page() ) {
+			return;
+		}
 		$this->data = array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'WebSite',
@@ -212,9 +215,6 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	private function internal_search_section() {
-		if ( ! is_front_page() ) {
-			return;
-		}
 		/**
 		 * Filter: 'disable_wpseo_json_ld_search' - Allow disabling of the json+ld output.
 		 *
