@@ -11,12 +11,10 @@
  * @since 1.8
  */
 class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
-
 	/**
 	 * @var array Holds the social profiles for the entity
 	 */
 	private $profiles = array();
-
 	/**
 	 * @var array Holds the data to put out
 	 */
@@ -47,7 +45,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 */
 	public function organization_or_person() {
 		$company_or_person = WPSEO_Options::get( 'company_or_person', '' );
-		if ( '' ===  $company_or_person ) {
+		if ( '' === $company_or_person ) {
 			return;
 		}
 
@@ -124,6 +122,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			$this->data['@id']   = '#organization';
 			$this->data['name']  = WPSEO_Options::get( 'company_name' );
 			$this->data['logo']  = WPSEO_Options::get( 'company_logo' );
+
 			return;
 		}
 		$this->data = false;
@@ -137,6 +136,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			$this->data['@type'] = 'Person';
 			$this->data['@id']   = '#person';
 			$this->data['name']  = WPSEO_Options::get( 'person_name' );
+
 			return;
 		}
 		$this->data = false;
@@ -211,7 +211,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * Adds the internal search JSON LD code to the homepage if it's not disabled.
 	 *
 	 * @link https://developers.google.com/structured-data/slsb-overview
-	 *       
+	 *
 	 * @return void
 	 */
 	private function internal_search_section() {
@@ -256,7 +256,6 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 *
 	 * @deprecated 2.1
 	 * @deprecated use WPSEO_JSON_LD::website()
-
 	 * @codeCoverageIgnore
 	 */
 	public function internal_search() {
