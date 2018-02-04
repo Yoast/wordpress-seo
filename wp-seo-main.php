@@ -23,6 +23,23 @@ if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
 }
 
+/*
+ * {@internal The prefix constants are used to build prefixed versions of dependencies.
+ *            These should not be changed on run-time, thus missing the ! defined() check.}}
+ */
+define( 'YOAST_VENDOR_NS_PREFIX', 'YoastSEO_Vendor' );
+define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
+define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
+
+if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
+	if ( PHP_VERSION_ID >= 50300 ) {
+		define( 'WPSEO_NAMESPACES', true );
+	} else {
+		define( 'WPSEO_NAMESPACES', false );
+	}
+}
+
+
 /* ***************************** CLASS AUTOLOADING *************************** */
 
 /**
@@ -50,8 +67,14 @@ function wpseo_auto_load( $class ) {
 	}
 }
 
-if ( file_exists( WPSEO_PATH . 'vendor/autoload_52.php' ) ) {
-	require WPSEO_PATH . 'vendor/autoload_52.php';
+if ( WPSEO_NAMESPACES ) {
+	$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload.php';
+} else {
+	$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload_52.php';
+}
+
+if ( is_readable( $yoast_autoload_file ) ) {
+	require $yoast_autoload_file;
 }
 elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be site-level autoload R.
 	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
@@ -294,6 +317,12 @@ function wpseo_init() {
 	 */
 	$link_watcher = new WPSEO_Link_Watcher_Loader();
 	$link_watcher->load();
+
+	if ( WPSEO_NAMESPACES ) {
+		$bootstrap = new \Yoast\YoastSEO\Config\Plugin();
+		$bootstrap->initialize();
+		$bootstrap->register_hooks();
+	}
 }
 
 /**
