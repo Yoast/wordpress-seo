@@ -14,7 +14,7 @@ class Yoast_Model extends Model {
 	 * @param string $class_name   Type of Model to load.
 	 * @param bool   $yoast_prefix Optional. True to prefix the table name with the Yoast prefix.
 	 *
-	 * @return ORMWrapper
+	 * @return ORMWrapper Wrapper to use.
 	 */
 	public static function of_type( $class_name, $yoast_prefix = true ) {
 		// Prepend namespace to the class name.
