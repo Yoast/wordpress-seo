@@ -291,8 +291,8 @@ function wpseo_standardize_whitespace( $string ) {
 function wpseo_xml_sitemaps_init() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 2.4', 'WPSEO_Sitemaps_Router' );
 
-	$options = get_option( 'wpseo_xml' );
-	if ( $options['enablexmlsitemap'] !== true ) {
+	$options = get_option( 'wpseo' );
+	if ( $options['enable_xml_sitemap'] !== true ) {
 		return;
 	}
 

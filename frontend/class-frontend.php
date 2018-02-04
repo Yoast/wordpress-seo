@@ -121,9 +121,7 @@ class WPSEO_Frontend {
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
-		if ( $this->options['redirectattachment'] === true ) {
-			add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
-		}
+		add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
 
 		/*
 		 * The setting to get here has been deprecated, but don't remove the code as that would break
@@ -131,9 +129,6 @@ class WPSEO_Frontend {
 		 */
 		if ( $this->options['trailingslash'] === true ) {
 			add_filter( 'user_trailingslashit', array( $this, 'add_trailingslash' ), 10, 2 );
-		}
-		if ( $this->options['cleanpermalinks'] === true ) {
-			add_action( 'template_redirect', array( $this, 'clean_permalink' ), 1 );
 		}
 		if ( $this->options['cleanreplytocom'] === true ) {
 			add_filter( 'comment_reply_link', array( $this, 'remove_reply_to_com' ) );
@@ -153,7 +148,7 @@ class WPSEO_Frontend {
 		}
 
 		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
-		$this->frontend_page_type = new WPSEO_Frontend_Page_Type();
+		$this->frontend_page_type    = new WPSEO_Frontend_Page_Type();
 
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
@@ -759,10 +754,16 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 				}
 			}
-			elseif (
-				( is_author() && $this->options['noindex-author-wpseo'] === true ) ||
-				( is_date() && $this->options['noindex-archive-wpseo'] === true )
-			) {
+			elseif ( is_author() ) {
+				if ( $this->options['noindex-author-wpseo'] === true ) {
+					$robots['index'] = 'noindex';
+				}
+				$curauth = $wp_query->get_queried_object();
+				if ( $this->options['noindex-author-noposts-wpseo'] === true && count_user_posts( $curauth->ID, 'any' ) === 0 ) {
+					$robots['index'] = 'noindex';
+				}
+			}
+			elseif ( is_date() && $this->options['noindex-archive-wpseo'] === true ) {
 				$robots['index'] = 'noindex';
 			}
 			elseif ( is_home() ) {
@@ -1392,32 +1393,24 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * If the option to redirect attachments to their parent is checked, this performs the redirect.
+	 * If the option to disable attachment URLs is checked, this performs the redirect to the attachment.
 	 *
-	 * An extra check is done for when the attachment has no parent.
-	 *
-	 * @return boolean False when no redirect was triggered.
+	 * @return bool Returns succes status.
 	 */
 	public function attachment_redirect() {
-		global $post;
-
-		if ( ! is_object( $post ) || ! is_attachment() ) {
+		if ( $this->options['disable-attachment'] === false ) {
+			return false;
+		}
+		if ( ! is_attachment() ) {
 			return false;
 		}
 
-		$attachment = $post;
+		$url = wp_get_attachment_url( get_queried_object_id() );
 
-		if ( (int) $attachment->post_parent !== 0 ) {
-			$this->redirect( get_permalink( $attachment->post_parent ), 301 );
+		if ( ! empty( $url ) ) {
+			$this->redirect( $url, 301 );
 			return true;
 		}
-
-		/**
-		 * Filter: 'wpseo_redirect_orphan_attachment' - Allows for orphaned attachment to be redirected.
-		 *
-		 * @api WP_Post $attachment The attachment which misses a parent post.
-		 */
-		do_action( 'wpseo_redirect_orphan_attachment', $attachment );
 
 		return false;
 	}
@@ -1476,163 +1469,6 @@ class WPSEO_Frontend {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Removes unneeded query variables from the URL.
-	 *
-	 * @return boolean
-	 */
-	public function clean_permalink() {
-		if ( is_robots() || get_query_var( 'sitemap' ) || empty( $_GET ) ) {
-			return false;
-		}
-
-		global $wp_query;
-
-		// Recreate current URL.
-		$cururl = 'http';
-		if ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) {
-			$cururl .= 's';
-		}
-		$cururl .= '://';
-
-		if ( $_SERVER['SERVER_PORT'] !== '80' && $_SERVER['SERVER_PORT'] !== '443' ) {
-			$cururl .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
-		}
-		else {
-			$cururl .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-		}
-		$properurl = '';
-
-		if ( is_singular() ) {
-			global $post;
-			if ( empty( $post ) ) {
-				$post = $wp_query->get_queried_object();
-			}
-
-			$properurl = get_permalink( $post->ID );
-
-			$page = get_query_var( 'page' );
-			if ( $page && $page != 1 ) {
-				$post       = get_post( $post->ID );
-				$page_count = substr_count( $post->post_content, '<!--nextpage-->' );
-				if ( $page > ( $page_count + 1 ) ) {
-					$properurl = user_trailingslashit( trailingslashit( $properurl ) . ( $page_count + 1 ) );
-				}
-				else {
-					$properurl = user_trailingslashit( trailingslashit( $properurl ) . $page );
-				}
-			}
-
-			// Fix reply to comment links, whoever decided this should be a GET variable?
-			if ( preg_match( '`(\?replytocom=[^&]+)`', sanitize_text_field( $_SERVER['REQUEST_URI'] ), $matches ) ) {
-				$properurl .= str_replace( '?replytocom=', '#comment-', $matches[0] );
-			}
-			unset( $matches );
-
-			// Prevent cleaning out posts & page previews for people capable of viewing them.
-			if ( isset( $_GET['preview'], $_GET['preview_nonce'] ) && current_user_can( 'edit_post', $post->ID ) ) {
-				$properurl = '';
-			}
-		}
-		elseif ( is_front_page() ) {
-			if ( $this->is_home_posts_page() ) {
-				$properurl = get_bloginfo( 'url' ) . '/';
-			}
-			elseif ( $this->is_home_static_page() ) {
-				$properurl = get_permalink( $GLOBALS['post']->ID );
-			}
-		}
-		elseif ( is_category() || is_tag() || is_tax() ) {
-			$term = $wp_query->get_queried_object();
-			if ( is_feed() ) {
-				$properurl = get_term_feed_link( $term->term_id, $term->taxonomy );
-			}
-			else {
-				$properurl = get_term_link( $term, $term->taxonomy );
-			}
-		}
-		elseif ( is_search() ) {
-			$s         = urlencode( preg_replace( '`(%20|\+)`', ' ', get_search_query() ) );
-			$properurl = get_bloginfo( 'url' ) . '/?s=' . $s;
-		}
-		elseif ( is_404() ) {
-			if ( is_multisite() && ! is_subdomain_install() && is_main_site() ) {
-				if ( $cururl === get_bloginfo( 'url' ) . '/blog/' || $cururl === get_bloginfo( 'url' ) . '/blog' ) {
-					if ( $this->is_home_static_page() ) {
-						$properurl = get_permalink( get_option( 'page_for_posts' ) );
-					}
-					else {
-						$properurl = get_bloginfo( 'url' ) . '/';
-					}
-				}
-			}
-		}
-
-		if ( ! empty( $properurl ) && $wp_query->query_vars['paged'] !== 0 && $wp_query->post_count !== 0 ) {
-			if ( is_search() && ! empty( $s ) ) {
-				$properurl = get_bloginfo( 'url' ) . '/page/' . $wp_query->query_vars['paged'] . '/?s=' . $s;
-			}
-			else {
-				$properurl = user_trailingslashit( trailingslashit( $properurl ) . 'page/' . $wp_query->query_vars['paged'] );
-			}
-		}
-
-		// Prevent cleaning out the WP Subscription managers interface for everyone.
-		if ( isset( $_GET['wp-subscription-manager'] ) ) {
-			$properurl = '';
-		}
-
-		/**
-		 * Filter: 'wpseo_whitelist_permalink_vars' - Allow plugins to register their own variables not to clean.
-		 *
-		 * @api array $unsigned Array of permalink variables _not_ to clean. Empty by default.
-		 */
-		$whitelisted_extravars = apply_filters( 'wpseo_whitelist_permalink_vars', array() );
-
-		if ( $this->options['cleanpermalink-googlesitesearch'] === true ) {
-			// Prevent cleaning out Google Site searches.
-			$whitelisted_extravars = array_merge( $whitelisted_extravars, array(
-				'q',
-				'cx',
-				'debug',
-				'cof',
-				'ie',
-				'sa',
-			) );
-		}
-
-		if ( $this->options['cleanpermalink-googlecampaign'] === true ) {
-			// Prevent cleaning out Google Analytics campaign variables.
-			$whitelisted_extravars = array_merge( $whitelisted_extravars, array(
-				'utm_campaign',
-				'utm_medium',
-				'utm_source',
-				'utm_content',
-				'utm_term',
-				'utm_id',
-				'gclid',
-			) );
-		}
-
-		if ( $this->options['cleanpermalink-extravars'] !== '' ) {
-			$extravars             = explode( ',', $this->options['cleanpermalink-extravars'] );
-			$extravars             = array_map( 'trim', $extravars );
-			$whitelisted_extravars = array_merge( $whitelisted_extravars, $extravars );
-			unset( $extravars );
-		}
-
-		foreach ( $whitelisted_extravars as $get ) {
-			if ( isset( $_GET[ trim( $get ) ] ) ) {
-				$properurl = '';
-			}
-		}
-		unset( $get );
-
-		if ( ! empty( $properurl ) && $cururl !== $properurl ) {
-			$this->redirect( $properurl, 301 );
-		}
 	}
 
 	/**
@@ -1922,7 +1758,7 @@ class WPSEO_Frontend {
 
 		if ( ! is_string( $title ) || '' === $title ) {
 			$post_type_obj = get_post_type_object( $post_type );
-			$title_part = '';
+			$title_part    = '';
 
 			if ( isset( $post_type_obj->labels->menu_name ) ) {
 				$title_part = $post_type_obj->labels->menu_name;
@@ -1990,7 +1826,9 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function debug_marker( $echo = false ) {
-		_deprecated_function( 'WPSEO_Frontend::debug_marker', '4.4', 'WPSEO_Frontend::debug_mark' );
+		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
+			_deprecated_function( 'WPSEO_Frontend::debug_marker', '4.4', 'WPSEO_Frontend::debug_mark' );
+		}
 		return $this->debug_mark( $echo );
 	}
 
@@ -2002,7 +1840,23 @@ class WPSEO_Frontend {
 	 * @return void
 	 */
 	public function metakeywords() {
-		_deprecated_function( 'WPSEO_Frontend::metakeywords', '6.3' );
+		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
+			_deprecated_function( 'WPSEO_Frontend::metakeywords', '6.3' );
+		}
+	}
+
+	/**
+	 * Removes unneeded query variables from the URL.
+	 *
+	 * @deprecated 6.4
+	 *
+	 * @return void
+	 */
+	public function clean_permalink() {
+		// As this is a frontend method, we want to make sure it is not displayed for non-logged in users.
+		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
+			_deprecated_function( 'WPSEO_Frontend::clean_permalink', '6.4' );
+		}
 	}
 	// @codeCoverageIgnoreEnd
 }
