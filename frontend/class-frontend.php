@@ -13,10 +13,6 @@ class WPSEO_Frontend {
 	 */
 	public static $instance;
 	/**
-	 * @var array Holds the plugins options.
-	 */
-	public $options = array();
-	/**
 	 * @var boolean Boolean indicating whether output buffering has been started.
 	 */
 	private $ob_started = false;
@@ -68,8 +64,6 @@ class WPSEO_Frontend {
 	 */
 	protected function __construct() {
 
-		$this->options = WPSEO_Options::get_options( $this->required_options );
-
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
 
@@ -104,24 +98,22 @@ class WPSEO_Frontend {
 		// Fix the WooThemes woo_title() output.
 		add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
 
-		if ( WPSEO_Options::get_option_value( 'wpseo_titles', 'disable-date' )
-			 || WPSEO_Options::get_option_value( 'wpseo_titles', 'disable-author' )
-			 || WPSEO_Options::get_option_value( 'wpseo_titles', 'disable-post_format' )
+		if ( WPSEO_Options::get( 'disable-date', false )
+			 || WPSEO_Options::get( 'disable-author', false )
+			 || WPSEO_Options::get( 'disable-post_format', false )
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
-		if ( $this->options['redirectattachment'] === true ) {
-			add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
-		}
+		add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
 
 		/*
 		 * The setting to get here has been deprecated, but don't remove the code as that would break
 		 * the functionality for those that still have it!
 		 */
-		if ( WPSEO_Options::get_option_value( 'wpseo_permalinks', 'trailingslash' ) ) {
+		if ( WPSEO_Options::get( 'trailingslash', false ) ) {
 			add_filter( 'user_trailingslashit', array( $this, 'add_trailingslash' ), 10, 2 );
 		}
-		if ( WPSEO_Options::get_option_value( 'wpseo_permalinks', 'cleanreplytocom' ) ) {
+		if ( WPSEO_Options::get( 'cleanreplytocom', false ) ) {
 			add_filter( 'comment_reply_link', array( $this, 'remove_reply_to_com' ) );
 			add_action( 'template_redirect', array( $this, 'replytocom_redirect' ), 1 );
 		}
@@ -129,12 +121,12 @@ class WPSEO_Frontend {
 		add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
 
 		// For WordPress functions below 4.4.
-		if ( WPSEO_Options::get_option_value( 'wpseo_titles', 'forcerewritetitle' ) && ! current_theme_supports( 'title-tag' ) ) {
+		if ( WPSEO_Options::get( 'forcerewritetitle', false ) && ! current_theme_supports( 'title-tag' ) ) {
 			add_action( 'template_redirect', array( $this, 'force_rewrite_output_buffer' ), 99999 );
 			add_action( 'wp_footer', array( $this, 'flush_cache' ), - 1 );
 		}
 
-		if ( WPSEO_Options::get_option_value( 'wpseo_titles', 'title_test', 0 ) > 0 ) {
+		if ( WPSEO_Options::get( 'title_test', 0 ) > 0 ) {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
 
@@ -185,8 +177,6 @@ class WPSEO_Frontend {
 					break;
 			}
 		}
-
-		$this->options = WPSEO_Options::get_options( $this->required_options );
 	}
 
 	/**
@@ -331,7 +321,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_title_from_options( $index, $var_source = array() ) {
-		$template = WPSEO_Options::get_option_value( 'wpseo_titles', $index, '' );
+		$template = WPSEO_Options::get( $index, '' );
 		if ( $template === '' ) {
 			if ( is_singular() ) {
 				return $this->replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
@@ -640,29 +630,28 @@ class WPSEO_Frontend {
 	 */
 	public function webmaster_tools_authentication() {
 		// Bing.
-		$this->webmaster_tools_helper( 'wpseo', 'msverify', 'msvalidate.01' );
+		$this->webmaster_tools_helper( 'msverify', 'msvalidate.01' );
 
 		// Google.
-		$this->webmaster_tools_helper( 'wpseo', 'googleverify', 'google-site-verification' );
+		$this->webmaster_tools_helper( 'googleverify', 'google-site-verification' );
 
 		// Pinterest.
-		$this->webmaster_tools_helper( 'wpseo_social', 'pinterestverify', 'p:domain_verify' );
+		$this->webmaster_tools_helper( 'pinterestverify', 'p:domain_verify' );
 
 		// Yandex.
-		$this->webmaster_tools_helper( 'wpseo', 'yandexverify', 'yandex-verification' );
+		$this->webmaster_tools_helper( 'yandexverify', 'yandex-verification' );
 	}
 
 	/**
 	 * Helper function for authentication.
 	 *
-	 * @param string $option     Option group to take the option from.
 	 * @param string $option_key Option key.
 	 * @param string $tag_name   The tag name.
 	 *
 	 * @return void
 	 */
-	private function webmaster_tools_helper( $option, $option_key, $tag_name ) {
-		$auth = WPSEO_Options::get_option_value( $option, $option_key, '' );
+	private function webmaster_tools_helper( $option_key, $tag_name ) {
+		$auth = WPSEO_Options::get( $option_key, '' );
 		if ( $auth !== '' ) {
 			printf( '<meta name="%1$s" content="%2$s" />' . "\n", $tag_name, $auth );
 		}
@@ -721,7 +710,7 @@ class WPSEO_Frontend {
 				$robots['index'] = 'noindex';
 			} elseif ( is_tax() || is_tag() || is_category() ) {
 				$term = $wp_query->get_queried_object();
-				if ( is_object( $term ) && ( WPSEO_Options::get_option_value( 'wpseo_titles', 'noindex-tax-' . $term->taxonomy ) === true ) ) {
+				if ( is_object( $term ) && ( WPSEO_Options::get( 'noindex-tax-' . $term->taxonomy, false ) ) ) {
 					$robots['index'] = 'noindex';
 				}
 
@@ -735,14 +724,14 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 				}
 			} elseif ( is_author() ) {
-				if ( WPSEO_Options::get_option_value( 'wpseo_titles', 'noindex-author-wpseo' ) === true ) {
+				if ( WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
 					$robots['index'] = 'noindex';
 				}
 				$curauth = $wp_query->get_queried_object();
-				if ( WPSEO_Options::get_option_value( 'wpseo_titles', 'noindex-author-noposts-wpseo' ) === true && count_user_posts( $curauth->ID, 'any' ) === 0 ) {
+				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && count_user_posts( $curauth->ID, 'any' ) === 0 ) {
 					$robots['index'] = 'noindex';
 				}
-			} elseif ( is_date() && WPSEO_Options::get_option_value( 'wpseo_titles', 'noindex-archive-wpseo' ) === true ) {
+			} elseif ( is_date() && WPSEO_Options::get( 'noindex-archive-wpseo', false ) ) {
 				$robots['index'] = 'noindex';
 			} elseif ( is_home() ) {
 				$page_for_posts = get_option( 'page_for_posts' );
@@ -753,7 +742,7 @@ class WPSEO_Frontend {
 			} elseif ( is_post_type_archive() ) {
 				$post_type = $this->get_queried_post_type();
 
-				if ( WPSEO_Options::get_option_value( 'wpseo_titles', 'noindex-ptarchive-' . $post_type ) === true ) {
+				if ( WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ) {
 					$robots['index'] = 'noindex';
 				}
 			}
@@ -1124,7 +1113,7 @@ class WPSEO_Frontend {
 	 * @return boolean Boolean indicating whether the publisher link was printed.
 	 */
 	public function publisher() {
-		$publisher = WPSEO_Options::get_option_value( 'wpseo_social', 'plus-publisher', '' );
+		$publisher = WPSEO_Options::get( 'plus-publisher', '' );
 		if ( $publisher !== '' ) {
 			echo '<link rel="publisher" href="', esc_url( $publisher ), '"/>', "\n";
 
@@ -1176,8 +1165,8 @@ class WPSEO_Frontend {
 			$post      = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
 			$post_type = $this->get_queried_post_type();
 
-			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get_option_value( 'wpseo_titles', 'metadesc-ptarchive-' . $post_type, '' ) !== '' ) {
-				$template = WPSEO_Options::get_option_value( 'wpseo_titles', 'metadesc-ptarchive-' . $post_type );
+			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type, '' ) !== '' ) {
+				$template = WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type );
 				$term     = $post;
 			}
 			$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
@@ -1185,8 +1174,8 @@ class WPSEO_Frontend {
 			$post      = get_post( $this->frontend_page_type->get_simple_page_id() );
 			$post_type = $post->post_type;
 
-			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get_option_value( 'wpseo_titles', 'metadesc-' . $post_type, '' ) !== '' ) {
-				$template = WPSEO_Options::get_option_value( 'wpseo_titles', 'metadesc-' . $post_type );
+			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
+				$template = WPSEO_Options::get( 'metadesc-' . $post_type );
 				$term     = $post;
 			}
 			$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
@@ -1194,7 +1183,7 @@ class WPSEO_Frontend {
 			if ( is_search() ) {
 				$metadesc = '';
 			} elseif ( $this->is_home_posts_page() ) {
-				$template = WPSEO_Options::get_option_value( 'wpseo_titles', 'metadesc-home-wpseo' );
+				$template = WPSEO_Options::get( 'metadesc-home-wpseo' );
 				$term     = array();
 
 				if ( empty( $template ) ) {
@@ -1202,28 +1191,28 @@ class WPSEO_Frontend {
 				}
 			} elseif ( $this->is_home_static_page() ) {
 				$metadesc = $this->get_seo_meta_value( 'metadesc' );
-				if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get_option_value( 'wpseo_titles', 'metadesc-' . $post_type, '' ) !== '' ) {
-					$template = WPSEO_Options::get_option_value( 'wpseo_titles', 'metadesc-' . $post_type );
+				if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
+					$template = WPSEO_Options::get( 'metadesc-' . $post_type );
 				}
 			} elseif ( is_category() || is_tag() || is_tax() ) {
 				$term              = $wp_query->get_queried_object();
 				$metadesc_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
-				if ( is_object( $term ) && isset( $term->taxonomy, $this->options[ 'metadesc-tax-' . $term->taxonomy ] ) ) {
-					$template = $this->options[ 'metadesc-tax-' . $term->taxonomy ];
+				if ( is_object( $term ) && isset( $term->taxonomy ) && WPSEO_Options::get( 'metadesc-tax-' . $term->taxonomy, '' ) !== '' ) {
+					$template = WPSEO_Options::get( 'metadesc-tax-' . $term->taxonomy );
 				}
 			} elseif ( is_author() ) {
 				$author_id = get_query_var( 'author' );
 				$metadesc  = get_the_author_meta( 'wpseo_metadesc', $author_id );
-				if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && '' !== $this->options['metadesc-author-wpseo'] ) {
-					$template = $this->options['metadesc-author-wpseo'];
+				if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && WPSEO_Options::get( 'metadesc-author-wpseo', '' ) !== '' ) {
+					$template = WPSEO_Options::get( 'metadesc-author-wpseo' );
 				}
 			} elseif ( is_post_type_archive() ) {
 				$post_type = $this->get_queried_post_type();
-				if ( isset( $this->options[ 'metadesc-ptarchive-' . $post_type ] ) ) {
-					$template = $this->options[ 'metadesc-ptarchive-' . $post_type ];
+				if ( WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type, '' ) !== '' ) {
+					$template = WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type );
 				}
 			} elseif ( is_archive() ) {
-				$template = $this->options['metadesc-archive-wpseo'];
+				$template = WPSEO_Options::get( 'metadesc-archive-wpseo' );
 			}
 
 			// If we're on a paginated page, and the template doesn't change for paginated pages, bail.
@@ -1327,9 +1316,9 @@ class WPSEO_Frontend {
 		global $wp_query;
 
 		if (
-			( $this->options['disable-date'] === true && $wp_query->is_date ) ||
-			( $this->options['disable-author'] === true && $wp_query->is_author ) ||
-			( $this->options['disable-post_format'] === true && $wp_query->is_tax( 'post_format' ) )
+			( WPSEO_Options::get( 'disable-date', false ) && $wp_query->is_date ) ||
+			( WPSEO_Options::get( 'disable-author', false ) && $wp_query->is_author ) ||
+			( WPSEO_Options::get( 'disable-post_format', false ) && $wp_query->is_tax( 'post_format' ) )
 		) {
 			$this->redirect( get_bloginfo( 'url' ), 301 );
 
@@ -1340,33 +1329,25 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * If the option to redirect attachments to their parent is checked, this performs the redirect.
+	 * If the option to disable attachment URLs is checked, this performs the redirect to the attachment.
 	 *
-	 * An extra check is done for when the attachment has no parent.
-	 *
-	 * @return boolean False when no redirect was triggered.
+	 * @return bool Returns succes status.
 	 */
 	public function attachment_redirect() {
-		global $post;
-
-		if ( ! is_object( $post ) || ! is_attachment() ) {
+		if ( WPSEO_Options::get( 'disable-attachment', false ) === false ) {
+			return false;
+		}
+		if ( ! is_attachment() ) {
 			return false;
 		}
 
-		$attachment = $post;
+		$url = wp_get_attachment_url( get_queried_object_id() );
 
-		if ( (int) $attachment->post_parent !== 0 ) {
-			$this->redirect( get_permalink( $attachment->post_parent ), 301 );
+		if ( ! empty( $url ) ) {
+			$this->redirect( $url, 301 );
 
 			return true;
 		}
-
-		/**
-		 * Filter: 'wpseo_redirect_orphan_attachment' - Allows for orphaned attachment to be redirected.
-		 *
-		 * @api WP_Post $attachment The attachment which misses a parent post.
-		 */
-		do_action( 'wpseo_redirect_orphan_attachment', $attachment );
 
 		return false;
 	}
@@ -1517,11 +1498,11 @@ class WPSEO_Frontend {
 			$before = '';
 			$after  = '';
 
-			if ( $this->options['rssbefore'] !== '' ) {
-				$before = wpautop( $this->rss_replace_vars( $this->options['rssbefore'] ) );
+			if ( WPSEO_Options::get( 'rssbefore', '' ) !== '' ) {
+				$before = wpautop( $this->rss_replace_vars( WPSEO_Options::get( 'rssbefore' ) ) );
 			}
-			if ( $this->options['rssafter'] !== '' ) {
-				$after = wpautop( $this->rss_replace_vars( $this->options['rssafter'] ) );
+			if ( WPSEO_Options::get( 'rssafter', '' ) !== '' ) {
+				$after = wpautop( $this->rss_replace_vars( WPSEO_Options::get( 'rssafter' ) ) );
 			}
 			if ( $before !== '' || $after !== '' ) {
 				if ( ( isset( $context ) && $context === 'excerpt' ) && trim( $content ) !== '' ) {

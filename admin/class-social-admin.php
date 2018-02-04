@@ -79,8 +79,8 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		$social_meta_fields = $this->get_meta_field_defs( 'social' );
 		$single             = true;
 
-		$opengraph = WPSEO_Options::get_option_value( 'wpseo_social', 'opengraph' );
-		$twitter   = WPSEO_Options::get_option_value( 'wpseo_social', 'twitter' );
+		$opengraph = WPSEO_Options::get( 'opengraph' );
+		$twitter   = WPSEO_Options::get( 'twitter' );
 
 		if ( $opengraph === true && $twitter === true ) {
 			$single = null;

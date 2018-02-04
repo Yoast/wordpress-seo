@@ -318,7 +318,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Set publisher option.
 		$expected = 'https://plus.google.com/+JoostdeValk';
-		WPSEO_Options::save_option( 'wpseo_social', 'plus-publisher', $expected );
+		WPSEO_Options::set( 'plus-publisher', $expected );
 
 		// Publisher set, should echo.
 		$expected = '<link rel="publisher" href="' . esc_url( $expected ) . '"/>' . "\n";
@@ -487,9 +487,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( get_bloginfo( 'rss2_url' ) );
 
 		// Test if input was changed.
-		self::$class_instance->options['rssbefore'] = 'Some RSS before text';
-		self::$class_instance->options['rssafter']  = '';
-		$expected                                   = wpautop( self::$class_instance->options['rssbefore'] ) . $input;
+		$before_text = 'Some RSS before text';
+		WPSEO_Options::set( 'rssbefore', $before_text );
+		WPSEO_Options::set( 'rssafter', '' );
+		$expected = wpautop( $before_text  ) . $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input, 'full' ) );
 	}
 
@@ -706,9 +707,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	 * @return void
 	 */
 	private function run_webmaster_tools_authentication_option_test( $option_name, $test_value, $expected ) {
-		WPSEO_Options::save_option( 'wpseo', $option_name, $test_value );
+		WPSEO_Options::set( $option_name, $test_value );
 		$this->expectOutput( $expected, self::$class_instance->webmaster_tools_authentication() );
-		WPSEO_Options::save_option( 'wpseo', $option_name, '' );
+		WPSEO_Options::set( $option_name, '' );
 	}
 
 	/**

@@ -266,16 +266,16 @@ function wpseo_init() {
 	WPSEO_Options::get_instance();
 	WPSEO_Meta::init();
 
-	if ( version_compare( WPSEO_Options::get_option_value( 'wpseo', 'version', 1 ), WPSEO_VERSION, '<' ) ) {
+	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
 		new WPSEO_Upgrade();
 		// Get a cleaned up version of the $options.
 	}
 
-	if ( WPSEO_Options::get_option_value( 'wpseo_permalinks', 'stripcategorybase' ) === true ) {
+	if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
 		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 	}
 
-	if ( WPSEO_Options::get_option_value( 'wpseo_permalinks', 'enable_xml_sitemap' ) === true ) {
+	if ( WPSEO_Options::get( 'enable_xml_sitemap' ) === true ) {
 		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps();
 	}
 
@@ -323,7 +323,7 @@ function wpseo_init_rest_api() {
 function wpseo_frontend_init() {
 	add_action( 'init', 'initialize_wpseo_front' );
 
-	if ( WPSEO_Options::get_option_value( 'wpseo_internallinks', 'breadcrumbs-enable' ) === true ) {
+	if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
 		/**
 		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
 		 * there's no reason to have bbPress breadcrumbs as well.
@@ -341,11 +341,11 @@ function wpseo_frontend_init() {
  * Instantiate the different social classes on the frontend
  */
 function wpseo_frontend_head_init() {
-	if ( WPSEO_Options::get_option_value( 'wpseo_social', 'twitter' ) === true ) {
+	if ( WPSEO_Options::get( 'twitter' ) === true ) {
 		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
 	}
 
-	if ( WPSEO_Options::get_option_value( 'wpseo_social', 'opengraph' ) === true ) {
+	if ( WPSEO_Options::get( 'opengraph' ) === true ) {
 		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph();
 	}
 

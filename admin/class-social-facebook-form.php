@@ -28,7 +28,7 @@ class Yoast_Social_Facebook_Form {
 	 * Setting the FB admins option and call the methods to display everything
 	 */
 	public function __construct() {
-		$this->fb_admins = WPSEO_Options::get_option_value( 'wpseo_social', 'fb_admins', array() );
+		$this->fb_admins = WPSEO_Options::get( 'fb_admins', array() );
 	}
 
 	/**

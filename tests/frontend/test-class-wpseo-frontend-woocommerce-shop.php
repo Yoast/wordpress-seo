@@ -141,7 +141,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 			->with( '', $post )
 			->will( $this->returnValue( 'replaced' ) );
 
-		WPSEO_Options::save_option( 'wpseo_titles', 'metadesc-ptarchive-product', null );
+		WPSEO_Options::set( 'metadesc-ptarchive-product', null );
 
 		$woocommerce_shop_page = $this->get_woocommerce_shop_page_mock( $post );
 		$instance->set_woocommerce_shop_page( $woocommerce_shop_page );

@@ -231,7 +231,7 @@ class WPSEO_Taxonomy_Columns {
 			// Don't make static as taxonomies may still be added during the run.
 			$custom_taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 
-			return ( ( WPSEO_Options::get_option_value( 'wpseo_titles', 'hideeditbox-tax-' . $taxonomy ) === true ) || in_array( $taxonomy, $custom_taxonomies, true ) === false );
+			return ( ( WPSEO_Options::get( 'hideeditbox-tax-' . $taxonomy ) === true ) || in_array( $taxonomy, $custom_taxonomies, true ) === false );
 		}
 
 		return false;

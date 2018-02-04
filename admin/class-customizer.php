@@ -63,7 +63,7 @@ class WPSEO_Customizer {
 	 * @return bool
 	 */
 	public function breadcrumbs_active_callback() {
-		return true === ( current_theme_supports( 'yoast-seo-breadcrumbs' ) || WPSEO_Options::get_option_value( 'wpseo_internallinks', 'breadcrumbs-enable' ) );
+		return true === ( current_theme_supports( 'yoast-seo-breadcrumbs' ) || WPSEO_Options::get( 'breadcrumbs-enable' ) );
 	}
 
 	/**

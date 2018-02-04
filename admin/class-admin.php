@@ -33,7 +33,7 @@ class WPSEO_Admin {
 			WPSEO_Options::maybe_set_multisite_defaults( false );
 		}
 
-		if ( WPSEO_Options::get_option_value( 'wpseo_permalinks', 'stripcategorybase' ) === true ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
 			add_action( 'created_category', array( $this, 'schedule_rewrite_flush' ) );
 			add_action( 'edited_category', array( $this, 'schedule_rewrite_flush' ) );
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
@@ -351,7 +351,7 @@ class WPSEO_Admin {
 	 * Loads the cornerstone filter.
 	 */
 	protected function initialize_cornerstone_content() {
-		if ( ! WPSEO_Options::get_option_value( 'wpseo', 'enable_cornerstone_content' ) ) {
+		if ( ! WPSEO_Options::get( 'enable_cornerstone_content' ) ) {
 			return;
 		}
 
@@ -373,7 +373,7 @@ class WPSEO_Admin {
 		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
 		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
 
-		if ( ! WPSEO_Options::get_option_value( 'wpseo', 'enable_text_link_counter' ) ) {
+		if ( ! WPSEO_Options::get( 'enable_text_link_counter' ) ) {
 			$link_table_compatibility_notifier->remove_notification();
 
 			return $integrations;
