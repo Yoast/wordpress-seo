@@ -53,7 +53,7 @@ function yoast_add_meta_options_help_center_tabs( $tabs ) {
  */
 function wpseo_add_template_variables_helpcenter() {
 	$explanation = sprintf(
-	/* translators: %1$s expands to Yoast SEO. */
+		/* translators: %1$s expands to Yoast SEO. */
 		__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The table below contains a list of the available variables.', 'wordpress-seo' ),
 		'Yoast SEO'
 	);
