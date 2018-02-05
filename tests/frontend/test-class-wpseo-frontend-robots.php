@@ -112,7 +112,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Test noindex-post option.
-		WPSEO_Options::save_option( 'wpseo_titles', 'noindex-post', true );
+		WPSEO_Options::set( 'noindex-post', true );
 		$this->assertEquals( 'noindex,follow', self::$class_instance->robots() );
 	}
 
@@ -163,7 +163,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Test category with noindex-tax-category option.
 		$expected = 'noindex,follow';
-		self::$class_instance->options['noindex-tax-category'] = true;
+		WPSEO_Options::set( 'noindex-tax-category', true );
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// Clean-up.
@@ -193,7 +193,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Test author archive with 'noindex-author-wpseo'.
 		$expected = 'noindex,follow';
-		self::$class_instance->options['noindex-author-wpseo'] = true;
+		WPSEO_Options::set( 'noindex-author-wpseo', true );
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// Clean-up.
