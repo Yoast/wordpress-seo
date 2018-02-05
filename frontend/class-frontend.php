@@ -1794,5 +1794,35 @@ class WPSEO_Frontend {
 			_deprecated_function( 'WPSEO_Frontend::add_trailingslash', '6.4', null );
 		}
 	}
+
+	/**
+	 * Removes the ?replytocom variable from the link, replacing it with a #comment-<number> anchor.
+	 *
+	 * @deprecated 6.4
+	 *
+	 * @param string $link The comment link as a string.
+	 *
+	 * @return string The modified link.
+	 */
+	public function remove_reply_to_com( $link ) {
+		_deprecated_function( 'WPSEO_Frontend::remove_reply_to_com', '6.4', 'WPSEO_Remove_Reply_To_Com::remove_reply_to_com' );
+
+		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
+		return $remove_replytocom->remove_reply_to_com( $link );
+	}
+
+	/**
+	 * Redirects out the ?replytocom variables.
+	 *
+	 * @deprecated 6.4
+	 *
+	 * @return boolean True when redirect has been done.
+	 */
+	public function replytocom_redirect() {
+		_deprecated_function( 'WPSEO_Frontend::replytocom_redirect', '6.4', 'WPSEO_Remove_Reply_To_Com::replytocom_redirect' );
+
+		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
+		return $remove_replytocom->replytocom_redirect();
+	}
 	// @codeCoverageIgnoreEnd
 }
