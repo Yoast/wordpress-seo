@@ -106,17 +106,6 @@ class WPSEO_Frontend {
 		}
 		add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
 
-		/*
-		 * The setting to get here has been deprecated, but don't remove the code as that would break
-		 * the functionality for those that still have it!
-		 */
-		if ( WPSEO_Options::get( 'trailingslash', false ) ) {
-			add_filter( 'user_trailingslashit', array( $this, 'add_trailingslash' ), 10, 2 );
-		}
-		if ( WPSEO_Options::get( 'cleanreplytocom', false ) ) {
-			add_filter( 'comment_reply_link', array( $this, 'remove_reply_to_com' ) );
-			add_action( 'template_redirect', array( $this, 'replytocom_redirect' ), 1 );
-		}
 		add_filter( 'the_content_feed', array( $this, 'embed_rssfooter' ) );
 		add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
 
@@ -136,6 +125,7 @@ class WPSEO_Frontend {
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
 			new WPSEO_JSON_LD(),
+			new WPSEO_Remove_Reply_To_Com(),
 			$this->woocommerce_shop_page,
 		);
 
@@ -1410,63 +1400,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Trailing slashes for everything except is_single().
-	 *
-	 * Thanks to Mark Jaquith for this code.
-	 *
-	 * @param string $url  URL string.
-	 * @param string $type Context (such as single).
-	 *
-	 * @return string
-	 */
-	public function add_trailingslash( $url, $type ) {
-		if ( 'single' === $type || 'single_paged' === $type ) {
-			return $url;
-		}
-		else {
-			return trailingslashit( $url );
-		}
-	}
-
-	/**
-	 * Removes the ?replytocom variable from the link, replacing it with a #comment-<number> anchor.
-	 *
-	 * @todo Should this function also allow for relative urls ?
-	 *
-	 * @param string $link The comment link as a string.
-	 *
-	 * @return string
-	 */
-	public function remove_reply_to_com( $link ) {
-		return preg_replace( '`href=(["\'])(?:.*(?:\?|&|&#038;)replytocom=(\d+)#respond)`', 'href=$1#comment-$2', $link );
-	}
-
-	/**
-	 * Redirect out the ?replytocom variables when cleanreplytocom is enabled.
-	 *
-	 * @since 1.4.13
-	 * @return boolean
-	 */
-	public function replytocom_redirect() {
-
-		if ( isset( $_GET['replytocom'] ) && is_singular() ) {
-			$url          = get_permalink( $GLOBALS['post']->ID );
-			$hash         = sanitize_text_field( $_GET['replytocom'] );
-			$query_string = remove_query_arg( 'replytocom', sanitize_text_field( $_SERVER['QUERY_STRING'] ) );
-			if ( ! empty( $query_string ) ) {
-				$url .= '?' . $query_string;
-			}
-			$url .= '#comment-' . $hash;
-
-			$this->redirect( $url, 301 );
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Replaces the possible RSS variables with their actual values.
 	 *
 	 * @param string $content The RSS content that should have the variables replaced.
@@ -1707,7 +1640,7 @@ class WPSEO_Frontend {
 	 * @param string $location The path to redirect to.
 	 * @param int    $status   Status code to use.
 	 */
-	protected function redirect( $location, $status = 302 ) {
+	public function redirect( $location, $status = 302 ) {
 		wp_safe_redirect( $location, $status );
 		exit;
 	}
@@ -1853,6 +1786,48 @@ class WPSEO_Frontend {
 		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
 			_deprecated_function( 'WPSEO_Frontend::clean_permalink', '6.4' );
 		}
+	}
+
+	/**
+	 * Trailing slashes for everything except is_single().
+	 *
+	 * @deprecated 6.4
+	 */
+	public function add_trailingslash() {
+		// As this is a frontend method, we want to make sure it is not displayed for non-logged in users.
+		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
+			_deprecated_function( 'WPSEO_Frontend::add_trailingslash', '6.4', null );
+		}
+	}
+
+	/**
+	 * Removes the ?replytocom variable from the link, replacing it with a #comment-<number> anchor.
+	 *
+	 * @deprecated 6.4
+	 *
+	 * @param string $link The comment link as a string.
+	 *
+	 * @return string The modified link.
+	 */
+	public function remove_reply_to_com( $link ) {
+		_deprecated_function( 'WPSEO_Frontend::remove_reply_to_com', '6.4', 'WPSEO_Remove_Reply_To_Com::remove_reply_to_com' );
+
+		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
+		return $remove_replytocom->remove_reply_to_com( $link );
+	}
+
+	/**
+	 * Redirects out the ?replytocom variables.
+	 *
+	 * @deprecated 6.4
+	 *
+	 * @return boolean True when redirect has been done.
+	 */
+	public function replytocom_redirect() {
+		_deprecated_function( 'WPSEO_Frontend::replytocom_redirect', '6.4', 'WPSEO_Remove_Reply_To_Com::replytocom_redirect' );
+
+		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
+		return $remove_replytocom->replytocom_redirect();
 	}
 	// @codeCoverageIgnoreEnd
 }
