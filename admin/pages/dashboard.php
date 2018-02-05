@@ -34,26 +34,6 @@ $yform->admin_header( true, 'wpseo' );
 
 do_action( 'wpseo_all_admin_notices' );
 
-if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files'] ) > 0 ) {
-
-	$options = WPSEO_Options::get_option( 'wpseo' );
-	if ( $options['enable_xml_sitemap'] ) {
-
-		echo '<div class="notice notice-error inline yoast-notice-blocking-files"><p id="blocking_files">';
-		printf(
-			/* translators: %1$s expands to Yoast SEO */
-			esc_html( _n( 'The following file is blocking your XML sitemaps from working properly. Either delete it (this can be done with the "Fix it" button) or disable %1$s XML sitemaps.', 'The following files are blocking your XML sitemaps from working properly. Either delete them (this can be done with the "Fix it" button) or disable %1$s XML sitemaps.', count( $options['blocking_files'] ), 'wordpress-seo' ) ),
-			'Yoast SEO'
-		);
-		foreach ( $options['blocking_files'] as $file ) {
-			echo '<br/>', '<code>', esc_html( $file ), '</code>';
-		}
-		unset( $file );
-		echo '<br><button type="button" data-nonce="', esc_attr( wp_create_nonce( 'wpseo-blocking-files' ) ), '" class="button">', esc_html__( 'Fix it', 'wordpress-seo' ), '</button>';
-		echo '</p></div>';
-	}
-}
-
 $tabs = new WPSEO_Option_Tabs( 'dashboard' );
 $tabs->add_tab( new WPSEO_Option_Tab( 'dashboard', __( 'Dashboard', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-notification-center' ) ) ) );
 $tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-general' ) ) ) );
