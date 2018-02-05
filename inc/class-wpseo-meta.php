@@ -383,8 +383,11 @@ class WPSEO_Meta {
 					$post_type = sanitize_text_field( $_GET['post_type'] );
 				}
 
-				/* Adjust the no-index 'default for post type' text string based on the post type */
-				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options[ 'noindex-' . $post_type ] ) && $options[ 'noindex-' . $post_type ] === true ) ? 'noindex' : 'index' ) );
+				/* Adjust the no-index text strings based on the post type. */
+				$post_type_object = get_post_type_object( $post_type );
+				$field_defs['meta-robots-noindex']['title'] = sprintf( $field_defs['meta-robots-noindex']['title'], $post_type_object->labels->singular_name );
+				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options[ 'noindex-' . $post_type ] ) && $options[ 'noindex-' . $post_type ] === true ) ? $field_defs['meta-robots-noindex']['options']['1'] : $field_defs['meta-robots-noindex']['options']['2'] ), $post_type_object->label );
+				$field_defs['meta-robots-nofollow']['title'] = sprintf( $field_defs['meta-robots-nofollow']['title'], $post_type_object->labels->singular_name );
 
 				/* Adjust the robots advanced 'site-wide default' text string based on those settings */
 				$robots_adv = __( 'None', 'wordpress-seo' );
