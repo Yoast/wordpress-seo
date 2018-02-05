@@ -805,6 +805,7 @@ class WPSEO_Frontend {
 		if ( $robots['index'] === 'noindex' ) {
 			remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		}
+
 		return $robotsstr;
 	}
 
