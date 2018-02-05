@@ -244,7 +244,7 @@ class WPSEO_Options {
 		}
 
 		$patterns = self::get_pattern_table();
-		foreach( $patterns as $pattern => $option ) {
+		foreach ( $patterns as $pattern => $option ) {
 			if ( strpos( $key, $pattern ) === 0 ) {
 				return self::save_option( $option, $key, $value );
 			}
