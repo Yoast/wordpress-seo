@@ -32,16 +32,6 @@ $tabs->add_tab(
 		)
 	)
 );
-$tabs->add_tab(
-	new WPSEO_Option_Tab(
-		'rss',
-		__( 'RSS', 'wordpress-seo' ),
-		array(
-			'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-rss' ),
-			'opt_group' => 'wpseo_rss',
-		)
-	)
-);
 
 $active_tab = $tabs->get_active_tab();
 Yoast_Form::get_instance()->admin_header( true, $active_tab->get_opt_group() );

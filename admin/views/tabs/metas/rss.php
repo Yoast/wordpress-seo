@@ -10,7 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $yform = Yoast_Form::get_instance();
-$yform->set_option( 'wpseo_rss' );
 
 echo '<h2>' . esc_html__( 'RSS feed settings', 'wordpress-seo' ) . '</h2>';
 
