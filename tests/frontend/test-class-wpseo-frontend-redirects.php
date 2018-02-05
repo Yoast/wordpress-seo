@@ -3,8 +3,6 @@
  * @package WPSEO\Tests\Frontend
  */
 
-require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case-frontend.php';
-
 /**
  * Unit Test Class.
  *
@@ -86,14 +84,13 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect() {
-		// Create parent post ID.
-		$parent_post_id = $this->factory->post->create();
+		$frontend = self::$class_instance;
+		$frontend->options['disable-attachment'] = true;
 
 		// Create an attachment with parent.
 		$post_id = $this->factory->post->create(
 			array(
 				'post_type'   => 'attachment',
-				'post_parent' => $parent_post_id,
 			)
 		);
 		$this->go_to( get_permalink( $post_id ) );
@@ -108,6 +105,9 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect_no_attachment() {
+		$frontend = self::$class_instance;
+		$frontend->options['disable-attachment'] = true;
+
 		$post_id = $this->factory->post->create( array( 'post_type' => 'post' ) );
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -133,21 +133,22 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * Tests for a request without a parent on an attachment.
+	 * Tests for a request when attachment redirect is not enabled.
 	 *
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
-	public function test_attachment_redirect_no_parent() {
+	public function test_attachment_redirect_not_enabled() {
+		$frontend = self::$class_instance;
+		$frontend->options['disable-attachment'] = false;
+
 		// Create and go to post.
 		$post_id = $this->factory->post->create(
 			array(
 				'post_type'   => 'attachment',
-				'post_parent' => 0,
 			)
 		);
 		$this->go_to( get_permalink( $post_id ) );
 
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
-		$this->assertEquals( 1, did_action( 'wpseo_redirect_orphan_attachment' ) );
 	}
 }

@@ -19,8 +19,6 @@ class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		require_once dirname( dirname( __FILE__ ) ) . '/doubles/class-sitemap-image-parser-double.php';
-
 		self::$class_instance = new WPSEO_Sitemap_Image_Parser();
 	}
 

@@ -56,7 +56,7 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	 */
 	public function set_data( $value_to_save ) {
 		// Make sure the value is a boolean.
-		$value_to_save  = ( $value_to_save === 'true' );
+		$value_to_save = ( $value_to_save === 'true' );
 
 		$this->set_option_value( $value_to_save );
 
@@ -86,7 +86,7 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	 * @return void
 	 */
 	protected function set_option_value( $value ) {
-		$option = WPSEO_Options::get_option( 'wpseo' );
+		$option                         = WPSEO_Options::get_option( 'wpseo' );
 		$option['enable_setting_pages'] = $value;
 
 		update_option( 'wpseo', $option );

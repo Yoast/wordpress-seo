@@ -21,7 +21,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		ob_start();
 
 		// Create instance of WPSEO_Twitter class.
-		require_once WPSEO_TESTS_PATH . 'doubles/class-expose-wpseo-twitter.php';
 		self::$class_instance = new Expose_WPSEO_Twitter();
 		WPSEO_Frontend::get_instance()->reset();
 		// Clean output which was outputted by WPSEO_Twitter constructor.

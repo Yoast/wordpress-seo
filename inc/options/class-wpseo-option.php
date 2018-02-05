@@ -25,7 +25,7 @@
  * - On (succesfull) update of a couple of options, certain related actions will be run automatically.
  *    Some examples:
  *      - on change of wpseo[yoast_tracking], the cron schedule will be adjusted accordingly
- *      - on change of wpseo_permalinks and wpseo_xml, the rewrite rules will be flushed
+ *      - on change of wpseo_permalinks, the rewrite rules will be flushed
  *      - on change of wpseo and wpseo_title, some caches will be cleared
  *
  *

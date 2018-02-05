@@ -31,6 +31,10 @@ else {
 
 define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
 
-// Include unit test base class.
-require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case.php';
-require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case-frontend.php';
+// Load autoloader.
+if ( PHP_VERSION_ID <= 53000 ) {
+	require_once dirname( WPSEO_TESTS_PATH ) . '/vendor/autoload_52.php';
+}
+else {
+	require_once dirname( WPSEO_TESTS_PATH ) . '/vendor/autoload.php';
+}

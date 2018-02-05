@@ -15,7 +15,6 @@ class WPSEO_Advanced_Settings {
 	private static $default_advanced_pages = array(
 		'wpseo_titles',
 		'wpseo_social',
-		'wpseo_xml',
 		'wpseo_advanced',
 		'wpseo_tools',
 	);

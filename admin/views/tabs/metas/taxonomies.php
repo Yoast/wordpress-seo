@@ -9,6 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+$yform = Yoast_Form::get_instance();
+
 $taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	foreach ( $taxonomies as $tax ) {
@@ -27,17 +29,13 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			);
 		}
 		echo "<div id='" . esc_attr( $tax->name ) . "-titles-metas'>";
+		/* translators: %1$s expands to the Taxonomy name */
+		$yform->index_switch( 'noindex-tax-' . $tax->name, $tax->labels->name );
 		$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
 		$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
-		$yform->toggle_switch( 'noindex-tax-' . $tax->name, $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 		if ( $tax->name !== 'post_format' ) {
 			/* translators: %1$s expands to Yoast SEO */
-			$yform->toggle_switch( 'hideeditbox-tax-' . $tax->name,
-				array(
-					'off' => __( 'Show', 'wordpress-seo' ),
-					'on'  => __( 'Hide', 'wordpress-seo' ),
-					/* translators: %1$s expands to Yoast SEO */
-				), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
+			$yform->show_hide_switch( 'hideeditbox-tax-' . $tax->name, sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
 		}
 		/**
 		 * Allow adding custom checkboxes to the admin meta page - Taxonomies tab

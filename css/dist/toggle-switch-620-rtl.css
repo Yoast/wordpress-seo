@@ -251,9 +251,12 @@
 		min-width: 200px;
 		margin-top: 10px;
 		padding-left: 1em;
-		font-weight: 600;
 		line-height: 2em;
 		vertical-align: middle;
+	}
+
+	.switch-light.switch-yoast-seo > strong {
+		font-weight: 600;
 	}
 
 	.switch-toggle.switch-yoast-seo,
