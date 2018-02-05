@@ -48,9 +48,9 @@ exports[`the YoastButton executes callback 1`] = `
   border: 0;
   border-radius: 4px;
   box-sizing: border-box;
-  font: 400 14px/24px "Open Sans", sans-serif;
+  font: 400 14px/24px "Open Sans",sans-serif;
   text-transform: uppercase;
-  box-shadow: 0 2px 8px 0 rgba( 0, 0, 0, 0.3 );
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
   -webkit-transition: box-shadow 150ms ease-out;
   transition: box-shadow 150ms ease-out;
 }
@@ -58,7 +58,7 @@ exports[`the YoastButton executes callback 1`] = `
 .c0:hover,
 .c0:focus,
 .c0:active {
-  box-shadow: 0 4px 10px 0 rgba( 0, 0, 0, 0.2 ),inset 0 0 0 100px rgba( 0, 0, 0, 0.1 );
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
@@ -69,7 +69,7 @@ exports[`the YoastButton executes callback 1`] = `
   box-shadow: none;
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c0::after {
     display: inline-block;
     content: "";
@@ -137,9 +137,9 @@ exports[`the YoastButton executes callback 2`] = `
   border: 0;
   border-radius: 4px;
   box-sizing: border-box;
-  font: 400 14px/24px "Open Sans", sans-serif;
+  font: 400 14px/24px "Open Sans",sans-serif;
   text-transform: uppercase;
-  box-shadow: 0 2px 8px 0 rgba( 0, 0, 0, 0.3 );
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
   -webkit-transition: box-shadow 150ms ease-out;
   transition: box-shadow 150ms ease-out;
 }
@@ -147,7 +147,7 @@ exports[`the YoastButton executes callback 2`] = `
 .c0:hover,
 .c0:focus,
 .c0:active {
-  box-shadow: 0 4px 10px 0 rgba( 0, 0, 0, 0.2 ),inset 0 0 0 100px rgba( 0, 0, 0, 0.1 );
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
@@ -158,7 +158,7 @@ exports[`the YoastButton executes callback 2`] = `
   box-shadow: none;
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c0::after {
     display: inline-block;
     content: "";
@@ -226,9 +226,9 @@ exports[`the YoastButton matches the snapshot 1`] = `
   border: 0;
   border-radius: 4px;
   box-sizing: border-box;
-  font: 400 14px/24px "Open Sans", sans-serif;
+  font: 400 14px/24px "Open Sans",sans-serif;
   text-transform: uppercase;
-  box-shadow: 0 2px 8px 0 rgba( 0, 0, 0, 0.3 );
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
   -webkit-transition: box-shadow 150ms ease-out;
   transition: box-shadow 150ms ease-out;
 }
@@ -236,7 +236,7 @@ exports[`the YoastButton matches the snapshot 1`] = `
 .c0:hover,
 .c0:focus,
 .c0:active {
-  box-shadow: 0 4px 10px 0 rgba( 0, 0, 0, 0.2 ),inset 0 0 0 100px rgba( 0, 0, 0, 0.1 );
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
@@ -247,7 +247,7 @@ exports[`the YoastButton matches the snapshot 1`] = `
   box-shadow: none;
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c0::after {
     display: inline-block;
     content: "";

@@ -168,7 +168,7 @@ class OnboardingWizard extends React.Component {
 					"A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} " +
 					"describing what step you are on and which changes you want to make (if any)."
 				),
-				components: { link: <a href="https://yoa.st/bugreport" target="_blank" /> },
+				components: { link: <a href="https://yoa.st/bugreport" target="_blank" rel="noopener noreferrer" /> },
 			} ),
 		} );
 	}

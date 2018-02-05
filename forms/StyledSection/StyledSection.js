@@ -18,7 +18,13 @@ const StyledSection = ( { title, icon, sectionContent } ) => {
 	let headingClassName = "yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-" + icon;
 
 	return (
-		<Section level={3} headingText={title} className={className} headingClassName={headingClassName} children={sectionContent} />
+		<Section
+			level={ 3 }
+			headingText={ title }
+			className={ className }
+			headingClassName={ headingClassName }>
+			{ sectionContent }
+		</Section>
 	);
 };
 

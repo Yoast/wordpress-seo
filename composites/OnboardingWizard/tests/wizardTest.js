@@ -5,6 +5,17 @@ jest.unmock( "material-ui/utils/withWidth" );
 jest.unmock( "../../../utils/i18n" );
 jest.unmock( "prop-types" );
 
+import React from "react";
+import Wizard from "../OnboardingWizard";
+import Config from "../config/production-config";
+import Enzyme from "enzyme";
+import EnzymeAdapter from "enzyme-adapter-react-16";
+import cloneDeep from "lodash/cloneDeep";
+import ApiConfig from "../config/api-config";
+import injectTapEventPlugin from "react-tap-event-plugin";
+
+Enzyme.configure( { adapter: new EnzymeAdapter() } );
+
 jest.mock( "../helpers/ajaxHelper", () => {
 
 	let ajaxHelper = ( url, data ) => {
@@ -15,14 +26,6 @@ jest.mock( "../helpers/ajaxHelper", () => {
 
 	return ajaxHelper;
 } );
-
-import React from "react";
-import Wizard from "../OnboardingWizard";
-import Config from "../config/production-config";
-import { mount } from "enzyme";
-import cloneDeep from "lodash/cloneDeep";
-import ApiConfig from "../config/api-config";
-import injectTapEventPlugin from "react-tap-event-plugin";
 
 /**
  *
@@ -43,7 +46,7 @@ describe( "a wizard component", () => {
 	beforeEach( () => {
 		config = cloneDeep( Config );
 		config.endpoint = ApiConfig;
-		renderedWizard = mount( <Wizard {...config} /> );
+		renderedWizard = Enzyme.mount( <Wizard {...config} /> );
 	} );
 
 	it( "loads props from config correctly", () => {

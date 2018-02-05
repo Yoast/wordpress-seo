@@ -18,7 +18,9 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
 
 .c7 {
   border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
   clip-path: inset(50%);
   height: 1px;
   margin: -1px;
@@ -65,7 +67,7 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
   color: #a4286a;
 }
 
-@media screen and ( max-width: 1224px ) {
+@media screen and ( max-width:1224px ) {
   .c1 {
     float: none;
     max-width: 100%;
@@ -73,7 +75,7 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
   }
 }
 
-@media screen and ( max-width: 1224px ) {
+@media screen and ( max-width:1224px ) {
   .c3 {
     margin: 0 auto;
     padding: 0;
