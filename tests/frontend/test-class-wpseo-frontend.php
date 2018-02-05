@@ -443,10 +443,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( get_bloginfo( 'rss2_url' ) );
 
 		// Test if input was changed.
-		$before_text = 'Some RSS before text';
-		WPSEO_Options::set( 'rssbefore', $before_text );
+		$expected_string = 'Some RSS before text';
+		WPSEO_Options::set( 'rssbefore', $expected_string );
 		WPSEO_Options::set( 'rssafter', '' );
-		$expected = wpautop( $before_text  ) . $input;
+
+		$expected = wpautop( $expected_string ) . $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input, 'full' ) );
 	}
 
