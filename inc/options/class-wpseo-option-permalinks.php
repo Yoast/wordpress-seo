@@ -19,12 +19,7 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 */
 	protected $defaults = array(
-		'cleanpermalinks'                 => false,
-		'cleanpermalink-extravars'        => '', // Text field.
-		'cleanpermalink-googlecampaign'   => false,
-		'cleanpermalink-googlesitesearch' => false,
 		'cleanreplytocom'                 => false,
-		'cleanslugs'                      => true,
 		'redirectattachment'              => false,
 		'stripcategorybase'               => false,
 		'trailingslash'                   => false,
@@ -86,11 +81,7 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 
 				/*
 				Covers:
-				 * 		'cleanpermalinks'
-				 * 		'cleanpermalink-googlesitesearch'
-				 *		'cleanpermalink-googlecampaign'
 				 *		'cleanreplytocom'
-				 *		'cleanslugs'
 				 *		'hide-rsdlink'
 				 *		'hide-wlwmanifest'
 				 *		'hide-shortlink'

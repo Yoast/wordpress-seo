@@ -129,7 +129,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Import_External {
 
 		// Saving the new meta values for Yoast SEO.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', $robot_value['index'], $post_id );
-		WPSEO_Meta::set_value( 'meta-robots-nofollow',$robot_value['follow'], $post_id );
+		WPSEO_Meta::set_value( 'meta-robots-nofollow', $robot_value['follow'], $post_id );
 		WPSEO_Meta::set_value( 'meta-robots-adv', $robot_value['advanced'], $post_id );
 	}
 

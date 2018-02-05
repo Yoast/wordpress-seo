@@ -9,6 +9,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+$options           = WPSEO_Options::get_option( 'wpseo' );
+$xml_sitemap_extra = false;
+if ( $options['enable_xml_sitemap'] ) {
+	$xml_sitemap_extra = '<a href="' . WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) . '" target="_blank">' . __( 'See the XML sitemap.', 'wordpress-seo' ) . '</a>';
+}
 $feature_toggles = array(
 	(object) array(
 		'name'            => __( 'SEO analysis', 'wordpress-seo' ),
@@ -51,6 +56,16 @@ $feature_toggles = array(
 		'order'           => 50,
 	),
 	(object) array(
+		'name'            => __( 'XML Sitemaps', 'wordpress-seo' ),
+		'setting'         => 'enable_xml_sitemap',
+		/* translators: %s expands to Yoast SEO */
+		'label'           => sprintf( __( 'Enable the XML sitemaps that %s generates.', 'wordpress-seo' ), 'Yoast SEO' ),
+		'read_more_label' => __( 'Read why XML Sitemaps are important for your site.', 'wordpress-seo' ),
+		'read_more_url'   => 'https://yoa.st/2a-',
+		'extra'           => $xml_sitemap_extra,
+		'order'           => 60,
+	),
+	(object) array(
 		/* translators: %s expands to Ryte. */
 		'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Ryte' ),
 		'setting'         => 'onpage_indexability',
@@ -59,14 +74,14 @@ $feature_toggles = array(
 		/* translators: %s expands to Ryte. */
 		'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'Ryte ' ),
 		'read_more_url'   => 'https://yoa.st/2an',
-		'order'           => 60,
+		'order'           => 70,
 	),
 	(object) array(
 		'name'    => __( 'Admin bar menu', 'wordpress-seo' ),
 		'setting' => 'enable_admin_bar_menu',
 		/* translators: %1$s expands to Yoast SEO*/
 		'label'   => sprintf( __( 'The %1$s admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.', 'wordpress-seo' ), 'Yoast SEO' ),
-		'order'   => 70,
+		'order'   => 80,
 	),
 );
 
@@ -80,47 +95,51 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 ?>
 <h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
 <div style="max-width:600px">
-<?php echo esc_html( sprintf(
-/* translators: %1$s expands to Yoast SEO */
-	__( '%1$s comes with a lot of features. You can enable / disable some of them below.', 'wordpress-seo' ),
-	'Yoast SEO'
-) ) ?>
-<?php
+	<?php echo esc_html( sprintf(
+	/* translators: %1$s expands to Yoast SEO */
+		__( '%1$s comes with a lot of features. You can enable / disable some of them below.', 'wordpress-seo' ),
+		'Yoast SEO'
+	) ) ?>
+	<?php
 
-/**
- * Simple sorting function used for usort straight below.
- *
- * @param object $feature_a Feature A.
- * @param object $feature_b Feature B.
- *
- * @return bool Whether order for feature A is bigger than for feature B.
- */
-function wpseo_cmp_order( $feature_a, $feature_b ) {
-	return ( $feature_a->order > $feature_b->order );
-}
-usort( $feature_toggles, 'wpseo_cmp_order' );
+	/**
+	 * Simple sorting function used for usort straight below.
+	 *
+	 * @param object $feature_a Feature A.
+	 * @param object $feature_b Feature B.
+	 *
+	 * @return bool Whether order for feature A is bigger than for feature B.
+	 */
+	function wpseo_cmp_order( $feature_a, $feature_b ) {
+		return ( $feature_a->order > $feature_b->order );
+	}
 
-foreach ( $feature_toggles as $feature ) : ?>
-	<h3><?php echo esc_html( $feature->name ); ?></h3>
-	<p>
-		<?php
-		$label = esc_html( $feature->label );
-		if ( ! empty( $feature->read_more_label ) ) {
-			$label .= ' ' . sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', WPSEO_Shortlinker::get( $feature->read_more_url ), esc_html( $feature->read_more_label ) );
-		}
-		$yform->toggle_switch(
-			$feature->setting,
-			array(
-				'on'  => __( 'Enabled', 'wordpress-seo' ),
-				'off' => __( 'Disabled', 'wordpress-seo' ),
-			),
-			$label
-		);
-		?>
-	</p>
-	<br/>
+	usort( $feature_toggles, 'wpseo_cmp_order' );
 
-<?php endforeach; ?>
+	foreach ( $feature_toggles as $feature ) : ?>
+		<h3><?php echo esc_html( $feature->name ); ?></h3>
+		<p>
+			<?php
+			$label = esc_html( $feature->label );
+			if ( ! empty( $feature->extra ) ) {
+				$label .= ' ' . $feature->extra;
+			}
+			if ( ! empty( $feature->read_more_label ) ) {
+				$label .= ' ' . sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', WPSEO_Shortlinker::get( $feature->read_more_url ), esc_html( $feature->read_more_label ) );
+			}
+			$yform->toggle_switch(
+				$feature->setting,
+				array(
+					'on'  => __( 'Enabled', 'wordpress-seo' ),
+					'off' => __( 'Disabled', 'wordpress-seo' ),
+				),
+				$label
+			);
+			?>
+		</p>
+		<br/>
+
+	<?php endforeach; ?>
 </div>
 <?php
 // Required to prevent our settings framework from saving the default because the field isn't explicitly set when saving the Dashboard page.

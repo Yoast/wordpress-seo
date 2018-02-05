@@ -25,7 +25,7 @@
  * - On (succesfull) update of a couple of options, certain related actions will be run automatically.
  *    Some examples:
  *      - on change of wpseo[yoast_tracking], the cron schedule will be adjusted accordingly
- *      - on change of wpseo_permalinks and wpseo_xml, the rewrite rules will be flushed
+ *      - on change of wpseo_permalinks, the rewrite rules will be flushed
  *      - on change of wpseo and wpseo_title, some caches will be cleared
  *
  *
@@ -610,6 +610,14 @@ abstract class WPSEO_Option {
 		}
 	}
 
+	/**
+	 * Returns the variable array key patterns for an options class.
+	 *
+	 * @return array
+	 */
+	public function get_patterns() {
+		return (array) $this->variable_array_key_patterns;
+	}
 
 	/**
 	 * Concrete classes *may* contain a clean_option method which will clean out old/renamed
@@ -715,7 +723,6 @@ abstract class WPSEO_Option {
 
 		return $key;
 	}
-
 
 	/* *********** DEPRECATED METHODS *********** */
 

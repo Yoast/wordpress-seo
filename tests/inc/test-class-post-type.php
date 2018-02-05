@@ -61,11 +61,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	public function test_get_accessible_post_types_with_a_non_indexable_post_type() {
 		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
 
-		WPSEO_Options::save_option(
-			'wpseo_titles',
-			'noindex-' . $custom_post_type->name,
-			true
-		);
+		WPSEO_Options::set( 'noindex-' . $custom_post_type->name, true );
 
 		// Noindexed post types -should- remain in the list.
 		$this->assertContains( 'custom-post-type', WPSEO_Post_Type::get_accessible_post_types() );
@@ -79,11 +75,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	public function test_get_accessible_post_types_with_an_indexable_post_type() {
 		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
 
-		WPSEO_Options::save_option(
-			'wpseo_titles',
-			'noindex-' . $custom_post_type->name,
-			false
-		);
+		WPSEO_Options::set( 'noindex-' . $custom_post_type->name, false );
 
 		$this->assertContains( 'custom-post-type', WPSEO_Post_Type::get_accessible_post_types() );
 	}
@@ -118,11 +110,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	public function test_is_post_type_indexable_with_indexable_post_type() {
 		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
 
-		WPSEO_Options::save_option(
-			'wpseo_titles',
-			'noindex-' . $custom_post_type->name,
-			false
-		);
+		WPSEO_Options::set( 'noindex-' . $custom_post_type->name, false );
 
 		$this->assertTrue( WPSEO_Post_Type::is_post_type_indexable( $custom_post_type->name ) );
 	}
@@ -135,11 +123,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	public function test_is_post_type_indexable_with_non_indexable_post_type() {
 		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
 
-		WPSEO_Options::save_option(
-			'wpseo_titles',
-			'noindex-' . $custom_post_type->name,
-			true
-		);
+		WPSEO_Options::set( 'noindex-' . $custom_post_type->name, true );
 
 		$this->assertFalse( WPSEO_Post_Type::is_post_type_indexable( $custom_post_type->name ) );
 	}
@@ -192,7 +176,13 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( WPSEO_Post_Type::is_rest_enabled( 'post' ) );
 		$this->assertFalse( WPSEO_Post_Type::is_rest_enabled( 'invalid_post_type' ) );
 
-		register_post_type( 'custom-post-type-api', array( 'public' => true, 'show_in_rest' => true ) );
+		register_post_type(
+			'custom-post-type-api',
+			array(
+				'public'       => true,
+				'show_in_rest' => true,
+			)
+		);
 		$this->assertTrue( WPSEO_Post_Type::is_rest_enabled( 'custom-post-type-api' ) );
 
 		register_post_type( 'custom-post-type', array( 'public' => true ) );
