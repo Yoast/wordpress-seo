@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import Icon from "../Plugin/Shared/components/Icon";
 import YoastSeoIcon from "../basic/YoastSeoIcon";
 
 /**
@@ -15,7 +16,7 @@ const Header = ( props ) => {
 		<div
 			role="banner"
 			className="yoast-wizard--header">
-			<YoastSeoIcon height={ 56 } width={ 56 }/>
+			<Icon icon={ YoastSeoIcon } width="56px" height="56px"/>
 			{ ( props.headerTitle ) ? <p className="yoast-wizard--header--page-title">{ props.headerTitle }</p> : null }
 		</div>
 	);
