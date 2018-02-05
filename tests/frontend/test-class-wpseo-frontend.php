@@ -337,21 +337,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::add_trailingslash
-	 */
-	public function test_add_trailingslash() {
-		$url = 'http://yoast.com/post';
-
-		// Test single pages.
-		$expected = $url;
-		$this->assertEquals( $expected, self::$class_instance->add_trailingslash( $url, 'single' ) );
-
-		// Test other.
-		$expected = trailingslashit( $url );
-		$this->assertEquals( $expected, self::$class_instance->add_trailingslash( $url, 'other' ) );
-	}
-
-	/**
 	 * @covers WPSEO_Frontend::rss_replace_vars
 	 */
 	public function test_rss_replace_vars() {
