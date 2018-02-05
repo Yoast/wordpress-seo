@@ -762,6 +762,9 @@ class WPSEO_Frontend {
 				if ( $this->options['noindex-author-noposts-wpseo'] === true && count_user_posts( $curauth->ID, 'any' ) === 0 ) {
 					$robots['index'] = 'noindex';
 				}
+				if ( get_user_meta( $curauth->ID, 'wpseo_noindex_author', true ) === 'on' ) {
+					$robots['index'] = 'noindex';
+				}
 			}
 			elseif ( is_date() && $this->options['noindex-archive-wpseo'] === true ) {
 				$robots['index'] = 'noindex';
