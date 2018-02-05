@@ -68,7 +68,7 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 		$fields_before = $this->class_instance->get();
 
 		$this->assertEquals(
-			'Default for Tags, currently: no',
+			'No (current default for Tags)',
 			$fields_before['noindex']['options']['options']['default']
 		);
 
