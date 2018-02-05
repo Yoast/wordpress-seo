@@ -34,11 +34,9 @@ $wpseo_csv_export_explain = sprintf(
 		$yform->set_options_value( 'export-title', true );
 		$yform->checkbox( 'export-title', __( 'Export title', 'wordpress-seo-premium' ) );
 
-		//Export SEO title
 		$yform->set_options_value( 'export-seo-title', false );
 		$yform->checkbox( 'export-seo-title', __( 'Export SEO title', 'wordpress-seo-premium' ) );
 
-		//Export meta description
 		$yform->set_options_value( 'export-meta-description', false );
 		$yform->checkbox( 'export-meta-description', __( 'Export meta description', 'wordpress-seo-premium' ) );
 
