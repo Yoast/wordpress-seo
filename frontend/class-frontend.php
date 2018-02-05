@@ -1551,7 +1551,7 @@ class WPSEO_Frontend {
 			$before = '';
 			$after  = '';
 
-			if ( WPSEO_Options::get( 'rssbefore', false ) ) {
+			if ( WPSEO_Options::get( 'rssbefore', '' ) !== '' ) {
 				$before = wpautop( $this->rss_replace_vars( WPSEO_Options::get( 'rssbefore' ) ) );
 			}
 			if ( WPSEO_Options::get( 'rssafter', '' ) !== '' ) {
