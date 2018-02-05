@@ -1,19 +1,126 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the Notification with props matches the snapshot 1`] = `
+.c0 {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  background-color: #fff;
+  min-height: 0;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.c1 h1,
+.c1 h2,
+.c1 h3,
+.c1 h4,
+.c1 h5,
+.c1 h6 {
+  font-size: 1.4em;
+  line-height: 1;
+  margin: 0 0 4px 0;
+}
+
+.c1 p:last-child {
+  margin: 0;
+}
+
+.c2 {
+  -webkit-flex: 0 0 40px;
+  -ms-flex: 0 0 40px;
+  flex: 0 0 40px;
+  height: 40px;
+  margin-right: 24px;
+}
+
+.c3 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c4 {
+  -webkit-flex: 0 0 40px;
+  -ms-flex: 0 0 40px;
+  flex: 0 0 40px;
+  height: 40px;
+  border: 0;
+  margin: 0 0 0 10px;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.c5 {
+  vertical-align: middle;
+}
+
+.c6 {
+  width: 24px;
+  height: 24px;
+  fill: #646464;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media screen and ( max-width:768px ) {
+  .c1 h1,
+  .c1 h2,
+  .c1 h3,
+  .c1 h4,
+  .c1 h5,
+  .c1 h6 {
+    margin-right: 30px;
+  }
+}
+
+@media screen and ( max-width:768px ) {
+  .c1 {
+    display: block;
+    position: relative;
+    padding: 16px;
+  }
+}
+
+@media screen and ( max-width:768px ) {
+  .c2 {
+    display: none;
+  }
+}
+
+@media screen and ( max-width:768px ) {
+  .c4 {
+    width: 40px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    margin: 0;
+  }
+}
+
 <div
-  className="sc-bdVaJa gPGzjI"
+  className="c0"
 >
   <div
-    className="sc-bwzfXH fBEotv"
+    className="c1"
   >
     <img
       alt=""
-      className="sc-htpNat cyCXzh"
+      className="c2"
       src="some-image.png"
     />
     <div
-      className="sc-bxivhb cWqORw"
+      className="c3"
     >
       <h3>
         New User?
@@ -29,13 +136,13 @@ exports[`the Notification with props matches the snapshot 1`] = `
     </div>
     <button
       aria-label="Dismiss this notice"
-      className="sc-ifAKCX RxIFE"
+      className="c4"
       onClick={[Function]}
       type="button"
     >
       <svg
         aria-hidden="true"
-        className="sc-EHOje kuyEOL sc-bZQynM iUFeFB"
+        className="c5 c6"
         focusable="false"
         role="img"
       />
@@ -45,14 +152,61 @@ exports[`the Notification with props matches the snapshot 1`] = `
 `;
 
 exports[`the Notification without props matches the snapshot 1`] = `
+.c0 {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  background-color: #fff;
+  min-height: 0;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.c1 h1,
+.c1 h2,
+.c1 h3,
+.c1 h4,
+.c1 h5,
+.c1 h6 {
+  font-size: 1.4em;
+  line-height: 1;
+  margin: 0 0 4px 0;
+}
+
+.c1 p:last-child {
+  margin: 0;
+}
+
+.c2 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+@media screen and ( max-width:768px ) {
+  .c1 {
+    display: block;
+    position: relative;
+    padding: 16px;
+  }
+}
+
 <div
-  className="sc-bdVaJa gPGzjI"
+  className="c0"
 >
   <div
-    className="sc-bwzfXH bmgoVW"
+    className="c1"
   >
     <div
-      className="sc-bxivhb cWqORw"
+      className="c2"
     >
       <h3 />
       <p

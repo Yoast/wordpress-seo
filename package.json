@@ -74,6 +74,7 @@
     "jest-cli": "^20.0.4",
     "jest-mock": "^20.0.3",
     "jest-runtime": "^19.0.4",
+    "jest-styled-components": "^4.10.0",
     "json-loader": "^0.5.4",
     "load-grunt-config": "^0.19.2",
     "material-ui": "^0.18.6",

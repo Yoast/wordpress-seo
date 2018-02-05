@@ -1,9 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the YoastButton executes callback 1`] = `
+.c1 {
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c1::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c1 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 16px;
+  padding: 0px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 14px/24px "Open Sans",sans-serif;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c0:hover,
+.c0:focus,
+.c0:active {
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  color: #fff;
+}
+
+.c0:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c0::after {
+    display: inline-block;
+    content: "";
+    min-height: 48px;
+  }
+}
+
 <button
   aria-expanded={undefined}
-  className="sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
+  className="c0 c1"
   onClick={[Function]}
   type="button"
 >
@@ -14,9 +90,85 @@ exports[`the YoastButton executes callback 1`] = `
 `;
 
 exports[`the YoastButton executes callback 2`] = `
+.c1 {
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c1::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c1 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 16px;
+  padding: 0px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 14px/24px "Open Sans",sans-serif;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c0:hover,
+.c0:focus,
+.c0:active {
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  color: #fff;
+}
+
+.c0:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c0::after {
+    display: inline-block;
+    content: "";
+    min-height: 48px;
+  }
+}
+
 <button
   aria-expanded={undefined}
-  className="sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
+  className="c0 c1"
   onClick={[Function]}
   type="button"
 >
@@ -27,9 +179,85 @@ exports[`the YoastButton executes callback 2`] = `
 `;
 
 exports[`the YoastButton matches the snapshot 1`] = `
+.c1 {
+  color: #fff;
+  background: #c00;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c1::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c1 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 16px;
+  padding: 0px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 14px/24px "Open Sans",sans-serif;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c0:hover,
+.c0:focus,
+.c0:active {
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  color: #fff;
+}
+
+.c0:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c0::after {
+    display: inline-block;
+    content: "";
+    min-height: 48px;
+  }
+}
+
 <button
   aria-expanded={undefined}
-  className="sc-bwzfXH jWIihg sc-bdVaJa IFELj"
+  className="c0 c1"
   onClick={undefined}
   type="button"
 >

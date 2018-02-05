@@ -1,30 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the WordpressFeed matches the snapshot 1`] = `
+.c0 {
+  box-sizing: border-box;
+}
+
+.c0 p,
+.c0 a {
+  font-size: 14px;
+  margin: 0;
+}
+
+.c1 {
+  margin: 8px 0;
+  font-size: 1em;
+}
+
+.c2 {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+
+.c4 {
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+.c5 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
+.c3 {
+  margin: 8px 0;
+  overflow: hidden;
+}
+
 <div
-  className="wordpress-feed sc-bdVaJa ggoxkE"
+  className="wordpress-feed c0"
 >
   <h3
-    className="wordpress-feed__header sc-bwzfXH iCXoeB"
+    className="wordpress-feed__header c1"
   >
     Feed title
   </h3>
   <ul
-    className="wordpress-feed__posts sc-htpNat czsPZk"
+    className="wordpress-feed__posts c2"
     role="list"
   >
     <li
-      className="wordpress-feed__post sc-EHOje fruGfq"
+      className="wordpress-feed__post c3"
     >
       <a
-        className="wordpress-feed__post-link sc-bxivhb iPuika"
+        className="wordpress-feed__post-link c4"
         href="https://www.yoast.com/1"
         rel="noopener noreferrer"
         target="_blank"
       >
         Wordpress SEO
         <span
-          className="sc-ifAKCX GTYdS"
+          className="c5"
         >
           ( Opens in a new browser tab )
         </span>
@@ -36,17 +82,17 @@ exports[`the WordpressFeed matches the snapshot 1`] = `
       </p>
     </li>
     <li
-      className="wordpress-feed__post sc-EHOje fruGfq"
+      className="wordpress-feed__post c3"
     >
       <a
-        className="wordpress-feed__post-link sc-bxivhb iPuika"
+        className="wordpress-feed__post-link c4"
         href="https://www.yoast.com/2"
         rel="noopener noreferrer"
         target="_blank"
       >
         Wordpress SEO
         <span
-          className="sc-ifAKCX GTYdS"
+          className="c5"
         >
           ( Opens in a new browser tab )
         </span>

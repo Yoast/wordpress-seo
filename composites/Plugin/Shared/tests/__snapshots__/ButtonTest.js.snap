@@ -1,8 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BaseButton executes callback 1`] = `
+.c4 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c3 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c2::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c2:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:hover {
+  color: #000;
+}
+
+.c0:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c3::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+  className="c0 c1 c2 c3 c4"
   onClick={[Function]}
   type="button"
 >
@@ -11,8 +79,76 @@ exports[`BaseButton executes callback 1`] = `
 `;
 
 exports[`BaseButton executes callback 2`] = `
+.c4 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c3 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c2::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c2:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:hover {
+  color: #000;
+}
+
+.c0:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c3::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+  className="c0 c1 c2 c3 c4"
   onClick={[Function]}
   type="button"
 >
@@ -21,8 +157,80 @@ exports[`BaseButton executes callback 2`] = `
 `;
 
 exports[`SnippetPreviewButton executes callback 1`] = `
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c4 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c2:hover {
+  color: #000;
+}
+
+.c1:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c0 {
+  font-size: 0.8rem;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c4::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+  className="c0 c1 c2 c3 c4 c5"
   onClick={[Function]}
   type="button"
 >
@@ -31,8 +239,80 @@ exports[`SnippetPreviewButton executes callback 1`] = `
 `;
 
 exports[`SnippetPreviewButton executes callback 2`] = `
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c4 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c2:hover {
+  color: #000;
+}
+
+.c1:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c0 {
+  font-size: 0.8rem;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c4::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+  className="c0 c1 c2 c3 c4 c5"
   onClick={[Function]}
   type="button"
 >
@@ -41,8 +321,76 @@ exports[`SnippetPreviewButton executes callback 2`] = `
 `;
 
 exports[`the BaseButton matches the snapshot 1`] = `
+.c4 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c3 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c2::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c2:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:hover {
+  color: #000;
+}
+
+.c0:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c3::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+  className="c0 c1 c2 c3 c4"
   type="button"
 >
   ButtonValue
@@ -50,13 +398,94 @@ exports[`the BaseButton matches the snapshot 1`] = `
 `;
 
 exports[`the IconButton matches the snapshot 1`] = `
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c4 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c2:hover {
+  color: #000;
+}
+
+.c1:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c0 {
+  font-size: 0.8rem;
+}
+
+.c6 {
+  width: 16px;
+  height: 16px;
+  fill: black;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c4::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+  className="c0 c1 c2 c3 c4 c5"
   type="button"
 >
   <svg
     aria-hidden="true"
-    className="sc-bZQynM hQwFUP"
+    className="c6"
     focusable="false"
     role="img"
   />
@@ -64,13 +493,101 @@ exports[`the IconButton matches the snapshot 1`] = `
 `;
 
 exports[`the IconButton with text matches the snapshot 1`] = `
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c4 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c2:hover {
+  color: #000;
+}
+
+.c1:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c0 {
+  font-size: 0.8rem;
+}
+
+.c6 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c7 {
+  width: 16px;
+  height: 16px;
+  fill: black;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c4::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+  className="c0 c1 c2 c3 c4 c5"
   type="button"
 >
   <svg
     aria-hidden="true"
-    className="sc-gzVnrw kYMwGB sc-htoDjs jtQveW"
+    className="c6 c7"
     focusable="false"
     role="img"
   />
@@ -79,8 +596,80 @@ exports[`the IconButton with text matches the snapshot 1`] = `
 `;
 
 exports[`the SnippetPreviewButton matches the snapshot 1`] = `
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c4 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c2:hover {
+  color: #000;
+}
+
+.c1:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c0 {
+  font-size: 0.8rem;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c4::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+  className="c0 c1 c2 c3 c4 c5"
   type="button"
 >
   ButtonValue

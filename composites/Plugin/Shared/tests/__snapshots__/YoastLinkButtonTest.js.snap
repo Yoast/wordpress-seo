@@ -1,8 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the YoastLinkButton matches the snapshot 1`] = `
+.c1 {
+  text-decoration: none;
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 16px;
+  padding: 0px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 14px/24px "Open Sans",sans-serif;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c0:hover,
+.c0:focus,
+.c0:active {
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  color: #fff;
+}
+
+.c0:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c0::after {
+    display: inline-block;
+    content: "";
+    min-height: 48px;
+  }
+}
+
 <a
-  className="sc-bxivhb eKOFJS sc-htpNat czwPQj"
+  className="c0 c1"
 >
   YoastLinkButtonValue
 </a>
