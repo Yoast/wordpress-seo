@@ -9,10 +9,13 @@
  * @since 6.4
  */
 class WPSEO_Remove_Reply_To_Com implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Registers the hooks necessary to handle removing ?replytocom.
 	 *
 	 * @since 6.4
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		if ( $this->clean_reply_to_com() ) {
@@ -28,17 +31,17 @@ class WPSEO_Remove_Reply_To_Com implements WPSEO_WordPress_Integration {
 	 *
 	 * @param string $link The comment link as a string.
 	 *
-	 * @return string
+	 * @return string The modified link.
 	 */
 	public function remove_reply_to_com( $link ) {
 		return preg_replace( '`href=(["\'])(?:.*(?:\?|&|&#038;)replytocom=(\d+)#respond)`', 'href=$1#comment-$2', $link );
 	}
 
 	/**
-	 * Redirect out the ?replytocom variables.
+	 * Redirects out the ?replytocom variables.
 	 *
 	 * @since 1.4.13
-	 * @return boolean
+	 * @return boolean True when redirect has been done.
 	 */
 	public function replytocom_redirect() {
 		if ( isset( $_GET['replytocom'] ) && is_singular() ) {
@@ -60,9 +63,9 @@ class WPSEO_Remove_Reply_To_Com implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Check whether we can allow the feature that removes ?replytocom query parameters.
+	 * Checks whether we can allow the feature that removes ?replytocom query parameters.
 	 *
-	 * @return bool
+	 * @return bool True to remove, false not to remove.
 	 */
 	private function clean_reply_to_com() {
 		/**
