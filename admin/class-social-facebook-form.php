@@ -10,9 +10,9 @@
 class Yoast_Social_Facebook_Form {
 
 	/**
-	 * @var    array    - The options for social
+	 * @var array - The FB admins
 	 */
-	private $options;
+	private $fb_admins;
 
 	/**
 	 * @var array    - The repository for the buttons that will be shown
@@ -25,10 +25,10 @@ class Yoast_Social_Facebook_Form {
 	private $admin_url = 'admin.php?page=wpseo_social';
 
 	/**
-	 * Setting the options and call the methods to display everything
+	 * Setting the FB admins option and call the methods to display everything
 	 */
 	public function __construct() {
-		$this->options = get_option( 'wpseo_social' );
+		$this->fb_admins = WPSEO_Options::get( 'fb_admins', array() );
 	}
 
 	/**
@@ -141,7 +141,7 @@ class Yoast_Social_Facebook_Form {
 		$nonce       = false;
 		$class_attr  = ' class="hidden"';
 
-		if ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
+		if ( $this->has_fb_admins() ) {
 			$nonce       = $this->get_delete_nonce();
 			$button_text = __( 'Add Another Facebook Admin', 'wordpress-seo' );
 			$class_attr  = '';
@@ -186,7 +186,7 @@ class Yoast_Social_Facebook_Form {
 	 * @param string $nonce Nonce string.
 	 */
 	private function show_user_admins( $nonce ) {
-		foreach ( $this->options['fb_admins'] as $admin_id => $admin ) {
+		foreach ( $this->fb_admins as $admin_id => $admin ) {
 			echo $this->get_admin_link( $admin_id, $admin, $nonce );
 		}
 	}
@@ -234,7 +234,7 @@ class Yoast_Social_Facebook_Form {
 	 * Showing the buttons
 	 */
 	private function show_buttons() {
-		if ( $this->get_clearall() ) {
+		if ( $this->has_fb_admins() ) {
 			$this->add_button(
 				array(
 					'url'   => add_query_arg( array(
@@ -256,10 +256,10 @@ class Yoast_Social_Facebook_Form {
 	/**
 	 * Check if the clear button should be displayed. This is based on the set options.
 	 *
-	 * @return bool
+	 * @return bool When fb admins is a valid array.
 	 */
-	private function get_clearall() {
-		return is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array();
+	private function has_fb_admins() {
+		return is_array( $this->fb_admins ) && $this->fb_admins !== array();
 	}
 
 	/**

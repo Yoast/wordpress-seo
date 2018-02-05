@@ -7,7 +7,6 @@
  * Class that handles the Admin side of XML sitemaps
  */
 class WPSEO_Sitemaps_Admin {
-
 	/**
 	 * @var array Post_types that are being imported.
 	 */
@@ -53,10 +52,8 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
-
 		// If the post type is excluded in options, we can stop.
-		if ( $options[ 'noindex-' . $post_type ] === true ) {
+		if ( WPSEO_Options::get( 'noindex-' . $post_type, false ) ) {
 			return;
 		}
 
@@ -73,17 +70,11 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		// Allow the pinging to happen slightly after the hit sitemap index so the sitemap is fully regenerated when the ping happens.
-		$excluded_posts = explode( ',', $options['excluded-posts'] );
-
-		if ( ! in_array( $post->ID, $excluded_posts ) ) {
-
-			if ( defined( 'YOAST_SEO_PING_IMMEDIATELY' ) && YOAST_SEO_PING_IMMEDIATELY ) {
-				WPSEO_Sitemaps::ping_search_engines();
-			}
-			elseif ( ! wp_next_scheduled( 'wpseo_ping_search_engines' ) ) {
-				wp_schedule_single_event( ( time() + 300 ), 'wpseo_ping_search_engines' );
-			}
+		if ( defined( 'YOAST_SEO_PING_IMMEDIATELY' ) && YOAST_SEO_PING_IMMEDIATELY ) {
+			WPSEO_Sitemaps::ping_search_engines();
+		}
+		elseif ( ! wp_next_scheduled( 'wpseo_ping_search_engines' ) ) {
+			wp_schedule_single_event( ( time() + 300 ), 'wpseo_ping_search_engines' );
 		}
 	}
 
@@ -114,8 +105,6 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
-
 		$ping_search_engines = false;
 
 		foreach ( $this->importing_post_types as $post_type ) {
@@ -126,7 +115,7 @@ class WPSEO_Sitemaps_Admin {
 				continue;
 			}
 
-			if ( $options[ 'noindex-' . $post_type ] === false ) {
+			if ( WPSEO_Options::get( 'noindex-' . $post_type, false ) === false ) {
 				$ping_search_engines = true;
 			}
 		}

@@ -97,7 +97,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Test with an option that exists.
 		$index          = 'title-post';
-		$expected_title = wpseo_replace_vars( self::$class_instance->options[ $index ], $var_source );
+		$expected_title = wpseo_replace_vars( WPSEO_Options::get( $index ), $var_source );
 		$this->assertEquals( $expected_title, self::$class_instance->get_title_from_options( $index, $var_source ) );
 	}
 
@@ -110,7 +110,6 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 		$input = 'Initial title';
 
 		// Test without paged query var set.
-		$expected = $input;
 		$this->assertEquals( $input, self::$class_instance->add_paging_to_title( '', '', $input ) );
 
 		// Test with paged set.

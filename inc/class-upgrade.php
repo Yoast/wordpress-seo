@@ -495,6 +495,8 @@ class WPSEO_Upgrade {
 	private function upgrade_64() {
 		$this->move_key_to_other_option( 'wpseo_permalinks', 'wpseo_titles', 'redirectattachment', 'disable-attachment' );
 		$this->move_key_to_other_option( 'wpseo_xml', 'wpseo', 'enablexmlsitemap', 'enable_xml_sitemap' );
+		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssbefore' );
+		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssafter' );
 
 		$this->remove_key_from_option( 'wpseo_permalinks', array(
 			'cleanslugs',
@@ -502,10 +504,17 @@ class WPSEO_Upgrade {
 			'cleanpermalink-extravars',
 			'cleanpermalink-googlecampaign',
 			'cleanpermalink-googlesitesearch',
+			'cleanreplytocom',
 			'redirectattachment',
+			'trailingslash',
 		) );
 
-		// Delete the WPSEO XML option.
+		// Delete the WPSEO XML and WPSEO RSS option.
 		delete_option( 'wpseo_xml' );
+		delete_option( 'wpseo_rss' );
+
+		// Moves the user meta for excluding from the XML sitemap to a noindex.
+		global $wpdb;
+		$wpdb->query( "UPDATE $wpdb->usermeta SET meta_key = 'wpseo_noindex_author' WHERE meta_key = 'wpseo_excludeauthorsitemap'" );
 	}
 }

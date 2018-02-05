@@ -65,4 +65,3 @@ travis.sh
 test.sh
 /artifact/
 /artifact.zip
-js/dist/chunks/*.nomin.js
