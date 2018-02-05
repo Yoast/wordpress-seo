@@ -7,7 +7,6 @@
 
 /**
  * Unit Test Class.
- * @group test
  */
 class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 
