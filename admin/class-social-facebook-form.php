@@ -141,7 +141,7 @@ class Yoast_Social_Facebook_Form {
 		$nonce       = false;
 		$class_attr  = ' class="hidden"';
 
-		if ( is_array( $this->fb_admins ) && $this->fb_admins !== array() ) {
+		if ( $this->has_fb_admins() ) {
 			$nonce       = $this->get_delete_nonce();
 			$button_text = __( 'Add Another Facebook Admin', 'wordpress-seo' );
 			$class_attr  = '';
@@ -234,7 +234,7 @@ class Yoast_Social_Facebook_Form {
 	 * Showing the buttons
 	 */
 	private function show_buttons() {
-		if ( $this->get_clearall() ) {
+		if ( $this->has_fb_admins() ) {
 			$this->add_button(
 				array(
 					'url'   => add_query_arg( array(
@@ -258,7 +258,7 @@ class Yoast_Social_Facebook_Form {
 	 *
 	 * @return bool When fb admins is a valid array.
 	 */
-	private function get_clearall() {
+	private function has_fb_admins() {
 		return is_array( $this->fb_admins ) && $this->fb_admins !== array();
 	}
 
