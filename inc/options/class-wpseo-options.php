@@ -239,7 +239,16 @@ class WPSEO_Options {
 	public static function set( $key, $value ) {
 		$lookup_table = self::get_lookup_table();
 
-		return self::save_option( $lookup_table[ $key ], $key, $value );
+		if ( isset( $lookup_table[ $key ] ) ) {
+			return self::save_option( $lookup_table[ $key ], $key, $value );
+		}
+
+		$patterns = self::get_pattern_table();
+		foreach ( $patterns as $pattern => $option ) {
+			if ( strpos( $key, $pattern ) === 0 ) {
+				return self::save_option( $option, $key, $value );
+			}
+		}
 	}
 
 	/**
@@ -460,5 +469,23 @@ class WPSEO_Options {
 		}
 
 		return $lookup_table;
+	}
+
+	/**
+	 * Retrieves a lookup table to find in which option_group a key is stored.
+	 *
+	 * @return array The lookup table.
+	 */
+	private static function get_pattern_table() {
+		$pattern_table = array();
+		foreach ( self::$options as $option_name => $option_class ) {
+			/** @var WPSEO_Option $instance */
+			$instance = call_user_func( array( $option_class, 'get_instance' ) );
+			foreach ( $instance->get_patterns() as $key ) {
+				$pattern_table[ $key ] = $option_name;
+			}
+		}
+
+		return $pattern_table;
 	}
 }
