@@ -337,65 +337,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::add_trailingslash
-	 */
-	public function test_add_trailingslash() {
-		$url = 'http://yoast.com/post';
-
-		// Test single pages.
-		$expected = $url;
-		$this->assertEquals( $expected, self::$class_instance->add_trailingslash( $url, 'single' ) );
-
-		// Test other.
-		$expected = trailingslashit( $url );
-		$this->assertEquals( $expected, self::$class_instance->add_trailingslash( $url, 'other' ) );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::remove_reply_to_com
-	 */
-	public function test_remove_reply_to_com() {
-
-		$link     = '<a href="http://yoast.com/post?replytocom=123#respond">Reply to Comment</a>';
-		$expected = '<a href="#comment-123">Reply to Comment</a>';
-
-		$this->assertEquals( $expected, self::$class_instance->remove_reply_to_com( $link ) );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::replytocom_redirect
-	 */
-	public function test_replytocom_redirect() {
-		$c = self::$class_instance;
-
-		// Test with cleanreplytocom set to false.
-		$c->options['cleanreplytocom'] = false;
-		$this->assertFalse( $c->replytocom_redirect() );
-
-		// Enable clean replytocom.
-		$c->options['cleanreplytocom'] = true;
-
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Test with no replytocom set in $_GET.
-		$this->assertFalse( $c->replytocom_redirect() );
-
-		$_GET['replytocom']      = 123;
-		$_SERVER['QUERY_STRING'] = '';
-
-		// The following call should redirect.
-		$this->assertTrue( $c->replytocom_redirect() );
-
-		// Go to home / move away from singular page.
-		$this->go_to_home();
-
-		// Test while not on singular page.
-		$this->assertFalse( $c->replytocom_redirect() );
-	}
-
-	/**
 	 * @covers WPSEO_Frontend::rss_replace_vars
 	 */
 	public function test_rss_replace_vars() {
