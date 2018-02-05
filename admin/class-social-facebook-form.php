@@ -10,7 +10,7 @@
 class Yoast_Social_Facebook_Form {
 
 	/**
-	 * @var    array    - The FB admins
+	 * @var array - The FB admins
 	 */
 	private $fb_admins;
 
@@ -256,7 +256,7 @@ class Yoast_Social_Facebook_Form {
 	/**
 	 * Check if the clear button should be displayed. This is based on the set options.
 	 *
-	 * @return bool
+	 * @return bool When fb admins is a valid array.
 	 */
 	private function get_clearall() {
 		return is_array( $this->fb_admins ) && $this->fb_admins !== array();

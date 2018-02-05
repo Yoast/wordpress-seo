@@ -172,14 +172,14 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				<p><a href="%2$s" target="_blank">%3$s</a></p>
 			</div>',
 			sprintf(
-			/* translators: %1$s expands to the social network's name, %2$s to Yoast SEO Premium. */
+				/* translators: %1$s expands to the social network's name, %2$s to Yoast SEO Premium. */
 				esc_html__( 'Do you want to preview what it will look like if people share this post on %1$s? You can, with %2$s.', 'wordpress-seo' ),
 				esc_html( $network_name ),
 				'<strong>Yoast SEO Premium</strong>'
 			),
 			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/179' ) ),
 			sprintf(
-			/* translators: %s expands to Yoast SEO Premium. */
+				/* translators: %s expands to Yoast SEO Premium. */
 				esc_html__( 'Find out why you should upgrade to %s', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			)

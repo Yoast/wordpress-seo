@@ -455,10 +455,10 @@ class WPSEO_Options {
 	}
 
 	/**
- * Retrieves a lookup table to find in which option_group a key is stored.
- *
- * @return array The lookup table.
- */
+	 * Retrieves a lookup table to find in which option_group a key is stored.
+	 *
+	 * @return array The lookup table.
+	 */
 	private static function get_lookup_table() {
 		$lookup_table = array();
 		foreach ( array_keys( self::$options ) as $option_name ) {
@@ -479,6 +479,7 @@ class WPSEO_Options {
 	private static function get_pattern_table() {
 		$pattern_table = array();
 		foreach ( self::$options as $option_name => $option_class ) {
+			/** @var WPSEO_Option $instance */
 			$instance = call_user_func( array( $option_class, 'get_instance' ) );
 			foreach ( $instance->get_patterns() as $key ) {
 				$pattern_table[ $key ] = $option_name;
