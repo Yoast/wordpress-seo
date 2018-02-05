@@ -94,6 +94,9 @@ before_script:
 - mysql -e "CREATE DATABASE wordpress_tests;" -uroot
 - cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
 - phpenv rehash
+- if [[ "$COVERAGE" == "1" ]]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter; fi
+- if [[ "$COVERAGE" == "1" ]]; then chmod +x ./cc-test-reporter; fi
+- if [[ "$COVERAGE" == "1" ]]; then ./cc-test-reporter before-build; fi
 
 script:
 - if [[ "$PHPLINT" == "1" ]]; then find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
@@ -110,8 +113,8 @@ script:
 # @link https://getcomposer.org/doc/03-cli.md#validate
 - if [[ $TRAVIS_PHP_VERSION == "5.3" || $TRAVIS_PHP_VERSION == "7.2" ]]; then composer validate --no-check-all; fi
 
-after_success:
-- if [[ "$COVERAGE" == "1" ]]; then vendor/bin/test-reporter; fi
+after_script:
+  - if [[ "$COVERAGE" == "1" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
 
 notifications:
   slack:

@@ -509,5 +509,9 @@ class WPSEO_Upgrade {
 
 		// Delete the WPSEO XML option.
 		delete_option( 'wpseo_xml' );
+
+		// Moves the user meta for excluding from the XML sitemap to a noindex.
+		global $wpdb;
+		$wpdb->query( "UPDATE $wpdb->usermeta SET meta_key = 'wpseo_noindex_author' WHERE meta_key = 'wpseo_excludeauthorsitemap'" );
 	}
 }
