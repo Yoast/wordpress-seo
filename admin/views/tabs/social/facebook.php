@@ -9,6 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+$yform = Yoast_Form::get_instance();
+
 echo '<h2>' . esc_html__( 'Facebook settings', 'wordpress-seo' ) . '</h2>';
 
 $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) );
@@ -30,8 +32,7 @@ if ( 'posts' === get_option( 'show_on_front' ) ) {
 	$yform->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
 
 	// Offer copying of meta description.
-	$meta_options = get_option( 'wpseo_titles' );
-	echo '<input type="hidden" id="meta_description" value="', esc_attr( $meta_options['metadesc-home-wpseo'] ), '" />';
+	echo '<input type="hidden" id="meta_description" value="', WPSEO_Options::get( 'metadesc-home-wpseo' ), '" />';
 	echo '<p class="label desc"><a href="javascript:;" onclick="wpseoCopyHomeMeta();" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</a></p>';
 
 }

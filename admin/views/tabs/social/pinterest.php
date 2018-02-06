@@ -29,6 +29,7 @@ printf(
 );
 echo '</p>';
 
+$yform = Yoast_Form::get_instance();
 $yform->textinput( 'pinterestverify', __( 'Pinterest confirmation', 'wordpress-seo' ) );
 
 do_action( 'wpseo_admin_pinterest_section' );

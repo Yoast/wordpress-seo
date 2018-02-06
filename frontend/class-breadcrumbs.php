@@ -53,7 +53,7 @@ class WPSEO_Breadcrumbs {
 	 * @var string    HTML wrapper element for the Yoast SEO breadcrumbs output
 	 */
 	private $wrapper = 'span';
-	
+
 	/**
 	 * @var    array    Array of crumbs
 	 *
