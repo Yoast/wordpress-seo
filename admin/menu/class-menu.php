@@ -60,10 +60,6 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 	 */
 	protected function show_page( $page ) {
 		switch ( $page ) {
-			case 'wpseo_advanced':
-				require_once WPSEO_PATH . 'admin/pages/advanced.php';
-				break;
-
 			case 'wpseo_tools':
 				require_once WPSEO_PATH . 'admin/pages/tools.php';
 				break;
@@ -82,10 +78,6 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 
 			case 'wpseo_files':
 				require_once WPSEO_PATH . 'admin/views/tool-file-editor.php';
-				break;
-
-			case 'wpseo_tutorial_videos':
-				require_once WPSEO_PATH . 'admin/pages/tutorial-videos.php';
 				break;
 
 			case 'wpseo_configurator':

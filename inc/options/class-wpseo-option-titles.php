@@ -46,6 +46,19 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'disable-post_format'    => false,
 		'disable-attachment'     => false,
 
+		'breadcrumbs-404crumb'      => '', // Text field.
+		'breadcrumbs-blog-remove'   => false,
+		'breadcrumbs-boldlast'      => false,
+		'breadcrumbs-archiveprefix' => '', // Text field.
+		'breadcrumbs-enable'        => false,
+		'breadcrumbs-home'          => '', // Text field.
+		'breadcrumbs-prefix'        => '', // Text field.
+		'breadcrumbs-searchprefix'  => '', // Text field.
+		'breadcrumbs-sep'           => '&raquo;', // Text field.
+
+		'website_name'                    => '',
+		'alternate_website_name'          => '',
+
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
 		 * - 'title-' . $pt->name        => ''; // Text field.
@@ -76,6 +89,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'showdate-',
 		'hideeditbox-',
 		'bctitle-ptarchive-',
+		'post_types-',
+		'taxonomy-',
 	);
 
 	/**
@@ -177,6 +192,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		$this->defaults['title-404-wpseo']    = __( 'Page not found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%';
 		/* translators: 1: link to post; 2: link to blog. */
 		$this->defaults['rssafter'] = sprintf( __( 'The post %1$s appeared first on %2$s.', 'wordpress-seo' ), '%%POSTLINK%%', '%%BLOGLINK%%' );
+		$this->defaults['breadcrumbs-404crumb']      = __( 'Error 404: Page not found', 'wordpress-seo' );
+		$this->defaults['breadcrumbs-archiveprefix'] = __( 'Archives for', 'wordpress-seo' );
+		$this->defaults['breadcrumbs-home']          = __( 'Home', 'wordpress-seo' );
+		$this->defaults['breadcrumbs-searchprefix']  = __( 'You searched for', 'wordpress-seo' );
 	}
 
 
@@ -249,8 +268,39 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			}
 			unset( $tax );
 		}
-	}
 
+		/*
+ 		 * Retrieve all the relevant post type and taxonomy arrays.
+		 *
+ 		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
+ 		*/
+		$post_type_names       = get_post_types( array( 'public' => true ), 'names' );
+		$taxonomy_names_custom = get_taxonomies(
+			array(
+				'public'   => true,
+				'_builtin' => false,
+			),
+			'names'
+		);
+
+		if ( $post_type_names !== array() ) {
+			foreach ( $post_type_names as $pt ) {
+				$pto_taxonomies = get_object_taxonomies( $pt, 'names' );
+				if ( $pto_taxonomies !== array() ) {
+					$this->defaults[ 'post_types-' . $pt . '-maintax' ] = 0; // Select box.
+				}
+				unset( $pto_taxonomies );
+			}
+			unset( $pt );
+		}
+
+		if ( $taxonomy_names_custom !== array() ) {
+			foreach ( $taxonomy_names_custom as $tax ) {
+				$this->defaults[ 'taxonomy-' . $tax . '-ptparent' ] = 0; // Select box;.
+			}
+			unset( $tax );
+		}
+	}
 
 	/**
 	 * Validate the option.
@@ -278,6 +328,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'title-ptarchive-' . $pt->name
 				 *  'title-tax-' . $tax->name
 				 */
+				case 'website_name':
+				case 'alternate_website_name':
 				case 'title-':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );

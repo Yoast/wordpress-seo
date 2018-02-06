@@ -210,8 +210,8 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * Returns an alternate name if one was specified in the Yoast SEO settings.
 	 */
 	private function add_alternate_name() {
-		if ( '' !== $this->options['alternate_website_name'] ) {
-			$this->data['alternateName'] = $this->options['alternate_website_name'];
+		if ( WPSEO_Options::get( 'alternate_website_name', '' ) !== '' ) {
+			$this->data['alternateName'] = WPSEO_Options::get( 'alternate_website_name' );
 		}
 	}
 
@@ -250,8 +250,8 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @return string
 	 */
 	private function get_website_name() {
-		if ( '' !== $this->options['website_name'] ) {
-			return $this->options['website_name'];
+		if ( WPSEO_Options::get( 'website_name', '' ) !== '' ) {
+			return WPSEO_Options::get( 'website_name' );
 		}
 
 		return get_bloginfo( 'name' );

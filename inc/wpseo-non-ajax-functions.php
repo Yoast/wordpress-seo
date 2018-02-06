@@ -42,8 +42,7 @@ function wpseo_admin_bar_menu() {
 
 		if ( $analysis_seo->is_enabled() ) {
 			$score = wpseo_adminbar_seo_score();
-		}
-		elseif ( $analysis_readability->is_enabled() ) {
+		} elseif ( $analysis_readability->is_enabled() ) {
 			$score = wpseo_adminbar_content_score();
 		}
 	}
@@ -51,8 +50,7 @@ function wpseo_admin_bar_menu() {
 	if ( is_category() || is_tag() || ( WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && ! WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) ) || is_tax() ) {
 		if ( $analysis_seo->is_enabled() ) {
 			$score = wpseo_tax_adminbar_seo_score();
-		}
-		elseif ( $analysis_readability->is_enabled() ) {
+		} elseif ( $analysis_readability->is_enabled() ) {
 			$score = wpseo_tax_adminbar_content_score();
 		}
 	}
@@ -94,10 +92,9 @@ function wpseo_admin_bar_menu() {
 						__( 'You have a new issue concerning your SEO!', 'wordpress-seo' ),
 						$new_notifications_count
 					);
-				}
-				else {
+				} else {
 					$notification = sprintf(
-						/* translators: %d resolves to the number of alerts being added. */
+					/* translators: %d resolves to the number of alerts being added. */
 						_n( 'You have %d new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' ),
 						$new_notifications_count
 					);
@@ -276,32 +273,18 @@ function wpseo_admin_bar_menu() {
 			'title'  => __( 'Dashboard', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_dashboard' ),
 		) );
-		if ( $advanced_settings ) {
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-titles',
-				'title'  => __( 'Titles &amp; Metas', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_titles' ),
-			) );
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-social',
-				'title'  => __( 'Social', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_social' ),
-			) );
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-wpseo-advanced',
-				'title'  => __( 'Advanced', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_advanced' ),
-			) );
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-tools',
-				'title'  => __( 'Tools', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
-			) );
-		}
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-titles',
+			'title'  => __( 'Titles &amp; Metas', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_titles' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-social',
+			'title'  => __( 'Social', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_social' ),
+		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-search-console',
@@ -310,12 +293,17 @@ function wpseo_admin_bar_menu() {
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-tools',
+			'title'  => __( 'Tools', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-licenses',
 			'title'  => __( 'Premium', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_licenses' ),
 		) );
 	}
-
 }
 
 /**
@@ -381,6 +369,7 @@ function wpseo_adminbar_score( $score ) {
 	$score = WPSEO_Utils::translate_score( $score );
 
 	$score_adminbar_element = '<div class="wpseo-score-icon adminbar-seo-score ' . $score . '"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+
 	return $score_adminbar_element;
 }
 
@@ -506,7 +495,7 @@ function wpseo_title_test() {
 /**
  * Test whether the active theme contains a <meta> description tag.
  *
- * @since 1.4.14 Moved from dashboard.php and adjusted - see changelog
+ * @since      1.4.14 Moved from dashboard.php and adjusted - see changelog
  *
  * @deprecated 3.3
  *
@@ -520,7 +509,7 @@ function wpseo_description_test() {
  * Check if the current theme was updated and if so, test the updated theme
  * for the title and meta description tag
  *
- * @since    1.4.14
+ * @since      1.4.14
  *
  * @deprecated 3.3
  *
@@ -538,7 +527,7 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
  * Abuse a filter to check if the current theme was updated and if so, test the updated theme
  * for the title and meta description tag
  *
- * @since 1.4.14
+ * @since      1.4.14
  * @deprecated 3.3
  *
  * @param   array           $update_actions Updated actions set.

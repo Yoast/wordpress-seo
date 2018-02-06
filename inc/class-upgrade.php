@@ -497,6 +497,9 @@ class WPSEO_Upgrade {
 		$this->move_key_to_other_option( 'wpseo_xml', 'wpseo', 'enablexmlsitemap', 'enable_xml_sitemap' );
 		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssbefore' );
 		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssafter' );
+		$this->move_key_to_other_option( 'wpseo_permalinks', 'wpseo_titles', 'stripcategorybase' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'website_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'alternate_website_name' );
 
 		$this->remove_key_from_option( 'wpseo_permalinks', array(
 			'cleanslugs',
