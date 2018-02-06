@@ -319,7 +319,7 @@ class WPSEO_Breadcrumbs {
 
 		// Ignore coding standards for empty if statement.
 		// @codingStandardsIgnoreStart
-		if ( ( $this->show_on_front === 'page' && is_front_page() ) || ( $this->show_on_front === 'posts' && is_home() ) ) {
+		if ( $this->is_front_page() ) {
 			// Do nothing.
 			// @codingStandardsIgnoreEnd
 		}
@@ -396,6 +396,21 @@ class WPSEO_Breadcrumbs {
 		$this->crumb_count = count( $this->crumbs );
 	}
 
+	/**
+	 * Determine whether we are on the front page of the site.
+	 *
+	 * @return bool
+	 */
+	private function is_front_page() {
+		if ( $this->show_on_front === 'page' && is_front_page() ) {
+			return true;
+		}
+
+		if ( $this->show_on_front === 'posts' && is_home() ) {
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Add a single id based crumb to the crumbs property.

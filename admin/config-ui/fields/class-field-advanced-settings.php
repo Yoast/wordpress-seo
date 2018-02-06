@@ -40,7 +40,7 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	 * @return string The value for the environment_type option.
 	 */
 	public function get_data() {
-		if ( $this->get_option_value() === true ) {
+		if ( $this->is_enabled() === true ) {
 			return 'true';
 		}
 
@@ -60,7 +60,7 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 
 		$this->set_option_value( $value_to_save );
 
-		return ( $this->get_option_value() === $value_to_save );
+		return ( $this->is_enabled() === $value_to_save );
 	}
 
 	/**
@@ -70,7 +70,7 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	 *
 	 * @return bool True if advanced settings pages are enabled.
 	 */
-	protected function get_option_value() {
+	protected function is_enabled() {
 		return WPSEO_Options::get( 'enable_setting_pages' );
 	}
 
