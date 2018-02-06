@@ -3,7 +3,9 @@
 exports[`the A11yNotice can be changed to a different element 1`] = `
 .c0 {
   border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
   clip-path: inset(50%);
   height: 1px;
   margin: -1px;
@@ -27,7 +29,9 @@ exports[`the A11yNotice can be changed to a different element 1`] = `
 exports[`the A11yNotice matches the snapshot 1`] = `
 .c0 {
   border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
   clip-path: inset(50%);
   height: 1px;
   margin: -1px;

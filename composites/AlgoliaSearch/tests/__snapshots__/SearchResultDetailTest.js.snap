@@ -54,9 +54,9 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   border: 0;
   border-radius: 4px;
   box-sizing: border-box;
-  font: 400 14px/24px "Open Sans", sans-serif;
+  font: 400 14px/24px "Open Sans",sans-serif;
   text-transform: uppercase;
-  box-shadow: 0 2px 8px 0 rgba( 0, 0, 0, 0.3 );
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
   -webkit-transition: box-shadow 150ms ease-out;
   transition: box-shadow 150ms ease-out;
 }
@@ -64,7 +64,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
 .c2:hover,
 .c2:focus,
 .c2:active {
-  box-shadow: 0 4px 10px 0 rgba( 0, 0, 0, 0.2 ),inset 0 0 0 100px rgba( 0, 0, 0, 0.1 );
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
@@ -104,9 +104,9 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   border: 0;
   border-radius: 4px;
   box-sizing: border-box;
-  font: 400 14px/24px "Open Sans", sans-serif;
+  font: 400 14px/24px "Open Sans",sans-serif;
   text-transform: uppercase;
-  box-shadow: 0 2px 8px 0 rgba( 0, 0, 0, 0.3 );
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
   -webkit-transition: box-shadow 150ms ease-out;
   transition: box-shadow 150ms ease-out;
 }
@@ -114,7 +114,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
 .c5:hover,
 .c5:focus,
 .c5:active {
-  box-shadow: 0 4px 10px 0 rgba( 0, 0, 0, 0.2 ),inset 0 0 0 100px rgba( 0, 0, 0, 0.1 );
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
@@ -127,7 +127,9 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
 
 .c7 {
   border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
   clip-path: inset(50%);
   height: 1px;
   margin: -1px;
@@ -153,7 +155,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   float: right;
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c2::after {
     display: inline-block;
     content: "";
@@ -161,7 +163,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   }
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c5::after {
     display: inline-block;
     content: "";
@@ -169,7 +171,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   }
 }
 
-@media screen and ( max-width: 768px ) {
+@media screen and ( max-width:768px ) {
   .c0 {
     margin: 0 -16px;
   }

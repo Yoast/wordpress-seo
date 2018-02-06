@@ -48,9 +48,9 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
   border: 0;
   border-radius: 4px;
   box-sizing: border-box;
-  font: 400 14px/24px "Open Sans", sans-serif;
+  font: 400 14px/24px "Open Sans",sans-serif;
   text-transform: uppercase;
-  box-shadow: 0 2px 8px 0 rgba( 0, 0, 0, 0.3 );
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
   -webkit-transition: box-shadow 150ms ease-out;
   transition: box-shadow 150ms ease-out;
 }
@@ -58,7 +58,7 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
 .c1:hover,
 .c1:focus,
 .c1:active {
-  box-shadow: 0 4px 10px 0 rgba( 0, 0, 0, 0.2 ),inset 0 0 0 100px rgba( 0, 0, 0, 0.1 );
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
@@ -84,7 +84,7 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
   margin: 0 16px;
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c1::after {
     display: inline-block;
     content: "";

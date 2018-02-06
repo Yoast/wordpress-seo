@@ -32,6 +32,11 @@ exports[`the input field matches the snapshot 1`] = `
       <div
         className="public-DraftEditorPlaceholder-inner"
         id="placeholder-test"
+        style={
+          Object {
+            "whiteSpace": "pre-wrap",
+          }
+        }
       >
         placeholder
       </div>
@@ -42,11 +47,12 @@ exports[`the input field matches the snapshot 1`] = `
       <div
         aria-activedescendant={undefined}
         aria-autocomplete={undefined}
+        aria-controls={undefined}
         aria-describedby="placeholder-test"
-        aria-expanded={undefined}
-        aria-haspopup={undefined}
+        aria-expanded={null}
         aria-label={undefined}
-        aria-owns={undefined}
+        aria-labelledby={undefined}
+        aria-multiline={undefined}
         autoCapitalize={undefined}
         autoComplete={undefined}
         autoCorrect={undefined}
@@ -77,7 +83,9 @@ exports[`the input field matches the snapshot 1`] = `
         spellCheck={false}
         style={
           Object {
+            "WebkitUserSelect": "text",
             "outline": "none",
+            "userSelect": "text",
             "whiteSpace": "pre-wrap",
             "wordWrap": "break-word",
           }

@@ -25,7 +25,7 @@ exports[`the CellFixedWidth component matches the snapshot 1`] = `
   flex: 0 0 auto;
 }
 
-@media screen and ( max-width: 1355px ) {
+@media screen and ( max-width:1355px ) {
   .c1 {
     padding-left: 20px;
   }
@@ -67,13 +67,13 @@ exports[`the CellIcon component matches the snapshot 1`] = `
   height: 60px;
 }
 
-@media screen and ( max-width: 1355px ) {
+@media screen and ( max-width:1355px ) {
   .c2 {
     padding-left: 20px;
   }
 }
 
-@media screen and ( max-width: 800px ) {
+@media screen and ( max-width:800px ) {
   .c0 {
     height: 48px;
   }
@@ -111,7 +111,7 @@ exports[`the CellMinWidth component matches the snapshot 1`] = `
   flex: 1 0 100px;
 }
 
-@media screen and ( max-width: 1355px ) {
+@media screen and ( max-width:1355px ) {
   .c1 {
     padding-left: 20px;
   }
@@ -149,16 +149,16 @@ exports[`the CellPrimary component matches the snapshot 1`] = `
   flex: 1 0 200px;
 }
 
-@media screen and ( max-width: 1355px ) {
+@media screen and ( max-width:1355px ) {
   .c1 {
     padding-left: 20px;
   }
 }
 
-@media screen and ( max-width: 800px ) {
+@media screen and ( max-width:800px ) {
   .c0 {
     -webkit-flex-shrink: 1;
-    -ms-flex-shrink: 1;
+    -ms-flex-negative: 1;
     flex-shrink: 1;
   }
 }
@@ -195,21 +195,21 @@ exports[`the CellPrimary with responsiveHeaders matches the snapshot 1`] = `
   flex: 1 0 200px;
 }
 
-@media screen and ( max-width: 1355px ) {
+@media screen and ( max-width:1355px ) {
   .c2 {
     padding-left: 20px;
   }
 }
 
-@media screen and ( max-width: 800px ) {
+@media screen and ( max-width:800px ) {
   .c1 {
     -webkit-flex-shrink: 1;
-    -ms-flex-shrink: 1;
+    -ms-flex-negative: 1;
     flex-shrink: 1;
   }
 }
 
-@media screen and ( max-width: 800px ) {
+@media screen and ( max-width:800px ) {
   .c0::before {
     float: left;
     min-width: 60px;

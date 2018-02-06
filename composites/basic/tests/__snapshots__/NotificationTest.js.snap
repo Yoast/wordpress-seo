@@ -2,7 +2,7 @@
 
 exports[`the Notification with props matches the snapshot 1`] = `
 .c0 {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   background-color: #fff;
   min-height: 0;
 }
@@ -64,7 +64,7 @@ exports[`the Notification with props matches the snapshot 1`] = `
   vertical-align: middle;
 }
 
-@media screen and ( max-width: 768px ) {
+@media screen and ( max-width:768px ) {
   .c1 h1,
   .c1 h2,
   .c1 h3,
@@ -75,7 +75,7 @@ exports[`the Notification with props matches the snapshot 1`] = `
   }
 }
 
-@media screen and ( max-width: 768px ) {
+@media screen and ( max-width:768px ) {
   .c1 {
     display: block;
     position: relative;
@@ -83,13 +83,13 @@ exports[`the Notification with props matches the snapshot 1`] = `
   }
 }
 
-@media screen and ( max-width: 768px ) {
+@media screen and ( max-width:768px ) {
   .c2 {
     display: none;
   }
 }
 
-@media screen and ( max-width: 768px ) {
+@media screen and ( max-width:768px ) {
   .c4 {
     width: 40px;
     position: absolute;
@@ -153,7 +153,7 @@ exports[`the Notification with props matches the snapshot 1`] = `
 
 exports[`the Notification without props matches the snapshot 1`] = `
 .c0 {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   background-color: #fff;
   min-height: 0;
 }
@@ -191,7 +191,7 @@ exports[`the Notification without props matches the snapshot 1`] = `
   flex: 1 1 auto;
 }
 
-@media screen and ( max-width: 768px ) {
+@media screen and ( max-width:768px ) {
   .c1 {
     display: block;
     position: relative;

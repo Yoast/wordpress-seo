@@ -7,7 +7,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
   display: inline-block;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 0.7 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
@@ -55,7 +55,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c9 {
@@ -100,20 +100,15 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 .c8:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c7:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c6:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c5 {
@@ -190,7 +185,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 .c11 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -202,7 +197,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 .c18 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -214,7 +209,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 .c21 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -226,7 +221,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 .c23 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -238,11 +233,11 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 .c25 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c9::after {
     display: inline-block;
     content: "";
@@ -562,7 +557,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c9 {
@@ -607,20 +602,15 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 .c8:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c7:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c6:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c5 {
@@ -697,7 +687,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 .c11 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -709,7 +699,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 .c18 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -721,7 +711,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 .c20 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -733,7 +723,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 .c22 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -745,11 +735,11 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 .c24 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c9::after {
     display: inline-block;
     content: "";
@@ -1016,7 +1006,9 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 exports[`the ContentAnalysis component with language notice for someone who can change the language matches the snapshot 1`] = `
 .c3 {
   border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
   clip-path: inset(50%);
   height: 1px;
   margin: -1px;
@@ -1036,7 +1028,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
   display: inline-block;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 0.7 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
@@ -1084,7 +1076,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c11 {
@@ -1129,20 +1121,15 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 .c10:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c9:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c8:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c7 {
@@ -1224,7 +1211,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 .c13 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -1236,7 +1223,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 .c20 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -1248,7 +1235,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 .c23 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -1260,7 +1247,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 .c25 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -1272,11 +1259,11 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 .c27 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c11::after {
     display: inline-block;
     content: "";
@@ -1581,7 +1568,9 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 exports[`the ContentAnalysis component with language notice for someone who cannot change the language matches the snapshot 1`] = `
 .c3 {
   border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
   clip-path: inset(50%);
   height: 1px;
   margin: -1px;
@@ -1601,7 +1590,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
   display: inline-block;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 0.7 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
@@ -1649,7 +1638,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c11 {
@@ -1694,20 +1683,15 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 .c10:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c9:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c8:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c7 {
@@ -1789,7 +1773,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 .c13 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -1801,7 +1785,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 .c20 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -1813,7 +1797,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 .c23 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -1825,7 +1809,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 .c25 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -1837,11 +1821,11 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 .c27 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c11::after {
     display: inline-block;
     content: "";
@@ -2150,7 +2134,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
   display: inline-block;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 0.7 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
@@ -2198,7 +2182,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c9 {
@@ -2243,20 +2227,15 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 .c8:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c7:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c6:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c5 {
@@ -2333,7 +2312,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 .c11 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -2345,7 +2324,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 .c18 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -2357,7 +2336,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 .c21 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -2369,7 +2348,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 .c23 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -2381,11 +2360,11 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 .c25 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c9::after {
     display: inline-block;
     content: "";
@@ -2681,7 +2660,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
   display: inline-block;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 0.7 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
@@ -2729,7 +2708,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c8 {
@@ -2774,20 +2753,15 @@ exports[`the ContentAnalysis component with specified header level matches the s
 .c7:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c6:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c5:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c4 {
@@ -2858,7 +2832,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
 .c10 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -2870,7 +2844,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
 .c17 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -2882,7 +2856,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
 .c20 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -2894,7 +2868,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
 .c22 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -2906,11 +2880,11 @@ exports[`the ContentAnalysis component with specified header level matches the s
 .c24 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -3195,7 +3169,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
   display: inline-block;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 0.7 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
@@ -3243,7 +3217,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c8 {
@@ -3288,20 +3262,15 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 .c7:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c6:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c5:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c4 {
@@ -3372,7 +3341,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 .c10 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -3384,7 +3353,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 .c17 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -3396,7 +3365,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 .c20 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -3408,7 +3377,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 .c22 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -3420,11 +3389,11 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 .c24 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -3733,7 +3702,7 @@ exports[`the ContentAnalysis component without problems and considerations, but 
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c8 {
@@ -3778,20 +3747,15 @@ exports[`the ContentAnalysis component without problems and considerations, but 
 .c7:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c6:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c5:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c4 {
@@ -3862,7 +3826,7 @@ exports[`the ContentAnalysis component without problems and considerations, but 
 .c10 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -3874,7 +3838,7 @@ exports[`the ContentAnalysis component without problems and considerations, but 
 .c17 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -3886,11 +3850,11 @@ exports[`the ContentAnalysis component without problems and considerations, but 
 .c19 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -4104,7 +4068,7 @@ exports[`the ContentAnalysis component without problems and improvements matches
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c8 {
@@ -4149,20 +4113,15 @@ exports[`the ContentAnalysis component without problems and improvements matches
 .c7:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c6:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c5:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c4 {
@@ -4233,7 +4192,7 @@ exports[`the ContentAnalysis component without problems and improvements matches
 .c10 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -4245,7 +4204,7 @@ exports[`the ContentAnalysis component without problems and improvements matches
 .c17 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -4257,11 +4216,11 @@ exports[`the ContentAnalysis component without problems and improvements matches
 .c19 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -4475,7 +4434,7 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c8 {
@@ -4520,20 +4479,15 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 .c7:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c6:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c5:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c4 {
@@ -4604,7 +4558,7 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 .c10 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -4616,7 +4570,7 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 .c17 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -4628,7 +4582,7 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 .c19 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -4640,11 +4594,11 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 .c21 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -4869,7 +4823,7 @@ exports[`the ContentAnalysis component without problems, improvements and consid
   display: inline-block;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 0.7 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
@@ -4917,7 +4871,7 @@ exports[`the ContentAnalysis component without problems, improvements and consid
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c8 {
@@ -4962,20 +4916,15 @@ exports[`the ContentAnalysis component without problems, improvements and consid
 .c7:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c6:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c5:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c4 {
@@ -5046,7 +4995,7 @@ exports[`the ContentAnalysis component without problems, improvements and consid
 .c10 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -5058,11 +5007,11 @@ exports[`the ContentAnalysis component without problems, improvements and consid
 .c17 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c8::after {
     display: inline-block;
     content: "";

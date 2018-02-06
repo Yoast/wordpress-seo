@@ -48,9 +48,9 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
   border: 0;
   border-radius: 4px;
   box-sizing: border-box;
-  font: 400 14px/24px "Open Sans", sans-serif;
+  font: 400 14px/24px "Open Sans",sans-serif;
   text-transform: uppercase;
-  box-shadow: 0 2px 8px 0 rgba( 0, 0, 0, 0.3 );
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
   -webkit-transition: box-shadow 150ms ease-out;
   transition: box-shadow 150ms ease-out;
 }
@@ -58,7 +58,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
 .c4:hover,
 .c4:focus,
 .c4:active {
-  box-shadow: 0 4px 10px 0 rgba( 0, 0, 0, 0.2 ),inset 0 0 0 100px rgba( 0, 0, 0, 0.1 );
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
@@ -94,7 +94,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
   flex: 1 1 auto;
   box-sizing: border-box;
   height: 48px;
-  box-shadow: inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 );
+  box-shadow: inset 0 2px 8px 0px rgba( 0,0,0,0.3 );
   background: #f1f1f1;
   border: 1px solid transparent;
   font-size: 1em;
@@ -103,7 +103,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
 }
 
 .c3.c3:focus {
-  box-shadow: inset 0 2px 8px 0px rgba( 0, 0, 0, 0.3 ),0 0 2px rgba( 30, 140, 190, 0.8 );
+  box-shadow: inset 0 2px 8px 0px rgba( 0,0,0,0.3 ), 0 0 2px rgba( 30,140,190,0.8 );
 }
 
 .c0 {
@@ -111,7 +111,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
   box-sizing: border-box;
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c4::after {
     display: inline-block;
     content: "";
@@ -119,14 +119,14 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
   }
 }
 
-@media screen and ( max-width: 768px ) {
+@media screen and ( max-width:768px ) {
   .c1 button {
     min-width: 100%;
     margin-top: 1em;
   }
 }
 
-@media screen and ( max-width: 768px ) {
+@media screen and ( max-width:768px ) {
   .c3.c3 {
     margin-right: 0;
   }

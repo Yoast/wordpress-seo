@@ -5,7 +5,7 @@ exports[`BaseButton executes callback 1`] = `
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c3 {
@@ -50,23 +50,18 @@ exports[`BaseButton executes callback 1`] = `
 .c2:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c1:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c0:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c3::after {
     display: inline-block;
     content: "";
@@ -88,7 +83,7 @@ exports[`BaseButton executes callback 2`] = `
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c3 {
@@ -133,23 +128,18 @@ exports[`BaseButton executes callback 2`] = `
 .c2:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c1:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c0:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c3::after {
     display: inline-block;
     content: "";
@@ -171,7 +161,7 @@ exports[`SnippetPreviewButton executes callback 1`] = `
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c4 {
@@ -216,27 +206,22 @@ exports[`SnippetPreviewButton executes callback 1`] = `
 .c3:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c2:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c1:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
   font-size: 0.8rem;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c4::after {
     display: inline-block;
     content: "";
@@ -258,7 +243,7 @@ exports[`SnippetPreviewButton executes callback 2`] = `
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c4 {
@@ -303,27 +288,22 @@ exports[`SnippetPreviewButton executes callback 2`] = `
 .c3:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c2:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c1:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
   font-size: 0.8rem;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c4::after {
     display: inline-block;
     content: "";
@@ -345,7 +325,7 @@ exports[`the BaseButton matches the snapshot 1`] = `
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c3 {
@@ -390,23 +370,18 @@ exports[`the BaseButton matches the snapshot 1`] = `
 .c2:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c1:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c0:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c3::after {
     display: inline-block;
     content: "";
@@ -427,7 +402,7 @@ exports[`the IconButton matches the snapshot 1`] = `
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c4 {
@@ -472,27 +447,22 @@ exports[`the IconButton matches the snapshot 1`] = `
 .c3:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c2:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c1:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
   font-size: 0.8rem;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c4::after {
     display: inline-block;
     content: "";
@@ -527,7 +497,7 @@ exports[`the IconButton with text matches the snapshot 1`] = `
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c4 {
@@ -572,20 +542,15 @@ exports[`the IconButton with text matches the snapshot 1`] = `
 .c3:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c2:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c1:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -595,11 +560,11 @@ exports[`the IconButton with text matches the snapshot 1`] = `
 .c6 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
-  -ms-flex-shrink: 0;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c4::after {
     display: inline-block;
     content: "";
@@ -635,7 +600,7 @@ exports[`the SnippetPreviewButton matches the snapshot 1`] = `
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204, 204, 204, 1 );
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
 .c4 {
@@ -680,27 +645,22 @@ exports[`the SnippetPreviewButton matches the snapshot 1`] = `
 .c3:focus {
   outline: none;
   border-color: #0066cd;
-  background-color: ;
-  box-shadow: 0 0 3px rgba( 8, 74, 103, 0.8 );
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c2:hover {
-  background-color: ;
-  border-color: ;
   color: #000;
 }
 
 .c1:active {
-  background-color: ;
-  border-color: ;
-  box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
   font-size: 0.8rem;
 }
 
-@media all and ( -ms-high-contrast: none ), ( -ms-high-contrast: active ) {
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c4::after {
     display: inline-block;
     content: "";

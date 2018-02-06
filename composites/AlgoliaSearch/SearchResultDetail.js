@@ -79,7 +79,12 @@ class SearchResultDetail extends React.Component {
 					/>
 					{ backButtonText }
 				</YoastButton>
-				<RightYoastLinkButton href={ this.props.post.permalink } aria-label={ openButtonLabel } target="_blank">
+				<RightYoastLinkButton
+					href={ this.props.post.permalink }
+					aria-label={ openButtonLabel }
+					target="_blank"
+					rel="noopener noreferrer"
+				>
 					{ openButtonText }
 					<SvgIcon
 						size="24px"
