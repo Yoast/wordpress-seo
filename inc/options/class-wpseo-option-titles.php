@@ -400,19 +400,17 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 							if ( isset( $old[ $key ] ) ) {
 								$clean[ $key ] = sanitize_title_with_dashes( $old[ $key ] );
 							}
-							if ( function_exists( 'add_settings_error' ) ) {
-								/**
-								 * @todo [JRF => whomever] maybe change the untranslated $pt name in the
-								 * error message to the nicely translated label ?
-								 */
-								add_settings_error(
-									$this->group_name, // Slug title of the setting.
-									'_' . $key, // Suffix-id for the error message box.
-									/* translators: %s expands to a post type. */
-									sprintf( __( 'Please select a valid taxonomy for post type "%s"', 'wordpress-seo' ), $post_type ), // The error message.
-									'error' // Error type, either 'error' or 'updated'.
-								);
-							}
+							/**
+							 * @todo [JRF => whomever] maybe change the untranslated $pt name in the
+							 * error message to the nicely translated label ?
+							 */
+							add_settings_error(
+								$this->group_name, // Slug title of the setting.
+								'_' . $key, // Suffix-id for the error message box.
+								/* translators: %s expands to a post type. */
+								sprintf( __( 'Please select a valid taxonomy for post type "%s"', 'wordpress-seo' ), $post_type ), // The error message.
+								'error' // Error type, either 'error' or 'updated'.
+							);
 						}
 					}
 					elseif ( isset( $old[ $key ] ) ) {
@@ -438,21 +436,19 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 							if ( isset( $old[ $key ] ) ) {
 								$clean[ $key ] = sanitize_key( $old[ $key ] );
 							}
-							if ( function_exists( 'add_settings_error' ) ) {
-								/**
-								 * @todo [JRF =? whomever] maybe change the untranslated $tax name in the
-								 * error message to the nicely translated label ?
-								 */
-								$tax = str_replace( array( 'taxonomy-', '-ptparent' ), '', $key );
-								add_settings_error(
-									$this->group_name, // Slug title of the setting.
-									'_' . $tax, // Suffix-id for the error message box.
-									/* translators: %s expands to a taxonomy slug. */
-									sprintf( __( 'Please select a valid post type for taxonomy "%s"', 'wordpress-seo' ), $tax ), // The error message.
-									'error' // Error type, either 'error' or 'updated'.
-								);
-								unset( $tax );
-							}
+							/**
+							 * @todo [JRF =? whomever] maybe change the untranslated $tax name in the
+							 * error message to the nicely translated label ?
+							 */
+							$tax = str_replace( array( 'taxonomy-', '-ptparent' ), '', $key );
+							add_settings_error(
+								$this->group_name, // Slug title of the setting.
+								'_' . $tax, // Suffix-id for the error message box.
+								/* translators: %s expands to a taxonomy slug. */
+								sprintf( __( 'Please select a valid post type for taxonomy "%s"', 'wordpress-seo' ), $tax ), // The error message.
+								'error' // Error type, either 'error' or 'updated'.
+							);
+							unset( $tax );
 						}
 					}
 					elseif ( isset( $old[ $key ] ) ) {

@@ -490,7 +490,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Perform the 6.4 upgrade, moves settings around, deletes several options.
+	 * Perform the 7.0 upgrade, moves settings around, deletes several options.
 	 */
 	private function upgrade_70() {
 		// Move some permalink settings, then delete the option.
