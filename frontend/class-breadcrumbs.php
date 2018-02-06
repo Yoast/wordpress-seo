@@ -332,7 +332,7 @@ class WPSEO_Breadcrumbs {
 			if ( isset( $this->post->post_parent ) && 0 === $this->post->post_parent ) {
 				$this->maybe_add_taxonomy_crumbs_for_post();
 			}
-			else {
+			if ( ! isset( $this->post->post_parent ) || 0 === $this->post->post_parent ) {
 				$this->add_post_ancestor_crumbs();
 			}
 
@@ -340,52 +340,50 @@ class WPSEO_Breadcrumbs {
 				$this->add_single_post_crumb( $this->post->ID );
 			}
 		}
-		else {
-			if ( is_post_type_archive() ) {
-				$post_type = $wp_query->get( 'post_type' );
+		elseif ( is_post_type_archive() ) {
+			$post_type = $wp_query->get( 'post_type' );
 
-				if ( $post_type && is_string( $post_type ) ) {
-					$this->add_ptarchive_crumb( $post_type );
-				}
+			if ( $post_type && is_string( $post_type ) ) {
+				$this->add_ptarchive_crumb( $post_type );
 			}
-			elseif ( is_tax() || is_tag() || is_category() ) {
-				$this->add_crumbs_for_taxonomy();
+		}
+		elseif ( is_tax() || is_tag() || is_category() ) {
+			$this->add_crumbs_for_taxonomy();
+		}
+		elseif ( is_date() ) {
+			if ( is_day() ) {
+				$this->add_linked_month_year_crumb();
+				$this->add_date_crumb();
 			}
-			elseif ( is_date() ) {
-				if ( is_day() ) {
-					$this->add_linked_month_year_crumb();
-					$this->add_date_crumb();
-				}
-				elseif ( is_month() ) {
-					$this->add_month_crumb();
-				}
-				elseif ( is_year() ) {
-					$this->add_year_crumb();
-				}
+			elseif ( is_month() ) {
+				$this->add_month_crumb();
 			}
-			elseif ( is_author() ) {
-				$user         = $wp_query->get_queried_object();
-				$display_name = get_the_author_meta( 'display_name', $user->ID );
-				$this->add_predefined_crumb(
-					WPSEO_Options::get( 'breadcrumbs-archiveprefix' ) . ' ' . $display_name,
-					null,
-					true
-				);
+			elseif ( is_year() ) {
+				$this->add_year_crumb();
 			}
-			elseif ( is_search() ) {
-				$this->add_predefined_crumb(
-					WPSEO_Options::get( 'breadcrumbs-searchprefix' ) . ' "' . esc_html( get_search_query() ) . '"',
-					null,
-					true
-				);
-			}
-			elseif ( is_404() ) {
-				$this->add_predefined_crumb(
-					WPSEO_Options::get( 'breadcrumbs-404crumb' ),
-					null,
-					true
-				);
-			}
+		}
+		elseif ( is_author() ) {
+			$user         = $wp_query->get_queried_object();
+			$display_name = get_the_author_meta( 'display_name', $user->ID );
+			$this->add_predefined_crumb(
+				WPSEO_Options::get( 'breadcrumbs-archiveprefix' ) . ' ' . $display_name,
+				null,
+				true
+			);
+		}
+		elseif ( is_search() ) {
+			$this->add_predefined_crumb(
+				WPSEO_Options::get( 'breadcrumbs-searchprefix' ) . ' "' . esc_html( get_search_query() ) . '"',
+				null,
+				true
+			);
+		}
+		elseif ( is_404() ) {
+			$this->add_predefined_crumb(
+				WPSEO_Options::get( 'breadcrumbs-404crumb' ),
+				null,
+				true
+			);
 		}
 
 		/**
@@ -560,10 +558,9 @@ class WPSEO_Breadcrumbs {
 				if ( $this->page_for_posts ) {
 					$this->add_blog_crumb();
 				}
+				return;
 			}
-			else {
-				$this->add_ptarchive_crumb( WPSEO_Options::get( 'taxonomy-' . $term->taxonomy . '-ptparent' ) );
-			}
+			$this->add_ptarchive_crumb( WPSEO_Options::get( 'taxonomy-' . $term->taxonomy . '-ptparent' ) );
 		}
 	}
 

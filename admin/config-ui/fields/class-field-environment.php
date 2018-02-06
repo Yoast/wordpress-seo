@@ -60,9 +60,9 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 			}
 		}
 
-		$saved_environment_option = WPSEO_Options::get( 'environment_type' );
+		$saved = WPSEO_Options::get( 'environment_type' );
 
-		return ( $saved_environment_option === $environment_type );
+		return ( $saved === $environment_type );
 	}
 
 	/**
@@ -85,8 +85,8 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 
 			return true;
 		}
-		$saved_blog_public_value = get_option( 'blog_public' );
+		$saved = get_option( 'blog_public' );
 
-		return ( $saved_blog_public_value === $new_blog_public_value );
+		return ( $saved === $new_blog_public_value );
 	}
 }
