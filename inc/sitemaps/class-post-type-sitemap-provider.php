@@ -11,9 +11,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/** @var string $home_url Holds the home_url() value. */
 	protected static $home_url;
 
-	/** @var array $options All of plugin options. */
-	protected static $options;
-
 	/** @var WPSEO_Sitemap_Image_Parser $image_parser Holds image parser instance. */
 	protected static $image_parser;
 
@@ -99,19 +96,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return self::$home_url;
-	}
-
-	/**
-	 * Get all the options
-	 *
-	 * @return array
-	 */
-	protected function get_options() {
-		if ( ! isset( self::$options ) ) {
-			self::$options = WPSEO_Options::get_all();
-		}
-
-		return self::$options;
 	}
 
 	/**
@@ -471,9 +455,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_post_type_archive_link( $post_type ) {
 
-		$options = $this->get_options();
-
-		if ( isset( $options[ 'noindex-ptarchive-' . $post_type ] ) && $options[ 'noindex-ptarchive-' . $post_type ] ) {
+		if ( WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ) {
 			return false;
 		}
 

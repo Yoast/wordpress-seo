@@ -18,9 +18,7 @@ function wpseo_admin_bar_menu() {
 		return;
 	}
 
-	$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_ms' ) );
-
-	if ( $options['enable_admin_bar_menu'] !== true ) {
+	if ( WPSEO_Options::get( 'enable_admin_bar_menu', false ) !== true ) {
 		return;
 	}
 
@@ -262,8 +260,6 @@ function wpseo_admin_bar_menu() {
 	// @todo: add links to bulk title and bulk description edit pages.
 	if ( $can_manage_seo ) {
 
-		$advanced_settings = wpseo_advanced_settings_enabled( $options );
-
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-menu',
 			'id'     => 'wpseo-settings',
@@ -276,32 +272,30 @@ function wpseo_admin_bar_menu() {
 			'title'  => __( 'Dashboard', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_dashboard' ),
 		) );
-		if ( $advanced_settings ) {
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-titles',
-				'title'  => __( 'Titles &amp; Metas', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_titles' ),
-			) );
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-social',
-				'title'  => __( 'Social', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_social' ),
-			) );
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-wpseo-advanced',
-				'title'  => __( 'Advanced', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_advanced' ),
-			) );
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-tools',
-				'title'  => __( 'Tools', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
-			) );
-		}
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-titles',
+			'title'  => __( 'Titles &amp; Metas', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_titles' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-social',
+			'title'  => __( 'Social', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_social' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-wpseo-advanced',
+			'title'  => __( 'Advanced', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_advanced' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-tools',
+			'title'  => __( 'Tools', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
+		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-search-console',

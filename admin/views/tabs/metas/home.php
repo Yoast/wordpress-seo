@@ -9,6 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+$yform = Yoast_Form::get_instance();
+
 if ( 'posts' === get_option( 'show_on_front' ) ) {
 	echo '<div id="homepage-titles-metas">';
 	echo '<h2>', esc_html__( 'Homepage', 'wordpress-seo' ), '</h2>';

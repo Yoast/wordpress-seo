@@ -68,24 +68,6 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Get defaults
-	 *
-	 * @return array
-	 */
-	private function wpseo_option_xml_defaults() {
-		static $defaults;
-
-		if ( ! isset( $defaults ) ) {
-			$defaults = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_titles' ) );
-
-			// Make sure the author sitemaps are enabled.
-			$defaults['noindex-author-wpseo'] = false;
-		}
-
-		return $defaults;
-	}
-
-	/**
 	 * Exclude author by profile setting
 	 *
 	 * @param mixed $value Value.

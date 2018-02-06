@@ -11,6 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 echo '<h2>' . esc_html__( 'Security setting', 'wordpress-seo' ) . '</h2>';
 
+$yform = Yoast_Form::get_instance();
 $yform->toggle_switch(
 	'disableadvanced_meta',
 	array(

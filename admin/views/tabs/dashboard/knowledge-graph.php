@@ -9,6 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+$yform = Yoast_Form::get_instance();
+
 echo '<h2>' . esc_html__( 'Website name', 'wordpress-seo' ) . '</h2>';
 ?>
 <p>
