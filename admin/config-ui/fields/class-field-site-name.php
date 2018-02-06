@@ -53,11 +53,6 @@ class WPSEO_Config_Field_Site_Name extends WPSEO_Config_Field {
 	 * @return bool Returns true or false for successful storing the data.
 	 */
 	public function set_data( $data ) {
-		WPSEO_Options::set( 'website_name', $data );
-
-		// Check if everything got saved properly.
-		$saved_option = WPSEO_Options::get( 'website_name' );
-
-		return ( $saved_option === $data );
+		return WPSEO_Options::set( 'website_name', $data );
 	}
 }

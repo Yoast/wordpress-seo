@@ -140,10 +140,7 @@ class WPSEO_Configuration_Options_Adapter {
 				return update_option( $option, $value );
 
 			case self::OPTION_TYPE_YOAST:
-				WPSEO_Options::set( $option, $value );
-				$saved = WPSEO_Options::get( $option );
-
-				return $saved === $value;
+				return WPSEO_Options::set( $option, $value );
 
 			case self::OPTION_TYPE_CUSTOM:
 				return call_user_func( $option[1], $value );

@@ -74,11 +74,6 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	public function set_data( $visible ) {
 		$post_type = $this->get_post_type();
 
-		WPSEO_Options::set( 'noindex-' . $post_type, ( $visible === 'false' ) );
-
-		// Check if everything got saved properly.
-		$saved_option = WPSEO_Options::get( 'noindex-' . $post_type );
-
-		return ( ( $visible === 'false' ) && $saved_option === true );
+		return WPSEO_Options::set( 'noindex-' . $post_type, ( $visible === 'false' ) );
 	}
 }

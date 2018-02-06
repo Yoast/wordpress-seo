@@ -53,16 +53,15 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 	 * @return bool Returns whether the value is successfully set.
 	 */
 	public function set_data( $environment_type ) {
+		$return = true;
 		if ( $this->get_data() !== $environment_type ) {
-			WPSEO_Options::set( 'environment_type', $environment_type );
+			$return = WPSEO_Options::set( 'environment_type', $environment_type );
 			if ( ! $this->set_indexation( $environment_type ) ) {
 				return false;
 			}
 		}
 
-		$saved = WPSEO_Options::get( 'environment_type' );
-
-		return ( $saved === $environment_type );
+		return $return;
 	}
 
 	/**
