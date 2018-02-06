@@ -21,9 +21,9 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	}
 
 	/**
-	 * Returns array with the fields for the general tab
+	 * Returns array with the fields for the General tab.
 	 *
-	 * @return array
+	 * @return array Fields to be used on the General tab.
 	 */
 	public function get() {
 		$labels = $this->get_taxonomy_labels();
@@ -68,7 +68,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	/**
 	 * Getting the data for the noindex fields
 	 *
-	 * @return array
+	 * @return array Array containing the no_index options.
 	 */
 	private function get_noindex_options() {
 		$labels                                = $this->get_taxonomy_labels();
@@ -81,7 +81,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	/**
 	 * Retrieve the taxonomies plural for use in sentences.
 	 *
-	 * @return object
+	 * @return object Object containing the taxonomy's labels.
 	 */
 	private function get_taxonomy_labels() {
 		$taxonomy = get_taxonomy( $this->term->taxonomy );
