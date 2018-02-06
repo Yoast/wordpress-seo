@@ -273,20 +273,20 @@ function wpseo_admin_bar_menu() {
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-titles',
-			'title'  => __( 'Titles &amp; Metas', 'wordpress-seo' ),
+			'title'  => __( 'Search Appearance', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_titles' ),
-		) );
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'wpseo-settings',
-			'id'     => 'wpseo-social',
-			'title'  => __( 'Social', 'wordpress-seo' ),
-			'href'   => admin_url( 'admin.php?page=wpseo_social' ),
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-search-console',
 			'title'  => __( 'Search Console', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_search_console' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-social',
+			'title'  => __( 'Social', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_social' ),
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',

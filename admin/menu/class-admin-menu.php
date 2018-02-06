@@ -116,14 +116,14 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 		$submenu_pages = array(
 			$this->get_submenu_page( __( 'General', 'wordpress-seo' ), $this->menu->get_page_identifier() ),
 			$this->get_submenu_page( __( 'Search Appearance', 'wordpress-seo' ), 'wpseo_titles' ),
-			$this->get_submenu_page( __( 'Social', 'wordpress-seo' ), 'wpseo_social' ),
-			$this->get_submenu_page( __( 'Tools', 'wordpress-seo' ), 'wpseo_tools' ),
 			$this->get_submenu_page(
 				__( 'Search Console', 'wordpress-seo' ),
 				'wpseo_search_console',
 				array( $admin_features['google_search_console'], 'display' ),
 				array( array( $admin_features['google_search_console'], 'set_help' ) )
 			),
+			$this->get_submenu_page( __( 'Social', 'wordpress-seo' ), 'wpseo_social' ),
+			$this->get_submenu_page( __( 'Tools', 'wordpress-seo' ), 'wpseo_tools' ),
 			$this->get_submenu_page( $this->get_license_page_title(), 'wpseo_licenses' ),
 		);
 
