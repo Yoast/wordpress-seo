@@ -233,34 +233,4 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 */
 		return apply_filters( 'wpseo_sitemap_exclude_author', $users );
 	}
-
-	/**
-	 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field.
-	 *
-	 * @since 1.6
-	 *
-	 * @deprecated 3.3 User meta sort can now be done by queries.
-	 *
-	 * @param WP_User $first  The first WP user.
-	 * @param WP_User $second The second WP user.
-	 *
-	 * @return int 0 if equal, 1 if $a is larger else or -1;
-	 */
-	public function user_map_sorter( $first, $second ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.3', esc_html__( 'Use queries instead', 'wordpress-seo' ) );
-
-		if ( ! isset( $first->_yoast_wpseo_profile_updated ) ) {
-			$first->_yoast_wpseo_profile_updated = time();
-		}
-
-		if ( ! isset( $second->_yoast_wpseo_profile_updated ) ) {
-			$second->_yoast_wpseo_profile_updated = time();
-		}
-
-		if ( $first->_yoast_wpseo_profile_updated === $second->_yoast_wpseo_profile_updated ) {
-			return 0;
-		}
-
-		return ( ( $first->_yoast_wpseo_profile_updated > $second->_yoast_wpseo_profile_updated ) ? 1 : -1 );
-	}
 }
