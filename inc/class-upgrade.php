@@ -512,7 +512,8 @@ class WPSEO_Upgrade {
 		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'alternate_website_name' );
 
 		// All the breadcrumbs settings have moved to the search appearance settings.
-		foreach ( array_keys( get_option( 'wpseo_internallinks' ) ) as $key ) {
+		$internal_links = (array) get_option( 'wpseo_internallinks' );
+		foreach ( array_keys( $internal_links ) as $key ) {
 			$this->move_key_to_other_option( 'wpseo_internallinks', 'wpseo_titles', $key );
 		}
 		delete_option( 'wpseo_internallinks' );
