@@ -90,7 +90,7 @@ function wpseo_admin_bar_menu() {
 
 			if ( $new_notifications_count ) {
 				$notification = sprintf(
-				/* translators: %d resolves to the number of alerts being added. */
+					/* translators: %d resolves to the number of alerts being added. */
 					_n( 'You have %d new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' ),
 					$new_notifications_count
 				);
@@ -423,7 +423,7 @@ add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
 /**
  * Detects if the advanced settings are enabled.
  *
- * @returns boolean True if the advanced settings are enabled, false if not.
+ * @deprecated 7.0
  */
 function wpseo_advanced_settings_enabled() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 7.0', null );
