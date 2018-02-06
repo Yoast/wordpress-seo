@@ -15,9 +15,6 @@ if ( false !== getenv( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', getenv( 'WP_PLUGIN_DIR' ) );
 }
 
-define( 'YOAST_ENVIRONMENT', 'production' );
-
-
 $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array( 'wordpress-seo/wp-seo.php' ),
 );
@@ -29,6 +26,9 @@ else {
 	require_once '../../../../tests/phpunit/includes/bootstrap.php';
 }
 
+if ( defined( 'WPSEO_TESTS_PATH' ) && WPSEO_TESTS_PATH !== dirname( __FILE__ ) . '/' ) {
+	die( 'WPSEO_TESTS_PATH is already defined and does not match expected path.' );
+}
 define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
 
 // Load autoloader.
