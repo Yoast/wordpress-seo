@@ -321,7 +321,8 @@ class Yoast_Form {
 
 		list( $off_button, $on_button ) = $buttons;
 
-		$help_class = $screen_reader_text_class = '';
+		$help_class               = '';
+		$screen_reader_text_class = '';
 
 		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
 
@@ -599,13 +600,13 @@ class Yoast_Form {
 		'<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {
-			$screen_reader_text = '';
+			$screen_reader_text      = '';
 			$screen_reader_text_html = '';
 
 			if ( is_array( $value ) ) {
-				$screen_reader_text = $value['screen_reader_text'];
+				$screen_reader_text      = $value['screen_reader_text'];
 				$screen_reader_text_html = '<span class="screen-reader-text"> ' . esc_html( $screen_reader_text ) . '</span>';
-				$value = $value['text'];
+				$value                   = $value['text'];
 			}
 
 			$key_esc = esc_attr( $key );

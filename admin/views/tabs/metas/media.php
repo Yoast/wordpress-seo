@@ -25,10 +25,14 @@ $media_help = new WPSEO_Admin_Help_Panel(
 	<p><strong><?php esc_html_e( 'We recommend you set this to Yes.', 'wordpress-seo' ); ?></strong></p>
 <?php
 
-$yform->toggle_switch( 'disable-attachment', array(
-	'on' => __( 'Yes', 'wordpress-seo' ),
-	'off'  => __( 'No', 'wordpress-seo' ),
-), __( 'Redirect attachment URLs to the attachment itself?', 'wordpress-seo' ) );
+$yform->toggle_switch(
+	'disable-attachment',
+	array(
+		'on'  => __( 'Yes', 'wordpress-seo' ),
+		'off' => __( 'No', 'wordpress-seo' ),
+	),
+	__( 'Redirect attachment URLs to the attachment itself?', 'wordpress-seo' )
+);
 
 ?>
 	<div id="media_settings">
@@ -37,5 +41,6 @@ $yform->toggle_switch( 'disable-attachment', array(
 
 		<?php
 		$view_utils = new Yoast_View_Utils();
-		$view_utils->show_post_type_settings( 'attachment' ); ?>
+		$view_utils->show_post_type_settings( 'attachment' );
+		?>
 	</div>

@@ -33,7 +33,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 		}
 		echo "<div id='" . esc_attr( $tax->name ) . "-titles-metas'>";
 
-		$view_utils = new Yoast_View_Utils();
+		$view_utils      = new Yoast_View_Utils();
 		$taxonomies_help = $view_utils->search_results_setting_help( $tax );
 
 		$yform->index_switch(

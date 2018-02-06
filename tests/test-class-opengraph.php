@@ -97,7 +97,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_opengraph_namespace() {
 		$c        = self::$class_instance;
-		$expected = ' prefix="og: http://ogp.me/ns#' . ( ( WPSEO_Options::get( 'fbadminapp' ) != 0 || ( is_array( WPSEO_Options::get( 'fb_admins' ) ) && WPSEO_Options::get(  'fb_admins' ) !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
+		$expected = ' prefix="og: http://ogp.me/ns#' . ( ( WPSEO_Options::get( 'fbadminapp' ) != 0 || ( is_array( WPSEO_Options::get( 'fb_admins' ) ) && WPSEO_Options::get( 'fb_admins' ) !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
 		$this->assertEquals( $c->add_opengraph_namespace( '' ), $expected );
 	}
 

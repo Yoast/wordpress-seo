@@ -82,10 +82,10 @@ $feature_toggles = array(
 		'name'    => __( 'Security: no advanced settings for authors', 'wordpress-seo' ),
 		'setting' => 'disableadvanced_meta',
 		'label'   => sprintf(
-				/* translators: %1$s expands to Yoast SEO, %2$s expands to the translated version of "Off" */
-				__( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. These are things you might not want any author to do. That\'s why, by default, only editors and administrators can do this. Setting to "%2$s" allows all users to change these settings.', 'wordpress-seo' ),
-				'Yoast SEO',
-				__( 'Off', 'wordpress-seo' )
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to the translated version of "Off" */
+			__( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. These are things you might not want any author to do. That\'s why, by default, only editors and administrators can do this. Setting to "%2$s" allows all users to change these settings.', 'wordpress-seo' ),
+			'Yoast SEO',
+			__( 'Off', 'wordpress-seo' )
 		),
 		'order'   => 90,
 	),
@@ -146,7 +146,8 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 			),
 			'<strong>' . $feature->name . $feature_help->get_button_html() . '</strong>' . $feature_help->get_panel_html()
 		);
-	} ?>
+	}
+	?>
 </div>
 <?php
 // Required to prevent our settings framework from saving the default because the field isn't explicitly set when saving the Dashboard page.

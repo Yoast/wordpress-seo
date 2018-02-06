@@ -88,14 +88,14 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_JSON_LD::organization_or_person()
 	 */
 	public function test_bad_input() {
-		$name      = 'Joost "Yoast":"de Valk"';
-		$home_url  = WPSEO_Utils::home_url();
+		$name     = 'Joost "Yoast":"de Valk"';
+		$home_url = WPSEO_Utils::home_url();
 
 		WPSEO_Options::set( 'company_or_person', 'person' );
 		WPSEO_Options::set( 'person_name', $name );
 		WPSEO_Options::set( 'instagram_url', 'http://instagram.com:8080/{}yoast' );
 
-		$json = wp_json_encode( array(
+		$json     = wp_json_encode( array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'Person',
 			'url'      => $home_url,
