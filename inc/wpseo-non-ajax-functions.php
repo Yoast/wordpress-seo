@@ -42,7 +42,8 @@ function wpseo_admin_bar_menu() {
 
 		if ( $analysis_seo->is_enabled() ) {
 			$score = wpseo_adminbar_seo_score();
-		} elseif ( $analysis_readability->is_enabled() ) {
+		}
+		elseif ( $analysis_readability->is_enabled() ) {
 			$score = wpseo_adminbar_content_score();
 		}
 	}
@@ -50,7 +51,8 @@ function wpseo_admin_bar_menu() {
 	if ( is_category() || is_tag() || ( WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && ! WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) ) || is_tax() ) {
 		if ( $analysis_seo->is_enabled() ) {
 			$score = wpseo_tax_adminbar_seo_score();
-		} elseif ( $analysis_readability->is_enabled() ) {
+		}
+		elseif ( $analysis_readability->is_enabled() ) {
 			$score = wpseo_tax_adminbar_content_score();
 		}
 	}
@@ -92,7 +94,8 @@ function wpseo_admin_bar_menu() {
 						__( 'You have a new issue concerning your SEO!', 'wordpress-seo' ),
 						$new_notifications_count
 					);
-				} else {
+				}
+				else {
 					$notification = sprintf(
 					/* translators: %d resolves to the number of alerts being added. */
 						_n( 'You have %d new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' ),
@@ -256,11 +259,7 @@ function wpseo_admin_bar_menu() {
 		}
 	}
 
-	// @todo: add links to bulk title and bulk description edit pages.
 	if ( $can_manage_seo ) {
-
-		$advanced_settings = wpseo_advanced_settings_enabled( $options );
-
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-menu',
 			'id'     => 'wpseo-settings',
@@ -421,18 +420,16 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 
 add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
 
+/********************** DEPRECATED FUNCTIONS **********************/
+
 /**
  * Detects if the advanced settings are enabled.
  *
- * @param array $wpseo_options The wpseo settings.
- *
  * @returns boolean True if the advanced settings are enabled, false if not.
  */
-function wpseo_advanced_settings_enabled( $wpseo_options ) {
-	return ( $wpseo_options['enable_setting_pages'] === true );
+function wpseo_advanced_settings_enabled() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.0', null );
 }
-
-/********************** DEPRECATED FUNCTIONS **********************/
 
 /**
  * Set the default settings.

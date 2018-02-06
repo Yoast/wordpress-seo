@@ -25,9 +25,6 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 		$network_admin_menu = new WPSEO_Network_Admin_Menu( $this );
 		$network_admin_menu->register_hooks();
 
-		$submenu_hider = new WPSEO_Submenu_Hider();
-		$submenu_hider->register_hooks();
-
 		$capability_normalizer = new WPSEO_Submenu_Capability_Normalize();
 		$capability_normalizer->register_hooks();
 	}

@@ -38,7 +38,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'environment_type'                => '',
 		'content_analysis_active'         => true,
 		'keyword_analysis_active'         => true,
-		'enable_setting_pages'            => true,
 		'enable_admin_bar_menu'           => true,
 		'enable_cornerstone_content'      => true,
 		'enable_xml_sitemap'              => true,

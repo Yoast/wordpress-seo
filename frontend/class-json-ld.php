@@ -11,12 +11,10 @@
  * @since 1.8
  */
 class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
-
 	/**
 	 * @var array Holds the social profiles for the entity
 	 */
 	private $profiles = array();
-
 	/**
 	 * @var array Holds the data to put out
 	 */
@@ -46,7 +44,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @since 1.8
 	 */
 	public function organization_or_person() {
-		$comp_or_person = WPSEO_Options::get('company_or_person', '' );
+		$comp_or_person = WPSEO_Options::get( 'company_or_person', '' );
 		if ( '' === $comp_or_person ) {
 			return;
 		}
@@ -116,11 +114,12 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * Schema for Organization.
 	 */
 	private function organization() {
-		if ( '' !== WPSEO_Options::get('company_name', '' ) ) {
+		if ( '' !== WPSEO_Options::get( 'company_name', '' ) ) {
 			$this->data['@type'] = 'Organization';
 			$this->data['@id']   = '#organization';
-			$this->data['name']  = WPSEO_Options::get('company_name' );
-			$this->data['logo']  = WPSEO_Options::get('company_logo', '' );
+			$this->data['name']  = WPSEO_Options::get( 'company_name' );
+			$this->data['logo']  = WPSEO_Options::get( 'company_logo', '' );
+
 			return;
 		}
 		$this->data = false;
@@ -130,10 +129,11 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * Schema for Person.
 	 */
 	private function person() {
-		if ( '' !== WPSEO_Options::get('person_name', '' ) ) {
+		if ( '' !== WPSEO_Options::get( 'person_name', '' ) ) {
 			$this->data['@type'] = 'Person';
 			$this->data['@id']   = '#person';
-			$this->data['name']  = WPSEO_Options::get('person_name' );
+			$this->data['name']  = WPSEO_Options::get( 'person_name' );
+
 			return;
 		}
 		$this->data = false;
@@ -251,7 +251,6 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 *
 	 * @deprecated 2.1
 	 * @deprecated use WPSEO_JSON_LD::website()
-
 	 * @codeCoverageIgnore
 	 */
 	public function internal_search() {

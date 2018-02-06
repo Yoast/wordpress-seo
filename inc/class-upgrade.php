@@ -499,8 +499,7 @@ class WPSEO_Upgrade {
 		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'website_name' );
 		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'alternate_website_name' );
 
-		foreach (
-			array(
+		foreach ( array(
 				'breadcrumbs-404crumb',
 				'breadcrumbs-blog-remove',
 				'breadcrumbs-boldlast',
@@ -510,8 +509,7 @@ class WPSEO_Upgrade {
 				'breadcrumbs-prefix',
 				'breadcrumbs-searchprefix',
 				'breadcrumbs-sep',
-			) as $key
-		) {
+			) as $key ) {
 			$this->move_key_to_other_option( 'wpseo_internallinks', 'wpseo_titles', $key );
 		}
 
@@ -533,7 +531,7 @@ class WPSEO_Upgrade {
 			'trailingslash',
 		) );
 
-		// Delete the options we've migrated away from
+		// Delete the options we've migrated away from.
 		delete_option( 'wpseo_xml' );
 		delete_option( 'wpseo_rss' );
 		delete_option( 'wpseo_permalinks' );
