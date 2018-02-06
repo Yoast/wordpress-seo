@@ -32,6 +32,6 @@ class WPSEO_Metabox_Analysis_Readability implements WPSEO_Metabox_Analysis {
 	 * @return bool Whether or not this analysis is enabled globally.
 	 */
 	public function is_globally_enabled() {
-		return WPSEO_Options::get( 'content_analysis_active', true ) ;
+		return WPSEO_Options::get( 'content_analysis_active', true );
 	}
 }

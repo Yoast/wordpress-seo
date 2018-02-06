@@ -254,7 +254,7 @@ class WPSEO_OpenGraph {
 			}
 		}
 		elseif ( is_front_page() ) {
-			$title = ( WPSEO_Options::get( 'og_frontpage_title', '' )  !== '' ) ? WPSEO_Options::get( 'og_frontpage_title' ) : $frontend->title( '' );
+			$title = ( WPSEO_Options::get( 'og_frontpage_title', '' ) !== '' ) ? WPSEO_Options::get( 'og_frontpage_title' ) : $frontend->title( '' );
 		}
 		elseif ( is_category() || is_tax() || is_tag() ) {
 			$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-title' );
@@ -612,7 +612,7 @@ class WPSEO_OpenGraph {
 		$frontend = WPSEO_Frontend::get_instance();
 
 		if ( is_front_page() ) {
-			if ( WPSEO_Options::get( 'og_frontpage_desc', '' )  !== '' ) {
+			if ( WPSEO_Options::get( 'og_frontpage_desc', '' ) !== '' ) {
 				$ogdesc = wpseo_replace_vars( WPSEO_Options::get( 'og_frontpage_desc' ), null );
 			}
 			else {
