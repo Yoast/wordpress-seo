@@ -27,7 +27,8 @@ else {
 }
 
 if ( defined( 'WPSEO_TESTS_PATH' ) && WPSEO_TESTS_PATH !== dirname( __FILE__ ) . '/' ) {
-	die( 'WPSEO_TESTS_PATH is already defined and does not match expected path.' );
+	echo 'WPSEO_TESTS_PATH is already defined and does not match expected path.';
+	exit( 1 ); // Exit with error code, to make the build fail.
 }
 define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
 
