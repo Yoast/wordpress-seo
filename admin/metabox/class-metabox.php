@@ -234,7 +234,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
-			new WPSEO_Post_Metabox_Formatter( $post, WPSEO_Options::get_option( 'wpseo_titles' ), $permalink )
+			new WPSEO_Post_Metabox_Formatter( $post, $permalink )
 		);
 
 		return $post_formatter->get_values();

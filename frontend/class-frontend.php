@@ -167,6 +167,7 @@ class WPSEO_Frontend {
 					break;
 			}
 		}
+		WPSEO_Options::ensure_options_exist();
 	}
 
 	/**

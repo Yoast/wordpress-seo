@@ -9,11 +9,6 @@
 class WPSEO_OpenGraph_Image {
 
 	/**
-	 * @var array $options Holds options passed to the constructor.
-	 */
-	private $options;
-
-	/**
 	 * @var array $images Holds the images that have been put out as OG image.
 	 */
 	private $images = array();
@@ -27,12 +22,9 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Constructor.
 	 *
-	 * @param array          $options Options set.
 	 * @param string|boolean $image   Optional image URL.
 	 */
-	public function __construct( $options, $image = false ) {
-		$this->options = $options;
-
+	public function __construct( $image = false ) {
 		// If an image was not supplied or could not be added.
 		if ( empty( $image ) || ! $this->add_image( $image ) ) {
 			$this->set_images();
@@ -133,8 +125,8 @@ class WPSEO_OpenGraph_Image {
 	 * If the frontpage image exists, call add_image.
 	 */
 	private function get_front_page_image() {
-		if ( $this->options['og_frontpage_image'] !== '' ) {
-			$this->add_image( $this->options['og_frontpage_image'] );
+		if ( WPSEO_Options::get( 'og_frontpage_image', '' ) !== '' ) {
+			$this->add_image( WPSEO_Options::get( 'og_frontpage_image' ) );
 		}
 	}
 
@@ -183,8 +175,8 @@ class WPSEO_OpenGraph_Image {
 	 * Get default image and call add_image.
 	 */
 	private function get_default_image() {
-		if ( count( $this->images ) === 0 && isset( $this->options['og_default_image'] ) && $this->options['og_default_image'] !== '' ) {
-			$this->add_image( $this->options['og_default_image'] );
+		if ( count( $this->images ) === 0 && WPSEO_Options::get( 'og_default_image', '' ) !== '' ) {
+			$this->add_image( WPSEO_Options::get( 'og_default_image' ) );
 		}
 	}
 

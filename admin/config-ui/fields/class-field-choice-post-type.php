@@ -55,11 +55,9 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	 * @return bool
 	 */
 	public function get_data() {
-		$option = WPSEO_Options::get_option( 'wpseo_titles' );
-
 		$key = 'noindex-' . $this->get_post_type();
 
-		if ( isset( $option[ $key ] ) && $option[ $key ] === false ) {
+		if ( WPSEO_Options::get( $key, false ) === false ) {
 			return 'true';
 		}
 
@@ -76,15 +74,11 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	public function set_data( $visible ) {
 		$post_type = $this->get_post_type();
 
-		$option = WPSEO_Options::get_option( 'wpseo_titles' );
-
-		$option[ 'noindex-' . $post_type ] = ( $visible === 'false' );
-
-		update_option( 'wpseo_titles', $option );
+		WPSEO_Options::set( 'noindex-' . $post_type, ( $visible === 'false' ) );
 
 		// Check if everything got saved properly.
-		$saved_option = WPSEO_Options::get_option( 'wpseo_titles' );
+		$saved_option = WPSEO_Options::get( 'noindex-' . $post_type );
 
-		return ( ( $visible === 'false' ) && $saved_option[ 'noindex-' . $post_type ] === true );
+		return ( ( $visible === 'false' ) && $saved_option === true );
 	}
 }

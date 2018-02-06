@@ -20,7 +20,6 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter(
 				$this->factory->post->create_and_get(),
-				array(),
 				''
 			)
 		);
@@ -51,7 +50,6 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter(
 				$this->factory->post->create_and_get(),
-				array(),
 				''
 			)
 		);

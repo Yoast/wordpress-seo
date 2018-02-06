@@ -171,18 +171,17 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_social_meta_section() {
-		$options                = WPSEO_Options::get_option( 'wpseo_social' );
 		$taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
 		$social_admin           = new WPSEO_Social_Admin();
 
 		$tabs   = array();
 		$single = true;
 
-		if ( $options['opengraph'] === true && $options['twitter'] === true ) {
+		if ( WPSEO_Options::get( 'opengraph' ) === true && WPSEO_Options::get( 'twitter' ) === true ) {
 			$single = null;
 		}
 
-		if ( $options['opengraph'] === true ) {
+		if ( WPSEO_Options::get( 'opengraph' ) === true ) {
 			$facebook_meta_fields = $taxonomy_social_fields->get_by_network( 'opengraph' );
 
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
@@ -197,7 +196,7 @@ class WPSEO_Taxonomy_Metabox {
 			);
 		}
 
-		if ( $options['twitter'] === true ) {
+		if ( WPSEO_Options::get( 'twitter' ) === true ) {
 			$twitter_meta_fields = $taxonomy_social_fields->get_by_network( 'twitter' );
 
 			$tabs[] = new WPSEO_Metabox_Form_Tab(

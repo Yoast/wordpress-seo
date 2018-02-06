@@ -40,23 +40,19 @@ class WPSEO_Configuration_Options_Adapter {
 	 * Add a lookup for a Yoast option
 	 *
 	 * @param string $class_name Class to bind to the lookup.
-	 * @param string $option     Option group to use.
 	 * @param string $key        Key in the option group to bind to.
 	 *
 	 * @throws InvalidArgumentException Thrown when invalid input is provided.
 	 */
-	public function add_yoast_lookup( $class_name, $option, $key ) {
+	public function add_yoast_lookup( $class_name, $key ) {
 
-		$test = WPSEO_Options::get_option( $option );
+		$test = WPSEO_Options::get( $key );
 		if ( is_null( $test ) ) {
 			/* translators: %1$s resolves to the option name passed to the lookup registration */
-			throw new InvalidArgumentException( sprintf( __( 'Yoast option %1$s not found.', 'wordpress-seo' ), $option ) );
+			throw new InvalidArgumentException( sprintf( __( 'Yoast option %1$s not found.', 'wordpress-seo' ), $key ) );
 		}
 
-		$this->add_lookup( $class_name, self::OPTION_TYPE_YOAST, array(
-			$option,
-			$key,
-		) );
+		$this->add_lookup( $class_name, self::OPTION_TYPE_YOAST, $key );
 	}
 
 	/**
@@ -115,9 +111,7 @@ class WPSEO_Configuration_Options_Adapter {
 				return get_option( $option );
 
 			case self::OPTION_TYPE_YOAST:
-				$group = WPSEO_Options::get_option( $option[0] );
-
-				return $group[ $option[1] ];
+				return WPSEO_Options::get( $option );
 
 			case self::OPTION_TYPE_CUSTOM:
 				return call_user_func( $option[0] );
@@ -146,14 +140,10 @@ class WPSEO_Configuration_Options_Adapter {
 				return update_option( $option, $value );
 
 			case self::OPTION_TYPE_YOAST:
-				$group = WPSEO_Options::get_option( $option[0] );
+				WPSEO_Options::set( $option, $value );
+				$saved = WPSEO_Options::get( $option );
 
-				$group[ $option[1] ] = $value;
-				update_option( $option[0], $group );
-
-				$saved = WPSEO_Options::get_option( $option[0] );
-
-				return $saved[ $option[1] ] === $value;
+				return $saved === $value;
 
 			case self::OPTION_TYPE_CUSTOM:
 				return call_user_func( $option[1], $value );

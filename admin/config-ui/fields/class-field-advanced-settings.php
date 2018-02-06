@@ -71,9 +71,7 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	 * @return bool True if advanced settings pages are enabled.
 	 */
 	protected function get_option_value() {
-		$option = WPSEO_Options::get_option( 'wpseo' );
-
-		return $option['enable_setting_pages'];
+		return WPSEO_Options::get('enable_setting_pages' );
 	}
 
 	/**
@@ -86,10 +84,7 @@ class WPSEO_Config_Field_Advanced_Settings extends WPSEO_Config_Field_Choice {
 	 * @return void
 	 */
 	protected function set_option_value( $value ) {
-		$option                         = WPSEO_Options::get_option( 'wpseo' );
-		$option['enable_setting_pages'] = $value;
-
-		update_option( 'wpseo', $option );
+		WPSEO_Options::set( 'enable_setting_pages', $value );
 	}
 
 	/**
