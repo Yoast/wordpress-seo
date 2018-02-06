@@ -610,6 +610,14 @@ abstract class WPSEO_Option {
 		}
 	}
 
+	/**
+	 * Returns the variable array key patterns for an options class.
+	 *
+	 * @return array
+	 */
+	public function get_patterns() {
+		return (array) $this->variable_array_key_patterns;
+	}
 
 	/**
 	 * Concrete classes *may* contain a clean_option method which will clean out old/renamed
@@ -715,7 +723,6 @@ abstract class WPSEO_Option {
 
 		return $key;
 	}
-
 
 	/* *********** DEPRECATED METHODS *********** */
 

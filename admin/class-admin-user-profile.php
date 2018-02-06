@@ -68,7 +68,7 @@ class WPSEO_Admin_User_Profile {
 
 		update_user_meta( $user_id, 'wpseo_title', $this->filter_input_post( 'wpseo_author_title' ) );
 		update_user_meta( $user_id, 'wpseo_metadesc', $this->filter_input_post( 'wpseo_author_metadesc' ) );
-		update_user_meta( $user_id, 'wpseo_excludeauthorsitemap', $this->filter_input_post( 'wpseo_author_exclude' ) );
+		update_user_meta( $user_id, 'wpseo_noindex_author', $this->filter_input_post( 'wpseo_noindex_author' ) );
 		update_user_meta( $user_id, 'wpseo_content_analysis_disable', $this->filter_input_post( 'wpseo_content_analysis_disable' ) );
 		update_user_meta( $user_id, 'wpseo_keyword_analysis_disable', $this->filter_input_post( 'wpseo_keyword_analysis_disable' ) );
 	}
@@ -79,9 +79,6 @@ class WPSEO_Admin_User_Profile {
 	 * @param WP_User $user User instance to output for.
 	 */
 	public function user_profile( $user ) {
-		$options        = WPSEO_Options::get_option( 'wpseo' );
-		$options_titles = WPSEO_Options::get_option( 'wpseo_titles' );
-
 		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
 
 		require_once WPSEO_PATH . 'admin/views/user-profile.php';

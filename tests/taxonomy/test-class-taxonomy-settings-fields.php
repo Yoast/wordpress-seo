@@ -39,8 +39,8 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( is_array( $fields ) );
 
-		$this->assertTrue( array_key_exists( 'sitemap_include', $fields ) );
-		$this->assertEquals( 'select', $fields['sitemap_include']['type'] );
+		$this->assertTrue( array_key_exists( 'noindex', $fields ) );
+		$this->assertEquals( 'select', $fields['noindex']['type'] );
 	}
 
 	/**
@@ -68,7 +68,7 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 		$fields_before = $this->class_instance->get();
 
 		$this->assertEquals(
-			'Default for this taxonomy type, currently: noindex',
+			'No (current default for Tags)',
 			$fields_before['noindex']['options']['options']['default']
 		);
 
@@ -77,17 +77,8 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 
 		$fields_after = $this->class_instance->get();
 		$this->assertEquals(
-			'Default for this taxonomy type, currently: index',
+			'Yes (current default for Tags)',
 			$fields_after['noindex']['options']['options']['default']
 		);
-	}
-
-	public function test_get_noindex_options_ON_non_public_blog() {
-		update_option( 'blog_public', '0' );
-
-		$no_index_options = $this->class_instance->get();
-
-		$this->assertEquals( '<br /><span class="error-message">Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won&#039;t have an effect.</span>', $no_index_options['noindex']['options']['description'] );
-
 	}
 }

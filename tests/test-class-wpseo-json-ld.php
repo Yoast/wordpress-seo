@@ -53,9 +53,9 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	public function test_person() {
 		$name      = 'Joost de Valk';
 		$instagram = 'http://instagram.com/yoast';
-		self::$class_instance->options['company_or_person'] = 'person';
-		self::$class_instance->options['person_name']       = $name;
-		self::$class_instance->options['instagram_url']     = $instagram;
+		WPSEO_Options::set( 'company_or_person', 'person' );
+		WPSEO_Options::set( 'person_name', $name );
+		WPSEO_Options::set( 'instagram_url', $instagram );
 
 		$this->go_to_home();
 
@@ -81,10 +81,10 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		$name      = 'Yoast';
 		$facebook  = 'https://www.facebook.com/Yoast';
 		$instagram = 'http://instagram.com/yoast';
-		self::$class_instance->options['company_or_person'] = 'company';
-		self::$class_instance->options['company_name']      = $name;
-		self::$class_instance->options['facebook_site']     = $facebook;
-		self::$class_instance->options['instagram_url']     = $instagram;
+		WPSEO_Options::set( 'company_or_person', 'company' );
+		WPSEO_Options::set( 'company_name', $name );
+		WPSEO_Options::set( 'facebook_site', $facebook );
+		WPSEO_Options::set( 'instagram_url', $instagram );
 
 		$this->go_to_home();
 

@@ -19,10 +19,8 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 */
 	protected $defaults = array(
-		'cleanreplytocom'                 => false,
 		'redirectattachment'              => false,
 		'stripcategorybase'               => false,
-		'trailingslash'                   => false,
 	);
 
 
@@ -81,14 +79,12 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 
 				/*
 				Covers:
-				 *		'cleanreplytocom'
 				 *		'hide-rsdlink'
 				 *		'hide-wlwmanifest'
 				 *		'hide-shortlink'
 				 *		'hide-feedlinks'
 				 *		'redirectattachment'
 				 *		'stripcategorybase'
-				 *		'trailingslash'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );

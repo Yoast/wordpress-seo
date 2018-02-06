@@ -19,7 +19,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.
-		'blocking_files'                  => array(),
 		'ms_defaults_set'                 => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
@@ -141,20 +140,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			switch ( $key ) {
 				case 'version':
 					$clean[ $key ] = WPSEO_VERSION;
-					break;
-
-
-				case 'blocking_files':
-					/*
-					 * {@internal [JRF] To really validate this we should also do a file_exists()
-					 * on each array entry and remove files which no longer exist, but that might be overkill.}}
-					 */
-					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
-						$clean[ $key ] = array_unique( $dirty[ $key ] );
-					}
-					elseif ( isset( $old[ $key ] ) && is_array( $old[ $key ] ) ) {
-						$clean[ $key ] = array_unique( $old[ $key ] );
-					}
 					break;
 
 				case 'company_or_person':

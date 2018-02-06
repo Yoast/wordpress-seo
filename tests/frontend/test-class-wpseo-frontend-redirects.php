@@ -69,12 +69,12 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 
 		$frontend = self::$class_instance;
 
-		$wp_query->is_author                 = true;
-		$frontend->options['disable-author'] = true;
+		$wp_query->is_author = true;
+		WPSEO_Options::set( 'disable-author', true );
 		$this->assertTrue( $frontend->archive_redirect() );
 
-		$wp_query->is_date                 = true;
-		$frontend->options['disable-date'] = true;
+		$wp_query->is_date = true;
+		WPSEO_Options::set( 'disable-date', true );
 		$this->assertTrue( $frontend->archive_redirect() );
 	}
 
@@ -84,8 +84,7 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect() {
-		$frontend = self::$class_instance;
-		$frontend->options['disable-attachment'] = true;
+		WPSEO_Options::set( 'disable-attachment', true );
 
 		// Create an attachment with parent.
 		$post_id = $this->factory->post->create(
@@ -105,8 +104,7 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect_no_attachment() {
-		$frontend = self::$class_instance;
-		$frontend->options['disable-attachment'] = true;
+		WPSEO_Options::set( 'disable-attachment', true );
 
 		$post_id = $this->factory->post->create( array( 'post_type' => 'post' ) );
 		$this->go_to( get_permalink( $post_id ) );
