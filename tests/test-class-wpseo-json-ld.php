@@ -84,7 +84,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		WPSEO_Options::set( 'company_or_person', 'company' );
 		WPSEO_Options::set( 'company_name', $name );
 		WPSEO_Options::set( 'facebook_site', $facebook );
-		WPSEO_Options::set(  'instagram_url', $instagram );
+		WPSEO_Options::set( 'instagram_url', $instagram );
 
 		$this->go_to_home();
 

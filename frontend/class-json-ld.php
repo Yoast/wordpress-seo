@@ -44,14 +44,14 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @since 1.8
 	 */
 	public function organization_or_person() {
-		$comp_or_person = WPSEO_Options::get( 'company_or_person', '' );
-		if ( '' === $comp_or_person ) {
+		$company_or_person = WPSEO_Options::get( 'company_or_person', '' );
+		if ( '' === $company_or_person ) {
 			return;
 		}
 
 		$this->prepare_organization_person_markup();
 
-		switch ( $comp_or_person ) {
+		switch ( $company_or_person ) {
 			case 'company':
 				$this->organization();
 				break;
@@ -60,7 +60,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 				break;
 		}
 
-		$this->output( $comp_or_person );
+		$this->output( $company_or_person );
 	}
 
 	/**
@@ -71,6 +71,9 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @link  https://developers.google.com/structured-data/site-name
 	 */
 	public function website() {
+		if ( ! is_front_page() ) {
+			return;
+		}
 		$this->data = array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'WebSite',
@@ -148,7 +151,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$this->data = array(
 			'@context' => 'http://schema.org',
 			'@type'    => '',
-			'url'      => WPSEO_Frontend::get_instance()->canonical( false, true ),
+			'url'      => $this->get_home_url(),
 			'sameAs'   => $this->profiles,
 		);
 	}
@@ -199,15 +202,17 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * Returns an alternate name if one was specified in the Yoast SEO settings.
 	 */
 	private function add_alternate_name() {
-		if ( WPSEO_Options::get( 'alternate_website_name', '' ) !== '' ) {
+		if ( '' !== WPSEO_Options::get( 'alternate_website_name', '' ) ) {
 			$this->data['alternateName'] = WPSEO_Options::get( 'alternate_website_name' );
 		}
 	}
 
 	/**
-	 * Adds the internal search JSON LD code if it's not disabled.
+	 * Adds the internal search JSON LD code to the homepage if it's not disabled.
 	 *
 	 * @link https://developers.google.com/structured-data/slsb-overview
+	 *
+	 * @return void
 	 */
 	private function internal_search_section() {
 		/**
@@ -239,7 +244,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @return string
 	 */
 	private function get_website_name() {
-		if ( WPSEO_Options::get( 'website_name', '' ) !== '' ) {
+		if ( '' !== WPSEO_Options::get( 'website_name', '' ) ) {
 			return WPSEO_Options::get( 'website_name' );
 		}
 
