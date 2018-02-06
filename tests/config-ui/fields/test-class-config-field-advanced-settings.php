@@ -22,12 +22,12 @@ class WPSEO_Config_Field_Advanced_Settings_Test extends PHPUnit_Framework_TestCa
 	public function test_get_data( $expected, $option_value, $message ) {
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Config_Field_Advanced_Settings' )
-			->setMethods( array( 'get_option_value' ) )
+			->setMethods( array( 'is_enabled' ) )
 			->getMock();
 
 		$class_instance
 			->expects( $this->once() )
-			->method( 'get_option_value' )
+			->method( 'is_enabled' )
 			->will( $this->returnValue( $option_value ) );
 
 		$this->assertEquals( $expected, $class_instance->get_data(), $message );
@@ -46,12 +46,12 @@ class WPSEO_Config_Field_Advanced_Settings_Test extends PHPUnit_Framework_TestCa
 	public function test_set_data( $expected, $value_to_save, $option_value, $message ) {
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Config_Field_Advanced_Settings' )
-			->setMethods( array( 'get_option_value', 'set_option_value' ) )
+			->setMethods( array( 'is_enabled', 'set_option_value' ) )
 			->getMock();
 
 		$class_instance
 			->expects( $this->once() )
-			->method( 'get_option_value' )
+			->method( 'is_enabled' )
 			->will( $this->returnValue( $option_value ) );
 
 		$this->assertEquals( $expected, $class_instance->set_data( $value_to_save ), $message );
