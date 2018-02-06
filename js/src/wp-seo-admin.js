@@ -96,34 +96,6 @@ import a11ySpeak from "a11y-speak";
 	}
 
 	/**
-	 * Do the kill blocking files action
-	 *
-	 * @param {string} nonce Nonce to validate request.
-	 *
-	 * @returns {void}
-	 */
-	function wpseoKillBlockingFiles( nonce ) {
-		jQuery.post( ajaxurl, {
-			action: "wpseo_kill_blocking_files",
-			// eslint-disable-next-line
-			_ajax_nonce: nonce,
-		} ).done( function( response ) {
-			var noticeContainer = jQuery( ".yoast-notice-blocking-files" ),
-				noticeParagraph = jQuery( "#blocking_files" );
-
-			noticeParagraph.html( response.data.message );
-			// Make the notice focusable and move focue on it so screen readers will read out its content.
-			noticeContainer.attr( "tabindex", "-1" ).focus();
-
-			if ( response.success ) {
-				noticeContainer.removeClass( "notice-error" ).addClass( "notice-success" );
-			} else {
-				noticeContainer.addClass( "yoast-blocking-files-error" );
-			}
-		} );
-	}
-
-	/**
 	 * Copies the meta description for the homepage
 	 *
 	 * @returns {void}
@@ -248,7 +220,6 @@ import a11ySpeak from "a11y-speak";
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
-	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
 	// eslint-disable-next-line
 	window.wpseoAddFbAdmin = wpseoAddFbAdmin;
@@ -326,11 +297,6 @@ import a11ySpeak from "a11y-speak";
 		jQuery( ".template" ).change( function() {
 			wpseoDetectWrongVariables( jQuery( this ) );
 		} ).change();
-
-		// XML sitemaps "Fix it" button.
-		jQuery( "#blocking_files .button" ).on( "click", function() {
-			wpseoKillBlockingFiles( jQuery( this ).data( "nonce" ) );
-		} );
 
 		// Prevent form submission when pressing Enter on the switch-toggles.
 		jQuery( ".switch-yoast-seo input" ).on( "keydown", function( event ) {
