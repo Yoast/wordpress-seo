@@ -115,6 +115,14 @@ class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 			// Score for other keywords is already in the other_keywords select so only join for the primary_keyword_score.
 			$this->add_meta_join( 'primary_keyword_score', WPSEO_Meta::$meta_prefix . 'linkdex' );
 		}
+
+		if ( in_array( 'seo_title', $this->columns, true ) ) {
+			$this->add_meta_join( 'seo_title', WPSEO_Meta::$meta_prefix . 'title' );
+		}
+
+		if ( in_array( 'meta_description', $this->columns, true ) ) {
+			$this->add_meta_join( 'meta_description', WPSEO_Meta::$meta_prefix . 'metadesc' );
+		}
 	}
 
 	/**

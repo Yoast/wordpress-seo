@@ -103,7 +103,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_complex() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score', 'seo_title', 'meta_description' ) );
 
 		$fake_result = array(
 			'ID'                => '0',
@@ -113,6 +113,8 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 			'readability_score' => 'bad',
 			'keywords'          => array( 'foo', 'bar', 'baz' ),
 			'keywords_score'    => array( 'ok', 'good', 'na' ),
+			'seo_title'         => 'fake SEO title',
+			'meta_description'  => 'this is a fake meta description',
 		);
 
 		$csv = $class_instance->return_format( $fake_result );
@@ -121,9 +123,9 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 
 		// One line for each keyword.
 		$this->assertCount( 3, $lines );
-		$this->assertEquals( '"0","post","fake title","http://www.example.org","bad","foo","ok"', $lines[0] );
-		$this->assertEquals( '"0","post","fake title","http://www.example.org","bad","bar","good"', $lines[1] );
-		$this->assertEquals( '"0","post","fake title","http://www.example.org","bad","baz","na"', $lines[2] );
+		$this->assertEquals( '"0","post","fake title","http://www.example.org","bad","foo","ok","fake SEO title","this is a fake meta description"',$lines[0] );
+		$this->assertEquals( '"0","post","fake title","http://www.example.org","bad","bar","good","fake SEO title","this is a fake meta description"', $lines[1] );
+		$this->assertEquals( '"0","post","fake title","http://www.example.org","bad","baz","na","fake SEO title","this is a fake meta description"', $lines[2] );
 	}
 
 	/**
@@ -134,7 +136,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_random() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score', 'seo_title', 'meta_description' ) );
 
 		$csv = $class_instance->return_format( array() );
 
@@ -153,7 +155,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::get_array_from_result
 	 */
 	public function test_format_null() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score', 'seo_title', 'meta_description' ) );
 
 		$fake_result = array(
 			'ID'                => '0',
@@ -163,11 +165,13 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 			'readability_score' => null,
 			'keywords'          => null,
 			'keywords_score'    => null,
+			'seo_title'         => null,
+			'meta_description'  => null,
 		);
 
 		$csv = $class_instance->return_format( $fake_result );
 
-		$this->assertEquals( '"0","post",,,,,' . PHP_EOL, $csv );
+		$this->assertEquals( '"0","post",,,,,,,' . PHP_EOL, $csv );
 	}
 
 	/**
@@ -198,11 +202,11 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::get_headers
 	 */
 	public function test_get_headers() {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'keywords', 'keywords_score', 'title', 'url', 'readability_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'keywords', 'keywords_score', 'title', 'url', 'readability_score', 'seo_title', 'meta_description' ) );
 
 		$csv = $class_instance->return_get_headers();
 
-		$this->assertEquals( '"ID","type","keyword","keyword score","title","url","readability score"' . PHP_EOL, $csv );
+		$this->assertEquals( '"ID","type","keyword","keyword score","title","url","readability score","seo title","meta description"' . PHP_EOL, $csv );
 	}
 
 	/**
@@ -229,7 +233,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Export_Keywords_CSV::format
 	 */
 	public function test_format( $input, array $expected_lines ) {
-		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score' ) );
+		$class_instance = new WPSEO_Export_Keywords_CSV_Double( array( 'title', 'url', 'readability_score', 'keywords', 'keywords_score', 'seo_title', 'meta_description' ) );
 
 		$csv   = $class_instance->return_format( $input );
 		$lines = preg_split( '/' . PHP_EOL . '/', $csv, null, PREG_SPLIT_NO_EMPTY );
@@ -301,11 +305,13 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 					'readability_score' => 'bad',
 					'keywords'          => array( 'foo', 'bar', 'baz' ),
 					'keywords_score'    => array( 'ok', 'good', 'na' ),
+					'seo_title'         => 'fake SEO title',
+					'meta_description'  => 'this is a fake meta description',
 				),
 				'expected' => array(
-					'"0","post","fake title","http://www.example.org/fake_title","bad","foo","ok"',
-					'"0","post","fake title","http://www.example.org/fake_title","bad","bar","good"',
-					'"0","post","fake title","http://www.example.org/fake_title","bad","baz","na"',
+					'"0","post","fake title","http://www.example.org/fake_title","bad","foo","ok","fake SEO title","this is a fake meta description"',
+					'"0","post","fake title","http://www.example.org/fake_title","bad","bar","good","fake SEO title","this is a fake meta description"',
+					'"0","post","fake title","http://www.example.org/fake_title","bad","baz","na","fake SEO title","this is a fake meta description"',
 				),
 			),
 			array(
@@ -317,10 +323,12 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 					'readability_score' => 'good',
 					'keywords'          => array( 'foo', 'bar' ),
 					'keywords_score'    => array( 'bad', 'bad' ),
+					'seo_title'         => 'very fake SEO title',
+					'meta_description'  => 'this is a very fake meta description',
 				),
 				'expected' => array(
-					'"1","post","another title","http://www.example.org/another_title","good","foo","bad"',
-					'"1","post","another title","http://www.example.org/another_title","good","bar","bad"',
+					'"1","post","another title","http://www.example.org/another_title","good","foo","bad","very fake SEO title","this is a very fake meta description"',
+					'"1","post","another title","http://www.example.org/another_title","good","bar","bad","very fake SEO title","this is a very fake meta description"',
 				),
 			),
 			array(
@@ -332,9 +340,11 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 					'readability_score' => 'ok',
 					'keywords'          => array( 'last' ),
 					'keywords_score'    => array( 'good' ),
+					'seo_title'         => 'Another fake SEO title',
+					'meta_description'  => 'this is another fake meta description',
 				),
 				'expected' => array(
-					'"2","post","last title","http://www.example.org/last_title","ok","last","good"',
+					'"2","post","last title","http://www.example.org/last_title","ok","last","good","Another fake SEO title","this is another fake meta description"',
 				),
 
 			),
@@ -349,11 +359,13 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 					'readability_score' => 'bad',
 					'keywords'          => array( 'foo', 'bar', 'baz' ),
 					'keywords_score'    => array( 'ok', 'good', 'na' ),
+					'seo_title'         => 'fake SEO title',
+					'meta_description'  => 'this is a fake meta description',
 				),
 				'expected' => array(
-					'"0","post","fake title","http://www.example.org/fake_title","bad","foo","ok"',
-					'"0","post","fake title","http://www.example.org/fake_title","bad","bar","good"',
-					'"0","post","fake title","http://www.example.org/fake_title","bad","baz","na"',
+					'"0","post","fake title","http://www.example.org/fake_title","bad","foo","ok","fake SEO title","this is a fake meta description"',
+					'"0","post","fake title","http://www.example.org/fake_title","bad","bar","good","fake SEO title","this is a fake meta description"',
+					'"0","post","fake title","http://www.example.org/fake_title","bad","baz","na","fake SEO title","this is a fake meta description"',
 				),
 			),
 
@@ -367,9 +379,11 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 					'readability_score' => 50,
 					'keywords'          => true,
 					'foo'               => 'bar',
+					'seo_title'         => null,
+					'meta_description'  => null,
 				),
 				'expected' => array(
-					'"1","post","another title","http://www.example.org/another_title","50",,',
+					'"1","post","another title","http://www.example.org/another_title","50",,,,',
 				),
 			),
 		);
