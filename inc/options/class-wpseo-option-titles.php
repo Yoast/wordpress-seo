@@ -59,6 +59,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'website_name'                    => '',
 		'alternate_website_name'          => '',
 
+		'stripcategorybase'               => false,
+
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
 		 * - 'title-' . $pt->name        => ''; // Text field.
@@ -312,10 +314,24 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @return  array      Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
+		$allowed_post_types = $this->get_allowed_post_types();
+
 		foreach ( $clean as $key => $value ) {
 			$switch_key = $this->get_switch_key( $key );
 
 			switch ( $switch_key ) {
+				/* Breadcrumbs text fields. */
+				case 'breadcrumbs-404crumb':
+				case 'breadcrumbs-archiveprefix':
+				case 'breadcrumbs-home':
+				case 'breadcrumbs-prefix':
+				case 'breadcrumbs-searchprefix':
+				case 'breadcrumbs-sep':
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = wp_kses_post( $dirty[ $key ] );
+					}
+					break;
+
 				/*
 				 * Text fields.
 				 */
@@ -361,6 +377,86 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'rssafter':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
+					}
+					break;
+
+				/* 'post_types-' . $pt->name . '-maintax' fields. */
+				case 'post_types-':
+					$post_type  = str_replace( array( 'post_types-', '-maintax' ), '', $key );
+					$taxonomies = get_object_taxonomies( $post_type, 'names' );
+
+					if ( isset( $dirty[ $key ] ) ) {
+						if ( $taxonomies !== array() && in_array( $dirty[ $key ], $taxonomies, true ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+						elseif ( (string) $dirty[ $key ] === '0' || (string) $dirty[ $key ] === '' ) {
+							$clean[ $key ] = 0;
+						}
+						elseif ( sanitize_title_with_dashes( $dirty[ $key ] ) === $dirty[ $key ] ) {
+							// Allow taxonomies which may not be registered yet.
+							$clean[ $key ] = $dirty[ $key ];
+						}
+						else {
+							if ( isset( $old[ $key ] ) ) {
+								$clean[ $key ] = sanitize_title_with_dashes( $old[ $key ] );
+							}
+							if ( function_exists( 'add_settings_error' ) ) {
+								/**
+								 * @todo [JRF => whomever] maybe change the untranslated $pt name in the
+								 * error message to the nicely translated label ?
+								 */
+								add_settings_error(
+									$this->group_name, // Slug title of the setting.
+									'_' . $key, // Suffix-id for the error message box.
+									/* translators: %s expands to a post type. */
+									sprintf( __( 'Please select a valid taxonomy for post type "%s"', 'wordpress-seo' ), $post_type ), // The error message.
+									'error' // Error type, either 'error' or 'updated'.
+								);
+							}
+						}
+					}
+					elseif ( isset( $old[ $key ] ) ) {
+						$clean[ $key ] = sanitize_title_with_dashes( $old[ $key ] );
+					}
+					unset( $taxonomies, $post_type );
+					break;
+
+				/* 'taxonomy-' . $tax->name . '-ptparent' fields. */
+				case 'taxonomy-':
+					if ( isset( $dirty[ $key ] ) ) {
+						if ( $allowed_post_types !== array() && in_array( $dirty[ $key ], $allowed_post_types, true ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+						elseif ( (string) $dirty[ $key ] === '0' || (string) $dirty[ $key ] === '' ) {
+							$clean[ $key ] = 0;
+						}
+						elseif ( sanitize_key( $dirty[ $key ] ) === $dirty[ $key ] ) {
+							// Allow taxonomies which may not be registered yet.
+							$clean[ $key ] = $dirty[ $key ];
+						}
+						else {
+							if ( isset( $old[ $key ] ) ) {
+								$clean[ $key ] = sanitize_key( $old[ $key ] );
+							}
+							if ( function_exists( 'add_settings_error' ) ) {
+								/**
+								 * @todo [JRF =? whomever] maybe change the untranslated $tax name in the
+								 * error message to the nicely translated label ?
+								 */
+								$tax = str_replace( array( 'taxonomy-', '-ptparent' ), '', $key );
+								add_settings_error(
+									$this->group_name, // Slug title of the setting.
+									'_' . $tax, // Suffix-id for the error message box.
+									/* translators: %s expands to a taxonomy slug. */
+									sprintf( __( 'Please select a valid post type for taxonomy "%s"', 'wordpress-seo' ), $tax ), // The error message.
+									'error' // Error type, either 'error' or 'updated'.
+								);
+								unset( $tax );
+							}
+						}
+					}
+					elseif ( isset( $old[ $key ] ) ) {
+						$clean[ $key ] = sanitize_key( $old[ $key ] );
 					}
 					break;
 
@@ -416,6 +512,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'hideeditbox-'
 				 *  'hideeditbox-'. $pt->name
 				 *  'hideeditbox-tax-' . $tax->name
+				 *  'breadcrumbs-blog-remove'
+				 *  'breadcrumbs-boldlast'
+				 *  'breadcrumbs-enable'
+				 *  'stripcategorybase'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -426,6 +526,36 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		return $clean;
 	}
 
+	/**
+	 * Retrieve a list of the allowed post types as breadcrumb parent for a taxonomy.
+	 * Helper method for validation.
+	 *
+	 * {@internal Don't make static as new types may still be registered.}}
+	 *
+	 * @return array
+	 */
+	protected function get_allowed_post_types() {
+		$allowed_post_types = array();
+
+		/*
+		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
+		 */
+		$post_types = get_post_types( array( 'public' => true ), 'objects' );
+
+		if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) > 0 ) {
+			$allowed_post_types[] = 'post';
+		}
+
+		if ( is_array( $post_types ) && $post_types !== array() ) {
+			foreach ( $post_types as $type ) {
+				if ( $type->has_archive ) {
+					$allowed_post_types[] = $type->name;
+				}
+			}
+		}
+
+		return $allowed_post_types;
+	}
 
 	/**
 	 * Clean a given option value.

@@ -46,12 +46,6 @@ class WPSEO_Frontend {
 	 * @var string
 	 */
 	private $title = null;
-	/**
-	 * Holds the names of the required options.
-	 *
-	 * @var array
-	 */
-	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles' );
 	/** @var WPSEO_Frontend_Page_Type */
 	protected $frontend_page_type;
 	/** @var WPSEO_WooCommerce_Shop_Page */

@@ -11,7 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 add_filter( 'wpseo_help_center_items', 'yoast_add_meta_options_help_center_tabs' );
 
-$options = WPSEO_Options::get_options( array( 'wpseo_titles', 'wpseo_permalinks', 'wpseo_internallinks' ) );
+$options = WPSEO_Options::get_option( 'wpseo_titles' );
 
 $yform = Yoast_Form::get_instance();
 $yform->admin_header( true, 'wpseo_titles' );

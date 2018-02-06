@@ -147,8 +147,8 @@ class WPSEO_Upgrade {
 			$new_key = $old_key;
 		}
 
-		$old_options             = WPSEO_Options::get_option( $old_option );
-		$new_options             = WPSEO_Options::get_option( $new_option );
+		$old_options = WPSEO_Options::get_option( $old_option );
+		$new_options = WPSEO_Options::get_option( $new_option );
 		if ( isset( $old_options[ $old_key ] ) ) {
 			$new_options[ $new_key ] = $old_options[ $old_key ];
 			unset( $old_options[ $old_key ] );
@@ -490,10 +490,31 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Perform the 6.4 upgrade, moves XML setting to WPSEO, deletes WPSEO_XML option.
+	 * Perform the 6.4 upgrade, moves settings around, deletes several options.
 	 */
 	private function upgrade_64() {
 		$this->move_key_to_other_option( 'wpseo_permalinks', 'wpseo_titles', 'redirectattachment', 'disable-attachment' );
+		$this->move_key_to_other_option( 'wpseo_permalinks', 'wpseo_titles', 'stripcategorybase' );
+
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'website_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'alternate_website_name' );
+
+		foreach (
+			array(
+				'breadcrumbs-404crumb',
+				'breadcrumbs-blog-remove',
+				'breadcrumbs-boldlast',
+				'breadcrumbs-archiveprefix',
+				'breadcrumbs-enable',
+				'breadcrumbs-home',
+				'breadcrumbs-prefix',
+				'breadcrumbs-searchprefix',
+				'breadcrumbs-sep',
+			) as $key
+		) {
+			$this->move_key_to_other_option( 'wpseo_internallinks', 'wpseo_titles', $key );
+		}
+
 		$this->move_key_to_other_option( 'wpseo_xml', 'wpseo', 'enablexmlsitemap', 'enable_xml_sitemap' );
 		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssbefore' );
 		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssafter' );
@@ -512,9 +533,11 @@ class WPSEO_Upgrade {
 			'trailingslash',
 		) );
 
-		// Delete the WPSEO XML and WPSEO RSS option.
+		// Delete the options we've migrated away from
 		delete_option( 'wpseo_xml' );
 		delete_option( 'wpseo_rss' );
+		delete_option( 'wpseo_permalinks' );
+		delete_option( 'wpseo_internallinks' );
 
 		// Moves the user meta for excluding from the XML sitemap to a noindex.
 		global $wpdb;
