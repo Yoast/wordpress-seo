@@ -8,3 +8,4 @@ export { default as questionCircle } from "./question-circle.svg";
 export { default as times } from "./times.svg";
 export { default as eye } from "./eye.svg";
 export { default as circle } from "./circle.svg";
+export { default as fileText } from "./file-text.svg";

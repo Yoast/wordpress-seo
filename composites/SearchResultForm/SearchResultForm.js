@@ -109,7 +109,7 @@ class SearchResultForm extends React.Component {
 		let slug = this.prepareSlug();
 
 		return (
-			<Section level={3} className="yoast-search-result-form">
+			<Section headingLevel={3} className="yoast-search-result-form">
 				<p className="screen-reader-text">{translations.formDescription}</p>
 
 				<Textfield

@@ -1,46 +1,37 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import Heading from "../composites/basic/Heading";
+
 /**
- * Represents the section HTML element.
+ * Creates a HTML section element with an optional heading.
  *
- * @param {Object} props The properties to use.
- * @returns {JSX} A representation of the section HTML element based on the passed props.
- * @constructor
+ * @param {Object} props The props to use.
+ * @returns {ReactElement} The rendered component.
  */
 const Section = ( props ) => {
-	const Heading = `h${props.level}`;
-
 	return (
-		<section className={props.className}>
-			<Heading className={props.headingClassName}>{props.headingText}</Heading>
-			{props.children}
+		<section className={ props.className }>
+			{ props.headingText &&
+				<Heading level={ props.headingLevel } className={ props.headingClassName }>
+					{ props.headingText }
+				</Heading>
+			}
+			{ props.children }
 		</section>
 	);
 };
 
-/**
- * Adds validation for the properties.
- *
- * @type {{level: number, headingText: string, headingClassName: string}}
- */
 Section.propTypes = {
-	level: PropTypes.number.isRequired,
-	headingText: PropTypes.string,
-	headingClassName: PropTypes.string,
 	className: PropTypes.string,
+	headingText: PropTypes.string,
+	headingLevel: PropTypes.number,
+	headingClassName: PropTypes.string,
 	children: PropTypes.any,
 };
 
-/**
- * Defines the default values for the properties.
- *
- * @type {{level: number, headingClassName: string}}
- */
 Section.defaultProps = {
-	level: 1,
-	headingClassName: "",
-	className: "",
+	headingLevel: 1,
 };
 
 export default Section;
