@@ -1042,63 +1042,66 @@ class WPSEO_Frontend {
 			return;
 		}
 
-		global $wp_query;
-
 		if ( ! is_singular() ) {
-			$url = $this->canonical( false, true, true );
+			$this->rel_links_archive();
+			return;
+		}
+		$this->rel_links_single();
+	}
 
-			if ( is_string( $url ) && $url !== '' ) {
-				$paged = intval( get_query_var( 'paged' ) );
+	/**
+	 * Output the rel next/prev links for a single post / page.
+	 */
+	private function rel_links_single() {
+		$num_pages = 0;
+		if ( isset( $wp_query->post->post_content ) ) {
+			$num_pages = ( substr_count( $GLOBALS['wp_query']->post->post_content, '<!--nextpage-->' ) + 1 );
+		}
+		if ( $num_pages > 1 ) {
+			$page = intval( get_query_var( 'page' ) );
+			if ( ! $page ) {
+				$page = 1;
+			}
 
-				if ( 0 === $paged ) {
-					$paged = 1;
-				}
+			$url = get_permalink( $GLOBALS['wp_query']->post->ID );
 
-				if ( $paged === 2 ) {
-					$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ), true );
-				}
-
-				// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
-				if ( is_front_page() ) {
-					$url = WPSEO_Sitemaps_Router::get_base_url( '' );
-				}
-
-				if ( $paged > 2 ) {
-					$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ), true );
-				}
-
-				if ( $paged < $wp_query->max_num_pages ) {
-					$this->adjacent_rel_link( 'next', $url, ( $paged + 1 ), true );
-				}
+			if ( $page > 1 ) {
+				$this->adjacent_rel_link( 'prev', $url, ( $page - 1 ) );
+			}
+			if ( $page < $num_pages ) {
+				$this->adjacent_rel_link( 'next', $url, ( $page + 1 ) );
 			}
 		}
-		else {
-			$numpages = 0;
-			if ( isset( $wp_query->post->post_content ) ) {
-				$numpages = ( substr_count( $wp_query->post->post_content, '<!--nextpage-->' ) + 1 );
+	}
+
+	/**
+	 * Output the rel next/prev links for an archive page.
+	 */
+	private function rel_links_archive() {
+		$url = $this->canonical( false, true, true );
+
+		if ( is_string( $url ) && $url !== '' ) {
+			$paged = intval( get_query_var( 'paged' ) );
+
+			if ( 0 === $paged ) {
+				$paged = 1;
 			}
-			if ( $numpages > 1 ) {
-				$page = intval( get_query_var( 'page' ) );
-				if ( ! $page ) {
-					$page = 1;
-				}
 
-				$url = get_permalink( $wp_query->post->ID );
+			if ( $paged === 2 ) {
+				$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ) );
+			}
 
-				// If the current page is the frontpage, pagination should use /base/.
-				if ( $this->is_home_static_page() ) {
-					$usebase = true;
-				}
-				else {
-					$usebase = false;
-				}
+			// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
+			if ( is_front_page() ) {
+				$url = WPSEO_Sitemaps_Router::get_base_url( '' );
+			}
 
-				if ( $page > 1 ) {
-					$this->adjacent_rel_link( 'prev', $url, ( $page - 1 ), $usebase, 'single_paged' );
-				}
-				if ( $page < $numpages ) {
-					$this->adjacent_rel_link( 'next', $url, ( $page + 1 ), $usebase, 'single_paged' );
-				}
+			if ( $paged > 2 ) {
+				$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ) );
+			}
+
+			if ( $paged < $GLOBALS['wp_query']->max_num_pages ) {
+				$this->adjacent_rel_link( 'next', $url, ( $paged + 1 ) );
 			}
 		}
 	}
@@ -1111,11 +1114,10 @@ class WPSEO_Frontend {
 	 * @param string  $rel                  Link relationship, prev or next.
 	 * @param string  $url                  The un-paginated URL of the current archive.
 	 * @param string  $page                 The page number to add on to $url for the $link tag.
-	 * @param boolean $incl_pagination_base Whether or not to include /page/ or not.
 	 *
 	 * @return void
 	 */
-	private function adjacent_rel_link( $rel, $url, $page, $incl_pagination_base ) {
+	private function adjacent_rel_link( $rel, $url, $page ) {
 		global $wp_rewrite;
 		if ( ! $wp_rewrite->using_permalinks() ) {
 			if ( $page > 1 ) {
@@ -1124,11 +1126,7 @@ class WPSEO_Frontend {
 		}
 		else {
 			if ( $page > 1 ) {
-				$base = '';
-				if ( $incl_pagination_base ) {
-					$base = trailingslashit( $wp_rewrite->pagination_base );
-				}
-				$url = user_trailingslashit( trailingslashit( $url ) . $base . $page );
+				$url  = user_trailingslashit( trailingslashit( $url ) . $this->get_pagination_base() . $page );
 			}
 		}
 		/**
@@ -1141,6 +1139,20 @@ class WPSEO_Frontend {
 		if ( is_string( $link ) && $link !== '' ) {
 			echo $link;
 		}
+	}
+
+	/**
+	 * Return the base for pagination.
+	 *
+	 * @return string
+	 */
+	private function get_pagination_base() {
+		// If the current page is the frontpage, pagination should use /base/.
+		$base = '';
+		if ( ! is_singular() || $this->is_home_static_page() ) {
+			$base = trailingslashit( $GLOBALS['wp_rewrite']->pagination_base );
+		}
+		return $base;
 	}
 
 	/**
