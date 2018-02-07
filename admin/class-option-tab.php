@@ -58,6 +58,15 @@ class WPSEO_Option_Tab {
 	}
 
 	/**
+	 * Retrieve whether the tab needs a save button
+	 *
+	 * @return bool
+	 */
+	public function has_save_button() {
+		return $this->get_argument( 'save_button', true );
+	}
+
+	/**
 	 * Get the option group
 	 *
 	 * @return string
@@ -75,6 +84,6 @@ class WPSEO_Option_Tab {
 	 * @return mixed|string
 	 */
 	protected function get_argument( $variable, $default = '' ) {
-		return ! empty( $this->arguments[ $variable ] ) ? $this->arguments[ $variable ] : $default;
+		return ! isset( $this->arguments[ $variable ] ) ? $default : $this->arguments[ $variable ];
 	}
 }

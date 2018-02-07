@@ -91,7 +91,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "chunks/" + ({"239":"wp-seo-post-scraper","240":"wp-seo-term-scraper","241":"configuration-wizard","242":"wp-seo-help-center","243":"wp-seo-dashboard-widget","244":"wp-seo-metabox"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "chunks/" + ({"239":"wp-seo-post-scraper","240":"wp-seo-term-scraper","241":"configuration-wizard","242":"wp-seo-help-center","243":"wp-seo-dashboard-widget","244":"wp-seo-metabox"}[chunkId]||chunkId) + ".min.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {

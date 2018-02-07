@@ -272,8 +272,14 @@ import a11ySpeak from "a11y-speak";
 			jQuery( ".wpseotab" ).removeClass( "active" );
 
 			var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
-			jQuery( "#" + id ).addClass( "active" );
+			var activeTab = jQuery( "#" + id );
+			activeTab.addClass( "active" );
 			jQuery( this ).addClass( "nav-tab-active" );
+			if ( activeTab.hasClass( 'nosave' ) ) {
+				jQuery( '#submit' ).hide();
+			} else {
+				jQuery( '#submit' ).show();
+			}
 		} );
 
 		// Handle the Company or Person select.
