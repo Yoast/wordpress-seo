@@ -474,4 +474,15 @@ class WPSEO_Options {
 
 		return $pattern_table;
 	}
+
+	/**
+	 * Correct the inadvertent removal of the fallback to default values from the breadcrumbs.
+	 *
+	 * @since 1.5.2.3
+	 *
+	 * @deprecated 7.0
+	 */
+	public static function bring_back_breadcrumb_defaults() {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
+	}
 }
