@@ -1048,7 +1048,7 @@ class WPSEO_Frontend {
 			$url = $this->canonical( false, true, true );
 
 			if ( is_string( $url ) && $url !== '' ) {
-				$paged = get_query_var( 'paged' );
+				$paged = intval( get_query_var( 'paged' ) );
 
 				if ( 0 === $paged ) {
 					$paged = 1;
@@ -1078,7 +1078,7 @@ class WPSEO_Frontend {
 				$numpages = ( substr_count( $wp_query->post->post_content, '<!--nextpage-->' ) + 1 );
 			}
 			if ( $numpages > 1 ) {
-				$page = get_query_var( 'page' );
+				$page = intval( get_query_var( 'page' ) );
 				if ( ! $page ) {
 					$page = 1;
 				}
