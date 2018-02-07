@@ -1,9 +1,9 @@
 yoastWebpackJsonp([236],{
 
-/***/ 996:
+/***/ 1043:
 /***/ (function(module, exports) {
 
-/* (ignored) */
+eval("/* (ignored) */\n\n//////////////////\n// WEBPACK FOOTER\n// ./index.js (ignored)\n// module id = 1043\n// module chunks = 236\n\n//# sourceURL=webpack:///./index.js_(ignored)?");
 
 /***/ })
 
