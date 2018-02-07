@@ -84,6 +84,6 @@ class WPSEO_Option_Tab {
 	 * @return mixed|string
 	 */
 	protected function get_argument( $variable, $default = '' ) {
-		return array_key_exists( $variable, $this->arguments ) ? $this->arguments[ $variable ] : $default ;
+		return array_key_exists( $variable, $this->arguments ) ? $this->arguments[ $variable ] : $default;
 	}
 }
