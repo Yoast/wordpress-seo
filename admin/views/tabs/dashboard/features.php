@@ -48,14 +48,6 @@ $feature_toggles = array(
 		'order'           => 40,
 	),
 	(object) array(
-		'name'            => __( 'Advanced settings pages', 'wordpress-seo' ),
-		'setting'         => 'enable_setting_pages',
-		'label'           => __( 'The advanced settings include site-wide settings for your titles and meta descriptions, social metadata, sitemaps and much more.', 'wordpress-seo' ),
-		'read_more_label' => __( 'Discover all the features that Yoast SEO offers.', 'wordpress-seo' ),
-		'read_more_url'   => 'https://yoa.st/2am',
-		'order'           => 50,
-	),
-	(object) array(
 		'name'            => __( 'XML Sitemaps', 'wordpress-seo' ),
 		'setting'         => 'enable_xml_sitemap',
 		/* translators: %s expands to Yoast SEO */
