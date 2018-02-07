@@ -42,7 +42,9 @@ class WPSEO_Option_Tabs_Formatter {
 
 		foreach ( $option_tabs->get_tabs() as $tab ) {
 			$identifier = $tab->get_name();
-			printf( '<div id="%1$s" class="wpseotab %2$s">', esc_attr( $identifier ), ( $tab->has_save_button() ) ? 'save' : 'nosave' );
+
+			$class = 'wpseotab ' . ( $tab->has_save_button() ? 'save' : 'nosave' );
+			printf( '<div id="%1$s" class="%2$s">', esc_attr( $identifier ), esc_attr( $class ) );
 
 			// Output the settings view for all tabs.
 			$tab_view = $this->get_tab_view( $option_tabs, $tab );
