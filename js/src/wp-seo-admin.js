@@ -275,10 +275,10 @@ import a11ySpeak from "a11y-speak";
 			var activeTab = jQuery( "#" + id );
 			activeTab.addClass( "active" );
 			jQuery( this ).addClass( "nav-tab-active" );
-			if ( activeTab.hasClass( 'nosave' ) ) {
-				jQuery( '#submit' ).hide();
+			if ( activeTab.hasClass( "nosave" ) ) {
+				jQuery( "#submit" ).hide();
 			} else {
-				jQuery( '#submit' ).show();
+				jQuery( "#submit" ).show();
 			}
 		} );
 
