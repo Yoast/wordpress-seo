@@ -15,7 +15,7 @@ class WPSEO_Option_Tab {
 	private $label;
 
 	/** @var array Optional arguments */
-	private $arguments = array();
+	private $arguments;
 
 	/**
 	 * WPSEO_Option_Tab constructor.
@@ -24,10 +24,10 @@ class WPSEO_Option_Tab {
 	 * @param string $label     Localized label of the tab.
 	 * @param array  $arguments Optional arguments.
 	 */
-	public function __construct( $name, $label, $arguments = array() ) {
+	public function __construct( $name, $label, array $arguments = array() ) {
 		$this->name      = sanitize_title( $name );
 		$this->label     = $label;
-		$this->arguments = (array) $arguments;
+		$this->arguments = $arguments;
 	}
 
 	/**
@@ -63,7 +63,7 @@ class WPSEO_Option_Tab {
 	 * @return bool
 	 */
 	public function has_save_button() {
-		return $this->get_argument( 'save_button', true );
+		return (bool) $this->get_argument( 'save_button', true );
 	}
 
 	/**
@@ -78,12 +78,12 @@ class WPSEO_Option_Tab {
 	/**
 	 * Get the variable from the supplied arguments
 	 *
-	 * @param string $variable Variable to retrieve.
-	 * @param string $default  Default to use when variable not found.
+	 * @param string       $variable Variable to retrieve.
+	 * @param string|mixed $default  Default to use when variable not found.
 	 *
 	 * @return mixed|string
 	 */
 	protected function get_argument( $variable, $default = '' ) {
-		return ! isset( $this->arguments[ $variable ] ) ? $default : $this->arguments[ $variable ];
+		return array_key_exists( $variable, $this->arguments ) ? $this->arguments[ $variable ] : $default ;
 	}
 }
