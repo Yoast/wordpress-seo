@@ -2,6 +2,9 @@
 /**
  * @package WPSEO\Admin\Views
  */
+/**
+ * @var Yoast_Form $yform
+ */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -17,7 +20,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	</p>
 <?php
 
-$yform = Yoast_Form::get_instance();
 $yform->toggle_switch( 'disable-attachment', array(
 	'on' => __( 'Yes', 'wordpress-seo' ),
 	'off'  => __( 'No', 'wordpress-seo' ),

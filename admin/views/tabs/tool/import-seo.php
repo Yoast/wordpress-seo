@@ -2,14 +2,15 @@
 /**
  * @package WPSEO\Admin\Views
  */
+/**
+ * @var Yoast_Form $yform
+ */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-
-$yform = Yoast_Form::get_instance();
 
 ?>
 <p><?php esc_html_e( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ); ?></p>

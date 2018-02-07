@@ -2,6 +2,9 @@
 /**
  * @package WPSEO\Admin\Views
  */
+/**
+ * @var Yoast_Form $yform
+ */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -29,7 +32,6 @@ printf(
 );
 echo '</p>';
 
-$yform = Yoast_Form::get_instance();
 $yform->textinput( 'pinterestverify', __( 'Pinterest confirmation', 'wordpress-seo' ) );
 
 do_action( 'wpseo_admin_pinterest_section' );
