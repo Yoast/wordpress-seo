@@ -48,12 +48,30 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			return;
 		}
 
-		add_action( 'wpseo_internal_linking', array( $this, 'add_internal_linking_interface' ) );
+		add_action( 'wpseo_tools_overview_list_items', array( $this, 'show_tools_overview_item' ), 11 );
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 
 		if ( $this->is_modal_page() ) {
 			add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
 		}
+	}
+
+	public function show_tools_overview_item() {
+		$total_items = $this->post_query->get_totals( $this->get_post_types() );
+
+		echo '<li>';
+		echo '<strong>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</strong><br/>';
+
+		if ( count( $total_items ) === 0 ) {
+			echo $this->message_already_indexed();
+		}
+
+		if ( count( $total_items ) > 0 ) {
+			echo $this->generate_internal_link_calculation_interface();
+		}
+
+		echo '</li>';
 	}
 
 	/**
@@ -68,7 +86,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		echo '<p>' . esc_html__( 'Want to use our internal linking tool? Analyze all the published posts, pages and custom post types to generate internal linking suggestions.', 'wordpress-seo-premium' ) . '</p>';
 
 		if ( count( $total_items ) === 0 ) {
-			printf( '<p>%s</p><br>', $this->messageAlreadyIndexed() );
+			printf( '<p>%s</p><br>', $this->message_already_indexed() );
 
 			return;
 		}
@@ -115,7 +133,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 */
 	protected function generate_internal_link_calculation_interface() {
 		return sprintf(
-			'<p id="internalLinksCalculation"><a id="openInternalLinksCalculation" href="%s" title="%s" class="%s">%s</a></p><br />',
+			'<span id="internalLinksCalculation"><a id="openInternalLinksCalculation" href="%s" title="%s" class="%s">%s</a></span>',
 			esc_url( '#TB_inline?width=600&height=' . ( self::MODAL_DIALOG_HEIGHT_BASE + self::PROGRESS_BAR_HEIGHT ) . '&inlineId=wpseo_recalculate_internal_links_wrapper' ),
 			esc_attr__( 'Generate internal linking suggestions', 'wordpress-seo-premium' ),
 			esc_attr( 'btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox' ),
