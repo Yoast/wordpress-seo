@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import get from "lodash/get";
 import { injectIntl, intlShape } from "react-intl";
-import getIntlProvider from "./components/IntlProvider";
+import IntlProvider from "./components/IntlProvider";
 
 import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
 import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSearcher";
@@ -229,7 +229,6 @@ HelpCenter.propTypes = {
 	intl: intlShape.isRequired,
 };
 
-const IntlProvider = getIntlProvider( wpseoHelpCenterData ? wpseoHelpCenterData.translations.locale : "en" );
 const HelpCenterIntl = injectIntl( HelpCenter );
 
 /**
