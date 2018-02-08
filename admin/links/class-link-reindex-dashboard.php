@@ -123,7 +123,7 @@ class WPSEO_Link_Reindex_Dashboard {
 				/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 				__( 'Text %1$s of %2$s processed.', 'wordpress-seo' ),
 				'<span id="wpseo_count_index_links">0</span>',
-				sprintf( '<strong id="wpseo_count_total">%d</strong>', $this->unprocessed )
+				sprintf( '<strong id="wpseo_count_total">%d</strong>', $this->get_unprocessed_count() )
 			);
 
 			$inner_text  = '<div id="wpseo_index_links_progressbar" class="wpseo-progressbar"></div>';
@@ -153,7 +153,7 @@ class WPSEO_Link_Reindex_Dashboard {
 		$asset_manager->enqueue_script( 'reindex-links' );
 
 		$data = array(
-			'amount'  => $this->unprocessed,
+			'amount'  => $this->get_unprocessed_count(),
 			'restApi' => array(
 				'root'     => esc_url_raw( rest_url() ),
 				'endpoint' => WPSEO_Link_Reindex_Post_Endpoint::REST_NAMESPACE . '/' . WPSEO_Link_Reindex_Post_Endpoint::ENDPOINT_QUERY,
