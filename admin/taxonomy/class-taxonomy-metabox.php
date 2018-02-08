@@ -210,24 +210,24 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Form_Tab|bool
 	 */
 	private function create_tab( $name, $network, $icon, $label ) {
-		if ( WPSEO_Options::get( $network ) === true ) {
-			$meta_fields = $this->taxonomy_social_fields->get_by_network( $network );
-
-			$tab_settings = new WPSEO_Metabox_Form_Tab(
-				$name,
-				$this->social_admin->get_premium_notice( $network ) . $this->taxonomy_tab_content->html( $meta_fields ),
-				'<span class="screen-reader-text">' . $label . '</span><span class="dashicons dashicons-' . $icon . '"></span>',
-				array(
-					'link_aria_label' => $label,
-					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
-					'single'          => $this->has_single_social_tab(),
-				)
-			);
-
-			return $tab_settings;
+		if ( WPSEO_Options::get( $network ) !== true ) {
+			return false;
 		}
 
-		return false;
+		$meta_fields = $this->taxonomy_social_fields->get_by_network( $network );
+
+		$tab_settings = new WPSEO_Metabox_Form_Tab(
+			$name,
+			$this->social_admin->get_premium_notice( $network ) . $this->taxonomy_tab_content->html( $meta_fields ),
+			'<span class="screen-reader-text">' . $label . '</span><span class="dashicons dashicons-' . $icon . '"></span>',
+			array(
+				'link_aria_label' => $label,
+				'link_class'      => 'yoast-tooltip yoast-tooltip-se',
+				'single'          => $this->has_single_social_tab(),
+			)
+		);
+
+		return $tab_settings;
 	}
 
 	/**
@@ -315,20 +315,6 @@ class WPSEO_Taxonomy_Metabox {
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
-	}
-
-	/**
-	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
-	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
-	 * we know which taxonomy is being requested, so we need to use this check in nearly every hooked in function.
-	 *
-	 * @since 1.5.0
-	 */
-	private function tax_is_public() {
-		// Don't make static as taxonomies may still be added during the run.
-		$taxonomy = get_taxonomy( $this->taxonomy );
-
-		return $taxonomy->public;
 	}
 
 	/**
