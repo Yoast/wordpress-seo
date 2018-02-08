@@ -18,6 +18,7 @@
 		?>
 	</p>
 	<?php
+
 	$yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ), array(
 		''        => __( 'Choose whether you\'re a company or person', 'wordpress-seo' ),
 		'company' => __( 'Company', 'wordpress-seo' ),
