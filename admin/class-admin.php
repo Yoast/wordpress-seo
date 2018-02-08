@@ -573,23 +573,23 @@ class WPSEO_Admin {
 	/**
 	 * Cleans stopwords out of the slug, if the slug hasn't been set yet.
 	 *
-	 * @deprecated 6.4
+	 * @deprecated 7.0
 	 *
 	 * @return void
 	 */
 	public function remove_stopwords_from_slug() {
-		_deprecated_function( __METHOD__, 'WPSEO 6.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
 	 * Filter the stopwords from the slug.
 	 *
-	 * @deprecated 6.4
+	 * @deprecated 7.0
 	 *
 	 * @return void
 	 */
 	public function filter_stopwords_from_slug() {
-		_deprecated_function( __METHOD__, 'WPSEO 6.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**

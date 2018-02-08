@@ -53,11 +53,6 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 * Test if a user is excluded from the sitemap when there are no posts
 	 */
 	public function test_author_excluded_from_sitemap_by_zero_posts() {
-		$user = $this->get_user();
-
-		// Don't allow no posts.
-		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_no_posts' ) );
-
 		// Make the user have -no- posts.
 		add_filter( 'get_usernumposts', array( $this, 'filter_user_has_no_posts' ) );
 
@@ -65,24 +60,6 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
 		// User should be removed.
 		$this->assertEmpty( $sitemap_links );
-	}
-
-	/**
-	 * Get defaults
-	 *
-	 * @return array
-	 */
-	private function wpseo_option_xml_defaults() {
-		static $defaults;
-
-		if ( ! isset( $defaults ) ) {
-			$defaults = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_titles' ) );
-
-			// Make sure the author sitemaps are enabled.
-			$defaults['noindex-author-wpseo'] = false;
-		}
-
-		return $defaults;
 	}
 
 	/**

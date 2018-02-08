@@ -136,19 +136,19 @@ class WPSEO_Sitemaps_Admin {
 	/**
 	 * Find sitemaps residing on disk as they will block our rewrite.
 	 *
-	 * @deprecated 6.4
+	 * @deprecated 7.0
 	 */
 	public function delete_sitemaps() {
-		_deprecated_function( 'WPSEO_Sitemaps_Admin::delete_sitemaps', '6.4', null );
+		_deprecated_function( 'WPSEO_Sitemaps_Admin::delete_sitemaps', '7.0' );
 	}
 
 	/**
 	 * Find sitemaps residing on disk as they will block our rewrite.
 	 *
-	 * @deprecated since 6.4
+	 * @deprecated 7.0
 	 */
 	public function detect_blocking_filesystem_sitemaps() {
-		_deprecated_function( 'WPSEO_Sitemaps_Admin::delete_sitemaps', '6.4', null );
+		_deprecated_function( 'WPSEO_Sitemaps_Admin::delete_sitemaps', '7.0' );
 	}
 	// @codeCoverageIgnoreEnd
 } /* End of class */

@@ -46,12 +46,6 @@ class WPSEO_Frontend {
 	 * @var string
 	 */
 	private $title = null;
-	/**
-	 * Holds the names of the required options.
-	 *
-	 * @var array
-	 */
-	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles' );
 	/** @var WPSEO_Frontend_Page_Type */
 	protected $frontend_page_type;
 	/** @var WPSEO_WooCommerce_Shop_Page */
@@ -1777,40 +1771,40 @@ class WPSEO_Frontend {
 	/**
 	 * Removes unneeded query variables from the URL.
 	 *
-	 * @deprecated 6.4
+	 * @deprecated 7.0
 	 *
 	 * @return void
 	 */
 	public function clean_permalink() {
 		// As this is a frontend method, we want to make sure it is not displayed for non-logged in users.
 		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
-			_deprecated_function( 'WPSEO_Frontend::clean_permalink', '6.4' );
+			_deprecated_function( 'WPSEO_Frontend::clean_permalink', '7.0' );
 		}
 	}
 
 	/**
 	 * Trailing slashes for everything except is_single().
 	 *
-	 * @deprecated 6.4
+	 * @deprecated 7.0
 	 */
 	public function add_trailingslash() {
 		// As this is a frontend method, we want to make sure it is not displayed for non-logged in users.
 		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
-			_deprecated_function( 'WPSEO_Frontend::add_trailingslash', '6.4', null );
+			_deprecated_function( 'WPSEO_Frontend::add_trailingslash', '7.0', null );
 		}
 	}
 
 	/**
 	 * Removes the ?replytocom variable from the link, replacing it with a #comment-<number> anchor.
 	 *
-	 * @deprecated 6.4
+	 * @deprecated 7.0
 	 *
 	 * @param string $link The comment link as a string.
 	 *
 	 * @return string The modified link.
 	 */
 	public function remove_reply_to_com( $link ) {
-		_deprecated_function( 'WPSEO_Frontend::remove_reply_to_com', '6.4', 'WPSEO_Remove_Reply_To_Com::remove_reply_to_com' );
+		_deprecated_function( 'WPSEO_Frontend::remove_reply_to_com', '7.0', 'WPSEO_Remove_Reply_To_Com::remove_reply_to_com' );
 
 		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
 		return $remove_replytocom->remove_reply_to_com( $link );
@@ -1819,12 +1813,12 @@ class WPSEO_Frontend {
 	/**
 	 * Redirects out the ?replytocom variables.
 	 *
-	 * @deprecated 6.4
+	 * @deprecated 7.0
 	 *
 	 * @return boolean True when redirect has been done.
 	 */
 	public function replytocom_redirect() {
-		_deprecated_function( 'WPSEO_Frontend::replytocom_redirect', '6.4', 'WPSEO_Remove_Reply_To_Com::replytocom_redirect' );
+		_deprecated_function( 'WPSEO_Frontend::replytocom_redirect', '7.0', 'WPSEO_Remove_Reply_To_Com::replytocom_redirect' );
 
 		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
 		return $remove_replytocom->replytocom_redirect();

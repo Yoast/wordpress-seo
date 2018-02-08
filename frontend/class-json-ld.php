@@ -121,7 +121,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			$this->data['@type'] = 'Organization';
 			$this->data['@id']   = '#organization';
 			$this->data['name']  = WPSEO_Options::get( 'company_name' );
-			$this->data['logo']  = WPSEO_Options::get( 'company_logo' );
+			$this->data['logo']  = WPSEO_Options::get( 'company_logo', '' );
 
 			return;
 		}
@@ -179,7 +179,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			}
 		}
 
-		if ( WPSEO_Options::get( 'twitter_site', false ) ) {
+		if ( WPSEO_Options::get( 'twitter_site', '' ) !== '' ) {
 			$this->profiles[] = 'https://twitter.com/' . WPSEO_Options::get( 'twitter_site' );
 		}
 	}
