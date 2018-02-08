@@ -31,6 +31,15 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Get all the options
+	 *
+	 * @deprecated 7.0
+	 */
+	protected function get_options() {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0', 'WPSEO_Options::get' );
+	}
+
+	/**
 	 * Get front page ID
 	 *
 	 * @return int

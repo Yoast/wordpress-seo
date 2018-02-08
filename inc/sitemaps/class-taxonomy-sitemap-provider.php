@@ -12,12 +12,6 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected static $image_parser;
 
 	/**
-	 * Set up object properties for data reuse.
-	 */
-	public function __construct() {
-	}
-
-	/**
 	 * Check if provider supports given item type.
 	 *
 	 * @param string $type Type string to check for.
@@ -27,6 +21,15 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	public function handles_type( $type ) {
 
 		return taxonomy_exists( $type );
+	}
+
+	/**
+	 * Get all the options
+	 *
+	 * @deprecated 7.0
+	 */
+	protected function get_options() {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0', 'WPSEO_Options::get' );
 	}
 
 	/**
