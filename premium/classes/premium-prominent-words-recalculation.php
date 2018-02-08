@@ -51,7 +51,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		add_action( 'wpseo_internal_linking', array( $this, 'add_internal_linking_interface' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_dashboard' ) {
+		if ( $this->is_modal_page() ) {
 			add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
 		}
 	}
@@ -177,8 +177,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @return void
 	 */
 	public function enqueue() {
-		$page = filter_input( INPUT_GET, 'page' );
-
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$version       = $asset_manager->flatten_version( WPSEO_VERSION );
 
@@ -190,7 +188,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			true
 		);
 
-		if ( $page === 'wpseo_dashboard' ) {
+		if ( $this->is_modal_page() ) {
 			$this->enqueue_dashboard_assets();
 		}
 	}
@@ -239,5 +237,14 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 */
 	private function message_already_indexed() {
 		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! You\'ve optimized your internal linking suggestions. These suggestions will now appear alongside your content when you are writing or editing a post.', 'wordpress-seo-premium' );
+	}
+
+	/**
+	 * Determines if we are on a page that can show the modal.
+	 *
+	 * @return bool True if we are on the page that should contain the modal.
+	 */
+	protected function is_modal_page() {
+		return filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) === 'wpseo_tools';
 	}
 }
