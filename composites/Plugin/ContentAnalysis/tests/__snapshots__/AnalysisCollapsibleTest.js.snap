@@ -101,7 +101,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
   height: 20px;
 }
 
-.c10 {
+.c9 {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
@@ -113,15 +113,6 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-}
-
-.c9 {
-  width: 16px;
-  height: 16px;
-  fill: #555;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
@@ -142,13 +133,22 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
     type="button"
   >
     <svg
-      aria-hidden="true"
-      className="c8 c9"
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-angle-down c8"
+      fill="#555"
       focusable="false"
+      height="16"
       role="img"
-    />
+      viewBox="0 0 1792 1792"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+      />
+    </svg>
     <span
-      className="c10"
+      className="c9"
     >
       Problems (4)
     </span>
@@ -257,14 +257,14 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
   height: 20px;
 }
 
-.c10 {
+.c9 {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
   line-height: 1.25;
 }
 
-.c11 {
+.c10 {
   margin: 0;
   list-style: none;
   padding: 0 16px 0 0;
@@ -275,15 +275,6 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-}
-
-.c9 {
-  width: 16px;
-  height: 16px;
-  fill: #555;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
@@ -304,19 +295,28 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
     type="button"
   >
     <svg
-      aria-hidden="true"
-      className="c8 c9"
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-angle-up c8"
+      fill="#555"
       focusable="false"
+      height="16"
       role="img"
-    />
+      viewBox="0 0 1792 1792"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+      />
+    </svg>
     <span
-      className="c10"
+      className="c9"
     >
       Problems (4)
     </span>
   </button>
   <ul
-    className="c11"
+    className="c10"
     role="list"
   >
     <li>
@@ -436,14 +436,14 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
   height: 20px;
 }
 
-.c10 {
+.c9 {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
   line-height: 1.25;
 }
 
-.c11 {
+.c10 {
   margin: 0;
   list-style: none;
   padding: 0 16px 0 0;
@@ -454,15 +454,6 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-}
-
-.c9 {
-  width: 16px;
-  height: 16px;
-  fill: #555;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
@@ -483,19 +474,28 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
     type="button"
   >
     <svg
-      aria-hidden="true"
-      className="c8 c9"
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-angle-up c8"
+      fill="#555"
       focusable="false"
+      height="16"
       role="img"
-    />
+      viewBox="0 0 1792 1792"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+      />
+    </svg>
     <span
-      className="c10"
+      className="c9"
     >
       Problems (4)
     </span>
   </button>
   <ul
-    className="c11"
+    className="c10"
     role="list"
   >
     <li>
@@ -615,7 +615,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
   height: 20px;
 }
 
-.c10 {
+.c9 {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
@@ -627,15 +627,6 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-}
-
-.c9 {
-  width: 16px;
-  height: 16px;
-  fill: #555;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
@@ -656,13 +647,22 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
     type="button"
   >
     <svg
-      aria-hidden="true"
-      className="c8 c9"
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-angle-down c8"
+      fill="#555"
       focusable="false"
+      height="16"
       role="img"
-    />
+      viewBox="0 0 1792 1792"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+      />
+    </svg>
     <span
-      className="c10"
+      className="c9"
     >
       Problems (4)
     </span>
@@ -771,7 +771,7 @@ exports[`AnalysisCollapsible matches the snapshot with a heading 1`] = `
   height: 20px;
 }
 
-.c11 {
+.c10 {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
@@ -788,15 +788,6 @@ exports[`AnalysisCollapsible matches the snapshot with a heading 1`] = `
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-}
-
-.c10 {
-  width: 16px;
-  height: 16px;
-  fill: #555;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
@@ -820,13 +811,22 @@ exports[`AnalysisCollapsible matches the snapshot with a heading 1`] = `
       type="button"
     >
       <svg
-        aria-hidden="true"
-        className="c9 c10"
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-down c9"
+        fill="#555"
         focusable="false"
+        height="16"
         role="img"
-      />
+        viewBox="0 0 1792 1792"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+        />
+      </svg>
       <span
-        className="c11"
+        className="c10"
       >
         Problems (4)
       </span>

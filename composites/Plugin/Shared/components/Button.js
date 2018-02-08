@@ -5,7 +5,7 @@ import omit from "lodash/omit";
 import PropTypes from "prop-types";
 
 import colors from "../../../../style-guide/colors.json";
-import { Icon } from "./Icon";
+import SvgIcon from "./SvgIcon";
 import { rgba } from "../../../../style-guide/helpers";
 
 const settings = {
@@ -206,11 +206,11 @@ BaseButton.defaultProps = {
 export const Button = addFontSizeStyles( BaseButton );
 
 /**
- * Applies styles to icon for IconButton with text.
+ * Applies styles to SvgIcon for IconButton with text.
  *
- * @param {ReactElement} icon The original icon.
+ * @param {ReactElement} icon The original SvgIcon.
  *
- * @returns {ReactElement} Icon with text styles applied.
+ * @returns {ReactElement} SvgIcon with text styles applied.
  */
 function addIconTextStyle( icon ) {
 	return styled( icon )`
@@ -229,7 +229,7 @@ function addIconTextStyle( icon ) {
 export const IconButton = ( props ) => {
 	const { children: text, icon, iconColor } = props;
 
-	let IconComponent = Icon;
+	let IconComponent = SvgIcon;
 	if ( text ) {
 		IconComponent = addIconTextStyle( IconComponent );
 	}
@@ -245,11 +245,15 @@ export const IconButton = ( props ) => {
 };
 
 IconButton.propTypes = {
-	icon: PropTypes.func.isRequired,
-	iconColor: PropTypes.string.isRequired,
+	icon: PropTypes.string.isRequired,
+	iconColor: PropTypes.string,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
 		PropTypes.string,
 	] ),
+};
+
+IconButton.defaultProps = {
+	iconColor: "#000",
 };

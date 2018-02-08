@@ -1,7 +1,8 @@
 import React from "react";
-import YoastLogo from "../basic/YoastLogo";
-
 import interpolateComponents from "interpolate-components";
+
+import Icon from "../Plugin/Shared/components/Icon";
+import YoastLogo from "../basic/YoastLogo";
 
 /**
  * Creates a message box in the style of the onboarding wizard.
@@ -12,7 +13,7 @@ import interpolateComponents from "interpolate-components";
  */
 const MessageBox = ( props ) => (
 	<div className="yoast-wizard-body">
-		<YoastLogo height={ 93 } width={ 200 }/>
+		<Icon icon={ YoastLogo } width="200px" height="93px" className="yoast-wizard__logo"/>
 		<div className="yoast-wizard-container yoast-wizard-container--no-navigation">
 			<div className="yoast-wizard">
 				{ interpolateComponents( props ) }
@@ -22,4 +23,3 @@ const MessageBox = ( props ) => (
 );
 
 export default MessageBox;
-

@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the Icon matches the snapshot 1`] = `
+exports[`the Icon with props matches the snapshot 1`] = `
 .c0 {
-  width: 16px;
-  height: 16px;
-  fill: black;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
+  width: 200px;
+  height: 200px;
+  fill: red;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 
 <svg
@@ -15,5 +15,212 @@ exports[`the Icon matches the snapshot 1`] = `
   className="c0"
   focusable="false"
   role="img"
-/>
+  viewBox="0 0 500 500"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g
+    id="BG"
+  >
+    <path
+      d="M500,452.3H60c-33.1,0-60-26.9-60-60v-330c0-33.1,26.9-60,60-60h380c33.1,0,60,26.9,60,60V452.3z"
+      fill="#7EADB9"
+    />
+  </g>
+  <g
+    id="BG_dark"
+  >
+    <path
+      d="M500,452.3H265V2.3h175c33.1,0,60,26.9,60,60V452.3z"
+      fill="#568591"
+    />
+  </g>
+  <g
+    id="bg_light"
+  >
+    <path
+      d="M325,497.7H175c-38.5,0-70-31.5-70-70v-320c0-38.5,31.5-70,70-70h150c38.5,0,70,31.5,70,70v320 C395,466.2,363.5,497.7,325,497.7z"
+      fill="#5B2942"
+    />
+    <path
+      d="M317,471.2H183c-27.5,0-50-22.5-50-50v-307 c0-27.5,22.5-50,50-50h134c27.5,0,50,22.5,50,50v307C367,448.7,344.5,471.2,317,471.2z"
+      fill="none"
+      stroke="#7EADB9"
+      strokeMiterlimit="10"
+      strokeWidth="13"
+    />
+  </g>
+  <g
+    id="Layer_2"
+  >
+    <g>
+      <g>
+        <g>
+          <circle
+            cx="250"
+            cy="267.7"
+            fill="#F49A00"
+            r="55"
+          />
+          <circle
+            cx="250"
+            cy="144.4"
+            fill="#ED261F"
+            r="55"
+          />
+          <circle
+            cx="250"
+            cy="391"
+            fill="#77B227"
+            r="55"
+          />
+        </g>
+        <g
+          display="none"
+        >
+          <path
+            d="M250,320.4c-30.4,0-55-24.6-55-55s24.6-55,55-55"
+            display="inline"
+            fill="#FEC228"
+          />
+          <path
+            d="M250,197.1c-30.4,0-55-24.6-55-55s24.6-55,55-55"
+            display="inline"
+            fill="#8BDA53"
+          />
+          <path
+            d="M250,443.7c-30.4,0-55-24.6-55-55s24.6-55,55-55"
+            display="inline"
+            fill="#FF443D"
+          />
+        </g>
+        <g>
+          <path
+            d="M222.5,315.3c-26.3-15.2-35.3-48.8-20.1-75.1c15.2-26.3,48.8-35.3,75.1-20.1"
+            fill="#FEC228"
+          />
+          <path
+            d="M222.5,192c-26.3-15.2-35.3-48.8-20.1-75.1c15.2-26.3,48.8-35.3,75.1-20.1L222.5,192z"
+            fill="#FF4E47"
+          />
+          <path
+            d="M222.5,438.7c-26.3-15.2-35.3-48.8-20.1-75.1c15.2-26.3,48.8-35.3,75.1-20.1"
+            fill="#9FDA4F"
+          />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
+`;
+
+exports[`the Icon without props matches the snapshot 1`] = `
+.c0 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+<svg
+  aria-hidden="true"
+  className="c0"
+  focusable="false"
+  role="img"
+  viewBox="0 0 500 500"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g
+    id="BG"
+  >
+    <path
+      d="M500,452.3H60c-33.1,0-60-26.9-60-60v-330c0-33.1,26.9-60,60-60h380c33.1,0,60,26.9,60,60V452.3z"
+      fill="#7EADB9"
+    />
+  </g>
+  <g
+    id="BG_dark"
+  >
+    <path
+      d="M500,452.3H265V2.3h175c33.1,0,60,26.9,60,60V452.3z"
+      fill="#568591"
+    />
+  </g>
+  <g
+    id="bg_light"
+  >
+    <path
+      d="M325,497.7H175c-38.5,0-70-31.5-70-70v-320c0-38.5,31.5-70,70-70h150c38.5,0,70,31.5,70,70v320 C395,466.2,363.5,497.7,325,497.7z"
+      fill="#5B2942"
+    />
+    <path
+      d="M317,471.2H183c-27.5,0-50-22.5-50-50v-307 c0-27.5,22.5-50,50-50h134c27.5,0,50,22.5,50,50v307C367,448.7,344.5,471.2,317,471.2z"
+      fill="none"
+      stroke="#7EADB9"
+      strokeMiterlimit="10"
+      strokeWidth="13"
+    />
+  </g>
+  <g
+    id="Layer_2"
+  >
+    <g>
+      <g>
+        <g>
+          <circle
+            cx="250"
+            cy="267.7"
+            fill="#F49A00"
+            r="55"
+          />
+          <circle
+            cx="250"
+            cy="144.4"
+            fill="#ED261F"
+            r="55"
+          />
+          <circle
+            cx="250"
+            cy="391"
+            fill="#77B227"
+            r="55"
+          />
+        </g>
+        <g
+          display="none"
+        >
+          <path
+            d="M250,320.4c-30.4,0-55-24.6-55-55s24.6-55,55-55"
+            display="inline"
+            fill="#FEC228"
+          />
+          <path
+            d="M250,197.1c-30.4,0-55-24.6-55-55s24.6-55,55-55"
+            display="inline"
+            fill="#8BDA53"
+          />
+          <path
+            d="M250,443.7c-30.4,0-55-24.6-55-55s24.6-55,55-55"
+            display="inline"
+            fill="#FF443D"
+          />
+        </g>
+        <g>
+          <path
+            d="M222.5,315.3c-26.3-15.2-35.3-48.8-20.1-75.1c15.2-26.3,48.8-35.3,75.1-20.1"
+            fill="#FEC228"
+          />
+          <path
+            d="M222.5,192c-26.3-15.2-35.3-48.8-20.1-75.1c15.2-26.3,48.8-35.3,75.1-20.1L222.5,192z"
+            fill="#FF4E47"
+          />
+          <path
+            d="M222.5,438.7c-26.3-15.2-35.3-48.8-20.1-75.1c15.2-26.3,48.8-35.3,75.1-20.1"
+            fill="#9FDA4F"
+          />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
 `;

@@ -462,15 +462,6 @@ exports[`the IconButton matches the snapshot 1`] = `
   font-size: 0.8rem;
 }
 
-.c6 {
-  width: 16px;
-  height: 16px;
-  fill: black;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c4::after {
     display: inline-block;
@@ -484,11 +475,20 @@ exports[`the IconButton matches the snapshot 1`] = `
   type="button"
 >
   <svg
-    aria-hidden="true"
-    className="c6"
+    aria-hidden={true}
+    className="yoast-svg-icon yoast-svg-icon-edit"
+    fill="black"
     focusable="false"
+    height="16"
     role="img"
-  />
+    viewBox="0 0 1792 1792"
+    width="16"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+    />
+  </svg>
 </button>
 `;
 
@@ -564,15 +564,6 @@ exports[`the IconButton with text matches the snapshot 1`] = `
   flex-shrink: 0;
 }
 
-.c7 {
-  width: 16px;
-  height: 16px;
-  fill: black;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c4::after {
     display: inline-block;
@@ -586,11 +577,20 @@ exports[`the IconButton with text matches the snapshot 1`] = `
   type="button"
 >
   <svg
-    aria-hidden="true"
-    className="c6 c7"
+    aria-hidden={true}
+    className="yoast-svg-icon yoast-svg-icon-edit c6"
+    fill="black"
     focusable="false"
+    height="16"
     role="img"
-  />
+    viewBox="0 0 1792 1792"
+    width="16"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+    />
+  </svg>
   Click
 </button>
 `;

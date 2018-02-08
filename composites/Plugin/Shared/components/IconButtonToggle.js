@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import colors from "../../../../style-guide/colors.json";
-import { Icon } from "./Icon";
+import SvgIcon from "./SvgIcon";
 import { rgba } from "../../../../style-guide/helpers";
 
 const IconButtonBase = styled.button`
@@ -68,19 +68,19 @@ const ChangingIconButton = ( props ) => {
 			className={ props.className }
 		>
 			{ areButtonsDisabled( props ) &&
-				<Icon
+				<SvgIcon
 					icon={ props.icon }
 					color={ props.disabledIconColor }
 					size="18px"/>
 			}
 			{ ! props.pressed && ! areButtonsDisabled( props ) &&
-				<Icon
+				<SvgIcon
 					icon={ props.icon }
 					color={ props.unpressedIconColor }
 					size="18px"/>
 			}
 			{ props.pressed && ! areButtonsDisabled( props ) &&
-				<Icon
+				<SvgIcon
 					icon={ props.icon }
 					color={ props.pressedIconColor }
 					size="18px"/>
@@ -100,7 +100,7 @@ ChangingIconButton.propTypes = {
 	unpressedBackground: PropTypes.string,
 	pressedIconColor: PropTypes.string,
 	unpressedIconColor: PropTypes.string,
-	icon: PropTypes.func.isRequired,
+	icon: PropTypes.string.isRequired,
 	pressed: PropTypes.bool.isRequired,
 	hoverBorderColor: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
