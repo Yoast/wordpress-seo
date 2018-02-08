@@ -116,10 +116,10 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 				'<a href="https://yoa.st/notification-internal-link">',
 				'</a>',
 				sprintf(
-					'<a href="%s"><button type="button" class="button">',
+					'<a href="%s" class="button">',
 					esc_url( admin_url( 'admin.php?page=wpseo_tools#open-internal-links-calculation' ) )
 				),
-				'</button></a>'
+				'</a>'
 			),
 			array(
 				'type'         => Yoast_Notification::WARNING,
