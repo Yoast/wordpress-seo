@@ -57,6 +57,11 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		}
 	}
 
+	/**
+	 * Adds an item on the tools page list.
+	 *
+	 * @return void
+	 */
 	public function show_tools_overview_item() {
 		$total_items = $this->post_query->get_totals( $this->get_post_types() );
 
