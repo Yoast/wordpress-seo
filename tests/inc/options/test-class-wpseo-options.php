@@ -16,7 +16,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if the get_all function returns an array with at least the indexses associated with the options: wpseo, wpseo-rss and wpseo_internallinks.
+	 * Tests if the get_all function returns an array with at least the indexses associated with the options: wpseo and wpseo_titles.
 	 *
 	 * @covers WPSEO_Options::get_all
 	 */
@@ -93,7 +93,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::get_option
 	 */
 	public function test_get_option_IS_VALID_with_valid_option_name() {
-		$result = WPSEO_Options::get_option( 'wpseo' );
+		$result = WPSEO_Options::get_option( 'wpseo_titles' );
 		$this->assertArrayHasKey( 'website_name', $result );
 	}
 

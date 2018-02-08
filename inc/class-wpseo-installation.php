@@ -36,7 +36,6 @@ class WPSEO_Installation {
 	public function set_first_install_options() {
 		$options = get_option( 'wpseo' );
 
-		$options['enable_setting_pages']   = false;
 		$options['show_onboarding_notice'] = true;
 		$options['first_activated_on']     = time();
 

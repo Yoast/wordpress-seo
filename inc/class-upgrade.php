@@ -97,8 +97,8 @@ class WPSEO_Upgrade {
 			$this->upgrade_63();
 		}
 
-		if ( version_compare( $this->options['version'], '6.4', '<' ) ) {
-			$this->upgrade_64();
+		if ( version_compare( $this->options['version'], '7.0', '<' ) ) {
+			$this->upgrade_70();
 		}
 
 		// Since 3.7.
@@ -147,8 +147,8 @@ class WPSEO_Upgrade {
 			$new_key = $old_key;
 		}
 
-		$old_options             = WPSEO_Options::get_option( $old_option );
-		$new_options             = WPSEO_Options::get_option( $new_option );
+		$old_options = WPSEO_Options::get_option( $old_option );
+		$new_options = WPSEO_Options::get_option( $new_option );
 		if ( isset( $old_options[ $old_key ] ) ) {
 			$new_options[ $new_key ] = $old_options[ $old_key ];
 			unset( $old_options[ $old_key ] );
@@ -490,28 +490,33 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Perform the 6.4 upgrade, moves XML setting to WPSEO, deletes WPSEO_XML option.
+	 * Perform the 7.0 upgrade, moves settings around, deletes several options.
 	 */
-	private function upgrade_64() {
+	private function upgrade_70() {
+		// Move some permalink settings, then delete the option.
 		$this->move_key_to_other_option( 'wpseo_permalinks', 'wpseo_titles', 'redirectattachment', 'disable-attachment' );
+		$this->move_key_to_other_option( 'wpseo_permalinks', 'wpseo_titles', 'stripcategorybase' );
+		delete_option( 'wpseo_permalinks' );
+
+		// Move one XML sitemap setting, then delete the option.
 		$this->move_key_to_other_option( 'wpseo_xml', 'wpseo', 'enablexmlsitemap', 'enable_xml_sitemap' );
+		delete_option( 'wpseo_xml' );
+
+		// Move the RSS settings to the search appearance settings, then delete the RSS option.
 		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssbefore' );
 		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssafter' );
-
-		$this->remove_key_from_option( 'wpseo_permalinks', array(
-			'cleanslugs',
-			'cleanpermalinks',
-			'cleanpermalink-extravars',
-			'cleanpermalink-googlecampaign',
-			'cleanpermalink-googlesitesearch',
-			'cleanreplytocom',
-			'redirectattachment',
-			'trailingslash',
-		) );
-
-		// Delete the WPSEO XML and WPSEO RSS option.
-		delete_option( 'wpseo_xml' );
 		delete_option( 'wpseo_rss' );
+
+		// Move the website name and altername name as they've moved to another config page.
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'website_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'alternate_website_name' );
+
+		// All the breadcrumbs settings have moved to the search appearance settings.
+		$internal_links = (array) get_option( 'wpseo_internallinks' );
+		foreach ( array_keys( $internal_links ) as $key ) {
+			$this->move_key_to_other_option( 'wpseo_internallinks', 'wpseo_titles', $key );
+		}
+		delete_option( 'wpseo_internallinks' );
 
 		// Moves the user meta for excluding from the XML sitemap to a noindex.
 		global $wpdb;

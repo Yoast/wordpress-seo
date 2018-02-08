@@ -6,14 +6,14 @@
 /**
  * Class WPSEO_Remove_Reply_To_Com
  *
- * @since 6.4
+ * @since 7.0
  */
 class WPSEO_Remove_Reply_To_Com implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Registers the hooks necessary to handle removing ?replytocom.
 	 *
-	 * @since 6.4
+	 * @since 7.0
 	 *
 	 * @return void
 	 */

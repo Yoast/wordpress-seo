@@ -32,15 +32,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'googleverify'                    => '', // Text field.
 		'msverify'                        => '', // Text field.
 		'person_name'                     => '',
-		'website_name'                    => '',
-		'alternate_website_name'          => '',
 		'yandexverify'                    => '',
 		'site_type'                       => '', // List of options.
 		'has_multiple_authors'            => '',
 		'environment_type'                => '',
 		'content_analysis_active'         => true,
 		'keyword_analysis_active'         => true,
-		'enable_setting_pages'            => true,
 		'enable_admin_bar_menu'           => true,
 		'enable_cornerstone_content'      => true,
 		'enable_xml_sitemap'              => true,
@@ -153,8 +150,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				/* Text fields. */
 				case 'company_name':
 				case 'person_name':
-				case 'website_name':
-				case 'alternate_website_name':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}
