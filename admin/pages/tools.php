@@ -23,17 +23,17 @@ if ( '' === $tool_page ) {
 		'desc'  => __( 'Import settings from other SEO plugins and export your settings for re-use on (another) blog.', 'wordpress-seo' ),
 	);
 
-	$tools['bulk-editor'] = array(
-		'title' => __( 'Bulk editor', 'wordpress-seo' ),
-		'desc'  => __( 'This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page.', 'wordpress-seo' ),
-	);
-
 	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
 		$tools['file-editor'] = array(
 			'title' => __( 'File editor', 'wordpress-seo' ),
 			'desc'  => __( 'This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file.', 'wordpress-seo' ),
 		);
 	}
+
+	$tools['bulk-editor'] = array(
+		'title' => __( 'Bulk editor', 'wordpress-seo' ),
+		'desc'  => __( 'This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page.', 'wordpress-seo' ),
+	);
 
 	echo '<p>';
 	printf(
