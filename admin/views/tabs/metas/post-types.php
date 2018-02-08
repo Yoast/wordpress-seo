@@ -3,6 +3,10 @@
  * @package WPSEO\Admin\Views
  */
 
+/**
+ * @var Yoast_Form $yform
+ */
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -19,7 +23,6 @@ $post_types = get_post_types( array( 'public' => true ), 'objects' );
 // We'll show attachments on the Media tab.
 $post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );
 
-$yform      = Yoast_Form::get_instance();
 $view_utils = new Yoast_View_Utils();
 
 if ( is_array( $post_types ) && $post_types !== array() ) {
@@ -58,7 +61,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		$yform->index_switch( 'noindex-ptarchive-' . $name, sprintf( __( 'the archive for %s', 'wordpress-seo' ), $post_type->labels->name ) );
 		$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
-		if ( $options['breadcrumbs-enable'] === true ) {
+		if ( WPSEO_Options::get( 'breadcrumbs-enable', false ) ) {
 			$yform->textinput( 'bctitle-ptarchive-' . $name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
 		}
 

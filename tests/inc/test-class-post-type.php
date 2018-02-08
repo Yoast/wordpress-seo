@@ -129,15 +129,6 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the situation with a post type that isn't indexable because it does not exist.
-	 *
-	 * @covers WPSEO_Post_Type::is_post_type_indexable()
-	 */
-	public function test_is_post_type_indexable_with_non_existing_post_type() {
-		$this->assertFalse( WPSEO_Post_Type::is_post_type_indexable( 'non-existing-custom-post-type' ) );
-	}
-
-	/**
 	 * Test the situation where the attachment post type will be filtered.
 	 *
 	 * @covers WPSEO_Post_Type::filter_attachment_post_type()

@@ -42,9 +42,8 @@ class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 	 */
 	public function get_data() {
 
-		$option = WPSEO_Options::get_option( 'wpseo' );
-		if ( isset( $option['has_multiple_authors'] ) ) {
-			$value = $option['has_multiple_authors'];
+		if ( WPSEO_Options::get( 'has_multiple_authors', false ) ) {
+			$value = WPSEO_Options::get( 'has_multiple_authors' );
 		}
 
 		if ( ! isset( $value ) || is_null( $value ) ) {

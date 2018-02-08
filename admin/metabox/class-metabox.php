@@ -9,11 +9,6 @@
 class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
-	 * @var array
-	 */
-	private $options;
-
-	/**
 	 * @var WPSEO_Social_Admin
 	 */
 	protected $social_admin;
@@ -43,11 +38,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 		add_action( 'admin_footer', array( $this, 'template_generic_tab' ) );
 
-		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
-
 		// Check if one of the social settings is checked in the options, if so, initialize the social_admin object.
-		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true ) {
-			$this->social_admin = new WPSEO_Social_Admin( $this->options );
+		if ( WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false ) ) {
+			$this->social_admin = new WPSEO_Social_Admin();
 		}
 
 		$this->editor = new WPSEO_Metabox_Editor();
@@ -139,9 +132,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( isset( $post_type ) ) {
 			// Don't make static as post_types may still be added during the run.
 			$post_types = WPSEO_Post_Type::get_accessible_post_types();
-			$options    = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $post_types, true ) === false );
+			return ( WPSEO_Options::get( 'hideeditbox-' . $post_type, false ) || in_array( $post_type, $post_types, true ) === false );
 		}
 		return false;
 	}
@@ -242,7 +234,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
-			new WPSEO_Post_Metabox_Formatter( $post, WPSEO_Options::get_option( 'wpseo_titles' ), $permalink )
+			new WPSEO_Post_Metabox_Formatter( $post, array(), $permalink )
 		);
 
 		return $post_formatter->get_values();
@@ -352,7 +344,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->social_admin->get_meta_section();
 		}
 
-		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options['disableadvanced_meta'] === false ) {
+		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
 
@@ -574,10 +566,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
-				$content_analysis_active = $this->options['content_analysis_active'];
-				$keyword_analysis_active = $this->options['keyword_analysis_active'];
-
-				if ( $content_analysis_active === false && $keyword_analysis_active === false ) {
+				if ( WPSEO_Options::get( 'content_analysis_active' ) === false && WPSEO_Options::get( 'keyword_analysis_active' ) === false ) {
 					break;
 				}
 
@@ -603,7 +592,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/>';
 
-				if ( $this->options['enable_cornerstone_content'] ) {
+				if ( WPSEO_Options::get( 'enable_cornerstone_content', false ) ) {
 					$cornerstone_field = new WPSEO_Cornerstone_Field();
 
 					$content .= $cornerstone_field->get_html( $this->get_metabox_post() );

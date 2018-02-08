@@ -94,6 +94,8 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	 * @covers WPSEO_Frontend::robots()
 	 */
 	public function test_post_robots_default_state() {
+		WPSEO_Options::set( 'noindex-post', false );
+
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
