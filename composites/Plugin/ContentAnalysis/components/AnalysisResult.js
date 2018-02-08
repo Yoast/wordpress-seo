@@ -2,9 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { circle } from "../../../../style-guide/svg/index";
-import { eye } from "../../../../style-guide/svg/index";
-import { Icon } from "../../Shared/components/Icon.js";
+import SvgIcon from "../../Shared/components/SvgIcon.js";
 import IconButtonToggle from "../../Shared/components/IconButtonToggle.js";
 
 const AnalysisResultBase = styled.li`
@@ -15,7 +13,7 @@ const AnalysisResultBase = styled.li`
 	align-items: flex-start;
 `;
 
-const ScoreIcon = styled( Icon )`
+const ScoreIcon = styled( SvgIcon )`
 	margin-top: 3px;
 	position: relative;
 	left: -1px;
@@ -47,7 +45,7 @@ export const AnalysisResult = ( props ) => {
 	return (
 		<AnalysisResultBase { ...props }>
 			<ScoreIcon
-				icon={ circle }
+				icon="circle"
 				color={ props.bulletColor }
 				size="13px"
 			/>
@@ -59,7 +57,7 @@ export const AnalysisResult = ( props ) => {
 						className={ props.marksButtonClassName }
 						onClick={ props.onButtonClick }
 						id={ props.buttonId }
-						icon={ eye }
+						icon="eye"
 						pressed={ props.pressed }
 						ariaLabel={ props.ariaLabel }
 					/>

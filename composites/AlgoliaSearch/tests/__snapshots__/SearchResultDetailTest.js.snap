@@ -1,53 +1,247 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the SearchResultDetail component matches the snapshot 1`] = `
+.c8 {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+.c3 {
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 16px;
+  padding: 0px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 14px/24px "Open Sans",sans-serif;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c2:hover,
+.c2:focus,
+.c2:active {
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  color: #fff;
+}
+
+.c2:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+}
+
+.c6 {
+  text-decoration: none;
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+}
+
+.c5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 16px;
+  padding: 0px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 14px/24px "Open Sans",sans-serif;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c5:hover,
+.c5:focus,
+.c5:active {
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  color: #fff;
+}
+
+.c5:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+}
+
+.c7 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c0 {
+  outline: none;
+}
+
+.c1 {
+  padding: 0 16px 16px;
+}
+
+.c4 {
+  float: right;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c2::after {
+    display: inline-block;
+    content: "";
+    min-height: 48px;
+  }
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c5::after {
+    display: inline-block;
+    content: "";
+    min-height: 48px;
+  }
+}
+
+@media screen and ( max-width:768px ) {
+  .c0 {
+    margin: 0 -16px;
+  }
+}
+
 <section
   aria-label="Search result"
-  className="sc-bZQynM eYbrpH"
+  className="c0"
   tabIndex="-1"
 >
   <nav
-    className="sc-gzVnrw hdBCBy"
+    className="c1"
   >
     <button
       aria-expanded={undefined}
-      className="sc-htpNat jsmbHK sc-bwzfXH dIZeqH"
+      className="c2 c3"
       onClick={[Function]}
       type="button"
     >
       <span>
         <svg
-          aria-hidden="true"
-          className="sc-dnqmqq dAHMUA"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-left"
+          fill="#fff"
           focusable="false"
+          height="24px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="24px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         Go back
       </span>
     </button>
     <a
       aria-label="Open the knowledge base article in a new window or read it in the iframe below"
-      className="sc-htoDjs hpJeHy sc-ifAKCX keDKTL sc-bxivhb ccVExY"
+      className="c4 c5 c6"
       href="https://kb.yoast.com/kb/passive-voice/"
       rel="noopener noreferrer"
       target="_blank"
     >
       View in KB
       <svg
-        aria-hidden="true"
-        className="sc-iwsKbI insUbX"
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-right"
+        fill="#fff"
         focusable="false"
+        height="24px"
         role="img"
-      />
+        viewBox="0 0 1792 1792"
+        width="24px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z"
+        />
+      </svg>
       <span
-        className="sc-EHOje dtuOhP"
+        className="c7"
       >
         (Opens in a new browser tab)
       </span>
     </a>
   </nav>
   <iframe
-    className="kb-search-content-frame sc-bdVaJa jsOWvL"
+    className="kb-search-content-frame c8"
     src="https://kb.yoast.com/kb/passive-voice/amp/?source=wpseo-kb-search"
     title="Knowledge base article"
   />

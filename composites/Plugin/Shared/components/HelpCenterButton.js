@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import colors from "../../../../style-guide/colors.json";
-import { questionCircle, angleUp, angleDown } from "../../../../style-guide/svg";
 import { YoastButton } from "./YoastButton";
-import { Icon } from "../../Shared/components/Icon";
+import SvgIcon from "../../Shared/components/SvgIcon";
 
 /**
  * Returns an icon button that can optionally contain text.
@@ -17,9 +16,9 @@ import { Icon } from "../../Shared/components/Icon";
 const HelpCenterButtonBase = ( props ) => {
 	return (
 		<YoastButton { ...props }>
-			<Icon icon={ questionCircle } color={ props.iconColor } />
+			<SvgIcon icon="question-circle" color={ props.iconColor } />
 			{ props.children }
-			<Icon icon={ props.isExpanded ? angleUp : angleDown } color={ props.iconColor } />
+			<SvgIcon icon={ props.isExpanded ? "angle-up" : "angle-down" } color={ props.iconColor } />
 		</YoastButton>
 	);
 };

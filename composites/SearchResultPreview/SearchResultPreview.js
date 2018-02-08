@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { localize } from "../../utils/i18n";
-import Section from "../../forms/Section";
-import Button from "../../forms/Button";
+import StyledSection from "../../forms/StyledSection/StyledSection";
+import { IconButton } from "../Plugin/Shared/components/Button";
 
 /**
  * The SearchResultPreview component.
@@ -53,10 +53,10 @@ class SearchResultPreview extends React.Component {
 	 */
 	renderDate() {
 		if ( this.props.date === "" ) {
-			return "";
+			return null;
 		}
 
-		return ( <span className={this.classNames.date}>{ this.props.date } - </span> );
+		return ( <span className={ this.classNames.date }>{ this.props.date } - </span> );
 	}
 
 	/**
@@ -66,13 +66,19 @@ class SearchResultPreview extends React.Component {
 	 */
 	renderEditButton() {
 		if ( ! this.props.onEditButtonClick ) {
-			return "";
+			return null;
 		}
 
-		return ( <Button text={ this.props.translate( "Edit snippet" ) }
-		                 className={this.classNames.edit}
-		                 onClick={ this.props.onEditButtonClick }
-		                 optionalAttributes={ { "aria-expanded": false } } /> );
+		return (
+			<IconButton
+				className={ this.classNames.edit }
+				onClick={ this.props.onEditButtonClick }
+				aria-expanded={ this.props.isEditorOpen }
+				icon="edit"
+			>
+				{ this.props.translate( "Edit snippet" ) }
+			</IconButton>
+		);
 	}
 
 	/**
@@ -157,11 +163,13 @@ class SearchResultPreview extends React.Component {
 		let translations = this.getTranslations();
 
 		return (
-			<Section
-				level={ 3 }
+			<StyledSection
+				className={ this.classNames.section }
+				headingLevel={ 3 }
 				headingText={ translations.previewTitle }
 				headingClassName={ this.classNames.sectionHeading }
-				className={ this.classNames.section }>
+				headingIcon="eye"
+			>
 				<p className={ this.classNames.screenReaderText }>{ translations.previewDescription }</p>
 
 				<div
@@ -194,7 +202,7 @@ class SearchResultPreview extends React.Component {
 				</div>
 
 				{ this.renderEditButton() }
-			</Section>
+			</StyledSection>
 		);
 	}
 }
@@ -217,6 +225,7 @@ SearchResultPreview.propTypes = {
 	measureDescription: PropTypes.func,
 	focusedField: PropTypes.string,
 	hoveredField: PropTypes.string,
+	isEditorOpen: PropTypes.bool,
 };
 
 /**

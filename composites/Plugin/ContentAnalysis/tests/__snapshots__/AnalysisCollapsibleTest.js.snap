@@ -1,23 +1,154 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
+.c7 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c5::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c5:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c4:hover {
+  color: #000;
+}
+
+.c3:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c2 {
+  font-size: 0.8rem;
+}
+
+.c0 {
+  background-color: #fff;
+}
+
+.c1 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c1:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c1 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c9 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c8 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-bZQynM iUmxxL"
+  className="c0"
 >
   <button
     aria-expanded={false}
-    className="sc-gzVnrw iwtGJg sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+    className="c1 c2 c3 c4 c5 c6 c7"
     onClick={[Function]}
     type="button"
   >
     <svg
-      aria-hidden="true"
-      className="sc-iwsKbI iENOxB sc-gZMcBi eILSAm"
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-angle-down c8"
+      fill="#555"
       focusable="false"
+      height="16"
       role="img"
-    />
+      viewBox="0 0 1792 1792"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+      />
+    </svg>
     <span
-      className="sc-htoDjs grDYmx"
+      className="c9"
     >
       Problems (4)
     </span>
@@ -26,29 +157,166 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
 `;
 
 exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
+.c7 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c5::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c5:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c4:hover {
+  color: #000;
+}
+
+.c3:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c2 {
+  font-size: 0.8rem;
+}
+
+.c0 {
+  background-color: #fff;
+}
+
+.c1 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c1:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c1 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c9 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c10 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c8 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-bZQynM iUmxxL"
+  className="c0"
 >
   <button
     aria-expanded={true}
-    className="sc-gzVnrw iwtGJg sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+    className="c1 c2 c3 c4 c5 c6 c7"
     onClick={[Function]}
     type="button"
   >
     <svg
-      aria-hidden="true"
-      className="sc-gqjmRU dRmBjb sc-VigVT hHVnzr"
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-angle-up c8"
+      fill="#555"
       focusable="false"
+      height="16"
       role="img"
-    />
+      viewBox="0 0 1792 1792"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+      />
+    </svg>
     <span
-      className="sc-htoDjs grDYmx"
+      className="c9"
     >
       Problems (4)
     </span>
   </button>
   <ul
-    className="sc-dnqmqq kQoULo"
+    className="c10"
     role="list"
   >
     <li>
@@ -68,29 +336,166 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
 `;
 
 exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
+.c7 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c5::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c5:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c4:hover {
+  color: #000;
+}
+
+.c3:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c2 {
+  font-size: 0.8rem;
+}
+
+.c0 {
+  background-color: #fff;
+}
+
+.c1 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c1:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c1 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c9 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c10 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c8 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-bZQynM iUmxxL"
+  className="c0"
 >
   <button
     aria-expanded={true}
-    className="sc-gzVnrw iwtGJg sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+    className="c1 c2 c3 c4 c5 c6 c7"
     onClick={[Function]}
     type="button"
   >
     <svg
-      aria-hidden="true"
-      className="sc-cSHVUG jEEyiP sc-kAzzGY gDMXWb"
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-angle-up c8"
+      fill="#555"
       focusable="false"
+      height="16"
       role="img"
-    />
+      viewBox="0 0 1792 1792"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+      />
+    </svg>
     <span
-      className="sc-htoDjs grDYmx"
+      className="c9"
     >
       Problems (4)
     </span>
   </button>
   <ul
-    className="sc-dnqmqq kQoULo"
+    className="c10"
     role="list"
   >
     <li>
@@ -110,23 +515,154 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
 `;
 
 exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
+.c7 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c5::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c5:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c4:hover {
+  color: #000;
+}
+
+.c3:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c2 {
+  font-size: 0.8rem;
+}
+
+.c0 {
+  background-color: #fff;
+}
+
+.c1 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c1:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c1 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c9 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c8 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-bZQynM iUmxxL"
+  className="c0"
 >
   <button
     aria-expanded={false}
-    className="sc-gzVnrw iwtGJg sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+    className="c1 c2 c3 c4 c5 c6 c7"
     onClick={[Function]}
     type="button"
   >
     <svg
-      aria-hidden="true"
-      className="sc-chPdSV hbfLss sc-kgoBCf ePqMlV"
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-angle-down c8"
+      fill="#555"
       focusable="false"
+      height="16"
       role="img"
-    />
+      viewBox="0 0 1792 1792"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+      />
+    </svg>
     <span
-      className="sc-htoDjs grDYmx"
+      className="c9"
     >
       Problems (4)
     </span>
@@ -135,26 +671,162 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
 `;
 
 exports[`AnalysisCollapsible matches the snapshot with a heading 1`] = `
+.c8 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c7 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c7 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+}
+
+.c4:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3 {
+  font-size: 0.8rem;
+}
+
+.c0 {
+  background-color: #fff;
+}
+
+.c2 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c2:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c2 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c10 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c1 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c9 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c7::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-bZQynM iUmxxL"
+  className="c0"
 >
   <h2
-    className="sc-jTzLTM ckyVTS"
+    className="c1"
   >
     <button
       aria-expanded={false}
-      className="sc-gzVnrw iwtGJg sc-EHOje FXgKN sc-ifAKCX emueJE sc-bxivhb kceQSo sc-htpNat eydFZn sc-bwzfXH eFAXpn sc-bdVaJa dHgGrL"
+      className="c2 c3 c4 c5 c6 c7 c8"
       onClick={[Function]}
       type="button"
     >
       <svg
-        aria-hidden="true"
-        className="sc-fjdhpX fadKJT sc-jzJRlG bTTrWz"
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-down c9"
+        fill="#555"
         focusable="false"
+        height="16"
         role="img"
-      />
+        viewBox="0 0 1792 1792"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+        />
+      </svg>
       <span
-        className="sc-htoDjs grDYmx"
+        className="c10"
       >
         Problems (4)
       </span>

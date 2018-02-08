@@ -49,7 +49,7 @@ const messages = defineMessages( {
 	},
 	goodHeader: {
 		id: "content-analysis.good",
-		defaultMessage: "Good",
+		defaultMessage: "Good results",
 	},
 	highlight: {
 		id: "content-analysis.highlight",

@@ -42,7 +42,6 @@ export function makeFullWidth( component ) {
  * Creates a list table component.
  */
 class ListTable extends React.Component {
-
 	/**
 	 * Constructor for the component.
 	 *
@@ -75,7 +74,9 @@ class ListTable extends React.Component {
 	render() {
 		let children = this.getChildren();
 
-		return ( <List role="list" children={ children } /> );
+		return (
+			<List role="list">{ children }</List>
+		);
 	}
 }
 
@@ -111,6 +112,7 @@ class ZebrafiedListTable extends ListTable {
 		this.zebraProps.children = children.map( ( child, index ) => {
 			return React.cloneElement( child, {
 				background: ( index % 2 === 1 ) ? colors.$color_white : colors.$color_background_light,
+				key: index,
 			} );
 		} );
 	}

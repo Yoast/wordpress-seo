@@ -1,58 +1,295 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the HelpCenter matches the snapshot 1`] = `
+.c3 {
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 16px;
+  padding: 0px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 14px/24px "Open Sans",sans-serif;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c2:hover,
+.c2:focus,
+.c2:active {
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  color: #fff;
+}
+
+.c2:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
+  min-width: 0;
+  padding: 0 2px;
+  min-height: 32px;
+}
+
+.c1 svg {
+  margin: 0 16px;
+}
+
+.c0 {
+  margin: 0;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c2::after {
+    display: inline-block;
+    content: "";
+    min-height: 48px;
+  }
+}
+
+@media screen and ( max-width:768px ) {
+  .c0 {
+    margin: 0 0 1em;
+  }
+}
+
 <div
-  className="yoast-help-center sc-EHOje fpSHDe"
+  className="yoast-help-center c0"
 >
   <button
     aria-expanded={false}
-    className="yoast-help-center__button sc-htpNat cApEYM sc-bwzfXH jWIihg sc-bdVaJa bsIiYo"
+    className="yoast-help-center__button c1 c2 c3"
     onClick={[Function]}
     type="button"
   >
     <span>
       <svg
-        aria-hidden="true"
-        className="sc-gzVnrw giPTtE"
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-question-circle"
+        fill="#fff"
         focusable="false"
+        height="16"
         role="img"
-      />
+        viewBox="0 0 1792 1792"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+        />
+      </svg>
       Need help?
       <svg
-        aria-hidden="true"
-        className="sc-htoDjs qsGWH"
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-down"
+        fill="#fff"
         focusable="false"
+        height="16"
         role="img"
-      />
+        viewBox="0 0 1792 1792"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+        />
+      </svg>
     </span>
   </button>
 </div>
 `;
 
 exports[`the HelpCenter with props matches the snapshot 1`] = `
+.c3 {
+  color: #fff;
+  background: #c30;
+  min-width: 152px;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 16px;
+  padding: 0px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 14px/24px "Open Sans",sans-serif;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c2:hover,
+.c2:focus,
+.c2:active {
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  color: #fff;
+}
+
+.c2:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
+  min-width: 0;
+  padding: 0 2px;
+  min-height: 32px;
+}
+
+.c1 svg {
+  margin: 0 16px;
+}
+
+.c0 {
+  margin: 0;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c2::after {
+    display: inline-block;
+    content: "";
+    min-height: 48px;
+  }
+}
+
+@media screen and ( max-width:768px ) {
+  .c0 {
+    margin: 0 0 1em;
+  }
+}
+
 <div
-  className="yoast-help-center sc-EHOje fpSHDe"
+  className="yoast-help-center c0"
 >
   <button
     aria-expanded={false}
-    className="yoast-help-center__button sc-htpNat cApEYM sc-bwzfXH jWIihg sc-bdVaJa iWweBU"
+    className="yoast-help-center__button c1 c2 c3"
     onClick={[Function]}
     type="button"
   >
     <span>
       <svg
-        aria-hidden="true"
-        className="sc-dnqmqq epCumD"
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-question-circle"
+        fill="#fff"
         focusable="false"
+        height="16"
         role="img"
-      />
+        viewBox="0 0 1792 1792"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+        />
+      </svg>
       Need help?
       <svg
-        aria-hidden="true"
-        className="sc-iwsKbI ijGefo"
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-down"
+        fill="#fff"
         focusable="false"
+        height="16"
         role="img"
-      />
+        viewBox="0 0 1792 1792"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+        />
+      </svg>
     </span>
   </button>
 </div>

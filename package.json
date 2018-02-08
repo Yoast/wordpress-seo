@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "2.11.9",
+  "version": "3.0.0",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "main": "index.js",
@@ -11,7 +11,6 @@
   "jest": {
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest/__mocks__/fileMock.js",
-      "\\.(svg)$": "<rootDir>/jest/__mocks__/svgReactLoaderMock.js",
       "\\.(css|less)$": "<rootDir>/jest/__mocks__/styleMock.js"
     },
     "unmockedModulePathPatterns": [
@@ -25,7 +24,8 @@
       "<rootDir>/node_modules/lodash"
     ],
     "testRegex": ".*Test.js$",
-    "coverageDirectory": "coverage"
+    "coverageDirectory": "coverage",
+    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js"
   },
   "author": "Yoast",
   "license": "GPL-3.0",
@@ -33,20 +33,19 @@
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "algoliasearch": "^3.22.3",
     "debug": "^3.0.0",
-    "draft-js": "^0.10.1",
+    "draft-js": "^0.10.5",
     "grunt-scss-to-json": "^1.0.1",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "lodash": "^4.17.4",
-    "prop-types": "^15.5.10",
+    "prop-types": "^15.6.0",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
-    "react-tabs": "^2.0.0",
+    "react-tabs": "^2.2.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "striptags": "^3.1.0",
     "styled-components": "^2.1.2",
-    "svg-url-loader": "^2.1.1",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
@@ -59,10 +58,11 @@
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
     "concurrently": "^3.5.0",
-    "enzyme": "^2.9.1",
-    "eslint": "^4.6.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint": "^4.16.0",
     "eslint-config-yoast": "^2.0.0",
-    "eslint-plugin-react": "^6.0.0",
+    "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-yoast": "^1.0.0",
     "grunt": "^1.0.1",
     "grunt-eslint": "^19.0.0",
@@ -72,22 +72,22 @@
     "jest-cli": "^20.0.4",
     "jest-mock": "^20.0.3",
     "jest-runtime": "^19.0.4",
+    "jest-styled-components": "^4.10.0",
     "json-loader": "^0.5.4",
     "load-grunt-config": "^0.19.2",
     "material-ui": "^0.18.6",
-    "react": "^15.6.1",
-    "react-addons-test-utils": "^15.3.0",
-    "react-dom": "^15.6.1",
-    "react-hot-loader": "3.0.0-beta.7",
-    "react-tap-event-plugin": "^2.0.1",
-    "react-test-renderer": "^15.6.1",
-    "redux-devtools": "^3.4.0",
-    "redux-devtools-dock-monitor": "^1.1.2",
-    "redux-devtools-log-monitor": "^1.3.0",
+    "raf": "^3.4.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-hot-loader": "^4.0.0-beta.17",
+    "react-tap-event-plugin": "^3.0.2",
+    "react-test-renderer": "^16.2.0",
+    "redux-devtools": "^3.4.1",
+    "redux-devtools-dock-monitor": "^1.1.3",
+    "redux-devtools-log-monitor": "^1.4.0",
     "redux-mock-store": "^1.2.3",
     "sassdash": "^0.8.2",
     "stubby": "^0.3.1",
-    "svg-react-loader": "^0.4.4",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1"
   },
@@ -96,8 +96,8 @@
   },
   "peerDependencies": {
     "material-ui": "^0.18.6",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react": "^16.2.0",
+    "react-dom": "16.2.0"
   },
   "browserify": {
     "transform": [

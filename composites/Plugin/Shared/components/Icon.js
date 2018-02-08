@@ -10,26 +10,30 @@ import _omit from "lodash/omit";
  *
  * @returns {ReactElement} Icon component.
  */
-export const Icon = ( props ) => {
+const Icon = ( props ) => {
 	const IconComponent = styled( props.icon )`
-		width: ${ props.size };
-		height: ${ props.size };
-		fill: ${ props.color };
-		flex: none;
+		width: ${ props.width };
+		height: ${ props.height };
+		${ props.color ? `fill: ${ props.color };` : "" }
+		flex: 0 0 auto;
 	`;
 
 	// Remove the props that are no longer needed.
-	const newProps = _omit( props, [ "icon", "size", "color" ] );
+	const newProps = _omit( props, [ "icon", "width", "height", "color" ] );
 
 	return <IconComponent role="img" aria-hidden="true" focusable="false" { ...newProps } />;
 };
 
 Icon.propTypes = {
 	icon: PropTypes.func.isRequired,
-	color: PropTypes.string.isRequired,
-	size: PropTypes.string,
+	width: PropTypes.string,
+	height: PropTypes.string,
+	color: PropTypes.string,
 };
 
 Icon.defaultProps = {
-	size: "16px",
+	width: "16px",
+	height: "16px",
 };
+
+export default Icon;

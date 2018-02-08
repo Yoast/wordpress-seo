@@ -1,17 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the AnalysisResult component matches the snapshot 1`] = `
+.c3 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #a4286a;
+  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 23px;
+}
+
+.c3:hover {
+  border-color: #fff;
+}
+
+.c3:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c0 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c1 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c2 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
 <li
-  className="sc-bwzfXH kaQsFW"
+  className="c0"
 >
   <svg
-    aria-hidden="true"
-    className="sc-htpNat kcPZvN sc-ifAKCX gIfmeR"
+    aria-hidden={true}
+    className="yoast-svg-icon yoast-svg-icon-circle c1"
+    fill="blue"
     focusable="false"
+    height="13px"
     role="img"
-  />
+    viewBox="0 0 1792 1792"
+    width="13px"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+    />
+  </svg>
   <p
-    className="sc-bxivhb eBerdq"
+    className="c2"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -21,34 +80,102 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa jgsRfK"
+    className="c3"
     disabled={false}
     id="Result button"
     onClick={[Function]}
     type="button"
   >
     <svg
-      aria-hidden="true"
-      className="sc-EHOje cEzfCV"
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-eye"
+      fill="#fff"
       focusable="false"
+      height="18px"
       role="img"
-    />
+      viewBox="0 0 1792 1792"
+      width="18px"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+      />
+    </svg>
   </button>
 </li>
 `;
 
 exports[`the AnalysisResult component with disabled buttons matches the snapshot 1`] = `
+.c3 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #a4286a;
+  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 23px;
+}
+
+.c3:hover {
+  border-color: #fff;
+}
+
+.c3:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c0 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c1 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c2 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
 <li
-  className="sc-bwzfXH kaQsFW"
+  className="c0"
 >
   <svg
-    aria-hidden="true"
-    className="sc-htpNat kcPZvN sc-htoDjs hFWmva"
+    aria-hidden={true}
+    className="yoast-svg-icon yoast-svg-icon-circle c1"
+    fill="blue"
     focusable="false"
+    height="13px"
     role="img"
-  />
+    viewBox="0 0 1792 1792"
+    width="13px"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+    />
+  </svg>
   <p
-    className="sc-bxivhb eBerdq"
+    className="c2"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -58,34 +185,78 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa jgsRfK"
+    className="c3"
     disabled={true}
     id="Result button"
     onClick={[Function]}
     type="button"
   >
     <svg
-      aria-hidden="true"
-      className="sc-dnqmqq haxLBt"
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-eye"
+      fill="#ddd"
       focusable="false"
+      height="18px"
       role="img"
-    />
+      viewBox="0 0 1792 1792"
+      width="18px"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+      />
+    </svg>
   </button>
 </li>
 `;
 
 exports[`the AnalysisResult component with hidden buttons matches the snapshot 1`] = `
+.c0 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c1 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c2 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
 <li
-  className="sc-bwzfXH kaQsFW"
+  className="c0"
 >
   <svg
-    aria-hidden="true"
-    className="sc-htpNat kcPZvN sc-iwsKbI kbxVcT"
+    aria-hidden={true}
+    className="yoast-svg-icon yoast-svg-icon-circle c1"
+    fill="blue"
     focusable="false"
+    height="13px"
     role="img"
-  />
+    viewBox="0 0 1792 1792"
+    width="13px"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+    />
+  </svg>
   <p
-    className="sc-bxivhb eBerdq"
+    className="c2"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -96,17 +267,76 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
 `;
 
 exports[`the AnalysisResult component with html in the text matches the snapshot 1`] = `
+.c3 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #a4286a;
+  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 23px;
+}
+
+.c3:hover {
+  border-color: #fff;
+}
+
+.c3:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c0 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c1 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c2 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
 <li
-  className="sc-bwzfXH kaQsFW"
+  className="c0"
 >
   <svg
-    aria-hidden="true"
-    className="sc-htpNat kcPZvN sc-bZQynM jbcHwk"
+    aria-hidden={true}
+    className="yoast-svg-icon yoast-svg-icon-circle c1"
+    fill="blue"
     focusable="false"
+    height="13px"
     role="img"
-  />
+    viewBox="0 0 1792 1792"
+    width="13px"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+    />
+  </svg>
   <p
-    className="sc-bxivhb eBerdq"
+    className="c2"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing <b>great!</b>",
@@ -116,18 +346,27 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="sc-bdVaJa jgsRfK"
+    className="c3"
     disabled={false}
     id="Result button"
     onClick={[Function]}
     type="button"
   >
     <svg
-      aria-hidden="true"
-      className="sc-gzVnrw dJVhwI"
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-eye"
+      fill="#fff"
       focusable="false"
+      height="18px"
       role="img"
-    />
+      viewBox="0 0 1792 1792"
+      width="18px"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+      />
+    </svg>
   </button>
 </li>
 `;

@@ -1,11 +1,255 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the ContentAnalysis component with disabled buttons matches the snapshot 1`] = `
+.c19 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c19:hover {
+  border-color: #fff;
+}
+
+.c19:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c14 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c15 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c16 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c10 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c8::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c8:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:hover {
+  color: #000;
+}
+
+.c6:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c5 {
+  font-size: 0.8rem;
+}
+
+.c2 {
+  background-color: #fff;
+}
+
+.c4 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c4:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c4:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c4 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c12 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c13 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c0 {
+  width: 100%;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c1 {
+  min-height: 24px;
+  margin-bottom: 8px;
+  margin-left: 24px;
+}
+
+.c3 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c11 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c17 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c18 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c20 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c21 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c22 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c23 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c24 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c25 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-fjdhpX dMpTuU"
+  className="c0"
 >
   <p
-    className="sc-jzJRlG hFCzcu"
+    className="c1"
   >
     <span>
       Your site language is set to 
@@ -16,45 +260,63 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
     </span>
   </p>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-krDsej dGWWNq"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-dTdPqK dHKKhJ sc-itybZL fqEEnC"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c11"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Errors (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c13"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c14"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-eMigcr gZATRT"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c15"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c16"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -65,45 +327,63 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-fzsDOv dDTeCw"
+      className="c17"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-gPWkxV hDctdB sc-jVODtj kMeGt"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c18"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Problems (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c13"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c14"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-kUaPvJ hahcYd"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c15"
+          fill="#dc3232"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c16"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -113,42 +393,60 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
         <button
           aria-label="Marks are disabled in current view"
           aria-pressed={false}
-          className="sc-bwzfXH dQxpDv"
+          className="c19"
           disabled={true}
           id="1"
           onClick={[Function]}
           type="button"
         >
           <svg
-            aria-hidden="true"
-            className="sc-giadOv hDSKeU"
+            aria-hidden={true}
+            className="yoast-svg-icon yoast-svg-icon-eye"
+            fill="#ddd"
             focusable="false"
+            height="18px"
             role="img"
-          />
+            viewBox="0 0 1792 1792"
+            width="18px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+            />
+          </svg>
         </button>
       </li>
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-fONwsr kmdyEe"
+      className="c20"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-VJcYb eXDciX sc-ipXKqB fTFIpq"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c21"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Improvements (1)
         </span>
@@ -156,25 +454,34 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-hmXxxW itxirD"
+      className="c22"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-cqCuEk ioJFCo sc-dliRfk dzMPgi"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c23"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Considerations (1)
         </span>
@@ -182,27 +489,36 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-kLIISr castoN"
+      className="c24"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-qrIAp fmiYgw sc-iqzUVk lmyejJ"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c25"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Good (2)
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
+        <span
+          className="c12"
+        >
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -211,11 +527,231 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 `;
 
 exports[`the ContentAnalysis component with hidden buttons matches the snapshot 1`] = `
+.c14 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c15 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c16 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c10 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c8::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c8:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:hover {
+  color: #000;
+}
+
+.c6:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c5 {
+  font-size: 0.8rem;
+}
+
+.c2 {
+  background-color: #fff;
+}
+
+.c4 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c4:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c4:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c4 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c12 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c13 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c0 {
+  width: 100%;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c1 {
+  min-height: 24px;
+  margin-bottom: 8px;
+  margin-left: 24px;
+}
+
+.c3 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c11 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c17 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c18 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c19 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c20 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c21 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c22 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c23 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c24 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-fjdhpX dMpTuU"
+  className="c0"
 >
   <p
-    className="sc-jzJRlG hFCzcu"
+    className="c1"
   >
     <span>
       Your site language is set to 
@@ -226,45 +762,63 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
     </span>
   </p>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-ipZHIp irmlHr"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-iGrrsa cCfCix sc-bmyXtO fxeFoV"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c11"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Errors (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c13"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c14"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-dEoRIm gSJVGg"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c15"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c16"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -275,45 +829,63 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-jtggT eGicUc"
+      className="c17"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-ebFjAB bbrMgq sc-jKVCRD jKMreH"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c18"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Problems (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c13"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c14"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-kaNhvL hJbrLb"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c15"
+          fill="#dc3232"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c16"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -324,25 +896,34 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-LKuAh fbQloi"
+      className="c19"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-iBEsjs cqtxfr sc-hzNEM jPbHSA"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c20"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Improvements (1)
         </span>
@@ -350,25 +931,34 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-chbbiW iwpnvD"
+      className="c21"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-kxynE gImWlb sc-cooIXK kHJwOi"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c22"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Considerations (1)
         </span>
@@ -376,27 +966,36 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-fcdeBU gsgNmM"
+      className="c23"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-gmeYpB kprgmZ sc-kZmsYB eQBtJm"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c24"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Good (2)
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
+        <span
+          className="c12"
+        >
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -405,11 +1004,278 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 `;
 
 exports[`the ContentAnalysis component with language notice for someone who can change the language matches the snapshot 1`] = `
+.c3 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c21 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c21:hover {
+  border-color: #fff;
+}
+
+.c21:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c16 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c17 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c18 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c12 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c11 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c11 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c10::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c10:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c9:hover {
+  color: #000;
+}
+
+.c8:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c7 {
+  font-size: 0.8rem;
+}
+
+.c4 {
+  background-color: #fff;
+}
+
+.c6 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c6:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c6:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c6 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c14 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c15 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c0 {
+  width: 100%;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c1 {
+  min-height: 24px;
+  margin-bottom: 8px;
+  margin-left: 24px;
+}
+
+.c2 {
+  color: #0066cd;
+  margin-left: 4px;
+}
+
+.c5 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c13 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c19 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c20 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c22 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c23 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c24 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c25 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c26 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c27 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c11::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-fjdhpX dMpTuU"
+  className="c0"
 >
   <p
-    className="sc-jzJRlG hFCzcu"
+    className="c1"
   >
     <span>
       Your site language is set to 
@@ -419,59 +1285,77 @@ exports[`the ContentAnalysis component with language notice for someone who can 
       .
     </span>
     <a
-      className="sc-cSHVUG fzxnjC"
+      className="c2"
       href="#"
       rel="noopener noreferrer"
       target="_blank"
     >
       Change language
       <span
-        className="sc-bdVaJa hrXKaN"
+        className="c3"
       >
         (Opens in a new browser tab)
       </span>
     </a>
   </p>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c4"
   >
     <h4
-      className="sc-hORach OLRDT"
+      className="c5"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c6 c7 c8 c9 c10 c11 c12"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bMVAic jcxaXm sc-bAeIUo OCPyg"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c13"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c14"
         >
           Errors (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c15"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c16"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-iujRgT hGVxGx"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c17"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -482,45 +1366,63 @@ exports[`the ContentAnalysis component with language notice for someone who can 
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c4"
   >
     <h4
-      className="sc-GMQeP ldbuOi"
+      className="c19"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c6 c7 c8 c9 c10 c11 c12"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-exAgwC fbAKfg sc-cQFLBn gEOLnQ"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c20"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c14"
         >
           Problems (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c15"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c16"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-gojNiO llMUpo"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c17"
+          fill="#dc3232"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -530,42 +1432,60 @@ exports[`the ContentAnalysis component with language notice for someone who can 
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH dQxpDv"
+          className="c21"
           disabled={false}
           id="1"
           onClick={[Function]}
           type="button"
         >
           <svg
-            aria-hidden="true"
-            className="sc-daURTG gauaMH"
+            aria-hidden={true}
+            className="yoast-svg-icon yoast-svg-icon-eye"
+            fill="#555"
             focusable="false"
+            height="18px"
             role="img"
-          />
+            viewBox="0 0 1792 1792"
+            width="18px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+            />
+          </svg>
         </button>
       </li>
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c4"
   >
     <h4
-      className="sc-bXGyLb gHhYoN"
+      className="c22"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c6 c7 c8 c9 c10 c11 c12"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-lkqHmb lmawnj sc-eLExRp dHJRpL"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c23"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c14"
         >
           Improvements (1)
         </span>
@@ -573,25 +1493,34 @@ exports[`the ContentAnalysis component with language notice for someone who can 
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c4"
   >
     <h4
-      className="sc-cbkKFq hBJSIp"
+      className="c24"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c6 c7 c8 c9 c10 c11 c12"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-krvtoX cqVZcp sc-fYiAbW cPGLFG"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c25"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c14"
         >
           Considerations (1)
         </span>
@@ -599,27 +1528,36 @@ exports[`the ContentAnalysis component with language notice for someone who can 
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c4"
   >
     <h4
-      className="sc-fOKMvo cRxfUc"
+      className="c26"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c6 c7 c8 c9 c10 c11 c12"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-dUjcNx iozELP sc-gHboQg jmeBrQ"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c27"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Good (2)
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
+        <span
+          className="c14"
+        >
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -628,11 +1566,278 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 `;
 
 exports[`the ContentAnalysis component with language notice for someone who cannot change the language matches the snapshot 1`] = `
+.c3 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c21 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c21:hover {
+  border-color: #fff;
+}
+
+.c21:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c16 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c17 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c18 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c12 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c11 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c11 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c10::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c10:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c9:hover {
+  color: #000;
+}
+
+.c8:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c7 {
+  font-size: 0.8rem;
+}
+
+.c4 {
+  background-color: #fff;
+}
+
+.c6 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c6:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c6:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c6 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c14 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c15 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c0 {
+  width: 100%;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c1 {
+  min-height: 24px;
+  margin-bottom: 8px;
+  margin-left: 24px;
+}
+
+.c2 {
+  color: #0066cd;
+  margin-left: 4px;
+}
+
+.c5 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c13 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c19 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c20 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c22 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c23 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c24 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c25 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c26 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c27 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c11::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-fjdhpX dMpTuU"
+  className="c0"
 >
   <p
-    className="sc-jzJRlG hFCzcu"
+    className="c1"
   >
     <span>
       Your site language is set to 
@@ -642,59 +1847,77 @@ exports[`the ContentAnalysis component with language notice for someone who cann
       .
     </span>
     <a
-      className="sc-cSHVUG fzxnjC"
+      className="c2"
       href="#"
       rel="noopener noreferrer"
       target="_blank"
     >
       Change language
       <span
-        className="sc-bdVaJa hrXKaN"
+        className="c3"
       >
         (Opens in a new browser tab)
       </span>
     </a>
   </p>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c4"
   >
     <h4
-      className="sc-eilVRo wwieO"
+      className="c5"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c6 c7 c8 c9 c10 c11 c12"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-eerKOB gVcKdx sc-emmjRN hdhmSr"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c13"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c14"
         >
           Errors (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c15"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c16"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-cpmLhU lgajHq"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c17"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -705,45 +1928,63 @@ exports[`the ContentAnalysis component with language notice for someone who cann
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c4"
   >
     <h4
-      className="sc-dymIpo kxnavc"
+      className="c19"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c6 c7 c8 c9 c10 c11 c12"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bnXvFD kHQHgx sc-gFaPwZ fSTGVg"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c20"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c14"
         >
           Problems (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c15"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c16"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-fhYwyz bpDFdS"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c17"
+          fill="#dc3232"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -753,42 +1994,60 @@ exports[`the ContentAnalysis component with language notice for someone who cann
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH dQxpDv"
+          className="c21"
           disabled={false}
           id="1"
           onClick={[Function]}
           type="button"
         >
           <svg
-            aria-hidden="true"
-            className="sc-jzgbtB iHUVFa"
+            aria-hidden={true}
+            className="yoast-svg-icon yoast-svg-icon-eye"
+            fill="#555"
             focusable="false"
+            height="18px"
             role="img"
-          />
+            viewBox="0 0 1792 1792"
+            width="18px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+            />
+          </svg>
         </button>
       </li>
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c4"
   >
     <h4
-      className="sc-gJWqzi ADeBK"
+      className="c22"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c6 c7 c8 c9 c10 c11 c12"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-rBLzX dqeGvY sc-bMvGRv dnMihS"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c23"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c14"
         >
           Improvements (1)
         </span>
@@ -796,25 +2055,34 @@ exports[`the ContentAnalysis component with language notice for someone who cann
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c4"
   >
     <h4
-      className="sc-CtfFt cLjVaM"
+      className="c24"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c6 c7 c8 c9 c10 c11 c12"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-laTMn kDcors sc-hGoxap doIZZl"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c25"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c14"
         >
           Considerations (1)
         </span>
@@ -822,27 +2090,36 @@ exports[`the ContentAnalysis component with language notice for someone who cann
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c4"
   >
     <h4
-      className="sc-fjmCvl bGeQur"
+      className="c26"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c6 c7 c8 c9 c10 c11 c12"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-TFwJa ekkrZv sc-bHwgHz kwDcSm"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c27"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Good (2)
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
+        <span
+          className="c14"
+        >
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -851,11 +2128,255 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 `;
 
 exports[`the ContentAnalysis component with language notice matches the snapshot 1`] = `
+.c19 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c19:hover {
+  border-color: #fff;
+}
+
+.c19:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c14 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c15 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c16 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c10 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c8::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c8:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:hover {
+  color: #000;
+}
+
+.c6:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c5 {
+  font-size: 0.8rem;
+}
+
+.c2 {
+  background-color: #fff;
+}
+
+.c4 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c4:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c4:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c4 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c12 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c13 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c0 {
+  width: 100%;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c1 {
+  min-height: 24px;
+  margin-bottom: 8px;
+  margin-left: 24px;
+}
+
+.c3 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c11 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c17 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c18 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c20 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c21 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c22 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c23 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c24 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c25 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-fjdhpX dMpTuU"
+  className="c0"
 >
   <p
-    className="sc-jzJRlG hFCzcu"
+    className="c1"
   >
     <span>
       Your site language is set to 
@@ -866,45 +2387,63 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
     </span>
   </p>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-RefOD jWfKiF"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-iQKALj qURpL sc-bwCtUz dFdpYU"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c11"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Errors (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c13"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c14"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-hrWEMg fqHZyB"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c15"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c16"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -915,45 +2454,63 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-eTuwsz MXQEn"
+      className="c17"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-gwVKww ihApjs sc-hXRMBi dXdfhR"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c18"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Problems (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c13"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c14"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-epnACN iRJTXy"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c15"
+          fill="#dc3232"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c16"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -963,42 +2520,60 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH dQxpDv"
+          className="c19"
           disabled={false}
           id="1"
           onClick={[Function]}
           type="button"
         >
           <svg
-            aria-hidden="true"
-            className="sc-iQNlJl fBcMVf"
+            aria-hidden={true}
+            className="yoast-svg-icon yoast-svg-icon-eye"
+            fill="#555"
             focusable="false"
+            height="18px"
             role="img"
-          />
+            viewBox="0 0 1792 1792"
+            width="18px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+            />
+          </svg>
         </button>
       </li>
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-bsbRJL bbIsTX"
+      className="c20"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-hZSUBg eyDFyj sc-cMhqgX fEukab"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c21"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Improvements (1)
         </span>
@@ -1006,25 +2581,34 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-iuJeZd jcogYe"
+      className="c22"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-esOvli byqNXa sc-cmthru kmLrvf"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c23"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c12"
         >
           Considerations (1)
         </span>
@@ -1032,27 +2616,36 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c2"
   >
     <h4
-      className="sc-hMFtBS ffpcQs"
+      className="c24"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c4 c5 c6 c7 c8 c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-cLQEGU xIBNK sc-gqPbQI fwPiim"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c25"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Good (2)
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
+        <span
+          className="c12"
+        >
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -1061,49 +2654,305 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 `;
 
 exports[`the ContentAnalysis component with specified header level matches the snapshot 1`] = `
+.c18 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c18:hover {
+  border-color: #fff;
+}
+
+.c18:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c13 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c14 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c15 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c8 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6:hover {
+  color: #000;
+}
+
+.c5:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4 {
+  font-size: 0.8rem;
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+.c3 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c3:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c3:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c3 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c11 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c12 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c0 {
+  width: 100%;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c2 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c10 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c16 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c17 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c19 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c20 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c21 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c22 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c23 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c24 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c8::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-fjdhpX dMpTuU"
+  className="c0"
 >
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h3
-      className="sc-btzYZH eikXxG"
+      className="c2"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-lhVmIH guTWB sc-bYSBpT ineXey"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c10"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Errors (1)
         </span>
       </button>
     </h3>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-elJkPf eFRZPo"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -1114,45 +2963,63 @@ exports[`the ContentAnalysis component with specified header level matches the s
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h3
-      className="sc-jtRfpW bpweXu"
+      className="c16"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-kTUwUJ iOblgL sc-dqBHgY hnYiDQ"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c17"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Problems (1)
         </span>
       </button>
     </h3>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-gxMtzJ kzlsdu"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#dc3232"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -1162,42 +3029,60 @@ exports[`the ContentAnalysis component with specified header level matches the s
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH dQxpDv"
+          className="c18"
           disabled={false}
           id="1"
           onClick={[Function]}
           type="button"
         >
           <svg
-            aria-hidden="true"
-            className="sc-dfVpRl hmferr"
+            aria-hidden={true}
+            className="yoast-svg-icon yoast-svg-icon-eye"
+            fill="#555"
             focusable="false"
+            height="18px"
             role="img"
-          />
+            viewBox="0 0 1792 1792"
+            width="18px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+            />
+          </svg>
         </button>
       </li>
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h3
-      className="sc-gzOgki lhoBbt"
+      className="c19"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-iyvyFf fGKCic sc-hwwEjo kWQDMK"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c20"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Improvements (1)
         </span>
@@ -1205,25 +3090,34 @@ exports[`the ContentAnalysis component with specified header level matches the s
     </h3>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h3
-      className="sc-kPVwWT cFySkN"
+      className="c21"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-kfGgVZ jApNfA sc-esjQYD hCjWch"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down sc-W c22"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Considerations (1)
         </span>
@@ -1231,27 +3125,36 @@ exports[`the ContentAnalysis component with specified header level matches the s
     </h3>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h3
-      className="sc-kIPQKe bvUIet"
+      className="c23"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-eXEjpC ixlTwo sc-ibxdXY hiTLto"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c24"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Good (2)
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
+        <span
+          className="c11"
+        >
+          Good results (2)
         </span>
       </button>
     </h3>
@@ -1260,49 +3163,305 @@ exports[`the ContentAnalysis component with specified header level matches the s
 `;
 
 exports[`the ContentAnalysis component without language notice matches the snapshot 1`] = `
+.c18 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c18:hover {
+  border-color: #fff;
+}
+
+.c18:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c13 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c14 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c15 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c8 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6:hover {
+  color: #000;
+}
+
+.c5:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4 {
+  font-size: 0.8rem;
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+.c3 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c3:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c3:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c3 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c11 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c12 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c0 {
+  width: 100%;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c2 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c10 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c16 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c17 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c19 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c20 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c21 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c22 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c23 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c24 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c8::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-fjdhpX dMpTuU"
+  className="c0"
 >
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-kAzzGY cJSrb"
+      className="c2"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-chPdSV hbfLss sc-kgoBCf ePqMlV"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c10"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Errors (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-kGXeez dycyvO"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -1313,45 +3472,63 @@ exports[`the ContentAnalysis component without language notice matches the snaps
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-kpOJdX iIoguF"
+      className="c16"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-dxgOiQ kJTTdB sc-ckVGcZ kpGfBi"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c17"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Problems (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-jKJlTe iWijFp"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#dc3232"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -1361,42 +3538,60 @@ exports[`the ContentAnalysis component without language notice matches the snaps
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH dQxpDv"
+          className="c18"
           disabled={false}
           id="1"
           onClick={[Function]}
           type="button"
         >
           <svg
-            aria-hidden="true"
-            className="sc-eNQAEJ hrsyaF"
+            aria-hidden={true}
+            className="yoast-svg-icon yoast-svg-icon-eye"
+            fill="#555"
             focusable="false"
+            height="18px"
             role="img"
-          />
+            viewBox="0 0 1792 1792"
+            width="18px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+            />
+          </svg>
         </button>
       </li>
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-hMqMXs ecLisl"
+      className="c19"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-kEYyzF jvMdMW sc-kkGfuU hUQWkd"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c20"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Improvements (1)
         </span>
@@ -1404,25 +3599,34 @@ exports[`the ContentAnalysis component without language notice matches the snaps
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-iAyFgw hdFflt"
+      className="c21"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-hSdWYo kTOVeH sc-eHgmQL gJqaLD"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c22"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Considerations (1)
         </span>
@@ -1430,27 +3634,36 @@ exports[`the ContentAnalysis component without language notice matches the snaps
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-cvbbAY gpNEXt"
+      className="c23"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-jWBwVP fFdKzu sc-brqgnP bdBJhJ"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c24"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Good (2)
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
+        <span
+          className="c11"
+        >
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -1459,49 +3672,257 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 `;
 
 exports[`the ContentAnalysis component without problems and considerations, but with improvements and good matches the snapshot 1`] = `
+.c13 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c14 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c15 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c8 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6:hover {
+  color: #000;
+}
+
+.c5:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4 {
+  font-size: 0.8rem;
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+.c3 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c3:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c3:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c3 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c11 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c12 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c0 {
+  width: 100%;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c2 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c10 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c16 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c17 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c18 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c19 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c8::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-fjdhpX dMpTuU"
+  className="c0"
 >
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-jnlKLf dwcFdz"
+      className="c2"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-fYxtnH dWJhlK sc-tilXH cUipo"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c10"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Errors (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-hEsumM dDxnjc"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -1512,45 +3933,63 @@ exports[`the ContentAnalysis component without problems and considerations, but 
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-ktHwxA kwVyUP"
+      className="c16"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-cIShpX dZImDM sc-kafWEX NavXf"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c17"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Improvements (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-feJyhm gpPjzH"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#ee7c1b"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "I know you can do better! You can do it!",
@@ -1561,27 +4000,36 @@ exports[`the ContentAnalysis component without problems and considerations, but 
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-iELTvK bRLeEc"
+      className="c18"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-cmTdod dBuLDh sc-jwKygS jqeVdP"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c19"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Good (2)
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
+        <span
+          className="c11"
+        >
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -1590,49 +4038,257 @@ exports[`the ContentAnalysis component without problems and considerations, but 
 `;
 
 exports[`the ContentAnalysis component without problems and improvements matches the snapshot 1`] = `
+.c13 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c14 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c15 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c8 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6:hover {
+  color: #000;
+}
+
+.c5:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4 {
+  font-size: 0.8rem;
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+.c3 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c3:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c3:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c3 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c11 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c12 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c0 {
+  width: 100%;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c2 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c10 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c16 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c17 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c18 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c19 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c8::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-fjdhpX dMpTuU"
+  className="c0"
 >
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-dVhcbM jqYANl"
+      className="c2"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-eqIVtm eWdMXk sc-fAjcbJ dLmCwH"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c10"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Errors (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-caSCKo ctNgHC"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -1643,45 +4299,63 @@ exports[`the ContentAnalysis component without problems and improvements matches
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-gisBJw gjHRrX"
+      className="c16"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-kjoXOD bCoNvk sc-cHGsZl eAbXNr"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c17"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Considerations (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-TOsTZ gcTxEf"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Maybe you should change this...",
@@ -1692,27 +4366,36 @@ exports[`the ContentAnalysis component without problems and improvements matches
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-kgAjT lcGLGs"
+      className="c18"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-cJSrbW eBuJTp sc-ksYbfQ eqynDy"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c19"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Good (2)
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
+        <span
+          className="c11"
+        >
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -1721,49 +4404,269 @@ exports[`the ContentAnalysis component without problems and improvements matches
 `;
 
 exports[`the ContentAnalysis component without problems matches the snapshot 1`] = `
+.c13 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c14 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c15 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c8 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6:hover {
+  color: #000;
+}
+
+.c5:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4 {
+  font-size: 0.8rem;
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+.c3 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c3:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c3:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c3 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c11 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c12 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c0 {
+  width: 100%;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c2 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c10 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c16 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c17 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c18 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c19 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c20 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c21 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c8::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-fjdhpX dMpTuU"
+  className="c0"
 >
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-cMljjf jlRxCV"
+      className="c2"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-jAaTju ddypFD sc-jDwBTQ eRTBth"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c10"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Errors (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-gPEVay jQuIte"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -1774,45 +4677,63 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-iRbamj hvszbL"
+      className="c16"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-jlyJG ftIqAq sc-gipzik cQeibe"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c17"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Improvements (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-csuQGl kHQimb"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#ee7c1b"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "I know you can do better! You can do it!",
@@ -1823,25 +4744,34 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-Rmtcm dQDeeG"
+      className="c18"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bRBYWo dyJwhM sc-hzDkRC byqlUn"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c19"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Considerations (1)
         </span>
@@ -1849,27 +4779,36 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
     </h4>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-jhAzac cjWkYk"
+      className="c20"
     >
       <button
         aria-expanded={false}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-fBuWsC dWMVtt sc-fMiknA iIXRFC"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-down c21"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Good (2)
+          <path
+            d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
+        <span
+          className="c11"
+        >
+          Good results (2)
         </span>
       </button>
     </h4>
@@ -1878,49 +4817,269 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 `;
 
 exports[`the ContentAnalysis component without problems, improvements and considerations matches the snapshot 1`] = `
+.c18 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c18:hover {
+  border-color: #fff;
+}
+
+.c18:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c13 {
+  min-height: 24px;
+  padding: 0 4px 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c14 {
+  margin-top: 3px;
+  position: relative;
+  left: -1px;
+}
+
+.c15 {
+  margin: 0 8px 0 11px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c8 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6:hover {
+  color: #000;
+}
+
+.c5:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4 {
+  font-size: 0.8rem;
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+.c3 {
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  border-color: transparent;
+  border-radius: 0;
+  outline: none;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  box-shadow: none;
+  color: #0066cd;
+}
+
+.c3:hover {
+  border-color: transparent;
+  color: #0066cd;
+}
+
+.c3:active {
+  box-shadow: none;
+  background-color: #fff;
+  color: #0066cd;
+}
+
+.c3 svg {
+  margin: 0 8px 0 -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.c11 {
+  margin: 8px 0;
+  word-wrap: break-word;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+
+.c12 {
+  margin: 0;
+  list-style: none;
+  padding: 0 16px 0 0;
+}
+
+.c0 {
+  width: 100%;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c2 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c10 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c16 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.c17 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c8::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="sc-fjdhpX dMpTuU"
+  className="c0"
 >
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-hmzhuo kkWdCp"
+      className="c2"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-frDJqD jzKItk sc-kvZOFW fpfEqG"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c10"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
         <span
-          className="sc-VigVT bGMrIs"
+          className="c11"
         >
           Errors (1)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-hqyNC cnKfFn"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#888"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -1931,45 +5090,63 @@ exports[`the ContentAnalysis component without problems, improvements and consid
     </ul>
   </div>
   <div
-    className="sc-gZMcBi klyNBW"
+    className="c1"
   >
     <h4
-      className="sc-jbKcbu hLiNKd"
+      className="c16"
     >
       <button
         aria-expanded={true}
-        className="sc-gqjmRU hBRzYx sc-iwsKbI ljgvpn sc-dnqmqq fzLqCC sc-htoDjs dFKnSN sc-gzVnrw jzmimO sc-bZQynM iYyoWB sc-EHOje cUKXHE"
+        className="c3 c4 c5 c6 c7 c8 c9"
         onClick={[Function]}
         type="button"
       >
         <svg
-          aria-hidden="true"
-          className="sc-dNLxif kUbxNa sc-jqCOkK dGBerj"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-up c17"
+          fill="#555"
           focusable="false"
+          height="16"
           role="img"
-        />
-        <span
-          className="sc-VigVT bGMrIs"
+          viewBox="0 0 1792 1792"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Good (2)
+          <path
+            d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+          />
+        </svg>
+        <span
+          className="c11"
+        >
+          Good results (2)
         </span>
       </button>
     </h4>
     <ul
-      className="sc-jTzLTM fYcrfm"
+      className="c12"
       role="list"
     >
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-uJMKN egVXao"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#7ad03a"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "You're doing great!",
@@ -1978,16 +5155,25 @@ exports[`the ContentAnalysis component without problems, improvements and consid
         />
       </li>
       <li
-        className="sc-htpNat hLKTNr"
+        className="c13"
       >
         <svg
-          aria-hidden="true"
-          className="sc-bxivhb gapdhR sc-bbmXgH jGUzVb"
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-circle c14"
+          fill="#7ad03a"
           focusable="false"
+          height="13px"
           role="img"
-        />
+          viewBox="0 0 1792 1792"
+          width="13px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
         <p
-          className="sc-ifAKCX jLpTt"
+          className="c15"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Woohoo!",
@@ -1997,18 +5183,27 @@ exports[`the ContentAnalysis component without problems, improvements and consid
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="sc-bwzfXH dQxpDv"
+          className="c18"
           disabled={false}
           id="3"
           onClick={[Function]}
           type="button"
         >
           <svg
-            aria-hidden="true"
-            className="sc-gGBfsJ lpdIkP"
+            aria-hidden={true}
+            className="yoast-svg-icon yoast-svg-icon-eye"
+            fill="#555"
             focusable="false"
+            height="18px"
             role="img"
-          />
+            viewBox="0 0 1792 1792"
+            width="18px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+            />
+          </svg>
         </button>
       </li>
     </ul>
