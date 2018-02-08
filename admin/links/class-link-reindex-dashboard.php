@@ -11,7 +11,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	protected $public_post_types = array();
 
 	/** @var int Number of unprocessed items */
-	protected static $unprocessed = 0;
+	protected $unprocessed = 0;
 
 	/**
 	 * Registers all hooks to WordPress.
@@ -40,7 +40,7 @@ class WPSEO_Link_Reindex_Dashboard {
 		$this->public_post_types = apply_filters( 'wpseo_link_count_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 
 		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
-			self::$unprocessed = WPSEO_Link_Query::get_unprocessed_count( $this->public_post_types );
+			$this->unprocessed = WPSEO_Link_Query::get_unprocessed_count( $this->public_post_types );
 		}
 	}
 
@@ -123,7 +123,7 @@ class WPSEO_Link_Reindex_Dashboard {
 				/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 				__( 'Text %1$s of %2$s processed.', 'wordpress-seo' ),
 				'<span id="wpseo_count_index_links">0</span>',
-				sprintf( '<strong id="wpseo_count_total">%d</strong>', self::$unprocessed )
+				sprintf( '<strong id="wpseo_count_total">%d</strong>', $this->unprocessed )
 			);
 
 			$inner_text  = '<div id="wpseo_index_links_progressbar" class="wpseo-progressbar"></div>';
@@ -153,7 +153,7 @@ class WPSEO_Link_Reindex_Dashboard {
 		$asset_manager->enqueue_script( 'reindex-links' );
 
 		$data = array(
-			'amount'  => self::$unprocessed,
+			'amount'  => $this->unprocessed,
 			'restApi' => array(
 				'root'     => esc_url_raw( rest_url() ),
 				'endpoint' => WPSEO_Link_Reindex_Post_Endpoint::REST_NAMESPACE . '/' . WPSEO_Link_Reindex_Post_Endpoint::ENDPOINT_QUERY,
@@ -195,7 +195,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	 * @return bool True if there are unprocessed items.
 	 */
 	public function has_unprocessed() {
-		return self::$unprocessed > 0;
+		return $this->unprocessed > 0;
 	}
 
 	/**
@@ -204,13 +204,13 @@ class WPSEO_Link_Reindex_Dashboard {
 	 * @return int Number of unprocessed items.
 	 */
 	public function get_unprocessed_count() {
-		return self::$unprocessed;
+		return $this->unprocessed;
 	}
 
 	/**
-	 * @param $html
+	 * Retrieves the message to show starting indexation.
 	 *
-	 * @return string
+	 * @return string The message.
 	 */
 	public function message_start_indexing() {
 		return sprintf(
