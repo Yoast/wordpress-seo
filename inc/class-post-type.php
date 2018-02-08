@@ -45,10 +45,6 @@ class WPSEO_Post_Type {
 			return false;
 		}
 
-		if ( WPSEO_Options::get( 'noindex-' . $post_type_name, false ) === true ) {
-			return false;
-		}
-
 		return ( false === WPSEO_Options::get( 'noindex-' . $post_type_name, false ) );
 	}
 
