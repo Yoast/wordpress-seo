@@ -207,7 +207,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			'allWords'      => get_terms( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME, array( 'fields' => 'ids' ) ),
 			'allItems'      => $all_items,
 			'totalItems'    => array_sum( $all_items ),
-			'message'       => array( 'analysisCompleted' => $this->messageAlreadyIndexed() ),
+			'message'       => array( 'analysisCompleted' => $this->message_already_indexed() ),
 			'restApi'       => array(
 				'root'  => esc_url_raw( rest_url() ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
@@ -237,7 +237,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 *
 	 * @return string The message to return when it is already indexed.
 	 */
-	private function messageAlreadyIndexed() {
+	private function message_already_indexed() {
 		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! You\'ve optimized your internal linking suggestions. These suggestions will now appear alongside your content when you are writing or editing a post.', 'wordpress-seo-premium' );
 	}
 }
