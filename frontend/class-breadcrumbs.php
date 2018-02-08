@@ -409,6 +409,7 @@ class WPSEO_Breadcrumbs {
 		if ( $this->show_on_front === 'posts' && is_home() ) {
 			return true;
 		}
+
 		return false;
 	}
 
