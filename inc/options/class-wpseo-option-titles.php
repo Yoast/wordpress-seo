@@ -44,7 +44,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'disable-author'         => false,
 		'disable-date'           => false,
 		'disable-post_format'    => false,
-		'disable-attachment'     => false,
+		'disable-attachment'     => true,
 
 		'breadcrumbs-404crumb'      => '', // Text field.
 		'breadcrumbs-blog-remove'   => false,
