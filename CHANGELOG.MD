@@ -5,6 +5,25 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 3.0.0 February 8th, 2018
+
+### Breaking changes
+* Upgraded peer dependency of React to `16.2`.
+* Removed `.svg` files in favour of `SvgIcon` component, as a result `svg-react-loader` is no longer required.
+* Removed `composites/SnippetPreview/components/SnippetPreview.js` that ensured backwards compatability to the new `SnippetPreview` component.
+* Changed `StyledSection` props.
+
+### Added
+* Added `jest-styled-components` for better testing of `styled-components`.
+* Added `SvgIcon` component.
+
+### Other
+* Upgraded peer dependency of React to `16.2`.
+* Changed default translation `Good` to `Good results` in `Content Analysis`.
+* Refactored `StyledSection` to use `styled-components`.
+* Removed `.svg` files. Use `SvgIcon` instead.
+* Removed `composites/SnippetPreview/components/SnippetPreview.js` that ensured backwards compatability to the new `SnippetPreview` component.
+ 
 ## 2.11.7 December 15th, 2017
 
 ### Added
