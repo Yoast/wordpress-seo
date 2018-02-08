@@ -44,7 +44,7 @@ class WPSEO_Configuration_Options_Adapter {
 	 *
 	 * @throws InvalidArgumentException Thrown when invalid input is provided.
 	 */
-	public function add_yoast_lookup( $class_name, $key ) {
+	public function add_option_lookup( $class_name, $key ) {
 
 		$test = WPSEO_Options::get( $key );
 		if ( is_null( $test ) ) {
@@ -53,6 +53,22 @@ class WPSEO_Configuration_Options_Adapter {
 		}
 
 		$this->add_lookup( $class_name, self::OPTION_TYPE_YOAST, $key );
+	}
+
+	/**
+	 * Add a lookup for a Yoast option
+	 *
+	 * @param string $class_name Class to bind to the lookup.
+	 * @param string $option     Option group to use.
+	 * @param string $key        Key in the option group to bind to.
+	 *
+	 * @deprecated 7.0
+	 *
+	 * @throws InvalidArgumentException Thrown when invalid input is provided.
+	 */
+	public function add_yoast_lookup( $class_name, $option, $key ) {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0', 'WPSEO_Configuration_Options_Adapter::add_option_lookup' );
+		$this->add_option_lookup( $class_name, $key );
 	}
 
 	/**

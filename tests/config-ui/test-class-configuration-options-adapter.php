@@ -82,7 +82,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_yoast_lookup()
+	 * @covers WPSEO_Configuration_Options_Adapter::add_option_lookup()
 	 */
 	public function test_add_yoast_lookup() {
 		$class_name = 'stdClass';
@@ -95,7 +95,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 			),
 		);
 
-		$this->assertNull( $this->adapter->add_yoast_lookup( $class_name, $key ) );
+		$this->assertNull( $this->adapter->add_option_lookup( $class_name, $key ) );
 		$this->assertEquals( $expected, $this->adapter->get_lookups() );
 	}
 
@@ -179,7 +179,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_yoast_lookup( $field->get_identifier(), $key );
+		$this->adapter->add_option_lookup( $field->get_identifier(), $key );
 
 		$result = $this->adapter->get( $field );
 
@@ -248,7 +248,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_yoast_lookup( $field->get_identifier(), $key );
+		$this->adapter->add_option_lookup( $field->get_identifier(), $key );
 
 		$this->assertEquals( true, $this->adapter->set( $field, $value ) );
 
@@ -268,7 +268,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_yoast_lookup( $field->get_identifier(), $key );
+		$this->adapter->add_option_lookup( $field->get_identifier(), $key );
 
 		$this->assertEquals( true, $this->adapter->set( $field, $value ) );
 
