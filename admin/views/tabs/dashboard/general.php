@@ -32,8 +32,10 @@ endif;
 
 /**
  * Action: 'wpseo_internal_linking' - Hook to add the internal linking analyze interface to the interface.
+ *
+ * @deprecated 7.0
  */
-do_action( 'wpseo_internal_linking' );
+do_action_deprecated( 'wpseo_internal_linking', array(), 'WPSEO 7.0' );
 
 echo '<h2>' . esc_html__( 'Credits', 'wordpress-seo' ) . '</h2>';
 ?>
