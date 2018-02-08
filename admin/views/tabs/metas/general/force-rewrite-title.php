@@ -4,6 +4,7 @@
  *
  * @var Yoast_Form $yform
  */
+
 if ( ! current_theme_supports( 'title-tag' ) ) {
 	?>
 	<div class="tab-block">

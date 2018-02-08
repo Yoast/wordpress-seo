@@ -4,6 +4,7 @@
  *
  * @var Yoast_Form $yform
  */
+
 ?>
 <div class="tab-block">
 	<h2><?php esc_html_e( 'Title Separator', 'wordpress-seo' ); ?></h2>
