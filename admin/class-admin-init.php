@@ -608,11 +608,11 @@ class WPSEO_Admin_Init {
 				'alternative' => 'wpseo_breadcrumb_single_link_info',
 			),
 			'wpseo_stopwords'                  => array(
-				'version'     => '6.4',
+				'version'     => '7.0',
 				'alternative' => null,
 			),
 			'wpseo_redirect_orphan_attachment' => array(
-				'version'     => '6.4',
+				'version'     => '7.0',
 				'alternative' => null,
 			),
 		);

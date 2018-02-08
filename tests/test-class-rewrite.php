@@ -75,9 +75,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	public function test_query_vars() {
 		$this->assertEquals( array(), self::$class_instance->query_vars( array() ) );
 
-		$options                      = WPSEO_Options::get_all();
-		$options['stripcategorybase'] = true;
-		update_option( WPSEO_Option_Permalinks::get_instance()->option_name, $options );
+		WPSEO_Options::set( 'stripcategorybase', true );
 		$this->assertEquals( array( 'wpseo_category_redirect' ), self::$class_instance->query_vars( array() ) );
 	}
 

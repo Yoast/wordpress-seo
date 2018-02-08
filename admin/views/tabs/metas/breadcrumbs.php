@@ -9,8 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform                = Yoast_Form::get_instance();
-$yform->currentoption = 'wpseo_internallinks';
+$yform = Yoast_Form::get_instance();
 
 echo '<h2>' . esc_html__( 'Breadcrumbs settings', 'wordpress-seo' ) . '</h2>';
 

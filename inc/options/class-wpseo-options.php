@@ -16,10 +16,8 @@ class WPSEO_Options {
 	 */
 	public static $options = array(
 		'wpseo'               => 'WPSEO_Option_Wpseo',
-		'wpseo_permalinks'    => 'WPSEO_Option_Permalinks',
 		'wpseo_titles'        => 'WPSEO_Option_Titles',
 		'wpseo_social'        => 'WPSEO_Option_Social',
-		'wpseo_internallinks' => 'WPSEO_Option_InternalLinks',
 		'wpseo_ms'            => 'WPSEO_Option_MS',
 		'wpseo_taxonomy_meta' => 'WPSEO_Taxonomy_Meta',
 	);
@@ -319,17 +317,6 @@ class WPSEO_Options {
 	}
 
 	/**
-	 * Correct the inadvertent removal of the fallback to default values from the breadcrumbs.
-	 *
-	 * @since 1.5.2.3
-	 */
-	public static function bring_back_breadcrumb_defaults() {
-		if ( isset( self::$option_instances['wpseo_internallinks'] ) ) {
-			self::$option_instances['wpseo_internallinks']->bring_back_defaults();
-		}
-	}
-
-	/**
 	 * Initialize some options on first install/activate/reset.
 	 *
 	 * @static
@@ -486,5 +473,16 @@ class WPSEO_Options {
 		}
 
 		return $pattern_table;
+	}
+
+	/**
+	 * Correct the inadvertent removal of the fallback to default values from the breadcrumbs.
+	 *
+	 * @since 1.5.2.3
+	 *
+	 * @deprecated 7.0
+	 */
+	public static function bring_back_breadcrumb_defaults() {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 }

@@ -385,11 +385,11 @@ function wpseo_remove_stopwords_sample_permalink() {
 /**
  * Function used to delete blocking files, dies on exit.
  *
- * @deprecated 6.4
+ * @deprecated 7.0
  * @codeCoverageIgnore
  */
 function wpseo_kill_blocking_files() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 6.4', 'This method is deprecated.' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.0', 'This method is deprecated.' );
 
 	wpseo_ajax_json_echo_die( '' );
 }

@@ -88,8 +88,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	private function base_url_for_js() {
 
 		$base_url = home_url( '/', null );
-		$options  = WPSEO_Options::get_option( 'wpseo_permalinks' );
-		if ( ! $options['stripcategorybase'] ) {
+		if ( ! WPSEO_Options::get( 'stripcategorybase', false ) ) {
 			$base_url = trailingslashit( $base_url . $this->taxonomy->rewrite['slug'] );
 		}
 
