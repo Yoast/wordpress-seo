@@ -595,5 +595,4 @@ class Yoast_Notification_Center {
 	private function is_notification_persistent( Yoast_Notification $notification ) {
 		return ! $notification->is_persistent();
 	}
-	
 }

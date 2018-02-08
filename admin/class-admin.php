@@ -420,7 +420,6 @@ class WPSEO_Admin {
 	/********************** DEPRECATED METHODS **********************/
 
 	// @codeCoverageIgnoreStart
-
 	/**
 	 * Register the menu item and its sub menu's.
 	 *
