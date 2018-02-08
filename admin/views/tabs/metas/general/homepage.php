@@ -13,7 +13,8 @@
 		echo '<p class="description">' . __( 'This is what shows in the search results when people find your homepage. This means this is probably what they see when they search for your brand name.', 'wordpress-seo' ) . '</p>';
 		$yform->textinput( 'title-home-wpseo', __( 'Title', 'wordpress-seo' ), 'template homepage-template' );
 		$yform->textarea( 'metadesc-home-wpseo', __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template homepage-template' ) );
-	} else {
+	}
+	else {
 		echo '<h2>', esc_html__( 'Homepage &amp; Front page', 'wordpress-seo' ), '</h2>';
 		echo '<p class="description">';
 		printf(
