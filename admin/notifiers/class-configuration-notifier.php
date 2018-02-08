@@ -16,11 +16,9 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 
 	/**
 	 * Constructs the object by setting the show notification property based the given options.
-	 *
-	 * @param array $options The array with options.
 	 */
-	public function __construct( $options ) {
-		$this->show_notification = ! empty( $options['show_onboarding_notice'] );
+	public function __construct() {
+		$this->show_notification = WPSEO_Options::get( 'show_onboarding_notice', false );
 	}
 
 	/**

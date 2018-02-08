@@ -39,7 +39,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 				esc_html__( 'The Breadcrumbs Title is used in the breadcrumbs where this taxonomy appears.', 'wordpress-seo' ),
 				'text',
 				'',
-				$this->options['breadcrumbs-enable'] !== true
+				( WPSEO_Options::get( 'breadcrumbs-enable' ) !== true )
 			),
 			'canonical' => $this->get_field_config(
 				__( 'Canonical URL', 'wordpress-seo' ),
@@ -97,7 +97,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	private function get_robot_index() {
 		$robot_index  = $this->no_index_options['index'];
 		$index_option = 'noindex-tax-' . $this->term->taxonomy;
-		if ( isset( $this->options[ $index_option ] ) && $this->options[ $index_option ] === true ) {
+		if ( WPSEO_Options::get( $index_option, false ) ) {
 			$robot_index = $this->no_index_options['noindex'];
 		}
 

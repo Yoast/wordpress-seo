@@ -177,11 +177,9 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public static function invalidate_helper( $unused, $type ) {
 
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
-
 		if (
-			isset( $options[ 'noindex-' . $type ] ) && $options[ 'noindex-' . $type ] === false ||
-			isset( $options[ 'noindex-tax-' . $type ] ) && $options[ 'noindex-tax-' . $type ] === false
+			WPSEO_Options::get( 'noindex-' . $type ) === false ||
+			WPSEO_Options::get( 'noindex-tax-' . $type ) === false
 		) {
 			self::invalidate( $type );
 		}

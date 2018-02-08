@@ -10,18 +10,14 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 if ( filter_input( INPUT_GET, 'intro' ) ) {
-
 	update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
 	require WPSEO_PATH . 'admin/views/about.php';
 
 	return;
 }
 
-$options = get_option( 'wpseo' );
-
 if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tracking', 'nonce' ) ) {
-	$options['yoast_tracking'] = ( $_GET['allow_tracking'] === 'yes' );
-	update_option( 'wpseo', $options );
+	WPSEO_Options::set( 'yoast_tracking', ( $_GET['allow_tracking'] === 'yes' ) );
 
 	if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 		wp_safe_redirect( $_SERVER['HTTP_REFERER'], 307 );
@@ -43,7 +39,7 @@ $tabs->add_tab( new WPSEO_Option_Tab( 'security', __( 'Security', 'wordpress-seo
 
 do_action( 'wpseo_settings_tabs_dashboard', $tabs );
 
-$tabs->display( $yform, $options );
+$tabs->display( $yform );
 
 do_action( 'wpseo_dashboard' );
 

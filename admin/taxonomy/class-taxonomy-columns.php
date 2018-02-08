@@ -159,13 +159,6 @@ class WPSEO_Taxonomy_Columns {
 	 * @return bool
 	 */
 	private function is_indexable( $term ) {
-		static $options;
-
-		// Saving the options once, because it's static.
-		if ( $options === null ) {
-			$options = WPSEO_Options::get_all();
-		}
-
 		// When the no_index value is not empty and not default, check if its value is index.
 		$no_index = WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $this->taxonomy, 'noindex' );
 		if ( ! empty( $no_index ) && $no_index !== 'default' ) {
@@ -174,8 +167,8 @@ class WPSEO_Taxonomy_Columns {
 
 		// Check if the default for taxonomy is empty (this will be index).
 		$no_index_key = 'noindex-tax-' . $term->taxonomy;
-		if ( is_object( $term ) && ( isset( $options[ $no_index_key ] ) ) ) {
-			return ( empty( $options[ $no_index_key ] ) );
+		if ( is_object( $term ) ) {
+			return WPSEO_Options::get( $no_index_key, false );
 		}
 
 		return true;

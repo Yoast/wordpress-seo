@@ -28,12 +28,10 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 *
 	 * @param stdClass         $taxonomy Taxonomy.
 	 * @param WP_Term|stdClass $term     Term.
-	 * @param array            $options  Options with WPSEO_Titles.
 	 */
-	public function __construct( $taxonomy, $term, array $options ) {
+	public function __construct( $taxonomy, $term ) {
 		$this->term     = $term;
 		$this->taxonomy = $taxonomy;
-		$this->options  = $options;
 	}
 
 	/**
@@ -133,10 +131,6 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_template( $template_option_name ) {
 		$needed_option = $template_option_name . '-tax-' . $this->term->taxonomy;
-		if ( isset( $this->options[ $needed_option ] ) && $this->options[ $needed_option ] !== '' ) {
-			return $this->options[ $needed_option ];
-		}
-
-		return '';
+		return WPSEO_Options::get( $needed_option, '' );
 	}
 }
