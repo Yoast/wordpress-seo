@@ -56,10 +56,14 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'breadcrumbs-searchprefix'  => '', // Text field.
 		'breadcrumbs-sep'           => '&raquo;', // Text field.
 
-		'website_name'                    => '',
-		'alternate_website_name'          => '',
+		'website_name'           => '',
+		'person_name'            => '',
+		'alternate_website_name' => '',
+		'company_logo'           => '',
+		'company_name'           => '',
+		'company_or_person'      => '',
 
-		'stripcategorybase'               => false,
+		'stripcategorybase' => false,
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
@@ -352,6 +356,18 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					}
 					break;
 
+				case 'company_or_person':
+					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+						if ( in_array( $dirty[ $key ], array( 'company', 'person' ), true ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+					}
+					break;
+
+				case 'company_logo':
+					$this->validate_url( $key, $dirty, $old, $clean );
+					break;
+
 				/*
 				 * Covers:
 				 *  'metadesc-home-wpseo', 'metadesc-author-wpseo', 'metadesc-archive-wpseo'
@@ -365,6 +381,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					 *  'bctitle-ptarchive-' . $pt->name
 					 */
 				case 'bctitle-ptarchive-':
+				case 'company_name':
+				case 'person_name':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}

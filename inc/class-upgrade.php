@@ -510,6 +510,10 @@ class WPSEO_Upgrade {
 		// Move the website name and altername name as they've moved to another config page.
 		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'website_name' );
 		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'alternate_website_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_logo' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_or_person' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'person_name' );
 
 		// All the breadcrumbs settings have moved to the search appearance settings.
 		$internal_links = (array) get_option( 'wpseo_internallinks' );

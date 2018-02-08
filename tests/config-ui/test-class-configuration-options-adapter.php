@@ -253,7 +253,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 * @covers WPSEO_Configuration_Options_Adapter::set()
 	 */
 	public function test_set_yoast_option() {
-		$option = 'wpseo';
+		$option = 'wpseo_titles';
 		$key    = 'company_name';
 
 		$wpseo         = WPSEO_Options::get_option( $option );
@@ -276,7 +276,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 * @covers WPSEO_Configuration_Options_Adapter::set()
 	 */
 	public function test_set_yoast_option_same_value() {
-		$option = 'wpseo';
+		$option = 'wpseo_titles';
 		$key    = 'company_name';
 		$value  = uniqid( 'v' );
 
