@@ -1552,7 +1552,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function title_test_helper( $title ) {
-		WPSEO_Options::set( 'title_test', WPSEO_Options::get( 'title_test' ) + 1 );
+		WPSEO_Options::set( 'title_test', ( WPSEO_Options::get( 'title_test' ) + 1 ) );
 
 		// Prevent this setting from being on forever when something breaks, as it breaks caching.
 		if ( WPSEO_Options::get( 'title_test' ) > 5 ) {

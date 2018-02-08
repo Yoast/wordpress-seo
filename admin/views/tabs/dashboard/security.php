@@ -2,6 +2,7 @@
 /**
  * @package WPSEO\Admin\Views
  */
+
 /**
  * @var Yoast_Form $yform
  */
