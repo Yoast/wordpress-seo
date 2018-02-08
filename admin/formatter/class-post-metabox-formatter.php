@@ -22,9 +22,10 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * Constructor.
 	 *
 	 * @param WP_Post|array $post      Post object.
+	 * @param array         $options   Title options to use.
 	 * @param string        $structure The permalink to follow.
 	 */
-	public function __construct( $post, $structure ) {
+	public function __construct( $post, array $options, $structure ) {
 		$this->post      = $post;
 		$this->permalink = $structure;
 	}
