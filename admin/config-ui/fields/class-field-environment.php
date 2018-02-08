@@ -84,8 +84,7 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 
 			return true;
 		}
-		$saved = get_option( 'blog_public' );
 
-		return ( $saved === $new_blog_public_value );
+		return ( get_option( 'blog_public' ) === $new_blog_public_value );
 	}
 }
