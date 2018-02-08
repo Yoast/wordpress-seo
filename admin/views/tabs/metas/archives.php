@@ -29,7 +29,7 @@ echo ' ';
 esc_html_e( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
 echo '</p>';
 
-echo "<div id='author-archives-titles-metas'>";
+echo '<div class="tab-block" id="author-archives-titles-metas">';
 echo '<h2>' . esc_html__( 'Author archives settings', 'wordpress-seo' ) . '</h2>';
 $yform->toggle_switch( 'disable-author', array(
 	'off' => __( 'Enabled', 'wordpress-seo' ),
@@ -44,9 +44,7 @@ $yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wor
 echo '</div>';
 echo '</div>';
 
-echo '<br/>';
-
-echo "<div id='date-archives-titles-metas'>";
+echo '<div class="tab-block" id="date-archives-titles-metas">';
 echo '<h2>' . esc_html__( 'Date archives settings', 'wordpress-seo' ) . '</h2>';
 $yform->toggle_switch( 'disable-date', array(
 	'off' => __( 'Enabled', 'wordpress-seo' ),
@@ -60,9 +58,7 @@ $yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wo
 echo '</div>';
 echo '</div>';
 
-echo '<br/>';
-
-echo '<div id="special-pages-titles-metas">';
+echo '<div class="tab-block" id="special-pages-titles-metas">';
 echo '<h2>' . esc_html__( 'Special Pages', 'wordpress-seo' ) . '</h2>';
 echo '<p>';
 printf(

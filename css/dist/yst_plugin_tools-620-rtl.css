@@ -374,6 +374,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	box-shadow: none;
 }
 
+.nav-tab .tab-block {
+	margin: 10px 0;
+}
+
 /* @todo: remove this, see #6380. */
 .nav-tab .dashicons {
 	width: 18px;
