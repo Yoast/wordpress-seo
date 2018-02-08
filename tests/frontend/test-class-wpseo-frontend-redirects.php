@@ -136,8 +136,7 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect_not_enabled() {
-		$frontend = self::$class_instance;
-		$frontend->options['disable-attachment'] = false;
+		WPSEO_Options::set( 'disable-attachment', false );
 
 		// Create and go to post.
 		$post_id = $this->factory->post->create(
