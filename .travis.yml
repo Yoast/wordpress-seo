@@ -109,27 +109,27 @@ before_script:
   fi
 
 script:
+# JavaScript checks
 - |
-  if [[ "$CHECKJS" == "1" ]]; then
-    echo "travis_fold:start:Check_JS"
-    grunt check:js
-    echo "travis_fold:end:Check_JS"
-
-    echo "travis_fold:start:Test_JS"
-    yarn test
-    echo "travis_fold:end:Test_JS"
-  fi
-
-- echo "travis_fold:start:PHP_Lint"
-- if [[ "$PHPLINT" == "1" ]]; then find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
-- echo "travis_fold:end:PHP_Lint"
-
+  echo "travis_fold:start:Check_JS"
+  if [[ "$CHECKJS" == "1" ]]; then grunt check:js; fi
+  echo "travis_fold:end:Check_JS"
+# JavaScript tests
 - |
-  if [[ "$PHPCS" == "1" ]]; then
-    echo "travis_fold:start:PHPCS"
-    vendor/bin/phpcs -v --runtime-set ignore_warnings_on_exit 1
-    echo "travis_fold:end:PHPCS"
-  fi
+  echo "travis_fold:start:Test_JS"
+  if [[ "$CHECKJS" == "1" ]]; then yarn test; fi
+  echo "travis_fold:end:Test_JS"
+# PHP Linting
+- |
+  echo "travis_fold:start:PHP_Lint"
+  if [[ "$PHPLINT" == "1" ]]; then find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
+  echo "travis_fold:end:PHP_Lint"
+# PHP CS
+- |
+  echo "travis_fold:start:PHPCS"
+  if [[ "$PHPCS" == "1" ]]; then vendor/bin/phpcs -v --runtime-set ignore_warnings_on_exit 1; fi
+  echo "travis_fold:end:PHPCS"
+# PHP Unit
 - echo "travis_fold:start:PHPUnit"
 - |
   if [[ "$COVERAGE" != "1" ]]; then
