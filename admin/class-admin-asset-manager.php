@@ -147,7 +147,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function flatten_version( $version ) {
 		$parts = explode( '.', $version );
 
-		if ( count( $parts ) === 2 ) {
+		if ( count( $parts ) === 2 && preg_match( '/^\d+$/', $parts[1] ) === 1 ) {
 			$parts[] = '0';
 		}
 
