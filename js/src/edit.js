@@ -155,12 +155,14 @@ export function initialize( args ) {
 
 	renderReactApps( store, args );
 
-	const { registerEllipsisMenuItem } = wp.editor;
+	const { registerEditorMenuItem, registerPlugin } = wp[ "edit-post" ];
 
-	registerEllipsisMenuItem( "yoast/analysis", {
+	registerPlugin( "yoast/analysis", console.log.bind(  null, "activate sidebar" ) );
+
+	registerEditorMenuItem( "yoast/analysis-menu", {
 		title: "Yoast SEO",
 		icon: <Icon />,
-		callback: () => console.log( "test" ),
+		pluginId: "yoast/analysis",
 	} );
 
 	return {
