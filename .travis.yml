@@ -119,12 +119,11 @@ script:
     yarn test
     echo "travis_fold:end:Test_JS"
   fi
-- |
-  if [[ "$PHPLINT" == "1" ]]; then
-    echo "travis_fold:start:PHP_Lint"
-    find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
-    echo "travis_fold:end:PHP_Lint"
-  fi
+
+- echo "travis_fold:start:PHP_Lint"
+- if [[ "$PHPLINT" == "1" ]]; then find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
+- echo "travis_fold:end:PHP_Lint"
+
 - |
   if [[ "$PHPCS" == "1" ]]; then
     echo "travis_fold:start:PHPCS"
