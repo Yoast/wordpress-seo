@@ -55,6 +55,56 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Test extends WPSEO_UnitTestCas
 	}
 
 	/**
+	 * Tests if enqueueing is not happening for irrelevant pages.
+	 *
+	 * @covers WPSEO_Premium_Prominent_Words_Recalculation::enqueue()
+	 */
+	public function test_no_enqueue_for_wrong_page() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Premium_Prominent_Words_Recalculation' )
+			->disableOriginalConstructor()
+			->setMethods( array( 'is_modal_page', 'enqueue_dashboard_assets' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'is_modal_page' )
+			->will( $this->returnValue( false ) );
+
+		$instance
+			->expects( $this->never() )
+			->method( 'enqueue_dashboard_assets' );
+
+		/** @var WPSEO_Premium_Prominent_Words_Recalculation $instance */
+		$instance->enqueue();
+	}
+
+	/**
+	 * Tests if enqueueing is not happening for irrelevant pages.
+	 *
+	 * @covers WPSEO_Premium_Prominent_Words_Recalculation::enqueue()
+	 */
+	public function test_no_enqueue_for_right_page() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Premium_Prominent_Words_Recalculation' )
+			->disableOriginalConstructor()
+			->setMethods( array( 'is_modal_page', 'enqueue_dashboard_assets' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'is_modal_page' )
+			->will( $this->returnValue( true ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'enqueue_dashboard_assets' );
+
+		/** @var WPSEO_Premium_Prominent_Words_Recalculation $instance */
+		$instance->enqueue();
+	}
+
+	/**
 	 * Provider for the post type labels.
 	 *
 	 * Format:

@@ -151,8 +151,6 @@ function startRecalculating() {
  * @returns {void}
  */
 function openInternalLinkCalculation() {
-	jQuery( "#general-tab" ).click();
-
 	if ( prominentWordsCalculated === false ) {
 		jQuery( "#openInternalLinksCalculation" ).click();
 	}
@@ -172,8 +170,6 @@ function init() {
 			recalculating = true;
 		}
 	} );
-
-	jQuery( "#noticeRunAnalysis" ).click( openInternalLinkCalculation );
 
 	if ( document.location.hash === "#open-internal-links-calculation" ) {
 		setTimeout( openInternalLinkCalculation, 0 );
