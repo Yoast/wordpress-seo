@@ -250,8 +250,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => 'wp-seo-metabox-' . $flat_version,
 				'deps'      => array(
 					'jquery',
-					'jquery-ui-core',
-					'jquery-ui-autocomplete',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
 					self::PREFIX . 'react-dependencies',
