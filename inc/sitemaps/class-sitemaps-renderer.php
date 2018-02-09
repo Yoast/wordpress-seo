@@ -27,9 +27,8 @@ class WPSEO_Sitemaps_Renderer {
 	 * Set up object properties.
 	 */
 	public function __construct() {
-
-		$stylesheet_url       = preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) );
-		$this->stylesheet     = '<?xml-stylesheet type="text/xsl" href="' . $stylesheet_url . '"?>';
+		$stylesheet_url       = preg_replace( '/(^http[s]?:)/', '', $this->get_xsl_url() );
+		$this->stylesheet     = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '"?>';
 		$this->charset        = get_bloginfo( 'charset' );
 		$this->output_charset = $this->charset;
 		$this->timezone       = new WPSEO_Sitemap_Timezone();
@@ -288,8 +287,7 @@ class WPSEO_Sitemaps_Renderer {
 			return $url;
 		}
 
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$path = parse_url( $url, PHP_URL_PATH );
+		$path = wp_parse_url( $url, PHP_URL_PATH );
 
 		if ( ! empty( $path ) && '/' !== $path ) {
 			$encoded_path = explode( '/', $path );
@@ -304,8 +302,7 @@ class WPSEO_Sitemaps_Renderer {
 			$url = str_replace( $path, $encoded_path, $url );
 		}
 
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$query = parse_url( $url, PHP_URL_QUERY );
+		$query = wp_parse_url( $url, PHP_URL_QUERY );
 
 		if ( ! empty( $query ) ) {
 
@@ -324,5 +321,22 @@ class WPSEO_Sitemaps_Renderer {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Retrieves the XSL URL that should be used in the current environment
+	 *
+	 * When home_url and site_url are not the same, the home_url should be used.
+	 * This is because the XSL needs to be served from the same domain, protocol and port
+	 * as the XML file that is loading it.
+	 *
+	 * @return string The XSL URL that needs to be used.
+	 */
+	protected function get_xsl_url() {
+		if ( home_url() !== site_url() ) {
+			return home_url( 'main-sitemap.xsl' );
+		}
+
+		return plugin_dir_url( WPSEO_FILE ) . 'css/main-sitemap.xsl';
 	}
 }

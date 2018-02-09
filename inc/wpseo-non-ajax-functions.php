@@ -89,16 +89,14 @@ function wpseo_admin_bar_menu() {
 			}
 
 			if ( $new_notifications_count ) {
+				$notification = sprintf(
+					/* translators: %d resolves to the number of alerts being added. */
+					_n( 'You have %d new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' ),
+					$new_notifications_count
+				);
 				if ( $new_notifications_count === 1 ) {
 					$notification = sprintf(
 						__( 'You have a new issue concerning your SEO!', 'wordpress-seo' ),
-						$new_notifications_count
-					);
-				}
-				else {
-					$notification = sprintf(
-						/* translators: %d resolves to the number of alerts being added. */
-						_n( 'You have %d new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' ),
 						$new_notifications_count
 					);
 				}
@@ -259,11 +257,7 @@ function wpseo_admin_bar_menu() {
 		}
 	}
 
-	// @todo: add links to bulk title and bulk description edit pages.
 	if ( $can_manage_seo ) {
-
-		$advanced_settings = wpseo_advanced_settings_enabled( $options );
-
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-menu',
 			'id'     => 'wpseo-settings',
@@ -276,38 +270,12 @@ function wpseo_admin_bar_menu() {
 			'title'  => __( 'Dashboard', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_dashboard' ),
 		) );
-		if ( $advanced_settings ) {
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-titles',
-				'title'  => __( 'Titles &amp; Metas', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_titles' ),
-			) );
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-social',
-				'title'  => __( 'Social', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_social' ),
-			) );
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-xml',
-				'title'  => __( 'XML Sitemaps', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_xml' ),
-			) );
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-wpseo-advanced',
-				'title'  => __( 'Advanced', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_advanced' ),
-			) );
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-tools',
-				'title'  => __( 'Tools', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
-			) );
-		}
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-titles',
+			'title'  => __( 'Search Appearance', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_titles' ),
+		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-search-console',
@@ -316,12 +284,23 @@ function wpseo_admin_bar_menu() {
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-social',
+			'title'  => __( 'Social', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_social' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-tools',
+			'title'  => __( 'Tools', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-licenses',
 			'title'  => __( 'Premium', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_licenses' ),
 		) );
 	}
-
 }
 
 /**
@@ -387,6 +366,7 @@ function wpseo_adminbar_score( $score ) {
 	$score = WPSEO_Utils::translate_score( $score );
 
 	$score_adminbar_element = '<div class="wpseo-score-icon adminbar-seo-score ' . $score . '"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+
 	return $score_adminbar_element;
 }
 
@@ -396,9 +376,7 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  * Enqueue CSS to format the Yoast SEO adminbar item.
  */
 function wpseo_admin_bar_style() {
-	$options = WPSEO_Options::get_option( 'wpseo' );
-
-	if ( ! is_admin_bar_showing() || $options['enable_admin_bar_menu'] !== true ) {
+	if ( ! is_admin_bar_showing() || WPSEO_Options::get( 'enable_admin_bar_menu' ) !== true ) {
 		return;
 	}
 
@@ -438,18 +416,16 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 
 add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
 
+/********************** DEPRECATED FUNCTIONS **********************/
+
 /**
  * Detects if the advanced settings are enabled.
  *
- * @param array $wpseo_options The wpseo settings.
- *
- * @returns boolean True if the advanced settings are enabled, false if not.
+ * @deprecated 7.0
  */
-function wpseo_advanced_settings_enabled( $wpseo_options ) {
-	return ( $wpseo_options['enable_setting_pages'] === true );
+function wpseo_advanced_settings_enabled() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.0', null );
 }
-
-/********************** DEPRECATED FUNCTIONS **********************/
 
 /**
  * Set the default settings.
@@ -512,7 +488,7 @@ function wpseo_title_test() {
 /**
  * Test whether the active theme contains a <meta> description tag.
  *
- * @since 1.4.14 Moved from dashboard.php and adjusted - see changelog
+ * @since      1.4.14 Moved from dashboard.php and adjusted - see changelog
  *
  * @deprecated 3.3
  *
@@ -526,7 +502,7 @@ function wpseo_description_test() {
  * Check if the current theme was updated and if so, test the updated theme
  * for the title and meta description tag
  *
- * @since    1.4.14
+ * @since      1.4.14
  *
  * @deprecated 3.3
  *
@@ -544,7 +520,7 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
  * Abuse a filter to check if the current theme was updated and if so, test the updated theme
  * for the title and meta description tag
  *
- * @since 1.4.14
+ * @since      1.4.14
  * @deprecated 3.3
  *
  * @param   array           $update_actions Updated actions set.

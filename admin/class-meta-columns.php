@@ -93,23 +93,47 @@ class WPSEO_Meta_Columns {
 		switch ( $column_name ) {
 			case 'wpseo-score':
 				echo $this->parse_column_score( $post_id );
-				break;
+				return;
+
 			case 'wpseo-score-readability':
 				echo $this->parse_column_score_readability( $post_id );
-				break;
+				return;
+
 			case 'wpseo-title':
-				echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
-				break;
+				$post  = get_post( $post_id, ARRAY_A );
+				$title = wpseo_replace_vars( $this->page_title( $post_id ), $post );
+				$title = apply_filters( 'wpseo_title', $title );
+
+				echo esc_html( $title );
+				return;
+
 			case 'wpseo-metadesc':
-				$metadesc_val = apply_filters( 'wpseo_metadesc', wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) );
-				$metadesc     = ( '' === $metadesc_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . esc_html__( 'Meta description not set.', 'wordpress-seo' ) . '</span>' : esc_html( $metadesc_val );
-				echo $metadesc;
-				break;
+				$post         = get_post( $post_id, ARRAY_A );
+				$metadesc_val = wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), $post );
+				$metadesc_val = apply_filters( 'wpseo_metadesc', $metadesc_val );
+
+				if ( '' === $metadesc_val ) {
+					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
+						esc_html__( 'Meta description not set.', 'wordpress-seo' ),
+						'</span>';
+					return;
+				}
+
+				echo esc_html( $metadesc_val );
+				return;
+
 			case 'wpseo-focuskw':
 				$focuskw_val = WPSEO_Meta::get_value( 'focuskw', $post_id );
-				$focuskw     = ( '' === $focuskw_val ) ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . esc_html__( 'Focus keyword not set.', 'wordpress-seo' ) . '</span>' : esc_html( $focuskw_val );
-				echo $focuskw;
-				break;
+
+				if ( '' === $focuskw_val ) {
+					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
+						esc_html__( 'Focus keyword not set.', 'wordpress-seo' ),
+						'</span>';
+					return;
+				}
+
+				echo esc_html( $focuskw_val );
+				return;
 		}
 	}
 
@@ -641,9 +665,8 @@ class WPSEO_Meta_Columns {
 		if ( isset( $post_type ) ) {
 			// Don't make static as post_types may still be added during the run.
 			$cpts    = WPSEO_Post_Type::get_accessible_post_types();
-			$options = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts, true ) === false );
+			return ( ( WPSEO_Options::get( 'hideeditbox-' . $post_type ) === true ) || in_array( $post_type, $cpts, true ) === false );
 		}
 
 		return false;
@@ -662,11 +685,10 @@ class WPSEO_Meta_Columns {
 			return $fixed_title;
 		}
 
-		$post    = get_post( $post_id );
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+		$post = get_post( $post_id );
 
-		if ( is_object( $post ) && ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) ) {
-			$title_template = $options[ 'title-' . $post->post_type ];
+		if ( is_object( $post ) && WPSEO_Options::get( 'title-' . $post->post_type, '' ) !== '' ) {
+			$title_template = WPSEO_Options::get( 'title-' . $post->post_type );
 			$title_template = str_replace( ' %%page%% ', ' ', $title_template );
 
 			return wpseo_replace_vars( $title_template, $post );

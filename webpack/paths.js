@@ -42,6 +42,22 @@ const entry = {
 	"wp-seo-term-scraper": "./wp-seo-term-scraper.js",
 };
 
+/**
+ * Flattens a version for usage in a filename.
+ *
+ * @param {string} version The version to flatten.
+ *
+ * @returns {string} The flattened version.
+ */
+function flattenVersionForFile( version ) {
+	let versionParts = version.split( "." );
+	if ( versionParts.length === 2 ) {
+		versionParts.push( 0 );
+	}
+
+	return versionParts.join( "" );
+}
+
 module.exports = {
 	entry,
 	entryAll,
@@ -49,4 +65,5 @@ module.exports = {
 	jsSrc: jsSrcPath,
 	cssDist: cssDistPath,
 	select2: path.resolve( "node_modules", "select2", "dist" ),
+	flattenVersionForFile,
 };

@@ -3,6 +3,10 @@
  * @package WPSEO\Admin\Views
  */
 
+/**
+ * @var Yoast_Form $yform
+ */
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -31,6 +35,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	$yform->checkbox( 'importheadspace', __( 'Import from HeadSpace2', 'wordpress-seo' ) );
 	$yform->checkbox( 'importaioseo', __( 'Import from All-in-One SEO', 'wordpress-seo' ) );
 	$yform->checkbox( 'importjetpackseo', __( 'Import from Jetpack SEO', 'wordpress-seo' ) );
+	$yform->checkbox( 'importseoultimate', __( 'Import from Ultimate SEO', 'wordpress-seo' ) );
+	$yform->checkbox( 'importseopressor', __( 'Import from SEOpressor', 'wordpress-seo' ) );
 	$yform->checkbox( 'importwoo', __( 'Import from WooThemes SEO framework', 'wordpress-seo' ) );
 	$yform->checkbox( 'importwpseo', __( 'Import from wpSEO', 'wordpress-seo' ) );
 

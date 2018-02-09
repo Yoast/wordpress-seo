@@ -24,6 +24,6 @@ class WPSEO_Config_Field_Profile_URL_GooglePlus extends WPSEO_Config_Field {
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
-		$adapter->add_yoast_lookup( $this->get_identifier(), 'wpseo_social', 'google_plus_url' );
+		$adapter->add_option_lookup( $this->get_identifier(), 'google_plus_url' );
 	}
 }

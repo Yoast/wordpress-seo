@@ -9,7 +9,7 @@
 class WPSEO_Taxonomy_Metabox {
 
 	/**
-	 * @var stdClass
+	 * @var WP_Term
 	 */
 	private $term;
 
@@ -22,6 +22,16 @@ class WPSEO_Taxonomy_Metabox {
 	 * @var WPSEO_Taxonomy_Fields_Presenter
 	 */
 	private $taxonomy_tab_content;
+
+	/**
+	 * @var WPSEO_Taxonomy_Social_Fields
+	 */
+	private $taxonomy_social_fields;
+
+	/**
+	 * @var WPSEO_Social_Admin
+	 */
+	private $social_admin;
 
 	/**
 	 * The constructor.
@@ -114,7 +124,7 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	private function get_content_meta_section() {
 		$taxonomy_content_fields = new WPSEO_Taxonomy_Content_Fields( $this->term );
-		$content                 = $this->taxonomy_tab_content->html( $taxonomy_content_fields->get() );
+		$content                 = $this->taxonomy_tab_content->html( $taxonomy_content_fields->get( $this->term ) );
 
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'content',
@@ -171,46 +181,12 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_social_meta_section() {
-		$options                = WPSEO_Options::get_option( 'wpseo_social' );
-		$taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
-		$social_admin           = new WPSEO_Social_Admin();
+		$this->taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
+		$this->social_admin           = new WPSEO_Social_Admin();
 
 		$tabs   = array();
-		$single = true;
-
-		if ( $options['opengraph'] === true && $options['twitter'] === true ) {
-			$single = null;
-		}
-
-		if ( $options['opengraph'] === true ) {
-			$facebook_meta_fields = $taxonomy_social_fields->get_by_network( 'opengraph' );
-
-			$tabs[] = new WPSEO_Metabox_Form_Tab(
-				'facebook',
-				$social_admin->get_premium_notice( 'opengraph' ) . $this->taxonomy_tab_content->html( $facebook_meta_fields ),
-				'<span class="screen-reader-text">' . __( 'Facebook / Open Graph metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-facebook-alt"></span>',
-				array(
-					'link_aria_label' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
-					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
-					'single'          => $single,
-				)
-			);
-		}
-
-		if ( $options['twitter'] === true ) {
-			$twitter_meta_fields = $taxonomy_social_fields->get_by_network( 'twitter' );
-
-			$tabs[] = new WPSEO_Metabox_Form_Tab(
-				'twitter',
-				$social_admin->get_premium_notice( 'twitter' ) . $this->taxonomy_tab_content->html( $twitter_meta_fields ),
-				'<span class="screen-reader-text">' . __( 'Twitter metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-twitter"></span>',
-				array(
-					'link_aria_label' => __( 'Twitter metadata', 'wordpress-seo' ),
-					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
-					'single'          => $single,
-				)
-			);
-		}
+		$tabs[] = $this->create_tab( 'facebook', 'opengraph', 'facebook-alt', __( 'Facebook / Open Graph metadata', 'wordpress-seo' ) );
+		$tabs[] = $this->create_tab( 'twitter', 'twitter', 'twitter', __( 'Twitter metadata', 'wordpress-seo' ) );
 
 		return new WPSEO_Metabox_Tab_Section(
 			'social',
@@ -221,6 +197,46 @@ class WPSEO_Taxonomy_Metabox {
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
+	}
+
+	/**
+	 * Creates a social network tab.
+	 *
+	 * @param string $name    The name of the tab.
+	 * @param string $network The network of the tab.
+	 * @param string $icon    The icon for the tab.
+	 * @param string $label   The label for the tab.
+	 *
+	 * @return WPSEO_Metabox_Form_Tab|bool
+	 */
+	private function create_tab( $name, $network, $icon, $label ) {
+		if ( WPSEO_Options::get( $network ) !== true ) {
+			return false;
+		}
+
+		$meta_fields = $this->taxonomy_social_fields->get_by_network( $network );
+
+		$tab_settings = new WPSEO_Metabox_Form_Tab(
+			$name,
+			$this->social_admin->get_premium_notice( $network ) . $this->taxonomy_tab_content->html( $meta_fields ),
+			'<span class="screen-reader-text">' . $label . '</span><span class="dashicons dashicons-' . $icon . '"></span>',
+			array(
+				'link_aria_label' => $label,
+				'link_class'      => 'yoast-tooltip yoast-tooltip-se',
+				'single'          => $this->has_single_social_tab(),
+			)
+		);
+
+		return $tab_settings;
+	}
+
+	/**
+	 * Determine whether we only show one social network or two.
+	 *
+	 * @return bool
+	 */
+	private function has_single_social_tab() {
+		return ( WPSEO_Options::get( 'opengraph' ) === false || WPSEO_Options::get( 'twitter' ) === false );
 	}
 
 	/**
@@ -299,20 +315,6 @@ class WPSEO_Taxonomy_Metabox {
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
-	}
-
-	/**
-	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
-	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
-	 * we know which taxonomy is being requested, so we need to use this check in nearly every hooked in function.
-	 *
-	 * @since 1.5.0
-	 */
-	private function tax_is_public() {
-		// Don't make static as taxonomies may still be added during the run.
-		$taxonomy = get_taxonomy( $this->taxonomy );
-
-		return $taxonomy->public;
 	}
 
 	/**

@@ -9,11 +9,6 @@
 abstract class WPSEO_Recalculate {
 
 	/**
-	 * @var array The options stored in the database
-	 */
-	protected $options;
-
-	/**
 	 * @var int
 	 */
 	protected $items_per_page = 20;
@@ -54,8 +49,7 @@ abstract class WPSEO_Recalculate {
 	public function get_items_to_recalculate( $paged ) {
 		$return = array();
 
-		$paged         = abs( $paged );
-		$this->options = WPSEO_Options::get_all();
+		$paged = abs( $paged );
 
 		$items = $this->get_items( $paged );
 
@@ -98,8 +92,8 @@ abstract class WPSEO_Recalculate {
 	 */
 	protected function default_from_options( $field, $suffix ) {
 		$target_option_field = $field . '-' . $suffix;
-		if ( ! empty( $this->options[ $target_option_field ] ) ) {
-			return $this->options[ $target_option_field ];
+		if ( '' !== WPSEO_Options::get( $target_option_field, '' ) ) {
+			return WPSEO_Options::get( $target_option_field );
 		}
 
 		return false;
