@@ -31,7 +31,7 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
 		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
 		if ( ! $breadcrumbs_enabled ) {
-			$breadcrumbs_enabled = ( WPSEO_Options::get( 'breadcrumbs-enable', false ) );
+			$breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
 		}
 
 		if ( $breadcrumbs_enabled ) {

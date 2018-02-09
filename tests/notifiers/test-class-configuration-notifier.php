@@ -14,7 +14,8 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Configuration_Notifier::notify()
 	 */
 	public function test_notify_when_onboarding_wizard_notice_wont_be_shown() {
-		$notifier = new WPSEO_Configuration_Notifier( array( 'show_onboarding_notice' => false ) );
+		WPSEO_Options::set( 'show_onboarding_notice', false );
+		$notifier = new WPSEO_Configuration_Notifier();
 
 		$this->assertEquals( '', $notifier->notify() );
 	}
@@ -25,7 +26,8 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Configuration_Notifier::notify()
 	 */
 	public function test_notify_when_onboarding_wizard_notice_will_be_shown() {
-		$notifier = new WPSEO_Configuration_Notifier( array( 'show_onboarding_notice' => true ) );
+		WPSEO_Options::set( 'show_onboarding_notice', true );
+		$notifier = new WPSEO_Configuration_Notifier();
 
 		$this->assertNotEquals( '', $notifier->notify() );
 	}

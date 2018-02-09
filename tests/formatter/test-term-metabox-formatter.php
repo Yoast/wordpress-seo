@@ -14,7 +14,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	private $term;
 
 	/**
-	 * @var stdClass
+	 * @var WP_Taxonomy|stdClass
 	 */
 	private $taxonomy;
 
@@ -56,7 +56,10 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Metabox_Formatter::get_template
 	 */
 	public function test_with_taxonomy_and_term_and_without_options() {
-		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term, array() );
+		WPSEO_Options::set( 'title-tax-' . $this->taxonomy->name, '' );
+		WPSEO_Options::set( 'metadesc-tax-' . $this->taxonomy->name, '' );
+
+		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term );
 
 		global $wp_version;
 		$_wp_version = $wp_version;
@@ -103,11 +106,10 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Metabox_Formatter::get_template
 	 */
 	public function test_with_taxonomy_term_and_options() {
-		$options  = array(
-			'title-tax-post_tag'    => 'This is a title',
-			'metadesc-tax-post_tag' => 'This is a meta description',
-		);
-		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term, $options );
+		WPSEO_Options::set( 'title-tax-post_tag', 'This is a title' );
+		WPSEO_Options::set( 'metadesc-tax-post_tag', 'This is a meta description' );
+
+		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term );
 		$result   = $instance->get_values();
 
 		$this->assertEquals( $result['title_template'], 'This is a title' );
@@ -122,8 +124,9 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Metabox_Formatter::get_template
 	 */
 	public function test_with_taxonomy_term_and_options_with_title_option_missing() {
-		$options  = array( 'metadesc-tax-post_tag' => 'This is a meta description' );
-		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term, $options );
+		WPSEO_Options::set( 'title-tax-post_tag', '' );
+		WPSEO_Options::set( 'metadesc-tax-post_tag', 'This is a meta description' );
+		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term );
 		$result   = $instance->get_values();
 
 		$this->assertEquals( $result['title_template'], '' );

@@ -6,8 +6,7 @@
 /** @noinspection PhpUnusedLocalVariableInspection */
 $alerts_data = Yoast_Alerts::get_template_variables();
 
-$options  = WPSEO_Options::get_options( array( 'wpseo' ) );
-$notifier = new WPSEO_Configuration_Notifier( $options );
+$notifier = new WPSEO_Configuration_Notifier();
 $notifier->listen();
 
 /* translators: %1$s expands to Yoast SEO. */

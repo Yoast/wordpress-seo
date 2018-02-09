@@ -36,8 +36,6 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		/* translators: %1$s expands to the social network, %2$s to the recommended image size. */
 		$image_size_text = __( 'The recommended image size for %1$s is %2$s pixels.', 'wordpress-seo' );
 
-		$options = WPSEO_Options::get_option( 'wpseo_social' );
-
 		$social_networks = array(
 			'opengraph' => __( 'Facebook', 'wordpress-seo' ),
 			'twitter'   => __( 'Twitter', 'wordpress-seo' ),
@@ -53,7 +51,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		);
 
 		foreach ( $social_networks as $network => $label ) {
-			if ( true === $options[ $network ] ) {
+			if ( true === WPSEO_Options::get( $network, false ) ) {
 				/* translators: %s expands to the name of a social network. */
 				self::$meta_fields['social'][ $network . '-title' ]['title']       = sprintf( __( '%s Title', 'wordpress-seo' ), $label );
 				self::$meta_fields['social'][ $network . '-title' ]['description'] = sprintf( $title_text, $label );
