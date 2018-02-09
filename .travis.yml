@@ -111,27 +111,27 @@ before_script:
 script:
 - |
   if [[ "$CHECKJS" == "1" ]]; then
-    travis_fold:start:Check_JS
+    echo "travis_fold:start:Check_JS"
     grunt check:js
-    travis_fold:end:Check_JS
+    echo "travis_fold:end:Check_JS"
 
-    travis_fold:start:Test_JS
+    echo "travis_fold:start:Test_JS"
     yarn test
-    travis_fold:end:Test_JS
+    echo "travis_fold:end:Test_JS"
   fi
 - |
   if [[ "$PHPLINT" == "1" ]]; then
-    travis_fold:start:PHP_Lint
+    echo "travis_fold:start:PHP_Lint"
     find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
-    travis_fold:end:PHP_Lint
+    echo "travis_fold:end:PHP_Lint"
   fi
 - |
   if [[ "$PHPCS" == "1" ]]; then
-    travis_fold:start:PHPCS
+    echo "travis_fold:start:PHPCS"
     vendor/bin/phpcs -v --runtime-set ignore_warnings_on_exit 1
-    travis_fold:end:PHPCS
+    echo "travis_fold:end:PHPCS"
   fi
-- travis_fold:start:PHPUnit
+- echo "travis_fold:start:PHPUnit"
 - |
   if [[ "$COVERAGE" != "1" ]]; then
     if [[ ${TRAVIS_PHP_VERSION:0:1} == "5" || $TRAVIS_PHP_VERSION == hhv* ]]; then phpunit -c phpunit.xml; fi
@@ -140,7 +140,7 @@ script:
 # Coverage environment variable is only set on the PHP 7 build, so we can safely
 # assume that PHPUnit is in the vendor directory.
 - if [[ "$COVERAGE" == "1" ]]; then vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; fi
-- travis_fold:end:PHPUnit
+- echo "travis_fold:end:PHPUnit"
 
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
