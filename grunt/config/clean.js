@@ -1,4 +1,4 @@
-// https://github.com/gruntjs/grunt-contrib-clean
+// See https://github.com/gruntjs/grunt-contrib-clean for details.
 module.exports = {
 	"po-files": [
 		"<%= paths.languages %>*.po",
