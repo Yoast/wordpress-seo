@@ -107,13 +107,16 @@ before_script:
     chmod +x ./cc-test-reporter
     ./cc-test-reporter before-build
   fi
+- export -f travis_fold
 
 script:
 # JavaScript checks
 - |
-  echo "travis_fold:start:Check_JS"
-  if [[ "$CHECKJS" == "1" ]]; then grunt check:js; fi
-  echo "travis_fold:end:Check_JS"
+  if [[ "$CHECKJS" == "1" ]]; then
+    travis_fold start "JavaScript check"
+    grunt check:js
+    travis_fold end "JavaScript check"
+  fi
 # JavaScript tests
 - |
   echo "travis_fold:start:Test_JS"
