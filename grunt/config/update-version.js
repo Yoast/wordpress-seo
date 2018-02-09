@@ -5,7 +5,7 @@ module.exports = {
 	},
 	readme: {
 		options: {
-			regEx: /(Stable tag: )(\d+(\.\d+){0,3})([^\.\d]?.*?)(\n)/,
+			regEx: /(Stable tag: )(\d+(\.\d+){0,3})([^\n^\.\d]?.*?)(\n)/,
 			preVersionMatch: "$1",
 			postVersionMatch: "$5",
 		},
@@ -13,7 +13,7 @@ module.exports = {
 	},
 	pluginFile: {
 		options: {
-			regEx: /(\* Version: )(\d+(\.\d+){0,3})([^\.\d]?.*?)(\n)/,
+			regEx: /(\* Version: )(\d+(\.\d+){0,3})([^\n^\.\d]?.*?)(\n)/,
 			preVersionMatch: "$1",
 			postVersionMatch: "$5",
 		},
