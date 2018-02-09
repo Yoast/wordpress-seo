@@ -108,32 +108,36 @@ before_script:
     ./cc-test-reporter before-build
   fi
 - export -f travis_fold
+- export -f travis_time_start
+- export -f travis_time_finish
 
 script:
 # JavaScript checks
 - |
   if [[ "$CHECKJS" == "1" ]]; then
-    travis_fold start "JavaScript check"
+    travis_fold start "JavaScript.check" && travis_time_start
     grunt check:js
-    travis_fold end "JavaScript check"
+    travis_time_finish && travis_fold end "JavaScript.check"
   fi
 # JavaScript tests
 - |
-  echo "travis_fold:start:Test_JS"
-  if [[ "$CHECKJS" == "1" ]]; then yarn test; fi
-  echo "travis_fold:end:Test_JS"
+  if [[ "$CHECKJS" == "1" ]]; then
+    travis_fold start "JavaScript.tests" && travis_time_start
+    yarn test
+    travis_time_finish && travis_fold end "JavaScript.tests"
+  fi
 # PHP Linting
 - |
-  echo "travis_fold:start:PHP_Lint"
+  travis_fold start "PHP.check" && travis_time_start
   if [[ "$PHPLINT" == "1" ]]; then find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
-  echo "travis_fold:end:PHP_Lint"
+  travis_time_finish && travis_fold end "PHP.check"
 # PHP CS
 - |
-  echo "travis_fold:start:PHPCS"
+  travis_fold start "PHP.code-style" && travis_time_start
   if [[ "$PHPCS" == "1" ]]; then vendor/bin/phpcs -v --runtime-set ignore_warnings_on_exit 1; fi
-  echo "travis_fold:end:PHPCS"
+  travis_time_finish && travis_fold end "PHP.code-style"
 # PHP Unit
-- echo "travis_fold:start:PHPUnit"
+- travis_fold start "PHP.tests" && travis_time_start
 - |
   if [[ "$COVERAGE" != "1" ]]; then
     if [[ ${TRAVIS_PHP_VERSION:0:1} == "5" || $TRAVIS_PHP_VERSION == hhv* ]]; then phpunit -c phpunit.xml; fi
@@ -142,7 +146,7 @@ script:
 # Coverage environment variable is only set on the PHP 7 build, so we can safely
 # assume that PHPUnit is in the vendor directory.
 - if [[ "$COVERAGE" == "1" ]]; then vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; fi
-- echo "travis_fold:end:PHPUnit"
+- travis_time_finish && travis_fold end "PHP.tests"
 
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
