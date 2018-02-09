@@ -102,9 +102,10 @@ p.desc.label {
 	margin-right: 200px;
 }
 
-/* Styles for Yoast specific content. @todo: check this. */
+/* Styles for Yoast specific content. */
 .wpseo_content_wrapper h3 {
-	margin: 1em 0 0.5em 0;
+	margin: 1em 0 0.5em 0; 
+	font-size: 1.15em;
 }
 
 h4 {
@@ -281,6 +282,11 @@ table.yoast_help .yoast-variable-desc {
 	margin-right: 6px;
 }
 
+.wpseotab .tab-block {
+	display: block;
+	margin: 30px 0;
+}
+
 .wpseotab p.expl strong {
 	font-size: 115%;
 }
@@ -372,10 +378,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	background: transparent url(../../images/Yoast_SEO_Icon.svg) no-repeat 50% 10px;
 	background-size: 140px 140px;
 	box-shadow: none;
-}
-
-.nav-tab .tab-block {
-	margin: 10px 0;
 }
 
 /* @todo: remove this, see #6380. */
