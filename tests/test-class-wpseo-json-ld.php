@@ -25,6 +25,8 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	 * Tear down after each test.
 	 */
 	public function tearDown() {
+		parent::tearDown();
+
 		self::$class_instance = new WPSEO_JSON_LD();
 	}
 
@@ -81,7 +83,9 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * 
+	 * Tests having bad input.
+	 *
+	 * @covers WPSEO_JSON_LD::organization_or_person()
 	 */
 	public function test_bad_input() {
 		$name      = 'Joost "Yoast":"de Valk"';
