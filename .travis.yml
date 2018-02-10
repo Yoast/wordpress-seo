@@ -64,6 +64,7 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
+    - node_modules
 
 before_install:
 - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
