@@ -19,7 +19,7 @@ class WPSEO_Social_Previews {
 	}
 
 	/**
-	 * Sets the hooks necessary for AJAX
+	 * Sets the hooks necessary for AJAX.
 	 */
 	public function set_ajax_hooks() {
 		add_action( 'wp_ajax_retrieve_image_data_from_url', array( $this, 'ajax_retrieve_image_data_from_url' ) );
@@ -35,7 +35,7 @@ class WPSEO_Social_Previews {
 	}
 
 	/**
-	 * Retrieves image data from an image URL
+	 * Retrieves image data from an image URL.
 	 */
 	public function ajax_retrieve_image_data_from_url() {
 		$url = filter_input( INPUT_GET, 'imageURL' );
@@ -62,7 +62,7 @@ class WPSEO_Social_Previews {
 	}
 
 	/**
-	 * Determines an attachment ID from a URL which might be an attachment URL
+	 * Determines an attachment ID from a URL which might be an attachment URL.
 	 *
 	 * @link https://philipnewcomer.net/2012/11/get-the-attachment-id-from-an-image-url-in-wordpress/
 	 *

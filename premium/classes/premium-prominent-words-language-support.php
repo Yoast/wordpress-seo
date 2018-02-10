@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Premium_Prominent_Words_Language_Support
+ * Class WPSEO_Premium_Prominent_Words_Language_Support.
  */
 class WPSEO_Premium_Prominent_Words_Language_Support {
 

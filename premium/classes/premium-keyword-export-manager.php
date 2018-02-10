@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Export_Keywords_Manager
+ * Class WPSEO_Export_Keywords_Manager.
  *
  * Manages exporting keywords.
  */

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Redirect_Handler
+ * Class WPSEO_Redirect_Handler.
  */
 class WPSEO_Redirect_Handler {
 
@@ -289,7 +289,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Gets the quest uri, with fallback for super global
+	 * Gets the request URI, with fallback for super global.
 	 *
 	 * @return string
 	 */
@@ -367,7 +367,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * This will add a slash if there isn't a slash or it will remove a trailing slash when there isn't one.
 	 *
-	 * @discuss: Maybe we should add slashes to all the values we handle instead of using a fallback
+	 * @discuss: Maybe we should add slashes to all the values we handle instead of using a fallback.
 	 *
 	 * @param string $url The URL that have to be matched.
 	 *
@@ -596,7 +596,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Returns whether or not a target URL requires a trailing slash
+	 * Returns whether or not a target URL requires a trailing slash.
 	 *
 	 * @param string $target_url The target URL to check.
 	 *

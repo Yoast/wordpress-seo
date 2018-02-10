@@ -129,7 +129,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	}
 
 	/**
-	 * Gets the Post IDs of un-indexed objects
+	 * Gets the Post IDs of un-indexed objects.
 	 *
 	 * @param array|string $post_types The post type(s) to fetch.
 	 * @param int          $limit      Limit the number of results.
@@ -238,7 +238,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	}
 
 	/**
-	 * Formats the post type for the IN-statement
+	 * Formats the post type for the IN-statement.
 	 *
 	 * @deprecated 5.8.0
 	 *

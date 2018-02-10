@@ -16,7 +16,7 @@ class WPSEO_Redirect_Form_Presenter {
 	private $view_vars;
 
 	/**
-	 * Setting up the view_vars
+	 * Setting up the view_vars.
 	 *
 	 * @param array $view_vars The variables to pass into the view.
 	 */
@@ -28,7 +28,7 @@ class WPSEO_Redirect_Form_Presenter {
 	}
 
 	/**
-	 * Display the form
+	 * Display the form.
 	 *
 	 * @param array $display Additional display variables.
 	 */
@@ -42,7 +42,7 @@ class WPSEO_Redirect_Form_Presenter {
 	}
 
 	/**
-	 * Getting array with the available redirect types
+	 * Getting array with the available redirect types.
 	 *
 	 * @return array|void
 	 */

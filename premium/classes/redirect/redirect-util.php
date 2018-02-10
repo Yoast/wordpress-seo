@@ -6,7 +6,7 @@
  */
 
 /**
- * Helpers for redirects
+ * Helpers for redirects.
  */
 class WPSEO_Redirect_Util {
 	/**
@@ -27,7 +27,7 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
-	 * Returns whether or not the permalink structure has a trailing slash
+	 * Returns whether or not the permalink structure has a trailing slash.
 	 *
 	 * @return bool
 	 */
@@ -42,7 +42,7 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
-	 * Returns whether or not the URL has query variables
+	 * Returns whether or not the URL has query variables.
 	 *
 	 * @param string $url The URL.
 	 * @return bool
@@ -52,7 +52,7 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
-	 * Returns whether or not the given URL has a fragment identifier
+	 * Returns whether or not the given URL has a fragment identifier.
 	 *
 	 * @param string $url The URL to parse.
 	 *
@@ -70,7 +70,7 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
-	 * Returns whether or not the given URL has an extension
+	 * Returns whether or not the given URL has an extension.
 	 *
 	 * @param string $url The URL to parse.
 	 *
@@ -83,7 +83,7 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
-	 * Returns whether or not a target URL requires a trailing slash
+	 * Returns whether or not a target URL requires a trailing slash.
 	 *
 	 * @param string $target_url The target URL to check.
 	 *

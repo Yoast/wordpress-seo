@@ -35,14 +35,14 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 	}
 
 	/**
-	 * Tests the exceeds_limit without posts results in a non exceeded limit
+	 * Tests the exceeds_limit without posts results in a non exceeded limit.
 	 */
 	public function test_exceeds_limit_without_posts() {
 		$this->assertFalse( $this->class_instance->exceeds_limit( 10 ) );
 	}
 
 	/**
-	 * Tests the exceeds_limit with 10 posts results in a non exceeded limit
+	 * Tests the exceeds_limit with 10 posts results in a non exceeded limit.
 	 */
 	public function test_exceeds_limit_with_10_posts() {
 		$this->factory()->post->create_many( 10 );
@@ -52,7 +52,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_Unit
 
 
 	/**
-	 * Tests the exceeds_limit with 10 posts and pages results in a non exceeded limit
+	 * Tests the exceeds_limit with 10 posts and pages results in a non exceeded limit.
 	 */
 	public function test_exceeds_limit_with_10_posts_and_pages() {
 		$this->factory()->post->create_many( 4, array( 'post_type' => 'post' ) );

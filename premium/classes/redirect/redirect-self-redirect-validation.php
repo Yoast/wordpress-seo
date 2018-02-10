@@ -40,7 +40,7 @@ class WPSEO_Redirect_Self_Redirect_Validation implements WPSEO_Redirect_Validati
 	}
 
 	/**
-	 * Returns the validation error
+	 * Returns the validation error.
 	 *
 	 * @return WPSEO_Validation_Result
 	 */
