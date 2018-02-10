@@ -10,7 +10,9 @@
  */
 class WPSEO_Premium_Orphaned_Post_Notifier implements WPSEO_WordPress_Integration {
 
-	/** @var Yoast_Notification_Center */
+	/**
+	 * @var Yoast_Notification_Center
+	 */
 	protected $notification_center;
 
 	/**

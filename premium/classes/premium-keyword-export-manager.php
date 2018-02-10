@@ -12,7 +12,11 @@
  */
 class WPSEO_Premium_Keyword_Export_Manager implements WPSEO_WordPress_Integration {
 
-	/** @var wpdb instance */
+	/**
+	 * A WordPress database object.
+	 *
+	 * @var wpdb instance
+	 */
 	protected $wpdb;
 
 	/**

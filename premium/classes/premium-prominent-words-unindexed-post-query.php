@@ -10,7 +10,9 @@
  */
 class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	protected $totals = array();
 
 	/**

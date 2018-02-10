@@ -16,7 +16,9 @@ class WPSEO_Redirect_Ajax {
 	private $redirect_manager;
 
 	/**
-	 * @var string Format of the redirect, might be plain or regex.
+	 * Format of the redirect, might be plain or regex.
+	 *
+	 * @var string
 	 */
 	private $redirect_format;
 

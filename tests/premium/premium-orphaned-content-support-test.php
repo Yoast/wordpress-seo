@@ -10,7 +10,9 @@
  */
 class WPSEO_Premium_Orphaned_Content_Support_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Premium_Orphaned_Content_Support */
+	/**
+	 * @var WPSEO_Premium_Orphaned_Content_Support
+	 */
 	protected $class_instance;
 
 	/**

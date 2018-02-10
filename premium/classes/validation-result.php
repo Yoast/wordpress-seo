@@ -11,12 +11,16 @@
 abstract class WPSEO_Validation_Result {
 
 	/**
-	 * @var string The validation message contained by the result.
+	 * The validation message contained by the result.
+	 *
+	 * @var string
 	 */
 	protected $message;
 
 	/**
-	 * @var array The field that has the error.
+	 * The field that has the error.
+	 *
+	 * @var array
 	 */
 	private $fields = array();
 

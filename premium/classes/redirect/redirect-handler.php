@@ -11,37 +11,51 @@
 class WPSEO_Redirect_Handler {
 
 	/**
-	 * @var array Array where there redirects will stored.
+	 * Array where the redirects will stored.
+	 *
+	 * @var array
 	 */
 	protected $redirects;
 
 	/**
-	 * @var array The matches parts of the URL in case of a matched regex redirect.
+	 * The matches parts of the URL in case of a matched regex redirect.
+	 *
+	 * @var array
 	 */
 	protected $url_matches = array();
 
 	/**
-	 * @var bool Is the current page being redirected.
+	 * Is the current page being redirected.
+	 *
+	 * @var bool
 	 */
 	protected $is_redirected = false;
 
 	/**
-	 * @var string The options where the URL redirects are stored.
+	 * The options where the URL redirects are stored.
+	 *
+	 * @var string
 	 */
 	private $normal_option_name = 'wpseo-premium-redirects-export-plain';
 
 	/**
-	 * @var string The option name where the regex redirects are stored.
+	 * The option name where the regex redirects are stored.
+	 *
+	 * @var string
 	 */
 	private $regex_option_name = 'wpseo-premium-redirects-export-regex';
 
 	/**
-	 * @var string The URL that is called at the moment.
+	 * The URL that is called at the moment.
+	 *
+	 * @var string
 	 */
 	private $request_url = '';
 
 	/**
-	 * @var string Sets the error template to include.
+	 * Sets the error template to include.
+	 *
+	 * @var string
 	 */
 	protected $template_file_path;
 
