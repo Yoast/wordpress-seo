@@ -1111,9 +1111,9 @@ class WPSEO_Frontend {
 	 *
 	 * @since 1.0.2
 	 *
-	 * @param string  $rel  Link relationship, prev or next.
-	 * @param string  $url  The un-paginated URL of the current archive.
-	 * @param string  $page The page number to add on to $url for the $link tag.
+	 * @param string $rel  Link relationship, prev or next.
+	 * @param string $url  The un-paginated URL of the current archive.
+	 * @param string $page The page number to add on to $url for the $link tag.
 	 *
 	 * @return void
 	 */
