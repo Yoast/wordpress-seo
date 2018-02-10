@@ -41,9 +41,9 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider existing_redirect_provider
 	 *
-	 * @param string $old_url    The origin url.
-	 * @param string $new_url    The url to redirect to.
-	 * @param int    $type       Type of the redirect.
+	 * @param string $old_url The origin url.
+	 * @param string $new_url The url to redirect to.
+	 * @param int    $type    Type of the redirect.
 	 *
 	 * @covers WPSEO_Redirect_Uniqueness_Validation::run
 	 * @covers WPSEO_Redirect_Uniqueness_Validation::get_error

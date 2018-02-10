@@ -44,9 +44,9 @@ class WPSEO_Redirect_Validator_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider redirect_provider
 	 *
-	 * @param string $origin The origin url.
-	 * @param string $target Target url.
-	 * @param int    $type   Type of the redirect.
+	 * @param string $origin     The origin url.
+	 * @param string $target     Target url.
+	 * @param int    $type       Type of the redirect.
 	 * @param string $old_origin The old origin, when empty the redirect is new.
 	 *
 	 * @covers       WPSEO_Redirect_Validator::validate

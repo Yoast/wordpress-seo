@@ -18,9 +18,9 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	/**
 	 * Validates if the target is accessible and based on its response code it will set a warning (if applicable).
 	 *
-	 * @param WPSEO_Redirect $redirect  The redirect to validate.
+	 * @param WPSEO_Redirect $redirect     The redirect to validate.
 	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.
-	 * @param array|null     $redirects Unused.
+	 * @param array|null     $redirects    Unused.
 	 *
 	 * @return bool Whether or not the target is valid.
 	 */

@@ -29,9 +29,9 @@ class WPSEO_Redirect_Presence_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider validate_filled_redirect_provider
 	 *
-	 * @param string $old_url         The origin url.
-	 * @param string $new_url         The url to redirect to.
-	 * @param int    $type            Type of the redirect.
+	 * @param string $old_url The origin url.
+	 * @param string $new_url The url to redirect to.
+	 * @param int    $type    Type of the redirect.
 	 *
 	 * @covers WPSEO_Redirect_Presence_Validation::run
 	 * @covers WPSEO_Redirect_Presence_Validation::get_error
@@ -49,9 +49,9 @@ class WPSEO_Redirect_Presence_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider validate_wrong_filled_redirect_provider
 	 *
-	 * @param string $old_url         The origin url.
-	 * @param string $new_url         The url to redirect to.
-	 * @param int    $type            Type of the redirect.
+	 * @param string $old_url The origin url.
+	 * @param string $new_url The url to redirect to.
+	 * @param int    $type    Type of the redirect.
 	 *
 	 * @covers WPSEO_Redirect_Presence_Validation::run
 	 * @covers WPSEO_Redirect_Presence_Validation::get_error
