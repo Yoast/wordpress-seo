@@ -217,7 +217,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	}
 
 	/**
-	 * Enqueues the dashboard assests.
+	 * Enqueues the dashboard assets.
 	 *
 	 * @return void
 	 */

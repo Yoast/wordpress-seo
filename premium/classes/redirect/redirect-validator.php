@@ -52,7 +52,7 @@ class WPSEO_Redirect_Validator {
 	protected $validation_error = false;
 
 	/**
-	 * Validates the old and the new URL
+	 * Validates the old and the new URL.
 	 *
 	 * @param WPSEO_Redirect $redirect         The redirect that will be saved.
 	 * @param WPSEO_Redirect $current_redirect Redirect that will be used for comparison.
@@ -77,7 +77,7 @@ class WPSEO_Redirect_Validator {
 	}
 
 	/**
-	 * Returns the validation error
+	 * Returns the validation error.
 	 *
 	 * @return WPSEO_Validation_Result
 	 */
@@ -86,7 +86,7 @@ class WPSEO_Redirect_Validator {
 	}
 
 	/**
-	 * Removes a rule from the validations
+	 * Removes a rule from the validations.
 	 *
 	 * @param array  $validations    Array with the validations.
 	 * @param string $rule_to_remove The rule that will be removed.
@@ -135,7 +135,7 @@ class WPSEO_Redirect_Validator {
 	}
 
 	/**
-	 * Fill the redirect property
+	 * Fill the redirect property.
 	 *
 	 * @param string $format The format for the redirects.
 	 *

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Redirect_File
+ * Class WPSEO_Redirect_File.
  */
 abstract class WPSEO_Redirect_File_Exporter implements WPSEO_Redirect_Exporter {
 
@@ -71,7 +71,7 @@ abstract class WPSEO_Redirect_File_Exporter implements WPSEO_Redirect_Exporter {
 	}
 
 	/**
-	 * Save the redirect file
+	 * Save the redirect file.
 	 *
 	 * @param string $file_content The file content that will be saved.
 	 *

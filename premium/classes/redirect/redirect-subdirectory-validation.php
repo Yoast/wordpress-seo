@@ -51,7 +51,7 @@ class WPSEO_Redirect_Subdirectory_Validation implements WPSEO_Redirect_Validatio
 	}
 
 	/**
-	 * Returns the validation error
+	 * Returns the validation error.
 	 *
 	 * @return WPSEO_Validation_Result
 	 */

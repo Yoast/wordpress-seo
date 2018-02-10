@@ -6,7 +6,7 @@
  */
 
 /**
- * Test class for the table presenter
+ * Test class for the table presenter.
  *
  * @covers WPSEO_Redirect_Table
  */
@@ -31,7 +31,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the result of the columns
+	 * Test the result of the columns.
 	 *
 	 * @covers WPSEO_Redirect_Table::get_columns
 	 */
@@ -48,7 +48,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the filter for setting the primary table column
+	 * Test the filter for setting the primary table column.
 	 *
 	 * @covers WPSEO_Redirect_Table::redirect_list_table_primary_column
 	 */
@@ -58,7 +58,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the preparing of the items
+	 * Test the preparing of the items.
 	 *
 	 * @covers WPSEO_Redirect_Table::prepare_items
 	 */
@@ -77,7 +77,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test return the columns that are sortable
+	 * Test return the columns that are sortable.
 	 *
 	 * @covers WPSEO_Redirect_Table::get_sortable_columns
 	 */
@@ -93,7 +93,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the old column actions
+	 * Test the old column actions.
 	 *
 	 * @covers WPSEO_Redirect_Table::column_cb
 	 */
@@ -112,7 +112,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test default method to display a column
+	 * Test default method to display a column.
 	 *
 	 * @covers WPSEO_Redirect_Table::column_default
 	 */
@@ -129,7 +129,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test return available bulk actions
+	 * Test return available bulk actions.
 	 *
 	 * @covers WPSEO_Redirect_Table::get_bulk_actions
 	 */

@@ -104,7 +104,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Load the admin redirects scripts
+	 * Load the admin redirects scripts.
 	 */
 	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -132,7 +132,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Catch redirects_per_page
+	 * Catch redirects_per_page.
 	 *
 	 * @param string $status Unused.
 	 * @param string $option The option name where the value is set for.
@@ -147,7 +147,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Get the Yoast SEO options
+	 * Get the Yoast SEO options.
 	 *
 	 * @return array
 	 */
@@ -171,7 +171,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Hook that runs after the 'wpseo_redirect' option is updated
+	 * Hook that runs after the 'wpseo_redirect' option is updated.
 	 *
 	 * @param array $old_value Unused.
 	 * @param array $value     The new saved values.
@@ -256,7 +256,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Initialize the AJAX redirect files
+	 * Initialize the AJAX redirect files.
 	 */
 	private function initialize_ajax() {
 		// Normal Redirect AJAX.
@@ -267,7 +267,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Getting the current active tab
+	 * Getting the current active tab.
 	 *
 	 * @return string
 	 */
@@ -292,7 +292,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Setting redirect manager, based on the current active tab
+	 * Setting redirect manager, based on the current active tab.
 	 *
 	 * @return WPSEO_Redirect_Manager
 	 */

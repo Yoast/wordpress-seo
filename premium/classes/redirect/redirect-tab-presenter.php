@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Redirect_Tab_Presenter
+ * Class WPSEO_Redirect_Tab_Presenter.
  */
 abstract class WPSEO_Redirect_Tab_Presenter {
 

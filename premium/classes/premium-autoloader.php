@@ -6,12 +6,12 @@
  */
 
 /**
- * Class WPSEO_Premium_Autoloader
+ * Class WPSEO_Premium_Autoloader.
  */
 class WPSEO_Premium_Autoloader {
 
 	/**
-	 * The part of the class we wanted to search
+	 * The part of the class we wanted to search.
 	 *
 	 * @var string
 	 */
@@ -23,7 +23,7 @@ class WPSEO_Premium_Autoloader {
 	private $directory;
 
 	/**
-	 * This piece will be added
+	 * This piece will be added.
 	 *
 	 * @var string
 	 */
@@ -60,7 +60,7 @@ class WPSEO_Premium_Autoloader {
 	}
 
 	/**
-	 * Does the filename contains the search pattern
+	 * Does the filename contains the search pattern.
 	 *
 	 * @param string $class The classname to match.
 	 *
@@ -71,7 +71,7 @@ class WPSEO_Premium_Autoloader {
 	}
 
 	/**
-	 * Searching for the file in the given directory
+	 * Searching for the file in the given directory.
 	 *
 	 * @param string $class The class to search for.
 	 *
@@ -106,7 +106,7 @@ class WPSEO_Premium_Autoloader {
 	}
 
 	/**
-	 * Parsing the file name
+	 * Parsing the file name.
 	 *
 	 * @param string $class The classname to convert to a file name.
 	 *

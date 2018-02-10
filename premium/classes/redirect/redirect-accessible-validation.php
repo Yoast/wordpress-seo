@@ -6,7 +6,7 @@
  */
 
 /**
- * Validates the accessibility of a redirect's target
+ * Validates the accessibility of a redirect's target.
  */
 class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation {
 
@@ -99,7 +99,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	}
 
 	/**
-	 * Returns the validation error
+	 * Returns the validation error.
 	 *
 	 * @return WPSEO_Validation_Result
 	 */
@@ -121,7 +121,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	/**
 	 * Check if the target is relative, if so just parse a full URL.
 	 *
-	 * @param string $target The target to pars.
+	 * @param string $target The target to parse.
 	 *
 	 * @return string
 	 */

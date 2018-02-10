@@ -283,7 +283,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the is_redirected method on default state
+	 * Tests the is_redirected method on default state.
 	 *
 	 * @covers WPSEO_Redirect_Handler::is_redirected()
 	 */
@@ -294,7 +294,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the is_redirected method on default state
+	 * Tests the is_redirected method on default state.
 	 *
 	 * @covers WPSEO_Redirect_Handler::is_redirected()
 	 */

@@ -6,7 +6,7 @@
  */
 
 /**
- * Test class for testing the endpoint validation class
+ * Test class for testing the endpoint validation class.
  *
  * @covers WPSEO_Redirect_Endpoint_Validation
  */
@@ -81,7 +81,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the end point is in a redirect loop
+	 * Validate if the end point is in a redirect loop.
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 * @covers WPSEO_Redirect_Endpoint_Validation::get_error

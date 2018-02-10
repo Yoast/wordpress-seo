@@ -6,7 +6,7 @@
  */
 
 /**
- * Test class for testing the subdirectory presence class
+ * Test class for testing the subdirectory presence class.
  *
  * @covers WPSEO_Redirect_Subdirectory_Validation
  */
@@ -19,7 +19,7 @@ class WPSEO_Redirect_Subdirectory_Validation_Test extends WPSEO_UnitTestCase {
 
 
 	/**
-	 * Setting the class_instance with an instance of WPSEO_Redirect_Subdirectory_Validation
+	 * Setting the class_instance with an instance of WPSEO_Redirect_Subdirectory_Validation.
 	 */
 	public function setUp() {
 		$this->class_instance = new WPSEO_Redirect_Subdirectory_Validation();

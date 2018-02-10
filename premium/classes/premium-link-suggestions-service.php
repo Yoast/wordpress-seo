@@ -129,7 +129,7 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	}
 
 	/**
-	 * Sorts suggestions by isCornerstone
+	 * Sorts suggestions by isCornerstone.
 	 *
 	 * @param array $a Suggestion A.
 	 * @param array $b Suggestion B.
@@ -205,7 +205,7 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	 *
 	 * @param WP_Post $post The post to prepare.
 	 *
-	 * @return array The link to put in the link suggestions
+	 * @return array The link to put in the link suggestions.
 	 */
 	private function get_post_object( $post ) {
 		$post  = $post['post'];

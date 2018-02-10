@@ -23,7 +23,7 @@ class WPSEO_Premium_Prominent_Words_Support_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the default situation where a hook isn't set
+	 * Tests the default situation where a hook isn't set.
 	 *
 	 * @covers WPSEO_Premium_Prominent_Words_Support::get_supported_post_types()
 	 */

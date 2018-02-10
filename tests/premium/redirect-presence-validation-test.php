@@ -6,7 +6,7 @@
  */
 
 /**
- * Test class for testing the endpoint validation class
+ * Test class for testing the endpoint validation class.
  *
  * @covers WPSEO_Redirect_Presence_Validation
  */
@@ -18,7 +18,7 @@ class WPSEO_Redirect_Presence_Validation_Test extends WPSEO_UnitTestCase {
 	private $class_instance;
 
 	/**
-	 * Setting the class_instance with an instance of WPSEO_Redirect_Presence_Validation
+	 * Setting the class_instance with an instance of WPSEO_Redirect_Presence_Validation.
 	 */
 	public function setUp() {
 		$this->class_instance = new WPSEO_Redirect_Presence_Validation();
@@ -69,7 +69,7 @@ class WPSEO_Redirect_Presence_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provide array with redirects which are filled correctly
+	 * Provide array with redirects which are filled correctly.
 	 *
 	 * @return array
 	 */
@@ -81,7 +81,7 @@ class WPSEO_Redirect_Presence_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provide array with redirects which aren't filled properly
+	 * Provide array with redirects which aren't filled properly.
 	 *
 	 * @return array
 	 */
