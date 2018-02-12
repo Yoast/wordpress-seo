@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO Premium 6.2\n"
+"Project-Id-Version: Yoast SEO 6.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-02-12 10:59:28+00:00\n"
+"POT-Creation-Date: 2018-02-12 10:52:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -228,7 +228,7 @@ msgstr ""
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
-#: admin/capabilities/class-capability-manager-integration.php:66
+#. Plugin Name of the plugin/theme
 msgid "Yoast SEO"
 msgstr ""
 
@@ -240,25 +240,25 @@ msgid ""
 msgstr ""
 
 #. translators: 1: link open tag; 2: link close tag.
-#: admin/class-admin-init.php:86
+#: admin/class-admin-init.php:87
 msgid ""
 "You still have the default WordPress tagline, even an empty one is probably "
 "better. %1$sYou can fix this in the customizer%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:113
+#: admin/class-admin-init.php:114
 msgid "Huge SEO Issue: You're blocking access to robots."
 msgstr ""
 
 #. translators: %1$s resolves to the opening tag of the link to the reading
 #. settings, %1$s resolves to the closing tag for the link
-#: admin/class-admin-init.php:116
+#: admin/class-admin-init.php:117
 msgid ""
 "You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search "
 "Engine Visibility."
 msgstr ""
 
-#: admin/class-admin-init.php:144
+#: admin/class-admin-init.php:145
 msgid ""
 "Paging comments is enabled, this is not needed in 999 out of 1000 cases, we "
 "recommend to disable it."
@@ -266,17 +266,17 @@ msgstr ""
 
 #. translators: %1$s resolves to the opening tag of the link to the comment
 #. setting page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:149
+#: admin/class-admin-init.php:150
 msgid ""
 "Simply uncheck the box before \"Break comments into pages...\" on the "
 "%1$sComment settings page%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:182
+#: admin/class-admin-init.php:183
 msgid "Just another WordPress site"
 msgstr ""
 
-#: admin/class-admin-init.php:192
+#: admin/class-admin-init.php:193
 msgid ""
 "You do not have your postname in the URL of your posts and pages, it is "
 "highly recommended that you do. Consider setting your permalink structure to "
@@ -285,7 +285,7 @@ msgstr ""
 
 #. translators: %1$s resolves to the starting tag of the link to the permalink
 #. settings page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:196
+#: admin/class-admin-init.php:197
 msgid "You can fix this on the %1$sPermalink settings page%2$s."
 msgstr ""
 
@@ -293,7 +293,7 @@ msgstr ""
 #. to Google Analytics by Yoast
 #. translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version,
 #. %3$s expands to the plugin name
-#: admin/class-admin-init.php:253 admin/class-admin-init.php:356
+#: admin/class-admin-init.php:254 admin/class-admin-init.php:357
 msgid ""
 "%1$s detected you are using version %2$s of %3$s, please update to the "
 "latest version to prevent compatibility issues."
@@ -301,7 +301,7 @@ msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version,
 #. %3$s expands to the plugin name
-#: admin/class-admin-init.php:306
+#: admin/class-admin-init.php:307
 msgid ""
 "%1$s and %2$s can work together a lot better by adding a helper plugin. "
 "Please install %3$s to make your life better."
@@ -309,7 +309,7 @@ msgstr ""
 
 #. translators: 1: is a link to 'admin_url /
 #. admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag
-#: admin/class-admin-init.php:396
+#: admin/class-admin-init.php:397
 msgid ""
 "We've updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s "
 "for all posts and pages."
@@ -4989,97 +4989,6 @@ msgid ""
 "provide."
 msgstr ""
 
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:92
-msgid ""
-"Please explain what you're trying to find or do. If something isn't working, "
-"please explain what you expect to happen. If you can make a screenshot, "
-"please attach it."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:94
-msgid "Note: submitting this form also sends us debug info about your server."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:106
-msgid "What can we help you with?"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:107
-msgid ""
-"Your search timed out. Please double-check your internet connection and try "
-"again."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:108
-msgid "No results found for"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:109
-msgid "Send a Message"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:110
-msgid "Attach a file"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:111
-msgid "The maximum file size is 10 MB"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:112
-msgid "Your Name"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:113
-msgid "Please enter your name"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:114
-msgid "Email address"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:115
-msgid "Please enter a valid email address"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:116
-msgid "Select a topic"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:117
-msgid "Please select a topic from the list"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:118
-msgid "Subject"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:119
-msgid "Please enter a subject"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:120
-msgid "How can we help you?"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:121
-msgid "Please enter a message"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:122
-msgid "Send"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:123
-msgid "Message sent, thank you!"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:124
-msgid ""
-"Someone from Team Yoast will get back to you soon, normally within a couple "
-"of hours."
-msgstr ""
-
 #: wp-seo-main.php:448
 msgid ""
 "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask "
@@ -5105,14 +5014,8 @@ msgstr ""
 msgid "Activation failed:"
 msgstr ""
 
-#. Plugin Name of the plugin/theme
-msgid "Yoast SEO Premium"
-msgstr ""
-
 #. Plugin URI of the plugin/theme
-msgid ""
-"https://yoast.com/wordpress/plugins/seo/"
-"#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin"
+msgid "https://yoa.st/1uj"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -5126,7 +5029,7 @@ msgid "Team Yoast"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://yoast.com/"
+msgid "https://yoa.st/1uk"
 msgstr ""
 
 #. translators: %s expands to the number of posts in localized format.
