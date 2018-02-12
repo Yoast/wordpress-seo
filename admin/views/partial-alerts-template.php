@@ -23,22 +23,31 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 					break;
 			}
 
-			printf( '<div class="yoast-alert-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>', $notification->get_id(), $notification->get_nonce(), $notification->get_json(), $notification, $button );
+			printf(
+				'<div class="yoast-alert-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>',
+				esc_attr( $notification->get_id() ),
+				esc_attr( $notification->get_nonce() ),
+				esc_attr( $notification->get_json() ),
+				$notification,
+				$button
+			);
 		}
 	}
 }
 
+$wpseo_i18n_summary = $i18n_issues;
 if ( ! $active ) {
-	$dashicon = 'yes';
+	$dashicon           = 'yes';
+	$wpseo_i18n_summary = $i18n_no_issues;
 }
 
 ?>
-<h3><span class="dashicons <?php echo esc_attr( 'dashicons-' . $dashicon ); ?>"></span> <?php echo $i18n_title; ?> (<?php echo $active_total; ?>)</h3>
+<h3><span class="dashicons <?php echo esc_attr( 'dashicons-' . $dashicon ); ?>"></span> <?php echo esc_html( $i18n_title ); ?> (<?php echo (int) $active_total; ?>)</h3>
 
 <div id="<?php echo esc_attr( 'yoast-' . $type ); ?>">
 
 	<?php if ( $total ) : ?>
-		<p><?php echo ( ! $active ) ? $i18n_no_issues : $i18n_issues; ?></p>
+		<p><?php echo esc_html( $wpseo_i18n_summary ); ?></p>
 
 		<div class="container" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
 			<?php _yoast_display_alerts( $active, 'active' ); ?>
@@ -54,7 +63,7 @@ if ( ! $active ) {
 
 	<?php else : ?>
 
-		<p><?php echo $i18n_no_issues; ?></p>
+		<p><?php echo esc_html( $i18n_no_issues ); ?></p>
 
 	<?php endif; ?>
 </div>

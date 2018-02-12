@@ -11,13 +11,6 @@
 abstract class WPSEO_Taxonomy_Fields {
 
 	/**
-	 * The Yoast SEO configuration from the WPSEO_Options
-	 *
-	 * @var array
-	 */
-	protected $options = array();
-
-	/**
 	 * The current term data
 	 *
 	 * @var stdClass
@@ -28,20 +21,9 @@ abstract class WPSEO_Taxonomy_Fields {
 	 * Setting the class properties
 	 *
 	 * @param stdClass $term    The current term.
-	 * @param array    $options The options.
 	 */
-	public function __construct( $term, array $options = null ) {
+	public function __construct( $term ) {
 		$this->term = $term;
-		if ( $options !== null ) {
-			$this->options = $options;
-		}
-		else {
-			$this->options = WPSEO_Options::get_options( array(
-				'wpseo_titles',
-				'wpseo_internallinks',
-				'wpseo_social',
-			) );
-		}
 	}
 
 	/**

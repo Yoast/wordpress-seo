@@ -19,8 +19,6 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-option-xml-double.php';
-
 		self::$class_instance = new WPSEO_Author_Sitemap_Provider();
 	}
 
@@ -32,10 +30,6 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
 		remove_filter( 'get_usernumposts', array( $this, 'filter_user_has_no_posts' ) );
 		remove_filter( 'get_usernumposts', array( $this, 'filter_user_has_posts' ) );
-
-		remove_filter( 'pre_option_wpseo_xml', array( $this, 'filter_enable_author_sitemaps' ) );
-		remove_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_role' ) );
-		remove_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_no_posts' ) );
 
 		remove_filter( 'get_the_author_wpseo_excludeauthorsitemap', array( $this, 'filter_user_meta_exclude_author_from_sitemap' ) );
 	}
@@ -56,50 +50,9 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Exclude user from sitemaps by excluding the entire role
-	 */
-	public function test_author_exclusion_from_sitemap_by_role() {
-		$user = $this->get_user();
-
-		// Filter out all administrators.
-		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_administrator_role' ) );
-
-		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
-
-		// User should be removed.
-		$this->assertEmpty( $sitemap_links );
-	}
-
-	/**
-	 * Test if a user is excluded from sitemaps when disabled on profile
-	 */
-	public function test_author_exclusion_from_sitemap_by_preference() {
-		$user = $this->get_user();
-
-		// Enable author sitemaps.
-		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_enable_author_sitemaps' ) );
-
-		// Make sure the user has posts.
-		add_filter( 'get_usernumposts', array( $this, 'filter_user_has_posts' ) );
-
-		// Add filter to exclude the user.
-		add_filter( 'get_the_author_wpseo_excludeauthorsitemap', array( $this, 'filter_user_meta_exclude_author_from_sitemap' ) );
-
-		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
-
-		// User should be removed.
-		$this->assertEmpty( $sitemap_links );
-	}
-
-	/**
 	 * Test if a user is excluded from the sitemap when there are no posts
 	 */
 	public function test_author_excluded_from_sitemap_by_zero_posts() {
-		$user = $this->get_user();
-
-		// Don't allow no posts.
-		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_no_posts' ) );
-
 		// Make the user have -no- posts.
 		add_filter( 'get_usernumposts', array( $this, 'filter_user_has_no_posts' ) );
 
@@ -107,68 +60,6 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
 		// User should be removed.
 		$this->assertEmpty( $sitemap_links );
-	}
-
-	/**
-	 * Get defaults
-	 *
-	 * @return array
-	 */
-	private function wpseo_option_xml_defaults() {
-		static $defaults;
-
-		if ( ! isset( $defaults ) ) {
-			$wpseo_option_xml = WPSEO_Option_XML_Double::get_instance();
-			$defaults         = $wpseo_option_xml->get_defaults();
-
-			// Make sure the author sitemaps are enabled.
-			$defaults['disable_author_sitemap'] = false;
-		}
-
-		return $defaults;
-	}
-
-	/**
-	 * Exclude author by role
-	 *
-	 * @param mixed $false False.
-	 *
-	 * @return array
-	 */
-	public function filter_exclude_author_by_administrator_role( $false = false ) {
-		return array_merge(
-			$this->wpseo_option_xml_defaults(),
-			array(
-				'user_role-administrator-not_in_sitemap' => true,
-			)
-		);
-	}
-
-	/**
-	 * Don't exclude author by role
-	 *
-	 * @param mixed $false False.
-	 *
-	 * @return array
-	 */
-	public function filter_enable_author_sitemaps( $false = false ) {
-		return $this->wpseo_option_xml_defaults();
-	}
-
-	/**
-	 * Exclude author that has no posts
-	 *
-	 * @param mixed $false False.
-	 *
-	 * @return array
-	 */
-	public function filter_exclude_author_by_no_posts( $false = false ) {
-		return array_merge(
-			$this->wpseo_option_xml_defaults(),
-			array(
-				'disable_author_noposts' => true,
-			)
-		);
 	}
 
 	/**

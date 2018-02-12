@@ -9,15 +9,9 @@
 class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 	/**
-	 * @var array
-	 */
-	private $options;
-
-	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_option( 'wpseo_social' );
 		self::translate_meta_boxes();
 		add_filter( 'wpseo_save_metaboxes', array( $this, 'save_meta_boxes' ), 10, 1 );
 		add_action( 'wpseo_save_compare_data', array( $this, 'og_data_compare' ), 10, 1 );
@@ -42,23 +36,22 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		/* translators: %1$s expands to the social network, %2$s to the recommended image size. */
 		$image_size_text = __( 'The recommended image size for %1$s is %2$s pixels.', 'wordpress-seo' );
 
-		$options = WPSEO_Options::get_option( 'wpseo_social' );
-
 		$social_networks = array(
-			'opengraph'  => __( 'Facebook', 'wordpress-seo' ),
-			'twitter'    => __( 'Twitter', 'wordpress-seo' ),
+			'opengraph' => __( 'Facebook', 'wordpress-seo' ),
+			'twitter'   => __( 'Twitter', 'wordpress-seo' ),
 		);
 
 		// Source: https://blog.bufferapp.com/ideal-image-sizes-social-media-posts.
 		$recommended_image_sizes = array(
 			/* translators: %1$s expands to the image recommended width, %2$s to its height. */
-			'opengraph'   => sprintf( __( '%1$s by %2$s', 'wordpress-seo' ), '1200', '630' ), // Source: https://developers.facebook.com/docs/sharing/best-practices#images.
+			'opengraph' => sprintf( __( '%1$s by %2$s', 'wordpress-seo' ), '1200', '630' ),
+			// Source: https://developers.facebook.com/docs/sharing/best-practices#images.
 			/* translators: %1$s expands to the image recommended width, %2$s to its height. */
-			'twitter'     => sprintf( __( '%1$s by %2$s', 'wordpress-seo' ), '1024', '512' ),
+			'twitter'   => sprintf( __( '%1$s by %2$s', 'wordpress-seo' ), '1024', '512' ),
 		);
 
 		foreach ( $social_networks as $network => $label ) {
-			if ( true === $options[ $network ] ) {
+			if ( true === WPSEO_Options::get( $network, false ) ) {
 				/* translators: %s expands to the name of a social network. */
 				self::$meta_fields['social'][ $network . '-title' ]['title']       = sprintf( __( '%s Title', 'wordpress-seo' ), $label );
 				self::$meta_fields['social'][ $network . '-title' ]['description'] = sprintf( $title_text, $label );
@@ -84,11 +77,14 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		$social_meta_fields = $this->get_meta_field_defs( 'social' );
 		$single             = true;
 
-		if ( $this->options['opengraph'] === true && $this->options['twitter'] === true ) {
+		$opengraph = WPSEO_Options::get( 'opengraph' );
+		$twitter   = WPSEO_Options::get( 'twitter' );
+
+		if ( $opengraph === true && $twitter === true ) {
 			$single = null;
 		}
 
-		if ( $this->options['opengraph'] === true ) {
+		if ( $opengraph === true ) {
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'facebook',
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
@@ -101,7 +97,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			);
 		}
 
-		if ( $this->options['twitter'] === true ) {
+		if ( $twitter === true ) {
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'twitter',
 				$this->get_social_tab_content( 'twitter', $social_meta_fields ),
@@ -153,6 +149,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * Returns the Upgrade to Premium notice.
 	 *
 	 * @param string $network The social network.
+	 *
 	 * @return string The notice HTML on the free version, empty string on premium.
 	 */
 	public function get_premium_notice( $network ) {
@@ -167,18 +164,23 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$network_name = __( 'Twitter', 'wordpress-seo' );
 		}
 
-		return sprintf( "<div class='notice inline yoast-notice yoast-notice-go-premium'>
-			<p>%s</p>
-			<p><a href='%s' target='_blank'>%s</a></p>
-		</div>",
-			/* translators: %1$s expands to the social network's name, %2$s to Yoast SEO Premium. */
-			sprintf( __( 'Do you want to preview what it will look like if people share this post on %1$s? You can, with %2$s.', 'wordpress-seo' ),
-				$network_name,
+		return sprintf(
+			'<div class="notice inline yoast-notice yoast-notice-go-premium">
+				<p>%1$s</p>
+				<p><a href="%2$s" target="_blank">%3$s</a></p>
+			</div>',
+			sprintf(
+				/* translators: %1$s expands to the social network's name, %2$s to Yoast SEO Premium. */
+				esc_html__( 'Do you want to preview what it will look like if people share this post on %1$s? You can, with %2$s.', 'wordpress-seo' ),
+				esc_html( $network_name ),
 				'<strong>Yoast SEO Premium</strong>'
 			),
-			WPSEO_Shortlinker::get( 'https://yoa.st/179' ),
-			/* translators: %s expands to Yoast SEO Premium. */
-			sprintf( 'Find out why you should upgrade to %s', 'Yoast SEO Premium' )
+			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/179' ) ),
+			sprintf(
+				/* translators: %s expands to Yoast SEO Premium. */
+				esc_html__( 'Find out why you should upgrade to %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			)
 		);
 	}
 

@@ -24,15 +24,6 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	private $mock_image = "<img src='' />";
 
 	/**
-	 * Load the test mock class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/class-recalculate-posts-double.php';
-	}
-
-	/**
 	 * Setup the class instance and create some posts
 	 */
 	public function setUp() {

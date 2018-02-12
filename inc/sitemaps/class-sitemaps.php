@@ -72,8 +72,7 @@ class WPSEO_Sitemaps {
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 		add_action( 'wpseo_ping_search_engines', array( __CLASS__, 'ping_search_engines' ) );
 
-		$options           = WPSEO_Options::get_all();
-		$this->max_entries = $options['entries-per-page'];
+		$this->max_entries = $this->get_entries_per_page();
 		$this->timezone    = new WPSEO_Sitemap_Timezone();
 		$this->router      = new WPSEO_Sitemaps_Router();
 		$this->renderer    = new WPSEO_Sitemaps_Renderer();
@@ -207,6 +206,13 @@ class WPSEO_Sitemaps {
 		$xsl = get_query_var( 'xsl' );
 
 		if ( ! empty( $xsl ) ) {
+			/*
+			 * This is a method to provide the XSL via the home_url.
+			 * Needed when the site_url and home_url are not the same.
+			 * Loading the XSL needs to come from the same domain, protocol and port as the XML.
+			 *
+			 * Whenever home_url and site_url are the same, the file can be loaded directly.
+			 */
 			$this->xsl_output( $xsl );
 			$this->sitemap_close();
 
@@ -393,7 +399,7 @@ class WPSEO_Sitemaps {
 		header( 'Cache-Control: maxage=' . $expires );
 		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', ( time() + $expires ) ) . ' GMT' );
 
-		require_once WPSEO_PATH . 'css/xml-sitemap-xsl.php';
+		readfile( WPSEO_PATH . 'css/main-sitemap.xsl' );
 	}
 
 	/**
@@ -587,5 +593,21 @@ class WPSEO_Sitemaps {
 		}
 
 		return $change_freq;
+	}
+
+	/**
+	 * Get the maximum number of entries per XML sitemap.
+	 *
+	 * @return int The maximum number of entries.
+	 */
+	protected function get_entries_per_page() {
+		/**
+		 * Filter the maximum number of entries per XML sitemap.
+		 *
+		 * @param int $entries The maximum number of entries per XML sitemap.
+		 */
+		$entries = (int) apply_filters( 'wpseo_sitemap_entries_per_page', 1000 );
+
+		return $entries;
 	}
 }

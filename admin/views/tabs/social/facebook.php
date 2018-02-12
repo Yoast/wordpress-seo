@@ -3,6 +3,10 @@
  * @package WPSEO\Admin\Views
  */
 
+/**
+ * @var Yoast_Form $yform
+ */
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -16,11 +20,7 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 ?>
 	<p>
 		<?php
-		printf(
-			/* translators: %s expands to <code>&lt;head&gt;</code> */
-			esc_html__( 'Add Open Graph meta data to your site\'s %s section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ),
-			'<code>&lt;head&gt;</code>'
-		);
+			esc_html_e( 'Enable this feature if you want Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.', 'wordpress-seo' );
 		?>
 	</p>
 
@@ -34,8 +34,7 @@ if ( 'posts' === get_option( 'show_on_front' ) ) {
 	$yform->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
 
 	// Offer copying of meta description.
-	$meta_options = get_option( 'wpseo_titles' );
-	echo '<input type="hidden" id="meta_description" value="', esc_attr( $meta_options['metadesc-home-wpseo'] ), '" />';
+	echo '<input type="hidden" id="meta_description" value="', WPSEO_Options::get( 'metadesc-home-wpseo' ), '" />';
 	echo '<p class="label desc"><a href="javascript:;" onclick="wpseoCopyHomeMeta();" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</a></p>';
 
 }

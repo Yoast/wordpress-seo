@@ -128,5 +128,4 @@
 			wpseoShowNotification();
 		}
 	} );
-
 }( jQuery ) )  );

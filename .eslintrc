@@ -1,5 +1,7 @@
 extends: yoast
 
+parser: babel-eslint
+
 rules:
   complexity: [1, 6]
   react/prop-types: 1

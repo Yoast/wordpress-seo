@@ -19,7 +19,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.
-		'blocking_files'                  => array(),
 		'ms_defaults_set'                 => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
@@ -33,17 +32,15 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'googleverify'                    => '', // Text field.
 		'msverify'                        => '', // Text field.
 		'person_name'                     => '',
-		'website_name'                    => '',
-		'alternate_website_name'          => '',
 		'yandexverify'                    => '',
 		'site_type'                       => '', // List of options.
 		'has_multiple_authors'            => '',
 		'environment_type'                => '',
 		'content_analysis_active'         => true,
 		'keyword_analysis_active'         => true,
-		'enable_setting_pages'            => true,
 		'enable_admin_bar_menu'           => true,
 		'enable_cornerstone_content'      => true,
+		'enable_xml_sitemap'              => true,
 		'enable_text_link_counter'        => true,
 		'show_onboarding_notice'          => false,
 		'first_activated_on'              => false,
@@ -142,20 +139,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					$clean[ $key ] = WPSEO_VERSION;
 					break;
 
-
-				case 'blocking_files':
-					/*
-					 * {@internal [JRF] To really validate this we should also do a file_exists()
-					 * on each array entry and remove files which no longer exist, but that might be overkill.}}
-					 */
-					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
-						$clean[ $key ] = array_unique( $dirty[ $key ] );
-					}
-					elseif ( isset( $old[ $key ] ) && is_array( $old[ $key ] ) ) {
-						$clean[ $key ] = array_unique( $old[ $key ] );
-					}
-					break;
-
 				case 'company_or_person':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						if ( in_array( $dirty[ $key ], array( 'company', 'person' ), true ) ) {
@@ -167,8 +150,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				/* Text fields. */
 				case 'company_name':
 				case 'person_name':
-				case 'website_name':
-				case 'alternate_website_name':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}

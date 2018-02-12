@@ -14,4 +14,9 @@ This PR can be tested by following these steps:
 
 *
 
+## Quality assurance
+
+* [ ] I have tested this code to the best of my abilities
+* [ ] I have added unittests to verify the code works as intended
+
 Fixes #

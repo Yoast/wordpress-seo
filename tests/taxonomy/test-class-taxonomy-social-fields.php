@@ -14,11 +14,6 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 	private $term;
 
 	/**
-	 * @var array
-	 */
-	private $options = array();
-
-	/**
 	 * Adding a term and set the class instance.
 	 */
 	public function setUp() {
@@ -27,12 +22,12 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 		$this->term = $this->factory->term->create_and_get();
 
 		// Setting the social networks to true.
-		$this->options['opengraph'] = true;
-		$this->options['twitter']   = true;
+		WPSEO_Options::set( 'twitter', true );
+		WPSEO_Options::set( 'opengraph', true );
 	}
 
 	public function get_class_instance() {
-		return new WPSEO_Taxonomy_Social_Fields( $this->term, $this->options );
+		return new WPSEO_Taxonomy_Social_Fields( $this->term );
 	}
 
 	/**
@@ -50,8 +45,8 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Taxonomy_Social_Fields::show_social
 	 */
 	public function test_show_social_hidden() {
-		$this->options['opengraph'] = false;
-		$this->options['twitter']   = false;
+		WPSEO_Options::set( 'opengraph', false );
+		WPSEO_Options::set( 'twitter', false );
 
 		$this->assertFalse( $this->get_class_instance()->show_social() );
 	}
@@ -84,7 +79,7 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_fields_without_open_graph() {
 		// Set opengraph option to false.
-		$this->options['opengraph'] = false;
+		WPSEO_Options::set( 'opengraph', false );
 
 		$fields = $this->get_class_instance()->get();
 
@@ -103,8 +98,8 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Taxonomy_Social_Fields::get
 	 */
 	public function test_get_fields_without_twitter() {
-		// Set opengraph option to false.
-		$this->options['twitter'] = false;
+		// Set twitter option to false.
+		WPSEO_Options::set( 'twitter', false );
 
 		$fields = $this->get_class_instance()->get();
 

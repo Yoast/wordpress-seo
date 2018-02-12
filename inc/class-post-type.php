@@ -41,13 +41,11 @@ class WPSEO_Post_Type {
 	 * @return bool True when post type is set to index.
 	 */
 	public static function is_post_type_indexable( $post_type_name ) {
-		$option = WPSEO_Options::get_option( 'wpseo_titles' );
-
-		if ( ! array_key_exists( 'noindex-' . $post_type_name, $option ) ) {
+		if ( WPSEO_Options::get( 'disable-' . $post_type_name, false ) ) {
 			return false;
 		}
 
-		return empty( $option[ 'noindex-' . $post_type_name ] );
+		return ( false === WPSEO_Options::get( 'noindex-' . $post_type_name, false ) );
 	}
 
 	/**
@@ -61,5 +59,22 @@ class WPSEO_Post_Type {
 		unset( $post_types['attachment'] );
 
 		return $post_types;
+	}
+
+	/**
+	 * Checks if the post type is enabled in the REST API.
+	 *
+	 * @param string $post_type The post type to check.
+	 *
+	 * @return bool Whether or not the post type is available in the REST API.
+	 */
+	public static function is_rest_enabled( $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
+
+		if ( is_null( $post_type_object ) ) {
+			return false;
+		}
+
+		return $post_type_object->show_in_rest === true;
 	}
 }
