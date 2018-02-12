@@ -1058,7 +1058,7 @@ class WPSEO_Frontend {
 			$num_pages = ( substr_count( $GLOBALS['wp_query']->post->post_content, '<!--nextpage-->' ) + 1 );
 		}
 		if ( $num_pages > 1 ) {
-			$page = intval( get_query_var( 'page' ) );
+			$page = (int) get_query_var( 'page' );
 			if ( ! $page ) {
 				$page = 1;
 			}
@@ -1081,10 +1081,10 @@ class WPSEO_Frontend {
 		$url = $this->canonical( false, true, true );
 
 		if ( is_string( $url ) && $url !== '' ) {
-			$paged = intval( get_query_var( 'paged' ) );
-
+			$paged = (int) get_query_var( 'paged' );
 			if ( 0 === $paged ) {
 				$paged = 1;
+
 			}
 
 			if ( $paged === 2 ) {
