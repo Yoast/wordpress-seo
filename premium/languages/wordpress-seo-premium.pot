@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2018-02-12 11:07:59+00:00\n"
+"POT-Creation-Date: 2018-02-12 15:46:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -57,7 +57,7 @@ msgid "ID"
 msgstr ""
 
 #. translators: %s expands to Yoast
-#: classes/metabox-link-suggestions.php:141
+#: classes/metabox-link-suggestions.php:140
 msgid "%s internal linking"
 msgstr ""
 
@@ -715,39 +715,39 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: classes/social-previews.php:144
+#: classes/social-previews.php:142
 msgid "Upload image"
 msgstr ""
 
-#: classes/social-previews.php:145
+#: classes/social-previews.php:143
 msgid "Use other image"
 msgstr ""
 
-#: classes/social-previews.php:146
+#: classes/social-previews.php:144
 msgid "Remove image"
 msgstr ""
 
-#: classes/social-previews.php:151
+#: classes/social-previews.php:149
 msgid "Show information about Facebook title"
 msgstr ""
 
-#: classes/social-previews.php:152
+#: classes/social-previews.php:150
 msgid "Show information about Facebook description"
 msgstr ""
 
-#: classes/social-previews.php:153
+#: classes/social-previews.php:151
 msgid "Show information about Facebook image"
 msgstr ""
 
-#: classes/social-previews.php:154
+#: classes/social-previews.php:152
 msgid "Show information about Twitter title"
 msgstr ""
 
-#: classes/social-previews.php:155
+#: classes/social-previews.php:153
 msgid "Show information about Twitter description"
 msgstr ""
 
-#: classes/social-previews.php:156
+#: classes/social-previews.php:154
 msgid "Show information about Twitter image"
 msgstr ""
 
