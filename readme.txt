@@ -106,6 +106,42 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.0.0 =
+Release Date: March 6th, 2018
+
+## Enhancements:
+* Interface:
+    * Introduces an overhaul of the Admin settings to simplify the plugin configuration.
+    * Introduces a new setting to redirect attachment URLs. Previously, we had an option to redirect attachment URLs to their post parent. This didn't work for attachments that weren't attached to anything. This new setting redirects *all* attachment URLs to the URL of the original image / media item. This is all explained on the new Media tab under Titles & Meta's. This setting is enabled by default for new installations.
+    * Moves the `Text link counter calculation` to the `tools` submenu.
+    * Moves the RSS tab from Advanced to Titles & Meta's.
+    * Removes the option to remove the `replytocom` variable. We do this automatically now with only a filter (`wpseo_remove_reply_to_com`) to disable it.
+    * Removes the option to exclude an author from the XML sitemap in favor of a broader option. Instead we now have an option to set whether this author's archive should be visible in the search results. If you choose not to allow this archive in the search results, it's also excluded from the author sitemap.
+    * Removes the XML sitemaps settings page in favor of a feature toggle on the features tab and a question in titles & meta's "do you want to show X in search results?".
+
+* JSON+LD:
+    * Shows JSON+LD markup for website + search on the front page.
+    * Makes sure JSON+LD organization markup links to the frontpage.
+
+* Copy:
+    * Clearifies the copy on the edit post page to ask "Allow search engines to show this Post in search results?" instead of having a heading "Meta Robots", which was quite non-understandable for non-SEO's. Similar changes have been made to the `follow`/`nofollow` setting.
+    * Introduces the question: "Allow search engines to show this `<taxonomy>` in search results?" and bases both the `noindex` and the inclusion in XML sitemaps on this decision.
+*Other:
+    * Removes the feature that automatically removed stop words from the slug.
+    * Removes `media` post type from the configuration wizard, which brings the question about indexing in line with the rest of the plugin.
+    * Removes jQuery UI autocomplete from the enqueued scripts.
+    * Adds a filter `wpseo_exclude_from_sitemap_by_post_ids` for controlling which posts are excluded from the sitemap.
+    * Improves the switch toggle settings for use with assistive technologies.
+    * Removes code to add a trailing slash in weird permutations of permalink settings. Canonical should solve this properly.
+    * Removes the functionality to automatically remove blocking XML sitemap files.
+    * Removes the clean permalinks feature, as it was created before canonical was introduced and is no longer needed.
+
+## Bugs:
+
+* Fixes a bug where you would not stay on the same option tab after using the save button in Safari.
+* Hides the "Save changes" button on option tabs where there is nothing to save.
+* When we set `noindex` on a page, we no longer add a canonical, to prevent confusing search engines.
+
 = 6.3.0 =
 Release Date: February 13th, 2018
 
