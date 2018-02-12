@@ -32,7 +32,15 @@ class Yoast_Dashboard_Widget {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_assets' ) );
+		add_action( 'admin_init', array( $this, 'queue_dashboard_widget' ) );
+	}
 
+	/**
+	 * Adds the dashboard widget if it should be shown.
+	 *
+	 * @return void
+	 */
+	public function queue_dashboard_widget() {
 		if ( $this->show_widget() ) {
 			add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
 		}
