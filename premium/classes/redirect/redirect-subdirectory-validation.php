@@ -11,7 +11,9 @@
 class WPSEO_Redirect_Subdirectory_Validation implements WPSEO_Redirect_Validation {
 
 	/**
-	 * @var WPSEO_Validation_Result The validation error.
+	 * The validation error.
+	 *
+	 * @var WPSEO_Validation_Result
 	 */
 	private $error;
 

@@ -11,12 +11,16 @@
 class WPSEO_Redirect_Manager {
 
 	/**
-	 * @var WPSEO_Redirect_Option Model object to handle the redirects.
+	 * Model object to handle the redirects.
+	 *
+	 * @var WPSEO_Redirect_Option
 	 */
 	protected $redirect_option;
 
 	/**
-	 * @var string The redirect format, this might be plain or regex.
+	 * The redirect format, this might be plain or regex.
+	 *
+	 * @var string
 	 */
 	protected $redirect_format;
 

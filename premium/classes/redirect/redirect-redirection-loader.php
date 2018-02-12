@@ -11,7 +11,9 @@
 class WPSEO_Redirect_Redirection_Loader extends WPSEO_Redirect_Abstract_Loader {
 
 	/**
-	 * @var wpdb A WordPress database object.
+	 * A WordPress database object.
+	 *
+	 * @var wpdb
 	 */
 	protected $wpdb;
 

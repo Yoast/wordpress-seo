@@ -10,7 +10,9 @@
  */
 class WPSEO_Premium_Prominent_Words_Support_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Premium_Prominent_Words_Support */
+	/**
+	 * @var WPSEO_Premium_Prominent_Words_Support
+	 */
 	protected $class_instance;
 
 	/**

@@ -10,7 +10,9 @@
  */
 class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Double */
+	/**
+	 * @var WPSEO_Premium_Prominent_Words_Unindexed_Post_Query_Double
+	 */
 	protected $class_instance;
 
 	/**
