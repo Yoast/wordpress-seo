@@ -60,10 +60,7 @@ function wpseo_set_ignore() {
 	check_ajax_referer( 'wpseo-ignore' );
 
 	$ignore_key = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
-	$options    = get_option( 'wpseo' );
-
-	$options[ 'ignore_' . $ignore_key ] = true;
-	update_option( 'wpseo', $options );
+	WPSEO_Options::set( 'ignore_' . $ignore_key, true );
 
 	die( '1' );
 }

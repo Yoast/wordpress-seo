@@ -3,15 +3,18 @@
  * @package WPSEO\Admin\Views
  */
 
+/**
+ * @var Yoast_Form $yform
+ */
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
-$options           = WPSEO_Options::get_option( 'wpseo' );
 $xml_sitemap_extra = false;
-if ( $options['enable_xml_sitemap'] ) {
+if ( WPSEO_Options::get( 'enable_xml_sitemap' ) ) {
 	$xml_sitemap_extra = '<a href="' . WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) . '" target="_blank">' . __( 'See the XML sitemap.', 'wordpress-seo' ) . '</a>';
 }
 $feature_toggles = array(
@@ -136,4 +139,3 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 <?php
 // Required to prevent our settings framework from saving the default because the field isn't explicitly set when saving the Dashboard page.
 $yform->hidden( 'show_onboarding_notice', 'wpseo_show_onboarding_notice' );
-?>

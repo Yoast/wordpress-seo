@@ -161,6 +161,7 @@ class WPSEO_Frontend {
 					break;
 			}
 		}
+		WPSEO_Options::ensure_options_exist();
 	}
 
 	/**
@@ -1551,15 +1552,11 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function title_test_helper( $title ) {
-		$wpseo_titles = get_option( 'wpseo_titles' );
-
-		$wpseo_titles['title_test'] ++;
-		update_option( 'wpseo_titles', $wpseo_titles );
+		WPSEO_Options::set( 'title_test', ( WPSEO_Options::get( 'title_test' ) + 1 ) );
 
 		// Prevent this setting from being on forever when something breaks, as it breaks caching.
-		if ( $wpseo_titles['title_test'] > 5 ) {
-			$wpseo_titles['title_test'] = 0;
-			update_option( 'wpseo_titles', $wpseo_titles );
+		if ( WPSEO_Options::get( 'title_test' ) > 5 ) {
+			WPSEO_Options::set( 'title_test', 0 );
 
 			remove_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 

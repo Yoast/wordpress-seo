@@ -200,6 +200,11 @@ import a11ySpeak from "a11y-speak";
 	 */
 	function setInitialActiveTab() {
 		var activeTabId = window.location.hash.replace( "#top#", "" );
+		/* In some cases, the second # gets replace by %23, which makes the tab
+		 * switching not work unless we do this. */
+		if ( activeTabId.search( "#top" ) !== -1 ) {
+			activeTabId = window.location.hash.replace( "#top%23", "" );
+		}
 		/*
 		 * WordPress uses fragment identifiers for its own in-page links, e.g.
 		 * `#wpbody-content` and other plugins may do that as well. Also, facebook
@@ -272,8 +277,14 @@ import a11ySpeak from "a11y-speak";
 			jQuery( ".wpseotab" ).removeClass( "active" );
 
 			var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
-			jQuery( "#" + id ).addClass( "active" );
+			var activeTab = jQuery( "#" + id );
+			activeTab.addClass( "active" );
 			jQuery( this ).addClass( "nav-tab-active" );
+			if ( activeTab.hasClass( "nosave" ) ) {
+				jQuery( "#submit" ).hide();
+			} else {
+				jQuery( "#submit" ).show();
+			}
 		} );
 
 		// Handle the Company or Person select.
