@@ -90,7 +90,7 @@ class WPSEO_Upgrade {
 			$this->upgrade_63();
 		}
 
-		if ( version_compare( $version, '7.0', '<' ) ) {
+		if ( version_compare( $version, '7.0-RC0', '<' ) ) {
 			$this->upgrade_70();
 		}
 
