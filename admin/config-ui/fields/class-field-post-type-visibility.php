@@ -14,7 +14,7 @@ class WPSEO_Config_Field_Post_Type_Visibility extends WPSEO_Config_Field {
 	public function __construct() {
 		parent::__construct( 'postTypeVisibility', 'HTML' );
 
-		$copy = __( 'Please specify which content types you would like to appear in search engines.
+		$copy = __( 'Please specify what content types you would like to appear in search engines.
  If you do not know the differences between these, it\'s best to choose the
  default settings. ', 'wordpress-seo' );
 
