@@ -209,7 +209,7 @@ $generated_i18n_strings = array(
 	__( 'Please create an SEO title.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/seo/subheadingsKeywordAssessment.js:116
-	__( 'The focus keyword appears only in %2$d (out of %1$d) subheadings in your copy. Try to use it in at least one more subheading.', 'wordpress-seo' ),
+	__( 'The focus keyword appears in %2$d (out of %1$d) subheadings in your copy.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/seo/subheadingsKeywordAssessment.js:119
 	__( 'You have not used the focus keyword in any subheading (such as an H2) in your copy.', 'wordpress-seo' ),

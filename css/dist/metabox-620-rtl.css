@@ -1085,7 +1085,8 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 
 /* Content tab. */
 #wpseosnippet,
-#wpseofocuskeyword {
+#wpseofocuskeyword,
+#pageanalysis {
 	margin-bottom: 2em;
 }
 
