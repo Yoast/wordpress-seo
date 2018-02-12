@@ -162,7 +162,7 @@ export function initialize( args ) {
 	registerEditorMenuItem( "yoast/analysis-menu", {
 		title: "Yoast SEO",
 		icon: <Icon />,
-		pluginId: "yoast/analysis",
+		target: "yoast/analysis",
 	} );
 
 	return {
