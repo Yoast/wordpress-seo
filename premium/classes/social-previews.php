@@ -131,8 +131,6 @@ class WPSEO_Social_Previews {
 	 * @return array
 	 */
 	private function localize() {
-		$options = WPSEO_Options::get_option( 'wpseo_social' );
-
 		if ( empty( WPSEO_Social_Admin::$meta_fields['social']['opengraph-title']['description'] ) ) {
 			WPSEO_Social_Admin::translate_meta_boxes();
 		}
@@ -144,7 +142,7 @@ class WPSEO_Social_Previews {
 			'uploadImage'           => __( 'Upload image', 'wordpress-seo-premium' ),
 			'useOtherImage'         => __( 'Use other image', 'wordpress-seo-premium' ),
 			'removeImageButton'     => __( 'Remove image', 'wordpress-seo-premium' ),
-			'facebookDefaultImage'  => $options['og_default_image'],
+			'facebookDefaultImage'  => WPSEO_Options::get( 'og_default_image' ),
 			'i18n'                  => array(
 				'help'       => $this->get_help_translations( $social ),
 				'helpButton' => array(

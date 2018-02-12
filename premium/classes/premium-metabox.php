@@ -75,9 +75,8 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	 * Send data to assets by using wp_localize_script.
 	 */
 	public function send_data_to_assets() {
-		$options                  = WPSEO_Options::get_option( 'wpseo' );
-		$insights_enabled         = ( isset( $options['enable_metabox_insights'] ) && $options['enable_metabox_insights'] );
-		$link_suggestions_enabled = ( isset( $options['enable_link_suggestions'] ) && $options['enable_link_suggestions'] );
+		$insights_enabled         = WPSEO_Options::get( 'enable_metabox_insights', false );
+		$link_suggestions_enabled = WPSEO_Options::get( 'enable_link_suggestions', false );
 
 		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
 
