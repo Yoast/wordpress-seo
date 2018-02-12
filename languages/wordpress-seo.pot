@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 7.0\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-02-12 10:47:33+00:00\n"
+"POT-Creation-Date: 2018-02-12 14:28:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -367,8 +367,8 @@ msgstr ""
 msgid "Why Google won't display the right page title"
 msgstr ""
 
-#: admin/class-admin.php:614 admin/class-admin.php:615 admin/pages/metas.php:41
-#: admin/pages/metas.php:62
+#: admin/class-admin.php:614 admin/class-admin.php:615
+#: admin/pages/metas.php:40 admin/pages/metas.php:61
 msgid "Template explanation"
 msgstr ""
 
@@ -380,15 +380,17 @@ msgid ""
 "tabs on the left explain the available variables."
 msgstr ""
 
-#: admin/class-admin.php:621 admin/pages/metas.php:64
+#: admin/class-admin.php:621 admin/pages/metas.php:63
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:628 admin/class-admin.php:629 admin/pages/metas.php:69
+#: admin/class-admin.php:628 admin/class-admin.php:629
+#: admin/pages/metas.php:68
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:636 admin/class-admin.php:637 admin/pages/metas.php:75
+#: admin/class-admin.php:636 admin/class-admin.php:637
+#: admin/pages/metas.php:74
 msgid "Advanced Variables"
 msgstr ""
 
@@ -802,11 +804,13 @@ msgid ""
 "site and enabling %1$s for it in %2$s."
 msgstr ""
 
-#: admin/class-meta-columns.php:65 admin/taxonomy/class-taxonomy-columns.php:51
+#: admin/class-meta-columns.php:65
+#: admin/taxonomy/class-taxonomy-columns.php:51
 msgid "SEO score"
 msgstr ""
 
-#: admin/class-meta-columns.php:69 admin/taxonomy/class-taxonomy-columns.php:55
+#: admin/class-meta-columns.php:69
+#: admin/taxonomy/class-taxonomy-columns.php:55
 msgid "Readability score"
 msgstr ""
 
@@ -975,7 +979,6 @@ msgstr ""
 #. translators: %1$s is the notification dismissal link start tag, %2$s is the
 #. link closing tag.
 #: admin/class-product-upsell-notice.php:152
-#: vendor/yoast/i18n-module/src/i18n-module.php:253
 msgid "%1$sPlease don't show me this notification anymore%2$s"
 msgstr ""
 
@@ -1026,12 +1029,14 @@ msgid "The recommended image size for %1$s is %2$s pixels."
 msgstr ""
 
 #: admin/class-social-admin.php:40 admin/class-social-admin.php:161
-#: admin/pages/social.php:17 admin/taxonomy/class-taxonomy-social-fields.php:95
+#: admin/pages/social.php:17
+#: admin/taxonomy/class-taxonomy-social-fields.php:95
 msgid "Facebook"
 msgstr ""
 
 #: admin/class-social-admin.php:41 admin/class-social-admin.php:164
-#: admin/pages/social.php:18 admin/taxonomy/class-taxonomy-social-fields.php:99
+#: admin/pages/social.php:18
+#: admin/taxonomy/class-taxonomy-social-fields.php:99
 msgid "Twitter"
 msgstr ""
 
@@ -1222,29 +1227,29 @@ msgid ""
 msgstr ""
 
 #. translators: %s is the plugin name
-#: admin/class-yoast-dashboard-widget.php:49
+#: admin/class-yoast-dashboard-widget.php:57
 msgid "%s Posts Overview"
 msgstr ""
 
 #. translators: %1$s resolves to Yoast.com
-#: admin/class-yoast-dashboard-widget.php:108
+#: admin/class-yoast-dashboard-widget.php:116
 msgid "Latest blogposts on %1$s"
 msgstr ""
 
-#: admin/class-yoast-dashboard-widget.php:111
+#: admin/class-yoast-dashboard-widget.php:119
 msgid "Read more like this on our SEO blog"
 msgstr ""
 
 #. translators: %1$s expands to Ryte.
-#: admin/class-yoast-dashboard-widget.php:114
+#: admin/class-yoast-dashboard-widget.php:122
 msgid "Indexability check by %1$s"
 msgstr ""
 
-#: admin/class-yoast-dashboard-widget.php:117
+#: admin/class-yoast-dashboard-widget.php:125
 msgid "Fetch the current status"
 msgstr ""
 
-#: admin/class-yoast-dashboard-widget.php:118
+#: admin/class-yoast-dashboard-widget.php:126
 msgid "Analyze entire site"
 msgstr ""
 
@@ -1268,16 +1273,16 @@ msgstr ""
 #: admin/class-yoast-form.php:318 admin/views/tabs/dashboard/features.php:129
 #: admin/views/tabs/dashboard/security.php:22
 #: admin/views/tabs/metas/archives.php:39
-#: admin/views/tabs/metas/archives.php:56
-#: admin/views/tabs/metas/taxonomies.php:29
+#: admin/views/tabs/metas/archives.php:54
+#: admin/views/tabs/metas/taxonomies.php:30
 msgid "Disabled"
 msgstr ""
 
 #: admin/class-yoast-form.php:318 admin/views/tabs/dashboard/features.php:128
 #: admin/views/tabs/dashboard/security.php:21
 #: admin/views/tabs/metas/archives.php:38
-#: admin/views/tabs/metas/archives.php:55
-#: admin/views/tabs/metas/taxonomies.php:29
+#: admin/views/tabs/metas/archives.php:53
+#: admin/views/tabs/metas/taxonomies.php:30
 msgid "Enabled"
 msgstr ""
 
@@ -1291,7 +1296,7 @@ msgstr ""
 #: admin/config-ui/fields/class-field-multiple-authors.php:21
 #: admin/metabox/class-metabox.php:87 admin/metabox/class-metabox.php:92
 #: admin/taxonomy/class-taxonomy-settings-fields.php:64
-#: admin/views/tabs/metas/media.php:25
+#: admin/views/tabs/metas/media.php:26
 msgid "Yes"
 msgstr ""
 
@@ -1300,7 +1305,7 @@ msgstr ""
 #: admin/config-ui/fields/class-field-multiple-authors.php:22
 #: admin/metabox/class-metabox.php:88 admin/metabox/class-metabox.php:93
 #: admin/taxonomy/class-taxonomy-settings-fields.php:65
-#: admin/views/tabs/metas/media.php:26
+#: admin/views/tabs/metas/media.php:27
 msgid "No"
 msgstr ""
 
@@ -1371,8 +1376,7 @@ msgid "Site type"
 msgstr ""
 
 #: admin/config-ui/class-configuration-structure.php:24
-#: admin/views/tabs/dashboard/knowledge-graph.php:27
-#: admin/views/tabs/dashboard/knowledge-graph.php:40
+#: admin/views/tabs/metas/general/knowledge-graph.php:23
 msgid "Company or person"
 msgstr ""
 
@@ -1541,14 +1545,14 @@ msgid ""
 msgstr ""
 
 #: admin/config-ui/fields/class-field-company-or-person.php:22
-#: admin/views/tabs/dashboard/knowledge-graph.php:42
-#: admin/views/tabs/dashboard/knowledge-graph.php:48
+#: admin/views/tabs/metas/general/knowledge-graph.php:25
+#: admin/views/tabs/metas/general/knowledge-graph.php:30
 msgid "Company"
 msgstr ""
 
 #: admin/config-ui/fields/class-field-company-or-person.php:23
-#: admin/views/tabs/dashboard/knowledge-graph.php:43
-#: admin/views/tabs/dashboard/knowledge-graph.php:56
+#: admin/views/tabs/metas/general/knowledge-graph.php:26
+#: admin/views/tabs/metas/general/knowledge-graph.php:37
 msgid "Person"
 msgstr ""
 
@@ -1664,7 +1668,7 @@ msgid "YouTube URL"
 msgstr ""
 
 #: admin/config-ui/fields/class-field-separator.php:17
-#: admin/views/tabs/metas/general.php:38
+#: admin/views/tabs/metas/general/title-separator.php:10
 msgid "Title Separator"
 msgstr ""
 
@@ -1728,9 +1732,6 @@ msgid "Greater than sign"
 msgstr ""
 
 #: admin/config-ui/fields/class-field-site-name.php:17
-#: admin/views/tabs/dashboard/knowledge-graph.php:16
-#: admin/views/tabs/dashboard/knowledge-graph.php:24
-#: admin/views/tabs/metas/general.php:27 admin/views/tabs/metas/general.php:35
 msgid "Website name"
 msgstr ""
 
@@ -2501,7 +2502,8 @@ msgstr ""
 msgid "SEO title"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:78 admin/views/tabs/metas/general.php:51
+#: admin/metabox/class-metabox.php:78
+#: admin/views/tabs/metas/general/homepage.php:15
 #: admin/views/tabs/metas/post-types.php:63
 msgid "Meta description"
 msgstr ""
@@ -2745,52 +2747,39 @@ msgid "Features"
 msgstr ""
 
 #: admin/pages/dashboard.php:37
-msgid "Company info"
-msgstr ""
-
-#: admin/pages/dashboard.php:37
-msgid "Your info"
-msgstr ""
-
-#: admin/pages/dashboard.php:39
 msgid "Webmaster tools"
 msgstr ""
 
-#: admin/pages/dashboard.php:40
+#: admin/pages/dashboard.php:38
 msgid "Security"
 msgstr ""
 
-#: admin/pages/metas.php:19 admin/views/tabs/metas/general.php:48
-#: admin/views/tabs/metas/home.php:18
-msgid "Homepage"
+#: admin/pages/metas.php:19
+msgid "Content Types"
 msgstr ""
 
 #: admin/pages/metas.php:20
-msgid "Post Types"
-msgstr ""
-
-#: admin/pages/metas.php:21
 msgid "Media"
 msgstr ""
 
-#: admin/pages/metas.php:22
+#: admin/pages/metas.php:21
 msgid "Taxonomies"
 msgstr ""
 
-#: admin/pages/metas.php:23 frontend/class-frontend.php:525
+#: admin/pages/metas.php:22 frontend/class-frontend.php:525
 msgid "Archives"
 msgstr ""
 
-#: admin/pages/metas.php:24
+#: admin/pages/metas.php:23
 msgid "Breadcrumbs"
 msgstr ""
 
-#: admin/pages/metas.php:25
+#: admin/pages/metas.php:24
 msgid "RSS"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO.
-#: admin/pages/metas.php:56
+#: admin/pages/metas.php:55
 msgid ""
 "The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
@@ -3162,16 +3151,16 @@ msgstr ""
 
 #. translators: %1$s expands to the Taxonomy name
 #: admin/views/class-view-utils.php:39 admin/views/tabs/metas/archives.php:45
-#: admin/views/tabs/metas/archives.php:61
-#: admin/views/tabs/metas/archives.php:78
-#: admin/views/tabs/metas/archives.php:81 admin/views/tabs/metas/home.php:20
-#: admin/views/tabs/metas/taxonomies.php:36
+#: admin/views/tabs/metas/archives.php:59
+#: admin/views/tabs/metas/archives.php:74
+#: admin/views/tabs/metas/archives.php:77
+#: admin/views/tabs/metas/taxonomies.php:37
 msgid "Title template"
 msgstr ""
 
 #: admin/views/class-view-utils.php:45 admin/views/tabs/metas/archives.php:46
-#: admin/views/tabs/metas/archives.php:62 admin/views/tabs/metas/home.php:21
-#: admin/views/tabs/metas/taxonomies.php:37
+#: admin/views/tabs/metas/archives.php:60
+#: admin/views/tabs/metas/taxonomies.php:38
 msgid "Meta description template"
 msgstr ""
 
@@ -3180,7 +3169,8 @@ msgid "Date in Snippet Preview"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/class-view-utils.php:57 admin/views/tabs/metas/taxonomies.php:40
+#: admin/views/class-view-utils.php:57
+#: admin/views/tabs/metas/taxonomies.php:41
 msgid "%1$s Meta Box"
 msgstr ""
 
@@ -3516,44 +3506,6 @@ msgstr ""
 msgid "Are you sure you want to reset your SEO settings?"
 msgstr ""
 
-#: admin/views/tabs/dashboard/knowledge-graph.php:20
-#: admin/views/tabs/metas/general.php:31
-msgid ""
-"Google shows your website's name in the search results, we will default to "
-"your site name but you can adapt it here. You can also provide an alternate "
-"website name you want Google to consider."
-msgstr ""
-
-#: admin/views/tabs/dashboard/knowledge-graph.php:25
-#: admin/views/tabs/metas/general.php:36
-msgid "Alternate name"
-msgstr ""
-
-#. translators: %1$s opens the link to the Yoast.com article about Google's
-#. Knowledge Graph, %2$s closes the link
-#: admin/views/tabs/dashboard/knowledge-graph.php:33
-msgid ""
-"This data is shown as metadata in your site. It is intended to appear in "
-"%1$sGoogle's Knowledge Graph%2$s. You can be either a company, or a person, "
-"choose either:"
-msgstr ""
-
-#: admin/views/tabs/dashboard/knowledge-graph.php:41
-msgid "Choose whether you're a company or person"
-msgstr ""
-
-#: admin/views/tabs/dashboard/knowledge-graph.php:50
-msgid "Company name"
-msgstr ""
-
-#: admin/views/tabs/dashboard/knowledge-graph.php:51
-msgid "Company logo"
-msgstr ""
-
-#: admin/views/tabs/dashboard/knowledge-graph.php:57
-msgid "Your name"
-msgstr ""
-
 #: admin/views/tabs/dashboard/security.php:16
 msgid "Security setting"
 msgstr ""
@@ -3635,34 +3587,34 @@ msgstr ""
 msgid "archives for authors without posts"
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:53
+#: admin/views/tabs/metas/archives.php:51
 msgid "Date archives settings"
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:57
+#: admin/views/tabs/metas/archives.php:55
 msgid "Date archives"
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:60
+#: admin/views/tabs/metas/archives.php:58
 msgid "date archives"
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:69
+#: admin/views/tabs/metas/archives.php:65
 msgid "Special Pages"
 msgstr ""
 
 #. translators: %s expands to <code>noindex, follow</code>
-#: admin/views/tabs/metas/archives.php:73
+#: admin/views/tabs/metas/archives.php:69
 msgid ""
 "These pages will be %s by default, so they will never show up in search "
 "results."
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:77
+#: admin/views/tabs/metas/archives.php:73
 msgid "Search pages"
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:80
+#: admin/views/tabs/metas/archives.php:76
 msgid "404 pages"
 msgstr ""
 
@@ -3715,11 +3667,11 @@ msgid "Bold the last page"
 msgstr ""
 
 #: admin/views/tabs/metas/breadcrumbs.php:51
-msgid "Taxonomy to show in breadcrumbs for post types"
+msgid "Taxonomy to show in breadcrumbs for content types"
 msgstr ""
 
 #: admin/views/tabs/metas/breadcrumbs.php:77
-msgid "Post type archive to show in breadcrumbs for taxonomies"
+msgid "Content type archive to show in breadcrumbs for taxonomies"
 msgstr ""
 
 #: admin/views/tabs/metas/breadcrumbs.php:81
@@ -3738,54 +3690,94 @@ msgid ""
 "article on breadcrumbs implementation%2$s."
 msgstr ""
 
-#: admin/views/tabs/metas/general.php:17
+#: admin/views/tabs/metas/general/force-rewrite-title.php:12
 msgid "Force rewrite titles"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/tabs/metas/general.php:21
+#: admin/views/tabs/metas/general/force-rewrite-title.php:16
 msgid ""
 "%1$s has auto-detected whether it needs to force rewrite the titles for your "
 "pages, if you think it's wrong and you know what you're doing, you can "
 "change the setting here."
 msgstr ""
 
-#: admin/views/tabs/metas/general.php:40
-msgid "Title separator symbol"
+#: admin/views/tabs/metas/general/homepage.php:12
+msgid "Homepage"
 msgstr ""
 
-#: admin/views/tabs/metas/general.php:43
+#: admin/views/tabs/metas/general/homepage.php:13
 msgid ""
-"Choose the symbol to use as your title separator. This will display, for "
-"instance, between your post title and site name."
+"This is what shows in the search results when people find your homepage. "
+"This means this is probably what they see when they search for your brand "
+"name."
 msgstr ""
 
-#: admin/views/tabs/metas/general.php:43
-msgid "Symbols are shown in the size they'll appear in the search results."
-msgstr ""
-
-#: admin/views/tabs/metas/general.php:50
+#: admin/views/tabs/metas/general/homepage.php:14
 #: admin/views/tabs/metas/post-types.php:62
 #: admin/views/tabs/social/facebook.php:33 admin/views/tool-bulk-editor.php:75
 msgid "Title"
 msgstr ""
 
-#: admin/views/tabs/metas/general.php:55 admin/views/tabs/metas/home.php:25
+#: admin/views/tabs/metas/general/homepage.php:18
 msgid "Homepage &amp; Front page"
 msgstr ""
 
 #. translators: 1: link open tag; 2: link close tag.
-#: admin/views/tabs/metas/general.php:59 admin/views/tabs/metas/home.php:29
+#: admin/views/tabs/metas/general/homepage.php:22
 msgid ""
 "You can determine the title and description for the front page by "
 "%1$sediting the front page itself &raquo;%2$s"
 msgstr ""
 
 #. translators: 1: link open tag; 2: link close tag.
-#: admin/views/tabs/metas/general.php:68 admin/views/tabs/metas/home.php:38
+#: admin/views/tabs/metas/general/homepage.php:31
 msgid ""
 "You can determine the title and description for the blog page by %1$sediting "
 "the blog page itself &raquo;%2$s"
+msgstr ""
+
+#: admin/views/tabs/metas/general/knowledge-graph.php:10
+msgid "Knowledge Graph"
+msgstr ""
+
+#. translators: %1$s opens the link to the Yoast.com article about Google's
+#. Knowledge Graph, %2$s closes the link
+#: admin/views/tabs/metas/general/knowledge-graph.php:15
+msgid ""
+"This data is shown as metadata in your site. It is intended to appear in "
+"%1$sGoogle's Knowledge Graph%2$s. You can be either a company, or a person, "
+"choose either:"
+msgstr ""
+
+#: admin/views/tabs/metas/general/knowledge-graph.php:24
+msgid "Choose whether you're a company or person"
+msgstr ""
+
+#: admin/views/tabs/metas/general/knowledge-graph.php:32
+msgid "Company name"
+msgstr ""
+
+#: admin/views/tabs/metas/general/knowledge-graph.php:33
+msgid "Company logo"
+msgstr ""
+
+#: admin/views/tabs/metas/general/knowledge-graph.php:38
+msgid "Your name"
+msgstr ""
+
+#: admin/views/tabs/metas/general/title-separator.php:13
+msgid ""
+"Choose the symbol to use as your title separator. This will display, for "
+"instance, between your post title and site name."
+msgstr ""
+
+#: admin/views/tabs/metas/general/title-separator.php:14
+msgid "Symbols are shown in the size they'll appear in the search results."
+msgstr ""
+
+#: admin/views/tabs/metas/general/title-separator.php:18
+msgid "Title separator symbol"
 msgstr ""
 
 #: admin/views/tabs/metas/media.php:16
@@ -3810,15 +3802,19 @@ msgid ""
 "disable them, and redirect them to the media item itself."
 msgstr ""
 
-#: admin/views/tabs/metas/media.php:27
+#: admin/views/tabs/metas/media.php:22
+msgid "We recommend you set this to Yes."
+msgstr ""
+
+#: admin/views/tabs/metas/media.php:28
 msgid "Redirect attachment URLs to the attachment itself?"
 msgstr ""
 
-#: admin/views/tabs/metas/post-types.php:55
+#: admin/views/tabs/metas/post-types.php:54
 msgid "Custom Post Type Archives"
 msgstr ""
 
-#: admin/views/tabs/metas/post-types.php:56
+#: admin/views/tabs/metas/post-types.php:55
 msgid ""
 "Note: instead of templates these are the actual titles and meta descriptions "
 "for these custom post type archive pages."
@@ -3891,24 +3887,24 @@ msgid ""
 "A link to your site, with your site's name and description as anchor text."
 msgstr ""
 
-#: admin/views/tabs/metas/taxonomies.php:28
+#: admin/views/tabs/metas/taxonomies.php:29
 msgid "Format-based archives"
 msgstr ""
 
-#: admin/views/tabs/metas/taxonomies.php:56
+#: admin/views/tabs/metas/taxonomies.php:57
 msgid " Category URLs"
 msgstr ""
 
-#: admin/views/tabs/metas/taxonomies.php:58
+#: admin/views/tabs/metas/taxonomies.php:59
 msgid "Keep"
 msgstr ""
 
-#: admin/views/tabs/metas/taxonomies.php:58
+#: admin/views/tabs/metas/taxonomies.php:59
 msgid "Remove"
 msgstr ""
 
 #. translators: %s expands to <code>/category/</code>
-#: admin/views/tabs/metas/taxonomies.php:62
+#: admin/views/tabs/metas/taxonomies.php:63
 msgid ""
 "Category URLs in WordPress contain a prefix, usually %s, this feature "
 "removes that prefix, for categories only."
@@ -4246,12 +4242,12 @@ msgstr ""
 #. translators: %s expands to the variable used for term title.
 #: frontend/class-frontend.php:514 frontend/class-frontend.php:518
 #: frontend/class-frontend.php:522
-#: inc/options/class-wpseo-option-titles.php:258
+#: inc/options/class-wpseo-option-titles.php:262
 msgid "%s Archives"
 msgstr ""
 
 #: frontend/class-frontend.php:537
-#: inc/options/class-wpseo-option-titles.php:194
+#: inc/options/class-wpseo-option-titles.php:198
 msgid "Page not found"
 msgstr ""
 
@@ -4534,48 +4530,48 @@ msgid "%s does not seem to be a valid Twitter user-id. Please correct."
 msgstr ""
 
 #. translators: 1: Author name; 2: Site name.
-#: inc/options/class-wpseo-option-titles.php:191
+#: inc/options/class-wpseo-option-titles.php:195
 msgid "%1$s, Author at %2$s"
 msgstr ""
 
 #. translators: %s expands to the search phrase.
-#: inc/options/class-wpseo-option-titles.php:193
+#: inc/options/class-wpseo-option-titles.php:197
 msgid "You searched for %s"
 msgstr ""
 
 #. translators: 1: link to post; 2: link to blog.
-#: inc/options/class-wpseo-option-titles.php:196
+#: inc/options/class-wpseo-option-titles.php:200
 msgid "The post %1$s appeared first on %2$s."
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:197
+#: inc/options/class-wpseo-option-titles.php:201
 msgid "Error 404: Page not found"
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:198
+#: inc/options/class-wpseo-option-titles.php:202
 msgid "Archives for"
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:199
+#: inc/options/class-wpseo-option-titles.php:203
 msgid "Home"
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:200
+#: inc/options/class-wpseo-option-titles.php:204
 msgid "You searched for"
 msgstr ""
 
 #. translators: %s expands to the name of a post type (plural).
-#: inc/options/class-wpseo-option-titles.php:242
+#: inc/options/class-wpseo-option-titles.php:246
 msgid "%s Archive"
 msgstr ""
 
 #. translators: %s expands to a post type.
-#: inc/options/class-wpseo-option-titles.php:411
+#: inc/options/class-wpseo-option-titles.php:429
 msgid "Please select a valid taxonomy for post type \"%s\""
 msgstr ""
 
 #. translators: %s expands to a taxonomy slug.
-#: inc/options/class-wpseo-option-titles.php:448
+#: inc/options/class-wpseo-option-titles.php:466
 msgid "Please select a valid post type for taxonomy \"%s\""
 msgstr ""
 
@@ -4692,303 +4688,6 @@ msgstr ""
 msgid "SEO Settings"
 msgstr ""
 
-#: vendor/yoast/i18n-module/src/i18n-module.php:226
-msgid ""
-"As you can see, there is a translation of this plugin in %1$s. This "
-"translation is currently %3$d%% complete. We need your help to make it "
-"complete and to fix any errors. Please register at %4$s to help complete the "
-"translation to %1$s!"
-msgstr ""
-
-#: vendor/yoast/i18n-module/src/i18n-module.php:228
-msgid ""
-"You're using WordPress in %1$s. While %2$s has been translated to %1$s for "
-"%3$d%%, it's not been shipped with the plugin yet. You can help! Register at "
-"%4$s to help complete the translation to %1$s!"
-msgstr ""
-
-#: vendor/yoast/i18n-module/src/i18n-module.php:230
-msgid ""
-"You're using WordPress in a language we don't support yet. We'd love for "
-"%2$s to be translated in that language too, but unfortunately, it isn't "
-"right now. You can change that! Register at %4$s to help translate it!"
-msgstr ""
-
-#: vendor/yoast/i18n-module/src/i18n-module.php:237
-msgid "Register now &raquo;"
-msgstr ""
-
-#: vendor/yoast/i18n-module/src/i18n-module.php:272
-msgid "Translation of %s"
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:134
-msgid ""
-"<b>Warning!</b> You didn't set your %s license key yet, which means you're "
-"missing out on updates and support! <a href=\"%s\">Enter your license key</"
-"a> or <a href=\"%s\" target=\"_blank\">get a license here</a>."
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:136
-msgid ""
-"<b>Warning!</b> Your %s license is inactive which means you're missing out "
-"on updates and support! <a href=\"%s\">Activate your license</a> or <a href="
-"\"%s\" target=\"_blank\">get a license here</a>."
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:154
-msgid ""
-"<b>Warning!</b> You're blocking external requests which means you won't be "
-"able to get %s updates. Please add %s to %s."
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:220
-msgid "Your %s license has been deactivated."
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:223
-msgid "Failed to deactivate your %s license."
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:305
-msgid "Request error: \"%s\" (%scommon license notices%s)"
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:459
-msgid "%s: License Settings"
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:663
-msgid "Your %s license has been activated. "
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:667
-msgid "You have an unlimited license. "
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:669
-msgid "You have used %d/%d activation. "
-msgid_plural "You have used %d/%d activations. "
-msgstr[0] ""
-msgstr[1] ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:674
-msgid "<a href=\"%s\">Did you know you can upgrade your license?</a> "
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:680
-msgid ""
-"<a href=\"%s\">Your license is expiring in %d day, would you like to extend "
-"it?</a> "
-msgid_plural ""
-"<a href=\"%s\">Your license is expiring in %d days, would you like to extend "
-"it?</a> "
-msgstr[0] ""
-msgstr[1] ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:695
-msgid "Failed to activate your license, your license key seems to be invalid."
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:701
-msgid ""
-"You've reached your activation limit. You must <a href=\"%s\">upgrade your "
-"license</a> to use it on this site."
-msgstr ""
-
-#: vendor/yoast/license-manager/class-license-manager.php:706
-msgid ""
-"Your license has expired. You must <a href=\"%s\">extend your license</a> in "
-"order to use it again."
-msgstr ""
-
-#: vendor/yoast/license-manager/class-plugin-license-manager.php:78
-msgid ""
-"%s is network activated, you can manage your license in the <a href=\"%s"
-"\">network admin license page</a>."
-msgstr ""
-
-#: vendor/yoast/license-manager/class-plugin-license-manager.php:80
-msgid ""
-"%s is network activated, please contact your site administrator to manage "
-"the license."
-msgstr ""
-
-#: vendor/yoast/license-manager/class-theme-license-manager.php:34
-#: vendor/yoast/license-manager/samples/sample-plugin.php:53
-msgid "%s License"
-msgstr ""
-
-#: vendor/yoast/license-manager/class-theme-license-manager.php:34
-msgid "Theme License"
-msgstr ""
-
-#: vendor/yoast/license-manager/class-theme-update-manager.php:92
-msgid ""
-"Updating this theme will lose any customizations you have made. 'Cancel' to "
-"stop, 'OK' to update."
-msgstr ""
-
-#. translators: %1$s expands to product name, %2$s expands to version, %3$s
-#. expands to changelog HTML link, %4$s expands to closing HTML link tag, %5$s
-#. expands to update HTML link
-#: vendor/yoast/license-manager/class-theme-update-manager.php:98
-msgid ""
-"<strong>%1$s version %2$s</strong> is available. %3$sCheck out what's new"
-"%4$s or %5$supdate now%4$s."
-msgstr ""
-
-#: vendor/yoast/license-manager/class-update-manager.php:79
-msgid ""
-"%s failed to check for updates because of the following error: <em>%s</em>"
-msgstr ""
-
-#: vendor/yoast/license-manager/class-update-manager.php:157
-msgid ""
-"This site has not been activated properly on yoast.com and thus cannot check "
-"for future updates. Please activate your site with a valid license key."
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:15
-msgid ""
-"We couldn't create a connection to our API to verify your license key(s). "
-"Please ask your hosting company to allow outgoing connections from your "
-"server to %s."
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:19
-msgid ""
-"Your server has an outdated version of the PHP module cURL (Version: %s). "
-"Please ask your hosting company to update this to a recent version of cURL. "
-"You can read more about that in our %sKnowledge base%s."
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:31
-msgid "License status"
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:34
-msgid "ACTIVE"
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:34
-msgid "you are receiving updates."
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:36
-msgid "INACTIVE"
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:36
-msgid "you are <strong>not</strong> receiving updates."
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:41
-msgid "Toggle license status"
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:45
-msgid "Deactivate License"
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:46
-msgid ""
-"(deactivate your license so you can activate it on another WordPress site)"
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:50
-msgid "Activate License"
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:52
-msgid "Please enter a license key in the field below first."
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:60
-msgid "License Key"
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:62
-msgid "Paste your %s license key here..."
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:64
-msgid "You defined your license key using the %s PHP constant."
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:81
-msgid "Your %s license will expire on %s."
-msgstr ""
-
-#: vendor/yoast/license-manager/views/form.php:84
-msgid "%sRenew your license now%s."
-msgstr ""
-
-#: vendor/yoast/whip/src/facades/wordpress.php:29
-msgid "Remind me again in 4 weeks."
-msgstr ""
-
-#: vendor/yoast/whip/src/messages/Whip_HostMessage.php:54
-msgid "A message from %1$s"
-msgstr ""
-
-#: vendor/yoast/whip/src/messages/Whip_UpgradePhpMessage.php:31
-msgid "Your site could be faster and more secure with a newer PHP version."
-msgstr ""
-
-#: vendor/yoast/whip/src/messages/Whip_UpgradePhpMessage.php:32
-msgid ""
-"Hey, we've noticed that you're running an outdated version of PHP. PHP is "
-"the programming language that WordPress and Yoast SEO are built on. The "
-"version that is currently used for your site is no longer supported. Newer "
-"versions of PHP are both faster and more secure. In fact, your version of "
-"PHP no longer receives security updates, which is why we're sending you to "
-"this notice."
-msgstr ""
-
-#: vendor/yoast/whip/src/messages/Whip_UpgradePhpMessage.php:33
-msgid ""
-"Hosts have the ability to update your PHP version, but sometimes they don't "
-"dare to do that because they're afraid they'll break your site."
-msgstr ""
-
-#: vendor/yoast/whip/src/messages/Whip_UpgradePhpMessage.php:34
-msgid "To which version should I update?"
-msgstr ""
-
-#: vendor/yoast/whip/src/messages/Whip_UpgradePhpMessage.php:35
-msgid ""
-"You should update your PHP version to either 5.6 or to 7.0 or 7.1. On a "
-"normal WordPress site, switching to PHP 5.6 should never cause issues. We "
-"would however actually recommend you switch to PHP7. There are some plugins "
-"that are not ready for PHP7 though, so do some testing first. We have an "
-"article on how to test whether that's an option for you %1$shere%2$s. PHP7 "
-"is much faster than PHP 5.6. It's also the only PHP version still in active "
-"development and therefore the better option for your site in the long run."
-msgstr ""
-
-#: vendor/yoast/whip/src/messages/Whip_UpgradePhpMessage.php:44
-msgid "Can't update? Ask your host!"
-msgstr ""
-
-#: vendor/yoast/whip/src/messages/Whip_UpgradePhpMessage.php:47
-msgid ""
-"If you cannot upgrade your PHP version yourself, you can send an email to "
-"your host. We have %1$sexamples here%2$s. If they don't want to upgrade your "
-"PHP version, we would suggest you switch hosts. Have a look at one of the "
-"recommended %3$sWordPress hosting partners%4$s."
-msgstr ""
-
-#: vendor/yoast/whip/src/messages/Whip_UpgradePhpMessage.php:49
-msgid ""
-"If you cannot upgrade your PHP version yourself, you can send an email to "
-"your host. We have %1$sexamples here%2$s. If they don't want to upgrade your "
-"PHP version, we would suggest you switch hosts. Have a look at one of our "
-"recommended %3$sWordPress hosting partners%4$s, they've all been vetted by "
-"our Yoast support team and provide all the features a modern host should "
-"provide."
-msgstr ""
-
 #: wp-seo-main.php:448
 msgid ""
 "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask "
@@ -5090,7 +4789,6 @@ msgstr ""
 #. Translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
 #. %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score.
 #: node_modules/yoastseo/js/assessments/readability/fleschReadingEaseAssessment.js:76
-#, javascript-format
 msgid ""
 "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s"
 msgstr ""
@@ -5101,7 +4799,6 @@ msgstr ""
 
 #. Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
 #: node_modules/yoastseo/js/assessments/readability/paragraphTooLongAssessment.js:59
-#, javascript-format
 msgid ""
 "%1$d of the paragraphs contains more than the recommended maximum of %2$d "
 "words. Are you sure all information is about the same topic, and therefore "
@@ -5116,7 +4813,6 @@ msgstr[1] ""
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:44
-#, javascript-format
 msgid ""
 "%1$s of the sentences contain %2$spassive voice%3$s, which is less than or "
 "equal to the recommended maximum of %4$s."
@@ -5125,7 +4821,6 @@ msgstr ""
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:53
-#, javascript-format
 msgid ""
 "%1$s of the sentences contain %2$spassive voice%3$s, which is more than the "
 "recommended maximum of %4$s. Try to use their active counterparts."
@@ -5134,7 +4829,6 @@ msgstr ""
 #. Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start with the same word.
 #. %2$d expands to the number of consecutive sentences starting with the same word.
 #: node_modules/yoastseo/js/assessments/readability/sentenceBeginningsAssessment.js:46
-#, javascript-format
 msgid ""
 "The text contains %2$d consecutive sentences starting with the same word. "
 "Try to mix things up!"
@@ -5147,14 +4841,12 @@ msgstr[1] ""
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
 #. %3$s expands to the anchor end tag.
 #: node_modules/yoastseo/js/assessments/readability/sentenceLengthInDescriptionAssessment.js:40
-#, javascript-format
 msgid "The meta description contains no sentences %1$sover %2$s words%3$s."
 msgstr ""
 
 #. Translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag.
 #: node_modules/yoastseo/js/assessments/readability/sentenceLengthInDescriptionAssessment.js:48
-#, javascript-format
 msgid ""
 "The meta description contains %1$d sentence %2$sover %3$s words%4$s. Try to "
 "shorten this sentence."
@@ -5168,7 +4860,6 @@ msgstr[1] ""
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
 #: node_modules/yoastseo/js/assessments/readability/sentenceLengthInTextAssessment.js:126
-#, javascript-format
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less "
 "than or equal to the recommended maximum of %5$s."
@@ -5178,7 +4869,6 @@ msgstr ""
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
 #: node_modules/yoastseo/js/assessments/readability/sentenceLengthInTextAssessment.js:132
-#, javascript-format
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more "
 "than the recommended maximum of %5$s. Try to shorten the sentences."
@@ -5186,14 +4876,12 @@ msgstr ""
 
 #. Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 #: node_modules/yoastseo/js/assessments/readability/subheadingDistributionTooLongAssessment.js:168
-#, javascript-format
 msgid ""
 "The text does not contain any %1$ssubheadings%2$s. Add at least one "
 "subheading."
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/readability/subheadingDistributionTooLongAssessment.js:171
-#, javascript-format
 msgid ""
 "The amount of words following each of the subheadings doesn't exceed the "
 "recommended maximum of %1$d words, which is great."
@@ -5201,7 +4889,6 @@ msgstr ""
 
 #. Translators: %1$d expands to the number of subheadings, %2$d expands to the recommended value
 #: node_modules/yoastseo/js/assessments/readability/subheadingDistributionTooLongAssessment.js:174
-#, javascript-format
 msgid ""
 "%1$d subheading is followed by more than the recommended maximum of %2$d "
 "words. Try to insert another subheading."
@@ -5220,7 +4907,6 @@ msgstr ""
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: node_modules/yoastseo/js/assessments/readability/transitionWordsAssessment.js:57
-#, javascript-format
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "less than the recommended minimum of %4$s."
@@ -5229,7 +4915,6 @@ msgstr ""
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag.
 #: node_modules/yoastseo/js/assessments/readability/transitionWordsAssessment.js:66
-#, javascript-format
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "great."
@@ -5239,7 +4924,6 @@ msgstr ""
 #. %3$d expands to the recommended maximum number of syllables,
 #. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 #: node_modules/yoastseo/js/assessments/readability/wordComplexityAssessment.js:56
-#, javascript-format
 msgid ""
 "%1$s of the words contain %2$sover %3$s syllables%4$s, which is less than or "
 "equal to the recommended maximum of %5$s."
@@ -5249,7 +4933,6 @@ msgstr ""
 #. %3$d expands to the recommended maximum number of syllables,
 #. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 #: node_modules/yoastseo/js/assessments/readability/wordComplexityAssessment.js:66
-#, javascript-format
 msgid ""
 "%1$s of the words contain %2$sover %3$s syllables%4$s, which is more than "
 "the recommended maximum of %5$s."
@@ -5262,13 +4945,11 @@ msgstr ""
 
 #. Translators: %1$s expands the number of internal links
 #: node_modules/yoastseo/js/assessments/seo/internalLinksAssessment.js:23
-#, javascript-format
 msgid "This page has %1$s internal link(s), all nofollowed."
 msgstr ""
 
 #. Translators: %1$s expands to the number of nofollow links, %2$s to the number of internal links
 #: node_modules/yoastseo/js/assessments/seo/internalLinksAssessment.js:30
-#, javascript-format
 msgid ""
 "This page has %1$s nofollowed internal link(s) and %2$s normal internal "
 "link(s)."
@@ -5276,7 +4957,6 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of internal links
 #: node_modules/yoastseo/js/assessments/seo/internalLinksAssessment.js:37
-#, javascript-format
 msgid "This page has %1$s internal link(s)."
 msgstr ""
 
@@ -5303,7 +4983,6 @@ msgstr ""
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
 #: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:27
-#, javascript-format
 msgid ""
 "The keyword density is %1$s, which is way over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
@@ -5312,7 +4991,6 @@ msgstr ""
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
 #: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:35
-#, javascript-format
 msgid ""
 "The keyword density is %1$s, which is over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
@@ -5320,7 +4998,6 @@ msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
 #: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:42
-#, javascript-format
 msgid ""
 "The keyword density is %1$s, which is great; the focus keyword was found "
 "%2$d times."
@@ -5328,7 +5005,6 @@ msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
 #: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:48
-#, javascript-format
 msgid ""
 "The keyword density is %1$s, which is too low; the focus keyword was found "
 "%2$d times."
@@ -5336,7 +5012,6 @@ msgstr ""
 
 #. Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link
 #: node_modules/yoastseo/js/assessments/seo/keywordStopWordsAssessment.js:18
-#, javascript-format
 msgid ""
 "The focus keyword contains a stop word. This may or may not be wise "
 "depending on the circumstances. %1$sLearn more about the stop words%2$s."
@@ -5363,14 +5038,12 @@ msgid ""
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js:110
-#, javascript-format
 msgid ""
 "The meta description is under %1$d characters long. However, up to %2$d "
 "characters are available."
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js:113
-#, javascript-format
 msgid ""
 "The meta description is over %1$d characters. Reducing the length will "
 "ensure the entire description will be visible."
@@ -5387,13 +5060,11 @@ msgstr ""
 
 #. Translators: %1$s expands the number of outbound links
 #: node_modules/yoastseo/js/assessments/seo/outboundLinksAssessment.js:125
-#, javascript-format
 msgid "This page has %1$s outbound link(s), all nofollowed."
 msgstr ""
 
 #. Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links
 #: node_modules/yoastseo/js/assessments/seo/outboundLinksAssessment.js:129
-#, javascript-format
 msgid ""
 "This page has %1$s nofollowed outbound link(s) and %2$s normal outbound "
 "link(s)."
@@ -5401,7 +5072,6 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of outbound links
 #: node_modules/yoastseo/js/assessments/seo/outboundLinksAssessment.js:133
-#, javascript-format
 msgid "This page has %1$s outbound link(s)."
 msgstr ""
 
@@ -5424,7 +5094,6 @@ msgid "Please create an SEO title."
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/subheadingsKeywordAssessment.js:116
-#, javascript-format
 msgid ""
 "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy."
 msgstr ""
@@ -5446,7 +5115,6 @@ msgstr ""
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:123
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:130
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:137
-#, javascript-format
 msgid "The text contains %1$d word."
 msgid_plural "The text contains %1$d words."
 msgstr[0] ""
@@ -5455,7 +5123,6 @@ msgstr[1] ""
 #. Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words.
 #: node_modules/yoastseo/js/assessments/seo/taxonomyTextLengthAssessment.js:20
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:118
-#, javascript-format
 msgid "This is more than or equal to the recommended minimum of %2$d word."
 msgid_plural ""
 "This is more than or equal to the recommended minimum of %2$d words."
@@ -5466,7 +5133,6 @@ msgstr[1] ""
 #. Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words
 #: node_modules/yoastseo/js/assessments/seo/taxonomyTextLengthAssessment.js:30
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:125
-#, javascript-format
 msgid ""
 "This is slightly below the recommended minimum of %2$d word. Add a bit more "
 "copy."
@@ -5481,7 +5147,6 @@ msgstr[1] ""
 #: node_modules/yoastseo/js/assessments/seo/taxonomyTextLengthAssessment.js:40
 #: node_modules/yoastseo/js/assessments/seo/taxonomyTextLengthAssessment.js:50
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:132
-#, javascript-format
 msgid ""
 "This is below the recommended minimum of %2$d word. Add more content that is "
 "relevant for the topic."
@@ -5495,7 +5160,6 @@ msgstr[1] ""
 #. Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words
 #: node_modules/yoastseo/js/assessments/seo/taxonomyTextLengthAssessment.js:60
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:139
-#, javascript-format
 msgid ""
 "This is far below the recommended minimum of %2$d word. Add more content "
 "that is relevant for the topic."
@@ -5534,7 +5198,6 @@ msgid "The images on this page are missing alt attributes."
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/titleKeywordAssessment.js:17
-#, javascript-format
 msgid "The focus keyword '%1$s' does not appear in the SEO title."
 msgstr ""
 
@@ -5566,7 +5229,6 @@ msgstr ""
 
 #. Translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link
 #: node_modules/yoastseo/js/assessments/seo/urlStopWordsAssessment.js:18
-#, javascript-format
 msgid ""
 "The slug for this page contains a %1$sstop word%2$s, consider removing it."
 msgid_plural ""
@@ -5581,7 +5243,6 @@ msgstr ""
 
 #. Translators: %1$s expands to the name of the assessment.
 #: node_modules/yoastseo/js/assessor.js:165
-#, javascript-format
 msgid "An error occurred in the '%1$s' assessment"
 msgstr ""
 
@@ -5592,7 +5253,6 @@ msgstr ""
 #. Translators: %1$s and %2$s expand to an admin link where the focus keyword is already used. %3$s and %4$s
 #. expand to a link to an article on yoast.com about why you should not use a keyword more than once.
 #: node_modules/yoastseo/js/bundledPlugins/previouslyUsedKeywords.js:74
-#, javascript-format
 msgid ""
 "You've used this focus keyword %1$sonce before%2$s. It’s probably a good "
 "idea to read about %3$swhy you should not use your focus keyword more than "
@@ -5603,7 +5263,6 @@ msgstr ""
 #. of times this focus keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com
 #. about why you should not use a keyword more than once.
 #: node_modules/yoastseo/js/bundledPlugins/previouslyUsedKeywords.js:84
-#, javascript-format
 msgid ""
 "You've used this focus keyword %1$s%2$d times before%3$s. It’s probably a "
 "good idea to read about %4$swhy you should not use your focus keyword more "
