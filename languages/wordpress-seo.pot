@@ -1393,6 +1393,7 @@ msgstr ""
 
 #: admin/config-ui/class-configuration-structure.php:52
 #: admin/google_search_console/views/gsc-display.php:33
+#: admin/views/tabs/dashboard/webmaster-tools.php:23
 msgid "Google Search Console"
 msgstr ""
 
