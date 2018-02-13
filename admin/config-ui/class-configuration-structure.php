@@ -59,8 +59,6 @@ class WPSEO_Configuration_Structure {
 			'separator',
 		) );
 
-		$this->add_step( 'advancedSettings', __( 'Advanced settings', 'wordpress-seo' ), array( 'enable_setting_pages' ) );
-
 		$this->add_step( 'newsletter', __( 'Newsletter', 'wordpress-seo' ), array(
 			'mailchimpSignup',
 		), true, true );
