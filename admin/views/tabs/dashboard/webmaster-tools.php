@@ -14,7 +14,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $webmaster_tools_help = new WPSEO_Admin_Help_Panel(
-	'search-appearance-webmaster-tools',
+	'dashboard-webmaster-tools',
 	__( 'Learn more about the Webmaster Tools verification', 'wordpress-seo' ),
 	__( 'You can use the boxes below to verify with the different Webmaster Tools, if your site is already verified, you can just forget about these.', 'wordpress-seo' ),
 	'has-wrapper'
