@@ -5,19 +5,21 @@
  * @var Yoast_Form $yform
  */
 
+$knowledge_graph_help = new WPSEO_Admin_Help_Panel(
+	'search-appearance-knowledge-graph',
+	__( 'Learn more about the knowledge graph setting', 'wordpress-seo' ),
+	sprintf(
+		/* translators: %1$s opens the link to the Yoast.com article about Google's Knowledge Graph, %2$s closes the link, */
+		__( 'This data is shown as metadata in your site. It is intended to appear in %1$sGoogle\'s Knowledge Graph%2$s. You can be either a company, or a person.', 'wordpress-seo' ),
+		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1-p' ) ) . '" target="_blank" rel="noopener noreferer">',
+		'</a>'
+	),
+	'has-wrapper'
+);
 ?>
 <div class="tab-block">
-	<h2><?php esc_html_e( 'Knowledge Graph', 'wordpress-seo' ); ?></h2>
-	<p class="description">
-		<?php
-		printf(
-		/* translators: %1$s opens the link to the Yoast.com article about Google's Knowledge Graph, %2$s closes the link */
-			esc_html__( 'This data is shown as metadata in your site. It is intended to appear in %1$sGoogle\'s Knowledge Graph%2$s. You can be either a company, or a person, choose either:', 'wordpress-seo' ),
-			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1-p' ) ) . '" target="_blank" rel="noopener noreferer">',
-			'</a>'
-		);
-		?>
-	</p>
+	<h2 class="help-button-inline"><?php esc_html_e( 'Knowledge Graph', 'wordpress-seo' ); echo $knowledge_graph_help->get_button_html(); ?></h2>
+	<?php echo $knowledge_graph_help->get_panel_html(); ?>
 	<?php
 
 	$yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ), array(

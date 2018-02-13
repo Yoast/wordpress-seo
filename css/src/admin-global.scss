@@ -383,7 +383,7 @@ td.column-wpseo-linked {
 	padding: 0;
 	border: 0;
 	outline: none;
-	color: #a4286a;
+	color: #72777c;
 	background: transparent;
 	box-shadow: none;
 	vertical-align: top;
@@ -417,7 +417,7 @@ td.column-wpseo-linked {
 
 .yoast_help.yoast-help-button:hover,
 .yoast_help.yoast-help-button:focus {
-	color: #832055;
+	color: #0073aa;
 }
 
 .yoast_help.yoast-help-button:focus .yoast-help-icon::before,
@@ -433,4 +433,8 @@ td.column-wpseo-linked {
 	padding: 0 0 1em;
 	font-weight: normal;
 	white-space: normal;
+}
+
+.wpseo-admin-page .yoast-help-panel {
+	max-width: 600px !important;
 }
