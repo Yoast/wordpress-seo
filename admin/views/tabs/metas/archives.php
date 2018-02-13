@@ -37,7 +37,7 @@ $archives_help = new WPSEO_Admin_Help_Panel(
 	'has-wrapper'
 );
 
-echo '<p class="help-button-inline"><strong>' . esc_html__( 'Archives settings help', 'wordpress-sep' ) . $archives_help->get_button_html() . '</strong><p>';
+echo '<p class="help-button-inline"><strong>' . esc_html__( 'Archives settings help', 'wordpress-seo' ) . $archives_help->get_button_html() . '</strong><p>';
 echo $archives_help->get_panel_html();
 
 echo '<div class="tab-block" id="author-archives-titles-metas">';

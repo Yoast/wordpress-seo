@@ -20,7 +20,10 @@ $media_help = new WPSEO_Admin_Help_Panel(
 	'has-wrapper'
 );
 ?>
-	<h2 class="help-button-inline"><?php esc_html_e( 'Media & attachment URLs', 'wordpress-seo' ); echo $media_help->get_button_html(); ?></h2>
+	<h2 class="help-button-inline"><?php
+		esc_html_e( 'Media & attachment URLs', 'wordpress-seo' );
+		echo $media_help->get_button_html();
+	?></h2>
 	<?php echo $media_help->get_panel_html(); ?>
 	<p><strong><?php esc_html_e( 'We recommend you set this to Yes.', 'wordpress-seo' ); ?></strong></p>
 <?php
