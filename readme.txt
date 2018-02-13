@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
-Tested up to: 4.9.2
+Tested up to: 4.9.4
 Stable tag: 6.2
 Requires PHP: 5.2.4
 
@@ -106,6 +106,38 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 6.3.0 =
+Release Date: February 13th, 2018
+
+Bugfixes:
+
+* Reverts the shortlink in the HTML comment back to the hard link it was before.
+* Fixes a bug where the Local SEO for WooCommerce extension was not shown on the licenses page.
+* Fixes a bug where the `current_user_can()` function was not called with the post ID as argument.
+* Fixes a bug where the auto-generated meta descriptions were not using the new 320 characters limitation.
+* Fixes a bug where specific external links were not filtered from the post_type sitemap.
+* Fixes a bug where trashed posts were displayed in the bulk editor overview.
+* Fixes a bug where old meta values were not deleted during import.
+* Fixes a bug where only 10 posts when executing meta robots import from wpSEO.de.
+* Clears the sitemap cache when the Site URL is changed.
+
+Enhancements:
+
+* Adds an importer for the SEO Ultimate plugin SEO data.
+* Adds an importer for the SEOpressor plugin SEO data.
+* Adds links to explanatory articles on the features tab.
+* Adds additional explanation for entries on the features tab.
+* Improves Open Graph copy for Facebook and Twitter in the Social settings to better explain what it does.
+* Improves Content Analysis and Publish box copy for better translations.
+* Applies design changes to the Help Center support tab for Premium.
+
+Other:
+
+* Removes "meta keywords" from the plugin as this has had no search result value for at least 7 years.
+* Removes the "noindex subpages" feature as Google has gotten much better at paginated series, and it's now actually detrimental to use.
+* Removes the "Other" tab from the Titles & Metas settings screen, as all options have been moved or removed.
+* Security hardening.
+
 = 6.2.0 =
 Release Date: January 23rd, 2018
 
@@ -123,31 +155,6 @@ Bugfixes:
 * Fixes a bug where relative URLs were not counted as internal links in the internal link assessment.
 * Fixes a bug where Premium users would be shown ads when following a certain path through the SEO menu.
 * Fixes a bug where the method of setting the title and meta description templates for the WooCommerce shop page would not work anymore.
-
-= 6.1.1 =
-Release Date: January 10th, 2018
-
-Bugfixes:
-
-* Fixes a bug where sitemaps could not be generated when there one or more galleries in the content.
-
-= 6.1.0 =
-Release Date: January 9th, 2018
-
-Enhancements:
-
-* Allows more strings to be translated.
-* Replaces any Yoast domain URLs with shortlink alternatives.
-
-Bugfixes:
-
-* Fixes a bug where the internal links aren't recognized when the `site_url` is not the same as the `home_url`.
-* Fixes a bug where the user locale is not used for the Help Center when it is different from the site locale.
-* Removes unsupported PHP 5.2 arguments in an `array_unique` call in the Term image sitemap.
-* Removes unsupported PHP 5.3 arguments in a `json_encode` call in the notification functionality.
-* Added support for locales without territory (examples: et, fi) - Props [Peeter Marvet](https://github.com/petskratt).
-* Added support support for 3-letter language codes (example: rhg) - Props [Peeter Marvet](https://github.com/petskratt).
-* Fixes a JavaScript compatibility issue by prefixing the webpack jsonP function with `yoast` - Props [Raitis Sevelis from Visual Composer](https://visualcomposer.io/).
 
 = Earlier versions =
 

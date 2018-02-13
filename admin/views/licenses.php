@@ -68,19 +68,40 @@ $extensions->add(
 	)
 );
 
+if ( ! defined( 'WPSEO_LOCAL_WOOCOMMERCE_VERSION' ) ) {
+	$extensions->add(
+		'wpseo-local',
+		new WPSEO_Extension(
+			array(
+				'buyUrl'    => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
+				'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
+				'title'     => 'Local SEO',
+				'desc'      => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
+				'image'     => plugins_url( 'images/extensions-local.png', WPSEO_FILE ),
+				'benefits'  => array(
+					__( 'Get found by potential clients', 'wordpress-seo' ),
+					__( 'Easily insert Google Maps, a store locator, opening hours and more', 'wordpress-seo' ),
+					__( 'Improve the usability of your contact page', 'wordpress-seo' ),
+				),
+			)
+		)
+	);
+}
+
 $extensions->add(
-	'wpseo-local',
+	'wpseo-local-woocommerce',
 	new WPSEO_Extension(
 		array(
-			'buyUrl'    => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
-			'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
-			'title'     => 'Local SEO',
+			'buyUrl'    => WPSEO_Shortlinker::get( 'https://yoa.st/272' ),
+			'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/273' ),
+			'title'     => 'Local SEO for WooCommerce',
 			'desc'      => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
-			'image'     => plugins_url( 'images/extensions-local.png', WPSEO_FILE ),
+			'image'     => plugins_url( 'images/extensions-local-for-woocommerce.png', WPSEO_FILE ),
 			'benefits'  => array(
-				__( 'Get found by potential clients', 'wordpress-seo' ),
-				__( 'Easily insert Google Maps, a store locator, opening hours and more', 'wordpress-seo' ),
-				__( 'Improve the usability of your contact page', 'wordpress-seo' ),
+				esc_html__( 'Get better search results in local search', 'wordpress-seo' ),
+				esc_html__( 'Enhance your contact pages with Google Maps, opening hours and a store locator', 'wordpress-seo' ),
+				/* translators: %1$s expands to WooCommerce  */
+				sprintf( esc_html__( 'Allow customers to pick up their %s order locally', 'wordpress-seo' ), 'WooCommerce' ),
 			),
 		)
 	)

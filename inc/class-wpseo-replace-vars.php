@@ -334,7 +334,9 @@ class WPSEO_Replace_Vars {
 				$replacement = wp_strip_all_tags( $this->args->post_excerpt );
 			}
 			elseif ( $this->args->post_content !== '' ) {
-				$replacement = wp_html_excerpt( strip_shortcodes( $this->args->post_content ), 155 );
+				$replacement = wp_html_excerpt( strip_shortcodes( $this->args->post_content ), 320 );
+				// Trim the auto-generated string to a word boundary.
+				$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
 			}
 		}
 
@@ -350,7 +352,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
-		if ( ! empty( $this->args->ID ) && $this->args->post_excerpt !== ''  && ! post_password_required( $this->args->ID ) ) {
+		if ( ! empty( $this->args->ID ) && $this->args->post_excerpt !== '' && ! post_password_required( $this->args->ID ) ) {
 			$replacement = wp_strip_all_tags( $this->args->post_excerpt );
 		}
 

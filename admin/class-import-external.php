@@ -11,18 +11,25 @@
 class WPSEO_Import_External {
 
 	/**
-	 * Whether or not to delete old data
+	 * Whether or not to delete old data.
 	 *
 	 * @var boolean
 	 */
 	protected $replace;
 
 	/**
-	 * Message about the import
+	 * Message about the import status.
 	 *
 	 * @var string
 	 */
 	public $msg = '';
+
+	/**
+	 * Whether import has been successful.
+	 *
+	 * @var bool
+	 */
+	public $success = false;
 
 	/**
 	 * Import class constructor.
@@ -100,6 +107,7 @@ class WPSEO_Import_External {
 			}
 			unset( $hs_meta, $meta );
 		}
+		$this->success = true;
 		$this->set_msg( __( 'HeadSpace2 data successfully imported', 'wordpress-seo' ) );
 	}
 }
