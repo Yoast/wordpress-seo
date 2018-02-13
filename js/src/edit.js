@@ -123,8 +123,8 @@ export function initialize( args ) {
 
 	renderReactApps( store, args );
 
-	const { renderSidebar } = wp[ "edit-post" ];
-	renderSidebar( "yoast/analysis", {
+	const { activateSidebar, registerSidebar } = wp.editPost;
+	registerSidebar( "yoast/analysis", {
 		title: "Yoast SEO",
 		render: function YoastSEOSidebar() {
 			return <Panel>
@@ -137,6 +137,7 @@ export function initialize( args ) {
 			</Panel>;
 		},
 	} );
+	activateSidebar( "yoast/analysis" );
 
 	return {
 		store,
