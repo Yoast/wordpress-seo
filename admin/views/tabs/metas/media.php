@@ -12,13 +12,16 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
+
+$media_help = new WPSEO_Admin_Help_Panel(
+	'search-appearance-media',
+	__( 'Learn more about the Media and attachment URLs setting', 'wordpress-seo' ),
+	__( 'When you upload media (an image or video for example) to WordPress, it doesn\'t just save the media, it creates an attachment URL for it. These attachment pages are quite empty: they contain the media item and maybe a title if you entered one. Because of that, if you never use these attachment URLs, it\'s better to disable them, and redirect them to the media item itself.', 'wordpress-seo' ),
+	'has-wrapper'
+);
 ?>
-	<h2><?php esc_html_e( 'Media & attachment URLs', 'wordpress-seo' ); ?></h2>
-	<p>
-		<?php esc_html_e( 'When you upload media (an image or video for example) to WordPress, it doesn\'t just save the media, it creates an attachment URL for it.', 'wordpress-seo' ); ?>
-		<?php esc_html_e( 'These attachment pages are quite empty: they contain the media item and maybe a title if you entered one.', 'wordpress-seo' ); ?>
-		<?php esc_html_e( 'Because of that, if you never use these attachment URLs, it\'s better to disable them, and redirect them to the media item itself.', 'wordpress-seo' ); ?>
-	</p>
+	<h2 class="help-button-inline"><?php esc_html_e( 'Media & attachment URLs', 'wordpress-seo' ); echo $media_help->get_button_html(); ?></h2>
+	<?php echo $media_help->get_panel_html(); ?>
 	<p><strong><?php esc_html_e( 'We recommend you set this to Yes.', 'wordpress-seo' ); ?></strong></p>
 <?php
 
