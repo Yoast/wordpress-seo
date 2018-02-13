@@ -19,6 +19,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		<?php esc_html_e( 'These attachment pages are quite empty: they contain the media item and maybe a title if you entered one.', 'wordpress-seo' ); ?>
 		<?php esc_html_e( 'Because of that, if you never use these attachment URLs, it\'s better to disable them, and redirect them to the media item itself.', 'wordpress-seo' ); ?>
 	</p>
+	<p><strong><?php esc_html_e( 'We recommend you set this to Yes.', 'wordpress-seo' ); ?></strong></p>
 <?php
 
 $yform->toggle_switch( 'disable-attachment', array(
