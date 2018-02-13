@@ -13,24 +13,32 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<p>';
-printf(
+$archives_help_01 = sprintf(
 	/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
 	esc_html__( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ),
 	'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/duplicate-content' ) ) . '">',
 	'</a>'
 );
-echo ' ';
-printf(
+
+$archives_help_02 = sprintf(
 	/* translators: %s expands to <code>noindex, follow</code> */
 	esc_html__( 'If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn\'t show up in the search results.', 'wordpress-seo' ),
 	'<code>noindex,follow</code>'
 );
-echo ' ';
-echo esc_html__( 'Note that links to archives might be still output by your theme and you would need to remove them separately.', 'wordpress-seo' );
-echo ' ';
-esc_html_e( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
-echo '</p>';
+
+$archives_help_03 = esc_html__( 'Note that links to archives might be still output by your theme and you would need to remove them separately.', 'wordpress-seo' );
+
+$archives_help_04 = esc_html__( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
+
+$archives_help = new WPSEO_Admin_Help_Panel(
+	'search-appearance-archives',
+	__( 'Learn more about the archives setting', 'wordpress-seo' ),
+	$archives_help_01 . ' ' . $archives_help_02 . ' ' . $archives_help_03 . ' ' . $archives_help_04,
+	'has-wrapper'
+);
+
+echo '<p class="help-button-inline"><strong>' . esc_html__( 'Archives settings help', 'wordpress-sep' ) . $archives_help->get_button_html() . '</strong><p>';
+echo $archives_help->get_panel_html();
 
 echo '<div class="tab-block" id="author-archives-titles-metas">';
 echo '<h2>' . esc_html__( 'Author archives settings', 'wordpress-seo' ) . '</h2>';
@@ -61,15 +69,21 @@ $yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wo
 echo '</div>';
 echo '</div>';
 
-echo '<div class="tab-block" id="special-pages-titles-metas">';
-echo '<h2>' . esc_html__( 'Special Pages', 'wordpress-seo' ) . '</h2>';
-echo '<p>';
-printf(
-	/* translators: %s expands to <code>noindex, follow</code> */
-	esc_html__( 'These pages will be %s by default, so they will never show up in search results.', 'wordpress-seo' ),
-	'<code>noindex, follow</code>'
+$spcia_pages_help = new WPSEO_Admin_Help_Panel(
+	'search-appearance-special-pages',
+	__( 'Learn more about the special pages setting', 'wordpress-seo' ),
+	sprintf(
+		/* translators: %s expands to <code>noindex, follow</code>. */
+		__( 'These pages will be %s by default, so they will never show up in search results.', 'wordpress-seo' ),
+		'<code>noindex, follow</code>'
+	),
+	'has-wrapper'
 );
-echo '</p>';
+
+echo '<div class="tab-block" id="special-pages-titles-metas">';
+echo '<h2 class="help-button-inline">' . esc_html__( 'Special Pages', 'wordpress-seo' ) . $spcia_pages_help->get_button_html() . '</h2>';
+echo $spcia_pages_help->get_panel_html();
+
 echo '<p><strong>' . esc_html__( 'Search pages', 'wordpress-seo' ) . '</strong><br/>';
 $yform->textinput( 'title-search-wpseo', __( 'Title template', 'wordpress-seo' ), 'template search-template' );
 echo '</p>';
