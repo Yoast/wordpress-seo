@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 6.2\n"
+"Project-Id-Version: Yoast SEO 6.3\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-01-30 09:01:14+00:00\n"
+"POT-Creation-Date: 2018-02-13 08:54:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -739,38 +739,38 @@ msgid "Need help?"
 msgstr ""
 
 #. translators: 1: link open tag; 2: link close tag.
-#: admin/class-import-aioseo.php:51
+#: admin/class-import-aioseo.php:52
 msgid ""
 "All in One SEO data successfully imported. Would you like to %1$sdisable the "
 "All in One SEO plugin%2$s?"
 msgstr ""
 
 #. translators: 1,2: link open tag; 3: link close tag.
-#: admin/class-import-aioseo.php:67
+#: admin/class-import-aioseo.php:68
 msgid ""
 "All in One SEO data successfully imported. Would you like to %1$sdisable the "
 "All in One SEO plugin%3$s? You've had Google Analytics enabled in All in One "
 "SEO, would you like to install the %2$sGoogle Analytics plugin%3$s?"
 msgstr ""
 
-#: admin/class-import-external.php:103
+#: admin/class-import-external.php:111
 msgid "HeadSpace2 data successfully imported"
 msgstr ""
 
-#: admin/class-import-seopressor.php:23
+#: admin/class-import-seopressor.php:24
 msgid "SEOpressor data successfully imported."
 msgstr ""
 
-#: admin/class-import-ultimate-seo.php:22
-msgid "Ultimate SEO data successfully imported."
+#: admin/class-import-ultimate-seo.php:23
+msgid "SEO Ultimate data successfully imported."
 msgstr ""
 
-#: admin/class-import-woothemes-seo.php:31
+#: admin/class-import-woothemes-seo.php:32
 msgid "WooThemes SEO framework settings &amp; data successfully imported."
 msgstr ""
 
 #. translators: 1: link open tag; 2: link close tag.
-#: admin/class-import-wpseo.php:27
+#: admin/class-import-wpseo.php:28
 msgid ""
 "wpSEO data successfully imported. Would you like to %1$sdisable the wpSEO "
 "plugin%2$s?"
@@ -1401,18 +1401,14 @@ msgid "Title settings"
 msgstr ""
 
 #: admin/config-ui/class-configuration-structure.php:62
-msgid "Advanced settings"
-msgstr ""
-
-#: admin/config-ui/class-configuration-structure.php:64
 msgid "Newsletter"
 msgstr ""
 
-#: admin/config-ui/class-configuration-structure.php:67
+#: admin/config-ui/class-configuration-structure.php:65
 msgid "You might like"
 msgstr ""
 
-#: admin/config-ui/class-configuration-structure.php:70
+#: admin/config-ui/class-configuration-structure.php:68
 msgid "Success!"
 msgstr ""
 
@@ -1521,26 +1517,6 @@ msgstr ""
 msgid ""
 "WordPress automatically generates an URL for each media item in the library. "
 "Enabling this will allow for google to index the generated URL."
-msgstr ""
-
-#: admin/config-ui/fields/class-field-advanced-settings.php:18
-msgid "Show the Advanced settings"
-msgstr ""
-
-#: admin/config-ui/fields/class-field-advanced-settings.php:19
-msgid "Hide the Advanced settings for now"
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO
-#: admin/config-ui/fields/class-field-advanced-settings.php:103
-msgid ""
-"\n"
-"\t\t\t\t%1$s also has a number of advanced settings. We have determined that "
-"the (dynamic) \n"
-"\t\t\t\tdefaults we set for those are fine for most sites. However, if you "
-"want to change \n"
-"\t\t\t\tthem, you can. To get access to these advanced settings, enable them "
-"here."
 msgstr ""
 
 #. Translators: %1$s expands to the name of the post type. The options given to
@@ -5733,8 +5709,7 @@ msgstr ""
 #: node_modules/yoastseo/js/assessments/seo/subheadingsKeywordAssessment.js:116
 #, javascript-format
 msgid ""
-"The focus keyword appears only in %2$d (out of %1$d) subheadings in your "
-"copy. Try to use it in at least one more subheading."
+"The focus keyword appears in %2$d (out of %1$d) subheadings in your copy."
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/subheadingsKeywordAssessment.js:119
