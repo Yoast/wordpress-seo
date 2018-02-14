@@ -199,7 +199,6 @@ export default class SnippetPreview extends Component {
 			onClick,
 			onMouseLeave,
 			onMouseOver,
-			date,
 			mode,
 		} = this.props;
 
@@ -207,7 +206,7 @@ export default class SnippetPreview extends Component {
 		const Description = this.addCaretStyles( "description", BaseDescription );
 		const Url         = this.addCaretStyles( "url", BaseUrl );
 
-		const renderedDate = this.renderDate( date );
+		const renderedDate = this.renderDate();
 
 		const PartContainer = mode === DESKTOP ? DesktopPartContainer : MobilePartContainer;
 		const Container     = mode === DESKTOP ? DesktopContainer     : MobileContainer;
@@ -229,10 +228,10 @@ export default class SnippetPreview extends Component {
 							</TitleBounded>
 						</Title>
 						<ScreenReaderText>Slug preview:</ScreenReaderText>
-						<Url onClick={onClick.bind( null, "url" )}
-						     onMouseOver={partial( onMouseOver, "url" )}
-						     onMouseLeave={partial( onMouseLeave, "url" )}>
-							{highlightKeyword( locale, keyword, url )}
+						<Url onClick={ onClick.bind( null, "url" ) }
+						     onMouseOver={ partial( onMouseOver, "url" ) }
+						     onMouseLeave={ partial( onMouseLeave, "url" ) }>
+							{ highlightKeyword( locale, keyword, url ) }
 						</Url>
 						{ downArrow }
 					</PartContainer>
@@ -240,15 +239,15 @@ export default class SnippetPreview extends Component {
 					<PartContainer>
 						<ScreenReaderText>Meta description
 							preview:</ScreenReaderText>
-						<Description isDescriptionGenerated={isDescriptionGenerated}
-						             onClick={onClick.bind( null, "description" )}
-						             onMouseOver={partial( onMouseOver, "description" )}
-						             onMouseLeave={partial( onMouseLeave, "description" )}>
+						<Description isDescriptionGenerated={ isDescriptionGenerated }
+						             onClick={ onClick.bind( null, "description" ) }
+						             onMouseOver={ partial( onMouseOver, "description" ) }
+						             onMouseLeave={ partial( onMouseLeave, "description" ) }>
 							{ renderedDate }
-							{highlightKeyword( locale, keyword, truncate( description, {
+							{ highlightKeyword( locale, keyword, truncate( description, {
 								length: DESCRIPTION_LIMIT,
 								omission: "",
-							} ) )}
+							} ) ) }
 						</Description>
 					</PartContainer>
 				</Container>
