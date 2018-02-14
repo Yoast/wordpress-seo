@@ -122,7 +122,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @param  string $post_type Optional. The post type to test, defaults to the current post post_type.
 	 *
-	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden.
+	 * @return  bool Whether or not the meta box (and associated columns etc) should be hidden.
 	 */
 	public function is_metabox_hidden( $post_type = null ) {
 		if ( ! isset( $post_type ) && ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) ) {
@@ -135,7 +135,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			return ( WPSEO_Options::get( 'hideeditbox-' . $post_type, false ) || in_array( $post_type, $post_types, true ) === false );
 		}
+
 		return false;
+	}
+
+	/**
+     * Wraps the is_metabox_hidden method to make the logic a bit more readable in the code.
+     *
+     * This is due to a change the interface, but not the option, making flipping logic necessary.
+     *
+	 * @param null|string $post_type    Optional. The post type to test, defaults to the current post post_type.
+	 *
+	 * @return bool Whether or not the metabox should be displayed.
+	 */
+	public function should_display_metabox( $post_type = null ) {
+        return $this->is_metabox_hidden( $post_type ) === true;
 	}
 
 	/**
@@ -151,7 +165,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Outputs the page analysis score in the Publish Box.
 	 */
 	public function publish_box() {
-		if ( $this->is_metabox_hidden() === true ) {
+        if ( $this->should_display_metabox() === false ) {
 			return;
 		}
 
@@ -187,7 +201,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $post_type ) {
-				if ( $this->is_metabox_hidden( $post_type ) === false ) {
+				if ( $this->should_display_metabox( $post_type ) !== false ) {
 					$product_title = 'Yoast SEO';
 					if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
 						$product_title .= ' Premium';
@@ -862,7 +876,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
 
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
-		if ( ( ! $is_editor && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->is_metabox_hidden() === true
+		if ( ( ! $is_editor && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->should_display_metabox() === false
 		) {
 			return;
 		}
