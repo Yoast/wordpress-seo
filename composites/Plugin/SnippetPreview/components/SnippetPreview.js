@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 import transliterate from "yoastseo/js/stringProcessing/transliterate";
@@ -144,68 +144,97 @@ function highlightKeyword( locale, keyword, text ) {
 	} );
 }
 
-/**
- * Renders the SnippetPreview component.
- *
- * @param {string} title                  The title tag.
- * @param {string} url                    The URL of the page for which to generate a snippet.
- * @param {string} description            The meta description.
- * @param {string} keyword                The keyword for the page.
- * @param {string} isDescriptionGenerated Whether the description was generated.
- * @param {string} locale                 The locale of the page.
- *
- * @returns {ReactElement} The SnippetPreview component.
- */
-export default function SnippetPreview( { title, url, description, keyword, isDescriptionGenerated, locale, onClick, onMouseLeave, onMouseOver, hoveredField, activeField, date } ) {
-	let Title = hoveredField === "title" ? addCaretStyle( TitleContainer, colorCaretHover ) : TitleContainer;
-	let Description = hoveredField === "description" ? addCaretStyle( DescriptionContainer, colorCaretHover ) : DescriptionContainer;
-	let Url = hoveredField === "url" ? addCaretStyle( UrlContainer, colorCaretHover ) : UrlContainer;
-
-	if ( activeField === "title" ) {
-		Title = addCaretStyle( Title, colorCaret );
+export default class SnippetPreview extends Component {
+	/**
+	 * Renders the SnippetPreview component.
+	 *
+	 * @param {Object} props The passed props.
+	 * @param {string} props.title                  The title tag.
+	 * @param {string} props.url                    The URL of the page for which to generate a snippet.
+	 * @param {string} props.description            The meta description.
+	 * @param {string} props.keyword                The keyword for the page.
+	 * @param {string} props.isDescriptionGenerated Whether the description was generated.
+	 * @param {string} props.locale                 The locale of the page.
+	 *
+	 * @returns {ReactElement} The SnippetPreview component.
+	 */
+	constructor( props ) {
+		super( props );
 	}
 
-	if ( activeField === "description" ) {
-		Description = addCaretStyle( Description, colorCaret );
+	/**
+	 *
+	 * @returns {ReactElement}
+	 */
+	render() {
+		const { title,
+			url,
+			description,
+			keyword,
+			isDescriptionGenerated,
+			locale,
+			onClick,
+			onMouseLeave,
+			onMouseOver,
+			hoveredField,
+			activeField,
+			date,
+		} = this.props;
+
+		let Title = hoveredField === "title" ? addCaretStyle( TitleContainer, colorCaretHover ) : TitleContainer;
+		let Description = hoveredField === "description" ? addCaretStyle( DescriptionContainer, colorCaretHover ) : DescriptionContainer;
+		let Url = hoveredField === "url" ? addCaretStyle( UrlContainer, colorCaretHover ) : UrlContainer;
+
+		if ( activeField === "title" ) {
+			Title = addCaretStyle( Title, colorCaret );
+		}
+
+		if ( activeField === "description" ) {
+			Description = addCaretStyle( Description, colorCaret );
+		}
+
+		if ( activeField === "url" ) {
+			Url = addCaretStyle( Url, colorCaret );
+		}
+
+		const renderedDate = date === "" ? null : <DatePreview>{ date } - </DatePreview>;
+
+		return (
+			<section>
+				<Container onMouseLeave={this.onMouseLeave}>
+					<ScreenReaderText>SEO title preview:</ScreenReaderText>
+					<Title onClick={onClick.bind( null, "title" )}
+					       onMouseOver={partial( onMouseOver, "title" )}
+					       onMouseLeave={partial( onMouseLeave, "title" )}>
+						<TitleBounded>
+							<TitleUnbounded>
+								{title}
+							</TitleUnbounded>
+						</TitleBounded>
+					</Title>
+					<ScreenReaderText>Slug preview:</ScreenReaderText>
+					<Url onClick={onClick.bind( null, "url" )}
+					     onMouseOver={partial( onMouseOver, "url" )}
+					     onMouseLeave={partial( onMouseLeave, "url" )}>
+						{highlightKeyword( locale, keyword, url )}
+					</Url>
+					<UrlDownArrow/>
+					<ScreenReaderText>Meta description
+						preview:</ScreenReaderText>
+					<Description isDescriptionGenerated={isDescriptionGenerated}
+					             onClick={onClick.bind( null, "description" )}
+					             onMouseOver={partial( onMouseOver, "description" )}
+					             onMouseLeave={partial( onMouseLeave, "description" )}>
+						{ renderedDate }
+						{highlightKeyword( locale, keyword, truncate( description, {
+							length: DESCRIPTION_LIMIT,
+							omission: "",
+						} ) )}
+					</Description>
+				</Container>
+			</section>
+		);
 	}
-
-	if ( activeField === "url" ) {
-		Url = addCaretStyle( Url, colorCaret );
-	}
-
-	date = date === "" ? null : <DatePreview>{date} - </DatePreview>;
-
-	return (
-		<section>
-			<Container onMouseLeave={ this.onMouseLeave }>
-				<ScreenReaderText>SEO title preview:</ScreenReaderText>
-				<Title onClick={onClick.bind( null, "title" )}
-				       onMouseOver={partial( onMouseOver, "title" )}
-				       onMouseLeave={partial( onMouseLeave, "title" )}>
-					<TitleBounded>
-						<TitleUnbounded>
-							{ title }
-						</TitleUnbounded>
-					</TitleBounded>
-				</Title>
-				<ScreenReaderText>Slug preview:</ScreenReaderText>
-				<Url onClick={onClick.bind( null, "url" )}
-				     onMouseOver={partial( onMouseOver, "url" )}
-				     onMouseLeave={partial( onMouseLeave, "url" )}>
-					{ highlightKeyword( locale, keyword, url ) }
-				</Url>
-				<UrlDownArrow />
-				<ScreenReaderText>Meta description preview:</ScreenReaderText>
-				<Description isDescriptionGenerated={isDescriptionGenerated}
-				             onClick={onClick.bind( null, "description" )}
-				             onMouseOver={partial( onMouseOver, "description" ) }
-				             onMouseLeave={partial( onMouseLeave, "description" )}>
-					{ date }
-					{ highlightKeyword( locale, keyword, truncate( description, { length: DESCRIPTION_LIMIT, omission: "" } ) ) }
-				</Description>
-			</Container>
-		</section>
-	);
 }
 
 SnippetPreview.propTypes = {
