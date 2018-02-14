@@ -74,6 +74,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$stub
+			->expects( $this->any() )
 			->method( 'is_metabox_hidden' )
 			->will( $this->returnValue( true ) );
 
