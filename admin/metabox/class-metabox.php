@@ -140,16 +140,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-     * Wraps the is_metabox_hidden method to make the logic a bit more readable in the code.
-     *
-     * This is due to a change the interface, but not the option, making flipping logic necessary.
-     *
+	 * Wraps the is_metabox_hidden method to make the logic a bit more readable in the code.
+	 *
+	 * This is due to a change the interface, but not the option, making flipping logic necessary.
+	 *
 	 * @param null|string $post_type    Optional. The post type to test, defaults to the current post post_type.
 	 *
 	 * @return bool Whether or not the metabox should be displayed.
 	 */
 	public function should_display_metabox( $post_type = null ) {
-        return $this->is_metabox_hidden( $post_type ) === true;
+		return $this->is_metabox_hidden( $post_type ) === true;
 	}
 
 	/**
@@ -165,7 +165,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Outputs the page analysis score in the Publish Box.
 	 */
 	public function publish_box() {
-        if ( $this->should_display_metabox() === false ) {
+		if ( $this->should_display_metabox() === false ) {
 			return;
 		}
 
