@@ -2,7 +2,7 @@ import React from "react";
 import { IntlProvider } from "react-intl";
 
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
-import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
+import SnippetPreviewExample from "./composites/Plugin/SnippetPreview/components/SnippetPreviewExample";
 import ContentAnalysis from "./app/ContentAnalysisWrapper";
 import Wizard from "./app/WizardWrapper";
 import DashboardWidget from "./app/DashboardWidgetWrapper";
@@ -11,17 +11,6 @@ import HelpCenterWrapper from "./app/HelpCenterWrapper";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
-
-const snippetData = {
-	title: "Welcome to the Gutenberg Editor - Local WordPress Dev. Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title",
-	url: "local.wordpress.test/welcome-to-the-gutenberg-editor-2/",
-	description: "Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of",
-	keyword: "editor",
-	locale: "en_US",
-	onClick( type ) {
-		console.log( type );
-	},
-};
 
 const components = [
 	{
@@ -32,7 +21,7 @@ const components = [
 	{
 		id: "snippet-preview",
 		name: "Snippet preview",
-		component: <SnippetPreview {...snippetData}/>,
+		component: <SnippetPreviewExample />,
 	},
 	{
 		id: "wizard",
