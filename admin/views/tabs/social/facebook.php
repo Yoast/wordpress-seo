@@ -34,9 +34,21 @@ if ( 'posts' === get_option( 'show_on_front' ) ) {
 	$yform->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
 
 	// Offer copying of meta description.
-	echo '<input type="hidden" id="meta_description" value="', WPSEO_Options::get( 'metadesc-home-wpseo' ), '" />';
-	echo '<p class="label desc"><a href="javascript:;" onclick="wpseoCopyHomeMeta();" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</a></p>';
+	$homepage_meta_description = WPSEO_Options::get( 'metadesc-home-wpseo' );
+	if ( ! empty( $homepage_meta_description ) ) {
+		$copy_home_meta_desc_help = new WPSEO_Admin_Help_Panel(
+			'copy-home-meda-desc',
+			__( 'Help on copying the home meta description', 'wordpress-seo' ),
+			__( 'Click the &#8220;Copy home meta description&#8221; button to use the meta description already set in the Search Appearance homepage setting.', 'wordpress-seo' )
+		);
 
+		echo '<input type="hidden" id="meta_description" value="', $homepage_meta_description, '" />';
+		echo '<div class="label desc copy-home-meta-description">' .
+				'<button type="button" id="copy-home-meta-description" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</button>' .
+				$copy_home_meta_desc_help->get_button_html() .
+				$copy_home_meta_desc_help->get_panel_html() .
+			'</div>';
+	}
 }
 
 echo '<h2>' . esc_html__( 'Default settings', 'wordpress-seo' ) . '</h2>';
