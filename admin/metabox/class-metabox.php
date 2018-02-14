@@ -201,7 +201,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $post_type ) {
-				if ( $this->should_display_metabox( $post_type ) !== false ) {
+				if ( $this->should_display_metabox( $post_type ) === true ) {
 					$product_title = 'Yoast SEO';
 					if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
 						$product_title .= ' Premium';

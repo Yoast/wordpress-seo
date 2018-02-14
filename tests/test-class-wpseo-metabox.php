@@ -18,10 +18,13 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
+
 		self::$class_instance = new WPSEO_Metabox();
 	}
 
 	/**
+	 * Tests that on certain pages, assets are not enqueued.
+	 *
 	 * @covers WPSEO_Metabox::enqueue()
 	 */
 	public function test_enqueue_not_firing_on_options_page() {
@@ -36,6 +39,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests that enqueuing the necessary assets, works.
+	 *
 	 * @covers WPSEO_Metabox::enqueue()
 	 */
 	public function test_enqueue_firing_on_new_post_page() {
@@ -55,10 +60,24 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( $enqueued );
 	}
 
+	/**
+	 * Tests that adding of valid metaboxes works properly.
+	 *
+	 * @covers WPSEO_Meta::add_metabox
+	 */
 	public function test_add_metabox() {
 		global $wp_meta_boxes;
 
-		self::$class_instance->add_meta_box();
+		$stub = $this
+			->getMockBuilder( 'WPSEO_Metabox' )
+			->setMethods( array( 'is_metabox_hidden' ) )
+			->getMock();
+
+		$stub
+			->method( 'is_metabox_hidden' )
+			->will( $this->returnValue( true ) );
+
+		$stub->add_meta_box();
 
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 
@@ -68,6 +87,11 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		}
 	}
 
+	/**
+	 * Tests that saving postdata works properly.
+	 *
+	 * @covers WPSEO_Meta::save_postdata
+	 */
 	public function test_save_postdata() {
 
 		// Create and go to post.
@@ -120,5 +144,43 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 				$this->assertEquals( $value, 'on' );
 			}
 		}
+	}
+
+	/**
+	 * Tests that the should_display_metabox method returns true.
+	 *
+	 * @covers WPSEO_Metabox::should_display_metabox
+	 */
+	public function test_should_display_metabox_is_true() {
+		$stub = $this
+			->getMockBuilder( 'WPSEO_Metabox' )
+			->setMethods( array( 'is_metabox_hidden' ) )
+			->getMock();
+
+		$stub
+			->expects( $this->once() )
+			->method( 'is_metabox_hidden' )
+			->will( $this->returnValue( true ) );
+
+		$this->assertTrue( $stub->should_display_metabox() );
+	}
+
+	/**
+	 * Tests that the should_display_metabox method returns false.
+	 *
+	 * @covers WPSEO_Metabox::should_display_metabox
+	 */
+	public function test_should_display_metabox_is_false() {
+		$stub = $this
+			->getMockBuilder( 'WPSEO_Metabox' )
+			->setMethods( array( 'is_metabox_hidden' ) )
+			->getMock();
+
+		$stub
+			->expects( $this->once() )
+			->method( 'is_metabox_hidden' )
+			->will( $this->returnValue( false ) );
+
+		$this->assertFalse( $stub->should_display_metabox() );
 	}
 }
