@@ -66,16 +66,19 @@ export default class SnippetPreviewExample extends Component {
 				console.log( "clicked:", type );
 			},
 			hoveredField: this.state.hoveredField,
+			activeField: "description",
 			onMouseOver: this.onMouseOver,
 			onMouseLeave: this.onMouseLeave,
 		};
+
+		let mobileSnippetData = Object.assign( {}, snippetData, { mode: "mobile" } );
 
 		return <Container>
 			<div>
 				<SnippetPreview {...snippetData} />
 			</div>
 			<div style={ { margin: "5em 0" } }>
-				<SnippetPreview {...snippetData} />
+				<SnippetPreview {...mobileSnippetData} />
 			</div>
 		</Container>;
 	}

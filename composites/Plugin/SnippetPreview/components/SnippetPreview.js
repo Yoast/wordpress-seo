@@ -23,11 +23,19 @@ const colorCaretHover = "#bfbfbf";
 const maxWidth = 600;
 const DESCRIPTION_LIMIT = 280;
 
-export const Container = styled.div`
+const DESKTOP = "desktop";
+const MOBILE = "mobile";
+
+export const DesktopContainer = styled.div`
 	max-width: ${ maxWidth }px;
 	background-color: white;
 `;
 
+const MobileContainer = styled.div`
+	border-bottom: 1px hidden #fff;
+	border-radius: 2px;
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+`;
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 	'<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">' +
@@ -45,16 +53,17 @@ export const TitleContainer = styled.div`
  *
  * @param {ReactElement} WithoutCaret The component without caret styles.
  * @param {string} color The color to render the caret in.
+ * @param {string} mode The mode the snippet preview is in.
  *
  * @returns {ReactElement} The component with caret styles.
  */
-function addCaretStyle( WithoutCaret, color ) {
+function addCaretStyle( WithoutCaret, color, mode ) {
 	return styled( WithoutCaret )`
 		&::before {
 			display: block;
 			position: absolute;
 			top: -3px;
-			left: -22px;
+			left: ${ () => mode === DESKTOP ? "-22px" : "-40px" };
 			width: 24px;
 			height: 24px;
 			background-image: url( ${ () => angleRight( color ) });
@@ -98,6 +107,13 @@ export const DescriptionContainer = styled.div.attrs( {
 	position: relative;
 `;
 
+const MobilePartContainer = styled.div`
+	padding: 16px;
+`;
+
+const DesktopPartContainer = styled.div`
+`;
+
 export const UrlDownArrow = styled.div`
 	display: inline-block;
 	margin-top: 6px;
@@ -110,6 +126,12 @@ export const UrlDownArrow = styled.div`
 
 const DatePreview = styled.span`
 	color: ${ colorDate };
+`;
+
+const Separator = styled.hr`
+    border: 0;
+    border-bottom: 1px solid #DFE1E5;
+    margin: 0;
 `;
 
 /**
@@ -179,58 +201,70 @@ export default class SnippetPreview extends Component {
 			hoveredField,
 			activeField,
 			date,
+			mode,
 		} = this.props;
 
-		let Title = hoveredField === "title" ? addCaretStyle( TitleContainer, colorCaretHover ) : TitleContainer;
-		let Description = hoveredField === "description" ? addCaretStyle( DescriptionContainer, colorCaretHover ) : DescriptionContainer;
-		let Url = hoveredField === "url" ? addCaretStyle( UrlContainer, colorCaretHover ) : UrlContainer;
+		let Title = hoveredField === "title" ? addCaretStyle( TitleContainer, colorCaretHover, mode ) : TitleContainer;
+		let Description = hoveredField === "description" ? addCaretStyle( DescriptionContainer, colorCaretHover, mode ) : DescriptionContainer;
+		let Url = hoveredField === "url" ? addCaretStyle( UrlContainer, colorCaretHover, mode ) : UrlContainer;
 
 		if ( activeField === "title" ) {
-			Title = addCaretStyle( Title, colorCaret );
+			Title = addCaretStyle( Title, colorCaret, mode );
 		}
 
 		if ( activeField === "description" ) {
-			Description = addCaretStyle( Description, colorCaret );
+			Description = addCaretStyle( Description, colorCaret, mode );
 		}
 
 		if ( activeField === "url" ) {
-			Url = addCaretStyle( Url, colorCaret );
+			Url = addCaretStyle( Url, colorCaret, mode );
 		}
 
 		const renderedDate = date === "" ? null : <DatePreview>{ date } - </DatePreview>;
 
+		const PartContainer = mode === DESKTOP ? DesktopPartContainer : MobilePartContainer;
+		const Container = mode === DESKTOP ? DesktopContainer : MobileContainer;
+
+		let separator = mode === DESKTOP ? null : <Separator />;
+		let downArrow = mode === DESKTOP ? <UrlDownArrow /> : null;
+
 		return (
 			<section>
 				<Container onMouseLeave={this.onMouseLeave}>
-					<ScreenReaderText>SEO title preview:</ScreenReaderText>
-					<Title onClick={onClick.bind( null, "title" )}
-					       onMouseOver={partial( onMouseOver, "title" )}
-					       onMouseLeave={partial( onMouseLeave, "title" )}>
-						<TitleBounded>
-							<TitleUnbounded>
-								{title}
-							</TitleUnbounded>
-						</TitleBounded>
-					</Title>
-					<ScreenReaderText>Slug preview:</ScreenReaderText>
-					<Url onClick={onClick.bind( null, "url" )}
-					     onMouseOver={partial( onMouseOver, "url" )}
-					     onMouseLeave={partial( onMouseLeave, "url" )}>
-						{highlightKeyword( locale, keyword, url )}
-					</Url>
-					<UrlDownArrow/>
-					<ScreenReaderText>Meta description
-						preview:</ScreenReaderText>
-					<Description isDescriptionGenerated={isDescriptionGenerated}
-					             onClick={onClick.bind( null, "description" )}
-					             onMouseOver={partial( onMouseOver, "description" )}
-					             onMouseLeave={partial( onMouseLeave, "description" )}>
-						{ renderedDate }
-						{highlightKeyword( locale, keyword, truncate( description, {
-							length: DESCRIPTION_LIMIT,
-							omission: "",
-						} ) )}
-					</Description>
+					<PartContainer>
+						<ScreenReaderText>SEO title preview:</ScreenReaderText>
+						<Title onClick={onClick.bind( null, "title" )}
+						       onMouseOver={partial( onMouseOver, "title" )}
+						       onMouseLeave={partial( onMouseLeave, "title" )}>
+							<TitleBounded>
+								<TitleUnbounded>
+									{title}
+								</TitleUnbounded>
+							</TitleBounded>
+						</Title>
+						<ScreenReaderText>Slug preview:</ScreenReaderText>
+						<Url onClick={onClick.bind( null, "url" )}
+						     onMouseOver={partial( onMouseOver, "url" )}
+						     onMouseLeave={partial( onMouseLeave, "url" )}>
+							{highlightKeyword( locale, keyword, url )}
+						</Url>
+						{ downArrow }
+					</PartContainer>
+					{ separator }
+					<PartContainer>
+						<ScreenReaderText>Meta description
+							preview:</ScreenReaderText>
+						<Description isDescriptionGenerated={isDescriptionGenerated}
+						             onClick={onClick.bind( null, "description" )}
+						             onMouseOver={partial( onMouseOver, "description" )}
+						             onMouseLeave={partial( onMouseLeave, "description" )}>
+							{ renderedDate }
+							{highlightKeyword( locale, keyword, truncate( description, {
+								length: DESCRIPTION_LIMIT,
+								omission: "",
+							} ) )}
+						</Description>
+					</PartContainer>
 				</Container>
 			</section>
 		);
@@ -248,6 +282,7 @@ SnippetPreview.propTypes = {
 	keyword: PropTypes.string,
 	isDescriptionGenerated: PropTypes.bool,
 	locale: PropTypes.string,
+	mode: PropTypes.oneOf( [ DESKTOP, MOBILE ] ),
 
 	onClick: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
@@ -263,4 +298,5 @@ SnippetPreview.defaultProps = {
 	onHover: () => {},
 	hoveredField: "",
 	activeField: "",
+	mode: "desktop",
 };
