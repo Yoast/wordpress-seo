@@ -13,10 +13,7 @@ $title_separator_help = new WPSEO_Admin_Help_Panel(
 );
 ?>
 <div class="tab-block">
-	<h2 class="help-button-inline"><?php
-		esc_html_e( 'Title Separator', 'wordpress-seo' );
-		echo $title_separator_help->get_button_html();
-	?></h2>
+	<h2 class="help-button-inline"><?php echo esc_html__( 'Title Separator', 'wordpress-seo' ) . $title_separator_help->get_button_html(); ?></h2>
 	<?php
 	echo $title_separator_help->get_panel_html();
 	$legend      = __( 'Title separator symbol', 'wordpress-seo' );
