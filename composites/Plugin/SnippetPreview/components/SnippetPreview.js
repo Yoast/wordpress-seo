@@ -43,7 +43,7 @@ const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 	"</svg>"
 );
 
-export const TitleContainer = styled.div`
+export const BaseTitle = styled.div`
 	cursor: pointer;
 	position: relative;
 `;
@@ -51,11 +51,11 @@ export const TitleContainer = styled.div`
 /**
  * Adds caret styles to a component.
  *
- * @param {ReactElement} WithoutCaret The component without caret styles.
+ * @param {ReactComponent} WithoutCaret The component without caret styles.
  * @param {string} color The color to render the caret in.
  * @param {string} mode The mode the snippet preview is in.
  *
- * @returns {ReactElement} The component with caret styles.
+ * @returns {ReactComponent} The component with caret styles.
  */
 function addCaretStyle( WithoutCaret, color, mode ) {
 	return styled( WithoutCaret )`
@@ -92,14 +92,14 @@ export const TitleUnbounded = styled.span`
 	white-space: nowrap;
 `;
 
-export const UrlContainer = styled.div`
+export const BaseUrl = styled.div`
 	display: inline-block;
 	color: ${colorUrl};
 	cursor: pointer;
 	position: relative;
 `;
 
-export const DescriptionContainer = styled.div.attrs( {
+export const BaseDescription = styled.div.attrs( {
 	color: ( props ) => props.isDescriptionGenerated ? colorGeneratedDescription : colorDescription,
 } )`
 	color: ${ props => props.color };
@@ -185,8 +185,9 @@ export default class SnippetPreview extends Component {
 	}
 
 	/**
+	 * Renders the snippet preview.
 	 *
-	 * @returns {ReactElement}
+	 * @returns {ReactElement} The rendered snippet preview.
 	 */
 	render() {
 		const { title,
@@ -198,35 +199,20 @@ export default class SnippetPreview extends Component {
 			onClick,
 			onMouseLeave,
 			onMouseOver,
-			hoveredField,
-			activeField,
 			date,
 			mode,
 		} = this.props;
 
-		let Title = hoveredField === "title" ? addCaretStyle( TitleContainer, colorCaretHover, mode ) : TitleContainer;
-		let Description = hoveredField === "description" ? addCaretStyle( DescriptionContainer, colorCaretHover, mode ) : DescriptionContainer;
-		let Url = hoveredField === "url" ? addCaretStyle( UrlContainer, colorCaretHover, mode ) : UrlContainer;
+		const Title       = this.addCaretStyles( "title", BaseTitle );
+		const Description = this.addCaretStyles( "description", BaseDescription );
+		const Url         = this.addCaretStyles( "url", BaseUrl );
 
-		if ( activeField === "title" ) {
-			Title = addCaretStyle( Title, colorCaret, mode );
-		}
-
-		if ( activeField === "description" ) {
-			Description = addCaretStyle( Description, colorCaret, mode );
-		}
-
-		if ( activeField === "url" ) {
-			Url = addCaretStyle( Url, colorCaret, mode );
-		}
-
-		const renderedDate = date === "" ? null : <DatePreview>{ date } - </DatePreview>;
+		const renderedDate = this.renderDate( date );
 
 		const PartContainer = mode === DESKTOP ? DesktopPartContainer : MobilePartContainer;
-		const Container = mode === DESKTOP ? DesktopContainer : MobileContainer;
-
-		let separator = mode === DESKTOP ? null : <Separator />;
-		let downArrow = mode === DESKTOP ? <UrlDownArrow /> : null;
+		const Container     = mode === DESKTOP ? DesktopContainer     : MobileContainer;
+		const separator     = mode === DESKTOP ? null                 : <Separator />;
+		const downArrow     = mode === DESKTOP ? <UrlDownArrow />     : null;
 
 		return (
 			<section>
@@ -268,6 +254,43 @@ export default class SnippetPreview extends Component {
 				</Container>
 			</section>
 		);
+	}
+
+	/**
+	 * Renders the date if set.
+	 *
+	 * @returns {?ReactElement} The rendered date.
+	 */
+	renderDate() {
+		return this.props.date === ""
+			? null
+			: <DatePreview>{ this.props.date } - </DatePreview>;
+	}
+
+	/**
+	 * Adds carret styles tot the base component if relevant prop is active.
+	 *
+	 * @param {string} fieldName The field to add caret styles to.
+	 * @param {ReactComponent} BaseComponent The base component for the field.
+	 *
+	 * @returns {ReactComponent} The component with caret styles added.
+	 */
+	addCaretStyles( fieldName, BaseComponent ) {
+		const {
+			mode,
+			hoveredField,
+			activeField,
+		} = this.props;
+
+		if ( activeField === fieldName ) {
+			return addCaretStyle( BaseComponent, colorCaret, mode );
+		}
+
+		if ( hoveredField === fieldName ) {
+			return addCaretStyle( BaseComponent, colorCaretHover, mode );
+		}
+
+		return BaseComponent;
 	}
 }
 
