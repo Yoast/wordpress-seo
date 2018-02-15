@@ -26,8 +26,14 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 
 <?php
 if ( 'posts' === get_option( 'show_on_front' ) ) {
-	echo '<h2>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h2>';
-	echo '<p>' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
+	$social_facebook_frontpage_help = new WPSEO_Admin_Help_Panel(
+		'social-facebook-frontpage',
+		__( 'Learn more about the title separator setting', 'wordpress-seo' ),
+		__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ),
+		'has-wrapper'
+	);
+	echo '<h2 class="help-button-inline">' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . $social_facebook_frontpage_help->get_button_html() . '</h2>';
+	echo $social_facebook_frontpage_help->get_panel_html();
 
 	$yform->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
 	$yform->textinput( 'og_frontpage_title', __( 'Title', 'wordpress-seo' ) );
