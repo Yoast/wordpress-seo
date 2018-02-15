@@ -296,8 +296,9 @@ class Yoast_Form {
 	 * @param string  $label      The label element text for the checkbox.
 	 * @param array   $buttons    Array of two visual labels for the buttons (defaults Disabled/Enabled).
 	 * @param boolean $reverse    Reverse order of buttons (default true).
+	 * @param string  $help       Inline Help that will be printed out before the visible toggles text.
 	 */
-	public function light_switch( $var, $label, $buttons = array(), $reverse = true ) {
+	public function light_switch( $var, $label, $buttons = array(), $reverse = true, $help = '' ) {
 
 		if ( ! isset( $this->options[ $var ] ) ) {
 			$this->options[ $var ] = false;
@@ -320,10 +321,15 @@ class Yoast_Form {
 
 		list( $off_button, $on_button ) = $buttons;
 
-		echo '<div class="switch-container">',
-		'<label class="', esc_attr( $class ), '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
+		$help_class = $screen_reader_text_class = '';
+
+		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
+
+		echo "<div class='switch-container$help_class'>",
+		"<span class='switch-light-visual-label'>{$label}</span>" . $help,
+		'<label class="', $class, '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
 		'<input type="checkbox" aria-labelledby="', $aria_labelledby, '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>',
-		"<b class='label-text' id='{$aria_labelledby}'>{$label}</b>",
+		"<b class='label-text screen-reader-text' id='{$aria_labelledby}'>{$label}</b>",
 		'<span aria-hidden="true">
 			<span>', esc_html( $off_button ) ,'</span>
 			<span>', esc_html( $on_button ) ,'</span>

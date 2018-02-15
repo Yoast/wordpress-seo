@@ -57,10 +57,18 @@ unset( $taxonomies );
 echo '<h2>', esc_html__( ' Category URLs', 'wordpress-seo' ), '</h2>';
 
 $remove_buttons = array( __( 'Keep', 'wordpress-seo' ), __( 'Remove', 'wordpress-seo' ) );
+
+$stripcategorybase_help = new WPSEO_Admin_Help_Panel(
+	'opengraph',
+	__( 'Help on the category prefix setting', 'wordpress-seo' ),
+	/* translators: %s expands to <code>/category/</code> */
+	sprintf( __( 'Category URLs in WordPress contain a prefix, usually %s, this feature removes that prefix, for categories only.', 'wordpress-seo' ), '<code>/category/</code>' )
+);
+
 $yform->light_switch(
 	'stripcategorybase',
-	/* translators: %s expands to <code>/category/</code> */
-	sprintf( __( 'Category URLs in WordPress contain a prefix, usually %s, this feature removes that prefix, for categories only.', 'wordpress-seo' ), '<code>/category/</code>' ),
+	__( 'Remove the categories prefix', 'wordpress-seo' ),
 	$remove_buttons,
-	false
+	false,
+	$stripcategorybase_help->get_button_html() . $stripcategorybase_help->get_panel_html()
 );
