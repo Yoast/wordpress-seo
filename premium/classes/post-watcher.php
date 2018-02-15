@@ -79,8 +79,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		}
 
 		// There is no slug change.
-		if ( $post->post_name === $post_before->post_name ) {
-		//if ( $this->get_target_url($post) === $this->get_target_url($post_before) ) {
+		if ( $this->get_target_url( $post ) === $this->get_target_url( $post_before ) ) {
 			return false;
 		}
 
@@ -287,25 +286,16 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 *
 	 * @return bool|string
 	 */
-
-//302           $url_before = $this->get_target_url($post) ;
-//303           if ( ! empty( $action ) && $action === 'inline-save' && $this->get_target_url($post) !== $url_before ) {
-//304           return $url_before;
-
-
 	protected function get_old_url( $post, $post_before ) {
 		$wpseo_old_post_url = filter_input( INPUT_POST, 'wpseo_old_post_url' );
 
 		if ( empty( $wpseo_old_post_url ) ) {
 			// Check if request is inline action and new slug is not old slug, if so set wpseo_post_old_url.
-			//$action = filter_input( INPUT_POST, 'action' );
-			$url_before = $this->get_target_url($post) ;
+			$action = filter_input( INPUT_POST, 'action' );
 
-//			if ( ! empty( $action ) && $action === 'inline-save' && $this -> get_target_url( $post ) !== $url_before ) {
-//				return $url_before;
-//			}
-			if ( ! empty( $action ) && $action === 'inline-save' && $post->post_name !== $post_before->post_name ) {
-				return '/' . $post_before->post_name . '/';
+			$url_before = $this->get_target_url( $post );
+			if ( ! empty( $action ) && $action === 'inline-save' && $this->get_target_url( $post ) !== $url_before ) {
+				return $url_before;
 			}
 			return false;
 		}
