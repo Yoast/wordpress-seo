@@ -268,6 +268,18 @@
 		vertical-align: middle;
 	}
 
+	.switch-container__has-help legend {
+		float: left;
+		min-width: 0;
+		margin-top: 0;
+		padding-right: 0;
+	}
+
+	.switch-container__has-help .yoast_help.yoast-help-button {
+		margin-right: 0;
+		top: -1px;
+	}
+
 	.switch-light.switch-yoast-seo > strong {
 		font-weight: 600;
 	}
@@ -283,6 +295,7 @@
 
 	.switch-toggle.switch-yoast-seo,
 	.switch-light.switch-yoast-seo {
+		clear: both;
 		float: left;
 	}
 
