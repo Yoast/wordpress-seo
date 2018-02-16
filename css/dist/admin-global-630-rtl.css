@@ -615,3 +615,67 @@ td.column-wpseo-linked {
 	padding-right: 1.5em;
 	list-style: disc;
 }
+
+.yoast_help.yoast-help-button {
+	overflow: visible;
+	position: relative;
+	width: 20px;
+	height: 20px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: none;
+	color: #72777c;
+	background: transparent;
+	box-shadow: none;
+	vertical-align: top;
+	/* IE 11 */
+	cursor: pointer;
+}
+
+.yoast-section .yoast_help.yoast-help-button {
+	float: left;
+}
+
+.help-button-inline .yoast_help.yoast-help-button {
+	margin-top: -4px;
+}
+
+.yoast-section .yoast_help.yoast-help-button {
+	margin-top: -44px;
+}
+
+.wpseo-admin-page .yoast_help.yoast-help-button {
+	margin-left: 6px;
+}
+
+.yoast_help .yoast-help-icon::before {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 4px;
+	content: "\f223";
+}
+
+.yoast_help.yoast-help-button:hover,
+.yoast_help.yoast-help-button:focus {
+	color: #0073aa;
+}
+
+.yoast_help.yoast-help-button:focus .yoast-help-icon::before,
+.assessment-results__mark:focus {
+	border-radius: 100%;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.yoast-help-panel {
+	display: none;
+	max-width: 30em !important;
+	padding: 0 0 1em;
+	font-weight: normal;
+	white-space: normal;
+}
+
+.wpseo-admin-page .yoast-help-panel {
+	max-width: 600px !important;
+}

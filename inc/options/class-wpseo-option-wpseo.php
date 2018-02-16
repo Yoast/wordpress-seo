@@ -24,14 +24,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
 
 		// Form fields.
-		'company_logo'                    => '',
-		'company_name'                    => '',
-		'company_or_person'               => '',
 		'disableadvanced_meta'            => true,
 		'onpage_indexability'             => true,
 		'googleverify'                    => '', // Text field.
 		'msverify'                        => '', // Text field.
-		'person_name'                     => '',
 		'yandexverify'                    => '',
 		'site_type'                       => '', // List of options.
 		'has_multiple_authors'            => '',
@@ -137,26 +133,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			switch ( $key ) {
 				case 'version':
 					$clean[ $key ] = WPSEO_VERSION;
-					break;
-
-				case 'company_or_person':
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-						if ( in_array( $dirty[ $key ], array( 'company', 'person' ), true ) ) {
-							$clean[ $key ] = $dirty[ $key ];
-						}
-					}
-					break;
-
-				/* Text fields. */
-				case 'company_name':
-				case 'person_name':
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
-					}
-					break;
-
-				case 'company_logo':
-					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 
 				/* Verification strings. */
