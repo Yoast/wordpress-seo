@@ -102,10 +102,9 @@ p.desc.label {
 	margin-left: 200px;
 }
 
-/* Styles for Yoast specific content. */
+/* Styles for Yoast specific content. @todo: check this. */
 .wpseo_content_wrapper h3 {
-	margin: 1em 0 0.5em 0; 
-	font-size: 1.15em;
+	margin: 1em 0 0.5em 0;
 }
 
 h4 {
@@ -280,11 +279,6 @@ table.yoast_help .yoast-variable-desc {
 
 .wpseotab p.expl {
 	margin-left: 6px;
-}
-
-.wpseotab .tab-block {
-	display: block;
-	margin: 30px 0;
 }
 
 .wpseotab p.expl strong {

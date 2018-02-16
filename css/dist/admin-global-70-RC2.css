@@ -316,7 +316,7 @@ button.yoast-tooltip {
 }
 
 .yoast-video-container {
-	overflow: hidden; 
+	overflow: hidden;
 	position: relative;
 	height: 0;
 	padding-bottom: 56.25%;
@@ -373,7 +373,7 @@ button.yoast-tooltip {
 .yoast .yoast-settings__checkbox,
 .yoast .yoast-settings__radio {
 	position: relative;
-	top: 1px; 
+	top: 1px;
 	vertical-align: top;
 }
 
@@ -390,7 +390,7 @@ button.yoast-tooltip {
 .yoast-settings__checkbox + label,
 .yoast-settings__radio + label {
 	width: auto;
-	max-width: calc( 100% - 25px); 
+	max-width: calc( 100% - 25px);
 	margin-right: 0;
 	margin-left: 0;
 	padding: 0;
@@ -404,7 +404,7 @@ button.yoast-tooltip {
 }
 
 .yoast-settings legend {
-	color: #23282d; 
+	color: #23282d;
 	font-size: 14px;
 	font-weight: 600;
 }
