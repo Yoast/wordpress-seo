@@ -60,9 +60,12 @@ $remove_buttons = array( __( 'Keep', 'wordpress-seo' ), __( 'Remove', 'wordpress
 
 $stripcategorybase_help = new WPSEO_Admin_Help_Panel(
 	'opengraph',
-	__( 'Help on the category prefix setting', 'wordpress-seo' ),
-	/* translators: %s expands to <code>/category/</code> */
-	sprintf( __( 'Category URLs in WordPress contain a prefix, usually %s, this feature removes that prefix, for categories only.', 'wordpress-seo' ), '<code>/category/</code>' )
+	esc_html__( 'Help on the category prefix setting', 'wordpress-seo' ),
+	sprintf(
+		/* translators: %s expands to <code>/category/</code> */
+		esc_html__( 'Category URLs in WordPress contain a prefix, usually %s, this feature removes that prefix, for categories only.', 'wordpress-seo' ),
+		'<code>/category/</code>'
+	)
 );
 
 $yform->light_switch(

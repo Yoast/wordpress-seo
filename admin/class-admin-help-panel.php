@@ -58,7 +58,7 @@ class WPSEO_Admin_Help_Panel {
 		return sprintf(
 			' <button type="button" class="yoast_help yoast-help-button dashicons" id="%1$s-help-toggle" aria-expanded="false" aria-controls="%1$s-help"><span class="yoast-help-icon" aria-hidden="true"></span><span class="screen-reader-text">%2$s</span></button>',
 			esc_attr( $this->id ),
-			esc_html( $this->help_button_text )
+			$this->help_button_text
 		);
 	}
 
