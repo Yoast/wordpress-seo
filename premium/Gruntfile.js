@@ -1,10 +1,12 @@
 /* global require, process */
+const { flattenVersionForFile } = require( "./grunt/modules/version.js" );
+
 module.exports = function(grunt) {
-	'use strict';
 
 	require('time-grunt')(grunt);
 
-	let pluginVersion = "6.3";
+	const pkg = grunt.file.readJSON( "package.json" );
+	const pluginVersion = pkg.yoast.pluginVersion;
 
 	// Define project configuration
 	var project = {
@@ -45,11 +47,7 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON( 'package.json' )
 	};
 
-	let versionParts = pluginVersion.split( "." );
-	if ( versionParts.length === 2 ) {
-		versionParts.push( 0 );
-	}
-	project.pluginVersionSlug = versionParts.join( "" );
+	project.pluginVersionSlug = flattenVersionForFile( pluginVersion );
 
 	// Load Grunt configurations and tasks
 	require( 'load-grunt-config' )(grunt, {
