@@ -90,7 +90,7 @@ class WPSEO_Upgrade {
 			$this->upgrade_63();
 		}
 
-		if ( version_compare( $version, '7.0', '<' ) ) {
+		if ( version_compare( $version, '7.0-RC0', '<' ) ) {
 			$this->upgrade_70();
 		}
 
@@ -499,9 +499,13 @@ class WPSEO_Upgrade {
 		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssafter' );
 		delete_option( 'wpseo_rss' );
 
-		// Move the website name and altername name as they've moved to another config page.
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'website_name' );
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'alternate_website_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_logo' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_or_person' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'person_name' );
+
+		// Remove the website name and altername name as we no longer need them.
+		$this->remove_key_from_option( 'wpseo', array( 'website_name', 'alternate_website_name' ) );
 
 		// All the breadcrumbs settings have moved to the search appearance settings.
 		$internal_links = (array) get_option( 'wpseo_internallinks' );
