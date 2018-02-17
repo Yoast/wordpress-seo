@@ -243,7 +243,7 @@ $wpseo_thanks_for_updating = sprintf( __( 'Thank you for updating %1$s!', 'wordp
 				printf(
 					/* translators: 1: link open tag; 2: link close tag; 3: Yoast; 4: linked developer name. */
 					esc_html__( '%1$s%3$s ACF Integration%2$s - an integration built by %4$s and Team %3$s', 'wordpress-seo' ),
-					'<a target="_blank" href="https://wordpress.org/plugins/yoast-seo-acf-analysis/">',
+					'<a target="_blank" href="https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/">',
 					'</a>',
 					'Yoast',
 					'<a href="https://forsberg.ax" target="_blank" rel="noreferrer noopener">Marcus Forsberg</a>, ' .
