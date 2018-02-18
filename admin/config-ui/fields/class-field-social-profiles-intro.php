@@ -18,7 +18,7 @@ class WPSEO_Config_Field_Social_Profiles_Intro extends WPSEO_Config_Field {
 			/* translators: %1$s is the plugin name, %2$s is a link opening tag, %3$s is a link closing tag. */
 			__( '%1$s can tell search engines about your social media profiles.
  These will be used in Google\'s Knowledge Graph. There are additional
- sharing options in the advanced settings. More %2$sinfo%3$s.', 'wordpress-seo' ),
+ sharing options in the social settings. More %2$sinfo%3$s.', 'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1ey' ) . '">',
 			'</a>'
