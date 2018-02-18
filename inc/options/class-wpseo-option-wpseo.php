@@ -51,7 +51,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	public $ms_exclude = array(
 		/* Privacy. */
-		'alexaverify',
 		'googleverify',
 		'msverify',
 		'yandexverify',
