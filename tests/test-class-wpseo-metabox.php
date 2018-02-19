@@ -76,7 +76,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$stub
 			->expects( $this->any() )
 			->method( 'is_metabox_hidden' )
-			->will( $this->returnValue( true ) );
+			->will( $this->returnValue( false ) );
 
 		$stub->add_meta_box();
 
@@ -145,43 +145,5 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 				$this->assertEquals( $value, 'on' );
 			}
 		}
-	}
-
-	/**
-	 * Tests that the should_display_metabox method returns true.
-	 *
-	 * @covers WPSEO_Metabox::should_display_metabox
-	 */
-	public function test_should_display_metabox_is_true() {
-		$stub = $this
-			->getMockBuilder( 'WPSEO_Metabox' )
-			->setMethods( array( 'is_metabox_hidden' ) )
-			->getMock();
-
-		$stub
-			->expects( $this->once() )
-			->method( 'is_metabox_hidden' )
-			->will( $this->returnValue( true ) );
-
-		$this->assertTrue( $stub->should_display_metabox() );
-	}
-
-	/**
-	 * Tests that the should_display_metabox method returns false.
-	 *
-	 * @covers WPSEO_Metabox::should_display_metabox
-	 */
-	public function test_should_display_metabox_is_false() {
-		$stub = $this
-			->getMockBuilder( 'WPSEO_Metabox' )
-			->setMethods( array( 'is_metabox_hidden' ) )
-			->getMock();
-
-		$stub
-			->expects( $this->once() )
-			->method( 'is_metabox_hidden' )
-			->will( $this->returnValue( false ) );
-
-		$this->assertFalse( $stub->should_display_metabox() );
 	}
 }

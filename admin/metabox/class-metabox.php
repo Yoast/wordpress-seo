@@ -115,6 +115,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
+     * Checks whether `post` is set in GLOBALS and whether it's an object.
+     *
+	 * @return bool Returns false if not set or if it's not an object.
+	 */
+	private function has_globally_set_post_object() {
+        return isset( $GLOBALS['post'] ) && is_object( $GLOBALS['post'] );
+	}
+
+	/**
 	 * Test whether the metabox should be hidden either by choice of the admin or because
 	 * the post type is not a public post type.
 	 *
@@ -125,31 +134,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return  bool Whether or not the meta box (and associated columns etc) should be hidden.
 	 */
 	public function is_metabox_hidden( $post_type = null ) {
-		if ( ! isset( $post_type ) && ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) ) {
+		if ( ! isset( $post_type ) && ( $this->has_globally_set_post_object() ) && isset( $GLOBALS['post']->post_type ) ) {
 			$post_type = $GLOBALS['post']->post_type;
 		}
 
-		if ( isset( $post_type ) ) {
-			// Don't make static as post_types may still be added during the run.
-			$post_types = WPSEO_Post_Type::get_accessible_post_types();
-
-			return ( WPSEO_Options::get( 'hideeditbox-' . $post_type, false ) || in_array( $post_type, $post_types, true ) === false );
+		if ( ! isset( $post_type ) ) {
+		    return false;
 		}
 
-		return false;
-	}
+        if ( ! in_array( $post_type, WPSEO_Post_Type::get_accessible_post_types(), true ) ) {
+            return true;
+        }
 
-	/**
-	 * Wraps the is_metabox_hidden method to make the logic a bit more readable in the code.
-	 *
-	 * This is due to a change the interface, but not the option, making flipping logic necessary.
-	 *
-	 * @param null|string $post_type    Optional. The post type to test, defaults to the current post post_type.
-	 *
-	 * @return bool Whether or not the metabox should be displayed.
-	 */
-	public function should_display_metabox( $post_type = null ) {
-		return $this->is_metabox_hidden( $post_type ) === true;
+        return WPSEO_Options::get( 'hideeditbox-' . $post_type, false );
 	}
 
 	/**
@@ -165,7 +162,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Outputs the page analysis score in the Publish Box.
 	 */
 	public function publish_box() {
-		if ( $this->should_display_metabox() === false ) {
+		if ( $this->is_metabox_hidden() === true ) {
 			return;
 		}
 
@@ -195,30 +192,37 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Adds the Yoast SEO meta box to the edit boxes in the edit post, page,
 	 * attachment, and custom post types pages.
+     *
+     * @return void
 	 */
 	public function add_meta_box() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 
-		if ( is_array( $post_types ) && $post_types !== array() ) {
-			foreach ( $post_types as $post_type ) {
-				if ( $this->should_display_metabox( $post_type ) === true ) {
-					$product_title = 'Yoast SEO';
-					if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
-						$product_title .= ' Premium';
-					}
-
-					if ( null !== get_current_screen() ) {
-						$screen_id = get_current_screen()->id;
-						add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
-					}
-
-					add_meta_box( 'wpseo_meta', $product_title, array(
-						$this,
-						'meta_box',
-					), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
-				}
-			}
+		if ( ! is_array( $post_types ) || $post_types === array() ) {
+		    return;
 		}
+
+        foreach ( $post_types as $post_type ) {
+		    if ( $this->is_metabox_hidden( $post_type ) ) {
+		        continue;
+            }
+
+            $product_title = 'Yoast SEO';
+
+            if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
+                $product_title .= ' Premium';
+            }
+
+            if ( get_current_screen() !== null ) {
+                $screen_id = get_current_screen()->id;
+                add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
+            }
+
+            add_meta_box( 'wpseo_meta', $product_title, array(
+                $this,
+                'meta_box',
+            ), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
+        }
 	}
 
 	/**
@@ -876,8 +880,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
 
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
-		if ( ( ! $is_editor && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->should_display_metabox() === false
-		) {
+		if ( ( ! $is_editor && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->is_metabox_hidden() === true ) {
 			return;
 		}
 
