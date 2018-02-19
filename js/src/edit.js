@@ -8,7 +8,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import flowRight from "lodash/flowRight";
 
-import getIntlProvider from "./components/IntlProvider";
+import IntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
@@ -22,10 +22,6 @@ if( window.wpseoPostScraperL10n ) {
 } else if ( window.wpseoTermScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
-
-const locale = localizedData.intl.locale ? localizedData.intl.locale : "en";
-
-const IntlProvider = getIntlProvider( locale );
 
 /**
  * Creates a redux store.
