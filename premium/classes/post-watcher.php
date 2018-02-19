@@ -293,10 +293,11 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			// Check if request is inline action and new slug is not old slug, if so set wpseo_post_old_url.
 			$action = filter_input( INPUT_POST, 'action' );
 
-			$url_before = $this->get_target_url( $post );
+			$url_before = $this->get_target_url( $post_before );
 			if ( ! empty( $action ) && $action === 'inline-save' && $this->get_target_url( $post ) !== $url_before ) {
 				return $url_before;
 			}
+			
 			return false;
 		}
 
