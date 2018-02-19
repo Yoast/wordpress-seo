@@ -1,3 +1,6 @@
+### 6.3.1: February 19th, 2018
+* Includes every change in Yoast SEO core 6.3.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 6.3.0: February 13th, 2018
 Enhancements:
 * Adds a new sentence to the Internal Linking analyzer after completing a full site scan. This gives you more insight into what the effects are of running the analyzer.
