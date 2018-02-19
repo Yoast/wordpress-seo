@@ -634,8 +634,8 @@ class Yoast_Form {
 	 * @return void
 	 */
 	public function show_hide_switch( $var, $label, $inverse_keys = false ) {
-		$on_key   = ( $inverse_keys ) ? 'off' : 'on';
-		$off_key  = ( $inverse_keys ) ? 'on' : 'off';
+		$on_key  = ( $inverse_keys ) ? 'off' : 'on';
+		$off_key = ( $inverse_keys ) ? 'on' : 'off';
 
 		$show_hide_switch = array(
 			$on_key  => __( 'Show', 'wordpress-seo' ),
