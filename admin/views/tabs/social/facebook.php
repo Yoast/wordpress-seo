@@ -44,8 +44,8 @@ if ( 'posts' === get_option( 'show_on_front' ) ) {
 	if ( ! empty( $homepage_meta_description ) ) {
 		$copy_home_meta_desc_help = new WPSEO_Admin_Help_Panel(
 			'copy-home-meda-desc',
-			__( 'Help on copying the home meta description', 'wordpress-seo' ),
-			__( 'Click the "Copy home meta description" button to use the meta description already set in the Search Appearance homepage setting.', 'wordpress-seo' )
+			esc_html__( 'Help on copying the home meta description', 'wordpress-seo' ),
+			esc_html__( 'Click the "Copy home meta description" button to use the meta description already set in the Search Appearance homepage setting.', 'wordpress-seo' )
 		);
 
 		echo '<input type="hidden" id="meta_description" value="', $homepage_meta_description, '" />';
