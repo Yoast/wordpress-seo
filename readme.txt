@@ -107,11 +107,11 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 6.3.1 =
-Release Date: Februari 20th, 2018
+Release Date: February 20th, 2018
 
 Bugfixes:
 
-* Fixes a bug where a JavaScript `chunk` file was attempted to be loaded when a locale other than `en` is active, cause in a console error.
+* Fixes a bug where a non-existing JavaScript `chunk` file was loaded, causing a console error. This only affected users using a locale different than `en`.
 
 = 6.3.0 =
 Release Date: February 13th, 2018
