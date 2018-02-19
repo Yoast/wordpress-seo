@@ -18,6 +18,9 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		// Ensure thickbox is enqueued.
 		add_thickbox();
 
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'modal-add-keyword' );
+
 		ob_start();
 		?>
 		<li class="wpseo-tab-add-keyword">
@@ -26,6 +29,8 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 				<?php esc_html_e( 'Add keyword', 'wordpress-seo' ); ?>
 			</button>
 		</li>
+
+		<li id="wpseo-tab-add-keyword-modal"></li>
 
 		<?php
 		$popup_title = __( 'Want to add more than one keyword?', 'wordpress-seo' );

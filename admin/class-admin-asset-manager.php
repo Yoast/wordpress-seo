@@ -202,6 +202,14 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
+				'name' => 'modal-add-keyword',
+				'src'  => 'wp-seo-modal-add-keyword-' . $flat_version,
+				'deps' => array(
+					'jquery',
+					self::PREFIX . 'react-dependencies',
+				),
+			),
+			array(
 				'name' => 'help-center',
 				'src'  => 'wp-seo-help-center-' . $flat_version,
 				'deps' => array(

@@ -438,3 +438,7 @@ td.column-wpseo-linked {
 .wpseo-admin-page .yoast-help-panel {
 	max-width: 600px !important;
 }
+
+.ReactModal__Body--open {
+	overflow: hidden;
+}
