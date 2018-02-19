@@ -115,12 +115,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-     * Checks whether `post` is set in GLOBALS and whether it's an object.
-     *
+	 * Checks whether `post` is set in GLOBALS and whether it's an object.
+	 *
 	 * @return bool Returns false if not set or if it's not an object.
 	 */
 	private function has_globally_set_post_object() {
-        return isset( $GLOBALS['post'] ) && is_object( $GLOBALS['post'] );
+		return isset( $GLOBALS['post'] ) && is_object( $GLOBALS['post'] );
 	}
 
 	/**
@@ -139,14 +139,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( ! isset( $post_type ) ) {
-		    return false;
+			return false;
 		}
 
-        if ( ! in_array( $post_type, WPSEO_Post_Type::get_accessible_post_types(), true ) ) {
-            return true;
-        }
+		if ( ! in_array( $post_type, WPSEO_Post_Type::get_accessible_post_types(), true ) ) {
+			return true;
+		}
 
-        return WPSEO_Options::get( 'hideeditbox-' . $post_type, false );
+		return WPSEO_Options::get( 'hideeditbox-' . $post_type, false );
 	}
 
 	/**
@@ -192,37 +192,37 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Adds the Yoast SEO meta box to the edit boxes in the edit post, page,
 	 * attachment, and custom post types pages.
-     *
-     * @return void
+	 *
+	 * @return void
 	 */
 	public function add_meta_box() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 
 		if ( ! is_array( $post_types ) || $post_types === array() ) {
-		    return;
+			return;
 		}
 
-        foreach ( $post_types as $post_type ) {
-		    if ( $this->is_metabox_hidden( $post_type ) ) {
-		        continue;
-            }
+		foreach ( $post_types as $post_type ) {
+			if ( $this->is_metabox_hidden( $post_type ) ) {
+				continue;
+			}
 
-            $product_title = 'Yoast SEO';
+			$product_title = 'Yoast SEO';
 
-            if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
-                $product_title .= ' Premium';
-            }
+			if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
+				$product_title .= ' Premium';
+			}
 
-            if ( get_current_screen() !== null ) {
-                $screen_id = get_current_screen()->id;
-                add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
-            }
+			if ( get_current_screen() !== null ) {
+				$screen_id = get_current_screen()->id;
+				add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
+			}
 
-            add_meta_box( 'wpseo_meta', $product_title, array(
-                $this,
-                'meta_box',
-            ), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
-        }
+			add_meta_box( 'wpseo_meta', $product_title, array(
+				$this,
+				'meta_box',
+			), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
+		}
 	}
 
 	/**
