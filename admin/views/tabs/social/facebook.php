@@ -45,7 +45,12 @@ if ( 'posts' === get_option( 'show_on_front' ) ) {
 		$copy_home_meta_desc_help = new WPSEO_Admin_Help_Panel(
 			'copy-home-meda-desc',
 			esc_html__( 'Help on copying the home meta description', 'wordpress-seo' ),
-			esc_html__( 'Click the "Copy home meta description" button to use the meta description already set in the Search Appearance homepage setting.', 'wordpress-seo' )
+			sprintf(
+				/* translators: 1: link open tag; 2: link close tag. */
+				esc_html__( 'Click the "Copy home meta description" button to use the meta description already set in the %1$sSearch Appearance Homepage%2$s setting.', 'wordpress-seo' ),
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles' ) ) . '">',
+				'</a>'
+			)
 		);
 
 		echo '<input type="hidden" id="meta_description" value="', $homepage_meta_description, '" />';
