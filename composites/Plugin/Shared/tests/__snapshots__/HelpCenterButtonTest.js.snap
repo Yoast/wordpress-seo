@@ -84,6 +84,22 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
   margin: 0 16px;
 }
 
+.c3 {
+  width: 16;
+  height: 16;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c4 {
+  width: 16;
+  height: 16;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c1::after {
     display: inline-block;
@@ -101,13 +117,12 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
   <span>
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-question-circle"
+      className="yoast-svg-icon yoast-svg-icon-question-circle c3"
       fill="#fff"
       focusable="false"
-      height="16"
       role="img"
+      size="16"
       viewBox="0 0 1792 1792"
-      width="16"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -117,13 +132,12 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
     Need Help?
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-down"
+      className="yoast-svg-icon yoast-svg-icon-angle-down c4"
       fill="#fff"
       focusable="false"
-      height="16"
       role="img"
+      size="16"
       viewBox="0 0 1792 1792"
-      width="16"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

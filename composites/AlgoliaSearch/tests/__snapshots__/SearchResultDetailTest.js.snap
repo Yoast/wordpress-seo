@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the SearchResultDetail component matches the snapshot 1`] = `
-.c8 {
+.c10 {
   width: 100%;
   height: 600px;
   border: none;
@@ -75,7 +75,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   box-shadow: none;
 }
 
-.c6 {
+.c7 {
   text-decoration: none;
   color: #fff;
   background: #64a60a;
@@ -83,7 +83,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   text-shadow: 0 0 2px #000;
 }
 
-.c5 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -111,21 +111,21 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   transition: box-shadow 150ms ease-out;
 }
 
-.c5:hover,
-.c5:focus,
-.c5:active {
+.c6:hover,
+.c6:focus,
+.c6:active {
   box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
-.c5:active {
+.c6:active {
   -webkit-transform: translateY( 1px );
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
 }
 
-.c7 {
+.c9 {
   border: 0;
   -webkit-clip: rect(1px,1px,1px,1px);
   clip: rect(1px,1px,1px,1px);
@@ -151,8 +151,24 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   padding: 0 16px 16px;
 }
 
-.c4 {
+.c5 {
   float: right;
+}
+
+.c4 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c8 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -164,7 +180,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c5::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 48px;
@@ -194,13 +210,12 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
       <span>
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-angle-left"
+          className="yoast-svg-icon yoast-svg-icon-angle-left c4"
           fill="#fff"
           focusable="false"
-          height="24px"
           role="img"
+          size="24px"
           viewBox="0 0 1792 1792"
-          width="24px"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -212,7 +227,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
     </button>
     <a
       aria-label="Open the knowledge base article in a new window or read it in the iframe below"
-      className="c4 c5 c6"
+      className="c5 c6 c7"
       href="https://kb.yoast.com/kb/passive-voice/"
       rel="noopener noreferrer"
       target="_blank"
@@ -220,13 +235,12 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
       View in KB
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-angle-right"
+        className="yoast-svg-icon yoast-svg-icon-angle-right c8"
         fill="#fff"
         focusable="false"
-        height="24px"
         role="img"
+        size="24px"
         viewBox="0 0 1792 1792"
-        width="24px"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -234,14 +248,14 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
         />
       </svg>
       <span
-        className="c7"
+        className="c9"
       >
         (Opens in a new browser tab)
       </span>
     </a>
   </nav>
   <iframe
-    className="kb-search-content-frame c8"
+    className="kb-search-content-frame c10"
     src="https://kb.yoast.com/kb/passive-voice/amp/?source=wpseo-kb-search"
     title="Knowledge base article"
   />

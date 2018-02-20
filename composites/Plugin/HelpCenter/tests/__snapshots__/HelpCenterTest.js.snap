@@ -88,6 +88,22 @@ exports[`the HelpCenter matches the snapshot 1`] = `
   margin: 0;
 }
 
+.c4 {
+  width: 16;
+  height: 16;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 16;
+  height: 16;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c2::after {
     display: inline-block;
@@ -114,13 +130,12 @@ exports[`the HelpCenter matches the snapshot 1`] = `
     <span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-question-circle"
+        className="yoast-svg-icon yoast-svg-icon-question-circle c4"
         fill="#fff"
         focusable="false"
-        height="16"
         role="img"
+        size="16"
         viewBox="0 0 1792 1792"
-        width="16"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -130,13 +145,12 @@ exports[`the HelpCenter matches the snapshot 1`] = `
       Need help?
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-angle-down"
+        className="yoast-svg-icon yoast-svg-icon-angle-down c5"
         fill="#fff"
         focusable="false"
-        height="16"
         role="img"
+        size="16"
         viewBox="0 0 1792 1792"
-        width="16"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -235,6 +249,22 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
   margin: 0;
 }
 
+.c4 {
+  width: 16;
+  height: 16;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 16;
+  height: 16;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c2::after {
     display: inline-block;
@@ -261,13 +291,12 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
     <span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-question-circle"
+        className="yoast-svg-icon yoast-svg-icon-question-circle c4"
         fill="#fff"
         focusable="false"
-        height="16"
         role="img"
+        size="16"
         viewBox="0 0 1792 1792"
-        width="16"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -277,13 +306,12 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
       Need help?
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-angle-down"
+        className="yoast-svg-icon yoast-svg-icon-angle-down c5"
         fill="#fff"
         focusable="false"
-        height="16"
         role="img"
+        size="16"
         viewBox="0 0 1792 1792"
-        width="16"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path

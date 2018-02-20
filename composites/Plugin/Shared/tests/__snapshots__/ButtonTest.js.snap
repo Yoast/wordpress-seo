@@ -462,6 +462,14 @@ exports[`the IconButton matches the snapshot 1`] = `
   font-size: 0.8rem;
 }
 
+.c6 {
+  width: 16;
+  height: 16;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c4::after {
     display: inline-block;
@@ -476,13 +484,12 @@ exports[`the IconButton matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-edit"
+    className="yoast-svg-icon yoast-svg-icon-edit c6"
     fill="black"
     focusable="false"
-    height="16"
     role="img"
+    size="16"
     viewBox="0 0 1792 1792"
-    width="16"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -564,6 +571,14 @@ exports[`the IconButton with text matches the snapshot 1`] = `
   flex-shrink: 0;
 }
 
+.c7 {
+  width: 16;
+  height: 16;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
   .c4::after {
     display: inline-block;
@@ -578,13 +593,12 @@ exports[`the IconButton with text matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-edit c6"
+    className="yoast-svg-icon yoast-svg-icon-edit c6 c7"
     fill="black"
     focusable="false"
-    height="16"
     role="img"
+    size="16"
     viewBox="0 0 1792 1792"
-    width="16"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
