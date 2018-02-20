@@ -23,9 +23,9 @@ $webmaster_tools_help = new WPSEO_Admin_Help_Panel(
 echo '<h2 class="help-button-inline">' . esc_html__( 'Webmaster Tools verification', 'wordpress-seo' ) . $webmaster_tools_help->get_button_html() . '</h2>';
 echo $webmaster_tools_help->get_panel_html();
 
-$msverify_link = add_query_arg( array(
-	'rfp' => '1#/Dashboard/?url=' . rawurlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) ),
-), esc_url( 'https://www.bing.com/webmaster/' ) );
+$msverify_link = esc_url( 'https://www.bing.com/toolbox/webmaster/#/Dashboard/?url=' .
+	rawurlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) )
+);
 
 $googleverify_link = add_query_arg( array(
 	'hl' => 'en',
