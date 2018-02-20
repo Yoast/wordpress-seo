@@ -116,8 +116,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Removes a colliding redirect if it is found.
 	 *
-	 * @param WP_Post $post
-	 * @param WP_Post $post_before
+	 * @param WP_Post $post        The post with the new values.
+	 * @param WP_Post $post_before The post with the previous values.
 	 */
 	protected function remove_colliding_redirect( $post, $post_before ) {
 		$redirect = $this->redirect_manager->get_redirect( $this->get_target_url( $post ) );
@@ -129,7 +129,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			return;
 		}
 
-		echo 'jier';
 		$this->redirect_manager->delete_redirects( array( $redirect ) );
 	}
 
