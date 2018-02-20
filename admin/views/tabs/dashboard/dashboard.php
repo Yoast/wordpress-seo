@@ -34,7 +34,7 @@ $notifier->listen();
 		<a href="<?php WPSEO_Shortlinker::show( 'http://yoa.st/yoast-seo-credits' ) ?>"><?php
 			printf(
 			/* translators: %1$s expands to Yoast SEO */
-				esc_html__( 'See which people contributed to %1$s.', 'wordpress-seo' ),
+				esc_html__( 'See who contributed to %1$s.', 'wordpress-seo' ),
 				'Yoast SEO'
 			);
 			?></a>
