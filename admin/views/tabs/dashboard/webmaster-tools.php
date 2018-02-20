@@ -25,7 +25,7 @@ echo $webmaster_tools_help->get_panel_html();
 
 $msverify_link = add_query_arg( array(
 	'rfp' => '1#/Dashboard/?url=' . rawurlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) ),
-), esc_url( 'http://www.bing.com/webmaster/' ) );
+), esc_url( 'https://www.bing.com/webmaster/' ) );
 
 $googleverify_link = add_query_arg( array(
 	'hl' => 'en',
@@ -59,7 +59,7 @@ echo '<p class="desc label">';
 printf(
 	/* translators: 1: link open tag; 2: link close tag. */
 	esc_html__( 'Get your Yandex verification code in %1$sYandex Webmaster Tools%2$s.', 'wordpress-seo' ),
-	'<a target="_blank" href="' . esc_url( 'http://help.yandex.com/webmaster/service/rights.xml#how-to' ) . '" rel="noopener noreferrer">',
+	'<a target="_blank" href="' . esc_url( 'https://webmaster.yandex.com/sites/add/' ) . '" rel="noopener noreferrer">',
 	'</a>'
 );
 echo '</p>';
