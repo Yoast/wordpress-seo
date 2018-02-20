@@ -63,7 +63,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		$yform->index_switch(
 			'noindex-ptarchive-' . $name,
 			sprintf(
-				/* translators: %s exapnds to the post type's name. */
+				/* translators: %s expands to the post type's name. */
 				__( 'the archive for %s', 'wordpress-seo' ),
 				$post_type->labels->name
 			),

@@ -49,7 +49,7 @@ class Yoast_View_Utils {
 				$help_text,
 				$post_type->labels->name,
 				'<code>noindex</code>',
-				'<a href="' . esc_url( 'https://yoa.st/show-x' ) . '" target="_blank" rel="noopener noreferrer">',
+				'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/show-x' ) ) . '" target="_blank" rel="noopener noreferrer">',
 				'</a>'
 			)
 		);

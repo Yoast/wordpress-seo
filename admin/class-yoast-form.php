@@ -594,12 +594,13 @@ class Yoast_Form {
 
 		$var_esc = esc_attr( $var );
 
-		echo "<div class='switch-container$help_class'>";
+		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help,
 		'<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {
-			$screen_reader_text = $screen_reader_text_html = '';
+			$screen_reader_text = '';
+			$screen_reader_text_html = '';
 
 			if ( is_array( $value ) ) {
 				$screen_reader_text = $value['screen_reader_text'];
@@ -649,7 +650,7 @@ class Yoast_Form {
 	 * @param string $var           The variable within the option to create the radio buttons for.
 	 * @param string $label         The visual label for the radio buttons group, used as the fieldset legend.
 	 * @param bool   $inverse_keys  Whether or not the option keys need to be inverted to support older functions.
-	 * @param string $help   Inline Help that will be printed out before the visible toggles text.
+	 * @param string $help          Inline Help that will be printed out before the visible toggles text.
 	 *
 	 * @return void
 	 */

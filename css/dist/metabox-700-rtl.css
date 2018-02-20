@@ -87,9 +87,9 @@
 
 .snippet-editor__view--desktop {
 	overflow: auto;
-	width: 640px;
+	width: 620px;
 	max-width: 100%;
-	padding: 0 20px;
+	padding: 0 20px 0 0;
 }
 
 .snippet-editor__view .snippet_container__title {
@@ -217,7 +217,7 @@
 	margin-left: 10px;
 	font-size: 20px;
 	line-height: inherit;
-	vertical-align: text-top;
+	vertical-align: middle;
 	content: "\21c4";
 }
 
@@ -1318,62 +1318,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	color: #23282d;
 	background-color: #fafafa;
 	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
-}
-
-.yoast_help.yoast-help-button {
-	overflow: visible;
-	position: relative;
-	width: 20px;
-	height: 20px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: none;
-	color: #72777c;
-	background: transparent;
-	box-shadow: none;
-	vertical-align: top;
-	/* IE 11 */
-	cursor: pointer;
-}
-
-.wpseotab .yoast_help.yoast-help-button {
-	float: left;
-}
-
-.wpseotab.content .yoast_help.yoast-help-button {
-	margin-top: -47px;
-}
-
-.wpseo-admin-page .yoast_help.yoast-help-button {
-	margin-left: 6px;
-}
-
-.yoast_help.yoast-help-button:before {
-	position: absolute;
-	top: 0;
-	right: 0;
-	padding: 4px;
-	content: "\f223";
-}
-
-.yoast_help.yoast-help-button:hover,
-.yoast_help.yoast-help-button:focus {
-	color: #0073aa;
-}
-
-.yoast_help.yoast-help-button:focus:before,
-.assessment-results__mark:focus {
-	border-radius: 100%;
-	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
-}
-
-.yoast-help-panel {
-	display: none;
-	max-width: 30em !important;
-	padding: 0 0 1em;
-	font-weight: normal;
-	white-space: normal;
 }
 
 .wpseo-admin-page .subsubsub li {

@@ -56,7 +56,7 @@ $author_archives_help = new WPSEO_Admin_Help_Panel(
 		/* translators: 1: expands to <code>noindex</code>; 2: link open tag; 3: link close tag. */
 		esc_html__( 'Not showing the archive for authors in the search results technically means those will have a %1$s robots meta and will be excluded from XML sitemaps. %2$sMore info on the search results settings%3$s.', 'wordpress-seo' ),
 		'<code>noindex</code>',
-		'<a href="' . esc_url( 'https://yoa.st/show-x' ) . '" target="_blank" rel="noopener noreferrer">',
+		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/show-x' ) ) . '" target="_blank" rel="noopener noreferrer">',
 		'</a>'
 	)
 );
@@ -74,7 +74,7 @@ $author_archives_no_posts_help = new WPSEO_Admin_Help_Panel(
 		/* translators: 1: expands to <code>noindex</code>; 2: link open tag; 3: link close tag. */
 		esc_html__( 'Not showing the archives for authors without posts in the search results technically means those will have a %1$s robots meta and will be excluded from XML sitemaps. %2$sMore info on the search results settings%3$s.', 'wordpress-seo' ),
 		'<code>noindex</code>',
-		'<a href="' . esc_url( 'https://yoa.st/show-x' ) . '" target="_blank" rel="noopener noreferrer">',
+		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/show-x' ) ) . '" target="_blank" rel="noopener noreferrer">',
 		'</a>'
 	)
 );
@@ -106,7 +106,7 @@ $date_archives_help = new WPSEO_Admin_Help_Panel(
 		/* translators: 1: expands to <code>noindex</code>; 2: link open tag; 3: link close tag. */
 		esc_html__( 'Not showing the date archives in the search results technically means those will have a %1$s robots meta and will be excluded from XML sitemaps. %2$sMore info on the search results settings%3$s.', 'wordpress-seo' ),
 		'<code>noindex</code>',
-		'<a href="' . esc_url( 'https://yoa.st/show-x' ) . '" target="_blank" rel="noopener noreferrer">',
+		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/show-x' ) ) . '" target="_blank" rel="noopener noreferrer">',
 		'</a>'
 	)
 );
