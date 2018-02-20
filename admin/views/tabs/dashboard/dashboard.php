@@ -28,7 +28,7 @@ $notifier->listen();
 </div>
 
 <div class="tab-block">
-	<h3>Credits</h3>
+	<h3><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></h3>
 	<p>
 		<span class="dashicons dashicons-groups"></span>
 		<a href="<?php WPSEO_Shortlinker::show( 'http://yoa.st/yoast-seo-credits' ) ?>"><?php
