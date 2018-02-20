@@ -7,4 +7,11 @@ module.exports = {
 		},
 		src: "package.json",
 	},
+	packageJSONFree: {
+		options: {
+			base: "yoast",
+			target: "pluginVersion",
+		},
+		src: "../package.json",
+	},
 };
