@@ -41,17 +41,11 @@ class WPSEO_Post_Type {
 	 * @return bool True when post type is set to index.
 	 */
 	public static function is_post_type_indexable( $post_type_name ) {
-		$option = WPSEO_Options::get_option( 'wpseo_titles' );
-
-		if ( array_key_exists( 'disable-' . $post_type_name, $option ) && $option[ 'disable-' . $post_type_name ] ) {
+		if ( WPSEO_Options::get( 'disable-' . $post_type_name, false ) ) {
 			return false;
 		}
 
-		if ( ! array_key_exists( 'noindex-' . $post_type_name, $option ) ) {
-			return false;
-		}
-
-		return empty( $option[ 'noindex-' . $post_type_name ] );
+		return ( false === WPSEO_Options::get( 'noindex-' . $post_type_name, false ) );
 	}
 
 	/**

@@ -3,13 +3,15 @@
  * @package WPSEO\Admin\Views
  */
 
+/**
+ * @var Yoast_Form $yform
+ */
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-
-$yform = Yoast_Form::get_instance();
 
 $taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
@@ -19,6 +21,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			continue;
 		}
 
+		echo '<div class="tab-block">';
 		echo '<h2>' . esc_html( ucfirst( $tax->labels->name ) ) . ' (<code>' . esc_html( $tax->name ) . '</code>)</h2>';
 		if ( $tax->name === 'post_format' ) {
 			$yform->light_switch(
@@ -44,7 +47,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 		 * @api  Object             $tax    The taxonomy
 		 */
 		do_action( 'wpseo_admin_page_meta_taxonomies', $yform, $tax );
-		echo '<br/><br/>';
+		echo '</div>';
 		echo '</div>';
 	}
 	unset( $tax );

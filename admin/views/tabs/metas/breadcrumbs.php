@@ -3,13 +3,15 @@
  * @package WPSEO\Admin
  */
 
+/**
+ * @var Yoast_Form $yform
+ */
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-
-$yform = Yoast_Form::get_instance();
 
 echo '<h2>' . esc_html__( 'Breadcrumbs settings', 'wordpress-seo' ) . '</h2>';
 
@@ -46,7 +48,7 @@ echo '<br/><br/>';
  */
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
 if ( is_array( $post_types ) && $post_types !== array() ) {
-	echo '<h2>' . esc_html__( 'Taxonomy to show in breadcrumbs for post types', 'wordpress-seo' ) . '</h2>';
+	echo '<h2>' . esc_html__( 'Taxonomy to show in breadcrumbs for content types', 'wordpress-seo' ) . '</h2>';
 	foreach ( $post_types as $pt ) {
 		$taxonomies = get_object_taxonomies( $pt->name, 'objects' );
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
@@ -72,7 +74,7 @@ $taxonomies = get_taxonomies(
 );
 
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-	echo '<h2>' . esc_html__( 'Post type archive to show in breadcrumbs for taxonomies', 'wordpress-seo' ) . '</h2>';
+	echo '<h2>' . esc_html__( 'Content type archive to show in breadcrumbs for taxonomies', 'wordpress-seo' ) . '</h2>';
 	foreach ( $taxonomies as $tax ) {
 		$values = array( 0 => __( 'None', 'wordpress-seo' ) );
 		if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) > 0 ) {

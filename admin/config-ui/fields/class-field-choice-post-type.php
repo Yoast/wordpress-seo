@@ -23,10 +23,10 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 		$this->post_type = $post_type;
 
 		/* Translators: %1$s expands to the name of the post type. The options given to the user are "visible" and "hidden" */
-		$this->set_property( 'label', sprintf( __( 'The post type "%1$s" should be', 'wordpress-seo' ), $label ) );
+		$this->set_property( 'label', sprintf( __( 'Search engines should show "%1$s" in search results:', 'wordpress-seo' ), $label ) );
 
-		$this->add_choice( 'true', __( 'Visible', 'wordpress-seo' ) );
-		$this->add_choice( 'false', __( 'Hidden', 'wordpress-seo' ) );
+		$this->add_choice( 'true', __( 'Yes', 'wordpress-seo' ) );
+		$this->add_choice( 'false', __( 'No', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -55,11 +55,9 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	 * @return bool
 	 */
 	public function get_data() {
-		$option = WPSEO_Options::get_option( 'wpseo_titles' );
-
 		$key = 'noindex-' . $this->get_post_type();
 
-		if ( isset( $option[ $key ] ) && $option[ $key ] === false ) {
+		if ( WPSEO_Options::get( $key, false ) === false ) {
 			return 'true';
 		}
 
@@ -76,15 +74,6 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	public function set_data( $visible ) {
 		$post_type = $this->get_post_type();
 
-		$option = WPSEO_Options::get_option( 'wpseo_titles' );
-
-		$option[ 'noindex-' . $post_type ] = ( $visible === 'false' );
-
-		update_option( 'wpseo_titles', $option );
-
-		// Check if everything got saved properly.
-		$saved_option = WPSEO_Options::get_option( 'wpseo_titles' );
-
-		return ( ( $visible === 'false' ) && $saved_option[ 'noindex-' . $post_type ] === true );
+		return WPSEO_Options::set( 'noindex-' . $post_type, ( $visible === 'false' ) );
 	}
 }

@@ -98,9 +98,7 @@ class WPSEO_OnPage_Option {
 	 * @return bool
 	 */
 	public function is_enabled() {
-		$options = get_option( 'wpseo' );
-
-		return ! empty( $options['onpage_indexability'] );
+		return WPSEO_Options::get( 'onpage_indexability' );
 	}
 
 	/**

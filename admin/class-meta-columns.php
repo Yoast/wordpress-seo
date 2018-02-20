@@ -685,11 +685,10 @@ class WPSEO_Meta_Columns {
 			return $fixed_title;
 		}
 
-		$post    = get_post( $post_id );
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+		$post = get_post( $post_id );
 
-		if ( is_object( $post ) && ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) ) {
-			$title_template = $options[ 'title-' . $post->post_type ];
+		if ( is_object( $post ) && WPSEO_Options::get( 'title-' . $post->post_type, '' ) !== '' ) {
+			$title_template = WPSEO_Options::get( 'title-' . $post->post_type );
 			$title_template = str_replace( ' %%page%% ', ' ', $title_template );
 
 			return wpseo_replace_vars( $title_template, $post );

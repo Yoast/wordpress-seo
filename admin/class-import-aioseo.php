@@ -25,6 +25,7 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 
 		$this->aioseo_options = get_option( 'aioseop_options' );
 
+		$this->success = true;
 		$this->import_metas();
 		$this->import_ga();
 	}

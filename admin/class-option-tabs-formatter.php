@@ -20,10 +20,8 @@ class WPSEO_Option_Tabs_Formatter {
 
 	/**
 	 * @param WPSEO_Option_Tabs $option_tabs Option Tabs to get tabs from.
-	 * @param Yoast_Form        $yform Yoast Form which is being used in the views.
-	 * @param array             $options Options which are being used in the views.
 	 */
-	public function run( WPSEO_Option_Tabs $option_tabs, Yoast_Form $yform, $options = array() ) {
+	public function run( WPSEO_Option_Tabs $option_tabs ) {
 
 		echo '<h2 class="nav-tab-wrapper" id="wpseo-tabs">';
 		foreach ( $option_tabs->get_tabs() as $tab ) {
@@ -49,6 +47,7 @@ class WPSEO_Option_Tabs_Formatter {
 			// Output the settings view for all tabs.
 			$tab_view = $this->get_tab_view( $option_tabs, $tab );
 			if ( is_file( $tab_view ) ) {
+				$yform = Yoast_Form::get_instance();
 				require_once $tab_view;
 			}
 

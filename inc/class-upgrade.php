@@ -9,95 +9,88 @@
  */
 class WPSEO_Upgrade {
 	/**
-	 * Holds the Yoast SEO options
-	 *
-	 * @var array
-	 */
-	private $options = array();
-
-	/**
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_option( 'wpseo' );
+		$version = WPSEO_Options::get( 'version' );
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
-		if ( version_compare( $this->options['version'], '1.5.0', '<' ) ) {
-			$this->upgrade_15( $this->options['version'] );
+		if ( version_compare( $version, '1.5.0', '<' ) ) {
+			$this->upgrade_15( $version );
 		}
 
-		if ( version_compare( $this->options['version'], '2.0', '<' ) ) {
+		if ( version_compare( $version, '2.0', '<' ) ) {
 			$this->upgrade_20();
 		}
 
-		if ( version_compare( $this->options['version'], '2.1', '<' ) ) {
+		if ( version_compare( $version, '2.1', '<' ) ) {
 			$this->upgrade_21();
 		}
 
-		if ( version_compare( $this->options['version'], '2.2', '<' ) ) {
+		if ( version_compare( $version, '2.2', '<' ) ) {
 			$this->upgrade_22();
 		}
 
-		if ( version_compare( $this->options['version'], '2.3', '<' ) ) {
+		if ( version_compare( $version, '2.3', '<' ) ) {
 			$this->upgrade_23();
 		}
 
-		if ( version_compare( $this->options['version'], '3.0', '<' ) ) {
+		if ( version_compare( $version, '3.0', '<' ) ) {
 			$this->upgrade_30();
 		}
 
-		if ( version_compare( $this->options['version'], '3.3', '<' ) ) {
+		if ( version_compare( $version, '3.3', '<' ) ) {
 			$this->upgrade_33();
 		}
 
-		if ( version_compare( $this->options['version'], '3.6', '<' ) ) {
+		if ( version_compare( $version, '3.6', '<' ) ) {
 			$this->upgrade_36();
 		}
 
-		if ( version_compare( $this->options['version'], '4.0', '<' ) ) {
+		if ( version_compare( $version, '4.0', '<' ) ) {
 			$this->upgrade_40();
 		}
 
-		if ( version_compare( $this->options['version'], '4.4', '<' ) ) {
+		if ( version_compare( $version, '4.4', '<' ) ) {
 			$this->upgrade_44();
 		}
 
-		if ( version_compare( $this->options['version'], '4.7', '<' ) ) {
+		if ( version_compare( $version, '4.7', '<' ) ) {
 			$this->upgrade_47();
 		}
 
-		if ( version_compare( $this->options['version'], '4.9', '<' ) ) {
+		if ( version_compare( $version, '4.9', '<' ) ) {
 			$this->upgrade_49();
 		}
 
-		if ( version_compare( $this->options['version'], '5.0', '<' ) ) {
+		if ( version_compare( $version, '5.0', '<' ) ) {
 			$this->upgrade_50();
 		}
 
-		if ( version_compare( $this->options['version'], '5.0', '>=' )
-			 && version_compare( $this->options['version'], '5.1', '<' )
+		if ( version_compare( $version, '5.0', '>=' )
+			 && version_compare( $version, '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
 
-		if ( version_compare( $this->options['version'], '5.5', '<' ) ) {
+		if ( version_compare( $version, '5.5', '<' ) ) {
 			$this->upgrade_55();
 		}
 
-		if ( version_compare( $this->options['version'], '5.6', '<' ) ) {
+		if ( version_compare( $version, '5.6', '<' ) ) {
 			$this->upgrade_56();
 		}
 
-		if ( version_compare( $this->options['version'], '6.1', '<' ) ) {
+		if ( version_compare( $version, '6.1', '<' ) ) {
 			$this->upgrade_61();
 		}
 
-		if ( version_compare( $this->options['version'], '6.3', '<' ) ) {
+		if ( version_compare( $version, '6.3', '<' ) ) {
 			$this->upgrade_63();
 		}
 
-		if ( version_compare( $this->options['version'], '7.0', '<' ) ) {
+		if ( version_compare( $version, '7.0-RC0', '<' ) ) {
 			$this->upgrade_70();
 		}
 
@@ -110,7 +103,7 @@ class WPSEO_Upgrade {
 		 *
 		 * @api        string - The current version of Yoast SEO
 		 */
-		do_action( 'wpseo_run_upgrade', $this->options['version'] );
+		do_action( 'wpseo_run_upgrade', $version );
 
 		$this->finish_up();
 	}
@@ -162,8 +155,7 @@ class WPSEO_Upgrade {
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
 	private function finish_up() {
-		$this->options = WPSEO_Options::get_option( 'wpseo' );   // Re-get to make sure we have the latest version.
-		update_option( 'wpseo', $this->options );                     // This also ensures the DB version is equal to WPSEO_VERSION.
+		WPSEO_Options::set( 'version', WPSEO_VERSION );
 
 		add_action( 'shutdown', 'flush_rewrite_rules' );                     // Just flush rewrites, always, to at least make them work after an upgrade.
 		WPSEO_Sitemaps_Cache::clear();                                       // Flush the sitemap cache.
@@ -507,9 +499,13 @@ class WPSEO_Upgrade {
 		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssafter' );
 		delete_option( 'wpseo_rss' );
 
-		// Move the website name and altername name as they've moved to another config page.
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'website_name' );
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'alternate_website_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_logo' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_or_person' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'person_name' );
+
+		// Remove the website name and altername name as we no longer need them.
+		$this->remove_key_from_option( 'wpseo', array( 'website_name', 'alternate_website_name' ) );
 
 		// All the breadcrumbs settings have moved to the search appearance settings.
 		$internal_links = (array) get_option( 'wpseo_internallinks' );

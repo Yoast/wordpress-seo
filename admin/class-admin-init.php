@@ -13,6 +13,7 @@ class WPSEO_Admin_Init {
 	 * @var string
 	 */
 	private $pagenow;
+
 	/**
 	 * Holds the asset manager.
 	 *
@@ -606,6 +607,14 @@ class WPSEO_Admin_Init {
 			'wp_seo_get_bc_title'              => array(
 				'version'     => '5.8',
 				'alternative' => 'wpseo_breadcrumb_single_link_info',
+			),
+			'wpseo_metakey'                    => array(
+				'version'     => '6.3',
+				'alternative' => null,
+			),
+			'wpseo_metakeywords'               => array(
+				'version'     => '6.3',
+				'alternative' => null,
 			),
 			'wpseo_stopwords'                  => array(
 				'version'     => '7.0',

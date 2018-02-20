@@ -27,9 +27,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_index_links( $max_entries ) {
 
-		$options = WPSEO_Options::get_all();
-
-		if ( $options['disable-author'] || $options['noindex-author-wpseo'] ) {
+		if ( WPSEO_Options::get( 'disable-author', false ) || WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
 			return array();
 		}
 
@@ -136,11 +134,9 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
-		$options = WPSEO_Options::get_all();
-
 		$links = array();
 
-		if ( $options['disable-author'] === true || $options['noindex-author-wpseo'] === true ) {
+		if ( WPSEO_Options::get( 'disable-author', false ) || WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
 			return $links;
 		}
 

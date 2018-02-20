@@ -213,7 +213,7 @@ class WPSEO_Taxonomy {
 		$taxonomy = get_taxonomy( $term->taxonomy );
 
 		$term_formatter = new WPSEO_Metabox_Formatter(
-			new WPSEO_Term_Metabox_Formatter( $taxonomy, $term, WPSEO_Options::get_option( 'wpseo_titles' ) )
+			new WPSEO_Term_Metabox_Formatter( $taxonomy, $term )
 		);
 
 		return $term_formatter->get_values();
@@ -275,10 +275,9 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	private function show_metabox() {
-		$options    = WPSEO_Options::get_option( 'wpseo_titles' );
 		$option_key = 'hideeditbox-tax-' . $this->taxonomy;
 
-		return ( empty( $options[ $option_key ] ) );
+		return WPSEO_Options::get( $option_key );
 	}
 
 	/**
