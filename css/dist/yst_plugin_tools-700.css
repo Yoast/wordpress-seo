@@ -87,7 +87,8 @@ p.desc {
 	padding: 0 0 8px 25px;
 }
 
-p.desc.label {
+p.desc.label,
+div.desc.label {
 	margin: 0 0 20px;
 	padding: 0 0 10px 200px;
 }
@@ -640,7 +641,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		display: block;
 		max-width: 100%;
 	}
-	p.desc.label {
+	p.desc.label,
+	div.desc.label {
 		padding-left: 0;
 	}
 	.wp-core-ui .button.wpseo-gsc-save-profile {

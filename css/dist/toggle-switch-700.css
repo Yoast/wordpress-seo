@@ -255,10 +255,6 @@
 		vertical-align: middle;
 	}
 
-	.switch-light.switch-yoast-seo > strong {
-		font-weight: 600;
-	}
-
 	.switch-toggle.switch-yoast-seo,
 	.switch-light.switch-yoast-seo > span {
 		width: 250px;
@@ -361,7 +357,7 @@
 	.switch-container .label-text {
 		display: block;
 		margin: 0.5em 0;
-		font-weight: 600;
+		font-weight: 400;
 	}
 
 	.switch-container {
