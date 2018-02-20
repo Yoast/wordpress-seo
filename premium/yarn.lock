@@ -7225,9 +7225,9 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yoast-components@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-3.0.0.tgz#7cd296bad0d21e896d3251addae3fe32a00bc84a"
+yoast-components@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-3.0.1.tgz#0e298961d0536f939af6e78f127bf782cc5b7a39"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     algoliasearch "^3.22.3"
