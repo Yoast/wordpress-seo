@@ -116,8 +116,8 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
 }
 
 .c9 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -146,7 +146,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
       fill="#555"
       focusable="false"
       role="img"
-      size="16"
+      size="16px"
       viewBox="0 0 1792 1792"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -285,8 +285,8 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
 }
 
 .c9 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -315,7 +315,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
       fill="#555"
       focusable="false"
       role="img"
-      size="16"
+      size="16px"
       viewBox="0 0 1792 1792"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -471,8 +471,8 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
 }
 
 .c9 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -501,7 +501,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
       fill="#555"
       focusable="false"
       role="img"
-      size="16"
+      size="16px"
       viewBox="0 0 1792 1792"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -651,8 +651,8 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
 }
 
 .c9 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -681,7 +681,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
       fill="#555"
       focusable="false"
       role="img"
-      size="16"
+      size="16px"
       viewBox="0 0 1792 1792"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -819,8 +819,8 @@ exports[`AnalysisCollapsible matches the snapshot with a heading 1`] = `
 }
 
 .c10 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -852,7 +852,7 @@ exports[`AnalysisCollapsible matches the snapshot with a heading 1`] = `
         fill="#555"
         focusable="false"
         role="img"
-        size="16"
+        size="16px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >

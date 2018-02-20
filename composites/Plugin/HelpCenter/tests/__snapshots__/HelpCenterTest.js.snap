@@ -89,16 +89,16 @@ exports[`the HelpCenter matches the snapshot 1`] = `
 }
 
 .c4 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
 }
 
 .c5 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -134,7 +134,7 @@ exports[`the HelpCenter matches the snapshot 1`] = `
         fill="#fff"
         focusable="false"
         role="img"
-        size="16"
+        size="16px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -149,7 +149,7 @@ exports[`the HelpCenter matches the snapshot 1`] = `
         fill="#fff"
         focusable="false"
         role="img"
-        size="16"
+        size="16px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -250,16 +250,16 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
 }
 
 .c4 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
 }
 
 .c5 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -295,7 +295,7 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
         fill="#fff"
         focusable="false"
         role="img"
-        size="16"
+        size="16px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -310,7 +310,7 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
         fill="#fff"
         focusable="false"
         role="img"
-        size="16"
+        size="16px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
