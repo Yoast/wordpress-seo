@@ -32,8 +32,16 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			);
 		}
 		echo "<div id='" . esc_attr( $tax->name ) . "-titles-metas'>";
-		/* translators: %1$s expands to the Taxonomy name */
-		$yform->index_switch( 'noindex-tax-' . $tax->name, $tax->labels->name );
+
+		$view_utils = new Yoast_View_Utils();
+		$taxonomies_help = $view_utils->search_results_setting_help( $tax );
+
+		$yform->index_switch(
+			'noindex-tax-' . $tax->name,
+			$tax->labels->name,
+			$taxonomies_help->get_button_html() . $taxonomies_help->get_panel_html()
+		);
+
 		$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
 		$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
 		if ( $tax->name !== 'post_format' ) {
@@ -57,10 +65,21 @@ unset( $taxonomies );
 echo '<h2>', esc_html__( ' Category URLs', 'wordpress-seo' ), '</h2>';
 
 $remove_buttons = array( __( 'Keep', 'wordpress-seo' ), __( 'Remove', 'wordpress-seo' ) );
+
+$stripcategorybase_help = new WPSEO_Admin_Help_Panel(
+	'opengraph',
+	esc_html__( 'Help on the category prefix setting', 'wordpress-seo' ),
+	sprintf(
+		/* translators: %s expands to <code>/category/</code> */
+		esc_html__( 'Category URLs in WordPress contain a prefix, usually %s, this feature removes that prefix, for categories only.', 'wordpress-seo' ),
+		'<code>/category/</code>'
+	)
+);
+
 $yform->light_switch(
 	'stripcategorybase',
-	/* translators: %s expands to <code>/category/</code> */
-	sprintf( __( 'Category URLs in WordPress contain a prefix, usually %s, this feature removes that prefix, for categories only.', 'wordpress-seo' ), '<code>/category/</code>' ),
+	__( 'Remove the categories prefix', 'wordpress-seo' ),
 	$remove_buttons,
-	false
+	false,
+	$stripcategorybase_help->get_button_html() . $stripcategorybase_help->get_panel_html()
 );
