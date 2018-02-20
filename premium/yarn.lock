@@ -2054,6 +2054,14 @@ draft-js@^0.10.1:
     immutable "~3.7.4"
     object-assign "^4.1.0"
 
+draft-js@^0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
+  dependencies:
+    fbjs "^0.8.15"
+    immutable "~3.7.4"
+    object-assign "^4.1.0"
+
 duplexer2@0.0.2, duplexer2@~0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.0.2.tgz#c614dcf67e2fb14995a91711e5a617e8a60a31db"
@@ -5742,6 +5750,13 @@ react-tabs@^2.0.0:
     classnames "^2.2.0"
     prop-types "^15.5.0"
 
+react-tabs@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-tabs/-/react-tabs-2.2.1.tgz#0331d26173c56e7af4fdbfb6225e62683cfdda52"
+  dependencies:
+    classnames "^2.2.0"
+    prop-types "^15.5.0"
+
 "react@0.14.8 || ^15.5.0 || ^16.0.0", "react@^0.14.3 || ^15.1.0 || ^16.0.0":
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
@@ -7210,7 +7225,30 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yoast-components@2.11.9, yoast-components@^2.11.6:
+yoast-components@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-3.0.1.tgz#0e298961d0536f939af6e78f127bf782cc5b7a39"
+  dependencies:
+    a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
+    algoliasearch "^3.22.3"
+    debug "^3.0.0"
+    draft-js "^0.10.5"
+    interpolate-components "^1.1.0"
+    jed "^1.1.1"
+    lodash "^4.17.4"
+    prop-types "^15.6.0"
+    react-intl "^2.4.0"
+    react-redux "^5.0.6"
+    react-tabs "^2.2.1"
+    redux "^3.7.2"
+    redux-thunk "^2.2.0"
+    striptags "^3.1.0"
+    styled-components "^2.1.2"
+    whatwg-fetch "^1.0.0"
+  optionalDependencies:
+    grunt-scss-to-json "^1.0.1"
+
+yoast-components@^2.11.6:
   version "2.11.9"
   resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.11.9.tgz#933bfcff3157c7e609327d8724191ca05e239a3b"
   dependencies:
