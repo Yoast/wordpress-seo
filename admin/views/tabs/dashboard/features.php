@@ -119,18 +119,19 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 	usort( $feature_toggles, 'wpseo_cmp_order' );
 
 	foreach ( $feature_toggles as $feature ) {
-		$label = esc_html( $feature->label );
+		$help_text = esc_html( $feature->label );
 		if ( ! empty( $feature->extra ) ) {
-			$label .= ' ' . $feature->extra;
+			$help_text .= ' ' . $feature->extra;
 		}
 		if ( ! empty( $feature->read_more_label ) ) {
-			$label .= ' ' . sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', WPSEO_Shortlinker::get( $feature->read_more_url ), esc_html( $feature->read_more_label ) );
+			$help_text .= ' ' . sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', WPSEO_Shortlinker::get( $feature->read_more_url ), esc_html( $feature->read_more_label ) );
 		}
 
 		$feature_help = new WPSEO_Admin_Help_Panel(
 			$feature->setting,
-			$feature->name,
-			$label
+			/* translators: %s expands to a feature's name */
+			sprintf( __( 'Help on: %s', 'wordpress-seo' ) . $feature->name ),
+			$help_text
 		);
 
 		$yform->toggle_switch(
