@@ -375,7 +375,7 @@ msgstr ""
 #. translators: %1$s expands to Yoast SEO.
 #: admin/class-admin.php:618
 msgid ""
-"The search appearance settings for %1$s are made up of variables that are "
+"The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
 "tabs on the left explain the available variables."
 msgstr ""
@@ -2781,7 +2781,7 @@ msgstr ""
 #. translators: %1$s expands to Yoast SEO.
 #: admin/pages/metas.php:55
 msgid ""
-"The search appearance settings for %1$s are made up of variables that are "
+"The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
 "table below contains a list of the available variables."
 msgstr ""
