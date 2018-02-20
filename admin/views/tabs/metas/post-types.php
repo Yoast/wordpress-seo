@@ -57,8 +57,19 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		$name = $post_type->name;
 		echo '<div class="tab-block">';
 		echo '<h3>' . esc_html( ucfirst( $post_type->labels->name ) ) . '</h3>';
-		/* translators: %s exapnds to the post type's name. */
-		$yform->index_switch( 'noindex-ptarchive-' . $name, sprintf( __( 'the archive for %s', 'wordpress-seo' ), $post_type->labels->name ) );
+
+		$custom_post_type_archive_help = $view_utils->search_results_setting_help( $post_type, 'archive' );
+
+		$yform->index_switch(
+			'noindex-ptarchive-' . $name,
+			sprintf(
+				/* translators: %s exapnds to the post type's name. */
+				__( 'the archive for %s', 'wordpress-seo' ),
+				$post_type->labels->name
+			),
+			$custom_post_type_archive_help->get_button_html() . $custom_post_type_archive_help->get_panel_html()
+		);
+
 		$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
 		if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {

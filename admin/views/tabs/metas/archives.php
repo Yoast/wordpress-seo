@@ -48,8 +48,43 @@ $yform->toggle_switch( 'disable-author', array(
 ), __( 'Author archives', 'wordpress-seo' ) );
 
 echo "<div id='author-archives-titles-metas-content' class='archives-titles-metas-content'>";
-$yform->index_switch( 'noindex-author-wpseo', __( 'author archives', 'wordpress-seo' ) );
-$yform->index_switch( 'noindex-author-noposts-wpseo', __( 'archives for authors without posts', 'wordpress-seo' ) );
+
+$author_archives_help = new WPSEO_Admin_Help_Panel(
+	'noindex-author-wpseo',
+	esc_html__( 'Help on the author archives search results setting', 'wordpress-seo' ),
+	sprintf(
+		/* translators: 1: expands to <code>noindex</code>; 2: link open tag; 3: link close tag. */
+		esc_html__( 'Not showing the archive for authors in the search results technically means those will have a %1$s robots meta and will be excluded from XML sitemaps. %2$sMore info on the search results settings%3$s.', 'wordpress-seo' ),
+		'<code>noindex</code>',
+		'<a href="' . esc_url( 'https://yoa.st/show-x' ) . '" target="_blank" rel="noopener noreferrer">',
+		'</a>'
+	)
+);
+
+$yform->index_switch(
+	'noindex-author-wpseo',
+	__( 'author archives', 'wordpress-seo' ),
+	$author_archives_help->get_button_html() . $author_archives_help->get_panel_html()
+);
+
+$author_archives_no_posts_help = new WPSEO_Admin_Help_Panel(
+	'noindex-author-noposts-wpseo',
+	esc_html__( 'Help on the authors without posts archive search results setting', 'wordpress-seo' ),
+	sprintf(
+		/* translators: 1: expands to <code>noindex</code>; 2: link open tag; 3: link close tag. */
+		esc_html__( 'Not showing the archives for authors without posts in the search results technically means those will have a %1$s robots meta and will be excluded from XML sitemaps. %2$sMore info on the search results settings%3$s.', 'wordpress-seo' ),
+		'<code>noindex</code>',
+		'<a href="' . esc_url( 'https://yoa.st/show-x' ) . '" target="_blank" rel="noopener noreferrer">',
+		'</a>'
+	)
+);
+
+$yform->index_switch(
+	'noindex-author-noposts-wpseo',
+	__( 'archives for authors without posts', 'wordpress-seo' ),
+	$author_archives_no_posts_help->get_button_html() . $author_archives_no_posts_help->get_panel_html()
+);
+
 $yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
 $yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
 echo '</div>';
@@ -63,7 +98,25 @@ $yform->toggle_switch( 'disable-date', array(
 ), __( 'Date archives', 'wordpress-seo' ) );
 
 echo "<div id='date-archives-titles-metas-content' class='archives-titles-metas-content'>";
-$yform->index_switch( 'noindex-archive-wpseo', __( 'date archives', 'wordpress-seo' ) );
+
+$date_archives_help = new WPSEO_Admin_Help_Panel(
+	'noindex-archive-wpseo',
+	esc_html__( 'Help on the date archives search results setting', 'wordpress-seo' ),
+	sprintf(
+		/* translators: 1: expands to <code>noindex</code>; 2: link open tag; 3: link close tag. */
+		esc_html__( 'Not showing the date archives in the search results technically means those will have a %1$s robots meta and will be excluded from XML sitemaps. %2$sMore info on the search results settings%3$s.', 'wordpress-seo' ),
+		'<code>noindex</code>',
+		'<a href="' . esc_url( 'https://yoa.st/show-x' ) . '" target="_blank" rel="noopener noreferrer">',
+		'</a>'
+	)
+);
+
+$yform->index_switch(
+	'noindex-archive-wpseo',
+	__( 'date archives', 'wordpress-seo' ),
+	$date_archives_help->get_button_html() . $date_archives_help->get_panel_html()
+);
+
 $yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
 $yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
 echo '</div>';
