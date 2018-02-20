@@ -1,4 +1,5 @@
 ### 6.2.0: January 23rd, 2018
+* Removes the `WPSEO_Premium:: add_admin_pages` method which was deprecated before version 4.0.
 * Includes every change in Yoast SEO core 6.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 6.1.2: January 12th, 2018
