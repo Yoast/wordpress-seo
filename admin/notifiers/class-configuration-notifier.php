@@ -122,7 +122,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @param string $content        Content for the notification.
 	 * @param bool   $show_dismissal Whether to show the dismiss button or not.
 	 *
-	 * @return string
+	 * @return string The styled notification.
 	 */
 	private function notification( $title, $content, $show_dismissal = false ) {
 		$notification = '<div class="yoast-container yoast-container__configuration-wizard">';
