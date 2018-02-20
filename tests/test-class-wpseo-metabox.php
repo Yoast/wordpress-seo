@@ -63,7 +63,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that adding of valid metaboxes works properly.
 	 *
-	 * @covers WPSEO_Meta::add_metabox
+	 * @covers WPSEO_Meta::add_meta_box
 	 */
 	public function test_add_metabox() {
 		global $wp_meta_boxes;
