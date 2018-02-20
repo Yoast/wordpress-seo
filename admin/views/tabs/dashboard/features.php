@@ -74,14 +74,14 @@ $feature_toggles = array(
 	(object) array(
 		'name'    => __( 'Admin bar menu', 'wordpress-seo' ),
 		'setting' => 'enable_admin_bar_menu',
-		/* translators: %1$s expands to Yoast SEO*/
+		/* translators: %1$s expands to Yoast SEO */
 		'label'   => sprintf( __( 'The %1$s admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.', 'wordpress-seo' ), 'Yoast SEO' ),
 		'order'   => 80,
 	),
 	(object) array(
 		'name'    => __( 'Security: no advanced settings for authors', 'wordpress-seo' ),
 		'setting' => 'disableadvanced_meta',
-		/* translators: %1$s expands to Yoast SEO*/
+		/* translators: %1$s expands to Yoast SEO */
 		'label'   => sprintf( __( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. These are things you might not want any author to do. That\'s why, by default, only editors and administrators can do this. Setting to "Off" allows all users to change these settings.', 'wordpress-seo' ), 'Yoast SEO' ),
 		'order'   => 90,
 	),
