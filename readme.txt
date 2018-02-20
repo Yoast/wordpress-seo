@@ -135,6 +135,7 @@ Release Date: March 6th, 2018
     * Removes code to add a trailing slash in weird permutations of permalink settings. Canonical should solve this properly.
     * Removes the functionality to automatically remove blocking XML sitemap files.
     * Removes the clean permalinks feature, as it was created before canonical was introduced and is no longer needed.
+    * Fixes a reference to the ACF Content Analysis for Yoast SEO plugin
 
 ## Bugs:
 
