@@ -96,12 +96,14 @@ import a11ySpeak from "a11y-speak";
 	}
 
 	/**
-	 * Copies the meta description for the homepage
+	 * Copies the meta description for the homepage.
 	 *
 	 * @returns {void}
 	 */
 	function wpseoCopyHomeMeta() {
-		jQuery( "#og_frontpage_desc" ).val( jQuery( "#meta_description" ).val() );
+		jQuery( "#copy-home-meta-description" ).on( "click", function() {
+			jQuery( "#og_frontpage_desc" ).val( jQuery( "#meta_description" ).val() );
+		} );
 	}
 
 	/**
@@ -316,6 +318,7 @@ import a11ySpeak from "a11y-speak";
 			}
 		} );
 
+		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
 	} );
