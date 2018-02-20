@@ -136,6 +136,7 @@ Release Date: March 6th, 2018
     * Removes the functionality to automatically remove blocking XML sitemap files.
     * Removes the clean permalinks feature, as it was created before canonical was introduced and is no longer needed.
     * Fixes a reference to the ACF Content Analysis for Yoast SEO plugin
+    * Removes all functions, methods and files that were deprecated since before version 4.0 and were showing a deprecation warning.
 
 ## Bugs:
 
