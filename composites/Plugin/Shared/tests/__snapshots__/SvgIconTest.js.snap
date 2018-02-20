@@ -1,15 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the SvgIcon matches the snapshot 1`] = `
+.c0 {
+  width: 32px;
+  height: 32px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <svg
   aria-hidden={true}
-  className="yoast-svg-icon yoast-svg-icon-edit my-icon"
+  className="yoast-svg-icon yoast-svg-icon-edit my-icon c0"
   fill="black"
   focusable="false"
-  height="32px"
   role="img"
+  size="32px"
   viewBox="0 0 1792 1792"
-  width="32px"
   xmlns="http://www.w3.org/2000/svg"
 >
   <path

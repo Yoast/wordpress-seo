@@ -64,6 +64,14 @@ exports[`the Notification with props matches the snapshot 1`] = `
   vertical-align: middle;
 }
 
+.c6 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 @media screen and ( max-width:768px ) {
   .c1 h1,
   .c1 h2,
@@ -133,13 +141,12 @@ exports[`the Notification with props matches the snapshot 1`] = `
     >
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-times c5"
+        className="yoast-svg-icon yoast-svg-icon-times c5 c6"
         fill="#646464"
         focusable="false"
-        height="24px"
         role="img"
+        size="24px"
         viewBox="0 0 1792 1792"
-        width="24px"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path

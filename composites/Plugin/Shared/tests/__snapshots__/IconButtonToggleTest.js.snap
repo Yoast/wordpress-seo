@@ -25,6 +25,14 @@ exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
   cursor: default;
 }
 
+.c1 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <button
   aria-label="important toggle"
   aria-pressed={false}
@@ -36,13 +44,12 @@ exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-eye"
+    className="yoast-svg-icon yoast-svg-icon-eye c1"
     fill="#ddd"
     focusable="false"
-    height="18px"
     role="img"
+    size="18px"
     viewBox="0 0 1792 1792"
-    width="18px"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -77,6 +84,14 @@ exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
   cursor: default;
 }
 
+.c1 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <button
   aria-label="important toggle"
   aria-pressed={true}
@@ -88,13 +103,12 @@ exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-eye"
+    className="yoast-svg-icon yoast-svg-icon-eye c1"
     fill="#fff"
     focusable="false"
-    height="18px"
     role="img"
+    size="18px"
     viewBox="0 0 1792 1792"
-    width="18px"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -129,6 +143,14 @@ exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
   cursor: default;
 }
 
+.c1 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 <button
   aria-label="important toggle"
   aria-pressed={false}
@@ -140,13 +162,12 @@ exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-eye"
+    className="yoast-svg-icon yoast-svg-icon-eye c1"
     fill="#555"
     focusable="false"
-    height="18px"
     role="img"
+    size="18px"
     viewBox="0 0 1792 1792"
-    width="18px"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path

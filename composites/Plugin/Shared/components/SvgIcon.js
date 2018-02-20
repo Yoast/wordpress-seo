@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 /**
  * Returns the SvgIcon component.
@@ -76,20 +77,25 @@ export default class SvgIcon extends React.Component {
 
 		const iconClass = [ "yoast-svg-icon", "yoast-svg-icon-" + icon, className ].filter( Boolean ).join( " " );
 
+		const StyledSvg = styled.svg`
+			width: ${ props => props.size };
+			height: ${ props => props.size };
+			flex: none;
+		`;
+
 		return (
-			<svg
+			<StyledSvg
 				aria-hidden
 				role="img"
 				focusable="false"
+				size={ size }
 				className={ iconClass }
 				xmlns="http://www.w3.org/2000/svg"
-				width={ size }
-				height={ size }
 				viewBox="0 0 1792 1792"
 				fill={ color }
 			>
 				<path d={ path } />
-			</svg>
+			</StyledSvg>
 		);
 	}
 	/* eslint-enable complexity */
