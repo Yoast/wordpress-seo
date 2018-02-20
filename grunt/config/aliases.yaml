@@ -57,6 +57,14 @@ check:
 'check:i18n':
   - 'checktextdomain'
 
+'update-version:beta':
+  - 'update-version:pluginFile'
+  - 'update-version:initializer'
+
+'update-version:release':
+  - 'update-version:readme'
+  - 'update-version:beta'
+
 artifact:
   - 'shell:production-composer-install'
   # Update the version numbers in the relevant files
