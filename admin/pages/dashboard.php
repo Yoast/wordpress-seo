@@ -32,7 +32,6 @@ do_action( 'wpseo_all_admin_notices' );
 
 $tabs = new WPSEO_Option_Tabs( 'dashboard' );
 $tabs->add_tab( new WPSEO_Option_Tab( 'dashboard', __( 'Dashboard', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-notification-center' ), 'save_button' => false ) ) );
-$tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-general' ), 'save_button' => false ) ) );
 $tabs->add_tab( new WPSEO_Option_Tab( 'features', __( 'Features', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-features' ) ) ) );
 $tabs->add_tab( new WPSEO_Option_Tab( 'webmaster-tools', __( 'Webmaster tools', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-general-search-console' ) ) ) );
 $tabs->add_tab( new WPSEO_Option_Tab( 'security', __( 'Security', 'wordpress-seo' ), array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-security' ) ) ) );

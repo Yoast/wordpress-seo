@@ -712,36 +712,6 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
-	 * meta key clauses and not a combination - which is what we need.
-	 *
-	 * @deprecated 3.5 Unnecessary with nested meta queries in core.
-	 * @codeCoverageIgnore
-	 *
-	 * @param    string $where Where clause.
-	 *
-	 * @return    string
-	 */
-	public function seo_score_posts_where( $where ) {
-
-		_deprecated_function( __METHOD__, '3.5' );
-
-		global $wpdb;
-
-		/* Find the two mutually exclusive noindex clauses which should be changed from AND to OR relation */
-		$find = '`([\s]+AND[\s]+)((?:' . $wpdb->prefix . 'postmeta|mt[0-9]|mt1)\.post_id IS NULL[\s]+)AND([\s]+\([\s]*(?:' . $wpdb->prefix . 'postmeta|mt[0-9])\.meta_key = \'' . WPSEO_Meta::$meta_prefix . 'meta-robots-noindex\' AND CAST\([^\)]+\)[^\)]+\))`';
-
-		$replace = '$1( $2OR$3 )';
-
-		$new_where = preg_replace( $find, $replace, $where );
-
-		if ( $new_where ) {
-			return $new_where;
-		}
-		return $where;
-	}
-
-	/**
 	 * Determines whether or not filter dropdowns should be displayed.
 	 *
 	 * @return bool Whether or the current page can display the filter drop downs.

@@ -646,16 +646,20 @@ class Yoast_Form {
 	/**
 	 * Creates a toggle switch to show hide certain options.
 	 *
-	 * @param string $var    The variable within the option to create the radio buttons for.
-	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
+	 * @param string $var           The variable within the option to create the radio buttons for.
+	 * @param string $label         The visual label for the radio buttons group, used as the fieldset legend.
+	 * @param bool   $inverse_keys  Whether or not the option keys need to be inverted to support older functions.
 	 * @param string $help   Inline Help that will be printed out before the visible toggles text.
 	 *
 	 * @return void
 	 */
-	public function show_hide_switch( $var, $label, $help = '' ) {
+	public function show_hide_switch( $var, $label, $inverse_keys = false, $help = '' ) {
+		$on_key  = ( $inverse_keys ) ? 'off' : 'on';
+		$off_key = ( $inverse_keys ) ? 'on' : 'off';
+
 		$show_hide_switch = array(
-			'on'  => __( 'Show', 'wordpress-seo' ),
-			'off' => __( 'Hide', 'wordpress-seo' ),
+			$on_key  => __( 'Show', 'wordpress-seo' ),
+			$off_key => __( 'Hide', 'wordpress-seo' ),
 		);
 
 		$this->toggle_switch( $var, $show_hide_switch, $label, $help );

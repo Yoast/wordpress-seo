@@ -662,30 +662,4 @@ class WPSEO_Admin_Init {
 	private function has_postname_in_permalink() {
 		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
 	}
-
-	/********************** DEPRECATED METHODS **********************/
-
-	/**
-	 * Returns whether or not the user has seen the tagline notice
-	 *
-	 * @deprecated 3.3
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool
-	 */
-	public function seen_tagline_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
-
-		return false;
-	}
-
-	/**
-	 * Redirect first time or just upgraded users to the about screen.
-	 *
-	 * @deprecated 3.5
-	 * @codeCoverageIgnore
-	 */
-	public function after_update_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
-	}
 }
