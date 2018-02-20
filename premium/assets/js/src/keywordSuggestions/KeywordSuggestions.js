@@ -108,7 +108,7 @@ class KeywordSuggestions {
 		let title = translate( "Insights" );
 
 		ReactDOM.render(
-			<StyledSection headingText={ title } headingLevel={ 3 } headingIcon="file-text">
+			<StyledSection headingText={ title } headingLevel={ 3 } headingIconSize="16px" headingIcon="file-text">
 				<KeywordSuggestionsComponent relevantWords={ words } />
 			</StyledSection>,
 			this.suggestionsDiv
