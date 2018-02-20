@@ -17,10 +17,17 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	protected $watch_type = 'post';
 
+	/** @var WPSEO_Redirect_Manager Redirect Manager */
+	private $redirect_manager;
+
 	/**
 	 * Constructor of class.
+	 *
+	 * @param WPSEO_Redirect_Manager|null $redirect_manager Redirect Manager to use.
 	 */
-	public function __construct() {
+	public function __construct( WPSEO_Redirect_Manager $redirect_manager = null ) {
+		$this->redirect_manager = ( $redirect_manager === null ) ? new WPSEO_Redirect_Manager() : $redirect_manager;
+
 		$this->set_hooks();
 	}
 
@@ -73,15 +80,11 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
 
-		// If post is a revision do not create redirect.
-		if ( wp_is_post_revision( $post_before ) && wp_is_post_revision( $post ) ) {
+		if ( ! $this->is_redirect_relevant( $post, $post_before ) ) {
 			return false;
 		}
 
-		// There is no slug change.
-		if ( $this->get_target_url( $post ) === $this->get_target_url( $post_before ) ) {
-			return false;
-		}
+		$this->remove_colliding_redirect( $post, $post_before );
 
 		/**
 		 * Filter: 'wpseo_premium_post_redirect_slug_change' - Check if a redirect should be created on post slug change.
@@ -108,6 +111,48 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		// Maybe we can undo the created redirect.
 		$this->notify_undo_slug_redirect( $old_url, $new_url );
+	}
+
+	/**
+	 * Removes a colliding redirect if it is found.
+	 *
+	 * @param WP_Post $post
+	 * @param WP_Post $post_before
+	 */
+	protected function remove_colliding_redirect( $post, $post_before ) {
+		$redirect = $this->redirect_manager->get_redirect( $this->get_target_url( $post ) );
+		if ( false === $redirect ) {
+			return;
+		}
+
+		if ( $redirect->get_target() !== trim( $this->get_target_url( $post_before ), '/' ) ) {
+			return;
+		}
+
+		echo 'jier';
+		$this->redirect_manager->delete_redirects( array( $redirect ) );
+	}
+
+	/**
+	 * Determines if redirect is relevant for the provided post
+	 *
+	 * @param WP_Post $post        The post with the new values.
+	 * @param WP_Post $post_before The post with the previous values.
+	 *
+	 * @return bool True if a redirect might be relevant.
+	 */
+	protected function is_redirect_relevant( $post, $post_before ) {
+		// If post is a revision do not create redirect.
+		if ( wp_is_post_revision( $post_before ) && wp_is_post_revision( $post ) ) {
+			return false;
+		}
+
+		// There is no slug change.
+		if ( $this->get_target_url( $post ) === $this->get_target_url( $post_before ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -262,15 +307,15 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Get the URL to the post and returns it's path.
+	 * Retrieves the path of the URL for the supplied post.
 	 *
-	 * @param integer $post_id The current post ID.
+	 * @param int|WP_Post $post The current post ID.
 	 *
-	 * @return string
+	 * @return string The URL for the supplied post.
 	 */
-	protected function get_target_url( $post_id ) {
+	protected function get_target_url( $post ) {
 		// Use the correct URL path.
-		$url = wp_parse_url( get_permalink( $post_id ) );
+		$url = wp_parse_url( get_permalink( $post ) );
 		if ( is_array( $url ) && isset( $url['path'] ) ) {
 			return $url['path'];
 		}
@@ -297,7 +342,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			if ( ! empty( $action ) && $action === 'inline-save' && $this->get_target_url( $post ) !== $url_before ) {
 				return $url_before;
 			}
-			
+
 			return false;
 		}
 

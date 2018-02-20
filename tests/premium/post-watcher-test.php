@@ -121,5 +121,55 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance->detect_slug_change( 1, $post, $post_before );
 	}
+
+	/**
+	 * Creates a redirect and then creates a post with a slug that overlaps with the redirect, this should remove the redirect.
+	 */
+	public function test_slug_changed_matching_redirect() {
+		$redirect = new WPSEO_Redirect( 'to', 'from', 301, 'plain' );
+
+		// Create a redirect manager
+		$manager = new WPSEO_Redirect_Manager();
+		$manager->create_redirect( $redirect );
+
+		// Make sure we have pretty permalinks.
+		update_option( 'permalink_structure', '/%postname%/' );
+
+		// Assure the redirect is added.
+		$this->assertEquals( 1, count( $manager->get_all_redirects() ) );
+
+		// Prepare a post.
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title'  => 'fake post',
+				'post_name'   => 'from',
+				'post_status' => 'publish',
+			)
+		);
+
+		$post = get_post( $post_id, ARRAY_A );
+
+		// Add the post watcher, to trigger on the post save.
+		$post_watcher = $this
+			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
+			->setMethods( array( 'post_redirect_can_be_made' ) )
+			->getMock();
+
+		$post_watcher
+			->expects( $this->once() )
+			->method( 'post_redirect_can_be_made' )
+			->will( $this->returnValue( true ) );
+
+		/** var WPSEO_Post_Watcher_Double $post_watcher */
+		$post_watcher->set_hooks();
+
+		// Save post with a new slug.
+		$post['ID']        = $post_id;
+		$post['post_name'] = 'to';
+
+		wp_update_post( $post );
+
+		$this->assertEmpty( $manager->get_all_redirects() );
+	}
 }
 
