@@ -78,6 +78,13 @@ $feature_toggles = array(
 		'label'   => sprintf( __( 'The %1$s admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.', 'wordpress-seo' ), 'Yoast SEO' ),
 		'order'   => 80,
 	),
+	(object) array(
+		'name'    => __( 'Security: no advanced settings for authors', 'wordpress-seo' ),
+		'setting' => 'disableadvanced_meta',
+		/* translators: %1$s expands to Yoast SEO*/
+		'label'   => sprintf( __( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. These are things you might not want any author to do. That\'s why, by default, only editors and administrators can do this. Setting to "Off" allows all users to change these settings.', 'wordpress-seo' ), 'Yoast SEO' ),
+		'order'   => 90,
+	),
 );
 
 /**
@@ -92,7 +99,7 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 <div style="max-width:600px">
 	<?php echo esc_html( sprintf(
 	/* translators: %1$s expands to Yoast SEO */
-		__( '%1$s comes with a lot of features. You can enable / disable some of them below.', 'wordpress-seo' ),
+		__( '%1$s comes with a lot of features. You can enable / disable some of them below. Clicking the question mark gives more information about the feature.', 'wordpress-seo' ),
 		'Yoast SEO'
 	) ) ?>
 	<?php
@@ -111,30 +118,30 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 
 	usort( $feature_toggles, 'wpseo_cmp_order' );
 
-	foreach ( $feature_toggles as $feature ) : ?>
-		<h3><?php echo esc_html( $feature->name ); ?></h3>
-		<p>
-			<?php
-			$label = esc_html( $feature->label );
-			if ( ! empty( $feature->extra ) ) {
-				$label .= ' ' . $feature->extra;
-			}
-			if ( ! empty( $feature->read_more_label ) ) {
-				$label .= ' ' . sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', WPSEO_Shortlinker::get( $feature->read_more_url ), esc_html( $feature->read_more_label ) );
-			}
-			$yform->toggle_switch(
-				$feature->setting,
-				array(
-					'on'  => __( 'Enabled', 'wordpress-seo' ),
-					'off' => __( 'Disabled', 'wordpress-seo' ),
-				),
-				$label
-			);
-			?>
-		</p>
-		<br/>
+	foreach ( $feature_toggles as $feature ) {
+		$label = esc_html( $feature->label );
+		if ( ! empty( $feature->extra ) ) {
+			$label .= ' ' . $feature->extra;
+		}
+		if ( ! empty( $feature->read_more_label ) ) {
+			$label .= ' ' . sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', WPSEO_Shortlinker::get( $feature->read_more_url ), esc_html( $feature->read_more_label ) );
+		}
 
-	<?php endforeach; ?>
+		$feature_help = new WPSEO_Admin_Help_Panel(
+			$feature->setting,
+			$feature->name,
+			$label
+		);
+
+		$yform->toggle_switch(
+			$feature->setting,
+			array(
+				'on'  => __( 'On', 'wordpress-seo' ),
+				'off' => __( 'Off', 'wordpress-seo' ),
+			),
+			'<strong>' . $feature->name . $feature_help->get_button_html() . '</strong>' . $feature_help->get_panel_html()
+		);
+	} ?>
 </div>
 <?php
 // Required to prevent our settings framework from saving the default because the field isn't explicitly set when saving the Dashboard page.
