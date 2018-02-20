@@ -39,6 +39,8 @@ if ( 'posts' === get_option( 'show_on_front' ) ) {
 	$yform->textinput( 'og_frontpage_title', __( 'Title', 'wordpress-seo' ) );
 	$yform->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
 
+	$copy_home_description_button_label = esc_html__( 'Copy home meta description', 'wordpress-seo' );
+
 	// Offer copying of meta description.
 	$homepage_meta_description = WPSEO_Options::get( 'metadesc-home-wpseo' );
 	if ( ! empty( $homepage_meta_description ) ) {
@@ -46,16 +48,17 @@ if ( 'posts' === get_option( 'show_on_front' ) ) {
 			'copy-home-meda-desc',
 			esc_html__( 'Help on copying the home meta description', 'wordpress-seo' ),
 			sprintf(
-				/* translators: 1: link open tag; 2: link close tag. */
-				esc_html__( 'Click the "Copy home meta description" button to use the meta description already set in the %1$sSearch Appearance Homepage%2$s setting.', 'wordpress-seo' ),
+				/* translators: 1: link open tag; 2: link close tag., 3: the translated label of the button */
+				esc_html__( 'Click the "%3$s" button to use the meta description already set in the %1$sSearch Appearance Homepage%2$s setting.', 'wordpress-seo' ),
 				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles' ) ) . '">',
-				'</a>'
+				'</a>',
+				$copy_home_description_button_label
 			)
 		);
 
 		echo '<input type="hidden" id="meta_description" value="', $homepage_meta_description, '" />';
 		echo '<div class="label desc copy-home-meta-description">' .
-				'<button type="button" id="copy-home-meta-description" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</button>' .
+				'<button type="button" id="copy-home-meta-description" class="button">', $copy_home_description_button_label, '</button>' .
 				$copy_home_meta_desc_help->get_button_html() .
 				$copy_home_meta_desc_help->get_panel_html() .
 			'</div>';
