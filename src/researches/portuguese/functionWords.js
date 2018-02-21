@@ -1,13 +1,14 @@
 let transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
- * Returns an array with exceptions for the prominent words researcher
+ * Returns an array with exceptions for the prominent words researcher.
+ *
  * @returns {Array} The array filled with exceptions.
  */
 
 let articles = [ "o", "a", "os", "as", "um", "uns", "uma", "umas" ];
 
-// "Um" is already included in the articles.
+// "um" is already included in the articles.
 let cardinalNumerals = [ "uma", "duas", "dois", "três", "cuatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze",
 	"treze", "quatorze", "catorze", "quinze", "dezesseis", "dezessete", "dezasseis", "dezassete", "dezoito", "dezenove", "dezanove",
 	"vinte", "cem", "cento", "mil", "milhão", "milhões", "bilhão", "bilhões" ];
@@ -19,7 +20,7 @@ let ordinalNumerals = [ "primeiro", "primeiros", "primeira", "primeiras", "segun
 
 let personalPronounsNominative = [ "eu", "tu", "ele", "ela", "nós", "vós", "você", "vocês", "eles", "elas" ];
 
-// "o", "a", "os", "as" are already included in the articles
+// "o", "a", "os", "as" are already included in the articles.
 let personalPronounsAccusative = [ "me", "te", "lhe", "nos", "vos", "lhes" ];
 
 let personalPronounsPrepositional = [ "dele", "dela", "deles", "delas", "nele", "nela", "neles", "nelas", "mim", "ti", "si" ];
@@ -59,7 +60,7 @@ let otherAuxiliaries = [ "tenho", "tens", "tem", "temos", "tendes", "têm", "tiv
 
 let otherAuxiliariesInfinitive = [ "ter", "haver" ];
 
-// "são", "era", "estado" are not included because of other meanings
+// "são", "era", "estado" are not included because of other meanings.
 let copula = [ "sou", "és", "é", "somos", "sois", "fui", "foste", "foi", "fomos", "fostes", "foram", "eras", "éramos", "éreis", "eram",
 	"fôramos", "fôreis", "fora", "foras", "foram", "serei", "serás", "será", "seremos", "sereis", "serão", "seria", "serias", "seríamos",
 	"seríeis", "seriam", "seja", "sejas", "seja", "sejamos", "sejais", "sejam", "fosse", "fosses", "fôssemos", "fôsseis", "fossem", "for",
@@ -109,8 +110,11 @@ let delexicalizedVerbs = [ "dou", "dás", "dá", "damos", "dais", "dão", "dei",
 
 let delexicalizedVerbsInfinitive = [ "dar", "fazer" ];
 
-// These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
-// Keyword combinations containing these adjectives/adverbs are fine.
+
+/*
+ * These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
+ * Keyword combinations containing these adjectives/adverbs are fine.
+ */
 let generalAdjectivesAdverbs = [ "devagar", "rapidamente", "grande", "grandes", "depressa", "claramente", "effectivamente", "realmente",
 	"exclusivamente", "simplesemente", "somente", "unicamente", "lentamente", "raramente", "certamente", "talvez", "actualmente", "dificilmente",
 	"principalmente", "gerlamente", "enorme", "enormes", "pequeno", "pequena", "pequenos", "pequenas", "minúsculo", "minúsculos", "minúscula",
@@ -120,7 +124,7 @@ let generalAdjectivesAdverbs = [ "devagar", "rapidamente", "grande", "grandes", 
 	"capazes", "certo", "certa", "certos", "certas", "usual", "usuals", "ultimamente", "possível", "possíveis", "comum", "comuns", "freqüentemente",
 	"constantemente", "continuamente", "diretamente", "levemente", "algures", "semelhante", "semelhantes", "similar", "similares" ];
 
-// "grande", "velho" and "pequeno" can appear both before and after nouns and are therefore on both lists
+// "grande", "velho" and "pequeno" can appear both before and after nouns and are therefore on both lists.
 let generalAdjectivesPreceding = [ "pior", "melhor", "melhores", "bom", "boa", "bons", "boas", "bonito", "bonita", "bonitos", "bonitas", "grande",
 	"grandes", "pequeno", "pequena", "pequenos", "pequenas", "velho", "velhos", "velha", "velhas", "mau", "má", "maus", "más" ];
 
@@ -129,11 +133,10 @@ let interjections = [ "ai", "ah", "ih", "alô", "oi", "olá", "ui", "uf", "psiu"
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
 let recipeWords = [ "kg", "mg", "gr", "g", "km", "m", "l", "ml", "cl" ];
 
-// "segundo" is already included in cardinal numbers
+// "segundo" is already included in cardinal numbers.
 let timeWords = [ "segundos", "minuto", "minutos", "hora", "horas", "dia", "dias", "semana", "semanas", "mes", "meses", "ano", "anos", "hoje",
 	"amanhã", "ontem" ];
 
-// 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
 let vagueNouns = [ "caso", "casos", "coisa", "coisas", "detalhe", "detalhes", "forma", "formas", "jeito", "jeitos", "maneira", "maneiras", "suijeto",
 	"sujeitos", "tópico", "tópicos" ];
 
