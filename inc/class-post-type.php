@@ -34,6 +34,17 @@ class WPSEO_Post_Type {
 	}
 
 	/**
+	 * Returns whether the passed post type is considered accessible.
+	 *
+	 * @param string $post_type The post type to check.
+	 *
+	 * @return bool Whether or not the post type is considered accessible.
+	 */
+	public static function is_post_type_accessible( $post_type ) {
+		return in_array( $post_type, self::get_accessible_post_types(), true );
+	}
+
+	/**
 	 * Checks if the request post type is public and indexable.
 	 *
 	 * @param string $post_type_name The name of the post type to lookup.
