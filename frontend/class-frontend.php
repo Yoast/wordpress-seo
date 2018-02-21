@@ -1042,11 +1042,12 @@ class WPSEO_Frontend {
 			return;
 		}
 
-		if ( ! is_singular() ) {
-			$this->rel_links_archive();
+		if ( is_singular() ) {
+			$this->rel_links_single();
 			return;
 		}
-		$this->rel_links_single();
+
+		$this->rel_links_archive();
 	}
 
 	/**
