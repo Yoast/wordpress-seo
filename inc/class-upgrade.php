@@ -516,15 +516,16 @@ class WPSEO_Upgrade {
 
 		// Convert hidden metabox options to display metabox options.
 		$title_options = get_option( 'wpseo_titles' );
-		foreach ($title_options as $key => $value ) {
+
+		foreach ( $title_options as $key => $value ) {
 			if ( strpos( $key, 'hideeditbox-tax-' ) === 0 ) {
-				$taxonomy = substr( $key, strlen( 'hideeditbox-tax-') );
+				$taxonomy = substr( $key, strlen( 'hideeditbox-tax-' ) );
 				WPSEO_Options::set( 'display-metabox-tax-' . $taxonomy, ! $value );
 				continue;
 			}
 
 			if ( strpos( $key, 'hideeditbox-' ) === 0 ) {
-				$post_type = substr( $key, strlen( 'hideeditbox-') );
+				$post_type = substr( $key, strlen( 'hideeditbox-' ) );
 				WPSEO_Options::set( 'display-metabox-pt-' . $post_type, ! $value );
 				continue;
 			}
