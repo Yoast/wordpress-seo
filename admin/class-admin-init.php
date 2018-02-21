@@ -7,6 +7,7 @@
  * Performs the load on admin side.
  */
 class WPSEO_Admin_Init {
+
 	/**
 	 * Holds the global `$pagenow` variable's value.
 	 *
@@ -77,13 +78,13 @@ class WPSEO_Admin_Init {
 	public function tagline_notice() {
 
 		$current_url   = ( is_ssl() ? 'https://' : 'http://' );
-		$current_url   .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
+		$current_url  .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 		$customize_url = add_query_arg( array(
 			'url' => urlencode( $current_url ),
 		), wp_customize_url() );
 
 		$info_message = sprintf(
-		/* translators: 1: link open tag; 2: link close tag. */
+			/* translators: 1: link open tag; 2: link close tag. */
 			__( 'You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s.', 'wordpress-seo' ),
 			'<a href="' . esc_attr( $customize_url ) . '">',
 			'</a>'
@@ -111,9 +112,9 @@ class WPSEO_Admin_Init {
 	 */
 	public function blog_public_notice() {
 
-		$info_message = '<strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ';
+		$info_message  = '<strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ';
 		$info_message .= sprintf(
-		/* translators: %1$s resolves to the opening tag of the link to the reading settings, %1$s resolves to the closing tag for the link */
+			/* translators: %1$s resolves to the opening tag of the link to the reading settings, %1$s resolves to the closing tag for the link */
 			__( 'You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
 			'<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">',
 			'</a>'
@@ -142,11 +143,11 @@ class WPSEO_Admin_Init {
 	 */
 	public function page_comments_notice() {
 
-		$info_message = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
+		$info_message  = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
 		$info_message .= '<br/>';
 
 		$info_message .= sprintf(
-		/* translators: %1$s resolves to the opening tag of the link to the comment setting page, %2$s resolves to the closing tag of the link */
+			/* translators: %1$s resolves to the opening tag of the link to the comment setting page, %2$s resolves to the closing tag of the link */
 			__( 'Simply uncheck the box before "Break comments into pages..." on the %1$sComment settings page%2$s.', 'wordpress-seo' ),
 			'<a href="' . esc_url( admin_url( 'options-discussion.php' ) ) . '">',
 			'</a>'
@@ -190,10 +191,10 @@ class WPSEO_Admin_Init {
 	 */
 	public function permalink_notice() {
 
-		$info_message = __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' );
+		$info_message  = __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' );
 		$info_message .= '<br/>';
 		$info_message .= sprintf(
-		/* translators: %1$s resolves to the starting tag of the link to the permalink settings page, %2$s resolves to the closing tag of the link */
+			/* translators: %1$s resolves to the starting tag of the link to the permalink settings page, %2$s resolves to the closing tag of the link */
 			__( 'You can fix this on the %1$sPermalink settings page%2$s.', 'wordpress-seo' ),
 			'<a href="' . admin_url( 'options-permalink.php' ) . '">',
 			'</a>'
@@ -250,7 +251,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function get_compatibility_notification() {
 		$info_message = sprintf(
-		/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
 			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 			'Yoast SEO',
 			'5.4.3',
@@ -303,7 +304,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function get_yoast_seo_suggested_plugins_notification( $name, $plugin, $dependency_name ) {
 		$info_message = sprintf(
-		/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
 			__( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better.', 'wordpress-seo' ),
 			'Yoast SEO',
 			$dependency_name,
@@ -353,7 +354,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function get_yoast_seo_compatibility_notification( $name, $plugin, $level = Yoast_Notification::WARNING ) {
 		$info_message = sprintf(
-		/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
 			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 			'Yoast SEO',
 			$plugin['version'],
@@ -393,7 +394,7 @@ class WPSEO_Admin_Init {
 		Yoast_Notification_Center::get()->add_notification(
 			new Yoast_Notification(
 				sprintf(
-				/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
+					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
 					__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
 					'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
 					'</a>'
@@ -467,10 +468,9 @@ class WPSEO_Admin_Init {
 	 * Loads admin page class for all admin pages starting with `wpseo_`.
 	 */
 	private function load_admin_user_class() {
-		if ( in_array( $this->pagenow, array(
-				'user-edit.php',
-				'profile.php',
-			), true ) && current_user_can( 'edit_users' ) ) {
+		if ( in_array( $this->pagenow, array( 'user-edit.php', 'profile.php' ), true )
+			&& current_user_can( 'edit_users' )
+		) {
 			new WPSEO_Admin_User_Profile();
 		}
 	}

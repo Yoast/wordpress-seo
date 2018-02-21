@@ -664,7 +664,7 @@ class WPSEO_Meta_Columns {
 
 		if ( isset( $post_type ) ) {
 			// Don't make static as post_types may still be added during the run.
-			$cpts    = WPSEO_Post_Type::get_accessible_post_types();
+			$cpts = WPSEO_Post_Type::get_accessible_post_types();
 
 			return ( ( WPSEO_Options::get( 'hideeditbox-' . $post_type ) === true ) || in_array( $post_type, $cpts, true ) === false );
 		}

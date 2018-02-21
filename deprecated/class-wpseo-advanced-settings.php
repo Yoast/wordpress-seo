@@ -20,7 +20,7 @@ class WPSEO_Advanced_Settings {
 	 * @return void
 	 */
 	public static function get_advanced_pages() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
@@ -31,7 +31,7 @@ class WPSEO_Advanced_Settings {
 	 * @return void
 	 */
 	public static function add_advanced_page() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
@@ -42,6 +42,6 @@ class WPSEO_Advanced_Settings {
 	 * @return void
 	 */
 	public static function is_advanced_settings_page() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 }

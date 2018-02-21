@@ -204,7 +204,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return bool
 	 */
 	private function is_show_date_enabled() {
-		$key       = sprintf( 'showdate-%s', $this->post->post_type );
+		$key = sprintf( 'showdate-%s', $this->post->post_type );
 
 		return WPSEO_Options::get( $key, true );
 	}
