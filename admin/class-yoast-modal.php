@@ -23,7 +23,7 @@ class Yoast_Modal {
 		$asset_manager->enqueue_script( 'yoast-modal' );
 
 		$defaults = $this->get_defaults();
-		$config   = wp_parse_args( $this->config, $defaults );
+		$config   = array_replace_recursive( $defaults, $this->config );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'yoast-modal', 'yoastModalConfig', $config );
 	}
@@ -35,8 +35,8 @@ class Yoast_Modal {
 	 */
 	public function get_defaults() {
 		$config = array(
-			'hook'   => '#wpseo-tab-add-keyword-modal',
-			'hide'   => '#wpwrap',
+			'hook'   => 'body',
+			'hide'   => 'body',
 			'labels' => array(
 				'open'  => __( 'Open a nice modal', 'wordpress-seo' ),
 				'close' => __( 'Close this nice modal', 'wordpress-seo' ),

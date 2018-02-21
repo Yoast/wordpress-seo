@@ -21,6 +21,11 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		$add_keyword_modal_config = array(
 			'hook' => '.wpseo-add-keyword-modal-class-test',
 			'hide' => '#wpwrap',
+			'labels' => array(
+				'modal' => __( 'This is the modal aria-label', 'wordpress-seo' ),
+				'close' => __( 'Close me', 'wordpress-seo' ),
+				'open' => __( 'Open me', 'wordpress-seo' ),
+			),
 		);
 		$add_keyword_modal = new Yoast_Modal( $add_keyword_modal_config );
 
