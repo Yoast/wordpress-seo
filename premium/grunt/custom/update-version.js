@@ -21,10 +21,17 @@ module.exports = function( grunt ) {
 
 			this.files.forEach( (file) => {
 				file.src.forEach( (path) => {
-					let contents = grunt.file.read( path ).replace(
+					const oldContents = grunt.file.read( path );
+
+					let contents = oldContents.replace(
 						options.regEx,
 						options.preVersionMatch + options.version + options.postVersionMatch
 					);
+
+					if ( oldContents === contents ) {
+						grunt.log.writeln( "Old contents are identical to new contents, probably the version wasn't correctly replaced".red );
+					}
+
 					grunt.file.write( path, contents );
 				} );
 			} );
