@@ -530,7 +530,9 @@ class WPSEO_Upgrade {
 			}
 		}
 
-		exit;
+		// Remove possibly present plugin conflict notice for plugin that was removed from the list of conflicting plugins.
+		$yoast_plugin_conflict = WPSEO_Plugin_Conflict::get_instance();
+		$yoast_plugin_conflict->clear_error( 'header-footer/plugin.php' );
 
 		// Moves the user meta for excluding from the XML sitemap to a noindex.
 		global $wpdb;
