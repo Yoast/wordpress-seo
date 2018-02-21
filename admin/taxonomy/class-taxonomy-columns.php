@@ -13,6 +13,14 @@ class WPSEO_Taxonomy_Columns {
 	 */
 	private $analysis_seo;
 
+
+	/**
+	 * @var WPSEO_Metabox_Analysis_Readability
+	 */
+	private $analysis_readability;
+
+	private $taxonomy;
+
 	/**
 	 * WPSEO_Taxonomy_Columns constructor.
 	 */
@@ -37,8 +45,7 @@ class WPSEO_Taxonomy_Columns {
 	 * @return array
 	 */
 	public function add_columns( array $columns ) {
-
-		if ( $this->is_metabox_hidden() === true ) {
+		if ( $this->display_metabox( $this->taxonomy ) === false ) {
 			return $columns;
 		}
 
@@ -81,6 +88,14 @@ class WPSEO_Taxonomy_Columns {
 		return $content;
 	}
 
+	/**
+	 * Retrieves the taxonomy from the $_GET variable.
+	 *
+	 * @return string The current taxonomy.
+	 */
+	public function get_current_taxonomy() {
+		return filter_input( $this->get_taxonomy_input_type(), 'taxonomy' );
+	}
 
 	/**
 	 * Returns the posted/get taxonomy value if it is set.
@@ -196,7 +211,6 @@ class WPSEO_Taxonomy_Columns {
 	 * @return int
 	 */
 	private function get_taxonomy_input_type() {
-
 		if ( ! empty( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'POST' ) {
 			return INPUT_POST;
 		}
@@ -205,28 +219,24 @@ class WPSEO_Taxonomy_Columns {
 	}
 
 	/**
-	 * Test whether the metabox should be hidden either by choice of the admin
+	 * Wraps the WPSEO_Metabox check to determine whether the metabox should be displayed either by
+	 * choice of the admin or because the taxonomy is not public.
 	 *
-	 * @since 3.1
+	 * @since 7.0
 	 *
-	 * @param  string $taxonomy Optional. The post type to test, defaults to the current post post_type.
+	 * @param string $taxonomy Optional. The taxonomy to test, defaults to the current taxonomy.
 	 *
-	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden.
+	 * @return bool Whether or not the meta box (and associated columns etc) should be hidden.
 	 */
-	private function is_metabox_hidden( $taxonomy = null ) {
-		$get_taxonomy_type = filter_input( $this->get_taxonomy_input_type(), 'taxonomy' );
+	private function display_metabox( $taxonomy = null ) {
+		$current_taxonomy = sanitize_text_field( $this->get_current_taxonomy() );
 
-		if ( ! isset( $taxonomy ) && $get_taxonomy_type ) {
-			$taxonomy = sanitize_text_field( $get_taxonomy_type );
+		if ( ! isset( $taxonomy ) && ! empty( $current_taxonomy ) ) {
+			$taxonomy = $current_taxonomy;
 		}
 
-		if ( isset( $taxonomy ) ) {
-			// Don't make static as taxonomies may still be added during the run.
-			$custom_taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
-
-			return ( ( WPSEO_Options::get( 'hideeditbox-tax-' . $taxonomy ) === true ) || in_array( $taxonomy, $custom_taxonomies, true ) === false );
-		}
-
-		return false;
+		return WPSEO_Utils::is_metabox_active( $taxonomy, 'taxonomy' );
 	}
+
+
 }

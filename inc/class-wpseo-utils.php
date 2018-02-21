@@ -981,4 +981,58 @@ class WPSEO_Utils {
 	public static function get_user_locale() {
 		return WPSEO_Language_Utils::get_user_locale();
 	}
+
+	/**
+	 * Determine whether or not the metabox should be displayed for a post type.
+	 *
+	 * @param string|null $post_type Optional. The post type to check the visibility of the metabox for.
+	 *
+	 * @return bool Whether or not the metabox should be displayed.
+	 */
+	protected static function display_post_type_metabox( $post_type = null ) {
+		if ( ! isset( $post_type ) ) {
+			$post_type = get_post_type();
+		}
+
+		if ( ! isset( $post_type ) || ! WPSEO_Post_Type::is_post_type_accessible( $post_type ) ) {
+			return false;
+		}
+
+		return WPSEO_Options::get( 'display-metabox-pt-' . $post_type );
+	}
+
+	/**
+	 * Determine whether or not the metabox should be displayed for a taxonomy.
+	 *
+	 * @param string|null $taxonomy Optional. The post type to check the visibility of the metabox for.
+	 *
+	 * @return bool Whether or not the metabox should be displayed.
+	 */
+	protected static function display_taxonomy_metabox( $taxonomy = null ) {
+		if ( ! isset( $taxonomy ) || ! in_array( $taxonomy, get_taxonomies( array( 'public' => true ), 'names' ), true ) ) {
+			return false;
+		}
+
+		return WPSEO_Options::get( 'display-metabox-tax-' . $taxonomy );
+	}
+
+	/**
+	 * Determines whether the metabox is active for the given identifier and type.
+	 *
+	 * @param string $identifier The identifier to check for.
+	 * @param string $type       The type to check for.
+	 *
+	 * @return bool Whether or not the metabox is active.
+	 */
+	public static function is_metabox_active( $identifier, $type ) {
+		if ( $type === 'post_type' ) {
+			return self::display_post_type_metabox( $identifier );
+		}
+
+		if ( $type === 'taxonomy' ) {
+			return self::display_taxonomy_metabox( $identifier );
+		}
+
+		return false;
+	}
 }

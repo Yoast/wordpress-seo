@@ -115,38 +115,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Checks whether `post` is set in GLOBALS and whether it's an object.
+     * Determines whether the metabox should be shown for the passed identifier.
+     *
+     * By default the check is done for post types, but can also be used for taxonomies.
+     *
+	 * @param string|null   $identifier The identifier to check.
+	 * @param string        $type       The type of object to check. Defaults to post_type.
 	 *
-	 * @return bool Returns false if not set or if it's not an object.
+	 * @return bool Whether or not the metabox should be displayed.
 	 */
-	private function has_globally_set_post_object() {
-		return isset( $GLOBALS['post'] ) && is_object( $GLOBALS['post'] );
-	}
-
-	/**
-	 * Test whether the metabox should be hidden either by choice of the admin or because
-	 * the post type is not a public post type.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param  string $post_type Optional. The post type to test, defaults to the current post post_type.
-	 *
-	 * @return  bool Whether or not the meta box (and associated columns etc) should be hidden.
-	 */
-	public function is_metabox_hidden( $post_type = null ) {
-		if ( ! isset( $post_type ) && ( $this->has_globally_set_post_object() ) && isset( $GLOBALS['post']->post_type ) ) {
-			$post_type = $GLOBALS['post']->post_type;
-		}
-
-		if ( ! isset( $post_type ) ) {
-			return false;
-		}
-
-		if ( ! in_array( $post_type, WPSEO_Post_Type::get_accessible_post_types(), true ) ) {
-			return true;
-		}
-
-		return WPSEO_Options::get( 'hideeditbox-' . $post_type, false );
+	public function display_metabox( $identifier = null, $type = 'post_type' ) {
+        return WPSEO_Utils::is_metabox_active( $identifier, $type );
 	}
 
 	/**
@@ -162,11 +141,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Outputs the page analysis score in the Publish Box.
 	 */
 	public function publish_box() {
-		if ( $this->is_metabox_hidden() === true ) {
+		if ( $this->display_metabox() === false ) {
 			return;
 		}
 
 		$post = $this->get_metabox_post();
+
 		if ( self::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 			$score_label = 'noindex';
 			$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
@@ -183,6 +163,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 
 			$score_title = WPSEO_Utils::translate_score( $score, false );
+
 			if ( ! isset( $title ) ) {
 				$title = $score_title;
 			}
@@ -203,7 +184,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		foreach ( $post_types as $post_type ) {
-			if ( $this->is_metabox_hidden( $post_type ) ) {
+			if ( ! $this->display_metabox( $post_type ) ) {
 				continue;
 			}
 
@@ -230,7 +211,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @param array $classes An array of postbox CSS classes.
 	 *
-	 * @return array
+	 * @return arrayprotected
 	 */
 	public function wpseo_metabox_class( $classes ) {
 		$classes[] = 'yoast wpseo-metabox';
@@ -880,7 +861,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
 
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
-		if ( ( ! $is_editor && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->is_metabox_hidden() === true ) {
+		if ( ( ! $is_editor && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || ! $this->display_metabox() ) {
 			return;
 		}
 

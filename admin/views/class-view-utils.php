@@ -95,10 +95,9 @@ class Yoast_View_Utils {
 		);
 
 		$this->form->show_hide_switch(
-			'hideeditbox-' . $post_type->name,
+			'display-metabox-pt-' . $post_type->name,
 			/* translators: %1$s expands to Yoast SEO */
-			sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ),
-			true
+			sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' )
 		);
 	}
 }

@@ -71,7 +71,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 * - 'metadesc-' . $pt->name      => ''; // Text field.
 		 * - 'noindex-' . $pt->name        => false;
 		 * - 'showdate-' . $pt->name      => false;
-		 * - 'hideeditbox-' . $pt->name      => false;
+		 * - 'display-metabox-pt-' . $pt->name      => false;
 		 *
 		 * - 'title-ptarchive-' . $pt->name    => ''; // Text field.
 		 * - 'metadesc-ptarchive-' . $pt->name  => ''; // Text field.
@@ -81,7 +81,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 * - 'title-tax-' . $tax->name      => '''; // Text field.
 		 * - 'metadesc-tax-' . $tax->name    => ''; // Text field.
 		 * - 'noindex-tax-' . $tax->name    => false;
-		 * - 'hideeditbox-tax-' . $tax->name  => false;
+		 * - 'display-metabox-tax-' . $tax->name  => false;
 		 */
 	);
 
@@ -93,7 +93,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'metadesc-',
 		'noindex-',
 		'showdate-',
-		'hideeditbox-',
+		'display-metabox-pt-',
 		'bctitle-ptarchive-',
 		'post_types-',
 		'taxonomy-',
@@ -236,7 +236,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$this->defaults[ 'metadesc-' . $pt ]    = ''; // Text area.
 				$this->defaults[ 'noindex-' . $pt ]     = false;
 				$this->defaults[ 'showdate-' . $pt ]    = false;
-				$this->defaults[ 'hideeditbox-' . $pt ] = false;
+				$this->defaults[ 'display-metabox-pt-' . $pt ] = true;
 			}
 			unset( $pt );
 		}
@@ -263,7 +263,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			foreach ( $taxonomy_names as $tax ) {
 				$this->defaults[ 'title-tax-' . $tax ]       = $archives . ' %%page%% %%sep%% %%sitename%%'; // Text field.
 				$this->defaults[ 'metadesc-tax-' . $tax ]    = ''; // Text area.
-				$this->defaults[ 'hideeditbox-tax-' . $tax ] = false;
+				$this->defaults[ 'display-metabox-tax-' . $tax ] = true;
 
 				if ( $tax !== 'post_format' ) {
 					$this->defaults[ 'noindex-tax-' . $tax ] = false;
@@ -523,9 +523,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'noindex-'
 				 *  'showdate-'
 				 *  'showdate-'. $pt->name
-				 *  'hideeditbox-'
-				 *  'hideeditbox-'. $pt->name
-				 *  'hideeditbox-tax-' . $tax->name
+				 *  'display-metabox-pt-'
+				 *  'display-metabox-pt-'. $pt->name
+				 *  'display-metabox-tax-'
+				 *  'display-metabox-tax-' . $tax->name
 				 *  'breadcrumbs-blog-remove'
 				 *  'breadcrumbs-boldlast'
 				 *  'breadcrumbs-enable'
