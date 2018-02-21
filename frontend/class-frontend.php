@@ -1053,25 +1053,27 @@ class WPSEO_Frontend {
 	/**
 	 * Output the rel next/prev links for a single post / page.
 	 */
-	private function rel_links_single() {
-		$num_pages = 0;
-		if ( isset( $wp_query->post->post_content ) ) {
-			$num_pages = ( substr_count( $GLOBALS['wp_query']->post->post_content, '<!--nextpage-->' ) + 1 );
+	protected function rel_links_single() {
+		$num_pages = 1;
+
+		$queried_object = get_queried_object();
+		if ( ! empty( $queried_object ) ) {
+			$num_pages = ( substr_count( $queried_object->post_content, '<!--nextpage-->' ) + 1 );
 		}
-		if ( $num_pages > 1 ) {
-			$page = (int) get_query_var( 'page' );
-			if ( ! $page ) {
-				$page = 1;
-			}
 
-			$url = get_permalink( $GLOBALS['wp_query']->post->ID );
+		if ( $num_pages === 1 ) {
+			return;
+		}
 
-			if ( $page > 1 ) {
-				$this->adjacent_rel_link( 'prev', $url, ( $page - 1 ) );
-			}
-			if ( $page < $num_pages ) {
-				$this->adjacent_rel_link( 'next', $url, ( $page + 1 ) );
-			}
+		$page = max( 1, (int) get_query_var( 'page' ) );
+		$url = get_permalink( get_queried_object_id() );
+
+		if ( $page > 1 ) {
+			$this->adjacent_rel_link( 'prev', $url, ( $page - 1 ), 'page' );
+		}
+
+		if ( $page < $num_pages ) {
+			$this->adjacent_rel_link( 'next', $url, ( $page + 1 ), 'page' );
 		}
 	}
 
@@ -1109,25 +1111,28 @@ class WPSEO_Frontend {
 	 * Get adjacent pages link for archives.
 	 *
 	 * @since 1.0.2
+	 * @since 7.1    Added $query_arg parameter for single post/page pagination.
 	 *
-	 * @param string $rel  Link relationship, prev or next.
-	 * @param string $url  The un-paginated URL of the current archive.
-	 * @param string $page The page number to add on to $url for the $link tag.
+	 * @param string $rel       Link relationship, prev or next.
+	 * @param string $url       The un-paginated URL of the current archive.
+	 * @param string $page      The page number to add on to $url for the $link tag.
+	 * @param string $query_arg Optional. The argument to use to set for the page to load.
 	 *
 	 * @return void
 	 */
-	private function adjacent_rel_link( $rel, $url, $page ) {
+	private function adjacent_rel_link( $rel, $url, $page, $query_arg = 'paged' ) {
 		global $wp_rewrite;
 		if ( ! $wp_rewrite->using_permalinks() ) {
 			if ( $page > 1 ) {
-				$url = add_query_arg( 'paged', $page, $url );
+				$url = add_query_arg( $query_arg, $page, $url );
 			}
 		}
 		else {
 			if ( $page > 1 ) {
-				$url  = user_trailingslashit( trailingslashit( $url ) . $this->get_pagination_base() . $page );
+				$url = user_trailingslashit( trailingslashit( $url ) . $this->get_pagination_base() . $page );
 			}
 		}
+
 		/**
 		 * Filter: 'wpseo_' . $rel . '_rel_link' - Allow changing link rel output by Yoast SEO.
 		 *
