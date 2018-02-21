@@ -37,7 +37,7 @@ $wpseo_contributors_phrase = sprintf(
 	<h3><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></h3>
 	<p>
 		<span class="dashicons dashicons-groups"></span>
-		<a href="<?php WPSEO_Shortlinker::show( 'http://yoa.st/yoast-seo-credits' ); ?>"><?php esc_html( $wpseo_contributors_phrase ); ?></a>
+		<a href="<?php WPSEO_Shortlinker::show( 'http://yoa.st/yoast-seo-credits' ); ?>"><?php esc_html_e( $wpseo_contributors_phrase ); ?></a>
 	</p>
 </div>
 
