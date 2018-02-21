@@ -1078,32 +1078,30 @@ class WPSEO_Frontend {
 	/**
 	 * Output the rel next/prev links for an archive page.
 	 */
-	private function rel_links_archive() {
+	protected function rel_links_archive() {
 		$url = $this->canonical( false, true, true );
 
-		if ( is_string( $url ) && $url !== '' ) {
-			$paged = (int) get_query_var( 'paged' );
-			if ( 0 === $paged ) {
-				$paged = 1;
+		if ( ! is_string( $url ) || $url === '' ) {
+			return;
+		}
 
-			}
+		$paged = max( 1, (int) get_query_var( 'paged' ) );
 
-			if ( $paged === 2 ) {
-				$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ) );
-			}
+		if ( $paged === 2 ) {
+			$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ) );
+		}
 
-			// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
-			if ( is_front_page() ) {
-				$url = WPSEO_Sitemaps_Router::get_base_url( '' );
-			}
+		// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
+		if ( is_front_page() ) {
+			$url = WPSEO_Sitemaps_Router::get_base_url( '' );
+		}
 
-			if ( $paged > 2 ) {
-				$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ) );
-			}
+		if ( $paged > 2 ) {
+			$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ) );
+		}
 
-			if ( $paged < $GLOBALS['wp_query']->max_num_pages ) {
-				$this->adjacent_rel_link( 'next', $url, ( $paged + 1 ) );
-			}
+		if ( $paged < $GLOBALS['wp_query']->max_num_pages ) {
+			$this->adjacent_rel_link( 'next', $url, ( $paged + 1 ) );
 		}
 	}
 
