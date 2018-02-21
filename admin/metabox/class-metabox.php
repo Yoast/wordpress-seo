@@ -115,17 +115,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-     * Determines whether the metabox should be shown for the passed identifier.
-     *
-     * By default the check is done for post types, but can also be used for taxonomies.
-     *
-	 * @param string|null   $identifier The identifier to check.
-	 * @param string        $type       The type of object to check. Defaults to post_type.
+	 * Determines whether the metabox should be shown for the passed identifier.
+	 *
+	 * By default the check is done for post types, but can also be used for taxonomies.
+	 *
+	 * @param string|null $identifier The identifier to check.
+	 * @param string      $type       The type of object to check. Defaults to post_type.
 	 *
 	 * @return bool Whether or not the metabox should be displayed.
 	 */
 	public function display_metabox( $identifier = null, $type = 'post_type' ) {
-        return WPSEO_Utils::is_metabox_active( $identifier, $type );
+		return WPSEO_Utils::is_metabox_active( $identifier, $type );
 	}
 
 	/**
@@ -215,6 +215,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function wpseo_metabox_class( $classes ) {
 		$classes[] = 'yoast wpseo-metabox';
+
 		return $classes;
 	}
 
@@ -474,7 +475,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
 			__( 'More info', 'wordpress-seo' )
-			);
+		);
 
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'premium',
@@ -626,7 +627,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$content .= '<select name="' . $esc_form_key . '" id="' . $esc_form_key . '" class="yoast' . $class . '">';
 					foreach ( $meta_field_def['options'] as $val => $option ) {
 						$selected = selected( $meta_value, $val, false );
-						$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
+						$content  .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
 					}
 					unset( $val, $option, $selected );
 					$content .= '</select>';
@@ -665,8 +666,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'checkbox':
-				$checked  = checked( $meta_value, 'on', false );
-				$expl     = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
+				$checked = checked( $meta_value, 'on', false );
+				$expl    = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
 				$content .= '<input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"' . $aria_describedby . '/> <label for="' . $esc_form_key . '">' . $expl . '</label>';
 				unset( $checked, $expl );
 				break;
@@ -674,7 +675,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			case 'radio':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 					foreach ( $meta_field_def['options'] as $val => $option ) {
-						$checked  = checked( $meta_value, $val, false );
+						$checked = checked( $meta_value, $val, false );
 						$content .= '<input type="radio" ' . $checked . ' id="' . $esc_form_key . '_' . esc_attr( $val ) . '" name="' . $esc_form_key . '" value="' . esc_attr( $val ) . '"/> <label for="' . $esc_form_key . '_' . esc_attr( $val ) . '">' . esc_html( $option ) . '</label> ';
 					}
 					unset( $val, $option, $checked );
@@ -720,10 +721,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			// Special meta box sections such as the Snippet Preview, the Analysis, etc.
 			if ( in_array( $meta_field_def['type'], array(
-					'snippetpreview',
-					'pageanalysis',
-					'focuskeyword',
-				), true )
+				'snippetpreview',
+				'pageanalysis',
+				'focuskeyword',
+			), true )
 			) {
 				return $this->create_content_box( $content, $meta_field_def['type'], $help_button, $help_panel );
 			}
@@ -751,8 +752,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	private function create_content_box( $content, $hidden_help_name, $help_button, $help_panel ) {
-		$html  = $content;
+		$html = $content;
 		$html .= '<div class="wpseo_hidden" id="help-yoast-' . $hidden_help_name . '">' . $help_button . $help_panel . '</div>';
+
 		return $html;
 	}
 
@@ -834,6 +836,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Determines if the given meta value key is disabled.
 	 *
 	 * @param string $key The key of the meta value.
+	 *
 	 * @return bool Whether the given meta value key is disabled.
 	 */
 	public function is_meta_value_disabled( $key ) {
@@ -938,7 +941,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return array();
 	}
-
 
 
 	/**
@@ -1177,6 +1179,6 @@ SVG;
 	 */
 	public static function is_post_edit( $page ) {
 		return 'post.php' === $page
-			|| 'post-new.php' === $page;
+			   || 'post-new.php' === $page;
 	}
 }
