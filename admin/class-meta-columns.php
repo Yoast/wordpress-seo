@@ -55,7 +55,7 @@ class WPSEO_Meta_Columns {
 	 * @return array Array containing the column headings.
 	 */
 	public function column_heading( $columns ) {
-		if ( $this->is_metabox_hidden() === true ) {
+		if ( $this->display_metabox() === false ) {
 			return $columns;
 		}
 
@@ -86,7 +86,7 @@ class WPSEO_Meta_Columns {
 	 * @param int    $post_id     Post to display the column content for.
 	 */
 	public function column_content( $column_name, $post_id ) {
-		if ( $this->is_metabox_hidden() === true ) {
+		if ( $this->display_metabox() === false ) {
 			return;
 		}
 
@@ -145,7 +145,7 @@ class WPSEO_Meta_Columns {
 	 * @return array Array containing the sortable columns.
 	 */
 	public function column_sort( $columns ) {
-		if ( $this->is_metabox_hidden() === true ) {
+		if ( $this->display_metabox() === false ) {
 			return $columns;
 		}
 
@@ -610,66 +610,50 @@ class WPSEO_Meta_Columns {
 	private function set_post_type_hooks() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 
-		if ( is_array( $post_types ) && $post_types !== array() ) {
-			foreach ( $post_types as $post_type ) {
-				if ( $this->is_metabox_hidden( $post_type ) === false ) {
-					add_filter( 'manage_' . $post_type . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
-					add_action( 'manage_' . $post_type . '_posts_custom_column', array(
-						$this,
-						'column_content',
-					), 10, 2 );
-
-					add_action( 'manage_edit-' . $post_type . '_sortable_columns', array(
-						$this,
-						'column_sort',
-					), 10, 2 );
-
-					/*
-					 * Use the `get_user_option_{$option}` filter to change the output of the get_user_option
-					 * function for the `manage{$screen}columnshidden` option, which is based on the current
-					 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
-					 */
-					$filter = sprintf(
-						'get_user_option_%s',
-						sprintf(
-							'manage%scolumnshidden',
-							'edit-' . $post_type
-						)
-					);
-
-					add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
-				}
-			}
-			unset( $post_type );
+		if ( ! is_array( $post_types ) || $post_types === array() ) {
+			return;
 		}
+
+		foreach ( $post_types as $post_type ) {
+			if ( $this->display_metabox( $post_type ) === false ) {
+				continue;
+			}
+
+			add_filter( 'manage_' . $post_type . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
+			add_action( 'manage_' . $post_type . '_posts_custom_column', array( $this, 'column_content' ), 10, 2 );
+			add_action( 'manage_edit-' . $post_type . '_sortable_columns', array( $this, 'column_sort' ), 10, 2 );
+
+			/*
+			 * Use the `get_user_option_{$option}` filter to change the output of the get_user_option
+			 * function for the `manage{$screen}columnshidden` option, which is based on the current
+			 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
+			 */
+			$filter = sprintf( 'get_user_option_%s', sprintf( 'manage%scolumnshidden', 'edit-' . $post_type ) );
+
+			add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
+		}
+
+		unset( $post_type );
 	}
 
 	/**
-	 * Test whether the metabox should be hidden either by choice of the admin or because
-	 * the post type is not a public post type.
+	 * Wraps the WPSEO_Metabox check to determine whether the metabox should be displayed either by
+	 * choice of the admin or because the post type is not a public post type.
 	 *
-	 * @since 1.5.0
+	 * @since 7.0
 	 *
-	 * @param  string $post_type Optional. The post type to test, defaults to the current post post_type.
+	 * @param string $post_type Optional. The post type to test, defaults to the current post post_type.
 	 *
-	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden.
+	 * @return bool Whether or not the meta box (and associated columns etc) should be hidden.
 	 */
-	private function is_metabox_hidden( $post_type = null ) {
-		if ( ! isset( $post_type ) ) {
-			$current_post_type = $this->get_current_post_type();
-			if ( ! empty( $current_post_type ) ) {
-				$post_type = sanitize_text_field( $current_post_type );
-			}
+	private function display_metabox( $post_type = null ) {
+		$current_post_type = sanitize_text_field( $this->get_current_post_type() );
+
+		if ( ! isset( $post_type ) && ! empty( $current_post_type ) ) {
+			$post_type = $current_post_type;
 		}
 
-		if ( isset( $post_type ) ) {
-			// Don't make static as post_types may still be added during the run.
-			$cpts = WPSEO_Post_Type::get_accessible_post_types();
-
-			return ( ( WPSEO_Options::get( 'hideeditbox-' . $post_type ) === true ) || in_array( $post_type, $cpts, true ) === false );
-		}
-
-		return false;
+		return WPSEO_Utils::is_metabox_active( $post_type, 'post_type' );
 	}
 
 	/**
@@ -721,7 +705,7 @@ class WPSEO_Meta_Columns {
 			return false;
 		}
 
-		if ( $this->is_metabox_hidden() !== false ) {
+		if ( $this->display_metabox() === false ) {
 			return false;
 		}
 
@@ -730,6 +714,6 @@ class WPSEO_Meta_Columns {
 			return false;
 		}
 
-		return in_array( $screen->post_type, WPSEO_Post_Type::get_accessible_post_types(), true );
+		return WPSEO_Post_Type::is_post_type_accessible( $screen->post_type );
 	}
 }

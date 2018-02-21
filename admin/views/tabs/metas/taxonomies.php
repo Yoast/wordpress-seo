@@ -46,7 +46,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 		$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
 		if ( $tax->name !== 'post_format' ) {
 			/* translators: %1$s expands to Yoast SEO */
-			$yform->show_hide_switch( 'hideeditbox-tax-' . $tax->name, sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
+			$yform->show_hide_switch( 'display-metabox-tax-' . $tax->name, sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
 		}
 		/**
 		 * Allow adding custom checkboxes to the admin meta page - Taxonomies tab

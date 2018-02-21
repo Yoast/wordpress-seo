@@ -275,7 +275,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	private function show_metabox() {
-		$option_key = 'hideeditbox-tax-' . $this->taxonomy;
+		$option_key = 'display-metabox-tax-' . $this->taxonomy;
 
 		return WPSEO_Options::get( $option_key );
 	}

@@ -251,6 +251,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox::column_heading()
 	 */
 	public function test_column_heading_has_score() {
+		self::$class_instance->set_current_post_type( 'post' );
+
 		$columns = self::$class_instance->column_heading( array() );
 		$this->assertArrayHasKey( 'wpseo-score', $columns );
 	}
@@ -259,6 +261,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox::column_heading()
 	 */
 	public function test_column_heading_has_focuskw() {
+		self::$class_instance->set_current_post_type( 'post' );
+
 		$columns = self::$class_instance->column_heading( array() );
 		$this->assertArrayHasKey( 'wpseo-focuskw', $columns );
 	}
@@ -267,6 +271,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox::column_heading()
 	 */
 	public function test_column_heading_has_metadesc() {
+		self::$class_instance->set_current_post_type( 'post' );
+
 		$columns = self::$class_instance->column_heading( array() );
 		$this->assertArrayHasKey( 'wpseo-metadesc', $columns );
 	}
