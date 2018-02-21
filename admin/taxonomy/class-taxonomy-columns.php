@@ -13,12 +13,14 @@ class WPSEO_Taxonomy_Columns {
 	 */
 	private $analysis_seo;
 
-
 	/**
 	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
 	private $analysis_readability;
 
+	/**
+	 * @var string The current taxonomy
+	 */
 	private $taxonomy;
 
 	/**
