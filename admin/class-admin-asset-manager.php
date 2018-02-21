@@ -202,8 +202,8 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
-				'name' => 'modal-add-keyword',
-				'src'  => 'wp-seo-modal-add-keyword-' . $flat_version,
+				'name' => 'yoast-modal',
+				'src'  => 'wp-seo-modal-' . $flat_version,
 				'deps' => array(
 					'jquery',
 					self::PREFIX . 'react-dependencies',

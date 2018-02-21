@@ -1,3 +1,5 @@
+/* global yoastModalConfig */
+
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
@@ -26,7 +28,7 @@ class AddKeywordModal extends React.Component {
 		this.openModal = this.openModal.bind( this );
 		this.closeModal = this.closeModal.bind( this );
 
-		this.appElement = document.getElementById( "wpwrap" );
+		this.appElement = document.querySelector( yoastModalConfig.hide );
 	}
 
 	openModal() {
@@ -47,15 +49,13 @@ class AddKeywordModal extends React.Component {
 	 * @returns {ReactElement} The rendered html.
 	 */
 	render() {
-		console.log( localizedData.intl, this );
-
 		return (
-			<div>
-				<button type="button" onClick={ this.openModal }>Open Modal</button>
+			<React.Fragment>
+				<button type="button" onClick={ this.openModal }>{ yoastModalConfig.labels.open }</button>
 				<YoastModal
 					isOpen={ this.state.modalIsOpen }
 					onClose={ this.closeModal }
-					modalAriaLabel="Hello"
+					modalAriaLabel={ yoastModalConfig.labels.modal }
 					appElement={ this.appElement }
 				>
 					<h1>Modal heading</h1>
@@ -65,9 +65,9 @@ class AddKeywordModal extends React.Component {
 						<button type="button">within</button>
 						<button type="button">the modal</button>
 					</form>
-					<button type="button" onClick={ this.closeModal }>Close Modal</button>
+					<button type="button" onClick={ this.closeModal }>{ yoastModalConfig.labels.close }</button>
 				</YoastModal>
-			</div>
+			</React.Fragment>
 		);
 	}
 }
@@ -79,7 +79,7 @@ AddKeywordModal.propTypes = {
 
 const AddKeywordModalIntl = injectIntl( AddKeywordModal );
 
-const element = document.getElementById( "wpseo-tab-add-keyword-modal" );
+const element = document.querySelector( yoastModalConfig.hook );
 
 if ( element ) {
 	ReactDOM.render(
