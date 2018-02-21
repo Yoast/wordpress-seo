@@ -184,7 +184,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		foreach ( $post_types as $post_type ) {
-			if ( ! $this->display_metabox( $post_type ) ) {
+			if ( $this->display_metabox( $post_type ) === false ) {
 				continue;
 			}
 
@@ -211,7 +211,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @param array $classes An array of postbox CSS classes.
 	 *
-	 * @return arrayprotected
+	 * @return array List of classes that will be applied to the editbox container.
 	 */
 	public function wpseo_metabox_class( $classes ) {
 		$classes[] = 'yoast wpseo-metabox';
@@ -861,7 +861,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
 
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
-		if ( ( ! $is_editor && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || ! $this->display_metabox() ) {
+		if ( ( $is_editor === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->display_metabox() === false ) {
 			return;
 		}
 
@@ -871,7 +871,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		else {
 
-			if ( 0 !== get_queried_object_id() ) {
+			if ( get_queried_object_id() !== 0 ) {
 				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
 			}
 
