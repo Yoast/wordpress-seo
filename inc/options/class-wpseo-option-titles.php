@@ -21,49 +21,49 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.
-		'title_test'             => 0,
+		'title_test'                   => 0,
 		// Form fields.
-		'forcerewritetitle'      => false,
-		'separator'              => 'sc-dash',
-		'title-home-wpseo'       => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
-		'title-author-wpseo'     => '', // Text field.
-		'title-archive-wpseo'    => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
-		'title-search-wpseo'     => '', // Text field.
-		'title-404-wpseo'        => '', // Text field.
+		'forcerewritetitle'            => false,
+		'separator'                    => 'sc-dash',
+		'title-home-wpseo'             => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
+		'title-author-wpseo'           => '', // Text field.
+		'title-archive-wpseo'          => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
+		'title-search-wpseo'           => '', // Text field.
+		'title-404-wpseo'              => '', // Text field.
 
-		'metadesc-home-wpseo'    => '', // Text area.
-		'metadesc-author-wpseo'  => '', // Text area.
-		'metadesc-archive-wpseo' => '', // Text area.
-		'rssbefore'              => '', // Text area.
-		'rssafter'               => '', // Text area.
+		'metadesc-home-wpseo'          => '', // Text area.
+		'metadesc-author-wpseo'        => '', // Text area.
+		'metadesc-archive-wpseo'       => '', // Text area.
+		'rssbefore'                    => '', // Text area.
+		'rssafter'                     => '', // Text area.
 
-		'noindex-author-wpseo'           => false,
-		'noindex-author-noposts-wpseo'   => true,
-		'noindex-archive-wpseo'          => true,
+		'noindex-author-wpseo'         => false,
+		'noindex-author-noposts-wpseo' => true,
+		'noindex-archive-wpseo'        => true,
 
-		'disable-author'         => false,
-		'disable-date'           => false,
-		'disable-post_format'    => false,
-		'disable-attachment'     => true,
+		'disable-author'               => false,
+		'disable-date'                 => false,
+		'disable-post_format'          => false,
+		'disable-attachment'           => true,
 
-		'breadcrumbs-404crumb'      => '', // Text field.
-		'breadcrumbs-blog-remove'   => false,
-		'breadcrumbs-boldlast'      => false,
-		'breadcrumbs-archiveprefix' => '', // Text field.
-		'breadcrumbs-enable'        => false,
-		'breadcrumbs-home'          => '', // Text field.
-		'breadcrumbs-prefix'        => '', // Text field.
-		'breadcrumbs-searchprefix'  => '', // Text field.
-		'breadcrumbs-sep'           => '&raquo;', // Text field.
+		'breadcrumbs-404crumb'         => '', // Text field.
+		'breadcrumbs-blog-remove'      => false,
+		'breadcrumbs-boldlast'         => false,
+		'breadcrumbs-archiveprefix'    => '', // Text field.
+		'breadcrumbs-enable'           => false,
+		'breadcrumbs-home'             => '', // Text field.
+		'breadcrumbs-prefix'           => '', // Text field.
+		'breadcrumbs-searchprefix'     => '', // Text field.
+		'breadcrumbs-sep'              => '&raquo;', // Text field.
 
-		'website_name'           => '',
-		'person_name'            => '',
-		'alternate_website_name' => '',
-		'company_logo'           => '',
-		'company_name'           => '',
-		'company_or_person'      => '',
+		'website_name'                 => '',
+		'person_name'                  => '',
+		'alternate_website_name'       => '',
+		'company_logo'                 => '',
+		'company_name'                 => '',
+		'company_or_person'            => '',
 
-		'stripcategorybase' => false,
+		'stripcategorybase'            => false,
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
@@ -198,6 +198,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		$this->defaults['title-404-wpseo']    = __( 'Page not found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%';
 		/* translators: 1: link to post; 2: link to blog. */
 		$this->defaults['rssafter'] = sprintf( __( 'The post %1$s appeared first on %2$s.', 'wordpress-seo' ), '%%POSTLINK%%', '%%BLOGLINK%%' );
+
 		$this->defaults['breadcrumbs-404crumb']      = __( 'Error 404: Page not found', 'wordpress-seo' );
 		$this->defaults['breadcrumbs-archiveprefix'] = __( 'Archives for', 'wordpress-seo' );
 		$this->defaults['breadcrumbs-home']          = __( 'Home', 'wordpress-seo' );
@@ -276,10 +277,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		}
 
 		/*
- 		 * Retrieve all the relevant post type and taxonomy arrays.
+		 * Retrieve all the relevant post type and taxonomy arrays.
 		 *
- 		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
- 		*/
+		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
+		 */
 		$post_type_names       = get_post_types( array( 'public' => true ), 'names' );
 		$taxonomy_names_custom = get_taxonomies(
 			array(
@@ -681,6 +682,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				'tax-hideeditbox-' => 'hideeditbox-tax-',
 
 			);
+
 			$taxonomy_names  = get_taxonomies( array( 'public' => true ), 'names' );
 			$post_type_names = get_post_types( array( 'public' => true ), 'names' );
 			$defaults        = $this->get_defaults();

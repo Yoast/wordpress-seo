@@ -23,15 +23,17 @@ $webmaster_tools_help = new WPSEO_Admin_Help_Panel(
 echo '<h2 class="help-button-inline">' . esc_html__( 'Webmaster Tools verification', 'wordpress-seo' ) . $webmaster_tools_help->get_button_html() . '</h2>';
 echo $webmaster_tools_help->get_panel_html();
 
-$msverify_link = esc_url( 'https://www.bing.com/toolbox/webmaster/#/Dashboard/?url=' .
-	rawurlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) )
-);
+$msverify_link = 'https://www.bing.com/toolbox/webmaster/#/Dashboard/?url=' .
+	rawurlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) );
 
-$googleverify_link = add_query_arg( array(
-	'hl' => 'en',
-	'tid' => 'alternate',
-	'siteUrl' => rawurlencode( get_bloginfo( 'url' ) ) . '/',
-), esc_url( 'https://www.google.com/webmasters/verification/verification' ) );
+$googleverify_link = add_query_arg(
+	array(
+		'hl'      => 'en',
+		'tid'     => 'alternate',
+		'siteUrl' => rawurlencode( get_bloginfo( 'url' ) ) . '/',
+	),
+	'https://www.google.com/webmasters/verification/verification'
+);
 
 
 $yform->textinput( 'msverify', __( 'Bing verification code', 'wordpress-seo' ) );
@@ -39,7 +41,7 @@ echo '<p class="desc label">';
 printf(
 	/* translators: 1: link open tag; 2: link close tag. */
 	esc_html__( 'Get your Bing verification code in %1$sBing Webmaster Tools%2$s.', 'wordpress-seo' ),
-	'<a target="_blank" href="' . $msverify_link . '" rel="noopener noreferrer">',
+	'<a target="_blank" href="' . esc_url( $msverify_link ) . '" rel="noopener noreferrer">',
 	'</a>'
 );
 echo '</p>';
@@ -49,7 +51,7 @@ echo '<p class="desc label">';
 printf(
 	/* translators: 1: link open tag; 2: link close tag. */
 	esc_html__( 'Get your Google verification code in %1$sGoogle Search Console%2$s.', 'wordpress-seo' ),
-	'<a target="_blank" href="' . $googleverify_link . '" rel="noopener noreferrer">',
+	'<a target="_blank" href="' . esc_url( $googleverify_link ) . '" rel="noopener noreferrer">',
 	'</a>'
 );
 echo '</p>';

@@ -9,6 +9,12 @@ $alerts_data = Yoast_Alerts::get_template_variables();
 $notifier = new WPSEO_Configuration_Notifier();
 $notifier->listen();
 
+$wpseo_contributors_phrase = sprintf(
+	/* translators: %1$s expands to Yoast SEO */
+	__( 'See who contributed to %1$s.', 'wordpress-seo' ),
+	'Yoast SEO'
+);
+
 ?>
 
 <div class="tab-block">
@@ -31,13 +37,7 @@ $notifier->listen();
 	<h3><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></h3>
 	<p>
 		<span class="dashicons dashicons-groups"></span>
-		<a href="<?php WPSEO_Shortlinker::show( 'http://yoa.st/yoast-seo-credits' ) ?>"><?php
-			printf(
-			/* translators: %1$s expands to Yoast SEO */
-				esc_html__( 'See who contributed to %1$s.', 'wordpress-seo' ),
-				'Yoast SEO'
-			);
-			?></a>
+		<a href="<?php WPSEO_Shortlinker::show( 'http://yoa.st/yoast-seo-credits' ); ?>"><?php esc_html( $wpseo_contributors_phrase ); ?></a>
 	</p>
 </div>
 

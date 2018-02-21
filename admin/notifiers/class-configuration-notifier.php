@@ -88,7 +88,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 */
 	private function re_run_notification() {
 		$content = sprintf(
-		/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the Onboarding Wizard, %3$s is the link closing tag. */
+			/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the Onboarding Wizard, %3$s is the link closing tag. */
 			esc_html__( 'Want to make sure your %1$s settings are still OK? %2$sOpen the configuration wizard again%3$s to validate them.', 'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '">',
@@ -105,7 +105,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 */
 	private function first_time_notification() {
 		$content = sprintf(
-		/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the Onboarding Wizard, %3$s is the link closing tag. */
+			/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the Onboarding Wizard, %3$s is the link closing tag. */
 			esc_html__( 'Get started quickly with the %1$s %2$sconfiguration wizard%3$s!', 'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '">',
@@ -125,7 +125,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @return string The styled notification.
 	 */
 	private function notification( $title, $content, $show_dismissal = false ) {
-		$notification = '<div class="yoast-container yoast-container__configuration-wizard">';
+		$notification  = '<div class="yoast-container yoast-container__configuration-wizard">';
 		$notification .= sprintf(
 			'<img src="%1$s" height="%2$s" width="%3$d"  />',
 			esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/new-to-configuration-notice.svg' ),

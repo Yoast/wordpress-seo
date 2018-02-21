@@ -25,7 +25,7 @@
 		echo '<h2>', esc_html__( 'Homepage &amp; Front page', 'wordpress-seo' ), '</h2>';
 		echo '<p>';
 		printf(
-		/* translators: 1: link open tag; 2: link close tag. */
+			/* translators: 1: link open tag; 2: link close tag. */
 			esc_html__( 'You can determine the title and description for the front page by %1$sediting the front page itself &raquo;%2$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( get_edit_post_link( get_option( 'page_on_front' ) ) ) . '">',
 			'</a>'
@@ -34,7 +34,7 @@
 		if ( get_option( 'page_for_posts' ) > 0 ) {
 			echo '<p>';
 			printf(
-			/* translators: 1: link open tag; 2: link close tag. */
+				/* translators: 1: link open tag; 2: link close tag. */
 				esc_html__( 'You can determine the title and description for the blog page by %1$sediting the blog page itself &raquo;%2$s', 'wordpress-seo' ),
 				'<a href="' . esc_url( get_edit_post_link( get_option( 'page_for_posts' ) ) ) . '">',
 				'</a>'
