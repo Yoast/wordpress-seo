@@ -56,7 +56,7 @@ const YoastModal = styled( BaseYoastModal )`
 		bottom: 0;
 		background-color: rgba(0, 0, 0, 0.6);
 		transition: background 100ms ease-out;
-		z-index: 999;
+		z-index: 999999;
 	}
 
 	&.yoast-modal__content {
