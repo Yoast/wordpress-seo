@@ -25,6 +25,8 @@ class AddKeywordModal extends React.Component {
 
 		this.openModal = this.openModal.bind( this );
 		this.closeModal = this.closeModal.bind( this );
+
+		this.appElement = document.getElementById( "wpwrap" );
 	}
 
 	openModal() {
@@ -54,14 +56,14 @@ class AddKeywordModal extends React.Component {
 					isOpen={ this.state.modalIsOpen }
 					onClose={ this.closeModal }
 					modalAriaLabel="Hello"
+					appElement={ this.appElement }
 				>
 					<h1>Modal heading</h1>
 					<form>
-						<input type="text" />
-						<button>tabbing</button>
-						<button>is constrained</button>
-						<button>within</button>
-						<button>the modal</button>
+						<button type="button">tabbing</button>
+						<button type="button">is constrained</button>
+						<button type="button">within</button>
+						<button type="button">the modal</button>
 					</form>
 					<button type="button" onClick={ this.closeModal }>Close Modal</button>
 				</YoastModal>
