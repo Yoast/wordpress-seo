@@ -615,20 +615,22 @@ class WPSEO_Meta_Columns {
 		}
 
 		foreach ( $post_types as $post_type ) {
-			if ( $this->display_metabox( $post_type ) === true ) {
-				add_filter( 'manage_' . $post_type . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
-				add_action( 'manage_' . $post_type . '_posts_custom_column', array( $this, 'column_content' ), 10, 2 );
-				add_action( 'manage_edit-' . $post_type . '_sortable_columns', array( $this, 'column_sort' ), 10, 2 );
-
-				/*
-				 * Use the `get_user_option_{$option}` filter to change the output of the get_user_option
-				 * function for the `manage{$screen}columnshidden` option, which is based on the current
-				 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
-				 */
-				$filter = sprintf( 'get_user_option_%s', sprintf( 'manage%scolumnshidden', 'edit-' . $post_type ) );
-
-				add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
+			if ( $this->display_metabox( $post_type ) === false ) {
+				continue;
 			}
+
+			add_filter( 'manage_' . $post_type . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
+			add_action( 'manage_' . $post_type . '_posts_custom_column', array( $this, 'column_content' ), 10, 2 );
+			add_action( 'manage_edit-' . $post_type . '_sortable_columns', array( $this, 'column_sort' ), 10, 2 );
+
+			/*
+			 * Use the `get_user_option_{$option}` filter to change the output of the get_user_option
+			 * function for the `manage{$screen}columnshidden` option, which is based on the current
+			 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
+			 */
+			$filter = sprintf( 'get_user_option_%s', sprintf( 'manage%scolumnshidden', 'edit-' . $post_type ) );
+
+			add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
 		}
 
 		unset( $post_type );
