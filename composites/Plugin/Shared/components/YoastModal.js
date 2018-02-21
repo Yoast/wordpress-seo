@@ -4,8 +4,6 @@ import Modal from "react-modal";
 import styled from "styled-components";
 import { injectIntl, intlShape } from "react-intl";
 
-Modal.setAppElement( "#wpwrap" );
-
 class BaseYoastModal extends React.Component {
 
 	constructor( props ) {
@@ -18,19 +16,19 @@ class BaseYoastModal extends React.Component {
 	 * @returns {ReactElement} The rendered html.
 	 */
 	render() {
+		console.log( "props in component", this.props );
 		return (
-			<div>
-				<Modal
-					isOpen={ this.props.isOpen }
-					onRequestClose={ this.props.onClose }
-					role="dialog"
-					contentLabel={ this.props.modalAriaLabel }
-					overlayClassName={ `${ this.props.className } yoast-modal__overlay` }
-					className={ `${ this.props.className } yoast-modal__content` }
-				>
-					{ this.props.children }
-				</Modal>
-			</div>
+			<Modal
+				isOpen={ this.props.isOpen }
+				onRequestClose={ this.props.onClose }
+				role="dialog"
+				contentLabel={ this.props.modalAriaLabel }
+				overlayClassName={ `${ this.props.className } yoast-modal__overlay` }
+				className={ `${ this.props.className } yoast-modal__content` }
+				appElement={ this.props.appElement }
+			>
+				{ this.props.children }
+			</Modal>
 		);
 	}
 }
@@ -42,6 +40,7 @@ BaseYoastModal.propTypes = {
 	isOpen: PropTypes.bool,
 	onClose: PropTypes.func.isRequired,
 	modalAriaLabel: PropTypes.string.isRequired,
+	appElement: PropTypes.object.isRequired,
 };
 
 BaseYoastModal.defaultProps = {
