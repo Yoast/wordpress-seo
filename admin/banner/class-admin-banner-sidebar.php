@@ -286,12 +286,12 @@ class WPSEO_Admin_Banner_Sidebar {
 	 * @return WPSEO_Admin_Banner_Spot
 	 */
 	protected function get_courses_spot() {
-		$courses_spot = new WPSEO_Admin_Banner_Spot( __( 'Courses', 'wordpress-seo' ), $this->banner_renderer );
+		$courses_spot = new WPSEO_Admin_Banner_Spot( __( 'Improve your SEO skills', 'wordpress-seo' ), $this->banner_renderer );
 
 		$courses_spot->set_description(
 			sprintf(
 				/* translators: %1$s expands to a link start tag to the Yoast Services page, %2$s is the link closing tag. */
-				__( 'Do you want to get a grip on your own SEO-strategy? Learn all about it in one of %1$sour courses%2$s.', 'wordpress-seo' ),
+				__( 'We believe SEO should be for everyone. That’s why we develop courses on any topic related to SEO. %1$sDiscover our online SEO courses &raquo;%2$s', 'wordpress-seo' ),
 				'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/jt' ) . '">',
 				'</a>'
 			)
