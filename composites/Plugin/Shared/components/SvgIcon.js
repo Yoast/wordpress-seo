@@ -23,7 +23,7 @@ export default class SvgIcon extends React.Component {
 
 	/* eslint-disable complexity */
 	render() {
-		const { icon, className, color, size = "16" } = this.props;
+		const { icon, className, color, size } = this.props;
 		let path;
 
 		/* eslint-disable max-len */
@@ -106,4 +106,8 @@ SvgIcon.propTypes = {
 	color: PropTypes.string,
 	size: PropTypes.string,
 	className: PropTypes.string,
+};
+
+SvgIcon.defaultProps = {
+	size: "16px",
 };

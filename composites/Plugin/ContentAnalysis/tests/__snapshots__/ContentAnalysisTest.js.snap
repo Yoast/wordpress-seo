@@ -190,8 +190,8 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 }
 
 .c12 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -218,8 +218,8 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 }
 
 .c21 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -254,8 +254,8 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 }
 
 .c27 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -274,8 +274,8 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 }
 
 .c30 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -294,8 +294,8 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 }
 
 .c33 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -341,7 +341,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -406,7 +406,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -495,7 +495,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -529,7 +529,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -563,7 +563,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -748,8 +748,8 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 }
 
 .c12 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -776,8 +776,8 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 }
 
 .c21 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -804,8 +804,8 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 }
 
 .c25 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -824,8 +824,8 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 }
 
 .c28 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -844,8 +844,8 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 }
 
 .c31 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -891,7 +891,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -956,7 +956,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1021,7 +1021,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1055,7 +1055,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1089,7 +1089,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1321,8 +1321,8 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 }
 
 .c14 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1349,8 +1349,8 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 }
 
 .c23 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1385,8 +1385,8 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 }
 
 .c29 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1405,8 +1405,8 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 }
 
 .c32 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1425,8 +1425,8 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 }
 
 .c35 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1485,7 +1485,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1550,7 +1550,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1639,7 +1639,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1673,7 +1673,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1707,7 +1707,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1939,8 +1939,8 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 }
 
 .c14 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1967,8 +1967,8 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 }
 
 .c23 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2003,8 +2003,8 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 }
 
 .c29 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2023,8 +2023,8 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 }
 
 .c32 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2043,8 +2043,8 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 }
 
 .c35 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2103,7 +2103,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2168,7 +2168,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2257,7 +2257,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2291,7 +2291,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2325,7 +2325,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2534,8 +2534,8 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 }
 
 .c12 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2562,8 +2562,8 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 }
 
 .c21 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2598,8 +2598,8 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 }
 
 .c27 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2618,8 +2618,8 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 }
 
 .c30 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2638,8 +2638,8 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 }
 
 .c33 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2685,7 +2685,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2750,7 +2750,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2839,7 +2839,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2873,7 +2873,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2907,7 +2907,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3110,8 +3110,8 @@ exports[`the ContentAnalysis component with specified header level matches the s
 }
 
 .c11 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3138,8 +3138,8 @@ exports[`the ContentAnalysis component with specified header level matches the s
 }
 
 .c20 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3174,8 +3174,8 @@ exports[`the ContentAnalysis component with specified header level matches the s
 }
 
 .c26 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3194,8 +3194,8 @@ exports[`the ContentAnalysis component with specified header level matches the s
 }
 
 .c29 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3214,8 +3214,8 @@ exports[`the ContentAnalysis component with specified header level matches the s
 }
 
 .c32 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3250,7 +3250,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3315,7 +3315,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3404,7 +3404,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3438,7 +3438,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3472,7 +3472,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3675,8 +3675,8 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 }
 
 .c11 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3703,8 +3703,8 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 }
 
 .c20 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3739,8 +3739,8 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 }
 
 .c26 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3759,8 +3759,8 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 }
 
 .c29 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3779,8 +3779,8 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 }
 
 .c32 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3815,7 +3815,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3880,7 +3880,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3969,7 +3969,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -4003,7 +4003,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -4037,7 +4037,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -4216,8 +4216,8 @@ exports[`the ContentAnalysis component without problems and considerations, but 
 }
 
 .c11 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -4244,8 +4244,8 @@ exports[`the ContentAnalysis component without problems and considerations, but 
 }
 
 .c20 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -4272,8 +4272,8 @@ exports[`the ContentAnalysis component without problems and considerations, but 
 }
 
 .c24 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -4308,7 +4308,7 @@ exports[`the ContentAnalysis component without problems and considerations, but 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -4373,7 +4373,7 @@ exports[`the ContentAnalysis component without problems and considerations, but 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -4438,7 +4438,7 @@ exports[`the ContentAnalysis component without problems and considerations, but 
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -4617,8 +4617,8 @@ exports[`the ContentAnalysis component without problems and improvements matches
 }
 
 .c11 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -4645,8 +4645,8 @@ exports[`the ContentAnalysis component without problems and improvements matches
 }
 
 .c20 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -4673,8 +4673,8 @@ exports[`the ContentAnalysis component without problems and improvements matches
 }
 
 .c24 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -4709,7 +4709,7 @@ exports[`the ContentAnalysis component without problems and improvements matches
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -4774,7 +4774,7 @@ exports[`the ContentAnalysis component without problems and improvements matches
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -4839,7 +4839,7 @@ exports[`the ContentAnalysis component without problems and improvements matches
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -5018,8 +5018,8 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 }
 
 .c11 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -5046,8 +5046,8 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 }
 
 .c20 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -5074,8 +5074,8 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 }
 
 .c24 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -5094,8 +5094,8 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 }
 
 .c27 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -5130,7 +5130,7 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -5195,7 +5195,7 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -5260,7 +5260,7 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -5294,7 +5294,7 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -5497,8 +5497,8 @@ exports[`the ContentAnalysis component without problems, improvements and consid
 }
 
 .c11 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -5525,8 +5525,8 @@ exports[`the ContentAnalysis component without problems, improvements and consid
 }
 
 .c20 {
-  width: 16;
-  height: 16;
+  width: 16px;
+  height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -5585,7 +5585,7 @@ exports[`the ContentAnalysis component without problems, improvements and consid
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -5650,7 +5650,7 @@ exports[`the ContentAnalysis component without problems, improvements and consid
           fill="#555"
           focusable="false"
           role="img"
-          size="16"
+          size="16px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >

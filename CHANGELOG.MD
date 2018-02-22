@@ -5,6 +5,11 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 3.0.2 February 22nd, 2018
+
+### Other
+* Changed `SvgIcon`'s default prop `size` from `16` to `16px` and correctly implemented default props.
+
 ## 3.0.1 February 20th, 2018
 
 ### Other
