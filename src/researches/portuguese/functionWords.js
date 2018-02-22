@@ -35,8 +35,8 @@ let demonstrativePronouns = [ "aquilo", "àquele", "àquela", "àqueles", "àque
 let possessivePronouns = [ "minhas", "tuas", "suas", "minha", "tua", "sua", "minhas", "tuas", "suas", "vossa", "vossas", "meu",
 	"meus", "teu", "teus", "seu", "seus", "nosso", "nossos", "nossa", "nossas" ];
 
-let quantifiers = [ "vário", "vários", "vária", "várias", "muito", "muitos", "muita", "muitas", "puoco", "puocos", "puoca",
-	"puocas", "bastante" ];
+let quantifiers = [ "apenas", "vário", "vários", "vária", "várias", "mais", "muito", "muitos", "muita", "muitas", "puoco", "puocos", "puoca",
+	"puocas", "bastante", "todo", "todos", "toda", "todas" ];
 
 let indefinitePronouns = [ "alguma", "algumas", "nenhuns", "nenhumas", "todo", "toda", "todas", "outro", "outra", "outros", "outras",
 	"qualquer", "quaisquer", "outrem", "tudo", "nada", "algo", "tanto", "tanta", "tantos", "tantas", "quanto", "quanta", "quantos",
@@ -56,7 +56,11 @@ let otherAuxiliaries = [ "tenho", "tens", "tem", "temos", "tendes", "têm", "tiv
 	"houveram", "havia", "havias", "havíamos", "havíeis", "haviam", "houvera", "houveras", "houvéramos", "houvéreis", "houveram", "haverei",
 	"haverás", "haverá", "haveremos", "havereis", "haverão", "haveria", "haverias", "haveríamos", "haveríeis", "haveriam", "haja", "hajas",
 	"hajamos", "hajais", "hajam", "houvesse", "houvesses", "houvéssemos", "houvésseis", "houvessem", "houver", "houveres", "houvermos",
-	"houverdes", "houverem", "havei", "hajais", "haveres", "havermos", "haverdes", "haverem", "havido" ];
+	"houverdes", "houverem", "havei", "hajais", "haveres", "havermos", "haverdes", "haverem", "havido", "poder", "posso", "podes", "pode",
+	"podemos", "podeis", "podem", "pude", "pudeste", "pôde", "pudemos", "pudestes", "puderam", "podia", "podias", "podia", "podíamos", "podíeis",
+	"podiam", "pudera", "puderas", "pudéramos", "pudéreis", "puderam", "poderei", "poderás", "poderá", "poderemos", "podereis", "poderão",
+	"poderia", "poderias", "poderíamos", "poderíeis", "poderiam", "possa", "possas", "possamos", "possais", "possam", "pudesse", "pudesses",
+	"pudéssemos", "pudésseis", "pudessem", "puder", "puderes", "pudermos", "puderdes", "puderem" ];
 
 let otherAuxiliariesInfinitive = [ "ter", "haver" ];
 
@@ -73,11 +77,12 @@ let copula = [ "sou", "és", "é", "somos", "sois", "fui", "foste", "foi", "fomo
 
 let copulaInfinitive = [ "estar", "ser" ];
 
-let prepositions = [ "a", "ante", "após", "até", "com", "contra", "desde", "sem", "entre", "para", "perante", "sob", "sobre", "trás", "de",
+let prepositions = [ "a", "ante", "antes", "após", "até", "através", "com", "contra", "depois", "desde", "sem", "entre", "para", "pra",
+	"perante", "sob", "sobre", "trás", "de",
 	"por", "em", "ao", "à", "aos", "às", "do", "da", "dos", "das", "dum", "duma", "duns", "dumas", "no", "na", "nos", "nas", "num", "numa",
 	"nuns", "numas", "pelo", "pela", "pelos", "pelas", "deste", "desse", "daquele", "desta", "dessa", "daquela", "destes", "desses",
 	"daqueles", "destas", "dessas", "daquelas", "neste", "nesse", "naquele", "nesta", "nessa", "naquela", "nestes", "nesses", "naqueles",
-	"nestas", "nessas", "naquelas", "disto", "disso", "daquilo", "nisto", "nisso", "naquilo" ];
+	"nestas", "nessas", "naquelas", "disto", "disso", "daquilo", "nisto", "nisso", "naquilo", "durante" ];
 
 let coordinatingConjunctions = [ "também", "e", "ou", "nem" ];
 
@@ -89,14 +94,14 @@ let interviewVerbs = [ "diz", "dizem", "disse", "disseram", "dizia", "diziam", "
 	"reivindicava", "reivindicavam", "requer", "requerem", "requereu", "requereram", "requeria", "requeriam", "afirma", "afirmam",
 	"afirmou", "afirmaram", "afirmava", "afirmavam", "reivindica", "reivindicam", "reivindicou", "reivindicaram", "reivindicava",
 	"reivindicavam", "perguntam", "perguntou", "perguntaram", "perguntava", "perguntavam", "explica", "explicam", "explicou", "explicaram",
-	"explicava", "explicavam" ];
+	"explicava", "explicavam", "relata", "relatam", "relatou", "relataram" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
 let additionalTransitionWords = [ "provavelmente", "imediatamente", "ocasionalmente", "indubitavelmente", "para", "possivelmente",
 	"logo", "simultaneamente", "exceto", "inquestionavelmente" ];
 
 let intensifiers = [ "extremamente", "bem", "completamente", "totalmente", "grandemente", "seriamente", "absolutamente", "bastante",
-	"sobremodo", "sobremaneira" ];
+	"sobremodo", "sobremaneira", "tão" ];
 
 // These verbs convey little meaning.
 let delexicalizedVerbs = [ "dou", "dás", "dá", "damos", "dais", "dão", "dei", "deu", "demos", "deram", "dava", "davas", "dávamos", "dáveis",
@@ -122,7 +127,8 @@ let generalAdjectivesAdverbs = [ "devagar", "rapidamente", "grande", "grandes", 
 	"baixos", "baixas", "longo", "longa", "longos", "longas", "curto", "curta", "curtos", "curtas", "fácil", "fáceis", "difícil", "difíceis",
 	"simples", "mesmo", "mesma", "mesmos", "mesmas", "mêsmo", "mêsmos", "mêsma", "mêsmas", "cedo", "tarde", "importante", "importantes", "capaz",
 	"capazes", "certo", "certa", "certos", "certas", "usual", "usuals", "ultimamente", "possível", "possíveis", "comum", "comuns", "freqüentemente",
-	"constantemente", "continuamente", "diretamente", "levemente", "algures", "semelhante", "semelhantes", "similar", "similares" ];
+	"constantemente", "continuamente", "diretamente", "levemente", "algures", "semelhante", "semelhantes", "similar", "similares", "sempre", "ainda",
+	"já", "atrás", "depois" ];
 
 // "grande", "velho" and "pequeno" can appear both before and after nouns and are therefore on both lists.
 let generalAdjectivesPreceding = [ "pior", "melhor", "melhores", "bom", "boa", "bons", "boas", "bonito", "bonita", "bonitos", "bonitas", "grande",
@@ -137,8 +143,8 @@ let recipeWords = [ "kg", "mg", "gr", "g", "km", "m", "l", "ml", "cl" ];
 let timeWords = [ "segundos", "minuto", "minutos", "hora", "horas", "dia", "dias", "semana", "semanas", "mes", "meses", "ano", "anos", "hoje",
 	"amanhã", "ontem" ];
 
-let vagueNouns = [ "caso", "casos", "coisa", "coisas", "detalhe", "detalhes", "forma", "formas", "jeito", "jeitos", "maneira", "maneiras", "suijeto",
-	"sujeitos", "tópico", "tópicos" ];
+let vagueNouns = [ "caso", "casos", "coisa", "coisas", "detalhe", "detalhes", "forma", "formas", "jeito", "jeitos",
+	"maneira", "maneiras", "modo", "modos", "suijeto", "sujeitos", "tópico", "tópicos", "vez", "vezes" ];
 
 let miscellaneous = [ "sim", "não", "ok", "amém", "etc", "euro", "euros", "adeus", "jeitos" ];
 
