@@ -8,6 +8,7 @@ let dutchFunctionWords = require( "../researches/dutch/functionWords.js" );
 let spanishFunctionWords = require( "../researches/spanish/functionWords.js" );
 let italianFunctionWords = require( "../researches/italian/functionWords.js" );
 let frenchFunctionWords = require( "../researches/french/functionWords.js" );
+let portugueseFunctionWords = require( "../researches/portuguese/functionWords.js" );
 let getLanguage = require( "../helpers/getLanguage.js" );
 
 let filter = require( "lodash/filter" );
@@ -252,6 +253,9 @@ function getRelevantWords( text, locale ) {
 			break;
 		case "it":
 			functionWords = italianFunctionWords;
+			break;
+		case "pt":
+			functionWords = portugueseFunctionWords;
 			break;
 		default:
 		case "en":

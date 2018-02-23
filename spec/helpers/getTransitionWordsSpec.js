@@ -23,6 +23,16 @@ describe( "gets transition words, based on language", function() {
 		expect (Object.keys( transitionWords ) ).toEqual( properties );
 	} );
 
+	it( "checks if all properties are set for Italian", function() {
+		var transitionWords = getTransitionWords( "it_IT" );
+		expect (Object.keys( transitionWords ) ).toEqual( properties );
+	} );
+
+	it( "checks if all properties are set for Portuguese", function() {
+		var transitionWords = getTransitionWords( "pt_PT" );
+		expect (Object.keys( transitionWords ) ).toEqual( properties );
+	} );
+
 	it( "checks if all properties are set if no locale is given", function() {
 		var transitionWords = getTransitionWords( "" );
 		expect (Object.keys( transitionWords ) ).toEqual( properties );
