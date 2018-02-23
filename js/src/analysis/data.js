@@ -27,6 +27,17 @@ GutenbergDataCollector.prototype.getContent = function() {
 let gutenbergData;
 let data = {};
 
+// todo: naming
+let setDataPoint = ( dataPoint, data, gutenbergData ) => {
+	if ( ! data[ dataPoint ] ) {
+		data[ dataPoint ] = gutenbergData[ dataPoint ];
+	}
+	if ( data[ dataPoint ] !== gutenbergData[ dataPoint ] ) {
+		data[ dataPoint ] = gutenbergData[ dataPoint ];
+		console.log( data[ dataPoint ] );
+	}
+};
+
 /**
  * Listens to the Gutenberg data.
  *
@@ -37,30 +48,11 @@ const unsubscribe = debounce(
 		gutenbergData = {
 			content: wp.data.select( "core/editor" ).getEditedPostAttribute( "content" ),
 			title: wp.data.select( "core/editor" ).getEditedPostAttribute( "title" ),
-			url: wp.data.select( "core/editor" ).getEditedPostAttribute( "slug" ),
+			slug: wp.data.select( "core/editor" ).getEditedPostAttribute( "slug" ),
 		};
-		// Todo: use less if statements.
-		if ( ! data.title ) {
-			data.title = gutenbergData.title;
-		}
-		if ( data.title !== gutenbergData.title ) {
-			data.title = gutenbergData.title;
-			console.log( data.title );
-		}
-		if ( ! data.content ) {
-			data.content = gutenbergData.content;
-		}
-		if ( data.content !== gutenbergData.content ) {
-			data.content = gutenbergData.content;
-			console.log( data.content );
-		}
-		if ( ! data.slug ) {
-			data.slug = gutenbergData.slug;
-		}
-		if ( data.slug !== gutenbergData.slug ) {
-			data.slug = gutenbergData.slug;
-			console.log( data.slug );
-		}
+		setDataPoint( "content", data, gutenbergData );
+		setDataPoint( "title", data, gutenbergData );
+		setDataPoint( "slug", data, gutenbergData );
 	} )
 , 500 );
 
