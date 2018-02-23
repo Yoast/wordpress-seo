@@ -115,7 +115,6 @@ let delexicalizedVerbs = [ "dou", "dás", "dá", "damos", "dais", "dão", "dei",
 
 let delexicalizedVerbsInfinitive = [ "dar", "fazer" ];
 
-
 /*
  * These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
  * Keyword combinations containing these adjectives/adverbs are fine.
@@ -152,7 +151,6 @@ let titles = [ "sr", "sra", "sras", "dr", "dra", "prof" ];
 
 module.exports = function() {
 	return {
-
 		// These word categories are filtered at the beginning of word combinations.
 		filteredAtBeginning: generalAdjectivesAdverbs,
 
