@@ -65,12 +65,25 @@ check:
   - 'update-version:readme'
   - 'update-version:beta'
 
-artifact:
+'artifact:trunk':
   - 'shell:production-composer-install'
   # Update the version numbers in the relevant files
-  - 'update-version'
+  - 'update-version:beta'
   # Build like we normally would
   - 'release'
+  # Copy files and create a zip file
+  - 'create-artifact'
+
+'artifact:master':
+  - 'shell:production-composer-install'
+  # Update the version numbers in the relevant files
+  - 'update-version:release'
+  # Build like we normally would
+  - 'release'
+  # Copy files and create a zip file
+  - 'create-artifact'
+
+'create-artifact':
   # Remove build folder
   - 'clean:artifact'
   # Copy only the relevant files to the folder
