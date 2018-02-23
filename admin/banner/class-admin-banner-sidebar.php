@@ -88,9 +88,9 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$premium_spot->set_extra(
 			/* translators: %1$s expands to the plugin name */
-			'<h2>' . sprintf( __( 'Get %1$s', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</h2>' .
+			'<h2>' . sprintf( __( 'Upgrade to %1$s', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</h2>' .
 			'<ul>' .
-			'<li><strong>' . __( 'Multiple keywords', 'wordpress-seo' ) . '</strong><br/>' . __( 'Increase your SEO reach', 'wordpress-seo' ) . '</li>' .
+			'<li>' . __( 'Rank for up to', 'wordpress-seo' ) . '<strong>' . __( 'Increase your SEO reach', 'wordpress-seo' ) . '</strong></li>' .
 			'<li><strong>' . __( 'No more dead links', 'wordpress-seo' ) . '</strong><br/>' . __( 'Easy redirect manager', 'wordpress-seo' ) . '</li>' .
 			'<li><strong>' . __( 'Internal linking suggestions', 'wordpress-seo' ) . '</strong><br/>' . __( 'Find related posts superfast', 'wordpress-seo' ) . '</li>' .
 			'<li><strong>' . __( 'Social media preview', 'wordpress-seo' ) . '</strong><br/>' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ) . '</li>' .
@@ -98,7 +98,7 @@ class WPSEO_Admin_Banner_Sidebar {
 			'<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>' .
 			'</ul>' .
 			/* translators: %s expands to Yoast SEO Premium */
-			'<a id="wpseo-premium-button" class="button button-primary" href="' . $premium_uri . '" target="_blank">' . sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>'
+			'<a id="wpseo-premium-button" class="button button-primary" href="' . $premium_uri . '" target="_blank">' . sprintf( __( 'Get %s now', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>'
 		);
 
 		/*
