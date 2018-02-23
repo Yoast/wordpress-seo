@@ -96,7 +96,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		}
 
 		$old_url = $this->get_old_url( $post, $post_before );
-
 		if ( ! $old_url ) {
 			return false;
 		}

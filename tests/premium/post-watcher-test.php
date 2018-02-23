@@ -24,7 +24,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		parent::setUp();
 		$this->class_instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher' )
-			->setMethods( array( 'get_old_url', 'set_undo_slug_notification', 'get_target_url' ) )
+			->setMethods( array( 'get_old_url', 'set_undo_slug_notification', 'get_target_url', 'is_redirect_relevant' ) )
 			->getMock();
 	}
 
@@ -61,23 +61,8 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	 * Method `set_notification()` should be called when the slug is changed.
 	 */
 	public function test_detect_slug_change_slug_IS_CHANGED() {
-		$this->class_instance
-			->expects( $this->once() )
-			->method( 'get_old_url' )
-			->will( $this->returnValue( '/test/' ) );
-
-		$this->class_instance
-			->expects( $this->once() )
-			->method( 'get_target_url' )
-			->will( $this->returnValue( '/test2/' ) );
-
-		$this->class_instance
-			->expects( $this->once() )
-			->method( 'set_undo_slug_notification' );
-
 		$post = (object) array(
 			'ID'          => 1,
-			'post_name'   => '',
 			'post_status' => 'publish',
 			'post_name'   => 'test',
 		);
@@ -86,6 +71,20 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			'post_name' => 'test2',
 		);
 
+		$this->class_instance
+			->expects( $this->once() )
+			->method( 'get_old_url' )
+			->will( $this->returnValue( '/test/' ) );
+
+		$this->class_instance
+			->expects( $this->once() )
+			->method( 'is_redirect_relevant' )
+			->will( $this->returnValue( true ) );
+
+		$this->class_instance
+			->expects( $this->once() )
+			->method( 'set_undo_slug_notification' );
+
 		$this->class_instance->detect_slug_change( 1, $post, $post_before );
 	}
 
@@ -93,31 +92,23 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	 * Methods `get_target_url()` and `set_notification()` should not be called when post is not published.
 	 */
 	public function test_detect_slug_change_slug_post_IS_NOT_published() {
-		$this->class_instance
-			->expects( $this->once() )
-			->method( 'get_old_url' )
-			->will( $this->returnValue( '/test/' ) );
-
-		$this->class_instance
-			->expects( $this->never() )
-			->method( 'get_target_url' )
-			->will( $this->returnValue( '/test2/' ) );
-
-		$this->class_instance
-			->expects( $this->never() )
-			->method( 'set_undo_slug_notification' );
-
 		$post = (object) array(
 			'ID'          => 1,
-			'post_name'   => '',
 			'post_status' => 'draft',
-			'post_name'   => 'test',
 		);
 
 		$post_before = (object) array(
 			'post_status' => 'draft',
-			'post_name'   => 'test2',
 		);
+
+		$this->class_instance
+			->expects( $this->once() )
+			->method( 'is_redirect_relevant' )
+			->will( $this->returnValue( true ) );
+
+		$this->class_instance
+			->expects( $this->never() )
+			->method( 'set_undo_slug_notification' );
 
 		$this->class_instance->detect_slug_change( 1, $post, $post_before );
 	}
