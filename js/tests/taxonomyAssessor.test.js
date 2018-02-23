@@ -1,6 +1,6 @@
 let Assessor = require( "../src/assessors/taxonomyAssessor.js" );
 let Paper = require("yoastseo/js/values/Paper.js");
-let factory = require( "yoastseo/spec/helpers/factory.js" );
+let factory = require( "./helpers/factory.js" );
 let i18n = factory.buildJed();
 let assessor = new Assessor( i18n );
 
