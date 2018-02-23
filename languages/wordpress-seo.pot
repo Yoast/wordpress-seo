@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 6.3\n"
+"Project-Id-Version: Yoast SEO 6.3.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-02-16 10:59:58+00:00\n"
+"POT-Creation-Date: 2018-02-19 11:13:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4766,33 +4766,33 @@ msgstr ""
 msgid "Failed to deactivate your %s license."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:305
+#: vendor/yoast/license-manager/class-license-manager.php:307
 msgid "Request error: \"%s\" (%scommon license notices%s)"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:459
+#: vendor/yoast/license-manager/class-license-manager.php:461
 msgid "%s: License Settings"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:663
+#: vendor/yoast/license-manager/class-license-manager.php:665
 msgid "Your %s license has been activated. "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:667
+#: vendor/yoast/license-manager/class-license-manager.php:669
 msgid "You have an unlimited license. "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:669
+#: vendor/yoast/license-manager/class-license-manager.php:671
 msgid "You have used %d/%d activation. "
 msgid_plural "You have used %d/%d activations. "
 msgstr[0] ""
 msgstr[1] ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:674
+#: vendor/yoast/license-manager/class-license-manager.php:676
 msgid "<a href=\"%s\">Did you know you can upgrade your license?</a> "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:680
+#: vendor/yoast/license-manager/class-license-manager.php:682
 msgid ""
 "<a href=\"%s\">Your license is expiring in %d day, would you like to extend "
 "it?</a> "
@@ -4802,17 +4802,17 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:695
+#: vendor/yoast/license-manager/class-license-manager.php:697
 msgid "Failed to activate your license, your license key seems to be invalid."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:701
+#: vendor/yoast/license-manager/class-license-manager.php:703
 msgid ""
 "You've reached your activation limit. You must <a href=\"%s\">upgrade your "
 "license</a> to use it on this site."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:706
+#: vendor/yoast/license-manager/class-license-manager.php:708
 msgid ""
 "Your license has expired. You must <a href=\"%s\">extend your license</a> in "
 "order to use it again."
