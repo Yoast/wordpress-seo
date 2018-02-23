@@ -57,33 +57,17 @@ check:
 'check:i18n':
   - 'checktextdomain'
 
-'update-version:beta':
+# Update all versions except the stable tag
+'update-version-trunk':
   - 'update-version:pluginFile'
   - 'update-version:initializer'
 
-'update-version:release':
-  - 'update-version:readme'
-  - 'update-version:beta'
-
-'artifact:trunk':
+'artifact':
   - 'shell:production-composer-install'
-  # Update the version numbers in the relevant files
-  - 'update-version:beta'
   # Build like we normally would
   - 'release'
   # Copy files and create a zip file
   - 'create-artifact'
-
-'artifact:master':
-  - 'shell:production-composer-install'
-  # Update the version numbers in the relevant files
-  - 'update-version:release'
-  # Build like we normally would
-  - 'release'
-  # Copy files and create a zip file
-  - 'create-artifact'
-
-'create-artifact':
   # Remove build folder
   - 'clean:artifact'
   # Copy only the relevant files to the folder
@@ -108,13 +92,15 @@ release:
   - 'webpack:buildProd'
 
 'deploy:trunk':
-  - artifact
-  - wp_deploy:trunk
+  - 'update-version-trunk'
+  - 'artifact'
+  - 'wp_deploy:trunk'
 
 'deploy:master':
-  - artifact
-  - wp_deploy:master
+  - 'update-version'
+  - 'artifact'
+  - 'wp_deploy:master'
 
 # Default task
 default:
-  - build
+  - 'build'
