@@ -1,5 +1,4 @@
-/* global yoastModalConfig */
-
+/* global yoastModalConfig wpseoPostScraperL10n wpseoTermScraperL10n */
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
@@ -16,7 +15,7 @@ if ( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
 
-class AddKeywordModal extends React.Component {
+class Modal extends React.Component {
 
 	constructor( props ) {
 		super( props );
@@ -28,7 +27,7 @@ class AddKeywordModal extends React.Component {
 		this.openModal = this.openModal.bind( this );
 		this.closeModal = this.closeModal.bind( this );
 
-		this.appElement = document.querySelector( yoastModalConfig.hide );
+		this.appElement = document.querySelector( this.props.hide );
 	}
 
 	openModal() {
@@ -51,41 +50,55 @@ class AddKeywordModal extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<button type="button" onClick={ this.openModal }>{ yoastModalConfig.labels.open }</button>
+				<button type="button" onClick={ this.openModal }>{ this.props.labels.open }</button>
 				<YoastModal
 					isOpen={ this.state.modalIsOpen }
 					onClose={ this.closeModal }
-					modalAriaLabel={ yoastModalConfig.labels.modal }
+					modalAriaLabel={ this.props.labels.modal }
 					appElement={ this.appElement }
 				>
-					<h1>Modal heading</h1>
+					<h1>Modal: { this.props.labels.modal }</h1>
 					<form>
 						<button type="button">tabbing</button>
 						<button type="button">is constrained</button>
 						<button type="button">within</button>
 						<button type="button">the modal</button>
 					</form>
-					<button type="button" onClick={ this.closeModal }>{ yoastModalConfig.labels.close }</button>
+					<button type="button" onClick={ this.closeModal }>{ this.props.labels.close }</button>
 				</YoastModal>
 			</React.Fragment>
 		);
 	}
 }
 
-AddKeywordModal.propTypes = {
+Modal.propTypes = {
 	className: PropTypes.string,
 	intl: intlShape.isRequired,
+	hide: PropTypes.string.isRequired,
+	labels: PropTypes.object,
 };
 
-const AddKeywordModalIntl = injectIntl( AddKeywordModal );
+const ModalIntl = injectIntl( Modal );
 
-const element = document.querySelector( yoastModalConfig.hook );
+yoastModalConfig.forEach(
+	( config ) => {
+		if ( ! config.hook ) {
+			return;
+		}
 
-if ( element ) {
-	ReactDOM.render(
-		<IntlProvider messages={ localizedData.intl }>
-			<AddKeywordModalIntl />
-		</IntlProvider>,
-		element
-	);
-}
+		const element = document.querySelector( config.hook );
+
+		if ( element ) {
+			ReactDOM.render(
+				<IntlProvider messages={ localizedData.intl }>
+					<ModalIntl
+						hook={ config.hook }
+						hide={ config.hide }
+						labels={ config.labels }
+					/>
+				</IntlProvider>,
+				element
+			);
+		}
+	}
+);

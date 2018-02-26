@@ -8,10 +8,11 @@
  */
 class Yoast_Modal {
 
-	public function __construct( $config = array() ) {
-		$this->config = $config;
-		// Todo: the enqueueing should not happen here.
-		add_action( 'admin_footer', array( $this, 'enqueue_assets' ) );
+	private static $config = array();
+
+	public function __construct() {
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'admin_footer', array( $this, 'print_localized_config' ) );
 	}
 
 	/**
@@ -20,22 +21,41 @@ class Yoast_Modal {
 	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'yoast-modal' );
+	}
 
-		$defaults = $this->get_defaults();
-		$config   = array_replace_recursive( $defaults, $this->config );
-
-		// In case of multiple modals this will produce multiple `yoastModalConfig` localized scripts.
+	/**
+	 * Prints the modals configuration.
+	 */
+	public function print_localized_config() {
+		$config = self::$config;
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'yoast-modal', 'yoastModalConfig', $config );
 	}
 
 	/**
-	 * Get the default config for the modal.
+	 * Adds a single modal configuration to the modals configuration.
+	 */
+	public static function add( $args ) {
+		$defaults = self::get_defaults();
+
+		$single   = array_replace_recursive( $defaults, $args );
+		self::$config[] = $single;
+	}
+
+	/**
+	 * Gets the modals configuration.
+	 */
+	public function get_config() {
+		return self::$config;
+	}
+
+	/**
+	 * Gets the default config for a modal.
 	 *
 	 * @return array The modal default config.
 	 */
-	public function get_defaults() {
+	public static function get_defaults() {
 		$config = array(
-			'hook'   => 'body',
+			'hook'   => '',
 			'hide'   => 'body',
 			'labels' => array(
 				'open'  => __( 'Open a nice modal', 'wordpress-seo' ),

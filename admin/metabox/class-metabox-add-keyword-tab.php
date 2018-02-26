@@ -22,12 +22,23 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 			'hook' => '.wpseo-add-keyword-modal-class-test',
 			'hide' => '#wpwrap',
 			'labels' => array(
-				'modal' => __( 'This is the modal aria-label', 'wordpress-seo' ),
-				'close' => __( 'Close me', 'wordpress-seo' ),
-				'open' => __( 'Open me', 'wordpress-seo' ),
+				'modal' => __( 'First modal aria-label', 'wordpress-seo' ),
+				'close' => __( 'Close me 1', 'wordpress-seo' ),
+				'open'  => __( 'First modal', 'wordpress-seo' ),
 			),
 		);
-		$add_keyword_modal = new Yoast_Modal( $add_keyword_modal_config );
+		Yoast_Modal::add( $add_keyword_modal_config );
+
+		$more_modal_config = array(
+			'hook' => '.inside .wpseo-metabox-buy-premium',
+			'hide' => '#wpwrap',
+			'labels' => array(
+				'modal' => __( 'Second modal aria-label', 'wordpress-seo' ),
+				'close' => __( 'Close me 2', 'wordpress-seo' ),
+				'open'  => __( 'Second modal', 'wordpress-seo' ),
+			),
+		);
+		Yoast_Modal::add( $more_modal_config );
 
 		ob_start();
 		?>
