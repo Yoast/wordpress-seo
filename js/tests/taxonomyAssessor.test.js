@@ -1,5 +1,5 @@
 let Assessor = require( "../src/assessors/taxonomyAssessor.js" );
-let Paper = require("yoastseo/js/values/Paper.js");
+let Paper = require( "yoastseo/js/values/Paper.js" );
 let factory = require( "./helpers/factory.js" );
 let i18n = factory.buildJed();
 let assessor = new Assessor( i18n );
@@ -55,21 +55,7 @@ describe ( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require text and a keyword", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
-
-		expect( assessments ).toEqual( [
-			"introductionKeyword",
-			"metaDescriptionLength",
-			"titleKeyword",
-			"titleWidth",
-			"textLength"
-		] );
-	} );
-
-	it( "additionally runs assessments that require text and a keyword with a stopword", function() {
+	it( "additionally runs assessments that require a keyword with a stopword", function() {
 		assessor.assess( new Paper( "text", { keyword: "the keyword" } ) );
 		let AssessmentResults = assessor.getValidResults();
 		let assessments = getResults( AssessmentResults );
