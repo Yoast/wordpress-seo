@@ -148,36 +148,37 @@ $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Y
 			<?php
 			$extension = $extensions->get( 'wordpress-seo-premium' );
 			$extensions->remove( 'wordpress-seo-premium' );
-			?>
-			<h2>
-				<?php
-				printf(
-					/* translators: %1$s expands to Yoast SEO Premium */
-					esc_html__( '%1$s, take your optimization to the next level!', 'wordpress-seo' ),
-					'<span class="yoast-heading-highlight">' . $extension->get_title() . '</span>'
-				);
+			if ( ! $extensions->is_activated( 'wordpress-seo-premium' ) ) :
 				?>
-			</h2>
+				<h2>
+					<?php
+					printf(
+					/* translators: %1$s expands to Yoast SEO Premium */
+						esc_html__( '%1$s, take your optimization to the next level!', 'wordpress-seo' ),
+						'<span class="yoast-heading-highlight">' . $extension->get_title() . '</span>'
+					);
+					?>
+				</h2>
 
-			<ul class="yoast-seo-premium-benefits yoast-list--usp">
-				<li class="yoast-seo-premium-benefits__item">
-					<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Redirect manager', 'wordpress-seo' ); ?></span>
-					<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'create and manage redirects from within your WordPress install.', 'wordpress-seo' ); ?></span>
-				</li>
-				<li class="yoast-seo-premium-benefits__item">
-					<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Multiple focus keywords', 'wordpress-seo' ); ?></span>
-					<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'optimize a single post for up to 5 keywords.', 'wordpress-seo' ); ?></span>
-				</li>
-				<li class="yoast-seo-premium-benefits__item">
-					<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Social previews', 'wordpress-seo' ); ?></span>
-					<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'check what your Facebook or Twitter post will look like.', 'wordpress-seo' ); ?></span>
-				</li>
-				<li class="yoast-seo-premium-benefits__item">
-					<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Premium support', 'wordpress-seo' ); ?></span>
-					<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'gain access to our 24/7 support team.', 'wordpress-seo' ); ?></span>
-				</li>
-			</ul>
-
+				<ul class="yoast-seo-premium-benefits yoast-list--usp">
+					<li class="yoast-seo-premium-benefits__item">
+						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Redirect manager', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'create and manage redirects from within your WordPress install.', 'wordpress-seo' ); ?></span>
+					</li>
+					<li class="yoast-seo-premium-benefits__item">
+						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Multiple focus keywords', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'optimize a single post for up to 5 keywords.', 'wordpress-seo' ); ?></span>
+					</li>
+					<li class="yoast-seo-premium-benefits__item">
+						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Social previews', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'check what your Facebook or Twitter post will look like.', 'wordpress-seo' ); ?></span>
+					</li>
+					<li class="yoast-seo-premium-benefits__item">
+						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Premium support', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'gain access to our 24/7 support team.', 'wordpress-seo' ); ?></span>
+					</li>
+				</ul>
+			<?php endif; ?>
 			<?php if ( $extension_list->is_installed( $extension->get_title() ) ) : ?>
 				<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
@@ -207,8 +208,9 @@ $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Y
 						$extension->get_title() );
 					?></a>
 			<?php endif; ?>
-
-			<p><small class="yoast-money-back-guarantee"><?php esc_html_e( 'Comes with our 30-day no questions asked money back guarantee', 'wordpress-seo' ); ?></small></p>
+			<?php if ( ! $extensions->is_activated( 'wordpress-seo-premium' ) ) { ?>
+				<p><small class="yoast-money-back-guarantee"><?php esc_html_e( 'Comes with our 30-day no questions asked money back guarantee', 'wordpress-seo' ); ?></small></p>
+			<?php } ?>
 		</section>
 
 		<hr class="yoast-hr" aria-hidden="true" />
