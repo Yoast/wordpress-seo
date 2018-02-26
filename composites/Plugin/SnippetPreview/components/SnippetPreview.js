@@ -10,6 +10,7 @@ import partial from "lodash/partial";
 
 /* Internal dependencies */
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
+import FixedWidthContainer from "./fixedWidthContainer";
 
 const colorTitle = "#1e0fbe";
 const colorUrl = "#006621";
@@ -26,8 +27,7 @@ const DESCRIPTION_LIMIT = 280;
 const DESKTOP = "desktop";
 const MOBILE = "mobile";
 
-export const DesktopContainer = styled.div`
-	max-width: ${ maxWidth }px;
+export const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: white;
 `;
 
@@ -35,6 +35,7 @@ const MobileContainer = styled.div`
 	border-bottom: 1px hidden #fff;
 	border-radius: 2px;
 	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	margin: 0 20px 10px;
 `;
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
@@ -215,7 +216,7 @@ export default class SnippetPreview extends Component {
 
 		return (
 			<section>
-				<Container onMouseLeave={this.onMouseLeave}>
+				<Container onMouseLeave={this.onMouseLeave} width={ 640 } padding={ 20 }>
 					<PartContainer>
 						<ScreenReaderText>SEO title preview:</ScreenReaderText>
 						<Title onClick={onClick.bind( null, "title" )}

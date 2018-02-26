@@ -5,8 +5,6 @@ import styled from "styled-components";
 
 const Container = styled.div`
 	background-color: white;
-	width: 640px;
-	padding: 20px;
 	margin: 5em auto 0; 
 `;
 
