@@ -74,7 +74,7 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 	`;
 }
 
-export const TitleBounded = styled.div`
+export const Title = styled.div`
 	color: ${colorTitle};
 	text-decoration: none;
 	font-size: 18px;
@@ -89,8 +89,18 @@ export const TitleBounded = styled.div`
 	text-overflow: ellipsis;
 `;
 
-export const TitleUnbounded = styled.span`
+export const TitleBounded = styled( Title )`
+	max-width: ${ maxWidth }px;
+	vertical-align: top;
+	text-overflow: ellipsis;
+`;
+
+export const TitleUnboundedDesktop = styled.span`
 	white-space: nowrap;
+`;
+
+export const TitleUnboundedMobile = styled.span`
+	word-wrap: break-word
 `;
 
 export const BaseUrl = styled.div`
@@ -209,10 +219,11 @@ export default class SnippetPreview extends Component {
 
 		const renderedDate = this.renderDate();
 
-		const PartContainer = mode === DESKTOP ? DesktopPartContainer : MobilePartContainer;
-		const Container     = mode === DESKTOP ? DesktopContainer     : MobileContainer;
-		const separator     = mode === DESKTOP ? null                 : <Separator />;
-		const downArrow     = mode === DESKTOP ? <UrlDownArrow />     : null;
+		const PartContainer  = mode === DESKTOP ? DesktopPartContainer  : MobilePartContainer;
+		const Container      = mode === DESKTOP ? DesktopContainer      : MobileContainer;
+		const separator      = mode === DESKTOP ? null                  : <Separator />;
+		const downArrow      = mode === DESKTOP ? <UrlDownArrow />      : null;
+		const TitleUnbounded = mode === DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
 
 		return (
 			<section>
