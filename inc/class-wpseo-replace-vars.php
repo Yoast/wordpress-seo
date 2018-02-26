@@ -170,7 +170,7 @@ class WPSEO_Replace_Vars {
 		 *
 		 * @api array $replacements The replacements.
 		 */
-		$replacements = apply_filters( 'wpseo_replacements', $replacements );
+		$replacements = apply_filters( 'wpseo_replacements', $replacements, $args );
 
 		// Do the actual replacements.
 		if ( is_array( $replacements ) && $replacements !== array() ) {
