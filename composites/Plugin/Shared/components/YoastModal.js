@@ -16,7 +16,6 @@ class BaseYoastModal extends React.Component {
 	 * @returns {ReactElement} The rendered html.
 	 */
 	render() {
-		console.log( "props in component", this.props );
 		return (
 			<Modal
 				isOpen={ this.props.isOpen }
