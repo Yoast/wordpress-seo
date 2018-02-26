@@ -46,7 +46,6 @@
     "redux-thunk": "^2.2.0",
     "striptags": "^3.1.0",
     "styled-components": "^2.1.2",
-    "svg-url-loader": "^2.1.1",
     "whatwg-fetch": "^1.0.0",
     "yoastseo": "^1.28.0"
   },
