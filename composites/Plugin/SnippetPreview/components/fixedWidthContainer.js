@@ -51,7 +51,7 @@ export default class FixedWidthContainer extends Component {
 		};
 
 		this.setContainerRef = this.setContainerRef.bind( this );
-		this.determineSize = debounce( this.determineSize.bind( this ), 50 );
+		this.determineSize = debounce( this.determineSize.bind( this ), 100 );
 	}
 
 	/**
@@ -62,6 +62,10 @@ export default class FixedWidthContainer extends Component {
 	 * @returns {void}
 	 */
 	setContainerRef( container ) {
+		if ( ! container ) {
+			return null;
+		}
+
 		this._container = container;
 
 		this.determineSize();
@@ -80,6 +84,15 @@ export default class FixedWidthContainer extends Component {
 		this.setState( {
 			showScrollHint: width < this.props.width,
 		} );
+	}
+
+	/**
+	 * Removes event listener for resizing the page.
+	 *
+	 * @returns {void}
+	 */
+	componentWillUnmount() {
+		window.removeEventListener( "resize", this.determineSize );
 	}
 
 	/**
