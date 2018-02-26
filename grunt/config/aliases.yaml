@@ -87,13 +87,13 @@ release:
   - 'webpack:buildProd'
 
 'deploy:trunk':
-  - artifact
-  - wp_deploy:trunk
+  - 'artifact'
+  - 'wp_deploy:trunk'
 
 'deploy:master':
-  - artifact
-  - wp_deploy:master
+  - 'artifact'
+  - 'wp_deploy:master'
 
 # Default task
 default:
-  - build
+  - 'build'
