@@ -13,7 +13,17 @@ export default class SnippetPreviewExample extends Component {
 		super( props );
 
 		this.state = {
+			title: "Welcome to the Gutenberg Editor - Local WordPress Dev. Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title",
+			url: "local.wordpress.test/welcome-to-the-gutenberg-editor-2/",
+			description: "Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of",
+			keyword: "editor",
+			date: "Jan 8, 2018",
+			locale: "en_US",
+			onClick( type ) {
+				console.log( "clicked:", type );
+			},
 			hoveredField: "",
+			activeField: "description",
 		};
 
 		this.onMouseOver = this.onMouseOver.bind( this );
@@ -40,6 +50,12 @@ export default class SnippetPreviewExample extends Component {
 		} );
 	}
 
+	switch( mode ) {
+		this.setState( {
+			mode,
+		} );
+	}
+
 	/**
 	 * Renders the SnippetPreview component.
 	 *
@@ -53,30 +69,19 @@ export default class SnippetPreviewExample extends Component {
 	 * @returns {ReactElement} The SnippetPreview component.
 	 */
 	render() {
-		const snippetData = {
-			title: "Welcome to the Gutenberg Editor - Local WordPress Dev. Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title",
-			url: "local.wordpress.test/welcome-to-the-gutenberg-editor-2/",
-			description: "Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of",
-			keyword: "editor",
-			date: "Jan 8, 2018",
-			locale: "en_US",
-			onClick( type ) {
-				console.log( "clicked:", type );
-			},
-			hoveredField: this.state.hoveredField,
-			activeField: "description",
-			onMouseOver: this.onMouseOver,
-			onMouseLeave: this.onMouseLeave,
-		};
+		let props = Object.assign( {}, this.state );
 
-		let mobileSnippetData = Object.assign( {}, snippetData, { mode: "mobile" } );
+		props.onMouseOver = this.onMouseOver;
+		props.onMouseLeave = this.onMouseLeave;
 
 		return <Container>
+			<button onClick={ this.switch.bind( this, "desktop" ) }>Desktop</button>
+			<button onClick={ this.switch.bind( this, "mobile" ) }>Mobile</button>
+
+			<br /><br /><br />
+
 			<div>
-				<SnippetPreview {...snippetData} />
-			</div>
-			<div style={ { margin: "5em 0" } }>
-				<SnippetPreview {...mobileSnippetData} />
+				<SnippetPreview {...props} />
 			</div>
 		</Container>;
 	}
