@@ -169,6 +169,9 @@ class WPSEO_Replace_Vars {
 		 * Filter: 'wpseo_replacements' - Allow customization of the replacements before they are applied.
 		 *
 		 * @api array $replacements The replacements.
+		 *
+		 * @param object $args Optional argument which can be a post or term instance.
+		 *
 		 */
 		$replacements = apply_filters( 'wpseo_replacements', $replacements, $args );
 
