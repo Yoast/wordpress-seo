@@ -17,15 +17,15 @@ class WPSEO_Config_Field_Google_Search_Console_Intro extends WPSEO_Config_Field 
 		$html = sprintf(
 			/* translators: %1$s is the plugin name, %2$s is a link start tag to a Yoast help page, %3$s is the link closing tag. */
 			__( '%1$s integrates with Google Search Console, a must-have tool for site owners.
- It provides you with information about the health of your site. 
+ It provides you with information about the health of your site.
  Don\'t have a Google account or is your site not activated yet?
  Find out %2$show to connect Google Search Console to your site.%3$s',
 				'wordpress-seo' ),
 			'Yoast SEO',
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1ex' ) . '">',
+			'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1ex' ) . '">',
 			'</a>' );
 
-		$disclaimer = __( 'Note: we don\'t store your data in any way and don\'t have full access to your account. 
+		$disclaimer = __( 'Note: we don\'t store your data in any way and don\'t have full access to your account.
 Your privacy is safe with us.', 'wordpress-seo' );
 
 		$html = '<p>' . $html . '</p><small>' . esc_html( $disclaimer ) . '</small>';
