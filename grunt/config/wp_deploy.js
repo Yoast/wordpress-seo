@@ -8,7 +8,6 @@ module.exports = {
 			plugin_main_file: "<%= pluginMainFile %>",
 			deploy_trunk: true,
 			deploy_tag: false,
-			assets_dir: "svn-assets",
 			// Equals about 10MB.
 			max_buffer: 10000 * 1024,
 		},
