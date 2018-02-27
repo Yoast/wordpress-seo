@@ -29,7 +29,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 				'get_old_url',
 				'set_undo_slug_notification',
 				'get_target_url',
-				'is_redirect_relevant'
+				'is_redirect_relevant',
 			) )
 			->getMock();
 	}
@@ -181,7 +181,8 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$redirect_manager
 			->expects( $this->once() )
 			->method( 'get_redirect' )
-			->willReturn( false );
+			->will( $this->returnValue( false ) );
+
 
 		$redirect_manager
 			->expects( $this->never() )
@@ -217,13 +218,13 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
-				'get_target_url'
+				'get_target_url',
 			) )
 			->setConstructorArgs( array( $redirect_manager ) )
 			->getMock();
 
 		$instance
-			->expects( $this->exactly(2) )
+			->expects( $this->exactly( 2 ) )
 			->method( 'get_target_url' )
 			->willReturn( 'not_name' );
 
@@ -256,13 +257,13 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
-				'get_target_url'
+				'get_target_url',
 			) )
 			->setConstructorArgs( array( $redirect_manager ) )
 			->getMock();
 
 		$instance
-			->expects( $this->exactly(2) )
+			->expects( $this->exactly( 2 ) )
 			->method( 'get_target_url' )
 			->willReturn( 'name' );
 
