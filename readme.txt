@@ -135,6 +135,9 @@ Release Date: March 6th, 2018
     * Removes code to add a trailing slash in weird permutations of permalink settings. Canonical should solve this properly.
     * Removes the functionality to automatically remove blocking XML sitemap files.
     * Removes the clean permalinks feature, as it was created before canonical was introduced and is no longer needed.
+    * Fixes a reference to the ACF Content Analysis for Yoast SEO plugin
+    * Removes all functions, methods and files that were deprecated since before version 4.0 and were showing a deprecation warning.
+    * Removes the plugin conflict check for the `Head, Footer and Post Injections`-plugin as it no longer manages OpenGraph tags.
 
 ## Bugs:
 
@@ -143,11 +146,11 @@ Release Date: March 6th, 2018
 * When we set `noindex` on a page, we no longer add a canonical, to prevent confusing search engines.
 
 = 6.3.1 =
-Release Date: February 20th, 2018
+Release Date: February 19th, 2018
 
 Bugfixes:
 
-* Fixes a bug where a non-existing JavaScript `chunk` file was loaded, causing a console error. This only affected users using a locale different than `en`.
+* Fixes a bug where a non-existing JavaScript `chunk` file was loaded, causing a console error. This only affected users using a locale different than `en_US`.
 
 = 6.3.0 =
 Release Date: February 13th, 2018
@@ -201,4 +204,4 @@ Bugfixes:
 
 = Earlier versions =
 
-For the changelog of earlier versions, please refer to the separate changelog.txt file.
+For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog

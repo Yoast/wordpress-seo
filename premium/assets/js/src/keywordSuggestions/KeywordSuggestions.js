@@ -105,11 +105,12 @@ class KeywordSuggestions {
 			words = [];
 		}
 
-		let keywordSuggestions = ( <KeywordSuggestionsComponent relevantWords={words} /> );
 		let title = translate( "Insights" );
 
 		ReactDOM.render(
-			<StyledSection title={title} icon="file-text-o" sectionContent={keywordSuggestions} />,
+			<StyledSection headingText={ title } headingLevel={ 3 } headingIconSize="16px" headingIcon="file-text">
+				<KeywordSuggestionsComponent relevantWords={ words } />
+			</StyledSection>,
 			this.suggestionsDiv
 		);
 	}

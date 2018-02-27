@@ -21,7 +21,7 @@ class WPSEO_Submenu_Hider {
 	 * @return void
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
@@ -32,6 +32,6 @@ class WPSEO_Submenu_Hider {
 	 * @return void
 	 */
 	public function filter_settings_pages() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 }

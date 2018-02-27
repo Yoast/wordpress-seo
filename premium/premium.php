@@ -494,19 +494,6 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Add redirects to admin pages so the Yoast scripts are loaded
-	 *
-	 * @param array $admin_pages Array with the admin pages.
-	 *
-	 * @return array
-	 * @deprecated 3.1
-	 */
-	public function add_admin_pages( $admin_pages ) {
-		_deprecated_function( 'WPSEO_Premium::add_admin_pages', 'WPSEO 3.1' );
-		return $admin_pages;
-	}
-
-	/**
 	 * Register the premium settings
 	 */
 	public function register_settings() {

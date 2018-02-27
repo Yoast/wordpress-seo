@@ -93,8 +93,8 @@ class WPSEO_Frontend {
 		add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
 
 		if ( WPSEO_Options::get( 'disable-date', false )
-			 || WPSEO_Options::get( 'disable-author', false )
-			 || WPSEO_Options::get( 'disable-post_format', false )
+			|| WPSEO_Options::get( 'disable-author', false )
+			|| WPSEO_Options::get( 'disable-post_format', false )
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
@@ -769,7 +769,7 @@ class WPSEO_Frontend {
 
 		if ( $robots['other'] !== array() ) {
 			$robots['other'] = array_unique( $robots['other'] ); // @todo Most likely no longer needed, needs testing.
-			$robotsstr       .= ',' . implode( ',', $robots['other'] );
+			$robotsstr      .= ',' . implode( ',', $robots['other'] );
 		}
 
 		$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );

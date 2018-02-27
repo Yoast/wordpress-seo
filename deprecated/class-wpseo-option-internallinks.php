@@ -37,7 +37,7 @@ class WPSEO_Option_InternalLinks {
 	 * @return void
 	 */
 	public static function get_instance() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
@@ -48,7 +48,7 @@ class WPSEO_Option_InternalLinks {
 	 * @return void
 	 */
 	public function translate_defaults() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class WPSEO_Option_InternalLinks {
 	 * @return void
 	 */
 	public function enrich_defaults() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class WPSEO_Option_InternalLinks {
 	 * @return void
 	 */
 	public function bring_back_defaults() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
@@ -85,7 +85,7 @@ class WPSEO_Option_InternalLinks {
 	 * @return void
 	 */
 	protected function validate_option() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
@@ -99,7 +99,7 @@ class WPSEO_Option_InternalLinks {
 	 * @return void
 	 */
 	protected function get_allowed_post_types() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
@@ -110,6 +110,6 @@ class WPSEO_Option_InternalLinks {
 	 * @return void
 	 */
 	protected function clean_option() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 }
