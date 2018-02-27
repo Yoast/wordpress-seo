@@ -155,16 +155,29 @@ export function initialize( args ) {
 
 	renderReactApps( store, args );
 
-	const { registerEditorMenuItem, registerSidebar } = wp.editPost;
+	const { registerMoreMenuItem, registerSidebar } = wp.editPost;
+	const { Panel, PanelBody } = wp.components;
 
-	const Component = () => <h1>Test</h1>;
+
+	const Component = () => {
+		return (
+			<Panel>
+				<PanelBody>
+					<h2>SEO analysis</h2>
+						{ wrapInTopLevelComponents( SeoAnalysis, store ) }
+					<h2>Readability analysis</h2>
+						{ wrapInTopLevelComponents( ContentAnalysis, store ) }
+				</PanelBody>
+			</Panel>
+		);
+	};
 
 	registerSidebar( "yoast/analysis", {
 		render: Component,
-		title: "Yoast SEO"
+		title: "Yoast SEO",
 	} );
 
-	registerEditorMenuItem( "yoast/analysis-menu", {
+	registerMoreMenuItem( "yoast/analysis-menu", {
 		title: "Yoast SEO",
 		icon: <Icon />,
 		target: "yoast/analysis",
