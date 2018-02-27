@@ -173,9 +173,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 * @covers WPSEO_Configuration_Options_Adapter::get()
 	 */
 	public function test_get_yoast_option() {
-		$key    = 'version';
-
-		$expected = WPSEO_Options::get( 'version' );
+		$key      = 'version';
+		$expected = WPSEO_Options::get( $key );
 
 		$field = new WPSEO_Config_Field( 'field', 'component' );
 
@@ -239,7 +238,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 * @covers WPSEO_Configuration_Options_Adapter::set()
 	 */
 	public function test_set_yoast_option() {
-		$option = 'wpseo';
+		$option = 'wpseo_titles';
 		$key    = 'company_name';
 
 		WPSEO_Options::set( $key, uniqid( 'u' ) );
@@ -260,7 +259,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 * @covers WPSEO_Configuration_Options_Adapter::set()
 	 */
 	public function test_set_yoast_option_same_value() {
-		$option = 'wpseo';
+		$option = 'wpseo_titles';
 		$key    = 'company_name';
 		$value  = uniqid( 'v' );
 

@@ -227,7 +227,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$stacked_urls = array();
+		$stacked_urls     = array();
 		$posts_to_exclude = $this->get_excluded_posts();
 
 		while ( $total > $offset ) {

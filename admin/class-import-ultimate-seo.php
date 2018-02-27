@@ -9,7 +9,7 @@
 class WPSEO_Import_Ultimate_SEO extends WPSEO_Import_External {
 
 	/**
-	 * Constructs the import Ultimate SEO settings.
+	 * Constructs the import SEO Ultimate settings.
 	 *
 	 * @param boolean $replace Boolean replace switch.
 	 */
@@ -19,7 +19,8 @@ class WPSEO_Import_Ultimate_SEO extends WPSEO_Import_External {
 		$this->import_metas();
 		$this->cleanup();
 
-		$this->set_msg( __( 'Ultimate SEO data successfully imported.', 'wordpress-seo' ) );
+		$this->success = true;
+		$this->set_msg( __( 'SEO Ultimate data successfully imported.', 'wordpress-seo' ) );
 
 	}
 

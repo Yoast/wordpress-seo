@@ -18,6 +18,7 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Import_External {
 	public function __construct( $replace = false ) {
 		parent::__construct( $replace );
 
+		$this->success = true;
 		$this->import_home();
 		$this->import_option( 'seo_woo_single_layout', 'post' );
 		$this->import_option( 'seo_woo_page_layout', 'page' );

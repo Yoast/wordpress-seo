@@ -141,7 +141,7 @@ class Yoast_Social_Facebook {
 		$this->verify_nonce( 'delfbadmin' );
 
 		$admin_id = sanitize_text_field( $delfbadmin );
-		$option = WPSEO_Options::get( 'fb_admins' );
+		$option   = WPSEO_Options::get( 'fb_admins' );
 
 		if ( isset( $option[ $admin_id ] ) ) {
 			$fbadmin = $option[ $admin_id ]['name'];
