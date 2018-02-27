@@ -120,7 +120,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	protected function remove_colliding_redirect( $post, $post_before ) {
 		$redirect = $this->redirect_manager->get_redirect( $this->get_target_url( $post ) );
-		if ( false === $redirect ) {
+		if ( $redirect === false ) {
 			return;
 		}
 
@@ -132,7 +132,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Determines if redirect is relevant for the provided post
+	 * Determines if redirect is relevant for the provided post.
 	 *
 	 * @param WP_Post $post        The post with the new values.
 	 * @param WP_Post $post_before The post with the previous values.

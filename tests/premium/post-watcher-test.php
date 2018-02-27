@@ -22,9 +22,15 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+
 		$this->class_instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher' )
-			->setMethods( array( 'get_old_url', 'set_undo_slug_notification', 'get_target_url', 'is_redirect_relevant' ) )
+			->setMethods( array(
+				'get_old_url',
+				'set_undo_slug_notification',
+				'get_target_url',
+				'is_redirect_relevant'
+			) )
 			->getMock();
 	}
 
@@ -162,5 +168,104 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEmpty( $manager->get_all_redirects() );
 	}
-}
 
+	/**
+	 * Tests if a redirect is not deleted when no redirect is found.
+	 */
+	public function test_no_redirect_exists_dont_delete_redirect() {
+		$redirect_manager = $this
+			->getMockBuilder( 'WPSEO_Redirect_Manager' )
+			->setMethods( array( 'get_redirect', 'delete_redirects' ) )
+			->getMock();
+
+		$redirect_manager
+			->expects( $this->once() )
+			->method( 'get_redirect' )
+			->willReturn( false );
+
+		$redirect_manager
+			->expects( $this->never() )
+			->method( 'delete_redirects' );
+
+		$instance = new WPSEO_Post_Watcher_Double( $redirect_manager );
+		$instance->remove_colliding_redirect( array(), array() );
+	}
+
+	/**
+	 * Tests if a redirect is not deleted when the targets do not match.
+	 */
+	public function test_target_from_before_does_match() {
+		$post_before = (object) array(
+			'post_name' => 'name',
+		);
+
+		$redirect_manager = $this
+			->getMockBuilder( 'WPSEO_Redirect_Manager' )
+			->setMethods( array( 'get_redirect', 'delete_redirects' ) )
+			->getMock();
+
+		$redirect_manager
+			->expects( $this->once() )
+			->method( 'get_redirect' )
+			->willReturn( new WPSEO_Redirect( '', 'name' ) );
+
+		$redirect_manager
+			->expects( $this->never() )
+			->method( 'delete_redirects' );
+
+		/** @var WPSEO_Post_Watcher_Double $instance */
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
+			->setMethods( array(
+				'get_target_url'
+			) )
+			->setConstructorArgs( array( $redirect_manager ) )
+			->getMock();
+
+		$instance
+			->expects( $this->exactly(2) )
+			->method( 'get_target_url' )
+			->willReturn( 'not_name' );
+
+		$instance->remove_colliding_redirect( array(), $post_before );
+	}
+
+	/**
+	 * Tests if a redirect is deleted when a redirect is found and the targets match.
+	 */
+	public function test_redirect_being_deleted() {
+		$post_before = (object) array(
+			'post_name' => 'name',
+		);
+
+		$redirect_manager = $this
+			->getMockBuilder( 'WPSEO_Redirect_Manager' )
+			->setMethods( array( 'get_redirect', 'delete_redirects' ) )
+			->getMock();
+
+		$redirect_manager
+			->expects( $this->once() )
+			->method( 'get_redirect' )
+			->willReturn( new WPSEO_Redirect( '', 'name' ) );
+
+		$redirect_manager
+			->expects( $this->once() )
+			->method( 'delete_redirects' );
+
+		/** @var WPSEO_Post_Watcher_Double $instance */
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
+			->setMethods( array(
+				'get_target_url'
+			) )
+			->setConstructorArgs( array( $redirect_manager ) )
+			->getMock();
+
+		$instance
+			->expects( $this->exactly(2) )
+			->method( 'get_target_url' )
+			->willReturn( 'name' );
+
+		$instance->remove_colliding_redirect( array(), $post_before );
+	}
+}
