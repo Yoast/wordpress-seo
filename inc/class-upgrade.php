@@ -69,7 +69,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $version, '5.0', '>=' )
-			 && version_compare( $version, '5.1', '<' )
+			&& version_compare( $version, '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
@@ -90,7 +90,7 @@ class WPSEO_Upgrade {
 			$this->upgrade_63();
 		}
 
-		if ( version_compare( $version, '7.0', '<' ) ) {
+		if ( version_compare( $version, '7.0-RC0', '<' ) ) {
 			$this->upgrade_70();
 		}
 
@@ -499,9 +499,13 @@ class WPSEO_Upgrade {
 		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssafter' );
 		delete_option( 'wpseo_rss' );
 
-		// Move the website name and altername name as they've moved to another config page.
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'website_name' );
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'alternate_website_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_logo' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_or_person' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'person_name' );
+
+		// Remove the website name and altername name as we no longer need them.
+		$this->remove_key_from_option( 'wpseo', array( 'website_name', 'alternate_website_name' ) );
 
 		// All the breadcrumbs settings have moved to the search appearance settings.
 		$internal_links = (array) get_option( 'wpseo_internallinks' );
@@ -509,6 +513,27 @@ class WPSEO_Upgrade {
 			$this->move_key_to_other_option( 'wpseo_internallinks', 'wpseo_titles', $key );
 		}
 		delete_option( 'wpseo_internallinks' );
+
+		// Convert hidden metabox options to display metabox options.
+		$title_options = get_option( 'wpseo_titles' );
+
+		foreach ( $title_options as $key => $value ) {
+			if ( strpos( $key, 'hideeditbox-tax-' ) === 0 ) {
+				$taxonomy = substr( $key, strlen( 'hideeditbox-tax-' ) );
+				WPSEO_Options::set( 'display-metabox-tax-' . $taxonomy, ! $value );
+				continue;
+			}
+
+			if ( strpos( $key, 'hideeditbox-' ) === 0 ) {
+				$post_type = substr( $key, strlen( 'hideeditbox-' ) );
+				WPSEO_Options::set( 'display-metabox-pt-' . $post_type, ! $value );
+				continue;
+			}
+		}
+
+		// Remove possibly present plugin conflict notice for plugin that was removed from the list of conflicting plugins.
+		$yoast_plugin_conflict = WPSEO_Plugin_Conflict::get_instance();
+		$yoast_plugin_conflict->clear_error( 'header-footer/plugin.php' );
 
 		// Moves the user meta for excluding from the XML sitemap to a noindex.
 		global $wpdb;

@@ -57,7 +57,7 @@ class WPSEO_Option_Tab_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Option_Tab::has_save_button
 	 */
 	public function test_has_save_button() {
-		// By default, we do have a save button
+		// By default, we do have a save button.
 		$option_tab = new WPSEO_Option_Tab( 'name', 'label' );
 
 		$this->assertTrue( $option_tab->has_save_button() );

@@ -360,7 +360,7 @@ class WPSEO_Meta {
 				 *
 				 * @return     array
 				 */
-				$field_defs = apply_filters( 'wpseo_metabox_entries', $field_defs );
+				$field_defs = apply_filters_deprecated( 'wpseo_metabox_entries', array( $field_defs ), 'WPSEO 7.0','wpseo_metabox_entries_general' );
 				break;
 
 
@@ -381,9 +381,10 @@ class WPSEO_Meta {
 
 				/* Adjust the no-index text strings based on the post type. */
 				$post_type_object = get_post_type_object( $post_type );
-				$field_defs['meta-robots-noindex']['title'] = sprintf( $field_defs['meta-robots-noindex']['title'], $post_type_object->labels->singular_name );
+
+				$field_defs['meta-robots-noindex']['title']        = sprintf( $field_defs['meta-robots-noindex']['title'], $post_type_object->labels->singular_name );
 				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( WPSEO_Options::get( 'noindex-' . $post_type, false ) === true ) ? $field_defs['meta-robots-noindex']['options']['1'] : $field_defs['meta-robots-noindex']['options']['2'] ), $post_type_object->label );
-				$field_defs['meta-robots-nofollow']['title'] = sprintf( $field_defs['meta-robots-nofollow']['title'], $post_type_object->labels->singular_name );
+				$field_defs['meta-robots-nofollow']['title']       = sprintf( $field_defs['meta-robots-nofollow']['title'], $post_type_object->labels->singular_name );
 
 				/* Adjust the robots advanced 'site-wide default' text string based on those settings */
 				$robots_adv = __( 'None', 'wordpress-seo' );

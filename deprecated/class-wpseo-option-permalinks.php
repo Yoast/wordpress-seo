@@ -36,7 +36,7 @@ class WPSEO_Option_Permalinks {
 	 * @return void
 	 */
 	protected function __construct() {
-		_deprecated_constructor( __CLASS__,  'WPSEO 7.0' );
+		_deprecated_constructor( __CLASS__, 'WPSEO 7.0' );
 	}
 
 	/**
@@ -47,7 +47,7 @@ class WPSEO_Option_Permalinks {
 	 * @return void
 	 */
 	public static function get_instance() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
@@ -58,6 +58,6 @@ class WPSEO_Option_Permalinks {
 	 * @return void
 	 */
 	protected function validate_option() {
-		_deprecated_function( __METHOD__,  'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 }

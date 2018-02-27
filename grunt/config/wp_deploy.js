@@ -1,4 +1,4 @@
-// See: https://github.com/stephenharris/grunt-wp-deploy
+// See: https://github.com/stephenharris/grunt-wp-deploy for details.
 /* eslint camelcase: 0 */
 module.exports = {
 	trunk: {

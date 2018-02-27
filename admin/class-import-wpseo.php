@@ -21,6 +21,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 		$this->import_post_metas();
 		$this->import_taxonomy_metas();
 
+		$this->success = true;
 		$this->set_msg(
 			sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */

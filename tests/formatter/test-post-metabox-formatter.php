@@ -51,10 +51,10 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_post_with_empty_options() {
 		WPSEO_Options::set( 'keyword_usage', array( '' => array() ) );
-		WPSEO_Options::set( 'title-'  . $this->post->post_type, '' );
+		WPSEO_Options::set( 'title-' . $this->post->post_type, '' );
 		WPSEO_Options::set( 'metadesc-' . $this->post->post_type, '' );
 
-		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, array(),'' );
+		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, array(), '' );
 		$result   = $instance->get_values();
 
 		$this->assertEquals( $result['keyword_usage'], array( '' => array() ) );

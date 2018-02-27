@@ -168,9 +168,12 @@ class WPSEO_Replace_Vars {
 		/**
 		 * Filter: 'wpseo_replacements' - Allow customization of the replacements before they are applied.
 		 *
-		 * @api array $replacements The replacements.
+		 * @api     array   $replacements The replacements.
+		 *
+		 * @param   array   $args The object some of the replacement values might come from,
+		 *                       could be a post, taxonomy or term.
 		 */
-		$replacements = apply_filters( 'wpseo_replacements', $replacements );
+		$replacements = apply_filters( 'wpseo_replacements', $replacements, $this->args );
 
 		// Do the actual replacements.
 		if ( is_array( $replacements ) && $replacements !== array() ) {
