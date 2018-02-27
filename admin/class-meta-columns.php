@@ -542,11 +542,11 @@ class WPSEO_Meta_Columns {
 	 * @return bool Whether or not it is indexable.
 	 */
 	protected function is_indexable( $post_id ) {
-		if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
-			return false;
-		}
-
 		$post = get_post( $post_id );
+
+		if ( ! $this->uses_default_indexing( $post_id ) ) {
+			return WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '2';
+		}
 
 		if ( is_object( $post ) ) {
 			// If the option is false, this means we want to index it.
@@ -554,6 +554,17 @@ class WPSEO_Meta_Columns {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Determines whether the given post ID uses the default indexing settings.
+	 *
+	 * @param integer $post_id The post ID to check.
+	 *
+	 * @return bool Whether or not the default indexing is being used for the post.
+	 */
+	protected function uses_default_indexing( $post_id ) {
+		return WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '0';
 	}
 	
 	/**
