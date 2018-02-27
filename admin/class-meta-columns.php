@@ -542,11 +542,11 @@ class WPSEO_Meta_Columns {
 	 * @return bool Whether or not it is indexable.
 	 */
 	protected function is_indexable( $post_id ) {
-		$post = get_post( $post_id );
-
-		if ( ! $this->uses_default_indexing( $post_id ) ) {
+		if ( ! empty( $post_id ) && ! $this->uses_default_indexing( $post_id ) ) {
 			return WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '2';
 		}
+
+		$post = get_post( $post_id );
 
 		if ( is_object( $post ) ) {
 			// If the option is false, this means we want to index it.
