@@ -136,7 +136,7 @@ ajv@^4.7.0, ajv@^4.9.1:
     co "^4.6.0"
     json-stable-stringify "^1.0.1"
 
-ajv@^5.0.0, ajv@^5.1.0, ajv@^5.1.5:
+ajv@^5.1.0, ajv@^5.1.5:
   version "5.5.1"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.5.1.tgz#b38bb8876d9e86bee994956a04e721e88b248eb2"
   dependencies:
@@ -2677,9 +2677,9 @@ download@^4.0.0, download@^4.1.2:
     vinyl-fs "^2.2.0"
     ware "^1.2.0"
 
-draft-js@^0.10.1:
-  version "0.10.4"
-  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.4.tgz#147741642097c8120d8edc232e9503e8b7fb8d35"
+draft-js@^0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
   dependencies:
     fbjs "^0.8.15"
     immutable "~3.7.4"
@@ -3339,13 +3339,6 @@ file-entry-cache@^2.0.0:
   dependencies:
     flat-cache "^1.2.1"
     object-assign "^4.0.1"
-
-file-loader@1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-1.1.5.tgz#91c25b6b6fbe56dae99f10a425fd64933b5c9daa"
-  dependencies:
-    loader-utils "^1.0.2"
-    schema-utils "^0.3.0"
 
 file-sync-cmp@^0.1.0:
   version "0.1.1"
@@ -7481,9 +7474,9 @@ react-redux@^5.0.6:
     loose-envify "^1.1.0"
     prop-types "^15.5.10"
 
-react-tabs@^2.0.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/react-tabs/-/react-tabs-2.1.1.tgz#fd806fe78a990b59f1daf02609aded546fe7016c"
+react-tabs@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-tabs/-/react-tabs-2.2.1.tgz#0331d26173c56e7af4fdbfb6225e62683cfdda52"
   dependencies:
     classnames "^2.2.0"
     prop-types "^15.5.0"
@@ -7994,12 +7987,6 @@ sassdash@^0.8.1:
 sax@>=0.6.0, sax@^1.2.1, sax@~1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
-
-schema-utils@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.3.0.tgz#f5877222ce3e931edae039f17eb3716e7137f8cf"
-  dependencies:
-    ajv "^5.0.0"
 
 scss-to-json@^1.0.1:
   version "1.1.0"
@@ -8634,13 +8621,6 @@ svg-react-loader@^0.4.5:
     rx "4.1.0"
     traverse "0.6.6"
     xml2js "0.4.17"
-
-svg-url-loader@^2.1.1:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/svg-url-loader/-/svg-url-loader-2.3.0.tgz#6ea03f387ed09be1a8f270df6849573deca717b3"
-  dependencies:
-    file-loader "1.1.5"
-    loader-utils "1.1.0"
 
 svgo@^0.7.0:
   version "0.7.2"
@@ -9669,26 +9649,25 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-yoast-components@^2.11.9:
-  version "2.11.9"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.11.9.tgz#933bfcff3157c7e609327d8724191ca05e239a3b"
+yoast-components@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-3.0.2.tgz#96662e12948127518179fafc1782e40988a6d8fe"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     algoliasearch "^3.22.3"
     debug "^3.0.0"
-    draft-js "^0.10.1"
+    draft-js "^0.10.5"
     interpolate-components "^1.1.0"
     jed "^1.1.1"
     lodash "^4.17.4"
-    prop-types "^15.5.10"
+    prop-types "^15.6.0"
     react-intl "^2.4.0"
     react-redux "^5.0.6"
-    react-tabs "^2.0.0"
+    react-tabs "^2.2.1"
     redux "^3.7.2"
     redux-thunk "^2.2.0"
     striptags "^3.1.0"
     styled-components "^2.1.2"
-    svg-url-loader "^2.1.1"
     whatwg-fetch "^1.0.0"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"

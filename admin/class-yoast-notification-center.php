@@ -595,16 +595,4 @@ class Yoast_Notification_Center {
 	private function is_notification_persistent( Yoast_Notification $notification ) {
 		return ! $notification->is_persistent();
 	}
-
-	/**
-	 * Write the notifications to a cookie (hooked on shutdown)
-	 *
-	 * Function renamed to 'update_storage'.
-	 *
-	 * @deprecated 3.2 remove in 3.5
-	 * @codeCoverageIgnore
-	 */
-	public function set_transient() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.2' );
-	}
 }
