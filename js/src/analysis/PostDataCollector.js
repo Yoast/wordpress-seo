@@ -9,8 +9,9 @@ import getIndicatorForScore from "./getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar }from "../ui/adminBar";
 
+import { getData } from  "./data";
+
 import publishBox from "../ui/publishBox";
-import _get from "lodash/get";
 
 let $ = jQuery;
 let currentKeyword = "";
@@ -33,28 +34,39 @@ let PostDataCollector = function( args ) {
 
 /**
  * Get data from input fields and store them in an analyzerData object. This object will be used to fill
- * the analyzer and the snippet preview.
+ * the analyzer and the snippet preview. If Gutenberg data is available, use it.
  *
- * @returns {void}
+ * @returns {Object} The data.
  */
 PostDataCollector.prototype.getData = function() {
+	let gutenbergData;
+	if( getData() && getData().isDirty ) {
+		gutenbergData = getData().data;
+	}
 	let text = this.getText();
 
-	/*
-	 * Gutenberg exposes a global on the window. Which is `_wpGutenbergPost`. The post has two content
-	 * properties: `rendered` and `raw`. For the content analysis we are interested in the rendered content.
-	 */
-	let gutenbergContent = _get( window, "_wpGutenbergPost.content.rendered", "" );
-	if ( gutenbergContent !== "" ) {
-		text = gutenbergContent;
-	}
+	console.log( {
+		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
+		meta: this.getMeta(),
+		text: gutenbergData && gutenbergData.content ? gutenbergData.content : text,
+		title: gutenbergData && gutenbergData.title ? gutenbergData.title : this.getTitle(),
+		url: gutenbergData && gutenbergData.slug ? gutenbergData.slug : this.getUrl(),
+		excerpt: this.getExcerpt(),
+		snippetTitle: this.getSnippetTitle(),
+		snippetMeta: this.getSnippetMeta(),
+		snippetCite: this.getSnippetCite(),
+		primaryCategory: this.getPrimaryCategory(),
+		searchUrl: this.getSearchUrl(),
+		postUrl: this.getPostUrl(),
+		permalink: this.getPermalink(),
+	} );
 
 	return {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		meta: this.getMeta(),
-		text,
-		title: this.getTitle(),
-		url: this.getUrl(),
+		text: gutenbergData && gutenbergData.content ? gutenbergData.content : text,
+		title: gutenbergData && gutenbergData.title ? gutenbergData.title : this.getTitle(),
+		url: gutenbergData && gutenbergData.slug ? gutenbergData.slug : this.getUrl(),
 		excerpt: this.getExcerpt(),
 		snippetTitle: this.getSnippetTitle(),
 		snippetMeta: this.getSnippetMeta(),
