@@ -1,4 +1,4 @@
-/* global window wpseoPostScraperL10n wpseoTermScraperL10n process */
+/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp */
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
@@ -14,6 +14,8 @@ import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducer
 import activeKeyword from "./redux/reducers/activeKeyword";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
+
+const { Panel, PanelBody } = wp.components;
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -120,6 +122,22 @@ export function initialize( args ) {
 	const store = configureStore();
 
 	renderReactApps( store, args );
+
+	const { activateSidebar, registerSidebar } = wp.editPost;
+	registerSidebar( "yoast/analysis", {
+		title: "Yoast SEO",
+		render: function YoastSEOSidebar() {
+			return <Panel>
+				<PanelBody>
+					<h2>SEO analysis</h2>
+					{ wrapInTopLevelComponents( SeoAnalysis, store ) }
+					<h2>Readability analysis</h2>
+					{ wrapInTopLevelComponents( ContentAnalysis, store ) }
+				</PanelBody>
+			</Panel>;
+		},
+	} );
+	activateSidebar( "yoast/analysis" );
 
 	return {
 		store,
