@@ -566,7 +566,7 @@ class WPSEO_Meta_Columns {
 	protected function uses_default_indexing( $post_id ) {
 		return WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '0';
 	}
-	
+
 	/**
 	 * Returns filters when $order_by is matched in the if-statement.
 	 *
