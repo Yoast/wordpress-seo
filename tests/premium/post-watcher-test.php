@@ -208,7 +208,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$redirect_manager
 			->expects( $this->once() )
 			->method( 'get_redirect' )
-			->willReturn( new WPSEO_Redirect( '', 'name' ) );
+			->will( $this->returnValue( new WPSEO_Redirect( '', 'name' ) ) );
 
 		$redirect_manager
 			->expects( $this->never() )
@@ -226,7 +226,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->exactly( 2 ) )
 			->method( 'get_target_url' )
-			->willReturn( 'not_name' );
+			->will( $this->returnValue( 'not_name' ) );
 
 		$instance->remove_colliding_redirect( array(), $post_before );
 	}
@@ -247,7 +247,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$redirect_manager
 			->expects( $this->once() )
 			->method( 'get_redirect' )
-			->willReturn( new WPSEO_Redirect( '', 'name' ) );
+			->will( $this->returnValue( new WPSEO_Redirect( '', 'name' ) ) );
 
 		$redirect_manager
 			->expects( $this->once() )
@@ -265,7 +265,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->exactly( 2 ) )
 			->method( 'get_target_url' )
-			->willReturn( 'name' );
+			->will( $this->returnValue( 'name' ) );
 
 		$instance->remove_colliding_redirect( array(), $post_before );
 	}
