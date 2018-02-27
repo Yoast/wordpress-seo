@@ -144,6 +144,8 @@ Release Date: March 6th, 2018
 * Fixes a bug where you would not stay on the same option tab after using the save button in Safari.
 * Hides the "Save changes" button on option tabs where there is nothing to save.
 * When we set `noindex` on a page, we no longer add a canonical, to prevent confusing search engines.
+* Fixes an issue where the categories / tags overview pages were incorrectly showing elements marked as noindex when in reality they weren't set to noindex (and vice versa). This meant that blue bullets were being shown incorrectly.
+* Fixes an issue where setting posts and pages to noindex didn't change the overview.
 
 = 6.3.1 =
 Release Date: February 19th, 2018
