@@ -207,7 +207,7 @@ AnalysisCollapsible.propTypes = {
 };
 
 AnalysisCollapsible.defaultProps = {
-	initialIsOpen: false,
+	initialIsOpen: true,
 	hasHeading: false,
 	headingLevel: 2,
 };
