@@ -208,7 +208,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
+	 * Tests for canonical on search pages.
+	 *
 	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * @return void
 	 */
 	public function test_canonical_search() {
 		update_option( 'posts_per_page', 1 );
@@ -222,11 +226,15 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
+	 * Tests adjecent rel links on post type overview pages.
+	 *
 	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 * @covers WPSEO_Frontend::rel_links_archive
 	 * @covers WPSEO_Frontend::adjacent_rel_link
 	 * @covers WPSEO_Frontend::get_pagination_base
 	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * @return void
 	 */
 	public function test_adjacent_rel_links_canonical_post_type() {
 		update_option( 'posts_per_page', 1 );
