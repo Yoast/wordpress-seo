@@ -1052,6 +1052,8 @@ class WPSEO_Frontend {
 
 	/**
 	 * Output the rel next/prev links for a single post / page.
+	 *
+	 * @return void
 	 */
 	protected function rel_links_single() {
 		$num_pages = 1;
@@ -1148,7 +1150,7 @@ class WPSEO_Frontend {
 	/**
 	 * Return the base for pagination.
 	 *
-	 * @return string
+	 * @return string The pagination base.
 	 */
 	private function get_pagination_base() {
 		// If the current page is the frontpage, pagination should use /base/.

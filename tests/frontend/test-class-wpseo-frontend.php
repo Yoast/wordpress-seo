@@ -21,6 +21,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 
 	/**
 	 * Reset permalink structure.
+	 *
+	 * @return void
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -267,11 +269,15 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
+	 * Tests adjecent rel links in a date archive.
+	 *
 	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 * @covers WPSEO_Frontend::rel_links_archive
 	 * @covers WPSEO_Frontend::adjacent_rel_link
 	 * @covers WPSEO_Frontend::get_pagination_base
 	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * @return void
 	 */
 	public function test_adjacent_rel_links_canonical_date_archive() {
 		update_option( 'posts_per_page', 1 );
@@ -283,11 +289,15 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
+	 * Tests adjecent rel links on a category.
+	 *
 	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 * @covers WPSEO_Frontend::rel_links_archive
 	 * @covers WPSEO_Frontend::adjacent_rel_link
 	 * @covers WPSEO_Frontend::get_pagination_base
 	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * @return void
 	 */
 	public function test_adjacent_rel_links_canonical_category() {
 		update_option( 'posts_per_page', 1 );
@@ -312,6 +322,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	 * @covers WPSEO_Frontend::adjacent_rel_link
 	 * @covers WPSEO_Frontend::get_pagination_base
 	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * @return void
 	 */
 	public function test_adjacent_rel_links_canonical_split_up_post_pretty_permalinks() {
 		$this->set_permalink_structure( '/%postname%/' );
@@ -342,6 +354,8 @@ Page 3/3
 	 * @covers WPSEO_Frontend::adjacent_rel_link
 	 * @covers WPSEO_Frontend::get_pagination_base
 	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * @return void
 	 */
 	public function test_adjacent_rel_links_canonical_split_up_post() {
 		$post_id = $this->factory->post->create(
@@ -370,6 +384,8 @@ Page 3/3
 	 * @covers WPSEO_Frontend::adjacent_rel_link
 	 * @covers WPSEO_Frontend::get_pagination_base
 	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * @return void
 	 */
 	public function test_adjacent_rel_links_non_split_post() {
 		$post_id = $this->factory->post->create(
@@ -389,7 +405,11 @@ Page 3/3
 	}
 
 	/**
+	 * Tests for use of the canonical filter.
+	 *
 	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * @return void
 	 */
 	public function test_canonical_filter() {
 		add_filter( 'wpseo_canonical', '__return_false' );
@@ -406,7 +426,7 @@ Page 3/3
 	/**
 	 * Used to test the workings of canonical.
 	 *
-	 * @return string
+	 * @return string Fixed canonical string.
 	 */
 	public function filter_canonical_test() {
 		return 'http://canonic.al';
@@ -708,6 +728,8 @@ Page 3/3
 	}
 
 	/**
+	 * Runs tests for consecutive pages.
+	 *
 	 * @param string $initial_url URL to start off from.
 	 *
 	 * @return void
@@ -750,6 +772,8 @@ Page 3/3
 	}
 
 	/**
+	 * Returns tests for consecutive post pages (paginated post/page).
+	 *
 	 * @param string $initial_url URL to start off from.
 	 *
 	 * @return void
@@ -811,6 +835,8 @@ Page 3/3
 	}
 
 	/**
+	 * Tests the output for webmaster tools authentication.
+	 *
 	 * @param string $option_name Option name.
 	 * @param string $test_value  Test value to use.
 	 * @param string $expected    Expected output.
@@ -827,7 +853,11 @@ Page 3/3
 	}
 
 	/**
+	 * Tests if the queried post type is fetched properly.
+	 *
 	 * @covers WPSEO_Frontend::get_queried_post_type()
+	 *
+	 * @return void
 	 */
 	public function test_get_queried_post_type() {
 		$wp_query = $this
@@ -847,7 +877,11 @@ Page 3/3
 	}
 
 	/**
+	 * Tests for post type when given as multiple items.
+	 *
 	 * @covers WPSEO_Frontend::get_queried_post_type()
+	 *
+	 * @return void
 	 */
 	public function test_get_queried_post_type_array() {
 		$wp_query = $this
