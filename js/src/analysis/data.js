@@ -1,4 +1,4 @@
-/* global wp */
+/* global wp YoastSEO */
 import debounce from "lodash/debounce";
 
 let data = {};
@@ -42,14 +42,11 @@ const isShallowEqual = ( currentData, gutenbergData ) => {
  * @returns {Object} The data.
  */
 const updateData = ( data, gutenbergData ) => {
-	isDirty = false;
-	if ( ! data ) {
-		data = gutenbergData;
-		isDirty = true;
-	}
 	// Set isDirty to false if the current data and Gutenberg data are unequal.
 	isDirty = ! isShallowEqual( data, gutenbergData );
-	if ( data && isDirty ) {
+
+	// If there is new data from Gutenberg, overwrite the data object with the new data.
+	if ( isDirty ) {
 		data = gutenbergData;
 	}
 	return data;
@@ -67,7 +64,12 @@ const getGutenbergData = () => {
 		title: wp.data.select( "core/editor" ).getEditedPostAttribute( "title" ),
 		slug: wp.data.select( "core/editor" ).getEditedPostAttribute( "slug" ),
 	};
-	updateData( data, gutenbergData );
+	data = updateData( data, gutenbergData );
+
+	if ( isDirty ) {
+		YoastSEO.app.refresh();
+	}
+	isDirty = false;
 };
 
 const subscriber = debounce( getGutenbergData, 500 );
@@ -83,15 +85,11 @@ export const subscribeToGutenberg = function() {
 	);
 };
 
-// Todo: Single responsibility.
 /**
  * Returns the data and whether the data is dirty.
  *
  * @returns {Object} The data and whether the data is dirty.
  */
 export const getData = () => {
-	return {
-		data: data,
-		isDirty: isDirty,
-	};
+	return data;
 };
