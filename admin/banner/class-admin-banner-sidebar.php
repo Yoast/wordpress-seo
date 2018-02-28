@@ -90,42 +90,16 @@ class WPSEO_Admin_Banner_Sidebar {
 			/* translators: %1$s expands to the plugin name */
 			'<h2>' . sprintf( __( 'Upgrade to %1$s', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</h2>' .
 			'<ul>' .
-			'<li>' . __( 'Rank for up to', 'wordpress-seo' ) . '<strong>' . __( 'Increase your SEO reach', 'wordpress-seo' ) . '</strong></li>' .
-			'<li><strong>' . __( 'No more dead links', 'wordpress-seo' ) . '</strong><br/>' . __( 'Easy redirect manager', 'wordpress-seo' ) . '</li>' .
-			'<li><strong>' . __( 'Internal linking suggestions', 'wordpress-seo' ) . '</strong><br/>' . __( 'Find related posts superfast', 'wordpress-seo' ) . '</li>' .
-			'<li><strong>' . __( 'Social media preview', 'wordpress-seo' ) . '</strong><br/>' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ) . '</li>' .
-			'<li><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></li>' .
-			'<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . __( 'Rank for up to 5 focus keywords per page', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . __( 'Preview your page in Facebook and Twitter', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . __( 'Get real-time suggestions for internal links', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . __( 'No more dead links a.k.a. 404 pages', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . __( '24/7 email support', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . __( 'No ads', 'wordpress-seo' ) . '</strong></li>' .
 			'</ul>' .
 			/* translators: %s expands to Yoast SEO Premium */
 			'<a id="wpseo-premium-button" class="button button-primary" href="' . $premium_uri . '" target="_blank">' . sprintf( __( 'Get %s now', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>'
 		);
-
-		/*
-		$premium_spot->set_description(
-			sprintf(
-				/* translators: %1$s expands to a link start tag to the Yoast plugin page, %2$s is the link closing tag * /
-						__( 'Want to get the most out of your SEO-strategy? %1$sGo premium!%2$s.', 'wordpress-seo' ),
-						'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/ji' ) . '">',
-						'</a>'
-					)
-				);
-				/*
-
-				$premium_spot->add_banner(
-					new WPSEO_Admin_Banner(
-						WPSEO_Shortlinker::get( 'https://yoa.st/jj' ),
-						'premium-seo.png',
-						261,
-						152,
-						sprintf(
-							/* translators: %1$s expands to Yoast SEO Premium. * /
-					__( 'Buy the %1$s plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' ),
-					'Yoast SEO Premium'
-				)
-			)
-		);
-		*/
 
 		return $premium_spot;
 	}
