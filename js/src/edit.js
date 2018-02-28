@@ -155,7 +155,7 @@ export function initialize( args ) {
 
 	renderReactApps( store, args );
 
-	const { registerMoreMenuItem, registerSidebar } = wp.editPost;
+	const { experimental__registerMoreMenuItem, registerSidebar } = wp.editPost;
 	const { Panel, PanelBody } = wp.components;
 
 
@@ -177,7 +177,7 @@ export function initialize( args ) {
 		title: "Yoast SEO",
 	} );
 
-	registerMoreMenuItem( "yoast/analysis-menu", {
+	experimental__registerMoreMenuItem( "yoast/analysis-menu", {
 		title: "Yoast SEO",
 		icon: <Icon />,
 		target: "yoast/analysis",
