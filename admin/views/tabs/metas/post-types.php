@@ -44,6 +44,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 
 $post_types = get_post_types(
 	array(
+		'public' => true,
 		'_builtin'    => false,
 		'has_archive' => true,
 	),
