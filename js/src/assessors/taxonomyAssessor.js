@@ -46,4 +46,3 @@ var TaxonomyAssessor = function( i18n ) {
 module.exports = TaxonomyAssessor;
 
 require( "util" ).inherits( module.exports, Assessor );
-
