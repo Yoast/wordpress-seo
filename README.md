@@ -20,9 +20,15 @@ import 'Input' from 'yoast-components/forms/Input'
 
 ## Requirements
 
-If you use `yoast-components` within your own project we recommend using `webpack` with the following loaders and configuration:
+### React intl
 
-### Webpack loaders
+Components that are translated using `react-intl` require that you wrap your application in `react-intl`'s `IntlProvider`.
+
+See [the documentation](https://github.com/yahoo/react-intl) for more information.
+
+### Webpack
+
+If you use `yoast-components` within your own project we recommend using `webpack` with the following loaders and configuration:
 
 * Babel-loader
   * Presets: es2015 and react
