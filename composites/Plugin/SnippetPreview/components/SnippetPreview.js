@@ -7,6 +7,7 @@ import createWordRegex from "yoastseo/js/stringProcessing/createWordRegex";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import partial from "lodash/partial";
+import { parse } from "url";
 
 /* Internal dependencies */
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
@@ -29,6 +30,7 @@ const MOBILE = "mobile";
 
 export const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: white;
+	font-family: arial, sans-serif;
 `;
 
 const MobileContainer = styled.div`
@@ -36,6 +38,7 @@ const MobileContainer = styled.div`
 	border-radius: 2px;
 	box-shadow: 0 1px 2px rgba(0,0,0,.2);
 	margin: 0 20px 10px;
+	font-family: Roboto-Regular, HelveticaNeue, Arial, sans-serif;
 `;
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
@@ -313,6 +316,54 @@ export default class SnippetPreview extends Component {
 	}
 
 	/**
+	 * Returns the breadcrumbs string to be rendered.
+	 *
+	 * @returns {string} The breadcrumbs.
+	 */
+	getBreadcrumbs() {
+		const { url, breadcrumbs } = this.props;
+		const { protocol, hostname, pathname } = parse( url );
+
+		const hostPart = protocol === "https:" ? protocol + "//" + hostname : hostname;
+
+		const urlParts = breadcrumbs || pathname.split( "/" );
+
+		return [ hostPart, ...urlParts ].filter( part => !! part ).join( " › " );
+	}
+
+	/**
+	 * Renders the URL for display in the snippet preview.
+	 *
+	 * @returns {ReactElement} The rendered URL.
+	 */
+	renderUrl() {
+		const {
+			url,
+			onClick,
+			onMouseOver,
+			onMouseLeave,
+			locale,
+			keyword,
+		} = this.props;
+
+		let urlContent;
+
+		if ( this.props.mode === MOBILE ) {
+			urlContent = this.getBreadcrumbs();
+		} else {
+			urlContent = highlightKeyword( locale, keyword, url );
+		}
+
+		const Url = this.addCaretStyles( "url", BaseUrl );
+
+		return <Url onClick={ onClick.bind( null, "url" ) }
+		            onMouseOver={ partial( onMouseOver, "url" ) }
+		            onMouseLeave={ partial( onMouseLeave, "url" ) }>
+			{ urlContent }
+		</Url>;
+	}
+
+	/**
 	 * Before we receive props we need to set the title in the state.
 	 *
 	 * @param {Object} nextProps The props this component will receive.
@@ -345,7 +396,6 @@ export default class SnippetPreview extends Component {
 	 */
 	render() {
 		const {
-			url,
 			description,
 			keyword,
 			isDescriptionGenerated,
@@ -358,7 +408,6 @@ export default class SnippetPreview extends Component {
 
 		const Title       = this.addCaretStyles( "title", BaseTitle );
 		const Description = this.addCaretStyles( "description", BaseDescription );
-		const Url         = this.addCaretStyles( "url", BaseUrl );
 
 		const renderedDate = this.renderDate();
 
@@ -383,11 +432,7 @@ export default class SnippetPreview extends Component {
 							</TitleBounded>
 						</Title>
 						<ScreenReaderText>Slug preview:</ScreenReaderText>
-						<Url onClick={ onClick.bind( null, "url" ) }
-						     onMouseOver={ partial( onMouseOver, "url" ) }
-						     onMouseLeave={ partial( onMouseLeave, "url" ) }>
-							{ highlightKeyword( locale, keyword, url ) }
-						</Url>
+						{ this.renderUrl() }
 						{ downArrow }
 					</PartContainer>
 					{ separator }
@@ -416,6 +461,7 @@ SnippetPreview.propTypes = {
 	url: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	date: PropTypes.string,
+	breadcrumbs: PropTypes.array,
 
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
@@ -433,6 +479,7 @@ SnippetPreview.propTypes = {
 SnippetPreview.defaultProps = {
 	date: "",
 	keyword: "",
+	breadcrumbs: null,
 	isDescriptionGenerated: false,
 	locale: "en_US",
 	onHover: () => {},

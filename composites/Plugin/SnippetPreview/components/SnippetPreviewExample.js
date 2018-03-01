@@ -14,7 +14,7 @@ export default class SnippetPreviewExample extends Component {
 
 		this.state = {
 			title: "Welcome to the Gutenberg Editor - Local WordPress Dev. Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title",
-			url: "local.wordpress.test/welcome-to-the-gutenberg-editor-2/",
+			url: "https://local.wordpress.test/welcome-to-the-gutenberg-editor-2/",
 			description: "Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of",
 			keyword: "editor",
 			date: "Jan 8, 2018",
@@ -24,6 +24,7 @@ export default class SnippetPreviewExample extends Component {
 			},
 			hoveredField: "",
 			activeField: "description",
+			breadcrumbs: [ "hallo", "is", "it", "me", "you" ],
 		};
 
 		this.onMouseOver = this.onMouseOver.bind( this );
@@ -62,6 +63,12 @@ export default class SnippetPreviewExample extends Component {
 		} );
 	}
 
+	updateUrl( event ) {
+		this.setState( {
+			url: event.target.value,
+		} );
+	}
+
 	/**
 	 * Renders the SnippetPreview component.
 	 *
@@ -84,6 +91,7 @@ export default class SnippetPreviewExample extends Component {
 			<button onClick={ this.switch.bind( this, "desktop" ) }>Desktop</button>
 			<button onClick={ this.switch.bind( this, "mobile" ) }>Mobile</button>
 			<input type="text" onChange={ this.updateTitle.bind( this ) } value={ this.state.title } />
+			<input type="text" onChange={ this.updateUrl.bind( this ) } value={ this.state.url } />
 
 			<br /><br /><br />
 
