@@ -5,6 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 3.1.0 March 1st, 2018
+
+### Other
+* `react-intl` is now a peer dependency of `yoast-component`. Updated documentation in regards to to using `react-intl`.
+* `AnalysisHeaderCollapsible` is now open by default. This means all headers in `ContentAnalysis` are now open by default.
+
 ## 3.0.2 February 22nd, 2018
 
 ### Other
