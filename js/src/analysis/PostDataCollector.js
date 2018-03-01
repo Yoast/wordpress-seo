@@ -1,4 +1,6 @@
 /* global jQuery, YoastSEO, wpseoPostScraperL10n */
+import isEmpty from "lodash/isEmpty";
+
 
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import removeMarks from "yoastseo/js/markers/removeMarks";
@@ -40,26 +42,12 @@ let PostDataCollector = function( args ) {
  */
 PostDataCollector.prototype.getData = function() {
 	let gutenbergData;
-	if( getData() && getData().isDirty ) {
-		gutenbergData = getData().data;
+
+	// Only use data from Gutenberg if the Gutenberg data object isn't empty.
+	if( ! isEmpty( getData() ) ) {
+		gutenbergData = getData();
 	}
 	let text = this.getText();
-
-	console.log( {
-		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
-		meta: this.getMeta(),
-		text: gutenbergData && gutenbergData.content ? gutenbergData.content : text,
-		title: gutenbergData && gutenbergData.title ? gutenbergData.title : this.getTitle(),
-		url: gutenbergData && gutenbergData.slug ? gutenbergData.slug : this.getUrl(),
-		excerpt: this.getExcerpt(),
-		snippetTitle: this.getSnippetTitle(),
-		snippetMeta: this.getSnippetMeta(),
-		snippetCite: this.getSnippetCite(),
-		primaryCategory: this.getPrimaryCategory(),
-		searchUrl: this.getSearchUrl(),
-		postUrl: this.getPostUrl(),
-		permalink: this.getPermalink(),
-	} );
 
 	return {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",

@@ -80,9 +80,12 @@ const subscriber = debounce( getGutenbergData, 500 );
  * @returns {void}
  */
 export const subscribeToGutenberg = function() {
-	wp.data.subscribe(
-		subscriber
-	);
+	// Only subscribe when Gutenberg's data API is available.
+	if ( wp.data ) {
+		wp.data.subscribe(
+			subscriber
+		);
+	}
 };
 
 /**
