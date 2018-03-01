@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { IntlProvider as IntlProviderOriginal } from "react-intl";
 
-window.Intl = undefined;
-
 /**
  * The component that will be wrapped by the Higher Order component.
  *
@@ -11,9 +9,6 @@ window.Intl = undefined;
  */
 class IntlProvider extends React.Component {
 	render() {
-		if( ! window.Intl ) {
-			return "Doe us ff niej!";
-		}
 		return (
 			<IntlProviderOriginal
 				locale="en"
