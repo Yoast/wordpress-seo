@@ -66,8 +66,6 @@ check:
   - 'shell:production-composer-install'
   # Build like we normally would
   - 'release'
-  # Copy files and create a zip file
-  - 'create-artifact'
   # Remove build folder
   - 'clean:artifact'
   # Copy only the relevant files to the folder
