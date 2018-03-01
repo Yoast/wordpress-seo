@@ -52,4 +52,22 @@ describe( "AnalysisCollapsible", () => {
 		component.getInstance().toggleOpen();
 		expect( component.toJSON() ).toMatchSnapshot();
 	} );
+
+	it( "matches the snapshot when it is closed", () => {
+		const component = renderer.create(
+			<AnalysisCollapsible title="Problems" initialIsOpen={ false }>
+				<li> First item </li>
+				<li> Second item </li>
+				<li> Third item </li>
+				<li> Fourth item </li>
+			</AnalysisCollapsible>
+		);
+
+		let tree = component.toJSON();
+		expect( tree ).toMatchSnapshot();
+
+		// After toggling it should be the opposite.
+		component.getInstance().toggleOpen();
+		expect( component.toJSON() ).toMatchSnapshot();
+	} );
 } );
