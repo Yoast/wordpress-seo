@@ -64,8 +64,7 @@ let otherAuxiliaries = [ "tenho", "tens", "tem", "temos", "tendes", "têm", "tiv
 
 let otherAuxiliariesInfinitive = [ "ter", "haver" ];
 
-// "são", "era", "estado" are not included because of other meanings.
-let copula = [ "sou", "és", "é", "somos", "sois", "fui", "foste", "foi", "fomos", "fostes", "foram", "eras", "éramos", "éreis", "eram",
+let copula = [ "sou", "és", "é", "somos", "sois", "são", "fui", "foste", "foi", "fomos", "fostes", "foram", "era", "eras", "éramos", "éreis", "eram",
 	"fôramos", "fôreis", "fora", "foras", "foram", "serei", "serás", "será", "seremos", "sereis", "serão", "seria", "serias", "seríamos",
 	"seríeis", "seriam", "seja", "sejas", "seja", "sejamos", "sejais", "sejam", "fosse", "fosses", "fôssemos", "fôsseis", "fossem", "for",
 	"fores", "formos", "fordes", "forem", "sê", "sede", "sermos", "serdes", "serem", "seres", "sido", "estou", "está", "estamos", "estás",
@@ -73,7 +72,7 @@ let copula = [ "sou", "és", "é", "somos", "sois", "fui", "foste", "foi", "fomo
 	"estáveis", "estavam", "estivera", "estiveras", "estivéramos", "estivéreis", "estiveram", "estarei", "estarás", "estará", "estaremos",
 	"estareis", "estarão", "estaria", "estarias", "estaríamos", "estaríeis", "estariam", "esteja", "estejas", "estejamos", "estejais",
 	"estejam", "estivesse", "estivesses", "estivéssemos", "estivésseis", "estivessem", "estiver", "estiveres", "estivermos", "estiverdes",
-	"estiverem", "estai", "estejas", "estejais", "estares", "estarmos", "estardes", "estarem" ];
+	"estiverem", "estai", "estejas", "estejais", "estares", "estarmos", "estardes", "estarem", "estado" ];
 
 let copulaInfinitive = [ "estar", "ser" ];
 
