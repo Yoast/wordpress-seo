@@ -4,10 +4,6 @@ import debounce from "lodash/debounce";
 let data = {};
 let isDirty;
 
-// Todo: tests
-
-// Todo: algemener maken qua argument naming etc?
-// Todo: complexity
 /**
  * Checks whether the current data and the Gutenberg data are the same.
  *
@@ -33,7 +29,6 @@ const isShallowEqual = ( currentData, gutenbergData ) => {
 	return true;
 };
 
-// Todo: naming & single responsibility
 /**
  * Updates the data object.
  *
@@ -52,7 +47,6 @@ const updateData = ( data, gutenbergData ) => {
 	return data;
 };
 
-// Todo: naming & single responsibility.
 /**
  * Gets the Gutenberg data.
  *
@@ -82,6 +76,12 @@ const subscriber = debounce( getGutenbergData, 500 );
 export const subscribeToGutenberg = function() {
 	// Only subscribe when Gutenberg's data API is available.
 	if ( wp.data ) {
+		// Fill data object on page load.
+		data = {
+			content: wp.data.select( "core/editor" ).getEditedPostAttribute( "content" ),
+			title: wp.data.select( "core/editor" ).getEditedPostAttribute( "title" ),
+			slug: wp.data.select( "core/editor" ).getEditedPostAttribute( "slug" ),
+		};
 		wp.data.subscribe(
 			subscriber
 		);
