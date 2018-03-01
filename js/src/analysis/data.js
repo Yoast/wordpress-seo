@@ -75,7 +75,7 @@ const subscriber = debounce( getGutenbergData, 500 );
  */
 export const subscribeToGutenberg = function() {
 	// Only subscribe when Gutenberg's data API is available.
-	if ( wp.data ) {
+	if ( wp && wp.data ) {
 		// Fill data object on page load.
 		data = {
 			content: wp.data.select( "core/editor" ).getEditedPostAttribute( "content" ),
