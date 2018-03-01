@@ -26,6 +26,7 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 				'close' => __( 'Close me 1', 'wordpress-seo' ),
 				'open'  => __( 'First modal', 'wordpress-seo' ),
 			),
+			'content' => 'GetSupportFree',
 		);
 		Yoast_Modal::add( $add_keyword_modal_config );
 
@@ -37,6 +38,7 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 				'close' => __( 'Close me 2', 'wordpress-seo' ),
 				'open'  => __( 'Second modal', 'wordpress-seo' ),
 			),
+			'content' => 'GetSupportPremium',
 		);
 		Yoast_Modal::add( $more_modal_config );
 

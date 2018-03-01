@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import { injectIntl, intlShape } from "react-intl";
 
 import YoastModal from "yoast-components/composites/Plugin/Shared/components/YoastModal";
+import modals from "./components/modals";
 import IntlProvider from "./components/IntlProvider";
 
 // Replace this with specific modal messages.
@@ -48,6 +49,9 @@ class Modal extends React.Component {
 	 * @returns {ReactElement} The rendered html.
 	 */
 	render() {
+		// See https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
+		const ModalContent = modals[ this.props.content ];
+
 		return (
 			<React.Fragment>
 				<button type="button" onClick={ this.openModal }>{ this.props.labels.open }</button>
@@ -58,12 +62,7 @@ class Modal extends React.Component {
 					appElement={ this.appElement }
 				>
 					<h1>Modal: { this.props.labels.modal }</h1>
-					<form>
-						<button type="button">tabbing</button>
-						<button type="button">is constrained</button>
-						<button type="button">within</button>
-						<button type="button">the modal</button>
-					</form>
+					<ModalContent />
 					<button type="button" onClick={ this.closeModal }>{ this.props.labels.close }</button>
 				</YoastModal>
 			</React.Fragment>
@@ -76,6 +75,7 @@ Modal.propTypes = {
 	intl: intlShape.isRequired,
 	hide: PropTypes.string.isRequired,
 	labels: PropTypes.object,
+	content: PropTypes.string.isRequired,
 };
 
 const ModalIntl = injectIntl( Modal );
@@ -95,6 +95,7 @@ yoastModalConfig.forEach(
 						hook={ config.hook }
 						hide={ config.hide }
 						labels={ config.labels }
+						content={ config.content }
 					/>
 				</IntlProvider>,
 				element
